@@ -2,6 +2,19 @@
 
 ## 役割
 
+## 2026-04-23 - doc/00-serial-architecture-and-scope-baseline Phase 12 current facts sync
+
+### 変更内容
+
+- `schemas/artifact-definition.json` を legacy / current 両方の `artifacts.json` 形式に対応させた
+- `scripts/validate-phase-output.js` を current branch の phase file 命名・`spec_created` docs-only 判定・Phase 11 出力構成に対応させた
+- `scripts/generate-index.js` の生成テンプレートから volatile な最終更新時刻を削除し、差分の安定化を図った
+- `doc/00-serial-architecture-and-scope-baseline/outputs/phase-11/` / `outputs/phase-12/` / `outputs/artifacts.json` を current facts に同期し、root / outputs parity を回復した
+
+### 背景
+
+`doc/00-serial-architecture-and-scope-baseline` は docs-only の `spec_created` workflow であり、旧 layout 前提の validator だと Phase 11 / 12 が誤判定になる。 current branch に合わせてスキル側の契約と出力検証を閉じる。
+
 ## 2026-04-09 - TASK-SC-07 Phase 12 close-out sync（impl-spec-to-skill-sync）
 
 ### 変更内容

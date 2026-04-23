@@ -1,6 +1,5 @@
 # トピックマップ
 
-> 自動生成: 2026-04-10
 > 生成コマンド: node scripts/generate-index.js
 
 このファイルはreferences/配下の仕様をトピック別に整理したインデックスです。

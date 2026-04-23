@@ -1,6 +1,6 @@
 {
   "task_name": "architecture-and-scope-baseline",
-  "task_path": "doc/01-infrastructure-setup/00-serial-architecture-and-scope-baseline",
+  "task_path": "doc/00-serial-architecture-and-scope-baseline",
   "wave": 0,
   "execution_mode": "serial",
   "depends_on": [
@@ -21,9 +21,9 @@
       "phase": 1,
       "name": "要件定義",
       "file": "phase-01.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
-        "outputs/phase-01/main.md"
+        "outputs/phase-01/baseline-inventory.md"
       ],
       "depends_on_phases": [],
       "user_approval_required": false
@@ -32,9 +32,10 @@
       "phase": 2,
       "name": "設計",
       "file": "phase-02.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
-        "outputs/phase-02/main.md"
+        "outputs/phase-02/canonical-baseline.md",
+        "outputs/phase-02/decision-log.md"
       ],
       "depends_on_phases": [
         1
@@ -45,7 +46,7 @@
       "phase": 3,
       "name": "設計レビュー",
       "file": "phase-03.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-03/main.md"
       ],
@@ -58,7 +59,7 @@
       "phase": 4,
       "name": "事前検証手順",
       "file": "phase-04.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-04/main.md"
       ],
@@ -71,7 +72,7 @@
       "phase": 5,
       "name": "セットアップ実行",
       "file": "phase-05.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-05/main.md"
       ],
@@ -84,7 +85,7 @@
       "phase": 6,
       "name": "異常系検証",
       "file": "phase-06.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-06/main.md"
       ],
@@ -97,7 +98,7 @@
       "phase": 7,
       "name": "検証項目網羅性",
       "file": "phase-07.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-07/main.md"
       ],
@@ -110,7 +111,7 @@
       "phase": 8,
       "name": "設定 DRY 化",
       "file": "phase-08.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-08/main.md"
       ],
@@ -123,7 +124,7 @@
       "phase": 9,
       "name": "品質保証",
       "file": "phase-09.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-09/main.md"
       ],
@@ -136,7 +137,7 @@
       "phase": 10,
       "name": "最終レビュー",
       "file": "phase-10.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-10/main.md"
       ],
@@ -149,9 +150,11 @@
       "phase": 11,
       "name": "手動 smoke test",
       "file": "phase-11.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
-        "outputs/phase-11/main.md"
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/link-checklist.md",
+        "outputs/phase-11/manual-smoke-log.md"
       ],
       "depends_on_phases": [
         10
@@ -162,9 +165,14 @@
       "phase": 12,
       "name": "ドキュメント更新",
       "file": "phase-12.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
-        "outputs/phase-12/main.md"
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
       ],
       "depends_on_phases": [
         11

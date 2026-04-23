@@ -2,6 +2,8 @@
 
 Google Apps Script Webアプリ向けの仮プロトタイプです。
 
+現行の実装ターゲットは `apps/web` + `apps/api` + D1 であり、このフォルダは画面感の確認用参照に留める。
+
 ## 含まれるもの
 
 - `Code.gs`: GASのエントリポイント

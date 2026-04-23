@@ -1,20 +1,20 @@
-# Phase 2: 設計
+# Phase 4: 事前検証手順
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | タスク名 | architecture-and-scope-baseline |
-| Phase 番号 | 2 / 13 |
-| Phase 名称 | 設計 |
+| Phase 番号 | 4 / 13 |
+| Phase 名称 | 事前検証手順 |
 | 作成日 | 2026-04-23 |
-| 前 Phase | 1 (要件定義) |
-| 次 Phase | 3 (設計レビュー) |
+| 前 Phase | 3 (設計レビュー) |
+| 次 Phase | 5 (セットアップ実行) |
 | 状態 | pending |
 
 ## 目的
 
-アーキテクチャ基準線とスコープ固定 における Phase 2 の判断と成果物を固定し、下流 Phase の手戻りを防ぐ。
+アーキテクチャ基準線とスコープ固定 における Phase 4 の判断と成果物を固定し、下流 Phase の手戻りを防ぐ。
 
 ## 実行タスク
 
@@ -41,7 +41,7 @@
 - 正本仕様との差分を先に洗い出す。
 
 ### ステップ 2: Phase 成果物の作成
-- 本 Phase の主成果物を outputs/phase-02/main.md に作成・更新する。
+- 本 Phase の主成果物を outputs/phase-04/main.md に作成・更新する。
 - downstream task から参照される path を具体化する。
 
 ### ステップ 3: 4条件と handoff の確認
@@ -52,7 +52,7 @@
 
 | 連携先 Phase | 連携内容 |
 | --- | --- |
-| Phase 3 | 本 Phase の出力を入力として使用 |
+| Phase 5 | 本 Phase の出力を入力として使用 |
 | Phase 7 | AC トレースに使用 |
 | Phase 10 | gate 判定の根拠 |
 | Phase 12 | close-out と spec sync 判断 |
@@ -68,15 +68,15 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 2 | pending | upstream を読む |
-| 2 | 成果物更新 | 2 | pending | outputs/phase-02/main.md |
-| 3 | 4条件確認 | 2 | pending | next phase へ handoff |
+| 1 | input 確認 | 4 | pending | upstream を読む |
+| 2 | 成果物更新 | 4 | pending | outputs/phase-04/main.md |
+| 3 | 4条件確認 | 4 | pending | next phase へ handoff |
 
 ## 成果物
 
 | 種別 | パス | 説明 |
 | --- | --- | --- |
-| ドキュメント | outputs/phase-02/main.md | Phase 2 の主成果物 |
+| ドキュメント | outputs/phase-04/main.md | Phase 4 の主成果物 |
 | メタ | artifacts.json | Phase 状態と outputs の記録 |
 
 ## 完了条件
@@ -96,37 +96,25 @@
 
 ## 次 Phase
 
-- 次: 3 (設計レビュー)
+- 次: 5 (セットアップ実行)
 - 引き継ぎ事項: アーキテクチャ基準線とスコープ固定 の判断を次 Phase で再利用する。
 - ブロック条件: 本 Phase の主成果物が未作成なら次 Phase に進まない。
 
-## 構成図 (Mermaid)
-```mermaid
-graph TD
-  A[User Request] --> B[アーキテクチャ基準線とスコープ固定]
-  B --> C[Phase Outputs]
-  C --> D[Downstream Tasks]
-  D --> E[Implementation Phase]
-```
-
-## 環境変数一覧
-| 区分 | 代表値 | 置き場所 | 理由 |
-| --- | --- | --- | --- |
-| runtime secret | task-specific | Cloudflare Secrets | runtime が直接利用 |
-| deploy secret | deploy auth | GitHub Secrets | CI/CD 専用 |
-| local canonical | developer env | 1Password Environments | 平文 .env を正本にしない |
-| public variable | project name / URL / IDs | GitHub Variables / docs | 非機密 |
-
-## 設定値表
-| 項目 | 方針 | 根拠 |
+## 検証コマンド一覧
+| コマンド | 目的 | 期待 |
 | --- | --- | --- |
-| branch strategy | feature -> dev -> main | deployment-branch-strategy |
-| runtime split | apps/web + apps/api | architecture-overview-core |
-| source of truth | Sheets input / D1 canonical | user request + baseline |
+| git diff --stat -- doc/00-serial-architecture-and-scope-baseline | 変更範囲確認 | scope と一致 |
+| rg -n "dev|main|D1|Sheets|1Password" doc/00-serial-architecture-and-scope-baseline | 主要語の横断確認 | 必要箇所が見つかる |
+| node .claude/skills/aiworkflow-requirements/scripts/search-spec.js "Cloudflare" -C 2 | 正本仕様検索 | 必要 reference が出る |
 
-## 依存マトリクス
-| 種別 | 対象 | 理由 |
-| --- | --- | --- |
-| 上流 | なし | この task 開始前に必要 |
-| 下流 | Wave 1 全 task / 02-serial-monorepo-runtime-foundation / 03-serial-data-source-and-storage-contract | この task の成果物を参照 |
-| 並列 | なし | 同 Wave で独立実行可能 |
+## 期待出力表
+| 検証 | PASS 条件 |
+| --- | --- |
+| 正本仕様検索 | 必要 reference が揃う |
+| 依存確認 | upstream / downstream が説明できる |
+| 変更範囲確認 | scope 外 drift がない |
+
+## verify suite (手動 or 自動)
+- 手動: README と index / phase の整合確認
+- 手動: source-of-truth と branch/env の説明確認
+- 自動: rg / search-spec / git diff で最低限を確認

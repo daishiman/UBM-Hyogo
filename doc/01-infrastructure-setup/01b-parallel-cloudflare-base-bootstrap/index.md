@@ -11,6 +11,7 @@
 | 作成日 | 2026-04-23 |
 | 担当 | infra |
 | 状態 | pending |
+| タスク種別 | spec_created |
 
 ## 目的
 
@@ -33,7 +34,7 @@ Cloudflare Pages / Workers / D1 を前提に、アカウント・プロジェク
 
 | 種別 | 対象 | 理由 |
 | --- | --- | --- |
-| 上流 | 00-serial-architecture-and-scope-baseline | この task 開始前に必要 |
+| 上流 | ../00-serial-architecture-and-scope-baseline/ | この task 開始前に必要 |
 | 下流 | 02-serial-monorepo-runtime-foundation / 03-serial-data-source-and-storage-contract / 04-serial-cicd-secrets-and-environment-sync | この task の成果物を参照 |
 | 並列 | 01a-parallel-github-and-branch-governance / 01c-parallel-google-workspace-bootstrap | 同 Wave で独立実行可能 |
 

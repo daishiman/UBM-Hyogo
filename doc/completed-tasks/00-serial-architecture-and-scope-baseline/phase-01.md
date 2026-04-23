@@ -107,6 +107,7 @@
 ## 依存関係・責務境界
 - upstream / downstream / parallel の関係を index と同一に保つ。
 - web / api / db / input source / secret owner を混在させない。
+- Workspace-local `.env*` / dotfiles は operational artifacts only。skill docs と phase docs が矛盾する場合は、そちらを正本として採用しない。
 
 ## 価値とコスト
 - 初回価値: 実装前に迷いを消す。
@@ -150,7 +151,7 @@
 | 項目 | 確認内容 | 現状 |
 | --- | --- | --- |
 | 正本仕様 | task-spec / aiworkflow skill と関連 reference | 要確認 |
-| 変更分 | doc/01-infrastructure-setup | 要確認 |
+| 変更分 | doc/00-serial-architecture-and-scope-baseline | 要確認 |
 | legacy drift | legacy snapshot との差分 | 要確認 |
 | 外部サービス | Cloudflare Pages / Cloudflare Workers / Cloudflare D1 / Google Sheets / GitHub | 要確認 |
 

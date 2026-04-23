@@ -4,6 +4,8 @@
 
 本人更新の正本は Google Form とする。
 
+本人更新・公開状態・削除復元の制御は `apps/web` の導線と `apps/api` の操作 API を分離して扱う。
+
 ```text
 プロフィール本文
   = Google Form current response

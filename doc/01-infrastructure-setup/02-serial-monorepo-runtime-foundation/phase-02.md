@@ -125,6 +125,6 @@ graph TD
 ## 依存マトリクス
 | 種別 | 対象 | 理由 |
 | --- | --- | --- |
-| 上流 | 00-serial-architecture-and-scope-baseline / 01a-parallel-github-and-branch-governance / 01b-parallel-cloudflare-base-bootstrap | この task 開始前に必要 |
+| 上流 | ../00-serial-architecture-and-scope-baseline/ / 01a-parallel-github-and-branch-governance / 01b-parallel-cloudflare-base-bootstrap | この task 開始前に必要 |
 | 下流 | 03-serial-data-source-and-storage-contract / 04-serial-cicd-secrets-and-environment-sync / 05b-parallel-smoke-readiness-and-handoff | この task の成果物を参照 |
 | 並列 | なし | 同 Wave で独立実行可能 |

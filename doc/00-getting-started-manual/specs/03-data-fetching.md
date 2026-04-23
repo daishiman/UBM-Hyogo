@@ -8,6 +8,7 @@
 - D1 は表示と運用のための正規化キャッシュ
 - 会合・参加履歴・タグキューは Google Form schema 外の admin-managed data
 - GAS prototype の `localStorage` は本番データソースにしない
+- 実装先は `apps/api` の同期ジョブと `apps/web` の表示モデルであり、D1 は `apps/api` からのみ更新する
 
 ---
 
