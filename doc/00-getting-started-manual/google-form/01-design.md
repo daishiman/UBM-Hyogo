@@ -78,6 +78,6 @@
 
 ## 将来の連携計画
 
-- Next.jsサイトでメンバー専用ページを構築
-- Google Forms APIで回答データを取得してサイトに表示
+- `apps/web` でメンバー専用ページを構築
+- `apps/api` で Google Forms API の回答データを取得し、`apps/web` に表示する
 - ログインしたメンバーのみプロフィール閲覧可能

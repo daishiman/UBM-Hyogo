@@ -8,6 +8,7 @@
 2. 補助導線: Magic Link
 
 通知は認証補助に限定し、管理者が都度手動送信しないと使えない UX にはしない。
+実装先は `apps/web` のログイン導線と `apps/api` の通知送信・検証処理に分ける。
 
 ---
 
@@ -74,14 +75,16 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 
 ## 環境変数
 
-| 変数名 | 説明 |
-|--------|------|
-| `AUTH_SECRET` | Auth.js 用シークレット |
-| `AUTH_GOOGLE_ID` | Google OAuth クライアント ID |
-| `AUTH_GOOGLE_SECRET` | Google OAuth クライアントシークレット |
-| `RESEND_API_KEY` | 送信 API キー |
-| `RESEND_FROM_EMAIL` | 差出人 |
-| `SITE_URL` | 本番 URL |
+| 変数名 | 説明 | Cloudflare Secrets | GitHub Secrets | 1Password |
+|--------|------|:-----------------:|:--------------:|:---------:|
+| `AUTH_SECRET` | Auth.js 用シークレット | ✅ | - | ✅ (正本) |
+| `AUTH_GOOGLE_ID` | Google OAuth クライアント ID | ✅ | - | ✅ (正本) |
+| `AUTH_GOOGLE_SECRET` | Google OAuth クライアントシークレット | ✅ | - | ✅ (正本) |
+| `RESEND_API_KEY` | 送信 API キー | ✅ | - | ✅ (正本) |
+| `RESEND_FROM_EMAIL` | 差出人メールアドレス | ✅ | - | ✅ (正本) |
+| `SITE_URL` | 本番 URL（非機密） | - | GitHub Variables | - |
+
+**ルール**: 本番・staging 環境は Cloudflare Secrets に登録。ローカル開発は 1Password Environments から `op run` で取得。平文 `.env` をリポジトリにコミットしない。
 
 ---
 

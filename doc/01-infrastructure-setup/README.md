@@ -15,7 +15,7 @@
 
 ## 最初に読む順
 
-1. `00-serial-architecture-and-scope-baseline/`: 責務境界と非採用構成を固定する。
+1. `../00-serial-architecture-and-scope-baseline/`: 責務境界と非採用構成を固定する。
 2. `01a` / `01b` / `01c`: Wave 1 を並列に読み、GitHub・Cloudflare・Google Workspace の担当を分離する。
 3. `02` -> `03` -> `04`: runtime、data contract、CI/CD・Secrets を直列で閉じる。
 4. `05a` / `05b`: Wave 5 は並列着手し、Phase 10-12 で same-wave sync する。
@@ -26,7 +26,7 @@
 | --- | --- | --- |
 | 矛盾なし | PASS | 旧パス表記、壊れた legacy 参照、Wave 5 依存矛盾を解消した |
 | 漏れなし | PASS | 読み順、正本優先順位、Wave 5 同期ルール、secret/variable 境界を追加した |
-| 整合性あり | PASS | `doc/01-infrastructure-setup/...` に表記統一し、legacy snapshot 不在も明示した |
+| 整合性あり | PASS | Wave 0 を `../00-serial-architecture-and-scope-baseline/` に分離し、Wave 1-5 は `doc/01-infrastructure-setup/...` に表記統一した |
 | 依存関係整合 | PASS | Wave 0-4 は直列、Wave 1 と Wave 5 は並列着手 + same-wave sync と定義し直した |
 
 ## 正本優先順位
@@ -39,7 +39,7 @@
 
 | Wave | ディレクトリ | 種別 | 役割 |
 | --- | --- | --- | --- |
-| 0 | 00-serial-architecture-and-scope-baseline/ | serial | アーキテクチャ基準線とスコープ固定 |
+| 0 | ../00-serial-architecture-and-scope-baseline/ | serial | アーキテクチャ基準線とスコープ固定 |
 | 1 | 01a-parallel-github-and-branch-governance/ | parallel | GitHub とブランチ統制 |
 | 1 | 01b-parallel-cloudflare-base-bootstrap/ | parallel | Cloudflare 基盤ブートストラップ |
 | 1 | 01c-parallel-google-workspace-bootstrap/ | parallel | Google Workspace / Sheets 連携基盤 |
@@ -83,7 +83,7 @@ graph LR
 
 ## 今回の改善結果
 
-- `doc/01-infrastructure-setup/...` へ全表記を統一した。
+- Wave 0 を `../00-serial-architecture-and-scope-baseline/` に分離し、Wave 1-5 は `doc/01-infrastructure-setup/...` に再整理した。
 - 実在しない legacy snapshot 参照を「未作成」と明示し、誤リンクを消した。
 - Wave 5 は「並列着手 + Phase 10-12 same-wave sync」に定義し直した。
 - secrets / variables / non-secret identifiers の境界を README で一意にした。
@@ -96,7 +96,7 @@ graph LR
 
 ## 関連資料
 
-- 00-serial-architecture-and-scope-baseline/index.md
+- ../00-serial-architecture-and-scope-baseline/index.md
 - 04-serial-cicd-secrets-and-environment-sync/index.md
 - 05a-parallel-observability-and-cost-guardrails/index.md
 - 05b-parallel-smoke-readiness-and-handoff/index.md

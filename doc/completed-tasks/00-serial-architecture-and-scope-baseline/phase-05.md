@@ -1,20 +1,20 @@
-# Phase 9: 品質保証
+# Phase 5: セットアップ実行
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | タスク名 | architecture-and-scope-baseline |
-| Phase 番号 | 9 / 13 |
-| Phase 名称 | 品質保証 |
+| Phase 番号 | 5 / 13 |
+| Phase 名称 | セットアップ実行 |
 | 作成日 | 2026-04-23 |
-| 前 Phase | 8 (設定 DRY 化) |
-| 次 Phase | 10 (最終レビュー) |
+| 前 Phase | 4 (事前検証手順) |
+| 次 Phase | 6 (異常系検証) |
 | 状態 | pending |
 
 ## 目的
 
-アーキテクチャ基準線とスコープ固定 における Phase 9 の判断と成果物を固定し、下流 Phase の手戻りを防ぐ。
+アーキテクチャ基準線とスコープ固定 における Phase 5 の判断と成果物を固定し、下流 Phase の手戻りを防ぐ。
 
 ## 実行タスク
 
@@ -41,7 +41,7 @@
 - 正本仕様との差分を先に洗い出す。
 
 ### ステップ 2: Phase 成果物の作成
-- 本 Phase の主成果物を outputs/phase-09/main.md に作成・更新する。
+- 本 Phase の主成果物を outputs/phase-05/main.md に作成・更新する。
 - downstream task から参照される path を具体化する。
 
 ### ステップ 3: 4条件と handoff の確認
@@ -52,7 +52,7 @@
 
 | 連携先 Phase | 連携内容 |
 | --- | --- |
-| Phase 10 | 本 Phase の出力を入力として使用 |
+| Phase 6 | 本 Phase の出力を入力として使用 |
 | Phase 7 | AC トレースに使用 |
 | Phase 10 | gate 判定の根拠 |
 | Phase 12 | close-out と spec sync 判断 |
@@ -68,15 +68,15 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 9 | pending | upstream を読む |
-| 2 | 成果物更新 | 9 | pending | outputs/phase-09/main.md |
-| 3 | 4条件確認 | 9 | pending | next phase へ handoff |
+| 1 | input 確認 | 5 | pending | upstream を読む |
+| 2 | 成果物更新 | 5 | pending | outputs/phase-05/main.md |
+| 3 | 4条件確認 | 5 | pending | next phase へ handoff |
 
 ## 成果物
 
 | 種別 | パス | 説明 |
 | --- | --- | --- |
-| ドキュメント | outputs/phase-09/main.md | Phase 9 の主成果物 |
+| ドキュメント | outputs/phase-05/main.md | Phase 5 の主成果物 |
 | メタ | artifacts.json | Phase 状態と outputs の記録 |
 
 ## 完了条件
@@ -96,26 +96,25 @@
 
 ## 次 Phase
 
-- 次: 10 (最終レビュー)
+- 次: 6 (異常系検証)
 - 引き継ぎ事項: アーキテクチャ基準線とスコープ固定 の判断を次 Phase で再利用する。
 - ブロック条件: 本 Phase の主成果物が未作成なら次 Phase に進まない。
 
-## 命名規則チェック
-| 対象 | 基準 | 判定 |
-| --- | --- | --- |
-| task dir | wave + mode + kebab-case | TBD |
-| branch 名 | feature / dev / main | TBD |
-| secret 名 | ALL_CAPS_SNAKE_CASE | TBD |
+## 手順全文 (コピペ可)
+- 設計書更新
+- runbook 草案作成
+- downstream 参照表更新
 
-## 参照整合性チェック
-- task-spec skill と aiworkflow reference の参照が生きているか。
-- README / index / phase / outputs の path が一致しているか。
+## サンプルコマンド
+```bash
+rg -n "AC-|dev|main|D1|Sheets|1Password" doc/00-serial-architecture-and-scope-baseline
+git diff -- doc/00-serial-architecture-and-scope-baseline
+```
 
-## 無料枠遵守チェック
-- Pages build budget を含める。
-- 常設通知や有料サービスを前提にしない。
+## 設定ファイル全文
+- docs-first task のため、実値ファイルではなく runbook と placeholder を成果物にする。
 
-## Secrets 漏洩チェック
-- 実値を書いていない。
-- 1Password を local canonical としている。
-- Cloudflare と GitHub の配置先が混線していない。
+## 各ステップ後の sanity check
+- scope 外サービスを追加していない
+- branch / env / secret placement が正本仕様に一致する
+- downstream task が参照できる path がある

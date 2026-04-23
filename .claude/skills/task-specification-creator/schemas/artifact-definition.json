@@ -4,17 +4,56 @@
   "title": "Artifact Definition",
   "description": "成果物レジストリ（artifacts.json）のスキーマ",
   "type": "object",
-  "required": ["feature", "created", "lastUpdated", "phases"],
+  "required": ["phases"],
+  "anyOf": [
+    {
+      "required": ["feature", "created", "lastUpdated"]
+    },
+    {
+      "required": ["task_name", "created_at"]
+    }
+  ],
   "properties": {
     "feature": {
       "type": "string",
       "description": "機能名（ケバブケース）",
       "pattern": "^[a-z0-9-]+$"
     },
+    "task_name": {
+      "type": "string",
+      "description": "legacy workflow 名"
+    },
+    "task_path": {
+      "type": "string",
+      "description": "legacy workflow path"
+    },
+    "wave": {
+      "type": "number",
+      "description": "legacy wave number"
+    },
+    "execution_mode": {
+      "type": "string",
+      "description": "legacy execution mode"
+    },
+    "depends_on": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "legacy upstream list"
+    },
+    "blocks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "legacy downstream blockers"
+    },
     "created": {
       "type": "string",
       "format": "date-time",
       "description": "作成日時（ISO 8601）"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "legacy 作成日時（ISO 8601）"
     },
     "lastUpdated": {
       "type": "string",
@@ -27,67 +66,112 @@
       "description": "ワークフロー全体のステータス"
     },
     "phases": {
-      "type": "object",
-      "description": "Phase別の成果物と状態",
-      "patternProperties": {
-        "^[0-9]+$": {
+      "anyOf": [
+        {
           "type": "object",
-          "required": ["status"],
-          "properties": {
-            "status": {
-              "type": "string",
-              "enum": ["pending", "in_progress", "completed", "skipped", "blocked"],
-              "description": "Phaseステータス"
-            },
-            "startedAt": {
-              "type": "string",
-              "format": "date-time",
-              "description": "開始日時"
-            },
-            "completedAt": {
-              "type": "string",
-              "format": "date-time",
-              "description": "完了日時"
-            },
-            "artifacts": {
-              "type": "array",
-              "description": "成果物一覧",
-              "items": {
-                "oneOf": [
-                  {
-                    "type": "string",
-                    "description": "legacy/simple artifact path"
-                  },
-                  {
-                    "type": "object",
-                    "required": ["type", "path"],
-                    "properties": {
-                      "type": {
+          "description": "Phase別の成果物と状態",
+          "patternProperties": {
+            "^[0-9]+$": {
+              "type": "object",
+              "required": ["status"],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": ["pending", "in_progress", "completed", "skipped", "blocked"],
+                  "description": "Phaseステータス"
+                },
+                "startedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "開始日時"
+                },
+                "completedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "完了日時"
+                },
+                "artifacts": {
+                  "type": "array",
+                  "description": "成果物一覧",
+                  "items": {
+                    "oneOf": [
+                      {
                         "type": "string",
-                        "enum": ["document", "code", "test", "config"],
-                        "description": "成果物タイプ"
+                        "description": "legacy/simple artifact path"
                       },
-                      "path": {
-                        "type": "string",
-                        "description": "成果物パス"
-                      },
-                      "description": {
-                        "type": "string",
-                        "description": "成果物説明"
+                      {
+                        "type": "object",
+                        "required": ["type", "path"],
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "enum": ["document", "code", "test", "config"],
+                            "description": "成果物タイプ"
+                          },
+                          "path": {
+                            "type": "string",
+                            "description": "成果物パス"
+                          },
+                          "description": {
+                            "type": "string",
+                            "description": "成果物説明"
+                          }
+                        }
                       }
-                    }
+                    ]
                   }
-                ]
+                },
+                "notes": {
+                  "type": "string",
+                  "description": "備考・引き継ぎ事項"
+                }
               }
-            },
-            "notes": {
-              "type": "string",
-              "description": "備考・引き継ぎ事項"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "array",
+          "description": "legacy Phase別の成果物と状態",
+          "items": {
+            "type": "object",
+            "required": ["phase", "name", "file", "status"],
+            "properties": {
+              "phase": {
+                "type": "number",
+                "description": "Phase番号"
+              },
+              "name": {
+                "type": "string",
+                "description": "Phase名称"
+              },
+              "file": {
+                "type": "string",
+                "description": "Phase仕様ファイル"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pending", "in_progress", "completed", "skipped", "blocked"],
+                "description": "Phaseステータス"
+              },
+              "outputs": {
+                "type": "array",
+                "description": "成果物一覧",
+                "items": { "type": "string" }
+              },
+              "depends_on_phases": {
+                "type": "array",
+                "items": { "type": "number" },
+                "description": "依存Phase"
+              },
+              "user_approval_required": {
+                "type": "boolean",
+                "description": "ユーザー承認要否"
+              }
             }
           }
         }
-      },
-      "additionalProperties": false
+      ]
     },
     "dependencies": {
       "type": "object",
@@ -124,6 +208,26 @@
           "description": "実行Phase数"
         }
       }
+    },
+    "external_services": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "legacy 外部サービス一覧"
+    },
+    "secrets_introduced": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "legacy 新規 secret 一覧"
+    },
+    "infra_artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "legacy infra artifacts"
+    },
+    "doc_references": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "legacy documentation references"
     }
   },
   "additionalProperties": false

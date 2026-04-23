@@ -1,20 +1,20 @@
-# Phase 5: セットアップ実行
+# Phase 12: ドキュメント更新
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | タスク名 | architecture-and-scope-baseline |
-| Phase 番号 | 5 / 13 |
-| Phase 名称 | セットアップ実行 |
+| Phase 番号 | 12 / 13 |
+| Phase 名称 | ドキュメント更新 |
 | 作成日 | 2026-04-23 |
-| 前 Phase | 4 (事前検証手順) |
-| 次 Phase | 6 (異常系検証) |
+| 前 Phase | 11 (手動 smoke test) |
+| 次 Phase | 13 (PR作成) |
 | 状態 | pending |
 
 ## 目的
 
-アーキテクチャ基準線とスコープ固定 における Phase 5 の判断と成果物を固定し、下流 Phase の手戻りを防ぐ。
+アーキテクチャ基準線とスコープ固定 における Phase 12 の判断と成果物を固定し、下流 Phase の手戻りを防ぐ。
 
 ## 実行タスク
 
@@ -41,7 +41,7 @@
 - 正本仕様との差分を先に洗い出す。
 
 ### ステップ 2: Phase 成果物の作成
-- 本 Phase の主成果物を outputs/phase-05/main.md に作成・更新する。
+- 本 Phase の主成果物を outputs/phase-12/implementation-guide.md に作成・更新し、残りの Phase 12 ファイルも同 wave で作成する。
 - downstream task から参照される path を具体化する。
 
 ### ステップ 3: 4条件と handoff の確認
@@ -52,7 +52,7 @@
 
 | 連携先 Phase | 連携内容 |
 | --- | --- |
-| Phase 6 | 本 Phase の出力を入力として使用 |
+| Phase 13 | 本 Phase の出力を入力として使用 |
 | Phase 7 | AC トレースに使用 |
 | Phase 10 | gate 判定の根拠 |
 | Phase 12 | close-out と spec sync 判断 |
@@ -68,15 +68,15 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 5 | pending | upstream を読む |
-| 2 | 成果物更新 | 5 | pending | outputs/phase-05/main.md |
-| 3 | 4条件確認 | 5 | pending | next phase へ handoff |
+| 1 | input 確認 | 12 | pending | upstream を読む |
+| 2 | 成果物更新 | 12 | pending | outputs/phase-12/implementation-guide.md |
+| 3 | 4条件確認 | 12 | pending | next phase へ handoff |
 
 ## 成果物
 
 | 種別 | パス | 説明 |
 | --- | --- | --- |
-| ドキュメント | outputs/phase-05/main.md | Phase 5 の主成果物 |
+| ドキュメント | outputs/phase-12/implementation-guide.md | Phase 12 の主成果物 |
 | メタ | artifacts.json | Phase 状態と outputs の記録 |
 
 ## 完了条件
@@ -96,25 +96,37 @@
 
 ## 次 Phase
 
-- 次: 6 (異常系検証)
+- 次: 13 (PR作成)
 - 引き継ぎ事項: アーキテクチャ基準線とスコープ固定 の判断を次 Phase で再利用する。
 - ブロック条件: 本 Phase の主成果物が未作成なら次 Phase に進まない。
 
-## 手順全文 (コピペ可)
-- 設計書更新
-- runbook 草案作成
-- downstream 参照表更新
+## Part 1 中学生レベル概念説明 (例え話)
+Google Sheets は受付ノート、D1 は図書館の正本台帳、Cloudflare は窓口、GitHub は変更履歴、1Password は鍵の保管庫として扱う。
 
-## サンプルコマンド
-```bash
-rg -n "AC-|dev|main|D1|Sheets|1Password" doc/01-infrastructure-setup/00-serial-architecture-and-scope-baseline
-git diff -- doc/01-infrastructure-setup/00-serial-architecture-and-scope-baseline
-```
+## Part 2 技術者レベル詳細
+| 項目 | 詳細 |
+| --- | --- |
+| task root | doc/00-serial-architecture-and-scope-baseline |
+| key outputs | outputs/phase-01/baseline-inventory.md, outputs/phase-02/canonical-baseline.md, outputs/phase-02/decision-log.md, outputs/phase-12/implementation-guide.md, outputs/phase-12/system-spec-update-summary.md, outputs/phase-12/documentation-changelog.md, outputs/phase-12/unassigned-task-detection.md, outputs/phase-12/skill-feedback-report.md, outputs/phase-12/phase12-task-spec-compliance-check.md |
+| upstream | なし |
+| downstream | Wave 1 全 task / 02-serial-monorepo-runtime-foundation / 03-serial-data-source-and-storage-contract |
+| validation focus | 4条件 + same-wave sync |
 
-## 設定ファイル全文
-- docs-first task のため、実値ファイルではなく runbook と placeholder を成果物にする。
+## system spec 更新概要
+- Step 1-A〜1-C を docs-only / spec_created 前提で閉じる。
+- Step 2 domain sync の要否を理由付きで残す。
 
-## 各ステップ後の sanity check
-- scope 外サービスを追加していない
-- branch / env / secret placement が正本仕様に一致する
-- downstream task が参照できる path がある
+## LOGS.md 記録
+- 変更要約
+- 判定根拠
+- 未解決事項
+
+## Phase 12 必須成果物
+| 成果物 | パス |
+| --- | --- |
+| 実装ガイド | outputs/phase-12/implementation-guide.md |
+| system spec update | outputs/phase-12/system-spec-update-summary.md |
+| changelog | outputs/phase-12/documentation-changelog.md |
+| unassigned | outputs/phase-12/unassigned-task-detection.md |
+| skill feedback | outputs/phase-12/skill-feedback-report.md |
+| compliance check | outputs/phase-12/phase12-task-spec-compliance-check.md |

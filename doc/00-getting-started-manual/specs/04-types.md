@@ -11,6 +11,8 @@
 
 Google Form 再回答を正式更新手段にするため、`response` と `member` を分離する。
 
+この型群は `apps/web` と `apps/api` で共有し、表示用・同期用の境界を type で崩さない。
+
 ---
 
 ## 共通型

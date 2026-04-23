@@ -12,6 +12,7 @@
    - Google OAuth を主導線、Magic Link を補助導線
 
 この 2 つは同じ Google 系でも責務が違うため、鍵と権限を分離する。
+実装先は `apps/web` のログイン UI と `apps/api` の認証確認・照合処理に分ける。
 
 ---
 
@@ -80,11 +81,20 @@ https://www.googleapis.com/auth/drive.readonly
 ## サービスアカウントのセットアップ
 
 1. Google Cloud Console で Forms API / Drive API を有効化
-2. サービスアカウントを作成
-3. 対象フォームを Viewer 共有
-4. Cloudflare / ローカル環境へ秘密情報を設定
+2. サービスアカウントを作成し、JSON キーをダウンロード
+3. 対象フォームを Viewer 共有（サービスアカウントのメールアドレスを追加）
+4. 秘密情報を以下のルールで設定する
 
-秘密鍵 JSON はリポジトリに含めない。
+| 変数名 | 本番/staging の設定先 | ローカルの設定先 | CI/CDの設定先 |
+|--------|---------------------|----------------|--------------|
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Cloudflare Secrets | 1Password Environments | - |
+| `GOOGLE_PRIVATE_KEY` | Cloudflare Secrets | 1Password Environments | - |
+| `GOOGLE_FORM_ID` | Cloudflare Secrets | 1Password Environments | - |
+
+**ルール**:
+- 秘密鍵 JSON はリポジトリに含めない
+- ローカル開発では `op run` コマンドで 1Password から取得する
+- 平文 `.env` ファイルをコミットしない（`.env*` は operational artifact only）
 
 ---
 

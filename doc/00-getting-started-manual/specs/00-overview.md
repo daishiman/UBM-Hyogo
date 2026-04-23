@@ -2,7 +2,7 @@
 
 > 目的: Google Form の実回答を正本にしつつ、公開ディレクトリと会員・管理バックオフィスを最小構成で成立させる
 > 前提: 実フォームは 31 項目・6 セクション、`formId=119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg`
-> 本番ターゲット: Cloudflare Workers + D1
+> 本番ターゲット: Cloudflare Pages (apps/web) + Cloudflare Workers (apps/api) + D1
 
 ---
 
@@ -74,7 +74,7 @@ Cloudflare D1
   -> meeting_sessions / member_attendance
   -> tag_definitions / member_tags / tag_assignment_queue / sync_jobs
 
-Next.js app
+apps/web (Cloudflare Pages)
   -> public pages
   -> member pages
   -> admin pages
@@ -174,15 +174,44 @@ Next.js app
 
 ## スタック
 
-| 役割 | 採用 |
-|------|------|
-| UI / App | Next.js |
-| ランタイム | Cloudflare Workers |
-| DB | Cloudflare D1 |
-| フォーム取得 | Google Forms API |
-| 会員認証 | Auth.js + Google OAuth / Magic Link |
+| 役割 | 採用 | 備考 |
+|------|------|------|
+| Web (UI) | Cloudflare Pages + Next.js App Router | apps/web。DB への直接アクセス禁止 |
+| API | Cloudflare Workers + Hono | apps/api。D1 への唯一のアクセス口 |
+| DB | Cloudflare D1 | canonical DB。Workers binding 経由のみアクセス可 |
+| フォーム取得 | Google Forms API | 入力源 (non-canonical)。D1 へ同期後は参照不要 |
+| 会員認証 | Auth.js + Google OAuth / Magic Link | apps/web 側で処理 |
+| パッケージ管理 | pnpm workspace (monorepo) | apps/web, apps/api, packages/* を管理 |
 
 GAS prototype は採用スタックではなく、画面確認用のプロトタイプとしてのみ扱う。
+
+---
+
+## ブランチ戦略
+
+| ブランチ | 対応環境 | PRレビュー | force push |
+|----------|----------|------------|------------|
+| `feature/*` | ローカル (localhost) | 不要 | 禁止 |
+| `dev` | staging (Cloudflare staging) | 1名 | 禁止 |
+| `main` | production (Cloudflare production) | 2名 | 禁止 |
+
+```
+feature/* --PR--> dev --PR--> main
+  (local)       (staging)   (production)
+```
+
+---
+
+## シークレット管理
+
+| シークレット種別 | 管理場所 | 代表的なキー |
+|----------------|----------|-------------|
+| ランタイムシークレット | Cloudflare Secrets | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `AUTH_SECRET`, `RESEND_API_KEY` 等 |
+| CI/CD シークレット | GitHub Secrets | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` |
+| 非機密設定値 | GitHub Variables | ドメイン名、プロジェクト名 |
+| ローカル秘密情報の正本 | 1Password Environments | 全シークレット（平文 `.env` はリポジトリにコミットしない） |
+
+詳細: `doc/00-serial-architecture-and-scope-baseline/outputs/phase-02/canonical-baseline.md` セクション4
 
 ---
 

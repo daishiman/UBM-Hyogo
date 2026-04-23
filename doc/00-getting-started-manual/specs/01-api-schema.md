@@ -8,6 +8,7 @@
 - formId は `119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg`
 - メールはフォーム項目ではなく Google が自動収集する `responseEmail`
 - admin-managed data はこの schema の外で持つ
+- 実装先は `apps/web` の表示と `apps/api` の同期処理であり、D1 への直接参照は `apps/api` に閉じる
 
 ---
 

@@ -19,6 +19,8 @@
 
 管理者判定は `admin_users` による。
 
+`apps/web` がログイン UI とセッション導線を担い、`apps/api` は member lookup / admin 判定 / D1 照合を受け持つ。
+
 ---
 
 ## 権限モデル

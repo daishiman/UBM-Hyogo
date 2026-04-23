@@ -154,7 +154,7 @@ class PhaseValidator {
 
   validatePhase11Outputs() {
     const phase11Files = readdirSync(this.workflowDir).filter(
-      (f) => f.startsWith("phase-11-") && f.endsWith(".md"),
+      (f) => /^phase-11(?:-.*)?\.md$/.test(f),
     );
     if (phase11Files.length === 0) {
       return;
@@ -172,14 +172,14 @@ class PhaseValidator {
       return;
     }
 
-    const phase11RequiredFiles = [
-      "manual-test-checklist.md",
-      "manual-test-result.md",
-      "discovered-issues.md",
-    ];
-    if (expectsVisualEvidence) {
-      phase11RequiredFiles.push("screenshot-plan.json");
-    }
+    const phase11RequiredFiles = expectsVisualEvidence
+      ? [
+          "manual-test-checklist.md",
+          "manual-test-result.md",
+          "discovered-issues.md",
+          "screenshot-plan.json",
+        ]
+      : ["main.md", "manual-smoke-log.md", "link-checklist.md"];
 
     const missingFiles = phase11RequiredFiles.filter(
       (file) => !existsSync(join(phase11OutputDir, file)),
@@ -226,7 +226,7 @@ class PhaseValidator {
     const filesToScan = [];
 
     const phase12Files = readdirSync(this.workflowDir).filter(
-      (f) => f.startsWith("phase-12-") && f.endsWith(".md"),
+      (f) => /^phase-12(?:-.*)?\.md$/.test(f),
     );
     phase12Files.forEach((file) => filesToScan.push(join(this.workflowDir, file)));
 
@@ -260,10 +260,10 @@ class PhaseValidator {
     const classifyTaskType = (value) => {
       const text = String(value ?? "").trim();
       if (!text) return null;
-      if (/(docs-only|docs|non[_-]?visual)/i.test(text)) {
+      if (/(docs-only|docs|non[_-]?visual|spec_created)/i.test(text)) {
         return true;
       }
-      if (/(visual|ui)/i.test(text) && !/(docs-only|docs|non[_-]?visual)/i.test(text)) {
+      if (/(visual|ui)/i.test(text) && !/(docs-only|docs|non[_-]?visual|spec_created)/i.test(text)) {
         return false;
       }
       return null;
@@ -321,7 +321,7 @@ class PhaseValidator {
 
   validateOptionalPhase0() {
     const files = readdirSync(this.workflowDir).filter(
-      (f) => f.startsWith("phase-0-") && f.endsWith(".md"),
+      (f) => /^phase-0(?:-.*)?\.md$/.test(f),
     );
 
     if (files.length > 0) {
@@ -347,7 +347,7 @@ class PhaseValidator {
         const phaseNum = String(phase.number);
         const paddedNum = phaseNum.padStart(2, "0");
         const linkPattern = new RegExp(
-          `phase-(?:${phaseNum}|${paddedNum})-`,
+          `phase-(?:${phaseNum}|${paddedNum})(?:-|\\.md)`,
           "i",
         );
         if (!linkPattern.test(content)) {
@@ -368,7 +368,9 @@ class PhaseValidator {
   validatePhaseFile(phase) {
     const phaseNum = String(phase.number);
     const paddedNum = phaseNum.padStart(2, "0");
-    const expectedPattern = new RegExp(`^phase-(?:${phaseNum}|${paddedNum})-.*\\.md$`);
+    const expectedPattern = new RegExp(
+      `^phase-(?:${phaseNum}|${paddedNum})(?:-.*)?\\.md$`,
+    );
 
     // ファイル検索
     const files = readdirSync(this.workflowDir).filter(
@@ -395,6 +397,8 @@ class PhaseValidator {
     const expectedName = `phase-${phaseNum}-${phase.name}.md`;
     const allowedNames = (PHASE_FILE_ALIASES[phase.number] || [phase.name]).flatMap(
       (name) => [
+        `phase-${phaseNum}.md`,
+        `phase-${paddedNum}.md`,
         `phase-${phaseNum}-${name}.md`,
         `phase-${paddedNum}-${name}.md`,
       ],
