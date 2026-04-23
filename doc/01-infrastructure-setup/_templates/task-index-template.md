@@ -1,0 +1,12 @@
+# タスク index テンプレート
+- task name
+- wave / mode / owner
+- purpose
+- scope in / out
+- dependencies
+- refs
+- AC
+- 13 phases
+- outputs
+- services / secrets
+- completion definition
