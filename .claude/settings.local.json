@@ -6,7 +6,10 @@
       "Bash(git -C /Users/dm/dev/dev/個人開発/UBM-Hyogo show --stat HEAD)",
       "Bash(gh repo *)",
       "Bash(git -C /Users/dm/dev/dev/個人開発/UBM-Hyogo status --short)",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(mv '/Users/dm/dev/dev/個人開発/UBM-Hyogo/.agents/skills/.backups' '/Users/dm/dev/dev/個人開発/UBM-Hyogo/.claude/skills/.backups')",
+      "Bash(mv '/Users/dm/dev/dev/個人開発/UBM-Hyogo/.agents/skills/automation-30' '/Users/dm/dev/dev/個人開発/UBM-Hyogo/.claude/skills/automation-30')",
+      "Bash(mv '/Users/dm/dev/dev/個人開発/UBM-Hyogo/.agents/skills/int-test-skill' '/Users/dm/dev/dev/個人開発/UBM-Hyogo/.claude/skills/int-test-skill')"
     ]
   }
 }
