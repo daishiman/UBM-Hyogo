@@ -5,12 +5,12 @@
 | 項目 | 値 |
 | --- | --- |
 | タスク名 | cloudflare-base-bootstrap |
-| ディレクトリ | doc/01-infrastructure-setup/01b-parallel-cloudflare-base-bootstrap |
+| ディレクトリ | doc/01b-parallel-cloudflare-base-bootstrap |
 | Wave | 1 |
 | 実行種別 | parallel |
 | 作成日 | 2026-04-23 |
 | 担当 | infra |
-| 状態 | pending |
+| 状態 | completed |
 | タスク種別 | spec_created |
 
 ## 目的
@@ -62,19 +62,19 @@ Cloudflare Pages / Workers / D1 を前提に、アカウント・プロジェク
 
 | Phase | 名称 | ファイル | 状態 | 主成果物 |
 | --- | --- | --- | --- | --- |
-| 1 | 要件定義 | phase-01.md | pending | outputs/phase-01 |
-| 2 | 設計 | phase-02.md | pending | outputs/phase-02 |
-| 3 | 設計レビュー | phase-03.md | pending | outputs/phase-03 |
-| 4 | 事前検証手順 | phase-04.md | pending | outputs/phase-04 |
-| 5 | セットアップ実行 | phase-05.md | pending | outputs/phase-05 |
-| 6 | 異常系検証 | phase-06.md | pending | outputs/phase-06 |
-| 7 | 検証項目網羅性 | phase-07.md | pending | outputs/phase-07 |
-| 8 | 設定 DRY 化 | phase-08.md | pending | outputs/phase-08 |
-| 9 | 品質保証 | phase-09.md | pending | outputs/phase-09 |
-| 10 | 最終レビュー | phase-10.md | pending | outputs/phase-10 |
-| 11 | 手動 smoke test | phase-11.md | pending | outputs/phase-11 |
-| 12 | ドキュメント更新 | phase-12.md | pending | outputs/phase-12 |
-| 13 | PR作成 | phase-13.md | pending | outputs/phase-13 |
+| 1 | 要件定義 | phase-01.md | completed | outputs/phase-01 |
+| 2 | 設計 | phase-02.md | completed | outputs/phase-02 |
+| 3 | 設計レビュー | phase-03.md | completed | outputs/phase-03 |
+| 4 | 事前検証手順 | phase-04.md | completed | outputs/phase-04 |
+| 5 | セットアップ実行 | phase-05.md | completed | outputs/phase-05 |
+| 6 | 異常系検証 | phase-06.md | completed | outputs/phase-06 |
+| 7 | 検証項目網羅性 | phase-07.md | completed | outputs/phase-07 |
+| 8 | 設定 DRY 化 | phase-08.md | completed | outputs/phase-08 |
+| 9 | 品質保証 | phase-09.md | completed | outputs/phase-09 |
+| 10 | 最終レビュー | phase-10.md | completed | outputs/phase-10 |
+| 11 | 手動 smoke test | phase-11.md | completed | outputs/phase-11 |
+| 12 | ドキュメント更新 | phase-12.md | completed | outputs/phase-12 |
+| 13 | PR作成 | phase-13.md | completed | outputs/phase-13 |
 
 ## 主要成果物
 
