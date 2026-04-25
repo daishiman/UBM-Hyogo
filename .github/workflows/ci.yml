@@ -1,0 +1,54 @@
+# 目的: typecheck + lint パイプライン（ci / ci）
+# 前提: package.json / pnpm-workspace.yaml が両方存在すること
+# 有効化タイミング: monorepo 初期化（Phase 02）完了後に自動有効化
+# スキップ時: exit 0 で通過（ブランチ保護は形式上 pass）
+name: ci
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check implementation readiness
+        id: ready
+        run: |
+          if [ -f "package.json" ] && [ -f "pnpm-workspace.yaml" ]; then
+            echo "value=true" >> $GITHUB_OUTPUT
+          else
+            echo "value=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Skip — monorepo not yet bootstrapped
+        if: steps.ready.outputs.value == 'false'
+        run: echo "::notice::package.json / pnpm-workspace.yaml not found — typecheck and lint skipped"
+
+      - uses: pnpm/action-setup@v4
+        if: steps.ready.outputs.value == 'true'
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        if: steps.ready.outputs.value == 'true'
+        with:
+          node-version: '20'
+          cache: pnpm
+
+      - name: Install dependencies
+        if: steps.ready.outputs.value == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        if: steps.ready.outputs.value == 'true'
+        run: pnpm typecheck
+
+      - name: Lint
+        if: steps.ready.outputs.value == 'true'
+        run: pnpm lint
