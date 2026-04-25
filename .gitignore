@@ -95,3 +95,4 @@ apps/*/docs/
 #   apps/desktop/src/main/ipc/slackHandlers.test.ts
 #   apps/desktop/src/main/services/slack/
 #   apps/desktop/src/__tests__/__fixtures__/skills/ai-news-to-slack/
+.env

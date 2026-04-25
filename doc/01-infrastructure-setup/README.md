@@ -42,7 +42,7 @@
 | 0 | ../00-serial-architecture-and-scope-baseline/ | serial | アーキテクチャ基準線とスコープ固定 |
 | 1 | 01a-parallel-github-and-branch-governance/ | parallel | GitHub とブランチ統制 |
 | 1 | 01b-parallel-cloudflare-base-bootstrap/ | parallel | Cloudflare 基盤ブートストラップ |
-| 1 | 01c-parallel-google-workspace-bootstrap/ | parallel | Google Workspace / Sheets 連携基盤 |
+| 1 | doc/01c-parallel-google-workspace-bootstrap/ | parallel | Google Workspace / Sheets 連携基盤 |
 | 2 | 02-serial-monorepo-runtime-foundation/ | serial | モノレポとランタイム基盤 |
 | 3 | 03-serial-data-source-and-storage-contract/ | serial | データ入力源と保存契約 |
 | 4 | 04-serial-cicd-secrets-and-environment-sync/ | serial | CI/CD・Secrets・環境同期 |

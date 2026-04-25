@@ -108,19 +108,29 @@ graph TD
 ```
 
 ## 環境変数一覧
-| 区分 | 代表値 | 置き場所 | 理由 |
+| 変数名 | 種別 | 配置先 | 確定Phase |
 | --- | --- | --- | --- |
-| runtime secret | task-specific | Cloudflare Secrets | runtime が直接利用 |
-| deploy secret | deploy auth | GitHub Secrets | CI/CD 専用 |
-| local canonical | developer env | 1Password Environments | 平文 .env を正本にしない |
-| public variable | project name / URL / IDs | GitHub Variables / docs | 非機密 |
+| GOOGLE_CLIENT_ID | OAuth client id | Cloudflare Secrets | Phase 5 |
+| GOOGLE_CLIENT_SECRET | OAuth client secret | Cloudflare Secrets | Phase 5 |
+| GOOGLE_SERVICE_ACCOUNT_JSON | SA key JSON | Cloudflare Secrets | Phase 5 |
+| GOOGLE_SHEET_ID | non-secret identifier | GitHub Variables | Phase 5 |
 
 ## 設定値表
-| 項目 | 方針 | 根拠 |
+| 項目 | 設計値 | 根拠 |
 | --- | --- | --- |
-| branch strategy | feature -> dev -> main | deployment-branch-strategy |
-| runtime split | apps/web + apps/api | architecture-overview-core |
-| source of truth | Sheets input / D1 canonical | user request + baseline |
+| Google Cloud Project名 | ubm-hyogo | ユーザーが任意に命名可 |
+| 有効化API | Google Sheets API / Google Drive API | Sheets読み込みに必要 |
+| OAuth Application type | Web application | 将来の管理者ログイン用 |
+| OAuth client名 | ubm-hyogo-web | プロジェクト名と統一 |
+| OAuth Scopes | https://www.googleapis.com/auth/spreadsheets.readonly | 最小権限原則 |
+| OAuth redirect URI (local) | http://localhost:3000/api/auth/callback/google | ローカル開発用 |
+| Service Account名 | ubm-hyogo-sheets-reader | 役割を名前に反映 |
+| SA IAM role | 不要 | Sheetsアクセスはシート共有で制御 |
+| SA key type | JSON | サーバーサイド認証用 |
+| Sheet access method | SAメールを「閲覧者」として共有 | プロジェクトIAMを汚染しない |
+| source of truth | D1=canonical DB / Sheets=input source | user request + baseline |
+
+- ローカル開発の値は `1Password Environments` を正本にし、`.env` ファイルを秘密の正本にしない。
 
 ## 依存マトリクス
 | 種別 | 対象 | 理由 |

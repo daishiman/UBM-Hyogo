@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2854,
+  "totalKeywords": 2857,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -4609,6 +4609,7 @@
     ],
     "workspace": [
       "directory-structure-details.md",
+      "lessons-learned-current-2026-04.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
       "task-workflow-completed-workspace.md",
@@ -7138,6 +7139,15 @@
       "ui-result-panel-pattern.md"
     ],
     "ウィザード遷移ボタン化": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "parallel": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "google": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "bootstrap": [
       "lessons-learned-current-2026-04.md"
     ],
     "Menu": [

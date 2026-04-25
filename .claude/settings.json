@@ -94,9 +94,7 @@
       "mcp__91f3f8d2-7461-4c81-a2c6-cdcd0c984230__*",
       "mcp__claude_ai_Google_Drive__*",
       "Bash(pnpm typecheck *)",
-      "Bash(pnpm lint *)",
-      "Bash(rsync -a --delete /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260423-185531-wt-5/.claude/skills/task-specification-creator/ /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260423-185531-wt-5/.agents/skills/task-specification-creator/)",
-      "Bash(rsync -a --delete /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260423-185531-wt-5/.claude/skills/aiworkflow-requirements/ /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260423-185531-wt-5/.agents/skills/aiworkflow-requirements/)"
+      "Bash(pnpm lint *)"
     ],
     "deny": [
       "Read(//Users/dm/.ssh/**)",
