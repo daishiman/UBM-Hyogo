@@ -18,3 +18,13 @@
 ## 関連ドキュメント
 - `indexes/quick-reference.md`
 - `indexes/resource-map.md`
+
+## Wave 0 UI primitives baseline（2026-04-26）
+
+`apps/web/src/components/ui/` に以下の primitive を配置する。
+
+`Chip / Avatar / Button / Switch / Segmented / Field / Input / Textarea / Select / Search / Drawer / Modal / Toast / KVList / LinkPills`
+
+全 primitive は `apps/web/src/components/ui/index.ts` から barrel export する。`Modal` と `Drawer` は Escape close、初期 focus、Tab focus loop、close 後 focus restore を最低基準とする。`ToastProvider` は client component とし、通知領域に `aria-live="polite"` を置く。
+
+`apps/web/src/lib/tones.ts` は `ChipTone`、`zoneTone(zone: string): ChipTone`、`statusTone(status: string): ChipTone` を提供する。

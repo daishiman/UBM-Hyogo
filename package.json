@@ -11,12 +11,18 @@
     "build": "pnpm -r build",
     "dev:web": "pnpm --filter @ubm-hyogo/web dev",
     "dev:api": "pnpm --filter @ubm-hyogo/api dev",
-    "lint": "pnpm -r lint",
-    "typecheck": "pnpm -r typecheck"
+    "lint": "node scripts/lint-boundaries.mjs && pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260426.1",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "jsdom": "^25.0.0",
     "typescript": "6.0.3",
+    "vitest": "^2.0.0",
     "wrangler": "4.85.0"
   }
 }
