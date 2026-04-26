@@ -242,9 +242,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | モノレポアーキテクチャ | L8 |
-| 型エクスポートパターン | L212 |
-| 完了タスク | L282 |
-| 変更履歴 | L314 |
+| 型エクスポートパターン | L226 |
+| 完了タスク | L296 |
+| 変更履歴 | L328 |
 
 ### references/architecture-overview-core.md
 
@@ -1108,6 +1108,7 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L6 |
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
+| Wave 0 UI primitives baseline（2026-04-26） | L22 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -1643,11 +1644,11 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L6 |
-| パッケージ構成詳細 | L54 |
-| 依存関係管理戦略 | L177 |
-| 無料枠の活用ガイド | L270 |
-| CI/CDツール選定 | L302 |
-| 学習リソースとコミュニティ | L389 |
+| パッケージ構成詳細 | L67 |
+| 依存関係管理戦略 | L190 |
+| 無料枠の活用ガイド | L283 |
+| CI/CDツール選定 | L315 |
+| 学習リソースとコミュニティ | L402 |
 
 ### references/technology-devops-details.md
 
@@ -4566,9 +4567,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L10 |
-| 利用順序 | L39 |
-| 関連ドキュメント | L44 |
+| 仕様書インデックス | L11 |
+| 利用順序 | L40 |
+| 関連ドキュメント | L45 |
 
 ### references/testing-accessibility.md
 

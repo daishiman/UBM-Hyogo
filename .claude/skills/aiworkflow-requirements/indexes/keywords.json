@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2889,
+  "totalKeywords": 2891,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -8774,6 +8774,7 @@
     "baseline": [
       "lessons-learned-ui-ux-visual-baseline-drift.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "ui-ux-components.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
     "drift": [
@@ -12472,6 +12473,12 @@
     "仕様書作成済みタスク": [
       "ui-ux-components-details.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md"
+    ],
+    "Wave": [
+      "ui-ux-components.md"
+    ],
+    "primitives": [
+      "ui-ux-components.md"
     ],
     "デザイン原則": [
       "ui-ux-design-principles-core.md",

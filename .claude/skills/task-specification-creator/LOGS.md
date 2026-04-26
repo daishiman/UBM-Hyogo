@@ -4,6 +4,43 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-27 - 05a Phase 12 close-out drift guard を SKILL.md へ反映
+
+### 変更内容
+
+- `SKILL.md` の「Phase 12 実行時によくある漏れ」表に UBM-005（root と `outputs/artifacts.json` の二重 ledger 同期漏れ）と UBM-006（Pages/Workers topology drift の未タスク formalize、`task-{cat}-...-NNN.md` 命名と `docs/30-workflows/unassigned-task/` 配置）を追記した
+- `SKILL.md` 変更履歴に v10.09.44（2026-04-26）として 05a Phase 12 close-out 反映エントリを追加した
+- `SKILL-changelog.md` にも同じ v10.09.44 エントリを追記した
+- 05a で formalize した 3 件の未タスクを `docs/30-workflows/unassigned-task/` 配下、taskId pattern `^task-[a-z]+-[a-z0-9-]+-[0-9]+$` 準拠の正本フォーマット（`task-imp-05a-kv-r2-guardrail-detail-001.md` / `task-imp-05a-cf-analytics-auto-check-001.md` / `task-ref-cicd-workflow-topology-drift-001.md`）へ移設した
+
+### 背景
+
+05a-parallel-observability-and-cost-guardrails の Phase 12 close-out 検証で、未タスク 3 件が `docs/unassigned-task/` 配下かつ `ut-...md` 命名で `audit-unassigned-tasks.js` の対象から外れていたこと、root/outputs `artifacts.json` の同時更新ルールが SKILL.md に明文化されていなかったことを検出した。今後の Phase 12 close-out で再発しないよう「よくある漏れ」表へ恒久化する。
+
+## 2026-04-26 - 05a-parallel-observability-and-cost-guardrails Phase 12 review hardening
+
+### 変更内容
+
+- `docs/05a-parallel-observability-and-cost-guardrails` の canonical path を current root に統一し、`index.md` / Phase 1-12 仕様本文 / root・outputs `artifacts.json` の completed parity を回復した
+- `outputs/phase-12/implementation-guide.md` を Part 1 / Part 2 必須構成へ補正し、TypeScript interfaces、CLI/API signature、usage examples、error handling、edge cases、constants、test structure を追加した
+- Phase 11 は docs-only / NON_VISUAL と判定し、スクリーンショット不要、`main.md` / `manual-smoke-log.md` / `link-checklist.md` / `manual-ops-checklist.md` を evidence として固定した
+- U-01〜U-03 を `docs/unassigned-task/` 配下の正式未タスク指示書へ昇格した
+
+### 背景
+
+30種思考法レビューで、Phase status、canonical path、implementation guide validator、formalize path、KV/R2・D1 writes・GitHub Actions workflow topology の漏れが見つかった。docs-only task でも Phase 12 close-out は成果物存在だけでなく、artifacts parity と未タスク formalization まで同一ターンで閉じる必要がある。
+
+## 2026-04-26 - Wave 0 scaffold close-out hardening
+
+### 変更内容
+
+- `docs_only` / `spec_created` metadata のまま code 実装が入った場合の Phase 12 Step 2 再判定を `SKILL.md` に追加した
+- task root 移動後の `index.md` / `artifacts.json` / `outputs/artifacts.json` path parity を Phase 12 漏れ防止項目へ追加した
+
+### 背景
+
+Wave 0 scaffold task で実装差分、仕様同期、path/status parity、現環境 verify 結果がずれたため、Phase 12 close-out 前に code diff と task metadata を再照合する必要がある。
+
 ## 2026-04-26 - 05b-parallel-smoke-readiness-and-handoff Phase 12 close-out sync
 
 ### 変更内容
