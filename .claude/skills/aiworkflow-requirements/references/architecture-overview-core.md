@@ -204,7 +204,7 @@ TASK-SKILL-LIFECYCLE-01 以降、`SkillCenterView` は lifecycle の primary ent
 
 | 項目 | 内容 |
 |-----|------|
-| データストア | Cloudflare D1（SQLite, WAL mode） |
+| データストア | Cloudflare D1（SQLite。読み書き競合対策は公式 PRAGMA 対応確認 + runtime mitigation） |
 | スキーマ | chat_sessions + chat_messages（4インデックス） |
 | API エンドポイント | POST/GET /api/conversations, /api/conversations/:id/messages |
 | 登録パターン | Hono ルート登録（apps/api/src/routes/conversations.ts） |

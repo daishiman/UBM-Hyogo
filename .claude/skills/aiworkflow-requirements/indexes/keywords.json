@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2860,
+  "totalKeywords": 2861,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -565,6 +565,7 @@
     "設定": [
       "api-core.md",
       "directory-structure-details.md",
+      "lessons-learned-current-2026-04.md",
       "security-api.md"
     ],
     "エンドポイント一覧": [
@@ -7171,6 +7172,15 @@
       "lessons-learned-phase12-lifecycle-early-b.md",
       "logs-archive-2026-03-history-search-notification-center.md"
     ],
+    "WAL": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "mode": [
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
+    ],
     "Menu": [
       "lessons-learned-current-electron-menu-docs-task0912.md",
       "ui-ux-portal-patterns.md"
@@ -8653,11 +8663,6 @@
     ],
     "dark": [
       "lessons-learned-ui-ux-visual-baseline-drift.md"
-    ],
-    "mode": [
-      "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
     ],
     "screenshot": [
       "lessons-learned-ui-ux-visual-baseline-drift.md",
