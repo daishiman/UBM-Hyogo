@@ -8,12 +8,15 @@
     "pnpm": "10.x"
   },
   "scripts": {
-    "build": "pnpm -r build",
-    "dev:web": "pnpm --filter @ubm-hyogo/web dev",
-    "dev:api": "pnpm --filter @ubm-hyogo/api dev",
+    "with-env": "bash scripts/with-env.sh",
+    "build": "bash scripts/with-env.sh pnpm -r build",
+    "dev:web": "bash scripts/with-env.sh pnpm --filter @ubm-hyogo/web dev",
+    "dev:api": "bash scripts/with-env.sh pnpm --filter @ubm-hyogo/api dev",
     "lint": "node scripts/lint-boundaries.mjs && pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
-    "test": "vitest run"
+    "test": "bash scripts/with-env.sh vitest run",
+    "env:check": "bash scripts/with-env.sh node -e \"['GOOGLE_CLIENT_ID','GOOGLE_CLIENT_SECRET','GOOGLE_SHEET_ID','GOOGLE_SERVICE_ACCOUNT_JSON','CLOUDFLARE_API_TOKEN','CLOUDFLARE_ACCOUNT_ID','AUTH_SECRET'].forEach(k=>console.log(k+': '+(process.env[k]?'OK':'MISSING')))\"",
+    "env:export": "op inject -i .env -o .env.local"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260426.1",
