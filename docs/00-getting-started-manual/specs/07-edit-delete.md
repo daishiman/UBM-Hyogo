@@ -116,13 +116,16 @@ member requests deletion
 
 | 操作 | API |
 |------|-----|
-| 本人更新導線の取得 | `GET /api/me/update-link` |
-| 公開状態変更 | `PATCH /api/admin/members/[id]/publish-state` |
-| 削除 | `PATCH /api/admin/members/[id]/delete` |
-| 復元 | `POST /api/admin/members/[id]/restore` |
-| 参加履歴付与 / 解除 | `POST/DELETE /api/admin/members/[id]/attendance` |
+| 本人更新導線の取得 | `GET /me/update-link` |
+| 公開停止申請 | `POST /me/visibility-request` |
+| 退会申請 | `POST /me/delete-request` |
+| 公開状態変更 | `PATCH /admin/members/:memberId/status` |
+| 削除 | `POST /admin/members/:memberId/delete` |
+| 復元 | `POST /admin/members/:memberId/restore` |
+| 参加履歴付与 | `POST /admin/meetings/:sessionId/attendance` |
+| 参加履歴解除 | `DELETE /admin/meetings/:sessionId/attendance/:memberId` |
 
-本人の本文更新用 `PATCH /api/profile` は MVP 正式仕様にしない。
+本人の本文更新用 `PATCH /profile` や `PATCH /me/profile` は MVP 正式仕様にしない。
 
 ---
 
