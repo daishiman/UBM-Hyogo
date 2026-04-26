@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 3 (設計レビュー) |
 | 次 Phase | 5 (セットアップ実行) |
-| 状態 | pending |
+| 状態 | completed |
 
 ## 目的
 
@@ -65,9 +65,9 @@ smoke readiness と実装引き継ぎ における Phase 4 の判断と成果物
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 4 | pending | upstream を読む |
-| 2 | 成果物更新 | 4 | pending | outputs/phase-04/main.md |
-| 3 | 4条件確認 | 4 | pending | next phase へ handoff |
+| 1 | input 確認 | 4 | completed | upstream を読む |
+| 2 | 成果物更新 | 4 | completed | outputs/phase-04/main.md |
+| 3 | 4条件確認 | 4 | completed | next phase へ handoff |
 
 ## 成果物
 
@@ -100,8 +100,8 @@ smoke readiness と実装引き継ぎ における Phase 4 の判断と成果物
 ## 検証コマンド一覧
 | コマンド | 目的 | 期待 |
 | --- | --- | --- |
-| git diff --stat -- doc/01-infrastructure-setup | 変更範囲確認 | scope と一致 |
-| rg -n "dev|main|D1|Sheets|1Password" doc/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff | 主要語の横断確認 | 必要箇所が見つかる |
+| git diff --stat -- docs/05b-parallel-smoke-readiness-and-handoff | 変更範囲確認 | scope と一致 |
+| rg -n "dev|main|D1|Sheets|1Password" docs/05b-parallel-smoke-readiness-and-handoff | 主要語の横断確認 | 必要箇所が見つかる |
 | node .claude/skills/aiworkflow-requirements/scripts/search-spec.js "Cloudflare" -C 2 | 正本仕様検索 | 必要 reference が出る |
 
 ## 期待出力表

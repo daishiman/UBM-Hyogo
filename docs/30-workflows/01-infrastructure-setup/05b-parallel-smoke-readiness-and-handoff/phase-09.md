@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 8 (設定 DRY 化) |
 | 次 Phase | 10 (最終レビュー) |
-| 状態 | pending |
+| 状態 | completed |
 
 ## 目的
 
@@ -65,9 +65,9 @@ smoke readiness と実装引き継ぎ における Phase 9 の判断と成果物
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 9 | pending | upstream を読む |
-| 2 | 成果物更新 | 9 | pending | outputs/phase-09/main.md |
-| 3 | 4条件確認 | 9 | pending | next phase へ handoff |
+| 1 | input 確認 | 9 | completed | upstream を読む |
+| 2 | 成果物更新 | 9 | completed | outputs/phase-09/main.md |
+| 3 | 4条件確認 | 9 | completed | next phase へ handoff |
 
 ## 成果物
 
@@ -100,13 +100,15 @@ smoke readiness と実装引き継ぎ における Phase 9 の判断と成果物
 ## 命名規則チェック
 | 対象 | 基準 | 判定 |
 | --- | --- | --- |
-| task dir | wave + mode + kebab-case | TBD |
-| branch 名 | feature / dev / main | TBD |
-| secret 名 | ALL_CAPS_SNAKE_CASE | TBD |
+| task dir | wave + mode + kebab-case | PASS |
+| branch 名 | feature / dev / main | PASS |
+| secret 名 | ALL_CAPS_SNAKE_CASE | PASS |
 
 ## 参照整合性チェック
 - task-spec skill と aiworkflow reference の参照が生きているか。
 - README / index / phase / outputs の path が一致しているか。
+- stale infrastructure task-root path pattern が `docs/05b-parallel-smoke-readiness-and-handoff` 内に残存していないこと。
+- `artifacts.json` の outputs が実在する Phase 成果物と一致すること。
 
 ## 無料枠遵守チェック
 - Pages build budget を含める。

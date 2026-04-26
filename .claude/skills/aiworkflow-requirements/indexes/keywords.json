@@ -3671,6 +3671,7 @@
     ],
     "Phase": [
       "claude-code-agents-workflow.md",
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
       "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
       "lessons-learned-current-2026-04.md",
@@ -5897,6 +5898,7 @@
       "legacy-ordinal-family-register.md"
     ],
     "Lessons": [
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-archive-2026-03-mid.md",
       "lessons-learned-archive-2026-03.md",
       "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
@@ -5964,6 +5966,7 @@
       "lessons-learned.md"
     ],
     "Learned": [
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-archive-2026-03-mid.md",
       "lessons-learned-archive-2026-03.md",
       "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
@@ -6029,6 +6032,41 @@
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "lessons-learned-workflow-quality-sdk-tests-loop-guard.md",
       "lessons-learned.md"
+    ],
+    "parallel": [
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
+      "lessons-learned-current-2026-04.md"
+    ],
+    "smoke": [
+      "lessons-learned-05b-smoke-readiness-2026-04.md"
+    ],
+    "readiness": [
+      "lessons-learned-05b-smoke-readiness-2026-04.md"
+    ],
+    "and": [
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
+      "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-phase12-lifecycle-recent.md",
+      "lessons-learned-templates.md"
+    ],
+    "handoff": [
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
+      "lessons-learned-phase12-lifecycle-early-b.md",
+      "lessons-learned-phase12-lifecycle-recent.md",
+      "task-workflow-completed-skill-lifecycle-design.md",
+      "task-workflow-completed-skill-lifecycle-ui.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "close": [
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
+      "lessons-learned-phase12-lifecycle-early-b.md"
+    ],
+    "out": [
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
+      "lessons-learned-phase12-lifecycle-early-b.md",
+      "task-workflow-phases.md"
     ],
     "アーカイブ": [
       "lessons-learned-archive-2026-03-mid.md",
@@ -6739,12 +6777,6 @@
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-current-2026-04.md"
     ],
-    "and": [
-      "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
-      "lessons-learned-current-2026-04.md",
-      "lessons-learned-phase12-lifecycle-recent.md",
-      "lessons-learned-templates.md"
-    ],
     "resume": [
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-current-2026-04.md"
@@ -7252,9 +7284,6 @@
       "lessons-learned-current-2026-04.md",
       "lessons-learned-governance-hooks-phase-policy.md"
     ],
-    "parallel": [
-      "lessons-learned-current-2026-04.md"
-    ],
     "google": [
       "lessons-learned-current-2026-04.md"
     ],
@@ -7668,13 +7697,6 @@
       "lessons-learned-phase12-lifecycle-early-b.md",
       "ui-ux-panels.md"
     ],
-    "close": [
-      "lessons-learned-phase12-lifecycle-early-b.md"
-    ],
-    "out": [
-      "lessons-learned-phase12-lifecycle-early-b.md",
-      "task-workflow-phases.md"
-    ],
     "ESBUILD": [
       "lessons-learned-phase12-lifecycle-early-b.md"
     ],
@@ -7695,14 +7717,6 @@
     ],
     "対話強制": [
       "lessons-learned-phase12-lifecycle-early-b.md"
-    ],
-    "handoff": [
-      "lessons-learned-phase12-lifecycle-early-b.md",
-      "lessons-learned-phase12-lifecycle-recent.md",
-      "task-workflow-completed-skill-lifecycle-design.md",
-      "task-workflow-completed-skill-lifecycle-ui.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "エラー保持パターン": [
       "lessons-learned-phase12-lifecycle-early-b.md"

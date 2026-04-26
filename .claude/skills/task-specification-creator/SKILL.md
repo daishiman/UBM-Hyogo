@@ -248,6 +248,7 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 
 | Version       | Date           | Changes                                                                                                                                                                                                     |
 | ------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **v10.09.45** | **2026-04-26** | **audit feedback 反映**: docs-only Phase 11 代替証跡（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）を `phase-template-phase11.md` に明文化、`phase-12-completion-checklist.md` に task root path drift 検出・補正手順を追加、validator CLI 引数規約（positional vs `--workflow`、`--task` 未実装）を `commands.md` にドキュメント化。 |
 | **v10.09.44** | **2026-04-26** | **05a-parallel-observability-and-cost-guardrails Phase 12 close-out 反映**: Phase 12 実行時によくある漏れ表に UBM-005（root/outputs `artifacts.json` 二重 ledger 同期漏れ）と UBM-006（Pages/Workers topology drift の未タスク formalize 漏れ、`task-{cat}-...-NNN.md` 命名と `docs/30-workflows/unassigned-task/` 配置）を追記。 |
 | **v10.09.43** | **2026-04-26** | **02-serial-monorepo-runtime-foundation close-out hardening**: Phase 12 implementation guide Part 1/2 補正、Phase 11 NON_VISUAL docs-only validator 対応、`index.md` / Phase 11 link checklist / system spec summary の stale 状態同期。 |
 | **v10.09.44** | **2026-04-26** | **Wave 0 scaffold close-out hardening**: docs-only/spec_created metadata のまま code 実装が入った場合は Phase 12 Step 2 を再判定し、task root path/status parity、scope外実装混入、現環境での verify 再実行結果を必ず記録する。 |
@@ -476,7 +477,7 @@ diff -qr .claude/skills/task-specification-creator .agents/skills/task-specifica
 node scripts/log-usage.js --result success --phase "Phase {{N}}"
 ```
 
-Phase 12 では追加で `detect-unassigned-tasks.js`、`audit-unassigned-tasks.js`、`verify-unassigned-links.js`、`validate-phase12-implementation-guide.js` を実行する。
+Phase 12 では追加で `detect-unassigned-tasks.js`、`audit-unassigned-tasks.js`、`verify-unassigned-links.js`、`validate-phase12-implementation-guide.js`、`validate-phase11-screenshot-coverage.js` を実行する。validator の CLI 引数は positional / `--workflow` 形式が混在しているため、呼び出し前に [references/commands.md](references/commands.md) の「validator CLI 引数規約」を参照する。
 
 ## ベストプラクティス
 

@@ -96,7 +96,7 @@ Cloudflare Pages / Workers / D1 の本番環境への初回デプロイを実施
 | --- | --- | --- |
 | 必須 | .claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md | Cloudflare Pages / Workers / D1 デプロイ手順 |
 | 必須 | .claude/skills/aiworkflow-requirements/references/deployment-core.md | go-live / rollback 方針 |
-| 必須 | doc/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/index.md | readiness checklist・handoff 成果物確認 |
+| 必須 | docs/05b-parallel-smoke-readiness-and-handoff/index.md | readiness checklist・handoff 成果物確認 |
 | 必須 | doc/01-infrastructure-setup/03-serial-data-source-and-storage-contract/index.md | D1 runbook（マイグレーション適用手順） |
 | 必須 | doc/01-infrastructure-setup/04-serial-cicd-secrets-and-environment-sync/index.md | 本番 Secrets 配置確認 |
 | 参考 | doc/00-getting-started-manual/specs/00-overview.md | システム全体像・本番環境の目標状態 |

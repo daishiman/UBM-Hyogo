@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 5 (セットアップ実行) |
 | 次 Phase | 7 (検証項目網羅性) |
-| 状態 | pending |
+| 状態 | completed |
 
 ## 目的
 
@@ -65,9 +65,9 @@ smoke readiness と実装引き継ぎ における Phase 6 の判断と成果物
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 6 | pending | upstream を読む |
-| 2 | 成果物更新 | 6 | pending | outputs/phase-06/main.md |
-| 3 | 4条件確認 | 6 | pending | next phase へ handoff |
+| 1 | input 確認 | 6 | completed | upstream を読む |
+| 2 | 成果物更新 | 6 | completed | outputs/phase-06/main.md |
+| 3 | 4条件確認 | 6 | completed | next phase へ handoff |
 
 ## 成果物
 

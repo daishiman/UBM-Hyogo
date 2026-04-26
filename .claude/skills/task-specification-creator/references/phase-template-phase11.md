@@ -19,6 +19,31 @@ Phase 11 の manual test。
 - `.claude` と `.agents` の file set が一致するか
 - validator command を再実行できるか
 
+### docs-only / `spec_created` Phase 11 代替証跡フォーマット（必須3点）
+
+`validate-phase11-screenshot-coverage.js` の `detectDocsOnlyPhase11()` が `spec_created` / `docs-only` を検出した場合、screenshot は不要だが以下3点を **必須 outputs** とする（UBM-002 / UBM-003 対応）。
+
+| ファイル | 役割 | 最小フォーマット |
+| --- | --- | --- |
+| `outputs/phase-11/main.md` | Phase 11 ウォークスルーのトップ index | テスト方式（NON_VISUAL / docs walkthrough）と必須 outputs リンクを明記 |
+| `outputs/phase-11/manual-smoke-log.md` | 手動 smoke log（spec walkthrough / link 検証 / mirror parity の実行記録） | 「実行コマンド / 期待結果 / 実測 / PASS or FAIL」をテーブルで記録 |
+| `outputs/phase-11/link-checklist.md` | 仕様書から family / archive / mirror への参照リンクが有効かのチェックリスト | 「参照元 → 参照先 / 状態（OK / Broken）」をテーブルで記録 |
+
+**`manual-smoke-log.md` 必須メタ**:
+
+- 証跡の主ソース（自動テスト名 / 件数、または spec walkthrough セッション ID）
+- screenshot を作らない理由（`NON_VISUAL` / `docs-only` / `spec_created` のいずれか）
+- 実行日時 / 実行者（worktree なら branch 名）
+
+**`link-checklist.md` 最小項目**:
+
+- `SKILL.md` → references / agents / scripts の参照
+- `LOGS.md` → archive index の参照
+- `.claude` ↔ `.agents` mirror の `diff -qr` 結果（差分0件であること）
+- task root の workflow 内リンク（`index.md` / `phase-*.md` / `outputs/*` 間）
+
+> 視覚タスク（VISUAL）の必須 outputs（`manual-test-checklist.md` / `manual-test-result.md` / `discovered-issues.md` / `screenshot-plan.json`）とは別セットである点に注意。Phase 1 設計時にタスク種別を確定させ、Phase 11 着手前に再判定すること。
+
 ### ウォークスルーシナリオ発見事項リアルタイム分類欄
 
 各シナリオ実行中に発見した事項を即座に分類するためのテンプレート。

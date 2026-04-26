@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 6 (異常系検証) |
 | 次 Phase | 8 (設定 DRY 化) |
-| 状態 | pending |
+| 状態 | completed |
 
 ## 目的
 
@@ -65,9 +65,9 @@ smoke readiness と実装引き継ぎ における Phase 7 の判断と成果物
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 7 | pending | upstream を読む |
-| 2 | 成果物更新 | 7 | pending | outputs/phase-07/main.md |
-| 3 | 4条件確認 | 7 | pending | next phase へ handoff |
+| 1 | input 確認 | 7 | completed | upstream を読む |
+| 2 | 成果物更新 | 7 | completed | outputs/phase-07/main.md |
+| 3 | 4条件確認 | 7 | completed | next phase へ handoff |
 
 ## 成果物
 
@@ -100,11 +100,11 @@ smoke readiness と実装引き継ぎ における Phase 7 の判断と成果物
 ## AC × 検証項目マトリクス
 | AC | 検証観点 | 検証方法 | Phase |
 | --- | --- | --- | --- |
-| AC-1 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
-| AC-2 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
-| AC-3 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
-| AC-4 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
-| AC-5 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
+| AC-1 | readiness checklist complete | `outputs/phase-02/readiness-definition.md` の PASS 表を確認 | 2, 7, 10 |
+| AC-2 | rollback / break-glass / incident entrypoint | `outputs/phase-10/final-readiness-gate.md` と deployment 参照を確認 | 6, 10 |
+| AC-3 | 未解決事項 formalize | `outputs/phase-12/unassigned-task-detection.md` で既存照合 / 新規作成 / 不要理由を確認 | 7, 12 |
+| AC-4 | local / dev / main の説明可能性 | `outputs/phase-05/handoff-checklist.md` と branch/env 記述を確認 | 5, 11 |
+| AC-5 | 4条件 PASS | `outputs/phase-10/final-readiness-gate.md` の4条件を確認 | 10, 12 |
 
 ## 未カバー AC とフォロー方針
 - 実環境前提の AC は docs-first 前提で runbook completed に言い換える。
