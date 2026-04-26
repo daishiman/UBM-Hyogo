@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2860,
+  "totalKeywords": 2872,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -131,6 +131,7 @@
       "ipc-4-layer-pattern.md",
       "ipc-type-resolution-guide.md",
       "legacy-ordinal-family-register.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
@@ -4154,6 +4155,7 @@
       "deployment-core.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-skill-remove-contract.md",
       "lessons-learned-workflow-quality-ci-module-resolution.md",
@@ -4189,6 +4191,7 @@
       "deployment-details.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
       "lessons-learned-current-2026-04.md"
     ],
     "環境保護ルール": [
@@ -4204,6 +4207,7 @@
       "deployment-cloudflare.md",
       "deployment-core.md",
       "deployment-secrets-management.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
       "technology-core.md"
     ],
     "デプロイメント仕様": [
@@ -4213,7 +4217,8 @@
       "deployment-cloudflare.md"
     ],
     "Workers": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
     ],
     "デプロイ": [
       "deployment-cloudflare.md"
@@ -4326,7 +4331,8 @@
       "deployment-cloudflare.md"
     ],
     "Pages": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
     ],
     "Functions": [
       "deployment-cloudflare.md"
@@ -4400,7 +4406,8 @@
     "Secrets": [
       "deployment-details.md",
       "deployment-gha.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
     ],
     "の要件": [
       "deployment-details.md",
@@ -4413,7 +4420,8 @@
       "deployment-gha.md"
     ],
     "PR": [
-      "deployment-gha.md"
+      "deployment-gha.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
     ],
     "キャッシュ戦略": [
       "deployment-gha.md"
@@ -4504,7 +4512,8 @@
       "deployment-secrets-management.md"
     ],
     "secrets": [
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
     ],
     "env": [
       "deployment-secrets-management.md"
@@ -4575,7 +4584,8 @@
       "directory-structure-core.md"
     ],
     "web": [
-      "directory-structure-core.md"
+      "directory-structure-core.md",
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
     ],
     "desktop": [
       "directory-structure-core.md",
@@ -5873,6 +5883,96 @@
     "Split": [
       "legacy-ordinal-family-register.md"
     ],
+    "lessons": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
+      "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
+      "lessons-learned-auth-ipc-fallback-registration-settings.md",
+      "lessons-learned-auth-ipc-file-ops-skill-creator-registration.md",
+      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
+      "lessons-learned-auth-ipc-safeinvoke-timeout.md",
+      "lessons-learned-auth-ipc-security-double-registration.md",
+      "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
+      "lessons-learned-skill-build-harness-guard.md",
+      "lessons-learned-skill-contrast-guard-lifecycle-followup.md",
+      "lessons-learned-skill-create-lifecycle-import-contract.md",
+      "lessons-learned-skill-execute-hook-migration.md",
+      "lessons-learned-skill-import-analysis-view.md",
+      "lessons-learned-skill-lifecycle-test-hardening.md",
+      "lessons-learned-skill-plan-exec-hardening.md",
+      "lessons-learned-skill-remove-contract.md",
+      "lessons-learned-skill-share-debug-lifecycle-design.md",
+      "lessons-learned-skill-validation-logging-deprecation.md",
+      "lessons-learned-ui-agent-view-nav-notification-history.md",
+      "lessons-learned-ui-skill-center-editor-dashboard.md",
+      "lessons-learned-workflow-quality-ci-module-resolution.md",
+      "lessons-learned-workflow-quality-line-budget-reform.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md",
+      "lessons-learned-workflow-quality-sdk-tests-loop-guard.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md"
+    ],
+    "learned": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md"
+    ],
+    "serial": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
+      "lessons-learned-current-2026-04.md"
+    ],
+    "cicd": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "and": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
+      "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-phase12-lifecycle-recent.md",
+      "lessons-learned-templates.md"
+    ],
+    "environment": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "sync": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-completed-recent-2026-04d.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "CICD": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "に統合された": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "Variables": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "層分離が必須": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "cd": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "yml": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "backend": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md",
+      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
+    ],
+    "deploy": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "の分離設計": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "最小ゲートはカバレッジ非必須": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
+    "プレビュー環境は現行標準外": [
+      "lessons-learned-04-cicd-secrets-env-sync-2026-04.md"
+    ],
     "Lessons": [
       "lessons-learned-archive-2026-03-mid.md",
       "lessons-learned-archive-2026-03.md",
@@ -6072,32 +6172,6 @@
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-ipc-channel-whitelist-sync.md",
       "ui-history-integration.md"
-    ],
-    "lessons": [
-      "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
-      "lessons-learned-auth-ipc-fallback-registration-settings.md",
-      "lessons-learned-auth-ipc-file-ops-skill-creator-registration.md",
-      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
-      "lessons-learned-auth-ipc-safeinvoke-timeout.md",
-      "lessons-learned-auth-ipc-security-double-registration.md",
-      "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
-      "lessons-learned-skill-build-harness-guard.md",
-      "lessons-learned-skill-contrast-guard-lifecycle-followup.md",
-      "lessons-learned-skill-create-lifecycle-import-contract.md",
-      "lessons-learned-skill-execute-hook-migration.md",
-      "lessons-learned-skill-import-analysis-view.md",
-      "lessons-learned-skill-lifecycle-test-hardening.md",
-      "lessons-learned-skill-plan-exec-hardening.md",
-      "lessons-learned-skill-remove-contract.md",
-      "lessons-learned-skill-share-debug-lifecycle-design.md",
-      "lessons-learned-skill-validation-logging-deprecation.md",
-      "lessons-learned-ui-agent-view-nav-notification-history.md",
-      "lessons-learned-ui-skill-center-editor-dashboard.md",
-      "lessons-learned-workflow-quality-ci-module-resolution.md",
-      "lessons-learned-workflow-quality-line-budget-reform.md",
-      "lessons-learned-workflow-quality-phase12-audit-validator.md",
-      "lessons-learned-workflow-quality-sdk-tests-loop-guard.md",
-      "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "EXECUTE": [
       "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
@@ -6714,12 +6788,6 @@
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-current-2026-04.md"
     ],
-    "and": [
-      "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
-      "lessons-learned-current-2026-04.md",
-      "lessons-learned-phase12-lifecycle-recent.md",
-      "lessons-learned-templates.md"
-    ],
     "resume": [
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-current-2026-04.md"
@@ -7152,9 +7220,6 @@
       "lessons-learned-current-2026-04.md"
     ],
     "bootstrap": [
-      "lessons-learned-current-2026-04.md"
-    ],
-    "serial": [
       "lessons-learned-current-2026-04.md"
     ],
     "data": [
@@ -9410,9 +9475,6 @@
     "fix": [
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
     ],
-    "backend": [
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
-    ],
     "lint": [
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
     ],
@@ -10389,13 +10451,6 @@
     "final": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
     ],
-    "sync": [
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-completed-recent-2026-04d.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
     "正規化": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
     ],
@@ -10693,9 +10748,6 @@
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "責務分離の仕様固定": [
-      "logs-archive-2026-03-task-10a-c-final-audit.md"
-    ],
-    "learned": [
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "再監査と仕様同期": [

@@ -2620,6 +2620,17 @@ node scripts/list-specs.js --topics
 | Section Extract Register (2026-03-17) | L238 |
 | 500-Line Split Register (2026-03-16) | L249 |
 
+### references/lessons-learned-04-cicd-secrets-env-sync-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| L-CICD-001: Cloudflare Pages は Workers に統合された | L10 |
+| L-CICD-002: GitHub Secrets と Variables の2層分離が必須 | L23 |
+| L-CICD-003: web-cd.yml と backend-deploy.yml の分離設計 | L37 |
+| L-CICD-004: CI 最小ゲートはカバレッジ非必須 | L50 |
+| L-CICD-005: PR プレビュー環境は現行標準外 | L58 |
+
 ### references/lessons-learned-archive-2026-03-mid.md
 
 | セクション | 行 |

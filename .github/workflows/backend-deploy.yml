@@ -1,0 +1,77 @@
+# apps/api (Hono on Cloudflare Workers) を Cloudflare Workers にデプロイ
+# dev ブランチ → staging API Worker, main ブランチ → production API Worker
+# web-cd.yml と独立したデプロイパス。deploy secret のみ使用。
+name: Backend Deploy
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - "apps/api/**"
+      - "packages/**"
+      - "pnpm-lock.yaml"
+
+jobs:
+  deploy-staging:
+    name: Deploy API (Staging)
+    if: github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    environment: dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build API
+        run: pnpm --filter @ubm-hyogo/api build
+
+      - name: Deploy to Cloudflare Workers (staging)
+        run: pnpm --filter @ubm-hyogo/api deploy:staging
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+
+  deploy-production:
+    name: Deploy API (Production)
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    environment: main
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build API
+        run: pnpm --filter @ubm-hyogo/api build
+
+      - name: Deploy to Cloudflare Workers (production)
+        run: pnpm --filter @ubm-hyogo/api deploy:production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
