@@ -95,13 +95,20 @@ mise exec -- pnpm install  # 正しい Node バージョンで依存インスト
 ```bash
 # 推奨: スクリプトで一括セットアップ（main同期 + pnpm install まで自動実行）
 bash scripts/new-worktree.sh feat/my-feature
-
-# 手動で行う場合
-git fetch origin main
-git worktree add -b feat/my-feature .worktrees/task-YYYYMMDD-HHMMSS-wt origin/main
-cd .worktrees/task-YYYYMMDD-HHMMSS-wt
-mise exec -- pnpm install
 ```
+
+> **⚠️ 重要: Claude Code は必ずワークツリーディレクトリから起動すること**
+>
+> メインディレクトリで起動すると、ファイルがメインディレクトリに作られ
+> 無関係なPRに混入する原因になる。
+>
+> ```bash
+> # ワークツリー作成後、新しいターミナルタブで実行
+> cd .worktrees/<作成されたディレクトリ名>
+> claude   # ← ここから起動することで並列開発が正しく分離される
+> ```
+>
+> 並列タスクの数だけターミナルタブを開き、それぞれのワークツリーで claude を起動する。
 
 ---
 
