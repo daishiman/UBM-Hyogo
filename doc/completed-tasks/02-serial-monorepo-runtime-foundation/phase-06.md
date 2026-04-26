@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 5 (セットアップ実行) |
 | 次 Phase | 7 (検証項目網羅性) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -31,8 +31,6 @@
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-core.md | Node / pnpm / Next.js |
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-frontend.md | Next.js / Tailwind |
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-backend.md | Workers / D1 / backend stack |
-
-| 依存Phase | Phase 5 | 上流成果物の参照確認 |
 
 ## 実行手順
 
@@ -68,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 6 | completed | upstream を読む |
-| 2 | 成果物更新 | 6 | completed | outputs/phase-06/main.md |
-| 3 | 4条件確認 | 6 | completed | next phase へ handoff |
+| 1 | input 確認 | 6 | pending | upstream を読む |
+| 2 | 成果物更新 | 6 | pending | outputs/phase-06/main.md |
+| 3 | 4条件確認 | 6 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -81,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -104,14 +102,10 @@
 | ID | 異常 | 期待される検出 | 対処 |
 | --- | --- | --- | --- |
 | A1 | branch drift | dev / main 対応表の矛盾検出 | index / phase を同時修正 |
-| A2 | secret placement ミス | runtime と deploy secret の混線検出（例: AUTH_SECRET を GitHub Variables に置く） | placement matrix 修正 |
+| A2 | secret placement ミス | runtime と deploy secret の混線検出 | placement matrix 修正 |
 | A3 | source-of-truth 競合 | Sheets と D1 の責務重複を検出 | contract 再定義 |
-| A4 | downstream blocker 漏れ | 依存漏れ検出（03/04/05b への参照が欠落） | task 追記 |
-| A5 | 無料枠逸脱前提 | Workers バンドルサイズ 3MB 超過を検出 | `@opennextjs/cloudflare` の `optimizePackageImports` で削減、超過なら Pages Functions（25MB）へ移行 |
-| A6 | pnpm バージョン混在 | pnpm 9 が使用されている（2026-04-30 EOL） | `pnpm --version` 確認 → pnpm 10.x へ移行 |
-| A7 | Node.js バージョン不一致 | Node 22.x が混在（最新 LTS は 24.x） | `.nvmrc` / `package.json#engines` で Node 24.x を固定 |
-| A8 | @cloudflare/next-on-pages 継続使用 | 廃止予定の adapter が package.json に残存 | `@opennextjs/cloudflare` に移行・next-on-pages を削除 |
-| A9 | Auth.js NEXTAUTH_* 環境変数 | v5 以降は AUTH_* に変更済み。NEXTAUTH_* が残っていると認証失敗 | 環境変数プレフィックスを AUTH_* に統一 |
+| A4 | downstream blocker 漏れ | 依存漏れ検出 | task 追記 |
+| A5 | 無料枠逸脱前提 | 有料 or 過剰サービス依存検出 | scope 外へ戻す |
 
 ## 再現手順
 - branch / env / secret / source-of-truth をわざと入れ替えてレビューする。
@@ -121,7 +115,3 @@
 - 矛盾: architecture / deployment reference を優先して修正
 - 漏れ: AC, refs, outputs, downstream を補完
 - 依存不整合: Wave gate を見直す
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 5

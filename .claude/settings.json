@@ -9,6 +9,8 @@
       "Bash(npx:*)",
       "Bash(npm:*)",
       "Bash(pnpm:*)",
+      "Bash(mise:*)",
+      "Bash(mise exec -- *)",
       "Bash(git:*)",
       "Bash(GIT_EDITOR=true git rebase:*)",
       "Bash(gh:*)",

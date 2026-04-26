@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 1 (要件定義) |
 | 次 Phase | 3 (設計レビュー) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -31,8 +31,6 @@
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-core.md | Node / pnpm / Next.js |
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-frontend.md | Next.js / Tailwind |
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-backend.md | Workers / D1 / backend stack |
-
-| 依存Phase | Phase 1 | 上流成果物の参照確認 |
 
 ## 実行手順
 
@@ -68,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 2 | completed | upstream を読む |
-| 2 | 成果物更新 | 2 | completed | outputs/phase-02/main.md |
-| 3 | 4条件確認 | 2 | completed | next phase へ handoff |
+| 1 | input 確認 | 2 | pending | upstream を読む |
+| 2 | 成果物更新 | 2 | pending | outputs/phase-02/main.md |
+| 3 | 4条件確認 | 2 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -81,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -112,32 +110,17 @@ graph TD
 ## 環境変数一覧
 | 区分 | 代表値 | 置き場所 | 理由 |
 | --- | --- | --- | --- |
-| runtime secret | GOOGLE_CLIENT_SECRET / AUTH_SECRET | Cloudflare Secrets | Workers runtime が直接利用 |
-| deploy secret | CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID | GitHub Secrets | CI/CD 専用（wrangler deploy） |
-| local canonical | 上記すべて | 1Password Environments | 平文 .env を正本にしない |
-| public variable | NEXT_PUBLIC_APP_URL / CLOUDFLARE_ACCOUNT_ID | GitHub Variables / wrangler.toml | 非機密 |
-
-注記: この Phase は secret 名と配置先の設計を固定するだけで、secret 値の作成・登録は行わない。`index.md` の「Secrets 一覧（このタスクで導入）なし」と矛盾しない。
-
-注記（Auth.js）: Auth.js v5 では環境変数プレフィックスが `NEXTAUTH_*` から `AUTH_*` に変更。JWT 暗号化の仕様変更による既知バグあり。Magic Link・Google OAuth を使う場合は `AUTH_SECRET`（ランダム64文字以上）を必ず Cloudflare Secrets に設定する。
+| runtime secret | task-specific | Cloudflare Secrets | runtime が直接利用 |
+| deploy secret | deploy auth | GitHub Secrets | CI/CD 専用 |
+| local canonical | developer env | 1Password Environments | 平文 .env を正本にしない |
+| public variable | project name / URL / IDs | GitHub Variables / docs | 非機密 |
 
 ## 設定値表
 | 項目 | 方針 | 根拠 |
 | --- | --- | --- |
 | branch strategy | feature -> dev -> main | deployment-branch-strategy |
-| runtime split | apps/web（@opennextjs/cloudflare + Next.js 16.x on Workers）+ apps/api（Hono 4.12.x on Workers） | architecture-overview-core |
+| runtime split | apps/web + apps/api | architecture-overview-core |
 | source of truth | Sheets input / D1 canonical | user request + baseline |
-| Node.js | 24.x LTS（Krypton、2028年4月まで）| pnpm 9 EOL・最新 LTS |
-| pnpm | 10.x（pnpm 9 は 2026-04-30 EOL） | サポート継続・workspace 安定 |
-| Next.js | 16.x（16.2.4 以上） | @opennextjs/cloudflare 推奨・App Router 安定 |
-| React | 19.2.x | Next.js 16 対応・安定 |
-| TypeScript | 6.x（6.0.3 以上、v7.0 はベータのため非推奨） | strict モード・型安全 |
-| Wrangler | 4.x（4.85.0 以上） | v3 は保守モードのため v4 を使用 |
-| Hono | 4.12.x | Workers 安定・軽量 |
-| Tailwind CSS | 4.x（4.2.4 以上） | 高速再コンパイル・新カラーパレット |
-| Auth.js | 5.x（既知バグあり。JWT / OAuth 周りに注意） | Google OAuth + Magic Link |
-| @opennextjs/cloudflare | 最新安定版 | @cloudflare/next-on-pages 廃止予定のため代替 |
-| Workers バンドルサイズ | 無料枠 3MB 以内 / 有料 10MB / Pages Functions 25MB | コスト管理 |
 
 ## 依存マトリクス
 | 種別 | 対象 | 理由 |
@@ -145,7 +128,3 @@ graph TD
 | 上流 | ../00-serial-architecture-and-scope-baseline/ / 01a-parallel-github-and-branch-governance / 01b-parallel-cloudflare-base-bootstrap | この task 開始前に必要 |
 | 下流 | 03-serial-data-source-and-storage-contract / 04-serial-cicd-secrets-and-environment-sync / 05b-parallel-smoke-readiness-and-handoff | この task の成果物を参照 |
 | 並列 | なし | 同 Wave で独立実行可能 |
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 1

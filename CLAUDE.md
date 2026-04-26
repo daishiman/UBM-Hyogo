@@ -77,14 +77,48 @@ feature/* --PR--> dev --PR--> main
 
 ---
 
+## 開発環境セットアップ（初回 / Node バージョン変更後）
+
+```bash
+# Node 24 + pnpm 10 を mise で管理（.mise.toml に固定済み）
+mise install          # Node 24.15.0 + pnpm 10.33.2 をインストール
+mise exec -- pnpm install  # 正しい Node バージョンで依存インストール
+```
+
+> **毎回 `pnpm install` が必要な理由**: ワークツリーごとに `node_modules` が独立するため。
+> `mise install` は一度だけ実行すれば OK（バイナリはキャッシュ済みになる）。
+
+---
+
+## ワークツリー作成（新機能開発の開始）
+
+```bash
+# 推奨: スクリプトで一括セットアップ（main同期 + pnpm install まで自動実行）
+bash scripts/new-worktree.sh feat/my-feature
+
+# 手動で行う場合
+git fetch origin main
+git worktree add -b feat/my-feature .worktrees/task-YYYYMMDD-HHMMSS-wt origin/main
+cd .worktrees/task-YYYYMMDD-HHMMSS-wt
+mise exec -- pnpm install
+```
+
+---
+
 ## よく使うコマンド
 
 ```bash
-pnpm install           # 依存インストール
-pnpm typecheck         # 型チェック
-pnpm lint              # リント
-pnpm test              # テスト
-pnpm dev               # ローカル開発サーバー起動
+# 必ず mise exec 経由で実行（Node 24 が確実に使われる）
+mise exec -- pnpm install  # 依存インストール
+mise exec -- pnpm typecheck  # 型チェック
+mise exec -- pnpm lint       # リント
+mise exec -- pnpm build      # ビルド
+
+# または mise shell で Node 24 環境に入ってから通常通り実行
+mise shell
+pnpm install
+pnpm typecheck
+pnpm lint
 ```
 
 ---

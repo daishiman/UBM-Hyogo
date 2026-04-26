@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 7 (検証項目網羅性) |
 | 次 Phase | 9 (品質保証) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -66,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 8 | completed | upstream を読む |
-| 2 | 成果物更新 | 8 | completed | outputs/phase-08/main.md |
-| 3 | 4条件確認 | 8 | completed | next phase へ handoff |
+| 1 | input 確認 | 8 | pending | upstream を読む |
+| 2 | 成果物更新 | 8 | pending | outputs/phase-08/main.md |
+| 3 | 4条件確認 | 8 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -79,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -102,11 +102,8 @@
 | 対象 | Before | After | 理由 |
 | --- | --- | --- | --- |
 | branch 記法 | develop 混在 | dev へ統一 | branch strategy 優先 |
-| runtime adapter | @cloudflare/next-on-pages（廃止予定） | @opennextjs/cloudflare（Workers 上で Next.js） | adapter 廃止対応 |
+| runtime 記法 | OpenNext 一体 | Pages / Workers 分離 | architecture と整合 |
 | data ownership | Sheets / D1 混線 | Sheets input / D1 canonical | source-of-truth 一意化 |
-| Node バージョン | Node 22.x / pnpm 9.x / Next.js 15.x | Node 24.x / pnpm 10.x / Next.js 16.x | 最新 LTS / EOL 対応 |
-| Auth.js secret prefix | NEXTAUTH_SECRET / NEXTAUTH_URL | AUTH_SECRET（v5 仕様変更） | Auth.js v5 移行対応 |
-| TypeScript バージョン | 5.x | 6.x（6.0.3 以上） | v7.0 はベータのため 6.x を採用 |
 
 ## 共通化パターン
 - branch / env / secret placement の表現を共通化する
@@ -117,7 +114,3 @@
 - legacy assumption の持ち込み
 - scope 外サービスの先行導入
 - 実値前提の secret 記述
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 1 / Phase 2 / Phase 5 / Phase 6 / Phase 7

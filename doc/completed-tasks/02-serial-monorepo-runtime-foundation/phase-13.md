@@ -79,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -109,9 +109,8 @@
 ## PR タイトル/本文 雛形
 | 項目 | 内容 |
 | --- | --- |
-| title | docs(infra): 02-monorepo-runtime-foundation タスク仕様書（Node 24/pnpm 10/Next 16対応） |
-| summary | Wave 2 serial task。Node 24.x LTS / pnpm 10.x（pnpm 9 EOL対応）/ Next.js 16.x / @opennextjs/cloudflare 採用。apps/web と apps/api の責務境界・バージョンポリシー・dependency rule を固定する。 |
-| risks | @opennextjs/cloudflare は Next.js 16 以降で Workers バンドルサイズ 3MB 制限あり。Auth.js v5 の既知バグ（JWT 暗号化・OAuth 1.0 廃止）に注意 |
+| title | docs(infra): finalize monorepo-runtime-foundation |
+| summary | task purpose / outputs / risks |
 
 ## CI チェック
 - docs lint / link check / required validation を通す。
@@ -121,7 +120,3 @@
 - local-check-result.md がある
 - change-summary.md がある
 - Phase 12 close-out 済み
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 1 / Phase 2 / Phase 5 / Phase 6 / Phase 7 / Phase 8 / Phase 9 / Phase 10 / Phase 11 / Phase 12

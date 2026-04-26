@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 2 (設計) |
 | 次 Phase | 4 (事前検証手順) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -66,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 3 | completed | upstream を読む |
-| 2 | 成果物更新 | 3 | completed | outputs/phase-03/main.md |
-| 3 | 4条件確認 | 3 | completed | next phase へ handoff |
+| 1 | input 確認 | 3 | pending | upstream を読む |
+| 2 | 成果物更新 | 3 | pending | outputs/phase-03/main.md |
+| 3 | 4条件確認 | 3 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -79,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -99,17 +99,17 @@
 - ブロック条件: 本 Phase の主成果物が未作成なら次 Phase に進まない。
 
 ## レビューチェックリスト (4条件)
-| 観点 | レビュー問い | 判定根拠 |
+| 観点 | レビュー問い | 判定 |
 | --- | --- | --- |
-| 価値性 | この task は誰の迷いを減らすか | apps/web と apps/api の境界・バージョンが明確になり実装者の判断コストを削減 |
-| 実現性 | 初回無料運用で成立するか | Workers 無料枠 3MB 制限 + pnpm 10.x + Next.js 16.x の組み合わせで成立。バンドルサイズは phase-05 で確認 |
-| 整合性 | branch / env / runtime / data / secret が一致するか | feature→dev→main, @opennextjs/cloudflare 採用, AUTH_* 環境変数が一致することを確認 |
-| 運用性 | rollback / handoff / same-wave sync が可能か | foundation-bootstrap-runbook.md に rollback 手順を記録し、03/04/05b への handoff を明記 |
+| 価値性 | この task は誰の迷いを減らすか | TBD |
+| 実現性 | 初回無料運用で成立するか | TBD |
+| 整合性 | branch / env / runtime / data / secret が一致するか | TBD |
+| 運用性 | rollback / handoff / same-wave sync が可能か | TBD |
 
-## より単純な代替案（採用しない理由）
-- 代替案A: `@cloudflare/next-on-pages` を継続採用する → **不採用**。廃止予定（Deprecated）のため @opennextjs/cloudflare を採用する
-- 代替案B: apps/web と apps/api を OpenNext 単一構成で一体化する（Hono を廃止し Next.js Route Handlers に統合）→ **不採用**。API 独立性・テスタビリティ・スケーラビリティの観点から分離を維持
-- 代替案C: pnpm 9.x を継続使用する → **不採用**。pnpm 9 は 2026-04-30 に EOL のため pnpm 10.x へ移行必須
+## より単純な代替案
+- 代替案A: Google Sheets を正本DBにする
+- 代替案B: OpenNext 単一構成にする
+- 代替案C: 通知基盤まで同時に入れる
 
 ## PASS / MINOR / MAJOR 判定
 | 項目 | ルール |
@@ -122,7 +122,3 @@
 | ID | 内容 | 対応 Phase |
 | --- | --- | --- |
 | M-01 | wording / naming drift | 8 or 12 |
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 1 / Phase 2

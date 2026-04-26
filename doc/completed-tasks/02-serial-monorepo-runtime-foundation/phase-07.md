@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 6 (異常系検証) |
 | 次 Phase | 8 (設定 DRY 化) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -66,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 7 | completed | upstream を読む |
-| 2 | 成果物更新 | 7 | completed | outputs/phase-07/main.md |
-| 3 | 4条件確認 | 7 | completed | next phase へ handoff |
+| 1 | input 確認 | 7 | pending | upstream を読む |
+| 2 | 成果物更新 | 7 | pending | outputs/phase-07/main.md |
+| 3 | 4条件確認 | 7 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -79,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -101,16 +101,12 @@
 ## AC × 検証項目マトリクス
 | AC | 検証観点 | 検証方法 | Phase |
 | --- | --- | --- | --- |
-| AC-1 | apps/web と apps/api の責務境界の明文化 | `runtime-topology.md` 参照 + `rg "apps/web\|apps/api" doc/02-serial-monorepo-runtime-foundation` | 1, 3, 9, 10 |
-| AC-2 | Node 24.x / pnpm 10.x / Next.js 16.x / React 19.2.x / TS 6.x strict | `version-policy.md` 参照 + `node --version` / `pnpm --version` | 1, 3, 9, 10 |
-| AC-3 | dependency rule の一意説明 | `dependency-boundary-rules.md` 参照 + `rg "packages/shared\|packages/integrations"` | 1, 3, 9, 10 |
-| AC-4 | @opennextjs/cloudflare 採用理由・@cloudflare/next-on-pages 不採用理由の記録 | phase-02 設定値表 + phase-03 代替案セクションの確認 | 1, 3, 9, 10 |
-| AC-5 | local / staging / production の entry point の説明 | `foundation-bootstrap-runbook.md` 参照 + wrangler.toml 確認 | 1, 3, 9, 10 |
+| AC-1 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
+| AC-2 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
+| AC-3 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
+| AC-4 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
+| AC-5 | 文言 / 参照 / downstream trace | 目視 + rg + review | 1, 3, 9, 10 |
 
 ## 未カバー AC とフォロー方針
 - 実環境前提の AC は docs-first 前提で runbook completed に言い換える。
 - カバーできないものは Phase 12 で unassigned 化する。
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 5 / Phase 6
