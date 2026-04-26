@@ -744,3 +744,17 @@ packages/
 | ブランチ戦略（feature→dev→main） | `references/deployment-branch-strategy.md` |
 | シークレット管理（CF/GitHub） | `references/deployment-secrets-management.md` |
 | インテグレーションパッケージ設計 | `references/arch-integration-packages.md` |
+
+### UBM-Hyogo D1 Schema 早見（03-serial-data-source-and-storage-contract）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `doc/03-serial-data-source-and-storage-contract/` |
+| D1 テーブル（4） | `member_responses` / `member_identities` / `member_status` / `sync_audit` |
+| `member_responses` 役割 | Google Form 回答の正本（formId / responseId / 回答 payload） |
+| `member_identities` 役割 | 認証ID（Google sub / email）⇔ メンバーの紐付け |
+| `member_status` 役割 | 公開/管理ステータス（admin-managed data 含む） |
+| `sync_audit` 役割 | Google Form sync 結果と差分の audit log |
+| DB 名（staging） | `ubm-hyogo-db-staging`（`apps/api/wrangler.toml` `[env.staging]`） |
+| DB 名（production） | `ubm-hyogo-db-prod`（`apps/api/wrangler.toml` top-level production） |
+| binding 経由アクセス | `apps/api` のみ（`apps/web` から直接アクセス禁止） |

@@ -9,6 +9,8 @@
       "Bash(npx:*)",
       "Bash(npm:*)",
       "Bash(pnpm:*)",
+      "Bash(mise:*)",
+      "Bash(mise exec -- *)",
       "Bash(git:*)",
       "Bash(GIT_EDITOR=true git rebase:*)",
       "Bash(gh:*)",
@@ -94,7 +96,16 @@
       "mcp__91f3f8d2-7461-4c81-a2c6-cdcd0c984230__*",
       "mcp__claude_ai_Google_Drive__*",
       "Bash(pnpm typecheck *)",
-      "Bash(pnpm lint *)"
+      "Bash(pnpm lint *)",
+      "Bash(curl *)",
+      "Bash(wrangler d1 *)",
+      "Bash(wrangler secret list *)",
+      "Bash(wrangler tail *)",
+      "Bash(pnpm --filter *)",
+      "Bash(op read *)",
+      "Bash(op item get *)",
+      "Bash(op vault list)",
+      "Bash(op account list)"
     ],
     "deny": [
       "Read(//Users/dm/.ssh/**)",

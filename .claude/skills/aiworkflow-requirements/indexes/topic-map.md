@@ -2615,10 +2615,10 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | 使い方 | L14 |
 | Current Alias Overrides（個別互換行） | L21 |
-| Family Summary | L37 |
-| Detailed Register | L56 |
-| Section Extract Register (2026-03-17) | L237 |
-| 500-Line Split Register (2026-03-16) | L248 |
+| Family Summary | L38 |
+| Detailed Register | L57 |
+| Section Extract Register (2026-03-17) | L238 |
+| 500-Line Split Register (2026-03-16) | L249 |
 
 ### references/lessons-learned-archive-2026-03-mid.md
 
@@ -4260,7 +4260,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| 続き | L332 |
+| 続き | L336 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 
@@ -4545,9 +4545,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L9 |
-| 利用順序 | L38 |
-| 関連ドキュメント | L43 |
+| 仕様書インデックス | L10 |
+| 利用順序 | L39 |
+| 関連ドキュメント | L44 |
 
 ### references/testing-accessibility.md
 
