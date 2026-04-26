@@ -20,7 +20,6 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
-| v2026.04.26-ut01-sheets-d1-sync-design | 2026-04-26 | UT-01 sheets-d1-sync-design close-out sync。Cron pull / manual / backfill / audit lookup の current facts、既存 `apps/api` route、`sync_audit` 物理列、Phase 11 docs-only screenshot N/A、UT-09 / UT-21 downstream overlap を反映。 |
 | v2026.04.26-runtime-foundation | 2026-04-26 | 02-serial-monorepo-runtime-foundation close-out sync。TypeScript 6.x、Next.js 16 + `@opennextjs/cloudflare` Workers 方針、`CLAUDE.md` / technology-backend / architecture-monorepo の stale Pages 記述補正を反映。 |
 
 ## クイックスタート
