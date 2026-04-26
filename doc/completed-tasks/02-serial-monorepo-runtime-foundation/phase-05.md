@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 4 (事前検証手順) |
 | 次 Phase | 6 (異常系検証) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -31,8 +31,6 @@
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-core.md | Node / pnpm / Next.js |
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-frontend.md | Next.js / Tailwind |
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-backend.md | Workers / D1 / backend stack |
-
-| 依存Phase | Phase 4 | 上流成果物の参照確認 |
 
 ## 実行手順
 
@@ -68,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 5 | completed | upstream を読む |
-| 2 | 成果物更新 | 5 | completed | outputs/phase-05/main.md |
-| 3 | 4条件確認 | 5 | completed | next phase へ handoff |
+| 1 | input 確認 | 5 | pending | upstream を読む |
+| 2 | 成果物更新 | 5 | pending | outputs/phase-05/main.md |
+| 3 | 4条件確認 | 5 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -81,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -101,75 +99,20 @@
 - ブロック条件: 本 Phase の主成果物が未作成なら次 Phase に進まない。
 
 ## 手順全文 (コピペ可)
-
-この Phase でモノレポ基盤を実装する。secret 値の登録と本番デプロイは行わない。
-
-### Step 1: runtime バージョン確認
-```bash
-node --version        # v24.x.x であること
-pnpm --version        # 10.x.x であること
-wrangler --version    # 4.x.x であること
-```
-
-### Step 2: pnpm workspace 設定確認
-```bash
-cat pnpm-workspace.yaml
-# packages:
-#   - 'apps/*'
-#   - 'packages/*'
-
-pnpm install          # エラーがないこと
-pnpm typecheck        # TypeScript 6.x strict で通ること
-pnpm lint             # lint エラーがないこと
-```
-
-実装済みファイル:
-
-- `package.json`
-- `pnpm-workspace.yaml`
-- `tsconfig.json`
-- `.nvmrc`
-- `apps/web/package.json`
-- `apps/web/next.config.ts`
-- `apps/web/open-next.config.ts`
-- `apps/web/app/page.tsx`
-- `apps/api/package.json`
-- `apps/api/src/index.ts`
-- `packages/shared/package.json`
-- `packages/shared/src/index.ts`
-- `packages/integrations/package.json`
-- `packages/integrations/src/index.ts`
-
-### Step 3: apps/web 構成確認（docs-first）
-- `apps/web/next.config.ts` に `@opennextjs/cloudflare` の設定が含まれること
-- `apps/web/wrangler.toml` が存在し Workers ターゲットが正しいこと
-- `apps/web/open-next.config.ts` が存在すること
-- `apps/web/package.json` の `build:cloudflare` スクリプトに `opennextjs-cloudflare build` が含まれること
-
-### Step 4: apps/api 構成確認（docs-first）
-- `apps/api/src/index.ts` に Hono の entry point があること
-- `apps/api/wrangler.toml` が存在し Workers ターゲットが正しいこと
-
-### Step 5: runbook 草案作成
-- `outputs/phase-05/foundation-bootstrap-runbook.md` に上記手順を記録
-- downstream 参照表更新（03-serial-data-source-and-storage-contract 向け）
+- 設計書更新
+- runbook 草案作成
+- downstream 参照表更新
 
 ## サンプルコマンド
 ```bash
-rg -n "AC-|dev|main|D1|Sheets|1Password" doc/02-serial-monorepo-runtime-foundation
-git diff -- doc/02-serial-monorepo-runtime-foundation
-rg -n "apps/web|apps/api|packages/shared|packages/integrations" doc/02-serial-monorepo-runtime-foundation
+rg -n "AC-|dev|main|D1|Sheets|1Password" doc/01-infrastructure-setup/02-serial-monorepo-runtime-foundation
+git diff -- doc/01-infrastructure-setup/02-serial-monorepo-runtime-foundation
 ```
 
 ## 設定ファイル全文
-- 実値ファイルは repository root / apps / packages に配置済み。生成物 `.next` / `.open-next` は成果物に含めない。
+- docs-first task のため、実値ファイルではなく runbook と placeholder を成果物にする。
 
 ## 各ステップ後の sanity check
 - scope 外サービスを追加していない
 - branch / env / secret placement が正本仕様に一致する
 - downstream task が参照できる path がある
-- 正本仕様と差分がある runtime version は Phase 12 Step 2 の同期対象として残っている
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 4

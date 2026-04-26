@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 9 (品質保証) |
 | 次 Phase | 11 (手動 smoke test) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -66,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 10 | completed | upstream を読む |
-| 2 | 成果物更新 | 10 | completed | outputs/phase-10/main.md |
-| 3 | 4条件確認 | 10 | completed | next phase へ handoff |
+| 1 | input 確認 | 10 | pending | upstream を読む |
+| 2 | 成果物更新 | 10 | pending | outputs/phase-10/main.md |
+| 3 | 4条件確認 | 10 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -79,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -101,28 +101,18 @@
 ## AC 全項目 PASS 判定表
 | AC | 判定 | 根拠 |
 | --- | --- | --- |
-| AC-1 | SPEC-PASS | `outputs/phase-02/runtime-topology.md` で apps/web / apps/api 境界を固定し、Phase 7 matrix と Phase 9 QA で再照合する |
-| AC-2 | SPEC-PASS_WITH_SYNC | `outputs/phase-02/version-policy.md` を唯一の version ledger にする。Node 24.x / pnpm 10.x / Next.js 16.x / React 19.2.x / TypeScript 6.x は Phase 12 Step 2 で正本仕様へ同期する |
-| AC-3 | SPEC-PASS | `outputs/phase-08/dependency-boundary-rules.md` で apps/web / apps/api / packages/shared / packages/integrations の dependency rule を一意化する |
-| AC-4 | SPEC-PASS_WITH_SYNC | phase-02 設定値表 + phase-03 代替案で `@opennextjs/cloudflare` 採用理由と `@cloudflare/next-on-pages` 不採用理由を記録し、Phase 12 Step 2 で architecture / technology 正本へ同期する |
-| AC-5 | SPEC-PASS | `outputs/phase-05/foundation-bootstrap-runbook.md` で local / staging / production の entry point を説明する |
-
-判定語の意味:
-
-- `SPEC-PASS`: 仕様・実装の受入条件を満たす。
-- `SPEC-PASS_WITH_SYNC`: 仕様上の採用方針は妥当。ただし正本仕様との差分同期が Phase 12 完了条件。
+| AC-1 | TBD | Phase 7 matrix + Phase 9 QA |
+| AC-2 | TBD | Phase 7 matrix + Phase 9 QA |
+| AC-3 | TBD | Phase 7 matrix + Phase 9 QA |
+| AC-4 | TBD | Phase 7 matrix + Phase 9 QA |
+| AC-5 | TBD | Phase 7 matrix + Phase 9 QA |
 
 ## blocker 一覧
 | ID | blocker | 解消条件 |
 | --- | --- | --- |
-| B-01 | 正本仕様と version / runtime 方針の差分が残る | Phase 12 Step 2 で `architecture-overview-core.md` / `technology-core.md` / `technology-frontend.md` を同期する |
-| B-02 | 下流 task が参照できない output がある | `artifacts.json` と各 phase の outputs を同一 artifact 名へ補正する |
-| B-03 | Phase 12 必須6成果物が artifact に登録されていない | Phase 12 outputs に6成果物を列挙する |
+| B-01 | 正本仕様と矛盾する文言が残る | 該当 phase を修正 |
+| B-02 | 下流 task が参照できない output がある | path を補正 |
 
 ## Phase 11 進行 GO/NO-GO
-- GO: blockers なし、または Phase 12 で解消可能。
+- GO: blockers なし、または docs-only で吸収可能。
 - NO-GO: source-of-truth / branch / secret placement の重大矛盾が残る。
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 1 / Phase 2 / Phase 5

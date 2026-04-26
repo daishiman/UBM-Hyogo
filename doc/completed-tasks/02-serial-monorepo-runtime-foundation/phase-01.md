@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | なし |
 | 次 Phase | 2 (設計) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -21,10 +21,6 @@
 - input / output を確定する
 - 正本仕様との整合を確認する
 - 4条件と downstream 影響を確認する
-- Node 24.x（LTS）/ pnpm 10.x / Next.js 16.x / React 19.2.x / TypeScript 6.x の採用理由を正本仕様から確認する
-- @cloudflare/next-on-pages（廃止予定）を採用しない理由を記録する
-- apps/web（@opennextjs/cloudflare + Next.js）と apps/api（Hono Workers）の責務境界を確認する
-- packages/shared / packages/integrations の dependency rule を確認する
 
 ## 参照資料
 
@@ -70,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 1 | completed | upstream を読む |
-| 2 | 成果物更新 | 1 | completed | outputs/phase-01/main.md |
-| 3 | 4条件確認 | 1 | completed | next phase へ handoff |
+| 1 | input 確認 | 1 | pending | upstream を読む |
+| 2 | 成果物更新 | 1 | pending | outputs/phase-01/main.md |
+| 3 | 4条件確認 | 1 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -83,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -122,12 +118,12 @@
 - 5. handoff/unassigned
 
 ## 4条件評価
-| 条件 | 問い | 判定根拠 |
+| 条件 | 問い | 判定 |
 | --- | --- | --- |
-| 価値性 | 誰のどのコストを下げるか定義されているか | apps/web・apps/api の境界明確化により開発者の実装ミスを防ぐ |
-| 実現性 | 無料運用の初回スコープで成立するか | Node 24.x / pnpm 10.x / Next.js 16.x はすべて無料。Workers 無料枠 (3MB) 内での bundle 管理が必要 |
-| 整合性 | branch / env / runtime / data / secret が矛盾しないか | feature→dev→main の branch 戦略と runtime split が一致する。pnpm 9 EOL による migration 必須 |
-| 運用性 | 運用・rollback・handoff が破綻しないか | @opennextjs/cloudflare 採用により rollback 手順は runbook に記録が必要 |
+| 価値性 | 誰のどのコストを下げるか定義されているか | TBD |
+| 実現性 | 無料運用の初回スコープで成立するか | TBD |
+| 整合性 | branch / env / runtime / data / secret が矛盾しないか | TBD |
+| 運用性 | 運用・rollback・handoff が破綻しないか | TBD |
 
 ## スコープ
 ### 含む
@@ -143,21 +139,18 @@
 
 ## 受入条件 (AC)
 - AC-1: apps/web と apps/api の責務境界が明文化されている
-- AC-2: Node 24.x（LTS）/ pnpm 10.x / Next.js 16.x / React 19.2.x / TS 6.x strict に揃う
+- AC-2: Node 22.x / pnpm 9.x / Next.js 15.x / TS strict に揃う
 - AC-3: architecture-monorepo の dependency rule と矛盾しない
-- AC-4: @opennextjs/cloudflare を採用し、apps/web と apps/api を分離 Workers として維持する理由が残る
+- AC-4: OpenNext 一体構成を採用しない理由が残る
 - AC-5: local / staging / production の entry point が説明できる
 
 ## 既存資産インベントリ
 | 項目 | 確認内容 | 現状 |
 | --- | --- | --- |
 | 正本仕様 | task-spec / aiworkflow skill と関連 reference | 要確認 |
-| 変更分 | doc/02-serial-monorepo-runtime-foundation | 要確認 |
-| legacy drift | @cloudflare/next-on-pages → @opennextjs/cloudflare 移行 | 確認必須 |
-| 外部サービス | Node.js 24.x / pnpm 10.x / Cloudflare Pages / Cloudflare Workers | 要確認 |
-| pnpm バージョン | pnpm 9 は 2026-04-30 に EOL → pnpm 10.x への移行必須 | 確認必須 |
-| Next.js バージョン | 15.x → 16.x への移行 | 確認必須 |
-| TypeScript バージョン | 5.x → 6.x（v7.0 はベータのため非推奨） | 確認必須 |
+| 変更分 | doc/01-infrastructure-setup | 要確認 |
+| legacy drift | legacy snapshot との差分 | 要確認 |
+| 外部サービス | Node.js / pnpm / Cloudflare Pages / Cloudflare Workers | 要確認 |
 
 ## 正本仕様参照表
 | 種別 | パス | 用途 |
