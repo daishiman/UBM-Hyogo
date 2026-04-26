@@ -120,8 +120,6 @@
 
 ## コンポーネント方針
 
-### ページ構成コンポーネント（ページ固有）
-
 | コンポーネント | 用途 |
 |-------------|------|
 | `Hero` | ランディングと詳細の要約表示 |
@@ -130,40 +128,10 @@
 | `MemberCard` | 一覧用の公開プロフィール要約 |
 | `ProfileHero` | 詳細とマイページの冒頭要約 |
 | `VisibilitySummary` | 公開範囲の件数サマリ |
+| `Drawer` | 管理者の個別メンバー操作 |
 | `QueuePanel` | 未タグ会員や未解決差分の処理順提示 |
 | `Timeline` | 最近の支部会の表示 |
 | `SyncBadge` | Forms 同期状態やレビュー必要状態の表示 |
-
-### UIプリミティブ（`primitives.jsx` 由来、共通基盤）
-
-実装先: `apps/web/src/components/ui/`
-
-| プリミティブ | props（主要） | 用途 |
-|------------|--------------|------|
-| `Chip` | `tone`, `outline`, `children` | ゾーン・ステータス・タグのバッジ表示。`tone` は `zoneTone()` / `statusTone()` ヘルパーから生成する |
-| `Avatar` | `memberId`, `name`, `size`, `photoUrl`, `editable` | アバター画像。MVP は表示専用。`editable=true` は将来の管理者向けアップロード API 用で、ローカル保存はしない |
-| `Button` | `variant`, `size`, `icon`, `iconRight`, `as` | variant: `primary / accent / ghost / soft / danger`。`as` で `<a>` 等に変形できる |
-| `Switch` | `checked`, `onChange`, `label` | 公開/非公開トグルに使用する |
-| `Segmented` | `options`, `value`, `onChange` | density 切替（ゆったり/密/リスト）など排他選択に使用する |
-| `Field` | `label`, `required`, `hint`, `error`, `children` | フォームフィールドのラッパー。バリデーションエラー表示を含む |
-| `Input` | `...HTMLInputProps` | `<Field>` 内で使うテキスト入力 |
-| `Textarea` | `...HTMLTextareaProps` | `<Field>` 内で使う複数行入力 |
-| `Select` | `options`, `...HTMLSelectProps` | `<Field>` 内で使うセレクトボックス |
-| `Search` | `value`, `onChange`, `placeholder` | 検索バー。虫眼鏡アイコン付き |
-| `Drawer` | `open`, `onClose`, `title`, `children` | 右サイドパネル。Escape キーで閉じる。管理画面のメンバー詳細操作に使う |
-| `Modal` | `open`, `onClose`, `title`, `children` | 中央ダイアログ。破壊的操作の確認・Google Form 再回答の案内に使う |
-| `Toast` | `useToast()` hook 経由 | API 成功/失敗の通知。`ToastProvider` をアプリルートに配置する |
-| `KVList` | `items: { label, value }[]` | プロフィールの回答内容を key-value 形式で表示する |
-| `LinkPills` | `links: { label, url, icon }[]` | SNS・連絡先リンクをアイコン付きピルで表示する |
-
-### カラーヘルパー
-
-```ts
-zoneTone(zone: string): ChipTone   // UBM区画 → Chip color
-statusTone(status: string): ChipTone  // 参加ステータス → Chip color
-```
-
-`ChipTone`: `"stone" | "warm" | "cool" | "green" | "amber" | "red"`
 
 ---
 
@@ -173,33 +141,3 @@ statusTone(status: string): ChipTone  // 参加ステータス → Chip color
 - `/profile/edit` の独立編集画面は採用しない
 - `gas-prototype/` の `localStorage` 保存や認証なし動作は本番仕様に持ち込まない
 - プロトタイプの `theme / nav / detailLayout` 切替はデモ検証用であり、正式ユーザー機能要件ではない
-
----
-
-## 実装時の UI 移植基準
-
-prototype の視覚品質を正式 UI の下限とする。ただし、本番では次を守る。
-
-1. URL、session、server data を UI state より優先する
-2. 操作成功 toast は API 成功後にだけ出す
-3. 破壊的操作は Dialog で確認する
-4. 一覧や toolbar は mobile で横はみ出ししない
-5. 管理画面は情報密度を高くし、landing の装飾表現を持ち込まない
-6. public / member / admin で同じ情報を表示する場合も visibility に応じて field を削る
-
-### 画面検証
-
-実装後は最低限、次を Playwright で確認する。
-
-| 画面 | viewport | 確認 |
-|------|----------|------|
-| `/` | desktop / mobile | Hero、統計、CTA、最近の支部会が重ならない |
-| `/members` | desktop / mobile | filter、density、empty state が機能する |
-| `/members/[id]` | desktop / mobile | public field だけ表示される |
-| `/login` | desktop / mobile | input/sent/gate state が崩れない |
-| `/profile` | desktop / mobile | visibility summary と更新導線が見える |
-| `/admin` | desktop | KPI と未処理 alert が見える |
-| `/admin/members` | desktop | drawer と公開 switch が動く |
-| `/admin/tags` | desktop | queue と review panel が並ぶ |
-| `/admin/schema` | desktop | unresolved item と stableKey 操作が見える |
-| `/admin/meetings` | desktop | 開催日追加と参加付与/解除ができる |
