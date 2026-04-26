@@ -28,14 +28,16 @@
 
 | レイヤー | パス | 説明 |
 | -------- | ---- | ---- |
-| apps | apps/web/ | Next.js 15 (App Router) → Cloudflare Pages |
+| apps | apps/web/ | Next.js 16 (App Router) → `@opennextjs/cloudflare` on Cloudflare Workers |
+| apps | apps/api/ | Hono on Cloudflare Workers（D1 access owner） |
 | packages | packages/shared/ | 共通ロジック、型定義、ユーティリティ |
+| packages | packages/integrations/ | 外部サービス連携パッケージ |
 
 **外部サービス**
 
 | サービス | 説明 | 料金 |
 | -------- | ---- | ---- |
-| Cloudflare Pages | フロントエンドホスティング | 無料: 無制限リクエスト |
+| Cloudflare Pages | 静的アセット配信・Pages Functions fallback | 無料: 無制限リクエスト |
 | Cloudflare Workers | API バックエンド | 無料: 100,000 リクエスト/日 |
 | Cloudflare D1 | SQLite データベース | 無料: 5GB |
 | Turso | 分散 SQLite（補完） | 無料: 9GB, 500M リクエスト |
