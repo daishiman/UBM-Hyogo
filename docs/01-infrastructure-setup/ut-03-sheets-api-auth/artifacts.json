@@ -1,0 +1,23 @@
+{
+  "id": "UT-03",
+  "name": "Sheets API 認証方式設定",
+  "directory": "docs/01-infrastructure-setup/ut-03-sheets-api-auth",
+  "wave": 1,
+  "status": "pending",
+  "github_issue": 5,
+  "phases": {
+    "phase-01": { "status": "pending", "name": "要件定義" },
+    "phase-02": { "status": "pending", "name": "設計" },
+    "phase-03": { "status": "pending", "name": "設計レビュー" },
+    "phase-04": { "status": "pending", "name": "事前検証手順" },
+    "phase-05": { "status": "pending", "name": "実装・セットアップ実行" },
+    "phase-06": { "status": "pending", "name": "異常系検証" },
+    "phase-07": { "status": "pending", "name": "検証項目網羅性" },
+    "phase-08": { "status": "pending", "name": "設定DRY化" },
+    "phase-09": { "status": "pending", "name": "品質保証" },
+    "phase-10": { "status": "pending", "name": "最終レビュー" },
+    "phase-11": { "status": "pending", "name": "手動smokeテスト" },
+    "phase-12": { "status": "pending", "name": "ドキュメント更新" },
+    "phase-13": { "status": "pending", "name": "PR作成" }
+  }
+}
