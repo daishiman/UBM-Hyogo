@@ -109,7 +109,7 @@ function parseArgs(args) {
 
 function findPhaseFiles(workflowDir) {
   const files = {};
-  const pattern = /^phase-(\d+)-.*\.md$/;
+  const pattern = /^phase-(\d+)(?:-.*)?\.md$/;
 
   if (!fs.existsSync(workflowDir)) {
     return files;

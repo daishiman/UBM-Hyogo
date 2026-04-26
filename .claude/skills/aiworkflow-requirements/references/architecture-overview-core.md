@@ -42,7 +42,7 @@
 
 | 順序 | レイヤー | コンポーネント | 依存先 |
 |-----|---------|--------------|-------|
-| 1 | Application Layer | apps/web/ (Next.js + Cloudflare Pages) | Integration Layer, Infrastructure Layer |
+| 1 | Application Layer | apps/web/ (Next.js + @opennextjs/cloudflare on Cloudflare Workers) | Integration Layer, Infrastructure Layer |
 | 1 | Application Layer | apps/api/ (Cloudflare Workers) | Integration Layer, Infrastructure Layer |
 | 2 | Integration Layer | packages/integrations/{service}/ (外部サービス連携ツール) | Domain Layer |
 | 3 | Infrastructure Layer | packages/shared/infrastructure/ (DB, AI, 外部サービス) | Domain Layer |
@@ -61,7 +61,7 @@
 | インフラ | packages/shared/infrastructure/ | 外部サービス連携 | core/, types/ |
 | インテグレーション | packages/integrations/{service}/ | 外部API連携ツールパッケージ | core/, types/ |
 | UI | packages/shared/ui/ | 共通コンポーネント | core/ |
-| Webアプリ | apps/web/ | Next.js App Router (Cloudflare Pages) | shared/*, integrations/* |
+| Webアプリ | apps/web/ | Next.js App Router (@opennextjs/cloudflare on Cloudflare Workers) | shared/*, integrations/* |
 | APIサーバー | apps/api/ | Cloudflare Workers (Hono) | shared/*, integrations/* |
 
 📖 詳細: [architecture-monorepo.md](./architecture-monorepo.md)
@@ -267,7 +267,7 @@ Task08 session persistence/resume contract では、この engine state を永�
 
 | ディレクトリ | 役割 |
 |------------|-----|
-| apps/web/ | Next.js Webアプリ（Cloudflare Pages） |
+| apps/web/ | Next.js Webアプリ（@opennextjs/cloudflare on Cloudflare Workers） |
 | apps/web/app/ | App Router |
 | apps/web/features/ | ワークフロー機能モジュール |
 | apps/api/ | Cloudflare Workers バックエンド（Hono） |

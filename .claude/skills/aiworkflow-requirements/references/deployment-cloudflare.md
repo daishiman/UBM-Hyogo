@@ -14,8 +14,7 @@ ubm-hyogo Webアプリは **Cloudflare** を主要インフラとして使用す
 
 | サービス | 用途 | 対応技術 |
 | -------- | ---- | -------- |
-| Cloudflare Pages | フロントエンド・Next.js ホスティング | Next.js (Edge Runtime) |
-| Cloudflare Workers | サーバーレスAPI・バックエンドロジック | Hono / Workers API |
+| Cloudflare Workers | フロントエンド・Next.js ホスティング、サーバーレスAPI・バックエンドロジック | Next.js 16 + `@opennextjs/cloudflare` / Hono / Workers API |
 | Cloudflare D1 | SQLiteデータベース（エッジ） | Drizzle ORM |
 | Cloudflare R2 | オブジェクトストレージ（ファイル・画像） | AWS S3互換API |
 | Cloudflare KV | 設定・セッションキャッシュ | キーバリューストア |
@@ -23,7 +22,7 @@ ubm-hyogo Webアプリは **Cloudflare** を主要インフラとして使用す
 
 ---
 
-## Cloudflare Pages デプロイ
+## Cloudflare Workers デプロイ（Next.js / OpenNext）
 
 ### セットアップ手順
 
@@ -37,17 +36,14 @@ pnpm add -g wrangler
 wrangler login
 ```
 
-#### 2. Pages プロジェクトの作成
+#### 2. Workers プロジェクトの確認
 
 ```bash
-# プロジェクト作成（初回のみ）
-wrangler pages project create ubm-hyogo-web
-
 # ローカルビルドの確認
-pnpm --filter @repo/web build
+pnpm --filter @ubm-hyogo/web build:cloudflare
 ```
 
-#### 3. Next.js の Cloudflare Pages 設定
+#### 3. Next.js の OpenNext Workers 設定
 
 `apps/web/next.config.ts`:
 
@@ -55,11 +51,7 @@ pnpm --filter @repo/web build
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Cloudflare Pages 向け設定
-  output: "standalone",
-  experimental: {
-    // Edge Runtime 対応
-  },
+  reactStrictMode: true,
 };
 
 export default nextConfig;
@@ -69,9 +61,13 @@ export default nextConfig;
 
 ```toml
 name = "ubm-hyogo-web"
-compatibility_date = "2025-01-01"
+main = ".open-next/worker.js"
+compatibility_date = "2026-04-26"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = ".next"
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
 
 [vars]
 ENVIRONMENT = "production"

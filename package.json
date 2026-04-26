@@ -1,0 +1,22 @@
+{
+  "name": "ubm-hyogo",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": "24.x",
+    "pnpm": "10.x"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev:web": "pnpm --filter @ubm-hyogo/web dev",
+    "dev:api": "pnpm --filter @ubm-hyogo/api dev",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20260426.1",
+    "typescript": "6.0.3",
+    "wrangler": "4.85.0"
+  }
+}

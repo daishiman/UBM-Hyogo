@@ -2,6 +2,32 @@
 
 ## 役割
 
+## 2026-04-26 - 02-serial-monorepo-runtime-foundation impl-spec-to-skill-sync
+
+### 変更内容
+
+- `doc/00-getting-started-manual/specs/00-overview.md` の技術スタックを Cloudflare Pages → Cloudflare Workers + `@opennextjs/cloudflare` に更新（本番ターゲット・システム全体像・スタック表・デプロイ設定ファイル表・リポジトリ構造）
+- `doc/01-infrastructure-setup/README.md` の Wave 2 パスを `../02-serial-monorepo-runtime-foundation/` に更新、mermaid 図を Workers 方針に同期（`apps/web on Pages` → `apps/web on Workers`）
+- Phase-12 準拠 100% 確認（`verify-all-specs.js` PASS、エラー 0・警告 0）
+- `aiworkflow-requirements/LOGS.md` に同波エントリ追加
+
+### 背景
+
+02-serial-monorepo-runtime-foundation タスクで `@opennextjs/cloudflare` on Workers 方針が確定したが、`doc/00-getting-started-manual/` と `doc/01-infrastructure-setup/` への反映が漏れていた。impl-spec-to-skill-sync で current facts へ追従させた。
+
+## 2026-04-26 - 02-serial-monorepo-runtime-foundation Phase 12 close-out hardening
+
+### 変更内容
+
+- `doc/02-serial-monorepo-runtime-foundation/outputs/phase-12/implementation-guide.md` を Part 1 / Part 2 必須構成へ補正した
+- `scripts/validate-phase11-screenshot-coverage.js` を `spec_created` / NON_VISUAL の3ファイル証跡（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）に対応させた
+- `scripts/verify-all-specs.js` の UBM-Hyogo phase file 命名対応を本タスクの検証対象として記録した
+- `index.md` / Phase 1-12 仕様本文 / Phase 11 link checklist / Phase 12 system spec summary の stale 状態を current facts へ同期した
+
+### 背景
+
+docs-only の `spec_created` workflow では screenshot 不要が正だが、旧 validator は UI task 前提の `manual-test-result.md` と screenshot を要求していた。Phase 12 close-out では implementation guide の Part 1 / Part 2 構成と、状態台帳の artifacts parity を同時に満たす必要がある。
+
 ## 2026-04-24 - impl-spec-to-skill-sync: SKILL.md 500行制限対応 + lessons-learned追加
 
 ### 変更内容

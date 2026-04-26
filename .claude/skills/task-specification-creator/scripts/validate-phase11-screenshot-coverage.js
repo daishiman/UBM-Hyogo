@@ -323,7 +323,12 @@ function extractCoverageMatrix(phase11Content) {
 
 function runCoverageValidation(options) {
   const workflowPath = path.resolve(options.workflow);
-  const phase11Path = path.join(workflowPath, "phase-11-manual-test.md");
+  const phase11Candidates = [
+    path.join(workflowPath, "phase-11-manual-test.md"),
+    path.join(workflowPath, "phase-11.md"),
+  ];
+  const phase11Path = phase11Candidates.find((candidate) => fs.existsSync(candidate)) ?? phase11Candidates[0];
+  const phase11OutputDir = path.join(workflowPath, "outputs", "phase-11");
   const manualChecklistPath = path.join(
     workflowPath,
     "outputs",
@@ -337,6 +342,11 @@ function runCoverageValidation(options) {
     "manual-test-result.md",
   );
   const screenshotDir = path.join(workflowPath, "outputs", "phase-11", "screenshots");
+  const nonVisualEvidencePaths = [
+    path.join(phase11OutputDir, "main.md"),
+    path.join(phase11OutputDir, "manual-smoke-log.md"),
+    path.join(phase11OutputDir, "link-checklist.md"),
+  ];
 
   const report = {
     workflow: options.workflow,
@@ -356,12 +366,37 @@ function runCoverageValidation(options) {
     report.errors.push(`Phase 11仕様書が存在しません: ${phase11Path}`);
     return report;
   }
+
+  const phase11Content = readUtf8(phase11Path);
+  const nonVisualEvidenceContents = nonVisualEvidencePaths
+    .filter((filePath) => fs.existsSync(filePath))
+    .map((filePath) => readUtf8(filePath))
+    .join("\n");
+  const isWorkflowNonVisual =
+    /spec_created|docs-only|NON_VISUAL|非視覚/i.test(phase11Content) ||
+    /spec_created|docs-only|NON_VISUAL|非視覚/i.test(nonVisualEvidenceContents);
+
+  if (isWorkflowNonVisual) {
+    report.expectedTestCases = [];
+    report.coveredTestCases = 0;
+    const missingEvidence = nonVisualEvidencePaths.filter((filePath) => !fs.existsSync(filePath));
+    if (missingEvidence.length > 0) {
+      missingEvidence.forEach((filePath) => {
+        report.errors.push(`NON_VISUAL Phase 11 証跡が存在しません: ${filePath}`);
+      });
+      return report;
+    }
+    report.warnings.push(
+      "NON_VISUAL / docs-only Phase 11 と判定したため、スクリーンショット証跡は要求しません",
+    );
+    return report;
+  }
+
   if (!fs.existsSync(manualResultPath)) {
     report.errors.push(`manual-test-result.md が存在しません: ${manualResultPath}`);
     return report;
   }
 
-  const phase11Content = readUtf8(phase11Path);
   const manualResultContent = readUtf8(manualResultPath);
   let expectedCases = extractExpectedTestCases(phase11Content);
   if (expectedCases.length === 0) {

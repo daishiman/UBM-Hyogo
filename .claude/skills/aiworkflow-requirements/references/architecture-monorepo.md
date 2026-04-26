@@ -106,7 +106,7 @@
 | コード再利用        | UIコンポーネント、ビジネスロジック、型定義を Web/API で共有          |
 | 一貫性              | 同一の Design Tokens とコンポーネントにより UI/UX を統一             |
 | 変更容易性          | 1箇所の変更が Web・API・インテグレーション全体に反映                 |
-| 独立デプロイ        | Web（Cloudflare Pages）と API（Cloudflare Workers）を独立して管理     |
+| 独立デプロイ        | Web（Next.js 16 + `@opennextjs/cloudflare` on Workers）と API（Hono on Workers）を独立して管理 |
 | テスト効率          | 共通コンポーネントのテストを一度だけ実装                             |
 | インテグレーション再利用 | packages/integrations/ の外部連携パッケージは複数ワークフローで共有 |
 
