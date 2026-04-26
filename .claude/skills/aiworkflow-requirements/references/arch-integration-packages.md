@@ -236,20 +236,6 @@ export async function POST(request: Request) {
 | `@repo/integrations-github` | GitHub | Issue・PR 操作 | 計画中 |
 | `@repo/integrations-discord` | Discord | メッセージ送信、Webhook | 計画中 |
 
-## 実装済み統合パッケージ
-
-| パッケージ名 | 外部サービス | 主な機能 | ステータス |
-| --- | --- | --- | --- |
-| `@ubm-hyogo/integrations` | Google Sheets | `getAccessToken(env)` による Service Account JWT bearer 認証、RS256署名、TTL cache | UT-03 完了 |
-
-### Google Sheets Auth Public API
-
-```typescript
-import { getAccessToken, type SheetsAuthEnv } from "@ubm-hyogo/integrations/sheets-auth";
-```
-
-Root export からも `getAccessToken` / `SheetsAuthEnv` / `AccessTokenResult` / `SheetsAuthError` を参照できる。Sheets の行・列取得は UT-09 の責務であり、UT-03 は認証 token 取得に閉じる。
-
 ---
 
 ## 依存関係ルール
@@ -295,5 +281,4 @@ Root export からも `getAccessToken` / `SheetsAuthEnv` / `AccessTokenResult` /
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
-| 2026-04-26 | 1.1.0 | UT-03 Sheets API 認証方式設定: `@ubm-hyogo/integrations` の Google Sheets auth public API を追加 |
 | 2026-04-09 | 1.0.0 | 初版作成（パッケージベース外部連携アーキテクチャ） |

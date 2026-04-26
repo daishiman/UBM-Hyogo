@@ -14,7 +14,7 @@
 ### 目的
 
 - PR 時の品質ゲート（Lint・型チェック・テスト・ビルド）を自動化
-- main ブランチへのマージ時の CD（Cloudflare Pages 自動デプロイ・通知）を実行
+- dev / main ブランチへのマージ時の CD（dev=staging / main=production の自動デプロイ・通知）を実行
 - テスト並列実行による高速フィードバックを実現
 
 ### スコープ
@@ -22,7 +22,7 @@
 | 対象 | 説明 |
 | ---- | ---- |
 | CI | PR トリガーの品質検証（ci.yml） |
-| CD | main マージ時の自動デプロイ（web-cd.yml） |
+| CD | dev / main マージ時の自動デプロイ（web-cd.yml） |
 | 最適化 | テストシャーディング、キャッシュ戦略、並列実行 |
 
 ### 設計原則
@@ -40,7 +40,8 @@
 | ファイル | 用途 |
 | -------- | ---- |
 | `ci.yml` | PR 時の CI（Lint・型チェック・テスト・ビルド） |
-| `web-cd.yml` | Web アプリ CD（Cloudflare Pages 自動デプロイ + Discord 通知） |
+| `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
+| `backend-ci.yml` | API アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
 
 ---
 
@@ -48,7 +49,7 @@
 
 ### トリガー条件
 
-- PR が main ブランチに対して作成されたとき
+- PR が dev または main ブランチに対して作成されたとき
 - PR に新しいコミットがプッシュされたとき
 
 ### 実行ステップ
@@ -157,15 +158,16 @@
 
 ---
 
-## CD ワークフロー要件（main マージ時）
+## CD ワークフロー要件（dev / main マージ時）
 
 ### トリガー条件
 
+- dev ブランチへのプッシュ（PR マージ時）
 - main ブランチへのプッシュ（PR マージ時）
 
 ### 実行内容
 
-1. Cloudflare Pages へ自動デプロイ（`cloudflare/wrangler-action@v3`）
+1. ブランチに応じて Cloudflare Pages へ自動デプロイ（`cloudflare/wrangler-action@v3`）
 2. デプロイ完了後、Discord Webhook で通知を送信
 
 ### 通知要件
@@ -177,6 +179,26 @@
 | タイムスタンプ | 付与する |
 | 成功時 | 緑色の Embed でデプロイ完了を通知 |
 | 失敗時 | 赤色の Embed でエラー内容を通知 |
+
+---
+
+## Backend ワークフロー要件（dev / main マージ時）
+
+### トリガー条件
+
+- dev ブランチへのプッシュ（PR マージ時）
+- main ブランチへのプッシュ（PR マージ時）
+
+### 実行内容
+
+1. D1 migrations apply を先に実行して、スキーマ変更を反映する
+2. ブランチに応じて Cloudflare Workers へ自動デプロイ（`wrangler deploy`）
+3. デプロイ完了後、Discord Webhook で通知を送信
+
+### 注意点
+
+- staging は `apps/api/wrangler.toml` の `[env.staging]`、production は top-level 設定を使う
+- migration と deploy の順序を逆にしない
 
 ---
 

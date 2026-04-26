@@ -8,7 +8,7 @@
 | タスク名 | Sheets API 認証方式設定 |
 | 優先度 | HIGH |
 | 推奨Wave | Wave 1 |
-| 状態 | completed |
+| 状態 | unassigned |
 | 作成日 | 2026-04-23 |
 | 既存タスク組み込み | なし |
 | 組み込み先 | - |
