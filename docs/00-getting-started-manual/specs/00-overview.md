@@ -194,6 +194,23 @@ GAS prototype は採用スタックではなく、画面確認用のプロトタ
 
 ---
 
+## プロトタイプ反映の実装方針
+
+`claude-design-prototype/` は React 単体デモであり、正式実装では次のように分解する。
+
+| prototype | 正式実装 | 備考 |
+|----------|----------|------|
+| `app.jsx` の route state | Next.js App Router | URL を正本にし、`localStorage` route は使わない |
+| `pages-public.jsx` | `apps/web/app/(public)/*` | 公開一覧・詳細は API の public view model だけを読む |
+| `pages-member.jsx` | `apps/web/app/(member)/profile` と `apps/web/app/(auth)/login` | Auth.js session と API gate state に接続する |
+| `pages-admin.jsx` | `apps/web/app/admin/*` | 管理操作は `apps/api` の admin endpoints 経由に限定する |
+| `data.jsx` | D1 seed と API fixture | 本番データ正本にはしない |
+| `styles.css` / `primitives.jsx` | UI component layer | 見た目・密度・操作感の参照元として移植する |
+
+実装順は `14-implementation-roadmap.md`、Cloudflare/D1/CI の構築手順は `15-infrastructure-runbook.md` を正本にする。
+
+---
+
 ## リポジトリ構造
 
 ```
@@ -203,7 +220,7 @@ UBM-Hyogo/                          # pnpm monorepo root
 │   └── api/                        # Cloudflare Workers + Hono
 ├── packages/
 │   ├── shared/                     # 共通型定義・ユーティリティ
-│   └── integrations/               # 外部サービス統合（Google API等）
+│   └── integrations/               # 外部サービス統合（Google Forms / mail / tagging adapters 等）
 ├── doc/                            # タスク仕様書・設計ドキュメント
 │   ├── 00-getting-started-manual/  # プロジェクト起動・仕様のエントリポイント（本ファイル）
 │   ├── 01-infrastructure-setup/    # Wave 3〜5: 進行中のインフラタスク群

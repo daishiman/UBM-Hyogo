@@ -38,6 +38,35 @@ view builder
 
 ---
 
+## API boundary
+
+`apps/web` は D1 を直接読まない。すべて `apps/api` の view model API を通す。
+
+| レイヤ | API | 用途 | 認証 |
+|--------|-----|------|------|
+| 公開 | `GET /public/stats` | トップの KPI / 最近の支部会 | 不要 |
+| 公開 | `GET /public/members` | 一覧、検索、タグ絞り込み | 不要 |
+| 公開 | `GET /public/members/:memberId` | 公開詳細 | 不要 |
+| 公開 | `GET /public/form-preview` | `/register` の設問プレビュー | 不要 |
+| 認証 | `POST /auth/magic-link` | Magic Link 送信と gate state 返却 | 不要 |
+| 会員 | `GET /me` | session user と gate state | 必須 |
+| 会員 | `GET /me/profile` | マイページ | 必須 |
+| 会員 | `POST /me/visibility-request` | 公開停止申請 | 必須 |
+| 会員 | `POST /me/delete-request` | 退会申請 | 必須 |
+| 管理 | `GET /admin/dashboard` | KPI / 未処理タスク | 管理者 |
+| 管理 | `GET /admin/members` | 管理一覧 | 管理者 |
+| 管理 | `GET /admin/members/:memberId` | 回答・状態・タグ・参加履歴・管理メモ | 管理者 |
+| 管理 | `PATCH /admin/members/:memberId/status` | 公開状態更新 | 管理者 |
+| 管理 | `POST /admin/members/:memberId/notes` | 管理メモ作成 | 管理者 |
+| 管理 | `PATCH /admin/members/:memberId/notes/:noteId` | 管理メモ更新 | 管理者 |
+| 管理 | `GET /admin/tags/queue` | タグ割当キュー | 管理者 |
+| 管理 | `GET /admin/schema/diff` | schema diff review | 管理者 |
+| 管理 | `GET /admin/meetings` | 開催日と参加履歴 | 管理者 |
+
+詳細な実装順と追加 endpoint は `14-implementation-roadmap.md` を参照する。
+
+---
+
 ## 同期対象
 
 ### Google Form 由来
@@ -206,6 +235,18 @@ admin view
   -> status controls
   -> tag / schema / meeting tools
 ```
+
+### prototype から view model への置き換え
+
+| prototype data | 正式 view model |
+|----------------|-----------------|
+| `MEMBERS.filter((m) => m.isPublic && !m.isDeleted)` | `GET /public/members` の公開条件済み結果 |
+| `MEMBERS[0]` | `GET /me/profile` の session user profile |
+| `SCHEMA_DIFF` | `GET /admin/schema/diff` |
+| `MEETINGS` | `GET /public/stats` または `GET /admin/meetings` |
+| `SURVEY_SECTIONS` | `GET /public/form-preview` |
+
+prototype の client-side filter は UX 参照として扱い、本番では API query と view model で同じ条件を再現する。
 
 ---
 
