@@ -20,6 +20,7 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.04.26-observability-guardrails | 2026-04-26 | 05a-parallel-observability-and-cost-guardrails close-out sync。D1 writes、KV writes、R2 Class A/B operations、GitHub Actions workflow topology drift formalization、Phase 11 NON_VISUAL evidence 判定を反映。 |
 | v2026.04.26-runtime-foundation | 2026-04-26 | 02-serial-monorepo-runtime-foundation close-out sync。TypeScript 6.x、Next.js 16 + `@opennextjs/cloudflare` Workers 方針、`CLAUDE.md` / technology-backend / architecture-monorepo の stale Pages 記述補正を反映。 |
 
 ## クイックスタート

@@ -570,6 +570,13 @@
 | workflow-apikey-chat-tool-integration-alignment.md   | APIキー保存連動・`ai.chat` 実行経路整合・AuthKey表示契約の再発防止時 | source/sync/cache clear 契約、苦戦箇所、5分解決カード                                                                                                                                                                                                                                                                                                      |
 | workflow-skill-identifier-branded-type-resolution.md | Skill識別子の型境界是正、Phase 12再監査時                            | SubAgent分担、4フェーズ実行、監査コマンド                                                                                                                                                                                                                                                                                                                  |
 
+#### UBM-Hyogo タスクワークフロー（canonical task root）
+
+| タスクルート | 同期日 | 状態 | 主要参照 |
+| --- | --- | --- | --- |
+| `docs/05a-parallel-observability-and-cost-guardrails/` | 2026-04-27 | Phase 1-12 completed / Phase 13 pending（user approval 待ち） | `references/deployment-cloudflare.md` / `references/deployment-gha.md` / `references/environment-variables.md` |
+| `docs/03-serial-data-source-and-storage-contract/` | 2026-04-26 | Phase 1-12 completed / Phase 13 pending | `references/architecture-database.md` |
+
 ### 11. ガイドライン
 
 | ファイル                     | 読み込み条件                               | 主要コンテンツ                                                                                                                                                                                                                                                                                                                                             |

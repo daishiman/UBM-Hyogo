@@ -6,7 +6,7 @@
   "depends_on": [
     "08a-parallel-api-contract-repository-and-authorization-tests",
     "08b-parallel-playwright-e2e-and-ui-acceptance-smoke",
-    "doc/01-infrastructure-setup/05a-parallel-observability-and-cost-guardrails"
+    "docs/05a-parallel-observability-and-cost-guardrails"
   ],
   "blocks": [
     "09c-serial-production-deploy-and-post-release-verification"
@@ -239,6 +239,6 @@
   "doc_references": [
     "doc/02-application-implementation/_design/phase-2-design.md",
     "doc/02-application-implementation/README.md",
-    "doc/01-infrastructure-setup/05a-parallel-observability-and-cost-guardrails/index.md"
+    "docs/05a-parallel-observability-and-cost-guardrails/index.md"
   ]
 }
