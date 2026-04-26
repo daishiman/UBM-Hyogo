@@ -32,9 +32,10 @@
 
 | 項目 | 値 |
 |-----|---|
-| 推奨バージョン | `15.x` |
-| 最小バージョン | `14.0.0` |
+| 推奨バージョン | `16.x`（16.2.4 以上） |
+| 最小バージョン | `16.0.0` |
 | 使用機能 | App Router, Server Components |
+| Cloudflare adapter | `@opennextjs/cloudflare`（Workers runtime） |
 
 **選定理由:**
 
@@ -42,6 +43,15 @@
 - Server Components / Server Actions
 - 静的生成（SSG）とISR対応
 - 画像最適化
+
+**Cloudflare Workers adapter 方針（Wave 2 採用）:**
+
+| Adapter | 採用 | 理由 |
+|---------|------|------|
+| `@opennextjs/cloudflare` | **採用** | Next.js を Cloudflare Workers 上で動作させる推奨 adapter |
+| `@cloudflare/next-on-pages` | **不採用** | 廃止予定（Deprecated）のため使用しない |
+
+Workers バンドルサイズ制限（無料枠 3MB）に注意し、`optimizePackageImports` オプションを活用する。超過時は Pages Functions（25MB）を検討する。
 
 📖 詳細: [technology-core.md](./technology-core.md)
 
@@ -53,8 +63,8 @@
 
 | 項目 | 値 |
 |-----|---|
-| 推奨バージョン | `3.4.x` |
-| 最小バージョン | `3.3.0` |
+| 推奨バージョン | `4.x` |
+| 最小バージョン | `4.0.0` |
 | 関連パッケージ | `postcss`, `autoprefixer` |
 
 **選定理由:**
@@ -284,4 +294,5 @@
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1.0 | 2026-04-26 | Wave 2 同期: Next.js 16.x に `@opennextjs/cloudflare` Workers adapter 採用方針を明記。`@cloudflare/next-on-pages` は廃止予定のため不採用。02-serial-monorepo-runtime-foundation task による same-wave sync。 |
 | 1.0.0 | 2026-01-26 | 初版作成 |
