@@ -2,19 +2,6 @@
 
 ## 役割
 
-## 2026-04-26 - UT-01 sheets-d1-sync-design Phase 12 hardening
-
-### 変更内容
-
-- `docs/ut-01-sheets-d1-sync-design` の root / outputs `artifacts.json` parity を回復した
-- Phase 11 docs-only evidence から placeholder を除去し、screenshot N/A の根拠を記録した
-- `implementation-guide.md` を Phase 12 validator が要求する Part 1 / Part 2 見出し、TypeScript 型定義、APIシグネチャ、使用例、エラーハンドリング、エッジケース、設定項目と定数一覧、テスト構成へ補強した
-- 既存 `apps/api` route と migration schema を authoritative として、UT-01 の audit contract drift を補正した
-
-### 背景
-
-30種思考法レビューで、成果物存在チェックだけでは `outputs/artifacts.json` drift、Phase 11 placeholder、`sync_audit` 列名 / status enum / route の不一致を見落とすことが確認された。
-
 ## 2026-04-26 - 03-serial-data-source-and-storage-contract Phase 12 review hardening
 
 ### 変更内容
