@@ -8,6 +8,7 @@ LOGS は archive index 方式へ再編した。最新更新は本ファイル、
 
 | 見出し                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-04-26 - 02-serial-monorepo-runtime-foundation impl-spec-to-skill-sync（`doc/00-getting-started-manual/specs/00-overview.md` の技術スタックを Cloudflare Pages → Cloudflare Workers + `@opennextjs/cloudflare` に更新 / `doc/01-infrastructure-setup/README.md` の Wave 2 パスを `../02-serial-monorepo-runtime-foundation/` に更新・mermaid 図を Workers 方針に同期 / `generate-index.js` 再生成 PASS / `verify-all-specs.js` PASS（エラー 0）/ Phase-12 準拠 100% 確認 |
 | 2026-04-26 - 01a-parallel-github-and-branch-governance Phase-12 close-out sync（`deployment-core.md` / `deployment-cloudflare.md` の `develop` → `dev` ブランチ名修正（ステージング環境の正本統一）/ `.github/CODEOWNERS` 新規作成（Wave 1 並列タスク 3パス + グローバルフォールバック + .github/ 保護）/ `.github/pull_request_template.md` 新規作成（True Issue / Dependency / 4条件チェック欄含む）/ `doc/01a-parallel-github-and-branch-governance/` への仕様書ディレクトリ再構成（`doc/01-infrastructure-setup/01a-*/` から移動）/ `lessons-learned-current-2026-04.md` に L-GH-001〜003 追加（GitHub UI-only 設定の runbook パターン・CI Status Check 名称の下流依存・docs-only タスクの smoke test PENDING 許容設計）/ generate-index.js 実行 PASS） |
 | 2026-04-24 - 01c-google-workspace-bootstrap impl-spec-to-skill-sync（`lessons-learned-current-2026-04.md` に L-GW-001〜004 追加 / `generate-index.js` で `topic-map.md` / `keywords.json` 再生成 / mirror sync + diff -qr PASS / SKILL-changelog.md v9.02.51 記録） |
 | 2026-04-23 - doc/01c-parallel-google-workspace-bootstrap canonical path / outputs parity sync（`doc/01c-parallel-google-workspace-bootstrap` を canonical path に統一 / `outputs/phase-12/implementation-guide.md` へ guide filename を是正 / `outputs/artifacts.json` を root `artifacts.json` と同期 / 旧 `doc/01-infrastructure-setup/01c-parallel-google-workspace-bootstrap` 参照を解消） |
@@ -657,6 +658,20 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
   - implementation guide の `improve(skillName, ...)` シグネチャ誤記を補正
 - 検証:
   - current workflow 文書と `RuntimeSkillCreatorFacade.ts` を突合して確認
+
+## 02-serial-monorepo-runtime-foundation close-out sync（2026-04-26）
+
+- タスク名: 02-serial-monorepo-runtime-foundation
+- 種別: spec_created / docs-only / runtime contract ledger
+- 主な反映:
+  - `technology-core.md` を TypeScript 6.x（6.0.3以上）方針へ同期
+  - `technology-frontend.md` に `@opennextjs/cloudflare` Workers adapter 採用と `@cloudflare/next-on-pages` 不採用理由を明記
+  - `technology-backend.md` / `architecture-monorepo.md` / `CLAUDE.md` の古い Next.js 15 / Cloudflare Pages 前提を Next.js 16 / OpenNext Workers 方針へ補正
+  - `doc/02-serial-monorepo-runtime-foundation/outputs/phase-12/` に implementation guide / system spec update / changelog / unassigned / skill feedback / compliance check を配置
+- 検証:
+  - `validate-phase12-implementation-guide.js --workflow doc/02-serial-monorepo-runtime-foundation --json`
+  - `validate-phase11-screenshot-coverage.js --workflow doc/02-serial-monorepo-runtime-foundation --json`
+  - `verify-all-specs.js --workflow doc/02-serial-monorepo-runtime-foundation --strict --json`
 
 ## TASK-UIUX-FEEDBACK-001 review sync（2026-03-31）
 

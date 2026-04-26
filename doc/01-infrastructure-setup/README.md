@@ -43,7 +43,7 @@
 | 1 | 01a-parallel-github-and-branch-governance/ | parallel | GitHub とブランチ統制 |
 | 1 | ../completed-tasks/01b-parallel-cloudflare-base-bootstrap/ | parallel | Cloudflare 基盤ブートストラップ |
 | 1 | ../completed-tasks/01c-parallel-google-workspace-bootstrap/ | parallel | Google Workspace / Sheets 連携基盤 |
-| 2 | 02-serial-monorepo-runtime-foundation/ | serial | モノレポとランタイム基盤 |
+| 2 | ../completed-tasks/02-serial-monorepo-runtime-foundation/ | serial | モノレポとランタイム基盤（完了） |
 | 3 | 03-serial-data-source-and-storage-contract/ | serial | データ入力源と保存契約 |
 | 4 | 04-serial-cicd-secrets-and-environment-sync/ | serial | CI/CD・Secrets・環境同期 |
 | 5 | 05a-parallel-observability-and-cost-guardrails/ | parallel | 観測性と無料枠ガードレール |
@@ -63,9 +63,9 @@ graph LR
   U[運用者] --> S[Google Sheets]
   S --> I[packages/integrations/google]
   I --> D[(Cloudflare D1)]
-  W[apps/web on Pages] --> A[apps/api on Workers]
+  W[apps/web on Workers] --> A[apps/api on Workers]
   A --> D
-  G[GitHub Actions] --> P[Cloudflare Pages]
+  G[GitHub Actions] --> W
   G --> K[Cloudflare Workers]
 ```
 

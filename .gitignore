@@ -53,6 +53,7 @@ temp/
 
 # Next.js
 .next/
+.open-next/
 out/
 next-env.d.ts
 
