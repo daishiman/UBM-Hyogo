@@ -260,6 +260,6 @@
   "doc_references": [
     "doc/02-application-implementation/_design/phase-2-design.md",
     "doc/02-application-implementation/README.md",
-    "doc/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/index.md"
+    "docs/05b-parallel-smoke-readiness-and-handoff/index.md"
   ]
 }

@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 4 (事前検証手順) |
 | 次 Phase | 6 (異常系検証) |
-| 状態 | pending |
+| 状態 | completed |
 
 ## 目的
 
@@ -65,9 +65,9 @@ smoke readiness と実装引き継ぎ における Phase 5 の判断と成果物
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 5 | pending | upstream を読む |
-| 2 | 成果物更新 | 5 | pending | outputs/phase-05/main.md |
-| 3 | 4条件確認 | 5 | pending | next phase へ handoff |
+| 1 | input 確認 | 5 | completed | upstream を読む |
+| 2 | 成果物更新 | 5 | completed | outputs/phase-05/main.md |
+| 3 | 4条件確認 | 5 | completed | next phase へ handoff |
 
 ## 成果物
 
@@ -104,8 +104,8 @@ smoke readiness と実装引き継ぎ における Phase 5 の判断と成果物
 
 ## サンプルコマンド
 ```bash
-rg -n "AC-|dev|main|D1|Sheets|1Password" doc/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff
-git diff -- doc/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff
+rg -n "AC-|dev|main|D1|Sheets|1Password" docs/05b-parallel-smoke-readiness-and-handoff
+git diff -- docs/05b-parallel-smoke-readiness-and-handoff
 ```
 
 ## 設定ファイル全文

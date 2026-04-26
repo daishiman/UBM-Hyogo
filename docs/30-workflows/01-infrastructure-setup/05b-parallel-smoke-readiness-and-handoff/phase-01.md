@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | なし |
 | 次 Phase | 2 (設計) |
-| 状態 | pending |
+| 状態 | completed |
 
 ## 目的
 
@@ -65,9 +65,9 @@ smoke readiness と実装引き継ぎ における Phase 1 の判断と成果物
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 1 | pending | upstream を読む |
-| 2 | 成果物更新 | 1 | pending | outputs/phase-01/main.md |
-| 3 | 4条件確認 | 1 | pending | next phase へ handoff |
+| 1 | input 確認 | 1 | completed | upstream を読む |
+| 2 | 成果物更新 | 1 | completed | outputs/phase-01/main.md |
+| 3 | 4条件確認 | 1 | completed | next phase へ handoff |
 
 ## 成果物
 
@@ -119,10 +119,10 @@ smoke readiness と実装引き継ぎ における Phase 1 の判断と成果物
 ## 4条件評価
 | 条件 | 問い | 判定 |
 | --- | --- | --- |
-| 価値性 | 誰のどのコストを下げるか定義されているか | TBD |
-| 実現性 | 無料運用の初回スコープで成立するか | TBD |
-| 整合性 | branch / env / runtime / data / secret が矛盾しないか | TBD |
-| 運用性 | 運用・rollback・handoff が破綻しないか | TBD |
+| 価値性 | 誰のどのコストを下げるか定義されているか | PASS |
+| 実現性 | 無料運用の初回スコープで成立するか | PASS |
+| 整合性 | branch / env / runtime / data / secret が矛盾しないか | PASS |
+| 運用性 | 運用・rollback・handoff が破綻しないか | CONDITIONAL PASS: 05a evidence is consumed at the same-wave sync point |
 
 ## スコープ
 ### 含む
@@ -147,7 +147,7 @@ smoke readiness と実装引き継ぎ における Phase 1 の判断と成果物
 | 項目 | 確認内容 | 現状 |
 | --- | --- | --- |
 | 正本仕様 | task-spec / aiworkflow skill と関連 reference | 要確認 |
-| 変更分 | doc/01-infrastructure-setup | 要確認 |
+| 変更分 | docs/05b-parallel-smoke-readiness-and-handoff | 要確認 |
 | legacy drift | legacy snapshot との差分 | 要確認 |
 | 外部サービス | Cloudflare / GitHub / Google Sheets | 要確認 |
 

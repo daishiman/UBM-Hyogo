@@ -5,12 +5,12 @@
 | 項目 | 値 |
 | --- | --- |
 | タスク名 | smoke-readiness-and-handoff |
-| ディレクトリ | doc/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff |
+| ディレクトリ | docs/05b-parallel-smoke-readiness-and-handoff |
 | Wave | 5 |
 | 実行種別 | parallel |
 | 作成日 | 2026-04-23 |
 | 担当 | handoff |
-| 状態 | pending |
+| 状態 | spec_created |
 | タスク種別 | spec_created |
 
 ## 目的
@@ -38,7 +38,7 @@
 | 下流 | 実装フェーズ | この task の成果物を参照 |
 | 並列 | 05a-parallel-observability-and-cost-guardrails | 同 Wave で独立着手し、Phase 10-12 で同期する |
 
-注記: `05a` 完了待ちで開始するのではなく、Wave 5 では並列着手する。`05a` の証跡は `05b` の final readiness gate に Phase 10-12 で同期する。
+注記: `05a` 完了待ちで開始するのではなく、Wave 5 では並列着手する。`05a` の証跡は downstream deployment 前の same-wave sync input として扱い、`05b` の docs-only close-out 自体の開始 blocker にはしない。
 
 ## 主要な参照資料
 
@@ -61,19 +61,19 @@
 
 | Phase | 名称 | ファイル | 状態 | 主成果物 |
 | --- | --- | --- | --- | --- |
-| 1 | 要件定義 | phase-01.md | pending | outputs/phase-01 |
-| 2 | 設計 | phase-02.md | pending | outputs/phase-02 |
-| 3 | 設計レビュー | phase-03.md | pending | outputs/phase-03 |
-| 4 | 事前検証手順 | phase-04.md | pending | outputs/phase-04 |
-| 5 | セットアップ実行 | phase-05.md | pending | outputs/phase-05 |
-| 6 | 異常系検証 | phase-06.md | pending | outputs/phase-06 |
-| 7 | 検証項目網羅性 | phase-07.md | pending | outputs/phase-07 |
-| 8 | 設定 DRY 化 | phase-08.md | pending | outputs/phase-08 |
-| 9 | 品質保証 | phase-09.md | pending | outputs/phase-09 |
-| 10 | 最終レビュー | phase-10.md | pending | outputs/phase-10 |
-| 11 | 手動 smoke test | phase-11.md | pending | outputs/phase-11 |
-| 12 | ドキュメント更新 | phase-12.md | pending | outputs/phase-12 |
-| 13 | PR作成 | phase-13.md | pending | outputs/phase-13 |
+| 1 | 要件定義 | phase-01.md | completed | outputs/phase-01/main.md |
+| 2 | 設計 | phase-02.md | completed | outputs/phase-02/readiness-definition.md |
+| 3 | 設計レビュー | phase-03.md | completed | outputs/phase-03/main.md |
+| 4 | 事前検証手順 | phase-04.md | completed | outputs/phase-04/main.md |
+| 5 | セットアップ実行 | phase-05.md | completed | outputs/phase-05/handoff-checklist.md |
+| 6 | 異常系検証 | phase-06.md | completed | outputs/phase-06/main.md |
+| 7 | 検証項目網羅性 | phase-07.md | completed | outputs/phase-07/main.md |
+| 8 | 設定 DRY 化 | phase-08.md | completed | outputs/phase-08/main.md |
+| 9 | 品質保証 | phase-09.md | completed | outputs/phase-09/main.md |
+| 10 | 最終レビュー | phase-10.md | completed | outputs/phase-10/final-readiness-gate.md |
+| 11 | 手動 smoke test | phase-11.md | completed | outputs/phase-11/manual-smoke-log.md |
+| 12 | ドキュメント更新 | phase-12.md | completed | outputs/phase-12/implementation-guide.md |
+| 13 | PR作成 | phase-13.md | approval_required | outputs/phase-13/main.md |
 
 ## 主要成果物
 
@@ -105,6 +105,10 @@
 - 4条件（価値性 / 実現性 / 整合性 / 運用性）が PASS
 - Phase 12 の same-wave sync ルールが破られていない
 - Phase 13 はユーザー承認なしでは実行しない
+
+## 成果物命名方針
+
+`outputs/phase-XX/main.md` はテンプレート上の既定成果物名である。Phase 2 / 5 / 10 / 11 / 12 は handoff 用の個別成果物名を正本とし、`artifacts.json` でも個別成果物を参照する。
 
 ## 関連リンク
 

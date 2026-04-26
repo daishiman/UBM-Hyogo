@@ -46,7 +46,7 @@
 | 2 | ../completed-tasks/02-serial-monorepo-runtime-foundation/ | serial | モノレポとランタイム基盤（完了） |
 | 3 | 03-serial-data-source-and-storage-contract/ | serial | データ入力源と保存契約 |
 | 4 | 04-serial-cicd-secrets-and-environment-sync/ | serial | CI/CD・Secrets・環境同期 |
-| 5 | ../05a-parallel-observability-and-cost-guardrails/ | parallel | 観測性と無料枠ガードレール |
+| 5 | ../completed-tasks/05a-parallel-observability-and-cost-guardrails/ | parallel | 観測性と無料枠ガードレール |
 | 5 | 05b-parallel-smoke-readiness-and-handoff/ | parallel | smoke readiness / handoff。05a と並列着手し、Phase 10-12 で同期 |
 
 ## 実行順序
@@ -98,5 +98,5 @@ graph LR
 
 - ../00-serial-architecture-and-scope-baseline/index.md
 - 04-serial-cicd-secrets-and-environment-sync/index.md
-- ../05a-parallel-observability-and-cost-guardrails/index.md
+- ../completed-tasks/05a-parallel-observability-and-cost-guardrails/index.md
 - 05b-parallel-smoke-readiness-and-handoff/index.md

@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 1 (要件定義) |
 | 次 Phase | 3 (設計レビュー) |
-| 状態 | pending |
+| 状態 | completed |
 
 ## 目的
 
@@ -65,9 +65,9 @@ smoke readiness と実装引き継ぎ における Phase 2 の判断と成果物
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 2 | pending | upstream を読む |
-| 2 | 成果物更新 | 2 | pending | outputs/phase-02/main.md |
-| 3 | 4条件確認 | 2 | pending | next phase へ handoff |
+| 1 | input 確認 | 2 | completed | upstream を読む |
+| 2 | 成果物更新 | 2 | completed | outputs/phase-02/main.md |
+| 3 | 4条件確認 | 2 | completed | next phase へ handoff |
 
 ## 成果物
 
@@ -124,6 +124,6 @@ graph TD
 ## 依存マトリクス
 | 種別 | 対象 | 理由 |
 | --- | --- | --- |
-| 上流 | 04-serial-cicd-secrets-and-environment-sync / 05a-parallel-observability-and-cost-guardrails | この task 開始前に必要 |
+| 上流 | 04-serial-cicd-secrets-and-environment-sync | この task 開始前に必要 |
 | 下流 | 実装フェーズ | この task の成果物を参照 |
-| 並列 | 05a-parallel-observability-and-cost-guardrails | 同 Wave で独立実行可能 |
+| 並列 | 05a-parallel-observability-and-cost-guardrails | 同 Wave で独立実行し、Phase 10-12 で証跡同期する |

@@ -2617,10 +2617,16 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | 使い方 | L14 |
 | Current Alias Overrides（個別互換行） | L21 |
-| Family Summary | L38 |
-| Detailed Register | L57 |
-| Section Extract Register (2026-03-17) | L238 |
-| 500-Line Split Register (2026-03-16) | L249 |
+| Family Summary | L39 |
+| Detailed Register | L58 |
+| Section Extract Register (2026-03-17) | L239 |
+| 500-Line Split Register (2026-03-16) | L250 |
+
+### references/lessons-learned-05b-smoke-readiness-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| v3.16.0 (2026-04-26) — `05b-parallel-smoke-readiness-and-handoff` Phase 12 close-out | L8 |
 
 ### references/lessons-learned-archive-2026-03-mid.md
 
