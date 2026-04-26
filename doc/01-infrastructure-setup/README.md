@@ -26,7 +26,7 @@
 | --- | --- | --- |
 | 矛盾なし | PASS | 旧パス表記、壊れた legacy 参照、Wave 5 依存矛盾を解消した |
 | 漏れなし | PASS | 読み順、正本優先順位、Wave 5 同期ルール、secret/variable 境界を追加した |
-| 整合性あり | PASS | Wave 0 を `../00-serial-architecture-and-scope-baseline/` に分離し、Wave 1-5 は `doc/01-infrastructure-setup/...` に表記統一した |
+| 整合性あり | PASS | Wave 0 を `../00-serial-architecture-and-scope-baseline/` に分離し、Wave 1 の 01b を sibling root に切り出したうえで、01a/01c/02/03/04/05a/05b は `doc/01-infrastructure-setup/...` に表記統一した |
 | 依存関係整合 | PASS | Wave 0-4 は直列、Wave 1 と Wave 5 は並列着手 + same-wave sync と定義し直した |
 
 ## 正本優先順位
@@ -41,8 +41,8 @@
 | --- | --- | --- | --- |
 | 0 | ../00-serial-architecture-and-scope-baseline/ | serial | アーキテクチャ基準線とスコープ固定 |
 | 1 | 01a-parallel-github-and-branch-governance/ | parallel | GitHub とブランチ統制 |
-| 1 | 01b-parallel-cloudflare-base-bootstrap/ | parallel | Cloudflare 基盤ブートストラップ |
-| 1 | doc/01c-parallel-google-workspace-bootstrap/ | parallel | Google Workspace / Sheets 連携基盤 |
+| 1 | ../completed-tasks/01b-parallel-cloudflare-base-bootstrap/ | parallel | Cloudflare 基盤ブートストラップ |
+| 1 | ../completed-tasks/01c-parallel-google-workspace-bootstrap/ | parallel | Google Workspace / Sheets 連携基盤 |
 | 2 | 02-serial-monorepo-runtime-foundation/ | serial | モノレポとランタイム基盤 |
 | 3 | 03-serial-data-source-and-storage-contract/ | serial | データ入力源と保存契約 |
 | 4 | 04-serial-cicd-secrets-and-environment-sync/ | serial | CI/CD・Secrets・環境同期 |

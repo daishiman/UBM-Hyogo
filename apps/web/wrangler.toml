@@ -1,0 +1,13 @@
+name = "ubm-hyogo-web"
+pages_build_output_dir = ".next"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "production"
+
+[env.staging]
+name = "ubm-hyogo-web-staging"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
