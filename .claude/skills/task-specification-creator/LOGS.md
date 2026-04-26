@@ -2,6 +2,20 @@
 
 ## 役割
 
+## 2026-04-26 - 03-serial-data-source-and-storage-contract Phase 12 review hardening
+
+### 変更内容
+
+- `doc/03-serial-data-source-and-storage-contract` の root / outputs `artifacts.json` と `index.md` を Phase 1〜12 completed、Phase 13 pending へ同期した
+- Phase 2 / 5 / 10 / 12 成果物を横断し、D1 schema 正本を `member_responses` / `member_identities` / `member_status` / `sync_audit` へ統一した
+- `apps/api/wrangler.toml` 実体に合わせ、runbook の DB 名・env 名・smoke command を `ubm-hyogo-db-staging` / `ubm-hyogo-db-prod` と `staging` / top-level production へ補正した
+- `implementation-guide.md` に TypeScript interfaces、API/CLI signature、usage examples、error handling、edge cases、constants を追記した
+- `skill-feedback-report.md` に Phase 12 schema/env/route drift guard と contract-only handoff guard の改善提案を追加した
+
+### 背景
+
+30種思考法レビューで、成果物存在チェックだけでは schema 正本・env 名・artifact parity の drift を見落とすことが確認された。Phase 12 close-out では docs-only / contract-only task でも downstream が実装可能な契約へ閉じる必要がある。
+
 ## 2026-04-26 - 02-serial-monorepo-runtime-foundation impl-spec-to-skill-sync
 
 ### 変更内容

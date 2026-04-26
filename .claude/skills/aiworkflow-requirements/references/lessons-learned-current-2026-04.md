@@ -787,3 +787,19 @@
 - **問題**: `doc/01-infrastructure-setup/01c-parallel-google-workspace-bootstrap/` → `doc/01c-parallel-google-workspace-bootstrap/` への移動でartifacts.jsonのtask_path、outputs/artifacts.jsonの参照、SKILL.mdの変更履歴など複数箇所でpath driftが発生
 - **解決**: canonical path を `doc/01c-parallel-google-workspace-bootstrap` に統一し、全ての参照先を同一ターンで更新。`outputs/artifacts.json` を root `artifacts.json` の同期コピーとして追加
 - **再発防止**: task root を移動する場合は、artifacts.json / outputs/artifacts.json / SKILL変更履歴 / generate-index.js 再実行を同一ターンで実施する。後回しはpath drift蓄積の主因
+
+---
+
+## v3.15.0 (2026-04-26) — `03-serial-data-source-and-storage-contract` Phase 12 review hardening
+
+### L-DSC-001: 成果物存在チェックだけでは schema 正本 / env 名 / artifact parity の drift を見落とす
+
+- **問題**: Phase 12 review で `phase-*.md` / `artifacts.json` / `outputs/` 等の成果物ファイルが揃っているだけを確認し、(1) D1 schema 正本の 4 テーブル名（`member_responses` / `member_identities` / `member_status` / `sync_audit`）が phase 仕様書本文と一致しているか、(2) `apps/api/wrangler.toml` の DB 名 `ubm-hyogo-db-staging`（env=staging）/ `ubm-hyogo-db-prod`（top-level production）が仕様と一致しているか、(3) `outputs/artifacts.json` と root `artifacts.json` が同期しているか、を別軸で検証していなかったため drift が残存する
+- **解決**: contract-only の Phase 12 review では「ファイル存在チェック」「schema 正本の対象識別子（テーブル名・DB 名・env 名）一致チェック」「artifact parity チェック」を 3 軸独立で走らせ、それぞれ証跡を verification-report に記録する
+- **再発防止**: contract タスクの Phase 12 hardening では schema 正本の identifier set（テーブル名・DB 名・env 名）を spec 本文から逆引きし、wrangler.toml / phase 仕様書 / artifacts.json の 3 箇所で identifier 完全一致を検証する手順を verification-report の必須欄として固定する
+
+### L-DSC-002: contract-only Phase 12 でも downstream 実装可能な契約へ閉じる必要がある
+
+- **問題**: 03-serial-data-source-and-storage-contract は contract-only タスクだったため、コード実装は最小限だが、後続実装タスク（`apps/api` D1 binding 配線・migration 実装・sync_audit 書込みパス・identity merge 戦略 等）が canonical な未タスクとして登録されていなかった
+- **解決**: contract-only Phase 12 close-out 時に、後続実装で必要となる未タスク（minimum: D1 binding wiring / migration script / sync_audit append-only 書込み / identity merge）を `unassigned-task-detection.md` に列挙し、backlog 登録対象として明示する
+- **再発防止**: contract-only タスクの Phase 12 では「契約の閉じ方」と「downstream の未タスク列挙」の両方を必須項目として review checklist に固定する。契約だけ書いて未タスク登録を省略すると、実装波で発見が遅れる

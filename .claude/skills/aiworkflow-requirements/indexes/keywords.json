@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2856,
+  "totalKeywords": 2860,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -3670,6 +3670,7 @@
       "claude-code-agents-workflow.md",
       "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
       "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
+      "lessons-learned-current-2026-04.md",
       "lessons-learned-governance-hooks-phase-policy.md",
       "lessons-learned-ipc-preload-runtime-2026-03-early.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
@@ -6701,6 +6702,7 @@
     ],
     "hardening": [
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
+      "lessons-learned-current-2026-04.md",
       "lessons-learned-skill-plan-exec-hardening.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md"
     ],
@@ -7152,6 +7154,23 @@
     "bootstrap": [
       "lessons-learned-current-2026-04.md"
     ],
+    "serial": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "data": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "source": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "storage": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "review": [
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-phase12-lifecycle-early-b.md",
+      "logs-archive-2026-03-history-search-notification-center.md"
+    ],
     "Menu": [
       "lessons-learned-current-electron-menu-docs-task0912.md",
       "ui-ux-portal-patterns.md"
@@ -7551,10 +7570,6 @@
     ],
     "FEEDBACK": [
       "lessons-learned-phase12-lifecycle-early-b.md"
-    ],
-    "review": [
-      "lessons-learned-phase12-lifecycle-early-b.md",
-      "logs-archive-2026-03-history-search-notification-center.md"
     ],
     "DIALOG": [
       "lessons-learned-phase12-lifecycle-early-b.md"
