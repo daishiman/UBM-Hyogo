@@ -36,6 +36,27 @@
 
 30種思考法レビューで、成果物存在チェックだけでは `outputs/artifacts.json` drift、Phase 11 placeholder、`sync_audit` 列名 / status enum / route の不一致を見落とすことが確認された。
 
+## 2026-04-26 - UT-03 Sheets API 認証方式設定 Phase 12 close-out sync
+
+### 変更内容
+
+- `docs/ut-03-sheets-api-auth/outputs/phase-12/` に6種の必須成果物（implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report / phase12-task-spec-compliance-check）を配置した
+- `aiworkflow-requirements/references/deployment-secrets-management.md` に `GOOGLE_SERVICE_ACCOUNT_JSON` の Cloudflare Secrets 管理方針を追記した
+- `aiworkflow-requirements/references/environment-variables.md` に `GOOGLE_SERVICE_ACCOUNT_JSON` の環境変数定義を追記した
+- `aiworkflow-requirements/references/arch-integration-packages.md` に Google Sheets auth public API を追記した
+- same-wave sync（UT-01 / UT-02 / UT-09）の整合確認を実施し、PASS を記録した
+- `unassigned-task/UT-03-sheets-api-auth-setup.md` を completed 状態に更新した
+
+### 背景
+
+`packages/integrations/src/sheets-auth.ts` の Service Account JWT bearer 認証実装（Web Crypto API RS256 署名 / Google Token Endpoint 呼び出し / TTL キャッシュ）が完了したため、Phase 12 でシステム仕様書・スキル・未タスクへの反映を実施した。non_visual task のため Phase 11 は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3証跡で代替完了。
+
+### 知見（skill-feedback-report より）
+
+- Phase 12 開始前に必須成果物6件（固定リスト）の存在確認を先行させると漏れを早期検出できる
+- package subpath export と implementation guide の import path を同一チェックに含めることで、下流（UT-09）が import できない問題を防止できる
+- non_visual task でも Phase 11 に「スクリーンショット不要」根拠ファイルを必須化すると証跡追跡が容易になる
+
 ## 2026-04-26 - 03-serial-data-source-and-storage-contract Phase 12 review hardening
 
 ### 変更内容

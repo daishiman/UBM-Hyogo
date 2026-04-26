@@ -4,6 +4,39 @@
 
 ---
 
+### タスク: UT-03 Sheets API 認証方式設定（2026-04-26）
+
+| 項目 | 値 |
+| --- | --- |
+| タスクID | UT-03 |
+| ステータス | **完了（Phase 12 完了 / Phase 13 blocked）** |
+| タイプ | implementation / non_visual / integration package |
+| 完了日 | 2026-04-26 |
+| 対象 | `packages/integrations/src/sheets-auth.ts` / `packages/integrations/src/sheets-auth.test.ts` |
+| 成果物 | `docs/ut-03-sheets-api-auth/` |
+| PR | 未作成（ユーザー承認待ち） |
+
+#### 実施内容
+
+- Google Sheets API v4 の Service Account JWT bearer 認証を `@ubm-hyogo/integrations` に実装
+- Web Crypto API による RS256 署名、Google Token Endpoint 呼び出し、TTL cache を追加
+- `@ubm-hyogo/integrations/sheets-auth` subpath export と root export を追加
+- Service Account ごとに KV cache key を分離し、Token Endpoint error body を例外 message に含めない方針へ修正
+- `GOOGLE_SERVICE_ACCOUNT_JSON` / `SHEETS_TOKEN_CACHE` の正本仕様を environment / deployment / integration package 仕様へ同期
+
+#### Phase 12 成果物
+
+- `outputs/phase-12/implementation-guide.md`
+- `outputs/phase-12/system-spec-update-summary.md`
+- `outputs/phase-12/documentation-changelog.md`
+- `outputs/phase-12/unassigned-task-detection.md`
+- `outputs/phase-12/skill-feedback-report.md`
+- `outputs/phase-12/phase12-task-spec-compliance-check.md`
+
+#### 残課題
+
+Cloudflare Secrets の実配置と実 Sheets API 疎通はユーザー管理 credential が必要なため、運用前タスクとして `unassigned-task-detection.md` に記録済み。
+
 ### タスク: UT-SKILL-WIZARD-W2-seq-03a SkillCreateWizard オーケストレーション更新（2026-04-08）
 
 | 項目       | 値                                                                  |
