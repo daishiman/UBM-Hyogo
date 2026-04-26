@@ -1,0 +1,1 @@
+{"permissions":{"allow":["Bash(curl *)","Bash(wrangler d1 *)","Bash(wrangler secret list *)","Bash(wrangler tail *)","Bash(pnpm --filter *)","Bash(op read *)","Bash(op item get *)","Bash(op vault list)","Bash(op account list)"]}}

@@ -1,0 +1,214 @@
+{
+  "task_name": "data-source-and-storage-contract",
+  "task_path": "doc/03-serial-data-source-and-storage-contract",
+  "wave": 3,
+  "execution_mode": "serial",
+  "depends_on": [
+    "01b-parallel-cloudflare-base-bootstrap",
+    "01c-parallel-google-workspace-bootstrap",
+    "02-serial-monorepo-runtime-foundation"
+  ],
+  "blocks": [
+    "04-serial-cicd-secrets-and-environment-sync",
+    "05a-parallel-observability-and-cost-guardrails",
+    "05b-parallel-smoke-readiness-and-handoff"
+  ],
+  "created_at": "2026-04-23",
+  "metadata": {
+    "taskType": "spec_created",
+    "docs_only": true,
+    "implementation_mode": "new",
+    "task_classification": "NON_VISUAL"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/data-contract.md",
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/sync-flow.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "事前検証手順",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md",
+        "outputs/phase-04/test-plan.md",
+        "outputs/phase-04/verification-commands.md"
+      ],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "セットアップ実行",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/d1-bootstrap-runbook.md",
+        "outputs/phase-05/main.md",
+        "outputs/phase-05/sync-deployment-runbook.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/failure-cases.md",
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "検証項目網羅性",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/coverage-matrix.md",
+        "outputs/phase-07/main.md"
+      ],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "設定 DRY 化",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md",
+        "outputs/phase-08/refactor-record.md"
+      ],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md",
+        "outputs/phase-09/qa-report.md"
+      ],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/data-decision-review.md",
+        "outputs/phase-10/final-review-result.md"
+      ],
+      "depends_on_phases": [9],
+      "user_approval_required": false,
+      "gate": "PASS"
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke test",
+      "file": "phase-11.md",
+      "status": "completed",
+      "task_classification": "NON_VISUAL",
+      "outputs": [
+        "outputs/phase-11/docs-validate.log",
+        "outputs/phase-11/evidence-collection.md",
+        "outputs/phase-11/link-checklist.md",
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/manual-test-result.md",
+        "outputs/phase-11/sheets-to-d1-sync-sample.log",
+        "outputs/phase-11/wrangler-d1-execute.log"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/unassigned-task-detection.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR作成",
+      "file": "phase-13.md",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/local-check-result.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "external_services": [
+    "Google Sheets",
+    "Cloudflare D1"
+  ],
+  "secrets_introduced": [
+    "GOOGLE_SERVICE_ACCOUNT_JSON"
+  ],
+  "infra_artifacts": [
+    "outputs/phase-02/data-contract.md",
+    "outputs/phase-02/sync-flow.md",
+    "outputs/phase-05/d1-bootstrap-runbook.md",
+    "outputs/phase-10/data-decision-review.md"
+  ],
+  "doc_references": [
+    ".claude/skills/aiworkflow-requirements/references/architecture-overview-core.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-core.md",
+    "User request on 2026-04-23",
+    ".claude/skills/aiworkflow-requirements/references/environment-variables.md"
+  ]
+}

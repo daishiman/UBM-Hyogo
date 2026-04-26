@@ -1,0 +1,94 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/
+.pnpm-store/
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+
+# Logs
+logs/
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Next.js
+.next/
+.open-next/
+out/
+next-env.d.ts
+
+# Worktrees
+.worktrees/
+
+# Test Coverage
+coverage/
+**/coverage/
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# Claude Code local settings（機密ではないが環境依存のためトラックしない）
+.claude/settings.local.json
+.claude/settings.json
+
+# Wrangler CLI cache
+.wrangler/
+
+# WIP / Sandbox（未完成の実験・開発中コード）
+# ファイル名・ディレクトリ名が毎回変わるため、パターンで管理
+**/sandbox/
+**/.sandbox/
+**/*.wip.*
+**/*.scratch.*
+
+# アプリ内ローカルメモ・一時ドキュメント
+apps/*/docs/
+
+# TODO(human): WIPファイル管理方針を選択して実装
+# A案: sandbox移動方式 — WIPファイルを sandbox/ に集約
+# B案: 個別パス追加方式 — 現在のWIPファイルを直接指定
