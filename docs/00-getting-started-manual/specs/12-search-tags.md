@@ -23,18 +23,6 @@
 | `sort` | 並び替え | `recent` |
 | `density` | 表示密度 | `comfy` |
 
-URL query contract:
-
-```text
-/members?q=web&zone=0_to_1&status=member&tag=ai&tag=dx&sort=recent&density=comfy
-```
-
-- `tag` は repeated query parameter として扱う
-- 複数タグは AND 条件で絞り込む
-- 不明な `zone/status/tag/sort/density` は無視し、初期値へ戻す
-- `density` は `comfy | dense | list` のみ。`comfortable` / `compact` は使用しない
-- `q` は trim し、全角/半角空白の連続を 1 つの空白として検索する
-
 ### 画面上の並び
 
 1. キーワード検索
@@ -101,15 +89,12 @@ MVP では上記2種類に限定する。
 
 - 左側に `未タグ会員キュー`
 - 右側に `会員要約 / 事業概要 / スキル / タグ選択`
-- 保存は `POST /admin/tags/queue/:queueId/resolve` で行い、成功後に該当 queue を `resolved` にする
-- `/admin/members` ではタグを直接編集せず、タグ状態の閲覧と `/admin/tags` への導線に限定する
-- 未タグ判定は `member_tags` が 0 件、または current response 更新後に tag queue が未解決の状態とする
+- 保存したら次の会員へ進める
 
 ### タグ辞書
 
 - `gas-prototype/` にある `6カテゴリ30タグ` は初期候補として参照してよい
 - ただし本 spec の主眼は辞書編集ではなく `割当レビュー` に置く
-- 初期 seed は `tag_definitions` に投入し、`code` は URL query と API payload で使える stable な slug にする
 
 ---
 

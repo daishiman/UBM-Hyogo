@@ -7,7 +7,6 @@
 - 他人のプロフィール本文を管理画面で直接編集しない
 - 本人情報の更新は Google Form 再回答で行い、管理者は公開状態と運用状態を管理する
 - 実装先は `apps/web` の管理画面と `apps/api` の管理操作 API で分離する
-- 管理メモは `admin_member_notes` に保存し、公開プロフィール・会員プロフィールには表示しない
 
 ---
 
@@ -81,9 +80,6 @@
 | 開催日追加 | `Form` |
 | 参加履歴付与/解除 | `Button` または `Checkbox` |
 
-管理メモの作成・更新は `POST /admin/members/:memberId/notes` と `PATCH /admin/members/:memberId/notes/:noteId` を使う。
-`PATCH /admin/members/:memberId/status` は公開状態・削除状態の更新に限定する。
-
 ---
 
 ## 運用ルール
@@ -94,7 +90,6 @@
 4. タグ付与は管理者レビューを通す
 5. Google Form の変更対応は `/admin/schema` に集約する
 6. 開催日と参加履歴はフォーム同期対象と分離して管理する
-7. 管理メモは監査・運用補助であり、フォーム回答の代替や本文修正に使わない
 
 ---
 

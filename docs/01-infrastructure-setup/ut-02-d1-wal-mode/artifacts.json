@@ -1,0 +1,40 @@
+{
+  "taskId": "ut-02",
+  "taskName": "D1 WAL mode 設定",
+  "taskType": "docs-only",
+  "wave": 1,
+  "executionMode": "incorporated",
+  "incorporatedInto": "02-serial-monorepo-runtime-foundation",
+  "githubIssue": 4,
+  "createdAt": "2026-04-26",
+  "status": "pending",
+  "phases": [
+    { "phase": 1,  "name": "要件定義",          "file": "phase-01.md", "status": "pending", "outputs": "outputs/phase-01" },
+    { "phase": 2,  "name": "設計",               "file": "phase-02.md", "status": "pending", "outputs": "outputs/phase-02" },
+    { "phase": 3,  "name": "設計レビュー",        "file": "phase-03.md", "status": "pending", "outputs": "outputs/phase-03" },
+    { "phase": 4,  "name": "事前検証手順",        "file": "phase-04.md", "status": "pending", "outputs": "outputs/phase-04" },
+    { "phase": 5,  "name": "セットアップ実行",    "file": "phase-05.md", "status": "pending", "outputs": "outputs/phase-05" },
+    { "phase": 6,  "name": "異常系検証",          "file": "phase-06.md", "status": "pending", "outputs": "outputs/phase-06" },
+    { "phase": 7,  "name": "検証項目網羅性",      "file": "phase-07.md", "status": "pending", "outputs": "outputs/phase-07" },
+    { "phase": 8,  "name": "設定 DRY 化",         "file": "phase-08.md", "status": "pending", "outputs": "outputs/phase-08" },
+    { "phase": 9,  "name": "品質保証",            "file": "phase-09.md", "status": "pending", "outputs": "outputs/phase-09" },
+    { "phase": 10, "name": "最終レビュー",        "file": "phase-10.md", "status": "pending", "outputs": "outputs/phase-10" },
+    { "phase": 11, "name": "手動 smoke test",     "file": "phase-11.md", "status": "pending", "outputs": "outputs/phase-11" },
+    { "phase": 12, "name": "ドキュメント更新",    "file": "phase-12.md", "status": "pending", "outputs": "outputs/phase-12" },
+    { "phase": 13, "name": "PR作成",              "file": "phase-13.md", "status": "pending", "outputs": "outputs/phase-13" }
+  ],
+  "acceptanceCriteria": [
+    "AC-1: wrangler.toml に D1 バインディングが定義され、WAL mode の設定根拠がコメントで記載されている",
+    "AC-2: staging / production D1 に対して PRAGMA journal_mode=WAL が適用されていることが確認できる",
+    "AC-3: WAL mode 設定手順が 02-serial-monorepo-runtime-foundation の runbook に記録されている",
+    "AC-4: ローカル開発環境との WAL mode 差異が文書化されている",
+    "AC-5: 02-serial-monorepo-runtime-foundation の AC との整合が確認されている"
+  ],
+  "keyArtifacts": [
+    { "type": "doc",  "path": "outputs/phase-02/wal-mode-design.md",                          "description": "WAL mode 設計・設定根拠" },
+    { "type": "doc",  "path": "outputs/phase-02/env-diff-matrix.md",                          "description": "環境別 WAL mode 差異マトリクス" },
+    { "type": "doc",  "path": "outputs/phase-05/foundation-bootstrap-runbook-wal-section.md", "description": "runbook の WAL mode セクション" },
+    { "type": "doc",  "path": "outputs/phase-12/system-spec-update-summary.md",               "description": "spec update summary" },
+    { "type": "meta", "path": "artifacts.json",                                                "description": "機械可読サマリー" }
+  ]
+}

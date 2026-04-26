@@ -32,19 +32,6 @@ export type FieldSource = "forms" | "admin" | "derived";
 
 export type TagSource = "rule" | "ai" | "manual";
 
-export type Density = "comfy" | "dense" | "list";
-
-export type SortKey = "recent" | "name";
-
-export type ApiErrorCode =
-  | "unauthorized"
-  | "forbidden"
-  | "not_found"
-  | "validation_error"
-  | "conflict"
-  | "sync_unavailable"
-  | "internal_error";
-
 export type AuthGateState =
   | "input"
   | "sent"
@@ -69,37 +56,6 @@ export type AnswerValue =
   | boolean
   | { year: number; month: number; day: number }
   | null;
-
-export interface ApiError {
-  code: ApiErrorCode;
-  message: string;
-  fieldErrors?: Record<string, string[]>;
-  gateState?: Exclude<AuthGateState, "input" | "sent">;
-  requestId?: string;
-}
-
-export interface MutationResult<T = null> {
-  ok: true;
-  data: T;
-  message?: string;
-}
-
-export interface PaginationMeta {
-  page: number;
-  pageSize: number;
-  total: number;
-}
-
-export interface MemberSearchQuery {
-  q?: string;
-  zone?: "all" | string;
-  status?: "all" | string;
-  tag?: string[];
-  sort?: SortKey;
-  density?: Density;
-  page?: number;
-  pageSize?: number;
-}
 ```
 
 ---
@@ -217,32 +173,11 @@ export interface MeetingSession {
   createdBy: string;
 }
 
-export interface MeetingWithAttendance extends MeetingSession {
-  attendees: Array<{
-    memberId: string;
-    fullName: string;
-    occupation: string;
-    isDeleted: boolean;
-    assignedAt: string;
-  }>;
-  attendeeCount: number;
-}
-
 export interface MemberAttendance {
   memberId: string;
   sessionId: string;
   assignedAt: string;
   assignedBy: string;
-}
-
-export interface AdminMemberNote {
-  noteId: string;
-  memberId: string;
-  body: string;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string;
-  updatedBy: string;
 }
 
 export interface TagDefinition {
@@ -273,11 +208,6 @@ export interface TagAssignmentQueueItem {
   createdAt: string;
   updatedAt: string;
 }
-
-export interface TagQueueResolveRequest {
-  tagIds: string[];
-  note?: string;
-}
 ```
 
 ---
@@ -300,7 +230,7 @@ export interface MemberProfileSection {
   fields: MemberProfileSectionField[];
 }
 
-export interface BaseMemberProfile {
+export interface MemberProfile {
   memberId: string;
   responseId: string;
   responseEmail: string | null;
@@ -328,125 +258,6 @@ export interface BaseMemberProfile {
   editResponseUrl: string | null;
 }
 
-export type MemberProfile = BaseMemberProfile;
-
-export interface PublicStatsView {
-  publicMemberCount: number;
-  zoneCounts: Record<string, number>;
-  meetingCountThisYear: number;
-  recentMeetings: MeetingSession[];
-  lastSync: {
-    status: "ok" | "running" | "failed" | "never";
-    syncedAt: string | null;
-  };
-}
-
-export interface PublicMemberListItem {
-  memberId: string;
-  fullName: string;
-  nickname: string;
-  location: string;
-  occupation: string;
-  ubmZone: string | null;
-  ubmMembershipType: string | null;
-  businessOverview: string | null;
-  tags: MemberProfile["tags"];
-  lastSubmittedAt: string;
-}
-
-export interface PublicMemberListView {
-  items: PublicMemberListItem[];
-  query: MemberSearchQuery;
-  pagination: PaginationMeta;
-  availableTags: Array<{ code: string; label: string; category: string }>;
-}
-
-export type PublicMemberProfile = Omit<
-  BaseMemberProfile,
-  "responseEmail" | "rulesConsent" | "adminNotes"
->;
-
-export interface FormPreviewView {
-  responderUrl: string;
-  sectionCount: number;
-  questionCount: number;
-  sections: Array<{
-    key: string;
-    title: string;
-    fields: Array<{
-      stableKey: string;
-      label: string;
-      required: boolean;
-      visibility: FieldVisibility;
-      kind: FieldKind;
-    }>;
-  }>;
-}
-
-export interface AuthGateResponse {
-  state: AuthGateState;
-  email?: string;
-  memberId?: string;
-  message?: string;
-}
-
-export interface AdminDashboardView {
-  totalMembers: number;
-  publicMembers: number;
-  hiddenMembers: number;
-  deletedMembers: number;
-  untaggedMembers: number;
-  schemaIssues: number;
-  zoneCounts: Record<string, number>;
-  statusCounts: Record<string, number>;
-  recentMeetings: MeetingSession[];
-  lastSync: PublicStatsView["lastSync"];
-}
-
-export interface AdminMemberListItem extends PublicMemberListItem {
-  responseEmail: string | null;
-  publicConsent: ConsentStatus;
-  rulesConsent: ConsentStatus;
-  publishState: PublishState;
-  isDeleted: boolean;
-  noteCount: number;
-}
-
-export interface AdminMemberListView {
-  items: AdminMemberListItem[];
-  pagination: PaginationMeta;
-}
-
-export interface AdminMemberDetailView extends BaseMemberProfile {
-  adminNotes: AdminMemberNote[];
-}
-
-export interface TagQueueView {
-  items: TagAssignmentQueueItem[];
-  availableTags: TagDefinition[];
-}
-
-export interface SchemaDiffReviewView {
-  manifest: FormManifest;
-  items: Array<{
-    type: "added" | "changed" | "removed" | "unresolved";
-    questionId: string | null;
-    stableKey: string | null;
-    label: string;
-    suggestedStableKey?: string;
-  }>;
-}
-
-export interface AdminMeetingsView {
-  meetings: MeetingWithAttendance[];
-  addableMembers: Array<{
-    memberId: string;
-    fullName: string;
-    occupation: string;
-    isDeleted: boolean;
-  }>;
-}
-
 export interface SessionUser {
   memberId: string;
   responseId: string;
@@ -463,5 +274,4 @@ export interface SessionUser {
 1. `responseId` と `memberId` を混同しない
 2. `FieldVisibility` と `PublishState` を混同しない
 3. `responseEmail` を唯一の DB 主キーにせず、stable member 解決に使う
-4. 会合・参加履歴・タグ・管理メモは `FieldSource = "admin" | "derived"` として扱う
-5. `adminNotes` は admin API の view model にだけ含め、public/member API には返さない
+4. 会合・参加履歴・タグは `FieldSource = "admin" | "derived"` として扱う

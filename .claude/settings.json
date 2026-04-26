@@ -130,6 +130,19 @@
     "defaultMode": "bypassPermissions",
     "disableBypassPermissionsMode": "disable"
   },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'REPO=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0; STAMP=\"$REPO/.git/.wt-health-last-check\"; NOW=$(date +%s); LAST=$(cat \"$STAMP\" 2>/dev/null || echo 0); [ $((NOW - LAST)) -lt 600 ] && exit 0; echo \"$NOW\" > \"$STAMP\"; git fetch origin main --quiet 2>/dev/null; bash \"$REPO/scripts/wt-health-check.sh\" --silent 2>/dev/null || true'"
+          }
+        ]
+      }
+    ]
+  },
   "outputStyle": "日本語。thinkingモードも含めて、すべての処理・思考プロセスも含めて日本語を使うこと。",
   "skipDangerousModePermissionPrompt": false,
   "$schema_version": "2.0",
