@@ -201,7 +201,7 @@ Cloudflare Pages は PRブランチに対して自動でプレビュー環境を
 | ブランチ | URL形式 | 用途 |
 | -------- | ------- | ---- |
 | `main` | `ubm-hyogo-web.pages.dev` | 本番 |
-| `develop` | `develop.ubm-hyogo-web.pages.dev` | ステージング |
+| `dev` | `ubm-hyogo-web-staging.pages.dev` | ステージング |
 | `feature/*` | `<hash>.ubm-hyogo-web.pages.dev` | プレビュー（PR用） |
 
 ### プレビュー設定（GitHub連携）
@@ -229,7 +229,7 @@ wrangler pages domain add ubm-hyogo-web yourdomain.com
 | 環境 | Pages プロジェクト | ブランチ | D1 データベース |
 | ---- | ------------------ | -------- | --------------- |
 | 開発 | ローカル wrangler dev | - | ローカルD1シミュレーター |
-| ステージング | ubm-hyogo-web-staging | `develop` | ubm-hyogo-db-staging |
+| ステージング | ubm-hyogo-web-staging | `dev` | ubm-hyogo-db-staging |
 | 本番 | ubm-hyogo-web | `main` | ubm-hyogo-db-prod |
 
 ### ローカル開発

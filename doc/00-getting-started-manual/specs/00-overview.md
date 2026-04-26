@@ -176,12 +176,19 @@ apps/web (Cloudflare Pages)
 
 | 役割 | 採用 | 備考 |
 |------|------|------|
-| Web (UI) | Cloudflare Pages + Next.js App Router | apps/web。DB への直接アクセス禁止 |
-| API | Cloudflare Workers + Hono | apps/api。D1 への唯一のアクセス口 |
+| Web (UI) | Cloudflare Pages + Next.js App Router | apps/web。設定: `apps/web/wrangler.toml`。DB への直接アクセス禁止 |
+| API | Cloudflare Workers + Hono | apps/api。設定: `apps/api/wrangler.toml`。D1 への唯一のアクセス口 |
 | DB | Cloudflare D1 | canonical DB。Workers binding 経由のみアクセス可 |
 | フォーム取得 | Google Forms API | 入力源 (non-canonical)。D1 へ同期後は参照不要 |
 | 会員認証 | Auth.js + Google OAuth / Magic Link | apps/web 側で処理 |
 | パッケージ管理 | pnpm workspace (monorepo) | apps/web, apps/api, packages/* を管理 |
+
+### デプロイ設定ファイル
+
+| ファイル | 対象 | 本番名 | staging 名 |
+|---------|------|--------|------------|
+| `apps/web/wrangler.toml` | Cloudflare Pages | `ubm-hyogo-web` | `ubm-hyogo-web-staging` |
+| `apps/api/wrangler.toml` | Cloudflare Workers | `ubm-hyogo-api` | `ubm-hyogo-api-staging` |
 
 GAS prototype は採用スタックではなく、画面確認用のプロトタイプとしてのみ扱う。
 
@@ -224,6 +231,22 @@ feature/* --PR--> dev --PR--> main
 | 3 | 公開一覧・詳細と会員マイページの分離 |
 | 4 | Google Form 再回答ベースの更新導線 |
 | 5 | 開催日・参加履歴・タグ割当キューの管理機能 |
+
+---
+
+## フェーズ2（実装フェーズ）開始条件
+
+以下がすべて完了してからフェーズ2を開始すること：
+
+| # | チェック項目 | 確認方法 | 担当 |
+|---|------------|---------|------|
+| 1 | Cloudflare D1 作成済み（prod / staging） | `wrangler d1 list` で両 DB が表示される | インフラ |
+| 2 | `apps/api/wrangler.toml` の `database_id` に実値を記入 | `wrangler deploy --dry-run` エラーなし | インフラ |
+| 3 | monorepo 初期化（`package.json` / `pnpm-workspace.yaml` 作成） | `pnpm install` が通る | BE / FE |
+| 4 | CI/CD が typecheck / lint / build を実行する | PR 作成 → GitHub Actions で全ステップ pass | BE |
+| 5 | GitHub Secrets 登録（`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`） | GitHub Settings で確認 | インフラ |
+
+詳細手順: `doc/completed-tasks/01b-parallel-cloudflare-base-bootstrap/outputs/phase-05/cloudflare-bootstrap-runbook.md`
 
 ---
 

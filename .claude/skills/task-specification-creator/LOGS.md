@@ -15,6 +15,20 @@
 
 `doc/00-serial-architecture-and-scope-baseline` は docs-only の `spec_created` workflow であり、旧 layout 前提の validator だと Phase 11 / 12 が誤判定になる。 current branch に合わせてスキル側の契約と出力検証を閉じる。
 
+## 2026-04-23 - cloudflare-base-bootstrap Phase 12 current facts sync
+
+### 変更内容
+
+- `doc/01b-parallel-cloudflare-base-bootstrap/phase-02.md` の Pages staging URL を `ubm-hyogo-web-staging.pages.dev` に統一
+- `doc/01-infrastructure-setup/README.md` の Wave table と整合性説明から 01b の移設導線を是正
+- `doc/unassigned-task/UT-01-sheets-d1-sync-design.md` / `UT-02-d1-wal-mode-config.md` の旧 path 参照を `doc/01b-parallel-cloudflare-base-bootstrap` に更新
+- `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` の staging URL を task docs と一致させた
+- `.claude/skills/aiworkflow-requirements/indexes/topic-map.md` に cloudflare-base-bootstrap task-sync appendix を追加
+
+### 背景
+
+Phase 12 close-out の自己申告だけが先に進み、実ファイルの path / URL / index が一部 drift していたため、current facts を task root と skill 正本で再一致させた。
+
 ## 2026-04-09 - TASK-SC-07 Phase 12 close-out sync（impl-spec-to-skill-sync）
 
 ### 変更内容
