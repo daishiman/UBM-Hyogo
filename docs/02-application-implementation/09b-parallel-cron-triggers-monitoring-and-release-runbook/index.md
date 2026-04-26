@@ -58,7 +58,7 @@ Workers Cron Triggers（forms sync 定期実行）の wrangler.toml 定義、Clo
 | 必須 | doc/02-application-implementation/_design/phase-2-design.md | Wave 9b scope / AC |
 | 必須 | doc/02-application-implementation/03b-parallel-forms-response-sync-and-current-response-resolver/index.md | sync_jobs 仕様 |
 | 必須 | doc/02-application-implementation/04c-parallel-admin-backoffice-api-endpoints/index.md | `POST /admin/sync/*` 仕様 |
-| 参考 | doc/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/ | rollback / handoff 構成 |
+| 参考 | docs/05b-parallel-smoke-readiness-and-handoff/ | rollback / handoff 構成 |
 
 ## 受入条件 (AC)
 

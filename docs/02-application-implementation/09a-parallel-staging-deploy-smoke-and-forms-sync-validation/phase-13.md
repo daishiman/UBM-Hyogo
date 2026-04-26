@@ -33,7 +33,7 @@ Phase 12 までの成果物を `feature/09a-staging-deploy-smoke-and-forms-sync-
 | 必須 | doc/02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/phase-12.md | 6 ドキュメント |
 | 必須 | CLAUDE.md | branch 戦略 |
 | 必須 | doc/02-application-implementation/_design/phase-2-design.md | wave / depends_on |
-| 参考 | doc/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/phase-13.md | PR 作成手順例 |
+| 参考 | docs/05b-parallel-smoke-readiness-and-handoff/phase-13.md | PR 作成手順例 |
 
 ## 実行手順
 

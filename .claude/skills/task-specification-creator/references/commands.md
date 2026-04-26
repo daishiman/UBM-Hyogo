@@ -196,10 +196,32 @@ node .claude/skills/task-specification-creator/scripts/generate-index.js \
 
 ---
 
+## validator CLI 引数規約（差異の現状）
+
+`scripts/validate-*.js` の CLI 引数は歴史的経緯で2系統が混在している。統一は将来タスクとし（破壊的変更のため別タスクで実施）、現状は呼び出し時に下表の形式を用いること。誤呼び出しは validator が `--workflow は必須です` 等で fail する。
+
+| script | 引数形式 | 例 |
+| --- | --- | --- |
+| `validate-phase-output.js` | **positional** `<workflow-dir>`（オプション形式なし） | `node scripts/validate-phase-output.js docs/30-workflows/foo` |
+| `validate-phase12-implementation-guide.js` | `--workflow <dir> [--json]` | `node scripts/validate-phase12-implementation-guide.js --workflow docs/30-workflows/foo --json` |
+| `validate-phase11-screenshot-coverage.js` | `--workflow <dir> [--json] [--allow-non-visual-tc <CSV>]` | `node scripts/validate-phase11-screenshot-coverage.js --workflow docs/30-workflows/foo` |
+| `verify-all-specs.js` | `--workflow <dir> [--strict] [--json]` | `node scripts/verify-all-specs.js --workflow docs/30-workflows/foo` |
+| `audit-unassigned-tasks.js` | `--json [--target-file <path>] [--diff-from <ref>]` | `node scripts/audit-unassigned-tasks.js --json --diff-from HEAD` |
+
+**規約**:
+
+- per-task の単体実行は `--workflow <dir>` オプション形式を標準とする。
+- `validate-phase-output.js` は legacy positional 形式（後方互換のため温存）。新規スクリプトでは positional を使わない。
+- `--task` オプションは現状全 validator で **未実装**。per-task scope は workflow ディレクトリ単位で表現する。
+- 統一タスク化する場合は破壊的変更となるため、別途 unassigned-task として formalize する。
+
+---
+
 ## 変更履歴
 
 | Date | Changes |
 | ---- | ------- |
+| 2026-04-26 | validator CLI 引数規約セクション追加（positional vs --workflow の現状ドキュメント化） |
 | 2026-03-12 | run-review-task.js と codex review gate 実行例を追加 |
 | 2026-02-22 | audit-unassigned-tasks.js コマンドを追加（未タスク配置・フォーマット監査） |
 | 2026-01-26 | generate-index.jsコマンド追加 |

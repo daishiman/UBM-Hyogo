@@ -2,6 +2,20 @@
 
 ## 役割
 
+このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
+
+## 2026-04-26 - 05b-parallel-smoke-readiness-and-handoff Phase 12 close-out sync
+
+### 変更内容
+
+- `docs/05b-parallel-smoke-readiness-and-handoff/` の旧 task-root path drift を補正した
+- Phase 2 / 5 / 10 / 11 / 12 の個別成果物を作成し、`artifacts.json` の outputs と Phase 1-12 status を同期した
+- Phase 11 は UI 変更なしのため screenshot N/A とし、manual smoke / link checklist 証跡で閉じた
+- Phase 13 は `approval_required` のまま維持し、コミット・PR は実行していない
+
+### 背景
+
+30種思考法レビューで、docs-only / `spec_created` タスクでも Phase 12 必須成果物、LOGS 同期、artifact parity、旧パス残存検出を同時に閉じないと downstream handoff が壊れることを確認した。
 
 ## 2026-04-26 - D1 読み書き競合対策の設定可否確認（UT-02）タスク完了
 
