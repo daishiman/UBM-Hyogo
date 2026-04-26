@@ -7,115 +7,85 @@
 | ID | UT-29 |
 | タスク名 | CD デプロイ後スモーク／ヘルスチェック自動化 |
 | 優先度 | MEDIUM |
-| 推奨Wave | Wave 2以降 |
+| 推奨Wave | Wave 2 |
 | 状態 | unassigned |
 | 作成日 | 2026-04-27 |
-| 既存タスク組み込み | なし |
-| 組み込み先 | - |
-| GitHub Issue | #49 |
-| 検出元 | docs/04-serial-cicd-secrets-and-environment-sync の phase-12 |
+| 既存タスク組み込み | あり |
+| 組み込み先 | doc/01-infrastructure-setup/04-serial-cicd-secrets-and-environment-sync |
 
 ## 目的
 
-`backend-ci.yml` / `web-cd.yml` の deploy ステップ直後に同期スモーク（HTTP ヘルスチェック）を追加し、wrangler の outcome が success でもアプリが 5xx / タイムアウト状態である場合に CD ジョブを失敗扱いにする。Discord 通知もスモーク結果まで含めた最終ステータスに改修する。
+`backend-ci.yml` / `web-cd.yml` の deploy ステップ直後に同期スモーク（HTTP ヘルスチェック）を追加し、`wrangler` の outcome が success でもアプリが 5xx / タイムアウト状態である場合に CD ジョブを失敗扱いにする。さらに Discord 通知のタイトル・色をスモーク結果まで含めた最終ステータスで送るように改修し、デプロイ完了 = 実稼働確認まで一気通貫で保証する。
 
 ## スコープ
 
 ### 含む
-
-- `apps/api` の `/api/health` エンドポイント実装（200 OK + JSON レスポンスを返すシンプルなルート）
-- `backend-ci.yml` の deploy ステップ後にスモーク GET リクエストを追加するワークフロー改修
-- `web-cd.yml` の deploy ステップ後にスモーク GET リクエストを追加するワークフロー改修
-- スモーク失敗時に CD ジョブを `exit 1` で失敗させるロジック
-- Discord 通知ステップをスモーク結果まで含めた最終ステータス（success / failure / skipped）に改修
-- staging / production それぞれの環境 URL に対するスモーク実行（環境別 URL の動的生成）
-- リトライロジック（デプロイ直後の warm-up 待機を考慮した最大 3 回リトライ）
+- `backend-ci.yml` の deploy ステップ直後に `/api/health` 相当エンドポイントへの GET スモークを追加
+- `web-cd.yml` の deploy ステップ直後に Web トップページ（または `/healthz`）への GET スモークを追加
+- リトライ＋バックオフ戦略の実装（Cloudflare の伝播遅延に耐えるため最大 30〜60 秒）
+- スモーク失敗時に job を failure 化（Discord 通知の色・タイトルもこれに連動）
+- Discord 通知ロジックを `MIGRATE_OUTCOME` / `DEPLOY_OUTCOME` / `SMOKE_OUTCOME` の 3 入力に拡張
+- ブランチ別のスモーク対象 URL の組み立て（dev / main / production custom domain）
 
 ### 含まない
-
-- E2E テスト / 結合テスト（本タスクは HTTP レベルの疎通確認のみ）
-- `/api/health` エンドポイントの高度な診断情報返却（DB 接続確認等は別タスク）
-- アラート通知の Discord 以外への拡張（Slack / PagerDuty 等）
-- ロールバック自動化（失敗検知後の自動ロールバックは本タスクのスコープ外）
+- 常設のアップタイムモニタリング（UT-08 のスコープ）
+- Cloudflare Analytics / アラート連動（UT-17 のスコープ）
+- ロールバック自動化（別タスク化）
+- E2E テスト全体実行（playwright 系は別ジョブ）
 
 ## 依存関係
 
 | 種別 | 対象 | 理由 |
 | --- | --- | --- |
-| 上流 | UT-27（GitHub Secrets / Variables 配置） | CD ワークフロー自体が動作するために Secrets が必要 |
-| 上流 | UT-28（Cloudflare Pages プロジェクト作成） | スモーク先の URL（Pages の `*.pages.dev`）が確定している必要がある |
-| 上流 | 04-serial-cicd-secrets-and-environment-sync | 改修対象の workflow YAML が確定・マージ済みであること |
-| 連携 | UT-21（sync endpoint 実装） | `/api/health` の実装先となる `apps/api` の基本構造が整備済みであること |
-
-## 着手タイミング
-
-> **着手前提**: UT-27 / UT-28 が完了し CD ワークフローが実稼働状態（デプロイが成功する状態）であること。
-
-| 条件 | 理由 |
-| --- | --- |
-| UT-27 完了 | Secrets が未配置だと CD ワークフロー自体が動かない |
-| UT-28 完了 | スモーク先の URL が確定していないとヘルスチェックが書けない |
-| UT-21 進行中以降 | `/api/health` 実装先の `apps/api` ルーティング基盤が整備されている方が望ましい |
+| 上流 | UT-05 (CI/CD パイプライン実装) | スモークを追加する CD ワークフローの骨格が確定していること |
+| 上流 | UT-27 (Secrets / Variables 配置) | スモーク URL 組み立てに `CLOUDFLARE_PAGES_PROJECT` を再利用 |
+| 上流 | UT-28 (Cloudflare Pages プロジェクト作成) | スモーク対象 URL が成立していること |
+| 上流 | apps/api 側 `/api/health` 実装（`02-application-implementation` 配下のいずれか） | スモーク対象エンドポイントの存在 |
+| 関連 | UT-08 / UT-17 | スコープ境界（CD 直後の同期スモーク vs 常設モニタリング）の責務分離 |
+| 下流 | UT-06 (本番デプロイ実行) | 本番スモーク失敗時の判断基準として活用 |
 
 ## 苦戦箇所・知見
 
-**wrangler success != アプリ正常稼働**
-`wrangler deploy` / `wrangler pages deploy` コマンドが 0 終了（成功）を返しても、実際のアプリが起動エラー・クラッシュ・バインディングエラーで 5xx を返しているケースがある。特に D1 binding や環境変数の欠損は wrangler が検知できず、初回リクエストまで発覚しない。スモークテストはこのギャップを埋めるために必須。
+**Cloudflare のグローバル伝播遅延**: deploy 直後の即時 GET は 404 / 旧バージョン応答が混じることがある。Pages も Workers もエッジへの伝播に数秒〜数十秒かかる。リトライ（最低 5 回）＋指数バックオフ（1s / 2s / 4s / 8s / 16s）で最大 30〜60 秒程度許容する設計が現実的。最初の試行で落とすと CI が誤検知 fail する事故が頻発する。
 
-**デプロイ直後の warm-up 待機**
-Cloudflare Workers は通常コールドスタートが非常に速いが、Pages のデプロイ直後はプロパゲーションに数秒かかる場合がある。ヘルスチェックの最初のリクエストが 404 / 503 を返すことがあるため、`sleep 5` + 最大 3 回リトライのロジックを組み込むこと。`curl --retry 3 --retry-delay 5 --retry-connrefused` で実現可能。
+**Pages の preview 用 alias URL の取り扱い**: Pages を `--branch=dev` で deploy すると `https://<branch>.<project>.pages.dev` 形式の alias URL が生成される。これは `steps.deploy.outputs.pages-deployment-alias-url` で取得できる。staging スモークではこの alias を使い、production では `<project>.pages.dev` または custom domain を使うため、ブランチに応じて URL 組み立てロジックを分岐させる必要がある。
 
-**環境 URL の動的生成**
-staging の Pages URL は `https://<project>.pages.dev`（production_branch=dev のデプロイ）、production は `https://<project>.pages.dev` または独自ドメイン。workflow の `env` コンテキストや Variables から URL を組み立てるか、`wrangler pages deploy` の出力から URL を抽出するスクリプトが必要になる場合がある。
+**`/api/health` の depth 設計**: ヘルスチェックを HTTP-only にするか、D1 接続まで含めるかで「デプロイ失敗」の意味が変わる。本タスクでは「Workers が起動して HTTP を返せること」を最低限の判定基準とし、D1 接続障害は別レイヤ（UT-08 常設モニタリング）の責務とする。HTTP 200 を返すだけのシンプルな endpoint を `apps/api` に持つことを前提とする。
 
-**Discord 通知の最終ステータス設計**
-現状の Discord 通知が deploy ステップの成否だけを見ている場合、スモーク失敗時に「デプロイ成功・通知 success → 実際は 5xx」という誤報が発生する。`if: always()` で通知ステップを実行し、`job.status` ではなくスモークステップの `outcome` を参照するよう改修する。`steps.<smoke_step_id>.outcome == 'success'` で条件分岐を書くと明示的。
+**Discord 通知ロジックの 3 入力化**: 既存 `backend-ci.yml` は `MIGRATE_OUTCOME` と `DEPLOY_OUTCOME` の 2 入力で成功/失敗を出し分けている。スモークを追加すると判定が「migrate AND deploy AND smoke が全部 success」に変わる。`SMOKE_OUTCOME` を env 経由で渡し、シェル側の if 条件を書き換える改修ポイントを明示する。`web-cd.yml` 側は migrate がないため `DEPLOY_OUTCOME` + `SMOKE_OUTCOME` の 2 入力。
 
-**`/api/health` エンドポイントの設計**
-Hono ルーターに `GET /api/health` を追加し、`200 OK` + `{"status":"ok","timestamp":"..."}` を返す最小実装で十分。将来的に D1 接続確認等を追加したい場合は、`/api/health/deep` 等の別エンドポイントに切り出すことで基本ヘルスチェックの応答速度を保つ。
+**`continue-on-error` と job failure 化のバランス**: スモーク失敗を job failure にしたいが、Discord 通知ステップは `if: always()` で必ず通したい。スモークステップは `continue-on-error: false`（既定）で job 全体を失敗化し、通知ステップは `if: always()` で結果を拾うように構造化する。`continue-on-error: true` にしてしまうと job 自体は green のまま通知だけ赤になり、ブランチ保護で fail を捕捉できない事故になる。
 
-**GitHub Actions の `curl` によるヘルスチェック**
-GitHub Actions の ubuntu ランナーには `curl` がデフォルトでインストールされている。`curl -sf <url>` で 2xx 以外を失敗とみなし、`|| exit 1` でジョブを失敗させるシンプルなアプローチが信頼性が高い。`-f` フラグは HTTP エラーコードを curl の終了コードに反映する。
-
-**スモーク URL の Secrets 管理**
-スモーク先 URL に認証が必要な場合は Secrets を使う必要があるが、MVP フェーズの `/api/health` は認証不要の public エンドポイントとして実装する。URL 自体は Variables で管理し、ワークフローから参照する設計が望ましい。
+**ローカル再現性**: スモーク失敗時のデバッグはランナーログのみで完結させづらい。`curl -v` の verbose 出力をジョブログに残し、応答ヘッダ（`cf-ray` / `cf-cache-status`）を観測できるようにすると、伝播遅延 vs 真の障害の切り分けが付きやすい。
 
 ## 実行概要
 
-1. `apps/api/src/routes/health.ts`（または相当ファイル）に `GET /api/health` ルートを追加
-2. `backend-ci.yml` の deploy ステップ後にスモークステップを追加:
-   ```yaml
-   - name: Smoke test (API health check)
-     run: |
-       curl -sf --retry 3 --retry-delay 5 \
-         https://<api-url>/api/health || exit 1
-   ```
-3. `web-cd.yml` の deploy ステップ後に同様のスモークステップを追加（Pages の `*.pages.dev` URL を対象）
-4. Discord 通知ステップを `if: always()` かつスモーク outcome を参照するよう改修
-5. staging / production 両環境で push をトリガーし、スモーク込みの CD フローが green になることを確認
-6. 意図的に `/api/health` を 500 返却に変更してスモーク失敗→ジョブ失敗→Discord fail 通知の流れを確認（動作確認後に元に戻す）
+- `backend-ci.yml` / `web-cd.yml` に「smoke」ステップを追加。スクリプトは `bash` + `curl` ベースで、リトライ・バックオフを内製する
+- ブランチ判定（`github.ref_name`）に応じてスモーク対象 URL を組み立て: staging は alias URL、production は確定 URL
+- スモーク結果を `id: smoke` の outputs として通知ステップに引き渡す（`SMOKE_OUTCOME` env で参照）
+- 既存通知ステップの shell ロジックを 3 入力対応に書き換える（タイトル・色・description の 3 系統）
+- `dev` 上で 503 を意図的に返す PoC を一度実行し、CD job が失敗化することを確認する
 
 ## 完了条件
 
-- [ ] `apps/api` に `GET /api/health` エンドポイントが実装済み（200 OK + `{"status":"ok"}` を返す）
-- [ ] `backend-ci.yml` に deploy 後スモークステップが追加済み
-- [ ] `web-cd.yml` に deploy 後スモークステップが追加済み
-- [ ] スモーク失敗時に CD ジョブが `failure` で終了することを確認
-- [ ] スモーク成功時に CD ジョブが `success` で終了することを確認
-- [ ] Discord 通知がスモーク結果を含めた最終ステータスを反映していることを確認
-- [ ] staging 環境でスモーク込みの CD フローが green で完走することを確認
-- [ ] production 環境でスモーク込みの CD フローが green で完走することを確認
-- [ ] リトライロジック（最大 3 回 / 5 秒間隔）が実装されていることを確認
+- [ ] `backend-ci.yml` の deploy 直後に `/api/health` スモークステップが追加されている
+- [ ] `web-cd.yml` の deploy 直後に Web スモークステップが追加されている
+- [ ] スモークはリトライ＋バックオフを実装し、最大 60 秒程度の伝播遅延を許容する
+- [ ] スモーク失敗時に CD job 全体が failure になる
+- [ ] Discord 通知が migrate / deploy / smoke の最終結果を反映する
+- [ ] ブランチ別のスモーク対象 URL 組み立てが dev / main の両方で動作する
+- [ ] 意図的に失敗を起こした検証が一度成功している
+- [ ] UT-08 / UT-17 との責務分離が運用ドキュメントに明記されている
 
 ## 参照資料
 
 | 種別 | パス | 用途 |
 | --- | --- | --- |
-| 必須 | docs/04-serial-cicd-secrets-and-environment-sync/outputs/phase-12/unassigned-task-detection.md | 検出原典 |
-| 必須 | .github/workflows/backend-ci.yml | 改修対象の workflow |
-| 必須 | .github/workflows/web-cd.yml | 改修対象の workflow |
-| 必須 | apps/api/src/ | ヘルスチェックエンドポイント実装先 |
-| 参考 | https://developers.cloudflare.com/workers/observability/health-checks/ | Workers ヘルスチェック公式 |
-| 参考 | https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions | GitHub Actions の outcome 評価 |
-| 参考 | UT-27 仕様書 | Secrets 配置（DISCORD_WEBHOOK_URL） |
-| 参考 | UT-28 仕様書 | Pages URL 確定（スモーク先 URL） |
+| 必須 | .github/workflows/backend-ci.yml | スモーク追加の対象 |
+| 必須 | .github/workflows/web-cd.yml | スモーク追加の対象 |
+| 必須 | .claude/skills/aiworkflow-requirements/references/deployment-gha.md | モニタリングとアラート / ヘルスチェックエンドポイント設計の正本 |
+| 必須 | .claude/skills/aiworkflow-requirements/references/deployment-core.md | CD 設計原則の正本 |
+| 参考 | docs/unassigned-task/UT-08-monitoring-alert-design.md | 常設モニタリングとの責務分離 |
+| 参考 | docs/unassigned-task/UT-17-cloudflare-analytics-alerts.md | アラート連動との責務分離 |
+| 参考 | docs/unassigned-task/UT-27-github-secrets-variables-deployment.md | スモーク URL 組み立てに使う Variable |
+| 参考 | docs/unassigned-task/UT-28-cloudflare-pages-projects-creation.md | スモーク対象プロジェクトの存在前提 |

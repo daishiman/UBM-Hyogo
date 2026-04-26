@@ -10,94 +10,82 @@
 | 推奨Wave | Wave 1 |
 | 状態 | unassigned |
 | 作成日 | 2026-04-27 |
-| 既存タスク組み込み | なし |
-| 組み込み先 | - |
-| GitHub Issue | #47 |
-| 検出元 | docs/04-serial-cicd-secrets-and-environment-sync の phase-12 |
+| 既存タスク組み込み | あり |
+| 組み込み先 | doc/01-infrastructure-setup/04-serial-cicd-secrets-and-environment-sync |
 
 ## 目的
 
-`backend-ci.yml` / `web-cd.yml` が参照する Cloudflare 認証情報・Pages プロジェクト名・Discord Webhook URL を GitHub の Secrets / Variables に配置し、`dev` / `main` ブランチへの push をトリガーとした CD ワークフローを実稼働状態にする。
+`backend-ci.yml` / `web-cd.yml` が参照する Cloudflare 認証情報・Pages プロジェクト名・Discord Webhook URL を GitHub の Secrets / Variables に配置し、`dev` / `main` ブランチへの push をトリガーとした CD ワークフローを実稼働状態にする。CD 配線が完成しても秘匿値が GitHub 側に存在しなければ deploy ジョブ全体が空振りに終わるため、配置タスクを独立して未タスク化する。
 
 ## スコープ
 
 ### 含む
-
-- リポジトリ Secrets への登録: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `DISCORD_WEBHOOK_URL`
-- リポジトリ Variables への登録: `CLOUDFLARE_PAGES_PROJECT_NAME`（staging / production 用の値を確定）
-- 登録後に `dev` / `main` push で CD ワークフローが正常起動することの確認
-- 登録手順の runbook 化（1Password との対応関係を明示）
-- GitHub Actions の `workflow_dispatch` で手動トリガーし、Secrets 参照が正常か検証
+- リポジトリ Secrets の配置: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `DISCORD_WEBHOOK_URL`
+- リポジトリ Variables の配置: `CLOUDFLARE_PAGES_PROJECT`
+- GitHub Environments（`staging` / `production`）と repository-level スコープのどちらに配置するかの確定と適用
+- 配置値と 1Password Environments（正本）との同期手順整備（手動同期 or `op` サービスアカウント運用方針の決定）
+- `dev` ブランチへの dummy push による動作確認（staging への deploy + Discord 通知が両方成功すること）
 
 ### 含まない
-
-- Cloudflare API Token の新規発行（1Password 上で管理済みのものを使用）
-- Cloudflare Pages プロジェクト自体の作成（UT-28 のスコープ）
-- CD ワークフロー YAML の修正（04-serial で整備済みのものをそのまま使用）
-- Discord Webhook URL の新規発行
+- ワークフローファイル自体の編集（UT-05 のスコープ）
+- Cloudflare 側の API Token 発行手順そのもの（前提として UT-05 / 01b で完了想定）
+- `apps/api` / `apps/web` のランタイムシークレット（Cloudflare Secrets 側）
+- 本番デプロイの実行（UT-06 の責務）
 
 ## 依存関係
 
 | 種別 | 対象 | 理由 |
 | --- | --- | --- |
-| 上流 | 04-serial-cicd-secrets-and-environment-sync | CD workflow YAML が確定・マージ済みであること |
-| 上流 | 01b-parallel-cloudflare-base-bootstrap | Cloudflare Account ID / API Token が発行済みであること |
-| 下流 | UT-28（Cloudflare Pages プロジェクト作成） | Pages プロジェクト名が確定しないと Variables の値が定まらない |
-| 下流 | UT-29（スモーク／ヘルスチェック自動化） | Secrets 配置が完了しないと CD ジョブ自体が動かない |
-| 下流 | UT-22（D1 migration SQL 実体記述） | CI から `wrangler` を実行するために `CLOUDFLARE_API_TOKEN` が必要 |
-
-## 着手タイミング
-
-> **着手前提**: 04-serial がマージ済みかつ Cloudflare API Token / Account ID が 1Password に保管済みであること。
-
-| 条件 | 理由 |
-| --- | --- |
-| 04-serial マージ済み | workflow YAML が main に存在しないと Secrets を参照するジョブが存在しない |
-| 01b 完了 | Cloudflare 認証情報が発行済みでないと登録値が確定しない |
-| UT-28 着手開始後 | Pages プロジェクト名が決まってから Variables を登録する方が望ましい（同時並行も可） |
+| 上流 | UT-05 (CI/CD パイプライン実装) | 参照される Secrets / Variables のキー名・スコープが workflow 側で確定していること |
+| 上流 | 01b-parallel-cloudflare-base-bootstrap | API Token 発行・Account ID 取得の前提作業 |
+| 上流 | UT-28 (Cloudflare Pages プロジェクト作成) | `CLOUDFLARE_PAGES_PROJECT` の値はこのタスクで命名確定する |
+| 下流 | UT-06 (本番デプロイ実行) | Secrets が揃わないと本番 deploy 自体が走らない |
+| 下流 | UT-29 (CD 後スモーク) | スモーク URL の組み立てに `CLOUDFLARE_PAGES_PROJECT` を再利用する |
 
 ## 苦戦箇所・知見
 
-**GitHub Secrets は登録後に値を参照できない**
-GitHub の仕様上、一度登録した Secret の値は UI / API で読み返すことができない。登録前に 1Password の正本値をコピーし、登録後は `echo "***"` でマスクされた出力しか得られない。誤登録した場合は上書き登録（同名 Secret を再 PUT）で対応する。
+**Environments スコープと repository スコープの違い**: `backend-ci.yml` の `deploy-staging` ジョブは `environment: name: staging` を宣言している。GitHub の挙動として `environment` 指定があるジョブからは「environment-scoped secret/variable」が優先解決され、同名の repository-scoped を上書きする。staging だけ別の Cloudflare Account で運用したい場合に repository-scoped に値を入れていると意図せず production 値が staging で参照されることがある。Environments 側に明示配置することを既定方針とすると事故が減る。
 
-**Variables と Secrets の使い分け**
-`CLOUDFLARE_PAGES_PROJECT_NAME` は機密情報ではないため Variables（平文）として登録する。`CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` / `DISCORD_WEBHOOK_URL` は機密情報なので Secrets に登録する。Variables は GitHub UI でも値が可視状態になるため、誤って Token 類を Variables に登録しないよう注意が必要。
+**`CLOUDFLARE_PAGES_PROJECT` を Secret ではなく Variable にする理由**: 機密ではなく単なるプロジェクト名で、`web-cd.yml` の中で `${{ vars.X }}-staging` のように suffix 連結に使用される。Secret にすると CI ログがマスクされて運用ログから値を追えなくなり、デバッグ性が著しく落ちる。GitHub の Variable は repository / environment / organization の3層を持つので、environment-scoped variable に置く案も含めて配置層を最初に決め切る。
 
-**Environment-scoped Secrets の必要性**
-staging 用と production 用で異なる `CLOUDFLARE_API_TOKEN` を使う場合は、GitHub Environments（`staging` / `production`）に紐づいた Environment Secrets を利用する。同一 Token を両環境で共用する場合はリポジトリ Secrets 1 つで足りる。04-serial の workflow 設計に合わせて判断すること。
+**`if: secrets.X != ''` が GitHub では評価できない問題**: 既存 backend-ci.yml は通知ステップで `if: ${{ always() && secrets.DISCORD_WEBHOOK_URL != '' }}` のような書き方を採るが、GitHub Actions は job-level の `secrets` コンテキストを `if` で直接条件評価できないため意図通りに動かないことがある。実装では「常に通知ステップに入って env で受け、シェル側で空文字判定して early-return」する形に逃がす。本タスクでは Webhook URL 未設定時に CI が無音失敗しないことを動作確認項目に加える。
 
-**`gh secret set` コマンドによる一括登録**
-GitHub CLI を使うと `gh secret set SECRET_NAME --body "value"` で登録できる。複数 Secrets を一括で登録する場合は `gh secret set -f .env.secrets` 形式も使用可能だが、`.env.secrets` ファイルをリポジトリにコミットしないよう注意する（`.gitignore` に追加する）。
+**1Password Environments を正本にする運用**: ローカルの開発者は 1Password Environments を引いて使うのが正本フローだが、GitHub Actions ランナーから 1Password を引くには `op` サービスアカウント or `1password/load-secrets-action` の導入が必要になる。MVP 段階では「1Password が正本・GitHub Secrets は手動同期コピー」を許容し、将来的に `op` 化する旨を運用ルールに残す。「同期されたか」の検証手段（ハッシュ照合 or Last-Updated メモ）を運用ドキュメントに残しておくと、値ローテーション時の事故を防げる。
 
-**Discord Webhook URL のローテーション**
-Discord の Webhook URL は チャンネル設定から再発行可能。漏洩した場合は即座にローテーションし、GitHub Secret を上書き登録する。
+**`CLOUDFLARE_API_TOKEN` のスコープ最小化**: User API Token を発行する際に Global API Key を流用するのは厳禁。最低限必要なスコープは `Account.Cloudflare Pages.Edit` / `Account.Workers Scripts.Edit` / `Account.D1.Edit` / `Account.Account Settings.Read` 程度。スコープを広げ過ぎると漏洩時の影響範囲が拡大する。Token 名にも用途・発行日を含め、ローテーション履歴を追えるようにする。
 
 ## 実行概要
 
-1. 1Password から `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `DISCORD_WEBHOOK_URL` の値を取得
-2. `gh secret set` または GitHub UI から リポジトリ Secrets に登録
-3. UT-28 と連携して `CLOUDFLARE_PAGES_PROJECT_NAME` の値を確定し、Variables に登録
-4. `dev` ブランチへダミーコミットを push し、CD ワークフローが起動して Secrets を正常に参照できることを確認
-5. 登録手順を runbook（`docs/04-serial-cicd-secrets-and-environment-sync/` 配下）に記録
+- リポジトリ Secrets / Variables を `gh` CLI で配置する。例:
+  - `gh secret set CLOUDFLARE_API_TOKEN --body "..."`
+  - `gh secret set CLOUDFLARE_ACCOUNT_ID --body "..."`
+  - `gh secret set DISCORD_WEBHOOK_URL --body "..."`
+  - `gh variable set CLOUDFLARE_PAGES_PROJECT --body "ubm-hyogo-web"`
+- GitHub Environments を新設（`staging` / `production`）し、必要に応じて環境別の値を上書き配置する
+- 配置値の正本（1Password Environments）からのコピー手順を `doc/01-infrastructure-setup/04-serial-cicd-secrets-and-environment-sync` 配下のドキュメントに追記する
+- `dev` ブランチに空コミットを push し、`backend-ci.yml` / `web-cd.yml` の `deploy-staging` ジョブが緑になることを確認する
+- Discord Webhook 未設定時の挙動として、通知ステップが警告のみで CI 全体は通ることを別途確認する
 
 ## 完了条件
 
-- [ ] `CLOUDFLARE_API_TOKEN` がリポジトリ Secrets に登録済み
-- [ ] `CLOUDFLARE_ACCOUNT_ID` がリポジトリ Secrets に登録済み
-- [ ] `DISCORD_WEBHOOK_URL` がリポジトリ Secrets に登録済み
-- [ ] `CLOUDFLARE_PAGES_PROJECT_NAME` がリポジトリ Variables に登録済み（staging / production の値が確定）
-- [ ] `dev` push で `web-cd.yml` が起動し、Secrets 参照エラーなく実行されることを確認
-- [ ] `main` push で `backend-ci.yml` が起動し、Secrets 参照エラーなく実行されることを確認
-- [ ] 登録手順（使用した `gh` コマンドと 1Password 対応）が runbook に記録済み
+- [ ] `CLOUDFLARE_API_TOKEN` が必要スコープ（Pages Edit / Workers Scripts Edit / D1 Edit / Account Read）で配置済み
+- [ ] `CLOUDFLARE_ACCOUNT_ID` が配置済み
+- [ ] `DISCORD_WEBHOOK_URL` が配置済み（運用判断で未設定の場合はその旨をドキュメント化）
+- [ ] `CLOUDFLARE_PAGES_PROJECT` が Variable として配置済み（値は UT-28 で確定したプロジェクト名）
+- [ ] GitHub Environments の `staging` / `production` が作成され、environment-scoped 値の配置方針が決定済み
+- [ ] `dev` ブランチへの push で `backend-ci.yml` の `deploy-staging` が成功する
+- [ ] `dev` ブランチへの push で `web-cd.yml` の `deploy-staging` が成功する
+- [ ] Discord 通知が成功（または未設定時に CI が落ちない）ことが確認済み
+- [ ] 1Password Environments と GitHub Secrets / Variables の同期手順が運用ドキュメントに記載済み
 
 ## 参照資料
 
 | 種別 | パス | 用途 |
 | --- | --- | --- |
-| 必須 | docs/04-serial-cicd-secrets-and-environment-sync/outputs/phase-12/unassigned-task-detection.md | 検出原典 |
-| 必須 | .github/workflows/backend-ci.yml | 参照 Secrets / Variables の一覧確認 |
-| 必須 | .github/workflows/web-cd.yml | 参照 Secrets / Variables の一覧確認 |
-| 参考 | https://docs.github.com/en/actions/security-guides/encrypted-secrets | GitHub Secrets 公式 |
-| 参考 | https://docs.github.com/en/actions/learn-github-actions/variables | GitHub Variables 公式 |
-| 参考 | https://cli.github.com/manual/gh_secret_set | gh secret set コマンド |
+| 必須 | .github/workflows/backend-ci.yml | 参照する Secrets / Variables キーの確認 |
+| 必須 | .github/workflows/web-cd.yml | 参照する Secrets / Variables キーの確認 |
+| 必須 | .claude/skills/aiworkflow-requirements/references/deployment-gha.md | CI/CD 仕様（Secrets 要件）の正本 |
+| 必須 | .claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md | Secrets 配置マトリクスの正本 |
+| 必須 | .claude/skills/aiworkflow-requirements/references/environment-variables.md | ローカル正本（1Password）と GitHub の同期方針 |
+| 参考 | docs/unassigned-task/UT-05-cicd-pipeline-implementation.md | CI/CD ワークフロー本体タスクとの境界確認 |
+| 参考 | docs/unassigned-task/UT-28-cloudflare-pages-projects-creation.md | `CLOUDFLARE_PAGES_PROJECT` の値確定タスク |

@@ -803,6 +803,7 @@
 - **問題**: 03-serial-data-source-and-storage-contract は contract-only タスクだったため、コード実装は最小限だが、後続実装タスク（`apps/api` D1 binding 配線・migration 実装・sync_audit 書込みパス・identity merge 戦略 等）が canonical な未タスクとして登録されていなかった
 - **解決**: contract-only Phase 12 close-out 時に、後続実装で必要となる未タスク（minimum: D1 binding wiring / migration script / sync_audit append-only 書込み / identity merge）を `unassigned-task-detection.md` に列挙し、backlog 登録対象として明示する
 - **再発防止**: contract-only タスクの Phase 12 では「契約の閉じ方」と「downstream の未タスク列挙」の両方を必須項目として review checklist に固定する。契約だけ書いて未タスク登録を省略すると、実装波で発見が遅れる
+<<<<<<< HEAD
 
 ### L-05A-NON_VISUAL-001: docs-only タスクの Phase 11 で NON_VISUAL evidence path の固定漏れ
 
@@ -824,3 +825,37 @@
 - **原因**: docs-only タスクでは outputs 側 ledger を「同期コピー」と捉えていたが、SKILL.md にこの同時更新ルールが明文化されておらず、片側だけの更新が許容されると誤認した
 - **対処**: Phase 12 で `diff <(jq .phases artifacts.json) <(jq .phases outputs/artifacts.json)` を必須化し、両 ledger を同時更新する。validator 実行前に diff 0 を確認
 - **再発防止**: `task-specification-creator` SKILL.md の Phase 12 漏れ表に UBM-005 として恒久化済み（v10.09.44）。今後 close-out チェックリストに「root/outputs artifacts.json diff 0」を必須項目として追加する
+
+---
+
+## UT-02 D1 WAL mode 設定 教訓（2026-04-26）
+
+### L-UT02-001: Cloudflare D1 PRAGMA は SQLite と同一視しない
+
+| 項目       | 内容 |
+| ---------- | ---- |
+| カテゴリ   | infra / D1 / PRAGMA |
+| 問題       | Cloudflare D1 は SQLite 互換だが、`PRAGMA journal_mode=WAL` の永続設定が公式にサポートされているか未確認のまま前提化されていた |
+| 解決策     | Cloudflare の official compatible PRAGMA list を先に確認し、確認が取れない限り staging / production で `journal_mode` mutation を行わない gate を設けた。読み書き競合対策は retry/backoff / queue serialization / 短い transaction / batch-size 制限を runtime 側で実装する方針（UT-09 に委譲） |
+| 再発防止   | `deployment-cloudflare.md` に D1 PRAGMA 制約セクションを追加。PRAGMA 適用前の公式サポート確認を必須ステップとして明記 |
+| 関連タスク | UT-02 |
+
+### L-UT02-002: ローカル D1 エミュレーションは WAL 設定が本番と異なる場合がある
+
+| 項目       | 内容 |
+| ---------- | ---- |
+| カテゴリ   | infra / D1 / local-dev |
+| 問題       | `wrangler dev --local` の D1 エミュレーションは SQLite ファイルをそのまま使うため、WAL mode の設定が production と食い違う可能性がある。本番でのみ再現するロック競合が発生しやすい |
+| 解決策     | 環境別差異マトリクス（`outputs/phase-02/env-diff-matrix.md`）を作成し、local / staging / production の WAL mode 扱いの差異を明文化した |
+| 再発防止   | docs-only タスクの Phase 2 設計段階で環境差異マトリクスを必須成果物として作成する |
+| 関連タスク | UT-02 |
+
+### L-UT02-003: docs-only タスクでもプロバイダー依存の機能は早期 official-support gate を設ける
+
+| 項目       | 内容 |
+| ---------- | ---- |
+| カテゴリ   | process / docs-only / task-spec |
+| 問題       | docs-only タスクで「実装は後続フェーズ」としてゲートなしで進めると、公式サポートが不明なプロバイダー機能を前提とした設計ドキュメントが正本に入り込む |
+| 解決策     | docs-only タスクの Phase 1（要件定義）または Phase 2（設計）段階で、プロバイダー依存の機能について official-support gate（公式ドキュメント確認 or 確認予定の明記）を設けるルールを追加 |
+| 再発防止   | task-specification-creator スキルのテンプレートに「プロバイダー依存機能の official-support gate」チェック項目を追加することを skill-feedback-report に記録 |
+| 関連タスク | UT-02 |

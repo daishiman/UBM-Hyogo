@@ -28,6 +28,39 @@
 
 30種思考法レビューで、Phase status、canonical path、implementation guide validator、formalize path、KV/R2・D1 writes・GitHub Actions workflow topology の漏れが見つかった。docs-only task でも Phase 12 close-out は成果物存在だけでなく、artifacts parity と未タスク formalization まで同一ターンで閉じる必要がある。
 
+## 2026-04-26 - D1 読み書き競合対策の設定可否確認（UT-02）タスク完了
+
+### コンテキスト
+- スキル: task-specification-creator
+- タスクID: UT-02
+- タスク名: D1 読み書き競合対策の設定可否確認
+- Phase: 1-13
+
+### 成果
+- テストカバレッジ: `validate-phase-output.js` PASS（31項目 / 0 errors / 0 warnings）、`validate-phase12-implementation-guide.js` PASS（12/12）、`verify-all-specs.js` PASS（errors 0）
+- 実装内容:
+  - `docs/ut-02-d1-wal-mode/` の AC / Phase 5 / Phase 6 / Phase 12 を「無条件 WAL 適用」から「公式永続サポート確認 + mutation gate + runtime mitigation」へ同期
+  - Phase 11 NON_VISUAL 補助成果物と `outputs/artifacts.json` を追加し、root / outputs artifact parity を回復
+  - `implementation-guide.md` を Part 1 / Part 2 validator contract に合わせて補強
+  - UT-09 指示書へ D1 contention mitigation 要件を追加
+
+### 結果
+- ステータス: success
+- 完了日時: 2026-04-26
+
+## 2026-04-26 - UT-01 sheets-d1-sync-design Phase 12 hardening
+
+### 変更内容
+
+- `docs/ut-01-sheets-d1-sync-design` の root / outputs `artifacts.json` parity を回復した
+- Phase 11 docs-only evidence から placeholder を除去し、screenshot N/A の根拠を記録した
+- `implementation-guide.md` を Phase 12 validator が要求する Part 1 / Part 2 見出し、TypeScript 型定義、APIシグネチャ、使用例、エラーハンドリング、エッジケース、設定項目と定数一覧、テスト構成へ補強した
+- 既存 `apps/api` route と migration schema を authoritative として、UT-01 の audit contract drift を補正した
+
+### 背景
+
+30種思考法レビューで、成果物存在チェックだけでは `outputs/artifacts.json` drift、Phase 11 placeholder、`sync_audit` 列名 / status enum / route の不一致を見落とすことが確認された。
+
 ## 2026-04-26 - 03-serial-data-source-and-storage-contract Phase 12 review hardening
 
 ### 変更内容
