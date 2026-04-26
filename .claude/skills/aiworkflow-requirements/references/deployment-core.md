@@ -17,8 +17,8 @@
 
 1. 開発者がコードをプッシュ
 2. GitHub Actions で CI（型チェック・Lint・テスト・ビルド）を実行
-3. CI が成功したら main ブランチにマージ
-4. Cloudflare Pages / Workers へ自動デプロイ
+3. CI が成功したらまず dev ブランチにマージし、dev の検証が通過したら main ブランチへ昇格する
+4. ブランチに応じて Cloudflare Pages / Workers へ自動デプロイする
 5. デプロイ完了後、ヘルスチェックで正常性を確認
 6. 問題があれば Cloudflare ダッシュボードから即座にロールバック
 
@@ -88,13 +88,13 @@
 | ファイル | 用途 |
 | -------- | ---- |
 | `ci.yml` | PR 時の CI（Lint・型チェック・テスト・ビルド） |
-| `web-cd.yml` | Web アプリ CD（Cloudflare Pages 自動デプロイ + Discord 通知） |
+| `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
 
 ### CI ワークフロー要件（PR 時）
 
 #### トリガー条件
 
-- PR が main ブランチに対して作成されたとき
+- PR が dev または main ブランチに対して作成されたとき
 - PR に新しいコミットがプッシュされたとき
 
 #### 実行ステップ
@@ -110,11 +110,16 @@
 9. Vitest によるユニットテストの実行
 10. カバレッジチェックと Codecov 連携（閾値 80% 未達で CI 失敗）
 
-### CD ワークフロー要件（main マージ時）
+### CD ワークフロー要件（dev / main マージ時）
+
+#### トリガー条件
+
+- dev ブランチへのプッシュ（PR マージ時）
+- main ブランチへのプッシュ（PR マージ時）
 
 #### 実行内容
 
-1. Cloudflare Pages へ自動デプロイ（wrangler-action）
+1. ブランチに応じて Cloudflare Pages へ自動デプロイ（wrangler-action）
 2. デプロイ完了後、Discord Webhook で通知を送信
 
 ---

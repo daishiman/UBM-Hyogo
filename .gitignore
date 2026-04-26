@@ -79,10 +79,6 @@ coverage/
 # Wrangler CLI cache
 .wrangler/
 
-# Wrangler local secrets（ローカル開発用シークレット・コミット禁止）
-.dev.vars
-**/.dev.vars
-
 # WIP / Sandbox（未完成の実験・開発中コード）
 # ファイル名・ディレクトリ名が毎回変わるため、パターンで管理
 **/sandbox/

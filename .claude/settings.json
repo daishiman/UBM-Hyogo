@@ -127,8 +127,7 @@
       "Bash(sudo:*)",
       "Bash(chown:*)"
     ],
-    "defaultMode": "bypassPermissions",
-    "disableBypassPermissionsMode": "disable"
+    "defaultMode": "bypassPermissions"
   },
   "hooks": {
     "PreToolUse": [

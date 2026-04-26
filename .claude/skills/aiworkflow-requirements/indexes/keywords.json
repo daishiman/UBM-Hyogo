@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2861,
+  "totalKeywords": 2889,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -287,6 +287,7 @@
       "ipc-contract-checklist.md",
       "ipc-type-resolution-guide.md",
       "lessons-learned-auth-settings-degradation-guard.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-current.md",
       "lessons-learned-ipc-preload-runtime.md",
       "lessons-learned-phase12-workflow-lifecycle.md",
@@ -1307,9 +1308,6 @@
       "arch-integration-packages.md"
     ],
     "計画": [
-      "arch-integration-packages.md"
-    ],
-    "実装済み統合パッケージ": [
       "arch-integration-packages.md"
     ],
     "依存関係ルール": [
@@ -2634,6 +2632,7 @@
       "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
       "lessons-learned-auth-ipc-security-double-registration.md",
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-conversation-db-robustness.md",
       "lessons-learned-current-2026-03-late.md",
       "lessons-learned-current-2026-04.md",
@@ -4158,6 +4157,7 @@
       "deployment-core.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-skill-remove-contract.md",
       "lessons-learned-workflow-quality-ci-module-resolution.md",
@@ -4177,6 +4177,7 @@
       "deployment-core.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
       "technology-devops-core.md",
       "technology-devops-details.md",
       "technology-devops-history.md",
@@ -4193,6 +4194,7 @@
       "deployment-details.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-current-2026-04.md"
     ],
     "環境保護ルール": [
@@ -4208,6 +4210,7 @@
       "deployment-cloudflare.md",
       "deployment-core.md",
       "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
       "technology-core.md"
     ],
     "デプロイメント仕様": [
@@ -4330,7 +4333,8 @@
       "deployment-cloudflare.md"
     ],
     "Pages": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "Functions": [
       "deployment-cloudflare.md"
@@ -4404,7 +4408,8 @@
     "Secrets": [
       "deployment-details.md",
       "deployment-gha.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "の要件": [
       "deployment-details.md",
@@ -4425,12 +4430,21 @@
     "並列実行の活用": [
       "deployment-gha.md"
     ],
+    "dev": [
+      "deployment-gha.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
     "main": [
       "deployment-gha.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-sdk-session-bridge-vitest-worktree.md"
     ],
     "マージ時": [
       "deployment-gha.md"
+    ],
+    "Backend": [
+      "deployment-gha.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "シークレット・環境変数管理": [
       "deployment-secrets-management.md"
@@ -4442,13 +4456,15 @@
       "deployment-secrets-management.md"
     ],
     "production": [
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "環境": [
       "deployment-secrets-management.md"
     ],
     "staging": [
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "サーバーサイドのシークレット": [
       "deployment-secrets-management.md"
@@ -4487,10 +4503,12 @@
       "deployment-secrets-management.md"
     ],
     "Password": [
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "Environments": [
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "から": [
       "deployment-secrets-management.md"
@@ -4619,7 +4637,8 @@
       "ui-ux-feature-components-advanced.md"
     ],
     "Discord": [
-      "discord-bot.md"
+      "discord-bot.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "Bot": [
       "discord-bot.md"
@@ -5889,6 +5908,7 @@
       "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-auth-settings-degradation-guard.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-conversation-db-robustness.md",
       "lessons-learned-current-2026-03-early.md",
       "lessons-learned-current-2026-03-late.md",
@@ -5955,6 +5975,7 @@
       "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-auth-settings-degradation-guard.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-conversation-db-robustness.md",
       "lessons-learned-current-2026-03-early.md",
       "lessons-learned-current-2026-03-late.md",
@@ -6837,6 +6858,88 @@
     "再監査教訓": [
       "lessons-learned-auth-settings-degradation-guard.md",
       "lessons-learned-skill-share-debug-lifecycle-design.md"
+    ],
+    "パイプライン実装": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "自動デプロイ": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "CICD": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "Web": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "のワークフロー分離": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "job": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "level": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "if": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "分岐で": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "を一本化": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "migrations": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "apply": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "deploy": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "より前に直列で実行する": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "deployment": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "URL": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "alias": [
+      "lessons-learned-cicd-dev-main-deploy.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md"
+    ],
+    "を優先で拾う": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "通知は": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "Webhook": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "未設定でも": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "を緑にする": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "の同期手順は明文化する": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "ブランチ名の正本は": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "develop": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "でない": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "関連未タスク・フォローアップ候補": [
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "Robustness": [
       "lessons-learned-conversation-db-robustness.md"
@@ -9017,9 +9120,6 @@
     "PATHS": [
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "logs-archive-2026-02-skill-validation-atoms-audit.md"
-    ],
-    "alias": [
-      "lessons-learned-workflow-quality-phase12-audit-validator.md"
     ],
     "tsconfig": [
       "lessons-learned-workflow-quality-phase12-audit-validator.md"
