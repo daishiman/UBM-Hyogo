@@ -721,6 +721,40 @@
 | 解決策     | testid削除時は`grep -r "testid名" --include="*.test.*"`で全テストファイルを検索し、skipブロック内の参照も確認する |
 | 再発防止   | Phase 12準拠チェックに「削除したtestidがskipブロック内に残っていないか確認」を追加する。残存している場合はcleanupタスクをbacklogに登録する |
 | 関連タスク | UT-SKILL-WIZARD-W1-LIFECYCLE-PANEL-TRANSITION-001 |
+---
+
+## GitHub Governance 実装（2026-04-26）
+
+### L-GH-001: GitHub UI-only 設定の runbook パターン
+
+| 項目     | 内容 |
+| -------- | ---- |
+| 症状     | branch protection の required reviewers / required status checks など、GitHub REST API で設定できない項目が存在する |
+| 原因     | GitHub API は production 環境の branch protection 設定の一部（required reviewers 強制等）を非冪等・UI 専用で扱う |
+| 解決策   | API 非対応項目は `repository-settings-runbook.md` に手順を記録し、手動適用を Phase 13 の確認タスクとして明記する |
+| 再発防止 | docs-only タスクの Phase 5 で「API 設定範囲」と「UI 手動設定範囲」を明示的に分離し、後者は runbook に委譲する |
+| 関連タスク | 01a-parallel-github-and-branch-governance |
+
+### L-GH-002: CI Status Check 名称の下流タスク依存
+
+| 項目     | 内容 |
+| -------- | ---- |
+| 症状     | branch protection で required status check として設定する CI ジョブ名（`ci` / `Validate Build` 等）を事前に確認できない |
+| 原因     | GitHub Actions workflow ファイルが下流タスク（04-serial-cicd-secrets-and-environment-sync 等）で初めて作成されるため、ジョブ名が未確定 |
+| 解決策   | smoke test ST-8（CI check 存在確認）は PENDING として許容し、下流タスクへの委譲を `unassigned-task-detection.md` に記録する |
+| 再発防止 | 上流タスクで下流依存の設定値を事前設定する必要がある場合は、プレースホルダー（`<ci-job-name>`）で記載して下流で置換するパターンを使う |
+| 関連タスク | 01a-parallel-github-and-branch-governance / 04-serial-cicd-secrets-and-environment-sync |
+
+### L-GH-003: docs-only タスクの smoke test PENDING 許容設計
+
+| 項目     | 内容 |
+| -------- | ---- |
+| 症状     | GitHub 管理者による UI 操作が完了するまで、smoke test が PENDING 状態のままになる |
+| 原因     | branch protection / Environments 設定はリポジトリ管理者による UI 適用が必要で、CI パイプラインでは自動確認不可 |
+| 解決策   | ファイル配置で完結できる成果物（`CODEOWNERS` / `pull_request_template.md`）から PASS させ、残りは PENDING 許容とする。Phase 13 の本番適用後に最終確認する2段階パターンを標準とする |
+| 再発防止 | Phase 5 の完了条件に「ファイル配置 PASS」と「UI 手動適用 PENDING」を明示的に区分する。PENDING は失敗ではなく「後続フェーズで解消予定」として記録する |
+| 関連タスク | 01a-parallel-github-and-branch-governance |
+
 > 注記（2026-04-08 分離）:
 > - UT-HEALTH-POLICY-MAINLINE-MIGRATION-001 教訓（L-HP-001/002/003）と TASK-FIX-WORKTREE-CONFLICT-001 教訓（L-WC-001/002/003）は [lessons-learned-health-policy-worktree-2026-04.md](lessons-learned-health-policy-worktree-2026-04.md) へ移動しました。
 > - スキルウィザード関連教訓（L-CRS-001/002, L-SMART-DEFAULT-001/002, L-HEALTH-DI-001/002, L-SKILL-INFO-STEP-001/002, L-WIZARD-EXPORT-001/002, L-GOOGLE-CAL-001/002）は [lessons-learned-skill-wizard-redesign.md](lessons-learned-skill-wizard-redesign.md) へ移動しました。

@@ -1,0 +1,10 @@
+# Global fallback
+*                   @daishiman
+
+# Infrastructure docs (Wave 1 parallel tasks)
+doc/01a-*/          @daishiman
+doc/01b-*/          @daishiman
+doc/01c-*/          @daishiman
+
+# GitHub governance files
+.github/            @daishiman

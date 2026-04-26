@@ -17,8 +17,8 @@ feature/xxx  →  dev  →  main
 | ブランチ | 目的 | デプロイ先 | 保護ルール |
 | -------- | ---- | ---------- | ---------- |
 | `feature/*` | 機能単位の開発 | なし（ローカルのみ） | 直接 push 禁止 |
-| `dev` | 統合・開発環境 | Cloudflare (staging) | PR レビュー 1 名必須 |
-| `main` | 本番環境 | Cloudflare (production) | PR レビュー 2 名必須、force push 禁止 |
+| `dev` | 統合・開発環境 | Cloudflare (staging) | PR 経由必須・承認不要・CI チェック必須 |
+| `main` | 本番環境 | Cloudflare (production) | PR 経由必須・承認不要・CI チェック必須・force push 禁止 |
 
 ---
 
@@ -26,10 +26,10 @@ feature/xxx  →  dev  →  main
 
 ```
 1. feature/* ブランチで機能開発
-2. feature/* → dev へ PR & マージ（1名レビュー）
+2. feature/* → dev へ PR & マージ（承認不要・CI チェック通過で merge 可）
    → staging 環境へ自動デプロイ
-   → 動作確認・QA
-3. dev → main へ PR & マージ（2名レビュー + QA 完了）
+   → 動作確認
+3. dev → main へ PR & マージ（承認不要・CI チェック通過で merge 可）
    → production 環境へ自動デプロイ
 ```
 
@@ -63,7 +63,7 @@ feature/xxx  →  dev  →  main
 
 ```
 Settings > Environments > production:
-- Required reviewers: 2名
+- Required reviewers: 0名（不要・個人開発のため自動デプロイ）
 - Wait timer: 0 分
 - Deployment branches: main のみ
 - Environment secrets: （本番用シークレット）
@@ -86,10 +86,10 @@ Settings > Environments > staging:
 
 ```
 Settings > Branches > main:
-- Require pull request reviews: 2
+- Require pull request before merging: ON
+- Required number of approvals: 0（承認不要・個人開発のため）
 - Require status checks to pass: ci / Validate Build
 - Require branches to be up to date before merging: ON
-- Restrict who can push: admins only
 - Allow force pushes: OFF
 - Allow deletions: OFF
 ```
@@ -98,7 +98,8 @@ Settings > Branches > main:
 
 ```
 Settings > Branches > dev:
-- Require pull request reviews: 1
+- Require pull request before merging: ON
+- Required number of approvals: 0（承認不要・個人開発のため）
 - Require status checks to pass: ci / Validate Build
 - Allow force pushes: OFF
 ```
@@ -110,3 +111,4 @@ Settings > Branches > dev:
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
 | 2026-04-09 | 1.0.0 | 初版作成（feature/dev/main 3層ブランチ戦略） |
+| 2026-04-26 | 1.1.0 | 個人開発方針反映: PR 承認を 2名/1名 → 0名（承認不要）に変更。CI チェック必須は維持。production Required reviewers を 0名に変更。Issue #23 対応。 |

@@ -194,18 +194,80 @@ GAS prototype は採用スタックではなく、画面確認用のプロトタ
 
 ---
 
+## リポジトリ構造
+
+```
+UBM-Hyogo/                          # pnpm monorepo root
+├── apps/
+│   ├── web/                        # Cloudflare Pages + Next.js App Router
+│   └── api/                        # Cloudflare Workers + Hono
+├── packages/
+│   └── shared/                     # 共通型定義・ユーティリティ
+├── doc/                            # タスク仕様書・設計ドキュメント
+│   ├── 00-getting-started-manual/  # プロジェクト起動・仕様のエントリポイント（本ファイル）
+│   ├── 00-serial-*/                # Wave 0: アーキテクチャ基盤
+│   ├── 01a-*/                      # Wave 1 並列: GitHub & Branch Governance
+│   ├── 01b-*/                      # Wave 1 並列: Cloudflare 基盤設定
+│   ├── 01c-*/                      # Wave 1 並列: Monorepo & CI 設定
+│   └── unassigned-task/            # 未割り当て・検討中タスク
+├── .github/
+│   ├── CODEOWNERS                  # コードオーナー設定
+│   └── pull_request_template.md    # PR テンプレート
+└── .claude/
+    └── settings.json               # Claude Code 権限設定
+```
+
+---
+
 ## ブランチ戦略
 
-| ブランチ | 対応環境 | PRレビュー | force push |
-|----------|----------|------------|------------|
-| `feature/*` | ローカル (localhost) | 不要 | 禁止 |
-| `dev` | staging (Cloudflare staging) | 1名 | 禁止 |
-| `main` | production (Cloudflare production) | 2名 | 禁止 |
+| ブランチ | 対応環境 | PR承認 | CI チェック | force push |
+|----------|----------|--------|------------|------------|
+| `feature/*` | ローカル (localhost) | 不要 | なし | 禁止 |
+| `dev` | staging (Cloudflare staging) | 不要（個人開発） | 必須 | 禁止 |
+| `main` | production (Cloudflare production) | 不要（個人開発） | 必須 | 禁止 |
 
 ```
 feature/* --PR--> dev --PR--> main
   (local)       (staging)   (production)
 ```
+
+---
+
+## GitHub Governance
+
+### Branch Protection 設定値
+
+| ブランチ | Required reviews | Status checks | Force push |
+|---------|-----------------|---------------|------------|
+| `main` | 0名（不要・個人開発） | `ci`, `Validate Build` | 禁止 |
+| `dev` | 0名（不要・個人開発） | `ci`, `Validate Build` | 禁止 |
+
+- `main` / `dev` への直接 push 禁止。必ず PR 経由でマージする。
+- PR 承認は不要。CI チェック通過のみで merge 可能。
+- Status checks（`ci` / `Validate Build`）は下流タスクで GitHub Actions を設定後に有効になる。
+- 設定手順: `doc/01a-parallel-github-and-branch-governance/outputs/phase-05/repository-settings-runbook.md`
+
+### CODEOWNERS（`.github/CODEOWNERS`）
+
+```
+*                   @daishiman   # global fallback（全ファイル）
+doc/01a-*/          @daishiman   # Wave 1 並列タスク仕様書
+doc/01b-*/          @daishiman
+doc/01c-*/          @daishiman
+.github/            @daishiman   # governance ファイル自体
+```
+
+### PR テンプレート（`.github/pull_request_template.md`）
+
+PR 作成時に自動適用される。以下をすべて記入・チェックしてからレビューを依頼する。
+
+| 項目 | 内容 |
+|------|------|
+| True Issue | このPRが解決する本質的な課題のIssue番号 |
+| Dependency | 依存する先行タスクのIssue番号 |
+| 4条件チェック | **価値性** / **実現性** / **整合性** / **運用性** の4つ全てチェック必須 |
+| テスト確認 | CI GREEN / ローカル動作確認 / secret 非混入確認 |
 
 ---
 
@@ -219,6 +281,28 @@ feature/* --PR--> dev --PR--> main
 | ローカル秘密情報の正本 | 1Password Environments | 全シークレット（平文 `.env` はリポジトリにコミットしない） |
 
 詳細: `doc/00-serial-architecture-and-scope-baseline/outputs/phase-02/canonical-baseline.md` セクション4
+
+---
+
+## Claude Code 設定（`.claude/settings.json`）
+
+| 設定 | 値 | 説明 |
+|------|-----|------|
+| `defaultMode` | `bypassPermissions` | 許可リスト内のツールは確認なしで自動実行 |
+| 出力言語 | 日本語 | 応答・思考プロセス含めすべて日本語 |
+
+**許可ツール（主要）**: `node` / `pnpm` / `git` / `gh` / `find` / `grep` / `sed` / `awk` / `playwright` 等
+
+**禁止操作**（許可リストに関わらず常に禁止）:
+
+| 禁止内容 | 理由 |
+|---------|------|
+| `.env` ファイル読み取り | シークレット漏洩防止 |
+| `rm -rf /` / `rm -rf ~` | 破壊的削除 |
+| `curl \| bash` / `wget \| bash` | コードインジェクション |
+| SSH キー・AWS 認証情報読み取り | 認証情報保護 |
+
+ツール追加・変更は `update-config` スキルで `.claude/settings.json` を編集する。
 
 ---
 
@@ -250,6 +334,39 @@ feature/* --PR--> dev --PR--> main
 
 ---
 
+## タスク実行フロー
+
+タスクは Phase 1〜13 の仕様書に分解して `doc/` 配下に配置する。
+
+### ディレクトリ構造
+
+```
+doc/{task-id}/
+├── index.md              # タスク概要・フェーズ一覧・受け入れ基準
+├── artifacts.json        # 成果物台帳（completed / pending の状態管理）
+├── phase-01.md           # 要件定義
+├── phase-02.md           # 設計
+│     ...
+├── phase-12.md           # ドキュメント更新・close-out
+├── phase-13.md           # PR 作成（ユーザー承認必須）
+└── outputs/
+    └── phase-{N}/        # 各フェーズの実行成果物
+```
+
+### 実行ルール
+
+| ルール | 内容 |
+|-------|------|
+| Phase 13 は AI 自律実行禁止 | ユーザーが「PR を作成してください」と明示的に指示してから実行 |
+| コミット・push 禁止 | ユーザー指示があるまでコミット・push しない |
+| same-wave sync | 仕様書変更時は resource-map / LOGS / lessons-learned を同一 wave で更新 |
+| 未割り当てタスク登録 | スコープ外で発見した課題は `doc/unassigned-task/` に登録し、優先度・推奨Wave・依存関係を記載する |
+
+### タスク仕様書スキル
+
+タスク仕様書の作成・更新には `task-specification-creator` スキルを使用する。
+
+---
 ## 参照ドキュメント
 
 | ファイル | 内容 |

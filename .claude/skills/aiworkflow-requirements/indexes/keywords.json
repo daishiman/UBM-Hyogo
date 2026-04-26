@@ -4187,7 +4187,8 @@
       "deployment-core.md",
       "deployment-details.md",
       "deployment-gha.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-current-2026-04.md"
     ],
     "環境保護ルール": [
       "deployment-branch-strategy.md"
@@ -7150,6 +7151,10 @@
     "bootstrap": [
       "lessons-learned-current-2026-04.md"
     ],
+    "Governance": [
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-governance-hooks-phase-policy.md"
+    ],
     "Menu": [
       "lessons-learned-current-electron-menu-docs-task0912.md",
       "ui-ux-portal-patterns.md"
@@ -7180,9 +7185,6 @@
     ],
     "カテゴリ別検索ガイド": [
       "lessons-learned-current.md"
-    ],
-    "Governance": [
-      "lessons-learned-governance-hooks-phase-policy.md"
     ],
     "Policy": [
       "lessons-learned-governance-hooks-phase-policy.md"

@@ -2325,7 +2325,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L108 |
+| 変更履歴 | L109 |
 
 ### references/deployment-cloudflare.md
 
