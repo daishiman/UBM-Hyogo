@@ -3,9 +3,6 @@ main = "src/index.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
-[triggers]
-crons = ["0 * * * *"]
-
 [vars]
 ENVIRONMENT = "production"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
@@ -24,9 +21,6 @@ database_id = "24963f0a-7fbb-4508-a93a-f8e502aa4585"
 
 [env.staging]
 name = "ubm-hyogo-api-staging"
-
-[env.staging.triggers]
-crons = ["0 * * * *"]
 
 [env.staging.vars]
 ENVIRONMENT = "staging"

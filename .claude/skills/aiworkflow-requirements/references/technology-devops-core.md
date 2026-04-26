@@ -40,6 +40,19 @@
 | ディレクトリ | 説明 |
 | ------------ | ---- |
 | packages/shared | 共通ロジック、型定義、ユーティリティ |
+| packages/integrations/google | Google Forms client placeholder（Wave 0 は interface のみ） |
+
+**Wave 0 package baseline（2026-04-26）**:
+
+| 項目 | 値 |
+| --- | --- |
+| Root package manager | pnpm 10.x |
+| Node target | 24.x |
+| TypeScript | 6.0.3 |
+| Web runtime | Next.js 16 + `@opennextjs/cloudflare` |
+| API runtime | Hono on Cloudflare Workers |
+| Test runner | Vitest 2.x |
+| Boundary lint | `scripts/lint-boundaries.mjs` + package typecheck |
 
 **外部サービス**:
 

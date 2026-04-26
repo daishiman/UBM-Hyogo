@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@ubm-hyogo/shared": ["packages/shared/src/index.ts"],
-      "@ubm-hyogo/integrations": ["packages/integrations/src/index.ts"]
+      "@ubm-hyogo/integrations": ["packages/integrations/src/index.ts"],
+      "@ubm-hyogo/integrations-google": ["packages/integrations/google/src/index.ts"]
     }
   }
 }
