@@ -26,7 +26,7 @@
 | --- | --- | --- |
 | 矛盾なし | PASS | 旧パス表記、壊れた legacy 参照、Wave 5 依存矛盾を解消した |
 | 漏れなし | PASS | 読み順、正本優先順位、Wave 5 同期ルール、secret/variable 境界を追加した |
-| 整合性あり | PASS | Wave 0 を `../00-serial-architecture-and-scope-baseline/` に分離し、Wave 1 の 01b を sibling root に切り出したうえで、01a/01c/02/03/04/05a/05b は `doc/01-infrastructure-setup/...` に表記統一した |
+| 整合性あり | PASS | Wave 0 を `../00-serial-architecture-and-scope-baseline/` に分離し、Wave 1 の 01b と Wave 5 の 05a を sibling root に切り出したうえで、残る 01a/01c/02/03/04/05b は `docs/01-infrastructure-setup/...` に表記統一した |
 | 依存関係整合 | PASS | Wave 0-4 は直列、Wave 1 と Wave 5 は並列着手 + same-wave sync と定義し直した |
 
 ## 正本優先順位
@@ -46,7 +46,7 @@
 | 2 | ../completed-tasks/02-serial-monorepo-runtime-foundation/ | serial | モノレポとランタイム基盤（完了） |
 | 3 | 03-serial-data-source-and-storage-contract/ | serial | データ入力源と保存契約 |
 | 4 | 04-serial-cicd-secrets-and-environment-sync/ | serial | CI/CD・Secrets・環境同期 |
-| 5 | 05a-parallel-observability-and-cost-guardrails/ | parallel | 観測性と無料枠ガードレール |
+| 5 | ../05a-parallel-observability-and-cost-guardrails/ | parallel | 観測性と無料枠ガードレール |
 | 5 | 05b-parallel-smoke-readiness-and-handoff/ | parallel | smoke readiness / handoff。05a と並列着手し、Phase 10-12 で同期 |
 
 ## 実行順序
@@ -98,5 +98,5 @@ graph LR
 
 - ../00-serial-architecture-and-scope-baseline/index.md
 - 04-serial-cicd-secrets-and-environment-sync/index.md
-- 05a-parallel-observability-and-cost-guardrails/index.md
+- ../05a-parallel-observability-and-cost-guardrails/index.md
 - 05b-parallel-smoke-readiness-and-handoff/index.md

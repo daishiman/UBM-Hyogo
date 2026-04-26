@@ -34,7 +34,7 @@ cron schedule の設計、監視 placeholder の配置、release runbook と inc
 | 必須 | doc/00-getting-started-manual/specs/03-data-fetching.md | sync_jobs 運用方針 |
 | 必須 | doc/02-application-implementation/03b-parallel-forms-response-sync-and-current-response-resolver/index.md | response sync 仕様 |
 | 必須 | doc/02-application-implementation/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/index.md | schema sync 仕様 |
-| 参考 | doc/01-infrastructure-setup/05a-parallel-observability-and-cost-guardrails/ | observability placeholder |
+| 参考 | docs/05a-parallel-observability-and-cost-guardrails/ | observability placeholder |
 
 ## 実行手順
 

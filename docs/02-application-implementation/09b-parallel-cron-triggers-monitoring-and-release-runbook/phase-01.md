@@ -34,7 +34,7 @@
 | 必須 | doc/00-getting-started-manual/specs/15-infrastructure-runbook.md | cron schedule 正本 |
 | 必須 | doc/00-getting-started-manual/specs/03-data-fetching.md | sync_jobs running 確認 / 部分失敗運用 |
 | 必須 | doc/00-getting-started-manual/specs/08-free-database.md | 無料枠 |
-| 参考 | doc/01-infrastructure-setup/05a-parallel-observability-and-cost-guardrails/ | observability placeholder |
+| 参考 | docs/05a-parallel-observability-and-cost-guardrails/ | observability placeholder |
 
 ## 実行手順
 

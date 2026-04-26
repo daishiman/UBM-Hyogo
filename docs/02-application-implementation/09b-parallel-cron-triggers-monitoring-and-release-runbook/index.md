@@ -43,7 +43,7 @@ Workers Cron Triggers（forms sync 定期実行）の wrangler.toml 定義、Clo
 | --- | --- | --- |
 | 上流 | 08a-parallel-api-contract-repository-and-authorization-tests | sync API の AC 達成確認 |
 | 上流 | 08b-parallel-playwright-e2e-and-ui-acceptance-smoke | 監視 dashboard で参照する UI URL の確定 |
-| 上流 | doc/01-infrastructure-setup/05a-parallel-observability-and-cost-guardrails | observability / cost guardrails の placeholder 配置 |
+| 上流 | docs/05a-parallel-observability-and-cost-guardrails | observability / cost guardrails の placeholder 配置 |
 | 下流 | 09c-serial-production-deploy-and-post-release-verification | release runbook を production deploy で参照 |
 | 並列 | 09a-parallel-staging-deploy-smoke-and-forms-sync-validation | 同 Wave。Phase 10-12 で staging URL / sync_jobs id を release runbook に取り込む |
 
