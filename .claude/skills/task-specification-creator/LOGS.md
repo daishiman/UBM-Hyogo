@@ -2,6 +2,27 @@
 
 ## 役割
 
+## 2026-04-24 - impl-spec-to-skill-sync: SKILL.md 500行制限対応 + lessons-learned追加
+
+### 変更内容
+
+- `SKILL.md` の変更履歴テーブルを最新2件+参照リンクに圧縮（550行→493行、CONST_002準拠）
+- 第2変更履歴テーブル（旧518-547行）を削除し `SKILL-changelog.md` / `LOGS.md` への参照リンクに置き換え
+- mirror sync（rsync） + `diff -qr` 差分ゼロを確認
+- `SKILL-changelog.md` に v10.09.43 エントリを追加
+
+## 2026-04-23 - doc/01c-parallel-google-workspace-bootstrap canonical path / implementation-guide sync
+
+### 変更内容
+
+- `doc/01c-parallel-google-workspace-bootstrap` の task root を canonical path として統一し、旧 `doc/01-infrastructure-setup/01c-parallel-google-workspace-bootstrap` 参照を解消した
+- Phase 12 の guide filename を `outputs/phase-12/implementation-guide.md` に統一し、`outputs/artifacts.json` を root `artifacts.json` の同期コピーとして追加した
+- Phase 12 の changelog / compliance / system spec / index / phase 本文を current facts に揃え、Phase 13 の PR 手順記述も implementation-guide 基準へ更新した
+
+### 背景
+
+docs-only の `spec_created` workflow では、task root と成果物ファイル名の drift が downstream の validator / handoff / PR text を壊す。今回のタスクはその drift を一本化するための canonicalization である。
+
 ## 2026-04-23 - doc/00-serial-architecture-and-scope-baseline Phase 12 current facts sync
 
 ### 変更内容
