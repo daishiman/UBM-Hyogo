@@ -248,6 +248,8 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 
 | Version       | Date           | Changes                                                                                                                                                                                                     |
 | ------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **v10.09.45** | **2026-04-26** | **audit feedback 反映**: docs-only Phase 11 代替証跡（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）を `phase-template-phase11.md` に明文化、`phase-12-completion-checklist.md` に task root path drift 検出・補正手順を追加、validator CLI 引数規約（positional vs `--workflow`、`--task` 未実装）を `commands.md` にドキュメント化。 |
+| **v10.09.44** | **2026-04-26** | **05a-parallel-observability-and-cost-guardrails Phase 12 close-out 反映**: Phase 12 実行時によくある漏れ表に UBM-005（root/outputs `artifacts.json` 二重 ledger 同期漏れ）と UBM-006（Pages/Workers topology drift の未タスク formalize 漏れ、`task-{cat}-...-NNN.md` 命名と `docs/30-workflows/unassigned-task/` 配置）を追記。 |
 | **v10.09.43** | **2026-04-26** | **02-serial-monorepo-runtime-foundation close-out hardening**: Phase 12 implementation guide Part 1/2 補正、Phase 11 NON_VISUAL docs-only validator 対応、`index.md` / Phase 11 link checklist / system spec summary の stale 状態同期。 |
 | **v10.09.44** | **2026-04-26** | **Wave 0 scaffold close-out hardening**: docs-only/spec_created metadata のまま code 実装が入った場合は Phase 12 Step 2 を再判定し、task root path/status parity、scope外実装混入、現環境での verify 再実行結果を必ず記録する。 |
 | **v10.09.42** | **2026-04-23** | **doc/01c-parallel-google-workspace-bootstrap canonical path sync**: task root を `doc/01c-parallel-google-workspace-bootstrap` に統一し、`outputs/phase-12/implementation-guide.md` を Phase 12 guide filename に是正。`outputs/artifacts.json` を root `artifacts.json` の同期コピーとして追加。 |
@@ -312,8 +314,10 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 | **[UBM-002]** `spec_created` タイプのタスクを VISUAL（画面あり）として Phase 11 を実行してしまう | `spec_created` は docs-only（非視覚）タイプ。Phase 11 では `detectDocsOnlyPhase11()` が `spec_created` を非視覚として判定し、必須 outputs は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点（スクリーンショット不要）。Phase 1 でタスクタイプを明示するときに `spec_created` を正確に記録する |
 | **[UBM-003]** Phase 11 非視覚タスクの必須 outputs が視覚タスクと同じだと誤解する | Phase 11 非視覚（docs-only / spec_created）タスクの必須 outputs は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点。視覚タスクの `manual-test-checklist.md` / `manual-test-result.md` / `discovered-issues.md` / `screenshot-plan.json` とは別セットであることを Phase 1 設計時に確認する |
 | **[UBM-004]** `artifacts.json` を AIWorkflowOrchestrator 形式（`feature` + `created` + `lastUpdated`）のみ想定し、UBM-Hyogo 形式（`task_name` + `created_at`）のファイルが schema validation で弾かれる | `schemas/artifact-definition.json` は `anyOf` で両形式をサポート済み。`required` は `["phases"]` のみ。`task_name` / `task_path` / `wave` / `execution_mode` / `depends_on` / `blocks` / `created_at` は legacy フィールドとして有効。既存の `artifacts.json` を修正せず、schema 側で吸収する |
-| **[UBM-005]** `docs_only` / `spec_created` のまま実コード変更を含むタスクを Phase 12 で no-op 仕様同期にしてしまう | Phase 12 開始時に `git status --short` と task scope を照合し、`apps/` / `packages/` / root config に差分がある場合は Step 2 を再判定する。新規型/API/定数/route/設定があれば system spec update summary と正本仕様へ反映する |
-| **[UBM-006]** task root を移動した後、`index.md` / `artifacts.json` / Phase 12 changelog が旧 path を指し続ける | Phase 12 の最初に canonical root と実体パスを比較し、`outputs/artifacts.json` も含めて同一 path へ同期する。旧 path 削除と新 path 追加は changelog に明記する |
+| **[UBM-005]** root `artifacts.json` のみ更新し、`outputs/artifacts.json` の Phase status が drift する（二重 ledger 同期漏れ） | Phase 12 close-out では root と `outputs/artifacts.json` の各 phase `status` を必ず diff し、同時更新する。`spec_created` / docs-only タスクでも outputs 側 ledger は同期コピーとして必須。validator 実行前に `diff <(jq .phases artifacts.json) <(jq .phases outputs/artifacts.json)` で確認 |
+| **[UBM-006]** Pages (`pages_build_output_dir = ".next"`) と OpenNext Workers 方針が二重定義された状態を current contract として確定できず、未タスク formalize を漏らす | `wrangler.toml` と OpenNext 方針の差分を検知したら `docs/30-workflows/unassigned-task/task-ref-cicd-workflow-topology-drift-001.md` 形式（`task-{cat}-...-NNN.md`、taskId pattern `^task-[a-z]+-[a-z0-9-]+-[0-9]+$`）で formalize し、Phase 12 unassigned-task-detection.md に登録する。05a runbook では deploy contract を `wrangler.toml` 一次ソースで暫定採用 |
+| **[UBM-007]** `docs_only` / `spec_created` のまま実コード変更を含むタスクを Phase 12 で no-op 仕様同期にしてしまう | Phase 12 開始時に `git status --short` と task scope を照合し、`apps/` / `packages/` / root config に差分がある場合は Step 2 を再判定する。新規型/API/定数/route/設定があれば system spec update summary と正本仕様へ反映する |
+| **[UBM-008]** task root を移動した後、`index.md` / `artifacts.json` / Phase 12 changelog が旧 path を指し続ける | Phase 12 の最初に canonical root と実体パスを比較し、`outputs/artifacts.json` も含めて同一 path へ同期する。旧 path 削除と新 path 追加は changelog に明記する |
 
 ### Phase 12 苦戦防止Tips
 
@@ -473,7 +477,7 @@ diff -qr .claude/skills/task-specification-creator .agents/skills/task-specifica
 node scripts/log-usage.js --result success --phase "Phase {{N}}"
 ```
 
-Phase 12 では追加で `detect-unassigned-tasks.js`、`audit-unassigned-tasks.js`、`verify-unassigned-links.js`、`validate-phase12-implementation-guide.js` を実行する。
+Phase 12 では追加で `detect-unassigned-tasks.js`、`audit-unassigned-tasks.js`、`verify-unassigned-links.js`、`validate-phase12-implementation-guide.js`、`validate-phase11-screenshot-coverage.js` を実行する。validator の CLI 引数は positional / `--workflow` 形式が混在しているため、呼び出し前に [references/commands.md](references/commands.md) の「validator CLI 引数規約」を参照する。
 
 ## ベストプラクティス
 
