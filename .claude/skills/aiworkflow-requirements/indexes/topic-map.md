@@ -2336,13 +2336,13 @@ node scripts/list-specs.js --topics
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L25 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L88 |
 | Cloudflare D1 データベース | L134 |
-| GitHub Actions CI/CD | L161 |
-| プレビューデプロイメント | L193 |
-| カスタムドメイン設定 | L210 |
-| 環境分離 | L223 |
-| ロールバック戦略 | L243 |
-| コスト概算（個人開発） | L264 |
-| 変更履歴 | L276 |
+| GitHub Actions CI/CD | L167 |
+| プレビューデプロイメント | L199 |
+| カスタムドメイン設定 | L216 |
+| 環境分離 | L229 |
+| ロールバック戦略 | L249 |
+| コスト概算（個人開発） | L270 |
+| 変更履歴 | L282 |
 
 ### references/deployment-core.md
 
@@ -2351,8 +2351,8 @@ node scripts/list-specs.js --topics
 | デプロイメント戦略概要 | L6 |
 | Cloudflare デプロイ戦略 | L37 |
 | GitHub Actions CI/CD パイプライン | L84 |
-| ロールバック戦略 | L122 |
-| 変更履歴 | L168 |
+| ロールバック戦略 | L127 |
+| 変更履歴 | L173 |
 
 ### references/deployment-details.md
 
@@ -2368,14 +2368,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L47 |
-| キャッシュ戦略 | L81 |
-| 並列実行の活用 | L104 |
-| CD ワークフロー要件（main マージ時） | L160 |
-| モニタリングとアラート | L183 |
-| GitHub Secrets の要件 | L217 |
-| 関連ドキュメント | L241 |
-| 変更履歴 | L248 |
+| CI ワークフロー要件（PR 時） | L48 |
+| キャッシュ戦略 | L82 |
+| 並列実行の活用 | L105 |
+| CD ワークフロー要件（dev / main マージ時） | L161 |
+| Backend ワークフロー要件（dev / main マージ時） | L185 |
+| モニタリングとアラート | L205 |
+| GitHub Secrets の要件 | L239 |
+| 関連ドキュメント | L263 |
+| 変更履歴 | L270 |
 
 ### references/deployment-history.md
 
@@ -2721,6 +2722,20 @@ node scripts/list-specs.js --topics
 | TASK-FIX-IPC-HANDLER-GRACEFUL-DEGRADATION-001 教訓 | L118 |
 | TASK-FIX-AUTHGUARD-TIMEOUT-SETTINGS-BYPASS-001 実装教訓（2026-03-10） | L178 |
 | TASK-FIX-AUTHGUARD-TIMEOUT-SETTINGS-BYPASS-001 再監査教訓（2026-03-10） | L283 |
+
+### references/lessons-learned-cicd-dev-main-deploy.md
+
+| セクション | 行 |
+|------------|----|
+| L-CICD-001: Web CD と Backend CD のワークフロー分離 | L10 |
+| L-CICD-002: dev / main の job-level if 分岐で staging と production を一本化 | L19 |
+| L-CICD-003: D1 migrations apply は deploy より前に直列で実行する | L28 |
+| L-CICD-004: Cloudflare Pages の deployment URL は alias を優先で拾う | L37 |
+| L-CICD-005: Discord 通知は Webhook 未設定でも CI を緑にする | L46 |
+| L-CICD-006: 1Password Environments と GitHub Secrets の同期手順は明文化する | L55 |
+| L-CICD-007: ブランチ名の正本は `dev`（`develop` でない） | L64 |
+| 関連未タスク・フォローアップ候補 | L75 |
+| 変更履歴 | L85 |
 
 ### references/lessons-learned-conversation-db-robustness.md
 
