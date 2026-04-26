@@ -156,6 +156,12 @@ wrangler d1 migrations create ubm-hyogo-db "add_users_table"
 wrangler d1 migrations list ubm-hyogo-db --remote
 ```
 
+### D1 PRAGMA 制約
+
+Cloudflare D1 の PRAGMA は SQLite と完全同一に扱わず、Cloudflare の official compatible PRAGMA list を確認してから使う。`wrangler.toml` は D1 binding metadata の管理場所であり、`PRAGMA journal_mode=WAL` のような SQLite PRAGMA を永続設定する場所ではない。
+
+`journal_mode` が official compatible PRAGMA として確認できない場合、staging / production で `PRAGMA journal_mode=WAL` を実行しない。読み書き競合対策は retry/backoff、queue serialization、短い transaction、batch-size 制限を runtime 実装側で扱う。
+
 ---
 
 ## GitHub Actions CI/CD
