@@ -172,6 +172,37 @@ test("TC-SC-004: 非視覚TCを明示許可した場合はPASS", () => {
   );
 });
 
+test("TC-SC-005: spec_created docs-only は phase-11.md と3ファイル証跡でPASS", () => {
+  const root = makeTempDir();
+  const workflow = join(root, "workflow");
+
+  writeFile(
+    join(workflow, "phase-11.md"),
+    `# Phase 11: 手動 smoke test
+
+## Smoke Test 種別
+
+- Task type: \`spec_created\`
+- Visual evidence: \`NON_VISUAL\`
+`,
+  );
+  writeFile(join(workflow, "outputs/phase-11/main.md"), "NON_VISUAL summary");
+  writeFile(join(workflow, "outputs/phase-11/manual-smoke-log.md"), "docs-only smoke log");
+  writeFile(join(workflow, "outputs/phase-11/link-checklist.md"), "link checklist");
+
+  const { result, payload } = runValidator(["--workflow", workflow], root);
+
+  assert.equal(result.status, 0);
+  assert.ok(payload);
+  assert.equal(payload.errors.length, 0);
+  assert.equal(payload.coveredTestCases, 0);
+  assert.ok(
+    payload.warnings.some((message) =>
+      message.includes("NON_VISUAL / docs-only Phase 11 と判定したため"),
+    ),
+  );
+});
+
 test.after(() => {
   for (const dir of tempDirs) {
     rmSync(dir, { recursive: true, force: true });

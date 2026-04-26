@@ -2,7 +2,7 @@
 
 > 目的: Google Form の実回答を正本にしつつ、公開ディレクトリと会員・管理バックオフィスを最小構成で成立させる
 > 前提: 実フォームは 31 項目・6 セクション、`formId=119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg`
-> 本番ターゲット: Cloudflare Pages (apps/web) + Cloudflare Workers (apps/api) + D1
+> 本番ターゲット: Cloudflare Workers + @opennextjs/cloudflare (apps/web) + Cloudflare Workers (apps/api) + D1
 
 ---
 
@@ -74,7 +74,7 @@ Cloudflare D1
   -> meeting_sessions / member_attendance
   -> tag_definitions / member_tags / tag_assignment_queue / sync_jobs
 
-apps/web (Cloudflare Pages)
+apps/web (Cloudflare Workers via @opennextjs/cloudflare)
   -> public pages
   -> member pages
   -> admin pages
@@ -176,7 +176,7 @@ apps/web (Cloudflare Pages)
 
 | 役割 | 採用 | 備考 |
 |------|------|------|
-| Web (UI) | Cloudflare Pages + Next.js App Router | apps/web。設定: `apps/web/wrangler.toml`。DB への直接アクセス禁止 |
+| Web (UI) | Cloudflare Workers + Next.js App Router via `@opennextjs/cloudflare` | apps/web。設定: `apps/web/wrangler.toml`。DB への直接アクセス禁止 |
 | API | Cloudflare Workers + Hono | apps/api。設定: `apps/api/wrangler.toml`。D1 への唯一のアクセス口 |
 | DB | Cloudflare D1 | canonical DB。Workers binding 経由のみアクセス可 |
 | フォーム取得 | Google Forms API | 入力源 (non-canonical)。D1 へ同期後は参照不要 |
@@ -187,7 +187,7 @@ apps/web (Cloudflare Pages)
 
 | ファイル | 対象 | 本番名 | staging 名 |
 |---------|------|--------|------------|
-| `apps/web/wrangler.toml` | Cloudflare Pages | `ubm-hyogo-web` | `ubm-hyogo-web-staging` |
+| `apps/web/wrangler.toml` | Cloudflare Workers (@opennextjs/cloudflare) | `ubm-hyogo-web` | `ubm-hyogo-web-staging` |
 | `apps/api/wrangler.toml` | Cloudflare Workers | `ubm-hyogo-api` | `ubm-hyogo-api-staging` |
 
 GAS prototype は採用スタックではなく、画面確認用のプロトタイプとしてのみ扱う。
@@ -199,16 +199,15 @@ GAS prototype は採用スタックではなく、画面確認用のプロトタ
 ```
 UBM-Hyogo/                          # pnpm monorepo root
 ├── apps/
-│   ├── web/                        # Cloudflare Pages + Next.js App Router
+│   ├── web/                        # Cloudflare Workers + Next.js App Router via @opennextjs/cloudflare
 │   └── api/                        # Cloudflare Workers + Hono
 ├── packages/
-│   └── shared/                     # 共通型定義・ユーティリティ
+│   ├── shared/                     # 共通型定義・ユーティリティ
+│   └── integrations/               # 外部サービス統合（Google API等）
 ├── doc/                            # タスク仕様書・設計ドキュメント
 │   ├── 00-getting-started-manual/  # プロジェクト起動・仕様のエントリポイント（本ファイル）
-│   ├── 00-serial-*/                # Wave 0: アーキテクチャ基盤
-│   ├── 01a-*/                      # Wave 1 並列: GitHub & Branch Governance
-│   ├── 01b-*/                      # Wave 1 並列: Cloudflare 基盤設定
-│   ├── 01c-*/                      # Wave 1 並列: Monorepo & CI 設定
+│   ├── 01-infrastructure-setup/    # Wave 3〜5: 進行中のインフラタスク群
+│   ├── completed-tasks/            # 完了タスク（Wave 0〜2）
 │   └── unassigned-task/            # 未割り当て・検討中タスク
 ├── .github/
 │   ├── CODEOWNERS                  # コードオーナー設定

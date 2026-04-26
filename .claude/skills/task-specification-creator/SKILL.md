@@ -248,6 +248,7 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 
 | Version       | Date           | Changes                                                                                                                                                                                                     |
 | ------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **v10.09.43** | **2026-04-26** | **02-serial-monorepo-runtime-foundation close-out hardening**: Phase 12 implementation guide Part 1/2 補正、Phase 11 NON_VISUAL docs-only validator 対応、`index.md` / Phase 11 link checklist / system spec summary の stale 状態同期。 |
 | **v10.09.42** | **2026-04-23** | **doc/01c-parallel-google-workspace-bootstrap canonical path sync**: task root を `doc/01c-parallel-google-workspace-bootstrap` に統一し、`outputs/phase-12/implementation-guide.md` を Phase 12 guide filename に是正。`outputs/artifacts.json` を root `artifacts.json` の同期コピーとして追加。 |
 | **v10.09.41** | **2026-04-23** | **UBM-Hyogo 対応: artifact-definition.json マルチフォーマット対応 + validate-phase-output.js hardening**: `schemas/artifact-definition.json` を `anyOf` で AIWorkflowOrchestrator 形式と UBM-Hyogo 形式（`task_name`/`created_at`）の両方をサポート。Phase file マッチングを `/^phase-N(?:-.*)?\.md$/` に統一。`spec_created` を docs-only として追加。UBM-001〜004 を「よくある漏れ」に追記。 |
 

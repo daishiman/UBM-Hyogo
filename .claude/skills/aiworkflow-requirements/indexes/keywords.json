@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2857,
+  "totalKeywords": 2856,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -4211,10 +4211,25 @@
     "サービス構成": [
       "deployment-cloudflare.md"
     ],
-    "Pages": [
+    "Workers": [
       "deployment-cloudflare.md"
     ],
     "デプロイ": [
+      "deployment-cloudflare.md"
+    ],
+    "Next": [
+      "deployment-cloudflare.md",
+      "directory-structure-core.md",
+      "technology-core.md"
+    ],
+    "js": [
+      "deployment-cloudflare.md",
+      "directory-structure-core.md",
+      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
+      "technology-core.md"
+    ],
+    "OpenNext": [
       "deployment-cloudflare.md"
     ],
     "Wrangler": [
@@ -4226,12 +4241,6 @@
     "アカウントへのログイン": [
       "deployment-cloudflare.md"
     ],
-    "プロジェクト作成": [
-      "deployment-cloudflare.md"
-    ],
-    "初回のみ": [
-      "deployment-cloudflare.md"
-    ],
     "ローカルビルドの確認": [
       "deployment-cloudflare.md"
     ],
@@ -4239,9 +4248,6 @@
       "deployment-cloudflare.md"
     ],
     "確認": [
-      "deployment-cloudflare.md"
-    ],
-    "Workers": [
       "deployment-cloudflare.md"
     ],
     "バックエンド": [
@@ -4318,23 +4324,14 @@
     "ローカル起動": [
       "deployment-cloudflare.md"
     ],
+    "Pages": [
+      "deployment-cloudflare.md"
+    ],
     "Functions": [
       "deployment-cloudflare.md"
     ],
     "含む": [
       "deployment-cloudflare.md"
-    ],
-    "Next": [
-      "deployment-cloudflare.md",
-      "directory-structure-core.md",
-      "technology-core.md"
-    ],
-    "js": [
-      "deployment-cloudflare.md",
-      "directory-structure-core.md",
-      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
-      "technology-core.md"
     ],
     "開発サーバー": [
       "deployment-cloudflare.md"
@@ -7142,6 +7139,10 @@
     "ウィザード遷移ボタン化": [
       "lessons-learned-current-2026-04.md"
     ],
+    "Governance": [
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-governance-hooks-phase-policy.md"
+    ],
     "parallel": [
       "lessons-learned-current-2026-04.md"
     ],
@@ -7150,10 +7151,6 @@
     ],
     "bootstrap": [
       "lessons-learned-current-2026-04.md"
-    ],
-    "Governance": [
-      "lessons-learned-current-2026-04.md",
-      "lessons-learned-governance-hooks-phase-policy.md"
     ],
     "Menu": [
       "lessons-learned-current-electron-menu-docs-task0912.md",

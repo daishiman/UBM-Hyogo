@@ -32,8 +32,8 @@
 
 | ディレクトリ | 技術 | 説明 |
 | ------------ | ---- | ---- |
-| apps/web | Next.js 15 (App Router) | Webアプリケーション |
-| apps/desktop | Electron + Next.js | デスクトップアプリケーション（将来対応） |
+| apps/web | Next.js 16 (App Router) + `@opennextjs/cloudflare` | Webアプリケーション（Workers runtime） |
+| apps/api | Hono on Cloudflare Workers | API バックエンド |
 
 **共有パッケージ層（packages/）**:
 
@@ -46,7 +46,7 @@
 | サービス | 用途 | 無料枠 |
 | -------- | ---- | ------ |
 | Turso | 分散SQLite | 9GB、500Mリクエスト/月 |
-| Cloudflare Pages / Workers | ホスティング | 無料枠中心 |
+| Cloudflare Workers | Next.js Web UI / API ホスティング | 無料枠中心 |
 | AI Provider | LLM統合 | OpenAI / Anthropic / Google / xAI |
 
 ---
@@ -61,9 +61,10 @@
 
 | カテゴリ | パッケージ | バージョン | 用途 |
 | -------- | ---------- | ---------- | ---- |
-| フレームワーク | next | ^15.1.0 | App Router対応 |
-| フレームワーク | react | ^19.0.0 | UIライブラリ |
-| フレームワーク | react-dom | ^19.0.0 | DOM描画 |
+| フレームワーク | next | 16.x | App Router対応 |
+| フレームワーク | react | 19.2.x | UIライブラリ |
+| フレームワーク | react-dom | 19.2.x | DOM描画 |
+| Cloudflare adapter | @opennextjs/cloudflare | 1.x | Next.js を Workers runtime へ変換 |
 | データベース | @libsql/client | ^0.14.0 | Tursoクライアント |
 | データベース | drizzle-orm | ^0.38.0 | ORMライブラリ |
 | AI | ai | ^4.1.0 | Vercel AI SDK |
@@ -273,7 +274,7 @@ Zustandを採用した理由は、シンプルなAPI、TypeScript完全対応、
 | サービス          | 無料枠                   | 個人開発での充足度 |
 | ----------------- | ------------------------ | ------------------ |
 | **Turso**         | 9GB、500Mリクエスト/月   | 十分               |
-| **Cloudflare Pages / Workers** | 無料枠中心               | Web/APIの個人開発に十分 |
+| **Cloudflare Workers** | 無料枠中心               | Web/APIの個人開発に十分 |
 | **Cloudflare R2** | 10GB、100万リクエスト/月 | ファイル保存に最適 |
 | **OpenAI**        | $5 (新規)                | 開発テスト用       |
 | **Google AI**     | 60リクエスト/分          | 開発テスト用       |

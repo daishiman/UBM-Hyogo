@@ -61,11 +61,11 @@ node scripts/list-specs.js --topics
 |------------|----|
 | システムの目的 | L8 |
 | 設計の核心概念 | L35 |
-| 対象ユーザー | L69 |
-| スコープ定義 | L80 |
-| アーキテクチャ原則 | L111 |
-| 成功基準 | L143 |
-| 関連ドキュメント | L164 |
+| 対象ユーザー | L68 |
+| スコープ定義 | L79 |
+| アーキテクチャ原則 | L110 |
+| 成功基準 | L142 |
+| 関連ドキュメント | L163 |
 
 ### references/quality-requirements.md
 
@@ -1622,12 +1622,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L6 |
-| バックエンド・データベース | L46 |
-| AI統合 | L199 |
-| 開発ツール | L405 |
-| 完了タスク | L446 |
-| 関連ドキュメント | L478 |
-| 変更履歴 | L488 |
+| バックエンド・データベース | L48 |
+| AI統合 | L201 |
+| 開発ツール | L407 |
+| 完了タスク | L448 |
+| 関連ドキュメント | L480 |
+| 変更履歴 | L490 |
 
 ### references/technology-core.md
 
@@ -1636,7 +1636,7 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | コアランタイム | L55 |
 | フロントエンド | L116 |
-| 変更履歴 | L243 |
+| 変更履歴 | L245 |
 
 ### references/technology-devops-core.md
 
@@ -1644,10 +1644,10 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L6 |
 | パッケージ構成詳細 | L54 |
-| 依存関係管理戦略 | L176 |
-| 無料枠の活用ガイド | L269 |
-| CI/CDツール選定 | L301 |
-| 学習リソースとコミュニティ | L388 |
+| 依存関係管理戦略 | L177 |
+| 無料枠の活用ガイド | L270 |
+| CI/CDツール選定 | L302 |
+| 学習リソースとコミュニティ | L389 |
 
 ### references/technology-devops-details.md
 
@@ -1680,16 +1680,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L8 |
 | UIフレームワーク | L14 |
-| スタイリング | L50 |
-| 状態管理 | L101 |
-| フォーム・バリデーション | L129 |
-| エディター・表示 | L159 |
-| アイコン・アセット | L177 |
-| アニメーション | L193 |
-| テスト | L212 |
-| ビルド・バンドル | L251 |
-| 関連ドキュメント | L272 |
-| 変更履歴 | L283 |
+| スタイリング | L60 |
+| 状態管理 | L111 |
+| フォーム・バリデーション | L139 |
+| エディター・表示 | L169 |
+| アイコン・アセット | L187 |
+| アニメーション | L203 |
+| テスト | L222 |
+| ビルド・バンドル | L261 |
+| 関連ドキュメント | L282 |
+| 変更履歴 | L293 |
 
 ---
 
@@ -2333,16 +2333,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L6 |
 | サービス構成 | L13 |
-| Cloudflare Pages デプロイ | L26 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L92 |
-| Cloudflare D1 データベース | L138 |
-| GitHub Actions CI/CD | L165 |
-| プレビューデプロイメント | L197 |
-| カスタムドメイン設定 | L214 |
-| 環境分離 | L227 |
-| ロールバック戦略 | L247 |
-| コスト概算（個人開発） | L268 |
-| 変更履歴 | L280 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L25 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L88 |
+| Cloudflare D1 データベース | L134 |
+| GitHub Actions CI/CD | L161 |
+| プレビューデプロイメント | L193 |
+| カスタムドメイン設定 | L210 |
+| 環境分離 | L223 |
+| ロールバック戦略 | L243 |
+| コスト概算（個人開発） | L264 |
+| 変更履歴 | L276 |
 
 ### references/deployment-core.md
 
@@ -4260,7 +4260,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| 続き | L331 |
+| 続き | L332 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 
@@ -4545,9 +4545,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L8 |
-| 利用順序 | L37 |
-| 関連ドキュメント | L42 |
+| 仕様書インデックス | L9 |
+| 利用順序 | L38 |
+| 関連ドキュメント | L43 |
 
 ### references/testing-accessibility.md
 
