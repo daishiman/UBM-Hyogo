@@ -28,6 +28,17 @@
 
 30種思考法レビューで、Phase status、canonical path、implementation guide validator、formalize path、KV/R2・D1 writes・GitHub Actions workflow topology の漏れが見つかった。docs-only task でも Phase 12 close-out は成果物存在だけでなく、artifacts parity と未タスク formalization まで同一ターンで閉じる必要がある。
 
+## 2026-04-26 - Wave 0 scaffold close-out hardening
+
+### 変更内容
+
+- `docs_only` / `spec_created` metadata のまま code 実装が入った場合の Phase 12 Step 2 再判定を `SKILL.md` に追加した
+- task root 移動後の `index.md` / `artifacts.json` / `outputs/artifacts.json` path parity を Phase 12 漏れ防止項目へ追加した
+
+### 背景
+
+Wave 0 scaffold task で実装差分、仕様同期、path/status parity、現環境 verify 結果がずれたため、Phase 12 close-out 前に code diff と task metadata を再照合する必要がある。
+
 ## 2026-04-26 - D1 読み書き競合対策の設定可否確認（UT-02）タスク完了
 
 ### コンテキスト
