@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 11 (手動 smoke test) |
 | 次 Phase | 13 (PR作成) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -39,9 +39,8 @@
 - 正本仕様との差分を先に洗い出す。
 
 ### ステップ 2: Phase 成果物の作成
-- 本 Phase の主成果物と必須6成果物を outputs/phase-12/ に作成・更新する。
+- 本 Phase の主成果物を outputs/phase-12/main.md に作成・更新する。
 - downstream task から参照される path を具体化する。
-- `outputs/phase-02/version-policy.md` を根拠に、正本仕様の Step 2 domain sync 要否を確定する。
 
 ### ステップ 3: 4条件と handoff の確認
 - 価値性 / 実現性 / 整合性 / 運用性を再確認する。
@@ -67,28 +66,22 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 12 | completed | upstream を読む |
-| 2 | 成果物更新 | 12 | completed | outputs/phase-12/main.md |
-| 3 | 4条件確認 | 12 | completed | next phase へ handoff |
+| 1 | input 確認 | 12 | pending | upstream を読む |
+| 2 | 成果物更新 | 12 | pending | outputs/phase-12/main.md |
+| 3 | 4条件確認 | 12 | pending | next phase へ handoff |
 
 ## 成果物
 
 | 種別 | パス | 説明 |
 | --- | --- | --- |
 | ドキュメント | outputs/phase-12/main.md | Phase 12 の主成果物 |
-| ドキュメント | outputs/phase-12/implementation-guide.md | Part 1/2 の実装ガイド |
-| ドキュメント | outputs/phase-12/system-spec-update-summary.md | Step 1-A〜1-C と Step 2 domain sync の結果 |
-| ドキュメント | outputs/phase-12/documentation-changelog.md | 変更履歴と artifact parity |
-| ドキュメント | outputs/phase-12/unassigned-task-detection.md | 0件でも必須の未タスク検出 |
-| ドキュメント | outputs/phase-12/skill-feedback-report.md | 改善点なしでも必須のskill feedback |
-| ドキュメント | outputs/phase-12/phase12-task-spec-compliance-check.md | 最終準拠チェック |
 | メタ | artifacts.json | Phase 状態と outputs の記録 |
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -106,81 +99,20 @@
 - ブロック条件: 本 Phase の主成果物が未作成なら次 Phase に進まない。
 
 ## Part 1 中学生レベル概念説明 (例え話)
-なぜ必要か: 開発で使う道具の置き場所や役割が人によって違うと、同じ作業をしているつもりでも別々のものを直してしまう。
-
-たとえば学校の文化祭で、受付係、会計係、案内係がそれぞれ別のノートを正しい名簿だと思っていると、参加者の数も集金状況もずれてしまう。このタスクでは、Web画面、API、共通部品、外部連携の役割を1冊の決まり表にそろえる。
-
-何をするか: Node / pnpm / Next.js / React / TypeScript の採用バージョン、apps/web と apps/api の境界、Cloudflare 上で動かす入口を文書として固定し、古い正本仕様に残る記述を同じ wave で更新する。
+Google Sheets は受付ノート、D1 は図書館の正本台帳、Cloudflare は窓口、GitHub は変更履歴、1Password は鍵の保管庫として扱う。
 
 ## Part 2 技術者レベル詳細
-
-### TypeScript contract
-
-```ts
-export interface RuntimeFoundationPolicy {
-  node: "24.x";
-  pnpm: "10.x";
-  next: "16.x";
-  react: "19.2.x";
-  typescript: "6.x";
-  webRuntime: "@opennextjs/cloudflare";
-  apiRuntime: "hono-workers";
-  packageScopes: ["apps/web", "apps/api", "packages/shared", "packages/integrations"];
-}
-
-export interface RuntimeFoundationArtifactMap {
-  topology: "outputs/phase-02/runtime-topology.md";
-  versionPolicy: "outputs/phase-02/version-policy.md";
-  bootstrapRunbook: "outputs/phase-05/foundation-bootstrap-runbook.md";
-  dependencyRules: "outputs/phase-08/dependency-boundary-rules.md";
-  phase12Compliance: "outputs/phase-12/phase12-task-spec-compliance-check.md";
-}
-```
-
-### API / command signatures
-
-```bash
-node --version
-pnpm --version
-npm view next version
-npm view react version
-npm view typescript version
-npm view @opennextjs/cloudflare version
-rg -n "Node 22|Next.js 15|TypeScript 5.7|Cloudflare Pages" .claude/skills/aiworkflow-requirements/references
-```
-
-### 使用例
-
-1. Phase 2 で `outputs/phase-02/version-policy.md` に採用候補を記録する。
-2. Phase 10 で AC-2 / AC-4 を `SPEC-PASS_WITH_SYNC` として判定する。
-3. Phase 12 で `.claude/skills/aiworkflow-requirements/references/technology-core.md` / `technology-frontend.md` / `architecture-overview-core.md` を same-wave sync する。
-4. Phase 12 の `system-spec-update-summary.md` に更新対象、no-op 対象、未タスク化対象を分けて記録する。
-
-### エラーハンドリングとエッジケース
-
-| ケース | 対処 |
+| 項目 | 詳細 |
 | --- | --- |
-| npm registry の最新値が `version-policy.md` と異なる | `version-policy.md` を更新し、Phase 10 AC-2 の根拠を再判定する |
-| 正本仕様が旧値を保持している | Phase 12 Step 2 を required にし、未同期のまま完了しない |
-| Workers bundle size が無料枠を超える | Pages Functions または分割 Workers を Phase 3 / 10 の blocker として再評価する |
-| 実装済みファイルと未タスク検出が衝突する | current facts を優先し、実装済み項目は DONE に再分類。残課題だけを UT として残す |
-
-### 設定可能パラメータと定数
-
-| 名称 | 値 | 用途 |
-| --- | --- | --- |
-| `NODE_MAJOR` | `24` | runtime LTS line |
-| `PNPM_MAJOR` | `10` | workspace manager |
-| `NEXT_MAJOR` | `16` | apps/web framework |
-| `REACT_MINOR` | `19.2` | UI runtime |
-| `TYPESCRIPT_MAJOR` | `6` | strict typecheck |
-| `WEB_ADAPTER` | `@opennextjs/cloudflare` | Next.js to Cloudflare runtime |
-| `API_RUNTIME` | `Hono on Cloudflare Workers` | apps/api runtime |
+| task root | doc/01-infrastructure-setup/02-serial-monorepo-runtime-foundation |
+| key outputs | outputs/phase-02/runtime-topology.md, outputs/phase-02/version-policy.md, outputs/phase-05/foundation-bootstrap-runbook.md, outputs/phase-08/dependency-boundary-rules.md |
+| upstream | ../00-serial-architecture-and-scope-baseline/ / 01a-parallel-github-and-branch-governance / 01b-parallel-cloudflare-base-bootstrap |
+| downstream | 03-serial-data-source-and-storage-contract / 04-serial-cicd-secrets-and-environment-sync / 05b-parallel-smoke-readiness-and-handoff |
+| validation focus | 4条件 + same-wave sync |
 
 ## system spec 更新概要
-- Step 1-A〜1-C を `code_and_docs` 前提で閉じる。
-- Step 2 domain sync は required。対象は `architecture-overview-core.md` / `architecture-monorepo.md` / `technology-core.md` / `technology-frontend.md` / `technology-backend.md`。
-- OpenNext Workers 形式の `apps/web/wrangler.toml`、Phase 11 screenshot、Node 24.x 検証残課題を current facts として記録する。
+- Step 1-A〜1-C を docs-only / spec_created 前提で閉じる。
+- Step 2 domain sync の要否を理由付きで残す。
 
 ## LOGS.md 記録
 - 変更要約
@@ -196,7 +128,3 @@ rg -n "Node 22|Next.js 15|TypeScript 5.7|Cloudflare Pages" .claude/skills/aiwork
 | unassigned | outputs/phase-12/unassigned-task-detection.md |
 | skill feedback | outputs/phase-12/skill-feedback-report.md |
 | compliance check | outputs/phase-12/phase12-task-spec-compliance-check.md |
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 1 / Phase 2 / Phase 5 / Phase 6 / Phase 7 / Phase 8 / Phase 9 / Phase 10 / Phase 11

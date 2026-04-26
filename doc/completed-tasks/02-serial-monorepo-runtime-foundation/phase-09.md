@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 8 (設定 DRY 化) |
 | 次 Phase | 10 (最終レビュー) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -31,8 +31,6 @@
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-core.md | Node / pnpm / Next.js |
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-frontend.md | Next.js / Tailwind |
 | 必須 | .claude/skills/aiworkflow-requirements/references/technology-backend.md | Workers / D1 / backend stack |
-
-| 依存Phase | Phase 5 | 上流成果物の参照確認 |
 
 ## 実行手順
 
@@ -68,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 9 | completed | upstream を読む |
-| 2 | 成果物更新 | 9 | completed | outputs/phase-09/main.md |
-| 3 | 4条件確認 | 9 | completed | next phase へ handoff |
+| 1 | input 確認 | 9 | pending | upstream を読む |
+| 2 | 成果物更新 | 9 | pending | outputs/phase-09/main.md |
+| 3 | 4条件確認 | 9 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -81,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -101,15 +99,11 @@
 - ブロック条件: 本 Phase の主成果物が未作成なら次 Phase に進まない。
 
 ## 命名規則チェック
-| 対象 | 基準 | 期待値 |
+| 対象 | 基準 | 判定 |
 | --- | --- | --- |
-| task dir | wave + mode + kebab-case | `02-serial-monorepo-runtime-foundation` |
-| branch 名 | docs/feature/fix + kebab-case | `docs/02-serial-monorepo-runtime-foundation-task-spec` |
-| secret 名 | ALL_CAPS_SNAKE_CASE | `AUTH_SECRET` / `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` |
-| app dir | apps/web / apps/api（kebab-case） | そのまま維持 |
-| package dir | packages/shared / packages/integrations（kebab-case） | そのまま維持 |
-| wrangler.toml | apps/web / apps/api それぞれに独立した toml | 分離構成を確認 |
-| env var prefix | AUTH_*（Auth.js v5 から NEXTAUTH_* 廃止） | `AUTH_SECRET` / `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` |
+| task dir | wave + mode + kebab-case | TBD |
+| branch 名 | feature / dev / main | TBD |
+| secret 名 | ALL_CAPS_SNAKE_CASE | TBD |
 
 ## 参照整合性チェック
 - task-spec skill と aiworkflow reference の参照が生きているか。
@@ -123,7 +117,3 @@
 - 実値を書いていない。
 - 1Password を local canonical としている。
 - Cloudflare と GitHub の配置先が混線していない。
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 5

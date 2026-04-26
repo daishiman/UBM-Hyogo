@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 3 (設計レビュー) |
 | 次 Phase | 5 (セットアップ実行) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -66,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 4 | completed | upstream を読む |
-| 2 | 成果物更新 | 4 | completed | outputs/phase-04/main.md |
-| 3 | 4条件確認 | 4 | completed | next phase へ handoff |
+| 1 | input 確認 | 4 | pending | upstream を読む |
+| 2 | 成果物更新 | 4 | pending | outputs/phase-04/main.md |
+| 3 | 4条件確認 | 4 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -79,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -101,8 +101,8 @@
 ## 検証コマンド一覧
 | コマンド | 目的 | 期待 |
 | --- | --- | --- |
-| git diff --stat -- doc/02-serial-monorepo-runtime-foundation | 変更範囲確認 | scope と一致 |
-| rg -n "dev|main|D1|Sheets|1Password" doc/02-serial-monorepo-runtime-foundation | 主要語の横断確認 | 必要箇所が見つかる |
+| git diff --stat -- doc/01-infrastructure-setup | 変更範囲確認 | scope と一致 |
+| rg -n "dev|main|D1|Sheets|1Password" doc/01-infrastructure-setup/02-serial-monorepo-runtime-foundation | 主要語の横断確認 | 必要箇所が見つかる |
 | node .claude/skills/aiworkflow-requirements/scripts/search-spec.js "Cloudflare" -C 2 | 正本仕様検索 | 必要 reference が出る |
 
 ## 期待出力表
@@ -115,8 +115,4 @@
 ## verify suite (手動 or 自動)
 - 手動: README と index / phase の整合確認
 - 手動: source-of-truth と branch/env の説明確認
-- 自動: `rg -n "apps/web|apps/api|packages/shared|packages/integrations" doc/02-serial-monorepo-runtime-foundation` で responsibility boundary 確認
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 1 / Phase 2 / Phase 3
+- 自動: rg / search-spec / git diff で最低限を確認

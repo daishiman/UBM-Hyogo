@@ -10,7 +10,7 @@
 | 作成日 | 2026-04-23 |
 | 前 Phase | 10 (最終レビュー) |
 | 次 Phase | 12 (ドキュメント更新) |
-| 状態 | completed |
+| 状態 | pending |
 
 ## 目的
 
@@ -66,9 +66,9 @@
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | input 確認 | 11 | completed | upstream を読む |
-| 2 | 成果物更新 | 11 | completed | outputs/phase-11/main.md |
-| 3 | 4条件確認 | 11 | completed | next phase へ handoff |
+| 1 | input 確認 | 11 | pending | upstream を読む |
+| 2 | 成果物更新 | 11 | pending | outputs/phase-11/main.md |
+| 3 | 4条件確認 | 11 | pending | next phase へ handoff |
 
 ## 成果物
 
@@ -79,9 +79,9 @@
 
 ## 完了条件
 
-- [ ] 主成果物が作成済み
-- [ ] 正本仕様参照が残っている
-- [ ] downstream handoff が明記されている
+- 主成果物が作成済み
+- 正本仕様参照が残っている
+- downstream handoff が明記されている
 
 ## タスク100%実行確認【必須】
 
@@ -98,37 +98,16 @@
 - 引き継ぎ事項: モノレポとランタイム基盤 の判断を次 Phase で再利用する。
 - ブロック条件: 本 Phase の主成果物が未作成なら次 Phase に進まない。
 
-## code_and_docs smoke checklist
-
-この task は `code_and_docs` のため、docs 整合性に加えて `apps/web` の home 画面スクリーンショットを取得する。Phase 11 の証跡は `outputs/phase-11/manual-smoke-log.md`、`outputs/phase-11/manual-test-result.md`、`outputs/phase-11/link-checklist.md`、`outputs/phase-11/screenshots/RF-01-runtime-foundation-home-after.png` とする。
-
-- README から各 task index へ遷移できることを確認する。
-- 各 task index から 13 phase へ遷移できることを確認する。
-- branch / env / data ownership / secret placement を説明して矛盾が出ないことを確認する。
-- `version-policy.md` に Node 24.x / pnpm 10.x / Next.js 16.x / React 19.2.x / TS 6.x が記録されていることを確認する。
-- `runtime-topology.md` に apps/web（@opennextjs/cloudflare）/ apps/api（Hono Workers）の分離構成が明記されていることを確認する。
-- @cloudflare/next-on-pages 廃止の理由が phase-02 設定値表または phase-03 代替案に記録されていることを確認する。
-- Auth.js v5 の環境変数プレフィックス（AUTH_*）が phase-02 環境変数一覧に記録されていることを確認する。
-- pnpm 9 EOL（2026-04-30）への対処が既存資産インベントリに記録されていることを確認する。
-- 正本仕様との差分が Phase 12 Step 2 domain sync に引き継がれていることを確認する。
-- `apps/web` home が runtime foundation 情報を表示することをスクリーンショットで確認する。
-- `apps/web/wrangler.toml` が OpenNext Workers 形式であることを確認する。
-- TC-01: `apps/web` runtime foundation home の初期表示を確認する。
+## 手動 smoke test 結果
+- README から各 task index へ遷移できる。
+- 各 task index から 13 phase へ遷移できる。
+- branch / env / data ownership / secret placement を説明して矛盾が出ない。
 
 ## スクリーンショット/ログ一覧
 | 種別 | パス | 説明 |
 | --- | --- | --- |
 | review log | outputs/phase-11/manual-smoke-log.md | 手動確認ログ |
-| test result | outputs/phase-11/manual-test-result.md | validator 用手動テスト結果 |
 | evidence | outputs/phase-11/link-checklist.md | 主要リンク確認 |
-| screenshot | outputs/phase-11/screenshots/RF-01-runtime-foundation-home-after.png | runtime foundation home |
-| screenshot | outputs/phase-11/screenshots/TC-01-runtime-foundation-home-after.png | validator 用 alias |
-
-## 画面カバレッジマトリクス
-
-| TC-ID | 対象画面 | 証跡 | 判定 |
-| --- | --- | --- | --- |
-| TC-01 | `apps/web` runtime foundation home | `outputs/phase-11/screenshots/TC-01-runtime-foundation-home-after.png` | PASS |
 
 ## 失敗時の戻り先 (逆引き表)
 | 問題 | 戻り先 |
@@ -136,7 +115,3 @@
 | branch / env drift | Phase 2 / 8 |
 | source-of-truth drift | Phase 2 / 3 |
 | output path drift | Phase 5 / 8 |
-
-## 依存Phase成果物参照
-
-- 参照対象: Phase 1 / Phase 2 / Phase 5 / Phase 6 / Phase 7 / Phase 8 / Phase 9 / Phase 10
