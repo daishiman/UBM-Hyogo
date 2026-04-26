@@ -35,12 +35,6 @@ ENV/
 dist/
 build/
 
-# Electron build assets (exception to build/ ignore rule)
-!apps/desktop/build/
-apps/desktop/build/*
-!apps/desktop/build/entitlements.mac.plist
-!apps/desktop/build/*.icns
-!apps/desktop/build/*.ico
 
 # Logs
 logs/
@@ -77,6 +71,13 @@ coverage/
 *.db-shm
 *.db-wal
 
+# Claude Code local settings（機密ではないが環境依存のためトラックしない）
+.claude/settings.local.json
+.claude/settings.json
+
+# Wrangler CLI cache
+.wrangler/
+
 # WIP / Sandbox（未完成の実験・開発中コード）
 # ファイル名・ディレクトリ名が毎回変わるため、パターンで管理
 **/sandbox/
@@ -90,8 +91,3 @@ apps/*/docs/
 # TODO(human): WIPファイル管理方針を選択して実装
 # A案: sandbox移動方式 — WIPファイルを sandbox/ に集約
 # B案: 個別パス追加方式 — 現在のWIPファイルを直接指定
-# 現在のWIPファイル:
-#   apps/desktop/src/main/ipc/slackHandlers.ts
-#   apps/desktop/src/main/ipc/slackHandlers.test.ts
-#   apps/desktop/src/main/services/slack/
-#   apps/desktop/src/__tests__/__fixtures__/skills/ai-news-to-slack/

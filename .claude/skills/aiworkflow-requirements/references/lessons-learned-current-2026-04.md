@@ -725,3 +725,31 @@
 > - UT-HEALTH-POLICY-MAINLINE-MIGRATION-001 教訓（L-HP-001/002/003）と TASK-FIX-WORKTREE-CONFLICT-001 教訓（L-WC-001/002/003）は [lessons-learned-health-policy-worktree-2026-04.md](lessons-learned-health-policy-worktree-2026-04.md) へ移動しました。
 > - スキルウィザード関連教訓（L-CRS-001/002, L-SMART-DEFAULT-001/002, L-HEALTH-DI-001/002, L-SKILL-INFO-STEP-001/002, L-WIZARD-EXPORT-001/002, L-GOOGLE-CAL-001/002）は [lessons-learned-skill-wizard-redesign.md](lessons-learned-skill-wizard-redesign.md) へ移動しました。
 > - W3-seq-04 使用率計装教訓（L-W3-TRACK-001/002, L-WIZARD-LANE-CLEANUP-001）は [lessons-learned-w3-usage-tracking-2026-04.md](lessons-learned-w3-usage-tracking-2026-04.md) へ移動しました。
+
+---
+
+## v3.14.0 (2026-04-23) — `01c-parallel-google-workspace-bootstrap`
+
+### L-GW-001: UBM-Hyogo artifacts.jsonマルチフォーマット対応
+
+- **問題**: AIWorkflowOrchestrator形式（`feature`/`created`/`lastUpdated`）のみ対応していたschema validationがUBM-Hyogo形式（`task_name`/`created_at`）を弾いていた
+- **解決**: `schemas/artifact-definition.json` を `anyOf` で両フォーマットをサポート。`required` を `["phases"]` のみに緩和
+- **再発防止**: 新規プロジェクトのartifacts.jsonを作る際は、schemaが`anyOf`で複数形式をサポートしているか確認する
+
+### L-GW-002: Phase fileサフィックスなし形式のvalidator対応
+
+- **問題**: `validate-phase-output.js`が`phase-12-documentation.md`形式のみを想定しており、`phase-12.md`（サフィックスなし）を不正として弾いていた
+- **解決**: Phase fileマッチングを `/^phase-N(?:-.*)?\.md$/` 正規表現に統一し、サフィックスあり・なし両方をvalidとした
+- **再発防止**: Phase fileは `phase-N.md`（サフィックスなし）も有効。UBM-Hyogo workflowでは命名に注意する
+
+### L-GW-003: spec_createdタスクのPhase 11分類
+
+- **問題**: `classifyTaskType()` が `spec_created` ステータスを docs-only として判定できておらず、Phase 11 の必須 outputs を誤って視覚タスク扱いしていた
+- **解決**: `classifyTaskType` に `spec_created` を docs-only として追加。Phase 11 非視覚タスクの必須 outputs を `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点に定義
+- **再発防止**: タスク分類（UI task / docs-only / spec_created）はPhase 1で明示し、Phase 11着手時に再確認する
+
+### L-GW-004: canonical path drift防止
+
+- **問題**: `doc/01-infrastructure-setup/01c-parallel-google-workspace-bootstrap/` → `doc/01c-parallel-google-workspace-bootstrap/` への移動でartifacts.jsonのtask_path、outputs/artifacts.jsonの参照、SKILL.mdの変更履歴など複数箇所でpath driftが発生
+- **解決**: canonical path を `doc/01c-parallel-google-workspace-bootstrap` に統一し、全ての参照先を同一ターンで更新。`outputs/artifacts.json` を root `artifacts.json` の同期コピーとして追加
+- **再発防止**: task root を移動する場合は、artifacts.json / outputs/artifacts.json / SKILL変更履歴 / generate-index.js 再実行を同一ターンで実施する。後回しはpath drift蓄積の主因
