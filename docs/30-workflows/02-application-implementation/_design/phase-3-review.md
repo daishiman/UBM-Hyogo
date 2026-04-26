@@ -204,7 +204,7 @@
 
 - 通知配信基盤（Resend 等）の本格実装は specs/10 の Magic Link 以外は未タスク
 - visual regression test（Playwright snapshot diff）は 08b に含めず別 wave で formalize
-- monitoring dashboard（Cloudflare Analytics、D1 metrics）は doc/01-infrastructure-setup/05a で扱われるため本パッケージ対象外
+- monitoring dashboard（Cloudflare Analytics、D1 metrics）は docs/05a-parallel-observability-and-cost-guardrails で扱われるため本パッケージ対象外
 - cron schedule 実装は 09 release の中で wrangler triggers として扱うが、業務 KPI dashboard は未タスク
 
 これらは README.md の `Deferred / 未タスク候補` セクションに転記する。

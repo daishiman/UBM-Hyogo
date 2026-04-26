@@ -33,7 +33,7 @@ Phase 1〜9 の成果物を総合し、release runbook + incident response runbo
 | 必須 | doc/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-09.md | 品質 |
 | 必須 | doc/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/index.md | 上流 AC |
 | 必須 | doc/02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md | 上流 AC |
-| 必須 | doc/01-infrastructure-setup/05a-parallel-observability-and-cost-guardrails/index.md | observability 上流 |
+| 必須 | docs/05a-parallel-observability-and-cost-guardrails/index.md | observability 上流 |
 
 ## 実行手順
 
@@ -115,7 +115,7 @@ Phase 1〜9 の成果物を総合し、release runbook + incident response runbo
 ## 想定 blocker
 
 - B-1: 03b の sync_jobs running guard 未実装 → 03b へ
-- B-2: 05a (infra) の Cloudflare Analytics URL 未確定 → 05a (infra) へ
+- B-2: 05a (infra) の Cloudflare Analytics URL は placeholder 運用として解消済み。実URL確定と自動化は `UT-05A-CF-ANALYTICS-AUTO-CHECK-001` へ分離
 - B-3: 04c の `POST /admin/sync/*` 認可漏れ → 04c へ
 - B-4: cron 頻度試算が無料枠超過（過剰呼出し疑い） → 03a/b へ
 - B-5: rollback 手順で web 直 D1 操作が含まれる → Phase 5 修正
@@ -126,4 +126,4 @@ Phase 1〜9 の成果物を総合し、release runbook + incident response runbo
 | --- | --- | --- |
 | 08a | TBD / TBD | pending |
 | 08b | TBD / TBD | pending |
-| 05a (infra) | TBD / TBD | pending |
+| 05a (infra) | 5 / 5 | completed |
