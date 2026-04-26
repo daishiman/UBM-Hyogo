@@ -5,6 +5,19 @@
 
 ---
 
+### UT-01 Sheets→D1 Sync Design Current Facts（2026-04-26）
+
+| 項目 | Current fact |
+| --- | --- |
+| task root | `docs/ut-01-sheets-d1-sync-design/` |
+| 実装状態 | docs-only / `spec_created`。Phase 1-12 completed、Phase 13 は user approval pending |
+| 採用方式 | Cloudflare Workers Cron Triggers による pull sync。manual / scheduled / backfill は同じ core runner を使う |
+| API route | `POST /sync/manual`, `POST /sync/backfill`, `GET /sync/audit?limit=20` |
+| Cron | `0 * * * *`（UTC、1時間ごと） |
+| audit schema | 既存 migration を正とし、`run_id`, `trigger_type`, `rows_fetched`, `rows_upserted`, `rows_skipped`, `status`, `error_reason`, `diff_summary_json` を使う |
+| status enum | `running` / `success` / `partial_failure` / `failure` |
+| 後続 | UT-09 / UT-21 で実装 ownership と admin guard / CSRF を解消する |
+
 ## よく使うパターン
 
 > **検索パターン集・コードパターン早見は [quick-reference-search-patterns.md](quick-reference-search-patterns.md) に分離**
