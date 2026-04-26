@@ -55,8 +55,20 @@ wrangler secret put SLACK_BOT_TOKEN --env staging
 | `OPENAI_API_KEY` | OpenAI API キー（AI機能） | production / staging |
 | `ANTHROPIC_API_KEY` | Anthropic API キー（Claude） | production / staging |
 | `DATABASE_URL` | Cloudflare D1 接続 URL | production / staging |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Sheets API v4 Service Account JSON key（UT-03 Sheets API 認証） | production / staging |
 | `SLACK_BOT_TOKEN` | Slack Bot Token（通知機能） | production / staging |
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（内部通知） | production / staging |
+
+### Google Sheets Service Account Secret
+
+`GOOGLE_SERVICE_ACCOUNT_JSON` は `packages/integrations/src/sheets-auth.ts` の `getAccessToken(env)` が使用する runtime secret。`wrangler.toml` の `[vars]` には置かず、環境ごとに Cloudflare Secrets へ登録する。
+
+```bash
+wrangler secret put GOOGLE_SERVICE_ACCOUNT_JSON --env staging
+wrangler secret put GOOGLE_SERVICE_ACCOUNT_JSON --env production
+```
+
+ローカル検証では `.dev.vars` を使用できるが、`.dev.vars` / `**/.dev.vars` は Git 管理しない。
 
 ### Cloudflare Pages（フロントエンド `apps/web/`）
 

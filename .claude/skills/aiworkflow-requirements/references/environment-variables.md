@@ -43,9 +43,19 @@
 | OpenAI    | `OPENAI_API_KEY`    | GPT-4o API        | OpenAIダッシュボード       |
 | Anthropic | `ANTHROPIC_API_KEY` | Claude API        | Anthropicコンソール        |
 | Google AI | `GOOGLE_AI_API_KEY` | Gemini API        | Google AI Studioコンソール |
+| Google Sheets | `GOOGLE_SERVICE_ACCOUNT_JSON` | Sheets API v4 Service Account 認証 | Google Cloud IAM Service Account key |
 | xAI       | `XAI_API_KEY`       | Grok API          | xAIダッシュボード          |
 | Discord   | `DISCORD_TOKEN`     | Discord Bot       | Discord Developer Portal   |
 | Discord   | `DISCORD_CLIENT_ID` | Discord Client ID | Discord Developer Portal   |
+
+### Google Sheets API 認証
+
+| 変数名 | 用途 | 保存場所 | 備考 |
+| --- | --- | --- | --- |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Sheets API v4 の JWT bearer 認証に使う Service Account JSON key | ローカル: `.dev.vars` / staging・production: Cloudflare Secrets | private key を含むためログ・エラー・Git 管理は禁止 |
+| `SHEETS_TOKEN_CACHE` | `getAccessToken(env)` のアクセストークン TTL キャッシュ用 KV binding | Cloudflare Workers binding | 任意。未設定時は Workers isolate の in-memory cache に fallback |
+
+`GOOGLE_SERVICE_ACCOUNT_JSON` は `packages/integrations/src/sheets-auth.ts` の `getAccessToken(env)` が読み取る。トークンキャッシュキーは Service Account の `client_email` 由来ハッシュを含め、複数 Service Account / 共有 KV で token を混同しない。
 
 ### 機能フラグ
 

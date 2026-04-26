@@ -9,3 +9,14 @@ export const integrationRuntimeTarget: IntegrationRuntimeTarget = {
   runtime: "cloudflare-workers",
   usesSharedContracts: runtimeFoundation.apiRuntime === "hono-workers",
 };
+
+export {
+  getAccessToken,
+  importPrivateKey,
+  createSignedJWT,
+  SheetsAuthError,
+  type AccessTokenResult,
+  type ServiceAccountKey,
+  type SheetsAuthEnv,
+  type SheetsTokenCache,
+} from "./sheets-auth.js";

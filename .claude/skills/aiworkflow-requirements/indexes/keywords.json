@@ -1309,6 +1309,9 @@
     "計画": [
       "arch-integration-packages.md"
     ],
+    "実装済み統合パッケージ": [
+      "arch-integration-packages.md"
+    ],
     "依存関係ルール": [
       "arch-integration-packages.md",
       "architecture-chat-history.md",

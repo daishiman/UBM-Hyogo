@@ -775,3 +775,16 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `docs/30-workflows/step-05-seq-task-07-execution-governance-and-handoff-alignment/outputs/phase-11/`（evidence bundle 11ファイル新規作成）、`docs/30-workflows/ut-sdk-07-phase11-screenshot-evidence-001/outputs/`（Phase 1-3 / 9-12 成果物作成）、`docs/30-workflows/unassigned-task/task-ut-sdk-07-phase11-screenshot-evidence-001.md`（status: spec_created）、`task-workflow-completed.md`（spec_created 追記） |
 | 結果     | TASK-SDK-07 Phase 11 の未取得 screenshot evidence（HandoffGuidance / disclosure summary / integrated_api 対照）を補完。Phase 11 evidence chain が完成した                                                                                                                                                                                                                                                           |
 | 検証     | Phase 11: 3件 screenshot（TC-11-01〜TC-11-03 PASS）、カバレッジ 100%、発見事項 0件                                                                                                                                                                                                                                                                                                                                  |
+## UT-03 Sheets API 認証方式設定 close-out sync（2026-04-26）
+
+- タスク名: UT-03 Sheets API 認証方式設定
+- 種別: implementation / non_visual / integration package / docs sync
+- 主な反映:
+  - `packages/integrations/src/sheets-auth.ts` に Google Sheets API v4 Service Account JWT bearer 認証を実装
+  - `@ubm-hyogo/integrations/sheets-auth` subpath export と root export を追加
+  - `GOOGLE_SERVICE_ACCOUNT_JSON` / `SHEETS_TOKEN_CACHE` を環境変数・Cloudflare Secrets 正本仕様へ追記
+  - `arch-integration-packages.md` に Google Sheets auth public API を追加
+  - Phase 12成果物6件（implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report / phase12-task-spec-compliance-check）を補完
+- 検証:
+  - UI変更なし。Phase 11は non_visual evidence として `outputs/phase-11/main.md` / `manual-smoke-log.md` / `link-checklist.md` に記録
+  - Secret 実配置と実 Sheets API 疎通はユーザー管理 credential が必要なため、運用前未タスクとして記録

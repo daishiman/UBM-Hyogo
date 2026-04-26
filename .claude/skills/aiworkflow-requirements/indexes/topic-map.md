@@ -2157,10 +2157,11 @@ node scripts/list-specs.js --topics
 | ワークフローパッケージ仕様 | L120 |
 | パターン例: 外部サービス連携ワークフロー（参考） | L179 |
 | ツールパッケージ一覧（計画） | L227 |
-| 依存関係ルール | L241 |
-| 新規ツールパッケージ追加手順 | L258 |
-| 新規ワークフローパッケージ追加手順 | L269 |
-| 変更履歴 | L280 |
+| 実装済み統合パッケージ | L239 |
+| 依存関係ルール | L255 |
+| 新規ツールパッケージ追加手順 | L272 |
+| 新規ワークフローパッケージ追加手順 | L283 |
+| 変更履歴 | L294 |
 
 ### references/arch-state-management-advanced.md
 
@@ -2390,12 +2391,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets（CI/CD 用） | L78 |
-| wrangler.toml の環境別設定 | L103 |
-| ローカル開発での設定 | L135 |
-| セキュリティ原則 | L174 |
-| Cloudflare API Token の作成手順 | L185 |
-| 変更履歴 | L200 |
+| GitHub Secrets（CI/CD 用） | L90 |
+| wrangler.toml の環境別設定 | L115 |
+| ローカル開発での設定 | L147 |
+| セキュリティ原則 | L186 |
+| Cloudflare API Token の作成手順 | L197 |
+| 変更履歴 | L212 |
 
 ### references/deployment.md
 
@@ -2505,13 +2506,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L67 |
-| 環境別設定 | L141 |
-| Electron アプリでの環境変数 | L195 |
-| トラブルシューティング | L252 |
-| チーム開発での運用 | L313 |
-| 必須環境変数一覧 | L352 |
-| 関連ドキュメント | L410 |
+| セキュリティベストプラクティス | L77 |
+| 環境別設定 | L151 |
+| Electron アプリでの環境変数 | L205 |
+| トラブルシューティング | L262 |
+| チーム開発での運用 | L323 |
+| 必須環境変数一覧 | L362 |
+| 関連ドキュメント | L420 |
 
 ### references/error-handling-core.md
 
