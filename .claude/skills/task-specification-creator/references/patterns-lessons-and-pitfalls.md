@@ -211,6 +211,20 @@
 - **発見日**: 2026-02-21
 - **関連タスク**: UT-FIX-SKILL-REMOVE-INTERFACE-001
 
+### docs-only タスクのプロバイダー依存機能ゲート（UT-02-D1-WAL-MODE）
+
+- **状況**: docs-only タスクとして Cloudflare D1 の WAL モード設定（`PRAGMA journal_mode=WAL`）を仕様書化した
+- **問題**: 提案実装がプロバイダー（Cloudflare D1）の特定動作（PRAGMA サポート）に依存していたが、公式サポートの確認ゲートを Phase 1/2 に設けなかったため、仕様書に未確認の前提が混入した
+- **原因**: docs-only タスクは実装コードを書かないため「動作確認不要」と誤認しやすく、プロバイダー公式ドキュメントの照合を省略した
+- **教訓**:
+  1. docs-only タスクでも提案実装がプロバイダーの特定動作に依存する場合は、Phase 1（要件定義）または Phase 2（設計）に **official-support gate** を設ける
+  2. 公式ドキュメントで当該機能がサポートされているか確認し、結果を仕様書に明記する
+  3. サポートが未確認の場合は「official-support 未確認」として前提化せず、条件付き方針として記録する
+  4. runtime mitigation（retry/backoff 等）への委譲を代替案として検討する
+- **フィードバック元**: 「Docs-only tasks need an early official-support gate when the proposed implementation depends on provider behavior.」
+- **発見日**: 2026-04-26
+- **関連タスク**: UT-02-D1-WAL-MODE
+
 ### カバレッジ閾値のスコープ解釈あいまいさ
 
 - **状況**: Phase 7でskillHandlers.ts全体のLine Coverage 45.14%が最低基準80%を下回った

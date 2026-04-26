@@ -8,6 +8,7 @@ LOGS は archive index 方式へ再編した。最新更新は本ファイル、
 
 | 見出し                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-04-26 - UT-02 D1 contention policy close-out hardening（Cloudflare D1 の `journal_mode` を無条件 WAL 前提から official compatible PRAGMA 確認 + runtime mitigation 方針へ修正 / `deployment-cloudflare.md` に D1 PRAGMA 制約を追加 / `architecture-overview-core.md` の unconditional WAL wording を削除 / UT-09 指示書に `SQLITE_BUSY` retry/backoff・queue serialization・short transaction・batch-size limit・staging contention test を追加 / `generate-index.js` 実行 PASS） |
 | 2026-04-26 - 03-serial-data-source-and-storage-contract Phase-12 review hardening（D1 schema 正本を `member_responses` / `member_identities` / `member_status` / `sync_audit` に統一 / `apps/api/wrangler.toml` 実体に合わせ DB 名を `ubm-hyogo-db-staging` / `ubm-hyogo-db-prod`、env を `staging` / top-level production へ同期 / root・outputs `artifacts.json` と `index.md` の Phase 1〜12 completed parity を回復 / contract-only の後続実装タスク候補を `unassigned-task-detection.md` に追加） |
 | 2026-04-26 - 02-serial-monorepo-runtime-foundation impl-spec-to-skill-sync（`doc/00-getting-started-manual/specs/00-overview.md` の技術スタックを Cloudflare Pages → Cloudflare Workers + `@opennextjs/cloudflare` に更新 / `doc/01-infrastructure-setup/README.md` の Wave 2 パスを `../02-serial-monorepo-runtime-foundation/` に更新・mermaid 図を Workers 方針に同期 / `generate-index.js` 再生成 PASS / `verify-all-specs.js` PASS（エラー 0）/ Phase-12 準拠 100% 確認 |
 | 2026-04-26 - 01a-parallel-github-and-branch-governance Phase-12 close-out sync（`deployment-core.md` / `deployment-cloudflare.md` の `develop` → `dev` ブランチ名修正（ステージング環境の正本統一）/ `.github/CODEOWNERS` 新規作成（Wave 1 並列タスク 3パス + グローバルフォールバック + .github/ 保護）/ `.github/pull_request_template.md` 新規作成（True Issue / Dependency / 4条件チェック欄含む）/ `doc/01a-parallel-github-and-branch-governance/` への仕様書ディレクトリ再構成（`doc/01-infrastructure-setup/01a-*/` から移動）/ `lessons-learned-current-2026-04.md` に L-GH-001〜003 追加（GitHub UI-only 設定の runbook パターン・CI Status Check 名称の下流依存・docs-only タスクの smoke test PENDING 許容設計）/ generate-index.js 実行 PASS） |
@@ -94,6 +95,25 @@ LOGS は archive index 方式へ再編した。最新更新は本ファイル、
 | 2026-03-28 - TASK-SDK-07 execution-governance-and-handoff-alignment Phase 12 close-out sync（未タスク 3 件 formalize（UT-SDK-07-PHASE11-SCREENSHOT-EVIDENCE-001 / UT-SDK-07-SHARED-IPC-CHANNEL-CONTRACT-001 / UT-SDK-07-APPROVAL-REQUEST-SURFACE-001）/ lessons-learned-phase12-workflow-lifecycle に教訓 3 件追記（shared channel 再利用 / disclosure graceful degradation / spec_created task code wave AC 追跡）/ quick-reference governance bundle 導線に実装参照 7 件追加 / task-workflow-backlog 3 件追記 / LOGS.md 2 ファイル同時更新 / generate-index.js 実行）                                                                                                                                                                                                                                                                                                                                                                 |
 
 ## 2026-04-23 - doc/00-serial-architecture-and-scope-baseline topic-map sync
+
+## 2026-04-26: D1 読み書き競合対策の設定可否確認（UT-02）
+
+| 項目 | 内容 |
+| --- | --- |
+| タスクID | UT-02 |
+| 操作 | update-spec |
+| 対象ファイル | `references/deployment-cloudflare.md`, `references/architecture-overview-core.md`, `indexes/topic-map.md`, `indexes/keywords.json` |
+| 結果 | success |
+| 備考 | Cloudflare D1 の `journal_mode` を無条件 WAL 前提から official compatible PRAGMA 確認 + runtime mitigation 方針へ修正した。 |
+
+### 更新詳細
+
+- **更新**: `references/deployment-cloudflare.md`
+  - D1 PRAGMA 制約を追加し、`journal_mode` が official compatible PRAGMA として確認できない場合は staging / production mutation を行わない方針を明記。
+- **更新**: `references/architecture-overview-core.md`
+  - `Cloudflare D1（SQLite, WAL mode）` の断定を削除し、公式 PRAGMA 対応確認 + runtime mitigation 方針へ同期。
+- **更新**: `indexes/topic-map.md`, `indexes/keywords.json`
+  - `generate-index.js` で索引を再生成。
 
 ### 変更内容
 

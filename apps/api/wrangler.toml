@@ -11,6 +11,12 @@ ENVIRONMENT = "production"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 
+# D1 データベースバインディング
+# D1 の書き込み/読み取り競合ポリシー:
+# Cloudflare D1 が PRAGMA journal_mode=WAL の永続化を公式サポートしているか
+# 確認してから適用すること（docs/ut-02-d1-wal-mode/ 参照）。
+# SQLITE_BUSY 発生時のランタイム緩和策（retry/backoff、キュー直列化）は
+# UT-09 (Sheets→D1 同期ジョブ実装) で実施する。
 [[d1_databases]]
 binding = "DB"
 database_name = "ubm-hyogo-db-prod"
@@ -27,6 +33,7 @@ ENVIRONMENT = "staging"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 
+# staging D1 バインディング（WAL 競合ポリシーは production と同じ）
 [[env.staging.d1_databases]]
 binding = "DB"
 database_name = "ubm-hyogo-db-staging"
