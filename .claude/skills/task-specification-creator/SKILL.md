@@ -285,7 +285,8 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 
 | Version       | Date           | Changes                                                                                                                                                                                                     |
 | ------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **v10.09.44** | **2026-04-27** | **SKILL.md 500行制限対応（529行→499行）**: 変更履歴の古い2エントリ（v10.09.41/42）・古いFeedback群（W0-RV-001・SC-13-1/2・UBM-001〜005）・重複「よく使うコマンド」テーブルを削除し合計30行削減。 |
+| **v10.09.46** | **2026-04-27** | **SKILL.md 500行制限対応（529行→499行）**: 変更履歴の古い2エントリ（v10.09.41/42）・古いFeedback群（W0-RV-001・SC-13-1/2・UBM-001〜005）・重複「よく使うコマンド」テーブルを削除し合計30行削減。 |
+| **v10.09.44** | **2026-04-26** | **05a-parallel-observability-and-cost-guardrails Phase 12 close-out 反映**: Phase 12 実行時によくある漏れ表に UBM-005（root/outputs `artifacts.json` 二重 ledger 同期漏れ）と UBM-006（Pages/Workers topology drift の未タスク formalize 漏れ、`task-{cat}-...-NNN.md` 命名と `docs/30-workflows/unassigned-task/` 配置）を追記。 |
 | **v10.09.43** | **2026-04-26** | **02-serial-monorepo-runtime-foundation close-out hardening**: Phase 12 implementation guide Part 1/2 補正、Phase 11 NON_VISUAL docs-only validator 対応、`index.md` / Phase 11 link checklist / system spec summary の stale 状態同期。 |
 
 > 詳細履歴: [SKILL-changelog.md](SKILL-changelog.md) / [LOGS.md](LOGS.md)
