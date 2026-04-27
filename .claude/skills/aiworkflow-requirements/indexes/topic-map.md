@@ -506,6 +506,14 @@ node scripts/list-specs.js --topics
 | SDK 型安全統合（TASK-9B-I） | L329 |
 | 変更履歴 | L387 |
 
+### references/interfaces-api.md
+
+| セクション | 行 |
+|------------|----|
+| UT-10 グローバルエラーハンドラ | L3 |
+| Web クライアント同期契約 | L48 |
+| 関連 | L63 |
+
 ### references/interfaces-auth-core.md
 
 | セクション | 行 |
@@ -766,6 +774,13 @@ node scripts/list-specs.js --topics
 | Knowledge Graph型 | L172 |
 | 設計原則 | L188 |
 | 関連ドキュメント | L411 |
+
+### references/interfaces-shared.md
+
+| セクション | 行 |
+|------------|----|
+| UT-10 エラーハンドリング標準 | L3 |
+| 関連 | L120 |
 
 ### references/interfaces-skill-verify-contract.md
 
@@ -2088,6 +2103,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
 
+### references/workflow-ut08-monitoring-alert-design-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| ワークフロー概要 | L5 |
+| Phase 別成果物リスト | L16 |
+| SSOT クイック参照 | L86 |
+| 派生未タスク | L100 |
+| 関連リンク | L108 |
+
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
 | セクション | 行 |
@@ -2336,14 +2361,16 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L25 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L88 |
-| Cloudflare D1 データベース | L134 |
-| GitHub Actions CI/CD | L167 |
-| プレビューデプロイメント | L199 |
-| カスタムドメイン設定 | L216 |
-| 環境分離 | L229 |
-| ロールバック戦略 | L249 |
-| コスト概算（個人開発） | L270 |
-| 変更履歴 | L282 |
+| Cloudflare D1 データベース | L174 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L207 |
+| GitHub Actions CI/CD | L319 |
+| プレビューデプロイメント | L351 |
+| カスタムドメイン設定 | L368 |
+| 環境分離 | L381 |
+| ロールバック戦略 | L401 |
+| コスト概算（個人開発） | L422 |
+| モニタリング/アラート（UT-08 連携） | L434 |
+| 変更履歴 | L451 |
 
 ### references/deployment-core.md
 
@@ -2397,7 +2424,7 @@ node scripts/list-specs.js --topics
 | ローカル開発での設定 | L135 |
 | セキュリティ原則 | L174 |
 | Cloudflare API Token の作成手順 | L185 |
-| 変更履歴 | L200 |
+| 変更履歴 | L214 |
 
 ### references/deployment.md
 
@@ -2617,10 +2644,10 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | 使い方 | L14 |
 | Current Alias Overrides（個別互換行） | L21 |
-| Family Summary | L39 |
-| Detailed Register | L58 |
-| Section Extract Register (2026-03-17) | L239 |
-| 500-Line Split Register (2026-03-16) | L250 |
+| Family Summary | L40 |
+| Detailed Register | L59 |
+| Section Extract Register (2026-03-17) | L240 |
+| 500-Line Split Register (2026-03-16) | L251 |
 
 ### references/lessons-learned-05b-smoke-readiness-2026-04.md
 
@@ -2742,7 +2769,9 @@ node scripts/list-specs.js --topics
 | L-CICD-006: 1Password Environments と GitHub Secrets の同期手順は明文化する | L55 |
 | L-CICD-007: ブランチ名の正本は `dev`（`develop` でない） | L64 |
 | 関連未タスク・フォローアップ候補 | L75 |
-| 変更履歴 | L85 |
+| L-R2-001: R2 binding 命名は topic-map.md に事前登録すること | L85 |
+| L-R2-002: spec_created と実適用の境界を明示すること | L95 |
+| 変更履歴 | L107 |
 
 ### references/lessons-learned-conversation-db-robustness.md
 
@@ -2801,6 +2830,12 @@ node scripts/list-specs.js --topics
 | W0-seq-02 SmartDefault推論サービス実装 教訓（2026-04-08） | L601 |
 | UT-HEALTH-POLICY-RUNTIME-INJECTION-001 healthPolicy DI注入 教訓（2026-04-08） | L618 |
 
+### references/lessons-learned-current-2026-04b.md
+
+| セクション | 行 |
+|------------|----|
+| UT-11 Google OAuth + PKCE タスク仕様書作成（2026-04-27） | L8 |
+
 ### references/lessons-learned-current-electron-menu-docs-task0912.md
 
 | セクション | 行 |
@@ -2820,6 +2855,15 @@ node scripts/list-specs.js --topics
 | 分割ファイル一覧 | L143 |
 | クイックリファレンス: カテゴリ別検索ガイド | L161 |
 | 分割ファイル一覧 | L165 |
+
+### references/lessons-learned-d1a-schema-migrations.md
+
+| セクション | 行 |
+|------------|----|
+| L-D1A-001: source task 別の current facts 表分割（contract と implementation の併存運用） | L10 |
+| L-D1A-002: DDL 専属タスクにおける Phase 11 NON_VISUAL evidence の代替方針 | L19 |
+| L-D1A-003: artifacts.json と phase-NN.md state の同期盲点（pending 残置） | L28 |
+| 関連リンク | L39 |
 
 ### references/lessons-learned-governance-hooks-phase-policy.md
 
@@ -3224,6 +3268,25 @@ node scripts/list-specs.js --topics
 | 同種課題の簡潔解決手順 | L51 |
 | 関連ドキュメント | L61 |
 | 変更履歴 | L72 |
+
+### references/lessons-learned-ut-19-branch-protection-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT19-001: GitHub branch protection の required status check は CI 1 回先行実行が前提 | L8 |
+| L-UT19-002: 操作系（docs-only operations evidence）タスクの Phase 11 は視覚スモークが成立しない | L19 |
+| L-UT19-003: runbook と実適用値の正本ドリフト防止には deployment-branch-strategy 固定化が必要 | L30 |
+| 関連参照 | L42 |
+
+### references/lessons-learned-ut08-monitoring-design-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L5 |
+| 苦戦箇所と対処（Wave 2 への引き継ぎ前提） | L15 |
+| 設計上の確定事項（SSOT） | L66 |
+| Wave 2 実装時の注意点（UT-08-IMPL 着手前チェック） | L79 |
+| 関連ファイル | L88 |
 
 ### references/lessons-learned-verify-contract-consolidation.md
 
@@ -4035,6 +4098,18 @@ node scripts/list-specs.js --topics
 | 完了タスク | L14 |
 | 変更履歴 | L375 |
 
+### references/r2-storage-decision-guide.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L6 |
+| 判断ポイント一覧 | L13 |
+| 採用案 A: 環境別 2 バケット | L23 |
+| 採用案 D: 専用 R2 Token | L51 |
+| 採用案 F: プライベートバケット + Presigned URL / Proxy | L68 |
+| CORS テンプレート | L101 |
+| 変更履歴 | L119 |
+
 ### references/rag-desktop-state.md
 
 | セクション | 行 |
@@ -4282,7 +4357,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| 続き | L336 |
+| 続き | L341 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

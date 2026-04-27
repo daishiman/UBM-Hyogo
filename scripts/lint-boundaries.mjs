@@ -8,6 +8,9 @@ const forbidden = [
   "D1Database",
   "apps/api",
   "@ubm-hyogo/api",
+  "@ubm-hyogo/integrations-google",
+  "@ubm-hyogo/integrations/google",
+  "packages/integrations/google",
   "localStorage",
   "sessionStorage",
 ];

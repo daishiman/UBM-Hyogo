@@ -1,6 +1,21 @@
-declare const __brand: unique symbol;
-export type Brand<T, B> = T & { [__brand]: B };
-export type MemberId = Brand<string, "MemberId">;
-export type ResponseId = Brand<string, "ResponseId">;
-export type ResponseEmail = Brand<string, "ResponseEmail">;
-export type StableKey = Brand<string, "StableKey">;
+export type {
+  Brand,
+  MemberId,
+  ResponseId,
+  ResponseEmail,
+  StableKey,
+  SessionId,
+  TagId,
+  AdminId,
+  BrandedKind,
+} from "../branded";
+export {
+  asMemberId,
+  asResponseId,
+  asResponseEmail,
+  asStableKey,
+  asSessionId,
+  asTagId,
+  asAdminId,
+  BRANDED_KIND_LIST,
+} from "../branded";

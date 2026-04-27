@@ -47,10 +47,21 @@
 - [technical-documentation-guide.md](technical-documentation-guide.md)
 - [patterns-phase12-sync.md](patterns-phase12-sync.md)
 
+## Step 1-D: 上流仕様書差分追記ルール
+
+設計タスク（`spec_created`）が完了した時点で、上流の仕様書・runbook へ差分追記が発生する場合は以下のルールを適用する:
+
+- **同一 Wave 追記**: 上流 outputs が同 Wave で生成済みかつ責務が同一タスクに含まれる場合
+- **Wave N+1 別 PR**: 設計と実装の責務が分離され、上流 outputs が後続タスクで生成される場合
+- **baseline 留置**: 上流タスクが未着手で再合意が必要な場合
+
+判定は `outputs/phase-02/runbook-diff-plan.md` に記録し、Phase 12 の `system-spec-update-summary.md` で実施有無を明示する。判定詳細は [phase-template-phase12.md](phase-template-phase12.md) を参照。
+
 ## 変更履歴
 
 | Date | Changes |
 | ---- | ------- |
+| 2026-04-27 | UT-08 monitoring-alert-design を契機に Step 1-D（上流仕様書差分追記ルール）を追加 |
 | 2026-04-07 | 974行のmonolithを子ファイル群に分散。本ファイルをフロー図+リンク集（100行以内）に縮小 |
 | 2026-03-26 | UT-IMP-RUNTIME-WORKFLOW-ENGINE-FAILURE-LIFECYCLE-001 を反映 |
 | 2026-03-26 | TASK-SDK-02 workflow-engine-runtime-orchestration を反映 |

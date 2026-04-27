@@ -1,0 +1,5 @@
+{
+  "required": false,
+  "reason": "Non-visual D1 migration task. No UI/UX surface changed.",
+  "screenshots": []
+}

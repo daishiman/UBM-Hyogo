@@ -803,7 +803,6 @@
 - **問題**: 03-serial-data-source-and-storage-contract は contract-only タスクだったため、コード実装は最小限だが、後続実装タスク（`apps/api` D1 binding 配線・migration 実装・sync_audit 書込みパス・identity merge 戦略 等）が canonical な未タスクとして登録されていなかった
 - **解決**: contract-only Phase 12 close-out 時に、後続実装で必要となる未タスク（minimum: D1 binding wiring / migration script / sync_audit append-only 書込み / identity merge）を `unassigned-task-detection.md` に列挙し、backlog 登録対象として明示する
 - **再発防止**: contract-only タスクの Phase 12 では「契約の閉じ方」と「downstream の未タスク列挙」の両方を必須項目として review checklist に固定する。契約だけ書いて未タスク登録を省略すると、実装波で発見が遅れる
-<<<<<<< HEAD
 
 ### L-05A-NON_VISUAL-001: docs-only タスクの Phase 11 で NON_VISUAL evidence path の固定漏れ
 
@@ -825,11 +824,6 @@
 - **原因**: docs-only タスクでは outputs 側 ledger を「同期コピー」と捉えていたが、SKILL.md にこの同時更新ルールが明文化されておらず、片側だけの更新が許容されると誤認した
 - **対処**: Phase 12 で `diff <(jq .phases artifacts.json) <(jq .phases outputs/artifacts.json)` を必須化し、両 ledger を同時更新する。validator 実行前に diff 0 を確認
 - **再発防止**: `task-specification-creator` SKILL.md の Phase 12 漏れ表に UBM-005 として恒久化済み（v10.09.44）。今後 close-out チェックリストに「root/outputs artifacts.json diff 0」を必須項目として追加する
-
----
-
-> 注記（2026-04-26 分離）:
-> - `05b-parallel-smoke-readiness-and-handoff` Phase 12 close-out 教訓（L-05B-001/002）は [lessons-learned-05b-smoke-readiness-2026-04.md](lessons-learned-05b-smoke-readiness-2026-04.md) に分離しました（500 行制限のため責務分離）。
 
 ---
 

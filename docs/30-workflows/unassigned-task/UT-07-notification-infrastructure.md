@@ -42,6 +42,18 @@
 | 上流 | UT-09（Sheets→D1 同期ジョブ実装） | 通知対象データが D1 に揃っていること |
 | 上流 | UT-04（D1 データスキーマ設計） | 通知配信ログの格納テーブルが必要 |
 | 下流 | - | 現時点で後続タスクの依存なし |
+| 下流 | docs/30-workflows/unassigned-task/UT-08-IMPL-monitoring-alert-implementation.md | MVPはSlack direct方式を受け継ぎ、UT-07完了後に通知基盤経由へ移行検討 |
+
+## UT-08 設計ハンドオフ
+
+UT-08 監視・アラート設計では、MVP のアラート通知を Slack Incoming Webhook direct + Email fallback として定義した。UT-07 完了後は、UT-08-IMPL の notifier abstraction を通知基盤経由へ移行するか再評価する。
+
+| 項目 | UT-08 側の現在地 |
+| --- | --- |
+| 一次通知 | Slack Webhook direct |
+| サブ通知 | Email fallback |
+| Secret | `MONITORING_SLACK_WEBHOOK_URL_PROD` / `_STAGING` |
+| 参照 | `docs/30-workflows/ut-08-monitoring-alert-design/outputs/phase-02/notification-design.md` |
 
 ## 苦戦箇所・知見
 
