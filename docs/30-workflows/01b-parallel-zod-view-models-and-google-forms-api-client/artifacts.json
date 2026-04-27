@@ -4,7 +4,9 @@
   "wave": 1,
   "execution_mode": "parallel",
   "created_at": "2026-04-26",
-  "status": "spec_ready",
+  "status": "implemented",
+  "implemented_at": "2026-04-27",
+  "implementation_branch": "feat/wt-7",
   "metadata": {
     "taskType": "spec_created",
     "docs_only": true,
@@ -114,67 +116,67 @@
     {
       "phase": 1,
       "name": "要件定義",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 2,
       "name": "設計",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 3,
       "name": "設計レビュー",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 4,
       "name": "テスト戦略",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 5,
       "name": "実装ランブック",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 6,
       "name": "異常系検証",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 7,
       "name": "AC マトリクス",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 8,
       "name": "DRY 化",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 9,
       "name": "品質保証",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 10,
       "name": "最終レビュー",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 11,
       "name": "手動 smoke",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 12,
       "name": "ドキュメント更新",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "phase": 13,
       "name": "PR 作成",
-      "status": "pending"
+      "status": "pending_user_approval"
     }
   ],
   "deliverables": {

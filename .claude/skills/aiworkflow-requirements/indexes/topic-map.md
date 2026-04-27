@@ -2628,10 +2628,10 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | 使い方 | L14 |
 | Current Alias Overrides（個別互換行） | L21 |
-| Family Summary | L39 |
-| Detailed Register | L58 |
-| Section Extract Register (2026-03-17) | L239 |
-| 500-Line Split Register (2026-03-16) | L250 |
+| Family Summary | L40 |
+| Detailed Register | L59 |
+| Section Extract Register (2026-03-17) | L240 |
+| 500-Line Split Register (2026-03-16) | L251 |
 
 ### references/lessons-learned-05b-smoke-readiness-2026-04.md
 
@@ -2753,7 +2753,9 @@ node scripts/list-specs.js --topics
 | L-CICD-006: 1Password Environments と GitHub Secrets の同期手順は明文化する | L55 |
 | L-CICD-007: ブランチ名の正本は `dev`（`develop` でない） | L64 |
 | 関連未タスク・フォローアップ候補 | L75 |
-| 変更履歴 | L85 |
+| L-R2-001: R2 binding 命名は topic-map.md に事前登録すること | L85 |
+| L-R2-002: spec_created と実適用の境界を明示すること | L95 |
+| 変更履歴 | L107 |
 
 ### references/lessons-learned-conversation-db-robustness.md
 
@@ -2812,6 +2814,12 @@ node scripts/list-specs.js --topics
 | W0-seq-02 SmartDefault推論サービス実装 教訓（2026-04-08） | L601 |
 | UT-HEALTH-POLICY-RUNTIME-INJECTION-001 healthPolicy DI注入 教訓（2026-04-08） | L618 |
 
+### references/lessons-learned-current-2026-04b.md
+
+| セクション | 行 |
+|------------|----|
+| UT-11 Google OAuth + PKCE タスク仕様書作成（2026-04-27） | L8 |
+
 ### references/lessons-learned-current-electron-menu-docs-task0912.md
 
 | セクション | 行 |
@@ -2831,6 +2839,15 @@ node scripts/list-specs.js --topics
 | 分割ファイル一覧 | L143 |
 | クイックリファレンス: カテゴリ別検索ガイド | L161 |
 | 分割ファイル一覧 | L165 |
+
+### references/lessons-learned-d1a-schema-migrations.md
+
+| セクション | 行 |
+|------------|----|
+| L-D1A-001: source task 別の current facts 表分割（contract と implementation の併存運用） | L10 |
+| L-D1A-002: DDL 専属タスクにおける Phase 11 NON_VISUAL evidence の代替方針 | L19 |
+| L-D1A-003: artifacts.json と phase-NN.md state の同期盲点（pending 残置） | L28 |
+| 関連リンク | L39 |
 
 ### references/lessons-learned-governance-hooks-phase-policy.md
 
@@ -4055,6 +4072,18 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L6 |
 | 完了タスク | L14 |
 | 変更履歴 | L375 |
+
+### references/r2-storage-decision-guide.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L6 |
+| 判断ポイント一覧 | L13 |
+| 採用案 A: 環境別 2 バケット | L23 |
+| 採用案 D: 専用 R2 Token | L51 |
+| 採用案 F: プライベートバケット + Presigned URL / Proxy | L68 |
+| CORS テンプレート | L101 |
+| 変更履歴 | L119 |
 
 ### references/rag-desktop-state.md
 
