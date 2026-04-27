@@ -2359,28 +2359,29 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L6 |
 | サービス構成 | L13 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L25 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L88 |
-| Cloudflare D1 データベース | L174 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L207 |
-| GitHub Actions CI/CD | L319 |
-| プレビューデプロイメント | L351 |
-| カスタムドメイン設定 | L368 |
-| 環境分離 | L381 |
-| ロールバック戦略 | L401 |
-| コスト概算（個人開発） | L422 |
-| モニタリング/アラート（UT-08 連携） | L434 |
-| 変更履歴 | L451 |
+| 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L63 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L126 |
+| Cloudflare D1 データベース | L212 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L245 |
+| GitHub Actions CI/CD | L357 |
+| プレビューデプロイメント | L389 |
+| カスタムドメイン設定 | L406 |
+| 環境分離 | L419 |
+| ロールバック戦略 | L439 |
+| コスト概算（個人開発） | L460 |
+| モニタリング/アラート（UT-08 連携） | L472 |
+| 変更履歴 | L489 |
 
 ### references/deployment-core.md
 
 | セクション | 行 |
 |------------|----|
 | デプロイメント戦略概要 | L6 |
-| Cloudflare デプロイ戦略 | L37 |
-| GitHub Actions CI/CD パイプライン | L84 |
-| ロールバック戦略 | L127 |
-| 変更履歴 | L173 |
+| Cloudflare デプロイ戦略 | L53 |
+| GitHub Actions CI/CD パイプライン | L100 |
+| ロールバック戦略 | L143 |
+| 変更履歴 | L189 |
 
 ### references/deployment-details.md
 
