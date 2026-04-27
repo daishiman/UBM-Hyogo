@@ -168,3 +168,16 @@ done
 | FB-UT-UIUX-001-B | `artifacts.json` に Phase 13 先送り wording が残る | Phase 13 でのみ解消できる wording は validator で弾く。close-out ターンで全部 current facts に変える |
 | P48派生 | `audit --target-file` の対象スコープ誤用 | `--target-file` は root `unassigned-task/`、`completed-tasks/<workflow>/unassigned-task/`、standalone `completed-tasks/*.md` のいずれかに合わせる |
 | - | テスト数の設計時固定値使用（TASK-9B-I） | Phase 12では `grep -c "it\\(" *.test.ts` で実測値を使用 |
+| L-D1A-003 | `artifacts.json` と `phase-NN.md` の状態列が pending のまま放置される | Phase 12 完了時に3点同期（状態列・チェックボックス・artifacts.json）を独立チェックリストで確認 |
+
+## artifacts.json と phase-NN.md 状態同期チェック
+
+DDL/CLI 専属タスク（NON_VISUAL）の Phase 12 close-out では以下3点を必ず同期すること。
+
+| # | チェック項目 | 確認コマンド例 |
+| - | ------------ | -------------- |
+| 1 | `phase-NN.md` の「状態」行が `completed` になっているか | `grep "^\| 状態" phase-12.md` |
+| 2 | `phase-NN.md` のチェックボックスが全て `[x]` か | `grep "^- \[ \]" phase-12.md` → 0件であること |
+| 3 | `artifacts.json` の `phases.12.status` が `"completed"` か | `jq '.phases["12"].status' artifacts.json` |
+
+> **根拠**: 01a-parallel-d1 タスクで `phase-12.md` 状態列と `artifacts.json` が `pending` のまま放置されていた（L-D1A-003）。この3点が不一致のまま PR を作成すると、後続の AI ワークフロー監査で Phase 完了扱いにならない。
