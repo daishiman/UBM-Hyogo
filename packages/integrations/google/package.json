@@ -12,6 +12,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@ubm-hyogo/shared": "workspace:*"
+    "@ubm-hyogo/shared": "workspace:*",
+    "zod": "^4.3.6"
   }
 }
