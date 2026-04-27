@@ -506,6 +506,14 @@ node scripts/list-specs.js --topics
 | SDK 型安全統合（TASK-9B-I） | L329 |
 | 変更履歴 | L387 |
 
+### references/interfaces-api.md
+
+| セクション | 行 |
+|------------|----|
+| UT-10 グローバルエラーハンドラ | L3 |
+| Web クライアント同期契約 | L48 |
+| 関連 | L63 |
+
 ### references/interfaces-auth-core.md
 
 | セクション | 行 |
@@ -766,6 +774,13 @@ node scripts/list-specs.js --topics
 | Knowledge Graph型 | L172 |
 | 設計原則 | L188 |
 | 関連ドキュメント | L411 |
+
+### references/interfaces-shared.md
+
+| セクション | 行 |
+|------------|----|
+| UT-10 エラーハンドリング標準 | L3 |
+| 関連 | L120 |
 
 ### references/interfaces-skill-verify-contract.md
 
@@ -2088,6 +2103,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
 
+### references/workflow-ut08-monitoring-alert-design-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| ワークフロー概要 | L5 |
+| Phase 別成果物リスト | L16 |
+| SSOT クイック参照 | L86 |
+| 派生未タスク | L100 |
+| 関連リンク | L108 |
+
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
 | セクション | 行 |
@@ -2343,7 +2368,8 @@ node scripts/list-specs.js --topics
 | 環境分離 | L229 |
 | ロールバック戦略 | L249 |
 | コスト概算（個人開発） | L270 |
-| 変更履歴 | L282 |
+| モニタリング/アラート（UT-08 連携） | L282 |
+| 変更履歴 | L299 |
 
 ### references/deployment-core.md
 
@@ -2397,7 +2423,7 @@ node scripts/list-specs.js --topics
 | ローカル開発での設定 | L135 |
 | セキュリティ原則 | L174 |
 | Cloudflare API Token の作成手順 | L185 |
-| 変更履歴 | L200 |
+| 変更履歴 | L214 |
 
 ### references/deployment.md
 
@@ -2742,7 +2768,9 @@ node scripts/list-specs.js --topics
 | L-CICD-006: 1Password Environments と GitHub Secrets の同期手順は明文化する | L55 |
 | L-CICD-007: ブランチ名の正本は `dev`（`develop` でない） | L64 |
 | 関連未タスク・フォローアップ候補 | L75 |
-| 変更履歴 | L85 |
+| L-R2-001: R2 binding 命名は topic-map.md に事前登録すること | L85 |
+| L-R2-002: spec_created と実適用の境界を明示すること | L95 |
+| 変更履歴 | L107 |
 
 ### references/lessons-learned-conversation-db-robustness.md
 
@@ -2800,6 +2828,12 @@ node scripts/list-specs.js --topics
 | UT-SKILL-WIZARD-W1-CONVERSATION-ROUND-STEP-001 教訓（2026-04-08） | L575 |
 | W0-seq-02 SmartDefault推論サービス実装 教訓（2026-04-08） | L601 |
 | UT-HEALTH-POLICY-RUNTIME-INJECTION-001 healthPolicy DI注入 教訓（2026-04-08） | L618 |
+
+### references/lessons-learned-current-2026-04b.md
+
+| セクション | 行 |
+|------------|----|
+| UT-11 Google OAuth + PKCE タスク仕様書作成（2026-04-27） | L8 |
 
 ### references/lessons-learned-current-electron-menu-docs-task0912.md
 
@@ -3233,6 +3267,16 @@ node scripts/list-specs.js --topics
 | 同種課題の簡潔解決手順 | L51 |
 | 関連ドキュメント | L61 |
 | 変更履歴 | L72 |
+
+### references/lessons-learned-ut08-monitoring-design-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L5 |
+| 苦戦箇所と対処（Wave 2 への引き継ぎ前提） | L15 |
+| 設計上の確定事項（SSOT） | L66 |
+| Wave 2 実装時の注意点（UT-08-IMPL 着手前チェック） | L79 |
+| 関連ファイル | L88 |
 
 ### references/lessons-learned-verify-contract-consolidation.md
 
@@ -4043,6 +4087,18 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L6 |
 | 完了タスク | L14 |
 | 変更履歴 | L375 |
+
+### references/r2-storage-decision-guide.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L6 |
+| 判断ポイント一覧 | L13 |
+| 採用案 A: 環境別 2 バケット | L23 |
+| 採用案 D: 専用 R2 Token | L51 |
+| 採用案 F: プライベートバケット + Presigned URL / Proxy | L68 |
+| CORS テンプレート | L101 |
+| 変更履歴 | L119 |
 
 ### references/rag-desktop-state.md
 

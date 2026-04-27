@@ -3,6 +3,7 @@ import { integrationRuntimeTarget } from "@ubm-hyogo/integrations";
 import { describeRuntimeFoundation, runtimeFoundation } from "@ubm-hyogo/shared";
 import { adminSyncRoute } from "./routes/admin/sync";
 import { runSync, type SyncEnv } from "./jobs/sync-sheets-to-d1";
+import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 
 interface Env extends SyncEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
@@ -10,6 +11,9 @@ interface Env extends SyncEnv {
 }
 
 const app = new Hono<{ Bindings: Env }>();
+
+app.notFound(notFoundHandler);
+app.onError(errorHandler);
 
 app.get("/", (c) =>
   c.json({

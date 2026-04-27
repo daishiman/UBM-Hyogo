@@ -183,3 +183,15 @@ mv docs/30-workflows/unassigned-task/task-{{task-name}}.md \
 - `3.5 実装課題と解決策` に、なぜ残件化したかと再発防止の観点を 2〜4 項目で残す
 - `## 8. 参照情報` に `verification-report.md` や `manual-test-result.md` など発見元を入れる
 - `verify-unassigned-links.js` と `audit-unassigned-tasks.js --diff-from HEAD` の結果を Phase 12 成果物側にも記録する
+
+## 設計タスク全体が実装化する場合の処理
+
+設計タスクの成果物全体が次 Wave で実装される場合（例: UT-08 monitoring-alert-design → UT-08-IMPL）:
+
+1. **元タスク**: `state: spec_created` で確定、設計のみで完結
+2. **派生 IMPL タスク**: `docs/30-workflows/unassigned-task/UT-XX-IMPL-<name>-implementation.md` として独立起票
+3. **メタ情報**: 上流設計パス・元タスク ID・実装前ゲート・受入条件・参照資料を必須記載
+4. **Wave 境界**: IMPL タスクは元タスクの完了 Wave + 1 以降を推奨 Wave とする
+5. **逆参照**: 元タスクの `参照資料` から IMPL タスクへ一方向リンクを残す
+
+`unassigned-task-detection.md` の検出パターン例にも本パターン（全タスク実装化）を追加する。Phase 12 での具体手順は [phase-template-phase12.md](phase-template-phase12.md) §設計タスク特有を参照。
