@@ -1,0 +1,36 @@
+# リンク確認チェックリスト
+
+| パス | 種別 | 存在確認 |
+| --- | --- | --- |
+| docs/05a-parallel-observability-and-cost-guardrails/index.md | index | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-01.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-02.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-03.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-04.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-05.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-06.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-07.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-08.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-09.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-10.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-11.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-12.md | spec | ✅ |
+| docs/05a-parallel-observability-and-cost-guardrails/phase-13.md | spec | ✅ |
+| outputs/phase-01/main.md | output | ✅ |
+| outputs/phase-02/main.md | output | ✅ |
+| outputs/phase-02/observability-matrix.md | output | ✅ |
+| outputs/phase-03/main.md | output | ✅ |
+| outputs/phase-04/main.md | output | ✅ |
+| outputs/phase-05/main.md | output | ✅ |
+| outputs/phase-05/cost-guardrail-runbook.md | output | ✅ |
+| outputs/phase-06/main.md | output | ✅ |
+| outputs/phase-07/main.md | output | ✅ |
+| outputs/phase-08/main.md | output | ✅ |
+| outputs/phase-09/main.md | output | ✅ |
+| outputs/phase-10/main.md | output | ✅ |
+| outputs/phase-11/main.md | output | ✅ |
+| outputs/phase-11/manual-smoke-log.md | output | ✅ |
+| outputs/phase-11/manual-ops-checklist.md | output | ✅ |
+| .claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md | ref | ✅ |
+| .claude/skills/aiworkflow-requirements/references/deployment-core.md | ref | ✅ |
+| .claude/skills/aiworkflow-requirements/references/environment-variables.md | ref | ✅ |

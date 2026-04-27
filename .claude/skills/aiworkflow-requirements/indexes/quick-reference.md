@@ -745,6 +745,19 @@ packages/
 | シークレット管理（CF/GitHub） | `references/deployment-secrets-management.md` |
 | インテグレーションパッケージ設計 | `references/arch-integration-packages.md` |
 
+### 無料枠 / コストガードレール参照時（05a-parallel-observability-and-cost-guardrails）
+
+| 目的 | 参照先 |
+| --- | --- |
+| Cloudflare 無料枠数値（Pages / Workers / D1 / KV / R2） | `references/deployment-cloudflare.md` |
+| GitHub Actions minutes（public/private 区別） | `references/deployment-gha.md` |
+| デプロイ品質ゲート / rollback 手順 | `references/deployment-core.md` |
+| secret 配置（Cloudflare / GitHub / 1Password） | `references/environment-variables.md` |
+| 観測対象一覧・閾値（warning / action） | `docs/05a-parallel-observability-and-cost-guardrails/outputs/phase-02/observability-matrix.md` |
+| 閾値別対処・degrade / rollback runbook | `docs/05a-parallel-observability-and-cost-guardrails/outputs/phase-05/cost-guardrail-runbook.md` |
+| 月次・週次の手動 ops チェックリスト | `docs/05a-parallel-observability-and-cost-guardrails/outputs/phase-11/manual-ops-checklist.md` |
+| 運用ガイド（同 wave 05b への handoff） | `docs/05a-parallel-observability-and-cost-guardrails/outputs/phase-12/operations-guide.md` |
+
 ### UBM-Hyogo D1 Schema 早見（03-serial-data-source-and-storage-contract）
 
 | 観点 | 値 / 参照先 |
