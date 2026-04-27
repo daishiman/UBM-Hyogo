@@ -803,7 +803,6 @@
 - **問題**: 03-serial-data-source-and-storage-contract は contract-only タスクだったため、コード実装は最小限だが、後続実装タスク（`apps/api` D1 binding 配線・migration 実装・sync_audit 書込みパス・identity merge 戦略 等）が canonical な未タスクとして登録されていなかった
 - **解決**: contract-only Phase 12 close-out 時に、後続実装で必要となる未タスク（minimum: D1 binding wiring / migration script / sync_audit append-only 書込み / identity merge）を `unassigned-task-detection.md` に列挙し、backlog 登録対象として明示する
 - **再発防止**: contract-only タスクの Phase 12 では「契約の閉じ方」と「downstream の未タスク列挙」の両方を必須項目として review checklist に固定する。契約だけ書いて未タスク登録を省略すると、実装波で発見が遅れる
-<<<<<<< HEAD
 
 ### L-05A-NON_VISUAL-001: docs-only タスクの Phase 11 で NON_VISUAL evidence path の固定漏れ
 

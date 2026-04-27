@@ -65,6 +65,51 @@ UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage
 
 Wave 0 scaffold task で実装差分、仕様同期、path/status parity、現環境 verify 結果がずれたため、Phase 12 close-out 前に code diff と task metadata を再照合する必要がある。
 
+## 2026-04-26 - 05b-parallel-smoke-readiness-and-handoff Phase 12 close-out sync
+
+### 変更内容
+
+- `docs/05b-parallel-smoke-readiness-and-handoff/` の旧 task-root path drift を補正した
+- Phase 2 / 5 / 10 / 11 / 12 の個別成果物を作成し、`artifacts.json` の outputs と Phase 1-12 status を同期した
+- Phase 11 は UI 変更なしのため screenshot N/A とし、manual smoke / link checklist 証跡で閉じた
+- Phase 13 は `approval_required` のまま維持し、コミット・PR は実行していない
+
+### 背景
+
+30種思考法レビューで、docs-only / `spec_created` タスクでも Phase 12 必須成果物、LOGS 同期、artifact parity、旧パス残存検出を同時に閉じないと downstream handoff が壊れることを確認した。
+
+## 2026-04-27 - UT-13 Cloudflare KV セッションキャッシュ設定 spec_created Phase 1〜12 完了
+
+### コンテキスト
+
+- スキル: task-specification-creator
+- タスクID: UT-13
+- タスク名: Cloudflare KV セッションキャッシュ設定
+- Phase: 1-12（Phase 13 PR 作成はユーザー承認待ち）
+- タスク種別: spec_created / docs-only / NON_VISUAL
+
+### 成果
+
+- Phase 1: `outputs/phase-01/requirements.md`（AC-1〜AC-7 正式定義、4条件全 PASS、既存資産インベントリ）
+- Phase 2: `kv-namespace-design.md` / `ttl-policy.md` / `env-diff-matrix.md` / `free-tier-policy.md` / `eventual-consistency-guideline.md`
+- Phase 3: `review-result.md`（設計レビュー PASS、代替案 A〜E 評価）
+- Phase 4: `verify-suite-result.md`（DOCUMENTED）/ `free-tier-usage-snapshot.md`
+- Phase 5: `kv-bootstrap-runbook.md` / `kv-binding-mapping.md` / `read-write-verification.md`
+- Phase 6: `failure-cases.md`（FC-01〜FC-06）/ `ac-final-check.md`（全 PASS）
+- Phase 7: `ac-matrix.md` / `handoff.md`
+- Phase 8: `dry-config-policy.md`（Before/After 比較、`[vars]` 集中管理）
+- Phase 9: `quality-report.md`（無料枠 / 最終的一貫性 / secret hygiene 全 PASS）
+- Phase 10: `go-nogo.md`（即 GO 判定）
+- Phase 11: NON_VISUAL smoke test（`smoke-test-result.md` / `production-review-evidence.md`、screenshot は N/A、CLI evidence で代替）
+- Phase 12: 必須 6 ファイル（`implementation-guide.md` / `system-spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md`）
+- 正本同期: `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` に KV セクション統合 / `indexes/topic-map.md` 行番号同期 + KV 関連エントリ追加
+
+### 結果
+
+- ステータス: success（Phase 1〜12）
+- 完了日時: 2026-04-27
+- 申し送り: KV Namespace 実 ID 発行・wrangler.toml への実装適用・Worker 側 KV ヘルパー実装は下流の認証実装タスク / インフラタスクへ委譲（unassigned-task-detection.md に 7 件記録）
+
 ## 2026-04-26 - D1 読み書き競合対策の設定可否確認（UT-02）タスク完了
 
 ### コンテキスト
