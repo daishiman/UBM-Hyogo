@@ -99,6 +99,20 @@
 | 共通コードの活用         | UI、ビジネスロジック、インフラを packages/shared/ で共有する     |
 | インテグレーション分離   | 外部サービス連携は packages/integrations/ に閉じ、相互依存を禁止する |
 
+### Wave 0 scaffold baseline（2026-04-26）
+
+`docs/00-serial-monorepo-shared-types-and-ui-primitives-foundation` で、Webアプリ実装の初期モノレポ基盤を確定した。
+
+| 領域 | 確定事項 |
+| --- | --- |
+| `apps/web` | Next.js 16 App Router + `@opennextjs/cloudflare`。`(public)`, `(member)`, `(admin)` route group layout を持つ |
+| `apps/api` | Hono on Workers。Wave 0 では `/healthz`, `/public/healthz`, `/me/healthz`, `/admin/healthz` の health scaffold のみ |
+| `packages/shared` | `MemberId`, `ResponseId`, `ResponseEmail`, `StableKey` の branded ID placeholder を export |
+| `packages/integrations/google` | `FormsClient` interface と `NotImplementedFormsClient` placeholder のみ。実 Forms API 実装は後続 Wave |
+| boundary guard | `apps/web` から D1/API direct import、`localStorage` / `sessionStorage` 使用を lint guard で禁止 |
+
+Wave 0 では D1 binding、cron trigger、Google service account secret、sync mutation endpoint を導入しない。これらは 01a/01b/03/09 系 task の責務とする。
+
 ### モノレポ構造の利点
 
 | 利点         | 説明                                                          |

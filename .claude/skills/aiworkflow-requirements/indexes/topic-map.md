@@ -242,9 +242,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | モノレポアーキテクチャ | L8 |
-| 型エクスポートパターン | L212 |
-| 完了タスク | L282 |
-| 変更履歴 | L314 |
+| 型エクスポートパターン | L226 |
+| 完了タスク | L296 |
+| 変更履歴 | L328 |
 
 ### references/architecture-overview-core.md
 
@@ -1108,6 +1108,7 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L6 |
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
+| Wave 0 UI primitives baseline（2026-04-26） | L22 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -1643,11 +1644,11 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L6 |
-| パッケージ構成詳細 | L54 |
-| 依存関係管理戦略 | L177 |
-| 無料枠の活用ガイド | L270 |
-| CI/CDツール選定 | L302 |
-| 学習リソースとコミュニティ | L389 |
+| パッケージ構成詳細 | L67 |
+| 依存関係管理戦略 | L190 |
+| 無料枠の活用ガイド | L283 |
+| CI/CDツール選定 | L315 |
+| 学習リソースとコミュニティ | L402 |
 
 ### references/technology-devops-details.md
 
@@ -2616,10 +2617,16 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | 使い方 | L14 |
 | Current Alias Overrides（個別互換行） | L21 |
-| Family Summary | L38 |
-| Detailed Register | L57 |
-| Section Extract Register (2026-03-17) | L238 |
-| 500-Line Split Register (2026-03-16) | L249 |
+| Family Summary | L40 |
+| Detailed Register | L59 |
+| Section Extract Register (2026-03-17) | L240 |
+| 500-Line Split Register (2026-03-16) | L251 |
+
+### references/lessons-learned-05b-smoke-readiness-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| v3.16.0 (2026-04-26) — `05b-parallel-smoke-readiness-and-handoff` Phase 12 close-out | L8 |
 
 ### references/lessons-learned-archive-2026-03-mid.md
 
@@ -2813,6 +2820,15 @@ node scripts/list-specs.js --topics
 | 分割ファイル一覧 | L143 |
 | クイックリファレンス: カテゴリ別検索ガイド | L161 |
 | 分割ファイル一覧 | L165 |
+
+### references/lessons-learned-d1a-schema-migrations.md
+
+| セクション | 行 |
+|------------|----|
+| L-D1A-001: source task 別の current facts 表分割（contract と implementation の併存運用） | L10 |
+| L-D1A-002: DDL 専属タスクにおける Phase 11 NON_VISUAL evidence の代替方針 | L19 |
+| L-D1A-003: artifacts.json と phase-NN.md state の同期盲点（pending 残置） | L28 |
+| 関連リンク | L39 |
 
 ### references/lessons-learned-governance-hooks-phase-policy.md
 
@@ -4399,6 +4415,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
+| UBM-Hyogo: UT-11 管理者向け Google OAuth ログインフロー実装（2026-04-27） | L239 |
 
 ### references/task-workflow-completed-skill-create-ui-integration.md
 
@@ -4560,9 +4577,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L10 |
-| 利用順序 | L39 |
-| 関連ドキュメント | L44 |
+| 仕様書インデックス | L11 |
+| 利用順序 | L40 |
+| 関連ドキュメント | L45 |
 
 ### references/testing-accessibility.md
 
