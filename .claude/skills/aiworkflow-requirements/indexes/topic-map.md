@@ -4415,6 +4415,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
+| UBM-Hyogo: UT-11 管理者向け Google OAuth ログインフロー実装（2026-04-27） | L239 |
 
 ### references/task-workflow-completed-skill-create-ui-integration.md
 

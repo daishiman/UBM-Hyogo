@@ -4,6 +4,19 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-27 - UT-11 管理者向け Google OAuth ログインフロー task-spec-creation
+
+### 変更内容
+
+- `docs/30-workflows/ut-11-google-oauth-admin-login-flow/` に Phase 1-13 仕様書・`artifacts.json`・`index.md` を新規作成（AC-1〜AC-13 トレーサビリティ付き）
+- Phase 11 を VISUAL 分類し `screenshot-plan.json` / `manual-test-checklist.md` / `manual-test-result.md` / `discovered-issues.md` 補助成果物を配置（`validate-phase-output.js` 32 PASS / 0 ERROR）
+- `references/lessons-learned-current-2026-04b.md` 新規作成（L-UT11-001〜005: Edge Runtime PKCE制約・state Cookie戦略・ADMIN_EMAIL_ALLOWLIST管理・spec_created Phase 11 VISUAL判定・VISUAL補助成果物要件）
+- Google OAuth 2.0 PKCE (S256) + Edge Runtime 制約 / state Cookie / JWT session / ADMIN_EMAIL_ALLOWLIST / `apps/web/middleware.ts` admin gate を設計書に反映
+
+### 背景
+
+GitHub Issue #14（UT-11: 管理者向け Google OAuth ログインフロー実装）の task-spec-creation タスク。実装なし・仕様書のみ。Issue は CLOSED のまま維持。spec_created タイプで docs_only 完了。
+
 ## 2026-04-27 - 05a Phase 12 close-out drift guard を SKILL.md へ反映
 
 ### 変更内容
