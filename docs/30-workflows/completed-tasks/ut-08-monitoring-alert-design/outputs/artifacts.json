@@ -1,0 +1,150 @@
+{
+  "id": "UT-08",
+  "name": "モニタリング/アラート設計",
+  "task_name": "ut-08-monitoring-alert-design",
+  "task_path": "docs/30-workflows/ut-08-monitoring-alert-design",
+  "feature": "ut-08-monitoring-alert-design",
+  "directory": "docs/30-workflows/ut-08-monitoring-alert-design",
+  "wave": 2,
+  "execution_mode": "independent",
+  "status": "spec_created",
+  "github_issue": 10,
+  "created_at": "2026-04-27T00:00:00+09:00",
+  "created": "2026-04-27T00:00:00+09:00",
+  "lastUpdated": "2026-04-27T15:00:00+09:00",
+  "depends_on": [
+    "docs/01-infrastructure-setup/05a-parallel-observability-and-cost-guardrails",
+    "UT-09"
+  ],
+  "blocks": [],
+  "metadata": {
+    "taskType": "design non_visual",
+    "priority": "LOW"
+  },
+  "phases": {
+    "1": {
+      "status": "completed",
+      "name": "要件定義",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-01/requirements.md", "description": "要件定義" }
+      ]
+    },
+    "2": {
+      "status": "completed",
+      "name": "設計",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-02/monitoring-design.md", "description": "監視設計書" },
+        { "type": "document", "path": "outputs/phase-02/metric-catalog.md", "description": "メトリクスカタログ" },
+        { "type": "document", "path": "outputs/phase-02/alert-threshold-matrix.md", "description": "アラート閾値マトリクス" },
+        { "type": "document", "path": "outputs/phase-02/notification-design.md", "description": "通知設計" },
+        { "type": "document", "path": "outputs/phase-02/external-monitor-evaluation.md", "description": "外部監視ツール評価" },
+        { "type": "document", "path": "outputs/phase-02/wae-instrumentation-plan.md", "description": "WAE計装計画" },
+        { "type": "document", "path": "outputs/phase-02/runbook-diff-plan.md", "description": "05a runbook 差分計画" },
+        { "type": "document", "path": "outputs/phase-02/failure-detection-rules.md", "description": "失敗検知ルール" },
+        { "type": "document", "path": "outputs/phase-02/secret-additions.md", "description": "追加 Secret 一覧" }
+      ]
+    },
+    "3": {
+      "status": "completed",
+      "name": "設計レビュー",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-03/design-review.md", "description": "設計レビュー" }
+      ]
+    },
+    "4": {
+      "status": "completed",
+      "name": "テスト計画・事前検証",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-04/test-plan.md", "description": "テスト計画" },
+        { "type": "document", "path": "outputs/phase-04/pre-verify-checklist.md", "description": "事前確認チェックリスト" }
+      ]
+    },
+    "5": {
+      "status": "completed",
+      "name": "実装計画書化",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-05/implementation-plan.md", "description": "実装計画書（Wave 2 実装タスクへの引き渡し）" }
+      ]
+    },
+    "6": {
+      "status": "completed",
+      "name": "異常系検証計画",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-06/failure-case-matrix.md", "description": "異常系マトリクス" }
+      ]
+    },
+    "7": {
+      "status": "completed",
+      "name": "検証項目網羅性",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-07/ac-traceability-matrix.md", "description": "ACトレーサビリティ" }
+      ]
+    },
+    "8": {
+      "status": "completed",
+      "name": "設定DRY化",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-08/refactoring-log.md", "description": "DRY化記録" }
+      ]
+    },
+    "9": {
+      "status": "completed",
+      "name": "品質保証",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-09/quality-checklist.md", "description": "品質チェックリスト" }
+      ]
+    },
+    "10": {
+      "status": "completed",
+      "name": "最終レビュー",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-10/go-nogo-decision.md", "description": "GO/NO-GO判定" }
+      ]
+    },
+    "11": {
+      "status": "completed",
+      "name": "手動smokeテスト",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-11/manual-smoke-log.md", "description": "手動smokeログ" },
+        { "type": "document", "path": "outputs/phase-11/link-checklist.md", "description": "リンク確認" },
+        { "type": "document", "path": "outputs/phase-11/main.md", "description": "Phase 11 サマリー（非視覚）" }
+      ]
+    },
+    "12": {
+      "status": "completed",
+      "name": "ドキュメント更新",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-12/implementation-guide.md", "description": "実装ガイド（Part 1/2）" },
+        { "type": "document", "path": "outputs/phase-12/system-spec-update-summary.md", "description": "システム仕様更新サマリー" },
+        { "type": "document", "path": "outputs/phase-12/documentation-changelog.md", "description": "ドキュメント変更履歴" },
+        { "type": "document", "path": "outputs/phase-12/unassigned-task-detection.md", "description": "未タスク検出" },
+        { "type": "document", "path": "outputs/phase-12/skill-feedback-report.md", "description": "スキルフィードバック" },
+        { "type": "document", "path": "outputs/phase-12/phase12-task-spec-compliance-check.md", "description": "Phase 12 準拠確認" }
+      ]
+    },
+    "13": {
+      "status": "pending",
+      "name": "PR作成",
+      "artifacts": [
+        { "type": "document", "path": "outputs/phase-13/pr-checklist.md", "description": "PRチェックリスト" },
+        { "type": "document", "path": "outputs/phase-13/local-check-result.md", "description": "ローカルチェック結果" },
+        { "type": "document", "path": "outputs/phase-13/change-summary.md", "description": "変更サマリー" }
+      ]
+    }
+  },
+  "dependencies": {
+    "1": [],
+    "2": ["1"],
+    "3": ["2"],
+    "4": ["3"],
+    "5": ["4"],
+    "6": ["5"],
+    "7": ["6"],
+    "8": ["7"],
+    "9": ["8"],
+    "10": ["9"],
+    "11": ["10"],
+    "12": ["11"],
+    "13": ["12"]
+  }
+}
