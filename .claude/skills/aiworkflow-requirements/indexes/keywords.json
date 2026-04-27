@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2945,
+  "totalKeywords": 2966,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -2668,6 +2668,7 @@
       "lessons-learned-skill-validation-logging-deprecation.md",
       "lessons-learned-skill-wizard-redesign.md",
       "lessons-learned-test-typesafety.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-ut08-monitoring-design-2026-04.md",
       "lessons-learned-verify-contract-consolidation.md",
       "lessons-learned-w3-usage-tracking-2026-04.md",
@@ -2752,7 +2753,8 @@
       "interfaces-agent-sdk-skill-advanced.md"
     ],
     "Manual": [
-      "arch-state-management-skill-creator.md"
+      "arch-state-management-skill-creator.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "Fallback": [
       "arch-state-management-skill-creator.md",
@@ -3100,6 +3102,7 @@
     ],
     "SESSION": [
       "architecture-auth-security-core.md",
+      "deployment-cloudflare.md",
       "error-handling-details.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "ui-ux-agent-execution-core.md"
@@ -3710,6 +3713,7 @@
       "lessons-learned-skill-create-multi-select-kind.md",
       "lessons-learned-test-typesafety.md",
       "lessons-learned-ui-skill-center-editor-dashboard.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-workflow-quality-line-budget-reform.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
@@ -3928,6 +3932,7 @@
     ],
     "docs": [
       "claude-code-skills-process.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
@@ -4187,6 +4192,7 @@
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-skill-remove-contract.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-workflow-quality-ci-module-resolution.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -4222,7 +4228,8 @@
       "deployment-gha.md",
       "deployment-secrets-management.md",
       "lessons-learned-cicd-dev-main-deploy.md",
-      "lessons-learned-current-2026-04.md"
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "環境保護ルール": [
       "deployment-branch-strategy.md"
@@ -4287,6 +4294,21 @@
       "deployment-cloudflare.md"
     ],
     "バックエンド": [
+      "deployment-cloudflare.md"
+    ],
+    "KV": [
+      "deployment-cloudflare.md"
+    ],
+    "に統一": [
+      "deployment-cloudflare.md"
+    ],
+    "詳細は本ファイル下方": [
+      "deployment-cloudflare.md"
+    ],
+    "セッションキャッシュ": [
+      "deployment-cloudflare.md"
+    ],
+    "セクション参照": [
       "deployment-cloudflare.md"
     ],
     "のデプロイ": [
@@ -6024,6 +6046,7 @@
       "lessons-learned-ui-agent-view-nav-notification-history.md",
       "lessons-learned-ui-skill-center-editor-dashboard.md",
       "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-verify-contract-consolidation.md",
       "lessons-learned-viewtype-electron-ui.md",
       "lessons-learned-w3-usage-tracking-2026-04.md",
@@ -6094,6 +6117,7 @@
       "lessons-learned-ui-agent-view-nav-notification-history.md",
       "lessons-learned-ui-skill-center-editor-dashboard.md",
       "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-verify-contract-consolidation.md",
       "lessons-learned-viewtype-electron-ui.md",
       "lessons-learned-w3-usage-tracking-2026-04.md",
@@ -6133,11 +6157,13 @@
     ],
     "close": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
-      "lessons-learned-phase12-lifecycle-early-b.md"
+      "lessons-learned-phase12-lifecycle-early-b.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "out": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "task-workflow-phases.md"
     ],
     "アーカイブ": [
@@ -7007,7 +7033,8 @@
       "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "deployment": [
-      "lessons-learned-cicd-dev-main-deploy.md"
+      "lessons-learned-cicd-dev-main-deploy.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "URL": [
       "lessons-learned-cicd-dev-main-deploy.md",
@@ -7495,6 +7522,7 @@
     ],
     "evidence": [
       "lessons-learned-d1a-schema-migrations.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-workflow-quality-line-budget-reform.md"
     ],
     "の代替方針": [
@@ -7570,7 +7598,8 @@
     ],
     "check": [
       "lessons-learned-governance-hooks-phase-policy.md",
-      "lessons-learned-rt-04-authkey-dedup.md"
+      "lessons-learned-rt-04-authkey-dedup.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "resolve": [
       "lessons-learned-governance-hooks-phase-policy.md"
@@ -7597,7 +7626,8 @@
       "workflow-task-rt-06-artifact-inventory.md"
     ],
     "タスクの": [
-      "lessons-learned-governance-hooks-phase-policy.md"
+      "lessons-learned-governance-hooks-phase-policy.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "formalize": [
       "lessons-learned-governance-hooks-phase-policy.md",
@@ -8858,7 +8888,8 @@
       "lessons-learned-ui-adapter-status-retry.md"
     ],
     "status": [
-      "lessons-learned-ui-adapter-status-retry.md"
+      "lessons-learned-ui-adapter-status-retry.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "関連リソース": [
       "lessons-learned-ui-adapter-status-retry.md",
@@ -8966,6 +8997,54 @@
     ],
     "同種課題の簡潔解決手順": [
       "lessons-learned-ui-ux-visual-baseline-drift.md"
+    ],
+    "Branch": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "Protection": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "Apply": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "branch": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "protection": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "required": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "回先行実行が前提": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "操作系": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "only": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "operations": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "は視覚スモークが成立しない": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "runbook": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "と実適用値の正本ドリフト防止には": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "strategy": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "固定化が必要": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "関連参照": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "learned": [
       "lessons-learned-ut08-monitoring-design-2026-04.md",
