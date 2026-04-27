@@ -35,6 +35,7 @@ rename は命名作業ではなく、classification-first の結果として行�
 | `TASK-FIX-CHATVIEW-ERROR-SILENT-FAILURE` Phase 12 unassigned | `docs/30-workflows/unassigned-task/task-chatview-ai-chat-error-code-inventory.md` | `docs/30-workflows/completed-tasks/task-ut-ai-chat-error-code-inventory-001.md` | `docs/30-workflows/completed-tasks/` | 2026-03-20 |
 | `03-serial-data-source-and-storage-contract` task root | `doc/01-infrastructure-setup/03-serial-data-source-and-storage-contract/` | `doc/03-serial-data-source-and-storage-contract/` | `doc/03-serial-data-source-and-storage-contract/` | 2026-04-26 |
 | `05b-parallel-smoke-readiness-and-handoff` task root | `docs/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/` | `docs/05b-parallel-smoke-readiness-and-handoff/` | `docs/05b-parallel-smoke-readiness-and-handoff/` | 2026-04-26 |
+| `01a-parallel-d1-database-schema-migrations-and-tag-seed` audit table | `audit_logs`（旧 Turso 系 / 複数形） | `audit_log`（UBM-Hyogo D1 / 単数形） | `apps/api/migrations/0003_auth_support.sql` | 2026-04-27 |
 
 ## Family Summary
 
