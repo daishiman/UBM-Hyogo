@@ -2,7 +2,31 @@
 
 ## 役割
 
-このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
+## 2026-04-27 - UT-12 skill-feedback-report 反映（task-specification-creator）
+
+### 変更内容
+
+- `SKILL.md` に「タスクタイプ判定フロー（docs-only / NON_VISUAL）」セクションを追加（クイックスタート前段）
+- よくある漏れテーブルに `[UBM-005]` を追加（`artifacts.json` の `metadata` フィールド省略で Phase 11 判定が screenshot 要求側に倒れる問題）
+- Phase 12 Task 1（中学生レベル実装ガイド）に「専門用語セルフチェック表」を追加（R2 / バインディング / presigned URL などの日常語変換例 5 件）
+
+### 背景
+
+UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage/outputs/phase-12/skill-feedback-report.md`）で起票された改善提案 3 件を反映。
+
+---
+
+## 2026-04-27 - UT-12 Cloudflare R2 storage Phase 12 review hardening
+
+### 変更内容
+
+- `docs/30-workflows/ut-12-cloudflare-r2-storage` の root / outputs `artifacts.json` を `spec_completed` status へ同期し、実環境未適用状態を `acceptanceStatus` で機械可読化した
+- Phase 12 same-wave sync の自己申告を実ファイル更新へ補正し、R2 正本仕様・LOGS・未タスク検出の整合を回復した
+- docs-only / NON_VISUAL タスクでは「仕様完了」と「実 bucket 作成・CORS 適用・smoke 実行」を分離する必要があることを UT-12 の検証知見として記録した
+
+### 背景
+
+30種思考法レビューと SubAgent 準拠検証で、`completed` / `pending` / `spec_created` の状態ドリフト、R2 binding の現行例示と未適用方針の混在、未タスク検出の実体化漏れが見つかった。Phase 12 close-out は成果物の存在だけでなく、下流が誤認しない状態語彙まで閉じる必要がある。
 
 ## 2026-04-27 - 05a Phase 12 close-out drift guard を SKILL.md へ反映
 
@@ -2326,11 +2350,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 結果     | execute phase の path-scoped deny を runtime で実効化。`getExplicitSkillCreatorRoot()` → `createExecuteGovernanceCanUseTool(skillRoot)` → `evaluateGovernanceToolUse(context)` の配線を完成。`TODO(TASK-P0-09-U1)` コメントを解消。Phase 11 は NON_VISUAL として自動テスト代替で完了。                                                                                                                       |
 | 検証     | vitest 101/101 PASS、typecheck PASS（EXIT:0）                                                                                                                                                                                                                                                                                                                                                                |
 
-### 2026-04-27 - 01a-parallel-d1-database-schema-migrations-and-tag-seed Phase-12 監査による skill 補強
+### 2026-04-27 - UT-08 monitoring-alert-design Phase 12 close-out sync
 
-| 項目     | 内容                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 種別     | skill補強 / Phase 12 close-out feedback                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 変更対象 | `references/phase-12-completion-checklist.md`（「artifacts.json と phase-NN.md 状態同期チェック」セクション追加）、漏れやすいポイント表に `artifacts.json` / `phase-NN.md` 状態列不整合ポイントを追記                                                                                                                                                                                                                                                              |
-| 結果     | DDL/CLI 専属タスク（NON_VISUAL）における Phase 12 close-out 完全性を担保。`phase-NN.md` 状態列・チェックボックス・`artifacts.json.phases.NN.status` の3点が一致しているかを独立チェックリストとして追加。`aiworkflow-requirements` skill に `lessons-learned-d1a-schema-migrations.md`（L-D1A-001〜003）追加・`resource-map.md` v1.30.0 更新・`legacy-ordinal-family-register.md` に `audit_log` alias 追加・`quick-reference.md` D1 Schema セクション更新を実施 |
-| 検証     | `phase-12.md` 状態列 = `completed`、`grep "^- \[ \]"` 該当 0 件、`artifacts.json` phases 全 status = `completed`、`generate-index.js` PASS、`validate-structure.js` PASS                                                                                                                                                                                                                                                                                           |
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | documentation / spec_created / non_visual |
+| 変更対象 | `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`（Phase 1-12 outputs、artifacts parity、Phase 12 close-out） |
+| 結果 | モニタリング/アラート設計を `spec_created` として確定。WAE 計装・アラートワーカー・通知・外形監視は `docs/30-workflows/unassigned-task/UT-08-IMPL-monitoring-alert-implementation.md` に分離した。Phase 11 は NON_VISUAL として screenshot 不要、AC-10 は `PASS_WITH_OPEN_DEPENDENCY` に是正 |
+| 検証 | `validate-phase-output.js docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design` PASS（30項目、0エラー） |

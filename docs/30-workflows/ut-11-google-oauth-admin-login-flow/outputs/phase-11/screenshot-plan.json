@@ -1,0 +1,71 @@
+{
+  "taskId": "ut-11-google-oauth-admin-login-flow",
+  "mode": "VISUAL",
+  "captureDate": "TBD",
+  "screenshots": [
+    {
+      "key": "login-page",
+      "path": "screenshots/screenshot-login-page.png",
+      "format": "png",
+      "relatedAC": ["AC-1"],
+      "required": true,
+      "description": "/login ページの Google ログインボタン表示"
+    },
+    {
+      "key": "google-consent",
+      "path": "screenshots/screenshot-google-consent.png",
+      "format": "png",
+      "relatedAC": ["AC-1"],
+      "required": true,
+      "description": "Google OAuth 同意画面"
+    },
+    {
+      "key": "admin-success",
+      "path": "screenshots/screenshot-admin-success.png",
+      "format": "png",
+      "relatedAC": ["AC-5"],
+      "required": true,
+      "description": "ホワイトリスト内メールで認証成功後 /admin へリダイレクト"
+    },
+    {
+      "key": "login-allowlist-error",
+      "path": "screenshots/screenshot-login-allowlist-error.png",
+      "format": "png",
+      "relatedAC": ["AC-4"],
+      "required": true,
+      "description": "ホワイトリスト外メールで 403 / 拒否画面表示"
+    },
+    {
+      "key": "admin-no-auth",
+      "path": "screenshots/screenshot-admin-no-auth.png",
+      "format": "png",
+      "relatedAC": ["AC-7"],
+      "required": true,
+      "description": "未認証で /admin/* アクセス → /login リダイレクト"
+    },
+    {
+      "key": "logout",
+      "path": "screenshots/screenshot-logout.png",
+      "format": "png",
+      "relatedAC": ["AC-8"],
+      "required": true,
+      "description": "ログアウト → /login 戻り"
+    },
+    {
+      "key": "cookie-inspector",
+      "path": "screenshots/screenshot-cookie-inspector.png",
+      "format": "png",
+      "relatedAC": ["AC-6"],
+      "required": true,
+      "description": "DevTools Cookie inspector: HttpOnly; Secure; SameSite=Lax 確認"
+    },
+    {
+      "key": "temp-cookie",
+      "path": "screenshots/screenshot-temp-cookie.png",
+      "format": "png",
+      "relatedAC": ["AC-2", "AC-3"],
+      "required": true,
+      "description": "PKCE code_verifier / state 保存の一時 Cookie 確認"
+    }
+  ]
+}

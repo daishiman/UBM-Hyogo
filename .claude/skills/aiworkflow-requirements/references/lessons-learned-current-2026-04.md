@@ -827,11 +827,6 @@
 
 ---
 
-> 注記（2026-04-26 分離）:
-> - `05b-parallel-smoke-readiness-and-handoff` Phase 12 close-out 教訓（L-05B-001/002）は [lessons-learned-05b-smoke-readiness-2026-04.md](lessons-learned-05b-smoke-readiness-2026-04.md) に分離しました（500 行制限のため責務分離）。
-
----
-
 ## UT-02 D1 WAL mode 設定 教訓（2026-04-26）
 
 ### L-UT02-001: Cloudflare D1 PRAGMA は SQLite と同一視しない

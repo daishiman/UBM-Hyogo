@@ -1,12 +1,16 @@
 import { Hono } from "hono";
 import { integrationRuntimeTarget } from "@ubm-hyogo/integrations";
 import { describeRuntimeFoundation, runtimeFoundation } from "@ubm-hyogo/shared";
+import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 
 interface Env {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
 }
 
 const app = new Hono<{ Bindings: Env }>();
+
+app.notFound(notFoundHandler);
+app.onError(errorHandler);
 
 app.get("/", (c) =>
   c.json({

@@ -263,3 +263,65 @@
 #### lessons-learned
 
 - `references/lessons-learned-current-2026-04.md` の L-W3-TRACK-001 / L-W3-TRACK-002 / L-WIZARD-LANE-CLEANUP-001 を参照
+
+---
+
+### タスク: UT-11 管理者向け Google OAuth ログインフロー実装 — task-spec-creation（2026-04-27）
+
+| 項目       | 値                                                                                      |
+| ---------- | --------------------------------------------------------------------------------------- |
+| タスクID   | UT-11                                                                                   |
+| ステータス | **完了（task-spec-creation / docs_only）**                                              |
+| タイプ     | spec_created / docs_only                                                                |
+| 優先度     | 高                                                                                      |
+| 完了日     | 2026-04-27                                                                              |
+| 対象       | `docs/30-workflows/ut-11-google-oauth-admin-login-flow/`                                |
+| 成果物     | Phase 1-13 仕様書 + Phase 11 VISUAL 補助成果物 + `lessons-learned-current-2026-04b.md` |
+| PR         | feat/ut-11-task-spec                                                                    |
+
+#### 実施内容
+
+**Phase 1-13 仕様書（`docs/30-workflows/ut-11-google-oauth-admin-login-flow/`）**
+
+- Phase 1: 要件定義（AC-1〜AC-13、真の Issue、依存境界、4条件評価）
+- Phase 2: 設計（PKCE flow、state Cookie、JWT session、admin gate、allowlist）
+- Phase 3: 設計レビュー（6代替案比較 A〜F、リスク R1-R8）
+- Phase 4: テスト戦略（7レイヤー × テスト ID 体系、@cloudflare/vitest-pool-workers）
+- Phase 5: 実装ランブック（GCloud Console → wrangler secret put → .dev.vars → wrangler pages dev）
+- Phase 6: 異常系検証（F-01〜F-35: state mismatch、redirect_uri_mismatch 等）
+- Phase 7: AC マトリクス（AC-1〜AC-13 × テスト ID × runbook ステップ）
+- Phase 8: DRY 化（apps/web/src/lib/{oauth,auth}/ への認証ユーティリティ集約）
+- Phase 9: 品質保証（typecheck/lint/build gate、gitleaks H-01〜H-08、invariant #5 確認 I5-01〜I5-05）
+- Phase 10: 最終レビュー（受入条件、ブロッカー B-01〜B-04）
+- Phase 11: 手動 smoke VISUAL（V-01〜V-08 スクリーンショットマトリクス）
+- Phase 12: ドキュメント更新（spec_created close-out、5 必須成果物）
+- Phase 13: PR 作成（ユーザー明示承認必須）
+
+**技術スタック**
+
+- Google OAuth 2.0 Authorization Code Flow + PKCE（S256、Web Crypto API 使用 / Edge Runtime 制約）
+- state parameter: HttpOnly Cookie 保存（`oauth_state` Cookie、SameSite=Lax）
+- JWT Cookie session（`auth_session` Cookie、HttpOnly; Secure; SameSite=Lax）
+- ADMIN_EMAIL_ALLOWLIST: Cloudflare Secret（カンマ区切り）
+- admin gate: `apps/web/middleware.ts`（`/admin/*` パス全保護）
+
+**lessons-learned（`references/lessons-learned-current-2026-04b.md`）**
+
+- L-UT11-001: Edge Runtime PKCE 制約（`crypto.createHash()` 不可 / Web Crypto API 必須）
+- L-UT11-002: state parameter 保存戦略（HttpOnly Cookie + SameSite=Lax）
+- L-UT11-003: ADMIN_EMAIL_ALLOWLIST 管理（Cloudflare Secret / `.dev.vars` ローカル定義）
+- L-UT11-004: spec_created タスクの Phase 11 VISUAL 分類判断
+- L-UT11-005: validate-phase-output.js VISUAL 補助成果物要件
+
+#### 検証証跡
+
+- `scripts/validate-phase-output.js docs/30-workflows/ut-11-google-oauth-admin-login-flow`: 32 PASS / 0 ERROR
+- `scripts/validate-structure.js`: PASS
+- Phase 12 必須成果物 7 ファイル（main.md / implementation-guide.md / system-spec-update-summary.md / documentation-changelog.md / unassigned-task-detection.md / skill-feedback-report.md / phase12-task-spec-compliance-check.md）作成済み
+
+#### 依存関係
+
+| 依存先 | タスク ID / 成果物                                              |
+| ------ | --------------------------------------------------------------- |
+| 先行   | specs/02-auth.md（認証設計）/ specs/13-mvp-auth.md（MVP 認証方針）|
+| 後続   | UT-11 実装タスク（将来作成予定）                                |

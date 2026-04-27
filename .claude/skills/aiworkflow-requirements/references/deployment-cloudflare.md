@@ -110,15 +110,13 @@ binding = "DB"
 database_name = "ubm-hyogo-db"
 database_id = "your-d1-database-id"
 
-[[r2_buckets]]
-binding = "STORAGE"
-bucket_name = "ubm-hyogo-storage"
-
 [[kv_namespaces]]
 binding = "SESSION_KV"
 id = "your-kv-namespace-id"
 # UT-13 で SESSION_KV に統一。詳細は本ファイル下方「Cloudflare KV セッションキャッシュ」セクション参照
 ```
+
+> R2 binding は現行 `apps/api/wrangler.toml` には未適用。UT-12 の下流実装時に、下記 R2 セクションの環境別差分を追加する。
 
 ### デプロイコマンド
 
@@ -129,6 +127,47 @@ wrangler deploy --config apps/api/wrangler.toml
 # ログ確認
 wrangler tail --config apps/api/wrangler.toml
 ```
+
+### Cloudflare R2 ストレージ設定（UT-12）
+
+R2 はファイル・画像などのオブジェクトストレージとして使う。アプリケーションからの直接アクセスは `apps/api` に閉じ、`apps/web` には R2 binding を置かない。
+
+| 項目 | 正本値 / 方針 |
+| --- | --- |
+| production bucket | `ubm-hyogo-r2-prod` |
+| staging bucket | `ubm-hyogo-r2-staging` |
+| Workers binding | `R2_BUCKET` |
+| Token 方針 | 専用 R2 token を作成し、`Account > Workers R2 Storage > Edit` の最小権限に限定 |
+| 公開方針 | private bucket + `apps/api` 経由の presigned URL / proxy access |
+| CORS 方針 | production / staging の `AllowedOrigins` を環境別に管理し、実ドメインは secrets / environment 管理に寄せる |
+
+`wrangler.toml` の R2 binding は環境別 bucket を明示する。これは現行設定例ではなく、下流のファイルアップロード実装時に適用する差分である。
+
+```toml
+[[env.staging.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "ubm-hyogo-r2-staging"
+
+[[env.production.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "ubm-hyogo-r2-prod"
+```
+
+CORS ルールは以下をテンプレートとし、`<env-specific-origin>` を環境別に差し替える。
+
+```json
+[
+  {
+    "AllowedOrigins": ["<env-specific-origin>"],
+    "AllowedMethods": ["GET", "PUT", "POST", "HEAD"],
+    "AllowedHeaders": ["Content-Type", "Content-Length", "Authorization"],
+    "ExposeHeaders": ["ETag"],
+    "MaxAgeSeconds": 3600
+  }
+]
+```
+
+UT-12 は `spec_created` のため実 bucket 作成・`wrangler.toml` 反映・smoke test 実行は未適用。下流のファイルアップロード実装タスクで `docs/30-workflows/ut-12-cloudflare-r2-storage/outputs/phase-12/implementation-guide.md` を参照して実施する。
 
 ---
 
@@ -392,8 +431,26 @@ wrangler pages deployment rollback <deployment-id> --project-name ubm-hyogo-web
 
 ---
 
+## モニタリング/アラート（UT-08 連携）
+
+UT-08（`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`）で以下を SSOT として確定。実装は UT-08-IMPL（Wave 2）。
+
+| 項目 | 値 |
+| ---- | -- |
+| WAE binding 名 | `MONITORING_AE` |
+| WAE dataset 名 | `ubm_hyogo_monitoring` |
+| 主要イベント | `api.request` / `api.error` / `d1.query.fail` / `cron.sync.start` / `cron.sync.end` |
+| 任意イベント | `auth.fail`（UT-13 認証実装で採否確定） |
+| PII 除外 | email / userId / IP は WAE data point に含めない |
+| 外部監視 | UptimeRobot 無料プラン（5 分間隔） |
+
+詳細は `lessons-learned-ut08-monitoring-design-2026-04.md` および `workflow-ut08-monitoring-alert-design-artifact-inventory.md` を参照。
+
+---
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare 移行） |
+| 2026-04-27 | 1.1.0 | UT-08 モニタリング/アラート設計の SSOT 連携セクション追加 |
