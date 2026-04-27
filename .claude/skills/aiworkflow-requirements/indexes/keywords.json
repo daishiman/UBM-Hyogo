@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2909,
+  "totalKeywords": 2910,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -561,6 +561,7 @@
     ],
     "CORS": [
       "api-core.md",
+      "r2-storage-decision-guide.md",
       "security-api.md"
     ],
     "設定": [
@@ -2637,6 +2638,7 @@
       "lessons-learned-conversation-db-robustness.md",
       "lessons-learned-current-2026-03-late.md",
       "lessons-learned-current-2026-04.md",
+      "lessons-learned-current-2026-04b.md",
       "lessons-learned-health-policy-worktree-2026-04.md",
       "lessons-learned-ipc-channel-whitelist-sync.md",
       "lessons-learned-ipc-preload-runtime-2026-03-early.md",
@@ -2821,6 +2823,7 @@
       "lessons-learned-current-2026-03-late.md",
       "lessons-learned-current-2026-03-mid.md",
       "lessons-learned-current-2026-04.md",
+      "lessons-learned-current-2026-04b.md",
       "lessons-learned-current.md",
       "lessons-learned-d1a-schema-migrations.md",
       "logs-archive-2026-03-history-search-notification-center.md",
@@ -3097,6 +3100,7 @@
       "architecture-auth-security-core.md",
       "error-handling-details.md",
       "lessons-learned-auth-ipc-fallback-registration-settings.md",
+      "lessons-learned-current-2026-04b.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-legacy.md"
     ],
@@ -3511,7 +3515,8 @@
     ],
     "テンプレート": [
       "architecture-overview-history.md",
-      "lessons-learned-templates.md"
+      "lessons-learned-templates.md",
+      "r2-storage-decision-guide.md"
     ],
     "アーキテクチャパターン設計": [
       "architecture-patterns.md"
@@ -5922,6 +5927,7 @@
       "lessons-learned-current-2026-03-late.md",
       "lessons-learned-current-2026-03-mid.md",
       "lessons-learned-current-2026-04.md",
+      "lessons-learned-current-2026-04b.md",
       "lessons-learned-current-electron-menu-docs-task0912.md",
       "lessons-learned-current-safetygrate-ipc-gap.md",
       "lessons-learned-current.md",
@@ -5991,6 +5997,7 @@
       "lessons-learned-current-2026-03-late.md",
       "lessons-learned-current-2026-03-mid.md",
       "lessons-learned-current-2026-04.md",
+      "lessons-learned-current-2026-04b.md",
       "lessons-learned-current-electron-menu-docs-task0912.md",
       "lessons-learned-current-safetygrate-ipc-gap.md",
       "lessons-learned-current.md",
@@ -7262,6 +7269,7 @@
     ],
     "Google": [
       "lessons-learned-current-2026-04.md",
+      "lessons-learned-current-2026-04b.md",
       "lessons-learned-skill-wizard-redesign.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-permission-history-execution-timestamps.md"
@@ -7328,6 +7336,14 @@
       "lessons-learned-ui-ux-visual-baseline-drift.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
+    ],
+    "PKCE": [
+      "lessons-learned-current-2026-04b.md",
+      "logs-archive-legacy.md",
+      "security-implementation.md"
+    ],
+    "タスク仕様書作成": [
+      "lessons-learned-current-2026-04b.md"
     ],
     "Menu": [
       "lessons-learned-current-electron-menu-docs-task0912.md",
@@ -11042,10 +11058,6 @@
     ],
     "認証コールバック": [
       "logs-archive-legacy.md"
-    ],
-    "PKCE": [
-      "logs-archive-legacy.md",
-      "security-implementation.md"
     ],
     "変更履歴アーカイブ": [
       "logs-archive-legacy.md"
