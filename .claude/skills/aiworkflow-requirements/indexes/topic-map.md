@@ -2361,15 +2361,15 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L25 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L88 |
-| Cloudflare D1 データベース | L134 |
-| GitHub Actions CI/CD | L167 |
-| プレビューデプロイメント | L199 |
-| カスタムドメイン設定 | L216 |
-| 環境分離 | L229 |
-| ロールバック戦略 | L249 |
-| コスト概算（個人開発） | L270 |
-| モニタリング/アラート（UT-08 連携） | L282 |
-| 変更履歴 | L299 |
+| Cloudflare D1 データベース | L173 |
+| GitHub Actions CI/CD | L206 |
+| プレビューデプロイメント | L238 |
+| カスタムドメイン設定 | L255 |
+| 環境分離 | L268 |
+| ロールバック戦略 | L288 |
+| コスト概算（個人開発） | L309 |
+| モニタリング/アラート（UT-08 連携） | L321 |
+| 変更履歴 | L338 |
 
 ### references/deployment-core.md
 
