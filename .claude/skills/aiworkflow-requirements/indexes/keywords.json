@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2909,
+  "totalKeywords": 2911,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -7328,6 +7328,12 @@
       "lessons-learned-ui-ux-visual-baseline-drift.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
+    ],
+    "Sheets": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "同期ジョブ実装": [
+      "lessons-learned-current-2026-04.md"
     ],
     "Menu": [
       "lessons-learned-current-electron-menu-docs-task0912.md",

@@ -17,6 +17,18 @@
 
 05a-parallel-observability-and-cost-guardrails の Phase 12 close-out 検証で、未タスク 3 件が `docs/unassigned-task/` 配下かつ `ut-...md` 命名で `audit-unassigned-tasks.js` の対象から外れていたこと、root/outputs `artifacts.json` の同時更新ルールが SKILL.md に明文化されていなかったことを検出した。今後の Phase 12 close-out で再発しないよう「よくある漏れ」表へ恒久化する。
 
+## 2026-04-27 - UT-09 direction conflict formalized
+
+### 変更内容
+
+- 旧 UT-09 Sheets 実装と `task-sync-forms-d1-legacy-umbrella-001` の current Forms 分割方針の衝突を検出した
+- Phase 12 compliance を PASS ではなく FAIL / PR blocker として補正した
+- `task-ut09-direction-reconciliation-001.md` を未タスクとして作成し、Forms 方針へ寄せるか Sheets 実装を正式採用するかの判断を明文化した
+
+### 背景
+
+`spec_created / docs_only` drift の補正だけでは、現行正本が定義する Forms API / `/admin/sync/schema` / `/admin/sync/responses` / `sync_jobs` 方針との衝突を解消できない。Phase 12 では stale contract を正本仕様へ登録せず、先に方針統一タスクを formalize する。
+
 ## 2026-04-26 - 05a-parallel-observability-and-cost-guardrails Phase 12 review hardening
 
 ### 変更内容
