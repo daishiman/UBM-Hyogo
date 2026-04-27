@@ -3269,6 +3269,15 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L61 |
 | 変更履歴 | L72 |
 
+### references/lessons-learned-ut-19-branch-protection-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT19-001: GitHub branch protection の required status check は CI 1 回先行実行が前提 | L8 |
+| L-UT19-002: 操作系（docs-only operations evidence）タスクの Phase 11 は視覚スモークが成立しない | L19 |
+| L-UT19-003: runbook と実適用値の正本ドリフト防止には deployment-branch-strategy 固定化が必要 | L30 |
+| 関連参照 | L42 |
+
 ### references/lessons-learned-ut08-monitoring-design-2026-04.md
 
 | セクション | 行 |
