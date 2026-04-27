@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2909,
+  "totalKeywords": 2916,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -24,6 +24,7 @@
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "interfaces-agent-sdk.md",
+      "interfaces-api.md",
       "interfaces-chat-history-core.md",
       "interfaces-rag-file-selection.md",
       "ipc-4-layer-pattern.md",
@@ -931,6 +932,7 @@
       "arch-execution-capability-contract.md",
       "architecture-implementation-patterns-shared.md",
       "directory-structure-core.md",
+      "interfaces-shared.md",
       "lessons-learned-current-2026-04.md",
       "lessons-learned-health-policy-worktree-2026-04.md",
       "lessons-learned-ipc-channel-whitelist-sync.md",
@@ -2628,6 +2630,8 @@
       "interfaces-agent-sdk-executor-details.md",
       "interfaces-agent-sdk-skill-editor.md",
       "interfaces-agent-sdk-skill.md",
+      "interfaces-api.md",
+      "interfaces-shared.md",
       "ipc-contract-checklist.md",
       "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
       "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
@@ -5237,6 +5241,24 @@
     "型安全統合": [
       "interfaces-agent-sdk.md"
     ],
+    "インターフェース契約": [
+      "interfaces-api.md"
+    ],
+    "グローバルエラーハンドラ": [
+      "interfaces-api.md"
+    ],
+    "Web": [
+      "interfaces-api.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "クライアント同期契約": [
+      "interfaces-api.md"
+    ],
+    "関連": [
+      "interfaces-api.md",
+      "interfaces-shared.md",
+      "rag-desktop-state.md"
+    ],
     "認証・プロフィール": [
       "interfaces-auth-core.md",
       "interfaces-auth-history.md",
@@ -5583,6 +5605,18 @@
     ],
     "ファイル・変換ドメイン型": [
       "interfaces-rag.md"
+    ],
+    "ubm": [
+      "interfaces-shared.md"
+    ],
+    "hyogo": [
+      "interfaces-shared.md"
+    ],
+    "公開インターフェース": [
+      "interfaces-shared.md"
+    ],
+    "エラーハンドリング標準": [
+      "interfaces-shared.md"
     ],
     "FR": [
       "interfaces-skill-verify-contract.md"
@@ -6909,9 +6943,6 @@
       "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "CICD": [
-      "lessons-learned-cicd-dev-main-deploy.md"
-    ],
-    "Web": [
       "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "のワークフロー分離": [
@@ -11215,9 +11246,6 @@
     ],
     "可用性": [
       "quality-requirements-details.md"
-    ],
-    "関連": [
-      "rag-desktop-state.md"
     ],
     "テーマ状態管理": [
       "rag-desktop-state.md"

@@ -506,6 +506,14 @@ node scripts/list-specs.js --topics
 | SDK 型安全統合（TASK-9B-I） | L329 |
 | 変更履歴 | L387 |
 
+### references/interfaces-api.md
+
+| セクション | 行 |
+|------------|----|
+| UT-10 グローバルエラーハンドラ | L3 |
+| Web クライアント同期契約 | L48 |
+| 関連 | L63 |
+
 ### references/interfaces-auth-core.md
 
 | セクション | 行 |
@@ -766,6 +774,13 @@ node scripts/list-specs.js --topics
 | Knowledge Graph型 | L172 |
 | 設計原則 | L188 |
 | 関連ドキュメント | L411 |
+
+### references/interfaces-shared.md
+
+| セクション | 行 |
+|------------|----|
+| UT-10 エラーハンドリング標準 | L3 |
+| 関連 | L120 |
 
 ### references/interfaces-skill-verify-contract.md
 

@@ -1,0 +1,12 @@
+{
+  "mode": "NON_VISUAL",
+  "task": "ut-10-error-handling-standardization",
+  "phase": 11,
+  "screenshots": [],
+  "reason": "Backend/SDK standardization task with no UI surface. Visual diff inapplicable.",
+  "alternative_evidence": [
+    "outputs/phase-11/main.md",
+    "outputs/phase-11/manual-smoke-log.md",
+    "outputs/phase-11/link-checklist.md"
+  ]
+}
