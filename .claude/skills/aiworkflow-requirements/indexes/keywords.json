@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2922,
+  "totalKeywords": 2959,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -301,6 +301,7 @@
       "llm-streaming.md",
       "llm-workspace-chat-edit.md",
       "logging-migration-guide.md",
+      "observability-monitoring.md",
       "quality-e2e-testing.md",
       "quality-requirements-history.md",
       "rag-query-pipeline.md",
@@ -2029,6 +2030,7 @@
       "architecture-implementation-patterns-reference.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "interfaces-agent-sdk-skill-reference.md",
+      "observability-monitoring.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "ui-ux-feature-components-reference.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
@@ -2648,6 +2650,8 @@
       "lessons-learned-ipc-preload-runtime-2026-03-late.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-recent.md",
       "lessons-learned-safety-gate-ipc-quality.md",
@@ -4229,6 +4233,7 @@
       "deployment-core.md",
       "deployment-secrets-management.md",
       "lessons-learned-cicd-dev-main-deploy.md",
+      "lessons-learned-kv-session-cache-2026-04.md",
       "technology-core.md"
     ],
     "デプロイメント仕様": [
@@ -5471,6 +5476,7 @@
       "interfaces-rag-community-summarization.md",
       "interfaces-rag-graphrag-query.md",
       "interfaces-rag-knowledge-graph-store.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "ui-history-design.md",
       "ui-ux-file-selector.md",
       "ui-ux-forms.md",
@@ -5952,6 +5958,8 @@
       "lessons-learned-ipc-preload-runtime-2026-03-late.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-early.md",
       "lessons-learned-phase12-lifecycle-mid.md",
@@ -6022,6 +6030,8 @@
       "lessons-learned-ipc-preload-runtime-2026-03-late.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-early.md",
       "lessons-learned-phase12-lifecycle-mid.md",
@@ -6805,7 +6815,8 @@
     ],
     "session": [
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
-      "lessons-learned-current-2026-04.md"
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-kv-session-cache-2026-04.md"
     ],
     "persistence": [
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
@@ -7380,6 +7391,7 @@
     ],
     "index": [
       "lessons-learned-current.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-index.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
@@ -7575,7 +7587,8 @@
     "関連ファイル": [
       "lessons-learned-governance-hooks-phase-policy.md",
       "lessons-learned-skill-wizard-redesign.md",
-      "lessons-learned-ut08-monitoring-design-2026-04.md"
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "observability-monitoring.md"
     ],
     "Worktree": [
       "lessons-learned-health-policy-worktree-2026-04.md",
@@ -7795,6 +7808,102 @@
     ],
     "エラーコールバックガード": [
       "lessons-learned-ipc-preload-runtime.md"
+    ],
+    "KV": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "cache": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "対象タスク": [
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "最終的一貫性": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "Eventual": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "Consistency": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "の制約": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "無料枠の書き込み制限": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "Namespace": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "命名と環境分離": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "monitoring": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "alert": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "design": [
+      "lessons-learned-monitoring-design-2026-04.md",
+      "task-workflow-completed-skill-lifecycle-design.md"
+    ],
+    "MON": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "実装境界の引き方": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "WAE": [
+      "lessons-learned-monitoring-design-2026-04.md",
+      "observability-monitoring.md"
+    ],
+    "無料枠の不確実性": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "アラート疲れ防止": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "初期": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "WARNING": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "only": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "運用": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "identifier": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "drift": [
+      "lessons-learned-monitoring-design-2026-04.md",
+      "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "防止": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "blob": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "outputs": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "個別ファイル": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "DEFERRED": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "の解消": [
+      "lessons-learned-monitoring-design-2026-04.md"
     ],
     "ライフサイクル": [
       "lessons-learned-phase12-lifecycle-early-b.md",
@@ -8169,6 +8278,7 @@
       "lessons-learned-skill-wizard-redesign.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
+      "observability-monitoring.md",
       "ui-history-search-view.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -8884,11 +8994,6 @@
       "lessons-learned-ui-ux-visual-baseline-drift.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "ui-ux-components.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
-    "drift": [
-      "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
     "dark": [
@@ -11127,6 +11232,33 @@
     "言語辞書": [
       "master-design.md"
     ],
+    "Observability": [
+      "observability-monitoring.md"
+    ],
+    "Monitoring": [
+      "observability-monitoring.md"
+    ],
+    "正本リファレンス": [
+      "observability-monitoring.md"
+    ],
+    "無料枠の境界": [
+      "observability-monitoring.md"
+    ],
+    "イベント設計": [
+      "observability-monitoring.md"
+    ],
+    "アラート閾値設計指針": [
+      "observability-monitoring.md"
+    ],
+    "PII": [
+      "observability-monitoring.md"
+    ],
+    "除外ルール": [
+      "observability-monitoring.md"
+    ],
+    "恒久対策": [
+      "observability-monitoring.md"
+    ],
     "プロジェクト概要": [
       "overview.md"
     ],
@@ -12024,9 +12156,6 @@
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-design.md",
       "task-workflow-completed-skill-lifecycle-security.md"
-    ],
-    "design": [
-      "task-workflow-completed-skill-lifecycle-design.md"
     ],
     "作成済みスキル利用導線": [
       "task-workflow-completed-skill-lifecycle-design.md",
