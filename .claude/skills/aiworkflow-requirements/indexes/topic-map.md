@@ -2336,14 +2336,15 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L25 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L88 |
-| Cloudflare D1 データベース | L134 |
-| GitHub Actions CI/CD | L167 |
-| プレビューデプロイメント | L199 |
-| カスタムドメイン設定 | L216 |
-| 環境分離 | L229 |
-| ロールバック戦略 | L249 |
-| コスト概算（個人開発） | L270 |
-| 変更履歴 | L282 |
+| Cloudflare D1 データベース | L135 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L168 |
+| GitHub Actions CI/CD | L280 |
+| プレビューデプロイメント | L312 |
+| カスタムドメイン設定 | L329 |
+| 環境分離 | L342 |
+| ロールバック戦略 | L362 |
+| コスト概算（個人開発） | L383 |
+| 変更履歴 | L395 |
 
 ### references/deployment-core.md
 
@@ -4291,7 +4292,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| 続き | L336 |
+| 続き | L341 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

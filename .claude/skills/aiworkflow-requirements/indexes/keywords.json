@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2909,
+  "totalKeywords": 2914,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -2625,6 +2625,7 @@
     ],
     "UT": [
       "arch-state-management-skill-creator.md",
+      "deployment-cloudflare.md",
       "interfaces-agent-sdk-executor-details.md",
       "interfaces-agent-sdk-skill-editor.md",
       "interfaces-agent-sdk-skill.md",
@@ -3084,6 +3085,7 @@
     ],
     "SESSION": [
       "architecture-auth-security-core.md",
+      "deployment-cloudflare.md",
       "error-handling-details.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "ui-ux-agent-execution-core.md"
@@ -4266,6 +4268,21 @@
       "deployment-cloudflare.md"
     ],
     "バックエンド": [
+      "deployment-cloudflare.md"
+    ],
+    "KV": [
+      "deployment-cloudflare.md"
+    ],
+    "に統一": [
+      "deployment-cloudflare.md"
+    ],
+    "詳細は本ファイル下方": [
+      "deployment-cloudflare.md"
+    ],
+    "セッションキャッシュ": [
+      "deployment-cloudflare.md"
+    ],
+    "セクション参照": [
       "deployment-cloudflare.md"
     ],
     "のデプロイ": [

@@ -4,6 +4,34 @@
 
 ---
 
+### タスク: UT-13 Cloudflare KV セッションキャッシュ設定 spec_created（2026-04-27）
+
+| 項目 | 値 |
+| --- | --- |
+| タスクID | UT-13 |
+| ステータス | **spec_created（Phase 1〜12 完了 / Phase 13 pending）** |
+| タイプ | docs-only / NON_VISUAL / Cloudflare KV policy and runbook |
+| 優先度 | Low |
+| 完了日 | 2026-04-27 |
+| 成果物 | `docs/30-workflows/ut-13-cloudflare-kv-session-cache/` |
+| source task | `docs/30-workflows/unassigned-task/UT-13-cloudflare-kv-session-cache.md`（spec_created へ更新済み） |
+
+#### 実施内容
+
+- `SESSION_KV` binding、production / staging Namespace 命名、TTL 方針、無料枠運用、一貫性制約を仕様化
+- `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` に KV セッションキャッシュ正本セクションを追加
+- Phase 12 成果物 6 ファイルを作成し、implementation guide / system spec summary / unassigned detection / skill feedback / compliance check を同期
+
+#### follow-up backlog
+
+- UT-30: Cloudflare KV Namespace 実 ID 発行・1Password 登録
+- UT-31: apps/api/wrangler.toml SESSION_KV バインディング適用
+- UT-32: Worker SESSION_KV helper 実装
+- UT-33: Cloudflare KV 使用量監視・アラート設定
+- UT-34: KV Namespace ID 混入防止 pre-commit guard
+
+---
+
 ### タスク: UT-SKILL-WIZARD-W2-seq-03a SkillCreateWizard オーケストレーション更新（2026-04-08）
 
 | 項目       | 値                                                                  |
