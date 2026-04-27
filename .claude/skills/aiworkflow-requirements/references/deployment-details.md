@@ -137,3 +137,9 @@
 | マスク処理 | ログに出力されないようマスク処理   |
 
 ---
+
+### UT-08 モニタリング設計連携
+
+UT-08（`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`）で WAE 計装・閾値・通知・外形監視の SSOT を確定。Wave 2 実装タスク（UT-08-IMPL）でデプロイ後の監視確認チェック（WAE dataset / Slack webhook / UptimeRobot monitor）を CD post-deploy smoke に組み込む。詳細は `workflow-ut08-monitoring-alert-design-artifact-inventory.md` を参照。
+
+---

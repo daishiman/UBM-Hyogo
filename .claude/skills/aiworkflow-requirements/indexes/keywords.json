@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2891,
+  "totalKeywords": 2906,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -131,6 +131,7 @@
       "ipc-4-layer-pattern.md",
       "ipc-type-resolution-guide.md",
       "legacy-ordinal-family-register.md",
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
@@ -853,7 +854,8 @@
       "arch-claude-cli.md"
     ],
     "連携": [
-      "arch-claude-cli.md"
+      "arch-claude-cli.md",
+      "deployment-cloudflare.md"
     ],
     "Main": [
       "arch-claude-cli.md",
@@ -2624,6 +2626,7 @@
     ],
     "UT": [
       "arch-state-management-skill-creator.md",
+      "deployment-cloudflare.md",
       "interfaces-agent-sdk-executor-details.md",
       "interfaces-agent-sdk-skill-editor.md",
       "interfaces-agent-sdk-skill.md",
@@ -2654,6 +2657,7 @@
       "lessons-learned-skill-validation-logging-deprecation.md",
       "lessons-learned-skill-wizard-redesign.md",
       "lessons-learned-test-typesafety.md",
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
       "lessons-learned-verify-contract-consolidation.md",
       "lessons-learned-w3-usage-tracking-2026-04.md",
       "lessons-learned-workflow-quality-line-budget-reform.md",
@@ -2687,7 +2691,8 @@
       "task-workflow-completed-skill-lifecycle-ui-verify.md",
       "task-workflow-completed-ut-06-safety-gate.md",
       "task-workflow-completed.md",
-      "technology-devops.md"
+      "technology-devops.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "STATUS": [
       "arch-state-management-skill-creator.md",
@@ -3717,7 +3722,8 @@
       "task-workflow-completed.md",
       "task-workflow-phases.md",
       "workflow-skill-identifier-branded-type-resolution.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "共通": [
       "claude-code-agents-workflow.md"
@@ -4374,6 +4380,14 @@
       "deployment-cloudflare.md"
     ],
     "個人開発": [
+      "deployment-cloudflare.md"
+    ],
+    "モニタリング": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "アラート": [
       "deployment-cloudflare.md"
     ],
     "デプロイメント": [
@@ -6156,6 +6170,7 @@
       "lessons-learned-skill-validation-logging-deprecation.md",
       "lessons-learned-ui-agent-view-nav-notification-history.md",
       "lessons-learned-ui-skill-center-editor-dashboard.md",
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
       "lessons-learned-workflow-quality-ci-module-resolution.md",
       "lessons-learned-workflow-quality-line-budget-reform.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
@@ -6730,7 +6745,8 @@
       "task-workflow-completed-agent-view-line-budget.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "engine": [
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md"
@@ -7461,7 +7477,8 @@
     ],
     "関連ファイル": [
       "lessons-learned-governance-hooks-phase-policy.md",
-      "lessons-learned-skill-wizard-redesign.md"
+      "lessons-learned-skill-wizard-redesign.md",
+      "lessons-learned-ut08-monitoring-design-2026-04.md"
     ],
     "Worktree": [
       "lessons-learned-health-policy-worktree-2026-04.md",
@@ -8792,6 +8809,41 @@
     "同種課題の簡潔解決手順": [
       "lessons-learned-ui-ux-visual-baseline-drift.md"
     ],
+    "learned": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md"
+    ],
+    "アラート設計": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "苦戦箇所と対処": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md"
+    ],
+    "Wave": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "ui-ux-components.md"
+    ],
+    "への引き継ぎ前提": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md"
+    ],
+    "設計上の確定事項": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md"
+    ],
+    "SSOT": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "実装時の注意点": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md"
+    ],
+    "IMPL": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "task-workflow-completed-ut-06-safety-gate.md"
+    ],
+    "着手前チェック": [
+      "lessons-learned-ut08-monitoring-design-2026-04.md"
+    ],
     "consolidation": [
       "lessons-learned-verify-contract-consolidation.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md"
@@ -8882,7 +8934,8 @@
     "派生未タスク": [
       "lessons-learned-viewtype-electron-ui.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "使用率計装": [
       "lessons-learned-w3-usage-tracking-2026-04.md"
@@ -10818,9 +10871,6 @@
     "責務分離の仕様固定": [
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
-    "learned": [
-      "logs-archive-2026-03-task-10a-c-final-audit.md"
-    ],
     "再監査と仕様同期": [
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
@@ -11976,9 +12026,6 @@
     "gate": [
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
-    "IMPL": [
-      "task-workflow-completed-ut-06-safety-gate.md"
-    ],
     "evaluateSafety": [
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
@@ -12473,9 +12520,6 @@
     "仕様書作成済みタスク": [
       "ui-ux-components-details.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md"
-    ],
-    "Wave": [
-      "ui-ux-components.md"
     ],
     "primitives": [
       "ui-ux-components.md"
@@ -12975,7 +13019,8 @@
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "対象": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -13348,6 +13393,18 @@
     ],
     "二次": [
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "ワークフロー概要": [
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "別成果物リスト": [
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "クイック参照": [
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "関連リンク": [
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "sweep": [
       "workflow-workspace-parent-reference-sweep-guard.md"

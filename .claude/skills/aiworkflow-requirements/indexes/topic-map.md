@@ -2088,6 +2088,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
 
+### references/workflow-ut08-monitoring-alert-design-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| ワークフロー概要 | L5 |
+| Phase 別成果物リスト | L16 |
+| SSOT クイック参照 | L86 |
+| 派生未タスク | L100 |
+| 関連リンク | L108 |
+
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
 | セクション | 行 |
@@ -2343,7 +2353,8 @@ node scripts/list-specs.js --topics
 | 環境分離 | L229 |
 | ロールバック戦略 | L249 |
 | コスト概算（個人開発） | L270 |
-| 変更履歴 | L282 |
+| モニタリング/アラート（UT-08 連携） | L282 |
+| 変更履歴 | L299 |
 
 ### references/deployment-core.md
 
@@ -2397,7 +2408,7 @@ node scripts/list-specs.js --topics
 | ローカル開発での設定 | L135 |
 | セキュリティ原則 | L174 |
 | Cloudflare API Token の作成手順 | L185 |
-| 変更履歴 | L200 |
+| 変更履歴 | L214 |
 
 ### references/deployment.md
 
@@ -3224,6 +3235,16 @@ node scripts/list-specs.js --topics
 | 同種課題の簡潔解決手順 | L51 |
 | 関連ドキュメント | L61 |
 | 変更履歴 | L72 |
+
+### references/lessons-learned-ut08-monitoring-design-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L5 |
+| 苦戦箇所と対処（Wave 2 への引き継ぎ前提） | L15 |
+| 設計上の確定事項（SSOT） | L66 |
+| Wave 2 実装時の注意点（UT-08-IMPL 着手前チェック） | L79 |
+| 関連ファイル | L88 |
 
 ### references/lessons-learned-verify-contract-consolidation.md
 

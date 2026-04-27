@@ -197,8 +197,23 @@ Cloudflare Dashboard > My Profile > API Tokens > Create Token
 
 ---
 
+### モニタリング系 Secret（UT-08 連携）
+
+UT-08 モニタリング/アラート設計で追加される Secret 群は **すべて 1Password Environments** で正本管理し、Cloudflare Secrets / GitHub Secrets 経由で配布する。コードへのハードコード禁止。
+
+| Secret 名 | 用途 | 配布先 |
+| --- | --- | --- |
+| `SLACK_ALERT_WEBHOOK_URL` | アラート通知（Slack Incoming Webhook） | Cloudflare Secrets |
+| `ALERT_EMAIL_FALLBACK_TO` | Slack 失敗時の Email fallback 宛先 | Cloudflare Secrets |
+| `UPTIMEROBOT_API_KEY` | 外形監視 monitor 設定 | GitHub Secrets / 手動運用 |
+
+詳細は `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/outputs/phase-02/secret-additions.md` を参照。
+
+---
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare/GitHub 2層シークレット管理） |
+| 2026-04-27 | 1.1.0 | UT-08 モニタリング系 Secret セクション追加 |

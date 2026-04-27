@@ -771,3 +771,16 @@ packages/
 | DB 名（staging） | `ubm-hyogo-db-staging`（`apps/api/wrangler.toml` `[env.staging]`） |
 | DB 名（production） | `ubm-hyogo-db-prod`（`apps/api/wrangler.toml` top-level production） |
 | binding 経由アクセス | `apps/api` のみ（`apps/web` から直接アクセス禁止） |
+
+### モニタリング/アラート 早見（UT-08 monitoring-alert-design）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical workflow root | `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/` |
+| 派生実装タスク | `docs/30-workflows/unassigned-task/UT-08-IMPL-monitoring-alert-implementation.md` |
+| WAE binding / dataset | `MONITORING_AE` / `ubm_hyogo_monitoring` |
+| 主要イベント | `api.request` / `api.error` / `d1.query.fail` / `cron.sync.start` / `cron.sync.end` |
+| 通知 | Slack Webhook + Email fallback（30 分 dedupe / 5 件以上 summary） |
+| 外部監視 | UptimeRobot 無料プラン（5 分間隔） |
+| SSOT 参照 | `references/workflow-ut08-monitoring-alert-design-artifact-inventory.md` |
+| 苦戦箇所と知見 | `references/lessons-learned-ut08-monitoring-design-2026-04.md` |

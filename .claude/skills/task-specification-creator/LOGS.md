@@ -2293,3 +2293,12 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `apps/desktop/src/main/services/runtime/RuntimeSkillCreatorFacade.ts`（`extractTargetPath` / `createExecuteGovernanceCanUseTool` 修正 / `createImproveGovernanceCanUseTool` 追加）、`apps/desktop/src/main/services/runtime/__tests__/governance/path-scoped-enforcement.test.ts`（新規: 11件）、`docs/30-workflows/task-p0-09-u1-path-scoped-governance-runtime-enforcement/outputs/`（Phase 1-12 outputs） |
 | 結果     | execute phase の path-scoped deny を runtime で実効化。`getExplicitSkillCreatorRoot()` → `createExecuteGovernanceCanUseTool(skillRoot)` → `evaluateGovernanceToolUse(context)` の配線を完成。`TODO(TASK-P0-09-U1)` コメントを解消。Phase 11 は NON_VISUAL として自動テスト代替で完了。                                                                                                                       |
 | 検証     | vitest 101/101 PASS、typecheck PASS（EXIT:0）                                                                                                                                                                                                                                                                                                                                                                |
+
+### 2026-04-27 - UT-08 monitoring-alert-design Phase 12 close-out sync
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | documentation / spec_created / non_visual |
+| 変更対象 | `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`（Phase 1-12 outputs、artifacts parity、Phase 12 close-out） |
+| 結果 | モニタリング/アラート設計を `spec_created` として確定。WAE 計装・アラートワーカー・通知・外形監視は `docs/30-workflows/unassigned-task/UT-08-IMPL-monitoring-alert-implementation.md` に分離した。Phase 11 は NON_VISUAL として screenshot 不要、AC-10 は `PASS_WITH_OPEN_DEPENDENCY` に是正 |
+| 検証 | `validate-phase-output.js docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design` PASS（30項目、0エラー） |

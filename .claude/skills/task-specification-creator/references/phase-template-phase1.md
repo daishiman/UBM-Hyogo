@@ -87,6 +87,18 @@ grep -n "<対象関数名>" <対象ファイルパス>
 Phase 2: 設計
 ```
 
+## 1.X 外部 SaaS 無料枠仕様調査（リスク前置き）
+
+監視・分析・認証等の SaaS 連携がある場合、Phase 1 ヒアリングで以下 3 点を必ず確保する:
+
+1. **保存期間 / API quota / monthly cap**: 公式ドキュメントの最新値を Phase 1 outputs に記録（例: WAE 保存期間 31 日、UptimeRobot 5 分間隔）
+2. **upgrade path と段階化**: 無料 → 有料移行の閾値・コスト・移行手順
+3. **無料枠消費推定**: 月次推定値と SLA との照合
+
+不確定な値は `outputs/phase-01/requirements.md` に「Wave N 実装直前に再確認」と注記し、IMPL タスクの `実装前ゲート` に転記する。SaaS 仕様の改定により設計時前提が陳腐化するリスクを抑える。
+
+参考実例: UT-08 monitoring-alert-design では Phase 10 MINOR-02 として「Wave 2 着手直前に WAE 無料枠を公式情報で再確認」を明示化。
+
 ## 関連ガイド
 
 - [phase-template-core.md](phase-template-core.md) — Phase 1-3 共通骨格
