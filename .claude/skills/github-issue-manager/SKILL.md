@@ -224,6 +224,63 @@ node .claude/skills/github-issue-manager/scripts/label_all_issues.js --force   #
 
 ---
 
+## spec_created: CLOSED Issue → 仕様書化フロー
+
+実装を伴わない設計・仕様策定タスクが CLOSED になった後、正式な仕様書として記録する手順。
+
+### フロー
+
+```
+1. CLOSED Issue を確認
+   gh issue view <issue_number>          # Issue の内容・AC を参照
+   gh issue view <issue_number> --json   # JSON形式で全フィールド取得
+
+2. タスク仕様書を作成（task-specification-creator スキル）
+   docs/30-workflows/<task-name>/index.md       # インデックス
+   docs/30-workflows/<task-name>/artifacts.json  # status: spec_created
+
+3. artifacts.json の status を spec_created にする
+   artifacts.json の "metadata.taskType": "docs-only", "visualEvidence": "NON_VISUAL"
+
+4. Issue 本文に仕様書パスを追記する
+   gh issue comment <issue_number> --body "仕様書: docs/30-workflows/<task-name>/index.md"
+
+5. 仕様書の YAML に issue_number を記録する
+   issue_number: <issue_number>
+   status: spec_created   # completed ではない（実装未着手）
+```
+
+### 下流タスクからの upstream 参照
+
+下流タスクが上流の `spec_created` Issue を `dependencies.upstream` で参照する際の標準手順:
+
+```bash
+# 上流 Issue の内容を確認（CLOSED Issue を含む）
+gh issue view <upstream_issue_number>
+
+# 上流 Issue の AC（受入条件）をテキストで取得
+gh issue view <upstream_issue_number> --json body | jq '.body'
+
+# 上流仕様書パスを artifacts.json から確認
+cat docs/30-workflows/<upstream-task-name>/artifacts.json | jq '.task_path'
+
+# 上流タスクの Phase 1〜13 成果物を一覧確認
+ls docs/30-workflows/<upstream-task-name>/outputs/
+```
+
+**依存関係記述例（下流タスクの index.md）**:
+
+```yaml
+dependencies:
+  upstream:
+    - issue_number: 15
+      task_name: ut-12-cloudflare-r2-storage
+      status: spec_created
+      artifacts_path: docs/30-workflows/ut-12-cloudflare-r2-storage/artifacts.json
+```
+
+---
+
 # Part 3: スコアリング＆ラベル
 
 ## スコアリング計算

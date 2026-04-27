@@ -2742,7 +2742,9 @@ node scripts/list-specs.js --topics
 | L-CICD-006: 1Password Environments と GitHub Secrets の同期手順は明文化する | L55 |
 | L-CICD-007: ブランチ名の正本は `dev`（`develop` でない） | L64 |
 | 関連未タスク・フォローアップ候補 | L75 |
-| 変更履歴 | L85 |
+| L-R2-001: R2 binding 命名は topic-map.md に事前登録すること | L85 |
+| L-R2-002: spec_created と実適用の境界を明示すること | L95 |
+| 変更履歴 | L107 |
 
 ### references/lessons-learned-conversation-db-robustness.md
 
@@ -2800,6 +2802,12 @@ node scripts/list-specs.js --topics
 | UT-SKILL-WIZARD-W1-CONVERSATION-ROUND-STEP-001 教訓（2026-04-08） | L575 |
 | W0-seq-02 SmartDefault推論サービス実装 教訓（2026-04-08） | L601 |
 | UT-HEALTH-POLICY-RUNTIME-INJECTION-001 healthPolicy DI注入 教訓（2026-04-08） | L618 |
+
+### references/lessons-learned-current-2026-04b.md
+
+| セクション | 行 |
+|------------|----|
+| UT-11 Google OAuth + PKCE タスク仕様書作成（2026-04-27） | L8 |
 
 ### references/lessons-learned-current-electron-menu-docs-task0912.md
 
@@ -4044,6 +4052,18 @@ node scripts/list-specs.js --topics
 | 完了タスク | L14 |
 | 変更履歴 | L375 |
 
+### references/r2-storage-decision-guide.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L6 |
+| 判断ポイント一覧 | L13 |
+| 採用案 A: 環境別 2 バケット | L23 |
+| 採用案 D: 専用 R2 Token | L51 |
+| 採用案 F: プライベートバケット + Presigned URL / Proxy | L68 |
+| CORS テンプレート | L101 |
+| 変更履歴 | L119 |
+
 ### references/rag-desktop-state.md
 
 | セクション | 行 |
@@ -4415,7 +4435,6 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| UBM-Hyogo: UT-11 管理者向け Google OAuth ログインフロー実装（2026-04-27） | L239 |
 
 ### references/task-workflow-completed-skill-create-ui-integration.md
 

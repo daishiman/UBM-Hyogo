@@ -110,14 +110,12 @@ binding = "DB"
 database_name = "ubm-hyogo-db"
 database_id = "your-d1-database-id"
 
-[[r2_buckets]]
-binding = "STORAGE"
-bucket_name = "ubm-hyogo-storage"
-
 [[kv_namespaces]]
 binding = "CACHE"
 id = "your-kv-namespace-id"
 ```
+
+> R2 binding は現行 `apps/api/wrangler.toml` には未適用。UT-12 の下流実装時に、下記 R2 セクションの環境別差分を追加する。
 
 ### デプロイコマンド
 
@@ -128,6 +126,47 @@ wrangler deploy --config apps/api/wrangler.toml
 # ログ確認
 wrangler tail --config apps/api/wrangler.toml
 ```
+
+### Cloudflare R2 ストレージ設定（UT-12）
+
+R2 はファイル・画像などのオブジェクトストレージとして使う。アプリケーションからの直接アクセスは `apps/api` に閉じ、`apps/web` には R2 binding を置かない。
+
+| 項目 | 正本値 / 方針 |
+| --- | --- |
+| production bucket | `ubm-hyogo-r2-prod` |
+| staging bucket | `ubm-hyogo-r2-staging` |
+| Workers binding | `R2_BUCKET` |
+| Token 方針 | 専用 R2 token を作成し、`Account > Workers R2 Storage > Edit` の最小権限に限定 |
+| 公開方針 | private bucket + `apps/api` 経由の presigned URL / proxy access |
+| CORS 方針 | production / staging の `AllowedOrigins` を環境別に管理し、実ドメインは secrets / environment 管理に寄せる |
+
+`wrangler.toml` の R2 binding は環境別 bucket を明示する。これは現行設定例ではなく、下流のファイルアップロード実装時に適用する差分である。
+
+```toml
+[[env.staging.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "ubm-hyogo-r2-staging"
+
+[[env.production.r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "ubm-hyogo-r2-prod"
+```
+
+CORS ルールは以下をテンプレートとし、`<env-specific-origin>` を環境別に差し替える。
+
+```json
+[
+  {
+    "AllowedOrigins": ["<env-specific-origin>"],
+    "AllowedMethods": ["GET", "PUT", "POST", "HEAD"],
+    "AllowedHeaders": ["Content-Type", "Content-Length", "Authorization"],
+    "ExposeHeaders": ["ETag"],
+    "MaxAgeSeconds": 3600
+  }
+]
+```
+
+UT-12 は `spec_created` のため実 bucket 作成・`wrangler.toml` 反映・smoke test 実行は未適用。下流のファイルアップロード実装タスクで `docs/30-workflows/ut-12-cloudflare-r2-storage/outputs/phase-12/implementation-guide.md` を参照して実施する。
 
 ---
 

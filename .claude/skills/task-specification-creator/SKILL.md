@@ -77,6 +77,28 @@ allowed-tools:
 
 要件レビュー出力では、上の5項目を一次結論として先に示し、その後に補足として因果ループ、KJ法クラスタ、戦略仮説を足す。
 
+## タスクタイプ判定フロー（docs-only / NON_VISUAL）
+
+タスク作成前に下記フローで **taskType** と **visualEvidence** を確定させる。Phase 1 記録 → artifacts.json 生成まで一貫して使う。
+
+```
+タスクにコード変更が含まれる?
+├─ YES → taskType: "implementation"
+│         visualEvidence: UI変更を伴う? "VISUAL" : "NON_VISUAL"
+└─ NO  → タスクはドキュメント/設計のみ?
+          ├─ YES → taskType: "docs-only"
+          │         visualEvidence: "NON_VISUAL"
+          │         Phase 11: screenshot 不要 / main.md + manual-smoke-log.md + link-checklist.md の3点のみ
+          └─ NO  → 再確認（スコープが未確定）
+```
+
+**判定後のルール**:
+- `docs-only` / `spec_created` のタスクは Phase 11 でスクリーンショットを作らない
+- `screenshots/` ディレクトリを作成しない（`.gitkeep` も不要）
+- `artifacts.json` の `metadata.visualEvidence` に必ず明記する（省略すると screenshot 要求側に倒れる）
+
+---
+
 ## クイックスタート
 
 | モード              | 用途                               | 最初に読むもの                                                                           |
@@ -164,6 +186,18 @@ node scripts/detect-mode.js --request "{{USER_REQUEST}}"
 - 専門用語は使わない（使う場合は即座に説明）
 - 「なぜ必要か」を先に説明してから「何をするか」を説明
 
+**Part 1 専門用語セルフチェック**（書き終えたら以下を確認）:
+
+| 専門用語の例 | 日常語への言い換え例 |
+| --- | --- |
+| バケット（R2 bucket） | 「クラウド上の大きなフォルダ」 |
+| バインディング | 「Cloudflare のサーバーが使うための接続口」 |
+| プレサインド URL | 「期限付きの特別な閲覧リンク」 |
+| ステージング環境 | 「本番公開前の試し打ち環境」 |
+| スキーマ | 「データの入れ物の設計図」 |
+
+チェック手順: Part 1 本文を通読し、上記のような専門用語が説明なしで使われていないか確認する。使われていた場合は括弧書きで日常語を補う。
+
 **Part 2（技術者レベル）の必須要件**:
 
 - インターフェース/型定義（TypeScript）を含める
@@ -248,16 +282,10 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 
 | Version       | Date           | Changes                                                                                                                                                                                                     |
 | ------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **v10.09.45** | **2026-04-26** | **audit feedback 反映**: docs-only Phase 11 代替証跡（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）を `phase-template-phase11.md` に明文化、`phase-12-completion-checklist.md` に task root path drift 検出・補正手順を追加、validator CLI 引数規約（positional vs `--workflow`、`--task` 未実装）を `commands.md` にドキュメント化。 |
-| **v10.09.44** | **2026-04-26** | **05a-parallel-observability-and-cost-guardrails Phase 12 close-out 反映**: Phase 12 実行時によくある漏れ表に UBM-005（root/outputs `artifacts.json` 二重 ledger 同期漏れ）と UBM-006（Pages/Workers topology drift の未タスク formalize 漏れ、`task-{cat}-...-NNN.md` 命名と `docs/30-workflows/unassigned-task/` 配置）を追記。 |
+| **v10.09.44** | **2026-04-27** | **SKILL.md 500行制限対応（529行→499行）**: 変更履歴の古い2エントリ（v10.09.41/42）・古いFeedback群（W0-RV-001・SC-13-1/2・UBM-001〜005）・重複「よく使うコマンド」テーブルを削除し合計30行削減。 |
 | **v10.09.43** | **2026-04-26** | **02-serial-monorepo-runtime-foundation close-out hardening**: Phase 12 implementation guide Part 1/2 補正、Phase 11 NON_VISUAL docs-only validator 対応、`index.md` / Phase 11 link checklist / system spec summary の stale 状態同期。 |
-| **v10.09.44** | **2026-04-26** | **Wave 0 scaffold close-out hardening**: docs-only/spec_created metadata のまま code 実装が入った場合は Phase 12 Step 2 を再判定し、task root path/status parity、scope外実装混入、現環境での verify 再実行結果を必ず記録する。 |
-| **v10.09.42** | **2026-04-23** | **doc/01c-parallel-google-workspace-bootstrap canonical path sync**: task root を `doc/01c-parallel-google-workspace-bootstrap` に統一し、`outputs/phase-12/implementation-guide.md` を Phase 12 guide filename に是正。`outputs/artifacts.json` を root `artifacts.json` の同期コピーとして追加。 |
-| **v10.09.41** | **2026-04-23** | **UBM-Hyogo 対応: artifact-definition.json マルチフォーマット対応 + validate-phase-output.js hardening**: `schemas/artifact-definition.json` を `anyOf` で AIWorkflowOrchestrator 形式と UBM-Hyogo 形式（`task_name`/`created_at`）の両方をサポート。Phase file マッチングを `/^phase-N(?:-.*)?\.md$/` に統一。`spec_created` を docs-only として追加。UBM-001〜004 を「よくある漏れ」に追記。 |
 
 > 詳細履歴: [SKILL-changelog.md](SKILL-changelog.md) / [LOGS.md](LOGS.md)
-
----
 
 ### Task 5: スキルフィードバックレポート（改善点なしでも出力必須）
 
@@ -301,23 +329,12 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 | **[Feedback 6]** ViewType を追加した際に navigation 契約・store 型・既存テストの3点更新が漏れる                                                                      | `store/types.ts`（ViewType union）/ `skillLifecycleJourney.ts`（正規化関数・定数）/ renderView テスト を same-wave で更新し、`ui-ux-navigation.md` の ViewType テーブルも同時同期する。Phase 1 設計メモに「追加 ViewType: XYZ」を明示しておくと漏れが防げる                |
 | **[FB-UI-02-1]** Phase 9 QA で「ファイル削除」を PASS 基準にすると stub 化タスクが FAIL 扱いになる                                                                   | Phase 9 の削除確認は「git delete されている OR `export {}` stub 化かつ live import ゼロのいずれか」を PASS とする。たとえば、廃止ファイルを stub 化した場合は `grep -rn "import.*廃止ファイル名" src/` でゼロ件を証跡に残す                                                |
 | **[Feedback TASK-UI-04]** 実装完了後に `artifacts.json` status が `spec_created` / `in_progress` のまま放置される                                                    | 実装 Phase（Phase 5 or 最終実装 Phase）完了時に `complete-phase.js` を必ず実行し、status を `completed` に更新する。実装完了と仕様書ステータス更新は同一 wave で行う（後回しは乖離蓄積の主因）。有効値: `spec_created` / `in_progress` / `completed` / `phase12_completed` |
-| **[FB-SDK-07-2]** *※Electron Desktop 向け（現 Web 版では不適用）* Phase 1 で新規 IPC surface を定義する際に Preload API 経由が明記されない                           | Phase 1（要件定義）では新規 IPC surface を定義する場合、「Preload API 経由必須」を明記する。直接 `ipcRenderer.on` は禁止パターンとして記録する（Web 版では Workers API エンドポイント定義が相当）                                                                                                                             |
-| **[FB-SDK-07-4]** *※Electron Desktop 向け（現 Web 版では不適用）* Phase 1 で既存 API の命名パターンを確認せずに新規 API を命名し、Phase 3 で MINOR 指摘を受ける      | Phase 1（要件定義）では既存の `safeOn` / `safeInvoke` 等の命名パターンを確認し、新規 API の命名規則一貫性を担保する。命名ドリフトは Phase 3 レビューゲートの MINOR 指摘の主要因となる（Web 版では Workers API ルート命名規則の確認が相当）                                                                                      |
 | **[Feedback W1-02b-1]** UI task の `screenshot-plan.json` が `mode: "NON_VISUAL"` のまま Phase 11 を迎えやすい                                                       | UI コンポーネント変更タスクでは `screenshot-plan.json` 生成時に `mode: "VISUAL"` をデフォルトにする。`phase11-capture-metadata.json` の `taskId` が現行タスク ID と一致するか Phase 11 着手前に確認する（`jq '.taskId' outputs/phase-11/phase11-capture-metadata.json`）   |
 | **[Feedback W1-02b-2]** multi-step wizard 設計で「ステップ間の state ownership と引き渡し項目」が Phase 2 設計書に未記載                                             | Phase 2（設計）でウィザード / マルチステップ UI を設計する場合、「ステップ間 state 引き渡しテーブル」を必須セクションとして設ける。`smartDefaults` など推論値の反映タイミング（初回のみ / 都度上書き / ユーザー優先）は decision 欄で固定する                              |
 | **[Feedback W1-02b-3]** `implementation-guide.md` の callback 名・props 名が実装と一致していない（identifier drift）                                                 | Phase 12 Task 12-6 で `implementation-guide.md` 内の識別子を現行コードで `grep` 確認する。スニペットは型定義・props interface から引用し、手書き snippets を避ける                                                                                                         |
 | **[Feedback W1-02b-4]** renderer UI コンポーネントで node-only パッケージを直接 import し、Vite browser bundle が runtime error になる                               | renderer コンポーネントでは node-only パッケージ（`node-cron` 等）を直接 import しない。cron/schedule 検証は browser-safe ユーティリティに切り出す。Phase 11 capture 前に「ブラウザで実際に route を開く smoke test」を必須にする                                          |
-| **[Feedback W0-RV-001]** minLength / maxLength のテストケースで境界値文字列の実文字数を確認せずに誤った長さで書く（例: `"十文字以上の目的"` = 実際は 7 文字）        | テスト文字列を書く前に `"...".length` で実文字数を確認する。日本語の漢数字表記の意味と `.length` は別物。境界値テストは `// length: N` コメントを付けてから書く                                                                                                            |
-| **[Feedback SC-13-1]** *※Electron Desktop 向け（現 Web 版では不適用）* IPC surface 追加時に `apps/desktop/src/preload/channels.ts` の `ALLOWED_INVOKE_CHANNELS` への追記が漏れる | IPC surface 追加タスクでは Phase 2 成果物のチェックリストに「`ALLOWED_INVOKE_CHANNELS` への追記」を必須項目として記載する。`shared/ipc/channels.ts` への定数追加だけでは Renderer から呼び出せない（Web 版では Workers ルート登録 + CORS 設定漏れが相当）                                                                         |
-| **[Feedback SC-13-2]** *※Electron Desktop 向け（現 Web 版では不適用）* 公開 IPC メソッド名（`verify(skillName, ...)`）と内部エンジンメソッド名（`verifySkill(skillDir)`）が酷似し Phase 2 設計時に責務が不明確になる | 公開 surface と内部エンジンで名前が近い場合、Phase 2 成果物に「内部型 → 公開 DTO 変換表」と「解決レイヤ名称（例: `resolveVerifySkillDir`）」を必須セクションとして設ける（Web 版では REST エンドポイント ↔ サービス層の命名分離が相当）                                                                                                   |
-| **[UBM-001]** Phase file を `phase-12-documentation.md` 形式だと想定し、`phase-12.md`（サフィックスなし）形式が validator に弾かれる | `phase-N.md`（数字のみ）形式も valid。`validate-phase-output.js` は `/^phase-N(?:-.*)?\.md$/` でマッチするため、サフィックスなし・サフィックスあり両方を受け入れる。ファイル命名は task 固有名称の有無を問わず PASS することを確認してから作成する |
-| **[UBM-002]** `spec_created` タイプのタスクを VISUAL（画面あり）として Phase 11 を実行してしまう | `spec_created` は docs-only（非視覚）タイプ。Phase 11 では `detectDocsOnlyPhase11()` が `spec_created` を非視覚として判定し、必須 outputs は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点（スクリーンショット不要）。Phase 1 でタスクタイプを明示するときに `spec_created` を正確に記録する |
-| **[UBM-003]** Phase 11 非視覚タスクの必須 outputs が視覚タスクと同じだと誤解する | Phase 11 非視覚（docs-only / spec_created）タスクの必須 outputs は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点。視覚タスクの `manual-test-checklist.md` / `manual-test-result.md` / `discovered-issues.md` / `screenshot-plan.json` とは別セットであることを Phase 1 設計時に確認する |
-| **[UBM-004]** `artifacts.json` を AIWorkflowOrchestrator 形式（`feature` + `created` + `lastUpdated`）のみ想定し、UBM-Hyogo 形式（`task_name` + `created_at`）のファイルが schema validation で弾かれる | `schemas/artifact-definition.json` は `anyOf` で両形式をサポート済み。`required` は `["phases"]` のみ。`task_name` / `task_path` / `wave` / `execution_mode` / `depends_on` / `blocks` / `created_at` は legacy フィールドとして有効。既存の `artifacts.json` を修正せず、schema 側で吸収する |
-| **[UBM-005]** root `artifacts.json` のみ更新し、`outputs/artifacts.json` の Phase status が drift する（二重 ledger 同期漏れ） | Phase 12 close-out では root と `outputs/artifacts.json` の各 phase `status` を必ず diff し、同時更新する。`spec_created` / docs-only タスクでも outputs 側 ledger は同期コピーとして必須。validator 実行前に `diff <(jq .phases artifacts.json) <(jq .phases outputs/artifacts.json)` で確認 |
-| **[UBM-006]** Pages (`pages_build_output_dir = ".next"`) と OpenNext Workers 方針が二重定義された状態を current contract として確定できず、未タスク formalize を漏らす | `wrangler.toml` と OpenNext 方針の差分を検知したら `docs/30-workflows/unassigned-task/task-ref-cicd-workflow-topology-drift-001.md` 形式（`task-{cat}-...-NNN.md`、taskId pattern `^task-[a-z]+-[a-z0-9-]+-[0-9]+$`）で formalize し、Phase 12 unassigned-task-detection.md に登録する。05a runbook では deploy contract を `wrangler.toml` 一次ソースで暫定採用 |
-| **[UBM-007]** `docs_only` / `spec_created` のまま実コード変更を含むタスクを Phase 12 で no-op 仕様同期にしてしまう | Phase 12 開始時に `git status --short` と task scope を照合し、`apps/` / `packages/` / root config に差分がある場合は Step 2 を再判定する。新規型/API/定数/route/設定があれば system spec update summary と正本仕様へ反映する |
-| **[UBM-008]** task root を移動した後、`index.md` / `artifacts.json` / Phase 12 changelog が旧 path を指し続ける | Phase 12 の最初に canonical root と実体パスを比較し、`outputs/artifacts.json` も含めて同一 path へ同期する。旧 path 削除と新 path 追加は changelog に明記する |
+
+> 旧フィードバック（W0-RV-001・SC-13-1/2・UBM-001〜005・FB-SDK-07-2/4）は [SKILL-changelog.md](SKILL-changelog.md) に移動済み。
 
 ### Phase 12 苦戦防止Tips
 
@@ -351,24 +368,6 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 **PR作成は自動実行しない。必ずユーザーの明示的な許可を得てから実行すること。**
 
 📖 [references/commands.md](references/commands.md) - コマンド一覧
-
----
-
-## よく使うコマンド
-
-| Task                       | 責務                              | パターン | 入力         | 出力                   |
-| -------------------------- | --------------------------------- | -------- | ------------ | ---------------------- |
-| `decompose-task`           | タスクを単一責務に分割            | `seq`    | ユーザー要求 | タスク分解リスト       |
-| `identify-scope`           | スコープ、前提、制約を定義        | `seq`    | 分解結果     | スコープ定義           |
-| `design-phases`            | phase 構成と gate を設計          | `seq`    | scope        | phase 設計書           |
-| `generate-task-specs`      | `index.md` と `phase-*.md` を生成 | `seq`    | phase 設計書 | workflow 仕様一式      |
-| `output-phase-files`       | phase ファイルを出力              | `par`    | 仕様データ   | `phase-*.md`           |
-| `update-dependencies`      | `artifacts.json` と依存関係を更新 | `par`    | phase 一式   | 依存マップ             |
-| `verify-specs`             | workflow 全体をレビュー           | `seq`    | 仕様一式     | PASS/FAIL              |
-| `update-system-specs`      | Phase 12 Task 2 を遂行            | `seq`    | 実装結果     | 仕様同期結果           |
-| `generate-unassigned-task` | 残課題を task spec 化             | `cond`   | review 指摘  | `unassigned-task/*.md` |
-
-凡例: `seq` = 順次、`par` = 並列、`cond` = 条件分岐。
 
 ## agent 導線
 
@@ -477,7 +476,7 @@ diff -qr .claude/skills/task-specification-creator .agents/skills/task-specifica
 node scripts/log-usage.js --result success --phase "Phase {{N}}"
 ```
 
-Phase 12 では追加で `detect-unassigned-tasks.js`、`audit-unassigned-tasks.js`、`verify-unassigned-links.js`、`validate-phase12-implementation-guide.js`、`validate-phase11-screenshot-coverage.js` を実行する。validator の CLI 引数は positional / `--workflow` 形式が混在しているため、呼び出し前に [references/commands.md](references/commands.md) の「validator CLI 引数規約」を参照する。
+Phase 12 では追加で `detect-unassigned-tasks.js`、`audit-unassigned-tasks.js`、`verify-unassigned-links.js`、`validate-phase12-implementation-guide.js` を実行する。
 
 ## ベストプラクティス
 
