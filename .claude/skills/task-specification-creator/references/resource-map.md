@@ -90,6 +90,12 @@
 | --- | --- | --- |
 | [unassigned-task-guidelines.md](unassigned-task-guidelines.md) | 未タスク出力時 | 未タスク仕様ルール |
 
+### project workflow examples
+
+| Reference | 読み込み条件 | 内容 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/` | monitoring / alert / observability / WAE / UptimeRobot を含む `spec_created` NON_VISUAL workflow の参照時 | Phase 11 screenshot 不要判定、Phase 12 same-wave sync、`PASS_WITH_OPEN_DEPENDENCY`、UT-08-IMPL 未タスク分離の実例 |
+
 ## schemas/（8ファイル）
 
 | Schema | 用途 |
@@ -147,3 +153,4 @@
 | 2026-03-12 | references を 36 ファイルへ更新。family file と logs archive を追加し、500行超 guide を責務分離した |
 | 2026-03-06 | assets/11 に更新（Phase 12 compliance template 追加） |
 | 2026-03-03 | screenshot / evidence sync 関連の reference と script を追加 |
+| 2026-04-27 | UT-08 monitoring-alert-design を `spec_created` NON_VISUAL workflow 例として追加 |

@@ -318,8 +318,26 @@ wrangler pages deployment rollback <deployment-id> --project-name ubm-hyogo-web
 
 ---
 
+## モニタリング/アラート（UT-08 連携）
+
+UT-08（`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`）で以下を SSOT として確定。実装は UT-08-IMPL（Wave 2）。
+
+| 項目 | 値 |
+| ---- | -- |
+| WAE binding 名 | `MONITORING_AE` |
+| WAE dataset 名 | `ubm_hyogo_monitoring` |
+| 主要イベント | `api.request` / `api.error` / `d1.query.fail` / `cron.sync.start` / `cron.sync.end` |
+| 任意イベント | `auth.fail`（UT-13 認証実装で採否確定） |
+| PII 除外 | email / userId / IP は WAE data point に含めない |
+| 外部監視 | UptimeRobot 無料プラン（5 分間隔） |
+
+詳細は `lessons-learned-ut08-monitoring-design-2026-04.md` および `workflow-ut08-monitoring-alert-design-artifact-inventory.md` を参照。
+
+---
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare 移行） |
+| 2026-04-27 | 1.1.0 | UT-08 モニタリング/アラート設計の SSOT 連携セクション追加 |

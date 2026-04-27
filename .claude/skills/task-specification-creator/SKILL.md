@@ -247,7 +247,10 @@ node scripts/detect-mode.js --request "{{USER_REQUEST}}"
 | Step 1-A | 完了タスク記録 + LOGS.md x2 + SKILL.md x2 + topic-map を same-wave で更新 |
 | Step 1-B | 実装状況テーブルに `spec_created` を記録（`completed` ではない）          |
 | Step 1-C | 関連タスクテーブルのステータスを current facts へ更新                     |
+| Step 1-D | 上流 runbook 差分追記タイミング判定（same-wave / Wave N+1 / baseline 留置）を `runbook-diff-plan.md` で確定 |
 | Step 2   | 新規インターフェース追加がなければ N/A（ただし下記の再判定ルールを確認）  |
+
+> 設計タスク全体が次 Wave で実装される場合は IMPL 派生フローを適用する。詳細: [phase-template-phase12.md](references/phase-template-phase12.md) §設計タスク特有 / [unassigned-task-workflow-integration.md](references/unassigned-task-workflow-integration.md)。
 
 #### docs-only task に後からコード実装が入った場合の再判定ルール
 

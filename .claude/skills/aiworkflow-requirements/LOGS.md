@@ -778,3 +778,16 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `docs/30-workflows/step-05-seq-task-07-execution-governance-and-handoff-alignment/outputs/phase-11/`（evidence bundle 11ファイル新規作成）、`docs/30-workflows/ut-sdk-07-phase11-screenshot-evidence-001/outputs/`（Phase 1-3 / 9-12 成果物作成）、`docs/30-workflows/unassigned-task/task-ut-sdk-07-phase11-screenshot-evidence-001.md`（status: spec_created）、`task-workflow-completed.md`（spec_created 追記） |
 | 結果     | TASK-SDK-07 Phase 11 の未取得 screenshot evidence（HandoffGuidance / disclosure summary / integrated_api 対照）を補完。Phase 11 evidence chain が完成した                                                                                                                                                                                                                                                           |
 | 検証     | Phase 11: 3件 screenshot（TC-11-01〜TC-11-03 PASS）、カバレッジ 100%、発見事項 0件                                                                                                                                                                                                                                                                                                                                  |
+
+## UT-08 監視・アラート設計 spec_created close-out sync（2026-04-27）
+
+- タスク名: UT-08 モニタリング/アラート設計
+- 種別: design / non_visual / spec_created / observability
+- 主な反映:
+  - `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/` に Phase 1-12 設計成果物を作成
+  - WAE binding `MONITORING_AE`、dataset `ubm_hyogo_monitoring`、イベント名、閾値、Secret 名、通知設計を設計SSOTとして確定
+  - 実装作業は `docs/30-workflows/unassigned-task/UT-08-IMPL-monitoring-alert-implementation.md` に分離
+  - 05a outputs 未生成は `PASS_WITH_OPEN_DEPENDENCY` として扱い、実装前ゲートへ昇格
+- 検証:
+  - UI変更なし。Phase 11 は non_visual evidence として `outputs/phase-11/main.md` / `manual-smoke-log.md` / `link-checklist.md` に記録
+  - `validate-phase-output.js docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design` PASS（30項目、0エラー）
