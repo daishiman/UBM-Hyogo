@@ -1,105 +1,118 @@
--- UBM兵庫支部会 D1 初期スキーマ
--- sync direction: Google Sheets → D1（一方向）
--- consent キー: public_consent / rules_consent（Sheets の publicConsent / rulesConsent を正規化）
--- responseEmail: system field → response_email 列
--- admin-managed データは admin_overrides テーブルに分離（不変条件 4）
+-- 0001_init.sql
+-- form-driven domain (8 tables) + 関連 INDEX
+-- 不変条件: #1 (stable_key 抽象), #2 (consent), #3 (response_email system field), #7 (response_id / member_id 別 PK)
 
--- Form 回答の正本テーブル（sync worker が Sheets から書き込む）
+CREATE TABLE IF NOT EXISTS schema_versions (
+  revision_id          TEXT PRIMARY KEY,
+  form_id              TEXT    NOT NULL,
+  schema_hash          TEXT    NOT NULL,
+  state                TEXT    NOT NULL DEFAULT 'active',
+  synced_at            TEXT    NOT NULL DEFAULT (datetime('now')),
+  field_count          INTEGER NOT NULL DEFAULT 0,
+  unknown_field_count  INTEGER NOT NULL DEFAULT 0,
+  source_url           TEXT    NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS schema_questions (
+  question_pk          TEXT PRIMARY KEY,
+  revision_id          TEXT    NOT NULL,
+  stable_key           TEXT    NOT NULL,
+  question_id          TEXT,
+  item_id              TEXT,
+  section_key          TEXT    NOT NULL,
+  section_title        TEXT    NOT NULL,
+  label                TEXT    NOT NULL,
+  kind                 TEXT    NOT NULL,
+  position             INTEGER NOT NULL,
+  required             INTEGER NOT NULL DEFAULT 0,
+  visibility           TEXT    NOT NULL DEFAULT 'public',
+  searchable           INTEGER NOT NULL DEFAULT 1,
+  source               TEXT    NOT NULL DEFAULT 'forms',
+  status               TEXT    NOT NULL DEFAULT 'active',
+  choice_labels_json   TEXT    NOT NULL DEFAULT '[]'
+);
+
+CREATE TABLE IF NOT EXISTS schema_diff_queue (
+  diff_id              TEXT PRIMARY KEY,
+  revision_id          TEXT    NOT NULL,
+  type                 TEXT    NOT NULL,
+  question_id          TEXT,
+  stable_key           TEXT,
+  label                TEXT    NOT NULL,
+  suggested_stable_key TEXT,
+  status               TEXT    NOT NULL DEFAULT 'queued',
+  resolved_by          TEXT,
+  resolved_at          TEXT,
+  created_at           TEXT    NOT NULL DEFAULT (datetime('now'))
+);
+
 CREATE TABLE IF NOT EXISTS member_responses (
-  id                        INTEGER PRIMARY KEY AUTOINCREMENT,
-  response_id               TEXT    NOT NULL UNIQUE,  -- Sheets 行を一意識別するキー（冪等性確保）
-  response_email            TEXT    NOT NULL,          -- system field（不変条件 3）
-  submitted_at              TEXT    NOT NULL,          -- タイムスタンプ（ISO 8601）
-
-  -- section1: basic_profile
-  full_name                 TEXT,
-  nickname                  TEXT,
-  location                  TEXT,
-  birth_date                TEXT,
-  occupation                TEXT,
-  hometown                  TEXT,
-
-  -- section2: ubm_profile
-  ubm_zone                  TEXT,
-  ubm_membership_type       TEXT,
-  ubm_join_date             TEXT,
-  business_overview         TEXT,
-  skills                    TEXT,
-  challenges                TEXT,
-  can_provide               TEXT,
-
-  -- section3: personal_profile
-  hobbies                   TEXT,
-  recent_interest           TEXT,
-  motto                     TEXT,
-  other_activities          TEXT,
-
-  -- section4: social_links
-  url_website               TEXT,
-  url_facebook              TEXT,
-  url_instagram             TEXT,
-  url_threads               TEXT,
-  url_youtube               TEXT,
-  url_tiktok                TEXT,
-  url_x                     TEXT,
-  url_blog                  TEXT,
-  url_note                  TEXT,
-  url_linkedin              TEXT,
-  url_others                TEXT,
-
-  -- section5: message
-  self_introduction         TEXT,
-
-  -- section6: consent（不変条件 2）
-  public_consent            TEXT    NOT NULL DEFAULT 'unknown', -- consented / declined / unknown
-  rules_consent             TEXT    NOT NULL DEFAULT 'unknown',
-
-  -- schema 拡張余地（不変条件 1）
-  extra_fields_json         TEXT,                      -- 未知の Form 質問を格納
-  unmapped_question_ids_json TEXT,                     -- mapping 外 questionId を記録
-
-  created_at                TEXT    NOT NULL DEFAULT (datetime('now')),
-  updated_at                TEXT    NOT NULL DEFAULT (datetime('now'))
+  response_id                TEXT PRIMARY KEY,
+  form_id                    TEXT    NOT NULL,
+  revision_id                TEXT    NOT NULL,
+  schema_hash                TEXT    NOT NULL,
+  response_email             TEXT,
+  submitted_at               TEXT    NOT NULL,
+  edit_response_url          TEXT,
+  answers_json               TEXT    NOT NULL,
+  raw_answers_json           TEXT    NOT NULL DEFAULT '{}',
+  extra_fields_json          TEXT    NOT NULL DEFAULT '{}',
+  unmapped_question_ids_json TEXT    NOT NULL DEFAULT '[]',
+  search_text                TEXT    NOT NULL DEFAULT ''
 );
 
--- 会員ステータス（admin-managed、sync 対象外）
-CREATE TABLE IF NOT EXISTS member_status (
-  id                        INTEGER PRIMARY KEY AUTOINCREMENT,
-  response_id               TEXT    NOT NULL UNIQUE REFERENCES member_responses(response_id),
-  publish_state             TEXT    NOT NULL DEFAULT 'draft',   -- draft / published / hidden
-  is_deleted                INTEGER NOT NULL DEFAULT 0,
-  hidden_reason             TEXT,
-  created_at                TEXT    NOT NULL DEFAULT (datetime('now')),
-  updated_at                TEXT    NOT NULL DEFAULT (datetime('now'))
+CREATE TABLE IF NOT EXISTS response_sections (
+  response_id     TEXT    NOT NULL,
+  section_key     TEXT    NOT NULL,
+  section_title   TEXT    NOT NULL,
+  position        INTEGER NOT NULL,
+  PRIMARY KEY (response_id, section_key)
 );
 
--- admin が手動管理するデータ（Form schema 外、不変条件 4）
-CREATE TABLE IF NOT EXISTS admin_overrides (
-  id                        INTEGER PRIMARY KEY AUTOINCREMENT,
-  response_id               TEXT    NOT NULL REFERENCES member_responses(response_id),
-  field_name                TEXT    NOT NULL,
-  field_value               TEXT,
-  overridden_by             TEXT,
-  created_at                TEXT    NOT NULL DEFAULT (datetime('now'))
+CREATE TABLE IF NOT EXISTS response_fields (
+  response_id     TEXT NOT NULL,
+  stable_key      TEXT NOT NULL,
+  value_json      TEXT,
+  raw_value_json  TEXT,
+  PRIMARY KEY (response_id, stable_key)
 );
 
--- sync 実行ログ（audit log）
-CREATE TABLE IF NOT EXISTS sync_audit (
-  id                        INTEGER PRIMARY KEY AUTOINCREMENT,
-  run_id                    TEXT    NOT NULL UNIQUE,   -- UUID
-  trigger_type              TEXT    NOT NULL,          -- manual / scheduled / backfill
-  started_at                TEXT    NOT NULL,
-  finished_at               TEXT,
-  rows_fetched              INTEGER,
-  rows_upserted             INTEGER,
-  rows_skipped              INTEGER,
-  status                    TEXT    NOT NULL DEFAULT 'running', -- running / success / partial_failure / failure
-  error_reason              TEXT,                      -- 失敗時の理由
-  diff_summary_json         TEXT                       -- 変更サマリ（JSON）
+CREATE TABLE IF NOT EXISTS member_field_visibility (
+  member_id   TEXT NOT NULL,
+  stable_key  TEXT NOT NULL,
+  visibility  TEXT NOT NULL,
+  updated_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (member_id, stable_key)
 );
 
--- インデックス
-CREATE INDEX IF NOT EXISTS idx_member_responses_email      ON member_responses(response_email);
-CREATE INDEX IF NOT EXISTS idx_member_responses_submitted  ON member_responses(submitted_at);
-CREATE INDEX IF NOT EXISTS idx_member_status_publish       ON member_status(publish_state);
-CREATE INDEX IF NOT EXISTS idx_sync_audit_trigger          ON sync_audit(trigger_type, started_at);
+CREATE TABLE IF NOT EXISTS member_identities (
+  member_id           TEXT PRIMARY KEY,
+  response_email      TEXT NOT NULL UNIQUE,
+  current_response_id TEXT NOT NULL,
+  first_response_id   TEXT NOT NULL,
+  last_submitted_at   TEXT NOT NULL,
+  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at          TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_member_responses_email_submitted
+  ON member_responses(response_email, submitted_at);
+CREATE INDEX IF NOT EXISTS idx_schema_diff_status
+  ON schema_diff_queue(status, created_at);
+CREATE INDEX IF NOT EXISTS idx_schema_questions_revision
+  ON schema_questions(revision_id, stable_key);
+
+CREATE VIEW IF NOT EXISTS members AS
+SELECT
+  mi.member_id,
+  mi.response_email,
+  mi.current_response_id,
+  mi.last_submitted_at,
+  mr.form_id,
+  mr.revision_id,
+  mr.schema_hash,
+  mr.search_text,
+  mr.submitted_at
+FROM member_identities mi
+JOIN member_responses mr
+  ON mr.response_id = mi.current_response_id;
