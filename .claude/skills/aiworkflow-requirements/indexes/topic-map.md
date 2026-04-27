@@ -943,9 +943,10 @@ node scripts/list-specs.js --topics
 | Embedded Replicas とオフライン対応 | L56 |
 | マイグレーション管理 | L102 |
 | テスト戦略 | L142 |
-| エラーハンドリング | L172 |
-| Conversation DB 初期化パターン | L203 |
-| ベクトル検索実装（DiskANN） | L238 |
+| UBM-Hyogo D1 Repository 契約（02b） | L172 |
+| エラーハンドリング | L211 |
+| Conversation DB 初期化パターン | L242 |
+| ベクトル検索実装（DiskANN） | L277 |
 
 ### references/database-implementation-details.md
 
@@ -2647,6 +2648,17 @@ node scripts/list-specs.js --topics
 | Detailed Register | L59 |
 | Section Extract Register (2026-03-17) | L240 |
 | 500-Line Split Register (2026-03-16) | L251 |
+
+### references/lessons-learned-02b-schema-diff-and-tag-queue.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 不変条件の追補（02b 由来） | L12 |
+| 2. 苦戦知見 L-02B-001〜005 | L23 |
+| 3. fake D1 テストパターン（repository 単体テストの正本） | L52 |
+| 4. システム仕様書への影響（軽微 Note 追記） | L71 |
+| 5. 後続タスク handoff | L82 |
+| 関連参照 | L96 |
 
 ### references/lessons-learned-05b-smoke-readiness-2026-04.md
 
@@ -4596,9 +4608,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 最近の完了タスク（2026-04） | L7 |
-| 完了タスク（2026-03後半） | L101 |
-| 完了タスク（機能別アーカイブ） | L109 |
-| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L218 |
+| 完了タスク（2026-03後半） | L127 |
+| 完了タスク（機能別アーカイブ） | L135 |
+| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L244 |
 
 ### references/task-workflow-history.md
 

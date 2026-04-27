@@ -2,7 +2,36 @@
 
 ## 役割
 
+このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
+
 ## 2026-04-27 - UT-12 skill-feedback-report 反映（task-specification-creator）
+
+## 2026-04-27 - 02b same-wave: repository / NON_VISUAL テンプレ補強
+
+### 変更内容
+
+- `references/patterns-repository-task-template.md` を新規作成
+- 4 セクション: NON_VISUAL タスクガード（Phase 11） / 状態遷移 repository の ALLOWED 表（Phase 2 必須） / Phase 6 異常系 4 軸（D1 失敗・状態遷移・認可・race） / 公開 API signature 表（Phase 12 必須） / Phase 12 Step 2 再判定ガード（spec_created / docs_only → implementation 再評価手順）
+- `aiworkflow-requirements/references/lessons-learned-02b-schema-diff-and-tag-queue.md` と相互参照
+
+### 背景
+
+02b skill-feedback-report.md が示した 4 改善項目（NON_VISUAL screenshot 要求の残存・公開 API 一覧表の強制・状態遷移 ALLOWED 表の必須化・Phase 12 Step 2 再判定ガード未整備）を、テンプレ運用ガイドとして本スキルに固定。次回以降の repository 系・queue 系タスク仕様書で本ガイドを参照すること。
+
+## 2026-04-27 - 02b repository implementation Phase 12 hardening
+
+### 変更内容
+
+- `spec_created` / `docs_only` metadata のまま code 実装が入った 02b task を implementation 扱いに再同期した
+- Phase 11 の stale な screenshot 要求を NON_VISUAL evidence に補正し、repository-only task の UI 証跡不要を明記した
+- Phase 12 `implementation-guide.md` を Part 1 / Part 2 構成へ補強し、TypeScript 契約、API シグネチャ、エラー、edge case、定数を追加した
+- `schema_diff_queue` の unresolved/type 混線を `status='queued'` 正本へ修正し、system spec sync まで同波で閉じた
+
+### 背景
+
+Phase 12 close-out では成果物の存在だけでなく、task metadata、code diff、DDL index、repository API 契約、system spec を照合する必要がある。特に `type` と `status` の意味が混線すると、後続 07b/API が解決済み diff を再表示する恐れがある。
+
+## 2026-04-27 - UT-11 管理者向け Google OAuth ログインフロー task-spec-creation
 
 ### 変更内容
 

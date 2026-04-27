@@ -784,3 +784,19 @@ packages/
 | 外部監視 | UptimeRobot 無料プラン（5 分間隔） |
 | SSOT 参照 | `references/workflow-ut08-monitoring-alert-design-artifact-inventory.md` |
 | 苦戦箇所と知見 | `references/lessons-learned-ut08-monitoring-design-2026-04.md` |
+
+### UBM-Hyogo D1 Repository 早見（02b: meeting/tag queue + schema diff repository）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/02b-parallel-meeting-tag-queue-and-schema-diff-repository/` |
+| 実装パス | `apps/api/src/repository/`（attendance / meetings / schemaDiffQueue / schemaQuestions / schemaVersions / tagDefinitions / tagQueue + `_shared/`） |
+| schema diff queue 未解決 status 正本 | `'queued'`（`pending` / `unresolved` / `open` 等は不可。不変条件 #14） |
+| `schemaVersions.getLatestVersion()` | `ORDER BY synced_at DESC` で確定（不変条件 #15） |
+| tag 書き込み境界 | `tag_assignment_queue` への enqueue/resolve のみ。`tag_definitions` は read-only マスタ（不変条件 #13） |
+| `tag_definitions` カテゴリ | 6 カテゴリ single source（41 行 seed） |
+| fake D1 テストパターン | `apps/api/src/repository/_shared/__fakes__/fakeD1.ts`（in-memory pattern-matching SQL） |
+| 状態遷移系 repository の必須設計 | Phase 2 で **ALLOWED 表**（from→to の許可遷移行列）を提示 |
+| 苦戦知見 | `references/lessons-learned-02b-schema-diff-and-tag-queue.md` (L-02B-001〜005) |
+| 02b 由来未タスク | `docs/30-workflows/unassigned-task/02b-followup-00{1,2,3}-*.md` |
+| free tier 実測（02b 単体） | reads 0.24% / writes 0.11% |

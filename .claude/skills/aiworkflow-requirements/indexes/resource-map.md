@@ -577,6 +577,7 @@
 | --- | --- | --- | --- |
 | `docs/05a-parallel-observability-and-cost-guardrails/` | 2026-04-27 | Phase 1-12 completed / Phase 13 pending（user approval 待ち） | `references/deployment-cloudflare.md` / `references/deployment-gha.md` / `references/environment-variables.md` |
 | `docs/03-serial-data-source-and-storage-contract/` | 2026-04-26 | Phase 1-12 completed / Phase 13 pending | `references/architecture-database.md` |
+| `docs/30-workflows/completed-tasks/02b-parallel-meeting-tag-queue-and-schema-diff-repository/` | 2026-04-27 | Phase 1-12 completed / Phase 13 pending（user approval 待ち） | `references/database-implementation-core.md` (L172-) / `references/lessons-learned-02b-schema-diff-and-tag-queue.md` |
 
 ### 11. ガイドライン
 
