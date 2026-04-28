@@ -137,3 +137,5 @@ done
 | ADR-02 | post-merge 自動再生成を廃止 | 無関係 PR diff の根本原因 |
 | ADR-03 | hook 本体は `scripts/hooks/*.sh` に移植 | yaml に長文 inline するより diff レビュー性が高い |
 | ADR-04 | `lefthook-local.yml` を `.gitignore` 対象に追加 | 開発者個別 override を許容 |
+
+> 本判断 (ADR-01) は ADR-0001 として独立化されました: [doc/decisions/0001-git-hook-tool-selection.md](../../../../../../doc/decisions/0001-git-hook-tool-selection.md)（2026-04-28, task-husky-rejection-adr）。

@@ -208,6 +208,7 @@
       "workflow-light-theme-global-remediation.md",
       "workflow-onboarding-wizard-alignment.md",
       "workflow-skill-identifier-branded-type-resolution.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
@@ -363,6 +364,7 @@
       "workflow-onboarding-wizard-alignment.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-identifier-branded-type-resolution.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-ui-ux-visual-baseline-drift.md",
@@ -1433,7 +1435,8 @@
       "ui-ux-search-panel-core.md",
       "ui-ux-search-panel-details.md",
       "ui-ux-settings-core.md",
-      "ui-ux-settings-details.md"
+      "ui-ux-settings-details.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "対策": [
       "arch-state-management-advanced.md",
@@ -2101,6 +2104,8 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Advanced": [
@@ -2160,7 +2165,9 @@
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "ui-ux-feature-components-reference.md",
       "ui-ux-feature-components-skill-analysis.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "Import": [
       "arch-state-management-reference-permissions-import-lifecycle.md",
@@ -2273,6 +2280,7 @@
       "task-workflow-completed-skill-lifecycle-ui-verify.md",
       "ui-history-search-view.md",
       "ui-ux-history-panel.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
@@ -2342,7 +2350,9 @@
       "interfaces-skill-verify-contract.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "FIX": [
@@ -2650,6 +2660,7 @@
       "task-workflow-completed-skill-lifecycle-ui.md",
       "task-workflow-completed-skill-lifecycle.md",
       "ui-ux-feature-components-skill-analysis.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "creator": [
@@ -2663,7 +2674,8 @@
       "logs-archive-2026-02-permission-history-execution-timestamps.md",
       "quality-e2e-testing.md",
       "task-workflow-completed-recent-2026-04b.md",
-      "task-workflow-completed.md"
+      "task-workflow-completed.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "SkillExecutionStatus": [
       "arch-state-management-skill-creator.md",
@@ -2898,6 +2910,8 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "facts": [
@@ -3761,6 +3775,7 @@
       "lessons-learned-phase12-lifecycle-recent.md",
       "lessons-learned-phase12-workflow-lifecycle.md",
       "lessons-learned-skill-create-multi-select-kind.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
       "lessons-learned-test-typesafety.md",
       "lessons-learned-ui-skill-center-editor-dashboard.md",
       "lessons-learned-ut-19-branch-protection-2026-04.md",
@@ -3797,6 +3812,8 @@
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
@@ -3867,6 +3884,7 @@
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-gitignore-policy.md",
       "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "品質基準": [
@@ -4062,6 +4080,7 @@
     "仕様書": [
       "claude-code-skills-agents.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "目的": [
@@ -4138,7 +4157,8 @@
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-gitignore-policy.md",
       "skill-ledger-overview.md",
-      "skill-ledger-progressive-disclosure.md"
+      "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "assets": [
       "claude-code-skills-resources.md"
@@ -4197,7 +4217,9 @@
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "認証フローにおける統合": [
@@ -4306,7 +4328,8 @@
       "ui-ux-atoms-patterns-details.md"
     ],
     "UBM": [
-      "database-implementation-core.md"
+      "database-implementation-core.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
     ],
     "Hyogo": [
       "database-implementation-core.md"
@@ -4422,6 +4445,7 @@
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-skill-remove-contract.md",
       "lessons-learned-ut-19-branch-protection-2026-04.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned-workflow-quality-ci-module-resolution.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -4494,6 +4518,7 @@
       "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md",
       "lessons-learned-skill-create-multi-select-kind.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
       "skill-ledger-overview.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
@@ -4501,9 +4526,12 @@
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "実行ラッパー": [
@@ -4963,6 +4991,7 @@
     "Worktree": [
       "development-guidelines-core.md",
       "lessons-learned-health-policy-worktree-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-sdk-session-bridge-vitest-worktree.md"
     ],
     "入場時の環境分離": [
@@ -5344,7 +5373,9 @@
     ],
     "未タスク": [
       "interfaces-agent-sdk-history-core.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -5355,7 +5386,9 @@
       "ui-ux-search-panel-details.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "ライフサイクルイベントモデル": [
@@ -5448,7 +5481,9 @@
     "Chain": [
       "interfaces-agent-sdk-skill-editor.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Schedule": [
@@ -6001,7 +6036,9 @@
     "verify": [
       "interfaces-skill-verify-contract.md",
       "lessons-learned-verify-contract-consolidation.md",
-      "task-workflow-completed-skill-lifecycle-ui-verify.md"
+      "lessons-learned-verify-indexes-ci-2026-04.md",
+      "task-workflow-completed-skill-lifecycle-ui-verify.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "Check": [
       "interfaces-skill-verify-contract.md"
@@ -6189,7 +6226,8 @@
       "ipc-contract-checklist.md"
     ],
     "適用事例": [
-      "ipc-contract-checklist.md"
+      "ipc-contract-checklist.md",
+      "skill-ledger-progressive-disclosure.md"
     ],
     "Creator": [
       "ipc-contract-checklist.md",
@@ -6280,7 +6318,8 @@
     ],
     "使い方": [
       "legacy-ordinal-family-register.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "Current": [
       "legacy-ordinal-family-register.md",
@@ -6346,6 +6385,7 @@
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
       "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
@@ -6383,6 +6423,7 @@
       "lessons-learned-ui-ux-visual-baseline-drift.md",
       "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-verify-contract-consolidation.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned-viewtype-electron-ui.md",
       "lessons-learned-w3-usage-tracking-2026-04.md",
       "lessons-learned-workflow-quality-ci-module-resolution.md",
@@ -6425,6 +6466,7 @@
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
       "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
@@ -6462,6 +6504,7 @@
       "lessons-learned-ui-ux-visual-baseline-drift.md",
       "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-verify-contract-consolidation.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned-viewtype-electron-ui.md",
       "lessons-learned-w3-usage-tracking-2026-04.md",
       "lessons-learned-workflow-quality-ci-module-resolution.md",
@@ -6550,8 +6593,10 @@
     ],
     "教訓一覧": [
       "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
-      "lessons-learned-skill-codex-validation-2026-04.md"
+      "lessons-learned-skill-codex-validation-2026-04.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
     "申し送り先": [
       "lessons-learned-02c-data-access-boundary.md"
@@ -6576,6 +6621,9 @@
       "task-workflow-backlog.md",
       "task-workflow-completed-recent-2026-04b.md",
       "task-workflow-completed.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "detection": [
@@ -6613,13 +6661,15 @@
     "close": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "out": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-ut-19-branch-protection-2026-04.md",
-      "task-workflow-phases.md"
+      "task-workflow-phases.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "アーカイブ": [
       "lessons-learned-archive-2026-03-mid.md",
@@ -7271,6 +7321,7 @@
       "task-workflow-completed-agent-view-line-budget.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
@@ -7677,12 +7728,14 @@
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-gitignore-policy.md",
       "task-workflow-backlog.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "root": [
       "lessons-learned-current-2026-04-ut06.md",
       "lessons-learned-workflow-quality-line-budget-reform.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md"
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "誤検出": [
       "lessons-learned-current-2026-04-ut06.md"
@@ -7698,6 +7751,7 @@
     ],
     "gate": [
       "lessons-learned-current-2026-04-ut06.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
     "pair": [
@@ -7809,7 +7863,8 @@
     ],
     "並列": [
       "lessons-learned-current-2026-04.md",
-      "lessons-learned-health-policy-worktree-2026-04.md"
+      "lessons-learned-health-policy-worktree-2026-04.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
     ],
     "コンフリクト解消": [
       "lessons-learned-current-2026-04.md",
@@ -7998,7 +8053,8 @@
       "lessons-learned-d1a-schema-migrations.md",
       "lessons-learned-test-typesafety.md",
       "task-workflow-completed-ut-06-safety-gate.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "の併存運用": [
       "lessons-learned-d1a-schema-migrations.md"
@@ -8047,7 +8103,8 @@
       "lessons-learned-d1a-schema-migrations.md"
     ],
     "pending": [
-      "lessons-learned-d1a-schema-migrations.md"
+      "lessons-learned-d1a-schema-migrations.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "残置": [
       "lessons-learned-d1a-schema-migrations.md"
@@ -8118,12 +8175,15 @@
     ],
     "up": [
       "lessons-learned-governance-hooks-phase-policy.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-backlog.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "タスクの": [
@@ -8428,6 +8488,38 @@
     "命名と環境分離": [
       "lessons-learned-kv-session-cache-2026-04.md"
     ],
+    "Multi": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "llm-ipc-types.md"
+    ],
+    "Lefthook": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md"
+    ],
+    "Reinstall": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md"
+    ],
+    "Runbook": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md"
+    ],
+    "申し送り": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md"
+    ],
+    "open": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md"
+    ],
+    "baseline": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "ui-ux-components.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
     "統一": [
       "lessons-learned-lefthook-unification-2026-04.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
@@ -8444,23 +8536,12 @@
       "skill-ledger-gitignore-policy.md"
     ],
     "indexes": [
-      "lessons-learned-lefthook-unification-2026-04.md"
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "再生成廃止": [
       "lessons-learned-lefthook-unification-2026-04.md"
-    ],
-    "申し送り": [
-      "lessons-learned-lefthook-unification-2026-04.md"
-    ],
-    "open": [
-      "lessons-learned-lefthook-unification-2026-04.md"
-    ],
-    "baseline": [
-      "lessons-learned-lefthook-unification-2026-04.md",
-      "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "ui-ux-components.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
     ],
     "monitoring": [
       "lessons-learned-monitoring-design-2026-04.md"
@@ -8519,7 +8600,8 @@
       "lessons-learned-monitoring-design-2026-04.md"
     ],
     "outputs": [
-      "lessons-learned-monitoring-design-2026-04.md"
+      "lessons-learned-monitoring-design-2026-04.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "個別ファイル": [
       "lessons-learned-monitoring-design-2026-04.md"
@@ -8793,7 +8875,8 @@
       "lessons-learned-rt02-stub-response-error-notification.md"
     ],
     "での": [
-      "lessons-learned-rt02-stub-response-error-notification.md"
+      "lessons-learned-rt02-stub-response-error-notification.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
     ],
     "union": [
       "lessons-learned-rt02-stub-response-error-notification.md",
@@ -8965,7 +9048,8 @@
     "multi": [
       "lessons-learned-skill-create-multi-select-kind.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
-      "task-workflow-completed-skill-lifecycle-ui-verify.md"
+      "task-workflow-completed-skill-lifecycle-ui-verify.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
     ],
     "select": [
       "lessons-learned-skill-create-multi-select-kind.md",
@@ -9181,6 +9265,38 @@
       "lessons-learned-skill-ledger-redesign-2026-04.md"
     ],
     "物理削除の誤発生": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "が説く規約をその": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "自身が破るドッグフーディング矛盾": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "の漏れが連続発生": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "entry": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "の責務境界判定の揺れ": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "mirror": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "同期と既存リンク参照切れリスク": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "conflict": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
+    ],
+    "リスク": [
       "lessons-learned-skill-ledger-redesign-2026-04.md"
     ],
     "再発防止サマリ": [
@@ -9717,7 +9833,8 @@
     ],
     "runbook": [
       "lessons-learned-ut-19-branch-protection-2026-04.md",
-      "skill-ledger-gitignore-policy.md"
+      "skill-ledger-gitignore-policy.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
     ],
     "と実適用値の正本ドリフト防止には": [
       "lessons-learned-ut-19-branch-protection-2026-04.md"
@@ -9803,6 +9920,16 @@
     ],
     "知見まとめ": [
       "lessons-learned-verify-contract-consolidation.md"
+    ],
+    "to": [
+      "lessons-learned-verify-indexes-ci-2026-04.md",
+      "task-workflow-completed-recent-2026-04d.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "date": [
+      "lessons-learned-verify-indexes-ci-2026-04.md",
+      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "RENDERVIEW": [
       "lessons-learned-viewtype-electron-ui.md",
@@ -10164,9 +10291,6 @@
       "rag-search-types.md"
     ],
     "型定義・": [
-      "llm-ipc-types.md"
-    ],
-    "Multi": [
       "llm-ipc-types.md"
     ],
     "Provider": [
@@ -11020,9 +11144,6 @@
     "テスト並列実行最適化": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
     ],
-    "date": [
-      "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
-    ],
     "権限履歴の期間別フィルタリング": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
     ],
@@ -11091,9 +11212,6 @@
     "atoms": [
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "logs-archive-2026-02-skill-validation-atoms-audit.md"
-    ],
-    "conflict": [
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
     ],
     "COMMAND": [
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
@@ -11278,7 +11396,8 @@
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
-      "skill-ledger-progressive-disclosure.md"
+      "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "準拠再確認": [
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
@@ -11565,10 +11684,6 @@
     ],
     "再監査で責務証跡と": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
-    ],
-    "mirror": [
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "skill-ledger-progressive-disclosure.md"
     ],
     "抽出を強化": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
@@ -11889,13 +12004,15 @@
       "logs-archive-index.md",
       "skill-ledger-gitignore-policy.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-aiworkflow-requirements-line-budget-reform.md"
+      "workflow-aiworkflow-requirements-line-budget-reform.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "requirements": [
       "logs-archive-index.md",
       "skill-ledger-gitignore-policy.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-aiworkflow-requirements-line-budget-reform.md"
+      "workflow-aiworkflow-requirements-line-budget-reform.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "LOGS": [
       "logs-archive-index.md",
@@ -12591,7 +12708,8 @@
     ],
     "ledger": [
       "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md"
+      "skill-ledger-gitignore-policy.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "適用条件": [
       "skill-ledger-gitattributes-policy.md"
@@ -12809,6 +12927,8 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "不変条件": [
@@ -12818,12 +12938,10 @@
       "skill-ledger-overview.md"
     ],
     "行ガード": [
-      "skill-ledger-progressive-disclosure.md"
+      "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "行数ガード": [
-      "skill-ledger-progressive-disclosure.md"
-    ],
-    "entry": [
       "skill-ledger-progressive-disclosure.md"
     ],
     "に残す要素": [
@@ -13126,9 +13244,6 @@
       "task-workflow-completed.md"
     ],
     "impl": [
-      "task-workflow-completed-recent-2026-04d.md"
-    ],
-    "to": [
       "task-workflow-completed-recent-2026-04d.md"
     ],
     "create": [
@@ -14257,6 +14372,7 @@
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
@@ -14266,6 +14382,7 @@
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
@@ -14399,14 +14516,17 @@
     "Follow": [
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Backlog": [
       "workflow-ai-runtime-execution-responsibility-realignment.md"
     ],
     "集計": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "更新した": [
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
@@ -14421,10 +14541,12 @@
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
     ],
     "新規": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "再生成・監査コマンド": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "今回実装した内容": [
       "workflow-aiworkflow-requirements-line-budget-reform.md",
@@ -14512,6 +14634,30 @@
     "監視・ログ": [
       "workflow-skill-identifier-branded-type-resolution.md"
     ],
+    "progressive": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "disclosure": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "改訂された": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "配下": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "反映ファイル": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "本タスク": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "ファイルツリー再列挙": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "ファイルツリー": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
     "Usage": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
@@ -14541,13 +14687,17 @@
     "Artifact": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Inventory": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "実装コードアンカー": [
@@ -14610,22 +14760,53 @@
     ],
     "Acceptance": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Criteria": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Outputs": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "反映先": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
+    "lefthook": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "reinstall": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "形式不要": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "完了形式": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "主要実装物": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
     "参照される実装ファイル": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "ci": [
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "pr": [
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "のため変更は伴わない": [
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"

@@ -1,0 +1,227 @@
+{
+  "task_name": "skill-ledger-a3-progressive-disclosure",
+  "task_path": "docs/30-workflows/skill-ledger-a3-progressive-disclosure",
+  "wave": "skill-ledger",
+  "execution_mode": "serial",
+  "depends_on": [
+    "task-skill-ledger-a1-gitignore",
+    "task-skill-ledger-a2-fragment"
+  ],
+  "blocks": [
+    "task-skill-ledger-b1-gitattributes"
+  ],
+  "created_at": "2026-04-28",
+  "github_issue": 131,
+  "metadata": {
+    "taskType": "docs-only",
+    "specStatus": "completed",
+    "docs_only": true,
+    "visualEvidence": "NON_VISUAL",
+    "scope": "skill_structure_refactor",
+    "priority": "medium",
+    "scale": "medium",
+    "wave_label": "skill-ledger A-3",
+    "implementation_order": "A-2 -> A-1 -> A-3 -> B-1"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計（分割設計表）",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/split-design.md",
+        "outputs/phase-02/inventory.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md",
+        "outputs/phase-03/alternatives.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/test-strategy.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/implementation-runbook.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/failure-cases.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md",
+        "outputs/phase-08/before-after.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md",
+        "outputs/phase-09/free-tier-estimation.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/go-no-go.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/artifacts.json"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-template.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a3-progressive-disclosure.md",
+    "docs/30-workflows/task-conflict-prevention-skill-state-redesign/outputs/phase-7/main.md",
+    "docs/30-workflows/task-conflict-prevention-skill-state-redesign/outputs/phase-7/skill-split-runbook.md",
+    "docs/30-workflows/task-conflict-prevention-skill-state-redesign/outputs/phase-12/implementation-guide.md",
+    "docs/30-workflows/task-conflict-prevention-skill-state-redesign/outputs/phase-2/file-layout.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "invariants_touched": [],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a3-progressive-disclosure.md",
+    ".claude/skills/task-specification-creator/SKILL.md",
+    ".claude/skills/aiworkflow-requirements/SKILL.md"
+  ]
+}

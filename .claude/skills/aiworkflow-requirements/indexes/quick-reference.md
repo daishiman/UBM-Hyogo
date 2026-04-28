@@ -890,38 +890,58 @@ packages/
 | post-fetch | lefthook supported hook に未含のため lane 化しない（M-04 / P0-01 由来） |
 | 自動配置 | `package.json` `"prepare": "lefthook install"`（`pnpm install` 連動） |
 | indexes 再生成 | 明示コマンド `pnpm indexes:rebuild`（post-merge から廃止） |
-| drift gate | `docs/30-workflows/unassigned-task/task-verify-indexes-up-to-date-ci.md`（CI 側で HEAD と再生成 indexes の差分検出） |
+| drift gate | `.github/workflows/verify-indexes.yml`（job/check 名: `verify-indexes-up-to-date`。`pnpm indexes:rebuild` 後 `git diff --exit-code` で `.claude/skills/aiworkflow-requirements/indexes` drift を検出） |
 | 仕様正本 | `references/technology-devops-core.md`（§Git hook 運用正本 L351-365） |
 | 苦戦知見 | `references/lessons-learned-lefthook-unification-2026-04.md`（L-LH-001〜L-LH-005） |
 | 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md` / `CLAUDE.md`（Git hook の方針節） |
-| 関連 baseline 未タスク | 既存 worktree への lefthook 再インストール runbook 化、`husky` 不採用判断の ADR 化 |
+| 関連 baseline 未タスク | `husky` 不採用判断の ADR 化は 2026-04-28 に [`doc/decisions/0001-git-hook-tool-selection.md`](../../../../doc/decisions/0001-git-hook-tool-selection.md) として resolved / 後続: [`task-adr-template-standardization`](../../../../docs/30-workflows/unassigned-task/task-adr-template-standardization.md), [`task-lefthook-ops-adr-backlink`](../../../../docs/30-workflows/unassigned-task/task-lefthook-ops-adr-backlink.md)（既存 worktree への一括再 install runbook は task-lefthook-multi-worktree-reinstall-runbook で formalize 済み） |
 
-### Codex SKILL.md 検証早見（TASK-SKILL-CODEX-VALIDATION-001 / 2026-04-28）
+### Multi-Worktree Lefthook Reinstall Runbook 早見（task-lefthook-multi-worktree-reinstall-runbook / 2026-04-28）
 
 | 観点 | 値 / 参照先 |
 | --- | --- |
-| canonical task root | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/` |
-| 検証ライブラリ | `.claude/skills/skill-creator/scripts/utils/validate-skill-md.js`（199 行）+ `yaml-escape.js` |
-| テスト | `.claude/skills/skill-creator/scripts/__tests__/codex_validation.test.js`（24 ケース GREEN） |
-| R-01 | `description` 1024 字以下（≥1025 で throw） |
-| R-02 | frontmatter は YAML string scalar（block scalar / list / mapping 不可） |
-| R-03 | frontmatter は有効な YAML 構文（`<` `>` `:` 改行は escape 必須） |
-| R-04 | `name` 64 字以下（snake-case） |
-| R-05 | BOM / `\r\n` / 末尾改行を許容（normalization） |
-| R-06 | `name` / `description` の trim 後空文字禁止 |
-| R-07 | Anchors ≤5 / Trigger keywords ≤15（超過分は `references/anchors.md` へ自動退避） |
-| 二段ガード | (1) `generate_skill_md.js` 描画後に `validateSkillMdContent()` (2) `init_skill.js` `writeFileSync` 直前に再検証 |
-| `quick_validate.js` | CLI 経路でも同検証を実行（CI 経路の三段目） |
-| フィクスチャ戦略 | `__tests__/fixtures/*/SKILL.md` → `*/SKILL.md.fixture` rename（skill discovery が `SKILL.md` のみを scan するため拡張子で物理排除） |
-| description 退避先 | Markdown 統一: `.claude/skills/{skill}/references/anchors.md` または `references/{topic}-prompt.md` |
-| 苦戦知見 | `references/lessons-learned-skill-codex-validation-2026-04.md`（L-CODEX-001〜005） |
-| artifact inventory | `references/workflow-skill-md-codex-validation-fix-artifact-inventory.md` |
-| follow-up 未タスク | `TASK-SKILL-TASKSPEC-CREATOR-LINE-LIMIT-001` / `TASK-SKILL-VALID-FIXTURE-EXAMPLE-LINK-001` / `TASK-DOC-SPEC-UPDATE-WORKFLOW-WARN3-001` |
-| mirror parity | `.claude/skills/` ↔ `.agents/skills/` を同 wave で sync（AC-8） |
+| canonical task root | `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook/` |
+| 派生元 baseline | `task-git-hooks-lefthook-and-post-merge`（B-1 を formalize） |
+| 並列禁止理由 | pnpm content-addressable store の競合（worktree 横断で共有） |
+| 対象抽出 | `git worktree list --porcelain` から `prunable` を除外（detached HEAD は対象に含める） |
+| 実コマンド | `mise exec -- pnpm install --prefer-offline` → `mise exec -- pnpm exec lefthook version` を逐次 |
+| 旧 hook 検出 | `.git/hooks/post-merge` の `LEFTHOOK` sentinel 不在を STALE 扱い（手動削除のみ・自動削除しない） |
+| バイナリ不一致 | 一次対処 `pnpm rebuild lefthook` / 二次対処 `pnpm install --force`（Apple Silicon ケア） |
+| べき等性 | 公式仕様で再実行可・失敗 worktree から再開可 |
+| 運用ログ | `outputs/phase-11/manual-smoke-log.md`（Markdown 表 + ISO8601 / 見本行は実機反映後も削除しない） |
+| 仕様書差分追記 | `doc/00-getting-started-manual/lefthook-operations.md`（Step 2-1〜2-4 specify 済み） |
+| 苦戦知見 | `references/lessons-learned-lefthook-mwr-runbook-2026-04.md`（L-MWR-001〜L-MWR-006） |
+| baseline 不採用 | ALT-A（CI 全 worktree 検証）/ ALT-B（per-clone 化）/ ALT-C（post-merge 復活）— `outputs/phase-12/unassigned-task-detection.md` |
+| 派生未タスク | N-01 `scripts/reinstall-lefthook-all-worktrees.sh` 実装 Wave + CI smoke（index.md 依存関係表で追跡・重複起票しない） |
 
-```bash
-# 二段ガード呼び出し例
-node .claude/skills/skill-creator/scripts/utils/validate-skill-md.js < SKILL.md
-node .claude/skills/skill-creator/scripts/quick_validate.js .claude/skills/<skill>/
-mise exec -- pnpm vitest run --config .claude/skills/skill-creator/vitest.config.js
-```
+### Indexes Drift Detection 早見（task-verify-indexes-up-to-date-ci / 2026-04-28）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/task-verify-indexes-up-to-date-ci/` |
+| CI gate 名（job / required status check） | `verify-indexes-up-to-date` |
+| ワークフロー定義 | `.github/workflows/verify-indexes.yml` |
+| 監視範囲（diff 対象パス） | `.claude/skills/aiworkflow-requirements/indexes`（`topic-map.md` / `keywords.json` の auto-generated drift） |
+| 検出コマンド | `pnpm indexes:rebuild` を CI 上で実行し、続けて `git diff --exit-code -- .claude/skills/aiworkflow-requirements/indexes` で drift 判定（非ゼロ exit で fail） |
+| Node / pnpm 固定 | Node 24（`.mise.toml`） / pnpm 10.33.2（`package.json` `packageManager`）。CI も同バージョンを `mise` 経由で利用 |
+| ローカル再生成 | `mise exec -- pnpm indexes:rebuild`（post-merge から廃止された自動再生成の正規後継経路） |
+| branch protection 連携 | `main` / `dev` の `required_status_checks` 候補として `verify-indexes-up-to-date` を登録（solo 運用ポリシー: レビュー必須化はせず CI gate で品質担保） |
+| トリガー | `pull_request`（push / merge 経路で indexes drift を pre-merge ブロック） |
+| 失敗時の対処 | ローカルで `pnpm indexes:rebuild` を実行 → 差分をコミット → 再 push（ジェネレータ `scripts/generate-index.js` が正本） |
+| 関連未タスク | `docs/30-workflows/unassigned-task/U-VIDX-01-verify-indexes-actions-smoke-and-branch-protection.md`（実 PR での smoke / required status 登録） |
+
+### Lefthook Multi-Worktree Reinstall（task-lefthook-multi-worktree-reinstall / 2026-04-28）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical runbook | `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook.md` |
+| 実行コマンド | `bash scripts/reinstall-lefthook-all-worktrees.sh`（dry-run は `bash scripts/reinstall-lefthook-all-worktrees.sh --dry-run`） |
+| スクリプト本体 | `scripts/reinstall-lefthook-all-worktrees.sh` |
+| 用途 | `lefthook.yml` 改定時 / 新規 worktree 追加時に、全 worktree の `.git/hooks/*` を一括で `lefthook install` し直す |
+| 並列実行 | **禁止**（worktree のロックや `.git/hooks/` 上書きが競合するため、必ず順次 1 worktree ずつ処理する。スクリプトは sequential loop で実装） |
+| 判定 | SKIP: 対象 worktree が `.git/hooks` 未保有 / 既に同 commit の lefthook が install 済み（idempotency 達成）／ PASS: `lefthook install` が exit 0 で完了し hook ファイル群が期待 hash になる ／ FAIL: install 失敗 or 検証不一致（その worktree のみ赤、後続は継続） |
+| 出力契約 | 各 worktree について `[SKIP] / [PASS] / [FAIL]` を 1 行ずつ stdout に出力。最後に集計サマリ。`--dry-run` は副作用なしで「何が走るか」のみ表示 |
+| 運用契約（Phase 11 manual-smoke-log） | 実行ログ（stdout 全文）を該当タスクの `outputs/phase-11/manual-smoke-log.md` に転記必須。SKIP/PASS/FAIL の件数と、FAIL があった worktree のフルパス・原因仮説を併記する |
+| 前提 | mise で Node 24 / pnpm 10.33.2 が解決済み（`mise exec --` 経由でないと `lefthook` バイナリが解決できないケースあり） |
+| 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md`（§複数 worktree 一括再インストール） |
+| 関連未タスク | `docs/30-workflows/unassigned-task/U-LFT-07-multi-worktree-reinstall-operations.md`（CI 化検討 / stale worktree 検出強化） |

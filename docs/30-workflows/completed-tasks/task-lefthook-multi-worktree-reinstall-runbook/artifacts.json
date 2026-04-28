@@ -1,0 +1,49 @@
+{
+  "taskId": "task-lefthook-multi-worktree-reinstall-runbook",
+  "taskName": "30+ worktree への lefthook 一括再インストール runbook 運用化",
+  "githubIssue": 138,
+  "status": "spec_created",
+  "metadata": {
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "wave": "post-lefthook",
+    "createdAt": "2026-04-28",
+    "derivedFrom": [
+      "docs/30-workflows/completed-tasks/task-git-hooks-lefthook-and-post-merge/outputs/phase-12/implementation-guide.md",
+      "docs/30-workflows/completed-tasks/task-git-hooks-lefthook-and-post-merge/outputs/phase-12/unassigned-task-detection.md#B-1"
+    ]
+  },
+  "phases": [
+    { "id": 1,  "name": "要件定義",         "spec": "phase-01.md", "status": "spec_created", "outputs": ["outputs/phase-01/main.md"] },
+    { "id": 2,  "name": "設計",             "spec": "phase-02.md", "status": "spec_created", "outputs": ["outputs/phase-02/runbook-design.md"] },
+    { "id": 3,  "name": "設計レビュー",     "spec": "phase-03.md", "status": "spec_created", "outputs": ["outputs/phase-03/main.md"] },
+    { "id": 4,  "name": "テスト戦略",       "spec": "phase-04.md", "status": "spec_created", "outputs": ["outputs/phase-04/test-strategy.md"] },
+    { "id": 5,  "name": "実装ランブック",   "spec": "phase-05.md", "status": "spec_created", "outputs": ["outputs/phase-05/runbook.md"] },
+    { "id": 6,  "name": "異常系検証",       "spec": "phase-06.md", "status": "spec_created", "outputs": ["outputs/phase-06/failure-cases.md"] },
+    { "id": 7,  "name": "AC マトリクス",    "spec": "phase-07.md", "status": "spec_created", "outputs": ["outputs/phase-07/ac-matrix.md"] },
+    { "id": 8,  "name": "DRY 化・整合性",   "spec": "phase-08.md", "status": "spec_created", "outputs": ["outputs/phase-08/main.md"] },
+    { "id": 9,  "name": "品質保証",         "spec": "phase-09.md", "status": "spec_created", "outputs": ["outputs/phase-09/main.md"] },
+    { "id": 10, "name": "最終レビュー",     "spec": "phase-10.md", "status": "spec_created", "outputs": ["outputs/phase-10/go-no-go.md"] },
+    { "id": 11, "name": "手動 smoke test",  "spec": "phase-11.md", "status": "spec_created", "outputs": ["outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md"] },
+    { "id": 12, "name": "ドキュメント更新", "spec": "phase-12.md", "status": "spec_created", "outputs": [
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md"
+      ] },
+    { "id": 13, "name": "PR作成",            "spec": "phase-13.md", "status": "approval_required", "outputs": ["outputs/phase-13/main.md"] }
+  ],
+  "acceptance": [
+    "AC-1: 有効 worktree 抽出手順（prunable 除外含む）が runbook に明記",
+    "AC-2: 逐次 pnpm install 手順と並列禁止理由が記述",
+    "AC-3: 各 worktree で lefthook version PASS の検証手順",
+    "AC-4: 旧 hook 残存点検手順",
+    "AC-5: 実行ログ書式の定義",
+    "AC-6: lefthook-operations.md への差分追記内容の specify",
+    "AC-7: new-worktree.sh と一括再 install の責務境界",
+    "AC-8: 4条件全 PASS",
+    "AC-9: 苦戦箇所 4 件以上",
+    "AC-10: Phase 12 必須 5 種出力"
+  ]
+}
