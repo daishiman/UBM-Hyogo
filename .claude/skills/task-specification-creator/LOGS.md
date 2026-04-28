@@ -8,6 +8,10 @@
 
 完了タスク `task-claude-code-permissions-apply-001` の MEDIUM 提案 T2 / W1 と既 APPLIED の T1 を task-specification-creator skill に反映。新規 reference 2 件を追加（`references/phase-5-host-environment-deployment-template.md` / `references/phase-5-deployment-checkpoint-standard.md`）し、host 環境書き換え系 Phase 5 の 4 段テンプレ（backup / runbook / smoke / rollback）と TS sticky 規約、3 点セット必須条件、検証チェックリスト、UBM-012 整合（`scripts/cf.sh` 経由強制）を固定化。SKILL.md は Phase 5 行に T2/W1 リンク、Phase 11 行に T1（NON_VISUAL 判定固定表現リスト: `docs-only` / `NON_VISUAL` / `spec_created`、`scripts/validate-phase-output.js` で実装済）を追記。phase-11-guide.md には §2 相当の見出しが現状存在しないためスキップ。EVALS.json / topic-map.md は generate-index.js による再生成対象。参照: `docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001.md`。
 
+## 2026-04-28 - task-verify-indexes-up-to-date-ci implementation scope normalization
+
+`docs/30-workflows/task-verify-indexes-up-to-date-ci/` をレビューし、`spec_created/docs-only` と実装同梱の表現揺れを `implementation / NON_VISUAL / Phase 13 pending_user_approval` へ正規化した。Phase 11 はスクリーンショット不要のまま、未実行 PASS ではなく local static smoke と PR 後 GitHub Actions 実機確認の境界を明記。Phase 12 は LOGS / topic-map / system spec sync を実装済み前提へ更新した。
+
 ## 2026-04-28 - DevEx conflict prevention spec wave normalization
 
 5件の task spec（skill state redesign / git hooks lefthook / worktree isolation / GitHub governance / Claude Code permissions）を `docs-only` / `spec_created` / `NON_VISUAL` に統一した。Phase 11 補助成果物は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点へ正規化し、root `artifacts.json` と `outputs/artifacts.json` の parity を固定した。`validate-phase-output.js` の要求見出しに合わせ、既存本文の意味を変えずに不足見出しのみ補遺として追加した。
@@ -2472,3 +2476,22 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` の `index.md`、`artifacts.json`、`phase-01.md`〜`phase-13.md`、Phase 11〜13 outputs |
 | 結果 | Phase 状態を outputs 実体へ同期し、Phase 1〜13 本文へ `phase-template-core.md` の共通骨格を補完。Phase 12 は Step 1-A〜1-G / Step 2 N/A / planned wording 排除 / current-baseline 分離へ再構成した |
 | 検証 | `validate-phase-output.js` と `verify-all-specs.js --strict --json` を再実行対象として close-out。30思考法レビューでは全面破棄不要、Phase 12 と状態台帳の部分再構成が最小複雑性と判定 |
+
+### 2026-04-28 - skill-ledger-a1-gitignore Phase 12 audit sync
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | docs-only / spec_created / non_visual / phase12-audit |
+| 変更対象 | `docs/30-workflows/skill-ledger-a1-gitignore/`（Phase 12 outputs 台帳、NON_VISUAL Phase 11、Phase 13 PR 草案）、`docs/30-workflows/unassigned-task/task-skill-ledger-hooks.md` |
+| 結果 | Phase 12 の自己申告と実差分のズレを補正。存在しない README / topic-map / T-6 completed-task への同期済み表現を N/A または新規未タスク作成へ正規化し、Phase 12 outputs 6 件を root / outputs artifacts に反映した。 |
+| 検証 | `validate-phase-output.js` / `verify-all-specs.js --strict` / `validate-phase12-implementation-guide.js --workflow` を再実行対象として記録 |
+
+### 2026-04-28 - skill-ledger-a1-gitignore feedback の skill 実反映
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | skill-template-update / non-domain-spec / phase12-feedback-applied |
+| 変更対象 | `references/phase-template-phase12.md`（Step 2 = N/A vs BLOCKED 判定基準セクションを新規追加）、`references/patterns-lessons-and-pitfalls.md`（順序事故防止 3 重明記パターンを新規追加）、`assets/implementation-guide-template.md`（validator 骨格に Secret URI 混入禁止 / `.gitignore` glob 先頭 `/` 必須記載を追記）、`references/phase-11-non-visual-alternative-evidence.md`（冒頭 NOTE / 適用実例として skill-ledger-a1-gitignore を追記） |
+| 結果 | skill-feedback-report の優先度「中」3 件 + 「低」即時適用 2 件をスキルテンプレ本体へ反映。aiworkflow-requirements への正本登録は git 管理境界変更のため N/A 維持（不変条件 #1〜#7 全件非影響、API/D1/IPC/UI/auth/Cloudflare 全て無関）。各ファイル 500 行制限に余裕（最大でも 327 行）。 |
+| 検証 | 編集対象 4 ファイルが `wc -l` で 500 行以下を維持していることを確認。`validate-phase-output.js` / `validate-phase12-implementation-guide.js` の入力 schema 影響なしを目視確認。 |
+| 申し送り | 優先度「中」#2（双方向リンクテンプレ）は patterns-success-implementation-part2.md が 500 行近接のため未タスク化推奨、#3（順序事故防止）は本件で実反映済み。低 #3（screenshot guard validator 拡張）は新規 UT として未タスク化候補。 |
