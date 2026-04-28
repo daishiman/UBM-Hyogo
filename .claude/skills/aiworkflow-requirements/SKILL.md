@@ -20,6 +20,8 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.04.28-claude-code-permissions-hybrid | 2026-04-28 | `task-claude-code-permissions-project-local-first-comparison-001` の比較結論を同期。Claude Code settings は projectLocal 主経路 + global `defaultMode` fallback のハイブリッドを採用し、`--dangerously-skip-permissions` alias 追加は deny 検証完了まで保留。 |
+| v2026.04.28-lefthook-mwr-runbook | 2026-04-28 | task-lefthook-multi-worktree-reinstall-runbook spec_created sync。30+ worktree への lefthook 一括再 install runbook を formalize。`lessons-learned-lefthook-mwr-runbook-2026-04.md`（L-MWR-001〜006）新規分離。`lessons-learned.md` ハブ / `task-workflow-active.md` / `LOGS.md` / `quick-reference.md` / `topic-map.md` / `resource-map.md` を同一 wave で更新。`lessons-learned-lefthook-unification-2026-04.md` の baseline B-1 を formalize 完了に更新。 |
 | v2026.04.27-r2-storage-spec | 2026-04-27 | UT-12 Cloudflare R2 storage spec_created sync。R2 prod/staging bucket、`R2_BUCKET` binding、private + presigned URL、CORS template、実環境未適用境界を deployment-cloudflare に反映。 |
 | v2026.04.26-runtime-foundation | 2026-04-26 | 02-serial-monorepo-runtime-foundation close-out sync。TypeScript 6.x、Next.js 16 + `@opennextjs/cloudflare` Workers 方針、`CLAUDE.md` / technology-backend / architecture-monorepo の stale Pages 記述補正を反映。 |
 

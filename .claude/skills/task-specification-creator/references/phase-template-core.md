@@ -100,6 +100,19 @@ Phase 1、Phase 2、Phase 3。
 - 分割すると Phase 3/10 の指摘が concern 単位で追跡しやすくなる
 - 分割後は各設計書に「他 concern との依存境界」を明示する
 
+### dependency matrix の owner / co-owner 列【Phase 2 並列 wave 必須】
+
+並列 wave で `_shared/` 等の共有モジュール・共通型・共通ユーティリティを複数 task が触る場合、**spec 段階で責任所在を固定**するため Phase 2 の dependency matrix に `owner` / `co-owner` 列を必ず含める。これにより並列実装中の merge conflict 時に「どの task が canonical 編集権を持つか」が決定論的になる。
+
+| 共有モジュール | 用途 | owner（canonical 編集権） | co-owner（参照のみ・PR レビュー責務） | 同期タイミング |
+| --- | --- | --- | --- | --- |
+| 例: `_shared/responseFields.ts` | レスポンス整形 | task-A（forms-response-sync） | task-B（current-response-resolver） | wave 末尾 same-wave sync |
+
+- **owner**: 当該モジュールの追加・破壊的変更の意思決定主体。spec 段階で 1 task に固定する
+- **co-owner**: 参照側として PR レビュー責務を負う。owner 単独の変更で破壊された場合は co-owner が roll-forward する義務を持つ
+- **未記載は禁止**: owner / co-owner が空欄の共有モジュールがある場合、Phase 3 レビューで MAJOR 判定としブロックする
+- 並列 wave 終了時の same-wave sync で `_shared/*` の差分が両 task で一致していることを確認する
+
 ### DI 境界の型配置判断フロー（Phase 2 設計時に確認）
 
 | 条件 | 配置先 | 例 |
