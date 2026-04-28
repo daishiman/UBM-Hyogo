@@ -3492,7 +3492,7 @@
     "defaultMode": [
       "claude-code-settings-hierarchy.md"
     ],
-    "統一方針": [
+    "ハイブリッド方針": [
       "claude-code-settings-hierarchy.md"
     ],
     "dangerously": [
@@ -3510,13 +3510,13 @@
       "claude-code-settings-hierarchy.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
-    "併用方針": [
+    "保留方針": [
       "claude-code-settings-hierarchy.md"
     ],
-    "zshrc": [
+    "本仕様では": [
       "claude-code-settings-hierarchy.md"
     ],
-    "正準形": [
+    "を追加しない": [
       "claude-code-settings-hierarchy.md"
     ],
     "allow": [
