@@ -12,9 +12,9 @@ SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "5"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
-# UT-09: production cron は 6 時間ごとに実行
+# UT-09: production cron は 6 時間ごとの Sheets sync + 03a schema sync (03:00 JST = 18:00 UTC)
 [triggers]
-crons = ["0 */6 * * *"]
+crons = ["0 */6 * * *", "0 18 * * *"]
 
 # D1 データベースバインディング
 # UT-09 同期ジョブが SQLITE_BUSY retry/backoff・write queue 直列化・短い transaction
@@ -50,9 +50,9 @@ SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "5"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
-# UT-09: staging (=dev 想定) は 1 時間ごと
+# UT-09: staging (=dev 想定) は 1 時間ごとの Sheets sync + 03a schema sync (03:00 JST = 18:00 UTC)
 [env.staging.triggers]
-crons = ["0 * * * *"]
+crons = ["0 * * * *", "0 18 * * *"]
 
 # staging D1 バインディング (WAL 競合ポリシーは production と同じ)
 [[env.staging.d1_databases]]
