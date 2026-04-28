@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2967,
+  "totalKeywords": 3002,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -24,7 +24,6 @@
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "interfaces-agent-sdk.md",
-      "interfaces-api.md",
       "interfaces-chat-history-core.md",
       "interfaces-rag-file-selection.md",
       "ipc-4-layer-pattern.md",
@@ -42,7 +41,8 @@
       "ui-ux-feature-skill-stream.md",
       "ui-ux-forms.md",
       "ui-ux-settings-core.md",
-      "workflow-apikey-chat-tool-integration-alignment.md"
+      "workflow-apikey-chat-tool-integration-alignment.md",
+      "interfaces-api.md"
     ],
     "仕様": [
       "api-chat-history.md",
@@ -143,7 +143,6 @@
       "quality-e2e-testing.md",
       "quality-requirements-core.md",
       "quality-requirements.md",
-      "r2-storage-decision-guide.md",
       "rag-desktop-state.md",
       "rag-knowledge-graph.md",
       "rag-query-pipeline.md",
@@ -208,7 +207,8 @@
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-ui-ux-visual-baseline-drift.md",
       "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md"
+      "workflow-workspace-preview-search-resilience-guard.md",
+      "r2-storage-decision-guide.md"
     ],
     "Cases": [
       "api-chat-history.md",
@@ -303,9 +303,9 @@
       "llm-streaming.md",
       "llm-workspace-chat-edit.md",
       "logging-migration-guide.md",
+      "observability-monitoring.md",
       "quality-e2e-testing.md",
       "quality-requirements-history.md",
-      "r2-storage-decision-guide.md",
       "rag-query-pipeline.md",
       "rag-search-crag.md",
       "rag-search-hybrid.md",
@@ -361,7 +361,8 @@
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-ui-ux-visual-baseline-drift.md",
       "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md"
+      "workflow-workspace-preview-search-resilience-guard.md",
+      "r2-storage-decision-guide.md"
     ],
     "関連ドキュメント": [
       "api-chat-history.md",
@@ -937,7 +938,6 @@
       "arch-execution-capability-contract.md",
       "architecture-implementation-patterns-shared.md",
       "directory-structure-core.md",
-      "interfaces-shared.md",
       "lessons-learned-current-2026-04.md",
       "lessons-learned-health-policy-worktree-2026-04.md",
       "lessons-learned-ipc-channel-whitelist-sync.md",
@@ -945,7 +945,8 @@
       "lessons-learned-skill-create-multi-select-kind.md",
       "lessons-learned-test-typesafety.md",
       "lessons-learned-workflow-quality-ci-module-resolution.md",
-      "workflow-light-theme-global-remediation.md"
+      "workflow-light-theme-global-remediation.md",
+      "interfaces-shared.md"
     ],
     "パッケージ移動": [
       "arch-execution-capability-contract.md"
@@ -2033,6 +2034,7 @@
       "architecture-implementation-patterns-reference.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "interfaces-agent-sdk-skill-reference.md",
+      "observability-monitoring.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "ui-ux-feature-components-reference.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
@@ -2499,7 +2501,6 @@
       "arch-state-management-reference-selectors.md",
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
-      "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-skill-create-multi-select-kind.md",
       "logs-archive-2026-03-history-search-notification-center.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
@@ -2513,13 +2514,13 @@
       "ui-ux-feature-components-advanced.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "created": [
       "arch-state-management-reference-selectors.md",
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
-      "lessons-learned-cicd-dev-main-deploy.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
@@ -2527,7 +2528,8 @@
       "ui-ux-components-details.md",
       "ui-ux-feature-components-advanced.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "公開・配布状態管理設計": [
       "arch-state-management-reference-selectors.md",
@@ -2638,8 +2640,6 @@
       "interfaces-agent-sdk-executor-details.md",
       "interfaces-agent-sdk-skill-editor.md",
       "interfaces-agent-sdk-skill.md",
-      "interfaces-api.md",
-      "interfaces-shared.md",
       "ipc-contract-checklist.md",
       "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
       "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
@@ -2656,6 +2656,8 @@
       "lessons-learned-ipc-preload-runtime-2026-03-late.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-recent.md",
       "lessons-learned-safety-gate-ipc-quality.md",
@@ -2668,7 +2670,6 @@
       "lessons-learned-skill-validation-logging-deprecation.md",
       "lessons-learned-skill-wizard-redesign.md",
       "lessons-learned-test-typesafety.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-ut08-monitoring-design-2026-04.md",
       "lessons-learned-verify-contract-consolidation.md",
       "lessons-learned-w3-usage-tracking-2026-04.md",
@@ -2704,7 +2705,10 @@
       "task-workflow-completed-ut-06-safety-gate.md",
       "task-workflow-completed.md",
       "technology-devops.md",
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
+      "interfaces-api.md",
+      "interfaces-shared.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "STATUS": [
       "arch-state-management-skill-creator.md",
@@ -3102,10 +3106,10 @@
     ],
     "SESSION": [
       "architecture-auth-security-core.md",
-      "deployment-cloudflare.md",
       "error-handling-details.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
-      "ui-ux-agent-execution-core.md"
+      "ui-ux-agent-execution-core.md",
+      "deployment-cloudflare.md"
     ],
     "REFRESH": [
       "architecture-auth-security-core.md",
@@ -3713,7 +3717,6 @@
       "lessons-learned-skill-create-multi-select-kind.md",
       "lessons-learned-test-typesafety.md",
       "lessons-learned-ui-skill-center-editor-dashboard.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-workflow-quality-line-budget-reform.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
@@ -3745,7 +3748,8 @@
       "task-workflow-phases.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "共通": [
       "claude-code-agents-workflow.md"
@@ -3797,7 +3801,6 @@
       "claude-code-skills-agents.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
-      "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-d1a-schema-migrations.md",
       "lessons-learned-skill-remove-contract.md",
       "lessons-learned-skill-wizard-redesign.md",
@@ -3807,7 +3810,8 @@
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-console-migration-patterns.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
-      "logs-archive-2026-02-permission-history-execution-timestamps.md"
+      "logs-archive-2026-02-permission-history-execution-timestamps.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "品質基準": [
       "claude-code-agents-workflow.md",
@@ -3932,12 +3936,12 @@
     ],
     "docs": [
       "claude-code-skills-process.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "update": [
       "claude-code-skills-process.md"
@@ -4192,7 +4196,6 @@
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-skill-remove-contract.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-workflow-quality-ci-module-resolution.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -4202,7 +4205,8 @@
       "technology-devops-details.md",
       "technology-devops-history.md",
       "technology-devops.md",
-      "testing-playwright-e2e.md"
+      "testing-playwright-e2e.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "CD": [
       "deployment-branch-strategy.md",
@@ -4245,32 +4249,14 @@
       "deployment-core.md",
       "deployment-secrets-management.md",
       "lessons-learned-cicd-dev-main-deploy.md",
-      "r2-storage-decision-guide.md",
-      "technology-core.md"
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "technology-core.md",
+      "r2-storage-decision-guide.md"
     ],
     "デプロイメント仕様": [
       "deployment-cloudflare.md"
     ],
     "サービス構成": [
-      "deployment-cloudflare.md"
-    ],
-    "現行": [
-      "deployment-cloudflare.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "canonical": [
-      "deployment-cloudflare.md",
-      "lessons-learned-skill-create-multi-select-kind.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-ai-runtime-execution-responsibility-realignment.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-permission-fallback-abort-skip-retry.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
-    "実行前ゲート": [
       "deployment-cloudflare.md"
     ],
     "Workers": [
@@ -4313,21 +4299,6 @@
       "deployment-cloudflare.md"
     ],
     "バックエンド": [
-      "deployment-cloudflare.md"
-    ],
-    "KV": [
-      "deployment-cloudflare.md"
-    ],
-    "に統一": [
-      "deployment-cloudflare.md"
-    ],
-    "詳細は本ファイル下方": [
-      "deployment-cloudflare.md"
-    ],
-    "セッションキャッシュ": [
-      "deployment-cloudflare.md"
-    ],
-    "セクション参照": [
       "deployment-cloudflare.md"
     ],
     "のデプロイ": [
@@ -5308,24 +5279,6 @@
     "型安全統合": [
       "interfaces-agent-sdk.md"
     ],
-    "インターフェース契約": [
-      "interfaces-api.md"
-    ],
-    "グローバルエラーハンドラ": [
-      "interfaces-api.md"
-    ],
-    "Web": [
-      "interfaces-api.md",
-      "lessons-learned-cicd-dev-main-deploy.md"
-    ],
-    "クライアント同期契約": [
-      "interfaces-api.md"
-    ],
-    "関連": [
-      "interfaces-api.md",
-      "interfaces-shared.md",
-      "rag-desktop-state.md"
-    ],
     "認証・プロフィール": [
       "interfaces-auth-core.md",
       "interfaces-auth-history.md",
@@ -5541,6 +5494,7 @@
       "interfaces-rag-community-summarization.md",
       "interfaces-rag-graphrag-query.md",
       "interfaces-rag-knowledge-graph-store.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "ui-history-design.md",
       "ui-ux-file-selector.md",
       "ui-ux-forms.md",
@@ -5672,18 +5626,6 @@
     ],
     "ファイル・変換ドメイン型": [
       "interfaces-rag.md"
-    ],
-    "ubm": [
-      "interfaces-shared.md"
-    ],
-    "hyogo": [
-      "interfaces-shared.md"
-    ],
-    "公開インターフェース": [
-      "interfaces-shared.md"
-    ],
-    "エラーハンドリング標準": [
-      "interfaces-shared.md"
     ],
     "FR": [
       "interfaces-skill-verify-contract.md"
@@ -6034,6 +5976,8 @@
       "lessons-learned-ipc-preload-runtime-2026-03-late.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-early.md",
       "lessons-learned-phase12-lifecycle-mid.md",
@@ -6065,7 +6009,6 @@
       "lessons-learned-ui-agent-view-nav-notification-history.md",
       "lessons-learned-ui-skill-center-editor-dashboard.md",
       "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-verify-contract-consolidation.md",
       "lessons-learned-viewtype-electron-ui.md",
       "lessons-learned-w3-usage-tracking-2026-04.md",
@@ -6073,7 +6016,8 @@
       "lessons-learned-workflow-quality-line-budget-reform.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "lessons-learned-workflow-quality-sdk-tests-loop-guard.md",
-      "lessons-learned.md"
+      "lessons-learned.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "Learned": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
@@ -6105,6 +6049,8 @@
       "lessons-learned-ipc-preload-runtime-2026-03-late.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-early.md",
       "lessons-learned-phase12-lifecycle-mid.md",
@@ -6136,7 +6082,6 @@
       "lessons-learned-ui-agent-view-nav-notification-history.md",
       "lessons-learned-ui-skill-center-editor-dashboard.md",
       "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
       "lessons-learned-verify-contract-consolidation.md",
       "lessons-learned-viewtype-electron-ui.md",
       "lessons-learned-w3-usage-tracking-2026-04.md",
@@ -6144,7 +6089,8 @@
       "lessons-learned-workflow-quality-line-budget-reform.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "lessons-learned-workflow-quality-sdk-tests-loop-guard.md",
-      "lessons-learned.md"
+      "lessons-learned.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "parallel": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
@@ -6182,8 +6128,8 @@
     "out": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
-      "task-workflow-phases.md"
+      "task-workflow-phases.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "アーカイブ": [
       "lessons-learned-archive-2026-03-mid.md",
@@ -6891,7 +6837,8 @@
     ],
     "session": [
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
-      "lessons-learned-current-2026-04.md"
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-kv-session-cache-2026-04.md"
     ],
     "persistence": [
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
@@ -7020,6 +6967,10 @@
     "CICD": [
       "lessons-learned-cicd-dev-main-deploy.md"
     ],
+    "Web": [
+      "lessons-learned-cicd-dev-main-deploy.md",
+      "interfaces-api.md"
+    ],
     "のワークフロー分離": [
       "lessons-learned-cicd-dev-main-deploy.md"
     ],
@@ -7091,26 +7042,6 @@
       "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "関連未タスク・フォローアップ候補": [
-      "lessons-learned-cicd-dev-main-deploy.md"
-    ],
-    "binding": [
-      "lessons-learned-cicd-dev-main-deploy.md"
-    ],
-    "命名は": [
-      "lessons-learned-cicd-dev-main-deploy.md"
-    ],
-    "topic": [
-      "lessons-learned-cicd-dev-main-deploy.md",
-      "logs-archive-2026-01-topic-map-remember-choice.md"
-    ],
-    "map": [
-      "lessons-learned-cicd-dev-main-deploy.md",
-      "logs-archive-2026-01-topic-map-remember-choice.md"
-    ],
-    "に事前登録すること": [
-      "lessons-learned-cicd-dev-main-deploy.md"
-    ],
-    "と実適用の境界を明示すること": [
       "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "Robustness": [
@@ -7458,12 +7389,6 @@
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
     ],
-    "Sheets": [
-      "lessons-learned-current-2026-04.md"
-    ],
-    "同期ジョブ実装": [
-      "lessons-learned-current-2026-04.md"
-    ],
     "PKCE": [
       "lessons-learned-current-2026-04b.md",
       "logs-archive-legacy.md",
@@ -7491,6 +7416,7 @@
     ],
     "index": [
       "lessons-learned-current.md",
+      "lessons-learned-monitoring-design-2026-04.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-index.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
@@ -7541,8 +7467,8 @@
     ],
     "evidence": [
       "lessons-learned-d1a-schema-migrations.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
-      "lessons-learned-workflow-quality-line-budget-reform.md"
+      "lessons-learned-workflow-quality-line-budget-reform.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "の代替方針": [
       "lessons-learned-d1a-schema-migrations.md"
@@ -7577,8 +7503,8 @@
       "lessons-learned-d1a-schema-migrations.md"
     ],
     "関連リンク": [
-      "lessons-learned-d1a-schema-migrations.md",
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
+      "lessons-learned-d1a-schema-migrations.md"
     ],
     "Policy": [
       "lessons-learned-governance-hooks-phase-policy.md"
@@ -7690,7 +7616,8 @@
     "関連ファイル": [
       "lessons-learned-governance-hooks-phase-policy.md",
       "lessons-learned-skill-wizard-redesign.md",
-      "lessons-learned-ut08-monitoring-design-2026-04.md"
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "observability-monitoring.md"
     ],
     "Worktree": [
       "lessons-learned-health-policy-worktree-2026-04.md",
@@ -7910,6 +7837,104 @@
     ],
     "エラーコールバックガード": [
       "lessons-learned-ipc-preload-runtime.md"
+    ],
+    "KV": [
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "deployment-cloudflare.md"
+    ],
+    "cache": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "対象タスク": [
+      "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "最終的一貫性": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "Eventual": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "Consistency": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "の制約": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "無料枠の書き込み制限": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "Namespace": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "命名と環境分離": [
+      "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "monitoring": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "alert": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "design": [
+      "lessons-learned-monitoring-design-2026-04.md",
+      "task-workflow-completed-skill-lifecycle-design.md"
+    ],
+    "MON": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "実装境界の引き方": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "WAE": [
+      "lessons-learned-monitoring-design-2026-04.md",
+      "observability-monitoring.md"
+    ],
+    "無料枠の不確実性": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "アラート疲れ防止": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "初期": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "WARNING": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "only": [
+      "lessons-learned-monitoring-design-2026-04.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "運用": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "identifier": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "drift": [
+      "lessons-learned-monitoring-design-2026-04.md",
+      "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "防止": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "blob": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "outputs": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "個別ファイル": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "DEFERRED": [
+      "lessons-learned-monitoring-design-2026-04.md"
+    ],
+    "の解消": [
+      "lessons-learned-monitoring-design-2026-04.md"
     ],
     "ライフサイクル": [
       "lessons-learned-phase12-lifecycle-early-b.md",
@@ -8284,6 +8309,7 @@
       "lessons-learned-skill-wizard-redesign.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
+      "observability-monitoring.md",
       "ui-history-search-view.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -8410,6 +8436,18 @@
     "same": [
       "lessons-learned-skill-create-multi-select-kind.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "canonical": [
+      "lessons-learned-skill-create-multi-select-kind.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "deployment-cloudflare.md"
     ],
     "へ同期する": [
       "lessons-learned-skill-create-multi-select-kind.md"
@@ -8991,11 +9029,6 @@
       "ui-ux-components.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
-    "drift": [
-      "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
     "dark": [
       "lessons-learned-ui-ux-visual-baseline-drift.md"
     ],
@@ -9005,54 +9038,6 @@
     ],
     "同種課題の簡潔解決手順": [
       "lessons-learned-ui-ux-visual-baseline-drift.md"
-    ],
-    "Branch": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "Protection": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "Apply": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "branch": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "protection": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "required": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "回先行実行が前提": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "操作系": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "only": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "operations": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "は視覚スモークが成立しない": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "runbook": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "と実適用値の正本ドリフト防止には": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "strategy": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "固定化が必要": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "関連参照": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "learned": [
       "lessons-learned-ut08-monitoring-design-2026-04.md",
@@ -9962,6 +9947,14 @@
       "logs-archive-2026-03-history-search-notification-center.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "security-implementation.md"
+    ],
+    "topic": [
+      "logs-archive-2026-01-topic-map-remember-choice.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "map": [
+      "logs-archive-2026-01-topic-map-remember-choice.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
     ],
     "補完": [
       "logs-archive-2026-01-topic-map-remember-choice.md"
@@ -11274,6 +11267,33 @@
     "言語辞書": [
       "master-design.md"
     ],
+    "Observability": [
+      "observability-monitoring.md"
+    ],
+    "Monitoring": [
+      "observability-monitoring.md"
+    ],
+    "正本リファレンス": [
+      "observability-monitoring.md"
+    ],
+    "無料枠の境界": [
+      "observability-monitoring.md"
+    ],
+    "イベント設計": [
+      "observability-monitoring.md"
+    ],
+    "アラート閾値設計指針": [
+      "observability-monitoring.md"
+    ],
+    "PII": [
+      "observability-monitoring.md"
+    ],
+    "除外ルール": [
+      "observability-monitoring.md"
+    ],
+    "恒久対策": [
+      "observability-monitoring.md"
+    ],
     "プロジェクト概要": [
       "overview.md"
     ],
@@ -11425,35 +11445,10 @@
     "可用性": [
       "quality-requirements-details.md"
     ],
-    "ストレージ採用案": [
-      "r2-storage-decision-guide.md"
-    ],
-    "決定フロー": [
-      "r2-storage-decision-guide.md"
-    ],
-    "判断ポイント一覧": [
-      "r2-storage-decision-guide.md"
-    ],
-    "採用案": [
-      "r2-storage-decision-guide.md"
-    ],
-    "環境別": [
-      "r2-storage-decision-guide.md"
-    ],
-    "バケット": [
-      "r2-storage-decision-guide.md"
-    ],
-    "専用": [
-      "r2-storage-decision-guide.md"
-    ],
-    "プライベートバケット": [
-      "r2-storage-decision-guide.md"
-    ],
-    "Presigned": [
-      "r2-storage-decision-guide.md"
-    ],
-    "Proxy": [
-      "r2-storage-decision-guide.md"
+    "関連": [
+      "rag-desktop-state.md",
+      "interfaces-api.md",
+      "interfaces-shared.md"
     ],
     "テーマ状態管理": [
       "rag-desktop-state.md"
@@ -12198,9 +12193,6 @@
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-design.md",
       "task-workflow-completed-skill-lifecycle-security.md"
-    ],
-    "design": [
-      "task-workflow-completed-skill-lifecycle-design.md"
     ],
     "作成済みスキル利用導線": [
       "task-workflow-completed-skill-lifecycle-design.md",
@@ -13566,6 +13558,10 @@
     "接続契約": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
+    "現行": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "deployment-cloudflare.md"
+    ],
     "Canonical": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-rt-06-artifact-inventory.md"
@@ -13665,6 +13661,135 @@
     ],
     "resilience": [
       "workflow-workspace-preview-search-resilience-guard.md"
+    ],
+    "実行前ゲート": [
+      "deployment-cloudflare.md"
+    ],
+    "に統一": [
+      "deployment-cloudflare.md"
+    ],
+    "詳細は本ファイル下方": [
+      "deployment-cloudflare.md"
+    ],
+    "セッションキャッシュ": [
+      "deployment-cloudflare.md"
+    ],
+    "セクション参照": [
+      "deployment-cloudflare.md"
+    ],
+    "インターフェース契約": [
+      "interfaces-api.md"
+    ],
+    "グローバルエラーハンドラ": [
+      "interfaces-api.md"
+    ],
+    "クライアント同期契約": [
+      "interfaces-api.md"
+    ],
+    "ubm": [
+      "interfaces-shared.md"
+    ],
+    "hyogo": [
+      "interfaces-shared.md"
+    ],
+    "公開インターフェース": [
+      "interfaces-shared.md"
+    ],
+    "エラーハンドリング標準": [
+      "interfaces-shared.md"
+    ],
+    "binding": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "命名は": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "に事前登録すること": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "と実適用の境界を明示すること": [
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "Sheets": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "同期ジョブ実装": [
+      "lessons-learned-current-2026-04.md"
+    ],
+    "Branch": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "Protection": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "Apply": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "branch": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "protection": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "required": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "回先行実行が前提": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "操作系": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "operations": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "は視覚スモークが成立しない": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "runbook": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "と実適用値の正本ドリフト防止には": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "strategy": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "固定化が必要": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "関連参照": [
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "ストレージ採用案": [
+      "r2-storage-decision-guide.md"
+    ],
+    "決定フロー": [
+      "r2-storage-decision-guide.md"
+    ],
+    "判断ポイント一覧": [
+      "r2-storage-decision-guide.md"
+    ],
+    "採用案": [
+      "r2-storage-decision-guide.md"
+    ],
+    "環境別": [
+      "r2-storage-decision-guide.md"
+    ],
+    "バケット": [
+      "r2-storage-decision-guide.md"
+    ],
+    "専用": [
+      "r2-storage-decision-guide.md"
+    ],
+    "プライベートバケット": [
+      "r2-storage-decision-guide.md"
+    ],
+    "Presigned": [
+      "r2-storage-decision-guide.md"
+    ],
+    "Proxy": [
+      "r2-storage-decision-guide.md"
     ]
   }
 }

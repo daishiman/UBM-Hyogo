@@ -2961,6 +2961,26 @@ node scripts/list-specs.js --topics
 | TASK-SC-05-IMPROVE-LLM（2026-03-23） | L493 |
 | TASK-SC-06-UI-RUNTIME-CONNECTION（2026-03-24） | L509 |
 
+### references/lessons-learned-kv-session-cache-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 対象タスク | L9 |
+| L-KV-001: KV 最終的一貫性（Eventual Consistency）の制約 | L15 |
+| L-KV-002: 無料枠の書き込み制限（1,000 件 / 日） | L24 |
+| L-KV-003: Namespace 命名と環境分離 | L36 |
+
+### references/lessons-learned-monitoring-design-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 対象タスク | L9 |
+| L-MON-001: 設計 / 実装境界の引き方 | L15 |
+| L-MON-002: WAE 無料枠の不確実性 | L24 |
+| L-MON-003: アラート疲れ防止（初期 WARNING-only 運用） | L33 |
+| L-MON-004: identifier drift 防止（WAE blob / index 名） | L42 |
+| L-MON-005: 05a outputs 個別ファイル DEFERRED の解消 | L51 |
+
 ### references/lessons-learned-phase12-lifecycle-early-b.md
 
 | セクション | 行 |
@@ -3995,6 +4015,18 @@ node scripts/list-specs.js --topics
 | TASK-AUTH-CALLBACK-001: OAuth認証コールバックPKCE移行 | L6 |
 | TASK-FIX-4-2-SKILL-STORE-PERSISTENCE | L58 |
 | 変更履歴アーカイブ | L111 |
+
+### references/observability-monitoring.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 無料枠の境界 | L15 |
+| 2. WAE 6 イベント設計（reference） | L42 |
+| 3. アラート閾値設計指針 | L59 |
+| 4. PII 除外ルール | L85 |
+| 5. 苦戦箇所（恒久対策） | L101 |
+| 6. 関連ファイル | L126 |
+| 7. 変更履歴 | L140 |
 
 ### references/patterns-advanced.md
 

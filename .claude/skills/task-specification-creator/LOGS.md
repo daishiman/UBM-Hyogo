@@ -28,6 +28,26 @@ UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage
 
 30種思考法レビューと SubAgent 準拠検証で、`completed` / `pending` / `spec_created` の状態ドリフト、R2 binding の現行例示と未適用方針の混在、未タスク検出の実体化漏れが見つかった。Phase 12 close-out は成果物の存在だけでなく、下流が誤認しない状態語彙まで閉じる必要がある。
 
+## 2026-04-27 - impl-spec-to-skill-sync 反映 (UT-08 / UT-13 / 01a / 01b / 05b 監査由来)
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | skill update / Phase-12 監査結果反映 |
+| 対象 | `references/phase-template-phase12.md`、`references/unassigned-task-workflow-integration.md`、`SKILL-changelog.md` |
+| 監査起点 | UT-08 monitoring/alert design / UT-13 KV session cache / 01a D1 schema / 01b zod+Forms / 05b smoke close-out の Phase 12 成果物横断監査 |
+| 結果 | 全実装ブランチで Phase 12 6 必須成果物 PASS。設計タスクの 300 行上限超過ケースと NON_VISUAL Phase 11 代替証跡を皮切りに、`spec_created` → 実装派生タスク化パターン A/B（UT-13 → UT-30〜34 / UT-08 → UT-08-IMPL）を skill 内に formalize |
+| 教訓 | 「行数上限」より「責務分離不可能性の根拠」を優先する原則を明文化。設計タスク完了時に派生 UT を独立 ID で切り出すパターンが増加しているため、`unassigned-task-detection.md` の current/baseline 分離ルールを併せて拡張 |
+| 同期 wave | `phase-template-phase12.md`（+50 行）/ `unassigned-task-workflow-integration.md`（+40 行）/ `SKILL-changelog.md`（v10.09.46 追記）/ 本 LOGS |
+
+## 2026-04-27 - 02a repository Phase 12 review hardening
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | implementation / Phase 12 close-out correction |
+| 対象 | `docs/30-workflows/02a-parallel-member-identity-status-and-response-repository/` |
+| 結果 | Part 1/Part 2 implementation guide、root/output artifacts parity、Phase 11 NON_VISUAL evidence、formal unassigned tasks、system spec quick-reference sync を補完 |
+| 教訓 | `spec_created` から実装が入った場合は `docs_only=false` / implementation status / Step 2 interface sync / root test環境ブロックの明示を同一waveで閉じる |
+
 ## 2026-04-27 - 05a Phase 12 close-out drift guard を SKILL.md へ反映
 
 ### 変更内容
