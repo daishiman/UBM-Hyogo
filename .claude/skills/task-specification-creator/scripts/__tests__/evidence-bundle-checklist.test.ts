@@ -11,8 +11,8 @@ function makeChecklist(overrides: Partial<Record<string, boolean>> = {}): Checkl
     { taskId: "task3", label: "全 Step 完了結果記録", isChecked: true },
     { taskId: "task4", label: "unassigned-task-detection.md 存在", isChecked: true },
     { taskId: "task4", label: "未タスク 3 ステップ全完了", isChecked: true },
-    { taskId: "task5", label: "aiworkflow-requirements/LOGS.md 更新", isChecked: true },
-    { taskId: "task5", label: "task-specification-creator/LOGS.md 更新", isChecked: true },
+    { taskId: "task5", label: "aiworkflow-requirements/LOGS fragment 更新", isChecked: true },
+    { taskId: "task5", label: "task-specification-creator/LOGS fragment 更新", isChecked: true },
     { taskId: "task5", label: "aiworkflow-requirements/SKILL.md 変更履歴更新", isChecked: true },
     { taskId: "task5", label: "task-specification-creator/SKILL.md 変更履歴更新", isChecked: true },
   ];
@@ -62,18 +62,18 @@ describe("evidence-bundle-checklist", () => {
     expect(result.missingItems).toContain("unassigned-task-detection.md 存在");
   });
 
-  // T4-07: Task 5 LOGS.md 2ファイル更新チェック未記入で未完了判定になる
-  it("T4-07: LOGS.md 2 ファイル更新チェックが false の場合に incomplete", () => {
+  // T4-07: Task 5 LOGS fragment 2ファイル更新チェック未記入で未完了判定になる
+  it("T4-07: LOGS fragment 2 ファイル更新チェックが false の場合に incomplete", () => {
     const checklist = makeChecklist({
-      "aiworkflow-requirements/LOGS.md 更新": false,
-      "task-specification-creator/LOGS.md 更新": false,
+      "aiworkflow-requirements/LOGS fragment 更新": false,
+      "task-specification-creator/LOGS fragment 更新": false,
     });
 
     const result = validateChecklist(checklist);
 
     expect(result.status).toBe("incomplete");
-    expect(result.missingItems).toContain("aiworkflow-requirements/LOGS.md 更新");
-    expect(result.missingItems).toContain("task-specification-creator/LOGS.md 更新");
+    expect(result.missingItems).toContain("aiworkflow-requirements/LOGS fragment 更新");
+    expect(result.missingItems).toContain("task-specification-creator/LOGS fragment 更新");
   });
 
   // T4-08: 全項目記入済みで完了判定になる
