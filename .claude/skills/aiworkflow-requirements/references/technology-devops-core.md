@@ -347,6 +347,7 @@ AI呼び出しのコストを最適化するため、環境と用途に応じて
 | `test-desktop` | PR / `main` push | desktop テスト（16 shard） | `build-shared` |
 | `e2e-desktop` | PR / `main` push | desktop E2E テスト（Playwright + xvfb） | `build-shared` |
 | `build` | PR / `main` push | 最終ビルド検証 | `lint`, `typecheck`, `test-shared`, `test-desktop`, `e2e-desktop`, `build-shared`, `check-module-sync` |
+| `verify-indexes-up-to-date` | PR (main/dev) / `main` push | `pnpm indexes:rebuild` 実行後 `.claude/skills/aiworkflow-requirements/indexes` の drift を `git diff --exit-code` で検出（authoritative gate） | なし |
 
 ### Git hook 運用正本（2026-04-28更新）
 
@@ -358,7 +359,7 @@ Git hook 層の正本は `lefthook.yml` とし、`.git/hooks/*` は worktree ご
 | `post-merge` | `lefthook.yml` + `scripts/hooks/stale-worktree-notice.sh post-merge` | stale worktree 通知のみ |
 `post-fetch` は lefthook の supported hook schema に含まれないため、正本 lane として定義しない。origin/main 進行通知が必要な場合は、別の明示コマンドまたは GitHub Actions 側の検出として設計する。
 
-`post-merge` では `.claude/skills/aiworkflow-requirements/indexes/*.json` / `topic-map.md` の自動再生成を行わない。index 再生成は明示コマンド（例: `pnpm indexes:rebuild`）か Phase 12 の spec sync 手順で実行し、CI job が生成済み index と HEAD の差分を検出する。CI job は `docs/30-workflows/unassigned-task/task-verify-indexes-up-to-date-ci.md` で未タスク化済み。
+`post-merge` では `.claude/skills/aiworkflow-requirements/indexes/*.json` / `topic-map.md` の自動再生成を行わない。index 再生成は明示コマンド（例: `pnpm indexes:rebuild`）か Phase 12 の spec sync 手順で実行し、CI job `verify-indexes-up-to-date` が生成済み index と HEAD の差分を検出する。
 
 この分離により、local hook は開発者向けの速い補助ゲート、GitHub Actions は authoritative gate になる。`--no-verify` で local hook がバイパスされても、CI 側の index drift 検証で無関係な generated diff をブロックする。
 
