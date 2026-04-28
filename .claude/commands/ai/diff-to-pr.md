@@ -6,6 +6,7 @@ description: |
   🔄 ワークフロー:
   複数のエージェントでチームを編成して実行
   1. リモートmain同期・コンフリクト解消
+  1.5. 未タスク自動クローズアウト（Phase-12 完了検出時のみ実行）
   2. 品質検証（typecheck, lint, test）
   3. 差分分析・ブランチ作成・コミット
   3.5. タスク仕様書 → Issue同期（未同期チェック）
@@ -120,6 +121,50 @@ git commit -m "merge: resolve conflicts with origin/main"
 1. 両方の変更を保持できる場合は両方を採用
 2. 機能的に競合する場合はユーザーに確認
 3. 自動生成ファイル（lock files等）は再生成
+
+---
+
+### Phase 0.5: 未タスク自動クローズアウト【条件付き必須】
+
+**Phase-12 が完了済かつ完了移動が未実施の workflow がある場合、PR 作成前に必ず完結させる。**
+PR を出すなら未タスク登録 / Issue 追加 / 完了移動が漏れない状態を強制する。
+
+```bash
+# Phase-12 完了済かつ completed-tasks/ 未移動の workflow を検出
+PENDING_WORKFLOWS=$(find docs/30-workflows -mindepth 3 -maxdepth 5 -type f \
+  -path "*/outputs/phase-12/implementation-guide.md" 2>/dev/null \
+  | while read impl_guide; do
+      task_dir=$(dirname "$(dirname "$(dirname "$impl_guide")")")
+      case "$task_dir" in
+        *"/completed-tasks/"*) continue ;;
+        "docs/30-workflows/completed-tasks"*) continue ;;
+      esac
+      [ -f "$task_dir/outputs/phase-12/unassigned-task-detection.md" ] && echo "$task_dir"
+    done)
+
+if [ -n "$PENDING_WORKFLOWS" ]; then
+  echo "未クローズアウトの workflow を検出:"
+  echo "$PENDING_WORKFLOWS"
+  echo ""
+  echo "以下を実行する（/ai:close-task と同等の処理をインラインで行う）:"
+  echo "  1. 各 workflow の outputs/phase-12/unassigned-task-detection.md を読み、未タスクを洗い出す"
+  echo "  2. SubAgent 並列で未タスク仕様書を docs/30-workflows/unassigned-task/ に作成"
+  echo "     - フォーマット正本: docs/30-workflows/unassigned-task/02b-followup-001-status-readonly-helper.md"
+  echo "     - §9 備考に苦戦箇所（症状/原因/対応/再発防止）を必須記入"
+  echo "  3. gh issue create で各未タスクを Issue 化（priority/type/status ラベル付き、2回確認）"
+  echo "  4. 仕様書 yaml の issue_number: を作成 Issue 番号で更新"
+  echo "  5. 該当ファイルとタスク仕様書ディレクトリを docs/30-workflows/completed-tasks/ に移動"
+fi
+```
+
+**実装ルール（インライン実行時）:**
+- `/ai:close-task` のフェーズ1-4 と同一のロジックを実行する
+- SubAgent 並列で仕様書作成（独立タスクは並列、依存ありは直列）
+- Issue 作成は 2 回確認（既存 Issue 一覧との照合 → 作成 → 再検証）
+- ここまで完了してから Phase 1（品質検証）に進む
+- 未タスク 0 件の場合は何もせず Phase 1 へ
+
+**Phase 0.5 の出力差分は Phase 3 のコミットに含める**（別コミット不要）。
 
 ---
 
@@ -787,6 +832,7 @@ git stash pop
 
 | 日付 | 変更内容 |
 |------|----------|
+| 2026-04-28 | Phase 0.5（未タスク自動クローズアウト）を追加。Phase-12 完了済かつ完了移動が未実施の workflow を検出した場合、PR 作成前に未タスク仕様書作成 / Issue 追加 / 完了移動を必ず実行する（`/ai:close-task` と同等処理をインライン化） |
 | 2026-03-03 | Phase 5.5 を強化し、`implementation-guide.md` 全文コメント投稿を必須化。投稿後に `gh api .../issues/<PR_NUMBER>/comments` で見出し（`## 📖 実装ガイド（全文）`）と Part 1/Part 2 を検証し、未投稿時はPR作成を失敗扱いに変更 |
 | 2026-03-03 | PR本文/コメントのスクリーンショットURL解決を改善。`raw.githubusercontent.com/<repo>/<commit>/<path>` 形式の絶対URL生成を追加し、GitHub PR画面で画像が表示されない問題を防止 |
 | 2026-03-02 | PR本文セクション連携を強化。Phase 3.6 で差分から `TARGET_WORKFLOW_DIR` を特定し、PR本文/implementation-guideコメント/スクリーンショットコメントを同一workflow成果物に統一。PR本文を `.github/pull_request_template.md` 準拠見出しへ更新し、`その他` に Phase 12 実装ガイド反映を必須化。UI/UX変更時は `outputs/phase-11/screenshots/*.png` を検出してPR本文 `## スクリーンショット` に画像リンクを自動挿入 |
