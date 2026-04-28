@@ -878,6 +878,9 @@ packages/
 | `merge=union`, `_legacy.md` | `references/skill-ledger-gitattributes-policy.md` |
 | 苦戦箇所 (L-SLR-001〜009) | `references/lessons-learned-skill-ledger-redesign-2026-04.md` |
 | 全クエリ早見 | `indexes/quick-reference-search-patterns-skill-ledger.md` |
+| A-2 fragment 経路（2026-04-28〜） | canonical: `LOGS/<fragment>.md` / `changelog/<fragment>.md` / `lessons-learned/<fragment>.md`（旧 `LOGS.md` / `SKILL-changelog.md` / `references/lessons-learned-*.md` は `_legacy*.md` に退避済み・履歴参照のみ） |
+| fragment append / render | `pnpm skill:logs:append` / `pnpm skill:logs:render`（writer は `scripts/skill-logs-append.ts` に一本化。直接 fragment を手書きしない） |
+| fragment 命名 | `<YYYYMMDD-HHMMSS>-<escapedBranch>-<nonce>.md`（`scripts/lib/branch-escape.ts` で escapedBranch 生成、衝突時は `scripts/lib/retry-on-collision.ts` で nonce 再生成） |
 
 ### Git Hook 統一・post-merge indexes 再生成廃止 早見（task-git-hooks-lefthook-and-post-merge / 2026-04-28）
 
