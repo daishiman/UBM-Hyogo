@@ -1,0 +1,27 @@
+# 不変条件スナップショット（vitest 結果から抽出）
+
+## append-only（auditLog.ts）
+- AC-6 test "UPDATE / DELETE API は型上不在" PASS
+- repository 公開 export: append / listRecent / listByActor / listByTarget
+  → update / delete / remove に相当する関数が存在しない（型で阻止）
+- DDL: audit_log には mutation API が無く、行は INSERT のみ
+
+## single-use（magicTokens.ts）
+- AC-7 test "consume を 2 回呼ぶと 2 回目は already_used" PASS
+- 実装: UPDATE magic_tokens SET used = 1 WHERE token = ?1 AND used = 0（楽観 lock）
+- 2 回目の result.meta.changes === 0 → { ok: false, reason: "already_used" }
+
+## 状態遷移（syncJobs.ts）
+- ALLOWED_TRANSITIONS = { running: ["succeeded","failed"], succeeded: [], failed: [] } を Object.freeze
+- AC-8 test "succeeded -> failed の逆遷移は IllegalStateTransition" PASS
+- AC-8 test "failed -> succeeded の逆遷移は IllegalStateTransition" PASS
+- 実装: assertTransition(c, jobId, to) が遷移不許可で IllegalStateTransition を throw
+
+## adminNotes 分離（不変条件 #12）
+- adminNotes.test "PublicMemberProfile / MemberProfile を import していない" PASS
+- adminNotes.ts は MemberId 以外の view model 型を一切 import しない
+- builder 経路（02a の _shared/builder.ts）から import されない（dep-cruiser cross-domain ルールで阻止）
+
+## boundary（不変条件 #5）
+- scripts/lint-boundaries.mjs で apps/web から D1Database / apps/api / @ubm-hyogo/api 直接 import を 0 件確認
+- .dependency-cruiser.cjs に no-web-to-d1-repository / no-web-to-d1-binding ルール定義済み

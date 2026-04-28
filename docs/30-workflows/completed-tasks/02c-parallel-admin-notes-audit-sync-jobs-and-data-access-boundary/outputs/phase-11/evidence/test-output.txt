@@ -1,0 +1,44 @@
+$ mise exec -- pnpm exec vitest run apps/api/src/repository
+RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260427-152903-wt-7
+
+ ✓ apps/api/src/repository/__tests__/_setup.test.ts (1 test) 1758ms
+   ✓ _setup (in-memory D1 loader) > setupD1 でテーブル作成 + reset + fixture load が共通利用できる
+ ✓ apps/api/src/repository/__tests__/adminUsers.test.ts (4 tests) 2192ms
+   ✓ adminUsers > findByEmail で存在する admin を返す
+   ✓ adminUsers > findByEmail で未登録 email は null
+   ✓ adminUsers > listAll は active/inactive 両方を返す
+   ✓ adminUsers > isActiveAdmin が active=1 の admin で true
+ ✓ apps/api/src/repository/__tests__/auditLog.test.ts (4 tests) 2392ms
+   ✓ auditLog (append-only) > append で 1 件追加できる
+   ✓ auditLog (append-only) > listRecent で created_at 降順
+   ✓ auditLog (append-only) > listByActor / listByTarget
+   ✓ auditLog (append-only) > AC-6: UPDATE / DELETE API は型上不在
+ ✓ apps/api/src/repository/__tests__/magicTokens.test.ts (6 tests) 2715ms
+   ✓ magicTokens (single-use) > issue で token を発行できる
+   ✓ magicTokens (single-use) > findByToken / verify は existing を返す
+   ✓ magicTokens (single-use) > verify は valid token を返す、used / expired は null
+   ✓ magicTokens (single-use) > consume が一度成功する
+   ✓ magicTokens (single-use) > AC-7: consume を 2 回呼ぶと 2 回目は already_used
+   ✓ magicTokens (single-use) > expired token の consume は expired
+ ✓ apps/api/src/repository/__tests__/adminNotes.test.ts (7 tests) 3042ms
+   ✓ adminNotes (CRUD) > listByMemberId で対象 member の notes を取得
+   ✓ adminNotes (CRUD) > findById で取得
+   ✓ adminNotes (CRUD) > create で note を追加
+   ✓ adminNotes (CRUD) > update で body を変更
+   ✓ adminNotes (CRUD) > update は updatedBy / updatedAt を更新
+   ✓ adminNotes (CRUD) > remove で削除し、再取得は null
+   ✓ adminNotes (CRUD) > 不変条件 #12: PublicMemberProfile / MemberProfile を import していない
+ ✓ apps/api/src/repository/__tests__/syncJobs.test.ts (7 tests) 3293ms
+   ✓ syncJobs (lifecycle 一方向) > ALLOWED_TRANSITIONS は running -> succeeded/failed のみ
+   ✓ syncJobs (lifecycle 一方向) > start -> succeed が成功する
+   ✓ syncJobs (lifecycle 一方向) > start -> fail が成功する
+   ✓ syncJobs (lifecycle 一方向) > AC-8: succeeded -> failed の逆遷移は IllegalStateTransition
+   ✓ syncJobs (lifecycle 一方向) > AC-8: failed -> succeeded の逆遷移は IllegalStateTransition
+   ✓ syncJobs (lifecycle 一方向) > findLatest / listRecent は started_at 降順
+   ✓ syncJobs (lifecycle 一方向) > start で running の row が返る
+
+ Test Files  6 passed (6)
+      Tests  29 passed (29)
+   Duration  5.19s
+
+EXIT=0

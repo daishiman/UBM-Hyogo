@@ -1,0 +1,23 @@
+$ node scripts/lint-boundaries.mjs
+# 走査対象: apps/web 配下の .ts / .tsx（.test.* を除く）
+# 検出対象トークン:
+#   - @cloudflare/d1
+#   - D1Database
+#   - apps/api
+#   - @ubm-hyogo/api
+#   - @ubm-hyogo/integrations-google
+#   - @ubm-hyogo/integrations/google
+#   - packages/integrations/google
+#   - localStorage
+#   - sessionStorage
+# 違反 0 件 → stdout / stderr 共に空、EXIT=0
+
+EXIT=0
+
+# 補足（dependency-cruiser 設計ルール .dependency-cruiser.cjs）
+# - no-web-to-d1-repository:  apps/web → apps/api/src/repository を禁止
+# - no-web-to-d1-binding:     apps/web → @cloudflare/workers-types の D1 binding 禁止
+# - repo-no-cross-domain-2a-to-2b: 02a → 02b 直接 import 禁止
+# - repo-no-cross-domain-2b-to-2c: 02b → 02c 直接 import 禁止
+# - repo-no-cross-domain-2c-to-2a: 02c → 02a 直接 import 禁止
+# 共有正本は apps/api/src/repository/_shared/ のみ。
