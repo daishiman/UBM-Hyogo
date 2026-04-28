@@ -5080,6 +5080,7 @@
     "Worktree": [
       "development-guidelines-core.md",
       "lessons-learned-health-policy-worktree-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-sdk-session-bridge-vitest-worktree.md"
     ],
     "入場時の環境分離": [
@@ -5462,6 +5463,7 @@
     "未タスク": [
       "interfaces-agent-sdk-history-core.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
@@ -6472,6 +6474,7 @@
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
       "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
@@ -6552,6 +6555,7 @@
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
       "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
@@ -6678,6 +6682,7 @@
     "教訓一覧": [
       "lessons-learned-02c-data-access-boundary.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
@@ -7644,16 +7649,19 @@
     ],
     "申し送り": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
     "open": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
     "baseline": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-ui-ux-visual-baseline-drift.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -8547,6 +8555,19 @@
     ],
     "命名と環境分離": [
       "lessons-learned-kv-session-cache-2026-04.md"
+    ],
+    "Multi": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "llm-ipc-types.md"
+    ],
+    "Lefthook": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md"
+    ],
+    "Reinstall": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md"
+    ],
+    "Runbook": [
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md"
     ],
     "統一": [
       "lessons-learned-lefthook-unification-2026-04.md",
@@ -10301,9 +10322,6 @@
       "rag-search-types.md"
     ],
     "型定義・": [
-      "llm-ipc-types.md"
-    ],
-    "Multi": [
       "llm-ipc-types.md"
     ],
     "Provider": [

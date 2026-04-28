@@ -2495,3 +2495,12 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 結果 | skill-feedback-report の優先度「中」3 件 + 「低」即時適用 2 件をスキルテンプレ本体へ反映。aiworkflow-requirements への正本登録は git 管理境界変更のため N/A 維持（不変条件 #1〜#7 全件非影響、API/D1/IPC/UI/auth/Cloudflare 全て無関）。各ファイル 500 行制限に余裕（最大でも 327 行）。 |
 | 検証 | 編集対象 4 ファイルが `wc -l` で 500 行以下を維持していることを確認。`validate-phase-output.js` / `validate-phase12-implementation-guide.js` の入力 schema 影響なしを目視確認。 |
 | 申し送り | 優先度「中」#2（双方向リンクテンプレ）は patterns-success-implementation-part2.md が 500 行近接のため未タスク化推奨、#3（順序事故防止）は本件で実反映済み。低 #3（screenshot guard validator 拡張）は新規 UT として未タスク化候補。 |
+
+### 2026-04-28 - task-husky-rejection-adr Phase 12 final doc update
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | docs-only / NON_VISUAL / ADR close-out |
+| 変更対象 | `docs/30-workflows/completed-tasks/task-husky-rejection-adr/`、`doc/decisions/`、`docs/30-workflows/unassigned-task/task-adr-template-standardization.md`、`docs/30-workflows/unassigned-task/task-lefthook-ops-adr-backlink.md` |
+| 結果 | Phase 12 implementation guide を Part 1 / Part 2 必須構成へ再構成し、ADR ID を ADR-0001 に統一。Phase 11 に screenshot 不要理由を明記し、関連タスク参照切れを実在パスへ是正。Phase 1〜12 status を completed に同期し、Phase 13 は pending_user_approval を維持した。後続フォローアップ #156 / #157 を formalize |
+| 検証 | `validate-phase12-implementation-guide.js --workflow docs/30-workflows/completed-tasks/task-husky-rejection-adr --json` と `validate-phase11-screenshot-coverage.js --workflow docs/30-workflows/completed-tasks/task-husky-rejection-adr --json` を再実行対象として記録 |
