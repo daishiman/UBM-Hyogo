@@ -135,6 +135,8 @@ pnpm lint
 > **Git hook の方針**: `lefthook.yml` が hook の正本。`pnpm install` 実行時に `prepare` script
 > 経由で `lefthook install` が自動配置する。`.git/hooks/*` の手書きは禁止。
 > indexes 再生成は post-merge から廃止しており、必要時は `pnpm indexes:rebuild` を明示実行する。
+> CI 側に `verify-indexes-up-to-date` gate（`.github/workflows/verify-indexes.yml`）があり、
+> `.claude/skills/aiworkflow-requirements/indexes` に drift があると job が fail する。
 > 詳細: `doc/00-getting-started-manual/lefthook-operations.md`
 
 ---

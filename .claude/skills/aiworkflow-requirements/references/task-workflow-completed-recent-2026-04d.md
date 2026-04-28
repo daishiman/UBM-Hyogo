@@ -325,3 +325,100 @@
 | ------ | --------------------------------------------------------------- |
 | 先行   | specs/02-auth.md（認証設計）/ specs/13-mvp-auth.md（MVP 認証方針）|
 | 後続   | UT-11 実装タスク（将来作成予定）                                |
+
+---
+
+### タスク: task-verify-indexes-up-to-date-ci CI gate 新設（2026-04-28）
+
+| 項目 | 値 |
+| --- | --- |
+| タスクID | task-verify-indexes-up-to-date-ci |
+| ステータス | **implementation_completed_pr_pending（Phase 1〜12 完了 / Phase 13 pending_user_approval）** |
+| タイプ | implementation / NON_VISUAL / CI gate |
+| 優先度 | 中 |
+| 完了日 | 2026-04-28 |
+| 対象 | `.github/workflows/verify-indexes.yml` / `CLAUDE.md` / `doc/00-getting-started-manual/lefthook-operations.md` / `references/technology-devops-core.md` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-verify-indexes-up-to-date-ci/` |
+| 派生元 | task-git-hooks-lefthook-and-post-merge Phase 12 unassigned-task-detection (C-1) |
+| PR | 未作成（Phase 13 pending_user_approval） |
+
+#### 実施内容
+
+- `.github/workflows/verify-indexes.yml` を新規作成し、`actions/checkout@v4` → `pnpm/action-setup@v4` → `actions/setup-node@v4`（Node 24）→ `pnpm install` → `pnpm indexes:rebuild` → `git add -N .claude/skills/aiworkflow-requirements/indexes` → `git diff --exit-code -- .claude/skills/aiworkflow-requirements/indexes` の authoritative drift gate を構成
+- post-merge hook 廃止後の「開発者が再生成を忘れた場合の drift が main に流入するリスク」を CI 側で構造的に塞ぐ
+- drift 検出は `.claude/skills/aiworkflow-requirements/indexes` に限定し、他 skill / 他 path への横展開判定は ADR で別途決める方針
+- `CLAUDE.md`「よく使うコマンド」/ `lefthook-operations.md` / `technology-devops-core.md` CI job 表に CI gate 名を最小追記し正本同期完了
+- Phase 11 NON_VISUAL 代替証跡を main / manual-smoke-log / link-checklist の 3 点で配置し、PR 後の GitHub Actions 実機確認へ接続
+
+#### 検証証跡
+
+- `bash -n scripts/reinstall-lefthook-all-worktrees.sh`: PASS
+- `pnpm indexes:rebuild` 後の `git diff --exit-code -- .claude/skills/aiworkflow-requirements/indexes`: drift なし
+- Phase 12 必須成果物 7 ファイル（main / implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report / phase12-task-spec-compliance-check）作成済み
+
+#### follow-up backlog
+
+- 他 skill（task-specification-creator 等）への indexes drift 検証横展開は ADR で別途判断
+- workflow が PR 後に GitHub Actions 実機で PASS することの確認は Phase 13 後
+
+#### 依存関係
+
+| 依存先 | タスク ID / 成果物 |
+| --- | --- |
+| 先行 | task-git-hooks-lefthook-and-post-merge（post-merge から indexes 再生成を撤去） |
+| 後続 | なし（独立 gate） |
+
+#### lessons-learned
+
+- `references/lessons-learned-verify-indexes-ci-2026-04.md`（L-VIDX-001〜003）
+- `references/lessons-learned-lefthook-unification-2026-04.md`（L-LH-006: 責務分離の追記）
+
+---
+
+### タスク: task-lefthook-multi-worktree-reinstall-runbook 既存 30+ worktree への lefthook 一括 reinstall 運用化（2026-04-28）
+
+| 項目 | 値 |
+| --- | --- |
+| タスクID | task-lefthook-multi-worktree-reinstall-runbook |
+| ステータス | **完了（runbook 完了 / Phase 形式不要 / 実装済み）** |
+| タイプ | DevEx / Operations / runbook |
+| 優先度 | 中 |
+| 完了日 | 2026-04-28 |
+| 対象 | `scripts/reinstall-lefthook-all-worktrees.sh` / `doc/00-getting-started-manual/lefthook-operations.md` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook.md`（拡充） |
+| 派生元 | task-git-hooks-lefthook-and-post-merge Phase 12 unassigned-task-detection (B-1 follow-up) |
+
+#### 実施内容
+
+- `scripts/reinstall-lefthook-all-worktrees.sh` を新規作成し、`git worktree list --porcelain` から path を抽出して各 worktree で `mise exec -- pnpm exec lefthook install` を逐次実行
+- `--dry-run` モードで対象 path と PASS / SKIP 予定を非破壊で列挙可能
+- 完了条件: FAIL = 0 件、`node_modules` 未生成 worktree は理由付き SKIP として summary に記録
+- 並列実行は禁止（pnpm store 同時書き込み破壊回避のため逐次必須）
+- `doc/00-getting-started-manual/lefthook-operations.md` に「既存 worktree への一括 install」運用化セクションを追加し、実行責任者・実行タイミング（lefthook.yml 改定時 / 新 hook 追加時）・ログ保存方針を明文化
+- post-merge hook を復活させていないことを `lefthook.yml` で再確認
+
+#### 検証証跡
+
+- `bash -n scripts/reinstall-lefthook-all-worktrees.sh`: syntax PASS
+- `bash scripts/reinstall-lefthook-all-worktrees.sh --dry-run`: 対象 path 列挙 PASS
+- 本実行: FAIL 0 件、PASS / 理由付き SKIP のみで完了
+
+#### 苦戦箇所
+
+| # | 苦戦箇所 | 解決策 |
+| --- | --- | --- |
+| 1 | 30+ worktree 並列での pnpm store 同時書き込み破壊リスク | 並列実行を禁止し、逐次 install + 各 worktree 単位の summary 記録に固定 |
+| 2 | `node_modules` 未生成 worktree を FAIL と扱うと完了条件が成り立たない | SKIP 分類（PASS / SKIP / FAIL の 3 値）を導入し、SKIP は未達ではないと runbook で明示 |
+| 3 | 「いつ誰が再 install するか」が人手忘却リスクに残る | runbook に実行責任者と実行タイミング（lefthook.yml 改定時等）を明文化 |
+
+#### 依存関係
+
+| 依存先 | タスク ID / 成果物 |
+| --- | --- |
+| 先行 | task-git-hooks-lefthook-and-post-merge / task-worktree-environment-isolation |
+| 後続 | なし |
+
+#### lessons-learned
+
+- `references/lessons-learned-lefthook-unification-2026-04.md`（L-LH-MW-001 / L-LH-MW-002 を追記）
+

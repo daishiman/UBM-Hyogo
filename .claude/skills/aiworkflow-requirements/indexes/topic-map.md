@@ -1673,7 +1673,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L416 |
+| 学習リソースとコミュニティ | L417 |
 
 ### references/technology-devops-details.md
 
@@ -2103,6 +2103,19 @@ node scripts/list-specs.js --topics
 | TASK-IMP-AGENTVIEW-IMPROVE-ROUTE-001: AgentView <-> SkillAnalysis round-trip（2026-03-20） | L180 |
 | 変更履歴 | L224 |
 
+### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| Phase Outputs（Phase 形式不要 / runbook 完了形式） | L26 |
+| 主要実装物 | L35 |
+| Skill 反映先（current canonical set） | L42 |
+| 参照される実装ファイル | L51 |
+| Follow-up 未タスク | L59 |
+| Validation Chain（runbook completed） | L66 |
+
 ### references/workflow-task-rt-06-artifact-inventory.md
 
 | セクション | 行 |
@@ -2111,6 +2124,18 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
+
+### references/workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| Phase Outputs（current canonical set） | L27 |
+| 主要実装物 | L53 |
+| Skill 反映先（current canonical set） | L61 |
+| Follow-up 未タスク | L73 |
+| Validation Chain（implementation_completed_pr_pending） | L80 |
 
 ### references/workflow-task-worktree-environment-isolation-artifact-inventory.md
 
@@ -2696,6 +2721,13 @@ node scripts/list-specs.js --topics
 | Section Extract Register (2026-03-17) | L244 |
 | 500-Line Split Register (2026-03-16) | L255 |
 | Fragment Migration Register (2026-04-28) | L277 |
+
+### references/lessons-learned-verify-indexes-ci-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L7 |
+| 申し送り（open / baseline 未タスク） | L37 |
 
 ### references/lessons-learned.md
 
