@@ -50,6 +50,10 @@
 
 なし。本タスクは現行の skill 規約のもとで完遂可能。
 
+## 4-bis. U1 反映完了（後続タスクからの追記 / 2026-04-28）
+
+`task-claude-code-permissions-apply-001` で本タスクの設計（spec_created）を host 環境に実機反映完了（TS=`20260428-192736`）。詳細は `docs/30-workflows/task-claude-code-permissions-apply-001/outputs/phase-12/implementation-guide.md` 参照。
+
 ## 5. 適用優先度
 
 | 提案 | 優先度 | 適用先 |

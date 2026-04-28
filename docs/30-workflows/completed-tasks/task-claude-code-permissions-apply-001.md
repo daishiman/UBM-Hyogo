@@ -16,9 +16,12 @@ issue_number: 140
 | 対象機能     | Claude Code 起動時 Bypass Permissions Mode 維持                   |
 | 優先度       | 高                                                                |
 | 見積もり規模 | 小規模                                                            |
-| ステータス   | 未実施                                                            |
+| ステータス   | completed（TC-05 BLOCKED 注記付き）                              |
 | 発見元       | Phase 12（task-claude-code-permissions-decisive-mode）            |
 | 発見日       | 2026-04-28                                                        |
+| 完了日       | 2026-04-28                                                        |
+
+> 実反映完了: `docs/30-workflows/task-claude-code-permissions-apply-001/outputs/phase-12/implementation-guide.md` 参照。TS=`20260428-192736`。TC-01〜TC-04 / TC-F-01,02 / TC-R-01 は PASS、TC-05（bypass 下 deny 実効性）は前提結論未取得のため BLOCKED として継続管理する。
 
 ---
 

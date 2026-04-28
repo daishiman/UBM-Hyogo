@@ -837,6 +837,7 @@
       "interfaces-agent-sdk-integration.md",
       "interfaces-agent-sdk.md",
       "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -851,6 +852,7 @@
       "claude-code-overview.md",
       "claude-code-settings-hierarchy.md",
       "interfaces-agent-sdk-integration.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "security-skill-ipc-core.md",
       "spec-splitting-guidelines.md"
     ],
@@ -3789,7 +3791,8 @@
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "共通": [
-      "claude-code-agents-workflow.md"
+      "claude-code-agents-workflow.md",
+      "claude-code-settings-hierarchy.md"
     ],
     "ペルソナ設計": [
       "claude-code-agents-workflow.md"
@@ -3835,6 +3838,7 @@
     ],
     "md": [
       "claude-code-agents-workflow.md",
+      "claude-code-settings-hierarchy.md",
       "claude-code-skills-agents.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
@@ -3945,7 +3949,8 @@
       "workflow-permission-fallback-abort-skip-retry.md"
     ],
     "permissions": [
-      "claude-code-settings-hierarchy.md"
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md"
     ],
     "併用方針": [
       "claude-code-settings-hierarchy.md"
@@ -4039,6 +4044,116 @@
     "適用先システム仕様書": [
       "claude-code-settings-hierarchy.md"
     ],
+    "FORCED": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "GO": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "TC": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "BLOCKED": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "経路": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "追加": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-rt-04-authkey-dedup.md",
+      "lessons-learned-skill-create-multi-select-kind.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-phases.md",
+      "technology-devops-details.md",
+      "testing-component-patterns-advanced.md",
+      "ui-ux-settings-details.md"
+    ],
+    "artifacts": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-d1a-schema-migrations.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "json": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-d1a-schema-migrations.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "index": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-current.md",
+      "lessons-learned-monitoring-design-2026-04.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-index.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+    ],
+    "zsh": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "conf": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "期待": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "aliases": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "tools": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "行のみ": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "関連": [
+      "claude-code-settings-hierarchy.md",
+      "deployment-cloudflare-ut06-gate.md",
+      "interfaces-api.md",
+      "interfaces-shared.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-current-2026-04-ut06.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "rag-desktop-state.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "lessons": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
+      "lessons-learned-auth-ipc-fallback-registration-settings.md",
+      "lessons-learned-auth-ipc-file-ops-skill-creator-registration.md",
+      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
+      "lessons-learned-auth-ipc-safeinvoke-timeout.md",
+      "lessons-learned-auth-ipc-security-double-registration.md",
+      "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
+      "lessons-learned-skill-build-harness-guard.md",
+      "lessons-learned-skill-contrast-guard-lifecycle-followup.md",
+      "lessons-learned-skill-create-lifecycle-import-contract.md",
+      "lessons-learned-skill-execute-hook-migration.md",
+      "lessons-learned-skill-import-analysis-view.md",
+      "lessons-learned-skill-lifecycle-test-hardening.md",
+      "lessons-learned-skill-plan-exec-hardening.md",
+      "lessons-learned-skill-remove-contract.md",
+      "lessons-learned-skill-share-debug-lifecycle-design.md",
+      "lessons-learned-skill-validation-logging-deprecation.md",
+      "lessons-learned-ui-agent-view-nav-notification-history.md",
+      "lessons-learned-ui-skill-center-editor-dashboard.md",
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "lessons-learned-workflow-quality-ci-module-resolution.md",
+      "lessons-learned-workflow-quality-line-budget-reform.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md",
+      "lessons-learned-workflow-quality-sdk-tests-loop-guard.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md"
+    ],
+    "learned": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md"
+    ],
     "agents": [
       "claude-code-skills-agents.md"
     ],
@@ -4120,6 +4235,7 @@
     ],
     "references": [
       "claude-code-skills-resources.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-skill-ledger-redesign-2026-04.md",
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md",
@@ -4493,18 +4609,6 @@
     ],
     "実行ラッパー": [
       "deployment-cloudflare-ut06-gate.md"
-    ],
-    "関連": [
-      "deployment-cloudflare-ut06-gate.md",
-      "interfaces-api.md",
-      "interfaces-shared.md",
-      "lessons-learned-current-2026-04-ut06.md",
-      "lessons-learned-skill-ledger-redesign-2026-04.md",
-      "rag-desktop-state.md",
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "skill-ledger-progressive-disclosure.md"
     ],
     "デプロイメント仕様": [
       "deployment-cloudflare.md"
@@ -5329,6 +5433,7 @@
     ],
     "未タスク": [
       "interfaces-agent-sdk-history-core.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
@@ -6311,6 +6416,7 @@
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-auth-settings-degradation-guard.md",
       "lessons-learned-cicd-dev-main-deploy.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-conversation-db-robustness.md",
       "lessons-learned-current-2026-03-early.md",
       "lessons-learned-current-2026-03-late.md",
@@ -6389,6 +6495,7 @@
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-auth-settings-degradation-guard.md",
       "lessons-learned-cicd-dev-main-deploy.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-conversation-db-robustness.md",
       "lessons-learned-current-2026-03-early.md",
       "lessons-learned-current-2026-03-late.md",
@@ -6531,6 +6638,7 @@
     ],
     "教訓一覧": [
       "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-lefthook-unification-2026-04.md"
     ],
     "申し送り先": [
@@ -6668,33 +6776,6 @@
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-ipc-channel-whitelist-sync.md",
       "ui-history-integration.md"
-    ],
-    "lessons": [
-      "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
-      "lessons-learned-auth-ipc-fallback-registration-settings.md",
-      "lessons-learned-auth-ipc-file-ops-skill-creator-registration.md",
-      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
-      "lessons-learned-auth-ipc-safeinvoke-timeout.md",
-      "lessons-learned-auth-ipc-security-double-registration.md",
-      "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
-      "lessons-learned-skill-build-harness-guard.md",
-      "lessons-learned-skill-contrast-guard-lifecycle-followup.md",
-      "lessons-learned-skill-create-lifecycle-import-contract.md",
-      "lessons-learned-skill-execute-hook-migration.md",
-      "lessons-learned-skill-import-analysis-view.md",
-      "lessons-learned-skill-lifecycle-test-hardening.md",
-      "lessons-learned-skill-plan-exec-hardening.md",
-      "lessons-learned-skill-remove-contract.md",
-      "lessons-learned-skill-share-debug-lifecycle-design.md",
-      "lessons-learned-skill-validation-logging-deprecation.md",
-      "lessons-learned-ui-agent-view-nav-notification-history.md",
-      "lessons-learned-ui-skill-center-editor-dashboard.md",
-      "lessons-learned-ut08-monitoring-design-2026-04.md",
-      "lessons-learned-workflow-quality-ci-module-resolution.md",
-      "lessons-learned-workflow-quality-line-budget-reform.md",
-      "lessons-learned-workflow-quality-phase12-audit-validator.md",
-      "lessons-learned-workflow-quality-sdk-tests-loop-guard.md",
-      "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "EXECUTE": [
       "lessons-learned-auth-ipc-contract-bridge-audit-scope.md",
@@ -7512,6 +7593,25 @@
     "と実適用の境界を明示すること": [
       "lessons-learned-cicd-dev-main-deploy.md"
     ],
+    "実機反映": [
+      "lessons-learned-claude-code-permissions-apply-2026-04.md"
+    ],
+    "申し送り": [
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "open": [
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "baseline": [
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "ui-ux-components.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
     "Robustness": [
       "lessons-learned-conversation-db-robustness.md"
     ],
@@ -7949,13 +8049,6 @@
     "修正教訓": [
       "lessons-learned-current-safetygrate-ipc-gap.md"
     ],
-    "index": [
-      "lessons-learned-current.md",
-      "lessons-learned-monitoring-design-2026-04.md",
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-index.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
-    ],
     "分割ファイル一覧": [
       "lessons-learned-current.md",
       "lessons-learned-phase12-workflow-lifecycle.md",
@@ -8001,15 +8094,6 @@
     ],
     "の代替方針": [
       "lessons-learned-d1a-schema-migrations.md"
-    ],
-    "artifacts": [
-      "lessons-learned-d1a-schema-migrations.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "json": [
-      "lessons-learned-d1a-schema-migrations.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "phase": [
       "lessons-learned-d1a-schema-migrations.md",
@@ -8427,19 +8511,6 @@
     "再生成廃止": [
       "lessons-learned-lefthook-unification-2026-04.md"
     ],
-    "申し送り": [
-      "lessons-learned-lefthook-unification-2026-04.md"
-    ],
-    "open": [
-      "lessons-learned-lefthook-unification-2026-04.md"
-    ],
-    "baseline": [
-      "lessons-learned-lefthook-unification-2026-04.md",
-      "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "ui-ux-components.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
     "monitoring": [
       "lessons-learned-monitoring-design-2026-04.md"
     ],
@@ -8693,16 +8764,6 @@
     ],
     "への": [
       "lessons-learned-rt-04-authkey-dedup.md"
-    ],
-    "追加": [
-      "lessons-learned-rt-04-authkey-dedup.md",
-      "lessons-learned-skill-create-multi-select-kind.md",
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-phases.md",
-      "technology-devops-details.md",
-      "testing-component-patterns-advanced.md",
-      "ui-ux-settings-details.md"
     ],
     "型拡張の同一": [
       "lessons-learned-rt-04-authkey-dedup.md"
@@ -9695,10 +9756,6 @@
     ],
     "固定化が必要": [
       "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "learned": [
-      "lessons-learned-ut08-monitoring-design-2026-04.md",
-      "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "アラート設計": [
       "lessons-learned-ut08-monitoring-design-2026-04.md",

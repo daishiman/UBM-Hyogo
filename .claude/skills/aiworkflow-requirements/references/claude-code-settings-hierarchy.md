@@ -182,3 +182,92 @@ task-conflict-prevention-skill-state-redesign
 4. 公式 docs URL の引用（本仕様 §5 を引用）
 
 > 新規ランタイムインターフェースの追加なし。運用ルールの追記のみ。実反映は `task-claude-code-permissions-apply-001` で行う。
+
+---
+
+## 9. FORCED-GO + TC BLOCKED 経路（W2 / 2026-04-28 追加）
+
+> 出典: `task-claude-code-permissions-apply-001` Phase 10〜12 の実機運用で確立。前提タスク（`task-claude-code-permissions-deny-bypass-verification-001`）が未完了のままでも、後段の実装タスクを進めるための標準経路。
+
+### 9.1 経路定義
+
+```
+[前提タスク未完了]
+   ↓
+Phase 10 review: forced-go-rationale.md に GO 判定根拠を明記
+   ↓
+[Phase 11 smoke test 実施]
+   ↓
+manual-smoke-log.md に TC を BLOCKED で記録（PASS / FAIL と区別）
+   ↓
+Phase 12 メタ: completed（TC-XX BLOCKED 注記付き）
+   ↓
+元タスクの skill-feedback-report.md に「反映完了（注記付き）」を追記
+```
+
+### 9.2 Phase 10 Go 判定基準
+
+| 基準 | 内容 |
+| --- | --- |
+| BLOCKED の上限本数 | 1 タスクあたり 1〜2 件まで（それ以上は実装側の前提整理が不十分） |
+| BLOCKED の根拠 | 前提タスクの unassigned-task 番号 / 想定 risk / 暫定 mitigation を `forced-go-rationale.md` に明記 |
+| BLOCKED は FAIL ではない | review で FAIL と区別。Go 判定の阻害要因にしない |
+| BLOCKED の解除 | 前提タスク完了後、本タスクではなく **新規 follow-up タスク**で TC を再実行する |
+
+### 9.3 Phase 12 注記書式
+
+```yaml
+# artifacts.json / index.md 共通
+status: completed
+notes: "TC-XX BLOCKED 注記付き（前提タスク <task-id> 完了待ち）"
+```
+
+完了タスクサマリ表では `completed（TC-XX BLOCKED 注記付き）` の表記を採る。
+
+---
+
+## 10. zsh conf.d 経路（D1 / 2026-04-28 追加）
+
+> 出典: `task-claude-code-permissions-apply-001` Phase 4〜5 で `cc` alias を `~/.config/zsh/conf.d/79-aliases-tools.zsh` 経由に正準化した経緯。
+
+### 10.1 ディレクトリ構成
+
+```
+~/.zshrc
+   └─ for f in ~/.config/zsh/conf.d/*.zsh; do source "$f"; done   # 単一 loader のみ
+
+~/.config/zsh/conf.d/
+   ├─ 10-env-paths.zsh            # PATH / MANPATH / TZ などコア環境
+   ├─ 50-mise.zsh                 # mise activate 等
+   ├─ 79-aliases-tools.zsh        # cc / cf 等 CLI ラッパー alias 群（本タスクで作成・更新）
+   └─ 90-prompt.zsh               # prompt / theme
+```
+
+### 10.2 命名規約
+
+`<priority>-<scope>-<topic>.zsh` の 3 セグメント:
+
+- `priority`: 2 桁数字（小さい順に source される）。`10` 系は環境変数、`50` 系はランタイム、`79` 系は alias、`90` 系は prompt
+- `scope`: `env` / `mise` / `aliases` / `prompt` 等の責務カテゴリ
+- `topic`: 具体テーマ（例: `tools`、`paths`）
+
+### 10.3 利点
+
+- alias / env / prompt の責務を物理ファイルで分離 → diff 影響範囲が局所化
+- 個別 source による parser の分離（1 ファイルが壊れても他は読み込まれる）
+- 競合検出が grep 1 発で済む（`grep -nE '^alias cc=' ~/.zshrc ~/.config/zsh/conf.d/*.zsh`）
+
+### 10.4 競合検出 / TC-R-01
+
+```bash
+grep -nE '^alias cc=' ~/.zshrc ~/.config/zsh/conf.d/*.zsh
+# 期待: 79-aliases-tools.zsh の 1 行のみ
+```
+
+複数ヒット時は実装中断（runbook で必須ガード）。
+
+---
+
+## 11. 関連 lessons-learned
+
+- `references/lessons-learned-claude-code-permissions-apply-2026-04.md`（L-CCP-APPLY-001〜007）

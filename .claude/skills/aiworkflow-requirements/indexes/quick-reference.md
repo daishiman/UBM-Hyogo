@@ -895,3 +895,14 @@ packages/
 | 苦戦知見 | `references/lessons-learned-lefthook-unification-2026-04.md`（L-LH-001〜L-LH-005） |
 | 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md` / `CLAUDE.md`（Git hook の方針節） |
 | 関連 baseline 未タスク | 既存 worktree への lefthook 再インストール runbook 化、`husky` 不採用判断の ADR 化 |
+
+---
+
+### Claude Code permissions 実機反映 / FORCED-GO + TC BLOCKED 経路 / zsh conf.d 経路（2026-04-28 / task-claude-code-permissions-apply-001）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 仕様正本（階層 / FORCED-GO 経路 / conf.d 経路） | `references/claude-code-settings-hierarchy.md`（§1〜§10） |
+| 苦戦知見（NON_VISUAL screenshots 不要 / 3 点セット / TS sticky / FORCED-GO+TC BLOCKED / conf.d / 階層適用 / bypass 下 deny） | `references/lessons-learned-claude-code-permissions-apply-2026-04.md`（L-CCP-APPLY-001〜007） |
+| 適用先システム仕様 | `doc/00-getting-started-manual/claude-code-config.md`（階層・whitelist・bypass 下 deny 注記） |
+| 完了タスク root | `docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001/` |

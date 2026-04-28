@@ -1808,6 +1808,9 @@ node scripts/list-specs.js --topics
 | 6. Reference Contracts (TypeScript) | L128 |
 | 7. 関連タスク wave（DevEx 衝突防止） | L152 |
 | 8. 適用先システム仕様書 | L175 |
+| 9. FORCED-GO + TC BLOCKED 経路（W2 / 2026-04-28 追加） | L188 |
+| 10. zsh conf.d 経路（D1 / 2026-04-28 追加） | L229 |
+| 11. 関連 lessons-learned | L271 |
 
 ### references/claude-code-skills-agents.md
 
@@ -2837,6 +2840,14 @@ node scripts/list-specs.js --topics
 | L-R2-001: R2 binding 命名は topic-map.md に事前登録すること | L85 |
 | L-R2-002: spec_created と実適用の境界を明示すること | L95 |
 | 変更履歴 | L107 |
+
+### references/lessons-learned-claude-code-permissions-apply-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L11 |
+| 申し送り（open / baseline 未タスク） | L92 |
+| 関連 references | L101 |
 
 ### references/lessons-learned-conversation-db-robustness.md
 
