@@ -617,7 +617,9 @@
 | references/skill-ledger-progressive-disclosure.md | A-3 SKILL.md 200 行ガード時 | entry 残置要素、references 抽出ルール、classification-first 親ルール |
 | references/skill-ledger-gitattributes-policy.md | B-1 `merge=union` 適用時 | 適用許可リスト（`_legacy.md` 等）、禁止リスト（JSON/YAML/SKILL.md） |
 | references/lessons-learned-skill-ledger-redesign-2026-04.md | 苦戦箇所参照時 | L-SLR-001〜009（実装順序・writer 見落とし・nonce 衝突 等） |
-| indexes/quick-reference-search-patterns-skill-ledger.md | クエリ早見 | 4 施策キーワード → reference 1 行マップ |
+| indexes/quick-reference-search-patterns-skill-ledger.md | クエリ早見 | 4 施策キーワード → reference 1 行マップ + A-3 適用事例（task-specification-creator: 315→116 行 / 6 references 新設 / `docs/30-workflows/skill-ledger-a3-progressive-disclosure/`） |
+| references/skill-ledger-progressive-disclosure.md §A-3 適用事例 | A-3 を他 skill に展開する際 | 適用前後行数・抽出 references 一覧・classification 軸（task-specification-creator 事例） |
+| references/workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md | A-3 ワークフロー成果物の完全一覧 | phase-01..13 / index / artifacts.json / outputs/phase-12 / 新規 references 6 本 / SKILL.md 改訂 |
 
 ---
 
