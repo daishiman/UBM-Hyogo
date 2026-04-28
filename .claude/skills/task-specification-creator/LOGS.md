@@ -28,6 +28,18 @@ UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage
 
 30種思考法レビューと SubAgent 準拠検証で、`completed` / `pending` / `spec_created` の状態ドリフト、R2 binding の現行例示と未適用方針の混在、未タスク検出の実体化漏れが見つかった。Phase 12 close-out は成果物の存在だけでなく、下流が誤認しない状態語彙まで閉じる必要がある。
 
+## 2026-04-27 - UT-06 Phase 12 review hardening
+
+### 変更内容
+
+- `docs/30-workflows/ut-06-production-deploy-execution/outputs/phase-12/phase12-task-spec-compliance-check.md` を追加し、30種思考法・4条件・エレガント検証の結果を記録した
+- root / outputs `artifacts.json` parity、task root path drift、Phase 11 placeholder screenshot、Part 1 / Part 2 implementation guide 不備を補正した
+- OpenNext Workers 形式、`/health/db` endpoint、実 screenshot を UT-06 実行前ブロッカーとして未タスクに昇格した
+
+### 背景
+
+UT-06 は本番デプロイ実行タスクだが、成果物は docs-only / NOT EXECUTED テンプレ状態だった。Phase 12 close-out では実デプロイ完了と誤読されない状態管理、正本仕様同期、未タスク明示を同一 wave で閉じる必要がある。
+
 ## 2026-04-27 - 05a Phase 12 close-out drift guard を SKILL.md へ反映
 
 ### 変更内容

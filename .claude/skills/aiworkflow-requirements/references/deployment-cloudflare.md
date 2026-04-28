@@ -22,6 +22,44 @@ ubm-hyogo Webアプリは **Cloudflare** を主要インフラとして使用す
 
 ---
 
+## 現行 canonical: UT-06 実行前ゲート（2026-04-27）
+
+UT-06 本番デプロイ実行では、Cloudflare CLI を直接実行せず、必ず `bash scripts/cf.sh ...` を使う。`scripts/cf.sh` は `scripts/with-env.sh` 経由で 1Password の `op://` 参照を解決し、`ESBUILD_BINARY_PATH` と `mise exec` を固定する。
+
+```bash
+bash scripts/cf.sh whoami
+bash scripts/cf.sh d1 list
+bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production
+bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env production
+bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env production
+```
+
+UT-06 実行前に次を満たすこと。
+
+| ゲート | 判定 |
+| --- | --- |
+| Web deploy 形式 | `apps/web/wrangler.toml` が OpenNext Workers 形式（`main = ".open-next/worker.js"` + `[assets] directory = ".open-next/assets"`）であること。`pages_build_output_dir` が残る場合は Pages 形式として扱い、UT-06 AC-1 の実行前ブロッカーにする |
+| API D1 smoke | `apps/api` が D1 binding を受け取り、API 経由で `SELECT 1` 相当を確認できること。`/health/db` 未実装の場合は AC-4 の実行前ブロッカーにする |
+| Health body | Phase 11 smoke の期待値と `GET /health` 実装の JSON shape が一致していること |
+| Secret hygiene | `.env` に実値を書かず、`op://` 参照のみを置くこと |
+| Screenshot evidence | 本番 smoke 後、実スクリーンショットを `outputs/phase-11/screenshots/` に保存すること。placeholder は証跡として扱わない |
+
+### 初回 D1 バックアップと restore-empty
+
+初回 migration 前の `wrangler d1 export` は、テーブル未作成のため空 export になる場合がある。この場合でも、実行日時、DB 名、command、出力ファイル、空 export である理由を `d1-backup-evidence.md` に記録すれば AC-7 の事前バックアップ証跡として扱える。
+
+初回 migration 失敗時に備え、Phase 4 で `restore-empty.sql` または同等の DROP SQL 雛形を準備する。実行前に対象テーブル名が migration と一致していることを確認する。
+
+### Pages 形式と OpenNext Workers 形式の判定
+
+| wrangler.toml の特徴 | 判定 | UT-06 での扱い |
+| --- | --- | --- |
+| `pages_build_output_dir = ".next"` | Pages 形式 | OpenNext Workers AC とは非整合。移行または AC 再定義が必要 |
+| `main = ".open-next/worker.js"` + `[assets] directory = ".open-next/assets"` | OpenNext Workers 形式 | UT-06 AC-1 の前提を満たす |
+| `compatibility_flags = ["nodejs_compat"]` のみ | 不十分 | entrypoint と assets 設定を併せて確認 |
+
+---
+
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）
 
 ### セットアップ手順
