@@ -48,7 +48,11 @@
 | A-1 gitignore 化 | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a1-gitignore.md` |
 | A-2 fragment 化 | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a2-fragment.md` |
 | A-3 progressive disclosure | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a3-progressive-disclosure.md` |
-| B-1 gitattributes | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-b1-gitattributes.md` |
+| B-1 gitattributes（原典スペック） | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-b1-gitattributes.md` |
+| B-1 design workflow（Phase 1〜13） | `docs/30-workflows/skill-ledger-b1-gitattributes/` |
+| B-1 実装未タスク（実 `.gitattributes` 適用） | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-gitattributes-implementation.md` |
+| B-1 A-2 完了レビュー未タスク | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-a2-completion-review.md` |
+| Phase 11 NON_VISUAL 証跡テンプレ改善 | `docs/30-workflows/unassigned-task/task-phase11-nonvisual-evidence-template-sync.md` |
 
 ## 検証コマンド早見
 
