@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-28 - task-verify-indexes-up-to-date-ci implementation scope normalization
+
+`docs/30-workflows/task-verify-indexes-up-to-date-ci/` をレビューし、`spec_created/docs-only` と実装同梱の表現揺れを `implementation / NON_VISUAL / Phase 13 pending_user_approval` へ正規化した。Phase 11 はスクリーンショット不要のまま、未実行 PASS ではなく local static smoke と PR 後 GitHub Actions 実機確認の境界を明記。Phase 12 は LOGS / topic-map / system spec sync を実装済み前提へ更新した。
+
 ## 2026-04-28 - DevEx conflict prevention spec wave normalization
 
 5件の task spec（skill state redesign / git hooks lefthook / worktree isolation / GitHub governance / Claude Code permissions）を `docs-only` / `spec_created` / `NON_VISUAL` に統一した。Phase 11 補助成果物は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点へ正規化し、root `artifacts.json` と `outputs/artifacts.json` の parity を固定した。`validate-phase-output.js` の要求見出しに合わせ、既存本文の意味を変えずに不足見出しのみ補遺として追加した。

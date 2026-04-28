@@ -45,8 +45,35 @@
   - 集約場所の優先順位を仕様で固定する: (1) `CLAUDE.md`（最初に開く） → (2) `doc/00-getting-started-manual/lefthook-operations.md`（運用詳細） → (3) `references/technology-devops-core.md`（システム仕様正本）。
   - skill `LOGS.md` は履歴台帳。検索性は `indexes/quick-reference.md` の早見表で担保する（本ドキュメント wave 同期の根拠）。
 
+### L-LH-006: post-merge 廃止と CI gate `verify-indexes-up-to-date` の責務分離
+
+- **状況**: post-merge を廃止して indexes 再生成を `pnpm indexes:rebuild` の明示コマンドへ昇格させた結果、「忘れて古いまま PR」リスクが残った。一方で hook 層に副作用ある再生成を戻すと L-LH-001 で潰した「無関係 diff の発生源」問題が再発する。
+- **教訓 / How to apply**:
+  1. **hook = read-only 通知のみ**（lefthook stage で副作用ある generated 物を作らない）。
+  2. **CI = drift authoritative gate**（`task-verify-indexes-up-to-date-ci` で `pnpm indexes:rebuild` 後の `git diff --exit-code -- .claude/skills/aiworkflow-requirements/indexes` を fail 条件にする）。
+  3. 二者の責務境界は仕様書（`technology-devops-core.md` Git hook 運用正本 / CI job 表）で 1 行ずつ明示し、再発防止ループを「hook を弄る」ではなく「CI gate を直す」に固定する。
+  4. drift 検出範囲は `.claude/skills/aiworkflow-requirements/indexes` に限定し、他 skill への横展開判定は ADR で別途決める（影響範囲の暴走防止）。
+
+### L-LH-MW-001: multi-worktree 一括 reinstall は逐次必須（並列禁止）
+
+- **状況**: 30+ worktree への lefthook 一括 reinstall を並列化したくなるが、各 worktree が共有する pnpm store / `~/.local/share/pnpm` への同時書き込みで store が破壊されるリスクがある。`mise exec -- pnpm exec lefthook install` 自体は軽量だが、依存解決経路が pnpm store にアクセスする以上、並列実行は store の整合性を保証できない。
+- **教訓 / How to apply**:
+  - `scripts/reinstall-lefthook-all-worktrees.sh` は **逐次実行のみ**（`for` / `while read` ループ、`xargs -P` や `parallel` を使わない）。
+  - 30+ worktree の所要時間は許容（数分オーダ）。並列化で得る短縮より store 破壊からの復旧コストの方が大きい。
+  - runbook 本文に「並列禁止」を明記し、将来の最適化提案に対するガードを置く。
+  - 並列化したい場合は worktree ごとに pnpm store を分離する設計が前提となるため、本タスクスコープ外（別 ADR）。
+
+### L-LH-MW-002: SKIP（node_modules 未生成）許容と manual-smoke-log 転記契約
+
+- **状況**: 30+ worktree のうち一部は `node_modules` 未生成で `pnpm exec lefthook` が解決できない。これを FAIL とすると完了条件が成立せず、他方で「全件 PASS」を強制すると未使用 worktree への先行 `pnpm install` が要求され副作用が大きい。
+- **教訓 / How to apply**:
+  - 完了条件は **「FAIL = 0 件」のみ**とし、`node_modules` 未生成 / 対象外 path 判断は **SKIP** として理由付きで summary に残す（PASS / SKIP / FAIL の 3 値分類）。
+  - script 終了コードは「FAIL≥1 → exit 1 / FAIL=0 → exit 0（SKIP のみ残っても成功）」に固定する。
+  - **stdout 出力を Phase 11 `manual-smoke-log.md` へ転記する運用契約**を runbook に明文化する（PR 本文または同名タスクディレクトリの `outputs/phase-11/manual-smoke-log.md`）。これにより「いつ誰がどの worktree に install したか」の監査痕跡が残る。
+  - SKIP は未達ではないが「将来の install 対象候補」として可視化することで、運用者が忘却なく次回判断できる。
+
 ## 申し送り（open / baseline 未タスク）
 
-- **C-1**（unassigned 配置済み）: CI `verify-indexes-up-to-date` job 新設 — `docs/30-workflows/unassigned-task/task-verify-indexes-up-to-date-ci.md`
-- **B-1**（baseline）: 既存 worktree 群への lefthook 再インストール runbook の運用化（実行責任者と記録管理の確定が必要）
-- **B-2**（resolved 2026-04-28 / task-husky-rejection-adr）: `husky` 不採用判断は ADR-0001 として `doc/decisions/0001-git-hook-tool-selection.md` に集約済み。後続テンプレート整備は `docs/30-workflows/unassigned-task/task-adr-template-standardization.md` に formalize。
+- **C-1**（completed）: CI `verify-indexes-up-to-date` job 新設 — `docs/30-workflows/completed-tasks/task-verify-indexes-up-to-date-ci/`（implementation_completed_pr_pending）
+- **B-1**（completed）: 既存 worktree 群への lefthook 再インストール runbook の運用化 — `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook.md` / `scripts/reinstall-lefthook-all-worktrees.sh`
+- **B-2**（resolved 2026-04-28 / task-husky-rejection-adr）: `husky` 不採用判断は ADR-0001 として `doc/decisions/0001-git-hook-tool-selection.md` に集約済み。後続テンプレート整備は `docs/30-workflows/unassigned-task/task-adr-template-standardization.md`、運用ガイドからのバックリンク追加は `docs/30-workflows/unassigned-task/task-lefthook-ops-adr-backlink.md` に formalize。
