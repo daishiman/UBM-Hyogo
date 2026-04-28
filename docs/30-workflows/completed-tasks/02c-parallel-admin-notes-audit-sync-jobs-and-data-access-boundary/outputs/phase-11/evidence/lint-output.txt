@@ -1,0 +1,16 @@
+$ mise exec -- pnpm lint
+
+> ubm-hyogo@0.1.0 lint /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260427-152903-wt-7
+> node scripts/lint-boundaries.mjs && pnpm -r lint
+
+# scripts/lint-boundaries.mjs（apps/web から D1Database / apps/api / @cloudflare/d1 等の禁止トークン import を検出）
+# → 違反 0 件、stdout なし、EXIT=0
+
+Scope: 5 of 6 workspace projects
+packages/shared           lint$ tsc -p tsconfig.json --noEmit  → Done
+packages/integrations     lint$ tsc -p tsconfig.json --noEmit  → Done
+packages/integrations/google lint$ tsc -p tsconfig.json --noEmit  → Done
+apps/web                  lint$ tsc -p tsconfig.json --noEmit  → Done
+apps/api                  lint$ tsc -p tsconfig.json --noEmit  → Done
+
+EXIT=0
