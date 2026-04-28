@@ -7,9 +7,10 @@
  * 各Task完了時に呼び出されることを想定しています。
  */
 
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { randomBytes } from "crypto";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SKILL_DIR = join(__dirname, "..");
@@ -17,6 +18,37 @@ const SKILL_DIR = join(__dirname, "..");
 const EXIT_SUCCESS = 0;
 const EXIT_ERROR = 1;
 const EXIT_ARGS_ERROR = 2;
+
+function escapeBranch(branch) {
+  const escaped = branch
+    .toLowerCase()
+    .replace(/\//g, "-")
+    .replace(/[^a-z0-9_-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return (escaped || "unknown").slice(0, 64);
+}
+
+function compactTimestamp(now) {
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}-${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}`;
+}
+
+function writeLogFragment(body, timestamp) {
+  const branch = escapeBranch(process.env.GIT_BRANCH || process.env.BRANCH || "unknown");
+  const author = process.env.GIT_AUTHOR_EMAIL || process.env.USER || "claude-code";
+  const dir = join(SKILL_DIR, "LOGS");
+  mkdirSync(dir, { recursive: true });
+  for (let i = 0; i < 4; i += 1) {
+    const nonce = randomBytes(4).toString("hex");
+    const file = join(dir, `${compactTimestamp(new Date(timestamp))}-${branch}-${nonce}.md`);
+    if (existsSync(file)) continue;
+    const content = `---\ntimestamp: ${timestamp.replace(/\.\d{3}Z$/, "Z")}\nbranch: ${branch}\nauthor: ${author}\ntype: log\n---\n${body.trimEnd()}\n`;
+    writeFileSync(file, content, "utf-8");
+    return;
+  }
+  throw new Error("fragment path collision unresolved after 4 attempts");
+}
 
 function showHelp() {
   console.log(`
@@ -61,8 +93,6 @@ async function main() {
 
   const timestamp = new Date().toISOString();
 
-  // 1. LOGS.md に追記
-  const logsPath = join(SKILL_DIR, "LOGS.md");
   const logEntry = `
 ## [実行日時: ${timestamp}]
 
@@ -74,23 +104,10 @@ async function main() {
 `;
 
   try {
-    if (existsSync(logsPath)) {
-      const logsContent = readFileSync(logsPath, "utf-8");
-      const updatedLogs = logsContent.replace(
-        "（ログエントリはここに追記されます）",
-        `${logEntry}\n（ログエントリはここに追記されます）`,
-      );
-      writeFileSync(logsPath, updatedLogs, "utf-8");
-    } else {
-      writeFileSync(
-        logsPath,
-        `# 実行ログ\n${logEntry}\n（ログエントリはここに追記されます）`,
-        "utf-8",
-      );
-    }
-    console.log(`✓ LOGS.md に記録を追記しました`);
+    writeLogFragment(logEntry, timestamp);
+    console.log(`✓ fragment ログに記録を追記しました`);
   } catch (err) {
-    console.error(`Error: LOGS.md の更新に失敗しました: ${err.message}`);
+    console.error(`Error: fragment ログの作成に失敗しました: ${err.message}`);
     process.exit(EXIT_ERROR);
   }
 

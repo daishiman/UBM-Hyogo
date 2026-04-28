@@ -1,0 +1,194 @@
+{
+  "task_name": "task-skill-ledger-a2-fragment",
+  "task_path": "docs/30-workflows/task-skill-ledger-a2-fragment",
+  "github_issue": "https://github.com/daishiman/UBM-Hyogo/issues/130",
+  "execution_mode": "implementation",
+  "depends_on": [
+    "task-conflict-prevention-skill-state-redesign"
+  ],
+  "blocks": [
+    "task-skill-ledger-a1-gitignore",
+    "task-skill-ledger-a3-progressive-disclosure",
+    "task-skill-ledger-b1-gitattributes"
+  ],
+  "created_at": "2026-04-28",
+  "metadata": {
+    "featureName": "task-skill-ledger-a2-fragment",
+    "taskType": "implementation",
+    "category": "refactoring",
+    "docsOnly": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow": "implementation",
+    "owner": "platform / skill-ledger",
+    "domain": "skill-state",
+    "priority": "high",
+    "scale": "medium",
+    "issue_state": "closed"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-1/main.md"],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-2/main.md",
+        "outputs/phase-2/fragment-schema.md",
+        "outputs/phase-2/render-api.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-3/main.md",
+        "outputs/phase-3/review.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト設計",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-4/main.md",
+        "outputs/phase-4/test-matrix.md"
+      ],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-5/main.md",
+        "outputs/phase-5/runbook.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-6/main.md",
+        "outputs/phase-6/failure-cases.md",
+        "outputs/phase-6/fragment-runbook.md"
+      ],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-7/main.md",
+        "outputs/phase-7/coverage.md"
+      ],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-8/main.md",
+        "outputs/phase-8/before-after.md"
+      ],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-9/main.md",
+        "outputs/phase-9/quality-gate.md"
+      ],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md",
+        "outputs/phase-10/go-no-go.md"
+      ],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md",
+        "outputs/phase-11/4worktree-smoke-evidence.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/runbook-diff-plan.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "完了確認 / PR",
+      "file": "phase-13.md",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-template.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ]
+}
