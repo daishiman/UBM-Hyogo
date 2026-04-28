@@ -277,8 +277,11 @@ node scripts/detect-mode.js --request "{{USER_REQUEST}}"
 node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp/unassigned-candidates.json
 ```
 
+> **未タスクテンプレ必須セクション（4 種）**: 「苦戦箇所【記入必須】」「リスクと対策」「検証方法」「スコープ（含む/含まない）」を必ず含める。詳細は [references/unassigned-task-required-sections.md](references/unassigned-task-required-sections.md) 参照。<!-- TODO(F-1): SKILL.md は 500 行超過のため、本本体への詳細展開は F-1 タスクで分割対応する。 -->
+
 📖 [references/phase-11-12-guide.md](references/phase-11-12-guide.md)
 📖 [references/spec-update-workflow.md](references/spec-update-workflow.md)
+📖 [references/unassigned-task-required-sections.md](references/unassigned-task-required-sections.md)
 📖 [agents/generate-unassigned-task.md](agents/generate-unassigned-task.md)
 
 ## 変更履歴
