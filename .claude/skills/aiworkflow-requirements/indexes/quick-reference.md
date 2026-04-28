@@ -75,6 +75,28 @@
 
 ---
 
+### Worktree Environment Isolation（2026-04-28）
+
+worktree 間の暗黙共有・shell state 残留・並列作成競合を防ぐ 4 領域への引き方。
+
+| 検索領域 | 検索パターン例 | 最初に開くファイル |
+| --- | --- | --- |
+| skill symlink 検出 | `find .claude/skills -type l`、`grep -r "type l" scripts/`、キーワード `skill-symlink-removal` | `references/development-guidelines-details.md` (L197〜)、`references/lessons-learned-health-policy-worktree-2026-04.md` §L-WTI-001 |
+| tmux session env / global env 分離 | `tmux show-environment -g`、`tmux show-environment -t <session>`、キーワード `UBM_WT` `tmux-session-scoped-env` `update-environment` | `references/development-guidelines-details.md` (L197〜)、`references/lessons-learned-health-policy-worktree-2026-04.md` §L-WTI-002 |
+| lockdir owner metadata | `ls .worktrees/.locks/`、キーワード `gwt-auto-lock` `lockdir` `branch-slug-hash` `exit 75`、`grep "mkdir.*lockdir" scripts/` | `scripts/new-worktree.sh`、`references/lessons-learned-health-policy-worktree-2026-04.md` §L-WTI-003 / §L-WTI-008 |
+| shell state reset | キーワード `hash -r` `unset OP_SERVICE_ACCOUNT_TOKEN` `mise trust` `mise exec --`、`git rev-parse --git-path hooks` | `references/development-guidelines-core.md` (L213〜)、`references/lessons-learned-health-policy-worktree-2026-04.md` §L-WTI-007 |
+
+| 目的 | 参照先 |
+| --- | --- |
+| 全体仕様 | `docs/30-workflows/task-worktree-environment-isolation/` |
+| Phase 12 implementation guide（Part 2 が運用ランブック） | `outputs/phase-12/implementation-guide.md` |
+| NON_VISUAL Phase 11 ログ3点（`tmux show-environment` / `find -type l` / `exit 75` の固定設計） | `outputs/phase-11/manual-smoke-log.md`、`references/lessons-learned-health-policy-worktree-2026-04.md` §L-WTI-004 |
+| spec_created 同期 4 点セット標準（development-guidelines / lessons-learned / task-workflow-active / topic-map+keywords） | `references/lessons-learned-health-policy-worktree-2026-04.md` §L-WTI-006 |
+| 横断依存 5 タスクの wave 同期手順 | `references/lessons-learned-health-policy-worktree-2026-04.md` §L-WTI-005 |
+| Artifact Inventory | `references/workflow-task-worktree-environment-isolation-artifact-inventory.md` |
+
+---
+
 ### UI Visual Baseline Drift / dark-mode screenshot stability（2026-04-03）
 
 | 目的                 | 最初に開くファイル                                                                                                                                           |
@@ -830,6 +852,20 @@ packages/
 | 苦戦知見 | `references/lessons-learned-02b-schema-diff-and-tag-queue.md` (L-02B-001〜005) |
 | 02b 由来未タスク | `docs/30-workflows/unassigned-task/02b-followup-00{1,2,3}-*.md` |
 | free tier 実測（02b 単体） | reads 0.24% / writes 0.11% |
+
+### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
+
+> 本ファイル 500 行超過のため詳細は分離。`indexes/quick-reference-search-patterns-skill-ledger.md` を参照。
+
+| キーワード | 1 行誘導 |
+| --- | --- |
+| `skill-ledger`, `4施策`, `A-1/A-2/A-3/B-1` | `references/skill-ledger-overview.md` |
+| `fragment`, `escapedBranch`, `nonce`, `render-api` | `references/skill-ledger-fragment-spec.md` |
+| `gitignore`, `keywords.json` 自動生成 | `references/skill-ledger-gitignore-policy.md` |
+| `progressive-disclosure`, `200 行ガード` | `references/skill-ledger-progressive-disclosure.md` |
+| `merge=union`, `_legacy.md` | `references/skill-ledger-gitattributes-policy.md` |
+| 苦戦箇所 (L-SLR-001〜009) | `references/lessons-learned-skill-ledger-redesign-2026-04.md` |
+| 全クエリ早見 | `indexes/quick-reference-search-patterns-skill-ledger.md` |
 
 ### Git Hook 統一・post-merge indexes 再生成廃止 早見（task-git-hooks-lefthook-and-post-merge / 2026-04-28）
 

@@ -13,6 +13,8 @@ description: |
   • Domain-Driven Design (Eric Evans) / 適用: 戦略的設計・ユビキタス言語・Bounded Context / 目的: ドメイン構造の明確化
   • Clean Architecture (Robert C. Martin) / 適用: 依存関係ルール・層分離設計 / 目的: 変更に強い高精度スキル
   • Design Thinking (IDEO) / 適用: ユーザー中心設計 / 目的: 共感と共創
+  • Progressive Disclosure / 適用: SKILL.md 200 行 entrypoint + references 分割 / 目的: 並列衝突の局所化
+  • Changesets pattern / 適用: LOGS / changelog の fragment 化 / 目的: append-only ledger の 3-way merge 衝突回避
 
   Trigger:
   新規スキルの作成、既存スキルの更新、プロンプト改善を行う場合に使用。
@@ -300,6 +302,7 @@ SDK セッション（`SkillCreatorSdkSession`）は `createSdkMcpServer` + `too
 | **プロンプト生成ポリシー**   | references/prompt-generation-policy.md       |
 | **スクリプト/LLM分担**       | references/script-llm-patterns.md            |
 | **クロススキル参照パターン** | references/cross-skill-reference-patterns.md |
+| **skill-ledger 規約（fragment / gitignore / merge=union / 200行entrypoint）** | references/skill-ledger-conventions.md |
 | **外部CLIエージェント統合**  | references/external-cli-agents-guide.md      |
 | スクリプト生成               | references/script-types-catalog.md           |
 | ワークフローパターン         | references/workflow-patterns.md              |

@@ -596,6 +596,21 @@
 | task-workflow-rules.md       | 品質ゲート、分解ルール確認時               | 品質ゲート、タスク分解                                                                                                                                                                                                                                                                                                                                     |
 | patterns.md                  | 実装パターン集（成功/失敗）                | 成功パターン、失敗パターン（P23-P28）、ガイドライン                                                                                                                                                                                                                                                                                                        |
 
+### 12. skill ledger（4 worktree 並列衝突回避設計）
+
+> 出典: `docs/30-workflows/completed-tasks/task-conflict-prevention-skill-state-redesign/`（2026-04-28 反映）
+> 適用順序: A-2 → A-1 → A-3 → B-1（厳守）
+
+| ファイル | 読み込み条件 | 主要コンテンツ |
+| --- | --- | --- |
+| references/skill-ledger-overview.md | 4 施策の全体像確認時 | A-1/A-2/A-3/B-1 概要、適用順序、責務分離の入口 |
+| references/skill-ledger-fragment-spec.md | A-2 fragment 命名規則 / render API 確認時 | `LOGS/<timestamp>-<escapedBranch>-<nonce>.md`、front matter schema、`pnpm skill:logs:render` API |
+| references/skill-ledger-gitignore-policy.md | A-1 自動生成 ledger 除外時 | gitignore 対象 glob、untrack 手順、hook 冪等化、A-2 完了前提 |
+| references/skill-ledger-progressive-disclosure.md | A-3 SKILL.md 200 行ガード時 | entry 残置要素、references 抽出ルール、classification-first 親ルール |
+| references/skill-ledger-gitattributes-policy.md | B-1 `merge=union` 適用時 | 適用許可リスト（`_legacy.md` 等）、禁止リスト（JSON/YAML/SKILL.md） |
+| references/lessons-learned-skill-ledger-redesign-2026-04.md | 苦戦箇所参照時 | L-SLR-001〜009（実装順序・writer 見落とし・nonce 衝突 等） |
+| indexes/quick-reference-search-patterns-skill-ledger.md | クエリ早見 | 4 施策キーワード → reference 1 行マップ |
+
 ---
 
 ## 読み込み判断フローチャート
@@ -739,6 +754,21 @@ node scripts/search-spec.js "苦戦パターン"
 # safeInvokeパターン
 node scripts/search-spec.js "safeInvoke"
 ```
+
+### task-worktree-environment-isolation: Developer Environment / Worktree Isolation 導線
+
+| リソース | 役割 | 読み込み条件 |
+|----------|------|--------------|
+| `references/development-guidelines-core.md` (L213〜) | worktree 入場時の `unset OP_SERVICE_ACCOUNT_TOKEN` / `hash -r` / `mise trust/install` / `mise exec --` 必須前処理 | worktree に入る直前・新規 shell を開く時 |
+| `references/development-guidelines-details.md` (L197〜) | skill symlink 撤去 / tmux session-scoped env / lockdir / shell state reset の current contract | 設計判断・運用契約確認時 |
+| `references/lessons-learned-health-policy-worktree-2026-04.md` (§task-worktree-environment-isolation) | L-WTI-001〜008 教訓（symlink 暗黙共有 / tmux global env / lockdir owner metadata / NON_VISUAL Phase 11 ログ3点 / wave 同期手順 / spec_created 4点セット / worktree-aware path / stale lock 判定） | 同種事故の予防・再発防止策確認時 |
+| `references/task-workflow-active.md` (current task entry) | task-worktree-environment-isolation の current state と blocking dependencies | active task 確認時 |
+| `references/task-workflow-backlog.md` (follow-up entries) | follow-up 4件（実装タスク / lockdir GC / tmux env probe / skill symlink CI gate） | 後続タスク選定時 |
+| `references/workflow-task-worktree-environment-isolation-artifact-inventory.md` | Phase 1-13 outputs canonical set と validation chain | 成果物棚卸し・差分確認時 |
+| `indexes/topic-map.md` (L920〜 Developer Environment / Worktree Isolation 章) | outputs Phase 2 / 4 / 5 / 11 / 12 / 13 への行番号インデックス | 仕様書本体に当たる時 |
+| `docs/30-workflows/task-worktree-environment-isolation/` | タスク本体（Phase 1-13 + outputs） | 正本仕様にあたる時 |
+| `scripts/new-worktree.sh` | worktree 作成 + lock + mise install ラッパ | 実装着手・スクリプト改修時 |
+| `CLAUDE.md` (§ワークツリー作成) | ユーザ向け運用注意（必ずワークツリーディレクトリから claude を起動） | 新規 worktree 作業開始時 |
 
 ---
 
