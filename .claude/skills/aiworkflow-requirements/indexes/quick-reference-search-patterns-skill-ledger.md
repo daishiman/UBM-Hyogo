@@ -81,6 +81,26 @@ for n in 1 2 3 4; do bash scripts/new-worktree.sh verify/a2-$n; done
 git ls-files --unmerged | wc -l
 ```
 
+## A-3 他スキル適用事例
+
+### task-specification-creator（2026-04-28 / Issue #131）
+
+| 項目 | 値 |
+| --- | --- |
+| 適用前 SKILL.md 行数 | 315 行 |
+| 適用後 SKILL.md 行数 | 116 行（entry） |
+| 抽出 references 数 | 6 本（新規） |
+| 関連 workflow | `docs/30-workflows/skill-ledger-a3-progressive-disclosure/` |
+
+| 抽出 references | 用途 / 対応キーワード |
+| --- | --- |
+| `.claude/skills/task-specification-creator/references/requirements-review.md` | 要件レビュー手順 / `要件レビュー`, `requirements review`, `Phase 1 ゲート` |
+| `.claude/skills/task-specification-creator/references/task-type-decision.md` | タスクタイプ判定 / `task type`, `docs-only`, `non_visual`, `visual` |
+| `.claude/skills/task-specification-creator/references/phase-12-spec.md` | Phase 12 仕様（中学生レベル概念説明含む） / `Phase 12`, `中学生レベル`, `concept explanation` |
+| `.claude/skills/task-specification-creator/references/phase-12-pitfalls.md` | Phase 12 の罠（UBM-009〜013 等） / `Phase 12 pitfalls`, `placeholder PNG`, `wrangler 直呼び`, `Next.js 16 worktree root` |
+| `.claude/skills/task-specification-creator/references/quality-gates.md` | 品質ゲート定義 / `quality gates`, `coverage`, `phase gate` |
+| `.claude/skills/task-specification-creator/references/orchestration.md` | サブエージェント編成・並列実行 / `orchestration`, `subagent`, `parallel` |
+
 ## 関連 quick-reference
 
 - `quick-reference.md`（親）

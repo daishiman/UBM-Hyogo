@@ -85,6 +85,51 @@
 | 対応 | Phase 3 backward-compat で **`_legacy.md` 削除禁止** を明記。fragment-spec / overview 双方で重複明記 |
 | 再発防止 | レビューチェック項目に「`_legacy.md` の削除有無」を追加 |
 
+## L-SLR-010: Skill が説く規約をその Skill 自身が破るドッグフーディング矛盾
+
+| 項目 | 内容 |
+| --- | --- |
+| 課題 | `task-specification-creator/SKILL.md` が 315 → 517 行と肥大化し、自身が説く A-3 規約（200 行未満）に違反 |
+| 対処 | 機械的 cut & paste のみで 116 行 entry へ縮減、6 references へ抽出。意味的書き換えを禁止ルール化 |
+| 一行ガイド | Skill が説く規約は Skill 自身のファイルでまず満たす。200 行超を検知した瞬間 references 化を blocking に |
+| 参照 | `docs/30-workflows/skill-ledger-a3-progressive-disclosure/outputs/phase-12/skill-feedback-report.md` |
+
+## L-SLR-011: Phase 12 で UBM-009〜013 の漏れが連続発生
+
+| 項目 | 内容 |
+| --- | --- |
+| 課題 | docs-only 誤読 / placeholder PNG / 未実装 endpoint smoke / wrangler 直呼び / Next.js 16 worktree root 誤検出が連続 |
+| 対処 | `phase-12-pitfalls.md` を新規 references として独立、Feedback ID 付きで時系列追記 |
+| 一行ガイド | Phase 12 漏れは「次回も同じ罠を踏む」前提でファイル化。pitfalls 行は ID 付与で履歴を保つ |
+| 参照 | `.claude/skills/task-specification-creator/references/phase-12-pitfalls.md` |
+
+## L-SLR-012: entry/references の責務境界判定の揺れ
+
+| 項目 | 内容 |
+| --- | --- |
+| 課題 | skill ごとに何を残し何を出すか合議で時間消費 |
+| 対処 | entry 固定要素（front matter / 概要 / trigger / allowed-tools / Anchors / クイックスタート / モード / agent 導線 / references 表 / 最小 workflow）を AC-3 として固定 |
+| 一行ガイド | entry に残すのは「loader が起動判断に使う情報」のみ。それ以外は references 行き |
+| 参照 | `.claude/skills/skill-creator/references/skill-ledger-conventions.md` |
+
+## L-SLR-013: canonical / mirror 同期と既存リンク参照切れリスク
+
+| 項目 | 内容 |
+| --- | --- |
+| 課題 | `.claude/skills/...` と `.agents/skills/...` の同期漏れ、外部から SKILL.md 内部アンカーを指す既存リンクの参照切れ |
+| 対処 | AC-5 で `diff -r` = 0 を必須化、loader doctor / link audit を未タスク登録（U-7/U-8） |
+| 一行ガイド | mirror 同期と旧アンカー追跡は人手検査ではなく smoke スクリプト化を最初から組み込む |
+| 参照 | `docs/30-workflows/skill-ledger-a3-progressive-disclosure/outputs/phase-12/unassigned-task-detection.md` |
+
+## L-SLR-014: 並列 worktree での SKILL.md merge conflict リスク
+
+| 項目 | 内容 |
+| --- | --- |
+| 課題 | 複数 skill 改修を 1 PR に束ねると衝突発生 |
+| 対処 | 「1 PR = 1 skill」を厳守、A-3 内でも skill ごとに PR を分離（PR-1〜PR-5） |
+| 一行ガイド | SKILL.md 編集は skill 単位で原子化。複数 skill を 1 PR に束ねない |
+| 参照 | `docs/30-workflows/skill-ledger-a3-progressive-disclosure/index.md` |
+
 ## 再発防止サマリ（チェックリスト）
 
 | # | チェック | 適用フェーズ |
