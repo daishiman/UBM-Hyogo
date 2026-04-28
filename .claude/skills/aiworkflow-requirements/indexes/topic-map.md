@@ -2047,6 +2047,21 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L197 |
 | 変更履歴 | L208 |
 
+### references/workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L9 |
+| 集計 | L18 |
+| 改訂された SKILL.md（task-specification-creator） | L31 |
+| 新規 references（task-specification-creator 配下） | L37 |
+| workflow 仕様書（root） | L48 |
+| workflow outputs | L68 |
+| aiworkflow-requirements 反映ファイル（本タスク close-out） | L84 |
+| 再生成・監査コマンド | L97 |
+| 使い方 | L113 |
+| 変更履歴 | L119 |
+
 ### references/workflow-skill-lifecycle-created-skill-usage-journey.md
 
 | セクション | 行 |
@@ -3253,8 +3268,13 @@ node scripts/list-specs.js --topics
 | L-SLR-007: `merge=union` の誤適用 | L61 |
 | L-SLR-008: skill 自身への施策適用漏れ（ドッグフーディング） | L70 |
 | L-SLR-009: `_legacy.md` 物理削除の誤発生 | L79 |
-| 再発防止サマリ（チェックリスト） | L88 |
-| 関連 references | L103 |
+| L-SLR-010: Skill が説く規約をその Skill 自身が破るドッグフーディング矛盾 | L88 |
+| L-SLR-011: Phase 12 で UBM-009〜013 の漏れが連続発生 | L97 |
+| L-SLR-012: entry/references の責務境界判定の揺れ | L106 |
+| L-SLR-013: canonical / mirror 同期と既存リンク参照切れリスク | L115 |
+| L-SLR-014: 並列 worktree での SKILL.md merge conflict リスク | L124 |
+| 再発防止サマリ（チェックリスト） | L133 |
+| 関連 references | L148 |
 
 ### references/lessons-learned-skill-lifecycle-test-hardening.md
 
@@ -4488,7 +4508,8 @@ node scripts/list-specs.js --topics
 | 7. リンク健全性検証 | L78 |
 | 8. 完了条件 | L96 |
 | 9. 苦戦箇所 | L105 |
-| 10. 関連 references | L116 |
+| A-3 適用事例 | L116 |
+| 10. 関連 references | L141 |
 
 ### references/spec-elegance-consistency-audit.md
 
