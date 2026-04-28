@@ -204,7 +204,7 @@ UBM-Hyogo/                          # pnpm monorepo root
 ├── packages/
 │   ├── shared/                     # 共通型定義・ユーティリティ
 │   └── integrations/               # 外部サービス統合（Google API等）
-├── doc/                            # タスク仕様書・設計ドキュメント
+├── docs/                           # タスク仕様書・設計ドキュメント
 │   ├── 00-getting-started-manual/  # プロジェクト起動・仕様のエントリポイント（本ファイル）
 │   ├── 01-infrastructure-setup/    # Wave 3〜5: 進行中のインフラタスク群
 │   ├── completed-tasks/            # 完了タスク（Wave 0〜2）
@@ -223,8 +223,8 @@ UBM-Hyogo/                          # pnpm monorepo root
 | ブランチ | 対応環境 | PR承認 | CI チェック | force push |
 |----------|----------|--------|------------|------------|
 | `feature/*` | ローカル (localhost) | 不要 | なし | 禁止 |
-| `dev` | staging (Cloudflare staging) | 不要（個人開発） | 必須 | 禁止 |
-| `main` | production (Cloudflare production) | 不要（個人開発） | 必須 | 禁止 |
+| `dev` | staging (Cloudflare staging) | 現行: 不要（個人開発） / 草案: 1名 | 必須 | 禁止 |
+| `main` | production (Cloudflare production) | 現行: 不要（個人開発） / 草案: 2名 | 必須 | 禁止 |
 
 ```
 feature/* --PR--> dev --PR--> main
@@ -239,21 +239,21 @@ feature/* --PR--> dev --PR--> main
 
 | ブランチ | Required reviews | Status checks | Force push |
 |---------|-----------------|---------------|------------|
-| `main` | 0名（不要・個人開発） | `ci`, `Validate Build` | 禁止 |
-| `dev` | 0名（不要・個人開発） | `ci`, `Validate Build` | 禁止 |
+| `main` | 現行: 0名 / 草案: 2名 + CODEOWNERS + last push approval | 現行: `ci`, `Validate Build` / 草案: 8 target contexts | 禁止 |
+| `dev` | 現行: 0名 / 草案: 1名 | 現行: `ci`, `Validate Build` / 草案: 8 target contexts | 禁止 |
 
 - `main` / `dev` への直接 push 禁止。必ず PR 経由でマージする。
-- PR 承認は不要。CI チェック通過のみで merge 可能。
-- Status checks（`ci` / `Validate Build`）は下流タスクで GitHub Actions を設定後に有効になる。
-- 設定手順: `doc/01a-parallel-github-and-branch-governance/outputs/phase-05/repository-settings-runbook.md`
+- current applied は PR 承認不要。2026-04-28 の GitHub governance 草案では `dev` 1名 / `main` 2名へ強化するが、`spec_created` のため未適用。
+- 現行 Status checks（`ci` / `Validate Build`）は既存 workflow に対応。草案の 8 target contexts は後続 CI 実装タスクで実在 job 名へ同期後に有効化する。
+- 草案の正本: `.claude/skills/aiworkflow-requirements/references/deployment-branch-strategy.md`
+- 設定手順: `docs/01a-parallel-github-and-branch-governance/outputs/phase-05/repository-settings-runbook.md`
 
 ### CODEOWNERS（`.github/CODEOWNERS`）
 
 ```
 *                   @daishiman   # global fallback（全ファイル）
-doc/01a-*/          @daishiman   # Wave 1 並列タスク仕様書
-doc/01b-*/          @daishiman
-doc/01c-*/          @daishiman
+docs/30-workflows/** @daishiman  # workflow / task 仕様書
+.claude/skills/**/references/** @daishiman  # 正本仕様書
 .github/            @daishiman   # governance ファイル自体
 ```
 

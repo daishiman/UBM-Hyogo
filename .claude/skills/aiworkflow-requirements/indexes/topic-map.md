@@ -921,6 +921,15 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: Turso, SQLite, スキーマ, FTS5, Embedded Replicas
 
+### references/database-admin-repository-boundary.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 対象 repository | L11 |
+| 境界 | L21 |
+| 下流連携 | L29 |
+
 ### references/database-architecture.md
 
 | セクション | 行 |
@@ -2352,7 +2361,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L109 |
+| 変更履歴 | L132 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2670,6 +2679,13 @@ node scripts/list-specs.js --topics
 | 4. システム仕様書への影響（軽微 Note 追記） | L71 |
 | 5. 後続タスク handoff | L82 |
 | 関連参照 | L96 |
+
+### references/lessons-learned-02c-data-access-boundary.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L7 |
+| 申し送り先（unassigned-task-detection.md より） | L39 |
 
 ### references/lessons-learned-05b-smoke-readiness-2026-04.md
 
@@ -4423,7 +4439,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| 続き | L341 |
+| 続き | L348 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

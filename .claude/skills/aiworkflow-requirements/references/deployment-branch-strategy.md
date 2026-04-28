@@ -17,8 +17,8 @@ feature/xxx  →  dev  →  main
 | ブランチ | 目的 | デプロイ先 | 保護ルール |
 | -------- | ---- | ---------- | ---------- |
 | `feature/*` | 機能単位の開発 | なし（ローカルのみ） | 直接 push 禁止 |
-| `dev` | 統合・開発環境 | Cloudflare (staging) | PR 経由必須・承認不要・CI チェック必須 |
-| `main` | 本番環境 | Cloudflare (production) | PR 経由必須・承認不要・CI チェック必須・force push 禁止 |
+| `dev` | 統合・開発環境 | Cloudflare (staging) | 現行: PR 経由必須・承認不要・CI チェック必須 / 草案: 承認 1 名 |
+| `main` | 本番環境 | Cloudflare (production) | 現行: PR 経由必須・承認不要・CI チェック必須・force push 禁止 / 草案: 承認 2 名 |
 
 ---
 
@@ -26,10 +26,10 @@ feature/xxx  →  dev  →  main
 
 ```
 1. feature/* ブランチで機能開発
-2. feature/* → dev へ PR & マージ（承認不要・CI チェック通過で merge 可）
+2. feature/* → dev へ PR & マージ（現行: 承認不要・CI チェック通過で merge 可 / 草案: 承認 1 名）
    → staging 環境へ自動デプロイ
    → 動作確認
-3. dev → main へ PR & マージ（承認不要・CI チェック通過で merge 可）
+3. dev → main へ PR & マージ（現行: 承認不要・CI チェック通過で merge 可 / 草案: 承認 2 名）
    → production 環境へ自動デプロイ
 ```
 
@@ -82,6 +82,10 @@ Settings > Environments > staging:
 
 ## ブランチ保護ルール（推奨設定）
 
+本節は **current applied** と **draft proposal** を分離する。2026-04-26 時点の current applied は個人開発向けの承認不要設定であり、2026-04-28 の GitHub governance 草案は `spec_created` のため未適用である。
+
+### current applied（承認不要 / 2026-04-26）
+
 ### `main` ブランチ
 
 ```
@@ -104,6 +108,25 @@ Settings > Branches > dev:
 - Allow force pushes: OFF
 ```
 
+### draft proposal: GitHub governance branch protection 草案（spec_created / 2026-04-28）
+
+`docs/30-workflows/task-github-governance-branch-protection/` で、上記ブランチ保護ルールをより厳格な GitHub governance 草案として仕様化した。
+
+| 項目 | `dev` | `main` |
+| --- | --- | --- |
+| Required approvals | 1 | 2 |
+| Required status checks | `ci / typecheck (web)`, `ci / typecheck (api)`, `ci / lint`, `ci / test (web)`, `ci / test (api)`, `ci / build (web)`, `ci / build (api)`, `ci / docs-link-check` | `dev` と同一 |
+| CODEOWNERS review | 任意 | 必須 |
+| Last push approval | 任意 | 必須 |
+| Linear history | 必須 | 必須 |
+| Squash-only repository setting | `allow_squash_merge=true`, `allow_merge_commit=false`, `allow_rebase_merge=false` | `dev` と同一 |
+
+適用境界:
+
+- 本差分は `spec_created` であり、GitHub repository settings / branch protection / `.github/workflows/*.yml` への実適用はまだ行わない。
+- 実適用時は `task-github-governance-branch-protection` Phase 5 runbook と Phase 13 ユーザー承認ゲートに従う。
+- `required_status_checks.contexts` は後続 CI 実装タスクで実ジョブ名と再照合してから本適用する。
+
 ---
 
 ## 変更履歴
@@ -112,3 +135,4 @@ Settings > Branches > dev:
 | ---- | ---------- | -------- |
 | 2026-04-09 | 1.0.0 | 初版作成（feature/dev/main 3層ブランチ戦略） |
 | 2026-04-26 | 1.1.0 | 個人開発方針反映: PR 承認を 2名/1名 → 0名（承認不要）に変更。CI チェック必須は維持。production Required reviewers を 0名に変更。Issue #23 対応。 |
+| 2026-04-28 | 1.2.0 | task-github-governance-branch-protection spec_created sync。dev=1名 / main=2名レビュー、squash-only、linear history、CODEOWNERS / last-push approval、8 required status checks 草案を追記。実適用は後続タスク・ユーザー承認後に限定。 |
