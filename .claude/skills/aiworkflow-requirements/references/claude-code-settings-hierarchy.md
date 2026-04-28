@@ -11,8 +11,8 @@
 Claude Code の `settings.json` / `settings.local.json` は 4 階層で読み込まれ、上層が下層を完全上書きする。本リファレンスは:
 
 - 4 階層の読み込み優先順位
-- `defaultMode` 統一方針
-- `--dangerously-skip-permissions` の併用方針
+- `defaultMode` ハイブリッド方針
+- `--dangerously-skip-permissions` の保留方針
 - `permissions.allow` / `permissions.deny` whitelist 設計
 - 関連タスク（`task-claude-code-permissions-decisive-mode` 系 wave）からの参照導線
 
@@ -44,7 +44,7 @@ project/.claude/settings.local.json   (最優先 / projectLocal)
 
 ---
 
-## 2. `defaultMode` 統一方針
+## 2. `defaultMode` ハイブリッド方針
 
 | 値                   | 用途                                       |
 | -------------------- | ------------------------------------------ |
@@ -52,37 +52,41 @@ project/.claude/settings.local.json   (最優先 / projectLocal)
 | `bypassPermissions`  | 確認をスキップするモード（信頼境界が前提） |
 
 階層がバラバラだと起動時に上位層の値で permission prompt が出る observed 症状が発生する。
-3 層（または必要な project のみ含む 4 層）すべてを `bypassPermissions` で揃えることで再発を防ぐ。
+`task-claude-code-permissions-project-local-first-comparison-001` の比較結論により、採用方針は **ハイブリッド** とする。
+
+- 主経路: `<project>/.claude/settings.local.json` の `defaultMode = bypassPermissions`
+- fallback: `~/.claude/settings.json` の `defaultMode = bypassPermissions`
+- 除外: `~/.zshrc` の `cc` alias へ `--dangerously-skip-permissions` を追加しない
 
 | Layer        | 推奨値                                                     |
 | ------------ | ---------------------------------------------------------- |
-| global       | `bypassPermissions`                                        |
-| globalLocal  | `bypassPermissions`                                        |
-| project      | `bypassPermissions`（信頼境界が確立されたリポジトリのみ） |
-| projectLocal | `bypassPermissions`（必要な project のみ）                |
+| global       | `bypassPermissions`（fresh worktree / new project 向け fallback） |
+| globalLocal  | 既存値を維持（機微値を含むため本 wave では変更対象外） |
+| project      | 共有設定のみ。原則として `defaultMode` は projectLocal に寄せる |
+| projectLocal | `bypassPermissions`（必要な project の主経路） |
 
-> 信頼境界が確立できないプロジェクトでは `acceptEdits` を維持し、project-local-first 案（unassigned task `task-claude-code-permissions-project-local-first-comparison-001`）に従う。
+> 信頼境界が確立できないプロジェクトでは project / projectLocal 側で `acceptEdits` を明示し、global fallback を上書きする。
 
 ---
 
-## 3. `--dangerously-skip-permissions` 併用方針
+## 3. `--dangerously-skip-permissions` 保留方針
 
-settings の読み込み順や parser 挙動に依存せず、起動時点で確実に bypass を確定させるため、`cc` alias に併用する案を採用する。
+`--dangerously-skip-permissions` を `cc` alias に追加する案は、`permissions.deny` の実効性が確認できるまで採用しない。今回の採用案は settings の `defaultMode` に限定し、shell alias は既存形を維持する。
 
 ```zsh
-# ~/.zshrc 正準形
-alias cc='claude --verbose --permission-mode bypassPermissions --dangerously-skip-permissions'
+# 本仕様では --dangerously-skip-permissions を追加しない
+alias cc='claude --verbose --permission-mode bypassPermissions'
 ```
 
 ### 検証必須項目（実機適用前 blocker）
 
 | 項目 | 内容 | 引き継ぎ先 |
 | --- | --- | --- |
-| bypass × deny 優先関係 | `--dangerously-skip-permissions` 下で `permissions.deny` が実効するか未確認。実効しない場合は alias から `--dangerously-skip-permissions` を外す | `task-claude-code-permissions-deny-bypass-verification-001` → 条件付き実機検証 `task-claude-code-permissions-deny-bypass-execution-001` |
-| project-local-first 案との比較 | global を触らず project 単位で完結する案の比較 | `task-claude-code-permissions-project-local-first-comparison-001` |
+| bypass × deny 優先関係 | `--dangerously-skip-permissions` 下で `permissions.deny` が実効するか未確認。実効しない場合は alias 採用禁止を維持する | `task-claude-code-permissions-deny-bypass-verification-001` → 条件付き実機検証 `task-claude-code-permissions-deny-bypass-execution-001` |
+| project-local-first 案との比較 | 比較完了。project-local-first 単独では fresh worktree / new project で prompt 復帰するため、global fallback を併用するハイブリッドを採用 | `task-claude-code-permissions-project-local-first-comparison-001` |
 | MCP server / hook permission 挙動 | bypass 下で MCP server / hook がどう振る舞うか | unassigned task 化候補（U4） |
 
-> 上記 HIGH blocker（U1 / U2 / U3）が解消されるまで `~/.claude/settings.json` および `~/.zshrc` への書き込みは実行しない。
+> `~/.zshrc` への `--dangerously-skip-permissions` 追加は、deny 実効性検証完了まで実行しない。`~/.claude/settings.json` の `defaultMode` fallback は apply タスクでバックアップ取得後に実施する。
 
 ---
 
@@ -164,10 +168,10 @@ task-conflict-prevention-skill-state-redesign
 | 関連タスク | 関係 |
 | --- | --- |
 | `task-worktree-environment-isolation` | upstream 依存 |
-| `task-claude-code-permissions-apply-001` | 本仕様の実機反映タスク。指示書は `docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001.md` に存在し、実反映は verification / execution 判定まで blocked |
+| `task-claude-code-permissions-apply-001` | 本仕様の実機反映タスク。指示書は `docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001.md` に存在し、ハイブリッド採用案を反映済み |
 | `task-claude-code-permissions-deny-bypass-verification-001` | bypass × deny 検証仕様。`docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-verification-001/` に spec_created / docs-only / NON_VISUAL として存在 |
 | `task-claude-code-permissions-deny-bypass-execution-001` | verification-001 の条件付き実機検証 follow-up。`docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-execution-001.md` |
-| `task-claude-code-permissions-project-local-first-comparison-001` | project-local-first 比較設計（unassigned） |
+| `task-claude-code-permissions-project-local-first-comparison-001` | project-local-first 比較設計（spec_created、ハイブリッド採用を決定） |
 | `task-git-hooks-lefthook-and-post-merge` | pre-commit による alias 整合 check 候補 |
 | `task-github-governance-branch-protection` | `permissions.deny` の git 操作と整合 |
 
@@ -178,7 +182,7 @@ task-conflict-prevention-skill-state-redesign
 `docs/00-getting-started-manual/claude-code-config.md` への追記方針:
 
 1. 「階層優先順位」セクションの新設（本仕様 §1 を引用）
-2. 「`--dangerously-skip-permissions` 併用方針」の追記（本仕様 §3 を引用）
+2. 「`--dangerously-skip-permissions` 保留方針」の追記（本仕様 §3 を引用）
 3. 「whitelist 例」の追記（本仕様 §4 を引用）
 4. 公式 docs URL の引用（本仕様 §5 を引用）
 

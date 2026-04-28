@@ -1801,13 +1801,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L9 |
 | 1. 階層優先順位 | L23 |
-| 2. `defaultMode` 統一方針 | L47 |
-| 3. `--dangerously-skip-permissions` 併用方針 | L68 |
-| 4. `permissions.allow` / `permissions.deny` whitelist 設計 | L89 |
-| 5. 公式 docs URL | L118 |
-| 6. Reference Contracts (TypeScript) | L128 |
-| 7. 関連タスク wave（DevEx 衝突防止） | L152 |
-| 8. 適用先システム仕様書 | L176 |
+| 2. `defaultMode` ハイブリッド方針 | L47 |
+| 3. `--dangerously-skip-permissions` 保留方針 | L72 |
+| 4. `permissions.allow` / `permissions.deny` whitelist 設計 | L93 |
+| 5. 公式 docs URL | L122 |
+| 6. Reference Contracts (TypeScript) | L132 |
+| 7. 関連タスク wave（DevEx 衝突防止） | L156 |
+| 8. 適用先システム仕様書 | L180 |
 
 ### references/claude-code-skills-agents.md
 

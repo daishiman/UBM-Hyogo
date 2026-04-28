@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-28 - task-claude-code-permissions-project-local-first-comparison-001 Phase 12 review hardening
+
+`docs/30-workflows/task-claude-code-permissions-project-local-first-comparison-001/` を docs-only / NON_VISUAL / spec_created として再監査し、root / outputs `artifacts.json` parity、Phase 4〜8 の必須見出し、Phase 12 の正本仕様同期記録、apply タスクの旧案 A / 3 層統一 / dangerous alias 方針を補正した。比較設計タスクでは「3案比較の粒度」と「採用要素の粒度」を分離し、公式 docs URL、rollback 不存在ケース、apply 前確認項目を成果物に残す必要があることを確認した。
+
 ## 2026-04-28 - task-verify-indexes-up-to-date-ci implementation scope normalization
 
 `docs/30-workflows/task-verify-indexes-up-to-date-ci/` をレビューし、`spec_created/docs-only` と実装同梱の表現揺れを `implementation / NON_VISUAL / Phase 13 pending_user_approval` へ正規化した。Phase 11 はスクリーンショット不要のまま、未実行 PASS ではなく local static smoke と PR 後 GitHub Actions 実機確認の境界を明記。Phase 12 は LOGS / topic-map / system spec sync を実装済み前提へ更新した。
