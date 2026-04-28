@@ -14,6 +14,12 @@ output:
 pre-commit:
   parallel: true
   commands:
+    main-branch-guard:
+      run: bash scripts/hooks/main-branch-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 main / dev ブランチへの直接コミットは禁止されています。
+        feature ブランチに切り替えてから commit してください。
     staged-task-dir-guard:
       run: bash scripts/hooks/staged-task-dir-guard.sh
       stage_fixed: false
