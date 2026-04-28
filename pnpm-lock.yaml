@@ -48,6 +48,9 @@ importers:
       '@ubm-hyogo/integrations':
         specifier: workspace:*
         version: link:../../packages/integrations
+      '@ubm-hyogo/integrations-google':
+        specifier: workspace:*
+        version: link:../../packages/integrations/google
       '@ubm-hyogo/shared':
         specifier: workspace:*
         version: link:../../packages/shared

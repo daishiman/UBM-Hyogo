@@ -108,6 +108,28 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 ---
 
+## UBM-Hyogo Admin Sync API（03a）
+
+`03a-parallel-forms-schema-sync-and-stablekey-alias-queue` で schema sync の手動入口を追加した。
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| POST | `/admin/sync/schema` | `Authorization: Bearer <SYNC_ADMIN_TOKEN>` | Google Forms `forms.get` の live schema を D1 の `schema_versions` / `schema_questions` に同期し、stableKey 未解決 question を `schema_diff_queue` へ投入する |
+
+レスポンス契約:
+
+| Status | 条件 | Body |
+| ------ | ---- | ---- |
+| 200 | 同期成功 | `{ ok: true, jobId, status: "succeeded", revisionId, upserted, diffEnqueued }` |
+| 401 | Authorization header なし | `{ ok: false, error: "unauthorized" }` |
+| 403 | Bearer token 不一致 | `{ ok: false, error: "forbidden" }` |
+| 409 | `schema_sync` job が既に `running` | `{ ok: false, status: "conflict", error }` |
+| 500 | env 未設定 / Forms API / D1 失敗 | `{ ok: false, status?: "failed", error }` |
+
+実装: `apps/api/src/routes/admin/sync-schema.ts` / `apps/api/src/sync/schema/`。
+
+---
+
 ## Desktop IPC API サマリー
 
 ### 主要IPCチャンネル

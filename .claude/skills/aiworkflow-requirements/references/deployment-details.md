@@ -3,6 +3,10 @@
 > 親仕様書: [deployment.md](deployment.md)
 > 役割: detail specification
 
+## UBM-Hyogo API Worker Cron（03a）
+
+`apps/api/wrangler.toml` は `0 */6 * * *` UTC を既存 Sheets sync、`0 18 * * *` UTC（03:00 JST）を Google Forms schema sync に使う。`scheduled()` は後者だけ `runSchemaSync` へ分岐し、`schema_sync` が running なら次回実行に任せる。
+
 ## モニタリングとアラート
 
 ### ヘルスチェックエンドポイント設計

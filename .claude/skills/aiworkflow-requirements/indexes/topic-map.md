@@ -859,9 +859,10 @@ node scripts/list-specs.js --topics
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
 | エンドポイント命名規則 | L90 |
-| Desktop IPC API サマリー | L111 |
-| 変更履歴 | L142 |
-| 関連ドキュメント | L157 |
+| UBM-Hyogo Admin Sync API（03a） | L111 |
+| Desktop IPC API サマリー | L133 |
+| 変更履歴 | L164 |
+| 関連ドキュメント | L179 |
 
 ### references/api-internal-chunk-search.md
 
@@ -955,7 +956,8 @@ node scripts/list-specs.js --topics
 | UBM-Hyogo D1 Repository 契約（02b） | L172 |
 | エラーハンドリング | L211 |
 | Conversation DB 初期化パターン | L242 |
-| ベクトル検索実装（DiskANN） | L277 |
+| UBM-Hyogo Schema Sync Contract（03a） | L244 |
+| ベクトル検索実装（DiskANN） | L301 |
 
 ### references/database-implementation-details.md
 
@@ -2484,9 +2486,10 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| モニタリングとアラート | L6 |
-| デプロイチェックリスト | L69 |
-| GitHub Secrets の要件 | L122 |
+| UBM-Hyogo API Worker Cron（03a） | L6 |
+| モニタリングとアラート | L10 |
+| デプロイチェックリスト | L73 |
+| GitHub Secrets の要件 | L126 |
 
 ### references/deployment-gha.md
 
@@ -2640,7 +2643,7 @@ node scripts/list-specs.js --topics
 | トラブルシューティング | L263 |
 | チーム開発での運用 | L324 |
 | 必須環境変数一覧 | L363 |
-| 関連ドキュメント | L421 |
+| 関連ドキュメント | L433 |
 
 ### references/error-handling-core.md
 
@@ -2749,6 +2752,16 @@ node scripts/list-specs.js --topics
 | Section Extract Register (2026-03-17) | L244 |
 | 500-Line Split Register (2026-03-16) | L255 |
 | Fragment Migration Register (2026-04-28) | L277 |
+
+### references/lessons-learned-03a-parallel-forms-schema-sync.md
+
+| セクション | 行 |
+|------------|----|
+| L-03a-001: Service Account JWT 有効期限監視運用の欠落 | L9 |
+| L-03a-002: no-op (AC-4: revisionId 同一時) の検証漏れリスク | L15 |
+| L-03a-003: schema_diff_queue.unresolved の半端な責務境界 | L21 |
+| L-03a-004: AC-7 stableKey 直書き禁止の事前防止策の欠如 | L27 |
+| L-03a-005: Google Forms API quota 枯渇リスク（free tier） | L33 |
 
 ### references/lessons-learned-03b-response-sync-2026-04.md
 

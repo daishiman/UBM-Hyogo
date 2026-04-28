@@ -92,6 +92,24 @@ docs/30-workflows/{{FEATURE_NAME}}/index.md
 
 ---
 
+## 並列タスクとの共有モジュール
+
+> **適用条件**: 本タスクが `wave > 1` かつ並列 wave (例: `03a` / `03b` 同 wave) で他タスクと
+> 共通モジュール (`_shared/`, ledger, queue 等) を共有する場合は **必須**。
+> 単独タスク or 直列タスクのみの場合はこのセクションを省略してよい。
+
+| owner タスク | consumer タスク | module path | 用途 | 同期方針 |
+| ------------ | --------------- | ----------- | ---- | -------- |
+| {{OWNER_TASK_ID}} | {{CONSUMER_TASK_IDS}} | `apps/api/src/_shared/{{MODULE}}.ts` | {{用途: ledger / queue / schema 等}} | {{interface 凍結フェーズ / 変更時の通知経路}} |
+
+**運用ルール**:
+
+- 共有モジュールの **interface 変更** は owner タスクの Phase 2 (設計) 完了時点で凍結する
+- consumer タスクは凍結 interface に対して mock を組み、実装本体は owner の Phase 5 完了を待つ
+- 凍結後の変更は両タスクの Phase 3 design review で同期合意が必要
+
+---
+
 ## 参照ファイル
 
 本仕様書のコマンド選定は以下を参照：
