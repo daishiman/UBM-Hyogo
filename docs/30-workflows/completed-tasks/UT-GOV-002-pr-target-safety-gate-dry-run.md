@@ -45,7 +45,7 @@
 
 ### 2.1 目的
 
-`pull_request_target` を triage 専用に縛り、untrusted PR コードの build / test は `pull_request` 側に分離する。fork PR シナリオで token / secret が露出しないことを dry-run で証跡化し、pwn request パターン非該当をレビュー記録に残す。
+`pull_request_target` を triage 専用に縛り、untrusted PR コードの build / test は `pull_request` 側に分離する。fork PR シナリオで token / secret が露出しないことを dry-run で証跡化し、pwn request パターン非該当を CI / 自己レビュー記録（チェックリスト）として残す（solo 運用のため必須レビュアーは設けない）。
 
 ### 2.2 想定 AC
 
@@ -55,7 +55,7 @@
 4. すべての workflow で workflow-level `permissions: {}` が設定され、必要 job 単位でのみ権限を昇格
 5. `secrets` は job-level `env:` または `with:` でのみ受け渡し、workflow-level `env:` でグローバル定義しない
 6. fork PR を模した dry-run（テストブランチ + draft PR）で `GITHUB_TOKEN` 権限・secrets 露出が triage job から見えないことを記録
-7. GitHub Security Lab pwn request パターンの各項目に対して非該当チェックリストをレビュー記録として残す
+7. GitHub Security Lab pwn request パターンの各項目に対して非該当チェックリストを自己レビュー / CI 記録として残す（solo 運用のため必須レビュアーは設けない）
 
 ### 2.3 スコープ
 
@@ -78,8 +78,8 @@
 
 - `.github/workflows/*.yml` の差分（`permissions:` 明示 / triage 分離 / checkout 安全化）
 - dry-run ログ（fork 模擬 PR からの token / secret アクセス試行結果）
-- pwn request 非該当チェックリスト（レビュー記録として `docs/30-workflows/task-github-governance-branch-protection/outputs/` 配下）
-- 運用 Runbook 更新（`pull_request_target` 利用時の必須レビュー観点）
+- pwn request 非該当チェックリスト（自己レビュー / CI 記録として `docs/30-workflows/task-github-governance-branch-protection/outputs/` 配下）
+- 運用 Runbook 更新（`pull_request_target` 利用時の自己チェック観点 / CI による検証ポイント）
 
 ---
 
@@ -88,7 +88,7 @@
 - `.github/workflows/` 配下すべての workflow ファイル
 - 特に triage 系（labeler / size 計測 / welcome 等）と CI 系（typecheck / lint / test / build）
 - branch protection の required status checks 名（UT-GOV-004 と同期が必要）
-- 外部 contributor 向け CONTRIBUTING / PR テンプレートのレビュー観点
+- 外部 contributor 向け CONTRIBUTING / PR テンプレートの自己チェック観点（solo 運用のため必須レビュアーは設けない）
 - Cloudflare secrets を参照する deploy workflow（露出経路の遮断確認）
 
 ---
@@ -123,7 +123,7 @@ implementation（セキュリティリファクタ + dry-run 検証）
 
 ## 7. 備考
 
-- triage workflow を新規追加する場合も、本タスクで定めたチェックリストの通過を必須レビュー要件にする
+- triage workflow を新規追加する場合も、本タスクで定めたチェックリストの通過を CI / 自己レビュー上の必須項目とする（solo 運用のため必須レビュアーは設けない）
 - dry-run は private fork または別ブランチからの draft PR で実施し、実 secrets を露出させない手順を確立する
 - UT-GOV-007 の action pin と本タスクは **両方揃って初めて pwn request 防御が成立** する点を Runbook に明記する
 

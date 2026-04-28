@@ -17,15 +17,15 @@
 
 ### なぜ「ブランチを守る設定」が必要なのか
 
-学校で配るプリントを思い浮かべてみてください。先生が一人だけで作って、誰のチェックも受けずに印刷室に持って行ってしまうと、誤字や古い情報がそのまま全校に配られてしまいます。「**配る前に必ずもう一人が読んで OK と言うこと**」というルールがあれば、ミスはぐっと減ります。
+学校で配るプリントを思い浮かべてみてください。先生が一人だけで作って、誰のチェックも受けずに印刷室に持って行ってしまうと、誤字や古い情報がそのまま全校に配られてしまいます。普通は「**配る前に必ずもう一人が読んで OK と言うこと**」というルールがあるとミスがぐっと減るのですが、このプロジェクトは **メンテナーが一人だけ（個人開発）** なので、もう一人の人間に頼ることができません。
 
-私たちのソースコードでも同じです。`main` という「印刷室にあたる場所」に変更を入れるとき、
+そこで私たちは、人間のレビュアーの代わりに **機械（CI = 自動テスト）に厳しく見張ってもらう** ことにします。`main` という「印刷室にあたる場所」に変更を入れるとき、
 
-1. 必ず誰かに見てもらう（**レビュー**）
-2. 機械の自動チェック（**テスト**）が全部 OK である
-3. ふざけて消したり書き換えたりできない
+1. 個人開発なのでレビュアーは置かない（人間の二重チェックは諦める）
+2. その代わり、機械の自動チェック（**CI / テスト**）が全部 OK でないと絶対に入れない
+3. ふざけて消したり書き換えたりできない（force-push 禁止・branch 削除禁止）
 
-この 3 つを **人の善意ではなく仕組みで** 強制したいのです。これが「ブランチ保護」です。
+この 3 つを **人の善意ではなく仕組みで** 強制したいのです。一人開発では CI が唯一の防波堤なので、CI 系のルールはむしろ普通より強めにかけます。これが「ブランチ保護」です。
 
 ### 「自動で追いつく」って何のこと？
 
@@ -39,7 +39,7 @@
 
 ### まとめ（Part 1）
 
-- ブランチ保護は「印刷前に必ずもう一人がチェックする校則」
+- ブランチ保護は「印刷前に CI（機械）が必ずチェックする校則」。一人開発なので人間レビューは置かず、CI を唯一の防波堤として強めにかける
 - auto-rebase は「最新ノートに自動で追いつく便利機能、ぶつかったら止まる」
 - 安全装置は「外からの紙を職員室の鍵に触れさせないルール」
 
@@ -53,15 +53,13 @@ main 側 keys（抜粋。完全版は Phase 2 design.md §2）:
 
 ```jsonc
 // branch-protection.main.json.draft
+// solo 運用（メンテナー1名）のため required_pull_request_reviews は null。
+// 人間レビュー要件は撤廃し、required_status_checks (CI) を唯一の必須ゲートとする。
+// dev 側 draft も同じ方針で required_pull_request_reviews: null とする。
 {
   "required_status_checks": { "strict": true, "contexts": [ /* 8 contexts */ ] },
   "enforce_admins": true,
-  "required_pull_request_reviews": {
-    "required_approving_review_count": 2,
-    "dismiss_stale_reviews": true,
-    "require_code_owner_reviews": true,
-    "require_last_push_approval": true
-  },
+  "required_pull_request_reviews": null,
   "required_linear_history": true,
   "required_conversation_resolution": true,
   "allow_force_pushes": false,
@@ -79,17 +77,12 @@ interface RequiredStatusChecksDraft {
   contexts: string[];
 }
 
-interface RequiredPullRequestReviewsDraft {
-  required_approving_review_count: 1 | 2;
-  dismiss_stale_reviews: true;
-  require_code_owner_reviews: boolean;
-  require_last_push_approval: boolean;
-}
-
+// solo 運用のため null 固定。サブフィールド（required_approving_review_count /
+// require_code_owner_reviews / require_last_push_approval / dismissal_restrictions 等）は持たない。
 interface BranchProtectionDraft {
   required_status_checks: RequiredStatusChecksDraft;
   enforce_admins: true;
-  required_pull_request_reviews: RequiredPullRequestReviewsDraft;
+  required_pull_request_reviews: null;
   required_linear_history: true;
   required_conversation_resolution: true;
   allow_force_pushes: false;
@@ -136,12 +129,17 @@ dev / main 差分表:
 
 | 項目 | dev | main |
 | --- | :-: | :-: |
-| approving review 数 | 1 | 2 |
-| CODEOWNERS 必須 | × | ◯ |
-| last push 承認必須 | × | ◯ |
+| approving review | なし（solo） | なし（solo） |
+| CODEOWNERS 必須化 | × | ×（CODEOWNERS は ownership 文書化のみ・必須化しない） |
+| last push 承認必須 | × | ×（solo のため不適用） |
 | status checks（8件） | 同一 | 同一 |
 | `required_linear_history` | true | true |
+| `required_conversation_resolution` | true | true |
+| `allow_force_pushes` | false | false |
+| `allow_deletions` | false | false |
 | `enforce_admins` | true | true |
+
+> solo 運用での主防波堤は `required_status_checks`（CI）。dev/main の差分は実質「同一」になり、CI gate・線形履歴・会話解決必須化・force-push 禁止・branch 削除禁止を両ブランチで維持する。
 
 ### §2. squash-only マージポリシー
 
@@ -226,9 +224,9 @@ jobs:
 
 | 名前 | 値 | 備考 |
 | --- | --- | --- |
-| `MAIN_REQUIRED_APPROVALS` | `2` | main branch protection |
-| `DEV_REQUIRED_APPROVALS` | `1` | dev branch protection |
-| `REQUIRED_STATUS_CONTEXTS` | 8 contexts | 実在 job 名へ同期後に適用 |
+| `MAIN_REQUIRED_APPROVALS` | `0`（solo / `required_pull_request_reviews: null`） | main branch protection |
+| `DEV_REQUIRED_APPROVALS` | `0`（solo / `required_pull_request_reviews: null`） | dev branch protection |
+| `REQUIRED_STATUS_CONTEXTS` | 8 contexts | 実在 job 名へ同期後に適用。solo 運用では唯一の必須ゲート |
 | `AUTO_REBASE_LABEL` | `auto-rebase` | rebase 対象 PR の明示 opt-in |
 | `PR_TARGET_DEFAULT_PERMISSIONS` | `{}` | job 単位でのみ昇格 |
 | `CHECKOUT_PERSIST_CREDENTIALS` | `false` | 全 checkout で固定 |

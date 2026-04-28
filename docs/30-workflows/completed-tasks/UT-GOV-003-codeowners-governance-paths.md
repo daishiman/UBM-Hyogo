@@ -7,8 +7,8 @@
 | タスクID     | UT-GOV-003-codeowners-governance-paths                                        |
 | タスク名     | `.github/CODEOWNERS` を governance パスへ拡張し doc/docs 表記揺れを解消        |
 | 分類         | 実装 / governance                                                             |
-| 対象機能     | GitHub branch protection と連動する CODEOWNERS レビュー必須化                 |
-| 優先度       | 中（main 適用時の CODEOWNERS review が global fallback 依存）                 |
+| 対象機能     | CODEOWNERS による ownership の文書化（solo 運用のためレビュー必須化はしない） |
+| 優先度       | 低〜中（solo 運用では必須化しないが、将来の contributor / 監査向けの owner 表明として整備） |
 | 見積もり規模 | 小〜中規模                                                                    |
 | ステータス   | 未実施 (proposed)                                                             |
 | 親タスク     | task-github-governance-branch-protection                                      |
@@ -21,22 +21,22 @@
 
 ### 1.1 背景
 
-`task-github-governance-branch-protection` で main / dev に branch protection を適用する設計が進んでいるが、現状リポジトリに `.github/CODEOWNERS` が無い、もしくは global fallback (`* @owner`) のみで運用されている。これにより `require_code_owner_reviews=true` を有効化しても governance 上重要なパス（タスク仕様書群・正本仕様・workflow 定義・実コード）について「誰がレビューすべきか」が表現できていない。
+`task-github-governance-branch-protection` で main / dev に branch protection を適用する設計が進んでいるが、本リポジトリは solo 運用（メンテナーは @daishiman 一人）であるため `require_code_owner_reviews=true` のような必須レビュアー化はしない方針に切り替えた。一方で、将来の外部 contributor 受入や監査時に「どのパスを誰が責任所有しているか」を表明する文書化価値は残るため、CODEOWNERS は **ownership の文書化** として整備する（GitHub UI の suggested reviewer 表示にも寄与）。
 
-加えて CLAUDE.md と正本仕様の間で `doc/` と `docs/` の表記が混在しており、CODEOWNERS のパスマッチが旧表記で書かれると意図しないファイルが owner なしになる。
+加えて CLAUDE.md と正本仕様の間で `doc/` と `docs/` の表記が混在しており、CODEOWNERS のパスマッチが旧表記で書かれると意図しないファイルが ownership 表明から漏れる。
 
 ### 1.2 問題点・課題
 
-- main の branch protection 草案では `require_code_owner_reviews=true` を要求するが CODEOWNERS が薄く、実質 global owner にフォールバックしてしまう
-- governance 重要パス（`docs/30-workflows/**` / `.claude/skills/**/references/**` / `.github/workflows/**` / `apps/api/**` / `apps/web/**`）が同一 owner 群に丸められ、実コードと仕様書のレビュー観点が分離できない
+- solo 運用のため `require_code_owner_reviews` は有効化しないが、CODEOWNERS が無いと将来 contributor が来た際に PR レビュー誘導や監査時の owner 表明に使えない
+- governance 重要パス（`docs/30-workflows/**` / `.claude/skills/**/references/**` / `.github/workflows/**` / `apps/api/**` / `apps/web/**`）が ownership 文書として整理されておらず、領域別の責任表明ができていない
 - `doc/` と `docs/` の表記揺れにより、CODEOWNERS の glob が片側にしかマッチしない事故が起こり得る
 - CODEOWNERS は **最終マッチ勝ち** 仕様のため、ワイルドカード順序を間違えると後段の汎用ルールが governance パスを上書きする
 
 ### 1.3 放置した場合の影響
 
-- `require_code_owner_reviews=true` 適用後、PR が「誰のレビューでも通る」または「永久 block される」のいずれかに振れる
-- 正本仕様（`.claude/skills/**/references/**`）の意図しない改変がレビューなしで main に到達する
-- `.github/workflows/**` の改変が governance レビューを経ずマージされ、CI gate そのものを silently 弱体化させ得る
+- 将来 contributor / 監査が入った際に owner 表明が無く、責任分担が不透明になる
+- `.github/workflows/**` や正本仕様の意図しない改変が起きた際のレビュー誘導（suggested reviewer 表示）が機能しない
+- `doc/` / `docs/` 表記揺れが残り、後続文書整備でも同じ glob ミスが再発する
 
 ---
 
@@ -44,7 +44,7 @@
 
 ### 2.1 目的
 
-`.github/CODEOWNERS` を governance パス単位で明示的に owner 指定し、main の `require_code_owner_reviews=true` 草案と整合させる。同時に `doc/` → `docs/` 表記揺れを棚卸しし現行 `docs/` に統一する。
+`.github/CODEOWNERS` を governance パス単位で明示的に owner 指定し、**ownership の文書化**（必須レビュアー化はしない）として整備する。solo 運用のため `require_code_owner_reviews=true` は有効化せず、将来の contributor / 監査向けの owner 表明と GitHub UI の suggested reviewer 表示が目的。同時に `doc/` → `docs/` 表記揺れを棚卸しし現行 `docs/` に統一する。
 
 ### 2.2 想定 AC
 
@@ -58,7 +58,7 @@
 3. ファイル末尾に global fallback (`* @<owner>`) を 1 行のみ配置し、最終マッチ勝ち仕様を踏まえた順序になっている
 4. `gh api repos/:owner/:repo/codeowners/errors` で `errors: []` （構文/権限エラーゼロ）が確認できる
 5. リポジトリ内の `doc/` 表記が `docs/` へ統一されている、または残置箇所が「外部リンク等の不可避ケース」に限定され明示記録されている
-6. main branch protection 草案の `require_code_owner_reviews=true` を有効化しても、想定パスで CODEOWNERS review が要求されることを dry-run で確認
+6. main branch protection 設定では `require_code_owner_reviews` を有効化しない方針が明記され（solo 運用）、CODEOWNERS は ownership 文書として機能することを確認
 
 ### 2.3 スコープ
 
@@ -123,9 +123,9 @@ implementation
 
 ## 7. 備考
 
-CODEOWNERS は単独で意味を成さず、main の `require_code_owner_reviews=true` と組み合わさって初めて governance gate として機能する。本タスクは UT-GOV-001（branch protection 本適用）の前段として完了している必要があり、UT-GOV-001 の AC からも参照される位置付け。
+solo 運用のため `require_code_owner_reviews` は有効化せず、本タスクの CODEOWNERS は **ownership 文書化** として位置付ける。将来 contributor が来た際の suggested reviewer 表示・監査時の owner 表明・領域責任の明文化を担う。UT-GOV-001（branch protection 本適用）とは独立しており、適用順序の制約は無い。
 
-team handle を採用する場合は GitHub 組織側で対象 team が当該リポジトリに **write 以上** の権限を持つことを事前確認すること（権限不足時は CODEOWNERS が silently skip され、レビュー必須化が機能しない）。
+将来 team handle を採用する場合は GitHub 組織側で対象 team が当該リポジトリに **write 以上** の権限を持つことを事前確認すること（権限不足時は CODEOWNERS が silently skip される。ただし solo 運用では必須レビュアー化していないため即時の運用詰みには至らない）。
 
 ---
 
@@ -141,19 +141,19 @@ team handle を採用する場合は GitHub 組織側で対象 team が当該リ
    - 末尾ほど具体度の高い、または governance 上重要なルールを置く設計に統一する
 
 3. **team handle (`@org/team`) の権限要件**
-   - team が当該リポジトリに **write 以上** の権限を持っていないと、CODEOWNERS で指定しても review 必須にならず silently skip される
-   - 結果として `require_code_owner_reviews=true` を入れていても「誰のレビューでも通る」状態になる
-   - 個人ハンドル (`@user`) に一旦寄せるか、組織側で team の repo 権限を事前付与してから team handle に切り替える
+   - team が当該リポジトリに **write 以上** の権限を持っていないと、CODEOWNERS で指定しても suggested reviewer として認識されず silently skip される
+   - solo 運用では必須レビュアー化していないため即時の運用詰みには至らないが、ownership 文書としての価値は損なわれる
+   - 個人ハンドル (`@user`) に一旦寄せるか、将来組織側で team の repo 権限を事前付与してから team handle に切り替える
 
 4. **構文エラーの sneaky な失敗**
    - CODEOWNERS の構文エラーや存在しないユーザー/team 指定は GitHub UI 上では警告のみで、PR 作成時には silently 無視される
    - 必ず `gh api repos/:owner/:repo/codeowners/errors` を CI またはローカルで実行し `errors: []` を確認する
-   - main に `require_code_owner_reviews=true` を入れる前にこの確認を怠ると、PR が永久 block されて緊急対応が必要になる
+   - 将来 `require_code_owner_reviews` を有効化する場合に備え、本タスク段階でも errors=[] を担保しておく
 
 5. **glob 仕様のクセ**
    - GitHub CODEOWNERS の glob は gitignore 風だが完全互換ではない（`**` の扱い、ディレクトリ末尾 `/` の有無で挙動が変わる）
    - `.claude/skills/**/references/**` のような多段ワイルドカードは、実ファイルに対して期待通りマッチするか `gh api .../codeowners/errors` と PR dry-run の両方で確認する
 
-6. **branch protection との適用順序**
-   - 先に `require_code_owner_reviews=true` を有効化してしまうと、CODEOWNERS 不備の PR が全て block されメンテ不能になる
-   - 必ず「CODEOWNERS 整備 → errors=[] 確認 → branch protection 反映」の順で進め、UT-GOV-001 とのシーケンスを守る
+6. **将来 `require_code_owner_reviews` を有効化する際の注意**
+   - solo 運用が解消され将来 contributor 体制になった際に有効化を検討する場合、CODEOWNERS 不備のまま有効化すると PR が全て block される
+   - 必ず「CODEOWNERS 整備 → errors=[] 確認 → 必要なら branch protection で `require_code_owner_reviews` 有効化」の順で進める

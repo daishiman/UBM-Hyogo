@@ -21,7 +21,7 @@
 
 ### 1.1 背景
 
-`task-github-governance-branch-protection` Phase 2 / Phase 12 にて、dev / main 双方の branch protection JSON 草案（`required_status_checks` / `enforce_admins` / `required_pull_request_reviews` / `required_linear_history` / `required_conversation_resolution` / `allow_force_pushes=false` / `allow_deletions=false` / dev=approval 1 / main=approval 2 + CODEOWNERS + last_push）を策定済み。CLAUDE.md ブランチ戦略（`feature/* → dev → main` / dev は 1 名 / main は 2 名レビュー）に整合する草案だが、現時点では GitHub repository settings に未適用で、運用上は無防備な状態となっている。
+`task-github-governance-branch-protection` Phase 2 / Phase 12 にて、dev / main 双方の branch protection JSON 草案（`required_status_checks` / `enforce_admins` / `required_pull_request_reviews=null`（solo 運用のためレビュアー必須化なし） / `required_linear_history` / `required_conversation_resolution` / `allow_force_pushes=false` / `allow_deletions=false`）を策定済み。CLAUDE.md ブランチ戦略（`feature/* → dev → main` / solo 開発のため dev・main ともレビュアー不要）に整合する草案だが、現時点では GitHub repository settings に未適用で、運用上は無防備な状態となっている（solo 運用では CI gate が唯一の防波堤となるため、必須 status checks / linear history / conversation resolution / force-push 禁止 / 削除禁止は維持する）。
 
 ### 1.2 問題点・課題
 
@@ -53,7 +53,7 @@ Phase 13 承認後に、設計済み branch protection JSON 草案を GitHub RES
 5. dev / main それぞれに PUT が成功し、応答 JSON が `outputs/phase-13/branch-protection-applied-{dev,main}.json` として保存されている
 6. rollback リハーサルとして snapshot から PUT を 1 回戻し、再度本適用 PUT を行う double-apply が完了している
 7. `enforce_admins=true` 適用時の rollback 担当者・経路が記録されている
-8. CLAUDE.md ブランチ戦略（dev=1 名 / main=2 名 + CODEOWNERS + last_push）の数値が GitHub 側の実値と一致している
+8. CLAUDE.md ブランチ戦略（solo 運用のため dev / main ともレビュアー不要、`required_pull_request_reviews=null`）が GitHub 側の実値と一致している
 
 ### 2.3 スコープ
 
@@ -98,7 +98,7 @@ Phase 13 承認後に、設計済み branch protection JSON 草案を GitHub RES
 - 前提: Phase 13 承認の完了
 - 前提: UT-GOV-004（`required_status_checks.contexts` の実在 job 名同期）が先行 or 同時完了していること
 - 関連: UT-GOV-002 (PR target safety gate dry-run) — 適用後の挙動検証
-- 関連: UT-GOV-003 (CODEOWNERS governance paths) — main の CODEOWNERS 必須レビューが効くための前提
+- 関連: UT-GOV-003 (CODEOWNERS governance paths) — solo 運用のため必須レビュアー化はしないが、ownership 文書化として整備
 - 関連: UT-GOV-007 (GitHub Actions action pin policy) — required_status_checks に紐づく workflow の信頼性
 
 ---
@@ -114,7 +114,7 @@ implementation
 - 草案: `docs/30-workflows/task-github-governance-branch-protection/outputs/phase-2/design.md` §2
 - 実装ガイド: `docs/30-workflows/task-github-governance-branch-protection/outputs/phase-12/implementation-guide.md` §1, §2
 - 検出ログ: `docs/30-workflows/task-github-governance-branch-protection/outputs/phase-12/unassigned-task-detection.md` 現行 U-1
-- CLAUDE.md ブランチ戦略セクション（dev=1 名 / main=2 名）
+- CLAUDE.md ブランチ戦略セクション（solo 運用のため dev / main ともレビュアー不要）
 - GitHub REST API: `PUT /repos/{owner}/{repo}/branches/{branch}/protection`
 - 連携タスク: UT-GOV-004 / UT-GOV-002 / UT-GOV-003 / UT-GOV-007
 
@@ -136,7 +136,7 @@ implementation
 
 - 罠: `gh api repos/:owner/:repo/branches/:branch/protection` で取得した GET 応答は、各 sub-resource を `enabled` / `users` / `teams` / `apps` のネスト構造で返すが、PUT は `restrictions: { users: [], teams: [], apps: [] }` のような flatten された配列や、`required_pull_request_reviews.dismissal_restrictions` のような独自構造を要求する。GET 結果をそのまま PUT に流すと 422 になる。
 - 解決指針: GET → PUT の field 変換 adapter を最初から「正規化レイヤ」として作り、snapshot 保存と rollback payload 生成を別ファイルで持つ。snapshot は監査用、rollback は PUT 用、と用途を分離する。
-- 確認 field（最低限）: `required_status_checks.{strict,contexts}` / `enforce_admins(.enabled→bool)` / `required_pull_request_reviews.{required_approving_review_count, require_code_owner_reviews, require_last_push_approval, dismissal_restrictions}` / `restrictions(.users/.teams/.apps→names 配列)` / `required_linear_history` / `allow_force_pushes` / `allow_deletions` / `required_conversation_resolution` / `lock_branch` / `allow_fork_syncing`。
+- 確認 field（最低限）: `required_status_checks.{strict,contexts}` / `enforce_admins(.enabled→bool)` / `required_pull_request_reviews=null`（solo 運用のため `required_approving_review_count` / `require_code_owner_reviews` / `require_last_push_approval` / `dismissal_restrictions` は列挙しない） / `restrictions(.users/.teams/.apps→names 配列)` / `required_linear_history` / `allow_force_pushes` / `allow_deletions` / `required_conversation_resolution` / `lock_branch` / `allow_fork_syncing`。
 
 ### 8.2 `required_status_checks.contexts` 未出現値投入による merge 不能事故
 
@@ -150,15 +150,15 @@ implementation
 
 ### 8.4 `enforce_admins=true` での admin 自身 block
 
-- 罠: `enforce_admins=true` は admin も保護ルールに従わせる正しい設定だが、適用直後に「approval が集まらず main へ修正できない」状態が発生し得る。特に rollback PR を main に出す場合、approver 不在で詰む。
-- 解決指針: 適用前に rollback 担当者（approver 2 名以上）を確定し、`apply-runbook.md` に名前を残す。さらに rollback 用 payload を事前生成しておき、最悪 `gh api` で `enforce_admins` のみ一時 false に戻す手順を runbook に明記する。
+- 罠: `enforce_admins=true` は admin も保護ルールに従わせる正しい設定だが、solo 運用では approver が自分自身しかいないため、CI 失敗時に main へ hotfix できない状態が発生し得る。
+- 解決指針: 適用前に CI 失敗時の rollback 経路（`enforce_admins` のみ一時 false に戻す `gh api` 手順）を `apply-runbook.md` に明記する。rollback 用 payload を事前生成しておく。
 
 ### 8.5 dev / main の差分管理ミス
 
-- 罠: dev (approval 1) / main (approval 2 + CODEOWNERS + last_push) の差分を 1 つの payload で管理すると、片側適用ミスや差分忘れが起きやすい。
+- 罠: solo 運用では dev / main の差分は CI 段階の厳密度（例: `strict: true` の有無）程度に縮退するが、payload を 1 つに丸めると片側適用ミスが起きやすい。
 - 解決指針: payload / snapshot / rollback / applied のすべてのファイルを `{branch}` サフィックスで分離し、適用も branch ごとに 1 回ずつ独立した PUT として実行する（bulk 化しない）。
 
-### 8.6 CLAUDE.md 数値との二重正本リスク
+### 8.6 CLAUDE.md 表記との二重正本リスク
 
-- 罠: CLAUDE.md（dev=1 名 / main=2 名）と GitHub 設定値が drift すると、どちらが正本か不明になる。
+- 罠: CLAUDE.md（solo 運用 / レビュアー不要）と GitHub 設定値が drift すると、どちらが正本か不明になる。
 - 解決指針: 「正本は GitHub 側の実値」「CLAUDE.md はその参照」と明記する運用とし、本タスク完了後に実値とドキュメントの一致を grep で確認する手順を runbook に含める。
