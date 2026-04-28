@@ -553,6 +553,7 @@
 | claude-code-agents-spec.md      | Agent仕様書作成、YAML Frontmatter確認時           | YAML仕様、本文セクション                                                                                                                                                                                                                                                                                                                                   |
 | claude-code-agents-workflow.md  | Agentワークフロー設計、Phase記述時                | Phase記述、エラーハンドリング                                                                                                                                                                                                                                                                                                                              |
 | claude-code-commands.md         | Command作成時                                     | Command仕様、品質基準                                                                                                                                                                                                                                                                                                                                      |
+| claude-code-settings-hierarchy.md | Claude Code settings 4階層優先順位 / `defaultMode` 統一 / `--dangerously-skip-permissions` 併用 / whitelist 設計時 | 階層優先順位、bypass × deny 検証ブロッカー、whitelist 例、関連タスク wave 導線 |
 
 ### 10. その他（デプロイ・運用）
 
@@ -582,6 +583,11 @@
 | `docs/05a-parallel-observability-and-cost-guardrails/` | 2026-04-27 | Phase 1-12 completed / Phase 13 pending（user approval 待ち） | `references/deployment-cloudflare.md` / `references/deployment-gha.md` / `references/environment-variables.md` |
 | `docs/03-serial-data-source-and-storage-contract/` | 2026-04-26 | Phase 1-12 completed / Phase 13 pending | `references/architecture-database.md` |
 | `docs/30-workflows/completed-tasks/02b-parallel-meeting-tag-queue-and-schema-diff-repository/` | 2026-04-27 | Phase 1-12 completed / Phase 13 pending（user approval 待ち） | `references/database-implementation-core.md` (L172-) / `references/lessons-learned-02b-schema-diff-and-tag-queue.md` |
+| `docs/30-workflows/task-conflict-prevention-skill-state-redesign/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | skill ledger conflict prevention canonical first task |
+| `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on `task-conflict-prevention-skill-state-redesign` |
+| `docs/30-workflows/task-worktree-environment-isolation/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on `task-conflict-prevention-skill-state-redesign` |
+| `docs/30-workflows/task-github-governance-branch-protection/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on skill ledger redesign + git hooks governance |
+| `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on worktree environment isolation |
 
 ### 11. ガイドライン
 

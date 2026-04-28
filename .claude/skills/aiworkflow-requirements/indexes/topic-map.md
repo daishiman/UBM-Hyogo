@@ -1795,6 +1795,20 @@ node scripts/list-specs.js --topics
 | 変更履歴 | L282 |
 | ドキュメント構成 | L303 |
 
+### references/claude-code-settings-hierarchy.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L9 |
+| 1. 階層優先順位 | L23 |
+| 2. `defaultMode` 統一方針 | L47 |
+| 3. `--dangerously-skip-permissions` 併用方針 | L68 |
+| 4. `permissions.allow` / `permissions.deny` whitelist 設計 | L89 |
+| 5. 公式 docs URL | L118 |
+| 6. Reference Contracts (TypeScript) | L128 |
+| 7. 関連タスク wave（DevEx 衝突防止） | L152 |
+| 8. 適用先システム仕様書 | L175 |
+
 ### references/claude-code-skills-agents.md
 
 | セクション | 行 |
@@ -4840,6 +4854,7 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L11 |
 | 利用順序 | L40 |
 | 関連ドキュメント | L45 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L49 |
 
 ### references/testing-accessibility.md
 

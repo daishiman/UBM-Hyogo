@@ -49,6 +49,7 @@
       "api-internal.md",
       "claude-code-agents-workflow.md",
       "claude-code-commands.md",
+      "claude-code-settings-hierarchy.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
       "csrf-state-parameter.md",
@@ -94,6 +95,7 @@
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
+      "claude-code-settings-hierarchy.md",
       "claude-code-skills-overview.md",
       "claude-code-skills-structure.md",
       "csrf-state-parameter.md",
@@ -831,6 +833,7 @@
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
+      "claude-code-settings-hierarchy.md",
       "interfaces-agent-sdk-integration.md",
       "interfaces-agent-sdk.md",
       "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
@@ -846,6 +849,7 @@
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
+      "claude-code-settings-hierarchy.md",
       "interfaces-agent-sdk-integration.md",
       "security-skill-ipc-core.md",
       "spec-splitting-guidelines.md"
@@ -3914,6 +3918,127 @@
       "lessons-learned-current.md",
       "master-design.md"
     ],
+    "Settings": [
+      "claude-code-settings-hierarchy.md",
+      "ui-ux-settings-core.md",
+      "workflow-onboarding-wizard-alignment.md"
+    ],
+    "階層優先順位": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "defaultMode": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "統一方針": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "dangerously": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "skip": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-test-typesafety.md",
+      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
+      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
+      "task-workflow-completed-skill-lifecycle-security.md",
+      "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-permission-fallback-abort-skip-retry.md"
+    ],
+    "permissions": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "併用方針": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "zshrc": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "正準形": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "allow": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "deny": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "whitelist": [
+      "claude-code-settings-hierarchy.md",
+      "ipc-contract-checklist.md",
+      "lessons-learned-ipc-channel-whitelist-sync.md"
+    ],
+    "設計": [
+      "claude-code-settings-hierarchy.md",
+      "interfaces-rag-community-detection.md",
+      "interfaces-rag-community-summarization.md",
+      "interfaces-rag-graphrag-query.md",
+      "interfaces-rag-knowledge-graph-store.md",
+      "lessons-learned-monitoring-design-2026-04.md",
+      "ui-history-design.md",
+      "ui-ux-file-selector.md",
+      "ui-ux-forms.md",
+      "ui-ux-navigation.md",
+      "ui-ux-search-panel-core.md",
+      "ui-ux-search-panel-details.md",
+      "ui-ux-search-panel-history.md",
+      "ui-ux-search-panel.md"
+    ],
+    "公式": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "docs": [
+      "claude-code-settings-hierarchy.md",
+      "claude-code-skills-process.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "URL": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
+      "r2-storage-decision-guide.md"
+    ],
+    "Reference": [
+      "claude-code-settings-hierarchy.md",
+      "interfaces-skill-verify-contract.md"
+    ],
+    "Contracts": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "TypeScript": [
+      "claude-code-settings-hierarchy.md",
+      "skill-ledger-fragment-spec.md",
+      "technology-core.md"
+    ],
+    "関連タスク": [
+      "claude-code-settings-hierarchy.md",
+      "skill-executor-type-migration.md"
+    ],
+    "wave": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-rt-04-authkey-dedup.md",
+      "lessons-learned-rt02-stub-response-error-notification.md",
+      "lessons-learned-skill-create-multi-select-kind.md",
+      "spec-elegance-consistency-audit.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "DevEx": [
+      "claude-code-settings-hierarchy.md",
+      "task-workflow.md"
+    ],
+    "衝突防止": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "適用先システム仕様書": [
+      "claude-code-settings-hierarchy.md"
+    ],
     "agents": [
       "claude-code-skills-agents.md"
     ],
@@ -3979,15 +4104,6 @@
     ],
     "large": [
       "claude-code-skills-process.md"
-    ],
-    "docs": [
-      "claude-code-skills-process.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
-      "lessons-learned-workflow-quality-phase12-audit-validator.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
     "update": [
       "claude-code-skills-process.md"
@@ -5727,21 +5843,6 @@
       "interfaces-rag-graphrag-query.md",
       "interfaces-rag-knowledge-graph-store.md"
     ],
-    "設計": [
-      "interfaces-rag-community-detection.md",
-      "interfaces-rag-community-summarization.md",
-      "interfaces-rag-graphrag-query.md",
-      "interfaces-rag-knowledge-graph-store.md",
-      "lessons-learned-monitoring-design-2026-04.md",
-      "ui-history-design.md",
-      "ui-ux-file-selector.md",
-      "ui-ux-forms.md",
-      "ui-ux-navigation.md",
-      "ui-ux-search-panel-core.md",
-      "ui-ux-search-panel-details.md",
-      "ui-ux-search-panel-history.md",
-      "ui-ux-search-panel.md"
-    ],
     "インターフェース定義": [
       "interfaces-rag-community-detection.md",
       "interfaces-rag-community-summarization.md",
@@ -5920,9 +6021,6 @@
     "参照整合性・結合検証": [
       "interfaces-skill-verify-contract.md"
     ],
-    "Reference": [
-      "interfaces-skill-verify-contract.md"
-    ],
     "Integrity": [
       "interfaces-skill-verify-contract.md",
       "security-electron-ipc-examples.md"
@@ -6092,10 +6190,6 @@
     ],
     "分離マトリクス": [
       "ipc-contract-checklist.md"
-    ],
-    "whitelist": [
-      "ipc-contract-checklist.md",
-      "lessons-learned-ipc-channel-whitelist-sync.md"
     ],
     "登録確認コマンド": [
       "ipc-contract-checklist.md"
@@ -7364,10 +7458,6 @@
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
-    "URL": [
-      "lessons-learned-cicd-dev-main-deploy.md",
-      "r2-storage-decision-guide.md"
-    ],
     "alias": [
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md"
@@ -8617,17 +8707,6 @@
     "型拡張の同一": [
       "lessons-learned-rt-04-authkey-dedup.md"
     ],
-    "wave": [
-      "lessons-learned-rt-04-authkey-dedup.md",
-      "lessons-learned-rt02-stub-response-error-notification.md",
-      "lessons-learned-skill-create-multi-select-kind.md",
-      "spec-elegance-consistency-audit.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
     "更新": [
       "lessons-learned-rt-04-authkey-dedup.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -9444,14 +9523,6 @@
       "task-workflow-completed-ut-06-safety-gate.md",
       "workflow-permission-fallback-abort-skip-retry.md"
     ],
-    "skip": [
-      "lessons-learned-test-typesafety.md",
-      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
-      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
-      "task-workflow-completed-skill-lifecycle-security.md",
-      "task-workflow-completed-ut-06-safety-gate.md",
-      "workflow-permission-fallback-abort-skip-retry.md"
-    ],
     "retry": [
       "lessons-learned-test-typesafety.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
@@ -9638,6 +9709,7 @@
     ],
     "Wave": [
       "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "task-workflow.md",
       "ui-ux-components.md"
     ],
     "への引き継ぎ前提": [
@@ -12431,15 +12503,13 @@
     "苦戦した箇所と解決策": [
       "skill-executor-type-migration.md"
     ],
-    "関連タスク": [
-      "skill-executor-type-migration.md"
-    ],
     "Fragment": [
       "skill-ledger-fragment-spec.md"
     ],
     "Spec": [
       "skill-ledger-fragment-spec.md",
-      "task-workflow-active.md"
+      "task-workflow-active.md",
+      "task-workflow.md"
     ],
     "化の正本": [
       "skill-ledger-fragment-spec.md"
@@ -12452,10 +12522,6 @@
     ],
     "matter": [
       "skill-ledger-fragment-spec.md"
-    ],
-    "TypeScript": [
-      "skill-ledger-fragment-spec.md",
-      "technology-core.md"
     ],
     "の責務": [
       "skill-ledger-fragment-spec.md"
@@ -13224,6 +13290,12 @@
     ],
     "ドキュメント更新ルール": [
       "task-workflow-rules.md"
+    ],
+    "Conflict": [
+      "task-workflow.md"
+    ],
+    "Prevention": [
+      "task-workflow.md"
     ],
     "バックエンド技術スタック": [
       "technology-backend.md"
@@ -14072,10 +14144,6 @@
     ],
     "ツール許可設定": [
       "ui-ux-settings-core.md"
-    ],
-    "Settings": [
-      "ui-ux-settings-core.md",
-      "workflow-onboarding-wizard-alignment.md"
     ],
     "権限要求履歴パネル": [
       "ui-ux-settings-core.md"

@@ -4,6 +4,12 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-28 - DevEx conflict prevention spec wave normalization
+
+5件の task spec（skill state redesign / git hooks lefthook / worktree isolation / GitHub governance / Claude Code permissions）を `docs-only` / `spec_created` / `NON_VISUAL` に統一した。Phase 11 補助成果物は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点へ正規化し、root `artifacts.json` と `outputs/artifacts.json` の parity を固定した。`validate-phase-output.js` の要求見出しに合わせ、既存本文の意味を変えずに不足見出しのみ補遺として追加した。
+
+追加追補: `task-claude-code-permissions-decisive-mode` は Phase 12 再確認で declared outputs をすべて実ファイル化し、Phase 13 を `blocked` に固定した。`--dangerously-skip-permissions` と `permissions.deny` の相互作用は未検証 blocker とし、deny を保険と断定しない仕様へ補正した。
+
 ## 2026-04-28 - task-worktree-environment-isolation phase-12.md / index.md 準拠化補強
 
 `docs/30-workflows/task-worktree-environment-isolation/phase-12.md` を `phase-template-phase12-detail.md` 準拠に拡張（事前チェック / 実行タスク表 / Task 12-3〜5 構造化 / 苦戦箇所 / フォールバック / スキル検証 / 完了条件 16 項目 / Task 1 validator ルール参照）し、`index.md` Phase 一覧表のヘッダー行を補完。`references/phase-template-phase12-detail.md` 末尾に「典型的な準拠不足パターン」7 項目を新設し再発防止の照合表として固定化した。
