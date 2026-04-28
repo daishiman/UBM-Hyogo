@@ -2047,6 +2047,21 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L197 |
 | 変更履歴 | L208 |
 
+### references/workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L9 |
+| 集計 | L18 |
+| 改訂された SKILL.md（task-specification-creator） | L31 |
+| 新規 references（task-specification-creator 配下） | L37 |
+| workflow 仕様書（root） | L48 |
+| workflow outputs | L68 |
+| aiworkflow-requirements 反映ファイル（本タスク close-out） | L84 |
+| 再生成・監査コマンド | L97 |
+| 使い方 | L113 |
+| 変更履歴 | L119 |
+
 ### references/workflow-skill-lifecycle-created-skill-usage-journey.md
 
 | セクション | 行 |
@@ -2722,6 +2737,13 @@ node scripts/list-specs.js --topics
 | 500-Line Split Register (2026-03-16) | L255 |
 | Fragment Migration Register (2026-04-28) | L277 |
 
+### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L8 |
+| 申し送り（open / baseline 未タスク） | L57 |
+
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
 | セクション | 行 |
@@ -2735,8 +2757,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L45 |
-| 関連ドキュメント | L50 |
+| 利用順序 | L47 |
+| 関連ドキュメント | L52 |
 
 ### references/llm-embedding.md
 
@@ -3729,7 +3751,7 @@ node scripts/list-specs.js --topics
 | 7. 検証 / smoke の集約参照 | L67 |
 | 8. ロールバック粒度 | L77 |
 | 9. 関連タスクと canonical set | L88 |
-| 10. 不変条件（Phase 12 で凍結） | L102 |
+| 10. 不変条件（Phase 12 で凍結） | L106 |
 
 ### references/skill-ledger-progressive-disclosure.md
 
@@ -3744,7 +3766,8 @@ node scripts/list-specs.js --topics
 | 7. リンク健全性検証 | L78 |
 | 8. 完了条件 | L96 |
 | 9. 苦戦箇所 | L105 |
-| 10. 関連 references | L116 |
+| A-3 適用事例 | L116 |
+| 10. 関連 references | L141 |
 
 ### references/spec-elegance-consistency-audit.md
 
@@ -3821,8 +3844,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| task-worktree-environment-isolation follow-up（2026-04-28） | L348 |
-| 続き | L359 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L351 |
+| 続き | L362 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

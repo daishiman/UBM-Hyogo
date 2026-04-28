@@ -39,6 +39,8 @@ outputs/phase-12/implementation-guide.md
 - Part 1 の日常例えには `たとえば:` を最低1回含める
 - Part 2 では `## 1.` のような番号付き小節を使ってよいが、`### 使用例` は Part 2 内の必須見出しとして必ず残す
 - validator は上記の見出し文字列をそのまま検索するため、見出し名を変えない
+- docs-only かつ Cloudflare Secret 新規導入なしのタスクでは `1Password secret URI`（`op://Vault/Item/Field` 形式）を Part 2 に含めない（混入時は Phase 12 完了前に除去する）
+- `.gitignore` glob を Part 2 で示す場合、先頭 `/` が repo root 起点を意味することを必ず明記（glob スコープ誤認の防止）
 
 ````markdown
 # {{FEATURE_NAME}} - 実装ガイド

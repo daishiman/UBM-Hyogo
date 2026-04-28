@@ -113,6 +113,31 @@ find .claude/skills/<skill>/references -type f -name '*.md' \
 | 症状 3 | 並列で同一 SKILL.md を編集する他タスクと衝突 |
 | 対応 3 | 1 PR = 1 skill 分割を厳守。タスク開始時に skill 単位で announce |
 
+## A-3 適用事例
+
+### task-specification-creator（2026-04-28 / Issue #131）
+
+| 項目 | 値 |
+| --- | --- |
+| 適用前 | `SKILL.md` 315 行 |
+| 適用後 | `SKILL.md` 116 行（entry） |
+| 抽出 references | 6 本（新規） |
+| ワークフロー | `docs/30-workflows/skill-ledger-a3-progressive-disclosure/`（phase-01..13 / index / artifacts.json / outputs/phase-12） |
+| 抽出方法 | 機械的 cut & paste のみ。意味的書き換え禁止 |
+
+抽出 references と classification 軸:
+
+| references | classification 軸 |
+| --- | --- |
+| `requirements-review.md` | 要件レビュー（Phase 1 ゲート手順） |
+| `task-type-decision.md` | タスクタイプ判定（docs-only / non_visual / visual） |
+| `phase-12-spec.md` | Phase 12 仕様（中学生レベル概念説明含む） |
+| `phase-12-pitfalls.md` | Phase 12 罠（UBM-009〜013: docs-only 誤読 / placeholder PNG / 未実装 endpoint smoke / wrangler 直呼び / Next.js 16 worktree root 誤検出） |
+| `quality-gates.md` | 品質ゲート定義 |
+| `orchestration.md` | オーケストレーション（サブエージェント編成・並列実行） |
+
+教訓は `lessons-learned-skill-ledger-redesign-2026-04.md` の L-SLR-010〜014（ドッグフーディング矛盾 / Phase 12 罠連発 / entry-references 境界判定揺れ / mirror 同期と旧アンカー追跡 / 1 PR = 1 skill 原子化）に集約。
+
 ## 10. 関連 references
 
 - `skill-ledger-overview.md`
