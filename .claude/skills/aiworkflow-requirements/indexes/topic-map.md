@@ -2359,27 +2359,29 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L6 |
 | サービス構成 | L13 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L25 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L88 |
-| Cloudflare D1 データベース | L134 |
-| GitHub Actions CI/CD | L167 |
-| プレビューデプロイメント | L199 |
-| カスタムドメイン設定 | L216 |
-| 環境分離 | L229 |
-| ロールバック戦略 | L249 |
-| コスト概算（個人開発） | L270 |
-| モニタリング/アラート（UT-08 連携） | L282 |
-| 変更履歴 | L299 |
+| 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L63 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L126 |
+| Cloudflare D1 データベース | L212 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L245 |
+| GitHub Actions CI/CD | L357 |
+| プレビューデプロイメント | L389 |
+| カスタムドメイン設定 | L406 |
+| 環境分離 | L419 |
+| ロールバック戦略 | L439 |
+| コスト概算（個人開発） | L460 |
+| モニタリング/アラート（UT-08 連携） | L472 |
+| 変更履歴 | L489 |
 
 ### references/deployment-core.md
 
 | セクション | 行 |
 |------------|----|
 | デプロイメント戦略概要 | L6 |
-| Cloudflare デプロイ戦略 | L37 |
-| GitHub Actions CI/CD パイプライン | L84 |
-| ロールバック戦略 | L127 |
-| 変更履歴 | L173 |
+| Cloudflare デプロイ戦略 | L53 |
+| GitHub Actions CI/CD パイプライン | L100 |
+| ロールバック戦略 | L143 |
+| 変更履歴 | L189 |
 
 ### references/deployment-details.md
 
@@ -3287,6 +3289,15 @@ node scripts/list-specs.js --topics
 | 同種課題の簡潔解決手順 | L51 |
 | 関連ドキュメント | L61 |
 | 変更履歴 | L72 |
+
+### references/lessons-learned-ut-19-branch-protection-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT19-001: GitHub branch protection の required status check は CI 1 回先行実行が前提 | L8 |
+| L-UT19-002: 操作系（docs-only operations evidence）タスクの Phase 11 は視覚スモークが成立しない | L19 |
+| L-UT19-003: runbook と実適用値の正本ドリフト防止には deployment-branch-strategy 固定化が必要 | L30 |
+| 関連参照 | L42 |
 
 ### references/lessons-learned-ut08-monitoring-design-2026-04.md
 
@@ -4379,7 +4390,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| 続き | L336 |
+| 続き | L341 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

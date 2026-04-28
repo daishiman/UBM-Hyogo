@@ -1,0 +1,95 @@
+{
+  "metadata": {
+    "taskType": "docs-only",
+    "status": "completed"
+  },
+  "taskId": "ut-19",
+  "taskName": "GitHub ブランチ保護・Environments 手動適用",
+  "taskType": "docs-only",
+  "wave": 1,
+  "priority": "HIGH",
+  "executionMode": "standalone",
+  "incorporatedInto": null,
+  "githubIssue": 26,
+  "githubIssueState": "CLOSED",
+  "createdAt": "2026-04-27",
+  "completedAt": "2026-04-27",
+  "status": "completed",
+  "phases": [
+    { "phase": 1,  "name": "要件定義",        "file": "phase-01.md", "status": "completed", "outputs": "outputs/phase-01" },
+    { "phase": 2,  "name": "設計",            "file": "phase-02.md", "status": "completed", "outputs": "outputs/phase-02" },
+    { "phase": 3,  "name": "設計レビュー",     "file": "phase-03.md", "status": "completed", "outputs": "outputs/phase-03" },
+    { "phase": 4,  "name": "事前検証手順",     "file": "phase-04.md", "status": "completed", "outputs": "outputs/phase-04" },
+    { "phase": 5,  "name": "適用実行",         "file": "phase-05.md", "status": "completed", "outputs": "outputs/phase-05" },
+    { "phase": 6,  "name": "異常系検証",       "file": "phase-06.md", "status": "completed", "outputs": "outputs/phase-06" },
+    { "phase": 7,  "name": "検証項目網羅性",   "file": "phase-07.md", "status": "completed", "outputs": "outputs/phase-07" },
+    { "phase": 8,  "name": "設定 DRY 化",      "file": "phase-08.md", "status": "completed", "outputs": "outputs/phase-08" },
+    { "phase": 9,  "name": "品質保証",         "file": "phase-09.md", "status": "completed", "outputs": "outputs/phase-09" },
+    { "phase": 10, "name": "最終レビュー",     "file": "phase-10.md", "status": "completed", "outputs": "outputs/phase-10" },
+    { "phase": 11, "name": "手動 smoke test",  "file": "phase-11.md", "status": "completed", "outputs": "outputs/phase-11" },
+    { "phase": 12, "name": "ドキュメント更新", "file": "phase-12.md", "status": "completed", "outputs": "outputs/phase-12" },
+    { "phase": 13, "name": "PR作成",           "file": "phase-13.md", "status": "pending",   "outputs": "outputs/phase-13" }
+  ],
+  "acceptanceCriteria": [
+    "AC-1: main branch protection が適用され、required_status_checks.contexts に ci / Validate Build が登録され、required_pull_request_reviews.required_approving_review_count = 0、allow_force_pushes = false、allow_deletions = false が gh api で確認できる",
+    "AC-2: dev branch protection が適用され、main と同等の status check 必須・force push 禁止・branch deletion 禁止・承認不要が gh api で確認できる",
+    "AC-3: production environment のブランチポリシーが main のみに限定され、Required Reviewers が 0 名であることが GitHub UI で確認できる",
+    "AC-4: staging environment のブランチポリシーが dev のみに限定されていることが GitHub UI で確認できる",
+    "AC-5: 適用前 / 適用後の gh api レスポンス JSON が outputs/phase-05/ に証跡として保存されている",
+    "AC-6: ランブック (repository-settings-runbook.md) の手順と実適用結果が乖離していないことが Phase 7 で確認されている",
+    "AC-7: 正式ブランチ指定として develop という旧ブランチ名が残存していないことが確認されている"
+  ],
+  "acceptanceCriteriaResults": {
+    "AC-1": "PASS",
+    "AC-2": "PASS",
+    "AC-3": "PASS",
+    "AC-4": "PASS",
+    "AC-5": "PASS",
+    "AC-6": "PASS",
+    "AC-7": "PASS"
+  },
+  "keyArtifacts": [
+    { "type": "doc",      "path": "outputs/phase-01/requirements.md",                "description": "要件定義" },
+    { "type": "doc",      "path": "outputs/phase-02/branch-protection-design.md",    "description": "branch protection / Environments 設計" },
+    { "type": "doc",      "path": "outputs/phase-02/api-payload-matrix.md",          "description": "gh api payload と期待 response のマトリクス" },
+    { "type": "doc",      "path": "outputs/phase-03/design-review.md",               "description": "設計レビュー" },
+    { "type": "doc",      "path": "outputs/phase-04/pre-apply-checklist.md",         "description": "事前検証チェックリスト" },
+    { "type": "evidence", "path": "outputs/phase-05/gh-api-before-main.json",        "description": "適用前の main protection レスポンス" },
+    { "type": "evidence", "path": "outputs/phase-05/gh-api-after-main.json",         "description": "適用後の main protection レスポンス" },
+    { "type": "evidence", "path": "outputs/phase-05/gh-api-before-dev.json",         "description": "適用前の dev protection レスポンス" },
+    { "type": "evidence", "path": "outputs/phase-05/gh-api-after-dev.json",          "description": "適用後の dev protection レスポンス" },
+    { "type": "evidence", "path": "outputs/phase-05/gh-api-before-environments.json","description": "適用前の environments 一覧" },
+    { "type": "evidence", "path": "outputs/phase-05/gh-api-after-environments.json", "description": "適用後の environments 一覧" },
+    { "type": "evidence", "path": "outputs/phase-05/gh-api-after-production-policies.json", "description": "production env branch policies" },
+    { "type": "evidence", "path": "outputs/phase-05/gh-api-after-staging-policies.json",    "description": "staging env branch policies" },
+    { "type": "doc",      "path": "outputs/phase-05/apply-execution-log.md",         "description": "適用コマンド・実行ログ" },
+    { "type": "doc",      "path": "outputs/phase-06/abnormal-cases-report.md",       "description": "異常系検証レポート" },
+    { "type": "doc",      "path": "outputs/phase-07/coverage-matrix.md",             "description": "AC × Phase トレース表" },
+    { "type": "doc",      "path": "outputs/phase-08/runbook-dry-diff.md",            "description": "runbook と実適用の差分・統合提案" },
+    { "type": "doc",      "path": "outputs/phase-09/quality-report.md",              "description": "品質ゲート判定" },
+    { "type": "doc",      "path": "outputs/phase-10/final-review.md",                "description": "最終レビュー" },
+    { "type": "doc",      "path": "outputs/phase-11/manual-smoke-log.md",            "description": "手動 smoke test ログ" },
+    { "type": "doc",      "path": "outputs/phase-11/main.md",                        "description": "Phase 11 サマリ" },
+    { "type": "doc",      "path": "outputs/phase-11/link-checklist.md",              "description": "関連リンク健全性確認" },
+    { "type": "doc",      "path": "outputs/phase-12/implementation-guide.md",        "description": "実装ガイド" },
+    { "type": "doc",      "path": "outputs/phase-12/system-spec-update-summary.md",  "description": "システム仕様更新サマリ" },
+    { "type": "doc",      "path": "outputs/phase-12/documentation-changelog.md",     "description": "ドキュメント更新履歴" },
+    { "type": "doc",      "path": "outputs/phase-12/unassigned-task-detection.md",   "description": "未タスク検出レポート" },
+    { "type": "doc",      "path": "outputs/phase-12/skill-feedback-report.md",       "description": "スキルフィードバックレポート" },
+    { "type": "doc",      "path": "outputs/phase-12/elegant-verification-report.md", "description": "30種思考法 + エレガント検証レポート" },
+    { "type": "doc",      "path": "outputs/verification-report.md",                  "description": "verify-all-specs 検証レポート" },
+    { "type": "script",   "path": "../../../scripts/verify-branch-protection.sh",    "description": "branch protection / Environments 再検証スクリプト" },
+    { "type": "meta",     "path": "artifacts.json",                                  "description": "機械可読サマリー（root）" },
+    { "type": "meta",     "path": "outputs/artifacts.json",                          "description": "機械可読サマリー（outputs 同期コピー）" }
+  ],
+  "dependencies": {
+    "upstream": [
+      { "task": "01a-parallel-github-and-branch-governance", "reason": "ランブック (repository-settings-runbook.md) が作成済みであること" },
+      { "task": "UT-05", "reason": "status check context (ci / Validate Build) が GitHub に登録されるには CI ワークフローを1回以上実行していること" }
+    ],
+    "downstream": [
+      { "task": "UT-05", "reason": "branch protection が有効でないと PR マージ時の CI ゲートが機能しない" },
+      { "task": "UT-06", "reason": "branch protection が確定しないと本番デプロイの CI ゲートが機能しない" }
+    ]
+  }
+}

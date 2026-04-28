@@ -803,7 +803,7 @@
 - **問題**: 03-serial-data-source-and-storage-contract は contract-only タスクだったため、コード実装は最小限だが、後続実装タスク（`apps/api` D1 binding 配線・migration 実装・sync_audit 書込みパス・identity merge 戦略 等）が canonical な未タスクとして登録されていなかった
 - **解決**: contract-only Phase 12 close-out 時に、後続実装で必要となる未タスク（minimum: D1 binding wiring / migration script / sync_audit append-only 書込み / identity merge）を `unassigned-task-detection.md` に列挙し、backlog 登録対象として明示する
 - **再発防止**: contract-only タスクの Phase 12 では「契約の閉じ方」と「downstream の未タスク列挙」の両方を必須項目として review checklist に固定する。契約だけ書いて未タスク登録を省略すると、実装波で発見が遅れる
-<<<<<<< HEAD
+
 
 ### L-05A-NON_VISUAL-001: docs-only タスクの Phase 11 で NON_VISUAL evidence path の固定漏れ
 
@@ -859,3 +859,37 @@
 | 解決策     | docs-only タスクの Phase 1（要件定義）または Phase 2（設計）段階で、プロバイダー依存の機能について official-support gate（公式ドキュメント確認 or 確認予定の明記）を設けるルールを追加 |
 | 再発防止   | task-specification-creator スキルのテンプレートに「プロバイダー依存機能の official-support gate」チェック項目を追加することを skill-feedback-report に記録 |
 | 関連タスク | UT-02 |
+
+---
+
+## UT-09 Google Sheets → D1 同期ジョブ実装 教訓（2026-04-27）
+
+### L-UT09-001: SQLITE_BUSY 対策は WriteQueue + withRetry の二層防御パターン
+
+| 項目       | 内容 |
+| ---------- | ---- |
+| カテゴリ   | infra / D1 / concurrency |
+| 問題       | Cloudflare D1 では複数 Worker が同時に D1 を書き込むと `SQLITE_BUSY` が発生する。複雑な Mutex/Semaphore を導入すると Worker 環境（グローバル変数非永続）で動作しない |
+| 解決策     | **WriteQueue**（Promise chain 直列化 / 18行）と **withRetry**（exponential backoff + jitter、デフォルト最大5回・基底遅延50ms）を組み合わせて二層防御する。jitter は `baseMs/2` のランダム加算で複数 Worker の同時再試行衝突を抑制。SQLITE_BUSY 以外のエラーは即 rethrow してリトライ無駄を排除 |
+| 再発防止   | D1 への batch write を含む Worker には WriteQueue + withRetry をセットで適用する。batch-size 100 上限・短い transaction もセットで運用する |
+| 関連タスク | UT-09 |
+
+### L-UT09-002: Cloudflare Workers Cron Trigger の staging/production 差分管理
+
+| 項目       | 内容 |
+| ---------- | ---- |
+| カテゴリ   | infra / cloudflare / cron |
+| 問題       | staging と production で cron 頻度を変えたい場合、`wrangler.toml` のトップレベル `[triggers]` と `[env.staging.triggers]` を両方定義しないと staging が production 設定を継承してしまう |
+| 解決策     | production は `[triggers] crons = ["0 */6 * * *"]`（6時間ごと）、staging は `[env.staging.triggers] crons = ["0 * * * *"]`（毎時間）と env 固有セクションを追加する。`scheduled()` ハンドラは `ctx.waitUntil(runSync(env, { trigger: "cron" }))` でノンブロッキングに実行 |
+| 再発防止   | cron を持つ Worker の `wrangler.toml` には必ず staging env セクションに `[env.staging.triggers]` を追記する。staging が production より高頻度（テスト目的）なのが意図的か偶発的かをコメントで明示する |
+| 関連タスク | UT-09 |
+
+### L-UT09-003: 旧実装と新正本方針の衝突 — 方針統一先決原則
+
+| 項目       | 内容 |
+| ---------- | ---- |
+| カテゴリ   | process / phase12 / direction-conflict |
+| 問題       | 旧 UT-09 では Sheets API v4 + 単一 `/admin/sync` + `sync_locks` / `sync_job_logs` を実装した。一方、後続の `task-sync-forms-d1-legacy-umbrella-001` では Forms API + `/admin/sync/schema` / `/admin/sync/responses` + `sync_jobs` テーブルが正本方針となり、二重正本が発生した |
+| 解決策     | Phase 12 close-out 時に stale な旧実装を正本に登録せず、衝突を `task-ut09-direction-reconciliation-001.md` として PR blocker に formalize した。Forms 方針へ統一するか Sheets 実装を正式採用するかは次タスクで先決させる |
+| 再発防止   | 実装後 Phase 12 でシステム仕様書を更新する前に、**正本と実装の方針整合性チェック**を必須ステップとして実施する。衝突が見つかった場合は stale 実装を正本登録せず、方針統一タスクを PR blocker として formalize してから Phase 12 を完結させる |
+| 関連タスク | UT-09, task-ut09-direction-reconciliation-001 |
