@@ -2468,3 +2468,12 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` の `index.md`、`artifacts.json`、`phase-01.md`〜`phase-13.md`、Phase 11〜13 outputs |
 | 結果 | Phase 状態を outputs 実体へ同期し、Phase 1〜13 本文へ `phase-template-core.md` の共通骨格を補完。Phase 12 は Step 1-A〜1-G / Step 2 N/A / planned wording 排除 / current-baseline 分離へ再構成した |
 | 検証 | `validate-phase-output.js` と `verify-all-specs.js --strict --json` を再実行対象として close-out。30思考法レビューでは全面破棄不要、Phase 12 と状態台帳の部分再構成が最小複雑性と判定 |
+
+### 2026-04-28 - task-husky-rejection-adr Phase 12 final doc update
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | docs-only / NON_VISUAL / ADR close-out |
+| 変更対象 | `docs/30-workflows/task-husky-rejection-adr/`、`doc/decisions/`、`docs/30-workflows/unassigned-task/task-adr-template-standardization.md` |
+| 結果 | Phase 12 implementation guide を Part 1 / Part 2 必須構成へ再構成し、ADR ID を ADR-0001 に統一。Phase 11 に screenshot 不要理由を明記し、関連タスク参照切れを実在パスへ是正。Phase 1〜12 status を completed に同期し、Phase 13 は pending_user_approval を維持した |
+| 検証 | `validate-phase12-implementation-guide.js --workflow docs/30-workflows/task-husky-rejection-adr --json` と `validate-phase11-screenshot-coverage.js --workflow docs/30-workflows/task-husky-rejection-adr --json` を再実行対象として記録 |

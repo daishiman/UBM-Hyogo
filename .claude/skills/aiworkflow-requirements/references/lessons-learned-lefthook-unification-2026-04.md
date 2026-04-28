@@ -49,4 +49,4 @@
 
 - **C-1**（unassigned 配置済み）: CI `verify-indexes-up-to-date` job 新設 — `docs/30-workflows/unassigned-task/task-verify-indexes-up-to-date-ci.md`
 - **B-1**（baseline）: 既存 worktree 群への lefthook 再インストール runbook の運用化（実行責任者と記録管理の確定が必要）
-- **B-2**（baseline）: `husky` 不採用判断の ADR 化（リポジトリ ADR 集約化が前提）
+- **B-2**（resolved 2026-04-28 / task-husky-rejection-adr）: `husky` 不採用判断は ADR-0001 として `doc/decisions/0001-git-hook-tool-selection.md` に集約済み。後続テンプレート整備は `docs/30-workflows/unassigned-task/task-adr-template-standardization.md` に formalize。
