@@ -1,14 +1,14 @@
-export type {
-  MemberId,
-  ResponseId,
-  StableKey,
-  SessionId,
-  TagId,
-  AdminId,
-} from "@ubm-hyogo/shared";
 export {
+  type MemberId,
+  type ResponseId,
+  type ResponseEmail,
+  type StableKey,
+  type SessionId,
+  type TagId,
+  type AdminId,
   asMemberId,
   asResponseId,
+  asResponseEmail,
   asStableKey,
   asSessionId,
   asTagId,

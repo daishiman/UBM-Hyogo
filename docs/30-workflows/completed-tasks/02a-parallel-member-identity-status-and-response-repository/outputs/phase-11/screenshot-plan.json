@@ -1,0 +1,13 @@
+{
+  "task": "02a-parallel-member-identity-status-and-response-repository",
+  "visualScope": "NON_VISUAL",
+  "screenshotsRequired": false,
+  "reason": "Repository/API task only; no apps/desktop surface and no product UI route changed.",
+  "screenshotsDirectory": "outputs/phase-11/screenshots",
+  "validatorPlaceholder": "outputs/phase-11/screenshots/non-visual-evidence-placeholder.png",
+  "evidence": [
+    "outputs/phase-11/manual-smoke-log.md",
+    "outputs/phase-11/manual-evidence.md",
+    "outputs/phase-11/manual-test-result.md"
+  ]
+}

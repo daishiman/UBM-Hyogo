@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-27 - UT-06 派生反映波
+
+`scripts/cf.sh` 導入 / CLAUDE.md Cloudflare CLI ルール / `wrangler.toml` `[env.production]` 明示 / `apps/web/next.config.ts` の `outputFileTracingRoot` `turbopack.root` `ignoreBuildErrors` 追加 / `unassigned-task-detection.md` UNASSIGNED-G 追記を踏まえ、SKILL.md「Phase 12 実行時によくある漏れ」へ UBM-012（wrangler 直接呼び禁止 → `scripts/cf.sh` 強制集約）と UBM-013（Next.js 16 / Turbopack worktree root 誤検出と `outputFileTracingRoot` / `turbopack.root` 明示）を追記、`references/patterns-troubleshooting-worktree-cloudflare.md` を新規作成し worktree×Next.js 16 root 誤検出 / wrangler 4.x `[env.production]` strict mode / esbuild Host-Binary mismatch の 3 パターンを集約（親 `patterns-troubleshooting.md` は 500 行制約近接のため別ファイル化＋相互参照リンク追加）、`references/unassigned-task-detection-guide.md` に UT-06 派生（UNASSIGNED-G）題材の正本フォーマット節（命名 `^task-[a-z]+-[a-z0-9-]+-[0-9]+$` / 配置 `docs/30-workflows/unassigned-task/` / 検出ログと独立タスク化の二段運用）を追加、SKILL-changelog.md に v10.09.47 として同エントリを追記した。
+
 ## 2026-04-27 - UT-12 skill-feedback-report 反映（task-specification-creator）
 
 ## 2026-04-27 - 02b same-wave: repository / NON_VISUAL テンプレ補強
@@ -57,6 +61,39 @@ UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage
 
 30種思考法レビューと SubAgent 準拠検証で、`completed` / `pending` / `spec_created` の状態ドリフト、R2 binding の現行例示と未適用方針の混在、未タスク検出の実体化漏れが見つかった。Phase 12 close-out は成果物の存在だけでなく、下流が誤認しない状態語彙まで閉じる必要がある。
 
+## 2026-04-27 - UT-06 Phase 12 review hardening
+
+### 変更内容
+
+- `docs/30-workflows/ut-06-production-deploy-execution/outputs/phase-12/phase12-task-spec-compliance-check.md` を追加し、30種思考法・4条件・エレガント検証の結果を記録した
+- root / outputs `artifacts.json` parity、task root path drift、Phase 11 placeholder screenshot、Part 1 / Part 2 implementation guide 不備を補正した
+- OpenNext Workers 形式、`/health/db` endpoint、実 screenshot を UT-06 実行前ブロッカーとして未タスクに昇格した
+
+### 背景
+
+UT-06 は本番デプロイ実行タスクだが、成果物は docs-only / NOT EXECUTED テンプレ状態だった。Phase 12 close-out では実デプロイ完了と誤読されない状態管理、正本仕様同期、未タスク明示を同一 wave で閉じる必要がある。
+
+## 2026-04-27 - impl-spec-to-skill-sync 反映 (UT-08 / UT-13 / 01a / 01b / 05b 監査由来)
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | skill update / Phase-12 監査結果反映 |
+| 対象 | `references/phase-template-phase12.md`、`references/unassigned-task-workflow-integration.md`、`SKILL-changelog.md` |
+| 監査起点 | UT-08 monitoring/alert design / UT-13 KV session cache / 01a D1 schema / 01b zod+Forms / 05b smoke close-out の Phase 12 成果物横断監査 |
+| 結果 | 全実装ブランチで Phase 12 6 必須成果物 PASS。設計タスクの 300 行上限超過ケースと NON_VISUAL Phase 11 代替証跡を皮切りに、`spec_created` → 実装派生タスク化パターン A/B（UT-13 → UT-30〜34 / UT-08 → UT-08-IMPL）を skill 内に formalize |
+| 教訓 | 「行数上限」より「責務分離不可能性の根拠」を優先する原則を明文化。設計タスク完了時に派生 UT を独立 ID で切り出すパターンが増加しているため、`unassigned-task-detection.md` の current/baseline 分離ルールを併せて拡張 |
+| 同期 wave | `phase-template-phase12.md`（+50 行）/ `unassigned-task-workflow-integration.md`（+40 行）/ `SKILL-changelog.md`（v10.09.46 追記）/ 本 LOGS |
+
+## 2026-04-27 - 02a repository Phase 12 review hardening
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | implementation / Phase 12 close-out correction |
+| 対象 | `docs/30-workflows/02a-parallel-member-identity-status-and-response-repository/` |
+| 結果 | Part 1/Part 2 implementation guide、root/output artifacts parity、Phase 11 NON_VISUAL evidence、formal unassigned tasks、system spec quick-reference sync を補完 |
+| 教訓 | `spec_created` から実装が入った場合は `docs_only=false` / implementation status / Step 2 interface sync / root test環境ブロックの明示を同一waveで閉じる |
+
+
 ## 2026-04-27 - 05a Phase 12 close-out drift guard を SKILL.md へ反映
 
 ### 変更内容
@@ -69,6 +106,18 @@ UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage
 ### 背景
 
 05a-parallel-observability-and-cost-guardrails の Phase 12 close-out 検証で、未タスク 3 件が `docs/unassigned-task/` 配下かつ `ut-...md` 命名で `audit-unassigned-tasks.js` の対象から外れていたこと、root/outputs `artifacts.json` の同時更新ルールが SKILL.md に明文化されていなかったことを検出した。今後の Phase 12 close-out で再発しないよう「よくある漏れ」表へ恒久化する。
+
+## 2026-04-27 - UT-09 direction conflict formalized
+
+### 変更内容
+
+- 旧 UT-09 Sheets 実装と `task-sync-forms-d1-legacy-umbrella-001` の current Forms 分割方針の衝突を検出した
+- Phase 12 compliance を PASS ではなく FAIL / PR blocker として補正した
+- `task-ut09-direction-reconciliation-001.md` を未タスクとして作成し、Forms 方針へ寄せるか Sheets 実装を正式採用するかの判断を明文化した
+
+### 背景
+
+`spec_created / docs_only` drift の補正だけでは、現行正本が定義する Forms API / `/admin/sync/schema` / `/admin/sync/responses` / `sync_jobs` 方針との衝突を解消できない。Phase 12 では stale contract を正本仕様へ登録せず、先に方針統一タスクを formalize する。
 
 ## 2026-04-26 - 05a-parallel-observability-and-cost-guardrails Phase 12 review hardening
 
@@ -93,6 +142,51 @@ UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage
 ### 背景
 
 Wave 0 scaffold task で実装差分、仕様同期、path/status parity、現環境 verify 結果がずれたため、Phase 12 close-out 前に code diff と task metadata を再照合する必要がある。
+
+## 2026-04-26 - 05b-parallel-smoke-readiness-and-handoff Phase 12 close-out sync
+
+### 変更内容
+
+- `docs/05b-parallel-smoke-readiness-and-handoff/` の旧 task-root path drift を補正した
+- Phase 2 / 5 / 10 / 11 / 12 の個別成果物を作成し、`artifacts.json` の outputs と Phase 1-12 status を同期した
+- Phase 11 は UI 変更なしのため screenshot N/A とし、manual smoke / link checklist 証跡で閉じた
+- Phase 13 は `approval_required` のまま維持し、コミット・PR は実行していない
+
+### 背景
+
+30種思考法レビューで、docs-only / `spec_created` タスクでも Phase 12 必須成果物、LOGS 同期、artifact parity、旧パス残存検出を同時に閉じないと downstream handoff が壊れることを確認した。
+
+## 2026-04-27 - UT-13 Cloudflare KV セッションキャッシュ設定 spec_created Phase 1〜12 完了
+
+### コンテキスト
+
+- スキル: task-specification-creator
+- タスクID: UT-13
+- タスク名: Cloudflare KV セッションキャッシュ設定
+- Phase: 1-12（Phase 13 PR 作成はユーザー承認待ち）
+- タスク種別: spec_created / docs-only / NON_VISUAL
+
+### 成果
+
+- Phase 1: `outputs/phase-01/requirements.md`（AC-1〜AC-7 正式定義、4条件全 PASS、既存資産インベントリ）
+- Phase 2: `kv-namespace-design.md` / `ttl-policy.md` / `env-diff-matrix.md` / `free-tier-policy.md` / `eventual-consistency-guideline.md`
+- Phase 3: `review-result.md`（設計レビュー PASS、代替案 A〜E 評価）
+- Phase 4: `verify-suite-result.md`（DOCUMENTED）/ `free-tier-usage-snapshot.md`
+- Phase 5: `kv-bootstrap-runbook.md` / `kv-binding-mapping.md` / `read-write-verification.md`
+- Phase 6: `failure-cases.md`（FC-01〜FC-06）/ `ac-final-check.md`（全 PASS）
+- Phase 7: `ac-matrix.md` / `handoff.md`
+- Phase 8: `dry-config-policy.md`（Before/After 比較、`[vars]` 集中管理）
+- Phase 9: `quality-report.md`（無料枠 / 最終的一貫性 / secret hygiene 全 PASS）
+- Phase 10: `go-nogo.md`（即 GO 判定）
+- Phase 11: NON_VISUAL smoke test（`smoke-test-result.md` / `production-review-evidence.md`、screenshot は N/A、CLI evidence で代替）
+- Phase 12: 必須 6 ファイル（`implementation-guide.md` / `system-spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md`）
+- 正本同期: `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` に KV セクション統合 / `indexes/topic-map.md` 行番号同期 + KV 関連エントリ追加
+
+### 結果
+
+- ステータス: success（Phase 1〜12）
+- 完了日時: 2026-04-27
+- 申し送り: KV Namespace 実 ID 発行・wrangler.toml への実装適用・Worker 側 KV ヘルパー実装は下流の認証実装タスク / インフラタスクへ委譲（unassigned-task-detection.md に 7 件記録）
 
 ## 2026-04-26 - D1 読み書き競合対策の設定可否確認（UT-02）タスク完了
 

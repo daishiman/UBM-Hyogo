@@ -5,6 +5,23 @@
 
 ## デプロイメント戦略概要
 
+### UT-06 本番不可逆操作ゲート（2026-04-27）
+
+本番 D1 migration、Workers deploy、rollback rehearsal は不可逆またはユーザー影響を伴う。UT-06 では次の条件を満たすまで、本番デプロイ完了扱いにしない。
+
+| 条件 | 必須確認 |
+| --- | --- |
+| 承認 | `outputs/phase-04/production-approval.md` に承認者・日時・対象 commit を記録 |
+| CLI | `wrangler` 直実行ではなく `bash scripts/cf.sh ...` を使う |
+| Backup | D1 migration 前に `bash scripts/cf.sh d1 export ... --env production` を実行し、空 export の場合も理由を記録 |
+| Web deploy 形式 | OpenNext Workers 形式と Pages 形式を混同しない。`pages_build_output_dir` が残る場合は実行前ブロッカー |
+| API smoke | `/health` と D1 疎通 endpoint の期待 JSON が実装と一致 |
+| Rollback | API Workers、Web Workers、D1 restore の戻し方を Phase 6 に記録 |
+| Evidence | Phase 5 の実行ログ、Phase 11 の API response、実スクリーンショットを保存 |
+| Next.js 16 / Turbopack monorepo root 誤検出 | `apps/web/next.config.ts` で `outputFileTracingRoot` と `turbopack.root` を worktree path に明示する。明示がない場合、Turbopack が monorepo の親方向を root と誤検出してビルドが不安定化する。これは UT-06 の deploy gate ブロッカー扱い |
+
+`apps/web/next.config.ts` で `typescript.ignoreBuildErrors = true` を使う場合、本番 deploy gate では別途 `pnpm --filter @ubm-hyogo/web exec tsc --noEmit` を必須にする。`ignoreBuildErrors` 単独で deploy gate を通すことは禁止し、CI / 手動実行の双方で別 tsc gate と pair で運用する。
+
 ### デプロイ対象
 
 | 対象 | プラットフォーム | 更新頻度 | 優先度 |
@@ -175,3 +192,4 @@ wrangler pages deployment rollback <deployment-id> --project-name ubm-hyogo-web
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron 削除、Cloudflare（Pages/Workers/D1/R2/KV）へ移行 |
+| 2026-04-27 | 2.1.0 | UT-06 派生: 本番不可逆操作ゲートに「Next.js 16 / Turbopack monorepo root 誤検出ゲート」を追加（`outputFileTracingRoot` / `turbopack.root` 明示が deploy gate ブロッカー）、`ignoreBuildErrors=true` 使用時の別 tsc gate 必須を補強 |

@@ -6,6 +6,12 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 ENVIRONMENT = "production"
 
+[env.production]
+name = "ubm-hyogo-web"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+
 [env.staging]
 name = "ubm-hyogo-web-staging"
 

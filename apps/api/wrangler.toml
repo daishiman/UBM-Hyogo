@@ -7,18 +7,36 @@ compatibility_flags = ["nodejs_compat"]
 ENVIRONMENT = "production"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
+SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
+SYNC_BATCH_SIZE = "100"
+SYNC_MAX_RETRIES = "5"
+SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
+
+# UT-09: production cron は 6 時間ごとに実行
+[triggers]
+crons = ["0 */6 * * *"]
 
 # D1 データベースバインディング
-# D1 の書き込み/読み取り競合ポリシー:
-# Cloudflare D1 が PRAGMA journal_mode=WAL の永続化を公式サポートしているか
-# 確認してから適用すること（docs/ut-02-d1-wal-mode/ 参照）。
-# SQLITE_BUSY 発生時のランタイム緩和策（retry/backoff、キュー直列化）は
-# UT-09 (Sheets→D1 同期ジョブ実装) で実施する。
+# UT-09 同期ジョブが SQLITE_BUSY retry/backoff・write queue 直列化・短い transaction
+# ・batch-size 100 上限 で書き込みする前提で運用する (apps/api/src/jobs/sync-sheets-to-d1.ts)
 [[d1_databases]]
 binding = "DB"
 database_name = "ubm-hyogo-db-prod"
 database_id = "24963f0a-7fbb-4508-a93a-f8e502aa4585"
 migrations_dir = "migrations"
+
+[env.production]
+name = "ubm-hyogo-api"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
+FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "ubm-hyogo-db-prod"
+database_id = "24963f0a-7fbb-4508-a93a-f8e502aa4585"
 
 [env.staging]
 name = "ubm-hyogo-api-staging"
@@ -27,8 +45,16 @@ name = "ubm-hyogo-api-staging"
 ENVIRONMENT = "staging"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
+SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
+SYNC_BATCH_SIZE = "100"
+SYNC_MAX_RETRIES = "5"
+SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
-# staging D1 バインディング（WAL 競合ポリシーは production と同じ）
+# UT-09: staging (=dev 想定) は 1 時間ごと
+[env.staging.triggers]
+crons = ["0 * * * *"]
+
+# staging D1 バインディング (WAL 競合ポリシーは production と同じ)
 [[env.staging.d1_databases]]
 binding = "DB"
 database_name = "ubm-hyogo-db-staging"

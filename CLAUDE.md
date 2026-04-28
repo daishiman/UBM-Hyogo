@@ -150,6 +150,44 @@ pnpm lint
 
 **平文 `.env` はリポジトリにコミットしない。**
 
+### ローカル `.env` の運用ルール（AI 学習混入防止）
+
+- ローカル `.env` には **実値を絶対に書かない**（AI コンテキストに混入する事故を防ぐため）
+- 値は **1Password に保管**し、`.env` には `op://Vault/Item/Field` 参照のみを記述する
+- 実行時に [`scripts/with-env.sh`](scripts/with-env.sh) が `op run --env-file=.env` でラップして動的注入する
+
+#### Cloudflare 系 CLI 実行ルール（Claude Code 必読）
+
+Claude Code および手動オペレーション双方で **以下のラッパーのみを使用**すること。`wrangler` を直接呼ばない。
+
+```bash
+# 認証確認
+bash scripts/cf.sh whoami
+
+# D1 操作
+bash scripts/cf.sh d1 list
+bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production
+bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production
+bash scripts/cf.sh d1 export ubm-hyogo-db-prod --env production --output backup.sql
+
+# デプロイ
+bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env production
+bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env production
+
+# rollback
+bash scripts/cf.sh rollback <VERSION_ID> --config apps/api/wrangler.toml --env production
+```
+
+`scripts/cf.sh` の役割:
+1. `op run --env-file=.env` 経由で `CLOUDFLARE_API_TOKEN` 等を 1Password から動的注入（実値は環境変数として揮発的に渡るのみ・ファイルやログには残らない）
+2. グローバル `esbuild` とのバージョン不整合を `ESBUILD_BINARY_PATH` で自動解決
+3. `mise exec --` 経由で Node 24 / pnpm 10 を保証
+
+**禁止事項（Claude Code を含む全 AI エージェントに適用）:**
+- `.env` の中身を `cat` / `Read` / `grep` 等で表示・読み取らない（実値は op 参照のみだが慣性事故防止）
+- API Token 値・OAuth トークン値を出力やドキュメントに転記しない
+- `wrangler login` でローカル OAuth トークン (`~/Library/Preferences/.wrangler/config/default.toml`) を保持しない。`.env` の op 参照に一本化する
+
 ---
 
 ## 参照ドキュメント

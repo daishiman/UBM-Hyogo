@@ -1,6 +1,20 @@
-export interface DbCtx {
-  readonly db: D1Database;
+export interface D1Stmt {
+  bind(...values: unknown[]): D1Stmt;
+  first<T = unknown>(): Promise<T | null>;
+  all<T = unknown>(): Promise<{ results: T[] }>;
+  run(): Promise<{ success: boolean }>;
 }
+
+export interface D1Db {
+  prepare(sql: string): D1Stmt;
+  exec(sql: string): Promise<{ count: number; duration: number }>;
+}
+
+export interface DbCtx {
+  readonly db: D1Db;
+}
+
+export const ctx = (env: { DB: D1Db }): DbCtx => ({ db: env.DB });
 
 export const isUniqueConstraintError = (err: unknown): boolean => {
   if (!(err instanceof Error)) return false;

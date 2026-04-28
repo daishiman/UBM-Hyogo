@@ -2354,33 +2354,43 @@ node scripts/list-specs.js --topics
 | ブランチ保護ルール（推奨設定） | L83 |
 | 変更履歴 | L109 |
 
+### references/deployment-cloudflare-ut06-gate.md
+
+| セクション | 行 |
+|------------|----|
+| canonical 実行ラッパー | L5 |
+| 実行前ゲート | L17 |
+| 関連 | L29 |
+
 ### references/deployment-cloudflare.md
 
 | セクション | 行 |
 |------------|----|
 | 概要 | L6 |
 | サービス構成 | L13 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L25 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L88 |
-| Cloudflare D1 データベース | L134 |
-| GitHub Actions CI/CD | L167 |
-| プレビューデプロイメント | L199 |
-| カスタムドメイン設定 | L216 |
-| 環境分離 | L229 |
-| ロールバック戦略 | L249 |
-| コスト概算（個人開発） | L270 |
-| モニタリング/アラート（UT-08 連携） | L282 |
-| 変更履歴 | L299 |
+| 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L45 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L122 |
+| Cloudflare D1 データベース | L216 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L249 |
+| GitHub Actions CI/CD | L361 |
+| プレビューデプロイメント | L393 |
+| カスタムドメイン設定 | L410 |
+| 環境分離 | L423 |
+| ロールバック戦略 | L443 |
+| コスト概算（個人開発） | L464 |
+| モニタリング/アラート（UT-08 連携） | L476 |
+| 変更履歴 | L493 |
 
 ### references/deployment-core.md
 
 | セクション | 行 |
 |------------|----|
 | デプロイメント戦略概要 | L6 |
-| Cloudflare デプロイ戦略 | L37 |
-| GitHub Actions CI/CD パイプライン | L84 |
-| ロールバック戦略 | L127 |
-| 変更履歴 | L173 |
+| Cloudflare デプロイ戦略 | L54 |
+| GitHub Actions CI/CD パイプライン | L101 |
+| ロールバック戦略 | L144 |
+| 変更履歴 | L190 |
 
 ### references/deployment-details.md
 
@@ -2422,9 +2432,10 @@ node scripts/list-specs.js --topics
 | GitHub Secrets（CI/CD 用） | L78 |
 | wrangler.toml の環境別設定 | L103 |
 | ローカル開発での設定 | L135 |
-| セキュリティ原則 | L174 |
-| Cloudflare API Token の作成手順 | L185 |
-| 変更履歴 | L214 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L174 |
+| セキュリティ原則 | L211 |
+| Cloudflare API Token の作成手順 | L222 |
+| 変更履歴 | L251 |
 
 ### references/deployment.md
 
@@ -2816,6 +2827,18 @@ node scripts/list-specs.js --topics
 |------------|----|
 | TASK-IMP-CHAT-WORKSPACE-GUIDANCE-ACTION-WIRING-001（2026-03-22） | L4 |
 
+### references/lessons-learned-current-2026-04-ut06.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| L-UT06-001: `wrangler` 直叩き禁止 → `scripts/cf.sh` に集約 | L13 |
+| L-UT06-002: `.env` に実値を書かず `op://` 参照のみ（AI 学習混入防止） | L26 |
+| L-UT06-003: wrangler 4.x strict mode で `[env.production]` 明示必須 | L39 |
+| L-UT06-004: Next.js 16 + Turbopack の worktree root 誤検出 | L52 |
+| L-UT06-005: `ignoreBuildErrors` は別 tsc gate と pair 必須 | L65 |
+| 関連 reference 更新まとめ | L78 |
+
 ### references/lessons-learned-current-2026-04.md
 
 | セクション | 行 |
@@ -2970,6 +2993,26 @@ node scripts/list-specs.js --topics
 | TASK-SC-02-RUNTIME-POLICY-CLOSURE（2026-03-22） | L473 |
 | TASK-SC-05-IMPROVE-LLM（2026-03-23） | L493 |
 | TASK-SC-06-UI-RUNTIME-CONNECTION（2026-03-24） | L509 |
+
+### references/lessons-learned-kv-session-cache-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 対象タスク | L9 |
+| L-KV-001: KV 最終的一貫性（Eventual Consistency）の制約 | L15 |
+| L-KV-002: 無料枠の書き込み制限（1,000 件 / 日） | L24 |
+| L-KV-003: Namespace 命名と環境分離 | L36 |
+
+### references/lessons-learned-monitoring-design-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 対象タスク | L9 |
+| L-MON-001: 設計 / 実装境界の引き方 | L15 |
+| L-MON-002: WAE 無料枠の不確実性 | L24 |
+| L-MON-003: アラート疲れ防止（初期 WARNING-only 運用） | L33 |
+| L-MON-004: identifier drift 防止（WAE blob / index 名） | L42 |
+| L-MON-005: 05a outputs 個別ファイル DEFERRED の解消 | L51 |
 
 ### references/lessons-learned-phase12-lifecycle-early-b.md
 
@@ -3279,6 +3322,15 @@ node scripts/list-specs.js --topics
 | 同種課題の簡潔解決手順 | L51 |
 | 関連ドキュメント | L61 |
 | 変更履歴 | L72 |
+
+### references/lessons-learned-ut-19-branch-protection-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT19-001: GitHub branch protection の required status check は CI 1 回先行実行が前提 | L8 |
+| L-UT19-002: 操作系（docs-only operations evidence）タスクの Phase 11 は視覚スモークが成立しない | L19 |
+| L-UT19-003: runbook と実適用値の正本ドリフト防止には deployment-branch-strategy 固定化が必要 | L30 |
+| 関連参照 | L42 |
 
 ### references/lessons-learned-ut08-monitoring-design-2026-04.md
 
@@ -3997,6 +4049,18 @@ node scripts/list-specs.js --topics
 | TASK-FIX-4-2-SKILL-STORE-PERSISTENCE | L58 |
 | 変更履歴アーカイブ | L111 |
 
+### references/observability-monitoring.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 無料枠の境界 | L15 |
+| 2. WAE 6 イベント設計（reference） | L42 |
+| 3. アラート閾値設計指針 | L59 |
+| 4. PII 除外ルール | L85 |
+| 5. 苦戦箇所（恒久対策） | L101 |
+| 6. 関連ファイル | L126 |
+| 7. 変更履歴 | L140 |
+
 ### references/patterns-advanced.md
 
 | セクション | 行 |
@@ -4359,7 +4423,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| 続き | L336 |
+| 続き | L341 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

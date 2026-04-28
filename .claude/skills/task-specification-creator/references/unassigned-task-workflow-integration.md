@@ -164,6 +164,43 @@ mv docs/30-workflows/unassigned-task/task-{{task-name}}.md \
 
 ---
 
+## `spec_created` → 実装派生タスク化パターン（2026-04-27 追加）
+
+設計タスク（`spec_created`）が完了した時点で、実装に必要な後続タスクを未タスクとして formalize するパターンが定型化している。Phase 12 の `unassigned-task-detection.md` 作成時に以下の 2 系統を必ず確認する。
+
+### パターン A: 設計タスクから実装派生 N 件
+
+設計仕様書を完成させた直後、その実装に必要な離散タスク群を独立 UT として切り出す。
+
+| 例 | 起点（設計） | 派生（実装） |
+| --- | --- | --- |
+| UT-13 Cloudflare KV セッションキャッシュ | `spec_created` | UT-30〜UT-34（Namespace 登録 / binding / helper / 使用量監視 / secret leak guard） |
+| UT-12 Cloudflare R2 ストレージ | `spec_created` | bucket prod/staging 作成 / binding / presigned URL / CORS など別 UT 化 |
+
+### パターン B: 設計タスクから実装ゲート 1 件
+
+設計と実装の間に「実装前ゲート」を 1 つの未タスクとして残し、依存・苦戦箇所・PII リスク等の事前確認を formalize する。
+
+| 例 | 起点（設計） | ゲート（実装前確認） |
+| --- | --- | --- |
+| UT-08 監視/アラート設計 | `spec_created` | UT-08-IMPL（実装前ゲート 5 項目 + 苦戦箇所 7 件） |
+
+### 形式化の手順
+
+1. 設計仕様書 Phase 12 で「実装に必要な離散単位」を抽出
+2. 単位ごとに `docs/30-workflows/unassigned-task/UT-XX-<semantic-name>.md` を新規作成
+3. `unassigned-task-detection.md` に派生 UT 一覧を表形式で記録（current / baseline 分離）
+4. `task-workflow.md` に派生 UT を `next-wave` 候補として登録
+5. 設計タスク本体のステータスを `spec_created` のまま維持（実装派生は別 UT が処理）
+
+### `unassigned-task-detection.md` での記載ルール
+
+- 派生 UT が 0 件の場合: 「全実装は本タスク内に内包、派生不要」と明記
+- 派生 UT が複数ある場合: 「current（本 wave 由来）/ baseline（既存 backlog）」を分離
+- Phase 10 MINOR からの formalize は、対応する MINOR ID を派生 UT 内で逆参照する
+
+---
+
 ## 追加ルール: verification-report / MINOR formalization（2026-03-13）
 
 ### 未タスク化の起点
