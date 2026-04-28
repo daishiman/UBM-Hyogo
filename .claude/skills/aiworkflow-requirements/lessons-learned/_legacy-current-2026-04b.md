@@ -54,3 +54,38 @@
 | 症状 | VISUAL タスクでは `manual-test-checklist.md` / `manual-test-result.md` / `discovered-issues.md` / `screenshot-plan.json` の 4 点が `outputs/phase-11/` に必須。不足すると validate-phase-output.js が ERROR を返す |
 | 対策 | spec_created タスクでも Phase 11 が VISUAL の場合、これら 4 点を placeholder として事前に作成する。manual-test-result.md には「実装前 placeholder」を明記し、actual 結果は実装後に更新 |
 | 確認コマンド | `node .claude/skills/task-specification-creator/scripts/validate-phase-output.js <workflow-path>` |
+
+---
+
+## task-claude-code-permissions-deny-bypass-verification-001（2026-04-28）
+
+### L-CCP-001: 実害ある deny pattern を安全に観測する
+
+| 項目 | 内容 |
+| --- | --- |
+| 症状 | `Bash(rm -rf /:*)` / `Write(/etc/**)` を実検証で実行すると OS 破壊・権限事故のリスクがある |
+| 原因 | deny 実効性の判定には実 tool call の発火が必要だが、tool call 自体の副作用を許容できない |
+| 解決策 | refusal-only 観測に限定。tool call が出た時点で承認しない / `--dry-run` 相当に置換 / `/tmp/cc-deny-verify-*` 配下の bare repo に閉じる |
+| 再発防止 | Phase 4 TC-VERIFY-05 として「実害なき観測手順」をテストケース化。runbook に「承認しない」ステップを必須化 |
+| 関連 AC | AC-2（isolated runbook）、不変条件「破壊的検証は isolated 環境のみ」 |
+
+### L-CCP-002: 公式 docs で確定しないとき missing ref で false negative が出る
+
+| 項目 | 内容 |
+| --- | --- |
+| 症状 | 空 repo で `git push --dry-run --force origin main` を発行すると、permission 判定以前に `main` ref 不在で失敗し、deny 実効性を誤って `not_attempted` と記録するリスク |
+| 原因 | 検証 pattern が permission レイヤより前に git レイヤで弾かれるケース |
+| 解決策 | runbook で `main` ref + dummy commit + `git rev-parse --verify main` を必須前提とし、ref 存在を pre-flight check として固定 |
+| 再発防止 | Phase 5 runbook の pre-flight に ref 検証ステップを追加。verification-log テンプレに「ref existence」列を追加 |
+| 関連 AC | AC-2（runbook 完備）、AC-3（判定 3 値の一貫性） |
+
+### L-CCP-003: apply-001 状態混同（指示書存在 ≠ 実反映済み）
+
+| 項目 | 内容 |
+| --- | --- |
+| 症状 | `docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001.md` が completed-tasks 配下にあるため「実反映済み」と誤読されやすい |
+| 原因 | completed-tasks ディレクトリは「指示書 spec_created の完了」と「実反映完了」を混在させていた |
+| 解決策 | apply-001 を「指示書 exists / 実反映 blocked」と明示し、verification / execution の判定確定まで blocked 維持。skill `claude-code-settings-hierarchy.md` と `task-workflow.md` に状態欄を追加 |
+| 再発防止 | apply 系タスクは「指示書完了」と「実反映完了」を別ステータスで台帳管理。Phase 12 system-spec-update-summary に「実反映状態」必須欄を追加 |
+| 関連 AC | AC-4（apply-001 前提条件転記）、AC-8（Phase 12 6成果物） |
+
