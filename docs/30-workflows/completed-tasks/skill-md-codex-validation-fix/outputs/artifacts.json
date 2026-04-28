@@ -1,0 +1,50 @@
+{
+  "taskId": "TASK-SKILL-CODEX-VALIDATION-001",
+  "taskName": "SKILL.md Codex 検証エラーの恒久対策",
+  "directory": "docs/30-workflows/skill-md-codex-validation-fix",
+  "implementation_mode": "new",
+  "task_kind": "tooling_implementation",
+  "visual_mode": "NON_VISUAL",
+  "metadata": {
+    "taskType": "implementation NON_VISUAL",
+    "visualEvidence": "NON_VISUAL"
+  },
+  "pr_strategy": "single_pr",
+  "createdAt": "2026-04-28",
+  "status": "completed",
+  "phases": {
+    "phase_1": { "name": "要件定義", "status": "completed", "artifacts": ["outputs/phase-1/requirements.md", "outputs/phase-1/violation-inventory.md"] },
+    "phase_2": { "name": "設計", "status": "completed", "artifacts": ["outputs/phase-2/design.md", "outputs/phase-2/escape-rules.md", "outputs/phase-2/lane-dependency-graph.md"] },
+    "phase_3": { "name": "設計レビュー", "status": "completed", "artifacts": ["outputs/phase-3/review-result.md"] },
+    "phase_4": { "name": "テスト作成（RED）", "status": "completed", "artifacts": ["outputs/phase-4/test-cases.md", "outputs/phase-4/red-confirmation.md"] },
+    "phase_5": { "name": "実装（GREEN）", "status": "completed", "artifacts": ["outputs/phase-5/lane-a-result.md", "outputs/phase-5/lane-b-result.md", "outputs/phase-5/lane-c-result.md", "outputs/phase-5/diff-summary.md"] },
+    "phase_6": { "name": "テスト拡充", "status": "completed", "artifacts": ["outputs/phase-6/extended-tests.md"] },
+    "phase_7": { "name": "カバレッジ確認", "status": "completed", "artifacts": ["outputs/phase-7/coverage-report.md"] },
+    "phase_8": { "name": "リファクタリング", "status": "completed", "artifacts": ["outputs/phase-8/refactor-report.md"] },
+    "phase_9": { "name": "品質保証", "status": "completed", "artifacts": ["outputs/phase-9/qa-result.md"] },
+    "phase_10": { "name": "最終レビュー", "status": "completed", "artifacts": ["outputs/phase-10/final-review-result.md"] },
+    "phase_11": { "name": "手動テスト（NON_VISUAL）", "status": "completed", "artifacts": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md"] },
+    "phase_12": { "name": "ドキュメント更新", "status": "completed", "artifacts": ["outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    "phase_13": { "name": "PR作成", "status": "blocked", "artifacts": [], "blocker": "user の明示承認が必要。PR URL 成果物は承認後に作成する" }
+  },
+  "lanes": {
+    "lane_a": { "name": "既存 SKILL.md 是正", "parallel_with": ["lane_b"], "items": ["aiworkflow-requirements", "automation-30", "skill-creator"] },
+    "lane_b": { "name": "テストフィクスチャ拡張子変更", "parallel_with": ["lane_a"], "depends_on": [], "downstream": ["lane_c"] },
+    "lane_c": { "name": "skill-creator 改修", "depends_on": ["lane_b"], "items": ["validate-skill-md.js", "yaml-escape.js", "generate_skill_md.js ガード", "init_skill.js ガード", "fixture path 変更"] }
+  },
+  "acceptance_criteria": [
+    "AC-1: 起動時警告 0 件（Codex / Claude Code）",
+    "AC-2: 是正対象 3 件が R-01〜R-07 PASS",
+    "AC-3: フィクスチャ移行後の skill-creator テスト全 Green",
+    "AC-4: description ≥ 1025 字 generate で書き込み前 throw",
+    "AC-5: summary / triggerLine の YAML safe escape",
+    "AC-6: Anchors > 5 / Trigger > 15 で自動退避",
+    "AC-7: 実在 mirror parity 0 diff",
+    "AC-8: 単一 PR で 3 Lane が共存"
+  ],
+  "dependencies": {
+    "upstream": [],
+    "downstream": ["今後の任意 skill 新規作成"],
+    "internal_lanes": "Lane B → Lane C のフィクスチャ出力経路整合のみ。それ以外は完全並列"
+  }
+}

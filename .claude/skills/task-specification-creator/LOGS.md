@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-28 - TASK-SKILL-CODEX-VALIDATION-001 completed
+
+`docs/30-workflows/skill-md-codex-validation-fix/` を Phase 1-12 完了。Codex CLI 0.125.0 の SKILL.md 検証ルール R-01〜R-06 恒久対策として `.claude/skills/skill-creator/scripts/utils/validate-skill-md.js` / `yaml-escape.js` を新設し、`init_skill.js` / `generate_skill_md.js` で生成側 + 書き込み側の二段ガードを構築。並列 3 Lane（A: 既存 SKILL.md 是正 / B: テストフィクスチャ拡張子 .fixture 化 / C: skill-creator 改修）の単一 PR 戦略を Phase 5 で完遂。`codex_validation.test.js` 24/24 PASS、AC-1〜AC-8 全 PASS。Phase 12 unassigned-task-detection.md に派生 3 未タスク（task-specification-creator 500行制限 / valid-skill fixture リンク / spec-update-workflow 3段階分類）を formalize。
+
 ## 2026-04-28 - DevEx conflict prevention spec wave normalization
 
 5件の task spec（skill state redesign / git hooks lefthook / worktree isolation / GitHub governance / Claude Code permissions）を `docs-only` / `spec_created` / `NON_VISUAL` に統一した。Phase 11 補助成果物は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点へ正規化し、root `artifacts.json` と `outputs/artifacts.json` の parity を固定した。`validate-phase-output.js` の要求見出しに合わせ、既存本文の意味を変えずに不足見出しのみ補遺として追加した。

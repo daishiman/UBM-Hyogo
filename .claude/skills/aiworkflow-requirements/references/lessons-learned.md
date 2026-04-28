@@ -41,6 +41,7 @@
 | [lessons-learned-templates.md](lessons-learned-templates.md) | templates and checklist | 目次 / 関連ドキュメント / テンプレート（新規教訓追加用） / TASK-XXX: タスク名（YYYY-MM-DD） |
 | [lessons-learned-severity-filter-ui.md](lessons-learned-severity-filter-ui.md) | skill domain lessons (severity filter UI) | UT-SDK-L34-UI-DISPLAY-SEVERITY-FILTER-001 Severity フィルタ UI 実装教訓（2026-04-03） |
 | [lessons-learned-rt-04-authkey-dedup.md](lessons-learned-rt-04-authkey-dedup.md) | auth / settings lessons (AuthKey component dedup / useAuthKeyManagement hook integration) | TASK-RT-04-AUTHKEY-COMPONENT-DEDUP-001: AuthKey コンポーネント重複解消（2026-04-06） / 二重送信防止パターン（isSubmittingRef）/ useAuthKeyManagement フック統合 / check-failed + apiError 二層設計 / ApiKeySettingsPanel 委譲パターン |
+| [lessons-learned-skill-codex-validation-2026-04.md](lessons-learned-skill-codex-validation-2026-04.md) | skill authoring lessons (Codex SKILL.md frontmatter 検証契約 / 二段ガード / `*.fixture` 戦略 / 退避先 Markdown 統一 / mirror parity) | TASK-SKILL-CODEX-VALIDATION-001（2026-04-28） / L-CODEX-001〜005 |
 
 ## 利用順序
 - まずこの親仕様書で対象 child companion を選ぶ。

@@ -895,3 +895,33 @@ packages/
 | 苦戦知見 | `references/lessons-learned-lefthook-unification-2026-04.md`（L-LH-001〜L-LH-005） |
 | 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md` / `CLAUDE.md`（Git hook の方針節） |
 | 関連 baseline 未タスク | 既存 worktree への lefthook 再インストール runbook 化、`husky` 不採用判断の ADR 化 |
+
+### Codex SKILL.md 検証早見（TASK-SKILL-CODEX-VALIDATION-001 / 2026-04-28）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/` |
+| 検証ライブラリ | `.claude/skills/skill-creator/scripts/utils/validate-skill-md.js`（199 行）+ `yaml-escape.js` |
+| テスト | `.claude/skills/skill-creator/scripts/__tests__/codex_validation.test.js`（24 ケース GREEN） |
+| R-01 | `description` 1024 字以下（≥1025 で throw） |
+| R-02 | frontmatter は YAML string scalar（block scalar / list / mapping 不可） |
+| R-03 | frontmatter は有効な YAML 構文（`<` `>` `:` 改行は escape 必須） |
+| R-04 | `name` 64 字以下（snake-case） |
+| R-05 | BOM / `\r\n` / 末尾改行を許容（normalization） |
+| R-06 | `name` / `description` の trim 後空文字禁止 |
+| R-07 | Anchors ≤5 / Trigger keywords ≤15（超過分は `references/anchors.md` へ自動退避） |
+| 二段ガード | (1) `generate_skill_md.js` 描画後に `validateSkillMdContent()` (2) `init_skill.js` `writeFileSync` 直前に再検証 |
+| `quick_validate.js` | CLI 経路でも同検証を実行（CI 経路の三段目） |
+| フィクスチャ戦略 | `__tests__/fixtures/*/SKILL.md` → `*/SKILL.md.fixture` rename（skill discovery が `SKILL.md` のみを scan するため拡張子で物理排除） |
+| description 退避先 | Markdown 統一: `.claude/skills/{skill}/references/anchors.md` または `references/{topic}-prompt.md` |
+| 苦戦知見 | `references/lessons-learned-skill-codex-validation-2026-04.md`（L-CODEX-001〜005） |
+| artifact inventory | `references/workflow-skill-md-codex-validation-fix-artifact-inventory.md` |
+| follow-up 未タスク | `TASK-SKILL-TASKSPEC-CREATOR-LINE-LIMIT-001` / `TASK-SKILL-VALID-FIXTURE-EXAMPLE-LINK-001` / `TASK-DOC-SPEC-UPDATE-WORKFLOW-WARN3-001` |
+| mirror parity | `.claude/skills/` ↔ `.agents/skills/` を同 wave で sync（AC-8） |
+
+```bash
+# 二段ガード呼び出し例
+node .claude/skills/skill-creator/scripts/utils/validate-skill-md.js < SKILL.md
+node .claude/skills/skill-creator/scripts/quick_validate.js .claude/skills/<skill>/
+mise exec -- pnpm vitest run --config .claude/skills/skill-creator/vitest.config.js
+```

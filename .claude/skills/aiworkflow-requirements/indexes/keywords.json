@@ -136,6 +136,7 @@
       "ipc-type-resolution-guide.md",
       "legacy-ordinal-family-register.md",
       "lessons-learned-current-2026-04-ut06.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-ut08-monitoring-design-2026-04.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
@@ -441,6 +442,7 @@
       "interfaces-system-prompt.md",
       "ipc-contract-checklist.md",
       "ipc-type-resolution-guide.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-templates.md",
       "lessons-learned-ui-ux-visual-baseline-drift.md",
       "lessons-learned-verify-contract-consolidation.md",
@@ -525,6 +527,7 @@
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-ui-ux-visual-baseline-drift.md",
       "workflow-workspace-parent-reference-sweep-guard.md",
       "workflow-workspace-preview-search-resilience-guard.md"
@@ -1077,6 +1080,7 @@
       "security-skill-execution.md",
       "security-skill-ipc-core.md",
       "security-skill-ipc.md",
+      "task-workflow-backlog.md",
       "task-workflow-completed-abort-contract-auth-session-chat.md",
       "task-workflow-completed-agent-view-line-budget.md",
       "task-workflow-completed-ipc-graceful-degradation-lifecycle.md",
@@ -2077,6 +2081,7 @@
       "lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md",
       "lessons-learned-current-2026-04.md",
       "lessons-learned-current-electron-menu-docs-task0912.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-creator-ipc-handler-scope.md",
       "lessons-learned-skill-ledger-redesign-2026-04.md",
       "lessons-learned-skill-wizard-redesign.md",
@@ -2095,6 +2100,7 @@
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Advanced": [
@@ -2259,6 +2265,7 @@
       "security-skill-execution.md",
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-progressive-disclosure.md",
+      "task-workflow-backlog.md",
       "task-workflow-completed-skill-lifecycle-agent-view-line-budget.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-design.md",
@@ -2333,6 +2340,8 @@
     "Validation": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
       "interfaces-skill-verify-contract.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
@@ -2640,7 +2649,8 @@
       "task-workflow-completed-skill-lifecycle-ui-verify.md",
       "task-workflow-completed-skill-lifecycle-ui.md",
       "task-workflow-completed-skill-lifecycle.md",
-      "ui-ux-feature-components-skill-analysis.md"
+      "ui-ux-feature-components-skill-analysis.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "creator": [
       "arch-state-management-skill-creator.md",
@@ -2887,6 +2897,7 @@
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "facts": [
@@ -3785,6 +3796,7 @@
       "task-workflow-phases.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
@@ -3854,7 +3866,8 @@
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-gitignore-policy.md",
-      "skill-ledger-progressive-disclosure.md"
+      "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "品質基準": [
       "claude-code-agents-workflow.md",
@@ -4183,6 +4196,7 @@
       "logging-migration-guide.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
@@ -4489,6 +4503,7 @@
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "実行ラッパー": [
@@ -5339,6 +5354,7 @@
       "task-workflow-backlog.md",
       "ui-ux-search-panel-details.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
@@ -5431,6 +5447,7 @@
     ],
     "Chain": [
       "interfaces-agent-sdk-skill-editor.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
@@ -6343,6 +6360,7 @@
       "lessons-learned-safety-gate-permission-fallback.md",
       "lessons-learned-sdk-session-bridge-vitest-worktree.md",
       "lessons-learned-skill-build-harness-guard.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-contrast-guard-lifecycle-followup.md",
       "lessons-learned-skill-create-lifecycle-import-contract.md",
       "lessons-learned-skill-create-multi-select-kind.md",
@@ -6421,6 +6439,7 @@
       "lessons-learned-safety-gate-permission-fallback.md",
       "lessons-learned-sdk-session-bridge-vitest-worktree.md",
       "lessons-learned-skill-build-harness-guard.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-contrast-guard-lifecycle-followup.md",
       "lessons-learned-skill-create-lifecycle-import-contract.md",
       "lessons-learned-skill-create-multi-select-kind.md",
@@ -6531,7 +6550,8 @@
     ],
     "教訓一覧": [
       "lessons-learned-02c-data-access-boundary.md",
-      "lessons-learned-lefthook-unification-2026-04.md"
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-skill-codex-validation-2026-04.md"
     ],
     "申し送り先": [
       "lessons-learned-02c-data-access-boundary.md"
@@ -7697,6 +7717,7 @@
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "logs-archive-2026-02-skill-validation-atoms-audit.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
+      "task-workflow-backlog.md",
       "task-workflow-completed-skill-create-ui-integration.md"
     ],
     "channel": [
@@ -8101,6 +8122,7 @@
       "task-workflow-backlog.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
@@ -8909,6 +8931,16 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-completed-agent-view-line-budget.md",
       "ui-ux-feature-components-theme-chat.md"
+    ],
+    "Codex": [
+      "lessons-learned-skill-codex-validation-2026-04.md"
+    ],
+    "派生未タスク": [
+      "lessons-learned-skill-codex-validation-2026-04.md",
+      "lessons-learned-viewtype-electron-ui.md",
+      "logs-archive-2026-02-completed-move-preload-sync.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "スキルライフサイクル": [
       "lessons-learned-skill-contrast-guard-lifecycle-followup.md",
@@ -9819,12 +9851,6 @@
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-skill-lifecycle-agent-view-line-budget.md"
     ],
-    "派生未タスク": [
-      "lessons-learned-viewtype-electron-ui.md",
-      "logs-archive-2026-02-completed-move-preload-sync.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
     "使用率計装": [
       "lessons-learned-w3-usage-tracking-2026-04.md"
     ],
@@ -10454,7 +10480,8 @@
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
     ],
     "fix": [
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
+      "logs-archive-2026-01-skill-selector-todo-scan-template.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "backend": [
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
@@ -12781,6 +12808,7 @@
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "不変条件": [
@@ -13029,6 +13057,9 @@
     "part": [
       "task-workflow-backlog-part2.md",
       "task-workflow-completed-chat-lifecycle-tests-part2.md"
+    ],
+    "CODEX": [
+      "task-workflow-backlog.md"
     ],
     "records": [
       "task-workflow-completed-abort-contract-auth-session-chat.md",
@@ -14254,7 +14285,8 @@
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "validation": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "chain": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
@@ -14366,6 +14398,7 @@
     ],
     "Follow": [
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
@@ -14507,11 +14540,13 @@
     ],
     "Artifact": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Inventory": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
@@ -14570,16 +14605,23 @@
     "二次": [
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
+    "codex": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
+    ],
     "Acceptance": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Criteria": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Outputs": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "反映先": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "参照される実装ファイル": [

@@ -136,6 +136,7 @@
 | タスク | 状態 | 仕様書 root | Phase 12 状態 |
 | --- | --- | --- | --- |
 | task-worktree-environment-isolation | spec_created / docs-only / NON_VISUAL | `docs/30-workflows/task-worktree-environment-isolation/` | worktree / tmux / shell state 分離仕様を development-guidelines と lessons-learned に同期済み。コード実装は未タスクへ分離 |
+| TASK-SKILL-CODEX-VALIDATION-001 | completed / Phase 1-12 完了 / Phase 13 user_approval_required / NON_VISUAL | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/` | Codex SKILL.md frontmatter 検証契約 R-01〜R-07 を validator + 二段ガード + CLI 経路三段目で実装。AC-1〜AC-8 8/8 PASS。current facts: (1) `description ≤1024 字 / string scalar / YAML 構文有効`、(2) 二段ガード（generate / write）+ `quick_validate` 三段目、(3) フィクスチャ 30 件 `*.fixture` 化で skill discovery 圏外化、(4) 退避先 Markdown 統一（`references/{topic}.md`）、(5) Anchors ≤5 / Trigger keywords ≤15 自動退避、(6) `.claude/` ↔ `.agents/` 同 wave sync、(7) codex_validation.test.js 24 ケース GREEN、(8) follow-up 3 件を unassigned-task-detection.md に分離 |
 
 ### unassigned-task → Phase 1-13 仕様書ディレクトリへの昇格パターン
 

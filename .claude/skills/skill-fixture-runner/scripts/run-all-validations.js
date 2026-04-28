@@ -61,10 +61,14 @@ function main() {
   const structureResult = runScript(path.join(__dirname, 'validate-skill-structure.js'), `--target ${resolvedTarget}`);
   results.push({ script: 'validate-skill-structure.js', valid: structureResult.valid, errors: structureResult.errors || [] });
 
-  // 2. Validate SKILL.md
+  // 2. Validate SKILL.md (fall back to SKILL.md.fixture for fixture directories)
   const skillMdPath = path.join(resolvedTarget, 'SKILL.md');
-  if (fs.existsSync(skillMdPath)) {
-    const mdResult = runScript(path.join(__dirname, 'validate-skill-md.js'), `--target ${skillMdPath}`);
+  const skillMdFixturePath = path.join(resolvedTarget, 'SKILL.md.fixture');
+  const skillMdTarget = fs.existsSync(skillMdPath)
+    ? skillMdPath
+    : (fs.existsSync(skillMdFixturePath) ? skillMdFixturePath : null);
+  if (skillMdTarget) {
+    const mdResult = runScript(path.join(__dirname, 'validate-skill-md.js'), `--target ${skillMdTarget}`);
     results.push({ script: 'validate-skill-md.js', valid: mdResult.valid, errors: mdResult.errors || [] });
   }
 

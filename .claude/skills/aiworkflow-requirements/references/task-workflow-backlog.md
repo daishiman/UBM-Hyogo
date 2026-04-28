@@ -356,6 +356,16 @@
 
 ---
 
+## TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28）
+
+| タスクID | タスク名 | 優先度 | 発見元 | タスク仕様書 |
+| --- | --- | --- | --- | --- |
+| TASK-SKILL-TASKSPEC-CREATOR-LINE-LIMIT-001 | task-specification-creator の SKILL.md が 500 行超過、classification-first で再分割 | 中 | TASK-SKILL-CODEX-VALIDATION-001 Phase 12 unassigned-task-detection（2026-04-28） | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/outputs/phase-12/unassigned-task-detection.md` |
+| TASK-SKILL-VALID-FIXTURE-EXAMPLE-LINK-001 | valid-skill フィクスチャの `example.md` リンク欠如修正（参照先ファイル整備） | 低 | TASK-SKILL-CODEX-VALIDATION-001 Phase 12 unassigned-task-detection（2026-04-28） | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/outputs/phase-12/unassigned-task-detection.md` |
+| TASK-DOC-SPEC-UPDATE-WORKFLOW-WARN3-001 | spec-update-workflow.md の Warning 3 段階分類整備 + `.claude` ↔ `.agents` mirror parity CI gate 化 | 中 | TASK-SKILL-CODEX-VALIDATION-001 Phase 12 unassigned-task-detection（2026-04-28） | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/outputs/phase-12/unassigned-task-detection.md` |
+
+---
+
 ## 続き
 
 後半コンテンツは分割ファイルを参照:
