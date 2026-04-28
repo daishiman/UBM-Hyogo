@@ -1,0 +1,12 @@
+{
+  "mode": "VISUAL",
+  "taskId": "ut-06-production-deploy-execution",
+  "captures": [
+    {
+      "id": "web-home-production",
+      "url": "https://<web-url>/",
+      "output": "outputs/phase-11/screenshots/web-home-production.png",
+      "purpose": "Verify production Web URL renders after OpenNext Workers deploy"
+    }
+  ]
+}

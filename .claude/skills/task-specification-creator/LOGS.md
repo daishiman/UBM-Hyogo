@@ -2,6 +2,10 @@
 
 ## 役割
 
+## 2026-04-27 - UT-06 派生反映波
+
+`scripts/cf.sh` 導入 / CLAUDE.md Cloudflare CLI ルール / `wrangler.toml` `[env.production]` 明示 / `apps/web/next.config.ts` の `outputFileTracingRoot` `turbopack.root` `ignoreBuildErrors` 追加 / `unassigned-task-detection.md` UNASSIGNED-G 追記を踏まえ、SKILL.md「Phase 12 実行時によくある漏れ」へ UBM-012（wrangler 直接呼び禁止 → `scripts/cf.sh` 強制集約）と UBM-013（Next.js 16 / Turbopack worktree root 誤検出と `outputFileTracingRoot` / `turbopack.root` 明示）を追記、`references/patterns-troubleshooting-worktree-cloudflare.md` を新規作成し worktree×Next.js 16 root 誤検出 / wrangler 4.x `[env.production]` strict mode / esbuild Host-Binary mismatch の 3 パターンを集約（親 `patterns-troubleshooting.md` は 500 行制約近接のため別ファイル化＋相互参照リンク追加）、`references/unassigned-task-detection-guide.md` に UT-06 派生（UNASSIGNED-G）題材の正本フォーマット節（命名 `^task-[a-z]+-[a-z0-9-]+-[0-9]+$` / 配置 `docs/30-workflows/unassigned-task/` / 検出ログと独立タスク化の二段運用）を追加、SKILL-changelog.md に v10.09.47 として同エントリを追記した。
+
 ## 2026-04-27 - UT-12 skill-feedback-report 反映（task-specification-creator）
 
 ### 変更内容
@@ -28,6 +32,18 @@ UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage
 
 30種思考法レビューと SubAgent 準拠検証で、`completed` / `pending` / `spec_created` の状態ドリフト、R2 binding の現行例示と未適用方針の混在、未タスク検出の実体化漏れが見つかった。Phase 12 close-out は成果物の存在だけでなく、下流が誤認しない状態語彙まで閉じる必要がある。
 
+## 2026-04-27 - UT-06 Phase 12 review hardening
+
+### 変更内容
+
+- `docs/30-workflows/ut-06-production-deploy-execution/outputs/phase-12/phase12-task-spec-compliance-check.md` を追加し、30種思考法・4条件・エレガント検証の結果を記録した
+- root / outputs `artifacts.json` parity、task root path drift、Phase 11 placeholder screenshot、Part 1 / Part 2 implementation guide 不備を補正した
+- OpenNext Workers 形式、`/health/db` endpoint、実 screenshot を UT-06 実行前ブロッカーとして未タスクに昇格した
+
+### 背景
+
+UT-06 は本番デプロイ実行タスクだが、成果物は docs-only / NOT EXECUTED テンプレ状態だった。Phase 12 close-out では実デプロイ完了と誤読されない状態管理、正本仕様同期、未タスク明示を同一 wave で閉じる必要がある。
+
 ## 2026-04-27 - impl-spec-to-skill-sync 反映 (UT-08 / UT-13 / 01a / 01b / 05b 監査由来)
 
 | 項目 | 内容 |
@@ -47,6 +63,7 @@ UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage
 | 対象 | `docs/30-workflows/02a-parallel-member-identity-status-and-response-repository/` |
 | 結果 | Part 1/Part 2 implementation guide、root/output artifacts parity、Phase 11 NON_VISUAL evidence、formal unassigned tasks、system spec quick-reference sync を補完 |
 | 教訓 | `spec_created` から実装が入った場合は `docs_only=false` / implementation status / Step 2 interface sync / root test環境ブロックの明示を同一waveで閉じる |
+
 
 ## 2026-04-27 - 05a Phase 12 close-out drift guard を SKILL.md へ反映
 

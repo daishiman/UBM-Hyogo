@@ -285,6 +285,7 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 
 | Version       | Date           | Changes                                                                                                                                                                                                     |
 | ------------- | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **v10.09.47** | **2026-04-27** | **UT-06 Phase 12 review hardening**: 本番不可逆操作 task の docs-only template 完了を本番完了と誤認しないルール、placeholder screenshot を実証跡として扱わないルール、実行前ブロッカー（OpenNext topology / API smoke endpoint）を Phase 12 未タスクへ昇格するルールを「よくある漏れ」表へ UBM-009/010/011 として追記。 |
 | **v10.09.46** | **2026-04-27** | **SKILL.md 500行制限対応（529行→499行）**: 変更履歴の古い2エントリ（v10.09.41/42）・古いFeedback群（W0-RV-001・SC-13-1/2・UBM-001〜005）・重複「よく使うコマンド」テーブルを削除し合計30行削減。 |
 | **v10.09.44** | **2026-04-26** | **05a-parallel-observability-and-cost-guardrails Phase 12 close-out 反映**: Phase 12 実行時によくある漏れ表に UBM-005（root/outputs `artifacts.json` 二重 ledger 同期漏れ）と UBM-006（Pages/Workers topology drift の未タスク formalize 漏れ、`task-{cat}-...-NNN.md` 命名と `docs/30-workflows/unassigned-task/` 配置）を追記。 |
 | **v10.09.43** | **2026-04-26** | **02-serial-monorepo-runtime-foundation close-out hardening**: Phase 12 implementation guide Part 1/2 補正、Phase 11 NON_VISUAL docs-only validator 対応、`index.md` / Phase 11 link checklist / system spec summary の stale 状態同期。 |
@@ -337,8 +338,14 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 | **[Feedback W1-02b-2]** multi-step wizard 設計で「ステップ間の state ownership と引き渡し項目」が Phase 2 設計書に未記載                                             | Phase 2（設計）でウィザード / マルチステップ UI を設計する場合、「ステップ間 state 引き渡しテーブル」を必須セクションとして設ける。`smartDefaults` など推論値の反映タイミング（初回のみ / 都度上書き / ユーザー優先）は decision 欄で固定する                              |
 | **[Feedback W1-02b-3]** `implementation-guide.md` の callback 名・props 名が実装と一致していない（identifier drift）                                                 | Phase 12 Task 12-6 で `implementation-guide.md` 内の識別子を現行コードで `grep` 確認する。スニペットは型定義・props interface から引用し、手書き snippets を避ける                                                                                                         |
 | **[Feedback W1-02b-4]** renderer UI コンポーネントで node-only パッケージを直接 import し、Vite browser bundle が runtime error になる                               | renderer コンポーネントでは node-only パッケージ（`node-cron` 等）を直接 import しない。cron/schedule 検証は browser-safe ユーティリティに切り出す。Phase 11 capture 前に「ブラウザで実際に route を開く smoke test」を必須にする                                          |
+| **[UBM-009]** 本番不可逆操作 task で docs-only template 整備を「本番完了」と誤読する | Phase 5 / Phase 11 が NOT EXECUTED の場合、index / artifacts / go-nogo は `docs-ready-execution-blocked` 等の状態にし、実デプロイ完了・本番稼働・下流解放を示す文言を使わない |
+| **[UBM-010]** `capture-pending.png` 等の placeholder を Phase 11 screenshot evidence として扱う | PNG の存在だけで PASS にせず、実寸・内容・本番 URL・撮影日時・scenario ID を確認する。placeholder は `NOT EXECUTED` evidence として明記し、実 screenshot 必須タスクでは blocker にする |
+| **[UBM-011]** smoke docs が未実装 endpoint（例: `/health/db`）を前提にする | Phase 12 で API 実装と smoke endpoint を突合し、未実装なら実行前ブロッカーまたは未タスクへ昇格する。docs 側の期待 JSON と実装の response shape も同時に確認する |
+| **[UBM-012]** 本番デプロイ実行で `wrangler` 直接呼び出し / `wrangler login` ローカル OAuth が混入する | 実行前ブロッカー。Phase 5 / Phase 12 で deploy 系コマンド (`wrangler deploy` / `wrangler d1 ...` 等) を検出したら必ず `scripts/cf.sh` ラッパーへ強制集約する。`~/Library/Preferences/.wrangler/config/default.toml` 由来の OAuth トークンは禁止し、`.env` の `op://` 参照と `op run --env-file=.env` 経由の `CLOUDFLARE_API_TOKEN` 注入に一本化する。CLAUDE.md「Cloudflare 系 CLI 実行ルール」と整合させること |
+| **[UBM-013]** Next.js 16 / Turbopack の worktree root 誤検出により別 worktree の `packages/*` が型チェック対象になる | `apps/web` を含むタスクでは `next.config.ts` に `outputFileTracingRoot` と `turbopack.root` を明示する（worktree 直下の絶対パス）。明示しないと親リポや別 worktree の `packages/shared/src/zod/*` が collected され、関係のない型エラーで build が落ちる。緊急回避で `typescript.ignoreBuildErrors = true` を入れる場合は Phase 12 で別 tsc gate（`pnpm typecheck` 単体）を必ずペアリングし、同 PR 内で解除予定を changelog に明記する |
 
-> 旧フィードバック（W0-RV-001・SC-13-1/2・UBM-001〜005・FB-SDK-07-2/4）は [SKILL-changelog.md](SKILL-changelog.md) に移動済み。
+> 旧フィードバック（W0-RV-001・SC-13-1/2・UBM-001〜008・FB-SDK-07-2/4）は [SKILL-changelog.md](SKILL-changelog.md) に移動済み。
+
 
 ### Phase 12 苦戦防止Tips
 
