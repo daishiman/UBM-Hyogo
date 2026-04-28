@@ -25,7 +25,9 @@ export interface FormsClientDeps {
   baseUrl?: string;
   schemaHash?: (raw: RawForm) => string;
   now?: () => Date;
-  questionIdToStableKey?: (raw: RawForm) => Record<string, string>;
+  questionIdToStableKey?: (
+    raw: RawForm,
+  ) => Record<string, string> | Promise<Record<string, string>>;
 }
 
 export const FORMS_BASE_URL = "https://forms.googleapis.com/v1";
@@ -121,7 +123,7 @@ export function createGoogleFormsClient(
         nextPageToken?: string;
       };
       const formRaw = (await authedFetch(`${baseUrl}/forms/${formId}`)) as RawForm;
-      const questionIdToStableKey = qidMapFn(formRaw);
+      const questionIdToStableKey = await qidMapFn(formRaw);
       const responses = (raw.responses ?? []).map((r) =>
         mapFormResponse({
           raw: r,
