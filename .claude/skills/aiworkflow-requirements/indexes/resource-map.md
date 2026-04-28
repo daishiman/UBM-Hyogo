@@ -622,6 +622,30 @@
 | references/skill-ledger-progressive-disclosure.md §A-3 適用事例 | A-3 を他 skill に展開する際 | 適用前後行数・抽出 references 一覧・classification 軸（task-specification-creator 事例） |
 | references/workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md | A-3 ワークフロー成果物の完全一覧 | phase-01..13 / index / artifacts.json / outputs/phase-12 / 新規 references 6 本 / SKILL.md 改訂 |
 
+#### A-2 fragment 化 物理レイアウト（2026-04-28 移行完了 / Changesets パターン）
+
+> canonical な ledger は **fragment ディレクトリ** に切替済み。旧 monolith ファイルは `_legacy*.md` として retention し履歴参照のみ。新規 entry は必ず `pnpm skill:logs:append` で書く。
+
+| 旧 path（履歴参照のみ） | 新 canonical path（1 entry = 1 file） |
+| --- | --- |
+| `LOGS.md` | `LOGS/_legacy.md` + `LOGS/<timestamp>-<escapedBranch>-<nonce>.md` |
+| `SKILL-changelog.md` | `changelog/_legacy.md` + `changelog/<timestamp>-<escapedBranch>-<nonce>.md` |
+| `references/lessons-learned-*.md`（74 ファイル集約退避） | `lessons-learned/_legacy-*.md` + `lessons-learned/<timestamp>-<escapedBranch>-<nonce>.md` |
+
+CLI / スクリプト正本:
+
+| 種別 | path | 役割 |
+| --- | --- | --- |
+| pnpm script | `pnpm skill:logs:append` | front matter 付き fragment を `LOGS/` `changelog/` `lessons-learned/` の何れかへ追記 |
+| pnpm script | `pnpm skill:logs:render` | fragment を時系列で集約レンダリングして読み出す |
+| writer | `scripts/skill-logs-append.ts` | append CLI 実装。書き込み経路はここに集約（writer 経路ガード対象） |
+| reader | `scripts/skill-logs-render.ts` | render CLI 実装。fragment ディレクトリのみ走査 |
+| lib | `scripts/lib/branch-escape.ts` | `escapedBranch` 生成（区切り正規化・長さ truncation 規約） |
+| lib | `scripts/lib/fragment-path.ts` | `LOGS/` `changelog/` `lessons-learned/` 配下の path 組み立て |
+| lib | `scripts/lib/front-matter.ts` | `timestamp` / `branch` / `author` / `type` の YAML front matter 生成・parse |
+| lib | `scripts/lib/retry-on-collision.ts` | nonce 衝突時に再生成リトライ |
+| lib | `scripts/lib/timestamp.ts` | UTC タイムスタンプ生成（compact / ISO 両形式） |
+
 ---
 
 ## 読み込み判断フローチャート

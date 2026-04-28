@@ -78,7 +78,7 @@ alias cc='claude --verbose --permission-mode bypassPermissions --dangerously-ski
 
 | 項目 | 内容 | 引き継ぎ先 |
 | --- | --- | --- |
-| bypass × deny 優先関係 | `--dangerously-skip-permissions` 下で `permissions.deny` が実効するか未確認。実効しない場合は alias から `--dangerously-skip-permissions` を外す | `task-claude-code-permissions-deny-bypass-verification-001` |
+| bypass × deny 優先関係 | `--dangerously-skip-permissions` 下で `permissions.deny` が実効するか未確認。実効しない場合は alias から `--dangerously-skip-permissions` を外す | `task-claude-code-permissions-deny-bypass-verification-001` → 条件付き実機検証 `task-claude-code-permissions-deny-bypass-execution-001` |
 | project-local-first 案との比較 | global を触らず project 単位で完結する案の比較 | `task-claude-code-permissions-project-local-first-comparison-001` |
 | MCP server / hook permission 挙動 | bypass 下で MCP server / hook がどう振る舞うか | unassigned task 化候補（U4） |
 
@@ -164,8 +164,9 @@ task-conflict-prevention-skill-state-redesign
 | 関連タスク | 関係 |
 | --- | --- |
 | `task-worktree-environment-isolation` | upstream 依存 |
-| `task-claude-code-permissions-apply-001` | 本仕様の実機反映タスク（unassigned） |
-| `task-claude-code-permissions-deny-bypass-verification-001` | bypass × deny 検証（unassigned）|
+| `task-claude-code-permissions-apply-001` | 本仕様の実機反映タスク。指示書は `docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001.md` に存在し、実反映は verification / execution 判定まで blocked |
+| `task-claude-code-permissions-deny-bypass-verification-001` | bypass × deny 検証仕様。`docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-verification-001/` に spec_created / docs-only / NON_VISUAL として存在 |
+| `task-claude-code-permissions-deny-bypass-execution-001` | verification-001 の条件付き実機検証 follow-up。`docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-execution-001.md` |
 | `task-claude-code-permissions-project-local-first-comparison-001` | project-local-first 比較設計（unassigned） |
 | `task-git-hooks-lefthook-and-post-merge` | pre-commit による alias 整合 check 候補 |
 | `task-github-governance-branch-protection` | `permissions.deny` の git 操作と整合 |
