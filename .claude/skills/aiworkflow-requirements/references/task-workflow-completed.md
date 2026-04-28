@@ -6,10 +6,36 @@
 
 ## 最近の完了タスク（2026-04）
 
+- 2026-04-27: 02b meeting/tag/schema diff repository implementation close-out（`docs/30-workflows/02b-parallel-meeting-tag-queue-and-schema-diff-repository/` / `apps/api/src/repository/`）
 - [2026-04-08: UT-SKILL-WIZARD-W2-seq-03a SkillCreateWizard オーケストレーション更新（LLM専用化・SmartDefault・GenerateStep再入防止・CompleteStep skillPath表示）](./task-workflow-completed-recent-2026-04d.md)
 - [2026-04-05～04-06（前半）: UT-SDK-07-APPROVAL-REQUEST-SURFACE-001 / TASK-SDK-04-U1-F1 / TASK-P0-01 / TASK-UI-01 など](./task-workflow-completed-recent-2026-04b.md)
 - [2026-04-04～04-06（後半）: TASK-UT-RT-01-EXECUTE-IMPROVE-ADAPTER-GUARD-001 / TASK-RT-04-AUTHKEY-COMPONENT-DEDUP-001 / TASK-P0-07 / TASK-P0-09 など](./task-workflow-completed-recent-2026-04c.md)
 - [2026-04-01～04-03: TASK-SDK-SC-02 Conversation UI コンポーネント](./task-workflow-completed-recent-2026-04a.md)
+
+### タスク: 02b meeting-tag-queue-and-schema-diff-repository（2026-04-27）
+
+| 項目 | 値 |
+| --- | --- |
+| タスクID | 02b-parallel-meeting-tag-queue-and-schema-diff-repository |
+| ステータス | **完了（Phase 1-12 完了 / Phase 13 approval_required）** |
+| タイプ | implementation / api-repository / D1 |
+| 完了日 | 2026-04-27 |
+| 対象 | `apps/api/src/repository/` の 7 repository + `_shared/` |
+| 成果物 | `docs/30-workflows/02b-parallel-meeting-tag-queue-and-schema-diff-repository/` |
+
+#### 実施内容
+
+- meeting / attendance / tag definitions / tag queue / schema versions / schema questions / schema diff queue repository を追加した
+- `schemaVersions.getLatestVersion()` を `state='active' ORDER BY synced_at DESC LIMIT 1` 契約へ固定した
+- `schemaDiffQueue.list()` を `status='queued' ORDER BY created_at ASC` 契約へ固定し、`type` は `added` / `changed` / `removed` の分類だけに限定した
+- `schemaDiffQueue.resolve()` に not-found guard を追加した
+- Phase 11 は UI 変更なしの NON_VISUAL evidence として閉じ、Phase 12 implementation guide / system spec summary / skill feedback を current facts へ同期した
+
+#### 検証証跡
+
+- `pnpm --filter @ubm-hyogo/api typecheck`: PASS（Node 22.21.1 で Node 24.x engine warning あり）
+- `pnpm vitest run apps/api/src/repository`: PASS（7 files / 43 tests）
+
 ### タスク: UT-SKILL-WIZARD-W0-seq-01 スキルウィザード共有型定義追加（2026-04-07）
 
 | 項目       | 値                                                                                                  |

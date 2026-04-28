@@ -1,0 +1,189 @@
+# Phase 12: ドキュメント更新
+
+## メタ情報
+
+| 項目 | 値 |
+| --- | --- |
+| タスク名 | meeting-tag-queue-and-schema-diff-repository |
+| Phase 番号 | 12 / 13 |
+| Phase 名称 | ドキュメント更新 |
+| Wave | 2 |
+| 実行種別 | parallel |
+| 作成日 | 2026-04-26 |
+| 上流 | Phase 11 (手動 smoke) |
+| 下流 | Phase 13 (PR 作成) |
+| 状態 | completed |
+
+## 目的
+
+後続実装エージェント（03a / 04c / 07a/b/c / 08a）と保守者向けに 6 種ドキュメントを生成し、本タスクで決めた契約を **コードを開かずに引き継げる** 状態を作る。
+
+## 6 種成果物
+
+### 1. implementation-guide.md
+
+実装エージェント向けの「これを読めば 02b の repository が呼べる」ガイド。
+
+| 章 | 内容 |
+| --- | --- |
+| 1. 前提 | apps/api/src/repository/ 配下、D1 binding `DB` |
+| 2. 公開 interface | 7 ファイル × 主要関数 signature |
+| 3. 状態 enum | `TagQueueStatus` の `queued / reviewing / resolved` 一方向遷移 |
+| 4. attendance | PK 制約による重複防止、`addAttendance` の 3 種 reason discriminated union |
+| 5. 03a sync 連携 | `upsertManifest` / `upsertField` / `enqueue (schemaDiffQueue)` の呼び順 |
+| 6. 04c admin API 連携 | listMeetings / listAttendanceBySession / listAllTagDefinitions / listQueue の使い分け |
+| 7. 07a/b/c workflow 連携 | `tagQueue.transitionStatus` / `schemaDiffQueue.resolve` / `meeting.addAttendance` の呼び順 |
+| 8. やってはいけないこと | tagDefinitions に write API を作らない、`updateStableKey` を route 層から直接呼ばない、attendance を if 文で重複防止しない（PK 制約に任せる） |
+
+### 2. system-spec-update-summary.md
+
+specs/ への影響と更新点まとめ。
+
+| spec | 影響 | 必要な更新 |
+| --- | --- | --- |
+| 03-data-fetching.md | tag queue / schema diff queue の状態遷移を「unidirectional」と明記推奨 | 軽微 |
+| 08-free-database.md | reads/writes 試算 0.24% / 0.11% を Note 追加 | 軽微 |
+| 11-admin-management.md | tag は `tag_assignment_queue` 経由のみ書き込み（不変条件 #13）と再確認 | 既存と整合 |
+| 12-search-tags.md | `tagDefinitions.listAllTagDefinitions` が 6 カテゴリ × tag を返す single source | 軽微 |
+
+### 3. documentation-changelog.md
+
+```markdown
+## 2026-04-26: 02b-parallel-meeting-tag-queue-and-schema-diff-repository implementation
+
+- 追加: docs/02-application-implementation/02b-... 配下 15 files
+- 影響: 03a / 04c / 07a / 07b / 07c / 08a が並列着手可能
+- 不変条件: #5 / #13 / #14 / #15 / #10 を構造で守る
+```
+
+### 4. unassigned-task-detection.md
+
+このタスクの scope 外で「実装が必要だが未割当」の項目を顕在化。
+
+| 項目 | 担当候補 task | 対応 |
+| --- | --- | --- |
+| `apps/api/src/env.ts`（D1 binding 取得 helper） | 02c または 00 foundation | 02c に依頼推奨（02a と共通） |
+| `dependency-cruiser.cjs` 全体 config | 02c | 02c が担当 |
+| in-memory D1 fixture loader | 02c | 02c が担当（02b は queue / attendance fixture を提供） |
+| `apps/api/src/route/admin/meetings/*` | 04c | 04c で実装 |
+| `apps/api/src/sync/forms-schema/*`（schemaDiffQueue.enqueue を呼ぶ） | 03a | 03a で実装 |
+| `apps/api/src/workflow/tag-resolve/*`（tagQueue.transitionStatus を呼ぶ） | 07a | 07a で実装 |
+| `apps/api/src/workflow/schema-alias/*`（schemaQuestions.updateStableKey を呼ぶ） | 07b | 07b で実装 |
+
+### 5. skill-feedback-report.md
+
+このタスクで気づいた skill / template への改善提案。
+
+| 項目 | 提案 |
+| --- | --- |
+| phase-template-app.md | 状態遷移を扱う repository では「ALLOWED 表」を Phase 2 設計で必須化を提案 |
+| phase-meaning-app.md | Phase 6 の異常系を「D1 失敗 / 状態遷移 / 認可 / race」の 4 軸テンプレに発展させる提案 |
+| README.md 不変条件 #15 | attendance の重複防止を「DB PK 制約」と明記すると 02b で実装迷いが消える |
+
+### 6. phase12-task-spec-compliance-check.md
+
+phase-template-app.md / phase-meaning-app.md / artifacts-template.json と本タスクの整合確認。
+
+| 項目 | 期待 | 実態 | 判定 |
+| --- | --- | --- | --- |
+| phase 数 | 13 | 13 | OK |
+| 必須セクション | メタ情報 / 目的 / 実行タスク / 参照資料 / 実行手順 / 統合テスト連携 / 多角的チェック観点 / サブタスク管理 / 成果物 / 完了条件 / 100%実行確認 / 次 Phase | 全 phase に存在 | OK |
+| Phase 1 追加要素 | true issue / 依存境界 / 価値とコスト / 4 条件 | 存在 | OK |
+| Phase 2 追加要素 | Mermaid / env / dependency matrix / module 設計 + 状態遷移図 | 存在 | OK |
+| Phase 3 追加要素 | alternative 3 案以上 / PASS-MINOR-MAJOR | 4 案 / PASS | OK |
+| Phase 4 追加要素 | verify suite | 22 件 | OK |
+| Phase 5 追加要素 | runbook + placeholder + sanity check | 8 step | OK |
+| Phase 6 追加要素 | failure cases | F/ST/A/R 18 件 | OK |
+| Phase 7 追加要素 | AC matrix | 9 AC × 4 軸 | OK |
+| Phase 8 追加要素 | Before/After | 5 カテゴリ | OK |
+| Phase 9 追加要素 | free-tier + secret hygiene + a11y | 全あり | OK |
+| Phase 10 追加要素 | GO/NO-GO | 8 軸 | OK |
+| Phase 11 追加要素 | manual evidence | 7 シナリオ | OK |
+| Phase 12 追加要素 | 6 種成果物 | このファイル + 5 種 | OK |
+| Phase 13 追加要素 | approval gate / local-check / change-summary / PR template | Phase 13 で対応 | TBD |
+
+## 実装ガイド Part 1 / Part 2 要件
+
+### Part 1: 初学者・中学生レベル
+
+- [ ] なぜこのタスクが必要かを、日常生活の例え話から説明する
+- [ ] 専門用語を使う場合は、その場で短く説明する
+- [ ] 何を作るかより先に、困りごとと解決後の状態を書く
+
+### Part 2: 開発者・技術者レベル
+
+- [ ] TypeScript の interface / type 定義を記載する
+- [ ] API シグネチャ、使用例、エラーハンドリング、エッジケースを記載する
+- [ ] 設定可能なパラメータ、定数、実行コマンド、検証コマンドを一覧化する
+
+## 実行タスク
+
+1. 6 種成果物を `outputs/phase-12/` 配下に作成
+2. specs/ への影響まとめ → 条件を明記して該当 spec の Note 更新提案を作成（コミットは別 PR）
+3. unassigned task を顕在化、担当候補 task に申し送り
+4. compliance check を表で記録
+
+## 参照資料
+
+| 種別 | パス | 用途 |
+| --- | --- | --- |
+| 必須 | docs/02-application-implementation/_templates/phase-template-app.md | 整合確認 |
+| 必須 | docs/02-application-implementation/_templates/phase-meaning-app.md | Phase 意味 |
+| 必須 | docs/02-application-implementation/_templates/artifacts-template.json | metadata 整合 |
+| 必須 | Phase 1〜11 outputs | 内容引用 |
+
+## 統合テスト連携
+
+| 連携先 Phase | 連携内容 |
+| --- | --- |
+| Phase 13 | implementation-guide が PR description の base に |
+| 03a / 04c / 07a/b/c / 08a | implementation-guide を入口に |
+
+## 多角的チェック観点
+
+| 観点 | 不変条件 # | 確認内容 |
+| --- | --- | --- |
+| 引き継ぎ完成度 | — | implementation-guide だけで 03a / 04c / 07a/b/c / 08a が動ける |
+| 不変条件 | 全 | implementation-guide の「やってはいけないこと」章で再周知 |
+| compliance | — | template との整合 OK |
+
+## サブタスク管理
+
+| # | サブタスク | 担当 Phase | 状態 | 備考 |
+| --- | --- | --- | --- | --- |
+| 1 | implementation-guide.md | 12 | completed | 8 章 |
+| 2 | system-spec-update-summary.md | 12 | completed | 4 spec 影響 |
+| 3 | documentation-changelog.md | 12 | completed | エントリ追加 |
+| 4 | unassigned-task-detection.md | 12 | completed | 7 件抽出 |
+| 5 | skill-feedback-report.md | 12 | completed | 3 提案 |
+| 6 | phase12-task-spec-compliance-check.md | 12 | completed | 表 14 行 |
+
+## 成果物
+
+| 種別 | パス | 説明 |
+| --- | --- | --- |
+| ドキュメント | outputs/phase-12/main.md | 12 phase 総括 |
+| ドキュメント | outputs/phase-12/implementation-guide.md | 8 章 guide |
+| ドキュメント | outputs/phase-12/system-spec-update-summary.md | 4 spec 影響 |
+| ドキュメント | outputs/phase-12/documentation-changelog.md | エントリ |
+| ドキュメント | outputs/phase-12/unassigned-task-detection.md | 7 件 |
+| ドキュメント | outputs/phase-12/skill-feedback-report.md | 3 提案 |
+| ドキュメント | outputs/phase-12/phase12-task-spec-compliance-check.md | 整合表 |
+
+## 完了条件
+
+- [ ] 6 種成果物全て作成
+- [ ] compliance check が全 OK
+- [ ] unassigned task が下流 task に申し送り済み
+
+## タスク100%実行確認【必須】
+
+- [ ] サブタスク 1〜6 が completed
+- [ ] outputs/phase-12/* 6 種が配置済み
+- [ ] artifacts.json の Phase 12 を completed に更新
+
+## 次 Phase
+
+- 次: Phase 13 (PR 作成、user 承認必須)
+- 引き継ぎ事項: 6 種成果物
+- ブロック条件: compliance check に NG があれば該当 Phase に戻る

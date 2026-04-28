@@ -4041,7 +4041,8 @@
       "testing-dialog-patterns.md"
     ],
     "由来": [
-      "csrf-state-parameter.md"
+      "csrf-state-parameter.md",
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
     ],
     "苦戦箇所と教訓": [
       "csrf-state-parameter.md"
@@ -4109,6 +4110,24 @@
       "quality-requirements-details.md",
       "ui-result-panel-pattern.md",
       "ui-ux-atoms-patterns-details.md"
+    ],
+    "UBM": [
+      "database-implementation-core.md"
+    ],
+    "Hyogo": [
+      "database-implementation-core.md"
+    ],
+    "Repository": [
+      "database-implementation-core.md",
+      "interfaces-chat-history-core.md",
+      "interfaces-core.md",
+      "interfaces-system-prompt.md"
+    ],
+    "契約": [
+      "database-implementation-core.md",
+      "interfaces-skill-verify-contract.md",
+      "ui-history-search-view.md",
+      "ui-ux-navigation-chat-patterns.md"
     ],
     "Conversation": [
       "database-implementation-core.md",
@@ -5445,11 +5464,6 @@
     "ドメインエンティティ型定義": [
       "interfaces-chat-history-core.md"
     ],
-    "Repository": [
-      "interfaces-chat-history-core.md",
-      "interfaces-core.md",
-      "interfaces-system-prompt.md"
-    ],
     "サービスインターフェース": [
       "interfaces-chat-history-core.md",
       "llm-workspace-chat-edit.md"
@@ -5784,11 +5798,6 @@
       "lessons-learned-verify-contract-consolidation.md",
       "task-workflow-completed-skill-lifecycle-ui-verify.md"
     ],
-    "契約": [
-      "interfaces-skill-verify-contract.md",
-      "ui-history-search-view.md",
-      "ui-ux-navigation-chat-patterns.md"
-    ],
     "Check": [
       "interfaces-skill-verify-contract.md"
     ],
@@ -6103,6 +6112,7 @@
       "legacy-ordinal-family-register.md"
     ],
     "Lessons": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-archive-2026-03-mid.md",
       "lessons-learned-archive-2026-03.md",
@@ -6177,6 +6187,7 @@
       "lessons-learned.md"
     ],
     "Learned": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-archive-2026-03-mid.md",
       "lessons-learned-archive-2026-03.md",
@@ -6250,6 +6261,71 @@
       "lessons-learned-workflow-quality-sdk-tests-loop-guard.md",
       "lessons-learned.md"
     ],
+    "meeting": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "tag": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-d1a-schema-migrations.md"
+    ],
+    "queue": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "schema": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-d1a-schema-migrations.md"
+    ],
+    "diff": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md"
+    ],
+    "repository": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "不変条件の追補": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "苦戦知見": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "fake": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "テストパターン": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "testing-component-patterns-details.md"
+    ],
+    "単体テストの正本": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "システム仕様書への影響": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "軽微": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "Note": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "追記": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "後続タスク": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "handoff": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
+      "lessons-learned-phase12-lifecycle-early-b.md",
+      "lessons-learned-phase12-lifecycle-recent.md",
+      "task-workflow-completed-skill-lifecycle-design.md",
+      "task-workflow-completed-skill-lifecycle-ui.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "関連参照": [
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
     "parallel": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-current-2026-04.md",
@@ -6268,15 +6344,6 @@
       "lessons-learned-d1a-schema-migrations.md",
       "lessons-learned-phase12-lifecycle-recent.md",
       "lessons-learned-templates.md"
-    ],
-    "handoff": [
-      "lessons-learned-05b-smoke-readiness-2026-04.md",
-      "lessons-learned-phase12-lifecycle-early-b.md",
-      "lessons-learned-phase12-lifecycle-recent.md",
-      "task-workflow-completed-skill-lifecycle-design.md",
-      "task-workflow-completed-skill-lifecycle-ui.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "close": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
@@ -7665,12 +7732,6 @@
     ],
     "カテゴリ別検索ガイド": [
       "lessons-learned-current.md"
-    ],
-    "schema": [
-      "lessons-learned-d1a-schema-migrations.md"
-    ],
-    "tag": [
-      "lessons-learned-d1a-schema-migrations.md"
     ],
     "seed": [
       "lessons-learned-d1a-schema-migrations.md"
@@ -9615,9 +9676,6 @@
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "workflow-ai-runtime-authmode-unification.md"
-    ],
-    "diff": [
-      "lessons-learned-workflow-quality-phase12-audit-validator.md"
     ],
     "from": [
       "lessons-learned-workflow-quality-phase12-audit-validator.md"
@@ -12748,9 +12806,6 @@
     ],
     "テストファイル分離パターン": [
       "testing-component-patterns-core.md"
-    ],
-    "テストパターン": [
-      "testing-component-patterns-details.md"
     ],
     "契約テストパターン": [
       "testing-component-patterns-details.md"

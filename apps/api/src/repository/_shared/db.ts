@@ -1,6 +1,3 @@
-// D1Database型は@cloudflare/workers-typesで提供されるが、
-// テストでは使えないため独自のinterfaceで抽象化する
-
 export interface D1Stmt {
   bind(...values: unknown[]): D1Stmt;
   first<T = unknown>(): Promise<T | null>;
@@ -18,3 +15,12 @@ export interface DbCtx {
 }
 
 export const ctx = (env: { DB: D1Db }): DbCtx => ({ db: env.DB });
+
+export const isUniqueConstraintError = (err: unknown): boolean => {
+  if (!(err instanceof Error)) return false;
+  const m = err.message;
+  return m.includes("UNIQUE constraint") || m.includes("constraint failed");
+};
+
+export const intToBool = (v: number | null | undefined): boolean => v === 1;
+export const boolToInt = (v: boolean): number => (v ? 1 : 0);

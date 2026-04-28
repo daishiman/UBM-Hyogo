@@ -1,15 +1,16 @@
-// @ubm-hyogo/shared の branded types を re-export
 export {
   type MemberId,
   type ResponseId,
   type ResponseEmail,
   type StableKey,
+  type SessionId,
   type TagId,
   type AdminId,
   asMemberId,
   asResponseId,
   asResponseEmail,
   asStableKey,
+  asSessionId,
   asTagId,
   asAdminId,
 } from "@ubm-hyogo/shared";

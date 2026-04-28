@@ -2,11 +2,40 @@
 
 ## 役割
 
+このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
+
 ## 2026-04-27 - UT-06 派生反映波
 
 `scripts/cf.sh` 導入 / CLAUDE.md Cloudflare CLI ルール / `wrangler.toml` `[env.production]` 明示 / `apps/web/next.config.ts` の `outputFileTracingRoot` `turbopack.root` `ignoreBuildErrors` 追加 / `unassigned-task-detection.md` UNASSIGNED-G 追記を踏まえ、SKILL.md「Phase 12 実行時によくある漏れ」へ UBM-012（wrangler 直接呼び禁止 → `scripts/cf.sh` 強制集約）と UBM-013（Next.js 16 / Turbopack worktree root 誤検出と `outputFileTracingRoot` / `turbopack.root` 明示）を追記、`references/patterns-troubleshooting-worktree-cloudflare.md` を新規作成し worktree×Next.js 16 root 誤検出 / wrangler 4.x `[env.production]` strict mode / esbuild Host-Binary mismatch の 3 パターンを集約（親 `patterns-troubleshooting.md` は 500 行制約近接のため別ファイル化＋相互参照リンク追加）、`references/unassigned-task-detection-guide.md` に UT-06 派生（UNASSIGNED-G）題材の正本フォーマット節（命名 `^task-[a-z]+-[a-z0-9-]+-[0-9]+$` / 配置 `docs/30-workflows/unassigned-task/` / 検出ログと独立タスク化の二段運用）を追加、SKILL-changelog.md に v10.09.47 として同エントリを追記した。
 
 ## 2026-04-27 - UT-12 skill-feedback-report 反映（task-specification-creator）
+
+## 2026-04-27 - 02b same-wave: repository / NON_VISUAL テンプレ補強
+
+### 変更内容
+
+- `references/patterns-repository-task-template.md` を新規作成
+- 4 セクション: NON_VISUAL タスクガード（Phase 11） / 状態遷移 repository の ALLOWED 表（Phase 2 必須） / Phase 6 異常系 4 軸（D1 失敗・状態遷移・認可・race） / 公開 API signature 表（Phase 12 必須） / Phase 12 Step 2 再判定ガード（spec_created / docs_only → implementation 再評価手順）
+- `aiworkflow-requirements/references/lessons-learned-02b-schema-diff-and-tag-queue.md` と相互参照
+
+### 背景
+
+02b skill-feedback-report.md が示した 4 改善項目（NON_VISUAL screenshot 要求の残存・公開 API 一覧表の強制・状態遷移 ALLOWED 表の必須化・Phase 12 Step 2 再判定ガード未整備）を、テンプレ運用ガイドとして本スキルに固定。次回以降の repository 系・queue 系タスク仕様書で本ガイドを参照すること。
+
+## 2026-04-27 - 02b repository implementation Phase 12 hardening
+
+### 変更内容
+
+- `spec_created` / `docs_only` metadata のまま code 実装が入った 02b task を implementation 扱いに再同期した
+- Phase 11 の stale な screenshot 要求を NON_VISUAL evidence に補正し、repository-only task の UI 証跡不要を明記した
+- Phase 12 `implementation-guide.md` を Part 1 / Part 2 構成へ補強し、TypeScript 契約、API シグネチャ、エラー、edge case、定数を追加した
+- `schema_diff_queue` の unresolved/type 混線を `status='queued'` 正本へ修正し、system spec sync まで同波で閉じた
+
+### 背景
+
+Phase 12 close-out では成果物の存在だけでなく、task metadata、code diff、DDL index、repository API 契約、system spec を照合する必要がある。特に `type` と `status` の意味が混線すると、後続 07b/API が解決済み diff を再表示する恐れがある。
+
+## 2026-04-27 - UT-11 管理者向け Google OAuth ログインフロー task-spec-creation
 
 ### 変更内容
 

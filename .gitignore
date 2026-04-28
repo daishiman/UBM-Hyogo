@@ -92,3 +92,6 @@ apps/*/docs/
 # TODO(human): WIPファイル管理方針を選択して実装
 # A案: sandbox移動方式 — WIPファイルを sandbox/ に集約
 # B案: 個別パス追加方式 — 現在のWIPファイルを直接指定
+
+# worktree専用 Claude 起動スクリプト
+.cc
