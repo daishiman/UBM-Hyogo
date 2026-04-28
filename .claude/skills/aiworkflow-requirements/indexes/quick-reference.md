@@ -852,3 +852,17 @@ packages/
 | 苦戦知見 | `references/lessons-learned-02b-schema-diff-and-tag-queue.md` (L-02B-001〜005) |
 | 02b 由来未タスク | `docs/30-workflows/unassigned-task/02b-followup-00{1,2,3}-*.md` |
 | free tier 実測（02b 単体） | reads 0.24% / writes 0.11% |
+
+### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
+
+> 本ファイル 500 行超過のため詳細は分離。`indexes/quick-reference-search-patterns-skill-ledger.md` を参照。
+
+| キーワード | 1 行誘導 |
+| --- | --- |
+| `skill-ledger`, `4施策`, `A-1/A-2/A-3/B-1` | `references/skill-ledger-overview.md` |
+| `fragment`, `escapedBranch`, `nonce`, `render-api` | `references/skill-ledger-fragment-spec.md` |
+| `gitignore`, `keywords.json` 自動生成 | `references/skill-ledger-gitignore-policy.md` |
+| `progressive-disclosure`, `200 行ガード` | `references/skill-ledger-progressive-disclosure.md` |
+| `merge=union`, `_legacy.md` | `references/skill-ledger-gitattributes-policy.md` |
+| 苦戦箇所 (L-SLR-001〜009) | `references/lessons-learned-skill-ledger-redesign-2026-04.md` |
+| 全クエリ早見 | `indexes/quick-reference-search-patterns-skill-ledger.md` |

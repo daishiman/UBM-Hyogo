@@ -2457,3 +2457,15 @@ Phase 1〜6: 従来フロー（分析→設計→構造→生成→検証）
   - RT-06 で発生した Phase 12 ドリフト（Part 1/Part 2 欠落、Phase 11 N/A 証跡不足、判定矛盾）を same-wave で修正
   - `implementation-guide` は Part 1/Part 2 の2層必須要件で再構成し、Phase 11 は `N/A + checklist/issues` の補助証跡を必須化
   - 環境 blocker（esbuild mismatch）は PASS 扱いせず未タスクへ formalize する運用を再確認
+
+---
+## 2026-04-28 - skill-ledger-conventions.md 追加（task-conflict-prevention-skill-state-redesign 反映）
+
+- **Agent**: skill-creator (update)
+- **Phase**: cross-skill-improvement
+- **Result**: success
+- **Notes**:
+  - `references/skill-ledger-conventions.md` を新規作成。4 施策（A-1 gitignore / A-2 fragment / A-3 Progressive Disclosure / B-1 merge=union）を skill 出力規約として恒久化
+  - `SKILL.md` Anchors に「Progressive Disclosure」「Changesets pattern」を追記
+  - 機能別ガイドへ skill-ledger 規約への参照を追加
+  - 出典: `docs/30-workflows/completed-tasks/task-conflict-prevention-skill-state-redesign/outputs/phase-12/`

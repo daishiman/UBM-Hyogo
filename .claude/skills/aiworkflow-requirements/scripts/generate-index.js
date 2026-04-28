@@ -307,10 +307,9 @@ async function generateKeywordIndex() {
     }
   }
 
-  return {
-    totalKeywords: Object.keys(keywords).length,
-    keywords,
-  };
+  // totalKeywords/timestamp 等のカウンタ・時刻フィールドは
+  // 並列 worktree 間で merge conflict を多発させ意味も無いため出力しない。
+  return { keywords };
 }
 
 async function main() {
@@ -347,7 +346,7 @@ async function main() {
     JSON.stringify(keywordIndex, null, 2),
   );
   log(
-    `   ✅ indexes/keywords.json (${keywordIndex.totalKeywords}キーワード)`,
+    `   ✅ indexes/keywords.json (${Object.keys(keywordIndex.keywords).length}キーワード)`,
   );
 
   log("\n✅ インデックス生成完了");

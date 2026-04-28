@@ -595,6 +595,21 @@
 | task-workflow-rules.md       | 品質ゲート、分解ルール確認時               | 品質ゲート、タスク分解                                                                                                                                                                                                                                                                                                                                     |
 | patterns.md                  | 実装パターン集（成功/失敗）                | 成功パターン、失敗パターン（P23-P28）、ガイドライン                                                                                                                                                                                                                                                                                                        |
 
+### 12. skill ledger（4 worktree 並列衝突回避設計）
+
+> 出典: `docs/30-workflows/completed-tasks/task-conflict-prevention-skill-state-redesign/`（2026-04-28 反映）
+> 適用順序: A-2 → A-1 → A-3 → B-1（厳守）
+
+| ファイル | 読み込み条件 | 主要コンテンツ |
+| --- | --- | --- |
+| references/skill-ledger-overview.md | 4 施策の全体像確認時 | A-1/A-2/A-3/B-1 概要、適用順序、責務分離の入口 |
+| references/skill-ledger-fragment-spec.md | A-2 fragment 命名規則 / render API 確認時 | `LOGS/<timestamp>-<escapedBranch>-<nonce>.md`、front matter schema、`pnpm skill:logs:render` API |
+| references/skill-ledger-gitignore-policy.md | A-1 自動生成 ledger 除外時 | gitignore 対象 glob、untrack 手順、hook 冪等化、A-2 完了前提 |
+| references/skill-ledger-progressive-disclosure.md | A-3 SKILL.md 200 行ガード時 | entry 残置要素、references 抽出ルール、classification-first 親ルール |
+| references/skill-ledger-gitattributes-policy.md | B-1 `merge=union` 適用時 | 適用許可リスト（`_legacy.md` 等）、禁止リスト（JSON/YAML/SKILL.md） |
+| references/lessons-learned-skill-ledger-redesign-2026-04.md | 苦戦箇所参照時 | L-SLR-001〜009（実装順序・writer 見落とし・nonce 衝突 等） |
+| indexes/quick-reference-search-patterns-skill-ledger.md | クエリ早見 | 4 施策キーワード → reference 1 行マップ |
+
 ---
 
 ## 読み込み判断フローチャート
