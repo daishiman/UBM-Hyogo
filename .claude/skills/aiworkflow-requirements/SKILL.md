@@ -20,6 +20,7 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.04.29-governance-shortcut | 2026-04-29 | UT-GOV-002 skill-feedback 反映。`indexes/quick-reference.md` に「Governance / Branch Protection 系タスクの Step 2=N/A ショートカット」表（再判定トリガ: OIDC / workflow_run / D1・KV メタデータ参照 / Secret 追加 / RBAC 拡張）と「CLAUDE.md と aiworkflow-requirements の重複正本判定」表（ブランチ戦略 / solo CI gate / Cloudflare CLI / `.env` op / Git hook / Node・pnpm 固定 は CLAUDE.md 一次正本）を追加。references/ 配下は未編集（Step 2=N/A 維持）。 |
 | v2026.04.28-claude-code-permissions-hybrid | 2026-04-28 | `task-claude-code-permissions-project-local-first-comparison-001` の比較結論を同期。Claude Code settings は projectLocal 主経路 + global `defaultMode` fallback のハイブリッドを採用し、`--dangerously-skip-permissions` alias 追加は deny 検証完了まで保留。 |
 | v2026.04.28-lefthook-mwr-runbook | 2026-04-28 | task-lefthook-multi-worktree-reinstall-runbook spec_created sync。30+ worktree への lefthook 一括再 install runbook を formalize。`lessons-learned-lefthook-mwr-runbook-2026-04.md`（L-MWR-001〜006）新規分離。`lessons-learned.md` ハブ / `task-workflow-active.md` / `LOGS.md` / `quick-reference.md` / `topic-map.md` / `resource-map.md` を同一 wave で更新。`lessons-learned-lefthook-unification-2026-04.md` の baseline B-1 を formalize 完了に更新。 |
 | v2026.04.27-r2-storage-spec | 2026-04-27 | UT-12 Cloudflare R2 storage spec_created sync。R2 prod/staging bucket、`R2_BUCKET` binding、private + presigned URL、CORS template、実環境未適用境界を deployment-cloudflare に反映。 |
