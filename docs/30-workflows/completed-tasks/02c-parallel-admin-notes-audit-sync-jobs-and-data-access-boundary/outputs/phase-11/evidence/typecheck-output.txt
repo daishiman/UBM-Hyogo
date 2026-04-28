@@ -1,0 +1,13 @@
+$ mise exec -- pnpm typecheck
+
+> ubm-hyogo@0.1.0 typecheck /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260427-152903-wt-7
+> pnpm -r typecheck
+
+Scope: 5 of 6 workspace projects
+packages/shared           typecheck$ tsc -p tsconfig.json --noEmit  → Done
+packages/integrations     typecheck$ tsc -p tsconfig.json --noEmit  → Done
+packages/integrations/google typecheck$ tsc -p tsconfig.json --noEmit  → Done
+apps/web                  typecheck$ tsc -p tsconfig.json --noEmit  → Done
+apps/api                  typecheck$ tsc -p tsconfig.json --noEmit  → Done
+
+EXIT=0
