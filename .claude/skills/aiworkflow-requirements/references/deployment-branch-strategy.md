@@ -82,9 +82,9 @@ Settings > Environments > staging:
 
 ## ブランチ保護ルール（推奨設定）
 
-本節は **current applied** と **draft proposal** を分離する。2026-04-26 時点の current applied は個人開発向けの承認不要設定であり、2026-04-28 の GitHub governance 草案は `spec_created` のため未適用である。
+本節は **current applied** と **draft proposal** を分離する。2026-04-29 時点の current applied は個人開発向けの承認不要設定に加え、`.github/CODEOWNERS` による ownership 文書化を含む。2026-04-28 の GitHub governance branch protection 草案は `spec_created` のため未適用である。
 
-### current applied（承認不要 / 2026-04-26）
+### current applied（承認不要 + CODEOWNERS ownership 文書化 / 2026-04-29）
 
 ### `main` ブランチ
 
@@ -107,6 +107,21 @@ Settings > Branches > dev:
 - Require status checks to pass: ci / Validate Build
 - Allow force pushes: OFF
 ```
+
+### CODEOWNERS（ownership 文書化のみ）
+
+`.github/CODEOWNERS` は `require_code_owner_reviews=false` の solo 運用を維持したまま、責任範囲の文書化と GitHub UI の suggested reviewer 表示に限定して運用する。
+
+```codeowners
+* @daishiman
+apps/api/** @daishiman
+apps/web/** @daishiman
+.github/workflows/** @daishiman
+docs/30-workflows/** @daishiman
+.claude/skills/**/references/** @daishiman
+```
+
+適用タスク: `docs/30-workflows/ut-gov-003-codeowners-governance-paths/`
 
 ### draft proposal: GitHub governance branch protection 草案（spec_created / 2026-04-28）
 
@@ -136,3 +151,4 @@ Settings > Branches > dev:
 | 2026-04-09 | 1.0.0 | 初版作成（feature/dev/main 3層ブランチ戦略） |
 | 2026-04-26 | 1.1.0 | 個人開発方針反映: PR 承認を 2名/1名 → 0名（承認不要）に変更。CI チェック必須は維持。production Required reviewers を 0名に変更。Issue #23 対応。 |
 | 2026-04-28 | 1.2.0 | task-github-governance-branch-protection spec_created sync。dev=1名 / main=2名レビュー、squash-only、linear history、CODEOWNERS / last-push approval、8 required status checks 草案を追記。実適用は後続タスク・ユーザー承認後に限定。 |
+| 2026-04-29 | 1.3.0 | UT-GOV-003 CODEOWNERS governance paths sync。`.github/CODEOWNERS` を ownership 文書化として current applied に追加。solo 運用のため `require_code_owner_reviews=false` は維持。 |

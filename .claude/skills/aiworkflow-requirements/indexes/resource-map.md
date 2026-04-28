@@ -589,6 +589,7 @@
 | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on `task-conflict-prevention-skill-state-redesign` |
 | `docs/30-workflows/task-worktree-environment-isolation/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on `task-conflict-prevention-skill-state-redesign` |
 | `docs/30-workflows/task-github-governance-branch-protection/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on skill ledger redesign + git hooks governance |
+| `docs/30-workflows/ut-gov-003-codeowners-governance-paths/` | 2026-04-29 | Phase 1-12 completed / NON_VISUAL / CODEOWNERS current applied / Phase 13 pending_user_approval | `.github/CODEOWNERS` ownership documentation; `references/deployment-branch-strategy.md` current applied sync |
 | `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on worktree environment isolation |
 | `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook/` | 2026-04-28 | spec_created / docs-only / runbook-spec / NON_VISUAL / Phase 13 pending_user_approval | formalize of `task-git-hooks-lefthook-and-post-merge` baseline B-1; lessons in `lessons-learned-lefthook-mwr-runbook-2026-04.md` (L-MWR-001〜006) |
 

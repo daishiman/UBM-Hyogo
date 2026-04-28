@@ -110,12 +110,12 @@ wget * | sh
 
 ```
 1. 要件確認
-   -> doc/00-getting-started-manual/specs/ で仕様を確認
+   -> docs/00-getting-started-manual/specs/ で仕様を確認
    -> aiworkflow-requirements スキルで詳細検索
 
 2. タスク仕様書生成
    -> task-specification-creator スキルで Phase 1-13 仕様書を生成
-   -> doc/01-infrastructure-setup/ 以下に配置
+   -> docs/01-infrastructure-setup/ 以下に配置
 
 3. 実装
    -> feature/* ブランチで作業
