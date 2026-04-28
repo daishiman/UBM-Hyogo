@@ -1867,6 +1867,7 @@
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
@@ -2067,6 +2068,7 @@
     "Validation": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
       "interfaces-skill-verify-contract.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -2232,6 +2234,7 @@
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "created": [
@@ -2246,6 +2249,7 @@
       "ui-ux-feature-components-advanced.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "公開・配布状態管理設計": [
@@ -2489,6 +2493,7 @@
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
@@ -3323,6 +3328,7 @@
       "task-workflow-phases.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
@@ -3477,7 +3483,8 @@
       "workflow-permission-fallback-abort-skip-retry.md"
     ],
     "permissions": [
-      "claude-code-settings-hierarchy.md"
+      "claude-code-settings-hierarchy.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
     "併用方針": [
       "claude-code-settings-hierarchy.md"
@@ -3492,7 +3499,8 @@
       "claude-code-settings-hierarchy.md"
     ],
     "deny": [
-      "claude-code-settings-hierarchy.md"
+      "claude-code-settings-hierarchy.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
     "whitelist": [
       "claude-code-settings-hierarchy.md",
@@ -3694,6 +3702,7 @@
       "logging-migration-guide.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -3987,6 +3996,7 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
@@ -4798,6 +4808,7 @@
       "task-workflow-backlog.md",
       "ui-ux-search-panel-details.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -4878,6 +4889,7 @@
     ],
     "Chain": [
       "interfaces-agent-sdk-skill-editor.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -5781,6 +5793,7 @@
       "task-workflow-backlog.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -6303,6 +6316,7 @@
       "task-workflow-completed-recent-2026-04b.md",
       "task-workflow-completed.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
@@ -9240,7 +9254,8 @@
     ],
     "claude": [
       "skill-ledger-gitignore-policy.md",
-      "spec-splitting-guidelines.md"
+      "spec-splitting-guidelines.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
     "skills": [
       "skill-ledger-gitignore-policy.md"
@@ -9353,6 +9368,7 @@
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
@@ -9528,7 +9544,8 @@
       "workflow-workspace-preview-search-resilience-guard.md"
     ],
     "code": [
-      "spec-splitting-guidelines.md"
+      "spec-splitting-guidelines.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
     "分割実行手順": [
       "spec-splitting-guidelines.md"
@@ -11149,6 +11166,7 @@
     ],
     "Follow": [
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -11333,6 +11351,7 @@
     ],
     "Artifact": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -11340,6 +11359,7 @@
     ],
     "Inventory": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -11406,26 +11426,50 @@
     "二次": [
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
-    "lefthook": [
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    "bypass": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
-    "reinstall": [
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    "verification": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
     "Acceptance": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Criteria": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Outputs": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "反映先": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "参照される実装ファイル": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "のため変更は伴わない": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "lefthook": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "reinstall": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
     ],
     "形式不要": [
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
@@ -11437,15 +11481,6 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
-    "反映先": [
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
-    ],
-    "参照される実装ファイル": [
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
-    ],
     "ci": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
@@ -11454,9 +11489,6 @@
     ],
     "pending": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
-    ],
-    "のため変更は伴わない": [
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "アラート設計": [
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"

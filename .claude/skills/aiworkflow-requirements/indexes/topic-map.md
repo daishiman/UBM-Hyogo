@@ -1807,7 +1807,7 @@ node scripts/list-specs.js --topics
 | 5. 公式 docs URL | L118 |
 | 6. Reference Contracts (TypeScript) | L128 |
 | 7. 関連タスク wave（DevEx 衝突防止） | L152 |
-| 8. 適用先システム仕様書 | L175 |
+| 8. 適用先システム仕様書 | L176 |
 
 ### references/claude-code-skills-agents.md
 
@@ -2117,6 +2117,18 @@ node scripts/list-specs.js --topics
 | TASK-IMP-SKILLDETAIL-ACTION-BUTTONS-001: SkillDetailPanel 二次 handoff（2026-03-19） | L155 |
 | TASK-IMP-AGENTVIEW-IMPROVE-ROUTE-001: AgentView <-> SkillAnalysis round-trip（2026-03-20） | L180 |
 | 変更履歴 | L224 |
+
+### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| Phase Outputs（current canonical set） | L28 |
+| Skill 反映先（current canonical set） | L61 |
+| 参照される実装ファイル（spec_created のため変更は伴わない） | L75 |
+| Follow-up 未タスク | L83 |
+| Validation Chain（spec_created） | L92 |
 
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
@@ -3844,8 +3856,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| task-worktree-environment-isolation follow-up（2026-04-28） | L351 |
-| 続き | L362 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L352 |
+| 続き | L363 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 
