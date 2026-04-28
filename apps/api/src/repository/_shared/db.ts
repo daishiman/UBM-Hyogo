@@ -2,7 +2,7 @@ export interface D1Stmt {
   bind(...values: unknown[]): D1Stmt;
   first<T = unknown>(): Promise<T | null>;
   all<T = unknown>(): Promise<{ results: T[] }>;
-  run(): Promise<{ success: boolean }>;
+  run(): Promise<{ success: boolean; meta: { changes: number; last_row_id: number } }>;
 }
 
 export interface D1Db {
