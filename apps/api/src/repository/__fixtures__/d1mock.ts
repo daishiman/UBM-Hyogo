@@ -412,9 +412,9 @@ export class MockD1Statement implements D1Stmt {
     return { results };
   }
 
-  async run(): Promise<{ success: boolean }> {
+  async run(): Promise<{ success: boolean; meta: { changes: number; last_row_id: number } }> {
     await this.store.executeRun(this.sql, this.bindings);
-    return { success: true };
+    return { success: true, meta: { changes: 1, last_row_id: 0 } };
   }
 }
 
