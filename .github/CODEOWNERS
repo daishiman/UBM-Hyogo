@@ -1,7 +1,14 @@
+# NOTE: solo development project.
+# This CODEOWNERS file documents ownership for reference only.
+# `require_code_owner_reviews` is intentionally NOT enabled in branch protection,
+# because there is no second reviewer in a single-maintainer setup.
+# Ownership listing is kept so that future contributors / governance audits
+# can identify the responsible maintainer.
+
 # Global fallback
 *                   @daishiman
 
-# Infrastructure docs (Wave 1 parallel tasks)
+# Infrastructure docs
 doc/01a-*/          @daishiman
 doc/01b-*/          @daishiman
 doc/01c-*/          @daishiman

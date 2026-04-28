@@ -2387,7 +2387,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L109 |
+| 変更履歴 | L132 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -4565,8 +4565,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| task-worktree-environment-isolation follow-up（2026-04-28） | L341 |
-| 続き | L352 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L348 |
+| 続き | L359 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 
