@@ -41,6 +41,8 @@
 | [lessons-learned-templates.md](lessons-learned-templates.md) | templates and checklist | 目次 / 関連ドキュメント / テンプレート（新規教訓追加用） / TASK-XXX: タスク名（YYYY-MM-DD） |
 | [lessons-learned-severity-filter-ui.md](lessons-learned-severity-filter-ui.md) | skill domain lessons (severity filter UI) | UT-SDK-L34-UI-DISPLAY-SEVERITY-FILTER-001 Severity フィルタ UI 実装教訓（2026-04-03） |
 | [lessons-learned-rt-04-authkey-dedup.md](lessons-learned-rt-04-authkey-dedup.md) | auth / settings lessons (AuthKey component dedup / useAuthKeyManagement hook integration) | TASK-RT-04-AUTHKEY-COMPONENT-DEDUP-001: AuthKey コンポーネント重複解消（2026-04-06） / 二重送信防止パターン（isSubmittingRef）/ useAuthKeyManagement フック統合 / check-failed + apiError 二層設計 / ApiKeySettingsPanel 委譲パターン |
+| [lessons-learned-lefthook-unification-2026-04.md](lessons-learned-lefthook-unification-2026-04.md) | devops / git hook lessons (lefthook 統一 / post-merge indexes 再生成廃止) | task-git-hooks-lefthook-and-post-merge: L-LH-001〜005（自動再生成→明示コマンド昇格 / lefthook 単一正本化 / supported hook schema 確認 / branch slug token overlap / 運用ガイド集約） |
+| [lessons-learned-lefthook-mwr-runbook-2026-04.md](lessons-learned-lefthook-mwr-runbook-2026-04.md) | devops / runbook lessons (30+ worktree への lefthook 一括再 install runbook 運用化) | task-lefthook-multi-worktree-reinstall-runbook: L-MWR-001〜006（pnpm store 並列禁止 / prunable・detached HEAD 除外 / Apple Silicon バイナリ rebuild / 旧 post-merge STALE 検出 / べき等性明文化 / ISO8601 ログ書式固定） |
 
 ## 利用順序
 - まずこの親仕様書で対象 child companion を選ぶ。

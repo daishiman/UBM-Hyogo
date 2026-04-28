@@ -84,7 +84,7 @@ Created structure (selected resources only):
   <skill-name>/
   ├── SKILL.md          # メインファイル（TODO付きテンプレート）
   ├── package.json      # 依存関係管理（PNPM使用）
-  ├── LOGS.md           # 実行ログ（フィードバック機構）
+  ├── LOGS fragment           # 実行ログ（フィードバック機構）
   ├── EVALS.json        # メトリクス（フィードバック機構）
   ├── agents/           # Task仕様書ディレクトリ（任意）
   ├── scripts/          # スクリプトディレクトリ（任意）
@@ -258,7 +258,8 @@ function createLogUsageScript() {
  * 18-skills.md §7.3 に準拠したフィードバック記録を行います。
  */
 
-import { appendFileSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { randomBytes } from "crypto";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -267,6 +268,37 @@ const SKILL_DIR = join(__dirname, "..");
 
 const EXIT_SUCCESS = 0;
 const EXIT_ARGS_ERROR = 2;
+
+function escapeBranch(branch) {
+  const escaped = branch
+    .toLowerCase()
+    .replace(/\\//g, "-")
+    .replace(/[^a-z0-9_-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return (escaped || "unknown").slice(0, 64);
+}
+
+function compactTimestamp(now) {
+  const pad = (n) => String(n).padStart(2, "0");
+  return \`\${now.getUTCFullYear()}\${pad(now.getUTCMonth() + 1)}\${pad(now.getUTCDate())}-\${pad(now.getUTCHours())}\${pad(now.getUTCMinutes())}\${pad(now.getUTCSeconds())}\`;
+}
+
+function writeLogFragment(body, timestamp) {
+  const branch = escapeBranch(process.env.GIT_BRANCH || process.env.BRANCH || "unknown");
+  const author = process.env.GIT_AUTHOR_EMAIL || process.env.USER || "claude-code";
+  const dir = join(SKILL_DIR, "LOGS");
+  mkdirSync(dir, { recursive: true });
+  for (let i = 0; i < 4; i += 1) {
+    const nonce = randomBytes(4).toString("hex");
+    const file = join(dir, \`\${compactTimestamp(new Date(timestamp))}-\${branch}-\${nonce}.md\`);
+    if (existsSync(file)) continue;
+    const content = \`---\\ntimestamp: \${timestamp.replace(/\\.\\d{3}Z$/, "Z")}\\nbranch: \${branch}\\nauthor: \${author}\\ntype: log\\n---\\n\${body.trimEnd()}\\n\`;
+    writeFileSync(file, content, "utf-8");
+    return;
+  }
+  throw new Error("fragment path collision unresolved after 4 attempts");
+}
 
 function showHelp() {
   console.log(\`
@@ -314,21 +346,12 @@ async function main() {
 ---
 \`;
 
-  const logsPath = join(SKILL_DIR, "LOGS.md");
-
   try {
-    appendFileSync(logsPath, logEntry, "utf-8");
+    writeLogFragment(logEntry, timestamp);
     console.log(\`✓ フィードバックを記録しました: \${result}\`);
   } catch (err) {
-    // LOGS.md が存在しない場合は新規作成
-    const header = \`# Skill Usage Logs
-
-このファイルにはスキルの使用記録が追記されます。
-
----
-\`;
-    appendFileSync(logsPath, header + logEntry, "utf-8");
-    console.log(\`✓ LOGS.md を作成し、フィードバックを記録しました\`);
+    console.error(\`Error: fragment ログの作成に失敗しました: \${err.message}\`);
+    process.exit(1);
   }
 
   process.exit(EXIT_SUCCESS);
@@ -515,8 +538,8 @@ async function main() {
     );
 
     // フィードバック機構ファイル作成
-    // LOGS.md
-    writeFileSync(join(skillDir, "LOGS.md"), createLogsTemplate(), "utf-8");
+    mkdirSync(join(skillDir, "LOGS"), { recursive: true });
+    writeFileSync(join(skillDir, "LOGS", ".gitkeep"), "", "utf-8");
 
     // EVALS.json
     writeFileSync(
@@ -546,7 +569,7 @@ async function main() {
     const createdItems = [
       join(skillDir, "SKILL.md"),
       join(skillDir, "package.json"),
-      join(skillDir, "LOGS.md"),
+      join(skillDir, "LOGS", ".gitkeep"),
       join(skillDir, "EVALS.json"),
     ];
     for (const dir of resources) {
