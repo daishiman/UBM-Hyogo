@@ -348,6 +348,20 @@ AI呼び出しのコストを最適化するため、環境と用途に応じて
 | `e2e-desktop` | PR / `main` push | desktop E2E テスト（Playwright + xvfb） | `build-shared` |
 | `build` | PR / `main` push | 最終ビルド検証 | `lint`, `typecheck`, `test-shared`, `test-desktop`, `e2e-desktop`, `build-shared`, `check-module-sync` |
 
+### Git hook 運用正本（2026-04-28更新）
+
+Git hook 層の正本は `lefthook.yml` とし、`.git/hooks/*` は worktree ごとに生成される派生物として扱う。`.git/hooks/*` へ手書きしたローカル hook を正本化しない。
+
+| hook | 正本 | 責務 |
+| --- | --- | --- |
+| `pre-commit` | `lefthook.yml` + `scripts/hooks/staged-task-dir-guard.sh` | ブランチ名と staged task directory の整合チェック |
+| `post-merge` | `lefthook.yml` + `scripts/hooks/stale-worktree-notice.sh post-merge` | stale worktree 通知のみ |
+`post-fetch` は lefthook の supported hook schema に含まれないため、正本 lane として定義しない。origin/main 進行通知が必要な場合は、別の明示コマンドまたは GitHub Actions 側の検出として設計する。
+
+`post-merge` では `.claude/skills/aiworkflow-requirements/indexes/*.json` / `topic-map.md` の自動再生成を行わない。index 再生成は明示コマンド（例: `pnpm indexes:rebuild`）か Phase 12 の spec sync 手順で実行し、CI job が生成済み index と HEAD の差分を検出する。CI job は `docs/30-workflows/unassigned-task/task-verify-indexes-up-to-date-ci.md` で未タスク化済み。
+
+この分離により、local hook は開発者向けの速い補助ゲート、GitHub Actions は authoritative gate になる。`--no-verify` で local hook がバイパスされても、CI 側の index drift 検証で無関係な generated diff をブロックする。
+
 ### Codecov
 
 **採用理由**:

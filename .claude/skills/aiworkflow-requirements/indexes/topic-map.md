@@ -1673,7 +1673,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L402 |
+| 学習リソースとコミュニティ | L416 |
 
 ### references/technology-devops-details.md
 
@@ -2112,6 +2112,18 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
 
+### references/workflow-task-worktree-environment-isolation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L16 |
+| Phase Outputs（current canonical set） | L23 |
+| Skill 反映先（current canonical set） | L60 |
+| 参照される実装ファイル（spec_created のため変更は伴わない） | L74 |
+| Follow-up 未タスク | L81 |
+| Validation Chain（spec_created） | L90 |
+
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
 | セクション | 行 |
@@ -2477,9 +2489,10 @@ node scripts/list-specs.js --topics
 | キャッシング戦略 | L84 |
 | データマイグレーション | L123 |
 | コードレビューガイドライン | L162 |
-| パフォーマンス最適化 | L211 |
-| 国際化（i18n） | L335 |
-| Git ワークフロー | L365 |
+| Worktree 入場時の環境分離 | L211 |
+| パフォーマンス最適化 | L226 |
+| 国際化（i18n） | L350 |
+| Git ワークフロー | L380 |
 
 ### references/development-guidelines-details.md
 
@@ -2949,6 +2962,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | UT-HEALTH-POLICY-MAINLINE-MIGRATION-001 shared policy 移管 教訓（2026-04-08） | L7 |
 | TASK-FIX-WORKTREE-CONFLICT-001: 並列 worktree コンフリクト解消 | L41 |
+| task-worktree-environment-isolation 教訓（2026-04-28） | L75 |
 
 ### references/lessons-learned-ipc-channel-whitelist-sync.md
 
@@ -3032,6 +3046,13 @@ node scripts/list-specs.js --topics
 | L-KV-001: KV 最終的一貫性（Eventual Consistency）の制約 | L15 |
 | L-KV-002: 無料枠の書き込み制限（1,000 件 / 日） | L24 |
 | L-KV-003: Namespace 命名と環境分離 | L36 |
+
+### references/lessons-learned-lefthook-unification-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L7 |
+| 申し送り（open / baseline 未タスク） | L48 |
 
 ### references/lessons-learned-monitoring-design-2026-04.md
 
@@ -3218,6 +3239,22 @@ node scripts/list-specs.js --topics
 |------------|----|
 | TASK-FIX-SKILL-IMPORT 3連続是正（2026-03-04） | L6 |
 | TASK-10A-B: SkillAnalysisView 再監査（2026-03-02） | L206 |
+
+### references/lessons-learned-skill-ledger-redesign-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-SLR-001: A-2 を A-1 より先に実施しないと履歴が消える | L7 |
+| L-SLR-002: append-only writer の見落とし | L16 |
+| L-SLR-003: 同一秒・同一 branch の fragment 衝突 | L25 |
+| L-SLR-004: legacy と新 fragment の混在 render 順序崩れ | L34 |
+| L-SLR-005: 4 worktree smoke 標準化欠如 | L43 |
+| L-SLR-006: SKILL.md 分割でのリンク切れ | L52 |
+| L-SLR-007: `merge=union` の誤適用 | L61 |
+| L-SLR-008: skill 自身への施策適用漏れ（ドッグフーディング） | L70 |
+| L-SLR-009: `_legacy.md` 物理削除の誤発生 | L79 |
+| 再発防止サマリ（チェックリスト） | L88 |
+| 関連 references | L103 |
 
 ### references/lessons-learned-skill-lifecycle-test-hardening.md
 
@@ -4379,6 +4416,80 @@ node scripts/list-specs.js --topics
 | 参照 | L72 |
 | 変更履歴 | L77 |
 
+### references/skill-ledger-fragment-spec.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 目的 | L7 |
+| 2. fragment 命名規約 | L11 |
+| 3. front matter schema | L40 |
+| 4. TypeScript 型定義 | L60 |
+| 5. render API（CLI / TS） | L83 |
+| 6. append helper の責務 | L118 |
+| 7. エラーハンドリング | L138 |
+| 8. 4 worktree smoke | L147 |
+| 9. 後方互換 | L159 |
+| 10. 関連 references | L165 |
+
+### references/skill-ledger-gitattributes-policy.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 目的 | L8 |
+| 2. 位置付け | L12 |
+| 3. 適用許可リスト | L16 |
+| 4. 適用禁止リスト | L42 |
+| 5. 検証 | L55 |
+| 6. 2 worktree smoke | L69 |
+| 7. 完了条件 | L91 |
+| 8. 苦戦箇所 | L100 |
+| 9. ロールバック | L109 |
+| 10. 関連 references | L113 |
+
+### references/skill-ledger-gitignore-policy.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 目的 | L8 |
+| 2. 適用対象（gitignore 追記 glob） | L12 |
+| 3. 適用 NG リスト | L32 |
+| 4. 実施手順（runbook 抜粋） | L44 |
+| 5. 検証コマンド | L78 |
+| 6. 完了条件 | L102 |
+| 7. 苦戦箇所（最重要） | L111 |
+| 8. ロールバック | L120 |
+| 9. 関連 references | L128 |
+
+### references/skill-ledger-overview.md
+
+| セクション | 行 |
+|------------|----|
+| 1. なぜこの設計が必要か | L7 |
+| 2. 4 施策一覧 | L18 |
+| 3. 実装順序（必須遵守） | L27 |
+| 4. 責務分離の入口（references の役割分担） | L38 |
+| 5. 後方互換方針 | L49 |
+| 6. 集約 view の取得手段 | L56 |
+| 7. 検証 / smoke の集約参照 | L67 |
+| 8. ロールバック粒度 | L77 |
+| 9. 関連タスクと canonical set | L88 |
+| 10. 不変条件（Phase 12 で凍結） | L102 |
+
+### references/skill-ledger-progressive-disclosure.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 目的 | L9 |
+| 2. 行数ガード | L13 |
+| 3. SKILL.md（entry）に残す要素 | L33 |
+| 4. references への抽出ルール | L49 |
+| 5. classification-first との関係 | L56 |
+| 6. mirror 同期 | L62 |
+| 7. リンク健全性検証 | L78 |
+| 8. 完了条件 | L96 |
+| 9. 苦戦箇所 | L105 |
+| 10. 関連 references | L116 |
+
 ### references/spec-elegance-consistency-audit.md
 
 | セクション | 行 |
@@ -4441,6 +4552,7 @@ node scripts/list-specs.js --topics
 | 出力テンプレート | L85 |
 | 実行時のコマンド・エージェント・スキル | L108 |
 | 昇格パターン集 | L132 |
+| Current Active / Spec Created Tasks | L134 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -4453,7 +4565,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| 続き | L341 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L341 |
+| 続き | L352 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

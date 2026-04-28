@@ -1,0 +1,31 @@
+# lefthook.yml — Git hook 統一設定（UBM 兵庫支部会）
+# Docs: https://lefthook.dev/configuration/
+# 設計正本: docs/30-workflows/task-git-hooks-lefthook-and-post-merge/outputs/phase-2/design.md
+
+min_version: 1.6.0
+no_tty: false
+colors: true
+
+output:
+  - meta
+  - summary
+  - failure
+
+pre-commit:
+  parallel: true
+  commands:
+    staged-task-dir-guard:
+      run: bash scripts/hooks/staged-task-dir-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 ブランチと無関係なタスクディレクトリが含まれています。
+        意図的に含める場合: git commit --no-verify
+        除外する場合:       git restore --staged <path>
+
+post-merge:
+  parallel: false
+  commands:
+    stale-worktree-notice:
+      run: bash scripts/hooks/stale-worktree-notice.sh post-merge
+      # ⚠ post-merge では indexes/*.json の再生成を行わない
+      # 再生成は明示コマンド `pnpm indexes:rebuild` でのみ実行する

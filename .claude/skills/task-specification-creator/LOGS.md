@@ -10,6 +10,14 @@
 
 追加追補: `task-claude-code-permissions-decisive-mode` は Phase 12 再確認で declared outputs をすべて実ファイル化し、Phase 13 を `blocked` に固定した。`--dangerously-skip-permissions` と `permissions.deny` の相互作用は未検証 blocker とし、deny を保険と断定しない仕様へ補正した。
 
+## 2026-04-28 - task-worktree-environment-isolation phase-12.md / index.md 準拠化補強
+
+`docs/30-workflows/task-worktree-environment-isolation/phase-12.md` を `phase-template-phase12-detail.md` 準拠に拡張（事前チェック / 実行タスク表 / Task 12-3〜5 構造化 / 苦戦箇所 / フォールバック / スキル検証 / 完了条件 16 項目 / Task 1 validator ルール参照）し、`index.md` Phase 一覧表のヘッダー行を補完。`references/phase-template-phase12-detail.md` 末尾に「典型的な準拠不足パターン」7 項目を新設し再発防止の照合表として固定化した。
+
+## 2026-04-28 - task-worktree-environment-isolation Phase 12 review hardening
+
+docs-only / NON_VISUAL / spec_created タスクとして `docs/30-workflows/task-worktree-environment-isolation/` を再監査し、Phase 1 carry-over 証跡、既存命名規則、Phase 12 same-wave system spec sync、未タスク formalize、docs 確定と実行証跡の表現分離を補強した。特に macOS/BSD find 互換、`owner` metadata 統一、`<prefix-55>-<sha8>` slug 統一、EV-1〜EV-7 は後続実装タスクで実測する境界を明記した。
+
 ## 2026-04-27 - UT-06 派生反映波
 
 `scripts/cf.sh` 導入 / CLAUDE.md Cloudflare CLI ルール / `wrangler.toml` `[env.production]` 明示 / `apps/web/next.config.ts` の `outputFileTracingRoot` `turbopack.root` `ignoreBuildErrors` 追加 / `unassigned-task-detection.md` UNASSIGNED-G 追記を踏まえ、SKILL.md「Phase 12 実行時によくある漏れ」へ UBM-012（wrangler 直接呼び禁止 → `scripts/cf.sh` 強制集約）と UBM-013（Next.js 16 / Turbopack worktree root 誤検出と `outputFileTracingRoot` / `turbopack.root` 明示）を追記、`references/patterns-troubleshooting-worktree-cloudflare.md` を新規作成し worktree×Next.js 16 root 誤検出 / wrangler 4.x `[env.production]` strict mode / esbuild Host-Binary mismatch の 3 パターンを集約（親 `patterns-troubleshooting.md` は 500 行制約近接のため別ファイル化＋相互参照リンク追加）、`references/unassigned-task-detection-guide.md` に UT-06 派生（UNASSIGNED-G）題材の正本フォーマット節（命名 `^task-[a-z]+-[a-z0-9-]+-[0-9]+$` / 配置 `docs/30-workflows/unassigned-task/` / 検出ログと独立タスク化の二段運用）を追加、SKILL-changelog.md に v10.09.47 として同エントリを追記した。
@@ -2451,3 +2459,12 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `references/phase-11-non-visual-alternative-evidence.md` 新規作成（NON_VISUAL タスク向け 4 階層 evidence プレイブック: L1 typecheck / L2 lint-boundary / L3 miniflare D1 in-memory test / L4 意図的 violation）、`SKILL.md` の Phase 11 説明と Phase 11/12 ガイド一覧に新 reference を追加 |
 | 結果 | 02c-data-access-boundary feedback（skill-feedback-report.md #5 / #6: staging 未配備時の Phase 11 代替手段の体系化）を反映。`docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/outputs/phase-11/` を実例として参照可能 |
 | 検証 | SKILL.md 内のリンク 2 箇所追加、reference ファイル 1 件新規（59 行） |
+
+### 2026-04-28 - task-git-hooks-lefthook-and-post-merge elegant improvement sync
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | docs-only / spec_created / skill-compliance close-out |
+| 変更対象 | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` の `index.md`、`artifacts.json`、`phase-01.md`〜`phase-13.md`、Phase 11〜13 outputs |
+| 結果 | Phase 状態を outputs 実体へ同期し、Phase 1〜13 本文へ `phase-template-core.md` の共通骨格を補完。Phase 12 は Step 1-A〜1-G / Step 2 N/A / planned wording 排除 / current-baseline 分離へ再構成した |
+| 検証 | `validate-phase-output.js` と `verify-all-specs.js --strict --json` を再実行対象として close-out。30思考法レビューでは全面破棄不要、Phase 12 と状態台帳の部分再構成が最小複雑性と判定 |
