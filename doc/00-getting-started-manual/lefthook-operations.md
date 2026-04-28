@@ -23,13 +23,24 @@ mise exec -- pnpm install
 # → prepare script が lefthook install を実行し、.git/hooks/* を上書き配置
 
 # 既に作業中の worktree への一括適用（実装担当者向け runbook）
-git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt; do
-  test -d "$wt" || continue
-  ( cd "$wt" && mise exec -- pnpm install --prefer-offline )
-done
+bash scripts/reinstall-lefthook-all-worktrees.sh --dry-run
+bash scripts/reinstall-lefthook-all-worktrees.sh
 ```
 
 > 並列実行は禁止（pnpm store の同時書き込みで壊れる）。逐次で回す。
+
+### 既存 worktree 一括 reinstall の運用
+
+| 項目 | 内容 |
+| --- | --- |
+| 実行責任者 | `lefthook.yml`、`package.json` `prepare`、または hook 関連 runbook を変更した担当者 |
+| 実行タイミング | hook 定義追加・削除・改定時、既存 worktree に旧 hook が残っている疑いがある時 |
+| 事前確認 | `bash scripts/reinstall-lefthook-all-worktrees.sh --dry-run` で PASS / SKIP 予定を確認 |
+| 完了条件 | FAIL 0 件。PASS または理由付き SKIP が全 worktree に出力されていること |
+| 実行ログ | stdout の `PASS` / `SKIP` / `FAIL` と summary を該当タスクの Phase 11 manual-smoke-log に転記 |
+
+`SKIP node_modules not found` は、まだ依存関係を作っていない worktree のため許容する。
+作業対象の worktree で SKIP した場合は、その worktree 内で `mise exec -- pnpm install` を実行してから再度 runbook を回す。
 
 ## 日常コマンド
 
@@ -52,16 +63,18 @@ mise exec -- pnpm exec lefthook validate
 旧 `.git/hooks/post-merge` は indexes/*.json を毎マージ後に再生成していたが、
 無関係 PR への diff 混入の原因になっていた。lefthook 移行と同時に **再生成は廃止** し、
 明示コマンド `pnpm indexes:rebuild` に分離した。CI 側で
-`verify-indexes-up-to-date` job を新設して古い indexes での PR を検出する。
-この CI gate は `docs/30-workflows/unassigned-task/task-verify-indexes-up-to-date-ci.md`
-で正式な未タスクとして管理する。
+`verify-indexes-up-to-date` job（`.github/workflows/verify-indexes.yml`）を新設して
+古い indexes での PR / `main` push を検出する。branch protection の required status check に
+追加した場合は main 流入をブロックできる。drift 検出範囲は
+`.claude/skills/aiworkflow-requirements/indexes` に限定され、`pnpm indexes:rebuild` 実行後の
+`git diff --exit-code` で fail させる authoritative gate として機能する。
 
 ## トラブルシューティング
 
 | 症状 | 原因 | 対処 |
 | --- | --- | --- |
 | hook が動かない | `pnpm install` 未実行 | `mise exec -- pnpm install` を必ず実行 |
-| `.git/hooks/post-merge` が lefthook 由来でない | 既存 worktree に旧 hook 残存 | 当該 worktree で `pnpm install` を再実行 |
+| `.git/hooks/post-merge` が lefthook 由来でない | 既存 worktree に旧 hook 残存 | `bash scripts/reinstall-lefthook-all-worktrees.sh` を実行 |
 | Apple Silicon でバイナリ起動失敗 | arch 不一致 | `pnpm rebuild lefthook` |
 | ダウンロード失敗 | proxy / npmrc | `pnpm config get registry` で確認 |
 
@@ -70,3 +83,4 @@ mise exec -- pnpm exec lefthook validate
 - 設計: `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/outputs/phase-2/design.md`
 - 実装ランブック: `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/outputs/phase-5/runbook.md`
 - 実装ガイド: `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/outputs/phase-12/implementation-guide.md`
+- 既存 worktree 一括 reinstall タスク: `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook.md`
