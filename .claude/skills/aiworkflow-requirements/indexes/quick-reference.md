@@ -894,7 +894,7 @@ packages/
 | 仕様正本 | `references/technology-devops-core.md`（§Git hook 運用正本 L351-365） |
 | 苦戦知見 | `references/lessons-learned-lefthook-unification-2026-04.md`（L-LH-001〜L-LH-005） |
 | 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md` / `CLAUDE.md`（Git hook の方針節） |
-| 関連 baseline 未タスク | 既存 worktree への lefthook 再インストール runbook 化、`husky` 不採用判断の ADR 化 |
+| 関連 baseline 未タスク | `husky` 不採用判断の ADR 化は 2026-04-28 に [`doc/decisions/0001-git-hook-tool-selection.md`](../../../../doc/decisions/0001-git-hook-tool-selection.md) として resolved / 後続: [`task-adr-template-standardization`](../../../../docs/30-workflows/unassigned-task/task-adr-template-standardization.md), [`task-lefthook-ops-adr-backlink`](../../../../docs/30-workflows/unassigned-task/task-lefthook-ops-adr-backlink.md) |
 
 ### Indexes Drift Detection 早見（task-verify-indexes-up-to-date-ci / 2026-04-28）
 
