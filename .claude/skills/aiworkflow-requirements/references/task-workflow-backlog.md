@@ -338,6 +338,17 @@
 
 ---
 
+## task-worktree-environment-isolation follow-up（2026-04-28）
+
+| タスクID | タスク名 | 優先度 | 発見元 | タスク仕様書 |
+| --- | --- | --- | --- | --- |
+| task-new-worktree-script-hardening | `scripts/new-worktree.sh` の lock / shell reset / tmux opt-in / audit 実装 | 高 | task-worktree-environment-isolation Phase 12 | `docs/30-workflows/task-worktree-environment-isolation/unassigned-task/task-new-worktree-script-hardening.md` |
+| task-skill-symlink-pre-commit-guard | `.claude/skills` symlink を pre-commit / CI で検出 | 中 | task-worktree-environment-isolation Phase 12 | `docs/30-workflows/task-worktree-environment-isolation/unassigned-task/task-skill-symlink-pre-commit-guard.md` |
+| task-tmux-config-distribution | tmux `update-environment` 最小化テンプレートの配布先確定 | 低 | task-worktree-environment-isolation Phase 12 | `docs/30-workflows/task-worktree-environment-isolation/unassigned-task/task-tmux-config-distribution.md` |
+| task-aiworkflow-worktree-index-guard | worktree isolation の generated index drift 検出 | 低 | task-worktree-environment-isolation Phase 12 | `docs/30-workflows/task-worktree-environment-isolation/unassigned-task/task-aiworkflow-worktree-index-guard.md` |
+
+---
+
 ## 続き
 
 後半コンテンツは分割ファイルを参照:

@@ -192,6 +192,19 @@
 | 4. 環境変数     | cp .env.example .env.local → 編集 |
 | 5. 起動         | pnpm --filter @repo/desktop dev   |
 
+### 並列 worktree 運用
+
+`task-worktree-environment-isolation` で、worktree / tmux / shell state を混線させないための設計を current contract として追加した。
+
+| 領域 | 契約 | 検証証跡 |
+| --- | --- | --- |
+| skill symlink | `.claude/skills` 配下の symlink を撤去し、必要な skill は実ファイルまたはグローバル配置で管理する | `find .claude/skills -type l \| wc -l` が `0` |
+| tmux session state | `UBM_WT_*` は tmux global environment に置かず、`tmux new-session -e` で session ごとに注入する | global に `UBM_WT_*` がなく、対象 session に 3 件存在する |
+| worktree lock | `scripts/new-worktree.sh` は `.worktrees/.locks/<branch-slug>.lockdir` を `mkdir` で取得し、同名ブランチの並列作成を exit 75 で止める | 同名 2 起動の後発が exit 75 |
+| shell state | worktree 入場時に `unset OP_SERVICE_ACCOUNT_TOKEN`、`hash -r`、`mise install` を実行する | `mise exec -- node --version` がプロジェクト指定バージョン |
+
+後続実装タスクは `docs/30-workflows/task-worktree-environment-isolation/outputs/phase-5/runbook.md` と `outputs/phase-12/implementation-guide.md` を参照し、仕様を変更せずに `scripts/new-worktree.sh` へ反映する。
+
 ### 推奨VS Code拡張機能
 
 | 拡張機能                  | 用途           |
@@ -273,4 +286,3 @@
 | UT-FIX-TS-VITEST-TSCONFIG-PATHS-001 | vitest-tsconfig-paths プラグイン導入により `resolve.alias` の手動同期を自動化 |
 
 ---
-
