@@ -2370,3 +2370,12 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`（Phase 1-12 outputs、artifacts parity、Phase 12 close-out） |
 | 結果 | モニタリング/アラート設計を `spec_created` として確定。WAE 計装・アラートワーカー・通知・外形監視は `docs/30-workflows/unassigned-task/UT-08-IMPL-monitoring-alert-implementation.md` に分離した。Phase 11 は NON_VISUAL として screenshot 不要、AC-10 は `PASS_WITH_OPEN_DEPENDENCY` に是正 |
 | 検証 | `validate-phase-output.js docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design` PASS（30項目、0エラー） |
+
+### 2026-04-28 - 02c admin notes/audit/sync jobs and data access boundary impl-spec-to-skill-sync
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | spec_created / impl-spec-to-skill-sync / non_visual |
+| 変更対象 | `references/phase-11-non-visual-alternative-evidence.md` 新規作成（NON_VISUAL タスク向け 4 階層 evidence プレイブック: L1 typecheck / L2 lint-boundary / L3 miniflare D1 in-memory test / L4 意図的 violation）、`SKILL.md` の Phase 11 説明と Phase 11/12 ガイド一覧に新 reference を追加 |
+| 結果 | 02c-data-access-boundary feedback（skill-feedback-report.md #5 / #6: staging 未配備時の Phase 11 代替手段の体系化）を反映。`docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/outputs/phase-11/` を実例として参照可能 |
+| 検証 | SKILL.md 内のリンク 2 箇所追加、reference ファイル 1 件新規（59 行） |

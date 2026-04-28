@@ -398,6 +398,8 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 
 UI/UX 実装を含む task では Phase 11 で screenshot と Apple UI/UX 視覚検証を行う。手順は [references/phase-11-screenshot-guide.md](references/phase-11-screenshot-guide.md) と [references/screenshot-verification-procedure.md](references/screenshot-verification-procedure.md) を使う。
 
+NON_VISUAL タスク（API repository / library / config / boundary tooling など）で staging 未配備や実フロー前提が成立しない場合は、Phase 11 の代替 evidence プレイブックを使う: [references/phase-11-non-visual-alternative-evidence.md](references/phase-11-non-visual-alternative-evidence.md)。L1 型 / L2 lint-boundary / L3 in-memory test / L4 意図的 violation の 4 階層と「代替 evidence 差分表」で何を保証し何を保証できないかを明示する。
+
 ## リソース導線
 
 ### core workflow
@@ -426,6 +428,7 @@ UI/UX 実装を含む task では Phase 11 で screenshot と Apple UI/UX 視覚
 
 - [references/phase-11-12-guide.md](references/phase-11-12-guide.md)
 - [references/phase-11-screenshot-guide.md](references/phase-11-screenshot-guide.md)
+- [references/phase-11-non-visual-alternative-evidence.md](references/phase-11-non-visual-alternative-evidence.md)
 - [references/phase-12-documentation-guide.md](references/phase-12-documentation-guide.md)
 - [references/phase12-checklist-definition.md](references/phase12-checklist-definition.md)
 - [references/technical-documentation-guide.md](references/technical-documentation-guide.md)

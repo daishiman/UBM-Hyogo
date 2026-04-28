@@ -24,6 +24,7 @@ function listFiles(dir) {
       if (entry === "node_modules" || entry === ".next") return [];
       return listFiles(path);
     }
+    if (/\.test\.(ts|tsx)$/.test(entry)) return [];
     return /\.(ts|tsx)$/.test(entry) ? [path] : [];
   });
 }
