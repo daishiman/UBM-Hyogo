@@ -4,6 +4,14 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-28 - task-worktree-environment-isolation phase-12.md / index.md 準拠化補強
+
+`docs/30-workflows/task-worktree-environment-isolation/phase-12.md` を `phase-template-phase12-detail.md` 準拠に拡張（事前チェック / 実行タスク表 / Task 12-3〜5 構造化 / 苦戦箇所 / フォールバック / スキル検証 / 完了条件 16 項目 / Task 1 validator ルール参照）し、`index.md` Phase 一覧表のヘッダー行を補完。`references/phase-template-phase12-detail.md` 末尾に「典型的な準拠不足パターン」7 項目を新設し再発防止の照合表として固定化した。
+
+## 2026-04-28 - task-worktree-environment-isolation Phase 12 review hardening
+
+docs-only / NON_VISUAL / spec_created タスクとして `docs/30-workflows/task-worktree-environment-isolation/` を再監査し、Phase 1 carry-over 証跡、既存命名規則、Phase 12 same-wave system spec sync、未タスク formalize、docs 確定と実行証跡の表現分離を補強した。特に macOS/BSD find 互換、`owner` metadata 統一、`<prefix-55>-<sha8>` slug 統一、EV-1〜EV-7 は後続実装タスクで実測する境界を明記した。
+
 ## 2026-04-27 - UT-06 派生反映波
 
 `scripts/cf.sh` 導入 / CLAUDE.md Cloudflare CLI ルール / `wrangler.toml` `[env.production]` 明示 / `apps/web/next.config.ts` の `outputFileTracingRoot` `turbopack.root` `ignoreBuildErrors` 追加 / `unassigned-task-detection.md` UNASSIGNED-G 追記を踏まえ、SKILL.md「Phase 12 実行時によくある漏れ」へ UBM-012（wrangler 直接呼び禁止 → `scripts/cf.sh` 強制集約）と UBM-013（Next.js 16 / Turbopack worktree root 誤検出と `outputFileTracingRoot` / `turbopack.root` 明示）を追記、`references/patterns-troubleshooting-worktree-cloudflare.md` を新規作成し worktree×Next.js 16 root 誤検出 / wrangler 4.x `[env.production]` strict mode / esbuild Host-Binary mismatch の 3 パターンを集約（親 `patterns-troubleshooting.md` は 500 行制約近接のため別ファイル化＋相互参照リンク追加）、`references/unassigned-task-detection-guide.md` に UT-06 派生（UNASSIGNED-G）題材の正本フォーマット節（命名 `^task-[a-z]+-[a-z0-9-]+-[0-9]+$` / 配置 `docs/30-workflows/unassigned-task/` / 検出ログと独立タスク化の二段運用）を追加、SKILL-changelog.md に v10.09.47 として同エントリを追記した。
