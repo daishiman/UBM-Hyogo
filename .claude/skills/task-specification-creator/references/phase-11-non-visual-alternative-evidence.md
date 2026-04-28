@@ -1,8 +1,11 @@
 # Phase 11 — NON_VISUAL タスクの代替 evidence プレイブック
 
+> **NOTE**: 本ガイドは docs-only / 実地操作不可なタスク向け。実環境（staging / 本番 / CI gate）での実走が必須な項目は本タスクで「保証できない範囲」として明示し、Phase 12 `unassigned-task-detection.md` 経由で実装 PR や運用フェーズへ申し送ること。
+>
 > 起源: 02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary（2026-04-27）
 > Feedback: skill-feedback-report.md #5 / #6
 > 関連: aiworkflow-requirements `lessons-learned-02c-data-access-boundary.md` §L-02C-002 / §L-02C-003
+> 適用実例: skill-ledger-a1-gitignore（2026-04-28、git 管理境界 / infrastructure governance シナリオ）
 
 ## 適用条件
 

@@ -304,7 +304,9 @@ generate-output
 
 | ファイル | 用途 | 更新タイミング |
 |----------|------|----------------|
-| LOGS.md | 実行ログ | 毎回実行後 |
+| LOGS/ | 実行ログ fragment ディレクトリ（1 entry = 1 file、`pnpm skill:logs:append` 経由） | 毎回実行後 |
+| changelog/ | SKILL 機能差分 fragment ディレクトリ（旧 `SKILL-changelog.md` は `changelog/_legacy.md` に退避） | SKILL 仕様変更時 |
+| lessons-learned/ | 苦戦箇所・知見 fragment ディレクトリ（旧 `references/lessons-learned-*.md` は `lessons-learned/_legacy-*.md` に退避） | 苦戦箇所発生時 |
 | EVALS.json | メトリクス | 毎回実行後 |
 | references/patterns.md | 成功/失敗パターン | パターン発見時 |
 
@@ -343,7 +345,7 @@ node scripts/log_usage.js --result failure --phase "{{phase}}" --notes "{{エラ
 ### フィードバックサイクル
 
 ```
-スキル実行 → LOGS.md記録 → EVALS.json更新
+スキル実行 → LOGS fragment 追記（`pnpm skill:logs:append` 経由）→ EVALS.json更新（集約参照は `pnpm skill:logs:render --skill <name>`）
      ↓
 パターン発見 → references/patterns.md更新
      ↓
