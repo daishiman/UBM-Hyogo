@@ -921,6 +921,15 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: Turso, SQLite, スキーマ, FTS5, Embedded Replicas
 
+### references/database-admin-repository-boundary.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 対象 repository | L11 |
+| 境界 | L21 |
+| 下流連携 | L29 |
+
 ### references/database-architecture.md
 
 | セクション | 行 |
@@ -1785,6 +1794,20 @@ node scripts/list-specs.js --topics
 | クイックリファレンス | L245 |
 | 変更履歴 | L282 |
 | ドキュメント構成 | L303 |
+
+### references/claude-code-settings-hierarchy.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L9 |
+| 1. 階層優先順位 | L23 |
+| 2. `defaultMode` 統一方針 | L47 |
+| 3. `--dangerously-skip-permissions` 併用方針 | L68 |
+| 4. `permissions.allow` / `permissions.deny` whitelist 設計 | L89 |
+| 5. 公式 docs URL | L118 |
+| 6. Reference Contracts (TypeScript) | L128 |
+| 7. 関連タスク wave（DevEx 衝突防止） | L152 |
+| 8. 適用先システム仕様書 | L175 |
 
 ### references/claude-code-skills-agents.md
 
@@ -2670,6 +2693,13 @@ node scripts/list-specs.js --topics
 | 4. システム仕様書への影響（軽微 Note 追記） | L71 |
 | 5. 後続タスク handoff | L82 |
 | 関連参照 | L96 |
+
+### references/lessons-learned-02c-data-access-boundary.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L7 |
+| 申し送り先（unassigned-task-detection.md より） | L39 |
 
 ### references/lessons-learned-05b-smoke-readiness-2026-04.md
 
@@ -4711,6 +4741,7 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L11 |
 | 利用順序 | L40 |
 | 関連ドキュメント | L45 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L49 |
 
 ### references/testing-accessibility.md
 

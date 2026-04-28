@@ -4,6 +4,12 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-28 - DevEx conflict prevention spec wave normalization
+
+5件の task spec（skill state redesign / git hooks lefthook / worktree isolation / GitHub governance / Claude Code permissions）を `docs-only` / `spec_created` / `NON_VISUAL` に統一した。Phase 11 補助成果物は `main.md` / `manual-smoke-log.md` / `link-checklist.md` の3点へ正規化し、root `artifacts.json` と `outputs/artifacts.json` の parity を固定した。`validate-phase-output.js` の要求見出しに合わせ、既存本文の意味を変えずに不足見出しのみ補遺として追加した。
+
+追加追補: `task-claude-code-permissions-decisive-mode` は Phase 12 再確認で declared outputs をすべて実ファイル化し、Phase 13 を `blocked` に固定した。`--dangerously-skip-permissions` と `permissions.deny` の相互作用は未検証 blocker とし、deny を保険と断定しない仕様へ補正した。
+
 ## 2026-04-27 - UT-06 派生反映波
 
 `scripts/cf.sh` 導入 / CLAUDE.md Cloudflare CLI ルール / `wrangler.toml` `[env.production]` 明示 / `apps/web/next.config.ts` の `outputFileTracingRoot` `turbopack.root` `ignoreBuildErrors` 追加 / `unassigned-task-detection.md` UNASSIGNED-G 追記を踏まえ、SKILL.md「Phase 12 実行時によくある漏れ」へ UBM-012（wrangler 直接呼び禁止 → `scripts/cf.sh` 強制集約）と UBM-013（Next.js 16 / Turbopack worktree root 誤検出と `outputFileTracingRoot` / `turbopack.root` 明示）を追記、`references/patterns-troubleshooting-worktree-cloudflare.md` を新規作成し worktree×Next.js 16 root 誤検出 / wrangler 4.x `[env.production]` strict mode / esbuild Host-Binary mismatch の 3 パターンを集約（親 `patterns-troubleshooting.md` は 500 行制約近接のため別ファイル化＋相互参照リンク追加）、`references/unassigned-task-detection-guide.md` に UT-06 派生（UNASSIGNED-G）題材の正本フォーマット節（命名 `^task-[a-z]+-[a-z0-9-]+-[0-9]+$` / 配置 `docs/30-workflows/unassigned-task/` / 検出ログと独立タスク化の二段運用）を追加、SKILL-changelog.md に v10.09.47 として同エントリを追記した。

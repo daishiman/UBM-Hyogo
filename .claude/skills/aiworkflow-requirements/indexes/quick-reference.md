@@ -802,6 +802,18 @@ packages/
 | DB 名（production） | `ubm-hyogo-db-prod`（`apps/api/wrangler.toml` top-level production） |
 | binding 経由アクセス | `apps/api` のみ（`apps/web` から直接アクセス禁止） |
 
+### UBM-Hyogo DevEx Conflict Prevention Spec Wave（2026-04-28）
+
+| 順序 | canonical task root | 状態 |
+| --- | --- | --- |
+| 1 | `docs/30-workflows/task-conflict-prevention-skill-state-redesign/` | spec_created / docs-only / NON_VISUAL |
+| 2 | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` | spec_created / docs-only / NON_VISUAL |
+| 3 | `docs/30-workflows/task-worktree-environment-isolation/` | spec_created / docs-only / NON_VISUAL |
+| 4 | `docs/30-workflows/task-github-governance-branch-protection/` | spec_created / docs-only / NON_VISUAL |
+| 5 | `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | spec_created / docs-only / NON_VISUAL |
+
+横断順序: skill ledger 再設計 → Git hook 再生成停止 → worktree 分離 → GitHub governance → Claude Code permissions。
+
 ### モニタリング/アラート 早見（UT-08 monitoring-alert-design）
 
 | 観点 | 値 / 参照先 |

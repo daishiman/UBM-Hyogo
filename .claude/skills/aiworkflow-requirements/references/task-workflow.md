@@ -45,3 +45,9 @@ Runtime Skill Creator 系 completed workflow の canonical root は `docs/30-wor
 ## 関連ドキュメント
 - `indexes/quick-reference.md`
 - `indexes/resource-map.md`
+
+## 2026-04-28 DevEx Conflict Prevention Spec Wave
+
+| Task | Status | Notes |
+| --- | --- | --- |
+| `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | spec_created / docs-only / NON_VISUAL | Depends on `task-worktree-environment-isolation`; Phase 13 is blocked until explicit user approval. Implementation is blocked until `--dangerously-skip-permissions` and `permissions.deny` interaction is verified. |

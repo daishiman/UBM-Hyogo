@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 3030,
+  "totalKeywords": 3070,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -49,6 +49,7 @@
       "api-internal.md",
       "claude-code-agents-workflow.md",
       "claude-code-commands.md",
+      "claude-code-settings-hierarchy.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
       "csrf-state-parameter.md",
@@ -94,9 +95,11 @@
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
+      "claude-code-settings-hierarchy.md",
       "claude-code-skills-overview.md",
       "claude-code-skills-structure.md",
       "csrf-state-parameter.md",
+      "database-admin-repository-boundary.md",
       "database-implementation.md",
       "database-schema.md",
       "deployment-cloudflare.md",
@@ -830,6 +833,7 @@
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
+      "claude-code-settings-hierarchy.md",
       "interfaces-agent-sdk-integration.md",
       "interfaces-agent-sdk.md",
       "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
@@ -845,6 +849,7 @@
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
+      "claude-code-settings-hierarchy.md",
       "interfaces-agent-sdk-integration.md",
       "security-skill-ipc-core.md",
       "spec-splitting-guidelines.md"
@@ -3810,6 +3815,7 @@
       "claude-code-skills-agents.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
+      "lessons-learned-02c-data-access-boundary.md",
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-d1a-schema-migrations.md",
       "lessons-learned-skill-remove-contract.md",
@@ -3883,6 +3889,126 @@
       "lessons-learned-current.md",
       "master-design.md"
     ],
+    "Settings": [
+      "claude-code-settings-hierarchy.md",
+      "ui-ux-settings-core.md",
+      "workflow-onboarding-wizard-alignment.md"
+    ],
+    "階層優先順位": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "defaultMode": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "統一方針": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "dangerously": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "skip": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-test-typesafety.md",
+      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
+      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
+      "task-workflow-completed-skill-lifecycle-security.md",
+      "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-permission-fallback-abort-skip-retry.md"
+    ],
+    "permissions": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "併用方針": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "zshrc": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "正準形": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "allow": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "deny": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "whitelist": [
+      "claude-code-settings-hierarchy.md",
+      "ipc-contract-checklist.md",
+      "lessons-learned-ipc-channel-whitelist-sync.md"
+    ],
+    "設計": [
+      "claude-code-settings-hierarchy.md",
+      "interfaces-rag-community-detection.md",
+      "interfaces-rag-community-summarization.md",
+      "interfaces-rag-graphrag-query.md",
+      "interfaces-rag-knowledge-graph-store.md",
+      "lessons-learned-monitoring-design-2026-04.md",
+      "ui-history-design.md",
+      "ui-ux-file-selector.md",
+      "ui-ux-forms.md",
+      "ui-ux-navigation.md",
+      "ui-ux-search-panel-core.md",
+      "ui-ux-search-panel-details.md",
+      "ui-ux-search-panel-history.md",
+      "ui-ux-search-panel.md"
+    ],
+    "公式": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "docs": [
+      "claude-code-settings-hierarchy.md",
+      "claude-code-skills-process.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "URL": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
+      "r2-storage-decision-guide.md"
+    ],
+    "Reference": [
+      "claude-code-settings-hierarchy.md",
+      "interfaces-skill-verify-contract.md"
+    ],
+    "Contracts": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "TypeScript": [
+      "claude-code-settings-hierarchy.md",
+      "technology-core.md"
+    ],
+    "関連タスク": [
+      "claude-code-settings-hierarchy.md",
+      "skill-executor-type-migration.md"
+    ],
+    "wave": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-rt-04-authkey-dedup.md",
+      "lessons-learned-rt02-stub-response-error-notification.md",
+      "lessons-learned-skill-create-multi-select-kind.md",
+      "spec-elegance-consistency-audit.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "DevEx": [
+      "claude-code-settings-hierarchy.md",
+      "task-workflow.md"
+    ],
+    "衝突防止": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "適用先システム仕様書": [
+      "claude-code-settings-hierarchy.md"
+    ],
     "agents": [
       "claude-code-skills-agents.md"
     ],
@@ -3942,15 +4068,6 @@
     ],
     "large": [
       "claude-code-skills-process.md"
-    ],
-    "docs": [
-      "claude-code-skills-process.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
-      "lessons-learned-workflow-quality-phase12-audit-validator.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
     "update": [
       "claude-code-skills-process.md"
@@ -4054,6 +4171,24 @@
       "security-skill-execution.md",
       "ui-history-integration.md",
       "ui-ux-llm-selector.md"
+    ],
+    "管理者リポジトリ境界仕様": [
+      "database-admin-repository-boundary.md"
+    ],
+    "対象": [
+      "database-admin-repository-boundary.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "repository": [
+      "database-admin-repository-boundary.md",
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "境界": [
+      "database-admin-repository-boundary.md"
+    ],
+    "下流連携": [
+      "database-admin-repository-boundary.md"
     ],
     "Turso": [
       "database-architecture.md",
@@ -5640,21 +5775,6 @@
       "interfaces-rag-graphrag-query.md",
       "interfaces-rag-knowledge-graph-store.md"
     ],
-    "設計": [
-      "interfaces-rag-community-detection.md",
-      "interfaces-rag-community-summarization.md",
-      "interfaces-rag-graphrag-query.md",
-      "interfaces-rag-knowledge-graph-store.md",
-      "lessons-learned-monitoring-design-2026-04.md",
-      "ui-history-design.md",
-      "ui-ux-file-selector.md",
-      "ui-ux-forms.md",
-      "ui-ux-navigation.md",
-      "ui-ux-search-panel-core.md",
-      "ui-ux-search-panel-details.md",
-      "ui-ux-search-panel-history.md",
-      "ui-ux-search-panel.md"
-    ],
     "インターフェース定義": [
       "interfaces-rag-community-detection.md",
       "interfaces-rag-community-summarization.md",
@@ -5833,9 +5953,6 @@
     "参照整合性・結合検証": [
       "interfaces-skill-verify-contract.md"
     ],
-    "Reference": [
-      "interfaces-skill-verify-contract.md"
-    ],
     "Integrity": [
       "interfaces-skill-verify-contract.md",
       "security-electron-ipc-examples.md"
@@ -6005,10 +6122,6 @@
     "分離マトリクス": [
       "ipc-contract-checklist.md"
     ],
-    "whitelist": [
-      "ipc-contract-checklist.md",
-      "lessons-learned-ipc-channel-whitelist-sync.md"
-    ],
     "登録確認コマンド": [
       "ipc-contract-checklist.md"
     ],
@@ -6113,6 +6226,7 @@
     ],
     "Lessons": [
       "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-02c-data-access-boundary.md",
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-archive-2026-03-mid.md",
       "lessons-learned-archive-2026-03.md",
@@ -6188,6 +6302,7 @@
     ],
     "Learned": [
       "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-02c-data-access-boundary.md",
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-archive-2026-03-mid.md",
       "lessons-learned-archive-2026-03.md",
@@ -6279,9 +6394,6 @@
       "lessons-learned-02b-schema-diff-and-tag-queue.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md"
     ],
-    "repository": [
-      "lessons-learned-02b-schema-diff-and-tag-queue.md"
-    ],
     "不変条件の追補": [
       "lessons-learned-02b-schema-diff-and-tag-queue.md"
     ],
@@ -6324,7 +6436,54 @@
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "関連参照": [
-      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "admin": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "data": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-current-2026-04.md"
+    ],
+    "access": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "boundary": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "教訓一覧": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "申し送り先": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "unassigned": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md"
+    ],
+    "task": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
+      "lessons-learned-d1a-schema-migrations.md",
+      "lessons-learned-phase12-lifecycle-early-b.md",
+      "lessons-learned-skill-remove-contract.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md",
+      "logs-archive-2026-01-system-spec-gap-skill-retry.md",
+      "logs-archive-2026-02-console-migration-patterns.md",
+      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
+      "logs-archive-2026-02-skill-validation-atoms-audit.md",
+      "task-workflow-completed-recent-2026-04b.md",
+      "task-workflow-completed.md"
+    ],
+    "detection": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md"
+    ],
+    "より": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-skill-wizard-redesign.md"
     ],
     "parallel": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
@@ -6856,20 +7015,6 @@
       "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
       "logs-archive-2026-02-completed-move-preload-sync.md"
     ],
-    "task": [
-      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
-      "lessons-learned-d1a-schema-migrations.md",
-      "lessons-learned-phase12-lifecycle-early-b.md",
-      "lessons-learned-skill-remove-contract.md",
-      "lessons-learned-workflow-quality-phase12-audit-validator.md",
-      "logs-archive-2026-01-system-spec-gap-skill-retry.md",
-      "logs-archive-2026-02-console-migration-patterns.md",
-      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
-      "logs-archive-2026-02-skill-validation-atoms-audit.md",
-      "task-workflow-completed-recent-2026-04b.md",
-      "task-workflow-completed.md"
-    ],
     "仕様差分の統合是正": [
       "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md"
     ],
@@ -7226,10 +7371,6 @@
     "deployment": [
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "URL": [
-      "lessons-learned-cicd-dev-main-deploy.md",
-      "r2-storage-decision-guide.md"
     ],
     "alias": [
       "lessons-learned-cicd-dev-main-deploy.md",
@@ -7667,9 +7808,6 @@
       "lessons-learned-current-2026-04.md"
     ],
     "serial": [
-      "lessons-learned-current-2026-04.md"
-    ],
-    "data": [
       "lessons-learned-current-2026-04.md"
     ],
     "source": [
@@ -8429,17 +8567,6 @@
     "型拡張の同一": [
       "lessons-learned-rt-04-authkey-dedup.md"
     ],
-    "wave": [
-      "lessons-learned-rt-04-authkey-dedup.md",
-      "lessons-learned-rt02-stub-response-error-notification.md",
-      "lessons-learned-skill-create-multi-select-kind.md",
-      "spec-elegance-consistency-audit.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
     "更新": [
       "lessons-learned-rt-04-authkey-dedup.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -9068,9 +9195,6 @@
     "report": [
       "lessons-learned-skill-wizard-redesign.md"
     ],
-    "より": [
-      "lessons-learned-skill-wizard-redesign.md"
-    ],
     "依存関係": [
       "lessons-learned-skill-wizard-redesign.md"
     ],
@@ -9162,14 +9286,6 @@
     "abort": [
       "lessons-learned-test-typesafety.md",
       "logs-archive-2026-02-skill-creator-ipc-sdk-integration.md",
-      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
-      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
-      "task-workflow-completed-skill-lifecycle-security.md",
-      "task-workflow-completed-ut-06-safety-gate.md",
-      "workflow-permission-fallback-abort-skip-retry.md"
-    ],
-    "skip": [
-      "lessons-learned-test-typesafety.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-security.md",
@@ -9357,9 +9473,6 @@
     "固定化が必要": [
       "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
-    "関連参照": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
     "learned": [
       "lessons-learned-ut08-monitoring-design-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
@@ -9373,6 +9486,7 @@
     ],
     "Wave": [
       "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "task-workflow.md",
       "ui-ux-components.md"
     ],
     "への引き継ぎ前提": [
@@ -9653,9 +9767,6 @@
       "logs-archive-2026-03-history-search-notification-center.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md"
-    ],
-    "unassigned": [
-      "lessons-learned-workflow-quality-phase12-audit-validator.md"
     ],
     "へ移管後は": [
       "lessons-learned-workflow-quality-phase12-audit-validator.md"
@@ -10086,9 +10197,6 @@
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md"
     ],
     "community": [
-      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md"
-    ],
-    "detection": [
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md"
     ],
     "leiden": [
@@ -12174,9 +12282,6 @@
     "苦戦した箇所と解決策": [
       "skill-executor-type-migration.md"
     ],
-    "関連タスク": [
-      "skill-executor-type-migration.md"
-    ],
     "仕様エレガンス・整合性監査ガイド": [
       "spec-elegance-consistency-audit.md"
     ],
@@ -12640,6 +12745,15 @@
     "ドキュメント更新ルール": [
       "task-workflow-rules.md"
     ],
+    "Conflict": [
+      "task-workflow.md"
+    ],
+    "Prevention": [
+      "task-workflow.md"
+    ],
+    "Spec": [
+      "task-workflow.md"
+    ],
     "バックエンド技術スタック": [
       "technology-backend.md"
     ],
@@ -12653,9 +12767,6 @@
       "technology-backend.md"
     ],
     "コア技術スタック": [
-      "technology-core.md"
-    ],
-    "TypeScript": [
       "technology-core.md"
     ],
     "コアランタイム": [
@@ -13491,10 +13602,6 @@
     "ツール許可設定": [
       "ui-ux-settings-core.md"
     ],
-    "Settings": [
-      "ui-ux-settings-core.md",
-      "workflow-onboarding-wizard-alignment.md"
-    ],
     "権限要求履歴パネル": [
       "ui-ux-settings-core.md"
     ],
@@ -13588,10 +13695,6 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
-    "対象": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md"
     ],
     "set": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
