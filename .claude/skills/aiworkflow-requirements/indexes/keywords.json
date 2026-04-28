@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 3030,
+  "totalKeywords": 3064,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -97,6 +97,7 @@
       "claude-code-skills-overview.md",
       "claude-code-skills-structure.md",
       "csrf-state-parameter.md",
+      "database-admin-repository-boundary.md",
       "database-implementation.md",
       "database-schema.md",
       "deployment-cloudflare.md",
@@ -2081,7 +2082,8 @@
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Advanced": [
       "arch-state-management-reference-permissions-import-lifecycle.md",
@@ -2316,7 +2318,8 @@
     "Validation": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
       "interfaces-skill-verify-contract.md",
-      "workflow-task-rt-06-artifact-inventory.md"
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "FIX": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
@@ -2520,7 +2523,8 @@
       "ui-ux-feature-components-advanced.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "created": [
       "arch-state-management-reference-selectors.md",
@@ -2534,7 +2538,8 @@
       "ui-ux-components-details.md",
       "ui-ux-feature-components-advanced.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "公開・配布状態管理設計": [
       "arch-state-management-reference-selectors.md",
@@ -2863,7 +2868,8 @@
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "facts": [
       "arch-state-management-skill-creator.md",
@@ -3758,6 +3764,7 @@
       "task-workflow-phases.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "共通": [
@@ -3810,6 +3817,7 @@
       "claude-code-skills-agents.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
+      "lessons-learned-02c-data-access-boundary.md",
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-d1a-schema-migrations.md",
       "lessons-learned-skill-remove-contract.md",
@@ -4022,7 +4030,8 @@
       "logging-migration-guide.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-permission-fallback-abort-skip-retry.md",
-      "workflow-task-rt-06-artifact-inventory.md"
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "認証フローにおける統合": [
       "csrf-state-parameter.md"
@@ -4054,6 +4063,24 @@
       "security-skill-execution.md",
       "ui-history-integration.md",
       "ui-ux-llm-selector.md"
+    ],
+    "管理者リポジトリ境界仕様": [
+      "database-admin-repository-boundary.md"
+    ],
+    "対象": [
+      "database-admin-repository-boundary.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "repository": [
+      "database-admin-repository-boundary.md",
+      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+    ],
+    "境界": [
+      "database-admin-repository-boundary.md"
+    ],
+    "下流連携": [
+      "database-admin-repository-boundary.md"
     ],
     "Turso": [
       "database-architecture.md",
@@ -4307,7 +4334,8 @@
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "実行ラッパー": [
       "deployment-cloudflare-ut06-gate.md"
@@ -4756,6 +4784,14 @@
     "コードレビューガイドライン": [
       "development-guidelines-core.md"
     ],
+    "Worktree": [
+      "development-guidelines-core.md",
+      "lessons-learned-health-policy-worktree-2026-04.md",
+      "lessons-learned-sdk-session-bridge-vitest-worktree.md"
+    ],
+    "入場時の環境分離": [
+      "development-guidelines-core.md"
+    ],
     "国際化": [
       "development-guidelines-core.md"
     ],
@@ -5139,7 +5175,8 @@
       "task-workflow-backlog.md",
       "ui-ux-search-panel-details.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-task-rt-06-artifact-inventory.md"
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "ライフサイクルイベントモデル": [
       "interfaces-agent-sdk-history.md"
@@ -5230,7 +5267,8 @@
     ],
     "Chain": [
       "interfaces-agent-sdk-skill-editor.md",
-      "workflow-task-rt-06-artifact-inventory.md"
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Schedule": [
       "interfaces-agent-sdk-skill-editor.md"
@@ -6084,6 +6122,7 @@
     ],
     "Current": [
       "legacy-ordinal-family-register.md",
+      "task-workflow-active.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-rt-06-artifact-inventory.md"
     ],
@@ -6113,6 +6152,7 @@
     ],
     "Lessons": [
       "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-02c-data-access-boundary.md",
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-archive-2026-03-mid.md",
       "lessons-learned-archive-2026-03.md",
@@ -6188,6 +6228,7 @@
     ],
     "Learned": [
       "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-02c-data-access-boundary.md",
       "lessons-learned-05b-smoke-readiness-2026-04.md",
       "lessons-learned-archive-2026-03-mid.md",
       "lessons-learned-archive-2026-03.md",
@@ -6279,9 +6320,6 @@
       "lessons-learned-02b-schema-diff-and-tag-queue.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md"
     ],
-    "repository": [
-      "lessons-learned-02b-schema-diff-and-tag-queue.md"
-    ],
     "不変条件の追補": [
       "lessons-learned-02b-schema-diff-and-tag-queue.md"
     ],
@@ -6324,7 +6362,57 @@
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "関連参照": [
-      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "admin": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "data": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-current-2026-04.md"
+    ],
+    "access": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "boundary": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "教訓一覧": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "申し送り先": [
+      "lessons-learned-02c-data-access-boundary.md"
+    ],
+    "unassigned": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md"
+    ],
+    "task": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
+      "lessons-learned-d1a-schema-migrations.md",
+      "lessons-learned-health-policy-worktree-2026-04.md",
+      "lessons-learned-phase12-lifecycle-early-b.md",
+      "lessons-learned-skill-remove-contract.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md",
+      "logs-archive-2026-01-system-spec-gap-skill-retry.md",
+      "logs-archive-2026-02-console-migration-patterns.md",
+      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
+      "logs-archive-2026-02-skill-validation-atoms-audit.md",
+      "task-workflow-backlog.md",
+      "task-workflow-completed-recent-2026-04b.md",
+      "task-workflow-completed.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "detection": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md"
+    ],
+    "より": [
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-skill-wizard-redesign.md"
     ],
     "parallel": [
       "lessons-learned-05b-smoke-readiness-2026-04.md",
@@ -6855,20 +6943,6 @@
     "EXTENSION": [
       "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
       "logs-archive-2026-02-completed-move-preload-sync.md"
-    ],
-    "task": [
-      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
-      "lessons-learned-d1a-schema-migrations.md",
-      "lessons-learned-phase12-lifecycle-early-b.md",
-      "lessons-learned-skill-remove-contract.md",
-      "lessons-learned-workflow-quality-phase12-audit-validator.md",
-      "logs-archive-2026-01-system-spec-gap-skill-retry.md",
-      "logs-archive-2026-02-console-migration-patterns.md",
-      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
-      "logs-archive-2026-02-skill-validation-atoms-audit.md",
-      "task-workflow-completed-recent-2026-04b.md",
-      "task-workflow-completed.md"
     ],
     "仕様差分の統合是正": [
       "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md"
@@ -7423,7 +7497,9 @@
       "lessons-learned-governance-hooks-phase-policy.md",
       "lessons-learned-health-policy-worktree-2026-04.md",
       "lessons-learned-sdk-session-bridge-vitest-worktree.md",
-      "lessons-learned-skill-create-multi-select-kind.md"
+      "lessons-learned-skill-create-multi-select-kind.md",
+      "task-workflow-backlog.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "root": [
       "lessons-learned-current-2026-04-ut06.md",
@@ -7669,9 +7745,6 @@
     "serial": [
       "lessons-learned-current-2026-04.md"
     ],
-    "data": [
-      "lessons-learned-current-2026-04.md"
-    ],
     "source": [
       "lessons-learned-current-2026-04.md",
       "lessons-learned-d1a-schema-migrations.md"
@@ -7859,14 +7932,17 @@
     "follow": [
       "lessons-learned-governance-hooks-phase-policy.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-backlog.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "up": [
       "lessons-learned-governance-hooks-phase-policy.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-backlog.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
-      "workflow-task-rt-06-artifact-inventory.md"
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "タスクの": [
       "lessons-learned-governance-hooks-phase-policy.md",
@@ -7917,9 +7993,15 @@
       "lessons-learned-ut08-monitoring-design-2026-04.md",
       "observability-monitoring.md"
     ],
-    "Worktree": [
+    "environment": [
       "lessons-learned-health-policy-worktree-2026-04.md",
-      "lessons-learned-sdk-session-bridge-vitest-worktree.md"
+      "task-workflow-backlog.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "isolation": [
+      "lessons-learned-health-policy-worktree-2026-04.md",
+      "task-workflow-backlog.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Channel": [
       "lessons-learned-ipc-channel-whitelist-sync.md"
@@ -9068,9 +9150,6 @@
     "report": [
       "lessons-learned-skill-wizard-redesign.md"
     ],
-    "より": [
-      "lessons-learned-skill-wizard-redesign.md"
-    ],
     "依存関係": [
       "lessons-learned-skill-wizard-redesign.md"
     ],
@@ -9355,9 +9434,6 @@
       "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "固定化が必要": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "関連参照": [
       "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "learned": [
@@ -9653,9 +9729,6 @@
       "logs-archive-2026-03-history-search-notification-center.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md"
-    ],
-    "unassigned": [
-      "lessons-learned-workflow-quality-phase12-audit-validator.md"
     ],
     "へ移管後は": [
       "lessons-learned-workflow-quality-phase12-audit-validator.md"
@@ -10086,9 +10159,6 @@
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md"
     ],
     "community": [
-      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md"
-    ],
-    "detection": [
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md"
     ],
     "leiden": [
@@ -12366,6 +12436,19 @@
     "昇格パターン集": [
       "task-workflow-active.md"
     ],
+    "Active": [
+      "task-workflow-active.md"
+    ],
+    "Spec": [
+      "task-workflow-active.md"
+    ],
+    "Created": [
+      "task-workflow-active.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "Tasks": [
+      "task-workflow-active.md"
+    ],
     "タスクワークフローバックログ": [
       "task-workflow-backlog-part2.md"
     ],
@@ -13589,10 +13672,6 @@
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
-    "対象": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md"
-    ],
     "set": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
@@ -13600,7 +13679,8 @@
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "同一": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
@@ -13729,7 +13809,8 @@
     ],
     "Follow": [
       "workflow-ai-runtime-execution-responsibility-realignment.md",
-      "workflow-task-rt-06-artifact-inventory.md"
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Backlog": [
       "workflow-ai-runtime-execution-responsibility-realignment.md"
@@ -13853,9 +13934,6 @@
     "監視・ログ": [
       "workflow-skill-identifier-branded-type-resolution.md"
     ],
-    "Created": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
     "Usage": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
@@ -13884,11 +13962,13 @@
     ],
     "Artifact": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-task-rt-06-artifact-inventory.md"
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Inventory": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-task-rt-06-artifact-inventory.md"
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "実装コードアンカー": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
@@ -13950,6 +14030,24 @@
     ],
     "二次": [
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "Acceptance": [
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "Criteria": [
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "Outputs": [
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "反映先": [
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "参照される実装ファイル": [
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "のため変更は伴わない": [
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "ワークフロー概要": [
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
