@@ -116,10 +116,11 @@ bash scripts/new-worktree.sh feat/my-feature
 
 ```bash
 # 必ず mise exec 経由で実行（Node 24 が確実に使われる）
-mise exec -- pnpm install  # 依存インストール
-mise exec -- pnpm typecheck  # 型チェック
-mise exec -- pnpm lint       # リント
-mise exec -- pnpm build      # ビルド
+mise exec -- pnpm install         # 依存インストール（prepare で lefthook install も自動実行）
+mise exec -- pnpm typecheck       # 型チェック
+mise exec -- pnpm lint            # リント
+mise exec -- pnpm build           # ビルド
+mise exec -- pnpm indexes:rebuild # skill indexes を明示再生成（post-merge 廃止後の正規経路）
 
 # または mise shell で Node 24 環境に入ってから通常通り実行
 mise shell
@@ -127,6 +128,11 @@ pnpm install
 pnpm typecheck
 pnpm lint
 ```
+
+> **Git hook の方針**: `lefthook.yml` が hook の正本。`pnpm install` 実行時に `prepare` script
+> 経由で `lefthook install` が自動配置する。`.git/hooks/*` の手書きは禁止。
+> indexes 再生成は post-merge から廃止しており、必要時は `pnpm indexes:rebuild` を明示実行する。
+> 詳細: `doc/00-getting-started-manual/lefthook-operations.md`
 
 ---
 

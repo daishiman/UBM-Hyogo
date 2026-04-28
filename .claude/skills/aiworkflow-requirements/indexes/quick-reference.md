@@ -830,3 +830,20 @@ packages/
 | 苦戦知見 | `references/lessons-learned-02b-schema-diff-and-tag-queue.md` (L-02B-001〜005) |
 | 02b 由来未タスク | `docs/30-workflows/unassigned-task/02b-followup-00{1,2,3}-*.md` |
 | free tier 実測（02b 単体） | reads 0.24% / writes 0.11% |
+
+### Git Hook 統一・post-merge indexes 再生成廃止 早見（task-git-hooks-lefthook-and-post-merge / 2026-04-28）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` |
+| Git hook 正本 | `lefthook.yml`（root） / `.git/hooks/*` は派生物 |
+| pre-commit 正本 | `scripts/hooks/staged-task-dir-guard.sh`（branch slug と staged task-dir の整合チェック） |
+| post-merge 正本 | `scripts/hooks/stale-worktree-notice.sh post-merge`（read-only 通知のみ・自動再生成なし） |
+| post-fetch | lefthook supported hook に未含のため lane 化しない（M-04 / P0-01 由来） |
+| 自動配置 | `package.json` `"prepare": "lefthook install"`（`pnpm install` 連動） |
+| indexes 再生成 | 明示コマンド `pnpm indexes:rebuild`（post-merge から廃止） |
+| drift gate | `docs/30-workflows/unassigned-task/task-verify-indexes-up-to-date-ci.md`（CI 側で HEAD と再生成 indexes の差分検出） |
+| 仕様正本 | `references/technology-devops-core.md`（§Git hook 運用正本 L351-365） |
+| 苦戦知見 | `references/lessons-learned-lefthook-unification-2026-04.md`（L-LH-001〜L-LH-005） |
+| 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md` / `CLAUDE.md`（Git hook の方針節） |
+| 関連 baseline 未タスク | 既存 worktree への lefthook 再インストール runbook 化、`husky` 不採用判断の ADR 化 |

@@ -921,6 +921,15 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: Turso, SQLite, スキーマ, FTS5, Embedded Replicas
 
+### references/database-admin-repository-boundary.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 対象 repository | L11 |
+| 境界 | L21 |
+| 下流連携 | L29 |
+
 ### references/database-architecture.md
 
 | セクション | 行 |
@@ -1664,7 +1673,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L402 |
+| 学習リソースとコミュニティ | L416 |
 
 ### references/technology-devops-details.md
 
@@ -2671,6 +2680,13 @@ node scripts/list-specs.js --topics
 | 5. 後続タスク handoff | L82 |
 | 関連参照 | L96 |
 
+### references/lessons-learned-02c-data-access-boundary.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L7 |
+| 申し送り先（unassigned-task-detection.md より） | L39 |
+
 ### references/lessons-learned-05b-smoke-readiness-2026-04.md
 
 | セクション | 行 |
@@ -3002,6 +3018,13 @@ node scripts/list-specs.js --topics
 | L-KV-001: KV 最終的一貫性（Eventual Consistency）の制約 | L15 |
 | L-KV-002: 無料枠の書き込み制限（1,000 件 / 日） | L24 |
 | L-KV-003: Namespace 命名と環境分離 | L36 |
+
+### references/lessons-learned-lefthook-unification-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L7 |
+| 申し送り（open / baseline 未タスク） | L48 |
 
 ### references/lessons-learned-monitoring-design-2026-04.md
 
