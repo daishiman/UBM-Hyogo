@@ -3047,6 +3047,13 @@ node scripts/list-specs.js --topics
 | L-KV-002: 無料枠の書き込み制限（1,000 件 / 日） | L24 |
 | L-KV-003: Namespace 命名と環境分離 | L36 |
 
+### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L8 |
+| 申し送り（open / baseline 未タスク） | L57 |
+
 ### references/lessons-learned-lefthook-unification-2026-04.md
 
 | セクション | 行 |
@@ -3479,8 +3486,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L45 |
-| 関連ドキュメント | L50 |
+| 利用順序 | L47 |
+| 関連ドキュメント | L52 |
 
 ### references/llm-embedding.md
 
