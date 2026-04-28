@@ -1,0 +1,68 @@
+{
+  "taskId": "ut-06",
+  "taskName": "本番デプロイ実行",
+  "taskType": "implementation",
+  "wave": 1,
+  "executionMode": "standalone",
+  "incorporatedInto": null,
+  "githubIssue": 8,
+  "githubIssueState": "CLOSED",
+  "createdAt": "2026-04-27",
+  "status": "docs-ready-execution-blocked",
+  "executionNote": "Phase 1-12 のドキュメントを整備済み。Phase 4/5/6/11 は本番不可逆操作と実行前ブロッカー（OpenNext Workers 形式、/health/db 未実装、実スクリーンショット未取得）のため NOT EXECUTED テンプレ。実機実行時は実値で更新。Phase 13 (PR) はユーザー指示待ち。",
+  "phases": [
+    { "phase": 1,  "name": "要件定義",                        "file": "phase-01.md", "status": "completed",      "outputs": "outputs/phase-01" },
+    { "phase": 2,  "name": "設計",                            "file": "phase-02.md", "status": "completed",      "outputs": "outputs/phase-02" },
+    { "phase": 3,  "name": "設計レビュー",                    "file": "phase-03.md", "status": "completed",      "outputs": "outputs/phase-03" },
+    { "phase": 4,  "name": "事前検証手順",                    "file": "phase-04.md", "status": "template-ready", "outputs": "outputs/phase-04" },
+    { "phase": 5,  "name": "本番デプロイ実行",                "file": "phase-05.md", "status": "not-executed",   "outputs": "outputs/phase-05" },
+    { "phase": 6,  "name": "異常系・ロールバック検証",        "file": "phase-06.md", "status": "template-ready", "outputs": "outputs/phase-06" },
+    { "phase": 7,  "name": "検証項目網羅性",                  "file": "phase-07.md", "status": "completed",      "outputs": "outputs/phase-07" },
+    { "phase": 8,  "name": "設定 DRY 化・runbook 整備",       "file": "phase-08.md", "status": "completed",      "outputs": "outputs/phase-08" },
+    { "phase": 9,  "name": "品質保証",                        "file": "phase-09.md", "status": "completed",      "outputs": "outputs/phase-09" },
+    { "phase": 10, "name": "最終レビュー(GO/NO-GO)",          "file": "phase-10.md", "status": "completed",      "outputs": "outputs/phase-10" },
+    { "phase": 11, "name": "手動 smoke test",                 "file": "phase-11.md", "status": "not-executed",   "outputs": "outputs/phase-11" },
+    { "phase": 12, "name": "ドキュメント更新",                "file": "phase-12.md", "status": "completed",      "outputs": "outputs/phase-12" },
+    { "phase": 13, "name": "PR作成",                          "file": "phase-13.md", "status": "pending",        "outputs": "outputs/phase-13" }
+  ],
+  "acceptanceCriteria": [
+    "AC-1: OpenNext Workers (apps/web) が本番 URL でアクセス可能であり 200 OK を返す",
+    "AC-2: Cloudflare Workers (apps/api) が本番環境にデプロイされ /health エンドポイントが healthy を返す",
+    "AC-3: D1 本番データベースへのマイグレーションが正常に適用され wrangler d1 migrations list --env production に履歴が記録されている",
+    "AC-4: Workers から D1 へのバインディングが本番環境で疎通している (API 経由で 1 件 SELECT が成功する)",
+    "AC-5: デプロイ後の smoke test (Web 表示・API レスポンス・D1 疎通) が全件 PASS している",
+    "AC-6: デプロイ実施記録 (実施日時・実施者・wrangler バージョン・コミット SHA・結果) が outputs/phase-05/deploy-execution-log.md に文書化されている",
+    "AC-7: D1 本番バックアップ (wrangler d1 export --env production) が取得され保管場所が記録されている",
+    "AC-8: ロールバック手順 (OpenNext Workers / API Workers / D1) が事前確認され outputs/phase-02/rollback-runbook.md に記録されている"
+  ],
+  "keyArtifacts": [
+    { "type": "doc",  "path": "outputs/phase-02/deploy-design.md",          "description": "OpenNext Workers / API Workers / D1 デプロイ手順設計" },
+    { "type": "doc",  "path": "outputs/phase-02/rollback-runbook.md",       "description": "ロールバック手順 (OpenNext Workers / API Workers / D1)" },
+    { "type": "doc",  "path": "outputs/phase-02/env-binding-matrix.md",     "description": "環境別 wrangler バインディング差分" },
+    { "type": "doc",  "path": "outputs/phase-04/verify-suite-result.md",    "description": "事前検証 verify suite の実行結果" },
+    { "type": "doc",  "path": "outputs/phase-05/deploy-execution-log.md",   "description": "デプロイ実施記録 (日時・SHA・結果)" },
+    { "type": "doc",  "path": "outputs/phase-05/d1-backup-evidence.md",     "description": "D1 export バックアップ証跡" },
+    { "type": "doc",  "path": "outputs/phase-06/abnormal-case-matrix.md",   "description": "異常系・ロールバック検証結果" },
+    { "type": "doc",  "path": "outputs/phase-07/ac-matrix.md",              "description": "AC 完了トレース" },
+    { "type": "doc",  "path": "outputs/phase-09/quality-report.md",         "description": "無料枠・secret hygiene 確認" },
+    { "type": "doc",  "path": "outputs/phase-10/go-nogo.md",                "description": "GO / NO-GO 判定" },
+    { "type": "doc",  "path": "outputs/phase-11/smoke-test-result.md",      "description": "本番 smoke test 結果" },
+    { "type": "doc",  "path": "outputs/phase-12/system-spec-update-summary.md", "description": "spec 更新サマリー" },
+    { "type": "meta", "path": "artifacts.json",                              "description": "機械可読サマリー" }
+  ],
+  "dependencies": {
+    "upstream": [
+      "docs/30-workflows/completed-tasks/02-serial-monorepo-runtime-foundation",
+      "docs/30-workflows/completed-tasks/03-serial-data-source-and-storage-contract",
+      "docs/30-workflows/01-infrastructure-setup/04-serial-cicd-secrets-and-environment-sync",
+      "docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff",
+      "UT-04",
+      "UT-05"
+    ],
+    "downstream": [
+      "UT-08",
+      "UT-09",
+      "docs/30-workflows/02-application-implementation"
+    ]
+  }
+}

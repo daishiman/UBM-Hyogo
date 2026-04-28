@@ -437,6 +437,32 @@
 
 ---
 
+### 監視・アラート設計 / Observability（UT-08 / 2026-04-27）
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| WAE 6イベント設計 / 無料枠境界 / アラート閾値 | `references/observability-monitoring.md` |
+| 苦戦箇所（設計/実装境界・WAE無料枠・アラート疲れ・identifier drift・DEFERRED解消） | `references/lessons-learned-monitoring-design-2026-04.md` |
+| 05a 観測マトリクス（手動観測の正本） | `docs/05a-parallel-observability-and-cost-guardrails/outputs/observability-matrix.md` |
+| 05a コストガードレール runbook | `docs/05a-parallel-observability-and-cost-guardrails/outputs/cost-guardrail-runbook.md` |
+| Cloudflare デプロイ正本 | `references/deployment-cloudflare.md` |
+| シークレット管理（Slack Webhook 等） | `references/deployment-secrets-management.md` |
+| 未タスク仕様 | `docs/30-workflows/unassigned-task/UT-08-monitoring-alert-design.md` |
+
+---
+
+### KV セッションキャッシュ設計（UT-13 / 2026-04-27）
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| KV 最終的一貫性 / 無料枠書き込み制限 / Namespace 分離教訓 | `references/lessons-learned-kv-session-cache-2026-04.md` |
+| KV 書き込み計装の `kv_op` イベント仕様 | `references/observability-monitoring.md`（§2 WAE 6イベント設計） |
+| Cloudflare バインディング正本 | `references/deployment-cloudflare.md` |
+| 未タスク仕様 | `docs/30-workflows/unassigned-task/UT-13-cloudflare-kv-session-cache.md` |
+| 検出元 | `docs/01b-parallel-cloudflare-base-bootstrap/` UN-02 |
+
+---
+
 ## 型定義クイックアクセス
 
 | 用途                        | 型名                                                                                 | ファイル                                                                                                                      |
@@ -758,16 +784,20 @@ packages/
 | 月次・週次の手動 ops チェックリスト | `docs/05a-parallel-observability-and-cost-guardrails/outputs/phase-11/manual-ops-checklist.md` |
 | 運用ガイド（同 wave 05b への handoff） | `docs/05a-parallel-observability-and-cost-guardrails/outputs/phase-12/operations-guide.md` |
 
-### UBM-Hyogo D1 Schema 早見（03-serial-data-source-and-storage-contract）
+### UBM-Hyogo D1 Schema / Repository 早見（01a / 02a current）
 
 | 観点 | 値 / 参照先 |
 | --- | --- |
-| canonical task root | `doc/03-serial-data-source-and-storage-contract/` |
-| D1 テーブル（4） | `member_responses` / `member_identities` / `member_status` / `sync_audit` |
-| `member_responses` 役割 | Google Form 回答の正本（formId / responseId / 回答 payload） |
-| `member_identities` 役割 | 認証ID（Google sub / email）⇔ メンバーの紐付け |
-| `member_status` 役割 | 公開/管理ステータス（admin-managed data 含む） |
-| `sync_audit` 役割 | Google Form sync 結果と差分の audit log |
+| 01a canonical task root | `docs/30-workflows/01a-parallel-d1-database-schema-migrations-and-tag-seed/` |
+| 02a canonical task root | `docs/30-workflows/02a-parallel-member-identity-status-and-response-repository/` |
+| legacy 03-serial contract | `member_responses` / `member_identities` / `member_status` / `sync_audit` は旧4テーブル契約として参照。01a以降の物理実装では20テーブル構成を正とする |
+| 02a repository root | `apps/api/src/repository/` |
+| 02a repository tables | `member_identities` / `member_status` / `member_responses` / `response_sections` / `response_fields` / `member_field_visibility` / `member_tags` / `tag_definitions` / `deleted_members` |
+| D1 interface | `D1Db` / `D1Stmt` / `DbCtx` を `apps/api/src/repository/_shared/db.ts` で定義し、テスト時は `@cloudflare/workers-types` に依存しない |
+| View assembler | `buildPublicMemberProfile` / `buildMemberProfile` / `buildAdminMemberDetailView` / `buildPublicMemberListItems` |
+| Public list reads | `listMembersByIds` + `listStatusesByMemberIds` + `listResponsesByIds` によるバッチ読み取り |
+| visibility default | 未設定時は privacy first で `member` |
+| admin notes | `AdminMemberDetailView` へ引数で渡す。public/member view model には混ぜない |
 | DB 名（staging） | `ubm-hyogo-db-staging`（`apps/api/wrangler.toml` `[env.staging]`） |
 | DB 名（production） | `ubm-hyogo-db-prod`（`apps/api/wrangler.toml` top-level production） |
 | binding 経由アクセス | `apps/api` のみ（`apps/web` から直接アクセス禁止） |
@@ -784,3 +814,19 @@ packages/
 | 外部監視 | UptimeRobot 無料プラン（5 分間隔） |
 | SSOT 参照 | `references/workflow-ut08-monitoring-alert-design-artifact-inventory.md` |
 | 苦戦箇所と知見 | `references/lessons-learned-ut08-monitoring-design-2026-04.md` |
+
+### UBM-Hyogo D1 Repository 早見（02b: meeting/tag queue + schema diff repository）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/02b-parallel-meeting-tag-queue-and-schema-diff-repository/` |
+| 実装パス | `apps/api/src/repository/`（attendance / meetings / schemaDiffQueue / schemaQuestions / schemaVersions / tagDefinitions / tagQueue + `_shared/`） |
+| schema diff queue 未解決 status 正本 | `'queued'`（`pending` / `unresolved` / `open` 等は不可。不変条件 #14） |
+| `schemaVersions.getLatestVersion()` | `ORDER BY synced_at DESC` で確定（不変条件 #15） |
+| tag 書き込み境界 | `tag_assignment_queue` への enqueue/resolve のみ。`tag_definitions` は read-only マスタ（不変条件 #13） |
+| `tag_definitions` カテゴリ | 6 カテゴリ single source（41 行 seed） |
+| fake D1 テストパターン | `apps/api/src/repository/_shared/__fakes__/fakeD1.ts`（in-memory pattern-matching SQL） |
+| 状態遷移系 repository の必須設計 | Phase 2 で **ALLOWED 表**（from→to の許可遷移行列）を提示 |
+| 苦戦知見 | `references/lessons-learned-02b-schema-diff-and-tag-queue.md` (L-02B-001〜005) |
+| 02b 由来未タスク | `docs/30-workflows/unassigned-task/02b-followup-00{1,2,3}-*.md` |
+| free tier 実測（02b 単体） | reads 0.24% / writes 0.11% |

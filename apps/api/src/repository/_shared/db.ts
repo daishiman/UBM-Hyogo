@@ -1,10 +1,26 @@
-// 02c が正本管理する DbCtx 型 + factory（02a / 02b も import する）
-// 不変条件 #5: D1 への直接アクセスは apps/api 内に閉じる。apps/web からの import は
-// dependency-cruiser / ESLint の no-restricted-imports rule で禁止する。
-import type { D1Database } from "@cloudflare/workers-types";
-
-export interface DbCtx {
-  readonly db: D1Database;
+export interface D1Stmt {
+  bind(...values: unknown[]): D1Stmt;
+  first<T = unknown>(): Promise<T | null>;
+  all<T = unknown>(): Promise<{ results: T[] }>;
+  run(): Promise<{ success: boolean }>;
 }
 
-export const ctx = (env: { DB: D1Database }): DbCtx => ({ db: env.DB });
+export interface D1Db {
+  prepare(sql: string): D1Stmt;
+  exec(sql: string): Promise<{ count: number; duration: number }>;
+}
+
+export interface DbCtx {
+  readonly db: D1Db;
+}
+
+export const ctx = (env: { DB: D1Db }): DbCtx => ({ db: env.DB });
+
+export const isUniqueConstraintError = (err: unknown): boolean => {
+  if (!(err instanceof Error)) return false;
+  const m = err.message;
+  return m.includes("UNIQUE constraint") || m.includes("constraint failed");
+};
+
+export const intToBool = (v: number | null | undefined): boolean => v === 1;
+export const boolToInt = (v: boolean): number => (v ? 1 : 0);

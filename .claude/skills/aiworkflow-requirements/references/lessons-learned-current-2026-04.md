@@ -862,6 +862,11 @@
 
 ---
 
+> 注記（2026-04-27 分離）:
+> - UT-06 production deploy execution の派生教訓（L-UT06-001 〜 L-UT06-005: `wrangler` 直叩き禁止 / `.env` op:// 参照のみ / wrangler 4.x `[env.production]` 必須 / Next.js 16 + Turbopack worktree root 誤検出 / `ignoreBuildErrors` と別 tsc gate の pair 必須）は [lessons-learned-current-2026-04-ut06.md](lessons-learned-current-2026-04-ut06.md) に分離しました（500 行制限のため責務分離）。
+
+---
+
 ## UT-09 Google Sheets → D1 同期ジョブ実装 教訓（2026-04-27）
 
 ### L-UT09-001: SQLITE_BUSY 対策は WriteQueue + withRetry の二層防御パターン
