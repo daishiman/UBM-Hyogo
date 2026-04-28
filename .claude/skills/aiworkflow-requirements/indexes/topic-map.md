@@ -1673,7 +1673,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L402 |
+| 学習リソースとコミュニティ | L416 |
 
 ### references/technology-devops-details.md
 
@@ -1794,6 +1794,20 @@ node scripts/list-specs.js --topics
 | クイックリファレンス | L245 |
 | 変更履歴 | L282 |
 | ドキュメント構成 | L303 |
+
+### references/claude-code-settings-hierarchy.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L9 |
+| 1. 階層優先順位 | L23 |
+| 2. `defaultMode` 統一方針 | L47 |
+| 3. `--dangerously-skip-permissions` 併用方針 | L68 |
+| 4. `permissions.allow` / `permissions.deny` whitelist 設計 | L89 |
+| 5. 公式 docs URL | L118 |
+| 6. Reference Contracts (TypeScript) | L128 |
+| 7. 関連タスク wave（DevEx 衝突防止） | L152 |
+| 8. 適用先システム仕様書 | L175 |
 
 ### references/claude-code-skills-agents.md
 
@@ -3033,6 +3047,13 @@ node scripts/list-specs.js --topics
 | L-KV-002: 無料枠の書き込み制限（1,000 件 / 日） | L24 |
 | L-KV-003: Namespace 命名と環境分離 | L36 |
 
+### references/lessons-learned-lefthook-unification-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L7 |
+| 申し送り（open / baseline 未タスク） | L48 |
+
 ### references/lessons-learned-monitoring-design-2026-04.md
 
 | セクション | 行 |
@@ -3218,6 +3239,22 @@ node scripts/list-specs.js --topics
 |------------|----|
 | TASK-FIX-SKILL-IMPORT 3連続是正（2026-03-04） | L6 |
 | TASK-10A-B: SkillAnalysisView 再監査（2026-03-02） | L206 |
+
+### references/lessons-learned-skill-ledger-redesign-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-SLR-001: A-2 を A-1 より先に実施しないと履歴が消える | L7 |
+| L-SLR-002: append-only writer の見落とし | L16 |
+| L-SLR-003: 同一秒・同一 branch の fragment 衝突 | L25 |
+| L-SLR-004: legacy と新 fragment の混在 render 順序崩れ | L34 |
+| L-SLR-005: 4 worktree smoke 標準化欠如 | L43 |
+| L-SLR-006: SKILL.md 分割でのリンク切れ | L52 |
+| L-SLR-007: `merge=union` の誤適用 | L61 |
+| L-SLR-008: skill 自身への施策適用漏れ（ドッグフーディング） | L70 |
+| L-SLR-009: `_legacy.md` 物理削除の誤発生 | L79 |
+| 再発防止サマリ（チェックリスト） | L88 |
+| 関連 references | L103 |
 
 ### references/lessons-learned-skill-lifecycle-test-hardening.md
 
@@ -4379,6 +4416,80 @@ node scripts/list-specs.js --topics
 | 参照 | L72 |
 | 変更履歴 | L77 |
 
+### references/skill-ledger-fragment-spec.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 目的 | L7 |
+| 2. fragment 命名規約 | L11 |
+| 3. front matter schema | L40 |
+| 4. TypeScript 型定義 | L60 |
+| 5. render API（CLI / TS） | L83 |
+| 6. append helper の責務 | L118 |
+| 7. エラーハンドリング | L138 |
+| 8. 4 worktree smoke | L147 |
+| 9. 後方互換 | L159 |
+| 10. 関連 references | L165 |
+
+### references/skill-ledger-gitattributes-policy.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 目的 | L8 |
+| 2. 位置付け | L12 |
+| 3. 適用許可リスト | L16 |
+| 4. 適用禁止リスト | L42 |
+| 5. 検証 | L55 |
+| 6. 2 worktree smoke | L69 |
+| 7. 完了条件 | L91 |
+| 8. 苦戦箇所 | L100 |
+| 9. ロールバック | L109 |
+| 10. 関連 references | L113 |
+
+### references/skill-ledger-gitignore-policy.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 目的 | L8 |
+| 2. 適用対象（gitignore 追記 glob） | L12 |
+| 3. 適用 NG リスト | L32 |
+| 4. 実施手順（runbook 抜粋） | L44 |
+| 5. 検証コマンド | L78 |
+| 6. 完了条件 | L102 |
+| 7. 苦戦箇所（最重要） | L111 |
+| 8. ロールバック | L120 |
+| 9. 関連 references | L128 |
+
+### references/skill-ledger-overview.md
+
+| セクション | 行 |
+|------------|----|
+| 1. なぜこの設計が必要か | L7 |
+| 2. 4 施策一覧 | L18 |
+| 3. 実装順序（必須遵守） | L27 |
+| 4. 責務分離の入口（references の役割分担） | L38 |
+| 5. 後方互換方針 | L49 |
+| 6. 集約 view の取得手段 | L56 |
+| 7. 検証 / smoke の集約参照 | L67 |
+| 8. ロールバック粒度 | L77 |
+| 9. 関連タスクと canonical set | L88 |
+| 10. 不変条件（Phase 12 で凍結） | L102 |
+
+### references/skill-ledger-progressive-disclosure.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 目的 | L9 |
+| 2. 行数ガード | L13 |
+| 3. SKILL.md（entry）に残す要素 | L33 |
+| 4. references への抽出ルール | L49 |
+| 5. classification-first との関係 | L56 |
+| 6. mirror 同期 | L62 |
+| 7. リンク健全性検証 | L78 |
+| 8. 完了条件 | L96 |
+| 9. 苦戦箇所 | L105 |
+| 10. 関連 references | L116 |
+
 ### references/spec-elegance-consistency-audit.md
 
 | セクション | 行 |
@@ -4743,6 +4854,7 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L11 |
 | 利用順序 | L40 |
 | 関連ドキュメント | L45 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L49 |
 
 ### references/testing-accessibility.md
 

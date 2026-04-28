@@ -1,5 +1,4 @@
 {
-  "totalKeywords": 3064,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -36,6 +35,7 @@
       "security-electron-ipc-examples.md",
       "security-skill-execution.md",
       "security-skill-ipc-core.md",
+      "skill-ledger-fragment-spec.md",
       "spec-splitting-guidelines.md",
       "task-workflow-completed-ut-06-safety-gate.md",
       "ui-ux-feature-components-core.md",
@@ -49,6 +49,7 @@
       "api-internal.md",
       "claude-code-agents-workflow.md",
       "claude-code-commands.md",
+      "claude-code-settings-hierarchy.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
       "csrf-state-parameter.md",
@@ -94,6 +95,7 @@
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
+      "claude-code-settings-hierarchy.md",
       "claude-code-skills-overview.md",
       "claude-code-skills-structure.md",
       "csrf-state-parameter.md",
@@ -831,6 +833,7 @@
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
+      "claude-code-settings-hierarchy.md",
       "interfaces-agent-sdk-integration.md",
       "interfaces-agent-sdk.md",
       "lessons-learned-auth-ipc-skill-creator-governance-hooks.md",
@@ -846,6 +849,7 @@
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
+      "claude-code-settings-hierarchy.md",
       "interfaces-agent-sdk-integration.md",
       "security-skill-ipc-core.md",
       "spec-splitting-guidelines.md"
@@ -856,7 +860,8 @@
       "deployment-secrets-management.md",
       "interfaces-agent-sdk-integration.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
-      "security-skill-ipc-core.md"
+      "security-skill-ipc-core.md",
+      "skill-ledger-fragment-spec.md"
     ],
     "連携パターン": [
       "arch-claude-cli.md"
@@ -2040,6 +2045,7 @@
       "interfaces-agent-sdk-skill-reference.md",
       "lessons-learned-current-2026-04-ut06.md",
       "observability-monitoring.md",
+      "skill-ledger-progressive-disclosure.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "ui-ux-feature-components-reference.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
@@ -2072,10 +2078,16 @@
       "lessons-learned-current-2026-04.md",
       "lessons-learned-current-electron-menu-docs-task0912.md",
       "lessons-learned-skill-creator-ipc-handler-scope.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
       "lessons-learned-skill-wizard-redesign.md",
       "security-electron-ipc-examples.md",
       "security-skill-execution.md",
       "security-skill-ipc-core.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-overview.md",
+      "skill-ledger-progressive-disclosure.md",
       "task-workflow-completed-skill-create-ui-integration.md",
       "ui-ux-feature-components-core.md",
       "ui-ux-feature-components-reference.md",
@@ -2215,6 +2227,7 @@
       "lessons-learned-safety-gate-permission-fallback.md",
       "lessons-learned-skill-create-lifecycle-import-contract.md",
       "lessons-learned-skill-import-analysis-view.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
       "lessons-learned-skill-plan-exec-hardening.md",
       "lessons-learned-skill-remove-contract.md",
       "lessons-learned-skill-share-debug-lifecycle-design.md",
@@ -2244,6 +2257,8 @@
       "logs-archive-legacy.md",
       "security-skill-execution-permission.md",
       "security-skill-execution.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-progressive-disclosure.md",
       "task-workflow-completed-skill-lifecycle-agent-view-line-budget.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-design.md",
@@ -2598,6 +2613,7 @@
       "lessons-learned-skill-create-multi-select-kind.md",
       "lessons-learned-skill-execute-hook-migration.md",
       "lessons-learned-skill-import-analysis-view.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
       "lessons-learned-skill-lifecycle-test-hardening.md",
       "lessons-learned-skill-plan-exec-hardening.md",
       "lessons-learned-skill-remove-contract.md",
@@ -2614,6 +2630,8 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
       "quality-e2e-testing.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
       "task-workflow-completed-recent-2026-04d.md",
       "task-workflow-completed-skill-create-ui-integration.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
@@ -3257,6 +3275,7 @@
       "llm-streaming.md",
       "local-agent.md",
       "plugin-development.md",
+      "skill-ledger-fragment-spec.md",
       "ui-history-design.md",
       "ui-ux-llm-selector.md"
     ],
@@ -3659,7 +3678,8 @@
       "claude-code-agents-spec.md"
     ],
     "YAML": [
-      "claude-code-agents-spec.md"
+      "claude-code-agents-spec.md",
+      "skill-ledger-gitattributes-policy.md"
     ],
     "Frontmatter": [
       "claude-code-agents-spec.md"
@@ -3758,6 +3778,7 @@
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "phase-12-documentation-retrospective.md",
+      "skill-ledger-overview.md",
       "task-workflow-completed-agent-view-line-budget.md",
       "task-workflow-completed-recent-2026-04b.md",
       "task-workflow-completed.md",
@@ -3820,6 +3841,7 @@
       "lessons-learned-02c-data-access-boundary.md",
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-d1a-schema-migrations.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
       "lessons-learned-skill-remove-contract.md",
       "lessons-learned-skill-wizard-redesign.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -3828,7 +3850,11 @@
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-console-migration-patterns.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
-      "logs-archive-2026-02-permission-history-execution-timestamps.md"
+      "logs-archive-2026-02-permission-history-execution-timestamps.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-progressive-disclosure.md"
     ],
     "品質基準": [
       "claude-code-agents-workflow.md",
@@ -3864,6 +3890,7 @@
       "interfaces-agent-sdk-executor-details.md",
       "security-skill-execution-permission.md",
       "skill-executor-type-migration.md",
+      "skill-ledger-progressive-disclosure.md",
       "testing-accessibility.md",
       "testing-component-patterns-history.md",
       "testing-fixtures.md"
@@ -3891,6 +3918,127 @@
       "lessons-learned-current.md",
       "master-design.md"
     ],
+    "Settings": [
+      "claude-code-settings-hierarchy.md",
+      "ui-ux-settings-core.md",
+      "workflow-onboarding-wizard-alignment.md"
+    ],
+    "階層優先順位": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "defaultMode": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "統一方針": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "dangerously": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "skip": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-test-typesafety.md",
+      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
+      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
+      "task-workflow-completed-skill-lifecycle-security.md",
+      "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-permission-fallback-abort-skip-retry.md"
+    ],
+    "permissions": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "併用方針": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "zshrc": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "正準形": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "allow": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "deny": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "whitelist": [
+      "claude-code-settings-hierarchy.md",
+      "ipc-contract-checklist.md",
+      "lessons-learned-ipc-channel-whitelist-sync.md"
+    ],
+    "設計": [
+      "claude-code-settings-hierarchy.md",
+      "interfaces-rag-community-detection.md",
+      "interfaces-rag-community-summarization.md",
+      "interfaces-rag-graphrag-query.md",
+      "interfaces-rag-knowledge-graph-store.md",
+      "lessons-learned-monitoring-design-2026-04.md",
+      "ui-history-design.md",
+      "ui-ux-file-selector.md",
+      "ui-ux-forms.md",
+      "ui-ux-navigation.md",
+      "ui-ux-search-panel-core.md",
+      "ui-ux-search-panel-details.md",
+      "ui-ux-search-panel-history.md",
+      "ui-ux-search-panel.md"
+    ],
+    "公式": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "docs": [
+      "claude-code-settings-hierarchy.md",
+      "claude-code-skills-process.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "URL": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
+      "r2-storage-decision-guide.md"
+    ],
+    "Reference": [
+      "claude-code-settings-hierarchy.md",
+      "interfaces-skill-verify-contract.md"
+    ],
+    "Contracts": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "TypeScript": [
+      "claude-code-settings-hierarchy.md",
+      "skill-ledger-fragment-spec.md",
+      "technology-core.md"
+    ],
+    "関連タスク": [
+      "claude-code-settings-hierarchy.md",
+      "skill-executor-type-migration.md"
+    ],
+    "wave": [
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-rt-04-authkey-dedup.md",
+      "lessons-learned-rt02-stub-response-error-notification.md",
+      "lessons-learned-skill-create-multi-select-kind.md",
+      "spec-elegance-consistency-audit.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "DevEx": [
+      "claude-code-settings-hierarchy.md",
+      "task-workflow.md"
+    ],
+    "衝突防止": [
+      "claude-code-settings-hierarchy.md"
+    ],
+    "適用先システム仕様書": [
+      "claude-code-settings-hierarchy.md"
+    ],
     "agents": [
       "claude-code-skills-agents.md"
     ],
@@ -3904,7 +4052,11 @@
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "目的": [
-      "claude-code-skills-agents.md"
+      "claude-code-skills-agents.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-progressive-disclosure.md"
     ],
     "の位置づけ": [
       "claude-code-skills-agents.md"
@@ -3922,7 +4074,9 @@
       "claude-code-skills-agents.md"
     ],
     "Markdown": [
-      "claude-code-skills-agents.md"
+      "claude-code-skills-agents.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-overview.md"
     ],
     "見出しで構造化": [
       "claude-code-skills-agents.md"
@@ -3951,15 +4105,6 @@
     "large": [
       "claude-code-skills-process.md"
     ],
-    "docs": [
-      "claude-code-skills-process.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md",
-      "lessons-learned-workflow-quality-phase12-audit-validator.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
     "update": [
       "claude-code-skills-process.md"
     ],
@@ -3974,16 +4119,24 @@
       "lessons-learned-ui-skill-center-editor-dashboard.md"
     ],
     "references": [
-      "claude-code-skills-resources.md"
+      "claude-code-skills-resources.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-overview.md",
+      "skill-ledger-progressive-disclosure.md"
     ],
     "assets": [
       "claude-code-skills-resources.md"
     ],
     "Progressive": [
-      "claude-code-skills-resources.md"
+      "claude-code-skills-resources.md",
+      "skill-ledger-progressive-disclosure.md"
     ],
     "Disclosure": [
-      "claude-code-skills-resources.md"
+      "claude-code-skills-resources.md",
+      "skill-ledger-progressive-disclosure.md"
     ],
     "ワークフローパターン": [
       "claude-code-skills-resources.md"
@@ -4327,6 +4480,7 @@
       "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md",
       "lessons-learned-skill-create-multi-select-kind.md",
+      "skill-ledger-overview.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -4345,7 +4499,12 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "lessons-learned-current-2026-04-ut06.md",
-      "rag-desktop-state.md"
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "rag-desktop-state.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-progressive-disclosure.md"
     ],
     "デプロイメント仕様": [
       "deployment-cloudflare.md"
@@ -4408,7 +4567,8 @@
     ],
     "から": [
       "deployment-cloudflare.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "skill-ledger-fragment-spec.md"
     ],
     "CLOUDFLARE": [
       "deployment-cloudflare.md"
@@ -4652,7 +4812,8 @@
     "main": [
       "deployment-gha.md",
       "lessons-learned-cicd-dev-main-deploy.md",
-      "lessons-learned-sdk-session-bridge-vitest-worktree.md"
+      "lessons-learned-sdk-session-bridge-vitest-worktree.md",
+      "skill-ledger-fragment-spec.md"
     ],
     "マージ時": [
       "deployment-gha.md"
@@ -4796,7 +4957,8 @@
       "development-guidelines-core.md"
     ],
     "Git": [
-      "development-guidelines-core.md"
+      "development-guidelines-core.md",
+      "lessons-learned-lefthook-unification-2026-04.md"
     ],
     "ワークフロー": [
       "development-guidelines-core.md",
@@ -5123,7 +5285,8 @@
       "llm-embedding.md",
       "llm-streaming.md",
       "rag-knowledge-graph.md",
-      "rag-search-crag.md"
+      "rag-search-crag.md",
+      "skill-ledger-fragment-spec.md"
     ],
     "リトライ機構": [
       "interfaces-agent-sdk-executor-core.md",
@@ -5166,6 +5329,7 @@
     ],
     "未タスク": [
       "interfaces-agent-sdk-history-core.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -5447,6 +5611,7 @@
     ],
     "Hook": [
       "interfaces-agent-sdk.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-skill-execute-hook-migration.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "ui-ux-feature-skill-stream.md"
@@ -5678,21 +5843,6 @@
       "interfaces-rag-graphrag-query.md",
       "interfaces-rag-knowledge-graph-store.md"
     ],
-    "設計": [
-      "interfaces-rag-community-detection.md",
-      "interfaces-rag-community-summarization.md",
-      "interfaces-rag-graphrag-query.md",
-      "interfaces-rag-knowledge-graph-store.md",
-      "lessons-learned-monitoring-design-2026-04.md",
-      "ui-history-design.md",
-      "ui-ux-file-selector.md",
-      "ui-ux-forms.md",
-      "ui-ux-navigation.md",
-      "ui-ux-search-panel-core.md",
-      "ui-ux-search-panel-details.md",
-      "ui-ux-search-panel-history.md",
-      "ui-ux-search-panel.md"
-    ],
     "インターフェース定義": [
       "interfaces-rag-community-detection.md",
       "interfaces-rag-community-summarization.md",
@@ -5871,9 +6021,6 @@
     "参照整合性・結合検証": [
       "interfaces-skill-verify-contract.md"
     ],
-    "Reference": [
-      "interfaces-skill-verify-contract.md"
-    ],
     "Integrity": [
       "interfaces-skill-verify-contract.md",
       "security-electron-ipc-examples.md"
@@ -5939,6 +6086,7 @@
     "チェックリスト": [
       "ipc-4-layer-pattern.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
       "testing-accessibility.md"
     ],
     "新規チャネル追加時": [
@@ -6043,10 +6191,6 @@
     "分離マトリクス": [
       "ipc-contract-checklist.md"
     ],
-    "whitelist": [
-      "ipc-contract-checklist.md",
-      "lessons-learned-ipc-channel-whitelist-sync.md"
-    ],
     "登録確認コマンド": [
       "ipc-contract-checklist.md"
     ],
@@ -6069,7 +6213,8 @@
       "ipc-contract-checklist.md"
     ],
     "JSON": [
-      "ipc-contract-checklist.md"
+      "ipc-contract-checklist.md",
+      "skill-ledger-gitattributes-policy.md"
     ],
     "出力": [
       "ipc-contract-checklist.md"
@@ -6184,6 +6329,7 @@
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
       "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-early.md",
@@ -6203,6 +6349,7 @@
       "lessons-learned-skill-creator-ipc-handler-scope.md",
       "lessons-learned-skill-execute-hook-migration.md",
       "lessons-learned-skill-import-analysis-view.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
       "lessons-learned-skill-lifecycle-test-hardening.md",
       "lessons-learned-skill-plan-exec-hardening.md",
       "lessons-learned-skill-remove-contract.md",
@@ -6260,6 +6407,7 @@
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
       "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-early.md",
@@ -6279,6 +6427,7 @@
       "lessons-learned-skill-creator-ipc-handler-scope.md",
       "lessons-learned-skill-execute-hook-migration.md",
       "lessons-learned-skill-import-analysis-view.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
       "lessons-learned-skill-lifecycle-test-hardening.md",
       "lessons-learned-skill-plan-exec-hardening.md",
       "lessons-learned-skill-remove-contract.md",
@@ -6314,7 +6463,8 @@
     ],
     "schema": [
       "lessons-learned-02b-schema-diff-and-tag-queue.md",
-      "lessons-learned-d1a-schema-migrations.md"
+      "lessons-learned-d1a-schema-migrations.md",
+      "skill-ledger-fragment-spec.md"
     ],
     "diff": [
       "lessons-learned-02b-schema-diff-and-tag-queue.md",
@@ -6346,7 +6496,8 @@
       "lessons-learned-02b-schema-diff-and-tag-queue.md"
     ],
     "追記": [
-      "lessons-learned-02b-schema-diff-and-tag-queue.md"
+      "lessons-learned-02b-schema-diff-and-tag-queue.md",
+      "skill-ledger-gitignore-policy.md"
     ],
     "後続タスク": [
       "lessons-learned-02b-schema-diff-and-tag-queue.md"
@@ -6379,7 +6530,8 @@
       "lessons-learned-02c-data-access-boundary.md"
     ],
     "教訓一覧": [
-      "lessons-learned-02c-data-access-boundary.md"
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-lefthook-unification-2026-04.md"
     ],
     "申し送り先": [
       "lessons-learned-02c-data-access-boundary.md"
@@ -6420,7 +6572,12 @@
       "lessons-learned-d1a-schema-migrations.md"
     ],
     "smoke": [
-      "lessons-learned-05b-smoke-readiness-2026-04.md"
+      "lessons-learned-05b-smoke-readiness-2026-04.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-overview.md"
     ],
     "readiness": [
       "lessons-learned-05b-smoke-readiness-2026-04.md"
@@ -7301,10 +7458,6 @@
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
-    "URL": [
-      "lessons-learned-cicd-dev-main-deploy.md",
-      "r2-storage-decision-guide.md"
-    ],
     "alias": [
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md"
@@ -7443,7 +7596,8 @@
     ],
     "適用": [
       "lessons-learned-current-2026-03-late.md",
-      "logs-archive-2026-02-completed-move-preload-sync.md"
+      "logs-archive-2026-02-completed-move-preload-sync.md",
+      "skill-ledger-gitignore-policy.md"
     ],
     "からの教訓": [
       "lessons-learned-current-2026-03-late.md"
@@ -7498,6 +7652,10 @@
       "lessons-learned-health-policy-worktree-2026-04.md",
       "lessons-learned-sdk-session-bridge-vitest-worktree.md",
       "lessons-learned-skill-create-multi-select-kind.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
       "task-workflow-backlog.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
@@ -7878,7 +8036,9 @@
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "Policy": [
-      "lessons-learned-governance-hooks-phase-policy.md"
+      "lessons-learned-governance-hooks-phase-policy.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md"
     ],
     "定義済み": [
       "lessons-learned-governance-hooks-phase-policy.md"
@@ -8246,6 +8406,40 @@
     "命名と環境分離": [
       "lessons-learned-kv-session-cache-2026-04.md"
     ],
+    "統一": [
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
+    ],
+    "post": [
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "merge": [
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "indexes": [
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "再生成廃止": [
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "申し送り": [
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "open": [
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "baseline": [
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "ui-ux-components.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
     "monitoring": [
       "lessons-learned-monitoring-design-2026-04.md"
     ],
@@ -8280,7 +8474,9 @@
     ],
     "only": [
       "lessons-learned-monitoring-design-2026-04.md",
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
+      "skill-ledger-gitattributes-policy.md"
     ],
     "運用": [
       "lessons-learned-monitoring-design-2026-04.md"
@@ -8511,17 +8707,6 @@
     "型拡張の同一": [
       "lessons-learned-rt-04-authkey-dedup.md"
     ],
-    "wave": [
-      "lessons-learned-rt-04-authkey-dedup.md",
-      "lessons-learned-rt02-stub-response-error-notification.md",
-      "lessons-learned-skill-create-multi-select-kind.md",
-      "spec-elegance-consistency-audit.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
     "更新": [
       "lessons-learned-rt-04-authkey-dedup.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -8589,7 +8774,9 @@
       "lessons-learned-rt02-stub-response-error-notification.md"
     ],
     "union": [
-      "lessons-learned-rt02-stub-response-error-notification.md"
+      "lessons-learned-rt02-stub-response-error-notification.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-gitattributes-policy.md"
     ],
     "型ガード": [
       "lessons-learned-rt02-stub-response-error-notification.md",
@@ -8683,6 +8870,9 @@
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
       "observability-monitoring.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-progressive-disclosure.md",
       "ui-history-search-view.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -8875,6 +9065,94 @@
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "task-workflow-completed-abort-contract-auth-session-chat.md",
       "ui-ux-feature-components-skill-analysis.md"
+    ],
+    "Ledger": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-overview.md",
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "Redesign": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "lessons-learned-skill-wizard-redesign.md"
+    ],
+    "SLR": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "より先に実施しないと履歴が消える": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "append": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "writer": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md"
+    ],
+    "の見落とし": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "同一秒・同一": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "branch": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "lessons-learned-ut-19-branch-protection-2026-04.md"
+    ],
+    "fragment": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-overview.md"
+    ],
+    "衝突": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "legacy": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "logs-archive-legacy.md",
+      "skill-ledger-overview.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "と新": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "の混在": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "render": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md"
+    ],
+    "順序崩れ": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "標準化欠如": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "分割でのリンク切れ": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "の誤適用": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "自身への施策適用漏れ": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "ドッグフーディング": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "物理削除の誤発生": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
+    ],
+    "再発防止サマリ": [
+      "lessons-learned-skill-ledger-redesign-2026-04.md"
     ],
     "実装知見追補": [
       "lessons-learned-skill-lifecycle-test-hardening.md"
@@ -9138,9 +9416,6 @@
       "lessons-learned-skill-wizard-redesign.md",
       "workflow-onboarding-wizard-alignment.md"
     ],
-    "Redesign": [
-      "lessons-learned-skill-wizard-redesign.md"
-    ],
     "将来参照用": [
       "lessons-learned-skill-wizard-redesign.md"
     ],
@@ -9205,7 +9480,8 @@
       "lessons-learned-test-typesafety.md"
     ],
     "helper": [
-      "lessons-learned-test-typesafety.md"
+      "lessons-learned-test-typesafety.md",
+      "skill-ledger-fragment-spec.md"
     ],
     "抽出": [
       "lessons-learned-test-typesafety.md"
@@ -9241,14 +9517,6 @@
     "abort": [
       "lessons-learned-test-typesafety.md",
       "logs-archive-2026-02-skill-creator-ipc-sdk-integration.md",
-      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
-      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
-      "task-workflow-completed-skill-lifecycle-security.md",
-      "task-workflow-completed-ut-06-safety-gate.md",
-      "workflow-permission-fallback-abort-skip-retry.md"
-    ],
-    "skip": [
-      "lessons-learned-test-typesafety.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-security.md",
@@ -9378,12 +9646,6 @@
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
-    "baseline": [
-      "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "ui-ux-components.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
     "dark": [
       "lessons-learned-ui-ux-visual-baseline-drift.md"
     ],
@@ -9401,9 +9663,6 @@
       "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "Apply": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
-    ],
-    "branch": [
       "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "protection": [
@@ -9425,7 +9684,8 @@
       "lessons-learned-ut-19-branch-protection-2026-04.md"
     ],
     "runbook": [
-      "lessons-learned-ut-19-branch-protection-2026-04.md"
+      "lessons-learned-ut-19-branch-protection-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
     ],
     "と実適用値の正本ドリフト防止には": [
       "lessons-learned-ut-19-branch-protection-2026-04.md"
@@ -9449,6 +9709,7 @@
     ],
     "Wave": [
       "lessons-learned-ut08-monitoring-design-2026-04.md",
+      "task-workflow.md",
       "ui-ux-components.md"
     ],
     "への引き継ぎ前提": [
@@ -9601,7 +9862,8 @@
       "lessons-learned-workflow-quality-ci-module-resolution.md",
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "logs-archive-2026-02-skill-validation-atoms-audit.md",
-      "logs-archive-2026-02-unassigned-placement-import-interface.md"
+      "logs-archive-2026-02-unassigned-placement-import-interface.md",
+      "skill-ledger-fragment-spec.md"
     ],
     "モジュール解決エラー修正": [
       "lessons-learned-workflow-quality-ci-module-resolution.md"
@@ -10806,9 +11068,6 @@
     "conflict": [
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
     ],
-    "統一": [
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
-    ],
     "COMMAND": [
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
@@ -10991,7 +11250,8 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
-      "logs-archive-2026-03-task-10a-c-final-audit.md"
+      "logs-archive-2026-03-task-10a-c-final-audit.md",
+      "skill-ledger-progressive-disclosure.md"
     ],
     "準拠再確認": [
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
@@ -11280,7 +11540,8 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
     "mirror": [
-      "logs-archive-2026-03-line-budget-reform-formalize.md"
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "skill-ledger-progressive-disclosure.md"
     ],
     "抽出を強化": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
@@ -11290,12 +11551,6 @@
     ],
     "改善同期": [
       "logs-archive-2026-03-line-budget-workflow-consolidation.md"
-    ],
-    "legacy": [
-      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
-      "logs-archive-legacy.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md"
     ],
     "未タスク正規化課題を分離": [
       "logs-archive-2026-03-line-budget-workflow-consolidation.md"
@@ -11605,16 +11860,20 @@
     ],
     "aiworkflow": [
       "logs-archive-index.md",
+      "skill-ledger-gitignore-policy.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform.md"
     ],
     "requirements": [
       "logs-archive-index.md",
+      "skill-ledger-gitignore-policy.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform.md"
     ],
     "LOGS": [
-      "logs-archive-index.md"
+      "logs-archive-index.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitignore-policy.md"
     ],
     "認証コールバック": [
       "logs-archive-legacy.md"
@@ -12244,8 +12503,329 @@
     "苦戦した箇所と解決策": [
       "skill-executor-type-migration.md"
     ],
-    "関連タスク": [
-      "skill-executor-type-migration.md"
+    "Fragment": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "Spec": [
+      "skill-ledger-fragment-spec.md",
+      "task-workflow-active.md",
+      "task-workflow.md"
+    ],
+    "化の正本": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "命名規約": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "front": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "matter": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "の責務": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "が内部で行う最小処理": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "事前存在チェック": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "衝突時は": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "nonce": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "再生成リトライ": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "経路に": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "直接追記が残っていないことを確認": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "後方互換": [
+      "skill-ledger-fragment-spec.md"
+    ],
+    "Gitattributes": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "適用境界": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "位置付け": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "適用許可リスト": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "ledger": [
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "適用条件": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "行独立な": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "のみ": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "解除条件": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "化が完了次第": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "該当行を削除すること": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "負債化防止": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "適用禁止": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "lockfile": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "コードファイル": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "適用禁止リスト": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "検証": [
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-overview.md",
+      "task-workflow-completed-skill-create-ui-integration.md"
+    ],
+    "適用結果確認": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "unspecified": [
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "完了条件": [
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "ロールバック": [
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "Gitignore": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "自動生成": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "git": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "非管理化": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "適用対象": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "gitignore": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "glob": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "auto": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "generated": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "派生物は": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "commit": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "hook": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "で再生成されるため": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "非管理": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "移行完了後に有効化": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "本タスクは": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "完了が前提なので有効化済み": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "claude": [
+      "skill-ledger-gitignore-policy.md",
+      "spec-splitting-guidelines.md"
+    ],
+    "skills": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "NG": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "リスト": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "実施手順": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "抜粋": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "検証コマンド": [
+      "skill-ledger-gitignore-policy.md",
+      "workflow-aiworkflow-requirements-line-budget-reform.md",
+      "workflow-apikey-chat-tool-integration-alignment.md",
+      "workflow-light-theme-contrast-regression-guard.md",
+      "workflow-light-theme-global-remediation.md",
+      "workflow-onboarding-wizard-alignment.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-ui-ux-visual-baseline-drift.md",
+      "workflow-workspace-parent-reference-sweep-guard.md",
+      "workflow-workspace-preview-search-resilience-guard.md"
+    ],
+    "マッチ": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "tracked": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "解除確認": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "単一": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "再生成": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "最重要": [
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "Overview": [
+      "skill-ledger-overview.md"
+    ],
+    "施策の正本ガイド": [
+      "skill-ledger-overview.md"
+    ],
+    "なぜこの設計が必要か": [
+      "skill-ledger-overview.md"
+    ],
+    "施策一覧": [
+      "skill-ledger-overview.md"
+    ],
+    "実装順序": [
+      "skill-ledger-overview.md"
+    ],
+    "必須遵守": [
+      "skill-ledger-overview.md"
+    ],
+    "責務分離の入口": [
+      "skill-ledger-overview.md"
+    ],
+    "の役割分担": [
+      "skill-ledger-overview.md"
+    ],
+    "後方互換方針": [
+      "skill-ledger-overview.md"
+    ],
+    "集約": [
+      "skill-ledger-overview.md"
+    ],
+    "view": [
+      "skill-ledger-overview.md",
+      "task-workflow-completed-agent-view-line-budget.md"
+    ],
+    "の取得手段": [
+      "skill-ledger-overview.md"
+    ],
+    "をマージした集約": [
+      "skill-ledger-overview.md"
+    ],
+    "を生成": [
+      "skill-ledger-overview.md"
+    ],
+    "の集約参照": [
+      "skill-ledger-overview.md"
+    ],
+    "ロールバック粒度": [
+      "skill-ledger-overview.md"
+    ],
+    "関連タスクと": [
+      "skill-ledger-overview.md"
+    ],
+    "set": [
+      "skill-ledger-overview.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "不変条件": [
+      "skill-ledger-overview.md"
+    ],
+    "で凍結": [
+      "skill-ledger-overview.md"
+    ],
+    "行ガード": [
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "行数ガード": [
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "entry": [
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "に残す要素": [
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "への抽出ルール": [
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "classification": [
+      "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "first": [
+      "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "との関係": [
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "リンク健全性検証": [
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "からの": [
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "未参照": [
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "の検出": [
+      "skill-ledger-progressive-disclosure.md"
     ],
     "仕様エレガンス・整合性監査ガイド": [
       "spec-elegance-consistency-audit.md"
@@ -12366,9 +12946,6 @@
       "workflow-workspace-parent-reference-sweep-guard.md",
       "workflow-workspace-preview-search-resilience-guard.md"
     ],
-    "claude": [
-      "spec-splitting-guidelines.md"
-    ],
     "code": [
       "spec-splitting-guidelines.md"
     ],
@@ -12439,9 +13016,6 @@
     "Active": [
       "task-workflow-active.md"
     ],
-    "Spec": [
-      "task-workflow-active.md"
-    ],
     "Created": [
       "task-workflow-active.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
@@ -12493,9 +13067,6 @@
       "ui-ux-components-core.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
-    "view": [
-      "task-workflow-completed-agent-view-line-budget.md"
-    ],
     "再監査記録": [
       "task-workflow-completed-agent-view-line-budget.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
@@ -12530,9 +13101,6 @@
       "task-workflow-completed-recent-2026-04d.md"
     ],
     "create": [
-      "task-workflow-completed-skill-create-ui-integration.md"
-    ],
-    "検証": [
       "task-workflow-completed-skill-create-ui-integration.md"
     ],
     "TerminalHandoff": [
@@ -12723,6 +13291,12 @@
     "ドキュメント更新ルール": [
       "task-workflow-rules.md"
     ],
+    "Conflict": [
+      "task-workflow.md"
+    ],
+    "Prevention": [
+      "task-workflow.md"
+    ],
     "バックエンド技術スタック": [
       "technology-backend.md"
     ],
@@ -12736,9 +13310,6 @@
       "technology-backend.md"
     ],
     "コア技術スタック": [
-      "technology-core.md"
-    ],
-    "TypeScript": [
       "technology-core.md"
     ],
     "コアランタイム": [
@@ -13574,10 +14145,6 @@
     "ツール許可設定": [
       "ui-ux-settings-core.md"
     ],
-    "Settings": [
-      "ui-ux-settings-core.md",
-      "workflow-onboarding-wizard-alignment.md"
-    ],
     "権限要求履歴パネル": [
       "ui-ux-settings-core.md"
     ],
@@ -13671,16 +14238,6 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
-    "set": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-ai-runtime-execution-responsibility-realignment.md",
-      "workflow-permission-fallback-abort-skip-retry.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "同一": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
@@ -13850,18 +14407,6 @@
       "workflow-onboarding-wizard-alignment.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
-    "検証コマンド": [
-      "workflow-aiworkflow-requirements-line-budget-reform.md",
-      "workflow-apikey-chat-tool-integration-alignment.md",
-      "workflow-light-theme-contrast-regression-guard.md",
-      "workflow-light-theme-global-remediation.md",
-      "workflow-onboarding-wizard-alignment.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md",
-      "workflow-ui-ux-visual-baseline-drift.md",
-      "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md"
-    ],
     "関連改善タスク": [
       "workflow-aiworkflow-requirements-line-budget-reform.md",
       "workflow-apikey-chat-tool-integration-alignment.md",
@@ -13993,12 +14538,6 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
     "Gate": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "classification": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "first": [
       "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
     "分割判断": [
