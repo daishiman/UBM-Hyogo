@@ -97,6 +97,22 @@ worktree 間の暗黙共有・shell state 残留・並列作成競合を防ぐ 4
 
 ---
 
+### Forms Response Sync / Cron */15 / sync_jobs ledger（03b / 2026-04-29）
+
+Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_response_id` 切替・consent snapshot・unknown field → schema_diff_queue を一括処理する batch worker の即時導線。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| 管理 API 契約（`POST /admin/sync/responses`、`fullSync` / `cursor` / 409 二重起動） | `references/api-endpoints.md`（§管理同期 API） |
+| D1 スキーマ責務（`member_responses` / `member_identities` / `member_status` / `response_fields` / `schema_diff_queue` / `sync_jobs`） | `references/database-schema.md`（§UBM 会員 Forms 同期テーブル 03b） |
+| cron `*/15 * * * *` 設定・JWT 署名・Secret 配置 | `references/deployment-cloudflare.md`（§API Worker cron / Forms response sync 03b） |
+| `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `SYNC_ADMIN_TOKEN` 配置 | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
+| 苦戦箇所（per-sync write 200 cap / partial UNIQUE で重複 enqueue 抑止 / submittedAt 同値時 responseId 降順 tie-break / `metrics_json.cursor` ≠ `pageToken`） | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/outputs/phase-12/implementation-guide.md` Part 2 |
+| follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / `member_responses.response_email` UNIQUE DDL 明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/unassigned-task/03b-response-sync-followups.md` |
+| 全 phase 設計と AC-1〜AC-10 検証 | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` |
+
+---
+
 ### UI Visual Baseline Drift / dark-mode screenshot stability（2026-04-03）
 
 | 目的                 | 最初に開くファイル                                                                                                                                           |

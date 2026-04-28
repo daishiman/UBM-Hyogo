@@ -858,10 +858,10 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L81 |
-| Desktop IPC API サマリー | L102 |
-| 変更履歴 | L133 |
-| 関連ドキュメント | L147 |
+| エンドポイント命名規則 | L90 |
+| Desktop IPC API サマリー | L111 |
+| 変更履歴 | L142 |
+| 関連ドキュメント | L157 |
 
 ### references/api-internal-chunk-search.md
 
@@ -995,16 +995,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L8 |
 | テーブル一覧 | L13 |
-| ワークフロー関連テーブル | L39 |
-| ユーザー関連テーブル | L78 |
-| システムプロンプト関連テーブル | L112 |
-| チャット関連テーブル | L149 |
-| RAG関連テーブル | L185 |
-| Knowledge Graph関連テーブル | L227 |
-| 変換処理関連テーブル | L361 |
-| インデックス設計 | L420 |
-| 関連ドキュメント | L479 |
-| 変更履歴 | L489 |
+| UBM 会員 Forms 同期テーブル（03b） | L45 |
+| ワークフロー関連テーブル | L60 |
+| ユーザー関連テーブル | L99 |
+| システムプロンプト関連テーブル | L133 |
+| チャット関連テーブル | L170 |
+| RAG関連テーブル | L206 |
+| Knowledge Graph関連テーブル | L248 |
+| 変換処理関連テーブル | L382 |
+| インデックス設計 | L441 |
+| 関連ドキュメント | L500 |
+| 変更履歴 | L510 |
 
 ---
 
@@ -2458,16 +2459,16 @@ node scripts/list-specs.js --topics
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L45 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L122 |
-| Cloudflare D1 データベース | L216 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L249 |
-| GitHub Actions CI/CD | L361 |
-| プレビューデプロイメント | L393 |
-| カスタムドメイン設定 | L410 |
-| 環境分離 | L423 |
-| ロールバック戦略 | L443 |
-| コスト概算（個人開発） | L464 |
-| モニタリング/アラート（UT-08 連携） | L476 |
-| 変更履歴 | L493 |
+| Cloudflare D1 データベース | L229 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L262 |
+| GitHub Actions CI/CD | L374 |
+| プレビューデプロイメント | L406 |
+| カスタムドメイン設定 | L423 |
+| 環境分離 | L436 |
+| ロールバック戦略 | L456 |
+| コスト概算（個人開発） | L477 |
+| モニタリング/アラート（UT-08 連携） | L489 |
+| 変更履歴 | L506 |
 
 ### references/deployment-core.md
 
@@ -2633,13 +2634,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L67 |
-| 環境別設定 | L141 |
-| Electron アプリでの環境変数 | L195 |
-| トラブルシューティング | L252 |
-| チーム開発での運用 | L313 |
-| 必須環境変数一覧 | L352 |
-| 関連ドキュメント | L410 |
+| セキュリティベストプラクティス | L78 |
+| 環境別設定 | L152 |
+| Electron アプリでの環境変数 | L206 |
+| トラブルシューティング | L263 |
+| チーム開発での運用 | L324 |
+| 必須環境変数一覧 | L363 |
+| 関連ドキュメント | L421 |
 
 ### references/error-handling-core.md
 
@@ -2748,6 +2749,18 @@ node scripts/list-specs.js --topics
 | Section Extract Register (2026-03-17) | L244 |
 | 500-Line Split Register (2026-03-16) | L255 |
 | Fragment Migration Register (2026-04-28) | L277 |
+
+### references/lessons-learned-03b-response-sync-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-03B-001: `sync_jobs.metrics_json.cursor` は Google API の `pageToken` ではない | L9 |
+| L-03B-002: 同 `submittedAt` 時の current_response 切替は `responseId` 降順で tie-break | L17 |
+| L-03B-003: unknown field の重複 enqueue は partial UNIQUE で no-op 化 | L25 |
+| L-03B-004: cron 無料枠は per-sync write 上限で守る | L33 |
+| L-03B-005: `responseEmail` は system field、`response_fields` には保存しない | L41 |
+| L-03B-006: 二重起動防止は同種 job_type の `running` 行検査で 409 を返す | L49 |
+| L-03B-007: 旧 `ruleConsent` 表記の混入は入口で `rulesConsent` へ正規化 | L57 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 

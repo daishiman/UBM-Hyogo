@@ -158,6 +158,19 @@ name = "ubm-hyogo-api-staging"
 name = "ubm-hyogo-api"
 ```
 
+### API Worker cron / Forms response sync（03b）
+
+`apps/api` は二種類の cron を持つ。
+
+| cron | 用途 | 実行関数 |
+| --- | --- | --- |
+| `0 */6 * * *` | Google Sheets 由来の既存同期 | `runSync` |
+| `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
+
+Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
+
+staging / production では `[triggers]` と `[env.staging.triggers]` の両方に `*/15 * * * *` を明示する。未設定 secret の場合、cron は response sync を開始せずスキップする。
+
 > R2 binding は現行 `apps/api/wrangler.toml` には未適用。UT-12 の下流実装時に、下記 R2 セクションの環境別差分を追加する。
 
 ### デプロイコマンド

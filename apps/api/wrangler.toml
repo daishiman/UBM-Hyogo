@@ -7,14 +7,16 @@ compatibility_flags = ["nodejs_compat"]
 ENVIRONMENT = "production"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
+GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "5"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
-# UT-09: production cron は 6 時間ごとに実行
+# UT-09: production cron は 6 時間ごとに sheets sync を実行
+# 03b: response sync は */15 で実行（forms.responses.list 差分同期）
 [triggers]
-crons = ["0 */6 * * *"]
+crons = ["0 */6 * * *", "*/15 * * * *"]
 
 # D1 データベースバインディング
 # UT-09 同期ジョブが SQLITE_BUSY retry/backoff・write queue 直列化・短い transaction
@@ -32,6 +34,7 @@ name = "ubm-hyogo-api"
 ENVIRONMENT = "production"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
+GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 
 [[env.production.d1_databases]]
 binding = "DB"
@@ -45,6 +48,7 @@ name = "ubm-hyogo-api-staging"
 ENVIRONMENT = "staging"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
+GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "5"
@@ -52,7 +56,7 @@ SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
 # UT-09: staging (=dev 想定) は 1 時間ごと
 [env.staging.triggers]
-crons = ["0 * * * *"]
+crons = ["0 * * * *", "*/15 * * * *"]
 
 # staging D1 バインディング (WAL 競合ポリシーは production と同じ)
 [[env.staging.d1_databases]]
