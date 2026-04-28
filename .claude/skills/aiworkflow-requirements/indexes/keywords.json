@@ -21,12 +21,14 @@
       "arch-claude-cli.md",
       "csrf-state-parameter.md",
       "deployment-cloudflare.md",
+      "deployment-details.md",
       "deployment-secrets-management.md",
       "interfaces-agent-sdk.md",
       "interfaces-api.md",
       "interfaces-chat-history-core.md",
       "interfaces-rag-file-selection.md",
       "ipc-4-layer-pattern.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-api-electron.md",
       "security-api.md",
@@ -593,6 +595,24 @@
     "エンドポイント命名規則": [
       "api-endpoints.md"
     ],
+    "UBM": [
+      "api-endpoints.md",
+      "database-implementation-core.md",
+      "deployment-details.md"
+    ],
+    "Hyogo": [
+      "api-endpoints.md",
+      "database-implementation-core.md",
+      "deployment-details.md"
+    ],
+    "Admin": [
+      "api-endpoints.md"
+    ],
+    "Sync": [
+      "api-endpoints.md",
+      "database-implementation-core.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
     "Desktop": [
       "api-endpoints.md",
       "arch-claude-cli.md",
@@ -763,7 +783,8 @@
       "ui-ux-feature-components-details.md"
     ],
     "Service": [
-      "api-internal-search.md"
+      "api-internal-search.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
     "主要クラス": [
       "api-internal-search.md"
@@ -3825,12 +3846,6 @@
       "ui-result-panel-pattern.md",
       "ui-ux-atoms-patterns-details.md"
     ],
-    "UBM": [
-      "database-implementation-core.md"
-    ],
-    "Hyogo": [
-      "database-implementation-core.md"
-    ],
     "Repository": [
       "database-implementation-core.md",
       "interfaces-chat-history-core.md",
@@ -3851,6 +3866,13 @@
       "task-workflow-completed-ipc-graceful-degradation-lifecycle.md"
     ],
     "初期化パターン": [
+      "database-implementation-core.md"
+    ],
+    "Schema": [
+      "database-implementation-core.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "Contract": [
       "database-implementation-core.md"
     ],
     "ベクトル検索実装": [
@@ -4065,7 +4087,8 @@
       "deployment-secrets-management.md"
     ],
     "op": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
     "run": [
       "deployment-cloudflare.md"
@@ -4281,6 +4304,12 @@
       "deployment-core.md",
       "deployment-gha.md",
       "interfaces-rag-search.md"
+    ],
+    "Worker": [
+      "deployment-details.md"
+    ],
+    "Cron": [
+      "deployment-details.md"
     ],
     "モニタリングとアラート": [
       "deployment-details.md",
@@ -5759,16 +5788,87 @@
       "legacy-ordinal-family-register.md"
     ],
     "Lessons": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
     "Learned": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
+    ],
+    "Parallel": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "Forms": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "Account": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "JWT": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "有効期限監視運用の欠落": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "no": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "AC": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "revisionId": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "同一時": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "の検証漏れリスク": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "schema": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "skill-ledger-fragment-spec.md"
+    ],
+    "diff": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "queue": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "unresolved": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "の半端な責務境界": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "stableKey": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "直書き禁止の事前防止策の欠如": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "Google": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "logs-archive-2026-02-permission-history-execution-timestamps.md"
+    ],
+    "quota": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "枯渇リスク": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "free": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "tier": [
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
     "Multi": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -6989,10 +7089,6 @@
     ],
     "バグ修正": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
-    ],
-    "Google": [
-      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
-      "logs-archive-2026-02-permission-history-execution-timestamps.md"
     ],
     "アバター取得修正": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
@@ -9078,9 +9174,6 @@
       "skill-ledger-fragment-spec.md"
     ],
     "matter": [
-      "skill-ledger-fragment-spec.md"
-    ],
-    "schema": [
       "skill-ledger-fragment-spec.md"
     ],
     "render": [

@@ -1,0 +1,28 @@
+flowchart TD
+  Start([cron 03:00 JST daily / POST /admin/sync/schema]) --> Auth[adminGate: admin only / 401-403]
+  Auth --> Lock{sync_jobs に kind=schema_sync かつ status=running の row?}
+  Lock -- yes --> Reject[HTTP 409 Conflict / cron skip]
+  Lock -- no --> InsertJob[sync_jobs INSERT job_id=uuid, job_type=schema_sync, status=running, started_at=now]
+  InsertJob --> CallForms[googleFormsClient.getForm GOOGLE_FORM_ID via service-account JWT + backoff]
+  CallForms -. 5xx/429 .-> Retry[withBackoff 指数 retry 上限内]
+  Retry --> CallForms
+  CallForms -. 401/403/4xx .-> FailAuth[sync_jobs UPDATE status=failed, error_json=auth]
+  CallForms --> Flatten[flatten: items を section_index 採番 + question 31件 抽出]
+  Flatten --> Hash[schemaHash = SHA-256 sorted items JSON]
+  Hash --> UpsertVer[(schema_versions UPSERT by revision_id\n field_count=31, schema_hash, source_url)]
+  UpsertVer --> ForEach{items 31件 を順次処理}
+  ForEach --> Resolve[resolveStableKey questionId, title, alias テーブル, 既知マップ]
+  Resolve -->|known| UpsertQ[(schema_questions UPSERT by question_pk\n stable_key = COALESCE excluded, existing)]
+  Resolve -->|unknown| UpsertQNull[(schema_questions UPSERT stable_key=NULL)]
+  UpsertQNull --> EnqueueDiff[(schema_diff_queue INSERT type=unresolved, question_id, stable_key=NULL, status=queued, suggested_stable_key)]
+  UpsertQ --> Next{次の item}
+  EnqueueDiff --> Next
+  Next -->|残あり| ForEach
+  Next -->|完了| RemovedSweep[(schema_diff_queue INSERT type=removed for prev revision にあって今回欠落の question_id)]
+  RemovedSweep --> Verify{count item=31 / section=6?}
+  Verify -- NG --> FailVerify[sync_jobs UPDATE status=failed, error_json=count_mismatch]
+  Verify -- OK --> Done[sync_jobs UPDATE status=succeeded, finished_at=now, metrics_json=upserted/diffEnqueued]
+  Done --> End([終了])
+  FailAuth --> End
+  FailVerify --> End
+  Reject --> End

@@ -10,6 +10,7 @@ import {
 } from "./mapper";
 
 export interface GoogleFormsClient {
+  getRawForm(formId: string): Promise<RawForm>;
   getForm(formId: string): Promise<FormSchema>;
   listResponses(
     formId: string,
@@ -98,8 +99,11 @@ export function createGoogleFormsClient(
   }
 
   return {
+    async getRawForm(formId) {
+      return (await authedFetch(`${baseUrl}/forms/${formId}`)) as RawForm;
+    },
     async getForm(formId) {
-      const raw = (await authedFetch(`${baseUrl}/forms/${formId}`)) as RawForm;
+      const raw = await this.getRawForm(formId);
       return mapFormSchema({
         raw,
         schemaHash: schemaHashFn(raw),

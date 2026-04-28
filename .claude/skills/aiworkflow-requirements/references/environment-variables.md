@@ -365,6 +365,18 @@
 | `DISCORD_CLIENT_ID`  | Discord Client ID   | Cloudflare Variables | No   |
 | `AGENT_SECRET_KEY`   | Agent認証キー       | Cloudflare Secrets | Yes  |
 
+### UBM-Hyogo API Worker（Cloudflare Workers）
+
+| 変数名 | 説明 | 設定方法 | 必須 |
+| ------ | ---- | -------- | ---- |
+| `SYNC_ADMIN_TOKEN` | `/admin/sync` / `/admin/sync/schema` の Bearer token | Cloudflare Secrets | Yes |
+| `GOOGLE_FORM_ID` | schema sync 対象 Google Form ID | Cloudflare Secrets または Variables | Yes |
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Google Forms API service account email | Cloudflare Secrets | Yes |
+| `GOOGLE_PRIVATE_KEY` | Google Forms API service account private key。改行は `\\n` 形式でも可 | Cloudflare Secrets | Yes |
+| `GOOGLE_FORM_RESPONDER_URL` | `schema_versions.source_url` fallback 用 responder URL | Cloudflare Variables | No |
+
+互換名: `FORMS_SA_EMAIL` / `FORMS_SA_KEY` は `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` の移行互換として受け付ける。
+
 ### Local Agent
 
 | 変数名             | 説明                                  | 必須 |

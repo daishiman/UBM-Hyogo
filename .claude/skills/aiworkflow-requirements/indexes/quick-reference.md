@@ -865,6 +865,19 @@ packages/
 | 02b 由来未タスク | `docs/30-workflows/unassigned-task/02b-followup-00{1,2,3}-*.md` |
 | free tier 実測（02b 単体） | reads 0.24% / writes 0.11% |
 
+### UBM-Hyogo Schema Sync 早見（03a-parallel-forms-schema-sync-and-stablekey-alias-queue / 2026-04-29）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/` |
+| 手動 entry point | `POST /admin/sync/schema`（Bearer `SYNC_ADMIN_TOKEN` 必須 / 200 success / 401 missing or invalid token / 403 forbidden / 409 already running / 500 internal）。詳細: `references/api-endpoints.md` |
+| 自動実行 cron | `0 18 * * *` UTC = 03:00 JST schema sync（`apps/api/wrangler.toml` `[triggers] crons`）。詳細: `references/deployment-details.md` |
+| 関連 D1 tables | `schema_versions` / `schema_questions` / `schema_diff_queue` / `sync_jobs`（詳細: `references/database-implementation-core.md`） |
+| `schema_diff_queue.unresolved` 型 | 不変条件 #14 に従い `'queued'`（本タスクは登録だけを担当、解決は 07b に委譲） |
+| 関連 env vars | `SYNC_ADMIN_TOKEN` / `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY`（詳細: `references/environment-variables.md`） |
+| 実装モジュール | `apps/api/src/sync/schema/` / `apps/api/src/middleware/admin-gate.ts` / `apps/api/src/routes/admin/sync-schema.ts` |
+| 苦戦知見 | `references/lessons-learned-03a-parallel-forms-schema-sync.md`（L-03a-001〜005） |
+
 ### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
 
 > 本ファイル 500 行超過のため詳細は分離。`indexes/quick-reference-search-patterns-skill-ledger.md` を参照。
