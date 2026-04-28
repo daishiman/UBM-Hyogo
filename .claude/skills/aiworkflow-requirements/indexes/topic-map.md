@@ -4505,7 +4505,7 @@ node scripts/list-specs.js --topics
 | 7. 検証 / smoke の集約参照 | L67 |
 | 8. ロールバック粒度 | L77 |
 | 9. 関連タスクと canonical set | L88 |
-| 10. 不変条件（Phase 12 で凍結） | L102 |
+| 10. 不変条件（Phase 12 で凍結） | L106 |
 
 ### references/skill-ledger-progressive-disclosure.md
 
@@ -4597,8 +4597,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| task-worktree-environment-isolation follow-up（2026-04-28） | L348 |
-| 続き | L359 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L351 |
+| 続き | L362 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 
