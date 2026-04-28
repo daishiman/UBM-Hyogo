@@ -135,6 +135,7 @@
 
 | タスク | 状態 | 仕様書 root | Phase 12 状態 |
 | --- | --- | --- | --- |
+| task-claude-code-permissions-deny-bypass-verification-001 | spec_created / docs-only / NON_VISUAL | `docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-verification-001/` | Claude Code `permissions.deny` と `--dangerously-skip-permissions` の優先関係を公式 docs 調査 + isolated 実機検証 runbook として仕様化。実検証は `task-claude-code-permissions-deny-bypass-execution-001` へ分離 |
 | task-worktree-environment-isolation | spec_created / docs-only / NON_VISUAL | `docs/30-workflows/task-worktree-environment-isolation/` | worktree / tmux / shell state 分離仕様を development-guidelines と lessons-learned に同期済み。コード実装は未タスクへ分離 |
 
 ### unassigned-task → Phase 1-13 仕様書ディレクトリへの昇格パターン

@@ -14,6 +14,8 @@
 
 追加追補: `task-claude-code-permissions-decisive-mode` は Phase 12 再確認で declared outputs をすべて実ファイル化し、Phase 13 を `blocked` に固定した。`--dangerously-skip-permissions` と `permissions.deny` の相互作用は未検証 blocker とし、deny を保険と断定しない仕様へ補正した。
 
+追加追補2: `task-claude-code-permissions-deny-bypass-verification-001` の Phase 12 漏れ補完で、verification docs-only テンプレートの不足を確認した。deferred feedback として、条件付き execution follow-up、既存 completed-tasks 指示書との関係、runbook の executable preflight、destructive pattern の refusal-only 観測、Phase 7 の `blocked_by_followup` 語彙を次回テンプレート改善候補に残す。
+
 ## 2026-04-28 - task-worktree-environment-isolation phase-12.md / index.md 準拠化補強
 
 `docs/30-workflows/task-worktree-environment-isolation/phase-12.md` を `phase-template-phase12-detail.md` 準拠に拡張（事前チェック / 実行タスク表 / Task 12-3〜5 構造化 / 苦戦箇所 / フォールバック / スキル検証 / 完了条件 16 項目 / Task 1 validator ルール参照）し、`index.md` Phase 一覧表のヘッダー行を補完。`references/phase-template-phase12-detail.md` 末尾に「典型的な準拠不足パターン」7 項目を新設し再発防止の照合表として固定化した。
