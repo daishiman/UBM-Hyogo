@@ -76,4 +76,4 @@
 
 - **C-1**（completed）: CI `verify-indexes-up-to-date` job 新設 — `docs/30-workflows/completed-tasks/task-verify-indexes-up-to-date-ci/`（implementation_completed_pr_pending）
 - **B-1**（formalize 完了 / 2026-04-28）: 既存 worktree 群への lefthook 再インストール runbook 運用化は `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook/` で formalize、`scripts/reinstall-lefthook-all-worktrees.sh` で実装。固有教訓は `references/lessons-learned-lefthook-mwr-runbook-2026-04.md` に分離（L-MWR-001〜006）。
-- **B-2**（baseline）: `husky` 不採用判断の ADR 化（リポジトリ ADR 集約化が前提）
+- **B-2**（resolved 2026-04-28 / task-husky-rejection-adr）: `husky` 不採用判断は ADR-0001 として `doc/decisions/0001-git-hook-tool-selection.md` に集約済み。後続テンプレート整備は `docs/30-workflows/unassigned-task/task-adr-template-standardization.md`、運用ガイドからのバックリンク追加は `docs/30-workflows/unassigned-task/task-lefthook-ops-adr-backlink.md` に formalize。
