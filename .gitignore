@@ -95,3 +95,6 @@ apps/*/docs/
 
 # worktree専用 Claude 起動スクリプト
 .cc
+
+# lefthook 開発者個別 override（ADR-04）
+lefthook-local.yml

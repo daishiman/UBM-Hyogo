@@ -2453,3 +2453,12 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `references/phase-11-non-visual-alternative-evidence.md` 新規作成（NON_VISUAL タスク向け 4 階層 evidence プレイブック: L1 typecheck / L2 lint-boundary / L3 miniflare D1 in-memory test / L4 意図的 violation）、`SKILL.md` の Phase 11 説明と Phase 11/12 ガイド一覧に新 reference を追加 |
 | 結果 | 02c-data-access-boundary feedback（skill-feedback-report.md #5 / #6: staging 未配備時の Phase 11 代替手段の体系化）を反映。`docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/outputs/phase-11/` を実例として参照可能 |
 | 検証 | SKILL.md 内のリンク 2 箇所追加、reference ファイル 1 件新規（59 行） |
+
+### 2026-04-28 - task-git-hooks-lefthook-and-post-merge elegant improvement sync
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | docs-only / spec_created / skill-compliance close-out |
+| 変更対象 | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` の `index.md`、`artifacts.json`、`phase-01.md`〜`phase-13.md`、Phase 11〜13 outputs |
+| 結果 | Phase 状態を outputs 実体へ同期し、Phase 1〜13 本文へ `phase-template-core.md` の共通骨格を補完。Phase 12 は Step 1-A〜1-G / Step 2 N/A / planned wording 排除 / current-baseline 分離へ再構成した |
+| 検証 | `validate-phase-output.js` と `verify-all-specs.js --strict --json` を再実行対象として close-out。30思考法レビューでは全面破棄不要、Phase 12 と状態台帳の部分再構成が最小複雑性と判定 |

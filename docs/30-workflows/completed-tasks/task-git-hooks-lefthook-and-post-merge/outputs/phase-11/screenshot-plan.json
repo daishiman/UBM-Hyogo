@@ -1,0 +1,17 @@
+{
+  "visualEvidence": "NON_VISUAL",
+  "screenshotsRequired": false,
+  "reason": "Git hook, package script, and CLI runbook changes do not modify web, desktop, or browser UI.",
+  "alternativeEvidence": [
+    "outputs/phase-11/manual-test-result.md",
+    "outputs/phase-11/manual-smoke-log.md",
+    "outputs/phase-11/link-checklist.md"
+  ],
+  "screenshots": [
+    {
+      "path": "outputs/phase-11/screenshots/non-visual-placeholder.png",
+      "type": "placeholder",
+      "reason": "Validator compatibility only; authoritative evidence is CLI text in manual-test-result.md."
+    }
+  ]
+}

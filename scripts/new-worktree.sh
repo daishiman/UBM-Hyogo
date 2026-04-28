@@ -29,8 +29,10 @@ if command -v mise &>/dev/null; then
   mise trust --quiet 2>/dev/null || true
   mise install --quiet
   mise exec -- pnpm install
+  mise exec -- pnpm exec lefthook install
 else
   pnpm install
+  pnpm exec lefthook install
 fi
 
 echo ""

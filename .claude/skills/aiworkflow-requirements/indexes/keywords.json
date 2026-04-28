@@ -4841,7 +4841,8 @@
       "development-guidelines-core.md"
     ],
     "Git": [
-      "development-guidelines-core.md"
+      "development-guidelines-core.md",
+      "lessons-learned-lefthook-unification-2026-04.md"
     ],
     "ワークフロー": [
       "development-guidelines-core.md",
@@ -5212,6 +5213,7 @@
     ],
     "未タスク": [
       "interfaces-agent-sdk-history-core.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -5493,6 +5495,7 @@
     ],
     "Hook": [
       "interfaces-agent-sdk.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-skill-execute-hook-migration.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "ui-ux-feature-skill-stream.md"
@@ -6232,6 +6235,7 @@
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
       "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-early.md",
@@ -6309,6 +6313,7 @@
       "lessons-learned-ipc-preload-runtime-2026-04.md",
       "lessons-learned-ipc-preload-runtime.md",
       "lessons-learned-kv-session-cache-2026-04.md",
+      "lessons-learned-lefthook-unification-2026-04.md",
       "lessons-learned-monitoring-design-2026-04.md",
       "lessons-learned-phase12-lifecycle-early-b.md",
       "lessons-learned-phase12-lifecycle-early.md",
@@ -6431,7 +6436,8 @@
       "lessons-learned-02c-data-access-boundary.md"
     ],
     "教訓一覧": [
-      "lessons-learned-02c-data-access-boundary.md"
+      "lessons-learned-02c-data-access-boundary.md",
+      "lessons-learned-lefthook-unification-2026-04.md"
     ],
     "申し送り先": [
       "lessons-learned-02c-data-access-boundary.md"
@@ -8310,6 +8316,40 @@
     "命名と環境分離": [
       "lessons-learned-kv-session-cache-2026-04.md"
     ],
+    "統一": [
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
+    ],
+    "post": [
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "merge": [
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-skill-ledger-redesign-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "indexes": [
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "再生成廃止": [
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "申し送り": [
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "open": [
+      "lessons-learned-lefthook-unification-2026-04.md"
+    ],
+    "baseline": [
+      "lessons-learned-lefthook-unification-2026-04.md",
+      "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "ui-ux-components.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
     "monitoring": [
       "lessons-learned-monitoring-design-2026-04.md"
     ],
@@ -9020,12 +9060,6 @@
     "分割でのリンク切れ": [
       "lessons-learned-skill-ledger-redesign-2026-04.md"
     ],
-    "merge": [
-      "lessons-learned-skill-ledger-redesign-2026-04.md",
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md"
-    ],
     "の誤適用": [
       "lessons-learned-skill-ledger-redesign-2026-04.md"
     ],
@@ -9539,12 +9573,6 @@
     "visual": [
       "lessons-learned-ui-ux-visual-baseline-drift.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
-    "baseline": [
-      "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "ui-ux-components.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
     "dark": [
@@ -10966,9 +10994,6 @@
       "logs-archive-2026-02-skill-validation-atoms-audit.md"
     ],
     "conflict": [
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
-    ],
-    "統一": [
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
     ],
     "COMMAND": [
@@ -12556,9 +12581,6 @@
       "skill-ledger-gitignore-policy.md"
     ],
     "派生物は": [
-      "skill-ledger-gitignore-policy.md"
-    ],
-    "post": [
       "skill-ledger-gitignore-policy.md"
     ],
     "commit": [
