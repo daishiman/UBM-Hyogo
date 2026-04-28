@@ -97,7 +97,11 @@ mise exec -- pnpm skill:logs:render --skill aiworkflow-requirements --include-le
 | 実装タスク A-1 | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a1-gitignore.md` |
 | 実装タスク A-2 | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a2-fragment.md` |
 | 実装タスク A-3 | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a3-progressive-disclosure.md` |
-| 実装タスク B-1 | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-b1-gitattributes.md` |
+| 実装タスク B-1（原典スペック） | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-b1-gitattributes.md` |
+| B-1 design workflow（Phase 1〜13） | `docs/30-workflows/skill-ledger-b1-gitattributes/` |
+| B-1 実装未タスク | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-gitattributes-implementation.md` |
+| B-1 A-2 完了レビュー未タスク | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-a2-completion-review.md` |
+| B-1 skill feedback（Phase 11 NON_VISUAL テンプレ改善） | `docs/30-workflows/unassigned-task/task-phase11-nonvisual-evidence-template-sync.md` |
 
 ## 10. 不変条件（Phase 12 で凍結）
 

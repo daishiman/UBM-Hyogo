@@ -101,6 +101,7 @@ issue_number: 140
 
 - `task-claude-code-permissions-deny-bypass-verification-001` が完了し、bypass 下での deny 実効性の結論が出ていること
   - deny が実効しない場合は alias から `--dangerously-skip-permissions` を外す方針へ切替
+  - 公式 docs で明示判定できない場合は、`docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-execution-001.md` の isolated 実機検証が完了するまで本タスクを実行しない
 - `task-claude-code-permissions-project-local-first-comparison-001` が完了し、global を触る正当性が再確認されていること
 - 他 worktree / 他リポジトリの `<project>/.claude/settings.json` を `grep -rn defaultMode` で再走査済みであること
 - Claude Code バージョンを `claude --version` で記録済み
@@ -369,7 +370,7 @@ cc   # 新規タブで実行し effective mode を観察
 U1: 実 settings / ~/.zshrc 書き換えを行う実装タスク
 出典: 本タスク（task-claude-code-permissions-decisive-mode）のスコープ外
 優先度: HIGH
-状態: docs/30-workflows/unassigned-task/task-claude-code-permissions-apply-001.md
+状態: docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001.md（指示書は存在、実反映は verification / execution 判定まで blocked）
 （outputs/phase-12/unassigned-task-detection.md より）
 ```
 
