@@ -44,6 +44,27 @@ UT-12 の skill-feedback-report（`docs/30-workflows/ut-12-cloudflare-r2-storage
 
 UT-06 は本番デプロイ実行タスクだが、成果物は docs-only / NOT EXECUTED テンプレ状態だった。Phase 12 close-out では実デプロイ完了と誤読されない状態管理、正本仕様同期、未タスク明示を同一 wave で閉じる必要がある。
 
+## 2026-04-27 - impl-spec-to-skill-sync 反映 (UT-08 / UT-13 / 01a / 01b / 05b 監査由来)
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | skill update / Phase-12 監査結果反映 |
+| 対象 | `references/phase-template-phase12.md`、`references/unassigned-task-workflow-integration.md`、`SKILL-changelog.md` |
+| 監査起点 | UT-08 monitoring/alert design / UT-13 KV session cache / 01a D1 schema / 01b zod+Forms / 05b smoke close-out の Phase 12 成果物横断監査 |
+| 結果 | 全実装ブランチで Phase 12 6 必須成果物 PASS。設計タスクの 300 行上限超過ケースと NON_VISUAL Phase 11 代替証跡を皮切りに、`spec_created` → 実装派生タスク化パターン A/B（UT-13 → UT-30〜34 / UT-08 → UT-08-IMPL）を skill 内に formalize |
+| 教訓 | 「行数上限」より「責務分離不可能性の根拠」を優先する原則を明文化。設計タスク完了時に派生 UT を独立 ID で切り出すパターンが増加しているため、`unassigned-task-detection.md` の current/baseline 分離ルールを併せて拡張 |
+| 同期 wave | `phase-template-phase12.md`（+50 行）/ `unassigned-task-workflow-integration.md`（+40 行）/ `SKILL-changelog.md`（v10.09.46 追記）/ 本 LOGS |
+
+## 2026-04-27 - 02a repository Phase 12 review hardening
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | implementation / Phase 12 close-out correction |
+| 対象 | `docs/30-workflows/02a-parallel-member-identity-status-and-response-repository/` |
+| 結果 | Part 1/Part 2 implementation guide、root/output artifacts parity、Phase 11 NON_VISUAL evidence、formal unassigned tasks、system spec quick-reference sync を補完 |
+| 教訓 | `spec_created` から実装が入った場合は `docs_only=false` / implementation status / Step 2 interface sync / root test環境ブロックの明示を同一waveで閉じる |
+
+
 ## 2026-04-27 - 05a Phase 12 close-out drift guard を SKILL.md へ反映
 
 ### 変更内容
@@ -56,6 +77,18 @@ UT-06 は本番デプロイ実行タスクだが、成果物は docs-only / NOT 
 ### 背景
 
 05a-parallel-observability-and-cost-guardrails の Phase 12 close-out 検証で、未タスク 3 件が `docs/unassigned-task/` 配下かつ `ut-...md` 命名で `audit-unassigned-tasks.js` の対象から外れていたこと、root/outputs `artifacts.json` の同時更新ルールが SKILL.md に明文化されていなかったことを検出した。今後の Phase 12 close-out で再発しないよう「よくある漏れ」表へ恒久化する。
+
+## 2026-04-27 - UT-09 direction conflict formalized
+
+### 変更内容
+
+- 旧 UT-09 Sheets 実装と `task-sync-forms-d1-legacy-umbrella-001` の current Forms 分割方針の衝突を検出した
+- Phase 12 compliance を PASS ではなく FAIL / PR blocker として補正した
+- `task-ut09-direction-reconciliation-001.md` を未タスクとして作成し、Forms 方針へ寄せるか Sheets 実装を正式採用するかの判断を明文化した
+
+### 背景
+
+`spec_created / docs_only` drift の補正だけでは、現行正本が定義する Forms API / `/admin/sync/schema` / `/admin/sync/responses` / `sync_jobs` 方針との衝突を解消できない。Phase 12 では stale contract を正本仕様へ登録せず、先に方針統一タスクを formalize する。
 
 ## 2026-04-26 - 05a-parallel-observability-and-cost-guardrails Phase 12 review hardening
 
