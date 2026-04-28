@@ -131,6 +131,12 @@
 
 ## 昇格パターン集
 
+## Current Active / Spec Created Tasks
+
+| タスク | 状態 | 仕様書 root | Phase 12 状態 |
+| --- | --- | --- | --- |
+| task-worktree-environment-isolation | spec_created / docs-only / NON_VISUAL | `docs/30-workflows/task-worktree-environment-isolation/` | worktree / tmux / shell state 分離仕様を development-guidelines と lessons-learned に同期済み。コード実装は未タスクへ分離 |
+
 ### unassigned-task → Phase 1-13 仕様書ディレクトリへの昇格パターン
 
 - **用途**: `docs/30-workflows/unassigned-task/` の簡易仕様書を完全な Phase 1-13 仕様書に昇格させる
@@ -141,4 +147,3 @@
   3. 元の unassigned-task ファイルを completed-tasks に移動
   4. aiworkflow-requirements の同 wave 更新
 - **参考**: UT-UIUX-VISUAL-BASELINE-DRIFT-001（2026-04-03）
-

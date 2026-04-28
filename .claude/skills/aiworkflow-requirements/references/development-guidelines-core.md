@@ -208,6 +208,21 @@
 
 ---
 
+## Worktree 入場時の環境分離
+
+`docs/30-workflows/task-worktree-environment-isolation/` で確定したローカル開発環境の分離ルールを、worktree 入場時の必須前処理として扱う。
+
+| 項目 | 必須ルール | 理由 |
+| --- | --- | --- |
+| secret 継承遮断 | `unset OP_SERVICE_ACCOUNT_TOKEN` | 親 shell から 1Password token が別 worktree に漏れることを防ぐ |
+| shell command cache | `hash -r` | 前 worktree の PATH 解決結果を持ち越さない |
+| toolchain sync | `mise trust --quiet` → `mise install --quiet` → `mise exec -- <cmd>` | worktree ごとの Node / pnpm バージョンを `.mise.toml` に合わせる |
+| 直叩き回避 | `git worktree add` 直叩きではなく `scripts/new-worktree.sh` を使う | lock / shell reset / evidence 取得の標準経路に乗せる |
+
+詳細手順は `docs/30-workflows/task-worktree-environment-isolation/outputs/phase-12/implementation-guide.md` Part 2 を正本とする。
+
+---
+
 ## パフォーマンス最適化
 
 ### React最適化パターン
@@ -397,4 +412,3 @@
 | チェックリスト | テスト追加、ドキュメント更新、Lint通過 |
 
 ---
-

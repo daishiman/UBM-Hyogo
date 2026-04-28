@@ -921,6 +921,15 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: Turso, SQLite, スキーマ, FTS5, Embedded Replicas
 
+### references/database-admin-repository-boundary.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 対象 repository | L11 |
+| 境界 | L21 |
+| 下流連携 | L29 |
+
 ### references/database-architecture.md
 
 | セクション | 行 |
@@ -2089,6 +2098,18 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
 
+### references/workflow-task-worktree-environment-isolation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L16 |
+| Phase Outputs（current canonical set） | L23 |
+| Skill 反映先（current canonical set） | L60 |
+| 参照される実装ファイル（spec_created のため変更は伴わない） | L74 |
+| Follow-up 未タスク | L81 |
+| Validation Chain（spec_created） | L90 |
+
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
 | セクション | 行 |
@@ -2454,9 +2475,10 @@ node scripts/list-specs.js --topics
 | キャッシング戦略 | L84 |
 | データマイグレーション | L123 |
 | コードレビューガイドライン | L162 |
-| パフォーマンス最適化 | L211 |
-| 国際化（i18n） | L335 |
-| Git ワークフロー | L365 |
+| Worktree 入場時の環境分離 | L211 |
+| パフォーマンス最適化 | L226 |
+| 国際化（i18n） | L350 |
+| Git ワークフロー | L380 |
 
 ### references/development-guidelines-details.md
 
@@ -2670,6 +2692,13 @@ node scripts/list-specs.js --topics
 | 4. システム仕様書への影響（軽微 Note 追記） | L71 |
 | 5. 後続タスク handoff | L82 |
 | 関連参照 | L96 |
+
+### references/lessons-learned-02c-data-access-boundary.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L7 |
+| 申し送り先（unassigned-task-detection.md より） | L39 |
 
 ### references/lessons-learned-05b-smoke-readiness-2026-04.md
 
@@ -2919,6 +2948,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | UT-HEALTH-POLICY-MAINLINE-MIGRATION-001 shared policy 移管 教訓（2026-04-08） | L7 |
 | TASK-FIX-WORKTREE-CONFLICT-001: 並列 worktree コンフリクト解消 | L41 |
+| task-worktree-environment-isolation 教訓（2026-04-28） | L75 |
 
 ### references/lessons-learned-ipc-channel-whitelist-sync.md
 
@@ -4501,6 +4531,7 @@ node scripts/list-specs.js --topics
 | 出力テンプレート | L85 |
 | 実行時のコマンド・エージェント・スキル | L108 |
 | 昇格パターン集 | L132 |
+| Current Active / Spec Created Tasks | L134 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -4513,7 +4544,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| 続き | L341 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L341 |
+| 続き | L352 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

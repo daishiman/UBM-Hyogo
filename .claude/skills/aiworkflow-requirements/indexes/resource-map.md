@@ -754,6 +754,21 @@ node scripts/search-spec.js "苦戦パターン"
 node scripts/search-spec.js "safeInvoke"
 ```
 
+### task-worktree-environment-isolation: Developer Environment / Worktree Isolation 導線
+
+| リソース | 役割 | 読み込み条件 |
+|----------|------|--------------|
+| `references/development-guidelines-core.md` (L213〜) | worktree 入場時の `unset OP_SERVICE_ACCOUNT_TOKEN` / `hash -r` / `mise trust/install` / `mise exec --` 必須前処理 | worktree に入る直前・新規 shell を開く時 |
+| `references/development-guidelines-details.md` (L197〜) | skill symlink 撤去 / tmux session-scoped env / lockdir / shell state reset の current contract | 設計判断・運用契約確認時 |
+| `references/lessons-learned-health-policy-worktree-2026-04.md` (§task-worktree-environment-isolation) | L-WTI-001〜008 教訓（symlink 暗黙共有 / tmux global env / lockdir owner metadata / NON_VISUAL Phase 11 ログ3点 / wave 同期手順 / spec_created 4点セット / worktree-aware path / stale lock 判定） | 同種事故の予防・再発防止策確認時 |
+| `references/task-workflow-active.md` (current task entry) | task-worktree-environment-isolation の current state と blocking dependencies | active task 確認時 |
+| `references/task-workflow-backlog.md` (follow-up entries) | follow-up 4件（実装タスク / lockdir GC / tmux env probe / skill symlink CI gate） | 後続タスク選定時 |
+| `references/workflow-task-worktree-environment-isolation-artifact-inventory.md` | Phase 1-13 outputs canonical set と validation chain | 成果物棚卸し・差分確認時 |
+| `indexes/topic-map.md` (L920〜 Developer Environment / Worktree Isolation 章) | outputs Phase 2 / 4 / 5 / 11 / 12 / 13 への行番号インデックス | 仕様書本体に当たる時 |
+| `docs/30-workflows/task-worktree-environment-isolation/` | タスク本体（Phase 1-13 + outputs） | 正本仕様にあたる時 |
+| `scripts/new-worktree.sh` | worktree 作成 + lock + mise install ラッパ | 実装着手・スクリプト改修時 |
+| `CLAUDE.md` (§ワークツリー作成) | ユーザ向け運用注意（必ずワークツリーディレクトリから claude を起動） | 新規 worktree 作業開始時 |
+
 ---
 
 ## 変更履歴

@@ -69,3 +69,87 @@
 | 解決策 | `git rev-parse --git-path hooks/post-merge` の返り値をそのままインストール先として使う（パスを決め打ちしない） |
 | 再発防止 | フックのインストール先は常に `git rev-parse --git-path hooks/<hook-name>` で動的に解決する |
 | 関連タスク | TASK-FIX-WORKTREE-CONFLICT-001 |
+
+---
+
+## task-worktree-environment-isolation 教訓（2026-04-28）
+
+### L-WTI-001: skill symlink は worktree 間の暗黙共有になる
+
+| 項目 | 内容 |
+|------|------|
+| 症状 | worktree 側の skill 変更が symlink 実体を通じて別 worktree にも即時反映される |
+| 原因 | `.claude/skills` 配下の symlink が worktree ごとのファイル境界をすり抜ける |
+| 解決策 | symlink を撤去し、必要な skill は実ファイルとして版管理するか `~/.claude/skills/` 単独配置へ寄せる |
+| 再発防止 | pre-commit / CI で `find .claude/skills -type l` を検出する |
+| 関連タスク | task-worktree-environment-isolation |
+
+### L-WTI-002: tmux の global environment に worktree 固有値を置かない
+
+| 項目 | 内容 |
+|------|------|
+| 症状 | 既存 tmux session や新規 pane が前 worktree の `UBM_WT_*` / path 状態を継承する |
+| 原因 | tmux global environment と shell export が session 境界を越えて共有される |
+| 解決策 | `update-environment` を最小化し、worktree 固有値は `tmux new-session -e` で session-scoped に注入する |
+| 再発防止 | Phase 11 smoke で global に `UBM_WT_*` が無いこと、対象 session にのみ値があることを確認する |
+| 関連タスク | task-worktree-environment-isolation |
+
+### L-WTI-003: worktree 作成は git 実行前に lock を取る
+
+| 項目 | 内容 |
+|------|------|
+| 症状 | 同名ブランチを並列作成すると半端な `.worktrees/<name>` や branch 作成競合が残る |
+| 原因 | `git fetch` / `git worktree add` の前に排他制御がない |
+| 解決策 | `.worktrees/.locks/<branch-slug>.lockdir` を `mkdir` で取得し、後発を exit 75 で止める |
+| 再発防止 | owner metadata（pid / host / ts / wt）を lockdir に保存し、stale lock の判断材料を残す |
+| 関連タスク | task-worktree-environment-isolation |
+
+### L-WTI-004: docs-only / NON_VISUAL の Phase 11 はログ3点で証跡固定する
+
+| 項目 | 内容 |
+|------|------|
+| 症状 | docs-only / NON_VISUAL タスクの Phase 11 で screenshot を作れず、`manual-smoke-log.md` の証跡形式が毎回ぶれる |
+| 原因 | NON_VISUAL の代替証跡フォーマットが個々のタスクに委ねられていた |
+| 解決策 | `tmux show-environment -g`（global に worktree 固有値が無いこと）/ `find .claude/skills -type l`（symlink ゼロ）/ 二重起動 `exit 75`（lockdir 競合の終了コード）の **ログ3点** を Phase 11 manual-smoke-log の固定セクションに据える |
+| 再発防止 | docs-only / NON_VISUAL タスクの `outputs/phase-11/manual-smoke-log.md` テンプレートに3点固定セクションを明記。representative artifact が無い設計判断を Phase 11 main.md に残す |
+| 関連タスク | task-worktree-environment-isolation |
+
+### L-WTI-005: 横断依存 5 タスクの wave 同期は carry-over と新規範囲を分離する
+
+| 項目 | 内容 |
+|------|------|
+| 症状 | conflict-prevention / lefthook / worktree-environment-isolation / branch-protection / claude-code-permissions の 5 タスクが横並びで進行し、前 wave の carry-over が新規 wave 内容に紛れ込む |
+| 原因 | wave 間の責任境界が曖昧で、carry-over 修正と新規 spec が同じ Phase 12 成果物に同居していた |
+| 解決策 | Phase 12 着手時に `system-spec-update-summary.md` の章構成を「(A) 前 wave からの carry-over」「(B) 本 wave 新規範囲」に二分し、skill 反映指示も対応する 2 ブロックに分ける |
+| 再発防止 | cross_task_order を持つ wave では artifact-inventory に `cross_task_order` 行を必ず置き、carry-over 起点を artifact 単位で追跡できるようにする |
+| 関連タスク | task-worktree-environment-isolation / task-conflict-prevention-skill-state-redesign / task-git-hooks-lefthook-and-post-merge / task-github-governance-branch-protection / task-claude-code-permissions-decisive-mode |
+
+### L-WTI-006: spec_created の skill 反映は 4 点セットで同期する
+
+| 項目 | 内容 |
+|------|------|
+| 症状 | spec_created タスクで development-guidelines にだけ反映、または lessons-learned にだけ反映、と粒度がぶれて後続タスクが正本にたどり着けない |
+| 原因 | spec_created 時の skill 反映粒度が標準化されていなかった |
+| 解決策 | spec_created 時は **(1) development-guidelines に契約表（current contract）/ (2) lessons-learned に教訓 / (3) task-workflow-active に現況 / (4) topic-map + keywords に索引** の 4 点セットを同一 wave で必ず更新する |
+| 再発防止 | aiworkflow-requirements の skill 反映チェックリストに 4 点セットを明記。各 spec_created タスクの Phase 12 `skill-feedback-report.md` に 4 点の反映状態欄を設ける |
+| 関連タスク | task-worktree-environment-isolation |
+
+### L-WTI-007: worktree-aware path 解決を shell init / mise / tmux で一貫させる
+
+| 項目 | 内容 |
+|------|------|
+| 症状 | worktree から `git rev-parse --git-path hooks/...` で取得すべきパスが、shell init や tmux pane で別 worktree のパスを返す |
+| 原因 | shell init / mise activate / tmux pane の各層で worktree 検出方法が揃っておらず、`PWD` ベースと `git rev-parse` ベースが混在 |
+| 解決策 | 各層で `git rev-parse --git-path <subpath>` または `git rev-parse --show-toplevel` を一次情報として使う。決め打ちの `.git/...` パスを禁止し、shell init / mise / tmux のすべてで同じ解決ルールを通す |
+| 再発防止 | development-guidelines に「worktree-aware path 解決を 3 層で揃える」ルールを記載。Phase 11 smoke の対象に「異なる worktree pane で `git rev-parse --git-path hooks/post-merge` が当該 worktree を返すこと」を含める |
+| 関連タスク | task-worktree-environment-isolation / task-git-hooks-lefthook-and-post-merge |
+
+### L-WTI-008: lockdir owner metadata で stale lock 判定を運用化する
+
+| 項目 | 内容 |
+|------|------|
+| 症状 | `.worktrees/.locks/<slug>.lockdir` が残留したまま新規 worktree 作成が常に exit 75 で止まる |
+| 原因 | 異常終了時に lockdir を残してしまい、stale かどうか判定する手段が無かった |
+| 解決策 | lockdir 取得直後に `pid` / `host` / `ts`（ISO8601）/ `wt`（ワークツリーパス）を含む `owner.json` を書き込み、回収側は `pid` 不在 + `ts` 古さ + `host` 一致で stale 判定する |
+| 再発防止 | 後続実装タスクで lockdir GC（cron / pre-create check）を起票。`new-worktree.sh` の lockdir 取得後に owner metadata 書き込みを必須化 |
+| 関連タスク | task-worktree-environment-isolation |
