@@ -14,6 +14,12 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 
 | テーブル | 用途 | 実装状況 |
 |----------|------|----------|
+| member_responses | Google Forms response 履歴 | ✅ 実装済み |
+| member_identities | responseEmail 単位の会員 identity と current response | ✅ 実装済み |
+| member_status | consent snapshot / 公開状態 / 退会状態 | ✅ 実装済み |
+| response_fields | response ごとの stableKey / extra question 値 | ✅ 実装済み |
+| schema_diff_queue | unknown / changed question の管理キュー | ✅ 実装済み |
+| sync_jobs | schema / response sync の ledger | ✅ 実装済み |
 | workflows | ワークフロー定義 | 設計済み |
 | workflow_steps | ワークフローステップ | 設計済み |
 | workflow_executions | 実行履歴 | 設計済み |
@@ -35,6 +41,21 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | communities | Leidenクラスター | ✅ 実装済み |
 | entity_communities | エンティティ-コミュニティ中間 | ✅ 実装済み |
 | chunk_entities | チャンク-エンティティ中間 | ✅ 実装済み |
+
+## UBM 会員 Forms 同期テーブル（03b）
+
+03b response sync は Google Forms `forms.responses.list` の response を D1 に冪等 upsert する。
+
+| テーブル | 03b の責務 |
+| --- | --- |
+| `member_responses` | `response_id` 単位の履歴。`response_email` は system field として列に保存し、`answers_json` / `raw_answers_json` / `extra_fields_json` も保持する |
+| `member_identities` | `response_email` ごとの identity。最新 `submitted_at`、同値時は `response_id` 降順で `current_response_id` を更新する |
+| `member_status` | current response から `public_consent` / `rules_consent` を snapshot。`is_deleted=1` の identity は更新しない |
+| `response_fields` | known は `stable_key` 行、unknown は `stable_key='__extra__:<questionId>'` の extra row として保存する |
+| `schema_diff_queue` | unknown question を `status='queued'` で enqueue。`question_id` + queued の partial unique index で重複を no-op にする |
+| `sync_jobs` | `job_type='response_sync'` の ledger。`metrics_json.cursor` には `submittedAt|responseId` の high-water mark を保存する |
+
+`sync_jobs.metrics_json.cursor` は Google API の `pageToken` ではない。`pageToken` は単一実行内のページングに限定し、次回 cron は high-water mark を `forms.responses.list` の timestamp filter に渡して再開する。
 
 ## ワークフロー関連テーブル
 

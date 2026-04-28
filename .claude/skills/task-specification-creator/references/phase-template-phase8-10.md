@@ -139,6 +139,23 @@ pnpm --filter @repo/desktop exec vitest run
 - [ ] チャンネル孤児（R-01）の検出結果が妥当である
 - [ ] 引数形式不一致（R-02）が存在しないことを確認する
 
+### PII redact checklist【Phase 9 品質ゲート・標準】
+
+ログ・メトリクス・テレメトリーで PII（個人識別情報）が漏出しないことを Phase 9 で必ず検証する。`outputs/phase-9/quality-report.md` に下記チェックの実測結果（grep 出力 / sample log 抜粋）を貼ること。
+
+- [ ] **log redact 確認**: アプリログ・Workers ログに `id` / `email` / `responseId`（および同等の連絡先・本人識別子）が**生値で出ていない**ことを sample log で確認する（masked / hash / 省略済みであること）
+- [ ] **metrics_json PII 排除確認**: 送信される `metrics_json`（Analytics Engine / WAE / 外部メトリクス）に email / 氏名 / 電話 / responseId 等の PII が含まれていない（ID は hash 化済み or aggregate のみ）
+- [ ] **エラースタック redact**: 例外メッセージ・stack trace に request body の PII が含まれて出力されていない
+- [ ] **Secrets vs Variables 使い分け確認**: 下表に従い適切な格納先になっていることを `wrangler.toml` / GitHub 設定で確認する
+
+| 種別 | 例 | 格納先 | 取り扱い |
+| --- | --- | --- | --- |
+| Secrets（機密） | API Token / OAuth Client Secret / DB credentials / Webhook signing secret | Cloudflare Secrets / GitHub Secrets / 1Password | コード・ログ・ドキュメントへの転記禁止 |
+| Variables（非機密設定値） | feature flag / public endpoint URL / region / log level | `wrangler.toml` `[vars]` / GitHub Variables | コミット可。ただし PII / 機密が紛れていないか定期確認 |
+| ローカル `.env` | 上記すべて | `op://Vault/Item/Field` 参照のみ（実値禁止） | `scripts/with-env.sh` 経由で動的注入 |
+
+> 詳細: [`CLAUDE.md` §シークレット管理](../../../../CLAUDE.md) / [unassigned-task-workflow-integration.md](unassigned-task-workflow-integration.md)
+
 ## 次のPhase
 
 Phase 10: 最終レビューゲート
