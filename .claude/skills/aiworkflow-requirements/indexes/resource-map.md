@@ -589,6 +589,7 @@
 | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on `task-conflict-prevention-skill-state-redesign` |
 | `docs/30-workflows/task-worktree-environment-isolation/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on `task-conflict-prevention-skill-state-redesign` |
 | `docs/30-workflows/task-github-governance-branch-protection/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on skill ledger redesign + git hooks governance |
+| `docs/30-workflows/ut-gov-001-github-branch-protection-apply/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval / 実 PUT は Phase 13 ユーザー承認後 | 最初に読む: `references/deployment-branch-strategy.md`（pending apply: UT-GOV-001 セクション）/ 必要に応じて読む: `references/lessons-learned-ut-gov-001-2026-04.md`（L-GOV-001〜004）/ 上流前提: UT-GOV-004（required_status_checks contexts 同期） |
 | `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on worktree environment isolation |
 
 ### 11. ガイドライン

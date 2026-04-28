@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-28 - UT-GOV-001 branch protection apply NON_VISUAL evidence sync
+
+`docs/30-workflows/ut-gov-001-github-branch-protection-apply/` の Phase 12 close-out を再監査し、implementation / NON_VISUAL / github_governance タスクとして Phase 11 の代替 evidence（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）を正本化した。スクリーンショットは UI / Renderer / 画面遷移なしのため不要とし、Phase 13 の destructive `gh api PUT` はユーザー承認後に限定する境界を維持した。
+
 ## 2026-04-28 - task-verify-indexes-up-to-date-ci implementation scope normalization
 
 `docs/30-workflows/task-verify-indexes-up-to-date-ci/` をレビューし、`spec_created/docs-only` と実装同梱の表現揺れを `implementation / NON_VISUAL / Phase 13 pending_user_approval` へ正規化した。Phase 11 はスクリーンショット不要のまま、未実行 PASS ではなく local static smoke と PR 後 GitHub Actions 実機確認の境界を明記。Phase 12 は LOGS / topic-map / system spec sync を実装済み前提へ更新した。
