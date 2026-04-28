@@ -51,3 +51,6 @@ Runtime Skill Creator 系 completed workflow の canonical root は `docs/30-wor
 | Task | Status | Notes |
 | --- | --- | --- |
 | `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | spec_created / docs-only / NON_VISUAL | Depends on `task-worktree-environment-isolation`; Phase 13 is blocked until explicit user approval. Implementation is blocked until `--dangerously-skip-permissions` and `permissions.deny` interaction is verified. |
+| `docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-verification-001/` | spec_created / docs-only / NON_VISUAL | Defines official docs investigation, isolated verification runbook, and fail-closed alias fallback for `permissions.deny` under `--dangerously-skip-permissions`. |
+| `docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-execution-001.md` | proposed / conditional follow-up / NON_VISUAL | Execute only when official docs are inconclusive and user approves real Claude Code execution in `/tmp/cc-deny-verify-*`. Blocks real apply. |
+| `docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001.md` | instruction exists / implementation blocked | Existing apply instruction. Do not execute settings or alias writes until verification/execution resolves deny-bypass behavior. |

@@ -48,7 +48,11 @@
 | A-1 gitignore 化 | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a1-gitignore.md` |
 | A-2 fragment 化 | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a2-fragment.md` |
 | A-3 progressive disclosure | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-a3-progressive-disclosure.md` |
-| B-1 gitattributes | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-b1-gitattributes.md` |
+| B-1 gitattributes（原典スペック） | `docs/30-workflows/completed-tasks/unassigned-task-skill-ledger/task-skill-ledger-b1-gitattributes.md` |
+| B-1 design workflow（Phase 1〜13） | `docs/30-workflows/skill-ledger-b1-gitattributes/` |
+| B-1 実装未タスク（実 `.gitattributes` 適用） | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-gitattributes-implementation.md` |
+| B-1 A-2 完了レビュー未タスク | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-a2-completion-review.md` |
+| Phase 11 NON_VISUAL 証跡テンプレ改善 | `docs/30-workflows/unassigned-task/task-phase11-nonvisual-evidence-template-sync.md` |
 
 ## 検証コマンド早見
 
@@ -76,6 +80,26 @@ git grep -n 'LOGS\.md' .claude/skills/
 for n in 1 2 3 4; do bash scripts/new-worktree.sh verify/a2-$n; done
 git ls-files --unmerged | wc -l
 ```
+
+## A-3 他スキル適用事例
+
+### task-specification-creator（2026-04-28 / Issue #131）
+
+| 項目 | 値 |
+| --- | --- |
+| 適用前 SKILL.md 行数 | 315 行 |
+| 適用後 SKILL.md 行数 | 116 行（entry） |
+| 抽出 references 数 | 6 本（新規） |
+| 関連 workflow | `docs/30-workflows/skill-ledger-a3-progressive-disclosure/` |
+
+| 抽出 references | 用途 / 対応キーワード |
+| --- | --- |
+| `.claude/skills/task-specification-creator/references/requirements-review.md` | 要件レビュー手順 / `要件レビュー`, `requirements review`, `Phase 1 ゲート` |
+| `.claude/skills/task-specification-creator/references/task-type-decision.md` | タスクタイプ判定 / `task type`, `docs-only`, `non_visual`, `visual` |
+| `.claude/skills/task-specification-creator/references/phase-12-spec.md` | Phase 12 仕様（中学生レベル概念説明含む） / `Phase 12`, `中学生レベル`, `concept explanation` |
+| `.claude/skills/task-specification-creator/references/phase-12-pitfalls.md` | Phase 12 の罠（UBM-009〜013 等） / `Phase 12 pitfalls`, `placeholder PNG`, `wrangler 直呼び`, `Next.js 16 worktree root` |
+| `.claude/skills/task-specification-creator/references/quality-gates.md` | 品質ゲート定義 / `quality gates`, `coverage`, `phase gate` |
+| `.claude/skills/task-specification-creator/references/orchestration.md` | サブエージェント編成・並列実行 / `orchestration`, `subagent`, `parallel` |
 
 ## 関連 quick-reference
 

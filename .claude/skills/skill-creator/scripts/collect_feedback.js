@@ -2,7 +2,7 @@
 /**
  * フィードバック収集スクリプト
  *
- * スキルのLOGS.mdとEVALS.jsonからフィードバックデータを収集・集計する。
+ * スキルのLOGS fragmentsとEVALS.jsonからフィードバックデータを収集・集計する。
  * 決定論的な処理（LLM不要）。
  *
  * 使用方法:
@@ -15,7 +15,7 @@
  *   3: ファイル不在
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "fs";
 import { dirname, join } from "path";
 import { EXIT_CODES, getArg, resolvePath } from "./utils.js";
 
@@ -35,7 +35,7 @@ Options:
 }
 
 
-// LOGS.mdをパース
+// LOGS fragment bodyをパース
 function parseLogs(logsContent) {
   const entries = [];
   const logPattern = /## \[([^\]]+)\]\s*([\s\S]*?)(?=## \[|$)/g;
@@ -84,6 +84,20 @@ function parseLogs(logsContent) {
   }
 
   return entries;
+}
+
+function readLogFragments(skillPath) {
+  const logsDir = join(skillPath, "LOGS");
+  const chunks = [];
+  if (!existsSync(logsDir)) return "";
+  for (const name of readdirSync(logsDir).sort()) {
+    if (name === ".gitkeep") continue;
+    if (!name.endsWith(".md")) continue;
+    const content = readFileSync(join(logsDir, name), "utf-8");
+    const body = content.replace(/^---\n[\s\S]*?\n---\n?/, "");
+    chunks.push(body);
+  }
+  return chunks.join("\n");
 }
 
 // メトリクスを計算
@@ -222,21 +236,20 @@ async function main() {
     process.exit(EXIT_CODES.FILE_NOT_FOUND);
   }
 
-  const logsPath = join(resolvedSkillPath, "LOGS.md");
   const evalsPath = join(resolvedSkillPath, "EVALS.json");
 
   try {
-    // LOGS.mdを読み込み
+    // LOGS fragmentsを読み込み
     let entries = [];
-    if (existsSync(logsPath)) {
-      const logsContent = readFileSync(logsPath, "utf-8");
+    const logsContent = readLogFragments(resolvedSkillPath);
+    if (logsContent.length > 0) {
       entries = parseLogs(logsContent);
       if (verbose) {
-        console.log(`LOGS.md: ${entries.length}エントリを解析`);
+        console.log(`LOGS fragments: ${entries.length}エントリを解析`);
       }
     } else {
       if (verbose) {
-        console.log("LOGS.md が存在しません（新規スキル）");
+        console.log("LOGS fragment が存在しません（新規スキル）");
       }
     }
 
