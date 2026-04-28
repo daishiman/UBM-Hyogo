@@ -24,25 +24,7 @@ ubm-hyogo Webアプリは **Cloudflare** を主要インフラとして使用す
 
 ## 現行 canonical: UT-06 実行前ゲート（2026-04-27）
 
-UT-06 本番デプロイ実行では、Cloudflare CLI を直接実行せず、必ず `bash scripts/cf.sh ...` を使う。`scripts/cf.sh` は `scripts/with-env.sh` 経由で 1Password の `op://` 参照を解決し、`ESBUILD_BINARY_PATH` と `mise exec` を固定する。
-
-```bash
-bash scripts/cf.sh whoami
-bash scripts/cf.sh d1 list
-bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production
-bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env production
-bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env production
-```
-
-UT-06 実行前に次を満たすこと。
-
-| ゲート | 判定 |
-| --- | --- |
-| Web deploy 形式 | `apps/web/wrangler.toml` が OpenNext Workers 形式（`main = ".open-next/worker.js"` + `[assets] directory = ".open-next/assets"`）であること。`pages_build_output_dir` が残る場合は Pages 形式として扱い、UT-06 AC-1 の実行前ブロッカーにする |
-| API D1 smoke | `apps/api` が D1 binding を受け取り、API 経由で `SELECT 1` 相当を確認できること。`/health/db` 未実装の場合は AC-4 の実行前ブロッカーにする |
-| Health body | Phase 11 smoke の期待値と `GET /health` 実装の JSON shape が一致していること |
-| Secret hygiene | `.env` に実値を書かず、`op://` 参照のみを置くこと |
-| Screenshot evidence | 本番 smoke 後、実スクリーンショットを `outputs/phase-11/screenshots/` に保存すること。placeholder は証跡として扱わない |
+UT-06 canonical 前提・5 ゲート → [`deployment-cloudflare-ut06-gate.md`](./deployment-cloudflare-ut06-gate.md)
 
 ### 初回 D1 バックアップと restore-empty
 
@@ -66,12 +48,11 @@ UT-06 実行前に次を満たすこと。
 
 #### 1. Cloudflareアカウント設定
 
-```bash
-# Wrangler CLI のインストール
-pnpm add -g wrangler
+> **重要（2026-04-27 / UT-06 派生）**: ローカル `wrangler login`（`~/Library/Preferences/.wrangler/config/default.toml` に OAuth トークンを保持する方式）は **使用禁止**。`.env` の `op://` 参照経由で `CLOUDFLARE_API_TOKEN` を `op run --env-file=.env` で動的注入する `bash scripts/cf.sh ...` に一本化する。グローバル `pnpm add -g wrangler` も避け、worktree のローカル `node_modules/.bin/wrangler`（`scripts/cf.sh` が `ESBUILD_BINARY_PATH` を併せて固定して優先解決）を利用する。
 
-# Cloudflare アカウントへのログイン
-wrangler login
+```bash
+# 認証確認（op run --env-file=.env で 1Password から CLOUDFLARE_API_TOKEN を動的注入）
+bash scripts/cf.sh whoami
 ```
 
 #### 2. Workers プロジェクトの確認
@@ -87,9 +68,24 @@ pnpm --filter @ubm-hyogo/web build:cloudflare
 
 ```typescript
 import type { NextConfig } from "next";
+import path from "node:path";
+
+// Next.js 16 / Turbopack は monorepo の root を誤検出する場合があるため、
+// worktree root を明示する（UT-06 派生 / 2026-04-27）。
+const workspaceRoot = path.resolve(__dirname, "../..");
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  outputFileTracingRoot: workspaceRoot,
+  turbopack: {
+    root: workspaceRoot,
+  },
+  typescript: {
+    // ビルド時の型チェックは別 gate（pnpm --filter web exec tsc --noEmit）で実施するため、
+    // ビルドではエラーで停止しない設定にしている。`ignoreBuildErrors=true` を有効にする場合、
+    // 必ず deploy gate に独立した tsc --noEmit を併設する。
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;
@@ -114,11 +110,11 @@ ENVIRONMENT = "production"
 #### 4. 環境変数の設定
 
 ```bash
-# 本番環境シークレット設定
-wrangler pages secret put ANTHROPIC_API_KEY --project-name ubm-hyogo-web
+# 本番環境シークレット設定（scripts/cf.sh 経由で op 参照を動的注入）
+bash scripts/cf.sh secret put ANTHROPIC_API_KEY --config apps/web/wrangler.toml --env production
 
 # 確認
-wrangler pages secret list --project-name ubm-hyogo-web
+bash scripts/cf.sh secret list --config apps/web/wrangler.toml --env production
 ```
 
 ---
@@ -137,6 +133,8 @@ apps/
 
 ### wrangler.toml（API Workers）
 
+> wrangler 4.x は strict mode により、`--env <name>` 指定時に対応する `[env.<name>]` セクションが top-level に存在しないと deploy が失敗する。staging / production 双方を必ず明示する（UT-06 派生 / 2026-04-27）。
+
 ```toml
 name = "ubm-hyogo-api"
 main = "src/index.ts"
@@ -152,6 +150,12 @@ database_id = "your-d1-database-id"
 binding = "SESSION_KV"
 id = "your-kv-namespace-id"
 # UT-13 で SESSION_KV に統一。詳細は本ファイル下方「Cloudflare KV セッションキャッシュ」セクション参照
+
+[env.staging]
+name = "ubm-hyogo-api-staging"
+
+[env.production]
+name = "ubm-hyogo-api"
 ```
 
 > R2 binding は現行 `apps/api/wrangler.toml` には未適用。UT-12 の下流実装時に、下記 R2 セクションの環境別差分を追加する。
@@ -159,11 +163,11 @@ id = "your-kv-namespace-id"
 ### デプロイコマンド
 
 ```bash
-# Workers のデプロイ
-wrangler deploy --config apps/api/wrangler.toml
+# Workers のデプロイ（canonical: scripts/cf.sh 経由）
+bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env production
 
 # ログ確認
-wrangler tail --config apps/api/wrangler.toml
+bash scripts/cf.sh tail --config apps/api/wrangler.toml --env production
 ```
 
 ### Cloudflare R2 ストレージ設定（UT-12）
@@ -215,23 +219,23 @@ UT-12 は `spec_created` のため実 bucket 作成・`wrangler.toml` 反映・s
 
 ```bash
 # D1 データベース作成
-wrangler d1 create ubm-hyogo-db
+bash scripts/cf.sh d1 create ubm-hyogo-db-prod
 
-# マイグレーション実行
-wrangler d1 migrations apply ubm-hyogo-db --remote
+# マイグレーション実行（canonical: scripts/cf.sh 経由 / production）
+bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production
 
-# ローカル開発（D1シミュレーター）
-wrangler d1 migrations apply ubm-hyogo-db --local
+# 初回 migration 前に export を取り backup 証跡として保存（空 export でも記録）
+bash scripts/cf.sh d1 export ubm-hyogo-db-prod --env production --output backup.sql
 ```
 
 ### マイグレーション管理
 
 ```bash
 # 新規マイグレーション作成
-wrangler d1 migrations create ubm-hyogo-db "add_users_table"
+bash scripts/cf.sh d1 migrations create ubm-hyogo-db-prod "add_users_table"
 
 # マイグレーション一覧
-wrangler d1 migrations list ubm-hyogo-db --remote
+bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production
 ```
 
 ### D1 PRAGMA 制約
@@ -443,8 +447,8 @@ pnpm --filter @repo/web dev
 Cloudflare ダッシュボード → Pages → Deployments から過去のデプロイメントを選択して「Rollback to this deployment」をクリック。
 
 ```bash
-# CLI でのロールバック（特定デプロイメントIDに戻す）
-wrangler pages deployment rollback <deployment-id> --project-name ubm-hyogo-web
+# CLI でのロールバック（canonical: scripts/cf.sh 経由）
+bash scripts/cf.sh rollback <VERSION_ID> --config apps/web/wrangler.toml --env production
 ```
 
 ### ロールバック判断基準
@@ -492,3 +496,4 @@ UT-08（`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`）で
 | ---- | ---------- | -------- |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare 移行） |
 | 2026-04-27 | 1.1.0 | UT-08 モニタリング/アラート設計の SSOT 連携セクション追加 |
+| 2026-04-27 | 1.2.0 | UT-06 派生: `scripts/cf.sh` 章を `wrangler` 直接実行から canonical wrapper に統一（whoami / deploy / d1 / rollback / secret / tail）。ローカル `wrangler login` OAuth 禁止と `op://` 参照経由の `CLOUDFLARE_API_TOKEN` 動的注入を明示。OpenNext Workers 形式 / Pages 形式の判定マトリクスを追加。初回 D1 backup の空 export 取扱を追記。`apps/web/next.config.ts` 例に `outputFileTracingRoot` / `turbopack.root` / `typescript.ignoreBuildErrors` を反映（別 `tsc --noEmit` gate と pair 必須）。API `wrangler.toml` 例に wrangler 4.x strict mode 対応の `[env.staging]` / `[env.production]` を明示 |

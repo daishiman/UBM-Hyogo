@@ -2353,6 +2353,14 @@ node scripts/list-specs.js --topics
 | ブランチ保護ルール（推奨設定） | L83 |
 | 変更履歴 | L109 |
 
+### references/deployment-cloudflare-ut06-gate.md
+
+| セクション | 行 |
+|------------|----|
+| canonical 実行ラッパー | L5 |
+| 実行前ゲート | L17 |
+| 関連 | L29 |
+
 ### references/deployment-cloudflare.md
 
 | セクション | 行 |
@@ -2360,28 +2368,28 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L63 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L126 |
-| Cloudflare D1 データベース | L212 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L245 |
-| GitHub Actions CI/CD | L357 |
-| プレビューデプロイメント | L389 |
-| カスタムドメイン設定 | L406 |
-| 環境分離 | L419 |
-| ロールバック戦略 | L439 |
-| コスト概算（個人開発） | L460 |
-| モニタリング/アラート（UT-08 連携） | L472 |
-| 変更履歴 | L489 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L45 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L122 |
+| Cloudflare D1 データベース | L216 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L249 |
+| GitHub Actions CI/CD | L361 |
+| プレビューデプロイメント | L393 |
+| カスタムドメイン設定 | L410 |
+| 環境分離 | L423 |
+| ロールバック戦略 | L443 |
+| コスト概算（個人開発） | L464 |
+| モニタリング/アラート（UT-08 連携） | L476 |
+| 変更履歴 | L493 |
 
 ### references/deployment-core.md
 
 | セクション | 行 |
 |------------|----|
 | デプロイメント戦略概要 | L6 |
-| Cloudflare デプロイ戦略 | L53 |
-| GitHub Actions CI/CD パイプライン | L100 |
-| ロールバック戦略 | L143 |
-| 変更履歴 | L189 |
+| Cloudflare デプロイ戦略 | L54 |
+| GitHub Actions CI/CD パイプライン | L101 |
+| ロールバック戦略 | L144 |
+| 変更履歴 | L190 |
 
 ### references/deployment-details.md
 
@@ -2423,9 +2431,10 @@ node scripts/list-specs.js --topics
 | GitHub Secrets（CI/CD 用） | L78 |
 | wrangler.toml の環境別設定 | L103 |
 | ローカル開発での設定 | L135 |
-| セキュリティ原則 | L174 |
-| Cloudflare API Token の作成手順 | L185 |
-| 変更履歴 | L214 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L174 |
+| セキュリティ原則 | L211 |
+| Cloudflare API Token の作成手順 | L222 |
+| 変更履歴 | L251 |
 
 ### references/deployment.md
 
@@ -2805,6 +2814,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | TASK-IMP-CHAT-WORKSPACE-GUIDANCE-ACTION-WIRING-001（2026-03-22） | L4 |
+
+### references/lessons-learned-current-2026-04-ut06.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| L-UT06-001: `wrangler` 直叩き禁止 → `scripts/cf.sh` に集約 | L13 |
+| L-UT06-002: `.env` に実値を書かず `op://` 参照のみ（AI 学習混入防止） | L26 |
+| L-UT06-003: wrangler 4.x strict mode で `[env.production]` 明示必須 | L39 |
+| L-UT06-004: Next.js 16 + Turbopack の worktree root 誤検出 | L52 |
+| L-UT06-005: `ignoreBuildErrors` は別 tsc gate と pair 必須 | L65 |
+| 関連 reference 更新まとめ | L78 |
 
 ### references/lessons-learned-current-2026-04.md
 

@@ -1,5 +1,5 @@
 {
-  "totalKeywords": 2965,
+  "totalKeywords": 2993,
   "keywords": {
     "チャット履歴": [
       "api-chat-history.md"
@@ -132,6 +132,7 @@
       "ipc-4-layer-pattern.md",
       "ipc-type-resolution-guide.md",
       "legacy-ordinal-family-register.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "lessons-learned-ut08-monitoring-design-2026-04.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
@@ -850,6 +851,7 @@
     "CLI": [
       "arch-claude-cli.md",
       "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
       "interfaces-agent-sdk-integration.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-skill-ipc-core.md"
@@ -1684,6 +1686,7 @@
       "interfaces-agent-sdk-skill-advanced.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "interfaces-llm.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "lessons-learned-ipc-preload-runtime-2026-03-early.md",
       "lessons-learned-ipc-preload-runtime-2026-03-late.md",
       "lessons-learned-ipc-preload-runtime-2026-04.md",
@@ -2033,6 +2036,7 @@
       "architecture-implementation-patterns-reference.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "interfaces-agent-sdk-skill-reference.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "ui-ux-feature-components-reference.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
@@ -2162,6 +2166,7 @@
     ],
     "migration": [
       "arch-state-management-reference-permissions-import-lifecycle.md",
+      "deployment-cloudflare.md",
       "workflow-light-theme-global-remediation.md"
     ],
     "renderer": [
@@ -2634,7 +2639,9 @@
     ],
     "UT": [
       "arch-state-management-skill-creator.md",
+      "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
       "interfaces-agent-sdk-executor-details.md",
       "interfaces-agent-sdk-skill-editor.md",
       "interfaces-agent-sdk-skill.md",
@@ -2648,6 +2655,7 @@
       "lessons-learned-cicd-dev-main-deploy.md",
       "lessons-learned-conversation-db-robustness.md",
       "lessons-learned-current-2026-03-late.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "lessons-learned-current-2026-04.md",
       "lessons-learned-current-2026-04b.md",
       "lessons-learned-health-policy-worktree-2026-04.md",
@@ -2837,6 +2845,7 @@
       "lessons-learned-current-2026-03-early.md",
       "lessons-learned-current-2026-03-late.md",
       "lessons-learned-current-2026-03-mid.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "lessons-learned-current-2026-04.md",
       "lessons-learned-current-2026-04b.md",
       "lessons-learned-current.md",
@@ -3947,6 +3956,9 @@
     ],
     "scripts": [
       "claude-code-skills-resources.md",
+      "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "lessons-learned-ui-skill-center-editor-dashboard.md"
     ],
     "references": [
@@ -4241,6 +4253,7 @@
       "deployment-branch-strategy.md"
     ],
     "Cloudflare": [
+      "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md",
       "deployment-core.md",
       "deployment-secrets-management.md",
@@ -4248,17 +4261,19 @@
       "r2-storage-decision-guide.md",
       "technology-core.md"
     ],
-    "デプロイメント仕様": [
-      "deployment-cloudflare.md"
+    "デプロイメント": [
+      "deployment-cloudflare-ut06-gate.md",
+      "deployment-core.md",
+      "deployment-details.md",
+      "deployment-history.md",
+      "deployment.md"
     ],
-    "サービス構成": [
+    "実行前ゲート": [
+      "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md"
-    ],
-    "現行": [
-      "deployment-cloudflare.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "canonical": [
+      "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md",
       "lessons-learned-skill-create-multi-select-kind.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -4270,8 +4285,25 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
-    "実行前ゲート": [
+    "実行ラッパー": [
+      "deployment-cloudflare-ut06-gate.md"
+    ],
+    "関連": [
+      "deployment-cloudflare-ut06-gate.md",
+      "interfaces-api.md",
+      "interfaces-shared.md",
+      "lessons-learned-current-2026-04-ut06.md",
+      "rag-desktop-state.md"
+    ],
+    "デプロイメント仕様": [
       "deployment-cloudflare.md"
+    ],
+    "サービス構成": [
+      "deployment-cloudflare.md"
+    ],
+    "現行": [
+      "deployment-cloudflare.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "Workers": [
       "deployment-cloudflare.md"
@@ -4282,11 +4314,13 @@
     "Next": [
       "deployment-cloudflare.md",
       "directory-structure-core.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "technology-core.md"
     ],
     "js": [
       "deployment-cloudflare.md",
       "directory-structure-core.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "technology-core.md"
@@ -4294,19 +4328,66 @@
     "OpenNext": [
       "deployment-cloudflare.md"
     ],
-    "Wrangler": [
+    "認証確認": [
+      "deployment-cloudflare.md",
+      "deployment-secrets-management.md"
+    ],
+    "op": [
+      "deployment-cloudflare.md",
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "run": [
+      "deployment-cloudflare.md",
+      "lessons-learned-skill-remove-contract.md"
+    ],
+    "env": [
+      "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "file": [
+      "deployment-cloudflare.md",
+      "lessons-learned-workflow-quality-phase12-audit-validator.md"
+    ],
+    "Password": [
+      "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md"
+    ],
+    "から": [
+      "deployment-cloudflare.md",
+      "deployment-secrets-management.md"
+    ],
+    "CLOUDFLARE": [
       "deployment-cloudflare.md"
     ],
-    "のインストール": [
-      "deployment-cloudflare.md"
+    "TOKEN": [
+      "deployment-cloudflare.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
-    "アカウントへのログイン": [
+    "を動的注入": [
       "deployment-cloudflare.md"
     ],
     "ローカルビルドの確認": [
       "deployment-cloudflare.md"
     ],
     "本番環境シークレット設定": [
+      "deployment-cloudflare.md"
+    ],
+    "cf": [
+      "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "sh": [
+      "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "経由で": [
+      "deployment-cloudflare.md"
+    ],
+    "参照を動的注入": [
       "deployment-cloudflare.md"
     ],
     "確認": [
@@ -4333,6 +4414,9 @@
     "のデプロイ": [
       "deployment-cloudflare.md"
     ],
+    "経由": [
+      "deployment-cloudflare.md"
+    ],
     "ログ確認": [
       "deployment-cloudflare.md"
     ],
@@ -4342,10 +4426,31 @@
     "マイグレーション実行": [
       "deployment-cloudflare.md"
     ],
-    "ローカル開発": [
+    "production": [
+      "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-cicd-dev-main-deploy.md",
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "初回": [
       "deployment-cloudflare.md"
     ],
-    "シミュレーター": [
+    "前に": [
+      "deployment-cloudflare.md"
+    ],
+    "export": [
+      "deployment-cloudflare.md"
+    ],
+    "を取り": [
+      "deployment-cloudflare.md"
+    ],
+    "backup": [
+      "deployment-cloudflare.md"
+    ],
+    "証跡として保存": [
+      "deployment-cloudflare.md"
+    ],
+    "でも記録": [
       "deployment-cloudflare.md"
     ],
     "新規マイグレーション作成": [
@@ -4424,20 +4529,6 @@
     "でのロールバック": [
       "deployment-cloudflare.md"
     ],
-    "特定デプロイメント": [
-      "deployment-cloudflare.md"
-    ],
-    "ID": [
-      "deployment-cloudflare.md",
-      "interfaces-skill-verify-contract.md",
-      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
-      "lessons-learned-skill-remove-contract.md",
-      "logs-archive-2026-02-skill-validation-atoms-audit.md",
-      "task-workflow-completed-skill-lifecycle.md"
-    ],
-    "に戻す": [
-      "deployment-cloudflare.md"
-    ],
     "コスト概算": [
       "deployment-cloudflare.md"
     ],
@@ -4451,12 +4542,6 @@
     ],
     "アラート": [
       "deployment-cloudflare.md"
-    ],
-    "デプロイメント": [
-      "deployment-core.md",
-      "deployment-details.md",
-      "deployment-history.md",
-      "deployment.md"
     ],
     "Deployment": [
       "deployment-core.md",
@@ -4532,10 +4617,6 @@
     "ランタイム": [
       "deployment-secrets-management.md"
     ],
-    "production": [
-      "deployment-secrets-management.md",
-      "lessons-learned-cicd-dev-main-deploy.md"
-    ],
     "環境": [
       "deployment-secrets-management.md"
     ],
@@ -4556,7 +4637,8 @@
       "deployment-secrets-management.md"
     ],
     "wrangler": [
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-current-2026-04-ut06.md"
     ],
     "toml": [
       "deployment-secrets-management.md"
@@ -4579,16 +4661,9 @@
     "ローカル開発での設定": [
       "deployment-secrets-management.md"
     ],
-    "Password": [
-      "deployment-secrets-management.md",
-      "lessons-learned-cicd-dev-main-deploy.md"
-    ],
     "Environments": [
       "deployment-secrets-management.md",
       "lessons-learned-cicd-dev-main-deploy.md"
-    ],
-    "から": [
-      "deployment-secrets-management.md"
     ],
     "mount": [
       "deployment-secrets-management.md"
@@ -4605,10 +4680,24 @@
     "secrets": [
       "deployment-secrets-management.md"
     ],
-    "env": [
+    "手編集しない": [
       "deployment-secrets-management.md"
     ],
-    "手編集しない": [
+    "ラッパー": [
+      "deployment-secrets-management.md",
+      "testing-fixtures.md"
+    ],
+    "派生": [
+      "deployment-secrets-management.md",
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "操作": [
+      "deployment-secrets-management.md"
+    ],
+    "デプロイ・": [
+      "deployment-secrets-management.md"
+    ],
+    "rollback": [
       "deployment-secrets-management.md"
     ],
     "セキュリティ原則": [
@@ -5321,11 +5410,6 @@
     "クライアント同期契約": [
       "interfaces-api.md"
     ],
-    "関連": [
-      "interfaces-api.md",
-      "interfaces-shared.md",
-      "rag-desktop-state.md"
-    ],
     "認証・プロフィール": [
       "interfaces-auth-core.md",
       "interfaces-auth-history.md",
@@ -5701,6 +5785,13 @@
     "Check": [
       "interfaces-skill-verify-contract.md"
     ],
+    "ID": [
+      "interfaces-skill-verify-contract.md",
+      "lessons-learned-auth-ipc-phase12-type-gaps-preload-alignment.md",
+      "lessons-learned-skill-remove-contract.md",
+      "logs-archive-2026-02-skill-validation-atoms-audit.md",
+      "task-workflow-completed-skill-lifecycle.md"
+    ],
     "体系": [
       "interfaces-skill-verify-contract.md"
     ],
@@ -6022,6 +6113,7 @@
       "lessons-learned-current-2026-03-early.md",
       "lessons-learned-current-2026-03-late.md",
       "lessons-learned-current-2026-03-mid.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "lessons-learned-current-2026-04.md",
       "lessons-learned-current-2026-04b.md",
       "lessons-learned-current-electron-menu-docs-task0912.md",
@@ -6093,6 +6185,7 @@
       "lessons-learned-current-2026-03-early.md",
       "lessons-learned-current-2026-03-late.md",
       "lessons-learned-current-2026-03-mid.md",
+      "lessons-learned-current-2026-04-ut06.md",
       "lessons-learned-current-2026-04.md",
       "lessons-learned-current-2026-04b.md",
       "lessons-learned-current-electron-menu-docs-task0912.md",
@@ -7213,6 +7306,76 @@
       "task-workflow-completed-skill-lifecycle-ui.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
+    "直叩き禁止": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "に集約": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "に実値を書かず": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "参照のみ": [
+      "lessons-learned-current-2026-04-ut06.md",
+      "lessons-learned-rt-04-authkey-dedup.md"
+    ],
+    "学習混入防止": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "strict": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "mode": [
+      "lessons-learned-current-2026-04-ut06.md",
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-ui-ux-visual-baseline-drift.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
+    ],
+    "明示必須": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "Turbopack": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "worktree": [
+      "lessons-learned-current-2026-04-ut06.md",
+      "lessons-learned-current-2026-04.md",
+      "lessons-learned-governance-hooks-phase-policy.md",
+      "lessons-learned-health-policy-worktree-2026-04.md",
+      "lessons-learned-sdk-session-bridge-vitest-worktree.md",
+      "lessons-learned-skill-create-multi-select-kind.md"
+    ],
+    "root": [
+      "lessons-learned-current-2026-04-ut06.md",
+      "lessons-learned-workflow-quality-line-budget-reform.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md"
+    ],
+    "誤検出": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "ignoreBuildErrors": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "は別": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "tsc": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "gate": [
+      "lessons-learned-current-2026-04-ut06.md",
+      "task-workflow-completed-ut-06-safety-gate.md"
+    ],
+    "pair": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "必須": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
+    "更新まとめ": [
+      "lessons-learned-current-2026-04-ut06.md"
+    ],
     "VALIDATION": [
       "lessons-learned-current-2026-04.md",
       "lessons-learned-skill-validation-logging-deprecation.md",
@@ -7313,13 +7476,6 @@
     "並列": [
       "lessons-learned-current-2026-04.md",
       "lessons-learned-health-policy-worktree-2026-04.md"
-    ],
-    "worktree": [
-      "lessons-learned-current-2026-04.md",
-      "lessons-learned-governance-hooks-phase-policy.md",
-      "lessons-learned-health-policy-worktree-2026-04.md",
-      "lessons-learned-sdk-session-bridge-vitest-worktree.md",
-      "lessons-learned-skill-create-multi-select-kind.md"
     ],
     "コンフリクト解消": [
       "lessons-learned-current-2026-04.md",
@@ -7451,12 +7607,6 @@
     ],
     "WAL": [
       "lessons-learned-current-2026-04.md"
-    ],
-    "mode": [
-      "lessons-learned-current-2026-04.md",
-      "lessons-learned-ui-ux-visual-baseline-drift.md",
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
     ],
     "PKCE": [
       "lessons-learned-current-2026-04b.md",
@@ -8139,9 +8289,6 @@
     "バイナリ問題": [
       "lessons-learned-rt-04-authkey-dedup.md"
     ],
-    "参照のみ": [
-      "lessons-learned-rt-04-authkey-dedup.md"
-    ],
     "stub": [
       "lessons-learned-rt02-stub-response-error-notification.md"
     ],
@@ -8541,9 +8688,6 @@
       "lessons-learned-skill-remove-contract.md"
     ],
     "対象パッケージディレクトリから": [
-      "lessons-learned-skill-remove-contract.md"
-    ],
-    "run": [
       "lessons-learned-skill-remove-contract.md"
     ],
     "で実行": [
@@ -9253,10 +9397,6 @@
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
       "task-workflow-completed-agent-view-line-budget.md"
     ],
-    "root": [
-      "lessons-learned-workflow-quality-line-budget-reform.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md"
-    ],
     "GATE": [
       "lessons-learned-workflow-quality-line-budget-reform.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md"
@@ -9355,9 +9495,6 @@
     "target": [
       "lessons-learned-workflow-quality-phase12-audit-validator.md",
       "logs-archive-2026-03-notification-history-sigterm-guard.md"
-    ],
-    "file": [
-      "lessons-learned-workflow-quality-phase12-audit-validator.md"
     ],
     "の対象外運用とし": [
       "lessons-learned-workflow-quality-phase12-audit-validator.md"
@@ -10858,9 +10995,6 @@
     "正本へ同期": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
-    "TOKEN": [
-      "logs-archive-2026-03-line-budget-reform-formalize.md"
-    ],
     "global": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
@@ -12276,9 +12410,6 @@
     "safety": [
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
-    "gate": [
-      "task-workflow-completed-ut-06-safety-gate.md"
-    ],
     "evaluateSafety": [
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
@@ -12543,9 +12674,6 @@
       "ui-history-components.md"
     ],
     "ビルダー": [
-      "testing-fixtures.md"
-    ],
-    "ラッパー": [
       "testing-fixtures.md"
     ],
     "フィクスチャファイル構成": [

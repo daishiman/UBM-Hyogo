@@ -180,3 +180,59 @@ node .claude/skills/task-specification-creator/scripts/audit-unassigned-tasks.js
   --target-file docs/30-workflows/unassigned-task/<task-file>.md
 ```
 
+---
+
+## 正本フォーマット（UT-06 派生 UNASSIGNED-G を題材に）
+
+UT-06 (本番デプロイ実行タスク) の Phase 12 で派生検出された UNASSIGNED-G を例に、正本フォーマットを以下に固定する。
+
+### 命名規則
+
+- **ファイル名 / taskId 共通**: `^task-[a-z]+-[a-z0-9-]+-[0-9]+$`
+  - 第1セグメント: カテゴリ (`fix` / `imp` / `ref` / `doc` / `ops` / `cicd` 等)
+  - 中間セグメント: kebab-case の主題（`a-z0-9-` のみ。日本語・大文字・アンダースコア禁止）
+  - 末尾セグメント: 3桁ゼロ詰め通番（`001` / `002` / ...）
+- 例: `task-ops-cloudflare-wrangler-wrapper-001.md`、`task-fix-nextjs-turbopack-worktree-root-001.md`
+- 旧形式（`UT-XX-NNN` / `TASK-FOO-BAR` 等）は legacy として残置可だが、新規起票は本パターンに統一する
+
+### 配置
+
+- **正規パス**: `docs/30-workflows/unassigned-task/<taskId>.md`
+- 完了後は `docs/30-workflows/completed-tasks/unassigned-task/<taskId>.md` へ移動
+- workflow 個別 `outputs/phase-12/unassigned-task-detection.md` 内には **載せ替えず**、リンクのみ保持（後述「二段運用」）
+
+### 二段運用（検出ログ ↔ 独立タスク起票）
+
+Phase 12 では未タスクを以下の **二段運用** に分離する。両ファイルは責務が異なるため必ず別ファイルとして管理する。
+
+| 種別 | ファイル | 役割 |
+| --- | --- | --- |
+| 検出ログ | `outputs/phase-12/unassigned-task-detection.md` | 当該 workflow の Phase 12 で検出された未タスクの **一覧・要約・分類**。UNASSIGNED-A/B/C... の連番で見出しを付け、症状・発生 phase・優先度・起票先 taskId を記録 |
+| 独立タスク | `docs/30-workflows/unassigned-task/<taskId>.md` | 各 UNASSIGNED-X に対応する **正式タスク仕様書**。`assets/unassigned-task-template.md` に従い 2.2 最終ゴール / 3.x 前提・課題 / 4.x 実装方針 / 5. 受け入れ条件 / 6. 検証方法を記述 |
+
+- 検出ログ → 独立タスクへは **必ず双方向リンク** を張る
+  - 検出ログ側: `[起票先](../../../unassigned-task/task-ops-...-001.md)`
+  - 独立タスク側: 冒頭メタに `source: docs/30-workflows/<workflow>/outputs/phase-12/unassigned-task-detection.md#unassigned-g`
+- 独立タスク化を後送りする場合は検出ログに `formalize_status: pending` を明記し、Phase 12 close-out 同 wave で `verify-unassigned-links.js` を再実行して link 整合を確認する
+
+### UT-06 派生 UNASSIGNED-G の具体例
+
+UT-06 では以下が UNASSIGNED-G として検出され、本ガイドに沿って独立タスク化された:
+
+| UNASSIGNED-X | 主題 | 起票 taskId（例） |
+| --- | --- | --- |
+| UNASSIGNED-G | Cloudflare wrangler 直接呼び出しを `scripts/cf.sh` ラッパーへ強制集約 | `task-ops-cloudflare-wrangler-wrapper-001` |
+| UNASSIGNED-G' | Next.js 16 / Turbopack の worktree root 誤検出ガード（`outputFileTracingRoot` / `turbopack.root` 明示） | `task-fix-nextjs-turbopack-worktree-root-001` |
+| UNASSIGNED-G'' | wrangler 4.x `[env.production]` strict mode への二重定義同期 | `task-ops-wrangler-env-production-strict-001` |
+
+> 上記 taskId は本ガイドのフォーマット例示であり、実起票時は通番衝突を `ls docs/30-workflows/unassigned-task/ | grep -c '^task-ops-'` 等で確認してから採番すること。
+
+### 起票時チェックリスト
+
+- [ ] taskId が `^task-[a-z]+-[a-z0-9-]+-[0-9]+$` にマッチする
+- [ ] 配置パスが `docs/30-workflows/unassigned-task/<taskId>.md`
+- [ ] 検出ログ側に独立タスクへのリンクを記載
+- [ ] 独立タスク側に検出ログへの逆リンクをメタに記載
+- [ ] `node .claude/skills/task-specification-creator/scripts/verify-unassigned-links.js` PASS
+- [ ] 親 workflow の Phase 12 changelog に「UNASSIGNED-X → <taskId> formalize」を 1 行記録
+

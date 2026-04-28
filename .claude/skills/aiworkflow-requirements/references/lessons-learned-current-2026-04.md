@@ -858,3 +858,8 @@
 | 解決策     | docs-only タスクの Phase 1（要件定義）または Phase 2（設計）段階で、プロバイダー依存の機能について official-support gate（公式ドキュメント確認 or 確認予定の明記）を設けるルールを追加 |
 | 再発防止   | task-specification-creator スキルのテンプレートに「プロバイダー依存機能の official-support gate」チェック項目を追加することを skill-feedback-report に記録 |
 | 関連タスク | UT-02 |
+
+---
+
+> 注記（2026-04-27 分離）:
+> - UT-06 production deploy execution の派生教訓（L-UT06-001 〜 L-UT06-005: `wrangler` 直叩き禁止 / `.env` op:// 参照のみ / wrangler 4.x `[env.production]` 必須 / Next.js 16 + Turbopack worktree root 誤検出 / `ignoreBuildErrors` と別 tsc gate の pair 必須）は [lessons-learned-current-2026-04-ut06.md](lessons-learned-current-2026-04-ut06.md) に分離しました（500 行制限のため責務分離）。

@@ -2,6 +2,7 @@
 
 > 元ファイル: `patterns.md` から分割
 > 読み込み条件: 失敗原因を切り分けたい時、スクリプト・検証の問題を解決したい時。
+> 関連ファイル: [patterns-troubleshooting-worktree-cloudflare.md](patterns-troubleshooting-worktree-cloudflare.md)（worktree × Next.js 16 / wrangler 4.x / esbuild mismatch 系の知見。500 行制約のため別ファイル化）
 
 ## 関連リソース
 

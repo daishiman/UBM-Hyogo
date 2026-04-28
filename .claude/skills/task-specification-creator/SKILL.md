@@ -341,6 +341,8 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 | **[UBM-009]** 本番不可逆操作 task で docs-only template 整備を「本番完了」と誤読する | Phase 5 / Phase 11 が NOT EXECUTED の場合、index / artifacts / go-nogo は `docs-ready-execution-blocked` 等の状態にし、実デプロイ完了・本番稼働・下流解放を示す文言を使わない |
 | **[UBM-010]** `capture-pending.png` 等の placeholder を Phase 11 screenshot evidence として扱う | PNG の存在だけで PASS にせず、実寸・内容・本番 URL・撮影日時・scenario ID を確認する。placeholder は `NOT EXECUTED` evidence として明記し、実 screenshot 必須タスクでは blocker にする |
 | **[UBM-011]** smoke docs が未実装 endpoint（例: `/health/db`）を前提にする | Phase 12 で API 実装と smoke endpoint を突合し、未実装なら実行前ブロッカーまたは未タスクへ昇格する。docs 側の期待 JSON と実装の response shape も同時に確認する |
+| **[UBM-012]** 本番デプロイ実行で `wrangler` 直接呼び出し / `wrangler login` ローカル OAuth が混入する | 実行前ブロッカー。Phase 5 / Phase 12 で deploy 系コマンド (`wrangler deploy` / `wrangler d1 ...` 等) を検出したら必ず `scripts/cf.sh` ラッパーへ強制集約する。`~/Library/Preferences/.wrangler/config/default.toml` 由来の OAuth トークンは禁止し、`.env` の `op://` 参照と `op run --env-file=.env` 経由の `CLOUDFLARE_API_TOKEN` 注入に一本化する。CLAUDE.md「Cloudflare 系 CLI 実行ルール」と整合させること |
+| **[UBM-013]** Next.js 16 / Turbopack の worktree root 誤検出により別 worktree の `packages/*` が型チェック対象になる | `apps/web` を含むタスクでは `next.config.ts` に `outputFileTracingRoot` と `turbopack.root` を明示する（worktree 直下の絶対パス）。明示しないと親リポや別 worktree の `packages/shared/src/zod/*` が collected され、関係のない型エラーで build が落ちる。緊急回避で `typescript.ignoreBuildErrors = true` を入れる場合は Phase 12 で別 tsc gate（`pnpm typecheck` 単体）を必ずペアリングし、同 PR 内で解除予定を changelog に明記する |
 
 > 旧フィードバック（W0-RV-001・SC-13-1/2・UBM-001〜008・FB-SDK-07-2/4）は [SKILL-changelog.md](SKILL-changelog.md) に移動済み。
 
