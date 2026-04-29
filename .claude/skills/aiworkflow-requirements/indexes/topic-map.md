@@ -83,6 +83,19 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: モノレポ, レイヤー, Clean Architecture, RAG, Knowledge Graph
 
+### references/architecture-admin-api-client.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 構成図 | L15 |
+| 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
+| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L174 |
+| 5. ステータスコード処理方針 | L231 |
+| 6. 環境変数 | L263 |
+| 7. 不変条件サマリ（admin API client / proxy） | L276 |
+| 8. 関連ドキュメント | L288 |
+
 ### references/architecture-auth-security-core.md
 
 | セクション | 行 |
@@ -1016,6 +1029,20 @@ node scripts/list-specs.js --topics
 ## UI/UX
 
 **関連キーワード**: Design Tokens, コンポーネント, Tailwind, レスポンシブ, Apple HIG
+
+### references/ui-ux-admin-dashboard.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 全体構成 | L15 |
+| 2. AdminSidebar | L50 |
+| 3. /admin（Dashboard） | L76 |
+| 4. /admin/members | L108 |
+| 5. /admin/tags | L201 |
+| 6. /admin/schema | L256 |
+| 7. /admin/meetings | L310 |
+| 8. 共通の Server/Client 契約 | L379 |
+| 9. 不変条件サマリ（admin UI） | L397 |
 
 ### references/ui-ux-advanced.md
 
@@ -2876,6 +2903,18 @@ node scripts/list-specs.js --topics
 | Lessons | L9 |
 | Follow-up Boundaries | L19 |
 
+### references/lessons-learned-06c-admin-ui-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-06C-001: Phase 11 の実 screenshot は D1 fixture / staging admin 前提のとき後続 wave に委譲する | L10 |
+| L-06C-002: ESLint no-restricted-imports 正式導入は別 task 扱い、現状は `scripts/lint-boundaries.mjs` を境界の正本にする | L20 |
+| L-06C-003: Server Component（`server-fetch.ts`）と Client Component（`api.ts`）の責務分離を最初に設計する | L30 |
+| L-06C-004: tag 直接編集 UI と profile 直編集 UI を「作らない」ことを spec で明示拒否する | L40 |
+| L-06C-005: nested resource の 404（不在）と 409（重複・所有関係不整合）を UX feedback で別 toast に分ける | L50 |
+| 関連未タスク・後続 wave 連携 | L60 |
+| 参照 | L68 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -2969,8 +3008,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L50 |
-| 関連ドキュメント | L55 |
+| 利用順序 | L51 |
+| 関連ドキュメント | L56 |
 
 ### references/llm-embedding.md
 

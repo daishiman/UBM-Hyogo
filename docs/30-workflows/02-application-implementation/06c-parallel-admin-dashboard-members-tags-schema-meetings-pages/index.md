@@ -5,13 +5,13 @@
 | 項目 | 値 |
 | --- | --- |
 | タスク名 | admin-dashboard-members-tags-schema-meetings-pages |
-| ディレクトリ | doc/02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages |
+| ディレクトリ | docs/30-workflows/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages |
 | Wave | 6 |
 | 実行種別 | parallel |
 | 作成日 | 2026-04-26 |
 | 担当 | app-admin-ui |
-| 状態 | pending |
-| タスク種別 | spec_created |
+| 状態 | completed / Phase 1-12 完了 / Phase 13 pending_user_approval |
+| タスク種別 | implementation |
 
 ## 目的
 
@@ -82,19 +82,19 @@
 
 | Phase | 名称 | ファイル | 状態 | 主成果物 |
 | --- | --- | --- | --- | --- |
-| 1 | 要件定義 | phase-01.md | pending | outputs/phase-01/main.md |
-| 2 | 設計 | phase-02.md | pending | outputs/phase-02/main.md |
-| 3 | 設計レビュー | phase-03.md | pending | outputs/phase-03/main.md |
-| 4 | テスト戦略 | phase-04.md | pending | outputs/phase-04/main.md |
-| 5 | 実装ランブック | phase-05.md | pending | outputs/phase-05/main.md |
-| 6 | 異常系検証 | phase-06.md | pending | outputs/phase-06/main.md |
-| 7 | AC マトリクス | phase-07.md | pending | outputs/phase-07/main.md |
-| 8 | DRY 化 | phase-08.md | pending | outputs/phase-08/main.md |
-| 9 | 品質保証 | phase-09.md | pending | outputs/phase-09/main.md |
-| 10 | 最終レビュー | phase-10.md | pending | outputs/phase-10/main.md |
-| 11 | 手動 smoke | phase-11.md | pending | outputs/phase-11/main.md |
-| 12 | ドキュメント更新 | phase-12.md | pending | outputs/phase-12/main.md |
-| 13 | PR 作成 | phase-13.md | pending | outputs/phase-13/main.md |
+| 1 | 要件定義 | phase-01.md | completed | outputs/phase-01/main.md |
+| 2 | 設計 | phase-02.md | completed | outputs/phase-02/main.md |
+| 3 | 設計レビュー | phase-03.md | completed | outputs/phase-03/main.md |
+| 4 | テスト戦略 | phase-04.md | completed | outputs/phase-04/main.md |
+| 5 | 実装ランブック | phase-05.md | completed | outputs/phase-05/main.md |
+| 6 | 異常系検証 | phase-06.md | completed | outputs/phase-06/main.md |
+| 7 | AC マトリクス | phase-07.md | completed | outputs/phase-07/main.md |
+| 8 | DRY 化 | phase-08.md | completed | outputs/phase-08/main.md |
+| 9 | 品質保証 | phase-09.md | completed | outputs/phase-09/main.md |
+| 10 | 最終レビュー | phase-10.md | completed | outputs/phase-10/main.md |
+| 11 | 手動 smoke | phase-11.md | completed | outputs/phase-11/main.md |
+| 12 | ドキュメント更新 | phase-12.md | completed | outputs/phase-12/main.md |
+| 13 | PR 作成 | phase-13.md | pending_user_approval | outputs/phase-13/main.md |
 
 ## 主要成果物
 
@@ -132,7 +132,7 @@
 
 ## 完了判定
 
-- Phase 1〜13 の状態が artifacts.json と一致する
+- Phase 1〜12 の状態が artifacts.json と一致する。Phase 13 はユーザー承認まで pending_user_approval。
 - AC 10 件すべてが Phase 7 / 10 でトレースされる
 - 4 条件（価値性 / 実現性 / 整合性 / 運用性）が PASS
 - Phase 13 の PR が user 承認後に作成される

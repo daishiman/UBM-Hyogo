@@ -19,6 +19,7 @@
       "api-internal-search.md",
       "api-internal.md",
       "arch-claude-cli.md",
+      "architecture-admin-api-client.md",
       "csrf-state-parameter.md",
       "deployment-cloudflare.md",
       "deployment-details.md",
@@ -376,6 +377,7 @@
       "arch-state-management.md",
       "arch-ui-components-history.md",
       "arch-ui-components.md",
+      "architecture-admin-api-client.md",
       "architecture-auth-security-history.md",
       "architecture-auth-security.md",
       "architecture-chat-history.md",
@@ -614,7 +616,10 @@
     ],
     "Admin": [
       "api-endpoints.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "architecture-admin-api-client.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "ui-ux-admin-dashboard.md"
     ],
     "Sync": [
       "api-endpoints.md",
@@ -873,7 +878,8 @@
     "連携": [
       "arch-claude-cli.md",
       "deployment-cloudflare.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "Main": [
       "arch-claude-cli.md",
@@ -1355,7 +1361,8 @@
       "arch-state-management-reference.md"
     ],
     "ESLint": [
-      "arch-state-management-advanced.md"
+      "arch-state-management-advanced.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "キャッシュをクリア": [
       "arch-state-management-advanced.md"
@@ -1414,6 +1421,7 @@
       "interfaces-chat-history-details.md",
       "interfaces-rag-file-selection.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -1450,6 +1458,7 @@
       "ui-history-integration.md",
       "ui-history-search-view.md",
       "ui-result-panel-pattern.md",
+      "ui-ux-admin-dashboard.md",
       "ui-ux-advanced.md",
       "ui-ux-agent-execution-core.md",
       "ui-ux-agent-execution-details.md",
@@ -2278,6 +2287,7 @@
       "arch-state-management-reference-selectors.md",
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-history-search-notification-center.md",
@@ -2766,6 +2776,108 @@
       "ui-ux-feature-components-reference.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
+    "Architecture": [
+      "architecture-admin-api-client.md"
+    ],
+    "Client": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "BFF": [
+      "architecture-admin-api-client.md"
+    ],
+    "Proxy": [
+      "architecture-admin-api-client.md",
+      "r2-storage-decision-guide.md"
+    ],
+    "構成図": [
+      "architecture-admin-api-client.md"
+    ],
+    "Server": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "side": [
+      "architecture-admin-api-client.md"
+    ],
+    "fetch": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "apps": [
+      "architecture-admin-api-client.md",
+      "deployment-secrets-management.md",
+      "directory-structure-core.md",
+      "ui-ux-atoms-patterns-core.md"
+    ],
+    "web": [
+      "architecture-admin-api-client.md",
+      "directory-structure-core.md"
+    ],
+    "src": [
+      "architecture-admin-api-client.md"
+    ],
+    "lib": [
+      "architecture-admin-api-client.md"
+    ],
+    "admin": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "server": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "ts": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "mutation": [
+      "architecture-admin-api-client.md"
+    ],
+    "api": [
+      "architecture-admin-api-client.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "spec-splitting-guidelines.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "proxy": [
+      "architecture-admin-api-client.md"
+    ],
+    "app": [
+      "architecture-admin-api-client.md"
+    ],
+    "path": [
+      "architecture-admin-api-client.md",
+      "governance-hooks-factory-audit-sink.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "route": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md"
+    ],
+    "ステータスコード処理方針": [
+      "architecture-admin-api-client.md"
+    ],
+    "環境変数": [
+      "architecture-admin-api-client.md"
+    ],
+    "不変条件サマリ": [
+      "architecture-admin-api-client.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "client": [
+      "architecture-admin-api-client.md"
+    ],
     "認証・セキュリティ": [
       "architecture-auth-security-core.md",
       "architecture-auth-security-details.md",
@@ -3168,10 +3280,12 @@
     ],
     "UX": [
       "architecture-overview-core.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
       "master-design.md",
       "spec-splitting-guidelines.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "ui-ux-admin-dashboard.md",
       "ui-ux-advanced.md",
       "ui-ux-components-core.md",
       "ui-ux-components-details.md",
@@ -3379,6 +3493,7 @@
       "claude-code-agents-workflow.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -3524,6 +3639,7 @@
       "claude-code-skills-process.md",
       "interfaces-agent-sdk-executor-details.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "security-skill-execution-permission.md",
       "skill-executor-type-migration.md",
       "skill-ledger-progressive-disclosure.md",
@@ -3654,6 +3770,7 @@
       "claude-code-settings-hierarchy.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "spec-elegance-consistency-audit.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -3748,6 +3865,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "learned": [
@@ -3755,6 +3873,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "agents": [
@@ -3835,7 +3954,8 @@
     "scripts": [
       "claude-code-skills-resources.md",
       "deployment-cloudflare.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "references": [
       "claude-code-skills-resources.md",
@@ -4029,6 +4149,7 @@
       "database-implementation-core.md",
       "interfaces-skill-verify-contract.md",
       "ui-history-search-view.md",
+      "ui-ux-admin-dashboard.md",
       "ui-ux-navigation-chat-patterns.md"
     ],
     "Conversation": [
@@ -4568,7 +4689,8 @@
     ],
     "staging": [
       "deployment-secrets-management.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "サーバーサイドのシークレット": [
       "deployment-secrets-management.md"
@@ -4590,16 +4712,6 @@
     ],
     "の環境別設定": [
       "deployment-secrets-management.md"
-    ],
-    "apps": [
-      "deployment-secrets-management.md",
-      "directory-structure-core.md",
-      "ui-ux-atoms-patterns-core.md"
-    ],
-    "api": [
-      "deployment-secrets-management.md",
-      "spec-splitting-guidelines.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
     ],
     "ローカル開発での設定": [
       "deployment-secrets-management.md"
@@ -4713,9 +4825,6 @@
       "lessons-learned-04b-member-self-service.md"
     ],
     "詳細構造": [
-      "directory-structure-core.md"
-    ],
-    "web": [
       "directory-structure-core.md"
     ],
     "desktop": [
@@ -4955,12 +5064,6 @@
     "設計上の注意事項": [
       "governance-hooks-factory-audit-sink.md"
     ],
-    "path": [
-      "governance-hooks-factory-audit-sink.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "logs-archive-2026-03-workflow02-screenshot-guard.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
-    ],
     "scoped": [
       "governance-hooks-factory-audit-sink.md"
     ],
@@ -5119,7 +5222,8 @@
     ],
     "Dashboard": [
       "interfaces-agent-sdk-skill-core.md",
-      "interfaces-agent-sdk-skill-details.md"
+      "interfaces-agent-sdk-skill-details.md",
+      "ui-ux-admin-dashboard.md"
     ],
     "AGENT": [
       "interfaces-agent-sdk-skill-core.md",
@@ -6045,7 +6149,8 @@
     ],
     "no": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "AC": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
@@ -6063,7 +6168,8 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "skill-ledger-fragment-spec.md"
+      "skill-ledger-fragment-spec.md",
+      "ui-ux-admin-dashboard.md"
     ],
     "diff": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
@@ -6112,6 +6218,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
@@ -6283,11 +6390,6 @@
     "箇所に集約参照する": [
       "lessons-learned-04b-member-self-service.md"
     ],
-    "admin": [
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
-    ],
     "notes": [
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6325,7 +6427,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "tag": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "resolve": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6334,7 +6437,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "tags": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "ui-ux-admin-dashboard.md"
     ],
     "への二段書き込みが境界": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6388,9 +6492,6 @@
       "task-workflow-completed-ut-06-safety-gate.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
-    "route": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
-    ],
     "単位": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
@@ -6427,7 +6528,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "関連未タスク・後続": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "実装の苦戦箇所": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
@@ -6499,7 +6601,8 @@
       "skill-ledger-overview.md"
     ],
     "の実": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "接続不能で証跡が": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
@@ -6562,6 +6665,7 @@
     ],
     "task": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
       "logs-archive-2026-02-console-migration-patterns.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
@@ -6590,6 +6694,100 @@
     ],
     "Boundaries": [
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
+    ],
+    "画面": [
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "ui-ux-admin-dashboard.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "screenshot": [
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md"
+    ],
+    "fixture": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "前提のとき後続": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "に委譲する": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "restricted": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "imports": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "正式導入は別": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "扱い": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "現状は": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "lint": [
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
+    ],
+    "boundaries": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "mjs": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "を境界の正本にする": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "Component": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "の責務分離を最初に設計する": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "直接編集": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "profile": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "直編集": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "作らない": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "ことを": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "で明示拒否する": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "nested": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "resource": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "不在": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "重複・所有関係不整合": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "feedback": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "で別": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "toast": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "に分ける": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "実機反映": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md"
@@ -7409,9 +7607,6 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "backend": [
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
-    ],
-    "lint": [
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
     ],
     "next": [
@@ -9370,9 +9565,6 @@
     "多角的検証で検出": [
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
-    "screenshot": [
-      "logs-archive-2026-03-workflow02-screenshot-guard.md"
-    ],
     "Port": [
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
@@ -9722,9 +9914,6 @@
       "r2-storage-decision-guide.md"
     ],
     "Presigned": [
-      "r2-storage-decision-guide.md"
-    ],
-    "Proxy": [
       "r2-storage-decision-guide.md"
     ],
     "テーマ状態管理": [
@@ -11462,6 +11651,21 @@
     "分離パターン": [
       "ui-result-panel-pattern.md"
     ],
+    "全体構成": [
+      "ui-ux-admin-dashboard.md"
+    ],
+    "AdminSidebar": [
+      "ui-ux-admin-dashboard.md"
+    ],
+    "members": [
+      "ui-ux-admin-dashboard.md"
+    ],
+    "meetings": [
+      "ui-ux-admin-dashboard.md"
+    ],
+    "共通の": [
+      "ui-ux-admin-dashboard.md"
+    ],
     "高度な": [
       "ui-ux-advanced.md"
     ],
@@ -12466,9 +12670,6 @@
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "証跡": [
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
-    "画面": [
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "ルーティング": [

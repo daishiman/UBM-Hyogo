@@ -990,6 +990,21 @@ packages/
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
 
+### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/` |
+| 実装 root | `apps/web/app/(admin)/admin/`, `apps/web/src/components/admin/`, `apps/web/src/lib/admin/` |
+| admin layout | `apps/web/app/(admin)/layout.tsx` (`getSession` + `isAdmin` gate + `AdminSidebar`) |
+| API proxy | `apps/web/app/api/admin/[...path]/route.ts`（client mutation -> apps/api、secret 注入） |
+| 5画面 | `/admin`, `/admin/members`, `/admin/tags`, `/admin/schema`, `/admin/meetings` |
+| 不変条件 | profile本文編集なし / tag直接編集なし / schema解消は`/admin/schema`のみ / deleted attendance除外 / duplicate attendance disabled |
+| 検証 | `@ubm-hyogo/web` typecheck PASS、Vitest 7 files / 36 tests PASS。スクリーンショットは D1 fixture / staging admin 前提のため 08b/09a に委譲 |
+| UI/UX 詳細 | `references/ui-ux-admin-dashboard.md`（5画面のレイアウト/状態遷移/不変条件/エラー文言） |
+| API client 詳細 | `references/architecture-admin-api-client.md`（Server Component `fetchAdmin` / client mutation helper / proxy / 認可境界） |
+| 教訓 | `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
+
 ### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
 
 > 本ファイル 500 行超過のため詳細は分離。`indexes/quick-reference-search-patterns-skill-ledger.md` を参照。
