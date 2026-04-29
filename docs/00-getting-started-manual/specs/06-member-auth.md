@@ -103,8 +103,13 @@ type SessionUser = {
   memberId: string;
   responseId: string;
   isAdmin: boolean;
+  authGateState: "active" | "rules_declined" | "deleted";
 };
 ```
+
+`/me` は認証済み session の状態として `active` / `rules_declined` / `deleted` を返す。
+`input` / `sent` / `unregistered` は magic link 入力から本人照合までの gate flow 状態であり、
+`SessionUser.authGateState` には入れない。
 
 ---
 

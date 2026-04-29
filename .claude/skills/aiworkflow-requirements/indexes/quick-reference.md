@@ -129,6 +129,21 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 
 ---
 
+### Member Self-Service API / `/me/*` / dev session header（04b / 2026-04-29）
+
+会員本人向け `/me/*` endpoint の即時導線。Auth.js cookie resolver は 05a/05b で差し替え予定。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| API 契約（`GET /me`, `GET /me/profile`, `POST /me/visibility-request`, `POST /me/delete-request` / 禁止: `PATCH /me/profile`、`/me/*` への `:memberId`、GET 系での `notes`/`adminNotes` 露出） | `references/api-endpoints.md`（§UBM-Hyogo Member Self-Service API 04b） |
+| `admin_member_notes.note_type` queue 拡張（`general` / `visibility_request` / `delete_request`、pending 判定は最新行存在） | `references/database-admin-repository-boundary.md`（§04b member self-service queue） |
+| `SessionUser.authGateState` の値域（`active` / `rules_declined` / `deleted`）と spec 整合 | `docs/00-getting-started-manual/specs/04-types.md`, `06-member-auth.md` |
+| 再回答更新方針 / `editResponseUrl` / 退会・公開停止申請の MVP 経路 | `docs/00-getting-started-manual/specs/07-edit-delete.md` |
+| dev session header（`x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>` / production・staging では deny） | `docs/30-workflows/04b-parallel-member-self-service-api-endpoints/outputs/phase-12/implementation-guide.md` |
+| 苦戦知見（`authGateState` enum 文脈分離 / `packages/shared` exports 漏れ / wave 跨ぎ schema 変更宣言 / dev session production guard / 不変条件根拠の集約） | `references/lessons-learned-04b-member-self-service.md`（L-04B-001〜005） |
+
+---
+
 ### UI Visual Baseline Drift / dark-mode screenshot stability（2026-04-03）
 
 | 目的                 | 最初に開くファイル                                                                                                                                           |
@@ -864,7 +879,8 @@ packages/
 | 2 | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` | spec_created / docs-only / NON_VISUAL |
 | 3 | `docs/30-workflows/task-worktree-environment-isolation/` | spec_created / docs-only / NON_VISUAL |
 | 4 | `docs/30-workflows/task-github-governance-branch-protection/` | spec_created / docs-only / NON_VISUAL |
-| 5 | `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | spec_created / docs-only / NON_VISUAL |
+| 5 | `docs/30-workflows/ut-gov-003-codeowners-governance-paths/` | Phase 1-12 completed / NON_VISUAL / CODEOWNERS current applied |
+| 6 | `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | spec_created / docs-only / NON_VISUAL |
 
 横断順序: skill ledger 再設計 → Git hook 再生成停止 → worktree 分離 → GitHub governance → Claude Code permissions。
 
@@ -910,6 +926,21 @@ packages/
 | 実装モジュール | `apps/api/src/sync/schema/` / `apps/api/src/middleware/admin-gate.ts` / `apps/api/src/routes/admin/sync-schema.ts` |
 | 苦戦知見 | `references/lessons-learned-03a-parallel-forms-schema-sync.md`（L-03a-001〜005） |
 
+### UBM-Hyogo Admin Backoffice API 早見（04c / 2026-04-29）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/04c-parallel-admin-backoffice-api-endpoints/` |
+| API master | `references/api-endpoints.md`（管理バックオフィス API） |
+| 実装 root | `apps/api/src/routes/admin/` |
+| dashboard repository | `apps/api/src/repository/dashboard.ts` |
+| 認可境界 | 04c は `SYNC_ADMIN_TOKEN` Bearer gate。05a で Auth.js + `admin_users` active 判定へ差し替える |
+| 不在 endpoint | `PATCH /admin/members/:memberId/profile` / `PATCH /admin/members/:memberId/tags` は作らない |
+| tag 書き込み境界 | `POST /admin/tags/queue/:queueId/resolve` のみ |
+| schema 書き込み境界 | `/admin/schema/*` のみに集約 |
+| attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
+| phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
+
 ### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
 
 > 本ファイル 500 行超過のため詳細は分離。`indexes/quick-reference-search-patterns-skill-ledger.md` を参照。
@@ -926,6 +957,7 @@ packages/
 | A-2 fragment 経路（2026-04-28〜） | canonical: `LOGS/<fragment>.md` / `changelog/<fragment>.md` / `lessons-learned/<fragment>.md`（旧 `LOGS.md` / `SKILL-changelog.md` / `references/lessons-learned-*.md` は `_legacy*.md` に退避済み・履歴参照のみ） |
 | fragment append / render | `pnpm skill:logs:append` / `pnpm skill:logs:render`（writer は `scripts/skill-logs-append.ts` に一本化。直接 fragment を手書きしない） |
 | fragment 命名 | `<YYYYMMDD-HHMMSS>-<escapedBranch>-<nonce>.md`（`scripts/lib/branch-escape.ts` で escapedBranch 生成、衝突時は `scripts/lib/retry-on-collision.ts` で nonce 再生成） |
+| T-6 hook 冪等化 / 4 worktree smoke 仕様 | `docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/index.md`（AC-1〜AC-11 / 2 worktree 事前 smoke → 4 worktree full smoke 二段構え / 部分 JSON リカバリ / `wait $PID` 個別集約）。実装は `docs/30-workflows/unassigned-task/task-skill-ledger-t6-implementation.md` |
 
 ### Git Hook 統一・post-merge indexes 再生成廃止 早見（task-git-hooks-lefthook-and-post-merge / 2026-04-28）
 
@@ -1006,6 +1038,24 @@ packages/
 | 前提 | mise で Node 24 / pnpm 10.33.2 が解決済み（`mise exec --` 経由でないと `lefthook` バイナリが解決できないケースあり） |
 | 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md`（§複数 worktree 一括再インストール） |
 | 関連未タスク | `docs/30-workflows/unassigned-task/U-LFT-07-multi-worktree-reinstall-operations.md`（CI 化検討 / stale worktree 検出強化） |
+
+### 公開ディレクトリ API（04a）早見
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/04a-parallel-public-directory-api-endpoints/` |
+| 4 endpoint | `GET /public/stats`（`public, max-age=60`） / `GET /public/members`（`no-store`） / `GET /public/members/:memberId`（`no-store`） / `GET /public/form-preview`（`public, max-age=60`） |
+| 認証 | 未認証で叩ける（session middleware 非適用 / `createPublicRouter()` で `/public/healthz` 直後に mount） |
+| 公開条件 | `publishState='published' AND publicConsent='consented' AND is_deleted=0`（`_shared/public-filter.ts` の `buildPublicWhereParams`） |
+| 除外キー | `FORBIDDEN_KEYS = ['responseEmail','rulesConsent','adminNotes']`（runtime delete 必須） |
+| visibility 既定値 | `member`（privacy first。`schema_questions.visibility='public'` のみ公開） |
+| 6 層 leak 防御 | 1. SQL where / 2. repository EXISTS（`existsPublicMember` → `UBM-1404`） / 3. converter 内 `isPublicStatus` / 4. `keepPublicFields`（visibility filter） / 5. FORBIDDEN_KEYS runtime delete / 6. Zod `.strict()` parse fail close |
+| 主要ハンドラ | `apps/api/src/routes/public/{index,stats,members,member-profile,form-preview}.ts` |
+| 主要 helper | `apps/api/src/_shared/{visibility-filter,public-filter,pagination,search-query-parser}.ts` |
+| 主要 view-model | `apps/api/src/view-models/public/{public-stats-view,public-member-list-view,public-member-profile-view,form-preview-view}.ts` |
+| query 契約 | `q`（max 200 文字） / `zone` / `status` / `tag` / `sort` / `density`（`comfy/dense/list`） / `page` / `limit`（max 100, min 1） |
+| 関連 references | `references/api-endpoints.md`（公開ディレクトリ API 章） / `lessons-learned/lessons-learned-04a-public-api-security-layers.md`（L-04A-001〜007） / `references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md` |
+| Follow-up 未タスク | `docs/30-workflows/unassigned-task/task-04a-followup-001〜005-*.md`（miniflare contract / KV cache / shared parser / cache rules / N+1） |
 
 ---
 

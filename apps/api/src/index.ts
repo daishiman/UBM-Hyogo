@@ -12,6 +12,15 @@ import {
   adminSyncSchemaRoute,
   makeDefaultSchemaSyncDeps,
 } from "./routes/admin/sync-schema";
+import { adminDashboardRoute } from "./routes/admin/dashboard";
+import { adminMembersRoute } from "./routes/admin/members";
+import { adminMemberStatusRoute } from "./routes/admin/member-status";
+import { adminMemberNotesRoute } from "./routes/admin/member-notes";
+import { adminMemberDeleteRoute } from "./routes/admin/member-delete";
+import { adminTagsQueueRoute } from "./routes/admin/tags-queue";
+import { adminSchemaRoute } from "./routes/admin/schema";
+import { adminMeetingsRoute } from "./routes/admin/meetings";
+import { adminAttendanceRoute } from "./routes/admin/attendance";
 import { ctx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
 import { runSync, type SyncEnv } from "./jobs/sync-sheets-to-d1";
@@ -21,6 +30,8 @@ import {
 } from "./jobs/sync-forms-responses";
 import { runSchemaSync, ConflictError } from "./sync/schema";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
+import { createPublicRouter } from "./routes/public";
+import { createMeRoute } from "./routes/me";
 
 interface Env extends SyncEnv, ResponseSyncEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
@@ -130,7 +141,32 @@ app.get("/healthz", (c) => c.json({ ok: true }));
 
 app.get("/public/healthz", (c) => c.json({ ok: true, scope: "public" }));
 
+// 04a: 公開ディレクトリ API (4 endpoint)
+// session middleware を適用しない (AC-9 / 不変条件 #5 公開境界)
+app.route("/public", createPublicRouter());
+
 app.get("/me/healthz", (c) => c.json({ ok: true, scope: "me" }));
+
+// 04b: /me/* member self-service。
+// session resolver は 05a/b で Auth.js provider 連携時に差し替える。
+// 現状は MVP として x-ubm-dev-session: 1 付きの dev request に限り、
+// Bearer "session:<email>:<memberId>" 形式の dev token を許容する。
+// 本ヘッダは 05a/b で Auth.js cookie ベースの resolver に置き換える。
+app.route(
+  "/me",
+  createMeRoute({
+    resolveSession: async (req, env) => {
+      if (env?.ENVIRONMENT && env.ENVIRONMENT !== "development") return null;
+      if (req.headers.get("x-ubm-dev-session") !== "1") return null;
+      const auth = req.headers.get("authorization") ?? "";
+      const m = /^Bearer\s+session:([^:]+):(.+)$/.exec(auth);
+      if (!m) return null;
+      const [, email, memberId] = m;
+      if (!email || !memberId) return null;
+      return { email, memberId };
+    },
+  }),
+);
 
 app.get("/admin/healthz", (c) => c.json({ ok: true, scope: "admin" }));
 
@@ -142,6 +178,16 @@ app.route(
   "/admin",
   createAdminResponsesSyncRoute({ buildClient: buildFormsClient }),
 );
+// 04c: admin backoffice endpoints
+app.route("/admin", adminDashboardRoute);
+app.route("/admin", adminMembersRoute);
+app.route("/admin", adminMemberStatusRoute);
+app.route("/admin", adminMemberNotesRoute);
+app.route("/admin", adminMemberDeleteRoute);
+app.route("/admin", adminTagsQueueRoute);
+app.route("/admin", adminSchemaRoute);
+app.route("/admin", adminMeetingsRoute);
+app.route("/admin", adminAttendanceRoute);
 
 app.get("/health", (c) =>
   c.json({

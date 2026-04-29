@@ -327,3 +327,68 @@
 - **影響**: Phase 11 の手動テスト冒頭でブランクスクリーンになり、screenshot 全件がブロックされる
 - **発見日**: 2026-04-08
 - **関連タスク**: UT-SKILL-WIZARD-W1-par-02b
+
+---
+
+## 苦戦箇所セクション標準テンプレ（T-6 / Issue #161 由来）
+
+タスク仕様 `index.md` の末尾に「苦戦箇所」セクションを配置し、3〜5 件を箇条書きで記録する。各項目は以下 4 要素で構成する:
+
+- **症状**: 観測された具体現象（再現条件込み）
+- **影響**: blocking 範囲（gate 失敗、Phase 戻り、CI fail 等）
+- **緩和策**: 暫定回避と恒久対策の差を区別
+- **関連 AC**: 影響を受ける受け入れ基準 ID（AC-1, AC-2 ... を列挙）
+
+### テンプレ
+
+```md
+## 苦戦箇所
+
+1. **症状**: <現象>
+   **影響**: <blocking 範囲>
+   **緩和策**: <暫定 / 恒久>
+   **関連 AC**: AC-X, AC-Y
+```
+
+- 配置: `index.md` 末尾（次タスクへの handoff 直前）
+- 件数目安: 3〜5 件（多すぎると S/N が下がる）
+- 出典: `docs/30-workflows/skill-ledger-t6-hook-idempotency/` workflow（Issue #161 / T-6）
+
+---
+
+## 並列 smoke における `wait` 個別集約パターン
+
+複数 worktree を並列起動して smoke する際、`wait` を引数なしで使うと最後の終了コードしか取れない。pid を配列に積み、個別に `wait` して `rc` を集約する。
+
+```bash
+pids=()
+for wt in "${WORKTREES[@]}"; do
+  run_smoke "$wt" &
+  pids+=("$!")
+done
+
+rc=0
+for pid in "${pids[@]}"; do
+  wait "$pid" || rc=$?
+done
+
+exit "$rc"
+```
+
+- 失敗 worktree の特定: `pid → worktree` の対応表をログに残す
+- 出典: T-6 / Issue #161 workflow
+
+---
+
+## smoke 二段構え（小規模再現 → 本番再現）
+
+並列 hook の冪等性検証は以下の 2 段で実施する。
+
+| 段階 | 対象 | 目的 |
+| --- | --- | --- |
+| 小規模再現 | 2 worktree | ロジック起動・wait 集約の動作確認（短時間でフィードバック） |
+| 本番再現 | 4 worktree | 実運用相当の競合密度で race condition / lock starvation を観測 |
+
+- 小規模で fail する設計は本番で必ず fail するため、まず 2 worktree で固める
+- 本番再現で初めて顕在化する事象（lock 取得タイムアウト等）は別 issue として記録
+- 出典: T-6 / Issue #161 workflow

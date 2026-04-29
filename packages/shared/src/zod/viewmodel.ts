@@ -90,6 +90,20 @@ export const PublicStatsViewZ = z
     membershipBreakdown: z.array(
       z.object({ type: z.string(), count: z.number().int().nonnegative() }),
     ),
+    meetingCountThisYear: z.number().int().nonnegative(),
+    recentMeetings: z.array(
+      z.object({
+        sessionId: z.string(),
+        title: z.string(),
+        heldOn: z.string(),
+      }),
+    ),
+    lastSync: z.object({
+      schemaSync: z.enum(["ok", "running", "failed", "never"]),
+      responseSync: z.enum(["ok", "running", "failed", "never"]),
+      schemaSyncFinishedAt: z.string().nullable(),
+      responseSyncFinishedAt: z.string().nullable(),
+    }),
     generatedAt: Iso8601Z,
   })
   .strict();
@@ -106,8 +120,23 @@ export const PublicMemberListItemZ = z.object({
 
 export const PublicMemberListViewZ = z
   .object({
-    total: z.number().int().nonnegative(),
-    members: z.array(PublicMemberListItemZ),
+    items: z.array(PublicMemberListItemZ),
+    pagination: z.object({
+      total: z.number().int().nonnegative(),
+      page: z.number().int().min(1),
+      limit: z.number().int().min(1),
+      totalPages: z.number().int().nonnegative(),
+      hasNext: z.boolean(),
+      hasPrev: z.boolean(),
+    }),
+    appliedQuery: z.object({
+      q: z.string(),
+      zone: z.string(),
+      status: z.string(),
+      tags: z.array(z.string()),
+      sort: z.enum(["recent", "name"]),
+      density: z.enum(["comfy", "dense", "list"]),
+    }),
     generatedAt: Iso8601Z,
   })
   .strict();
@@ -131,6 +160,8 @@ export const FormPreviewViewZ = z
   .object({
     manifest: FormManifestZ,
     fields: z.array(FormFieldDefinitionZ),
+    sectionCount: z.number().int().nonnegative(),
+    fieldCount: z.number().int().nonnegative(),
     responderUrl: z.string().url(),
   })
   .strict();

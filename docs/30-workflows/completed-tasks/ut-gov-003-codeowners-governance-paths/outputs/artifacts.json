@@ -1,0 +1,195 @@
+{
+  "task_name": "ut-gov-003-codeowners-governance-paths",
+  "task_path": "docs/30-workflows/ut-gov-003-codeowners-governance-paths",
+  "wave": 0,
+  "execution_mode": "serial",
+  "depends_on": [],
+  "blocks": [
+    "ut-gov-001-github-branch-protection-apply"
+  ],
+  "created_at": "2026-04-29",
+  "metadata": {
+    "taskType": "docs-only / spec_created",
+    "task_type": "docs-only / spec_created",
+    "visual_evidence": "NON_VISUAL",
+    "scope": "infrastructure_governance",
+    "github_issue": 146,
+    "github_issue_state": "CLOSED",
+    "status": "spec_created",
+    "parent_task": "task-github-governance-branch-protection",
+    "related_tasks": [
+      "ut-gov-001-github-branch-protection-apply",
+      "ut-gov-002-pr-target-safety-gate-dry-run",
+      "ut-gov-004-required-status-checks-context-sync",
+      "ut-gov-005-docs-only-nonvisual-template-skill-sync"
+    ],
+    "wave_label": "Wave 0 (governance / ownership documentation)",
+    "require_code_owner_reviews": false,
+    "require_code_owner_reviews_rationale": "solo 運用のため必須レビュアー化はしない。CODEOWNERS は ownership 文書化と suggested reviewer 表示に限定。",
+    "artifact_schema_note": "本ワークフローは UT-GOV-003 の仕様書整備と同一差分で .github/CODEOWNERS 配置および doc/docs 整理を行う。PR 作成のみユーザー承認後に実施する。"
+  },
+  "phases": [
+    {
+      "number": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "spec": "phase-01.md",
+      "main_output": "outputs/phase-01/main.md",
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "number": 2,
+      "name": "設計",
+      "status": "completed",
+      "spec": "phase-02.md",
+      "main_output": "outputs/phase-02/main.md",
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "number": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "spec": "phase-03.md",
+      "main_output": "outputs/phase-03/main.md",
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "number": 4,
+      "name": "テスト戦略",
+      "status": "completed",
+      "spec": "phase-04.md",
+      "main_output": "outputs/phase-04/main.md",
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "number": 5,
+      "name": "実装ランブック",
+      "status": "completed",
+      "spec": "phase-05.md",
+      "main_output": "outputs/phase-05/main.md",
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "number": 6,
+      "name": "異常系検証",
+      "status": "completed",
+      "spec": "phase-06.md",
+      "main_output": "outputs/phase-06/main.md",
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "number": 7,
+      "name": "AC マトリクス",
+      "status": "completed",
+      "spec": "phase-07.md",
+      "main_output": "outputs/phase-07/main.md",
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "number": 8,
+      "name": "DRY 化",
+      "status": "completed",
+      "spec": "phase-08.md",
+      "main_output": "outputs/phase-08/main.md",
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "number": 9,
+      "name": "品質保証 (codeowners/errors 検証)",
+      "status": "completed",
+      "spec": "phase-09.md",
+      "main_output": "outputs/phase-09/main.md",
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "number": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "spec": "phase-10.md",
+      "main_output": "outputs/phase-10/main.md",
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "number": 11,
+      "name": "手動 smoke test (PR dry-run + suggested reviewer 表示)",
+      "status": "completed",
+      "spec": "phase-11.md",
+      "main_output": "outputs/phase-11/main.md",
+      "additional_outputs": [
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "number": 12,
+      "name": "ドキュメント更新 (doc/docs 表記置換差分一覧)",
+      "status": "completed",
+      "spec": "phase-12.md",
+      "main_output": "outputs/phase-12/main.md",
+      "additional_outputs": [
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "number": 13,
+      "name": "PR 作成",
+      "status": "pending",
+      "spec": "phase-13.md",
+      "main_output": "outputs/phase-13/main.md",
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/completed-tasks/UT-GOV-003-codeowners-governance-paths.md",
+    "CLAUDE.md",
+    ".claude/skills/task-specification-creator/SKILL.md",
+    ".claude/skills/task-specification-creator/references/phase-template-core.md",
+    "docs/30-workflows/skill-ledger-a1-gitignore/index.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "secrets_introduced_rationale": "CODEOWNERS は public なリポジトリメタデータであり、ユーザーハンドルも公開情報。gh api は既存の開発者ローカル gh auth に依存。",
+  "invariants_touched": [5, 6],
+  "files_to_modify": [
+    ".github/CODEOWNERS",
+    "CLAUDE.md"
+  ],
+  "files_to_inspect": [
+    ".claude/skills/**/references/**",
+    "docs/30-workflows/**",
+    ".github/workflows/**",
+    "apps/api/**",
+    "apps/web/**"
+  ],
+  "verification_commands": [
+    "gh api repos/daishiman/UBM-Hyogo/codeowners/errors",
+    "rg -n \"(^|[^a-zA-Z])doc/\" -g '!node_modules' -g '!.git' -g '!.worktrees'",
+    "git ls-files .github/CODEOWNERS"
+  ],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/UT-GOV-003-codeowners-governance-paths.md",
+    "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-security/customizing-your-repository/about-code-owners",
+    "https://docs.github.com/en/rest/repos/repos#list-codeowners-errors"
+  ]
+}

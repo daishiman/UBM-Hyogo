@@ -116,13 +116,18 @@ member requests deletion
 
 | 操作 | API |
 |------|-----|
-| 本人更新導線の取得 | `GET /api/me/update-link` |
+| 本人プロフィール + 更新導線の取得 | `GET /me/profile` |
+| 本人公開状態変更申請 | `POST /me/visibility-request` |
+| 本人退会申請 | `POST /me/delete-request` |
 | 公開状態変更 | `PATCH /api/admin/members/[id]/publish-state` |
 | 削除 | `PATCH /api/admin/members/[id]/delete` |
 | 復元 | `POST /api/admin/members/[id]/restore` |
 | 参加履歴付与 / 解除 | `POST/DELETE /api/admin/members/[id]/attendance` |
 
 本人の本文更新用 `PATCH /api/profile` は MVP 正式仕様にしない。
+`/me/visibility-request` と `/me/delete-request` は本文を直接更新せず、`admin_member_notes.note_type`
+に `visibility_request` / `delete_request` を保存して admin queue として扱う。`note_type='general'`
+は既存 admin note の後方互換用で、member view model には `admin_member_notes` の本文・種別を混ぜない。
 
 ---
 
