@@ -25,6 +25,14 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
       publicMemberCount: 80,
       zoneBreakdown: [{ zone: "0_to_1", count: 30 }],
       membershipBreakdown: [{ type: "member", count: 70 }],
+      meetingCountThisYear: 4,
+      recentMeetings: [],
+      lastSync: {
+        schemaSync: "ok",
+        responseSync: "never",
+        schemaSyncFinishedAt: "2026-04-27T00:00:00Z",
+        responseSyncFinishedAt: null,
+      },
       generatedAt: "2026-04-27T00:00:00Z",
     });
     expect(ok.success).toBe(true);
@@ -35,8 +43,23 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
 
   it("PublicMemberListView strict rejects extra fields (#1 抽象)", () => {
     const result = PublicMemberListViewZ.safeParse({
-      total: 0,
-      members: [],
+      items: [],
+      pagination: {
+        total: 0,
+        page: 1,
+        limit: 24,
+        totalPages: 0,
+        hasNext: false,
+        hasPrev: false,
+      },
+      appliedQuery: {
+        q: "",
+        zone: "all",
+        status: "all",
+        tags: [],
+        sort: "recent",
+        density: "comfy",
+      },
       generatedAt: "2026-04-27T00:00:00Z",
       extra: "nope",
     });

@@ -1,0 +1,11 @@
+{
+  "visualEvidence": "NON_VISUAL",
+  "screenshotRequired": false,
+  "reason": "API-only task. No apps/web, desktop UI, or visual component changes.",
+  "alternativeEvidence": [
+    "outputs/phase-11/manual-evidence.md",
+    "outputs/phase-11/manual-smoke-log.md",
+    "apps/api/src/routes/me/index.test.ts"
+  ],
+  "screenshotsDirectory": "outputs/phase-11/screenshots"
+}

@@ -75,6 +75,22 @@
 
 ---
 
+### Branch Protection Required Status Checks Contexts 同期（UT-GOV-004 / 2026-04-29）
+
+UT-GOV-001 を安全に実行するための前提タスク。確定 contexts の機械可読正本と branch protection 運用ルール 4 項目を集約。
+
+| 目的 | 参照先 |
+| --- | --- |
+| 機械可読正本（UT-GOV-001 の唯一の apply 入力） | `docs/30-workflows/completed-tasks/ut-gov-004-required-status-checks-context-sync/outputs/phase-08/confirmed-contexts.yml` |
+| Phase 1 投入 3 contexts（`ci` / `Validate Build` / `verify-indexes-up-to-date`）と strict 採否（dev=false / main=true） | 同上 `confirmed-contexts.yml` |
+| branch protection 運用ルール 4 項目（AC-3 / AC-5 / AC-8 / AC-9） | `outputs/phase-12/system-spec-update-summary.md` §4 |
+| lefthook ↔ CI 対応表（同一 pnpm script 規約） | `outputs/phase-05/lefthook-ci-mapping.md`, `outputs/phase-08/lefthook-ci-mapping.md` |
+| strict 採否決定根拠（dev / main 別） | `outputs/phase-05/strict-mode-decision.md`, `outputs/phase-09/strict-decision.md` |
+| 苦戦箇所 6 件（context 名生成・同名 job・存在しない context・strict トレードオフ・lefthook drift・refactor 名前変更事故） | `references/lessons-learned-ut-gov-004-branch-protection-context-sync.md` |
+| Phase 12 close-out 6 成果物 | `outputs/phase-12/{implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
+| relay 先 | UT-GOV-001（apply 実行）/ UT-GOV-005（unit-test / integration-test / security-scan / docs-link 新設）/ UT-GOV-007（workflow `name:` drift 自動検出）|
+| 関連既存タスク | `docs/30-workflows/completed-tasks/task-github-governance-branch-protection/`（草案 8 contexts は本タスクで上書き確定済み）, `task-git-hooks-lefthook-and-post-merge` |
+
 ### Worktree Environment Isolation（2026-04-28）
 
 worktree 間の暗黙共有・shell state 残留・並列作成競合を防ぐ 4 領域への引き方。
@@ -94,6 +110,37 @@ worktree 間の暗黙共有・shell state 残留・並列作成競合を防ぐ 4
 | spec_created 同期 4 点セット標準（development-guidelines / lessons-learned / task-workflow-active / topic-map+keywords） | `references/lessons-learned-health-policy-worktree-2026-04.md` §L-WTI-006 |
 | 横断依存 5 タスクの wave 同期手順 | `references/lessons-learned-health-policy-worktree-2026-04.md` §L-WTI-005 |
 | Artifact Inventory | `references/workflow-task-worktree-environment-isolation-artifact-inventory.md` |
+
+---
+
+### Forms Response Sync / Cron */15 / sync_jobs ledger（03b / 2026-04-29）
+
+Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_response_id` 切替・consent snapshot・unknown field → schema_diff_queue を一括処理する batch worker の即時導線。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| 管理 API 契約（`POST /admin/sync/responses`、`fullSync` / `cursor` / 409 二重起動） | `references/api-endpoints.md`（§管理同期 API） |
+| D1 スキーマ責務（`member_responses` / `member_identities` / `member_status` / `response_fields` / `schema_diff_queue` / `sync_jobs`） | `references/database-schema.md`（§UBM 会員 Forms 同期テーブル 03b） |
+| cron `*/15 * * * *` 設定・JWT 署名・Secret 配置 | `references/deployment-cloudflare.md`（§API Worker cron / Forms response sync 03b） |
+| `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `SYNC_ADMIN_TOKEN` 配置 | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
+| 苦戦箇所（per-sync write 200 cap / partial UNIQUE で重複 enqueue 抑止 / submittedAt 同値時 responseId 降順 tie-break / `metrics_json.cursor` ≠ `pageToken`） | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/outputs/phase-12/implementation-guide.md` Part 2 |
+| follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / `member_responses.response_email` UNIQUE DDL 明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/unassigned-task/03b-response-sync-followups.md` |
+| 全 phase 設計と AC-1〜AC-10 検証 | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` |
+
+---
+
+### Member Self-Service API / `/me/*` / dev session header（04b / 2026-04-29）
+
+会員本人向け `/me/*` endpoint の即時導線。Auth.js cookie resolver は 05a/05b で差し替え予定。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| API 契約（`GET /me`, `GET /me/profile`, `POST /me/visibility-request`, `POST /me/delete-request` / 禁止: `PATCH /me/profile`、`/me/*` への `:memberId`、GET 系での `notes`/`adminNotes` 露出） | `references/api-endpoints.md`（§UBM-Hyogo Member Self-Service API 04b） |
+| `admin_member_notes.note_type` queue 拡張（`general` / `visibility_request` / `delete_request`、pending 判定は最新行存在） | `references/database-admin-repository-boundary.md`（§04b member self-service queue） |
+| `SessionUser.authGateState` の値域（`active` / `rules_declined` / `deleted`）と spec 整合 | `docs/00-getting-started-manual/specs/04-types.md`, `06-member-auth.md` |
+| 再回答更新方針 / `editResponseUrl` / 退会・公開停止申請の MVP 経路 | `docs/00-getting-started-manual/specs/07-edit-delete.md` |
+| dev session header（`x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>` / production・staging では deny） | `docs/30-workflows/04b-parallel-member-self-service-api-endpoints/outputs/phase-12/implementation-guide.md` |
+| 苦戦知見（`authGateState` enum 文脈分離 / `packages/shared` exports 漏れ / wave 跨ぎ schema 変更宣言 / dev session production guard / 不変条件根拠の集約） | `references/lessons-learned-04b-member-self-service.md`（L-04B-001〜005） |
 
 ---
 
@@ -879,6 +926,21 @@ packages/
 | 実装モジュール | `apps/api/src/sync/schema/` / `apps/api/src/middleware/admin-gate.ts` / `apps/api/src/routes/admin/sync-schema.ts` |
 | 苦戦知見 | `references/lessons-learned-03a-parallel-forms-schema-sync.md`（L-03a-001〜005） |
 
+### UBM-Hyogo Admin Backoffice API 早見（04c / 2026-04-29）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/04c-parallel-admin-backoffice-api-endpoints/` |
+| API master | `references/api-endpoints.md`（管理バックオフィス API） |
+| 実装 root | `apps/api/src/routes/admin/` |
+| dashboard repository | `apps/api/src/repository/dashboard.ts` |
+| 認可境界 | 04c は `SYNC_ADMIN_TOKEN` Bearer gate。05a で Auth.js + `admin_users` active 判定へ差し替える |
+| 不在 endpoint | `PATCH /admin/members/:memberId/profile` / `PATCH /admin/members/:memberId/tags` は作らない |
+| tag 書き込み境界 | `POST /admin/tags/queue/:queueId/resolve` のみ |
+| schema 書き込み境界 | `/admin/schema/*` のみに集約 |
+| attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
+| phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
+
 ### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
 
 > 本ファイル 500 行超過のため詳細は分離。`indexes/quick-reference-search-patterns-skill-ledger.md` を参照。
@@ -895,6 +957,7 @@ packages/
 | A-2 fragment 経路（2026-04-28〜） | canonical: `LOGS/<fragment>.md` / `changelog/<fragment>.md` / `lessons-learned/<fragment>.md`（旧 `LOGS.md` / `SKILL-changelog.md` / `references/lessons-learned-*.md` は `_legacy*.md` に退避済み・履歴参照のみ） |
 | fragment append / render | `pnpm skill:logs:append` / `pnpm skill:logs:render`（writer は `scripts/skill-logs-append.ts` に一本化。直接 fragment を手書きしない） |
 | fragment 命名 | `<YYYYMMDD-HHMMSS>-<escapedBranch>-<nonce>.md`（`scripts/lib/branch-escape.ts` で escapedBranch 生成、衝突時は `scripts/lib/retry-on-collision.ts` で nonce 再生成） |
+| T-6 hook 冪等化 / 4 worktree smoke 仕様 | `docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/index.md`（AC-1〜AC-11 / 2 worktree 事前 smoke → 4 worktree full smoke 二段構え / 部分 JSON リカバリ / `wait $PID` 個別集約）。実装は `docs/30-workflows/unassigned-task/task-skill-ledger-t6-implementation.md` |
 
 ### Git Hook 統一・post-merge indexes 再生成廃止 早見（task-git-hooks-lefthook-and-post-merge / 2026-04-28）
 
@@ -947,6 +1010,19 @@ packages/
 | 失敗時の対処 | ローカルで `pnpm indexes:rebuild` を実行 → 差分をコミット → 再 push（ジェネレータ `scripts/generate-index.js` が正本） |
 | 関連未タスク | `docs/30-workflows/unassigned-task/U-VIDX-01-verify-indexes-actions-smoke-and-branch-protection.md`（実 PR での smoke / required status 登録） |
 
+### GitHub Governance / branch protection apply（solo 運用 / UT-GOV-001 / 2026-04-28）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/ut-gov-001-github-branch-protection-apply/` |
+| 適用予定値（dev / main 共通） | `required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` / `required_linear_history=true` / `required_conversation_resolution=true` / force-push & deletions = false |
+| payload 正規化 | GET 形（snapshot）→ PUT 形（payload）adapter で `enforce_admins.enabled→bool` / `restrictions.users[].login→配列` / `required_pull_request_reviews=null` を必ず変換（snapshot を直接 PUT すると HTTP 422） |
+| rollback 境界戦略 | snapshot / payload / rollback / applied JSON を `{branch}` サフィックスで分離。bulk PUT 禁止。enforce_admins DELETE 経路を事前準備 |
+| 上流前提 | UT-GOV-004（`required_status_checks.contexts` の実 job 名同期）。未完了時は `contexts=[]` の 2 段階適用 fallback |
+| 実 PUT のゲート | Phase 12 = `spec_created`（仕様書整備のみ）/ Phase 13 = `blocked_until_explicit_user_approval`（ユーザー明示承認後の別オペレーションでのみ実行） |
+| 苦戦知見 | `references/lessons-learned-ut-gov-001-2026-04.md`（L-GOV-001 payload adapter / L-GOV-002 5 重明記 / L-GOV-003 Phase 12-13 二重ゲート / L-GOV-004 NON_VISUAL evidence） |
+| 正本仕様 | `references/deployment-branch-strategy.md`（pending apply: UT-GOV-001 セクション） |
+
 ### Lefthook Multi-Worktree Reinstall（task-lefthook-multi-worktree-reinstall / 2026-04-28）
 
 | 観点 | 値 / 参照先 |
@@ -962,3 +1038,56 @@ packages/
 | 前提 | mise で Node 24 / pnpm 10.33.2 が解決済み（`mise exec --` 経由でないと `lefthook` バイナリが解決できないケースあり） |
 | 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md`（§複数 worktree 一括再インストール） |
 | 関連未タスク | `docs/30-workflows/unassigned-task/U-LFT-07-multi-worktree-reinstall-operations.md`（CI 化検討 / stale worktree 検出強化） |
+
+### 公開ディレクトリ API（04a）早見
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/04a-parallel-public-directory-api-endpoints/` |
+| 4 endpoint | `GET /public/stats`（`public, max-age=60`） / `GET /public/members`（`no-store`） / `GET /public/members/:memberId`（`no-store`） / `GET /public/form-preview`（`public, max-age=60`） |
+| 認証 | 未認証で叩ける（session middleware 非適用 / `createPublicRouter()` で `/public/healthz` 直後に mount） |
+| 公開条件 | `publishState='published' AND publicConsent='consented' AND is_deleted=0`（`_shared/public-filter.ts` の `buildPublicWhereParams`） |
+| 除外キー | `FORBIDDEN_KEYS = ['responseEmail','rulesConsent','adminNotes']`（runtime delete 必須） |
+| visibility 既定値 | `member`（privacy first。`schema_questions.visibility='public'` のみ公開） |
+| 6 層 leak 防御 | 1. SQL where / 2. repository EXISTS（`existsPublicMember` → `UBM-1404`） / 3. converter 内 `isPublicStatus` / 4. `keepPublicFields`（visibility filter） / 5. FORBIDDEN_KEYS runtime delete / 6. Zod `.strict()` parse fail close |
+| 主要ハンドラ | `apps/api/src/routes/public/{index,stats,members,member-profile,form-preview}.ts` |
+| 主要 helper | `apps/api/src/_shared/{visibility-filter,public-filter,pagination,search-query-parser}.ts` |
+| 主要 view-model | `apps/api/src/view-models/public/{public-stats-view,public-member-list-view,public-member-profile-view,form-preview-view}.ts` |
+| query 契約 | `q`（max 200 文字） / `zone` / `status` / `tag` / `sort` / `density`（`comfy/dense/list`） / `page` / `limit`（max 100, min 1） |
+| 関連 references | `references/api-endpoints.md`（公開ディレクトリ API 章） / `lessons-learned/lessons-learned-04a-public-api-security-layers.md`（L-04A-001〜007） / `references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md` |
+| Follow-up 未タスク | `docs/30-workflows/unassigned-task/task-04a-followup-001〜005-*.md`（miniflare contract / KV cache / shared parser / cache rules / N+1） |
+
+---
+
+### Governance / Branch Protection 系タスクの Step 2=N/A ショートカット（UT-GOV-002 由来 / 2026-04-29）
+
+> **趣旨**: GitHub Actions governance / branch protection / safety gate 系タスクは API/D1/IPC/UI/auth/Cloudflare Secret 変更を伴わない場合が多く、aiworkflow-requirements の Step 2（正本仕様更新）は原則 N/A。ただし以下の再判定トリガに該当する場合は Step 2 を再実施する。
+
+| 観点 | 値 |
+| --- | --- |
+| 原則 | GitHub Actions ワークフロー / branch protection / squash-only / linear history / required status checks / CODEOWNERS / pull_request_target safety gate 系のタスクは Step 2 = **N/A**（references/ 配下の仕様編集は不要） |
+| 例: N/A 判定済み | UT-GOV-001（branch protection 草案）/ UT-GOV-002（pull_request_target safety gate dry-run）/ task-github-governance-branch-protection（squash-only 等の草案） |
+| 再判定トリガ① OIDC | `id-token: write` を伴う OIDC token の新規採用、`aws-actions/configure-aws-credentials` 等の federation 設定追加（Cloudflare Secret / IAM 境界に影響するため `references/deployment-secrets-management.md` / `deployment-cloudflare.md` を更新） |
+| 再判定トリガ② workflow_run | `workflow_run` 経由で別ワークフローへデプロイ権限を委譲する場合（権限境界が変わるため `deployment-gha.md` / `deployment-core.md` を更新） |
+| 再判定トリガ③ メタデータ参照 | PR triage / governance gate が D1 / KV / R2 メタデータ（member_responses / sync_audit / SESSION_KV 等）を参照する場合（データ境界に影響するため `database-admin-repository-boundary.md` 等を更新） |
+| 再判定トリガ④ Secret 追加 | governance gate が新しい Cloudflare Secret / GitHub Secret を要求する場合（`deployment-secrets-management.md` の Secret inventory に追記） |
+| 再判定トリガ⑤ auth / RBAC | branch protection が CODEOWNERS 経由で auth / RBAC を実装に拡張する場合（`references/02-auth.md` 系を更新） |
+| Step 2 = N/A 時の最低限の同期 | LOGS.md ヘッドラインへの 1 エントリ追加と、SKILL.md 変更履歴への version 追加のみ（references/ 配下は触らない） |
+| 一次正本（重複時） | governance / branch protection の運用ルール本文は `CLAUDE.md` のブランチ戦略節を一次正本とし、aiworkflow-requirements は補強として扱う（下表参照） |
+
+---
+
+### CLAUDE.md と aiworkflow-requirements の重複正本判定（UT-GOV-002 由来 / 2026-04-29）
+
+> **趣旨**: 同一トピックが `CLAUDE.md` と aiworkflow-requirements の両方で言及される場合、どちらを一次正本とするか曖昧だと参照ループや矛盾の温床になる。以下の領域は **CLAUDE.md が一次正本**であり、aiworkflow-requirements 配下の記述は補強・派生情報として扱う。
+
+| トピック | 一次正本 | 補強（aiworkflow-requirements 内） | 矛盾検出時の優先順 |
+| --- | --- | --- | --- |
+| ブランチ戦略（feature/dev/main の役割と PR フロー） | `CLAUDE.md` 「ブランチ戦略」節 | `references/deployment-branch-strategy.md` / `deployment-core.md` | CLAUDE.md > aiworkflow-requirements。差異検出時は CLAUDE.md を正として references/ を補正 |
+| solo 運用 CI gate 方針（`required_pull_request_reviews=null` / `required_status_checks` / `required_linear_history` / `required_conversation_resolution`） | `CLAUDE.md` ブランチ戦略の solo 運用ポリシー注記 | `references/deployment-branch-strategy.md` の draft proposal セクション | CLAUDE.md > aiworkflow-requirements。レビュー必須数を変更する場合は CLAUDE.md を先に更新 |
+| Cloudflare CLI ラッパー方針（`scripts/cf.sh` 経由・`wrangler` 直接禁止・`wrangler login` 禁止） | `CLAUDE.md` 「Cloudflare 系 CLI 実行ルール」節 | `references/deployment-cloudflare.md` / `deployment-secrets-management.md` の `scripts/cf.sh` 統合章 | CLAUDE.md > aiworkflow-requirements。コマンド形式・禁止事項は CLAUDE.md を起点に同期 |
+| ローカル `.env` の op 参照運用 | `CLAUDE.md` 「ローカル `.env` の運用ルール」節 | `references/deployment-secrets-management.md` の op 章 | CLAUDE.md > aiworkflow-requirements |
+| Git hook 運用（lefthook 正本 / `.git/hooks/*` 手書き禁止 / post-merge 廃止） | `CLAUDE.md` 「Git hook の方針」節 | `references/technology-devops-core.md` Git hook 運用章 / `lessons-learned-lefthook-unification-2026-04.md` | CLAUDE.md > aiworkflow-requirements。ただし lessons-learned の教訓 ID は references/ 側が一次正本 |
+| Node / pnpm バージョン固定（Node 24 / pnpm 10.33.2 / mise） | `CLAUDE.md` 「開発環境セットアップ」節 | `references/technology-devops-core.md` baseline 章 | CLAUDE.md > aiworkflow-requirements |
+| references/ 配下の API/D1/IPC/UI/auth 仕様 | `references/*.md`（aiworkflow-requirements が一次正本） | `CLAUDE.md` は概要のみ言及 | aiworkflow-requirements > CLAUDE.md。実装契約・schema・状態定数は references/ を正とする |
+| 教訓 / lessons-learned ID（L-XXX-NNN） | `references/lessons-learned-*.md`（aiworkflow-requirements が一次正本） | CLAUDE.md には記載しない | aiworkflow-requirements > CLAUDE.md |

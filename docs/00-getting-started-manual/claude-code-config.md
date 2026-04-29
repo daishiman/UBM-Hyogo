@@ -9,7 +9,9 @@
 | ファイル | 役割 |
 |---------|------|
 | `CLAUDE.md` (プロジェクトルート) | Claude Code が自動読み込みするプロジェクト基準仕様 |
-| `.claude/settings.local.json` | 権限・MCP サーバー・出力スタイルの設定 |
+| `.claude/settings.json` | プロジェクト共通の権限・MCP サーバー・出力スタイルの設定 |
+| `.claude/settings.local.json` | プロジェクト個人用の上書き設定（存在しない場合は作成しない） |
+| `~/.claude/settings.json` | グローバル Claude Code 設定（全プロジェクト共通） |
 | `~/.claude/CLAUDE.md` | グローバル Claude Code 設定（全プロジェクト共通） |
 
 ---
@@ -27,10 +29,25 @@
 ## 権限モード
 
 ```json
-"defaultMode": "bypassPermissions"
+"permissions": {
+  "defaultMode": "bypassPermissions"
+}
 ```
 
-よく使うコマンドは事前に allow リスト登録済み。新規コマンドの追加は `update-config` スキルを使う。
+`defaultMode` は root 直下ではなく `permissions.defaultMode` に置く。よく使うコマンドは事前に allow リスト登録済み。新規コマンドの追加は `update-config` スキルを使う。
+
+### 設定階層
+
+Claude Code settings は上位のファイルが下位を上書きする。
+
+```
+project/.claude/settings.local.json
+  > project/.claude/settings.json
+    > ~/.claude/settings.local.json
+      > ~/.claude/settings.json
+```
+
+`settings.local.json` が存在しない場合は N/A として扱い、明示的な上書きが必要になるまで作成しない。
 
 ### allow（主要なもの）
 
@@ -133,11 +150,15 @@ wget * | sh
 
 ## プロジェクト固有の設定補足
 
-```json
-"skipDangerousModePermissionPrompt": false
+`cc` alias は zsh の conf.d 経路で管理する。
+
+```zsh
+alias cc='claude --verbose --permission-mode bypassPermissions --dangerously-skip-permissions'
 ```
 
-危険な操作（`rm -rf` 等）は必ず確認プロンプトが表示される。`--no-verify` や `--force` 系オプションは使用しない。
+正本配置先は `~/.config/zsh/conf.d/79-aliases-tools.zsh`。`~/.zshrc` は conf.d ファイルを source する入口として扱い、alias を直書きしない。
+
+注意: `--dangerously-skip-permissions` と広い allow 設定は利便性を上げる一方で、破壊的操作の確認機会を減らす。`permissions.deny` が bypass 下でどこまで実効するかは継続検証対象のため、`rm` 系、`git push --force` 系、secret 読み取り系は deny / ask 側で明示し、allow の最小化を継続課題として管理する。
 
 ---
 

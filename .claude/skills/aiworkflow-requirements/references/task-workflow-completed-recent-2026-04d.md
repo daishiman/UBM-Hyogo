@@ -4,6 +4,37 @@
 
 ---
 
+### タスク: UT-GOV-004 branch protection required_status_checks contexts 同期 spec_created（2026-04-29）
+
+| 項目 | 値 |
+| --- | --- |
+| タスクID | UT-GOV-004 |
+| ステータス | **spec_created（Phase 1〜12 完了 / Phase 13 ユーザー承認待ち）** |
+| タイプ | governance / docs-only / NON_VISUAL |
+| 優先度 | High（UT-GOV-001 の前提） |
+| 完了日 | 2026-04-29 |
+| 成果物 | `docs/30-workflows/completed-tasks/ut-gov-004-required-status-checks-context-sync/` |
+| GitHub Issue | #147（CLOSED） |
+
+#### 実施内容
+
+- 草案 8 contexts のうち実在 + 過去 30 日 success 実績を持つ 3 contexts（`ci` / `Validate Build` / `verify-indexes-up-to-date`）を Phase 1 投入対象に確定
+- `outputs/phase-08/confirmed-contexts.yml` を UT-GOV-001 が消費する唯一の機械可読入力として正本化
+- branch protection 運用ルール 4 項目（AC-3 / AC-5 / AC-8 / AC-9）を `system-spec-update-summary.md §4` で固定
+- strict 採否を dev=false / main=true に決定（`outputs/phase-09/strict-decision.md`）
+- lefthook ↔ CI 同一 pnpm script 規約の対応表を `outputs/phase-08/lefthook-ci-mapping.md` に整備
+- 苦戦箇所 6 件を `references/lessons-learned-ut-gov-004-branch-protection-context-sync.md` に記録（L-GOV004-001〜006）
+- artifact inventory を `references/workflow-ut-gov-004-artifact-inventory.md` に新規登録
+- skill 反映: `indexes/resource-map.md` / `indexes/quick-reference.md` / `indexes/topic-map.md` / `LOGS/_legacy.md`
+
+#### relay 先未タスク
+
+- UT-GOV-001: `confirmed-contexts.yml` を入力に branch protection apply
+- UT-GOV-005: Phase 2 候補 4 件（unit-test / integration-test / security-scan / docs-link-check）の workflow 新設
+- UT-GOV-007: workflow `name:` drift 自動検出 + GitHub Actions ピン留めポリシー
+
+---
+
 ### タスク: UT-13 Cloudflare KV セッションキャッシュ設定 spec_created（2026-04-27）
 
 | 項目 | 値 |

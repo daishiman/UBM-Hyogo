@@ -36,6 +36,7 @@ export type AuthGateState =
   | "input"
   | "sent"
   | "unregistered"
+  | "active"
   | "rules_declined"
   | "deleted";
 
@@ -263,9 +264,12 @@ export interface SessionUser {
   responseId: string;
   email: string;
   isAdmin: boolean;
-  authGateState: Exclude<AuthGateState, "input" | "sent"> | null;
+  authGateState: Extract<AuthGateState, "active" | "rules_declined" | "deleted">;
 }
 ```
+
+`input` / `sent` / `unregistered` はログイン前後の gate flow 状態、`active` / `rules_declined` /
+`deleted` は認証済み `/me` response で返す member session 状態として分けて扱う。
 
 ---
 

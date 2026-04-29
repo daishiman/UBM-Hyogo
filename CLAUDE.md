@@ -77,6 +77,7 @@ feature/* --PR--> dev --PR--> main
 
 > **solo 運用ポリシー**: 個人開発のため必須レビュアー数は 0（GitHub branch protection の `required_pull_request_reviews` は `null`）。
 > 品質保証は CI（`required_status_checks`）/ 線形履歴（`required_linear_history`）/ 会話解決必須化（`required_conversation_resolution`）/ force-push & 削除禁止 で担保する。
+> GitHub 側の branch protection 実値を正本とし、CLAUDE.md は運用参照として扱う。UT-GOV-001 適用時は `gh api repos/{owner}/{repo}/branches/dev/protection` と `gh api repos/{owner}/{repo}/branches/main/protection` を個別に実行し、`grep` で `required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` の drift がないことを確認する。
 
 ---
 

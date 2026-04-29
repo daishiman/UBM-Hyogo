@@ -2723,4 +2723,59 @@
 - IPC 契約対称性確認済み（APPROVAL_CHANNELS.APPROVAL_REQUEST）
 - Phase 11: Visual 4件 CAPTURE_BLOCKED（worktree 環境制約）、NonVisual 3件 PASS(unit)
 - CAPTURE_BLOCKED 未タスク: `docs/30-workflows/unassigned-task/ut-sdk-07-approval-request-surface-001-phase11-screenshot.md`
+
+---
+
+### タスク: TASK-SKILL-CODEX-VALIDATION-001（2026-04-28）
+
+| 項目       | 値                                                                                              |
+| ---------- | ----------------------------------------------------------------------------------------------- |
+| タスクID   | TASK-SKILL-CODEX-VALIDATION-001                                                                 |
+| ステータス | **completed**（Phase 1-12 完了 / Phase 13 user_approval_required）                              |
+| タイプ     | implementation + docs / NON_VISUAL                                                              |
+| 優先度     | P0                                                                                              |
+| 完了日     | 2026-04-28                                                                                      |
+| 対象       | `.claude/skills/skill-creator/scripts/utils/`、`.claude/skills/{skill}/SKILL.md` 全 frontmatter |
+| 成果物     | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/`（Phase 1-13 + outputs）     |
+
+#### 実施内容
+
+- **R-01〜R-07 検証契約**: `validate-skill-md.js`（199 行）+ `yaml-escape.js` を skill-creator scripts/utils/ に新設
+- **二段ガード**: `generate_skill_md.js` 描画後 + `init_skill.js` writeFileSync 直前で `validateSkillMdContent()` 呼び出し。`quick_validate.js` を CLI 経路の三段目に追加
+- **テスト**: `__tests__/codex_validation.test.js` 24 ケース（232 行）+ `helpers/load-fixture.js` + `vitest.config.js` 新設
+- **フィクスチャ rename**: `__tests__/fixtures/*/SKILL.md` → `*/SKILL.md.fixture` 30 件、skill discovery 圏外化
+- **description 圧縮**: aiworkflow-requirements / automation-30 / skill-creator の SKILL.md description を ≤1024 字 string scalar 化
+- **退避先 Markdown 統一**: `automation-30/references/elegant-review-prompt.md` / `skill-creator/references/anchors.md` を新規作成
+- **Anchors / Trigger 自動退避**: Anchors ≤5 / Trigger keywords ≤15 を超過時に自動退避
+- **mirror parity**: `.claude/skills/` ↔ `.agents/skills/` を同 wave で sync（AC-8）
+
+#### Acceptance Criteria（current facts）
+
+- AC-1: SKILL.md frontmatter R-01〜R-07 を validator で全件検出 → PASS
+- AC-2: 二段ガード（build / write）+ CLI 三段目（quick_validate） → PASS
+- AC-3: フィクスチャ 30 件 `*.fixture` 化 → PASS
+- AC-4: 退避先 Markdown 統一 → PASS
+- AC-5: 対象 3 skill の description ≤1024 字 → PASS
+- AC-6: Anchors ≤5 / Trigger ≤15 自動退避 → PASS
+- AC-7: codex_validation.test.js 24 ケース GREEN → PASS
+- AC-8: `.claude/` ↔ `.agents/` 同 wave sync → PASS
+
+#### 派生未タスク（unassigned-task-detection.md に分離）
+
+1. `TASK-SKILL-TASKSPEC-CREATOR-LINE-LIMIT-001` — task-specification-creator SKILL.md 500 行超過の再分割
+2. `TASK-SKILL-VALID-FIXTURE-EXAMPLE-LINK-001` — valid-skill fixture の `example.md` リンク欠如修正
+3. `TASK-DOC-SPEC-UPDATE-WORKFLOW-WARN3-001` — spec-update-workflow.md Warning 3 段階分類 + mirror parity CI gate 化
+
+#### 検証証跡
+
+- vitest 24/24 PASS（codex_validation.test.js）
+- 二段ガード（generate / write）+ quick_validate 三段目 動作確認
+- Phase 11 NON_VISUAL evidence: CLI 実行ログを `outputs/phase-11/` に固定
+- Phase 12 canonical 6 成果物 PASS
+- AC-1〜AC-8 8/8 PASS
+- artifact inventory: `references/workflow-skill-md-codex-validation-fix-artifact-inventory.md`
+- 苦戦知見: `references/lessons-learned-skill-codex-validation-2026-04.md`（L-CODEX-001〜005）
+
+---
+
 - [Workspace](./task-workflow-completed-workspace.md)

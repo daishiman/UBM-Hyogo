@@ -13,11 +13,16 @@ Phase 1: 要件定義。
 
 ## メタ情報
 
-| 項目   | 値                 |
-| ------ | ------------------ |
-| Phase  | 1                  |
-| 機能名 | {{FEATURE_NAME}}   |
-| 作成日 | {{CREATED_DATE}}   |
+| 項目             | 値                                         |
+| ---------------- | ------------------------------------------ |
+| Phase            | 1                                          |
+| 機能名           | {{FEATURE_NAME}}                           |
+| 作成日           | {{CREATED_DATE}}                           |
+| タスク種別       | {{TASK_TYPE}}（feature/refactor/fix/docs-only） |
+| visualEvidence   | {{VISUAL_EVIDENCE}}（true/false）          |
+| scope            | {{SCOPE}}（実装範囲 or 「テンプレート作成のみ」） |
+
+> **必須項目**: 上記 6 行は省略不可。`docs-only` の場合は `scope` に handoff 先 task spec のパスを併記する（出典: T-6 / Issue #161）。
 
 ## 目的
 
@@ -87,6 +92,24 @@ grep -n "<対象関数名>" <対象ファイルパス>
 Phase 2: 設計
 ```
 
+## 1.X Schema / 共有コード Ownership 宣言（並列 wave 必須）
+
+並列 wave（同一フェーズで複数タスクが同時進行する構成）では、共有 schema（D1 テーブル列追加 / Zod schema / packages/shared exports など）や `_shared/` 配下の共通コードに対する **ownership を Phase 1 で必ず宣言** する。宣言しないまま進めると、04b で発生した「`admin_member_notes.note_type` 列追加が 02c 範囲のはずだったが 04b で実施せざるを得なかった」のような wave 越境が発生し、artifacts.json の整合と PR 単位の責務分離が崩れる。
+
+Phase 1 outputs（`requirements.md` または `artifacts.json`）に以下のチェックリストを必ず含める:
+
+| 項目 | 内容 |
+| --- | --- |
+| 編集する schema / 共通コード | 例: `admin_member_notes.note_type` 列追加 / `packages/shared/zod/viewmodel` exports |
+| 本タスクが ownership を持つか | yes / no（no の場合は ownership wave を明示） |
+| 他 wave への影響 | consumer wave の列挙（例: 04b は consumer / 07a は producer） |
+| 競合リスク | 同 schema を編集する並列 wave が他にあるか / 解決策（順序付け or 部分分割） |
+| migration 番号 / exports 改名の予約 | 重複防止のための番号予約・命名予約 |
+
+宣言が `no`（owner ではない）にも関わらず編集を実施した場合は、`unassigned-task-detection.md` でフォローアップタスクとして起票し、正式 owner wave へ補強差分の取り込みを依頼する。
+
+参考実例: 04b では `admin_member_notes.note_type` を additive migration として 04b 内で実施し、Phase 12 で「02c 範囲の補強」として明示記録した（`04b-parallel-member-self-service-api-endpoints/outputs/phase-12/unassigned-task-detection.md`）。
+
 ## 1.X 外部 SaaS 無料枠仕様調査（リスク前置き）
 
 監視・分析・認証等の SaaS 連携がある場合、Phase 1 ヒアリングで以下 3 点を必ず確保する:
@@ -102,3 +125,25 @@ Phase 2: 設計
 ## 関連ガイド
 
 - [phase-template-core.md](phase-template-core.md) — Phase 1-3 共通骨格
+
+## Phase 1 必須入力: artifacts.json.metadata.visualEvidence
+
+Phase 1 の DoD として以下を必須化する。未設定の場合、Phase 11 縮約テンプレ / VISUAL UI task テンプレの
+発火判定が不可能になり、Phase 1 を差し戻す。
+
+| メタフィールド | 必須値 | 確定タイミング |
+| --- | --- | --- |
+| `metadata.taskType` | `docs-only` / `implementation` / `skill-improvement` 等 | Phase 1 完了時 |
+| `metadata.visualEvidence` | `VISUAL` / `NON_VISUAL` | Phase 1 完了時（Phase 5 で再判定） |
+| `metadata.scope` | タスクの責務領域 | Phase 1 完了時 |
+| `metadata.workflow_state` | `spec_created` / `in_progress` / `completed` | Phase 1 完了時（Phase 12 close-out で更新可否判定） |
+
+判定コマンド:
+
+```bash
+jq -e '.metadata | (.taskType and .visualEvidence and .scope and .workflow_state)' \
+  docs/30-workflows/<task>/artifacts.json \
+  || echo "Phase 1 メタ未確定: 差戻し"
+```
+
+詳細な発火マトリクスは SKILL.md §「タスクタイプ判定フロー（docs-only / NON_VISUAL）」を参照。
