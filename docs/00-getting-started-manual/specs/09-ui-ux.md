@@ -133,6 +133,16 @@
 | `Timeline` | 最近の支部会の表示 |
 | `SyncBadge` | Forms 同期状態やレビュー必要状態の表示 |
 
+### 公開層 06a コンポーネント契約
+
+| コンポーネント | props / 入力 | 備考 |
+|-------------|--------------|------|
+| `Hero` | `title`, `subtitle`, `primaryCta`, `secondaryCta` | `/` の第一導線と登録導線を担う |
+| `StatCard` | `PublicStatsView` | `memberCount`, `publicMemberCount`, `meetingCountThisYear`, `zoneBreakdown` を表示する |
+| `MemberCard` | `PublicMemberListItem`, `density: comfy | dense | list` | `memberId`, `fullName`, `nickname`, `occupation`, `location`, `ubmZone`, `ubmMembershipType` の公開要約だけを使う |
+| `ProfileHero` | `PublicMemberProfile.summary` | 詳細ページ冒頭で公開 summary のみを表示する |
+| `FormPreviewSections` | `FormPreviewView` | `stableKey` をキーに、公開 / 会員のみ / 管理者のみの可視性を表示する |
+
 ---
 
 ## 不採用と注意事項

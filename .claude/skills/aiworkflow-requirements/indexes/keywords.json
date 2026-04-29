@@ -1415,6 +1415,7 @@
       "interfaces-chat-history-details.md",
       "interfaces-rag-file-selection.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -3384,6 +3385,7 @@
       "claude-code-agents-workflow.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -3637,6 +3639,7 @@
     ],
     "URL": [
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "r2-storage-decision-guide.md"
     ],
     "Reference": [
@@ -4209,7 +4212,8 @@
     ],
     "Workers": [
       "deployment-cloudflare-opennext-workers.md",
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "OpenNext": [
       "deployment-cloudflare-opennext-workers.md",
@@ -4236,7 +4240,8 @@
     ],
     "wrangler": [
       "deployment-cloudflare-opennext-workers.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "toml": [
       "deployment-cloudflare-opennext-workers.md",
@@ -4277,6 +4282,7 @@
       "directory-structure-core.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "technology-core.md"
@@ -4426,6 +4432,7 @@
     "Next": [
       "deployment-cloudflare.md",
       "directory-structure-core.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "technology-core.md"
     ],
     "認証確認": [
@@ -4651,7 +4658,8 @@
     ],
     "dev": [
       "deployment-gha.md",
-      "lessons-learned-04b-member-self-service.md"
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "main": [
       "deployment-gha.md",
@@ -6488,7 +6496,8 @@
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "route": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "単位": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6505,7 +6514,8 @@
       "spec-elegance-consistency-audit.md"
     ],
     "zod": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "による入力厳格化は": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6529,7 +6539,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "実装の苦戦箇所": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "cookie": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
@@ -6590,6 +6601,7 @@
     ],
     "smoke": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "skill-ledger-fragment-spec.md",
@@ -6686,6 +6698,91 @@
     ],
     "Boundaries": [
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
+    ],
+    "公開": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Landing": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Directory": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Registration": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "App": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Router": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "group": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "public": [
+      "lessons-learned-06a-public-web-2026-04.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "と既存": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "app": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "page": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "tsx": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "のルート衝突": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "searchParams": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "params": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Promise": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "化された": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "density": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "用語の表記揺れと": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "値の正本化": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "catch": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "だけでは": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "string": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "加工フォールバックに不足": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "esbuild": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "バージョン不一致により実": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "不能": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "横断教訓": [
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "実機反映": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md"
@@ -12604,9 +12701,6 @@
     "parallel": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
-    ],
-    "public": [
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
     ],
     "directory": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
