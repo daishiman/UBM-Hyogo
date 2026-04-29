@@ -18,7 +18,7 @@
 
 ## 目的
 
-Phase 1〜12 の成果を `feature/05a-google-oauth-and-admin-gate` ブランチにまとめ、`dev` 向けの PR を作成する。本タスクは spec_created（docs only）のため、コード差分は無く `doc/02-application-implementation/05a-*` 配下の 15 ファイル + outputs のみが変更対象。
+Phase 1〜12 の成果を `feature/05a-google-oauth-and-admin-gate` ブランチにまとめ、`dev` 向けの PR を作成する。本タスクは implementationのため、apps/web, apps/api, packages/shared と workflow docs が変更対象。
 
 ## 実行タスク
 
@@ -53,21 +53,21 @@ Phase 1〜12 の成果を `feature/05a-google-oauth-and-admin-gate` ブランチ
 
 | 区分 | 内容 |
 | --- | --- |
-| 種別 | docs（spec_created） |
-| 影響範囲 | doc/02-application-implementation/05a-* (15 files + outputs) |
-| 後続影響 | 06a/b/c の login / admin 結線、08a の contract test、infra 04 secrets リスト追加（INTERNAL_TOKEN） |
+| 種別 | implementation |
+| 影響範囲 | apps/web, apps/api, packages/shared, docs/30-workflows/05a-* |
+| 後続影響 | 06a/b/c の login / admin 結線、08a の contract test、infra 04 secrets リスト追加（INTERNAL_AUTH_SECRET） |
 | 並列影響 | 05b との session-resolve contract 締結 |
 | residual risk | B-01 (admin 剥奪 24h タイムラグ), B-03 (Google OAuth verification は MVP 後) |
 
 ### ステップ 3: PR template
 
 ```
-title: docs(app): 05a Google OAuth provider + admin gate 仕様策定
+title: feat(auth): add Auth.js Google OAuth provider and admin gate
 
 summary:
-- Auth.js v5 GoogleProvider と JWT session strategy を確定
+- Auth.js v5 GoogleProvider と共有 HS256 JWT session strategy を実装
 - session-resolve endpoint で memberId / isAdmin を解決（apps/api 経由、不変条件 #5）
-- admin gate を middleware (edge) + requireAdmin (API) の二段防御で構成（不変条件 #11）
+- admin gate を middleware (edge) + requireAdmin (API) の二段防御で実装（不変条件 #11）
 - session JWT に profile / responses / notes を含めない（不変条件 #4/#11）
 - 05b と session-resolve endpoint を共有（同一 memberId 解決）
 - AC-1〜AC-10 を Phase 7 で trace、Phase 9 で無料枠 OK 判定
@@ -94,7 +94,7 @@ closes: (本タスク GitHub Issue があれば記載)
 gh pr create \
   --base dev \
   --head feature/05a-google-oauth-and-admin-gate \
-  --title "docs(app): 05a Google OAuth provider + admin gate 仕様策定" \
+  --title "feat(auth): add Auth.js Google OAuth provider and admin gate" \
   --body "$(cat outputs/phase-13/pr-body.md)"
 ```
 
@@ -106,15 +106,15 @@ gh pr create \
 | 06a/b/c | merge 後に画面実装で参照 |
 | 08a | merge 後に contract test 実装 |
 | 09a | dev → staging deploy で smoke |
-| infra 04 | INTERNAL_TOKEN を secrets リストに追加 |
+| infra 04 | INTERNAL_AUTH_SECRET を secrets リストに追加 |
 
 ## 多角的チェック観点
 
 | 観点 | 内容 | 関連不変条件 |
 | --- | --- | --- |
-| #5 (apps/web → D1 禁止) | 差分が docs only。コード差分 0 を確認 | #5 |
+| #5 (apps/web → D1 禁止) | apps/web は D1 に直接触らず `/auth/session-resolve` を経由 | #5 |
 | #9 (`/no-access` 不在) | 差分内に `/no-access` 言及がないこと | #9 |
-| #11 (admin gate) | 差分内で admin gate を二段防御として記述 | #11 |
+| #11 (admin gate) | apps/web middleware と apps/api requireAdmin の二段防御を確認 | #11 |
 | secret hygiene | PR 本文に key 値が含まれない | - |
 | branch | `feature/*` → `dev`（CLAUDE.md branch 戦略） | - |
 

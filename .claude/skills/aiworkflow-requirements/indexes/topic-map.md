@@ -858,12 +858,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L170 |
-| UBM-Hyogo Admin Sync API（03a） | L191 |
-| UBM-Hyogo Member Self-Service API（04b） | L213 |
-| Desktop IPC API サマリー | L231 |
-| 変更履歴 | L262 |
-| 関連ドキュメント | L279 |
+| エンドポイント命名規則 | L155 |
+| UBM-Hyogo Admin Sync API（03a） | L176 |
+| UBM-Hyogo Member Self-Service API（04b） | L198 |
+| Desktop IPC API サマリー | L216 |
+| 変更履歴 | L247 |
+| 関連ドキュメント | L263 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2851,6 +2851,19 @@ node scripts/list-specs.js --topics
 | L-04C-005: zod による入力厳格化は query / date / pagination で必ず分岐する | L42 |
 | 関連未タスク・後続 wave 連携 | L50 |
 | 参照 | L56 |
+
+### references/lessons-learned-05a-authjs-admin-gate-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-05A-001: Auth.js v5 cookie session resolver を internal endpoint で繋ぐ設計 | L9 |
+| L-05A-002: 二段防御の責務分離と bypass 試行検証 (F-15 / F-16) | L36 |
+| L-05A-003: admin 剥奪の即時反映 (B-01) を MVP では「次回ログイン反映」で許容 | L64 |
+| L-05A-004: Google OAuth verification (B-03) を testing user 運用で MVP 許容 | L88 |
+| L-05A-005: Phase 11 staging smoke の実 OAuth 接続不能で証跡が placeholder | L111 |
+| L-05A-006: session JWT 構造を memberId / isAdmin のみに最小化、D1 sessions 不採用と整合 | L140 |
+| 関連リソース | L183 |
+| Follow-up（unassigned-task） | L195 |
 
 ### references/lessons-learned-05b-magic-link-auth-gate-2026-04.md
 

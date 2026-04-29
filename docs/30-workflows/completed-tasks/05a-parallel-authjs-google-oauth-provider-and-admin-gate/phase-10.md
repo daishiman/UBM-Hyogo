@@ -67,7 +67,7 @@ Phase 1〜9 の成果を集約し、GO / NO-GO を判定する。上流（04b / 
 | ID | 内容 | severity | 対応 |
 | --- | --- | --- | --- |
 | B-01 | F-17 (admin 剥奪後 24h は古い JWT で動く) | minor | 仕様として固定（次回ログインで反映）、`requireAdmin` で D1 lookup を行う緩和は別タスク |
-| B-02 | INTERNAL_TOKEN の運用方法（session-resolve への内部 auth） | minor | wrangler secret put で配線、infra 04 のリストに追加 |
+| B-02 | INTERNAL_AUTH_SECRET の運用方法（session-resolve への内部 auth） | minor | wrangler secret put で配線、infra 04 のリストに追加 |
 | B-03 | OAuth 同意画面の verification 申請（Google） | minor | testing user で MVP 期間を凌ぐ、prod release 前に申請 |
 
 ### ステップ 4: 05b との contract 確認
@@ -87,7 +87,7 @@ Phase 1〜9 の成果を集約し、GO / NO-GO を判定する。上流（04b / 
 - blocker: B-01, B-02, B-03 すべて minor、対応方針あり
 
 **判定: GO（条件付き）**
-- B-02 の INTERNAL_TOKEN を Phase 5 runbook に明示する
+- B-02 の INTERNAL_AUTH_SECRET を Phase 5 runbook に明示する
 - B-03 の OAuth verification を Phase 12 の implementation-guide に申し送る
 
 ## 統合テスト連携
@@ -142,7 +142,7 @@ Phase 1〜9 の成果を集約し、GO / NO-GO を判定する。上流（04b / 
 ## 次 Phase
 
 - 次: 11 (手動 smoke)
-- 引き継ぎ事項: B-01 (admin 剥奪 race) の実機確認、B-02 (INTERNAL_TOKEN) の wrangler 設定、B-03 (OAuth verification) を documentation 申し送り
+- 引き継ぎ事項: B-01 (admin 剥奪 race) の実機確認、B-02 (INTERNAL_AUTH_SECRET) の wrangler 設定、B-03 (OAuth verification) を documentation 申し送り
 - ブロック条件: NO-GO 判定の場合は進まない
 
 ## GO / NO-GO 判定
@@ -151,6 +151,6 @@ Phase 1〜9 の成果を集約し、GO / NO-GO を判定する。上流（04b / 
 
 | 条件 | 内容 |
 | --- | --- |
-| 必達 | B-02 の INTERNAL_TOKEN を Phase 5 runbook に明示、infra 04 リストに追加 |
+| 必達 | B-02 の INTERNAL_AUTH_SECRET を Phase 5 runbook に明示、infra 04 リストに追加 |
 | 推奨 | B-01 の admin 剥奪 race を Phase 12 の implementation-guide に既知制約として記載 |
 | 推奨 | B-03 の Google OAuth verification 申請を unassigned-task-detection に追加 |

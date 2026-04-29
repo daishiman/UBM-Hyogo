@@ -100,6 +100,7 @@ Phase 1、Phase 2、Phase 3。
 - validation matrix を command 単位で定義する。
 - DI 境界の型配置判断を明示する（下記フロー参照）。
 - 画面遷移 / handoff 改修では、Phase 1 で確定した **既存 state 名** と **既存 route pattern** をそのまま設計へ持ち込む。未定義 state を設計本文で発明しない。
+- OAuth / session / admin gate 系タスクでは、Phase 2 で **session 型定義・JWT encode/decode 契約・provider 間共有 ADR** を必須セクション化する。Auth.js 等の framework default を API 側が検証できる前提にせず、実 cookie/token と API verifier の互換テストを validation matrix に含める。
 
 ### concern 数による設計書分割基準（TASK-SKILL-LIFECYCLE-08 知見）
 
@@ -124,6 +125,20 @@ Phase 1、Phase 2、Phase 3。
 - **co-owner**: 参照側として PR レビュー責務を負う。owner 単独の変更で破壊された場合は co-owner が roll-forward する義務を持つ
 - **未記載は禁止**: owner / co-owner が空欄の共有モジュールがある場合、Phase 3 レビューで MAJOR 判定としブロックする
 - 並列 wave 終了時の same-wave sync で `_shared/*` の差分が両 task で一致していることを確認する
+
+### OAuth / session 共有契約 ADR【Phase 2 認証タスク必須】
+
+Auth provider、session callback、API middleware、並列 provider task（例: Google OAuth と Magic Link）が同じ認証境界を共有する場合、Phase 2 成果物に次を明記する。
+
+| 項目 | 必須内容 |
+| --- | --- |
+| session 型 | `memberId` / `email` / `isAdmin` / `gateReason` など、cookie/API/画面で共有する最小 payload |
+| token 形式 | framework default か独自 JWS/JWE か、署名/暗号方式、TTL、secret 名 |
+| encode/decode owner | 共有実装の配置先と API verifier との互換テスト |
+| provider 共有 ADR | 並列 provider task が上書きしない endpoint / 型 / error reason の正本 |
+| OAuth client runbook | Phase 5 で Google Cloud Console 等の client 取得・redirect URI・secret 配置手順を必ず作成すること |
+
+05a feedback: Auth.js default JWT と Hono API 側 `requireAdmin` の検証方式がずれやすいため、Phase 2 で実 cookie/token 互換を設計し、Phase 3 で MAJOR/NO-GO 判定対象にする。
 
 ### DI 境界の型配置判断フロー（Phase 2 設計時に確認）
 
