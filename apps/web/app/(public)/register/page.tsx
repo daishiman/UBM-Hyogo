@@ -16,6 +16,7 @@ type FormPreviewView = z.infer<typeof FormPreviewViewZ>;
 const FALLBACK_RESPONDER_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 600;
 
 export default async function RegisterPage() {

@@ -18,6 +18,7 @@ import { fetchPublic } from "../src/lib/fetch/public";
 type PublicStatsView = z.infer<typeof PublicStatsViewZ>;
 type PublicMemberListView = z.infer<typeof PublicMemberListViewZ>;
 
+export const dynamic = "force-dynamic";
 export const revalidate = 60;
 
 export default async function HomePage() {

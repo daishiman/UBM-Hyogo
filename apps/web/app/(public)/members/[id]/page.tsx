@@ -19,6 +19,7 @@ import {
 
 type PublicMemberProfile = z.infer<typeof PublicMemberProfileZ>;
 
+export const dynamic = "force-dynamic";
 export const revalidate = 60;
 
 interface MemberDetailPageProps {

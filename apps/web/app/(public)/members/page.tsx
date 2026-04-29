@@ -19,6 +19,7 @@ import { MembersFilterBar } from "./_components/MembersFilterBar.client";
 
 type PublicMemberListView = z.infer<typeof PublicMemberListViewZ>;
 
+export const dynamic = "force-dynamic";
 export const revalidate = 30;
 
 interface MembersPageProps {
