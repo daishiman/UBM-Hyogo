@@ -75,6 +75,22 @@
 
 ---
 
+### Branch Protection Required Status Checks Contexts 同期（UT-GOV-004 / 2026-04-29）
+
+UT-GOV-001 を安全に実行するための前提タスク。確定 contexts の機械可読正本と branch protection 運用ルール 4 項目を集約。
+
+| 目的 | 参照先 |
+| --- | --- |
+| 機械可読正本（UT-GOV-001 の唯一の apply 入力） | `docs/30-workflows/completed-tasks/ut-gov-004-required-status-checks-context-sync/outputs/phase-08/confirmed-contexts.yml` |
+| Phase 1 投入 3 contexts（`ci` / `Validate Build` / `verify-indexes-up-to-date`）と strict 採否（dev=false / main=true） | 同上 `confirmed-contexts.yml` |
+| branch protection 運用ルール 4 項目（AC-3 / AC-5 / AC-8 / AC-9） | `outputs/phase-12/system-spec-update-summary.md` §4 |
+| lefthook ↔ CI 対応表（同一 pnpm script 規約） | `outputs/phase-05/lefthook-ci-mapping.md`, `outputs/phase-08/lefthook-ci-mapping.md` |
+| strict 採否決定根拠（dev / main 別） | `outputs/phase-05/strict-mode-decision.md`, `outputs/phase-09/strict-decision.md` |
+| 苦戦箇所 6 件（context 名生成・同名 job・存在しない context・strict トレードオフ・lefthook drift・refactor 名前変更事故） | `references/lessons-learned-ut-gov-004-branch-protection-context-sync.md` |
+| Phase 12 close-out 6 成果物 | `outputs/phase-12/{implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
+| relay 先 | UT-GOV-001（apply 実行）/ UT-GOV-005（unit-test / integration-test / security-scan / docs-link 新設）/ UT-GOV-007（workflow `name:` drift 自動検出）|
+| 関連既存タスク | `docs/30-workflows/completed-tasks/task-github-governance-branch-protection/`（草案 8 contexts は本タスクで上書き確定済み）, `task-git-hooks-lefthook-and-post-merge` |
+
 ### Worktree Environment Isolation（2026-04-28）
 
 worktree 間の暗黙共有・shell state 残留・並列作成競合を防ぐ 4 領域への引き方。

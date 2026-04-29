@@ -137,6 +137,7 @@
       "ipc-type-resolution-guide.md",
       "legacy-ordinal-family-register.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
@@ -2256,6 +2257,7 @@
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-history-search-notification-center.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -2270,7 +2272,8 @@
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "created": [
       "arch-state-management-reference-selectors.md",
@@ -2350,7 +2353,8 @@
       "task-workflow-completed-skill-lifecycle.md",
       "ui-ux-feature-components-skill-analysis.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "creator": [
       "arch-state-management-skill-creator.md",
@@ -2382,6 +2386,7 @@
       "interfaces-shared.md",
       "ipc-contract-checklist.md",
       "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -2411,6 +2416,7 @@
       "task-workflow-completed-ut-06-safety-gate.md",
       "task-workflow-completed.md",
       "technology-devops.md",
+      "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "STATUS": [
@@ -2545,7 +2551,8 @@
     "Workflow": [
       "arch-state-management-skill-creator.md",
       "master-design.md",
-      "task-workflow-phases.md"
+      "task-workflow-phases.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "Snapshot": [
       "arch-state-management-skill-creator.md"
@@ -3374,6 +3381,7 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "共通": [
@@ -3427,6 +3435,7 @@
       "claude-code-skills-agents.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -3439,7 +3448,8 @@
       "skill-ledger-gitignore-policy.md",
       "skill-ledger-progressive-disclosure.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "品質基準": [
       "claude-code-agents-workflow.md",
@@ -3654,6 +3664,7 @@
     ],
     "index": [
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-index.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
@@ -3766,7 +3777,9 @@
       "claude-code-skills-process.md"
     ],
     "update": [
-      "claude-code-skills-process.md"
+      "claude-code-skills-process.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "flow": [
       "claude-code-skills-process.md"
@@ -3854,7 +3867,8 @@
       "testing-dialog-patterns.md"
     ],
     "由来": [
-      "csrf-state-parameter.md"
+      "csrf-state-parameter.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
     ],
     "苦戦箇所と教訓": [
       "csrf-state-parameter.md"
@@ -5892,6 +5906,7 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -5901,6 +5916,7 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -5982,6 +5998,7 @@
     ],
     "苦戦箇所": [
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
       "observability-monitoring.md",
@@ -6068,10 +6085,12 @@
     ],
     "system": [
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-history-search-notification-center.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "workflow-ai-runtime-authmode-unification.md"
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "fields": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -6159,7 +6178,9 @@
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "GOV": [
-      "lessons-learned-ut-gov-001-2026-04.md"
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "Branch": [
       "lessons-learned-ut-gov-001-2026-04.md"
@@ -6213,7 +6234,9 @@
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "required": [
-      "lessons-learned-ut-gov-001-2026-04.md"
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "の二重ゲート": [
       "lessons-learned-ut-gov-001-2026-04.md"
@@ -6250,6 +6273,75 @@
     ],
     "関連参照": [
       "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "branch": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "protection": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "status": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "checks": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "contexts": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "同期": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "logs-archive-2026-02-validator-task-9f-task-9b.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-2026-03-history-search-notification-center.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md",
+      "logs-archive-2026-03-skill-views-completed-move.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md",
+      "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "運用ルール": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "項目": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "summary": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "正本": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
+    ],
+    "苦戦箇所・知見": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
+    ],
+    "機械可読正本": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
+    ],
+    "への入力契約": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "関連リレー先": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
+    ],
+    "不変条件": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "skill-ledger-overview.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "touched": [
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
     ],
     "indexes": [
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -7900,17 +7992,6 @@
     "GATE": [
       "logs-archive-2026-02-validator-task-9f-task-9b.md"
     ],
-    "同期": [
-      "logs-archive-2026-02-validator-task-9f-task-9b.md",
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-2026-03-history-search-notification-center.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "logs-archive-2026-03-notification-history-sigterm-guard.md",
-      "logs-archive-2026-03-skill-views-completed-move.md",
-      "logs-archive-2026-03-task-10a-c-final-audit.md",
-      "skill-ledger-progressive-disclosure.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
     "ROBUSTNESS": [
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
       "task-workflow-completed-ipc-graceful-degradation-lifecycle.md"
@@ -8767,14 +8848,16 @@
       "skill-ledger-gitignore-policy.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "requirements": [
       "logs-archive-index.md",
       "skill-ledger-gitignore-policy.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "LOGS": [
       "logs-archive-index.md",
@@ -9778,9 +9861,6 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
-    ],
-    "不変条件": [
-      "skill-ledger-overview.md"
     ],
     "で凍結": [
       "skill-ledger-overview.md"
@@ -11706,7 +11786,8 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "outputs": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "反映ファイル": [
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
@@ -11753,7 +11834,8 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "Inventory": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -11762,7 +11844,8 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "実装コードアンカー": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
@@ -11851,7 +11934,8 @@
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "bypass": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
@@ -11892,6 +11976,18 @@
     ],
     "pending": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "phases": [
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "唯一の機械可読正本": [
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "上書き済み既存タスク": [
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "リレー先未タスク": [
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "アラート設計": [
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"

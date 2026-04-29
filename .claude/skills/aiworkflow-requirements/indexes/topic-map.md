@@ -2209,6 +2209,18 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
 
+### references/workflow-ut-gov-004-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Phase 別 outputs（13 phases） | L8 |
+| 2. UT-GOV-001 への入力契約（唯一の機械可読正本） | L26 |
+| 3. branch protection 運用ルール 4 項目（system-spec-update-summary.md §4） | L35 |
+| 4. skill 反映先（aiworkflow-requirements） | L44 |
+| 5. 上書き済み既存タスク | L54 |
+| 6. リレー先未タスク | L63 |
+| 7. 不変条件 | L72 |
+
 ### references/workflow-ut08-monitoring-alert-design-artifact-inventory.md
 
 | セクション | 行 |
@@ -2823,6 +2835,17 @@ node scripts/list-specs.js --topics
 | L-GOV-003: spec_created と user_approval_required の二重ゲート | L31 |
 | L-GOV-004: NON_VISUAL / 手動 smoke の evidence 充足基準（docs-only 代替 evidence） | L42 |
 | 関連参照 | L55 |
+
+### references/lessons-learned-ut-gov-004-branch-protection-context-sync.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| branch protection 運用ルール 4 項目（system-spec-update-summary.md §4 正本） | L12 |
+| 苦戦箇所 6 件（index.md §苦戦箇所・知見 由来） | L21 |
+| 機械可読正本（UT-GOV-001 への入力契約） | L64 |
+| 関連リレー先 | L81 |
+| 不変条件 touched | L90 |
 
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
