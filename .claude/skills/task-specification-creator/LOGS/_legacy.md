@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-29 - UT-GOV-004 required status checks context sync Phase 12 review hardening
+
+`docs/30-workflows/ut-gov-004-required-status-checks-context-sync/` の docs-only / NON_VISUAL workflow を Phase 12 仕様へ再同期した。implementation-guide を Part 1/Part 2 構成へ補正し、Phase 13 承認ゲート成果物を追加。`confirmed-contexts.yml` を UT-GOV-001 の唯一入力として固定し、Phase 7/11/12 の pending / schema / context 処遇 drift を解消した。commit / push / PR / branch protection apply は未実行。
+
 ## 2026-04-28 - UT-GOV-001 branch protection apply NON_VISUAL evidence sync
 
 `docs/30-workflows/ut-gov-001-github-branch-protection-apply/` の Phase 12 close-out を再監査し、implementation / NON_VISUAL / github_governance タスクとして Phase 11 の代替 evidence（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）を正本化した。スクリーンショットは UI / Renderer / 画面遷移なしのため不要とし、Phase 13 の destructive `gh api PUT` はユーザー承認後に限定する境界を維持した。
