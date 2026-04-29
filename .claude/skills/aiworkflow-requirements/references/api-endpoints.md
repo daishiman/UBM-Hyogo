@@ -130,6 +130,24 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 ---
 
+## UBM-Hyogo Member Self-Service API（04b）
+
+`04b-parallel-member-self-service-api-endpoints` で会員本人向け `/me/*` endpoint を追加した。
+Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token は `x-ubm-dev-session: 1`
+がある development request のみ有効で、production / staging では無効。
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
+| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す |
+| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入 |
+| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入 |
+
+禁止: `PATCH /me/profile` は作らない。`/me/*` path に `:memberId` を入れない。GET 系 response に
+`admin_member_notes` 由来の `notes` / `adminNotes` を含めない。
+
+---
+
 ## Desktop IPC API サマリー
 
 ### 主要IPCチャンネル

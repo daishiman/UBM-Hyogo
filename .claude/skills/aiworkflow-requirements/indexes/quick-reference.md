@@ -129,6 +129,21 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 
 ---
 
+### Member Self-Service API / `/me/*` / dev session header（04b / 2026-04-29）
+
+会員本人向け `/me/*` endpoint の即時導線。Auth.js cookie resolver は 05a/05b で差し替え予定。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| API 契約（`GET /me`, `GET /me/profile`, `POST /me/visibility-request`, `POST /me/delete-request` / 禁止: `PATCH /me/profile`、`/me/*` への `:memberId`、GET 系での `notes`/`adminNotes` 露出） | `references/api-endpoints.md`（§UBM-Hyogo Member Self-Service API 04b） |
+| `admin_member_notes.note_type` queue 拡張（`general` / `visibility_request` / `delete_request`、pending 判定は最新行存在） | `references/database-admin-repository-boundary.md`（§04b member self-service queue） |
+| `SessionUser.authGateState` の値域（`active` / `rules_declined` / `deleted`）と spec 整合 | `docs/00-getting-started-manual/specs/04-types.md`, `06-member-auth.md` |
+| 再回答更新方針 / `editResponseUrl` / 退会・公開停止申請の MVP 経路 | `docs/00-getting-started-manual/specs/07-edit-delete.md` |
+| dev session header（`x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>` / production・staging では deny） | `docs/30-workflows/04b-parallel-member-self-service-api-endpoints/outputs/phase-12/implementation-guide.md` |
+| 苦戦知見（`authGateState` enum 文脈分離 / `packages/shared` exports 漏れ / wave 跨ぎ schema 変更宣言 / dev session production guard / 不変条件根拠の集約） | `references/lessons-learned-04b-member-self-service.md`（L-04B-001〜005） |
+
+---
+
 ### UI Visual Baseline Drift / dark-mode screenshot stability（2026-04-03）
 
 | 目的                 | 最初に開くファイル                                                                                                                                           |

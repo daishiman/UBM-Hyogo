@@ -26,6 +26,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.04.29-parallel-wave-schema-ownership | 2026-04-29 | 04b Phase 12 feedback を受け、Phase 1 テンプレに「Schema / 共有コード Ownership 宣言」セクションを追加。並列 wave で共有 schema や `_shared/` の編集権を Phase 1 で明示することを必須化（`references/phase-template-phase1.md` の 1.X 節）。`admin_member_notes.note_type` の wave 越境を再発防止する。|
 | v2026.04.28-claude-code-permissions-comparison-review | 2026-04-28 | `task-claude-code-permissions-project-local-first-comparison-001` の Phase 12 review で、docs-only 比較設計タスクでも root / outputs `artifacts.json` parity、必須見出し、LOGS / 正本仕様同期、後続タスク方針更新を同一 wave で閉じる必要を確認。比較設計テンプレート改善は LOGS と skill-feedback-report に記録。 |
 
 ## 設計原則
