@@ -1,0 +1,7 @@
+node_modules
+.DS_Store
+.git
+*.map
+*.test.*
+*.spec.*
+__tests__
