@@ -925,6 +925,21 @@ packages/
 | 実装モジュール | `apps/api/src/sync/schema/` / `apps/api/src/middleware/admin-gate.ts` / `apps/api/src/routes/admin/sync-schema.ts` |
 | 苦戦知見 | `references/lessons-learned-03a-parallel-forms-schema-sync.md`（L-03a-001〜005） |
 
+### UBM-Hyogo Admin Backoffice API 早見（04c / 2026-04-29）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/04c-parallel-admin-backoffice-api-endpoints/` |
+| API master | `references/api-endpoints.md`（管理バックオフィス API） |
+| 実装 root | `apps/api/src/routes/admin/` |
+| dashboard repository | `apps/api/src/repository/dashboard.ts` |
+| 認可境界 | 04c は `SYNC_ADMIN_TOKEN` Bearer gate。05a で Auth.js + `admin_users` active 判定へ差し替える |
+| 不在 endpoint | `PATCH /admin/members/:memberId/profile` / `PATCH /admin/members/:memberId/tags` は作らない |
+| tag 書き込み境界 | `POST /admin/tags/queue/:queueId/resolve` のみ |
+| schema 書き込み境界 | `/admin/schema/*` のみに集約 |
+| attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
+| phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
+
 ### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
 
 > 本ファイル 500 行超過のため詳細は分離。`indexes/quick-reference-search-patterns-skill-ledger.md` を参照。

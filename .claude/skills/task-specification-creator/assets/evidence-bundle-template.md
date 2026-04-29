@@ -51,6 +51,12 @@
 - [ ] 1-4: Part 2 セクションが存在する
 - [ ] 1-5: API/IPC/Component文書が存在する
 
+### Task 2: 監査結果サマリ
+
+- [ ] 2-1: `outputs/artifacts.json` が存在する
+- [ ] 2-2: root `artifacts.json` と `outputs/artifacts.json` の title / type / status / phase artifact 名が parity（drift 0 件）
+- [ ] 2-3: NON_VISUAL タスクの場合、`manual-evidence.md` に NON_VISUAL 判定理由と Vitest / typecheck / lint の代替 evidence が明記されている
+
 ### Task 3: documentation-changelog
 
 - [ ] 3-1: documentation-changelog.md が存在する

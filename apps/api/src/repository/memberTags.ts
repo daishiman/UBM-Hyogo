@@ -60,5 +60,30 @@ export async function listTagsByMemberIds(
   return result.results;
 }
 
+export async function assignTagsToMember(
+  c: DbCtx,
+  mid: MemberId,
+  tagIds: TagId[],
+  assignedBy: string,
+): Promise<number> {
+  let applied = 0;
+  for (const tagId of tagIds) {
+    const result = await c.db
+      .prepare(
+        `INSERT INTO member_tags (member_id, tag_id, source, confidence, assigned_by)
+         VALUES (?1, ?2, 'admin_queue', 1.0, ?3)
+         ON CONFLICT(member_id, tag_id) DO UPDATE SET
+           source = excluded.source,
+           confidence = excluded.confidence,
+           assigned_at = datetime('now'),
+           assigned_by = excluded.assigned_by`,
+      )
+      .bind(mid, tagId, assignedBy)
+      .run();
+    if (result.success) applied += 1;
+  }
+  return applied;
+}
+
 // 型エクスポート
 export type { TagId };
