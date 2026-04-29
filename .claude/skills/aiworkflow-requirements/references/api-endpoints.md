@@ -62,6 +62,23 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 | GET      | /api/health    | ヘルスチェック | 不要 |
 | GET      | /api/v1/status | 詳細ステータス | 必要 |
 
+### UBM-Hyogo Health API（UT-06-FU-H）
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/health/db` | API Worker から D1 binding に `SELECT 1` を実行し、DB 疎通を確認する | `X-Health-Token: <HEALTH_DB_TOKEN>` + Cloudflare WAF allowlist / rate limit |
+
+レスポンス契約:
+
+| Status | 条件 | Body | Headers |
+| --- | --- | --- | --- |
+| 200 | token 一致、D1 `SELECT 1` 成功 | `{ ok: true, db: "ok", check: "SELECT 1" }` | `Content-Type: application/json` |
+| 401 | WAF allowlist 内で `X-Health-Token` 欠落または不一致 | `{ ok: false, error: "unauthorized" }` | - |
+| 403 | WAF allowlist 外または rate limit block | Cloudflare WAF response | Cloudflare WAF response |
+| 503 | `HEALTH_DB_TOKEN` 未設定、D1 binding 欠落、D1 `SELECT 1` 失敗 | `{ ok: false, db: "error", error: string }` | `Retry-After: 30` |
+
+`/health` は API Worker / runtime foundation の軽量 health、`/health/db` は D1 疎通 health として SLO を分離する。`/health/db` は `apps/api` に閉じ、`apps/web` から D1 binding を直接参照しない。
+
 ### 管理同期 API（apps/api）
 
 | メソッド | パス | 説明 | 認証 |
@@ -101,6 +118,25 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 - schema 変更は `/admin/schema/*` に集約する。
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
+
+### 認証 API（apps/api / 05b）
+
+`05b-parallel-magic-link-provider-and-auth-gate-state` で、Magic Link 発行・検証と login gate 判定を `/auth/*` に追加した。`apps/web` は同 origin `/api/auth/*` proxy だけを持ち、D1 には直接接続しない。`/no-access` 専用 route は作らず、login UI が state/reason JSON を表示に変換する。
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/auth/gate-state?email=...` | email から login gate を判定する。`ok` / `unregistered` / `rules_declined` / `deleted` を返し、memberId は返さない | 不要（IP 60/h rate limit） |
+| POST | `/auth/magic-link` | gate state が `ok` の時だけ `magic_tokens` を発行し、Magic Link mail を送る。gate 結果は 200 + `sent` / `unregistered` / `rules_declined` / `deleted`、mail 失敗は 502 + `MAIL_FAILED` | 不要（email 5/h + IP 30/h rate limit） |
+| POST | `/auth/magic-link/verify` | token と email を検証し、成功時に `SessionUser` を返す。失敗 reason は `not_found` / `expired` / `already_used` / `resolve_failed` | 不要（token 検証） |
+| POST | `/auth/resolve-session` | Auth.js callback / credentials bridge 用に email から `SessionUser` を解決する | 内部利用想定 |
+
+05b の構造的不変条件:
+
+- `magic_tokens` は apps/api repository だけが触る。apps/web は proxy fetch のみ。
+- token TTL は 900 秒、token 形式は 64 hex、consume は optimistic lock で 1 回限り。
+- mail 送信に失敗した場合は発行済み token を `deleteByToken` で rollback し、502 `{code:"MAIL_FAILED"}` を返す。
+- gate 判定優先度は `unregistered -> deleted -> rules_declined -> ok`。
+- `/no-access` route と redirect は作らない。API は JSON state/reason を返す。
 
 ### 公開ディレクトリ API（apps/api / 04a）
 
@@ -227,6 +263,7 @@ Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token
 
 | Version | Date       | Changes                                            |
 | ------- | ---------- | -------------------------------------------------- |
+| 2.8.0   | 2026-04-29 | UT-06-FU-H: `GET /health/db` D1 疎通 health API 契約を追加 |
 | 2.7.0   | 2026-04-29 | 04a: 公開ディレクトリ API 4 endpoint を追加 |
 | 2.6.0   | 2026-04-29 | 03b: `POST /admin/sync/responses` 管理同期 API を追加 |
 | 2.5.0   | 2026-03-11 | TASK-FIX-APIKEY-CHAT-TOOL-INTEGRATION-001: Desktop IPC API サマリーの AI/チャットへ `llm:set-selected-config` を追加 |

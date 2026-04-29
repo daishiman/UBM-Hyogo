@@ -123,6 +123,7 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | D1 スキーマ責務（`member_responses` / `member_identities` / `member_status` / `response_fields` / `schema_diff_queue` / `sync_jobs`） | `references/database-schema.md`（§UBM 会員 Forms 同期テーブル 03b） |
 | cron `*/15 * * * *` 設定・JWT 署名・Secret 配置 | `references/deployment-cloudflare.md`（§API Worker cron / Forms response sync 03b） |
 | `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `SYNC_ADMIN_TOKEN` 配置 | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
+| D1 health endpoint（`GET /health/db`、`X-Health-Token`、`HEALTH_DB_TOKEN`、401/403/503 境界） | `references/api-endpoints.md`（§UBM-Hyogo Health API）, `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
 | 苦戦箇所（per-sync write 200 cap / partial UNIQUE で重複 enqueue 抑止 / submittedAt 同値時 responseId 降順 tie-break / `metrics_json.cursor` ≠ `pageToken`） | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/outputs/phase-12/implementation-guide.md` Part 2 |
 | follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / `member_responses.response_email` UNIQUE DDL 明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/unassigned-task/03b-response-sync-followups.md` |
 | 全 phase 設計と AC-1〜AC-10 検証 | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` |
@@ -141,6 +142,19 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | 再回答更新方針 / `editResponseUrl` / 退会・公開停止申請の MVP 経路 | `docs/00-getting-started-manual/specs/07-edit-delete.md` |
 | dev session header（`x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>` / production・staging では deny） | `docs/30-workflows/04b-parallel-member-self-service-api-endpoints/outputs/phase-12/implementation-guide.md` |
 | 苦戦知見（`authGateState` enum 文脈分離 / `packages/shared` exports 漏れ / wave 跨ぎ schema 変更宣言 / dev session production guard / 不変条件根拠の集約） | `references/lessons-learned-04b-member-self-service.md`（L-04B-001〜005） |
+
+### UBM-Hyogo Magic Link / AuthGateState API 早見（05b / 2026-04-29）
+
+Magic Link 発行・検証と login gate 判定の即時導線。画面は 06b の責務で、05b は API/NON_VISUAL。
+
+| 項目 | 正本 |
+| --- | --- |
+| API contract | `references/api-endpoints.md`（§認証 API 05b） |
+| env / secrets | `references/environment-variables.md`（`AUTH_URL` / `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS`） |
+| 実装ガイド | `docs/30-workflows/05b-parallel-magic-link-provider-and-auth-gate-state/outputs/phase-12/implementation-guide.md` |
+| Phase 11 evidence | `docs/30-workflows/05b-parallel-magic-link-provider-and-auth-gate-state/outputs/phase-11/` |
+| 苦戦知見 | `references/lessons-learned-05b-magic-link-auth-gate-2026-04.md`（L-05B-001〜005） |
+| Artifact Inventory | `references/workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md` |
 
 ---
 

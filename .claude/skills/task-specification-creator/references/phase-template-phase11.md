@@ -28,6 +28,7 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 - 実行コマンド (例: `pnpm --filter @repo/api test:run`, `wrangler dev` 経由の curl)
 - 期待結果 / 実測 / PASS or FAIL
 - vitest 件数を主証跡として明記 (例: `194/194 PASS`)
+- upstream が未実装 route を指す場合は、実行済み evidence と未タスク境界を分けて記録する（例: Magic Link mail URL の callback route は後続タスク、現タスクは verify API の direct fetch まで）
 
 `link-checklist.md` は仕様書 → 実装ファイル / fake D1 fixture / fixture テスト間の参照リンク有効性を表で記録する。
 

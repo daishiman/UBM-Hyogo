@@ -1,0 +1,3 @@
+# FS-01: /no-access 不在 + D1 直参照不在
+# 実行: bash apps/api/scripts/no-access-fs-check.sh
+# 結果: OK: AC-7 fs-check passed (no /no-access route, no D1 direct access)

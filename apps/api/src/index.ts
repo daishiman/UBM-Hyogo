@@ -32,6 +32,8 @@ import { runSchemaSync, ConflictError } from "./sync/schema";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
+import { createAuthRoute } from "./routes/auth";
+import { createResendSender } from "./services/mail/magic-link-mailer";
 
 interface Env extends SyncEnv, ResponseSyncEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
@@ -43,6 +45,20 @@ interface Env extends SyncEnv, ResponseSyncEnv {
   readonly GOOGLE_PRIVATE_KEY?: string;
   readonly FORMS_SA_EMAIL?: string;
   readonly FORMS_SA_KEY?: string;
+  readonly HEALTH_DB_TOKEN?: string;
+  // 05b: Magic Link / Auth provider 関連
+  readonly AUTH_SECRET?: string;
+  readonly AUTH_URL?: string;
+  readonly MAIL_PROVIDER_KEY?: string;
+  readonly MAIL_FROM_ADDRESS?: string;
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  let mismatch = a.length ^ b.length;
+  for (let i = 0; i < b.length; i += 1) {
+    mismatch |= (a.charCodeAt(i) || 0) ^ b.charCodeAt(i);
+  }
+  return mismatch === 0;
 }
 
 const textEncoder = new TextEncoder();
@@ -168,6 +184,31 @@ app.route(
   }),
 );
 
+// 05b: /auth/* (Magic Link provider + AuthGateState)
+// MAIL_PROVIDER_KEY 未設定時は no-op sender (dev/test) を使う。production は MAIL_FAILED で 502。
+app.route(
+  "/auth",
+  createAuthRoute({
+    resolveMailSender: (env) => {
+      const e = env as Env;
+      if (e.MAIL_PROVIDER_KEY) {
+        return createResendSender({ apiKey: e.MAIL_PROVIDER_KEY });
+      }
+      return {
+        async send() {
+          if (e.ENVIRONMENT === "production") {
+            return {
+              ok: false as const,
+              errorMessage: "MAIL_PROVIDER_KEY not configured",
+            };
+          }
+          return { ok: true as const };
+        },
+      };
+    },
+  }),
+);
+
 app.get("/admin/healthz", (c) => c.json({ ok: true, scope: "admin" }));
 
 app.route("/admin", adminSyncRoute);
@@ -196,6 +237,43 @@ app.get("/health", (c) =>
     integrationRuntimeTarget,
   }),
 );
+
+app.get("/health/db", async (c) => {
+  const expected = c.env.HEALTH_DB_TOKEN;
+  if (!expected) {
+    c.header("Retry-After", "30");
+    return c.json(
+      {
+        ok: false,
+        db: "error",
+        error: "HEALTH_DB_TOKEN unconfigured",
+      } as const,
+      503,
+    );
+  }
+  const presented = c.req.header("X-Health-Token") ?? "";
+  if (!timingSafeEqual(presented, expected)) {
+    return c.json({ ok: false, error: "unauthorized" } as const, 401);
+  }
+  try {
+    const result = await c.env.DB.prepare("SELECT 1").first();
+    if (!result) {
+      throw new Error("SELECT 1 returned null");
+    }
+    return c.json(
+      { ok: true, db: "ok", check: "SELECT 1" } as const,
+      200,
+    );
+  } catch (err) {
+    const message = err instanceof Error ? err.name : String(err);
+    console.error("[/health/db] SELECT 1 failed", { error: message });
+    c.header("Retry-After", "30");
+    return c.json(
+      { ok: false, db: "error", error: message } as const,
+      503,
+    );
+  }
+});
 
 export default {
   fetch: app.fetch,
