@@ -2,10 +2,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminTagsQueueRoute } from "./tags-queue";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "t",
+  AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
 const seedQueue = async (env: InMemoryD1) => {
@@ -38,7 +40,7 @@ describe("admin tags queue", () => {
     const app = createAdminTagsQueueRoute();
     const res = await app.request(
       "/tags/queue",
-      { headers: { Authorization: "Bearer t" } },
+      { headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(res.status).toBe(200);
@@ -52,7 +54,7 @@ describe("admin tags queue", () => {
       "/tags/queue/q1/resolve",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: "{}",
       },
       makeEnv(env),
@@ -72,7 +74,7 @@ describe("admin tags queue", () => {
       "/tags/queue/q_x/resolve",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: "{}",
       },
       makeEnv(env),

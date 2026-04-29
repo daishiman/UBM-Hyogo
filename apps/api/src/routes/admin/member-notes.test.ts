@@ -2,10 +2,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminMemberNotesRoute } from "./member-notes";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "t",
+  AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
 describe("admin member notes", () => {
@@ -38,7 +40,7 @@ describe("admin member notes", () => {
       "/members/m1/notes",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ body: "test memo" }),
       },
       makeEnv(env),
@@ -55,7 +57,7 @@ describe("admin member notes", () => {
       "/members/m1/notes",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ body: "" }),
       },
       makeEnv(env),
@@ -69,7 +71,7 @@ describe("admin member notes", () => {
       "/members/m1/notes",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ body: "test memo" }),
       },
       makeEnv(env),
@@ -79,7 +81,7 @@ describe("admin member notes", () => {
       `/members/m2/notes/${body.note.noteId}`,
       {
         method: "PATCH",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ body: "bad update" }),
       },
       makeEnv(env),

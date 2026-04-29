@@ -11,12 +11,15 @@
     "dev": "next dev",
     "lint": "tsc -p tsconfig.json --noEmit",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web",
+    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include=\"apps/web/src/**/*.{ts,tsx}\" apps/web"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "1.19.4",
     "@ubm-hyogo/shared": "workspace:*",
     "next": "16.2.4",
+    "next-auth": "5.0.0-beta.25",
     "react": "19.2.5",
     "react-dom": "19.2.5"
   },

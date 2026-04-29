@@ -2,10 +2,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminMembersRoute } from "./members";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "admin-token",
+  AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
 const seed = async (env: InMemoryD1) => {
@@ -44,7 +46,7 @@ describe("admin members route", () => {
     const app = createAdminMembersRoute();
     const res = await app.request(
       "/members",
-      { headers: { Authorization: "Bearer admin-token" } },
+      { headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(res.status).toBe(200);
@@ -57,7 +59,7 @@ describe("admin members route", () => {
     const app = createAdminMembersRoute();
     const res = await app.request(
       "/members/m_unknown",
-      { headers: { Authorization: "Bearer admin-token" } },
+      { headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(res.status).toBe(404);
@@ -67,7 +69,7 @@ describe("admin members route", () => {
     const app = createAdminMembersRoute();
     const res = await app.request(
       "/members?filter=bogus",
-      { headers: { Authorization: "Bearer admin-token" } },
+      { headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(res.status).toBe(400);

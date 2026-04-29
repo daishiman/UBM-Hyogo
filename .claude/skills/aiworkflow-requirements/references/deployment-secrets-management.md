@@ -57,6 +57,15 @@ wrangler secret put SLACK_BOT_TOKEN --env staging
 | `DATABASE_URL` | Cloudflare D1 接続 URL | production / staging |
 | `SLACK_BOT_TOKEN` | Slack Bot Token（通知機能） | production / staging |
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（内部通知） | production / staging |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Sheets API 用 Service Account JSON key。`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts` が `env.GOOGLE_SERVICE_ACCOUNT_JSON` として参照する正本名。値は `wrangler secret list` でも参照不可（name のみ） | production / staging |
+
+### `GOOGLE_SERVICE_ACCOUNT_JSON` 投入ルール（UT-25 / 2026-04-29）
+
+- `wrangler` は直接呼ばず、必ず `bash scripts/cf.sh secret put/list/delete --config apps/api/wrangler.toml --env <env>` 経由で実行する。
+- 値は `op read "op://<Vault>/<Item>/<Field>" | bash scripts/cf.sh secret put ...` の stdin 経由で投入する。secret 値、JSON 内容、`private_key` の一部を文書・ログ・PR本文に転記しない。
+- staging-first 固定。production への投入は staging の `secret list` name 確認後だけ実施する。
+- rollback は `secret delete` 後、1Password の旧 revision から同じ secret 名へ再投入する。
+- `GOOGLE_SHEETS_SA_JSON` は移行期間の legacy alias として実装側のみ許容し、Cloudflare Workers Secret の正本名は `GOOGLE_SERVICE_ACCOUNT_JSON` に統一する。
 
 ### Cloudflare Pages（フロントエンド `apps/web/`）
 
@@ -299,3 +308,4 @@ unset TMP_CF_TOKEN_STG TMP_CF_TOKEN_PRD
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare/GitHub 2層シークレット管理） |
 | 2026-04-27 | 1.1.0 | UT-06 派生: `scripts/cf.sh` を 1Password / esbuild / mise 統合の canonical wrapper として明文化。`wrangler login` ローカル OAuth トークン保持禁止と `op://` 参照経由の動的注入を必須化 |
 | 2026-04-27 | 1.1.0 | UT-08 モニタリング系 Secret セクション追加 |
+| 2026-04-29 | 1.2.0 | UT-25: `GOOGLE_SERVICE_ACCOUNT_JSON` を apps/api Workers Secret 正本名として追加し、`scripts/cf.sh` + stdin 投入 / staging-first / rollback / legacy alias 境界を明文化 |

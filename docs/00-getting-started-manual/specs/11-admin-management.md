@@ -99,3 +99,31 @@
 - 他人プロフィールの本文編集 UI
 - `admin/tags` をタグ辞書・ルール編集の主画面にする構成
 - 物理削除
+
+---
+
+## 管理者ゲート（admin gate）二段防御
+
+`/admin/*` の HTML 表示と API mutation を共に未認証 / 非 admin に許さないため、
+admin gate は **apps/web middleware（UI gate）** と **apps/api `requireAdmin`（API gate）** の
+二段防御で実装する。一方が bypass されても他方が独立して 403 を返す。
+
+| 段 | 実装 | 責務 | D1 アクセス |
+|---|------|------|------------|
+| 第1段（UI gate） | `apps/web/middleware.ts`（matcher: `/admin/:path*`） | 未ログイン / 非 admin の SSR ブロック → `/login?gate=admin_required` redirect | しない（JWT verify のみ） |
+| 第2段（API gate） | `apps/api/src/middleware/require-admin.ts` | `/admin/*` route mount に `requireAdmin` 適用、`claims.isAdmin !== true` は 403 | しない（JWT verify のみ） |
+
+不変条件:
+
+1. **UI gate / API gate ともに D1 を触らない**。admin 判定は session JWT の `isAdmin` claim を信頼する。`admin_users` の lookup は session 発行時の `/auth/session-resolve` で済んでいる。
+2. **UI gate を bypass しても API gate が独立に 403 を返す**（`__Secure-authjs.session-token` を改竄、Authorization Bearer の偽装、UI middleware の matcher 漏れ等を想定）。
+3. **`/admin/sync*` の cron / Worker-to-Worker 経路は `requireSyncAdmin`（`SYNC_ADMIN_TOKEN` Bearer）を維持** し、人間向け `/admin/*` の `requireAdmin` と分離する。
+4. **admin 剥奪は session JWT 失効まで反映されない（24h TTL）**。即時失効が必要な場合は `AUTH_SECRET` rotate で全 session を invalidate する。MVP では「次回ログインで反映」を許容する。
+
+参照:
+
+- `apps/web/middleware.ts`（UI gate）
+- `apps/api/src/middleware/require-admin.ts`（API gate）
+- `apps/api/src/index.ts`（`/admin/*` ルートへの `requireAdmin` mount）
+- `02-auth.md`（`/auth/session-resolve` 内部 endpoint）
+- `13-mvp-auth.md`（session JWT 構造 / admin 剥奪反映ポリシー）
