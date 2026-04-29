@@ -860,9 +860,10 @@ node scripts/list-specs.js --topics
 | REST API エンドポイント一覧 | L25 |
 | エンドポイント命名規則 | L90 |
 | UBM-Hyogo Admin Sync API（03a） | L111 |
-| Desktop IPC API サマリー | L133 |
-| 変更履歴 | L164 |
-| 関連ドキュメント | L179 |
+| UBM-Hyogo Member Self-Service API（04b） | L133 |
+| Desktop IPC API サマリー | L151 |
+| 変更履歴 | L182 |
+| 関連ドキュメント | L197 |
 
 ### references/api-internal-chunk-search.md
 
@@ -930,6 +931,7 @@ node scripts/list-specs.js --topics
 | 対象 repository | L11 |
 | 境界 | L21 |
 | 下流連携 | L29 |
+| 04b member self-service queue | L40 |
 
 ### references/database-architecture.md
 
@@ -2774,6 +2776,16 @@ node scripts/list-specs.js --topics
 | L-03B-005: `responseEmail` は system field、`response_fields` には保存しない | L41 |
 | L-03B-006: 二重起動防止は同種 job_type の `running` 行検査で 409 を返す | L49 |
 | L-03B-007: 旧 `ruleConsent` 表記の混入は入口で `rulesConsent` へ正規化 | L57 |
+
+### references/lessons-learned-04b-member-self-service.md
+
+| セクション | 行 |
+|------------|----|
+| L-04B-001: `SessionUserZ.authGateState` enum は「保持」と「ゲート判定」で文脈が違う | L9 |
+| L-04B-002: `packages/shared` の exports field にサブパスを網羅する | L17 |
+| L-04B-003: 「本文編集禁止」の不変条件根拠は specs に分散しているので 1 箇所に集約参照する | L25 |
+| L-04B-004: `admin_member_notes` schema 変更は wave 間 ownership を Phase 1 で宣言する | L33 |
+| L-04B-005: Auth.js 未着フェーズの dev session ヘッダは production guard を必ず最初に書く | L41 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 

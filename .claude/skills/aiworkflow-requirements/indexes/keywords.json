@@ -30,6 +30,7 @@
       "ipc-4-layer-pattern.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-04b-member-self-service.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-api-electron.md",
       "security-api.md",
@@ -612,6 +613,20 @@
       "database-implementation-core.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
+    "Member": [
+      "api-endpoints.md",
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "Self": [
+      "api-endpoints.md",
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "Service": [
+      "api-endpoints.md",
+      "api-internal-search.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-04b-member-self-service.md"
+    ],
     "Desktop": [
       "api-endpoints.md",
       "arch-claude-cli.md",
@@ -781,10 +796,6 @@
       "arch-state-management-core.md",
       "ui-ux-feature-components-details.md"
     ],
-    "Service": [
-      "api-internal-search.md",
-      "lessons-learned-03a-parallel-forms-schema-sync.md"
-    ],
     "主要クラス": [
       "api-internal-search.md"
     ],
@@ -917,6 +928,7 @@
       "architecture-implementation-patterns-shared.md",
       "directory-structure-core.md",
       "interfaces-shared.md",
+      "lessons-learned-04b-member-self-service.md",
       "workflow-light-theme-global-remediation.md"
     ],
     "パッケージ移動": [
@@ -2773,7 +2785,8 @@
       "architecture-auth-security-core.md"
     ],
     "ownership": [
-      "architecture-auth-security-core.md"
+      "architecture-auth-security-core.md",
+      "lessons-learned-04b-member-self-service.md"
     ],
     "認証アーキテクチャ": [
       "architecture-auth-security-core.md"
@@ -2970,7 +2983,8 @@
       "architecture-file-conversion.md"
     ],
     "service": [
-      "architecture-file-conversion.md"
+      "architecture-file-conversion.md",
+      "database-admin-repository-boundary.md"
     ],
     "db": [
       "architecture-file-conversion.md"
@@ -3322,6 +3336,7 @@
     ],
     "Phase": [
       "claude-code-agents-workflow.md",
+      "lessons-learned-04b-member-self-service.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -3578,6 +3593,7 @@
     ],
     "wave": [
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-04b-member-self-service.md",
       "spec-elegance-consistency-audit.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -3778,6 +3794,17 @@
     ],
     "下流連携": [
       "database-admin-repository-boundary.md"
+    ],
+    "member": [
+      "database-admin-repository-boundary.md",
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "self": [
+      "database-admin-repository-boundary.md"
+    ],
+    "queue": [
+      "database-admin-repository-boundary.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
     "Turso": [
       "database-architecture.md",
@@ -4074,6 +4101,7 @@
     "js": [
       "deployment-cloudflare.md",
       "directory-structure-core.md",
+      "lessons-learned-04b-member-self-service.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "technology-core.md"
@@ -4177,7 +4205,8 @@
     ],
     "production": [
       "deployment-cloudflare.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-04b-member-self-service.md"
     ],
     "初回": [
       "deployment-cloudflare.md"
@@ -4343,7 +4372,8 @@
       "deployment-gha.md"
     ],
     "dev": [
-      "deployment-gha.md"
+      "deployment-gha.md",
+      "lessons-learned-04b-member-self-service.md"
     ],
     "main": [
       "deployment-gha.md",
@@ -4504,7 +4534,8 @@
       "directory-structure-core.md"
     ],
     "packages": [
-      "directory-structure-core.md"
+      "directory-structure-core.md",
+      "lessons-learned-04b-member-self-service.md"
     ],
     "詳細構造": [
       "directory-structure-core.md"
@@ -5828,12 +5859,10 @@
     ],
     "schema": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-04b-member-self-service.md",
       "skill-ledger-fragment-spec.md"
     ],
     "diff": [
-      "lessons-learned-03a-parallel-forms-schema-sync.md"
-    ],
-    "queue": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
     "unresolved": [
@@ -5868,10 +5897,12 @@
     ],
     "lessons": [
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-04b-member-self-service.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "learned": [
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-04b-member-self-service.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "sync": [
@@ -5884,6 +5915,7 @@
     ],
     "苦戦箇所": [
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-04b-member-self-service.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
       "observability-monitoring.md",
@@ -5940,7 +5972,8 @@
       "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "field": [
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-04b-member-self-service.md"
     ],
     "の重複": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -6014,6 +6047,78 @@
     ],
     "へ正規化": [
       "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "SessionUserZ": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "authGateState": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "enum": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "保持": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "ゲート判定": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "で文脈が違う": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "exports": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "にサブパスを網羅する": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "本文編集禁止": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "の不変条件根拠は": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "specs": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "に分散しているので": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "箇所に集約参照する": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "admin": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "notes": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "変更は": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "で宣言する": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "Auth": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "未着フェーズの": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "session": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "ヘッダは": [
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "guard": [
+      "lessons-learned-04b-member-self-service.md",
+      "workflow-light-theme-contrast-regression-guard.md",
+      "workflow-workspace-parent-reference-sweep-guard.md",
+      "workflow-workspace-preview-search-resilience-guard.md"
+    ],
+    "を必ず最初に書く": [
+      "lessons-learned-04b-member-self-service.md"
     ],
     "Multi": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -11470,11 +11575,6 @@
     ],
     "regression": [
       "workflow-light-theme-contrast-regression-guard.md"
-    ],
-    "guard": [
-      "workflow-light-theme-contrast-regression-guard.md",
-      "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md"
     ],
     "ライトモード全画面": [
       "workflow-light-theme-global-remediation.md"
