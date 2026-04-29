@@ -1,0 +1,151 @@
+{
+  "task_name": "ut-06-followup-H-health-db-endpoint",
+  "task_path": "docs/30-workflows/ut-06-followup-H-health-db-endpoint",
+  "wave": 1,
+  "execution_mode": "serial",
+  "depends_on": [
+    "UT-22-d1-migration",
+    "ut-06-production-deploy-execution"
+  ],
+  "blocks": [
+    "ut-06-followup-I-health-response-sync",
+    "ut-06-phase-11-smoke-S-03",
+    "ut-06-phase-11-smoke-S-07"
+  ],
+  "created_at": "2026-04-29",
+  "github_issue": 121,
+  "github_issue_state": "CLOSED",
+  "github_issue_note": "Issue は CLOSED のままタスク仕様書を整備する（ユーザー指示）。再起票は本ワークフロー Phase 13 ユーザー承認時に判断する。",
+  "metadata": {
+    "taskType": "docs-only",
+    "implementation_target": "apps/api GET /health/db endpoint (implemented in this worktree by user instruction)",
+    "workflow_mode": "docs-plus-code",
+    "spec_only": false,
+    "implementation_completed_at": "2026-04-29",
+    "implementation_note": "ユーザー指示によりタスク仕様書のみでなくコード実装まで実行（B 路線）。残作業は HEALTH_DB_TOKEN secret 投入 / Cloudflare WAF rule / staging→production deploy / smoke 実走で、いずれもユーザーオペレーション。手順は outputs/phase-12/operator-runbook.md。",
+    "scope": "api_health",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "HIGH",
+    "wave_label": "Wave 1 (UT-06 本番実行ブロッカー)",
+    "artifact_schema_note": "元仕様は Phase 1〜3 完成 / Phase 4〜13 spec_created 由来だが、ユーザー指示により Phase 4〜12 成果物と apps/api の実コード実装まで本ワークツリーで完了。Phase 13 はコミット/PR承認待ち。"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-01/main.md"],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-02/main.md"],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-03/main.md"],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-04/main.md"],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-05/main.md"],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系・エラーハンドリング",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-06/main.md"],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "受入条件マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-07/main.md"],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "セキュリティ・コンプライアンス",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-08/main.md"],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "パフォーマンス・SLO",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-09/main.md"],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "ロールアウト・ロールバック",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-10/main.md"],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke / NON_VISUAL walkthrough",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/smoke-test-result.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md"],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/operator-runbook.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "spec_created",
+      "outputs": [],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ]
+}
