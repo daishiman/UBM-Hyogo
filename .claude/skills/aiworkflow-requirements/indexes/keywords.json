@@ -135,6 +135,7 @@
       "ipc-4-layer-pattern.md",
       "ipc-type-resolution-guide.md",
       "legacy-ordinal-family-register.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
@@ -2314,6 +2315,7 @@
     "skill": [
       "arch-state-management-skill-creator.md",
       "claude-code-skills-process.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -3404,6 +3406,7 @@
       "claude-code-skills-agents.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -3948,6 +3951,7 @@
       "logs-archive-2026-02-completed-move-preload-sync.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-skill-validation-atoms-audit.md",
+      "skill-ledger-gitignore-policy.md",
       "technology-devops-core.md",
       "technology-devops-details.md",
       "technology-devops-history.md",
@@ -4519,6 +4523,7 @@
     ],
     "pnpm": [
       "directory-structure-details.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "ui-ux-atoms-patterns-core.md"
@@ -4827,6 +4832,7 @@
     "未タスク": [
       "interfaces-agent-sdk-history-core.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
@@ -5681,6 +5687,7 @@
     ],
     "JSON": [
       "ipc-contract-checklist.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "skill-ledger-gitattributes-policy.md"
     ],
     "出力": [
@@ -5773,12 +5780,14 @@
     "Lessons": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
     "Learned": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -5870,22 +5879,130 @@
     ],
     "申し送り": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
     "open": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
     "baseline": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "ui-ux-components.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
+    "ledger": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "hook": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "冪等化と": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "worktree": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "task-workflow-backlog.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "並列": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "smoke": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-overview.md"
+    ],
+    "ガード未追加で": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "git": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "rm": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "cached": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "直後に": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "が再": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "add": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "する循環": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
     "indexes": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "rebuild": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "部分失敗で破損": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "残留": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "wait": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "戻り値喪失": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "飽和": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "未完了状態で": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "着手すると": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "LOGS": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "logs-archive-index.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "gitignore": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "連動で誤って": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "ignore": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "化する経路": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+    ],
+    "関連リンク": [
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "up": [
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -5911,6 +6028,7 @@
     ],
     "gate": [
       "lessons-learned-verify-indexes-ci-2026-04.md",
+      "skill-ledger-gitignore-policy.md",
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
     "教訓集": [
@@ -8455,11 +8573,6 @@
       "workflow-aiworkflow-requirements-line-budget-reform.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
-    "LOGS": [
-      "logs-archive-index.md",
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitignore-policy.md"
-    ],
     "認証コールバック": [
       "logs-archive-legacy.md"
     ],
@@ -9186,24 +9299,9 @@
     "直接追記が残っていないことを確認": [
       "skill-ledger-fragment-spec.md"
     ],
-    "worktree": [
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "task-workflow-backlog.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
-    ],
-    "smoke": [
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "skill-ledger-overview.md"
-    ],
     "merge": [
       "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md"
+      "skill-ledger-gitattributes-policy.md"
     ],
     "後方互換": [
       "skill-ledger-fragment-spec.md"
@@ -9226,11 +9324,6 @@
     ],
     "適用許可リスト": [
       "skill-ledger-gitattributes-policy.md"
-    ],
-    "ledger": [
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "適用条件": [
       "skill-ledger-gitattributes-policy.md"
@@ -9294,16 +9387,10 @@
     "自動生成": [
       "skill-ledger-gitignore-policy.md"
     ],
-    "git": [
-      "skill-ledger-gitignore-policy.md"
-    ],
     "非管理化": [
       "skill-ledger-gitignore-policy.md"
     ],
     "適用対象": [
-      "skill-ledger-gitignore-policy.md"
-    ],
-    "gitignore": [
       "skill-ledger-gitignore-policy.md"
     ],
     "追記": [
@@ -9318,19 +9405,10 @@
     "generated": [
       "skill-ledger-gitignore-policy.md"
     ],
-    "派生物は": [
+    "派生物は明示": [
       "skill-ledger-gitignore-policy.md"
     ],
-    "post": [
-      "skill-ledger-gitignore-policy.md"
-    ],
-    "commit": [
-      "skill-ledger-gitignore-policy.md"
-    ],
-    "hook": [
-      "skill-ledger-gitignore-policy.md"
-    ],
-    "で再生成されるため": [
+    "で管理するため": [
       "skill-ledger-gitignore-policy.md"
     ],
     "非管理": [
@@ -11596,9 +11674,6 @@
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "クイック参照": [
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
-    "関連リンク": [
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "sweep": [
