@@ -2253,6 +2253,7 @@
       "arch-state-management-reference-selectors.md",
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-03-history-search-notification-center.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -2273,6 +2274,7 @@
       "arch-state-management-reference-selectors.md",
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
@@ -2377,6 +2379,7 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -3333,6 +3336,7 @@
     ],
     "Phase": [
       "claude-code-agents-workflow.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -3564,6 +3568,7 @@
     "docs": [
       "claude-code-settings-hierarchy.md",
       "claude-code-skills-process.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -4003,7 +4008,8 @@
       "deployment-core.md",
       "deployment-details.md",
       "deployment-gha.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "環境保護ルール": [
       "deployment-branch-strategy.md"
@@ -5807,6 +5813,7 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -5814,6 +5821,7 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -6075,6 +6083,99 @@
       "logs-archive-2026-02-completed-move-preload-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "GOV": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "Branch": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "Protection": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "Apply": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "close": [
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "out": [
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "task-workflow-phases.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "GET": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "PUT": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "形の用途分離": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "payload": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "adapter": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "pattern": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "完了前提の": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "重明記": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "順序事故防止": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "user": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "approval": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "required": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "の二重ゲート": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "NON": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "VISUAL": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "手動": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "smoke": [
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-overview.md"
+    ],
+    "evidence": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "充足基準": [
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "only": [
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "代替": [
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "ui-ux-atoms-patterns-core.md"
+    ],
+    "関連参照": [
+      "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "indexes": [
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -9353,12 +9454,6 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
-    "smoke": [
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "skill-ledger-overview.md"
-    ],
     "merge": [
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md",
@@ -9395,9 +9490,6 @@
       "skill-ledger-gitattributes-policy.md"
     ],
     "行独立な": [
-      "skill-ledger-gitattributes-policy.md"
-    ],
-    "only": [
       "skill-ledger-gitattributes-policy.md"
     ],
     "のみ": [
@@ -10252,10 +10344,6 @@
     "Close": [
       "task-workflow-phases.md"
     ],
-    "out": [
-      "task-workflow-phases.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
     "ルール・選定基準": [
       "task-workflow-rules.md"
     ],
@@ -10725,9 +10813,6 @@
       "ui-ux-atoms-patterns-core.md"
     ],
     "による実行": [
-      "ui-ux-atoms-patterns-core.md"
-    ],
-    "代替": [
       "ui-ux-atoms-patterns-core.md"
     ],
     "アクセシビリティ実装知見": [
@@ -11570,9 +11655,6 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "本タスク": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "close": [
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "ファイルツリー再列挙": [

@@ -2454,7 +2454,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L132 |
+| 変更履歴 | L156 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2760,10 +2760,10 @@ node scripts/list-specs.js --topics
 | 使い方 | L15 |
 | Current Alias Overrides（個別互換行） | L22 |
 | Family Summary | L44 |
-| Detailed Register | L64 |
-| Section Extract Register (2026-03-17) | L245 |
-| 500-Line Split Register (2026-03-16) | L256 |
-| Fragment Migration Register (2026-04-28) | L278 |
+| Detailed Register | L65 |
+| Section Extract Register (2026-03-17) | L246 |
+| 500-Line Split Register (2026-03-16) | L257 |
+| Fragment Migration Register (2026-04-28) | L279 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -2803,6 +2803,16 @@ node scripts/list-specs.js --topics
 | 派生未タスク | L43 |
 | 関連ドキュメント | L51 |
 
+### references/lessons-learned-ut-gov-001-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-GOV-001: GET 形 / PUT 形の用途分離（payload adapter pattern） | L9 |
+| L-GOV-002: UT-GOV-004 完了前提の N 重明記（順序事故防止） | L20 |
+| L-GOV-003: spec_created と user_approval_required の二重ゲート | L31 |
+| L-GOV-004: NON_VISUAL / 手動 smoke の evidence 充足基準（docs-only 代替 evidence） | L42 |
+| 関連参照 | L55 |
+
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
 | セクション | 行 |
@@ -2816,8 +2826,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L49 |
-| 関連ドキュメント | L54 |
+| 利用順序 | L48 |
+| 関連ドキュメント | L53 |
 
 ### references/llm-embedding.md
 
