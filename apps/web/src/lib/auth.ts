@@ -13,7 +13,7 @@
 
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import type { JWT } from "@auth/core/jwt";
+import type { JWT } from "next-auth/jwt";
 import {
   decodeAuthSessionJwt,
   encodeAuthSessionJwt,

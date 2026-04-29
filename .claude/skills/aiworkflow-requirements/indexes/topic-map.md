@@ -2151,6 +2151,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L78 |
 | Validation Chain | L88 |
 
+### references/workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L19 |
+| Phase Outputs（current canonical set） | L31 |
+| 主要実装物 | L39 |
+| Skill 反映先（current canonical set） | L93 |
+| 実装で確定した値 | L103 |
+| Follow-up 未タスク（formalize 済み） | L110 |
+| Validation Chain | L119 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2484,7 +2497,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L156 |
+| 変更履歴 | L171 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2679,13 +2692,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L78 |
-| 環境別設定 | L152 |
-| Electron アプリでの環境変数 | L206 |
-| トラブルシューティング | L263 |
-| チーム開発での運用 | L324 |
-| 必須環境変数一覧 | L363 |
-| 関連ドキュメント | L433 |
+| セキュリティベストプラクティス | L90 |
+| 環境別設定 | L164 |
+| Electron アプリでの環境変数 | L218 |
+| トラブルシューティング | L275 |
+| チーム開発での運用 | L336 |
+| 必須環境変数一覧 | L375 |
+| 関連ドキュメント | L446 |
 
 ### references/error-handling-core.md
 
@@ -2852,6 +2865,14 @@ node scripts/list-specs.js --topics
 | 関連リソース | L183 |
 | Follow-up（unassigned-task） | L195 |
 
+### references/lessons-learned-05b-magic-link-auth-gate-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 対象 | L3 |
+| Lessons | L9 |
+| Follow-up Boundaries | L19 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -2888,6 +2909,16 @@ node scripts/list-specs.js --topics
 | L-T6-005: A-2（#130）未完了状態で T-6 着手すると `LOGS.md` を gitignore 連動で誤って ignore 化する経路 | L44 |
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
+
+### references/lessons-learned-ut-06-fu-h-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-HDBH-001: timing-safe 比較で `===` を使わない（user-controlled secret 比較の鉄則） | L9 |
+| L-HDBH-002: 401 / 403 の責務分離（WAF 外側 vs アプリ内側） | L20 |
+| L-HDBH-003: 503 fail-closed と Retry-After: 30 の不変条件 | L31 |
+| L-HDBH-004: HEALTH_DB_TOKEN rotation を Phase 12 close-out 時点で formalize する | L42 |
+| 関連参照 | L55 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
