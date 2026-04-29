@@ -3664,6 +3664,7 @@
     ],
     "index": [
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-index.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
@@ -6320,12 +6321,6 @@
     ],
     "正本": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
-    ],
-    "index": [
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-index.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
     ],
     "苦戦箇所・知見": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
