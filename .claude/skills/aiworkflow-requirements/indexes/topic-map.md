@@ -2905,6 +2905,17 @@ node scripts/list-specs.js --topics
 | Lessons | L9 |
 | Follow-up Boundaries | L19 |
 
+### references/lessons-learned-06a-public-web-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-06A-001: App Router の route group `(public)` と既存 `app/page.tsx` のルート衝突 | L9 |
+| L-06A-002: Next.js 16 で `searchParams` / `params` が Promise 化された | L29 |
+| L-06A-003: density 用語の表記揺れと URL 値の正本化 | L51 |
+| L-06A-004: zod `catch` だけでは string 加工フォールバックに不足 | L73 |
+| L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
+| 横断教訓 | L116 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -3008,8 +3019,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L51 |
-| 関連ドキュメント | L56 |
+| 利用順序 | L52 |
+| 関連ドキュメント | L57 |
 
 ### references/llm-embedding.md
 
