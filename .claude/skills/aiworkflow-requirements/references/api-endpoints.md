@@ -71,6 +71,19 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 `POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。
 
+### 公開ディレクトリ API（apps/api / 04a）
+
+`04a-parallel-public-directory-api-endpoints` で未認証の公開 API を追加した。`/public/*` には session middleware を適用しない。
+
+| メソッド | パス | 説明 | 認証 | Cache-Control |
+| --- | --- | --- | --- | --- |
+| GET | `/public/stats` | 公開 KPI、zone / membership breakdown、今年の支部会数、直近支部会、schema / response sync 状態 | 不要 | `public, max-age=60` |
+| GET | `/public/members` | 公開会員一覧。`q / zone / status / tag / sort / density / page / limit` を受け付ける | 不要 | `no-store` |
+| GET | `/public/members/:memberId` | 公開会員プロフィール。公開同意・公開状態・未削除を満たさない member は 404 | 不要 | `no-store` |
+| GET | `/public/form-preview` | `schema_questions` 由来のフォームプレビューと responder URL | 不要 | `public, max-age=60` |
+
+公開 member の基本条件は `public_consent='consented' AND publish_state='public' AND is_deleted=0`。profile / list response は `responseEmail` / `rulesConsent` / `adminNotes` を含めない。`/public/members` の `tag` は repeated query を AND 条件として扱い、`limit` は 1〜100 に clamp する。
+
 ### チャット履歴
 
 | メソッド | パス                           | 説明                   | 認証 |
@@ -183,6 +196,7 @@ Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token
 
 | Version | Date       | Changes                                            |
 | ------- | ---------- | -------------------------------------------------- |
+| 2.7.0   | 2026-04-29 | 04a: 公開ディレクトリ API 4 endpoint を追加 |
 | 2.6.0   | 2026-04-29 | 03b: `POST /admin/sync/responses` 管理同期 API を追加 |
 | 2.5.0   | 2026-03-11 | TASK-FIX-APIKEY-CHAT-TOOL-INTEGRATION-001: Desktop IPC API サマリーの AI/チャットへ `llm:set-selected-config` を追加 |
 | 2.4.0   | 2026-03-11 | TASK-UI-08-NOTIFICATION-CENTER: Notification IPC サマリーに `notification:delete` を追加し、058e の個別削除契約へ同期 |
