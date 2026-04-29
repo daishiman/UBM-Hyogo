@@ -1,5 +1,0 @@
-# M-02: rules_declined
-# 代替: vitest resolve-gate-state.test.ts > "rulesConsent != consented -> rules_declined"
-# 入力: rules_consent=declined を seed した email
-# 期待 body: {"state":"rules_declined"}
-# 実績: PASS
