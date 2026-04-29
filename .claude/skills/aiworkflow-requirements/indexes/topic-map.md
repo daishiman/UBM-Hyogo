@@ -1813,6 +1813,9 @@ node scripts/list-specs.js --topics
 | 6. Reference Contracts (TypeScript) | L132 |
 | 7. 関連タスク wave（DevEx 衝突防止） | L156 |
 | 8. 適用先システム仕様書 | L180 |
+| 9. FORCED-GO + TC BLOCKED 経路（W2 / 2026-04-28 追加） | L193 |
+| 10. zsh conf.d 経路（D1 / 2026-04-28 追加） | L234 |
+| 11. 関連 lessons-learned | L276 |
 
 ### references/claude-code-skills-agents.md
 
@@ -2123,6 +2126,18 @@ node scripts/list-specs.js --topics
 | TASK-IMP-AGENTVIEW-IMPROVE-ROUTE-001: AgentView <-> SkillAnalysis round-trip（2026-03-20） | L180 |
 | 変更履歴 | L224 |
 
+### references/workflow-skill-md-codex-validation-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L16 |
+| Phase Outputs（current canonical set） | L29 |
+| Skill 反映先（current canonical set） | L52 |
+| Follow-up 未タスク | L81 |
+| Validation Chain | L89 |
+| 関連ドキュメント | L102 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2195,6 +2210,18 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L99 |
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
+
+### references/workflow-ut-gov-004-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Phase 別 outputs（13 phases） | L8 |
+| 2. UT-GOV-001 への入力契約（唯一の機械可読正本） | L26 |
+| 3. branch protection 運用ルール 4 項目（system-spec-update-summary.md §4） | L35 |
+| 4. skill 反映先（aiworkflow-requirements） | L44 |
+| 5. 上書き済み既存タスク | L54 |
+| 6. リレー先未タスク | L63 |
+| 7. 不変条件 | L72 |
 
 ### references/workflow-ut08-monitoring-alert-design-artifact-inventory.md
 
@@ -2444,7 +2471,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L132 |
+| 変更履歴 | L156 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2746,14 +2773,14 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L6 |
-| 使い方 | L14 |
-| Current Alias Overrides（個別互換行） | L21 |
-| Family Summary | L43 |
-| Detailed Register | L63 |
-| Section Extract Register (2026-03-17) | L244 |
-| 500-Line Split Register (2026-03-16) | L255 |
-| Fragment Migration Register (2026-04-28) | L277 |
+| 概要 | L7 |
+| 使い方 | L15 |
+| Current Alias Overrides（個別互換行） | L22 |
+| Family Summary | L44 |
+| Detailed Register | L65 |
+| Section Extract Register (2026-03-17) | L246 |
+| 500-Line Split Register (2026-03-16) | L257 |
+| Fragment Migration Register (2026-04-28) | L279 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -2787,12 +2814,50 @@ node scripts/list-specs.js --topics
 | L-04B-004: `admin_member_notes` schema 変更は wave 間 ownership を Phase 1 で宣言する | L33 |
 | L-04B-005: Auth.js 未着フェーズの dev session ヘッダは production guard を必ず最初に書く | L41 |
 
+### references/lessons-learned-claude-code-permissions-apply-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L11 |
+| 申し送り（open / baseline 未タスク） | L92 |
+| 関連 references | L101 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
 |------------|----|
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
+
+### references/lessons-learned-skill-codex-validation-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 教訓一覧 | L11 |
+| 派生未タスク | L43 |
+| 関連ドキュメント | L51 |
+
+### references/lessons-learned-ut-gov-001-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-GOV-001: GET 形 / PUT 形の用途分離（payload adapter pattern） | L9 |
+| L-GOV-002: UT-GOV-004 完了前提の N 重明記（順序事故防止） | L20 |
+| L-GOV-003: spec_created と user_approval_required の二重ゲート | L31 |
+| L-GOV-004: NON_VISUAL / 手動 smoke の evidence 充足基準（docs-only 代替 evidence） | L42 |
+| 関連参照 | L55 |
+
+### references/lessons-learned-ut-gov-004-branch-protection-context-sync.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| branch protection 運用ルール 4 項目（system-spec-update-summary.md §4 正本） | L12 |
+| 苦戦箇所 6 件（index.md §苦戦箇所・知見 由来） | L21 |
+| 機械可読正本（UT-GOV-001 への入力契約） | L64 |
+| 関連リレー先 | L81 |
+| 不変条件 touched | L90 |
 
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
@@ -2807,8 +2872,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L47 |
-| 関連ドキュメント | L52 |
+| 利用順序 | L48 |
+| 関連ドキュメント | L53 |
 
 ### references/llm-embedding.md
 
@@ -3895,7 +3960,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 残課題（未タスク） | L6 |
 | task-worktree-environment-isolation follow-up（2026-04-28） | L352 |
-| 続き | L363 |
+| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L363 |
+| 続き | L373 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

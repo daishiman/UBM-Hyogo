@@ -20,6 +20,13 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import { dirname, join, basename } from "path";
 import { fileURLToPath } from "url";
 import { EXIT_CODES, getArg, resolvePath } from "./utils.js";
+import {
+  validateSkillMdContent,
+  MAX_DESC_LENGTH,
+  MAX_ANCHORS,
+  MAX_TRIGGER_KEYWORDS,
+} from "./utils/validate-skill-md.js";
+import { toDoubleQuotedScalar } from "./utils/yaml-escape.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SKILL_DIR = join(__dirname, "..");
@@ -55,14 +62,22 @@ function generateSkillMd(plan) {
   const workflow = plan.workflow || {};
 
   // Frontmatter生成
-  const anchors = workflow.anchors || [];
+  const anchorsAll = workflow.anchors || [];
   const trigger = workflow.trigger || { description: "TODO: 発動条件", keywords: ["TODO"] };
+  const triggerKeywordsAll = trigger.keywords || [];
+
+  // Codex 検証準拠: Anchors > 5 件 / Trigger keywords > 15 件は references/ に退避し、
+  // SKILL.md には主要のみを残す（description ≤ 1024 字制約を満たすため）。
+  const anchors = anchorsAll.slice(0, MAX_ANCHORS);
+  const anchorsOverflow = anchorsAll.slice(MAX_ANCHORS);
+  const triggerKeywords = triggerKeywordsAll.slice(0, MAX_TRIGGER_KEYWORDS);
+  const triggerKeywordsOverflow = triggerKeywordsAll.slice(MAX_TRIGGER_KEYWORDS);
 
   const anchorLines = anchors.length > 0
     ? anchors.map((a) => `  • ${a.name} / 適用: ${a.application} / 目的: ${a.purpose}`).join("\n")
     : "  • TODO: アンカー名 / 適用: 適用範囲 / 目的: 目的";
 
-  const triggerLine = trigger.description + "\n  " + (trigger.keywords || []).join(", ");
+  const triggerLine = trigger.description + "\n  " + triggerKeywords.join(", ");
 
   // ワークフロー図生成
   const phases = workflow.phases || [];
@@ -113,16 +128,17 @@ function generateSkillMd(plan) {
     ? schemaFiles.map((f) => `| ${basename(f.path, ".json")} | [${f.path}](${f.path}) | ${f.responsibility} |`).join("\n")
     : "";
 
-  const content = `---
-name: ${skillName}
-description: |
-  ${workflow.summary || "TODO: スキルの概要説明"}
+  const descriptionText = `${workflow.summary || "TODO: スキルの概要説明"}
 
-  Anchors:
+Anchors:
 ${anchorLines}
 
-  Trigger:
-  ${triggerLine}
+Trigger:
+${triggerLine}`;
+
+  const content = `---
+name: ${skillName}
+description: ${toDoubleQuotedScalar(descriptionText)}
 allowed-tools:
   - Read
   - Write
@@ -220,7 +236,56 @@ ${refTable}
 | 1.0.0 | ${today} | 初版作成 |
 `;
 
-  return content;
+  // Codex 検証準拠: 書き込み前に R-01〜R-05 を強制（description ≤ 1024 字 / YAML 構文）。
+  const validation = validateSkillMdContent(content);
+  if (!validation.ok) {
+    throw new Error(
+      `[skill-creator] generate_skill_md.js: SKILL.md 検証失敗 (description ≥ ${MAX_DESC_LENGTH} 字超過などの可能性):\n  - ${validation.errors.join("\n  - ")}`,
+    );
+  }
+
+  return {
+    content,
+    anchorsOverflow,
+    triggerKeywordsOverflow,
+  };
+}
+
+/**
+ * 退避が必要な Anchors / Trigger keywords を references/ に書き出す。
+ *
+ * @param {string} skillDir - SKILL.md があるディレクトリ
+ * @param {Array} anchorsOverflow
+ * @param {string[]} triggerKeywordsOverflow
+ */
+function writeOverflowReferences(skillDir, anchorsOverflow, triggerKeywordsOverflow) {
+  if (anchorsOverflow.length > 0) {
+    const referencesDir = join(skillDir, "references");
+    if (!existsSync(referencesDir)) mkdirSync(referencesDir, { recursive: true });
+    const lines = [
+      "# Anchors（退避）",
+      "",
+      "SKILL.md description の文字数制約 (≤ 1024 字) を満たすため、上限 (5 件) を超えた Anchors をここに退避する。",
+      "",
+      ...anchorsOverflow.map((a) => `- ${a.name} / 適用: ${a.application} / 目的: ${a.purpose}`),
+      "",
+    ];
+    writeFileSync(join(referencesDir, "anchors.md"), lines.join("\n"), "utf-8");
+  }
+
+  if (triggerKeywordsOverflow.length > 0) {
+    const referencesDir = join(skillDir, "references");
+    if (!existsSync(referencesDir)) mkdirSync(referencesDir, { recursive: true });
+    const lines = [
+      "# Trigger keywords（退避）",
+      "",
+      "SKILL.md description の文字数制約 (≤ 1024 字) を満たすため、上限 (15 件) を超えた Trigger keywords をここに退避する。",
+      "",
+      ...triggerKeywordsOverflow.map((k) => `- ${k}`),
+      "",
+    ];
+    writeFileSync(join(referencesDir, "triggers.md"), lines.join("\n"), "utf-8");
+  }
 }
 
 async function main() {
@@ -261,7 +326,7 @@ async function main() {
       process.exit(EXIT_CODES.VALIDATION_FAILED);
     }
 
-    const content = generateSkillMd(plan);
+    const { content, anchorsOverflow, triggerKeywordsOverflow } = generateSkillMd(plan);
 
     // 出力ディレクトリの作成
     const outputDir = dirname(resolvedOutput);
@@ -270,6 +335,9 @@ async function main() {
     }
 
     writeFileSync(resolvedOutput, content, "utf-8");
+
+    // Anchors / Trigger keywords の退避（上限超過分）
+    writeOverflowReferences(outputDir, anchorsOverflow, triggerKeywordsOverflow);
     console.log(`✓ SKILL.mdを生成しました: ${outputPath}`);
     process.exit(EXIT_CODES.SUCCESS);
   } catch (err) {

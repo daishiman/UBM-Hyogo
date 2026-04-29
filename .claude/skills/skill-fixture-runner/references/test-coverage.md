@@ -1,73 +1,58 @@
 # テストカバレッジ情報
 
-> skill-fixture-runner検証スクリプトのテストカバレッジ詳細。
-> テストファイル: `apps/desktop/src/__tests__/fixtures/skill-creator.fixture.test.ts`
+> skill-fixture-runner および skill-creator 検証スクリプトのテストカバレッジ詳細。
+> 本リポジトリは Cloudflare Workers monorepo（`apps/web` / `apps/api`）構成のため、
+> テスト本体は `.claude/skills/skill-creator/scripts/__tests__/` 配下に集約する。
 
 ---
 
-## フィクスチャ一覧
+## テストファイル正本
 
-### 基本フィクスチャ（TASK-8C-F）
-
-| フィクスチャ          | 用途                   | テストケース |
-| --------------------- | ---------------------- | ------------ |
-| complete-skill/       | 完全構成スキル         | TC-001〜020  |
-| partial-skill/        | 部分構成スキル         | TC-021〜035  |
-| orchestration-skill/  | オーケストレーション   | TC-036〜050  |
-| invalid-skill/        | 無効構成               | TC-051〜062  |
-
-### 境界値フィクスチャ（TASK-8C-G）
-
-| フィクスチャ           | 検証対象スクリプト          | 期待結果     | テスト区分             |
-| ---------------------- | --------------------------- | ------------ | ---------------------- |
-| boundary-skill/        | 全5スクリプト               | valid: true  | 境界値（B1~B9, A7-A8） |
-| missing-fields-skill/  | validate-skill-md.js        | valid: false | エラーパターン（A2）   |
-| forbidden-files-skill/ | validate-skill-structure.js | valid: false | エラーパターン（A1）   |
-| invalid-name-skill/    | validate-skill-md.js        | valid: false | エラーパターン（A3）   |
-| empty-agents-skill/    | validate-agents.js          | valid: false | エラーパターン（A4）   |
-| invalid-schema-skill/  | validate-schemas.js         | valid: false | エラーパターン（A5）   |
+| ファイル                                                                     | 役割                                                       |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `.claude/skills/skill-creator/scripts/__tests__/codex_validation.test.js`   | Codex CLI / SKILL.md 検証ルールの網羅テスト                |
+| `.claude/skills/skill-creator/scripts/__tests__/quick_validate.test.js`     | `quick_validate.js` の挙動・エラー/警告分類テスト          |
+| `.claude/skills/skill-creator/scripts/__tests__/helpers/load-fixture.js`    | `SKILL.md.fixture` を一時 `SKILL.md` へ展開するヘルパー    |
 
 ---
 
-## テストカテゴリ
+## フィクスチャ運用規約
 
-| カテゴリ                     | テストケース | 範囲        | 追加タスク |
-| ---------------------------- | ------------ | ----------- | ---------- |
-| Basic Fixture Validation     | 62件         | TC-001〜062 | TASK-8C-F  |
-| Boundary Value Fixtures      | 12件         | TC-063〜074 | TASK-8C-G  |
-| Error Pattern Fixtures       | 8件          | TC-075〜082 | TASK-8C-G  |
-| Validation Script Edge Cases | 8件          | TC-083〜090 | TASK-8C-G  |
-| Test Quality Improvements    | 6件          | TC-091〜096 | TASK-8C-G  |
+- フィクスチャは `SKILL.md` ではなく **`SKILL.md.fixture`** 拡張子で配置する（Codex CLI の SKILL.md 検証から除外するため）。
+- テスト実行時は `helpers/load-fixture.js` の `loadFixture(name)` 経由で一時 `SKILL.md` を生成し、終了時に `cleanup()` で削除する。
+- skill-fixture-runner の `validate-skill-structure.js` / `run-all-validations.js` は `SKILL.md` 不在時に `SKILL.md.fixture` を検証ターゲットとして自動採用する。
 
 ---
 
-## テスト結果サマリー
+## フィクスチャ一覧（`.claude/skills/skill-creator/scripts/__tests__/fixtures/`）
 
-| メトリクス         | 値                              |
-| ------------------ | ------------------------------- |
-| テストケース合計   | 96（TASK-8C-F: 62 + TASK-8C-G: 34） |
-| 全PASS             | 96/96                           |
-| 実行時間           | ~8秒                            |
-| ESLintエラー       | 0                               |
-| TODO/FIXME         | 0                               |
-| ギャップカバレッジ | 100%（A:10, B:9, C:1, D:3）    |
+| 区分           | フィクスチャ                                                                                         | 主目的                              |
+| -------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| 正常系         | `valid-skill/`, `name-empty-desc-valid/`, `name-valid-desc-empty/`                                   | 標準・空フィールド許容パターン      |
+| 境界値         | `boundary-64-name/`, `boundary-500-lines/`, `boundary-1024-desc/`                                    | name/行数/description 上限          |
+| エラー         | `invalid-name/`, `invalid-yaml/`, `forbidden-files/`, `name-mismatch/`, `over-limit/`                | バリデーション失敗パターン          |
+| description系  | `empty-name-desc/`, `desc-whitespace-only/`, `name-whitespace-only/`, `long-desc/`, `long-description/`, `angle-bracket-desc/` | description フィールド検証          |
+| 構造           | `no-frontmatter/`, `no-skill-md/`, `empty-skill-md/`, `empty-dir/`, `no-references/`, `refs-with-subdir/`, `unlinked-refs/` | ディレクトリ/フロントマター構造     |
+| メタ           | `no-anchors/`, `no-trigger/`, `no-agent-frontmatter/`, `error-and-warning/`                          | Anchors/Trigger/エラー警告分類      |
+| エンコーディング | `bom-utf8/`, `special-chars-スキル/`                                                                  | 文字エンコーディング・命名          |
 
 ---
 
-## ギャップ分析カバレッジ
+## 検証スクリプト対応
 
-| カテゴリ | 内容                         | カバー数 |
-| -------- | ---------------------------- | -------- |
-| A        | エラーパターン（異常系）     | 10       |
-| B        | 境界値（最大・最小・空）     | 9        |
-| C        | 正常系補完                   | 1        |
-| D        | テスト品質改善               | 3        |
+| スクリプト                          | 対象                            | 出力                                     |
+| ----------------------------------- | ------------------------------- | ---------------------------------------- |
+| `validate-skill-structure.js`       | スキルディレクトリ              | `{ valid, errors, structure }`           |
+| `validate-skill-md.js`              | SKILL.md（または .fixture）     | `{ valid, errors, frontmatter, body }`   |
+| `validate-agents.js`                | `agents/`                       | `{ valid, errors, agents }`              |
+| `validate-schemas.js`               | `schemas/`                      | `{ valid, errors, schemas }`             |
+| `run-all-validations.js`            | 統合実行                        | `{ overall, results }`                   |
 
 ---
 
 ## 関連ドキュメント
 
-| ドキュメント                              | 内容                               |
-| ----------------------------------------- | ---------------------------------- |
-| quality-e2e-testing.md                    | E2Eテスト仕様（TASK-8C-F/G記録）  |
-| claude-code-skills-overview.md            | スキル一覧・概要                   |
+| ドキュメント                                                | 内容                                       |
+| ----------------------------------------------------------- | ------------------------------------------ |
+| `.claude/skills/skill-creator/SKILL.md`                     | スキル仕様の正本（検証ルールの源泉）       |
+| `.claude/skills/skill-fixture-runner/SKILL.md`              | フィクスチャ検証スキルの本体仕様           |

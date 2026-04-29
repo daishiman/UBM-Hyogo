@@ -1,0 +1,76 @@
+# confirmed-contexts.yml — UT-GOV-001 が消費する唯一の機械可読入力
+# 生成日: 2026-04-29
+# 出典: docs/30-workflows/ut-gov-004-required-status-checks-context-sync/
+# 関連 AC: AC-1, AC-2, AC-3, AC-6, AC-8
+
+version: 1
+meta:
+  task_id: UT-GOV-004
+  generated_at: "2026-04-29"
+  source_sha: "f4fb3ba6d018075db0e2292542c90a899d3c2dd7"
+  verification_command: "gh api repos/daishiman/UBM-Hyogo/commits/f4fb3ba6d018075db0e2292542c90a899d3c2dd7/check-runs"
+
+required_status_checks:
+  # phase-1 投入対象（既出 context のみ）
+  contexts:
+    - "ci"
+    - "Validate Build"
+    - "verify-indexes-up-to-date"
+  strict:
+    dev: false
+    main: true
+
+# 各 context の証跡
+evidence:
+  - context: "ci"
+    workflow_file: ".github/workflows/ci.yml"
+    workflow_name: "ci"
+    job_key: "ci"
+    job_name: "ci"
+    last_success_at: "2026-04-28T21:46:33Z"
+    triggers: ["push:main", "push:dev", "pull_request:main", "pull_request:dev"]
+  - context: "Validate Build"
+    workflow_file: ".github/workflows/validate-build.yml"
+    workflow_name: "Validate Build"
+    job_key: "validate-build"
+    job_name: "Validate Build"
+    last_success_at: "2026-04-28T21:46:33Z"
+    triggers: ["push:main", "push:dev", "pull_request:main", "pull_request:dev"]
+  - context: "verify-indexes-up-to-date"
+    workflow_file: ".github/workflows/verify-indexes.yml"
+    workflow_name: "verify-indexes-up-to-date"
+    job_key: "verify-indexes-up-to-date"
+    job_name: "verify-indexes-up-to-date"
+    last_success_at: "2026-04-28T21:46:27Z"
+    triggers: ["push:main", "pull_request:main", "pull_request:dev"]
+
+# phase-2 投入候補（UT-GOV-005 で workflow 新設後に追加投入）
+phase_2_candidates:
+  - draft_name: "unit-test"
+    relay_to: "UT-GOV-005"
+    blocker: "vitest 系 workflow 未実装"
+  - draft_name: "integration-test"
+    relay_to: "UT-GOV-005"
+    blocker: "統合テスト workflow 未実装"
+  - draft_name: "security-scan"
+    relay_to: "UT-GOV-005"
+    blocker: "CodeQL / 脆弱性スキャン workflow 未実装"
+  - draft_name: "docs-link-check"
+    relay_to: "UT-GOV-005"
+    blocker: "lychee / markdown-link-check workflow 未実装"
+
+# 投入条件
+rollout_conditions:
+  phase_1:
+    description: "既出 context の即時投入"
+    requirement_AND:
+      - "workflow が .github/workflows/ に実在"
+      - "過去 30 日以内に conclusion=success が 1 回以上"
+      - "<workflow>/<job> フルパスが gh api 上の name と完全一致"
+  phase_2:
+    description: "UT-GOV-005 後の後追い投入"
+    requirement_AND:
+      - "workflow 新設"
+      - "main または dev で 1 回以上 conclusion=success"
+      - "投入 24 時間前に name: 不変"
+      - "branch protection 更新と同一 PR で投入"

@@ -3,6 +3,39 @@
 このファイルにはスキルの使用記録が追記されます。
 
 ---
+## 2026-04-28 - SKILL.md 200 行 entrypoint 化 / fixture 拡張子規約のテンプレ昇格
+
+- **Agent**: skill-creator (update)
+- **Phase**: documentation_restructure / Phase 12
+- **Result**: success（quick_validate 45項目 PASS, 0 error, 0 warning）
+- **Notes**:
+  - `SKILL.md` を 398 行 → 161 行へ圧縮し Progressive Disclosure entrypoint 規約に整合（200 行制約クリア）
+  - `references/runtime-workflow.md` 新規（157 行）: Runtime ワークフロー状態遷移、submitUserInput phase transition 表、IPC チャネル一覧、AskUserQuestion MCP ツール、verify→improve→re-verify 閉ループ、SDK 正規化、Session Persistence、execute→SkillFileWriter 二重パイプラインを集約
+  - `references/orchestration-design-tasks.md` 新規（66 行）: 設計タスク Phase 戦略、並列 SubAgent 分担、Phase 12 再監査ショートカット、P43 対策、ベストプラクティスを集約
+  - `references/fixture-conventions.md` 新規（82 行）: `.fixture` 拡張子戦略・loadFixture ヘルパー API・新規フィクスチャ追加手順を正本化。`SKILL.md` 名のフィクスチャを成果物に残さない理由（Codex / Claude Code skill discovery への誤検知防止）を明記
+  - 「リソース一覧」表を相対パス（`references/...`）に統一し、`anchors.md` / `runtime-workflow.md` / `orchestration-design-tasks.md` / `fixture-conventions.md` / `resource-map.md` の主要 entrypoint references を明示
+  - 設計知見: SKILL.md は 200 行以下の entrypoint + references 詳細という「目次 / 本文」分離が並列衝突局所化と Codex 互換性の両方に効く。Codex CLI の skill discovery と vitest フィクスチャ管理は `.fixture` 拡張子で疎結合化できる
+  - 同ブランチ累積変更（codex 検証導入、生成系+書き込み系の二段ガード、`scripts/utils/` への helpers / yaml-escape 分離、vitest 化、fixture 拡張子変更、SKILL.md 分割）を 1 つの「Codex CLI 互換性 + Progressive Disclosure 整合」リリースとして結実
+
+---
+## 2026-04-28 - TASK-SKILL-CODEX-VALIDATION-001 完了 / 生成系二段ガード追加
+
+- **Agent**: skill-creator (update)
+- **Phase**: tooling_implementation / Phase 1-12
+- **Result**: success（28/28 PASS）
+- **Notes**:
+  - `scripts/utils/validate-skill-md.js` 新設: Codex CLI SKILL.md 検証ルール R-01〜R-07 をエクスポート (`validateSkillMdContent`, `extractDescription`, `MAX_DESC_LENGTH=1024`, `MAX_ANCHORS=5`, `MAX_TRIGGER_KEYWORDS=15`)
+  - `scripts/utils/yaml-escape.js` 新設: `normalizeWhitespace` / `escapeForScalar` / `toDoubleQuotedScalar` で description の改行・Tab・連続空白・`"` / `\\` を YAML safe に正規化
+  - `scripts/init_skill.js`: `writeFileSync` 直前に `validateSkillMdContent` ガード（書き込み側）
+  - `scripts/generate_skill_md.js`: Anchors > 5 / Trigger keywords > 15 を `slice` し超過分を `references/anchors.md` / `references/triggers.md` に自動退避、description を YAML safe な double-quoted scalar に正規化し、生成後に validate（生成側）
+  - `scripts/quick_validate.js`: frontmatter / name / description の Codex 互換判定を `validateSkillMdContent` に接続
+  - `scripts/__tests__/codex_validation.test.js` 新設: R-01〜R-07 + extractDescription + yaml-escape + 既存実 SKILL.md 整合 + generate integration 28 ケース
+  - `scripts/__tests__/helpers/load-fixture.js` + `vitest.config.js` 新設: フィクスチャ拡張子 `.fixture` 戦略のテスト連携
+  - 既存 `scripts/__tests__/quick_validate.test.js` を `loadFixture` 経由に改修
+  - 設計知見: 生成系 + 書き込み系の **二段ガード** は将来の呼び出し経路追加でもバイパスを防ぐ DBC パターン。他の生成系スクリプトに横展開可能
+  - 退避先テンプレ: `references/anchors.md` / `references/triggers.md` の自動生成形態を `writeOverflowReferences(skillDir, anchorsOverflow, triggerKeywordsOverflow)` ヘルパで定型化
+
+---
 ## 2026-04-03 - UT-UIUX-VISUAL-BASELINE-DRIFT-001 の dark-mode baseline drift 再利用知見を SKILL / template へ反映
 
 - **Agent**: skill-creator (update)
