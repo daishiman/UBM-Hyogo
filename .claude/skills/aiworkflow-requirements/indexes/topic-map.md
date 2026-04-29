@@ -858,12 +858,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L103 |
-| UBM-Hyogo Admin Sync API（03a） | L124 |
-| UBM-Hyogo Member Self-Service API（04b） | L146 |
-| Desktop IPC API サマリー | L164 |
-| 変更履歴 | L195 |
-| 関連ドキュメント | L211 |
+| エンドポイント命名規則 | L170 |
+| UBM-Hyogo Admin Sync API（03a） | L191 |
+| UBM-Hyogo Member Self-Service API（04b） | L213 |
+| Desktop IPC API サマリー | L231 |
+| 変更履歴 | L262 |
+| 関連ドキュメント | L279 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2151,6 +2151,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L78 |
 | Validation Chain | L88 |
 
+### references/workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L19 |
+| Phase Outputs（current canonical set） | L31 |
+| 主要実装物 | L39 |
+| Skill 反映先（current canonical set） | L93 |
+| 実装で確定した値 | L103 |
+| Follow-up 未タスク（formalize 済み） | L110 |
+| Validation Chain | L119 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2484,7 +2497,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L156 |
+| 変更履歴 | L171 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2679,13 +2692,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L78 |
-| 環境別設定 | L152 |
-| Electron アプリでの環境変数 | L206 |
-| トラブルシューティング | L263 |
-| チーム開発での運用 | L324 |
-| 必須環境変数一覧 | L363 |
-| 関連ドキュメント | L433 |
+| セキュリティベストプラクティス | L90 |
+| 環境別設定 | L164 |
+| Electron アプリでの環境変数 | L218 |
+| トラブルシューティング | L275 |
+| チーム開発での運用 | L336 |
+| 必須環境変数一覧 | L375 |
+| 関連ドキュメント | L446 |
 
 ### references/error-handling-core.md
 
@@ -2827,6 +2840,26 @@ node scripts/list-specs.js --topics
 | L-04B-004: `admin_member_notes` schema 変更は wave 間 ownership を Phase 1 で宣言する | L33 |
 | L-04B-005: Auth.js 未着フェーズの dev session ヘッダは production guard を必ず最初に書く | L41 |
 
+### references/lessons-learned-04c-admin-backoffice-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-04C-001: tag queue resolve は queue 状態と member_tags への二段書き込みが境界 | L10 |
+| L-04C-002: 子リソース（notes / attendance）は path memberId と所有権の両方で 404 / 409 を分離 | L18 |
+| L-04C-003: schema alias の状態整合は「diff 未存在」「diff と question mismatch」で別エラーに分ける | L26 |
+| L-04C-004: Hono ルートは admin gate を route 単位 mount で構造保証する（9 router 分割） | L34 |
+| L-04C-005: zod による入力厳格化は query / date / pagination で必ず分岐する | L42 |
+| 関連未タスク・後続 wave 連携 | L50 |
+| 参照 | L56 |
+
+### references/lessons-learned-05b-magic-link-auth-gate-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 対象 | L3 |
+| Lessons | L9 |
+| Follow-up Boundaries | L19 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -2864,6 +2897,16 @@ node scripts/list-specs.js --topics
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
 
+### references/lessons-learned-ut-06-fu-h-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-HDBH-001: timing-safe 比較で `===` を使わない（user-controlled secret 比較の鉄則） | L9 |
+| L-HDBH-002: 401 / 403 の責務分離（WAF 外側 vs アプリ内側） | L20 |
+| L-HDBH-003: 503 fail-closed と Retry-After: 30 の不変条件 | L31 |
+| L-HDBH-004: HEALTH_DB_TOKEN rotation を Phase 12 close-out 時点で formalize する | L42 |
+| 関連参照 | L55 |
+
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
 | セクション | 行 |
@@ -2898,8 +2941,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L48 |
-| 関連ドキュメント | L53 |
+| 利用順序 | L50 |
+| 関連ドキュメント | L55 |
 
 ### references/llm-embedding.md
 
