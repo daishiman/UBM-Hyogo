@@ -62,6 +62,23 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 | GET      | /api/health    | ヘルスチェック | 不要 |
 | GET      | /api/v1/status | 詳細ステータス | 必要 |
 
+### UBM-Hyogo Health API（UT-06-FU-H）
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/health/db` | API Worker から D1 binding に `SELECT 1` を実行し、DB 疎通を確認する | `X-Health-Token: <HEALTH_DB_TOKEN>` + Cloudflare WAF allowlist / rate limit |
+
+レスポンス契約:
+
+| Status | 条件 | Body | Headers |
+| --- | --- | --- | --- |
+| 200 | token 一致、D1 `SELECT 1` 成功 | `{ ok: true, db: "ok", check: "SELECT 1" }` | `Content-Type: application/json` |
+| 401 | WAF allowlist 内で `X-Health-Token` 欠落または不一致 | `{ ok: false, error: "unauthorized" }` | - |
+| 403 | WAF allowlist 外または rate limit block | Cloudflare WAF response | Cloudflare WAF response |
+| 503 | `HEALTH_DB_TOKEN` 未設定、D1 binding 欠落、D1 `SELECT 1` 失敗 | `{ ok: false, db: "error", error: string }` | `Retry-After: 30` |
+
+`/health` は API Worker / runtime foundation の軽量 health、`/health/db` は D1 疎通 health として SLO を分離する。`/health/db` は `apps/api` に閉じ、`apps/web` から D1 binding を直接参照しない。
+
 ### 管理同期 API（apps/api）
 
 | メソッド | パス | 説明 | 認証 |
@@ -227,6 +244,7 @@ Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token
 
 | Version | Date       | Changes                                            |
 | ------- | ---------- | -------------------------------------------------- |
+| 2.8.0   | 2026-04-29 | UT-06-FU-H: `GET /health/db` D1 疎通 health API 契約を追加 |
 | 2.7.0   | 2026-04-29 | 04a: 公開ディレクトリ API 4 endpoint を追加 |
 | 2.6.0   | 2026-04-29 | 03b: `POST /admin/sync/responses` 管理同期 API を追加 |
 | 2.5.0   | 2026-03-11 | TASK-FIX-APIKEY-CHAT-TOOL-INTEGRATION-001: Desktop IPC API サマリーの AI/チャットへ `llm:set-selected-config` を追加 |

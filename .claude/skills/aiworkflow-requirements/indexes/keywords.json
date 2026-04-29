@@ -1158,7 +1158,8 @@
     ],
     "HEALTH": [
       "arch-execution-capability-contract.md",
-      "interfaces-auth-core.md"
+      "interfaces-auth-core.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
     "POLICY": [
       "arch-execution-capability-contract.md",
@@ -2404,6 +2405,7 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -3368,6 +3370,7 @@
     "Phase": [
       "claude-code-agents-workflow.md",
       "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -4017,6 +4020,7 @@
     ],
     "DB": [
       "database-implementation-core.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
       "task-workflow-completed-ipc-graceful-degradation-lifecycle.md"
     ],
     "初期化パターン": [
@@ -4274,6 +4278,7 @@
     ],
     "TOKEN": [
       "deployment-cloudflare.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
     "を動的注入": [
@@ -5966,6 +5971,7 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -5977,6 +5983,7 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -6533,6 +6540,104 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
+    "FU": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "Health": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "Endpoint": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "close": [
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "out": [
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "task-workflow-phases.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "HDBH": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "timing": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "safe": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "比較で": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "を使わない": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "user": [
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "controlled": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "secret": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "比較の鉄則": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "の責務分離": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "WAF": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "外側": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "vs": [
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "testing-component-patterns-core.md"
+    ],
+    "アプリ内側": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "fail": [
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md"
+    ],
+    "closed": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "Retry": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "After": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "の不変条件": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "rotation": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "時点で": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "formalize": [
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "する": [
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "関連参照": [
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -6546,15 +6651,6 @@
     ],
     "Apply": [
       "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "close": [
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "out": [
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "task-workflow-phases.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "GET": [
       "lessons-learned-ut-gov-001-2026-04.md"
@@ -6581,9 +6677,6 @@
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "順序事故防止": [
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "user": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "approval": [
@@ -6619,9 +6712,6 @@
     "代替": [
       "lessons-learned-ut-gov-001-2026-04.md",
       "ui-ux-atoms-patterns-core.md"
-    ],
-    "関連参照": [
-      "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "branch": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -8676,10 +8766,6 @@
       "task-workflow-completed-agent-view-line-budget.md",
       "ui-ux-feature-components-theme-chat.md"
     ],
-    "formalize": [
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
-    ],
     "仕様書集約": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
@@ -8984,9 +9070,6 @@
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
     "validator": [
-      "logs-archive-2026-03-notification-history-sigterm-guard.md"
-    ],
-    "fail": [
       "logs-archive-2026-03-notification-history-sigterm-guard.md"
     ],
     "参照切れ是正": [
@@ -10967,9 +11050,6 @@
       "testing-playwright-e2e.md"
     ],
     "userEvent": [
-      "testing-component-patterns-core.md"
-    ],
-    "vs": [
       "testing-component-patterns-core.md"
     ],
     "fireEvent": [
