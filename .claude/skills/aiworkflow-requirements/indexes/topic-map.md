@@ -858,12 +858,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L103 |
-| UBM-Hyogo Admin Sync API（03a） | L124 |
-| UBM-Hyogo Member Self-Service API（04b） | L146 |
-| Desktop IPC API サマリー | L164 |
-| 変更履歴 | L195 |
-| 関連ドキュメント | L211 |
+| エンドポイント命名規則 | L134 |
+| UBM-Hyogo Admin Sync API（03a） | L155 |
+| UBM-Hyogo Member Self-Service API（04b） | L177 |
+| Desktop IPC API サマリー | L195 |
+| 変更履歴 | L226 |
+| 関連ドキュメント | L242 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2827,6 +2827,18 @@ node scripts/list-specs.js --topics
 | L-04B-004: `admin_member_notes` schema 変更は wave 間 ownership を Phase 1 で宣言する | L33 |
 | L-04B-005: Auth.js 未着フェーズの dev session ヘッダは production guard を必ず最初に書く | L41 |
 
+### references/lessons-learned-04c-admin-backoffice-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-04C-001: tag queue resolve は queue 状態と member_tags への二段書き込みが境界 | L10 |
+| L-04C-002: 子リソース（notes / attendance）は path memberId と所有権の両方で 404 / 409 を分離 | L18 |
+| L-04C-003: schema alias の状態整合は「diff 未存在」「diff と question mismatch」で別エラーに分ける | L26 |
+| L-04C-004: Hono ルートは admin gate を route 単位 mount で構造保証する（9 router 分割） | L34 |
+| L-04C-005: zod による入力厳格化は query / date / pagination で必ず分岐する | L42 |
+| 関連未タスク・後続 wave 連携 | L50 |
+| 参照 | L56 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -2898,8 +2910,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L48 |
-| 関連ドキュメント | L53 |
+| 利用順序 | L49 |
+| 関連ドキュメント | L54 |
 
 ### references/llm-embedding.md
 

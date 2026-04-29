@@ -12,6 +12,15 @@ import {
   adminSyncSchemaRoute,
   makeDefaultSchemaSyncDeps,
 } from "./routes/admin/sync-schema";
+import { adminDashboardRoute } from "./routes/admin/dashboard";
+import { adminMembersRoute } from "./routes/admin/members";
+import { adminMemberStatusRoute } from "./routes/admin/member-status";
+import { adminMemberNotesRoute } from "./routes/admin/member-notes";
+import { adminMemberDeleteRoute } from "./routes/admin/member-delete";
+import { adminTagsQueueRoute } from "./routes/admin/tags-queue";
+import { adminSchemaRoute } from "./routes/admin/schema";
+import { adminMeetingsRoute } from "./routes/admin/meetings";
+import { adminAttendanceRoute } from "./routes/admin/attendance";
 import { ctx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
 import { runSync, type SyncEnv } from "./jobs/sync-sheets-to-d1";
@@ -169,6 +178,16 @@ app.route(
   "/admin",
   createAdminResponsesSyncRoute({ buildClient: buildFormsClient }),
 );
+// 04c: admin backoffice endpoints
+app.route("/admin", adminDashboardRoute);
+app.route("/admin", adminMembersRoute);
+app.route("/admin", adminMemberStatusRoute);
+app.route("/admin", adminMemberNotesRoute);
+app.route("/admin", adminMemberDeleteRoute);
+app.route("/admin", adminTagsQueueRoute);
+app.route("/admin", adminSchemaRoute);
+app.route("/admin", adminMeetingsRoute);
+app.route("/admin", adminAttendanceRoute);
 
 app.get("/health", (c) =>
   c.json({
