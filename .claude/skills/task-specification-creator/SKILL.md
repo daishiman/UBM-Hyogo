@@ -122,3 +122,30 @@ decompose-task → identify-scope → design-phases → generate-task-specs
 ```
 
 詳細な履歴と usage log は [LOGS.md](LOGS.md)、[SKILL-changelog.md](SKILL-changelog.md)、[references/logs-archive-index.md](references/logs-archive-index.md) を参照。
+
+## タスクタイプ判定フロー（docs-only / NON_VISUAL）
+
+Phase 1 で `artifacts.json.metadata.visualEvidence` を必ず確定する。未設定で Phase 11 縮約テンプレが
+発火しない事故を防ぐため、Phase 1 完了条件として必須化する（[references/phase-template-phase1.md](references/phase-template-phase1.md) §「Phase 1 必須入力: artifacts.json.metadata.visualEvidence」）。
+
+### 発火マトリクス
+
+| 入力（artifacts.json.metadata） | 適用テンプレ |
+| --- | --- |
+| `taskType: docs-only` かつ `visualEvidence: NON_VISUAL` | [references/phase-template-phase11.md](references/phase-template-phase11.md) §「docs-only / NON_VISUAL 縮約テンプレ」+ Phase 12 docs-only 判定ブランチ |
+| `taskType: docs-only` かつ `visualEvidence: VISUAL` | UI task 追加要件（screenshot 必須） |
+| `taskType: implementation` 等 | 通常テンプレ |
+
+### 状態分離（spec_created vs completed）
+
+| レイヤ | フィールド | 値の意味 |
+| --- | --- | --- |
+| workflow root | `metadata.workflow_state` または `index.md` メタ「状態」 | `spec_created` = 仕様書作成済 / 実装着手前。Phase 12 close-out で書き換えない |
+| Phase 別 | `phases[].status` | `completed` / `pending` / `blocked` |
+
+Phase 12 close-out で workflow root を `completed` に書き換えるのは実装完了タスクのみ。
+docs-only / `spec_created` タスクは workflow root を据え置き、`phases[].status` のみ更新する。
+
+### 第一適用例（drink-your-own-champagne）
+
+`docs/30-workflows/ut-gov-005-docs-only-nonvisual-template-skill-sync/` 自身が本フローの第一適用例。

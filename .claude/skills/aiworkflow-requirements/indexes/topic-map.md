@@ -858,12 +858,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L121 |
-| UBM-Hyogo Admin Sync API（03a） | L142 |
-| UBM-Hyogo Member Self-Service API（04b） | L164 |
-| Desktop IPC API サマリー | L182 |
-| 変更履歴 | L213 |
-| 関連ドキュメント | L228 |
+| エンドポイント命名規則 | L134 |
+| UBM-Hyogo Admin Sync API（03a） | L155 |
+| UBM-Hyogo Member Self-Service API（04b） | L177 |
+| Desktop IPC API サマリー | L195 |
+| 変更履歴 | L226 |
+| 関連ドキュメント | L242 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1678,7 +1678,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L417 |
+| 学習リソースとコミュニティ | L420 |
 
 ### references/technology-devops-details.md
 
@@ -2137,6 +2137,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
+
+### references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L16 |
+| Phase Outputs | L26 |
+| 主要実装物 | L43 |
+| Skill 反映先（current canonical set） | L61 |
+| 実装で確定した値 | L70 |
+| Follow-up 未タスク（formalize 済み） | L78 |
+| Validation Chain | L88 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -2849,6 +2862,19 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L11 |
 | 派生未タスク | L43 |
 | 関連ドキュメント | L51 |
+
+### references/lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| L-T6-001: hook ガード未追加で `git rm --cached` 直後に hook が再 add する循環 | L12 |
+| L-T6-002: `pnpm indexes:rebuild` 部分失敗で破損 JSON 残留 | L20 |
+| L-T6-003: 4 worktree smoke の `wait` 戻り値喪失 | L28 |
+| L-T6-004: 4 並列 `pnpm indexes:rebuild` の I/O 飽和 | L36 |
+| L-T6-005: A-2（#130）未完了状態で T-6 着手すると `LOGS.md` を gitignore 連動で誤って ignore 化する経路 | L44 |
+| 関連リンク | L52 |
+| 申し送り（open / baseline 未タスク） | L61 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -4258,10 +4284,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L11 |
-| 利用順序 | L40 |
-| 関連ドキュメント | L45 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L49 |
+| 仕様書インデックス | L12 |
+| 利用順序 | L41 |
+| 関連ドキュメント | L46 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L50 |
 
 ### references/testing-accessibility.md
 

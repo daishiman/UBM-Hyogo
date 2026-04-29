@@ -66,6 +66,17 @@ Phase 1、Phase 2、Phase 3。
 ## 次Phase
 ```
 
+## タスク種別
+
+| タスク種別 | 説明 | Phase 5〜10 outputs の扱い |
+| --- | --- | --- |
+| `feature` | 新規機能実装 | 通常の実装/テスト/レビュー成果物 |
+| `refactor` | 既存実装の構造改善 | 通常の実装/テスト/レビュー成果物 |
+| `fix` | バグ修正 | 通常の実装/テスト/レビュー成果物 |
+| `docs-only` | 仕様書整備のみで実装本体を別 PR に分離するワークフロー | Phase 5〜10 outputs は `template_created` で確定（実装は受け側タスク） |
+
+`docs-only` を選択した場合、index.md メタ情報の `スコープ` に「テンプレート作成のみ」と明記し、実装本体タスクへの handoff 先（受け側 task spec パス）を記載する。
+
 ## Phase 1 のポイント
 
 - **Step 0: P50チェック（必須）** — Phase 1 開始前に対象ファイルの実装状態を `git log` と `grep` で確認し、既実装コードの重複作成を防止する（詳細: [phase-template-phase1.md](phase-template-phase1.md)）。
@@ -73,6 +84,7 @@ Phase 1、Phase 2、Phase 3。
 - acceptance criteria を番号付きで定義し、**本文に AC-1, AC-2... を列挙する**。
 - `spec-extraction-map.md` で aiworkflow-requirements 正本と current code anchor の対応を固定する。
 - Phase 1-3 完了前に Phase 4 へ進まない gate を書く。
+- **gate 重複明記ルール（T-6 AC-5 / Issue #161）**: 上流ブロッカー（依存タスク未完了・正本仕様不在等）は Phase 1（前提条件）/ Phase 2（依存順序）/ Phase 3（NO-GO 条件）の 3 箇所で重複明記する。同一 gate を複数 phase で言及することで、レビュー漏れと前進判断の齟齬を防ぐ。
 
 ### 画面遷移 / handoff 改修タスクの追加ルール
 
@@ -218,3 +230,13 @@ Factory パターンや依存注入で複数レイヤーに同名インターフ
 - [ ] Renderer consumer（コンポーネント）が現行の戻り値型を直接 consume しているか grep で確認したか
 - [ ] Fire-and-forget パターンの場合、即時 ack 型（`{ accepted: true, planId }`）を preload で `IpcResult<T>` に変換しているか確認したか
 - [ ] consumer 契約が変わる場合、完全整合を Phase 12 の follow-up 未タスクとして積むことを決定したか
+
+## タスクタイプ判定フロー参照
+
+Phase 1 で `artifacts.json.metadata.visualEvidence` を確定し、その値に応じて Phase 11 のテンプレ
+（VISUAL UI 必須要件 / NON_VISUAL 縮約テンプレ）を切り替える。発火マトリクスと状態分離（`spec_created`
+vs `completed`）の正本は SKILL.md §「タスクタイプ判定フロー（docs-only / NON_VISUAL）」を参照。
+
+- 必須入力ルール: [phase-template-phase1.md](phase-template-phase1.md) §「Phase 1 必須入力: artifacts.json.metadata.visualEvidence」
+- 縮約テンプレ: [phase-template-phase11.md](phase-template-phase11.md) §「docs-only / NON_VISUAL 縮約テンプレ」
+- Part 2 5項目チェック: [phase-template-phase12.md](phase-template-phase12.md) §「Part 2 必須5項目チェック対応表」
