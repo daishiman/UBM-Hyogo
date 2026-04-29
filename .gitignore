@@ -60,6 +60,10 @@ next-env.d.ts
 # Worktrees
 .worktrees/
 
+# Skill fixture: .fixture から実行時に生成される一時 SKILL.md
+# Codex CLI の SKILL.md 検証から除外するため、フィクスチャは .fixture 拡張子で配置
+.claude/skills/skill-creator/scripts/__tests__/fixtures/*/SKILL.md
+
 # Test Coverage
 coverage/
 **/coverage/

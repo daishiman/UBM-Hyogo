@@ -27,6 +27,19 @@ node .claude/skills/task-specification-creator/scripts/verify-all-specs.js \
 **検証結果**: `outputs/verification-report.md` に出力
 **判定**: PASS → Phase 6（完了）へ / FAIL → Phase 2へ戻り修正
 
+### artifacts.json と outputs/ ディレクトリ実体の整合検証
+
+`verify-all-specs.js` は `artifacts.json` の存在のみ確認するが、`validate-phase-output.js` は **root `artifacts.json` と `outputs/artifacts.json` の同期**および **`outputs/phase-N/*` の実体ファイル**を Phase 11/12 で照合する。
+13 Phase × 複数 outputs の整合（artifacts 配列と実体 ls の diff）はこの 2 本で十分カバーできるため、新規スクリプトは追加しない。
+
+```bash
+# artifacts.json の二重 ledger 同期 + outputs/phase-11/12 実体チェック
+node .claude/skills/task-specification-creator/scripts/validate-phase-output.js \
+  docs/30-workflows/{{FEATURE_NAME}}
+```
+
+drift があれば `complete-phase.js` で再生成し、root と outputs の `artifacts.json` を必ず一致させる。
+
 ---
 
 ## レビューゲート実行

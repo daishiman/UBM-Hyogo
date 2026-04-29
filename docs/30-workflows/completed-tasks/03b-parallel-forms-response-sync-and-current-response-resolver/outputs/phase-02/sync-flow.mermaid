@@ -1,0 +1,40 @@
+flowchart TD
+  Start([cron */15 / POST /admin/sync/responses]) --> Lock{sync_jobs<br/>job_type=response_sync<br/>status=running ?}
+  Lock -- yes --> Reject[409 Conflict<br/>AC-6]
+  Lock -- no --> Insert[sync_jobs INSERT<br/>job_type=response_sync<br/>status=running<br/>metrics_json.cursor=&lt;previous high-water&gt;]
+  Insert --> FullCheck{fullSync=true ?}
+  FullCheck -- yes --> ResetCursor[cursor := null<br/>AC-5]
+  FullCheck -- no --> KeepCursor[cursor := metrics_json.cursor]
+  ResetCursor --> Loop
+  KeepCursor --> Loop[forms.responses.list<br/>since=highWater<br/>pageToken は実行内のみ]
+  Loop -- 429 / 5xx --> Backoff[exponential backoff<br/>1s/2s/4s]
+  Backoff --> Loop
+  Loop -- 200 --> ForEach[for response in page.responses]
+  ForEach --> Normalize[normalizeAnswer<br/>schema_questions による<br/>stableKey 解決<br/>不変条件 #1]
+  Normalize --> SystemField[responseEmail を<br/>system field として抽出<br/>不変条件 #3]
+  SystemField --> Extract[extractConsent<br/>publicConsent / rulesConsent<br/>→ consented/declined/unknown<br/>ruleConsent 旧名は alias 正規化<br/>不変条件 #2 / AC-8]
+  Extract --> Resolve[resolveIdentity<br/>responseEmail → MemberId&lt;Brand&gt;<br/>member_identities upsert<br/>不変条件 #7 / AC-7]
+  Resolve --> UpsertR[member_responses upsert<br/>by responseId<br/>response_email 列に system 保存<br/>AC-4]
+  UpsertR --> Sections[response_sections upsert]
+  Sections --> Fields[response_fields upsert<br/>known: stable_key 列<br/>unknown: __extra__ stable_key]
+  Fields --> Unknown{unknown field<br/>あり ?}
+  Unknown -- yes --> Diff[schema_diff_queue<br/>enqueue if absent<br/>ON CONFLICT question_id WHERE status=queued<br/>不変条件 #14 / AC-2]
+  Unknown -- no --> Pick
+  Diff --> Pick
+  Pick[pickCurrentResponse<br/>submittedAt desc<br/>tiebreak: responseId lex max<br/>AC-1] --> Update[member_identities.current_response_id<br/>= 選定 responseId]
+  Update --> DeletedCheck{member_identities<br/>.is_deleted = true ?}
+  DeletedCheck -- yes --> SkipConsent[snapshot skip<br/>AC-9]
+  DeletedCheck -- no --> Apply[member_status.public_consent<br/>/ rules_consent のみ更新<br/>publish_state / is_deleted 不可侵<br/>AC-3]
+  Apply --> Next
+  SkipConsent --> Next{次 response<br/>あり ?}
+  Next -- yes --> ForEach
+  Next -- no --> NextPage{nextPageToken<br/>あり ?}
+  NextPage -- yes --> Save[sync_jobs.metrics_json.cursor<br/>:= submittedAt|responseId<br/>write_count 更新]
+  Save --> WriteCap{write_count<br/>≥ 200 ?}
+  WriteCap -- yes --> Pause[次 cron に持ち越し<br/>AC-10]
+  WriteCap -- no --> Loop
+  Pause --> Done
+  NextPage -- no --> Done[sync_jobs UPDATE<br/>status=succeeded<br/>finished_at=now<br/>metrics_json.cursor=high-water]
+  Done --> End([終了])
+  Loop -- failure 永続 --> Fail[sync_jobs UPDATE<br/>status=failed<br/>error=...]
+  Fail --> End

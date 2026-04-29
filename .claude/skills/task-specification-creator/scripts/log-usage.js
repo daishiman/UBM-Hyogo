@@ -2,7 +2,7 @@
 /**
  * log-usage.mjs - スキル使用ログ記録スクリプト
  *
- * タスク仕様書作成スキルの実行結果をLOGS.mdに追記し、
+ * タスク仕様書作成スキルの実行結果をLOGS fragment に追記し、
  * EVALS.jsonのメトリクスを更新する。
  *
  * 使用方法:
@@ -17,14 +17,45 @@
  *   --notes     補足メモ
  */
 
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { randomBytes } from "crypto";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SKILL_DIR = resolve(__dirname, "..");
-const LOGS_PATH = resolve(SKILL_DIR, "LOGS.md");
 const EVALS_PATH = resolve(SKILL_DIR, "EVALS.json");
+
+function escapeBranch(branch) {
+  const escaped = branch
+    .toLowerCase()
+    .replace(/\//g, "-")
+    .replace(/[^a-z0-9_-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return (escaped || "unknown").slice(0, 64);
+}
+
+function compactTimestamp(now) {
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}-${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}`;
+}
+
+function writeLogFragment(body, timestamp) {
+  const branch = escapeBranch(process.env.GIT_BRANCH || process.env.BRANCH || "unknown");
+  const author = process.env.GIT_AUTHOR_EMAIL || process.env.USER || "claude-code";
+  const dir = resolve(SKILL_DIR, "LOGS");
+  mkdirSync(dir, { recursive: true });
+  for (let i = 0; i < 4; i += 1) {
+    const nonce = randomBytes(4).toString("hex");
+    const file = resolve(dir, `${compactTimestamp(new Date(timestamp))}-${branch}-${nonce}.md`);
+    if (existsSync(file)) continue;
+    const content = `---\ntimestamp: ${timestamp.replace(/\.\d{3}Z$/, "Z")}\nbranch: ${branch}\nauthor: ${author}\ntype: log\n---\n${body.trimEnd()}\n`;
+    writeFileSync(file, content, "utf-8");
+    return;
+  }
+  throw new Error("fragment path collision unresolved after 4 attempts");
+}
 
 // 引数パース
 function parseArgs(args) {
@@ -62,7 +93,7 @@ function parseArgs(args) {
   return result;
 }
 
-// LOGS.mdにエントリを追記
+// LOGS fragment にエントリを追記
 function appendLog(entry) {
   const timestamp = new Date().toISOString();
   const resultIcon = entry.result === "success" ? "✓ 成功" : "✗ 失敗";
@@ -88,14 +119,7 @@ function appendLog(entry) {
 
   logEntry += `\n\n---\n`;
 
-  // LOGS.mdに追記
-  if (existsSync(LOGS_PATH)) {
-    const logs = readFileSync(LOGS_PATH, "utf-8");
-    writeFileSync(LOGS_PATH, logs + logEntry, "utf-8");
-  } else {
-    console.error(`Error: LOGS.md not found at ${LOGS_PATH}`);
-    process.exit(1);
-  }
+  writeLogFragment(logEntry, timestamp);
 }
 
 // EVALS.jsonを更新
@@ -225,9 +249,9 @@ function main() {
   if (args.notes) console.log(`Notes: ${args.notes}`);
   console.log("");
 
-  // LOGS.mdに追記
+  // LOGS fragment に追記
   appendLog(args);
-  console.log(`✅ LOGS.md に追記しました`);
+  console.log(`✅ LOGS fragment に追記しました`);
 
   // EVALS.json更新
   updateEvals(args);

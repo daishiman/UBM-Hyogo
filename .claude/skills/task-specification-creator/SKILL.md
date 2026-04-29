@@ -22,6 +22,12 @@ allowed-tools:
 
 開発タスクを Phase 1〜13 の実行可能な仕様書へ落とし込む。`SKILL.md` は入口だけを持ち、詳細は `references/` と `LOGS.md` に分離する。
 
+## 変更履歴
+
+| Version | Date | Changes |
+| --- | --- | --- |
+| v2026.04.28-claude-code-permissions-comparison-review | 2026-04-28 | `task-claude-code-permissions-project-local-first-comparison-001` の Phase 12 review で、docs-only 比較設計タスクでも root / outputs `artifacts.json` parity、必須見出し、LOGS / 正本仕様同期、後続タスク方針更新を同一 wave で閉じる必要を確認。比較設計テンプレート改善は LOGS と skill-feedback-report に記録。 |
+
 ## 設計原則
 
 | 原則                      | 説明                                                        |

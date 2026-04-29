@@ -97,6 +97,22 @@ worktree 間の暗黙共有・shell state 残留・並列作成競合を防ぐ 4
 
 ---
 
+### Forms Response Sync / Cron */15 / sync_jobs ledger（03b / 2026-04-29）
+
+Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_response_id` 切替・consent snapshot・unknown field → schema_diff_queue を一括処理する batch worker の即時導線。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| 管理 API 契約（`POST /admin/sync/responses`、`fullSync` / `cursor` / 409 二重起動） | `references/api-endpoints.md`（§管理同期 API） |
+| D1 スキーマ責務（`member_responses` / `member_identities` / `member_status` / `response_fields` / `schema_diff_queue` / `sync_jobs`） | `references/database-schema.md`（§UBM 会員 Forms 同期テーブル 03b） |
+| cron `*/15 * * * *` 設定・JWT 署名・Secret 配置 | `references/deployment-cloudflare.md`（§API Worker cron / Forms response sync 03b） |
+| `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `SYNC_ADMIN_TOKEN` 配置 | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
+| 苦戦箇所（per-sync write 200 cap / partial UNIQUE で重複 enqueue 抑止 / submittedAt 同値時 responseId 降順 tie-break / `metrics_json.cursor` ≠ `pageToken`） | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/outputs/phase-12/implementation-guide.md` Part 2 |
+| follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / `member_responses.response_email` UNIQUE DDL 明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/unassigned-task/03b-response-sync-followups.md` |
+| 全 phase 設計と AC-1〜AC-10 検証 | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` |
+
+---
+
 ### UI Visual Baseline Drift / dark-mode screenshot stability（2026-04-03）
 
 | 目的                 | 最初に開くファイル                                                                                                                                           |
@@ -865,6 +881,19 @@ packages/
 | 02b 由来未タスク | `docs/30-workflows/unassigned-task/02b-followup-00{1,2,3}-*.md` |
 | free tier 実測（02b 単体） | reads 0.24% / writes 0.11% |
 
+### UBM-Hyogo Schema Sync 早見（03a-parallel-forms-schema-sync-and-stablekey-alias-queue / 2026-04-29）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/` |
+| 手動 entry point | `POST /admin/sync/schema`（Bearer `SYNC_ADMIN_TOKEN` 必須 / 200 success / 401 missing or invalid token / 403 forbidden / 409 already running / 500 internal）。詳細: `references/api-endpoints.md` |
+| 自動実行 cron | `0 18 * * *` UTC = 03:00 JST schema sync（`apps/api/wrangler.toml` `[triggers] crons`）。詳細: `references/deployment-details.md` |
+| 関連 D1 tables | `schema_versions` / `schema_questions` / `schema_diff_queue` / `sync_jobs`（詳細: `references/database-implementation-core.md`） |
+| `schema_diff_queue.unresolved` 型 | 不変条件 #14 に従い `'queued'`（本タスクは登録だけを担当、解決は 07b に委譲） |
+| 関連 env vars | `SYNC_ADMIN_TOKEN` / `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY`（詳細: `references/environment-variables.md`） |
+| 実装モジュール | `apps/api/src/sync/schema/` / `apps/api/src/middleware/admin-gate.ts` / `apps/api/src/routes/admin/sync-schema.ts` |
+| 苦戦知見 | `references/lessons-learned-03a-parallel-forms-schema-sync.md`（L-03a-001〜005） |
+
 ### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
 
 > 本ファイル 500 行超過のため詳細は分離。`indexes/quick-reference-search-patterns-skill-ledger.md` を参照。
@@ -878,6 +907,9 @@ packages/
 | `merge=union`, `_legacy.md` | `references/skill-ledger-gitattributes-policy.md` |
 | 苦戦箇所 (L-SLR-001〜009) | `references/lessons-learned-skill-ledger-redesign-2026-04.md` |
 | 全クエリ早見 | `indexes/quick-reference-search-patterns-skill-ledger.md` |
+| A-2 fragment 経路（2026-04-28〜） | canonical: `LOGS/<fragment>.md` / `changelog/<fragment>.md` / `lessons-learned/<fragment>.md`（旧 `LOGS.md` / `SKILL-changelog.md` / `references/lessons-learned-*.md` は `_legacy*.md` に退避済み・履歴参照のみ） |
+| fragment append / render | `pnpm skill:logs:append` / `pnpm skill:logs:render`（writer は `scripts/skill-logs-append.ts` に一本化。直接 fragment を手書きしない） |
+| fragment 命名 | `<YYYYMMDD-HHMMSS>-<escapedBranch>-<nonce>.md`（`scripts/lib/branch-escape.ts` で escapedBranch 生成、衝突時は `scripts/lib/retry-on-collision.ts` で nonce 再生成） |
 
 ### Git Hook 統一・post-merge indexes 再生成廃止 早見（task-git-hooks-lefthook-and-post-merge / 2026-04-28）
 
@@ -930,6 +962,19 @@ packages/
 | 失敗時の対処 | ローカルで `pnpm indexes:rebuild` を実行 → 差分をコミット → 再 push（ジェネレータ `scripts/generate-index.js` が正本） |
 | 関連未タスク | `docs/30-workflows/unassigned-task/U-VIDX-01-verify-indexes-actions-smoke-and-branch-protection.md`（実 PR での smoke / required status 登録） |
 
+### GitHub Governance / branch protection apply（solo 運用 / UT-GOV-001 / 2026-04-28）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/ut-gov-001-github-branch-protection-apply/` |
+| 適用予定値（dev / main 共通） | `required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` / `required_linear_history=true` / `required_conversation_resolution=true` / force-push & deletions = false |
+| payload 正規化 | GET 形（snapshot）→ PUT 形（payload）adapter で `enforce_admins.enabled→bool` / `restrictions.users[].login→配列` / `required_pull_request_reviews=null` を必ず変換（snapshot を直接 PUT すると HTTP 422） |
+| rollback 境界戦略 | snapshot / payload / rollback / applied JSON を `{branch}` サフィックスで分離。bulk PUT 禁止。enforce_admins DELETE 経路を事前準備 |
+| 上流前提 | UT-GOV-004（`required_status_checks.contexts` の実 job 名同期）。未完了時は `contexts=[]` の 2 段階適用 fallback |
+| 実 PUT のゲート | Phase 12 = `spec_created`（仕様書整備のみ）/ Phase 13 = `blocked_until_explicit_user_approval`（ユーザー明示承認後の別オペレーションでのみ実行） |
+| 苦戦知見 | `references/lessons-learned-ut-gov-001-2026-04.md`（L-GOV-001 payload adapter / L-GOV-002 5 重明記 / L-GOV-003 Phase 12-13 二重ゲート / L-GOV-004 NON_VISUAL evidence） |
+| 正本仕様 | `references/deployment-branch-strategy.md`（pending apply: UT-GOV-001 セクション） |
+
 ### Lefthook Multi-Worktree Reinstall（task-lefthook-multi-worktree-reinstall / 2026-04-28）
 
 | 観点 | 値 / 参照先 |
@@ -945,3 +990,38 @@ packages/
 | 前提 | mise で Node 24 / pnpm 10.33.2 が解決済み（`mise exec --` 経由でないと `lefthook` バイナリが解決できないケースあり） |
 | 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md`（§複数 worktree 一括再インストール） |
 | 関連未タスク | `docs/30-workflows/unassigned-task/U-LFT-07-multi-worktree-reinstall-operations.md`（CI 化検討 / stale worktree 検出強化） |
+
+---
+
+### Governance / Branch Protection 系タスクの Step 2=N/A ショートカット（UT-GOV-002 由来 / 2026-04-29）
+
+> **趣旨**: GitHub Actions governance / branch protection / safety gate 系タスクは API/D1/IPC/UI/auth/Cloudflare Secret 変更を伴わない場合が多く、aiworkflow-requirements の Step 2（正本仕様更新）は原則 N/A。ただし以下の再判定トリガに該当する場合は Step 2 を再実施する。
+
+| 観点 | 値 |
+| --- | --- |
+| 原則 | GitHub Actions ワークフロー / branch protection / squash-only / linear history / required status checks / CODEOWNERS / pull_request_target safety gate 系のタスクは Step 2 = **N/A**（references/ 配下の仕様編集は不要） |
+| 例: N/A 判定済み | UT-GOV-001（branch protection 草案）/ UT-GOV-002（pull_request_target safety gate dry-run）/ task-github-governance-branch-protection（squash-only 等の草案） |
+| 再判定トリガ① OIDC | `id-token: write` を伴う OIDC token の新規採用、`aws-actions/configure-aws-credentials` 等の federation 設定追加（Cloudflare Secret / IAM 境界に影響するため `references/deployment-secrets-management.md` / `deployment-cloudflare.md` を更新） |
+| 再判定トリガ② workflow_run | `workflow_run` 経由で別ワークフローへデプロイ権限を委譲する場合（権限境界が変わるため `deployment-gha.md` / `deployment-core.md` を更新） |
+| 再判定トリガ③ メタデータ参照 | PR triage / governance gate が D1 / KV / R2 メタデータ（member_responses / sync_audit / SESSION_KV 等）を参照する場合（データ境界に影響するため `database-admin-repository-boundary.md` 等を更新） |
+| 再判定トリガ④ Secret 追加 | governance gate が新しい Cloudflare Secret / GitHub Secret を要求する場合（`deployment-secrets-management.md` の Secret inventory に追記） |
+| 再判定トリガ⑤ auth / RBAC | branch protection が CODEOWNERS 経由で auth / RBAC を実装に拡張する場合（`references/02-auth.md` 系を更新） |
+| Step 2 = N/A 時の最低限の同期 | LOGS.md ヘッドラインへの 1 エントリ追加と、SKILL.md 変更履歴への version 追加のみ（references/ 配下は触らない） |
+| 一次正本（重複時） | governance / branch protection の運用ルール本文は `CLAUDE.md` のブランチ戦略節を一次正本とし、aiworkflow-requirements は補強として扱う（下表参照） |
+
+---
+
+### CLAUDE.md と aiworkflow-requirements の重複正本判定（UT-GOV-002 由来 / 2026-04-29）
+
+> **趣旨**: 同一トピックが `CLAUDE.md` と aiworkflow-requirements の両方で言及される場合、どちらを一次正本とするか曖昧だと参照ループや矛盾の温床になる。以下の領域は **CLAUDE.md が一次正本**であり、aiworkflow-requirements 配下の記述は補強・派生情報として扱う。
+
+| トピック | 一次正本 | 補強（aiworkflow-requirements 内） | 矛盾検出時の優先順 |
+| --- | --- | --- | --- |
+| ブランチ戦略（feature/dev/main の役割と PR フロー） | `CLAUDE.md` 「ブランチ戦略」節 | `references/deployment-branch-strategy.md` / `deployment-core.md` | CLAUDE.md > aiworkflow-requirements。差異検出時は CLAUDE.md を正として references/ を補正 |
+| solo 運用 CI gate 方針（`required_pull_request_reviews=null` / `required_status_checks` / `required_linear_history` / `required_conversation_resolution`） | `CLAUDE.md` ブランチ戦略の solo 運用ポリシー注記 | `references/deployment-branch-strategy.md` の draft proposal セクション | CLAUDE.md > aiworkflow-requirements。レビュー必須数を変更する場合は CLAUDE.md を先に更新 |
+| Cloudflare CLI ラッパー方針（`scripts/cf.sh` 経由・`wrangler` 直接禁止・`wrangler login` 禁止） | `CLAUDE.md` 「Cloudflare 系 CLI 実行ルール」節 | `references/deployment-cloudflare.md` / `deployment-secrets-management.md` の `scripts/cf.sh` 統合章 | CLAUDE.md > aiworkflow-requirements。コマンド形式・禁止事項は CLAUDE.md を起点に同期 |
+| ローカル `.env` の op 参照運用 | `CLAUDE.md` 「ローカル `.env` の運用ルール」節 | `references/deployment-secrets-management.md` の op 章 | CLAUDE.md > aiworkflow-requirements |
+| Git hook 運用（lefthook 正本 / `.git/hooks/*` 手書き禁止 / post-merge 廃止） | `CLAUDE.md` 「Git hook の方針」節 | `references/technology-devops-core.md` Git hook 運用章 / `lessons-learned-lefthook-unification-2026-04.md` | CLAUDE.md > aiworkflow-requirements。ただし lessons-learned の教訓 ID は references/ 側が一次正本 |
+| Node / pnpm バージョン固定（Node 24 / pnpm 10.33.2 / mise） | `CLAUDE.md` 「開発環境セットアップ」節 | `references/technology-devops-core.md` baseline 章 | CLAUDE.md > aiworkflow-requirements |
+| references/ 配下の API/D1/IPC/UI/auth 仕様 | `references/*.md`（aiworkflow-requirements が一次正本） | `CLAUDE.md` は概要のみ言及 | aiworkflow-requirements > CLAUDE.md。実装契約・schema・状態定数は references/ を正とする |
+| 教訓 / lessons-learned ID（L-XXX-NNN） | `references/lessons-learned-*.md`（aiworkflow-requirements が一次正本） | CLAUDE.md には記載しない | aiworkflow-requirements > CLAUDE.md |

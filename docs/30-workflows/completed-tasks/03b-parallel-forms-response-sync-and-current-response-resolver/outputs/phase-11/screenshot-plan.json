@@ -1,0 +1,10 @@
+{
+  "visualEvidence": "NON_VISUAL",
+  "screenshotsRequired": false,
+  "reason": "03b changes apps/api cron/route/D1 sync and packages/integrations exports only; no screen route or desktop UI changed.",
+  "evidenceFiles": [
+    "outputs/phase-11/manual-evidence.md",
+    "outputs/phase-11/curl-recipes.md",
+    "outputs/phase-11/wrangler-checks.md"
+  ]
+}

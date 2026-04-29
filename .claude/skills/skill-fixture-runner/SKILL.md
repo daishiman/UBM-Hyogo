@@ -60,6 +60,12 @@ node scripts/validate-agents.js --target <agents-directory>
 node scripts/validate-schemas.js --target <schemas-directory>
 ```
 
+## フィクスチャ運用注記
+
+- フィクスチャは `SKILL.md` ではなく **`SKILL.md.fixture` 拡張子で配置**する（Codex CLI の SKILL.md 検証から除外するため）。
+- `validate-skill-structure.js` / `run-all-validations.js` は対象ディレクトリに `SKILL.md` が存在しない場合、`SKILL.md.fixture` を `.fixture` 末尾を剥がして検証ターゲットとして扱う。
+- 本物のスキル（fixture 外）は従来どおり `SKILL.md` を直接検証する。
+
 ## 終了コード
 
 | コード | 意味           |

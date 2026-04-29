@@ -24,6 +24,7 @@ import {
   parseFrontmatter,
   ValidationResult,
 } from "./utils.js";
+import { validateSkillMdContent } from "./utils/validate-skill-md.js";
 
 function showHelp() {
   console.log(`
@@ -120,6 +121,7 @@ function validateSkill(skillPath, verbose = false) {
 
   const content = readFileSync(skillMdPath, "utf-8");
   const lines = content.split("\n");
+  const codexValidation = validateSkillMdContent(content);
 
   // 2. 行数制限（500行以内）
   if (lines.length > 500) {
@@ -130,8 +132,15 @@ function validateSkill(skillPath, verbose = false) {
 
   // 3. YAML frontmatter の検証
   const frontmatter = parseFrontmatter(content);
-  if (!frontmatter) {
-    result.addError("YAML frontmatter が見つかりません");
+  if (!codexValidation.ok) {
+    for (const error of codexValidation.errors) {
+      result.addError(error);
+    }
+  }
+  if (!frontmatter || codexValidation.errors.some((e) => e.includes("R-01") || e.includes("R-07"))) {
+    if (!frontmatter) {
+      result.addError("YAML frontmatter が見つかりません");
+    }
     return result;
   }
   result.addPassed("YAML frontmatter が存在する");

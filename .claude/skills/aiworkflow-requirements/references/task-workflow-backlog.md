@@ -11,6 +11,7 @@
 
 | タスクID                                                              | タスク名                                                                                                                                                                     | 優先度   | 発見元                                                                                                                               | タスク仕様書                                                                                                                                                                           |
 | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| task-claude-code-permissions-deny-bypass-execution-001 | Claude Code permissions.deny bypass 実効性 isolated 実機検証 | High | task-claude-code-permissions-deny-bypass-verification-001 Phase 12 未タスク検出（2026-04-28） | `docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-execution-001.md` |
 | UT-B1-IMPL | B-1 `.gitattributes` 実装 | Low | skill-ledger-b1-gitattributes Phase 12 未タスク検出（2026-04-28） | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-gitattributes-implementation.md` |
 | UT-B1-A2-REVIEW | A-2 完了レビュー時の B-1 attribute 残存確認 | Low | skill-ledger-b1-gitattributes Phase 12 未タスク検出（2026-04-28） | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-a2-completion-review.md` |
 | UT-B1-SKILL-FEEDBACK | Phase 11 NON_VISUAL 証跡テンプレート改善 | Low | skill-ledger-b1-gitattributes skill feedback（2026-04-28） | `docs/30-workflows/unassigned-task/task-phase11-nonvisual-evidence-template-sync.md` |
@@ -356,6 +357,16 @@
 | task-skill-symlink-pre-commit-guard | `.claude/skills` symlink を pre-commit / CI で検出 | 中 | task-worktree-environment-isolation Phase 12 | `docs/30-workflows/task-worktree-environment-isolation/unassigned-task/task-skill-symlink-pre-commit-guard.md` |
 | task-tmux-config-distribution | tmux `update-environment` 最小化テンプレートの配布先確定 | 低 | task-worktree-environment-isolation Phase 12 | `docs/30-workflows/task-worktree-environment-isolation/unassigned-task/task-tmux-config-distribution.md` |
 | task-aiworkflow-worktree-index-guard | worktree isolation の generated index drift 検出 | 低 | task-worktree-environment-isolation Phase 12 | `docs/30-workflows/task-worktree-environment-isolation/unassigned-task/task-aiworkflow-worktree-index-guard.md` |
+
+---
+
+## TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28）
+
+| タスクID | タスク名 | 優先度 | 発見元 | タスク仕様書 |
+| --- | --- | --- | --- | --- |
+| TASK-SKILL-TASKSPEC-CREATOR-LINE-LIMIT-001 | task-specification-creator の SKILL.md が 500 行超過、classification-first で再分割 | 中 | TASK-SKILL-CODEX-VALIDATION-001 Phase 12 unassigned-task-detection（2026-04-28） | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/outputs/phase-12/unassigned-task-detection.md` |
+| TASK-SKILL-VALID-FIXTURE-EXAMPLE-LINK-001 | valid-skill フィクスチャの `example.md` リンク欠如修正（参照先ファイル整備） | 低 | TASK-SKILL-CODEX-VALIDATION-001 Phase 12 unassigned-task-detection（2026-04-28） | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/outputs/phase-12/unassigned-task-detection.md` |
+| TASK-DOC-SPEC-UPDATE-WORKFLOW-WARN3-001 | spec-update-workflow.md の Warning 3 段階分類整備 + `.claude` ↔ `.agents` mirror parity CI gate 化 | 中 | TASK-SKILL-CODEX-VALIDATION-001 Phase 12 unassigned-task-detection（2026-04-28） | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/outputs/phase-12/unassigned-task-detection.md` |
 
 ---
 

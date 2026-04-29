@@ -23,6 +23,7 @@ import { execSync } from "child_process";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { existsSync, readFileSync } from "fs";
+import { loadFixture } from "./helpers/load-fixture.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SCRIPT_PATH = join(__dirname, "..", "quick_validate.js");
@@ -61,6 +62,10 @@ function runValidate(fixtureName, options = {}) {
     args.push("--verbose");
   }
 
+  // フィクスチャは `.fixture` 拡張子で配置されているため、検証実行前に
+  // 一時 SKILL.md にコピーし、終了後に削除する。
+  const fixture = loadFixture(fixtureName);
+
   try {
     const stdout = execSync(`node ${args.join(" ")}`, {
       encoding: "utf-8",
@@ -74,6 +79,8 @@ function runValidate(fixtureName, options = {}) {
       stderr: err.stderr || "",
       exitCode: err.status || 1,
     };
+  } finally {
+    fixture.cleanup();
   }
 }
 
