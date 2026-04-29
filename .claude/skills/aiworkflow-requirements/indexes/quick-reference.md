@@ -127,6 +127,23 @@ worktree 間の暗黙共有・shell state 残留・並列作成競合を防ぐ 4
 
 ---
 
+### Google Sheets API 認証 / Service Account + Web Crypto JWT RS256（UT-03 / 2026-04-29）
+
+`packages/integrations/google/src/sheets/` に Service Account JSON + Web Crypto API（`SubtleCrypto.sign`）で RS256 JWT を生成し、`https://oauth2.googleapis.com/token` へ `urn:ietf:params:oauth:grant-type:jwt-bearer` で交換する access token 取得層。Cloudflare Workers ランタイム互換（Node `crypto` 非依存）。consumer は 03b / 03a の Forms / Sheets 同期 wave。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| パッケージ責務・モジュール境界（`packages/integrations/google` の export 構造） | `references/architecture-monorepo.md`（§packages/integrations/google） |
+| Service Account JSON / scope / spreadsheet ID の env 配置 | `references/environment-variables.md`（§Google Sheets API） |
+| Cloudflare Workers Secret 投入手順・JWT 署名・OAuth token endpoint | `references/deployment-cloudflare.md`（§Sheets API Service Account 認証） |
+| 公開 API（`getSheetsAccessToken(env)` / `createSheetsTokenSource(env)`）と型（`SheetsAuthEnv` / `SheetsAccessToken`） | `packages/integrations/google/src/sheets/index.ts`, `packages/integrations/google/src/sheets/auth.ts` |
+| 関連 env vars | `GOOGLE_SERVICE_ACCOUNT_JSON`（Secret） / `SHEETS_SCOPES`（既定 `https://www.googleapis.com/auth/spreadsheets.readonly`） / `SHEETS_SPREADSHEET_ID` |
+| 単体テスト・契約テスト | `packages/integrations/google/src/sheets/auth.test.ts`, `auth.contract.test.ts` |
+| Phase 12 spec / consumer wave 受け渡し | `docs/30-workflows/completed-tasks/ut-03-sheets-api-auth-setup/index.md`, `phase-12.md` |
+| Wave 状態 | `references/task-workflow-active.md`（§UT-03） |
+
+---
+
 ### Forms Response Sync / Cron */15 / sync_jobs ledger（03b / 2026-04-29）
 
 Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_response_id` 切替・consent snapshot・unknown field → schema_diff_queue を一括処理する batch worker の即時導線。
