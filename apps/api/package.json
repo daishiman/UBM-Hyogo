@@ -9,7 +9,8 @@
     "deploy": "wrangler deploy",
     "lint": "tsc -p tsconfig.json --noEmit",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run --root=../.. --config=../../vitest.config.ts apps/api"
+    "test": "vitest run --passWithNoTests --root=../.. --config=../../vitest.config.ts apps/api",
+    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=../../vitest.config.ts --coverage --coverage.reportsDirectory=apps/api/coverage --coverage.include=\"apps/api/src/**/*.{ts,tsx}\" apps/api"
   },
   "dependencies": {
     "@ubm-hyogo/integrations": "workspace:*",

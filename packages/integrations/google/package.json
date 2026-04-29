@@ -9,7 +9,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json --noEmit",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests --root=../../.. --config=../../../vitest.config.ts packages/integrations/google",
+    "test:coverage": "vitest run --passWithNoTests --root=../../.. --config=../../../vitest.config.ts --coverage --coverage.reportsDirectory=packages/integrations/google/coverage --coverage.include=\"packages/integrations/google/src/**/*.{ts,tsx}\" packages/integrations/google"
   },
   "dependencies": {
     "@ubm-hyogo/shared": "workspace:*",

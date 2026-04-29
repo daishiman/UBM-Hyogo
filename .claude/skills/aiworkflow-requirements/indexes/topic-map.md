@@ -2835,6 +2835,18 @@ node scripts/list-specs.js --topics
 | 申し送り（open / baseline 未タスク） | L92 |
 | 関連 references | L101 |
 
+### references/lessons-learned-coverage-80-enforcement-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 正本 4 系 | L20 |
+| 苦戦箇所 5 件（U-1〜U-5 由来） | L31 |
+| NON_VISUAL Phase 12 Part 1 / Part 2 構成の適用知見 | L68 |
+| branch protection / contexts 登録の上流前提（5 重明記） | L74 |
+| 実行タイミングまとめ | L78 |
+| 関連リソース | L87 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
