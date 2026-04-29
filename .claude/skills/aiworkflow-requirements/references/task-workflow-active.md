@@ -31,6 +31,18 @@
 
 ---
 
+### docs-only direction-reconciliation の stale 撤回境界
+
+docs-only / direction-reconciliation で採用方針 A を維持する場合でも、既存 references、runtime mount、cron、Secret、migration に不採用方針 B の current 風記述・経路が残るなら、Phase 12 Step 2 は「不発火」ではなく **stale 撤回として発火**させる。
+
+- 正本採用更新: 不採用方針を新たに current 登録しない。
+- stale 撤回: 残存する不採用方針の current 風記述・runtime 経路を audit し、撤回・停止タスクを起票する。
+- 判定表記: 実測 PASS、記述済み、pending_creation、NOT_APPLICABLE を分け、未実行 validator や未起票タスクを PASS としない。
+
+第一適用例: `docs/30-workflows/ut09-direction-reconciliation/`。
+
+---
+
 ## ドキュメント構成
 
 | ドキュメント     | ファイル                                             | 説明                                           |
