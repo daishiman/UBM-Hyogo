@@ -205,3 +205,13 @@ Factory パターンや依存注入で複数レイヤーに同名インターフ
 - [ ] Renderer consumer（コンポーネント）が現行の戻り値型を直接 consume しているか grep で確認したか
 - [ ] Fire-and-forget パターンの場合、即時 ack 型（`{ accepted: true, planId }`）を preload で `IpcResult<T>` に変換しているか確認したか
 - [ ] consumer 契約が変わる場合、完全整合を Phase 12 の follow-up 未タスクとして積むことを決定したか
+
+## タスクタイプ判定フロー参照
+
+Phase 1 で `artifacts.json.metadata.visualEvidence` を確定し、その値に応じて Phase 11 のテンプレ
+（VISUAL UI 必須要件 / NON_VISUAL 縮約テンプレ）を切り替える。発火マトリクスと状態分離（`spec_created`
+vs `completed`）の正本は SKILL.md §「タスクタイプ判定フロー（docs-only / NON_VISUAL）」を参照。
+
+- 必須入力ルール: [phase-template-phase1.md](phase-template-phase1.md) §「Phase 1 必須入力: artifacts.json.metadata.visualEvidence」
+- 縮約テンプレ: [phase-template-phase11.md](phase-template-phase11.md) §「docs-only / NON_VISUAL 縮約テンプレ」
+- Part 2 5項目チェック: [phase-template-phase12.md](phase-template-phase12.md) §「Part 2 必須5項目チェック対応表」
