@@ -54,6 +54,27 @@ phase-11/main.md に以下を必ず含める。
 - 代替 evidence で **runtime 振る舞いまでカバーした** と主張する（型 / 静的解析の限界を超える主張は不可）
 - L4（intentional violation）を省略する → boundary tooling が 0 件しか検出しなくても気付けない
 
+## docs-only / governance 系タスクのテンプレ（manual-smoke-log.md / link-checklist.md）
+
+UI 差分なし & コード変更なし（governance / branch protection / OIDC dry-run など）の場合、Phase 11 outputs は最小 3 点で構成する。
+
+| ファイル | 役割 | 必須項目 |
+| --- | --- | --- |
+| `outputs/phase-11/main.md` | NON_VISUAL 宣言 / 代替 evidence 差分表 / 申し送り先 | `visualEvidence: NON_VISUAL`、L1〜L4 結果サマリ、保証できない範囲 |
+| `outputs/phase-11/manual-smoke-log.md` | 整合性検査ログ（`pnpm typecheck` / `pnpm lint` / `actionlint` / `verify-all-specs.js` 等の手元実行ログ） | 実行コマンド・終了コード・所要時間・実行者・実行日時 |
+| `outputs/phase-11/link-checklist.md` | 仕様書内リンク・参照ドキュメントの dead link チェック | 対象リンク一覧 / 200 確認 / 補正したリンクの差分 |
+
+### NON_VISUAL × docs-only に該当する典型タスク
+
+- governance（branch protection / required status checks 変更）
+- `pull_request_target` safety gate（OIDC / `workflow_run` 含む dry-run）
+- audit log / runbook の追記のみ
+- skill / spec の再構築（`spec_created` で CLOSED Issue を reopen しないケース）
+
+これらは Phase 11 で UI screenshot を出さない代わりに、上記 3 点で「整合性検査が走り、リンクが生きており、保証外を `unassigned-task-detection.md` に申し送った」ことを記録する。
+
+適用実例: UT-GOV-002 pr-target-safety-gate-dry-run（2026-04-29）。
+
 ## 関連
 
 - `phase-11-guide.md`（base ガイド）
