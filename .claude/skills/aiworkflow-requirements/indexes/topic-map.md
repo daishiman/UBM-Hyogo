@@ -1811,6 +1811,9 @@ node scripts/list-specs.js --topics
 | 6. Reference Contracts (TypeScript) | L132 |
 | 7. 関連タスク wave（DevEx 衝突防止） | L156 |
 | 8. 適用先システム仕様書 | L180 |
+| 9. FORCED-GO + TC BLOCKED 経路（W2 / 2026-04-28 追加） | L193 |
+| 10. zsh conf.d 経路（D1 / 2026-04-28 追加） | L234 |
+| 11. 関連 lessons-learned | L276 |
 
 ### references/claude-code-skills-agents.md
 
@@ -2786,6 +2789,14 @@ node scripts/list-specs.js --topics
 | L-03B-005: `responseEmail` は system field、`response_fields` には保存しない | L41 |
 | L-03B-006: 二重起動防止は同種 job_type の `running` 行検査で 409 を返す | L49 |
 | L-03B-007: 旧 `ruleConsent` 表記の混入は入口で `rulesConsent` へ正規化 | L57 |
+
+### references/lessons-learned-claude-code-permissions-apply-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L11 |
+| 申し送り（open / baseline 未タスク） | L92 |
+| 関連 references | L101 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 

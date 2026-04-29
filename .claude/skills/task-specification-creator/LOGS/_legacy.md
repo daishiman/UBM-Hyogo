@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-28 - task-claude-code-permissions-apply-001 反映波（T1 / T2 / W1）
+
+完了タスク `task-claude-code-permissions-apply-001` の MEDIUM 提案 T2 / W1 と既 APPLIED の T1 を task-specification-creator skill に反映。新規 reference 2 件を追加（`references/phase-5-host-environment-deployment-template.md` / `references/phase-5-deployment-checkpoint-standard.md`）し、host 環境書き換え系 Phase 5 の 4 段テンプレ（backup / runbook / smoke / rollback）と TS sticky 規約、3 点セット必須条件、検証チェックリスト、UBM-012 整合（`scripts/cf.sh` 経由強制）を固定化。SKILL.md は Phase 5 行に T2/W1 リンク、Phase 11 行に T1（NON_VISUAL 判定固定表現リスト: `docs-only` / `NON_VISUAL` / `spec_created`、`scripts/validate-phase-output.js` で実装済）を追記。phase-11-guide.md には §2 相当の見出しが現状存在しないためスキップ。EVALS.json / topic-map.md は generate-index.js による再生成対象。参照: `docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001.md`。
+
 ## 2026-04-28 - UT-GOV-001 branch protection apply NON_VISUAL evidence sync
 
 `docs/30-workflows/ut-gov-001-github-branch-protection-apply/` の Phase 12 close-out を再監査し、implementation / NON_VISUAL / github_governance タスクとして Phase 11 の代替 evidence（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）を正本化した。スクリーンショットは UI / Renderer / 画面遷移なしのため不要とし、Phase 13 の destructive `gh api PUT` はユーザー承認後に限定する境界を維持した。
