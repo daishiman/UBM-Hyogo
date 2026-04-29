@@ -138,6 +138,7 @@
       "ipc-4-layer-pattern.md",
       "ipc-type-resolution-guide.md",
       "legacy-ordinal-family-register.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -3376,6 +3377,7 @@
       "claude-code-agents-workflow.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
@@ -3913,6 +3915,7 @@
     ],
     "由来": [
       "csrf-state-parameter.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
     ],
     "苦戦箇所と教訓": [
@@ -4512,7 +4515,8 @@
       "deployment-gha.md"
     ],
     "PR": [
-      "deployment-gha.md"
+      "deployment-gha.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
     ],
     "キャッシュ戦略": [
       "deployment-gha.md"
@@ -5984,6 +5988,7 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
@@ -5996,6 +6001,7 @@
     "Learned": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
@@ -6087,6 +6093,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
@@ -6356,6 +6363,7 @@
     "gate": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "skill-ledger-gitignore-policy.md",
       "task-workflow-completed-ut-06-safety-gate.md",
@@ -6497,6 +6505,7 @@
     ],
     "関連リソース": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
       "master-design.md"
     ],
     "Follow": [
@@ -6592,6 +6601,66 @@
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "ui-ux-components.md",
       "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "coverage": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md"
+    ],
+    "enforcement": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
+    ],
+    "package": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
+    ],
+    "一律": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
+    ],
+    "段階": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
+    ],
+    "正本": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
+    ],
+    "NON": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "VISUAL": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "Part": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
+    ],
+    "構成の適用知見": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
+    ],
+    "branch": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "protection": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "contexts": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "登録の上流前提": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
+    ],
+    "重明記": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "実行タイミングまとめ": [
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
     ],
     "Multi": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -6847,9 +6916,6 @@
     "完了前提の": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
-    "重明記": [
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
     "順序事故防止": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
@@ -6862,12 +6928,6 @@
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "の二重ゲート": [
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "NON": [
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "VISUAL": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "手動": [
@@ -6887,23 +6947,11 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "ui-ux-atoms-patterns-core.md"
     ],
-    "branch": [
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-ut-gov-004-artifact-inventory.md"
-    ],
-    "protection": [
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-ut-gov-004-artifact-inventory.md"
-    ],
     "status": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "checks": [
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-ut-gov-004-artifact-inventory.md"
-    ],
-    "contexts": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
@@ -6931,9 +6979,6 @@
     "summary": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-ut-gov-004-artifact-inventory.md"
-    ],
-    "正本": [
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
     ],
     "苦戦箇所・知見": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
@@ -9207,10 +9252,6 @@
     ],
     "証跡正規化": [
       "logs-archive-2026-03-notification-history-sigterm-guard.md"
-    ],
-    "coverage": [
-      "logs-archive-2026-03-notification-history-sigterm-guard.md",
-      "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
     "validator": [
       "logs-archive-2026-03-notification-history-sigterm-guard.md"
