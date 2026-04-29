@@ -1,5 +1,0 @@
-# RL-01: rate limit (email 5/h)
-# 代替: vitest rate-limit-magic-link.test.ts R-01
-# シナリオ: 同 email で 6 回連続 POST /auth/magic-link
-# 期待: 6 回目で 429 + body {"error":"RATE_LIMITED"} + Retry-After header
-# 実績: PASS
