@@ -1,0 +1,233 @@
+{
+  "task_name": "ut-gov-004-required-status-checks-context-sync",
+  "task_path": "docs/30-workflows/ut-gov-004-required-status-checks-context-sync",
+  "task_id": "UT-GOV-004",
+  "wave": "governance / pre UT-GOV-001",
+  "execution_mode": "serial",
+  "depends_on": [],
+  "blocks": [
+    "UT-GOV-001-github-branch-protection-apply"
+  ],
+  "related": [
+    "task-git-hooks-lefthook-and-post-merge",
+    "UT-GOV-005-docs-only-nonvisual-template-skill-sync",
+    "UT-GOV-006-web-deploy-target-canonical-sync",
+    "UT-GOV-007-github-actions-action-pin-policy"
+  ],
+  "embedded_into_existing_task": "task-github-governance-branch-protection",
+  "created_at": "2026-04-29",
+  "github_issue": 147,
+  "github_issue_state": "CLOSED",
+  "github_issue_note": "Issue #147 は CLOSED 状態だが、原典 docs/30-workflows/completed-tasks/UT-GOV-004-required-status-checks-context-sync.md を入力に Phase 仕様書を新規作成",
+  "metadata": {
+    "taskType": "docs-only",
+    "docs_only": true,
+    "visualEvidence": "NON_VISUAL",
+    "scope": "governance",
+    "priority": "HIGH",
+    "wave_label": "governance / pre UT-GOV-001",
+    "phases_in_this_session": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "phases_deferred": [],
+    "deferral_note": "Phase 1〜13 の仕様書を同一セッションで作成済み。実行成果物は各 Phase 実行時に outputs/ 配下へ生成する"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-02/context-name-mapping.md",
+        "outputs/phase-02/staged-rollout-plan.md",
+        "outputs/phase-02/lefthook-ci-correspondence.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-04/test-strategy.md"
+      ],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-05/implementation-runbook.md",
+        "outputs/phase-05/workflow-job-inventory.md",
+        "outputs/phase-05/required-contexts-final.md",
+        "outputs/phase-05/lefthook-ci-mapping.md",
+        "outputs/phase-05/staged-rollout-plan.md",
+        "outputs/phase-05/strict-mode-decision.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-06/failure-cases.md"
+      ],
+      "depends_on_phases": [4, 5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス / カバレッジ確認",
+      "file": "phase-07.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [1, 2, 4, 6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化 / リファクタリング",
+      "file": "phase-08.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-08/main.md",
+        "outputs/phase-08/confirmed-contexts.yml",
+        "outputs/phase-08/lefthook-ci-mapping.md"
+      ],
+      "depends_on_phases": [2, 5, 7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-09/main.md",
+        "outputs/phase-09/strict-decision.md"
+      ],
+      "depends_on_phases": [5, 7, 8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー / GO-NO-GO",
+      "file": "phase-10.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-10/go-no-go.md"
+      ],
+      "depends_on_phases": [2, 7, 9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke test",
+      "file": "phase-11.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ],
+      "depends_on_phases": [2, 6, 8, 9, 10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新（close-out）",
+      "file": "phase-12.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/elegant-final-verification.md"
+      ],
+      "depends_on_phases": [5, 6, 7, 8, 9, 10, 11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-13/main.md"
+      ],
+      "depends_on_phases": [2, 6, 7, 8, 9, 10, 11, 12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/completed-tasks/UT-GOV-004-required-status-checks-context-sync.md",
+    "docs/30-workflows/completed-tasks/UT-GOV-001-github-branch-protection-apply.md",
+    "docs/30-workflows/completed-tasks/task-github-governance-branch-protection/outputs/phase-2/design.md",
+    "docs/30-workflows/completed-tasks/task-github-governance-branch-protection/outputs/phase-12/implementation-guide.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "github_workflows_inspected": [
+    ".github/workflows/backend-ci.yml",
+    ".github/workflows/ci.yml",
+    ".github/workflows/validate-build.yml",
+    ".github/workflows/verify-indexes.yml",
+    ".github/workflows/web-cd.yml"
+  ],
+  "draft_contexts": [
+    "typecheck",
+    "lint",
+    "unit-test",
+    "integration-test",
+    "build",
+    "security-scan",
+    "docs-link-check",
+    "phase-spec-validate"
+  ],
+  "invariants_touched": [],
+  "invariants_touched_note": "本タスクは GitHub governance 層に閉じており CLAUDE.md の不変条件 #1〜#7（アプリ層）には影響しない。本タスク固有の運用不変条件として『branch protection 永続停止リスクの回避』を設定する。",
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/UT-GOV-004-required-status-checks-context-sync.md",
+    "docs/30-workflows/completed-tasks/UT-GOV-001-github-branch-protection-apply.md",
+    "docs/30-workflows/completed-tasks/task-github-governance-branch-protection/outputs/phase-2/design.md",
+    "docs/30-workflows/completed-tasks/task-github-governance-branch-protection/outputs/phase-12/implementation-guide.md",
+    "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+    "https://docs.github.com/en/rest/checks/runs"
+  ]
+}
