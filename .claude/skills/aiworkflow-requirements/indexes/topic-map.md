@@ -2941,6 +2941,16 @@ node scripts/list-specs.js --topics
 | 関連リレー先 | L81 |
 | 不変条件 touched | L90 |
 
+### references/lessons-learned-ut09-direction-reconciliation-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 6 件（L-UT09-001〜006） | L12 |
+| 運用ルール 2 件（reconciliation 系の固定運用） | L55 |
+| 同期完了サマリー（same-wave sync） | L62 |
+| 関連 unassigned-task（B-01〜B-10） | L74 |
+
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
 | セクション | 行 |
@@ -2954,8 +2964,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L50 |
-| 関連ドキュメント | L55 |
+| 利用順序 | L51 |
+| 関連ドキュメント | L56 |
 
 ### references/llm-embedding.md
 
@@ -4022,13 +4032,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L34 |
-| フェーズ構造（概要） | L43 |
-| 品質ゲート（概要） | L74 |
-| 出力テンプレート | L85 |
-| 実行時のコマンド・エージェント・スキル | L108 |
-| 昇格パターン集 | L132 |
-| Current Active / Spec Created Tasks | L134 |
+| ドキュメント構成 | L46 |
+| フェーズ構造（概要） | L55 |
+| 品質ゲート（概要） | L86 |
+| 出力テンプレート | L97 |
+| 実行時のコマンド・エージェント・スキル | L120 |
+| 昇格パターン集 | L144 |
+| Current Active / Spec Created Tasks | L146 |
 
 ### references/task-workflow-backlog-part2.md
 

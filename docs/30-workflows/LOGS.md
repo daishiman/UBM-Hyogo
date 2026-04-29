@@ -4,6 +4,7 @@
 
 | Date | Task | Status | Summary |
 | --- | --- | --- | --- |
+| 2026-04-29 | UT-09 direction reconciliation | spec_created | Added docs-only / NON_VISUAL reconciliation workflow under `docs/30-workflows/ut09-direction-reconciliation/`; fixed Phase 12 close-out to treat A-maintained Forms direction as stale-withdrawal trigger when Sheets references/runtime remain, synced artifacts parity, and recorded 10 follow-up items including runtime kill-switch. |
 | 2026-04-29 | UT-GOV-004 required status checks context sync | spec_created | Added docs-only / NON_VISUAL workflow under `docs/30-workflows/ut-gov-004-required-status-checks-context-sync/`; confirmed `ci`, `Validate Build`, and `verify-indexes-up-to-date` as the only rollout phase 1 required status check contexts for UT-GOV-001; kept branch protection apply gated to UT-GOV-001. |
 | 2026-04-28 | ut-gov-001-github-branch-protection-apply | spec_created | Added the implementation / NON_VISUAL workflow under `docs/30-workflows/ut-gov-001-github-branch-protection-apply/`. Phase 1-3 are completed, Phase 4-13 remain pending, and destructive `gh api PUT` branch protection apply is explicitly gated behind Phase 13 user approval. |
 | 2026-04-28 | skill-ledger-a1-gitignore | spec_created | Added the docs-only / NON_VISUAL workflow under `docs/30-workflows/skill-ledger-a1-gitignore/`, corrected Phase 12 artifact ledger coverage, and split hook follow-up work into `docs/30-workflows/unassigned-task/task-skill-ledger-hooks.md`. |
