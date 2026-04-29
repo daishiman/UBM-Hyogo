@@ -2237,6 +2237,18 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
 
+### references/workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Canonical Set（仕様・成果物） | L14 |
+| Current Canonical Set（実装ファイル） | L42 |
+| Skill 同期成果物 | L52 |
+| Follow-up 未タスク | L64 |
+| Validation Chain | L73 |
+| 不変条件 touched | L86 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -2499,6 +2511,24 @@ node scripts/list-specs.js --topics
 | ブランチ保護ルール（推奨設定） | L83 |
 | 変更履歴 | L171 |
 
+### references/deployment-cloudflare-opennext-workers.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 適用範囲 | L7 |
+| 2. 形式判定マトリクス | L13 |
+| 3. wrangler.toml 必須項目 | L24 |
+| 4. .assetsignore の役割と運用 | L87 |
+| 5. ビルド・デプロイ手順 | L107 |
+| 6. Worker bundle size ガード | L130 |
+| 7. SPA fallback / 404 ハンドリング | L148 |
+| 8. preview / staging / production の env 分離 | L157 |
+| 9. 旧 Pages プロジェクトの並走方針 | L169 |
+| 10. CLI 経路の徹底 | L181 |
+| 11. R2 incremental cache（任意採用） | L190 |
+| 12. 関連リソース | L198 |
+| 変更履歴 | L210 |
+
 ### references/deployment-cloudflare-ut06-gate.md
 
 | セクション | 行 |
@@ -2514,18 +2544,17 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L45 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L122 |
-| Cloudflare D1 データベース | L231 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L264 |
-| GitHub Actions CI/CD | L376 |
-| プレビューデプロイメント | L408 |
-| カスタムドメイン設定 | L425 |
-| 環境分離 | L438 |
-| ロールバック戦略 | L458 |
-| コスト概算（個人開発） | L479 |
-| モニタリング/アラート（UT-08 連携） | L491 |
-| 変更履歴 | L508 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L53 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L130 |
+| Cloudflare D1 データベース | L239 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L272 |
+| GitHub Actions CI/CD | L384 |
+| プレビューデプロイメント | L416 |
+| カスタムドメイン設定 | L433 |
+| 環境分離 | L446 |
+| ロールバック戦略 | L456 |
+| モニタリング/アラート（UT-08 連携） | L477 |
+| 変更履歴 | L494 |
 
 ### references/deployment-core.md
 
