@@ -1678,7 +1678,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L417 |
+| 学習リソースとコミュニティ | L420 |
 
 ### references/technology-devops-details.md
 
@@ -2850,6 +2850,19 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L11 |
 | 派生未タスク | L43 |
 | 関連ドキュメント | L51 |
+
+### references/lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| L-T6-001: hook ガード未追加で `git rm --cached` 直後に hook が再 add する循環 | L12 |
+| L-T6-002: `pnpm indexes:rebuild` 部分失敗で破損 JSON 残留 | L20 |
+| L-T6-003: 4 worktree smoke の `wait` 戻り値喪失 | L28 |
+| L-T6-004: 4 並列 `pnpm indexes:rebuild` の I/O 飽和 | L36 |
+| L-T6-005: A-2（#130）未完了状態で T-6 着手すると `LOGS.md` を gitignore 連動で誤って ignore 化する経路 | L44 |
+| 関連リンク | L52 |
+| 申し送り（open / baseline 未タスク） | L61 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 

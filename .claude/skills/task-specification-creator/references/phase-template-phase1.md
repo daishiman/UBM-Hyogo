@@ -13,11 +13,16 @@ Phase 1: 要件定義。
 
 ## メタ情報
 
-| 項目   | 値                 |
-| ------ | ------------------ |
-| Phase  | 1                  |
-| 機能名 | {{FEATURE_NAME}}   |
-| 作成日 | {{CREATED_DATE}}   |
+| 項目             | 値                                         |
+| ---------------- | ------------------------------------------ |
+| Phase            | 1                                          |
+| 機能名           | {{FEATURE_NAME}}                           |
+| 作成日           | {{CREATED_DATE}}                           |
+| タスク種別       | {{TASK_TYPE}}（feature/refactor/fix/docs-only） |
+| visualEvidence   | {{VISUAL_EVIDENCE}}（true/false）          |
+| scope            | {{SCOPE}}（実装範囲 or 「テンプレート作成のみ」） |
+
+> **必須項目**: 上記 6 行は省略不可。`docs-only` の場合は `scope` に handoff 先 task spec のパスを併記する（出典: T-6 / Issue #161）。
 
 ## 目的
 

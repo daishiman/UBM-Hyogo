@@ -598,6 +598,7 @@
 | `docs/30-workflows/ut-gov-001-github-branch-protection-apply/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval / 実 PUT は Phase 13 ユーザー承認後 | 最初に読む: `references/deployment-branch-strategy.md`（pending apply: UT-GOV-001 セクション）/ 必要に応じて読む: `references/lessons-learned-ut-gov-001-2026-04.md`（L-GOV-001〜004）/ 上流前提: UT-GOV-004（required_status_checks contexts 同期） |
 | `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on worktree environment isolation |
 | `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook/` | 2026-04-28 | spec_created / docs-only / runbook-spec / NON_VISUAL / Phase 13 pending_user_approval | formalize of `task-git-hooks-lefthook-and-post-merge` baseline B-1; lessons in `lessons-learned-lefthook-mwr-runbook-2026-04.md` (L-MWR-001〜006) |
+| `docs/30-workflows/skill-ledger-t6-hook-idempotency/` | 2026-04-29 | spec_created / docs-only / NON_VISUAL / Phase 12 completed / Phase 13 pending_user_approval | T-6 hook idempotency implementation spec. Runtime hook changes and 4 worktree smoke are formalized separately in `docs/30-workflows/unassigned-task/task-skill-ledger-t6-implementation.md` |
 
 ### 11. ガイドライン
 
@@ -628,6 +629,9 @@
 | indexes/quick-reference-search-patterns-skill-ledger.md | クエリ早見 | 4 施策キーワード → reference 1 行マップ + A-3 適用事例（task-specification-creator: 315→116 行 / 6 references 新設 / `docs/30-workflows/skill-ledger-a3-progressive-disclosure/`） |
 | references/skill-ledger-progressive-disclosure.md §A-3 適用事例 | A-3 を他 skill に展開する際 | 適用前後行数・抽出 references 一覧・classification 軸（task-specification-creator 事例） |
 | references/workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md | A-3 ワークフロー成果物の完全一覧 | phase-01..13 / index / artifacts.json / outputs/phase-12 / 新規 references 6 本 / SKILL.md 改訂 |
+| docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/index.md | T-6 hook 冪等化と 4 worktree 並列 smoke 仕様確認時 | hook が `git add`／自動再生成を持たないことの検査仕様、`pnpm indexes:rebuild` 部分失敗時の JSON 部分書き込みリカバリ手順、2 worktree 事前 smoke → 4 worktree full smoke 二段構え、`wait $PID` ごとの return code 個別集約（AC-1〜AC-11） |
+| references/lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md | T-6 苦戦箇所参照時（A-2 完了後 fragment 化） | hook 副作用検出 / 部分 JSON リカバリ / 4 worktree 並列 I/O 飽和回避（2→4 二段構え）/ `wait` 戻り値喪失対策 |
+| references/skill-ledger-gitignore-policy.md §4 | T-6 で参照する hook 冪等化原典 | post-commit / post-merge `[[ -f $target ]] && exit 0`、A-1 完了後の hook 派生物境界 |
 
 #### A-2 fragment 化 物理レイアウト（2026-04-28 移行完了 / Changesets パターン）
 
