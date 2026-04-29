@@ -142,6 +142,7 @@
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
@@ -2418,6 +2419,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -3662,6 +3664,7 @@
       "claude-code-settings-hierarchy.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "spec-elegance-consistency-audit.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -3745,6 +3748,7 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "rag-desktop-state.md",
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md",
@@ -4106,7 +4110,8 @@
     "Forms": [
       "database-schema.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
     ],
     "同期テーブル": [
       "database-schema.md"
@@ -6121,6 +6126,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -6134,6 +6140,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -6209,6 +6216,7 @@
     ],
     "sync": [
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-completed-recent-2026-04d.md",
@@ -6221,6 +6229,7 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
       "observability-monitoring.md",
@@ -6666,10 +6675,12 @@
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
     "unassigned": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
     ],
     "task": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
       "logs-archive-2026-02-console-migration-patterns.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
@@ -7048,6 +7059,7 @@
     ],
     "vs": [
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "testing-component-patterns-core.md"
     ],
     "アプリ内側": [
@@ -7177,6 +7189,7 @@
     ],
     "運用ルール": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "項目": [
@@ -7209,6 +7222,28 @@
     "touched": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+    ],
+    "direction": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "reconciliation": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "Sheets": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "同期方針統一": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "系の固定運用": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "同期完了サマリー": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "same": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "to": [
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -12601,9 +12636,6 @@
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "実装コードアンカー": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "same": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "検証手順": [
