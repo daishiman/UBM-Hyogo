@@ -1,7 +1,7 @@
 // 04c: GET /admin/meetings, POST /admin/meetings
 import { Hono } from "hono";
 import { z } from "zod";
-import { adminGate } from "../../middleware/admin-gate";
+import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { auditAction } from "../../repository/_shared/brand";
 import { listMeetings, insertMeeting } from "../../repository/meetings";
@@ -21,7 +21,7 @@ const ListQueryZ = z.object({
 
 export const createAdminMeetingsRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv }>();
-  app.use("*", adminGate);
+  app.use("*", requireAdmin);
 
   app.get("/meetings", async (c) => {
     const parsed = ListQueryZ.safeParse({

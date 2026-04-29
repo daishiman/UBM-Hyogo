@@ -64,7 +64,7 @@
 | auth url | `NEXTAUTH_URL` | `AUTH_URL` | 公式更新 |
 | Google client | `GOOGLE_OAUTH_CLIENT_ID` | `GOOGLE_CLIENT_ID` | Auth.js 規約 |
 | Google secret | `GOOGLE_OAUTH_CLIENT_SECRET` | `GOOGLE_CLIENT_SECRET` | 同上 |
-| internal token | `WORKER_TOKEN` / `API_TOKEN` | `INTERNAL_TOKEN` | 用途明示 |
+| internal token | `WORKER_TOKEN` / `API_TOKEN` | `INTERNAL_AUTH_SECRET` | 用途明示 |
 
 ### ステップ 4: Before / After（file path）
 
