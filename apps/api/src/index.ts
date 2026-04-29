@@ -32,6 +32,7 @@ import { runSchemaSync, ConflictError } from "./sync/schema";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
+import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
 
 interface Env extends SyncEnv, ResponseSyncEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
@@ -44,6 +45,8 @@ interface Env extends SyncEnv, ResponseSyncEnv {
   readonly FORMS_SA_EMAIL?: string;
   readonly FORMS_SA_KEY?: string;
   readonly HEALTH_DB_TOKEN?: string;
+  // UT-26: Sheets API E2E smoke test 用 (dev/staging のみ)
+  readonly SMOKE_ADMIN_TOKEN?: string;
 }
 
 function timingSafeEqual(a: string, b: string): boolean {
@@ -197,6 +200,9 @@ app.route("/admin", adminTagsQueueRoute);
 app.route("/admin", adminSchemaRoute);
 app.route("/admin", adminMeetingsRoute);
 app.route("/admin", adminAttendanceRoute);
+// UT-26: Sheets API E2E smoke route。production では route 内で 404 を返すため、
+// mount しても本番では露出しない (dev/staging のみで動作する)。
+app.route("/admin/smoke/sheets", createSmokeSheetsRoute());
 
 app.get("/health", (c) =>
   c.json({

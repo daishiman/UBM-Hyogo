@@ -145,6 +145,20 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 
 ---
 
+### Sheets API E2E Smoke Test / `/admin/smoke/sheets` dev・staging（UT-26 / 2026-04-29）
+
+`GoogleSheetsFetcher` の Workers Edge Runtime 実機検証用 NON_VISUAL smoke route。fetch mock テストでは検出できない RSA-SHA256 / Web Crypto / Service Account 権限 / token cache の問題を本物の Sheets API 呼び出しで切り分ける。production には mount しない（404）。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| 管理 API 契約（`GET /admin/smoke/sheets` / Bearer `SMOKE_ADMIN_TOKEN` / production 404 / `range` query 80 文字以内 / `tokenFetchesDuringSmoke=1` 期待値） | `references/api-endpoints.md`（§管理同期 API / `/admin/smoke/sheets`） |
+| env 配置（`SMOKE_ADMIN_TOKEN` dev・staging only、`GOOGLE_SHEETS_SA_JSON` Cloudflare Secrets、`SHEETS_SPREADSHEET_ID` Variables または Secrets） | `references/environment-variables.md`（§UBM-Hyogo API Worker / `SMOKE_ADMIN_TOKEN`） |
+| 苦戦箇所（fetch mock vs 実 API / SA 権限 403 切り分け / formId vs spreadsheetId 混同 / `wrangler dev --local` 外部 fetch 制限 / token TTL 1h と isolate 再起動でのキャッシュ消失） | `.claude/skills/aiworkflow-requirements/lessons-learned/sheets-api-edge-runtime-smoke.md` |
+| 実装 / テスト | `apps/api/src/routes/admin/smoke-sheets.ts`, `apps/api/src/routes/admin/smoke-sheets.test.ts`, `apps/api/src/jobs/sheets-fetcher.ts`（`getTokenFetchCount()` 診断 API）, `apps/api/src/index.ts`（mount guard） |
+| 全 phase 設計 | `docs/30-workflows/completed-tasks/ut-26-sheets-api-e2e-smoke-test/` |
+
+---
+
 ### UI Visual Baseline Drift / dark-mode screenshot stability（2026-04-03）
 
 | 目的                 | 最初に開くファイル                                                                                                                                           |
