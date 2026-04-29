@@ -858,12 +858,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L90 |
-| UBM-Hyogo Admin Sync API（03a） | L111 |
-| UBM-Hyogo Member Self-Service API（04b） | L133 |
-| Desktop IPC API サマリー | L151 |
-| 変更履歴 | L182 |
-| 関連ドキュメント | L197 |
+| エンドポイント命名規則 | L151 |
+| UBM-Hyogo Admin Sync API（03a） | L172 |
+| UBM-Hyogo Member Self-Service API（04b） | L194 |
+| Desktop IPC API サマリー | L212 |
+| 変更履歴 | L243 |
+| 関連ドキュメント | L260 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1678,7 +1678,7 @@ node scripts/list-specs.js --topics
 | 依存関係管理戦略 | L190 |
 | 無料枠の活用ガイド | L283 |
 | CI/CDツール選定 | L315 |
-| 学習リソースとコミュニティ | L417 |
+| 学習リソースとコミュニティ | L420 |
 
 ### references/technology-devops-details.md
 
@@ -2138,6 +2138,19 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
 
+### references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L16 |
+| Phase Outputs | L26 |
+| 主要実装物 | L43 |
+| Skill 反映先（current canonical set） | L61 |
+| 実装で確定した値 | L70 |
+| Follow-up 未タスク（formalize 済み） | L78 |
+| Validation Chain | L88 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2471,7 +2484,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L156 |
+| 変更履歴 | L171 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2666,13 +2679,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L78 |
-| 環境別設定 | L152 |
-| Electron アプリでの環境変数 | L206 |
-| トラブルシューティング | L263 |
-| チーム開発での運用 | L324 |
-| 必須環境変数一覧 | L363 |
-| 関連ドキュメント | L433 |
+| セキュリティベストプラクティス | L80 |
+| 環境別設定 | L154 |
+| Electron アプリでの環境変数 | L208 |
+| トラブルシューティング | L265 |
+| チーム開発での運用 | L326 |
+| 必須環境変数一覧 | L365 |
+| 関連ドキュメント | L436 |
 
 ### references/error-handling-core.md
 
@@ -2814,6 +2827,18 @@ node scripts/list-specs.js --topics
 | L-04B-004: `admin_member_notes` schema 変更は wave 間 ownership を Phase 1 で宣言する | L33 |
 | L-04B-005: Auth.js 未着フェーズの dev session ヘッダは production guard を必ず最初に書く | L41 |
 
+### references/lessons-learned-04c-admin-backoffice-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-04C-001: tag queue resolve は queue 状態と member_tags への二段書き込みが境界 | L10 |
+| L-04C-002: 子リソース（notes / attendance）は path memberId と所有権の両方で 404 / 409 を分離 | L18 |
+| L-04C-003: schema alias の状態整合は「diff 未存在」「diff と question mismatch」で別エラーに分ける | L26 |
+| L-04C-004: Hono ルートは admin gate を route 単位 mount で構造保証する（9 router 分割） | L34 |
+| L-04C-005: zod による入力厳格化は query / date / pagination で必ず分岐する | L42 |
+| 関連未タスク・後続 wave 連携 | L50 |
+| 参照 | L56 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -2837,6 +2862,29 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L11 |
 | 派生未タスク | L43 |
 | 関連ドキュメント | L51 |
+
+### references/lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| L-T6-001: hook ガード未追加で `git rm --cached` 直後に hook が再 add する循環 | L12 |
+| L-T6-002: `pnpm indexes:rebuild` 部分失敗で破損 JSON 残留 | L20 |
+| L-T6-003: 4 worktree smoke の `wait` 戻り値喪失 | L28 |
+| L-T6-004: 4 並列 `pnpm indexes:rebuild` の I/O 飽和 | L36 |
+| L-T6-005: A-2（#130）未完了状態で T-6 着手すると `LOGS.md` を gitignore 連動で誤って ignore 化する経路 | L44 |
+| 関連リンク | L52 |
+| 申し送り（open / baseline 未タスク） | L61 |
+
+### references/lessons-learned-ut-06-fu-h-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-HDBH-001: timing-safe 比較で `===` を使わない（user-controlled secret 比較の鉄則） | L9 |
+| L-HDBH-002: 401 / 403 の責務分離（WAF 外側 vs アプリ内側） | L20 |
+| L-HDBH-003: 503 fail-closed と Retry-After: 30 の不変条件 | L31 |
+| L-HDBH-004: HEALTH_DB_TOKEN rotation を Phase 12 close-out 時点で formalize する | L42 |
+| 関連参照 | L55 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -2872,8 +2920,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L48 |
-| 関連ドキュメント | L53 |
+| 利用順序 | L49 |
+| 関連ドキュメント | L54 |
 
 ### references/llm-embedding.md
 
@@ -4246,10 +4294,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L11 |
-| 利用順序 | L40 |
-| 関連ドキュメント | L45 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L49 |
+| 仕様書インデックス | L12 |
+| 利用順序 | L41 |
+| 関連ドキュメント | L46 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L50 |
 
 ### references/testing-accessibility.md
 

@@ -164,6 +164,32 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 ---
 
+## API health contract: GET /health/db
+
+`GET /health/db` は API Worker から D1 binding に `SELECT 1` を実行し、UT-06 AC-4 の API 経由 D1 smoke を可能にするための health endpoint である。D1 への直接アクセスは `apps/api` に閉じ、`apps/web` から D1 binding を参照しない。
+
+### Request
+
+| 項目 | 値 |
+|------|-----|
+| Method | `GET` |
+| Path | `/health/db` |
+| Header | `X-Health-Token: <HEALTH_DB_TOKEN>` |
+| 外周制御 | Cloudflare WAF allowlist + rate limit |
+
+### Response
+
+| 状況 | Status | Body | Headers |
+|------|--------|------|---------|
+| D1 疎通成功 | `200` | `{ "ok": true, "db": "ok", "check": "SELECT 1" }` | `Content-Type: application/json` |
+| token 欠落 / 誤値（WAF allowlist 内） | `401` | `{ "ok": false, "error": "unauthorized" }` | - |
+| WAF allowlist 外 / rate limit | `403` | Cloudflare WAF response | Cloudflare WAF response |
+| token 未設定 / D1 binding 欠落 / D1 失敗 | `503` | `{ "ok": false, "db": "error", "error": "<Error.name>" }` | `Retry-After: 30` |
+
+`HEALTH_DB_TOKEN` は Cloudflare Secrets で管理し、実値をドキュメントやログに残さない。運用手順は `docs/30-workflows/ut-06-followup-H-health-db-endpoint/outputs/phase-12/operator-runbook.md` を正とする。
+
+---
+
 ## schema sync で取得する metadata
 
 - `formId`

@@ -29,6 +29,9 @@
 | 4 worktree smoke | `git ls-files --unmerged`, `verify/a2-{1..4}` | `references/skill-ledger-fragment-spec.md` §8 |
 | `_legacy.md` 規約 | 物理削除禁止, 30 日 include window | `references/skill-ledger-overview.md` §5 |
 | 苦戦箇所集 | L-SLR-001〜009 | `references/lessons-learned-skill-ledger-redesign-2026-04.md` |
+| hook 冪等性検査 / `git add` 禁止 | `[[ -f $target ]] && exit 0`, hook が canonical を書かない / `git add` を呼ばない | `docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/index.md` AC-1〜AC-3 / `references/skill-ledger-gitignore-policy.md` §4 |
+| 部分 JSON リカバリ | `pnpm indexes:rebuild` 失敗 → `jq -e .` でパース失敗検出 → `rm` → 再 rebuild | `docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/index.md` AC-3 / `references/lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md` |
+| 2→4 worktree 二段 smoke | 2 worktree 事前 smoke → 4 worktree full smoke、`for pid in "${pids[@]}"; do wait "$pid" \|\| rc=$?; done` | `docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/index.md` AC-4〜AC-7 |
 
 ## クエリ → reference 1 行マップ
 
@@ -53,6 +56,8 @@
 | B-1 実装未タスク（実 `.gitattributes` 適用） | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-gitattributes-implementation.md` |
 | B-1 A-2 完了レビュー未タスク | `docs/30-workflows/unassigned-task/task-skill-ledger-b1-a2-completion-review.md` |
 | Phase 11 NON_VISUAL 証跡テンプレ改善 | `docs/30-workflows/unassigned-task/task-phase11-nonvisual-evidence-template-sync.md` |
+| T-6 hook 冪等化と 4 worktree smoke（仕様） | `docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/index.md` |
+| T-6 実装未タスク（実 hook / smoke 実走） | `docs/30-workflows/unassigned-task/task-skill-ledger-t6-implementation.md` |
 
 ## 検証コマンド早見
 

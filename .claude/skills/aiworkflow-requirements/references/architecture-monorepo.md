@@ -106,7 +106,7 @@
 | 領域 | 確定事項 |
 | --- | --- |
 | `apps/web` | Next.js 16 App Router + `@opennextjs/cloudflare`。`(public)`, `(member)`, `(admin)` route group layout を持つ |
-| `apps/api` | Hono on Workers。Wave 0 では `/healthz`, `/public/healthz`, `/me/healthz`, `/admin/healthz` の health scaffold のみ |
+| `apps/api` | Hono on Workers。Wave 0 では `/healthz`, `/public/healthz`, `/me/healthz`, `/admin/healthz` の health scaffold を提供し、04a で `/public/stats`, `/public/members`, `/public/members/:memberId`, `/public/form-preview` を公開 API として追加 |
 | `packages/shared` | `MemberId`, `ResponseId`, `ResponseEmail`, `StableKey` の branded ID placeholder を export |
 | `packages/integrations/google` | `FormsClient` interface と `NotImplementedFormsClient` placeholder のみ。実 Forms API 実装は後続 Wave |
 | boundary guard | `apps/web` から D1/API direct import、`localStorage` / `sessionStorage` 使用を lint guard で禁止 |

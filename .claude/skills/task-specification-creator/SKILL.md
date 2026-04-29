@@ -28,6 +28,7 @@ allowed-tools:
 | --- | --- | --- |
 | v2026.04.29-parallel-wave-schema-ownership | 2026-04-29 | 04b Phase 12 feedback を受け、Phase 1 テンプレに「Schema / 共有コード Ownership 宣言」セクションを追加。並列 wave で共有 schema や `_shared/` の編集権を Phase 1 で明示することを必須化（`references/phase-template-phase1.md` の 1.X 節）。`admin_member_notes.note_type` の wave 越境を再発防止する。|
 | v2026.04.28-claude-code-permissions-comparison-review | 2026-04-28 | `task-claude-code-permissions-project-local-first-comparison-001` の Phase 12 review で、docs-only 比較設計タスクでも root / outputs `artifacts.json` parity、必須見出し、LOGS / 正本仕様同期、後続タスク方針更新を同一 wave で閉じる必要を確認。比較設計テンプレート改善は LOGS と skill-feedback-report に記録。 |
+| v2026.04.29-04c-evidence-bundle-task2-checklist | 2026-04-29 | 04c admin backoffice タスク Phase 12 skill-feedback で「root / outputs `artifacts.json` parity と NON_VISUAL の代替 evidence ファイル名が抜けやすい」と指摘。`assets/evidence-bundle-template.md` に Task 2（artifacts parity / NON_VISUAL manual-evidence 明示）チェック項目を追加。 |
 
 ## 設計原則
 
@@ -121,3 +122,30 @@ decompose-task → identify-scope → design-phases → generate-task-specs
 ```
 
 詳細な履歴と usage log は [LOGS.md](LOGS.md)、[SKILL-changelog.md](SKILL-changelog.md)、[references/logs-archive-index.md](references/logs-archive-index.md) を参照。
+
+## タスクタイプ判定フロー（docs-only / NON_VISUAL）
+
+Phase 1 で `artifacts.json.metadata.visualEvidence` を必ず確定する。未設定で Phase 11 縮約テンプレが
+発火しない事故を防ぐため、Phase 1 完了条件として必須化する（[references/phase-template-phase1.md](references/phase-template-phase1.md) §「Phase 1 必須入力: artifacts.json.metadata.visualEvidence」）。
+
+### 発火マトリクス
+
+| 入力（artifacts.json.metadata） | 適用テンプレ |
+| --- | --- |
+| `taskType: docs-only` かつ `visualEvidence: NON_VISUAL` | [references/phase-template-phase11.md](references/phase-template-phase11.md) §「docs-only / NON_VISUAL 縮約テンプレ」+ Phase 12 docs-only 判定ブランチ |
+| `taskType: docs-only` かつ `visualEvidence: VISUAL` | UI task 追加要件（screenshot 必須） |
+| `taskType: implementation` 等 | 通常テンプレ |
+
+### 状態分離（spec_created vs completed）
+
+| レイヤ | フィールド | 値の意味 |
+| --- | --- | --- |
+| workflow root | `metadata.workflow_state` または `index.md` メタ「状態」 | `spec_created` = 仕様書作成済 / 実装着手前。Phase 12 close-out で書き換えない |
+| Phase 別 | `phases[].status` | `completed` / `pending` / `blocked` |
+
+Phase 12 close-out で workflow root を `completed` に書き換えるのは実装完了タスクのみ。
+docs-only / `spec_created` タスクは workflow root を据え置き、`phases[].status` のみ更新する。
+
+### 第一適用例（drink-your-own-champagne）
+
+`docs/30-workflows/ut-gov-005-docs-only-nonvisual-template-skill-sync/` 自身が本フローの第一適用例。

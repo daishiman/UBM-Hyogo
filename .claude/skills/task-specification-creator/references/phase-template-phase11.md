@@ -165,3 +165,36 @@ UI タスクで Electron を直接起動できない CLI 環境では、**Playwr
 
 - [phase-11-screenshot-guide.md](phase-11-screenshot-guide.md)
 - [screenshot-verification-procedure.md](screenshot-verification-procedure.md)
+
+## docs-only / NON_VISUAL 縮約テンプレ（発火条件: visualEvidence=NON_VISUAL）
+
+`artifacts.json.metadata.visualEvidence == "NON_VISUAL"` のとき、Phase 11 outputs は以下 3 点に固定する。
+screenshot は不要（生成禁止: false green 防止）。
+
+### 必須 outputs
+
+| ファイル | 役割 | 最小フォーマット |
+| --- | --- | --- |
+| `outputs/phase-11/main.md` | Phase 11 トップ index | テスト方式（NON_VISUAL / docs walkthrough）/ 発火条件 / 必須 outputs 一覧 / 第一適用例参照 |
+| `outputs/phase-11/manual-smoke-log.md` | spec walkthrough / link 検証 / mirror parity の実行記録 | 「実行コマンド / 期待結果 / 実測 / PASS or FAIL」テーブル |
+| `outputs/phase-11/link-checklist.md` | SKILL.md → references / mirror parity / workflow 内リンクのチェックリスト | 「参照元 → 参照先 / 状態（OK / Broken）」テーブル |
+
+VISUAL タスクの必須 outputs（manual-test-checklist.md / manual-test-result.md / discovered-issues.md /
+screenshot-plan.json）とは別セット。両者は混在させない。
+
+### 発火条件の機械判定
+
+```bash
+jq -r '.metadata.visualEvidence // empty' \
+  docs/30-workflows/<task>/artifacts.json
+# => NON_VISUAL なら本縮約テンプレを適用
+# => VISUAL なら UI task 追加要件
+# => 空 / 未設定なら Phase 1 へ差戻し（references/phase-template-phase1.md 違反）
+```
+
+### 第一適用例（drink-your-own-champagne）
+
+`ut-gov-005-docs-only-nonvisual-template-skill-sync` 自身が本テンプレの第一適用例。
+`docs/30-workflows/ut-gov-005-docs-only-nonvisual-template-skill-sync/outputs/phase-11/` を参照。
+
+> 既存「docs-only / `spec_created` Phase 11 代替証跡フォーマット（必須3点）」セクションは Phase 8 DRY 化で本セクションに統合する（TECH-M-01）。

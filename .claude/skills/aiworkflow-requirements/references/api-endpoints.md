@@ -62,6 +62,23 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 | GET      | /api/health    | ヘルスチェック | 不要 |
 | GET      | /api/v1/status | 詳細ステータス | 必要 |
 
+### UBM-Hyogo Health API（UT-06-FU-H）
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/health/db` | API Worker から D1 binding に `SELECT 1` を実行し、DB 疎通を確認する | `X-Health-Token: <HEALTH_DB_TOKEN>` + Cloudflare WAF allowlist / rate limit |
+
+レスポンス契約:
+
+| Status | 条件 | Body | Headers |
+| --- | --- | --- | --- |
+| 200 | token 一致、D1 `SELECT 1` 成功 | `{ ok: true, db: "ok", check: "SELECT 1" }` | `Content-Type: application/json` |
+| 401 | WAF allowlist 内で `X-Health-Token` 欠落または不一致 | `{ ok: false, error: "unauthorized" }` | - |
+| 403 | WAF allowlist 外または rate limit block | Cloudflare WAF response | Cloudflare WAF response |
+| 503 | `HEALTH_DB_TOKEN` 未設定、D1 binding 欠落、D1 `SELECT 1` 失敗 | `{ ok: false, db: "error", error: string }` | `Retry-After: 30` |
+
+`/health` は API Worker / runtime foundation の軽量 health、`/health/db` は D1 疎通 health として SLO を分離する。`/health/db` は `apps/api` に閉じ、`apps/web` から D1 binding を直接参照しない。
+
 ### 管理同期 API（apps/api）
 
 | メソッド | パス | 説明 | 認証 |
@@ -70,6 +87,50 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 | POST | /admin/sync/responses | Google Forms `forms.responses.list` を D1 に取り込み、`current_response_id` と consent snapshot を更新 | `SYNC_ADMIN_TOKEN` Bearer |
 
 `POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。
+
+### 管理バックオフィス API（apps/api / 04c）
+
+`04c-parallel-admin-backoffice-api-endpoints` で、admin UI と後続 workflow が利用する `/admin/*` バックオフィス API を追加した。04c 時点の認可は `SYNC_ADMIN_TOKEN` Bearer gate で、05a で Auth.js + `admin_users` active 判定へ差し替える。
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/admin/dashboard` | 会員・同意・削除済み・タグ queue・schema 状態の dashboard 集計 | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/members` | admin member list。`filter=active|hidden|deleted` を受け付ける | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | `SYNC_ADMIN_TOKEN` Bearer |
+| PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/members/:memberId/notes` | admin note を作成する | `SYNC_ADMIN_TOKEN` Bearer |
+| PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/members/:memberId/delete` | member を論理削除する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/tags/queue` | tag assignment queue を一覧する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `queued -> reviewing -> resolved` で解決する | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/schema/diff` | schema diff queue を一覧する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/schema/aliases` | question stable key alias を解決する | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/meetings` | meeting sessions と attendance summary を一覧する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/meetings` | meeting session を作成する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409`、削除済み member は `422` | `SYNC_ADMIN_TOKEN` Bearer |
+| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する | `SYNC_ADMIN_TOKEN` Bearer |
+
+04c の構造的不変条件:
+
+- `PATCH /admin/members/:memberId/profile` は作らない。管理者は本人プロフィール本文を直接編集しない。
+- `PATCH /admin/members/:memberId/tags` は作らない。タグ確定は queue resolve 経由に限定する。
+- schema 変更は `/admin/schema/*` に集約する。
+- `admin_member_notes` は public/member view model へ混入させない。
+- mutation は `audit_log` append を通す。
+
+### 公開ディレクトリ API（apps/api / 04a）
+
+`04a-parallel-public-directory-api-endpoints` で未認証の公開 API を追加した。`/public/*` には session middleware を適用しない。
+
+| メソッド | パス | 説明 | 認証 | Cache-Control |
+| --- | --- | --- | --- | --- |
+| GET | `/public/stats` | 公開 KPI、zone / membership breakdown、今年の支部会数、直近支部会、schema / response sync 状態 | 不要 | `public, max-age=60` |
+| GET | `/public/members` | 公開会員一覧。`q / zone / status / tag / sort / density / page / limit` を受け付ける | 不要 | `no-store` |
+| GET | `/public/members/:memberId` | 公開会員プロフィール。公開同意・公開状態・未削除を満たさない member は 404 | 不要 | `no-store` |
+| GET | `/public/form-preview` | `schema_questions` 由来のフォームプレビューと responder URL | 不要 | `public, max-age=60` |
+
+公開 member の基本条件は `public_consent='consented' AND publish_state='public' AND is_deleted=0`。profile / list response は `responseEmail` / `rulesConsent` / `adminNotes` を含めない。`/public/members` の `tag` は repeated query を AND 条件として扱い、`limit` は 1〜100 に clamp する。
 
 ### チャット履歴
 
@@ -183,6 +244,8 @@ Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token
 
 | Version | Date       | Changes                                            |
 | ------- | ---------- | -------------------------------------------------- |
+| 2.8.0   | 2026-04-29 | UT-06-FU-H: `GET /health/db` D1 疎通 health API 契約を追加 |
+| 2.7.0   | 2026-04-29 | 04a: 公開ディレクトリ API 4 endpoint を追加 |
 | 2.6.0   | 2026-04-29 | 03b: `POST /admin/sync/responses` 管理同期 API を追加 |
 | 2.5.0   | 2026-03-11 | TASK-FIX-APIKEY-CHAT-TOOL-INTEGRATION-001: Desktop IPC API サマリーの AI/チャットへ `llm:set-selected-config` を追加 |
 | 2.4.0   | 2026-03-11 | TASK-UI-08-NOTIFICATION-CENTER: Notification IPC サマリーに `notification:delete` を追加し、058e の個別削除契約へ同期 |

@@ -59,6 +59,16 @@ export async function listRecentMeetings(c: DbCtx, n: number): Promise<MeetingSe
   return (r.results ?? []).map(map);
 }
 
+export async function countMeetingsInYear(c: DbCtx, year: number): Promise<number> {
+  const start = `${year}-01-01`;
+  const end = `${year + 1}-01-01`;
+  const r = await c.db
+    .prepare("SELECT COUNT(*) AS cnt FROM meeting_sessions WHERE held_on >= ? AND held_on < ?")
+    .bind(start, end)
+    .first<{ cnt: number }>();
+  return r?.cnt ?? 0;
+}
+
 export async function insertMeeting(c: DbCtx, row: NewMeetingSessionRow): Promise<MeetingSessionRow> {
   await c.db
     .prepare("INSERT INTO meeting_sessions (session_id, title, held_on, note, created_by) VALUES (?, ?, ?, ?, ?)")
