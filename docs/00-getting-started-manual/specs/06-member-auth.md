@@ -67,6 +67,20 @@
 | `rules_declined` | 規約同意が無いためログイン不可。再回答 CTA を出す |
 | `deleted` | アプリ上で削除済み。管理者連絡導線を出す |
 
+### gateReason 列挙値（05a / 05b 共有命名）
+
+`/auth/session-resolve` レスポンス内 `gateReason` は **05a と 05b で共通の命名** を用いる。
+`packages/shared/src/auth.ts` に `GateReason` 型として固定する。
+
+| 列挙値 | 判定根拠 | UI 表示 |
+|--------|---------|--------|
+| `"unregistered"` | `member_identities` に該当 `responseEmail` 行が無い | Google Form 登録 CTA |
+| `"rules_declined"` | `member_status.rules_consent !== "consented"` | 再回答 CTA |
+| `"deleted"` | `member_status.is_deleted = 1` | 管理者連絡案内 |
+| `null` | 上記いずれにも該当せず active session 発行可 | （session 発行へ） |
+
+新しい列挙値の追加は 05a / 05b の同 wave 同期が必要であり、片側のみで増やしてはならない。
+
 ---
 
 ## 会員更新との関係

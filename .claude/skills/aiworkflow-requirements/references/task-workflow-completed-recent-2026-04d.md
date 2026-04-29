@@ -4,6 +4,42 @@
 
 ---
 
+### タスク: UT-01 Sheets→D1 同期方式定義 spec_created（2026-04-29）
+
+| 項目 | 値 |
+| --- | --- |
+| タスクID | UT-01 |
+| ステータス | **spec_created（Phase 1〜12 完了 / Phase 13 user_approval_required）** |
+| タイプ | docs-only / NON_VISUAL / design_specification |
+| 優先度 | High |
+| 完了日 | 2026-04-29 |
+| 成果物 | `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/` |
+| GitHub Issue | #50（CLOSED / reopen しない） |
+
+#### 実施内容
+
+- Sheets→D1 同期方式を Cloudflare Workers Cron Triggers による定期 pull（base case B）として設計確定した
+- 手動 / 定期 / バックフィルの 3 種フロー、Sheets 優先 SoT、D1 read-only fallback、quota / backoff / retry / lock 方針を Phase 2〜10 に整理した
+- Phase 11 は docs-only / NON_VISUAL 縮約テンプレとして `main.md` / `manual-smoke-log.md` / `link-checklist.md` の 3 点で完結し、screenshot は不要と判定した
+- Phase 12 必須 7 成果物を作成し、MINOR 6 件（TECH-M-01〜04 / TECH-M-DRY-01 / MINOR-M-Q-01）と既存実装差分 U-7〜U-10 を未タスク検出へ転記した
+- 既存 `apps/api` 実装との差分として、`sync_log` 論理名と `sync_job_logs` / `sync_locks`、status / trigger enum、retry 回数、offset resume、shared 契約型の未整合を記録した
+
+#### 検証証跡
+
+- root / outputs `artifacts.json` parity: PASS
+- Phase 1〜12 status: `spec_created`、Phase 13: `blocked`
+- Phase 11 screenshot: 不要（UI / runtime / D1 変更なし）
+- Phase 12 compliance: PASS（same-wave sync 実ファイル反映済み、commit / PR / push は未実行）
+
+#### follow-up backlog
+
+- U-7: `sync_log` 論理名と既存 `sync_job_logs` / `sync_locks` の整合
+- U-8: sync status / trigger enum の canonical set 統一
+- U-9: retry 回数（3 vs 5）と offset resume 採否の統一
+- U-10: `packages/shared` sync 契約型 / Zod schema 化
+
+---
+
 ### タスク: UT-GOV-004 branch protection required_status_checks contexts 同期 spec_created（2026-04-29）
 
 | 項目 | 値 |
@@ -452,4 +488,3 @@
 #### lessons-learned
 
 - `references/lessons-learned-lefthook-unification-2026-04.md`（L-LH-MW-001 / L-LH-MW-002 を追記）
-

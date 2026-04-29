@@ -7,6 +7,7 @@ export * from "./types/auth";
 export * from "./types/viewmodel";
 export * from "./zod";
 export * from "./utils/consent";
+export * from "./auth";
 
 export const runtimeFoundation = {
   node: "24.x",

@@ -11,7 +11,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json --noEmit",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts packages/shared",
+    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=packages/shared/coverage --coverage.include=\"packages/shared/src/**/*.{ts,tsx}\" packages/shared"
   },
   "dependencies": {
     "zod": "^4.3.6"

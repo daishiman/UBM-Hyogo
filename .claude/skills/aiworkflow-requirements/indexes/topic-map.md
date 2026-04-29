@@ -858,12 +858,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L170 |
-| UBM-Hyogo Admin Sync API（03a） | L191 |
-| UBM-Hyogo Member Self-Service API（04b） | L213 |
-| Desktop IPC API サマリー | L231 |
-| 変更履歴 | L262 |
-| 関連ドキュメント | L279 |
+| エンドポイント命名規則 | L155 |
+| UBM-Hyogo Admin Sync API（03a） | L176 |
+| UBM-Hyogo Member Self-Service API（04b） | L198 |
+| Desktop IPC API サマリー | L216 |
+| 変更履歴 | L247 |
+| 関連ドキュメント | L263 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2514,17 +2514,18 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L51 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L128 |
-| Cloudflare D1 データベース | L235 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L268 |
-| GitHub Actions CI/CD | L380 |
-| プレビューデプロイメント | L412 |
-| カスタムドメイン設定 | L429 |
-| 環境分離 | L442 |
-| ロールバック戦略 | L452 |
-| モニタリング/アラート（UT-08 連携） | L473 |
-| 変更履歴 | L490 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L45 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L122 |
+| Cloudflare D1 データベース | L231 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L264 |
+| GitHub Actions CI/CD | L376 |
+| プレビューデプロイメント | L408 |
+| カスタムドメイン設定 | L425 |
+| 環境分離 | L438 |
+| ロールバック戦略 | L458 |
+| コスト概算（個人開発） | L479 |
+| モニタリング/アラート（UT-08 連携） | L491 |
+| 変更履歴 | L508 |
 
 ### references/deployment-core.md
 
@@ -2558,8 +2559,9 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L185 |
 | モニタリングとアラート | L205 |
 | GitHub Secrets の要件 | L239 |
-| 関連ドキュメント | L263 |
-| 変更履歴 | L270 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L261 |
+| 関連ドキュメント | L281 |
+| 変更履歴 | L288 |
 
 ### references/deployment-history.md
 
@@ -2574,13 +2576,14 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets（CI/CD 用） | L78 |
-| wrangler.toml の環境別設定 | L103 |
-| ローカル開発での設定 | L135 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L174 |
-| セキュリティ原則 | L211 |
-| Cloudflare API Token の作成手順 | L222 |
-| 変更履歴 | L251 |
+| GitHub Secrets（CI/CD 用） | L87 |
+| wrangler.toml の環境別設定 | L112 |
+| ローカル開発での設定 | L144 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L183 |
+| セキュリティ原則 | L220 |
+| Cloudflare API Token の作成手順 | L231 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L260 |
+| 変更履歴 | L303 |
 
 ### references/deployment.md
 
@@ -2691,13 +2694,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L90 |
-| 環境別設定 | L164 |
-| Electron アプリでの環境変数 | L218 |
-| トラブルシューティング | L275 |
-| チーム開発での運用 | L336 |
-| 必須環境変数一覧 | L375 |
-| 関連ドキュメント | L446 |
+| セキュリティベストプラクティス | L94 |
+| 環境別設定 | L168 |
+| Electron アプリでの環境変数 | L222 |
+| トラブルシューティング | L279 |
+| チーム開発での運用 | L340 |
+| 必須環境変数一覧 | L379 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L448 |
+| 関連ドキュメント | L468 |
 
 ### references/error-handling-core.md
 
@@ -2851,6 +2855,19 @@ node scripts/list-specs.js --topics
 | 関連未タスク・後続 wave 連携 | L50 |
 | 参照 | L56 |
 
+### references/lessons-learned-05a-authjs-admin-gate-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-05A-001: Auth.js v5 cookie session resolver を internal endpoint で繋ぐ設計 | L9 |
+| L-05A-002: 二段防御の責務分離と bypass 試行検証 (F-15 / F-16) | L36 |
+| L-05A-003: admin 剥奪の即時反映 (B-01) を MVP では「次回ログイン反映」で許容 | L64 |
+| L-05A-004: Google OAuth verification (B-03) を testing user 運用で MVP 許容 | L88 |
+| L-05A-005: Phase 11 staging smoke の実 OAuth 接続不能で証跡が placeholder | L111 |
+| L-05A-006: session JWT 構造を memberId / isAdmin のみに最小化、D1 sessions 不採用と整合 | L140 |
+| 関連リソース | L183 |
+| Follow-up（unassigned-task） | L195 |
+
 ### references/lessons-learned-05b-magic-link-auth-gate-2026-04.md
 
 | セクション | 行 |
@@ -2866,6 +2883,18 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L11 |
 | 申し送り（open / baseline 未タスク） | L92 |
 | 関連 references | L101 |
+
+### references/lessons-learned-coverage-80-enforcement-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 正本 4 系 | L20 |
+| 苦戦箇所 5 件（U-1〜U-5 由来） | L31 |
+| NON_VISUAL Phase 12 Part 1 / Part 2 構成の適用知見 | L68 |
+| branch protection / contexts 登録の上流前提（5 重明記） | L74 |
+| 実行タイミングまとめ | L78 |
+| 関連リソース | L87 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -4278,9 +4307,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 最近の完了タスク（2026-04） | L7 |
-| 完了タスク（2026-03後半） | L127 |
-| 完了タスク（機能別アーカイブ） | L135 |
-| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L244 |
+| 完了タスク（2026-03後半） | L128 |
+| 完了タスク（機能別アーカイブ） | L136 |
+| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L245 |
 
 ### references/task-workflow-history.md
 

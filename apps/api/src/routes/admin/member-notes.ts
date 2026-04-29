@@ -2,7 +2,7 @@
 // 不変条件 #12: admin_member_notes は detail view にのみ含まれる。list view には混ぜない。
 import { Hono } from "hono";
 import { z } from "zod";
-import { adminGate } from "../../middleware/admin-gate";
+import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId } from "../../repository/_shared/brand";
 import { adminEmail, auditAction } from "../../repository/_shared/brand";
@@ -21,7 +21,7 @@ const SYSTEM_ADMIN_EMAIL = adminEmail("system@admin.local");
 
 export const createAdminMemberNotesRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv }>();
-  app.use("*", adminGate);
+  app.use("*", requireAdmin);
 
   app.post("/members/:memberId/notes", async (c) => {
     const memberId = c.req.param("memberId");

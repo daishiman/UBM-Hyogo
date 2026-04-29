@@ -2,7 +2,11 @@
 // D1Database を最小限の in-memory mock で代替し、lock / log / upsert の挙動を検証する。
 
 import { describe, it, expect } from "vitest";
-import { runSync, chunk } from "./sync-sheets-to-d1";
+import {
+  runSync,
+  chunk,
+  resolveServiceAccountJson,
+} from "./sync-sheets-to-d1";
 import type { SyncEnv } from "./sync-sheets-to-d1";
 import type { SheetsFetcher, SheetsValueRange } from "./sheets-fetcher";
 
@@ -101,7 +105,7 @@ function buildEnv(db: FakeD1): SyncEnv {
   return {
     DB: db as unknown as D1Database,
     SHEETS_SPREADSHEET_ID: "test-sheet",
-    GOOGLE_SHEETS_SA_JSON: "{}",
+    GOOGLE_SERVICE_ACCOUNT_JSON: "{}",
     SYNC_BATCH_SIZE: "2",
     SYNC_MAX_RETRIES: "0",
   };
@@ -111,6 +115,18 @@ describe("chunk", () => {
   it("配列を size ごとに分割する", () => {
     expect(chunk([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [3, 4], [5]]);
     expect(chunk([], 2)).toEqual([]);
+  });
+});
+
+describe("resolveServiceAccountJson", () => {
+  it("canonical GOOGLE_SERVICE_ACCOUNT_JSON が legacy alias より優先される", () => {
+    expect(
+      resolveServiceAccountJson({
+        DB: {} as D1Database,
+        GOOGLE_SERVICE_ACCOUNT_JSON: "canonical",
+        GOOGLE_SHEETS_SA_JSON: "legacy",
+      }),
+    ).toBe("canonical");
   });
 });
 
@@ -165,6 +181,22 @@ describe("runSync", () => {
     expect(result.status).toBe("failed");
     expect(result.error).toContain("503");
     expect(db.state.logs.get("run-3")?.status).toBe("failed");
+  });
+
+  it("legacy GOOGLE_SHEETS_SA_JSON alias も移行期間は受け付ける", async () => {
+    const db = new FakeD1();
+    const fetcher = new FakeFetcher([["タイムスタンプ", "メールアドレス"]]);
+    const { GOOGLE_SERVICE_ACCOUNT_JSON: _unused, ...baseEnv } = buildEnv(db);
+    const env: SyncEnv = {
+      ...baseEnv,
+      GOOGLE_SHEETS_SA_JSON: "{}",
+    };
+    const result = await runSync(env, {
+      trigger: "cron",
+      fetcher,
+      runId: "run-legacy",
+    });
+    expect(result.status).toBe("success");
   });
 
   it("冪等性: 同じデータを 2 回実行しても upsert は同件数", async () => {
