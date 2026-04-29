@@ -21,6 +21,7 @@ import {
 } from "./jobs/sync-forms-responses";
 import { runSchemaSync, ConflictError } from "./sync/schema";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
+import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
 
 interface Env extends SyncEnv, ResponseSyncEnv {
@@ -130,6 +131,10 @@ app.get("/", (c) =>
 app.get("/healthz", (c) => c.json({ ok: true }));
 
 app.get("/public/healthz", (c) => c.json({ ok: true, scope: "public" }));
+
+// 04a: 公開ディレクトリ API (4 endpoint)
+// session middleware を適用しない (AC-9 / 不変条件 #5 公開境界)
+app.route("/public", createPublicRouter());
 
 app.get("/me/healthz", (c) => c.json({ ok: true, scope: "me" }));
 

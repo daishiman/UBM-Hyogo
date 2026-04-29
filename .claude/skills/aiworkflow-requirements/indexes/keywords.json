@@ -1912,6 +1912,7 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -2116,6 +2117,7 @@
       "interfaces-skill-verify-contract.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -2553,6 +2555,7 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -3394,6 +3397,7 @@
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -3865,6 +3869,7 @@
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -4186,6 +4191,7 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -4545,7 +4551,8 @@
     ],
     "api": [
       "deployment-secrets-management.md",
-      "spec-splitting-guidelines.md"
+      "spec-splitting-guidelines.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
     ],
     "ローカル開発での設定": [
       "deployment-secrets-management.md"
@@ -5004,6 +5011,7 @@
       "ui-ux-search-panel-details.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -5086,6 +5094,7 @@
     "Chain": [
       "interfaces-agent-sdk-skill-editor.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -6570,6 +6579,7 @@
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -8561,7 +8571,8 @@
       "ui-ux-feature-components-theme-chat.md"
     ],
     "formalize": [
-      "logs-archive-2026-03-line-budget-reform-formalize.md"
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
     ],
     "仕様書集約": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
@@ -10040,6 +10051,7 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -11829,6 +11841,7 @@
     "Follow": [
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -12008,6 +12021,7 @@
     "Artifact": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -12018,6 +12032,7 @@
     "Inventory": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -12088,6 +12103,7 @@
     ],
     "Acceptance": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -12095,6 +12111,7 @@
     ],
     "Criteria": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -12102,6 +12119,7 @@
     ],
     "Outputs": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -12109,11 +12127,35 @@
     ],
     "反映先": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "parallel": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "public": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "directory": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "endpoints": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "主要実装物": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "実装で確定した値": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "済み": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
     ],
     "bypass": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
@@ -12141,10 +12183,6 @@
     ],
     "完了形式": [
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
-    ],
-    "主要実装物": [
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "ci": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
