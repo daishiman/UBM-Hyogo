@@ -35,3 +35,10 @@ post-merge:
       run: bash scripts/hooks/stale-worktree-notice.sh post-merge
       # ⚠ post-merge では indexes/*.json の再生成を行わない
       # 再生成は明示コマンド `pnpm indexes:rebuild` でのみ実行する
+
+pre-push:
+  parallel: false
+  commands:
+    coverage-guard:
+      run: bash scripts/coverage-guard.sh --changed
+      stage_fixed: false

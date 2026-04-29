@@ -2,7 +2,7 @@
 // 不変条件 #14: schema 変更は /admin/schema/* のみ。
 import { Hono } from "hono";
 import { z } from "zod";
-import { adminGate } from "../../middleware/admin-gate";
+import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asStableKey, auditAction } from "../../repository/_shared/brand";
 import {
@@ -25,7 +25,7 @@ const AliasBodyZ = z.object({
 
 export const createAdminSchemaRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv }>();
-  app.use("*", adminGate);
+  app.use("*", requireAdmin);
 
   app.get("/schema/diff", async (c) => {
     const db = ctx({ DB: c.env.DB });

@@ -62,23 +62,6 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 | GET      | /api/health    | ヘルスチェック | 不要 |
 | GET      | /api/v1/status | 詳細ステータス | 必要 |
 
-### UBM-Hyogo Health API（UT-06-FU-H）
-
-| メソッド | パス | 説明 | 認証 |
-| --- | --- | --- | --- |
-| GET | `/health/db` | API Worker から D1 binding に `SELECT 1` を実行し、DB 疎通を確認する | `X-Health-Token: <HEALTH_DB_TOKEN>` + Cloudflare WAF allowlist / rate limit |
-
-レスポンス契約:
-
-| Status | 条件 | Body | Headers |
-| --- | --- | --- | --- |
-| 200 | token 一致、D1 `SELECT 1` 成功 | `{ ok: true, db: "ok", check: "SELECT 1" }` | `Content-Type: application/json` |
-| 401 | WAF allowlist 内で `X-Health-Token` 欠落または不一致 | `{ ok: false, error: "unauthorized" }` | - |
-| 403 | WAF allowlist 外または rate limit block | Cloudflare WAF response | Cloudflare WAF response |
-| 503 | `HEALTH_DB_TOKEN` 未設定、D1 binding 欠落、D1 `SELECT 1` 失敗 | `{ ok: false, db: "error", error: string }` | `Retry-After: 30` |
-
-`/health` は API Worker / runtime foundation の軽量 health、`/health/db` は D1 疎通 health として SLO を分離する。`/health/db` は `apps/api` に閉じ、`apps/web` から D1 binding を直接参照しない。
-
 ### 管理同期 API（apps/api）
 
 | メソッド | パス | 説明 | 認証 |
@@ -91,26 +74,26 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 ### 管理バックオフィス API（apps/api / 04c）
 
-`04c-parallel-admin-backoffice-api-endpoints` で、admin UI と後続 workflow が利用する `/admin/*` バックオフィス API を追加した。04c 時点の認可は `SYNC_ADMIN_TOKEN` Bearer gate で、05a で Auth.js + `admin_users` active 判定へ差し替える。
+`04c-parallel-admin-backoffice-api-endpoints` で、admin UI と後続 workflow が利用する `/admin/*` バックオフィス API を追加した。05a で人間向けバックオフィス API の認可は Auth.js 共有 HS256 JWT + `admin_users.active` 判定に差し替え済み。同期ジョブ API のみ `SYNC_ADMIN_TOKEN` Bearer gate を維持する。
 
 | メソッド | パス | 説明 | 認証 |
 | --- | --- | --- | --- |
-| GET | `/admin/dashboard` | 会員・同意・削除済み・タグ queue・schema 状態の dashboard 集計 | `SYNC_ADMIN_TOKEN` Bearer |
-| GET | `/admin/members` | admin member list。`filter=active|hidden|deleted` を受け付ける | `SYNC_ADMIN_TOKEN` Bearer |
-| GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | `SYNC_ADMIN_TOKEN` Bearer |
-| PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | `/admin/members/:memberId/notes` | admin note を作成する | `SYNC_ADMIN_TOKEN` Bearer |
-| PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | `/admin/members/:memberId/delete` | member を論理削除する | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | `SYNC_ADMIN_TOKEN` Bearer |
-| GET | `/admin/tags/queue` | tag assignment queue を一覧する | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `queued -> reviewing -> resolved` で解決する | `SYNC_ADMIN_TOKEN` Bearer |
-| GET | `/admin/schema/diff` | schema diff queue を一覧する | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | `/admin/schema/aliases` | question stable key alias を解決する | `SYNC_ADMIN_TOKEN` Bearer |
-| GET | `/admin/meetings` | meeting sessions と attendance summary を一覧する | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | `/admin/meetings` | meeting session を作成する | `SYNC_ADMIN_TOKEN` Bearer |
-| POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409`、削除済み member は `422` | `SYNC_ADMIN_TOKEN` Bearer |
-| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/dashboard` | 会員・同意・削除済み・タグ queue・schema 状態の dashboard 集計 | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/members` | admin member list。`filter=active|hidden|deleted` を受け付ける | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | Auth.js JWT + `requireAdmin` |
+| PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |
+| PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/delete` | member を論理削除する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `queued -> reviewing -> resolved` で解決する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/schema/aliases` | question stable key alias を解決する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/meetings` | meeting sessions と attendance summary を一覧する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/meetings` | meeting session を作成する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409`、削除済み member は `422` | Auth.js JWT + `requireAdmin` |
+| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する | Auth.js JWT + `requireAdmin` |
 
 04c の構造的不変条件:
 
@@ -119,6 +102,27 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 - schema 変更は `/admin/schema/*` に集約する。
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
+
+### 認証セッション解決 API（apps/api / 05a）
+
+05a で Auth.js Google OAuth callback から呼ばれる内部 endpoint を追加した。apps/web は D1 を直接参照せず、この endpoint だけを経由して `member_identities` / `member_status` / `admin_users` を解決する。
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/auth/session-resolve?email=<email>` | OAuth email を正規化し、`memberId` / `isAdmin` / `gateReason` を返す | `X-Internal-Auth: INTERNAL_AUTH_SECRET` |
+
+レスポンス:
+
+```ts
+type GateReason = "unregistered" | "deleted" | "rules_declined";
+type SessionResolveResponse = {
+  memberId: string | null;
+  isAdmin: boolean;
+  gateReason: GateReason | null;
+};
+```
+
+Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shared/src/auth.ts` の `encodeAuthSessionJwt` / `decodeAuthSessionJwt` と API 側 `verifySessionJwt` が同じ `AUTH_SECRET` を使う。JWT には `memberId` / `email` / `isAdmin` のみを含め、`responseId` やプロフィール本文は含めない。
 
 ### 公開ディレクトリ API（apps/api / 04a）
 
@@ -247,7 +251,6 @@ Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token
 
 | Version | Date       | Changes                                            |
 | ------- | ---------- | -------------------------------------------------- |
-| 2.8.0   | 2026-04-29 | UT-06-FU-H: `GET /health/db` D1 疎通 health API 契約を追加 |
 | 2.7.0   | 2026-04-29 | 04a: 公開ディレクトリ API 4 endpoint を追加 |
 | 2.6.1   | 2026-04-29 | UT-26: `GET /admin/smoke/sheets` dev/staging Sheets API smoke route を追加 |
 | 2.6.0   | 2026-04-29 | 03b: `POST /admin/sync/responses` 管理同期 API を追加 |

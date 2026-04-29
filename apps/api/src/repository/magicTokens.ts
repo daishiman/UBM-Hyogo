@@ -110,6 +110,18 @@ export const verify = async (
   return row;
 };
 
+// 05b: mail 送信失敗時の rollback 用。直前 INSERT した token を物理削除する。
+// 不変条件 #10: token leak を防ぐため失敗ケースでは row を残さない。
+export const deleteByToken = async (
+  c: DbCtx,
+  token: MagicTokenValue,
+): Promise<void> => {
+  await c.db
+    .prepare("DELETE FROM magic_tokens WHERE token = ?1")
+    .bind(token)
+    .run();
+};
+
 export const consume = async (
   c: DbCtx,
   token: MagicTokenValue,

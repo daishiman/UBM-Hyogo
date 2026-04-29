@@ -2,10 +2,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminAttendanceRoute } from "./attendance";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "t",
+  AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
 const seed = async (env: InMemoryD1) => {
@@ -57,7 +59,7 @@ describe("admin attendance", () => {
       "/meetings/s1/attendance",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ memberId: "m_alive" }),
       },
       makeEnv(env),
@@ -69,7 +71,7 @@ describe("admin attendance", () => {
     const app = createAdminAttendanceRoute();
     const opts = {
       method: "POST",
-      headers: { Authorization: "Bearer t", "content-type": "application/json" },
+      headers: { ...await adminAuthHeader(), "content-type": "application/json" },
       body: JSON.stringify({ memberId: "m_alive" }),
     };
     await app.request("/meetings/s1/attendance", opts, makeEnv(env));
@@ -83,7 +85,7 @@ describe("admin attendance", () => {
       "/meetings/s1/attendance",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ memberId: "m_dead" }),
       },
       makeEnv(env),
@@ -97,7 +99,7 @@ describe("admin attendance", () => {
       "/meetings/s_x/attendance",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ memberId: "m_alive" }),
       },
       makeEnv(env),
@@ -109,7 +111,7 @@ describe("admin attendance", () => {
     const app = createAdminAttendanceRoute();
     const res = await app.request(
       "/meetings/s1/attendance/m_alive",
-      { method: "DELETE", headers: { Authorization: "Bearer t" } },
+      { method: "DELETE", headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(res.status).toBe(200);

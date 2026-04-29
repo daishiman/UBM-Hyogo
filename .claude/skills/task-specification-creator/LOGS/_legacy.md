@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-29 - UT-01 Sheets→D1 sync design Phase 12 review hardening
+
+`docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/` を docs-only / NON_VISUAL / spec_created として再監査し、Phase 1〜12 の `artifacts.json` status を `spec_created` に同期した。Phase 12 same-wave sync の pending 表現を実ファイル更新済みに補正し、30種思考法レビューで検出した既存 `apps/api` 実装との差分（`sync_log` vs `sync_job_logs` / `sync_locks`、status / trigger enum、retry 3 vs 5、offset resume、shared 契約型なし）を U-7〜U-10 として未タスク化。Phase 10 MINOR 6 件（TECH-M-01〜04 / TECH-M-DRY-01 / MINOR-M-Q-01）を Phase 12 に全量転記し、Phase 12 compliance を PASS に戻した。commit / PR / push は未実行。
+
 ## 2026-04-29 - UT-GOV-004 required status checks context sync Phase 12 review hardening
 
 `docs/30-workflows/ut-gov-004-required-status-checks-context-sync/` の docs-only / NON_VISUAL workflow を Phase 12 仕様へ再同期した。implementation-guide を Part 1/Part 2 構成へ補正し、Phase 13 承認ゲート成果物を追加。`confirmed-contexts.yml` を UT-GOV-001 の唯一入力として固定し、Phase 7/11/12 の pending / schema / context 処遇 drift を解消した。commit / push / PR / branch protection apply は未実行。
@@ -2467,6 +2471,15 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `apps/desktop/src/main/services/runtime/RuntimeSkillCreatorFacade.ts`（`extractTargetPath` / `createExecuteGovernanceCanUseTool` 修正 / `createImproveGovernanceCanUseTool` 追加）、`apps/desktop/src/main/services/runtime/__tests__/governance/path-scoped-enforcement.test.ts`（新規: 11件）、`docs/30-workflows/task-p0-09-u1-path-scoped-governance-runtime-enforcement/outputs/`（Phase 1-12 outputs） |
 | 結果     | execute phase の path-scoped deny を runtime で実効化。`getExplicitSkillCreatorRoot()` → `createExecuteGovernanceCanUseTool(skillRoot)` → `evaluateGovernanceToolUse(context)` の配線を完成。`TODO(TASK-P0-09-U1)` コメントを解消。Phase 11 は NON_VISUAL として自動テスト代替で完了。                                                                                                                       |
 | 検証     | vitest 101/101 PASS、typecheck PASS（EXIT:0）                                                                                                                                                                                                                                                                                                                                                                |
+
+### 2026-04-29 - coverage-80-enforcement implementation sync
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | implementation_started / NON_VISUAL / coverage governance |
+| 変更対象 | `docs/30-workflows/coverage-80-enforcement/`, `scripts/coverage-guard.sh`, `vitest.config.ts`, package `test:coverage` scripts, `.github/workflows/ci.yml`, `lefthook.yml`, `references/coverage-standards.md` |
+| 結果 | NON_VISUAL Phase 12 Part 1/2 構成を coverage 80% enforcement に適用。Vitest は計測、`coverage-guard.sh` は package 単位 80% 判定と不足ファイル top10 出力を担当する責務分離へ同期した。 |
+| 検証 | `pnpm exec vitest run scripts/coverage-guard.test.ts` 5/5 PASS。 |
 
 ### 2026-04-27 - UT-08 monitoring-alert-design Phase 12 close-out sync
 

@@ -2,10 +2,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminMemberDeleteRoute } from "./member-delete";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "t",
+  AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
 describe("admin member delete/restore", () => {
@@ -42,7 +44,7 @@ describe("admin member delete/restore", () => {
       "/members/m1/delete",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ reason: "test" }),
       },
       makeEnv(env),
@@ -50,7 +52,7 @@ describe("admin member delete/restore", () => {
     expect(r1.status).toBe(200);
     const r2 = await app.request(
       "/members/m1/restore",
-      { method: "POST", headers: { Authorization: "Bearer t" } },
+      { method: "POST", headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(r2.status).toBe(200);
@@ -62,7 +64,7 @@ describe("admin member delete/restore", () => {
       "/members/m1/delete",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({}),
       },
       makeEnv(env),

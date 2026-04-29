@@ -33,10 +33,16 @@ import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
 import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
+import { createAuthRoute } from "./routes/auth";
+import { createResendSender } from "./services/mail/magic-link-mailer";
+import { createSessionResolveRoute } from "./routes/auth/session-resolve";
 
 interface Env extends SyncEnv, ResponseSyncEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
   readonly SYNC_ADMIN_TOKEN?: string;
+  // 05a: Auth.js v5 + admin gate 用 secrets
+  readonly AUTH_SECRET?: string;
+  readonly INTERNAL_AUTH_SECRET?: string;
   readonly FORM_ID?: string;
   readonly GOOGLE_FORM_ID?: string;
   readonly GOOGLE_FORM_RESPONDER_URL?: string;
@@ -47,6 +53,10 @@ interface Env extends SyncEnv, ResponseSyncEnv {
   readonly HEALTH_DB_TOKEN?: string;
   // UT-26: Sheets API E2E smoke test 用 (dev/staging のみ)
   readonly SMOKE_ADMIN_TOKEN?: string;
+  // 05b: Magic Link / Auth provider 関連（AUTH_SECRET は 05a と共有）
+  readonly AUTH_URL?: string;
+  readonly MAIL_PROVIDER_KEY?: string;
+  readonly MAIL_FROM_ADDRESS?: string;
 }
 
 function timingSafeEqual(a: string, b: string): boolean {
@@ -157,6 +167,9 @@ app.get("/public/healthz", (c) => c.json({ ok: true, scope: "public" }));
 // session middleware を適用しない (AC-9 / 不変条件 #5 公開境界)
 app.route("/public", createPublicRouter());
 
+// 05a: Auth.js (apps/web) 専用の内部経路。INTERNAL_AUTH_SECRET 必須。
+app.route("/auth", createSessionResolveRoute());
+
 app.get("/me/healthz", (c) => c.json({ ok: true, scope: "me" }));
 
 // 04b: /me/* member self-service。
@@ -176,6 +189,31 @@ app.route(
       const [, email, memberId] = m;
       if (!email || !memberId) return null;
       return { email, memberId };
+    },
+  }),
+);
+
+// 05b: /auth/* (Magic Link provider + AuthGateState)
+// MAIL_PROVIDER_KEY 未設定時は no-op sender (dev/test) を使う。production は MAIL_FAILED で 502。
+app.route(
+  "/auth",
+  createAuthRoute({
+    resolveMailSender: (env) => {
+      const e = env as Env;
+      if (e.MAIL_PROVIDER_KEY) {
+        return createResendSender({ apiKey: e.MAIL_PROVIDER_KEY });
+      }
+      return {
+        async send() {
+          if (e.ENVIRONMENT === "production") {
+            return {
+              ok: false as const,
+              errorMessage: "MAIL_PROVIDER_KEY not configured",
+            };
+          }
+          return { ok: true as const };
+        },
+      };
     },
   }),
 );

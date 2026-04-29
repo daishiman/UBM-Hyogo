@@ -1,0 +1,69 @@
+{
+  "task_name": "coverage-80-enforcement",
+  "task_path": "docs/30-workflows/coverage-80-enforcement",
+  "wave": 1,
+  "execution_mode": "serial",
+  "depends_on": [],
+  "blocks": [],
+  "created_at": "2026-04-29",
+  "github_issue": null,
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "scope": "quality_governance",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implementation_started",
+    "priority": "HIGH",
+    "wave_label": "Wave 1 (quality / coverage governance)",
+    "coverage_threshold_unified": 80,
+    "rollout_strategy": "3-stage PR (PR1: soft gate + tooling, PR2: per-package test additions to reach 80%, PR3: hard gate + lefthook + branch protection contexts)",
+    "artifact_schema_note": "Phase 1〜13 の仕様書と Phase outputs 骨格を本ワークフローで作成する。Phase 4〜13 は pending として予約し、破壊的な実 merge / branch protection 適用は Phase 13 ユーザー承認後の別オペレーションで実施する。"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": ["outputs/phase-01/main.md"], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "設計", "file": "phase-02.md", "status": "completed", "outputs": ["outputs/phase-02/main.md"], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/main.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "テスト戦略", "file": "phase-04.md", "status": "pending", "outputs": ["outputs/phase-04/main.md"], "depends_on_phases": [3], "user_approval_required": false },
+    { "phase": 5, "name": "実装ランブック (vitest config / coverage-guard.sh / package script / CI soft gate)", "file": "phase-05.md", "status": "pending", "outputs": ["outputs/phase-05/main.md"], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "異常系検証", "file": "phase-06.md", "status": "pending", "outputs": ["outputs/phase-06/main.md"], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "AC マトリクス", "file": "phase-07.md", "status": "pending", "outputs": ["outputs/phase-07/main.md"], "depends_on_phases": [6], "user_approval_required": false },
+    { "phase": 8, "name": "DRY 化", "file": "phase-08.md", "status": "pending", "outputs": ["outputs/phase-08/main.md"], "depends_on_phases": [7], "user_approval_required": false },
+    { "phase": 9, "name": "品質保証", "file": "phase-09.md", "status": "pending", "outputs": ["outputs/phase-09/main.md"], "depends_on_phases": [8], "user_approval_required": false },
+    { "phase": 10, "name": "最終レビュー", "file": "phase-10.md", "status": "pending", "outputs": ["outputs/phase-10/main.md"], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "手動 smoke test (baseline 計測 / coverage-guard 実行 / soft→hard 切替リハーサル)", "file": "phase-11.md", "status": "pending", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md", "outputs/phase-11/coverage-baseline-summary.md"], "depends_on_phases": [10], "user_approval_required": false },
+    { "phase": 12, "name": "ドキュメント更新", "file": "phase-12.md", "status": "pending", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [11], "user_approval_required": false },
+    { "phase": 13, "name": "PR 作成 / ユーザー承認後 3 段階適用", "file": "phase-13.md", "status": "pending", "outputs": ["outputs/phase-13/main.md", "outputs/phase-13/pr1-runbook.md", "outputs/phase-13/pr2-runbook.md", "outputs/phase-13/pr3-runbook.md"], "depends_on_phases": [12], "user_approval_required": true }
+  ],
+  "specs_referenced": [
+    ".claude/skills/aiworkflow-requirements/references/quality-requirements-advanced.md",
+    ".claude/skills/task-specification-creator/references/coverage-standards.md",
+    ".claude/skills/task-specification-creator/references/patterns-testing.md",
+    ".claude/skills/task-specification-creator/references/quality-gates.md",
+    "vitest.config.ts",
+    ".github/workflows/ci.yml",
+    "lefthook.yml",
+    "CLAUDE.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "secrets_referenced": ["CODECOV_TOKEN (optional, existing)"],
+  "invariants_touched": [5],
+  "doc_references": [
+    ".claude/skills/aiworkflow-requirements/references/quality-requirements-advanced.md",
+    ".claude/skills/task-specification-creator/references/coverage-standards.md",
+    "CLAUDE.md"
+  ],
+  "subtasks": [
+    { "id": "T0", "name": "baseline 計測", "pr_group": "PR1", "phase": 11 },
+    { "id": "T1", "name": "vitest coverage 設定統一", "pr_group": "PR1", "phase": 5 },
+    { "id": "T2", "name": "scripts/coverage-guard.sh 新設", "pr_group": "PR1", "phase": 5 },
+    { "id": "T3", "name": "各 package test:coverage script 統一", "pr_group": "PR1", "phase": 5 },
+    { "id": "T4", "name": "CI soft gate 追加 (continue-on-error: true)", "pr_group": "PR1", "phase": 5 },
+    { "id": "T5", "name": "package 別 80% 達成テスト追加", "pr_group": "PR2", "phase": "out-of-scope (別タスク化)" },
+    { "id": "T6", "name": "lefthook pre-push 統合", "pr_group": "PR3", "phase": 5 },
+    { "id": "T7", "name": "CI hard gate 化 + branch protection contexts 登録", "pr_group": "PR3", "phase": 13 },
+    { "id": "T8", "name": "aiworkflow-requirements 正本同期", "pr_group": "PR3", "phase": 12 }
+  ]
+}
