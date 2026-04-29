@@ -79,6 +79,18 @@ export interface PublicStatsView {
   publicMemberCount: number;
   zoneBreakdown: Array<{ zone: string; count: number }>;
   membershipBreakdown: Array<{ type: string; count: number }>;
+  meetingCountThisYear: number;
+  recentMeetings: Array<{
+    sessionId: string;
+    title: string;
+    heldOn: string;
+  }>;
+  lastSync: {
+    schemaSync: "ok" | "running" | "failed" | "never";
+    responseSync: "ok" | "running" | "failed" | "never";
+    schemaSyncFinishedAt: string | null;
+    responseSyncFinishedAt: string | null;
+  };
   generatedAt: string;
 }
 
@@ -93,8 +105,23 @@ export interface PublicMemberListItem {
 }
 
 export interface PublicMemberListView {
-  total: number;
-  members: PublicMemberListItem[];
+  items: PublicMemberListItem[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+    hasNext: boolean;
+    hasPrev: boolean;
+  };
+  appliedQuery: {
+    q: string;
+    zone: string;
+    status: string;
+    tags: string[];
+    sort: "recent" | "name";
+    density: "comfy" | "dense" | "list";
+  };
   generatedAt: string;
 }
 
@@ -108,6 +135,8 @@ export interface PublicMemberProfile {
 export interface FormPreviewView {
   manifest: FormManifest;
   fields: FormFieldDefinition[];
+  sectionCount: number;
+  fieldCount: number;
   responderUrl: string;
 }
 

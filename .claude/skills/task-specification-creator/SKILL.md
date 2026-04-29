@@ -22,6 +22,13 @@ allowed-tools:
 
 開発タスクを Phase 1〜13 の実行可能な仕様書へ落とし込む。`SKILL.md` は入口だけを持ち、詳細は `references/` と `LOGS.md` に分離する。
 
+## 変更履歴
+
+| Version | Date | Changes |
+| --- | --- | --- |
+| v2026.04.29-parallel-wave-schema-ownership | 2026-04-29 | 04b Phase 12 feedback を受け、Phase 1 テンプレに「Schema / 共有コード Ownership 宣言」セクションを追加。並列 wave で共有 schema や `_shared/` の編集権を Phase 1 で明示することを必須化（`references/phase-template-phase1.md` の 1.X 節）。`admin_member_notes.note_type` の wave 越境を再発防止する。|
+| v2026.04.28-claude-code-permissions-comparison-review | 2026-04-28 | `task-claude-code-permissions-project-local-first-comparison-001` の Phase 12 review で、docs-only 比較設計タスクでも root / outputs `artifacts.json` parity、必須見出し、LOGS / 正本仕様同期、後続タスク方針更新を同一 wave で閉じる必要を確認。比較設計テンプレート改善は LOGS と skill-feedback-report に記録。 |
+
 ## 設計原則
 
 | 原則                      | 説明                                                        |
@@ -102,6 +109,7 @@ Phase 12 は次の 5 タスクすべてが必須:
 | Phase 12 よくある漏れ / 苦戦防止 Tips | [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md) |
 | 品質ゲート / Phase 境界 / 検証コマンド導線（commands.md とハブ関係） | [references/quality-gates.md](references/quality-gates.md) |
 | オーケストレーション / リソース導線 / ベストプラクティス | [references/orchestration.md](references/orchestration.md) |
+| NON_VISUAL governance パターン（Phase 8 単一正本 YAML / check-runs 並走 / Phase 13 二重承認） | [lessons-learned/non-visual-governance-pattern.md](lessons-learned/non-visual-governance-pattern.md) |
 
 ## 最小 workflow
 

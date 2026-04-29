@@ -11,6 +11,25 @@ Phase 11 の manual test。
 | **設計タスク** | タスク種別が「設計・仕様策定」、UI実装なし | 設計タスク専用セクション（SF-01） |
 | **docs-only タスク** | UI変更なし、ドキュメント・設定変更のみ | docs-only task テンプレ |
 | **UI タスク** | Renderer コンポーネントの追加・変更あり | docs-only + UI task 追加要件 |
+| **API-only タスク** | `artifacts.json.ui_routes` が空配列 (sync / cron / repository 等) | API smoke evidence テンプレ（下記） |
+
+### `ui_routes` ベースの自動分岐
+
+`artifacts.json` の `ui_routes` を Phase 11 着手前に確認し、以下のように evidence テンプレを切り替える:
+
+| 条件 | 採用テンプレ | 必須 outputs |
+| --- | --- | --- |
+| `ui_routes.length > 0` | UI smoke evidence | `screenshot-plan.json` / `manual-test-result.md` / `ui-sanity-visual-review.md` / `phase11-capture-metadata.json` |
+| `ui_routes.length === 0` | **API smoke evidence** | `outputs/phase-11/main.md` / `manual-smoke-log.md` / `link-checklist.md` |
+
+API smoke evidence では screenshot は不要。代わりに以下を `manual-smoke-log.md` に記録する:
+
+- 対象 API endpoint / cron handler / repository method
+- 実行コマンド (例: `pnpm --filter @repo/api test:run`, `wrangler dev` 経由の curl)
+- 期待結果 / 実測 / PASS or FAIL
+- vitest 件数を主証跡として明記 (例: `194/194 PASS`)
+
+`link-checklist.md` は仕様書 → 実装ファイル / fake D1 fixture / fixture テスト間の参照リンク有効性を表で記録する。
 
 ## docs-only task テンプレ
 

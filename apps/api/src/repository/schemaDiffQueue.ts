@@ -2,7 +2,7 @@ import type { DbCtx } from "./_shared/db";
 import type { StableKey } from "./_shared/brand";
 import { asStableKey } from "./_shared/brand";
 
-export type DiffType = "added" | "changed" | "removed";
+export type DiffType = "added" | "changed" | "removed" | "unresolved";
 export type DiffStatus = "queued" | "resolved";
 
 export interface SchemaDiffQueueRow {

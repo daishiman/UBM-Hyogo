@@ -363,6 +363,9 @@ Git hook 層の正本は `lefthook.yml` とし、`.git/hooks/*` は worktree ご
 
 この分離により、local hook は開発者向けの速い補助ゲート、GitHub Actions は authoritative gate になる。`--no-verify` で local hook がバイパスされても、CI 側の index drift 検証で無関係な generated diff をブロックする。
 
+**hook 副作用禁止原則**（T-6 / Issue #161）: post-commit / post-merge hook は `git add` / `git stage` / `git update-index --add` を呼ばず、tracked canonical への書き込み / 派生物の自動再生成を行わない。派生物は明示 `pnpm indexes:rebuild` + CI gate `verify-indexes-up-to-date` の責務とし、4 worktree 並列 smoke は 2 worktree 事前 smoke → 4 worktree full smoke の二段構えで I/O 飽和と true negative を切り分ける。
+関連: `../../../../docs/30-workflows/completed-tasks/skill-ledger-t6-hook-idempotency/index.md` / `lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md`
+
 ### Codecov
 
 **採用理由**:
