@@ -17,6 +17,7 @@ import { WriteQueue } from "../utils/write-queue";
 
 export interface SyncEnv {
   readonly DB: D1Database;
+  readonly GOOGLE_SERVICE_ACCOUNT_JSON?: string;
   readonly GOOGLE_SHEETS_SA_JSON?: string;
   readonly SHEETS_SPREADSHEET_ID?: string;
   readonly SYNC_BATCH_SIZE?: string;
@@ -169,15 +170,20 @@ export async function runSync(
 }
 
 function buildDefaultFetcher(env: SyncEnv): SheetsFetcher {
-  if (!env.GOOGLE_SHEETS_SA_JSON || !env.SHEETS_SPREADSHEET_ID) {
+  const serviceAccountJson = resolveServiceAccountJson(env);
+  if (!serviceAccountJson || !env.SHEETS_SPREADSHEET_ID) {
     throw new Error(
-      "GOOGLE_SHEETS_SA_JSON / SHEETS_SPREADSHEET_ID が未設定です",
+      "GOOGLE_SERVICE_ACCOUNT_JSON / SHEETS_SPREADSHEET_ID が未設定です",
     );
   }
   return new GoogleSheetsFetcher({
     spreadsheetId: env.SHEETS_SPREADSHEET_ID,
-    serviceAccountJson: env.GOOGLE_SHEETS_SA_JSON,
+    serviceAccountJson,
   });
+}
+
+export function resolveServiceAccountJson(env: SyncEnv): string | undefined {
+  return env.GOOGLE_SERVICE_ACCOUNT_JSON ?? env.GOOGLE_SHEETS_SA_JSON;
 }
 
 export function chunk<T>(items: readonly T[], size: number): T[][] {
