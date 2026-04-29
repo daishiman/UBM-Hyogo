@@ -6,6 +6,7 @@
 
 ## 最近の完了タスク（2026-04）
 
+- [2026-04-29: UT-01 Sheets→D1 同期方式定義 spec_created（Cron pull / sync_log logical design / existing implementation gap tracking）](./task-workflow-completed-recent-2026-04d.md)
 - 2026-04-27: 02b meeting/tag/schema diff repository implementation close-out（`docs/30-workflows/02b-parallel-meeting-tag-queue-and-schema-diff-repository/` / `apps/api/src/repository/`）
 - [2026-04-08: UT-SKILL-WIZARD-W2-seq-03a SkillCreateWizard オーケストレーション更新（LLM専用化・SmartDefault・GenerateStep再入防止・CompleteStep skillPath表示）](./task-workflow-completed-recent-2026-04d.md)
 - [2026-04-05～04-06（前半）: UT-SDK-07-APPROVAL-REQUEST-SURFACE-001 / TASK-SDK-04-U1-F1 / TASK-P0-01 / TASK-UI-01 など](./task-workflow-completed-recent-2026-04b.md)

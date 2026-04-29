@@ -48,47 +48,6 @@ jobs:
           command: pages deploy .next --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging --branch=dev
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Notify Discord
-        if: ${{ always() && secrets.DISCORD_WEBHOOK_URL != '' }}
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DEPLOY_OUTCOME: ${{ steps.deploy.outcome }}
-          DEPLOY_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
-          FALLBACK_URL: ${{ steps.deploy.outputs.deployment-url }}
-          BRANCH_NAME: ${{ github.ref_name }}
-          SHA: ${{ github.sha }}
-        run: |
-          set -u
-
-          url="$DEPLOY_URL"
-          if [ -z "$url" ]; then
-            url="$FALLBACK_URL"
-          fi
-
-          if [ "$DEPLOY_OUTCOME" = "success" ]; then
-            title="Web deploy succeeded"
-            color=3066993
-            description="Staging deployment finished successfully."
-          else
-            title="Web deploy failed"
-            color=15158332
-            description="Staging deployment failed."
-          fi
-
-          payload=$(jq -n \
-            --arg title "$title" \
-            --arg description "$description" \
-            --arg branch "$BRANCH_NAME" \
-            --arg sha "${SHA:0:7}" \
-            --arg url "$url" \
-            --arg color "$color" \
-            '{embeds:[{title:$title, description:$description, color:($color|tonumber), fields:[{name:"branch", value:$branch, inline:true},{name:"sha", value:$sha, inline:true},{name:"url", value:(if $url == "" then "n/a" else $url end), inline:false}], timestamp:(now|todateiso8601)}]}')
-
-          curl -fsS -X POST \
-            -H "Content-Type: application/json" \
-            -d "$payload" \
-            "$DISCORD_WEBHOOK_URL" || true
-
   deploy-production:
     if: github.ref_name == 'main'
     runs-on: ubuntu-latest
@@ -125,38 +84,3 @@ jobs:
           workingDirectory: apps/web
           command: pages deploy .next --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }} --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Notify Discord
-        if: ${{ always() && secrets.DISCORD_WEBHOOK_URL != '' }}
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DEPLOY_OUTCOME: ${{ steps.deploy.outcome }}
-          DEPLOY_URL: ${{ steps.deploy.outputs.deployment-url }}
-          BRANCH_NAME: ${{ github.ref_name }}
-          SHA: ${{ github.sha }}
-        run: |
-          set -u
-
-          if [ "$DEPLOY_OUTCOME" = "success" ]; then
-            title="Web deploy succeeded"
-            color=3066993
-            description="Production deployment finished successfully."
-          else
-            title="Web deploy failed"
-            color=15158332
-            description="Production deployment failed."
-          fi
-
-          payload=$(jq -n \
-            --arg title "$title" \
-            --arg description "$description" \
-            --arg branch "$BRANCH_NAME" \
-            --arg sha "${SHA:0:7}" \
-            --arg url "$DEPLOY_URL" \
-            --arg color "$color" \
-            '{embeds:[{title:$title, description:$description, color:($color|tonumber), fields:[{name:"branch", value:$branch, inline:true},{name:"sha", value:$sha, inline:true},{name:"url", value:(if $url == "" then "n/a" else $url end), inline:false}], timestamp:(now|todateiso8601)}]}')
-
-          curl -fsS -X POST \
-            -H "Content-Type: application/json" \
-            -d "$payload" \
-            "$DISCORD_WEBHOOK_URL" || true

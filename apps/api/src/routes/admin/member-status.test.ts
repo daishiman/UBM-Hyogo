@@ -2,10 +2,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminMemberStatusRoute } from "./member-status";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "t",
+  AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
 describe("PATCH /admin/members/:memberId/status", () => {
@@ -35,7 +37,7 @@ describe("PATCH /admin/members/:memberId/status", () => {
       "/members/m1/status",
       {
         method: "PATCH",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ publishState: "public" }),
       },
       makeEnv(env),
@@ -49,7 +51,7 @@ describe("PATCH /admin/members/:memberId/status", () => {
       "/members/m1/status",
       {
         method: "PATCH",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({}),
       },
       makeEnv(env),
@@ -63,7 +65,7 @@ describe("PATCH /admin/members/:memberId/status", () => {
       "/members/m_x/status",
       {
         method: "PATCH",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ publishState: "hidden" }),
       },
       makeEnv(env),

@@ -263,3 +263,32 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 2. schema sync と response sync の cron を分ける
 3. 本人更新機能のために `profile_overrides` を追加しない
 4. GAS prototype の保存方式を D1 設計へ持ち込まない
+
+---
+
+## D1 `sessions` テーブル不採用（05a 確定）
+
+Auth.js v5 を採用しても **D1 に `sessions` テーブルを作らず、JWT-only session** とする。
+詳細は `13-mvp-auth.md` § "MVP session JWT 構造" を参照。
+
+### 不採用の根拠
+
+| 観点 | JWT-only（採用） | D1 sessions（不採用） |
+|------|----------------|---------------------|
+| D1 read コスト | 0（毎リクエスト JWT verify のみ） | session lookup ごとに 1 read |
+| 無料枠（500k reads/day）影響 | なし | admin 操作・API 呼び出しごとに reads を消費 |
+| 50 人規模 MVP 想定 req/day | 余裕 | 上限到達リスクあり |
+| admin 剥奪の即時反映 | できない（24h TTL） | できる |
+| 失効管理の複雑性 | 低 | DB 整合性の維持コスト |
+
+### 制約として受け入れる事項
+
+1. `admin_users.active = 0` への変更は **次回ログイン or JWT 自然失効まで反映されない**（13-mvp-auth.md B-01）
+2. 緊急失効が必要なときは `AUTH_SECRET` rotate（全 session 一括 invalidate）
+3. 将来 revocation list が必要になった場合は **KV 側に置く**（D1 sessions テーブルは復活させない）
+
+### 関連実装
+
+- `packages/shared/src/auth.ts`: `signSessionJwt` / `verifySessionJwt` / `SESSION_JWT_TTL_SECONDS`
+- `apps/web/src/lib/auth.ts`: Auth.js cookie session = HS256 JWT
+- `apps/api/src/middleware/require-admin.ts`: cookie / Authorization から JWT 抽出 → verify

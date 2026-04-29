@@ -1,7 +1,7 @@
 // 04c: GET /admin/members, GET /admin/members/:memberId
 import { Hono } from "hono";
 import { z } from "zod";
-import { adminGate } from "../../middleware/admin-gate";
+import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId } from "../../repository/_shared/brand";
 import {
@@ -42,7 +42,7 @@ const filterToSql = (filter?: "published" | "hidden" | "deleted"): string => {
 
 export const createAdminMembersRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv }>();
-  app.use("*", adminGate);
+  app.use("*", requireAdmin);
 
   app.get("/members", async (c) => {
     const filterRaw = c.req.query("filter");
