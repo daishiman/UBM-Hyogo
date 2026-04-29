@@ -1,17 +1,16 @@
-# NOTE: solo development project.
-# This CODEOWNERS file documents ownership for reference only.
-# `require_code_owner_reviews` is intentionally NOT enabled in branch protection,
-# because there is no second reviewer in a single-maintainer setup.
-# Ownership listing is kept so that future contributors / governance audits
-# can identify the responsible maintainer.
+# UBM-Hyogo CODEOWNERS
+# Solo 運用ポリシー: require_code_owner_reviews=false
+# 本ファイルは ownership 文書化のみを目的とし、必須レビュアー化はしない。
+# 構文検証: gh api repos/daishiman/UBM-Hyogo/codeowners/errors
 
-# Global fallback
-*                   @daishiman
+# --- 1. global fallback（汎用デフォルト：先に書く） ---
+* @daishiman
 
-# Infrastructure docs
-doc/01a-*/          @daishiman
-doc/01b-*/          @daishiman
-doc/01c-*/          @daishiman
+# --- 2. アプリケーション領域（より具体度高） ---
+apps/api/** @daishiman
+apps/web/** @daishiman
 
-# GitHub governance files
-.github/            @daishiman
+# --- 3. governance 領域（最も具体度高・末尾配置） ---
+.github/workflows/** @daishiman
+docs/30-workflows/** @daishiman
+.claude/skills/**/references/** @daishiman

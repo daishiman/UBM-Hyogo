@@ -1,0 +1,5 @@
+# M-03: deleted
+# 代替: vitest resolve-gate-state.test.ts > "is_deleted=1 -> deleted"
+# 入力: is_deleted=1 を seed した email
+# 期待 body: {"state":"deleted"}
+# 実績: PASS
