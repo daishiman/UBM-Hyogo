@@ -22,6 +22,7 @@ import {
 import { runSchemaSync, ConflictError } from "./sync/schema";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
+import { createMeRoute } from "./routes/me";
 
 interface Env extends SyncEnv, ResponseSyncEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
@@ -136,6 +137,27 @@ app.get("/public/healthz", (c) => c.json({ ok: true, scope: "public" }));
 app.route("/public", createPublicRouter());
 
 app.get("/me/healthz", (c) => c.json({ ok: true, scope: "me" }));
+
+// 04b: /me/* member self-service。
+// session resolver は 05a/b で Auth.js provider 連携時に差し替える。
+// 現状は MVP として x-ubm-dev-session: 1 付きの dev request に限り、
+// Bearer "session:<email>:<memberId>" 形式の dev token を許容する。
+// 本ヘッダは 05a/b で Auth.js cookie ベースの resolver に置き換える。
+app.route(
+  "/me",
+  createMeRoute({
+    resolveSession: async (req, env) => {
+      if (env?.ENVIRONMENT && env.ENVIRONMENT !== "development") return null;
+      if (req.headers.get("x-ubm-dev-session") !== "1") return null;
+      const auth = req.headers.get("authorization") ?? "";
+      const m = /^Bearer\s+session:([^:]+):(.+)$/.exec(auth);
+      if (!m) return null;
+      const [, email, memberId] = m;
+      if (!email || !memberId) return null;
+      return { email, memberId };
+    },
+  }),
+);
 
 app.get("/admin/healthz", (c) => c.json({ ok: true, scope: "admin" }));
 
