@@ -29,6 +29,7 @@
       "interfaces-rag-file-selection.md",
       "ipc-4-layer-pattern.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-api-electron.md",
       "security-api.md",
@@ -598,6 +599,7 @@
     "UBM": [
       "api-endpoints.md",
       "database-implementation-core.md",
+      "database-schema.md",
       "deployment-details.md"
     ],
     "Hyogo": [
@@ -2514,6 +2516,7 @@
       "arch-state-management-skill-creator.md",
       "arch-ui-components-core.md",
       "architecture-rag.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
       "logs-archive-2026-03-history-search-notification-center.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "task-workflow-completed-agent-view-line-budget.md",
@@ -3502,7 +3505,7 @@
     "defaultMode": [
       "claude-code-settings-hierarchy.md"
     ],
-    "統一方針": [
+    "ハイブリッド方針": [
       "claude-code-settings-hierarchy.md"
     ],
     "dangerously": [
@@ -3520,13 +3523,13 @@
       "claude-code-settings-hierarchy.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
-    "併用方針": [
+    "保留方針": [
       "claude-code-settings-hierarchy.md"
     ],
-    "zshrc": [
+    "本仕様では": [
       "claude-code-settings-hierarchy.md"
     ],
-    "正準形": [
+    "を追加しない": [
       "claude-code-settings-hierarchy.md"
     ],
     "allow": [
@@ -3915,6 +3918,17 @@
     "テーブル一覧": [
       "database-schema.md"
     ],
+    "会員": [
+      "database-schema.md"
+    ],
+    "Forms": [
+      "database-schema.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "同期テーブル": [
+      "database-schema.md"
+    ],
     "ワークフロー関連テーブル": [
       "database-schema.md"
     ],
@@ -4088,7 +4102,8 @@
     ],
     "op": [
       "deployment-cloudflare.md",
-      "lessons-learned-03a-parallel-forms-schema-sync.md"
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "run": [
       "deployment-cloudflare.md"
@@ -5631,7 +5646,8 @@
       "ipc-contract-checklist.md"
     ],
     "response": [
-      "ipc-contract-checklist.md"
+      "ipc-contract-checklist.md",
+      "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "event": [
       "ipc-contract-checklist.md"
@@ -5804,9 +5820,6 @@
     "Parallel": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
-    "Forms": [
-      "lessons-learned-03a-parallel-forms-schema-sync.md"
-    ],
     "Account": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
@@ -5817,7 +5830,8 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
     "no": [
-      "lessons-learned-03a-parallel-forms-schema-sync.md"
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "AC": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
@@ -5855,6 +5869,7 @@
     ],
     "Google": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-permission-history-execution-timestamps.md"
     ],
@@ -5869,6 +5884,155 @@
     ],
     "tier": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
+    ],
+    "lessons": [
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md"
+    ],
+    "learned": [
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md"
+    ],
+    "sync": [
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-completed-recent-2026-04d.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "苦戦箇所": [
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-2026-03-skill-views-completed-move.md",
+      "observability-monitoring.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-progressive-disclosure.md",
+      "ui-history-search-view.md",
+      "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "jobs": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "metrics": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "json": [
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "cursor": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "pageToken": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "ではない": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "submittedAt": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "時の": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "切替は": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "responseId": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "降順で": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "tie": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "break": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "unknown": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "field": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "の重複": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "enqueue": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "partial": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "UNIQUE": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "cron": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "無料枠は": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "per": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "write": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "上限で守る": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "responseEmail": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "system": [
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "logs-archive-2026-03-history-search-notification-center.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "workflow-ai-runtime-authmode-unification.md"
+    ],
+    "fields": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "には保存しない": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "二重起動防止は同種": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "job": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "type": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "running": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "行検査で": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "を返す": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "ruleConsent": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "表記の混入は入口で": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "rulesConsent": [
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "へ正規化": [
+      "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "Multi": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -7645,19 +7809,6 @@
     "教訓同期強化": [
       "logs-archive-2026-03-auth-mode-migration-sync.md"
     ],
-    "苦戦箇所": [
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-2026-03-skill-views-completed-move.md",
-      "observability-monitoring.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "skill-ledger-progressive-disclosure.md",
-      "ui-history-search-view.md",
-      "workflow-permission-fallback-abort-skip-retry.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
     "仕様整合": [
       "logs-archive-2026-03-auth-mode-migration-sync.md"
     ],
@@ -7721,12 +7872,6 @@
     "整合": [
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "system": [
-      "logs-archive-2026-03-history-search-notification-center.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "workflow-ai-runtime-authmode-unification.md"
     ],
     "形成をテンプレート準拠へ最適化": [
       "logs-archive-2026-03-history-search-notification-center.md"
@@ -7881,13 +8026,6 @@
     ],
     "final": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
-    ],
-    "sync": [
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-completed-recent-2026-04d.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
     "正規化": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
@@ -8311,12 +8449,6 @@
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "責務分離の仕様固定": [
-      "logs-archive-2026-03-task-10a-c-final-audit.md"
-    ],
-    "lessons": [
-      "logs-archive-2026-03-task-10a-c-final-audit.md"
-    ],
-    "learned": [
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "再監査と仕様同期": [
@@ -11506,9 +11638,6 @@
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "ビルド確認": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "json": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "SkillAnalysis": [

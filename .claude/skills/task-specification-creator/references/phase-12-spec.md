@@ -10,6 +10,22 @@
 | 4    | 未タスク検出レポート作成         | ✅   | **0件でも出力必須**                         |
 | 5    | スキルフィードバックレポート作成 | ✅   | **改善点なしでも出力必須**                  |
 
+### Phase 12 outputs/ 必須成果物（合計 7 ファイル＝main.md + 6 補助）
+
+Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃える**。1 つでも欠落した場合は `phase12-task-spec-compliance-check.md` の判定を `FAIL` とし、blocker を列挙する（PASS 断言禁止）。
+
+| # | ファイル                                  | 由来 Task         | 欠落時の扱い |
+| - | ----------------------------------------- | ----------------- | ------------ |
+| 1 | `main.md`                                 | Phase 12 本体     | FAIL         |
+| 2 | `implementation-guide.md`                 | Task 1            | FAIL         |
+| 3 | `system-spec-update-summary.md`           | Task 2            | FAIL         |
+| 4 | `documentation-changelog.md`              | Task 3            | FAIL         |
+| 5 | `unassigned-task-detection.md`            | Task 4（0 件でも必須） | FAIL    |
+| 6 | `skill-feedback-report.md`                | Task 5（改善なしでも必須） | FAIL |
+| 7 | `phase12-task-spec-compliance-check.md`   | Task 6（最終確認 root evidence） | FAIL |
+
+> Task 6 の詳細: [phase-12-tasks-guide.md](phase-12-tasks-guide.md) §Task 6。`PASS` は「成果物の実体 + validator 実測値 + same-wave sync 証跡」が揃った後にのみ許可する。
+
 ---
 
 ## Task 1: 実装ガイドの2パート構成
