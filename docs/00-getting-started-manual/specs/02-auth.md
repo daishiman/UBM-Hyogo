@@ -100,5 +100,5 @@ https://www.googleapis.com/auth/drive.readonly
 
 ## GAS prototype の扱い
 
-`doc/00-getting-started-manual/gas-prototype/` は UI の叩き台であり、認証・API・DB 接続は未実装。
+`docs/00-getting-started-manual/gas-prototype/` は UI の叩き台であり、認証・API・DB 接続は未実装。
 本番の認証仕様はこのファイルと `06-member-auth.md`, `13-mvp-auth.md` を正本とする。

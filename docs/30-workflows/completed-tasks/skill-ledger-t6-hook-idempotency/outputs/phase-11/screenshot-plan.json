@@ -1,0 +1,8 @@
+{
+  "visualEvidence": "NON_VISUAL",
+  "screenshotsRequired": false,
+  "primaryEvidence": [
+    "manual-smoke-log.md",
+    "link-checklist.md"
+  ]
+}
