@@ -93,6 +93,8 @@ jobs:
 
       - name: Run coverage-guard
         if: steps.ready.outputs.value == 'true'
+        # PR1/3: step レベルの continue-on-error も付与（job 全体を success 化）。PR3/3 で削除して hard gate 化。
+        continue-on-error: true
         env:
           CI: 'true'
         run: bash scripts/coverage-guard.sh
