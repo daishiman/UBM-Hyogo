@@ -2516,16 +2516,16 @@ node scripts/list-specs.js --topics
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L45 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L122 |
-| Cloudflare D1 データベース | L229 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L262 |
-| GitHub Actions CI/CD | L374 |
-| プレビューデプロイメント | L406 |
-| カスタムドメイン設定 | L423 |
-| 環境分離 | L436 |
-| ロールバック戦略 | L456 |
-| コスト概算（個人開発） | L477 |
-| モニタリング/アラート（UT-08 連携） | L489 |
-| 変更履歴 | L506 |
+| Cloudflare D1 データベース | L231 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L264 |
+| GitHub Actions CI/CD | L376 |
+| プレビューデプロイメント | L408 |
+| カスタムドメイン設定 | L425 |
+| 環境分離 | L438 |
+| ロールバック戦略 | L458 |
+| コスト概算（個人開発） | L479 |
+| モニタリング/アラート（UT-08 連携） | L491 |
+| 変更履歴 | L508 |
 
 ### references/deployment-core.md
 
@@ -2575,13 +2575,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets（CI/CD 用） | L78 |
-| wrangler.toml の環境別設定 | L103 |
-| ローカル開発での設定 | L135 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L174 |
-| セキュリティ原則 | L211 |
-| Cloudflare API Token の作成手順 | L222 |
-| 変更履歴 | L251 |
+| GitHub Secrets（CI/CD 用） | L87 |
+| wrangler.toml の環境別設定 | L112 |
+| ローカル開発での設定 | L144 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L183 |
+| セキュリティ原則 | L220 |
+| Cloudflare API Token の作成手順 | L231 |
+| 変更履歴 | L260 |
 
 ### references/deployment.md
 
@@ -2692,13 +2692,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L90 |
-| 環境別設定 | L164 |
-| Electron アプリでの環境変数 | L218 |
-| トラブルシューティング | L275 |
-| チーム開発での運用 | L336 |
-| 必須環境変数一覧 | L375 |
-| 関連ドキュメント | L446 |
+| セキュリティベストプラクティス | L94 |
+| 環境別設定 | L168 |
+| Electron アプリでの環境変数 | L222 |
+| トラブルシューティング | L279 |
+| チーム開発での運用 | L340 |
+| 必須環境変数一覧 | L379 |
+| 関連ドキュメント | L450 |
 
 ### references/error-handling-core.md
 
