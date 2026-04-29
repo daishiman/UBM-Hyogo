@@ -7,13 +7,13 @@
 
 ## 1. 目的
 
-`.claude/skills/<skill>/` 配下の **自動再生成可能な派生物** を Git 非管理にし、複数 worktree 並列開発時に派生物 merge conflict が発生しない状態を作る。派生物は post-commit / post-merge hook が再生成する。
+`.claude/skills/<skill>/` 配下の **自動再生成可能な派生物** を Git 非管理にし、複数 worktree 並列開発時に派生物 merge conflict が発生しない状態を作る。派生物は明示コマンド（例: `pnpm indexes:rebuild`）と CI gate で管理し、post-commit / post-merge hook は tracked canonical の再生成や `git add` を行わない。
 
 ## 2. 適用対象（gitignore 追記 glob）
 
 ```gitignore
 # === skill auto-generated ledger (A-1) ===
-# 派生物は post-commit / post-merge hook で再生成されるため git 非管理
+# 派生物は明示 rebuild / CI gate で管理するため git 非管理
 .claude/skills/*/indexes/keywords.json
 .claude/skills/*/indexes/index-meta.json
 .claude/skills/*/indexes/*.cache.json
@@ -68,11 +68,11 @@ git commit -m "chore(skill): untrack auto-generated ledger files (A-1)"
 
 ### Phase 4: hook 冪等化
 
-post-commit / post-merge hook に「存在 → スキップ」「未存在 → 再生成」ガードを入れる:
+post-commit / post-merge hook は stale 通知までに留め、tracked canonical への書き込み、派生物の自動再生成、`git add` 系コマンドを実行しない。派生物の作成・修復は明示 `pnpm indexes:rebuild` と CI gate の責務にする:
 
 ```bash
-[[ -f "$target" ]] && exit 0
-node .claude/skills/aiworkflow-requirements/scripts/generate-index.js
+pnpm indexes:rebuild
+find . -path '*/indexes/*.json' -exec sh -c 'jq -e . "$1" >/dev/null 2>&1 || rm -v "$1"' _ {} \;
 ```
 
 ## 5. 検証コマンド
@@ -103,7 +103,7 @@ git ls-files --unmerged | wc -l   # => 0
 
 - `.gitignore` に runbook §Step 1 の glob が追加されている
 - tracked 派生物が `git ls-files` から消えている（worktree 実体は残存）
-- hook ガードが「存在 → スキップ」「未存在 → 再生成」で冪等
+- hook が stale 通知以外の副作用を持たず、`git add` 系と自動再生成を行わない
 - 4 worktree smoke で派生物 conflict 0 件
 - 単一 worktree 再生成後 `git status --porcelain` が空
 - evidence: `outputs/phase-11/evidence/<run-id>/a1/`

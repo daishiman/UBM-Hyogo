@@ -44,6 +44,7 @@
 | [lessons-learned-skill-codex-validation-2026-04.md](lessons-learned-skill-codex-validation-2026-04.md) | skill authoring lessons (Codex SKILL.md frontmatter 検証契約 / 二段ガード / `*.fixture` 戦略 / 退避先 Markdown 統一 / mirror parity) | TASK-SKILL-CODEX-VALIDATION-001（2026-04-28） / L-CODEX-001〜005 |
 | [lessons-learned-lefthook-unification-2026-04.md](lessons-learned-lefthook-unification-2026-04.md) | devops / git hook lessons (lefthook 統一 / post-merge indexes 再生成廃止) | task-git-hooks-lefthook-and-post-merge: L-LH-001〜005（自動再生成→明示コマンド昇格 / lefthook 単一正本化 / supported hook schema 確認 / branch slug token overlap / 運用ガイド集約） |
 | [lessons-learned-lefthook-mwr-runbook-2026-04.md](lessons-learned-lefthook-mwr-runbook-2026-04.md) | devops / runbook lessons (30+ worktree への lefthook 一括再 install runbook 運用化) | task-lefthook-multi-worktree-reinstall-runbook: L-MWR-001〜006（pnpm store 並列禁止 / prunable・detached HEAD 除外 / Apple Silicon バイナリ rebuild / 旧 post-merge STALE 検出 / べき等性明文化 / ISO8601 ログ書式固定） |
+| [lessons-learned-04c-admin-backoffice-2026-04.md](lessons-learned-04c-admin-backoffice-2026-04.md) | UBM-Hyogo admin backoffice API lessons (04c) | 04c-parallel-admin-backoffice-api-endpoints: L-04C-001〜005（tag queue resolve 二段書き込み / nested resource 404 vs 409 / schema alias 状態整合 / Hono 9 router admin gate mount / zod query date 厳格化） |
 
 ## 利用順序
 - まずこの親仕様書で対象 child companion を選ぶ。

@@ -71,6 +71,37 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 `POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。
 
+### 管理バックオフィス API（apps/api / 04c）
+
+`04c-parallel-admin-backoffice-api-endpoints` で、admin UI と後続 workflow が利用する `/admin/*` バックオフィス API を追加した。04c 時点の認可は `SYNC_ADMIN_TOKEN` Bearer gate で、05a で Auth.js + `admin_users` active 判定へ差し替える。
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/admin/dashboard` | 会員・同意・削除済み・タグ queue・schema 状態の dashboard 集計 | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/members` | admin member list。`filter=active|hidden|deleted` を受け付ける | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | `SYNC_ADMIN_TOKEN` Bearer |
+| PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/members/:memberId/notes` | admin note を作成する | `SYNC_ADMIN_TOKEN` Bearer |
+| PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/members/:memberId/delete` | member を論理削除する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/tags/queue` | tag assignment queue を一覧する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `queued -> reviewing -> resolved` で解決する | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/schema/diff` | schema diff queue を一覧する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/schema/aliases` | question stable key alias を解決する | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | `/admin/meetings` | meeting sessions と attendance summary を一覧する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/meetings` | meeting session を作成する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409`、削除済み member は `422` | `SYNC_ADMIN_TOKEN` Bearer |
+| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する | `SYNC_ADMIN_TOKEN` Bearer |
+
+04c の構造的不変条件:
+
+- `PATCH /admin/members/:memberId/profile` は作らない。管理者は本人プロフィール本文を直接編集しない。
+- `PATCH /admin/members/:memberId/tags` は作らない。タグ確定は queue resolve 経由に限定する。
+- schema 変更は `/admin/schema/*` に集約する。
+- `admin_member_notes` は public/member view model へ混入させない。
+- mutation は `audit_log` append を通す。
+
 ### 公開ディレクトリ API（apps/api / 04a）
 
 `04a-parallel-public-directory-api-endpoints` で未認証の公開 API を追加した。`/public/*` には session middleware を適用しない。
