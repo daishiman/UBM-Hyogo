@@ -248,7 +248,9 @@
 
 | Variable 名 | 用途 | 必須 |
 | ----------- | ---- | ---- |
-| `CLOUDFLARE_PAGES_PROJECT` | Pages プロジェクト名 | Yes |
+| `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。UT-28 正本値は `ubm-hyogo-web`。staging は workflow 側で `-staging` suffix を連結して `ubm-hyogo-web-staging` とする | Yes |
+
+`CLOUDFLARE_PAGES_PROJECT` に `ubm-hyogo-web-staging` を直接入れてはいけない。dev deploy は `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging` を使うため、staging 名を入れると `ubm-hyogo-web-staging-staging` になる。
 
 ### セキュリティ要件
 

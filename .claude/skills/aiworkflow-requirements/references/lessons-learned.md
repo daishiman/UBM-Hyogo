@@ -46,6 +46,7 @@
 | [lessons-learned-lefthook-mwr-runbook-2026-04.md](lessons-learned-lefthook-mwr-runbook-2026-04.md) | devops / runbook lessons (30+ worktree への lefthook 一括再 install runbook 運用化) | task-lefthook-multi-worktree-reinstall-runbook: L-MWR-001〜006（pnpm store 並列禁止 / prunable・detached HEAD 除外 / Apple Silicon バイナリ rebuild / 旧 post-merge STALE 検出 / べき等性明文化 / ISO8601 ログ書式固定） |
 | [lessons-learned-04c-admin-backoffice-2026-04.md](lessons-learned-04c-admin-backoffice-2026-04.md) | UBM-Hyogo admin backoffice API lessons (04c) | 04c-parallel-admin-backoffice-api-endpoints: L-04C-001〜005（tag queue resolve 二段書き込み / nested resource 404 vs 409 / schema alias 状態整合 / Hono 9 router admin gate mount / zod query date 厳格化） |
 | [lessons-learned-05b-magic-link-auth-gate-2026-04.md](lessons-learned-05b-magic-link-auth-gate-2026-04.md) | UBM-Hyogo Magic Link / AuthGateState lessons (05b) | 05b-parallel-magic-link-provider-and-auth-gate-state: L-05B-001〜005（NON_VISUAL evidence 明示 / gate-state public endpoint rate limit / mail rollback / authGateState 文脈分離 / artifacts completed parity） |
+| [lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md](lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md) | UBM-Hyogo Cloudflare Pages projects creation lessons (UT-28) | ut-28-cloudflare-pages-projects-creation: L-UT28-001〜005（production_branch 逆配線 / GitHub Variable suffix derivation / Pages Git Integration OFF / compatibility_date 同期 / OpenNext output-form blocker handoff） |
 
 ## 利用順序
 - まずこの親仕様書で対象 child companion を選ぶ。
