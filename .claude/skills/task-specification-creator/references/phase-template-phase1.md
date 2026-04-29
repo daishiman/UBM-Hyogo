@@ -125,3 +125,25 @@ Phase 1 outputs（`requirements.md` または `artifacts.json`）に以下のチ
 ## 関連ガイド
 
 - [phase-template-core.md](phase-template-core.md) — Phase 1-3 共通骨格
+
+## Phase 1 必須入力: artifacts.json.metadata.visualEvidence
+
+Phase 1 の DoD として以下を必須化する。未設定の場合、Phase 11 縮約テンプレ / VISUAL UI task テンプレの
+発火判定が不可能になり、Phase 1 を差し戻す。
+
+| メタフィールド | 必須値 | 確定タイミング |
+| --- | --- | --- |
+| `metadata.taskType` | `docs-only` / `implementation` / `skill-improvement` 等 | Phase 1 完了時 |
+| `metadata.visualEvidence` | `VISUAL` / `NON_VISUAL` | Phase 1 完了時（Phase 5 で再判定） |
+| `metadata.scope` | タスクの責務領域 | Phase 1 完了時 |
+| `metadata.workflow_state` | `spec_created` / `in_progress` / `completed` | Phase 1 完了時（Phase 12 close-out で更新可否判定） |
+
+判定コマンド:
+
+```bash
+jq -e '.metadata | (.taskType and .visualEvidence and .scope and .workflow_state)' \
+  docs/30-workflows/<task>/artifacts.json \
+  || echo "Phase 1 メタ未確定: 差戻し"
+```
+
+詳細な発火マトリクスは SKILL.md §「タスクタイプ判定フロー（docs-only / NON_VISUAL）」を参照。
