@@ -2121,6 +2121,18 @@ node scripts/list-specs.js --topics
 | TASK-IMP-AGENTVIEW-IMPROVE-ROUTE-001: AgentView <-> SkillAnalysis round-trip（2026-03-20） | L180 |
 | 変更履歴 | L224 |
 
+### references/workflow-skill-md-codex-validation-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L16 |
+| Phase Outputs（current canonical set） | L29 |
+| Skill 反映先（current canonical set） | L52 |
+| Follow-up 未タスク | L81 |
+| Validation Chain | L89 |
+| 関連ドキュメント | L102 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2744,14 +2756,14 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L6 |
-| 使い方 | L14 |
-| Current Alias Overrides（個別互換行） | L21 |
-| Family Summary | L43 |
-| Detailed Register | L64 |
-| Section Extract Register (2026-03-17) | L245 |
-| 500-Line Split Register (2026-03-16) | L256 |
-| Fragment Migration Register (2026-04-28) | L278 |
+| 概要 | L7 |
+| 使い方 | L15 |
+| Current Alias Overrides（個別互換行） | L22 |
+| Family Summary | L44 |
+| Detailed Register | L65 |
+| Section Extract Register (2026-03-17) | L246 |
+| 500-Line Split Register (2026-03-16) | L257 |
+| Fragment Migration Register (2026-04-28) | L279 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -2782,6 +2794,15 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
 
+### references/lessons-learned-skill-codex-validation-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 教訓一覧 | L11 |
+| 派生未タスク | L43 |
+| 関連ドキュメント | L51 |
+
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
 | セクション | 行 |
@@ -2805,8 +2826,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L47 |
-| 関連ドキュメント | L52 |
+| 利用順序 | L48 |
+| 関連ドキュメント | L53 |
 
 ### references/llm-embedding.md
 
@@ -3893,7 +3914,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 残課題（未タスク） | L6 |
 | task-worktree-environment-isolation follow-up（2026-04-28） | L352 |
-| 続き | L363 |
+| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L363 |
+| 続き | L373 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

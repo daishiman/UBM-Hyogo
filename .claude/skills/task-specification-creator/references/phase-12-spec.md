@@ -107,6 +107,18 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 
 > 設計タスク全体が次 Wave で実装される場合は IMPL 派生フローを適用する。詳細: [phase-template-phase12.md](phase-template-phase12.md) §設計タスク特有 / [unassigned-task-workflow-integration.md](unassigned-task-workflow-integration.md)。
 
+#### CLOSED Issue を reopen せず仕様作成のみで履歴を完結させる場合（governance / 再構築タスク向け）
+
+`spec_created` で対象 Issue が既に CLOSED の場合、Issue ライフサイクルと仕様作成行為を **意図的に切り離す**選択肢が取れる。
+
+- **採用条件**: governance / 既存方針の追認 / docs-only 再構築のように、Issue が要求する作業は完了済 or 不要で、仕様書として履歴を残すこと自体が目的のとき。
+- **必須記録**:
+  - `index.md` の Decision Log に「Issue を reopen せず仕様作成のみで履歴を完結させる」根拠を 1 段落明記
+  - Issue 側へは PR / 仕様書リンクを comment で残す（双方向リンクは維持）
+  - `task-workflow-completed.md` / Step 1-A の同波更新は通常通り実施
+- **やってはいけないこと**: Issue 側を無言のまま放置する／reopen 判断を曖昧にする／spec を残さず close-out 扱いにする。
+- 適用例: UT-GOV-002（pull_request_target safety gate dry-run, 2026-04-29）。
+
 ### docs-only task に後からコード実装が入った場合の再判定ルール
 
 当初 docs-only / `spec_created` だった task に後から code 変更が入った場合:
