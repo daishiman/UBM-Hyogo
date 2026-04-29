@@ -977,3 +977,21 @@ packages/
 | 前提 | mise で Node 24 / pnpm 10.33.2 が解決済み（`mise exec --` 経由でないと `lefthook` バイナリが解決できないケースあり） |
 | 運用ガイド | `doc/00-getting-started-manual/lefthook-operations.md`（§複数 worktree 一括再インストール） |
 | 関連未タスク | `docs/30-workflows/unassigned-task/U-LFT-07-multi-worktree-reinstall-operations.md`（CI 化検討 / stale worktree 検出強化） |
+
+### 公開ディレクトリ API（04a）早見
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/04a-parallel-public-directory-api-endpoints/` |
+| 4 endpoint | `GET /public/stats`（`public, max-age=60`） / `GET /public/members`（`no-store`） / `GET /public/members/:memberId`（`no-store`） / `GET /public/form-preview`（`public, max-age=60`） |
+| 認証 | 未認証で叩ける（session middleware 非適用 / `createPublicRouter()` で `/public/healthz` 直後に mount） |
+| 公開条件 | `publishState='published' AND publicConsent='consented' AND is_deleted=0`（`_shared/public-filter.ts` の `buildPublicWhereParams`） |
+| 除外キー | `FORBIDDEN_KEYS = ['responseEmail','rulesConsent','adminNotes']`（runtime delete 必須） |
+| visibility 既定値 | `member`（privacy first。`schema_questions.visibility='public'` のみ公開） |
+| 6 層 leak 防御 | 1. SQL where / 2. repository EXISTS（`existsPublicMember` → `UBM-1404`） / 3. converter 内 `isPublicStatus` / 4. `keepPublicFields`（visibility filter） / 5. FORBIDDEN_KEYS runtime delete / 6. Zod `.strict()` parse fail close |
+| 主要ハンドラ | `apps/api/src/routes/public/{index,stats,members,member-profile,form-preview}.ts` |
+| 主要 helper | `apps/api/src/_shared/{visibility-filter,public-filter,pagination,search-query-parser}.ts` |
+| 主要 view-model | `apps/api/src/view-models/public/{public-stats-view,public-member-list-view,public-member-profile-view,form-preview-view}.ts` |
+| query 契約 | `q`（max 200 文字） / `zone` / `status` / `tag` / `sort` / `density`（`comfy/dense/list`） / `page` / `limit`（max 100, min 1） |
+| 関連 references | `references/api-endpoints.md`（公開ディレクトリ API 章） / `lessons-learned/lessons-learned-04a-public-api-security-layers.md`（L-04A-001〜007） / `references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md` |
+| Follow-up 未タスク | `docs/30-workflows/unassigned-task/task-04a-followup-001〜005-*.md`（miniflare contract / KV cache / shared parser / cache rules / N+1） |

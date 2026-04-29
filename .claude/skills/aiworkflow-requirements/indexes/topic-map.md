@@ -858,11 +858,11 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L90 |
-| UBM-Hyogo Admin Sync API（03a） | L111 |
-| Desktop IPC API サマリー | L133 |
-| 変更履歴 | L164 |
-| 関連ドキュメント | L179 |
+| エンドポイント命名規則 | L103 |
+| UBM-Hyogo Admin Sync API（03a） | L124 |
+| Desktop IPC API サマリー | L146 |
+| 変更履歴 | L177 |
+| 関連ドキュメント | L193 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2120,6 +2120,19 @@ node scripts/list-specs.js --topics
 | TASK-IMP-SKILLDETAIL-ACTION-BUTTONS-001: SkillDetailPanel 二次 handoff（2026-03-19） | L155 |
 | TASK-IMP-AGENTVIEW-IMPROVE-ROUTE-001: AgentView <-> SkillAnalysis round-trip（2026-03-20） | L180 |
 | 変更履歴 | L224 |
+
+### references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L16 |
+| Phase Outputs | L26 |
+| 主要実装物 | L43 |
+| Skill 反映先（current canonical set） | L61 |
+| 実装で確定した値 | L70 |
+| Follow-up 未タスク（formalize 済み） | L78 |
+| Validation Chain | L88 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -4168,10 +4181,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L11 |
-| 利用順序 | L40 |
-| 関連ドキュメント | L45 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L49 |
+| 仕様書インデックス | L12 |
+| 利用順序 | L41 |
+| 関連ドキュメント | L46 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L50 |
 
 ### references/testing-accessibility.md
 
