@@ -2559,8 +2559,9 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L185 |
 | モニタリングとアラート | L205 |
 | GitHub Secrets の要件 | L239 |
-| 関連ドキュメント | L263 |
-| 変更履歴 | L270 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L261 |
+| 関連ドキュメント | L281 |
+| 変更履歴 | L288 |
 
 ### references/deployment-history.md
 
@@ -2581,7 +2582,8 @@ node scripts/list-specs.js --topics
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L183 |
 | セキュリティ原則 | L220 |
 | Cloudflare API Token の作成手順 | L231 |
-| 変更履歴 | L260 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L260 |
+| 変更履歴 | L303 |
 
 ### references/deployment.md
 
@@ -2698,7 +2700,8 @@ node scripts/list-specs.js --topics
 | トラブルシューティング | L279 |
 | チーム開発での運用 | L340 |
 | 必須環境変数一覧 | L379 |
-| 関連ドキュメント | L450 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L448 |
+| 関連ドキュメント | L468 |
 
 ### references/error-handling-core.md
 
@@ -4304,9 +4307,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 最近の完了タスク（2026-04） | L7 |
-| 完了タスク（2026-03後半） | L127 |
-| 完了タスク（機能別アーカイブ） | L135 |
-| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L244 |
+| 完了タスク（2026-03後半） | L128 |
+| 完了タスク（機能別アーカイブ） | L136 |
+| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L245 |
 
 ### references/task-workflow-history.md
 

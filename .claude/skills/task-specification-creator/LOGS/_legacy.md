@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-29 - UT-01 Sheets→D1 sync design Phase 12 review hardening
+
+`docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/` を docs-only / NON_VISUAL / spec_created として再監査し、Phase 1〜12 の `artifacts.json` status を `spec_created` に同期した。Phase 12 same-wave sync の pending 表現を実ファイル更新済みに補正し、30種思考法レビューで検出した既存 `apps/api` 実装との差分（`sync_log` vs `sync_job_logs` / `sync_locks`、status / trigger enum、retry 3 vs 5、offset resume、shared 契約型なし）を U-7〜U-10 として未タスク化。Phase 10 MINOR 6 件（TECH-M-01〜04 / TECH-M-DRY-01 / MINOR-M-Q-01）を Phase 12 に全量転記し、Phase 12 compliance を PASS に戻した。commit / PR / push は未実行。
+
 ## 2026-04-29 - UT-GOV-004 required status checks context sync Phase 12 review hardening
 
 `docs/30-workflows/ut-gov-004-required-status-checks-context-sync/` の docs-only / NON_VISUAL workflow を Phase 12 仕様へ再同期した。implementation-guide を Part 1/Part 2 構成へ補正し、Phase 13 承認ゲート成果物を追加。`confirmed-contexts.yml` を UT-GOV-001 の唯一入力として固定し、Phase 7/11/12 の pending / schema / context 処遇 drift を解消した。commit / push / PR / branch protection apply は未実行。

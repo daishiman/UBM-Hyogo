@@ -2401,7 +2401,9 @@
       "arch-state-management-skill-creator.md",
       "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md",
+      "deployment-gha.md",
       "deployment-secrets-management.md",
+      "environment-variables.md",
       "interfaces-agent-sdk-executor-details.md",
       "interfaces-agent-sdk-skill-editor.md",
       "interfaces-agent-sdk-skill.md",
@@ -3686,6 +3688,7 @@
     ],
     "追加": [
       "claude-code-settings-hierarchy.md",
+      "environment-variables.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-phases.md",
@@ -4139,6 +4142,7 @@
       "deployment-core.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
+      "environment-variables.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -4157,6 +4161,7 @@
       "deployment-core.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
+      "environment-variables.md",
       "technology-devops-core.md",
       "technology-devops-details.md",
       "technology-devops-history.md",
@@ -4173,6 +4178,7 @@
       "deployment-details.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
+      "environment-variables.md",
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "環境保護ルール": [
@@ -4502,7 +4508,8 @@
     "Secrets": [
       "deployment-details.md",
       "deployment-gha.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "environment-variables.md"
     ],
     "の要件": [
       "deployment-details.md",
@@ -4538,6 +4545,14 @@
     "Backend": [
       "deployment-gha.md"
     ],
+    "Variables": [
+      "deployment-gha.md",
+      "deployment-secrets-management.md",
+      "environment-variables.md"
+    ],
+    "配置決定": [
+      "deployment-gha.md"
+    ],
     "シークレット・環境変数管理": [
       "deployment-secrets-management.md"
     ],
@@ -4548,7 +4563,8 @@
       "deployment-secrets-management.md"
     ],
     "環境": [
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "environment-variables.md"
     ],
     "staging": [
       "deployment-secrets-management.md",
@@ -4636,6 +4652,9 @@
       "r2-storage-decision-guide.md"
     ],
     "の作成手順": [
+      "deployment-secrets-management.md"
+    ],
+    "同期運用": [
       "deployment-secrets-management.md"
     ],
     "開発ガイドライン": [
