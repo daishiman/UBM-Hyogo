@@ -136,6 +136,7 @@
       "ipc-4-layer-pattern.md",
       "ipc-type-resolution-guide.md",
       "legacy-ordinal-family-register.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
@@ -432,6 +433,7 @@
       "interfaces-system-prompt.md",
       "ipc-contract-checklist.md",
       "ipc-type-resolution-guide.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned.md",
       "llm-embedding.md",
       "llm-ipc-types.md",
@@ -513,6 +515,7 @@
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-ui-ux-visual-baseline-drift.md",
       "workflow-workspace-parent-reference-sweep-guard.md",
       "workflow-workspace-preview-search-resilience-guard.md"
@@ -990,6 +993,7 @@
       "security-skill-execution.md",
       "security-skill-ipc-core.md",
       "security-skill-ipc.md",
+      "task-workflow-backlog.md",
       "task-workflow-completed-abort-contract-auth-session-chat.md",
       "task-workflow-completed-agent-view-line-budget.md",
       "task-workflow-completed-ipc-graceful-degradation-lifecycle.md",
@@ -1875,6 +1879,7 @@
       "interfaces-agent-sdk-skill-reference.md",
       "interfaces-agent-sdk-skill.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "security-electron-ipc-examples.md",
       "security-skill-execution.md",
       "security-skill-ipc-core.md",
@@ -1890,6 +1895,7 @@
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -2028,6 +2034,7 @@
       "security-skill-execution.md",
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-progressive-disclosure.md",
+      "task-workflow-backlog.md",
       "task-workflow-completed-skill-lifecycle-agent-view-line-budget.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-design.md",
@@ -2091,6 +2098,8 @@
     "Validation": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
       "interfaces-skill-verify-contract.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -2336,7 +2345,8 @@
       "task-workflow-completed-skill-lifecycle-ui.md",
       "task-workflow-completed-skill-lifecycle.md",
       "ui-ux-feature-components-skill-analysis.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "creator": [
       "arch-state-management-skill-creator.md",
@@ -2517,6 +2527,7 @@
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -3352,6 +3363,7 @@
       "task-workflow-phases.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -3418,7 +3430,8 @@
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-gitignore-policy.md",
       "skill-ledger-progressive-disclosure.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "品質基準": [
       "claude-code-agents-workflow.md",
@@ -3726,6 +3739,7 @@
       "logging-migration-guide.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -4032,6 +4046,7 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -4852,6 +4867,7 @@
       "task-workflow-backlog.md",
       "ui-ux-search-panel-details.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -4933,6 +4949,7 @@
     ],
     "Chain": [
       "interfaces-agent-sdk-skill-editor.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -5789,12 +5806,14 @@
     "Lessons": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
     "Learned": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -6030,6 +6049,7 @@
     ],
     "教訓一覧": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
     "申し送り": [
@@ -6047,6 +6067,15 @@
       "ui-ux-components.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
+    "Codex": [
+      "lessons-learned-skill-codex-validation-2026-04.md"
+    ],
+    "派生未タスク": [
+      "lessons-learned-skill-codex-validation-2026-04.md",
+      "logs-archive-2026-02-completed-move-preload-sync.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
     "indexes": [
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
@@ -6057,6 +6086,7 @@
       "task-workflow-backlog.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -6457,7 +6487,8 @@
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
     ],
     "fix": [
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
+      "logs-archive-2026-01-skill-selector-todo-scan-template.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "backend": [
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
@@ -7011,11 +7042,6 @@
       "logs-archive-2026-02-completed-move-preload-sync.md",
       "logs-archive-2026-02-unassigned-placement-import-interface.md"
     ],
-    "派生未タスク": [
-      "logs-archive-2026-02-completed-move-preload-sync.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
     "件を登録": [
       "logs-archive-2026-02-completed-move-preload-sync.md"
     ],
@@ -7066,6 +7092,7 @@
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "logs-archive-2026-02-skill-validation-atoms-audit.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
+      "task-workflow-backlog.md",
       "task-workflow-completed-skill-create-ui-integration.md"
     ],
     "実装パターンの体系化・スキル最適化": [
@@ -9593,6 +9620,7 @@
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -9866,6 +9894,9 @@
     "isolation": [
       "task-workflow-backlog.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "CODEX": [
+      "task-workflow-backlog.md"
     ],
     "records": [
       "task-workflow-completed-abort-contract-auth-session-chat.md",
@@ -11279,7 +11310,8 @@
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "validation": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "chain": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
@@ -11391,6 +11423,7 @@
     ],
     "Follow": [
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -11576,6 +11609,7 @@
     ],
     "Artifact": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -11584,6 +11618,7 @@
     ],
     "Inventory": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -11648,35 +11683,42 @@
     "二次": [
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
-    "bypass": [
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
-    ],
-    "verification": [
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
+    "codex": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "Acceptance": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Criteria": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "Outputs": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "反映先": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "bypass": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
+    ],
+    "verification": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
     "参照される実装ファイル": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",

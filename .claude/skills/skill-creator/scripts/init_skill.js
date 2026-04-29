@@ -19,6 +19,7 @@
 import { mkdirSync, writeFileSync, existsSync } from "fs";
 import { join } from "path";
 import { EXIT_CODES } from "./utils.js";
+import { validateSkillMdContent } from "./utils/validate-skill-md.js";
 
 const DEFAULT_RESOURCES = ["agents", "scripts", "references", "assets"];
 const ALLOWED_RESOURCES = new Set(DEFAULT_RESOURCES);
@@ -523,12 +524,15 @@ async function main() {
       mkdirSync(join(skillDir, dir), { recursive: true });
     }
 
-    // SKILL.md 作成
-    writeFileSync(
-      join(skillDir, "SKILL.md"),
-      createSkillTemplate(skillName, resources, includeLogUsage),
-      "utf-8",
-    );
+    // SKILL.md 作成（書き込み前に Codex 検証ルール R-01〜R-05 を強制）
+    const skillMdContent = createSkillTemplate(skillName, resources, includeLogUsage);
+    const validation = validateSkillMdContent(skillMdContent);
+    if (!validation.ok) {
+      throw new Error(
+        `[skill-creator] init_skill.js: SKILL.md 検証失敗:\n  - ${validation.errors.join("\n  - ")}`,
+      );
+    }
+    writeFileSync(join(skillDir, "SKILL.md"), skillMdContent, "utf-8");
 
     // package.json 作成（自己完結型スキルのため）
     writeFileSync(

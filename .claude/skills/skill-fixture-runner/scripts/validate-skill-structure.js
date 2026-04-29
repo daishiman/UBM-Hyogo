@@ -35,12 +35,16 @@ function main() {
     process.exit(EXIT_CODES.FILE_NOT_FOUND);
   }
 
-  // Check SKILL.md exists
+  // Check SKILL.md exists (or SKILL.md.fixture as a fixture-mode fallback)
   const skillMdPath = path.join(resolvedTarget, 'SKILL.md');
-  if (!fs.existsSync(skillMdPath)) {
-    errors.push('SKILL.md not found in target directory');
-  } else {
+  const skillMdFixturePath = path.join(resolvedTarget, 'SKILL.md.fixture');
+  if (fs.existsSync(skillMdPath)) {
     files.push('SKILL.md');
+  } else if (fs.existsSync(skillMdFixturePath)) {
+    // fixture mode: treat SKILL.md.fixture as the source of truth
+    files.push('SKILL.md');
+  } else {
+    errors.push('SKILL.md not found in target directory');
   }
 
   // Check for forbidden files
