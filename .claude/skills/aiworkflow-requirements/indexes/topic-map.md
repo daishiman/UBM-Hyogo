@@ -2264,6 +2264,18 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
 
+### references/workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Canonical Set（仕様・成果物） | L14 |
+| Current Canonical Set（実装ファイル） | L42 |
+| Skill 同期成果物 | L52 |
+| Follow-up 未タスク | L64 |
+| Validation Chain | L73 |
+| 不変条件 touched | L86 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -2526,6 +2538,24 @@ node scripts/list-specs.js --topics
 | ブランチ保護ルール（推奨設定） | L83 |
 | 変更履歴 | L171 |
 
+### references/deployment-cloudflare-opennext-workers.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 適用範囲 | L7 |
+| 2. 形式判定マトリクス | L13 |
+| 3. wrangler.toml 必須項目 | L24 |
+| 4. .assetsignore の役割と運用 | L87 |
+| 5. ビルド・デプロイ手順 | L107 |
+| 6. Worker bundle size ガード | L130 |
+| 7. SPA fallback / 404 ハンドリング | L148 |
+| 8. preview / staging / production の env 分離 | L157 |
+| 9. 旧 Pages プロジェクトの並走方針 | L169 |
+| 10. CLI 経路の徹底 | L181 |
+| 11. R2 incremental cache（任意採用） | L190 |
+| 12. 関連リソース | L198 |
+| 変更履歴 | L210 |
+
 ### references/deployment-cloudflare-ut06-gate.md
 
 | セクション | 行 |
@@ -2541,18 +2571,17 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L45 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L122 |
-| Cloudflare D1 データベース | L231 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L264 |
-| GitHub Actions CI/CD | L376 |
-| プレビューデプロイメント | L408 |
-| カスタムドメイン設定 | L425 |
-| 環境分離 | L438 |
-| ロールバック戦略 | L458 |
-| コスト概算（個人開発） | L479 |
-| モニタリング/アラート（UT-08 連携） | L491 |
-| 変更履歴 | L508 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L53 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L130 |
+| Cloudflare D1 データベース | L239 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L272 |
+| GitHub Actions CI/CD | L384 |
+| プレビューデプロイメント | L416 |
+| カスタムドメイン設定 | L433 |
+| 環境分離 | L446 |
+| ロールバック戦略 | L456 |
+| モニタリング/アラート（UT-08 連携） | L477 |
+| 変更履歴 | L494 |
 
 ### references/deployment-core.md
 
@@ -2903,6 +2932,17 @@ node scripts/list-specs.js --topics
 | Lessons | L9 |
 | Follow-up Boundaries | L19 |
 
+### references/lessons-learned-06a-public-web-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-06A-001: App Router の route group `(public)` と既存 `app/page.tsx` のルート衝突 | L9 |
+| L-06A-002: Next.js 16 で `searchParams` / `params` が Promise 化された | L29 |
+| L-06A-003: density 用語の表記揺れと URL 値の正本化 | L51 |
+| L-06A-004: zod `catch` だけでは string 加工フォールバックに不足 | L73 |
+| L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
+| 横断教訓 | L116 |
+
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
 | セクション | 行 |
@@ -2995,6 +3035,16 @@ node scripts/list-specs.js --topics
 | 関連リレー先 | L81 |
 | 不変条件 touched | L90 |
 
+### references/lessons-learned-ut09-direction-reconciliation-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 6 件（L-UT09-001〜006） | L12 |
+| 運用ルール 2 件（reconciliation 系の固定運用） | L55 |
+| 同期完了サマリー（same-wave sync） | L62 |
+| 関連 unassigned-task（B-01〜B-10） | L74 |
+
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
 | セクション | 行 |
@@ -3008,8 +3058,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L51 |
-| 関連ドキュメント | L56 |
+| 利用順序 | L53 |
+| 関連ドキュメント | L58 |
 
 ### references/llm-embedding.md
 
@@ -4076,13 +4126,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L34 |
-| フェーズ構造（概要） | L43 |
-| 品質ゲート（概要） | L74 |
-| 出力テンプレート | L85 |
-| 実行時のコマンド・エージェント・スキル | L108 |
-| 昇格パターン集 | L132 |
-| Current Active / Spec Created Tasks | L134 |
+| ドキュメント構成 | L46 |
+| フェーズ構造（概要） | L55 |
+| 品質ゲート（概要） | L86 |
+| 出力テンプレート | L97 |
+| 実行時のコマンド・エージェント・スキル | L120 |
+| 昇格パターン集 | L144 |
+| Current Active / Spec Created Tasks | L146 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -4095,9 +4145,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| task-worktree-environment-isolation follow-up（2026-04-28） | L352 |
-| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L363 |
-| 続き | L373 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L355 |
+| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L366 |
+| 続き | L376 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 
