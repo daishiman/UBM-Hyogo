@@ -852,9 +852,9 @@ packages/
 | モニタリング・チェックリスト | `references/deployment-details.md` |
 | ブランチ戦略（feature→dev→main） | `references/deployment-branch-strategy.md` |
 | シークレット管理（CF/GitHub） | `references/deployment-secrets-management.md` |
-| 本番 Secrets 投入（`op read \| bash scripts/cf.sh secret put --config apps/api/wrangler.toml --env <env>` stdin 経由 / `wrangler` 直叩き禁止 / staging-first → production / `--env` 必須） | `references/deployment-cloudflare.md`（§Secrets 本番投入手順）, `references/deployment-secrets-management.md`（§canonical/legacy alias / op stdin パイプ） |
-| canonical secret 名 `GOOGLE_SERVICE_ACCOUNT_JSON`（legacy alias `GOOGLE_SHEETS_SA_JSON` は互換維持・`resolveServiceAccountJson(env)` で canonical → legacy 優先順位解決） | `references/environment-variables.md`（§`GOOGLE_SERVICE_ACCOUNT_JSON` canonical）, `apps/api/src/jobs/sync-sheets-to-d1.ts` |
-| `.dev.vars` の運用（実値禁止・`op://Vault/Item/Field` 参照のみ） | `references/environment-variables.md`（§`.dev.vars` op 参照） |
+| UT-27 GitHub Secrets / Variables 配置決定マトリクス | `references/deployment-gha.md`（UT-27 章）|
+| UT-27 1Password 正本→GitHub 派生コピー同期パターン（`op read` + 一時環境変数 + `unset` + Last-Updated メモ） | `references/deployment-secrets-management.md`（UT-27 章）|
+| UT-27 `if: secrets.X != ''` 無音失敗の env 受け shell 判定回避 / 同名併存禁止 / API Token 最小スコープ + 命名規則 / rollback 3 経路 | `references/deployment-gha.md` + `references/deployment-secrets-management.md` + `lessons-learned/lessons-learned-ut-27-github-secrets-variables-2026-04.md`（L-UT27-001〜006）|
 | インテグレーションパッケージ設計 | `references/arch-integration-packages.md` |
 
 ### 無料枠 / コストガードレール参照時（05a-parallel-observability-and-cost-guardrails）
@@ -951,25 +951,12 @@ packages/
 | API master | `references/api-endpoints.md`（管理バックオフィス API） |
 | 実装 root | `apps/api/src/routes/admin/` |
 | dashboard repository | `apps/api/src/repository/dashboard.ts` |
-| 認可境界 | 05a で人間向け `/admin/*` は Auth.js 共有 HS256 JWT + `admin_users.active` 判定の `requireAdmin` へ差し替え済み。同期系 `/admin/sync*` のみ `SYNC_ADMIN_TOKEN` Bearer |
+| 認可境界 | 04c は `SYNC_ADMIN_TOKEN` Bearer gate。05a で Auth.js + `admin_users` active 判定へ差し替える |
 | 不在 endpoint | `PATCH /admin/members/:memberId/profile` / `PATCH /admin/members/:memberId/tags` は作らない |
 | tag 書き込み境界 | `POST /admin/tags/queue/:queueId/resolve` のみ |
 | schema 書き込み境界 | `/admin/schema/*` のみに集約 |
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
-
-### Auth.js Google OAuth / Admin Gate 早見（05a / 2026-04-29）
-
-| 観点 | 値 / 参照先 |
-| --- | --- |
-| canonical task root | `docs/30-workflows/05a-parallel-authjs-google-oauth-provider-and-admin-gate/` |
-| Auth.js config | `apps/web/src/lib/auth.ts` |
-| session resolve API | `GET /auth/session-resolve?email=<email>` / `X-Internal-Auth: INTERNAL_AUTH_SECRET` |
-| shared JWT | `packages/shared/src/auth.ts` (`encodeAuthSessionJwt` / `decodeAuthSessionJwt` / `verifySessionJwt`) |
-| web gate | `apps/web/middleware.ts` (`/admin/:path*` -> `/login?gate=admin_required`) |
-| API gate | `apps/api/src/middleware/require-admin.ts` |
-| gateReason | `unregistered` / `deleted` / `rules_declined` |
-| smoke evidence | `outputs/phase-11/`。実 OAuth screenshot は staging 09a へ委譲、JWT/admin route 自動テストで代替 |
 
 ### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
 
@@ -1100,7 +1087,7 @@ packages/
 | 再判定トリガ① OIDC | `id-token: write` を伴う OIDC token の新規採用、`aws-actions/configure-aws-credentials` 等の federation 設定追加（Cloudflare Secret / IAM 境界に影響するため `references/deployment-secrets-management.md` / `deployment-cloudflare.md` を更新） |
 | 再判定トリガ② workflow_run | `workflow_run` 経由で別ワークフローへデプロイ権限を委譲する場合（権限境界が変わるため `deployment-gha.md` / `deployment-core.md` を更新） |
 | 再判定トリガ③ メタデータ参照 | PR triage / governance gate が D1 / KV / R2 メタデータ（member_responses / sync_audit / SESSION_KV 等）を参照する場合（データ境界に影響するため `database-admin-repository-boundary.md` 等を更新） |
-| 再判定トリガ④ Secret 追加 | governance gate が新しい Cloudflare Secret / GitHub Secret を要求する場合（`deployment-secrets-management.md` の Secret inventory に追記） |
+| 再判定トリガ④ Secret 追加 | governance gate が新しい Cloudflare Secret / GitHub Secret を要求する場合（`deployment-secrets-management.md` の Secret inventory に追記）。配置層判定（Secret/Variable + repository-scoped/environment-scoped）は UT-27 配置決定マトリクスのフロー（マスク要否 → ログ可視性要否 → 環境別ローテーション要否）を踏襲する |
 | 再判定トリガ⑤ auth / RBAC | branch protection が CODEOWNERS 経由で auth / RBAC を実装に拡張する場合（`references/02-auth.md` 系を更新） |
 | Step 2 = N/A 時の最低限の同期 | LOGS.md ヘッドラインへの 1 エントリ追加と、SKILL.md 変更履歴への version 追加のみ（references/ 配下は触らない） |
 | 一次正本（重複時） | governance / branch protection の運用ルール本文は `CLAUDE.md` のブランチ戦略節を一次正本とし、aiworkflow-requirements は補強として扱う（下表参照） |
