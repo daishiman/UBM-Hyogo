@@ -838,6 +838,9 @@ packages/
 | モニタリング・チェックリスト | `references/deployment-details.md` |
 | ブランチ戦略（feature→dev→main） | `references/deployment-branch-strategy.md` |
 | シークレット管理（CF/GitHub） | `references/deployment-secrets-management.md` |
+| UT-27 GitHub Secrets / Variables 配置決定マトリクス | `references/deployment-gha.md`（UT-27 章）|
+| UT-27 1Password 正本→GitHub 派生コピー同期パターン（`op read` + 一時環境変数 + `unset` + Last-Updated メモ） | `references/deployment-secrets-management.md`（UT-27 章）|
+| UT-27 `if: secrets.X != ''` 無音失敗の env 受け shell 判定回避 / 同名併存禁止 / API Token 最小スコープ + 命名規則 / rollback 3 経路 | `references/deployment-gha.md` + `references/deployment-secrets-management.md` + `lessons-learned/lessons-learned-ut-27-github-secrets-variables-2026-04.md`（L-UT27-001〜006）|
 | インテグレーションパッケージ設計 | `references/arch-integration-packages.md` |
 
 ### 無料枠 / コストガードレール参照時（05a-parallel-observability-and-cost-guardrails）
@@ -1053,7 +1056,7 @@ packages/
 | 再判定トリガ① OIDC | `id-token: write` を伴う OIDC token の新規採用、`aws-actions/configure-aws-credentials` 等の federation 設定追加（Cloudflare Secret / IAM 境界に影響するため `references/deployment-secrets-management.md` / `deployment-cloudflare.md` を更新） |
 | 再判定トリガ② workflow_run | `workflow_run` 経由で別ワークフローへデプロイ権限を委譲する場合（権限境界が変わるため `deployment-gha.md` / `deployment-core.md` を更新） |
 | 再判定トリガ③ メタデータ参照 | PR triage / governance gate が D1 / KV / R2 メタデータ（member_responses / sync_audit / SESSION_KV 等）を参照する場合（データ境界に影響するため `database-admin-repository-boundary.md` 等を更新） |
-| 再判定トリガ④ Secret 追加 | governance gate が新しい Cloudflare Secret / GitHub Secret を要求する場合（`deployment-secrets-management.md` の Secret inventory に追記） |
+| 再判定トリガ④ Secret 追加 | governance gate が新しい Cloudflare Secret / GitHub Secret を要求する場合（`deployment-secrets-management.md` の Secret inventory に追記）。配置層判定（Secret/Variable + repository-scoped/environment-scoped）は UT-27 配置決定マトリクスのフロー（マスク要否 → ログ可視性要否 → 環境別ローテーション要否）を踏襲する |
 | 再判定トリガ⑤ auth / RBAC | branch protection が CODEOWNERS 経由で auth / RBAC を実装に拡張する場合（`references/02-auth.md` 系を更新） |
 | Step 2 = N/A 時の最低限の同期 | LOGS.md ヘッドラインへの 1 エントリ追加と、SKILL.md 変更履歴への version 追加のみ（references/ 配下は触らない） |
 | 一次正本（重複時） | governance / branch protection の運用ルール本文は `CLAUDE.md` のブランチ戦略節を一次正本とし、aiworkflow-requirements は補強として扱う（下表参照） |

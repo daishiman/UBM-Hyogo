@@ -258,6 +258,24 @@
 | 注入方法 | 環境変数として安全に注入 |
 | マスク処理 | ログに出力されないようマスク処理 |
 
+## UT-27: GitHub Secrets / Variables 配置決定（2026-04-29）
+
+UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deployment/`) では、CD 有効化に必要な GitHub Actions Secrets / Variables / Environments を次の配置に固定する。実 `gh secret set` / `gh variable set` / `gh api .../environments` は Phase 13 の user 明示承認後だけ実行する。
+
+| 名前 | 種別 | 配置 | 理由 |
+| --- | --- | --- | --- |
+| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | 環境別 token ローテーションと権限分離を優先 |
+| `CLOUDFLARE_ACCOUNT_ID` | Secret | repository-scoped | 同一 account 前提で重複管理を避ける |
+| `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
+| `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | 非機密値で、suffix 連結結果をログで追えるよう Secret 化しない |
+
+運用ゲート:
+
+- `staging` / `production` Environments は `gh api repos/{owner}/{repo}/environments/{name} -X PUT` で作成する。
+- dev push smoke は `backend-ci.yml` / `web-cd.yml` の `deploy-staging` green と Discord 通知または未設定耐性を確認する。
+- `if: secrets.X != ''` に依存せず、workflow 側では env に受けて shell で空文字判定する設計を優先する。
+- API Token は Pages Edit / Workers Scripts Edit / D1 Edit / Account Settings Read の最小スコープに限定し、命名規則 `ubm-hyogo-cd-{env}-{yyyymmdd}`（例: `ubm-hyogo-cd-staging-20260429`）でローテーション履歴を Token 名から追えるようにする。
+
 ---
 
 ## 関連ドキュメント
@@ -271,4 +289,5 @@
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-04-29 | 2.1.0 | UT-27: GitHub Secrets / Variables 配置決定マトリクスと Phase 13 user 承認ゲートを追記 |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron E2E 削除、Cloudflare Pages デプロイへ移行 |

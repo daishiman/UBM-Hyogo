@@ -2546,8 +2546,9 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L185 |
 | モニタリングとアラート | L205 |
 | GitHub Secrets の要件 | L239 |
-| 関連ドキュメント | L263 |
-| 変更履歴 | L270 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L261 |
+| 関連ドキュメント | L281 |
+| 変更履歴 | L288 |
 
 ### references/deployment-history.md
 
@@ -2568,7 +2569,8 @@ node scripts/list-specs.js --topics
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L174 |
 | セキュリティ原則 | L211 |
 | Cloudflare API Token の作成手順 | L222 |
-| 変更履歴 | L251 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L251 |
+| 変更履歴 | L294 |
 
 ### references/deployment.md
 
@@ -2685,7 +2687,8 @@ node scripts/list-specs.js --topics
 | トラブルシューティング | L263 |
 | チーム開発での運用 | L324 |
 | 必須環境変数一覧 | L363 |
-| 関連ドキュメント | L433 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L431 |
+| 関連ドキュメント | L451 |
 
 ### references/error-handling-core.md
 
