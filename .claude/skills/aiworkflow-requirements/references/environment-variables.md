@@ -445,6 +445,24 @@ GitHub ActionsのCI/CDパイプラインで使用する環境変数。
 | token              | `${{ secrets.CODECOV_TOKEN }}`      |
 | fail_ci_if_error   | true                                |
 
+## CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29）
+
+CD 有効化に必要な GitHub Actions 値は、1Password Environments を正本にして GitHub へ手動同期する。実値は本仕様書、runbook、ログに記録しない。
+
+| 変数名 | 種別 | 設定方法 | 必須 | 用途 |
+| --- | --- | --- | --- | --- |
+| `CLOUDFLARE_API_TOKEN` | Secret | GitHub environment secrets (`staging` / `production`) | Yes | Pages / Workers / D1 deploy |
+| `CLOUDFLARE_ACCOUNT_ID` | Secret | GitHub repository secret | Yes | Cloudflare account 識別 |
+| `DISCORD_WEBHOOK_URL` | Secret | GitHub repository secret | No | CD 結果通知 |
+| `CLOUDFLARE_PAGES_PROJECT` | Variable | GitHub repository variable | Yes | Pages project 名。suffix 連結の可視性確保のため Secret にしない |
+
+運用ルール:
+
+- 正本は 1Password、GitHub は派生コピー。
+- 同期時は `op read` → 一時環境変数 → `gh secret set --body "$VAR"` → `unset` の順で扱う。
+- 1Password Item Notes には Last-Updated 日時だけを残し、値や値ハッシュは残さない。
+- 実 secret 配置と dev push smoke は user の明示承認後だけ実行する。
+
 ---
 
 ## 関連ドキュメント
