@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-28 - TASK-SKILL-CODEX-VALIDATION-001 completed
+
+`docs/30-workflows/skill-md-codex-validation-fix/` を Phase 1-12 完了。Codex CLI 0.125.0 の SKILL.md 検証ルール R-01〜R-06 恒久対策として `.claude/skills/skill-creator/scripts/utils/validate-skill-md.js` / `yaml-escape.js` を新設し、`init_skill.js` / `generate_skill_md.js` で生成側 + 書き込み側の二段ガードを構築。並列 3 Lane（A: 既存 SKILL.md 是正 / B: テストフィクスチャ拡張子 .fixture 化 / C: skill-creator 改修）の単一 PR 戦略を Phase 5 で完遂。`codex_validation.test.js` 24/24 PASS、AC-1〜AC-8 全 PASS。Phase 12 unassigned-task-detection.md に派生 3 未タスク（task-specification-creator 500行制限 / valid-skill fixture リンク / spec-update-workflow 3段階分類）を formalize。
+
 ## 2026-04-28 - task-claude-code-permissions-project-local-first-comparison-001 Phase 12 review hardening
 
 `docs/30-workflows/task-claude-code-permissions-project-local-first-comparison-001/` を docs-only / NON_VISUAL / spec_created として再監査し、root / outputs `artifacts.json` parity、Phase 4〜8 の必須見出し、Phase 12 の正本仕様同期記録、apply タスクの旧案 A / 3 層統一 / dangerous alias 方針を補正した。比較設計タスクでは「3案比較の粒度」と「採用要素の粒度」を分離し、公式 docs URL、rollback 不存在ケース、apply 前確認項目を成果物に残す必要があることを確認した。
