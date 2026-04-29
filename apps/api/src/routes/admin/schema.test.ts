@@ -2,10 +2,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminSchemaRoute } from "./schema";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "t",
+  AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
 describe("admin schema route", () => {
@@ -31,7 +33,7 @@ describe("admin schema route", () => {
     const app = createAdminSchemaRoute();
     const res = await app.request(
       "/schema/diff",
-      { headers: { Authorization: "Bearer t" } },
+      { headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(res.status).toBe(200);
@@ -45,7 +47,7 @@ describe("admin schema route", () => {
       "/schema/aliases",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({}),
       },
       makeEnv(env),
@@ -59,7 +61,7 @@ describe("admin schema route", () => {
       "/schema/aliases",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ questionId: "q1", stableKey: "full_name" }),
       },
       makeEnv(env),

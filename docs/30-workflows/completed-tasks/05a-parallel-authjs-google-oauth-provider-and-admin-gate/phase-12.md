@@ -64,7 +64,7 @@ implementation-guide / system-spec-update-summary / documentation-changelog / un
 
 | 項目 | 詳細 |
 | --- | --- |
-| task root | doc/02-application-implementation/05a-parallel-authjs-google-oauth-provider-and-admin-gate |
+| task root | docs/30-workflows/05a-parallel-authjs-google-oauth-provider-and-admin-gate |
 | key outputs | outputs/phase-02/architecture.md, api-contract.md, admin-gate-flow.md, outputs/phase-05/runbook.md, outputs/phase-07/ac-matrix.md |
 | upstream | 02a (findIdentityByEmail), 02c (isAdminMember), 04b (`/me`), 04c (`/admin/*`) |
 | downstream | 06a/b/c (画面), 08a (contract test) |
@@ -102,7 +102,7 @@ implementation-guide / system-spec-update-summary / documentation-changelog / un
 | 2026-04-26 | 05a task spec 作成（15 ファイル） | apps/web auth, apps/api auth, member_identities, admin_users |
 | 2026-04-26 | session JWT 採用方針を確定（D1 sessions テーブル不採用） | apps/api, infra 04 |
 | 2026-04-26 | admin gate 二段防御方式を確定（middleware + requireAdmin） | 06c, 08a |
-| 2026-04-26 | INTERNAL_TOKEN を新規 secret として追加 | infra 04 secrets リスト |
+| 2026-04-26 | INTERNAL_AUTH_SECRET を新規 secret として追加 | infra 04 secrets リスト |
 | 2026-04-26 | `/auth/session-resolve` を 05a/05b で共有 | 05b との ADR 締結 |
 
 ### ステップ 4: unassigned-task-detection.md
@@ -113,7 +113,7 @@ implementation-guide / system-spec-update-summary / documentation-changelog / un
 | admin 剥奪の即時反映（D1 lookup を毎リクエスト） | 別タスク（オプション最適化） | MVP は次回ログインで反映（B-01）、必要時に検討 |
 | session refresh / silent renewal | 別タスク（拡張） | MVP は 24h 期限で十分、refresh 機構は不要 |
 | OAuth audit log | 07c | 07c の audit-log workflow に gate 拒否を渡す hook |
-| INTERNAL_TOKEN ローテーション | infra 04 | secrets ローテーション運用は infra 側 |
+| INTERNAL_AUTH_SECRET ローテーション | infra 04 | secrets ローテーション運用は infra 側 |
 | Magic Link 補助導線 | 05b | 並列タスク、本タスク完了と独立に進む |
 
 ### ステップ 5: skill-feedback-report.md

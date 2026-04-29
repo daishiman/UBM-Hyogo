@@ -1,6 +1,6 @@
 // 04c: GET /admin/dashboard
 import { Hono } from "hono";
-import { adminGate } from "../../middleware/admin-gate";
+import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import {
   getTotals,
@@ -12,7 +12,7 @@ import { nowIso, normalizeIso, type AdminRouteEnv } from "./_shared";
 
 export const createAdminDashboardRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv }>();
-  app.use("*", adminGate);
+  app.use("*", requireAdmin);
 
   app.get("/dashboard", async (c) => {
     const dbCtx = ctx({ DB: c.env.DB });

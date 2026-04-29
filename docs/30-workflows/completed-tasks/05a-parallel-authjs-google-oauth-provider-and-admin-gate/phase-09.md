@@ -14,7 +14,7 @@
 
 ## 目的
 
-型安全 / lint / test / a11y / 無料枠 / secret hygiene を一括チェックし、Phase 10 GO/NO-GO 判定の根拠を作る。本タスクの secrets は AUTH_SECRET / GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / INTERNAL_TOKEN の 4 種が対象。
+型安全 / lint / test / a11y / 無料枠 / secret hygiene を一括チェックし、Phase 10 GO/NO-GO 判定の根拠を作る。本タスクの secrets は AUTH_SECRET / GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / INTERNAL_AUTH_SECRET の 4 種が対象。
 
 ## 実行タスク
 
@@ -67,7 +67,7 @@
 | H-01 | `AUTH_SECRET` がリポジトリに含まれない | `git grep` + gitleaks | finding 0 |
 | H-02 | `GOOGLE_CLIENT_ID` がリポジトリに含まれない | 同上 | finding 0 |
 | H-03 | `GOOGLE_CLIENT_SECRET` がリポジトリに含まれない | 同上 | finding 0 |
-| H-04 | `INTERNAL_TOKEN` がリポジトリに含まれない | 同上 | finding 0 |
+| H-04 | `INTERNAL_AUTH_SECRET` がリポジトリに含まれない | 同上 | finding 0 |
 | H-05 | `.env` がコミットされていない | `git ls-files .env*` | 結果なし（.env.example のみ可） |
 | H-06 | wrangler.toml に secret の値が書かれていない | `cat wrangler.toml` | name 参照のみ |
 | H-07 | placeholder のドキュメントは値を含まない | `grep -rE 'GOCSPX-|AIza\|gho_'` | 0 件 |
@@ -96,7 +96,7 @@
 | 連携先 Phase | 連携内容 |
 | --- | --- |
 | Phase 10 | GO/NO-GO の根拠 |
-| 05b Phase 9 | secret hygiene の H-01〜H-08 を共有（AUTH_SECRET, INTERNAL_TOKEN は共通）|
+| 05b Phase 9 | secret hygiene の H-01〜H-08 を共有（AUTH_SECRET, INTERNAL_AUTH_SECRET は共通）|
 | 08a / 08b | 自動 test 実行と本リスト突合 |
 | 09a | staging deploy 前のチェック |
 

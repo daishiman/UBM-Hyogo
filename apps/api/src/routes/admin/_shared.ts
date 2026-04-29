@@ -1,7 +1,8 @@
 // 04c admin route 共通の bindings 型と helper
 import type { AdminGateEnv } from "../../middleware/admin-gate";
+import type { RequireAuthEnv } from "../../middleware/require-admin";
 
-export interface AdminRouteEnv extends AdminGateEnv {
+export interface AdminRouteEnv extends AdminGateEnv, RequireAuthEnv {
   readonly DB: D1Database;
 }
 
