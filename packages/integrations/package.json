@@ -10,8 +10,8 @@
     "build": "tsc -p tsconfig.json --noEmit",
     "lint": "tsc -p tsconfig.json --noEmit",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run --passWithNoTests --root=../.. --config=../../vitest.config.ts packages/integrations",
-    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=../../vitest.config.ts --coverage --coverage.reportsDirectory=packages/integrations/coverage --coverage.include=\"packages/integrations/src/**/*.{ts,tsx}\" packages/integrations"
+    "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts packages/integrations",
+    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=packages/integrations/coverage --coverage.include=\"packages/integrations/src/**/*.{ts,tsx}\" packages/integrations"
   },
   "dependencies": {
     "@ubm-hyogo/shared": "workspace:*"
