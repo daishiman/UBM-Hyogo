@@ -119,6 +119,25 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
 
+### 認証 API（apps/api / 05b）
+
+`05b-parallel-magic-link-provider-and-auth-gate-state` で、Magic Link 発行・検証と login gate 判定を `/auth/*` に追加した。`apps/web` は同 origin `/api/auth/*` proxy だけを持ち、D1 には直接接続しない。`/no-access` 専用 route は作らず、login UI が state/reason JSON を表示に変換する。
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/auth/gate-state?email=...` | email から login gate を判定する。`ok` / `unregistered` / `rules_declined` / `deleted` を返し、memberId は返さない | 不要（IP 60/h rate limit） |
+| POST | `/auth/magic-link` | gate state が `ok` の時だけ `magic_tokens` を発行し、Magic Link mail を送る。gate 結果は 200 + `sent` / `unregistered` / `rules_declined` / `deleted`、mail 失敗は 502 + `MAIL_FAILED` | 不要（email 5/h + IP 30/h rate limit） |
+| POST | `/auth/magic-link/verify` | token と email を検証し、成功時に `SessionUser` を返す。失敗 reason は `not_found` / `expired` / `already_used` / `resolve_failed` | 不要（token 検証） |
+| POST | `/auth/resolve-session` | Auth.js callback / credentials bridge 用に email から `SessionUser` を解決する | 内部利用想定 |
+
+05b の構造的不変条件:
+
+- `magic_tokens` は apps/api repository だけが触る。apps/web は proxy fetch のみ。
+- token TTL は 900 秒、token 形式は 64 hex、consume は optimistic lock で 1 回限り。
+- mail 送信に失敗した場合は発行済み token を `deleteByToken` で rollback し、502 `{code:"MAIL_FAILED"}` を返す。
+- gate 判定優先度は `unregistered -> deleted -> rules_declined -> ok`。
+- `/no-access` route と redirect は作らない。API は JSON state/reason を返す。
+
 ### 公開ディレクトリ API（apps/api / 04a）
 
 `04a-parallel-public-directory-api-endpoints` で未認証の公開 API を追加した。`/public/*` には session middleware を適用しない。

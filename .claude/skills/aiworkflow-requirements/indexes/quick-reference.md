@@ -143,6 +143,19 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | dev session header（`x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>` / production・staging では deny） | `docs/30-workflows/04b-parallel-member-self-service-api-endpoints/outputs/phase-12/implementation-guide.md` |
 | 苦戦知見（`authGateState` enum 文脈分離 / `packages/shared` exports 漏れ / wave 跨ぎ schema 変更宣言 / dev session production guard / 不変条件根拠の集約） | `references/lessons-learned-04b-member-self-service.md`（L-04B-001〜005） |
 
+### UBM-Hyogo Magic Link / AuthGateState API 早見（05b / 2026-04-29）
+
+Magic Link 発行・検証と login gate 判定の即時導線。画面は 06b の責務で、05b は API/NON_VISUAL。
+
+| 項目 | 正本 |
+| --- | --- |
+| API contract | `references/api-endpoints.md`（§認証 API 05b） |
+| env / secrets | `references/environment-variables.md`（`AUTH_URL` / `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS`） |
+| 実装ガイド | `docs/30-workflows/05b-parallel-magic-link-provider-and-auth-gate-state/outputs/phase-12/implementation-guide.md` |
+| Phase 11 evidence | `docs/30-workflows/05b-parallel-magic-link-provider-and-auth-gate-state/outputs/phase-11/` |
+| 苦戦知見 | `references/lessons-learned-05b-magic-link-auth-gate-2026-04.md`（L-05B-001〜005） |
+| Artifact Inventory | `references/workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md` |
+
 ---
 
 ### UI Visual Baseline Drift / dark-mode screenshot stability（2026-04-03）
