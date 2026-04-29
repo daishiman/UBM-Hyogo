@@ -15,6 +15,8 @@
     "lint": "node scripts/lint-boundaries.mjs && pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "test": "bash scripts/with-env.sh vitest run",
+    "test:coverage": "bash scripts/with-env.sh vitest run --coverage",
+    "coverage:guard": "bash scripts/coverage-guard.sh",
     "env:check": "bash scripts/with-env.sh node -e \"['GOOGLE_CLIENT_ID','GOOGLE_CLIENT_SECRET','GOOGLE_SHEET_ID','GOOGLE_SERVICE_ACCOUNT_JSON','CLOUDFLARE_API_TOKEN','CLOUDFLARE_ACCOUNT_ID','AUTH_SECRET'].forEach(k=>console.log(k+': '+(process.env[k]?'OK':'MISSING')))\"",
     "env:export": "op inject -i .env -o .env.local",
     "prepare": "lefthook install",
@@ -32,6 +34,7 @@
     "lefthook": "^1.7.0",
     "typescript": "6.0.3",
     "vitest": "^2.0.0",
+    "@vitest/coverage-v8": "^2.1.9",
     "wrangler": "4.85.0"
   },
   "dependencies": {

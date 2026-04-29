@@ -102,3 +102,46 @@ https://www.googleapis.com/auth/drive.readonly
 
 `docs/00-getting-started-manual/gas-prototype/` は UI の叩き台であり、認証・API・DB 接続は未実装。
 本番の認証仕様はこのファイルと `06-member-auth.md`, `13-mvp-auth.md` を正本とする。
+
+---
+
+## 内部 endpoint: `GET /auth/session-resolve`（apps/web → apps/api）
+
+不変条件 #5（`apps/web` から D1 直接アクセス禁止）のため、
+Auth.js v5 の `signIn` / `jwt` callback は `apps/web` で完結せず、
+`apps/api` の internal endpoint を経由して member identity / admin 判定を解決する。
+
+| 観点 | 値 |
+|------|----|
+| メソッド | `GET` |
+| パス | `/auth/session-resolve?email=<email>` |
+| 認証ヘッダ | `X-Internal-Auth: <INTERNAL_AUTH_SECRET>`（必須） |
+| 入力 | `email` を lowercase normalize |
+| 出力 | `{ memberId, isAdmin, gateReason }` |
+| `gateReason` 列挙値 | `"unregistered" | "deleted" | "rules_declined" | null` |
+
+レスポンス契約:
+
+```ts
+type GateReason = "unregistered" | "deleted" | "rules_declined";
+type SessionResolveResponse = {
+  memberId: string | null;
+  isAdmin: boolean;
+  gateReason: GateReason | null;
+};
+```
+
+実装:
+
+- 入口: `apps/api/src/routes/auth/session-resolve.ts`
+- 認可 middleware: `apps/api/src/middleware/internal-auth.ts`（`INTERNAL_AUTH_SECRET` 比較のみ。D1 を触らない）
+- 呼び出し元: `apps/web/src/lib/auth.ts`（Auth.js `signIn` / `jwt` callback から fetch）
+- 共有型: `packages/shared/src/auth.ts`（`GateReason` / `SessionResolveResponse`）
+
+### 必要な環境変数
+
+| 変数名 | 説明 |
+|--------|------|
+| `INTERNAL_AUTH_SECRET` | apps/web → apps/api の Worker-to-Worker 共有秘密。両 Worker の Cloudflare Secrets に同値で登録 |
+| `AUTH_SECRET` | Auth.js cookie session JWT (HS256) と API 側 `verifySessionJwt` の共有秘密 |
+| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google OAuth Provider 用（apps/web のみ） |

@@ -2,7 +2,7 @@
 // 不変条件 #13: tag は queue resolve 経由のみ。直接更新 endpoint なし。
 import { Hono } from "hono";
 import { z } from "zod";
-import { adminGate } from "../../middleware/admin-gate";
+import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { auditAction } from "../../repository/_shared/brand";
 import {
@@ -21,7 +21,7 @@ const ResolveBodyZ = z.object({}).passthrough().optional();
 
 export const createAdminTagsQueueRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv }>();
-  app.use("*", adminGate);
+  app.use("*", requireAdmin);
 
   app.get("/tags/queue", async (c) => {
     const statusRaw = c.req.query("status");

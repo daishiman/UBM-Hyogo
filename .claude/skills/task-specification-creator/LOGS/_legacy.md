@@ -2472,6 +2472,15 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 結果     | execute phase の path-scoped deny を runtime で実効化。`getExplicitSkillCreatorRoot()` → `createExecuteGovernanceCanUseTool(skillRoot)` → `evaluateGovernanceToolUse(context)` の配線を完成。`TODO(TASK-P0-09-U1)` コメントを解消。Phase 11 は NON_VISUAL として自動テスト代替で完了。                                                                                                                       |
 | 検証     | vitest 101/101 PASS、typecheck PASS（EXIT:0）                                                                                                                                                                                                                                                                                                                                                                |
 
+### 2026-04-29 - coverage-80-enforcement implementation sync
+
+| 項目 | 内容 |
+| --- | --- |
+| 種別 | implementation_started / NON_VISUAL / coverage governance |
+| 変更対象 | `docs/30-workflows/coverage-80-enforcement/`, `scripts/coverage-guard.sh`, `vitest.config.ts`, package `test:coverage` scripts, `.github/workflows/ci.yml`, `lefthook.yml`, `references/coverage-standards.md` |
+| 結果 | NON_VISUAL Phase 12 Part 1/2 構成を coverage 80% enforcement に適用。Vitest は計測、`coverage-guard.sh` は package 単位 80% 判定と不足ファイル top10 出力を担当する責務分離へ同期した。 |
+| 検証 | `pnpm exec vitest run scripts/coverage-guard.test.ts` 5/5 PASS。 |
+
 ### 2026-04-27 - UT-08 monitoring-alert-design Phase 12 close-out sync
 
 | 項目 | 内容 |

@@ -2,10 +2,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminMeetingsRoute } from "./meetings";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "t",
+  AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
 describe("admin meetings", () => {
@@ -26,7 +28,7 @@ describe("admin meetings", () => {
       "/meetings",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ title: "MTG1", heldOn: "2026-04-01" }),
       },
       makeEnv(env),
@@ -34,7 +36,7 @@ describe("admin meetings", () => {
     expect(r1.status).toBe(201);
     const r2 = await app.request(
       "/meetings",
-      { headers: { Authorization: "Bearer t" } },
+      { headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(r2.status).toBe(200);
@@ -48,7 +50,7 @@ describe("admin meetings", () => {
       "/meetings",
       {
         method: "POST",
-        headers: { Authorization: "Bearer t", "content-type": "application/json" },
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
         body: JSON.stringify({ title: "" }),
       },
       makeEnv(env),

@@ -2,7 +2,7 @@
 // 不変条件 #15: 重複 409 / 削除済み 422 / session 未存在 404
 import { Hono } from "hono";
 import { z } from "zod";
-import { adminGate } from "../../middleware/admin-gate";
+import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, auditAction } from "../../repository/_shared/brand";
 import {
@@ -16,7 +16,7 @@ const AddBodyZ = z.object({ memberId: z.string().min(1) });
 
 export const createAdminAttendanceRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv }>();
-  app.use("*", adminGate);
+  app.use("*", requireAdmin);
 
   app.post("/meetings/:sessionId/attendance", async (c) => {
     const sessionId = c.req.param("sessionId");
