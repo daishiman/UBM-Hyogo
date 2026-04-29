@@ -32,6 +32,8 @@ import { runSchemaSync, ConflictError } from "./sync/schema";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
+import { createAuthRoute } from "./routes/auth";
+import { createResendSender } from "./services/mail/magic-link-mailer";
 
 interface Env extends SyncEnv, ResponseSyncEnv {
   readonly ENVIRONMENT?: "production" | "staging" | "development";
@@ -44,6 +46,11 @@ interface Env extends SyncEnv, ResponseSyncEnv {
   readonly FORMS_SA_EMAIL?: string;
   readonly FORMS_SA_KEY?: string;
   readonly HEALTH_DB_TOKEN?: string;
+  // 05b: Magic Link / Auth provider 関連
+  readonly AUTH_SECRET?: string;
+  readonly AUTH_URL?: string;
+  readonly MAIL_PROVIDER_KEY?: string;
+  readonly MAIL_FROM_ADDRESS?: string;
 }
 
 function timingSafeEqual(a: string, b: string): boolean {
@@ -173,6 +180,31 @@ app.route(
       const [, email, memberId] = m;
       if (!email || !memberId) return null;
       return { email, memberId };
+    },
+  }),
+);
+
+// 05b: /auth/* (Magic Link provider + AuthGateState)
+// MAIL_PROVIDER_KEY 未設定時は no-op sender (dev/test) を使う。production は MAIL_FAILED で 502。
+app.route(
+  "/auth",
+  createAuthRoute({
+    resolveMailSender: (env) => {
+      const e = env as Env;
+      if (e.MAIL_PROVIDER_KEY) {
+        return createResendSender({ apiKey: e.MAIL_PROVIDER_KEY });
+      }
+      return {
+        async send() {
+          if (e.ENVIRONMENT === "production") {
+            return {
+              ok: false as const,
+              errorMessage: "MAIL_PROVIDER_KEY not configured",
+            };
+          }
+          return { ok: true as const };
+        },
+      };
     },
   }),
 );

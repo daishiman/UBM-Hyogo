@@ -39,6 +39,9 @@
 | **[UBM-011]** smoke docs が未実装 endpoint（例: `/health/db`）を前提にする | Phase 12 で API 実装と smoke endpoint を突合し、未実装なら実行前ブロッカーまたは未タスクへ昇格する。docs 側の期待 JSON と実装の response shape も同時に確認する |
 | **[UBM-012]** 本番デプロイ実行で `wrangler` 直接呼び出し / `wrangler login` ローカル OAuth が混入する | 実行前ブロッカー。Phase 5 / Phase 12 で deploy 系コマンド (`wrangler deploy` / `wrangler d1 ...` 等) を検出したら必ず `scripts/cf.sh` ラッパーへ強制集約する。`~/Library/Preferences/.wrangler/config/default.toml` 由来の OAuth トークンは禁止し、`.env` の `op://` 参照と `op run --env-file=.env` 経由の `CLOUDFLARE_API_TOKEN` 注入に一本化する。CLAUDE.md「Cloudflare 系 CLI 実行ルール」と整合させること |
 | **[UBM-013]** Next.js 16 / Turbopack の worktree root 誤検出により別 worktree の `packages/*` が型チェック対象になる | `apps/web` を含むタスクでは `next.config.ts` に `outputFileTracingRoot` と `turbopack.root` を明示する（worktree 直下の絶対パス）。明示しないと親リポや別 worktree の `packages/shared/src/zod/*` が collected され、関係のない型エラーで build が落ちる。緊急回避で `typescript.ignoreBuildErrors = true` を入れる場合は Phase 12 で別 tsc gate（`pnpm typecheck` 単体）を必ずペアリングし、同 PR 内で解除予定を changelog に明記する |
+| **[UBM-014]** API/NON_VISUAL タスクで外部依存の環境別挙動が混同される | Phase 9/12 では provider key 未設定時の development/test と production の挙動を分けて書く。例: mailer は dev/test no-op success、production 502 `MAIL_FAILED`。無料枠表だけでなく fail-open / fail-closed も記録する |
+| **[UBM-015]** `apps/web` proxy 実装でコメントや docs が D1/API 境界を曖昧にする | `apps/web` では D1 直参照を禁止し、コメントも「API worker」「upstream auth API」など境界語を使う。`apps/api` 直書き文字列を lint-boundary が拾う場合は、Phase 5 runbook に許容/禁止パターンを明示する |
+| **[UBM-016]** shared 型追加で barrel export の実体が docs より薄い/濃い | Phase 5 着手前に `rg "export .*types" packages/shared/src` を実行し、root export / subpath export / alias-only のどれかを決める。Phase 12 では「shared schema」なのか「補助 alias」なのかを正本仕様に明記する |
 
 > 旧フィードバック（W0-RV-001・SC-13-1/2・UBM-001〜008・FB-SDK-07-2/4）は [../SKILL-changelog.md](../SKILL-changelog.md) に移動済み。
 
