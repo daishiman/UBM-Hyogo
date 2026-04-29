@@ -2474,18 +2474,17 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L45 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L122 |
-| Cloudflare D1 データベース | L229 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L262 |
-| GitHub Actions CI/CD | L374 |
-| プレビューデプロイメント | L406 |
-| カスタムドメイン設定 | L423 |
-| 環境分離 | L436 |
-| ロールバック戦略 | L456 |
-| コスト概算（個人開発） | L477 |
-| モニタリング/アラート（UT-08 連携） | L489 |
-| 変更履歴 | L506 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L51 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L128 |
+| Cloudflare D1 データベース | L235 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L268 |
+| GitHub Actions CI/CD | L380 |
+| プレビューデプロイメント | L412 |
+| カスタムドメイン設定 | L429 |
+| 環境分離 | L442 |
+| ロールバック戦略 | L452 |
+| モニタリング/アラート（UT-08 連携） | L473 |
+| 変更履歴 | L490 |
 
 ### references/deployment-core.md
 
@@ -3924,9 +3923,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| task-worktree-environment-isolation follow-up（2026-04-28） | L352 |
-| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L363 |
-| 続き | L373 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L355 |
+| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L366 |
+| 続き | L376 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

@@ -1342,8 +1342,7 @@
       "arch-state-management-advanced.md"
     ],
     "または": [
-      "arch-state-management-advanced.md",
-      "deployment-cloudflare.md"
+      "arch-state-management-advanced.md"
     ],
     "core": [
       "arch-state-management-core.md",
@@ -4347,35 +4346,11 @@
     "環境分離": [
       "deployment-cloudflare.md"
     ],
-    "ローカル起動": [
-      "deployment-cloudflare.md"
-    ],
-    "Pages": [
-      "deployment-cloudflare.md"
-    ],
-    "Functions": [
-      "deployment-cloudflare.md"
-    ],
-    "含む": [
-      "deployment-cloudflare.md"
-    ],
-    "開発サーバー": [
-      "deployment-cloudflare.md"
-    ],
-    "シミュレーター使用": [
-      "deployment-cloudflare.md"
-    ],
     "ロールバック戦略": [
       "deployment-cloudflare.md",
       "deployment-core.md"
     ],
     "でのロールバック": [
-      "deployment-cloudflare.md"
-    ],
-    "コスト概算": [
-      "deployment-cloudflare.md"
-    ],
-    "個人開発": [
       "deployment-cloudflare.md"
     ],
     "モニタリング": [

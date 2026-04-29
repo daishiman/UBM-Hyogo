@@ -34,11 +34,19 @@ UT-06 canonical 前提・5 ゲート → [`deployment-cloudflare-ut06-gate.md`](
 
 ### Pages 形式と OpenNext Workers 形式の判定
 
+> `apps/web` の OpenNext Workers 形式の詳細仕様（必須項目・`.assetsignore`・env 分離・bundle size ガード・SPA fallback・CLI 経路）は [`deployment-cloudflare-opennext-workers.md`](./deployment-cloudflare-opennext-workers.md) を参照。
+
 | wrangler.toml の特徴 | 判定 | UT-06 での扱い |
 | --- | --- | --- |
 | `pages_build_output_dir = ".next"` | Pages 形式 | OpenNext Workers AC とは非整合。移行または AC 再定義が必要 |
 | `main = ".open-next/worker.js"` + `[assets] directory = ".open-next/assets"` | OpenNext Workers 形式 | UT-06 AC-1 の前提を満たす |
 | `compatibility_flags = ["nodejs_compat"]` のみ | 不十分 | entrypoint と assets 設定を併せて確認 |
+
+### OpenNext Workers env 分離の追加確認（2026-04-29 / UT-06-FU-A）
+
+`apps/web` を OpenNext Workers 形式へ移行する場合、top-level の `[assets]` / `[observability]` だけでなく、`[env.staging.assets]` / `[env.production.assets]` と `[env.staging.observability]` / `[env.production.observability]` も明示する。wrangler の env scope で top-level 設定が期待通り継承されない場合に備え、staging / production の Worker を独立して検証できる状態にする。
+
+production Worker 名を top-level `name` から分離する場合は、production deploy 前に route / custom domain / secrets / observability の対象 Worker を確認する。`apps/web` の deploy / rollback / tail / secret 操作は `bash scripts/cf.sh ... --config apps/web/wrangler.toml --env <env>` 経由に統一し、`wrangler types` のようなローカル型生成とは分離して扱う。
 
 ---
 
@@ -441,16 +449,6 @@ wrangler pages domain add ubm-hyogo-web yourdomain.com
 | ステージング | ubm-hyogo-web-staging | `dev` | ubm-hyogo-db-staging |
 | 本番 | ubm-hyogo-web | `main` | ubm-hyogo-db-prod |
 
-### ローカル開発
-
-```bash
-# Cloudflare Workers ローカル起動（Pages Functions含む）
-wrangler pages dev --compatibility-flag=nodejs_compat apps/web/.next
-
-# または Next.js 開発サーバー（D1シミュレーター使用）
-pnpm --filter @repo/web dev
-```
-
 ---
 
 ## ロールバック戦略
@@ -471,18 +469,6 @@ bash scripts/cf.sh rollback <VERSION_ID> --config apps/web/wrangler.toml --env p
 | ビルド失敗 | 自動的に旧バージョン維持（Cloudflare Pages） |
 | 機能不具合 | ダッシュボードから1クリックロールバック |
 | データベースマイグレーション失敗 | スキーマロールバック + コードロールバック |
-
----
-
-## コスト概算（個人開発）
-
-| サービス | 無料枠 | 注意点 |
-| -------- | ------ | ------ |
-| Cloudflare Pages | 無制限リクエスト・500ビルド/月 | 無料枠は商用利用可 |
-| Cloudflare Workers | 100,000リクエスト/日 | 超過分 $0.50/100万リクエスト |
-| Cloudflare D1 | 5GB ストレージ・500万行読み/日 | 個人開発に十分 |
-| Cloudflare R2 | 10GB ストレージ・1,000万読み/月 | エグレス料金なし |
-| Cloudflare KV | 100,000読み/日・1,000書き/日 | 小規模用途に十分 |
 
 ---
 
