@@ -592,6 +592,7 @@
 | `docs/30-workflows/task-git-hooks-lefthook-and-post-merge/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on `task-conflict-prevention-skill-state-redesign` |
 | `docs/30-workflows/task-worktree-environment-isolation/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on `task-conflict-prevention-skill-state-redesign` |
 | `docs/30-workflows/task-github-governance-branch-protection/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on skill ledger redesign + git hooks governance |
+| `docs/30-workflows/ut-gov-001-github-branch-protection-apply/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval / 実 PUT は Phase 13 ユーザー承認後 | 最初に読む: `references/deployment-branch-strategy.md`（pending apply: UT-GOV-001 セクション）/ 必要に応じて読む: `references/lessons-learned-ut-gov-001-2026-04.md`（L-GOV-001〜004）/ 上流前提: UT-GOV-004（required_status_checks contexts 同期） |
 | `docs/30-workflows/task-claude-code-permissions-decisive-mode/` | 2026-04-28 | spec_created / docs-only / NON_VISUAL / Phase 13 blocked_until_explicit_user_approval | depends on worktree environment isolation |
 | `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook/` | 2026-04-28 | spec_created / docs-only / runbook-spec / NON_VISUAL / Phase 13 pending_user_approval | formalize of `task-git-hooks-lefthook-and-post-merge` baseline B-1; lessons in `lessons-learned-lefthook-mwr-runbook-2026-04.md` (L-MWR-001〜006) |
 
@@ -807,6 +808,23 @@ node scripts/search-spec.js "safeInvoke"
 | `docs/30-workflows/task-worktree-environment-isolation/` | タスク本体（Phase 1-13 + outputs） | 正本仕様にあたる時 |
 | `scripts/new-worktree.sh` | worktree 作成 + lock + mise install ラッパ | 実装着手・スクリプト改修時 |
 | `CLAUDE.md` (§ワークツリー作成) | ユーザ向け運用注意（必ずワークツリーディレクトリから claude を起動） | 新規 worktree 作業開始時 |
+
+### Skill Authoring / Codex Validation Contract（TASK-SKILL-CODEX-VALIDATION-001 / 2026-04-28）
+
+> Codex CLI が SKILL.md frontmatter を strict YAML 検証する制約に対応する canonical set。`description ≤1024 字 / string scalar / YAML 構文有効` を二段ガード（build-time + write-time）で強制し、フィクスチャは `*.fixture` 拡張子で skill discovery 圏外化する。
+
+| リソース | 役割 | 読み込み条件 |
+|----------|------|--------------|
+| `.claude/skills/skill-creator/scripts/utils/validate-skill-md.js` | SKILL.md frontmatter 検証 (R-01〜R-07: ≤1024字 / string scalar / YAML 構文 / Anchors ≤5 / Trigger keywords ≤15 ほか)。≥1025 字は throw、自動退避ガード | 検証ルール変更・description 圧縮判断・新規 skill 作成時 |
+| `.claude/skills/skill-creator/scripts/utils/yaml-escape.js` | YAML scalar escape ヘルパ。description 内の `:` / `<` / `>` / 改行 / 引用符を string scalar として安全化 | description 自動生成・退避処理時 |
+| `.claude/skills/skill-creator/scripts/__tests__/codex_validation.test.js` | Codex 検証契約 24 ケース（R-01〜R-07 全ルール + 境界値 + BOM + 空フィールド + Anchors / Trigger 上限） | テスト追加・回帰確認時 |
+| `.claude/skills/skill-creator/scripts/__tests__/helpers/load-fixture.js` | フィクスチャ動的 loader（`*.fixture` を読み込んで仮想 SKILL.md として検証へ流す） | 新規フィクスチャ追加時 |
+| `.claude/skills/skill-creator/vitest.config.js` | skill-creator scripts 専用 vitest 設定（`__tests__/` 限定 + Node env） | テスト実行設定変更時 |
+| `.claude/skills/skill-creator/references/anchors.md` | skill-creator 自身の Anchors 退避先（SKILL.md 本体から外出し） | description 1024 字超過時の退避導線確認時 |
+| `.claude/skills/automation-30/references/elegant-review-prompt.md` | automation-30 の詳細プロンプト退避先（SKILL.md 本体から外出し） | description 圧縮戦略の参考実装確認時 |
+| `references/lessons-learned-skill-codex-validation-2026-04.md` | L-CODEX-001〜005 教訓（Codex 検証契約 / 二段ガード / `.fixture` 戦略 / 退避先 Markdown 統一 / mirror parity） | 同種事故予防・新規 skill 設計時 |
+| `references/workflow-skill-md-codex-validation-fix-artifact-inventory.md` | Phase 1-13 outputs canonical set + skill 反映先 + follow-up 3 件 + validation chain | 成果物棚卸し・差分確認時 |
+| `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/` | タスク本体（Phase 1-13 + outputs） | 正本仕様参照時 |
 
 ---
 

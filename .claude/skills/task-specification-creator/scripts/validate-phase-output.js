@@ -164,8 +164,8 @@ class PhaseValidator {
     const phase11Content = readFileSync(phase11Path, "utf-8");
     const phase11OutputDir = join(this.workflowDir, "outputs", "phase-11");
     const screenshotDir = join(phase11OutputDir, "screenshots");
-    const isDocsOnlyPhase11 = this.detectDocsOnlyPhase11(phase11Content);
-    const expectsVisualEvidence = !isDocsOnlyPhase11;
+    const isNonVisualPhase11 = this.detectNonVisualPhase11(phase11Content);
+    const expectsVisualEvidence = !isNonVisualPhase11;
 
     if (!existsSync(phase11OutputDir)) {
       this.warnings.push("outputs/phase-11 ディレクトリが存在しません");
@@ -256,16 +256,23 @@ class PhaseValidator {
     }
   }
 
-  detectDocsOnlyPhase11(phase11Content) {
+  detectNonVisualPhase11(phase11Content) {
+    const classifyVisualEvidence = (value) => {
+      const text = String(value ?? "").trim();
+      if (!text) return null;
+      if (/(non[_-]?visual|docs-only|spec_created)/i.test(text)) {
+        return true;
+      }
+      if (/(visual|ui)/i.test(text) && !/(non[_-]?visual|docs-only|spec_created)/i.test(text)) {
+        return false;
+      }
+      return null;
+    };
+
     const classifyTaskType = (value) => {
       const text = String(value ?? "").trim();
       if (!text) return null;
-      if (/(docs-only|docs|non[_-]?visual|spec_created)/i.test(text)) {
-        return true;
-      }
-      if (/(visual|ui)/i.test(text) && !/(docs-only|docs|non[_-]?visual|spec_created)/i.test(text)) {
-        return false;
-      }
+      if (/(docs-only|spec_created)/i.test(text)) return true;
       return null;
     };
 
@@ -274,8 +281,12 @@ class PhaseValidator {
     if (existsSync(indexPath)) {
       const indexContent = readFileSync(indexPath, "utf-8");
       const taskTypeMatch = indexContent.match(/^\|\s*タスク種別\s*\|\s*([^|]+)\|/m);
+      const visualEvidenceMatch = indexContent.match(/^\|\s*visualEvidence\s*\|\s*([^|]+)\|/m);
       if (taskTypeMatch) {
         indexSignal = classifyTaskType(taskTypeMatch[1]);
+      }
+      if (visualEvidenceMatch) {
+        indexSignal = classifyVisualEvidence(visualEvidenceMatch[1]) ?? indexSignal;
       }
     }
 
@@ -284,10 +295,12 @@ class PhaseValidator {
     if (existsSync(artifactsPath)) {
       try {
         const artifacts = JSON.parse(readFileSync(artifactsPath, "utf-8"));
-        artifactsSignal = classifyTaskType(artifacts?.metadata?.taskType);
+        artifactsSignal =
+          classifyVisualEvidence(artifacts?.metadata?.visualEvidence) ??
+          classifyTaskType(artifacts?.metadata?.taskType);
       } catch {
         this.warnings.push(
-          "Phase 11 docs-only 判定で artifacts.json の解析に失敗したため、screenshot 要件を維持します",
+          "Phase 11 NON_VISUAL 判定で artifacts.json の解析に失敗したため、screenshot 要件を維持します",
         );
       }
     }
@@ -298,21 +311,21 @@ class PhaseValidator {
 
     if (indexSignal === false || artifactsSignal === false) {
       this.warnings.push(
-        "Phase 11 docs-only 判定は index.md / artifacts.json の両方で docs-only 相当を確認できなかったため screenshot 要件を維持します",
+        "Phase 11 NON_VISUAL 判定は index.md / artifacts.json の両方で NON_VISUAL 相当を確認できなかったため screenshot 要件を維持します",
       );
       return false;
     }
 
     if (indexSignal === true || artifactsSignal === true) {
       this.warnings.push(
-        "Phase 11 docs-only 判定は index.md / artifacts.json の両方で一致しなかったため fail-closed しました",
+        "Phase 11 NON_VISUAL 判定は index.md / artifacts.json の両方で一致しなかったため fail-closed しました",
       );
       return false;
     }
 
     if (/(docs-only|NON_VISUAL|spec_created)/i.test(phase11Content)) {
       this.warnings.push(
-        "Phase 11 本文に docs-only 記述がありますが、index.md / artifacts.json と両方で確認できないため screenshot 要件を外しません",
+        "Phase 11 本文に NON_VISUAL 記述がありますが、index.md / artifacts.json と両方で確認できないため screenshot 要件を外しません",
       );
     }
 

@@ -755,6 +755,9 @@
 | 再発防止 | Phase 5 の完了条件に「ファイル配置 PASS」と「UI 手動適用 PENDING」を明示的に区分する。PENDING は失敗ではなく「後続フェーズで解消予定」として記録する |
 | 関連タスク | 01a-parallel-github-and-branch-governance |
 
+> 注記（2026-04-29 分離）:
+> - UT-GOV-001 GitHub branch protection apply 教訓（L-GOV-001/002/003/004）は [lessons-learned-ut-gov-001-2026-04.md](lessons-learned-ut-gov-001-2026-04.md) へ分離しました（payload adapter / 5 重明記 / Phase 12-13 二重ゲート / NON_VISUAL evidence）。
+
 > 注記（2026-04-08 分離）:
 > - UT-HEALTH-POLICY-MAINLINE-MIGRATION-001 教訓（L-HP-001/002/003）と TASK-FIX-WORKTREE-CONFLICT-001 教訓（L-WC-001/002/003）は [lessons-learned-health-policy-worktree-2026-04.md](lessons-learned-health-policy-worktree-2026-04.md) へ移動しました。
 > - スキルウィザード関連教訓（L-CRS-001/002, L-SMART-DEFAULT-001/002, L-HEALTH-DI-001/002, L-SKILL-INFO-STEP-001/002, L-WIZARD-EXPORT-001/002, L-GOOGLE-CAL-001/002）は [lessons-learned-skill-wizard-redesign.md](lessons-learned-skill-wizard-redesign.md) へ移動しました。
