@@ -4307,9 +4307,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 最近の完了タスク（2026-04） | L7 |
-| 完了タスク（2026-03後半） | L127 |
-| 完了タスク（機能別アーカイブ） | L135 |
-| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L244 |
+| 完了タスク（2026-03後半） | L128 |
+| 完了タスク（機能別アーカイブ） | L136 |
+| UT-TASK-SPEC-TEMPLATE-IMPROVEMENT-001: task-specification-creator Phase-12 テンプレート改善 | L245 |
 
 ### references/task-workflow-history.md
 
