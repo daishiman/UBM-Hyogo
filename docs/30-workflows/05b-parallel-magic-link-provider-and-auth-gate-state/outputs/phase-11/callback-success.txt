@@ -1,6 +1,0 @@
-# M-05: callback (verify) -> SessionUser
-# 代替: vitest verify-magic-link.test.ts T-01 + auth-routes.test.ts T-01
-# 入力: M-04 で発行された token + 同 email
-# 期待 body: {"ok":true,"user":{email,memberId,responseId,isAdmin,authGateState:"active"}}
-# 副作用: magic_tokens.used = 1 (二度目は already_used)
-# 実績: PASS
