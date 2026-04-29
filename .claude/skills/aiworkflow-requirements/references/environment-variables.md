@@ -52,11 +52,15 @@
 | 変数名 | 種別 | 用途 | 配置 |
 | --- | --- | --- | --- |
 | `GOOGLE_FORM_ID` | Variable | response sync 対象の Google Form ID | `apps/api/wrangler.toml` |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Secret | Google Sheets API 用 Service Account JSON key。UT-25 で配置 runbook と staging-first 手順を確定した正本名。`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts` が参照する | Cloudflare Workers Secrets（staging / production） |
+| `GOOGLE_SHEETS_SA_JSON` | Secret | 旧 Sheets sync 実装名。移行期間の alias として実装側のみ許容し、Cloudflare Workers Secret の新規投入名には使わない | Cloudflare Secrets（legacy alias） |
 | `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Secret | Forms API service account email | Cloudflare Secrets |
 | `GOOGLE_PRIVATE_KEY` | Secret | JWT assertion 署名用 private key | Cloudflare Secrets |
 | `SYNC_ADMIN_TOKEN` | Secret | `/admin/sync` / `/admin/sync/responses` Bearer 認証 | Cloudflare Secrets |
 
 `FORM_ID` は旧設定互換として残せるが、03b response sync の正本名は `GOOGLE_FORM_ID` とする。
+
+ローカル `apps/api/.dev.vars` を使う場合も secret 値は直接書かず、1Password の `op://<Vault>/<Item>/<Field>` 参照を `op run` / `scripts/cf.sh` 経由で解決する。`.dev.vars` は git 管理しない。
 
 ### 機能フラグ
 
@@ -189,8 +193,8 @@
 
 | コマンド | 説明 |
 | -------- | ---- |
-| `wrangler secret list --env <env>` | Workers のシークレット一覧を表示 |
-| `wrangler secret put <name> --env <env>` | Workers のシークレットを登録 |
+| `bash scripts/cf.sh secret list --config apps/api/wrangler.toml --env <env>` | Workers のシークレット一覧を表示 |
+| `op read "op://<Vault>/<Item>/<Field>" \| bash scripts/cf.sh secret put <name> --config apps/api/wrangler.toml --env <env>` | Workers のシークレットを stdin 経由で登録 |
 | `wrangler pages secret list --project-name <project>` | Pages のシークレット一覧を表示 |
 | `wrangler pages secret put <name> --project-name <project>` | Pages のシークレットを登録 |
 

@@ -838,6 +838,9 @@ packages/
 | モニタリング・チェックリスト | `references/deployment-details.md` |
 | ブランチ戦略（feature→dev→main） | `references/deployment-branch-strategy.md` |
 | シークレット管理（CF/GitHub） | `references/deployment-secrets-management.md` |
+| 本番 Secrets 投入（`op read \| bash scripts/cf.sh secret put --config apps/api/wrangler.toml --env <env>` stdin 経由 / `wrangler` 直叩き禁止 / staging-first → production / `--env` 必須） | `references/deployment-cloudflare.md`（§Secrets 本番投入手順）, `references/deployment-secrets-management.md`（§canonical/legacy alias / op stdin パイプ） |
+| canonical secret 名 `GOOGLE_SERVICE_ACCOUNT_JSON`（legacy alias `GOOGLE_SHEETS_SA_JSON` は互換維持・`resolveServiceAccountJson(env)` で canonical → legacy 優先順位解決） | `references/environment-variables.md`（§`GOOGLE_SERVICE_ACCOUNT_JSON` canonical）, `apps/api/src/jobs/sync-sheets-to-d1.ts` |
+| `.dev.vars` の運用（実値禁止・`op://Vault/Item/Field` 参照のみ） | `references/environment-variables.md`（§`.dev.vars` op 参照） |
 | インテグレーションパッケージ設計 | `references/arch-integration-packages.md` |
 
 ### 無料枠 / コストガードレール参照時（05a-parallel-observability-and-cost-guardrails）
