@@ -1,0 +1,6 @@
+# M-04: valid email -> sent
+# 代替: vitest auth-routes.test.ts > POST /auth/magic-link > valid -> state=sent
+# 入力: 正常 fixture email
+# 期待 body: {"state":"sent"}
+# 副作用: magic_tokens に 64hex token 1 行 insert (expires_at = now + 900s)
+# 実績: PASS (issue-magic-link.test.ts で token insert + sender 呼び出しを検証)

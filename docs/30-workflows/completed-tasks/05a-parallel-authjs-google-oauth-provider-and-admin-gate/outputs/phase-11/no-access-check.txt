@@ -1,0 +1,12 @@
+# /no-access fs check (2026-04-29T05:55:32Z)
+
+## apps/web/app/no-access
+find: apps/web/app/no-access: No such file or directory
+OK: not found
+
+## apps/web/src/app/no-access
+find: apps/web/src/app/no-access: No such file or directory
+OK: not found
+
+## grep no-access in apps/web
+apps/web/middleware.ts:// 不変条件 #9: `/no-access` 専用画面に依存せず /login?gate=... に redirect。

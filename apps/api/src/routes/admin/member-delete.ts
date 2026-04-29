@@ -1,7 +1,7 @@
 // 04c: POST /admin/members/:memberId/delete, POST /admin/members/:memberId/restore
 import { Hono } from "hono";
 import { z } from "zod";
-import { adminGate } from "../../middleware/admin-gate";
+import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId, auditAction } from "../../repository/_shared/brand";
 import { getStatus, setDeleted } from "../../repository/status";
@@ -14,7 +14,7 @@ const SYSTEM_ADMIN = asAdminId("system");
 
 export const createAdminMemberDeleteRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv }>();
-  app.use("*", adminGate);
+  app.use("*", requireAdmin);
 
   app.post("/members/:memberId/delete", async (c) => {
     const memberId = c.req.param("memberId");

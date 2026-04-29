@@ -55,8 +55,20 @@
 | `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Secret | Forms API service account email | Cloudflare Secrets |
 | `GOOGLE_PRIVATE_KEY` | Secret | JWT assertion 署名用 private key | Cloudflare Secrets |
 | `SYNC_ADMIN_TOKEN` | Secret | `/admin/sync` / `/admin/sync/responses` Bearer 認証 | Cloudflare Secrets |
+| `HEALTH_DB_TOKEN` | Secret | `GET /health/db` の `X-Health-Token` 検証用 token | Cloudflare Secrets |
 
 `FORM_ID` は旧設定互換として残せるが、03b response sync の正本名は `GOOGLE_FORM_ID` とする。
+`HEALTH_DB_TOKEN` は 32 byte 以上のランダム値を 1Password `op://UBM-Hyogo/cloudflare-api/HEALTH_DB_TOKEN` に保管し、staging / production の Cloudflare Secrets へ投入する。値はログ、`.env`、ドキュメント、スクリーンショットに残さない。rotation は 90 日ごと、または漏洩疑い時に即時実施する。
+
+### Cloudflare Workers / Auth + Magic Link
+
+| 変数名 | 種別 | 用途 | 配置 |
+| --- | --- | --- | --- |
+| `AUTH_URL` | Variable | Magic Link URL の base。`/api/auth/magic-link/verify` callback URL を組み立てる | Cloudflare Variables |
+| `MAIL_PROVIDER_KEY` | Secret | Resend HTTP API など mail provider の API key。production 未設定時は 502 `MAIL_FAILED`、development/test 未設定時は no-op success | Cloudflare Secrets |
+| `MAIL_FROM_ADDRESS` | Variable | Magic Link mail の From address | Cloudflare Variables |
+
+`AUTH_SECRET` は 05a と共有する session secret。05b 単独では `resolve-session` bridge と Magic Link verify API の接続点を提供し、Auth.js Credentials Provider 本体と `/api/auth/callback/email` route は 06b で導入する。
 
 ### 機能フラグ
 
@@ -384,6 +396,7 @@
 | `GOOGLE_FORM_ID` | schema sync 対象 Google Form ID | Cloudflare Secrets または Variables | Yes |
 | `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Google Forms API service account email | Cloudflare Secrets | Yes |
 | `GOOGLE_PRIVATE_KEY` | Google Forms API service account private key。改行は `\\n` 形式でも可 | Cloudflare Secrets | Yes |
+| `HEALTH_DB_TOKEN` | `/health/db` の `X-Health-Token` 検証用 secret。1Password 正本、Cloudflare Secrets 注入、90 日 rotation | Cloudflare Secrets | Yes |
 | `GOOGLE_FORM_RESPONDER_URL` | `schema_versions.source_url` fallback 用 responder URL | Cloudflare Variables | No |
 
 互換名: `FORMS_SA_EMAIL` / `FORMS_SA_KEY` は `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` の移行互換として受け付ける。
