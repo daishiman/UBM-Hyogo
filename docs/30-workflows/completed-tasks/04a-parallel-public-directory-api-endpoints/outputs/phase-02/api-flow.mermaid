@@ -1,0 +1,27 @@
+sequenceDiagram
+  autonumber
+  participant Client as Browser (apps/web 06a)
+  participant Worker as Cloudflare Workers (apps/api)
+  participant Router as routes/public/members.ts
+  participant Parser as _shared/search-query-parser
+  participant UC as use-cases/public/list-public-members
+  participant Filter as _shared/public-filter
+  participant Repo as repository/{members,memberTags,status}
+  participant View as view-models/public/public-member-list-view
+  participant D1 as Cloudflare D1
+
+  Client->>Worker: GET /public/members?q=&zone=&tag=&...
+  Worker->>Router: routing (no session middleware)
+  Router->>Parser: parsePublicMemberQuery(c.req.queries())
+  Parser-->>Router: { q, zone, status, tags, sort, density, page, limit }
+  Router->>UC: execute(parsed)
+  UC->>Filter: buildPublicWhereParams()
+  Filter-->>UC: { publicConsent:'consented', publishState:'public', isDeleted:0 }
+  UC->>Repo: listPublicMembers({where, sort, page, limit, tags})
+  Repo->>D1: SELECT m.* FROM members JOIN member_status ... AND tag subquery
+  D1-->>Repo: rows
+  Repo-->>UC: { items, total }
+  UC->>View: toPublicMemberListView({ items, query, total })
+  View-->>UC: PublicMemberListView (zod parse + leak keys removed)
+  UC-->>Router: PublicMemberListView
+  Router-->>Client: 200 application/json + Cache-Control: no-store

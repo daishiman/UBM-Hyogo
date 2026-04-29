@@ -858,11 +858,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L90 |
-| UBM-Hyogo Admin Sync API（03a） | L111 |
-| Desktop IPC API サマリー | L133 |
-| 変更履歴 | L164 |
-| 関連ドキュメント | L179 |
+| エンドポイント命名規則 | L103 |
+| UBM-Hyogo Admin Sync API（03a） | L124 |
+| UBM-Hyogo Member Self-Service API（04b） | L146 |
+| Desktop IPC API サマリー | L164 |
+| 変更履歴 | L195 |
+| 関連ドキュメント | L211 |
 
 ### references/api-internal-chunk-search.md
 
@@ -930,6 +931,7 @@ node scripts/list-specs.js --topics
 | 対象 repository | L11 |
 | 境界 | L21 |
 | 下流連携 | L29 |
+| 04b member self-service queue | L40 |
 
 ### references/database-architecture.md
 
@@ -1811,6 +1813,9 @@ node scripts/list-specs.js --topics
 | 6. Reference Contracts (TypeScript) | L132 |
 | 7. 関連タスク wave（DevEx 衝突防止） | L156 |
 | 8. 適用先システム仕様書 | L180 |
+| 9. FORCED-GO + TC BLOCKED 経路（W2 / 2026-04-28 追加） | L193 |
+| 10. zsh conf.d 経路（D1 / 2026-04-28 追加） | L234 |
+| 11. 関連 lessons-learned | L276 |
 
 ### references/claude-code-skills-agents.md
 
@@ -2133,6 +2138,19 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
 
+### references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L16 |
+| Phase Outputs | L26 |
+| 主要実装物 | L43 |
+| Skill 反映先（current canonical set） | L61 |
+| 実装で確定した値 | L70 |
+| Follow-up 未タスク（formalize 済み） | L78 |
+| Validation Chain | L88 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2205,6 +2223,18 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L99 |
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
+
+### references/workflow-ut-gov-004-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Phase 別 outputs（13 phases） | L8 |
+| 2. UT-GOV-001 への入力契約（唯一の機械可読正本） | L26 |
+| 3. branch protection 運用ルール 4 項目（system-spec-update-summary.md §4） | L35 |
+| 4. skill 反映先（aiworkflow-requirements） | L44 |
+| 5. 上書き済み既存タスク | L54 |
+| 6. リレー先未タスク | L63 |
+| 7. 不変条件 | L72 |
 
 ### references/workflow-ut08-monitoring-alert-design-artifact-inventory.md
 
@@ -2454,7 +2484,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L132 |
+| 変更履歴 | L156 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2760,10 +2790,10 @@ node scripts/list-specs.js --topics
 | 使い方 | L15 |
 | Current Alias Overrides（個別互換行） | L22 |
 | Family Summary | L44 |
-| Detailed Register | L64 |
-| Section Extract Register (2026-03-17) | L245 |
-| 500-Line Split Register (2026-03-16) | L256 |
-| Fragment Migration Register (2026-04-28) | L278 |
+| Detailed Register | L65 |
+| Section Extract Register (2026-03-17) | L246 |
+| 500-Line Split Register (2026-03-16) | L257 |
+| Fragment Migration Register (2026-04-28) | L279 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -2787,6 +2817,24 @@ node scripts/list-specs.js --topics
 | L-03B-006: 二重起動防止は同種 job_type の `running` 行検査で 409 を返す | L49 |
 | L-03B-007: 旧 `ruleConsent` 表記の混入は入口で `rulesConsent` へ正規化 | L57 |
 
+### references/lessons-learned-04b-member-self-service.md
+
+| セクション | 行 |
+|------------|----|
+| L-04B-001: `SessionUserZ.authGateState` enum は「保持」と「ゲート判定」で文脈が違う | L9 |
+| L-04B-002: `packages/shared` の exports field にサブパスを網羅する | L17 |
+| L-04B-003: 「本文編集禁止」の不変条件根拠は specs に分散しているので 1 箇所に集約参照する | L25 |
+| L-04B-004: `admin_member_notes` schema 変更は wave 間 ownership を Phase 1 で宣言する | L33 |
+| L-04B-005: Auth.js 未着フェーズの dev session ヘッダは production guard を必ず最初に書く | L41 |
+
+### references/lessons-learned-claude-code-permissions-apply-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L11 |
+| 申し送り（open / baseline 未タスク） | L92 |
+| 関連 references | L101 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
@@ -2803,6 +2851,27 @@ node scripts/list-specs.js --topics
 | 派生未タスク | L43 |
 | 関連ドキュメント | L51 |
 
+### references/lessons-learned-ut-gov-001-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-GOV-001: GET 形 / PUT 形の用途分離（payload adapter pattern） | L9 |
+| L-GOV-002: UT-GOV-004 完了前提の N 重明記（順序事故防止） | L20 |
+| L-GOV-003: spec_created と user_approval_required の二重ゲート | L31 |
+| L-GOV-004: NON_VISUAL / 手動 smoke の evidence 充足基準（docs-only 代替 evidence） | L42 |
+| 関連参照 | L55 |
+
+### references/lessons-learned-ut-gov-004-branch-protection-context-sync.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| branch protection 運用ルール 4 項目（system-spec-update-summary.md §4 正本） | L12 |
+| 苦戦箇所 6 件（index.md §苦戦箇所・知見 由来） | L21 |
+| 機械可読正本（UT-GOV-001 への入力契約） | L64 |
+| 関連リレー先 | L81 |
+| 不変条件 touched | L90 |
+
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
 | セクション | 行 |
@@ -2816,8 +2885,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L49 |
-| 関連ドキュメント | L54 |
+| 利用順序 | L48 |
+| 関連ドキュメント | L53 |
 
 ### references/llm-embedding.md
 
@@ -4190,10 +4259,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L11 |
-| 利用順序 | L40 |
-| 関連ドキュメント | L45 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L49 |
+| 仕様書インデックス | L12 |
+| 利用順序 | L41 |
+| 関連ドキュメント | L46 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L50 |
 
 ### references/testing-accessibility.md
 

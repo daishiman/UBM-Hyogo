@@ -26,8 +26,39 @@ describe("adminNotes (CRUD)", () => {
       createdBy: adminEmail("owner@example.com"),
     });
     expect(created.body).toBe("新規メモ");
+    expect(created.noteType).toBe("general");
     const found = await adminNotes.findById(env.ctx, created.noteId);
     expect(found?.body).toBe("新規メモ");
+    expect(found?.noteType).toBe("general");
+  });
+
+  it("create で visibility/delete request type を保持し pending 判定できる", async () => {
+    const memberId = asMemberId("m_010");
+    expect(
+      await adminNotes.hasPendingRequest(env.ctx, memberId, "visibility_request"),
+    ).toBe(false);
+
+    const created = await adminNotes.create(env.ctx, {
+      memberId,
+      body: JSON.stringify({ reason: "一時停止", payload: null }),
+      createdBy: adminEmail("owner@example.com"),
+      noteType: "visibility_request",
+    });
+
+    expect(created.noteType).toBe("visibility_request");
+    expect(
+      await adminNotes.hasPendingRequest(env.ctx, memberId, "visibility_request"),
+    ).toBe(true);
+    expect(
+      await adminNotes.hasPendingRequest(env.ctx, memberId, "delete_request"),
+    ).toBe(false);
+
+    const latest = await adminNotes.findLatestByMemberAndType(
+      env.ctx,
+      memberId,
+      "visibility_request",
+    );
+    expect(latest?.noteId).toBe(created.noteId);
   });
 
   it("update で body を変更", async () => {

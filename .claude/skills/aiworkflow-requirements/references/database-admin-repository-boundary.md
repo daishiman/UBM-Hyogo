@@ -13,7 +13,7 @@ Wave 2 の 02c では、管理者ドメインの D1 repository を `apps/api/src
 | repository | 主な責務 | 不変条件 |
 | --- | --- | --- |
 | `adminUsers.ts` | admin_users の lookup / active 判定 | admin gate は active admin のみ許可 |
-| `adminNotes.ts` | admin_member_notes の CRUD | public/member view model に混ぜない |
+| `adminNotes.ts` | admin_member_notes の CRUD + 04b member self-service request queue (`note_type`) | public/member view model に混ぜない |
 | `auditLog.ts` | audit_log の append / list | update / delete / remove API を提供しない |
 | `syncJobs.ts` | sync_jobs の lifecycle | `running -> succeeded/failed` のみ、終端状態の上書き禁止 |
 | `magicTokens.ts` | magic_tokens の issue / verify / consume | `used = 0 AND expires_at >= now` の条件付き UPDATE で single-use |
@@ -36,3 +36,15 @@ Wave 2 の 02c では、管理者ドメインの D1 repository を `apps/api/src
 | 05b | `magicTokens.issue/verify/consume` |
 | 07c | `adminNotes`, `auditLog` |
 | 08a | `__tests__/_setup.ts` と repository contract |
+
+## 04b member self-service queue
+
+`admin_member_notes.note_type` は既存 admin note と member self-service request を分ける。
+
+| note_type | 用途 |
+| --- | --- |
+| `general` | 既存 admin note。既存行の DEFAULT |
+| `visibility_request` | 会員本人の公開停止 / 再公開申請 |
+| `delete_request` | 会員本人の退会申請 |
+
+04b MVP の pending 判定は「同一 member × note_type の最新行が存在すること」。07a / 07c で処理済み後の再申請を扱う場合は、`resolved_at` / status 列追加か、処理済み行の archive/delete 運用を正式化する。

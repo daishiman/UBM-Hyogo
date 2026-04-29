@@ -127,12 +127,37 @@ Settings > Branches > dev:
 - 実適用時は `task-github-governance-branch-protection` Phase 5 runbook と Phase 13 ユーザー承認ゲートに従う。
 - `required_status_checks.contexts` は後続 CI 実装タスクで実ジョブ名と再照合してから本適用する。
 
+### pending apply: UT-GOV-001 branch protection 実適用値（spec_created / 2026-04-28）
+
+`docs/30-workflows/ut-gov-001-github-branch-protection-apply/` は、上記草案を GitHub REST API `PUT /repos/{owner}/{repo}/branches/{branch}/protection` 用 payload へ正規化して dev / main に適用するための実行仕様である。実 `PUT` は Phase 13 のユーザー明示承認後に限る。
+
+UT-GOV-001 の適用予定値は solo 運用と衝突しないよう、草案のレビュー人数強制を採用せず `required_pull_request_reviews=null` に正規化する。
+
+| 項目 | `dev` | `main` |
+| --- | --- | --- |
+| Required pull request reviews | `null`（solo 運用 / 必須レビュアーなし） | `null`（solo 運用 / 必須レビュアーなし） |
+| Required status checks | UT-GOV-004 で実在 job 名同期済みの contexts のみ。未完了時は `contexts=[]` で 2 段階適用 | `dev` と同一 |
+| Strict status checks | `true` | `true` |
+| Enforce admins | `true`（rollback payload と enforce_admins DELETE 経路を事前準備） | `true`（同左） |
+| Required linear history | `true` | `true` |
+| Required conversation resolution | `true` | `true` |
+| Allow force pushes / deletions | `false` / `false` | `false` / `false` |
+| Lock branch | `false`（freeze runbook 未整備のため固定） | `false`（同左） |
+| Restrictions | `null` | `null` |
+
+運用境界:
+
+- snapshot / payload / rollback / applied JSON は `{branch}` サフィックスで分離し、bulk PUT は行わない。
+- GET 応答はそのまま PUT せず、`enforce_admins.enabled` → bool、`restrictions.users[].login` → 配列、`required_pull_request_reviews=null` などを adapter で正規化する。
+- GitHub 側の branch protection 実値を正本、CLAUDE.md を参照文書とし、適用後は `gh api` GET と `grep` で drift を確認する。
+
 ---
 
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-04-28 | 1.2.1 | UT-GOV-001 branch protection apply spec_created sync。solo 運用の実適用予定値として `required_pull_request_reviews=null`、UT-GOV-004 contexts 積集合、`lock_branch=false`、`enforce_admins=true`、dev/main 別 payload と rollback 境界を追記。 |
 | 2026-04-09 | 1.0.0 | 初版作成（feature/dev/main 3層ブランチ戦略） |
 | 2026-04-26 | 1.1.0 | 個人開発方針反映: PR 承認を 2名/1名 → 0名（承認不要）に変更。CI チェック必須は維持。production Required reviewers を 0名に変更。Issue #23 対応。 |
 | 2026-04-28 | 1.2.0 | task-github-governance-branch-protection spec_created sync。dev=1名 / main=2名レビュー、squash-only、linear history、CODEOWNERS / last-push approval、8 required status checks 草案を追記。実適用は後続タスク・ユーザー承認後に限定。 |
