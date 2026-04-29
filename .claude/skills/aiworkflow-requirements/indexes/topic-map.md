@@ -858,11 +858,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L81 |
-| UBM-Hyogo Admin Sync API（03a） | L102 |
-| Desktop IPC API サマリー | L124 |
-| 変更履歴 | L155 |
-| 関連ドキュメント | L169 |
+| エンドポイント命名規則 | L90 |
+| UBM-Hyogo Admin Sync API（03a） | L111 |
+| UBM-Hyogo Member Self-Service API（04b） | L133 |
+| Desktop IPC API サマリー | L151 |
+| 変更履歴 | L182 |
+| 関連ドキュメント | L197 |
 
 ### references/api-internal-chunk-search.md
 
@@ -930,6 +931,7 @@ node scripts/list-specs.js --topics
 | 対象 repository | L11 |
 | 境界 | L21 |
 | 下流連携 | L29 |
+| 04b member self-service queue | L40 |
 
 ### references/database-architecture.md
 
@@ -997,16 +999,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L8 |
 | テーブル一覧 | L13 |
-| ワークフロー関連テーブル | L39 |
-| ユーザー関連テーブル | L78 |
-| システムプロンプト関連テーブル | L112 |
-| チャット関連テーブル | L149 |
-| RAG関連テーブル | L185 |
-| Knowledge Graph関連テーブル | L227 |
-| 変換処理関連テーブル | L361 |
-| インデックス設計 | L420 |
-| 関連ドキュメント | L479 |
-| 変更履歴 | L489 |
+| UBM 会員 Forms 同期テーブル（03b） | L45 |
+| ワークフロー関連テーブル | L60 |
+| ユーザー関連テーブル | L99 |
+| システムプロンプト関連テーブル | L133 |
+| チャット関連テーブル | L170 |
+| RAG関連テーブル | L206 |
+| Knowledge Graph関連テーブル | L248 |
+| 変換処理関連テーブル | L382 |
+| インデックス設計 | L441 |
+| 関連ドキュメント | L500 |
+| 変更履歴 | L510 |
 
 ---
 
@@ -1803,13 +1806,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L9 |
 | 1. 階層優先順位 | L23 |
-| 2. `defaultMode` 統一方針 | L47 |
-| 3. `--dangerously-skip-permissions` 併用方針 | L68 |
-| 4. `permissions.allow` / `permissions.deny` whitelist 設計 | L89 |
-| 5. 公式 docs URL | L118 |
-| 6. Reference Contracts (TypeScript) | L128 |
-| 7. 関連タスク wave（DevEx 衝突防止） | L152 |
-| 8. 適用先システム仕様書 | L176 |
+| 2. `defaultMode` ハイブリッド方針 | L47 |
+| 3. `--dangerously-skip-permissions` 保留方針 | L72 |
+| 4. `permissions.allow` / `permissions.deny` whitelist 設計 | L93 |
+| 5. 公式 docs URL | L122 |
+| 6. Reference Contracts (TypeScript) | L132 |
+| 7. 関連タスク wave（DevEx 衝突防止） | L156 |
+| 8. 適用先システム仕様書 | L180 |
+| 9. FORCED-GO + TC BLOCKED 経路（W2 / 2026-04-28 追加） | L193 |
+| 10. zsh conf.d 経路（D1 / 2026-04-28 追加） | L234 |
+| 11. 関連 lessons-learned | L276 |
 
 ### references/claude-code-skills-agents.md
 
@@ -2120,6 +2126,18 @@ node scripts/list-specs.js --topics
 | TASK-IMP-AGENTVIEW-IMPROVE-ROUTE-001: AgentView <-> SkillAnalysis round-trip（2026-03-20） | L180 |
 | 変更履歴 | L224 |
 
+### references/workflow-skill-md-codex-validation-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L16 |
+| Phase Outputs（current canonical set） | L29 |
+| Skill 反映先（current canonical set） | L52 |
+| Follow-up 未タスク | L81 |
+| Validation Chain | L89 |
+| 関連ドキュメント | L102 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2192,6 +2210,18 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L99 |
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
+
+### references/workflow-ut-gov-004-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Phase 別 outputs（13 phases） | L8 |
+| 2. UT-GOV-001 への入力契約（唯一の機械可読正本） | L26 |
+| 3. branch protection 運用ルール 4 項目（system-spec-update-summary.md §4） | L35 |
+| 4. skill 反映先（aiworkflow-requirements） | L44 |
+| 5. 上書き済み既存タスク | L54 |
+| 6. リレー先未タスク | L63 |
+| 7. 不変条件 | L72 |
 
 ### references/workflow-ut08-monitoring-alert-design-artifact-inventory.md
 
@@ -2441,7 +2471,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L132 |
+| 変更履歴 | L156 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2460,16 +2490,16 @@ node scripts/list-specs.js --topics
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L45 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L122 |
-| Cloudflare D1 データベース | L216 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L249 |
-| GitHub Actions CI/CD | L361 |
-| プレビューデプロイメント | L393 |
-| カスタムドメイン設定 | L410 |
-| 環境分離 | L423 |
-| ロールバック戦略 | L443 |
-| コスト概算（個人開発） | L464 |
-| モニタリング/アラート（UT-08 連携） | L476 |
-| 変更履歴 | L493 |
+| Cloudflare D1 データベース | L229 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L262 |
+| GitHub Actions CI/CD | L374 |
+| プレビューデプロイメント | L406 |
+| カスタムドメイン設定 | L423 |
+| 環境分離 | L436 |
+| ロールバック戦略 | L456 |
+| コスト概算（個人開発） | L477 |
+| モニタリング/アラート（UT-08 連携） | L489 |
+| 変更履歴 | L506 |
 
 ### references/deployment-core.md
 
@@ -2636,13 +2666,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L67 |
-| 環境別設定 | L141 |
-| Electron アプリでの環境変数 | L195 |
-| トラブルシューティング | L252 |
-| チーム開発での運用 | L313 |
-| 必須環境変数一覧 | L352 |
-| 関連ドキュメント | L422 |
+| セキュリティベストプラクティス | L78 |
+| 環境別設定 | L152 |
+| Electron アプリでの環境変数 | L206 |
+| トラブルシューティング | L263 |
+| チーム開発での運用 | L324 |
+| 必須環境変数一覧 | L363 |
+| 関連ドキュメント | L433 |
 
 ### references/error-handling-core.md
 
@@ -2743,14 +2773,14 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L6 |
-| 使い方 | L14 |
-| Current Alias Overrides（個別互換行） | L21 |
-| Family Summary | L43 |
-| Detailed Register | L63 |
-| Section Extract Register (2026-03-17) | L244 |
-| 500-Line Split Register (2026-03-16) | L255 |
-| Fragment Migration Register (2026-04-28) | L277 |
+| 概要 | L7 |
+| 使い方 | L15 |
+| Current Alias Overrides（個別互換行） | L22 |
+| Family Summary | L44 |
+| Detailed Register | L65 |
+| Section Extract Register (2026-03-17) | L246 |
+| 500-Line Split Register (2026-03-16) | L257 |
+| Fragment Migration Register (2026-04-28) | L279 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -2762,12 +2792,51 @@ node scripts/list-specs.js --topics
 | L-03a-004: AC-7 stableKey 直書き禁止の事前防止策の欠如 | L27 |
 | L-03a-005: Google Forms API quota 枯渇リスク（free tier） | L33 |
 
+### references/lessons-learned-03b-response-sync-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-03B-001: `sync_jobs.metrics_json.cursor` は Google API の `pageToken` ではない | L9 |
+| L-03B-002: 同 `submittedAt` 時の current_response 切替は `responseId` 降順で tie-break | L17 |
+| L-03B-003: unknown field の重複 enqueue は partial UNIQUE で no-op 化 | L25 |
+| L-03B-004: cron 無料枠は per-sync write 上限で守る | L33 |
+| L-03B-005: `responseEmail` は system field、`response_fields` には保存しない | L41 |
+| L-03B-006: 二重起動防止は同種 job_type の `running` 行検査で 409 を返す | L49 |
+| L-03B-007: 旧 `ruleConsent` 表記の混入は入口で `rulesConsent` へ正規化 | L57 |
+
+### references/lessons-learned-04b-member-self-service.md
+
+| セクション | 行 |
+|------------|----|
+| L-04B-001: `SessionUserZ.authGateState` enum は「保持」と「ゲート判定」で文脈が違う | L9 |
+| L-04B-002: `packages/shared` の exports field にサブパスを網羅する | L17 |
+| L-04B-003: 「本文編集禁止」の不変条件根拠は specs に分散しているので 1 箇所に集約参照する | L25 |
+| L-04B-004: `admin_member_notes` schema 変更は wave 間 ownership を Phase 1 で宣言する | L33 |
+| L-04B-005: Auth.js 未着フェーズの dev session ヘッダは production guard を必ず最初に書く | L41 |
+
+### references/lessons-learned-claude-code-permissions-apply-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L11 |
+| 申し送り（open / baseline 未タスク） | L92 |
+| 関連 references | L101 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
 |------------|----|
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
+
+### references/lessons-learned-skill-codex-validation-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 教訓一覧 | L11 |
+| 派生未タスク | L43 |
+| 関連ドキュメント | L51 |
 
 ### references/lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md
 
@@ -2782,6 +2851,27 @@ node scripts/list-specs.js --topics
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
 
+### references/lessons-learned-ut-gov-001-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-GOV-001: GET 形 / PUT 形の用途分離（payload adapter pattern） | L9 |
+| L-GOV-002: UT-GOV-004 完了前提の N 重明記（順序事故防止） | L20 |
+| L-GOV-003: spec_created と user_approval_required の二重ゲート | L31 |
+| L-GOV-004: NON_VISUAL / 手動 smoke の evidence 充足基準（docs-only 代替 evidence） | L42 |
+| 関連参照 | L55 |
+
+### references/lessons-learned-ut-gov-004-branch-protection-context-sync.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| branch protection 運用ルール 4 項目（system-spec-update-summary.md §4 正本） | L12 |
+| 苦戦箇所 6 件（index.md §苦戦箇所・知見 由来） | L21 |
+| 機械可読正本（UT-GOV-001 への入力契約） | L64 |
+| 関連リレー先 | L81 |
+| 不変条件 touched | L90 |
+
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
 | セクション | 行 |
@@ -2795,8 +2885,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L47 |
-| 関連ドキュメント | L52 |
+| 利用順序 | L48 |
+| 関連ドキュメント | L53 |
 
 ### references/llm-embedding.md
 
@@ -3883,7 +3973,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 残課題（未タスク） | L6 |
 | task-worktree-environment-isolation follow-up（2026-04-28） | L352 |
-| 続き | L363 |
+| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L363 |
+| 続き | L373 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

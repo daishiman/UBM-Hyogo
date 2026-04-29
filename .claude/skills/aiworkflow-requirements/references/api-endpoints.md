@@ -62,6 +62,15 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 | GET      | /api/health    | ヘルスチェック | 不要 |
 | GET      | /api/v1/status | 詳細ステータス | 必要 |
 
+### 管理同期 API（apps/api）
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| POST | /admin/sync | Google Sheets 由来の既存同期ジョブを手動実行 | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | /admin/sync/responses | Google Forms `forms.responses.list` を D1 に取り込み、`current_response_id` と consent snapshot を更新 | `SYNC_ADMIN_TOKEN` Bearer |
+
+`POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。
+
 ### チャット履歴
 
 | メソッド | パス                           | 説明                   | 認証 |
@@ -121,6 +130,24 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 ---
 
+## UBM-Hyogo Member Self-Service API（04b）
+
+`04b-parallel-member-self-service-api-endpoints` で会員本人向け `/me/*` endpoint を追加した。
+Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token は `x-ubm-dev-session: 1`
+がある development request のみ有効で、production / staging では無効。
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
+| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す |
+| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入 |
+| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入 |
+
+禁止: `PATCH /me/profile` は作らない。`/me/*` path に `:memberId` を入れない。GET 系 response に
+`admin_member_notes` 由来の `notes` / `adminNotes` を含めない。
+
+---
+
 ## Desktop IPC API サマリー
 
 ### 主要IPCチャンネル
@@ -156,6 +183,7 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 | Version | Date       | Changes                                            |
 | ------- | ---------- | -------------------------------------------------- |
+| 2.6.0   | 2026-04-29 | 03b: `POST /admin/sync/responses` 管理同期 API を追加 |
 | 2.5.0   | 2026-03-11 | TASK-FIX-APIKEY-CHAT-TOOL-INTEGRATION-001: Desktop IPC API サマリーの AI/チャットへ `llm:set-selected-config` を追加 |
 | 2.4.0   | 2026-03-11 | TASK-UI-08-NOTIFICATION-CENTER: Notification IPC サマリーに `notification:delete` を追加し、058e の個別削除契約へ同期 |
 | 2.3.0   | 2026-03-05 | TASK-UI-01-C-NOTIFICATION-HISTORY-DOMAIN: Notification（5チャネル）/ HistorySearch（2チャネル）をDesktop IPC APIサマリーへ追加 |
