@@ -2,7 +2,7 @@
 // publishState / hiddenReason 更新（不変条件 #11: admin 用 setter 経由）
 import { Hono } from "hono";
 import { z } from "zod";
-import { adminGate } from "../../middleware/admin-gate";
+import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId } from "../../repository/_shared/brand";
 import { getStatus, setPublishState } from "../../repository/status";
@@ -24,7 +24,7 @@ const SYSTEM_ADMIN = asAdminId("system");
 
 export const createAdminMemberStatusRoute = () => {
   const app = new Hono<{ Bindings: AdminRouteEnv }>();
-  app.use("*", adminGate);
+  app.use("*", requireAdmin);
 
   app.patch("/members/:memberId/status", async (c) => {
     const memberId = c.req.param("memberId");

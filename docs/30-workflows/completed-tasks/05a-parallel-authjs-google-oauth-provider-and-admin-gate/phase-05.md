@@ -83,7 +83,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ user, account }) {
       if (account?.provider !== "google") return false
       const r = await fetch(`${process.env.AUTH_URL}/internal/auth/session-resolve?email=${encodeURIComponent(user.email!)}`, {
-        headers: { "x-internal-token": process.env.INTERNAL_TOKEN! },
+        headers: { "x-internal-token": process.env.INTERNAL_AUTH_SECRET! },
       })
       const me = await r.json() as { memberId: string | null; isAdmin: boolean; gateReason?: string }
       if (!me.memberId) {
@@ -154,7 +154,7 @@ import { isAdminMember } from "@/repository/admin-user" // 02c
 const app = new Hono<{ Bindings: Env }>()
 
 app.get("/", async (c) => {
-  if (c.req.header("x-internal-token") !== c.env.INTERNAL_TOKEN) {
+  if (c.req.header("x-internal-token") !== c.env.INTERNAL_AUTH_SECRET) {
     return c.json({ error: "forbidden" }, 403)
   }
   const email = c.req.query("email")
@@ -246,7 +246,7 @@ module.exports = {
 | #9 (`/no-access` 不在) | 拒否時 redirect 先が `/login?gate=...` のみ | #9 |
 | #10 (無料枠) | session storage が JWT、D1 row 増なし | #10 |
 | #11 (admin gate) | middleware + requireAdmin の二段防御 | #11 |
-| secret hygiene | `AUTH_SECRET` `GOOGLE_CLIENT_SECRET` `INTERNAL_TOKEN` は `wrangler secret put` のみ。`.env` にも記載しない | - |
+| secret hygiene | `AUTH_SECRET` `GOOGLE_CLIENT_SECRET` `INTERNAL_AUTH_SECRET` は `wrangler secret put` のみ。`.env` にも記載しない | - |
 
 ## サブタスク管理
 

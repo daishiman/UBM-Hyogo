@@ -85,7 +85,7 @@ Phase 5 の正常系に対して、401 / 403 / 404 / 422 / 5xx / consent 撤回 
 | 連携先 Phase | 連携内容 |
 | --- | --- |
 | Phase 7 | 異常系 ID を AC との対応表に組み込む |
-| Phase 9 | secret hygiene チェックリスト（INTERNAL_TOKEN 取り扱い） |
+| Phase 9 | secret hygiene チェックリスト（INTERNAL_AUTH_SECRET 取り扱い） |
 | 05b | F-21 と同様の fail closed パターンを共有 |
 | 07c | F-12〜F-14 の gate 拒否を audit log に記録 |
 | 08a | contract test の異常系入力 |

@@ -2,10 +2,12 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminDashboardRoute } from "./dashboard";
+import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "admin-token",
+  AUTH_SECRET: TEST_AUTH_SECRET,
 });
 
 describe("GET /admin/dashboard", () => {
@@ -24,7 +26,7 @@ describe("GET /admin/dashboard", () => {
     const app = createAdminDashboardRoute();
     const res = await app.request(
       "/dashboard",
-      { headers: { Authorization: "Bearer admin-token" } },
+      { headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(res.status).toBe(200);
