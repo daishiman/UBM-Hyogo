@@ -2573,15 +2573,15 @@ node scripts/list-specs.js --topics
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L53 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L130 |
-| Cloudflare D1 データベース | L239 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L272 |
-| GitHub Actions CI/CD | L384 |
-| プレビューデプロイメント | L416 |
-| カスタムドメイン設定 | L433 |
-| 環境分離 | L446 |
-| ロールバック戦略 | L456 |
-| モニタリング/アラート（UT-08 連携） | L477 |
-| 変更履歴 | L494 |
+| Cloudflare D1 データベース | L242 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L275 |
+| GitHub Actions CI/CD | L387 |
+| プレビューデプロイメント | L419 |
+| カスタムドメイン設定 | L436 |
+| 環境分離 | L449 |
+| ロールバック戦略 | L459 |
+| モニタリング/アラート（UT-08 連携） | L480 |
+| 変更履歴 | L497 |
 
 ### references/deployment-core.md
 
@@ -2750,14 +2750,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L94 |
-| 環境別設定 | L168 |
-| Electron アプリでの環境変数 | L222 |
-| トラブルシューティング | L279 |
-| チーム開発での運用 | L340 |
-| 必須環境変数一覧 | L379 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L448 |
-| 関連ドキュメント | L468 |
+| セキュリティベストプラクティス | L98 |
+| 環境別設定 | L172 |
+| Electron アプリでの環境変数 | L226 |
+| トラブルシューティング | L283 |
+| チーム開発での運用 | L344 |
+| 必須環境変数一覧 | L383 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L452 |
+| 関連ドキュメント | L472 |
 
 ### references/error-handling-core.md
 
@@ -3003,6 +3003,23 @@ node scripts/list-specs.js --topics
 | L-T6-005: A-2（#130）未完了状態で T-6 着手すると `LOGS.md` を gitignore 連動で誤って ignore 化する経路 | L44 |
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
+
+### references/lessons-learned-ut-03-sheets-auth-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT03-001: Service Account vs OAuth Client の選定（無料枠 + KV/D1 不要を優先） | L10 |
+| L-UT03-002: Cloudflare Workers 上の JWT 生成は Web Crypto API でしか動かない | L21 |
+| L-UT03-003: Cloudflare Secret に PEM を貼ると `\n` が文字列エスケープされる罠 | L32 |
+| L-UT03-004: シークレット環境別管理は `.dev.vars` + `bash scripts/cf.sh secret put` に一本化 | L43 |
+| L-UT03-005: Spreadsheet 共有忘れによる 403 PERMISSION_DENIED の早期検出 | L54 |
+| L-UT03-006: TTL 5 分リード refresh + in-flight Promise 共有で isolate 同時起動を吸収 | L65 |
+| L-UT03-007: `expiresAt` の単位混在（ms vs sec）でキャッシュ無効化バグ | L76 |
+| L-UT03-008: redact ヘルパは認証モジュールに同梱（PEM / private_key / Bearer の 3 パターン） | L87 |
+| L-UT03-009: Forms と Sheets の認証契約を統合せず併存させる判断 | L98 |
+| L-UT03-010: NON_VISUAL evidence 縮約と smoke の UT-26 委譲 | L109 |
+| 後続 wave への引き継ぎ | L122 |
+| 関連参照 | L128 |
 
 ### references/lessons-learned-ut-06-fu-h-2026-04.md
 
@@ -4126,13 +4143,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L46 |
-| フェーズ構造（概要） | L55 |
-| 品質ゲート（概要） | L86 |
-| 出力テンプレート | L97 |
-| 実行時のコマンド・エージェント・スキル | L120 |
-| 昇格パターン集 | L144 |
-| Current Active / Spec Created Tasks | L146 |
+| ドキュメント構成 | L56 |
+| フェーズ構造（概要） | L65 |
+| 品質ゲート（概要） | L96 |
+| 出力テンプレート | L107 |
+| 実行時のコマンド・エージェント・スキル | L130 |
+| 昇格パターン集 | L154 |
+| Current Active / Spec Created Tasks | L156 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -8,6 +8,16 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UT-03 Sheets API 認証方式設定（2026-04-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | completed / Phase 1-12 完了 / Phase 13 pending / NON_VISUAL |
+| 成果物 | `docs/30-workflows/ut-03-sheets-api-auth-setup/` |
+| 実装 | `packages/integrations/google/src/sheets/auth.ts` / `auth.test.ts` / `auth.contract.test.ts` |
+| 公開契約 | `@ubm-hyogo/integrations-google` の `sheets` namespace export |
+| 後続 | UT-09 / UT-21 が consumer。実 Google Sheets API smoke は UT-26 で実施 |
+
 ### 目的
 
 ユーザーから与えられた複雑なタスクを分解し、以下を実現する：
