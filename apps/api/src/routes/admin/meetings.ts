@@ -5,6 +5,7 @@ import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { auditAction } from "../../repository/_shared/brand";
 import { listMeetings, insertMeeting } from "../../repository/meetings";
+import { listAttendanceBySession } from "../../repository/attendance";
 import { append as auditAppend } from "../../repository/auditLog";
 import type { AdminRouteEnv } from "./_shared";
 
@@ -34,7 +35,17 @@ export const createAdminMeetingsRoute = () => {
     const { limit, offset } = parsed.data;
     const db = ctx({ DB: c.env.DB });
     const items = await listMeetings(db, limit, offset);
-    return c.json({ total: items.length, items }, 200);
+    const itemsWithAttendance = await Promise.all(
+      items.map(async (item) => ({
+        ...item,
+        attendance: (await listAttendanceBySession(db, item.sessionId)).map((a) => ({
+          memberId: a.memberId,
+          assignedAt: a.assignedAt,
+          assignedBy: a.assignedBy,
+        })),
+      })),
+    );
+    return c.json({ total: itemsWithAttendance.length, items: itemsWithAttendance }, 200);
   });
 
   app.post("/meetings", async (c) => {

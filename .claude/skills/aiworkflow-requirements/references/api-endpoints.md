@@ -89,7 +89,7 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 | POST | `/admin/tags/queue/:queueId/resolve` | queue item を `queued -> reviewing -> resolved` で解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/schema/aliases` | question stable key alias を解決する | Auth.js JWT + `requireAdmin` |
-| GET | `/admin/meetings` | meeting sessions と attendance summary を一覧する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/meetings` | meeting sessions と attendance summary（既存出席 memberId）を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings` | meeting session を作成する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409`、削除済み member は `422` | Auth.js JWT + `requireAdmin` |
 | DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する | Auth.js JWT + `requireAdmin` |

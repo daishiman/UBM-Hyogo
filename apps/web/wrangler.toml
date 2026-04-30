@@ -1,15 +1,17 @@
 name = "ubm-hyogo-web"
-pages_build_output_dir = ".next"
+main = ".open-next/worker.js"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[observability]
+enabled = true
+
 [vars]
-ENVIRONMENT = "production"
-
-[env.production]
-name = "ubm-hyogo-web"
-
-[env.production.vars]
 ENVIRONMENT = "production"
 
 [env.staging]
@@ -17,3 +19,25 @@ name = "ubm-hyogo-web-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
+
+[env.staging.assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[env.staging.observability]
+enabled = true
+
+[env.production]
+name = "ubm-hyogo-web-production"
+
+[env.production.vars]
+ENVIRONMENT = "production"
+
+[env.production.assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[env.production.observability]
+enabled = true
