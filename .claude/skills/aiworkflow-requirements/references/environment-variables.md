@@ -54,12 +54,15 @@
 | `GOOGLE_FORM_ID` | Variable | response sync 対象の Google Form ID | `apps/api/wrangler.toml` |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Secret | Google Sheets API 用 Service Account JSON key。UT-25 で配置 runbook と staging-first 手順を確定した正本名。`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts` が参照する | Cloudflare Workers Secrets（staging / production） |
 | `GOOGLE_SHEETS_SA_JSON` | Secret | 旧 Sheets sync 実装名。移行期間の alias として実装側のみ許容し、Cloudflare Workers Secret の新規投入名には使わない | Cloudflare Secrets（legacy alias） |
+| `SHEETS_SPREADSHEET_ID` | Variable | u-04 Sheets → D1 sync の Google Sheets spreadsheet ID。`apps/api/src/sync/sheets-client.ts` が参照する | `apps/api/wrangler.toml` |
+| `SYNC_RANGE` | Variable | u-04 Sheets API range。既定は `Form Responses 1!A1:ZZ10000` | `apps/api/wrangler.toml` |
+| `SYNC_MAX_RETRIES` | Variable | u-04 Sheets API retry 上限。実装は 3 を上限に clamp する | `apps/api/wrangler.toml` |
 | `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Secret | Forms API service account email | Cloudflare Secrets |
 | `GOOGLE_PRIVATE_KEY` | Secret | JWT assertion 署名用 private key | Cloudflare Secrets |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Secret | Sheets API service account JSON key（UT-03 `packages/integrations/google/src/sheets/auth.ts`） | Cloudflare Secrets / 1Password |
 | `SHEETS_SCOPES` | Variable | Sheets API OAuth scope override。未指定時は `https://www.googleapis.com/auth/spreadsheets.readonly` | `apps/api/wrangler.toml` または env binding |
 | `SHEETS_SPREADSHEET_ID` | Variable / Secret | Sheets sync 対象 spreadsheet ID（UT-09 / UT-21 consumer） | `apps/api/wrangler.toml` または Cloudflare Secrets |
-| `SYNC_ADMIN_TOKEN` | Secret | `/admin/sync` / `/admin/sync/responses` Bearer 認証 | Cloudflare Secrets |
+| `SYNC_ADMIN_TOKEN` | Secret | `/admin/sync`, `/admin/sync/run`, `/admin/sync/backfill`, `/admin/sync/audit`, `/admin/sync/responses`, `/admin/sync/schema` Bearer 認証 | Cloudflare Secrets |
 | `HEALTH_DB_TOKEN` | Secret | `GET /health/db` の `X-Health-Token` 検証用 token | Cloudflare Secrets |
 
 `FORM_ID` は旧設定互換として残せるが、03b response sync の正本名は `GOOGLE_FORM_ID` とする。

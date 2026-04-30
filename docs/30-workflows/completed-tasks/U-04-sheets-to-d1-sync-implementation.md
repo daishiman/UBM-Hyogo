@@ -10,7 +10,7 @@
 | 対象機能     | `apps/api/src/sync/*` / manual endpoint / scheduled handler / audit writer |
 | 優先度       | 高 (HIGH)                                                           |
 | 見積もり規模 | 中規模                                                              |
-| ステータス   | 未実施                                                              |
+| ステータス   | 完了（`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation/` Phase 1-12 completed / Phase 13 pending） |
 | 発見元       | Phase 12 / unassigned-task-detection.md (U-04)                      |
 | 発見日       | 2026-04-23                                                          |
 
@@ -24,8 +24,8 @@
 
 ### 1.2 問題点・課題
 
-- `apps/api/src/sync/*` 配下の sync 実装がまだ存在しない。
-- manual endpoint（運用者トリガ）、scheduled handler（Cron 起動）、audit writer（`sync_audit` への記録）の各実装が必要。
+- `apps/api/src/sync/*` 配下の sync 実装が必要だった（u-04 で完了）。
+- manual endpoint（運用者トリガ）、scheduled handler（Cron 起動）、audit writer（論理 `sync_audit`、物理 `sync_job_logs` への記録）の各実装が必要だった。
 - 本タスクで対応すると docs-only contract task の境界を超えるため、後続実装タスクとして切り出す必要がある。
 
 ### 1.3 放置した場合の影響
@@ -45,7 +45,7 @@ Sheets → D1 sync の 3 系統（manual / scheduled / backfill）を `apps/api`
 
 - manual endpoint が Cloudflare Workers の Hono ルートとして配備済み。
 - scheduled handler が Cron Trigger として登録済み。
-- audit writer が全 sync 実行で `sync_audit` レコードを必ず書く。
+- audit writer が全 sync 実行で論理 `sync_audit`（物理 `sync_job_logs`）レコードを必ず書く。
 - Phase 02 の `outputs/phase-02/data-contract.md` / `outputs/phase-02/sync-flow.md` と実装の差分ゼロ。
 
 ### 2.3 スコープ

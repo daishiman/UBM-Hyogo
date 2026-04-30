@@ -271,8 +271,8 @@ node scripts/list-specs.js --topics
 | セキュリティアーキテクチャ | L146 |
 | 状態管理アーキテクチャ | L180 |
 | データフローアーキテクチャ | L217 |
-| ディレクトリ構造 | L264 |
-| データ構造（型システム） | L323 |
+| ディレクトリ構造 | L265 |
+| データ構造（型システム） | L324 |
 
 ### references/architecture-overview-details.md
 
@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L155 |
-| UBM-Hyogo Admin Sync API（03a） | L176 |
-| UBM-Hyogo Member Self-Service API（04b） | L198 |
-| Desktop IPC API サマリー | L216 |
-| 変更履歴 | L247 |
-| 関連ドキュメント | L263 |
+| エンドポイント命名規則 | L160 |
+| UBM-Hyogo Admin Sync API（03a） | L181 |
+| UBM-Hyogo Member Self-Service API（04b） | L203 |
+| Desktop IPC API サマリー | L221 |
+| 変更履歴 | L252 |
+| 関連ドキュメント | L268 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2571,17 +2571,18 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L53 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L130 |
-| Cloudflare D1 データベース | L242 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L275 |
-| GitHub Actions CI/CD | L387 |
-| プレビューデプロイメント | L434 |
-| カスタムドメイン設定 | L450 |
-| 環境分離 | L463 |
-| ロールバック戦略 | L473 |
-| モニタリング/アラート（UT-08 連携） | L494 |
-| 変更履歴 | L511 |
+| API Worker Cron（u-04 Sheets → D1 sync） | L51 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L76 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L153 |
+| Cloudflare D1 データベース | L265 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L298 |
+| GitHub Actions CI/CD | L410 |
+| プレビューデプロイメント | L457 |
+| カスタムドメイン設定 | L473 |
+| 環境分離 | L486 |
+| ロールバック戦略 | L496 |
+| モニタリング/アラート（UT-08 連携） | L517 |
+| 変更履歴 | L534 |
 
 ### references/deployment-core.md
 
@@ -2750,14 +2751,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L98 |
-| 環境別設定 | L172 |
-| Electron アプリでの環境変数 | L226 |
-| トラブルシューティング | L283 |
-| チーム開発での運用 | L344 |
-| 必須環境変数一覧 | L383 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L452 |
-| 関連ドキュメント | L472 |
+| セキュリティベストプラクティス | L101 |
+| 環境別設定 | L175 |
+| Electron アプリでの環境変数 | L229 |
+| トラブルシューティング | L286 |
+| チーム開発での運用 | L347 |
+| 必須環境変数一覧 | L386 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L455 |
+| 関連ドキュメント | L475 |
 
 ### references/error-handling-core.md
 

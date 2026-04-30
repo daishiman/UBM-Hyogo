@@ -23,7 +23,13 @@ import { adminMeetingsRoute } from "./routes/admin/meetings";
 import { adminAttendanceRoute } from "./routes/admin/attendance";
 import { ctx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
-import { runSync, type SyncEnv } from "./jobs/sync-sheets-to-d1";
+import { type SyncEnv } from "./jobs/sync-sheets-to-d1";
+import {
+  manualSyncRoute,
+  backfillSyncRoute,
+  auditQueryRoute,
+  runScheduledSync,
+} from "./sync";
 import {
   runResponseSync,
   type ResponseSyncEnv,
@@ -218,6 +224,10 @@ app.route(
 app.get("/admin/healthz", (c) => c.json({ ok: true, scope: "admin" }));
 
 app.route("/admin", adminSyncRoute);
+// u-04: 正本 POST /admin/sync/run + POST /admin/sync/backfill + GET /admin/sync/audit
+app.route("/", manualSyncRoute);
+app.route("/", backfillSyncRoute);
+app.route("/", auditQueryRoute);
 // 03a: schema 同期 endpoint（POST /admin/sync/schema）
 app.route("/admin", adminSyncSchemaRoute);
 // 03b: response 同期 endpoint（POST /admin/sync/responses）
@@ -316,6 +326,9 @@ export default {
       );
       return;
     }
-    ctx.waitUntil(runSync(env, { trigger: "cron" }));
+    if (cron === "0 * * * *") {
+      // u-04: 毎時 0 分の sheets→D1 scheduled sync。
+      ctx.waitUntil(runScheduledSync(env));
+    }
   },
 };

@@ -87,6 +87,16 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 - 新規定数/設定値の追加
 - API仕様の変更
 
+### LOGS / generated index / artifacts parity の実測ルール
+
+Phase 12 の Step 1-A で `LOGS.md` や `topic-map.md` を機械的に N/A にしない。現行 skill が fragment 化されている場合は次のように判定する。
+
+| 対象 | 実体がある場合 | 実体がない / 生成物の場合 |
+| --- | --- | --- |
+| `LOGS.md` | 直接 append し、changelog に記録する | `LOGS/` fragment、`LOGS/_legacy.md`、または workflow-local changelog のどれに記録したかを `system-spec-update-summary.md` に明記する |
+| `topic-map.md` / `keywords.json` | 手編集せず、正本更新後に generator を実行する | generator が存在しない場合のみ N/A。存在する場合は実行コマンドと結果を `phase12-task-spec-compliance-check.md` に残す |
+| root / outputs `artifacts.json` parity | 両方ある場合は内容と status を同期する | `outputs/artifacts.json` が存在しない workflow では、root ledger が唯一正本であることを compliance check に明記する |
+
 **Step 2 更新が不要な場合**:
 
 - 内部実装の詳細変更のみ
