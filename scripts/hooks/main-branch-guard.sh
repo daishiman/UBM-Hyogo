@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# main / dev ブランチへの直接コミットを pre-commit で禁止する。
-# 解除する場合: ALLOW_DIRECT_COMMIT=1 git commit ...  または  git commit --no-verify
+# main / dev ブランチへの直接コミットを禁止する。
+# prepare-commit-msg でも実行し、git commit --no-verify による迂回を防ぐ。
+# 解除する場合: ALLOW_DIRECT_COMMIT=1 git commit ...
 set -euo pipefail
 
 if [[ "${ALLOW_DIRECT_COMMIT:-0}" == "1" ]]; then
@@ -20,7 +21,6 @@ case "$current_branch" in
   1) 別ブランチに切り替え:    git switch -c feat/<name>
   2) ワークツリーで作業:      bash scripts/new-worktree.sh feat/<name>
   3) どうしても必要な場合:    ALLOW_DIRECT_COMMIT=1 git commit ...
-                              または git commit --no-verify
 EOF
     exit 1
     ;;

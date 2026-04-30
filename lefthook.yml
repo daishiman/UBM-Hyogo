@@ -28,6 +28,16 @@ pre-commit:
         意図的に含める場合: git commit --no-verify
         除外する場合:       git restore --staged <path>
 
+prepare-commit-msg:
+  parallel: true
+  commands:
+    main-branch-guard:
+      run: bash scripts/hooks/main-branch-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 main / dev ブランチへの直接コミットは禁止されています。
+        --no-verify では解除できません。必要な場合は ALLOW_DIRECT_COMMIT=1 を使ってください。
+
 post-merge:
   parallel: false
   commands:
