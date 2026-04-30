@@ -108,7 +108,7 @@
 | `apps/web` | Next.js 16 App Router + `@opennextjs/cloudflare`。`(public)`, `(member)`, `(admin)` route group layout を持つ |
 | `apps/api` | Hono on Workers。Wave 0 では `/healthz`, `/public/healthz`, `/me/healthz`, `/admin/healthz` の health scaffold を提供し、04a で `/public/stats`, `/public/members`, `/public/members/:memberId`, `/public/form-preview` を公開 API として追加 |
 | `packages/shared` | `MemberId`, `ResponseId`, `ResponseEmail`, `StableKey` の branded ID placeholder を export |
-| `packages/integrations/google` | `FormsClient` interface と `NotImplementedFormsClient` placeholder のみ。実 Forms API 実装は後続 Wave |
+| `packages/integrations/google` | `FormsClient` interface と `NotImplementedFormsClient` placeholder に加え、UT-03 の `src/sheets/auth.ts` が Sheets API Service Account JSON key 認証を提供する。公開境界は `@ubm-hyogo/integrations-google` の `sheets` namespace export（`sheets.getSheetsAccessToken` / `SheetsAuthEnv`）とし、UT-09 / UT-21 はこの namespace 経由で消費する |
 | boundary guard | `apps/web` から D1/API direct import、`localStorage` / `sessionStorage` 使用を lint guard で禁止 |
 
 Wave 0 では D1 binding、cron trigger、Google service account secret、sync mutation endpoint を導入しない。これらは 01a/01b/03/09 系 task の責務とする。

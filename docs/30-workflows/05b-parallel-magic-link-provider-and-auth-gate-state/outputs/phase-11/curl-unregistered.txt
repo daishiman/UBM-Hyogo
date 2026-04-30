@@ -1,6 +1,0 @@
-# M-01: unregistered email
-# 代替: vitest auth-routes.test.ts > "POST /auth/magic-link > unregistered email -> state=unregistered"
-# 入力: {"email":"unknown@example.com"}
-# 期待 status: 200
-# 期待 body: {"state":"unregistered"}
-# 実績: PASS
