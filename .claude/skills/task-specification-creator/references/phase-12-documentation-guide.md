@@ -21,6 +21,10 @@
 - screenshot fallback を完了根拠に使う場合は、placeholder-only の証跡を PASS 扱いにせず、coverage / metadata / fallback reason / source evidence まで current workflow に揃えた実測値で書く
 - state-only の修正は `NON_VISUAL` を優先し、callback 系の回帰は `setupCallbackCapture()` 相当の deterministic テストで固定する
 
+### docs-only / legacy umbrella の簡略化
+
+docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は長いチュートリアルではなく「なぜ旧入口を閉じるか」を短い例えで説明する。Part 2 は current contract と target delta、責務移管表、direct 残責務 0 件、stale/current/historical 分類を中心にする。runtime / UI 変更がない場合、screenshot evidence は要求せず、検証は Phase 12 7 ファイル実体、`audit-unassigned-tasks --target-file`、index 再生成、mirror parity のコンパクトな表でよい。
+
 **Part 2 必須見出し（IPC 変更がある場合）**:
 
 5. **Consumer Contract & IPC Compatibility** (IPC 変更がある場合のみ必須):
@@ -113,7 +117,19 @@
 - Phase 12 再監査で follow-up 自体を同一 wave 内に解消した場合は、open set から除外し、`docs/30-workflows/completed-tasks/unassigned-task/` へ完了移管した path を current fact として残す
 - `open` と `done` を同じ表に並べる場合は、`status` 列か等価な記法で未完了と完了移管を明示し、`documentation-changelog.md` / `system-spec-update-summary.md` / `task-workflow-backlog.md` の記述粒度をそろえる
 
+### 未タスク配置マトリクス
+
+| Source | Placement |
+| --- | --- |
+| active / future implementation | `docs/30-workflows/unassigned-task/` |
+| completed workflow に閉じた follow-up | `docs/30-workflows/completed-tasks/<workflow>/unassigned-task/` |
+| standalone completed spec | `docs/30-workflows/completed-tasks/<task>/` |
+| legacy standalone completed backlog | `docs/30-workflows/completed-tasks/unassigned-task/`（既存互換のみ） |
+
+新規作成は semantic filename を使い、旧 filename / path を残す場合は legacy register へ記録する。
+
 標準表は `検出項目 / status(open|done|baseline|duplicate) / formalize decision / path / 根拠` を基本形にする。current wave で解消した項目は `done`、既存未解消だが今回差分起因でないものは `baseline`、既存タスクと同義なら `duplicate` と明記する。
+
 
 ## Task 12-5: skill feedback
 
