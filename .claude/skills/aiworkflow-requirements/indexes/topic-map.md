@@ -2734,7 +2734,7 @@ node scripts/list-specs.js --topics
 | UBM-Hyogo API Worker Cron（03a） | L6 |
 | モニタリングとアラート | L10 |
 | デプロイチェックリスト | L73 |
-| GitHub Secrets の要件 | L126 |
+| GitHub Secrets / Variables の要件 | L126 |
 
 ### references/deployment-gha.md
 
@@ -2766,7 +2766,7 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets（CI/CD 用） | L87 |
+| GitHub Secrets / Variables（CI/CD 用） | L87 |
 | wrangler.toml の環境別設定 | L112 |
 | ローカル開発での設定 | L144 |
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L183 |
