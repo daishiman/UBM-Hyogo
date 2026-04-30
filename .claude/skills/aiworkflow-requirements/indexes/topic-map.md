@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L155 |
-| UBM-Hyogo Admin Sync API（03a） | L176 |
-| UBM-Hyogo Member Self-Service API（04b） | L198 |
-| Desktop IPC API サマリー | L216 |
-| 変更履歴 | L247 |
-| 関連ドキュメント | L263 |
+| エンドポイント命名規則 | L163 |
+| UBM-Hyogo Admin Sync API（03a） | L184 |
+| UBM-Hyogo Member Self-Service API（04b） | L206 |
+| Desktop IPC API サマリー | L224 |
+| 変更履歴 | L255 |
+| 関連ドキュメント | L271 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1006,23 +1006,39 @@ node scripts/list-specs.js --topics
 | Electron ローカルストレージ | L103 |
 | 関連ドキュメント | L166 |
 
+### references/database-schema-07b-schema-alias-assignment.md
+
+| セクション | 行 |
+|------------|----|
+| 07b Table Responsibilities | L9 |
+| Current D1 Delta Absorption | L18 |
+| Fixed Runtime Values | L24 |
+| Follow-up Boundary | L35 |
+
+### references/database-schema-index.md
+
+| セクション | 行 |
+|------------|----|
+| 関連ドキュメント | L5 |
+| 変更履歴 | L13 |
+
 ### references/database-schema.md
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L8 |
-| テーブル一覧 | L13 |
-| UBM 会員 Forms 同期テーブル（03b） | L45 |
-| ワークフロー関連テーブル | L60 |
-| ユーザー関連テーブル | L99 |
-| システムプロンプト関連テーブル | L133 |
+| 概要 | L6 |
+| テーブル一覧 | L11 |
+| UBM 会員 Forms 同期テーブル（03b） | L43 |
+| Schema alias assignment workflow（07b） | L58 |
+| ワークフロー関連テーブル | L62 |
+| ユーザー関連テーブル | L101 |
+| システムプロンプト関連テーブル | L135 |
 | チャット関連テーブル | L170 |
 | RAG関連テーブル | L206 |
 | Knowledge Graph関連テーブル | L248 |
 | 変換処理関連テーブル | L382 |
 | インデックス設計 | L441 |
-| 関連ドキュメント | L500 |
-| 変更履歴 | L510 |
+| 関連ドキュメント / 変更履歴 | L498 |
 
 ---
 
@@ -2191,6 +2207,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L110 |
 | Validation Chain | L119 |
 
+### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L19 |
+| Phase Outputs（current canonical set） | L33 |
+| 主要実装物 | L42 |
+| Skill 反映先（current canonical set） | L72 |
+| 実装で確定した値 | L87 |
+| Follow-up 未タスク（formalize 済み） | L97 |
+| Validation Chain | L103 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2861,11 +2890,11 @@ node scripts/list-specs.js --topics
 | 概要 | L7 |
 | 使い方 | L15 |
 | Current Alias Overrides（個別互換行） | L22 |
-| Family Summary | L44 |
-| Detailed Register | L65 |
-| Section Extract Register (2026-03-17) | L246 |
-| 500-Line Split Register (2026-03-16) | L257 |
-| Fragment Migration Register (2026-04-28) | L279 |
+| Family Summary | L45 |
+| Detailed Register | L66 |
+| Section Extract Register (2026-03-17) | L247 |
+| 500-Line Split Register (2026-03-16) | L258 |
+| Fragment Migration Register (2026-04-28) | L280 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -2954,6 +2983,18 @@ node scripts/list-specs.js --topics
 | L-06C-005: nested resource の 404（不在）と 409（重複・所有関係不整合）を UX feedback で別 toast に分ける | L50 |
 | 関連未タスク・後続 wave 連携 | L60 |
 | 参照 | L68 |
+
+### references/lessons-learned-07b-schema-alias-assignment-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-07B-001: 仕様書 DB スキーマと実 D1 schema の差分を実装前に grep で照合する | L10 |
+| L-07B-002: dryRun と apply は副作用境界（audit_log / queue 遷移）も含めて完全分離する | L18 |
+| L-07B-003: stableKey collision は revision-scoped UNIQUE pre-check + 422 で防御し、DB UNIQUE index は別タスクに切り出す | L26 |
+| L-07B-004: back-fill は batch サイズと CPU budget の二重ガードで Workers 30s 制限を逃げる | L34 |
+| L-07B-005: alias 候補提案は score 関数を service 層に分離し、Levenshtein + section/index で stateless に保つ | L42 |
+| 関連未タスク・後続 wave 連携 | L50 |
+| 参照 | L57 |
 
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
@@ -3086,8 +3127,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L55 |
-| 関連ドキュメント | L60 |
+| 利用順序 | L56 |
+| 関連ドキュメント | L61 |
 
 ### references/llm-embedding.md
 

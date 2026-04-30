@@ -1007,6 +1007,20 @@ packages/
 | 実装モジュール | `apps/api/src/sync/schema/` / `apps/api/src/middleware/admin-gate.ts` / `apps/api/src/routes/admin/sync-schema.ts` |
 | 苦戦知見 | `references/lessons-learned-03a-parallel-forms-schema-sync.md`（L-03a-001〜005） |
 
+### UBM-Hyogo Schema Alias Assignment 早見（07b / 2026-04-30）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/` |
+| API | `GET /admin/schema/diff`（`recommendedStableKeys` 同梱） / `POST /admin/schema/aliases?dryRun=true` / `POST /admin/schema/aliases` |
+| 実装 | `apps/api/src/workflows/schemaAliasAssign.ts`, `apps/api/src/services/aliasRecommendation.ts`, `apps/api/src/routes/admin/schema.ts` |
+| D1 書き込み | `schema_questions.stable_key` 更新、`schema_diff_queue.status='resolved'`、`response_fields` back-fill、`audit_log.action='schema_diff.alias_assigned'` |
+| dry-run | 書き込みなし。`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返し、audit なし |
+| collision / error | question/diff 不在 `404`、diff-question mismatch `409`、同一 revision stableKey collision `422` |
+| NON_VISUAL evidence | `ui_routes: []`。Phase 11 は API smoke 手順 + Vitest 証跡で成立し、スクリーンショット対象外 |
+| 正本仕様 | `references/api-endpoints.md`（§管理バックオフィス API 04c 07b close-out）, `references/database-schema-07b-schema-alias-assignment.md`（07b DB workflow）, `references/database-schema.md`（親導線） |
+| artifact inventory / lessons | `references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md`, `references/lessons-learned-07b-schema-alias-assignment-2026-04.md` |
+
 ### UBM-Hyogo Admin Backoffice API 早見（04c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |

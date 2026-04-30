@@ -86,6 +86,7 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 - 既存インターフェースの変更
 - 新規定数/設定値の追加
 - API仕様の変更
+- public response が不変でも、back-fill / CPU budget / retryable error / owner boundary / DB 実スキーマ差分吸収が入る場合
 
 **Step 2 更新が不要な場合**:
 
