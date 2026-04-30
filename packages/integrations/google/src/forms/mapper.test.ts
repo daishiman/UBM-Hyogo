@@ -103,7 +103,6 @@ describe("mapFormResponse branch coverage", () => {
     const raw: RawFormResponse = {
       responseId: "r_2",
       createTime: "2026-04-29T00:00:00Z",
-      respondentEmail: undefined,
       answers: {
         q_unknown: { textAnswers: { answers: [{ value: "v" }] } },
       },
