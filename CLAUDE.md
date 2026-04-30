@@ -157,6 +157,17 @@ pnpm lint
 > `.claude/skills/aiworkflow-requirements/indexes` に drift があると job が fail する。
 > 詳細: `docs/00-getting-started-manual/lefthook-operations.md`
 
+### sync-merge (main 取り込み) 時の hook 挙動 — 個人開発ポリシー
+
+main を feature ブランチへ取り込む sync-merge では、構造的に「ブランチ slug と無関係なタスク dir の混入」「他タスクのコード追加で coverage 一時的に低下」が発生するため、以下 hook は **マージコミット時に自動スキップ** する設計にしている（solo dev 運用ポリシー）:
+
+| hook | スキップ条件 | 実装 |
+|------|-------------|------|
+| pre-commit `staged-task-dir-guard` | `MERGE_HEAD` / `CHERRY_PICK_HEAD` / `REVERT_HEAD` 存在時 | `scripts/hooks/staged-task-dir-guard.sh` |
+| pre-push `coverage-guard` | push 範囲 (`@{u}..HEAD`) に merge commit を 1 件以上含む かつ `--changed` モード時 | `scripts/coverage-guard.sh` |
+
+これにより main 取り込み時の `git commit` / `git push` で `--no-verify` を**付ける必要はない**。featureコミット/pushは従来通りhookが効く。`--no-verify` の使用は引き続き避け、hook が誤検知する場合は本セクションの方針に沿って hook 自体を改善すること。
+
 ---
 
 ## Claude Code 設定

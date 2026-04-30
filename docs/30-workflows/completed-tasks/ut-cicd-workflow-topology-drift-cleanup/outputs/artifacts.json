@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "task_name": "ut-cicd-workflow-topology-drift-cleanup",
+  "task_path": "docs/30-workflows/completed-tasks/ut-cicd-workflow-topology-drift-cleanup",
+  "wave": 1,
+  "execution_mode": "parallel",
+  "depends_on": [],
+  "blocks": [
+    "UT-CICD-DRIFT-IMPL-*"
+  ],
+  "created_at": "2026-04-29",
+  "github_issue": {
+    "number": 58,
+    "state": "CLOSED",
+    "url": "https://github.com/daishiman/UBM-Hyogo/issues/58"
+  },
+  "metadata": {
+    "id": "UT-CICD-DRIFT",
+    "status": "spec_created",
+    "workflow_state": "spec_created",
+    "taskType": "docs-only",
+    "subType": "specification-cleanup",
+    "docsOnly": true,
+    "visualEvidence": "NON_VISUAL",
+    "scope": "CI/CD workflow topology and deployment spec drift cleanup. Update task docs and approved aiworkflow-requirements canonical docs only; implementation diffs are split into UT-CICD-DRIFT-IMPL-* tasks.",
+    "priority": "HIGH",
+    "derivedTasksPolicy": "implementation-required diffs are split into UT-CICD-DRIFT-IMPL-* unassigned-tasks",
+    "canonicalReferences": [
+      ".claude/skills/aiworkflow-requirements/references/deployment-gha.md",
+      ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md"
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "設計（差分マトリクス設計）",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-02/drift-matrix-design.md",
+        "outputs/phase-02/canonical-spec-update-plan.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-04/test-strategy.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック（仕様更新手順）",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-05/implementation-runbook.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-06/failure-cases.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-07/ac-matrix.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-09/main.md",
+        "outputs/phase-09/deploy-contract-integrity.md"
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-10/go-no-go.md"
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke test",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR作成",
+      "status": "spec_created",
+      "user_approval_required": true,
+      "outputs": [
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-info.md",
+        "outputs/phase-13/pr-creation-result.md",
+        "outputs/artifacts.json"
+      ]
+    }
+  ],
+  "specs_referenced": [
+    ".claude/skills/aiworkflow-requirements/references/deployment-gha.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md",
+    "docs/05a-parallel-observability-and-cost-guardrails/outputs/phase-02/observability-matrix.md",
+    "docs/05a-parallel-observability-and-cost-guardrails/outputs/phase-12/unassigned-task-detection.md",
+    "docs/30-workflows/completed-tasks/ut-cicd-workflow-topology-drift-001.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "secrets_referenced": [
+    "CLOUDFLARE_API_TOKEN",
+    "CLOUDFLARE_ACCOUNT_ID"
+  ],
+  "invariants_touched": [
+    "#5 D1 への直接アクセスは apps/api に閉じる",
+    "#6 GAS prototype は本番バックエンド仕様に昇格させない"
+  ],
+  "doc_references": [
+    ".github/workflows/backend-ci.yml",
+    ".github/workflows/ci.yml",
+    ".github/workflows/validate-build.yml",
+    ".github/workflows/verify-indexes.yml",
+    ".github/workflows/web-cd.yml",
+    "apps/web/wrangler.toml",
+    "apps/api/wrangler.toml"
+  ]
+}
