@@ -402,6 +402,21 @@ export async function blacklistSession(env: Env, jti: string, ttlSec: number): P
 
 ## GitHub Actions CI/CD
 
+### UT-28 Cloudflare Pages project creation contract (spec_created / 2026-04-29)
+
+UT-28 fixes the Cloudflare Pages project naming and creation contract used by `web-cd.yml`. The task is `spec_created`: the workflow and runbook are documented, but the real Cloudflare mutation is still gated by Phase 13 user approval.
+
+| Environment | Pages project | Branch | Compatibility | Git integration |
+| --- | --- | --- | --- | --- |
+| production | `ubm-hyogo-web` | `main` | `compatibility_date=2025-01-01`, `nodejs_compat` | OFF |
+| staging | `ubm-hyogo-web-staging` | `dev` | `compatibility_date=2025-01-01`, `nodejs_compat` | OFF |
+
+`CLOUDFLARE_PAGES_PROJECT` stores the production/base name only: `ubm-hyogo-web`. Staging is derived by the GitHub Actions workflow as `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging`; storing `ubm-hyogo-web-staging` in the variable is invalid.
+
+Use `bash scripts/cf.sh` for all Cloudflare CLI operations. Direct `wrangler` execution is out of contract because it bypasses the 1Password-backed token injection path.
+
+OpenNext output-form preflight is mandatory before real apply. If `apps/web/wrangler.toml` still uses `pages_build_output_dir = ".next"` and UT-05 has not recorded a Pages-form exception, UT-28 real apply stops and the output-form blocker is routed to UT-05 / `task-impl-opennext-workers-migration-001`.
+
 ### 必要なシークレット・変数 / API トークン権限
 
 CI/CD の secret / variable 配置と最小権限は [`deployment-secrets-management.md`](deployment-secrets-management.md) と [`deployment-gha.md`](deployment-gha.md) を正本とする。Cloudflare Pages / Workers / D1 の Edit 権限は deploy token に限定する。
@@ -416,7 +431,7 @@ CI/CD の secret / variable 配置と最小権限は [`deployment-secrets-manage
 
 ## プレビューデプロイメント
 
-Cloudflare Pages は PRブランチに対して自動でプレビュー環境を作成する。
+Cloudflare Pages の Git Integration は UT-28 以降 OFF を既定とする。deploy は GitHub Actions 主導に一本化し、Pages 側の自動 Git deploy と二重起動させない。
 
 | ブランチ | URL形式 | 用途 |
 | -------- | ------- | ---- |
@@ -424,10 +439,9 @@ Cloudflare Pages は PRブランチに対して自動でプレビュー環境を
 | `dev` | `ubm-hyogo-web-staging.pages.dev` | ステージング |
 | `feature/*` | `<hash>.ubm-hyogo-web.pages.dev` | プレビュー（PR用） |
 
-### プレビュー設定（GitHub連携）
+### Git Integration 設定
 
-Cloudflare ダッシュボード → Pages → プロジェクト → Settings → Git Integration で設定。
-PRごとに自動プレビューURLが GitHub コメントに投稿される。
+Cloudflare ダッシュボード → Pages → プロジェクト → Settings → Git Integration は OFF のまま維持する。PR プレビュー URL が必要な場合も、UT-28 の GitHub Actions 主導方針と競合しない別タスクで再設計する。
 
 ---
 

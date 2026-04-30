@@ -2027,6 +2027,7 @@
     "migration": [
       "arch-state-management-reference-permissions-import-lifecycle.md",
       "deployment-cloudflare.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "workflow-light-theme-global-remediation.md"
     ],
     "renderer": [
@@ -2432,6 +2433,7 @@
       "ipc-contract-checklist.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -3520,6 +3522,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -4334,6 +4337,7 @@
       "deployment-gha.md",
       "deployment-secrets-management.md",
       "environment-variables.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "環境保護ルール": [
@@ -4352,6 +4356,7 @@
       "deployment-core.md",
       "deployment-secrets-management.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "r2-storage-decision-guide.md",
       "technology-core.md"
     ],
@@ -4359,11 +4364,13 @@
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
       "lessons-learned-06a-public-web-2026-04.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "OpenNext": [
       "deployment-cloudflare-opennext-workers.md",
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "デプロイ仕様": [
       "deployment-cloudflare-opennext-workers.md"
@@ -4430,7 +4437,8 @@
       "skill-ledger-overview.md"
     ],
     "deploy": [
-      "deployment-cloudflare-opennext-workers.md"
+      "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "cf": [
       "deployment-cloudflare-opennext-workers.md",
@@ -4475,6 +4483,7 @@
     ],
     "preview": [
       "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "workflow-workspace-preview-search-resilience-guard.md"
     ],
@@ -4482,13 +4491,15 @@
       "deployment-cloudflare-opennext-workers.md",
       "deployment-secrets-management.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "production": [
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
-      "lessons-learned-04b-member-self-service.md"
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "env": [
       "deployment-cloudflare-opennext-workers.md",
@@ -4499,7 +4510,8 @@
       "deployment-cloudflare-opennext-workers.md"
     ],
     "Pages": [
-      "deployment-cloudflare-opennext-workers.md"
+      "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "プロジェクトの並走方針": [
       "deployment-cloudflare-opennext-workers.md"
@@ -4666,7 +4678,8 @@
       "deployment-cloudflare.md"
     ],
     "には": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "は未追加で": [
       "deployment-cloudflare.md"
@@ -4729,7 +4742,8 @@
     "Actions": [
       "deployment-cloudflare.md",
       "deployment-core.md",
-      "deployment-gha.md"
+      "deployment-gha.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "プレビューデプロイメント": [
       "deployment-cloudflare.md"
@@ -4975,7 +4989,8 @@
       "development-guidelines-core.md"
     ],
     "Git": [
-      "development-guidelines-core.md"
+      "development-guidelines-core.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "ワークフロー": [
       "development-guidelines-core.md",
@@ -5357,6 +5372,7 @@
     "Integration": [
       "interfaces-agent-sdk-integration.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md"
@@ -6293,6 +6309,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -6309,6 +6326,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -6705,6 +6723,7 @@
     ],
     "date": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
@@ -6855,6 +6874,7 @@
     "task": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
       "logs-archive-2026-02-console-migration-patterns.md",
@@ -7125,6 +7145,7 @@
     ],
     "branch": [
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
@@ -7290,12 +7311,14 @@
     "close": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "out": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "task-workflow-phases.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
@@ -7449,6 +7472,7 @@
     "関連参照": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "FU": [
@@ -7523,7 +7547,102 @@
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "する": [
-      "lessons-learned-ut-06-fu-h-2026-04.md"
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "Projects": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "Creation": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "逆配線で本番が": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "化する事故を防ぐ": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "Variable": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "base": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "name": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "のみ保持し": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "suffix": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "workflow": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "logs-archive-2026-02-console-migration-patterns.md",
+      "logs-archive-2026-02-skill-validation-atoms-audit.md",
+      "logs-archive-2026-02-validator-task-9f-task-9b.md",
+      "logs-archive-2026-03-history-search-notification-center.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md",
+      "spec-splitting-guidelines.md",
+      "task-workflow-completed-agent-view-line-budget.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "側で": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "derive": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "OFF": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "に固定し": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "initiator": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "に一本化する": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "compatibility": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "flags": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "で同一値に固定する": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "output": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "form": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "不整合は": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "patch": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "せず": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "link": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "教訓": [
       "lessons-learned-ut-cicd-drift-2026-04.md"
@@ -8718,24 +8837,6 @@
     "完了タスク移動": [
       "logs-archive-2026-02-console-migration-patterns.md"
     ],
-    "workflow": [
-      "logs-archive-2026-02-console-migration-patterns.md",
-      "logs-archive-2026-02-skill-validation-atoms-audit.md",
-      "logs-archive-2026-02-validator-task-9f-task-9b.md",
-      "logs-archive-2026-03-history-search-notification-center.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
-      "logs-archive-2026-03-notification-history-sigterm-guard.md",
-      "logs-archive-2026-03-workflow02-screenshot-guard.md",
-      "spec-splitting-guidelines.md",
-      "task-workflow-completed-agent-view-line-budget.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
     "未タスク参照整合の是正": [
       "logs-archive-2026-02-console-migration-patterns.md"
     ],
@@ -9523,10 +9624,6 @@
     ],
     "broken": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
-    ],
-    "link": [
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "是正": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
@@ -12740,9 +12837,6 @@
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "compatibility": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "validation": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",

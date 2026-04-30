@@ -2576,12 +2576,12 @@ node scripts/list-specs.js --topics
 | Cloudflare D1 データベース | L258 |
 | Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L291 |
 | GitHub Actions CI/CD | L403 |
-| プレビューデプロイメント | L417 |
-| カスタムドメイン設定 | L434 |
-| 環境分離 | L447 |
-| ロールバック戦略 | L457 |
-| モニタリング/アラート（UT-08 連携） | L478 |
-| 変更履歴 | L495 |
+| プレビューデプロイメント | L432 |
+| カスタムドメイン設定 | L448 |
+| 環境分離 | L461 |
+| ロールバック戦略 | L471 |
+| モニタリング/アラート（UT-08 連携） | L492 |
+| 変更履歴 | L509 |
 
 ### references/deployment-core.md
 
@@ -2615,9 +2615,9 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L193 |
 | モニタリングとアラート | L215 |
 | GitHub Secrets の要件 | L249 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L271 |
-| 関連ドキュメント | L291 |
-| 変更履歴 | L298 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L273 |
+| 関連ドキュメント | L293 |
+| 変更履歴 | L300 |
 
 ### references/deployment-history.md
 
@@ -3031,6 +3031,17 @@ node scripts/list-specs.js --topics
 | L-HDBH-004: HEALTH_DB_TOKEN rotation を Phase 12 close-out 時点で formalize する | L42 |
 | 関連参照 | L55 |
 
+### references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT28-001: `production_branch` 逆配線で本番が preview 化する事故を防ぐ | L9 |
+| L-UT28-002: GitHub Variable には base name のみ保持し、`-staging` suffix は workflow 側で derive する | L20 |
+| L-UT28-003: Pages Git Integration を OFF に固定し、deploy initiator を GitHub Actions に一本化する | L31 |
+| L-UT28-004: `compatibility_date` と `compatibility_flags` を Pages / Workers で同一値に固定する | L42 |
+| L-UT28-005: OpenNext output-form 不整合は UT-28 で patch せず、UT-05 / OpenNext migration task に link する | L53 |
+| 関連参照 | L66 |
+
 ### references/lessons-learned-ut-cicd-drift-2026-04.md
 
 | セクション | 行 |
@@ -3082,8 +3093,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L54 |
-| 関連ドキュメント | L59 |
+| 利用順序 | L56 |
+| 関連ドキュメント | L61 |
 
 ### references/llm-embedding.md
 
