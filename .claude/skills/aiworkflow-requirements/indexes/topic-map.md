@@ -2233,6 +2233,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L78 |
 | Validation Chain | L88 |
 
+### references/workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| 不変条件 Trace | L33 |
+| Phase Outputs | L41 |
+| 主要 Artifact | L59 |
+| Skill 反映先（current canonical set） | L98 |
+| Validation Chain | L107 |
+| 確定値・列定義 | L120 |
+
 ### references/workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md
 
 | セクション | 行 |
@@ -2694,15 +2707,15 @@ node scripts/list-specs.js --topics
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L76 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L163 |
-| Cloudflare D1 データベース | L281 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L314 |
-| GitHub Actions CI/CD | L426 |
-| プレビューデプロイメント | L455 |
-| カスタムドメイン設定 | L471 |
-| 環境分離 | L484 |
-| ロールバック戦略 | L494 |
-| モニタリング/アラート（UT-08 連携） | L515 |
-| 変更履歴 | L532 |
+| Cloudflare D1 データベース | L283 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L316 |
+| GitHub Actions CI/CD | L428 |
+| プレビューデプロイメント | L457 |
+| カスタムドメイン設定 | L473 |
+| 環境分離 | L486 |
+| ロールバック戦略 | L496 |
+| モニタリング/アラート（UT-08 連携） | L517 |
+| 変更履歴 | L534 |
 
 ### references/deployment-core.md
 
@@ -2979,15 +2992,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L8 |
-| 使い方 | L16 |
-| Current Alias Overrides（個別互換行） | L23 |
-| Family Summary | L47 |
-| Detailed Register | L68 |
-| Section Extract Register (2026-03-17) | L249 |
-| 500-Line Split Register (2026-03-16) | L260 |
-| Fragment Migration Register (2026-04-28) | L282 |
-| Task Root Path Drift Register (2026-04-30 追記) | L309 |
+| 概要 | L9 |
+| 使い方 | L17 |
+| Current Alias Overrides（個別互換行） | L24 |
+| Family Summary | L49 |
+| Detailed Register | L70 |
+| Section Extract Register (2026-03-17) | L251 |
+| 500-Line Split Register (2026-03-16) | L262 |
+| Fragment Migration Register (2026-04-28) | L284 |
+| Task Root Path Drift Register (2026-04-30 追記) | L311 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3020,6 +3033,7 @@ node scripts/list-specs.js --topics
 | L-04B-003: 「本文編集禁止」の不変条件根拠は specs に分散しているので 1 箇所に集約参照する | L25 |
 | L-04B-004: `admin_member_notes` schema 変更は wave 間 ownership を Phase 1 で宣言する | L33 |
 | L-04B-005: Auth.js 未着フェーズの dev session ヘッダは production guard を必ず最初に書く | L41 |
+| L-04B-006: pending 判定は「最新行存在」ではなく `request_status` 列ベースに移行する（04b-followup-001） | L49 |
 
 ### references/lessons-learned-04c-admin-backoffice-2026-04.md
 
@@ -3263,6 +3277,17 @@ node scripts/list-specs.js --topics
 | 同期完了サマリー（same-wave sync） | L62 |
 | 関連 unassigned-task（B-01〜B-10） | L74 |
 
+### references/lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 5 件（L-UT21-001〜005） | L12 |
+| 運用ルール 2 件（legacy umbrella close-out 系の固定運用） | L49 |
+| 同期完了サマリー（same-wave sync） | L56 |
+| 関連 unassigned-task（UT21-U02 / U04 / U05） | L75 |
+| 派生品質要件の移植先（implementation 引き渡し） | L83 |
+
 ### references/lessons-learned-utgov001-second-stage-reapply-2026-04.md
 
 | セクション | 行 |
@@ -3288,8 +3313,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L63 |
-| 関連ドキュメント | L68 |
+| 利用順序 | L64 |
+| 関連ドキュメント | L69 |
 
 ### references/llm-embedding.md
 
@@ -4662,10 +4687,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L13 |
-| 利用順序 | L42 |
-| 関連ドキュメント | L47 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L51 |
+| 仕様書インデックス | L14 |
+| 利用順序 | L43 |
+| 関連ドキュメント | L48 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L52 |
 
 ### references/testing-accessibility.md
 
@@ -4769,18 +4794,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 変更履歴 | L8 |
-| 概要 | L18 |
-| テスト構成 | L24 |
-| セレクター戦略 | L48 |
-| 待機戦略 | L82 |
-| ヘルパー関数パターン | L118 |
-| テストスイート構造 | L163 |
-| アクセシビリティテスト | L210 |
-| beforeEachパターン | L245 |
-| テストスキップパターン | L271 |
-| CI/CD統合 | L287 |
-| デバッグパターン | L339 |
-| 関連ドキュメント | L361 |
+| 概要 | L19 |
+| テスト構成 | L43 |
+| セレクター戦略 | L67 |
+| 待機戦略 | L101 |
+| ヘルパー関数パターン | L137 |
+| テストスイート構造 | L182 |
+| アクセシビリティテスト | L229 |
+| beforeEachパターン | L264 |
+| テストスキップパターン | L290 |
+| CI/CD統合 | L306 |
+| デバッグパターン | L358 |
+| 関連ドキュメント | L380 |
 
 ### references/ui-history-components.md
 

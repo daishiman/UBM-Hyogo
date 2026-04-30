@@ -5,6 +5,18 @@
 
 ---
 
+### UT-21 Forms sync conflict close-out（2026-04-30）
+
+| 目的 | 参照先 |
+| --- | --- |
+| legacy UT-21 の扱い（Sheets→D1 単一 endpoint / audit table は新設しない） | `docs/30-workflows/ut21-forms-sync-conflict-closeout/outputs/phase-12/implementation-guide.md`, `references/task-workflow.md` |
+| 現行 Forms sync 正本 | `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/src/sync/schema/`, `references/task-workflow.md` |
+| 後続判断 | `docs/30-workflows/unassigned-task/task-ut21-sync-audit-tables-necessity-judgement-001.md`, `docs/30-workflows/unassigned-task/task-ut21-phase11-smoke-rerun-real-env-001.md`, `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md` |
+| 旧仕様の状態欄 | `docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md` |
+
+---
+
+### CI/CD workflow topology drift（UT-CICD-DRIFT / 2026-04-29）
 ### Schema Alias Resolution Contract（issue-191 / 2026-04-30）
 
 07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。
@@ -201,7 +213,7 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | 目的 | 最初に開くファイル |
 | --- | --- |
 | API 契約（`GET /me`, `GET /me/profile`, `POST /me/visibility-request`, `POST /me/delete-request` / 禁止: `PATCH /me/profile`、`/me/*` への `:memberId`、GET 系での `notes`/`adminNotes` 露出） | `references/api-endpoints.md`（§UBM-Hyogo Member Self-Service API 04b） |
-| `admin_member_notes.note_type` queue 拡張（`general` / `visibility_request` / `delete_request`、pending 判定は最新行存在） | `references/database-admin-repository-boundary.md`（§04b member self-service queue） |
+| `admin_member_notes` request queue（`note_type`: `general` / `visibility_request` / `delete_request`、`request_status`: `pending` / `resolved` / `rejected`、pending 判定は `request_status='pending'`） | `references/database-admin-repository-boundary.md`（§04b member self-service queue） |
 | `SessionUser.authGateState` の値域（`active` / `rules_declined` / `deleted`）と spec 整合 | `docs/00-getting-started-manual/specs/04-types.md`, `06-member-auth.md` |
 | 再回答更新方針 / `editResponseUrl` / 退会・公開停止申請の MVP 経路 | `docs/00-getting-started-manual/specs/07-edit-delete.md` |
 | dev session header（`x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>` / production・staging では deny） | `docs/30-workflows/04b-parallel-member-self-service-api-endpoints/outputs/phase-12/implementation-guide.md` |

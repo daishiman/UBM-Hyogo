@@ -27,7 +27,7 @@
 
 - 依頼を pickup する admin 用 API / UI が無い
 - 確定処理（visibility_request → `members.publish_state` 変更 / delete_request → 論理削除）の trigger 経路が未確定
-- audit log（誰が・いつ・どの依頼を処理したか）の記録仕様が未定（[04b-followup-005](04b-followup-005-admin-queue-request-status-metadata.md) と連動）
+- audit log（誰が・いつ・どの依頼を処理したか）の記録仕様が未定（[04b-followup-001](04b-followup-001-admin-queue-request-status-metadata.md) の request metadata と連動）
 - 依頼処理後の memberに対する通知 (Magic Link 含む) の有無が未定義
 
 ### 1.3 放置した場合の影響
@@ -63,14 +63,14 @@ admin が `admin_member_notes` の `note_type='visibility_request'` / `'delete_r
 
 #### 含まないもの
 
-- request status / metadata の **schema 設計** 自体（[04b-followup-005](04b-followup-005-admin-queue-request-status-metadata.md) で実施）
+- request status / metadata の **schema 設計** 自体（[04b-followup-001](04b-followup-001-admin-queue-request-status-metadata.md) で実施済み）
 - member 側 `/me/*` の API 仕様変更（04b で fix 済）
 - 通知/メール連携（別タスクで判断）
 
 ### 2.4 成果物
 
 - admin queue 一覧 / resolve API 実装
-- D1 migration（[04b-followup-005](04b-followup-005-admin-queue-request-status-metadata.md) 完了後に追加列を使う）
+- D1 migration（[04b-followup-001](04b-followup-001-admin-queue-request-status-metadata.md) の追加列を使う。新規列追加が必要な場合のみ別 migration）
 - admin UI 統合差分（07a と同期）
 - audit 動作の単体・統合テスト
 
@@ -80,7 +80,7 @@ admin が `admin_member_notes` の `note_type='visibility_request'` / `'delete_r
 
 ### 3.1 前提条件
 
-- [04b-followup-005](04b-followup-005-admin-queue-request-status-metadata.md) が完了し、`admin_member_notes` に status / resolved_at / resolved_by 列が存在する
+- [04b-followup-001](04b-followup-001-admin-queue-request-status-metadata.md) が完了し、`admin_member_notes` に `request_status` / `resolved_at` / `resolved_by_admin_id` 列が存在する
 - 04b で確立した `adminNotes.findLatestByMemberAndType` `adminNotes.hasPendingRequest` の利用方針を継承
 - 不変条件 #4（admin-managed data 分離）と #5（D1 アクセスは apps/api 内）
 
@@ -90,7 +90,7 @@ admin が `admin_member_notes` の `note_type='visibility_request'` / `'delete_r
 2. `POST /admin/requests/:noteId/resolve` 仕様を確定（resolution: approve / reject）
 3. D1 transaction で `members` と `admin_member_notes` を同時更新するリポジトリ層を実装
 4. visibility_request 承認: `members.publish_state` を依頼内容に応じて変更
-5. delete_request 承認: `members.is_deleted` を 1 に、`admin_member_notes.status='resolved'` に
+5. delete_request 承認: `members.is_deleted` を 1 に、`admin_member_notes.request_status='resolved'` に
 6. audit テスト（複数承認・拒否・冪等性）
 
 ### 3.3 受入条件 (AC)
@@ -108,7 +108,7 @@ admin が `admin_member_notes` の `note_type='visibility_request'` / `'delete_r
 
 ### 4.1 admin schema 拡張の wave 境界
 
-04b では `admin_member_notes.note_type` 列を additive migration（0006）で追加した。本タスク（および 04b-followup-005）はこの schema をさらに status 列で拡張する必要があるため、**schema ownership 宣言**（task-specification-creator skill 改善対象）を Phase 1 で明示すべき。同 wave の 02b/02c との衝突を避ける運用ルールを CI で保証する。
+04b では `admin_member_notes.note_type` 列を additive migration（0006）で追加し、04b-followup-001 で `request_status` / `resolved_at` / `resolved_by_admin_id` を追加した。本タスクはその列を利用するため、**schema ownership 宣言**を Phase 1 で明示し、追加 ALTER が必要な場合だけ新規 migration を起こす。
 
 ### 4.2 admin と member の責務境界
 
@@ -122,4 +122,4 @@ admin が `admin_member_notes` の `note_type='visibility_request'` / `'delete_r
 - `docs/00-getting-started-manual/specs/07-edit-delete.md`
 - 04b の `apps/api/src/repository/adminNotes.ts`
 - migration 0006 (`admin_member_notes.note_type`)
-- [04b-followup-005-admin-queue-request-status-metadata.md](04b-followup-005-admin-queue-request-status-metadata.md)
+- [04b-followup-001-admin-queue-request-status-metadata.md](04b-followup-001-admin-queue-request-status-metadata.md)

@@ -28,7 +28,7 @@ test fixture / helper / brand 型 import / file 命名 / coverage exclude を統
 | --- | --- | --- |
 | 必須 | outputs/phase-04/main.md | suite signature |
 | 必須 | outputs/phase-07/main.md | AC matrix |
-| 必須 | doc/02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md | E2E 命名 |
+| 必須 | ../../08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md | E2E 命名 |
 
 ## Before / After
 

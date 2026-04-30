@@ -31,7 +31,7 @@
 | --- | --- | --- |
 | 必須 | doc/00-getting-started-manual/specs/08-free-database.md | 無料枠仕様 |
 | 必須 | doc/00-getting-started-manual/specs/09-ui-ux.md | a11y 観点 |
-| 必須 | doc/02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/ | a11y suite |
+| 必須 | ../../08b-parallel-playwright-e2e-and-ui-acceptance-smoke/ | a11y suite |
 | 参考 | CLAUDE.md | secrets 管理ポリシー |
 
 ## 実行手順
