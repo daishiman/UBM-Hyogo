@@ -40,8 +40,37 @@ describe("admin meetings", () => {
       makeEnv(env),
     );
     expect(r2.status).toBe(200);
-    const body = (await r2.json()) as { total: number };
+    const body = (await r2.json()) as { total: number; items: Array<{ attendance: unknown[] }> };
     expect(body.total).toBe(1);
+    expect(body.items[0]?.attendance).toEqual([]);
+  });
+
+  it("GET は既存 attendance を同梱する", async () => {
+    const app = createAdminMeetingsRoute();
+    await env.db
+      .prepare("INSERT INTO meeting_sessions (session_id, title, held_on, created_by) VALUES ('s1', 'MTG1', '2026-04-01', 'admin')")
+      .run();
+    await env.db
+      .prepare(
+        "INSERT INTO member_identities (member_id, response_email, current_response_id, first_response_id, last_submitted_at) VALUES ('m1', 'a@example.com', 'r1', 'r1', '2026-04-01T00:00:00Z')",
+      )
+      .run();
+    await env.db
+      .prepare("INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES ('m1', 's1', 'admin')")
+      .run();
+
+    const res = await app.request(
+      "/meetings",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      items: Array<{ sessionId: string; attendance: Array<{ memberId: string }> }>;
+    };
+    expect(body.items[0]?.sessionId).toBe("s1");
+    expect(body.items[0]?.attendance.map((a) => a.memberId)).toEqual(["m1"]);
   });
 
   it("body 不正 400", async () => {

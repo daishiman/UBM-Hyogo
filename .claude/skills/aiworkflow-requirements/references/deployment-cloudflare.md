@@ -179,6 +179,9 @@ Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE
 
 Google Sheets API v4 同期は `SHEETS_SPREADSHEET_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_JSON` を Cloudflare Workers Secret として扱う。`GOOGLE_SERVICE_ACCOUNT_JSON` は UT-25 で確定した正本名で、staging / production の両環境に `bash scripts/cf.sh secret put ... --config apps/api/wrangler.toml --env <env>` 経由で配置する。`GOOGLE_SHEETS_SA_JSON` は移行期間の legacy alias として実装側のみ許容し、新規 secret 投入名には使わない。
 
+Sheets sync auth は UT-03 で実装した `packages/integrations/google/src/sheets/auth.ts` を使う。`GOOGLE_SERVICE_ACCOUNT_JSON` を Cloudflare Secret として注入し、任意で `SHEETS_SCOPES` を指定する。未指定時の scope は `https://www.googleapis.com/auth/spreadsheets.readonly`。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) を使い、token endpoint の `expires_in` に従って cache し、失効 5 分前に再取得する。UT-09 / UT-21 は `@ubm-hyogo/integrations-google` の `sheets` namespace export 経由で `getSheetsAccessToken()` を呼ぶ。
+
+
 staging / production では `[triggers]` と `[env.staging.triggers]` の両方に `*/15 * * * *` を明示する。未設定 secret の場合、cron は response sync を開始せずスキップする。
 
 > R2 binding は現行 `apps/api/wrangler.toml` には未適用。UT-12 の下流実装時に、下記 R2 セクションの環境別差分を追加する。
@@ -383,6 +386,21 @@ export async function blacklistSession(env: Env, jti: string, ttlSec: number): P
 
 ## GitHub Actions CI/CD
 
+### UT-28 Cloudflare Pages project creation contract (spec_created / 2026-04-29)
+
+UT-28 fixes the Cloudflare Pages project naming and creation contract used by `web-cd.yml`. The task is `spec_created`: the workflow and runbook are documented, but the real Cloudflare mutation is still gated by Phase 13 user approval.
+
+| Environment | Pages project | Branch | Compatibility | Git integration |
+| --- | --- | --- | --- | --- |
+| production | `ubm-hyogo-web` | `main` | `compatibility_date=2025-01-01`, `nodejs_compat` | OFF |
+| staging | `ubm-hyogo-web-staging` | `dev` | `compatibility_date=2025-01-01`, `nodejs_compat` | OFF |
+
+`CLOUDFLARE_PAGES_PROJECT` stores the production/base name only: `ubm-hyogo-web`. Staging is derived by the GitHub Actions workflow as `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging`; storing `ubm-hyogo-web-staging` in the variable is invalid.
+
+Use `bash scripts/cf.sh` for all Cloudflare CLI operations. Direct `wrangler` execution is out of contract because it bypasses the 1Password-backed token injection path.
+
+OpenNext output-form preflight is mandatory before real apply. If `apps/web/wrangler.toml` still uses `pages_build_output_dir = ".next"` and UT-05 has not recorded a Pages-form exception, UT-28 real apply stops and the output-form blocker is routed to UT-05 / `task-impl-opennext-workers-migration-001`.
+
 ### 必要なシークレット・変数
 
 | 名前 | 種別 | 説明 |
@@ -415,7 +433,7 @@ push to main
 
 ## プレビューデプロイメント
 
-Cloudflare Pages は PRブランチに対して自動でプレビュー環境を作成する。
+Cloudflare Pages の Git Integration は UT-28 以降 OFF を既定とする。deploy は GitHub Actions 主導に一本化し、Pages 側の自動 Git deploy と二重起動させない。
 
 | ブランチ | URL形式 | 用途 |
 | -------- | ------- | ---- |
@@ -423,10 +441,9 @@ Cloudflare Pages は PRブランチに対して自動でプレビュー環境を
 | `dev` | `ubm-hyogo-web-staging.pages.dev` | ステージング |
 | `feature/*` | `<hash>.ubm-hyogo-web.pages.dev` | プレビュー（PR用） |
 
-### プレビュー設定（GitHub連携）
+### Git Integration 設定
 
-Cloudflare ダッシュボード → Pages → プロジェクト → Settings → Git Integration で設定。
-PRごとに自動プレビューURLが GitHub コメントに投稿される。
+Cloudflare ダッシュボード → Pages → プロジェクト → Settings → Git Integration は OFF のまま維持する。PR プレビュー URL が必要な場合も、UT-28 の GitHub Actions 主導方針と競合しない別タスクで再設計する。
 
 ---
 

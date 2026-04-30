@@ -83,6 +83,19 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: モノレポ, レイヤー, Clean Architecture, RAG, Knowledge Graph
 
+### references/architecture-admin-api-client.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 構成図 | L15 |
+| 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
+| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L174 |
+| 5. ステータスコード処理方針 | L231 |
+| 6. 環境変数 | L263 |
+| 7. 不変条件サマリ（admin API client / proxy） | L276 |
+| 8. 関連ドキュメント | L288 |
+
 ### references/architecture-auth-security-core.md
 
 | セクション | 行 |
@@ -1016,6 +1029,20 @@ node scripts/list-specs.js --topics
 ## UI/UX
 
 **関連キーワード**: Design Tokens, コンポーネント, Tailwind, レスポンシブ, Apple HIG
+
+### references/ui-ux-admin-dashboard.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 全体構成 | L15 |
+| 2. AdminSidebar | L50 |
+| 3. /admin（Dashboard） | L76 |
+| 4. /admin/members | L108 |
+| 5. /admin/tags | L201 |
+| 6. /admin/schema | L256 |
+| 7. /admin/meetings | L310 |
+| 8. 共通の Server/Client 契約 | L379 |
+| 9. 不変条件サマリ（admin UI） | L397 |
 
 ### references/ui-ux-advanced.md
 
@@ -2546,15 +2573,15 @@ node scripts/list-specs.js --topics
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L53 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L130 |
-| Cloudflare D1 データベース | L239 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L272 |
-| GitHub Actions CI/CD | L384 |
-| プレビューデプロイメント | L416 |
-| カスタムドメイン設定 | L433 |
-| 環境分離 | L446 |
-| ロールバック戦略 | L456 |
-| モニタリング/アラート（UT-08 連携） | L477 |
-| 変更履歴 | L494 |
+| Cloudflare D1 データベース | L242 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L275 |
+| GitHub Actions CI/CD | L387 |
+| プレビューデプロイメント | L434 |
+| カスタムドメイン設定 | L450 |
+| 環境分離 | L463 |
+| ロールバック戦略 | L473 |
+| モニタリング/アラート（UT-08 連携） | L494 |
+| 変更履歴 | L511 |
 
 ### references/deployment-core.md
 
@@ -2588,9 +2615,9 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L185 |
 | モニタリングとアラート | L205 |
 | GitHub Secrets の要件 | L239 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L261 |
-| 関連ドキュメント | L281 |
-| 変更履歴 | L288 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L263 |
+| 関連ドキュメント | L283 |
+| 変更履歴 | L290 |
 
 ### references/deployment-history.md
 
@@ -2723,14 +2750,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L94 |
-| 環境別設定 | L168 |
-| Electron アプリでの環境変数 | L222 |
-| トラブルシューティング | L279 |
-| チーム開発での運用 | L340 |
-| 必須環境変数一覧 | L379 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L448 |
-| 関連ドキュメント | L468 |
+| セキュリティベストプラクティス | L98 |
+| 環境別設定 | L172 |
+| Electron アプリでの環境変数 | L226 |
+| トラブルシューティング | L283 |
+| チーム開発での運用 | L344 |
+| 必須環境変数一覧 | L383 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L452 |
+| 関連ドキュメント | L472 |
 
 ### references/error-handling-core.md
 
@@ -2905,6 +2932,29 @@ node scripts/list-specs.js --topics
 | Lessons | L9 |
 | Follow-up Boundaries | L19 |
 
+### references/lessons-learned-06a-public-web-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-06A-001: App Router の route group `(public)` と既存 `app/page.tsx` のルート衝突 | L9 |
+| L-06A-002: Next.js 16 で `searchParams` / `params` が Promise 化された | L29 |
+| L-06A-003: density 用語の表記揺れと URL 値の正本化 | L51 |
+| L-06A-004: zod `catch` だけでは string 加工フォールバックに不足 | L73 |
+| L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
+| 横断教訓 | L116 |
+
+### references/lessons-learned-06c-admin-ui-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-06C-001: Phase 11 の実 screenshot は D1 fixture / staging admin 前提のとき後続 wave に委譲する | L10 |
+| L-06C-002: ESLint no-restricted-imports 正式導入は別 task 扱い、現状は `scripts/lint-boundaries.mjs` を境界の正本にする | L20 |
+| L-06C-003: Server Component（`server-fetch.ts`）と Client Component（`api.ts`）の責務分離を最初に設計する | L30 |
+| L-06C-004: tag 直接編集 UI と profile 直編集 UI を「作らない」ことを spec で明示拒否する | L40 |
+| L-06C-005: nested resource の 404（不在）と 409（重複・所有関係不整合）を UX feedback で別 toast に分ける | L50 |
+| 関連未タスク・後続 wave 連携 | L60 |
+| 参照 | L68 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -2954,6 +3004,23 @@ node scripts/list-specs.js --topics
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
 
+### references/lessons-learned-ut-03-sheets-auth-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT03-001: Service Account vs OAuth Client の選定（無料枠 + KV/D1 不要を優先） | L10 |
+| L-UT03-002: Cloudflare Workers 上の JWT 生成は Web Crypto API でしか動かない | L21 |
+| L-UT03-003: Cloudflare Secret に PEM を貼ると `\n` が文字列エスケープされる罠 | L32 |
+| L-UT03-004: シークレット環境別管理は `.dev.vars` + `bash scripts/cf.sh secret put` に一本化 | L43 |
+| L-UT03-005: Spreadsheet 共有忘れによる 403 PERMISSION_DENIED の早期検出 | L54 |
+| L-UT03-006: TTL 5 分リード refresh + in-flight Promise 共有で isolate 同時起動を吸収 | L65 |
+| L-UT03-007: `expiresAt` の単位混在（ms vs sec）でキャッシュ無効化バグ | L76 |
+| L-UT03-008: redact ヘルパは認証モジュールに同梱（PEM / private_key / Bearer の 3 パターン） | L87 |
+| L-UT03-009: Forms と Sheets の認証契約を統合せず併存させる判断 | L98 |
+| L-UT03-010: NON_VISUAL evidence 縮約と smoke の UT-26 委譲 | L109 |
+| 後続 wave への引き継ぎ | L122 |
+| 関連参照 | L128 |
+
 ### references/lessons-learned-ut-06-fu-h-2026-04.md
 
 | セクション | 行 |
@@ -2963,6 +3030,17 @@ node scripts/list-specs.js --topics
 | L-HDBH-003: 503 fail-closed と Retry-After: 30 の不変条件 | L31 |
 | L-HDBH-004: HEALTH_DB_TOKEN rotation を Phase 12 close-out 時点で formalize する | L42 |
 | 関連参照 | L55 |
+
+### references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT28-001: `production_branch` 逆配線で本番が preview 化する事故を防ぐ | L9 |
+| L-UT28-002: GitHub Variable には base name のみ保持し、`-staging` suffix は workflow 側で derive する | L20 |
+| L-UT28-003: Pages Git Integration を OFF に固定し、deploy initiator を GitHub Actions に一本化する | L31 |
+| L-UT28-004: `compatibility_date` と `compatibility_flags` を Pages / Workers で同一値に固定する | L42 |
+| L-UT28-005: OpenNext output-form 不整合は UT-28 で patch せず、UT-05 / OpenNext migration task に link する | L53 |
+| 関連参照 | L66 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -3008,8 +3086,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L51 |
-| 関連ドキュメント | L56 |
+| 利用順序 | L55 |
+| 関連ドキュメント | L60 |
 
 ### references/llm-embedding.md
 
@@ -4076,13 +4154,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L46 |
-| フェーズ構造（概要） | L55 |
-| 品質ゲート（概要） | L86 |
-| 出力テンプレート | L97 |
-| 実行時のコマンド・エージェント・スキル | L120 |
-| 昇格パターン集 | L144 |
-| Current Active / Spec Created Tasks | L146 |
+| ドキュメント構成 | L56 |
+| フェーズ構造（概要） | L65 |
+| 品質ゲート（概要） | L96 |
+| 出力テンプレート | L107 |
+| 実行時のコマンド・エージェント・スキル | L130 |
+| 昇格パターン集 | L154 |
+| Current Active / Spec Created Tasks | L156 |
 
 ### references/task-workflow-backlog-part2.md
 
