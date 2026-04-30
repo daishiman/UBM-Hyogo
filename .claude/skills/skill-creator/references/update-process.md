@@ -74,8 +74,19 @@ placeholder-only evidence を排除し、`TC-ID ↔ png ↔ screenshot-coverage.
 close-out remediation follow-up を同一 wave で解消した場合は、新規 remediation workflow を増やさず source / parent workflow の evidence を直接 current facts へ戻し、未完了 open set だけを `docs/30-workflows/unassigned-task/` に残す
 完了移管した follow-up は `docs/30-workflows/completed-tasks/unassigned-task/` へ移し、documentation changelog / system spec summary / backlog / completed ledger の open/done 記述を同じ粒度にそろえる
                             ↓
+Phase 3.8: skill feedback promotion
+Phase 12 `skill-feedback-report.md` の提案を「記録しただけ」で閉じず、task-specification-creator / aiworkflow-requirements / skill-creator の該当 reference へ昇格するか、昇格しない根拠を documentation changelog に残す
+approval-gated NON_VISUAL implementation では、placeholder evidence と runtime evidence の分離、Phase 13 user approval gate、外部 GET 正本の扱いをテンプレ側へ反映する
+適用先 reference（task-specification-creator 配下、Phase 12 retrospective で同時更新する正本セット）:
+  - `.claude/skills/task-specification-creator/references/phase-11-non-visual-alternative-evidence.md`
+  - `.claude/skills/task-specification-creator/references/phase-12-spec.md`
+  - `.claude/skills/task-specification-creator/references/quality-gates.md`
+  - `.claude/skills/task-specification-creator/references/spec-update-workflow.md`
+  - `.claude/skills/task-specification-creator/references/phase-template-phase13.md`
+  - `.claude/skills/task-specification-creator/references/phase-template-phase13-detail.md`
+                            ↓
 Phase 4: 検証
-verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync → diff -qr
+verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync → diff -qr（対象 skill ごとの差分ゼロ出力を evidence に残す）
                             ↓
 Phase 5: フィードバック
 log-usage + LOGS.md + skill feedback report

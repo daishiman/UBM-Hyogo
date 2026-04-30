@@ -55,6 +55,7 @@
 | [lessons-learned-07b-schema-alias-assignment-2026-04.md](lessons-learned-07b-schema-alias-assignment-2026-04.md) | UBM-Hyogo schema alias assignment workflow lessons (07b) | 07b-parallel-schema-diff-alias-assignment-workflow: L-07B-001〜005（仕様書 ↔ 実 D1 schema 差分の grep 照合 / dryRun・apply 副作用境界の discriminated union 分離 / revision-scoped pre-check 422 + UNIQUE index follow-up 分離 / batch + CPU budget + idempotent WHERE による Workers 30s 防御 / aliasRecommendation 純粋関数化） |
 | [lessons-learned-ut-cicd-drift-2026-04.md](lessons-learned-ut-cicd-drift-2026-04.md) | CI/CD workflow topology drift lessons | UT-CICD-DRIFT: L-CICD-DRIFT-001〜005（deployment 正本横断検索 / 存在しない派生ID禁止 / Phase 11時点ログ再確認 / quick-resource導線 / workflow lint未タスク化） |
 | [lessons-learned-sync-merge-hook-skip-2026-04.md](lessons-learned-sync-merge-hook-skip-2026-04.md) | sync-merge 時の pre-commit/pre-push hook 自動スキップ運用ポリシー (solo dev) | branch-sync-and-push: L-SMHS-001〜005（merge 中の hook 挙動仕様化 / `--no-verify` 常用回避 / hook 側に正当スキップ条件実装 / 自動同期プロンプトと hook 設計のセット化 / `MERGE_HEAD` と `git rev-list --parents` の使い分け） |
+| [lessons-learned-utgov001-second-stage-reapply-2026-04.md](lessons-learned-utgov001-second-stage-reapply-2026-04.md) | UT-GOV-001 second-stage reapply (contexts 後追い再 PUT) lessons | utgov001-second-stage-reapply: L-GOV001-2ND-001〜008（typo context merge block / dev-main 片側更新 / admin block 回避 / `contexts=[]` 残留 / workflow 名 vs job 名 / dev-main 別 contexts / CLAUDE.md drift 片務化 / approval-gated NON_VISUAL 自走禁止 3 項目）|
 
 ## 利用順序
 - まずこの親仕様書で対象 child companion を選ぶ。

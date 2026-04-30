@@ -2327,6 +2327,19 @@ node scripts/list-specs.js --topics
 | 派生未タスク | L100 |
 | 関連リンク | L108 |
 
+### references/workflow-utgov001-second-stage-reapply-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Phase 別 outputs（13 phases） | L9 |
+| 2. 入力契約（UT-GOV-004 由来 / 唯一の機械可読正本） | L27 |
+| 3. 出力契約（適用後 GET 正本） | L35 |
+| 4. 受入条件（AC-1〜AC-14）抜粋 | L43 |
+| 5. branch protection 運用ルール（second-stage 固有） | L62 |
+| 6. skill 反映先（aiworkflow-requirements / task-specification-creator） | L72 |
+| 7. リレー先未タスク（Phase 12 unassigned-task-detection 由来） | L86 |
+| 8. 不変条件 touched | L95 |
+
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
 | セクション | 行 |
@@ -3140,6 +3153,18 @@ node scripts/list-specs.js --topics
 | 同期完了サマリー（same-wave sync） | L62 |
 | 関連 unassigned-task（B-01〜B-10） | L74 |
 
+### references/lessons-learned-utgov001-second-stage-reapply-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 8 件（index.md §苦戦箇所・知見 由来） | L12 |
+| 同期完了サマリー（same-wave sync） | L86 |
+| skill 改善フィードバック（skill-feedback-report.md 由来） | L98 |
+| 関連リレー先 / 連鎖発火タスク | L107 |
+| 不変条件 touched | L116 |
+| 関連参照 | L120 |
+
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
 | セクション | 行 |
@@ -3153,8 +3178,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L59 |
-| 関連ドキュメント | L64 |
+| 利用順序 | L60 |
+| 関連ドキュメント | L65 |
 
 ### references/llm-embedding.md
 

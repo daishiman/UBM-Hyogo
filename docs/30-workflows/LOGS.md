@@ -4,6 +4,7 @@
 
 | Date | Task | Status | Summary |
 | --- | --- | --- | --- |
+| 2026-04-30 | utgov001-second-stage-reapply | spec_created | Added implementation / NON_VISUAL workflow for UT-GOV-001 second-stage branch protection reapply. Synchronized root/output artifacts, materialized Phase 1-13 outputs, normalized payload evidence to Phase 13, and kept real PUT / commit / push / PR blocked until explicit user approval. |
 | 2026-04-29 | UT-09 direction reconciliation | spec_created | Added docs-only / NON_VISUAL reconciliation workflow under `docs/30-workflows/ut09-direction-reconciliation/`; fixed Phase 12 close-out to treat A-maintained Forms direction as stale-withdrawal trigger when Sheets references/runtime remain, synced artifacts parity, and recorded 10 follow-up items including runtime kill-switch. |
 | 2026-04-29 | ut-27-github-secrets-variables-deployment | spec_created | Added implementation / NON_VISUAL workflow for GitHub Secrets / Variables deployment. Phase 1-3 are completed, Phase 4-13 remain pending/reserved, Phase 11/13 execution artifacts are NOT EXECUTED until user approval, and aiworkflow-requirements was synced for GitHub Secrets / Variables placement and 1Password-derived copy governance. |
 | 2026-04-29 | coverage-80-enforcement | implementation_started | Added coverage 80% enforcement workflow and PR1 tooling changes: `scripts/coverage-guard.sh`, Vitest coverage measurement config, package `test:coverage` scripts, CI `coverage-gate`, lefthook pre-push guard, and Phase 12 canon sync. PR/commit/push remain user-gated. |

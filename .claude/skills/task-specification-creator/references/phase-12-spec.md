@@ -94,6 +94,17 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 - リファクタリング（インターフェース不変）
 - バグ修正（仕様変更なし）
 
+### Phase 13 承認ゲート付き NON_VISUAL implementation
+
+外部サービスの不可逆 API 操作（GitHub branch protection PUT など）を Phase 13 のユーザー承認後に実行する implementation / NON_VISUAL task では、Phase 12 は「実装完了」ではなく `spec_created` close-out として扱う。
+
+| 項目 | Phase 12 での扱い |
+| --- | --- |
+| workflow status | `spec_created` を維持し、`completed` / `applied` に上げない |
+| 実行 JSON | payload / current / applied の予約パスは作ってよいが、fresh runtime evidence と区別する |
+| system spec Step 2 | 適用後 GET など外部状態の正本証跡がない場合、最終状態反映は別 unassigned-task に分離する |
+| AC evidence | spec evidence と runtime evidence を分け、`blocked_until_user_approval` を成功証跡にしない |
+
 ### `spec_created` UI task の Phase 12 close-out ルール
 
 `spec_created` ステータスの UI task でも Phase 12 実行時は Step 1-A〜1-C を N/A にせず same-wave sync で閉じる。

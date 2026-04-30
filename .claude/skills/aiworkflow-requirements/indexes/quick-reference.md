@@ -87,6 +87,26 @@
 
 ---
 
+### UT-GOV-001 Second-Stage Reapply（contexts 後追い再 PUT / 2026-04-30 / approval-gated NON_VISUAL）
+
+UT-GOV-001 で `contexts=[]` 暫定 fallback を採用したケースに対し、UT-GOV-004 由来の実在 context で dev / main 独立 PUT を行う後追いタスク。Phase 13 は user 承認ゲート + 実 PUT 実行ゲート + PR 作成ゲートの三役。
+
+| 目的 | 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/` |
+| Phase 13 三役ゲート（user_approval_required=true / 自走禁止 3 項目: 実 PUT・push・PR） | `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/phase-13.md` |
+| rollback payload location（再利用のみ・上書き禁止）| `docs/30-workflows/completed-tasks/UT-GOV-001-github-branch-protection-apply/outputs/phase-05/rollback-payload-{dev,main}.json` |
+| admin token op 経路（実値は環境変数で揮発的に渡す / docs に op:// 参照のみ） | `op://Employee/ubm-hyogo-env/GITHUB_ADMIN_TOKEN`（admin scope 必須） |
+| 期待 contexts（dev / main 別配列） | `outputs/phase-02/expected-contexts-{dev,main}.json` |
+| 適用前 / 適用後 GET 保全 | `outputs/phase-13/branch-protection-{current,applied}-{dev,main}.json` |
+| drift 6 値検査（CLAUDE.md / deployment-branch-strategy.md） | `outputs/phase-09/drift-check.md` |
+| 苦戦箇所 8 件（typo context / dev-main 片側更新 / admin block / `contexts=[]` 残留 / workflow vs job 名 / dev-main 別 contexts / CLAUDE.md drift 片務化 / 自走禁止）| `references/lessons-learned-utgov001-second-stage-reapply-2026-04.md` |
+| Artifact Inventory（13 phases / 入出力契約 / AC-1〜AC-14） | `references/workflow-utgov001-second-stage-reapply-artifact-inventory.md` |
+| Issue 参照規約 | `Refs #202` のみ採用 / `Closes #202` 禁止 / Issue は CLOSED のまま再オープン禁止 |
+| relay 先 | `task-utgov001-references-reflect-001` / `task-utgov001-drift-fix-001`（条件発火）/ `task-utgov-downstream-precondition-link-001` |
+
+---
+
 ### Branch Protection Required Status Checks Contexts 同期（UT-GOV-004 / 2026-04-29）
 
 UT-GOV-001 を安全に実行するための前提タスク。確定 contexts の機械可読正本と branch protection 運用ルール 4 項目を集約。
@@ -1158,6 +1178,19 @@ packages/
 | 実 PUT のゲート | Phase 12 = `spec_created`（仕様書整備のみ）/ Phase 13 = `blocked_until_explicit_user_approval`（ユーザー明示承認後の別オペレーションでのみ実行） |
 | 苦戦知見 | `references/lessons-learned-ut-gov-001-2026-04.md`（L-GOV-001 payload adapter / L-GOV-002 5 重明記 / L-GOV-003 Phase 12-13 二重ゲート / L-GOV-004 NON_VISUAL evidence） |
 | 正本仕様 | `references/deployment-branch-strategy.md`（pending apply: UT-GOV-001 セクション） |
+
+### GitHub Governance / UT-GOV-001 second-stage reapply（2026-04-30）
+
+UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts=[]` fallback 適用後に再 PUT するための approval-gated implementation / NON_VISUAL workflow。
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/` |
+| confirmed contexts | `ci`, `Validate Build`, `verify-indexes-up-to-date` |
+| 実行ゲート | Phase 13 でユーザー明示承認後のみ `gh api -X PUT` / commit / push / PR 作成を実行する |
+| evidence 境界 | Phase 12 までの `current-*` / `applied-*` JSON は placeholder。Phase 13 の fresh GET output だけを適用証跡にできる |
+| final references 反映 | `docs/30-workflows/unassigned-task/task-utgov001-references-reflect-001.md`。Phase 13 applied GET evidence がない状態で `deployment-branch-strategy.md` へ最終状態を書かない |
+| downstream precondition | `docs/30-workflows/unassigned-task/task-utgov-downstream-precondition-link-001.md` で UT-GOV-005〜007 の上流前提へ反映 |
 
 ### Lefthook Multi-Worktree Reinstall（task-lefthook-multi-worktree-reinstall / 2026-04-28）
 
