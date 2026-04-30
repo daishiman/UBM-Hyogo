@@ -2240,6 +2240,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L97 |
 | Validation Chain | L103 |
 
+### references/workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L20 |
+| Phase Outputs（current canonical set） | L31 |
+| 主要実装物 | L40 |
+| Skill 反映先（current canonical set） | L54 |
+| 実装で確定した値 | L69 |
+| Follow-up 未タスク（formalize 済み） | L78 |
+| Validation Chain | L89 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2940,6 +2953,7 @@ node scripts/list-specs.js --topics
 | Section Extract Register (2026-03-17) | L248 |
 | 500-Line Split Register (2026-03-16) | L259 |
 | Fragment Migration Register (2026-04-28) | L281 |
+| Task Root Path Drift Register (2026-04-30 追記) | L308 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 

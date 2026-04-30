@@ -1,6 +1,6 @@
 {
   "task_name": "08a-parallel-api-contract-repository-and-authorization-tests",
-  "task_path": "doc/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests",
+  "task_path": "docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests",
   "wave": 8,
   "execution_mode": "parallel",
   "depends_on": [
@@ -17,8 +17,11 @@
   ],
   "created_at": "2026-04-26",
   "metadata": {
-    "taskType": "spec_created",
-    "docs_only": true,
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "partial",
+    "gate_status": "blocked_by_ac6_coverage",
     "scope": "application_implementation",
     "domain": "api_contract_repository_authz_tests"
   },
@@ -27,7 +30,7 @@
       "phase": 1,
       "name": "要件定義",
       "file": "phase-01.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-01/main.md"
       ],
@@ -38,7 +41,7 @@
       "phase": 2,
       "name": "設計",
       "file": "phase-02.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-02/main.md",
         "outputs/phase-02/test-architecture.mmd",
@@ -53,7 +56,7 @@
       "phase": 3,
       "name": "設計レビュー",
       "file": "phase-03.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-03/main.md"
       ],
@@ -66,7 +69,7 @@
       "phase": 4,
       "name": "テスト戦略",
       "file": "phase-04.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-04/main.md",
         "outputs/phase-04/verify-suite-matrix.md"
@@ -80,7 +83,7 @@
       "phase": 5,
       "name": "実装ランブック",
       "file": "phase-05.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-05/main.md",
         "outputs/phase-05/runbook.md",
@@ -95,7 +98,7 @@
       "phase": 6,
       "name": "異常系検証",
       "file": "phase-06.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-06/main.md"
       ],
@@ -108,7 +111,7 @@
       "phase": 7,
       "name": "AC マトリクス",
       "file": "phase-07.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-07/main.md",
         "outputs/phase-07/ac-matrix.md"
@@ -122,7 +125,7 @@
       "phase": 8,
       "name": "DRY 化",
       "file": "phase-08.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-08/main.md"
       ],
@@ -135,7 +138,7 @@
       "phase": 9,
       "name": "品質保証",
       "file": "phase-09.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-09/main.md"
       ],
@@ -148,7 +151,7 @@
       "phase": 10,
       "name": "最終レビュー",
       "file": "phase-10.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-10/main.md"
       ],
@@ -161,7 +164,7 @@
       "phase": 11,
       "name": "手動 smoke",
       "file": "phase-11.md",
-      "status": "pending",
+      "status": "partial",
       "outputs": [
         "outputs/phase-11/main.md",
         "outputs/phase-11/evidence/"
@@ -175,7 +178,7 @@
       "phase": 12,
       "name": "ドキュメント更新",
       "file": "phase-12.md",
-      "status": "pending",
+      "status": "partial",
       "outputs": [
         "outputs/phase-12/main.md",
         "outputs/phase-12/implementation-guide.md",
@@ -208,13 +211,13 @@
     }
   ],
   "specs_referenced": [
-    "doc/00-getting-started-manual/specs/01-api-schema.md",
-    "doc/00-getting-started-manual/specs/03-data-fetching.md",
-    "doc/00-getting-started-manual/specs/04-types.md",
-    "doc/00-getting-started-manual/specs/05-pages.md",
-    "doc/00-getting-started-manual/specs/11-admin-management.md",
-    "doc/00-getting-started-manual/specs/13-mvp-auth.md",
-    "doc/00-getting-started-manual/specs/00-overview.md"
+    "docs/00-getting-started-manual/specs/01-api-schema.md",
+    "docs/00-getting-started-manual/specs/03-data-fetching.md",
+    "docs/00-getting-started-manual/specs/04-types.md",
+    "docs/00-getting-started-manual/specs/05-pages.md",
+    "docs/00-getting-started-manual/specs/11-admin-management.md",
+    "docs/00-getting-started-manual/specs/13-mvp-auth.md",
+    "docs/00-getting-started-manual/specs/00-overview.md"
   ],
   "endpoints": [
     "GET /public/stats",
@@ -279,7 +282,7 @@
     11
   ],
   "doc_references": [
-    "doc/02-application-implementation/_design/phase-2-design.md#wave-8a",
-    "doc/02-application-implementation/README.md"
+    "docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/outputs/phase-02/main.md",
+    "docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/outputs/phase-04/verify-suite-matrix.md"
   ]
 }

@@ -34,7 +34,7 @@ contract / repository unit / authorization / type test の 4 種を 1 task で�
 | 上流 | 07a tag queue | `POST /admin/tags/queue/:queueId/resolve` 仕様 | contract / authz test |
 | 上流 | 07b schema alias | `POST /admin/schema/aliases` 仕様 | contract / authz test |
 | 上流 | 07c attendance / audit | attendance + audit hook 仕様 | contract / authz test |
-| 下流 | 09a staging smoke | `pnpm test --filter @ubm/api` pass を deploy 前提 | CI workflow yml |
+| 下流 | 09a staging smoke | `pnpm --filter @ubm-hyogo/api test` pass を deploy 前提 | CI workflow yml |
 | 下流 | 09b release runbook | CI workflow を runbook に組込 | api-tests.yml |
 
 ## 価値とコスト

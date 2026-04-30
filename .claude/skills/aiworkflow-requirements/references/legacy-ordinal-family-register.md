@@ -302,3 +302,19 @@ Family status: `reclassify-first`
 - 旧 `LOGS.md` / `SKILL-changelog.md` / `references/lessons-learned-*.md` への citation は当面 `_legacy*.md` を指したまま有効
 - 新規参照は fragment 経路を citation する。fragment 名は append 時に CLI が出力する path を採用
 - 一括 rename は 2026-04-28 の 1 PR で完結。以降は同様の rename を再現する想定なし
+
+---
+
+## Task Root Path Drift Register (2026-04-30 追記)
+
+> 本節は task root の物理パス移動を追跡するレジスタ。完了系 / partial close 系のタスク root が `02-application-implementation/` から `30-workflows/` 直下（または `completed-tasks/` 配下）へ昇格された場合に旧→新パスを記録し、旧 citation の引き直し導線を保持する。
+
+| task | 旧 root | 新 root | 補正日 | 関連ブランチ / 状態 |
+| --- | --- | --- | --- | --- |
+| 08a-parallel-api-contract-repository-and-authorization-tests | `docs/30-workflows/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/` | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` | 2026-04-30 | task-20260430-161419-wt-6 / partial close（AC-6 coverage 0.82pt 未達 → UT-08A-01〜06 で formalize） |
+
+### 旧 citation 引き直し方針
+
+- 旧パス citation は `grep -rl '02-application-implementation/08a-parallel-api-contract' docs/` で検出して新パスへ書換（2026-04-30 時点で 8 ファイル書換済み: 08b/09a/09b/09c の `phase-XX.md`、`completed-tasks/07a/07c` の index/phase）
+- 新規参照は必ず `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` を起点にする
+- partial close-out は `completed-tasks/` 移動を保留し `30-workflows/` 直下に残置（07b は completed-tasks/ 配下、08a は 30-workflows/ 直下と差異あり。完了 / partial の状態差を反映）
