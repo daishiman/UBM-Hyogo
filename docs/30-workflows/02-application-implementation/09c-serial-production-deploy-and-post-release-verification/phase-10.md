@@ -36,7 +36,7 @@ Phase 1〜9 の成果物を総合し、production deploy + release tag + 24h pos
 | 必須 | doc/02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/index.md | 上流 staging green |
 | 必須 | doc/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md | 上流 release runbook |
 | 必須 | doc/08a-parallel-api-contract-repository-and-authorization-tests/index.md | 上流 contract |
-| 必須 | doc/02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md | 上流 E2E |
+| 必須 | doc/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md | 上流 E2E |
 | 必須 | doc/01-infrastructure-setup/04-serial-cicd-secrets-and-environment-sync/index.md | secrets 配信 |
 
 ## 実行手順

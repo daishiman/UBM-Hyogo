@@ -10,6 +10,7 @@
 | Version | Date       | Changes                                      |
 | ------- | ---------- | -------------------------------------------- |
 | 1.2.0   | 2026-03-31 | UT-UIUX-PLAYWRIGHT-E2E-001: `ui-ux-layer1` / `ui-ux-layer2`、`TEST_TARGETS` 駆動、baseline 正本パス `layer2-visual.spec.ts-snapshots/`、implicit role / positive tabindex ルール、Phase 11 screenshot 導線を反映 |
+| 1.2.1   | 2026-04-30 | 08b UBM-Hyogo web Playwright scaffold を反映。`scaffolding-only` / `VISUAL_DEFERRED` では skipped spec・placeholder evidence を CI green / visual PASS と扱わず、full-execution task で実 screenshot / axe / D1 seed / auth fixture を閉じる |
 | 1.1.0   | 2026-03-01 | UT-IMP-PHASE11-WORKTREE-PROTOCOL-001: Playwright設定のCI/ローカル動的切替（timeout/expect/retries/workers/reporter）を反映。`ci.yml` の `e2e-desktop` ジョブ（xvfb + chromium + artifact保存）を追記 |
 | 1.0.0   | 2026-02-02 | 初版作成（TASK-8C-D E2Eテスト実装を基に抽出） |
 
@@ -18,6 +19,24 @@
 ## 概要
 
 PlaywrightによるE2Eテストの実装パターンを定義する。Electron Rendererプロセスを対象とし、ViteのDevサーバー経由で実行する。CIでは `CI=true` を前提に、タイムアウト・リトライ・ワーカー数・レポーターを動的に切り替える。
+
+### UBM-Hyogo Web scaffold 境界（08b）
+
+`docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/` は web app 向け Playwright scaffold の current task。状態は `scaffolding-only` / `workflow_state: spec_created` / `visualEvidence: VISUAL_DEFERRED`。
+
+この状態では次を PASS と扱わない:
+
+- `test.describe.skip` の spec が存在するだけの状態
+- `outputs/phase-11/evidence/` の README / SCREENSHOT_LIST / placeholder `axe-report.json`
+- `workflow_dispatch` の manual workflow yml
+
+full-execution へ昇格する条件:
+
+- Auth.js 互換 fixture または UI login helper が実装済み
+- local/staging D1 seed/reset が決定論的に実行可能
+- screenshot PNG が 30 枚以上保存済み
+- Playwright HTML/JSON report と real `axe-report.json` が保存済み
+- PR / push CI gate は skipped spec なしで green
 
 ---
 
