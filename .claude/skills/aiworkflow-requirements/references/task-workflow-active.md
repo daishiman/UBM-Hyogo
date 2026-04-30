@@ -8,6 +8,16 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UT-03 Sheets API 認証方式設定（2026-04-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | completed / Phase 1-12 完了 / Phase 13 pending / NON_VISUAL |
+| 成果物 | `docs/30-workflows/ut-03-sheets-api-auth-setup/` |
+| 実装 | `packages/integrations/google/src/sheets/auth.ts` / `auth.test.ts` / `auth.contract.test.ts` |
+| 公開契約 | `@ubm-hyogo/integrations-google` の `sheets` namespace export |
+| 後続 | UT-09 / UT-21 が consumer。実 Google Sheets API smoke は UT-26 で実施 |
+
 ### 目的
 
 ユーザーから与えられた複雑なタスクを分解し、以下を実現する：
@@ -28,6 +38,18 @@
 | 機能名     | 実装対象の機能を表すディレクトリ名 | `skill-import-agent/`                                     |
 | ファイル名 | `task-step{N}-{機能名}.md` 形式    | `task-step1-init.md`                                      |
 | 完全パス例 | 上記を組み合わせた配置先           | `docs/30-workflows/skill-import-agent/task-step1-init.md` |
+
+---
+
+### docs-only direction-reconciliation の stale 撤回境界
+
+docs-only / direction-reconciliation で採用方針 A を維持する場合でも、既存 references、runtime mount、cron、Secret、migration に不採用方針 B の current 風記述・経路が残るなら、Phase 12 Step 2 は「不発火」ではなく **stale 撤回として発火**させる。
+
+- 正本採用更新: 不採用方針を新たに current 登録しない。
+- stale 撤回: 残存する不採用方針の current 風記述・runtime 経路を audit し、撤回・停止タスクを起票する。
+- 判定表記: 実測 PASS、記述済み、pending_creation、NOT_APPLICABLE を分け、未実行 validator や未起票タスクを PASS としない。
+
+第一適用例: `docs/30-workflows/ut09-direction-reconciliation/`。
 
 ---
 
@@ -145,6 +167,8 @@
 | 05a-parallel-authjs-google-oauth-provider-and-admin-gate | completed / Phase 1-12 完了 / Phase 13 pending（user approval 待ち） / VISUAL smoke deferred to 09a | `docs/30-workflows/05a-parallel-authjs-google-oauth-provider-and-admin-gate/` | Auth.js v5 Google OAuth provider、`GET /auth/session-resolve`（`X-Internal-Auth` 必須 / D1 直接アクセス禁止の唯一経路）、共有 HS256 JWT session（`memberId` / `isAdmin` のみ最小化）、apps/web `/admin/*` middleware（UI gate）、apps/api `requireAdmin`（API gate）を実装。`packages/shared/src/auth.ts` に `AuthSessionUser` / `SessionJwtClaims` / `GateReason`（`unregistered` / `deleted` / `rules_declined` 05b と共有命名）/ JWT sign/verify / Auth.js encode/decode adapter を追加。人間向け admin API 9 router は `requireAdmin` に差し替え、sync 系は `requireSyncAdmin`（`SYNC_ADMIN_TOKEN` Bearer）を維持。D1 `sessions` テーブル不採用で無料枠 reads/day を温存。Phase 11 は OAuth credentials / staging 未接続のため screenshot smoke を 09a に委譲し、代替として JWT互換・session-resolve・admin route gate tests を PASS。固有教訓 `references/lessons-learned-05a-authjs-admin-gate-2026-04.md`（L-05A-001〜006）。Follow-up: unassigned-task-001（Phase 11 staging 実 OAuth screenshot）/ unassigned-task-002（Google OAuth verification 本番申請、MVP 卒業時）/ unassigned-task-003（admin 剥奪即時反映 B-01 用 KV revocation list 設計検討、D1 sessions 復活禁止） |
 | UT-01 Sheets→D1 同期方式定義 | spec_created / docs-only / NON_VISUAL / design_specification | `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/` | Cron pull 採択、手動 / 定期 / バックフィル 3 フロー、`sync_log` 論理設計、Sheets 優先 SoT を確定。既存 `apps/api` 実装との差分（`sync_job_logs` / `sync_locks`、enum、retry、offset、shared 契約）は U-7〜U-10 として未タスク化。Phase 13 はユーザー承認待ち |
 | 06b-parallel-member-login-and-profile-pages | completed / Phase 1-12 完了 / Phase 13 pending（user approval 待ち） / VISUAL partial captured | `docs/30-workflows/completed-tasks/06b-parallel-member-login-and-profile-pages/` | apps/web 会員向け `/login` と `/profile` を実装。`/login` は AuthGateState 5 状態（input / sent / unregistered / rules_declined / deleted）、Magic Link form、Google OAuth button、`/no-access` 不採用、sent email 非表示、`normalizeRedirectPath` による safe redirect を提供。`/profile` は 04b `/me` `/me/profile` を `fetchAuthed` で取得し、read-only `StatusSummary` / `ProfileFields` / 外部 Google Form `EditCta` / `AttendanceList` を表示。`apps/web/middleware.ts` は `/profile/:path*` 未ログインを `/login?redirect=...` へ誘導。検証: `@ubm-hyogo/web typecheck` PASS、06b focused Vitest 23 PASS、Phase 11 local `/login` screenshot M-01〜M-05 + `/profile` redirect curl captured。Follow-up: `UT-06B-PROFILE-VISUAL-EVIDENCE`（logged-in profile / staging screenshot）, `UT-06B-MAGIC-LINK-RETRY-AFTER`（429 Retry-After UI 復元） |
+| 06c-parallel-admin-dashboard-members-tags-schema-meetings-pages | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / VISUAL screenshot deferred to 08b/09a | `docs/30-workflows/02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/` | apps/web `/admin` 5画面（dashboard / members / tags / schema / meetings）を App Router `(admin)` 配下に実装。04c admin API と 05a admin gate を接続し、`AdminSidebar`、`MemberDrawer`、`TagQueuePanel`、`SchemaDiffPanel`、`MeetingPanel`、`/api/admin/[...path]` proxy、Server Component `fetchAdmin` を追加。profile本文直接編集なし、tag直接編集なし、schema解消は`/admin/schema`のみ、deleted attendance除外、duplicate attendance disabled + 409/422 toast。検証: web typecheck PASS / Vitest 7 files 36 tests PASS。Phase 11 screenshot は D1 fixture・staging admin 前提のため 08b Playwright / 09a staging smoke に委譲。固有教訓 `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
+| 06a-parallel-public-landing-directory-and-registration-pages | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / VISUAL | `docs/30-workflows/completed-tasks/06a-parallel-public-landing-directory-and-registration-pages/` | apps/web 公開 4 route（`/`, `/members`, `/members/[id]`, `/register`）を実装。`apps/web/src/lib/url/members-search.ts` は `q` max 200、`zone/status/tag/sort/density` を URL query 正本として parse し、`fetchPublic` 経由で 04a public API のみを呼ぶ。Phase 11 は `wrangler dev` esbuild mismatch のため local mock API で curl + screenshot smoke を PASS、実 Workers + D1 smoke は 08b / 09a に引き継ぎ。follow-up: real Workers/D1 smoke、OGP/sitemap、mobile FilterBar + tag picker、04a shared query parser extraction 継続。固有教訓 `references/lessons-learned-06a-public-web-2026-04.md`（L-06A-001〜005）。 |
 
 ### unassigned-task → Phase 1-13 仕様書ディレクトリへの昇格パターン
 

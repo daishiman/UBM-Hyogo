@@ -19,6 +19,7 @@
       "api-internal-search.md",
       "api-internal.md",
       "arch-claude-cli.md",
+      "architecture-admin-api-client.md",
       "csrf-state-parameter.md",
       "deployment-cloudflare.md",
       "deployment-details.md",
@@ -32,6 +33,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-api-electron.md",
       "security-api.md",
@@ -142,6 +144,7 @@
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
@@ -377,6 +380,7 @@
       "arch-state-management.md",
       "arch-ui-components-history.md",
       "arch-ui-components.md",
+      "architecture-admin-api-client.md",
       "architecture-auth-security-history.md",
       "architecture-auth-security.md",
       "architecture-chat-history.md",
@@ -615,7 +619,10 @@
     ],
     "Admin": [
       "api-endpoints.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "architecture-admin-api-client.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "ui-ux-admin-dashboard.md"
     ],
     "Sync": [
       "api-endpoints.md",
@@ -634,7 +641,8 @@
       "api-endpoints.md",
       "api-internal-search.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-04b-member-self-service.md"
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "Desktop": [
       "api-endpoints.md",
@@ -875,7 +883,8 @@
     "連携": [
       "arch-claude-cli.md",
       "deployment-cloudflare.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "Main": [
       "arch-claude-cli.md",
@@ -1357,7 +1366,8 @@
       "arch-state-management-reference.md"
     ],
     "ESLint": [
-      "arch-state-management-advanced.md"
+      "arch-state-management-advanced.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "キャッシュをクリア": [
       "arch-state-management-advanced.md"
@@ -1415,6 +1425,8 @@
       "interfaces-chat-history-details.md",
       "interfaces-rag-file-selection.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -1451,6 +1463,7 @@
       "ui-history-integration.md",
       "ui-history-search-view.md",
       "ui-result-panel-pattern.md",
+      "ui-ux-admin-dashboard.md",
       "ui-ux-advanced.md",
       "ui-ux-agent-execution-core.md",
       "ui-ux-agent-execution-details.md",
@@ -1784,6 +1797,7 @@
       "architecture-implementation-patterns-shared.md",
       "architecture-patterns.md",
       "claude-code-skills-resources.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "testing-dialog-patterns.md",
       "testing-playwright-e2e.md",
       "ui-ux-advanced.md"
@@ -2012,6 +2026,7 @@
     "migration": [
       "arch-state-management-reference-permissions-import-lifecycle.md",
       "deployment-cloudflare.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "workflow-light-theme-global-remediation.md"
     ],
     "renderer": [
@@ -2282,6 +2297,7 @@
       "arch-state-management-reference-selectors.md",
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-history-search-notification-center.md",
@@ -2414,9 +2430,12 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -2771,6 +2790,113 @@
       "ui-ux-feature-components-reference.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
+    "Architecture": [
+      "architecture-admin-api-client.md"
+    ],
+    "Client": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "BFF": [
+      "architecture-admin-api-client.md"
+    ],
+    "Proxy": [
+      "architecture-admin-api-client.md",
+      "r2-storage-decision-guide.md"
+    ],
+    "構成図": [
+      "architecture-admin-api-client.md"
+    ],
+    "Server": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "side": [
+      "architecture-admin-api-client.md"
+    ],
+    "fetch": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "apps": [
+      "architecture-admin-api-client.md",
+      "deployment-cloudflare-opennext-workers.md",
+      "deployment-secrets-management.md",
+      "directory-structure-core.md",
+      "ui-ux-atoms-patterns-core.md"
+    ],
+    "web": [
+      "architecture-admin-api-client.md",
+      "deployment-cloudflare-opennext-workers.md",
+      "directory-structure-core.md"
+    ],
+    "src": [
+      "architecture-admin-api-client.md"
+    ],
+    "lib": [
+      "architecture-admin-api-client.md"
+    ],
+    "admin": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "server": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "ts": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "mutation": [
+      "architecture-admin-api-client.md"
+    ],
+    "api": [
+      "architecture-admin-api-client.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "spec-splitting-guidelines.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "proxy": [
+      "architecture-admin-api-client.md"
+    ],
+    "app": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "path": [
+      "architecture-admin-api-client.md",
+      "governance-hooks-factory-audit-sink.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "route": [
+      "architecture-admin-api-client.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "ステータスコード処理方針": [
+      "architecture-admin-api-client.md"
+    ],
+    "環境変数": [
+      "architecture-admin-api-client.md"
+    ],
+    "不変条件サマリ": [
+      "architecture-admin-api-client.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "client": [
+      "architecture-admin-api-client.md"
+    ],
     "認証・セキュリティ": [
       "architecture-auth-security-core.md",
       "architecture-auth-security-details.md",
@@ -2820,6 +2946,7 @@
       "architecture-auth-security-core.md",
       "error-handling-details.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-legacy.md"
     ],
@@ -3173,10 +3300,12 @@
     ],
     "UX": [
       "architecture-overview-core.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
       "master-design.md",
       "spec-splitting-guidelines.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "ui-ux-admin-dashboard.md",
       "ui-ux-advanced.md",
       "ui-ux-components-core.md",
       "ui-ux-components-details.md",
@@ -3384,8 +3513,12 @@
       "claude-code-agents-workflow.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -3529,6 +3662,7 @@
       "claude-code-skills-process.md",
       "interfaces-agent-sdk-executor-details.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "security-skill-execution-permission.md",
       "skill-executor-type-migration.md",
       "skill-ledger-progressive-disclosure.md",
@@ -3637,6 +3771,7 @@
     ],
     "URL": [
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "r2-storage-decision-guide.md"
     ],
     "Reference": [
@@ -3659,6 +3794,9 @@
       "claude-code-settings-hierarchy.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "spec-elegance-consistency-audit.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -3742,6 +3880,7 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "rag-desktop-state.md",
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md",
@@ -3753,6 +3892,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "learned": [
@@ -3760,6 +3900,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "agents": [
@@ -3841,7 +3982,9 @@
       "claude-code-skills-resources.md",
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "references": [
       "claude-code-skills-resources.md",
@@ -4037,6 +4180,7 @@
       "database-implementation-core.md",
       "interfaces-skill-verify-contract.md",
       "ui-history-search-view.md",
+      "ui-ux-admin-dashboard.md",
       "ui-ux-navigation-chat-patterns.md"
     ],
     "Conversation": [
@@ -4103,7 +4247,9 @@
     "Forms": [
       "database-schema.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
     ],
     "同期テーブル": [
       "database-schema.md"
@@ -4187,6 +4333,7 @@
       "deployment-gha.md",
       "deployment-secrets-management.md",
       "environment-variables.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "環境保護ルール": [
@@ -4204,29 +4351,25 @@
       "deployment-cloudflare.md",
       "deployment-core.md",
       "deployment-secrets-management.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "r2-storage-decision-guide.md",
       "technology-core.md"
     ],
     "Workers": [
       "deployment-cloudflare-opennext-workers.md",
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "OpenNext": [
       "deployment-cloudflare-opennext-workers.md",
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "デプロイ仕様": [
       "deployment-cloudflare-opennext-workers.md"
-    ],
-    "apps": [
-      "deployment-cloudflare-opennext-workers.md",
-      "deployment-secrets-management.md",
-      "directory-structure-core.md",
-      "ui-ux-atoms-patterns-core.md"
-    ],
-    "web": [
-      "deployment-cloudflare-opennext-workers.md",
-      "directory-structure-core.md"
     ],
     "適用範囲": [
       "deployment-cloudflare-opennext-workers.md"
@@ -4236,7 +4379,8 @@
     ],
     "wrangler": [
       "deployment-cloudflare-opennext-workers.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "toml": [
       "deployment-cloudflare-opennext-workers.md",
@@ -4277,6 +4421,7 @@
       "directory-structure-core.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "technology-core.md"
@@ -4286,17 +4431,20 @@
       "skill-ledger-overview.md"
     ],
     "deploy": [
-      "deployment-cloudflare-opennext-workers.md"
+      "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "cf": [
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "sh": [
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "経由のみ": [
       "deployment-cloudflare-opennext-workers.md"
@@ -4329,19 +4477,23 @@
     ],
     "preview": [
       "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "workflow-workspace-preview-search-resilience-guard.md"
     ],
     "staging": [
       "deployment-cloudflare-opennext-workers.md",
       "deployment-secrets-management.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "production": [
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
-      "lessons-learned-04b-member-self-service.md"
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "env": [
       "deployment-cloudflare-opennext-workers.md",
@@ -4352,7 +4504,8 @@
       "deployment-cloudflare-opennext-workers.md"
     ],
     "Pages": [
-      "deployment-cloudflare-opennext-workers.md"
+      "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "プロジェクトの並走方針": [
       "deployment-cloudflare-opennext-workers.md"
@@ -4426,6 +4579,7 @@
     "Next": [
       "deployment-cloudflare.md",
       "directory-structure-core.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "technology-core.md"
     ],
     "認証確認": [
@@ -4482,7 +4636,8 @@
       "deployment-cloudflare.md"
     ],
     "KV": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "に統一": [
       "deployment-cloudflare.md"
@@ -4541,7 +4696,8 @@
     "Actions": [
       "deployment-cloudflare.md",
       "deployment-core.md",
-      "deployment-gha.md"
+      "deployment-gha.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "プレビューデプロイメント": [
       "deployment-cloudflare.md"
@@ -4651,7 +4807,9 @@
     ],
     "dev": [
       "deployment-gha.md",
-      "lessons-learned-04b-member-self-service.md"
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "main": [
       "deployment-gha.md",
@@ -4698,11 +4856,6 @@
     ],
     "の環境別設定": [
       "deployment-secrets-management.md"
-    ],
-    "api": [
-      "deployment-secrets-management.md",
-      "spec-splitting-guidelines.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
     ],
     "ローカル開発での設定": [
       "deployment-secrets-management.md"
@@ -4790,7 +4943,8 @@
       "development-guidelines-core.md"
     ],
     "Git": [
-      "development-guidelines-core.md"
+      "development-guidelines-core.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "ワークフロー": [
       "development-guidelines-core.md",
@@ -5055,12 +5209,6 @@
     "設計上の注意事項": [
       "governance-hooks-factory-audit-sink.md"
     ],
-    "path": [
-      "governance-hooks-factory-audit-sink.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "logs-archive-2026-03-workflow02-screenshot-guard.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
-    ],
     "scoped": [
       "governance-hooks-factory-audit-sink.md"
     ],
@@ -5178,6 +5326,7 @@
     "Integration": [
       "interfaces-agent-sdk-integration.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md"
@@ -5220,7 +5369,8 @@
     ],
     "Dashboard": [
       "interfaces-agent-sdk-skill-core.md",
-      "interfaces-agent-sdk-skill-details.md"
+      "interfaces-agent-sdk-skill-details.md",
+      "ui-ux-admin-dashboard.md"
     ],
     "AGENT": [
       "interfaces-agent-sdk-skill-core.md",
@@ -5438,7 +5588,8 @@
       "interfaces-api.md"
     ],
     "Web": [
-      "interfaces-api.md"
+      "interfaces-api.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "クライアント同期契約": [
       "interfaces-api.md"
@@ -6110,9 +6261,12 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -6123,9 +6277,12 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
@@ -6133,18 +6290,21 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
     "Account": [
-      "lessons-learned-03a-parallel-forms-schema-sync.md"
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "JWT": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "有効期限監視運用の欠落": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
     "no": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "AC": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
@@ -6162,7 +6322,8 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "skill-ledger-fragment-spec.md"
+      "skill-ledger-fragment-spec.md",
+      "ui-ux-admin-dashboard.md"
     ],
     "diff": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
@@ -6184,6 +6345,7 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-permission-history-execution-timestamps.md"
     ],
@@ -6201,6 +6363,7 @@
     ],
     "sync": [
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-completed-recent-2026-04d.md",
@@ -6211,8 +6374,10 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
       "observability-monitoring.md",
@@ -6382,11 +6547,6 @@
     "箇所に集約参照する": [
       "lessons-learned-04b-member-self-service.md"
     ],
-    "admin": [
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
-    ],
     "notes": [
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6424,7 +6584,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "tag": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "resolve": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6433,7 +6594,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "tags": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "ui-ux-admin-dashboard.md"
     ],
     "への二段書き込みが境界": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6487,9 +6649,6 @@
       "task-workflow-completed-ut-06-safety-gate.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
-    "route": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
-    ],
     "単位": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
@@ -6505,7 +6664,8 @@
       "spec-elegance-consistency-audit.md"
     ],
     "zod": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "による入力厳格化は": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6515,6 +6675,7 @@
     ],
     "date": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
@@ -6526,10 +6687,12 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "関連未タスク・後続": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "実装の苦戦箇所": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md"
     ],
     "cookie": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
@@ -6590,7 +6753,9 @@
     ],
     "smoke": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md",
@@ -6598,7 +6763,8 @@
       "skill-ledger-overview.md"
     ],
     "の実": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "接続不能で証跡が": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
@@ -6654,10 +6820,14 @@
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
     "unassigned": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
     ],
     "task": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
       "logs-archive-2026-02-console-migration-patterns.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
@@ -6686,6 +6856,183 @@
     ],
     "Boundaries": [
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
+    ],
+    "公開": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Landing": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Directory": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Registration": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "App": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Router": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "group": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "public": [
+      "lessons-learned-06a-public-web-2026-04.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "と既存": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "page": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "tsx": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "のルート衝突": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "searchParams": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "params": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "Promise": [
+      "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "化された": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "density": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "用語の表記揺れと": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "値の正本化": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "catch": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "だけでは": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "string": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "加工フォールバックに不足": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "esbuild": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "バージョン不一致により実": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "不能": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "横断教訓": [
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "画面": [
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "ui-ux-admin-dashboard.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "screenshot": [
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md"
+    ],
+    "fixture": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "前提のとき後続": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "に委譲する": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "restricted": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "imports": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "正式導入は別": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "扱い": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "現状は": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "lint": [
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
+    ],
+    "boundaries": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "mjs": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "を境界の正本にする": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "Component": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "の責務分離を最初に設計する": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "直接編集": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "profile": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "直編集": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "作らない": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "ことを": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "で明示拒否する": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "nested": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "resource": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "不在": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "重複・所有関係不整合": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "feedback": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "で別": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "toast": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "に分ける": [
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "実機反映": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md"
@@ -6734,10 +7081,12 @@
     ],
     "NON": [
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "VISUAL": [
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "Part": [
@@ -6748,6 +7097,7 @@
     ],
     "branch": [
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
@@ -6895,6 +7245,188 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
+    "Sheets": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "認証": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "logs-archive-2026-02-permission-history-execution-timestamps.md",
+      "ui-ux-forms.md"
+    ],
+    "Wave": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "task-workflow.md",
+      "ui-ux-components.md"
+    ],
+    "close": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "out": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "task-workflow-phases.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "vs": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "testing-component-patterns-core.md"
+    ],
+    "の選定": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "無料枠": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "不要を優先": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "上の": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "生成は": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "Crypto": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "でしか動かない": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "Secret": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "PEM": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "を貼ると": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "が文字列エスケープされる罠": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "シークレット環境別管理は": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "vars": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "bash": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "secret": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "put": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "に一本化": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "Spreadsheet": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "共有忘れによる": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "PERMISSION": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "DENIED": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "の早期検出": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "TTL": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "分リード": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "refresh": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "in": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "flight": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "共有で": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "isolate": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "同時起動を吸収": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "expiresAt": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "の単位混在": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "ms": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "sec": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "でキャッシュ無効化バグ": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "redact": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "ヘルパは認証モジュールに同梱": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "private": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "key": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "Bearer": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "の認証契約を統合せず併存させる判断": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "evidence": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "縮約と": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "委譲": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "後続": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "への引き継ぎ": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "関連参照": [
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
     "FU": [
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
@@ -6904,17 +7436,6 @@
     ],
     "Endpoint": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
-    ],
-    "close": [
-      "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "out": [
-      "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "task-workflow-phases.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "HDBH": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
@@ -6934,9 +7455,6 @@
     "controlled": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
-    "secret": [
-      "lessons-learned-ut-06-fu-h-2026-04.md"
-    ],
     "比較の鉄則": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
@@ -6948,10 +7466,6 @@
     ],
     "外側": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
-    ],
-    "vs": [
-      "lessons-learned-ut-06-fu-h-2026-04.md",
-      "testing-component-patterns-core.md"
     ],
     "アプリ内側": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
@@ -6985,11 +7499,105 @@
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "する": [
-      "lessons-learned-ut-06-fu-h-2026-04.md"
-    ],
-    "関連参照": [
       "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "Projects": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "Creation": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "逆配線で本番が": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "化する事故を防ぐ": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "Variable": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "には": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "base": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "name": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "のみ保持し": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "suffix": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "workflow": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "logs-archive-2026-02-console-migration-patterns.md",
+      "logs-archive-2026-02-skill-validation-atoms-audit.md",
+      "logs-archive-2026-02-validator-task-9f-task-9b.md",
+      "logs-archive-2026-03-history-search-notification-center.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md",
+      "spec-splitting-guidelines.md",
+      "task-workflow-completed-agent-view-line-budget.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "側で": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "derive": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "OFF": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "に固定し": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "initiator": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "に一本化する": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "compatibility": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "flags": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "で同一値に固定する": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "output": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "form": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "不整合は": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "patch": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "せず": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "link": [
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -7043,9 +7651,6 @@
     "手動": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
-    "evidence": [
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
     "充足基準": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
@@ -7080,6 +7685,7 @@
     ],
     "運用ルール": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "項目": [
@@ -7112,6 +7718,25 @@
     "touched": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+    ],
+    "direction": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "reconciliation": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "同期方針統一": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "系の固定運用": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "同期完了サマリー": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "same": [
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "to": [
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -7502,9 +8127,6 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "backend": [
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
-    ],
-    "lint": [
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
     ],
     "stream": [
@@ -8167,24 +8789,6 @@
     "完了タスク移動": [
       "logs-archive-2026-02-console-migration-patterns.md"
     ],
-    "workflow": [
-      "logs-archive-2026-02-console-migration-patterns.md",
-      "logs-archive-2026-02-skill-validation-atoms-audit.md",
-      "logs-archive-2026-02-validator-task-9f-task-9b.md",
-      "logs-archive-2026-03-history-search-notification-center.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
-      "logs-archive-2026-03-notification-history-sigterm-guard.md",
-      "logs-archive-2026-03-workflow02-screenshot-guard.md",
-      "spec-splitting-guidelines.md",
-      "task-workflow-completed-agent-view-line-budget.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
     "未タスク参照整合の是正": [
       "logs-archive-2026-02-console-migration-patterns.md"
     ],
@@ -8234,11 +8838,6 @@
     ],
     "チャンネル統合": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
-    ],
-    "認証": [
-      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
-      "logs-archive-2026-02-permission-history-execution-timestamps.md",
-      "ui-ux-forms.md"
     ],
     "バグ修正": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
@@ -8978,10 +9577,6 @@
     "broken": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
     ],
-    "link": [
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
-    ],
     "是正": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
@@ -9456,9 +10051,6 @@
     "多角的検証で検出": [
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
-    "screenshot": [
-      "logs-archive-2026-03-workflow02-screenshot-guard.md"
-    ],
     "Port": [
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
@@ -9804,9 +10396,6 @@
       "r2-storage-decision-guide.md"
     ],
     "Presigned": [
-      "r2-storage-decision-guide.md"
-    ],
-    "Proxy": [
       "r2-storage-decision-guide.md"
     ],
     "テーマ状態管理": [
@@ -11167,10 +11756,6 @@
     "Prevention": [
       "task-workflow.md"
     ],
-    "Wave": [
-      "task-workflow.md",
-      "ui-ux-components.md"
-    ],
     "バックエンド技術スタック": [
       "technology-backend.md"
     ],
@@ -11540,6 +12125,21 @@
     ],
     "分離パターン": [
       "ui-result-panel-pattern.md"
+    ],
+    "全体構成": [
+      "ui-ux-admin-dashboard.md"
+    ],
+    "AdminSidebar": [
+      "ui-ux-admin-dashboard.md"
+    ],
+    "members": [
+      "ui-ux-admin-dashboard.md"
+    ],
+    "meetings": [
+      "ui-ux-admin-dashboard.md"
+    ],
+    "共通の": [
+      "ui-ux-admin-dashboard.md"
     ],
     "高度な": [
       "ui-ux-advanced.md"
@@ -12190,9 +12790,6 @@
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
-    "compatibility": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
-    ],
     "validation": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
@@ -12506,9 +13103,6 @@
     "実装コードアンカー": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
-    "same": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
     "検証手順": [
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
@@ -12550,9 +13144,6 @@
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "証跡": [
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
-    "画面": [
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "ルーティング": [
@@ -12604,9 +13195,6 @@
     "parallel": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
-    ],
-    "public": [
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
     ],
     "directory": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
