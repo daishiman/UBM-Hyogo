@@ -1019,6 +1019,20 @@ packages/
 | 実装モジュール | `apps/api/src/sync/schema/` / `apps/api/src/middleware/admin-gate.ts` / `apps/api/src/routes/admin/sync-schema.ts` |
 | 苦戦知見 | `references/lessons-learned-03a-parallel-forms-schema-sync.md`（L-03a-001〜005） |
 
+### UBM-Hyogo Schema Alias Assignment 早見（07b / 2026-04-30）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/` |
+| API | `GET /admin/schema/diff`（`recommendedStableKeys` 同梱） / `POST /admin/schema/aliases?dryRun=true` / `POST /admin/schema/aliases` |
+| 実装 | `apps/api/src/workflows/schemaAliasAssign.ts`, `apps/api/src/services/aliasRecommendation.ts`, `apps/api/src/routes/admin/schema.ts` |
+| D1 書き込み | `schema_questions.stable_key` 更新、`schema_diff_queue.status='resolved'`、`response_fields` back-fill、`audit_log.action='schema_diff.alias_assigned'` |
+| dry-run | 書き込みなし。`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返し、audit なし |
+| collision / error | question/diff 不在 `404`、diff-question mismatch `409`、同一 revision stableKey collision `422` |
+| NON_VISUAL evidence | `ui_routes: []`。Phase 11 は API smoke 手順 + Vitest 証跡で成立し、スクリーンショット対象外 |
+| 正本仕様 | `references/api-endpoints.md`（§管理バックオフィス API 04c 07b close-out）, `references/database-schema-07b-schema-alias-assignment.md`（07b DB workflow）, `references/database-schema.md`（親導線） |
+| artifact inventory / lessons | `references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md`, `references/lessons-learned-07b-schema-alias-assignment-2026-04.md` |
+
 ### UBM-Hyogo Admin Backoffice API 早見（04c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |
@@ -1033,6 +1047,33 @@ packages/
 | schema 書き込み境界 | `/admin/schema/*` のみに集約 |
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
+
+### UBM-Hyogo Tag Queue Resolve 早見（07a / 2026-04-30）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/` |
+| API master | `references/api-endpoints.md`（管理バックオフィス API / 07a close-out） |
+| request body | `{ action: "confirmed", tagCodes: string[] }` or `{ action: "rejected", reason: string }` |
+| status alias | spec: `candidate/confirmed/rejected`、DB/API: `queued/resolved/rejected`。`reviewing` は 02b 互換の中間状態 |
+| guarded write | `UPDATE ... WHERE status IN ('queued','reviewing')` 成功後だけ `member_tags` / `audit_log` を書く。race lost は 409 |
+| idempotent | 同一 payload 再投入は 200 + `idempotent: true`、追加 audit なし。別 payload は 409 |
+| web client | `apps/web/src/lib/admin/api.ts` の `resolveTagQueue(queueId, body)` のみ。tag 直接編集 mutation は作らない |
+| shared schema | `packages/shared/src/zod/identity.ts` / `packages/shared/src/types/identity/index.ts` は `rejected` を含む |
+| follow-up | `docs/30-workflows/unassigned-task/UT-07A-01..04` |
+
+### UBM-Hyogo Attendance Audit API 早見（07c / 2026-04-30）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/07c-parallel-meeting-attendance-and-admin-audit-log-workflow/` |
+| API master | `references/api-endpoints.md`（管理バックオフィス API） |
+| 実装 root | `apps/api/src/routes/admin/attendance.ts`, `apps/api/src/repository/attendance.ts` |
+| candidates | session 不在 `404 session_not_found`、削除済み・登録済み member 除外 |
+| POST error | duplicate `409 attendance_already_recorded`、deleted `422 member_is_deleted`、session 不在 `404 session_not_found` |
+| DELETE error | attendance row 不在を `404 attendance_not_found` に集約 |
+| audit | `attendance.add` / `attendance.remove`, `target_type='meeting'`, `target_id=sessionId`, POST は `after_json`, DELETE は `before_json` |
+| phase 11 判定 | API-only / NON_VISUAL。Vitest smoke evidence、visual は 08b/09a に委譲 |
 
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 

@@ -2,13 +2,22 @@ import type { DbCtx } from "./_shared/db";
 import type { MemberId, ResponseId } from "./_shared/brand";
 import { asMemberId, asResponseId } from "./_shared/brand";
 
-export type TagQueueStatus = "queued" | "reviewing" | "resolved";
+// 07a: candidate / confirmed / rejected の semantics を既存値に alias する。
+//   queued    = candidate（初期投入）
+//   reviewing = レビュー中（任意の中間状態）
+//   resolved  = confirmed（member_tags 反映済）
+//   rejected  = 却下（reason 必須、07a で追加）
+export type TagQueueStatus = "queued" | "reviewing" | "resolved" | "rejected";
 
 // 状態遷移マップ（unidirectional）
+//   既存 02b の遷移（queued→reviewing→resolved）を維持しつつ、
+//   07a workflow が担当する直接遷移（queued→resolved / queued→rejected /
+//   reviewing→rejected）も許可する。終端 (resolved/rejected) からの遷移は禁止。
 export const ALLOWED_TRANSITIONS: Readonly<Record<TagQueueStatus, readonly TagQueueStatus[]>> = {
-  queued: ["reviewing"],
-  reviewing: ["resolved"],
+  queued: ["reviewing", "resolved", "rejected"],
+  reviewing: ["resolved", "rejected"],
   resolved: [],
+  rejected: [],
 };
 
 export function isAllowedTransition(from: TagQueueStatus, to: TagQueueStatus): boolean {

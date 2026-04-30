@@ -204,7 +204,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 実装: `apps/web/app/(admin)/admin/tags/page.tsx`
 
-- searchParams: `status` (`"queued" | "reviewing" | "resolved"`) / `memberId`
+- searchParams: `status` (`"queued" | "reviewing" | "resolved" | "rejected"`) / `memberId`
 - `fetchAdmin<QueueListView>("/admin/tags/queue${qs}")`
 - `<TagQueuePanel initial filter focusMemberId />` を返す
 
@@ -243,7 +243,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### mutation
 
-`resolveTagQueue(queueId)` 成功時に Toast + `router.refresh()`。
+`resolveTagQueue(queueId, body)` 成功時に Toast + `router.refresh()`。`body` は `{ action: "confirmed", tagCodes: string[] }` または `{ action: "rejected", reason: string }`。
 
 #### 不変条件
 

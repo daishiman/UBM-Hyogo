@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { resolveTagQueue } from "../../lib/admin/api";
 
-export type TagQueueStatus = "queued" | "reviewing" | "resolved";
+export type TagQueueStatus = "queued" | "reviewing" | "resolved" | "rejected";
 
 export interface TagQueueItem {
   queueId: string;
@@ -49,19 +49,46 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
 
   const [selected, setSelected] = useState<string | null>(items[0]?.queueId ?? null);
   const [busy, setBusy] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
   const [toast, setToast] = useState<string | null>(null);
   const current = items.find((i) => i.queueId === selected) ?? null;
+  const currentTags = current ? parseTags(current.suggestedTagsJson) : [];
 
-  const onResolve = async () => {
+  const onConfirm = async () => {
     if (!current) return;
     setBusy(true);
-    const r = await resolveTagQueue(current.queueId);
+    const r = await resolveTagQueue(current.queueId, {
+      action: "confirmed",
+      tagCodes: currentTags,
+    });
     setBusy(false);
     if (!r.ok) {
-      setToast(`解決に失敗: ${r.error}`);
+      setToast(`承認に失敗: ${r.error}`);
       return;
     }
     setToast("キューを resolved にしました");
+    router.refresh();
+  };
+
+  const onReject = async () => {
+    if (!current) return;
+    const reason = rejectReason.trim();
+    if (!reason) {
+      setToast("却下理由を入力してください");
+      return;
+    }
+    setBusy(true);
+    const r = await resolveTagQueue(current.queueId, {
+      action: "rejected",
+      reason,
+    });
+    setBusy(false);
+    if (!r.ok) {
+      setToast(`却下に失敗: ${r.error}`);
+      return;
+    }
+    setRejectReason("");
+    setToast("キューを rejected にしました");
     router.refresh();
   };
 
@@ -76,7 +103,7 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
     <section aria-labelledby="tag-queue-h">
       <h1 id="tag-queue-h">タグキュー</h1>
       <div role="group" aria-label="ステータス絞込">
-        {(["", "queued", "reviewing", "resolved"] as const).map((v) => (
+        {(["", "queued", "reviewing", "resolved", "rejected"] as const).map((v) => (
           <button
             key={v || "all"}
             type="button"
@@ -118,17 +145,32 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
               <p>status: <strong>{current.status}</strong></p>
               <p>提案タグ:</p>
               <ul>
-                {parseTags(current.suggestedTagsJson).map((t) => (
+                {currentTags.map((t) => (
                   <li key={t}>{t}</li>
                 ))}
               </ul>
               {current.reason && <p>理由: {current.reason}</p>}
               <button
                 type="button"
-                onClick={onResolve}
-                disabled={busy || current.status === "resolved"}
+                onClick={onConfirm}
+                disabled={busy || current.status === "resolved" || current.status === "rejected" || currentTags.length === 0}
               >
-                resolve（提案タグを member_tags に反映）
+                confirmed（提案タグを member_tags に反映）
+              </button>
+              <label>
+                却下理由
+                <input
+                  value={rejectReason}
+                  onChange={(e) => setRejectReason(e.target.value)}
+                  disabled={busy || current.status === "resolved" || current.status === "rejected"}
+                />
+              </label>
+              <button
+                type="button"
+                onClick={onReject}
+                disabled={busy || current.status === "resolved" || current.status === "rejected"}
+              >
+                rejected
               </button>
             </article>
           )}

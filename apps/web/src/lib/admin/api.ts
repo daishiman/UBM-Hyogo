@@ -68,8 +68,12 @@ export const deleteMember = (memberId: string, reason: string) =>
 export const restoreMember = (memberId: string) =>
   call(`/members/${encodeURIComponent(memberId)}/restore`, "POST", {});
 
-export const resolveTagQueue = (queueId: string) =>
-  call(`/tags/queue/${encodeURIComponent(queueId)}/resolve`, "POST", {});
+export type TagQueueResolveBody =
+  | { action: "confirmed"; tagCodes: string[] }
+  | { action: "rejected"; reason: string };
+
+export const resolveTagQueue = (queueId: string, body: TagQueueResolveBody) =>
+  call(`/tags/queue/${encodeURIComponent(queueId)}/resolve`, "POST", body);
 
 export const postSchemaAlias = (body: {
   questionId: string;
