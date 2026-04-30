@@ -34,6 +34,7 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-api-electron.md",
@@ -545,7 +546,8 @@
       "api-core.md"
     ],
     "HTTP": [
-      "api-core.md"
+      "api-core.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "ステータスコード": [
       "api-core.md"
@@ -889,7 +891,8 @@
       "deployment-cloudflare.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "Main": [
       "arch-claude-cli.md",
@@ -1300,6 +1303,7 @@
       "interfaces-auth-core.md",
       "interfaces-chat-history-core.md",
       "interfaces-chat-history-details.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "patterns-advanced.md",
       "patterns-core.md",
       "patterns-details.md",
@@ -2383,6 +2387,7 @@
     "skill": [
       "arch-state-management-skill-creator.md",
       "claude-code-skills-process.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -2410,6 +2415,7 @@
     ],
     "creator": [
       "arch-state-management-skill-creator.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
       "logs-archive-2026-02-console-migration-patterns.md",
@@ -3174,7 +3180,8 @@
     "service": [
       "architecture-file-conversion.md",
       "database-admin-repository-boundary.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "db": [
       "architecture-file-conversion.md"
@@ -3683,6 +3690,7 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "security-skill-execution-permission.md",
       "skill-executor-type-migration.md",
       "skill-ledger-progressive-disclosure.md",
@@ -3817,6 +3825,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "spec-elegance-consistency-audit.md",
@@ -3918,6 +3927,7 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "learned": [
@@ -3927,6 +3937,7 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "agents": [
@@ -4121,7 +4132,8 @@
       "workflow-ai-chat-llm-integration-fix.md"
     ],
     "repository": [
-      "database-admin-repository-boundary.md"
+      "database-admin-repository-boundary.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "境界": [
       "database-admin-repository-boundary.md"
@@ -4767,6 +4779,7 @@
     "から": [
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "skill-ledger-fragment-spec.md"
     ],
     "CLOUDFLARE": [
@@ -5933,6 +5946,7 @@
     ],
     "Result": [
       "interfaces-core.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "rag-search-vector.md",
       "ui-result-panel-pattern.md",
       "ui-ux-feature-components-skill-analysis.md"
@@ -6294,7 +6308,8 @@
     ],
     "response": [
       "ipc-contract-checklist.md",
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "event": [
       "ipc-contract-checklist.md"
@@ -6574,6 +6589,7 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -6716,7 +6732,8 @@
       "lessons-learned-04b-member-self-service.md"
     ],
     "enum": [
-      "lessons-learned-04b-member-self-service.md"
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "保持": [
       "lessons-learned-04b-member-self-service.md"
@@ -6807,7 +6824,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "attendance": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "memberId": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -6889,7 +6907,8 @@
     "関連未タスク・後続": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "実装の苦戦箇所": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
@@ -6997,6 +7016,7 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -7307,10 +7327,12 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "audit": [
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "log": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "logging-migration-guide.md"
     ],
     "遷移": [
@@ -7385,6 +7407,82 @@
     ],
     "に保つ": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "Attendance": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "Audit": [
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "ui-ux-feature-components-reference-organisms-history-surfaces.md"
+    ],
+    "duplicate": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "existing": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "row": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "を一緒に返す": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "actor": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "middleware": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "へ明示注入する": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "candidates": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "列挙は": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "LEFT": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "JOIN": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "単一": [
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "SELECT": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "で複合除外を構造化する": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "異常系の": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "status": [
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "reason": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "で分岐する": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "projection": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "と独立させる": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "改善フィードバック": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "反映済み": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "実機反映": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md"
@@ -7999,10 +8097,6 @@
     "代替": [
       "lessons-learned-ut-gov-001-2026-04.md",
       "ui-ux-atoms-patterns-core.md"
-    ],
-    "status": [
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "checks": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -11366,9 +11460,6 @@
     "解除確認": [
       "skill-ledger-gitignore-policy.md"
     ],
-    "単一": [
-      "skill-ledger-gitignore-policy.md"
-    ],
     "再生成": [
       "skill-ledger-gitignore-policy.md"
     ],
@@ -12678,9 +12769,6 @@
       "ui-ux-feature-components-core.md"
     ],
     "Reflection": [
-      "ui-ux-feature-components-reference-organisms-history-surfaces.md"
-    ],
-    "Audit": [
       "ui-ux-feature-components-reference-organisms-history-surfaces.md"
     ],
     "REFLECTION": [
