@@ -406,6 +406,9 @@
 | `GOOGLE_PRIVATE_KEY` | Google Forms API service account private key。改行は `\\n` 形式でも可 | Cloudflare Secrets | Yes |
 | `HEALTH_DB_TOKEN` | `/health/db` の `X-Health-Token` 検証用 secret。1Password 正本、Cloudflare Secrets 注入、90 日 rotation | Cloudflare Secrets | Yes |
 | `GOOGLE_FORM_RESPONDER_URL` | `schema_versions.source_url` fallback 用 responder URL | Cloudflare Variables | No |
+| `GOOGLE_SHEETS_SA_JSON` | Google Sheets API v4 smoke / sync 用 Service Account JSON。平文をログ・PR・永続ファイルに残さない | Cloudflare Secrets | Yes (Sheets sync / UT-26 smoke) |
+| `SHEETS_SPREADSHEET_ID` | Google Sheets API v4 smoke / sync 対象 spreadsheetId | Cloudflare Variables or Secrets | Yes (Sheets sync / UT-26 smoke) |
+| `SMOKE_ADMIN_TOKEN` | `GET /admin/smoke/sheets` dev/staging smoke route の Bearer token。production には配置しない | Cloudflare Secrets | dev/staging only |
 
 互換名: `FORMS_SA_EMAIL` / `FORMS_SA_KEY` は `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` の移行互換として受け付ける。
 

@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L175 |
-| UBM-Hyogo Admin Sync API（03a） | L196 |
-| UBM-Hyogo Member Self-Service API（04b） | L218 |
-| Desktop IPC API サマリー | L236 |
-| 変更履歴 | L267 |
-| 関連ドキュメント | L283 |
+| エンドポイント命名規則 | L178 |
+| UBM-Hyogo Admin Sync API（03a） | L199 |
+| UBM-Hyogo Member Self-Service API（04b） | L221 |
+| Desktop IPC API サマリー | L239 |
+| 変更履歴 | L270 |
+| 関連ドキュメント | L287 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2805,8 +2805,8 @@ node scripts/list-specs.js --topics
 | トラブルシューティング | L283 |
 | チーム開発での運用 | L344 |
 | 必須環境変数一覧 | L383 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L452 |
-| 関連ドキュメント | L472 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L455 |
+| 関連ドキュメント | L475 |
 
 ### references/error-handling-core.md
 
