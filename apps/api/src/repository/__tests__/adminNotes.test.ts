@@ -46,6 +46,9 @@ describe("adminNotes (CRUD)", () => {
     });
 
     expect(created.noteType).toBe("visibility_request");
+    expect(created.requestStatus).toBe("pending");
+    expect(created.resolvedAt).toBeNull();
+    expect(created.resolvedByAdminId).toBeNull();
     expect(
       await adminNotes.hasPendingRequest(env.ctx, memberId, "visibility_request"),
     ).toBe(true);
@@ -59,6 +62,172 @@ describe("adminNotes (CRUD)", () => {
       "visibility_request",
     );
     expect(latest?.noteId).toBe(created.noteId);
+  });
+
+  it("AC-1: general 行は request_status / resolved_at / resolved_by_admin_id 全て NULL", async () => {
+    const created = await adminNotes.create(env.ctx, {
+      memberId: asMemberId("m_010"),
+      body: "汎用メモ",
+      createdBy: adminEmail("owner@example.com"),
+    });
+    expect(created.noteType).toBe("general");
+    expect(created.requestStatus).toBeNull();
+    expect(created.resolvedAt).toBeNull();
+    expect(created.resolvedByAdminId).toBeNull();
+    const fetched = await adminNotes.findById(env.ctx, created.noteId);
+    expect(fetched?.requestStatus).toBeNull();
+  });
+
+  it("AC-4: markResolved で pending → resolved に遷移し metadata が記録される", async () => {
+    const memberId = asMemberId("m_010");
+    const created = await adminNotes.create(env.ctx, {
+      memberId,
+      body: "視認停止依頼",
+      createdBy: adminEmail("owner@example.com"),
+      noteType: "visibility_request",
+    });
+    const before = Date.now();
+    const result = await adminNotes.markResolved(
+      env.ctx,
+      created.noteId,
+      "adm_owner",
+    );
+    expect(result).toBe(created.noteId);
+
+    const after = await adminNotes.findById(env.ctx, created.noteId);
+    expect(after?.requestStatus).toBe("resolved");
+    expect(after?.resolvedByAdminId).toBe("adm_owner");
+    expect(after?.resolvedAt).not.toBeNull();
+    expect(after?.resolvedAt ?? 0).toBeGreaterThanOrEqual(before);
+    // hasPendingRequest は resolved 行を false として扱う（AC-3）
+    expect(
+      await adminNotes.hasPendingRequest(env.ctx, memberId, "visibility_request"),
+    ).toBe(false);
+  });
+
+  it("AC-4: general 行への markResolved は null（UPDATE 0 件）", async () => {
+    const created = await adminNotes.create(env.ctx, {
+      memberId: asMemberId("m_010"),
+      body: "汎用",
+      createdBy: adminEmail("owner@example.com"),
+    });
+    expect(
+      await adminNotes.markResolved(env.ctx, created.noteId, "adm_owner"),
+    ).toBeNull();
+    const after = await adminNotes.findById(env.ctx, created.noteId);
+    expect(after?.requestStatus).toBeNull();
+  });
+
+  it("AC-5: markRejected で pending → rejected に遷移し reason が body 末尾に追記される", async () => {
+    const memberId = asMemberId("m_010");
+    const created = await adminNotes.create(env.ctx, {
+      memberId,
+      body: "退会希望",
+      createdBy: adminEmail("owner@example.com"),
+      noteType: "delete_request",
+    });
+    const result = await adminNotes.markRejected(
+      env.ctx,
+      created.noteId,
+      "adm_owner",
+      "本人確認できず",
+    );
+    expect(result).toBe(created.noteId);
+
+    const after = await adminNotes.findById(env.ctx, created.noteId);
+    expect(after?.requestStatus).toBe("rejected");
+    expect(after?.resolvedByAdminId).toBe("adm_owner");
+    expect(after?.body).toContain("退会希望");
+    expect(after?.body).toContain("[rejected] 本人確認できず");
+  });
+
+  it("AC-5: markRejected は UPDATE 時点の body に reason を追記する", async () => {
+    const created = await adminNotes.create(env.ctx, {
+      memberId: asMemberId("m_010"),
+      body: "初期本文",
+      createdBy: adminEmail("owner@example.com"),
+      noteType: "delete_request",
+    });
+    await env.ctx.db
+      .prepare("UPDATE admin_member_notes SET body = body || ?1 WHERE note_id = ?2")
+      .bind("\n追記済みメモ", created.noteId)
+      .run();
+
+    expect(
+      await adminNotes.markRejected(
+        env.ctx,
+        created.noteId,
+        "adm_owner",
+        "対象外",
+      ),
+    ).toBe(created.noteId);
+    const after = await adminNotes.findById(env.ctx, created.noteId);
+    expect(after?.body).toContain("初期本文");
+    expect(after?.body).toContain("追記済みメモ");
+    expect(after?.body).toContain("[rejected] 対象外");
+  });
+
+  it("AC-6: resolved 行への再 markResolved / markRejected は null（pending ガード）", async () => {
+    const created = await adminNotes.create(env.ctx, {
+      memberId: asMemberId("m_010"),
+      body: "stop",
+      createdBy: adminEmail("owner@example.com"),
+      noteType: "visibility_request",
+    });
+    expect(
+      await adminNotes.markResolved(env.ctx, created.noteId, "adm_owner"),
+    ).toBe(created.noteId);
+
+    expect(
+      await adminNotes.markResolved(env.ctx, created.noteId, "adm_owner"),
+    ).toBeNull();
+    expect(
+      await adminNotes.markRejected(
+        env.ctx,
+        created.noteId,
+        "adm_owner",
+        "後出し",
+      ),
+    ).toBeNull();
+  });
+
+  it("AC-7: resolved 行のみ存在する member は再度 hasPendingRequest=false で再申請可能", async () => {
+    const memberId = asMemberId("m_010");
+    const first = await adminNotes.create(env.ctx, {
+      memberId,
+      body: "1回目",
+      createdBy: adminEmail("owner@example.com"),
+      noteType: "visibility_request",
+    });
+    await adminNotes.markResolved(env.ctx, first.noteId, "adm_owner");
+    expect(
+      await adminNotes.hasPendingRequest(env.ctx, memberId, "visibility_request"),
+    ).toBe(false);
+    // 再申請の INSERT が pending として通る
+    const second = await adminNotes.create(env.ctx, {
+      memberId,
+      body: "2回目",
+      createdBy: adminEmail("owner@example.com"),
+      noteType: "visibility_request",
+    });
+    expect(second.requestStatus).toBe("pending");
+    expect(
+      await adminNotes.hasPendingRequest(env.ctx, memberId, "visibility_request"),
+    ).toBe(true);
+  });
+
+  it("markResolved / markRejected: 未知 id は null", async () => {
+    expect(
+      await adminNotes.markResolved(env.ctx, "note_unknown", "adm_owner"),
+    ).toBeNull();
+    expect(
+      await adminNotes.markRejected(
+        env.ctx,
+        "note_unknown",
+        "adm_owner",
+        "x",
+      ),
+    ).toBeNull();
   });
 
   it("update で body を変更", async () => {

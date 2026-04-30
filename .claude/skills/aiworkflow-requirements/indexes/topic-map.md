@@ -2233,6 +2233,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L78 |
 | Validation Chain | L88 |
 
+### references/workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| 不変条件 Trace | L33 |
+| Phase Outputs | L41 |
+| 主要 Artifact | L59 |
+| Skill 反映先（current canonical set） | L98 |
+| Validation Chain | L107 |
+| 確定値・列定義 | L120 |
+
 ### references/workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md
 
 | セクション | 行 |
@@ -3005,6 +3018,7 @@ node scripts/list-specs.js --topics
 | L-04B-003: 「本文編集禁止」の不変条件根拠は specs に分散しているので 1 箇所に集約参照する | L25 |
 | L-04B-004: `admin_member_notes` schema 変更は wave 間 ownership を Phase 1 で宣言する | L33 |
 | L-04B-005: Auth.js 未着フェーズの dev session ヘッダは production guard を必ず最初に書く | L41 |
+| L-04B-006: pending 判定は「最新行存在」ではなく `request_status` 列ベースに移行する（04b-followup-001） | L49 |
 
 ### references/lessons-learned-04c-admin-backoffice-2026-04.md
 
