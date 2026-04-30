@@ -1063,6 +1063,19 @@ packages/
 | shared schema | `packages/shared/src/zod/identity.ts` / `packages/shared/src/types/identity/index.ts` は `rejected` を含む |
 | follow-up | `docs/30-workflows/unassigned-task/UT-07A-01..04` |
 
+### UBM-Hyogo Attendance Audit API 早見（07c / 2026-04-30）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/07c-parallel-meeting-attendance-and-admin-audit-log-workflow/` |
+| API master | `references/api-endpoints.md`（管理バックオフィス API） |
+| 実装 root | `apps/api/src/routes/admin/attendance.ts`, `apps/api/src/repository/attendance.ts` |
+| candidates | session 不在 `404 session_not_found`、削除済み・登録済み member 除外 |
+| POST error | duplicate `409 attendance_already_recorded`、deleted `422 member_is_deleted`、session 不在 `404 session_not_found` |
+| DELETE error | attendance row 不在を `404 attendance_not_found` に集約 |
+| audit | `attendance.add` / `attendance.remove`, `target_type='meeting'`, `target_id=sessionId`, POST は `after_json`, DELETE は `before_json` |
+| phase 11 判定 | API-only / NON_VISUAL。Vitest smoke evidence、visual は 08b/09a に委譲 |
+
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |

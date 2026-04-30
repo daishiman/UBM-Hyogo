@@ -36,7 +36,7 @@ describe("attendance repository", () => {
   it("addAttendance: 成功", async () => {
     const fake = createFakeD1(newSpec());
     const r = await addAttendance({ db: fake.d1 }, asMemberId("m1"), "s1", "admin");
-    expect(r).toEqual({ ok: true });
+    expect(r).toMatchObject({ ok: true, row: { memberId: "m1", sessionId: "s1", assignedBy: "admin" } });
     expect(fake.state.tables.member_attendance).toHaveLength(1);
   });
 
@@ -56,7 +56,7 @@ describe("attendance repository", () => {
     const fake = createFakeD1(newSpec());
     await addAttendance({ db: fake.d1 }, asMemberId("m1"), "s1", "admin");
     const r = await addAttendance({ db: fake.d1 }, asMemberId("m1"), "s1", "admin");
-    expect(r).toEqual({ ok: false, reason: "duplicate" });
+    expect(r).toMatchObject({ ok: false, reason: "duplicate", existing: { memberId: "m1", sessionId: "s1" } });
   });
 
   it("listAttendanceByMember / listAttendanceBySession", async () => {
@@ -69,8 +69,14 @@ describe("attendance repository", () => {
   it("removeAttendance は対象を削除", async () => {
     const fake = createFakeD1(newSpec());
     await addAttendance({ db: fake.d1 }, asMemberId("m1"), "s1", "admin");
-    await removeAttendance({ db: fake.d1 }, asMemberId("m1"), "s1");
+    const removed = await removeAttendance({ db: fake.d1 }, asMemberId("m1"), "s1");
+    expect(removed).toMatchObject({ memberId: "m1", sessionId: "s1" });
     expect(fake.state.tables.member_attendance).toHaveLength(0);
+  });
+
+  it("removeAttendance は対象なしなら null", async () => {
+    const fake = createFakeD1(newSpec());
+    await expect(removeAttendance({ db: fake.d1 }, asMemberId("m1"), "s1")).resolves.toBeNull();
   });
 
   it("listAttendableMembers は is_deleted=1 を除外 (AC-7)", async () => {
