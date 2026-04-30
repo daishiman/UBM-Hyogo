@@ -28,7 +28,7 @@ Phase 2 設計の alternative 3 案を比較し、PASS / MINOR / MAJOR 判定で
 | 種別 | パス | 用途 |
 | --- | --- | --- |
 | 必須 | outputs/phase-02/tag-queue-state-machine.md | レビュー対象 |
-| 必須 | doc/00-getting-started-manual/specs/12-search-tags.md | queue 仕様 |
+| 必須 | docs/00-getting-started-manual/specs/12-search-tags.md | queue 仕様 |
 
 ## Alternative 3 案
 
@@ -118,5 +118,5 @@ Phase 2 設計の alternative 3 案を比較し、PASS / MINOR / MAJOR 判定で
 | --- | --- |
 | 採用設計 | unidirectional state machine + tx + 03b hook |
 | 確定 module | tagQueueResolve, enqueueTagCandidate, tagQueueRoutes, tagQueueValidation |
-| open question | D1 batch の semi-tx 性能特性（Phase 9 で計測） |
+| open question | guarded update の semi-tx 性能特性（Phase 9 で計測） |
 | blocker | なし（上流 02b/02c/04c の repo signature 確定が前提） |

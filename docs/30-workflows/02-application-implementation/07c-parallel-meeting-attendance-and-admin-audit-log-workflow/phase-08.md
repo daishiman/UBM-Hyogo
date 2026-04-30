@@ -28,7 +28,7 @@ audit hook / action enum / payload 形 / endpoint path / repository 命名 を�
 | --- | --- | --- |
 | 必須 | outputs/phase-05/main.md | 擬似コード |
 | 必須 | outputs/phase-07/main.md | AC matrix |
-| 必須 | doc/02-application-implementation/07a-parallel-tag-assignment-queue-resolve-workflow/index.md | 並列の hook 利用形 |
+| 必須 | docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/index.md | 並列の hook 利用形 |
 | 必須 | doc/02-application-implementation/07b-parallel-schema-diff-alias-assignment-workflow/index.md | 並列の hook 利用形 |
 
 ## Before / After

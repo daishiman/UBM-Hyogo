@@ -23,17 +23,17 @@ workflow / handler の命名と path を統一し、07b / 07c の同類 workflow
 | --- | --- | --- | --- |
 | workflow 関数名 | `resolveTagQueue`, `processTagQueue`, `confirmTag` | `tagQueueResolve` | `<subject><action>` 統一（07b の `schemaAliasAssign`、07c の `attendanceCreate` と命名整合） |
 | hook 関数名 | `addCandidate`, `pushQueue` | `enqueueTagCandidate` | enqueue prefix |
-| audit action | `tag_queue.confirm`, `confirm_tag` | `tag_queue.resolve.confirmed` | `<entity>.<verb>.<state>` |
+| audit action | `tag_queue.confirm`, `confirm_tag` | `admin.tag.queue_resolved` / `admin.tag.queue_rejected` | 既存 auditAction 命名に統一 |
 | error class | `BadRequest`, `Conflict` | `ConflictError`, `UnprocessableError`, `NotFoundError` | suffix `Error` |
 | zod schema | inline | `apps/api/src/schemas/tagQueueResolve.ts` で集約 | 再利用 |
 | audit payload | 各 workflow で別構造 | `{ memberId, ...workflowSpecific }` | 共通 base |
-| tx wrapper | inline batch | `apps/api/src/lib/d1Tx.ts` で wrapper | DRY (07b/c と共有) |
+| tx wrapper | inline guarded write | `apps/api/src/lib/d1Tx.ts` で wrapper | DRY (07b/c と共有) |
 
 ## 共通化対象
 
 | 種別 | path | 用途 |
 | --- | --- | --- |
-| util | apps/api/src/lib/d1Tx.ts | D1 batch wrapper（07a/b/c で共有） |
+| util | apps/api/src/lib/d1Tx.ts | guarded update wrapper（07a/b/c で共有） |
 | util | apps/api/src/lib/auditLog.ts | audit_log INSERT 共通関数 |
 | error | apps/api/src/lib/errors.ts | Conflict / NotFound / Unprocessable / Forbidden |
 | middleware | apps/api/src/middleware/adminGate.ts | 06c phase で確定済み、本タスク参照のみ |

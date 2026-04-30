@@ -22,7 +22,7 @@ resolve workflow の異常系（401 / 403 / 404 / 409 / 422 / race condition / D
 1. failure case 表
 2. recovery 動作
 3. race condition 対策
-4. D1 batch 失敗時の rollback 確認
+4. guarded update 失敗時に後続副作用が発生しないことの確認
 
 ## 参照資料
 
@@ -40,21 +40,22 @@ resolve workflow の異常系（401 / 403 / 404 / 409 / 422 / race condition / D
 | 409 confirmed→rejected | unidirectional 違反 | 409 | conflict | 新規 queue 作成 |
 | 422 unknown tag | tagCodes に未知 code | 422 | 「未知のタグ」error | tag_definitions 確認 |
 | 422 deleted member | isDeleted=true への resolve | 422 | 「削除済み会員」error | 復元してから再 resolve |
-| 422 reason empty | reject で reason="" | 422 | zod error | reason 入力 |
-| 422 tagCodes empty | confirm で tagCodes=[] | 422 | zod error | tag 選択 |
+| 400 reason empty | reject で reason="" | 400 | zod error | reason 入力 |
+| 400 tagCodes empty | confirm で tagCodes=[] | 400 | zod error | tag 選択 |
 | race condition | 同時 resolve 競合 | 409 | one wins | UI で list 再 fetch |
-| D1 batch failure | network / quota | 5xx | rollback、再試行 | retry button |
-| audit_log INSERT 失敗 | constraint violation | 5xx | tx 全体 rollback | log 調査 |
+| guarded update failure | network / quota | 5xx | 再試行 | retry button |
+| audit_log INSERT 失敗 | constraint violation | 5xx | queue 更新後の follow-up 失敗として log 調査 | log 調査 |
 
 ## race condition 対策
 
-- WHERE 句に `status='candidate'` を含めることで、同時 UPDATE で 1 件だけが changes=1 になる
+- WHERE 句に `status IN ('queued','reviewing')` を含めることで、同時 UPDATE で 1 件だけが changes=1 になる
 - meta.changes === 0 なら 409 を返す
 
-## D1 rollback
+## D1 race / failure boundary
 
-- D1 batch は atomic であり、いずれか失敗で全 rollback
-- 失敗時は client に 5xx + retry 推奨
+- guarded update の `changes=0` は race lost として 409 を返す
+- race lost 時は `member_tags` / `audit_log` を書かない
+- follow-up statement 失敗は client に 5xx + retry 推奨を返し、log で調査する
 
 ## 統合テスト連携
 
@@ -69,7 +70,7 @@ resolve workflow の異常系（401 / 403 / 404 / 409 / 422 / race condition / D
 | --- | --- | --- |
 | #5 | 全 throw が apps/api 内 | grep |
 | #13 | unidirectional 違反は 409 で確実に阻止 | state test |
-| audit | tx 失敗時 audit_log も rollback | unit test |
+| audit | guarded update 成功時のみ audit_log を書く | unit test |
 | 認可 | 401 / 403 が正しく出る | authz test |
 
 ## サブタスク管理
@@ -79,7 +80,7 @@ resolve workflow の異常系（401 / 403 / 404 / 409 / 422 / race condition / D
 | 1 | failure case 表 | 6 | pending | 11 case |
 | 2 | recovery | 6 | pending | 各 case |
 | 3 | race condition | 6 | pending | WHERE 句 |
-| 4 | D1 rollback | 6 | pending | atomic |
+| 4 | D1 race / failure boundary | 6 | pending | guarded update |
 
 ## 成果物
 
@@ -92,7 +93,7 @@ resolve workflow の異常系（401 / 403 / 404 / 409 / 422 / race condition / D
 
 - [ ] failure case 11 件以上
 - [ ] 各 case に recovery
-- [ ] race / rollback の対策明記
+- [ ] race / follow-up failure の対策明記
 
 ## タスク100%実行確認
 

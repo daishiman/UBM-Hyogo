@@ -26,6 +26,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.04.30-07a-status-alias-contract | 2026-04-30 | 07a tag queue resolve Phase 12 skill-feedback を反映。`references/phase-template-core.md` の Phase 2 ポイントに、既存 DB / API / shared schema の enum や status を拡張・alias する場合の **仕様語 ↔ 実装語対応表** と **追従対象（backend route / web client / shared zod / type / docs）** 明示を追加。`candidate/confirmed` と `queued/resolved` の drift、web client body、shared schema 追従漏れを再発防止する。 |
 | v2026.04.29-ut09-direction-reconciliation-closeout | 2026-04-29 | UT-09 direction reconciliation Phase 12 review sync。docs-only / direction-reconciliation でも「記述レベル PASS」と「実測 PASS」を分離し、validator 未実行・未起票 unassigned-task・stale references 撤回待ちは PASS 化しない運用を skill-feedback に記録。root / outputs `artifacts.json` parity は実同期を必須化。 |
 | v2026.04.29-05a-auth-session-contract | 2026-04-29 | 05a Auth.js Google OAuth/admin gate Phase 12 feedback を反映。Phase 2 テンプレに OAuth / session / admin gate 系タスクの「session 型定義・JWT encode/decode 契約・provider 共有 ADR・実 cookie/token 互換テスト」を必須化し、Phase 5 OAuth client runbook 作成を明示（`references/phase-template-core.md`）。あわせて `references/unassigned-task-required-sections.md` の「リスクと対策」表を **2 列形式（リスク / 対策）を最低要件**に緩和し、影響列（高/中/低）は任意拡張とする運用に正本化（監査スクリプト未実装と整合、04c/05a の実用形式を反映）。 |
 | v2026.04.29-parallel-wave-schema-ownership | 2026-04-29 | 04b Phase 12 feedback を受け、Phase 1 テンプレに「Schema / 共有コード Ownership 宣言」セクションを追加。並列 wave で共有 schema や `_shared/` の編集権を Phase 1 で明示することを必須化（`references/phase-template-phase1.md` の 1.X 節）。`admin_member_notes.note_type` の wave 越境を再発防止する。|

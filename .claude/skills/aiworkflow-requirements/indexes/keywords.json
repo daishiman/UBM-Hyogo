@@ -33,6 +33,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-api-electron.md",
@@ -1427,6 +1428,7 @@
       "ipc-contract-checklist.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -2298,6 +2300,7 @@
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-history-search-notification-center.md",
@@ -2845,6 +2848,7 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "ui-ux-admin-dashboard.md"
     ],
     "server": [
@@ -2895,7 +2899,8 @@
       "ui-ux-admin-dashboard.md"
     ],
     "client": [
-      "architecture-admin-api-client.md"
+      "architecture-admin-api-client.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "認証・セキュリティ": [
       "architecture-auth-security-core.md",
@@ -3515,6 +3520,7 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -3795,6 +3801,7 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "spec-elegance-consistency-audit.md",
@@ -4112,7 +4119,8 @@
     "queue": [
       "database-admin-repository-boundary.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "Turso": [
       "database-architecture.md",
@@ -4188,6 +4196,7 @@
     ],
     "DB": [
       "database-implementation-core.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "task-workflow-completed-ipc-graceful-degradation-lifecycle.md"
     ],
@@ -6256,6 +6265,7 @@
     "Lessons": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -6272,6 +6282,7 @@
     ],
     "Learned": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -6585,10 +6596,12 @@
     ],
     "tag": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "resolve": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "状態と": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6617,7 +6630,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "alias": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "の状態整合は": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6804,6 +6818,7 @@
     "up": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-backlog.md",
@@ -6821,11 +6836,13 @@
     ],
     "unassigned": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md"
     ],
     "task": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -7034,6 +7051,85 @@
     "に分ける": [
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
+    "語と": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "語は": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "表で固定する": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "batch": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "後の": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "changes": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "判定で": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "race": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "を扱わない": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "follow": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-backlog.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "実体まで作る": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "only": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "NON": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "VISUAL": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "でも": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "evidence": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "を明示する": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "契約は": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "実装タスクの": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "stale": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "記述を同": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "で直す": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
     "実機反映": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md"
     ],
@@ -7078,16 +7174,6 @@
     "正本": [
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md"
-    ],
-    "NON": [
-      "lessons-learned-coverage-80-enforcement-2026-04.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "VISUAL": [
-      "lessons-learned-coverage-80-enforcement-2026-04.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "Part": [
       "lessons-learned-coverage-80-enforcement-2026-04.md"
@@ -7405,10 +7491,6 @@
     "の認証契約を統合せず併存させる判断": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
-    "evidence": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
     "縮約と": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
@@ -7653,10 +7735,6 @@
     ],
     "充足基準": [
       "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "only": [
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "skill-ledger-gitattributes-policy.md"
     ],
     "代替": [
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -9669,11 +9747,6 @@
     ],
     "追補を": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
-    ],
-    "follow": [
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-backlog.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "の未タスク": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"

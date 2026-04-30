@@ -58,7 +58,7 @@ pnpm -F apps/api test workflows/tagQueue
 | resolve confirm | 5 | 150 |
 | resolve reject | 1 | 30 |
 | audit_log writes | 6 | 180 |
-| D1 batch operations | 18 | 540 |
+| guarded update operations | 18 | 540 |
 
 - D1 writes 540/月、無料枠 100k/日 の 0.02%
 

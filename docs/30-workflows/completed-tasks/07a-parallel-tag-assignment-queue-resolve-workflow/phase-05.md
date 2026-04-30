@@ -87,22 +87,24 @@ export async function tagQueueResolve(env: Env, input: ResolveInput) {
 
   const now = new Date().toISOString()
 
-  // D1 batch (atomic)
-  const stmts = []
+  // guarded update: race lost 時は後続副作用を書かない
+  const update = env.DB.prepare(`UPDATE tag_assignment_queue SET status='resolved', updated_at=? WHERE queue_id=? AND status IN ('queued','reviewing')`).bind(now, input.queueId)
+  const updateResult = await update.run()
+  if (updateResult.meta.changes === 0) {
+    throw new ConflictError('queue state changed during resolve')
+  }
+
+  const followups = []
   if (input.action === 'confirmed') {
-    stmts.push(env.DB.prepare(`UPDATE tag_assignment_queue SET status='confirmed', resolved_at=?, resolved_by=? WHERE id=? AND status='candidate'`).bind(now, input.actorUserId, input.queueId))
     for (const code of input.tagCodes!) {
-      stmts.push(env.DB.prepare(`INSERT INTO member_tags (member_id, tag_code, assigned_via_queue_id, assigned_at) VALUES (?,?,?,?) ON CONFLICT DO NOTHING`).bind(queue.memberId, code, input.queueId, now))
+      followups.push(env.DB.prepare(`INSERT INTO member_tags (...) VALUES (...) ON CONFLICT DO UPDATE ...`).bind(...))
     }
   } else {
-    stmts.push(env.DB.prepare(`UPDATE tag_assignment_queue SET status='rejected', reason=?, resolved_at=?, resolved_by=? WHERE id=? AND status='candidate'`).bind(input.reason, now, input.actorUserId, input.queueId))
+    // rejected は UPDATE 文で reason を保存する
   }
-  stmts.push(env.DB.prepare(`INSERT INTO audit_log (id, actor_user_id, action, target_type, target_id, payload, occurred_at) VALUES (?,?,?,?,?,?,?)`).bind(crypto.randomUUID(), input.actorUserId, `tag_queue.resolve.${input.action}`, 'tag_assignment_queue', input.queueId, JSON.stringify({ memberId: queue.memberId, tagCodes: input.tagCodes, reason: input.reason }), now))
-
-  const results = await env.DB.batch(stmts)
-  if (results[0].meta.changes === 0) {
-    // race condition: another resolve already happened
-    throw new ConflictError('queue state changed during resolve')
+  followups.push(env.DB.prepare(`INSERT INTO audit_log (...) VALUES (...)`).bind(...))
+  for (const stmt of followups) {
+    await stmt.run()
   }
 
   return { queueId: input.queueId, status: input.action, resolvedAt: now, memberId: queue.memberId, tagCodes: input.tagCodes }
@@ -177,8 +179,8 @@ pnpm -F apps/api test workflows/tagQueue
 | #5 | workflow が apps/api 内、import boundary 守る | code review |
 | #13 | member_tags INSERT が本 workflow のみ | grep |
 | 認可 | adminGate middleware を route に適用 | code review |
-| audit | batch に audit_log INSERT を必ず含める | unit test |
-| atomic | D1 batch で全 stmt 同時実行 | unit test |
+| audit | guarded update 成功後に audit_log INSERT を必ず含める | unit test |
+| atomic | guarded update で全 stmt 同時実行 | unit test |
 
 ## サブタスク管理
 
@@ -186,7 +188,7 @@ pnpm -F apps/api test workflows/tagQueue
 | --- | --- | --- | --- | --- |
 | 1 | 作成順 runbook | 5 | pending | 5 ファイル |
 | 2 | zod schema | 5 | pending | discriminatedUnion |
-| 3 | workflow 本体 | 5 | pending | tx batch |
+| 3 | workflow 本体 | 5 | pending | guarded write |
 | 4 | hook | 5 | pending | 03b 連携 |
 | 5 | handler | 5 | pending | Hono |
 | 6 | sanity check | 5 | pending | 3 コマンド |

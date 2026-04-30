@@ -29,7 +29,7 @@ unit / contract / E2E / authorization / state-machine の 5 層 verify suite を
 
 | 種別 | パス | 用途 |
 | --- | --- | --- |
-| 必須 | doc/00-getting-started-manual/specs/12-search-tags.md | resolve 仕様 |
+| 必須 | docs/00-getting-started-manual/specs/12-search-tags.md | resolve 仕様 |
 | 必須 | outputs/phase-02/tag-queue-state-machine.md | 設計図 |
 | 必須 | outputs/phase-01/main.md | AC quantitative |
 

@@ -63,7 +63,7 @@ Phase 1〜9 を統合レビューし、GO / NO-GO を判定する。上流 04c, 
 | 条件 | 判定 | 根拠 |
 | --- | --- | --- |
 | 価値性 | TBD | tag 品質と監査両立 |
-| 実現性 | TBD | D1 batch + 02b/c repo |
+| 実現性 | TBD | guarded update + 02b/c repo |
 | 整合性 | TBD | #5, #13 担保 |
 | 運用性 | TBD | unidirectional + audit |
 

@@ -11,7 +11,7 @@
 | 作成日 | 2026-04-26 |
 | 前 Phase | 11 (手動 smoke) |
 | 次 Phase | 13 (PR 作成) |
-| 状態 | pending |
+| 状態 | completed |
 
 ## 目的
 
@@ -45,7 +45,7 @@ implementation-guide / system-spec-update-summary / documentation-changelog / un
 | 種別 | パス | 用途 |
 | --- | --- | --- |
 | 必須 | outputs/phase-01〜11/ | 全成果物 |
-| 必須 | doc/00-getting-started-manual/specs/11, 12 | spec sync |
+| 必須 | docs/00-getting-started-manual/specs/11, 12 | spec sync |
 
 ## Part 1 中学生レベル概念説明 (例え話)
 
@@ -59,7 +59,7 @@ implementation-guide / system-spec-update-summary / documentation-changelog / un
 
 | 項目 | 詳細 |
 | --- | --- |
-| task root | doc/02-application-implementation/07a-parallel-tag-assignment-queue-resolve-workflow |
+| task root | docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow |
 | key outputs | outputs/phase-02/tag-queue-state-machine.md, outputs/phase-05/tag-queue-implementation-runbook.md |
 | upstream | 04c, 06c, 03b, 02b, 02c |
 | downstream | 08a, 08b |
@@ -78,7 +78,7 @@ implementation-guide / system-spec-update-summary / documentation-changelog / un
 | 2026-04-26 | tagQueueResolve workflow 設計確定 | apps/api |
 | 2026-04-26 | enqueueTagCandidate hook 設計確定 | apps/api（03b 連携） |
 | 2026-04-26 | unidirectional state machine 確定 | DB constraint |
-| 2026-04-26 | audit_log の action prefix `tag_queue.resolve.*` 確定 | audit |
+| 2026-04-30 | audit_log の action prefix `admin.tag.queue_{resolved|rejected}` に同期 | audit |
 
 ## unassigned-task-detection
 
@@ -140,12 +140,12 @@ implementation-guide / system-spec-update-summary / documentation-changelog / un
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | implementation-guide | 12 | pending | Part 1+2 |
-| 2 | system-spec-update | 12 | pending | spec 反映 |
-| 3 | changelog | 12 | pending | 履歴 |
-| 4 | unassigned | 12 | pending | 未処理 |
-| 5 | skill feedback | 12 | pending | 改善 |
-| 6 | compliance check | 12 | pending | trace |
+| 1 | implementation-guide | 12 | completed | Part 1+2 |
+| 2 | system-spec-update | 12 | completed | spec 反映 |
+| 3 | changelog | 12 | completed | 履歴 |
+| 4 | unassigned | 12 | completed | 未処理 |
+| 5 | skill feedback | 12 | completed | 改善 |
+| 6 | compliance check | 12 | completed | trace |
 
 ## 成果物
 
@@ -162,9 +162,9 @@ implementation-guide / system-spec-update-summary / documentation-changelog / un
 
 ## 完了条件
 
-- [ ] 6 成果物作成
-- [ ] compliance check 全項目評価
-- [ ] spec sync 漏れなし
+- [x] 6 成果物作成
+- [x] compliance check 全項目評価
+- [x] spec sync 漏れなし
 
 ## タスク100%実行確認
 

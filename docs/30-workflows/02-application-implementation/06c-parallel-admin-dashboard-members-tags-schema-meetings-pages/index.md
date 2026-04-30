@@ -142,4 +142,4 @@
 - 上位 README: ../README.md
 - 共通テンプレ: ../_templates/phase-template-app.md
 - 上流 task: ../04c-parallel-admin-backoffice-api-endpoints/index.md, ../05a-parallel-authjs-google-oauth-provider-and-admin-gate/index.md
-- 下流 task: ../07a-parallel-tag-assignment-queue-resolve-workflow/index.md, ../07b-parallel-schema-diff-alias-assignment-workflow/index.md, ../07c-parallel-meeting-attendance-and-admin-audit-log-workflow/index.md
+- 下流 task: ../../completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/index.md, ../07b-parallel-schema-diff-alias-assignment-workflow/index.md, ../07c-parallel-meeting-attendance-and-admin-audit-log-workflow/index.md

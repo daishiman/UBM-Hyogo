@@ -29,9 +29,9 @@
 
 | 種別 | パス | 用途 |
 | --- | --- | --- |
-| 必須 | doc/00-getting-started-manual/specs/11-admin-management.md | 「タグ付与は管理者レビューを通す」 |
-| 必須 | doc/00-getting-started-manual/specs/12-search-tags.md | queue panel と resolve API |
-| 必須 | doc/00-getting-started-manual/specs/08-free-database.md | テーブル定義 |
+| 必須 | docs/00-getting-started-manual/specs/11-admin-management.md | 「タグ付与は管理者レビューを通す」 |
+| 必須 | docs/00-getting-started-manual/specs/12-search-tags.md | queue panel と resolve API |
+| 必須 | docs/00-getting-started-manual/specs/08-free-database.md | テーブル定義 |
 | 必須 | doc/02-application-implementation/04c-parallel-admin-backoffice-api-endpoints/index.md | endpoint 契約 |
 | 必須 | doc/02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/phase-02.md | UI 側 |
 | 必須 | CLAUDE.md | 不変条件 #5, #13 |
