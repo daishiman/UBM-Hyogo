@@ -18,7 +18,7 @@
 
 ## 目的
 
-仕様書一式を `feature/02-app-08a-api-tests` ブランチに配置し、`dev` への PR を作成。spec_created なのでコード変更なし、docs only。
+仕様書一式と `apps/api` の API test 追加を `dev` への PR にまとめる。Phase 11/12 は AC-6 coverage gate が partial のため、PR 作成はユーザー承認に加えて UT-08A-01 解消または明示的な例外承認を前提にする。
 
 ## 実行タスク
 
@@ -51,7 +51,7 @@
 pnpm typecheck
 pnpm lint
 pnpm docs:lint
-# spec_created なのでコード差分なし、docs lint のみ必須
+# implementation / NON_VISUAL のため apps/api test と coverage evidence を必須確認
 ```
 
 | コマンド | exit | 備考 |
@@ -64,9 +64,9 @@ pnpm docs:lint
 
 | カテゴリ | 変更 | 影響 |
 | --- | --- | --- |
-| docs | 08a 配下 15 ファイル | spec のみ、コードなし |
-| invariants | #1/#2/#5/#6/#7/#11 を test 戦略に固定 | 後続実装が test 化 |
-| residual | visual regression 未割当 | unassigned に記録 |
+| docs | 08a 配下 15 ファイル + outputs | Phase 11/12 partial と evidence を明示 |
+| code | `apps/api/src/__tests__/` 3 ファイル | authz representative / brand proxy / invariant 集約 |
+| residual | AC-6 coverage 未達 | UT-08A-01 に formalize |
 
 ## PR template
 
@@ -75,7 +75,7 @@ pnpm docs:lint
 - Wave 8a の API contract / repository / authorization / type / lint test 戦略 15 ファイル
 - 不変条件 #1 (schema 固定しすぎない) / #2 (responseEmail system field) / #5 (3 層分離) / #6 (apps/web → D1 禁止) / #7 (論理削除) / #11 (profile 編集なし) を test 戦略として固定
 - in-memory sqlite + msw + vitest 構成、coverage 閾値 statements 85% / branches 80%
-- spec_created: コード変更なし、後続 task で実装
+- implementation: `apps/api/src/__tests__/` にコード差分あり。coverage gate 未達は UT-08A-01 に分離
 
 ## Test plan
 - [ ] doc lint pass
@@ -87,7 +87,7 @@ pnpm docs:lint
 ## Related
 - 上流: 06a, 06b, 06c, 07a, 07b, 07c
 - 下流: 09a, 09b
-- 設計: doc/02-application-implementation/_design/phase-2-design.md (Wave 8a)
+- 設計: `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/outputs/phase-02/main.md` (Wave 8a)
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
@@ -125,7 +125,7 @@ feature/02-app-08a-api-tests  ──PR──>  dev  ──PR──>  main
 ## 多角的チェック観点
 
 - 不変条件 **#1/#2/#5/#6/#7/#11** PR 本文に明記
-- spec_created の責務として code 差分なし確認
+- implementation の責務として code 差分・test evidence・coverage partial を確認
 - secret hygiene: PR diff に secret 文字列なし
 
 ## サブタスク管理

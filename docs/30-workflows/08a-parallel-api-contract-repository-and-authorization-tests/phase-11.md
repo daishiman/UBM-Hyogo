@@ -14,7 +14,7 @@
 
 ## 目的
 
-GO 後、人間が `pnpm test --filter @ubm/api` を実行し、coverage report と CI workflow yml を evidence として配置する。
+GO 後、人間または自動 smoke が `pnpm --filter @ubm-hyogo/api test` を実行し、coverage report と CI workflow yml を evidence として配置する。coverage gate 未達時は Phase 11 を `partial` として扱う。
 
 ## 実行タスク
 
@@ -37,7 +37,7 @@ GO 後、人間が `pnpm test --filter @ubm/api` を実行し、coverage report 
 
 ```bash
 pnpm install
-pnpm --filter @ubm/api test 2>&1 | tee outputs/phase-11/evidence/test-run.log
+pnpm --filter @ubm-hyogo/api test 2>&1 | tee outputs/phase-11/evidence/test-run.log
 
 # Expected: 全 suite green
 # 200+ tests pass, 0 fail
@@ -46,7 +46,7 @@ pnpm --filter @ubm/api test 2>&1 | tee outputs/phase-11/evidence/test-run.log
 ### シナリオ 2: coverage 閾値達成
 
 ```bash
-pnpm --filter @ubm/api test -- --coverage 2>&1 | tee outputs/phase-11/evidence/coverage-report.txt
+pnpm --filter @ubm-hyogo/api test -- --coverage 2>&1 | tee outputs/phase-11/evidence/coverage-report.txt
 
 # Expected output (例):
 # Statements   : 87.5% ( ... )
@@ -68,7 +68,7 @@ pnpm --filter @ubm/shared test 2>&1 | tee -a outputs/phase-11/evidence/test-run.
 ### シナリオ 4: lint test
 
 ```bash
-pnpm --filter @ubm/api test -- src/lint 2>&1 | tee -a outputs/phase-11/evidence/test-run.log
+pnpm --filter @ubm-hyogo/api test -- src/lint 2>&1 | tee -a outputs/phase-11/evidence/test-run.log
 
 # Expected: import-boundary.spec.ts pass
 # apps/web から D1 import 0 件
@@ -145,7 +145,7 @@ outputs/phase-11/evidence/
 
 - [ ] 全実行タスク completed
 - [ ] 成果物配置済み
-- [ ] artifacts.json の phase 11 を completed
+- [ ] artifacts.json の phase 11 を completed または partial（coverage gate 未達時は partial）
 
 ## 次 Phase
 

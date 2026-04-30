@@ -98,8 +98,8 @@ module.exports = {
 ```bash
 pnpm typecheck                                   # brand 型違反検知
 pnpm lint                                        # apps/web → D1 禁止、profile 編集禁止
-pnpm --filter @ubm/api test                      # vitest 全 suite
-pnpm --filter @ubm/api test -- --coverage        # coverage ≥ 85% / 80%
+pnpm --filter @ubm-hyogo/api test                      # vitest 全 suite
+pnpm --filter @ubm-hyogo/api test -- --coverage        # coverage ≥ 85% / 80%
 pnpm --filter @ubm/shared test                   # type test
 ```
 

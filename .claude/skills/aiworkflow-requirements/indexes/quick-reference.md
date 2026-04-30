@@ -17,6 +17,24 @@
 
 ---
 
+### API contract / repository / authorization tests（08a / 2026-04-30）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root / AC / partial state | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/index.md` |
+| Phase 11 NON_VISUAL evidence | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/outputs/phase-11/evidence/` |
+| Phase 12 close-out / implementation guide | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/outputs/phase-12/implementation-guide.md` |
+| coverage gate 未達 formalized follow-up | `docs/30-workflows/unassigned-task/UT-08A-01-public-use-case-coverage-hardening.md` |
+| current status | 74 files / 442 tests PASS、coverage Statements 84.18% / Branches 84.13% / Functions 83.37% / Lines 84.18%。AC-6 は PARTIAL のため 09a/09b は green 前提にしない |
+| 実装差分 | `apps/api/src/__tests__/authz-matrix.test.ts`, `brand-type.test.ts`, `invariants.test.ts` |
+| follow-up UT-08A-02 (visual regression) | `docs/30-workflows/unassigned-task/UT-08A-02-visual-regression-coverage.md` — `apps/web` 公開ディレクトリ / 会員マイページの UI regression 監視（VISUAL / 低 / 中規模） |
+| follow-up UT-08A-03 (production load test) | `docs/30-workflows/unassigned-task/UT-08A-03-production-load-test.md` — Cloudflare Workers / D1 の production 環境負荷テスト（NON_VISUAL / 低 / 中規模） |
+| follow-up UT-08A-04 (D1 migration test guideline) | `docs/30-workflows/unassigned-task/UT-08A-04-d1-migration-test-guideline.md` — 新規 D1 migration 追加時の test 化ガイドライン（governance / 中 / 小規模） |
+| follow-up UT-08A-05 (shared package type test) | `docs/30-workflows/unassigned-task/UT-08A-05-shared-package-type-test.md` — `packages/shared` の `@ts-expect-error` 型テスト整備（NON_VISUAL / 中 / 小規模） |
+| follow-up UT-08A-06 (test suffix rename) | `docs/30-workflows/unassigned-task/UT-08A-06-test-suffix-rename-migration.md` — `*.test.ts` → `*.contract.spec.ts` 段階的 rename（refactor / 低 / 中規模） |
+
+---
+
 ## よく使うパターン
 
 > **検索パターン集・コードパターン早見は [quick-reference-search-patterns.md](quick-reference-search-patterns.md) に分離**
