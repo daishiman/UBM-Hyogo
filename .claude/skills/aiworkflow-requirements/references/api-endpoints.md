@@ -209,6 +209,14 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 | ------ | ---- | ---- | ---- |
 | POST | `/admin/sync/schema` | `Authorization: Bearer <SYNC_ADMIN_TOKEN>` | Google Forms `forms.get` の live schema を D1 の `schema_versions` / `schema_questions` に同期し、stableKey 未解決 question を `schema_diff_queue` へ投入する |
 
+### Schema Alias Resolution（issue-191 / 07b）
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| POST | `/admin/schema/aliases` | Auth.js admin JWT + `admin_users.active` | 07b の manual alias resolution。HTTP contract は維持し、issue-191 以降の write target は `schema_questions.stable_key` direct update ではなく `schema_aliases` INSERT + `schema_diff_queue.status='resolved'` |
+
+03a は `schema_aliases` first、alias miss の場合のみ `schema_questions.stable_key` fallback とする。D1 transient error は alias miss と扱わず、sync failure + retry へ倒す。
+
 レスポンス契約:
 
 | Status | 条件 | Body |
@@ -233,8 +241,8 @@ Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token
 | ------ | ---- | ---- | ---- |
 | GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
 | GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す |
-| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入 |
-| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入 |
+| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
+| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
 
 禁止: `PATCH /me/profile` は作らない。`/me/*` path に `:memberId` を入れない。GET 系 response に
 `admin_member_notes` 由来の `notes` / `adminNotes` を含めない。

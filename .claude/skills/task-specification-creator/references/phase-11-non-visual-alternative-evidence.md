@@ -64,6 +64,19 @@ UI 差分なし & コード変更なし（governance / branch protection / OIDC 
 | `outputs/phase-11/manual-smoke-log.md` | 整合性検査ログ（`pnpm typecheck` / `pnpm lint` / `actionlint` / `verify-all-specs.js` 等の手元実行ログ） | 実行コマンド・終了コード・所要時間・実行者・実行日時 |
 | `outputs/phase-11/link-checklist.md` | 仕様書内リンク・参照ドキュメントの dead link チェック | 対象リンク一覧 / 200 確認 / 補正したリンクの差分 |
 
+`link-checklist.md` は補助成果物であり、最小 3 点の欠落判定には含めない。ただし governance task で関連 task / Issue / applied evidence path を多く参照する場合は作成を推奨する。
+
+### Approval-gated implementation の JSON evidence
+
+Phase 13 のユーザー承認後に不可逆 API を実行する NON_VISUAL implementation では、Phase 11/12 の JSON と Phase 13 の実測 JSON を分離する。
+
+| evidence | Phase 12 まで | Phase 13 承認後 |
+| --- | --- | --- |
+| `branch-protection-payload-*.json` などの PUT payload | 完全 payload template / reserved path | 適用前 GET から再生成した実行 payload |
+| `current-*.json` / `applied-*.json` | placeholder として扱う。成功証跡にしない | fresh GET output として AC evidence にできる |
+| `drift-check.md` | 検査観点と未実行境界 | actual GET と仕様の比較結果 |
+| `manual-verification-log.md` | 承認待ち / 実行禁止の明示 | 実行コマンド、exit code、確認者、日時 |
+
 ### NON_VISUAL × docs-only に該当する典型タスク
 
 - governance（branch protection / required status checks 変更）

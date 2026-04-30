@@ -11,7 +11,7 @@
 | 対象機能 | Google Forms sync / D1 projection / Workers Cron |
 | 優先度 | 高 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | Phase 12 completed_with_followups（legacy umbrella として完了、follow-up #291 あり） |
 | 発見元 | UT-09 skill準拠検証 |
 | 発見日 | 2026-04-27 |
 

@@ -127,14 +127,28 @@ node .claude/skills/task-specification-creator/scripts/audit-unassigned-tasks.js
   --target-file docs/30-workflows/unassigned-task/{{TASK_FILE}}.md
 
 # standalone 完了指示書の current 判定
-node .agents/skills/task-specification-creator/scripts/audit-unassigned-tasks.js \
+node .claude/skills/task-specification-creator/scripts/audit-unassigned-tasks.js \
   --json \
   --target-file docs/30-workflows/completed-tasks/{{TASK_FILE}}.md
+
+# completed workflow scoped unassigned dir を含める場合
+node .claude/skills/task-specification-creator/scripts/audit-unassigned-tasks.js \
+  --json \
+  --completed-unassigned-dir docs/30-workflows/completed-tasks/{{WORKFLOW}}/unassigned-task
 
 # 差分監査（git差分をcurrent判定）
 node .claude/skills/task-specification-creator/scripts/audit-unassigned-tasks.js \
   --json \
   --diff-from HEAD
+
+node .claude/skills/task-specification-creator/scripts/verify-unassigned-links.js \
+  --source docs/30-workflows/{{WORKFLOW}}/outputs/phase-12/unassigned-task-detection.md
+node .claude/skills/task-specification-creator/scripts/generate-index.js \
+  --workflow docs/30-workflows/{{WORKFLOW}} --regenerate
+node .claude/skills/aiworkflow-requirements/scripts/generate-index.js
+node .claude/skills/aiworkflow-requirements/scripts/validate-structure.js
+# mirror directory が存在する場合のみ:
+diff -qr .claude/skills/{{SKILL}} .agents/skills/{{SKILL}}
 ```
 
 ---
