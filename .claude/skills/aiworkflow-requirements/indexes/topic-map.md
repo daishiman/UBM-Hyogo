@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L173 |
-| UBM-Hyogo Admin Sync API（03a） | L194 |
-| UBM-Hyogo Member Self-Service API（04b） | L216 |
-| Desktop IPC API サマリー | L234 |
-| 変更履歴 | L265 |
-| 関連ドキュメント | L281 |
+| エンドポイント命名規則 | L175 |
+| UBM-Hyogo Admin Sync API（03a） | L196 |
+| UBM-Hyogo Member Self-Service API（04b） | L218 |
+| Desktop IPC API サマリー | L236 |
+| 変更履歴 | L267 |
+| 関連ドキュメント | L283 |
 
 ### references/api-internal-chunk-search.md
 
@@ -969,10 +969,10 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L142 |
 | UBM-Hyogo D1 Repository 契約（02b） | L172 |
-| エラーハンドリング | L211 |
-| Conversation DB 初期化パターン | L242 |
-| UBM-Hyogo Schema Sync Contract（03a） | L244 |
-| ベクトル検索実装（DiskANN） | L301 |
+| エラーハンドリング | L212 |
+| Conversation DB 初期化パターン | L243 |
+| UBM-Hyogo Schema Sync Contract（03a） | L245 |
+| ベクトル検索実装（DiskANN） | L302 |
 
 ### references/database-implementation-details.md
 
@@ -3005,6 +3005,19 @@ node scripts/list-specs.js --topics
 | L-07B-005: alias 候補提案は score 関数を service 層に分離し、Levenshtein + section/index で stateless に保つ | L42 |
 | 関連未タスク・後続 wave 連携 | L50 |
 | 参照 | L57 |
+
+### references/lessons-learned-07c-attendance-audit-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-07C-001: duplicate attendance は 409 + existing row を一緒に返す | L10 |
+| L-07C-002: audit_log の actor は middleware から service へ明示注入する | L18 |
+| L-07C-003: candidates 列挙は LEFT JOIN + 単一 SELECT で複合除外を構造化する | L26 |
+| L-07C-004: 異常系の HTTP status を repository の Result 型 reason enum で分岐する | L34 |
+| L-07C-005: audit projection は API response projection と独立させる | L42 |
+| 関連未タスク・後続 wave 連携 | L50 |
+| skill 改善フィードバック（task-specification-creator 反映済み） | L57 |
+| 参照 | L62 |
 
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
