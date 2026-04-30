@@ -151,6 +151,20 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 📖 [unassigned-task-required-sections.md](unassigned-task-required-sections.md)
 📖 [../agents/generate-unassigned-task.md](../agents/generate-unassigned-task.md)
 
+## Phase 12 SubAgent 実行ルール
+
+Phase 12 の監査は並列化してよいが、編集は単一 owner が直列に適用する。
+
+| レーン | 目的 | 編集可否 | 完了条件 |
+| --- | --- | --- | --- |
+| A | Phase 12 成果物 / artifacts parity 監査 | 禁止 | 7 outputs、root/outputs `artifacts.json` parity、status 表記差異を報告 |
+| B | system spec / index / LOGS / lessons 監査 | 禁止 | current canonical set、artifact inventory、topic-map 再生成対象、500行超過リスクを報告 |
+| C | skill feedback / skill update 監査 | 禁止 | 更新対象 skill、asset/reference 候補、AskUserQuestion 制約を報告 |
+| owner | 編集適用 | 可 | SubAgent 結果を統合し、同一ファイル編集を直列化 |
+| validator | 最終検証 | 禁止 | `generate-index.js`、`validate-structure.js`、mirror sync、`diff -qr` を実測記録 |
+
+`phase12-task-spec-compliance-check.md` の `PASS` は、成果物の実体・validator 実測値・same-wave sync 証跡が揃った後にのみ許可する。存在しない監査スクリプト名を根拠にしてはならない。
+
 ## 変更履歴
 
 | Version       | Date           | Changes                                                                                                                                                                                                     |

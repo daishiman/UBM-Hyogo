@@ -889,3 +889,14 @@ node scripts/search-spec.js "safeInvoke"
 | 2026-01-26 | 1.2.0      | 未登録ファイル18件追加: arch-6件、rag-6件、api-ipc-3件、ui-ux-3件                                                                                                                                                                                                                                                                                                          |
 | 2026-01-26 | 1.1.0      | 分割ファイル追加: llm-4件、rag-search-5件、ui-history-4件、security-3件                                                                                                                                                                                                                                                                                                    |
 | 2026-01-26 | 1.0.0      | 初版作成（topic-map.mdから派生）                                                                                                                                                                                                                                                                                                                                           |
+
+## task-sync-forms-d1-legacy-umbrella-001（UT-09 legacy close-out / 2026-04-30）
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/task-sync-forms-d1-legacy-umbrella-001/` | 旧 UT-09 Sheets→D1 sync を legacy umbrella として close する Phase 1-13 仕様書 | UT-09 / Sheets→D1 / Forms sync 移管確認時 |
+| `docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/` | Forms schema sync / `forms.get` / schema tables 正本 | schema sync 責務確認時 |
+| `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/` | Forms response sync / `forms.responses.list` / current response 正本 | response sync 責務確認時 |
+| `.claude/skills/aiworkflow-requirements/references/api-endpoints.md` | `/admin/sync/schema` / `/admin/sync/responses` endpoint 正本 | admin sync endpoint 確認時 |
+| `docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/` | `sync_jobs` 排他 / data access boundary 正本 | `sync_audit` 旧記述の読み替え時 |
+| `docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | Workers Cron Triggers / pause / resume / evidence 正本 | cron / release runbook 確認時 |

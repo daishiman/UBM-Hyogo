@@ -71,7 +71,7 @@ node scripts/detect-mode.js --request "{{USER_REQUEST}}"
 
 ## Phase 12 重要仕様（要約）
 
-Phase 12 は次の 5 タスクすべてが必須:
+Phase 12 は次の 5 必須タスクに加え、Task 6 compliance check（`outputs/phase-12/phase12-task-spec-compliance-check.md`）を作成し、最低 7 ファイルを実体確認する:
 
 1. 実装ガイド作成（Part 1 中学生レベル + Part 2 技術者レベル）
 2. システム仕様書更新（Step 1-A/B/C + 条件付き Step 2）
@@ -79,7 +79,7 @@ Phase 12 は次の 5 タスクすべてが必須:
 4. 未タスク検出レポート作成（**0 件でも出力必須**）
 5. スキルフィードバックレポート作成（**改善点なしでも出力必須**）
 
-詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。よくある漏れ（UBM-009〜013 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。
+詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。`spec_created` / docs-only / NON_VISUAL は root workflow state を据え置き、Phase status と 7 ファイル実体・current/baseline 監査値で検証する。よくある漏れ（UBM-009〜017 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。
 
 ## 重要ルール（要約）
 

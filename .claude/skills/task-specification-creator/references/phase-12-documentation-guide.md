@@ -21,6 +21,10 @@
 - screenshot fallback を完了根拠に使う場合は、placeholder-only の証跡を PASS 扱いにせず、coverage / metadata / fallback reason / source evidence まで current workflow に揃えた実測値で書く
 - state-only の修正は `NON_VISUAL` を優先し、callback 系の回帰は `setupCallbackCapture()` 相当の deterministic テストで固定する
 
+### docs-only / legacy umbrella の簡略化
+
+docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は長いチュートリアルではなく「なぜ旧入口を閉じるか」を短い例えで説明する。Part 2 は current contract と target delta、責務移管表、direct 残責務 0 件、stale/current/historical 分類を中心にする。runtime / UI 変更がない場合、screenshot evidence は要求せず、検証は Phase 12 7 ファイル実体、`audit-unassigned-tasks --target-file`、index 再生成、mirror parity のコンパクトな表でよい。
+
 **Part 2 必須見出し（IPC 変更がある場合）**:
 
 5. **Consumer Contract & IPC Compatibility** (IPC 変更がある場合のみ必須):

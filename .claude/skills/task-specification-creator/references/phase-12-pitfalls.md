@@ -42,6 +42,7 @@
 | **[UBM-014]** API/NON_VISUAL タスクで外部依存の環境別挙動が混同される | Phase 9/12 では provider key 未設定時の development/test と production の挙動を分けて書く。例: mailer は dev/test no-op success、production 502 `MAIL_FAILED`。無料枠表だけでなく fail-open / fail-closed も記録する |
 | **[UBM-015]** `apps/web` proxy 実装でコメントや docs が D1/API 境界を曖昧にする | `apps/web` では D1 直参照を禁止し、コメントも「API worker」「upstream auth API」など境界語を使う。`apps/api` 直書き文字列を lint-boundary が拾う場合は、Phase 5 runbook に許容/禁止パターンを明示する |
 | **[UBM-016]** shared 型追加で barrel export の実体が docs より薄い/濃い | Phase 5 着手前に `rg "export .*types" packages/shared/src` を実行し、root export / subpath export / alias-only のどれかを決める。Phase 12 では「shared schema」なのか「補助 alias」なのかを正本仕様に明記する |
+| **[UBM-017]** legacy umbrella close-out が浅い PASS で閉じる | direct 残責務 0 件、stale/current/historical 分類、責務移管表、旧 filename/register、逆リンクの扱いを Phase 12 evidence に明記する。逆リンクや stale 掃除を同 wave で閉じない場合は、`docs/30-workflows/unassigned-task/` に full template で formalize する。SubAgent の自己申告だけで PASS にせず、`git diff --stat`、7 ファイル実体、`audit-unassigned-tasks --target-file`、index 再生成、mirror parity の実測値で確認する |
 
 > 旧フィードバック（W0-RV-001・SC-13-1/2・UBM-001〜008・FB-SDK-07-2/4）は [../SKILL-changelog.md](../SKILL-changelog.md) に移動済み。
 

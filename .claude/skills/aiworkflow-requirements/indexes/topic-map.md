@@ -2225,6 +2225,17 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
 
+### references/workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L13 |
+| Phase Outputs | L21 |
+| Skill 反映先 | L33 |
+| Follow-up | L44 |
+| Validation Chain | L50 |
+
 ### references/workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md
 
 | セクション | 行 |
@@ -2861,11 +2872,11 @@ node scripts/list-specs.js --topics
 | 概要 | L7 |
 | 使い方 | L15 |
 | Current Alias Overrides（個別互換行） | L22 |
-| Family Summary | L44 |
-| Detailed Register | L65 |
-| Section Extract Register (2026-03-17) | L246 |
-| 500-Line Split Register (2026-03-16) | L257 |
-| Fragment Migration Register (2026-04-28) | L279 |
+| Family Summary | L45 |
+| Detailed Register | L66 |
+| Section Extract Register (2026-03-17) | L247 |
+| 500-Line Split Register (2026-03-16) | L258 |
+| Fragment Migration Register (2026-04-28) | L280 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 

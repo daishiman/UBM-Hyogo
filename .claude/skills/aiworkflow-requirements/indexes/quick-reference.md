@@ -1187,3 +1187,13 @@ packages/
 | Node / pnpm バージョン固定（Node 24 / pnpm 10.33.2 / mise） | `CLAUDE.md` 「開発環境セットアップ」節 | `references/technology-devops-core.md` baseline 章 | CLAUDE.md > aiworkflow-requirements |
 | references/ 配下の API/D1/IPC/UI/auth 仕様 | `references/*.md`（aiworkflow-requirements が一次正本） | `CLAUDE.md` は概要のみ言及 | aiworkflow-requirements > CLAUDE.md。実装契約・schema・状態定数は references/ を正とする |
 | 教訓 / lessons-learned ID（L-XXX-NNN） | `references/lessons-learned-*.md`（aiworkflow-requirements が一次正本） | CLAUDE.md には記載しない | aiworkflow-requirements > CLAUDE.md |
+
+### UT-09 Legacy Sync Close-Out（task-sync-forms-d1-legacy-umbrella-001）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/task-sync-forms-d1-legacy-umbrella-001/` |
+| stale | Google Sheets API v4 / 単一 `/admin/sync` / `sync_audit` / `ut-09-sheets-to-d1-cron-sync-job` |
+| current | Google Forms API `forms.get` / `forms.responses.list`、`POST /admin/sync/schema`、`POST /admin/sync/responses`、`sync_jobs` |
+| 責務移管 | 03a = schema sync、03b = response sync、04c = admin endpoint、09b = cron runbook、02c = `sync_jobs` 排他 |
+| 状態 | docs-only / NON_VISUAL / `metadata.workflow_state=spec_created` |

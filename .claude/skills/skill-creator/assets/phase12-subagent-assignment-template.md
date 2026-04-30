@@ -28,6 +28,13 @@ Phase 12（ドキュメント整備）を効率的かつ安全に実行するた
 
 ## 実行順序と並列化
 
+### 原則
+
+- 監査 SubAgent は read-only を基本とする。
+- 編集は leader / owner が直列に適用する。
+- 同一ファイルを複数 SubAgent が同時に編集しない。
+- skill-creator の実更新モードを開始する場合は AskUserQuestion が必須。監査のみ・編集禁止・ユーザーが更新仕様を明示済みの場合は read-only audit として扱う。
+
 ### Phase 1: 並列実行（最初の3段階）
 
 ```
