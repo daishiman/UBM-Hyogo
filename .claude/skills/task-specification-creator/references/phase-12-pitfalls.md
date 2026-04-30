@@ -46,6 +46,8 @@
 | **[UBM-018]** `taskType=implementation × workflow_state=spec_created × docsOnly=true` の三併存ケースを完了扱い / completed 昇格してしまう | spec PR 段階の implementation 系タスク（D1 schema 設計 / API endpoint 設計 / shared 型契約設計 等）は実 DDL・実コードを混入させず docs のみで merge する。下記「三併存ケース集」の判定フローと NG/OK パターンに従い、workflow root は `spec_created` を据え置く。実装 PR で別途 `implemented` へ昇格させる 2 段階運用を Phase 1 / Phase 12 双方で確認する |
 | **[UBM-019]** generated index / fragment LOGS を N/A と誤判定する | `topic-map.md` / `keywords.json` は手編集不要でも generator 実行証跡が必要。`LOGS.md` がなく `LOGS/` fragment 運用の場合は、記録先 fragment または workflow-local changelog を `system-spec-update-summary.md` に明記する |
 | **[UBM-020]** Part 1 初学者説明に英語の技術語が残る | `sync layer`, `NON_VISUAL evidence`, `Cloudflare` などを使う場合は同じ文で日常語を補う。Phase 12 の最後に Part 1 本文だけを `rg -n "sync|evidence|Cloudflare|API|D1|Cron"` で確認する |
+| **[UBM-021]** Phase 12 の `unassigned-task-detection.md` に `new unassigned task` と書いたまま実ファイルを作らない | `new unassigned task` は候補メモではなく formalize 宣言として扱う。同一 wave で `docs/30-workflows/unassigned-task/*.md` を作成し、`system-spec-update-summary.md` / `documentation-changelog.md` / compliance check に path を反映する。作らない場合は `baseline` / `duplicate` / `not needed` に分類し直す |
+| **[UBM-022]** docs-only / NON_VISUAL infrastructure verification の Phase 11 completed を production 実測 PASS と誤読する | `implementation-guide.md` と compliance check に、Phase 11 completed は evidence template / runbook check の完了であり、Cloudflare route mutation、secret value verification、Logpush mutation、DNS cutover、Worker deletion を意味しないと明記する |
 
 ## 三併存ケース集（spec PR 段階の implementation 系タスク）
 
