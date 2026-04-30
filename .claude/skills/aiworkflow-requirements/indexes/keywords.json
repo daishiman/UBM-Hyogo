@@ -5165,6 +5165,12 @@
       "deployment-secrets-management.md",
       "environment-variables.md"
     ],
+    "Variables": [
+      "deployment-details.md",
+      "deployment-gha.md",
+      "deployment-secrets-management.md",
+      "environment-variables.md"
+    ],
     "の要件": [
       "deployment-details.md",
       "deployment-gha.md"
@@ -5200,11 +5206,6 @@
     ],
     "Backend": [
       "deployment-gha.md"
-    ],
-    "Variables": [
-      "deployment-gha.md",
-      "deployment-secrets-management.md",
-      "environment-variables.md"
     ],
     "配置決定": [
       "deployment-gha.md"

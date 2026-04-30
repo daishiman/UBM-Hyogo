@@ -76,7 +76,7 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 | `AUTH_GOOGLE_SECRET` | ✅ | - | ✅ (正本) |
 | `RESEND_API_KEY` | ✅ | - | ✅ (正本) |
 | `CLOUDFLARE_API_TOKEN` | - | ✅ | ✅ (正本) |
-| `CLOUDFLARE_ACCOUNT_ID` | - | ✅ | ✅ (正本) |
+| `CLOUDFLARE_ACCOUNT_ID` | - | GitHub Variables | ✅ (正本) |
 
 ---
 
