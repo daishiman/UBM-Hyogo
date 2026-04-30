@@ -54,6 +54,8 @@ const TABLES = [
   "audit_log",
   "magic_tokens",
   "sync_jobs",
+  "sync_job_logs",
+  "sync_locks",
   "admin_users",
   "deleted_members",
   "admin_member_notes",

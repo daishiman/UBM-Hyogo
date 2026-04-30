@@ -28,7 +28,7 @@ page object / fixture / helper / screenshot 命名 / axe wrapper / viewport 定�
 | --- | --- | --- |
 | 必須 | outputs/phase-04/main.md | spec signature |
 | 必須 | outputs/phase-07/main.md | AC matrix |
-| 必須 | doc/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/index.md | API test 命名 |
+| 必須 | doc/08a-parallel-api-contract-repository-and-authorization-tests/index.md | API test 命名 |
 
 ## Before / After
 
