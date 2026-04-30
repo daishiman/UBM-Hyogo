@@ -24,8 +24,8 @@ AC 10 件 × 検証 × 実装 × 異常系を一対一対応させる。
 | AC-1 | confirm で member_tags 反映 + queue confirmed | unit `resolve.confirmed_creates_member_tags` | tagQueueResolve | - | #13 |
 | AC-2 | reject で reason 記録 | unit `resolve.rejected_records_reason` | tagQueueResolve | 422 reason empty | #13 |
 | AC-3 | idempotent 200 / 別 action 409 | unit `resolve.idempotent_confirmed`, state `resolve.confirmed_to_rejected_409` | workflow idempotent check | 409 conflict | #13 |
-| AC-4 | unidirectional state | state test 全 invalid 遷移 | WHERE status='candidate' | 409 | #13 |
-| AC-5 | audit_log 記録 | audit test | tagQueueResolve batch | tx rollback | 監査 |
+| AC-4 | unidirectional state | state test 全 invalid 遷移 | WHERE status IN ('queued','reviewing') | 409 | #13 |
+| AC-5 | audit_log 記録 | audit test | tagQueueResolve guarded update | tx rollback | 監査 |
 | AC-6 | unknown tagCode → 422 | unit `resolve.unknown_tag_code_422` | tag_definitions check | 422 | data integrity |
 | AC-7 | deleted member → 422 | unit `resolve.deleted_member_422` | member.isDeleted check | 422 | #15 (precaution) |
 | AC-8 | candidate 自動投入 | unit `enqueueTagCandidate.skips_existing` | enqueueTagCandidate hook in 03b | - | #13 |

@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L163 |
-| UBM-Hyogo Admin Sync API（03a） | L184 |
-| UBM-Hyogo Member Self-Service API（04b） | L206 |
-| Desktop IPC API サマリー | L224 |
-| 変更履歴 | L255 |
-| 関連ドキュメント | L271 |
+| エンドポイント命名規則 | L173 |
+| UBM-Hyogo Admin Sync API（03a） | L194 |
+| UBM-Hyogo Member Self-Service API（04b） | L216 |
+| Desktop IPC API サマリー | L234 |
+| 変更履歴 | L265 |
+| 関連ドキュメント | L281 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2984,6 +2984,16 @@ node scripts/list-specs.js --topics
 | 関連未タスク・後続 wave 連携 | L60 |
 | 参照 | L68 |
 
+### references/lessons-learned-07a-tag-queue-resolve-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-07A-001: spec 語と DB/API 語は alias 表で固定する | L3 |
+| L-07A-002: D1 batch 後の changes 判定で race を扱わない | L7 |
+| L-07A-003: Phase 12 の follow-up は unassigned-task 実体まで作る | L11 |
+| L-07A-004: API-only / NON_VISUAL でも Phase 11 evidence を明示する | L15 |
+| L-07A-005: admin client 契約は UI 実装タスクの stale 記述を同 wave で直す | L19 |
+
 ### references/lessons-learned-07b-schema-alias-assignment-2026-04.md
 
 | セクション | 行 |
@@ -3143,8 +3153,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L58 |
-| 関連ドキュメント | L63 |
+| 利用順序 | L59 |
+| 関連ドキュメント | L64 |
 
 ### references/llm-embedding.md
 

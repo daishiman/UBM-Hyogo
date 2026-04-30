@@ -94,6 +94,24 @@ MVP では上記2種類に限定する。
 - 左側に `未タグ会員キュー`
 - 右側に `会員要約 / 事業概要 / スキル / タグ選択`
 - 保存したら次の会員へ進める
+- タグ確定は `POST /admin/tags/queue/:queueId/resolve` のみを使い、会員タグ直接編集 API は作らない
+
+### タグ割当 resolve API（07a）
+
+`POST /admin/tags/queue/:queueId/resolve` は次の body のみ受け付ける。
+
+```ts
+type TagQueueResolveBody =
+  | { action: "confirmed"; tagCodes: string[] }
+  | { action: "rejected"; reason: string };
+```
+
+- `confirmed` は `tag_definitions.code` を `member_tags.tag_id` へ解決し、queue status を `resolved`（仕様語 `confirmed`）にする
+- `rejected` は reason を保存し、queue status を `rejected` にする
+- 同一 payload の再投入は 200 + `idempotent: true` とし、追加 audit は作らない
+- 別 payload の再投入、`resolved` / `rejected` 間の逆走、race lost は 409
+- unknown tag code / deleted member は 422、body validation は 400
+- audit action は `admin.tag.queue_resolved` / `admin.tag.queue_rejected`
 
 ### タグ辞書
 

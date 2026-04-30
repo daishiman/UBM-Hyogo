@@ -155,7 +155,7 @@ async function call<T>(
 | `patchMemberNote(memberId, noteId, body)` | `/members/{memberId}/notes/{noteId}` | PATCH | `{ body: string }` |
 | `deleteMember(memberId, reason)` | `/members/{memberId}/delete` | POST | `{ reason: string }` |
 | `restoreMember(memberId)` | `/members/{memberId}/restore` | POST | `{}` |
-| `resolveTagQueue(queueId)` | `/tags/queue/{queueId}/resolve` | POST | `{}` |
+| `resolveTagQueue(queueId, body)` | `/tags/queue/{queueId}/resolve` | POST | `{ action: "confirmed", tagCodes: string[] }` or `{ action: "rejected", reason: string }` |
 | `postSchemaAlias(body)` | `/schema/aliases` | POST | `{ questionId, stableKey, diffId? }` |
 | `createMeeting(body)` | `/meetings` | POST | `{ title, heldOn, note? }` |
 | `addAttendance(sessionId, memberId)` | `/meetings/{sessionId}/attendance` | POST | `{ memberId }` |

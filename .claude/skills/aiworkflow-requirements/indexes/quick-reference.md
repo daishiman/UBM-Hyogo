@@ -1048,6 +1048,20 @@ packages/
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
 
+### UBM-Hyogo Tag Queue Resolve 早見（07a / 2026-04-30）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/` |
+| API master | `references/api-endpoints.md`（管理バックオフィス API / 07a close-out） |
+| request body | `{ action: "confirmed", tagCodes: string[] }` or `{ action: "rejected", reason: string }` |
+| status alias | spec: `candidate/confirmed/rejected`、DB/API: `queued/resolved/rejected`。`reviewing` は 02b 互換の中間状態 |
+| guarded write | `UPDATE ... WHERE status IN ('queued','reviewing')` 成功後だけ `member_tags` / `audit_log` を書く。race lost は 409 |
+| idempotent | 同一 payload 再投入は 200 + `idempotent: true`、追加 audit なし。別 payload は 409 |
+| web client | `apps/web/src/lib/admin/api.ts` の `resolveTagQueue(queueId, body)` のみ。tag 直接編集 mutation は作らない |
+| shared schema | `packages/shared/src/zod/identity.ts` / `packages/shared/src/types/identity/index.ts` は `rejected` を含む |
+| follow-up | `docs/30-workflows/unassigned-task/UT-07A-01..04` |
+
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |

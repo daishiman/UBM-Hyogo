@@ -26,6 +26,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.04.30-07a-status-alias-contract | 2026-04-30 | 07a tag queue resolve Phase 12 skill-feedback を反映。`references/phase-template-core.md` の Phase 2 ポイントに、既存 DB / API / shared schema の enum や status を拡張・alias する場合の **仕様語 ↔ 実装語対応表** と **追従対象（backend route / web client / shared zod / type / docs）** 明示を追加。`candidate/confirmed` と `queued/resolved` の drift、web client body、shared schema 追従漏れを再発防止する。 |
 | v2026.04.30-07b-schema-alias-closeout-feedback | 2026-04-30 | 07b schema alias workflow Phase 12 final review feedback。実DB schema と task spec の差分（`response_fields.questionId` / `is_deleted` 不在、`queued/resolved` 実 enum、revision-scoped stableKey 更新）を実装前に検出するため、Phase 2/4/12 では `apps/api/migrations/*.sql` と repository contract の grep 照合を必須確認にする。back-fill / dryRun / apply union を持つ workflow は「即時 alias 確定」と「再開可能 back-fill」を分けて記述し、単発 API atomic 前提を書かない。 |
 | v2026.04.29-ut09-direction-reconciliation-closeout | 2026-04-29 | UT-09 direction reconciliation Phase 12 review sync。docs-only / direction-reconciliation でも「記述レベル PASS」と「実測 PASS」を分離し、validator 未実行・未起票 unassigned-task・stale references 撤回待ちは PASS 化しない運用を skill-feedback に記録。root / outputs `artifacts.json` parity は実同期を必須化。 |
 | v2026.04.29-ut-cicd-drift-phase12-sync | 2026-04-29 | UT-CICD-DRIFT Phase 12 feedback を反映。docs-only drift cleanup では `docs-only/current facts/impl delegation/既存タスク委譲` を drift matrix で分離し、存在しない派生IDを正本に残さない運用を `references/phase-template-phase12.md` に追記。workflow lint 未導入など検証未実施 gate は改善提案止まりにせず未タスク化する。 |

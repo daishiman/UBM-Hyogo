@@ -86,7 +86,7 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 | POST | `/admin/members/:memberId/delete` | member を論理削除する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `queued -> reviewing -> resolved` で解決する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `confirmed`（DB/API status: `resolved`）または `rejected` に解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/schema/aliases` | question stable key alias を解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings` | meeting sessions と attendance summary（既存出席 memberId）を一覧する | Auth.js JWT + `requireAdmin` |
@@ -101,6 +101,16 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 - schema 変更は `/admin/schema/*` に集約する。
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
+
+07a close-out で `POST /admin/tags/queue/:queueId/resolve` の body は zod discriminated union に確定した。
+
+```ts
+type TagQueueResolveBody =
+  | { action: "confirmed"; tagCodes: string[] }
+  | { action: "rejected"; reason: string };
+```
+
+成功時は `{ ok: true, result: { queueId, status: "resolved" | "rejected", resolvedAt, memberId, tagCodes?, reason?, idempotent } }` を返す。同一 payload の再投入は 200 + `idempotent: true` で追加 audit を作らない。主要 error code は `queue_not_found` (404), `state_conflict` / `idempotent_payload_mismatch` / `race_lost` (409), `unknown_tag_code` / `member_deleted` (422), body validation (400)。
 
 07b schema alias workflow close-out:
 

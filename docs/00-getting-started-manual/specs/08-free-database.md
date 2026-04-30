@@ -227,6 +227,8 @@ CREATE TABLE IF NOT EXISTS tag_assignment_queue (
 );
 ```
 
+`status` は 07a 時点で `queued | reviewing | resolved | rejected` を扱う。仕様語では `queued` が `candidate`、`resolved` が `confirmed` に対応する。`member_tags` への確定書き込みは `POST /admin/tags/queue/:queueId/resolve` の guarded update 成功後だけ行う。
+
 ---
 
 ## 認証補助
