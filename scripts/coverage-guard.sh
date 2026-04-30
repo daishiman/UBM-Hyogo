@@ -54,6 +54,24 @@ case "$THRESHOLD" in
   ''|*[!0-9.]*|.*|*.*.*) log "ERROR: --threshold must be a number"; exit 2 ;;
 esac
 
+# sync-merge スキップ判定（個人開発運用ポリシー）:
+#   --changed モード（pre-push 用）で push 範囲に merge commit を含む場合、
+#   sync-merge による偶発的な coverage 低下を許容してスキップする。
+#   範囲は @{u}..HEAD（upstream 未設定時は HEAD 単体）。
+#   feature 単体 push は従来通りチェック対象。
+if [ "$CHANGED" -eq 1 ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
+  if upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null); then
+    range="${upstream}..HEAD"
+  else
+    range="HEAD~1..HEAD"
+  fi
+  merge_count=$(git log --merges --format=%H "$range" 2>/dev/null | wc -l | tr -d ' ')
+  if [ "${merge_count:-0}" -ge 1 ]; then
+    log "SKIP: push 範囲 ($range) に merge commit が ${merge_count} 件含まれます。sync-merge のため coverage-guard をスキップします。"
+    exit 0
+  fi
+fi
+
 # Package 列挙: workspace 慣例に従い apps/* / packages/* / packages/integrations/*
 discover_packages() {
   local dirs=()

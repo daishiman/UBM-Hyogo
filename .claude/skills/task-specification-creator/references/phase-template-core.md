@@ -101,6 +101,7 @@ Phase 1、Phase 2、Phase 3。
 - DI 境界の型配置判断を明示する（下記フロー参照）。
 - 画面遷移 / handoff 改修では、Phase 1 で確定した **既存 state 名** と **既存 route pattern** をそのまま設計へ持ち込む。未定義 state を設計本文で発明しない。
 - OAuth / session / admin gate 系タスクでは、Phase 2 で **session 型定義・JWT encode/decode 契約・provider 間共有 ADR** を必須セクション化する。Auth.js 等の framework default を API 側が検証できる前提にせず、実 cookie/token と API verifier の互換テストを validation matrix に含める。
+- D1 / API / repository 系タスクでは、Phase 2 で `apps/api/migrations/*.sql` と repository contract を grep 照合し、「仕様書記述 vs 実 DB」の対応表を必須セクション化する。存在しないカラム前提を設計本文へ持ち込まない。
 
 ### concern 数による設計書分割基準（TASK-SKILL-LIFECYCLE-08 知見）
 

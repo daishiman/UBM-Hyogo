@@ -102,6 +102,14 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
 
+07b schema alias workflow close-out:
+
+- `GET /admin/schema/diff` は `items[].recommendedStableKeys: string[]` を返す。候補は既存 `schema_questions.stable_key` から、label の Levenshtein 距離 + section / position 一致スコアで上位 5 件を提示する。
+- `POST /admin/schema/aliases?dryRun=true` は書き込みを行わず、`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返す。dry-run では `audit_log` も追記しない。
+- `POST /admin/schema/aliases` apply mode は `schema_questions.stable_key` 更新、任意 `diffId` の `schema_diff_queue` resolve、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` 追記を同じ workflow 境界で実行する。
+- collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `422` を返す。diff 不在は `404`、diff と request question mismatch は `409`。
+- back-fill は batch 100 / CPU budget 25s を上限とし、`deleted_members` に紐づく `member_identities.current_response_id` は対象外にする。既に同 response に新 stableKey 行がある場合は extra 行を削除して冪等性を保つ。
+
 ### 認証セッション解決 API（apps/api / 05a）
 
 05a で Auth.js Google OAuth callback から呼ばれる内部 endpoint を追加した。apps/web は D1 を直接参照せず、この endpoint だけを経由して `member_identities` / `member_status` / `admin_users` を解決する。

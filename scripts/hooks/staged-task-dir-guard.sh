@@ -9,6 +9,12 @@ BRANCH=$(git branch --show-current)
 # main / dev / develop は対象外
 [[ "$BRANCH" =~ ^(main|dev|develop)$ ]] && exit 0
 
+# マージコミット中はスキップ（sync-merge では他タスク dir の混入が構造的に発生する誤検知のため）
+GIT_DIR=$(git rev-parse --git-dir)
+if [ -e "$GIT_DIR/MERGE_HEAD" ] || [ -e "$GIT_DIR/CHERRY_PICK_HEAD" ] || [ -e "$GIT_DIR/REVERT_HEAD" ]; then
+  exit 0
+fi
+
 BRANCH_SLUG="${BRANCH##*/}"
 
 normalize_slug() {
