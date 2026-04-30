@@ -131,6 +131,36 @@ member requests deletion
 
 ---
 
+## 申請 queue の状態遷移（admin_member_notes）
+
+`note_type IN ('visibility_request','delete_request')` の行は `request_status` 列で処理状態を保持する。
+`note_type='general'` は `request_status` を常に NULL に保つ（不変条件 #11 と整合）。
+
+| 列 | 型 | 値域 | 用途 |
+| --- | --- | --- | --- |
+| `request_status` | TEXT | `pending` / `resolved` / `rejected` / NULL | 申請行の処理状態。general 行は NULL |
+| `resolved_at` | INTEGER | unix epoch ms / NULL | resolve / reject 確定時刻 |
+| `resolved_by_admin_id` | TEXT | admin の userId / NULL | 処理した admin |
+
+```mermaid
+stateDiagram-v2
+    [*] --> pending: POST /me/visibility-request<br/>POST /me/delete-request
+    pending --> resolved: markResolved(noteId, adminId)
+    pending --> rejected: markRejected(noteId, adminId, reason)
+    resolved --> [*]: 本人再申請可（新規 pending 行 INSERT）
+    rejected --> [*]: 本人再申請可（新規 pending 行 INSERT）
+```
+
+- `hasPendingRequest(memberId, noteType)` は `request_status='pending'` 行のみ true 判定。
+  resolved / rejected 行が残っていても **再申請は許容**される（AC-7）。
+- `pending → resolved` / `pending → rejected` のみ許容。`resolved → *` / `rejected → *` は
+  `WHERE request_status='pending'` ガードで構造的に防ぐ（AC-6）。
+- 不変条件 #4: `markResolved` / `markRejected` は `admin_member_notes` のみを更新し、
+  `member_responses` には触れない。
+- 不変条件 #11: 管理者は member 本文を直接編集できない。state transition は note 行の状態列のみを更新する。
+
+---
+
 ## 事故防止ルール
 
 1. current response を D1 差分で上書きしない
