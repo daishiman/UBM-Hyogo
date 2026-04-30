@@ -89,7 +89,7 @@ specs/ の章立てではなく **機能境界** で分解。共通基盤（Wave
 | ディレクトリ | 主責務 |
 | --- | --- |
 | [07a-parallel-tag-assignment-queue-resolve-workflow](../completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/index.md) | tag_assignment_queue の candidate → confirmed → member_tags 反映 workflow |
-| [07b-parallel-schema-diff-alias-assignment-workflow](07b-parallel-schema-diff-alias-assignment-workflow/index.md) | schema_diff_queue の alias 割当 workflow（stableKey 更新） |
+| [07b-parallel-schema-diff-alias-assignment-workflow](../completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/index.md) | schema_diff_queue の alias 割当 workflow（issue-191 により `schema_aliases` 書き込みへ上書き） |
 | [07c-parallel-meeting-attendance-and-admin-audit-log-workflow](07c-parallel-meeting-attendance-and-admin-audit-log-workflow/index.md) | meeting attendance 重複防止 + 削除済み会員除外 + admin 操作 audit log |
 
 ### Wave 8: tests（2 parallel）

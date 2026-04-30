@@ -146,4 +146,4 @@
 - 上位 README: ../../02-application-implementation/README.md
 - 共通テンプレ: ../../02-application-implementation/_templates/phase-template-app.md
 - 上流 task: ../04c-parallel-admin-backoffice-api-endpoints/index.md, ../../02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/index.md
-- 下流 task: ../../02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/index.md, ../../02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md
+- 下流 task: ../../08a-parallel-api-contract-repository-and-authorization-tests/index.md, ../../02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md

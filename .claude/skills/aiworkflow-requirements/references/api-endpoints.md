@@ -66,8 +66,14 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 | メソッド | パス | 説明 | 認証 |
 | --- | --- | --- | --- |
-| POST | /admin/sync | Google Sheets 由来の既存同期ジョブを手動実行 | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | /admin/sync | Google Sheets 由来の既存同期ジョブを手動実行（互換 mount） | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | /admin/sync/run | u-04 正本 manual sync。Google Sheets 回答を fetch → map → D1 upsert し、`sync_job_logs` に audit row を作成する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | /admin/sync/backfill | u-04 backfill。Sheets 全件を正として `member_responses` を再投入する。admin-managed 列には触れない | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | /admin/sync/audit?limit=N | u-04 audit ledger の最新行を `started_at DESC` で返す。limit は 1〜100 に clamp | `SYNC_ADMIN_TOKEN` Bearer |
 | POST | /admin/sync/responses | Google Forms `forms.responses.list` を D1 に取り込み、`current_response_id` と consent snapshot を更新 | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | /admin/smoke/sheets | Google Sheets API v4 `spreadsheets.values.get` の dev/staging E2E smoke。production は 404 | `SMOKE_ADMIN_TOKEN` Bearer |
+
+u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation/`) では `apps/api/src/sync/` を正本実装とする。manual / scheduled / backfill の 3 経路は `withSyncMutex` で直列化し、論理 `sync_audit` の物理 ledger である `sync_job_logs` に `running -> success|failed|skipped` を記録する。scheduled sync は HTTP endpoint ではなく Cloudflare Workers `scheduled()` handler から `runScheduledSync(env)` を呼び出し、MVP では timestamp drift を避けるため毎時全件 upsert する。
 
 `POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。
 
@@ -156,6 +162,8 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 
 公開 member の基本条件は `public_consent='consented' AND publish_state='public' AND is_deleted=0`。profile / list response は `responseEmail` / `rulesConsent` / `adminNotes` を含めない。`/public/members` の `tag` は repeated query を AND 条件として扱い、`limit` は 1〜100 に clamp する。
 
+`GET /admin/smoke/sheets` は UT-26 の NON_VISUAL smoke route。`GOOGLE_SHEETS_SA_JSON` / `SHEETS_SPREADSHEET_ID` を読み取り専用で使い、2 回連続 `fetchRange()` の間に OAuth token fetch が 1 回だけであることを `tokenFetchesDuringSmoke=1` として返す。`range` query は 80 文字以内の単一 A1 range のみ許可する。
+
 ### チャット履歴
 
 | メソッド | パス                           | 説明                   | 認証 |
@@ -200,6 +208,14 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 | Method | Path | 認可 | 用途 |
 | ------ | ---- | ---- | ---- |
 | POST | `/admin/sync/schema` | `Authorization: Bearer <SYNC_ADMIN_TOKEN>` | Google Forms `forms.get` の live schema を D1 の `schema_versions` / `schema_questions` に同期し、stableKey 未解決 question を `schema_diff_queue` へ投入する |
+
+### Schema Alias Resolution（issue-191 / 07b）
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| POST | `/admin/schema/aliases` | Auth.js admin JWT + `admin_users.active` | 07b の manual alias resolution。HTTP contract は維持し、issue-191 以降の write target は `schema_questions.stable_key` direct update ではなく `schema_aliases` INSERT + `schema_diff_queue.status='resolved'` |
+
+03a は `schema_aliases` first、alias miss の場合のみ `schema_questions.stable_key` fallback とする。D1 transient error は alias miss と扱わず、sync failure + retry へ倒す。
 
 レスポンス契約:
 
@@ -269,6 +285,7 @@ Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token
 | Version | Date       | Changes                                            |
 | ------- | ---------- | -------------------------------------------------- |
 | 2.7.0   | 2026-04-29 | 04a: 公開ディレクトリ API 4 endpoint を追加 |
+| 2.6.1   | 2026-04-29 | UT-26: `GET /admin/smoke/sheets` dev/staging Sheets API smoke route を追加 |
 | 2.6.0   | 2026-04-29 | 03b: `POST /admin/sync/responses` 管理同期 API を追加 |
 | 2.5.0   | 2026-03-11 | TASK-FIX-APIKEY-CHAT-TOOL-INTEGRATION-001: Desktop IPC API サマリーの AI/チャットへ `llm:set-selected-config` を追加 |
 | 2.4.0   | 2026-03-11 | TASK-UI-08-NOTIFICATION-CENTER: Notification IPC サマリーに `notification:delete` を追加し、058e の個別削除契約へ同期 |

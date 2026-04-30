@@ -1,5 +1,11 @@
 # 07b-parallel-schema-diff-alias-assignment-workflow — タスク仕様書 index
 
+> Supersession note（2026-04-30 / issue-191）:
+> `docs/30-workflows/completed-tasks/issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring/` が 07b の書き込み先を上書きする。
+> `POST /admin/schema/aliases` の endpoint は維持するが、実装時は `schema_questions.stableKey` を直接更新せず、
+> `schema_aliases` に alias 行を INSERT し、`schema_diff_queue` を resolved に進める。
+> 旧記述の「stableKey 更新」は stale contract として扱う。
+
 ## メタ情報
 
 | 項目 | 値 |
@@ -20,7 +26,7 @@
 ## スコープ
 
 ### 含む
-- `apps/api/src/workflows/schemaAliasAssign.ts`（alias 確定 + stableKey 更新 + back-fill）
+- `apps/api/src/workflows/schemaAliasAssign.ts`（alias 確定 + `schema_aliases` 書き込み + queue resolved）
 - alias 候補提案ロジック（既存 stableKey との文字列類似 + section / index 一致による recommend）
 - `POST /admin/schema/aliases` の handler 実装（04c 定義）
 - `POST /admin/schema/aliases?dryRun=true` の dry-run mode（既存 response への影響件数を返すのみ、書き込みなし）
@@ -63,7 +69,7 @@
 
 ## 受入条件 (AC)
 
-- AC-1: `POST /admin/schema/aliases` で `{ questionId, stableKey, dryRun: false }` を送ると、tx 内で `schema_questions.stableKey` が更新され、`schema_diff_queue` の status が `resolved` に更新される（不変条件 #14）
+- AC-1: `POST /admin/schema/aliases` で `{ questionId, stableKey, dryRun: false }` を送ると、tx 内で `schema_aliases` に alias 行が INSERT され、`schema_diff_queue` の status が `resolved` に更新される（不変条件 #14 / issue-191）
 - AC-2: `dryRun: true` で送ると、書き込みなしに `{ affectedResponseFields: N, currentStableKeyCount: M }` を返す
 - AC-3: 同 schema_version 内で同一 stableKey を別 questionId に割り当てようとすると 422（DB UNIQUE constraint or pre-check）
 - AC-4: alias 確定後、過去の `response_fields.questionId` が一致する行の `stableKey` が更新される（back-fill apply mode）

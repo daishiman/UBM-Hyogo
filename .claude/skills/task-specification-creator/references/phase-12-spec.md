@@ -88,6 +88,16 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 - API仕様の変更
 - public response が不変でも、back-fill / CPU budget / retryable error / owner boundary / DB 実スキーマ差分吸収が入る場合
 
+### LOGS / generated index / artifacts parity の実測ルール
+
+Phase 12 の Step 1-A で `LOGS.md` や `topic-map.md` を機械的に N/A にしない。現行 skill が fragment 化されている場合は次のように判定する。
+
+| 対象 | 実体がある場合 | 実体がない / 生成物の場合 |
+| --- | --- | --- |
+| `LOGS.md` | 直接 append し、changelog に記録する | `LOGS/` fragment、`LOGS/_legacy.md`、または workflow-local changelog のどれに記録したかを `system-spec-update-summary.md` に明記する |
+| `topic-map.md` / `keywords.json` | 手編集せず、正本更新後に generator を実行する | generator が存在しない場合のみ N/A。存在する場合は実行コマンドと結果を `phase12-task-spec-compliance-check.md` に残す |
+| root / outputs `artifacts.json` parity | 両方ある場合は内容と status を同期する | `outputs/artifacts.json` が存在しない workflow では、root ledger が唯一正本であることを compliance check に明記する |
+
 **Step 2 更新が不要な場合**:
 
 - 内部実装の詳細変更のみ
@@ -112,9 +122,29 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 > Step 2 を **N/A 判定の根拠付きで明記** しておくことで、phase-12-pitfalls.md「Step 2 必要性判定の記録漏れ」を回避する。
 ```
 
+### Phase 13 承認ゲート付き NON_VISUAL implementation
+
+外部サービスの不可逆 API 操作（GitHub branch protection PUT など）を Phase 13 のユーザー承認後に実行する implementation / NON_VISUAL task では、Phase 12 は「実装完了」ではなく `spec_created` close-out として扱う。
+
+| 項目 | Phase 12 での扱い |
+| --- | --- |
+| workflow status | `spec_created` を維持し、`completed` / `applied` に上げない |
+| 実行 JSON | payload / current / applied の予約パスは作ってよいが、fresh runtime evidence と区別する |
+| system spec Step 2 | 適用後 GET など外部状態の正本証跡がない場合、最終状態反映は別 unassigned-task に分離する |
+| AC evidence | spec evidence と runtime evidence を分け、`blocked_until_user_approval` を成功証跡にしない |
+
+
 ### `spec_created` UI task の Phase 12 close-out ルール
 
 `spec_created` ステータスの UI task でも Phase 12 実行時は Step 1-A〜1-C を N/A にせず same-wave sync で閉じる。
+
+### Phase 12 close-out hardening（2026-04-30）
+
+Phase 12 の system spec update は classification-first で対象を選ぶ。責務が違う場合は semantic filename で新規 family file / artifact inventory を作り、旧 filename / 旧 path がある場合は `legacy-ordinal-family-register.md` を同一 wave で更新する。
+
+Step 2 は新規 API 追加だけでなく、stale contract withdrawal、internal write-target replacement、security / data boundary hardening でも発火する。PASS は成果物の実体、validator 実測、same-wave sync 証跡が揃った後にだけ記録する。
+
+同一 wave の必須同期先: current canonical set、artifact inventory、parent docs、task-workflow、lessons-learned、LOGS、topic-map、quick-reference、resource-map。mirror は存在する場合のみ sync し、`diff -qr` で確認する。
 
 | Step     | `spec_created` での扱い                                                   |
 | -------- | ------------------------------------------------------------------------- |
@@ -169,6 +199,20 @@ node scripts/detect-unassigned-tasks.js --scan packages/shared/src --output .tmp
 📖 [spec-update-workflow.md](spec-update-workflow.md)
 📖 [unassigned-task-required-sections.md](unassigned-task-required-sections.md)
 📖 [../agents/generate-unassigned-task.md](../agents/generate-unassigned-task.md)
+
+## Phase 12 SubAgent 実行ルール
+
+Phase 12 の監査は並列化してよいが、編集は単一 owner が直列に適用する。
+
+| レーン | 目的 | 編集可否 | 完了条件 |
+| --- | --- | --- | --- |
+| A | Phase 12 成果物 / artifacts parity 監査 | 禁止 | 7 outputs、root/outputs `artifacts.json` parity、status 表記差異を報告 |
+| B | system spec / index / LOGS / lessons 監査 | 禁止 | current canonical set、artifact inventory、topic-map 再生成対象、500行超過リスクを報告 |
+| C | skill feedback / skill update 監査 | 禁止 | 更新対象 skill、asset/reference 候補、AskUserQuestion 制約を報告 |
+| owner | 編集適用 | 可 | SubAgent 結果を統合し、同一ファイル編集を直列化 |
+| validator | 最終検証 | 禁止 | `generate-index.js`、`validate-structure.js`、mirror sync、`diff -qr` を実測記録 |
+
+`phase12-task-spec-compliance-check.md` の `PASS` は、成果物の実体・validator 実測値・same-wave sync 証跡が揃った後にのみ許可する。存在しない監査スクリプト名を根拠にしてはならない。
 
 ## 変更履歴
 

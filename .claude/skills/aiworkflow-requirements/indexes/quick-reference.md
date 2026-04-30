@@ -5,17 +5,18 @@
 
 ---
 
-### CI/CD workflow topology drift（UT-CICD-DRIFT / 2026-04-29）
+### Schema Alias Resolution Contract（issue-191 / 2026-04-30）
+
+07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow 5 件 / Node 24 / pnpm 10.33.2 の current facts | `references/deployment-gha.md`, `references/deployment-core.md` |
-| Pages 運用中 + OpenNext Workers cutover 未了 | `references/deployment-cloudflare.md`, `docs/30-workflows/unassigned-task/UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION.md` |
-| Discord 通知未実装 / secret 現行未使用 | `references/deployment-gha.md`, `references/deployment-secrets-management.md`, `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/` |
-| 派生 implementation タスク 7 件 | `docs/30-workflows/completed-tasks/ut-cicd-workflow-topology-drift-cleanup/outputs/phase-12/unassigned-task-detection.md` |
-| 苦戦箇所・再発防止 | `references/lessons-learned-ut-cicd-drift-2026-04.md` |
-
----
+| 正本 DB 契約 | `references/database-implementation-core.md`（§Schema Alias Resolution Contract） |
+| 13 Phase 補完仕様 | `docs/30-workflows/completed-tasks/issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring/` |
+| 07b stale contract 上書き | `docs/30-workflows/02-application-implementation/07b-parallel-schema-diff-alias-assignment-workflow/index.md` |
+| 実装 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-aliases-implementation-001.md` |
+| fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
+| direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
 
 ## よく使うパターン
 
@@ -84,6 +85,26 @@
 | merge 戦略・command -v・gitattributes 教訓（L-WC-001/002/003） | `references/lessons-learned-health-policy-worktree-2026-04.md` |
 | Zustand store（skillCreatorStore / HealthPolicy） | `references/arch-state-management-skill-creator.md` |
 | IPC/Preload 教訓 参照 | `references/lessons-learned-ipc-preload-runtime.md` |
+
+---
+
+### UT-GOV-001 Second-Stage Reapply（contexts 後追い再 PUT / 2026-04-30 / approval-gated NON_VISUAL）
+
+UT-GOV-001 で `contexts=[]` 暫定 fallback を採用したケースに対し、UT-GOV-004 由来の実在 context で dev / main 独立 PUT を行う後追いタスク。Phase 13 は user 承認ゲート + 実 PUT 実行ゲート + PR 作成ゲートの三役。
+
+| 目的 | 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/` |
+| Phase 13 三役ゲート（user_approval_required=true / 自走禁止 3 項目: 実 PUT・push・PR） | `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/phase-13.md` |
+| rollback payload location（再利用のみ・上書き禁止）| `docs/30-workflows/completed-tasks/UT-GOV-001-github-branch-protection-apply/outputs/phase-05/rollback-payload-{dev,main}.json` |
+| admin token op 経路（実値は環境変数で揮発的に渡す / docs に op:// 参照のみ） | `op://Employee/ubm-hyogo-env/GITHUB_ADMIN_TOKEN`（admin scope 必須） |
+| 期待 contexts（dev / main 別配列） | `outputs/phase-02/expected-contexts-{dev,main}.json` |
+| 適用前 / 適用後 GET 保全 | `outputs/phase-13/branch-protection-{current,applied}-{dev,main}.json` |
+| drift 6 値検査（CLAUDE.md / deployment-branch-strategy.md） | `outputs/phase-09/drift-check.md` |
+| 苦戦箇所 8 件（typo context / dev-main 片側更新 / admin block / `contexts=[]` 残留 / workflow vs job 名 / dev-main 別 contexts / CLAUDE.md drift 片務化 / 自走禁止）| `references/lessons-learned-utgov001-second-stage-reapply-2026-04.md` |
+| Artifact Inventory（13 phases / 入出力契約 / AC-1〜AC-14） | `references/workflow-utgov001-second-stage-reapply-artifact-inventory.md` |
+| Issue 参照規約 | `Refs #202` のみ採用 / `Closes #202` 禁止 / Issue は CLOSED のまま再オープン禁止 |
+| relay 先 | `task-utgov001-references-reflect-001` / `task-utgov001-drift-fix-001`（条件発火）/ `task-utgov-downstream-precondition-link-001` |
 
 ---
 
@@ -952,7 +973,6 @@ packages/
 | --- | --- |
 | 01a canonical task root | `docs/30-workflows/01a-parallel-d1-database-schema-migrations-and-tag-seed/` |
 | 02a canonical task root | `docs/30-workflows/02a-parallel-member-identity-status-and-response-repository/` |
-| UT-04 spec sync root | `docs/30-workflows/ut-04-d1-schema-design/`（spec_created / docsOnly=true / NON_VISUAL）。01a/02a/03a/03b current schema を参照し、旧 `members` は legacy、既存 `sync_job_logs` / `sync_locks` は UT-09 owned transition tables として扱う |
 | legacy 03-serial contract | `member_responses` / `member_identities` / `member_status` / `sync_audit` は旧4テーブル契約として参照。01a以降の物理実装では20テーブル構成を正とする |
 | 02a repository root | `apps/api/src/repository/` |
 | 02a repository tables | `member_identities` / `member_status` / `member_responses` / `response_sections` / `response_fields` / `member_field_visibility` / `member_tags` / `tag_definitions` / `deleted_members` |
@@ -1020,20 +1040,6 @@ packages/
 | 実装モジュール | `apps/api/src/sync/schema/` / `apps/api/src/middleware/admin-gate.ts` / `apps/api/src/routes/admin/sync-schema.ts` |
 | 苦戦知見 | `references/lessons-learned-03a-parallel-forms-schema-sync.md`（L-03a-001〜005） |
 
-### UBM-Hyogo Schema Alias Assignment 早見（07b / 2026-04-30）
-
-| 観点 | 値 / 参照先 |
-| --- | --- |
-| canonical task root | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/` |
-| API | `GET /admin/schema/diff`（`recommendedStableKeys` 同梱） / `POST /admin/schema/aliases?dryRun=true` / `POST /admin/schema/aliases` |
-| 実装 | `apps/api/src/workflows/schemaAliasAssign.ts`, `apps/api/src/services/aliasRecommendation.ts`, `apps/api/src/routes/admin/schema.ts` |
-| D1 書き込み | `schema_questions.stable_key` 更新、`schema_diff_queue.status='resolved'`、`response_fields` back-fill、`audit_log.action='schema_diff.alias_assigned'` |
-| dry-run | 書き込みなし。`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返し、audit なし |
-| collision / error | question/diff 不在 `404`、diff-question mismatch `409`、同一 revision stableKey collision `422` |
-| NON_VISUAL evidence | `ui_routes: []`。Phase 11 は API smoke 手順 + Vitest 証跡で成立し、スクリーンショット対象外 |
-| 正本仕様 | `references/api-endpoints.md`（§管理バックオフィス API 04c 07b close-out）, `references/database-schema-07b-schema-alias-assignment.md`（07b DB workflow）, `references/database-schema.md`（親導線） |
-| artifact inventory / lessons | `references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md`, `references/lessons-learned-07b-schema-alias-assignment-2026-04.md` |
-
 ### UBM-Hyogo Admin Backoffice API 早見（04c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |
@@ -1048,46 +1054,6 @@ packages/
 | schema 書き込み境界 | `/admin/schema/*` のみに集約 |
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
-
-### UBM-Hyogo Tag Queue Resolve 早見（07a / 2026-04-30）
-
-| 観点 | 値 / 参照先 |
-| --- | --- |
-| canonical task root | `docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/` |
-| API master | `references/api-endpoints.md`（管理バックオフィス API / 07a close-out） |
-| request body | `{ action: "confirmed", tagCodes: string[] }` or `{ action: "rejected", reason: string }` |
-| status alias | spec: `candidate/confirmed/rejected`、DB/API: `queued/resolved/rejected`。`reviewing` は 02b 互換の中間状態 |
-| guarded write | `UPDATE ... WHERE status IN ('queued','reviewing')` 成功後だけ `member_tags` / `audit_log` を書く。race lost は 409 |
-| idempotent | 同一 payload 再投入は 200 + `idempotent: true`、追加 audit なし。別 payload は 409 |
-| web client | `apps/web/src/lib/admin/api.ts` の `resolveTagQueue(queueId, body)` のみ。tag 直接編集 mutation は作らない |
-| shared schema | `packages/shared/src/zod/identity.ts` / `packages/shared/src/types/identity/index.ts` は `rejected` を含む |
-| follow-up | `docs/30-workflows/unassigned-task/UT-07A-01..04` |
-
-### UBM-Hyogo Attendance Audit API 早見（07c / 2026-04-30）
-
-| 観点 | 値 / 参照先 |
-| --- | --- |
-| canonical task root | `docs/30-workflows/completed-tasks/07c-parallel-meeting-attendance-and-admin-audit-log-workflow/` |
-| API master | `references/api-endpoints.md`（管理バックオフィス API） |
-| 実装 root | `apps/api/src/routes/admin/attendance.ts`, `apps/api/src/repository/attendance.ts` |
-| candidates | session 不在 `404 session_not_found`、削除済み・登録済み member 除外 |
-| POST error | duplicate `409 attendance_already_recorded`、deleted `422 member_is_deleted`、session 不在 `404 session_not_found` |
-| DELETE error | attendance row 不在を `404 attendance_not_found` に集約 |
-| audit | `attendance.add` / `attendance.remove`, `target_type='meeting'`, `target_id=sessionId`, POST は `after_json`, DELETE は `before_json` |
-| phase 11 判定 | API-only / NON_VISUAL。Vitest smoke evidence、visual は 08b/09a に委譲 |
-
-### UBM-Hyogo Playwright E2E Scaffold 早見（08b / 2026-04-30）
-
-| 観点 | 値 / 参照先 |
-| --- | --- |
-| canonical task root | `docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/` |
-| 状態 | `spec_created` / `scaffolding-only` / `VISUAL_DEFERRED` |
-| 実装 root | `apps/web/playwright.config.ts`, `apps/web/playwright/`, `.github/workflows/e2e-tests.yml` |
-| CI | `workflow_dispatch` の手動 scaffold。PR / push gate ではない |
-| spec 状態 | 7 spec は `test.describe.skip`。実行済み PASS と扱わない |
-| Phase 11 evidence | README / SCREENSHOT_LIST / placeholder のみ。PNG 0 件、real axe 未取得 |
-| full execution | `docs/30-workflows/unassigned-task/task-08b-playwright-e2e-full-execution-001.md` または 09a staging smoke |
-| gate 昇格条件 | Auth fixture / D1 seed / screenshot >= 30 / real Playwright report / real axe report / skipped spec 0 |
 
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 
@@ -1185,6 +1151,19 @@ packages/
 | 実 PUT のゲート | Phase 12 = `spec_created`（仕様書整備のみ）/ Phase 13 = `blocked_until_explicit_user_approval`（ユーザー明示承認後の別オペレーションでのみ実行） |
 | 苦戦知見 | `references/lessons-learned-ut-gov-001-2026-04.md`（L-GOV-001 payload adapter / L-GOV-002 5 重明記 / L-GOV-003 Phase 12-13 二重ゲート / L-GOV-004 NON_VISUAL evidence） |
 | 正本仕様 | `references/deployment-branch-strategy.md`（pending apply: UT-GOV-001 セクション） |
+
+### GitHub Governance / UT-GOV-001 second-stage reapply（2026-04-30）
+
+UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts=[]` fallback 適用後に再 PUT するための approval-gated implementation / NON_VISUAL workflow。
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/` |
+| confirmed contexts | `ci`, `Validate Build`, `verify-indexes-up-to-date` |
+| 実行ゲート | Phase 13 でユーザー明示承認後のみ `gh api -X PUT` / commit / push / PR 作成を実行する |
+| evidence 境界 | Phase 12 までの `current-*` / `applied-*` JSON は placeholder。Phase 13 の fresh GET output だけを適用証跡にできる |
+| final references 反映 | `docs/30-workflows/unassigned-task/task-utgov001-references-reflect-001.md`。Phase 13 applied GET evidence がない状態で `deployment-branch-strategy.md` へ最終状態を書かない |
+| downstream precondition | `docs/30-workflows/unassigned-task/task-utgov-downstream-precondition-link-001.md` で UT-GOV-005〜007 の上流前提へ反映 |
 
 ### Lefthook Multi-Worktree Reinstall（task-lefthook-multi-worktree-reinstall / 2026-04-28）
 

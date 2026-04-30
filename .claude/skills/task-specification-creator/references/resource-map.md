@@ -96,6 +96,12 @@
 | --- | --- | --- |
 | `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/` | monitoring / alert / observability / WAE / UptimeRobot を含む `spec_created` NON_VISUAL workflow の参照時 | Phase 11 screenshot 不要判定、Phase 12 same-wave sync、`PASS_WITH_OPEN_DEPENDENCY`、UT-08-IMPL 未タスク分離の実例 |
 
+### approval-gated NON_VISUAL implementation 導線
+
+| キーワード | 関連ファイル |
+| --- | --- |
+| approval-gated implementation / 三役ゲート / rollback payload 上書き禁止 / コミット粒度 5 単位 / Phase 13 fresh GET / `Refs #<issue>` | [phase-template-phase13.md](phase-template-phase13.md) §approval-gated / [phase-template-phase13-detail.md](phase-template-phase13-detail.md) §approval-gated 詳細手順 / [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) / [phase-12-spec.md](phase-12-spec.md) / [quality-gates.md](quality-gates.md) / 実例: `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/phase-13.md` |
+
 ## schemas/（8ファイル）
 
 | Schema | 用途 |
