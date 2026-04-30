@@ -94,7 +94,7 @@ GitHub リポジトリの `Settings > Secrets and variables > Actions` で管理
 | -------------- | ---- | -------- |
 | `CLOUDFLARE_API_TOKEN` | Cloudflare API Token（デプロイ用） | web-cd.yml, backend-ci.yml |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare アカウント ID | web-cd.yml, backend-ci.yml |
-| `DISCORD_WEBHOOK_URL` | Discord Webhook（デプロイ通知） | web-cd.yml, backend-ci.yml |
+| `DISCORD_WEBHOOK_URL` | Discord Webhook（デプロイ通知） | 未使用（UT-08-IMPL で導入予定。現行 web-cd.yml / backend-ci.yml には参照なし） |
 | `CODECOV_TOKEN` | Codecov カバレッジアップロード | ci.yml |
 
 ### GitHub Variables（非機密設定値）

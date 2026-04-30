@@ -43,6 +43,53 @@
 | **[UBM-015]** `apps/web` proxy 実装でコメントや docs が D1/API 境界を曖昧にする | `apps/web` では D1 直参照を禁止し、コメントも「API worker」「upstream auth API」など境界語を使う。`apps/api` 直書き文字列を lint-boundary が拾う場合は、Phase 5 runbook に許容/禁止パターンを明示する |
 | **[UBM-016]** shared 型追加で barrel export の実体が docs より薄い/濃い | Phase 5 着手前に `rg "export .*types" packages/shared/src` を実行し、root export / subpath export / alias-only のどれかを決める。Phase 12 では「shared schema」なのか「補助 alias」なのかを正本仕様に明記する |
 | **[UBM-017]** legacy umbrella close-out が浅い PASS で閉じる | direct 残責務 0 件、stale/current/historical 分類、責務移管表、旧 filename/register、逆リンクの扱いを Phase 12 evidence に明記する。逆リンクや stale 掃除を同 wave で閉じない場合は、`docs/30-workflows/unassigned-task/` に full template で formalize する。SubAgent の自己申告だけで PASS にせず、`git diff --stat`、7 ファイル実体、`audit-unassigned-tasks --target-file`、index 再生成、mirror parity の実測値で確認する |
+| **[UBM-018]** `taskType=implementation × workflow_state=spec_created × docsOnly=true` の三併存ケースを完了扱い / completed 昇格してしまう | spec PR 段階の implementation 系タスク（D1 schema 設計 / API endpoint 設計 / shared 型契約設計 等）は実 DDL・実コードを混入させず docs のみで merge する。下記「三併存ケース集」の判定フローと NG/OK パターンに従い、workflow root は `spec_created` を据え置く。実装 PR で別途 `implemented` へ昇格させる 2 段階運用を Phase 1 / Phase 12 双方で確認する |
+| **[UBM-019]** generated index / fragment LOGS を N/A と誤判定する | `topic-map.md` / `keywords.json` は手編集不要でも generator 実行証跡が必要。`LOGS.md` がなく `LOGS/` fragment 運用の場合は、記録先 fragment または workflow-local changelog を `system-spec-update-summary.md` に明記する |
+| **[UBM-020]** Part 1 初学者説明に英語の技術語が残る | `sync layer`, `NON_VISUAL evidence`, `Cloudflare` などを使う場合は同じ文で日常語を補う。Phase 12 の最後に Part 1 本文だけを `rg -n "sync|evidence|Cloudflare|API|D1|Cron"` で確認する |
+
+## 三併存ケース集（spec PR 段階の implementation 系タスク）
+
+> 由来: UT-04 D1 データスキーマ設計 skill-feedback-report に基づく追加（2026-04-29）
+
+### 判定フロー（テキスト）
+
+```
+Q1. taskType は implementation か？
+  └─ Yes
+      Q2. 実コード/DDL/migration を本 PR に混入するか？
+        ├─ Yes → workflow_state=in_progress または completed、docsOnly=false（通常運用）
+        └─ No  → docsOnly=true → workflow_state=spec_created（三併存ケース）
+                  → 実装 PR で別途 implemented / completed へ昇格
+```
+
+### 典型例
+
+| 例 | 三併存になる理由 |
+| --- | --- |
+| D1 schema 設計 PR（UT-04） | 既存 migration から current schema を抽出して仕様化する。実 DDL は実装 PR で `apps/api/migrations/` に投入 |
+| API endpoint 設計 PR | OpenAPI / handler 契約を仕様化。実 handler / route は実装 PR で apps/api 配下に追加 |
+| shared 型契約設計 PR | Zod schema / TypeScript 型の正本契約を仕様化。実 generator / barrel export は実装 PR |
+
+### NG パターン
+
+- workflow root を `completed` にして merge → 実装 PR と二重 close されて ledger 整合が崩れる
+- `docsOnly=false` のまま merge → CI 側の implementation gate が誤発火する
+- Step 2 を「実装が無いから N/A」と書き、根拠（既存正本参照 / 派生作業の別タスク化）を記載しない
+
+### OK パターン
+
+- `metadata.workflow_state=spec_created` / `metadata.docsOnly=true` を artifacts.json と outputs/artifacts.json で 2 重に明示
+- documentation-changelog.md の Block A で `apps/api/migrations/` 等の実コードパス非混入を drift チェックに含める
+- Step 2 N/A 判定例（`phase-12-spec.md` テンプレ参照）に従い、根拠 3 項目（スコープ / 既存正本 / 派生タスク）を必ず記載
+- 実装 PR は別 wave で切り、本 spec PR が merge 後に `implemented` 昇格 PR を作成する
+
+### Phase 12 close-out チェック
+
+- [ ] `git diff --stat` で `apps/api/migrations/`, `apps/api/src/`, `packages/shared/src/`, `apps/web/src/` 等の実コード変更が 0 件
+- [ ] `artifacts.json` / `outputs/artifacts.json` の `metadata.workflow_state` が `spec_created` で一致
+- [ ] `metadata.docsOnly: true` が両 ledger に存在
+- [ ] documentation-changelog.md に「`apps/api/migrations/*.sql` は本 PR に **非混入**」等の drift チェック節がある
+- [ ] system-spec-update-summary.md の Step 1-B が `spec_created` 据え置き旨を明記し、`completed` への昇格を実装 PR に委譲している
 
 > 旧フィードバック（W0-RV-001・SC-13-1/2・UBM-001〜008・FB-SDK-07-2/4）は [../SKILL-changelog.md](../SKILL-changelog.md) に移動済み。
 

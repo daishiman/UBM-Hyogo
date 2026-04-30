@@ -91,6 +91,12 @@
 5. Google Form の変更対応は `/admin/schema` に集約する
 6. 開催日と参加履歴はフォーム同期対象と分離して管理する
 
+## schema alias assignment（07b）
+
+`/admin/schema` の schema 差分解消は 07b API workflow が正本である。UI は `recommendedStableKeys` を候補表示に使い、dryRun で影響範囲を確認してから apply する。apply 後は `schema_diff_queue` を `queued -> resolved` に進め、過去回答の `__extra__:<questionId>` を stableKey へ back-fill する。
+
+管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を toast 等で分けて表示する。多言語 label 正規化や大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
+
 ---
 
 ## 明示的に採用しないもの

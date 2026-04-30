@@ -50,3 +50,31 @@ describe("withBackoff (AC-9 / 不変条件 #5)", () => {
     expect(fn).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("DEFAULT_BACKOFF defaults", () => {
+  it("default sleep resolves after the requested delay", async () => {
+    const { DEFAULT_BACKOFF } = await import("./backoff");
+    await expect(DEFAULT_BACKOFF.sleep(0)).resolves.toBeUndefined();
+  });
+
+  it("default jitter returns a number in [0,1)", async () => {
+    const { DEFAULT_BACKOFF } = await import("./backoff");
+    const v = DEFAULT_BACKOFF.jitter();
+    expect(v).toBeGreaterThanOrEqual(0);
+    expect(v).toBeLessThan(1);
+  });
+});
+
+describe("RetryableError shape", () => {
+  it("preserves message, name, and optional status", () => {
+    const e = new RetryableError("rate", 429);
+    expect(e).toBeInstanceOf(Error);
+    expect(e.message).toBe("rate");
+    expect(e.name).toBe("RetryableError");
+    expect(e.status).toBe(429);
+  });
+
+  it("status is optional", () => {
+    expect(new RetryableError("x").status).toBeUndefined();
+  });
+});

@@ -11,8 +11,9 @@ export interface MemberAttendanceRow {
 }
 
 export type AddAttendanceResult =
-  | { ok: true }
-  | { ok: false; reason: "duplicate" | "deleted_member" | "session_not_found" };
+  | { ok: true; row: MemberAttendanceRow }
+  | { ok: false; reason: "duplicate"; existing: MemberAttendanceRow }
+  | { ok: false; reason: "deleted_member" | "session_not_found" };
 
 interface AttendanceDbRow {
   member_id: string;
@@ -44,6 +45,20 @@ export async function listAttendanceBySession(c: DbCtx, sessionId: string): Prom
   return (r.results ?? []).map(map);
 }
 
+export async function getAttendance(
+  c: DbCtx,
+  memberId: MemberId,
+  sessionId: string,
+): Promise<MemberAttendanceRow | null> {
+  const r = await c.db
+    .prepare(
+      "SELECT member_id, session_id, assigned_at, assigned_by FROM member_attendance WHERE member_id = ? AND session_id = ?",
+    )
+    .bind(memberId, sessionId)
+    .first<AttendanceDbRow>();
+  return r ? map(r) : null;
+}
+
 export async function addAttendance(
   c: DbCtx,
   memberId: MemberId,
@@ -70,18 +85,27 @@ export async function addAttendance(
       .prepare("INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES (?, ?, ?)")
       .bind(memberId, sessionId, by)
       .run();
-    return { ok: true };
+    const row = await getAttendance(c, memberId, sessionId);
+    if (!row) throw new Error("attendance insert succeeded but row was not readable");
+    return { ok: true, row };
   } catch (e) {
-    if (isUniqueConstraintError(e)) return { ok: false, reason: "duplicate" };
+    if (isUniqueConstraintError(e)) {
+      const existing = await getAttendance(c, memberId, sessionId);
+      if (!existing) throw e;
+      return { ok: false, reason: "duplicate", existing };
+    }
     throw e;
   }
 }
 
-export async function removeAttendance(c: DbCtx, memberId: MemberId, sessionId: string): Promise<void> {
+export async function removeAttendance(c: DbCtx, memberId: MemberId, sessionId: string): Promise<MemberAttendanceRow | null> {
+  const existing = await getAttendance(c, memberId, sessionId);
+  if (!existing) return null;
   await c.db
     .prepare("DELETE FROM member_attendance WHERE member_id = ? AND session_id = ?")
     .bind(memberId, sessionId)
     .run();
+  return existing;
 }
 
 export interface AttendableMember {

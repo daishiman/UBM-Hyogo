@@ -80,6 +80,19 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 
 サブエージェントに委譲する場合も、「設計タスクだから更新不要」という判断を許容しない。
 
+### Phase 12 一括 SubAgent 実行プロファイル
+
+大きい Phase 12 close-out は、監査だけを並列化し、編集は ownership を固定して直列に統合する。
+
+| Lane | 責務 | 出力 |
+| --- | --- | --- |
+| A | Phase 12 成果物・artifacts parity・Phase 11 evidence 監査 | 不足ファイル / ledger drift / planned wording の差異 |
+| B | system spec sync 監査 | resource-map / quick-reference / topic-map / lessons / task-workflow / LOGS / parent docs の不足 |
+| C | unassigned 整理監査 | `open` / `done` / `baseline` / `duplicate` と formalize decision |
+| D | skill feedback 監査 | どの苦戦箇所をどの skill へ反映するかの候補 |
+
+統合順は `成果物実体確認 -> artifacts parity -> system spec sync -> unassigned audit -> skill feedback -> mirror parity -> compliance PASS` とする。Step 2 の N/A / 更新あり判定 owner は Lane B に固定し、他 lane は evidence を渡すだけにする。SubAgent の自己申告は完了根拠にせず、最後は validator 実測値、artifact existence、mirror diff、500 行制限の実測で閉じる。
+
 ## Task 12-3: documentation changelog
 
 - 変更した file 一覧
@@ -103,6 +116,8 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - `scope-definition.md` など既存成果物へ implementation anchor を追記した時は、target source path の実在確認と `system-spec-update-summary.md` / `documentation-changelog.md` への同値記録をセットで行う
 - Phase 12 再監査で follow-up 自体を同一 wave 内に解消した場合は、open set から除外し、`docs/30-workflows/completed-tasks/unassigned-task/` へ完了移管した path を current fact として残す
 - `open` と `done` を同じ表に並べる場合は、`status` 列か等価な記法で未完了と完了移管を明示し、`documentation-changelog.md` / `system-spec-update-summary.md` / `task-workflow-backlog.md` の記述粒度をそろえる
+
+標準表は `検出項目 / status(open|done|baseline|duplicate) / formalize decision / path / 根拠` を基本形にする。current wave で解消した項目は `done`、既存未解消だが今回差分起因でないものは `baseline`、既存タスクと同義なら `duplicate` と明記する。
 
 ## Task 12-5: skill feedback
 

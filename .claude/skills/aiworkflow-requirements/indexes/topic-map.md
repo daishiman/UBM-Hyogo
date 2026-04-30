@@ -271,8 +271,8 @@ node scripts/list-specs.js --topics
 | セキュリティアーキテクチャ | L146 |
 | 状態管理アーキテクチャ | L180 |
 | データフローアーキテクチャ | L217 |
-| ディレクトリ構造 | L264 |
-| データ構造（型システム） | L323 |
+| ディレクトリ構造 | L265 |
+| データ構造（型システム） | L324 |
 
 ### references/architecture-overview-details.md
 
@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L155 |
-| UBM-Hyogo Admin Sync API（03a） | L176 |
-| UBM-Hyogo Member Self-Service API（04b） | L198 |
-| Desktop IPC API サマリー | L216 |
-| 変更履歴 | L247 |
-| 関連ドキュメント | L263 |
+| エンドポイント命名規則 | L183 |
+| UBM-Hyogo Admin Sync API（03a） | L204 |
+| UBM-Hyogo Member Self-Service API（04b） | L226 |
+| Desktop IPC API サマリー | L244 |
+| 変更履歴 | L275 |
+| 関連ドキュメント | L292 |
 
 ### references/api-internal-chunk-search.md
 
@@ -969,10 +969,10 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L142 |
 | UBM-Hyogo D1 Repository 契約（02b） | L172 |
-| エラーハンドリング | L211 |
-| Conversation DB 初期化パターン | L242 |
-| UBM-Hyogo Schema Sync Contract（03a） | L244 |
-| ベクトル検索実装（DiskANN） | L301 |
+| エラーハンドリング | L212 |
+| Conversation DB 初期化パターン | L243 |
+| UBM-Hyogo Schema Sync Contract（03a） | L245 |
+| ベクトル検索実装（DiskANN） | L302 |
 
 ### references/database-implementation-details.md
 
@@ -996,6 +996,16 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 
+### references/database-indexes.md
+
+| セクション | 行 |
+|------------|----|
+| ワークフロー関連 | L5 |
+| チャット関連 | L16 |
+| RAG関連 | L27 |
+| Knowledge Graph関連 | L38 |
+| 関連ドキュメント | L60 |
+
 ### references/database-operations.md
 
 | セクション | 行 |
@@ -1006,23 +1016,49 @@ node scripts/list-specs.js --topics
 | Electron ローカルストレージ | L103 |
 | 関連ドキュメント | L166 |
 
+### references/database-schema-07b-schema-alias-assignment.md
+
+| セクション | 行 |
+|------------|----|
+| 07b Table Responsibilities | L9 |
+| Current D1 Delta Absorption | L18 |
+| Fixed Runtime Values | L24 |
+| Follow-up Boundary | L35 |
+
+### references/database-schema-ddl-template.md
+
+| セクション | 行 |
+|------------|----|
+| テーブル別セクション分割テンプレ | L5 |
+| 制約一覧表テンプレ | L22 |
+| 運用メモ | L30 |
+| 関連ドキュメント | L36 |
+
+### references/database-schema-index.md
+
+| セクション | 行 |
+|------------|----|
+| 関連ドキュメント | L5 |
+| 変更履歴 | L14 |
+
 ### references/database-schema.md
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L8 |
-| テーブル一覧 | L13 |
-| UBM 会員 Forms 同期テーブル（03b） | L45 |
-| ワークフロー関連テーブル | L60 |
-| ユーザー関連テーブル | L99 |
-| システムプロンプト関連テーブル | L133 |
+| 概要 | L6 |
+| テーブル一覧 | L11 |
+| UBM 会員 Forms 同期テーブル（03b） | L43 |
+| Schema alias assignment workflow（07b） | L58 |
+| ワークフロー関連テーブル | L62 |
+| ユーザー関連テーブル | L101 |
+| システムプロンプト関連テーブル | L135 |
 | チャット関連テーブル | L170 |
 | RAG関連テーブル | L206 |
 | Knowledge Graph関連テーブル | L248 |
 | 変換処理関連テーブル | L382 |
 | インデックス設計 | L441 |
-| 関連ドキュメント | L500 |
-| 変更履歴 | L510 |
+| 関連ドキュメント / 変更履歴 | L445 |
+| DDL 同期テンプレ | L450 |
 
 ---
 
@@ -2191,6 +2227,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L110 |
 | Validation Chain | L119 |
 
+### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L19 |
+| Phase Outputs（current canonical set） | L33 |
+| 主要実装物 | L42 |
+| Skill 反映先（current canonical set） | L72 |
+| 実装で確定した値 | L87 |
+| Follow-up 未タスク（formalize 済み） | L97 |
+| Validation Chain | L103 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2582,17 +2631,18 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L53 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L130 |
-| Cloudflare D1 データベース | L242 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L275 |
-| GitHub Actions CI/CD | L387 |
-| プレビューデプロイメント | L434 |
-| カスタムドメイン設定 | L450 |
-| 環境分離 | L463 |
-| ロールバック戦略 | L473 |
-| モニタリング/アラート（UT-08 連携） | L494 |
-| 変更履歴 | L511 |
+| API Worker Cron（u-04 Sheets → D1 sync） | L51 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L76 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L163 |
+| Cloudflare D1 データベース | L281 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L314 |
+| GitHub Actions CI/CD | L426 |
+| プレビューデプロイメント | L455 |
+| カスタムドメイン設定 | L471 |
+| 環境分離 | L484 |
+| ロールバック戦略 | L494 |
+| モニタリング/アラート（UT-08 連携） | L515 |
+| 変更履歴 | L532 |
 
 ### references/deployment-core.md
 
@@ -2601,8 +2651,8 @@ node scripts/list-specs.js --topics
 | デプロイメント戦略概要 | L6 |
 | Cloudflare デプロイ戦略 | L54 |
 | GitHub Actions CI/CD パイプライン | L101 |
-| ロールバック戦略 | L144 |
-| 変更履歴 | L190 |
+| ロールバック戦略 | L149 |
+| 変更履歴 | L195 |
 
 ### references/deployment-details.md
 
@@ -2619,16 +2669,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L48 |
-| キャッシュ戦略 | L82 |
-| 並列実行の活用 | L105 |
-| CD ワークフロー要件（dev / main マージ時） | L161 |
-| Backend ワークフロー要件（dev / main マージ時） | L185 |
-| モニタリングとアラート | L205 |
-| GitHub Secrets の要件 | L239 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L263 |
-| 関連ドキュメント | L283 |
-| 変更履歴 | L290 |
+| CI ワークフロー要件（PR 時） | L54 |
+| キャッシュ戦略 | L90 |
+| 並列実行の活用 | L113 |
+| CD ワークフロー要件（dev / main マージ時） | L169 |
+| Backend ワークフロー要件（dev / main マージ時） | L195 |
+| モニタリングとアラート | L217 |
+| GitHub Secrets の要件 | L251 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L275 |
+| 関連ドキュメント | L295 |
+| 変更履歴 | L302 |
 
 ### references/deployment-history.md
 
@@ -2761,14 +2811,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L98 |
-| 環境別設定 | L172 |
-| Electron アプリでの環境変数 | L226 |
-| トラブルシューティング | L283 |
-| チーム開発での運用 | L344 |
-| 必須環境変数一覧 | L383 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L452 |
-| 関連ドキュメント | L472 |
+| セキュリティベストプラクティス | L101 |
+| 環境別設定 | L175 |
+| Electron アプリでの環境変数 | L229 |
+| トラブルシューティング | L286 |
+| チーム開発での運用 | L347 |
+| 必須環境変数一覧 | L386 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L458 |
+| 関連ドキュメント | L478 |
 
 ### references/error-handling-core.md
 
@@ -2966,6 +3016,41 @@ node scripts/list-specs.js --topics
 | 関連未タスク・後続 wave 連携 | L60 |
 | 参照 | L68 |
 
+### references/lessons-learned-07a-tag-queue-resolve-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-07A-001: spec 語と DB/API 語は alias 表で固定する | L3 |
+| L-07A-002: D1 batch 後の changes 判定で race を扱わない | L7 |
+| L-07A-003: Phase 12 の follow-up は unassigned-task 実体まで作る | L11 |
+| L-07A-004: API-only / NON_VISUAL でも Phase 11 evidence を明示する | L15 |
+| L-07A-005: admin client 契約は UI 実装タスクの stale 記述を同 wave で直す | L19 |
+
+### references/lessons-learned-07b-schema-alias-assignment-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-07B-001: 仕様書 DB スキーマと実 D1 schema の差分を実装前に grep で照合する | L10 |
+| L-07B-002: dryRun と apply は副作用境界（audit_log / queue 遷移）も含めて完全分離する | L18 |
+| L-07B-003: stableKey collision は revision-scoped UNIQUE pre-check + 422 で防御し、DB UNIQUE index は別タスクに切り出す | L26 |
+| L-07B-004: back-fill は batch サイズと CPU budget の二重ガードで Workers 30s 制限を逃げる | L34 |
+| L-07B-005: alias 候補提案は score 関数を service 層に分離し、Levenshtein + section/index で stateless に保つ | L42 |
+| 関連未タスク・後続 wave 連携 | L50 |
+| 参照 | L57 |
+
+### references/lessons-learned-07c-attendance-audit-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-07C-001: duplicate attendance は 409 + existing row を一緒に返す | L10 |
+| L-07C-002: audit_log の actor は middleware から service へ明示注入する | L18 |
+| L-07C-003: candidates 列挙は LEFT JOIN + 単一 SELECT で複合除外を構造化する | L26 |
+| L-07C-004: 異常系の HTTP status を repository の Result 型 reason enum で分岐する | L34 |
+| L-07C-005: audit projection は API response projection と独立させる | L42 |
+| 関連未タスク・後続 wave 連携 | L50 |
+| skill 改善フィードバック（task-specification-creator 反映済み） | L57 |
+| 参照 | L62 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -3015,6 +3100,15 @@ node scripts/list-specs.js --topics
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
 
+### references/lessons-learned-sync-merge-hook-skip-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L11 |
+| 結論 (個人開発運用ポリシー) | L20 |
+| 教訓 (Lesson IDs) | L29 |
+| 関連 | L37 |
+
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
 | セクション | 行 |
@@ -3052,6 +3146,13 @@ node scripts/list-specs.js --topics
 | L-UT28-004: `compatibility_date` と `compatibility_flags` を Pages / Workers で同一値に固定する | L42 |
 | L-UT28-005: OpenNext output-form 不整合は UT-28 で patch せず、UT-05 / OpenNext migration task に link する | L53 |
 | 関連参照 | L66 |
+
+### references/lessons-learned-ut-cicd-drift-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 教訓 | L7 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -3097,8 +3198,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L55 |
-| 関連ドキュメント | L60 |
+| 利用順序 | L60 |
+| 関連ドキュメント | L65 |
 
 ### references/llm-embedding.md
 

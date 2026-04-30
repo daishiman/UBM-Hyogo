@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-29 - Phase 12 一括 SubAgent 実行プロファイル反映
+
+`docs/30-workflows/ut-04-d1-schema-design/` の Phase 12 close-out 監査で、Phase 12 成果物検証、system spec sync、unassigned 整理、skill feedback が複数 skill に分散しており、SubAgent 出力だけでは記録と実変更の drift が残りやすいことを確認した。`references/phase-12-documentation-guide.md` に一括 SubAgent 実行プロファイルを追加し、監査は並列、編集は ownership 固定で直列、Step 2 判定 owner は system spec lane に固定、未タスク表は `open / done / baseline / duplicate` を明示、最終判定は validator 実測値・artifact existence・mirror diff・500 行制限で閉じる運用を正本化した。`SKILL.md` 変更履歴にも v2026.04.29-phase12-subagent-profile を追加。commit / PR / push は未実行。
+
 ## 2026-04-29 - UT-01 Sheets→D1 sync design Phase 12 review hardening
 
 `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/` を docs-only / NON_VISUAL / spec_created として再監査し、Phase 1〜12 の `artifacts.json` status を `spec_created` に同期した。Phase 12 same-wave sync の pending 表現を実ファイル更新済みに補正し、30種思考法レビューで検出した既存 `apps/api` 実装との差分（`sync_log` vs `sync_job_logs` / `sync_locks`、status / trigger enum、retry 3 vs 5、offset resume、shared 契約型なし）を U-7〜U-10 として未タスク化。Phase 10 MINOR 6 件（TECH-M-01〜04 / TECH-M-DRY-01 / MINOR-M-Q-01）を Phase 12 に全量転記し、Phase 12 compliance を PASS に戻した。commit / PR / push は未実行。
@@ -2535,3 +2539,13 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `docs/30-workflows/completed-tasks/task-husky-rejection-adr/`、`doc/decisions/`、`docs/30-workflows/unassigned-task/task-adr-template-standardization.md`、`docs/30-workflows/unassigned-task/task-lefthook-ops-adr-backlink.md` |
 | 結果 | Phase 12 implementation guide を Part 1 / Part 2 必須構成へ再構成し、ADR ID を ADR-0001 に統一。Phase 11 に screenshot 不要理由を明記し、関連タスク参照切れを実在パスへ是正。Phase 1〜12 status を completed に同期し、Phase 13 は pending_user_approval を維持した。後続フォローアップ #156 / #157 を formalize |
 | 検証 | `validate-phase12-implementation-guide.js --workflow docs/30-workflows/completed-tasks/task-husky-rejection-adr --json` と `validate-phase11-screenshot-coverage.js --workflow docs/30-workflows/completed-tasks/task-husky-rejection-adr --json` を再実行対象として記録 |
+
+## 2026-04-29 - UT-CICD-DRIFT docs-only close-out 据え置きルール運用実例
+
+- 対象タスク: `docs/30-workflows/completed-tasks/ut-cicd-workflow-topology-drift-cleanup/`
+- タスク種別: docs-only / specification-cleanup / NON_VISUAL
+- Phase 12 完了時点で `metadata.workflow_state` を `spec_created` のまま据え置く運用を実例として記録。
+- 据え置き根拠: `apps/` / `packages/` 配下の変更が 0 件であり、`implemented` への昇格条件（実コード変更の merge）を満たさない。`metadata.docsOnly = true`。
+- 派生 IMPL タスクは `UT-CICD-DRIFT-IMPL-*` として `unassigned-task/` に formalize。本タスクは `implemented` を経由せず、派生タスク群が将来 close されることで topology が完成する。
+- Phase 12 spec の compliance check で `git status` の `apps/` / `packages/` 0 件・`workflow_state == "spec_created"` の両条件を必須項目として運用。
+- 改善示唆: `references/phase-12-spec.md` に「docs-only タスクの close-out では `workflow_state` を `spec_created` のまま据え置く」セクションを追記する候補。`skill-feedback-report.md` に register。
