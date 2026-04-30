@@ -97,7 +97,7 @@ specs/ の章立てではなく **機能境界** で分解。共通基盤（Wave
 | ディレクトリ | 主責務 |
 | --- | --- |
 | [08a-parallel-api-contract-repository-and-authorization-tests](08a-parallel-api-contract-repository-and-authorization-tests/index.md) | 全 endpoint contract test、repository unit test、認可境界 test |
-| [08b-parallel-playwright-e2e-and-ui-acceptance-smoke](08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md) | Playwright で 09-ui-ux.md 検証マトリクス（desktop + mobile） |
+| [08b-parallel-playwright-e2e-and-ui-acceptance-smoke](../08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md) | Playwright scaffold で 09-ui-ux.md 検証マトリクス（desktop + mobile）を VISUAL_DEFERRED として定義 |
 
 ### Wave 9: release（2 parallel + 1 serial）
 

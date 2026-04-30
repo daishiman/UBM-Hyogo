@@ -32,7 +32,7 @@ Phase 1〜9 の成果物を総合し、release runbook + incident response runbo
 | 必須 | doc/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-07.md | AC matrix |
 | 必須 | doc/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-09.md | 品質 |
 | 必須 | doc/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/index.md | 上流 AC |
-| 必須 | doc/02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md | 上流 AC |
+| 必須 | ../../08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md | 上流 AC |
 | 必須 | docs/05a-parallel-observability-and-cost-guardrails/index.md | observability 上流 |
 
 ## 実行手順

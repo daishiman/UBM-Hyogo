@@ -2907,14 +2907,14 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L7 |
-| 使い方 | L15 |
-| Current Alias Overrides（個別互換行） | L22 |
-| Family Summary | L45 |
-| Detailed Register | L66 |
-| Section Extract Register (2026-03-17) | L247 |
-| 500-Line Split Register (2026-03-16) | L258 |
-| Fragment Migration Register (2026-04-28) | L280 |
+| 概要 | L8 |
+| 使い方 | L16 |
+| Current Alias Overrides（個別互換行） | L23 |
+| Family Summary | L47 |
+| Detailed Register | L68 |
+| Section Extract Register (2026-03-17) | L249 |
+| 500-Line Split Register (2026-03-16) | L260 |
+| Fragment Migration Register (2026-04-28) | L282 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -4667,18 +4667,18 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 変更履歴 | L8 |
-| 概要 | L18 |
-| テスト構成 | L24 |
-| セレクター戦略 | L48 |
-| 待機戦略 | L82 |
-| ヘルパー関数パターン | L118 |
-| テストスイート構造 | L163 |
-| アクセシビリティテスト | L210 |
-| beforeEachパターン | L245 |
-| テストスキップパターン | L271 |
-| CI/CD統合 | L287 |
-| デバッグパターン | L339 |
-| 関連ドキュメント | L361 |
+| 概要 | L19 |
+| テスト構成 | L43 |
+| セレクター戦略 | L67 |
+| 待機戦略 | L101 |
+| ヘルパー関数パターン | L137 |
+| テストスイート構造 | L182 |
+| アクセシビリティテスト | L229 |
+| beforeEachパターン | L264 |
+| テストスキップパターン | L290 |
+| CI/CD統合 | L306 |
+| デバッグパターン | L358 |
+| 関連ドキュメント | L380 |
 
 ### references/ui-history-components.md
 

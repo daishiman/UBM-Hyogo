@@ -1076,6 +1076,19 @@ packages/
 | audit | `attendance.add` / `attendance.remove`, `target_type='meeting'`, `target_id=sessionId`, POST は `after_json`, DELETE は `before_json` |
 | phase 11 判定 | API-only / NON_VISUAL。Vitest smoke evidence、visual は 08b/09a に委譲 |
 
+### UBM-Hyogo Playwright E2E Scaffold 早見（08b / 2026-04-30）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/` |
+| 状態 | `spec_created` / `scaffolding-only` / `VISUAL_DEFERRED` |
+| 実装 root | `apps/web/playwright.config.ts`, `apps/web/playwright/`, `.github/workflows/e2e-tests.yml` |
+| CI | `workflow_dispatch` の手動 scaffold。PR / push gate ではない |
+| spec 状態 | 7 spec は `test.describe.skip`。実行済み PASS と扱わない |
+| Phase 11 evidence | README / SCREENSHOT_LIST / placeholder のみ。PNG 0 件、real axe 未取得 |
+| full execution | `docs/30-workflows/unassigned-task/task-08b-playwright-e2e-full-execution-001.md` または 09a staging smoke |
+| gate 昇格条件 | Auth fixture / D1 seed / screenshot >= 30 / real Playwright report / real axe report / skipped spec 0 |
+
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |
