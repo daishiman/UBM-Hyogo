@@ -83,6 +83,19 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: モノレポ, レイヤー, Clean Architecture, RAG, Knowledge Graph
 
+### references/architecture-admin-api-client.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 構成図 | L15 |
+| 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
+| 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L174 |
+| 5. ステータスコード処理方針 | L231 |
+| 6. 環境変数 | L263 |
+| 7. 不変条件サマリ（admin API client / proxy） | L276 |
+| 8. 関連ドキュメント | L288 |
+
 ### references/architecture-auth-security-core.md
 
 | セクション | 行 |
@@ -1016,6 +1029,20 @@ node scripts/list-specs.js --topics
 ## UI/UX
 
 **関連キーワード**: Design Tokens, コンポーネント, Tailwind, レスポンシブ, Apple HIG
+
+### references/ui-ux-admin-dashboard.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 全体構成 | L15 |
+| 2. AdminSidebar | L50 |
+| 3. /admin（Dashboard） | L76 |
+| 4. /admin/members | L108 |
+| 5. /admin/tags | L201 |
+| 6. /admin/schema | L256 |
+| 7. /admin/meetings | L310 |
+| 8. 共通の Server/Client 契約 | L379 |
+| 9. 不変条件サマリ（admin UI） | L397 |
 
 ### references/ui-ux-advanced.md
 
@@ -2905,6 +2932,29 @@ node scripts/list-specs.js --topics
 | Lessons | L9 |
 | Follow-up Boundaries | L19 |
 
+### references/lessons-learned-06a-public-web-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-06A-001: App Router の route group `(public)` と既存 `app/page.tsx` のルート衝突 | L9 |
+| L-06A-002: Next.js 16 で `searchParams` / `params` が Promise 化された | L29 |
+| L-06A-003: density 用語の表記揺れと URL 値の正本化 | L51 |
+| L-06A-004: zod `catch` だけでは string 加工フォールバックに不足 | L73 |
+| L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
+| 横断教訓 | L116 |
+
+### references/lessons-learned-06c-admin-ui-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-06C-001: Phase 11 の実 screenshot は D1 fixture / staging admin 前提のとき後続 wave に委譲する | L10 |
+| L-06C-002: ESLint no-restricted-imports 正式導入は別 task 扱い、現状は `scripts/lint-boundaries.mjs` を境界の正本にする | L20 |
+| L-06C-003: Server Component（`server-fetch.ts`）と Client Component（`api.ts`）の責務分離を最初に設計する | L30 |
+| L-06C-004: tag 直接編集 UI と profile 直編集 UI を「作らない」ことを spec で明示拒否する | L40 |
+| L-06C-005: nested resource の 404（不在）と 409（重複・所有関係不整合）を UX feedback で別 toast に分ける | L50 |
+| 関連未タスク・後続 wave 連携 | L60 |
+| 参照 | L68 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -3002,6 +3052,16 @@ node scripts/list-specs.js --topics
 | 関連リレー先 | L81 |
 | 不変条件 touched | L90 |
 
+### references/lessons-learned-ut09-direction-reconciliation-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 6 件（L-UT09-001〜006） | L12 |
+| 運用ルール 2 件（reconciliation 系の固定運用） | L55 |
+| 同期完了サマリー（same-wave sync） | L62 |
+| 関連 unassigned-task（B-01〜B-10） | L74 |
+
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
 | セクション | 行 |
@@ -3015,8 +3075,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L50 |
-| 関連ドキュメント | L55 |
+| 利用順序 | L53 |
+| 関連ドキュメント | L58 |
 
 ### references/llm-embedding.md
 
@@ -4083,13 +4143,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L44 |
-| フェーズ構造（概要） | L53 |
-| 品質ゲート（概要） | L84 |
-| 出力テンプレート | L95 |
-| 実行時のコマンド・エージェント・スキル | L118 |
-| 昇格パターン集 | L142 |
-| Current Active / Spec Created Tasks | L144 |
+| ドキュメント構成 | L56 |
+| フェーズ構造（概要） | L65 |
+| 品質ゲート（概要） | L96 |
+| 出力テンプレート | L107 |
+| 実行時のコマンド・エージェント・スキル | L130 |
+| 昇格パターン集 | L154 |
+| Current Active / Spec Created Tasks | L156 |
 
 ### references/task-workflow-backlog-part2.md
 
