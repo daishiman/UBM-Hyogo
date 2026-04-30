@@ -2572,16 +2572,16 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L53 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L130 |
-| Cloudflare D1 データベース | L242 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L275 |
-| GitHub Actions CI/CD | L387 |
-| プレビューデプロイメント | L434 |
-| カスタムドメイン設定 | L450 |
-| 環境分離 | L463 |
-| ロールバック戦略 | L473 |
-| モニタリング/アラート（UT-08 連携） | L494 |
-| 変更履歴 | L511 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L140 |
+| Cloudflare D1 データベース | L258 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L291 |
+| GitHub Actions CI/CD | L403 |
+| プレビューデプロイメント | L432 |
+| カスタムドメイン設定 | L448 |
+| 環境分離 | L461 |
+| ロールバック戦略 | L471 |
+| モニタリング/アラート（UT-08 連携） | L492 |
+| 変更履歴 | L509 |
 
 ### references/deployment-core.md
 
@@ -2590,8 +2590,8 @@ node scripts/list-specs.js --topics
 | デプロイメント戦略概要 | L6 |
 | Cloudflare デプロイ戦略 | L54 |
 | GitHub Actions CI/CD パイプライン | L101 |
-| ロールバック戦略 | L144 |
-| 変更履歴 | L190 |
+| ロールバック戦略 | L149 |
+| 変更履歴 | L195 |
 
 ### references/deployment-details.md
 
@@ -2608,16 +2608,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L48 |
-| キャッシュ戦略 | L82 |
-| 並列実行の活用 | L105 |
-| CD ワークフロー要件（dev / main マージ時） | L161 |
-| Backend ワークフロー要件（dev / main マージ時） | L185 |
-| モニタリングとアラート | L205 |
-| GitHub Secrets の要件 | L239 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L263 |
-| 関連ドキュメント | L283 |
-| 変更履歴 | L290 |
+| CI ワークフロー要件（PR 時） | L52 |
+| キャッシュ戦略 | L88 |
+| 並列実行の活用 | L111 |
+| CD ワークフロー要件（dev / main マージ時） | L167 |
+| Backend ワークフロー要件（dev / main マージ時） | L193 |
+| モニタリングとアラート | L215 |
+| GitHub Secrets の要件 | L249 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L273 |
+| 関連ドキュメント | L293 |
+| 変更履歴 | L300 |
 
 ### references/deployment-history.md
 
@@ -3051,6 +3051,13 @@ node scripts/list-specs.js --topics
 | L-UT28-004: `compatibility_date` と `compatibility_flags` を Pages / Workers で同一値に固定する | L42 |
 | L-UT28-005: OpenNext output-form 不整合は UT-28 で patch せず、UT-05 / OpenNext migration task に link する | L53 |
 | 関連参照 | L66 |
+
+### references/lessons-learned-ut-cicd-drift-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 教訓 | L7 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
