@@ -97,6 +97,14 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 
 `spec_created` ステータスの UI task でも Phase 12 実行時は Step 1-A〜1-C を N/A にせず same-wave sync で閉じる。
 
+### Phase 12 close-out hardening（2026-04-30）
+
+Phase 12 の system spec update は classification-first で対象を選ぶ。責務が違う場合は semantic filename で新規 family file / artifact inventory を作り、旧 filename / 旧 path がある場合は `legacy-ordinal-family-register.md` を同一 wave で更新する。
+
+Step 2 は新規 API 追加だけでなく、stale contract withdrawal、internal write-target replacement、security / data boundary hardening でも発火する。PASS は成果物の実体、validator 実測、same-wave sync 証跡が揃った後にだけ記録する。
+
+同一 wave の必須同期先: current canonical set、artifact inventory、parent docs、task-workflow、lessons-learned、LOGS、topic-map、quick-reference、resource-map。mirror は存在する場合のみ sync し、`diff -qr` で確認する。
+
 | Step     | `spec_created` での扱い                                                   |
 | -------- | ------------------------------------------------------------------------- |
 | Step 1-A | 完了タスク記録 + LOGS.md x2 + SKILL.md x2 + topic-map を same-wave で更新 |

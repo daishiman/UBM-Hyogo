@@ -38,6 +38,8 @@
 
 ### 9.2 ファイル名
 
+Skill 更新時も classification-first で責務を切る。新規 reference は内容を表す semantic filename を使い、旧 ordinal / legacy filename を残す場合は legacy register または近接 changelog に current path を明記する。mirror が存在する場合は rename と同じ wave で同期する。
+
 | ファイル種別 | 命名規則                                                 |
 | ------------ | -------------------------------------------------------- |
 | スクリプト   | `{{verb}}_{{target}}.py` または `{{verb}}_{{target}}.js` |

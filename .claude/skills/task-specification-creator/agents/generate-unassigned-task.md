@@ -88,7 +88,7 @@ Jez Humbleは『Continuous Delivery』の著者として、開発パイプライ
 | 各Phase成果物       | 「将来対応」「TODO」「FIXME」コメント | ✅ |
 | コードコメント      | TODO/FIXME/HACK/XXX                | ✅   |
 
-**⚠️ 重要**: 検出した候補は優先度(P1/P2/P3)に関わらず **全件を最終テーブルに記録** し、`docs/30-workflows/unassigned-task/` にタスク指示書を配置すること。P3（低優先度）であっても「検出したが記録しない」は不可。
+**⚠️ 重要**: 検出した候補は優先度(P1/P2/P3)に関わらず **全件を最終テーブルに記録** すること。配置先は source workflow state で分類する。active / future implementation は `docs/30-workflows/unassigned-task/`、completed workflow に閉じた follow-up は `docs/30-workflows/completed-tasks/<workflow>/unassigned-task/`、standalone completed spec は `docs/30-workflows/completed-tasks/<task>/` とする。P3（低優先度）であっても「検出したが記録しない」は不可。
 
 **品質基準（Why/What/How）:**
 

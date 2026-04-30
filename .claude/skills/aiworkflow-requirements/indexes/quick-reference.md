@@ -5,6 +5,19 @@
 
 ---
 
+### Schema Alias Resolution Contract（issue-191 / 2026-04-30）
+
+07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。
+
+| 目的 | 参照先 |
+| --- | --- |
+| 正本 DB 契約 | `references/database-implementation-core.md`（§Schema Alias Resolution Contract） |
+| 13 Phase 補完仕様 | `docs/30-workflows/completed-tasks/issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring/` |
+| 07b stale contract 上書き | `docs/30-workflows/02-application-implementation/07b-parallel-schema-diff-alias-assignment-workflow/index.md` |
+| 実装 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-aliases-implementation-001.md` |
+| fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
+| direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
+
 ## よく使うパターン
 
 > **検索パターン集・コードパターン早見は [quick-reference-search-patterns.md](quick-reference-search-patterns.md) に分離**

@@ -1,6 +1,7 @@
 # Legacy Ordinal Family Register
 
-> 最終更新日: 2026-04-29
+> 最終更新日: 2026-04-30
+> NOTE (2026-04-30 / issue-191-schema-aliases): 本 wave では legacy rename なし。`references/lessons-learned-issue-191-schema-aliases-2026-04.md` は current lessons hub に登録済みで、path alias 追加は不要。
 > NOTE (2026-04-28 / TASK-SKILL-CODEX-VALIDATION-001): 本タスクの rename 対象は `__tests__/fixtures/*/SKILL.md` → `*.fixture` の **拡張子変更**のみで、`references/` 配下の semantic family rename は行っていない。よって本 register への新規 family エントリ追加は **不要**。fixture 拡張子戦略の詳細は `topic-map-skill-authoring.md` §3 を参照。
 > 目的: 旧 ordinal filename から current semantic filename への移行結果を family 単位で保持し、旧 citation や旧ログから current 名へ引き直せるようにする
 

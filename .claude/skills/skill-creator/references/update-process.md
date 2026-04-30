@@ -75,7 +75,7 @@ close-out remediation follow-up を同一 wave で解消した場合は、新規
 完了移管した follow-up は `docs/30-workflows/completed-tasks/unassigned-task/` へ移し、documentation changelog / system spec summary / backlog / completed ledger の open/done 記述を同じ粒度にそろえる
                             ↓
 Phase 4: 検証
-verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync → diff -qr
+verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync（mirror directory が存在する場合のみ）→ diff -qr
                             ↓
 Phase 5: フィードバック
 log-usage + LOGS.md + skill feedback report

@@ -358,7 +358,7 @@ UI機能実装の場合は次を推奨:
 ## 8. Phase 12 成果物チェック
 
 - [ ] `implementation-guide.md`
-- [ ] `spec-update-summary.md`
+- [ ] `system-spec-update-summary.md`（旧名 `spec-update-summary.md` は legacy alias としてのみ扱う）
 - [ ] `documentation-changelog.md`
 - [ ] `unassigned-task-detection.md`（標準）
 - [ ] 旧名 `unassigned-task-report.md` を新規作成していない（互換用途のみ・非推奨）

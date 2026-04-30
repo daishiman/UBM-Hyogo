@@ -41,4 +41,4 @@ diff -qr .claude/skills/task-specification-creator .agents/skills/task-specifica
 node scripts/log-usage.js --result success --phase "Phase {{N}}"
 ```
 
-Phase 12 では追加で `detect-unassigned-tasks.js`、`audit-unassigned-tasks.js`、`verify-unassigned-links.js`、`validate-phase12-implementation-guide.js` を実行する。
+Phase 12 は順序付きで検証する: `validate-phase-output` / `verify-all-specs` → `verify-unassigned-links --source` → `audit-unassigned-tasks --target-file`（必要なら `--completed-unassigned-dir`）→ `validate-phase12-implementation-guide --workflow` → workflow `generate-index --regenerate` → aiworkflow `generate-index.js` → `validate-structure.js`。mirror directory が存在する skill だけ `rsync` と `diff -qr` を実行する。存在しない `.agents/skills/<skill>` への `diff -qr` は PASS 条件にしない。
