@@ -1,0 +1,8 @@
+{
+  "source_path": "docs/30-workflows/completed-tasks/ut-gov-004-required-status-checks-context-sync/outputs/phase-08/confirmed-contexts.yml",
+  "source_task": "UT-GOV-004",
+  "extracted_at": "2026-04-30T00:00:00+09:00",
+  "dev": ["ci", "Validate Build", "verify-indexes-up-to-date"],
+  "main": ["ci", "Validate Build", "verify-indexes-up-to-date"],
+  "notes": "Derived from confirmed-contexts.yml required_status_checks.contexts. Phase 13 must re-confirm upstream freshness before real PUT."
+}

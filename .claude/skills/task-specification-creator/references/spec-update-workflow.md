@@ -18,6 +18,14 @@
 3. Step 2 が不要でも、判断根拠を `documentation-changelog.md` と `system-spec-update-summary.md` に残す。
 4. final validation を通してから Phase 12 を閉じる。
 
+### 外部状態を最終正本にする task の Step 2 判定
+
+GitHub branch protection など、外部サービスの GET 結果が最終正本になる task では、Phase 12 の予定 payload だけで references 本文へ final state を書かない。
+
+- Phase 12: Step 1 で workflow / LOGS / indexes / active task を同期し、Step 2 は「Phase 13 applied evidence 後に別 task」として分離できる。
+- Phase 13 後: fresh GET output、drift-check、manual-verification-log を evidence として、aiworkflow-requirements references へ final state を反映する。
+- 禁止: placeholder JSON、reserved path、`blocked_until_user_approval` の記述を実適用 evidence として扱うこと。
+
 ## 詳細資料インデックス
 
 | 資料 | 内容 |

@@ -2287,6 +2287,17 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
 
+### references/workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L13 |
+| Phase Outputs | L21 |
+| Skill 反映先 | L33 |
+| Follow-up | L44 |
+| Validation Chain | L50 |
+
 ### references/workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md
 
 | セクション | 行 |
@@ -2359,6 +2370,19 @@ node scripts/list-specs.js --topics
 | SSOT クイック参照 | L86 |
 | 派生未タスク | L100 |
 | 関連リンク | L108 |
+
+### references/workflow-utgov001-second-stage-reapply-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Phase 別 outputs（13 phases） | L9 |
+| 2. 入力契約（UT-GOV-004 由来 / 唯一の機械可読正本） | L27 |
+| 3. 出力契約（適用後 GET 正本） | L35 |
+| 4. 受入条件（AC-1〜AC-14）抜粋 | L43 |
+| 5. branch protection 運用ルール（second-stage 固有） | L62 |
+| 6. skill 反映先（aiworkflow-requirements / task-specification-creator） | L72 |
+| 7. リレー先未タスク（Phase 12 unassigned-task-detection 由来） | L86 |
+| 8. 不変条件 touched | L95 |
 
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
@@ -2924,12 +2948,12 @@ node scripts/list-specs.js --topics
 | 概要 | L7 |
 | 使い方 | L15 |
 | Current Alias Overrides（個別互換行） | L22 |
-| Family Summary | L45 |
-| Detailed Register | L66 |
-| Section Extract Register (2026-03-17) | L247 |
-| 500-Line Split Register (2026-03-16) | L258 |
-| Fragment Migration Register (2026-04-28) | L280 |
-| Task Root Path Drift Register (2026-04-30 追記) | L307 |
+| Family Summary | L46 |
+| Detailed Register | L67 |
+| Section Extract Register (2026-03-17) | L248 |
+| 500-Line Split Register (2026-03-16) | L259 |
+| Fragment Migration Register (2026-04-28) | L281 |
+| Task Root Path Drift Register (2026-04-30 追記) | L308 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3188,6 +3212,18 @@ node scripts/list-specs.js --topics
 | 同期完了サマリー（same-wave sync） | L62 |
 | 関連 unassigned-task（B-01〜B-10） | L74 |
 
+### references/lessons-learned-utgov001-second-stage-reapply-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 8 件（index.md §苦戦箇所・知見 由来） | L12 |
+| 同期完了サマリー（same-wave sync） | L86 |
+| skill 改善フィードバック（skill-feedback-report.md 由来） | L98 |
+| 関連リレー先 / 連鎖発火タスク | L107 |
+| 不変条件 touched | L116 |
+| 関連参照 | L120 |
+
 ### references/lessons-learned-verify-indexes-ci-2026-04.md
 
 | セクション | 行 |
@@ -3201,8 +3237,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L60 |
-| 関連ドキュメント | L65 |
+| 利用順序 | L61 |
+| 関連ドキュメント | L66 |
 
 ### references/llm-embedding.md
 
