@@ -977,6 +977,7 @@ packages/
 | ブランチ戦略（feature→dev→main） | `references/deployment-branch-strategy.md` |
 | シークレット管理（CF/GitHub） | `references/deployment-secrets-management.md` |
 | UT-27 GitHub Secrets / Variables 配置決定マトリクス | `references/deployment-gha.md`（UT-27 章）|
+| `CLOUDFLARE_ACCOUNT_ID` 参照規約 | GitHub Repository Variable として管理し、workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` を使う（Secret ではない） |
 | UT-27 1Password 正本→GitHub 派生コピー同期パターン（`op read` + 一時環境変数 + `unset` + Last-Updated メモ） | `references/deployment-secrets-management.md`（UT-27 章）|
 | UT-27 `if: secrets.X != ''` 無音失敗の env 受け shell 判定回避 / 同名併存禁止 / API Token 最小スコープ + 命名規則 / rollback 3 経路 | `references/deployment-gha.md` + `references/deployment-secrets-management.md` + `lessons-learned/lessons-learned-ut-27-github-secrets-variables-2026-04.md`（L-UT27-001〜006）|
 | インテグレーションパッケージ設計 | `references/arch-integration-packages.md` |
