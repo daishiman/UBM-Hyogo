@@ -1,0 +1,25 @@
+{
+  "status": "pending",
+  "note": "Phase 11 実行時に @axe-core/playwright が WCAG 2.1 AA scan で生成する placeholder。実 scan 結果はここに上書きされる。",
+  "expected_violations": 0,
+  "scope": ["main", "navigation", "form"],
+  "wcag_tags": ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"],
+  "expected_paths": [
+    { "url": "/", "viewports": ["desktop", "mobile"] },
+    { "url": "/members", "viewports": ["desktop", "mobile"] },
+    { "url": "/members/[id]", "viewports": ["desktop", "mobile"] },
+    { "url": "/register", "viewports": ["desktop", "mobile"] },
+    { "url": "/login", "viewports": ["desktop", "mobile"], "states": ["input", "sent", "unregistered", "rules_declined", "deleted"] },
+    { "url": "/profile", "viewports": ["desktop", "mobile"] },
+    { "url": "/admin", "viewports": ["desktop"] },
+    { "url": "/admin/members", "viewports": ["desktop"] }
+  ],
+  "expected_total_runs": 14,
+  "gate": {
+    "critical": 0,
+    "serious": 0
+  },
+  "generated_by": "Phase 11 scaffolding (08b spec_created)",
+  "generated_at": "2026-04-30",
+  "violations": []
+}

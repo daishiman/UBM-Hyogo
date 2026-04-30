@@ -48,6 +48,29 @@ UT-06 canonical 前提・5 ゲート → [`deployment-cloudflare-ut06-gate.md`](
 
 production Worker 名を top-level `name` から分離する場合は、production deploy 前に route / custom domain / secrets / observability の対象 Worker を確認する。`apps/web` の deploy / rollback / tail / secret 操作は `bash scripts/cf.sh ... --config apps/web/wrangler.toml --env <env>` 経由に統一し、`wrangler types` のようなローカル型生成とは分離して扱う。
 
+## API Worker Cron（u-04 Sheets → D1 sync）
+
+u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation/`) で、Google Sheets → D1 の scheduled sync を `apps/api` Worker に追加した。
+
+| 項目 | 値 |
+| --- | --- |
+| Cron | `0 * * * *`（毎時 0 分） |
+| 実装 | `apps/api/src/index.ts` `scheduled()` が cron `0 * * * *` の場合のみ `runScheduledSync(env)` を呼ぶ |
+| モジュール | `apps/api/src/sync/scheduled.ts` |
+| audit | `sync_job_logs` (`trigger_type='scheduled'`) |
+| 排他 | `sync_locks` + `withSyncMutex` |
+| Secret / var | `GOOGLE_SERVICE_ACCOUNT_JSON`, `SHEETS_SPREADSHEET_ID`, `SYNC_RANGE`, `SYNC_MAX_RETRIES=3`, `SYNC_ADMIN_TOKEN` |
+
+既存 cron との分岐:
+
+| Cron | 用途 |
+| --- | --- |
+| `*/15 * * * *` | 03b Google Forms response sync |
+| `0 18 * * *` | 03a Google Forms schema sync（03:00 JST） |
+| `0 * * * *` | u-04 Sheets → D1 scheduled sync |
+
+実機 staging smoke は 05b、cron 監視と 30 分超 running alert は 09b の責務とする。
+
 ---
 
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）
@@ -182,6 +205,8 @@ name = "ubm-hyogo-api"
 ### API Worker cron / Forms response sync（03b）
 
 `apps/api` は二種類の cron を持つ。
+
+> **UT-21 close-out note (2026-04-30)**: 下表の Sheets 由来 cron / `runSync` / Sheets API v4 説明は legacy current-fact の残存であり、現行正本は Forms sync（`forms.get` / `forms.responses.list`、`POST /admin/sync/schema` / `POST /admin/sync/responses`、`sync_jobs` ledger）である。runtime cron / wrangler 設定の撤回・整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱い、本 close-out では `apps/api/wrangler.toml` を変更しない。
 
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |

@@ -89,7 +89,7 @@ specs/ の章立てではなく **機能境界** で分解。共通基盤（Wave
 | ディレクトリ | 主責務 |
 | --- | --- |
 | [07a-parallel-tag-assignment-queue-resolve-workflow](../completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/index.md) | tag_assignment_queue の candidate → confirmed → member_tags 反映 workflow |
-| [07b-parallel-schema-diff-alias-assignment-workflow](07b-parallel-schema-diff-alias-assignment-workflow/index.md) | schema_diff_queue の alias 割当 workflow（stableKey 更新） |
+| [07b-parallel-schema-diff-alias-assignment-workflow](../completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/index.md) | schema_diff_queue の alias 割当 workflow（issue-191 により `schema_aliases` 書き込みへ上書き） |
 | [07c-parallel-meeting-attendance-and-admin-audit-log-workflow](07c-parallel-meeting-attendance-and-admin-audit-log-workflow/index.md) | meeting attendance 重複防止 + 削除済み会員除外 + admin 操作 audit log |
 
 ### Wave 8: tests（2 parallel）
@@ -97,7 +97,7 @@ specs/ の章立てではなく **機能境界** で分解。共通基盤（Wave
 | ディレクトリ | 主責務 |
 | --- | --- |
 | [08a-parallel-api-contract-repository-and-authorization-tests](08a-parallel-api-contract-repository-and-authorization-tests/index.md) | 全 endpoint contract test、repository unit test、認可境界 test |
-| [08b-parallel-playwright-e2e-and-ui-acceptance-smoke](08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md) | Playwright で 09-ui-ux.md 検証マトリクス（desktop + mobile） |
+| [08b-parallel-playwright-e2e-and-ui-acceptance-smoke](../08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md) | Playwright scaffold で 09-ui-ux.md 検証マトリクス（desktop + mobile）を VISUAL_DEFERRED として定義 |
 
 ### Wave 9: release（2 parallel + 1 serial）
 

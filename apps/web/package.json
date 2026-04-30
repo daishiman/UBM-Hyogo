@@ -12,7 +12,9 @@
     "preview:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web",
-    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include=\"apps/web/src/**/*.{ts,tsx}\" apps/web"
+    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include=\"apps/web/src/**/*.{ts,tsx}\" apps/web",
+    "test:e2e": "playwright test",
+    "test:e2e:list": "playwright test --list"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "1.19.4",
@@ -23,6 +25,8 @@
     "react-dom": "19.2.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@playwright/test": "^1.50.0",
     "@types/node": "24.10.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",

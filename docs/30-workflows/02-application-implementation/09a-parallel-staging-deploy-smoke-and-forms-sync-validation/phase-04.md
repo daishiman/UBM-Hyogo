@@ -29,8 +29,8 @@ staging deploy / sync 検証 / Playwright / smoke を「unit / contract / E2E / 
 
 | 種別 | パス | 用途 |
 | --- | --- | --- |
-| 必須 | doc/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/ | contract / authorization test の引き継ぎ |
-| 必須 | doc/02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/ | Playwright suite |
+| 必須 | doc/08a-parallel-api-contract-repository-and-authorization-tests/ | contract / authorization test の引き継ぎ |
+| 必須 | doc/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/ | Playwright suite |
 | 必須 | doc/00-getting-started-manual/specs/15-infrastructure-runbook.md | リリース前チェック |
 | 必須 | doc/00-getting-started-manual/specs/03-data-fetching.md | sync ジョブ検証点 |
 

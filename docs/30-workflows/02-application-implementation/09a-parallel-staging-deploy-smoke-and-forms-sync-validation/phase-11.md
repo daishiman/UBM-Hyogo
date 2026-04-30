@@ -32,7 +32,7 @@ Phase 10 で GO 判定された staging 環境に対して、人が screenshot /
 | --- | --- | --- |
 | 必須 | doc/02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/phase-05.md | runbook |
 | 必須 | doc/00-getting-started-manual/specs/09-ui-ux.md | UI 検証マトリクス |
-| 必須 | doc/02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/ | Playwright 結果 |
+| 必須 | ../../08b-parallel-playwright-e2e-and-ui-acceptance-smoke/ | Playwright 結果 |
 | 参考 | docs/05b-parallel-smoke-readiness-and-handoff/phase-11.md | manual smoke 構成 |
 
 ## 実行手順

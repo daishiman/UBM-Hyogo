@@ -30,7 +30,7 @@
 | 必須 | outputs/phase-02/main.md | endpoint signature |
 | 必須 | outputs/phase-03/main.md | 採用案 C |
 | 必須 | docs/00-getting-started-manual/specs/08-free-database.md | 制約一覧 |
-| 参考 | docs/30-workflows/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/index.md | 下流の contract test 受け入れ口 |
+| 参考 | docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/index.md | 下流の contract test 受け入れ口 |
 
 ## verify suite 設計
 

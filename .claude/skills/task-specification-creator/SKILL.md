@@ -26,9 +26,12 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.04.30-ut21-legacy-umbrella-closeout | 2026-04-30 | UT-21 Forms sync conflict close-out の Phase 12 feedback を反映。docs-only / NON_VISUAL / `spec_created` の legacy umbrella close-out では、旧仕様を削除せず状態欄で legacy 化し、現行正本・新設禁止 IF・後続 Uxx 分離先を `implementation-guide.md` / `system-spec-update-summary.md` / `unassigned-task-detection.md` に同時固定する運用例を追加。 |
+| v2026.04.30-08b-scaffolding-only-boundary | 2026-04-30 | 08b Playwright E2E Phase 12 review feedback を反映。コード scaffold はあるが実走しないタスクの `taskType=scaffolding-only` と `visualEvidence=VISUAL_DEFERRED` を `references/task-type-decision.md` に追加し、skipped spec / placeholder evidence / manual workflow を実測 PASS と扱わない運用を明確化。 |
 | v2026.04.30-07c-attendance-audit-closeout | 2026-04-30 | 07c attendance audit API Phase 12 feedback を反映。API-only implementation task では Phase 11 screenshot 要求を実装範囲に合わせて NON_VISUAL evidence へ縮約し、Phase 12 implementation-guide に API 型・request/response/error/edge case を必須記載する運用を明確化。root / outputs `artifacts.json` parity と実装タスクの `taskType=implementation` への更新漏れを再発防止対象に追加。 |
 | v2026.04.30-07a-status-alias-contract | 2026-04-30 | 07a tag queue resolve Phase 12 skill-feedback を反映。`references/phase-template-core.md` の Phase 2 ポイントに、既存 DB / API / shared schema の enum や status を拡張・alias する場合の **仕様語 ↔ 実装語対応表** と **追従対象（backend route / web client / shared zod / type / docs）** 明示を追加。`candidate/confirmed` と `queued/resolved` の drift、web client body、shared schema 追従漏れを再発防止する。 |
 | v2026.04.30-07b-schema-alias-closeout-feedback | 2026-04-30 | 07b schema alias workflow Phase 12 final review feedback。実DB schema と task spec の差分（`response_fields.questionId` / `is_deleted` 不在、`queued/resolved` 実 enum、revision-scoped stableKey 更新）を実装前に検出するため、Phase 2/4/12 では `apps/api/migrations/*.sql` と repository contract の grep 照合を必須確認にする。back-fill / dryRun / apply union を持つ workflow は「即時 alias 確定」と「再開可能 back-fill」を分けて記述し、単発 API atomic 前提を書かない。 |
+| v2026.04.30-utgov001-second-stage-reapply | 2026-04-30 | UT-GOV-001 second-stage reapply workflow review sync。implementation / NON_VISUAL / `spec_created` のまま Phase 13 approval + execute gate を扱う実例として、root / outputs `artifacts.json` parity、Phase 11 NON_VISUAL 必須3成果物 + 任意補助 `link-checklist.md`、Phase 12 7成果物、Phase 13 payload evidence path (`outputs/phase-13/branch-protection-payload-{dev,main}.json`) を揃える運用を反映。さらに `phase-template-phase13.md` / `phase-template-phase13-detail.md` に approval-gated NON_VISUAL implementation パターン（三役ゲート: user 承認 / 実 PUT / push&PR、rollback payload 上書き禁止 + merge前/後分離、コミット粒度 5 単位、Phase 13 fresh GET = applied evidence、`Refs #<issue>` 採用 / `Closes` 禁止）を正式テンプレ化し、`resource-map.md` から導線追加。 |
 | v2026.04.29-ut09-direction-reconciliation-closeout | 2026-04-29 | UT-09 direction reconciliation Phase 12 review sync。docs-only / direction-reconciliation でも「記述レベル PASS」と「実測 PASS」を分離し、validator 未実行・未起票 unassigned-task・stale references 撤回待ちは PASS 化しない運用を skill-feedback に記録。root / outputs `artifacts.json` parity は実同期を必須化。 |
 | v2026.04.29-phase12-subagent-profile | 2026-04-29 | Phase 12 feedback を反映。`references/phase-12-documentation-guide.md` に一括 SubAgent 実行プロファイルを追加し、監査並列 / 編集直列 / Step 2 判定 owner 固定 / open-done-baseline-duplicate 表 / validator 実測値で閉じる統合順を正本化。 |
 | v2026.04.29-ut-cicd-drift-phase12-sync | 2026-04-29 | UT-CICD-DRIFT Phase 12 feedback を反映。docs-only drift cleanup では `docs-only/current facts/impl delegation/既存タスク委譲` を drift matrix で分離し、存在しない派生IDを正本に残さない運用を `references/phase-template-phase12.md` に追記。workflow lint 未導入など検証未実施 gate は改善提案止まりにせず未タスク化する。 |
@@ -76,7 +79,7 @@ node scripts/detect-mode.js --request "{{USER_REQUEST}}"
 
 ## Phase 12 重要仕様（要約）
 
-Phase 12 は次の 5 タスクすべてが必須:
+Phase 12 は次の 5 必須タスクに加え、Task 6 compliance check（`outputs/phase-12/phase12-task-spec-compliance-check.md`）を作成し、最低 7 ファイルを実体確認する:
 
 1. 実装ガイド作成（Part 1 中学生レベル + Part 2 技術者レベル）
 2. システム仕様書更新（Step 1-A/B/C + 条件付き Step 2）
@@ -84,7 +87,7 @@ Phase 12 は次の 5 タスクすべてが必須:
 4. 未タスク検出レポート作成（**0 件でも出力必須**）
 5. スキルフィードバックレポート作成（**改善点なしでも出力必須**）
 
-詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。よくある漏れ（UBM-009〜013 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。
+詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。`spec_created` / docs-only / NON_VISUAL は root workflow state を据え置き、Phase status と 7 ファイル実体・current/baseline 監査値で検証する。よくある漏れ（UBM-009〜017 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。
 
 ## 重要ルール（要約）
 
