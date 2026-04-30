@@ -56,6 +56,7 @@ task-specification-creator/phase-11-12-guide → spec-update-workflow → primar
                             ↓
 Phase 2: concern 分離
 system spec / screenshot evidence / unassigned formalize / skill update + mirror に lane 分割
+監査 lane は並列実行してよいが、編集は単一 owner が直列適用する。read-only audit だけなら AskUserQuestion は開始条件にしない。実際に skill create/update/improve-prompt を実行する場合は SKILL.md の AskUserQuestion 制約を維持する。
                             ↓
 Phase 3: 実更新
 .claude 正本 / outputs / docs/30-workflows/unassigned-task / workflow-<feature>.md / current canonical set / artifact inventory / legacy register / topic-map を同一ターンで更新
@@ -86,7 +87,7 @@ approval-gated NON_VISUAL implementation では、placeholder evidence と runti
   - `.claude/skills/task-specification-creator/references/phase-template-phase13-detail.md`
                             ↓
 Phase 4: 検証
-verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync → diff -qr（対象 skill ごとの差分ゼロ出力を evidence に残す）
+verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync（mirror directory が存在する場合のみ）→ diff -qr（対象 skill ごとの差分ゼロ出力を evidence に残す）
                             ↓
 Phase 5: フィードバック
 log-usage + LOGS.md + skill feedback report

@@ -43,6 +43,8 @@ allowed-tools:
 
 ユーザーの回答なしに生成を開始してはならない。create / update / improve-prompt モードも、最初に深度確認の質問を行ってから着手する。
 
+**例外（読み取り監査のみ）**: 既存スキルの作成・更新・改善生成を行わず、ユーザーが対象範囲を具体指定し、かつ SubAgent などへ read-only audit を依頼するだけの場合は AskUserQuestion を省略してよい。監査結果を受けて実ファイルを編集する段階では、ユーザー指定済みの範囲に限定し、create / update / improve-prompt の対話フローを開始した扱いにしない。
+
 ## 設計原則
 
 | 原則                    | 説明                                       |

@@ -105,6 +105,7 @@ Phase 1 outputs（`requirements.md` または `artifacts.json`）に以下のチ
 | 他 wave への影響 | consumer wave の列挙（例: 04b は consumer / 07a は producer） |
 | 競合リスク | 同 schema を編集する並列 wave が他にあるか / 解決策（順序付け or 部分分割） |
 | migration 番号 / exports 改名の予約 | 重複防止のための番号予約・命名予約 |
+| test file ownership（並列 wave） | `__tests__/` 配下の cross-cutting test（authz / invariants / brand-type 等）はどの wave が ownership を持つか。wave 跨ぎでの重複作成を防ぐ（08a で `apps/api/src/__tests__/{authz-matrix,brand-type,invariants}.test.ts` を 08 wave 集約と確定した実例に倣う） |
 
 宣言が `no`（owner ではない）にも関わらず編集を実施した場合は、`unassigned-task-detection.md` でフォローアップタスクとして起票し、正式 owner wave へ補強差分の取り込みを依頼する。
 

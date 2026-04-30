@@ -8,10 +8,13 @@
 | タスク名 | D1 データスキーマ設計 |
 | 優先度 | HIGH |
 | 推奨Wave | Wave 1 |
-| 状態 | unassigned |
+| 状態 | spec_created |
 | 作成日 | 2026-04-23 |
 | 既存タスク組み込み | あり |
 | 組み込み先 | doc/01-infrastructure-setup/03-serial-data-source-and-storage-contract |
+
+> 後継 workflow: `docs/30-workflows/ut-04-d1-schema-design/`。
+> この原典は履歴として残置し、追加作業は後継 workflow または同 workflow の Phase 12 未タスクで管理する。
 
 ## 目的
 
@@ -48,7 +51,7 @@ Cloudflare D1 の初期スキーマ（テーブル定義 / インデックス / 
 
 **SQLite の型システムの制限**: Cloudflare D1 は SQLite ベースのため、DATETIME 型が実質 TEXT として保存される。日時の比較・ソート処理での動作を事前に確認し、ISO 8601 形式での統一を仕様化しておく必要がある。
 
-**マイグレーション番号管理**: Wrangler の `migrations/` ディレクトリではファイル名の番号順で適用されるため、dev/main 間でのマイグレーション番号の整合性管理が煩雑になりやすい。`0001_initial.sql` のような連番プレフィックス規約を早期に決定する。
+**マイグレーション番号管理**: Wrangler の `migrations/` ディレクトリではファイル名の辞書順で適用されるため、dev/main 間でのマイグレーション番号の整合性管理が煩雑になりやすい。後継 workflow では既存 `0001_init.sql`〜`0006_admin_member_notes_type.sql` を維持し、次回追加を `0007_<verb>_<target>.sql` 以降に固定する。
 
 **D1 の FOREIGN KEY 制約デフォルト無効**: SQLite / D1 では `PRAGMA foreign_keys = ON;` を明示しないと外部キー制約が有効にならない。Wrangler 経由での設定方法を確認し、マイグレーションファイルに明記する。
 

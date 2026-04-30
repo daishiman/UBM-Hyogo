@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "id": "UT-04",
+    "taskType": "implementation",
+    "docsOnly": true,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "github_issue": 53,
+    "wave": 1,
+    "wave_label": "Wave 1",
+    "priority": "HIGH",
+    "execution_mode": "parallel",
+    "created_at": "2026-04-29",
+    "scope": "schema_design_and_migration"
+  },
+  "task": {
+    "id": "UT-04",
+    "name": "ut-04-d1-schema-design",
+    "task_path": "docs/30-workflows/ut-04-d1-schema-design",
+    "status": "spec_created",
+    "depends_on": [
+      "03-serial-data-source-and-storage-contract",
+      "02-serial-monorepo-runtime-foundation",
+      "01b-parallel-cloudflare-base-bootstrap"
+    ],
+    "blocks": [
+      "ut-09-sheets-to-d1-cron-sync-job",
+      "ut-06-production-deploy",
+      "ut-21-sheets-d1-sync-endpoint-and-audit-implementation"
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/schema-design.md",
+        "outputs/phase-02/sheets-d1-mapping.md",
+        "outputs/phase-02/migration-strategy.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/test-strategy.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/implementation-runbook.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/failure-cases.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md",
+        "outputs/phase-09/free-tier-estimation.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/go-no-go.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke test",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    ".claude/skills/aiworkflow-requirements/references/database-schema.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md",
+    ".claude/skills/aiworkflow-requirements/references/architecture-overview-core.md",
+    "docs/00-getting-started-manual/specs/08-free-database.md",
+    "docs/00-getting-started-manual/google-form/01-design.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [
+    "member_responses",
+    "member_identities",
+    "member_status",
+    "response_fields",
+    "schema_diff_queue",
+    "sync_jobs"
+  ],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    1,
+    4,
+    5
+  ],
+  "doc_references": [
+    "docs/30-workflows/unassigned-task/UT-04-d1-schema-design.md",
+    "docs/01-infrastructure-setup/03-serial-data-source-and-storage-contract/index.md"
+  ]
+}

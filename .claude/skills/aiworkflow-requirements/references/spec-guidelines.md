@@ -28,6 +28,8 @@
 
 ## 命名規則
 
+仕様更新は classification-first で対象を決める。責務に合わない既存ファイルへ追記せず、semantic filename で分離する。旧連番・旧 path が関係する場合は `legacy-ordinal-family-register.md` を先に確認し、同一 wave で `resource-map` / `quick-reference` / `topic-map` / artifact inventory / mirror validation まで閉じる。
+
 ### ファイル命名
 
 ```

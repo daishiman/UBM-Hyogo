@@ -23,7 +23,13 @@ import { adminMeetingsRoute } from "./routes/admin/meetings";
 import { adminAttendanceRoute } from "./routes/admin/attendance";
 import { ctx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
-import { runSync, type SyncEnv } from "./jobs/sync-sheets-to-d1";
+import { type SyncEnv } from "./jobs/sync-sheets-to-d1";
+import {
+  manualSyncRoute,
+  backfillSyncRoute,
+  auditQueryRoute,
+  runScheduledSync,
+} from "./sync";
 import {
   runResponseSync,
   type ResponseSyncEnv,
@@ -32,6 +38,7 @@ import { runSchemaSync, ConflictError } from "./sync/schema";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
+import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
 import { createAuthRoute } from "./routes/auth";
 import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
@@ -50,6 +57,8 @@ interface Env extends SyncEnv, ResponseSyncEnv {
   readonly FORMS_SA_EMAIL?: string;
   readonly FORMS_SA_KEY?: string;
   readonly HEALTH_DB_TOKEN?: string;
+  // UT-26: Sheets API E2E smoke test 用 (dev/staging のみ)
+  readonly SMOKE_ADMIN_TOKEN?: string;
   // 05b: Magic Link / Auth provider 関連（AUTH_SECRET は 05a と共有）
   readonly AUTH_URL?: string;
   readonly MAIL_PROVIDER_KEY?: string;
@@ -218,6 +227,10 @@ app.route(
 app.get("/admin/healthz", (c) => c.json({ ok: true, scope: "admin" }));
 
 app.route("/admin", adminSyncRoute);
+// u-04: 正本 POST /admin/sync/run + POST /admin/sync/backfill + GET /admin/sync/audit
+app.route("/", manualSyncRoute);
+app.route("/", backfillSyncRoute);
+app.route("/", auditQueryRoute);
 // 03a: schema 同期 endpoint（POST /admin/sync/schema）
 app.route("/admin", adminSyncSchemaRoute);
 // 03b: response 同期 endpoint（POST /admin/sync/responses）
@@ -235,6 +248,9 @@ app.route("/admin", adminTagsQueueRoute);
 app.route("/admin", adminSchemaRoute);
 app.route("/admin", adminMeetingsRoute);
 app.route("/admin", adminAttendanceRoute);
+// UT-26: Sheets API E2E smoke route。production では route 内で 404 を返すため、
+// mount しても本番では露出しない (dev/staging のみで動作する)。
+app.route("/admin/smoke/sheets", createSmokeSheetsRoute());
 
 app.get("/health", (c) =>
   c.json({
@@ -316,6 +332,9 @@ export default {
       );
       return;
     }
-    ctx.waitUntil(runSync(env, { trigger: "cron" }));
+    if (cron === "0 * * * *") {
+      // u-04: 毎時 0 分の sheets→D1 scheduled sync。
+      ctx.waitUntil(runScheduledSync(env));
+    }
   },
 };
