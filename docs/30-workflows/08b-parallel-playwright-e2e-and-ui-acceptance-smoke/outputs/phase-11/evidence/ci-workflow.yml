@@ -1,0 +1,101 @@
+# Phase 11 evidence: CI workflow (E2E tests)
+#
+# 本ファイルは `.github/workflows/e2e-tests.yml` の copy（Phase 11 実行時に正本から差し替え）。
+# 後続実装 task が `cp .github/workflows/e2e-tests.yml outputs/phase-11/evidence/ci-workflow.yml` で更新する。
+# 本タスク（08b spec_created）では仕様骨子のみ記述。
+
+name: E2E Tests (Playwright)
+
+on:
+  pull_request:
+    branches: [dev, main]
+    paths:
+      - 'apps/web/**'
+      - 'apps/api/**'
+      - 'packages/**'
+      - '.github/workflows/e2e-tests.yml'
+  push:
+    branches: [dev, main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    name: Playwright E2E + a11y
+    runs-on: ubuntu-latest
+    timeout-minutes: 8  # 無料枠制約: 8 min 以内
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup mise (Node 24 + pnpm 10)
+        uses: jdx/mise-action@v2
+        with:
+          install: true
+          cache: true
+
+      - name: Install dependencies
+        run: mise exec -- pnpm install --frozen-lockfile
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Playwright browsers
+        run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium webkit
+
+      - name: Apply local D1 seed
+        run: bash scripts/cf.sh d1 execute ubm-hyogo-db-local --local --file=apps/api/test/fixtures/seed-e2e.sql
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+
+      - name: Run Playwright (desktop + mobile)
+        run: |
+          mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=desktop-chromium --project=mobile-webkit \
+            --reporter=html,list
+        env:
+          PLAYWRIGHT_HTML_REPORT: docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/playwright-report
+
+      - name: Verify screenshot count (>= 30)
+        run: |
+          DESKTOP=$(find docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/desktop -name '*.png' | wc -l)
+          MOBILE=$(find docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/mobile -name '*.png' | wc -l)
+          TOTAL=$((DESKTOP + MOBILE))
+          echo "screenshot count: desktop=$DESKTOP mobile=$MOBILE total=$TOTAL"
+          if [ "$TOTAL" -lt 30 ]; then
+            echo "::error::screenshot count $TOTAL < 30 (AC-7 fail)"
+            exit 1
+          fi
+
+      - name: Verify axe report violations == 0
+        run: |
+          VIOLATIONS=$(jq '[.violations[]?] | length' docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/axe-report.json)
+          if [ "$VIOLATIONS" != "0" ]; then
+            echo "::error::axe violations=$VIOLATIONS (AC-8 fail)"
+            exit 1
+          fi
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.run_id }}
+          path: docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/playwright-report
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-screenshots-${{ github.run_id }}
+          path: |
+            docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/desktop
+            docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/mobile
+          retention-days: 14

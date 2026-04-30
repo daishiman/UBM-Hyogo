@@ -13,6 +13,10 @@
 | 次 Phase | 6 (異常系検証) |
 | 状態 | pending |
 
+> issue-191 supersession:
+> 以下の旧 pseudo code に残る `UPDATE schema_questions SET stableKey` は stale contract。
+> 実装時は `schema_aliases` INSERT + `schema_diff_queue.status='resolved'` を同一 transaction / D1 batch に含める。
+
 ## 目的
 
 schema alias workflow 本体（apply / dryRun）、alias 推奨、back-fill batch、endpoint handler の実装手順を runbook + 擬似コード化する。
@@ -97,7 +101,7 @@ export async function schemaAliasAssign(env: Env, input: AliasAssignInput) {
 
   // tx (D1 batch)
   const stmts = []
-  stmts.push(env.DB.prepare(`UPDATE schema_questions SET stableKey=? WHERE id=? AND schemaVersionId=?`).bind(input.stableKey, input.questionId, question.schemaVersionId))
+  stmts.push(env.DB.prepare(`INSERT INTO schema_aliases (id, stable_key, alias_question_id, alias_label, source, resolved_by, resolved_at) VALUES (?,?,?,?,?,?,?)`).bind(crypto.randomUUID(), input.stableKey, input.questionId, question.label, 'manual', input.actorUserId, now))
   stmts.push(env.DB.prepare(`UPDATE schema_diff_queue SET status='resolved', resolved_at=?, resolved_by=? WHERE id=? AND status='queued'`).bind(now, input.actorUserId, queue.id))
   await env.DB.batch(stmts)
 

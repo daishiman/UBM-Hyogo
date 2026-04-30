@@ -13,7 +13,7 @@
 | 対象機能     | apps/web Cloudflare Workers production 配信 (`ubm-hyogo-web-production`)      |
 | 優先度       | High                                                                          |
 | 見積もり規模 | 小〜中規模                                                                    |
-| ステータス   | spec_pending                                                                  |
+| ステータス   | spec_created                                                                  |
 | visualEvidence | NON_VISUAL                                                                  |
 | 親タスク     | UT-06-FU-A (`docs/30-workflows/ut-06-followup-A-opennext-workers-migration/`) / 上位 UT-06 |
 | 発見元       | UT-06-FU-A Phase 12 unassigned-task-detection (UNASSIGNED-FU-A-002)           |
