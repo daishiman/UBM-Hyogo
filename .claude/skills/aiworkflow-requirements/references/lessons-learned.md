@@ -58,6 +58,7 @@
 | [lessons-learned-ut-cicd-drift-2026-04.md](lessons-learned-ut-cicd-drift-2026-04.md) | CI/CD workflow topology drift lessons | UT-CICD-DRIFT: L-CICD-DRIFT-001〜005（deployment 正本横断検索 / 存在しない派生ID禁止 / Phase 11時点ログ再確認 / quick-resource導線 / workflow lint未タスク化） |
 | [lessons-learned-sync-merge-hook-skip-2026-04.md](lessons-learned-sync-merge-hook-skip-2026-04.md) | sync-merge 時の pre-commit/pre-push hook 自動スキップ運用ポリシー (solo dev) | branch-sync-and-push: L-SMHS-001〜005（merge 中の hook 挙動仕様化 / `--no-verify` 常用回避 / hook 側に正当スキップ条件実装 / 自動同期プロンプトと hook 設計のセット化 / `MERGE_HEAD` と `git rev-list --parents` の使い分け） |
 | [lessons-learned-utgov001-second-stage-reapply-2026-04.md](lessons-learned-utgov001-second-stage-reapply-2026-04.md) | UT-GOV-001 second-stage reapply (contexts 後追い再 PUT) lessons | utgov001-second-stage-reapply: L-GOV001-2ND-001〜008（typo context merge block / dev-main 片側更新 / admin block 回避 / `contexts=[]` 残留 / workflow 名 vs job 名 / dev-main 別 contexts / CLAUDE.md drift 片務化 / approval-gated NON_VISUAL 自走禁止 3 項目）|
+| [lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md](lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md) | UBM-Hyogo OpenNext Workers production cutover preflight lessons (UT-06-FU-A-PROD-ROUTE-SECRET-001) | UT-06-FU-A-PROD-ROUTE-SECRET-001: L-UT06FUA-001〜007（Phase 12 canonical filename drift / NON_VISUAL infra verification 境界 / completed-tasks 配置パス drift 防止 / secret 値非記録 + `bash scripts/cf.sh` ラッパー強制 / runbook walkthrough 単独 PASS 不可 / route mismatch deploy block / legacy worker 削除別承認） |
 
 ## 利用順序
 - まずこの親仕様書で対象 child companion を選ぶ。

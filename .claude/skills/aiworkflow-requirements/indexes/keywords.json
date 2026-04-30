@@ -148,6 +148,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned.md",
@@ -1961,7 +1962,8 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "Advanced": [
       "arch-state-management-reference-permissions-import-lifecycle.md",
@@ -2469,6 +2471,7 @@
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -2501,6 +2504,7 @@
       "task-workflow-completed.md",
       "technology-devops.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -2925,6 +2929,7 @@
     ],
     "route": [
       "architecture-admin-api-client.md",
+      "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06a-public-web-2026-04.md"
     ],
@@ -3612,6 +3617,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -4129,7 +4135,8 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "認証フローにおける統合": [
       "csrf-state-parameter.md"
@@ -4806,7 +4813,21 @@
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
-      "master-design.md"
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "master-design.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "secret": [
+      "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "observability": [
+      "deployment-cloudflare-opennext-workers.md"
+    ],
+    "preflight": [
+      "deployment-cloudflare-opennext-workers.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
     "デプロイメント": [
       "deployment-cloudflare-ut06-gate.md",
@@ -6618,6 +6639,7 @@
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -6638,6 +6660,7 @@
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -7411,13 +7434,15 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "VISUAL": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "でも": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
@@ -7669,6 +7694,7 @@
     "正本": [
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "Part": [
@@ -7784,7 +7810,8 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md"
     ],
     "Runbook": [
-      "lessons-learned-lefthook-mwr-runbook-2026-04.md"
+      "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "Codex": [
       "lessons-learned-skill-codex-validation-2026-04.md"
@@ -7914,7 +7941,8 @@
     ],
     "教訓": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
-      "lessons-learned-ut-cicd-drift-2026-04.md"
+      "lessons-learned-ut-cicd-drift-2026-04.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
     ],
     "Lesson": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
@@ -7995,10 +8023,6 @@
     ],
     "bash": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
-    ],
-    "secret": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
     "put": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
@@ -8099,7 +8123,9 @@
     ],
     "FU": [
       "lessons-learned-ut-06-fu-h-2026-04.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "Health": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
@@ -8368,6 +8394,22 @@
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "PROD": [
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "ROUTE": [
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "task-workflow-completed-skill-lifecycle-ui.md",
+      "ui-ux-agent-execution-core.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "SECRET": [
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "direction": [
       "lessons-learned-ut09-direction-reconciliation-2026-04.md"
@@ -9870,7 +9912,8 @@
       "logs-archive-2026-02-unassigned-placement-import-interface.md"
     ],
     "反映": [
-      "logs-archive-2026-02-unassigned-placement-import-interface.md"
+      "logs-archive-2026-02-unassigned-placement-import-interface.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "契約同期": [
       "logs-archive-2026-02-unassigned-placement-import-interface.md"
@@ -10756,9 +10799,6 @@
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
     "テンプレート最適化の仕様同期": [
-      "logs-archive-2026-03-workflow02-screenshot-guard.md"
-    ],
-    "preflight": [
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
     "分岐": [
@@ -12309,12 +12349,6 @@
     "buttons": [
       "task-workflow-completed-skill-lifecycle-ui.md"
     ],
-    "ROUTE": [
-      "task-workflow-completed-skill-lifecycle-ui.md",
-      "ui-ux-agent-execution-core.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
     "改善導線": [
       "task-workflow-completed-skill-lifecycle-ui.md"
     ],
@@ -13628,6 +13662,7 @@
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -13646,6 +13681,7 @@
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -13826,7 +13862,8 @@
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "Criteria": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -13837,7 +13874,8 @@
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "Outputs": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -13849,7 +13887,8 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "反映先": [
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -13950,6 +13989,27 @@
     ],
     "同期成果物": [
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+    ],
+    "Evidence": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "Files": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "Implementation": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "Constants": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "自走禁止項目": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "本タスクで実行しないこと": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "Feedback": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "phases": [
       "workflow-ut-gov-004-artifact-inventory.md",

@@ -2368,6 +2368,20 @@ node scripts/list-specs.js --topics
 | Validation Chain | L73 |
 | 不変条件 touched | L86 |
 
+### references/workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L19 |
+| Phase Outputs | L31 |
+| Phase 11 Evidence Files（NON_VISUAL） | L49 |
+| Runbook（正本） | L61 |
+| Implementation Constants | L68 |
+| 自走禁止項目（本タスクで実行しないこと） | L88 |
+| Skill Feedback（Phase 12 反映） | L99 |
+| 関連リソース | L107 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -2659,7 +2673,8 @@ node scripts/list-specs.js --topics
 | 10. CLI 経路の徹底 | L181 |
 | 11. R2 incremental cache（任意採用） | L190 |
 | 12. 関連リソース | L198 |
-| 変更履歴 | L210 |
+| 13. production route / secret / observability preflight | L214 |
+| 変更履歴 | L220 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -3230,6 +3245,14 @@ node scripts/list-specs.js --topics
 | 関連リレー先 | L81 |
 | 不変条件 touched | L90 |
 
+### references/lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 教訓 | L7 |
+| 関連リソース | L44 |
+
 ### references/lessons-learned-ut09-direction-reconciliation-2026-04.md
 
 | セクション | 行 |
@@ -3265,8 +3288,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L62 |
-| 関連ドキュメント | L67 |
+| 利用順序 | L63 |
+| 関連ドキュメント | L68 |
 
 ### references/llm-embedding.md
 
