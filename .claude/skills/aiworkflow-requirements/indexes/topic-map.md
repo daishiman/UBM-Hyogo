@@ -996,6 +996,16 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 
+### references/database-indexes.md
+
+| セクション | 行 |
+|------------|----|
+| ワークフロー関連 | L5 |
+| チャット関連 | L16 |
+| RAG関連 | L27 |
+| Knowledge Graph関連 | L38 |
+| 関連ドキュメント | L60 |
+
 ### references/database-operations.md
 
 | セクション | 行 |
@@ -1005,6 +1015,15 @@ node scripts/list-specs.js --topics
 | 運用・メンテナンス | L76 |
 | Electron ローカルストレージ | L103 |
 | 関連ドキュメント | L166 |
+
+### references/database-schema-ddl-template.md
+
+| セクション | 行 |
+|------------|----|
+| テーブル別セクション分割テンプレ | L5 |
+| 制約一覧表テンプレ | L22 |
+| 運用メモ | L30 |
+| 関連ドキュメント | L36 |
 
 ### references/database-schema.md
 
@@ -1021,8 +1040,9 @@ node scripts/list-specs.js --topics
 | Knowledge Graph関連テーブル | L248 |
 | 変換処理関連テーブル | L382 |
 | インデックス設計 | L441 |
-| 関連ドキュメント | L500 |
-| 変更履歴 | L510 |
+| 関連ドキュメント | L447 |
+| 変更履歴 | L458 |
+| DDL 同期テンプレ | L469 |
 
 ---
 
@@ -3075,8 +3095,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L53 |
-| 関連ドキュメント | L58 |
+| 利用順序 | L54 |
+| 関連ドキュメント | L59 |
 
 ### references/llm-embedding.md
 

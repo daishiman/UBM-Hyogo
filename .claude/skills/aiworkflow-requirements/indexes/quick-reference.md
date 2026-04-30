@@ -925,6 +925,7 @@ packages/
 | --- | --- |
 | 01a canonical task root | `docs/30-workflows/01a-parallel-d1-database-schema-migrations-and-tag-seed/` |
 | 02a canonical task root | `docs/30-workflows/02a-parallel-member-identity-status-and-response-repository/` |
+| UT-04 spec sync root | `docs/30-workflows/ut-04-d1-schema-design/`（spec_created / docsOnly=true / NON_VISUAL）。01a/02a/03a/03b current schema を参照し、旧 `members` は legacy、既存 `sync_job_logs` / `sync_locks` は UT-09 owned transition tables として扱う |
 | legacy 03-serial contract | `member_responses` / `member_identities` / `member_status` / `sync_audit` は旧4テーブル契約として参照。01a以降の物理実装では20テーブル構成を正とする |
 | 02a repository root | `apps/api/src/repository/` |
 | 02a repository tables | `member_identities` / `member_status` / `member_responses` / `response_sections` / `response_fields` / `member_field_visibility` / `member_tags` / `tag_definitions` / `deleted_members` |

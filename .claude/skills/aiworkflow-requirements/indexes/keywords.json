@@ -401,7 +401,9 @@
       "csrf-state-parameter.md",
       "database-architecture.md",
       "database-implementation.md",
+      "database-indexes.md",
       "database-operations.md",
+      "database-schema-ddl-template.md",
       "database-schema.md",
       "deployment-gha.md",
       "deployment-history.md",
@@ -720,6 +722,7 @@
       "api-internal.md",
       "architecture-auth-security-core.md",
       "architecture-rag.md",
+      "database-indexes.md",
       "database-schema.md",
       "glossary.md",
       "interfaces-rag.md",
@@ -3378,6 +3381,7 @@
     "Knowledge": [
       "architecture-rag.md",
       "database-implementation-details.md",
+      "database-indexes.md",
       "database-schema.md",
       "interfaces-rag-knowledge-graph-store.md",
       "interfaces-rag.md",
@@ -3387,6 +3391,7 @@
     "Graph": [
       "architecture-rag.md",
       "database-implementation-details.md",
+      "database-indexes.md",
       "database-schema.md",
       "interfaces-rag-knowledge-graph-store.md",
       "interfaces-rag.md",
@@ -3609,6 +3614,7 @@
       "claude-code-skills-agents.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
+      "database-schema-ddl-template.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -3873,6 +3879,7 @@
     ],
     "関連": [
       "claude-code-settings-hierarchy.md",
+      "database-indexes.md",
       "deployment-cloudflare-ut06-gate.md",
       "interfaces-api.md",
       "interfaces-shared.md",
@@ -4213,6 +4220,15 @@
       "interfaces-rag-graphrag-query.md",
       "rag-query-pipeline.md"
     ],
+    "データベースインデックス設計": [
+      "database-indexes.md"
+    ],
+    "ワークフロー関連": [
+      "database-indexes.md"
+    ],
+    "チャット関連": [
+      "database-indexes.md"
+    ],
     "運用・": [
       "database-operations.md"
     ],
@@ -4231,6 +4247,39 @@
     ],
     "ローカルストレージ": [
       "database-operations.md"
+    ],
+    "DDL": [
+      "database-schema-ddl-template.md",
+      "database-schema.md"
+    ],
+    "同期テンプレ": [
+      "database-schema-ddl-template.md",
+      "database-schema.md"
+    ],
+    "database": [
+      "database-schema-ddl-template.md",
+      "spec-splitting-guidelines.md"
+    ],
+    "schema": [
+      "database-schema-ddl-template.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "反映用": [
+      "database-schema-ddl-template.md"
+    ],
+    "テーブル別セクション分割テンプレ": [
+      "database-schema-ddl-template.md"
+    ],
+    "制約一覧表テンプレ": [
+      "database-schema-ddl-template.md"
+    ],
+    "運用メモ": [
+      "database-schema-ddl-template.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "データベーススキーマ設計": [
       "database-schema.md"
@@ -6300,13 +6349,6 @@
     ],
     "の検証漏れリスク": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
-    ],
-    "schema": [
-      "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "skill-ledger-fragment-spec.md",
-      "ui-ux-admin-dashboard.md"
     ],
     "diff": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
@@ -11160,9 +11202,6 @@
     "データベース仕様": [
       "spec-splitting-guidelines.md"
     ],
-    "database": [
-      "spec-splitting-guidelines.md"
-    ],
     "技術スタック仕様": [
       "spec-splitting-guidelines.md"
     ],
@@ -12699,9 +12738,6 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "chain": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
-    ],
-    "運用メモ": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "仕様抽出マトリクス": [

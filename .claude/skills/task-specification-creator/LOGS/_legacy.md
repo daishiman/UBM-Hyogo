@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-29 - Phase 12 一括 SubAgent 実行プロファイル反映
+
+`docs/30-workflows/ut-04-d1-schema-design/` の Phase 12 close-out 監査で、Phase 12 成果物検証、system spec sync、unassigned 整理、skill feedback が複数 skill に分散しており、SubAgent 出力だけでは記録と実変更の drift が残りやすいことを確認した。`references/phase-12-documentation-guide.md` に一括 SubAgent 実行プロファイルを追加し、監査は並列、編集は ownership 固定で直列、Step 2 判定 owner は system spec lane に固定、未タスク表は `open / done / baseline / duplicate` を明示、最終判定は validator 実測値・artifact existence・mirror diff・500 行制限で閉じる運用を正本化した。`SKILL.md` 変更履歴にも v2026.04.29-phase12-subagent-profile を追加。commit / PR / push は未実行。
+
 ## 2026-04-29 - UT-01 Sheets→D1 sync design Phase 12 review hardening
 
 `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/` を docs-only / NON_VISUAL / spec_created として再監査し、Phase 1〜12 の `artifacts.json` status を `spec_created` に同期した。Phase 12 same-wave sync の pending 表現を実ファイル更新済みに補正し、30種思考法レビューで検出した既存 `apps/api` 実装との差分（`sync_log` vs `sync_job_logs` / `sync_locks`、status / trigger enum、retry 3 vs 5、offset resume、shared 契約型なし）を U-7〜U-10 として未タスク化。Phase 10 MINOR 6 件（TECH-M-01〜04 / TECH-M-DRY-01 / MINOR-M-Q-01）を Phase 12 に全量転記し、Phase 12 compliance を PASS に戻した。commit / PR / push は未実行。

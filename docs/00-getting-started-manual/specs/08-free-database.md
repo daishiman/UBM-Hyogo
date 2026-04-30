@@ -257,6 +257,12 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 
 ---
 
+## 関連タスク仕様書
+
+- UT-04 D1 データスキーマ設計（`docs/30-workflows/ut-04-d1-schema-design/`）— 本書の D1 テーブル群（`member_responses` / `member_identities` / `member_status` / `sync_jobs` ほか）の正本スキーマ設計タスク。
+
+---
+
 ## セットアップ時の注意
 
 1. `GOOGLE_FORM_ID` は `119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg` を使う
