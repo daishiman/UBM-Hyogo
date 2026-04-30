@@ -1,0 +1,57 @@
+# 目的: untrusted PR head を build / lint / typecheck で検証する pull_request workflow
+# 仕様: docs/30-workflows/ut-gov-002-impl-pr-target-safety-gate/outputs/phase-2/design.md §3.2
+# 上位原則: trusted context では untrusted PR code を checkout / install / build / eval しない
+# - trigger は pull_request (fork PR では secrets 非注入・GITHUB_TOKEN は read-only)
+# - workflow デフォルト permissions: {} / job 単位で contents: read のみ
+# - secrets を一切参照しない (env: にも secrets を渡さない)
+# - actions/checkout は github.event.pull_request.head.sha + persist-credentials: false
+# - mise exec 経由で Node 24 / pnpm 10 を保証する
+name: PR Build Test (untrusted)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# workflow デフォルトは no-permissions
+permissions: {}
+
+jobs:
+  build-test:
+    # branch protection の required_status_checks.contexts 同期対象 (canonical: build-test)
+    name: build-test
+    runs-on: ubuntu-latest
+    permissions:
+      # untrusted PR head を読むための最小権限
+      contents: read
+    steps:
+      # SHA pin policy (UT-GOV-007): actions/checkout@v4 の pinned SHA
+      # 本 SHA は v4 系の安定 pinned。最新版が必要な場合は公式 release から差し替える。
+      - name: Checkout PR head
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          # untrusted context だが contents: read のみで read 可能
+          ref: ${{ github.event.pull_request.head.sha }}
+          # job 終了後にローカル .git に GITHUB_TOKEN を残さない
+          persist-credentials: false
+
+      # mise を使って Node 24 / pnpm 10 を環境に揃える
+      # jdx/mise-action の SHA pin。spec_created 時点では v2 系を pinned コメントで明示。
+      - name: Setup mise (Node 24 + pnpm 10)
+        uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2
+        with:
+          # CI 環境では cache=true でツール DL を高速化
+          cache: true
+
+      - name: Install dependencies
+        run: mise exec -- pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: mise exec -- pnpm typecheck
+
+      - name: Lint
+        run: mise exec -- pnpm lint
+
+      - name: Build
+        # secrets を一切渡さない (env: は空)
+        env: {}
+        run: mise exec -- pnpm build

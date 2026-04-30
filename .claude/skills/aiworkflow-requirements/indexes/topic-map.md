@@ -2608,16 +2608,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L52 |
-| キャッシュ戦略 | L88 |
-| 並列実行の活用 | L111 |
-| CD ワークフロー要件（dev / main マージ時） | L167 |
-| Backend ワークフロー要件（dev / main マージ時） | L193 |
-| モニタリングとアラート | L215 |
-| GitHub Secrets の要件 | L249 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L273 |
-| 関連ドキュメント | L293 |
-| 変更履歴 | L300 |
+| CI ワークフロー要件（PR 時） | L54 |
+| キャッシュ戦略 | L90 |
+| 並列実行の活用 | L113 |
+| CD ワークフロー要件（dev / main マージ時） | L169 |
+| Backend ワークフロー要件（dev / main マージ時） | L195 |
+| モニタリングとアラート | L217 |
+| GitHub Secrets の要件 | L251 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L275 |
+| 関連ドキュメント | L295 |
+| 変更履歴 | L302 |
 
 ### references/deployment-history.md
 
