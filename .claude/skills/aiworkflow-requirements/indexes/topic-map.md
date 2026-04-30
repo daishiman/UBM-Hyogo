@@ -22,14 +22,6 @@ node scripts/list-specs.js --topics
 
 ---
 
-## Legacy umbrella close-out
-
-| タスク | 参照 |
-|--------|------|
-| UT-21 Forms sync conflict close-out | `docs/30-workflows/ut21-forms-sync-conflict-closeout/`, `references/task-workflow.md`, `docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md` |
-
----
-
 ## 概要・品質
 
 **関連キーワード**: 目的, スコープ, 設計原則, 品質, TDD, 用語
@@ -2700,15 +2692,15 @@ node scripts/list-specs.js --topics
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L76 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L163 |
-| Cloudflare D1 データベース | L281 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L314 |
-| GitHub Actions CI/CD | L426 |
-| プレビューデプロイメント | L455 |
-| カスタムドメイン設定 | L471 |
-| 環境分離 | L484 |
-| ロールバック戦略 | L494 |
-| モニタリング/アラート（UT-08 連携） | L515 |
-| 変更履歴 | L532 |
+| Cloudflare D1 データベース | L283 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L316 |
+| GitHub Actions CI/CD | L428 |
+| プレビューデプロイメント | L457 |
+| カスタムドメイン設定 | L473 |
+| 環境分離 | L486 |
+| ロールバック戦略 | L496 |
+| モニタリング/アラート（UT-08 連携） | L517 |
+| 変更履歴 | L534 |
 
 ### references/deployment-core.md
 
@@ -3262,6 +3254,17 @@ node scripts/list-specs.js --topics
 | 同期完了サマリー（same-wave sync） | L62 |
 | 関連 unassigned-task（B-01〜B-10） | L74 |
 
+### references/lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 5 件（L-UT21-001〜005） | L12 |
+| 運用ルール 2 件（legacy umbrella close-out 系の固定運用） | L49 |
+| 同期完了サマリー（same-wave sync） | L56 |
+| 関連 unassigned-task（UT21-U02 / U04 / U05） | L75 |
+| 派生品質要件の移植先（implementation 引き渡し） | L83 |
+
 ### references/lessons-learned-utgov001-second-stage-reapply-2026-04.md
 
 | セクション | 行 |
@@ -3287,8 +3290,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L62 |
-| 関連ドキュメント | L67 |
+| 利用順序 | L63 |
+| 関連ドキュメント | L68 |
 
 ### references/llm-embedding.md
 
@@ -4661,10 +4664,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L13 |
-| 利用順序 | L42 |
-| 関連ドキュメント | L47 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L51 |
+| 仕様書インデックス | L14 |
+| 利用順序 | L43 |
+| 関連ドキュメント | L48 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L52 |
 
 ### references/testing-accessibility.md
 
@@ -4854,3 +4857,4 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
+
