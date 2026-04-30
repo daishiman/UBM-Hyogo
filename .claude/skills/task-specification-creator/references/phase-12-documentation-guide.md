@@ -21,6 +21,10 @@
 - screenshot fallback を完了根拠に使う場合は、placeholder-only の証跡を PASS 扱いにせず、coverage / metadata / fallback reason / source evidence まで current workflow に揃えた実測値で書く
 - state-only の修正は `NON_VISUAL` を優先し、callback 系の回帰は `setupCallbackCapture()` 相当の deterministic テストで固定する
 
+### docs-only / legacy umbrella の簡略化
+
+docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は長いチュートリアルではなく「なぜ旧入口を閉じるか」を短い例えで説明する。Part 2 は current contract と target delta、責務移管表、direct 残責務 0 件、stale/current/historical 分類を中心にする。runtime / UI 変更がない場合、screenshot evidence は要求せず、検証は Phase 12 7 ファイル実体、`audit-unassigned-tasks --target-file`、index 再生成、mirror parity のコンパクトな表でよい。
+
 **Part 2 必須見出し（IPC 変更がある場合）**:
 
 5. **Consumer Contract & IPC Compatibility** (IPC 変更がある場合のみ必須):
@@ -76,6 +80,19 @@
 
 サブエージェントに委譲する場合も、「設計タスクだから更新不要」という判断を許容しない。
 
+### Phase 12 一括 SubAgent 実行プロファイル
+
+大きい Phase 12 close-out は、監査だけを並列化し、編集は ownership を固定して直列に統合する。
+
+| Lane | 責務 | 出力 |
+| --- | --- | --- |
+| A | Phase 12 成果物・artifacts parity・Phase 11 evidence 監査 | 不足ファイル / ledger drift / planned wording の差異 |
+| B | system spec sync 監査 | resource-map / quick-reference / topic-map / lessons / task-workflow / LOGS / parent docs の不足 |
+| C | unassigned 整理監査 | `open` / `done` / `baseline` / `duplicate` と formalize decision |
+| D | skill feedback 監査 | どの苦戦箇所をどの skill へ反映するかの候補 |
+
+統合順は `成果物実体確認 -> artifacts parity -> system spec sync -> unassigned audit -> skill feedback -> mirror parity -> compliance PASS` とする。Step 2 の N/A / 更新あり判定 owner は Lane B に固定し、他 lane は evidence を渡すだけにする。SubAgent の自己申告は完了根拠にせず、最後は validator 実測値、artifact existence、mirror diff、500 行制限の実測で閉じる。
+
 ## Task 12-3: documentation changelog
 
 - 変更した file 一覧
@@ -110,6 +127,9 @@
 | legacy standalone completed backlog | `docs/30-workflows/completed-tasks/unassigned-task/`（既存互換のみ） |
 
 新規作成は semantic filename を使い、旧 filename / path を残す場合は legacy register へ記録する。
+
+標準表は `検出項目 / status(open|done|baseline|duplicate) / formalize decision / path / 根拠` を基本形にする。current wave で解消した項目は `done`、既存未解消だが今回差分起因でないものは `baseline`、既存タスクと同義なら `duplicate` と明記する。
+
 
 ## Task 12-5: skill feedback
 

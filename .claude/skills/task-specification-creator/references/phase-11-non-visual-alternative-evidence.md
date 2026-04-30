@@ -11,7 +11,7 @@
 
 以下を **同時に満たす** タスクで本ガイドを使う。
 
-1. UI 差分なし（API repository / library / config / boundary tooling など）
+1. UI 差分なし（API repository / route / library / config / boundary tooling など）
 2. staging 環境が未配備、または実フロー前提のシナリオが現環境で実行不能
 3. phase-11.md の S-1 〜 S-N が wrangler / dep-cruiser バイナリ / 実フォーム / 実 D1 を要求している
 
@@ -64,11 +64,25 @@ UI 差分なし & コード変更なし（governance / branch protection / OIDC 
 | `outputs/phase-11/manual-smoke-log.md` | 整合性検査ログ（`pnpm typecheck` / `pnpm lint` / `actionlint` / `verify-all-specs.js` 等の手元実行ログ） | 実行コマンド・終了コード・所要時間・実行者・実行日時 |
 | `outputs/phase-11/link-checklist.md` | 仕様書内リンク・参照ドキュメントの dead link チェック | 対象リンク一覧 / 200 確認 / 補正したリンクの差分 |
 
+`link-checklist.md` は補助成果物であり、最小 3 点の欠落判定には含めない。ただし governance task で関連 task / Issue / applied evidence path を多く参照する場合は作成を推奨する。
+
+### Approval-gated implementation の JSON evidence
+
+Phase 13 のユーザー承認後に不可逆 API を実行する NON_VISUAL implementation では、Phase 11/12 の JSON と Phase 13 の実測 JSON を分離する。
+
+| evidence | Phase 12 まで | Phase 13 承認後 |
+| --- | --- | --- |
+| `branch-protection-payload-*.json` などの PUT payload | 完全 payload template / reserved path | 適用前 GET から再生成した実行 payload |
+| `current-*.json` / `applied-*.json` | placeholder として扱う。成功証跡にしない | fresh GET output として AC evidence にできる |
+| `drift-check.md` | 検査観点と未実行境界 | actual GET と仕様の比較結果 |
+| `manual-verification-log.md` | 承認待ち / 実行禁止の明示 | 実行コマンド、exit code、確認者、日時 |
+
 ### NON_VISUAL × docs-only に該当する典型タスク
 
 - governance（branch protection / required status checks 変更）
 - `pull_request_target` safety gate（OIDC / `workflow_run` 含む dry-run）
 - audit log / runbook の追記のみ
+- API-only route 追加（例: attendance add/remove の Vitest smoke で request/response/error/audit を固定し、visual は 08b/09a へ委譲）
 - skill / spec の再構築（`spec_created` で CLOSED Issue を reopen しないケース）
 
 これらは Phase 11 で UI screenshot を出さない代わりに、上記 3 点で「整合性検査が走り、リンクが生きており、保証外を `unassigned-task-detection.md` に申し送った」ことを記録する。

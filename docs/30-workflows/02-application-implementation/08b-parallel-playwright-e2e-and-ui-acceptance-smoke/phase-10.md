@@ -33,10 +33,10 @@ Phase 1〜9 の総点検と GO / NO-GO 判定。上流 6 task (06a / 06b / 06c /
 | 必須 | doc/02-application-implementation/06a-parallel-public-landing-directory-and-registration-pages/index.md | 上流 |
 | 必須 | doc/02-application-implementation/06b-parallel-member-login-and-profile-pages/index.md | 上流 |
 | 必須 | doc/02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/index.md | 上流 |
-| 必須 | doc/02-application-implementation/07a-parallel-tag-assignment-queue-resolve-workflow/index.md | 上流 |
+| 必須 | docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/index.md | 上流 |
 | 必須 | doc/02-application-implementation/07b-parallel-schema-diff-alias-assignment-workflow/index.md | 上流 |
 | 必須 | doc/02-application-implementation/07c-parallel-meeting-attendance-and-admin-audit-log-workflow/index.md | 上流 |
-| 必須 | doc/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/index.md | 並列、命名整合 |
+| 必須 | doc/08a-parallel-api-contract-repository-and-authorization-tests/index.md | 並列、命名整合 |
 
 ## 上流 wave AC 達成チェック
 

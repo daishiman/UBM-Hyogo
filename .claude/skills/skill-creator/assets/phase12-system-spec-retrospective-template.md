@@ -73,7 +73,7 @@
 | line budget | `validate-structure.js` 後に 500 行超過を semantic split し、親 doc と index を追従更新する |
 | stale fact cleanup | 古いテスト件数 / coverage / out-of-scope 注記 / 日付 / follow-up 件数を `outputs/phase-12` と未タスク指示書で同一値へそろえる |
 | `spec_created` close-out | workflow root が `completed-tasks/` 配下でも status は `spec_created` を維持し、Part 2 は `current contract + target delta` で書く |
-| internal hardening 判定 | public response が不変でも、runtime helper class / owner boundary / source provenance / budget degrade ルールが増えたら Step 2 を `更新あり` と判定する |
+| internal hardening 判定 | public response が不変でも、runtime helper class / owner boundary / source provenance / budget degrade ルールが増えたら Step 2 を `更新あり` と判定する。例: dryRun/apply 副作用境界、DB migration 実体差分、bulk back-fill budget/resume、retryable HTTP mapping |
 | screenshot/compliance hardening | placeholder-only PNG で完了扱いにせず、`TC-ID ↔ png ↔ coverage ↔ metadata ↔ fallback reason` と implementation guide Part 2 の必須項目を実測値で閉じる |
 | dark-mode screenshot stability | `playwright.config.ts` の `use.colorScheme` と spec の `test.use({ colorScheme })` を両方固定し、片側だけの設定で baseline drift を残さない |
 

@@ -4,6 +4,8 @@
 
 | Date | Task | Status | Summary |
 | --- | --- | --- | --- |
+| 2026-04-30 | utgov001-second-stage-reapply | spec_created | Added implementation / NON_VISUAL workflow for UT-GOV-001 second-stage branch protection reapply. Synchronized root/output artifacts, materialized Phase 1-13 outputs, normalized payload evidence to Phase 13, and kept real PUT / commit / push / PR blocked until explicit user approval. |
+| 2026-04-29 | UT-26 Sheets API E2E smoke test | spec_created | Added the implementation / NON_VISUAL workflow under `docs/30-workflows/completed-tasks/ut-26-sheets-api-e2e-smoke-test/` with Phase 1-13 specs complete. Implemented dev/staging-only `/admin/smoke/sheets` route (`apps/api/src/routes/admin/smoke-sheets.ts` + unit test, production returns 404), added `getTokenFetchCount()` diagnostic to `apps/api/src/jobs/sheets-fetcher.ts` for cache verification, mounted the route with `SMOKE_ADMIN_TOKEN` env in `apps/api/src/index.ts`, and synced `aiworkflow-requirements` skill (`api-endpoints.md`, `environment-variables.md`, `topic-map.md`). Phase 13 halted at user_approval_required = true; Issue #41 stays CLOSED under "Re-link to closed issue #41" policy. |
 | 2026-04-29 | UT-09 direction reconciliation | spec_created | Added docs-only / NON_VISUAL reconciliation workflow under `docs/30-workflows/ut09-direction-reconciliation/`; fixed Phase 12 close-out to treat A-maintained Forms direction as stale-withdrawal trigger when Sheets references/runtime remain, synced artifacts parity, and recorded 10 follow-up items including runtime kill-switch. |
 | 2026-04-29 | ut-27-github-secrets-variables-deployment | spec_created | Added implementation / NON_VISUAL workflow for GitHub Secrets / Variables deployment. Phase 1-3 are completed, Phase 4-13 remain pending/reserved, Phase 11/13 execution artifacts are NOT EXECUTED until user approval, and aiworkflow-requirements was synced for GitHub Secrets / Variables placement and 1Password-derived copy governance. |
 | 2026-04-29 | coverage-80-enforcement | implementation_started | Added coverage 80% enforcement workflow and PR1 tooling changes: `scripts/coverage-guard.sh`, Vitest coverage measurement config, package `test:coverage` scripts, CI `coverage-gate`, lefthook pre-push guard, and Phase 12 canon sync. PR/commit/push remain user-gated. |
@@ -20,3 +22,15 @@
 - Upstream references: `01b-parallel-cloudflare-base-bootstrap`, `04-serial-cicd-secrets-and-environment-sync`
 - Related handoffs: UT-16 for production `AllowedOrigins`, UT-17 for R2 usage alerting, future file upload implementation for actual bucket creation and API logic
 - Main artifact root: `docs/30-workflows/ut-12-cloudflare-r2-storage/`
+
+## 2026-04-29 - UT-CICD-DRIFT (CI/CD workflow topology and deployment spec drift cleanup) Phase 1-12 close-out
+
+- Task path: `docs/30-workflows/completed-tasks/ut-cicd-workflow-topology-drift-cleanup/`
+- GitHub Issue: #58 (CLOSED, retained as reference; spec created post-close per CLAUDE.md instruction)
+- Type: docs-only / specification-cleanup / NON_VISUAL
+- workflow_state: `spec_created` (held; not promoted to `implemented` because docs-only / no app code change)
+- Canonical specs updated: `.claude/skills/aiworkflow-requirements/references/deployment-gha.md` (v2.2.0), `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` (v1.3.0), `.claude/skills/aiworkflow-requirements/references/deployment-core.md`, `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md`
+- Drift resolved (docs-only / 7 件): DRIFT-01 (Node 22→24 / pnpm 9→10.33.2), DRIFT-02 (workflow 構成表に validate-build / verify-indexes 追加), DRIFT-04(a) (web-cd Discord 通知未実装注記), DRIFT-05(a) (backend-ci Discord 通知未実装注記), DRIFT-07 (Pages vs OpenNext 二系統併記), DRIFT-08 (coverage soft→hard 段階性注記), DRIFT-10 (cron `0 18 * * *` 追記)
+- Deferred to derivative tasks (impl-required): `UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION` (HIGH / DRIFT-03 起源), `UT-CICD-DRIFT-IMPL-OBSERVABILITY-MATRIX-SYNC` (HIGH / DRIFT-06), `UT-CICD-DRIFT-IMPL-COMPOSITE-SETUP` (MEDIUM), `UT-CICD-DRIFT-IMPL-REUSABLE-QUALITY` (MEDIUM), `UT-CICD-DRIFT-IMPL-WORKFLOW-LINT-GATE` (MEDIUM), `UT-CICD-DRIFT-IMPL-CRON-CONSOLIDATION` (LOW), `UT-CICD-DRIFT-IMPL-VERIFY-INDEXES-TRIGGER` (LOW)
+- Invariants: #5 (D1 access apps/api 限定) / #6 (GAS prototype non-promote) → 全 5 workflow / 両 wrangler.toml で抵触なし
+- Related: UT-GOV-001 (branch protection workflow 名整合), UT-GOV-003 (CODEOWNERS `.github/workflows/**` 整合), UT-26 (staging-deploy-smoke), 05a observability-matrix

@@ -104,11 +104,12 @@ export async function enqueue(c: DbCtx, row: NewSchemaDiffQueueRow): Promise<Sch
 export async function resolve(c: DbCtx, diffId: string, by: string): Promise<void> {
   const current = await findById(c, diffId);
   if (!current) throw new Error(`schema diff ${diffId} not found`);
+  if (current.status === "resolved") return;
   const at = new Date().toISOString();
   await c.db
     .prepare(
-      "UPDATE schema_diff_queue SET status = ?, resolved_by = ?, resolved_at = ? WHERE diff_id = ?",
+      "UPDATE schema_diff_queue SET status = ?, resolved_by = ?, resolved_at = ? WHERE diff_id = ? AND status = ?",
     )
-    .bind("resolved", by, at, diffId)
+    .bind("resolved", by, at, diffId, "queued")
     .run();
 }
