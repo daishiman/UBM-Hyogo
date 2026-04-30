@@ -873,10 +873,10 @@ node scripts/list-specs.js --topics
 | REST API エンドポイント一覧 | L25 |
 | エンドポイント命名規則 | L183 |
 | UBM-Hyogo Admin Sync API（03a） | L204 |
-| UBM-Hyogo Member Self-Service API（04b） | L226 |
-| Desktop IPC API サマリー | L244 |
-| 変更履歴 | L275 |
-| 関連ドキュメント | L292 |
+| UBM-Hyogo Member Self-Service API（04b） | L234 |
+| Desktop IPC API サマリー | L252 |
+| 変更履歴 | L283 |
+| 関連ドキュメント | L300 |
 
 ### references/api-internal-chunk-search.md
 
@@ -972,7 +972,7 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L212 |
 | Conversation DB 初期化パターン | L243 |
 | UBM-Hyogo Schema Sync Contract（03a） | L245 |
-| ベクトル検索実装（DiskANN） | L302 |
+| ベクトル検索実装（DiskANN） | L353 |
 
 ### references/database-implementation-details.md
 
@@ -1041,24 +1041,34 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L5 |
 | 変更履歴 | L14 |
 
+### references/database-schema-indexes.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| ワークフロー関連 | L7 |
+| チャット関連 | L18 |
+| RAG関連 | L29 |
+| Knowledge Graph関連 | L40 |
+
 ### references/database-schema.md
 
 | セクション | 行 |
 |------------|----|
 | 概要 | L6 |
 | テーブル一覧 | L11 |
-| UBM 会員 Forms 同期テーブル（03b） | L43 |
-| Schema alias assignment workflow（07b） | L58 |
-| ワークフロー関連テーブル | L62 |
-| ユーザー関連テーブル | L101 |
-| システムプロンプト関連テーブル | L135 |
-| チャット関連テーブル | L170 |
-| RAG関連テーブル | L206 |
-| Knowledge Graph関連テーブル | L248 |
-| 変換処理関連テーブル | L382 |
-| インデックス設計 | L441 |
-| 関連ドキュメント / 変更履歴 | L445 |
-| DDL 同期テンプレ | L450 |
+| UBM 会員 Forms 同期テーブル（03b） | L44 |
+| Schema alias assignment workflow（07b） | L60 |
+| ワークフロー関連テーブル | L64 |
+| ユーザー関連テーブル | L103 |
+| システムプロンプト関連テーブル | L137 |
+| チャット関連テーブル | L172 |
+| RAG関連テーブル | L208 |
+| Knowledge Graph関連テーブル | L250 |
+| 変換処理関連テーブル | L384 |
+| インデックス設計 | L443 |
+| 関連ドキュメント / 変更履歴 | L447 |
+| DDL 同期テンプレ | L452 |
 
 ---
 
@@ -2046,6 +2056,15 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-issue-191-schema-aliases-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L12 |
+| Validation Chain | L25 |
+| Notes | L36 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2945,15 +2964,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L7 |
-| 使い方 | L15 |
-| Current Alias Overrides（個別互換行） | L22 |
-| Family Summary | L46 |
-| Detailed Register | L67 |
-| Section Extract Register (2026-03-17) | L248 |
-| 500-Line Split Register (2026-03-16) | L259 |
-| Fragment Migration Register (2026-04-28) | L281 |
-| Task Root Path Drift Register (2026-04-30 追記) | L308 |
+| 概要 | L8 |
+| 使い方 | L16 |
+| Current Alias Overrides（個別互換行） | L23 |
+| Family Summary | L47 |
+| Detailed Register | L68 |
+| Section Extract Register (2026-03-17) | L249 |
+| 500-Line Split Register (2026-03-16) | L260 |
+| Fragment Migration Register (2026-04-28) | L282 |
+| Task Root Path Drift Register (2026-04-30 追記) | L309 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3098,6 +3117,15 @@ node scripts/list-specs.js --topics
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
 
+### references/lessons-learned-issue-191-schema-aliases-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-I191-001: docs-only closeout still needs canonical spec sync | L3 |
+| L-I191-002: endpoint compatibility and write-target change are separate decisions | L7 |
+| L-I191-003: detected follow-ups must be materialized | L11 |
+| L-I191-004: transient alias lookup errors must not fallback | L15 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
@@ -3237,8 +3265,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L61 |
-| 関連ドキュメント | L66 |
+| 利用順序 | L62 |
+| 関連ドキュメント | L67 |
 
 ### references/llm-embedding.md
 
@@ -4271,12 +4299,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | テンプレート一覧 | L7 |
 | 命名規則 | L29 |
-| 記述形式 | L58 |
-| すべきこと | L78 |
-| 避けるべきこと | L87 |
-| 新規仕様の追加手順 | L96 |
-| 完了タスクセクション標準化 | L104 |
-| ファイルサイズ管理 | L152 |
+| 記述形式 | L60 |
+| すべきこと | L80 |
+| 避けるべきこと | L89 |
+| 新規仕様の追加手順 | L98 |
+| 完了タスクセクション標準化 | L106 |
+| ファイルサイズ管理 | L154 |
 
 ### references/spec-splitting-guidelines.md
 
@@ -4611,10 +4639,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L12 |
-| 利用順序 | L41 |
-| 関連ドキュメント | L46 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L50 |
+| 仕様書インデックス | L13 |
+| 利用順序 | L42 |
+| 関連ドキュメント | L47 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L51 |
 
 ### references/testing-accessibility.md
 

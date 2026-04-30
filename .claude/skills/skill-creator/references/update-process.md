@@ -87,7 +87,7 @@ approval-gated NON_VISUAL implementation では、placeholder evidence と runti
   - `.claude/skills/task-specification-creator/references/phase-template-phase13-detail.md`
                             ↓
 Phase 4: 検証
-verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync → diff -qr（対象 skill ごとの差分ゼロ出力を evidence に残す）
+verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync（mirror directory が存在する場合のみ）→ diff -qr（対象 skill ごとの差分ゼロ出力を evidence に残す）
                             ↓
 Phase 5: フィードバック
 log-usage + LOGS.md + skill feedback report

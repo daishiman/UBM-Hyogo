@@ -209,6 +209,14 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 | ------ | ---- | ---- | ---- |
 | POST | `/admin/sync/schema` | `Authorization: Bearer <SYNC_ADMIN_TOKEN>` | Google Forms `forms.get` の live schema を D1 の `schema_versions` / `schema_questions` に同期し、stableKey 未解決 question を `schema_diff_queue` へ投入する |
 
+### Schema Alias Resolution（issue-191 / 07b）
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| POST | `/admin/schema/aliases` | Auth.js admin JWT + `admin_users.active` | 07b の manual alias resolution。HTTP contract は維持し、issue-191 以降の write target は `schema_questions.stable_key` direct update ではなく `schema_aliases` INSERT + `schema_diff_queue.status='resolved'` |
+
+03a は `schema_aliases` first、alias miss の場合のみ `schema_questions.stable_key` fallback とする。D1 transient error は alias miss と扱わず、sync failure + retry へ倒す。
+
 レスポンス契約:
 
 | Status | 条件 | Body |

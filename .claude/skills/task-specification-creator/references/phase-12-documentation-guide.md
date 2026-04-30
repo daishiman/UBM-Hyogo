@@ -117,7 +117,19 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - Phase 12 再監査で follow-up 自体を同一 wave 内に解消した場合は、open set から除外し、`docs/30-workflows/completed-tasks/unassigned-task/` へ完了移管した path を current fact として残す
 - `open` と `done` を同じ表に並べる場合は、`status` 列か等価な記法で未完了と完了移管を明示し、`documentation-changelog.md` / `system-spec-update-summary.md` / `task-workflow-backlog.md` の記述粒度をそろえる
 
+### 未タスク配置マトリクス
+
+| Source | Placement |
+| --- | --- |
+| active / future implementation | `docs/30-workflows/unassigned-task/` |
+| completed workflow に閉じた follow-up | `docs/30-workflows/completed-tasks/<workflow>/unassigned-task/` |
+| standalone completed spec | `docs/30-workflows/completed-tasks/<task>/` |
+| legacy standalone completed backlog | `docs/30-workflows/completed-tasks/unassigned-task/`（既存互換のみ） |
+
+新規作成は semantic filename を使い、旧 filename / path を残す場合は legacy register へ記録する。
+
 標準表は `検出項目 / status(open|done|baseline|duplicate) / formalize decision / path / 根拠` を基本形にする。current wave で解消した項目は `done`、既存未解消だが今回差分起因でないものは `baseline`、既存タスクと同義なら `duplicate` と明記する。
+
 
 ## Task 12-5: skill feedback
 
