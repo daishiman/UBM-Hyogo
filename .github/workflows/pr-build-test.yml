@@ -52,6 +52,8 @@ jobs:
         run: mise exec -- pnpm lint
 
       - name: Build
-        # secrets を一切渡さない (env: は空)
-        env: {}
-        run: mise exec -- pnpm build
+        # secrets を一切渡さない。`.mise.toml` の `[env] NODE_ENV=development` が
+        # `mise exec` 経由で渡ると Next.js prerender で `_not-found` が
+        # `useContext` null エラーになるため、bash 内で `NODE_ENV=production` を
+        # 上書きしてから pnpm build を起動する。
+        run: mise exec -- bash -c 'NODE_ENV=production pnpm build'

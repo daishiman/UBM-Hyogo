@@ -996,6 +996,16 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 
+### references/database-indexes.md
+
+| セクション | 行 |
+|------------|----|
+| ワークフロー関連 | L5 |
+| チャット関連 | L16 |
+| RAG関連 | L27 |
+| Knowledge Graph関連 | L38 |
+| 関連ドキュメント | L60 |
+
 ### references/database-operations.md
 
 | セクション | 行 |
@@ -1015,12 +1025,21 @@ node scripts/list-specs.js --topics
 | Fixed Runtime Values | L24 |
 | Follow-up Boundary | L35 |
 
+### references/database-schema-ddl-template.md
+
+| セクション | 行 |
+|------------|----|
+| テーブル別セクション分割テンプレ | L5 |
+| 制約一覧表テンプレ | L22 |
+| 運用メモ | L30 |
+| 関連ドキュメント | L36 |
+
 ### references/database-schema-index.md
 
 | セクション | 行 |
 |------------|----|
 | 関連ドキュメント | L5 |
-| 変更履歴 | L13 |
+| 変更履歴 | L14 |
 
 ### references/database-schema.md
 
@@ -1038,7 +1057,8 @@ node scripts/list-specs.js --topics
 | Knowledge Graph関連テーブル | L248 |
 | 変換処理関連テーブル | L382 |
 | インデックス設計 | L441 |
-| 関連ドキュメント / 変更履歴 | L498 |
+| 関連ドキュメント / 変更履歴 | L445 |
+| DDL 同期テンプレ | L450 |
 
 ---
 
@@ -3166,8 +3186,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L59 |
-| 関連ドキュメント | L64 |
+| 利用順序 | L60 |
+| 関連ドキュメント | L65 |
 
 ### references/llm-embedding.md
 
