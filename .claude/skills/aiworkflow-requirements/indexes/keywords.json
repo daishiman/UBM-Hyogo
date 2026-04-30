@@ -33,6 +33,8 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-api-electron.md",
@@ -143,6 +145,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -271,6 +274,7 @@
       "csrf-state-parameter.md",
       "database-architecture.md",
       "database-implementation-history.md",
+      "database-schema-index.md",
       "database-schema.md",
       "deployment-branch-strategy.md",
       "deployment-cloudflare-opennext-workers.md",
@@ -402,7 +406,10 @@
       "csrf-state-parameter.md",
       "database-architecture.md",
       "database-implementation.md",
+      "database-indexes.md",
       "database-operations.md",
+      "database-schema-ddl-template.md",
+      "database-schema-index.md",
       "database-schema.md",
       "deployment-gha.md",
       "deployment-history.md",
@@ -542,7 +549,8 @@
       "api-core.md"
     ],
     "HTTP": [
-      "api-core.md"
+      "api-core.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "ステータスコード": [
       "api-core.md"
@@ -721,6 +729,7 @@
       "api-internal.md",
       "architecture-auth-security-core.md",
       "architecture-rag.md",
+      "database-indexes.md",
       "database-schema.md",
       "glossary.md",
       "interfaces-rag.md",
@@ -885,7 +894,9 @@
       "arch-claude-cli.md",
       "deployment-cloudflare.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "Main": [
       "arch-claude-cli.md",
@@ -1296,6 +1307,7 @@
       "interfaces-auth-core.md",
       "interfaces-chat-history-core.md",
       "interfaces-chat-history-details.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "patterns-advanced.md",
       "patterns-core.md",
       "patterns-details.md",
@@ -1429,6 +1441,7 @@
       "ipc-contract-checklist.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -1937,6 +1950,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
@@ -2146,6 +2160,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -2302,6 +2317,7 @@
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-history-search-notification-center.md",
@@ -2378,6 +2394,7 @@
     "skill": [
       "arch-state-management-skill-creator.md",
       "claude-code-skills-process.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
@@ -2407,6 +2424,7 @@
     ],
     "creator": [
       "arch-state-management-skill-creator.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
       "logs-archive-2026-02-console-migration-patterns.md",
@@ -2440,6 +2458,7 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -2600,6 +2619,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -2611,6 +2631,7 @@
     ],
     "Workflow": [
       "arch-state-management-skill-creator.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "master-design.md",
       "task-workflow-phases.md",
       "workflow-ut-gov-004-artifact-inventory.md",
@@ -2834,6 +2855,7 @@
     "apps": [
       "architecture-admin-api-client.md",
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "directory-structure-core.md",
       "ui-ux-atoms-patterns-core.md"
@@ -2855,6 +2877,7 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "ui-ux-admin-dashboard.md"
     ],
     "server": [
@@ -2870,6 +2893,7 @@
     ],
     "api": [
       "architecture-admin-api-client.md",
+      "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "spec-splitting-guidelines.md",
@@ -2905,7 +2929,8 @@
       "ui-ux-admin-dashboard.md"
     ],
     "client": [
-      "architecture-admin-api-client.md"
+      "architecture-admin-api-client.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "認証・セキュリティ": [
       "architecture-auth-security-core.md",
@@ -3167,7 +3192,9 @@
     ],
     "service": [
       "architecture-file-conversion.md",
-      "database-admin-repository-boundary.md"
+      "database-admin-repository-boundary.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "db": [
       "architecture-file-conversion.md"
@@ -3390,6 +3417,7 @@
     "Knowledge": [
       "architecture-rag.md",
       "database-implementation-details.md",
+      "database-indexes.md",
       "database-schema.md",
       "interfaces-rag-knowledge-graph-store.md",
       "interfaces-rag.md",
@@ -3399,6 +3427,7 @@
     "Graph": [
       "architecture-rag.md",
       "database-implementation-details.md",
+      "database-indexes.md",
       "database-schema.md",
       "interfaces-rag-knowledge-graph-store.md",
       "interfaces-rag.md",
@@ -3525,6 +3554,7 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -3563,6 +3593,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
@@ -3624,6 +3655,7 @@
       "claude-code-skills-agents.md",
       "claude-code-skills-process.md",
       "claude-code-skills-structure.md",
+      "database-schema-ddl-template.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -3676,6 +3708,8 @@
       "interfaces-agent-sdk-executor-details.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "security-skill-execution-permission.md",
       "skill-executor-type-migration.md",
       "skill-ledger-progressive-disclosure.md",
@@ -3808,6 +3842,9 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -3865,6 +3902,7 @@
     ],
     "index": [
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
@@ -3891,10 +3929,12 @@
     ],
     "関連": [
       "claude-code-settings-hierarchy.md",
+      "database-indexes.md",
       "deployment-cloudflare-ut06-gate.md",
       "interfaces-api.md",
       "interfaces-shared.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "rag-desktop-state.md",
       "skill-ledger-fragment-spec.md",
@@ -3908,6 +3948,8 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "learned": [
@@ -3916,6 +3958,8 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "agents": [
@@ -3927,6 +3971,7 @@
     ],
     "仕様書": [
       "claude-code-skills-agents.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
@@ -4059,6 +4104,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -4111,7 +4157,8 @@
       "workflow-ai-chat-llm-integration-fix.md"
     ],
     "repository": [
-      "database-admin-repository-boundary.md"
+      "database-admin-repository-boundary.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "境界": [
       "database-admin-repository-boundary.md"
@@ -4130,7 +4177,9 @@
     "queue": [
       "database-admin-repository-boundary.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "Turso": [
       "database-architecture.md",
@@ -4206,6 +4255,8 @@
     ],
     "DB": [
       "database-implementation-core.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "task-workflow-completed-ipc-graceful-degradation-lifecycle.md"
     ],
@@ -4214,7 +4265,11 @@
     ],
     "Schema": [
       "database-implementation-core.md",
-      "lessons-learned-03a-parallel-forms-schema-sync.md"
+      "database-schema-07b-schema-alias-assignment.md",
+      "database-schema-index.md",
+      "database-schema.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "Contract": [
       "database-implementation-core.md"
@@ -4233,6 +4288,15 @@
       "database-implementation-details.md",
       "interfaces-rag-graphrag-query.md",
       "rag-query-pipeline.md"
+    ],
+    "データベースインデックス設計": [
+      "database-indexes.md"
+    ],
+    "ワークフロー関連": [
+      "database-indexes.md"
+    ],
+    "チャット関連": [
+      "database-indexes.md"
     ],
     "運用・": [
       "database-operations.md"
@@ -4253,6 +4317,135 @@
     "ローカルストレージ": [
       "database-operations.md"
     ],
+    "Database": [
+      "database-schema-07b-schema-alias-assignment.md",
+      "database-schema-index.md"
+    ],
+    "Alias": [
+      "database-schema-07b-schema-alias-assignment.md",
+      "legacy-ordinal-family-register.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "Assignment": [
+      "database-schema-07b-schema-alias-assignment.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "Table": [
+      "database-schema-07b-schema-alias-assignment.md"
+    ],
+    "Responsibilities": [
+      "database-schema-07b-schema-alias-assignment.md"
+    ],
+    "Current": [
+      "database-schema-07b-schema-alias-assignment.md",
+      "legacy-ordinal-family-register.md",
+      "task-workflow-active.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+    ],
+    "Delta": [
+      "database-schema-07b-schema-alias-assignment.md"
+    ],
+    "Absorption": [
+      "database-schema-07b-schema-alias-assignment.md"
+    ],
+    "Fixed": [
+      "database-schema-07b-schema-alias-assignment.md"
+    ],
+    "Runtime": [
+      "database-schema-07b-schema-alias-assignment.md",
+      "interfaces-agent-sdk-skill-advanced.md",
+      "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "ui-ux-feature-components-core.md",
+      "ui-ux-feature-components-details.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-ai-runtime-execution-responsibility-realignment.md"
+    ],
+    "Values": [
+      "database-schema-07b-schema-alias-assignment.md"
+    ],
+    "Follow": [
+      "database-schema-07b-schema-alias-assignment.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+    ],
+    "up": [
+      "database-schema-07b-schema-alias-assignment.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-backlog.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+    ],
+    "Boundary": [
+      "database-schema-07b-schema-alias-assignment.md"
+    ],
+    "DDL": [
+      "database-schema-ddl-template.md",
+      "database-schema.md"
+    ],
+    "同期テンプレ": [
+      "database-schema-ddl-template.md",
+      "database-schema.md"
+    ],
+    "database": [
+      "database-schema-ddl-template.md",
+      "spec-splitting-guidelines.md"
+    ],
+    "schema": [
+      "database-schema-ddl-template.md",
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "ui-ux-admin-dashboard.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
+    ],
+    "反映用": [
+      "database-schema-ddl-template.md"
+    ],
+    "テーブル別セクション分割テンプレ": [
+      "database-schema-ddl-template.md"
+    ],
+    "制約一覧表テンプレ": [
+      "database-schema-ddl-template.md"
+    ],
+    "運用メモ": [
+      "database-schema-ddl-template.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "Index": [
+      "database-schema-index.md"
+    ],
     "データベーススキーマ設計": [
       "database-schema.md"
     ],
@@ -4271,6 +4464,38 @@
     ],
     "同期テーブル": [
       "database-schema.md"
+    ],
+    "alias": [
+      "database-schema.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
+    ],
+    "assignment": [
+      "database-schema.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
+    ],
+    "workflow": [
+      "database-schema.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "logs-archive-2026-02-console-migration-patterns.md",
+      "logs-archive-2026-02-skill-validation-atoms-audit.md",
+      "logs-archive-2026-02-validator-task-9f-task-9b.md",
+      "logs-archive-2026-03-history-search-notification-center.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md",
+      "spec-splitting-guidelines.md",
+      "task-workflow-completed-agent-view-line-budget.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "ワークフロー関連テーブル": [
       "database-schema.md"
@@ -4378,6 +4603,7 @@
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
       "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
@@ -4397,11 +4623,13 @@
     ],
     "wrangler": [
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "lessons-learned-06a-public-web-2026-04.md"
     ],
     "toml": [
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
       "deployment-secrets-management.md"
     ],
     "必須項目": [
@@ -4472,6 +4700,7 @@
     ],
     "Worker": [
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
       "deployment-details.md"
     ],
     "size": [
@@ -4573,6 +4802,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -4590,6 +4820,28 @@
     "現行": [
       "deployment-cloudflare.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "Cron": [
+      "deployment-cloudflare.md",
+      "deployment-details.md"
+    ],
+    "Sheets": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "sync": [
+      "deployment-cloudflare.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-completed-recent-2026-04d.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
     ],
     "デプロイ": [
       "deployment-cloudflare.md"
@@ -4622,6 +4874,7 @@
     "から": [
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "skill-ledger-fragment-spec.md"
     ],
     "CLOUDFLARE": [
@@ -4668,6 +4921,46 @@
     ],
     "セクション参照": [
       "deployment-cloudflare.md"
+    ],
+    "CICD": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md"
+    ],
+    "DRIFT": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md"
+    ],
+    "上記": [
+      "deployment-cloudflare.md"
+    ],
+    "binding": [
+      "deployment-cloudflare.md"
+    ],
+    "例は": [
+      "deployment-cloudflare.md"
+    ],
+    "採用後の構成": [
+      "deployment-cloudflare.md"
+    ],
+    "には": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "は未追加で": [
+      "deployment-cloudflare.md"
+    ],
+    "のみが配置されている": [
+      "deployment-cloudflare.md"
+    ],
+    "実適用は": [
+      "deployment-cloudflare.md"
+    ],
+    "bootstrap": [
+      "deployment-cloudflare.md"
+    ],
+    "配下": [
+      "deployment-cloudflare.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "のデプロイ": [
       "deployment-cloudflare.md"
@@ -4786,9 +5079,6 @@
       "deployment-core.md",
       "deployment-gha.md",
       "interfaces-rag-search.md"
-    ],
-    "Cron": [
-      "deployment-details.md"
     ],
     "モニタリングとアラート": [
       "deployment-details.md",
@@ -5228,7 +5518,8 @@
       "governance-hooks-factory-audit-sink.md"
     ],
     "scoped": [
-      "governance-hooks-factory-audit-sink.md"
+      "governance-hooks-factory-audit-sink.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "canUseTool": [
       "governance-hooks-factory-audit-sink.md"
@@ -5331,6 +5622,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -5365,14 +5657,6 @@
     "SkillSlice": [
       "interfaces-agent-sdk-skill-advanced.md",
       "logs-archive-2026-01-topic-map-remember-choice.md"
-    ],
-    "Runtime": [
-      "interfaces-agent-sdk-skill-advanced.md",
-      "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
-      "ui-ux-feature-components-core.md",
-      "ui-ux-feature-components-details.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-ai-runtime-execution-responsibility-realignment.md"
     ],
     "Alignment": [
       "interfaces-agent-sdk-skill-advanced.md",
@@ -5418,6 +5702,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -5754,6 +6039,7 @@
     ],
     "Result": [
       "interfaces-core.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "rag-search-vector.md",
       "ui-result-panel-pattern.md",
       "ui-ux-feature-components-skill-analysis.md"
@@ -6074,7 +6360,8 @@
       "ipc-contract-checklist.md"
     ],
     "背景": [
-      "ipc-contract-checklist.md"
+      "ipc-contract-checklist.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "non": [
       "ipc-contract-checklist.md"
@@ -6114,7 +6401,8 @@
     ],
     "response": [
       "ipc-contract-checklist.md",
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "event": [
       "ipc-contract-checklist.md"
@@ -6234,17 +6522,6 @@
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
-    "Current": [
-      "legacy-ordinal-family-register.md",
-      "task-workflow-active.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-task-rt-06-artifact-inventory.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
-    ],
-    "Alias": [
-      "legacy-ordinal-family-register.md"
-    ],
     "Overrides": [
       "legacy-ordinal-family-register.md"
     ],
@@ -6276,6 +6553,7 @@
     "Lessons": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -6284,6 +6562,7 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -6293,6 +6572,7 @@
     ],
     "Learned": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -6301,6 +6581,7 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -6341,16 +6622,10 @@
     "の検証漏れリスク": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
-    "schema": [
-      "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "skill-ledger-fragment-spec.md",
-      "ui-ux-admin-dashboard.md"
-    ],
     "diff": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
     ],
     "unresolved": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
@@ -6359,7 +6634,8 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
     "stableKey": [
-      "lessons-learned-03a-parallel-forms-schema-sync.md"
+      "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "直書き禁止の事前防止策の欠如": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
@@ -6384,22 +6660,13 @@
     "tier": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
-    "sync": [
-      "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-completed-recent-2026-04d.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
-    ],
     "苦戦箇所": [
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -6435,7 +6702,8 @@
       "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "時の": [
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "切替は": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -6469,7 +6737,8 @@
       "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "UNIQUE": [
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "cron": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -6541,7 +6810,8 @@
       "lessons-learned-04b-member-self-service.md"
     ],
     "enum": [
-      "lessons-learned-04b-member-self-service.md"
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "保持": [
       "lessons-learned-04b-member-self-service.md"
@@ -6611,10 +6881,12 @@
     ],
     "tag": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "resolve": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "状態と": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -6630,7 +6902,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "attendance": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "memberId": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -6640,9 +6913,6 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "を分離": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
-    ],
-    "alias": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "の状態整合は": [
@@ -6714,7 +6984,9 @@
     ],
     "関連未タスク・後続": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "実装の苦戦箇所": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
@@ -6813,48 +7085,17 @@
     "不採用と整合": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
     ],
-    "Follow": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
-      "workflow-ai-runtime-execution-responsibility-realignment.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-rt-06-artifact-inventory.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
-    ],
-    "up": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
-      "lessons-learned-verify-indexes-ci-2026-04.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-backlog.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-runtime-execution-responsibility-realignment.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-rt-06-artifact-inventory.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
-    ],
     "unassigned": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "task": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -7054,7 +7295,8 @@
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "feedback": [
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
     ],
     "で別": [
       "lessons-learned-06c-admin-ui-2026-04.md"
@@ -7064,6 +7306,266 @@
     ],
     "に分ける": [
       "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "語と": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "語は": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "表で固定する": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "batch": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "後の": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "changes": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "判定で": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "race": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "を扱わない": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "follow": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-backlog.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "実体まで作る": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "only": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "NON": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "VISUAL": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "でも": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "evidence": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "を明示する": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "契約は": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "実装タスクの": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "stale": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "記述を同": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "で直す": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "スキーマと実": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "の差分を実装前に": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "grep": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "で照合する": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "dryRun": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "apply": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "は副作用境界": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "audit": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "log": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "logging-migration-guide.md"
+    ],
+    "遷移": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "も含めて完全分離する": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "collision": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "revision": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "pre": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "check": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "で防御し": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "は別タスクに切り出す": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "back": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "fill": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "サイズと": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "CPU": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "budget": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "spec-splitting-guidelines.md",
+      "task-workflow-completed-agent-view-line-budget.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-aiworkflow-requirements-line-budget-reform.md"
+    ],
+    "の二重ガードで": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "制限を逃げる": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "候補提案は": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "score": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "関数を": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "層に分離し": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "Levenshtein": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "section": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "stateless": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "に保つ": [
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+    ],
+    "Attendance": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "Audit": [
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "ui-ux-feature-components-reference-organisms-history-surfaces.md"
+    ],
+    "duplicate": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "existing": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "row": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "を一緒に返す": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "actor": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "middleware": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "へ明示注入する": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "candidates": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "列挙は": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "LEFT": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "JOIN": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "単一": [
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "SELECT": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "で複合除外を構造化する": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "異常系の": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "status": [
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "reason": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "で分岐する": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "projection": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "と独立させる": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "改善フィードバック": [
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
+    ],
+    "反映済み": [
+      "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "実機反映": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md"
@@ -7110,16 +7612,6 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "NON": [
-      "lessons-learned-coverage-80-enforcement-2026-04.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "VISUAL": [
-      "lessons-learned-coverage-80-enforcement-2026-04.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "Part": [
       "lessons-learned-coverage-80-enforcement-2026-04.md"
@@ -7186,7 +7678,8 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "hook": [
-      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "冪等化と": [
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
@@ -7281,9 +7774,29 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
-    "Sheets": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    "merge": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "自動スキップ運用": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "結論": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "個人開発運用ポリシー": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "教訓": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md"
+    ],
+    "Lesson": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "IDs": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "認証": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -7441,10 +7954,6 @@
     "の認証契約を統合せず併存させる判断": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
-    "evidence": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
     "縮約と": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
@@ -7461,7 +7970,8 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
     ],
     "FU": [
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -7532,7 +8042,8 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
     ],
     "する": [
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -7553,9 +8064,6 @@
     "Variable": [
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
-    "には": [
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
-    ],
     "base": [
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
@@ -7567,25 +8075,6 @@
     ],
     "suffix": [
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
-    ],
-    "workflow": [
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "logs-archive-2026-02-console-migration-patterns.md",
-      "logs-archive-2026-02-skill-validation-atoms-audit.md",
-      "logs-archive-2026-02-validator-task-9f-task-9b.md",
-      "logs-archive-2026-03-history-search-notification-center.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
-      "logs-archive-2026-03-notification-history-sigterm-guard.md",
-      "logs-archive-2026-03-workflow02-screenshot-guard.md",
-      "spec-splitting-guidelines.md",
-      "task-workflow-completed-agent-view-line-budget.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "側で": [
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
@@ -7633,8 +8122,7 @@
     "link": [
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -7696,17 +8184,9 @@
     "充足基準": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
-    "only": [
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "skill-ledger-gitattributes-policy.md"
-    ],
     "代替": [
       "lessons-learned-ut-gov-001-2026-04.md",
       "ui-ux-atoms-patterns-core.md"
-    ],
-    "status": [
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "checks": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -7804,12 +8284,6 @@
     "後追い再": [
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "改善フィードバック": [
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
-    ],
-    "feedback": [
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
     ],
     "report": [
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
@@ -7970,9 +8444,6 @@
       "logs-archive-2026-02-console-migration-patterns.md"
     ],
     "electron": [
-      "logging-migration-guide.md"
-    ],
-    "log": [
       "logging-migration-guide.md"
     ],
     "目次": [
@@ -9750,11 +10221,6 @@
     "追補を": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
-    "follow": [
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-backlog.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
-    ],
     "の未タスク": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
@@ -10956,10 +11422,6 @@
     "直接追記が残っていないことを確認": [
       "skill-ledger-fragment-spec.md"
     ],
-    "merge": [
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md"
-    ],
     "後方互換": [
       "skill-ledger-fragment-spec.md"
     ],
@@ -11124,9 +11586,6 @@
     "解除確認": [
       "skill-ledger-gitignore-policy.md"
     ],
-    "単一": [
-      "skill-ledger-gitignore-policy.md"
-    ],
     "再生成": [
       "skill-ledger-gitignore-policy.md"
     ],
@@ -11194,6 +11653,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -11319,12 +11779,6 @@
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform.md"
     ],
-    "budget": [
-      "spec-splitting-guidelines.md",
-      "task-workflow-completed-agent-view-line-budget.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-aiworkflow-requirements-line-budget-reform.md"
-    ],
     "reform": [
       "spec-splitting-guidelines.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
@@ -11341,9 +11795,6 @@
       "task-workflow-completed-skill-lifecycle-security.md"
     ],
     "データベース仕様": [
-      "spec-splitting-guidelines.md"
-    ],
-    "database": [
       "spec-splitting-guidelines.md"
     ],
     "技術スタック仕様": [
@@ -12443,9 +12894,6 @@
     "Reflection": [
       "ui-ux-feature-components-reference-organisms-history-surfaces.md"
     ],
-    "Audit": [
-      "ui-ux-feature-components-reference-organisms-history-surfaces.md"
-    ],
     "REFLECTION": [
       "ui-ux-feature-components-reference-organisms-history-surfaces.md"
     ],
@@ -12881,9 +13329,6 @@
     "chain": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
-    "運用メモ": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
-    ],
     "仕様抽出マトリクス": [
       "workflow-ai-chat-llm-integration-fix.md"
     ],
@@ -13111,9 +13556,6 @@
     "改訂された": [
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
-    "配下": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
     "outputs": [
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
@@ -13164,6 +13606,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -13179,6 +13622,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -13248,6 +13692,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -13257,6 +13702,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -13266,6 +13712,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
@@ -13276,6 +13723,7 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
@@ -13286,7 +13734,8 @@
     ],
     "parallel": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
     ],
     "directory": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
@@ -13297,16 +13746,19 @@
     "主要実装物": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "実装で確定した値": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
     ],
     "済み": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
     ],
     "magic": [
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"

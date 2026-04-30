@@ -2935,11 +2935,11 @@ node scripts/list-specs.js --topics
 | 概要 | L7 |
 | 使い方 | L15 |
 | Current Alias Overrides（個別互換行） | L22 |
-| Family Summary | L45 |
-| Detailed Register | L66 |
-| Section Extract Register (2026-03-17) | L247 |
-| 500-Line Split Register (2026-03-16) | L258 |
-| Fragment Migration Register (2026-04-28) | L280 |
+| Family Summary | L46 |
+| Detailed Register | L67 |
+| Section Extract Register (2026-03-17) | L248 |
+| 500-Line Split Register (2026-03-16) | L259 |
+| Fragment Migration Register (2026-04-28) | L281 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3223,8 +3223,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L60 |
-| 関連ドキュメント | L65 |
+| 利用順序 | L61 |
+| 関連ドキュメント | L66 |
 
 ### references/llm-embedding.md
 
