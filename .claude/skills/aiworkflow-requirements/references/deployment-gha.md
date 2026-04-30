@@ -44,8 +44,10 @@
 | `backend-ci.yml` | API アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
 | `validate-build.yml` | ビルド検証（PR / push トリガー、apps/* の `pnpm build` 通過確認） |
 | `verify-indexes.yml` | aiworkflow-requirements skill indexes drift 検出（`pnpm indexes:rebuild` 結果と committed の差分検証） |
+| `pr-target-safety-gate.yml` | `pull_request_target` trusted context を triage / metadata / manual audit のみに限定する safety gate。PR head checkout / install / build は禁止。 |
+| `pr-build-test.yml` | untrusted PR head の build / lint / typecheck を `pull_request` + `contents: read` のみで実行する workflow。 |
 
-> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 5 件が `.github/workflows/` 配下の実体。`validate-build.yml` / `verify-indexes.yml` は UT-CICD-DRIFT で正本仕様に追記された行。
+> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 7 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
 
 ---
 

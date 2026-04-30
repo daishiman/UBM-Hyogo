@@ -271,8 +271,8 @@ node scripts/list-specs.js --topics
 | セキュリティアーキテクチャ | L146 |
 | 状態管理アーキテクチャ | L180 |
 | データフローアーキテクチャ | L217 |
-| ディレクトリ構造 | L264 |
-| データ構造（型システム） | L323 |
+| ディレクトリ構造 | L265 |
+| データ構造（型システム） | L324 |
 
 ### references/architecture-overview-details.md
 
@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L175 |
-| UBM-Hyogo Admin Sync API（03a） | L196 |
-| UBM-Hyogo Member Self-Service API（04b） | L218 |
-| Desktop IPC API サマリー | L236 |
-| 変更履歴 | L267 |
-| 関連ドキュメント | L283 |
+| エンドポイント命名規則 | L183 |
+| UBM-Hyogo Admin Sync API（03a） | L204 |
+| UBM-Hyogo Member Self-Service API（04b） | L226 |
+| Desktop IPC API サマリー | L244 |
+| 変更履歴 | L275 |
+| 関連ドキュメント | L292 |
 
 ### references/api-internal-chunk-search.md
 
@@ -996,6 +996,16 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 
+### references/database-indexes.md
+
+| セクション | 行 |
+|------------|----|
+| ワークフロー関連 | L5 |
+| チャット関連 | L16 |
+| RAG関連 | L27 |
+| Knowledge Graph関連 | L38 |
+| 関連ドキュメント | L60 |
+
 ### references/database-operations.md
 
 | セクション | 行 |
@@ -1015,12 +1025,21 @@ node scripts/list-specs.js --topics
 | Fixed Runtime Values | L24 |
 | Follow-up Boundary | L35 |
 
+### references/database-schema-ddl-template.md
+
+| セクション | 行 |
+|------------|----|
+| テーブル別セクション分割テンプレ | L5 |
+| 制約一覧表テンプレ | L22 |
+| 運用メモ | L30 |
+| 関連ドキュメント | L36 |
+
 ### references/database-schema-index.md
 
 | セクション | 行 |
 |------------|----|
 | 関連ドキュメント | L5 |
-| 変更履歴 | L13 |
+| 変更履歴 | L14 |
 
 ### references/database-schema.md
 
@@ -1038,7 +1057,8 @@ node scripts/list-specs.js --topics
 | Knowledge Graph関連テーブル | L248 |
 | 変換処理関連テーブル | L382 |
 | インデックス設計 | L441 |
-| 関連ドキュメント / 変更履歴 | L498 |
+| 関連ドキュメント / 変更履歴 | L445 |
+| DDL 同期テンプレ | L450 |
 
 ---
 
@@ -2600,17 +2620,18 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L53 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L140 |
-| Cloudflare D1 データベース | L258 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L291 |
-| GitHub Actions CI/CD | L403 |
-| プレビューデプロイメント | L432 |
-| カスタムドメイン設定 | L448 |
-| 環境分離 | L461 |
-| ロールバック戦略 | L471 |
-| モニタリング/アラート（UT-08 連携） | L492 |
-| 変更履歴 | L509 |
+| API Worker Cron（u-04 Sheets → D1 sync） | L51 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L76 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L163 |
+| Cloudflare D1 データベース | L281 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L314 |
+| GitHub Actions CI/CD | L426 |
+| プレビューデプロイメント | L455 |
+| カスタムドメイン設定 | L471 |
+| 環境分離 | L484 |
+| ロールバック戦略 | L494 |
+| モニタリング/アラート（UT-08 連携） | L515 |
+| 変更履歴 | L532 |
 
 ### references/deployment-core.md
 
@@ -2637,16 +2658,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L52 |
-| キャッシュ戦略 | L88 |
-| 並列実行の活用 | L111 |
-| CD ワークフロー要件（dev / main マージ時） | L167 |
-| Backend ワークフロー要件（dev / main マージ時） | L193 |
-| モニタリングとアラート | L215 |
-| GitHub Secrets の要件 | L249 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L273 |
-| 関連ドキュメント | L293 |
-| 変更履歴 | L300 |
+| CI ワークフロー要件（PR 時） | L54 |
+| キャッシュ戦略 | L90 |
+| 並列実行の活用 | L113 |
+| CD ワークフロー要件（dev / main マージ時） | L169 |
+| Backend ワークフロー要件（dev / main マージ時） | L195 |
+| モニタリングとアラート | L217 |
+| GitHub Secrets の要件 | L251 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L275 |
+| 関連ドキュメント | L295 |
+| 変更履歴 | L302 |
 
 ### references/deployment-history.md
 
@@ -2779,14 +2800,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L98 |
-| 環境別設定 | L172 |
-| Electron アプリでの環境変数 | L226 |
-| トラブルシューティング | L283 |
-| チーム開発での運用 | L344 |
-| 必須環境変数一覧 | L383 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L452 |
-| 関連ドキュメント | L472 |
+| セキュリティベストプラクティス | L101 |
+| 環境別設定 | L175 |
+| Electron アプリでの環境変数 | L229 |
+| トラブルシューティング | L286 |
+| チーム開発での運用 | L347 |
+| 必須環境変数一覧 | L386 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L458 |
+| 関連ドキュメント | L478 |
 
 ### references/error-handling-core.md
 
@@ -3166,8 +3187,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L59 |
-| 関連ドキュメント | L64 |
+| 利用順序 | L60 |
+| 関連ドキュメント | L65 |
 
 ### references/llm-embedding.md
 
