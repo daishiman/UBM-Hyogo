@@ -5,6 +5,17 @@
 
 ---
 
+### UT-21 Forms sync conflict close-out（2026-04-30）
+
+| 目的 | 参照先 |
+| --- | --- |
+| legacy UT-21 の扱い（Sheets→D1 単一 endpoint / audit table は新設しない） | `docs/30-workflows/ut21-forms-sync-conflict-closeout/outputs/phase-12/implementation-guide.md`, `references/task-workflow.md` |
+| 現行 Forms sync 正本 | `apps/api/src/jobs/sync-forms-responses.ts`, `apps/api/src/sync/schema/`, `references/task-workflow.md` |
+| 後続判断 | `docs/30-workflows/unassigned-task/task-ut21-sync-audit-tables-necessity-judgement-001.md`, `docs/30-workflows/unassigned-task/task-ut21-phase11-smoke-rerun-real-env-001.md`, `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md` |
+| 旧仕様の状態欄 | `docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md` |
+
+---
+
 ### CI/CD workflow topology drift（UT-CICD-DRIFT / 2026-04-29）
 
 | 目的 | 参照先 |

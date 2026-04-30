@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-04-30 - UT-21 legacy umbrella close-out Phase 12 feedback
+
+`docs/30-workflows/ut21-forms-sync-conflict-closeout/` を docs-only / NON_VISUAL / `spec_created` としてレビューし、旧 UT-21 Sheets→D1 sync endpoint / audit logging 仕様を削除せず legacy 状態欄で現行 Forms sync 正本へ吸収する運用を確認した。Phase 12 では「新設禁止 IF が成果物そのもの」の場合でも `system-spec-update-summary.md` に Step 2 not required、`unassigned-task-detection.md` に U02/U04/U05 既起票、`skill-feedback-report.md` に両 skill 行を残す必要がある。commit / PR / push は未実行。
+
 ## 2026-04-29 - UT-01 Sheets→D1 sync design Phase 12 review hardening
 
 `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/` を docs-only / NON_VISUAL / spec_created として再監査し、Phase 1〜12 の `artifacts.json` status を `spec_created` に同期した。Phase 12 same-wave sync の pending 表現を実ファイル更新済みに補正し、30種思考法レビューで検出した既存 `apps/api` 実装との差分（`sync_log` vs `sync_job_logs` / `sync_locks`、status / trigger enum、retry 3 vs 5、offset resume、shared 契約型なし）を U-7〜U-10 として未タスク化。Phase 10 MINOR 6 件（TECH-M-01〜04 / TECH-M-DRY-01 / MINOR-M-Q-01）を Phase 12 に全量転記し、Phase 12 compliance を PASS に戻した。commit / PR / push は未実行。

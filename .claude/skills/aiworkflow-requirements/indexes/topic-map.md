@@ -22,6 +22,14 @@ node scripts/list-specs.js --topics
 
 ---
 
+## Legacy umbrella close-out
+
+| タスク | 参照 |
+|--------|------|
+| UT-21 Forms sync conflict close-out | `docs/30-workflows/ut21-forms-sync-conflict-closeout/`, `references/task-workflow.md`, `docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md` |
+
+---
+
 ## 概要・品質
 
 **関連キーワード**: 目的, スコープ, 設計原則, 品質, TDD, 用語
@@ -4720,4 +4728,3 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
-
