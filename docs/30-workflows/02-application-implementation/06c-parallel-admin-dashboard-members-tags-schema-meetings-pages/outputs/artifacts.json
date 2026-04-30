@@ -1,15 +1,18 @@
 {
-  "task_name": "member-login-and-profile-pages",
-  "task_path": "docs/30-workflows/06b-parallel-member-login-and-profile-pages",
+  "task_name": "06c-parallel-admin-dashboard-members-tags-schema-meetings-pages",
+  "task_path": "docs/30-workflows/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages",
   "wave": 6,
   "execution_mode": "parallel",
   "depends_on": [
-    "04b-parallel-member-self-service-api-endpoints",
+    "04c-parallel-admin-backoffice-api-endpoints",
     "05a-parallel-authjs-google-oauth-provider-and-admin-gate",
     "05b-parallel-magic-link-provider-and-auth-gate-state",
     "00-serial-monorepo-shared-types-and-ui-primitives-foundation"
   ],
   "blocks": [
+    "07a-parallel-tag-assignment-queue-resolve-workflow",
+    "07b-parallel-schema-diff-alias-assignment-workflow",
+    "07c-parallel-meeting-attendance-and-admin-audit-log-workflow",
     "08a-parallel-api-contract-repository-and-authorization-tests",
     "08b-parallel-playwright-e2e-and-ui-acceptance-smoke"
   ],
@@ -19,7 +22,8 @@
     "docs_only": false,
     "scope": "application_implementation",
     "visualEvidence": "VISUAL",
-    "workflow_state": "completed"
+    "workflow_state": "completed",
+    "phase12_review": "completed"
   },
   "phases": [
     {
@@ -40,9 +44,7 @@
       "status": "completed",
       "outputs": [
         "outputs/phase-02/main.md",
-        "outputs/phase-02/page-tree.md",
-        "outputs/phase-02/auth-gate-state-ui.md",
-        "outputs/phase-02/data-fetching.md"
+        "outputs/phase-02/admin-pages-design.md"
       ],
       "depends_on_phases": [
         1
@@ -69,7 +71,7 @@
       "status": "completed",
       "outputs": [
         "outputs/phase-04/main.md",
-        "outputs/phase-04/test-matrix.md"
+        "outputs/phase-04/admin-test-strategy.md"
       ],
       "depends_on_phases": [
         3
@@ -83,7 +85,7 @@
       "status": "completed",
       "outputs": [
         "outputs/phase-05/main.md",
-        "outputs/phase-05/runbook.md"
+        "outputs/phase-05/admin-implementation-runbook.md"
       ],
       "depends_on_phases": [
         4
@@ -193,7 +195,7 @@
       "phase": 13,
       "name": "PR 作成",
       "file": "phase-13.md",
-      "status": "pending",
+      "status": "pending_user_approval",
       "outputs": [
         "outputs/phase-13/main.md",
         "outputs/phase-13/local-check-result.md",
@@ -206,50 +208,50 @@
     }
   ],
   "specs_referenced": [
-    "doc/00-getting-started-manual/specs/02-auth.md",
-    "doc/00-getting-started-manual/specs/06-member-auth.md",
-    "doc/00-getting-started-manual/specs/13-mvp-auth.md",
     "doc/00-getting-started-manual/specs/05-pages.md",
-    "doc/00-getting-started-manual/specs/07-edit-delete.md",
     "doc/00-getting-started-manual/specs/09-ui-ux.md",
-    "doc/00-getting-started-manual/specs/16-component-library.md",
-    "doc/00-getting-started-manual/specs/01-api-schema.md"
+    "doc/00-getting-started-manual/specs/11-admin-management.md",
+    "doc/00-getting-started-manual/specs/12-search-tags.md",
+    "doc/00-getting-started-manual/specs/16-component-library.md"
   ],
   "endpoints": [
-    "GET /me",
-    "GET /me/profile",
-    "POST /me/visibility-request",
-    "POST /me/delete-request",
-    "POST /auth/magic-link",
-    "GET /auth/gate-state",
-    "GET /api/auth/callback/email",
-    "GET /api/auth/callback/google"
+    "GET /admin/dashboard",
+    "GET /admin/members",
+    "GET /admin/members/:memberId",
+    "PATCH /admin/members/:memberId/status",
+    "POST /admin/members/:memberId/notes",
+    "PATCH /admin/members/:memberId/notes/:noteId",
+    "POST /admin/members/:memberId/delete",
+    "POST /admin/members/:memberId/restore",
+    "GET /admin/tags/queue",
+    "POST /admin/tags/queue/:queueId/resolve",
+    "GET /admin/schema/diff",
+    "POST /admin/schema/aliases",
+    "GET /admin/meetings",
+    "POST /admin/meetings",
+    "POST /admin/meetings/:sessionId/attendance",
+    "DELETE /admin/meetings/:sessionId/attendance/:memberId"
   ],
   "d1_tables": [],
   "ui_routes": [
-    "/login",
-    "/profile"
+    "/admin",
+    "/admin/members",
+    "/admin/tags",
+    "/admin/schema",
+    "/admin/meetings"
   ],
   "secrets_introduced": [],
   "invariants_touched": [
-    1,
-    2,
     4,
     5,
-    6,
-    7,
-    8,
-    9,
-    10
+    11,
+    12,
+    13,
+    14,
+    15
   ],
   "doc_references": [
-    "doc/00-getting-started-manual/specs/02-auth.md",
-    "doc/00-getting-started-manual/specs/06-member-auth.md",
-    "doc/00-getting-started-manual/specs/13-mvp-auth.md",
-    "doc/00-getting-started-manual/specs/05-pages.md",
-    "doc/00-getting-started-manual/specs/07-edit-delete.md",
-    "doc/00-getting-started-manual/specs/09-ui-ux.md",
-    "doc/00-getting-started-manual/specs/16-component-library.md",
-    "doc/00-getting-started-manual/specs/01-api-schema.md"
+    "doc/02-application-implementation/_design/phase-2-design.md",
+    "doc/02-application-implementation/README.md"
   ]
 }

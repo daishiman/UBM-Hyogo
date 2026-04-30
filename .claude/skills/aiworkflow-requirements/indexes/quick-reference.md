@@ -990,18 +990,20 @@ packages/
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
 
-### Public Landing / Directory / Registration UI 早見（06a / 2026-04-29）
+### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |
 | --- | --- |
-| canonical task root | `docs/30-workflows/completed-tasks/06a-parallel-public-landing-directory-and-registration-pages/` |
-| routes | `/`, `/members`, `/members/[id]`, `/register` |
-| web implementation | `apps/web/app/page.tsx`, `apps/web/app/(public)/members/`, `apps/web/app/(public)/register/page.tsx` |
-| public components | `apps/web/src/components/public/{Hero,StatCard,MemberCard,Timeline,ProfileHero,FormPreviewSections}.tsx`, `apps/web/src/components/feedback/EmptyState.tsx` |
-| query helper | `apps/web/src/lib/url/members-search.ts` (`q` max 200 / `zone` / `status` / repeated `tag` / `sort` / `density=comfy|dense|list`) |
-| fetch boundary | `apps/web/src/lib/fetch/public.ts` (`PUBLIC_API_BASE_URL` -> 04a public API、D1 直接禁止) |
-| visual evidence | `docs/30-workflows/completed-tasks/06a-parallel-public-landing-directory-and-registration-pages/outputs/phase-11/evidence/{curl,screenshot,cmd}/` |
-| follow-up | `docs/30-workflows/unassigned-task/task-06a-followup-001-real-workers-d1-smoke.md`, `task-06a-followup-002-ogp-sitemap.md`, `task-06a-followup-003-mobile-filterbar-tag-picker.md`, `task-04a-followup-003-shared-query-parser-extraction.md` |
+| canonical task root | `docs/30-workflows/02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/` |
+| 実装 root | `apps/web/app/(admin)/admin/`, `apps/web/src/components/admin/`, `apps/web/src/lib/admin/` |
+| admin layout | `apps/web/app/(admin)/layout.tsx` (`getSession` + `isAdmin` gate + `AdminSidebar`) |
+| API proxy | `apps/web/app/api/admin/[...path]/route.ts`（client mutation -> apps/api、secret 注入） |
+| 5画面 | `/admin`, `/admin/members`, `/admin/tags`, `/admin/schema`, `/admin/meetings` |
+| 不変条件 | profile本文編集なし / tag直接編集なし / schema解消は`/admin/schema`のみ / deleted attendance除外 / duplicate attendance disabled |
+| 検証 | `@ubm-hyogo/web` typecheck PASS、Vitest 7 files / 36 tests PASS。スクリーンショットは D1 fixture / staging admin 前提のため 08b/09a に委譲 |
+| UI/UX 詳細 | `references/ui-ux-admin-dashboard.md`（5画面のレイアウト/状態遷移/不変条件/エラー文言） |
+| API client 詳細 | `references/architecture-admin-api-client.md`（Server Component `fetchAdmin` / client mutation helper / proxy / 認可境界） |
+| 教訓 | `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
 
 ### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
 
