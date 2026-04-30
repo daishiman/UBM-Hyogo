@@ -5,6 +5,18 @@
 
 ---
 
+### CI/CD workflow topology drift（UT-CICD-DRIFT / 2026-04-29）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow 5 件 / Node 24 / pnpm 10.33.2 の current facts | `references/deployment-gha.md`, `references/deployment-core.md` |
+| Pages 運用中 + OpenNext Workers cutover 未了 | `references/deployment-cloudflare.md`, `docs/30-workflows/unassigned-task/UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION.md` |
+| Discord 通知未実装 / secret 現行未使用 | `references/deployment-gha.md`, `references/deployment-secrets-management.md`, `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/` |
+| 派生 implementation タスク 7 件 | `docs/30-workflows/completed-tasks/ut-cicd-workflow-topology-drift-cleanup/outputs/phase-12/unassigned-task-detection.md` |
+| 苦戦箇所・再発防止 | `references/lessons-learned-ut-cicd-drift-2026-04.md` |
+
+---
+
 ## よく使うパターン
 
 > **検索パターン集・コードパターン早見は [quick-reference-search-patterns.md](quick-reference-search-patterns.md) に分離**

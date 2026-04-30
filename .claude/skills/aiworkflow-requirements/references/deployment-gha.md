@@ -42,6 +42,10 @@
 | `ci.yml` | PR 時の CI（Lint・型チェック・テスト・ビルド） |
 | `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
 | `backend-ci.yml` | API アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
+| `validate-build.yml` | ビルド検証（PR / push トリガー、apps/* の `pnpm build` 通過確認） |
+| `verify-indexes.yml` | aiworkflow-requirements skill indexes drift 検出（`pnpm indexes:rebuild` 結果と committed の差分検証） |
+
+> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 5 件が `.github/workflows/` 配下の実体。`validate-build.yml` / `verify-indexes.yml` は UT-CICD-DRIFT で正本仕様に追記された行。
 
 ---
 
@@ -55,8 +59,8 @@
 ### 実行ステップ
 
 1. リポジトリコードの取得
-2. pnpm のセットアップ（バージョン: 9.x）
-3. Node.js のセットアップ（バージョン: 22.x LTS）
+2. pnpm のセットアップ（バージョン: 10.33.2 / `.mise.toml` に固定、`pnpm/action-setup@v4` で導入）
+3. Node.js のセットアップ（バージョン: 24 / `.mise.toml` に固定、`actions/setup-node@v4` で導入）
 4. pnpm キャッシュの有効化
 5. 依存関係のインストール（frozen-lockfile モード）
 6. TypeScript 型チェックの実行
@@ -76,6 +80,8 @@
   - Project coverage: 80% 以上
   - Patch coverage: 80% 以上
   - 設定ファイル: `codecov.yml`
+
+> **段階性注記（UT-CICD-DRIFT / 2026-04-29）**: 現行 `ci.yml` の `coverage-gate` job は PR1/3 段階で `continue-on-error: true` の **soft gate** として運用されている。`coverage-80-enforcement` task の PR3/3 で `continue-on-error` を外し hard gate 化される設計。テストシャード 16 並列・Vitest pool 設定は将来構成として記載しており、PR1/3 時点で全項目が ci.yml に反映されているわけではない。
 
 ---
 
@@ -180,6 +186,8 @@
 | 成功時 | 緑色の Embed でデプロイ完了を通知 |
 | 失敗時 | 赤色の Embed でエラー内容を通知 |
 
+> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 Discord Webhook 通知ステップは現行 `.github/workflows/web-cd.yml` には未実装。UT-08-IMPL（観測性実装、Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
+
 ---
 
 ## Backend ワークフロー要件（dev / main マージ時）
@@ -199,6 +207,8 @@
 
 - staging は `apps/api/wrangler.toml` の `[env.staging]`、production は top-level 設定を使う
 - migration と deploy の順序を逆にしない
+
+> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
 ---
 
@@ -291,5 +301,6 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
 | 2026-04-29 | 2.1.0 | UT-27: GitHub Secrets / Variables 配置決定マトリクスと Phase 13 user 承認ゲートを追記 |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron E2E 削除、Cloudflare Pages デプロイへ移行 |

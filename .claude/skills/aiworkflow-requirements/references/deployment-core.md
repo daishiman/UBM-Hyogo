@@ -104,8 +104,13 @@
 
 | ファイル | 用途 |
 | -------- | ---- |
-| `ci.yml` | PR 時の CI（Lint・型チェック・テスト・ビルド） |
-| `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
+| `ci.yml` | PR 時の CI（型チェック・lint・coverage soft gate） |
+| `validate-build.yml` | PR / push 時の build 検証 |
+| `verify-indexes.yml` | aiworkflow-requirements indexes drift 検出 |
+| `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ。Discord 通知は未実装） |
+| `backend-ci.yml` | API CD（D1 migrations apply → Workers deploy。Discord 通知は未実装） |
+
+> **current facts (UT-CICD-DRIFT / 2026-04-29)**: `.github/workflows/` の現行実体は上記 5 件。Node.js は `24`、pnpm は `10.33.2` / `pnpm/action-setup@v4` が基準。Discord 通知は正本要件として残るが、現行 workflow には未実装であり UT-08-IMPL（観測性実装）へ委譲する。
 
 ### CI ワークフロー要件（PR 時）
 
@@ -117,15 +122,15 @@
 #### 実行ステップ
 
 1. リポジトリコードの取得
-2. pnpm のセットアップ（バージョン: 9.x）
-3. Node.js のセットアップ（バージョン: 22.x LTS）
+2. pnpm のセットアップ（バージョン: 10.33.2）
+3. Node.js のセットアップ（バージョン: 24）
 4. pnpm キャッシュの有効化
 5. 依存関係のインストール（frozen-lockfile モード）
 6. TypeScript 型チェックの実行
 7. ESLint によるコード品質チェック
 8. Next.js ビルドの確認
 9. Vitest によるユニットテストの実行
-10. カバレッジチェックと Codecov 連携（閾値 80% 未達で CI 失敗）
+10. カバレッジチェックと Codecov 連携（現行は soft gate。hard gate 化は coverage-80-enforcement 系タスクで扱う）
 
 ### CD ワークフロー要件（dev / main マージ時）
 
@@ -137,7 +142,7 @@
 #### 実行内容
 
 1. ブランチに応じて Cloudflare Pages へ自動デプロイ（wrangler-action）
-2. デプロイ完了後、Discord Webhook で通知を送信
+2. デプロイ完了後の Discord Webhook 通知は未実装。UT-08-IMPL（観測性実装）で導入する。
 
 ---
 
