@@ -127,6 +127,23 @@ worktree 間の暗黙共有・shell state 残留・並列作成競合を防ぐ 4
 
 ---
 
+### Google Sheets API 認証 / Service Account + Web Crypto JWT RS256（UT-03 / 2026-04-29）
+
+`packages/integrations/google/src/sheets/` に Service Account JSON + Web Crypto API（`SubtleCrypto.sign`）で RS256 JWT を生成し、`https://oauth2.googleapis.com/token` へ `urn:ietf:params:oauth:grant-type:jwt-bearer` で交換する access token 取得層。Cloudflare Workers ランタイム互換（Node `crypto` 非依存）。consumer は 03b / 03a の Forms / Sheets 同期 wave。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| パッケージ責務・モジュール境界（`packages/integrations/google` の export 構造） | `references/architecture-monorepo.md`（§packages/integrations/google） |
+| Service Account JSON / scope / spreadsheet ID の env 配置 | `references/environment-variables.md`（§Google Sheets API） |
+| Cloudflare Workers Secret 投入手順・JWT 署名・OAuth token endpoint | `references/deployment-cloudflare.md`（§Sheets API Service Account 認証） |
+| 公開 API（`getSheetsAccessToken(env)` / `createSheetsTokenSource(env)`）と型（`SheetsAuthEnv` / `SheetsAccessToken`） | `packages/integrations/google/src/sheets/index.ts`, `packages/integrations/google/src/sheets/auth.ts` |
+| 関連 env vars | `GOOGLE_SERVICE_ACCOUNT_JSON`（Secret） / `SHEETS_SCOPES`（既定 `https://www.googleapis.com/auth/spreadsheets.readonly`） / `SHEETS_SPREADSHEET_ID` |
+| 単体テスト・契約テスト | `packages/integrations/google/src/sheets/auth.test.ts`, `auth.contract.test.ts` |
+| Phase 12 spec / consumer wave 受け渡し | `docs/30-workflows/completed-tasks/ut-03-sheets-api-auth-setup/index.md`, `phase-12.md` |
+| Wave 状態 | `references/task-workflow-active.md`（§UT-03） |
+
+---
+
 ### Forms Response Sync / Cron */15 / sync_jobs ledger（03b / 2026-04-29）
 
 Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_response_id` 切替・consent snapshot・unknown field → schema_diff_queue を一括処理する batch worker の即時導線。
@@ -989,6 +1006,21 @@ packages/
 | schema 書き込み境界 | `/admin/schema/*` のみに集約 |
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
+
+### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/` |
+| 実装 root | `apps/web/app/(admin)/admin/`, `apps/web/src/components/admin/`, `apps/web/src/lib/admin/` |
+| admin layout | `apps/web/app/(admin)/layout.tsx` (`getSession` + `isAdmin` gate + `AdminSidebar`) |
+| API proxy | `apps/web/app/api/admin/[...path]/route.ts`（client mutation -> apps/api、secret 注入） |
+| 5画面 | `/admin`, `/admin/members`, `/admin/tags`, `/admin/schema`, `/admin/meetings` |
+| 不変条件 | profile本文編集なし / tag直接編集なし / schema解消は`/admin/schema`のみ / deleted attendance除外 / duplicate attendance disabled |
+| 検証 | `@ubm-hyogo/web` typecheck PASS、Vitest 7 files / 36 tests PASS。スクリーンショットは D1 fixture / staging admin 前提のため 08b/09a に委譲 |
+| UI/UX 詳細 | `references/ui-ux-admin-dashboard.md`（5画面のレイアウト/状態遷移/不変条件/エラー文言） |
+| API client 詳細 | `references/architecture-admin-api-client.md`（Server Component `fetchAdmin` / client mutation helper / proxy / 認可境界） |
+| 教訓 | `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
 
 ### skill-ledger 4 施策（task-conflict-prevention-skill-state-redesign）
 
