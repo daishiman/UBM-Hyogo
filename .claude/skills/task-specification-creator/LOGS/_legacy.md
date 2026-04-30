@@ -2539,3 +2539,13 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 変更対象 | `docs/30-workflows/completed-tasks/task-husky-rejection-adr/`、`doc/decisions/`、`docs/30-workflows/unassigned-task/task-adr-template-standardization.md`、`docs/30-workflows/unassigned-task/task-lefthook-ops-adr-backlink.md` |
 | 結果 | Phase 12 implementation guide を Part 1 / Part 2 必須構成へ再構成し、ADR ID を ADR-0001 に統一。Phase 11 に screenshot 不要理由を明記し、関連タスク参照切れを実在パスへ是正。Phase 1〜12 status を completed に同期し、Phase 13 は pending_user_approval を維持した。後続フォローアップ #156 / #157 を formalize |
 | 検証 | `validate-phase12-implementation-guide.js --workflow docs/30-workflows/completed-tasks/task-husky-rejection-adr --json` と `validate-phase11-screenshot-coverage.js --workflow docs/30-workflows/completed-tasks/task-husky-rejection-adr --json` を再実行対象として記録 |
+
+## 2026-04-29 - UT-CICD-DRIFT docs-only close-out 据え置きルール運用実例
+
+- 対象タスク: `docs/30-workflows/completed-tasks/ut-cicd-workflow-topology-drift-cleanup/`
+- タスク種別: docs-only / specification-cleanup / NON_VISUAL
+- Phase 12 完了時点で `metadata.workflow_state` を `spec_created` のまま据え置く運用を実例として記録。
+- 据え置き根拠: `apps/` / `packages/` 配下の変更が 0 件であり、`implemented` への昇格条件（実コード変更の merge）を満たさない。`metadata.docsOnly = true`。
+- 派生 IMPL タスクは `UT-CICD-DRIFT-IMPL-*` として `unassigned-task/` に formalize。本タスクは `implemented` を経由せず、派生タスク群が将来 close されることで topology が完成する。
+- Phase 12 spec の compliance check で `git status` の `apps/` / `packages/` 0 件・`workflow_state == "spec_created"` の両条件を必須項目として運用。
+- 改善示唆: `references/phase-12-spec.md` に「docs-only タスクの close-out では `workflow_state` を `spec_created` のまま据え置く」セクションを追記する候補。`skill-feedback-report.md` に register。

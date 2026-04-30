@@ -7,7 +7,7 @@ interface QueueItem {
   queueId: string;
   memberId: string;
   responseId: string;
-  status: "queued" | "reviewing" | "resolved";
+  status: "queued" | "reviewing" | "resolved" | "rejected";
   suggestedTagsJson: string;
   reason: string | null;
   createdAt: string;
@@ -28,7 +28,7 @@ export default async function AdminTagsPage({
   const sp = await searchParams;
   const status = (() => {
     const s = sp["status"];
-    return s === "queued" || s === "reviewing" || s === "resolved" ? s : undefined;
+    return s === "queued" || s === "reviewing" || s === "resolved" || s === "rejected" ? s : undefined;
   })();
   const focusMemberId = sp["memberId"];
   const qs = status ? `?status=${status}` : "";

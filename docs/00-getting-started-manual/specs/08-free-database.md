@@ -227,6 +227,8 @@ CREATE TABLE IF NOT EXISTS tag_assignment_queue (
 );
 ```
 
+`status` は 07a 時点で `queued | reviewing | resolved | rejected` を扱う。仕様語では `queued` が `candidate`、`resolved` が `confirmed` に対応する。`member_tags` への確定書き込みは `POST /admin/tags/queue/:queueId/resolve` の guarded update 成功後だけ行う。
+
 ---
 
 ## 認証補助
@@ -254,6 +256,12 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 3. consent は current response から `member_status` へ反映する
 4. 参加履歴・タグ・公開状態は form schema 外テーブルで管理する
 5. 削除しても raw response は監査目的で保持する
+
+## schema alias back-fill（07b）
+
+未解決 question は `schema_diff_queue.status='queued'` として入り、07b apply で `resolved` へ進む。実 DB には `response_fields.questionId` / `response_fields.is_deleted` はないため、extra field は `stable_key='__extra__:<questionId>'` で識別し、削除済み member は `member_identities` と `deleted_members` の join で back-fill 対象から外す。
+
+`schema_questions(revision_id, stable_key)` の物理 UNIQUE index は未導入で、現状は workflow pre-check で 422 を返す。物理制約、10,000 行級実測、retryable HTTP contract は `UT-07B-schema-alias-hardening-001` に分離する。
 
 ---
 
