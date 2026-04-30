@@ -52,6 +52,16 @@ production Worker 名を top-level `name` から分離する場合は、producti
 
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）
 
+> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現状 `apps/web/wrangler.toml` は **Pages 形式**（`pages_build_output_dir = ".next"`）で運用されている。本セクション以下の OpenNext Workers 形式（`main = ".open-next/worker.js"` + `[assets]`）は将来構成として記述しており、Pages → OpenNext Workers の cutover 判断と実施は派生 `UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION` で扱う。`web-cd.yml` の現行フローは Pages デプロイ（`wrangler-action`）であり、OpenNext 移行後に `wrangler deploy --env <env>` へ置換予定。
+
+### Pages 形式と OpenNext Workers 形式の判定（current state 列付き）
+
+| wrangler.toml の特徴 | 判定 | UT-06 での扱い | 現状（2026-04-29） |
+| --- | --- | --- | --- |
+| `pages_build_output_dir = ".next"` | Pages 形式 | OpenNext Workers AC とは非整合。移行または AC 再定義が必要 | **`apps/web` はこの形式で稼働中** |
+| `main = ".open-next/worker.js"` + `[assets] directory = ".open-next/assets"` | OpenNext Workers 形式 | UT-06 AC-1 の前提を満たす | 未適用（cutover 派生タスクで扱う） |
+| `compatibility_flags = ["nodejs_compat"]` のみ | 不十分 | entrypoint と assets 設定を併せて確認 | n/a |
+
 ### セットアップ手順
 
 #### 1. Cloudflareアカウント設定
@@ -158,6 +168,9 @@ database_id = "your-d1-database-id"
 binding = "SESSION_KV"
 id = "your-kv-namespace-id"
 # UT-13 で SESSION_KV に統一。詳細は本ファイル下方「Cloudflare KV セッションキャッシュ」セクション参照
+# 注（UT-CICD-DRIFT / 2026-04-29）: 上記 KV binding 例は UT-13 採用後の構成。
+#                                   現行 `apps/api/wrangler.toml` には KV binding は未追加で、
+#                                   D1 binding のみが配置されている。実適用は UT-13 KV bootstrap 配下。
 
 [env.staging]
 name = "ubm-hyogo-api-staging"
@@ -173,7 +186,10 @@ name = "ubm-hyogo-api"
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |
 | `0 */6 * * *` | Google Sheets 由来の既存同期 | `runSync` |
+| `0 18 * * *` | 03a: Google Sheets schema sync（03:00 JST 想定） | `runSchemaSync` |
 | `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
+
+> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 */6 * * *", "0 18 * * *", "*/15 * * * *"]` と完全整合する。`0 18 * * *` 行は本タスクで追加された行（DRIFT-10 解消）。
 
 Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
 
@@ -386,33 +402,15 @@ export async function blacklistSession(env: Env, jti: string, ttlSec: number): P
 
 ## GitHub Actions CI/CD
 
-### 必要なシークレット・変数
+### 必要なシークレット・変数 / API トークン権限
 
-| 名前 | 種別 | 説明 |
-| ---- | ---- | ---- |
-| `CLOUDFLARE_API_TOKEN` | Secret | Cloudflare API トークン |
-| `CLOUDFLARE_ACCOUNT_ID` | Secret | CloudflareアカウントID |
-| `CLOUDFLARE_PAGES_PROJECT` | Variable | Pages プロジェクト名（例: `ubm-hyogo-web`） |
-| `DISCORD_WEBHOOK_URL` | Secret | Discord 通知用 Webhook URL（任意） |
-
-### API トークン権限設定
-
-Cloudflare ダッシュボード → My Profile → API Tokens で以下の権限を付与:
-
-| リソース | 権限 |
-| -------- | ---- |
-| Cloudflare Pages | Edit |
-| Cloudflare Workers | Edit |
-| D1 | Edit |
+CI/CD の secret / variable 配置と最小権限は [`deployment-secrets-management.md`](deployment-secrets-management.md) と [`deployment-gha.md`](deployment-gha.md) を正本とする。Cloudflare Pages / Workers / D1 の Edit 権限は deploy token に限定する。
 
 ### デプロイフロー（web-cd.yml）
 
-```
-push to main
-  → Validate Build（型チェック・Lint・ビルド）
-  → Deploy to Cloudflare Pages（wrangler-action）
-  → Discord 通知
-```
+`push` to `dev` / `main` → Validate Build → Deploy to Cloudflare Pages（wrangler-action）。
+
+> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記は Pages 形式運用中の現行フロー。OpenNext Workers 形式へ cutover 後は `wrangler deploy --env <env>` に置換予定（派生 `UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION` 参照）。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
 
 ---
 
@@ -501,3 +499,4 @@ UT-08（`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`）で
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare 移行） |
 | 2026-04-27 | 1.1.0 | UT-08 モニタリング/アラート設計の SSOT 連携セクション追加 |
 | 2026-04-27 | 1.2.0 | UT-06 派生: `scripts/cf.sh` 章を `wrangler` 直接実行から canonical wrapper に統一（whoami / deploy / d1 / rollback / secret / tail）。ローカル `wrangler login` OAuth 禁止と `op://` 参照経由の `CLOUDFLARE_API_TOKEN` 動的注入を明示。OpenNext Workers 形式 / Pages 形式の判定マトリクスを追加。初回 D1 backup の空 export 取扱を追記。`apps/web/next.config.ts` 例に `outputFileTracingRoot` / `turbopack.root` / `typescript.ignoreBuildErrors` を反映（別 `tsc --noEmit` gate と pair 必須）。API `wrangler.toml` 例に wrangler 4.x strict mode 対応の `[env.staging]` / `[env.production]` を明示 |
+| 2026-04-29 | 1.3.0 | UT-CICD-DRIFT: Pages vs OpenNext Workers の current state 列を判定表に追加、Workers section 冒頭に Pages 運用中の current facts 注記、Cron 表に `0 18 * * *`（03a schema sync）を追加し `apps/api/wrangler.toml` の 3 件と整合、API wrangler.toml KV binding 例を「UT-13 採用後構成」と注記、web-cd 既存フロー後に OpenNext cutover 委譲注記を追加 |

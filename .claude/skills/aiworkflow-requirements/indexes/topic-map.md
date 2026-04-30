@@ -2572,16 +2572,16 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L53 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L130 |
-| Cloudflare D1 データベース | L242 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L275 |
-| GitHub Actions CI/CD | L387 |
-| プレビューデプロイメント | L419 |
-| カスタムドメイン設定 | L436 |
-| 環境分離 | L449 |
-| ロールバック戦略 | L459 |
-| モニタリング/アラート（UT-08 連携） | L480 |
-| 変更履歴 | L497 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L140 |
+| Cloudflare D1 データベース | L258 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L291 |
+| GitHub Actions CI/CD | L403 |
+| プレビューデプロイメント | L417 |
+| カスタムドメイン設定 | L434 |
+| 環境分離 | L447 |
+| ロールバック戦略 | L457 |
+| モニタリング/アラート（UT-08 連携） | L478 |
+| 変更履歴 | L495 |
 
 ### references/deployment-core.md
 
@@ -2590,8 +2590,8 @@ node scripts/list-specs.js --topics
 | デプロイメント戦略概要 | L6 |
 | Cloudflare デプロイ戦略 | L54 |
 | GitHub Actions CI/CD パイプライン | L101 |
-| ロールバック戦略 | L144 |
-| 変更履歴 | L190 |
+| ロールバック戦略 | L149 |
+| 変更履歴 | L195 |
 
 ### references/deployment-details.md
 
@@ -2608,16 +2608,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L48 |
-| キャッシュ戦略 | L82 |
-| 並列実行の活用 | L105 |
-| CD ワークフロー要件（dev / main マージ時） | L161 |
-| Backend ワークフロー要件（dev / main マージ時） | L185 |
-| モニタリングとアラート | L205 |
-| GitHub Secrets の要件 | L239 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L261 |
-| 関連ドキュメント | L281 |
-| 変更履歴 | L288 |
+| CI ワークフロー要件（PR 時） | L52 |
+| キャッシュ戦略 | L88 |
+| 並列実行の活用 | L111 |
+| CD ワークフロー要件（dev / main マージ時） | L167 |
+| Backend ワークフロー要件（dev / main マージ時） | L193 |
+| モニタリングとアラート | L215 |
+| GitHub Secrets の要件 | L249 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L271 |
+| 関連ドキュメント | L291 |
+| 変更履歴 | L298 |
 
 ### references/deployment-history.md
 
@@ -3031,6 +3031,13 @@ node scripts/list-specs.js --topics
 | L-HDBH-004: HEALTH_DB_TOKEN rotation を Phase 12 close-out 時点で formalize する | L42 |
 | 関連参照 | L55 |
 
+### references/lessons-learned-ut-cicd-drift-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 教訓 | L7 |
+
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
 | セクション | 行 |
@@ -3075,8 +3082,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L53 |
-| 関連ドキュメント | L58 |
+| 利用順序 | L54 |
+| 関連ドキュメント | L59 |
 
 ### references/llm-embedding.md
 

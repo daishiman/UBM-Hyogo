@@ -143,6 +143,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned.md",
@@ -2431,6 +2432,7 @@
       "ipc-contract-checklist.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -2822,6 +2824,7 @@
     "apps": [
       "architecture-admin-api-client.md",
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "directory-structure-core.md",
       "ui-ux-atoms-patterns-core.md"
@@ -2858,6 +2861,7 @@
     ],
     "api": [
       "architecture-admin-api-client.md",
+      "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "spec-splitting-guidelines.md",
@@ -4372,11 +4376,13 @@
     ],
     "wrangler": [
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "lessons-learned-06a-public-web-2026-04.md"
     ],
     "toml": [
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
       "deployment-secrets-management.md"
     ],
     "必須項目": [
@@ -4638,6 +4644,45 @@
     ],
     "セクション参照": [
       "deployment-cloudflare.md"
+    ],
+    "CICD": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md"
+    ],
+    "DRIFT": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md"
+    ],
+    "上記": [
+      "deployment-cloudflare.md"
+    ],
+    "binding": [
+      "deployment-cloudflare.md"
+    ],
+    "例は": [
+      "deployment-cloudflare.md"
+    ],
+    "採用後の構成": [
+      "deployment-cloudflare.md"
+    ],
+    "には": [
+      "deployment-cloudflare.md"
+    ],
+    "は未追加で": [
+      "deployment-cloudflare.md"
+    ],
+    "のみが配置されている": [
+      "deployment-cloudflare.md"
+    ],
+    "実適用は": [
+      "deployment-cloudflare.md"
+    ],
+    "bootstrap": [
+      "deployment-cloudflare.md"
+    ],
+    "配下": [
+      "deployment-cloudflare.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "のデプロイ": [
       "deployment-cloudflare.md"
@@ -6248,6 +6293,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -6263,6 +6309,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -7477,6 +7524,9 @@
     ],
     "する": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "教訓": [
+      "lessons-learned-ut-cicd-drift-2026-04.md"
     ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -12929,9 +12979,6 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "改訂された": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "配下": [
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "outputs": [
