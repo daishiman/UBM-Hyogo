@@ -149,6 +149,7 @@
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned.md",
       "llm-ipc-types.md",
@@ -2472,6 +2473,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
@@ -3866,6 +3868,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "spec-elegance-consistency-audit.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -3958,6 +3961,7 @@
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "rag-desktop-state.md",
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md",
@@ -4498,7 +4502,8 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
     ],
     "同期テーブル": [
       "database-schema.md"
@@ -4871,7 +4876,8 @@
     "Sheets": [
       "deployment-cloudflare.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
     ],
     "sync": [
       "deployment-cloudflare.md",
@@ -4879,6 +4885,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -6631,6 +6638,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
@@ -6651,6 +6659,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
@@ -6736,6 +6745,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
@@ -7184,6 +7194,7 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "task": [
@@ -7193,6 +7204,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
       "logs-archive-2026-02-console-migration-patterns.md",
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
@@ -7972,6 +7984,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "out": [
@@ -7979,6 +7992,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "task-workflow-phases.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
@@ -8363,6 +8377,7 @@
     "運用ルール": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -8414,16 +8429,54 @@
       "lessons-learned-ut09-direction-reconciliation-2026-04.md"
     ],
     "系の固定運用": [
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
     ],
     "同期完了サマリー": [
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
     ],
     "same": [
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "conflict": [
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
+    ],
+    "旧仕様の": [
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
+    ],
+    "正本吸収": [
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
+    ],
+    "legacy": [
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "logs-archive-legacy.md",
+      "skill-ledger-overview.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
+    ],
+    "umbrella": [
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
+    ],
+    "派生品質要件の移植先": [
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
+    ],
+    "implementation": [
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "引き渡し": [
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
     ],
     "Second": [
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -9735,9 +9788,6 @@
     "channel": [
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
     ],
-    "conflict": [
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
-    ],
     "UNASSIGNED": [
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md"
@@ -10465,14 +10515,6 @@
     ],
     "改善同期": [
       "logs-archive-2026-03-line-budget-workflow-consolidation.md"
-    ],
-    "legacy": [
-      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
-      "logs-archive-legacy.md",
-      "skill-ledger-overview.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
     ],
     "未タスク正規化課題を分離": [
       "logs-archive-2026-03-line-budget-workflow-consolidation.md"
@@ -12398,11 +12440,6 @@
     "config": [
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
-    "implementation": [
-      "task-workflow-completed-ut-06-safety-gate.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
-    ],
     "タスク完了記録": [
       "task-workflow-completed.md"
     ],
@@ -13979,9 +14016,6 @@
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
     ],
     "forms": [
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
-    ],
-    "umbrella": [
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
     ],
     "Facts": [

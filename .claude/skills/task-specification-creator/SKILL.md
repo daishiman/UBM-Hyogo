@@ -26,6 +26,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.04.30-ut21-legacy-umbrella-closeout | 2026-04-30 | UT-21 Forms sync conflict close-out の Phase 12 feedback を反映。docs-only / NON_VISUAL / `spec_created` の legacy umbrella close-out では、旧仕様を削除せず状態欄で legacy 化し、現行正本・新設禁止 IF・後続 Uxx 分離先を `implementation-guide.md` / `system-spec-update-summary.md` / `unassigned-task-detection.md` に同時固定する運用例を追加。 |
 | v2026.04.30-08b-scaffolding-only-boundary | 2026-04-30 | 08b Playwright E2E Phase 12 review feedback を反映。コード scaffold はあるが実走しないタスクの `taskType=scaffolding-only` と `visualEvidence=VISUAL_DEFERRED` を `references/task-type-decision.md` に追加し、skipped spec / placeholder evidence / manual workflow を実測 PASS と扱わない運用を明確化。 |
 | v2026.04.30-07c-attendance-audit-closeout | 2026-04-30 | 07c attendance audit API Phase 12 feedback を反映。API-only implementation task では Phase 11 screenshot 要求を実装範囲に合わせて NON_VISUAL evidence へ縮約し、Phase 12 implementation-guide に API 型・request/response/error/edge case を必須記載する運用を明確化。root / outputs `artifacts.json` parity と実装タスクの `taskType=implementation` への更新漏れを再発防止対象に追加。 |
 | v2026.04.30-07a-status-alias-contract | 2026-04-30 | 07a tag queue resolve Phase 12 skill-feedback を反映。`references/phase-template-core.md` の Phase 2 ポイントに、既存 DB / API / shared schema の enum や status を拡張・alias する場合の **仕様語 ↔ 実装語対応表** と **追従対象（backend route / web client / shared zod / type / docs）** 明示を追加。`candidate/confirmed` と `queued/resolved` の drift、web client body、shared schema 追従漏れを再発防止する。 |
