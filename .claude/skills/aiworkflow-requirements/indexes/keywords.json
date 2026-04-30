@@ -3896,6 +3896,7 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "rag-desktop-state.md",
       "skill-ledger-fragment-spec.md",
@@ -6241,7 +6242,8 @@
       "ipc-contract-checklist.md"
     ],
     "背景": [
-      "ipc-contract-checklist.md"
+      "ipc-contract-checklist.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "non": [
       "ipc-contract-checklist.md"
@@ -6545,6 +6547,7 @@
     ],
     "sync": [
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -6592,7 +6595,8 @@
       "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "時の": [
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "切替は": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -7404,7 +7408,8 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "hook": [
-      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "冪等化と": [
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
@@ -7498,6 +7503,30 @@
     "関連リンク": [
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "merge": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "自動スキップ運用": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "結論": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "個人開発運用ポリシー": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "教訓": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md"
+    ],
+    "Lesson": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "IDs": [
+      "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
     "Sheets": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -7831,9 +7860,6 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
-    ],
-    "教訓": [
-      "lessons-learned-ut-cicd-drift-2026-04.md"
     ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -11105,10 +11131,6 @@
     ],
     "直接追記が残っていないことを確認": [
       "skill-ledger-fragment-spec.md"
-    ],
-    "merge": [
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md"
     ],
     "後方互換": [
       "skill-ledger-fragment-spec.md"

@@ -3045,6 +3045,15 @@ node scripts/list-specs.js --topics
 | 関連リンク | L52 |
 | 申し送り（open / baseline 未タスク） | L61 |
 
+### references/lessons-learned-sync-merge-hook-skip-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 背景 | L11 |
+| 結論 (個人開発運用ポリシー) | L20 |
+| 教訓 (Lesson IDs) | L29 |
+| 関連 | L37 |
+
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
 | セクション | 行 |
@@ -3134,8 +3143,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L56 |
-| 関連ドキュメント | L61 |
+| 利用順序 | L58 |
+| 関連ドキュメント | L63 |
 
 ### references/llm-embedding.md
 
