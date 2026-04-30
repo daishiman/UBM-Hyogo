@@ -62,6 +62,13 @@ esac
 if [ "$CHANGED" -eq 1 ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
   if upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null); then
     range="${upstream}..HEAD"
+  elif git rev-parse --verify origin/dev >/dev/null 2>&1; then
+    # First push (no upstream yet): use origin/dev as the base — it matches
+    # the base used by changed_packages so sync-merge skip detection covers
+    # the same commit window that coverage measurement walks.
+    range="origin/dev..HEAD"
+  elif git rev-parse --verify origin/main >/dev/null 2>&1; then
+    range="origin/main..HEAD"
   else
     range="HEAD~1..HEAD"
   fi
