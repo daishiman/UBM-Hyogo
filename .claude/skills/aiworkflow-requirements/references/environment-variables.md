@@ -56,10 +56,14 @@
 | `GOOGLE_SHEETS_SA_JSON` | Secret | 旧 Sheets sync 実装名。移行期間の alias として実装側のみ許容し、Cloudflare Workers Secret の新規投入名には使わない | Cloudflare Secrets（legacy alias） |
 | `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Secret | Forms API service account email | Cloudflare Secrets |
 | `GOOGLE_PRIVATE_KEY` | Secret | JWT assertion 署名用 private key | Cloudflare Secrets |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Secret | Sheets API service account JSON key（UT-03 `packages/integrations/google/src/sheets/auth.ts`） | Cloudflare Secrets / 1Password |
+| `SHEETS_SCOPES` | Variable | Sheets API OAuth scope override。未指定時は `https://www.googleapis.com/auth/spreadsheets.readonly` | `apps/api/wrangler.toml` または env binding |
+| `SHEETS_SPREADSHEET_ID` | Variable / Secret | Sheets sync 対象 spreadsheet ID（UT-09 / UT-21 consumer） | `apps/api/wrangler.toml` または Cloudflare Secrets |
 | `SYNC_ADMIN_TOKEN` | Secret | `/admin/sync` / `/admin/sync/responses` Bearer 認証 | Cloudflare Secrets |
 | `HEALTH_DB_TOKEN` | Secret | `GET /health/db` の `X-Health-Token` 検証用 token | Cloudflare Secrets |
 
 `FORM_ID` は旧設定互換として残せるが、03b response sync の正本名は `GOOGLE_FORM_ID` とする。
+`GOOGLE_SERVICE_ACCOUNT_JSON` は Sheets sync 専用の JSON 1 値契約であり、既存 Forms sync の `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を置換しない。値はログ、`.env`、ドキュメント、スクリーンショットに残さず、Cloudflare Secrets と 1Password を正本とする。
 `HEALTH_DB_TOKEN` は 32 byte 以上のランダム値を 1Password `op://UBM-Hyogo/cloudflare-api/HEALTH_DB_TOKEN` に保管し、staging / production の Cloudflare Secrets へ投入する。値はログ、`.env`、ドキュメント、スクリーンショットに残さない。rotation は 90 日ごと、または漏洩疑い時に即時実施する。
 
 ### Cloudflare Workers / Auth + Magic Link

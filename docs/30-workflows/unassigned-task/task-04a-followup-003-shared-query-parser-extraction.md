@@ -24,6 +24,7 @@
 
 - API 側 parser と web 側 parser が drift すると、UI が組み立てた URL が API 側で reject される。
 - 04a は `apps/api` 専用として実装した（`outputs/phase-12/unassigned-task-detection.md` U-3）。
+- 06a で `apps/web/src/lib/url/members-search.ts` が追加され、`q/zone/status/tag/sort/density` の Web helper が実装済み。ただし shared package 抽出は未実施のため、本タスクは未解決として継続する。
 
 ### 1.3 放置した場合の影響
 
@@ -69,6 +70,7 @@
 - [ ] `apps/api/src/_shared/search-query-parser.ts` は re-export または削除
 - [ ] `LIMIT_MAX=100` / `LIMIT_MIN=1` / `Q_MAX_LENGTH=200` 等の定数が共有正本として維持されている
 - [ ] unit test が共有側に移送され green
+- [ ] 06a の `members-search.ts` と 04a の `search-query-parser.ts` が shared parser / shared fixtures を参照している
 
 ---
 
