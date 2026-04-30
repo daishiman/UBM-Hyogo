@@ -271,8 +271,8 @@ node scripts/list-specs.js --topics
 | セキュリティアーキテクチャ | L146 |
 | 状態管理アーキテクチャ | L180 |
 | データフローアーキテクチャ | L217 |
-| ディレクトリ構造 | L265 |
-| データ構造（型システム） | L324 |
+| ディレクトリ構造 | L266 |
+| データ構造（型システム） | L325 |
 
 ### references/architecture-overview-details.md
 
@@ -1048,17 +1048,18 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L43 |
-| Schema alias assignment workflow（07b） | L58 |
-| ワークフロー関連テーブル | L62 |
-| ユーザー関連テーブル | L101 |
-| システムプロンプト関連テーブル | L135 |
-| チャット関連テーブル | L170 |
-| RAG関連テーブル | L206 |
-| Knowledge Graph関連テーブル | L248 |
-| 変換処理関連テーブル | L382 |
-| インデックス設計 | L441 |
-| 関連ドキュメント / 変更履歴 | L445 |
-| DDL 同期テンプレ | L450 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L58 |
+| Schema alias assignment workflow（07b） | L70 |
+| ワークフロー関連テーブル | L74 |
+| ユーザー関連テーブル | L113 |
+| システムプロンプト関連テーブル | L147 |
+| チャット関連テーブル | L182 |
+| RAG関連テーブル | L218 |
+| Knowledge Graph関連テーブル | L260 |
+| 変換処理関連テーブル | L394 |
+| インデックス設計 | L453 |
+| 関連ドキュメント / 変更履歴 | L457 |
+| DDL 同期テンプレ | L462 |
 
 ---
 
@@ -3136,6 +3137,14 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
 
+### references/lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 4 件（L-UUT01-08-001〜004） | L12 |
+| 後続タスク参照 | L42 |
+
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
 | セクション | 行 |
@@ -3237,8 +3246,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L61 |
-| 関連ドキュメント | L66 |
+| 利用順序 | L62 |
+| 関連ドキュメント | L67 |
 
 ### references/llm-embedding.md
 

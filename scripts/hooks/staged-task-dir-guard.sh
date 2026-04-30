@@ -66,6 +66,10 @@ task_dir_from_path() {
           printf 'docs/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}"
           ;;
         *)
+          # docs/30-workflows 直下の単独ファイル (LOGS.md / README.md 等) は task dir ではない
+          if [ -z "${parts[3]:-}" ] && [[ "${parts[2]}" == *.* ]]; then
+            return 1
+          fi
           printf 'docs/%s/%s\n' "${parts[1]}" "${parts[2]}"
           ;;
       esac
