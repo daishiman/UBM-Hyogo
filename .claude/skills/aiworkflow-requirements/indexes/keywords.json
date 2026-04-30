@@ -4679,6 +4679,7 @@
     ],
     "Worker": [
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
       "deployment-details.md"
     ],
     "size": [
@@ -4798,6 +4799,26 @@
     "現行": [
       "deployment-cloudflare.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "Cron": [
+      "deployment-cloudflare.md",
+      "deployment-details.md"
+    ],
+    "Sheets": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "sync": [
+      "deployment-cloudflare.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-completed-recent-2026-04d.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
     "デプロイ": [
       "deployment-cloudflare.md"
@@ -5035,9 +5056,6 @@
       "deployment-core.md",
       "deployment-gha.md",
       "interfaces-rag-search.md"
-    ],
-    "Cron": [
-      "deployment-details.md"
     ],
     "モニタリングとアラート": [
       "deployment-details.md",
@@ -6615,16 +6633,6 @@
     "tier": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
-    "sync": [
-      "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-sync-merge-hook-skip-2026-04.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-completed-recent-2026-04d.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
     "苦戦箇所": [
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
@@ -7751,10 +7759,6 @@
     ],
     "IDs": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
-    ],
-    "Sheets": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
     ],
     "認証": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",

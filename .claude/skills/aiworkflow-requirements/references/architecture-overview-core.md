@@ -240,6 +240,7 @@ TASK-SKILL-LIFECYCLE-01 以降、`SkillCenterView` は lifecycle の primary ent
 | skill-creator | /api/skill-creator/* | スキル作成・ワークフロー |
 | conversations | /api/conversations/* | 会話セッション管理 |
 | integrations | /api/integrations/* | 外部サービス連携ブリッジ |
+| admin sync | /admin/sync/run, /admin/sync/backfill, /admin/sync/audit | u-04 Sheets → D1 sync。`apps/api/src/sync/` の manual / scheduled / backfill / audit layer が `SYNC_ADMIN_TOKEN` Bearer、`sync_locks` mutex、`sync_job_logs` audit ledger で実行を直列化する。Cron `0 * * * *` は HTTP endpoint ではなく Workers `scheduled()` handler から `runScheduledSync(env)` を呼ぶ |
 
 ### Skill Creator Runtime Orchestration Foundation
 

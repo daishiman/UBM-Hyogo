@@ -1,0 +1,239 @@
+{
+  "task_name": "sheets-to-d1-sync-implementation",
+  "task_path": "docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation",
+  "wave": 1,
+  "execution_mode": "serial",
+  "depends_on": [
+    "03-serial-data-source-and-storage-contract",
+    "u-05-d1-migration-sql-implementation",
+    "04-serial-cicd-secrets-and-environment-sync"
+  ],
+  "blocks": [
+    "05b-parallel-smoke-readiness-and-handoff",
+    "09b-parallel-cron-triggers-monitoring-and-release-runbook"
+  ],
+  "created_at": "2026-04-30",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "apps/api sync layer (manual / scheduled / backfill / audit writer)",
+    "workflow_state": "completed_phase_12_phase_13_pending",
+    "origin_issue": "https://github.com/daishiman/UBM-Hyogo/issues/67",
+    "origin_unassigned_task": "docs/30-workflows/completed-tasks/U-04-sheets-to-d1-sync-implementation.md"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/sync-module-design.md",
+        "outputs/phase-02/audit-writer-design.md",
+        "outputs/phase-02/cron-config.md",
+        "outputs/phase-02/d1-contract-trace.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md",
+        "outputs/phase-04/test-matrix.md"
+      ],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md",
+        "outputs/phase-05/runbook.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md",
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "品質保証",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "リファクタリング",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "ドキュメント整備",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "受け入れ確認",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-test-result.md",
+        "outputs/phase-11/evidence/non-visual-evidence.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/architecture-update.md",
+        "outputs/phase-12/runbook-final.md",
+        "outputs/phase-12/audit-ledger-spec.md",
+        "outputs/phase-12/cron-operations.md",
+        "outputs/phase-12/decision-log.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/completed-tasks/03-serial-data-source-and-storage-contract/outputs/phase-02/data-contract.md",
+    "docs/30-workflows/completed-tasks/03-serial-data-source-and-storage-contract/outputs/phase-02/sync-flow.md",
+    "docs/30-workflows/completed-tasks/03-serial-data-source-and-storage-contract/outputs/phase-05/d1-bootstrap-runbook.md",
+    "docs/00-getting-started-manual/specs/01-api-schema.md",
+    "docs/00-getting-started-manual/specs/08-free-database.md",
+    ".claude/skills/aiworkflow-requirements/references/architecture-overview-core.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md"
+  ],
+  "endpoints": [
+    "POST /admin/sync/run",
+    "POST /admin/sync/backfill",
+    "GET /admin/sync/audit",
+    "scheduled (Cron Trigger handler)"
+  ],
+  "d1_tables": [
+    "member_responses",
+    "member_identities",
+    "member_status",
+    "sync_audit (logical; Phase 2 must reconcile with UT-01 sync_log / sync_job_logs / sync_locks)",
+    "form_field_aliases"
+  ],
+  "ui_routes": [],
+  "secrets_introduced": [
+    "GOOGLE_SERVICE_ACCOUNT_JSON"
+  ],
+  "invariants_touched": [1, 2, 3, 4, 5, 6, 7],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/U-04-sheets-to-d1-sync-implementation.md",
+    "docs/30-workflows/completed-tasks/03-serial-data-source-and-storage-contract/outputs/phase-02/data-contract.md",
+    "docs/30-workflows/completed-tasks/03-serial-data-source-and-storage-contract/outputs/phase-02/sync-flow.md"
+  ],
+  "ownership": {
+    "shared_schema_edits": [
+      {
+        "item": "sync_audit テーブルへの書き込み",
+        "owner": "u-04-serial-sheets-to-d1-sync-implementation",
+        "co_owner": "u-05-d1-migration-sql-implementation",
+        "note": "schema 定義は U-05、writer は U-04"
+      },
+      {
+        "item": "wrangler.toml [triggers] crons セクション",
+        "owner": "u-04-serial-sheets-to-d1-sync-implementation",
+        "co_owner": "09b-parallel-cron-triggers-monitoring-and-release-runbook",
+        "note": "本タスクで初出。監視 / runbook 化は 09b"
+      }
+    ]
+  }
+}
