@@ -87,13 +87,14 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 | POST | `/admin/members/:memberId/delete` | member を論理削除する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `queued -> reviewing -> resolved` で解決する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `confirmed`（DB/API status: `resolved`）または `rejected` に解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/schema/aliases` | question stable key alias を解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings` | meeting sessions と attendance summary（既存出席 memberId）を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings` | meeting session を作成する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409`、削除済み member は `422` | Auth.js JWT + `requireAdmin` |
-| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/meetings/:sessionId/attendance/candidates` | attendance 候補を一覧する。session 不在は `404 session_not_found`、削除済み member と登録済み member は除外する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409 attendance_already_recorded`、削除済み member は `422 member_is_deleted`、session 不在は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
+| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する。row 不在は `404 attendance_not_found` に集約する | Auth.js JWT + `requireAdmin` |
 
 04c の構造的不変条件:
 
@@ -102,6 +103,25 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 - schema 変更は `/admin/schema/*` に集約する。
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
+- 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、POST は `after_json`、DELETE は `before_json` に attendance row を残す。
+
+07a close-out で `POST /admin/tags/queue/:queueId/resolve` の body は zod discriminated union に確定した。
+
+```ts
+type TagQueueResolveBody =
+  | { action: "confirmed"; tagCodes: string[] }
+  | { action: "rejected"; reason: string };
+```
+
+成功時は `{ ok: true, result: { queueId, status: "resolved" | "rejected", resolvedAt, memberId, tagCodes?, reason?, idempotent } }` を返す。同一 payload の再投入は 200 + `idempotent: true` で追加 audit を作らない。主要 error code は `queue_not_found` (404), `state_conflict` / `idempotent_payload_mismatch` / `race_lost` (409), `unknown_tag_code` / `member_deleted` (422), body validation (400)。
+
+07b schema alias workflow close-out:
+
+- `GET /admin/schema/diff` は `items[].recommendedStableKeys: string[]` を返す。候補は既存 `schema_questions.stable_key` から、label の Levenshtein 距離 + section / position 一致スコアで上位 5 件を提示する。
+- `POST /admin/schema/aliases?dryRun=true` は書き込みを行わず、`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返す。dry-run では `audit_log` も追記しない。
+- `POST /admin/schema/aliases` apply mode は `schema_questions.stable_key` 更新、任意 `diffId` の `schema_diff_queue` resolve、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` 追記を同じ workflow 境界で実行する。
+- collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `422` を返す。diff 不在は `404`、diff と request question mismatch は `409`。
+- back-fill は batch 100 / CPU budget 25s を上限とし、`deleted_members` に紐づく `member_identities.current_response_id` は対象外にする。既に同 response に新 stableKey 行がある場合は extra 行を削除して冪等性を保つ。
 
 ### 認証セッション解決 API（apps/api / 05a）
 

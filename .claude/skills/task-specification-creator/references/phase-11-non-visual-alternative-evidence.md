@@ -11,7 +11,7 @@
 
 以下を **同時に満たす** タスクで本ガイドを使う。
 
-1. UI 差分なし（API repository / library / config / boundary tooling など）
+1. UI 差分なし（API repository / route / library / config / boundary tooling など）
 2. staging 環境が未配備、または実フロー前提のシナリオが現環境で実行不能
 3. phase-11.md の S-1 〜 S-N が wrangler / dep-cruiser バイナリ / 実フォーム / 実 D1 を要求している
 
@@ -69,6 +69,7 @@ UI 差分なし & コード変更なし（governance / branch protection / OIDC 
 - governance（branch protection / required status checks 変更）
 - `pull_request_target` safety gate（OIDC / `workflow_run` 含む dry-run）
 - audit log / runbook の追記のみ
+- API-only route 追加（例: attendance add/remove の Vitest smoke で request/response/error/audit を固定し、visual は 08b/09a へ委譲）
 - skill / spec の再構築（`spec_created` で CLOSED Issue を reopen しないケース）
 
 これらは Phase 11 で UI screenshot を出さない代わりに、上記 3 点で「整合性検査が走り、リンクが生きており、保証外を `unassigned-task-detection.md` に申し送った」ことを記録する。

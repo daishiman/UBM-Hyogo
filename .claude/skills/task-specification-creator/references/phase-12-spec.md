@@ -86,12 +86,31 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 - 既存インターフェースの変更
 - 新規定数/設定値の追加
 - API仕様の変更
+- public response が不変でも、back-fill / CPU budget / retryable error / owner boundary / DB 実スキーマ差分吸収が入る場合
 
 **Step 2 更新が不要な場合**:
 
 - 内部実装の詳細変更のみ
 - リファクタリング（インターフェース不変）
 - バグ修正（仕様変更なし）
+
+#### Step 2 N/A 判定例（記載必須テンプレ）
+
+> 由来: UT-04 D1 データスキーマ設計 skill-feedback-report に基づく追加（2026-04-29）。`phase-12-pitfalls.md` の「Step 2 必要性判定の記録漏れ」を回避するため、N/A 判定時も以下 3 項目で根拠を明記する。
+
+```markdown
+## Step 2（条件付き）: 新規インターフェース追加時のみ
+
+**判定: N/A**
+
+理由:
+
+- 本タスクは <スコープ（例: D1 schema 設計 / governance docs / runbook 整備）> のみ。TypeScript インターフェース / API endpoint / IPC 契約 / shared package 型の **新規追加なし**。
+- <既存参照仕様（例: `references/database-schema.md`）> に正本があり、本タスクはそこを参照する <種別（例: spec_created / docs-only / governance）> である。
+- <派生作業（例: DDL→Zod 自動派生 / API handler 実装）> は別タスク（<タスク参照: 例 `task-ut-04-shared-zod-codegen.md` / UT-09 実装フェーズ>）でスコープ化済み。本 Phase 12 ではスコープ外。
+
+> Step 2 を **N/A 判定の根拠付きで明記** しておくことで、phase-12-pitfalls.md「Step 2 必要性判定の記録漏れ」を回避する。
+```
 
 ### `spec_created` UI task の Phase 12 close-out ルール
 

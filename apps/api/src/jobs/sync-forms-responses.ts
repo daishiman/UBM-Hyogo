@@ -45,6 +45,7 @@ import {
 } from "../repository/responseFields";
 import { setConsentSnapshot, getStatus } from "../repository/status";
 import { enqueue as enqueueDiff } from "../repository/schemaDiffQueue";
+import { enqueueTagCandidate } from "../workflows/tagCandidateEnqueue";
 import { start, succeed, fail } from "../repository/syncJobs";
 
 import type { GoogleFormsClient } from "@ubm-hyogo/integrations";
@@ -327,6 +328,17 @@ export async function processResponse(
       consents.rulesConsent,
     );
     writeCount += 1;
+  }
+
+  // 7. tag candidate 自動投入（07a hook）
+  //    member_tags 空 + 未解決 queue 無し のときだけ candidate 行を 1 件作る。
+  //    削除済み member は skip（不変条件 #13 + AC-7 の precaution）。
+  if (!status || status.is_deleted !== 1) {
+    const result = await enqueueTagCandidate(dbCtx, {
+      memberId,
+      responseId,
+    });
+    if (result.enqueued) writeCount += 1;
   }
 
   return { writeCount };

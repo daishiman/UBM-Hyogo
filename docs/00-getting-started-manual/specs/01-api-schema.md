@@ -214,3 +214,9 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 3. 未解決の追加質問は `extraFields` として保持する
 4. 過去 manifest は削除しない
 5. 31 項目の既知項目と schema 外データを混同しない
+
+## schema alias assignment API（07b）
+
+`GET /admin/schema/diff` は `recommendedStableKeys: string[]` を同梱する。`POST /admin/schema/aliases?dryRun=true` は DB / queue / audit に副作用を出さず、影響件数と collision 有無だけを返す。apply は `schema_questions.stable_key` 更新、任意 `schema_diff_queue.status='resolved'`、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` を実行する。
+
+collision は 422、diff 不在は 404、diff と question 不一致は 409。大規模 back-fill / UNIQUE index / retryable HTTP contract は `docs/30-workflows/unassigned-task/UT-07B-schema-alias-hardening-001.md` に分離する。
