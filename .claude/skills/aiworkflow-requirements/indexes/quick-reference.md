@@ -17,6 +17,17 @@
 ---
 
 ### CI/CD workflow topology drift（UT-CICD-DRIFT / 2026-04-29）
+
+| 目的 | 参照先 |
+| --- | --- |
+| CI/CD topology drift 正本 | `references/deployment-gha.md`, `references/deployment-cloudflare.md`, `references/deployment-core.md`, `references/deployment-secrets-management.md` |
+| Pages vs Workers deploy target decision | `docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`（ADR-0001 / Workers cutover accepted） |
+| OpenNext Workers 詳細仕様 | `references/deployment-cloudflare-opennext-workers.md` |
+| 残る実装 task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`（`web-cd.yml` Workers deploy 置換 / Cloudflare side cutover / smoke） |
+| 決定 workflow | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` |
+
+---
+
 ### 06a Public Web Real Workers/D1 Smoke（2026-04-30）
 
 06a の mock API smoke では検出できなかった Workers runtime / D1 binding / `PUBLIC_API_BASE_URL` 経路を、follow-up 仕様として local + staging の二段 smoke に分離する。
@@ -32,7 +43,6 @@
 | Issue | `Refs #273` のみ、CLOSED 維持 |
 
 ---
-
 ### Schema Alias Resolution Contract（issue-191 / 2026-04-30）
 
 07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。

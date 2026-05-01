@@ -2557,3 +2557,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - 派生 IMPL タスクは `UT-CICD-DRIFT-IMPL-*` として `unassigned-task/` に formalize。本タスクは `implemented` を経由せず、派生タスク群が将来 close されることで topology が完成する。
 - Phase 12 spec の compliance check で `git status` の `apps/` / `packages/` 0 件・`workflow_state == "spec_created"` の両条件を必須項目として運用。
 - 改善示唆: `references/phase-12-spec.md` に「docs-only タスクの close-out では `workflow_state` を `spec_created` のまま据え置く」セクションを追記する候補。`skill-feedback-report.md` に register。
+
+## 2026-05-01 - UT-CICD-DRIFT-IMPL Pages vs Workers decision Phase 12 review sync
+
+- 対象: `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/`
+- docs-only / NON_VISUAL / `spec_created` の Phase 12 再監査で、ADR 未作成、正本仕様 stale current facts、C-2 未タスク候補残り、Phase 11 evidence 名寄せ漏れを検出して是正。
+- Phase 11 は `main.md` / `manual-smoke-log.md` / `link-checklist.md` を canonical evidence とし、追加補助 `manual-test-result.md` / `ui-sanity-visual-review.md` は artifacts から外した。
+- Phase 12 では formalized ADR-0001、system spec sync、既存 migration task への C-1/C-2 吸収、実測 validator 結果記録を必須化。
+- 大幅な skill template 構造変更は別承認対象として、今回の `skill-feedback-report.md` は観察記録に留めた。
