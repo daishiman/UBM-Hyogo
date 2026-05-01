@@ -1070,6 +1070,18 @@ node scripts/list-specs.js --topics
 | インデックス設計 | L455 |
 | 関連ドキュメント / 変更履歴 | L459 |
 | DDL 同期テンプレ | L464 |
+| Legacy Sheets sync transition note（U-UT01-09） | L60 |
+| Schema alias assignment workflow（07b） | L72 |
+| ワークフロー関連テーブル | L76 |
+| ユーザー関連テーブル | L115 |
+| システムプロンプト関連テーブル | L149 |
+| チャット関連テーブル | L184 |
+| RAG関連テーブル | L220 |
+| Knowledge Graph関連テーブル | L262 |
+| 変換処理関連テーブル | L396 |
+| インデックス設計 | L455 |
+| 関連ドキュメント / 変更履歴 | L459 |
+| DDL 同期テンプレ | L464 |
 
 ---
 
@@ -3002,6 +3014,15 @@ node scripts/list-specs.js --topics
 | 500-Line Split Register (2026-03-16) | L262 |
 | Fragment Migration Register (2026-04-28) | L284 |
 | Task Root Path Drift Register (2026-04-30 追記) | L311 |
+| 概要 | L9 |
+| 使い方 | L17 |
+| Current Alias Overrides（個別互換行） | L24 |
+| Family Summary | L50 |
+| Detailed Register | L71 |
+| Section Extract Register (2026-03-17) | L252 |
+| 500-Line Split Register (2026-03-16) | L263 |
+| Fragment Migration Register (2026-04-28) | L285 |
+| Task Root Path Drift Register (2026-04-30 追記) | L312 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3202,6 +3223,14 @@ node scripts/list-specs.js --topics
 | 苦戦箇所 4 件（L-UUT01-08-001〜004） | L12 |
 | 後続タスク参照 | L42 |
 
+### references/lessons-learned-u-ut01-09-retry-offset-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UUT0109-001: docs-only canonical decision でも正本導線を同 wave で閉じる | L3 |
+| L-UUT0109-002: technical GO と user approval を分離する | L7 |
+| L-UUT0109-003: offset は invocation budget と invalidation 条件まで書く | L11 |
+
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
 | セクション | 行 |
@@ -3324,6 +3353,8 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L7 |
 | 利用順序 | L65 |
 | 関連ドキュメント | L70 |
+| 利用順序 | L63 |
+| 関連ドキュメント | L68 |
 
 ### references/llm-embedding.md
 
