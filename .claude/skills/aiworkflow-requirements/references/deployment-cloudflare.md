@@ -210,11 +210,11 @@ name = "ubm-hyogo-api"
 
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |
-| `0 */6 * * *` | Google Sheets 由来の既存同期 | `runSync` |
+| `0 * * * *` | Google Sheets 由来の legacy hourly sync（撤回は UT21-U05） | `runSync` |
 | `0 18 * * *` | 03a: Google Sheets schema sync（03:00 JST 想定） | `runSchemaSync` |
 | `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
 
-> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 */6 * * *", "0 18 * * *", "*/15 * * * *"]` と完全整合する。`0 18 * * *` 行は本タスクで追加された行（DRIFT-10 解消）。
+> **current facts (09b / 2026-05-01)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は legacy Sheets hourly cron の現行残存であり、撤回・runtime 設定整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱う。09b は docs-only / spec_created のため runtime 設定を変更しない。
 
 Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
 
