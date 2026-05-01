@@ -2260,6 +2260,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L110 |
 | Validation Chain | L119 |
 
+### references/workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L21 |
+| Phase Outputs | L32 |
+| 主要実装物（spec_created 段階の planned outputs） | L50 |
+| Skill 反映先（current canonical set） | L60 |
+| 苦戦箇所（lessons reference） | L72 |
+| Follow-up 未タスク | L82 |
+| Validation Chain | L86 |
+
 ### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
 
 | セクション | 行 |
@@ -2285,6 +2298,16 @@ node scripts/list-specs.js --topics
 | 実装で確定した値 | L69 |
 | Follow-up 未タスク（formalize 済み） | L78 |
 | Validation Chain | L89 |
+
+### references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Consumed Upstream Evidence | L17 |
+| Phase Outputs（current canonical set） | L28 |
+| Skill 反映先（current canonical set） | L37 |
+| Validation Chain | L50 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -2996,12 +3019,12 @@ node scripts/list-specs.js --topics
 | 概要 | L9 |
 | 使い方 | L17 |
 | Current Alias Overrides（個別互換行） | L24 |
-| Family Summary | L49 |
-| Detailed Register | L70 |
-| Section Extract Register (2026-03-17) | L251 |
-| 500-Line Split Register (2026-03-16) | L262 |
-| Fragment Migration Register (2026-04-28) | L284 |
-| Task Root Path Drift Register (2026-04-30 追記) | L311 |
+| Family Summary | L50 |
+| Detailed Register | L71 |
+| Section Extract Register (2026-03-17) | L252 |
+| 500-Line Split Register (2026-03-16) | L263 |
+| Fragment Migration Register (2026-04-28) | L285 |
+| Task Root Path Drift Register (2026-04-30 追記) | L312 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3126,6 +3149,16 @@ node scripts/list-specs.js --topics
 | 関連未タスク・後続 wave 連携 | L50 |
 | skill 改善フィードバック（task-specification-creator 反映済み） | L57 |
 | 参照 | L62 |
+
+### references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L9 |
+| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L17 |
+| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L25 |
+| L-09A-004: path realignment は top register と drift register の両方に書く | L33 |
+| L-09A-005: skill feedback は報告で止めず promotion target を決める | L41 |
 
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
@@ -3332,8 +3365,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L65 |
-| 関連ドキュメント | L70 |
+| 利用順序 | L66 |
+| 関連ドキュメント | L71 |
 
 ### references/llm-embedding.md
 
@@ -4706,10 +4739,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L14 |
-| 利用順序 | L43 |
-| 関連ドキュメント | L48 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L52 |
+| 仕様書インデックス | L15 |
+| 利用順序 | L44 |
+| 関連ドキュメント | L49 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L53 |
 
 ### references/testing-accessibility.md
 
