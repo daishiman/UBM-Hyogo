@@ -241,6 +241,7 @@ TASK-SKILL-LIFECYCLE-01 以降、`SkillCenterView` は lifecycle の primary ent
 | conversations | /api/conversations/* | 会話セッション管理 |
 | integrations | /api/integrations/* | 外部サービス連携ブリッジ |
 | admin sync | /admin/sync/run, /admin/sync/backfill, /admin/sync/audit | u-04 Sheets → D1 sync。`apps/api/src/sync/` の manual / scheduled / backfill / audit layer が `SYNC_ADMIN_TOKEN` Bearer、`sync_locks` mutex、`sync_job_logs` audit ledger で実行を直列化する。Cron `0 * * * *` は HTTP endpoint ではなく Workers `scheduled()` handler から `runScheduledSync(env)` を呼ぶ |
+| sync enum canonicalization | docs-only contract | U-UT01-08 は `sync_job_logs` 移行時の `status` を `pending` / `in_progress` / `completed` / `failed` / `skipped`、`trigger_type` を `manual` / `cron` / `backfill` に寄せる spec_created 契約。`admin` は actor 情報として `triggered_by='admin'` へ分離し、実 migration / literal rewrite / shared Zod は UT-04 / UT-09 / U-UT01-10 が担う |
 
 ### Skill Creator Runtime Orchestration Foundation
 

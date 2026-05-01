@@ -57,6 +57,18 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 
 `sync_jobs.metrics_json.cursor` は Google API の `pageToken` ではない。`pageToken` は単一実行内のページングに限定し、次回 cron は high-water mark を `forms.responses.list` の timestamp filter に渡して再開する。
 
+## Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created）
+
+U-UT01-08 は docs-only 契約として、既存 `sync_job_logs` 移行時の値ドメインを次の候補に固定する。これは `spec_created` の契約であり、D1 migration / runtime literal rewrite / shared Zod 実装は UT-04 / UT-09 / U-UT01-10 が適用証跡を持つまで `impl_applied` と扱わない。
+
+| 軸 | canonical set | 既存値の扱い | 実装 owner |
+| --- | --- | --- | --- |
+| `status` | `pending` / `in_progress` / `completed` / `failed` / `skipped` | `running -> in_progress`, `success -> completed`, `skipped -> skipped` | UT-04 / UT-09 |
+| `trigger_type` | `manual` / `cron` / `backfill` | `admin -> manual`。actor 情報は `triggered_by='admin'` へ分離 | UT-04 / UT-09 |
+| shared contract | `SyncStatus`, `SyncTriggerType` + Zod schema | 型と runtime validation を併設 | U-UT01-10 |
+
+参照 workflow: `docs/30-workflows/u-ut01-08-sync-enum-canonicalization/`。
+
 ## Schema alias assignment workflow（07b）
 
 07b 固有の schema 差分確定・stableKey 更新・response back-fill・audit 境界は、500 行制限に従い [database-schema-07b-schema-alias-assignment.md](database-schema-07b-schema-alias-assignment.md) に分離する。
