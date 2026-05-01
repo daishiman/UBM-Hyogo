@@ -2557,3 +2557,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - 派生 IMPL タスクは `UT-CICD-DRIFT-IMPL-*` として `unassigned-task/` に formalize。本タスクは `implemented` を経由せず、派生タスク群が将来 close されることで topology が完成する。
 - Phase 12 spec の compliance check で `git status` の `apps/` / `packages/` 0 件・`workflow_state == "spec_created"` の両条件を必須項目として運用。
 - 改善示唆: `references/phase-12-spec.md` に「docs-only タスクの close-out では `workflow_state` を `spec_created` のまま据え置く」セクションを追記する候補。`skill-feedback-report.md` に register。
+
+## 2026-05-01 - UT-CICD-DRIFT-IMPL observability matrix sync Phase 12 compliance
+
+- 対象: `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/`
+- docs-only / NON_VISUAL として `taskType=docs-only` / `visualEvidence=NON_VISUAL` に正規化。
+- Phase 11 canonical 3 ファイル（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）と Phase 12 canonical 7 ファイルを配置。
+- root / outputs `artifacts.json` parity を維持。
+- `node .claude/skills/task-specification-creator/scripts/generate-index.js --workflow ... --regenerate` は `phase-01.md` 命名を検出できず弱い index を生成したため、手動で canonical index を復旧。スクリプト側の `phase-01.md` 対応は将来改善候補。

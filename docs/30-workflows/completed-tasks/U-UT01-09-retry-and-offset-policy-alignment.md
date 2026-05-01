@@ -14,6 +14,21 @@
 | visualEvidence | NON_VISUAL |
 | 検出元 | UT-01 Phase 12 unassigned-task-detection.md（U-9） |
 | 起票時期 | UT-09 実装追補 / 設計差分レビュー |
+| 後継workflow | `docs/30-workflows/completed-tasks/u-ut01-09-retry-and-offset-policy-alignment/` |
+| Issue状態 | #263 CLOSED のまま設計判断記録として残置 |
+
+## close-out 同期（2026-04-30）
+
+本未タスクは後継 workflow `docs/30-workflows/completed-tasks/u-ut01-09-retry-and-offset-policy-alignment/` により Phase 1〜12 の設計判断記録を作成済み。root 状態は `spec_created` を維持し、実装変更は UT-09、物理 ledger / migration は U-UT01-07 へ委譲する。
+
+| AC | close-out 状態 |
+| --- | --- |
+| AC1 | PASS: retry max = 3、`SYNC_MAX_RETRIES` override 存続 |
+| AC2 | PASS: backoff base 1s / factor 2 / cap 32s / jitter ±20%。UT-09 では 1 invocation budget を別途検証する |
+| AC3 | PASS: `processed_offset` 採用、chunk index 単位。行削除 / 挿入 / 並べ替え検知時は offset invalidation を UT-09 受入条件へ追加 |
+| AC4 | PASS: migration 影響は机上評価済み。物理 DDL は UT-09 / U-UT01-07 |
+| AC5 | PASS: quota worst case 2 req / 100s = 0.4% |
+| AC6 | PASS: `SYNC_MAX_RETRIES` 既定 3、過渡期 7 日 |
 
 ## 目的
 

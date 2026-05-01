@@ -1,6 +1,6 @@
 {
   "task_name": "observability-and-cost-guardrails",
-  "task_path": "docs/05a-parallel-observability-and-cost-guardrails",
+  "task_path": "docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails",
   "wave": 5,
   "execution_mode": "parallel",
   "depends_on": [
