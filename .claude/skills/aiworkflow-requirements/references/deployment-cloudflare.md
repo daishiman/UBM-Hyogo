@@ -71,6 +71,17 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 
 実機 staging smoke は 05b、cron 監視と 30 分超 running alert は 09b の責務とする。
 
+### API Worker Env 型正本（Issue #112 / 2026-05-01）
+
+`apps/api` Worker の TypeScript binding 型は `apps/api/src/env.ts` の `Env` interface を正本とする。`apps/api/wrangler.toml` の D1 binding / vars と Cloudflare Secrets を追加・変更する場合は、同一 PR / 同一 wave で `Env` も更新する。
+
+| 対象 | 正本 |
+| --- | --- |
+| D1 binding | `apps/api/wrangler.toml` `binding = "DB"` + `Env.DB: D1Database` |
+| Sheets / Forms vars | `SHEET_ID`, `SHEETS_SPREADSHEET_ID`, `FORM_ID`, `GOOGLE_FORM_ID` など |
+| Repository context | `apps/api/src/repository/_shared/db.ts` `ctx(env: Pick<Env, "DB">)` |
+| Web boundary | `scripts/lint-boundaries.mjs` が `apps/web` から `apps/api/src/env` への raw / relative import を遮断 |
+
 ---
 
 ## D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01）

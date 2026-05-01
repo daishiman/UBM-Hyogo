@@ -29,6 +29,17 @@
 | 検証 | local typecheck + route/workflow/repository tests 完了。10,000 行 staging D1 / Workers 実測は `staging-deferred` |
 | 後続 | queue/cron split は Phase 11 staging evidence で必要性が出た場合のみ formalize |
 
+### Issue #112 API Worker Env 型 SSOT（2026-05-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL |
+| 成果物 | `docs/30-workflows/issue-112-02c-followup-api-env-type-helper/` |
+| 実装 | `apps/api/src/env.ts` / `apps/api/src/repository/_shared/db.ts` / `scripts/lint-boundaries.mjs` |
+| 公開契約 | `Env` interface を API Worker binding 型の SSOT とし、`ctx(env: Pick<Env, "DB">)` で repository context を作る |
+| 検証 | typecheck / lint PASS。API full test は pre-existing `schemaDiffQueue.test.ts` 2 件失敗を記録。boundary lint は `../../api/src/env` relative import も遮断 |
+| 後続 | KV / R2 / OAuth / Magic Link HMAC key は各後続タスクで `wrangler.toml` と `Env` を同一 wave 同期 |
+
 ### 目的
 
 ユーザーから与えられた複雑なタスクを分解し、以下を実現する：

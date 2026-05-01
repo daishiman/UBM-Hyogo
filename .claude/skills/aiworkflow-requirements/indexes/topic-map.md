@@ -2847,18 +2847,18 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L76 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L95 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L182 |
-| Cloudflare D1 データベース | L302 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L335 |
-| GitHub Actions CI/CD | L447 |
-| プレビューデプロイメント | L476 |
-| カスタムドメイン設定 | L492 |
-| 環境分離 | L505 |
-| ロールバック戦略 | L515 |
-| モニタリング/アラート（UT-08 連携） | L536 |
-| 変更履歴 | L553 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L193 |
+| Cloudflare D1 データベース | L313 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L346 |
+| GitHub Actions CI/CD | L458 |
+| プレビューデプロイメント | L487 |
+| カスタムドメイン設定 | L503 |
+| 環境分離 | L516 |
+| ロールバック戦略 | L526 |
+| モニタリング/アラート（UT-08 連携） | L547 |
+| 変更履歴 | L564 |
 
 ### references/deployment-core.md
 
@@ -3027,14 +3027,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L128 |
-| 環境別設定 | L202 |
-| Electron アプリでの環境変数 | L256 |
-| トラブルシューティング | L313 |
-| チーム開発での運用 | L374 |
-| 必須環境変数一覧 | L413 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L478 |
-| 関連ドキュメント | L498 |
+| セキュリティベストプラクティス | L130 |
+| 環境別設定 | L204 |
+| Electron アプリでの環境変数 | L258 |
+| トラブルシューティング | L315 |
+| チーム開発での運用 | L376 |
+| 必須環境変数一覧 | L415 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L480 |
+| 関連ドキュメント | L500 |
 
 ### references/error-handling-core.md
 
@@ -4657,13 +4657,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L67 |
-| フェーズ構造（概要） | L76 |
-| 品質ゲート（概要） | L107 |
-| 出力テンプレート | L118 |
-| 実行時のコマンド・エージェント・スキル | L141 |
-| 昇格パターン集 | L165 |
-| Current Active / Spec Created Tasks | L167 |
+| ドキュメント構成 | L78 |
+| フェーズ構造（概要） | L87 |
+| 品質ゲート（概要） | L118 |
+| 出力テンプレート | L129 |
+| 実行時のコマンド・エージェント・スキル | L152 |
+| 昇格パターン集 | L176 |
+| Current Active / Spec Created Tasks | L178 |
 
 ### references/task-workflow-backlog-part2.md
 

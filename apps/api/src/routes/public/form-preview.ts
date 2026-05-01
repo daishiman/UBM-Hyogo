@@ -10,7 +10,7 @@ import {
 } from "../../use-cases/public/get-form-preview";
 
 export interface FormPreviewEnv extends GetFormPreviewEnv {
-  DB: import("../../repository/_shared/db").D1Db;
+  DB: D1Database;
 }
 
 export const formPreviewRoute = (

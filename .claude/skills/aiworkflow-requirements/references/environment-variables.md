@@ -69,6 +69,8 @@
 `GOOGLE_SERVICE_ACCOUNT_JSON` は Sheets sync 専用の JSON 1 値契約であり、既存 Forms sync の `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を置換しない。値はログ、`.env`、ドキュメント、スクリーンショットに残さず、Cloudflare Secrets と 1Password を正本とする。
 `HEALTH_DB_TOKEN` は 32 byte 以上のランダム値を 1Password `op://UBM-Hyogo/cloudflare-api/HEALTH_DB_TOKEN` に保管し、staging / production の Cloudflare Secrets へ投入する。値はログ、`.env`、ドキュメント、スクリーンショットに残さない。rotation は 90 日ごと、または漏洩疑い時に即時実施する。
 
+TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interface を正本とする。`apps/api/wrangler.toml` の vars / D1 binding / Secrets を追加・変更する場合は、`Env` の field とコメントも同一 wave で更新する。`apps/web` から `Env` を import することは禁止し、`scripts/lint-boundaries.mjs` が raw token と relative path 解決の両方で遮断する。
+
 ### Cloudflare Workers / Auth + Magic Link
 
 | 変数名 | 種別 | 用途 | 配置 |

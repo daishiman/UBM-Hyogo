@@ -1,0 +1,9 @@
+2026-05-01 guide update evidence
+
+Updated / confirmed guidance:
+- docs/30-workflows/issue-112-02c-followup-api-env-type-helper/outputs/phase-12/implementation-guide.md records apps/api/src/env.ts as the Worker Env type SSOT.
+- docs/30-workflows/issue-112-02c-followup-api-env-type-helper/outputs/phase-12/implementation-guide.md records ctx(env: Pick<Env, "DB">) and Hono<{ Bindings: Env }> examples.
+- docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/outputs/phase-12/implementation-guide.md is updated in this close-out wave to point 02c repository consumers at apps/api/src/env.ts.
+- docs/00-getting-started-manual/specs/08-free-database.md is updated in this close-out wave with the D1 Worker Env type pointer.
+
+No screenshot evidence is required because visualEvidence=NON_VISUAL and no UI files were changed.

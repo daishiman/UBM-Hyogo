@@ -41,6 +41,18 @@
 | 決定 workflow | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` |
 
 ---
+### Issue #112 API Worker Env 型 SSOT（2026-05-01）
+
+`apps/api/src/env.ts` の `Env` interface を API Worker binding 型の正本とする。`apps/api/wrangler.toml` の `DB` / `SHEET_ID` / `GOOGLE_FORM_ID` / `SHEETS_SPREADSHEET_ID` / `SYNC_*` などの vars と Cloudflare Secrets は、binding 追加・変更時に `Env` と同一 wave で同期する。`_shared/db.ts` の `ctx()` は `Pick<Env, "DB">` を受け取り、`apps/web` から `apps/api/src/env` への import は boundary lint が raw token と relative path 解決の両方で遮断する。
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root / Phase 12 close-out | `docs/30-workflows/issue-112-02c-followup-api-env-type-helper/` |
+| 実装 | `apps/api/src/env.ts`, `apps/api/src/repository/_shared/db.ts`, `scripts/lint-boundaries.mjs` |
+| 02c consumer guide | `docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/outputs/phase-12/implementation-guide.md` |
+| D1 / Cloudflare manual pointer | `docs/00-getting-started-manual/specs/08-free-database.md` |
+
+---
 ### 06a Public Web Real Workers/D1 Smoke（2026-04-30）
 
 06a の mock API smoke では検出できなかった Workers runtime / D1 binding / `PUBLIC_API_BASE_URL` 経路を、follow-up 仕様として local + staging の二段 smoke に分離する。
