@@ -36,11 +36,23 @@ ENVIRONMENT = "production"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
+SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
+SYNC_BATCH_SIZE = "100"
+SYNC_MAX_RETRIES = "3"
+SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
+
+# production は Cloudflare free plan の account cron 上限を避けるため 2 本に絞る。
+# - 03a schema sync: 03:00 JST (= 18:00 UTC)
+# - 03b Forms response sync: 15 分ごと
+# legacy Sheets hourly sync (`0 * * * *`) は response sync 完了後の互換経路として手動実行に限定する。
+[env.production.triggers]
+crons = ["0 18 * * *", "*/15 * * * *"]
 
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "ubm-hyogo-db-prod"
 database_id = "24963f0a-7fbb-4508-a93a-f8e502aa4585"
+migrations_dir = "migrations"
 
 [env.staging]
 name = "ubm-hyogo-api-staging"

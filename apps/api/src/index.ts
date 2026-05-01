@@ -25,17 +25,14 @@ import { adminAuditRoute } from "./routes/admin/audit";
 import { adminRequestsRoute } from "./routes/admin/requests";
 import { ctx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
-import { type SyncEnv } from "./jobs/sync-sheets-to-d1";
+import type { Env } from "./env";
 import {
   manualSyncRoute,
   backfillSyncRoute,
   auditQueryRoute,
   runScheduledSync,
 } from "./sync";
-import {
-  runResponseSync,
-  type ResponseSyncEnv,
-} from "./jobs/sync-forms-responses";
+import { runResponseSync } from "./jobs/sync-forms-responses";
 import { runSchemaSync, ConflictError } from "./sync/schema";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
@@ -44,28 +41,6 @@ import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
 import { createAuthRoute } from "./routes/auth";
 import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
-
-interface Env extends SyncEnv, ResponseSyncEnv {
-  readonly ENVIRONMENT?: "production" | "staging" | "development";
-  readonly SYNC_ADMIN_TOKEN?: string;
-  // 05a: Auth.js v5 + admin gate 用 secrets
-  readonly AUTH_SECRET?: string;
-  readonly INTERNAL_AUTH_SECRET?: string;
-  readonly FORM_ID?: string;
-  readonly GOOGLE_FORM_ID?: string;
-  readonly GOOGLE_FORM_RESPONDER_URL?: string;
-  readonly GOOGLE_SERVICE_ACCOUNT_EMAIL?: string;
-  readonly GOOGLE_PRIVATE_KEY?: string;
-  readonly FORMS_SA_EMAIL?: string;
-  readonly FORMS_SA_KEY?: string;
-  readonly HEALTH_DB_TOKEN?: string;
-  // UT-26: Sheets API E2E smoke test 用 (dev/staging のみ)
-  readonly SMOKE_ADMIN_TOKEN?: string;
-  // 05b: Magic Link / Auth provider 関連（AUTH_SECRET は 05a と共有）
-  readonly AUTH_URL?: string;
-  readonly MAIL_PROVIDER_KEY?: string;
-  readonly MAIL_FROM_ADDRESS?: string;
-}
 
 function timingSafeEqual(a: string, b: string): boolean {
   let mismatch = a.length ^ b.length;

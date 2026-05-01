@@ -155,6 +155,18 @@ type SessionResolveResponse = {
 };
 ```
 
+### Magic Link callback / Auth.js Credentials Provider（apps/web / 05b-B）
+
+05b-B で Magic Link メール本文の callback URL を `apps/web` に実装した。apps/web は D1 を直接参照せず、token/email の検証は apps/api の `POST /auth/magic-link/verify` に委譲する。
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/api/auth/callback/email?token=<64hex>&email=<email>` | query validation 後、`POST /auth/magic-link/verify` を呼び、成功時のみ Auth.js `signIn("magic-link")` で session cookie を確立する | Magic Link token/email |
+| POST | `/api/auth/callback/email` | callback route の POST は許可しない | 405 |
+| POST | `/auth/magic-link/verify` | Magic Link token/email を検証・消費し、session user shape を返す | Magic Link token/email（public token endpoint）。`/auth/session-resolve` の `X-Internal-Auth` 境界とは別 |
+
+失敗時は session を作らず `/login?error=<code>` に戻す。error code は `missing_token`, `missing_email`, `invalid_link`, `expired`, `already_used`, `resolve_failed`, `temporary_failure`。
+
 Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shared/src/auth.ts` の `encodeAuthSessionJwt` / `decodeAuthSessionJwt` と API 側 `verifySessionJwt` が同じ `AUTH_SECRET` を使う。JWT には `memberId` / `email` / `isAdmin` のみを含め、`responseId` やプロフィール本文は含めない。
 
 ### 公開ディレクトリ API（apps/api / 04a）
@@ -263,12 +275,14 @@ Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token
 | Method | Path | 認可 | 用途 |
 | ------ | ---- | ---- | ---- |
 | GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
-| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す |
+| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `createAttendanceProvider(ctx)` 経由で `member_attendance` + `meeting_sessions` から取得する |
 | POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
 | POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
 
 禁止: `PATCH /me/profile` は作らない。`/me/*` path に `:memberId` を入れない。GET 系 response に
 `admin_member_notes` 由来の `notes` / `adminNotes` を含めない。
+
+`MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、D1 read path は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
 
 ---
 

@@ -1,0 +1,166 @@
+{
+  "task_name": "ut-06-followup-E-d1-backup-long-term-storage",
+  "task_path": "docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage",
+  "wave": 2,
+  "execution_mode": "serial",
+  "depends_on": [
+    "ut-06-production-deploy-execution",
+    "UT-12-r2-storage",
+    "UT-08-monitoring-base"
+  ],
+  "blocks": [],
+  "created_at": "2026-05-01",
+  "github_issue": 118,
+  "github_issue_state": "CLOSED",
+  "github_issue_note": "Issue は CLOSED のままタスク仕様書を整備する（ユーザー指示）。再起票は本ワークフロー Phase 13 ユーザー承認時に判断する。",
+  "metadata": {
+    "taskType": "docs-only",
+    "implementation_target": "Cloudflare cron triggers (優先) / GitHub Actions (補助) による日次 D1 バックアップ + R2 長期保管 + 1Password 補助保管 + UT-08 通知統合 + 復元 runbook 机上演習。コード/YAML/runbook 実物の作成は別 PR。",
+    "workflow_mode": "docs-only",
+    "spec_only": true,
+    "implementation_completed_at": null,
+    "implementation_note": "本ワークフローは Phase 1〜13 のタスク仕様書整備に閉じる。cron スクリプト・GitHub Actions YAML・Cloudflare cron triggers 設定・復元 runbook 実物などのコード/設定の作成は本 PR では行わず、Phase 13 ユーザー承認後の別 PR に委ねる。",
+    "scope": "data_backup",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "MEDIUM",
+    "wave_label": "Wave 2",
+    "artifact_schema_note": "全 Phase の status は spec_created。本 PR では Phase 1〜13 のタスク仕様書、root artifacts.json、outputs/artifacts.json、Phase 11 NON_VISUAL placeholder、Phase 12 必須7成果物の最小実体を作成する。cron スクリプト・YAML・runbook 実物は Phase 13 ユーザー承認後の別 PR に委ねる。user_approval_required は Phase 13 のみ true。"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-01/main.md"],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-02/main.md"],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-03/main.md"],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-04/main.md"],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-05/main.md"],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系・エラーハンドリング",
+      "file": "phase-06.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-06/main.md"],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "受入条件マトリクス",
+      "file": "phase-07.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-07/main.md"],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "セキュリティ・コンプライアンス",
+      "file": "phase-08.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-08/main.md"],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "パフォーマンス・SLO",
+      "file": "phase-09.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-09/main.md"],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "ロールアウト・ロールバック / 復元机上演習",
+      "file": "phase-10.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-10/main.md", "outputs/phase-10/restore-rehearsal-result.md"],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke / NON_VISUAL walkthrough",
+      "file": "phase-11.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-info.md",
+        "outputs/phase-13/pr-creation-result.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ]
+}

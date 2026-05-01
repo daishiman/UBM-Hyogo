@@ -90,11 +90,11 @@ node scripts/list-specs.js --topics
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
 | 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L179 |
-| 5. ステータスコード処理方針 | L236 |
-| 6. 環境変数 | L268 |
-| 7. 不変条件サマリ（admin API client / proxy） | L281 |
-| 8. 関連ドキュメント | L293 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L176 |
+| 5. ステータスコード処理方針 | L233 |
+| 6. 環境変数 | L265 |
+| 7. 不変条件サマリ（admin API client / proxy） | L278 |
+| 8. 関連ドキュメント | L290 |
 
 ### references/architecture-auth-security-core.md
 
@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L191 |
-| UBM-Hyogo Admin Sync API（03a） | L212 |
-| UBM-Hyogo Member Self-Service API（04b） | L257 |
-| Desktop IPC API サマリー | L275 |
-| 変更履歴 | L306 |
-| 関連ドキュメント | L323 |
+| エンドポイント命名規則 | L199 |
+| UBM-Hyogo Admin Sync API（03a） | L220 |
+| UBM-Hyogo Member Self-Service API（04b） | L265 |
+| Desktop IPC API サマリー | L285 |
+| 変更履歴 | L316 |
+| 関連ドキュメント | L333 |
 
 ### references/api-internal-chunk-search.md
 
@@ -969,10 +969,10 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L142 |
 | UBM-Hyogo D1 Repository 契約（02b） | L172 |
-| エラーハンドリング | L212 |
-| Conversation DB 初期化パターン | L243 |
-| UBM-Hyogo Schema Sync Contract（03a） | L245 |
-| ベクトル検索実装（DiskANN） | L355 |
+| エラーハンドリング | L213 |
+| Conversation DB 初期化パターン | L244 |
+| UBM-Hyogo Schema Sync Contract（03a） | L246 |
+| ベクトル検索実装（DiskANN） | L356 |
 
 ### references/database-implementation-details.md
 
@@ -1013,8 +1013,8 @@ node scripts/list-specs.js --topics
 | Turso 無料枠の活用 | L8 |
 | セキュリティベストプラクティス | L41 |
 | 運用・メンテナンス | L76 |
-| Electron ローカルストレージ | L103 |
-| 関連ドキュメント | L166 |
+| Electron ローカルストレージ | L119 |
+| 関連ドキュメント | L182 |
 
 ### references/database-schema-07b-schema-alias-assignment.md
 
@@ -1956,6 +1956,24 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: タスク分解, Git Worktree, PR, CI/CD
 
+### references/workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| deferred evidence | L37 |
+
+### references/workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical contract | L11 |
+| Workflow artifacts | L18 |
+| Downstream ownership | L28 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2257,6 +2275,19 @@ node scripts/list-specs.js --topics
 | Validation Chain | L107 |
 | 確定値・列定義 | L120 |
 
+### references/workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L20 |
+| Phase Outputs（current canonical set） | L31 |
+| 主要実装物 | L40 |
+| Skill 反映先（current canonical set） | L62 |
+| 実装で確定した値 | L75 |
+| Follow-up 未タスク（formalize 済み） | L83 |
+| Validation Chain | L94 |
+
 ### references/workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md
 
 | セクション | 行 |
@@ -2444,6 +2475,22 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L99 |
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
+
+### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Classification（責務分離） | L15 |
+| Workflow root artifacts | L28 |
+| Phase specs | L36 |
+| Phase outputs | L54 |
+| Implementation artifacts | L122 |
+| Skill artifacts | L134 |
+| Canonical spec touchpoints | L142 |
+| Legacy stub | L149 |
+| Validation chain | L155 |
+| 運用メモ | L166 |
 
 ### references/workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md
 
@@ -2737,6 +2784,17 @@ node scripts/list-specs.js --topics
 | 利用順序 | L14 |
 | 関連ドキュメント | L19 |
 
+### references/auth-google-oauth-cf-integration.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 二段防御 middleware | L54 |
+| 2. service-binding 経由の internal API call | L65 |
+| 3. /auth/session-resolve internal-only endpoint | L86 |
+| 4. OpenNext post-build worker patch | L97 |
+| 5. Auth.js v5 env 層化 | L109 |
+| 変更履歴 | L174 |
+
 ### references/csrf-state-parameter.md
 
 | セクション | 行 |
@@ -2799,17 +2857,18 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L76 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L163 |
-| Cloudflare D1 データベース | L283 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L316 |
-| GitHub Actions CI/CD | L428 |
-| プレビューデプロイメント | L457 |
-| カスタムドメイン設定 | L473 |
-| 環境分離 | L486 |
-| ロールバック戦略 | L496 |
-| モニタリング/アラート（UT-08 連携） | L517 |
-| 変更履歴 | L534 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L193 |
+| Cloudflare D1 データベース | L313 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L346 |
+| GitHub Actions CI/CD | L458 |
+| プレビューデプロイメント | L487 |
+| カスタムドメイン設定 | L503 |
+| 環境分離 | L516 |
+| ロールバック戦略 | L526 |
+| モニタリング/アラート（UT-08 連携） | L547 |
+| 変更履歴 | L564 |
 
 ### references/deployment-core.md
 
@@ -2978,14 +3037,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L101 |
-| 環境別設定 | L175 |
-| Electron アプリでの環境変数 | L229 |
-| トラブルシューティング | L286 |
-| チーム開発での運用 | L347 |
-| 必須環境変数一覧 | L386 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L458 |
-| 関連ドキュメント | L478 |
+| セキュリティベストプラクティス | L130 |
+| 環境別設定 | L204 |
+| Electron アプリでの環境変数 | L258 |
+| トラブルシューティング | L315 |
+| チーム開発での運用 | L376 |
+| 必須環境変数一覧 | L415 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L480 |
+| 関連ドキュメント | L500 |
 
 ### references/error-handling-core.md
 
@@ -3086,15 +3145,27 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L13 |
-| 使い方 | L21 |
-| Current Alias Overrides（個別互換行） | L28 |
-| Family Summary | L60 |
-| Detailed Register | L81 |
-| Section Extract Register (2026-03-17) | L262 |
-| 500-Line Split Register (2026-03-16) | L273 |
-| Fragment Migration Register (2026-04-28) | L295 |
-| Task Root Path Drift Register (2026-04-30 追記) | L322 |
+| 概要 | L14 |
+| 使い方 | L22 |
+| Current Alias Overrides（個別互換行） | L29 |
+| Family Summary | L63 |
+| Detailed Register | L84 |
+| Section Extract Register (2026-03-17) | L265 |
+| 500-Line Split Register (2026-03-16) | L276 |
+| Fragment Migration Register (2026-04-28) | L298 |
+| Task Root Path Drift Register (2026-04-30 追記) | L325 |
+
+### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-02CFU2-001: code/config diff がある workflow は implementation へ昇格する | L3 |
+| L-02CFU2-002: full-suite PASS と scope PASS を分けて書く | L9 |
+| L-02CFU2-003: wrangler dry-run substitute は明示する | L14 |
+| L-02CFU2-004: dep-cruiser rule は通常 lint 経路に接続する | L19 |
+| L-02CFU2-005: prod build 隔離は tsconfig 分離で行い `noEmit:true` を維持する | L24 |
+| L-02CFU2-006: dep-cruiser の `options.exclude` と rule scope は反転関係になる | L31 |
+| L-02CFU2-007: 不変条件 #6（prod≠test fixture）は build / lint / runtime の三重防御で固定する | L38 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3117,16 +3188,6 @@ node scripts/list-specs.js --topics
 | L-03B-005: `responseEmail` は system field、`response_fields` には保存しない | L41 |
 | L-03B-006: 二重起動防止は同種 job_type の `running` 行検査で 409 を返す | L49 |
 | L-03B-007: 旧 `ruleConsent` 表記の混入は入口で `rulesConsent` へ正規化 | L57 |
-
-### references/lessons-learned-04b-admin-queue-resolve-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-04B-RQ-001: approve は D1 batch 前に member_status を preflight する | L3 |
-| L-04B-RQ-002: Phase 12 の「要更新」は候補で止めない | L7 |
-| L-04B-RQ-003: VISUAL completed と screenshot delegated を混同しない | L11 |
-| L-04B-RQ-004: 昇格元 unassigned stub は consumed 状態へ同期する | L15 |
-| L-04B-RQ-005: audit target taxonomy の暫定丸めは follow-up 化する | L19 |
 
 ### references/lessons-learned-04b-member-self-service.md
 
@@ -3163,6 +3224,15 @@ node scripts/list-specs.js --topics
 | L-05A-006: session JWT 構造を memberId / isAdmin のみに最小化、D1 sessions 不採用と整合 | L140 |
 | 関連リソース | L183 |
 | Follow-up（unassigned-task） | L195 |
+| 追加教訓（2026-04 followup / staging 実装サイクル） | L205 |
+
+### references/lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L9 |
+| Downstream boundaries | L43 |
 
 ### references/lessons-learned-05b-magic-link-auth-gate-2026-04.md
 
@@ -3375,6 +3445,15 @@ node scripts/list-specs.js --topics
 | L-UUT0109-002: technical GO と user approval を分離する | L7 |
 | L-UUT0109-003: offset は invocation budget と invalidation 条件まで書く | L11 |
 
+### references/lessons-learned-ut-02a-attendance-profile-integration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT02A-001: workflow state は実装差分と同一 wave で昇格する | L3 |
+| L-UT02A-002: schema 名は migration 実体を優先する | L7 |
+| L-UT02A-003: optional provider fallback は互換性、完了証跡ではない | L11 |
+| L-UT02A-004: D1 read aggregator は chunk と deterministic ordering をセットで記録する | L15 |
+
 ### references/lessons-learned-ut-02a-tag-assignment-queue-2026-05.md
 
 | セクション | 行 |
@@ -3531,8 +3610,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L73 |
-| 関連ドキュメント | L78 |
+| 利用順序 | L75 |
+| 関連ドキュメント | L80 |
 
 ### references/llm-embedding.md
 
@@ -4566,12 +4645,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | テンプレート一覧 | L7 |
 | 命名規則 | L29 |
-| 記述形式 | L75 |
-| すべきこと | L95 |
-| 避けるべきこと | L104 |
-| 新規仕様の追加手順 | L113 |
-| 完了タスクセクション標準化 | L121 |
-| ファイルサイズ管理 | L169 |
+| 記述形式 | L101 |
+| すべきこと | L121 |
+| 避けるべきこと | L130 |
+| 新規仕様の追加手順 | L139 |
+| 完了タスクセクション標準化 | L147 |
+| ファイルサイズ管理 | L195 |
 
 ### references/spec-splitting-guidelines.md
 

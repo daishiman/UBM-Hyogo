@@ -63,6 +63,24 @@ describe("consent normalizer (AC-5 / 不変条件 #2)", () => {
     });
   });
 
+  it("normalizes Google Forms textAnswers payloads", () => {
+    expect(
+      normalizeConsent({
+        q_public: {
+          questionId: "q_public",
+          textAnswers: { answers: [{ value: "同意する（掲載OK）" }] },
+        },
+        q_rules: {
+          questionId: "q_rules",
+          textAnswers: { answers: [{ value: "同意する" }] },
+        },
+      }),
+    ).toEqual({
+      publicConsent: "consented",
+      rulesConsent: "consented",
+    });
+  });
+
   it("treats Japanese 同意しません as declined", () => {
     expect(normalizeConsent({ rulesConsent: "同意しません" })).toEqual({
       publicConsent: "unknown",

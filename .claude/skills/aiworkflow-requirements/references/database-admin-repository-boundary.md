@@ -24,7 +24,7 @@ Wave 2 の 02c では、管理者ドメインの D1 repository を `apps/api/src
 | --- | --- | --- |
 | apps/web -> D1 / repository | `scripts/lint-boundaries.mjs` | 09a / Wave 2 統合で dependency-cruiser CI gate |
 | 02a / 02b / 02c repository 間 | `.dependency-cruiser.cjs` ルール案 | dependency-cruiser 導入後に CI で強制 |
-| test fixture と production | `__fixtures__/` / `__tests__/` に閉じる | build config で production bundle 除外を固定 |
+| test fixture と production | `apps/api/tsconfig.build.json` で build typecheck から `__fixtures__` / `__tests__` / `*.test.ts` を除外し、`.dependency-cruiser.cjs` の `no-prod-to-fixtures-or-tests` を root `lint` 経路で実行 | 実 `wrangler deploy --dry-run` evidence は `task-02c-followup-002-wrangler-dry-run-evidence-001` で取得 |
 
 ## 下流連携
 

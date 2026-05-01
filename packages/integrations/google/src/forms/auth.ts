@@ -8,7 +8,7 @@ export interface TokenSource {
 }
 
 export const FORMS_SCOPE =
-  "https://www.googleapis.com/auth/forms.responses.readonly";
+  "https://www.googleapis.com/auth/forms.body.readonly https://www.googleapis.com/auth/forms.responses.readonly";
 
 export const TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
 

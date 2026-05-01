@@ -12,9 +12,10 @@
 ### 2. meeting_sessions / member_attendance の読み取り
 
 - **内容**: `MemberProfile.attendance` フィールドの実データ取得
-- **現状**: builder.ts では空配列 `[]` を返している
-- **推奨担当**: 別途 attendance 管理タスク（未作成）
-- **Formal task**: `docs/30-workflows/unassigned-task/UT-02A-ATTENDANCE-PROFILE-INTEGRATION.md`
+- **現状**: `ut-02a-attendance-profile-integration` で `createAttendanceProvider()` と builder 注入を実装済み
+- **推奨担当**: `ut-02a-attendance-profile-integration`（独立 follow-up workflow）
+- **Formal task**: `docs/30-workflows/ut-02a-attendance-profile-integration/`
+- **状態**: resolved / implemented / Phase 1-12 completed（Phase 13 は user approval pending）
 
 ### 3. tag_assignment_queue の管理
 

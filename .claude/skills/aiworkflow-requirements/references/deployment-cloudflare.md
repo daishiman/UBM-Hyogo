@@ -71,6 +71,36 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 
 実機 staging smoke は 05b、cron 監視と 30 分超 running alert は 09b の責務とする。
 
+### API Worker Env 型正本（Issue #112 / 2026-05-01）
+
+`apps/api` Worker の TypeScript binding 型は `apps/api/src/env.ts` の `Env` interface を正本とする。`apps/api/wrangler.toml` の D1 binding / vars と Cloudflare Secrets を追加・変更する場合は、同一 PR / 同一 wave で `Env` も更新する。
+
+| 対象 | 正本 |
+| --- | --- |
+| D1 binding | `apps/api/wrangler.toml` `binding = "DB"` + `Env.DB: D1Database` |
+| Sheets / Forms vars | `SHEET_ID`, `SHEETS_SPREADSHEET_ID`, `FORM_ID`, `GOOGLE_FORM_ID` など |
+| Repository context | `apps/api/src/repository/_shared/db.ts` `ctx(env: Pick<Env, "DB">)` |
+| Web boundary | `scripts/lint-boundaries.mjs` が `apps/web` から `apps/api/src/env` への raw / relative import を遮断 |
+
+---
+
+## D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01）
+
+UT-06 Phase 12 UNASSIGNED-E は `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/` で `spec_created` / docs-only / NON_VISUAL workflow として formalize した。現 wave は仕様書と validator 用 placeholder のみで、runtime 実装は Phase 13 ユーザー承認後の別 PR に分離する。
+
+| 項目 | current contract |
+| --- | --- |
+| export 主経路 | `.github/workflows/d1-backup.yml` の GHA schedule。`bash scripts/cf.sh d1 export` → gzip → R2 PUT |
+| Cloudflare cron | `apps/api/wrangler.toml` の R2 latest healthcheck / UT-08 alert 補助。Workers runtime から D1 export CLI は実行しない |
+| retention | `daily/` は 30 日、`monthly/` は 12 ヶ月 |
+| storage | R2 を第一保管先、1Password Environments は月次補助保管先 |
+| encryption | R2 SSE 標準を base case。L3 相当データが入る場合は SSE-C / KMS を再判定 |
+| restore rehearsal | 月次、RTO 15 分未満、結果は restore rehearsal record に追記 |
+| visual evidence | NON_VISUAL。screenshots は不要。Phase 11 placeholder は runtime PASS ではない |
+| follow-ups | `UT-06-FU-E-monthly-restore-rehearsal-sop-001` / `UT-06-FU-E-encryption-mode-finalization-001` / `UT-06-FU-E-gha-backup-monitoring-extension-001` |
+
+実装 PR では `apps/web` を変更せず、Cloudflare 操作は `bash scripts/cf.sh` 経由に統一する。secret 実値は記録禁止で、`op://...` は参照名としてのみ許可する。
+
 ---
 
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）

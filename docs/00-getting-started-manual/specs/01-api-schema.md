@@ -164,6 +164,8 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 ---
 
+`MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile` と admin member detail の builder に `createAttendanceProvider(ctx)` を注入する。
+
 ## API health contract: GET /health/db
 
 `GET /health/db` は API Worker から D1 binding に `SELECT 1` を実行し、UT-06 AC-4 の API 経由 D1 smoke を可能にするための health endpoint である。D1 への直接アクセスは `apps/api` に閉じ、`apps/web` から D1 binding を参照しない。

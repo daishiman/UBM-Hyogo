@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "build": "next build",
-    "build:cloudflare": "opennextjs-cloudflare build",
+    "build:cloudflare": "opennextjs-cloudflare build && node ../../scripts/patch-open-next-worker.mjs",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "dev": "next dev",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "preview:cloudflare": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "preview:cloudflare": "pnpm build:cloudflare && opennextjs-cloudflare preview",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web",
     "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include=\"apps/web/src/**/*.{ts,tsx}\" apps/web",

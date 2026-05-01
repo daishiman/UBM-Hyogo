@@ -27,6 +27,26 @@ import { listSectionsByResponseId } from "../responseSections";
 import { listFieldsByResponseId } from "../responseFields";
 import { listVisibilityByMemberId } from "../fieldVisibility";
 import { listTagsByMemberId, listTagsByMemberIds } from "../memberTags";
+import {
+  defaultMetadataResolver,
+  UNKNOWN_SECTION_KEY,
+  UNKNOWN_SECTION_TITLE,
+  type MetadataResolver,
+  type ResolveError,
+  type SectionKey,
+} from "./metadata";
+import type { AttendanceProvider, AttendanceRecord } from "../attendance";
+
+// AttendanceProvider 未注入時のフォールバック（02a 互換）
+// 本タスク (ut-02a-attendance-profile-integration) の routes 側では provider を必ず注入する。
+const fetchAttendanceFor = async (
+  mid: MemberId,
+  provider: AttendanceProvider | undefined,
+): Promise<AttendanceRecord[]> => {
+  if (!provider) return [];
+  const map = await provider.findByMemberIds([mid]);
+  return [...(map.get(mid) ?? [])];
+};
 
 // フィールドの可視性マップを構築するヘルパー
 function buildVisibilityMap(
@@ -58,17 +78,50 @@ function extractSummary(answersJson: string): MemberProfileSummary {
   };
 }
 
-// response_sections + response_fields からセクション一覧を組み立てるヘルパー
-function buildSections(
+export interface SectionBuildDiagnostics {
+  unknownStableKeys: string[];
+  errors: ResolveError[];
+}
+
+export interface SectionBuildResult {
+  sections: MemberProfileSection[];
+  diagnostics: SectionBuildDiagnostics;
+}
+
+// response_sections + response_fields から canonical metadata 経由で section を組み立てる。
+// resolver が unknown を返した stable_key は __unknown__ section へ隔離し、diagnostics で観測可能にする。
+export function buildSectionsWithDiagnostics(
   sections: Array<{ section_key: string; section_title: string; position: number }>,
   fields: Array<{ stable_key: string; value_json: string | null }>,
   visibilityMap: Map<string, FieldVisibility>,
   allowedVisibilities: FieldVisibility[],
-): MemberProfileSection[] {
-  // フィールドをセクションキーに分類するためのマップ（この実装ではsection_keyをstable_keyのプレフィックスとして扱う）
-  // 実際のスキーマでは response_fields と response_sections は response_id でのみ関連付けられる
-  // ここでは全フィールドを最初のセクション、またはデフォルトセクションに配置する簡略実装
-  const filteredFields: MemberProfileSectionField[] = [];
+  resolver: MetadataResolver,
+): SectionBuildResult {
+  // 提供された response_sections の順序情報を尊重しつつ、resolver の section ordering を補完する。
+  const titleByKey = new Map<SectionKey, string>();
+  const positionByKey = new Map<SectionKey, number>();
+  for (const s of sections) {
+    titleByKey.set(s.section_key, s.section_title);
+    positionByKey.set(s.section_key, s.position);
+  }
+  for (const s of resolver.listSections()) {
+    if (!titleByKey.has(s.key)) titleByKey.set(s.key, s.title);
+    if (!positionByKey.has(s.key)) positionByKey.set(s.key, s.position);
+  }
+
+  const fieldsByKey = new Map<SectionKey, MemberProfileSectionField[]>();
+  const diagnostics: SectionBuildDiagnostics = {
+    unknownStableKeys: [],
+    errors: [],
+  };
+  const ensure = (key: SectionKey): MemberProfileSectionField[] => {
+    let bucket = fieldsByKey.get(key);
+    if (!bucket) {
+      bucket = [];
+      fieldsByKey.set(key, bucket);
+    }
+    return bucket;
+  };
 
   for (const field of fields) {
     const sk = field.stable_key;
@@ -84,31 +137,68 @@ function buildSections(
       }
     }
 
-    filteredFields.push({
+    const sectionResult = resolver.resolveSectionKey(sk);
+    const kindResult = resolver.resolveFieldKind(sk);
+    const labelResult = resolver.resolveLabel(sk);
+
+    for (const result of [sectionResult, kindResult, labelResult]) {
+      if (!result.ok) {
+        diagnostics.errors.push(result.error);
+        if (
+          result.error.kind === "unknownStableKey" &&
+          !diagnostics.unknownStableKeys.includes(result.error.stableKey)
+        ) {
+          diagnostics.unknownStableKeys.push(result.error.stableKey);
+        }
+      }
+    }
+
+    const targetSection: SectionKey = sectionResult.ok
+      ? sectionResult.value
+      : UNKNOWN_SECTION_KEY;
+    if (!titleByKey.has(targetSection)) {
+      titleByKey.set(targetSection, UNKNOWN_SECTION_TITLE);
+      positionByKey.set(targetSection, Number.MAX_SAFE_INTEGER);
+    }
+
+    const kind = kindResult.ok ? kindResult.value : "unknown";
+    // label は resolver 経由のみ採用する（stable_key 流用を禁止 / drift 時は空文字で露出を防ぐ）
+    const label = labelResult.ok ? labelResult.value : "";
+
+    ensure(targetSection).push({
       stableKey: asStableKey(sk),
-      label: sk, // ラベルは schema_questions から取得するが、ここでは簡略化
+      label,
       value,
-      kind: "shortText",
+      kind,
       visibility,
       source: "forms",
     });
   }
 
-  if (sections.length === 0 && filteredFields.length > 0) {
-    return [
-      {
-        key: "default",
-        title: "プロフィール",
-        fields: filteredFields,
-      },
-    ];
-  }
+  const orderedKeys = [...fieldsByKey.keys()].sort((a, b) => {
+    const pa = positionByKey.get(a) ?? Number.MAX_SAFE_INTEGER;
+    const pb = positionByKey.get(b) ?? Number.MAX_SAFE_INTEGER;
+    return pa - pb;
+  });
 
-  return sections.map((s) => ({
-    key: s.section_key,
-    title: s.section_title,
-    fields: filteredFields, // 簡略化: 全フィールドを各セクションに含める（実際は section_key によるフィルタが必要）
-  }));
+  return {
+    sections: orderedKeys.map((key) => ({
+      key,
+      title: titleByKey.get(key) ?? UNKNOWN_SECTION_TITLE,
+      fields: fieldsByKey.get(key) ?? [],
+    })),
+    diagnostics,
+  };
+}
+
+export function buildSections(
+  sections: Array<{ section_key: string; section_title: string; position: number }>,
+  fields: Array<{ stable_key: string; value_json: string | null }>,
+  visibilityMap: Map<string, FieldVisibility>,
+  allowedVisibilities: FieldVisibility[],
+  resolver: MetadataResolver,
+): MemberProfileSection[] {
+  return buildSectionsWithDiagnostics(sections, fields, visibilityMap, allowedVisibilities, resolver).sections;
 }
 
 /**
@@ -146,7 +236,7 @@ export async function buildPublicMemberProfile(
   const visibilityMap = buildVisibilityMap(visibilityRows);
 
   // public profile には visibility='public' のフィールドのみ含める
-  const publicSections = buildSections(sections, fields, visibilityMap, ["public"]);
+  const publicSections = buildSections(sections, fields, visibilityMap, ["public"], defaultMetadataResolver);
 
   const summary = extractSummary(response.answers_json);
 
@@ -169,6 +259,7 @@ export async function buildPublicMemberProfile(
 export async function buildMemberProfile(
   c: DbCtx,
   mid: MemberId,
+  deps?: { attendanceProvider?: AttendanceProvider },
 ): Promise<MemberProfile | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -182,17 +273,18 @@ export async function buildMemberProfile(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags] = await Promise.all([
+  const [sections, fields, visibilityRows, tags, attendance] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
+    fetchAttendanceFor(mid, deps?.attendanceProvider),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
 
   // member profile には visibility=public または member のフィールドを含める
-  const memberSections = buildSections(sections, fields, visibilityMap, ["public", "member"]);
+  const memberSections = buildSections(sections, fields, visibilityMap, ["public", "member"], defaultMetadataResolver);
 
   const summary = extractSummary(response.answers_json);
 
@@ -206,7 +298,7 @@ export async function buildMemberProfile(
     isDeleted: status.is_deleted === 1,
     summary,
     sections: memberSections,
-    attendance: [],
+    attendance,
     tags: tags.map((t) => ({
       code: t.code,
       label: t.label,
@@ -233,6 +325,7 @@ export async function buildAdminMemberDetailView(
     occurredAt: string;
     note: string | null;
   }>,
+  deps?: { attendanceProvider?: AttendanceProvider },
 ): Promise<AdminMemberDetailView | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -245,17 +338,18 @@ export async function buildAdminMemberDetailView(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags] = await Promise.all([
+  const [sections, fields, visibilityRows, tags, attendance] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
+    fetchAttendanceFor(mid, deps?.attendanceProvider),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
 
   // admin view には全 visibility のフィールドを含める
-  const adminSections = buildSections(sections, fields, visibilityMap, ["public", "member", "admin"]);
+  const adminSections = buildSections(sections, fields, visibilityMap, ["public", "member", "admin"], defaultMetadataResolver);
 
   const summary = extractSummary(response.answers_json);
 
@@ -269,7 +363,7 @@ export async function buildAdminMemberDetailView(
     isDeleted: status.is_deleted === 1,
     summary,
     sections: adminSections,
-    attendance: [],
+    attendance,
     tags: tags.map((t) => ({
       code: t.code,
       label: t.label,
