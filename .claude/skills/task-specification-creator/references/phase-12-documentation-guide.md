@@ -137,6 +137,11 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 
 - 改善点があれば next action を書く
 - 改善点なしでも「なし」と理由を書く
+- `skill-feedback-report.md` は単なる成果物ではなく routing decision として扱う
+- 各苦戦箇所に `promotion target / no-op reason / evidence path` を付ける
+- 「改善点なし」は、確認した scope（task-specification-creator / aiworkflow-requirements / skill-creator / validation scripts）と no-op 理由を明記した場合だけ許可する
+- `spec_created` task に code / path realignment / validation script change が入った場合は、古い Step 2 `N/A` や skill feedback `N/A` を維持せず再分類する
+- 詳細な routing matrix は `references/phase12-skill-feedback-promotion.md` を参照する
 
 ## Task 12-6: phase12-task-spec-compliance-check（P4対策・最終確認）
 
@@ -153,6 +158,7 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - internal adapter の実装だけで public IPC / preload contract 更新済みとは記録しない
 - Phase 13 は user approval 未取得なら `blocked` を維持し、completed へ進めない
 - skill を更新した場合は canonical `.claude/skills/...` と mirror `.agents/skills/...` の parity も記録する
+- skill feedback の各 item が `promoted-to` または no-op reason まで閉じていることを確認する
 - compliance-check は自己申告 PASS で閉じず、validator 実測値、artifact existence、mirror parity、Phase 11 evidence の実ファイル根拠を結び付けて記録する
 
 **確認コマンド（docs-only / UI task 共通で必須）**:
