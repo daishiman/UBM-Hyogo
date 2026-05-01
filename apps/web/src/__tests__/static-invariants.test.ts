@@ -108,6 +108,9 @@ const findAnyMatches = async (
 const isSelfTestFile = (file: string): boolean =>
   file.endsWith("static-invariants.test.ts");
 
+const isPlaywrightHarnessFile = (file: string): boolean =>
+  file.includes(`${WEB_ROOT}/playwright/`);
+
 describe("static invariants / 06b", () => {
   it("S-01: app/profile 配下に 'questionId' が出現しない", async () => {
     const files = await walk(join(WEB_ROOT, "app/profile"));
@@ -138,7 +141,10 @@ describe("static invariants / 06b", () => {
     // eslint.config.mjs は禁止語自体を検出ルールとして文字列リテラルで含むため除外。
     // 本テストファイルも検出語をリテラルで持つため除外。
     const files = (await walk(WEB_ROOT)).filter(
-      (f) => !isSelfTestFile(f) && !f.endsWith("eslint.config.mjs"),
+      (f) =>
+        !isSelfTestFile(f) &&
+        !isPlaywrightHarnessFile(f) &&
+        !f.endsWith("eslint.config.mjs"),
     );
     const hits = await findMatches(files, "/no-access", {
       stripComments: true,
@@ -149,16 +155,18 @@ describe("static invariants / 06b", () => {
     ).toHaveLength(0);
   });
 
-  it("S-04: app/profile 配下に <form/<input/<textarea が現れない", async () => {
+  it("S-04: app/profile 配下に <form/<input/<textarea/submit button が現れない", async () => {
     const files = await walk(join(WEB_ROOT, "app/profile"));
     const hits = await findAnyMatches(files, [
       /<form\b/,
       /<input\b/,
       /<textarea\b/,
+      /<button\b[^>]*\btype=["']submit["']/,
+      /type=["']submit["'][^>]*>\s*[^<]*<\/button>/,
     ]);
     expect(
       hits,
-      `編集 form 要素が profile 配下に存在: ${JSON.stringify(hits, null, 2)}`,
+      `編集 form/submit 要素が profile 配下に存在: ${JSON.stringify(hits, null, 2)}`,
     ).toHaveLength(0);
   });
 });

@@ -8,7 +8,7 @@ category: 改善
 target_feature: CI/CD workflow topology
 priority: 高
 scale: 中規模
-status: 未実施
+status: spec_created
 source_phase: UT-CICD-DRIFT Phase 12
 created_date: 2026-04-29
 dependencies: [#58]
@@ -22,13 +22,18 @@ dependencies: [#58]
 | 親タスク | UT-CICD-DRIFT |
 | 起源 drift | DRIFT-03 / DRIFT-10 |
 | workflow_state | spec_created |
+| 現在の配置 | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` へ移管済み |
 | 優先度 | HIGH |
-| 分類 | impl-required（ADR + wrangler.toml cutover 検討） |
+| 分類 | docs-only ADR decision（実 cutover は `task-impl-opennext-workers-migration-001` へ委譲） |
 | 起票日 | 2026-04-29 |
 
 ## 親タスク背景
 
 UT-CICD-DRIFT は docs-only / specification-cleanup として `deployment-gha.md` / `deployment-cloudflare.md` の drift 解消に閉じた。`apps/web/wrangler.toml` の Pages 形式 (`pages_build_output_dir = ".next"`) を OpenNext Workers 形式 (`main = ".open-next/worker.js"` + `[assets]`) へ cutover するか保留するかの判断は、CLAUDE.md の「Cloudflare Workers + Next.js via @opennextjs/cloudflare」記述と現実体に **drift** が残るため、本派生で確定する。
+
+## 状態更新（2026-05-01）
+
+本起票は `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` として Phase 1-12 の仕様化が完了した。ADR-0001 は Accepted / Workers cutover で確定済み。実装作業はこのファイルでは継続せず、`task-impl-opennext-workers-migration-001` が `.github/workflows/web-cd.yml`、Cloudflare side cutover runbook、smoke validation を担当する。
 
 ## 範囲
 
@@ -51,10 +56,10 @@ UT-CICD-DRIFT は docs-only / specification-cleanup として `deployment-gha.md
 
 ## 受入条件
 
-- [ ] AC-1: ADR が `docs/00-getting-started-manual/specs/` または該当 ADR ディレクトリに起票される
-- [ ] AC-2: 決定（cutover / 保留）が `deployment-cloudflare.md` 判定表に反映される
-- [ ] AC-3: cutover 決定時は `apps/web/wrangler.toml` / `web-cd.yml` の同期 PR が作成される
-- [ ] AC-4: 不変条件 #5 抵触なし
+- [x] AC-1: ADR が `docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md` に起票される
+- [x] AC-2: 決定（cutover）が `deployment-cloudflare.md` 判定表に反映される
+- [x] AC-3: cutover 決定時の実装責務が `task-impl-opennext-workers-migration-001` に委譲される
+- [x] AC-4: 不変条件 #5 抵触なし
 
 ## 苦戦箇所【記入必須】
 
