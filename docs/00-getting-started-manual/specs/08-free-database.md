@@ -213,6 +213,8 @@ CREATE TABLE IF NOT EXISTS member_attendance (
 );
 ```
 
+`MemberProfile.attendance` の read path は `member_attendance.member_id IN (...)` を使う。D1 / SQLite bind 上限を避けるため、実装は 80 memberId ごとに chunk 分割し、`meeting_sessions.session_id` へ INNER JOIN して `held_on DESC`, `session_id ASC` で安定化する。`meeting_sessions` に存在しない session は返さない。
+
 ### admin_member_notes
 
 ```sql

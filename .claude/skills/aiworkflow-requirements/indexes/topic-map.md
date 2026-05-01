@@ -874,9 +874,9 @@ node scripts/list-specs.js --topics
 | エンドポイント命名規則 | L185 |
 | UBM-Hyogo Admin Sync API（03a） | L206 |
 | UBM-Hyogo Member Self-Service API（04b） | L251 |
-| Desktop IPC API サマリー | L269 |
-| 変更履歴 | L300 |
-| 関連ドキュメント | L317 |
+| Desktop IPC API サマリー | L271 |
+| 変更履歴 | L302 |
+| 関連ドキュメント | L319 |
 
 ### references/api-internal-chunk-search.md
 
@@ -969,10 +969,10 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L142 |
 | UBM-Hyogo D1 Repository 契約（02b） | L172 |
-| エラーハンドリング | L212 |
-| Conversation DB 初期化パターン | L243 |
-| UBM-Hyogo Schema Sync Contract（03a） | L245 |
-| ベクトル検索実装（DiskANN） | L353 |
+| エラーハンドリング | L213 |
+| Conversation DB 初期化パターン | L244 |
+| UBM-Hyogo Schema Sync Contract（03a） | L246 |
+| ベクトル検索実装（DiskANN） | L354 |
 
 ### references/database-implementation-details.md
 
@@ -2413,6 +2413,22 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L107 |
 | 変更履歴 | L119 |
 
+### references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Classification（責務分離） | L15 |
+| Workflow root artifacts | L28 |
+| Phase specs | L36 |
+| Phase outputs | L54 |
+| Implementation artifacts | L122 |
+| Skill artifacts | L134 |
+| Canonical spec touchpoints | L142 |
+| Legacy stub | L149 |
+| Validation chain | L155 |
+| 運用メモ | L166 |
+
 ### references/workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -3057,12 +3073,12 @@ node scripts/list-specs.js --topics
 | 概要 | L11 |
 | 使い方 | L19 |
 | Current Alias Overrides（個別互換行） | L26 |
-| Family Summary | L57 |
-| Detailed Register | L78 |
-| Section Extract Register (2026-03-17) | L259 |
-| 500-Line Split Register (2026-03-16) | L270 |
-| Fragment Migration Register (2026-04-28) | L292 |
-| Task Root Path Drift Register (2026-04-30 追記) | L319 |
+| Family Summary | L58 |
+| Detailed Register | L79 |
+| Section Extract Register (2026-03-17) | L260 |
+| 500-Line Split Register (2026-03-16) | L271 |
+| Fragment Migration Register (2026-04-28) | L293 |
+| Task Root Path Drift Register (2026-04-30 追記) | L320 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3310,6 +3326,15 @@ node scripts/list-specs.js --topics
 | L-UUT0109-002: technical GO と user approval を分離する | L7 |
 | L-UUT0109-003: offset は invocation budget と invalidation 条件まで書く | L11 |
 
+### references/lessons-learned-ut-02a-attendance-profile-integration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT02A-001: workflow state は実装差分と同一 wave で昇格する | L3 |
+| L-UT02A-002: schema 名は migration 実体を優先する | L7 |
+| L-UT02A-003: optional provider fallback は互換性、完了証跡ではない | L11 |
+| L-UT02A-004: D1 read aggregator は chunk と deterministic ordering をセットで記録する | L15 |
+
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
 | セクション | 行 |
@@ -3450,8 +3475,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L70 |
-| 関連ドキュメント | L75 |
+| 利用順序 | L71 |
+| 関連ドキュメント | L76 |
 
 ### references/llm-embedding.md
 

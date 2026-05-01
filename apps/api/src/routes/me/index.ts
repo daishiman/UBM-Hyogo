@@ -23,6 +23,7 @@ import {
   type MeQueueAcceptedResponse,
 } from "./schemas";
 import { buildMemberProfile } from "../../repository/_shared/builder";
+import { createAttendanceProvider } from "../../repository/attendance";
 import {
   memberSelfRequestQueue,
   resolveEditResponseUrl,
@@ -72,7 +73,9 @@ export const createMeRoute = (deps: MeRouteDeps) => {
   app.get("/profile", async (c) => {
     const user = c.get("user");
     const ctx = c.get("ctx");
-    const profile = await buildMemberProfile(ctx, user.memberId);
+    const profile = await buildMemberProfile(ctx, user.memberId, {
+      attendanceProvider: createAttendanceProvider(ctx),
+    });
     if (!profile) {
       // identity / response が見つからない (同期未完了など)
       return c.json({ code: "PROFILE_UNAVAILABLE" }, 404);
