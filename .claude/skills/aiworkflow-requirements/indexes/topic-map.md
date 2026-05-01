@@ -3038,12 +3038,12 @@ node scripts/list-specs.js --topics
 | 概要 | L10 |
 | 使い方 | L18 |
 | Current Alias Overrides（個別互換行） | L25 |
-| Family Summary | L54 |
-| Detailed Register | L75 |
-| Section Extract Register (2026-03-17) | L256 |
-| 500-Line Split Register (2026-03-16) | L267 |
-| Fragment Migration Register (2026-04-28) | L289 |
-| Task Root Path Drift Register (2026-04-30 追記) | L316 |
+| Family Summary | L55 |
+| Detailed Register | L76 |
+| Section Extract Register (2026-03-17) | L257 |
+| 500-Line Split Register (2026-03-16) | L268 |
+| Fragment Migration Register (2026-04-28) | L290 |
+| Task Root Path Drift Register (2026-04-30 追記) | L317 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -4444,12 +4444,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | テンプレート一覧 | L7 |
 | 命名規則 | L29 |
-| 記述形式 | L75 |
-| すべきこと | L95 |
-| 避けるべきこと | L104 |
-| 新規仕様の追加手順 | L113 |
-| 完了タスクセクション標準化 | L121 |
-| ファイルサイズ管理 | L169 |
+| 記述形式 | L101 |
+| すべきこと | L121 |
+| 避けるべきこと | L130 |
+| 新規仕様の追加手順 | L139 |
+| 完了タスクセクション標準化 | L147 |
+| ファイルサイズ管理 | L195 |
 
 ### references/spec-splitting-guidelines.md
 

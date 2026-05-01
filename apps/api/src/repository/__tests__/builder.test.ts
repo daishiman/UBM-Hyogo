@@ -121,7 +121,7 @@ describe("builder", () => {
       expect(result).not.toBeNull();
       const allFields = result!.sections.flatMap((s) => s.fields);
       const fieldKeys = allFields.map((f) => f.stableKey);
-      expect(fieldKeys).toContain("full_name"); // public
+      expect(fieldKeys).toContain("fullName"); // public
       expect(fieldKeys).toContain("nickname"); // member
     });
 
@@ -173,7 +173,7 @@ describe("builder", () => {
       expect(result).not.toBeNull();
       const allFields = result!.profile.sections.flatMap((s) => s.fields);
       const fieldKeys = allFields.map((f) => f.stableKey);
-      expect(fieldKeys).toContain("full_name");
+      expect(fieldKeys).toContain("fullName");
       expect(fieldKeys).toContain("nickname");
       expect(fieldKeys).toContain("admin_note_field");
     });
