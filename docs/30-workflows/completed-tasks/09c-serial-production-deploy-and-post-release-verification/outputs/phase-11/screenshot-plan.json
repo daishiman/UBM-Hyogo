@@ -1,0 +1,11 @@
+{
+  "status": "template_complete_pending_runtime_user_approval",
+  "runtimePassAsserted": false,
+  "screenshots": [
+    {
+      "name": "pending-runtime-evidence.png",
+      "target": "production visual smoke evidence placeholder",
+      "status": "placeholder_only"
+    }
+  ]
+}
