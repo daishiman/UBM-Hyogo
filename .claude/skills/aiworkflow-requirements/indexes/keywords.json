@@ -1986,6 +1986,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
@@ -2074,6 +2075,7 @@
     "migration": [
       "arch-state-management-reference-permissions-import-lifecycle.md",
       "deployment-cloudflare.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "workflow-light-theme-global-remediation.md"
     ],
@@ -2205,6 +2207,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
     "FIX": [
@@ -2379,6 +2382,7 @@
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "created": [
@@ -2510,6 +2514,7 @@
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -2705,6 +2710,7 @@
       "master-design.md",
       "task-workflow-phases.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -3075,6 +3081,7 @@
     ],
     "state": [
       "architecture-auth-security-core.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "ownership": [
@@ -3289,7 +3296,8 @@
     ],
     "integration": [
       "architecture-file-conversion.md",
-      "task-workflow-completed-skill-create-ui-integration.md"
+      "task-workflow-completed-skill-create-ui-integration.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "実装済みコンバーター": [
       "architecture-file-conversion.md"
@@ -3711,7 +3719,8 @@
     ],
     "specs": [
       "auth-google-oauth-cf-integration.md",
-      "lessons-learned-04b-member-self-service.md"
+      "lessons-learned-04b-member-self-service.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "重複回避": [
       "auth-google-oauth-cf-integration.md"
@@ -3873,6 +3882,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
@@ -4121,6 +4131,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
@@ -4174,7 +4185,8 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "json": [
       "claude-code-settings-hierarchy.md",
@@ -4730,6 +4742,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "skill-ledger-fragment-spec.md",
       "ui-ux-admin-dashboard.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -4747,7 +4760,8 @@
     ],
     "運用メモ": [
       "database-schema-ddl-template.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "Index": [
       "database-schema-index.md"
@@ -4836,7 +4850,8 @@
     "Legacy": [
       "database-schema.md",
       "legacy-ordinal-family-register.md",
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "transition": [
       "database-schema.md"
@@ -4859,6 +4874,7 @@
     ],
     "workflow": [
       "database-schema.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "logs-archive-2026-02-console-migration-patterns.md",
@@ -5077,6 +5093,7 @@
     "fallback": [
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md"
     ],
@@ -6010,6 +6027,7 @@
     "Integration": [
       "interfaces-agent-sdk-integration.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -6964,6 +6982,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -6992,6 +7011,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -7347,7 +7367,8 @@
     ],
     "attendance": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md"
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "memberId": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -7696,7 +7717,8 @@
     ],
     "profile": [
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "logged": [
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
@@ -8031,7 +8053,8 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "Attendance": [
-      "lessons-learned-07c-attendance-audit-2026-04.md"
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
     ],
     "Audit": [
       "lessons-learned-07c-attendance-audit-2026-04.md",
@@ -8203,7 +8226,8 @@
     "root": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "output": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
@@ -8761,6 +8785,53 @@
     "条件まで書く": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
+    "Profile": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "は実装差分と同一": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "で昇格する": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "名は": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "実体を優先する": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "optional": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "provider": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+    ],
+    "は互換性": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "完了証跡ではない": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "read": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "aggregator": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "chunk": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "deterministic": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "ordering": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "をセットで記録する": [
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
     "Tag": [
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
@@ -8804,9 +8875,6 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "に既定値を確実に与える": [
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
-    ],
-    "read": [
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "を導入してメンバータグ書き込み境界を恒久化": [
@@ -9205,6 +9273,7 @@
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -10719,7 +10788,8 @@
       "logs-archive-2026-02-skill-validation-atoms-audit.md"
     ],
     "ut": [
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "import": [
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
@@ -14392,6 +14462,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
@@ -14422,6 +14493,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
@@ -14437,6 +14509,7 @@
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
@@ -14466,7 +14539,8 @@
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
     ],
     "chain": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "仕様抽出マトリクス": [
       "workflow-ai-chat-llm-integration-fix.md"
@@ -14669,6 +14743,7 @@
     "Metadata": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
@@ -14921,9 +14996,6 @@
     "magic": [
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
-    "provider": [
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
-    ],
     "real": [
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
@@ -15018,6 +15090,23 @@
     "pr": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
+    "Classification": [
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
+    ],
+    "責務分離": [
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
+    ],
+    "Implementation": [
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+    ],
+    "touchpoints": [
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
+    ],
+    "stub": [
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
+    ],
     "仕様・成果物": [
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
@@ -15026,10 +15115,6 @@
     ],
     "Files": [
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
-    ],
-    "Implementation": [
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Constants": [
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"

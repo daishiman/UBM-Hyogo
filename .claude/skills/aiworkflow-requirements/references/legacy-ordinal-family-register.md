@@ -56,6 +56,7 @@ rename は命名作業ではなく、classification-first の結果として行�
 | `07c-followup-003-audit-log-browsing-ui` task root | `docs/30-workflows/completed-tasks/task-07c-audit-log-browsing-ui.md` | `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/` | `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/` | 2026-05-01 |
 | `UT-07A-02 search-tags resolve contract follow-up` task root | `docs/30-workflows/ut-07a-02-search-tags-resolve-contract-followup/` | `docs/30-workflows/completed-tasks/ut-07a-02-search-tags-resolve-contract-followup/` | `docs/30-workflows/completed-tasks/ut-07a-02-search-tags-resolve-contract-followup/` | 2026-05-01 |
 | `UT-07A-02 search-tags resolve contract follow-up` consumed unassigned task | `docs/30-workflows/unassigned-task/UT-07A-02-search-tags-resolve-contract-followup.md` | `docs/30-workflows/completed-tasks/UT-07A-02-search-tags-resolve-contract-followup.md` | `docs/30-workflows/completed-tasks/UT-07A-02-search-tags-resolve-contract-followup.md` | 2026-05-01 |
+| `UT-02A` attendance profile integration stub → canonical workflow | `docs/30-workflows/completed-tasks/UT-02A-ATTENDANCE-PROFILE-INTEGRATION.md` | `docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/` | `docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/` | 2026-05-01 |
 
 ## Family Summary
 

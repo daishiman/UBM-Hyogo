@@ -627,3 +627,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Recorded Discord / Slack notification as unimplemented current facts for the 5 observed workflows.
 - Marked `docs/30-workflows/completed-tasks/UT-CICD-DRIFT-IMPL-OBSERVABILITY-MATRIX-SYNC.md` as transferred to `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/`.
 - Ran `node .claude/skills/aiworkflow-requirements/scripts/generate-index.js` and regenerated topic / keyword indexes.
+
+## 2026-05-01 - UT-02A attendance profile integration close-out
+
+- Registered `docs/30-workflows/ut-02a-attendance-profile-integration/` as implemented / Phase 1-12 completed / Phase 13 pending_user_approval.
+- Synchronized `MemberProfile.attendance` implementation facts into quick-reference, resource-map, task-workflow-active, `api-endpoints.md`, `database-implementation-core.md`, and manual specs.
+- Canonical read path: `createAttendanceProvider(ctx).findByMemberIds()` using 80-id chunks, `member_attendance` + `meeting_sessions` INNER JOIN by `session_id`, `held_on DESC` + `session_id ASC`, missing session exclusion, and duplicate normalization.
+- Added `references/lessons-learned-ut-02a-attendance-profile-integration-2026-05.md` and changelog fragment `changelog/20260501-ut-02a-attendance-profile-integration-closeout.md`.
+- No commit, push, or PR was executed.

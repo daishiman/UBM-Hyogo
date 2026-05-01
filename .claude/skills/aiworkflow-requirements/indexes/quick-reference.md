@@ -1120,6 +1120,19 @@ packages/
 | DB 名（production） | `ubm-hyogo-db-prod`（`apps/api/wrangler.toml` top-level production） |
 | binding 経由アクセス | `apps/api` のみ（`apps/web` から直接アクセス禁止） |
 
+### UBM-Hyogo Attendance Profile Integration 早見（UT-02A follow-up / 2026-05-01）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/ut-02a-attendance-profile-integration/` |
+| 状態 | implemented / Phase 1-12 completed / Phase 13 pending_user_approval / NON_VISUAL |
+| legacy stub | `docs/30-workflows/completed-tasks/UT-02A-ATTENDANCE-PROFILE-INTEGRATION.md` |
+| 実装 root | `apps/api/src/repository/attendance.ts` + `apps/api/src/repository/_shared/builder.ts` attendance provider injection |
+| interface boundary | `MemberProfile.attendance: AttendanceRecord[]` は 02a 確定契約として変更しない |
+| runtime evidence | `outputs/phase-11/evidence/api-curl/*` and `outputs/phase-11/evidence/ui-smoke/*`（NON_VISUAL local evidence captured） |
+| read path | `createAttendanceProvider(ctx).findByMemberIds()` が `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN。80-id chunk、`held_on DESC` + `session_id ASC`、session 不在 row 除外、同一 session 重複正規化 |
+| 直交タスク | 09a staging smoke / 09b release runbook / 09c production deploy / 06b visual evidence / U-UT01-08 enum canonicalization は本 workflow で代替しない |
+
 ### UBM-Hyogo DevEx Conflict Prevention Spec Wave（2026-04-28）
 
 | 順序 | canonical task root | 状態 |
