@@ -3038,12 +3038,12 @@ node scripts/list-specs.js --topics
 | 概要 | L10 |
 | 使い方 | L18 |
 | Current Alias Overrides（個別互換行） | L25 |
-| Family Summary | L53 |
-| Detailed Register | L74 |
-| Section Extract Register (2026-03-17) | L255 |
-| 500-Line Split Register (2026-03-16) | L266 |
-| Fragment Migration Register (2026-04-28) | L288 |
-| Task Root Path Drift Register (2026-04-30 追記) | L315 |
+| Family Summary | L54 |
+| Detailed Register | L75 |
+| Section Extract Register (2026-03-17) | L256 |
+| 500-Line Split Register (2026-03-16) | L267 |
+| Fragment Migration Register (2026-04-28) | L289 |
+| Task Root Path Drift Register (2026-04-30 追記) | L316 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3121,6 +3121,14 @@ node scripts/list-specs.js --topics
 | L-06A-004: zod `catch` だけでは string 加工フォールバックに不足 | L73 |
 | L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
 | 横断教訓 | L116 |
+
+### references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 対象 | L3 |
+| Lessons | L10 |
+| Follow-up Boundaries | L47 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 

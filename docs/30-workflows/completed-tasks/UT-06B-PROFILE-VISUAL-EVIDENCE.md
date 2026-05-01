@@ -1,5 +1,13 @@
 # UT-06B-PROFILE-VISUAL-EVIDENCE
 
+## Canonical Status
+
+This file is a legacy summary stub. The canonical workflow is:
+
+`docs/30-workflows/ut-06b-profile-logged-in-visual-evidence/`
+
+Current canonical state is `spec_created`; Phase 11 visual evidence is not captured yet. Do not treat this legacy summary as completed evidence.
+
 ## Summary
 
 06b `/profile` logged-in visual evidence を取得する。2026-04-29 review では `/login` 5 状態 screenshot と `/profile` 未ログイン redirect curl は取得済みだが、実 session / API fixture が未準備のため `/profile` logged-in screenshot は未取得。
