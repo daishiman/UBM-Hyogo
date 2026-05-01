@@ -26,7 +26,7 @@
 
 | 対象 | プラットフォーム | 更新頻度 | 優先度 |
 | ---- | ---------------- | -------- | ------ |
-| Web フロントエンド | Cloudflare Pages | 機能追加・修正のたび | 高 |
+| Web フロントエンド | Cloudflare Workers + `@opennextjs/cloudflare`（ADR-0001 採択。現行 CD は Pages deploy 残） | 機能追加・修正のたび | 高 |
 | API バックエンド | Cloudflare Workers | 機能追加・修正のたび | 高 |
 | データベース | Cloudflare D1 | スキーマ変更時 | 高 |
 
@@ -35,7 +35,7 @@
 1. 開発者がコードをプッシュ
 2. GitHub Actions で CI（型チェック・Lint・テスト・ビルド）を実行
 3. CI が成功したらまず dev ブランチにマージし、dev の検証が通過したら main ブランチへ昇格する
-4. ブランチに応じて Cloudflare Pages / Workers へ自動デプロイする
+4. ブランチに応じて Cloudflare Workers へ自動デプロイする。2026-05-01 時点では `.github/workflows/web-cd.yml` の Web CD が Pages deploy のまま残っており、`task-impl-opennext-workers-migration-001` で置換する
 5. デプロイ完了後、ヘルスチェックで正常性を確認
 6. 問題があれば Cloudflare ダッシュボードから即座にロールバック
 
@@ -57,7 +57,7 @@
 
 | サービス | 用途 | 無料枠 |
 | -------- | ---- | ------ |
-| Cloudflare Pages | フロントエンド（Next.js） | 無制限リクエスト・500ビルド/月 |
+| Cloudflare Workers + OpenNext | フロントエンド（Next.js） | Workers 無料枠に準拠 |
 | Cloudflare Workers | API バックエンド | 100,000 リクエスト/日 |
 | Cloudflare D1 | SQLite データベース | 5GB・500万読み取り/日 |
 | Cloudflare R2 | オブジェクトストレージ | 10GB・エグレス無料 |
@@ -141,7 +141,7 @@
 
 #### 実行内容
 
-1. ブランチに応じて Cloudflare Pages へ自動デプロイ（wrangler-action）
+1. ブランチに応じて Cloudflare Workers へ自動デプロイ（`wrangler deploy --env <env>`）。2026-05-01 時点の `web-cd.yml` は Pages deploy 残で、ADR-0001 の後続 migration task で置換する
 2. デプロイ完了後の Discord Webhook 通知は未実装。UT-08-IMPL（観測性実装）で導入する。
 
 ---

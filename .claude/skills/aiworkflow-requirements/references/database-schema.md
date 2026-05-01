@@ -52,10 +52,24 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | `member_status` | current response から `public_consent` / `rules_consent` を snapshot。`is_deleted=1` の identity は更新しない |
 | `response_fields` | known は `stable_key` 行、unknown は `stable_key='__extra__:<questionId>'` の extra row として保存する |
 | `schema_diff_queue` | unknown question を `status='queued'` で enqueue。`question_id` + queued の partial unique index で重複を no-op にする |
-| `schema_aliases` | issue-191 planned table。07b `POST /admin/schema/aliases` は `schema_questions.stable_key` を直接更新せず、この table に alias 行を INSERT する。03a は `schema_aliases` first、miss の場合のみ `schema_questions.stable_key` fallback |
 | `sync_jobs` | `job_type='response_sync'` の ledger。`metrics_json.cursor` には `submittedAt|responseId` の high-water mark を保存する |
 
 `sync_jobs.metrics_json.cursor` は Google API の `pageToken` ではない。`pageToken` は単一実行内のページングに限定し、次回 cron は high-water mark を `forms.responses.list` の timestamp filter に渡して再開する。
+
+## Schema aliases write target（issue-191 / UT-07B）
+
+`schema_aliases` は issue-191 以降の manual alias write target である。07b `POST /admin/schema/aliases` は `schema_questions.stable_key` を直接更新せず、この table に alias 行を INSERT する。03a は `schema_aliases` first、miss の場合のみ `schema_questions.stable_key` fallback とする。
+
+UT-07B hardening では、`schema_aliases` 側に同一 revision collision を防ぐ UNIQUE constraint / index を追加する。`schema_questions.stable_key` への partial UNIQUE は fallback retirement 前の互換制約としてのみ評価し、正本 write target を direct update に戻さない。
+
+実 migration `apps/api/migrations/0008_schema_alias_hardening.sql` の正本 DDL:
+
+- `schema_aliases(id, revision_id, stable_key, alias_question_id, alias_label, source, created_at, resolved_by, resolved_at)`
+- `idx_schema_aliases_stable_key`
+- `idx_schema_aliases_revision_stablekey_unique`: `stable_key IS NOT NULL AND stable_key != 'unknown' AND stable_key NOT LIKE '__extra__:%'`
+- `idx_schema_aliases_revision_question_unique`
+- `schema_diff_queue.backfill_cursor`
+- `schema_diff_queue.backfill_status`
 
 ## Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created）
 
@@ -68,6 +82,18 @@ U-UT01-08 は docs-only 契約として、既存 `sync_job_logs` 移行時の値
 | shared contract | `SyncStatus`, `SyncTriggerType` + Zod schema | 型と runtime validation を併設 | U-UT01-10 |
 
 参照 workflow: `docs/30-workflows/u-ut01-08-sync-enum-canonicalization/`。
+
+## Legacy Sheets sync transition note（U-UT01-09）
+
+UT-01 legacy Sheets→D1 sync の retry / offset 方針は `docs/30-workflows/completed-tasks/u-ut01-09-retry-and-offset-policy-alignment/` を設計判断記録とする。現行 Forms response sync の `sync_jobs.metrics_json.cursor` 契約は上書きしない。
+
+| 項目 | U-UT01-09 canonical |
+| --- | --- |
+| retry max | 3（`SYNC_MAX_RETRIES` で staging override 可） |
+| backoff | base 1s, factor 2, cap 32s, jitter ±20% |
+| `processed_offset` | `sync_job_logs.processed_offset INTEGER NOT NULL DEFAULT 0` を UT-09 / U-UT01-07 で追加予定 |
+| offset unit | chunk index（chunk = 100 行）。Sheets 行削除 / 挿入 / 並べ替えを検知した場合は offset を無効化し full backfill または stable response high-water 方式へ退避する |
+| current implementation drift | `apps/api/src/jobs/sync-sheets-to-d1.ts` の `DEFAULT_MAX_RETRIES=5` と `apps/api/migrations/0002_sync_logs_locks.sql` の `processed_offset` 不在は UT-09 追補で解消する |
 
 ## Schema alias assignment workflow（07b）
 

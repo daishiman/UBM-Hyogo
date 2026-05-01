@@ -555,7 +555,8 @@
     ],
     "HTTP": [
       "api-core.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md"
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "ステータスコード": [
       "api-core.md"
@@ -960,6 +961,7 @@
     ],
     "contract": [
       "arch-execution-capability-contract.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
@@ -2248,7 +2250,9 @@
       "arch-state-management-reference-persist-hardening-test-quality.md"
     ],
     "Hardening": [
-      "arch-state-management-reference-persist-hardening-test-quality.md"
+      "arch-state-management-reference-persist-hardening-test-quality.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "SETTINGS": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
@@ -2486,8 +2490,10 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -2496,6 +2502,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -2530,6 +2537,7 @@
       "technology-devops.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
@@ -2678,6 +2686,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "master-design.md",
       "task-workflow-phases.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -3872,6 +3881,7 @@
       "claude-code-settings-hierarchy.md",
       "claude-code-skills-process.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
@@ -3907,6 +3917,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
@@ -3932,7 +3943,8 @@
       "claude-code-settings-hierarchy.md"
     ],
     "GO": [
-      "claude-code-settings-hierarchy.md"
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
     "TC": [
       "claude-code-settings-hierarchy.md"
@@ -3985,6 +3997,7 @@
     ],
     "aliases": [
       "claude-code-settings-hierarchy.md",
+      "database-schema.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md"
     ],
@@ -4020,6 +4033,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
@@ -4230,6 +4244,7 @@
     "対象": [
       "database-admin-repository-boundary.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md"
@@ -4350,7 +4365,9 @@
       "database-schema-indexes.md",
       "database-schema.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Contract": [
       "database-implementation-core.md"
@@ -4408,7 +4425,9 @@
     "Alias": [
       "database-schema-07b-schema-alias-assignment.md",
       "legacy-ordinal-family-register.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Assignment": [
       "database-schema-07b-schema-alias-assignment.md",
@@ -4455,6 +4474,7 @@
       "database-schema-07b-schema-alias-assignment.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -4469,12 +4489,14 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "up": [
       "database-schema-07b-schema-alias-assignment.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -4493,7 +4515,8 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Boundary": [
       "database-schema-07b-schema-alias-assignment.md",
@@ -4565,6 +4588,24 @@
     "同期テーブル": [
       "database-schema.md"
     ],
+    "write": [
+      "database-schema.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "target": [
+      "database-schema.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md"
+    ],
+    "issue": [
+      "database-schema.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "workflow-issue-191-schema-aliases-artifact-inventory.md"
+    ],
     "Sheets": [
       "database-schema.md",
       "deployment-cloudflare.md",
@@ -4599,6 +4640,16 @@
     "canonicalization": [
       "database-schema.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
+    ],
+    "Legacy": [
+      "database-schema.md",
+      "legacy-ordinal-family-register.md"
+    ],
+    "transition": [
+      "database-schema.md"
+    ],
+    "note": [
+      "database-schema.md"
     ],
     "alias": [
       "database-schema.md",
@@ -4872,7 +4923,8 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "production": [
       "deployment-cloudflare-opennext-workers.md",
@@ -4944,6 +4996,7 @@
       "deployment-cloudflare.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "skill-ledger-overview.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -5434,6 +5487,7 @@
     ],
     "local": [
       "directory-structure-core.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "github": [
@@ -6664,9 +6718,6 @@
     "適用実績": [
       "ipc-type-resolution-guide.md"
     ],
-    "Legacy": [
-      "legacy-ordinal-family-register.md"
-    ],
     "Ordinal": [
       "legacy-ordinal-family-register.md"
     ],
@@ -6688,7 +6739,8 @@
       "legacy-ordinal-family-register.md"
     ],
     "Summary": [
-      "legacy-ordinal-family-register.md"
+      "legacy-ordinal-family-register.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Section": [
       "legacy-ordinal-family-register.md"
@@ -6725,6 +6777,7 @@
     "Lessons": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -6742,6 +6795,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -6879,7 +6933,8 @@
       "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "cursor": [
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "pageToken": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -6937,10 +6992,6 @@
     ],
     "per": [
       "lessons-learned-03b-response-sync-2026-04.md"
-    ],
-    "write": [
-      "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
     "上限で守る": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -7260,6 +7311,7 @@
     ],
     "user": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
@@ -7349,10 +7401,12 @@
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
     ],
     "実装教訓": [
-      "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
+      "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
     ],
     "Boundaries": [
-      "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
+      "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
     ],
     "公開": [
       "lessons-learned-06a-public-web-2026-04.md"
@@ -7438,6 +7492,29 @@
     "横断教訓": [
       "lessons-learned-06a-public-web-2026-04.md"
     ],
+    "profile": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "logged": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
+    ],
+    "in": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "visual": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "evidence": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
     "画面": [
       "lessons-learned-06c-admin-ui-2026-04.md",
       "ui-ux-admin-dashboard.md",
@@ -7491,9 +7568,6 @@
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "直接編集": [
-      "lessons-learned-06c-admin-ui-2026-04.md"
-    ],
-    "profile": [
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "直編集": [
@@ -7576,6 +7650,7 @@
     "only": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "skill-ledger-gitattributes-policy.md"
     ],
@@ -7595,12 +7670,6 @@
     ],
     "でも": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
-    ],
-    "evidence": [
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "を明示する": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
@@ -7687,7 +7756,8 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "collision": [
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "revision": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
@@ -7718,6 +7788,7 @@
     ],
     "budget": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "spec-splitting-guidelines.md",
       "task-workflow-completed-agent-view-line-budget.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
@@ -7840,7 +7911,8 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
     "PASS": [
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "証跡にしない": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
@@ -7890,11 +7962,6 @@
     ],
     "promotion": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
-    ],
-    "target": [
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "logs-archive-2026-03-notification-history-sigterm-guard.md"
     ],
     "を決める": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
@@ -7978,10 +8045,6 @@
     ],
     "実行タイミングまとめ": [
       "lessons-learned-coverage-80-enforcement-2026-04.md"
-    ],
-    "issue": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "workflow-issue-191-schema-aliases-artifact-inventory.md"
     ],
     "closeout": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
@@ -8218,7 +8281,8 @@
     ],
     "UUT": [
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
-      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
+      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
     "運用ルール": [
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
@@ -8251,6 +8315,50 @@
     ],
     "後続タスク参照": [
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
+    ],
+    "retry": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
+      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
+      "task-workflow-completed-skill-lifecycle-security.md",
+      "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-permission-fallback-abort-skip-retry.md"
+    ],
+    "offset": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "policy": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "decision": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "でも正本導線を同": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "で閉じる": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "technical": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "approval": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "を分離する": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "invocation": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "invalidation": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "条件まで書く": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
     "認証": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -8350,9 +8458,6 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "refresh": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
-    ],
-    "in": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "flight": [
@@ -8635,9 +8740,6 @@
     "Reject": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
-    "で閉じる": [
-      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
-    ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -8679,9 +8781,6 @@
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "順序事故防止": [
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "approval": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "の二重ゲート": [
@@ -8767,6 +8866,36 @@
     "SECRET": [
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "replacement": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "を上位前提にする": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "は二段防御にする": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "retryable": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "failure": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "で表す": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "remaining": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "scan": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "でも成立する": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "deferred": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "direction": [
       "lessons-learned-ut09-direction-reconciliation-2026-04.md"
@@ -10919,13 +11048,6 @@
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-skill-lifecycle-agent-view-line-budget.md"
     ],
-    "retry": [
-      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
-      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
-      "task-workflow-completed-skill-lifecycle-security.md",
-      "task-workflow-completed-ut-06-safety-gate.md",
-      "workflow-permission-fallback-abort-skip-retry.md"
-    ],
     "契約ドリフト自動検出スクリプト完了": [
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md"
     ],
@@ -12736,10 +12858,6 @@
     "逆引き": [
       "task-workflow-completed-skill-lifecycle.md"
     ],
-    "visual": [
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
     "safety": [
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
@@ -14015,6 +14133,7 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -14039,12 +14158,14 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "Metadata": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Canonical": [
@@ -14346,7 +14467,8 @@
     ],
     "Evidence": [
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Production": [
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
@@ -14365,6 +14487,7 @@
     ],
     "Artifacts": [
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Formalized": [
@@ -14416,7 +14539,8 @@
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "Implementation": [
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Constants": [
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
@@ -14429,6 +14553,9 @@
     ],
     "Feedback": [
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "Disposition": [
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "phases": [
       "workflow-ut-gov-004-artifact-inventory.md",
