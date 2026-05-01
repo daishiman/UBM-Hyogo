@@ -32,7 +32,7 @@ staging deploy / sync / Playwright / smoke で起こり得る失敗ケース 12 
 | 必須 | docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/phase-05.md | runbook 各ステップ |
 | 必須 | docs/00-getting-started-manual/specs/03-data-fetching.md | sync 失敗時の運用方針 |
 | 必須 | docs/00-getting-started-manual/specs/15-infrastructure-runbook.md | rollback / cron 失敗運用 |
-| 参考 | docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/ | rollback 全体 |
+| 参考 | docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/ | rollback 全体 |
 
 ## 実行手順
 

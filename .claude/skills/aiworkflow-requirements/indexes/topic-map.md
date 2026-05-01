@@ -2309,6 +2309,17 @@ node scripts/list-specs.js --topics
 | Skill 反映先（current canonical set） | L37 |
 | Validation Chain | L50 |
 
+### references/workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L15 |
+| Phase Outputs | L25 |
+| Skill 反映先 | L34 |
+| Follow-up / Unassigned | L48 |
+| Validation Chain | L60 |
+
 ### references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2702,7 +2713,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L171 |
+| 変更履歴 | L195 |
 
 ### references/deployment-cloudflare-opennext-workers.md
 
@@ -2765,7 +2776,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| UBM-Hyogo API Worker Cron（03a） | L6 |
+| UBM-Hyogo API Worker Cron（03a / 03b / 09b） | L6 |
 | モニタリングとアラート | L10 |
 | デプロイチェックリスト | L73 |
 | GitHub Secrets / Variables の要件 | L126 |
@@ -3170,6 +3181,16 @@ node scripts/list-specs.js --topics
 | L-09A-004: path realignment は top register と drift register の両方に書く | L33 |
 | L-09A-005: skill feedback は報告で止めず promotion target を決める | L41 |
 
+### references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-09B-001: cron は top-level と env scope の parity を先に見る | L9 |
+| L-09B-002: running guard は runbook SQL と仕様語を二重化しない | L17 |
+| L-09B-003: rollback は worker / pages / D1 / cron を分ける | L25 |
+| L-09B-004: docs-only / NON_VISUAL は screenshot N/A ではなく代替 evidence を固定する | L33 |
+| L-09B-005: skill feedback は candidate task と existing task を分けて route する | L41 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -3375,8 +3396,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L66 |
-| 関連ドキュメント | L71 |
+| 利用順序 | L67 |
+| 関連ドキュメント | L72 |
 
 ### references/llm-embedding.md
 
@@ -4022,7 +4043,8 @@ node scripts/list-specs.js --topics
 | 4. PII 除外ルール | L85 |
 | 5. 苦戦箇所（恒久対策） | L101 |
 | 6. 関連ファイル | L126 |
-| 7. 変更履歴 | L140 |
+| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L138 |
+| 8. 変更履歴 | L146 |
 
 ### references/patterns-advanced.md
 

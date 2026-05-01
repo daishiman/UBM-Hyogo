@@ -49,7 +49,7 @@ staging deploy / sync / smoke の仕様と証跡受け入れ契約を 7 成果�
 | 必須 | docs/30-workflows/02-application-implementation/_design/phase-2-design.md | scope 整合 |
 | 必須 | docs/30-workflows/02-application-implementation/README.md | 不変条件 |
 | 必須 | docs/00-getting-started-manual/specs/15-infrastructure-runbook.md | spec 更新候補 |
-| 並列 | docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/ | same-wave sync |
+| 並列 | docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/ | same-wave sync |
 
 ## 実行手順
 

@@ -10,7 +10,8 @@ category: 改善
 target_feature: GitHub branch protection governance
 priority: 高
 scale: 小規模
-status: 未実施
+status: 完了
+spec_path: docs/30-workflows/completed-tasks/task-utgov001-references-reflect-001.md
 ```
 
 | 項目 | 値 |
@@ -20,7 +21,7 @@ status: 未実施
 | 分類 | 改善 |
 | 対象機能 | GitHub branch protection governance |
 | 発見元 | docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/outputs/phase-12/unassigned-task-detection.md |
-| ステータス | 未実施 |
+| ステータス | 完了 |
 | 優先度 | 高 |
 | 見積もり規模 | 小規模 |
 | taskType | docs-only / NON_VISUAL |

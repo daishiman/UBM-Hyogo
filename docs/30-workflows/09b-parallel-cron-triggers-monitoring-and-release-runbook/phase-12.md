@@ -12,7 +12,7 @@
 | 作成日 | 2026-04-26 |
 | 前 Phase | 11 (手動 smoke) |
 | 次 Phase | 13 (PR 作成) |
-| 状態 | pending |
+| 状態 | completed |
 
 ## 目的
 
@@ -22,15 +22,15 @@ cron schedule の正本仕様、release runbook（最終版）、incident respon
 
 ### Part 1: 初学者・中学生レベル
 
-- [ ] なぜこのタスクが必要かを、日常生活の例え話から説明する
-- [ ] 専門用語を使う場合は、その場で短く説明する
-- [ ] 何を作るかより先に、困りごとと解決後の状態を書く
+- [x] なぜこのタスクが必要かを、日常生活の例え話から説明する
+- [x] 専門用語を使う場合は、その場で短く説明する
+- [x] 何を作るかより先に、困りごとと解決後の状態を書く
 
 ### Part 2: 開発者・技術者レベル
 
-- [ ] TypeScript の interface / type 定義を記載する
-- [ ] API シグネチャ、使用例、エラーハンドリング、エッジケースを記載する
-- [ ] 設定可能なパラメータ、定数、実行コマンド、検証コマンドを一覧化する
+- [x] TypeScript の interface / type 定義を記載する
+- [x] API シグネチャ、使用例、エラーハンドリング、エッジケースを記載する
+- [x] 設定可能なパラメータ、定数、実行コマンド、検証コマンドを一覧化する
 
 ## 実行タスク
 
@@ -84,16 +84,16 @@ cron schedule の正本仕様、release runbook（最終版）、incident respon
 
 | # | サブタスク | 担当 Phase | 状態 | 備考 |
 | --- | --- | --- | --- | --- |
-| 1 | release-runbook 最終版 | 12 | pending | go-live + rollback |
-| 2 | incident-response 最終版 | 12 | pending | initial / escalation / postmortem |
-| 3 | runbook-diff-plan | 12 | pending | same-wave / downstream / UT21-U05 分離 |
-| 4 | main | 12 | pending | Phase 12 本体サマリ |
-| 5 | implementation-guide | 12 | pending | 実装ガイド |
-| 6 | system-spec-update-summary | 12 | pending | spec 差分提案 |
-| 7 | documentation-changelog | 12 | pending | doc 変更点 |
-| 8 | unassigned-task-detection | 12 | pending | 未割当 |
-| 9 | skill-feedback-report | 12 | pending | ノウハウ |
-| 10 | phase12-task-spec-compliance-check | 12 | pending | 不変条件 |
+| 1 | release-runbook 最終版 | 12 | completed | go-live + rollback |
+| 2 | incident-response 最終版 | 12 | completed | initial / escalation / postmortem |
+| 3 | runbook-diff-plan | 12 | completed | same-wave / downstream / UT21-U05 分離 |
+| 4 | main | 12 | completed | Phase 12 本体サマリ |
+| 5 | implementation-guide | 12 | completed | 実装ガイド |
+| 6 | system-spec-update-summary | 12 | completed | spec 差分提案 |
+| 7 | documentation-changelog | 12 | completed | doc 変更点 |
+| 8 | unassigned-task-detection | 12 | completed | 未割当 |
+| 9 | skill-feedback-report | 12 | completed | ノウハウ |
+| 10 | phase12-task-spec-compliance-check | 12 | completed | 不変条件 |
 
 ## 成果物
 
@@ -113,9 +113,9 @@ cron schedule の正本仕様、release runbook（最終版）、incident respon
 
 ## 完了条件
 
-- [ ] skill 必須 7 成果物と 09b 固有 runbook 3 件が完成
-- [ ] 不変条件 #1-#15 PASS
-- [ ] 09c 引き渡し記録あり
+- [x] skill 必須 7 成果物と 09b 固有 runbook 3 件が完成
+- [x] 不変条件 #1-#15 PASS
+- [x] 09c 引き渡し記録あり
 
 ## タスク100%実行確認【必須】
 
@@ -177,10 +177,10 @@ cron schedule の正本仕様、release runbook（最終版）、incident respon
 
 | 課題 | 取り扱い | 担当 |
 | --- | --- | --- |
-| Sentry 本接続 + DSN 登録 | 未割当 | TBD |
-| Logpush sink 設定 | 未割当 | TBD |
-| Slack bot 通知 | 未割当 | TBD |
-| postmortem の自動テンプレ生成 | 未割当 | TBD |
+| Sentry 本接続 + DSN 登録 | formalized | `docs/30-workflows/unassigned-task/task-obs-sentry-dsn-registration-001.md` |
+| Logpush sink 設定 | candidate / no formalize | 費用・sink 契約未確定のため 09b では候補記録のみ |
+| Slack bot 通知 | formalized | `docs/30-workflows/unassigned-task/task-obs-slack-notify-001.md` |
+| postmortem の自動テンプレ生成 | existing related | `docs/30-workflows/unassigned-task/task-09c-postmortem-template-automation-001.md` |
 
 ## skill-feedback-report.md
 
@@ -194,7 +194,7 @@ cron schedule の正本仕様、release runbook（最終版）、incident respon
 
 | 不変条件 | 判定 | 根拠 |
 | --- | --- | --- |
-| #1 schema 固定しすぎない | PENDING | cron sync は schema を D1 へ反映、コード固定なし |
+| #1 schema 固定しすぎない | PASS | 09b は runbook 仕様のみで schema 固定コードを追加しない |
 | #2 consent キー統一 | PASS | sync が consent snapshot を反映、UI は 09a で確認済 |
 | #3 responseEmail system field | PASS | sync が system field として保存 |
 | #4 本人本文 D1 override しない | PASS | 09b は cron / runbook 担当、UI 編集なし |
@@ -203,7 +203,7 @@ cron schedule の正本仕様、release runbook（最終版）、incident respon
 | #7 responseId と memberId 混同しない | PASS | 09b は ID 解釈なし |
 | #8 localStorage 正本にしない | PASS | runbook 内で localStorage 言及なし |
 | #9 /no-access 専用画面に依存しない | PASS | runbook 内で `/no-access` 言及なし |
-| #10 Cloudflare 無料枠 | PENDING | cron 試算 121 req/day |
+| #10 Cloudflare 無料枠 | PASS | cron 試算 121 req/day |
 | #11 admin は本人本文を直接編集できない | PASS | runbook 内で admin 編集 form 言及なし |
 | #12 admin_member_notes view model 混在禁止 | PASS | 09b は API 設計外 |
 | #13 tag は admin queue 経由 | PASS | 09b は queue 設計外 |

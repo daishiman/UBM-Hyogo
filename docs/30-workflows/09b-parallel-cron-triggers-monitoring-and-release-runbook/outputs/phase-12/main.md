@@ -36,7 +36,7 @@ cron schedule の正本仕様、release runbook 最終版、incident response ru
 
 | 不変条件 | 判定（要点のみ） |
 | --- | --- |
-| #1〜#4 | 09b は cron / runbook 担当のため schema / consent / responseEmail / 本人本文には触れない（PENDING または PASS）|
+| #1〜#4 | 09b は cron / runbook 担当のため schema / consent / responseEmail / 本人本文には触れない（PASS）|
 | #5 | rollback 手順に apps/web 経由 D1 操作なし（PASS） |
 | #6 | cron 設計が Workers Cron Triggers のみ（PASS） |
 | #7〜#9 | 09b は ID 解釈 / localStorage / `/no-access` 設計外（PASS） |

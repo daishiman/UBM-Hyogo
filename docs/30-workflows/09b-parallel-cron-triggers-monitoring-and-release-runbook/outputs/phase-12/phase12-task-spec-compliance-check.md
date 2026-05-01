@@ -6,7 +6,7 @@
 
 | 不変条件 | 判定 | 根拠 |
 | --- | --- | --- |
-| #1 schema を固定しすぎない | PENDING | 09b は cron 設計担当。schema sync は cron `0 18 * * *` で D1 に反映するが、コードレベルの schema 固定は 03a の責務。本 wave で違反は導入していない |
+| #1 schema を固定しすぎない | PASS | 09b は cron runbook 担当。schema sync は cron `0 18 * * *` で D1 に反映するが、コードレベルの schema 固定は 03a の責務。本 wave で違反は導入していない |
 | #2 consent キー統一（`publicConsent` / `rulesConsent`） | PASS | sync が consent snapshot を反映、09a の UI で確認済（同 wave）。本 wave で consent キーを増やしたり別名に変えたりしていない |
 | #3 `responseEmail` system field 扱い | PASS | sync は `responseEmail` を Forms 項目ではなく system field として保存する（spec/01-api-schema.md 準拠）。本 wave でこの設計を変えていない |
 | #4 本人本文を D1 で override しない | PASS | 09b は cron / runbook 担当で UI 編集なし。本人本文は Form 再回答で更新する MVP ポリシー（CLAUDE.md 不変条件 #7）を維持 |
@@ -31,14 +31,14 @@
 | #10 | `outputs/phase-09/main.md` § 2、`outputs/phase-12/release-runbook.md` § 5 |
 | #15 | `outputs/phase-06/rollback-procedures.md` § attendance 整合性確認、`outputs/phase-12/incident-response-runbook.md` § 7 |
 
-## PENDING の取扱い
+## PASS 境界
 
-- #1: 09b で違反は導入していない。03a の schema sync 実装時に再評価
-- それ以外は PASS
+- #1: 09b で違反は導入していない。03a の schema sync 実装時に詳細再評価するが、09b close-out 判定は PASS
+- それ以外も PASS
 
 ## 結論
 
 不変条件 #5 / #6 / #10 / #15（本タスクで触れる 4 件）はすべて **PASS**。
-それ以外の不変条件も本タスクの責務範囲では PASS / PENDING（違反導入なし）。
+それ以外の不変条件も本タスクの責務範囲では PASS（違反導入なし）。
 
 09c へ release-runbook.md / incident-response-runbook.md を引き渡し可能。

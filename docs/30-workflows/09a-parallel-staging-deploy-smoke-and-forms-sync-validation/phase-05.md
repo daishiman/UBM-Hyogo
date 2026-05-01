@@ -32,7 +32,7 @@ staging deploy 〜 sync 検証 〜 Playwright 〜 smoke を、コピペで実行
 | 必須 | docs/00-getting-started-manual/specs/15-infrastructure-runbook.md | wrangler / D1 migration / secret 操作 |
 | 必須 | docs/30-workflows/04c-parallel-admin-backoffice-api-endpoints/index.md | sync endpoint 仕様 |
 | 必須 | docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/phase-02.md | フロー設計 |
-| 参考 | docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/ | release runbook 本体 |
+| 参考 | docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/ | release runbook 本体 |
 
 ## 実行手順
 
