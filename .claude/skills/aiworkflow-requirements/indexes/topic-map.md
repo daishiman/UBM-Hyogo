@@ -3194,6 +3194,16 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
 
+### references/lessons-learned-u-ut01-07-sync-log-naming-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 5 件（L-UUT0107-001〜005） | L12 |
+| 運用ルール 3 件（reconciliation 系の固定運用） | L49 |
+| canonical 確定（参照用） | L57 |
+| 後続タスク | L65 |
+
 ### references/lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md
 
 | セクション | 行 |
