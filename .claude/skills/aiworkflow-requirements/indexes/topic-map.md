@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L187 |
-| UBM-Hyogo Admin Sync API（03a） | L208 |
-| UBM-Hyogo Member Self-Service API（04b） | L253 |
-| Desktop IPC API サマリー | L273 |
-| 変更履歴 | L304 |
-| 関連ドキュメント | L321 |
+| エンドポイント命名規則 | L199 |
+| UBM-Hyogo Admin Sync API（03a） | L220 |
+| UBM-Hyogo Member Self-Service API（04b） | L265 |
+| Desktop IPC API サマリー | L285 |
+| 変更履歴 | L316 |
+| 関連ドキュメント | L333 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2264,6 +2264,19 @@ node scripts/list-specs.js --topics
 | Skill 反映先（current canonical set） | L98 |
 | Validation Chain | L107 |
 | 確定値・列定義 | L120 |
+
+### references/workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L20 |
+| Phase Outputs（current canonical set） | L31 |
+| 主要実装物 | L40 |
+| Skill 反映先（current canonical set） | L62 |
+| 実装で確定した値 | L75 |
+| Follow-up 未タスク（formalize 済み） | L83 |
+| Validation Chain | L94 |
 
 ### references/workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md
 
