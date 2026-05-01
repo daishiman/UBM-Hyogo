@@ -58,7 +58,7 @@
 
 | コマンド | 結果 |
 | --- | --- |
-| `validate-phase12-implementation-guide.js --workflow docs/05a-parallel-observability-and-cost-guardrails` | PASS |
-| `validate-phase-output.js docs/05a-parallel-observability-and-cost-guardrails` | PASS |
+| `validate-phase12-implementation-guide.js --workflow docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails` | PASS |
+| `validate-phase-output.js docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails` | PASS |
 | `audit-unassigned-tasks.js --unassigned-dir docs/unassigned-task --target-file ...` | PASS（current violations 0 / baseline violations 48） |
 | `generate-index.js` | PASS |
