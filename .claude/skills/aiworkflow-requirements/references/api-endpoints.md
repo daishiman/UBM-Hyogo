@@ -118,15 +118,17 @@ type TagQueueResolveBody =
   | { action: "rejected"; reason: string };
 ```
 
+UT-07A-02 close-out で schema 正本は `packages/shared/src/schemas/admin/tag-queue-resolve.ts` の `tagQueueResolveBodySchema` に移された。apps/api route と apps/web admin client はこの shared schema/type を参照する。`confirmed` と `rejected` の key を混在させた body は 400 `validation_error`。
+
 成功時は `{ ok: true, result: { queueId, status: "resolved" | "rejected", resolvedAt, memberId, tagCodes?, reason?, idempotent } }` を返す。同一 payload の再投入は 200 + `idempotent: true` で追加 audit を作らない。主要 error code は `queue_not_found` (404), `state_conflict` / `idempotent_payload_mismatch` / `race_lost` (409), `unknown_tag_code` / `member_deleted` (422), body validation (400)。
 
 07b schema alias workflow close-out:
 
 - `GET /admin/schema/diff` は `items[].recommendedStableKeys: string[]` を返す。候補は既存 `schema_questions.stable_key` から、label の Levenshtein 距離 + section / position 一致スコアで上位 5 件を提示する。
 - `POST /admin/schema/aliases?dryRun=true` は書き込みを行わず、`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返す。dry-run では `audit_log` も追記しない。
-- `POST /admin/schema/aliases` apply mode は `schema_questions.stable_key` 更新、任意 `diffId` の `schema_diff_queue` resolve、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` 追記を同じ workflow 境界で実行する。
-- collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `422` を返す。diff 不在は `404`、diff と request question mismatch は `409`。
-- back-fill は batch 100 / CPU budget 25s を上限とし、`deleted_members` に紐づく `member_identities.current_response_id` は対象外にする。既に同 response に新 stableKey 行がある場合は extra 行を削除して冪等性を保つ。
+- `POST /admin/schema/aliases` apply mode は `schema_aliases` へ manual alias を INSERT し、任意 `diffId` の `schema_diff_queue` resolve、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` 追記を同じ workflow 境界で実行する。`schema_questions.stable_key` は fallback 期間の参照互換として残し、manual alias の主 write target には戻さない。
+- collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `409 stable_key_collision` を返す。body validation は `422`、diff 不在は `404`、diff と request question mismatch は `409`。
+- back-fill は batch 100 / CPU budget 25s を上限とし、`deleted_members` に紐づく `member_identities.current_response_id` は対象外にする。既に同 response に新 stableKey 行がある場合は extra 行を削除して冪等性を保つ。CPU budget exhausted は HTTP 202 + retryable body とし、`backfill.status='exhausted'`、`code='backfill_cpu_budget_exhausted'`、`retryable=true`、`queueStatus='resolved'` を返す。`schema_diff_queue.backfill_status` / `backfill_cursor` は continuation 状態を保持し、`exhausted` / `in_progress` / `failed` の diff は再実行対象として一覧可能にする。
 
 ### 認証セッション解決 API（apps/api / 05a）
 
@@ -216,6 +218,21 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 | POST | `/admin/schema/aliases` | Auth.js admin JWT + `admin_users.active` | 07b の manual alias resolution。HTTP contract は維持し、issue-191 以降の write target は `schema_questions.stable_key` direct update ではなく `schema_aliases` INSERT + `schema_diff_queue.status='resolved'` |
 
 03a は `schema_aliases` first、alias miss の場合のみ `schema_questions.stable_key` fallback とする。D1 transient error は alias miss と扱わず、sync failure + retry へ倒す。
+
+UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers CPU budget を使い切った場合、HTTP 202 の retryable continuation として `backfill_cpu_budget_exhausted` を返す。5xx は infrastructure failure に予約し、継続可能な back-fill state には使わない。
+
+`POST /admin/schema/aliases` レスポンス契約:
+
+| Status | 条件 | Body |
+| ------ | ---- | ---- |
+| 200 | dry-run 成功 | `{ ok: true, mode: "dryRun", questionId, currentStableKey, proposedStableKey, affectedResponseFields, currentStableKeyCount, conflictExists }` |
+| 200 | apply 成功 + back-fill completed | `{ ok: true, mode: "apply", questionId, oldStableKey, newStableKey, affectedResponseFields, queueStatus: "resolved", backfill: { status: "completed", updated, cursor: null, retryable: false } }` |
+| 202 | apply 成功 + back-fill continuation required | `{ ok: true, mode: "apply", questionId, oldStableKey, newStableKey, affectedResponseFields, queueStatus: "resolved", backfill: { status: "exhausted", updated, cursor, code: "backfill_cpu_budget_exhausted", retryable: true } }` |
+| 404 | question / diff 不在 | `{ ok: false, error }` |
+| 409 | diff question mismatch / stable key collision | `{ ok: false, code?: "stable_key_collision", error, existingQuestionIds? }` |
+| 422 | body validation failure | `{ ok: false, error }` |
+
+### UBM-Hyogo Admin Schema Sync API（03a）
 
 レスポンス契約:
 

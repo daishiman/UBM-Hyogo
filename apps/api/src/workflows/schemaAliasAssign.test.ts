@@ -100,10 +100,14 @@ describe("schemaAliasAssign", () => {
     expect(result.newStableKey).toBe("full_name");
     expect(result.queueStatus).toBe("resolved");
 
+    const alias = await env.db
+      .prepare("SELECT stable_key FROM schema_aliases WHERE alias_question_id = 'q1'")
+      .first<{ stable_key: string }>();
+    expect(alias?.stable_key).toBe("full_name");
     const q = await env.db
       .prepare("SELECT stable_key FROM schema_questions WHERE question_id = 'q1'")
       .first<{ stable_key: string }>();
-    expect(q?.stable_key).toBe("full_name");
+    expect(q?.stable_key).toBe("unknown");
 
     const d = await env.db
       .prepare("SELECT status FROM schema_diff_queue WHERE diff_id = 'd1'")
@@ -258,7 +262,8 @@ describe("schemaAliasAssign", () => {
     }
 
     const total = await backfillResponseFields(env.ctx, "q1", "full_name", 100);
-    expect(total).toBe(120);
+    expect(total.updated).toBe(120);
+    expect(total.status).toBe("completed");
     const remain = await env.db
       .prepare("SELECT count(*) AS c FROM response_fields WHERE stable_key = '__extra__:q1'")
       .first<{ c: number }>();
@@ -267,6 +272,38 @@ describe("schemaAliasAssign", () => {
       .prepare("SELECT count(*) AS c FROM response_fields WHERE stable_key = 'full_name'")
       .first<{ c: number }>();
     expect(updated?.c).toBe(120);
+  });
+
+  it("cpu budget exhausted returns retryable continuation and persists diff backfill state", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO schema_diff_queue (diff_id, revision_id, type, question_id, stable_key, label)
+         VALUES ('d_budget','rev1','unresolved','q1',NULL,'Full name')`,
+      )
+      .run();
+    await env.db
+      .prepare(
+        `INSERT INTO member_responses (response_id, form_id, revision_id, schema_hash, submitted_at, answers_json)
+         VALUES ('r_budget','f1','rev1','h','2026-01-01T00:00:00Z','{}')`,
+      )
+      .run();
+    await insertResponseField(env.db, "r_budget", "__extra__:q1");
+
+    const result = await schemaAliasAssign(
+      env.ctx,
+      baseInput({ diffId: "d_budget", backfillCpuBudgetMs: -1 }),
+    );
+    if (result.mode !== "apply") throw new Error();
+    expect(result.backfill).toMatchObject({
+      status: "exhausted",
+      code: "backfill_cpu_budget_exhausted",
+      retryable: true,
+    });
+    const d = await env.db
+      .prepare("SELECT backfill_status, backfill_cursor FROM schema_diff_queue WHERE diff_id = 'd_budget'")
+      .first<{ backfill_status: string; backfill_cursor: string | null }>();
+    expect(d?.backfill_status).toBe("exhausted");
+    expect(d?.backfill_cursor).toBe("0");
   });
 
   it("deleted_response_skip", async () => {

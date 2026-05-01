@@ -1,6 +1,7 @@
 import type { DbCtx } from "./_shared/db";
 import type { StableKey } from "./_shared/brand";
 import { asStableKey } from "./_shared/brand";
+import { findAliasByQuestionId } from "./schemaAliases";
 
 export type FieldKind = string;
 export type FieldVisibility = "public" | "members_only" | "admin_only";
@@ -135,6 +136,9 @@ export async function findStableKeyByQuestionId(
   c: DbCtx,
   questionId: string,
 ): Promise<string | null> {
+  const alias = await findAliasByQuestionId(c, questionId);
+  if (alias) return alias.stableKey;
+
   const r = await c.db
     .prepare(
       "SELECT stable_key FROM schema_questions WHERE question_id = ? ORDER BY revision_id DESC LIMIT 1",

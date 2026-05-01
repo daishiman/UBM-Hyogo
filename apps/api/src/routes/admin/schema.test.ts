@@ -4,10 +4,11 @@ import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminSchemaRoute } from "./schema";
 import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
 
-const makeEnv = (env: InMemoryD1) => ({
+const makeEnv = (env: InMemoryD1, overrides: Record<string, unknown> = {}) => ({
   DB: env.db as unknown as D1Database,
   SYNC_ADMIN_TOKEN: "t",
   AUTH_SECRET: TEST_AUTH_SECRET,
+  ...overrides,
 });
 
 describe("admin schema route", () => {
@@ -41,7 +42,7 @@ describe("admin schema route", () => {
     expect(Array.isArray(body.items)).toBe(true);
   });
 
-  it("POST aliases: body 不正で 400", async () => {
+  it("POST aliases: body 不正で 422", async () => {
     const app = createAdminSchemaRoute();
     const res = await app.request(
       "/schema/aliases",
@@ -52,7 +53,7 @@ describe("admin schema route", () => {
       },
       makeEnv(env),
     );
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(422);
   });
 
   it("POST aliases: 正常 200", async () => {
@@ -69,6 +70,40 @@ describe("admin schema route", () => {
     expect(res.status).toBe(200);
     const body = (await res.json()) as { mode: string; queueStatus?: string };
     expect(body.mode).toBe("apply");
+  });
+
+  it("POST aliases: CPU budget exhausted は 202 retryable", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO member_responses (response_id, form_id, revision_id, schema_hash, submitted_at, answers_json)
+         VALUES ('r_budget','f1','rev1','h','2026-01-01T00:00:00Z','{}')`,
+      )
+      .run();
+    await env.db
+      .prepare(
+        `INSERT INTO response_fields (response_id, stable_key, value_json, raw_value_json)
+         VALUES ('r_budget','__extra__:q1',NULL,'{}')`,
+      )
+      .run();
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/aliases",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ questionId: "q1", stableKey: "full_name" }),
+      },
+      makeEnv(env, { UT07B_BACKFILL_CPU_BUDGET_MS: "-1" }),
+    );
+    expect(res.status).toBe(202);
+    const body = (await res.json()) as {
+      backfill: { status: string; code: string; retryable: boolean };
+    };
+    expect(body.backfill).toMatchObject({
+      status: "exhausted",
+      code: "backfill_cpu_budget_exhausted",
+      retryable: true,
+    });
   });
 
   it("POST aliases?dryRun=true: 書き込みなし", async () => {
@@ -91,7 +126,7 @@ describe("admin schema route", () => {
     expect(q?.stable_key).toBe("unknown");
   });
 
-  it("POST aliases: collision で 422", async () => {
+  it("POST aliases: collision で 409", async () => {
     await env.db
       .prepare(
         `INSERT INTO schema_questions
@@ -109,10 +144,10 @@ describe("admin schema route", () => {
       },
       makeEnv(env),
     );
-    expect(res.status).toBe(422);
+    expect(res.status).toBe(409);
   });
 
-  it("POST aliases: stableKey regex 違反で 400", async () => {
+  it("POST aliases: stableKey regex 違反で 422", async () => {
     const app = createAdminSchemaRoute();
     const res = await app.request(
       "/schema/aliases",
@@ -123,7 +158,7 @@ describe("admin schema route", () => {
       },
       makeEnv(env),
     );
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(422);
   });
 
   it("GET diff: recommendedStableKeys が同梱される", async () => {
