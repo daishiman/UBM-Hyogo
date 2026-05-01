@@ -315,6 +315,13 @@ Family status: `reclassify-first`
 | task | 旧 root | 新 root | 補正日 | 関連ブランチ / 状態 |
 | --- | --- | --- | --- | --- |
 | 08a-parallel-api-contract-repository-and-authorization-tests | `docs/30-workflows/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/` | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` | 2026-04-30 | task-20260430-161419-wt-6 / partial close（AC-6 coverage 0.82pt 未達 → UT-08A-01〜06 で formalize） |
+| 05a-authjs-google-oauth-admin-gate followup family | `docs/30-workflows/unassigned-task/05a-authjs-google-oauth-admin-gate/` | `docs/30-workflows/ut-05a-followup-google-oauth-completion/` | 2026-05-01 | task-20260430-181640-wt-5 / Google OAuth 統合 followup wave |
+
+### 05a ordinal alias（2026-05-01 追記）
+
+- 05a ≡ ut-05a-followup-google-oauth-completion
+     ≡ task-05a-* family（auth-ui-logout-button, build-prerender-failure, fetchpublic-service-binding, form-preview-503, privacy-terms-pages, runbook-curl-method-fix）
+- 関連 reference: `auth-google-oauth-cf-integration.md`（Google OAuth + Cloudflare Workers + OpenNext 統合パターンのハブ）
 
 ### 旧 citation 引き直し方針
 
