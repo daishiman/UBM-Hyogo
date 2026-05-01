@@ -56,6 +56,20 @@
 | Issue | `Refs #273` のみ、CLOSED 維持 |
 
 ---
+### UT-06-FU-E D1 Backup Long-Term Storage（2026-05-01）
+
+UT-06 Phase 12 UNASSIGNED-E を `spec_created` / docs-only / NON_VISUAL workflow として formalize。日次 D1 export は GHA schedule を主経路、Cloudflare cron triggers を R2 latest healthcheck として併用する。R2 30日 + 月次保存、暗号化、UT-08 alert、復元机上演習を実装 PR 前の正本仕様に固定する。
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/` |
+| Phase 12 実装ガイド | `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/outputs/phase-12/implementation-guide.md` |
+| Phase 11 NON_VISUAL placeholder | `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/outputs/phase-11/`（`NOT_EXECUTED`; runtime PASS ではない） |
+| 正本反映先 | `references/deployment-cloudflare.md`, `references/database-operations.md` |
+| 上流 evidence | `docs/30-workflows/completed-tasks/ut-06-production-deploy-execution/outputs/phase-05/d1-backup-evidence.md`, `docs/30-workflows/completed-tasks/ut-06-production-deploy-execution/outputs/phase-09/secret-hygiene-checklist.md`, `docs/30-workflows/completed-tasks/ut-06-production-deploy-execution/outputs/phase-06/rollback-rehearsal-result.md` |
+| Issue | `Refs #118` のみ、CLOSED 維持 |
+
+---
 ### Schema Alias Resolution Contract（issue-191 / 2026-04-30）
 
 07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。
@@ -70,6 +84,19 @@ UT-07B schema alias hardening は、この `schema_aliases` write target replace
 | 実装 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-aliases-implementation-001.md` |
 | fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
 | direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
+
+### UT-02A Canonical Section/Field Resolver（Issue #108 / 2026-05-01）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-02a-section-field-canonical-schema-resolution/` |
+| 実装 | `apps/api/src/repository/_shared/metadata.ts`, `apps/api/src/repository/_shared/builder.ts` |
+| generated baseline | `apps/api/src/repository/_shared/generated/static-manifest.json` |
+| shared enum | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts` (`FieldKind=consent/system`) |
+| Phase 11 NON_VISUAL evidence | `docs/30-workflows/ut-02a-section-field-canonical-schema-resolution/outputs/phase-11/` |
+| Phase 12 guide | `docs/30-workflows/ut-02a-section-field-canonical-schema-resolution/outputs/phase-12/implementation-guide.md` |
+| follow-up | `docs/30-workflows/unassigned-task/task-ut02a-canonical-metadata-diagnostics-hardening-001.md` |
+| lessons | `lessons-learned/lessons-learned-ut-02a-canonical-schema-resolver-2026-05.md` (L-UT02A-001〜004) |
 
 ## よく使うパターン
 
@@ -1125,6 +1152,19 @@ packages/
 | DB 名（staging） | `ubm-hyogo-db-staging`（`apps/api/wrangler.toml` `[env.staging]`） |
 | DB 名（production） | `ubm-hyogo-db-prod`（`apps/api/wrangler.toml` top-level production） |
 | binding 経由アクセス | `apps/api` のみ（`apps/web` から直接アクセス禁止） |
+
+### UBM-Hyogo Attendance Profile Integration 早見（UT-02A follow-up / 2026-05-01）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/ut-02a-attendance-profile-integration/` |
+| 状態 | implemented / Phase 1-12 completed / Phase 13 pending_user_approval / NON_VISUAL |
+| legacy stub | `docs/30-workflows/completed-tasks/UT-02A-ATTENDANCE-PROFILE-INTEGRATION.md` |
+| 実装 root | `apps/api/src/repository/attendance.ts` + `apps/api/src/repository/_shared/builder.ts` attendance provider injection |
+| interface boundary | `MemberProfile.attendance: AttendanceRecord[]` は 02a 確定契約として変更しない |
+| runtime evidence | `outputs/phase-11/evidence/api-curl/*` and `outputs/phase-11/evidence/ui-smoke/*`（NON_VISUAL local evidence captured） |
+| read path | `createAttendanceProvider(ctx).findByMemberIds()` が `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN。80-id chunk、`held_on DESC` + `session_id ASC`、session 不在 row 除外、同一 session 重複正規化 |
+| 直交タスク | 09a staging smoke / 09b release runbook / 09c production deploy / 06b visual evidence / U-UT01-08 enum canonicalization は本 workflow で代替しない |
 
 ### UBM-Hyogo DevEx Conflict Prevention Spec Wave（2026-04-28）
 

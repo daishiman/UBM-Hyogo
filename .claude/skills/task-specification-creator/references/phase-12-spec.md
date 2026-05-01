@@ -26,6 +26,27 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 
 > Task 6 の詳細: [phase-12-tasks-guide.md](phase-12-tasks-guide.md) §Task 6。`PASS` は「成果物の実体 + validator 実測値 + same-wave sync 証跡」が揃った後にのみ許可する。
 
+### Implementation evidence path の状態表現
+
+Phase 12 には `spec formalization path` と `implementation evidence path` がある。コード差分、Phase 11 evidence、Phase 12 7 成果物がすでに存在する実装タスクでは、root `artifacts.json`、`index.md`、`phase12-task-spec-compliance-check.md` の状態を `verified` / `implementation_complete_pending_pr` へ揃える。`spec_created` は実装着手前の状態だけに使い、実装済みタスクの compliance check に残さない。
+
+`system-spec-update-summary.md` に `pending same-wave sync` が残る場合、Task 6 は `PASS` にしてはならない。同一 wave で aiworkflow-requirements indexes / task-workflow / legacy mapping を更新するか、明確に `PASS_WITH_OPEN_SYNC` / `FAIL` として blocker を列挙する。
+
+#### Implementation evidence path 状態揃え checklist
+
+実装タスク（コード差分が wave 内に存在し Phase 11 evidence が出揃ったケース）で root `artifacts.json` / `index.md` / `phase12-task-spec-compliance-check.md` を `verified` + `implementation_complete_pending_pr` に整合させる際は、以下を順に確認する（UT-02A 由来 / 2026-05-01）:
+
+| # | 確認項目 | 失敗時の挙動 |
+| --- | --- | --- |
+| 1 | root `artifacts.json` の `metadata.workflow_state` が `verified` で、`metadata.implementation_status` が `implementation_complete_pending_pr` になっている | `spec_created` のままなら本セクション冒頭ルールに反するので置換 |
+| 2 | `index.md` の Status / Workflow State 行が artifacts.json と一致（drift 禁止） | drift があれば artifacts.json を正本として index.md を上書き |
+| 3 | `phase12-task-spec-compliance-check.md` の総合判定行が `verified` を反映し、`spec_created` と書かれていない | 旧テンプレ語彙が残る場合は当該行のみ書き換える |
+| 4 | `system-spec-update-summary.md` の Step 1-A〜1-C / Step 2 / Step 3 が同一 wave で完了済 or `PASS_WITH_OPEN_SYNC` の根拠が併記されている | 未完なら same-wave sync を実施するか blocker を明記 |
+| 5 | aiworkflow-requirements `indexes/` / `task-workflow-active.md` / legacy mapping のうち更新対象が wave 内コミットに含まれている | 別 wave に分離する場合は派生未タスクへ移管しリンクを貼る |
+| 6 | `unassigned-task-detection.md` に新規未タスクが 0 件でも明示記載され、生成された未タスクファイルが [unassigned-task-quality-standards.md](unassigned-task-quality-standards.md) §ファイル命名規則 / §`<cat>` 語彙に従っている | 命名 drift があれば rename し、`detection.md` のリンクも更新 |
+
+> 上記 6 項目すべてが OK のときに限り Task 6 を `PASS` にできる。1 つでも失敗するときは `PASS_WITH_OPEN_SYNC` か `FAIL` を選び、根拠を `phase12-task-spec-compliance-check.md` に列挙する。
+
 ---
 
 ## Task 1: 実装ガイドの2パート構成
