@@ -149,16 +149,18 @@ describe("static invariants / 06b", () => {
     ).toHaveLength(0);
   });
 
-  it("S-04: app/profile 配下に <form/<input/<textarea が現れない", async () => {
+  it("S-04: app/profile 配下に <form/<input/<textarea/submit button が現れない", async () => {
     const files = await walk(join(WEB_ROOT, "app/profile"));
     const hits = await findAnyMatches(files, [
       /<form\b/,
       /<input\b/,
       /<textarea\b/,
+      /<button\b[^>]*\btype=["']submit["']/,
+      /type=["']submit["'][^>]*>\s*[^<]*<\/button>/,
     ]);
     expect(
       hits,
-      `編集 form 要素が profile 配下に存在: ${JSON.stringify(hits, null, 2)}`,
+      `編集 form/submit 要素が profile 配下に存在: ${JSON.stringify(hits, null, 2)}`,
     ).toHaveLength(0);
   });
 });

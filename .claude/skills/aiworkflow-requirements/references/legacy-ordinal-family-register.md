@@ -45,6 +45,7 @@ rename は命名作業ではなく、classification-first の結果として行�
 | `UT-09` legacy sync task root | `docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/` | `docs/30-workflows/completed-tasks/task-sync-forms-d1-legacy-umbrella-001/` | `docs/30-workflows/completed-tasks/task-sync-forms-d1-legacy-umbrella-001/` | 2026-04-30 |
 | `07b-parallel-schema-diff-alias-assignment-workflow` task root | `docs/30-workflows/02-application-implementation/07b-parallel-schema-diff-alias-assignment-workflow/` | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/` | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/` | 2026-04-30 |
 | `08b-parallel-playwright-e2e-and-ui-acceptance-smoke` task root | `docs/30-workflows/02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/` | `docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/` | `docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/` | 2026-04-30 |
+| `UT-06B` `/profile` logged-in visual evidence stub → canonical workflow | `docs/30-workflows/completed-tasks/UT-06B-PROFILE-VISUAL-EVIDENCE.md`（legacy stub / 親 06b Phase 12 由来） | `docs/30-workflows/ut-06b-profile-logged-in-visual-evidence/`（canonical Phase 1-13 仕様書） | `docs/30-workflows/ut-06b-profile-logged-in-visual-evidence/` | 2026-04-30 |
 
 ## Family Summary
 
