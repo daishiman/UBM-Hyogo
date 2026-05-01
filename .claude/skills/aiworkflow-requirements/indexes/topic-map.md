@@ -271,8 +271,8 @@ node scripts/list-specs.js --topics
 | セキュリティアーキテクチャ | L146 |
 | 状態管理アーキテクチャ | L180 |
 | データフローアーキテクチャ | L217 |
-| ディレクトリ構造 | L265 |
-| データ構造（型システム） | L324 |
+| ディレクトリ構造 | L266 |
+| データ構造（型システム） | L325 |
 
 ### references/architecture-overview-details.md
 
@@ -1058,17 +1058,18 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Schema alias assignment workflow（07b） | L60 |
-| ワークフロー関連テーブル | L64 |
-| ユーザー関連テーブル | L103 |
-| システムプロンプト関連テーブル | L137 |
-| チャット関連テーブル | L172 |
-| RAG関連テーブル | L208 |
-| Knowledge Graph関連テーブル | L250 |
-| 変換処理関連テーブル | L384 |
-| インデックス設計 | L443 |
-| 関連ドキュメント / 変更履歴 | L447 |
-| DDL 同期テンプレ | L452 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L60 |
+| Schema alias assignment workflow（07b） | L72 |
+| ワークフロー関連テーブル | L76 |
+| ユーザー関連テーブル | L115 |
+| システムプロンプト関連テーブル | L149 |
+| チャット関連テーブル | L184 |
+| RAG関連テーブル | L220 |
+| Knowledge Graph関連テーブル | L262 |
+| 変換処理関連テーブル | L396 |
+| インデックス設計 | L455 |
+| 関連ドキュメント / 変更履歴 | L459 |
+| DDL 同期テンプレ | L464 |
 
 ---
 
@@ -2381,6 +2382,20 @@ node scripts/list-specs.js --topics
 | Validation Chain | L73 |
 | 不変条件 touched | L86 |
 
+### references/workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L19 |
+| Phase Outputs | L31 |
+| Phase 11 Evidence Files（NON_VISUAL） | L49 |
+| Runbook（正本） | L61 |
+| Implementation Constants | L68 |
+| 自走禁止項目（本タスクで実行しないこと） | L88 |
+| Skill Feedback（Phase 12 反映） | L99 |
+| 関連リソース | L107 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -2672,7 +2687,8 @@ node scripts/list-specs.js --topics
 | 10. CLI 経路の徹底 | L181 |
 | 11. R2 incremental cache（任意採用） | L190 |
 | 12. 関連リソース | L198 |
-| 変更履歴 | L210 |
+| 13. production route / secret / observability preflight | L214 |
+| 変更履歴 | L220 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2692,15 +2708,15 @@ node scripts/list-specs.js --topics
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L76 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L163 |
-| Cloudflare D1 データベース | L281 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L314 |
-| GitHub Actions CI/CD | L426 |
-| プレビューデプロイメント | L455 |
-| カスタムドメイン設定 | L471 |
-| 環境分離 | L484 |
-| ロールバック戦略 | L494 |
-| モニタリング/アラート（UT-08 連携） | L515 |
-| 変更履歴 | L532 |
+| Cloudflare D1 データベース | L283 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L316 |
+| GitHub Actions CI/CD | L428 |
+| プレビューデプロイメント | L457 |
+| カスタムドメイン設定 | L473 |
+| 環境分離 | L486 |
+| ロールバック戦略 | L496 |
+| モニタリング/アラート（UT-08 連携） | L517 |
+| 変更履歴 | L534 |
 
 ### references/deployment-core.md
 
@@ -2719,7 +2735,7 @@ node scripts/list-specs.js --topics
 | UBM-Hyogo API Worker Cron（03a） | L6 |
 | モニタリングとアラート | L10 |
 | デプロイチェックリスト | L73 |
-| GitHub Secrets の要件 | L126 |
+| GitHub Secrets / Variables の要件 | L126 |
 
 ### references/deployment-gha.md
 
@@ -2751,7 +2767,7 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets（CI/CD 用） | L87 |
+| GitHub Secrets / Variables（CI/CD 用） | L87 |
 | wrangler.toml の環境別設定 | L112 |
 | ローカル開発での設定 | L144 |
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L183 |
@@ -3178,6 +3194,14 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
 
+### references/lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 4 件（L-UUT01-08-001〜004） | L12 |
+| 後続タスク参照 | L42 |
+
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
 | セクション | 行 |
@@ -3244,6 +3268,14 @@ node scripts/list-specs.js --topics
 | 関連リレー先 | L81 |
 | 不変条件 touched | L90 |
 
+### references/lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 教訓 | L7 |
+| 関連リソース | L44 |
+
 ### references/lessons-learned-ut09-direction-reconciliation-2026-04.md
 
 | セクション | 行 |
@@ -3253,6 +3285,17 @@ node scripts/list-specs.js --topics
 | 運用ルール 2 件（reconciliation 系の固定運用） | L55 |
 | 同期完了サマリー（same-wave sync） | L62 |
 | 関連 unassigned-task（B-01〜B-10） | L74 |
+
+### references/lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 5 件（L-UT21-001〜005） | L12 |
+| 運用ルール 2 件（legacy umbrella close-out 系の固定運用） | L49 |
+| 同期完了サマリー（same-wave sync） | L56 |
+| 関連 unassigned-task（UT21-U02 / U04 / U05） | L75 |
+| 派生品質要件の移植先（implementation 引き渡し） | L83 |
 
 ### references/lessons-learned-utgov001-second-stage-reapply-2026-04.md
 
@@ -3279,8 +3322,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L62 |
-| 関連ドキュメント | L67 |
+| 利用順序 | L65 |
+| 関連ドキュメント | L70 |
 
 ### references/llm-embedding.md
 
@@ -4653,10 +4696,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L13 |
-| 利用順序 | L42 |
-| 関連ドキュメント | L47 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L51 |
+| 仕様書インデックス | L14 |
+| 利用順序 | L43 |
+| 関連ドキュメント | L48 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L52 |
 
 ### references/testing-accessibility.md
 

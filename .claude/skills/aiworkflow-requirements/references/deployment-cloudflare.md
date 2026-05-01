@@ -206,6 +206,8 @@ name = "ubm-hyogo-api"
 
 `apps/api` は二種類の cron を持つ。
 
+> **UT-21 close-out note (2026-04-30)**: 下表の Sheets 由来 cron / `runSync` / Sheets API v4 説明は legacy current-fact の残存であり、現行正本は Forms sync（`forms.get` / `forms.responses.list`、`POST /admin/sync/schema` / `POST /admin/sync/responses`、`sync_jobs` ledger）である。runtime cron / wrangler 設定の撤回・整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱い、本 close-out では `apps/api/wrangler.toml` を変更しない。
+
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |
 | `0 */6 * * *` | Google Sheets 由来の既存同期 | `runSync` |

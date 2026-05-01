@@ -184,8 +184,8 @@ main を feature ブランチへ取り込む sync-merge では、構造的に「
 | 種別 | 管理場所 |
 |------|---------|
 | ランタイムシークレット | Cloudflare Secrets |
-| CI/CD シークレット | GitHub Secrets |
-| 非機密設定値 | GitHub Variables |
+| CI/CD シークレット | GitHub Secrets（例: `CLOUDFLARE_API_TOKEN`） |
+| 非機密設定値 | GitHub Variables（例: `CLOUDFLARE_ACCOUNT_ID`） |
 | ローカル秘密情報の正本 | 1Password Environments |
 
 **平文 `.env` はリポジトリにコミットしない。**
