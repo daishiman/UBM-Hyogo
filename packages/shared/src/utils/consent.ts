@@ -28,6 +28,9 @@ const NEGATIVE_TOKENS = new Set([
   "公開しない",
 ]);
 
+const PUBLIC_HINT_TOKENS = ["掲載", "公開", "public", "publish", "share"];
+const RULES_HINT_TOKENS = ["規約", "ルール", "rules", "rule"];
+
 export type ConsentInputValue = unknown;
 
 export const PUBLIC_CONSENT_KEY = "publicConsent" as const;
@@ -51,6 +54,8 @@ const RULES_CONSENT_LEGACY_KEYS = [
 ] as const;
 
 function normalizeOne(value: ConsentInputValue): ConsentStatus {
+  const extracted = extractConsentScalar(value);
+  if (extracted !== value) return normalizeOne(extracted);
   if (value === undefined || value === null) return "unknown";
   if (typeof value === "boolean") return value ? "consented" : "declined";
   if (typeof value === "number") {
@@ -63,6 +68,12 @@ function normalizeOne(value: ConsentInputValue): ConsentStatus {
     if (trimmed === "") return "unknown";
     if (POSITIVE_TOKENS.has(trimmed)) return "consented";
     if (NEGATIVE_TOKENS.has(trimmed)) return "declined";
+    if (containsAny(trimmed, ["同意する", "同意します", "掲載ok", "公開ok"])) {
+      return "consented";
+    }
+    if (containsAny(trimmed, ["同意しない", "同意しません", "掲載ng", "公開ng"])) {
+      return "declined";
+    }
     return "unknown";
   }
   return "unknown";
@@ -81,9 +92,10 @@ export function normalizeConsent(
   }
   const publicRaw = pickFirstDefined(raw, PUBLIC_CONSENT_LEGACY_KEYS);
   const rulesRaw = pickFirstDefined(raw, RULES_CONSENT_LEGACY_KEYS);
+  const inferred = inferConsentFromRawAnswers(raw);
   return {
-    publicConsent: normalizeOne(publicRaw),
-    rulesConsent: normalizeOne(rulesRaw),
+    publicConsent: normalizeOne(publicRaw ?? inferred.publicConsent),
+    rulesConsent: normalizeOne(rulesRaw ?? inferred.rulesConsent),
   };
 }
 
@@ -95,6 +107,56 @@ function pickFirstDefined(
     if (key in raw) return raw[key];
   }
   return undefined;
+}
+
+function inferConsentFromRawAnswers(raw: Record<string, unknown>): {
+  publicConsent: unknown;
+  rulesConsent: unknown;
+} {
+  let publicConsent: unknown;
+  let rulesConsent: unknown;
+
+  const consentKeys = new Set<string>([
+    ...PUBLIC_CONSENT_LEGACY_KEYS,
+    ...RULES_CONSENT_LEGACY_KEYS,
+  ]);
+  for (const [key, value] of Object.entries(raw)) {
+    if (consentKeys.has(key)) continue;
+    const text = extractConsentScalar(value);
+    if (typeof text !== "string") continue;
+    const normalized = text.trim().toLowerCase();
+    if (!publicConsent && containsAny(normalized, PUBLIC_HINT_TOKENS)) {
+      publicConsent = text;
+      continue;
+    }
+    if (!rulesConsent && containsAny(normalized, RULES_HINT_TOKENS)) {
+      rulesConsent = text;
+      continue;
+    }
+    if (!rulesConsent && normalizeOne(text) !== "unknown") {
+      rulesConsent = text;
+    }
+  }
+
+  return { publicConsent, rulesConsent };
+}
+
+function extractConsentScalar(value: ConsentInputValue): ConsentInputValue {
+  if (!value || typeof value !== "object") return value;
+  if (Array.isArray(value)) return value[0];
+
+  const obj = value as Record<string, unknown>;
+  const textAnswers = obj["textAnswers"];
+  if (!textAnswers || typeof textAnswers !== "object") return value;
+  const answers = (textAnswers as Record<string, unknown>)["answers"];
+  if (!Array.isArray(answers)) return value;
+  const first = answers[0];
+  if (!first || typeof first !== "object") return value;
+  return (first as Record<string, unknown>)["value"];
+}
+
+function containsAny(value: string, needles: readonly string[]): boolean {
+  return needles.some((needle) => value.includes(needle));
 }
 
 export const LEGACY_CONSENT_KEYS = [

@@ -1,0 +1,49 @@
+=== home ===
+HTTP/2 500 
+date: Fri, 01 May 2026 11:23:16 GMT
+content-type: text/html; charset=utf-8
+cache-control: private, no-cache, no-store, max-age=0, must-revalidate
+link: </_next/static/chunks/0v13m8-~vloqk.css>; rel=preload; as="style"
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-opennext: 1
+x-powered-by: Next.js
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=scpxBTW02I0aNV%2F2KgOdAIkW5YFwRvvENHjMOChLq8TncJi8HJk8xDcGdXssFgK%2BSqt%2FiVUsF9ckEO4yMYZaUYfDe5ETL2ZJo3xX4lWevBj6LtQAUOUq7XdLI%2BBxaGS7BmAql8a1K%2BeFRXmrVp7pFpTGoKRPzrhKW575aukobgc%2FAdzc8HfLw%2F3I4lYhd7U%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: 9f4e69c06c9d8d2a-KIX
+alt-svc: h3=":443"; ma=86400
+
+=== privacy ===
+HTTP/2 404 
+date: Fri, 01 May 2026 11:23:16 GMT
+content-type: text/html; charset=utf-8
+cache-control: private, no-cache, no-store, max-age=0, must-revalidate
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-nextjs-cache: MISS
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+x-opennext: 1
+x-powered-by: Next.js
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=87OoxFhzQKS%2BbLINFdZNzeITRFVPwviyVHP4p1aa0S1Tk5M%2FUUMIFb%2BLgF5oU8s7aNfUS0%2B8p143JHX0B4vco%2Buo%2B9EKzFBMDeCKodDefgSUrLYuQAzlJcgKTJw6ZsaA5Ge%2BsPDwb5uv57nzfPps4KS1Ft%2FDy3isRMObo7wG6nVLcn1lUORHUhPE5mESgRA%3D"}]}
+server: cloudflare
+cf-ray: 9f4e69c3cae6e37d-NRT
+alt-svc: h3=":443"; ma=86400
+
+=== terms ===
+HTTP/2 404 
+date: Fri, 01 May 2026 11:23:17 GMT
+content-type: text/html; charset=utf-8
+cache-control: private, no-cache, no-store, max-age=0, must-revalidate
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-nextjs-cache: MISS
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+x-opennext: 1
+x-powered-by: Next.js
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=CqWn%2Fk4W8sRBir7b3YaKAWXInMZJWIK89b2OAl%2FzpmziK%2BD%2BP0r9QkvCZDGh%2FkfUXsXhavOMmAown2DRARrrC5oon%2B7DfkLmvWlgvZx54HaeconzzrGF81HRZ9Y6i8c%2BI13oRiGIUD0C6f1E0cTuN1ROEpSeDCvz44BF4ocFjRBsvboLIEW92QgGDg67g5E%3D"}]}
+server: cloudflare
+cf-ray: 9f4e69c6d9a6d77c-NRT
+alt-svc: h3=":443"; ma=86400
+

@@ -82,9 +82,33 @@ Settings > Environments > staging:
 
 ## ブランチ保護ルール（推奨設定）
 
-本節は **current applied** と **draft proposal** を分離する。2026-04-29 時点の current applied は個人開発向けの承認不要設定に加え、`.github/CODEOWNERS` による ownership 文書化を含む。2026-04-28 の GitHub governance branch protection 草案は `spec_created` のため未適用である。
+本節は **current applied** と **draft proposal** を分離する。current applied は GitHub REST API `GET /repos/{owner}/{repo}/branches/{branch}/protection` の取得結果を正本とし、expected contexts / PUT payload / rollback payload から推測しない。2026-05-01 の `task-utgov001-references-reflect-001` で取得した fresh GET evidence により、UT-GOV-001 second-stage reapply 後の branch protection 実値を反映済み（Refs #303）。
 
-### current applied（承認不要 + CODEOWNERS ownership 文書化 / 2026-04-29）
+### current applied（GitHub GET evidence / 2026-05-01 / Refs #303）
+
+Evidence:
+
+- `docs/30-workflows/completed-tasks/task-utgov001-references-reflect-001/outputs/phase-13/branch-protection-applied-dev.json`
+- `docs/30-workflows/completed-tasks/task-utgov001-references-reflect-001/outputs/phase-13/branch-protection-applied-main.json`
+
+| 項目 | `dev` | `main` |
+| --- | --- | --- |
+| Required pull request reviews | enabled / required approvals `0` / code owner reviews `false` / last push approval `false` | enabled / required approvals `0` / code owner reviews `false` / last push approval `false` |
+| Required status checks contexts | `ci`, `Validate Build` | `ci`, `Validate Build` |
+| Strict status checks | `false` | `true` |
+| Enforce admins | `false` | `false` |
+| Required linear history | `false` | `false` |
+| Required conversation resolution | `true` | `true` |
+| Allow force pushes / deletions | `false` / `false` | `false` / `false` |
+| Lock branch | `false` | `false` |
+| Restrictions | `null` | `null` |
+
+Notes:
+
+- Fresh GET の実値には `verify-indexes-up-to-date` は含まれない。UT-GOV-004 / second-stage reapply の expected contexts との差分として扱い、current applied へ期待値を混入しない。
+- 上流 `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/outputs/phase-13/branch-protection-applied-{dev,main}.json` が `blocked_until_user_approval` placeholder の場合は current applied の入力にしない。
+
+### historical current applied（承認不要 + CODEOWNERS ownership 文書化 / 2026-04-29）
 
 ### `main` ブランチ
 
@@ -173,6 +197,7 @@ UT-GOV-001 の適用予定値は solo 運用と衝突しないよう、草案の
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
 | 2026-04-28 | 1.2.1 | UT-GOV-001 branch protection apply spec_created sync。solo 運用の実適用予定値として `required_pull_request_reviews=null`、UT-GOV-004 contexts 積集合、`lock_branch=false`、`enforce_admins=true`、dev/main 別 payload と rollback 境界を追記。 |
+| 2026-05-01 | 1.4.0 | task-utgov001-references-reflect-001 sync。fresh GitHub GET evidence 由来で dev/main branch protection current applied を反映。実 contexts は `ci`, `Validate Build` の2件で、`verify-indexes-up-to-date` は current applied に含めない。Refs #303。 |
 | 2026-04-09 | 1.0.0 | 初版作成（feature/dev/main 3層ブランチ戦略） |
 | 2026-04-26 | 1.1.0 | 個人開発方針反映: PR 承認を 2名/1名 → 0名（承認不要）に変更。CI チェック必須は維持。production Required reviewers を 0名に変更。Issue #23 対応。 |
 | 2026-04-28 | 1.2.0 | task-github-governance-branch-protection spec_created sync。dev=1名 / main=2名レビュー、squash-only、linear history、CODEOWNERS / last-push approval、8 required status checks 草案を追記。実適用は後続タスク・ユーザー承認後に限定。 |

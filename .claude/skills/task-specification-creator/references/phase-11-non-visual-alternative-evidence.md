@@ -89,6 +89,42 @@ Phase 13 のユーザー承認後に不可逆 API を実行する NON_VISUAL imp
 
 適用実例: UT-GOV-002 pr-target-safety-gate-dry-run（2026-04-29）。
 
+## Env-name contract alignment evidence（Auth / Mail / Magic Link）
+
+05b-A auth mail env contract alignment（2026-05-01）の close-out feedback を反映。実装は既に `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `AUTH_URL` を使っているが、manual specs や provisioning runbook に provider 固有名が残る場合は、docs-only / NON_VISUAL の env-name contract task として扱う。
+
+### 適用条件
+
+- task type: `docs-only`
+- visual evidence: `NON_VISUAL`
+- 目的: env / secret / variable の canonical name を揃える
+- 実 secret value、provider response、staging / production smoke は本タスクで記録しない
+
+### evidence file 命名規則（`outputs/phase-11/`）
+
+| ファイル | 役割 | PASS 条件 |
+| --- | --- | --- |
+| `env-name-grep.md` | stale name と canonical name の grep 結果 | 検索対象、expected canonical set、stale match の扱いを記録する |
+| `secret-list-check.md` | Cloudflare Secret / Variable の name-only 確認 | 値を記録せず、必要 name の存在/未実行境界を分ける |
+| `magic-link-smoke-readiness.md` | 下流 smoke の readiness 判定 | 実送信を実施せず、09a/09c 等の実行タスクへ委譲先を明記する |
+
+`outputs/phase-11/main.md` から上記 3 ファイルへリンクし、Phase 12 の `phase12-task-spec-compliance-check.md` で実体確認する。template text にファイル名を書いただけでは PASS にしない。
+
+### 境界
+
+- `secret-list-check.md` は name-only evidence であり、secret value の一致や rotation 完了を保証しない
+- `magic-link-smoke-readiness.md` は readiness であり、`POST /auth/magic-link` の実送信 PASS ではない
+- stale provider name を歴史説明として残す場合は、新規 provisioning 禁止を明記する
+- runtime provisioning / smoke / production readiness は `unassigned-task-detection.md` または既存 downstream workflow に routing する
+
+### 必須チェック（env-name contract 系）
+
+- [ ] canonical env set と stale env set を表で固定した
+- [ ] stale env name の残存が historical / current / follow-up のどれか分類済み
+- [ ] Secret と Variable の配置層を分けた
+- [ ] secret value / token / provider dashboard response を evidence に転記していない
+- [ ] `env-name-grep.md` / `secret-list-check.md` / `magic-link-smoke-readiness.md` の 3 ファイル実体を確認した
+
 ## Cloudflare Workers production preflight evidence template（docs-only infrastructure verification）
 
 UT-06-FU-A production route / secret / observability preflight（2026-04-30）の close-out feedback を反映。`apps/web` / `apps/api` を OpenNext Workers へ移行する際の **production runbook 検証**は、UI 差分なし・コード差分最小・実 production 環境への mutation 不可という条件で行うため、本テンプレートを Phase 11 evidence の最小構成として固定する。

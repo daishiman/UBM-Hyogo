@@ -68,17 +68,19 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 
 本番・staging 環境で必要なシークレットは Cloudflare Secrets に登録する。ローカル開発では 1Password Environments から取得する。
 
-| シークレット名 | Cloudflare Secrets | GitHub Secrets | 1Password |
-|--------------|:-----------------:|:--------------:|:---------:|
-| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | ✅ | - | ✅ (正本) |
-| `GOOGLE_PRIVATE_KEY` | ✅ | - | ✅ (正本) |
-| `GOOGLE_FORM_ID` | ✅ | - | ✅ (正本) |
-| `AUTH_SECRET` | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_ID` | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_SECRET` | ✅ | - | ✅ (正本) |
-| `RESEND_API_KEY` | ✅ | - | ✅ (正本) |
-| `CLOUDFLARE_API_TOKEN` | - | ✅ | ✅ (正本) |
-| `CLOUDFLARE_ACCOUNT_ID` | - | GitHub Variables | ✅ (正本) |
+| 名前 | 種別 | Cloudflare | GitHub | 1Password |
+|--------------|------|:----------:|:------:|:---------:|
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Secret | Secrets | - | ✅ (正本) |
+| `GOOGLE_PRIVATE_KEY` | Secret | Secrets | - | ✅ (正本) |
+| `GOOGLE_FORM_ID` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_SECRET` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_ID` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_SECRET` | Secret | Secrets | - | ✅ (正本) |
+| `MAIL_PROVIDER_KEY` | Secret | Secrets | - | ✅ (正本) |
+| `MAIL_FROM_ADDRESS` | Variable | Variables | - | 任意 |
+| `AUTH_URL` | Variable | Variables | - | 任意 |
+| `CLOUDFLARE_API_TOKEN` | Secret | - | Secrets | ✅ (正本) |
+| `CLOUDFLARE_ACCOUNT_ID` | Variable | - | Variables | ✅ (正本) |
 
 ---
 
@@ -214,6 +216,8 @@ CREATE TABLE IF NOT EXISTS member_attendance (
   PRIMARY KEY (member_id, session_id)
 );
 ```
+
+`MemberProfile.attendance` の read path は `member_attendance.member_id IN (...)` を使う。D1 / SQLite bind 上限を避けるため、実装は 80 memberId ごとに chunk 分割し、`meeting_sessions.session_id` へ INNER JOIN して `held_on DESC`, `session_id ASC` で安定化する。`meeting_sessions` に存在しない session は返さない。
 
 ### admin_member_notes
 
