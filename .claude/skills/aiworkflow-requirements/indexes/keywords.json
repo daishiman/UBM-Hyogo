@@ -20,6 +20,7 @@
       "api-internal.md",
       "arch-claude-cli.md",
       "architecture-admin-api-client.md",
+      "auth-google-oauth-cf-integration.md",
       "csrf-state-parameter.md",
       "deployment-cloudflare.md",
       "deployment-details.md",
@@ -100,6 +101,7 @@
       "architecture-overview.md",
       "architecture-patterns.md",
       "architecture-rag.md",
+      "auth-google-oauth-cf-integration.md",
       "claude-code-agents.md",
       "claude-code-commands.md",
       "claude-code-overview.md",
@@ -270,6 +272,7 @@
       "architecture-overview-history.md",
       "architecture-patterns.md",
       "architecture-rag.md",
+      "auth-google-oauth-cf-integration.md",
       "claude-code-agents-spec.md",
       "claude-code-agents-workflow.md",
       "claude-code-commands.md",
@@ -1916,6 +1919,7 @@
       "arch-state-management-reference.md",
       "architecture-implementation-patterns-reference-agent-view-selector-migration.md",
       "architecture-implementation-patterns-reference.md",
+      "auth-google-oauth-cf-integration.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "interfaces-agent-sdk-skill-reference.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
@@ -2904,7 +2908,8 @@
       "r2-storage-decision-guide.md"
     ],
     "構成図": [
-      "architecture-admin-api-client.md"
+      "architecture-admin-api-client.md",
+      "auth-google-oauth-cf-integration.md"
     ],
     "Server": [
       "architecture-admin-api-client.md",
@@ -2999,7 +3004,8 @@
       "architecture-admin-api-client.md"
     ],
     "環境変数": [
-      "architecture-admin-api-client.md"
+      "architecture-admin-api-client.md",
+      "auth-google-oauth-cf-integration.md"
     ],
     "不変条件サマリ": [
       "architecture-admin-api-client.md",
@@ -3270,6 +3276,7 @@
     ],
     "service": [
       "architecture-file-conversion.md",
+      "auth-google-oauth-cf-integration.md",
       "database-admin-repository-boundary.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md"
@@ -3533,6 +3540,177 @@
     "issues": [
       "architecture-rag.md"
     ],
+    "テキスト": [
+      "auth-google-oauth-cf-integration.md"
+    ],
+    "主要パターン": [
+      "auth-google-oauth-cf-integration.md"
+    ],
+    "二段防御": [
+      "auth-google-oauth-cf-integration.md"
+    ],
+    "middleware": [
+      "auth-google-oauth-cf-integration.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md"
+    ],
+    "binding": [
+      "auth-google-oauth-cf-integration.md",
+      "deployment-cloudflare.md"
+    ],
+    "経由の": [
+      "auth-google-oauth-cf-integration.md"
+    ],
+    "internal": [
+      "auth-google-oauth-cf-integration.md",
+      "claude-code-agents-workflow.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+    ],
+    "call": [
+      "auth-google-oauth-cf-integration.md"
+    ],
+    "auth": [
+      "auth-google-oauth-cf-integration.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+    ],
+    "session": [
+      "auth-google-oauth-cf-integration.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+    ],
+    "resolve": [
+      "auth-google-oauth-cf-integration.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md"
+    ],
+    "only": [
+      "auth-google-oauth-cf-integration.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "endpoint": [
+      "auth-google-oauth-cf-integration.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md"
+    ],
+    "OpenNext": [
+      "auth-google-oauth-cf-integration.md",
+      "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "post": [
+      "auth-google-oauth-cf-integration.md"
+    ],
+    "build": [
+      "auth-google-oauth-cf-integration.md",
+      "deployment-cloudflare-opennext-workers.md"
+    ],
+    "worker": [
+      "auth-google-oauth-cf-integration.md",
+      "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
+    ],
+    "patch": [
+      "auth-google-oauth-cf-integration.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "Auth": [
+      "auth-google-oauth-cf-integration.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+    ],
+    "js": [
+      "auth-google-oauth-cf-integration.md",
+      "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
+      "directory-structure-core.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06a-public-web-2026-04.md",
+      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
+      "technology-core.md"
+    ],
+    "env": [
+      "auth-google-oauth-cf-integration.md",
+      "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
+    ],
+    "層化": [
+      "auth-google-oauth-cf-integration.md"
+    ],
+    "落とし穴チェックリスト": [
+      "auth-google-oauth-cf-integration.md"
+    ],
+    "関連": [
+      "auth-google-oauth-cf-integration.md",
+      "claude-code-settings-hierarchy.md",
+      "database-indexes.md",
+      "database-schema-indexes.md",
+      "deployment-cloudflare-ut06-gate.md",
+      "interfaces-api.md",
+      "interfaces-shared.md",
+      "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "rag-desktop-state.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "lessons": [
+      "auth-google-oauth-cf-integration.md",
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
+    ],
+    "learned": [
+      "auth-google-oauth-cf-integration.md",
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md"
+    ],
+    "関連実装ファイル": [
+      "auth-google-oauth-cf-integration.md"
+    ],
+    "specs": [
+      "auth-google-oauth-cf-integration.md",
+      "lessons-learned-04b-member-self-service.md"
+    ],
+    "重複回避": [
+      "auth-google-oauth-cf-integration.md"
+    ],
     "Agent": [
       "claude-code-agents-spec.md",
       "claude-code-agents-workflow.md",
@@ -3718,10 +3896,6 @@
     "向け": [
       "claude-code-agents-workflow.md",
       "ui-ux-design-principles-core.md"
-    ],
-    "internal": [
-      "claude-code-agents-workflow.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
     ],
     "orchestration": [
       "claude-code-agents-workflow.md",
@@ -4033,52 +4207,6 @@
     ],
     "行のみ": [
       "claude-code-settings-hierarchy.md"
-    ],
-    "関連": [
-      "claude-code-settings-hierarchy.md",
-      "database-indexes.md",
-      "database-schema-indexes.md",
-      "deployment-cloudflare-ut06-gate.md",
-      "interfaces-api.md",
-      "interfaces-shared.md",
-      "lessons-learned-claude-code-permissions-apply-2026-04.md",
-      "lessons-learned-sync-merge-hook-skip-2026-04.md",
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
-      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
-      "rag-desktop-state.md",
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "skill-ledger-progressive-disclosure.md"
-    ],
-    "lessons": [
-      "claude-code-settings-hierarchy.md",
-      "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
-      "logs-archive-2026-03-task-10a-c-final-audit.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
-    ],
-    "learned": [
-      "claude-code-settings-hierarchy.md",
-      "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
-      "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "agents": [
       "claude-code-skills-agents.md"
@@ -4853,11 +4981,6 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
-    "OpenNext": [
-      "deployment-cloudflare-opennext-workers.md",
-      "deployment-cloudflare.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
-    ],
     "デプロイ仕様": [
       "deployment-cloudflare-opennext-workers.md"
     ],
@@ -4890,9 +5013,6 @@
     "ビルド・デプロイ手順": [
       "deployment-cloudflare-opennext-workers.md"
     ],
-    "build": [
-      "deployment-cloudflare-opennext-workers.md"
-    ],
     "open": [
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
@@ -4903,21 +5023,6 @@
     "next": [
       "deployment-cloudflare-opennext-workers.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
-    ],
-    "worker": [
-      "deployment-cloudflare-opennext-workers.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
-    ],
-    "js": [
-      "deployment-cloudflare-opennext-workers.md",
-      "deployment-cloudflare.md",
-      "directory-structure-core.md",
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "lessons-learned-06a-public-web-2026-04.md",
-      "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
-      "technology-core.md"
     ],
     "を生成": [
       "deployment-cloudflare-opennext-workers.md",
@@ -4992,12 +5097,6 @@
       "deployment-secrets-management.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
-    ],
-    "env": [
-      "deployment-cloudflare-opennext-workers.md",
-      "deployment-cloudflare.md",
-      "deployment-secrets-management.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
     ],
     "分離": [
       "deployment-cloudflare-opennext-workers.md"
@@ -5194,9 +5293,6 @@
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "上記": [
-      "deployment-cloudflare.md"
-    ],
-    "binding": [
       "deployment-cloudflare.md"
     ],
     "例は": [
@@ -7151,9 +7247,6 @@
     "の不変条件根拠は": [
       "lessons-learned-04b-member-self-service.md"
     ],
-    "specs": [
-      "lessons-learned-04b-member-self-service.md"
-    ],
     "に分散しているので": [
       "lessons-learned-04b-member-self-service.md"
     ],
@@ -7172,16 +7265,8 @@
     "で宣言する": [
       "lessons-learned-04b-member-self-service.md"
     ],
-    "Auth": [
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
-    ],
     "未着フェーズの": [
       "lessons-learned-04b-member-self-service.md"
-    ],
-    "session": [
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
     ],
     "ヘッダは": [
       "lessons-learned-04b-member-self-service.md"
@@ -7224,6 +7309,7 @@
     ],
     "followup": [
       "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
@@ -7234,11 +7320,6 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
-    ],
-    "resolve": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md",
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
     "状態と": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -7352,10 +7433,6 @@
     ],
     "resolver": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
-    ],
-    "endpoint": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
     "で繋ぐ設計": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
@@ -7479,6 +7556,12 @@
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "追加教訓": [
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+    ],
+    "実装サイクル": [
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
     ],
     "Magic": [
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
@@ -7743,15 +7826,6 @@
     "実体まで作る": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
-    "only": [
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "skill-ledger-gitattributes-policy.md"
-    ],
     "NON": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
@@ -7953,9 +8027,6 @@
       "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "actor": [
-      "lessons-learned-07c-attendance-audit-2026-04.md"
-    ],
-    "middleware": [
       "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "へ明示注入する": [
@@ -9060,9 +9131,6 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "不整合は": [
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
-    ],
-    "patch": [
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "link": [
@@ -10939,11 +11007,6 @@
     ],
     "横断導線補強": [
       "logs-archive-2026-03-auth-mode-migration-sync.md"
-    ],
-    "auth": [
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "mode": [
       "logs-archive-2026-03-auth-mode-migration-sync.md",
