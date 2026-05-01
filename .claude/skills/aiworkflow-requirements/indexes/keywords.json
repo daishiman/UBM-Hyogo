@@ -555,7 +555,8 @@
     ],
     "HTTP": [
       "api-core.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md"
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "ステータスコード": [
       "api-core.md"
@@ -960,6 +961,7 @@
     ],
     "contract": [
       "arch-execution-capability-contract.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
@@ -2247,7 +2249,9 @@
       "arch-state-management-reference-persist-hardening-test-quality.md"
     ],
     "Hardening": [
-      "arch-state-management-reference-persist-hardening-test-quality.md"
+      "arch-state-management-reference-persist-hardening-test-quality.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "SETTINGS": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
@@ -2497,6 +2501,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -2531,6 +2536,7 @@
       "technology-devops.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
@@ -2679,6 +2685,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "master-design.md",
       "task-workflow-phases.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -3988,6 +3995,7 @@
     ],
     "aliases": [
       "claude-code-settings-hierarchy.md",
+      "database-schema.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md"
     ],
@@ -4355,7 +4363,9 @@
       "database-schema-indexes.md",
       "database-schema.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Contract": [
       "database-implementation-core.md"
@@ -4413,7 +4423,9 @@
     "Alias": [
       "database-schema-07b-schema-alias-assignment.md",
       "legacy-ordinal-family-register.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Assignment": [
       "database-schema-07b-schema-alias-assignment.md",
@@ -4475,7 +4487,8 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "up": [
       "database-schema-07b-schema-alias-assignment.md",
@@ -4500,7 +4513,8 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Boundary": [
       "database-schema-07b-schema-alias-assignment.md",
@@ -4570,6 +4584,24 @@
     ],
     "同期テーブル": [
       "database-schema.md"
+    ],
+    "write": [
+      "database-schema.md",
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "target": [
+      "database-schema.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md"
+    ],
+    "issue": [
+      "database-schema.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "workflow-issue-191-schema-aliases-artifact-inventory.md"
     ],
     "Sheets": [
       "database-schema.md",
@@ -4888,7 +4920,8 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "production": [
       "deployment-cloudflare-opennext-workers.md",
@@ -5451,6 +5484,7 @@
     ],
     "local": [
       "directory-structure-core.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "github": [
@@ -6702,7 +6736,8 @@
       "legacy-ordinal-family-register.md"
     ],
     "Summary": [
-      "legacy-ordinal-family-register.md"
+      "legacy-ordinal-family-register.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Section": [
       "legacy-ordinal-family-register.md"
@@ -6757,6 +6792,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -6894,7 +6930,8 @@
       "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "cursor": [
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "pageToken": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -6952,10 +6989,6 @@
     ],
     "per": [
       "lessons-learned-03b-response-sync-2026-04.md"
-    ],
-    "write": [
-      "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
     "上限で守る": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -7691,7 +7724,8 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "collision": [
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "revision": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
@@ -7845,7 +7879,8 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
     "PASS": [
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "証跡にしない": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
@@ -7900,11 +7935,6 @@
     ],
     "promotion": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
-    ],
-    "target": [
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "logs-archive-2026-03-notification-history-sigterm-guard.md"
     ],
     "を決める": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
@@ -7991,10 +8021,6 @@
     ],
     "実行タイミングまとめ": [
       "lessons-learned-coverage-80-enforcement-2026-04.md"
-    ],
-    "issue": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "workflow-issue-191-schema-aliases-artifact-inventory.md"
     ],
     "closeout": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
@@ -8298,7 +8324,8 @@
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "を分離する": [
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "invocation": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
@@ -8815,6 +8842,36 @@
     "SECRET": [
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "replacement": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "を上位前提にする": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "は二段防御にする": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "retryable": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "failure": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "で表す": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "remaining": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "scan": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "でも成立する": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "deferred": [
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "direction": [
       "lessons-learned-ut09-direction-reconciliation-2026-04.md"
@@ -14052,6 +14109,7 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -14076,12 +14134,14 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "Metadata": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Canonical": [
@@ -14383,7 +14443,8 @@
     ],
     "Evidence": [
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Production": [
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
@@ -14402,6 +14463,7 @@
     ],
     "Artifacts": [
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Formalized": [
@@ -14453,7 +14515,8 @@
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "Implementation": [
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Constants": [
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
@@ -14466,6 +14529,9 @@
     ],
     "Feedback": [
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "Disposition": [
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "phases": [
       "workflow-ut-gov-004-artifact-inventory.md",

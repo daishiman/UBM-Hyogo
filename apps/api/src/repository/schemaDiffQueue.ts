@@ -4,6 +4,7 @@ import { asStableKey } from "./_shared/brand";
 
 export type DiffType = "added" | "changed" | "removed" | "unresolved";
 export type DiffStatus = "queued" | "resolved";
+export type BackfillStatus = "pending" | "in_progress" | "completed" | "exhausted" | "failed";
 
 export interface SchemaDiffQueueRow {
   diffId: string;
@@ -16,6 +17,8 @@ export interface SchemaDiffQueueRow {
   status: DiffStatus;
   resolvedBy: string | null;
   resolvedAt: string | null;
+  backfillCursor: string | null;
+  backfillStatus: BackfillStatus | null;
   createdAt: string;
 }
 
@@ -40,6 +43,8 @@ interface DbRow {
   status: DiffStatus;
   resolved_by: string | null;
   resolved_at: string | null;
+  backfill_cursor: string | null;
+  backfill_status: BackfillStatus | null;
   created_at: string;
 }
 
@@ -54,23 +59,34 @@ const map = (r: DbRow): SchemaDiffQueueRow => ({
   status: r.status,
   resolvedBy: r.resolved_by,
   resolvedAt: r.resolved_at,
+  backfillCursor: r.backfill_cursor,
+  backfillStatus: r.backfill_status,
   createdAt: r.created_at,
 });
 
 const SELECT_COLS =
-  "SELECT diff_id, revision_id, type, question_id, stable_key, label, suggested_stable_key, status, resolved_by, resolved_at, created_at FROM schema_diff_queue";
+  "SELECT diff_id, revision_id, type, question_id, stable_key, label, suggested_stable_key, status, resolved_by, resolved_at, backfill_cursor, backfill_status, created_at FROM schema_diff_queue";
 
 // 既定 (type 未指定): unresolved 相当の status='queued' を created_at ASC で返す (AC-5)
 export async function list(c: DbCtx, type?: DiffType): Promise<SchemaDiffQueueRow[]> {
   if (type) {
     const r = await c.db
-      .prepare(`${SELECT_COLS} WHERE type = ? AND status = ? ORDER BY created_at ASC`)
+      .prepare(
+        `${SELECT_COLS}
+         WHERE type = ?
+           AND (status = ? OR backfill_status IN ('in_progress', 'exhausted', 'failed'))
+         ORDER BY created_at ASC`,
+      )
       .bind(type, "queued")
       .all<DbRow>();
     return (r.results ?? []).map(map);
   }
   const r = await c.db
-    .prepare(`${SELECT_COLS} WHERE status = ? ORDER BY created_at ASC`)
+    .prepare(
+      `${SELECT_COLS}
+       WHERE status = ? OR backfill_status IN ('in_progress', 'exhausted', 'failed')
+       ORDER BY created_at ASC`,
+    )
     .bind("queued")
     .all<DbRow>();
   return (r.results ?? []).map(map);
@@ -111,5 +127,19 @@ export async function resolve(c: DbCtx, diffId: string, by: string): Promise<voi
       "UPDATE schema_diff_queue SET status = ?, resolved_by = ?, resolved_at = ? WHERE diff_id = ? AND status = ?",
     )
     .bind("resolved", by, at, diffId, "queued")
+    .run();
+}
+
+export async function markBackfill(
+  c: DbCtx,
+  diffId: string,
+  status: BackfillStatus,
+  cursor: string | null,
+): Promise<void> {
+  await c.db
+    .prepare(
+      "UPDATE schema_diff_queue SET backfill_status = ?1, backfill_cursor = ?2 WHERE diff_id = ?3",
+    )
+    .bind(status, cursor, diffId)
     .run();
 }

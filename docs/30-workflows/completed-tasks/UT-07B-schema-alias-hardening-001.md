@@ -5,13 +5,14 @@
 ```yaml
 issue_number: 293
 task_id: UT-07B-schema-alias-hardening-001
+status: consumed / implemented-local workflow created
 task_name: Schema alias apply hardening / 大規模 back-fill 再開可能化
 category: パフォーマンス
 target_feature: 管理画面 schema diff alias assignment workflow
 priority: 高
 scale: 中規模
-status: 未実施
 source_phase: docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/unassigned-task-detection.md
+workflow_root: docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/
 created_date: 2026-04-30
 dependencies: []
 ```
@@ -27,7 +28,7 @@ dependencies: []
 | 対象機能 | 管理画面 schema diff alias assignment workflow |
 | 優先度 | 高 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | consumed / implemented-local workflow created |
 | 発見元 | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-04-30 |
 | issue_number | #293 |
