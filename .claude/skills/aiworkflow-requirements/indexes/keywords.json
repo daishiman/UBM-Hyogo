@@ -146,6 +146,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -2472,6 +2473,7 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -4533,6 +4535,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
@@ -4895,6 +4898,7 @@
       "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "skill-ledger-overview.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
@@ -6671,6 +6675,7 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -6694,6 +6699,7 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -6787,6 +6793,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -7569,6 +7576,7 @@
     "log": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "logging-migration-guide.md"
     ],
     "遷移": [
@@ -8016,15 +8024,61 @@
     "IDs": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
     ],
+    "naming": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md"
+    ],
+    "reconciliation": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
+    ],
+    "論理": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md"
+    ],
+    "vs": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "testing-component-patterns-core.md"
+    ],
+    "物理": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md"
+    ],
+    "決定": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md"
+    ],
+    "UUT": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
+    ],
+    "運用ルール": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "workflow-ut-gov-004-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "系の固定運用": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
+    ],
+    "確定": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md"
+    ],
+    "参照用": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md"
+    ],
+    "後続タスク": [
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md"
+    ],
     "trigger": [
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
     ],
     "統一": [
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md"
-    ],
-    "UUT": [
-      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
     ],
     "後続タスク参照": [
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
@@ -8056,12 +8110,6 @@
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "task-workflow-phases.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "vs": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
-      "testing-component-patterns-core.md"
     ],
     "の選定": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
@@ -8433,13 +8481,6 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
-    "運用ルール": [
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
-      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
     "項目": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-ut-gov-004-artifact-inventory.md"
@@ -8497,15 +8538,8 @@
     "direction": [
       "lessons-learned-ut09-direction-reconciliation-2026-04.md"
     ],
-    "reconciliation": [
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
-    ],
     "同期方針統一": [
       "lessons-learned-ut09-direction-reconciliation-2026-04.md"
-    ],
-    "系の固定運用": [
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
-      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
     ],
     "同期完了サマリー": [
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
