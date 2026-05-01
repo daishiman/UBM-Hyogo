@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L185 |
-| UBM-Hyogo Admin Sync API（03a） | L206 |
-| UBM-Hyogo Member Self-Service API（04b） | L251 |
-| Desktop IPC API サマリー | L269 |
-| 変更履歴 | L300 |
-| 関連ドキュメント | L317 |
+| エンドポイント命名規則 | L187 |
+| UBM-Hyogo Admin Sync API（03a） | L208 |
+| UBM-Hyogo Member Self-Service API（04b） | L253 |
+| Desktop IPC API サマリー | L271 |
+| 変更履歴 | L302 |
+| 関連ドキュメント | L319 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2296,6 +2296,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L97 |
 | Validation Chain | L103 |
 
+### references/workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Canonical Set | L16 |
+| Phase Outputs | L31 |
+| Confirmed Facts | L40 |
+| Verification Results | L53 |
+| Follow-up / Deferred | L64 |
+| Skill Reflection | L72 |
+| Legacy / Rename | L84 |
+
 ### references/workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md
 
 | セクション | 行 |
@@ -3073,15 +3086,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L12 |
-| 使い方 | L20 |
-| Current Alias Overrides（個別互換行） | L27 |
-| Family Summary | L58 |
-| Detailed Register | L79 |
-| Section Extract Register (2026-03-17) | L260 |
-| 500-Line Split Register (2026-03-16) | L271 |
-| Fragment Migration Register (2026-04-28) | L293 |
-| Task Root Path Drift Register (2026-04-30 追記) | L320 |
+| 概要 | L13 |
+| 使い方 | L21 |
+| Current Alias Overrides（個別互換行） | L28 |
+| Family Summary | L60 |
+| Detailed Register | L81 |
+| Section Extract Register (2026-03-17) | L262 |
+| 500-Line Split Register (2026-03-16) | L273 |
+| Fragment Migration Register (2026-04-28) | L295 |
+| Task Root Path Drift Register (2026-04-30 追記) | L322 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3216,6 +3229,17 @@ node scripts/list-specs.js --topics
 | 関連未タスク・後続 wave 連携 | L50 |
 | skill 改善フィードバック（task-specification-creator 反映済み） | L57 |
 | 参照 | L62 |
+
+### references/lessons-learned-07c-audit-log-browsing-ui-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| L-07C-AUDIT-001: JST入力とUTC API queryの境界をPhase 9で固定する | L12 |
+| L-07C-AUDIT-002: 監査ログ閲覧はraw JSON非公開をAPI契約にする | L18 |
+| L-07C-AUDIT-003: cursor paginationはorder keyを明示して再現可能にする | L24 |
+| L-07C-AUDIT-004: Phase 11 visual evidenceとstaging admin E2Eを混同しない | L30 |
+| L-07C-AUDIT-005: skill feedbackは「ルール不足」と「実行漏れ」を分ける | L36 |
 
 ### references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md
 
@@ -3497,8 +3521,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L71 |
-| 関連ドキュメント | L76 |
+| 利用順序 | L72 |
+| 関連ドキュメント | L77 |
 
 ### references/llm-embedding.md
 
