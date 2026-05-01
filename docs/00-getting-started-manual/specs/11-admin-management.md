@@ -25,6 +25,7 @@
 | `stableKey` 割当 | ❌ | ✅ |
 | 開催日追加 | ❌ | ✅ |
 | 参加履歴付与/解除 | ❌ | ✅ |
+| 監査ログ閲覧 | ❌ | ✅ |
 
 ---
 
@@ -66,6 +67,14 @@
 - 開催日ごと、会員ごとの両方から参加履歴を管理できるようにする
 - 開催日と参加履歴はフォーム項目ではなく、管理者データとして扱う
 
+### `/admin/audit`
+
+- `audit_log` を read-only に検索・閲覧する
+- `action / actorEmail / targetType / targetId / from / to / limit` の filter と cursor pagination を提供する
+- 日時入力は JST、API query は UTC、表示は JST に揃える
+- `before_json` / `after_json` は初期折り畳みとし、展開時も email / phone / address / name 相当値は masked view だけを表示する
+- 編集・削除・再実行・export などの mutation UI は置かない
+
 ---
 
 ## 管理操作の UI 原則
@@ -79,6 +88,7 @@
 | スキーマ差分確認 | `List + review panel` |
 | 開催日追加 | `Form` |
 | 参加履歴付与/解除 | `Button` または `Checkbox` |
+| 監査ログ閲覧 | `Filter + Table + Disclosure` |
 
 ---
 
@@ -90,6 +100,7 @@
 4. タグ付与は管理者レビューを通す
 5. Google Form の変更対応は `/admin/schema` に集約する
 6. 開催日と参加履歴はフォーム同期対象と分離して管理する
+7. 監査ログは append-only とし、閲覧画面では保存値を変更せず表示時 masking を行う
 
 ## schema alias assignment（07b）
 
