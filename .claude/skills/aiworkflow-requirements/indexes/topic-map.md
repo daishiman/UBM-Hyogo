@@ -3640,8 +3640,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L76 |
-| 関連ドキュメント | L81 |
+| 利用順序 | L77 |
+| 関連ドキュメント | L82 |
 
 ### references/llm-embedding.md
 
