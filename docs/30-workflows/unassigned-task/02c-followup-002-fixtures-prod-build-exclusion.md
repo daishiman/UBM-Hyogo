@@ -10,9 +10,11 @@
 | 対象機能     | apps/api ビルド成果物から dev-only コードを除外する tsconfig / vitest 構成    |
 | 優先度       | 中                                                                            |
 | 見積もり規模 | 小規模                                                                        |
-| ステータス   | 未実施                                                                        |
+| ステータス   | consumed / implemented-local（canonical workflow へ昇格済み）                 |
 | 発見元       | 02c Phase 12 unassigned-task-detection #6                                     |
 | 発見日       | 2026-04-27                                                                    |
+| 昇格先       | `docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/`           |
+| 消費日       | 2026-05-01                                                                    |
 
 ---
 

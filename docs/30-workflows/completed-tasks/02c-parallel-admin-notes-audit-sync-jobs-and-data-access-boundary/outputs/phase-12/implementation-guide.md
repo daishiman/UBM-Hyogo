@@ -235,9 +235,19 @@ describe("...", () => {
 | # | 遵守方法 | 関連 |
 | --- | --- | --- |
 | #5 | apps/web から D1 直接アクセスしない。boundary lint + dep-cruiser で阻止。fetch 経由のみ。 | AC-3 / AC-4 / AC-5 |
-| #6 | `__fixtures__/admin.fixture.ts` は dev 用。production seed として扱わない。 | AC-10 |
+| #6 | `__fixtures__/admin.fixture.ts` は dev 用。production seed として扱わない。三重防御（後述補強）で固定。 | AC-10 |
 | #11 | 管理者は member 本文を編集しない。`member_responses` は 02a 経由でも UPDATE しない。member への注記は `adminNotes` に書く。 | AC-2 |
 | #12 | adminNotes を `PublicMemberProfile` / `MemberProfile` の builder の戻り値に **絶対** 含めない。view model の builder（02a `_shared/builder.ts`）は adminNotes を import すらしない。 | AC-2 |
+
+#### #6 の三重防御（02c-followup-002 で追加）
+
+`__fixtures__/admin.fixture.ts` および `__tests__/_setup.ts` を production runtime に流入させない構成上の固定:
+
+1. **build 構成**: `apps/api/tsconfig.build.json` が `src/**/__tests__/**` / `src/**/__fixtures__/**` / `*.test.ts` を `exclude`。`pnpm build` は build config 経由の型検査のみで、テスト loader / miniflare / fs 依存を含まない。
+2. **境界 lint**: `.dependency-cruiser.cjs` の `no-prod-to-fixtures-or-tests` rule が `apps/**/src/` または `packages/**/src/` の production path から `__tests__/` / `__fixtures__/` への import を error 化。
+3. **runtime bundling**: Cloudflare Workers の wrangler/esbuild は `src/index.ts` から到達可能な module だけを bundle するため、fixture / test loader は静的 import path に登場しない。
+
+詳細仕様: `docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/`。
 
 ---
 

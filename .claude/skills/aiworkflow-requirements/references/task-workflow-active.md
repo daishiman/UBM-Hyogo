@@ -29,6 +29,17 @@
 | 検証 | local typecheck + route/workflow/repository tests 完了。10,000 行 staging D1 / Workers 実測は `staging-deferred` |
 | 後続 | queue/cron split は Phase 11 staging evidence で必要性が出た場合のみ formalize |
 
+### 02c-followup-002 fixture/test production build exclusion（2026-05-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / Phase 1-12 completed / Phase 13 pending_user_approval / NON_VISUAL |
+| 成果物 | `docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/` |
+| 実装 | `apps/api/tsconfig.build.json` / `apps/api/package.json` / `.dependency-cruiser.cjs` / root `package.json` `lint:deps` |
+| 公開契約 | production code から `__fixtures__` / `__tests__` への import 禁止。`pnpm --filter @ubm-hyogo/api build` は `tsconfig.build.json` を使用 |
+| 検証 | build/typecheck/dep-cruiser PASS、esbuild substitute で `__fixtures__` / `__tests__` / `miniflare` 0 件。全体 api test は pre-existing 4 failures のため PARTIAL |
+| 後続 | `task-02c-followup-002-sync-forms-responses-test-baseline-001` / `task-02c-followup-002-wrangler-dry-run-evidence-001` |
+
 ### 目的
 
 ユーザーから与えられた複雑なタスクを分解し、以下を実現する：
