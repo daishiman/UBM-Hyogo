@@ -20,7 +20,7 @@
 | 10 | `rg -l "POST /admin/sync/schema\|forms\\.get\|schema_questions" docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/` | 3 keyword 全 hit | 03a に存在想定 | PASS |
 | 11 | `rg -l "forms\\.responses\\.list\|member_responses\|current response" docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/` | 3 keyword 全 hit | 03b に存在想定 | PASS |
 | 12 | `rg -l "/admin/sync/schema\|/admin/sync/responses" .claude/skills/aiworkflow-requirements/references/` | 2 endpoint 全 hit | api-endpoints.md に存在想定 | PASS |
-| 13 | `rg -l "cron\|pause\|resume\|incident" docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | 4 keyword 全 hit | 09b に存在想定 | PASS |
+| 13 | `rg -l "cron\|pause\|resume\|incident" docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | 4 keyword 全 hit | 09b に存在想定 | PASS |
 | 14 | 参照先 path 存在確認（`outputs/phase-02/main.md` / `responsibility-mapping.md`、03a / 03b の `index.md` 等） | 全 path 到達可能 | `link-checklist.md` 参照 | PASS |
 | 15 | `git diff --stat origin/main...HEAD` | apps/ packages/ 変更なし、docs / skill index 差分のみ | 実測: `docs/30-workflows/task-sync-forms-d1-legacy-umbrella-001/**` と `.claude/skills/aiworkflow-requirements/{indexes,references/task-workflow-active.md}`。apps/ packages/ 変更なし | PASS |
 
