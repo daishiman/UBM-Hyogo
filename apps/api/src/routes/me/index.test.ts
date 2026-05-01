@@ -178,6 +178,46 @@ describe("/me/* — member self-service API", () => {
       expect(fields?.c).toBe(RESPONSE_FIELDS_R001.length);
     });
 
+    it("AC-7: resolved 行のみ存在する member は再申請が 202 で成功する", async () => {
+      const { app, env: e } = buildApp(env);
+      const first = await app.request(
+        "/visibility-request",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ desiredState: "hidden" }),
+        },
+        e,
+      );
+      expect(first.status).toBe(202);
+      const firstJson = MeQueueAcceptedResponseZ.parse(await first.json());
+      // admin が resolve したと仮定して直接 D1 を更新
+      await env.db
+        .prepare(
+          "UPDATE admin_member_notes SET request_status='resolved', resolved_at=?1, resolved_by_admin_id='adm_owner' WHERE note_id=?2",
+        )
+        .bind(Date.now(), firstJson.queueId)
+        .run();
+      const second = await app.request(
+        "/visibility-request",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ desiredState: "hidden" }),
+        },
+        e,
+      );
+      expect(second.status).toBe(202);
+      const secondJson = MeQueueAcceptedResponseZ.parse(await second.json());
+      expect(secondJson.queueId).not.toBe(firstJson.queueId);
+      const pendingRows = await env.db
+        .prepare(
+          "SELECT COUNT(*) AS c FROM admin_member_notes WHERE member_id='m_001' AND note_type='visibility_request' AND request_status='pending'",
+        )
+        .first<{ c: number }>();
+      expect(pendingRows?.c).toBe(1);
+    });
+
     it("F-7: 二重申請は 409 DUPLICATE_PENDING_REQUEST", async () => {
       const { app, env: e } = buildApp(env);
       const first = await app.request(

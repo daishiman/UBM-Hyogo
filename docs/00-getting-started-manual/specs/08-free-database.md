@@ -76,7 +76,7 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 | `AUTH_GOOGLE_SECRET` | ✅ | - | ✅ (正本) |
 | `RESEND_API_KEY` | ✅ | - | ✅ (正本) |
 | `CLOUDFLARE_API_TOKEN` | - | ✅ | ✅ (正本) |
-| `CLOUDFLARE_ACCOUNT_ID` | - | ✅ | ✅ (正本) |
+| `CLOUDFLARE_ACCOUNT_ID` | - | GitHub Variables | ✅ (正本) |
 
 ---
 
@@ -111,6 +111,7 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 | `meeting_sessions` | 開催日 |
 | `member_attendance` | 参加履歴 |
 | `admin_users` | 管理者 |
+| `admin_member_notes` | 管理メモ / member self-service 申請 queue |
 | `magic_tokens` | Magic Link |
 | `tag_definitions` | タグ辞書 |
 | `member_tags` | 付与済みタグ |
@@ -212,6 +213,36 @@ CREATE TABLE IF NOT EXISTS member_attendance (
 );
 ```
 
+### admin_member_notes
+
+```sql
+CREATE TABLE IF NOT EXISTS admin_member_notes (
+  note_id TEXT PRIMARY KEY,
+  member_id TEXT NOT NULL,
+  body TEXT NOT NULL,
+  note_type TEXT NOT NULL DEFAULT 'general',
+  request_status TEXT,
+  resolved_at INTEGER,
+  resolved_by_admin_id TEXT,
+  created_by TEXT NOT NULL,
+  updated_by TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_admin_notes_member_type
+  ON admin_member_notes (member_id, note_type, created_at);
+
+CREATE INDEX IF NOT EXISTS idx_admin_notes_pending_requests
+  ON admin_member_notes (member_id, note_type)
+  WHERE request_status = 'pending';
+```
+
+`note_type='general'` は通常の管理メモで、request 系 3 列を NULL に保つ。
+`visibility_request` / `delete_request` は申請 queue として作成時に
+`request_status='pending'` を設定する。resolve/reject は
+`WHERE request_status='pending'` の条件付き UPDATE で処理済み行の再更新を防ぐ。
+
 ### tag_assignment_queue
 
 ```sql
@@ -256,6 +287,7 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 3. consent は current response から `member_status` へ反映する
 4. 参加履歴・タグ・公開状態は form schema 外テーブルで管理する
 5. 削除しても raw response は監査目的で保持する
+6. 公開停止 / 退会申請は `admin_member_notes` に queue 化し、`member_responses` / `response_fields` は直接更新しない
 
 ## schema alias back-fill（07b）
 
