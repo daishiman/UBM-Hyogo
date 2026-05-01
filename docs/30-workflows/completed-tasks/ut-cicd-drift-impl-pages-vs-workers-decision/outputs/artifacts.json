@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "id": "UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION",
+    "taskType": "docs-only",
+    "docsOnly": true,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "github_issue": 287,
+    "github_issue_state": "CLOSED",
+    "wave": 1,
+    "wave_label": "Wave 1",
+    "priority": "HIGH",
+    "execution_mode": "parallel",
+    "created_at": "2026-05-01",
+    "scope": "pages_vs_workers_deploy_target_adr"
+  },
+  "task": {
+    "id": "UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION",
+    "name": "ut-cicd-drift-impl-pages-vs-workers-decision",
+    "task_path": "docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision",
+    "status": "spec_created",
+    "depends_on": [
+      "ut-cicd-drift"
+    ],
+    "blocks": [
+      "task-impl-opennext-workers-migration-001"
+    ],
+    "blocks": [],
+    "related": [
+      "UT-GOV-006-web-deploy-target-canonical-sync"
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計（ADR ドラフト & 判断軸）",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/adr-draft.md",
+        "outputs/phase-02/decision-criteria.md",
+        "outputs/phase-02/cutover-vs-hold-comparison.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビューゲート",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "検証戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/test-strategy.md",
+        "outputs/phase-04/doc-consistency-checks.md"
+      ],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "仕様 runbook 作成",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/adr-runbook.md",
+        "outputs/phase-05/doc-update-procedure.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/failure-cases.md"
+      ],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化 / 仕様間整合",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md",
+        "outputs/phase-08/dry-consolidation-map.md"
+      ],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md",
+        "outputs/phase-09/quality-gate-checklist.md"
+      ],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビューゲート",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/go-no-go.md",
+        "outputs/phase-10/review-findings.md"
+      ],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動検証（NON_VISUAL 縮約 + 大規模実測 evidence）",
+      "file": "phase-11.md",
+      "status": "completed-local / staging-deferred",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-gha.md",
+    ".claude/skills/aiworkflow-requirements/references/architecture-overview-core.md",
+    "CLAUDE.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "invariants_touched": [5, 6],
+  "doc_references": [
+    "apps/web/wrangler.toml",
+    ".github/workflows/web-cd.yml",
+    "docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/index.md"
+  ]
+}

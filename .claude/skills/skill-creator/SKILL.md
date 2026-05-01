@@ -31,6 +31,12 @@ allowed-tools:
 
 スキルを作成・更新・プロンプト改善するためのメタスキル。
 
+## 変更履歴
+
+| Version | Date | Changes |
+| --- | --- | --- |
+| v2026.05.01-phase12-skill-feedback-sync | 2026-05-01 | Phase 12 `skill-feedback-report.md` の改善提案を既存 skill reference へ最小反映する運用を追加。ADR / topology drift task では重複候補検索、base case 別差分マトリクス、doc-only grep、NON_VISUAL evidence を優先して反映する。 |
+
 > Anchors の詳細（全 7 件）は [references/anchors.md](references/anchors.md) を参照（description には主要 3 件のみ記載）。
 
 ## 必須：最初の実行ステップ

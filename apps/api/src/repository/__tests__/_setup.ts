@@ -52,6 +52,7 @@ const splitStatements = (sql: string): string[] => {
 
 const TABLES = [
   "audit_log",
+  "schema_aliases",
   "magic_tokens",
   "sync_jobs",
   "sync_job_logs",

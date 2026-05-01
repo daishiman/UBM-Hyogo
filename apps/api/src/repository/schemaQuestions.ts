@@ -1,7 +1,7 @@
 import type { DbCtx } from "./_shared/db";
 import type { StableKey } from "./_shared/brand";
 import { asStableKey } from "./_shared/brand";
-import { lookup as lookupSchemaAlias } from "./schemaAliases";
+import { findAliasByQuestionId } from "./schemaAliases";
 
 export type FieldKind = string;
 export type FieldVisibility = "public" | "members_only" | "admin_only";
@@ -136,7 +136,7 @@ export async function findStableKeyByQuestionId(
   c: DbCtx,
   questionId: string,
 ): Promise<string | null> {
-  const alias = await lookupSchemaAlias(c, questionId);
+  const alias = await findAliasByQuestionId(c, questionId);
   if (alias) return alias.stableKey;
 
   const r = await c.db
@@ -148,4 +148,25 @@ export async function findStableKeyByQuestionId(
   if (!r) return null;
   if (r.stable_key === "unknown") return null;
   return r.stable_key;
+}
+
+export async function updateStableKey(
+  c: DbCtx,
+  questionId: string,
+  newStableKey: StableKey,
+  revisionId?: string,
+): Promise<void> {
+  if (revisionId) {
+    await c.db
+      .prepare(
+        "UPDATE schema_questions SET stable_key = ? WHERE question_id = ? AND revision_id = ?",
+      )
+      .bind(newStableKey, questionId, revisionId)
+      .run();
+    return;
+  }
+  await c.db
+    .prepare("UPDATE schema_questions SET stable_key = ? WHERE question_id = ?")
+    .bind(newStableKey, questionId)
+    .run();
 }
