@@ -8,6 +8,10 @@
 
 `docs/30-workflows/completed-tasks/ut21-forms-sync-conflict-closeout/` を docs-only / NON_VISUAL / `spec_created` としてレビューし、旧 UT-21 Sheets→D1 sync endpoint / audit logging 仕様を削除せず legacy 状態欄で現行 Forms sync 正本へ吸収する運用を確認した。Phase 12 では「新設禁止 IF が成果物そのもの」の場合でも `system-spec-update-summary.md` に Step 2 not required、`unassigned-task-detection.md` に U02/U04/U05 既起票、`skill-feedback-report.md` に両 skill 行を残す必要がある。commit / PR / push は未実行。
 
+## 2026-05-01 - 09a skill feedback promotion routing 反映
+
+`docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` の Phase 12 sync で、`skill-feedback-report.md` を報告書として残すだけでは次回再利用できないことを確認した。`references/phase12-skill-feedback-promotion.md` を新規追加し、各苦戦箇所に `promotion target / no-op reason / evidence path` を要求する routing matrix を固定。`references/phase-12-documentation-guide.md`、`references/spec-update-workflow.md`、`assets/phase12-task-spec-compliance-template.md`、`SKILL.md` に同ルールを接続した。commit / PR / push は未実行。
+
 ## 2026-04-29 - Phase 12 一括 SubAgent 実行プロファイル反映
 
 `docs/30-workflows/ut-04-d1-schema-design/` の Phase 12 close-out 監査で、Phase 12 成果物検証、system spec sync、unassigned 整理、skill feedback が複数 skill に分散しており、SubAgent 出力だけでは記録と実変更の drift が残りやすいことを確認した。`references/phase-12-documentation-guide.md` に一括 SubAgent 実行プロファイルを追加し、監査は並列、編集は ownership 固定で直列、Step 2 判定 owner は system spec lane に固定、未タスク表は `open / done / baseline / duplicate` を明示、最終判定は validator 実測値・artifact existence・mirror diff・500 行制限で閉じる運用を正本化した。`SKILL.md` 変更履歴にも v2026.04.29-phase12-subagent-profile を追加。commit / PR / push は未実行。

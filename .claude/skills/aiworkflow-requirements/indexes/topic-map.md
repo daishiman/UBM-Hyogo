@@ -271,8 +271,8 @@ node scripts/list-specs.js --topics
 | セキュリティアーキテクチャ | L146 |
 | 状態管理アーキテクチャ | L180 |
 | データフローアーキテクチャ | L217 |
-| ディレクトリ構造 | L265 |
-| データ構造（型システム） | L324 |
+| ディレクトリ構造 | L266 |
+| データ構造（型システム） | L325 |
 
 ### references/architecture-overview-details.md
 
@@ -1058,17 +1058,18 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Schema alias assignment workflow（07b） | L60 |
-| ワークフロー関連テーブル | L64 |
-| ユーザー関連テーブル | L103 |
-| システムプロンプト関連テーブル | L137 |
-| チャット関連テーブル | L172 |
-| RAG関連テーブル | L208 |
-| Knowledge Graph関連テーブル | L250 |
-| 変換処理関連テーブル | L384 |
-| インデックス設計 | L443 |
-| 関連ドキュメント / 変更履歴 | L447 |
-| DDL 同期テンプレ | L452 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L60 |
+| Schema alias assignment workflow（07b） | L72 |
+| ワークフロー関連テーブル | L76 |
+| ユーザー関連テーブル | L115 |
+| システムプロンプト関連テーブル | L149 |
+| チャット関連テーブル | L184 |
+| RAG関連テーブル | L220 |
+| Knowledge Graph関連テーブル | L262 |
+| 変換処理関連テーブル | L396 |
+| インデックス設計 | L455 |
+| 関連ドキュメント / 変更履歴 | L459 |
+| DDL 同期テンプレ | L464 |
 
 ---
 
@@ -2259,6 +2260,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L110 |
 | Validation Chain | L119 |
 
+### references/workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L21 |
+| Phase Outputs | L32 |
+| 主要実装物（spec_created 段階の planned outputs） | L50 |
+| Skill 反映先（current canonical set） | L60 |
+| 苦戦箇所（lessons reference） | L72 |
+| Follow-up 未タスク | L82 |
+| Validation Chain | L86 |
+
 ### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
 
 | セクション | 行 |
@@ -2284,6 +2298,26 @@ node scripts/list-specs.js --topics
 | 実装で確定した値 | L69 |
 | Follow-up 未タスク（formalize 済み） | L78 |
 | Validation Chain | L89 |
+
+### references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Consumed Upstream Evidence | L17 |
+| Phase Outputs（current canonical set） | L28 |
+| Skill 反映先（current canonical set） | L37 |
+| Validation Chain | L50 |
+
+### references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Roots | L5 |
+| Phase Artifacts | L13 |
+| Boundary | L25 |
+| Formalized Follow-Ups | L29 |
+| Verification | L42 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -2995,12 +3029,12 @@ node scripts/list-specs.js --topics
 | 概要 | L9 |
 | 使い方 | L17 |
 | Current Alias Overrides（個別互換行） | L24 |
-| Family Summary | L49 |
-| Detailed Register | L70 |
-| Section Extract Register (2026-03-17) | L251 |
-| 500-Line Split Register (2026-03-16) | L262 |
-| Fragment Migration Register (2026-04-28) | L284 |
-| Task Root Path Drift Register (2026-04-30 追記) | L311 |
+| Family Summary | L50 |
+| Detailed Register | L71 |
+| Section Extract Register (2026-03-17) | L252 |
+| 500-Line Split Register (2026-03-16) | L263 |
+| Fragment Migration Register (2026-04-28) | L285 |
+| Task Root Path Drift Register (2026-04-30 追記) | L312 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3126,6 +3160,16 @@ node scripts/list-specs.js --topics
 | skill 改善フィードバック（task-specification-creator 反映済み） | L57 |
 | 参照 | L62 |
 
+### references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L9 |
+| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L17 |
+| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L25 |
+| L-09A-004: path realignment は top register と drift register の両方に書く | L33 |
+| L-09A-005: skill feedback は報告で止めず promotion target を決める | L41 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -3192,6 +3236,24 @@ node scripts/list-specs.js --topics
 | 結論 (個人開発運用ポリシー) | L20 |
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
+
+### references/lessons-learned-u-ut01-07-sync-log-naming-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 5 件（L-UUT0107-001〜005） | L12 |
+| 運用ルール 3 件（reconciliation 系の固定運用） | L49 |
+| canonical 確定（参照用） | L57 |
+| 後続タスク | L65 |
+
+### references/lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 苦戦箇所 4 件（L-UUT01-08-001〜004） | L12 |
+| 後続タスク参照 | L42 |
 
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
@@ -3313,8 +3375,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L64 |
-| 関連ドキュメント | L69 |
+| 利用順序 | L66 |
+| 関連ドキュメント | L71 |
 
 ### references/llm-embedding.md
 
@@ -4687,10 +4749,10 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
-| 仕様書インデックス | L14 |
-| 利用順序 | L43 |
-| 関連ドキュメント | L48 |
-| 2026-04-28 DevEx Conflict Prevention Spec Wave | L52 |
+| 仕様書インデックス | L15 |
+| 利用順序 | L44 |
+| 関連ドキュメント | L49 |
+| 2026-04-28 DevEx Conflict Prevention Spec Wave | L53 |
 
 ### references/testing-accessibility.md
 
