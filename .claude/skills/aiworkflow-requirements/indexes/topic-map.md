@@ -2309,6 +2309,16 @@ node scripts/list-specs.js --topics
 | Skill 反映先（current canonical set） | L37 |
 | Validation Chain | L50 |
 
+### references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Roots | L5 |
+| Phase Artifacts | L13 |
+| Boundary | L25 |
+| Formalized Follow-Ups | L29 |
+| Verification | L42 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
