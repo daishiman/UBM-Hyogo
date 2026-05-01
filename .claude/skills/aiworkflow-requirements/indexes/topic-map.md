@@ -972,7 +972,7 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L212 |
 | Conversation DB 初期化パターン | L243 |
 | UBM-Hyogo Schema Sync Contract（03a） | L245 |
-| ベクトル検索実装（DiskANN） | L353 |
+| ベクトル検索実装（DiskANN） | L355 |
 
 ### references/database-implementation-details.md
 
@@ -2059,14 +2059,22 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Acceptance Evidence | L11 |
+| Phase 12 Artifacts | L21 |
+| Deferred / Blocked | L32 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
 | Current Canonical Set | L12 |
-| Validation Chain | L25 |
-| Notes | L36 |
+| Validation Chain | L26 |
+| Notes | L37 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2332,6 +2340,14 @@ node scripts/list-specs.js --topics
 | 参照される実装ファイル（spec_created のため変更は伴わない） | L75 |
 | Follow-up 未タスク | L83 |
 | Validation Chain（spec_created） | L92 |
+
+### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L12 |
+| Open Follow-ups | L25 |
 
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
@@ -3046,15 +3062,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L11 |
-| 使い方 | L19 |
-| Current Alias Overrides（個別互換行） | L26 |
-| Family Summary | L57 |
-| Detailed Register | L78 |
-| Section Extract Register (2026-03-17) | L259 |
-| 500-Line Split Register (2026-03-16) | L270 |
-| Fragment Migration Register (2026-04-28) | L292 |
-| Task Root Path Drift Register (2026-04-30 追記) | L319 |
+| 概要 | L12 |
+| 使い方 | L20 |
+| Current Alias Overrides（個別互換行） | L27 |
+| Family Summary | L58 |
+| Detailed Register | L79 |
+| Section Extract Register (2026-03-17) | L260 |
+| 500-Line Split Register (2026-03-16) | L271 |
+| Fragment Migration Register (2026-04-28) | L293 |
+| Task Root Path Drift Register (2026-04-30 追記) | L320 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3220,6 +3236,15 @@ node scripts/list-specs.js --topics
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
 
+### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I106-001: Closed issue は reopen せず current owner を再検証する | L3 |
+| L-I106-002: admin notes repository は重複 owner を作らない | L9 |
+| L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
+| L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -3228,6 +3253,8 @@ node scripts/list-specs.js --topics
 | L-I191-002: endpoint compatibility and write-target change are separate decisions | L7 |
 | L-I191-003: detected follow-ups must be materialized | L11 |
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
+| L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
+| L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -3292,6 +3319,22 @@ node scripts/list-specs.js --topics
 | L-UUT0109-001: docs-only canonical decision でも正本導線を同 wave で閉じる | L3 |
 | L-UUT0109-002: technical GO と user approval を分離する | L7 |
 | L-UUT0109-003: offset は invocation budget と invalidation 条件まで書く | L11 |
+
+### references/lessons-learned-ut-02a-tag-assignment-queue-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L11 |
+| L-UT02A-001: 仕様書命名（複数形）と既存規約（単数形）の差分判断 | L27 |
+| L-UT02A-002: idempotency key 設計に `tagCode` を含めない判断 | L33 |
+| L-UT02A-003: retry / DLQ 列追加で既存 row に既定値を確実に与える | L39 |
+| L-UT02A-004: type-level read-only test (`*.test-d.ts`) を導入してメンバータグ書き込み境界を恒久化 | L45 |
+| L-UT02A-005: 既存ファイル拡張 vs 新規ファイル作成の判断 | L51 |
+| L-UT02A-006: candidate / confirmed / rejected ↔ queued / resolved / rejected の alias 維持 | L57 |
+| L-UT02A-007: NON_VISUAL implementation の Phase 12 で artifacts.json を更新しない判断 | L63 |
+| 採用した設計判断（サマリ） | L71 |
+| 将来タスクへの推奨事項（formal unassigned tasks） | L86 |
+| 関連 lessons-learned | L98 |
 
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
@@ -3433,8 +3476,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L69 |
-| 関連ドキュメント | L74 |
+| 利用順序 | L70 |
+| 関連ドキュメント | L75 |
 
 ### references/llm-embedding.md
 

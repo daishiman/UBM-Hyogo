@@ -17,9 +17,10 @@ describe("enqueueTagCandidate (07a candidate auto-enqueue hook)", () => {
     expect(r.enqueued).toBe(true);
     expect(r.queueId).toBeDefined();
     const row = await env.db
-      .prepare("SELECT status FROM tag_assignment_queue WHERE member_id = 'm1'")
-      .first<{ status: string }>();
+      .prepare("SELECT status, idempotency_key FROM tag_assignment_queue WHERE member_id = 'm1'")
+      .first<{ status: string; idempotency_key: string }>();
     expect(row?.status).toBe("queued");
+    expect(row?.idempotency_key).toBe("m1:r1");
   });
 
   it("member_tags が既にある場合は skip (has_tags)", async () => {
@@ -66,5 +67,23 @@ describe("enqueueTagCandidate (07a candidate auto-enqueue hook)", () => {
       responseId: "r1",
     });
     expect(r.enqueued).toBe(true);
+  });
+
+  it("同じ memberId/responseId は idempotency key で既存 queueId を返す", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO tag_assignment_queue (queue_id, member_id, response_id, status, suggested_tags_json, idempotency_key) VALUES ('q_old','m1','r1','rejected','[]','m1:r1')",
+      )
+      .run();
+    const r = await enqueueTagCandidate(env.ctx, {
+      memberId: "m1",
+      responseId: "r1",
+    });
+    expect(r.enqueued).toBe(true);
+    expect(r.queueId).toBe("q_old");
+    const count = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM tag_assignment_queue WHERE member_id = 'm1'")
+      .first<{ n: number }>();
+    expect(count?.n).toBe(1);
   });
 });

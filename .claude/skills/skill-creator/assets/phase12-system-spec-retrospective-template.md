@@ -1,7 +1,7 @@
 # Phase 12 システム仕様更新・苦戦箇所テンプレート
 
 > **用途**: Phase 12 Step 2 で「今回の実装内容」と「苦戦箇所」を aiworkflow-requirements へ再利用可能な形で反映する。
-> **推奨出力先**: `docs/30-workflows/<TASK-ID>/outputs/phase-12/spec-update-summary.md`
+> **推奨出力先**: `docs/30-workflows/<TASK-ID>/outputs/phase-12/system-spec-update-summary.md`
 > **cross-cutting follow-up の追加テンプレート**: `references/workflow-<feature>.md` を新規作成する場合は `skill-creator/assets/phase12-integrated-workflow-spec-template.md` を併用する。
 > **関連仕様書（推奨5点セット）**:
 > - `references/<interface-spec>.md`（型/API契約）
@@ -32,6 +32,7 @@
 > - `generate-index.js` → `validate-structure.js` → mirror sync → `diff -qr` を完了判定へ含める
 > - 500行超過が出たら semantic filename で family split し、split 後の current canonical set を書き換える
 > - targeted suite PASS と wider suite blocker は分離記録し、wider blocker は既存未タスクとの重複確認後にのみ formalize する
+> - Skill/template changes are not complete until the owning `.claude/skills/<skill>` file is updated and mirror parity is recorded when `.agents/skills/<skill>` exists.
 
 > **統合 workflow 正本を追加する条件**:
 > - 更新先が 4仕様書以上に分散する
@@ -142,7 +143,7 @@
 | P2 | `references/task-workflow.md` / `references/ui-ux-feature-components.md` / `references/interfaces-*.md` | completed root、representative evidence path、5分解決カードを同期 | P1 完了後 |
 | P3 | `references/workflow-<feature>.md` / `references/lessons-learned.md` | docs-only parent workflow の統合正本、苦戦箇所、標準ルールを同期 | P2 完了後 |
 | P4 | `scripts/validate-<parent-sweep>.mjs` / `diff -qr .claude/skills/<skill> .agents/skills/<skill>` | path / status / mirror drift guard を機械検証 | P1-P3 完了後 |
-| P5 | `outputs/phase-11/*` / `outputs/phase-12/spec-update-summary.md` / `skill-creator` templates | representative visual re-audit board と SubAgent 実行ログ、再利用テンプレート化を同一ターンで残す | P2-P4 と同一ターン |
+| P5 | `outputs/phase-11/*` / `outputs/phase-12/system-spec-update-summary.md` / `skill-creator` templates | representative visual re-audit board と SubAgent 実行ログ、再利用テンプレート化を同一ターンで残す | P2-P4 と同一ターン |
 
 > user が screenshot を要求した docs-heavy task では、P5 を `N/A` にせず current workflow への representative screenshot 集約可否を最初に判定し、`SCREENSHOT + NON_VISUAL` で閉じる。
 
@@ -299,7 +300,7 @@ UI機能実装の場合は次を推奨:
 10. `<phase-12-documentation.md / phase-1..11-*.md / artifacts.json / outputs/artifacts.json / index.md を同一ターンで同期し、generate-index.js --workflow ... --regenerate を実行する>`
 11. `<generate-index.js 実行後は index.md の undefined 混入や全Phase未実施化を確認し、schema 互換問題なら workflow を手動復旧して未タスク化する>`
 12. `<UIタスクでは validate-phase11-screenshot-coverage を追加し、全量 test:run が SIGTERM の場合は vitest 分割実行へフォールバックした記録を含めて、検証値と苦戦箇所を task-workflow と lessons に同時転記する>`
-13. `<Light Mode / contrast 改修では screenshot を再取得し、token修正・compatibility bridge・component migration のどれで解消したかを spec-update-summary / task-workflow / lessons に同値転記する>`
+13. `<Light Mode / contrast 改修では screenshot を再取得し、token修正・compatibility bridge・component migration のどれで解消したかを system-spec-update-summary / task-workflow / lessons に同値転記する>`
 14. `<persist/auth 初期化バグでは bug path を通常ルート metadata（navigation type / debug log absence / storage snapshot）で確認し、screenshot は dedicated harness に分離する。skipAuth=true を唯一経路にしない>`
 15. `<worktree の preview source が揺れる UIタスクでは current worktree の out/renderer を static server で配信し、right preview panel reverse resize / watcher callback ref 分離 / light theme 補助テキスト contrast を同じ再監査セットで確認する>`
 
@@ -358,7 +359,7 @@ UI機能実装の場合は次を推奨:
 ## 8. Phase 12 成果物チェック
 
 - [ ] `implementation-guide.md`
-- [ ] `system-spec-update-summary.md`（旧名 `spec-update-summary.md` は legacy alias としてのみ扱う）
+- [ ] `system-spec-update-summary.md`（旧名 `system-spec-update-summary.md` は legacy alias としてのみ扱う）
 - [ ] `documentation-changelog.md`
 - [ ] `unassigned-task-detection.md`（標準）
 - [ ] 旧名 `unassigned-task-report.md` を新規作成していない（互換用途のみ・非推奨）
@@ -371,7 +372,7 @@ UI機能実装の場合は次を推奨:
 - [ ] 未タスク指示書の見出しフォーマット（`## メタ情報` + `## 1..9`）確認
 - [ ] 関連未タスク参照が workflow 直下 `.../<workflow>/unassigned-task/` で止まっていない（未実施は `docs/30-workflows/unassigned-task/` 正本、完了済みは `docs/30-workflows/completed-tasks/.../unassigned-task/`）
 - [ ] `audit --target-file` の `currentViolations: 0` を確認し、対象の正本配置（root / completed parent / standalone completed）と一致している
-- [ ] `verify-unassigned-links` / `audit --diff-from HEAD` の確定値（existing/missing/current/baseline）を `task-workflow.md` と `outputs/phase-12`（`spec-update-summary.md`/`unassigned-task-detection.md`）へ同値転記する
+- [ ] `verify-unassigned-links` / `audit --diff-from HEAD` の確定値（existing/missing/current/baseline）を `task-workflow.md` と `outputs/phase-12`（`system-spec-update-summary.md`/`unassigned-task-detection.md`）へ同値転記する
 - [ ] 未タスクの配置先判定（未完了=`docs/30-workflows/unassigned-task/`、completed workflow 由来の継続 backlog=`docs/30-workflows/completed-tasks/<workflow>/unassigned-task/`、standalone completed UT=`docs/30-workflows/completed-tasks/*.md`、legacy standalone=`docs/30-workflows/completed-tasks/unassigned-task/`）を証跡化している
 - [ ] Light Mode / contrast 是正では `token修正` / `compatibility bridge` / `component migration` のどれで閉じたかを仕様書へ明記している
 - [ ] GitHub desktop CI が shard 単位で失敗した場合、`pnpm --filter @repo/desktop exec vitest run --shard=<n>/16` の結果を記録している
@@ -380,10 +381,10 @@ UI機能実装の場合は次を推奨:
 - [ ] Light Mode / contrast 改修で screenshot を再取得した場合、coverage validator の PASS を再取得後の証跡として記録している
 - [ ] 2workflow同時監査時は両workflowの `verify-all-specs` / `validate-phase-output` 証跡を記録
 - [ ] docs-only parent workflow では `SubAgent-P1..P5` または同等の責務分離を使い、pointer / index / spec / script / mirror / evidence board を同一ターンで閉じている
-- [ ] docs-only parent workflow では `task-workflow.md` / `ui-ux-feature-components.md` / `interfaces-*` / `workflow-<feature>.md` / `lessons-learned.md` / `skill-creator` templates の担当境界が `spec-update-summary.md` に記録されている
-- [ ] user が screenshot を要求した docs-heavy task では、representative visual re-audit board か `N/A` 理由のどちらかを `spec-update-summary.md` と `documentation-changelog.md` に記録している
+- [ ] docs-only parent workflow では `task-workflow.md` / `ui-ux-feature-components.md` / `interfaces-*` / `workflow-<feature>.md` / `lessons-learned.md` / `skill-creator` templates の担当境界が `system-spec-update-summary.md` に記録されている
+- [ ] user が screenshot を要求した docs-heavy task では、representative visual re-audit board か `N/A` 理由のどちらかを `system-spec-update-summary.md` と `documentation-changelog.md` に記録している
 - [ ] `task-workflow.md` の対象タスク節へ「仕様書別SubAgent分担」表を転記する
-- [ ] 仕様書別SubAgent実行ログ（実装内容/苦戦箇所/検証証跡）を `spec-update-summary.md` に記録する
+- [ ] 仕様書別SubAgent実行ログ（実装内容/苦戦箇所/検証証跡）を `system-spec-update-summary.md` に記録する
 - [ ] `task-workflow.md` / `lessons-learned.md` / `<domain-spec or ui-ux-feature-components.md>` の3点へ同一内容の「5分解決カード」を記録する
 - [ ] design/spec_created タスクでは Phase 4（契約テスト）/ Phase 6（回帰テスト）の責務境界を記録し、重複候補は未タスク化している
 - [ ] Light theme shared color migration の `spec_created` task では actual target inventory と verification-only lane を明記している

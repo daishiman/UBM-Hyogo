@@ -126,7 +126,7 @@ describe("admin schema route", () => {
     expect(q?.stable_key).toBe("unknown");
   });
 
-  it("POST aliases: collision で 409", async () => {
+  it("POST aliases: collision で 422", async () => {
     await env.db
       .prepare(
         `INSERT INTO schema_questions
@@ -144,7 +144,10 @@ describe("admin schema route", () => {
       },
       makeEnv(env),
     );
-    expect(res.status).toBe(409);
+    expect(res.status).toBe(422);
+    const body = (await res.json()) as { code?: string; existingQuestionIds?: string[] };
+    expect(body.code).toBe("stable_key_collision");
+    expect(body.existingQuestionIds).toContain("q2");
   });
 
   it("POST aliases: stableKey regex 違反で 422", async () => {

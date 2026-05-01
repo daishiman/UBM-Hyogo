@@ -79,6 +79,7 @@ Phase 3.8: skill feedback promotion
 Phase 12 `skill-feedback-report.md` の提案を「記録しただけ」で閉じず、task-specification-creator / aiworkflow-requirements / skill-creator の該当 reference へ昇格するか、昇格しない根拠を documentation changelog に残す
 各苦戦箇所は `symptom / cause / recurrence condition / 5-minute resolution / evidence path / promoted-to or no-op reason` に分解する。routing は `task-specification-creator/references/phase12-skill-feedback-promotion.md` に従い、workflow/template gap は task-specification-creator、domain implementation lesson は aiworkflow-requirements、skill authoring/update-process gap は skill-creator に置く。
 mirror parity は `.agents/skills/<skill>` が存在する場合のみ必須。存在しない mirror を前提に PASS を書かず、N/A 理由を `documentation-changelog.md` に残す。
+Implementation spec-to-skill sync is complete only when workflow outputs, system spec summary, updated skill reference/asset, and mirror diff/N/A evidence all point to the same current contract.
 approval-gated NON_VISUAL implementation では、placeholder evidence と runtime evidence の分離、Phase 13 user approval gate、外部 GET 正本の扱いをテンプレ側へ反映する
 適用先 reference（task-specification-creator 配下、Phase 12 retrospective で同時更新する正本セット）:
   - `.claude/skills/task-specification-creator/references/phase-11-non-visual-alternative-evidence.md`

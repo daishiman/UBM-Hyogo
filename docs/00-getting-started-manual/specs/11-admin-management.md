@@ -97,6 +97,12 @@
 
 管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を toast 等で分けて表示する。多言語 label 正規化や大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
 
+## tag assignment queue（UT-02A / 07a）
+
+Forms 同期から発生する tag candidate は `tag_assignment_queue` に投入し、管理者が `/admin/tags/queue` で確認する。`GET /admin/tags/queue?status=dlq` は retry 上限超過行を表示できる。通常の確認結果は `POST /admin/tags/queue/:queueId/resolve` で `resolved` / `rejected` に進める。
+
+現行 candidate row は tagCode 未確定のため、重複防止は `<memberId>:<responseId>` の `idempotency_key` で行う。`member_tags` への直接編集 UI / API は作らず、確定書き込みは 07a resolve workflow の guarded update 成功後だけ許可する。retry tick、DLQ requeue、DLQ audit は UT-02A follow-up として分離する。
+
 ---
 
 ## 明示的に採用しないもの
