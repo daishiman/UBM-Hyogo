@@ -118,6 +118,8 @@ type TagQueueResolveBody =
   | { action: "rejected"; reason: string };
 ```
 
+UT-07A-02 close-out で schema 正本は `packages/shared/src/schemas/admin/tag-queue-resolve.ts` の `tagQueueResolveBodySchema` に移された。apps/api route と apps/web admin client はこの shared schema/type を参照する。`confirmed` と `rejected` の key を混在させた body は 400 `validation_error`。
+
 成功時は `{ ok: true, result: { queueId, status: "resolved" | "rejected", resolvedAt, memberId, tagCodes?, reason?, idempotent } }` を返す。同一 payload の再投入は 200 + `idempotent: true` で追加 audit を作らない。主要 error code は `queue_not_found` (404), `state_conflict` / `idempotent_payload_mismatch` / `race_lost` (409), `unknown_tag_code` / `member_deleted` (422), body validation (400)。
 
 07b schema alias workflow close-out:

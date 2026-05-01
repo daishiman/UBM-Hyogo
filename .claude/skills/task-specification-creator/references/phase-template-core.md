@@ -101,6 +101,8 @@ Phase 1、Phase 2、Phase 3。
 - DI 境界の型配置判断を明示する（下記フロー参照）。
 - 画面遷移 / handoff 改修では、Phase 1 で確定した **既存 state 名** と **既存 route pattern** をそのまま設計へ持ち込む。未定義 state を設計本文で発明しない。
 - 既存 DB / API / shared schema の enum や status を拡張・alias する場合、Phase 2 で **仕様語 ↔ 実装語の対応表** と **追従対象（backend route / web client / shared zod / type / docs）** を明示する。07a feedback: `candidate/confirmed` と `queued/resolved` の drift、web client の空 body 呼び出し、shared schema の `rejected` 漏れを再発防止する。
+- API / web client / contract test の実装パスは、Phase 2 で `rg --files` により既存 layout を確定してから書く。慣用名だけで `apps/api/test/contract/...` や `apps/web/src/lib/api/admin.ts` のような未実在パスを spec に仮置きしない。既存 route test（例: `apps/api/src/routes/admin/*.test.ts`）、client module（例: `apps/web/src/lib/admin/api.ts`）、shared schema export（例: `packages/shared/src/schemas/...` と `packages/shared/src/index.ts`）の実在パスを追従対象表へ記録する。
+- API と web が同じ workspace package を参照できる場合、request body union は shared schema/type を SSOT にし、route / client で union 型を手書き複製しない。Phase 2 の validation matrix には shared typecheck、API route focused test、web/client typecheck の 3 点を入れる。
 - OAuth / session / admin gate 系タスクでは、Phase 2 で **session 型定義・JWT encode/decode 契約・provider 間共有 ADR** を必須セクション化する。Auth.js 等の framework default を API 側が検証できる前提にせず、実 cookie/token と API verifier の互換テストを validation matrix に含める。
 - D1 / API / repository 系タスクでは、Phase 2 で `apps/api/migrations/*.sql` と repository contract を grep 照合し、「仕様書記述 vs 実 DB」の対応表を必須セクション化する。存在しないカラム前提を設計本文へ持ち込まない。
 - HTTP 202 / retryable / resumable workflow では、Phase 2 で **continuation visibility** を必須セクション化する。retry target が API list / queue row / documented operator command のどれから再発見できるか、完了状態へ収束する条件、Phase 4 の検証ケースを同じ表に書く。

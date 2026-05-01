@@ -90,11 +90,11 @@ node scripts/list-specs.js --topics
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
 | 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L174 |
-| 5. ステータスコード処理方針 | L231 |
-| 6. 環境変数 | L263 |
-| 7. 不変条件サマリ（admin API client / proxy） | L276 |
-| 8. 関連ドキュメント | L288 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L176 |
+| 5. ステータスコード処理方針 | L233 |
+| 6. 環境変数 | L265 |
+| 7. 不変条件サマリ（admin API client / proxy） | L278 |
+| 8. 関連ドキュメント | L290 |
 
 ### references/architecture-auth-security-core.md
 
@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L183 |
-| UBM-Hyogo Admin Sync API（03a） | L204 |
-| UBM-Hyogo Member Self-Service API（04b） | L249 |
-| Desktop IPC API サマリー | L267 |
-| 変更履歴 | L298 |
-| 関連ドキュメント | L315 |
+| エンドポイント命名規則 | L185 |
+| UBM-Hyogo Admin Sync API（03a） | L206 |
+| UBM-Hyogo Member Self-Service API（04b） | L251 |
+| Desktop IPC API サマリー | L269 |
+| 変更履歴 | L300 |
+| 関連ドキュメント | L317 |
 
 ### references/api-internal-chunk-search.md
 
@@ -3046,15 +3046,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L10 |
-| 使い方 | L18 |
-| Current Alias Overrides（個別互換行） | L25 |
-| Family Summary | L54 |
-| Detailed Register | L75 |
-| Section Extract Register (2026-03-17) | L256 |
-| 500-Line Split Register (2026-03-16) | L267 |
-| Fragment Migration Register (2026-04-28) | L289 |
-| Task Root Path Drift Register (2026-04-30 追記) | L316 |
+| 概要 | L11 |
+| 使い方 | L19 |
+| Current Alias Overrides（個別互換行） | L26 |
+| Family Summary | L57 |
+| Detailed Register | L78 |
+| Section Extract Register (2026-03-17) | L259 |
+| 500-Line Split Register (2026-03-16) | L270 |
+| Fragment Migration Register (2026-04-28) | L292 |
+| Task Root Path Drift Register (2026-04-30 追記) | L319 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3162,6 +3162,8 @@ node scripts/list-specs.js --topics
 | L-07A-003: Phase 12 の follow-up は unassigned-task 実体まで作る | L11 |
 | L-07A-004: API-only / NON_VISUAL でも Phase 11 evidence を明示する | L15 |
 | L-07A-005: admin client 契約は UI 実装タスクの stale 記述を同 wave で直す | L19 |
+| L-07A-006: API / web の body drift は shared schema SSOT へ寄せる | L23 |
+| L-07A-007: package script の test 引数は対象ファイル選択を保証しない | L30 |
 
 ### references/lessons-learned-07b-schema-alias-assignment-2026-04.md
 
