@@ -69,6 +69,8 @@
 `GOOGLE_SERVICE_ACCOUNT_JSON` は Sheets sync 専用の JSON 1 値契約であり、既存 Forms sync の `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を置換しない。値はログ、`.env`、ドキュメント、スクリーンショットに残さず、Cloudflare Secrets と 1Password を正本とする。
 `HEALTH_DB_TOKEN` は 32 byte 以上のランダム値を 1Password `op://UBM-Hyogo/cloudflare-api/HEALTH_DB_TOKEN` に保管し、staging / production の Cloudflare Secrets へ投入する。値はログ、`.env`、ドキュメント、スクリーンショットに残さない。rotation は 90 日ごと、または漏洩疑い時に即時実施する。
 
+TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interface を正本とする。`apps/api/wrangler.toml` の vars / D1 binding / Secrets を追加・変更する場合は、`Env` の field とコメントも同一 wave で更新する。`apps/web` から `Env` を import することは禁止し、`scripts/lint-boundaries.mjs` が raw token と relative path 解決の両方で遮断する。
+
 ### Cloudflare Workers / Auth + Magic Link
 
 | 変数名 | 種別 | 用途 | 配置 |
@@ -77,7 +79,7 @@
 | `MAIL_PROVIDER_KEY` | Secret | Resend HTTP API など mail provider の API key。production 未設定時は 502 `MAIL_FAILED`、development/test 未設定時は no-op success | Cloudflare Secrets |
 | `MAIL_FROM_ADDRESS` | Variable | Magic Link mail の From address | Cloudflare Variables |
 
-`AUTH_SECRET` は 05a と共有する session secret。05b 単独では `resolve-session` bridge と Magic Link verify API の接続点を提供し、Auth.js Credentials Provider 本体と `/api/auth/callback/email` route は 06b で導入する。
+`AUTH_SECRET` は 05a と共有する session secret。05b-B で Auth.js Credentials Provider `id="magic-link"` と `/api/auth/callback/email` route を `apps/web` に導入した。callback route は `INTERNAL_API_BASE_URL` を使って apps/api の `POST /auth/magic-link/verify` を呼ぶ。verify endpoint は Magic Link token/email による public token endpoint であり、`INTERNAL_AUTH_SECRET` を要求する `/auth/session-resolve` とは別境界。
 
 ローカル `apps/api/.dev.vars` を使う場合も secret 値は直接書かず、1Password の `op://<Vault>/<Item>/<Field>` 参照を `op run` / `scripts/cf.sh` 経由で解決する。`.dev.vars` は git 管理しない。
 

@@ -7,7 +7,7 @@ import { ctx } from "../../repository/_shared/db";
 import { getPublicStats } from "../../use-cases/public/get-public-stats";
 
 export interface StatsEnv {
-  DB: import("../../repository/_shared/db").D1Db;
+  DB: D1Database;
 }
 
 export const statsRoute = (
