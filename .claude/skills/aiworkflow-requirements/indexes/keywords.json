@@ -2488,6 +2488,7 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
@@ -4242,6 +4243,7 @@
     "対象": [
       "database-admin-repository-boundary.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md"
@@ -4468,6 +4470,7 @@
       "database-schema-07b-schema-alias-assignment.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -4489,6 +4492,7 @@
       "database-schema-07b-schema-alias-assignment.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -6755,6 +6759,7 @@
     "Lessons": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -7385,10 +7390,12 @@
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
     ],
     "実装教訓": [
-      "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
+      "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
     ],
     "Boundaries": [
-      "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
+      "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
     ],
     "公開": [
       "lessons-learned-06a-public-web-2026-04.md"
@@ -7474,6 +7481,29 @@
     "横断教訓": [
       "lessons-learned-06a-public-web-2026-04.md"
     ],
+    "profile": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
+    ],
+    "logged": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
+    ],
+    "in": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "visual": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "evidence": [
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
     "画面": [
       "lessons-learned-06c-admin-ui-2026-04.md",
       "ui-ux-admin-dashboard.md",
@@ -7528,9 +7558,6 @@
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "直接編集": [
-      "lessons-learned-06c-admin-ui-2026-04.md"
-    ],
-    "profile": [
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "直編集": [
@@ -8474,9 +8501,6 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "refresh": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
-    ],
-    "in": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "flight": [
@@ -12842,10 +12866,6 @@
     "逆引き": [
       "task-workflow-completed-skill-lifecycle.md"
     ],
-    "visual": [
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
     "safety": [
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
@@ -14232,12 +14252,6 @@
     ],
     "改訂された": [
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "outputs": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "反映ファイル": [
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
