@@ -1013,8 +1013,8 @@ node scripts/list-specs.js --topics
 | Turso 無料枠の活用 | L8 |
 | セキュリティベストプラクティス | L41 |
 | 運用・メンテナンス | L76 |
-| Electron ローカルストレージ | L103 |
-| 関連ドキュメント | L166 |
+| Electron ローカルストレージ | L119 |
+| 関連ドキュメント | L182 |
 
 ### references/database-schema-07b-schema-alias-assignment.md
 
@@ -2775,17 +2775,18 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L76 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L163 |
-| Cloudflare D1 データベース | L283 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L316 |
-| GitHub Actions CI/CD | L428 |
-| プレビューデプロイメント | L457 |
-| カスタムドメイン設定 | L473 |
-| 環境分離 | L486 |
-| ロールバック戦略 | L496 |
-| モニタリング/アラート（UT-08 連携） | L517 |
-| 変更履歴 | L534 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L76 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L95 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L182 |
+| Cloudflare D1 データベース | L302 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L335 |
+| GitHub Actions CI/CD | L447 |
+| プレビューデプロイメント | L476 |
+| カスタムドメイン設定 | L492 |
+| 環境分離 | L505 |
+| ロールバック戦略 | L515 |
+| モニタリング/アラート（UT-08 連携） | L536 |
+| 変更履歴 | L553 |
 
 ### references/deployment-core.md
 

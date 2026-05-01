@@ -41,6 +41,20 @@
 | Issue | `Refs #273` のみ、CLOSED 維持 |
 
 ---
+### UT-06-FU-E D1 Backup Long-Term Storage（2026-05-01）
+
+UT-06 Phase 12 UNASSIGNED-E を `spec_created` / docs-only / NON_VISUAL workflow として formalize。日次 D1 export は GHA schedule を主経路、Cloudflare cron triggers を R2 latest healthcheck として併用する。R2 30日 + 月次保存、暗号化、UT-08 alert、復元机上演習を実装 PR 前の正本仕様に固定する。
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/` |
+| Phase 12 実装ガイド | `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/outputs/phase-12/implementation-guide.md` |
+| Phase 11 NON_VISUAL placeholder | `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/outputs/phase-11/`（`NOT_EXECUTED`; runtime PASS ではない） |
+| 正本反映先 | `references/deployment-cloudflare.md`, `references/database-operations.md` |
+| 上流 evidence | `docs/30-workflows/completed-tasks/ut-06-production-deploy-execution/outputs/phase-05/d1-backup-evidence.md`, `docs/30-workflows/completed-tasks/ut-06-production-deploy-execution/outputs/phase-09/secret-hygiene-checklist.md`, `docs/30-workflows/completed-tasks/ut-06-production-deploy-execution/outputs/phase-06/rollback-rehearsal-result.md` |
+| Issue | `Refs #118` のみ、CLOSED 維持 |
+
+---
 ### Schema Alias Resolution Contract（issue-191 / 2026-04-30）
 
 07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。
