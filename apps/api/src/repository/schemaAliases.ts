@@ -152,7 +152,7 @@ export async function insert(
       row.aliasLabel,
       row.source,
       row.resolvedBy,
-      row.resolvedAt,
+      row.resolvedAt ?? new Date().toISOString(),
     )
     .run();
   const found = await findAliasByQuestionId(c, row.aliasQuestionId, row.revisionId ?? "legacy");
@@ -182,7 +182,9 @@ export async function update(
       patch.aliasLabel === undefined ? current.alias_label : patch.aliasLabel,
       patch.source ?? current.source,
       patch.resolvedBy === undefined ? current.resolved_by : patch.resolvedBy,
-      patch.resolvedAt === undefined ? current.resolved_at : patch.resolvedAt,
+      patch.resolvedAt === undefined || patch.resolvedAt === null
+        ? current.resolved_at
+        : patch.resolvedAt,
       id,
     )
     .run();

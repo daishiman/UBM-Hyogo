@@ -155,6 +155,21 @@ describe("schemaAliasAssign", () => {
     expect(fields?.c).toBe(2);
   });
 
+  it("manual_actor_required: apply requires an actor but dryRun does not", async () => {
+    const dry = await schemaAliasAssign(
+      env.ctx,
+      baseInput({ dryRun: true, actorId: null, actorEmail: null }),
+    );
+    expect(dry.mode).toBe("dryRun");
+
+    await expect(
+      schemaAliasAssign(
+        env.ctx,
+        baseInput({ actorId: null, actorEmail: null }),
+      ),
+    ).rejects.toMatchObject({ detail: { kind: "manual_actor_required" } });
+  });
+
   it("collision_422 (conflictExists in dryRun, throws on apply)", async () => {
     // 同 revision で他 questionId が同 stableKey 既使用
     await insertQuestion(env.db, {

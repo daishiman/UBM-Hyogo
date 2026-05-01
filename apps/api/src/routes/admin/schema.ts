@@ -83,7 +83,7 @@ const buildRecommendations = async (
 
 const failureToHttp = (
   err: SchemaAliasAssignFailure,
-): { status: 404 | 409; body: Record<string, unknown> } => {
+): { status: 404 | 409 | 422; body: Record<string, unknown> } => {
   switch (err.detail.kind) {
     case "question_not_found":
       return { status: 404, body: { ok: false, error: "question not found" } };
@@ -107,7 +107,7 @@ const failureToHttp = (
       };
     case "collision":
       return {
-        status: 409,
+        status: 422,
         body: {
           ok: false,
           code: "stable_key_collision",

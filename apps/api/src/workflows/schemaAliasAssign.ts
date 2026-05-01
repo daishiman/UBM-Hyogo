@@ -1,6 +1,6 @@
 // 07b: schema alias 確定 workflow
 // AC-1〜10:
-//   apply mode で schema_questions.stable_key 更新 + schema_diff_queue resolved
+//   apply mode で schema_aliases INSERT + schema_diff_queue resolved
 //   + response_fields の back-fill + audit_log 記録
 //   dryRun mode では DB を一切更新しない（影響件数のみ算出）。
 //
@@ -338,6 +338,10 @@ export const schemaAliasAssign = async (
       currentStableKeyCount: currentCount,
       conflictExists,
     };
+  }
+
+  if (!input.actorId && !input.actorEmail) {
+    throw new SchemaAliasAssignFailure({ kind: "manual_actor_required" });
   }
 
   if (conflictExists) {
