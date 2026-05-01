@@ -142,5 +142,5 @@ Workers Cron Triggers（forms sync 定期実行）の wrangler.toml 定義、Clo
 
 - 上位 README: ../README.md
 - 同 Wave 並列: ../09a-parallel-staging-deploy-smoke-and-forms-sync-validation/
-- 下流 serial: ../09c-serial-production-deploy-and-post-release-verification/
+- 下流 serial: ../../09c-serial-production-deploy-and-post-release-verification/
 - 共通テンプレ: ../_templates/phase-template-app.md
