@@ -67,6 +67,7 @@
 - 30種の思考法すべてが分析過程で使用されていること
 - 改善内容は適用した思考法を根拠として明示すること
 - 検証4条件をすべて満たすこと
+- 小規模 docs-only 修正では、30種すべてを個別長文に展開せず、カテゴリ別の compact evidence table に集約してよい。ただし、未タスク formalize、正本仕様同期、Phase evidence、スキル feedback の漏れ確認は省略しない。
 
 ### エスカレーション
 - 改善の方向性で判断が分かれる場合はユーザーに確認する
@@ -184,4 +185,5 @@
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1.0 | 2026-04-30 | docs-only / NON_VISUAL close-out review 向けに compact evidence table を許容。ただし 4条件と formalize / 正本同期 / evidence / skill feedback の検証は省略不可と明記 |
 | 1.0.0 | 2026-04-19 | 初版作成（SKILL.md から本文を退避） |
