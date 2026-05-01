@@ -108,6 +108,9 @@ const findAnyMatches = async (
 const isSelfTestFile = (file: string): boolean =>
   file.endsWith("static-invariants.test.ts");
 
+const isPlaywrightHarnessFile = (file: string): boolean =>
+  file.includes(`${WEB_ROOT}/playwright/`);
+
 describe("static invariants / 06b", () => {
   it("S-01: app/profile 配下に 'questionId' が出現しない", async () => {
     const files = await walk(join(WEB_ROOT, "app/profile"));
@@ -138,7 +141,10 @@ describe("static invariants / 06b", () => {
     // eslint.config.mjs は禁止語自体を検出ルールとして文字列リテラルで含むため除外。
     // 本テストファイルも検出語をリテラルで持つため除外。
     const files = (await walk(WEB_ROOT)).filter(
-      (f) => !isSelfTestFile(f) && !f.endsWith("eslint.config.mjs"),
+      (f) =>
+        !isSelfTestFile(f) &&
+        !isPlaywrightHarnessFile(f) &&
+        !f.endsWith("eslint.config.mjs"),
     );
     const hits = await findMatches(files, "/no-access", {
       stripComments: true,
