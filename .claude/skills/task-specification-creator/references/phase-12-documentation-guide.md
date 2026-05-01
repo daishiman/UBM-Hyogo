@@ -78,6 +78,10 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - `task-workflow.md` の完了タスク記録
 - docs-only 前提で作成した follow-up に後からコード変更が入った場合は、`phase-*.md` と `outputs/phase-12/*.md` の narrative も同じターンで current facts に戻す
 - `spec_created` task に code wave が入った場合は、workflow 本文だけでなく system spec 側の current contract も同ターンで更新し、`no-op` を自己申告しない
+- Phase 12 は `main.md` を含む 7 成果物を実体確認し、root / outputs `artifacts.json` の Phase status と outputs list を同値にする。成果物があるのに `pending` のまま残す状態は FAIL。
+- 起票元 unassigned がある場合は、後継 workflow path、Issue 状態、AC close-out 状態、実装委譲先を起票元へ追記する。候補だけを workflow 内に残して起票元を未更新にしない。
+- Phase 10 などの approval gate では `technical_go` と `user_approved` を分ける。docs-only NON_VISUAL の Phase 11/12 close-out は進行可でも、commit / push / PR は user approval なしに実行しない。
+- chunk / cursor / offset など再開可能性を扱う設計タスクでは、cron tick 間隔と 1 invocation budget を分けて書き、行削除・挿入・並べ替え時の offset invalidation 条件を実装委譲に含める。
 
 サブエージェントに委譲する場合も、「設計タスクだから更新不要」という判断を許容しない。
 
