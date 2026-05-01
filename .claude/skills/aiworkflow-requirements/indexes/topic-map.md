@@ -3384,6 +3384,16 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
 
+### references/lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L10 |
+| 苦戦箇所 4 件（L-UUT0107FU01-001〜004） | L14 |
+| 運用ルール 2 件（receiver 系の固定運用） | L44 |
+| canonical 確定（参照用 / 親から継承） | L51 |
+| 後続タスク | L59 |
+
 ### references/lessons-learned-u-ut01-07-sync-log-naming-2026-04.md
 
 | セクション | 行 |
@@ -3575,8 +3585,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L74 |
-| 関連ドキュメント | L79 |
+| 利用順序 | L75 |
+| 関連ドキュメント | L80 |
 
 ### references/llm-embedding.md
 
