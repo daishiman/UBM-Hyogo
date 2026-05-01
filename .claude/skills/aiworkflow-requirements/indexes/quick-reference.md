@@ -5,6 +5,21 @@
 
 ---
 
+### 07c Follow-up 003 Audit Log Browsing UI（2026-05-01）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 13 Phase 仕様 | `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/` |
+| API 契約 | `references/api-endpoints.md`（`GET /admin/audit`） |
+| 管理画面仕様 | `docs/00-getting-started-manual/specs/11-admin-management.md`（`/admin/audit`） |
+| 苦戦箇所・教訓 | `references/lessons-learned-07c-audit-log-browsing-ui-2026-05.md` |
+| artifact inventory | `references/workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md` |
+| 実装 | `apps/api/src/routes/admin/audit.ts`, `apps/api/src/repository/auditLog.ts`, `apps/web/app/(admin)/admin/audit/page.tsx`, `apps/web/src/components/admin/AuditLogPanel.tsx` |
+| Phase 11 visual evidence | `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/outputs/phase-11/screenshots/` |
+| close-out evidence | `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/outputs/phase-12/implementation-guide.md` |
+
+---
+
 ### UT-21 Forms sync conflict close-out（2026-04-30）
 
 | 目的 | 参照先 |

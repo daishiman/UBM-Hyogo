@@ -1,0 +1,14 @@
+{
+  "captured_at": "2026-05-01T13:25:00+09:00",
+  "tool": "playwright chromium",
+  "evidence_type": "local static render of implemented UI states",
+  "screenshots": [
+    "screenshots/audit-initial.png",
+    "screenshots/audit-action-filter.png",
+    "screenshots/audit-json-collapsed.png",
+    "screenshots/audit-json-expanded-masked.png",
+    "screenshots/audit-empty.png",
+    "screenshots/audit-forbidden.png",
+    "screenshots/audit-mobile.png"
+  ]
+}
