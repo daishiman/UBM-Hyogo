@@ -81,7 +81,7 @@ jq -r '.metadata.visualEvidence // empty' \
 | 元仕様 §8 | `docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/index.md` | （記入） |
 | 元仕様 §8 | `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` | （記入） |
 | 元仕様 §8 | `.claude/skills/aiworkflow-requirements/references/api-endpoints.md` | （記入） |
-| 元仕様 §8 | `docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md` | （記入） |
+| 元仕様 §8 | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md` | （記入） |
 | 元仕様 §8 | `.claude/skills/aiworkflow-requirements/references/task-workflow.md` | （記入） |
 | 元仕様 §8 | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` | （記入） |
 | `phase-09.md` | `outputs/phase-09/main.md` | （記入） |

@@ -1,4 +1,4 @@
-// 06c: admin 5 画面ナビ
+// 06c/07c: admin 画面ナビ
 import Link from "next/link";
 
 const items = [
@@ -7,6 +7,7 @@ const items = [
   { href: "/admin/tags", label: "タグキュー" },
   { href: "/admin/schema", label: "schema" },
   { href: "/admin/meetings", label: "開催日" },
+  { href: "/admin/audit", label: "監査ログ" },
 ] as const;
 
 export function AdminSidebar() {
