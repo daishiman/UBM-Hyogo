@@ -85,6 +85,19 @@ UT-07B schema alias hardening は、この `schema_aliases` write target replace
 | fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
 | direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
 
+### UT-02A Canonical Section/Field Resolver（Issue #108 / 2026-05-01）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-02a-section-field-canonical-schema-resolution/` |
+| 実装 | `apps/api/src/repository/_shared/metadata.ts`, `apps/api/src/repository/_shared/builder.ts` |
+| generated baseline | `apps/api/src/repository/_shared/generated/static-manifest.json` |
+| shared enum | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts` (`FieldKind=consent/system`) |
+| Phase 11 NON_VISUAL evidence | `docs/30-workflows/ut-02a-section-field-canonical-schema-resolution/outputs/phase-11/` |
+| Phase 12 guide | `docs/30-workflows/ut-02a-section-field-canonical-schema-resolution/outputs/phase-12/implementation-guide.md` |
+| follow-up | `docs/30-workflows/unassigned-task/task-ut02a-canonical-metadata-diagnostics-hardening-001.md` |
+| lessons | `lessons-learned/lessons-learned-ut-02a-canonical-schema-resolver-2026-05.md` (L-UT02A-001〜004) |
+
 ## よく使うパターン
 
 > **検索パターン集・コードパターン早見は [quick-reference-search-patterns.md](quick-reference-search-patterns.md) に分離**
