@@ -2847,18 +2847,18 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L76 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L95 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L182 |
-| Cloudflare D1 データベース | L302 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L335 |
-| GitHub Actions CI/CD | L447 |
-| プレビューデプロイメント | L476 |
-| カスタムドメイン設定 | L492 |
-| 環境分離 | L505 |
-| ロールバック戦略 | L515 |
-| モニタリング/アラート（UT-08 連携） | L536 |
-| 変更履歴 | L553 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L193 |
+| Cloudflare D1 データベース | L313 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L346 |
+| GitHub Actions CI/CD | L458 |
+| プレビューデプロイメント | L487 |
+| カスタムドメイン設定 | L503 |
+| 環境分離 | L516 |
+| ロールバック戦略 | L526 |
+| モニタリング/アラート（UT-08 連携） | L547 |
+| 変更履歴 | L564 |
 
 ### references/deployment-core.md
 
