@@ -317,9 +317,10 @@ Family status: `reclassify-first`
 | --- | --- | --- | --- | --- |
 | 08a-parallel-api-contract-repository-and-authorization-tests | `docs/30-workflows/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/` | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` | 2026-04-30 | task-20260430-161419-wt-6 / partial close（AC-6 coverage 0.82pt 未達 → UT-08A-01〜06 で formalize） |
 | 09a-parallel-staging-deploy-smoke-and-forms-sync-validation | `docs/30-workflows/02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` | `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` | 2026-05-01 | implementation execution spec / `spec_created` close-out。実 staging smoke は `UT-09A-EXEC-STAGING-SMOKE-001` へ分離 |
+| 09b-parallel-cron-triggers-monitoring-and-release-runbook | `docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | 2026-05-01 | task-20260501-054121-wt-3 / docs-only spec_created runbook（Phase 11 NON_VISUAL、Phase 12 same-wave sync、Phase 13 approval gate） |
 
 ### 旧 citation 引き直し方針
 
-- 旧パス citation は `grep -rl '02-application-implementation/08a-parallel-api-contract' docs/` または `grep -rl '02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation' docs/` で検出して新パスへ書換する
-- 新規参照は必ず `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` または `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` を起点にする
+- 旧パス citation は `grep -rl '02-application-implementation/08a-parallel-api-contract' docs/`、`grep -rl '02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation' docs/`、`grep -rl '02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook' docs/` で検出して新パスへ書換する
+- 新規参照は必ず `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/`、`docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/`、`docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` を起点にする
 - partial close-out は `completed-tasks/` 移動を保留し `30-workflows/` 直下に残置（07b は completed-tasks/ 配下、08a は 30-workflows/ 直下と差異あり。完了 / partial の状態差を反映）

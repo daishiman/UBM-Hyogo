@@ -222,6 +222,18 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / `member_responses.response_email` UNIQUE DDL 明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/unassigned-task/03b-response-sync-followups.md` |
 | 全 phase 設計と AC-1〜AC-10 検証 | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` |
 
+### Cron Monitoring / Release Runbook（09b / 2026-05-01）
+
+09b は docs-only / spec_created / NON_VISUAL の運用 runbook 仕様。runtime 設定変更は行わず、`apps/api/wrangler.toml` の current facts を監視・リリース手順に固定する。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| 09b workflow root / AC / Phase 一覧 | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md` |
+| cron current facts と legacy Sheets hourly cron の扱い | `references/deployment-cloudflare.md`（§API Worker cron / Forms response sync 03b）, `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-02.md` |
+| NON_VISUAL Phase 11 evidence | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-11.md` |
+| Phase 12 runbook / same-wave sync / compliance | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-12.md` |
+| Phase 13 approval gate / 4 required outputs | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-13.md` |
+
 ---
 
 ### Member Self-Service API / `/me/*` / dev session header（04b / 2026-04-29）
