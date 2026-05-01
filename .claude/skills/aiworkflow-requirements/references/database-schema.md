@@ -69,6 +69,18 @@ U-UT01-08 は docs-only 契約として、既存 `sync_job_logs` 移行時の値
 
 参照 workflow: `docs/30-workflows/u-ut01-08-sync-enum-canonicalization/`。
 
+## Legacy Sheets sync transition note（U-UT01-09）
+
+UT-01 legacy Sheets→D1 sync の retry / offset 方針は `docs/30-workflows/completed-tasks/u-ut01-09-retry-and-offset-policy-alignment/` を設計判断記録とする。現行 Forms response sync の `sync_jobs.metrics_json.cursor` 契約は上書きしない。
+
+| 項目 | U-UT01-09 canonical |
+| --- | --- |
+| retry max | 3（`SYNC_MAX_RETRIES` で staging override 可） |
+| backoff | base 1s, factor 2, cap 32s, jitter ±20% |
+| `processed_offset` | `sync_job_logs.processed_offset INTEGER NOT NULL DEFAULT 0` を UT-09 / U-UT01-07 で追加予定 |
+| offset unit | chunk index（chunk = 100 行）。Sheets 行削除 / 挿入 / 並べ替えを検知した場合は offset を無効化し full backfill または stable response high-water 方式へ退避する |
+| current implementation drift | `apps/api/src/jobs/sync-sheets-to-d1.ts` の `DEFAULT_MAX_RETRIES=5` と `apps/api/migrations/0002_sync_logs_locks.sql` の `processed_offset` 不在は UT-09 追補で解消する |
+
 ## Schema alias assignment workflow（07b）
 
 07b 固有の schema 差分確定・stableKey 更新・response back-fill・audit 境界は、500 行制限に従い [database-schema-07b-schema-alias-assignment.md](database-schema-07b-schema-alias-assignment.md) に分離する。

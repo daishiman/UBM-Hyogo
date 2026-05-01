@@ -30,6 +30,21 @@
 
 仕様更新は classification-first で対象を決める。責務に合わない既存ファイルへ追記せず、semantic filename で分離する。旧連番・旧 path が関係する場合は `legacy-ordinal-family-register.md` を先に確認し、同一 wave で `resource-map` / `quick-reference` / `topic-map` / artifact inventory / mirror validation まで閉じる。
 
+### ADR / deploy target decision の同期
+
+ADR や deploy target decision を正本へ追加する場合は、decision record だけで閉じない。classification-first で次を同一 wave に同期する。
+
+| 対象 | 反映内容 |
+| --- | --- |
+| decision record | Status / Decision / Consequences / related task |
+| parent docs | 現状、将来状態、stale contract withdrawal、移行責務 |
+| indexes | `resource-map` / `quick-reference` / `topic-map` / `keywords` |
+| workflow docs | task-workflow、artifact inventory、LOGS |
+| backlog | 既存 unassigned task との duplicate / blocks / related 更新 |
+| lessons | 苦戦箇所、base case 切替、重複起票回避の知見 |
+
+Pages / Workers のように現状と採択後状態が分かれる decision は、`現状` / `将来` / `根拠` の列を持つ表で記録する。`wrangler.toml` や GitHub Actions workflow など source of truth が複数ある場合は、実ファイルに残る drift を `stale` として明示し、実 cutover は別 task へ委譲する。
+
 ### ファイル命名
 
 ```

@@ -78,6 +78,10 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - `task-workflow.md` の完了タスク記録
 - docs-only 前提で作成した follow-up に後からコード変更が入った場合は、`phase-*.md` と `outputs/phase-12/*.md` の narrative も同じターンで current facts に戻す
 - `spec_created` task に code wave が入った場合は、workflow 本文だけでなく system spec 側の current contract も同ターンで更新し、`no-op` を自己申告しない
+- Phase 12 は `main.md` を含む 7 成果物を実体確認し、root / outputs `artifacts.json` の Phase status と outputs list を同値にする。成果物があるのに `pending` のまま残す状態は FAIL。
+- 起票元 unassigned がある場合は、後継 workflow path、Issue 状態、AC close-out 状態、実装委譲先を起票元へ追記する。候補だけを workflow 内に残して起票元を未更新にしない。
+- Phase 10 などの approval gate では `technical_go` と `user_approved` を分ける。docs-only NON_VISUAL の Phase 11/12 close-out は進行可でも、commit / push / PR は user approval なしに実行しない。
+- chunk / cursor / offset など再開可能性を扱う設計タスクでは、cron tick 間隔と 1 invocation budget を分けて書き、行削除・挿入・並べ替え時の offset invalidation 条件を実装委譲に含める。
 
 サブエージェントに委譲する場合も、「設計タスクだから更新不要」という判断を許容しない。
 
@@ -96,7 +100,7 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 
 ### スキル反映・canonical tree 監査追加ルール
 
-実装仕様をスキルへ反映する Phase 12 close-out では、次を同じ compliance check に入れる。
+実装仕様をスキルへ反映する Phase 12 close-out では、次を同じ compliance check に入れる。ADR 起票、deploy target decision、Pages / Workers topology drift のような docs-only タスクでは、Phase 12 Step 2 を `stale contract withdrawal / 正本同期` として扱い、新規 API / 型がないことだけを理由に Step 2 を N/A にしない。
 
 | 確認対象 | PASS 条件 | 不合格時の扱い |
 | --- | --- | --- |
@@ -104,9 +108,11 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 | skill feedback | 苦戦箇所が主担当 skill / 補助 skill / 正本仕様導線のどれに入るか分類済み | Task 12-5 未完了 |
 | current canonical workflow tree | resource-map / task-workflow が指す root に `index.md` と `artifacts.json` が存在する、または stale / archived / follow-up と明示済み | 未タスク化だけでは PASS 不可 |
 | legacy path / filename | 旧 citation が残る場合は `legacy-ordinal-family-register.md` に旧→新 path を登録済み | system spec sync 未完了 |
+| ADR / decision record | ADR または decision record の配置先、deploy / architecture / GHA parent docs、resource-map / quick-reference / topic-map、task-workflow / artifact inventory / LOGS、skill-feedback-report.md の反映先が同期済み | docs-only close-out 未完了 |
 
 canonical workflow tree の削除を検出した場合、`docs/30-workflows/unassigned-task/*.md` に起票するだけでは不十分である。current canonical set を復元するか、resource-map / task-workflow / legacy register 側で stale-current や archived に再分類してから PASS とする。
 
+`skill-feedback-report.md` に「大幅変更なので今回反映しない」と書いた後でユーザーが明示的に skill 反映を依頼した場合は、既存 reference への最小追記を優先する。新規 skill や大きいテンプレート再編が必要な場合だけ追加承認を取る。
 ## Task 12-3: documentation changelog
 
 - 変更した file 一覧

@@ -1059,17 +1059,18 @@ node scripts/list-specs.js --topics
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
 | Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L60 |
-| Schema alias assignment workflow（07b） | L72 |
-| ワークフロー関連テーブル | L76 |
-| ユーザー関連テーブル | L115 |
-| システムプロンプト関連テーブル | L149 |
-| チャット関連テーブル | L184 |
-| RAG関連テーブル | L220 |
-| Knowledge Graph関連テーブル | L262 |
-| 変換処理関連テーブル | L396 |
-| インデックス設計 | L455 |
-| 関連ドキュメント / 変更履歴 | L459 |
-| DDL 同期テンプレ | L464 |
+| Legacy Sheets sync transition note（U-UT01-09） | L72 |
+| Schema alias assignment workflow（07b） | L84 |
+| ワークフロー関連テーブル | L88 |
+| ユーザー関連テーブル | L127 |
+| システムプロンプト関連テーブル | L161 |
+| チャット関連テーブル | L196 |
+| RAG関連テーブル | L232 |
+| Knowledge Graph関連テーブル | L274 |
+| 変換処理関連テーブル | L408 |
+| インデックス設計 | L467 |
+| 関連ドキュメント / 変更履歴 | L471 |
+| DDL 同期テンプレ | L476 |
 
 ---
 
@@ -2716,20 +2717,20 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 適用範囲 | L7 |
-| 2. 形式判定マトリクス | L13 |
-| 3. wrangler.toml 必須項目 | L24 |
-| 4. .assetsignore の役割と運用 | L87 |
-| 5. ビルド・デプロイ手順 | L107 |
-| 6. Worker bundle size ガード | L130 |
-| 7. SPA fallback / 404 ハンドリング | L148 |
-| 8. preview / staging / production の env 分離 | L157 |
-| 9. 旧 Pages プロジェクトの並走方針 | L169 |
-| 10. CLI 経路の徹底 | L181 |
-| 11. R2 incremental cache（任意採用） | L190 |
-| 12. 関連リソース | L198 |
-| 13. production route / secret / observability preflight | L214 |
-| 変更履歴 | L220 |
+| 1. 適用範囲 | L8 |
+| 2. 形式判定マトリクス | L14 |
+| 3. wrangler.toml 必須項目 | L25 |
+| 4. .assetsignore の役割と運用 | L88 |
+| 5. ビルド・デプロイ手順 | L108 |
+| 6. Worker bundle size ガード | L131 |
+| 7. SPA fallback / 404 ハンドリング | L149 |
+| 8. preview / staging / production の env 分離 | L158 |
+| 9. 旧 Pages プロジェクトの並走方針 | L170 |
+| 10. CLI 経路の徹底 | L182 |
+| 11. R2 incremental cache（任意採用） | L191 |
+| 12. 関連リソース | L199 |
+| 13. production route / secret / observability preflight | L217 |
+| 変更履歴 | L223 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2788,12 +2789,12 @@ node scripts/list-specs.js --topics
 | キャッシュ戦略 | L90 |
 | 並列実行の活用 | L113 |
 | CD ワークフロー要件（dev / main マージ時） | L169 |
-| Backend ワークフロー要件（dev / main マージ時） | L195 |
-| モニタリングとアラート | L217 |
-| GitHub Secrets の要件 | L251 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L275 |
-| 関連ドキュメント | L295 |
-| 変更履歴 | L302 |
+| Backend ワークフロー要件（dev / main マージ時） | L197 |
+| モニタリングとアラート | L219 |
+| GitHub Secrets の要件 | L253 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L277 |
+| 関連ドキュメント | L297 |
+| 変更履歴 | L304 |
 
 ### references/deployment-history.md
 
@@ -3034,15 +3035,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L9 |
-| 使い方 | L17 |
-| Current Alias Overrides（個別互換行） | L24 |
-| Family Summary | L50 |
-| Detailed Register | L71 |
-| Section Extract Register (2026-03-17) | L252 |
-| 500-Line Split Register (2026-03-16) | L263 |
-| Fragment Migration Register (2026-04-28) | L285 |
-| Task Root Path Drift Register (2026-04-30 追記) | L312 |
+| 概要 | L10 |
+| 使い方 | L18 |
+| Current Alias Overrides（個別互換行） | L25 |
+| Family Summary | L54 |
+| Detailed Register | L75 |
+| Section Extract Register (2026-03-17) | L256 |
+| 500-Line Split Register (2026-03-16) | L267 |
+| Fragment Migration Register (2026-04-28) | L289 |
+| Task Root Path Drift Register (2026-04-30 追記) | L316 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3120,6 +3121,14 @@ node scripts/list-specs.js --topics
 | L-06A-004: zod `catch` だけでは string 加工フォールバックに不足 | L73 |
 | L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
 | 横断教訓 | L116 |
+
+### references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| 対象 | L3 |
+| Lessons | L10 |
+| Follow-up Boundaries | L47 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3263,6 +3272,14 @@ node scripts/list-specs.js --topics
 | 苦戦箇所 4 件（L-UUT01-08-001〜004） | L12 |
 | 後続タスク参照 | L42 |
 
+### references/lessons-learned-u-ut01-09-retry-offset-2026-04.md
+
+| セクション | 行 |
+|------------|----|
+| L-UUT0109-001: docs-only canonical decision でも正本導線を同 wave で閉じる | L3 |
+| L-UUT0109-002: technical GO と user approval を分離する | L7 |
+| L-UUT0109-003: offset は invocation budget と invalidation 条件まで書く | L11 |
+
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
 | セクション | 行 |
@@ -3393,8 +3410,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L67 |
-| 関連ドキュメント | L72 |
+| 利用順序 | L68 |
+| 関連ドキュメント | L73 |
 
 ### references/llm-embedding.md
 
@@ -4427,12 +4444,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | テンプレート一覧 | L7 |
 | 命名規則 | L29 |
-| 記述形式 | L60 |
-| すべきこと | L80 |
-| 避けるべきこと | L89 |
-| 新規仕様の追加手順 | L98 |
-| 完了タスクセクション標準化 | L106 |
-| ファイルサイズ管理 | L154 |
+| 記述形式 | L75 |
+| すべきこと | L95 |
+| 避けるべきこと | L104 |
+| 新規仕様の追加手順 | L113 |
+| 完了タスクセクション標準化 | L121 |
+| ファイルサイズ管理 | L169 |
 
 ### references/spec-splitting-guidelines.md
 
