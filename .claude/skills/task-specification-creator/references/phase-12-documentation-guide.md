@@ -184,6 +184,7 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - skill feedback の各 item が `promoted-to` または no-op reason まで閉じていることを確認する
 - compliance-check は自己申告 PASS で閉じず、validator 実測値、artifact existence、mirror parity、Phase 11 evidence の実ファイル根拠を結び付けて記録する
 - `docs-only / VISUAL / runtime evidence pending` の task は `Spec template completeness = PASS` と `Production/runtime compliance = PENDING_RUNTIME_EVIDENCE` を分離し、実 production PASS を主張しない
+- env-name contract alignment では、`outputs/phase-11/env-name-grep.md` / `secret-list-check.md` / `magic-link-smoke-readiness.md` の実体を確認し、name-only readiness と実 smoke PASS を分ける
 
 **確認コマンド（docs-only / UI task 共通で必須）**:
 

@@ -66,17 +66,19 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 
 本番・staging 環境で必要なシークレットは Cloudflare Secrets に登録する。ローカル開発では 1Password Environments から取得する。
 
-| シークレット名 | Cloudflare Secrets | GitHub Secrets | 1Password |
-|--------------|:-----------------:|:--------------:|:---------:|
-| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | ✅ | - | ✅ (正本) |
-| `GOOGLE_PRIVATE_KEY` | ✅ | - | ✅ (正本) |
-| `GOOGLE_FORM_ID` | ✅ | - | ✅ (正本) |
-| `AUTH_SECRET` | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_ID` | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_SECRET` | ✅ | - | ✅ (正本) |
-| `RESEND_API_KEY` | ✅ | - | ✅ (正本) |
-| `CLOUDFLARE_API_TOKEN` | - | ✅ | ✅ (正本) |
-| `CLOUDFLARE_ACCOUNT_ID` | - | GitHub Variables | ✅ (正本) |
+| 名前 | 種別 | Cloudflare | GitHub | 1Password |
+|--------------|------|:----------:|:------:|:---------:|
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Secret | Secrets | - | ✅ (正本) |
+| `GOOGLE_PRIVATE_KEY` | Secret | Secrets | - | ✅ (正本) |
+| `GOOGLE_FORM_ID` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_SECRET` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_ID` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_SECRET` | Secret | Secrets | - | ✅ (正本) |
+| `MAIL_PROVIDER_KEY` | Secret | Secrets | - | ✅ (正本) |
+| `MAIL_FROM_ADDRESS` | Variable | Variables | - | 任意 |
+| `AUTH_URL` | Variable | Variables | - | 任意 |
+| `CLOUDFLARE_API_TOKEN` | Secret | - | Secrets | ✅ (正本) |
+| `CLOUDFLARE_ACCOUNT_ID` | Variable | - | Variables | ✅ (正本) |
 
 ---
 
