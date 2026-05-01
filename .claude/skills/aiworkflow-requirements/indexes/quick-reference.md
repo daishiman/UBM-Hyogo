@@ -17,7 +17,15 @@
 ---
 
 ### CI/CD workflow topology drift（UT-CICD-DRIFT / 2026-04-29）
+| 目的 | 参照先 |
+| --- | --- |
+| CI/CD topology drift 正本 | `references/deployment-gha.md`, `references/deployment-cloudflare.md`, `references/deployment-core.md`, `references/deployment-secrets-management.md` |
+| Pages vs Workers deploy target decision | `docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`（ADR-0001 / Workers cutover accepted） |
+| OpenNext Workers 詳細仕様 | `references/deployment-cloudflare-opennext-workers.md` |
+| 残る実装 task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`（`web-cd.yml` Workers deploy 置換 / Cloudflare side cutover / smoke） |
+| 決定 workflow | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` |
 
+---
 ### 06a Public Web Real Workers/D1 Smoke（2026-04-30）
 
 06a の mock API smoke では検出できなかった Workers runtime / D1 binding / `PUBLIC_API_BASE_URL` 経路を、follow-up 仕様として local + staging の二段 smoke に分離する。
@@ -37,11 +45,13 @@
 
 07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。
 
+UT-07B schema alias hardening は、この `schema_aliases` write target replacement を上位前提にする。hardening 対象は alias table の DB constraint、back-fill の再開可能化、`backfill_cpu_budget_exhausted` の HTTP 202 retryable continuation、10,000 行 staging evidence である。参照: `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/`, `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/phase-12/implementation-guide.md`, `references/api-endpoints.md`, `references/database-schema.md`。
+
 | 目的 | 参照先 |
 | --- | --- |
 | 正本 DB 契約 | `references/database-implementation-core.md`（§Schema Alias Resolution Contract） |
 | 13 Phase 補完仕様 | `docs/30-workflows/completed-tasks/issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring/` |
-| 07b stale contract 上書き | `docs/30-workflows/02-application-implementation/07b-parallel-schema-diff-alias-assignment-workflow/index.md` |
+| 07b stale contract 上書き | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/index.md` |
 | 実装 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-aliases-implementation-001.md` |
 | fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
 | direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
@@ -1147,6 +1157,19 @@ packages/
 | schema 書き込み境界 | `/admin/schema/*` のみに集約 |
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
+
+### UBM-Hyogo Admin Tag Queue Resolve Contract（UT-07A-02 / 2026-05-01）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical workflow | `docs/30-workflows/completed-tasks/ut-07a-02-search-tags-resolve-contract-followup/` |
+| shared schema SSOT | `packages/shared/src/schemas/admin/tag-queue-resolve.ts` |
+| body type | `{ action: "confirmed"; tagCodes: string[] } | { action: "rejected"; reason: string }` |
+| mixed body | 400 `validation_error`（strict discriminated union） |
+| API consumer | `apps/api/src/routes/admin/tags-queue.ts` |
+| web consumer | `apps/web/src/lib/admin/api.ts` の `resolveTagQueue(queueId, body)` |
+| focused evidence | `pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/routes/admin/tags-queue.test.ts apps/api/src/workflows/tagQueueResolve.test.ts apps/api/src/schemas/tagQueueResolve.test.ts` |
+| handoff | UT-07A-03 staging smoke with real admin auth / deployed Worker |
 
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 

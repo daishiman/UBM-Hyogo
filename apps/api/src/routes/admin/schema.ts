@@ -16,6 +16,7 @@ import {
   schemaAliasAssign,
   SchemaAliasAssignFailure,
 } from "../../workflows/schemaAliasAssign";
+import type { SchemaAliasAssignInput } from "../../workflows/schemaAliasAssign";
 import type { AdminRouteEnv } from "./_shared";
 
 const AliasBodyZ = z.object({
@@ -25,6 +26,7 @@ const AliasBodyZ = z.object({
     .string()
     .min(1)
     .regex(/^[a-zA-Z][a-zA-Z0-9_]*$/, "stableKey must match /^[a-zA-Z][a-zA-Z0-9_]*$/"),
+  dryRun: z.boolean().optional(),
 });
 
 interface ExistingQuestionRow {
@@ -81,7 +83,7 @@ const buildRecommendations = async (
 
 const failureToHttp = (
   err: SchemaAliasAssignFailure,
-): { status: 400 | 404 | 409 | 422; body: Record<string, unknown> } => {
+): { status: 404 | 409 | 422; body: Record<string, unknown> } => {
   switch (err.detail.kind) {
     case "question_not_found":
       return { status: 404, body: { ok: false, error: "question not found" } };
@@ -92,11 +94,23 @@ const failureToHttp = (
         status: 409,
         body: { ok: false, error: "diff question mismatch" },
       };
+    case "manual_actor_required":
+      return { status: 409, body: { ok: false, error: "manual actor required" } };
+    case "alias_conflict":
+      return {
+        status: 409,
+        body: {
+          ok: false,
+          error: "alias already assigned",
+          existingStableKey: err.detail.existingStableKey,
+        },
+      };
     case "collision":
       return {
         status: 422,
         body: {
           ok: false,
+          code: "stable_key_collision",
           error: "stableKey collision",
           existingQuestionIds: err.detail.existingQuestionIds,
         },
@@ -130,9 +144,9 @@ export const createAdminSchemaRoute = () => {
     }
     const parsed = AliasBodyZ.safeParse(raw);
     if (!parsed.success) {
-      return c.json({ ok: false, error: parsed.error.message }, 400);
+      return c.json({ ok: false, error: parsed.error.message }, 422);
     }
-    const dryRun = c.req.query("dryRun") === "true";
+    const dryRun = c.req.query("dryRun") === "true" || parsed.data.dryRun === true;
     const db = ctx({ DB: c.env.DB });
 
     const authUser = c.get("authUser");
@@ -142,17 +156,29 @@ export const createAdminSchemaRoute = () => {
     const actorEmail: AdminEmail | null = authUser?.email
       ? adminEmail(authUser.email)
       : null;
+    const parsedBackfillCpuBudgetMs = c.env.UT07B_BACKFILL_CPU_BUDGET_MS
+      ? Number(c.env.UT07B_BACKFILL_CPU_BUDGET_MS)
+      : undefined;
+    const backfillCpuBudgetMs =
+      parsedBackfillCpuBudgetMs !== undefined && Number.isFinite(parsedBackfillCpuBudgetMs)
+        ? parsedBackfillCpuBudgetMs
+        : null;
 
     try {
-      const result = await schemaAliasAssign(db, {
+      const input: SchemaAliasAssignInput = {
         questionId: parsed.data.questionId,
         stableKey: parsed.data.stableKey,
         ...(parsed.data.diffId ? { diffId: parsed.data.diffId } : {}),
         dryRun,
         actorId,
         actorEmail,
-      });
-      return c.json({ ok: true, ...result }, 200);
+      };
+      if (backfillCpuBudgetMs !== null) {
+        input.backfillCpuBudgetMs = backfillCpuBudgetMs;
+      }
+      const result = await schemaAliasAssign(db, input);
+      const status = result.mode === "apply" && result.backfill.status === "exhausted" ? 202 : 200;
+      return c.json({ ok: true, ...result }, status);
     } catch (err) {
       if (err instanceof SchemaAliasAssignFailure) {
         const { status, body } = failureToHttp(err);

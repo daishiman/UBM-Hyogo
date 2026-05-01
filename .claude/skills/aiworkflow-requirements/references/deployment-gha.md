@@ -175,7 +175,7 @@
 
 ### 実行内容
 
-1. ブランチに応じて Cloudflare Pages へ自動デプロイ（`cloudflare/wrangler-action@v3`）
+1. ブランチに応じて Cloudflare Workers へ自動デプロイ（`cloudflare/wrangler-action@v3` + `wrangler deploy --env <env>`）。2026-05-01 時点の `.github/workflows/web-cd.yml` は Pages deploy 残で、ADR-0001 / `task-impl-opennext-workers-migration-001` で置換する
 2. デプロイ完了後、Discord Webhook で通知を送信
 
 ### 通知要件
@@ -189,6 +189,8 @@
 | 失敗時 | 赤色の Embed でエラー内容を通知 |
 
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 Discord Webhook 通知ステップは現行 `.github/workflows/web-cd.yml` には未実装。UT-08-IMPL（観測性実装、Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
+
+> **deploy target current facts (ADR-0001 / 2026-05-01)**: `apps/web/wrangler.toml` は OpenNext Workers 形式、`.github/workflows/web-cd.yml` は Pages deploy 残。Workers deploy への切替は `task-impl-opennext-workers-migration-001` の責務。
 
 ---
 

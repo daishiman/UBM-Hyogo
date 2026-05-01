@@ -6,6 +6,7 @@ export * from "./types/identity";
 export * from "./types/auth";
 export * from "./types/viewmodel";
 export * from "./zod";
+export * from "./schemas";
 export * from "./utils/consent";
 export * from "./auth";
 

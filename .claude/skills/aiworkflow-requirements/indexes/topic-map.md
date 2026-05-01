@@ -90,11 +90,11 @@ node scripts/list-specs.js --topics
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
 | 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L174 |
-| 5. ステータスコード処理方針 | L231 |
-| 6. 環境変数 | L263 |
-| 7. 不変条件サマリ（admin API client / proxy） | L276 |
-| 8. 関連ドキュメント | L288 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L176 |
+| 5. ステータスコード処理方針 | L233 |
+| 6. 環境変数 | L265 |
+| 7. 不変条件サマリ（admin API client / proxy） | L278 |
+| 8. 関連ドキュメント | L290 |
 
 ### references/architecture-auth-security-core.md
 
@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L183 |
-| UBM-Hyogo Admin Sync API（03a） | L204 |
-| UBM-Hyogo Member Self-Service API（04b） | L234 |
-| Desktop IPC API サマリー | L252 |
-| 変更履歴 | L283 |
-| 関連ドキュメント | L300 |
+| エンドポイント命名規則 | L185 |
+| UBM-Hyogo Admin Sync API（03a） | L206 |
+| UBM-Hyogo Member Self-Service API（04b） | L251 |
+| Desktop IPC API サマリー | L269 |
+| 変更履歴 | L300 |
+| 関連ドキュメント | L317 |
 
 ### references/api-internal-chunk-search.md
 
@@ -972,7 +972,7 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L212 |
 | Conversation DB 初期化パターン | L243 |
 | UBM-Hyogo Schema Sync Contract（03a） | L245 |
-| ベクトル検索実装（DiskANN） | L353 |
+| ベクトル検索実装（DiskANN） | L355 |
 
 ### references/database-implementation-details.md
 
@@ -1058,19 +1058,20 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L60 |
-| Legacy Sheets sync transition note（U-UT01-09） | L72 |
-| Schema alias assignment workflow（07b） | L84 |
-| ワークフロー関連テーブル | L88 |
-| ユーザー関連テーブル | L127 |
-| システムプロンプト関連テーブル | L161 |
-| チャット関連テーブル | L196 |
-| RAG関連テーブル | L232 |
-| Knowledge Graph関連テーブル | L274 |
-| 変換処理関連テーブル | L408 |
-| インデックス設計 | L467 |
-| 関連ドキュメント / 変更履歴 | L471 |
-| DDL 同期テンプレ | L476 |
+| Schema aliases write target（issue-191 / UT-07B） | L59 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L74 |
+| Legacy Sheets sync transition note（U-UT01-09） | L86 |
+| Schema alias assignment workflow（07b） | L98 |
+| ワークフロー関連テーブル | L102 |
+| ユーザー関連テーブル | L141 |
+| システムプロンプト関連テーブル | L175 |
+| チャット関連テーブル | L210 |
+| RAG関連テーブル | L246 |
+| Knowledge Graph関連テーブル | L288 |
+| 変換処理関連テーブル | L422 |
+| インデックス設計 | L481 |
+| 関連ドキュメント / 変更履歴 | L485 |
+| DDL 同期テンプレ | L490 |
 
 ---
 
@@ -2058,14 +2059,22 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Acceptance Evidence | L11 |
+| Phase 12 Artifacts | L21 |
+| Deferred / Blocked | L32 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
 | Current Canonical Set | L12 |
-| Validation Chain | L25 |
-| Notes | L36 |
+| Validation Chain | L26 |
+| Notes | L37 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2343,6 +2352,14 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L83 |
 | Validation Chain（spec_created） | L92 |
 
+### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L12 |
+| Open Follow-ups | L25 |
+
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
 | セクション | 行 |
@@ -2440,6 +2457,16 @@ node scripts/list-specs.js --topics
 | 自走禁止項目（本タスクで実行しないこと） | L88 |
 | Skill Feedback（Phase 12 反映） | L99 |
 | 関連リソース | L107 |
+
+### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Artifacts | L22 |
+| Evidence Summary | L32 |
+| Follow-up Disposition | L41 |
 
 ### references/workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md
 
@@ -2728,20 +2755,20 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 適用範囲 | L7 |
-| 2. 形式判定マトリクス | L13 |
-| 3. wrangler.toml 必須項目 | L24 |
-| 4. .assetsignore の役割と運用 | L87 |
-| 5. ビルド・デプロイ手順 | L107 |
-| 6. Worker bundle size ガード | L130 |
-| 7. SPA fallback / 404 ハンドリング | L148 |
-| 8. preview / staging / production の env 分離 | L157 |
-| 9. 旧 Pages プロジェクトの並走方針 | L169 |
-| 10. CLI 経路の徹底 | L181 |
-| 11. R2 incremental cache（任意採用） | L190 |
-| 12. 関連リソース | L198 |
-| 13. production route / secret / observability preflight | L214 |
-| 変更履歴 | L220 |
+| 1. 適用範囲 | L8 |
+| 2. 形式判定マトリクス | L14 |
+| 3. wrangler.toml 必須項目 | L25 |
+| 4. .assetsignore の役割と運用 | L88 |
+| 5. ビルド・デプロイ手順 | L108 |
+| 6. Worker bundle size ガード | L131 |
+| 7. SPA fallback / 404 ハンドリング | L149 |
+| 8. preview / staging / production の env 分離 | L158 |
+| 9. 旧 Pages プロジェクトの並走方針 | L170 |
+| 10. CLI 経路の徹底 | L182 |
+| 11. R2 incremental cache（任意採用） | L191 |
+| 12. 関連リソース | L199 |
+| 13. production route / secret / observability preflight | L217 |
+| 変更履歴 | L223 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -2800,12 +2827,12 @@ node scripts/list-specs.js --topics
 | キャッシュ戦略 | L90 |
 | 並列実行の活用 | L113 |
 | CD ワークフロー要件（dev / main マージ時） | L169 |
-| Backend ワークフロー要件（dev / main マージ時） | L195 |
-| モニタリングとアラート | L217 |
-| GitHub Secrets の要件 | L251 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L275 |
-| 関連ドキュメント | L295 |
-| 変更履歴 | L302 |
+| Backend ワークフロー要件（dev / main マージ時） | L197 |
+| モニタリングとアラート | L219 |
+| GitHub Secrets の要件 | L253 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L277 |
+| 関連ドキュメント | L297 |
+| 変更履歴 | L304 |
 
 ### references/deployment-history.md
 
@@ -3046,15 +3073,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L10 |
-| 使い方 | L18 |
-| Current Alias Overrides（個別互換行） | L25 |
-| Family Summary | L54 |
-| Detailed Register | L75 |
-| Section Extract Register (2026-03-17) | L256 |
-| 500-Line Split Register (2026-03-16) | L267 |
-| Fragment Migration Register (2026-04-28) | L289 |
-| Task Root Path Drift Register (2026-04-30 追記) | L316 |
+| 概要 | L11 |
+| 使い方 | L19 |
+| Current Alias Overrides（個別互換行） | L26 |
+| Family Summary | L57 |
+| Detailed Register | L78 |
+| Section Extract Register (2026-03-17) | L259 |
+| 500-Line Split Register (2026-03-16) | L270 |
+| Fragment Migration Register (2026-04-28) | L292 |
+| Task Root Path Drift Register (2026-04-30 追記) | L319 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3162,6 +3189,8 @@ node scripts/list-specs.js --topics
 | L-07A-003: Phase 12 の follow-up は unassigned-task 実体まで作る | L11 |
 | L-07A-004: API-only / NON_VISUAL でも Phase 11 evidence を明示する | L15 |
 | L-07A-005: admin client 契約は UI 実装タスクの stale 記述を同 wave で直す | L19 |
+| L-07A-006: API / web の body drift は shared schema SSOT へ寄せる | L23 |
+| L-07A-007: package script の test 引数は対象ファイル選択を保証しない | L30 |
 
 ### references/lessons-learned-07b-schema-alias-assignment-2026-04.md
 
@@ -3228,6 +3257,15 @@ node scripts/list-specs.js --topics
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
 
+### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I106-001: Closed issue は reopen せず current owner を再検証する | L3 |
+| L-I106-002: admin notes repository は重複 owner を作らない | L9 |
+| L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
+| L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -3236,6 +3274,8 @@ node scripts/list-specs.js --topics
 | L-I191-002: endpoint compatibility and write-target change are separate decisions | L7 |
 | L-I191-003: detected follow-ups must be materialized | L11 |
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
+| L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
+| L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -3385,6 +3425,16 @@ node scripts/list-specs.js --topics
 | 教訓 | L7 |
 | 関連リソース | L44 |
 
+### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-H-001: write target replacement を上位前提にする | L3 |
+| L-UT07B-H-002: collision は二段防御にする | L7 |
+| L-UT07B-H-003: retryable failure は HTTP 202 で表す | L11 |
+| L-UT07B-H-004: cursor 風 contract は remaining-scan でも成立する | L15 |
+| L-UT07B-H-005: local PASS と staging-deferred を分離する | L19 |
+
 ### references/lessons-learned-ut09-direction-reconciliation-2026-04.md
 
 | セクション | 行 |
@@ -3431,8 +3481,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L69 |
-| 関連ドキュメント | L74 |
+| 利用順序 | L70 |
+| 関連ドキュメント | L75 |
 
 ### references/llm-embedding.md
 
@@ -4466,12 +4516,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | テンプレート一覧 | L7 |
 | 命名規則 | L29 |
-| 記述形式 | L60 |
-| すべきこと | L80 |
-| 避けるべきこと | L89 |
-| 新規仕様の追加手順 | L98 |
-| 完了タスクセクション標準化 | L106 |
-| ファイルサイズ管理 | L154 |
+| 記述形式 | L75 |
+| すべきこと | L95 |
+| 避けるべきこと | L104 |
+| 新規仕様の追加手順 | L113 |
+| 完了タスクセクション標準化 | L121 |
+| ファイルサイズ管理 | L169 |
 
 ### references/spec-splitting-guidelines.md
 
@@ -4500,13 +4550,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L56 |
-| フェーズ構造（概要） | L65 |
-| 品質ゲート（概要） | L96 |
-| 出力テンプレート | L107 |
-| 実行時のコマンド・エージェント・スキル | L130 |
-| 昇格パターン集 | L154 |
-| Current Active / Spec Created Tasks | L156 |
+| ドキュメント構成 | L67 |
+| フェーズ構造（概要） | L76 |
+| 品質ゲート（概要） | L107 |
+| 出力テンプレート | L118 |
+| 実行時のコマンド・エージェント・スキル | L141 |
+| 昇格パターン集 | L165 |
+| Current Active / Spec Created Tasks | L167 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -4999,4 +5049,3 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
-
