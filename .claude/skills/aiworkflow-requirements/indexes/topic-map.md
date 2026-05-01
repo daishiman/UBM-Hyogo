@@ -2260,6 +2260,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L110 |
 | Validation Chain | L119 |
 
+### references/workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L21 |
+| Phase Outputs | L32 |
+| 主要実装物（spec_created 段階の planned outputs） | L50 |
+| Skill 反映先（current canonical set） | L60 |
+| 苦戦箇所（lessons reference） | L72 |
+| Follow-up 未タスク | L82 |
+| Validation Chain | L86 |
+
 ### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
 
 | セクション | 行 |

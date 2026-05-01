@@ -7,11 +7,15 @@
 | 分類 | 検証 / E2E smoke |
 | 対象機能 | `/`, `/members`, `/members/[id]`, `/register` |
 | 優先度 | 高 |
-| ステータス | 未実施 |
+| ステータス | 昇格済み（canonical: `docs/30-workflows/06a-followup-001-public-web-real-workers-d1-smoke/`） |
 | 発見元 | 06a Phase 12 再検証 |
 | 発見日 | 2026-04-29 |
 
 ---
+
+## 昇格状態
+
+本未タスクは `docs/30-workflows/06a-followup-001-public-web-real-workers-d1-smoke/` の Phase 1-13 仕様書へ昇格済み。以後の実行・evidence 保存・Phase 12/13 close-out は canonical task path 側で管理し、本ファイルは発見元の履歴として残す。
 
 ## 苦戦箇所【記入必須】
 

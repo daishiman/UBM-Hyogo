@@ -17,6 +17,23 @@
 ---
 
 ### CI/CD workflow topology drift（UT-CICD-DRIFT / 2026-04-29）
+
+### 06a Public Web Real Workers/D1 Smoke（2026-04-30）
+
+06a の mock API smoke では検出できなかった Workers runtime / D1 binding / `PUBLIC_API_BASE_URL` 経路を、follow-up 仕様として local + staging の二段 smoke に分離する。
+
+| 目的 | 参照先 |
+| --- | --- |
+| 13 Phase 仕様 | `docs/30-workflows/completed-tasks/06a-followup-001-public-web-real-workers-d1-smoke/` |
+| 元未タスク（昇格済み trace） | `docs/30-workflows/completed-tasks/task-06a-followup-001-real-workers-d1-smoke.md` |
+| artifact inventory | `references/workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md` |
+| 親 06a | `docs/30-workflows/completed-tasks/06a-parallel-public-landing-directory-and-registration-pages/` |
+| smoke route family | `/`, `/members`, `/members/[id]`, `/register` |
+| evidence 方針 | 実体は followup 側、親 06a へは相対リンク trace のみ |
+| Issue | `Refs #273` のみ、CLOSED 維持 |
+
+---
+
 ### Schema Alias Resolution Contract（issue-191 / 2026-04-30）
 
 07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。
