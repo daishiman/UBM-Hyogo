@@ -3393,8 +3393,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L66 |
-| 関連ドキュメント | L71 |
+| 利用順序 | L67 |
+| 関連ドキュメント | L72 |
 
 ### references/llm-embedding.md
 
@@ -4960,3 +4960,4 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
+
