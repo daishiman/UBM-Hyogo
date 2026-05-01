@@ -143,7 +143,7 @@ class PhaseValidator {
     const outputContent = readFileSync(outputArtifactsPath, "utf-8").trim();
 
     if (rootContent !== outputContent) {
-      this.warnings.push(
+      this.errors.push(
         "artifacts.json と outputs/artifacts.json が一致していません",
       );
       return;

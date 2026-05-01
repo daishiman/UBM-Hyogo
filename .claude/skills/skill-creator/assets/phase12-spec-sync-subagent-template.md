@@ -24,6 +24,19 @@
 | SubAgent-D | `references/task-workflow.md` | 完了記録・成果物・検証証跡・苦戦箇所同期 | 実装内容 + 証跡 + 苦戦箇所が同一ターンで記録済み |
 | SubAgent-E | `references/lessons-learned.md` | 苦戦箇所の再利用可能化 | 再発条件付きで簡潔解決手順が記録済み |
 
+### 2.0.1 スキル更新 close-out プロファイル
+
+スキル自体を更新する Phase 12 では、read-only 監査を並列化し、編集は skill owner ごとに直列統合する。
+
+| Lane | 担当範囲 | 完了条件 |
+| --- | --- | --- |
+| Skill-Audit | `.claude/skills/<skill>/SKILL.md` / `references/` / `assets/` | 反映先が主正本 / 補助テンプレ / 索引導線に分類済み |
+| Mirror-Audit | `.agents/skills/<skill>` | canonical と mirror の `diff -qr` が差分なし、または差分理由が compliance check に記録済み |
+| Phase12-Audit | workflow `outputs/phase-12/*` | 7 canonical files、artifacts parity、planned wording、runtime pending 境界が確認済み |
+| Legacy-Audit | `legacy-ordinal-family-register.md` / artifact inventory | 旧 filename / 旧 root citation が current semantic filename へ引ける |
+
+主担当 skill にルールを厚く書き、補助 skill にはテンプレートと導線だけを置く。苦戦箇所は `症状 / 根本原因 / 5分解決手順 / 検証ゲート / 同期先` で記録し、`quick_validate`、Phase 12 validator、mirror `diff -qr` の実測値を compliance check に集約する。
+
 ### 2.1 UI機能実装プロファイル（TASK-UI-05型）
 
 | SubAgent | 担当仕様書 | 主担当作業 | 完了条件 |
