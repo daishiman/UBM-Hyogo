@@ -1,0 +1,47 @@
+flowchart TB
+  subgraph CI["GitHub Actions runner (ubuntu-latest)"]
+    GA[e2e-tests.yml]
+  end
+
+  subgraph LOCAL["local processes (pnpm e2e webServer)"]
+    NEXT["apps/web : Next.js dev (port 3000)"]
+    API["apps/api : wrangler dev (port 8787)"]
+    D1[("D1 local (--local seed)")]
+  end
+
+  subgraph PW["apps/web/playwright"]
+    CFG[playwright.config.ts]
+    SPECS[tests/*.spec.ts]
+    PO[page-objects/*]
+    FIX[fixtures/auth + seed + viewports]
+    HLP[helpers/axe + screenshot]
+  end
+
+  subgraph BROWSER["browser projects"]
+    DC[desktop-chromium 1280x800]
+    MC[mobile-chromium 390x844]
+  end
+
+  subgraph EVIDENCE["outputs/phase-11/evidence"]
+    SHOTS[desktop/ + mobile/ screenshots]
+    AXE[axe-report.json]
+    REPORT[playwright-report/]
+  end
+
+  GA --> CFG
+  CFG --> NEXT
+  CFG --> API
+  API --> D1
+  FIX -- "globalSetup: pnpm seed:e2e" --> D1
+  FIX --> SPECS
+  PO --> SPECS
+  HLP --> SPECS
+  SPECS --> DC
+  SPECS --> MC
+  DC --> NEXT
+  MC --> NEXT
+  NEXT -- "fetch /api/*" --> API
+  HLP -- "@axe-core/playwright" --> AXE
+  HLP -- "page.screenshot()" --> SHOTS
+  DC --> REPORT
+  MC --> REPORT

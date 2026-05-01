@@ -34,7 +34,7 @@
 | 必須 | doc/00-getting-started-manual/specs/15-infrastructure-runbook.md | staging deploy / D1 / secrets / cron |
 | 必須 | doc/00-getting-started-manual/specs/14-implementation-roadmap.md | Phase 7 受け入れ条件 |
 | 必須 | doc/00-getting-started-manual/specs/08-free-database.md | 無料枠と staging Worker / D1 構成 |
-| 必須 | doc/02-application-implementation/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md | Playwright artifact の引き渡し元 |
+| 必須 | ../../08b-parallel-playwright-e2e-and-ui-acceptance-smoke/index.md | Playwright artifact の引き渡し元 |
 | 参考 | docs/05b-parallel-smoke-readiness-and-handoff/phase-01.md | smoke readiness の要件記述例 |
 
 ## 実行手順

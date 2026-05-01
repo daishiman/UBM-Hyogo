@@ -123,14 +123,14 @@
 
 ---
 
-## GitHub Secrets の要件
+## GitHub Secrets / Variables の要件
 
-| Secret名              | 用途                          | 必須 |
-| --------------------- | ----------------------------- | ---- |
-| `CLOUDFLARE_API_TOKEN` | Cloudflareデプロイ認証       | Yes  |
-| `CLOUDFLARE_ACCOUNT_ID` | CloudflareアカウントID      | Yes  |
-| `CLOUDFLARE_WORKERS_DOMAIN` | バックエンドヘルスチェックURL | Yes  |
-| `DISCORD_WEBHOOK_URL` | Discord通知用WebhookURL       | No   |
+| 名前 | 種別 | 用途 | 必須 |
+| --- | --- | --- | --- |
+| `CLOUDFLARE_API_TOKEN` | Secret | Cloudflareデプロイ認証 | Yes |
+| `CLOUDFLARE_ACCOUNT_ID` | Repository Variable | Cloudflare account 識別。workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照 | Yes |
+| `CLOUDFLARE_WORKERS_DOMAIN` | Variable | バックエンドヘルスチェックURL | Yes |
+| `DISCORD_WEBHOOK_URL` | Secret | Discord通知用WebhookURL | No |
 
 ### セキュリティ要件
 

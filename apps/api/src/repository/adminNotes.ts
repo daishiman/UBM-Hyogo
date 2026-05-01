@@ -18,11 +18,17 @@ export type AdminMemberNoteType =
   | "visibility_request"
   | "delete_request";
 
+// 04b-followup-001: 申請行の処理状態。general 行は常に null。
+export type RequestStatus = "pending" | "resolved" | "rejected";
+
 export interface AdminMemberNoteRow {
   noteId: string;
   memberId: MemberId;
   body: string;
   noteType: AdminMemberNoteType;
+  requestStatus: RequestStatus | null;
+  resolvedAt: number | null;
+  resolvedByAdminId: string | null;
   createdBy: AdminEmail;
   updatedBy: AdminEmail;
   createdAt: string;
@@ -41,6 +47,9 @@ interface RawNoteRow {
   memberId: string;
   body: string;
   noteType: string | null;
+  requestStatus: string | null;
+  resolvedAt: number | null;
+  resolvedByAdminId: string | null;
   createdBy: string;
   updatedBy: string;
   createdAt: string;
@@ -52,6 +61,9 @@ const toRow = (r: RawNoteRow): AdminMemberNoteRow => ({
   memberId: r.memberId as MemberId,
   body: r.body,
   noteType: ((r.noteType ?? "general") as AdminMemberNoteType),
+  requestStatus: (r.requestStatus as RequestStatus | null) ?? null,
+  resolvedAt: r.resolvedAt ?? null,
+  resolvedByAdminId: r.resolvedByAdminId ?? null,
   createdBy: r.createdBy as AdminEmail,
   updatedBy: r.updatedBy as AdminEmail,
   createdAt: r.createdAt,
@@ -59,7 +71,9 @@ const toRow = (r: RawNoteRow): AdminMemberNoteRow => ({
 });
 
 const SELECT_COLS =
-  "note_id AS noteId, member_id AS memberId, body, note_type AS noteType, created_by AS createdBy, updated_by AS updatedBy, created_at AS createdAt, updated_at AS updatedAt";
+  "note_id AS noteId, member_id AS memberId, body, note_type AS noteType, " +
+  "request_status AS requestStatus, resolved_at AS resolvedAt, resolved_by_admin_id AS resolvedByAdminId, " +
+  "created_by AS createdBy, updated_by AS updatedBy, created_at AS createdAt, updated_at AS updatedAt";
 
 export const findById = async (
   c: DbCtx,
@@ -92,17 +106,32 @@ export const create = async (
   const noteId = crypto.randomUUID();
   const now = new Date().toISOString();
   const noteType: AdminMemberNoteType = input.noteType ?? "general";
+  // 04b-followup-001: visibility_request / delete_request は INSERT 時に pending 状態を確定する。
+  //   general 行は request_status NULL のまま（不変条件 #11 の影響範囲を type 列で固定）。
+  const initialStatus: RequestStatus | null =
+    noteType === "general" ? null : "pending";
   await c.db
     .prepare(
-      "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, created_by, updated_by, created_at, updated_at) VALUES (?1, ?2, ?3, ?4, ?5, ?5, ?6, ?6)",
+      "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, request_status, created_by, updated_by, created_at, updated_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?6, ?7, ?7)",
     )
-    .bind(noteId, input.memberId, input.body, noteType, input.createdBy, now)
+    .bind(
+      noteId,
+      input.memberId,
+      input.body,
+      noteType,
+      initialStatus,
+      input.createdBy,
+      now,
+    )
     .run();
   return {
     noteId,
     memberId: input.memberId,
     body: input.body,
     noteType,
+    requestStatus: initialStatus,
+    resolvedAt: null,
+    resolvedByAdminId: null,
     createdBy: input.createdBy,
     updatedBy: input.createdBy,
     createdAt: now,
@@ -111,10 +140,9 @@ export const create = async (
 };
 
 /**
- * 指定 member × note_type の最新 1 件を取得する（pending 判定用）。
- * MVP では admin queue 側の resolve でレコードを削除/更新する運用とし、
- * 「pending = 同 type の最新行が存在する」と簡易判定する。
- * 04b の二重申請防止 (AC-6) はこの関数を使う。
+ * 指定 member × note_type の最新 1 件を取得する。
+ * 04b-followup-001 以降は pending/resolved/rejected を含む全行から最新を返す参照用 helper。
+ * 二重申請ガードは {@link hasPendingRequest} を使うこと。
  */
 export const findLatestByMemberAndType = async (
   c: DbCtx,
@@ -135,14 +163,23 @@ export const findLatestByMemberAndType = async (
 
 /**
  * 同一 member × note_type の pending 申請が既にあれば true を返す。
- * 04b POST /me/visibility-request / POST /me/delete-request の DUPLICATE_PENDING_REQUEST 判定に使う。
+ * 04b-followup-001: `request_status='pending'` 行のみを判定対象とし、
+ *   resolved / rejected 行が残っていても再申請を許容する（AC-3 / AC-7）。
+ * partial index `idx_admin_notes_pending_requests` で index hit する。
  */
 export const hasPendingRequest = async (
   c: DbCtx,
   memberId: MemberId,
   noteType: Exclude<AdminMemberNoteType, "general">,
 ): Promise<boolean> => {
-  const r = await findLatestByMemberAndType(c, memberId, noteType);
+  const r = await c.db
+    .prepare(
+      `SELECT 1 AS hit FROM admin_member_notes
+       WHERE member_id = ?1 AND note_type = ?2 AND request_status = 'pending'
+       LIMIT 1`,
+    )
+    .bind(memberId, noteType)
+    .first<{ hit: number }>();
   return r !== null;
 };
 
@@ -161,6 +198,65 @@ export const update = async (
     .run();
   if (result.meta.changes === 0) return null;
   return findById(c, noteId);
+};
+
+/**
+ * pending → resolved の単方向遷移（AC-4 / AC-6）。
+ * `WHERE request_status='pending'` で resolved/rejected/general 行を構造的に除外する。
+ * @returns 更新成功時は noteId、対象が pending でない / 存在しない場合は null。
+ */
+export const markResolved = async (
+  c: DbCtx,
+  noteId: string,
+  adminId: string,
+): Promise<string | null> => {
+  const now = Date.now();
+  const result = await c.db
+    .prepare(
+      `UPDATE admin_member_notes
+          SET request_status = 'resolved',
+              resolved_at = ?1,
+              resolved_by_admin_id = ?2,
+              updated_at = ?3
+        WHERE note_id = ?4
+          AND request_status = 'pending'`,
+    )
+    .bind(now, adminId, new Date(now).toISOString(), noteId)
+    .run();
+  return result.meta.changes > 0 ? noteId : null;
+};
+
+/**
+ * pending → rejected の単方向遷移（AC-5 / AC-6）。
+ * reason は body 末尾に追記（既存 body は保持）。空 reason は呼出側 zod 責務。
+ */
+export const markRejected = async (
+  c: DbCtx,
+  noteId: string,
+  adminId: string,
+  reason: string,
+): Promise<string | null> => {
+  const now = Date.now();
+  const result = await c.db
+    .prepare(
+      `UPDATE admin_member_notes
+          SET request_status = 'rejected',
+              resolved_at = ?1,
+              resolved_by_admin_id = ?2,
+              body = body || ?3,
+              updated_at = ?4
+        WHERE note_id = ?5
+          AND request_status = 'pending'`,
+    )
+    .bind(
+      now,
+      adminId,
+      `\n\n[rejected] ${reason}`,
+      new Date(now).toISOString(),
+      noteId,
+    )
+    .run();
+  return result.meta.changes > 0 ? noteId : null;
 };
 
 export const remove = async (c: DbCtx, noteId: string): Promise<boolean> => {
