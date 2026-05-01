@@ -2429,6 +2429,14 @@ node scripts/list-specs.js --topics
 | Skill Feedback（Phase 12 反映） | L99 |
 | 関連リソース | L107 |
 
+### references/workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L13 |
+| Notes | L28 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -3300,6 +3308,16 @@ node scripts/list-specs.js --topics
 | 概要 | L3 |
 | 教訓 | L7 |
 
+### references/lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-CICD-OBS-001: required status context は confirmed 値を正とする | L3 |
+| L-CICD-OBS-002: 対象 workflow と `.github/workflows/` 実体総数を混同しない | L7 |
+| L-CICD-OBS-003: Phase 12 canonical 7 files は `main.md` + required outputs 6 files と書く | L11 |
+| L-CICD-OBS-004: generator が `phase-01.md` を弱く扱う場合は未タスク化する | L15 |
+| L-CICD-OBS-005: skill feedback は Promote / Defer / Reject で閉じる | L19 |
+
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
 | セクション | 行 |
@@ -3375,8 +3393,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L66 |
-| 関連ドキュメント | L71 |
+| 利用順序 | L67 |
+| 関連ドキュメント | L72 |
 
 ### references/llm-embedding.md
 
@@ -4462,9 +4480,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| task-worktree-environment-isolation follow-up（2026-04-28） | L355 |
-| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L366 |
-| 続き | L376 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L356 |
+| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L367 |
+| 続き | L377 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

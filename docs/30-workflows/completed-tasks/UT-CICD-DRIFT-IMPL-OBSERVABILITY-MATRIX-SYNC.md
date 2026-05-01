@@ -8,7 +8,7 @@ category: 改善
 target_feature: CI/CD observability matrix
 priority: 高
 scale: 小規模
-status: 未実施
+status: transferred_to_workflow
 source_phase: UT-CICD-DRIFT Phase 12
 created_date: 2026-04-29
 dependencies: [#58]
@@ -25,6 +25,9 @@ dependencies: [#58]
 | 優先度 | HIGH |
 | 分類 | docs-impl（observability-matrix.md の workflow 名同期） |
 | 起票日 | 2026-04-29 |
+| 移管先 | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/` |
+
+> 2026-05-01: 本未タスクは `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/` に仕様化済み。二重管理を避けるため、このファイルは起票履歴として残し、実行仕様は移管先を正本とする。
 
 ## 親タスク背景
 
