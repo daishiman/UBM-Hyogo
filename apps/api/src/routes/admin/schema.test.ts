@@ -91,6 +91,26 @@ describe("admin schema route", () => {
     expect(q?.stable_key).toBe("unknown");
   });
 
+  it("POST aliases: body dryRun=true でも書き込みなし", async () => {
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/aliases",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ questionId: "q1", stableKey: "full_name", dryRun: true }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { mode: string };
+    expect(body.mode).toBe("dryRun");
+    const alias = await env.db
+      .prepare("SELECT count(*) AS c FROM schema_aliases WHERE alias_question_id = 'q1'")
+      .first<{ c: number }>();
+    expect(alias?.c).toBe(0);
+  });
+
   it("POST aliases: collision で 422", async () => {
     await env.db
       .prepare(

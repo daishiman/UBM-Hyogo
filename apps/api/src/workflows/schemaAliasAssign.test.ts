@@ -82,7 +82,7 @@ describe("schemaAliasAssign", () => {
     ).rejects.toBeInstanceOf(SchemaAliasAssignFailure);
   });
 
-  it("apply_updates_stable_key + queue resolved + audit recorded", async () => {
+  it("apply_inserts_schema_alias + queue resolved + audit recorded", async () => {
     // diff_queue にも 1 件投入
     await env.db
       .prepare(
@@ -100,10 +100,16 @@ describe("schemaAliasAssign", () => {
     expect(result.newStableKey).toBe("full_name");
     expect(result.queueStatus).toBe("resolved");
 
+    const alias = await env.db
+      .prepare("SELECT stable_key, alias_label FROM schema_aliases WHERE alias_question_id = 'q1'")
+      .first<{ stable_key: string; alias_label: string }>();
+    expect(alias?.stable_key).toBe("full_name");
+    expect(alias?.alias_label).toBe("Some label");
+
     const q = await env.db
       .prepare("SELECT stable_key FROM schema_questions WHERE question_id = 'q1'")
       .first<{ stable_key: string }>();
-    expect(q?.stable_key).toBe("full_name");
+    expect(q?.stable_key).toBe("unknown");
 
     const d = await env.db
       .prepare("SELECT status FROM schema_diff_queue WHERE diff_id = 'd1'")
@@ -114,6 +120,38 @@ describe("schemaAliasAssign", () => {
       .prepare("SELECT count(*) AS c FROM audit_log WHERE action = 'schema_diff.alias_assigned'")
       .first<{ c: number }>();
     expect(a?.c).toBe(1);
+  });
+
+  it("apply_with_diffId_requires_D1_batch_for_alias_insert_and_diff_resolve", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO schema_diff_queue (diff_id, revision_id, type, question_id, stable_key, label)
+         VALUES ('d_no_batch','rev1','unresolved','q1',NULL,'Full name')`,
+      )
+      .run();
+    const dbWithoutBatch = new Proxy(env.db, {
+      get(target, prop, receiver) {
+        if (prop === "batch") return undefined;
+        const value = Reflect.get(target, prop, receiver);
+        return typeof value === "function" ? value.bind(target) : value;
+      },
+    }) as InMemoryD1["db"];
+
+    await expect(
+      schemaAliasAssign(
+        { db: dbWithoutBatch } as typeof env.ctx,
+        baseInput({ diffId: "d_no_batch" }),
+      ),
+    ).rejects.toThrow("d1_batch_required_for_schema_alias_diff_resolve");
+
+    const alias = await env.db
+      .prepare("SELECT count(*) AS c FROM schema_aliases WHERE alias_question_id = 'q1'")
+      .first<{ c: number }>();
+    expect(alias?.c).toBe(0);
+    const d = await env.db
+      .prepare("SELECT status FROM schema_diff_queue WHERE diff_id = 'd_no_batch'")
+      .first<{ status: string }>();
+    expect(d?.status).toBe("queued");
   });
 
   it("dryRun_no_write", async () => {
@@ -228,6 +266,10 @@ describe("schemaAliasAssign", () => {
       .prepare("SELECT status FROM schema_diff_queue WHERE diff_id = 'd_idem'")
       .first<{ status: string }>();
     expect(d?.status).toBe("resolved");
+    const latest = await env.db
+      .prepare("SELECT stable_key FROM schema_questions WHERE question_pk = 'rev1:q1'")
+      .first<{ stable_key: string }>();
+    expect(latest?.stable_key).toBe("unknown");
     const legacy = await env.db
       .prepare("SELECT stable_key FROM schema_questions WHERE question_pk = 'rev0:q1'")
       .first<{ stable_key: string }>();
@@ -238,10 +280,10 @@ describe("schemaAliasAssign", () => {
     expect(a?.c).toBe(1);
   });
 
-  it("backfill batch loop (120 行)", async () => {
-    // member_responses 120 行: batchSize=100 をまたぐことを検証する
+  it("backfill batch loop (25 行)", async () => {
+    // member_responses 25 行: batchSize=10 をまたぐことを検証する
     const stmts: Array<Promise<unknown>> = [];
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 25; i++) {
       stmts.push(
         env.db
           .prepare(
@@ -253,12 +295,12 @@ describe("schemaAliasAssign", () => {
       );
     }
     await Promise.all(stmts);
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 25; i++) {
       await insertResponseField(env.db, `r${i}`, "__extra__:q1");
     }
 
-    const total = await backfillResponseFields(env.ctx, "q1", "full_name", 100);
-    expect(total).toBe(120);
+    const total = await backfillResponseFields(env.ctx, "q1", "full_name", 10);
+    expect(total).toBe(25);
     const remain = await env.db
       .prepare("SELECT count(*) AS c FROM response_fields WHERE stable_key = '__extra__:q1'")
       .first<{ c: number }>();
@@ -266,7 +308,7 @@ describe("schemaAliasAssign", () => {
     const updated = await env.db
       .prepare("SELECT count(*) AS c FROM response_fields WHERE stable_key = 'full_name'")
       .first<{ c: number }>();
-    expect(updated?.c).toBe(120);
+    expect(updated?.c).toBe(25);
   });
 
   it("deleted_response_skip", async () => {

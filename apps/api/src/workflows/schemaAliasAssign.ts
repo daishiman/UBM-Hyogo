@@ -1,6 +1,6 @@
 // 07b: schema alias 確定 workflow
 // AC-1〜10:
-//   apply mode で schema_questions.stable_key 更新 + schema_diff_queue resolved
+//   apply mode で schema_aliases INSERT + schema_diff_queue resolved
 //   + response_fields の back-fill + audit_log 記録
 //   dryRun mode では DB を一切更新しない（影響件数のみ算出）。
 //
@@ -10,11 +10,8 @@
 import type { DbCtx } from "../repository/_shared/db";
 import { asStableKey, auditAction } from "../repository/_shared/brand";
 import type { AdminEmail, AdminId } from "../repository/_shared/brand";
-import {
-  findStableKeyByQuestionId,
-  updateStableKey,
-} from "../repository/schemaQuestions";
 import { findById as findDiffById, resolve as resolveDiff } from "../repository/schemaDiffQueue";
+import { lookup as lookupSchemaAlias } from "../repository/schemaAliases";
 import { append as auditAppend } from "../repository/auditLog";
 
 export interface SchemaAliasAssignInput {
@@ -49,6 +46,8 @@ export type SchemaAliasAssignError =
   | { kind: "question_not_found" }
   | { kind: "diff_not_found" }
   | { kind: "diff_question_mismatch" }
+  | { kind: "manual_actor_required" }
+  | { kind: "alias_conflict"; existingStableKey: string }
   | { kind: "collision"; existingQuestionIds: string[] };
 
 export class SchemaAliasAssignFailure extends Error {
@@ -66,6 +65,7 @@ interface QuestionRow {
   question_id: string;
   revision_id: string;
   stable_key: string;
+  label: string;
 }
 
 const fetchQuestion = async (
@@ -74,7 +74,7 @@ const fetchQuestion = async (
 ): Promise<QuestionRow | null> =>
   await c.db
     .prepare(
-      "SELECT question_id, revision_id, stable_key FROM schema_questions WHERE question_id = ? ORDER BY revision_id DESC LIMIT 1",
+      "SELECT question_id, revision_id, stable_key, label FROM schema_questions WHERE question_id = ? ORDER BY revision_id DESC LIMIT 1",
     )
     .bind(questionId)
     .first<QuestionRow>();
@@ -95,6 +95,57 @@ const findCollisions = async (
     .bind(revisionId, stableKey, excludeQuestionId)
     .all<{ question_id: string }>();
   return (r.results ?? []).map((x) => x.question_id);
+};
+
+const newAliasId = (): string => {
+  const fn = (globalThis as { crypto?: { randomUUID?: () => string } }).crypto?.randomUUID;
+  if (typeof fn === "function") return fn.call(globalThis.crypto);
+  return `schema_alias_${Math.random().toString(16).slice(2)}_${Date.now().toString(16)}`;
+};
+
+const insertAliasAndResolveDiff = async (
+  c: DbCtx,
+  input: {
+    id: string;
+    stableKey: string;
+    aliasQuestionId: string;
+    aliasLabel: string | null;
+    resolvedBy: string;
+    resolvedAt: string;
+    diffId?: string;
+  },
+): Promise<void> => {
+  const insertStmt = c.db
+    .prepare(
+      "INSERT INTO schema_aliases (id, stable_key, alias_question_id, alias_label, source, resolved_by, resolved_at) VALUES (?, ?, ?, ?, 'manual', ?, ?)",
+    )
+    .bind(
+      input.id,
+      input.stableKey,
+      input.aliasQuestionId,
+      input.aliasLabel,
+      input.resolvedBy,
+      input.resolvedAt,
+    );
+  if (!input.diffId) {
+    await insertStmt.run();
+    return;
+  }
+
+  const resolveStmt = c.db
+    .prepare(
+      "UPDATE schema_diff_queue SET status = ?, resolved_by = ?, resolved_at = ? WHERE diff_id = ? AND status = ?",
+    )
+    .bind("resolved", input.resolvedBy, input.resolvedAt, input.diffId, "queued");
+  const batch = (c.db as unknown as {
+    batch?: (statements: unknown[]) => Promise<unknown[]>;
+  }).batch;
+  if (typeof batch === "function") {
+    await batch.call(c.db, [insertStmt, resolveStmt]);
+    return;
+  }
+
+  throw new Error("d1_batch_required_for_schema_alias_diff_resolve");
 };
 
 /**
@@ -250,7 +301,14 @@ export const schemaAliasAssign = async (
 
   const oldStableKey =
     question.stable_key === "unknown" ? null : question.stable_key;
-  const isIdempotent = question.stable_key === input.stableKey;
+  const existingAlias = await lookupSchemaAlias(c, input.questionId);
+  if (existingAlias && existingAlias.stableKey !== input.stableKey) {
+    throw new SchemaAliasAssignFailure({
+      kind: "alias_conflict",
+      existingStableKey: existingAlias.stableKey,
+    });
+  }
+  const isIdempotent = existingAlias?.stableKey === input.stableKey;
 
   // collision: 同 revision で別 questionId が同 stable_key を持つか
   const collisionIds = isIdempotent
@@ -282,6 +340,9 @@ export const schemaAliasAssign = async (
       existingQuestionIds: collisionIds,
     });
   }
+  if (!input.actorEmail) {
+    throw new SchemaAliasAssignFailure({ kind: "manual_actor_required" });
+  }
 
   // idempotent: stable_key が既に同値でも、未完了 back-fill と queued diff resolve は続行する。
   // 途中失敗後の再 apply で recovery できるようにする。
@@ -305,15 +366,16 @@ export const schemaAliasAssign = async (
   }
 
   // apply
-  await updateStableKey(
-    c,
-    input.questionId,
-    asStableKey(input.stableKey),
-    question.revision_id,
-  );
-  if (input.diffId) {
-    await resolveDiff(c, input.diffId, input.actorEmail ?? "system");
-  }
+  const resolvedAt = new Date().toISOString();
+  await insertAliasAndResolveDiff(c, {
+    id: newAliasId(),
+    stableKey: asStableKey(input.stableKey),
+    aliasQuestionId: input.questionId,
+    aliasLabel: question.label,
+    resolvedBy: input.actorEmail,
+    resolvedAt,
+    ...(input.diffId ? { diffId: input.diffId } : {}),
+  });
   const backfilled = await backfillResponseFields(
     c,
     input.questionId,

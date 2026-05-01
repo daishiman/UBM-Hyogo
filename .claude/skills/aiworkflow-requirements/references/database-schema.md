@@ -17,7 +17,7 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | member_status | consent snapshot / 公開状態 / 退会状態 | ✅ 実装済み |
 | response_fields | response ごとの stableKey / extra question 値 | ✅ 実装済み |
 | schema_diff_queue | unknown / changed question の管理キュー | ✅ 実装済み |
-| schema_aliases | 07b manual alias resolution の正本書き込み先（issue-191） | spec_created / planned |
+| schema_aliases | 07b manual alias resolution の正本書き込み先（issue-191） | ✅ 実装済み（local migration 追加済み / production apply 未実施） |
 | sync_jobs | schema / response sync の ledger | ✅ 実装済み |
 | workflows | ワークフロー定義 | 設計済み |
 | workflow_steps | ワークフローステップ | 設計済み |
@@ -52,7 +52,7 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | `member_status` | current response から `public_consent` / `rules_consent` を snapshot。`is_deleted=1` の identity は更新しない |
 | `response_fields` | known は `stable_key` 行、unknown は `stable_key='__extra__:<questionId>'` の extra row として保存する |
 | `schema_diff_queue` | unknown question を `status='queued'` で enqueue。`question_id` + queued の partial unique index で重複を no-op にする |
-| `schema_aliases` | issue-191 planned table。07b `POST /admin/schema/aliases` は `schema_questions.stable_key` を直接更新せず、この table に alias 行を INSERT する。03a は `schema_aliases` first、miss の場合のみ `schema_questions.stable_key` fallback |
+| `schema_aliases` | issue-191 implemented table。07b `POST /admin/schema/aliases` は `schema_questions.stable_key` を直接更新せず、この table に alias 行を INSERT する。03a は `schema_aliases` first、miss の場合のみ `schema_questions.stable_key` fallback。production D1 apply は別承認 operation |
 | `sync_jobs` | `job_type='response_sync'` の ledger。`metrics_json.cursor` には `submittedAt|responseId` の high-water mark を保存する |
 
 `sync_jobs.metrics_json.cursor` は Google API の `pageToken` ではない。`pageToken` は単一実行内のページングに限定し、次回 cron は high-water mark を `forms.responses.list` の timestamp filter に渡して再開する。

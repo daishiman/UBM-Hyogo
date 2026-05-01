@@ -96,6 +96,8 @@ mv docs/30-workflows/unassigned-task/task-{{task-name}}.md \
 | `docs/30-workflows/completed-tasks/<task>/` | standalone completed spec |
 | `docs/30-workflows/completed-tasks/unassigned-task/` | legacy standalone completed backlog（既存互換のみ） |
 
+Phase 12 tables must classify each item as `open`, `done`, `baseline`, or `duplicate`. `open` active work stays in `docs/30-workflows/unassigned-task/`; `done` follow-up closed by the current wave moves to the completed placement and must be reflected in task-workflow and unassigned-task-detection with the same status.
+
 > **⚠️ 配置先の注意（P3 再発防止 / TASK-9B-I 教訓）**
 >
 > active / future implementation の未タスク指示書は必ず `docs/30-workflows/unassigned-task/` に配置すること。

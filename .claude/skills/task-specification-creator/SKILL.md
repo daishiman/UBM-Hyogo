@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, Phase-12 verification, implementation spec-to-skill sync, skill feedback promotion, mirror sync/diff validation
 allowed-tools:
   - Read
   - Write
@@ -26,6 +26,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.01-issue-191-impl-spec-to-skill-sync | 2026-05-01 | issue-191 schema aliases implementation の Phase 12 feedback を反映。implementation spec-to-skill sync では implementation-guide / system-spec-update-summary / skill-feedback-report routing / changed skill reference or asset / mirror diff or N/A evidence が同一 contract を指すことを必須化し、canonical 7 成果物と validator 実測前 PASS 禁止をテンプレートへ固定。 |
 | v2026.04.30-ut06-prod-preflight-skill-feedback | 2026-04-30 | UT-06-FU-A production preflight skill-feedback-report 反映。`references/phase-12-documentation-guide.md` に Phase 12 canonical filename 7 ファイル strict 表（`system-spec-update.md` 等の別名を反例として明示）を追加し、`references/phase-11-non-visual-alternative-evidence.md` に Cloudflare Workers production preflight evidence template（`WorkerPreflightEvidence` 型 / 4 軸 / `bash scripts/cf.sh` 強制 / 7 evidence file 命名規則 / template 完了≠production 実測 PASS の境界）を追加。 |
 | v2026.04.30-ut06-prod-preflight-review | 2026-04-30 | UT-06-FU-A production preflight close-out review feedback。Phase 12 で `new unassigned task` と記載した候補は同一 wave で formalize path を作るか分類を変更する運用を追加。docs-only / NON_VISUAL infrastructure verification では Phase 11 completed が実測 production PASS ではない境界と evidence file 一覧を implementation-guide に明記する。 |
 | v2026.04.30-ut21-legacy-umbrella-closeout | 2026-04-30 | UT-21 Forms sync conflict close-out の Phase 12 feedback を反映。docs-only / NON_VISUAL / `spec_created` の legacy umbrella close-out では、旧仕様を削除せず状態欄で legacy 化し、現行正本・新設禁止 IF・後続 Uxx 分離先を `implementation-guide.md` / `system-spec-update-summary.md` / `unassigned-task-detection.md` に同時固定する運用例を追加。 |
@@ -83,7 +84,7 @@ node scripts/detect-mode.js --request "{{USER_REQUEST}}"
 
 ## Phase 12 重要仕様（要約）
 
-Phase 12 は次の 5 必須タスクに加え、Task 6 compliance check（`outputs/phase-12/phase12-task-spec-compliance-check.md`）を作成し、最低 7 ファイルを実体確認する:
+Phase 12 は次の 5 必須タスクに加え、Task 6 compliance check（`outputs/phase-12/phase12-task-spec-compliance-check.md`）を作成し、最低 7 ファイルを実体確認する。close-out では implementation-guide 品質、system spec sync、unassigned-task 配置、skill-feedback promotion、canonical `.claude` と mirror `.agents` の parity（mirror が存在する場合のみ）を検証する:
 
 1. 実装ガイド作成（Part 1 中学生レベル + Part 2 技術者レベル）
 2. システム仕様書更新（Step 1-A/B/C + 条件付き Step 2）
