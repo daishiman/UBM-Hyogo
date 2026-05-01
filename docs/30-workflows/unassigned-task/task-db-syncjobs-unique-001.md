@@ -23,7 +23,11 @@
 - migration、rollback、staging smoke、負荷時 race test を作成する
 - 09b runbook の SQL 例を実装後の正本に合わせて更新する
 
-## Scope
+## 苦戦箇所【記入必須】
+
+D1 / SQLite の partial unique index 可否と Workers runtime の同時実行挙動を混同しやすい。DB constraint を採用できるか、既存 `sync_locks` を正本にするかを実機 smoke で分け、09b runbook の SQL 例を実装後に同期する。
+
+## スコープ
 
 含む:
 - `apps/api/migrations/*.sql` の追加または代替 lock 方針
@@ -34,6 +38,21 @@
 - Forms API client の機能追加
 - Slack / Sentry 通知
 - legacy Sheets cron 撤回（UT21-U05）
+
+## リスクと対策
+
+| リスク | 対策 |
+| --- | --- |
+| D1 が想定 SQL を受け付けない | staging D1 migration dry-run / apply evidence を残す |
+| DB constraint と `sync_locks` が二重正本になる | どちらを最終防衛線にするかを implementation guide に明記する |
+| race test が local-only で false green になる | staging D1 で同時起動 smoke を実施する |
+
+## 検証方法
+
+- D1 migration dry-run / apply
+- scheduled + manual sync の race smoke
+- `sync_jobs` / `sync_locks` の状態確認 SQL
+- 09b runbook SQL と実 migration / repository contract の grep 照合
 
 ## 完了条件
 

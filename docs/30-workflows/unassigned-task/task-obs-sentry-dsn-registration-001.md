@@ -23,7 +23,11 @@
 - 実 DSN を docs / logs / PR body に残さない運用を `deployment-secrets-management.md` と整合させる
 - 09b `release-runbook.md` の placeholder を「実 secret 登録済み、値は非公開」に更新する
 
-## Scope
+## 苦戦箇所【記入必須】
+
+Sentry DSN は secret 値そのものを evidence に残せないため、登録済み証跡と値非公開の両立が難しい。`bash scripts/cf.sh secret list`、Sentry test event の event id、`rg` による漏洩確認を evidence とし、DSN 実値は 1Password 正本に限定する。
+
+## スコープ
 
 含む:
 - Cloudflare secret 登録 runbook
@@ -35,6 +39,20 @@
 - Sentry paid plan 契約
 - Slack / PagerDuty 連携
 - unrelated observability dashboard 改修
+
+## リスクと対策
+
+| リスク | 対策 |
+| --- | --- |
+| DSN 実値が docs / logs に混入する | `rg 'SENTRY_DSN=.*https://'` と secret list の値非表示 evidence を必須化する |
+| staging test event が production project に送られる | staging / production project と DSN を 1Password item 名で分離する |
+| Sentry plan / retention 判断が scope を膨らませる | 本タスクは DSN 登録と smoke のみ扱い、plan 変更は別承認にする |
+
+## 検証方法
+
+- `bash scripts/cf.sh secret list --config apps/api/wrangler.toml --env staging`
+- Sentry dashboard で test event id を確認
+- `rg -n "SENTRY_DSN=.*https://|sentry.io/[0-9]" .`
 
 ## 完了条件
 
