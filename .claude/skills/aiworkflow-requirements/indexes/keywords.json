@@ -3000,7 +3000,8 @@
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06a-public-web-2026-04.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
     ],
     "ステータスコード処理方針": [
       "architecture-admin-api-client.md"
@@ -6946,6 +6947,7 @@
     ],
     "追記": [
       "legacy-ordinal-family-register.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "skill-ledger-gitignore-policy.md"
     ],
     "Lessons": [
@@ -8488,6 +8490,7 @@
     ],
     "inventory": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -9357,6 +9360,10 @@
     "SECRET": [
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "design": [
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "task-workflow-completed-skill-lifecycle-design.md"
     ],
     "replacement": [
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
@@ -13181,9 +13188,6 @@
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-design.md",
       "task-workflow-completed-skill-lifecycle-security.md"
-    ],
-    "design": [
-      "task-workflow-completed-skill-lifecycle-design.md"
     ],
     "作成済みスキル利用導線": [
       "task-workflow-completed-skill-lifecycle-design.md",
