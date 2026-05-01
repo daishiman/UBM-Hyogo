@@ -19,6 +19,41 @@ describe("adminNotes (CRUD)", () => {
     expect(rows[0]!.body).toBe("初回コンタクト OK");
   });
 
+  it("AC-4 / AC-6: listByMemberId は対象 member だけを返し、未知 member は空配列", async () => {
+    const rows = await adminNotes.listByMemberId(env.ctx, asMemberId("m_001"));
+    expect(rows).toHaveLength(1);
+    expect(rows.every((row) => row.memberId === "m_001")).toBe(true);
+    expect(rows.map((row) => row.body)).not.toContain("要フォロー");
+
+    await expect(
+      adminNotes.listByMemberId(env.ctx, asMemberId("m_unknown")),
+    ).resolves.toEqual([]);
+  });
+
+  it("AC-5: listByMemberId は created_at DESC で返す", async () => {
+    await env.ctx.db
+      .prepare(
+        `INSERT INTO admin_member_notes
+         (note_id, member_id, body, created_by, updated_by, created_at, updated_at)
+         VALUES (?1, ?2, ?3, ?4, ?4, ?5, ?5),
+                (?6, ?2, ?7, ?4, ?4, ?8, ?8)`,
+      )
+      .bind(
+        "note_old",
+        "m_010",
+        "old note",
+        "owner@example.com",
+        "2026-04-01T00:00:00Z",
+        "note_new",
+        "new note",
+        "2026-04-03T00:00:00Z",
+      )
+      .run();
+
+    const rows = await adminNotes.listByMemberId(env.ctx, asMemberId("m_010"));
+    expect(rows.map((row) => row.noteId)).toEqual(["note_new", "note_old"]);
+  });
+
   it("create で note を追加", async () => {
     const created = await adminNotes.create(env.ctx, {
       memberId: asMemberId("m_010"),

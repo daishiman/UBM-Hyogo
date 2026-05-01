@@ -75,14 +75,14 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）
 
-> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現状 `apps/web/wrangler.toml` は **Pages 形式**（`pages_build_output_dir = ".next"`）で運用されている。本セクション以下の OpenNext Workers 形式（`main = ".open-next/worker.js"` + `[assets]`）は将来構成として記述しており、Pages → OpenNext Workers の cutover 判断と実施は派生 `UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION` で扱う。`web-cd.yml` の現行フローは Pages デプロイ（`wrangler-action`）であり、OpenNext 移行後に `wrangler deploy --env <env>` へ置換予定。
+> **current facts (UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION / 2026-05-01)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` はまだ **Pages deploy**（`pages deploy .next`）を呼ぶ。ADR-0001（`docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`）で Workers cutover を採択済み。残る `web-cd.yml` 置換、Cloudflare side Pages project → Workers script 切替、staging / production smoke は `task-impl-opennext-workers-migration-001` の責務とする。
 
 ### Pages 形式と OpenNext Workers 形式の判定（current state 列付き）
 
-| wrangler.toml の特徴 | 判定 | UT-06 での扱い | 現状（2026-04-29） |
+| wrangler.toml の特徴 | 判定 | UT-06 での扱い | 現状（2026-05-01） |
 | --- | --- | --- | --- |
-| `pages_build_output_dir = ".next"` | Pages 形式 | OpenNext Workers AC とは非整合。移行または AC 再定義が必要 | **`apps/web` はこの形式で稼働中** |
-| `main = ".open-next/worker.js"` + `[assets] directory = ".open-next/assets"` | OpenNext Workers 形式 | UT-06 AC-1 の前提を満たす | 未適用（cutover 派生タスクで扱う） |
+| `pages_build_output_dir = ".next"` | Pages 形式 | OpenNext Workers AC とは非整合。移行または AC 再定義が必要 | `apps/web/wrangler.toml` から撤回済み |
+| `main = ".open-next/worker.js"` + `[assets] directory = ".open-next/assets"` | OpenNext Workers 形式 | UT-06 AC-1 の前提を満たす | **`apps/web/wrangler.toml` の現行形式** |
 | `compatibility_flags = ["nodejs_compat"]` のみ | 不十分 | entrypoint と assets 設定を併せて確認 | n/a |
 
 ### セットアップ手順
@@ -206,13 +206,15 @@ name = "ubm-hyogo-api"
 
 `apps/api` は二種類の cron を持つ。
 
+> **UT-21 close-out note (2026-04-30)**: 下表の Sheets 由来 cron / `runSync` / Sheets API v4 説明は legacy current-fact の残存であり、現行正本は Forms sync（`forms.get` / `forms.responses.list`、`POST /admin/sync/schema` / `POST /admin/sync/responses`、`sync_jobs` ledger）である。runtime cron / wrangler 設定の撤回・整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱い、本 close-out では `apps/api/wrangler.toml` を変更しない。
+
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |
-| `0 */6 * * *` | Google Sheets 由来の既存同期 | `runSync` |
+| `0 * * * *` | Google Sheets 由来の legacy hourly sync（撤回は UT21-U05） | `runSync` |
 | `0 18 * * *` | 03a: Google Sheets schema sync（03:00 JST 想定） | `runSchemaSync` |
 | `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
 
-> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 */6 * * *", "0 18 * * *", "*/15 * * * *"]` と完全整合する。`0 18 * * *` 行は本タスクで追加された行（DRIFT-10 解消）。
+> **current facts (09b / 2026-05-01)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は legacy Sheets hourly cron の現行残存であり、撤回・runtime 設定整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱う。09b は docs-only / spec_created のため runtime 設定を変更しない。
 
 Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
 
@@ -446,9 +448,9 @@ CI/CD の secret / variable 配置と最小権限は [`deployment-secrets-manage
 
 ### デプロイフロー（web-cd.yml）
 
-`push` to `dev` / `main` → Validate Build → Deploy to Cloudflare Pages（wrangler-action）。
+`push` to `dev` / `main` → Validate Build → Deploy to Cloudflare Workers（wrangler-action）。
 
-> **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記は Pages 形式運用中の現行フロー。OpenNext Workers 形式へ cutover 後は `wrangler deploy --env <env>` に置換予定（派生 `UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION` 参照）。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
+> **current facts (ADR-0001 / 2026-05-01)**: `apps/web/wrangler.toml` は OpenNext Workers 形式だが、現行 `.github/workflows/web-cd.yml` は Pages deploy（`pages deploy .next`）が残る。ADR-0001 で Workers deploy への cutover を採択済みで、`web-cd.yml` の `wrangler deploy --env <env>` 置換、Cloudflare side 切替、staging / production smoke は `task-impl-opennext-workers-migration-001` の責務。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
 
 ---
 

@@ -4,6 +4,18 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-01 - UT-07A-02 contract path discovery feedback
+
+`docs/30-workflows/completed-tasks/ut-07a-02-search-tags-resolve-contract-followup/` の Phase 12 skill-feedback を反映した。生成・計画段階で `apps/api/test/contract/...` や `apps/web/src/lib/api/admin.ts` のような未実在パスを仮置きすると、実装時に route test / admin client / shared schema の追従対象がずれるため、Phase 2 で `rg --files` による current repo layout discovery を必須化した。API と web が `@ubm-hyogo/shared` を共有できる場合は request body union を shared schema SSOT にし、route / client で型を手書き複製しない。commit / PR / push は未実行。
+
+## 2026-04-30 - UT-21 legacy umbrella close-out Phase 12 feedback
+
+`docs/30-workflows/completed-tasks/ut21-forms-sync-conflict-closeout/` を docs-only / NON_VISUAL / `spec_created` としてレビューし、旧 UT-21 Sheets→D1 sync endpoint / audit logging 仕様を削除せず legacy 状態欄で現行 Forms sync 正本へ吸収する運用を確認した。Phase 12 では「新設禁止 IF が成果物そのもの」の場合でも `system-spec-update-summary.md` に Step 2 not required、`unassigned-task-detection.md` に U02/U04/U05 既起票、`skill-feedback-report.md` に両 skill 行を残す必要がある。commit / PR / push は未実行。
+
+## 2026-05-01 - 09a skill feedback promotion routing 反映
+
+`docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` の Phase 12 sync で、`skill-feedback-report.md` を報告書として残すだけでは次回再利用できないことを確認した。`references/phase12-skill-feedback-promotion.md` を新規追加し、各苦戦箇所に `promotion target / no-op reason / evidence path` を要求する routing matrix を固定。`references/phase-12-documentation-guide.md`、`references/spec-update-workflow.md`、`assets/phase12-task-spec-compliance-template.md`、`SKILL.md` に同ルールを接続した。commit / PR / push は未実行。
+
 ## 2026-04-29 - Phase 12 一括 SubAgent 実行プロファイル反映
 
 `docs/30-workflows/ut-04-d1-schema-design/` の Phase 12 close-out 監査で、Phase 12 成果物検証、system spec sync、unassigned 整理、skill feedback が複数 skill に分散しており、SubAgent 出力だけでは記録と実変更の drift が残りやすいことを確認した。`references/phase-12-documentation-guide.md` に一括 SubAgent 実行プロファイルを追加し、監査は並列、編集は ownership 固定で直列、Step 2 判定 owner は system spec lane に固定、未タスク表は `open / done / baseline / duplicate` を明示、最終判定は validator 実測値・artifact existence・mirror diff・500 行制限で閉じる運用を正本化した。`SKILL.md` 変更履歴にも v2026.04.29-phase12-subagent-profile を追加。commit / PR / push は未実行。
@@ -2549,3 +2561,18 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - 派生 IMPL タスクは `UT-CICD-DRIFT-IMPL-*` として `unassigned-task/` に formalize。本タスクは `implemented` を経由せず、派生タスク群が将来 close されることで topology が完成する。
 - Phase 12 spec の compliance check で `git status` の `apps/` / `packages/` 0 件・`workflow_state == "spec_created"` の両条件を必須項目として運用。
 - 改善示唆: `references/phase-12-spec.md` に「docs-only タスクの close-out では `workflow_state` を `spec_created` のまま据え置く」セクションを追記する候補。`skill-feedback-report.md` に register。
+## 2026-05-01 - UT-CICD-DRIFT-IMPL Pages vs Workers decision Phase 12 review sync
+
+- 対象: `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/`
+- docs-only / NON_VISUAL / `spec_created` の Phase 12 再監査で、ADR 未作成、正本仕様 stale current facts、C-2 未タスク候補残り、Phase 11 evidence 名寄せ漏れを検出して是正。
+- Phase 11 は `main.md` / `manual-smoke-log.md` / `link-checklist.md` を canonical evidence とし、追加補助 `manual-test-result.md` / `ui-sanity-visual-review.md` は artifacts から外した。
+- Phase 12 では formalized ADR-0001、system spec sync、既存 migration task への C-1/C-2 吸収、実測 validator 結果記録を必須化。
+- 大幅な skill template 構造変更は別承認対象として、今回の `skill-feedback-report.md` は観察記録に留めた。
+
+## 2026-05-01 - UT-CICD-DRIFT-IMPL observability matrix sync Phase 12 compliance
+
+- 対象: `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/`
+- docs-only / NON_VISUAL として `taskType=docs-only` / `visualEvidence=NON_VISUAL` に正規化。
+- Phase 11 canonical 3 ファイル（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）と Phase 12 canonical 7 ファイルを配置。
+- root / outputs `artifacts.json` parity を維持。
+- `node .claude/skills/task-specification-creator/scripts/generate-index.js --workflow ... --regenerate` は `phase-01.md` 命名を検出できず弱い index を生成したため、手動で canonical index を復旧。スクリプト側の `phase-01.md` 対応は将来改善候補。

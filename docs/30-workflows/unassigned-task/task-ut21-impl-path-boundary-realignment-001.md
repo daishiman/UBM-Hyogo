@@ -29,6 +29,7 @@ UT-21 仕様および UT-09 由来の旧仕様が想定する `apps/api/src/sync
 
 - 「想定パス → 実パス」マッピング表を作成
 - 03a / 03b / 04c / 09b の index.md 内 path 参照を確認し、ずれている箇所を列挙
+- `apps/api/wrangler.toml` と Cloudflare deployment specs に残る Sheets sync cron / `runSync` / Sheets API v4 current-fact 表現を棚卸しし、撤回・維持・Forms sync 置換の方針を決める
 - ずれの修正方針（仕様側を実構成に合わせる）を決定
 - 修正適用先の指示を closeout-001 へ反映
 
@@ -36,6 +37,7 @@ UT-21 仕様および UT-09 由来の旧仕様が想定する `apps/api/src/sync
 
 - 実ファイルの移動・リネーム（実装側を仕様に合わせる方向の変更は不可）
 - 新規実装の追加
+- 本タスク設計前の `wrangler.toml` 直接変更（runtime cron の実撤回は別 Phase / user 承認ゲートで扱う）
 - commit / PR 作成
 
 ---
@@ -61,6 +63,7 @@ UT-21 仕様および UT-09 由来の旧仕様が想定する `apps/api/src/sync
 | `apps/api/src/sync/types.ts` `SheetRow` | Forms response DTO + `sync_jobs.metrics_json` 契約 | DTO |
 | `apps/api/src/sync/sheets-client.ts`（Sheets API JWT） | Forms API client（schema sync 側）+ `apps/api/src/sync/schema/*` | Google API client |
 | `apps/api/src/sync/mapper.ts`（COL 定数） | Forms response → D1 row mapper（03b 側） | mapping |
+| `apps/api/wrangler.toml` Sheets sync cron (`0 */6 * * *`) | Forms sync cron / schema sync cron のみを正本候補として再判定 | runtime trigger |
 
 ---
 

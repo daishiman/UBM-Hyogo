@@ -76,7 +76,7 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 | `AUTH_GOOGLE_SECRET` | ✅ | - | ✅ (正本) |
 | `RESEND_API_KEY` | ✅ | - | ✅ (正本) |
 | `CLOUDFLARE_API_TOKEN` | - | ✅ | ✅ (正本) |
-| `CLOUDFLARE_ACCOUNT_ID` | - | ✅ | ✅ (正本) |
+| `CLOUDFLARE_ACCOUNT_ID` | - | GitHub Variables | ✅ (正本) |
 
 ---
 
@@ -253,12 +253,27 @@ CREATE TABLE IF NOT EXISTS tag_assignment_queue (
   status TEXT NOT NULL DEFAULT 'queued',
   suggested_tags_json TEXT NOT NULL DEFAULT '[]',
   reason TEXT,
+  idempotency_key TEXT,
+  attempt_count INTEGER NOT NULL DEFAULT 0,
+  last_error TEXT,
+  next_visible_at TEXT,
+  dlq_at TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_tag_queue_idempotency
+  ON tag_assignment_queue(idempotency_key)
+  WHERE idempotency_key IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_tag_queue_visible
+  ON tag_assignment_queue(status, next_visible_at);
+
+CREATE INDEX IF NOT EXISTS idx_tag_queue_dlq
+  ON tag_assignment_queue(status, dlq_at);
 ```
 
-`status` は 07a 時点で `queued | reviewing | resolved | rejected` を扱う。仕様語では `queued` が `candidate`、`resolved` が `confirmed` に対応する。`member_tags` への確定書き込みは `POST /admin/tags/queue/:queueId/resolve` の guarded update 成功後だけ行う。
+`status` は `queued | reviewing | resolved | rejected | dlq` を扱う。仕様語では `queued` が `candidate`、`resolved` が `confirmed`、`dlq` が retry 上限超過の保留棚に対応する。`idempotency_key` は現行 candidate row では `<memberId>:<responseId>` で生成する。tagCode は admin 確定時に初めて決まるため key に含めない。`member_tags` への確定書き込みは `POST /admin/tags/queue/:queueId/resolve` の guarded update 成功後だけ行う。
 
 ---
 

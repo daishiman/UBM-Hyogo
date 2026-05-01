@@ -108,7 +108,7 @@
 | 必須 | docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/index.md | schema sync 正本 |
 | 必須 | docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/index.md | response sync 正本 |
 | 必須 | .claude/skills/aiworkflow-requirements/references/api-endpoints.md | admin sync endpoint 正本 |
-| 必須 | docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md | cron / runbook 正本 |
+| 必須 | docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md | cron / runbook 正本 |
 | 必須 | CLAUDE.md | 不変条件 #1 / #5 / #6 / #7 |
 | 必須 | docs/00-getting-started-manual/specs/00-overview.md | 公開 / 会員 / 管理 3 層構成と本タスクの位置（Why の根拠） |
 | 必須 | docs/00-getting-started-manual/specs/03-data-fetching.md | sync_jobs / cursor pagination / current response / consent snapshot 契約（真の論点の根拠） |

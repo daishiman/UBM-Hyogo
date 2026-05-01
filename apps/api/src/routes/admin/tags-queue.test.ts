@@ -71,12 +71,37 @@ describe("admin tags queue", () => {
     expect(body.total).toBeGreaterThanOrEqual(1);
   });
 
+  it("GET /tags/queue?status=dlq: DLQ 行を返す", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO tag_assignment_queue (queue_id, member_id, response_id, status, suggested_tags_json, dlq_at) VALUES ('q_dlq','m1','r-dlq','dlq','[]','2026-01-01T00:00:00.000Z')",
+      )
+      .run();
+    const app = createAdminTagsQueueRoute();
+    const res = await app.request(
+      "/tags/queue?status=dlq",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { total: number; items: Array<{ queueId: string; status: string }> };
+    expect(body.total).toBe(1);
+    expect(body.items[0]).toMatchObject({ queueId: "q_dlq", status: "dlq" });
+  });
+
   it("AC-1: confirmed → member_tags 反映 + queue.status='resolved'", async () => {
     const res = await postResolve(env, { action: "confirmed", tagCodes: ["tag-1"] });
     expect(res.status).toBe(200);
-    const body = (await res.json()) as { result: { status: string; tagCodes: string[] } };
+    const body = (await res.json()) as {
+      ok: boolean;
+      result: { status: string; tagCodes: string[]; idempotent: boolean; memberId: string; resolvedAt: string };
+    };
+    expect(body.ok).toBe(true);
     expect(body.result.status).toBe("resolved");
     expect(body.result.tagCodes).toEqual(["tag-1"]);
+    expect(body.result.idempotent).toBe(false);
+    expect(body.result.memberId).toBe("m1");
+    expect(Date.parse(body.result.resolvedAt)).not.toBeNaN();
 
     const tag = await env.db
       .prepare("SELECT tag_id FROM member_tags WHERE member_id = 'm1' AND tag_id = 'tag_1'")
@@ -87,6 +112,10 @@ describe("admin tags queue", () => {
   it("AC-2: rejected → reason 記録", async () => {
     const res = await postResolve(env, { action: "rejected", reason: "duplicate" });
     expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toMatchObject({
+      ok: true,
+      result: { status: "rejected", reason: "duplicate", idempotent: false, memberId: "m1" },
+    });
     const row = await env.db
       .prepare("SELECT status, reason FROM tag_assignment_queue WHERE queue_id = 'q1'")
       .first<{ status: string; reason: string }>();
@@ -97,6 +126,34 @@ describe("admin tags queue", () => {
   it("AC-2: 空 reason は zod で 400", async () => {
     const res = await postResolve(env, { action: "rejected", reason: "" });
     expect(res.status).toBe(400);
+    await expect(res.json()).resolves.toMatchObject({
+      ok: false,
+      error: "validation_error",
+    });
+  });
+
+  it("AC-2: confirmed/rejected mixed body は zod で 400", async () => {
+    const confirmed = await postResolve(env, {
+      action: "confirmed",
+      tagCodes: ["tag-1"],
+      reason: "duplicate",
+    });
+    expect(confirmed.status).toBe(400);
+    await expect(confirmed.json()).resolves.toMatchObject({
+      ok: false,
+      error: "validation_error",
+    });
+
+    const rejected = await postResolve(env, {
+      action: "rejected",
+      reason: "duplicate",
+      tagCodes: ["tag-1"],
+    });
+    expect(rejected.status).toBe(400);
+    await expect(rejected.json()).resolves.toMatchObject({
+      ok: false,
+      error: "validation_error",
+    });
   });
 
   it("AC-3: 同じ confirmed action は idempotent (200, audit 件数不変)", async () => {
@@ -106,6 +163,27 @@ describe("admin tags queue", () => {
       .first<{ n: number }>();
     const res = await postResolve(env, { action: "confirmed", tagCodes: ["tag-1"] });
     expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toMatchObject({
+      ok: true,
+      result: { idempotent: true, status: "resolved" },
+    });
+    const after = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM audit_log WHERE target_id = 'q1'")
+      .first<{ n: number }>();
+    expect(after?.n).toBe(before?.n);
+  });
+
+  it("AC-3: 同じ rejected action は idempotent (200, audit 件数不変)", async () => {
+    await postResolve(env, { action: "rejected", reason: "duplicate" });
+    const before = await env.db
+      .prepare("SELECT COUNT(*) AS n FROM audit_log WHERE target_id = 'q1'")
+      .first<{ n: number }>();
+    const res = await postResolve(env, { action: "rejected", reason: "duplicate" });
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toMatchObject({
+      ok: true,
+      result: { idempotent: true, status: "rejected", reason: "duplicate" },
+    });
     const after = await env.db
       .prepare("SELECT COUNT(*) AS n FROM audit_log WHERE target_id = 'q1'")
       .first<{ n: number }>();
@@ -116,6 +194,10 @@ describe("admin tags queue", () => {
     await postResolve(env, { action: "confirmed", tagCodes: ["tag-1"] });
     const res = await postResolve(env, { action: "rejected", reason: "x" });
     expect(res.status).toBe(409);
+    await expect(res.json()).resolves.toMatchObject({
+      ok: false,
+      error: "state_conflict",
+    });
   });
 
   it("AC-5: resolve 成功で audit_log に 1 件追加", async () => {
@@ -131,6 +213,10 @@ describe("admin tags queue", () => {
   it("AC-6: 未知 tagCode は 422", async () => {
     const res = await postResolve(env, { action: "confirmed", tagCodes: ["unknown-code"] });
     expect(res.status).toBe(422);
+    await expect(res.json()).resolves.toMatchObject({
+      ok: false,
+      error: "unknown_tag_code",
+    });
   });
 
   it("AC-7: 削除済み member は 422", async () => {

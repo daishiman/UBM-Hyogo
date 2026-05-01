@@ -3,9 +3,9 @@
 > 親仕様書: [deployment.md](deployment.md)
 > 役割: detail specification
 
-## UBM-Hyogo API Worker Cron（03a）
+## UBM-Hyogo API Worker Cron（03a / 03b / 09b）
 
-`apps/api/wrangler.toml` は `0 */6 * * *` UTC を既存 Sheets sync、`0 18 * * *` UTC（03:00 JST）を Google Forms schema sync に使う。`scheduled()` は後者だけ `runSchemaSync` へ分岐し、`schema_sync` が running なら次回実行に任せる。
+09b current facts（2026-05-01）として、`apps/api/wrangler.toml` の cron は `0 * * * *`（legacy Sheets hourly sync）、`0 18 * * *`（03a schema sync / 03:00 JST）、`*/15 * * * *`（03b Forms response sync）の 3 件である。legacy hourly cron の撤回と runtime 設定整理は UT21-U05（`docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`）に委譲し、09b は docs-only / spec_created のため runtime 設定を変更しない。
 
 ## モニタリングとアラート
 
@@ -123,14 +123,14 @@
 
 ---
 
-## GitHub Secrets の要件
+## GitHub Secrets / Variables の要件
 
-| Secret名              | 用途                          | 必須 |
-| --------------------- | ----------------------------- | ---- |
-| `CLOUDFLARE_API_TOKEN` | Cloudflareデプロイ認証       | Yes  |
-| `CLOUDFLARE_ACCOUNT_ID` | CloudflareアカウントID      | Yes  |
-| `CLOUDFLARE_WORKERS_DOMAIN` | バックエンドヘルスチェックURL | Yes  |
-| `DISCORD_WEBHOOK_URL` | Discord通知用WebhookURL       | No   |
+| 名前 | 種別 | 用途 | 必須 |
+| --- | --- | --- | --- |
+| `CLOUDFLARE_API_TOKEN` | Secret | Cloudflareデプロイ認証 | Yes |
+| `CLOUDFLARE_ACCOUNT_ID` | Repository Variable | Cloudflare account 識別。workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照 | Yes |
+| `CLOUDFLARE_WORKERS_DOMAIN` | Variable | バックエンドヘルスチェックURL | Yes |
+| `DISCORD_WEBHOOK_URL` | Secret | Discord通知用WebhookURL | No |
 
 ### セキュリティ要件
 

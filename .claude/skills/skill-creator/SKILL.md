@@ -31,6 +31,12 @@ allowed-tools:
 
 スキルを作成・更新・プロンプト改善するためのメタスキル。
 
+## 変更履歴
+
+| Version | Date | Changes |
+| --- | --- | --- |
+| v2026.05.01-phase12-skill-feedback-sync | 2026-05-01 | Phase 12 `skill-feedback-report.md` の改善提案を既存 skill reference へ最小反映する運用を追加。ADR / topology drift task では重複候補検索、base case 別差分マトリクス、doc-only grep、NON_VISUAL evidence を優先して反映する。 |
+
 > Anchors の詳細（全 7 件）は [references/anchors.md](references/anchors.md) を参照（description には主要 3 件のみ記載）。
 
 ## 必須：最初の実行ステップ
@@ -55,6 +61,7 @@ allowed-tools:
 | Clean Architecture      | 層分離と依存関係ルールで変更に強い構造     |
 | Script First            | 決定論的処理はスクリプトで実行（100%精度） |
 | Progressive Disclosure  | 必要な時に必要なリソースのみ読み込み       |
+| `.claude` Canonical     | Skill updates target `.claude/skills/...`; `.agents/skills/...` is mirror/runtime compatibility and must be diff-validated when present |
 
 ## クイックスタート
 
@@ -139,6 +146,7 @@ Runtime ワークフロー（IPC 駆動: plan → review → execute → verify 
 | オーケストレーション | references/orchestration-guide.md |
 | 実行モード選択 | references/execution-mode-guide.md |
 | ドキュメント生成 | references/api-docs-standards.md |
+| Phase 12 spec-to-skill sync | references/update-process.md, assets/phase12-task-spec-recheck-template.md, assets/phase12-system-spec-retrospective-template.md |
 | Phase 12 再監査 | references/update-process.md, references/output-patterns.md, references/patterns-success-*.md, references/patterns-failure-*.md, references/patterns-pitfall-*.md |
 | 自己改善サイクル | references/self-improvement-cycle.md |
 | ライブラリ管理 | references/library-management.md |

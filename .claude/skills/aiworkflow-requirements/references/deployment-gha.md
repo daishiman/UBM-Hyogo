@@ -175,7 +175,7 @@
 
 ### 実行内容
 
-1. ブランチに応じて Cloudflare Pages へ自動デプロイ（`cloudflare/wrangler-action@v3`）
+1. ブランチに応じて Cloudflare Workers へ自動デプロイ（`cloudflare/wrangler-action@v3` + `wrangler deploy --env <env>`）。2026-05-01 時点の `.github/workflows/web-cd.yml` は Pages deploy 残で、ADR-0001 / `task-impl-opennext-workers-migration-001` で置換する
 2. デプロイ完了後、Discord Webhook で通知を送信
 
 ### 通知要件
@@ -189,6 +189,8 @@
 | 失敗時 | 赤色の Embed でエラー内容を通知 |
 
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 Discord Webhook 通知ステップは現行 `.github/workflows/web-cd.yml` には未実装。UT-08-IMPL（観測性実装、Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
+
+> **deploy target current facts (ADR-0001 / 2026-05-01)**: `apps/web/wrangler.toml` は OpenNext Workers 形式、`.github/workflows/web-cd.yml` は Pages deploy 残。Workers deploy への切替は `task-impl-opennext-workers-migration-001` の責務。
 
 ---
 
@@ -253,13 +255,13 @@
 | Secret 名 | 用途 | 必須 |
 | --------- | ---- | ---- |
 | `CLOUDFLARE_API_TOKEN` | Cloudflare API トークン | Yes |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare アカウント ID | Yes |
 | `DISCORD_WEBHOOK_URL` | Discord 通知用 Webhook URL | No |
 
 ### Variables（非シークレット）
 
 | Variable 名 | 用途 | 必須 |
 | ----------- | ---- | ---- |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account 識別子。資格情報ではないため Repository Variable として管理し、workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照する | Yes |
 | `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。UT-28 正本値は `ubm-hyogo-web`。staging は workflow 側で `-staging` suffix を連結して `ubm-hyogo-web-staging` とする | Yes |
 
 `CLOUDFLARE_PAGES_PROJECT` に `ubm-hyogo-web-staging` を直接入れてはいけない。dev deploy は `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging` を使うため、staging 名を入れると `ubm-hyogo-web-staging-staging` になる。
@@ -279,7 +281,7 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 | 名前 | 種別 | 配置 | 理由 |
 | --- | --- | --- | --- |
 | `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | 環境別 token ローテーションと権限分離を優先 |
-| `CLOUDFLARE_ACCOUNT_ID` | Secret | repository-scoped | 同一 account 前提で重複管理を避ける |
+| `CLOUDFLARE_ACCOUNT_ID` | Variable | repository-scoped | Account ID は資格情報ではなく識別子。既存 GitHub 実設定に合わせ、`vars.` 参照で空展開を防ぐ |
 | `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | 非機密値で、suffix 連結結果をログで追えるよう Secret 化しない |
 
