@@ -3431,8 +3431,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L68 |
-| 関連ドキュメント | L73 |
+| 利用順序 | L69 |
+| 関連ドキュメント | L74 |
 
 ### references/llm-embedding.md
 
