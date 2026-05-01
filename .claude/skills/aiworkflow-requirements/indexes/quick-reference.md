@@ -143,10 +143,12 @@ Google Sheets を入力源、Cloudflare D1 を canonical store として扱う�
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root / AC / state ownership | `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/index.md` |
-| 同期方式比較（Cron pull 採択） | `outputs/phase-02/sync-method-comparison.md` |
-| 手動 / 定期 / バックフィル 3 フロー | `outputs/phase-02/sync-flow-diagrams.md` |
-| `sync_log` 論理設計 + 既存 `sync_job_logs` / `sync_locks` 対応表 | `outputs/phase-02/sync-log-schema.md` §9 |
-| Phase 12 未タスク | `outputs/phase-12/unassigned-task-detection.md`（U-1〜U-10） |
+| 同期方式比較（Cron pull 採択） | `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/outputs/phase-02/sync-method-comparison.md` |
+| 手動 / 定期 / バックフィル 3 フロー | `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/outputs/phase-02/sync-flow-diagrams.md` |
+| `sync_log` 論理設計 + 既存 `sync_job_logs` / `sync_locks` 対応表 | `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/outputs/phase-02/sync-log-schema.md` §9 |
+| U-UT01-07 sync log naming reconciliation | `docs/30-workflows/u-ut01-07-sync-log-naming-reconciliation/`（spec_created / docs-only / NON_VISUAL）。物理 `sync_job_logs` / `sync_locks` を canonical、`sync_log` は概念名として扱う |
+| U-UT01-07 Phase 2 正本4ファイル | `docs/30-workflows/u-ut01-07-sync-log-naming-reconciliation/outputs/phase-02/naming-canonical.md`, `docs/30-workflows/u-ut01-07-sync-log-naming-reconciliation/outputs/phase-02/column-mapping-matrix.md`, `docs/30-workflows/u-ut01-07-sync-log-naming-reconciliation/outputs/phase-02/backward-compatibility-strategy.md`, `docs/30-workflows/u-ut01-07-sync-log-naming-reconciliation/outputs/phase-02/handoff-to-ut04-ut09.md` |
+| Phase 12 未タスク | `docs/30-workflows/u-ut01-07-sync-log-naming-reconciliation/outputs/phase-12/unassigned-task-detection.md` |
 | 既存実装差分 | `apps/api/src/jobs/sync-sheets-to-d1.ts`, `apps/api/migrations/0002_sync_logs_locks.sql` |
 | 完了記録 | `references/task-workflow-completed-recent-2026-04d.md` |
 
@@ -218,6 +220,18 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | 苦戦箇所（per-sync write 200 cap / partial UNIQUE で重複 enqueue 抑止 / submittedAt 同値時 responseId 降順 tie-break / `metrics_json.cursor` ≠ `pageToken`） | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/outputs/phase-12/implementation-guide.md` Part 2 |
 | follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / `member_responses.response_email` UNIQUE DDL 明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/unassigned-task/03b-response-sync-followups.md` |
 | 全 phase 設計と AC-1〜AC-10 検証 | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` |
+
+### Cron Monitoring / Release Runbook（09b / 2026-05-01）
+
+09b は docs-only / spec_created / NON_VISUAL の運用 runbook 仕様。runtime 設定変更は行わず、`apps/api/wrangler.toml` の current facts を監視・リリース手順に固定する。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| 09b workflow root / AC / Phase 一覧 | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md` |
+| cron current facts と legacy Sheets hourly cron の扱い | `references/deployment-cloudflare.md`（§API Worker cron / Forms response sync 03b）, `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-02.md` |
+| NON_VISUAL Phase 11 evidence | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-11.md` |
+| Phase 12 runbook / same-wave sync / compliance | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-12.md` |
+| Phase 13 approval gate / 4 required outputs | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-13.md` |
 
 ---
 

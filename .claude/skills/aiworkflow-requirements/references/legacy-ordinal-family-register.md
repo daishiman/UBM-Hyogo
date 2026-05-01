@@ -318,6 +318,7 @@ Family status: `reclassify-first`
 | task | 旧 root | 新 root | 補正日 | 関連ブランチ / 状態 |
 | --- | --- | --- | --- | --- |
 | 08a-parallel-api-contract-repository-and-authorization-tests | `docs/30-workflows/02-application-implementation/08a-parallel-api-contract-repository-and-authorization-tests/` | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` | 2026-04-30 | task-20260430-161419-wt-6 / partial close（AC-6 coverage 0.82pt 未達 → UT-08A-01〜06 で formalize） |
+| 09b-parallel-cron-triggers-monitoring-and-release-runbook | `docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | 2026-05-01 | task-20260501-054121-wt-3 / docs-only spec_created runbook（Phase 11 NON_VISUAL、Phase 12 same-wave sync、Phase 13 approval gate） |
 
 ### 旧 citation 引き直し方針
 
