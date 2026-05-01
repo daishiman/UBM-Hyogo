@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "taskType": "implementation",
+    "docsOnly": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "scope": "tag_assignment_queue 管理 Repository / Workflow（CRUD・状態遷移・idempotency・retry/DLQ）。02a memberTags.ts の read-only 制約を維持し、不変条件 #5 / #13 を遵守する。実装は 07a の前提条件として独立直列実行。"
+  },
+  "task": {
+    "id": "task-imp-02a-tag-assignment-queue-management-001",
+    "name": "ut-02a-tag-assignment-queue-management",
+    "status": "implemented-local",
+    "metadata": {
+      "taskType": "implementation",
+      "docsOnly": false,
+      "visualEvidence": "NON_VISUAL",
+      "wave": "2-plus",
+      "executionType": "serial",
+      "githubIssue": 109,
+      "githubIssueState": "CLOSED",
+      "source": "02a Phase 12 unassigned-task-detection #3",
+      "upstream": [
+        "02a-parallel-member-identity-status-and-response-repository (memberTags.ts read-only)",
+        "02b-parallel-meeting-tag-queue-and-schema-diff-repository (tag_assignment_queue schema)",
+        "03a-forms-schema-sync-and-stablekey-alias-queue (candidate 投入元)"
+      ],
+      "downstream": [
+        "07a-parallel-tag-assignment-queue-resolve-workflow (queue を消費)"
+      ],
+      "invariants": ["#5", "#13"]
+    }
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "spec": "phase-01.md", "outputs": ["outputs/phase-01/main.md"] },
+    { "phase": 2, "status": "completed", "spec": "phase-02.md", "outputs": ["outputs/phase-02/main.md", "outputs/phase-02/state-machine.md", "outputs/phase-02/spec-extraction-map.md", "outputs/phase-02/migration-grep-table.md"] },
+    { "phase": 3, "status": "completed", "spec": "phase-03.md", "outputs": ["outputs/phase-03/main.md"] },
+    { "phase": 4, "status": "completed", "spec": "phase-04.md", "outputs": ["outputs/phase-04/main.md", "outputs/phase-04/test-strategy.md"] },
+    { "phase": 5, "status": "completed", "spec": "phase-05.md", "outputs": ["outputs/phase-05/main.md", "outputs/phase-05/implementation-runbook.md"] },
+    { "phase": 6, "status": "completed", "spec": "phase-06.md", "outputs": ["outputs/phase-06/main.md", "outputs/phase-06/failure-cases.md"] },
+    { "phase": 7, "status": "completed", "spec": "phase-07.md", "outputs": ["outputs/phase-07/main.md", "outputs/phase-07/ac-matrix.md"] },
+    { "phase": 8, "status": "completed", "spec": "phase-08.md", "outputs": ["outputs/phase-08/main.md", "outputs/phase-08/refactor-targets.md"] },
+    { "phase": 9, "status": "completed", "spec": "phase-09.md", "outputs": ["outputs/phase-09/main.md", "outputs/phase-09/quality-report.md"] },
+    { "phase": 10, "status": "completed", "spec": "phase-10.md", "outputs": ["outputs/phase-10/main.md", "outputs/phase-10/go-no-go.md"] },
+    { "phase": 11, "status": "completed", "spec": "phase-11.md", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/non-visual-evidence.md", "outputs/phase-11/manual-verification-log.md"] },
+    { "phase": 12, "status": "completed", "spec": "phase-12.md", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "status": "pending_user_approval", "spec": "phase-13.md", "outputs": ["outputs/phase-13/main.md", "outputs/phase-13/local-check-result.md", "outputs/phase-13/change-summary.md", "outputs/phase-13/pr-info.md", "outputs/phase-13/pr-creation-result.md"] }
+  ]
+}

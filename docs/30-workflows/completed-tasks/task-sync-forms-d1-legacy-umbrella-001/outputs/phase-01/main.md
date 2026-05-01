@@ -82,7 +82,7 @@
 - `docs/30-workflows/unassigned-task/task-sync-forms-d1-legacy-umbrella-001.md` §1〜§9
 - `docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/index.md`
 - `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/index.md`
-- `docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md`
+- `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md`
 - `.claude/skills/aiworkflow-requirements/references/api-endpoints.md`
 - `docs/00-getting-started-manual/specs/00-overview.md` / `01-api-schema.md` / `03-data-fetching.md` / `08-free-database.md` / `13-mvp-auth.md`
 - `CLAUDE.md` 不変条件 #1 / #5 / #6 / #7
