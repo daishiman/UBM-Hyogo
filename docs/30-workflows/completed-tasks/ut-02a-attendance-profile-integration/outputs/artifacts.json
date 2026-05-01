@@ -1,0 +1,227 @@
+{
+  "task_name": "ut-02a-attendance-profile-integration",
+  "task_id": "task-imp-02a-attendance-profile-integration-001",
+  "task_path": "docs/30-workflows/ut-02a-attendance-profile-integration",
+  "issue": 107,
+  "issue_state": "CLOSED",
+  "parent_task": "02a-parallel-member-identity-status-and-response-repository",
+  "wave": 2,
+  "execution_mode": "sequential",
+  "depends_on": [
+    "02a-parallel-member-identity-status-and-response-repository",
+    "02b-parallel-meeting-tag-queue-and-schema-diff-repository"
+  ],
+  "external_gates": [
+    {
+      "task": "d1-schema-availability",
+      "scope": "meeting_sessions / member_attendance テーブル定義の利用可能性",
+      "completion_rule": "schema 利用不可なら Phase 1 で 02b へ schema diff 起票後着手"
+    }
+  ],
+  "blocks": [],
+  "created_at": "2026-05-01",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented",
+    "gate_status": "phase_12_completed_phase_13_pending_user_approval",
+    "scope": "attendance_repository_and_builder_integration",
+    "domain": "member_profile_attendance_history",
+    "priority": "medium",
+    "discovery_source": "02a Phase 12 unassigned-task-detection",
+    "phase_11_evidence": "NON_VISUAL evidence captured in outputs/phase-11/evidence/"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/repository-contract.md",
+        "outputs/phase-02/branded-type-module.md",
+        "outputs/phase-02/builder-injection-design.md",
+        "outputs/phase-02/schema-ownership.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md",
+        "outputs/phase-03/alternatives-comparison.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md",
+        "outputs/phase-04/test-matrix.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md",
+        "outputs/phase-05/runbook.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md",
+        "outputs/phase-06/failure-cases.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "ACマトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md",
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY化",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md",
+        "outputs/phase-09/n-plus-1-metric.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "実装smoke",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/evidence/api-curl/me-profile-attendance.json",
+        "outputs/phase-11/evidence/api-curl/me-profile-attendance.curl.txt",
+        "outputs/phase-11/evidence/ui-smoke/mypage-attendance-rendered.md",
+        "outputs/phase-11/evidence/ui-smoke/admin-detail-attendance-rendered.md"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR作成",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-template.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ]
+}

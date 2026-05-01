@@ -80,7 +80,7 @@
 | SubAgent-P2 | `references/task-workflow.md` / `references/ui-ux-feature-components.md` / `references/interfaces-*.md` | completed root、representative evidence path、5分解決カードを同期 | task / feature / interface の root drift がゼロ |
 | SubAgent-P3 | `references/workflow-<feature>.md` / `references/lessons-learned.md` | docs-only parent workflow の統合正本、苦戦箇所、標準ルールを同期 | 実装内容 + 苦戦箇所 + 再利用手順が記録済み |
 | SubAgent-P4 | `scripts/validate-<parent-sweep>.mjs` / `diff -qr .claude/skills/<skill> .agents/skills/<skill>` | path / status / mirror drift guard を検証 | `path=0 / status=0 / mirror=0` かつ mirror 差分なし |
-| SubAgent-P5 | `outputs/phase-11/*` / `outputs/phase-12/spec-update-summary.md` / `skill-creator` templates | representative visual re-audit board、SubAgent 実行ログ、再利用テンプレート化 | evidence board と template update が同一ターン記録済み |
+| SubAgent-P5 | `outputs/phase-11/*` / `outputs/phase-12/system-spec-update-summary.md` / `skill-creator` templates | representative visual re-audit board、SubAgent 実行ログ、再利用テンプレート化 | evidence board と template update が同一ターン記録済み |
 
 ### 2.2 再確認（2workflow同時監査）プロファイル
 
@@ -98,7 +98,7 @@
 | --- | --- | --- | --- |
 | SubAgent-S2-A | `phase-12-documentation.md` | Step 2 更新対象（`arch/api/interfaces/security`）の要否判定を確定 | 更新対象に応じて Step 2 を `完了` / `該当なし` で説明可能 |
 | SubAgent-S2-B | `outputs/phase-12/documentation-changelog.md` | Step 判定（1-A〜2）と理由を同期 | Step 2 判定が実装実体と一致 |
-| SubAgent-S2-C | `outputs/phase-12/spec-update-summary.md` | Step 2 更新仕様書の一覧化と反映内容同期 | changelog の Step 2 判定と更新対象一覧が一致 |
+| SubAgent-S2-C | `outputs/phase-12/system-spec-update-summary.md` | Step 2 更新仕様書の一覧化と反映内容同期 | changelog の Step 2 判定と更新対象一覧が一致 |
 
 ### 2.4 仕様書別SubAgent実行ログ（必須）
 
@@ -127,7 +127,7 @@
 
 | SubAgent | 担当範囲 | 主担当作業 | 完了条件 |
 | --- | --- | --- | --- |
-| SubAgent-SR1 | `outputs/phase-12/spec-update-summary.md` / `outputs/phase-12/documentation-changelog.md` | `verify` / `validate` / `diff` / `audit` の実測値を同期し、planned wording を除去する | 完了文言が実測値のみで説明可能 |
+| SubAgent-SR1 | `outputs/phase-12/system-spec-update-summary.md` / `outputs/phase-12/documentation-changelog.md` | `verify` / `validate` / `diff` / `audit` の実測値を同期し、planned wording を除去する | 完了文言が実測値のみで説明可能 |
 | SubAgent-SR2 | `outputs/phase-11/*` / `outputs/phase-12/*` | user が画面検証を要求したら docs-heavy / backend-heavy でも screenshot へ昇格し、代表証跡を残す | `SCREENSHOT + NON_VISUAL` で current workflow に閉じる |
 | SubAgent-SR3 | `references/task-workflow.md` / `references/lessons-learned.md` | 苦戦箇所を `症状 / 再発条件 / 解決策 / 標準ルール` へ分解して再利用カード化する | 次回の短時間解決に流用可能 |
 
@@ -177,7 +177,7 @@ UI機能実装時の必須記載（追加）:
 | completed root / evidence path | `interfaces-*.md` | P2 |
 | 統合正本、苦戦箇所、5分解決カード | `workflow-<feature>.md` / `lessons-learned.md` | P3 |
 | path / status / mirror drift guard | validator script / `diff -qr` | P4 |
-| evidence board / SubAgent実行ログ / テンプレート改善 | `outputs/phase-12/spec-update-summary.md` / `skill-creator` templates | P5 |
+| evidence board / SubAgent実行ログ / テンプレート改善 | `outputs/phase-12/system-spec-update-summary.md` / `skill-creator` templates | P5 |
 
 ### 3.1 同種課題の5分解決カード同期ルール
 
@@ -244,6 +244,8 @@ ps -ef | rg "capture-.*phase11|vite" | rg -v rg || true
 
 ## 6. 完了チェック
 
+- [ ] skill feedback promotion がある場合、promotion target / no-op reason / evidence path が `skill-feedback-report.md` と更新先 reference/asset で一致している
+- [ ] `.agents/skills/<skill>` mirror が存在する場合、sync 後の `diff -qr` 結果を記録している
 - [ ] プロファイル選択（標準5仕様書 / UI機能6仕様書）が明記されている
 - [ ] 5仕様書（interfaces/api-ipc/security/task-workflow/lessons）が同一ターンで更新されている
 - [ ] UI機能の場合、`ui-ux-components` / `ui-ux-feature-components` / `arch-ui-components` / `arch-state-management` / `task-workflow` / `lessons-learned` を 1仕様書=1SubAgent で同一ターン更新している
@@ -272,8 +274,8 @@ ps -ef | rg "capture-.*phase11|vite" | rg -v rg || true
 - [ ] 仕様書別SubAgent実行ログで、全担当の「実装内容 + 苦戦箇所 + 検証証跡」が記録されている
 - [ ] 2workflow同時監査時は `workflow-a` / `workflow-b` の検証結果が両方記録されている
 - [ ] docs-only parent workflow では `SubAgent-P1..P5` または同等の責務分離を使い、pointer / index / spec / script / mirror / evidence board を同一ターンで閉じている
-- [ ] docs-only parent workflow では `task-workflow.md` / `ui-ux-feature-components.md` / `interfaces-*` / `workflow-<feature>.md` / `lessons-learned.md` / `skill-creator` templates の担当境界が `spec-update-summary.md` に記録されている
-- [ ] user が screenshot を要求した docs-heavy task では、representative visual re-audit board か `N/A` 理由のどちらかを `spec-update-summary.md` と `documentation-changelog.md` に記録している
+- [ ] docs-only parent workflow では `task-workflow.md` / `ui-ux-feature-components.md` / `interfaces-*` / `workflow-<feature>.md` / `lessons-learned.md` / `skill-creator` templates の担当境界が `system-spec-update-summary.md` に記録されている
+- [ ] user が screenshot を要求した docs-heavy task では、representative visual re-audit board か `N/A` 理由のどちらかを `system-spec-update-summary.md` と `documentation-changelog.md` に記録している
 - [ ] UIタスクでは preview preflight（`pnpm --filter @repo/desktop preview` + `curl -I http://127.0.0.1:4173`）を再撮影前に記録している
 - [ ] worktree の preview source が揺れる UIタスクでは current worktree の `apps/desktop/out/renderer` を static serve して capture 元を固定している
 - [ ] UIタスクでは TC命名互換（`TC-XX` / `TC-UI-*`）を事前確認し、coverage実行前に抽出結果を記録している
@@ -297,7 +299,7 @@ ps -ef | rg "capture-.*phase11|vite" | rg -v rg || true
 - [ ] `generate-index.js` 後に `index.md` が `undefined` 混入や全Phase未実施化を起こしていない。発生時は手動復旧し、generator/schema 互換問題を未タスク化している
 - [ ] completed 扱いの `phase-1..11` 本文仕様書に `pending` が残っていない
 - [ ] `phase-12-documentation.md` の更新対象表と `documentation-changelog.md` の Step 2 判定が一致している
-- [ ] `spec-update-summary.md` の更新対象一覧が Step 2 判定と一致している
+- [ ] `system-spec-update-summary.md` の更新対象一覧が Step 2 判定と一致している
 - [ ] `audit --diff-from HEAD` の結果は `currentViolations` を合否、`baselineViolations` を監視として分離記録している
 - [ ] `implementation-guide.md` の Part 1 に日常例えを示す `たとえば` が明示されている
 - [ ] UIタスクでは `phase-11-manual-test.md` に `## 画面カバレッジマトリクス` 見出しが存在する
@@ -361,7 +363,7 @@ ps -ef | rg "capture-.*phase11|vite" | rg -v rg || true
 
 ### 8.4 完了条件
 
-- Phase 12 側に implementation-guide / spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report が揃っている
+- Phase 12 側に implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report が揃っている
 - canonical docs 側に実装内容と苦戦箇所が同一用語で残っている
 - UI 本体完了と follow-up backlog が責務分離されている
 - 既存 follow-up backlog を流用した場合、`docs/30-workflows/unassigned-task/` の本文も current contract へ再同期されている

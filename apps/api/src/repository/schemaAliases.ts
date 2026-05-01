@@ -11,7 +11,26 @@ export interface SchemaAliasRow {
   source: "manual" | "auto" | "migration";
   createdAt: string;
   resolvedBy: AdminId | null;
-  resolvedAt: string;
+  resolvedAt: string | null;
+}
+
+export interface NewSchemaAliasRow {
+  id: string;
+  revisionId?: string;
+  stableKey: StableKey;
+  aliasQuestionId: string;
+  aliasLabel: string | null;
+  source: "manual" | "auto" | "migration";
+  resolvedBy: AdminId | string | null;
+  resolvedAt: string | null;
+}
+
+export interface SchemaAliasPatch {
+  stableKey?: StableKey;
+  aliasLabel?: string | null;
+  source?: "manual" | "auto" | "migration";
+  resolvedBy?: AdminId | string | null;
+  resolvedAt?: string | null;
 }
 
 interface DbRow {
@@ -23,7 +42,7 @@ interface DbRow {
   source: "manual" | "auto" | "migration";
   created_at: string;
   resolved_by: string | null;
-  resolved_at: string;
+  resolved_at: string | null;
 }
 
 const SELECT_COLS =
@@ -54,6 +73,13 @@ export async function findAliasByQuestionId(
     ? await stmt.bind(questionId, revisionId).first<DbRow>()
     : await stmt.bind(questionId).first<DbRow>();
   return r ? map(r) : null;
+}
+
+export async function lookup(
+  c: DbCtx,
+  questionId: string,
+): Promise<SchemaAliasRow | null> {
+  return await findAliasByQuestionId(c, questionId);
 }
 
 export async function findRevisionStableKeyCollisions(
@@ -106,4 +132,67 @@ export async function insertManualAlias(c: DbCtx, row: {
   const found = await findAliasByQuestionId(c, row.aliasQuestionId, row.revisionId);
   if (!found) throw new Error(`schema alias insert failed for ${row.aliasQuestionId}`);
   return found;
+}
+
+export async function insert(
+  c: DbCtx,
+  row: NewSchemaAliasRow,
+): Promise<SchemaAliasRow> {
+  await c.db
+    .prepare(
+      `INSERT INTO schema_aliases
+       (id, revision_id, stable_key, alias_question_id, alias_label, source, resolved_by, resolved_at)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)`,
+    )
+    .bind(
+      row.id,
+      row.revisionId ?? "legacy",
+      row.stableKey,
+      row.aliasQuestionId,
+      row.aliasLabel,
+      row.source,
+      row.resolvedBy,
+      row.resolvedAt ?? new Date().toISOString(),
+    )
+    .run();
+  const found = await findAliasByQuestionId(c, row.aliasQuestionId, row.revisionId ?? "legacy");
+  if (!found) throw new Error(`schema alias insert failed for ${row.aliasQuestionId}`);
+  return found;
+}
+
+export async function update(
+  c: DbCtx,
+  id: string,
+  patch: SchemaAliasPatch,
+): Promise<SchemaAliasRow> {
+  const current = await c.db
+    .prepare(`SELECT ${SELECT_COLS} FROM schema_aliases WHERE id = ?1 LIMIT 1`)
+    .bind(id)
+    .first<DbRow>();
+  if (!current) throw new Error(`schema alias ${id} not found`);
+
+  await c.db
+    .prepare(
+      `UPDATE schema_aliases
+       SET stable_key = ?1, alias_label = ?2, source = ?3, resolved_by = ?4, resolved_at = ?5
+       WHERE id = ?6`,
+    )
+    .bind(
+      patch.stableKey ?? current.stable_key,
+      patch.aliasLabel === undefined ? current.alias_label : patch.aliasLabel,
+      patch.source ?? current.source,
+      patch.resolvedBy === undefined ? current.resolved_by : patch.resolvedBy,
+      patch.resolvedAt === undefined || patch.resolvedAt === null
+        ? current.resolved_at
+        : patch.resolvedAt,
+      id,
+    )
+    .run();
+
+  const updated = await c.db
+    .prepare(`SELECT ${SELECT_COLS} FROM schema_aliases WHERE id = ?1 LIMIT 1`)
+    .bind(id)
+    .first<DbRow>();
+  if (!updated) throw new Error(`schema alias ${id} disappeared`);
+  return map(updated);
 }

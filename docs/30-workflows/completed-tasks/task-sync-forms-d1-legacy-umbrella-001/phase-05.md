@@ -37,7 +37,7 @@
 | 必須 | .claude/skills/task-specification-creator/scripts/audit-unassigned-tasks.js | 監査スクリプト |
 | 必須 | docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/phase-06.md | 03a 異常系移植先（想定） |
 | 必須 | docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/phase-06.md | 03b 異常系移植先（想定） |
-| 必須 | docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-05.md | 09b runbook 移植先 |
+| 必須 | docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-05.md | 09b runbook 移植先 |
 | 参考 | .claude/skills/aiworkflow-requirements/references/task-workflow.md | branch ↔ env 正規化 |
 | 参考 | docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx | admin sync UI 想定操作（runbook 補足の擬似説明元） |
 
@@ -195,7 +195,7 @@ rg -l "/admin/sync/schema|/admin/sync/responses" \
 
 ```bash
 rg -l "cron|pause|resume|incident" \
-  docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/
+  docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/
 ```
 
 - sanity: 4 keyword すべて hit

@@ -23,6 +23,21 @@ import {
   buildPublicMemberListItems,
 } from "../_shared/builder";
 import { asMemberId, asAdminId } from "../_shared/brand";
+import type { AttendanceProvider, AttendanceRecord } from "../attendance";
+import type { MemberId } from "../_shared/brand";
+
+const stubProvider = (
+  data: Record<string, AttendanceRecord[]>,
+): AttendanceProvider => ({
+  async findByMemberIds(ids) {
+    const out = new Map<MemberId, AttendanceRecord[]>();
+    for (const id of ids) {
+      const recs = data[id as unknown as string];
+      if (recs) out.set(id, recs);
+    }
+    return out;
+  },
+});
 
 describe("builder", () => {
   let store: MockStore;
@@ -143,6 +158,23 @@ describe("builder", () => {
       expect(result?.publicConsent).toBe("consented");
       expect(result?.rulesConsent).toBe("consented");
     });
+
+    it("attendanceProvider 未注入時は attendance:[] のフォールバックを返す（02a 互換）", async () => {
+      const result = await buildMemberProfile(ctx, asMemberId("m_001"));
+      expect(result?.attendance).toEqual([]);
+    });
+
+    it("attendanceProvider 注入時は実データが MemberProfile に注入される", async () => {
+      const provider = stubProvider({
+        m_001: [{ sessionId: "s_001", title: "総会", heldOn: "2026-01-15" }],
+      });
+      const result = await buildMemberProfile(ctx, asMemberId("m_001"), {
+        attendanceProvider: provider,
+      });
+      expect(result?.attendance).toEqual([
+        { sessionId: "s_001", title: "総会", heldOn: "2026-01-15" },
+      ]);
+    });
   });
 
   describe("buildAdminMemberDetailView", () => {
@@ -212,6 +244,23 @@ describe("builder", () => {
       );
       expect(result).not.toBeNull();
       expect(result?.status.isDeleted).toBe(true);
+    });
+
+    it("attendanceProvider 注入時は admin profile.attendance に実データが注入される", async () => {
+      const provider = stubProvider({
+        m_001: [
+          { sessionId: "s_002", title: "理事会", heldOn: "2026-02-10" },
+          { sessionId: "s_001", title: "新年会", heldOn: "2026-01-05" },
+        ],
+      });
+      const result = await buildAdminMemberDetailView(
+        ctx,
+        asMemberId("m_001"),
+        [],
+        { attendanceProvider: provider },
+      );
+      expect(result?.profile.attendance).toHaveLength(2);
+      expect(result?.profile.attendance[0]?.sessionId).toBe("s_002");
     });
   });
 

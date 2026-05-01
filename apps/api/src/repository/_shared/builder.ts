@@ -35,6 +35,18 @@ import {
   type ResolveError,
   type SectionKey,
 } from "./metadata";
+import type { AttendanceProvider, AttendanceRecord } from "../attendance";
+
+// AttendanceProvider 未注入時のフォールバック（02a 互換）
+// 本タスク (ut-02a-attendance-profile-integration) の routes 側では provider を必ず注入する。
+const fetchAttendanceFor = async (
+  mid: MemberId,
+  provider: AttendanceProvider | undefined,
+): Promise<AttendanceRecord[]> => {
+  if (!provider) return [];
+  const map = await provider.findByMemberIds([mid]);
+  return [...(map.get(mid) ?? [])];
+};
 
 // フィールドの可視性マップを構築するヘルパー
 function buildVisibilityMap(
@@ -247,6 +259,7 @@ export async function buildPublicMemberProfile(
 export async function buildMemberProfile(
   c: DbCtx,
   mid: MemberId,
+  deps?: { attendanceProvider?: AttendanceProvider },
 ): Promise<MemberProfile | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -260,11 +273,12 @@ export async function buildMemberProfile(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags] = await Promise.all([
+  const [sections, fields, visibilityRows, tags, attendance] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
+    fetchAttendanceFor(mid, deps?.attendanceProvider),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
@@ -284,7 +298,7 @@ export async function buildMemberProfile(
     isDeleted: status.is_deleted === 1,
     summary,
     sections: memberSections,
-    attendance: [],
+    attendance,
     tags: tags.map((t) => ({
       code: t.code,
       label: t.label,
@@ -311,6 +325,7 @@ export async function buildAdminMemberDetailView(
     occurredAt: string;
     note: string | null;
   }>,
+  deps?: { attendanceProvider?: AttendanceProvider },
 ): Promise<AdminMemberDetailView | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -323,11 +338,12 @@ export async function buildAdminMemberDetailView(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags] = await Promise.all([
+  const [sections, fields, visibilityRows, tags, attendance] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
+    fetchAttendanceFor(mid, deps?.attendanceProvider),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
@@ -347,7 +363,7 @@ export async function buildAdminMemberDetailView(
     isDeleted: status.is_deleted === 1,
     summary,
     sections: adminSections,
-    attendance: [],
+    attendance,
     tags: tags.map((t) => ({
       code: t.code,
       label: t.label,

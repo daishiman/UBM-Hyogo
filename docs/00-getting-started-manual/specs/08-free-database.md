@@ -66,17 +66,19 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 
 本番・staging 環境で必要なシークレットは Cloudflare Secrets に登録する。ローカル開発では 1Password Environments から取得する。
 
-| シークレット名 | Cloudflare Secrets | GitHub Secrets | 1Password |
-|--------------|:-----------------:|:--------------:|:---------:|
-| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | ✅ | - | ✅ (正本) |
-| `GOOGLE_PRIVATE_KEY` | ✅ | - | ✅ (正本) |
-| `GOOGLE_FORM_ID` | ✅ | - | ✅ (正本) |
-| `AUTH_SECRET` | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_ID` | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_SECRET` | ✅ | - | ✅ (正本) |
-| `RESEND_API_KEY` | ✅ | - | ✅ (正本) |
-| `CLOUDFLARE_API_TOKEN` | - | ✅ | ✅ (正本) |
-| `CLOUDFLARE_ACCOUNT_ID` | - | GitHub Variables | ✅ (正本) |
+| 名前 | 種別 | Cloudflare | GitHub | 1Password |
+|--------------|------|:----------:|:------:|:---------:|
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Secret | Secrets | - | ✅ (正本) |
+| `GOOGLE_PRIVATE_KEY` | Secret | Secrets | - | ✅ (正本) |
+| `GOOGLE_FORM_ID` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_SECRET` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_ID` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_SECRET` | Secret | Secrets | - | ✅ (正本) |
+| `MAIL_PROVIDER_KEY` | Secret | Secrets | - | ✅ (正本) |
+| `MAIL_FROM_ADDRESS` | Variable | Variables | - | 任意 |
+| `AUTH_URL` | Variable | Variables | - | 任意 |
+| `CLOUDFLARE_API_TOKEN` | Secret | - | Secrets | ✅ (正本) |
+| `CLOUDFLARE_ACCOUNT_ID` | Variable | - | Variables | ✅ (正本) |
 
 ---
 
@@ -213,6 +215,8 @@ CREATE TABLE IF NOT EXISTS member_attendance (
 );
 ```
 
+`MemberProfile.attendance` の read path は `member_attendance.member_id IN (...)` を使う。D1 / SQLite bind 上限を避けるため、実装は 80 memberId ごとに chunk 分割し、`meeting_sessions.session_id` へ INNER JOIN して `held_on DESC`, `session_id ASC` で安定化する。`meeting_sessions` に存在しない session は返さない。
+
 ### admin_member_notes
 
 ```sql
@@ -253,12 +257,27 @@ CREATE TABLE IF NOT EXISTS tag_assignment_queue (
   status TEXT NOT NULL DEFAULT 'queued',
   suggested_tags_json TEXT NOT NULL DEFAULT '[]',
   reason TEXT,
+  idempotency_key TEXT,
+  attempt_count INTEGER NOT NULL DEFAULT 0,
+  last_error TEXT,
+  next_visible_at TEXT,
+  dlq_at TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_tag_queue_idempotency
+  ON tag_assignment_queue(idempotency_key)
+  WHERE idempotency_key IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_tag_queue_visible
+  ON tag_assignment_queue(status, next_visible_at);
+
+CREATE INDEX IF NOT EXISTS idx_tag_queue_dlq
+  ON tag_assignment_queue(status, dlq_at);
 ```
 
-`status` は 07a 時点で `queued | reviewing | resolved | rejected` を扱う。仕様語では `queued` が `candidate`、`resolved` が `confirmed` に対応する。`member_tags` への確定書き込みは `POST /admin/tags/queue/:queueId/resolve` の guarded update 成功後だけ行う。
+`status` は `queued | reviewing | resolved | rejected | dlq` を扱う。仕様語では `queued` が `candidate`、`resolved` が `confirmed`、`dlq` が retry 上限超過の保留棚に対応する。`idempotency_key` は現行 candidate row では `<memberId>:<responseId>` で生成する。tagCode は admin 確定時に初めて決まるため key に含めない。`member_tags` への確定書き込みは `POST /admin/tags/queue/:queueId/resolve` の guarded update 成功後だけ行う。
 
 ---
 
