@@ -259,6 +259,57 @@ export const markRejected = async (
   return result.meta.changes > 0 ? noteId : null;
 };
 
+/**
+ * 04b-followup-004: admin queue 一覧用 helper。
+ *  request_status と note_type で絞り込み、created_at ASC, note_id ASC（FIFO）で返す。
+ *  cursor は (createdAt, noteId) ペア。bind parameter のみで構築する。
+ */
+export interface ListPendingRequestsCursor {
+  createdAt: string;
+  noteId: string;
+}
+
+export interface ListPendingRequestsInput {
+  status: RequestStatus | "pending"; // 既定 'pending'
+  type: Exclude<AdminMemberNoteType, "general">;
+  limit: number;
+  cursor?: ListPendingRequestsCursor | null;
+}
+
+export interface ListPendingRequestsResult {
+  rows: AdminMemberNoteRow[];
+  nextCursor: ListPendingRequestsCursor | null;
+}
+
+export const listPendingRequests = async (
+  c: DbCtx,
+  input: ListPendingRequestsInput,
+): Promise<ListPendingRequestsResult> => {
+  const limit = Math.max(1, Math.min(100, Math.floor(input.limit)));
+  const safeLimit = limit + 1;
+  const params: unknown[] = [input.status, input.type];
+  let where = "request_status = ?1 AND note_type = ?2";
+  if (input.cursor) {
+    where +=
+      " AND (created_at > ?3 OR (created_at = ?3 AND note_id > ?4))";
+    params.push(input.cursor.createdAt, input.cursor.noteId);
+  }
+  params.push(safeLimit);
+  const sql = `SELECT ${SELECT_COLS} FROM admin_member_notes
+               WHERE ${where}
+               ORDER BY created_at ASC, note_id ASC
+               LIMIT ?${params.length}`;
+  const r = await c.db.prepare(sql).bind(...params).all<RawNoteRow>();
+  const rows = (r.results ?? []).map(toRow);
+  let nextCursor: ListPendingRequestsCursor | null = null;
+  if (rows.length > limit) {
+    const last = rows[limit - 1]!;
+    nextCursor = { createdAt: last.createdAt, noteId: last.noteId };
+    rows.pop();
+  }
+  return { rows, nextCursor };
+};
+
 export const remove = async (c: DbCtx, noteId: string): Promise<boolean> => {
   const result = await c.db
     .prepare("DELETE FROM admin_member_notes WHERE note_id = ?1")
