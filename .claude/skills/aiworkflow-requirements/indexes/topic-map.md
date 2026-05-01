@@ -1956,6 +1956,14 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: タスク分解, Git Worktree, PR, CI/CD
 
+### references/workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical contract | L11 |
+| Workflow artifacts | L18 |
+| Downstream ownership | L28 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3154,6 +3162,14 @@ node scripts/list-specs.js --topics
 | 関連リソース | L183 |
 | Follow-up（unassigned-task） | L195 |
 
+### references/lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L9 |
+| Downstream boundaries | L43 |
+
 ### references/lessons-learned-05b-magic-link-auth-gate-2026-04.md
 
 | セクション | 行 |
@@ -3521,8 +3537,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L72 |
-| 関連ドキュメント | L77 |
+| 利用順序 | L73 |
+| 関連ドキュメント | L78 |
 
 ### references/llm-embedding.md
 
