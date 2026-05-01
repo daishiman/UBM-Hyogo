@@ -603,10 +603,17 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Linked OpenNext output-form blocker to UT-05 / `task-impl-opennext-workers-migration-001`.
 - Created `references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md` (L-UT28-001〜005: production_branch wiring / Variable suffix derivation / Pages Git Integration OFF / compatibility_date alignment / OpenNext blocker handoff) and registered it in `references/lessons-learned.md` hub / `indexes/resource-map.md` / `indexes/quick-reference.md`.
 - Updated workflow root path references to `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/` after task move from `unassigned-task/`.
-
 ## 2026-05-01 09c production deploy runbook Phase 12 same-wave sync
 
 - Registered 09c as docs-only / spec_created / VISUAL / runtime evidence pending_user_approval.
 - Added `references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md`.
 - Added legacy root alias from `docs/30-workflows/02-application-implementation/09c-serial-production-deploy-and-post-release-verification/` to `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/`.
 - Kept production deploy execution in `docs/30-workflows/unassigned-task/task-09c-production-deploy-execution-001.md`; no deploy, tag, push, commit, or PR was executed.
+
+## 2026-05-01 - UT-CICD-DRIFT-IMPL observability matrix sync spec_created
+
+- Synced 05a observability SSOT with current CI/CD workflow facts: `ci.yml`, `backend-ci.yml`, `validate-build.yml`, `verify-indexes.yml`, `web-cd.yml`.
+- Added 4-column identifier mapping (`workflow file` / `display name` / `job id` / `required status context`) to prevent context-name drift.
+- Recorded Discord / Slack notification as unimplemented current facts for the 5 observed workflows.
+- Marked `docs/30-workflows/completed-tasks/UT-CICD-DRIFT-IMPL-OBSERVABILITY-MATRIX-SYNC.md` as transferred to `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/`.
+- Ran `node .claude/skills/aiworkflow-requirements/scripts/generate-index.js` and regenerated topic / keyword indexes.

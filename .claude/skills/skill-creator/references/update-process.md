@@ -255,3 +255,17 @@ node scripts/validate_all.js .claude/skills/my-skill
 - authority injection・shared auth mode service・decision vocabulary・reason source of truth のいずれかを composition root で変更した場合も internal hardening とみなし、Step 2 / lessons / skill feedback を更新する。
 - handler / consumer テストの期待値は実体 enum と同じ語彙へ合わせ、`integrated_api` / `terminal_handoff` のような canonical vocabulary と reason source 単一化を summary に残す。
 - Phase 12 root evidence を手編集した後は `rg "\\*\\*\\* Add File:|\\*\\*\\* Begin Patch|\\*\\*\\* End Patch"` で patch marker 混入を監査し、artifact existence だけで false green にしない。
+
+## 2026-05-01 追補: Phase 12 skill feedback promotion
+
+Phase 12 由来のスキル更新は、`skill-feedback-report.md` に記録して終わらせない。次の最小ゲートを通す。
+
+| 観点 | 必須確認 |
+| --- | --- |
+| metadata | `description` は短く保ち、詳細な Anchors / Trigger / 履歴は本文または `references/` に退避する |
+| line budget | `SKILL.md` と主要 reference は 500 行以内を目安にし、超過時は classification-first で分割する |
+| generated files | README / CHANGELOG / samples を慣性で増やさず、既存 `LOGS.md` / `SKILL-changelog.md` / `references/resource-map.md` の正本関係を優先する |
+| SubAgent lanes | 入力、責務、出力、編集可否、依存関係を明示し、監査は read-only、編集は owner が直列化する |
+| cross-runtime contract | Claude Code / Codex / 外部CLIで実行差が出る場合は、実行境界と検証コマンドを reference に残す |
+
+補助パスの skill 実装を参照する場合は、丸ごとコピーしない。既存 UBM 側の read-only audit 例外や resource-map 導線を優先し、取り込む要素を `Promote / Defer / Reject` で明示する。

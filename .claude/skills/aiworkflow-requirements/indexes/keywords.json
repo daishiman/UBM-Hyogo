@@ -2424,6 +2424,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -2491,6 +2492,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
@@ -2528,6 +2530,7 @@
       "technology-devops.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -2559,12 +2562,14 @@
     ],
     "SYNC": [
       "arch-state-management-skill-creator.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
-      "task-workflow-completed-skill-lifecycle-ui-verify.md"
+      "task-workflow-completed-skill-lifecycle-ui-verify.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Slide": [
       "arch-state-management-skill-creator.md",
@@ -3172,7 +3177,8 @@
     ],
     "workflows": [
       "architecture-database.md",
-      "directory-structure-core.md"
+      "directory-structure-core.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
     "テーブル設計": [
       "architecture-database.md"
@@ -3605,6 +3611,7 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -3709,6 +3716,7 @@
       "claude-code-skills-structure.md",
       "database-schema-ddl-template.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -4013,8 +4021,8 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
@@ -4225,6 +4233,7 @@
     "対象": [
       "database-admin-repository-boundary.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md"
     ],
@@ -4597,27 +4606,6 @@
       "database-schema.md",
       "legacy-ordinal-family-register.md"
     ],
-    "Sheets": [
-      "database-schema.md",
-      "deployment-cloudflare.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md"
-    ],
-    "sync": [
-      "database-schema.md",
-      "deployment-cloudflare.md",
-      "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-sync-merge-hook-skip-2026-04.md",
-      "lessons-learned-ut09-direction-reconciliation-2026-04.md",
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-completed-recent-2026-04d.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
-    ],
     "transition": [
       "database-schema.md"
     ],
@@ -4639,6 +4627,7 @@
     "workflow": [
       "database-schema.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "logs-archive-2026-02-console-migration-patterns.md",
       "logs-archive-2026-02-skill-validation-atoms-audit.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
@@ -4968,6 +4957,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "skill-ledger-overview.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
@@ -5089,11 +5079,15 @@
     ],
     "CICD": [
       "deployment-cloudflare.md",
-      "lessons-learned-ut-cicd-drift-2026-04.md"
+      "lessons-learned-ut-cicd-drift-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "DRIFT": [
       "deployment-cloudflare.md",
-      "lessons-learned-ut-cicd-drift-2026-04.md"
+      "lessons-learned-ut-cicd-drift-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "上記": [
       "deployment-cloudflare.md"
@@ -5292,6 +5286,7 @@
     ],
     "main": [
       "deployment-gha.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "skill-ledger-fragment-spec.md"
     ],
     "マージ時": [
@@ -5455,7 +5450,8 @@
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "github": [
-      "directory-structure-core.md"
+      "directory-structure-core.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
     "ルートの設定ファイル群": [
       "directory-structure-details.md"
@@ -6752,6 +6748,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
@@ -6776,6 +6773,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
@@ -7093,6 +7091,7 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
@@ -7535,6 +7534,7 @@
     "feedback": [
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
     ],
     "で別": [
@@ -8210,7 +8210,8 @@
     ],
     "UUT": [
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
-      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
+      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
     "運用ルール": [
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
@@ -8258,9 +8259,6 @@
     "policy": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
-    "UUT": [
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
-    ],
     "decision": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
@@ -8268,7 +8266,8 @@
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
     "で閉じる": [
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
     "technical": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
@@ -8603,6 +8602,75 @@
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
+    "IMPL": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+    ],
+    "OBSERVABILITY": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+    ],
+    "MATRIX": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "ui-ux-settings-core.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+    ],
+    "OBS": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "required": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "context": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "confirmed": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "値を正とする": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "実体総数を混同しない": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "files": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+    ],
+    "outputs": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "と書く": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "generator": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "phase": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "ui-ux-feature-components-skill-analysis.md"
+    ],
+    "を弱く扱う場合は未タスク化する": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "Promote": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "Defer": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "Reject": [
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -8645,11 +8713,6 @@
     ],
     "順序事故防止": [
       "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "required": [
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "の二重ゲート": [
       "lessons-learned-ut-gov-001-2026-04.md"
@@ -10489,10 +10552,6 @@
     ],
     "実画面証跡": [
       "logs-archive-2026-03-auth-mode-migration-sync.md"
-    ],
-    "phase": [
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "ui-ux-feature-components-skill-analysis.md"
     ],
     "整合": [
       "logs-archive-2026-03-auth-mode-migration-sync.md",
@@ -12707,9 +12766,6 @@
     "safety": [
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
-    "IMPL": [
-      "task-workflow-completed-ut-06-safety-gate.md"
-    ],
     "evaluateSafety": [
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
@@ -13710,9 +13766,6 @@
     "ACCESS": [
       "ui-ux-settings-core.md"
     ],
-    "MATRIX": [
-      "ui-ux-settings-core.md"
-    ],
     "MAINLINE": [
       "ui-ux-settings-core.md"
     ],
@@ -13916,9 +13969,6 @@
     "control": [
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
     ],
-    "files": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
-    ],
     "更新した既存": [
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
     ],
@@ -13988,6 +14038,7 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -14011,18 +14062,21 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "Metadata": [
-      "workflow-issue-191-schema-aliases-artifact-inventory.md"
+      "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Canonical": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
@@ -14031,7 +14085,8 @@
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
     "Notes": [
-      "workflow-issue-191-schema-aliases-artifact-inventory.md"
+      "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
@@ -14092,12 +14147,6 @@
     ],
     "改訂された": [
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "outputs": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "反映ファイル": [
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
@@ -14338,7 +14387,8 @@
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
     ],
     "Artifacts": [
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Formalized": [
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"

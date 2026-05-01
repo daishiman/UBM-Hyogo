@@ -1059,29 +1059,18 @@ node scripts/list-specs.js --topics
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
 | Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L60 |
-| Schema alias assignment workflow（07b） | L72 |
-| ワークフロー関連テーブル | L76 |
-| ユーザー関連テーブル | L115 |
-| システムプロンプト関連テーブル | L149 |
-| チャット関連テーブル | L184 |
-| RAG関連テーブル | L220 |
-| Knowledge Graph関連テーブル | L262 |
-| 変換処理関連テーブル | L396 |
-| インデックス設計 | L455 |
-| 関連ドキュメント / 変更履歴 | L459 |
-| DDL 同期テンプレ | L464 |
-| Legacy Sheets sync transition note（U-UT01-09） | L60 |
-| Schema alias assignment workflow（07b） | L72 |
-| ワークフロー関連テーブル | L76 |
-| ユーザー関連テーブル | L115 |
-| システムプロンプト関連テーブル | L149 |
-| チャット関連テーブル | L184 |
-| RAG関連テーブル | L220 |
-| Knowledge Graph関連テーブル | L262 |
-| 変換処理関連テーブル | L396 |
-| インデックス設計 | L455 |
-| 関連ドキュメント / 変更履歴 | L459 |
-| DDL 同期テンプレ | L464 |
+| Legacy Sheets sync transition note（U-UT01-09） | L72 |
+| Schema alias assignment workflow（07b） | L84 |
+| ワークフロー関連テーブル | L88 |
+| ユーザー関連テーブル | L127 |
+| システムプロンプト関連テーブル | L161 |
+| チャット関連テーブル | L196 |
+| RAG関連テーブル | L232 |
+| Knowledge Graph関連テーブル | L274 |
+| 変換処理関連テーブル | L408 |
+| インデックス設計 | L467 |
+| 関連ドキュメント / 変更履歴 | L471 |
+| DDL 同期テンプレ | L476 |
 
 ---
 
@@ -2441,6 +2430,14 @@ node scripts/list-specs.js --topics
 | Skill Feedback（Phase 12 反映） | L99 |
 | 関連リソース | L107 |
 
+### references/workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L13 |
+| Notes | L28 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -3038,15 +3035,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L9 |
-| 使い方 | L17 |
-| Current Alias Overrides（個別互換行） | L24 |
-| Family Summary | L50 |
-| Detailed Register | L71 |
-| Section Extract Register (2026-03-17) | L252 |
-| 500-Line Split Register (2026-03-16) | L263 |
-| Fragment Migration Register (2026-04-28) | L285 |
-| Task Root Path Drift Register (2026-04-30 追記) | L312 |
+| 概要 | L10 |
+| 使い方 | L18 |
+| Current Alias Overrides（個別互換行） | L25 |
+| Family Summary | L53 |
+| Detailed Register | L74 |
+| Section Extract Register (2026-03-17) | L255 |
+| 500-Line Split Register (2026-03-16) | L266 |
+| Fragment Migration Register (2026-04-28) | L288 |
+| Task Root Path Drift Register (2026-04-30 追記) | L315 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3320,6 +3317,16 @@ node scripts/list-specs.js --topics
 | 概要 | L3 |
 | 教訓 | L7 |
 
+### references/lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-CICD-OBS-001: required status context は confirmed 値を正とする | L3 |
+| L-CICD-OBS-002: 対象 workflow と `.github/workflows/` 実体総数を混同しない | L7 |
+| L-CICD-OBS-003: Phase 12 canonical 7 files は `main.md` + required outputs 6 files と書く | L11 |
+| L-CICD-OBS-004: generator が `phase-01.md` を弱く扱う場合は未タスク化する | L15 |
+| L-CICD-OBS-005: skill feedback は Promote / Defer / Reject で閉じる | L19 |
+
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
 | セクション | 行 |
@@ -3395,8 +3402,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L66 |
-| 関連ドキュメント | L71 |
+| 利用順序 | L68 |
+| 関連ドキュメント | L73 |
 
 ### references/llm-embedding.md
 
@@ -4482,9 +4489,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 残課題（未タスク） | L6 |
-| task-worktree-environment-isolation follow-up（2026-04-28） | L355 |
-| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L366 |
-| 続き | L376 |
+| task-worktree-environment-isolation follow-up（2026-04-28） | L356 |
+| TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L367 |
+| 続き | L377 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 
