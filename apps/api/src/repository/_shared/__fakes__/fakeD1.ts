@@ -272,7 +272,22 @@ function compileWhereWithAlias(
   let pi = startIdx;
   const fns: Array<(r: Row) => boolean> = [];
   for (const part of whereClause.split(/\s+AND\s+/i)) {
-    const trimmed = part.trim();
+    const trimmed = part.trim().replace(/^\((.*)\)$/s, "$1").trim();
+    const queuedOrBackfill = trimmed.match(
+      /^status\s*=\s*\?\s+OR\s+backfill_status\s+IN\s*\(([^)]+)\)$/i,
+    );
+    if (queuedOrBackfill) {
+      const status = params[pi++];
+      const backfillStatuses = queuedOrBackfill[1]!
+        .split(",")
+        .map((x) => stripQuotes(x.trim()));
+      fns.push(
+        (row) =>
+          row[`${defaultAlias}.status`] === status ||
+          backfillStatuses.includes(String(row[`${defaultAlias}.backfill_status`])),
+      );
+      continue;
+    }
     // NOT IN sub
     const sub = trimmed.match(
       /^([\w.]+)\s+NOT\s+IN\s*\(\s*SELECT\s+(\w+)\s+FROM\s+(\w+)\s+WHERE\s+(\w+)\s*=\s*\?\s*\)$/i,

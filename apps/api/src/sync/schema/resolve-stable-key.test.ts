@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { resolveStableKey } from "./resolve-stable-key";
 import * as schemaQuestionsRepo from "../../repository/schemaQuestions";
+import * as schemaAliasesRepo from "../../repository/schemaAliases";
 import { asStableKey } from "@ubm-hyogo/shared";
 
 describe("resolveStableKey", () => {
@@ -24,6 +25,26 @@ describe("resolveStableKey", () => {
   });
 
   it("alias: D1 既存 stable_key が known より優先される", async () => {
+    await schemaAliasesRepo.insert(env.ctx, {
+      id: "alias-q-existing",
+      stableKey: asStableKey("fullName"),
+      aliasQuestionId: "qExisting",
+      aliasLabel: "label-old",
+      source: "manual",
+      resolvedBy: "admin@example.com",
+      resolvedAt: "2026-05-01T00:00:00.000Z",
+    });
+    const r = await resolveStableKey(
+      { questionId: "qExisting", title: "label-now" },
+      {
+        ctx: env.ctx,
+        labelToKnownStableKey: () => "shouldBeIgnored",
+      },
+    );
+    expect(r).toEqual({ stableKey: "fullName", source: "alias" });
+  });
+
+  it("fallback: schema_aliases miss の場合だけ schema_questions stable_key を読む", async () => {
     await schemaQuestionsRepo.upsertField(env.ctx, {
       questionPk: "rev-prev:qExisting",
       revisionId: "rev-prev",
