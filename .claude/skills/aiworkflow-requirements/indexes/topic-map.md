@@ -2745,6 +2745,17 @@ node scripts/list-specs.js --topics
 | 利用順序 | L14 |
 | 関連ドキュメント | L19 |
 
+### references/auth-google-oauth-cf-integration.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 二段防御 middleware | L54 |
+| 2. service-binding 経由の internal API call | L65 |
+| 3. /auth/session-resolve internal-only endpoint | L86 |
+| 4. OpenNext post-build worker patch | L97 |
+| 5. Auth.js v5 env 層化 | L109 |
+| 変更履歴 | L174 |
+
 ### references/csrf-state-parameter.md
 
 | セクション | 行 |
@@ -2986,14 +2997,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L101 |
-| 環境別設定 | L175 |
-| Electron アプリでの環境変数 | L229 |
-| トラブルシューティング | L286 |
-| チーム開発での運用 | L347 |
-| 必須環境変数一覧 | L386 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L458 |
-| 関連ドキュメント | L478 |
+| セキュリティベストプラクティス | L128 |
+| 環境別設定 | L202 |
+| Electron アプリでの環境変数 | L256 |
+| トラブルシューティング | L313 |
+| チーム開発での運用 | L374 |
+| 必須環境変数一覧 | L413 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L478 |
+| 関連ドキュメント | L498 |
 
 ### references/error-handling-core.md
 
@@ -3161,6 +3172,7 @@ node scripts/list-specs.js --topics
 | L-05A-006: session JWT 構造を memberId / isAdmin のみに最小化、D1 sessions 不採用と整合 | L140 |
 | 関連リソース | L183 |
 | Follow-up（unassigned-task） | L195 |
+| 追加教訓（2026-04 followup / staging 実装サイクル） | L205 |
 
 ### references/lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md
 
