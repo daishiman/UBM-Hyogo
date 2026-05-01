@@ -29,9 +29,9 @@
 
 | 種別 | パス | 用途 |
 | --- | --- | --- |
-| 必須 | docs/30-workflows/02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/phase-08.md | 用語 / URL 命名（同期） |
+| 必須 | docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/phase-08.md | 用語 / URL 命名（同期） |
 | 必須 | docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-05.md | runbook |
-| 必須 | docs/30-workflows/02-application-implementation/09c-serial-production-deploy-and-post-release-verification/ | 共通化対象 |
+| 必須 | docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/ | 共通化対象 |
 
 ## 実行手順
 

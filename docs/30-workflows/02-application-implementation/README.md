@@ -105,7 +105,7 @@ specs/ の章立てではなく **機能境界** で分解。共通基盤（Wave
 | --- | --- | --- |
 | [09a-parallel-staging-deploy-smoke-and-forms-sync-validation](09a-parallel-staging-deploy-smoke-and-forms-sync-validation/index.md) | parallel | staging deploy（`pnpm deploy:staging`）、Forms 同期動作確認、Playwright pass |
 | [09b-parallel-cron-triggers-monitoring-and-release-runbook](09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md) | parallel | wrangler cron schedule、監視 / alert 連携、release runbook 作成 |
-| [09c-serial-production-deploy-and-post-release-verification](09c-serial-production-deploy-and-post-release-verification/index.md) | serial（最後） | production deploy、本番 D1 migration / secrets 確認、post-release verification |
+| [09c-serial-production-deploy-and-post-release-verification](../09c-serial-production-deploy-and-post-release-verification/index.md) | serial（最後） | production deploy、本番 D1 migration / secrets 確認、post-release verification |
 
 ## 各タスクの構造
 
