@@ -873,10 +873,10 @@ node scripts/list-specs.js --topics
 | REST API エンドポイント一覧 | L25 |
 | エンドポイント命名規則 | L183 |
 | UBM-Hyogo Admin Sync API（03a） | L204 |
-| UBM-Hyogo Member Self-Service API（04b） | L234 |
-| Desktop IPC API サマリー | L252 |
-| 変更履歴 | L283 |
-| 関連ドキュメント | L300 |
+| UBM-Hyogo Member Self-Service API（04b） | L249 |
+| Desktop IPC API サマリー | L267 |
+| 変更履歴 | L298 |
+| 関連ドキュメント | L315 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1058,19 +1058,20 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L60 |
-| Legacy Sheets sync transition note（U-UT01-09） | L72 |
-| Schema alias assignment workflow（07b） | L84 |
-| ワークフロー関連テーブル | L88 |
-| ユーザー関連テーブル | L127 |
-| システムプロンプト関連テーブル | L161 |
-| チャット関連テーブル | L196 |
-| RAG関連テーブル | L232 |
-| Knowledge Graph関連テーブル | L274 |
-| 変換処理関連テーブル | L408 |
-| インデックス設計 | L467 |
-| 関連ドキュメント / 変更履歴 | L471 |
-| DDL 同期テンプレ | L476 |
+| Schema aliases write target（issue-191 / UT-07B） | L59 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L74 |
+| Legacy Sheets sync transition note（U-UT01-09） | L86 |
+| Schema alias assignment workflow（07b） | L98 |
+| ワークフロー関連テーブル | L102 |
+| ユーザー関連テーブル | L141 |
+| システムプロンプト関連テーブル | L175 |
+| チャット関連テーブル | L210 |
+| RAG関連テーブル | L246 |
+| Knowledge Graph関連テーブル | L288 |
+| 変換処理関連テーブル | L422 |
+| インデックス設計 | L481 |
+| 関連ドキュメント / 変更履歴 | L485 |
+| DDL 同期テンプレ | L490 |
 
 ---
 
@@ -2430,6 +2431,16 @@ node scripts/list-specs.js --topics
 | Skill Feedback（Phase 12 反映） | L99 |
 | 関連リソース | L107 |
 
+### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Artifacts | L22 |
+| Evidence Summary | L32 |
+| Follow-up Disposition | L41 |
+
 ### references/workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md
 
 | セクション | 行 |
@@ -3356,6 +3367,16 @@ node scripts/list-specs.js --topics
 | 教訓 | L7 |
 | 関連リソース | L44 |
 
+### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-H-001: write target replacement を上位前提にする | L3 |
+| L-UT07B-H-002: collision は二段防御にする | L7 |
+| L-UT07B-H-003: retryable failure は HTTP 202 で表す | L11 |
+| L-UT07B-H-004: cursor 風 contract は remaining-scan でも成立する | L15 |
+| L-UT07B-H-005: local PASS と staging-deferred を分離する | L19 |
+
 ### references/lessons-learned-ut09-direction-reconciliation-2026-04.md
 
 | セクション | 行 |
@@ -3402,8 +3423,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L68 |
-| 関連ドキュメント | L73 |
+| 利用順序 | L69 |
+| 関連ドキュメント | L74 |
 
 ### references/llm-embedding.md
 
@@ -4470,13 +4491,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L56 |
-| フェーズ構造（概要） | L65 |
-| 品質ゲート（概要） | L96 |
-| 出力テンプレート | L107 |
-| 実行時のコマンド・エージェント・スキル | L130 |
-| 昇格パターン集 | L154 |
-| Current Active / Spec Created Tasks | L156 |
+| ドキュメント構成 | L67 |
+| フェーズ構造（概要） | L76 |
+| 品質ゲート（概要） | L107 |
+| 出力テンプレート | L118 |
+| 実行時のコマンド・エージェント・スキル | L141 |
+| 昇格パターン集 | L165 |
+| Current Active / Spec Created Tasks | L167 |
 
 ### references/task-workflow-backlog-part2.md
 

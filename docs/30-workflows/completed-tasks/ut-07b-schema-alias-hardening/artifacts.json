@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "id": "UT-07B-schema-alias-hardening-001",
+    "taskType": "implementation",
+    "docsOnly": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "github_issue": 293,
+    "github_issue_state": "CLOSED",
+    "wave": 1,
+    "wave_label": "Wave 1",
+    "priority": "HIGH",
+    "scale": "medium",
+    "execution_mode": "sequential",
+    "created_at": "2026-05-01",
+    "scope": "schema_alias_apply_hardening_db_constraint_resumable_backfill_retryable_contract"
+  },
+  "task": {
+    "id": "UT-07B-schema-alias-hardening-001",
+    "name": "ut-07b-schema-alias-hardening",
+    "task_path": "docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening",
+    "status": "implemented-local",
+    "depends_on": [
+      "07b-parallel-schema-diff-alias-assignment-workflow"
+    ],
+    "blocks": [],
+    "related": [
+      "ut-04-d1-schema-design"
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計（DB 制約 + 再開可能 back-fill + retryable contract）",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/db-constraint-design.md",
+        "outputs/phase-02/resumable-backfill-design.md",
+        "outputs/phase-02/retryable-contract-design.md",
+        "outputs/phase-02/large-scale-measurement-plan.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビューゲート",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "検証戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/test-strategy.md"
+      ],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "仕様 runbook 作成",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/migration-runbook.md",
+        "outputs/phase-05/rollback-runbook.md",
+        "outputs/phase-05/api-contract-update.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/failure-cases.md"
+      ],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化 / 仕様間整合",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビューゲート",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/go-no-go.md"
+      ],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動検証（NON_VISUAL 縮約 + 大規模実測 evidence）",
+      "file": "phase-11.md",
+      "status": "completed-local / staging-deferred",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-evidence.md",
+        "outputs/phase-11/link-checklist.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    ".claude/skills/aiworkflow-requirements/references/api-endpoints.md",
+    ".claude/skills/aiworkflow-requirements/references/database-schema.md",
+    ".claude/skills/aiworkflow-requirements/references/architecture-overview-core.md",
+    "docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/implementation-guide.md",
+    "docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/unassigned-task-detection.md",
+    "docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/skill-feedback-report.md"
+  ],
+  "endpoints": [
+    "GET /admin/schema/diff",
+    "POST /admin/schema/aliases"
+  ],
+  "d1_tables": [
+    "schema_questions",
+    "response_fields",
+    "schema_aliases",
+    "schema_diff_queue",
+    "schema_diff_queue.backfill_cursor",
+    "schema_diff_queue.backfill_status",
+    "audit_log",
+    "deleted_members"
+  ],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "invariants_touched": [5],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/UT-07B-schema-alias-hardening-001.md",
+    "docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/index.md"
+  ]
+}
