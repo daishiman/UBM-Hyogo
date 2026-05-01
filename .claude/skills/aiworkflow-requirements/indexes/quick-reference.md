@@ -41,6 +41,19 @@
 | 決定 workflow | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` |
 
 ---
+
+### 04b Follow-up 004 Admin Queue Resolve Workflow（2026-05-01）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 13 Phase 仕様 | `docs/30-workflows/04b-followup-004-admin-queue-resolve-workflow/` |
+| API 契約 | `references/api-endpoints.md`（`GET /admin/requests`, `POST /admin/requests/:noteId/resolve`） |
+| admin client flow | `references/architecture-admin-api-client.md`（`resolveAdminRequest` / `/admin/requests`） |
+| 手動仕様 | `docs/00-getting-started-manual/specs/07-edit-delete.md`, `docs/00-getting-started-manual/specs/11-admin-management.md` |
+| 実装 | `apps/api/src/routes/admin/requests.ts`, `apps/api/src/repository/adminNotes.ts`, `apps/web/app/(admin)/admin/requests/page.tsx`, `apps/web/src/components/admin/RequestQueuePanel.tsx` |
+| visual evidence | local screenshot は未取得。`docs/30-workflows/unassigned-task/task-04b-admin-queue-resolve-staging-visual-evidence-001.md` で staging admin session + D1 fixture capture |
+
+---
 ### 06a Public Web Real Workers/D1 Smoke（2026-04-30）
 
 06a の mock API smoke では検出できなかった Workers runtime / D1 binding / `PUBLIC_API_BASE_URL` 経路を、follow-up 仕様として local + staging の二段 smoke に分離する。

@@ -90,11 +90,11 @@ node scripts/list-specs.js --topics
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
 | 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L176 |
-| 5. ステータスコード処理方針 | L233 |
-| 6. 環境変数 | L265 |
-| 7. 不変条件サマリ（admin API client / proxy） | L278 |
-| 8. 関連ドキュメント | L290 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L179 |
+| 5. ステータスコード処理方針 | L236 |
+| 6. 環境変数 | L268 |
+| 7. 不変条件サマリ（admin API client / proxy） | L281 |
+| 8. 関連ドキュメント | L293 |
 
 ### references/architecture-auth-security-core.md
 
@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L187 |
-| UBM-Hyogo Admin Sync API（03a） | L208 |
-| UBM-Hyogo Member Self-Service API（04b） | L253 |
-| Desktop IPC API サマリー | L271 |
-| 変更履歴 | L302 |
-| 関連ドキュメント | L319 |
+| エンドポイント命名規則 | L191 |
+| UBM-Hyogo Admin Sync API（03a） | L212 |
+| UBM-Hyogo Member Self-Service API（04b） | L257 |
+| Desktop IPC API サマリー | L275 |
+| 変更履歴 | L306 |
+| 関連ドキュメント | L323 |
 
 ### references/api-internal-chunk-search.md
 
@@ -3118,6 +3118,16 @@ node scripts/list-specs.js --topics
 | L-03B-006: 二重起動防止は同種 job_type の `running` 行検査で 409 を返す | L49 |
 | L-03B-007: 旧 `ruleConsent` 表記の混入は入口で `rulesConsent` へ正規化 | L57 |
 
+### references/lessons-learned-04b-admin-queue-resolve-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-04B-RQ-001: approve は D1 batch 前に member_status を preflight する | L3 |
+| L-04B-RQ-002: Phase 12 の「要更新」は候補で止めない | L7 |
+| L-04B-RQ-003: VISUAL completed と screenshot delegated を混同しない | L11 |
+| L-04B-RQ-004: 昇格元 unassigned stub は consumed 状態へ同期する | L15 |
+| L-04B-RQ-005: audit target taxonomy の暫定丸めは follow-up 化する | L19 |
+
 ### references/lessons-learned-04b-member-self-service.md
 
 | セクション | 行 |
@@ -3521,8 +3531,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L72 |
-| 関連ドキュメント | L77 |
+| 利用順序 | L73 |
+| 関連ドキュメント | L78 |
 
 ### references/llm-embedding.md
 
@@ -4590,13 +4600,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L67 |
-| フェーズ構造（概要） | L76 |
-| 品質ゲート（概要） | L107 |
-| 出力テンプレート | L118 |
-| 実行時のコマンド・エージェント・スキル | L141 |
-| 昇格パターン集 | L165 |
-| Current Active / Spec Created Tasks | L167 |
+| ドキュメント構成 | L78 |
+| フェーズ構造（概要） | L87 |
+| 品質ゲート（概要） | L118 |
+| 出力テンプレート | L129 |
+| 実行時のコマンド・エージェント・スキル | L152 |
+| 昇格パターン集 | L176 |
+| Current Active / Spec Created Tasks | L178 |
 
 ### references/task-workflow-backlog-part2.md
 

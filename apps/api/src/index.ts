@@ -22,6 +22,7 @@ import { adminSchemaRoute } from "./routes/admin/schema";
 import { adminMeetingsRoute } from "./routes/admin/meetings";
 import { adminAttendanceRoute } from "./routes/admin/attendance";
 import { adminAuditRoute } from "./routes/admin/audit";
+import { adminRequestsRoute } from "./routes/admin/requests";
 import { ctx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
 import { type SyncEnv } from "./jobs/sync-sheets-to-d1";
@@ -250,6 +251,8 @@ app.route("/admin", adminSchemaRoute);
 app.route("/admin", adminMeetingsRoute);
 app.route("/admin", adminAttendanceRoute);
 app.route("/admin", adminAuditRoute);
+// 04b-followup-004: admin queue resolve workflow
+app.route("/admin", adminRequestsRoute);
 // UT-26: Sheets API E2E smoke route。production では route 内で 404 を返すため、
 // mount しても本番では露出しない (dev/staging のみで動作する)。
 app.route("/admin/smoke/sheets", createSmokeSheetsRoute());

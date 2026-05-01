@@ -29,6 +29,17 @@
 | 検証 | local typecheck + route/workflow/repository tests 完了。10,000 行 staging D1 / Workers 実測は `staging-deferred` |
 | 後続 | queue/cron split は Phase 11 staging evidence で必要性が出た場合のみ formalize |
 
+### 04b Follow-up 004 Admin Queue Resolve Workflow（2026-05-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implementation_completed / Phase 1-12 完了 / Phase 13 pending_user_approval / VISUAL deferred-to-staging |
+| 成果物 | `docs/30-workflows/04b-followup-004-admin-queue-resolve-workflow/` |
+| 実装 | `apps/api/src/routes/admin/requests.ts`, `apps/api/src/repository/adminNotes.ts`, `apps/web/app/(admin)/admin/requests/page.tsx`, `apps/web/src/components/admin/RequestQueuePanel.tsx`, `apps/web/src/lib/admin/api.ts` |
+| 公開契約 | `GET /admin/requests`, `POST /admin/requests/:noteId/resolve` |
+| 検証 | repository / route / UI component focused Vitest、api/web typecheck。実 screenshot は admin session + D1 fixture staging task へ委譲 |
+| 後続 | notification / audit target taxonomy / retention physical deletion / staging visual evidence |
+
 ### 目的
 
 ユーザーから与えられた複雑なタスクを分解し、以下を実現する：
