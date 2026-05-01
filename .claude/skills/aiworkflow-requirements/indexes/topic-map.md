@@ -2775,17 +2775,17 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L76 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L163 |
-| Cloudflare D1 データベース | L283 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L316 |
-| GitHub Actions CI/CD | L428 |
-| プレビューデプロイメント | L457 |
-| カスタムドメイン設定 | L473 |
-| 環境分離 | L486 |
-| ロールバック戦略 | L496 |
-| モニタリング/アラート（UT-08 連携） | L517 |
-| 変更履歴 | L534 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L87 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L174 |
+| Cloudflare D1 データベース | L294 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L327 |
+| GitHub Actions CI/CD | L439 |
+| プレビューデプロイメント | L468 |
+| カスタムドメイン設定 | L484 |
+| 環境分離 | L497 |
+| ロールバック戦略 | L507 |
+| モニタリング/アラート（UT-08 連携） | L528 |
+| 変更履歴 | L545 |
 
 ### references/deployment-core.md
 
@@ -2954,14 +2954,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L101 |
-| 環境別設定 | L175 |
-| Electron アプリでの環境変数 | L229 |
-| トラブルシューティング | L286 |
-| チーム開発での運用 | L347 |
-| 必須環境変数一覧 | L386 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L458 |
-| 関連ドキュメント | L478 |
+| セキュリティベストプラクティス | L103 |
+| 環境別設定 | L177 |
+| Electron アプリでの環境変数 | L231 |
+| トラブルシューティング | L288 |
+| チーム開発での運用 | L349 |
+| 必須環境変数一覧 | L388 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L460 |
+| 関連ドキュメント | L480 |
 
 ### references/error-handling-core.md
 
@@ -4544,13 +4544,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L67 |
-| フェーズ構造（概要） | L76 |
-| 品質ゲート（概要） | L107 |
-| 出力テンプレート | L118 |
-| 実行時のコマンド・エージェント・スキル | L141 |
-| 昇格パターン集 | L165 |
-| Current Active / Spec Created Tasks | L167 |
+| ドキュメント構成 | L78 |
+| フェーズ構造（概要） | L87 |
+| 品質ゲート（概要） | L118 |
+| 出力テンプレート | L129 |
+| 実行時のコマンド・エージェント・スキル | L152 |
+| 昇格パターン集 | L176 |
+| Current Active / Spec Created Tasks | L178 |
 
 ### references/task-workflow-backlog-part2.md
 
