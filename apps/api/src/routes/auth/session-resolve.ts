@@ -20,7 +20,7 @@ import {
 import type { GateReason } from "@ubm-hyogo/shared";
 
 export interface SessionResolveEnv extends InternalAuthEnv {
-  readonly DB: D1Db;
+  readonly DB: D1Database;
 }
 
 const isValidEmail = (s: string): boolean =>
