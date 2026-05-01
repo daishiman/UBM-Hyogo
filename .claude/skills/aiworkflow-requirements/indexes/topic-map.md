@@ -1956,6 +1956,15 @@ node scripts/list-specs.js --topics
 
 **関連キーワード**: タスク分解, Git Worktree, PR, CI/CD
 
+### references/workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current State | L3 |
+| Implementation Artifacts | L12 |
+| Evidence | L21 |
+| Open Follow-Ups | L30 |
+
 ### references/workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md
 
 | セクション | 行 |
@@ -3142,6 +3151,17 @@ node scripts/list-specs.js --topics
 | L-03a-004: AC-7 stableKey 直書き禁止の事前防止策の欠如 | L27 |
 | L-03a-005: Google Forms API quota 枯渇リスク（free tier） | L33 |
 
+### references/lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-03A-LINT-001: ESLint 未導入 monorepo では standalone Node script に倒す | L10 |
+| L-03A-LINT-002: warning と error は同一実装で mode flag 分離する | L18 |
+| L-03A-LINT-003: allow-list の正本は source-of-truth module パスで固定する | L26 |
+| L-03A-LINT-004: docs / fixtures / tests は exception glob、inline suppression は 0 維持 | L34 |
+| L-03A-LINT-005: spec_created → enforced_dry_run の lifecycle 再分類は同 wave で全 7 同期点を更新する | L42 |
+| L-03A-LINT-006: skill feedback は「記録のみ」と「実 skill edit」を skill-feedback-report で明示分離する | L50 |
+
 ### references/lessons-learned-03b-response-sync-2026-04.md
 
 | セクション | 行 |
@@ -3575,8 +3595,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L74 |
-| 関連ドキュメント | L79 |
+| 利用順序 | L75 |
+| 関連ドキュメント | L80 |
 
 ### references/llm-embedding.md
 
