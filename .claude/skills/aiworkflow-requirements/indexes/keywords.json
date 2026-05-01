@@ -2487,6 +2487,7 @@
       "ipc-contract-checklist.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -3870,6 +3871,7 @@
       "claude-code-settings-hierarchy.md",
       "claude-code-skills-process.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
@@ -3905,6 +3907,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
@@ -3930,7 +3933,8 @@
       "claude-code-settings-hierarchy.md"
     ],
     "GO": [
-      "claude-code-settings-hierarchy.md"
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
     "TC": [
       "claude-code-settings-hierarchy.md"
@@ -4018,6 +4022,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
@@ -4597,6 +4602,16 @@
       "database-schema.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
     ],
+    "Legacy": [
+      "database-schema.md",
+      "legacy-ordinal-family-register.md"
+    ],
+    "transition": [
+      "database-schema.md"
+    ],
+    "note": [
+      "database-schema.md"
+    ],
     "alias": [
       "database-schema.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -4941,6 +4956,7 @@
       "deployment-cloudflare.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "skill-ledger-overview.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -6661,9 +6677,6 @@
     "適用実績": [
       "ipc-type-resolution-guide.md"
     ],
-    "Legacy": [
-      "legacy-ordinal-family-register.md"
-    ],
     "Ordinal": [
       "legacy-ordinal-family-register.md"
     ],
@@ -7257,6 +7270,7 @@
     ],
     "user": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
@@ -7573,6 +7587,7 @@
     "only": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "skill-ledger-gitattributes-policy.md"
     ],
@@ -7686,6 +7701,7 @@
     ],
     "budget": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "spec-splitting-guidelines.md",
       "task-workflow-completed-agent-view-line-budget.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
@@ -8194,7 +8210,8 @@
     ],
     "UUT": [
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
-      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
+      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
     "運用ルール": [
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
@@ -8227,6 +8244,49 @@
     ],
     "後続タスク参照": [
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
+    ],
+    "retry": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
+      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
+      "task-workflow-completed-skill-lifecycle-security.md",
+      "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-permission-fallback-abort-skip-retry.md"
+    ],
+    "offset": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "policy": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "decision": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "でも正本導線を同": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "で閉じる": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "technical": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "approval": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md"
+    ],
+    "を分離する": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "invocation": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "invalidation": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "条件まで書く": [
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
     "認証": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -8611,9 +8671,6 @@
     "Reject": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
-    "で閉じる": [
-      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
-    ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -8655,9 +8712,6 @@
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "順序事故防止": [
-      "lessons-learned-ut-gov-001-2026-04.md"
-    ],
-    "approval": [
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "の二重ゲート": [
@@ -10894,13 +10948,6 @@
     "ZOOM": [
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-skill-lifecycle-agent-view-line-budget.md"
-    ],
-    "retry": [
-      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
-      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
-      "task-workflow-completed-skill-lifecycle-security.md",
-      "task-workflow-completed-ut-06-safety-gate.md",
-      "workflow-permission-fallback-abort-skip-retry.md"
     ],
     "契約ドリフト自動検出スクリプト完了": [
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md"
