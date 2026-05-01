@@ -40,7 +40,7 @@
 | 実装場所 | `apps/api/src/repository/` |
 | アクセス可能側 | `apps/api/**`（hono router / cron handler） のみ |
 | アクセス不可側 | `apps/web/**`（Next.js）— ESLint / boundary lint で阻止 |
-| D1 binding | Worker env の `DB: D1Database`、`_shared/db.ts` の `ctx(env)` で `DbCtx` に wrap |
+| D1 binding | Worker env の `DB: D1Database`、`apps/api/src/env.ts` の `Env` を正本とし、`_shared/db.ts` の `ctx(env: Pick<Env, "DB">)` で `DbCtx` に wrap |
 | 共有モジュール正本 | `apps/api/src/repository/_shared/` （02a / 02b はここから import） |
 | テスト loader 正本 | `apps/api/src/repository/__tests__/_setup.ts` （02a / 02b は同 file を共通利用） |
 
@@ -145,9 +145,11 @@ consume(c: DbCtx, token: MagicTokenValue, now?: Date): Promise<ConsumeResult>;
 ### 3.1 `_shared/db.ts`
 
 ```ts
+import type { Env } from "@/env";
 import { ctx } from "@/repository/_shared/db";
 
 // hono handler 内で
+const app = new Hono<{ Bindings: Env }>();
 app.get("/admin/users", async (c) => {
   const db = ctx(c.env);                       // env.DB: D1Database を DbCtx に wrap
   const users = await adminUsers.listAll(db);
@@ -155,7 +157,7 @@ app.get("/admin/users", async (c) => {
 });
 ```
 
-`DbCtx = { db: D1Database }`。**直接 `c.env.DB` を repository に渡してはならない**（型不一致）。
+`Env` は `apps/api/src/env.ts` が正本で、`apps/api/wrangler.toml` の binding / vars / secrets と同 PR で同期する。`DbCtx = { db: D1Db }`。**直接 `c.env.DB` を repository に渡してはならない**（型不一致）。
 
 ### 3.2 `_shared/brand.ts`
 
@@ -235,9 +237,19 @@ describe("...", () => {
 | # | 遵守方法 | 関連 |
 | --- | --- | --- |
 | #5 | apps/web から D1 直接アクセスしない。boundary lint + dep-cruiser で阻止。fetch 経由のみ。 | AC-3 / AC-4 / AC-5 |
-| #6 | `__fixtures__/admin.fixture.ts` は dev 用。production seed として扱わない。 | AC-10 |
+| #6 | `__fixtures__/admin.fixture.ts` は dev 用。production seed として扱わない。三重防御（後述補強）で固定。 | AC-10 |
 | #11 | 管理者は member 本文を編集しない。`member_responses` は 02a 経由でも UPDATE しない。member への注記は `adminNotes` に書く。 | AC-2 |
 | #12 | adminNotes を `PublicMemberProfile` / `MemberProfile` の builder の戻り値に **絶対** 含めない。view model の builder（02a `_shared/builder.ts`）は adminNotes を import すらしない。 | AC-2 |
+
+#### #6 の三重防御（02c-followup-002 で追加）
+
+`__fixtures__/admin.fixture.ts` および `__tests__/_setup.ts` を production runtime に流入させない構成上の固定:
+
+1. **build 構成**: `apps/api/tsconfig.build.json` が `src/**/__tests__/**` / `src/**/__fixtures__/**` / `*.test.ts` を `exclude`。`pnpm build` は build config 経由の型検査のみで、テスト loader / miniflare / fs 依存を含まない。
+2. **境界 lint**: `.dependency-cruiser.cjs` の `no-prod-to-fixtures-or-tests` rule が `apps/**/src/` または `packages/**/src/` の production path から `__tests__/` / `__fixtures__/` への import を error 化。
+3. **runtime bundling**: Cloudflare Workers の wrangler/esbuild は `src/index.ts` から到達可能な module だけを bundle するため、fixture / test loader は静的 import path に登場しない。
+
+詳細仕様: `docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/`。
 
 ---
 

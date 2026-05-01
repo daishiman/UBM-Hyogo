@@ -1,0 +1,56 @@
+{
+  "$comment": "Generated baseline canonical schema. Do not hand-edit. Regeneration automation is tracked by docs/30-workflows/unassigned-task/task-ut02a-canonical-metadata-diagnostics-hardening-001.md. Source: docs/00-getting-started-manual/specs/01-api-schema.md",
+  "source": "docs/00-getting-started-manual/specs/01-api-schema.md",
+  "generatedAt": "2026-05-01T00:00:00.000Z",
+  "regenerateCommand": "manual review against docs/00-getting-started-manual/specs/01-api-schema.md; automation follow-up: docs/30-workflows/unassigned-task/task-ut02a-canonical-metadata-diagnostics-hardening-001.md",
+  "retirementCondition": "Remove this manifest once apps/api/src/repository/_shared/metadata.ts can resolve from D1 schema_questions populated by 03a forms schema sync.",
+  "sections": [
+    { "key": "basic_profile", "title": "基本プロフィール", "position": 1 },
+    { "key": "ubm_profile", "title": "UBMプロフィール", "position": 2 },
+    { "key": "personal_profile", "title": "パーソナル", "position": 3 },
+    { "key": "social_links", "title": "SNS / リンク", "position": 4 },
+    { "key": "message", "title": "メッセージ", "position": 5 },
+    { "key": "consent", "title": "同意事項", "position": 6 },
+    { "key": "__system__", "title": "システム項目", "position": 99 }
+  ],
+  "fields": {
+    "fullName": { "sectionKey": "basic_profile", "kind": "shortText", "label": "お名前（フルネーム）" },
+    "nickname": { "sectionKey": "basic_profile", "kind": "shortText", "label": "あだ名・ニックネーム" },
+    "location": { "sectionKey": "basic_profile", "kind": "shortText", "label": "お住まい（都道府県・市区町村）" },
+    "birthDate": { "sectionKey": "basic_profile", "kind": "date", "label": "生年月日" },
+    "occupation": { "sectionKey": "basic_profile", "kind": "shortText", "label": "職業・仕事内容" },
+    "hometown": { "sectionKey": "basic_profile", "kind": "shortText", "label": "出身地" },
+
+    "ubmZone": { "sectionKey": "ubm_profile", "kind": "radio", "label": "UBM区画" },
+    "ubmMembershipType": { "sectionKey": "ubm_profile", "kind": "radio", "label": "UBM参加ステータス" },
+    "ubmJoinDate": { "sectionKey": "ubm_profile", "kind": "shortText", "label": "UBMに入会・参加した時期" },
+    "businessOverview": { "sectionKey": "ubm_profile", "kind": "paragraph", "label": "ビジネス概要" },
+    "skills": { "sectionKey": "ubm_profile", "kind": "paragraph", "label": "得意分野・スキル" },
+    "challenges": { "sectionKey": "ubm_profile", "kind": "paragraph", "label": "現在の課題・相談したいこと" },
+    "canProvide": { "sectionKey": "ubm_profile", "kind": "paragraph", "label": "提供できること・協力できること" },
+
+    "hobbies": { "sectionKey": "personal_profile", "kind": "shortText", "label": "趣味・好きなこと" },
+    "recentInterest": { "sectionKey": "personal_profile", "kind": "shortText", "label": "最近ハマっていること" },
+    "motto": { "sectionKey": "personal_profile", "kind": "shortText", "label": "座右の銘・大切にしている言葉" },
+    "otherActivities": { "sectionKey": "personal_profile", "kind": "paragraph", "label": "仕事以外の活動" },
+
+    "urlWebsite": { "sectionKey": "social_links", "kind": "url", "label": "ホームページ URL" },
+    "urlFacebook": { "sectionKey": "social_links", "kind": "url", "label": "Facebook URL" },
+    "urlInstagram": { "sectionKey": "social_links", "kind": "url", "label": "Instagram URL" },
+    "urlThreads": { "sectionKey": "social_links", "kind": "url", "label": "Threads URL" },
+    "urlYoutube": { "sectionKey": "social_links", "kind": "url", "label": "YouTube URL" },
+    "urlTiktok": { "sectionKey": "social_links", "kind": "url", "label": "TikTok URL" },
+    "urlX": { "sectionKey": "social_links", "kind": "url", "label": "X URL" },
+    "urlBlog": { "sectionKey": "social_links", "kind": "url", "label": "ブログ URL" },
+    "urlNote": { "sectionKey": "social_links", "kind": "url", "label": "note URL" },
+    "urlLinkedin": { "sectionKey": "social_links", "kind": "url", "label": "LinkedIn URL" },
+    "urlOthers": { "sectionKey": "social_links", "kind": "paragraph", "label": "その他の SNS・URL" },
+
+    "selfIntroduction": { "sectionKey": "message", "kind": "paragraph", "label": "自己紹介・一言メッセージ" },
+
+    "publicConsent": { "sectionKey": "consent", "kind": "consent", "label": "ホームページへの掲載に同意しますか？" },
+    "rulesConsent": { "sectionKey": "consent", "kind": "consent", "label": "勧誘ルール・免責事項への同意" },
+
+    "responseEmail": { "sectionKey": "__system__", "kind": "system", "label": "回答者メールアドレス" }
+  }
+}

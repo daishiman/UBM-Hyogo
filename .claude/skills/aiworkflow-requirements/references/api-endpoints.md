@@ -151,6 +151,18 @@ type SessionResolveResponse = {
 };
 ```
 
+### Magic Link callback / Auth.js Credentials Provider（apps/web / 05b-B）
+
+05b-B で Magic Link メール本文の callback URL を `apps/web` に実装した。apps/web は D1 を直接参照せず、token/email の検証は apps/api の `POST /auth/magic-link/verify` に委譲する。
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/api/auth/callback/email?token=<64hex>&email=<email>` | query validation 後、`POST /auth/magic-link/verify` を呼び、成功時のみ Auth.js `signIn("magic-link")` で session cookie を確立する | Magic Link token/email |
+| POST | `/api/auth/callback/email` | callback route の POST は許可しない | 405 |
+| POST | `/auth/magic-link/verify` | Magic Link token/email を検証・消費し、session user shape を返す | Magic Link token/email（public token endpoint）。`/auth/session-resolve` の `X-Internal-Auth` 境界とは別 |
+
+失敗時は session を作らず `/login?error=<code>` に戻す。error code は `missing_token`, `missing_email`, `invalid_link`, `expired`, `already_used`, `resolve_failed`, `temporary_failure`。
+
 Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shared/src/auth.ts` の `encodeAuthSessionJwt` / `decodeAuthSessionJwt` と API 側 `verifySessionJwt` が同じ `AUTH_SECRET` を使う。JWT には `memberId` / `email` / `isAdmin` のみを含め、`responseId` やプロフィール本文は含めない。
 
 ### 公開ディレクトリ API（apps/api / 04a）
