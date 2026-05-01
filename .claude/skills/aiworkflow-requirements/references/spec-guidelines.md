@@ -45,6 +45,32 @@ ADR や deploy target decision を正本へ追加する場合は、decision reco
 
 Pages / Workers のように現状と採択後状態が分かれる decision は、`現状` / `将来` / `根拠` の列を持つ表で記録する。`wrangler.toml` や GitHub Actions workflow など source of truth が複数ある場合は、実ファイルに残る drift を `stale` として明示し、実 cutover は別 task へ委譲する。
 
+### Promoted implementation workflow の同期
+
+`spec_created` で作成した workflow が同じブランチ内で実装 evidence まで進んだ場合、Phase 12 summary に `pending same-wave sync` を残したまま完了扱いにしない。少なくとも次を同一 wave で揃える。
+
+| 対象 | 反映内容 |
+| --- | --- |
+| workflow root | `artifacts.json` と `index.md` の lifecycle を `verified` / `implementation_complete_pending_pr` など実態に合わせる |
+| indexes | `resource-map` / `quick-reference` に current canonical workflow と主要実装ファイルを登録する |
+| workflow docs | `task-workflow-active.md` に状態、Phase 11/12 evidence、Phase 13 approval gate を登録する |
+| legacy mapping | 起票元・旧 stub がある場合は `legacy-ordinal-family-register.md` に canonical path を登録する |
+| residual work | manifest stale detection や外部 branch risk など大きな残課題は unassigned task に formalize する |
+
+### Generated artifact を暫定正本とする workflow の retirement 条件
+
+`apps/api/src/repository/_shared/generated/static-manifest.json` のような generated artifact を「暫定 baseline source」として採用する場合、無期限に残留しないよう retirement 条件を仕様側に明記する。最低限次を Phase 1 / Phase 12 ドキュメントへ記録する。
+
+| 記録項目 | 内容 |
+| --- | --- |
+| 採用理由 | なぜ generated artifact を一時的に正本扱いするか（例: 03a alias queue 完成までの interim baseline） |
+| 退役条件 | どの workflow / Phase / contract が満たされたら artifact を破棄・差し替えるか |
+| stale detection | drift 検知方法（schema version / hash / regenerate command）と検知時の責務 owner |
+| diagnostics 経路 | resolver / builder が emit する `diagnostics` を Phase 11 evidence と CI gate に流す経路 |
+| follow-up task | retirement work を担当する unassigned task ID（例: `task-ut02a-canonical-metadata-diagnostics-hardening-001`） |
+
+`generated/` 配下の artifact が Phase 12 時点で remove されない場合は、retirement 条件と stale 監視責務を明示した unassigned task を必ず起票し、`legacy-ordinal-family-register.md` の Current Alias Overrides 列で「暫定 baseline 採用中」を可視化する。
+
 ### ファイル命名
 
 ```

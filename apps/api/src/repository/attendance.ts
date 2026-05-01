@@ -2,6 +2,7 @@ import type { DbCtx } from "./_shared/db";
 import { isUniqueConstraintError } from "./_shared/db";
 import type { MemberId } from "./_shared/brand";
 import { asMemberId } from "./_shared/brand";
+import { placeholders } from "./_shared/sql";
 
 export interface MemberAttendanceRow {
   memberId: MemberId;
@@ -139,3 +140,111 @@ export async function listAttendableMembers(c: DbCtx, sessionId: string): Promis
     occupation: row.occupation,
   }));
 }
+
+// =====================================================================
+// MemberProfile.attendance への注入用 read aggregator
+// (ut-02a-attendance-profile-integration)
+// MemberProfile.attendance: AttendanceRecord[] の型契約は 02a で確定。
+// 本セクションは builder へ供給する read-only の集約のみを担う。
+// =====================================================================
+
+export interface AttendanceRecord {
+  sessionId: string;
+  title: string;
+  heldOn: string;
+}
+
+// Cloudflare D1 の prepared statement 引数上限は 100。安全側で 80 とする。
+export const ATTENDANCE_BIND_CHUNK_SIZE = 80;
+
+interface AttendanceJoinRow {
+  member_id: string;
+  session_id: string;
+  title: string;
+  held_on: string;
+}
+
+export interface AttendanceProvider {
+  findByMemberIds(
+    ids: ReadonlyArray<MemberId>,
+  ): Promise<ReadonlyMap<MemberId, ReadonlyArray<AttendanceRecord>>>;
+}
+
+const chunkBy = <T>(items: ReadonlyArray<T>, size: number): T[][] => {
+  if (size <= 0) return [items.slice()];
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    out.push(items.slice(i, i + size));
+  }
+  return out;
+};
+
+const dedupeIds = <T>(items: ReadonlyArray<T>): T[] => Array.from(new Set(items));
+
+const sortRecords = (a: AttendanceRecord, b: AttendanceRecord): number => {
+  // held_on DESC, session_id ASC
+  if (a.heldOn !== b.heldOn) return a.heldOn < b.heldOn ? 1 : -1;
+  if (a.sessionId < b.sessionId) return -1;
+  if (a.sessionId > b.sessionId) return 1;
+  return 0;
+};
+
+/**
+ * 複数 memberId の出席履歴をバッチ取得する。
+ * - 入力空配列の場合は D1 にクエリを発行せず空 Map を返す。
+ * - bind 上限を超える場合は ATTENDANCE_BIND_CHUNK_SIZE 単位でチャンク分割し、N+1 を回避する。
+ * - meeting_sessions に該当しない attendance row（参照元 meeting が消えたケース）は INNER JOIN により自動除外。
+ * - 同一 member の同一 session 重複は session_id 単位で 1 件に正規化。
+ */
+export const createAttendanceProvider = (c: DbCtx): AttendanceProvider => ({
+  async findByMemberIds(ids) {
+    const result = new Map<MemberId, AttendanceRecord[]>();
+    if (ids.length === 0) return result;
+
+    const uniqueIds = dedupeIds(ids);
+    const chunks = chunkBy(uniqueIds, ATTENDANCE_BIND_CHUNK_SIZE);
+    const seenByMember = new Map<MemberId, Set<string>>();
+
+    for (const ch of chunks) {
+      const ph = placeholders(ch.length);
+      const rows = await c.db
+        .prepare(
+          `SELECT ma.member_id AS member_id,
+                  ms.session_id AS session_id,
+                  ms.title AS title,
+                  ms.held_on AS held_on
+           FROM member_attendance ma
+           INNER JOIN meeting_sessions ms ON ms.session_id = ma.session_id
+           WHERE ma.member_id IN (${ph})`,
+        )
+        .bind(...ch)
+        .all<AttendanceJoinRow>();
+
+      for (const row of rows.results) {
+        const mid = row.member_id as MemberId;
+        let bucket = result.get(mid);
+        if (!bucket) {
+          bucket = [];
+          result.set(mid, bucket);
+        }
+        let seen = seenByMember.get(mid);
+        if (!seen) {
+          seen = new Set();
+          seenByMember.set(mid, seen);
+        }
+        if (seen.has(row.session_id)) continue;
+        seen.add(row.session_id);
+        bucket.push({
+          sessionId: row.session_id,
+          title: row.title,
+          heldOn: row.held_on,
+        });
+      }
+    }
+
+    for (const [mid, recs] of result) {
+      result.set(mid, recs.sort(sortRecords));
+    }
+    return result;
+  },
+});

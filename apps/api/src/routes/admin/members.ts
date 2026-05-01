@@ -7,6 +7,7 @@ import { asMemberId, asAdminId } from "../../repository/_shared/brand";
 import {
   buildAdminMemberDetailView,
 } from "../../repository/_shared/builder";
+import { createAttendanceProvider } from "../../repository/attendance";
 import { listByTarget } from "../../repository/auditLog";
 import {
   AdminMemberListViewZ,
@@ -121,7 +122,9 @@ export const createAdminMembersRoute = () => {
       note: null as string | null,
     }));
 
-    const view = await buildAdminMemberDetailView(db, mid, adminAudit);
+    const view = await buildAdminMemberDetailView(db, mid, adminAudit, {
+      attendanceProvider: createAttendanceProvider(db),
+    });
     if (!view) return c.json({ ok: false, error: "not found" }, 404);
 
     const parsed = AdminMemberDetailViewZ.safeParse(view);

@@ -144,4 +144,23 @@ type SessionResolveResponse = {
 |--------|------|
 | `INTERNAL_AUTH_SECRET` | apps/web → apps/api の Worker-to-Worker 共有秘密。両 Worker の Cloudflare Secrets に同値で登録 |
 | `AUTH_SECRET` | Auth.js cookie session JWT (HS256) と API 側 `verifySessionJwt` の共有秘密 |
-| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google OAuth Provider 用（apps/web のみ） |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth Provider 用（apps/web のみ）。新規投入の推奨名 |
+| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google OAuth Provider 用 legacy alias。実装は互換のため読むが、新規投入では推奨しない |
+
+### Google OAuth staging / production completion runbook
+
+05a で実装済みの Auth.js Google OAuth / admin gate は、実 Google Cloud Console 設定と Cloudflare Secrets 投入を伴う可視 smoke を後続タスク `ut-05a-followup-google-oauth-completion` に集約する。
+
+| 正本 | パス |
+| --- | --- |
+| OAuth redirect URI matrix | `docs/30-workflows/ut-05a-followup-google-oauth-completion/outputs/phase-02/oauth-redirect-uri-matrix.md` |
+| Secrets 配置 matrix | `docs/30-workflows/ut-05a-followup-google-oauth-completion/outputs/phase-02/secrets-placement-matrix.md` |
+| Consent screen specification | `docs/30-workflows/ut-05a-followup-google-oauth-completion/outputs/phase-02/consent-screen-spec.md` |
+| Manual smoke runbook | `docs/30-workflows/ut-05a-followup-google-oauth-completion/outputs/phase-11/manual-runbook.md` |
+
+運用ルール:
+
+- OAuth / Auth.js secret の実値はドキュメント、スクリーンショット、ログに残さない。
+- Cloudflare Secrets は `bash scripts/cf.sh secret put ... --env <staging|production>` 経由で投入する。
+- `wrangler login` によるローカル OAuth token 保持は禁止し、1Password `op://` 参照を正本にする。
+- Google OAuth secret 名は `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` を推奨名とし、`AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` は既存互換 alias とする。

@@ -115,3 +115,21 @@ Cloudflare D1 無料枠（500k reads/day）を圧迫するため、
 - session lookup を D1 read 0 で済ませる
 - session 失効・admin 剥奪の即時反映は犠牲にする
 - 必要なら次フェーズで KV ベースの revocation list を導入する（MVP では不要）
+
+---
+
+## B-03: testing user 以外ログイン不能（解除前 / follow-up spec_created）
+
+Google OAuth verification は本番公開前の外部制約であり、05a 本体では MVP 期間の testing user 運用を許容した。解除作業は `ut-05a-followup-google-oauth-completion` に統合し、staging smoke → production verification 申請 → external Gmail login smoke の順で実行する。
+
+現時点の状態:
+
+| 項目 | 状態 |
+| --- | --- |
+| follow-up workflow | `docs/30-workflows/ut-05a-followup-google-oauth-completion/` |
+| workflow_state | `spec_created` |
+| 解除条件 a | Google verification `verified` + 外部 Gmail production smoke PASS |
+| 解除条件 b | Google verification `submitted` + 暫定運用方針を Phase 12 に反映 |
+| 解除条件 c | testing user 拡大運用（退避路。恒久完了扱いにしない） |
+
+B-03 を解除済みに更新できるのは、`outputs/phase-11/production/verification-submission.md` と `outputs/phase-11/production/login-smoke.png` が実 evidence として保存され、Phase 12 の system spec update が実行された後に限る。
