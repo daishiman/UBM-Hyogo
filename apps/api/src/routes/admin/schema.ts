@@ -26,6 +26,7 @@ const AliasBodyZ = z.object({
     .string()
     .min(1)
     .regex(/^[a-zA-Z][a-zA-Z0-9_]*$/, "stableKey must match /^[a-zA-Z][a-zA-Z0-9_]*$/"),
+  dryRun: z.boolean().optional(),
 });
 
 interface ExistingQuestionRow {
@@ -82,7 +83,7 @@ const buildRecommendations = async (
 
 const failureToHttp = (
   err: SchemaAliasAssignFailure,
-): { status: 404 | 409; body: Record<string, unknown> } => {
+): { status: 404 | 409 | 422; body: Record<string, unknown> } => {
   switch (err.detail.kind) {
     case "question_not_found":
       return { status: 404, body: { ok: false, error: "question not found" } };
@@ -93,9 +94,20 @@ const failureToHttp = (
         status: 409,
         body: { ok: false, error: "diff question mismatch" },
       };
-    case "collision":
+    case "manual_actor_required":
+      return { status: 409, body: { ok: false, error: "manual actor required" } };
+    case "alias_conflict":
       return {
         status: 409,
+        body: {
+          ok: false,
+          error: "alias already assigned",
+          existingStableKey: err.detail.existingStableKey,
+        },
+      };
+    case "collision":
+      return {
+        status: 422,
         body: {
           ok: false,
           code: "stable_key_collision",
@@ -134,7 +146,7 @@ export const createAdminSchemaRoute = () => {
     if (!parsed.success) {
       return c.json({ ok: false, error: parsed.error.message }, 422);
     }
-    const dryRun = c.req.query("dryRun") === "true";
+    const dryRun = c.req.query("dryRun") === "true" || parsed.data.dryRun === true;
     const db = ctx({ DB: c.env.DB });
 
     const authUser = c.get("authUser");

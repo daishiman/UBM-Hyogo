@@ -47,7 +47,7 @@ rg -l "/admin/sync/schema|/admin/sync/responses" \
 
 # 09b: cron / pause / resume / incident
 rg -l "cron|pause|resume|incident" \
-  docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/
+  docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/
 ```
 
 **sanity check**: 各キーワードが対応タスクで全 hit。不足時は該当タスク index / phase-02 / phase-05 へ追記。

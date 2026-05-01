@@ -135,10 +135,17 @@ WAE / ログ / アラート本文には以下を絶対に書き込まない。
 | KV 教訓 | `references/lessons-learned-kv-session-cache-2026-04.md` |
 | 未タスク仕様 | `docs/30-workflows/unassigned-task/UT-08-monitoring-alert-design.md` |
 
+## 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01）
+
+09b は runtime 設定を変更しない docs-only / `NON_VISUAL` runbook 仕様として、sync monitoring の運用境界を固定する。`sync_jobs.running` 30 分超は P1、`sync_jobs.failed` 3 連続は P2 以上の調査開始条件として扱い、詳細手順は `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/outputs/phase-12/incident-response-runbook.md` を参照する。
+
+`sheets_sync` イベント名は legacy 表記を含むため、Forms sync 正本化後の WAE event rename は別タスクで扱う。09b では Cloudflare Analytics / manual SQL / runbook evidence を正本とし、Sentry DSN 登録と Slack 自動通知は unassigned task に分離済み。
+
 ---
 
-## 7. 変更履歴
+## 8. 変更履歴
 
 | 日付 | 変更 |
 | --- | --- |
+| 2026-05-01 | 09b cron monitoring / release runbook linkage を追加。`sync_jobs.running` 30 分超 / failed 3 連続の incident response 導線を固定 |
 | 2026-04-27 | UT-08 / UT-13 / UT-12 同期 wave で新規作成。WAE 6 イベント・30 分 dedupe・PII allowlist・identifier drift 対策を集約 |

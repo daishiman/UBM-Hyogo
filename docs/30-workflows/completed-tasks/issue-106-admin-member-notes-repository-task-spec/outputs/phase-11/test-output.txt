@@ -1,0 +1,12 @@
+Phase 11 references Phase 9 test evidence.
+
+PASS: `pnpm --filter ./apps/api test -- adminNotes`
+- Test Files: 81 passed (81)
+- Tests: 486 passed (486)
+- Relevant repository test file: `apps/api/src/repository/__tests__/adminNotes.test.ts`
+- Relevant repository tests: 18 passed
+
+PASS: focused final rerun
+- Command: `pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/routes/admin/member-notes.test.ts apps/api/src/routes/admin/members.test.ts apps/api/src/repository/__tests__/adminNotes.test.ts`
+- Test Files: 3 passed (3)
+- Tests: 28 passed (28)

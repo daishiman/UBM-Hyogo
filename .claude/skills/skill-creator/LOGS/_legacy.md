@@ -3,6 +3,13 @@
 このファイルにはスキルの使用記録が追記されます。
 
 ---
+## 2026-05-01 - 09b Phase 12 feedback promotion sync
+
+- `references/patterns-success-skill-phase12.md` に docs-only runbook task の feedback promotion pattern を追加。
+- `references/update-process.md` に cron / release / incident response 系 task の runtime 操作未実行境界と candidate dedup を追記。
+- mirror directory はこの worktree に存在しないため mirror sync は N/A。
+
+---
 ## 2026-05-01 - Phase 12 skill feedback promotion を update-process へ反映
 
 - **Agent**: skill-creator (update-process)

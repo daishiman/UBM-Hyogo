@@ -1,93 +1,32 @@
 {
   "schemaVersion": 1,
   "metadata": {
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
     "id": "UT-07B-schema-alias-hardening-001",
     "taskType": "implementation",
     "docsOnly": false,
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-    "id": "U-UT01-08",
-    "taskType": "docs-only",
-    "docsOnly": true,
-========
-    "id": "UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION",
-    "taskType": "docs-only",
-    "docsOnly": true,
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
     "visualEvidence": "NON_VISUAL",
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
     "workflow_state": "implemented-local",
     "github_issue": 293,
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-    "workflow_state": "spec_created",
-    "github_issue": 262,
-========
-    "workflow_state": "spec_created",
-    "github_issue": 287,
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
     "github_issue_state": "CLOSED",
     "wave": 1,
     "wave_label": "Wave 1",
     "priority": "HIGH",
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
     "scale": "medium",
     "execution_mode": "sequential",
     "created_at": "2026-05-01",
     "scope": "schema_alias_apply_hardening_db_constraint_resumable_backfill_retryable_contract"
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-    "execution_mode": "parallel",
-    "created_at": "2026-04-30",
-    "scope": "sync_enum_canonicalization_contract"
-========
-    "execution_mode": "parallel",
-    "created_at": "2026-05-01",
-    "scope": "pages_vs_workers_deploy_target_adr"
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
   },
   "task": {
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
     "id": "UT-07B-schema-alias-hardening-001",
     "name": "ut-07b-schema-alias-hardening",
     "task_path": "docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening",
     "status": "implemented-local",
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-    "id": "U-UT01-08",
-    "name": "u-ut01-08-sync-enum-canonicalization",
-    "task_path": "docs/30-workflows/u-ut01-08-sync-enum-canonicalization",
-    "status": "spec_created",
-========
-    "id": "UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION",
-    "name": "ut-cicd-drift-impl-pages-vs-workers-decision",
-    "task_path": "docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision",
-    "status": "spec_created",
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
     "depends_on": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
       "07b-parallel-schema-diff-alias-assignment-workflow"
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-      "ut-01-sheets-d1-sync-design"
-    ],
-    "blocks": [
-      "ut-04-d1-schema-design",
-      "ut-09-sheets-to-d1-cron-sync-job"
-========
-      "ut-cicd-drift"
-    ],
-    "blocks": [
-      "task-impl-opennext-workers-migration-001"
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
     ],
     "blocks": [],
     "related": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
       "ut-04-d1-schema-design"
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-      "U-UT01-07",
-      "U-UT01-09",
-      "U-UT01-10"
-========
-      "UT-GOV-006-web-deploy-target-canonical-sync"
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
     ]
   },
   "phases": [
@@ -104,30 +43,14 @@
     },
     {
       "phase": 2,
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
       "name": "設計（DB 制約 + 再開可能 back-fill + retryable contract）",
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-      "name": "設計（canonical set 決定）",
-========
-      "name": "設計（ADR ドラフト & 判断軸）",
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
       "file": "phase-02.md",
       "status": "completed",
       "outputs": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
         "outputs/phase-02/db-constraint-design.md",
         "outputs/phase-02/resumable-backfill-design.md",
         "outputs/phase-02/retryable-contract-design.md",
         "outputs/phase-02/large-scale-measurement-plan.md"
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-        "outputs/phase-02/canonical-set-decision.md",
-        "outputs/phase-02/value-mapping-table.md",
-        "outputs/phase-02/shared-placement-decision.md"
-========
-        "outputs/phase-02/adr-draft.md",
-        "outputs/phase-02/decision-criteria.md",
-        "outputs/phase-02/cutover-vs-hold-comparison.md"
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
       ],
       "depends_on_phases": [1],
       "user_approval_required": false
@@ -161,17 +84,9 @@
       "file": "phase-05.md",
       "status": "completed",
       "outputs": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
         "outputs/phase-05/migration-runbook.md",
         "outputs/phase-05/rollback-runbook.md",
         "outputs/phase-05/api-contract-update.md"
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-        "outputs/phase-05/contract-runbook.md",
-        "outputs/phase-05/rewrite-target-list.md"
-========
-        "outputs/phase-05/adr-runbook.md",
-        "outputs/phase-05/doc-update-procedure.md"
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
       ],
       "depends_on_phases": [4],
       "user_approval_required": false
@@ -275,17 +190,9 @@
     }
   ],
   "specs_referenced": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
     ".claude/skills/aiworkflow-requirements/references/api-endpoints.md",
     ".claude/skills/aiworkflow-requirements/references/database-schema.md",
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-    ".claude/skills/aiworkflow-requirements/references/database-schema.md",
-========
-    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md",
-    ".claude/skills/aiworkflow-requirements/references/deployment-gha.md",
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
     ".claude/skills/aiworkflow-requirements/references/architecture-overview-core.md",
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
     "docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/implementation-guide.md",
     "docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/unassigned-task-detection.md",
     "docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/skill-feedback-report.md"
@@ -293,14 +200,7 @@
   "endpoints": [
     "GET /admin/schema/diff",
     "POST /admin/schema/aliases"
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-    "docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/outputs/phase-02/sync-log-schema.md",
-    "docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/outputs/phase-12/unassigned-task-detection.md"
-========
-    "CLAUDE.md"
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
   ],
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
   "d1_tables": [
     "schema_questions",
     "response_fields",
@@ -311,36 +211,11 @@
     "audit_log",
     "deleted_members"
   ],
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-  "endpoints": [],
-  "d1_tables": [
-    "sync_job_logs",
-    "sync_locks"
-  ],
-========
-  "endpoints": [],
-  "d1_tables": [],
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
   "ui_routes": [],
   "secrets_introduced": [],
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
   "invariants_touched": [5],
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-  "invariants_touched": [4, 5],
-========
-  "invariants_touched": [5, 6],
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
   "doc_references": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/artifacts.json
     "docs/30-workflows/completed-tasks/UT-07B-schema-alias-hardening-001.md",
     "docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/index.md"
-|||||||| c4be39a:docs/30-workflows/u-ut01-08-sync-enum-canonicalization/artifacts.json
-    "docs/30-workflows/unassigned-task/U-UT01-08-sync-enum-canonicalization.md",
-    "docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/index.md"
-========
-    "apps/web/wrangler.toml",
-    ".github/workflows/web-cd.yml",
-    "docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/index.md"
->>>>>>>> main:docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/outputs/artifacts.json
   ]
 }

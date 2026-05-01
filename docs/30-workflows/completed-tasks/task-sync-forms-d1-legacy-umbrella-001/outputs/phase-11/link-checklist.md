@@ -12,7 +12,7 @@
 | 2 | `index.md` / `outputs/phase-02/responsibility-mapping.md` | `docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/index.md` | schema sync 正本 | OK |
 | 3 | `index.md` / `outputs/phase-02/responsibility-mapping.md` | `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` | response sync 正本 | OK |
 | 4 | `index.md` / `phase-04.md` | `docs/30-workflows/02-application-implementation/04c-parallel-admin-backoffice-api-endpoints/` | admin endpoint 正本 | OK |
-| 5 | `index.md` / `phase-05.md` | `docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | cron / runbook 正本 | OK |
+| 5 | `index.md` / `phase-05.md` | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | cron / runbook 正本 | OK |
 | 6 | `index.md` / `phase-05.md` | `docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/index.md` | sync_jobs 正本 | OK |
 | 7 | `index.md` | `.claude/skills/aiworkflow-requirements/references/api-endpoints.md` | admin sync endpoint 正本 | OK |
 | 8 | `phase-04.md` / `phase-05.md` | `.claude/skills/aiworkflow-requirements/references/task-workflow.md` | D1 / deployment current facts | OK |
@@ -40,7 +40,7 @@ for p in \
   docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/index.md \
   docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/index.md \
   docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/index.md \
-  docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md \
+  docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md \
   .claude/skills/aiworkflow-requirements/references/api-endpoints.md \
   .claude/skills/aiworkflow-requirements/references/task-workflow.md \
   .claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md \
