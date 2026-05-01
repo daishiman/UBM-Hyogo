@@ -11,6 +11,7 @@ if [ "$#" -eq 0 ]; then
   echo "  e.g. $0 whoami" >&2
   echo "       $0 d1 list" >&2
   echo "       $0 deploy --config apps/api/wrangler.toml --env production" >&2
+  echo "       $0 observability-diff --current-worker ubm-hyogo-web-production --legacy-worker ubm-hyogo-web" >&2
   exit 64
 fi
 
@@ -39,6 +40,31 @@ done
 if [ "${CF_SH_DEBUG:-}" = "1" ]; then
   echo "[cf.sh debug] REPO_ROOT=$REPO_ROOT" >&2
   echo "[cf.sh debug] ESBUILD_BINARY_PATH=${ESBUILD_BINARY_PATH:-<unset>}" >&2
+fi
+
+if [ "$1" = "observability-diff" ]; then
+  shift
+  exec "$REPO_ROOT/scripts/with-env.sh" mise exec -- bash "$REPO_ROOT/scripts/observability-target-diff.sh" "$@"
+fi
+
+if [ "$1" = "api-get" ]; then
+  shift
+  if [ "$#" -ne 1 ]; then
+    echo "usage: $0 api-get /client/v4/..." >&2
+    exit 64
+  fi
+  api_path="$1"
+  case "$api_path" in
+    /client/v4/*) ;;
+    *) echo "[cf.sh] api-get only allows /client/v4/... paths" >&2; exit 64 ;;
+  esac
+  exec "$REPO_ROOT/scripts/with-env.sh" mise exec -- bash -c '
+    set -euo pipefail
+    curl -fsS \
+      -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN:?CLOUDFLARE_API_TOKEN is required}" \
+      -H "Content-Type: application/json" \
+      "https://api.cloudflare.com$1"
+  ' _ "$api_path"
 fi
 
 # ローカル wrangler を優先 (グローバルは依存解決が外側に漏れて不安定)

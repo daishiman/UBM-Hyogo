@@ -2816,7 +2816,7 @@ node scripts/list-specs.js --topics
 | 11. R2 incremental cache（任意採用） | L191 |
 | 12. 関連リソース | L199 |
 | 13. production route / secret / observability preflight | L217 |
-| 変更履歴 | L223 |
+| 変更履歴 | L258 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
