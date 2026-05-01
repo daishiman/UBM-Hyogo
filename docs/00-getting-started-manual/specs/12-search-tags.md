@@ -108,10 +108,13 @@ type TagQueueResolveBody =
 
 - `confirmed` は `tag_definitions.code` を `member_tags.tag_id` へ解決し、queue status を `resolved`（仕様語 `confirmed`）にする
 - `rejected` は reason を保存し、queue status を `rejected` にする
+- `dlq` は retry 上限超過の保留状態で、`GET /admin/tags/queue?status=dlq` から確認する
 - 同一 payload の再投入は 200 + `idempotent: true` とし、追加 audit は作らない
 - 別 payload の再投入、`resolved` / `rejected` 間の逆走、race lost は 409
 - unknown tag code / deleted member は 422、body validation は 400
 - audit action は `admin.tag.queue_resolved` / `admin.tag.queue_rejected`
+
+Forms 同期からの candidate 投入は UT-02A の write-side workflow が担当する。重複防止 key は `<memberId>:<responseId>` で、tagCode は admin resolve 時に `confirmed` payload で確定する。
 
 ### タグ辞書
 

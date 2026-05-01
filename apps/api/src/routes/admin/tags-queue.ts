@@ -15,7 +15,7 @@ import {
 import type { AdminRouteEnv } from "./_shared";
 
 const StatusFilterZ = z
-  .enum(["queued", "reviewing", "resolved", "rejected"])
+  .enum(["queued", "reviewing", "resolved", "rejected", "dlq"])
   .optional();
 
 const ERROR_TO_STATUS: Record<string, number> = {

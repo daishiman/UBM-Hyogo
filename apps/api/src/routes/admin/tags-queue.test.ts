@@ -71,6 +71,24 @@ describe("admin tags queue", () => {
     expect(body.total).toBeGreaterThanOrEqual(1);
   });
 
+  it("GET /tags/queue?status=dlq: DLQ 行を返す", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO tag_assignment_queue (queue_id, member_id, response_id, status, suggested_tags_json, dlq_at) VALUES ('q_dlq','m1','r-dlq','dlq','[]','2026-01-01T00:00:00.000Z')",
+      )
+      .run();
+    const app = createAdminTagsQueueRoute();
+    const res = await app.request(
+      "/tags/queue?status=dlq",
+      { headers: { ...(await adminAuthHeader()) } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { total: number; items: Array<{ queueId: string; status: string }> };
+    expect(body.total).toBe(1);
+    expect(body.items[0]).toMatchObject({ queueId: "q_dlq", status: "dlq" });
+  });
+
   it("AC-1: confirmed → member_tags 反映 + queue.status='resolved'", async () => {
     const res = await postResolve(env, { action: "confirmed", tagCodes: ["tag-1"] });
     expect(res.status).toBe(200);

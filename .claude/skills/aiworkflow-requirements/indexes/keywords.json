@@ -148,6 +148,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
@@ -2493,6 +2494,7 @@
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -2940,7 +2942,8 @@
     ],
     "ts": [
       "architecture-admin-api-client.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "mutation": [
       "architecture-admin-api-client.md"
@@ -3616,6 +3619,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -3966,6 +3970,7 @@
     "artifacts": [
       "claude-code-settings-hierarchy.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
@@ -3973,6 +3978,7 @@
       "claude-code-settings-hierarchy.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "index": [
@@ -4014,6 +4020,7 @@
       "interfaces-shared.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "rag-desktop-state.md",
@@ -4032,6 +4039,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
@@ -4044,6 +4052,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "agents": [
@@ -4429,7 +4438,8 @@
     ],
     "Assignment": [
       "database-schema-07b-schema-alias-assignment.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "Table": [
       "database-schema-07b-schema-alias-assignment.md"
@@ -4654,6 +4664,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
     ],
     "assignment": [
@@ -6784,6 +6795,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -6810,6 +6822,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -7019,7 +7032,8 @@
     ],
     "type": [
       "lessons-learned-03b-response-sync-2026-04.md",
-      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md"
+      "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "running": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -7360,6 +7374,7 @@
     "unassigned": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -7648,12 +7663,14 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "skill-ledger-gitattributes-policy.md"
     ],
     "NON": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
@@ -7661,6 +7678,7 @@
     "VISUAL": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
@@ -7806,7 +7824,8 @@
       "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
     "row": [
-      "lessons-learned-07c-attendance-audit-2026-04.md"
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "を一緒に返す": [
       "lessons-learned-07c-attendance-audit-2026-04.md"
@@ -8244,6 +8263,7 @@
     ],
     "vs": [
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -8294,6 +8314,7 @@
     ],
     "retry": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-security.md",
@@ -8335,6 +8356,124 @@
     ],
     "条件まで書く": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+    ],
+    "Tag": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "Queue": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "Management": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "仕様書命名": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "複数形": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "と既存規約": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "単数形": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "の差分判断": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "idempotency": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "key": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "設計に": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "tagCode": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "を含めない判断": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "DLQ": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "列追加で既存": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "に既定値を確実に与える": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "level": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "read": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "test": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "を導入してメンバータグ書き込み境界を恒久化": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "既存ファイル拡張": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "新規ファイル作成の判断": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "candidate": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "confirmed": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "rejected": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "queued": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "resolved": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "維持": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "implementation": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "を更新しない判断": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "採用した設計判断": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "サマリ": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "将来タスクへの推奨事項": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "formal": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "tasks": [
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
+      "logs-archive-2026-02-completed-move-preload-sync.md",
+      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-2026-03-history-search-notification-center.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-skill-views-completed-move.md"
     ],
     "認証": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -8470,9 +8609,6 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "private": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
-    ],
-    "key": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "Bearer": [
@@ -8671,9 +8807,6 @@
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "context": [
-      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
-    ],
-    "confirmed": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
     "値を正とする": [
@@ -8915,12 +9048,6 @@
     ],
     "派生品質要件の移植先": [
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
-    ],
-    "implementation": [
-      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
-      "task-workflow-completed-ut-06-safety-gate.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "引き渡し": [
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md"
@@ -9620,15 +9747,6 @@
     ],
     "最終同期": [
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
-      "logs-archive-2026-03-skill-views-completed-move.md"
-    ],
-    "tasks": [
-      "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
-      "logs-archive-2026-02-completed-move-preload-sync.md",
-      "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-2026-03-history-search-notification-center.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md"
     ],
     "移管": [
