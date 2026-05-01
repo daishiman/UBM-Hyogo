@@ -110,10 +110,13 @@ type TagQueueResolveBody =
 - `confirmed` と `rejected` の key を混在させた body は受け付けない（400 `validation_error`）
 - `confirmed` は `tag_definitions.code` を `member_tags.tag_id` へ解決し、queue status を `resolved`（仕様語 `confirmed`）にする
 - `rejected` は reason を保存し、queue status を `rejected` にする
+- `dlq` は retry 上限超過の保留状態で、`GET /admin/tags/queue?status=dlq` から確認する
 - 同一 payload の再投入は 200 + `idempotent: true` とし、追加 audit は作らない
 - 別 payload の再投入、`resolved` / `rejected` 間の逆走、race lost は 409
 - unknown tag code / deleted member は 422、body validation は 400
 - audit action は `admin.tag.queue_resolved` / `admin.tag.queue_rejected`
+
+Forms 同期からの candidate 投入は UT-02A の write-side workflow が担当する。重複防止 key は `<memberId>:<responseId>` で、tagCode は admin resolve 時に `confirmed` payload で確定する。
 
 #### 仕様語 / 実装語 alias
 
@@ -128,6 +131,7 @@ type TagQueueResolveBody =
 | タスク | 状態 | 内容 |
 | --- | --- | --- |
 | UT-07A-02 | Phase 1-12 completed / Phase 13 pending_user_approval | resolve body contract を `packages/shared/src/schemas/admin/tag-queue-resolve.ts` に集約し、API route と apps/web admin client が shared type/schema を参照する形に同期 |
+
 
 ### タグ辞書
 

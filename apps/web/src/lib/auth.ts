@@ -15,6 +15,8 @@ import NextAuth, { type NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { JWT } from "next-auth/jwt";
+import type { NextRequest } from "next/server";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import {
   decodeAuthSessionJwt,
   encodeAuthSessionJwt,
@@ -24,6 +26,8 @@ import {
 } from "@ubm-hyogo/shared";
 
 export interface AuthEnv {
+  ENVIRONMENT?: string;
+  API_SERVICE?: { fetch: typeof fetch };
   AUTH_SECRET?: string;
   AUTH_URL?: string;
   GOOGLE_CLIENT_ID?: string;
@@ -34,8 +38,71 @@ export interface AuthEnv {
   INTERNAL_AUTH_SECRET?: string;
 }
 
-const env = (): AuthEnv =>
-  (typeof process !== "undefined" ? (process.env as AuthEnv) : ({} as AuthEnv));
+const cloudflareEnv = (): AuthEnv => {
+  try {
+    return getCloudflareContext().env as AuthEnv;
+  } catch {
+    return {};
+  }
+};
+
+const globalEnv = (): AuthEnv =>
+  ((globalThis as typeof globalThis & { __UBM_AUTH_ENV__?: AuthEnv }).__UBM_AUTH_ENV__ ??
+    {});
+
+const definedEnv = (entries: ReadonlyArray<readonly [keyof AuthEnv, unknown]>): AuthEnv =>
+  Object.fromEntries(
+    entries.filter((entry): entry is readonly [keyof AuthEnv, NonNullable<unknown>] =>
+      entry[1] !== undefined,
+    ),
+  ) as AuthEnv;
+
+const processEnv = (): AuthEnv => {
+  if (typeof process === "undefined") return {};
+  return definedEnv([
+    ["ENVIRONMENT", process.env["ENVIRONMENT"]],
+    ["AUTH_SECRET", process.env["AUTH_SECRET"]],
+    ["AUTH_URL", process.env["AUTH_URL"]],
+    ["GOOGLE_CLIENT_ID", process.env["GOOGLE_CLIENT_ID"]],
+    ["GOOGLE_CLIENT_SECRET", process.env["GOOGLE_CLIENT_SECRET"]],
+    ["AUTH_GOOGLE_ID", process.env["AUTH_GOOGLE_ID"]],
+    ["AUTH_GOOGLE_SECRET", process.env["AUTH_GOOGLE_SECRET"]],
+    ["INTERNAL_API_BASE_URL", process.env["INTERNAL_API_BASE_URL"]],
+    ["INTERNAL_AUTH_SECRET", process.env["INTERNAL_AUTH_SECRET"]],
+  ]);
+};
+
+const env = (): AuthEnv => ({
+  ...processEnv(),
+  ...globalEnv(),
+  ...cloudflareEnv(),
+});
+
+const requestEnv = (request: NextRequest | undefined): AuthEnv => {
+  if (!request) return {};
+  return definedEnv([
+    ["AUTH_SECRET", request.headers.get("x-ubm-auth-secret") ?? undefined],
+    ["AUTH_URL", request.headers.get("x-ubm-auth-url") ?? undefined],
+    ["GOOGLE_CLIENT_ID", request.headers.get("x-ubm-google-client-id") ?? undefined],
+    [
+      "GOOGLE_CLIENT_SECRET",
+      request.headers.get("x-ubm-google-client-secret") ?? undefined,
+    ],
+    ["AUTH_GOOGLE_ID", request.headers.get("x-ubm-auth-google-id") ?? undefined],
+    [
+      "AUTH_GOOGLE_SECRET",
+      request.headers.get("x-ubm-auth-google-secret") ?? undefined,
+    ],
+    [
+      "INTERNAL_API_BASE_URL",
+      request.headers.get("x-ubm-internal-api-base-url") ?? undefined,
+    ],
+    [
+      "INTERNAL_AUTH_SECRET",
+      request.headers.get("x-ubm-internal-auth-secret") ?? undefined,
+    ],
+  ]);
+};
 
 const googleClientId = (e: AuthEnv): string =>
   e.GOOGLE_CLIENT_ID ?? e.AUTH_GOOGLE_ID ?? "";
@@ -53,6 +120,23 @@ export const fetchSessionResolve = async (
 ): Promise<SessionResolveResponse> => {
   const baseUrl = e.INTERNAL_API_BASE_URL;
   const secret = e.INTERNAL_AUTH_SECRET;
+  if (e.ENVIRONMENT === "staging") {
+    const parsedBaseUrl = (() => {
+      if (!baseUrl) return null;
+      try {
+        const u = new URL(baseUrl);
+        return { origin: u.origin, pathname: u.pathname };
+      } catch {
+        return { origin: "invalid", pathname: "" };
+      }
+    })();
+    console.log("[auth] session-resolve config", {
+      hasBaseUrl: Boolean(baseUrl),
+      hasSecret: Boolean(secret),
+      baseUrl: parsedBaseUrl,
+      email,
+    });
+  }
   if (!baseUrl || !secret) {
     return {
       memberId: null,
@@ -60,23 +144,52 @@ export const fetchSessionResolve = async (
       gateReason: "unregistered" satisfies GateReason,
     };
   }
-  const url = `${baseUrl.replace(/\/$/, "")}/auth/session-resolve?email=${encodeURIComponent(
-    email.trim().toLowerCase(),
-  )}`;
+  const url = new URL("/auth/session-resolve", baseUrl);
+  url.searchParams.set("email", email.trim().toLowerCase());
+  const sessionResolveUrl = url.toString();
   try {
-    const res = await fetchImpl(url, {
+    const service = e.API_SERVICE;
+    if (e.ENVIRONMENT === "staging") {
+      console.log("[auth] session-resolve url", {
+        origin: url.origin,
+        pathname: url.pathname,
+        transport: service ? "service-binding" : "fetch",
+      });
+    }
+    const res = await (service ?? { fetch: fetchImpl }).fetch(sessionResolveUrl, {
       headers: { "x-internal-auth": secret },
       // edge runtime: keepalive / cache 無指定で OK
     });
+    if (e.ENVIRONMENT === "staging") {
+      console.log("[auth] session-resolve response", { status: res.status });
+    }
     if (!res.ok) {
+      if (e.ENVIRONMENT === "staging") {
+        const body = await res.text().catch(() => "");
+        console.log("[auth] session-resolve non-ok", {
+          status: res.status,
+          body: body.slice(0, 500),
+        });
+      }
       return {
         memberId: null,
         isAdmin: false,
         gateReason: "unregistered" satisfies GateReason,
       };
     }
-    return (await res.json()) as SessionResolveResponse;
+    const resolved = (await res.json()) as SessionResolveResponse;
+    if (e.ENVIRONMENT === "staging") {
+      console.log("[auth] session-resolve result", {
+        hasMemberId: Boolean(resolved.memberId),
+        isAdmin: resolved.isAdmin,
+        gateReason: resolved.gateReason,
+      });
+    }
+    return resolved;
   } catch {
+    if (e.ENVIRONMENT === "staging") {
+      console.log("[auth] session-resolve fetch failed");
+    }
     return {
       memberId: null,
       isAdmin: false,
@@ -88,9 +201,10 @@ export const fetchSessionResolve = async (
 export const buildAuthConfig = (
   e: AuthEnv = env(),
   fetchImpl: typeof fetch = fetch,
-): NextAuthConfig => ({
-  trustHost: true,
-  ...(e.AUTH_SECRET ? { secret: e.AUTH_SECRET } : {}),
+): NextAuthConfig => {
+  return {
+    trustHost: true,
+    ...(e.AUTH_SECRET ? { secret: e.AUTH_SECRET } : {}),
   session: { strategy: "jwt" as const, maxAge: 24 * 60 * 60 },
   jwt: {
     maxAge: SESSION_JWT_TTL_SECONDS,
@@ -208,10 +322,13 @@ export const buildAuthConfig = (
       } as typeof session.user & { memberId: string; isAdmin: boolean };
       return session;
     },
-  },
-});
+    },
+  };
+};
 
-export const { handlers, auth, signIn, signOut } = NextAuth(buildAuthConfig());
+export const { handlers, auth, signIn, signOut } = NextAuth((request) =>
+  buildAuthConfig({ ...env(), ...requestEnv(request) }),
+);
 
 // Auth.js v5 standard: route handler 用に GET / POST を再 export
 export const { GET, POST } = handlers;

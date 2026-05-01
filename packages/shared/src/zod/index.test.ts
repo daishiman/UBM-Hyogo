@@ -10,6 +10,7 @@ describe("zod barrel re-exports", () => {
     // field / schema
     expect(zodBarrel.FormFieldDefinitionZ).toBeDefined();
     expect(zodBarrel.FormSchemaZ).toBeDefined();
+    expect(zodBarrel.SchemaAliasZ).toBeDefined();
     // response
     expect(zodBarrel.MemberResponseZ).toBeDefined();
     // identity

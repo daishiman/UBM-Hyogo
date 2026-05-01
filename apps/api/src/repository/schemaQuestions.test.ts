@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createFakeD1 } from "./_shared/__fakes__/fakeD1";
-import { findFieldByStableKey, listFieldsByVersion, updateStableKey, upsertField } from "./schemaQuestions";
+import { findFieldByStableKey, listFieldsByVersion, upsertField } from "./schemaQuestions";
 import { asStableKey } from "./_shared/brand";
 
 const seed = () => ({
@@ -56,12 +56,6 @@ describe("schemaQuestions repository", () => {
     const fake = createFakeD1(seed());
     const r = await findFieldByStableKey({ db: fake.d1 }, asStableKey("name_full"));
     expect(r?.questionPk).toBe("p1");
-  });
-
-  it("updateStableKey は question_id 経由で stable_key を変更", async () => {
-    const fake = createFakeD1(seed());
-    await updateStableKey({ db: fake.d1 }, "q1", asStableKey("legal_name"));
-    expect(fake.state.tables.schema_questions![0]!["stable_key"]).toBe("legal_name");
   });
 
   it("upsertField は新規挿入できる", async () => {

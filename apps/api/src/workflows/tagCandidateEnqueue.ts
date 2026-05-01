@@ -5,9 +5,12 @@
 //
 // 不変条件 #5: D1 アクセスは apps/api 内に閉じる
 //
-// 既存 02b の `enqueue` 関数は suggestedTagsJson を必須にしているため、本 hook は
-// raw SQL で suggested_tags_json='[]' を投入する（admin が UI で確定する）。
 import type { DbCtx } from "../repository/_shared/db";
+import {
+  createIdempotent,
+  deriveIdempotencyKey,
+} from "../repository/tagQueue";
+import { asMemberId, asResponseId } from "../repository/_shared/brand";
 
 export interface EnqueueTagCandidateInput {
   memberId: string;
@@ -46,11 +49,13 @@ export async function enqueueTagCandidate(
 
   // 3. candidate 投入
   const queueId = crypto.randomUUID();
-  await c.db
-    .prepare(
-      "INSERT INTO tag_assignment_queue (queue_id, member_id, response_id, status, suggested_tags_json) VALUES (?, ?, ?, 'queued', '[]')",
-    )
-    .bind(queueId, input.memberId, input.responseId)
-    .run();
-  return { enqueued: true, queueId };
+  const created = await createIdempotent(c, {
+    queueId,
+    memberId: asMemberId(input.memberId),
+    responseId: asResponseId(input.responseId),
+    suggestedTagsJson: "[]",
+    reason: null,
+    idempotencyKey: deriveIdempotencyKey(input),
+  });
+  return { enqueued: true, queueId: created.row.queueId };
 }

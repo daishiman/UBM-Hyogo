@@ -52,3 +52,16 @@ export const FormSchemaZ = z.object({
   manifest: FormManifestZ,
   fields: z.array(FormFieldDefinitionZ),
 });
+
+export const SchemaAliasSourceZ = z.enum(["manual", "auto", "migration"]);
+
+export const SchemaAliasZ = z.object({
+  id: z.string().min(1),
+  stableKey: StableKeyZ,
+  aliasQuestionId: z.string().min(1),
+  aliasLabel: z.string().nullable(),
+  source: SchemaAliasSourceZ,
+  createdAt: Iso8601Z,
+  resolvedBy: z.string().nullable(),
+  resolvedAt: Iso8601Z.nullable(),
+});

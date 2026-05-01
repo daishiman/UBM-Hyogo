@@ -71,6 +71,7 @@ const TABLES = [
   "response_fields",
   "response_sections",
   "member_responses",
+  "schema_aliases",
   "schema_diff_queue",
   "schema_questions",
   "schema_versions",

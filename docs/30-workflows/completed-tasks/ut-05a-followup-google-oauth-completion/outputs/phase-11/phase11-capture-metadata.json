@@ -1,0 +1,8 @@
+{
+  "taskId": "UT-05A-FOLLOWUP-OAUTH",
+  "mode": "VISUAL",
+  "status": "spec_created",
+  "captureState": "pending_execution",
+  "secretMaskingRequired": true
+}
+
