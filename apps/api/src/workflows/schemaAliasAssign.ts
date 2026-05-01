@@ -10,11 +10,8 @@
 import type { DbCtx } from "../repository/_shared/db";
 import { asStableKey, auditAction } from "../repository/_shared/brand";
 import type { AdminEmail, AdminId } from "../repository/_shared/brand";
-import {
-  findStableKeyByQuestionId,
-  updateStableKey,
-} from "../repository/schemaQuestions";
-import { findById as findDiffById, resolve as resolveDiff } from "../repository/schemaDiffQueue";
+import { findAliasByQuestionId, findRevisionStableKeyCollisions, insertManualAlias } from "../repository/schemaAliases";
+import { findById as findDiffById, markBackfill, resolve as resolveDiff } from "../repository/schemaDiffQueue";
 import { append as auditAppend } from "../repository/auditLog";
 
 export interface SchemaAliasAssignInput {
@@ -24,6 +21,7 @@ export interface SchemaAliasAssignInput {
   dryRun: boolean;
   actorId: AdminId | null;
   actorEmail: AdminEmail | null;
+  backfillCpuBudgetMs?: number;
 }
 
 export type SchemaAliasAssignResult =
@@ -43,6 +41,17 @@ export type SchemaAliasAssignResult =
       newStableKey: string;
       affectedResponseFields: number;
       queueStatus: "resolved";
+      backfill: SchemaAliasBackfillResult;
+    };
+
+export type SchemaAliasBackfillResult =
+  | { status: "completed"; updated: number; cursor: null; retryable: false }
+  | {
+      status: "exhausted";
+      updated: number;
+      cursor: string;
+      code: "backfill_cpu_budget_exhausted";
+      retryable: true;
     };
 
 export type SchemaAliasAssignError =
@@ -79,6 +88,20 @@ const fetchQuestion = async (
     .bind(questionId)
     .first<QuestionRow>();
 
+const fetchQuestionLabel = async (
+  c: DbCtx,
+  questionId: string,
+  revisionId: string,
+): Promise<string | null> => {
+  const r = await c.db
+    .prepare(
+      "SELECT label FROM schema_questions WHERE question_id = ?1 AND revision_id = ?2 LIMIT 1",
+    )
+    .bind(questionId, revisionId)
+    .first<{ label: string }>();
+  return r?.label ?? null;
+};
+
 /**
  * 同 revision_id 内で同 stable_key を持つ別 questionId を列挙する。
  */
@@ -95,6 +118,22 @@ const findCollisions = async (
     .bind(revisionId, stableKey, excludeQuestionId)
     .all<{ question_id: string }>();
   return (r.results ?? []).map((x) => x.question_id);
+};
+
+const findAllCollisions = async (
+  c: DbCtx,
+  revisionId: string,
+  stableKey: string,
+  excludeQuestionId: string,
+): Promise<string[]> => {
+  const fromAliases = await findRevisionStableKeyCollisions(
+    c,
+    revisionId,
+    stableKey,
+    excludeQuestionId,
+  );
+  const fromQuestions = await findCollisions(c, revisionId, stableKey, excludeQuestionId);
+  return [...new Set([...fromAliases, ...fromQuestions])];
 };
 
 /**
@@ -133,16 +172,24 @@ export const backfillResponseFields = async (
   newStableKey: string,
   batchSize: number = BACKFILL_BATCH_SIZE,
   cpuBudgetMs: number = BACKFILL_CPU_BUDGET_MS,
-): Promise<number> => {
+): Promise<SchemaAliasBackfillResult> => {
   const extraKey = `__extra__:${questionId}`;
   // newStableKey が extraKey と同じ場合は no-op で抜ける
-  if (extraKey === newStableKey) return 0;
+  if (extraKey === newStableKey) {
+    return { status: "completed", updated: 0, cursor: null, retryable: false };
+  }
   const start = Date.now();
   let total = 0;
 
   while (true) {
     if (Date.now() - start > cpuBudgetMs) {
-      throw new Error("backfill_cpu_budget_exhausted");
+      return {
+        status: "exhausted",
+        updated: total,
+        cursor: String(total),
+        code: "backfill_cpu_budget_exhausted",
+        retryable: true,
+      };
     }
     const sel = await c.db
       .prepare(
@@ -159,36 +206,51 @@ export const backfillResponseFields = async (
     const ids = (sel.results ?? []).map((r) => r.response_id);
     if (ids.length === 0) break;
 
-    // 1 行ずつ UPDATE する（D1 の prepared statement で IN 句の動的長を扱うため）
-    for (const rid of ids) {
-      // 衝突回避: 既に newStableKey の行が存在する場合、INSERT OR REPLACE 的振る舞いとして
-      // 既存 newStableKey 行を残しつつ extra 行を DELETE する。
-      const existing = await c.db
-        .prepare(
-          "SELECT 1 AS found FROM response_fields WHERE response_id = ?1 AND stable_key = ?2",
-        )
-        .bind(rid, newStableKey)
-        .first<{ found: number }>();
-      if (existing) {
-        await c.db
-          .prepare(
-            "DELETE FROM response_fields WHERE response_id = ?1 AND stable_key = ?2",
-          )
-          .bind(rid, extraKey)
-          .run();
-      } else {
-        await c.db
-          .prepare(
-            "UPDATE response_fields SET stable_key = ?1 WHERE response_id = ?2 AND stable_key = ?3",
-          )
-          .bind(newStableKey, rid, extraKey)
-          .run();
-      }
-      total += 1;
-    }
+    // 衝突回避: 既に newStableKey の行が存在する response は extra 行だけ削除する。
+    // D1/Miniflare では 1 行ずつの SELECT/UPDATE が遅いため、batch SQL で処理する。
+    await c.db
+      .prepare(
+        `DELETE FROM response_fields
+         WHERE stable_key = ?1
+           AND response_id IN (
+             SELECT rf.response_id FROM response_fields rf
+             WHERE rf.stable_key = ?1
+               AND rf.response_id NOT IN (
+                 SELECT mi.current_response_id FROM member_identities mi
+                 INNER JOIN deleted_members dm ON dm.member_id = mi.member_id
+               )
+               AND EXISTS (
+                 SELECT 1 FROM response_fields existing
+                 WHERE existing.response_id = rf.response_id
+                   AND existing.stable_key = ?2
+               )
+             LIMIT ?3
+           )`,
+      )
+      .bind(extraKey, newStableKey, batchSize)
+      .run();
+
+    await c.db
+      .prepare(
+        `UPDATE response_fields
+         SET stable_key = ?1
+         WHERE stable_key = ?2
+           AND response_id IN (
+             SELECT rf.response_id FROM response_fields rf
+             WHERE rf.stable_key = ?2
+               AND rf.response_id NOT IN (
+                 SELECT mi.current_response_id FROM member_identities mi
+                 INNER JOIN deleted_members dm ON dm.member_id = mi.member_id
+               )
+             LIMIT ?3
+           )`,
+      )
+      .bind(newStableKey, extraKey, batchSize)
+      .run();
+    total += ids.length;
     if (ids.length < batchSize) break;
   }
-  return total;
+  return { status: "completed", updated: total, cursor: null, retryable: false };
 };
 
 /**
@@ -248,14 +310,14 @@ export const schemaAliasAssign = async (
     }
   }
 
-  const oldStableKey =
-    question.stable_key === "unknown" ? null : question.stable_key;
-  const isIdempotent = question.stable_key === input.stableKey;
+  const existingAlias = await findAliasByQuestionId(c, input.questionId, question.revision_id);
+  const oldStableKey = existingAlias?.stableKey ?? (question.stable_key === "unknown" ? null : question.stable_key);
+  const isIdempotent = existingAlias?.stableKey === input.stableKey;
 
   // collision: 同 revision で別 questionId が同 stable_key を持つか
   const collisionIds = isIdempotent
     ? []
-    : await findCollisions(c, question.revision_id, input.stableKey, input.questionId);
+    : await findAllCollisions(c, question.revision_id, input.stableKey, input.questionId);
   const conflictExists = collisionIds.length > 0;
 
   if (input.dryRun) {
@@ -286,11 +348,16 @@ export const schemaAliasAssign = async (
   // idempotent: stable_key が既に同値でも、未完了 back-fill と queued diff resolve は続行する。
   // 途中失敗後の再 apply で recovery できるようにする。
   if (isIdempotent) {
-    const affected = await backfillResponseFields(
+    const backfill = await backfillResponseFields(
       c,
       input.questionId,
       input.stableKey,
+      BACKFILL_BATCH_SIZE,
+      input.backfillCpuBudgetMs ?? BACKFILL_CPU_BUDGET_MS,
     );
+    if (input.diffId) {
+      await markBackfill(c, input.diffId, backfill.status, backfill.cursor);
+    }
     if (input.diffId) {
       await resolveDiff(c, input.diffId, input.actorEmail ?? "system");
     }
@@ -299,18 +366,19 @@ export const schemaAliasAssign = async (
       questionId: input.questionId,
       oldStableKey,
       newStableKey: input.stableKey,
-      affectedResponseFields: affected,
+      affectedResponseFields: backfill.updated,
       queueStatus: "resolved",
+      backfill,
     };
   }
 
-  // apply
-  await updateStableKey(
-    c,
-    input.questionId,
-    asStableKey(input.stableKey),
-    question.revision_id,
-  );
+  const alias = await insertManualAlias(c, {
+    revisionId: question.revision_id,
+    stableKey: asStableKey(input.stableKey),
+    aliasQuestionId: input.questionId,
+    aliasLabel: await fetchQuestionLabel(c, input.questionId, question.revision_id),
+    resolvedBy: input.actorId,
+  });
   if (input.diffId) {
     await resolveDiff(c, input.diffId, input.actorEmail ?? "system");
   }
@@ -318,7 +386,12 @@ export const schemaAliasAssign = async (
     c,
     input.questionId,
     input.stableKey,
+    BACKFILL_BATCH_SIZE,
+    input.backfillCpuBudgetMs ?? BACKFILL_CPU_BUDGET_MS,
   );
+  if (input.diffId) {
+    await markBackfill(c, input.diffId, backfilled.status, backfilled.cursor);
+  }
   await auditAppend(c, {
     actorId: input.actorId,
     actorEmail: input.actorEmail,
@@ -328,9 +401,10 @@ export const schemaAliasAssign = async (
     before: { stableKey: oldStableKey },
     after: {
       stableKey: input.stableKey,
+      aliasId: alias.id,
       questionId: input.questionId,
       diffId: input.diffId ?? null,
-      affectedResponseFields: backfilled,
+      affectedResponseFields: backfilled.updated,
     },
   });
 
@@ -339,7 +413,8 @@ export const schemaAliasAssign = async (
     questionId: input.questionId,
     oldStableKey,
     newStableKey: input.stableKey,
-    affectedResponseFields: backfilled,
+    affectedResponseFields: backfilled.updated,
     queueStatus: "resolved",
+    backfill: backfilled,
   };
 };

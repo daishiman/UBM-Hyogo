@@ -14,7 +14,7 @@
 | domain | schema diff resolution / alias assignment / response back-fill / audit log |
 | visualEvidence | NON_VISUAL（UI route なし。`/admin/schema` 画面側は 06c で実装済み） |
 | depends_on | 03a（forms-schema-sync が `schema_diff_queue.queued` を投入）/ 04c（endpoint 予約）/ 02b（schema_questions / schema_diff_queue / response_fields repository）/ 02c（audit_log repo）/ 06c（UI 連携） |
-| follow-up wave | `UT-07B-schema-alias-hardening-001`（UNIQUE index migration / 10,000 行級実機計測 / retryable HTTP contract / cron 分割） / 08a（contract / authorization tests）/ 08b（E2E） |
+| follow-up wave | `UT-07B-schema-alias-hardening-001` は implemented-local / Phase 1-12 completed / Phase 13 pending_user_approval。残件は staging 10,000-row evidence と queue/cron split gated follow-up。08a（contract / authorization tests）/ 08b（E2E）は別管理 |
 
 ## Acceptance Criteria
 
@@ -98,7 +98,7 @@
 
 | 未タスク ID | ファイル | 概要 |
 |---|---|---|
-| UT-07B-schema-alias-hardening-001 | `docs/30-workflows/unassigned-task/UT-07B-schema-alias-hardening-001.md` | `schema_questions(revision_id, stable_key)` 物理 UNIQUE index migration / 10,000 行級 back-fill 実機計測 / `backfill_cpu_budget_exhausted` retryable HTTP contract / apply ↔ back-fill cron 分割 |
+| UT-07B-schema-alias-hardening-001 | `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/` | implemented-local。`schema_aliases` migration / repository / resumable back-fill / HTTP 202 retryable contract / local tests 完了。10,000 行 staging evidence は deferred、apply ↔ back-fill cron 分割は evidence gated |
 
 ## Validation Chain
 
