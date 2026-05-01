@@ -15,10 +15,11 @@
 ## 判断フロー
 
 1. まず Step 1-A〜1-G を完了する。
-2. 次に interface、API、state、security、UI contract の変更有無を判定する。
-3. Step 2 が不要でも、判断根拠を `documentation-changelog.md` と `system-spec-update-summary.md` に残す。
-4. `skill-feedback-report.md` の各 item を `task-specification-creator` / `aiworkflow-requirements` / `skill-creator` / no-op に routing し、反映先または no-op reason を残す。
-5. final validation を通してから Phase 12 を閉じる。
+2. Path drift / legacy register 判定を行う。workflow root 移動、旧 citation、artifact inventory、current canonical root の `index.md` / `artifacts.json` 実体を確認し、欠落があれば復元または `archived` / `stale-current` / `baseline` へ再分類してから Step 1 完了にする。
+3. 次に interface、API、state、security、UI contract の変更有無を判定する。
+4. Step 2 が不要でも、判断根拠を `documentation-changelog.md` と `system-spec-update-summary.md` に残す。
+5. `skill-feedback-report.md` の各 item を `task-specification-creator` / `aiworkflow-requirements` / `skill-creator` / no-op に routing し、反映先または no-op reason を残す。
+6. final validation を通してから Phase 12 を閉じる。
 
 ### Step 1-H: skill/reference feedback promotion
 
