@@ -2059,6 +2059,14 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Acceptance Evidence | L11 |
+| Phase 12 Artifacts | L21 |
+| Deferred / Blocked | L32 |
+
 ### references/workflow-issue-191-schema-aliases-artifact-inventory.md
 
 | セクション | 行 |
@@ -3228,6 +3236,15 @@ node scripts/list-specs.js --topics
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
 
+### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I106-001: Closed issue は reopen せず current owner を再検証する | L3 |
+| L-I106-002: admin notes repository は重複 owner を作らない | L9 |
+| L-I106-003: `audit_log` と `admin_member_notes` を同一 DTO として扱わない | L15 |
+| L-I106-004: 候補コマンドは実 repo scripts から再解決する | L21 |
+
 ### references/lessons-learned-issue-191-schema-aliases-2026-04.md
 
 | セクション | 行 |
@@ -3443,8 +3460,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L69 |
-| 関連ドキュメント | L74 |
+| 利用順序 | L70 |
+| 関連ドキュメント | L75 |
 
 ### references/llm-embedding.md
 

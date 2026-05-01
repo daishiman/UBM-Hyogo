@@ -1,0 +1,4 @@
+node scripts/lint-boundaries.mjs
+
+Result: PASS
+Output: no violations printed.
