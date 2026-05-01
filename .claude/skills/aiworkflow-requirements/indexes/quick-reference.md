@@ -1129,6 +1129,19 @@ packages/
 | attendance error | duplicate は `409`、deleted member は `422`、session not found は `404` |
 | phase 11 判定 | API-only / NON_VISUAL。スクリーンショット対象外、curl smoke 手順と Vitest を証跡にする |
 
+### UBM-Hyogo Admin Tag Queue Resolve Contract（UT-07A-02 / 2026-05-01）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical workflow | `docs/30-workflows/completed-tasks/ut-07a-02-search-tags-resolve-contract-followup/` |
+| shared schema SSOT | `packages/shared/src/schemas/admin/tag-queue-resolve.ts` |
+| body type | `{ action: "confirmed"; tagCodes: string[] } | { action: "rejected"; reason: string }` |
+| mixed body | 400 `validation_error`（strict discriminated union） |
+| API consumer | `apps/api/src/routes/admin/tags-queue.ts` |
+| web consumer | `apps/web/src/lib/admin/api.ts` の `resolveTagQueue(queueId, body)` |
+| focused evidence | `pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/routes/admin/tags-queue.test.ts apps/api/src/workflows/tagQueueResolve.test.ts apps/api/src/schemas/tagQueueResolve.test.ts` |
+| handoff | UT-07A-03 staging smoke with real admin auth / deployed Worker |
+
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 
 | 観点 | 値 / 参照先 |

@@ -972,6 +972,7 @@
       "directory-structure-core.md",
       "interfaces-shared.md",
       "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "workflow-light-theme-global-remediation.md"
     ],
     "パッケージ移動": [
@@ -2907,6 +2908,7 @@
       "architecture-admin-api-client.md",
       "deployment-cloudflare-opennext-workers.md",
       "directory-structure-core.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
     "src": [
@@ -4514,6 +4516,7 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "skill-ledger-fragment-spec.md",
@@ -7617,6 +7620,35 @@
     "で直す": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
+    "body": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "drift": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "SSOT": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "へ寄せる": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "package": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md"
+    ],
+    "script": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "test": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "引数は対象ファイル選択を保証しない": [
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
     "スキーマと実": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
@@ -7850,11 +7882,6 @@
     "register": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
-    "drift": [
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
     "の両方に書く": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
@@ -7902,9 +7929,6 @@
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
     "enforcement": [
-      "lessons-learned-coverage-80-enforcement-2026-04.md"
-    ],
-    "package": [
       "lessons-learned-coverage-80-enforcement-2026-04.md"
     ],
     "一律": [
@@ -14428,9 +14452,6 @@
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "別成果物リスト": [
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
-    "SSOT": [
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "クイック参照": [
