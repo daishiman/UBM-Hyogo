@@ -5226,6 +5226,25 @@
       "observability-monitoring.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md"
     ],
+    "Backup": [
+      "deployment-cloudflare.md"
+    ],
+    "Long": [
+      "deployment-cloudflare.md"
+    ],
+    "Term": [
+      "deployment-cloudflare.md"
+    ],
+    "Storage": [
+      "deployment-cloudflare.md"
+    ],
+    "FU": [
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
     "デプロイ": [
       "deployment-cloudflare.md"
     ],
@@ -9095,12 +9114,6 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
-    ],
-    "FU": [
-      "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "Health": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
