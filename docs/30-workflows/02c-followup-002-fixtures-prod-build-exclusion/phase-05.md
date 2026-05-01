@@ -1,24 +1,81 @@
-# Phase 5: Implementation Runbook
+# Phase 5: 実装ランブック — 02c-followup-002-fixtures-prod-build-exclusion
 
-## Steps
+## メタ情報
 
-1. Re-discover current `apps/api` scripts, tsconfig files, Vitest config, and fixture/test paths.
-2. Add `tsconfig.build.json` or an equivalent build-only exclude.
-3. Keep Vitest include/exclude explicit so test-only files remain available to tests.
-4. Add a dependency boundary rule that blocks production source imports from `__fixtures__` and `__tests__`.
-5. Run focused build/test/static checks and save logs under `outputs/phase-11/`.
-6. Update 02c invariant #6 documentation and aiworkflow indexes in Phase 12.
+| 項目 | 値 |
+| --- | --- |
+| task name | 02c-followup-002-fixtures-prod-build-exclusion |
+| phase | 5 / 13 |
+| wave | 02c-fu |
+| mode | parallel |
+| 作成日 | 2026-05-01 |
+| taskType | implementation-spec / docs-only |
+| visualEvidence | NON_VISUAL |
 
-## Commands to resolve at execution time
+## 目的
 
-```bash
-pnpm --filter apps/api build
-pnpm --filter apps/api test:run
-pnpm lint:boundaries
-```
+tsconfig.build.json 追加 / vitest.config 整合 / dep-cruiser rule 追加の手順を定義する。
 
-If command names differ, Phase 11 must record the actual repository scripts used.
+## 実行タスク
 
-## Completion
+1. 参照資料と該当ソースを確認する。完了条件: 未反映の境界が記録される。
+2. 本タスク固有の scope / AC / evidence を確認する。完了条件: AC と evidence path が対応する。
+3. user approval または上流 gate が必要な操作を分離する。完了条件: 自走禁止操作が明記される。
 
-Runbook is ready for a later implementation wave and does not execute code changes in this spec-created wave.
+## 参照資料
+
+- docs/30-workflows/unassigned-task/02c-followup-002-fixtures-prod-build-exclusion.md
+- docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/outputs/phase-12/implementation-guide.md
+- apps/api/tsconfig.json
+- apps/api/wrangler.toml
+- apps/api/src/repository/__fixtures__/admin.fixture.ts
+- apps/api/src/repository/__tests__/_setup.ts
+- .dependency-cruiser.cjs
+
+## 実行手順
+
+- 対象 directory: docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/
+- 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
+- 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
+
+## 統合テスト連携
+
+- 上流: 02c admin notes audit / sync jobs / data-access boundary（本体タスク）, aiworkflow-requirements 不変条件 #6
+- 下流: 03a 以降の fixture 追加タスク, production deploy readiness, Cloudflare Workers bundle size 監査
+
+## 多角的チェック観点
+
+- #6 dev fixture を production seed として扱わない
+- production runtime に test 専用依存（miniflare 等）を流入させない
+- Cloudflare Workers free-tier bundle size 上限を遵守する
+- 未実装 / 未実測を PASS と扱わない。
+- 02c で固定した dev fixture / test loader 契約を勝手に変更しない（本タスクは build 構成と境界 lint のみで防御する）。
+
+## サブタスク管理
+
+- [ ] refs を確認する
+- [ ] AC と evidence path を対応付ける
+- [ ] blocker / approval gate を明記する
+- [ ] outputs/phase-05/main.md を作成する
+
+## 成果物
+
+- outputs/phase-05/main.md
+
+## 完了条件
+
+- apps/api build 成果物に `__fixtures__/**` / `__tests__/**` ファイルが含まれない（成果物 ls 確認）
+- `pnpm test` が引き続き通る（fixture loader / 02a / 02b の test 影響なし）
+- production code (`src/**` で `__tests__` / `__fixtures__` 配下以外) から `__fixtures__` への import が `.dependency-cruiser.cjs` で error になる
+- `pnpm build` または `wrangler deploy --dry-run` の bundle サイズ縮小が記録される
+- 02c implementation-guide.md 不変条件 #6 節への補強が反映される
+
+## タスク100%実行確認
+
+- [ ] この Phase の必須セクションがすべて埋まっている
+- [ ] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
+- [ ] 実装、deploy、commit、push、PR を実行していない
+
+## 次 Phase への引き渡し
+
+Phase 6 へ、AC、blocker、evidence path、approval gate を渡す。

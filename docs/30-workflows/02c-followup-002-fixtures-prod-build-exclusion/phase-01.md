@@ -1,44 +1,81 @@
-# Phase 1: Requirements
+# Phase 1: 要件定義 — 02c-followup-002-fixtures-prod-build-exclusion
 
-## Metadata
+## メタ情報
 
-| Item | Value |
+| 項目 | 値 |
 | --- | --- |
-| task | 02c-followup-002-fixtures-prod-build-exclusion |
+| task name | 02c-followup-002-fixtures-prod-build-exclusion |
 | phase | 1 / 13 |
-| state | spec_created |
+| wave | 02c-fu |
+| mode | parallel |
+| 作成日 | 2026-05-01 |
 | taskType | implementation-spec / docs-only |
 | visualEvidence | NON_VISUAL |
-| canonical root | docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/ |
 
-## Goal
+## 目的
 
-Define the minimum implementation work required to prove that `apps/api` dev-only fixtures and tests cannot enter production build artifacts.
+未完了の真因、scope、依存境界、成功条件を確定する。
 
-## Current facts
+## 実行タスク
 
-- 02c created repository fixtures and shared test setup under `apps/api/src/repository/__fixtures__/` and `apps/api/src/repository/__tests__/`.
-- 02c Phase 12 recorded prod build exclusion as a follow-up, not completed runtime evidence.
-- The legacy unassigned task existed as a single Markdown file and lacked Phase 1-13 workflow artifacts.
-- This wave formalizes the task only. It does not edit application build config or run deployment.
+1. 参照資料と該当ソースを確認する。完了条件: 未反映の境界が記録される。
+2. 本タスク固有の scope / AC / evidence を確認する。完了条件: AC と evidence path が対応する。
+3. user approval または上流 gate が必要な操作を分離する。完了条件: 自走禁止操作が明記される。
 
-## Acceptance criteria
+## 参照資料
 
-| AC | Requirement | Evidence |
-| --- | --- | --- |
-| AC-1 | production build artifacts contain zero `__fixtures__` / `__tests__` paths | `outputs/phase-11/build-artifact-grep.log` |
-| AC-2 | repository tests still load fixtures through Vitest | `outputs/phase-11/vitest-focused.log` |
-| AC-3 | production source imports from test-only folders fail static boundary checks | `outputs/phase-11/dependency-boundary.log` |
-| AC-4 | 02a / 02b shared setup remains compatible | `outputs/phase-11/regression-scope.log` |
-| AC-5 | 02c invariant #6 is synchronized to documentation | `outputs/phase-12/system-spec-update-summary.md` |
+- docs/30-workflows/unassigned-task/02c-followup-002-fixtures-prod-build-exclusion.md
+- docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/outputs/phase-12/implementation-guide.md
+- apps/api/tsconfig.json
+- apps/api/wrangler.toml
+- apps/api/src/repository/__fixtures__/admin.fixture.ts
+- apps/api/src/repository/__tests__/_setup.ts
+- .dependency-cruiser.cjs
 
-## Scope
+## 実行手順
 
-Scope in: build/test config split or equivalent exclude, Vitest consistency, dependency boundary guard, NON_VISUAL evidence, and 02c documentation sync.
+- 対象 directory: docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/
+- 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
+- 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
-Scope out: production seed implementation, unrelated monorepo tsconfig redesign, Cloudflare deploy, commit, push, and PR creation.
+## 統合テスト連携
 
-## Completion
+- 上流: 02c admin notes audit / sync jobs / data-access boundary（本体タスク）, aiworkflow-requirements 不変条件 #6
+- 下流: 03a 以降の fixture 追加タスク, production deploy readiness, Cloudflare Workers bundle size 監査
 
-- Requirements, dependencies, and evidence names are explicit.
-- Runtime implementation remains pending and is not represented as PASS in this spec-created wave.
+## 多角的チェック観点
+
+- #6 dev fixture を production seed として扱わない
+- production runtime に test 専用依存（miniflare 等）を流入させない
+- Cloudflare Workers free-tier bundle size 上限を遵守する
+- 未実装 / 未実測を PASS と扱わない。
+- 02c で固定した dev fixture / test loader 契約を勝手に変更しない（本タスクは build 構成と境界 lint のみで防御する）。
+
+## サブタスク管理
+
+- [ ] refs を確認する
+- [ ] AC と evidence path を対応付ける
+- [ ] blocker / approval gate を明記する
+- [ ] outputs/phase-01/main.md を作成する
+
+## 成果物
+
+- outputs/phase-01/main.md
+
+## 完了条件
+
+- apps/api build 成果物に `__fixtures__/**` / `__tests__/**` ファイルが含まれない（成果物 ls 確認）
+- `pnpm test` が引き続き通る（fixture loader / 02a / 02b の test 影響なし）
+- production code (`src/**` で `__tests__` / `__fixtures__` 配下以外) から `__fixtures__` への import が `.dependency-cruiser.cjs` で error になる
+- `pnpm build` または `wrangler deploy --dry-run` の bundle サイズ縮小が記録される
+- 02c implementation-guide.md 不変条件 #6 節への補強が反映される
+
+## タスク100%実行確認
+
+- [ ] この Phase の必須セクションがすべて埋まっている
+- [ ] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
+- [ ] 実装、deploy、commit、push、PR を実行していない
+
+## 次 Phase への引き渡し
+
+Phase 2 へ、AC、blocker、evidence path、approval gate を渡す。

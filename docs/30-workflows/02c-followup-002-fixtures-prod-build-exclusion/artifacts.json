@@ -1,60 +1,39 @@
 {
   "task": "02c-followup-002-fixtures-prod-build-exclusion",
-  "status": "spec_created",
+  "status": "implemented-local / Phase 1-12 completed / Phase 13 pending_user_approval",
   "createdAt": "2026-05-01",
-  "docsOnly": true,
-  "remainingOnly": true,
-  "taskType": "implementation-spec",
+  "docsOnly": false,
+  "taskType": "implementation",
+  "remainingOnly": false,
   "visualEvidence": "NON_VISUAL",
-  "workflow_state": "spec_created",
-  "phase13": {
-    "status": "blocked_pending_user_approval",
-    "user_approval_required": true,
-    "forbidden_without_approval": [
-      "git commit",
-      "git push",
-      "gh pr create",
-      "external state changes"
-    ]
-  },
-  "depends_on": [
-    "02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary"
-  ],
-  "blocks": [
-    "repository-fixture-additions",
-    "production-bundle-audit"
-  ],
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/113",
   "phases": [
-    { "phase": "01", "title": "Requirements", "file": "phase-01.md", "output": "outputs/phase-01/main.md" },
-    { "phase": "02", "title": "Design", "file": "phase-02.md", "output": "outputs/phase-02/main.md" },
-    { "phase": "03", "title": "Design review", "file": "phase-03.md", "output": "outputs/phase-03/main.md" },
-    { "phase": "04", "title": "Test strategy", "file": "phase-04.md", "output": "outputs/phase-04/main.md" },
-    { "phase": "05", "title": "Implementation runbook", "file": "phase-05.md", "output": "outputs/phase-05/main.md" },
-    { "phase": "06", "title": "Failure cases", "file": "phase-06.md", "output": "outputs/phase-06/main.md" },
-    { "phase": "07", "title": "AC matrix", "file": "phase-07.md", "output": "outputs/phase-07/main.md" },
-    { "phase": "08", "title": "DRY review", "file": "phase-08.md", "output": "outputs/phase-08/main.md" },
-    { "phase": "09", "title": "Quality gate", "file": "phase-09.md", "output": "outputs/phase-09/main.md" },
-    { "phase": "10", "title": "Final review", "file": "phase-10.md", "output": "outputs/phase-10/main.md" },
-    { "phase": "11", "title": "NON_VISUAL evidence", "file": "phase-11.md", "output": "outputs/phase-11/main.md" },
+    { "phase": "01", "title": "要件定義", "file": "phase-01.md", "output": "outputs/phase-01/main.md" },
+    { "phase": "02", "title": "設計", "file": "phase-02.md", "output": "outputs/phase-02/main.md" },
+    { "phase": "03", "title": "設計レビュー", "file": "phase-03.md", "output": "outputs/phase-03/main.md" },
+    { "phase": "04", "title": "テスト戦略", "file": "phase-04.md", "output": "outputs/phase-04/main.md" },
+    { "phase": "05", "title": "実装ランブック", "file": "phase-05.md", "output": "outputs/phase-05/main.md" },
+    { "phase": "06", "title": "異常系検証", "file": "phase-06.md", "output": "outputs/phase-06/main.md" },
+    { "phase": "07", "title": "AC マトリクス", "file": "phase-07.md", "output": "outputs/phase-07/main.md" },
+    { "phase": "08", "title": "DRY 化", "file": "phase-08.md", "output": "outputs/phase-08/main.md" },
+    { "phase": "09", "title": "品質保証", "file": "phase-09.md", "output": "outputs/phase-09/main.md" },
+    { "phase": "10", "title": "最終レビュー", "file": "phase-10.md", "output": "outputs/phase-10/main.md" },
+    { "phase": "11", "title": "手動 smoke / 実測 evidence", "file": "phase-11.md", "output": "outputs/phase-11/main.md" },
     {
       "phase": "12",
-      "title": "Documentation sync",
+      "title": "ドキュメント更新",
       "file": "phase-12.md",
       "output": "outputs/phase-12/main.md",
-      "artifacts": [
+      "requiredOutputs": [
+        "outputs/phase-12/main.md",
         "outputs/phase-12/implementation-guide.md",
-        "outputs/phase-12/system-spec-update-summary.md",
         "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/system-spec-update-summary.md",
         "outputs/phase-12/unassigned-task-detection.md",
         "outputs/phase-12/skill-feedback-report.md",
         "outputs/phase-12/phase12-task-spec-compliance-check.md"
       ]
     },
-    { "phase": "13", "title": "Approval gate", "file": "phase-13.md", "output": "outputs/phase-13/main.md" }
-  ],
-  "metadata": {
-    "taskType": "docs-only",
-    "visualEvidence": "NON_VISUAL",
-    "workflow_state": "spec_created"
-  }
+    { "phase": "13", "title": "PR 作成", "file": "phase-13.md", "output": "outputs/phase-13/main.md" }
+  ]
 }
