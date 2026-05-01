@@ -871,12 +871,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L187 |
-| UBM-Hyogo Admin Sync API（03a） | L208 |
-| UBM-Hyogo Member Self-Service API（04b） | L253 |
-| Desktop IPC API サマリー | L273 |
-| 変更履歴 | L304 |
-| 関連ドキュメント | L321 |
+| エンドポイント命名規則 | L199 |
+| UBM-Hyogo Admin Sync API（03a） | L220 |
+| UBM-Hyogo Member Self-Service API（04b） | L265 |
+| Desktop IPC API サマリー | L285 |
+| 変更履歴 | L316 |
+| 関連ドキュメント | L333 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1013,8 +1013,8 @@ node scripts/list-specs.js --topics
 | Turso 無料枠の活用 | L8 |
 | セキュリティベストプラクティス | L41 |
 | 運用・メンテナンス | L76 |
-| Electron ローカルストレージ | L103 |
-| 関連ドキュメント | L166 |
+| Electron ローカルストレージ | L119 |
+| 関連ドキュメント | L182 |
 
 ### references/database-schema-07b-schema-alias-assignment.md
 
@@ -2265,6 +2265,19 @@ node scripts/list-specs.js --topics
 | Validation Chain | L107 |
 | 確定値・列定義 | L120 |
 
+### references/workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L20 |
+| Phase Outputs（current canonical set） | L31 |
+| 主要実装物 | L40 |
+| Skill 反映先（current canonical set） | L62 |
+| 実装で確定した値 | L75 |
+| Follow-up 未タスク（formalize 済み） | L83 |
+| Validation Chain | L94 |
+
 ### references/workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md
 
 | セクション | 行 |
@@ -2834,17 +2847,18 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L87 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L174 |
-| Cloudflare D1 データベース | L294 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L327 |
-| GitHub Actions CI/CD | L439 |
-| プレビューデプロイメント | L468 |
-| カスタムドメイン設定 | L484 |
-| 環境分離 | L497 |
-| ロールバック戦略 | L507 |
-| モニタリング/アラート（UT-08 連携） | L528 |
-| 変更履歴 | L545 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L76 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L95 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L182 |
+| Cloudflare D1 データベース | L302 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L335 |
+| GitHub Actions CI/CD | L447 |
+| プレビューデプロイメント | L476 |
+| カスタムドメイン設定 | L492 |
+| 環境分離 | L505 |
+| ロールバック戦略 | L515 |
+| モニタリング/アラート（UT-08 連携） | L536 |
+| 変更履歴 | L553 |
 
 ### references/deployment-core.md
 

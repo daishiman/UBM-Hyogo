@@ -84,6 +84,25 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 
 ---
 
+## D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01）
+
+UT-06 Phase 12 UNASSIGNED-E は `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/` で `spec_created` / docs-only / NON_VISUAL workflow として formalize した。現 wave は仕様書と validator 用 placeholder のみで、runtime 実装は Phase 13 ユーザー承認後の別 PR に分離する。
+
+| 項目 | current contract |
+| --- | --- |
+| export 主経路 | `.github/workflows/d1-backup.yml` の GHA schedule。`bash scripts/cf.sh d1 export` → gzip → R2 PUT |
+| Cloudflare cron | `apps/api/wrangler.toml` の R2 latest healthcheck / UT-08 alert 補助。Workers runtime から D1 export CLI は実行しない |
+| retention | `daily/` は 30 日、`monthly/` は 12 ヶ月 |
+| storage | R2 を第一保管先、1Password Environments は月次補助保管先 |
+| encryption | R2 SSE 標準を base case。L3 相当データが入る場合は SSE-C / KMS を再判定 |
+| restore rehearsal | 月次、RTO 15 分未満、結果は restore rehearsal record に追記 |
+| visual evidence | NON_VISUAL。screenshots は不要。Phase 11 placeholder は runtime PASS ではない |
+| follow-ups | `UT-06-FU-E-monthly-restore-rehearsal-sop-001` / `UT-06-FU-E-encryption-mode-finalization-001` / `UT-06-FU-E-gha-backup-monitoring-extension-001` |
+
+実装 PR では `apps/web` を変更せず、Cloudflare 操作は `bash scripts/cf.sh` 経由に統一する。secret 実値は記録禁止で、`op://...` は参照名としてのみ許可する。
+
+---
+
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）
 
 > **current facts (UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION / 2026-05-01)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` はまだ **Pages deploy**（`pages deploy .next`）を呼ぶ。ADR-0001（`docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`）で Workers cutover を採択済み。残る `web-cd.yml` 置換、Cloudflare side Pages project → Workers script 切替、staging / production smoke は `task-impl-opennext-workers-migration-001` の責務とする。
