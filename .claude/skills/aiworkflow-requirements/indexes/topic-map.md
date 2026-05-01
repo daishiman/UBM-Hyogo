@@ -3062,15 +3062,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L11 |
-| 使い方 | L19 |
-| Current Alias Overrides（個別互換行） | L26 |
-| Family Summary | L57 |
-| Detailed Register | L78 |
-| Section Extract Register (2026-03-17) | L259 |
-| 500-Line Split Register (2026-03-16) | L270 |
-| Fragment Migration Register (2026-04-28) | L292 |
-| Task Root Path Drift Register (2026-04-30 追記) | L319 |
+| 概要 | L12 |
+| 使い方 | L20 |
+| Current Alias Overrides（個別互換行） | L27 |
+| Family Summary | L58 |
+| Detailed Register | L79 |
+| Section Extract Register (2026-03-17) | L260 |
+| 500-Line Split Register (2026-03-16) | L271 |
+| Fragment Migration Register (2026-04-28) | L293 |
+| Task Root Path Drift Register (2026-04-30 追記) | L320 |
 
 ### references/lessons-learned-03a-parallel-forms-schema-sync.md
 
@@ -3319,6 +3319,22 @@ node scripts/list-specs.js --topics
 | L-UUT0109-001: docs-only canonical decision でも正本導線を同 wave で閉じる | L3 |
 | L-UUT0109-002: technical GO と user approval を分離する | L7 |
 | L-UUT0109-003: offset は invocation budget と invalidation 条件まで書く | L11 |
+
+### references/lessons-learned-ut-02a-tag-assignment-queue-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L11 |
+| L-UT02A-001: 仕様書命名（複数形）と既存規約（単数形）の差分判断 | L27 |
+| L-UT02A-002: idempotency key 設計に `tagCode` を含めない判断 | L33 |
+| L-UT02A-003: retry / DLQ 列追加で既存 row に既定値を確実に与える | L39 |
+| L-UT02A-004: type-level read-only test (`*.test-d.ts`) を導入してメンバータグ書き込み境界を恒久化 | L45 |
+| L-UT02A-005: 既存ファイル拡張 vs 新規ファイル作成の判断 | L51 |
+| L-UT02A-006: candidate / confirmed / rejected ↔ queued / resolved / rejected の alias 維持 | L57 |
+| L-UT02A-007: NON_VISUAL implementation の Phase 12 で artifacts.json を更新しない判断 | L63 |
+| 採用した設計判断（サマリ） | L71 |
+| 将来タスクへの推奨事項（formal unassigned tasks） | L86 |
+| 関連 lessons-learned | L98 |
 
 ### references/lessons-learned-ut-03-sheets-auth-2026-04.md
 
