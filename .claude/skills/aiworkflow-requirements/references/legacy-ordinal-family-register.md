@@ -330,6 +330,14 @@ Family status: `reclassify-first`
 | 09a-parallel-staging-deploy-smoke-and-forms-sync-validation | `docs/30-workflows/02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` | `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` | 2026-05-01 | implementation execution spec / `spec_created` close-out。実 staging smoke は `UT-09A-EXEC-STAGING-SMOKE-001` へ分離 |
 | 09b-parallel-cron-triggers-monitoring-and-release-runbook | `docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | 2026-05-01 | task-20260501-054121-wt-3 / docs-only spec_created runbook（Phase 11 NON_VISUAL、Phase 12 same-wave sync、Phase 13 approval gate） |
 | 09c-serial-production-deploy-and-post-release-verification | `docs/30-workflows/02-application-implementation/09c-serial-production-deploy-and-post-release-verification/` | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/` | 2026-05-01 | task-20260501-065106-wt-10 / docs-only spec_created（runtime execution は `task-09c-production-deploy-execution-001.md` に分離） |
+| 05a-authjs-google-oauth-admin-gate followup family | `docs/30-workflows/unassigned-task/05a-authjs-google-oauth-admin-gate/` | `docs/30-workflows/ut-05a-followup-google-oauth-completion/` | 2026-05-01 | task-20260430-181640-wt-5 / Google OAuth 統合 followup wave |
+| 05b-A-auth-mail-env-contract-alignment | `docs/30-workflows/02-application-implementation/05b-A-auth-mail-env-contract-alignment/` | `docs/30-workflows/05b-A-auth-mail-env-contract-alignment/` | 2026-05-01 | task-20260501-181030-wt-8 / spec_created docs-only remaining-only NON_VISUAL |
+
+### 05a ordinal alias（2026-05-01 追記）
+
+- 05a ≡ ut-05a-followup-google-oauth-completion
+     ≡ task-05a-* family（auth-ui-logout-button, build-prerender-failure, fetchpublic-service-binding, form-preview-503, privacy-terms-pages, runbook-curl-method-fix）
+- 関連 reference: `auth-google-oauth-cf-integration.md`（Google OAuth + Cloudflare Workers + OpenNext 統合パターンのハブ）
 
 ### 旧 citation 引き直し方針
 
