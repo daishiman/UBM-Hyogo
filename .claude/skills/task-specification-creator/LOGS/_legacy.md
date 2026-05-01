@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-01 - UT-07A-02 contract path discovery feedback
+
+`docs/30-workflows/completed-tasks/ut-07a-02-search-tags-resolve-contract-followup/` の Phase 12 skill-feedback を反映した。生成・計画段階で `apps/api/test/contract/...` や `apps/web/src/lib/api/admin.ts` のような未実在パスを仮置きすると、実装時に route test / admin client / shared schema の追従対象がずれるため、Phase 2 で `rg --files` による current repo layout discovery を必須化した。API と web が `@ubm-hyogo/shared` を共有できる場合は request body union を shared schema SSOT にし、route / client で型を手書き複製しない。commit / PR / push は未実行。
+
 ## 2026-04-30 - UT-21 legacy umbrella close-out Phase 12 feedback
 
 `docs/30-workflows/completed-tasks/ut21-forms-sync-conflict-closeout/` を docs-only / NON_VISUAL / `spec_created` としてレビューし、旧 UT-21 Sheets→D1 sync endpoint / audit logging 仕様を削除せず legacy 状態欄で現行 Forms sync 正本へ吸収する運用を確認した。Phase 12 では「新設禁止 IF が成果物そのもの」の場合でも `system-spec-update-summary.md` に Step 2 not required、`unassigned-task-detection.md` に U02/U04/U05 既起票、`skill-feedback-report.md` に両 skill 行を残す必要がある。commit / PR / push は未実行。

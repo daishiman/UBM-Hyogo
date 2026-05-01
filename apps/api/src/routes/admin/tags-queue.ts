@@ -7,7 +7,7 @@ import { requireAdmin, type RequireAuthVariables } from "../../middleware/requir
 import { ctx } from "../../repository/_shared/db";
 import { adminEmail, asAdminId } from "../../repository/_shared/brand";
 import { listQueue, type TagQueueStatus } from "../../repository/tagQueue";
-import { TagQueueResolveBody } from "../../schemas/tagQueueResolve";
+import { tagQueueResolveBodySchema } from "@ubm-hyogo/shared";
 import {
   TagQueueResolveError,
   tagQueueResolve,
@@ -15,7 +15,7 @@ import {
 import type { AdminRouteEnv } from "./_shared";
 
 const StatusFilterZ = z
-  .enum(["queued", "reviewing", "resolved", "rejected"])
+  .enum(["queued", "reviewing", "resolved", "rejected", "dlq"])
   .optional();
 
 const ERROR_TO_STATUS: Record<string, number> = {
@@ -54,9 +54,9 @@ export const createAdminTagsQueueRoute = () => {
     } catch {
       return c.json({ ok: false, error: "invalid json body" }, 400);
     }
-    const parsed = TagQueueResolveBody.safeParse(raw);
+    const parsed = tagQueueResolveBodySchema.safeParse(raw);
     if (!parsed.success) {
-      return c.json({ ok: false, error: parsed.error.message }, 400);
+      return c.json({ ok: false, error: "validation_error", details: parsed.error.issues }, 400);
     }
 
     const authUser = c.get("authUser");

@@ -65,6 +65,44 @@ describe("admin members route", () => {
     expect(res.status).toBe(404);
   });
 
+  it("GET /members/:memberId の audit は audit_log 由来で admin_member_notes を混ぜない", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO admin_member_notes
+         (note_id, member_id, body, created_by, updated_by, created_at, updated_at)
+         VALUES ('note_admin_only', 'm1', 'admin note body', 'owner@example.com', 'owner@example.com', '2026-04-01T00:00:00Z', '2026-04-01T00:00:00Z')`,
+      )
+      .run();
+    await env.db
+      .prepare(
+        `INSERT INTO audit_log
+         (audit_id, actor_id, actor_email, action, target_type, target_id, before_json, after_json, created_at)
+         VALUES ('audit_1', NULL, 'owner@example.com', 'member.status_updated', 'member', 'm1', NULL, NULL, '2026-04-02T00:00:00Z')`,
+      )
+      .run();
+
+    const app = createAdminMembersRoute();
+    const res = await app.request(
+      "/members/m1",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      audit: Array<{ action: string; note: string | null }>;
+    };
+    expect(body.audit).toEqual([
+      {
+        actor: "owner@example.com",
+        action: "member.status_updated",
+        occurredAt: "2026-04-02T00:00:00Z",
+        note: null,
+      },
+    ]);
+    expect(JSON.stringify(body.audit)).not.toContain("admin note body");
+  });
+
   it("GET /members?filter=invalid は 400", async () => {
     const app = createAdminMembersRoute();
     const res = await app.request(

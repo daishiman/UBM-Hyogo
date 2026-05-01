@@ -19,3 +19,17 @@
 ## L-07A-005: admin client 契約は UI 実装タスクの stale 記述を同 wave で直す
 
 06c で空 body として書かれた `resolveTagQueue(queueId)` は、07a 実装後に discriminated union body へ更新する必要がある。API contract の変更は `api-endpoints.md` と `architecture-admin-api-client.md` を同時に確認する。
+
+## L-07A-006: API / web の body drift は shared schema SSOT へ寄せる
+
+UT-07A-02 では `TagQueueResolveBody` を `packages/shared/src/schemas/admin/tag-queue-resolve.ts`
+の `tagQueueResolveBodySchema` に集約し、API route と apps/web admin client が同じ body 型を参照する形にした。
+同じ discriminated union を各層に複製すると `confirmed` / `rejected` / mixed body reject の差分が再発するため、
+既に shared package が依存可能な契約は shared zod + exported type を優先する。
+
+## L-07A-007: package script の test 引数は対象ファイル選択を保証しない
+
+`pnpm --filter @ubm-hyogo/api test -- tags-queue tagQueueResolve` は package script 側の固定引数により
+`apps/api` 全体を選択し、ローカル Miniflare/D1 の `EADDRNOTAVAIL` に巻き込まれた。
+Phase evidence では実行コマンドが対象ファイルを確実に絞るかを確認し、必要なら
+`pnpm exec vitest run --root=. --config=vitest.config.ts <test files...>` を記録する。

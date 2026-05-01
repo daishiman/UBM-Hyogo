@@ -26,6 +26,7 @@
     "blocks": [
       "task-impl-opennext-workers-migration-001"
     ],
+    "blocks": [],
     "related": [
       "UT-GOV-006-web-deploy-target-canonical-sync"
     ]
@@ -35,7 +36,7 @@
       "phase": 1,
       "name": "要件定義",
       "file": "phase-01.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-01/main.md"
       ],
@@ -46,7 +47,7 @@
       "phase": 2,
       "name": "設計（ADR ドラフト & 判断軸）",
       "file": "phase-02.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-02/adr-draft.md",
         "outputs/phase-02/decision-criteria.md",
@@ -59,7 +60,7 @@
       "phase": 3,
       "name": "設計レビューゲート",
       "file": "phase-03.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-03/main.md"
       ],
@@ -70,7 +71,7 @@
       "phase": 4,
       "name": "検証戦略",
       "file": "phase-04.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-04/test-strategy.md",
         "outputs/phase-04/doc-consistency-checks.md"
@@ -82,7 +83,7 @@
       "phase": 5,
       "name": "仕様 runbook 作成",
       "file": "phase-05.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-05/adr-runbook.md",
         "outputs/phase-05/doc-update-procedure.md"
@@ -94,7 +95,7 @@
       "phase": 6,
       "name": "異常系",
       "file": "phase-06.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-06/failure-cases.md"
       ],
@@ -105,7 +106,7 @@
       "phase": 7,
       "name": "AC マトリクス",
       "file": "phase-07.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-07/ac-matrix.md"
       ],
@@ -116,7 +117,7 @@
       "phase": 8,
       "name": "DRY 化 / 仕様間整合",
       "file": "phase-08.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-08/main.md",
         "outputs/phase-08/dry-consolidation-map.md"
@@ -128,7 +129,7 @@
       "phase": 9,
       "name": "品質保証",
       "file": "phase-09.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-09/main.md",
         "outputs/phase-09/quality-gate-checklist.md"
@@ -138,9 +139,9 @@
     },
     {
       "phase": 10,
-      "name": "最終レビュー",
+      "name": "最終レビューゲート",
       "file": "phase-10.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-10/go-no-go.md",
         "outputs/phase-10/review-findings.md"
@@ -150,9 +151,9 @@
     },
     {
       "phase": 11,
-      "name": "手動検証（NON_VISUAL 縮約）",
+      "name": "手動検証（NON_VISUAL 縮約 + 大規模実測 evidence）",
       "file": "phase-11.md",
-      "status": "spec_created",
+      "status": "completed-local / staging-deferred",
       "outputs": [
         "outputs/phase-11/main.md",
         "outputs/phase-11/manual-smoke-log.md",
@@ -165,7 +166,7 @@
       "phase": 12,
       "name": "ドキュメント更新",
       "file": "phase-12.md",
-      "status": "spec_created",
+      "status": "completed",
       "outputs": [
         "outputs/phase-12/main.md",
         "outputs/phase-12/implementation-guide.md",

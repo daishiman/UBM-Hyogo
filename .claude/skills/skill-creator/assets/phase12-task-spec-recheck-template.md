@@ -28,7 +28,7 @@
 | SubAgent-B | 実装ガイド品質 | `implementation-guide.md` の必須要素確認 | `Part 1 / Part 2`、理由先行、日常例え（`たとえば` 明示）、型/API/エッジケース/設定が揃う |
 | SubAgent-C | 未タスク整合 | 物理配置、10見出し、links/audit 確認 | `docs/30-workflows/unassigned-task/` 配置 + `currentViolations=0` |
 | SubAgent-D | system spec同期 | `task-workflow.md` / `lessons-learned.md` へ実装内容と苦戦箇所を転記 | 検証値と5分解決カードが同値で同期 |
-| SubAgent-E | 成果物同期 | `spec-update-summary` / `phase12-compliance-recheck` / `unassigned-task-detection` へ実測値を同期 | system spec と outputs の値が一致 |
+| SubAgent-E | 成果物同期 | `system-spec-update-summary` / `phase12-task-spec-compliance-check` / `unassigned-task-detection` へ実測値を同期 | system spec と outputs の値が一致 |
 
 ---
 
@@ -39,8 +39,8 @@
 - [ ] `phase-12-documentation.md` の `ステータス=completed`
 - [ ] Task 12-1〜12-5 がすべて `[x]`
 - [ ] Task進捗が `100%`
-- [ ] `outputs/phase-12/` に最低5成果物が存在
-- [ ] `spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `implementation-guide.md` が実体化
+- [ ] `outputs/phase-12/` に canonical 7成果物が存在
+- [ ] `system-spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `implementation-guide.md` が実体化
 
 ### 3.2 `implementation-guide.md`
 
@@ -67,7 +67,7 @@
 
 - [ ] `task-workflow.md` に実装内容・苦戦箇所・検証証跡・5分解決カードがある
 - [ ] `lessons-learned.md` に再発条件付き苦戦箇所と簡潔解決手順がある
-- [ ] `spec-update-summary.md` / `phase12-compliance-recheck.md` / `unassigned-task-detection.md` に system spec と同じ実測値がある
+- [ ] `system-spec-update-summary.md` / `phase12-task-spec-compliance-check.md` / `unassigned-task-detection.md` に system spec と同じ実測値がある
 - [ ] `phase12-task-spec-compliance-check.md` が root evidence として同じ値を持つ
 - [ ] UIタスクでは `phase-11-manual-test.md` に `## 画面カバレッジマトリクス` がある
 
@@ -76,17 +76,17 @@
 ## 4. 検証コマンド
 
 ```bash
-node .agents/skills/task-specification-creator/scripts/verify-all-specs.js --workflow <workflow-path> --json
-node .agents/skills/task-specification-creator/scripts/validate-phase-output.js <workflow-path>
-node .agents/skills/task-specification-creator/scripts/validate-phase11-screenshot-coverage.js --workflow <workflow-path>
+node .claude/skills/task-specification-creator/scripts/verify-all-specs.js --workflow <workflow-path> --json
+node .claude/skills/task-specification-creator/scripts/validate-phase-output.js <workflow-path>
+node .claude/skills/task-specification-creator/scripts/validate-phase11-screenshot-coverage.js --workflow <workflow-path>
 rg -n '^\| ステータス \| completed' <workflow-path>/phase-12-documentation.md
 rg -n '^- \[x\] Task 12-[1-5]' <workflow-path>/phase-12-documentation.md
 rg -n '## Part 1|## Part 2|なぜ|必要|例え|たとえば|interface|type|API|エッジケース|設定' <workflow-path>/outputs/phase-12/implementation-guide.md
 rg -n '^## 画面カバレッジマトリクス$' <workflow-path>/phase-11-manual-test.md
-node .agents/skills/task-specification-creator/scripts/verify-unassigned-links.js
-node .agents/skills/task-specification-creator/scripts/audit-unassigned-tasks.js --json --diff-from HEAD --target-file <unassigned-file>
-node .agents/skills/task-specification-creator/scripts/audit-unassigned-tasks.js --json --diff-from HEAD
-node .agents/skills/task-specification-creator/scripts/audit-unassigned-tasks.js --json
+node .claude/skills/task-specification-creator/scripts/verify-unassigned-links.js
+node .claude/skills/task-specification-creator/scripts/audit-unassigned-tasks.js --json --diff-from HEAD --target-file <unassigned-file>
+node .claude/skills/task-specification-creator/scripts/audit-unassigned-tasks.js --json --diff-from HEAD
+node .claude/skills/task-specification-creator/scripts/audit-unassigned-tasks.js --json
 rg -n '^## メタ情報$|^## [1-9]\. ' <unassigned-file>
 node .claude/skills/skill-creator/scripts/quick_validate.js .claude/skills/skill-creator
 node .claude/skills/skill-creator/scripts/quick_validate.js .claude/skills/task-specification-creator
@@ -101,8 +101,8 @@ node .claude/skills/skill-creator/scripts/quick_validate.js .claude/skills/aiwor
 
 1. `task-workflow.md`
 2. `lessons-learned.md`
-3. `outputs/phase-12/spec-update-summary.md`
-4. `outputs/phase-12/phase12-compliance-recheck.md`
+3. `outputs/phase-12/system-spec-update-summary.md`
+4. `outputs/phase-12/phase12-task-spec-compliance-check.md`
 5. `outputs/phase-12/unassigned-task-detection.md`
 6. `outputs/phase-12/documentation-changelog.md`
 7. `outputs/phase-12/skill-feedback-report.md`

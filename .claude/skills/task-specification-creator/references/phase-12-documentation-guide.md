@@ -61,9 +61,11 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - canonical filename は `system-spec-update-summary.md`
 - `artifacts.json` と `outputs/artifacts.json` の同期結果も書く
 - `artifacts.json` / `outputs/artifacts.json` の title / type / status / phase artifact 名 parity を初手で確認し、ずれたまま `PASS` にしない
+- root/output artifacts parity は full mirror と lightweight parity marker を区別する。全項目一致でない場合は、どの key を marker として同期したかを明示し、full mirror 済みと書かない
 - Phase 11 が NON_VISUAL の場合でも `manual-test-checklist.md` など補助成果物の有無を記録する
 - Phase 11 が docs-only / NON_VISUAL の infrastructure verification の場合、`implementation-guide.md` に Phase 11 evidence file 一覧と「実測完了ではなく evidence template 完了」の境界を明記する
 - state-only の修正は NON_VISUAL と判定し、manual-test-checklist.md と自動テスト結果を残す
+- Implementation spec-to-skill sync: Phase 12 が skill behavior を変える場合は owning skill reference / asset を同一 wave で更新し、implementation-guide の current facts だけに閉じ込めない
 
 ### 設計タスク（docs-only）での注意
 
@@ -82,6 +84,8 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - 起票元 unassigned がある場合は、後継 workflow path、Issue 状態、AC close-out 状態、実装委譲先を起票元へ追記する。候補だけを workflow 内に残して起票元を未更新にしない。
 - Phase 10 などの approval gate では `technical_go` と `user_approved` を分ける。docs-only NON_VISUAL の Phase 11/12 close-out は進行可でも、commit / push / PR は user approval なしに実行しない。
 - chunk / cursor / offset など再開可能性を扱う設計タスクでは、cron tick 間隔と 1 invocation budget を分けて書き、行削除・挿入・並べ替え時の offset invalidation 条件を実装委譲に含める。
+- `spec_created` implementation で code scaffold / local implementation が存在する場合は、scaffold completed / local tests PASS / runtime staging PASS を分離して書く。template や local PASS だけで production/staging runtime PASS と記録しない
+- HTTP 202 / retryable / resumable workflow は、continuation target が API / queue / documented operation から再発見できることを system spec update summary と compliance check に記録する
 
 サブエージェントに委譲する場合も、「設計タスクだから更新不要」という判断を許容しない。
 
@@ -178,9 +182,11 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - internal adapter の実装だけで public IPC / preload contract 更新済みとは記録しない
 - Phase 13 は user approval 未取得なら `blocked` を維持し、completed へ進めない
 - skill を更新した場合は canonical `.claude/skills/...` と mirror `.agents/skills/...` の parity も記録する
+- mirror parity は `.agents/skills/<skill>` が存在する場合のみ必須。存在する場合は `diff -qr`、存在しない場合は明示的な N/A 理由を記録し、missing mirror を PASS evidence として扱わない
 - skill feedback の各 item が `promoted-to` または no-op reason まで閉じていることを確認する
 - compliance-check は自己申告 PASS で閉じず、validator 実測値、artifact existence、mirror parity、Phase 11 evidence の実ファイル根拠を結び付けて記録する
 - `docs-only / VISUAL / runtime evidence pending` の task は `Spec template completeness = PASS` と `Production/runtime compliance = PENDING_RUNTIME_EVIDENCE` を分離し、実 production PASS を主張しない
+- タスク仕様書に古い候補コマンドが残っていた場合は、実リポジトリの `package.json` / workspace / test runner から現在のコマンドを再解決し、Phase 1 / 4 / 9 / 11 / 12 の command contract を同じ文字列へ更新してから PASS にする
 
 **確認コマンド（docs-only / UI task 共通で必須）**:
 

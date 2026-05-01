@@ -40,7 +40,7 @@ runtime コードを生成しない。したがって unit / contract / E2E / au
 | 参考 | docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/index.md | schema sync 移管先 |
 | 参考 | docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/index.md | response sync 移管先 |
 | 参考 | .claude/skills/aiworkflow-requirements/references/api-endpoints.md | admin sync endpoint 移管先 |
-| 参考 | docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md | cron / runbook 移管先 |
+| 参考 | docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md | cron / runbook 移管先 |
 | 必須 | docs/00-getting-started-manual/specs/01-api-schema.md | spec 整合性検証の正本（form schema） |
 | 必須 | docs/00-getting-started-manual/specs/03-data-fetching.md | spec 整合性検証の正本（sync_jobs / cursor / current response / consent snapshot） |
 | 必須 | docs/00-getting-started-manual/specs/08-free-database.md | spec 整合性検証の正本（D1 / WAL 非対応 / PRAGMA 制約） |
@@ -145,7 +145,7 @@ unit / contract / E2E / authorization は「コード変更ゼロ」「endpoint 
 | M-1 | 旧 UT-09 schema 取得が 03a に割当済み | `rg -l "POST /admin/sync/schema\|forms\\.get\|schema_questions" docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/` | 3 keyword 全 hit |
 | M-2 | response 取得 / cursor / current response が 03b に割当済み | `rg -l "forms\\.responses\\.list\|member_responses\|current response" docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/` | 3 keyword 全 hit |
 | M-3 | 手動同期 endpoint が 04c に割当済み | `rg -l "/admin/sync/schema\|/admin/sync/responses" .claude/skills/aiworkflow-requirements/references/` | 2 endpoint 全 hit |
-| M-4 | cron / pause / resume / runbook が 09b に割当済み | `rg -l "cron\|pause\|resume\|incident" docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | 4 keyword 全 hit |
+| M-4 | cron / pause / resume / runbook が 09b に割当済み | `rg -l "cron\|pause\|resume\|incident" docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | 4 keyword 全 hit |
 
 ### 3. stale path scan 層（旧パス・旧表記の混入防止）
 
@@ -169,7 +169,7 @@ unit / contract / E2E / authorization は「コード変更ゼロ」「endpoint 
 | ID | ケース | 検証コマンド | 期待 |
 | --- | --- | --- | --- |
 | C-1 | 正本仕様に conflict marker が残っていない | `rg -n "^(<<<<<<<\|=======\|>>>>>>>)" .claude/skills/aiworkflow-requirements/references` | 0 hit |
-| C-2 | 移管先タスク群に conflict marker が残っていない | `rg -n "^(<<<<<<<\|=======\|>>>>>>>)" docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver .claude/skills/aiworkflow-requirements/references docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook` | 0 hit |
+| C-2 | 移管先タスク群に conflict marker が残っていない | `rg -n "^(<<<<<<<\|=======\|>>>>>>>)" docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver .claude/skills/aiworkflow-requirements/references docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook` | 0 hit |
 | C-3 | 元仕様ファイルに conflict marker が残っていない | `rg -n "^(<<<<<<<\|=======\|>>>>>>>)" docs/30-workflows/unassigned-task/task-sync-forms-d1-legacy-umbrella-001.md` | 0 hit |
 
 ## N/A 領域の根拠

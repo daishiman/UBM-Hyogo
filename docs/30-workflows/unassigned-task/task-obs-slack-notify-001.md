@@ -23,7 +23,11 @@
 - `sync_jobs.failed` 連続、`running` 30 分超、Workers 5xx rate などを通知対象にする
 - staging で通知 smoke を行い、incident-response-runbook に反映する
 
-## Scope
+## 苦戦箇所【記入必須】
+
+Slack 通知は「便利な自動化」と「誤通知による alert fatigue」の境界が曖昧になりやすい。09b の manual escalation を壊さず、P1/P2 の最小条件だけを staging smoke で確認してから production に進める。
+
+## スコープ
 
 含む:
 - 通知条件 matrix
@@ -34,6 +38,20 @@
 含まない:
 - PagerDuty / Opsgenie 等の外部 on-call 製品導入
 - Sentry 本接続（`task-obs-sentry-dsn-registration-001` で扱う）
+
+## リスクと対策
+
+| リスク | 対策 |
+| --- | --- |
+| failed job の一時的な揺れで大量通知される | 連続失敗回数、dedupe window、severity gate を matrix 化する |
+| webhook secret が repo に混入する | 1Password 正本 + Cloudflare Secret / GitHub Secret のみで管理する |
+| manual escalation と自動通知の責務が競合する | incident response runbook に初動 owner と自動通知の補助範囲を明記する |
+
+## 検証方法
+
+- staging で test notification を 1 回送る
+- dedupe 条件の dry-run log を保存する
+- `rg -n "hooks.slack.com|SLACK_.*=.*https://" .` で漏洩がないことを確認する
 
 ## 完了条件
 

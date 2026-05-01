@@ -163,6 +163,8 @@ async function call<T>(
 
 すべてのパスは proxy 内で `/admin/` を前置されるため、ここでは `/admin` を **書かない**。
 
+UT-07A-02 以降、`resolveTagQueue` の body 型は `@ubm-hyogo/shared` の `TagQueueResolveBody` を参照する。client 側に同型 union を手書き複製しない。
+
 ### 3.4 不変条件（api.ts）
 
 - 不変条件 #11: profile 本文（businessOverview 等）の編集 mutation は **意図的に存在させない**。

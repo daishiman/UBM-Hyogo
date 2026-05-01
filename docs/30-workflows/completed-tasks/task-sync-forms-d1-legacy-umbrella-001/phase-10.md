@@ -37,7 +37,7 @@ Phase 1〜9 の成果物を総合し、旧 UT-09 を **legacy umbrella として
 | 必須 | `docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/index.md` | 移管先 03a |
 | 必須 | `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` | 移管先 03b |
 | 必須 | `.claude/skills/aiworkflow-requirements/references/api-endpoints.md` | 移管先 04c |
-| 必須 | `docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md` | 移管先 09b |
+| 必須 | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/index.md` | 移管先 09b |
 
 ## 実行手順
 
