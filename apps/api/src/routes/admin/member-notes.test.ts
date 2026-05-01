@@ -49,6 +49,14 @@ describe("admin member notes", () => {
     const body = (await res.json()) as { ok: boolean; note: { noteId: string } };
     expect(body.ok).toBe(true);
     expect(body.note.noteId).toBeTruthy();
+    const audit = await env.db
+      .prepare(
+        "SELECT action, target_id FROM audit_log WHERE target_type='member' AND target_id='m1'",
+      )
+      .all<{ action: string; target_id: string }>();
+    expect(audit.results).toEqual([
+      { action: "admin.member.note_created", target_id: "m1" },
+    ]);
   });
 
   it("body 空は 400", async () => {
@@ -87,5 +95,55 @@ describe("admin member notes", () => {
       makeEnv(env),
     );
     expect(res.status).toBe(404);
+  });
+
+  it("PATCH: 200 + note 更新 + audit 追加", async () => {
+    const app = createAdminMemberNotesRoute();
+    const created = await app.request(
+      "/members/m1/notes",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ body: "before memo" }),
+      },
+      makeEnv(env),
+    );
+    const createdBody = (await created.json()) as { note: { noteId: string } };
+
+    const res = await app.request(
+      `/members/m1/notes/${createdBody.note.noteId}`,
+      {
+        method: "PATCH",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ body: "after memo" }),
+      },
+      makeEnv(env),
+    );
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      ok: boolean;
+      note: { noteId: string; body: string };
+    };
+    expect(body).toMatchObject({
+      ok: true,
+      note: { noteId: createdBody.note.noteId, body: "after memo" },
+    });
+
+    const audit = await env.db
+      .prepare(
+        "SELECT action, before_json AS beforeJson, after_json AS afterJson FROM audit_log WHERE target_type='member' AND target_id='m1' ORDER BY created_at ASC",
+      )
+      .all<{ action: string; beforeJson: string | null; afterJson: string | null }>();
+    expect(audit.results?.map((row) => row.action)).toEqual([
+      "admin.member.note_created",
+      "admin.member.note_updated",
+    ]);
+    expect(JSON.parse(audit.results?.[1]?.beforeJson ?? "{}")).toEqual({
+      body: "before memo",
+    });
+    expect(JSON.parse(audit.results?.[1]?.afterJson ?? "{}")).toEqual({
+      body: "after memo",
+    });
   });
 });
