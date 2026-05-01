@@ -1,0 +1,13 @@
+{
+  "task": "ut-06b-profile-logged-in-visual-evidence",
+  "visualEvidence": "VISUAL",
+  "captures": [
+    { "id": "M-08", "file": "evidence/screenshot/M-08-profile.png", "env": "local", "route": "/profile" },
+    { "id": "M-09", "file": "evidence/screenshot/M-09-no-form.png", "env": "local", "route": "/profile" },
+    { "id": "M-10", "file": "evidence/screenshot/M-10-edit-query-ignored.png", "env": "local", "route": "/profile?edit=true" },
+    { "id": "M-14", "file": "evidence/screenshot/M-14-staging-profile.png", "env": "staging", "route": "/profile" },
+    { "id": "M-15", "file": "evidence/screenshot/M-15-edit-cta.png", "env": "staging", "route": "/profile" },
+    { "id": "M-16", "file": "evidence/screenshot/M-16-localstorage-ignored.png", "env": "staging", "route": "/profile" }
+  ],
+  "externalGate": "09a staging deploy smoke for M-14 through M-16"
+}
