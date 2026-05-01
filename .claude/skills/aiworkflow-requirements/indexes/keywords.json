@@ -1401,6 +1401,7 @@
     ],
     "ESLint": [
       "arch-state-management-advanced.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "キャッシュをクリア": [
@@ -2364,6 +2365,7 @@
       "arch-state-management-skill-creator.md",
       "database-schema.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
@@ -2394,6 +2396,7 @@
       "arch-state-management-skill-creator.md",
       "database-schema.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
@@ -2448,6 +2451,7 @@
     "skill": [
       "arch-state-management-skill-creator.md",
       "claude-code-skills-process.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
@@ -2658,7 +2662,8 @@
       "arch-state-management-skill-creator.md",
       "csrf-state-parameter.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
-      "security-implementation.md"
+      "security-implementation.md",
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md"
     ],
     "配置ルール": [
       "arch-state-management-skill-creator.md"
@@ -3386,7 +3391,8 @@
       "architecture-implementation-patterns-shared.md"
     ],
     "Enforcement": [
-      "architecture-implementation-patterns-shared.md"
+      "architecture-implementation-patterns-shared.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
     ],
     "ADVANCED": [
       "architecture-implementation-patterns-shared.md",
@@ -3508,7 +3514,8 @@
       "architecture-patterns.md"
     ],
     "standalone": [
-      "architecture-patterns.md"
+      "architecture-patterns.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
     ],
     "関数": [
       "architecture-patterns.md"
@@ -3696,6 +3703,7 @@
     "lessons": [
       "auth-google-oauth-cf-integration.md",
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -3712,6 +3720,7 @@
     "learned": [
       "auth-google-oauth-cf-integration.md",
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -3938,6 +3947,7 @@
     "list": [
       "claude-code-agents-workflow.md",
       "claude-code-skills-process.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
       "logs-archive-index.md"
     ],
@@ -4072,7 +4082,8 @@
       "claude-code-settings-hierarchy.md"
     ],
     "allow": [
-      "claude-code-settings-hierarchy.md"
+      "claude-code-settings-hierarchy.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
     ],
     "deny": [
       "claude-code-settings-hierarchy.md",
@@ -4103,6 +4114,7 @@
     "docs": [
       "claude-code-settings-hierarchy.md",
       "claude-code-skills-process.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
@@ -4135,6 +4147,7 @@
     ],
     "wave": [
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
@@ -4647,6 +4660,7 @@
       "database-schema-07b-schema-alias-assignment.md",
       "legacy-ordinal-family-register.md",
       "task-workflow-active.md",
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -4683,6 +4697,7 @@
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -4907,6 +4922,7 @@
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "spec-splitting-guidelines.md",
       "task-workflow-completed-agent-view-line-budget.md",
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
@@ -5289,7 +5305,8 @@
     ],
     "run": [
       "deployment-cloudflare.md",
-      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
+      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
     ],
     "file": [
       "deployment-cloudflare.md"
@@ -7142,7 +7159,8 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
     ],
     "dry": [
-      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
+      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
     ],
     "substitute": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
@@ -7165,7 +7183,8 @@
     "lint": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
-      "logs-archive-2026-01-skill-selector-todo-scan-template.md"
+      "logs-archive-2026-01-skill-selector-todo-scan-template.md",
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md"
     ],
     "経路に接続する": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
@@ -7255,6 +7274,7 @@
     ],
     "stableKey": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "直書き禁止の事前防止策の欠如": [
@@ -7280,7 +7300,14 @@
     "tier": [
       "lessons-learned-03a-parallel-forms-schema-sync.md"
     ],
+    "Literal": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "Lint": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
     "苦戦箇所": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -7308,6 +7335,146 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
+    ],
+    "LINT": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "未導入": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "monorepo": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "では": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+    ],
+    "Node": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
+    ],
+    "script": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
+    ],
+    "に倒す": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "warning": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md"
+    ],
+    "error": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "は同一実装で": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "mode": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
+    ],
+    "flag": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "分離する": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "の正本は": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "source": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "of": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "truth": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "module": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "パスで固定する": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "fixtures": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md"
+    ],
+    "tests": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "task-workflow-completed-chat-lifecycle-tests-part2.md",
+      "task-workflow-completed-chat-lifecycle-tests.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
+    ],
+    "exception": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "glob": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "inline": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "suppression": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "維持": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "enforced": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "lifecycle": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
+      "task-workflow-completed-chat-lifecycle-tests-part2.md",
+      "task-workflow-completed-chat-lifecycle-tests.md",
+      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
+      "task-workflow-completed-skill-lifecycle-design.md",
+      "task-workflow-completed-skill-lifecycle-security.md",
+      "task-workflow-completed-skill-lifecycle-ui-verify.md",
+      "task-workflow-completed-skill-lifecycle-ui.md",
+      "task-workflow-completed-skill-lifecycle.md"
+    ],
+    "再分類は同": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "で全": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "同期点を更新する": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "feedback": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
+    ],
+    "記録のみ": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+    ],
+    "edit": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
+      "logs-archive-2026-01-topic-map-remember-choice.md",
+      "ui-ux-feature-components-advanced.md"
+    ],
+    "report": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
+    ],
+    "で明示分離する": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
     ],
     "jobs": [
       "lessons-learned-03b-response-sync-2026-04.md"
@@ -7768,9 +7935,6 @@
     "MVP": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
     ],
-    "では": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
-    ],
     "次回ログイン反映": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
     ],
@@ -8083,14 +8247,6 @@
     "重複・所有関係不整合": [
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
-    "feedback": [
-      "lessons-learned-06c-admin-ui-2026-04.md",
-      "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
-      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
-    ],
     "で別": [
       "lessons-learned-06c-admin-ui-2026-04.md"
     ],
@@ -8176,9 +8332,6 @@
     "package": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md"
-    ],
-    "script": [
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "引数は対象ファイル選択を保証しない": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
@@ -8462,10 +8615,6 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
     ],
-    "warning": [
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "logs-archive-2026-03-notification-history-sigterm-guard.md"
-    ],
     "blocker": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
@@ -8573,7 +8722,8 @@
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
     "enforcement": [
-      "lessons-learned-coverage-80-enforcement-2026-04.md"
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md"
     ],
     "一律": [
       "lessons-learned-coverage-80-enforcement-2026-04.md"
@@ -8732,6 +8882,7 @@
     ],
     "inventory": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -9115,9 +9266,6 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "resolved": [
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
-    ],
-    "維持": [
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "を更新しない判断": [
@@ -9719,9 +9867,6 @@
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
-    "report": [
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
-    ],
     "連鎖発火タスク": [
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
     ],
@@ -10034,11 +10179,6 @@
       "ui-ux-feature-components-advanced.md",
       "ui-ux-feature-components-theme-chat.md",
       "ui-ux-navigation-chat-patterns.md"
-    ],
-    "edit": [
-      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
-      "logs-archive-2026-01-topic-map-remember-choice.md",
-      "ui-ux-feature-components-advanced.md"
     ],
     "WCE": [
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -10787,9 +10927,6 @@
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-permission-history-execution-timestamps.md"
     ],
-    "Node": [
-      "logs-archive-2026-02-env-infra-ipc-auth-ui.md"
-    ],
     "バージョン不一致修正": [
       "logs-archive-2026-02-env-infra-ipc-auth-ui.md",
       "logs-archive-2026-02-permission-history-execution-timestamps.md"
@@ -11305,10 +11442,6 @@
     "横断導線補強": [
       "logs-archive-2026-03-auth-mode-migration-sync.md"
     ],
-    "mode": [
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
-    ],
     "alignment": [
       "logs-archive-2026-03-auth-mode-migration-sync.md"
     ],
@@ -11744,17 +11877,6 @@
     ],
     "mid": [
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md"
-    ],
-    "lifecycle": [
-      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
-      "task-workflow-completed-chat-lifecycle-tests-part2.md",
-      "task-workflow-completed-chat-lifecycle-tests.md",
-      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
-      "task-workflow-completed-skill-lifecycle-design.md",
-      "task-workflow-completed-skill-lifecycle-security.md",
-      "task-workflow-completed-skill-lifecycle-ui-verify.md",
-      "task-workflow-completed-skill-lifecycle-ui.md",
-      "task-workflow-completed-skill-lifecycle.md"
     ],
     "governance": [
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md"
@@ -12887,9 +13009,6 @@
     "適用対象": [
       "skill-ledger-gitignore-policy.md"
     ],
-    "glob": [
-      "skill-ledger-gitignore-policy.md"
-    ],
     "auto": [
       "skill-ledger-gitignore-policy.md"
     ],
@@ -13336,11 +13455,6 @@
     ],
     "実行記録": [
       "task-workflow-completed-agent-view-line-budget.md"
-    ],
-    "tests": [
-      "task-workflow-completed-chat-lifecycle-tests-part2.md",
-      "task-workflow-completed-chat-lifecycle-tests.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
     "foundation": [
       "task-workflow-completed-ipc-preload-foundation.md"
@@ -14699,8 +14813,50 @@
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
-    "fixtures": [
-      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md"
+    "stablekey": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md"
+    ],
+    "literal": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md"
+    ],
+    "artifact": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "Implementation": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+    ],
+    "Artifacts": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+    ],
+    "Evidence": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+    ],
+    "Open": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
+    ],
+    "Ups": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
     ],
     "Canonical": [
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
@@ -14713,16 +14869,6 @@
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
-    ],
-    "artifact": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-permission-fallback-abort-skip-retry.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "同一": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
@@ -14922,18 +15068,6 @@
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
-    ],
-    "Evidence": [
-      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
-      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
-    ],
-    "Artifacts": [
-      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
-      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Deferred": [
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
@@ -15269,9 +15403,6 @@
     "Formalized": [
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
     ],
-    "Ups": [
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
-    ],
     "参照される実装ファイル": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
@@ -15280,9 +15411,6 @@
     "のため変更は伴わない": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
-    ],
-    "Open": [
-      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
     ],
     "lefthook": [
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
@@ -15310,11 +15438,6 @@
     ],
     "責務分離": [
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
-    ],
-    "Implementation": [
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "touchpoints": [
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
