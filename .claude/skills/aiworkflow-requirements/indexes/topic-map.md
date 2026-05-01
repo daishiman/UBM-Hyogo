@@ -972,7 +972,7 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L212 |
 | Conversation DB 初期化パターン | L243 |
 | UBM-Hyogo Schema Sync Contract（03a） | L245 |
-| ベクトル検索実装（DiskANN） | L353 |
+| ベクトル検索実装（DiskANN） | L355 |
 
 ### references/database-implementation-details.md
 
@@ -2073,8 +2073,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Metadata | L3 |
 | Current Canonical Set | L12 |
-| Validation Chain | L25 |
-| Notes | L36 |
+| Validation Chain | L26 |
+| Notes | L37 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2340,6 +2340,14 @@ node scripts/list-specs.js --topics
 | 参照される実装ファイル（spec_created のため変更は伴わない） | L75 |
 | Follow-up 未タスク | L83 |
 | Validation Chain（spec_created） | L92 |
+
+### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L12 |
+| Open Follow-ups | L25 |
 
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
@@ -3245,6 +3253,8 @@ node scripts/list-specs.js --topics
 | L-I191-002: endpoint compatibility and write-target change are separate decisions | L7 |
 | L-I191-003: detected follow-ups must be materialized | L11 |
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
+| L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
+| L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
