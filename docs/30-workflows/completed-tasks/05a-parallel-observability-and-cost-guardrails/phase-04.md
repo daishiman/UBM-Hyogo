@@ -100,8 +100,8 @@
 ## 検証コマンド一覧
 | コマンド | 目的 | 期待 |
 | --- | --- | --- |
-| git diff --stat -- docs/05a-parallel-observability-and-cost-guardrails | 変更範囲確認 | scope と一致 |
-| rg -n "dev|main|D1|Sheets|1Password" docs/05a-parallel-observability-and-cost-guardrails | 主要語の横断確認 | 必要箇所が見つかる |
+| git diff --stat -- docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails | 変更範囲確認 | scope と一致 |
+| rg -n "dev|main|D1|Sheets|1Password" docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails | 主要語の横断確認 | 必要箇所が見つかる |
 | node .claude/skills/aiworkflow-requirements/scripts/search-spec.js "Cloudflare" -C 2 | 正本仕様検索 | 必要 reference が出る |
 
 ## 期待出力表

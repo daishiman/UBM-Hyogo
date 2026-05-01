@@ -78,6 +78,10 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - `task-workflow.md` の完了タスク記録
 - docs-only 前提で作成した follow-up に後からコード変更が入った場合は、`phase-*.md` と `outputs/phase-12/*.md` の narrative も同じターンで current facts に戻す
 - `spec_created` task に code wave が入った場合は、workflow 本文だけでなく system spec 側の current contract も同ターンで更新し、`no-op` を自己申告しない
+- Phase 12 は `main.md` を含む 7 成果物を実体確認し、root / outputs `artifacts.json` の Phase status と outputs list を同値にする。成果物があるのに `pending` のまま残す状態は FAIL。
+- 起票元 unassigned がある場合は、後継 workflow path、Issue 状態、AC close-out 状態、実装委譲先を起票元へ追記する。候補だけを workflow 内に残して起票元を未更新にしない。
+- Phase 10 などの approval gate では `technical_go` と `user_approved` を分ける。docs-only NON_VISUAL の Phase 11/12 close-out は進行可でも、commit / push / PR は user approval なしに実行しない。
+- chunk / cursor / offset など再開可能性を扱う設計タスクでは、cron tick 間隔と 1 invocation budget を分けて書き、行削除・挿入・並べ替え時の offset invalidation 条件を実装委譲に含める。
 
 サブエージェントに委譲する場合も、「設計タスクだから更新不要」という判断を許容しない。
 
@@ -93,6 +97,19 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 | D | skill feedback 監査 | どの苦戦箇所をどの skill へ反映するかの候補 |
 
 統合順は `成果物実体確認 -> artifacts parity -> system spec sync -> unassigned audit -> skill feedback -> mirror parity -> compliance PASS` とする。Step 2 の N/A / 更新あり判定 owner は Lane B に固定し、他 lane は evidence を渡すだけにする。SubAgent の自己申告は完了根拠にせず、最後は validator 実測値、artifact existence、mirror diff、500 行制限の実測で閉じる。
+
+### スキル反映・canonical tree 監査追加ルール
+
+実装仕様をスキルへ反映する Phase 12 close-out では、次を同じ compliance check に入れる。
+
+| 確認対象 | PASS 条件 | 不合格時の扱い |
+| --- | --- | --- |
+| `.claude/skills/<skill>` と `.agents/skills/<skill>` | mirror `diff -qr` が差分なし、または差分理由を記録済み | skill sync 未完了 |
+| skill feedback | 苦戦箇所が主担当 skill / 補助 skill / 正本仕様導線のどれに入るか分類済み | Task 12-5 未完了 |
+| current canonical workflow tree | resource-map / task-workflow が指す root に `index.md` と `artifacts.json` が存在する、または stale / archived / follow-up と明示済み | 未タスク化だけでは PASS 不可 |
+| legacy path / filename | 旧 citation が残る場合は `legacy-ordinal-family-register.md` に旧→新 path を登録済み | system spec sync 未完了 |
+
+canonical workflow tree の削除を検出した場合、`docs/30-workflows/unassigned-task/*.md` に起票するだけでは不十分である。current canonical set を復元するか、resource-map / task-workflow / legacy register 側で stale-current や archived に再分類してから PASS とする。
 
 ## Task 12-3: documentation changelog
 
@@ -112,6 +129,7 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - 0件でも summary を残す
 - 1件以上なら formalize path を記録する
 - raw メモで終わらせず、`audit-unassigned-tasks.js --target-file` が通る full template まで昇格させる
+- cleanup / restore / fix 系の例外タスクでも、`スコープ`、`苦戦箇所【記入必須】`、`リスクと対策`、`検証方法`、`完了条件` を省略しない
 - `new unassigned task` と書いた候補は同一 wave で `docs/30-workflows/unassigned-task/*.md` に formalize するか、候補表から削除して理由を記録する
 - repo 全体の baseline 違反が多い場合は `current` と `baseline` を分離して記録する
 - duplicate source / ID collision のような source document 側の既知ドリフトは、今回差分起因でない限り `baseline / wider governance` として扱い、重複した新規未タスクを増やさない
@@ -137,6 +155,11 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 
 - 改善点があれば next action を書く
 - 改善点なしでも「なし」と理由を書く
+- `skill-feedback-report.md` は単なる成果物ではなく routing decision として扱う
+- 各苦戦箇所に `promotion target / no-op reason / evidence path` を付ける
+- 「改善点なし」は、確認した scope（task-specification-creator / aiworkflow-requirements / skill-creator / validation scripts）と no-op 理由を明記した場合だけ許可する
+- `spec_created` task に code / path realignment / validation script change が入った場合は、古い Step 2 `N/A` や skill feedback `N/A` を維持せず再分類する
+- 詳細な routing matrix は `references/phase12-skill-feedback-promotion.md` を参照する
 
 ## Task 12-6: phase12-task-spec-compliance-check（P4対策・最終確認）
 
@@ -153,7 +176,9 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - internal adapter の実装だけで public IPC / preload contract 更新済みとは記録しない
 - Phase 13 は user approval 未取得なら `blocked` を維持し、completed へ進めない
 - skill を更新した場合は canonical `.claude/skills/...` と mirror `.agents/skills/...` の parity も記録する
+- skill feedback の各 item が `promoted-to` または no-op reason まで閉じていることを確認する
 - compliance-check は自己申告 PASS で閉じず、validator 実測値、artifact existence、mirror parity、Phase 11 evidence の実ファイル根拠を結び付けて記録する
+- `docs-only / VISUAL / runtime evidence pending` の task は `Spec template completeness = PASS` と `Production/runtime compliance = PENDING_RUNTIME_EVIDENCE` を分離し、実 production PASS を主張しない
 
 **確認コマンド（docs-only / UI task 共通で必須）**:
 

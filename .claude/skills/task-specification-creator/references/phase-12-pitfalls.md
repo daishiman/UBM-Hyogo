@@ -48,6 +48,8 @@
 | **[UBM-020]** Part 1 初学者説明に英語の技術語が残る | `sync layer`, `NON_VISUAL evidence`, `Cloudflare` などを使う場合は同じ文で日常語を補う。Phase 12 の最後に Part 1 本文だけを `rg -n "sync|evidence|Cloudflare|API|D1|Cron"` で確認する |
 | **[UBM-021]** Phase 12 の `unassigned-task-detection.md` に `new unassigned task` と書いたまま実ファイルを作らない | `new unassigned task` は候補メモではなく formalize 宣言として扱う。同一 wave で `docs/30-workflows/unassigned-task/*.md` を作成し、`system-spec-update-summary.md` / `documentation-changelog.md` / compliance check に path を反映する。作らない場合は `baseline` / `duplicate` / `not needed` に分類し直す |
 | **[UBM-022]** docs-only / NON_VISUAL infrastructure verification の Phase 11 completed を production 実測 PASS と誤読する | `implementation-guide.md` と compliance check に、Phase 11 completed は evidence template / runbook check の完了であり、Cloudflare route mutation、secret value verification、Logpush mutation、DNS cutover、Worker deletion を意味しないと明記する |
+| **[UBM-023]** docs-only / spec_created でも起票元 unassigned の AC close-out / 後継 workflow path を同 wave で更新しないと再発する | Phase 12 で `docs/30-workflows/unassigned-task/<起票元>.md`（または `completed-tasks/<起票元>.md`）の AC 行と後継 workflow link を同 wave 更新する。`rg -n "<起票元タスクID>" docs/30-workflows` で参照網羅を確認し、quick-reference / resource-map / task-workflow-active / SKILL / LOGS と一括同期する。docs-only でも close-out 漏れは下流タスクの retry/offset canonical 不在を招くため必ず実施する（U-UT01-09 / 2026-04-30 由来） |
+| **[UBM-024]** Phase 10 の `technical_go=true` を `user_approved=true` と混同して commit / push / PR を進める | `artifacts.json` / `outputs/phase-10/go-nogo.md` に `technical_go` と `user_approved` を明示的に分離して併記する。`technical_go=true` のみではユーザー承認取得まで commit / push / PR を一切実行しない。Phase 11/12 文書 close-out の進行と承認ゲートは独立フラグで管理する（U-UT01-09 docs-only-closeout-hardening 由来） |
 
 ## 三併存ケース集（spec PR 段階の implementation 系タスク）
 

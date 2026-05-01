@@ -1,73 +1,27 @@
 {
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
   "task_name": "02a-parallel-member-identity-status-and-response-repository",
   "task_path": "docs/30-workflows/02a-parallel-member-identity-status-and-response-repository",
   "wave": 2,
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-  "task_name": "smoke-readiness-and-handoff",
-  "task_path": "docs/05b-parallel-smoke-readiness-and-handoff",
-  "wave": 5,
-========
-  "task_name": "ut-09-sheets-to-d1-cron-sync-job",
-  "task_path": "docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job",
-  "wave": 1,
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
   "execution_mode": "parallel",
   "depends_on": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
     "01a-parallel-d1-database-schema-migrations-and-tag-seed",
     "01b-parallel-zod-view-models-and-google-forms-api-client"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-    "04-serial-cicd-secrets-and-environment-sync"
-========
-    "ut-01-sheets-d1-sync-design",
-    "ut-02-d1-wal-mode",
-    "ut-03-sheets-api-auth-setup",
-    "ut-04-d1-schema-design"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
   ],
   "blocks": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
     "03a-parallel-forms-schema-sync-and-stablekey-alias-queue",
     "03b-parallel-forms-response-sync-and-current-response-resolver",
     "04a-parallel-public-directory-api-endpoints",
     "04b-parallel-member-self-service-api-endpoints",
     "04c-parallel-admin-backoffice-api-endpoints",
     "05a-parallel-authjs-google-oauth-provider-and-admin-gate"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-    "実装フェーズ"
-========
-    "ut-07-notification-infrastructure",
-    "ut-08-monitoring-alert-design",
-    "ut-10-error-handling-standardization"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
   ],
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
   "created_at": "2026-04-26",
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-  "created_at": "2026-04-23",
-========
-  "created_at": "2026-04-27",
-  "github_issue": 11,
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
   "metadata": {
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
     "taskType": "implementation",
     "docs_only": false,
     "scope": "application_implementation",
     "owner": "data",
     "domain": "member"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-    "taskType": "spec_created",
-    "docs_only": true
-========
-    "taskType": "implemented",
-    "docs_only": false,
-    "scope": "application_implementation",
-    "priority": "HIGH",
-    "wave_label": "Wave 1",
-    "artifact_schema_note": "This workflow keeps the repository's existing array-based phase registry for compatibility with current task specs. It is mirrored to outputs/artifacts.json to satisfy the Phase 12 dual-ledger rule."
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
   },
   "phases": [
     {
@@ -87,17 +41,9 @@
       "file": "phase-02.md",
       "status": "completed",
       "outputs": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
         "outputs/phase-02/main.md",
         "outputs/phase-02/module-map.md",
         "outputs/phase-02/dependency-matrix.md"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-        "outputs/phase-02/main.md",
-        "outputs/phase-02/readiness-definition.md"
-========
-        "outputs/phase-02/sync-job-design.md",
-        "outputs/phase-02/d1-contention-mitigation.md"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
       ],
       "depends_on_phases": [
         1
@@ -124,14 +70,8 @@
       "file": "phase-04.md",
       "status": "completed",
       "outputs": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
         "outputs/phase-04/main.md",
         "outputs/phase-04/verify-suite.md"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-        "outputs/phase-04/main.md"
-========
-        "outputs/phase-04/test-strategy.md"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
       ],
       "depends_on_phases": [
         3
@@ -144,15 +84,8 @@
       "file": "phase-05.md",
       "status": "completed",
       "outputs": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
         "outputs/phase-05/main.md",
         "outputs/phase-05/runbook.md"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-        "outputs/phase-05/main.md",
-        "outputs/phase-05/handoff-checklist.md"
-========
-        "outputs/phase-05/implementation-runbook.md"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
       ],
       "depends_on_phases": [
         4
@@ -165,14 +98,8 @@
       "file": "phase-06.md",
       "status": "completed",
       "outputs": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
         "outputs/phase-06/main.md",
         "outputs/phase-06/failure-cases.md"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-        "outputs/phase-06/main.md"
-========
-        "outputs/phase-06/failure-cases.md"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
       ],
       "depends_on_phases": [
         5
@@ -185,14 +112,8 @@
       "file": "phase-07.md",
       "status": "completed",
       "outputs": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
         "outputs/phase-07/main.md",
         "outputs/phase-07/ac-matrix.md"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-        "outputs/phase-07/main.md"
-========
-        "outputs/phase-07/ac-matrix.md"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
       ],
       "depends_on_phases": [
         6
@@ -219,16 +140,9 @@
       "file": "phase-09.md",
       "status": "completed",
       "outputs": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
         "outputs/phase-09/main.md",
         "outputs/phase-09/free-tier.md",
         "outputs/phase-09/secret-hygiene.md"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-        "outputs/phase-09/main.md"
-========
-        "outputs/phase-09/main.md",
-        "outputs/phase-09/free-tier-estimation.md"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
       ],
       "depends_on_phases": [
         8
@@ -241,15 +155,8 @@
       "file": "phase-10.md",
       "status": "completed",
       "outputs": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
         "outputs/phase-10/main.md",
         "outputs/phase-10/go-no-go.md"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-        "outputs/phase-10/main.md",
-        "outputs/phase-10/final-readiness-gate.md"
-========
-        "outputs/phase-10/go-no-go.md"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
       ],
       "depends_on_phases": [
         9
@@ -282,6 +189,7 @@
       "file": "phase-12.md",
       "status": "completed",
       "outputs": [
+        "outputs/phase-12/main.md",
         "outputs/phase-12/implementation-guide.md",
         "outputs/phase-12/system-spec-update-summary.md",
         "outputs/phase-12/documentation-changelog.md",
@@ -311,27 +219,12 @@
       "user_approval_required": true
     }
   ],
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
   "specs_referenced": [
     "doc/00-getting-started-manual/specs/03-data-fetching.md",
     "doc/00-getting-started-manual/specs/04-types.md",
     "doc/00-getting-started-manual/specs/07-edit-delete.md",
     "doc/00-getting-started-manual/specs/08-free-database.md"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-  "external_services": [
-    "Cloudflare",
-    "GitHub",
-    "Google Sheets"
-========
-  "specs_referenced": [
-    ".claude/skills/aiworkflow-requirements/references/architecture-overview-core.md",
-    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md",
-    ".claude/skills/aiworkflow-requirements/references/database-schema.md",
-    ".claude/skills/aiworkflow-requirements/references/api-endpoints.md",
-    ".claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
   ],
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
   "endpoints": [],
   "d1_tables": [
     "members",
@@ -351,49 +244,11 @@
     5,
     7,
     11
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-  "secrets_introduced": [],
-  "infra_artifacts": [
-    "outputs/phase-02/readiness-definition.md",
-    "outputs/phase-05/handoff-checklist.md",
-    "outputs/phase-10/final-readiness-gate.md",
-    "outputs/phase-12/unassigned-task-detection.md"
-========
-  "endpoints": [
-    "POST /admin/sync",
-    "scheduled() handler (Cron Trigger)"
-  ],
-  "d1_tables": [
-    "members (sync target)",
-    "sync_job_logs (execution log)",
-    "sync_locks (idempotency lock)"
-  ],
-  "ui_routes": [],
-  "secrets_introduced": [
-    "GOOGLE_SHEETS_SA_JSON",
-    "SHEETS_SPREADSHEET_ID",
-    "SYNC_ADMIN_TOKEN"
-  ],
-  "invariants_touched": [
-    1,
-    4,
-    5
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
   ],
   "doc_references": [
-<<<<<<<< HEAD:docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/artifacts.json
     "docs/30-workflows/02-application-implementation/README.md",
     "docs/30-workflows/02-application-implementation/_design/phase-2-design.md",
     "docs/30-workflows/02-application-implementation/_templates/phase-template-app.md",
     "docs/30-workflows/02-application-implementation/_templates/phase-meaning-app.md"
-|||||||| 391e83e:docs/30-workflows/01-infrastructure-setup/05b-parallel-smoke-readiness-and-handoff/outputs/artifacts.json
-    ".claude/skills/aiworkflow-requirements/references/deployment-core.md",
-    ".claude/skills/aiworkflow-requirements/references/architecture-overview-core.md",
-    ".claude/skills/task-specification-creator/references/phase-12-documentation-guide.md",
-    ".claude/skills/task-specification-creator/references/spec-update-workflow.md"
-========
-    "docs/30-workflows/unassigned-task/UT-09-sheets-d1-sync-job-implementation.md",
-    "docs/30-workflows/completed-tasks/ut-02-d1-wal-mode/index.md"
->>>>>>>> main:docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/artifacts.json
   ]
 }
