@@ -330,6 +330,7 @@ Family status: `reclassify-first`
 | 09b-parallel-cron-triggers-monitoring-and-release-runbook | `docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | 2026-05-01 | task-20260501-054121-wt-3 / docs-only spec_created runbook（Phase 11 NON_VISUAL、Phase 12 same-wave sync、Phase 13 approval gate） |
 | 09c-serial-production-deploy-and-post-release-verification | `docs/30-workflows/02-application-implementation/09c-serial-production-deploy-and-post-release-verification/` | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/` | 2026-05-01 | task-20260501-065106-wt-10 / docs-only spec_created（runtime execution は `task-09c-production-deploy-execution-001.md` に分離） |
 | 05a-authjs-google-oauth-admin-gate followup family | `docs/30-workflows/unassigned-task/05a-authjs-google-oauth-admin-gate/` | `docs/30-workflows/ut-05a-followup-google-oauth-completion/` | 2026-05-01 | task-20260430-181640-wt-5 / Google OAuth 統合 followup wave |
+| 05b-A-auth-mail-env-contract-alignment | `docs/30-workflows/02-application-implementation/05b-A-auth-mail-env-contract-alignment/` | `docs/30-workflows/05b-A-auth-mail-env-contract-alignment/` | 2026-05-01 | task-20260501-181030-wt-8 / spec_created docs-only remaining-only NON_VISUAL |
 
 ### 05a ordinal alias（2026-05-01 追記）
 

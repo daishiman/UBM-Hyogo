@@ -75,16 +75,16 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 
 ## 環境変数
 
-| 変数名 | 説明 | Cloudflare Secrets | GitHub Secrets | 1Password |
-|--------|------|:-----------------:|:--------------:|:---------:|
-| `AUTH_SECRET` | Auth.js 用シークレット | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_ID` | Google OAuth クライアント ID | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_SECRET` | Google OAuth クライアントシークレット | ✅ | - | ✅ (正本) |
-| `RESEND_API_KEY` | 送信 API キー | ✅ | - | ✅ (正本) |
-| `RESEND_FROM_EMAIL` | 差出人メールアドレス | ✅ | - | ✅ (正本) |
-| `SITE_URL` | 本番 URL（非機密） | - | GitHub Variables | - |
+| 変数名 | 種別 | 説明 | Cloudflare | GitHub | 1Password |
+|--------|------|------|:----------:|:------:|:---------:|
+| `AUTH_SECRET` | Secret | Auth.js 用シークレット | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_ID` | Secret | Google OAuth クライアント ID | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_SECRET` | Secret | Google OAuth クライアントシークレット | Secrets | - | ✅ (正本) |
+| `MAIL_PROVIDER_KEY` | Secret | Magic Link メール送信 provider の API キー | Secrets | - | ✅ (正本) |
+| `MAIL_FROM_ADDRESS` | Variable | 差出人メールアドレス | Variables | - | 任意 |
+| `AUTH_URL` | Variable | Magic Link callback URL を組み立てる base URL | Variables | - | 任意 |
 
-**ルール**: 本番・staging 環境は Cloudflare Secrets に登録。ローカル開発は 1Password Environments から `op run` で取得。平文 `.env` をリポジトリにコミットしない。
+**ルール**: Secret は本番・staging の Cloudflare Secrets に登録し、Variable は Cloudflare Variables / `apps/api/wrangler.toml` の環境別 vars で管理する。ローカル開発は 1Password Environments から `op run` で取得する。平文 `.env` をリポジトリにコミットしない。production で `MAIL_PROVIDER_KEY` が未設定の場合、Magic Link 送信は 502 `MAIL_FAILED` で fail-closed する。
 
 ---
 
