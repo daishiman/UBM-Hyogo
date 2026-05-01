@@ -23,7 +23,7 @@ describe("fieldVisibility repository", () => {
     it("各フィールドの visibility が含まれる", async () => {
       const result = await listVisibilityByMemberId(ctx, asMemberId("m_001"));
       const visMap = Object.fromEntries(result.map((r) => [r.stable_key, r.visibility]));
-      expect(visMap["full_name"]).toBe("public");
+      expect(visMap["fullName"]).toBe("public");
       expect(visMap["nickname"]).toBe("member");
       expect(visMap["admin_note_field"]).toBe("admin");
     });
@@ -43,9 +43,9 @@ describe("fieldVisibility repository", () => {
     });
 
     it("既存フィールドの可視性を更新できる", async () => {
-      await setVisibility(ctx, asMemberId("m_001"), asStableKey("full_name"), "member");
+      await setVisibility(ctx, asMemberId("m_001"), asStableKey("fullName"), "member");
       const updated = store.memberFieldVisibility.find(
-        (r) => r["member_id"] === "m_001" && r["stable_key"] === "full_name",
+        (r) => r["member_id"] === "m_001" && r["stable_key"] === "fullName",
       );
       expect(updated?.["visibility"]).toBe("member");
     });

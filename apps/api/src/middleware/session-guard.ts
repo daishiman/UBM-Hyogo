@@ -42,7 +42,7 @@ export type SessionResolver = (
 ) => Promise<{ email: string; memberId: string } | null>;
 
 export interface SessionGuardEnv {
-  readonly DB: D1Db;
+  readonly DB: D1Database;
   readonly ENVIRONMENT?: "production" | "staging" | "development";
 }
 

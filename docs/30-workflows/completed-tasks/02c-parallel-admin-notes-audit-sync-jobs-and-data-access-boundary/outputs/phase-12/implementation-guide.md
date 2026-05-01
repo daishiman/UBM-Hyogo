@@ -40,7 +40,7 @@
 | 実装場所 | `apps/api/src/repository/` |
 | アクセス可能側 | `apps/api/**`（hono router / cron handler） のみ |
 | アクセス不可側 | `apps/web/**`（Next.js）— ESLint / boundary lint で阻止 |
-| D1 binding | Worker env の `DB: D1Database`、`_shared/db.ts` の `ctx(env)` で `DbCtx` に wrap |
+| D1 binding | Worker env の `DB: D1Database`、`apps/api/src/env.ts` の `Env` を正本とし、`_shared/db.ts` の `ctx(env: Pick<Env, "DB">)` で `DbCtx` に wrap |
 | 共有モジュール正本 | `apps/api/src/repository/_shared/` （02a / 02b はここから import） |
 | テスト loader 正本 | `apps/api/src/repository/__tests__/_setup.ts` （02a / 02b は同 file を共通利用） |
 
@@ -145,9 +145,11 @@ consume(c: DbCtx, token: MagicTokenValue, now?: Date): Promise<ConsumeResult>;
 ### 3.1 `_shared/db.ts`
 
 ```ts
+import type { Env } from "@/env";
 import { ctx } from "@/repository/_shared/db";
 
 // hono handler 内で
+const app = new Hono<{ Bindings: Env }>();
 app.get("/admin/users", async (c) => {
   const db = ctx(c.env);                       // env.DB: D1Database を DbCtx に wrap
   const users = await adminUsers.listAll(db);
@@ -155,7 +157,7 @@ app.get("/admin/users", async (c) => {
 });
 ```
 
-`DbCtx = { db: D1Database }`。**直接 `c.env.DB` を repository に渡してはならない**（型不一致）。
+`Env` は `apps/api/src/env.ts` が正本で、`apps/api/wrangler.toml` の binding / vars / secrets と同 PR で同期する。`DbCtx = { db: D1Db }`。**直接 `c.env.DB` を repository に渡してはならない**（型不一致）。
 
 ### 3.2 `_shared/brand.ts`
 

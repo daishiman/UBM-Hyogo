@@ -32,7 +32,7 @@ import {
 import type { MailSender } from "../../services/mail/magic-link-mailer";
 
 export interface AuthRouteEnv {
-  readonly DB: D1Db;
+  readonly DB: D1Database;
   readonly ENVIRONMENT?: "production" | "staging" | "development";
   readonly AUTH_URL?: string;
   readonly MAIL_FROM_ADDRESS?: string;
