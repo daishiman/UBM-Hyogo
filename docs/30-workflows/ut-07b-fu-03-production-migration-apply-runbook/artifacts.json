@@ -1,52 +1,280 @@
 {
   "task_id": "UT-07B-FU-03-production-migration-apply-runbook",
-  "task_name": "UT-07B production migration apply runbook",
+  "task_name": "UT-07B production migration apply runbook + verification scripts",
   "issue_number": 363,
   "issue_state": "CLOSED",
   "issue_url": "https://github.com/daishiman/UBM-Hyogo/issues/363",
   "directory": "docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook",
-  "category": "requirements",
-  "subtype": "production-migration-runbook",
+  "category": "implementation",
+  "subtype": "production-migration-runbook + verification-scripts",
+  "implementation_classification": "implementation_spec",
+  "classification_rationale": "CONST_004 例外: ユーザー指定は runbook ドキュメントだが、機械検証可能性 / CI gate / redaction 強制 / bats 回帰検証のためコード変更が必要と判断",
   "priority": "high",
-  "scale": "small",
+  "scale": "small-medium",
   "visualEvidence": "NON_VISUAL",
   "metadata": {
-    "taskType": "docs-only",
+    "taskType": "implementation+operations+runbook",
     "visualEvidence": "NON_VISUAL"
   },
   "implementation_mode": "new",
   "status": "spec_created",
   "created_date": "2026-05-02",
-  "wave": "2026-05-01-detection / 2026-05-02-spec-created",
+  "updated_date": "2026-05-03",
+  "wave": "2026-05-01-detection / 2026-05-02-spec-created / 2026-05-03-implementation-spec",
   "target_artifact": "apps/api/migrations/0008_schema_alias_hardening.sql",
-  "target_database": "ubm-hyogo-db-prod",
-  "target_environment": "production",
+  "target_database_production": "ubm-hyogo-db-prod",
+  "target_database_staging": "ubm-hyogo-db-staging",
+  "target_environment": "production (実行は別タスク) / staging (CI gate DRY_RUN)",
   "dependencies": {
-    "upstream": ["UT-07B-schema-alias-hardening-001", "U-FIX-CF-ACCT-01"],
+    "upstream": [
+      "UT-07B-schema-alias-hardening-001",
+      "U-FIX-CF-ACCT-01"
+    ],
     "parallel": [],
-    "downstream": ["operational-production-apply-execution (別タスク)"]
+    "downstream": [
+      "operational-production-apply-execution (別タスク)"
+    ]
   },
-  "phases": [
-    {"phase": 1,  "name": "要件定義",          "file": "phase-01.md", "status": "spec_created", "output": "outputs/phase-01/main.md"},
-    {"phase": 2,  "name": "設計",              "file": "phase-02.md", "status": "spec_created", "output": "outputs/phase-02/main.md"},
-    {"phase": 3,  "name": "設計レビュー",      "file": "phase-03.md", "status": "spec_created", "output": "outputs/phase-03/main.md"},
-    {"phase": 4,  "name": "テスト戦略",        "file": "phase-04.md", "status": "spec_created", "output": "outputs/phase-04/main.md"},
-    {"phase": 5,  "name": "runbook 本体作成",  "file": "phase-05.md", "status": "spec_created", "output": "outputs/phase-05/main.md"},
-    {"phase": 6,  "name": "異常系・失敗ハンドリング", "file": "phase-06.md", "status": "spec_created", "output": "outputs/phase-06/main.md"},
-    {"phase": 7,  "name": "AC マトリクス",     "file": "phase-07.md", "status": "spec_created", "output": "outputs/phase-07/main.md"},
-    {"phase": 8,  "name": "DRY 化",            "file": "phase-08.md", "status": "spec_created", "output": "outputs/phase-08/main.md"},
-    {"phase": 9,  "name": "品質保証",          "file": "phase-09.md", "status": "spec_created", "output": "outputs/phase-09/main.md"},
-    {"phase": 10, "name": "最終レビュー",      "file": "phase-10.md", "status": "spec_created", "output": "outputs/phase-10/main.md"},
-    {"phase": 11, "name": "手動 smoke evidence", "file": "phase-11.md", "status": "spec_created", "output": "outputs/phase-11/main.md"},
-    {"phase": 12, "name": "ドキュメント更新",  "file": "phase-12.md", "status": "spec_created", "output": "outputs/phase-12/main.md"},
-    {"phase": 13, "name": "PR 作成",           "file": "phase-13.md", "status": "blocked_until_user_approval", "output": "outputs/phase-13/main.md"}
+  "implementation_artifacts": [
+    {
+      "id": "F1",
+      "path": "scripts/d1/preflight.sh",
+      "kind": "new",
+      "status": "spec_created",
+      "exit_codes": [
+        0,
+        64,
+        65,
+        66
+      ]
+    },
+    {
+      "id": "F2",
+      "path": "scripts/d1/postcheck.sh",
+      "kind": "new",
+      "status": "spec_created",
+      "exit_codes": [
+        0,
+        64,
+        70,
+        71,
+        72,
+        73,
+        74
+      ]
+    },
+    {
+      "id": "F3",
+      "path": "scripts/d1/evidence.sh",
+      "kind": "new",
+      "status": "spec_created",
+      "exit_codes": [
+        0,
+        64,
+        80,
+        81
+      ]
+    },
+    {
+      "id": "F4",
+      "path": "scripts/d1/apply-prod.sh",
+      "kind": "new",
+      "status": "spec_created",
+      "exit_codes": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        80
+      ]
+    },
+    {
+      "id": "F5",
+      "path": "scripts/cf.sh",
+      "kind": "edit",
+      "status": "spec_created",
+      "subcommand": "d1:apply-prod"
+    },
+    {
+      "id": "F6",
+      "path": ".github/workflows/d1-migration-verify.yml",
+      "kind": "new",
+      "status": "spec_created",
+      "trigger": "PR on apps/api/migrations/** | scripts/d1/** | scripts/cf.sh"
+    },
+    {
+      "id": "F7",
+      "path": "scripts/d1/__tests__/{preflight,postcheck,evidence,apply-prod}.bats",
+      "kind": "new",
+      "status": "spec_created",
+      "runner": "bats-core"
+    },
+    {
+      "id": "F8",
+      "path": "outputs/phase-05/main.md",
+      "kind": "edit",
+      "status": "spec_created",
+      "note": "Phase 4-6 で記述、Phase 2 で構造確定"
+    },
+    {
+      "id": "F9",
+      "path": "package.json",
+      "kind": "edit",
+      "status": "spec_created",
+      "addition": "scripts.test:scripts"
+    }
   ],
-  "acceptance_criteria_count": 12,
-  "invariants_touched": ["#5"],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義（実装仕様書化）",
+      "file": "phase-01.md",
+      "status": "spec_created",
+      "output": "outputs/phase-01/main.md"
+    },
+    {
+      "phase": 2,
+      "name": "設計（runbook + コードアーキテクチャ）",
+      "file": "phase-02.md",
+      "status": "spec_created",
+      "output": "outputs/phase-02/main.md"
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "spec_created",
+      "output": "outputs/phase-03/main.md"
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略 / bats / CI gate 設計",
+      "file": "phase-04.md",
+      "status": "spec_created",
+      "output": "outputs/phase-04/main.md"
+    },
+    {
+      "phase": 5,
+      "name": "runbook 本体 + scripts 実装",
+      "file": "phase-05.md",
+      "status": "spec_created",
+      "output": "outputs/phase-05/main.md"
+    },
+    {
+      "phase": 6,
+      "name": "異常系・失敗ハンドリング",
+      "file": "phase-06.md",
+      "status": "spec_created",
+      "output": "outputs/phase-06/main.md"
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "spec_created",
+      "output": "outputs/phase-07/main.md"
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化",
+      "file": "phase-08.md",
+      "status": "spec_created",
+      "output": "outputs/phase-08/main.md"
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "spec_created",
+      "output": "outputs/phase-09/main.md"
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "spec_created",
+      "output": "outputs/phase-10/main.md"
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke evidence (staging DRY_RUN)",
+      "file": "phase-11.md",
+      "status": "spec_created",
+      "output": "outputs/phase-11/main.md"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "spec_created",
+      "output": "outputs/phase-12/main.md"
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "blocked_until_user_approval",
+      "output": "outputs/phase-13/main.md"
+    }
+  ],
+  "acceptance_criteria_count": 20,
+  "invariants_touched": [
+    "#5"
+  ],
+  "evidence": {
+    "schema": ".evidence/d1/<UTC ISO8601 compact>/{meta.json,preflight.log,apply.log,postcheck.log}",
+    "meta_fields": [
+      "db",
+      "env",
+      "commit_sha",
+      "migration_filename",
+      "migration_sha",
+      "timestamp_utc",
+      "timestamp_jst",
+      "approver",
+      "dry_run",
+      "exit_code"
+    ],
+    "redaction_pattern": "CLOUDFLARE_API_TOKEN|CLOUDFLARE_ACCOUNT_ID|sk-[A-Za-z0-9]+|Bearer [A-Za-z0-9_-]+|eyJ[A-Za-z0-9_-]+\\."
+  },
   "evidence_redaction_rules": [
     "Cloudflare API Token 値を記録しない",
     "Account ID 値を記録しない（Variable 名のみ参照）",
-    "set -x 等の debug trace を有効化しない"
+    "set -x 等の debug trace を有効化しない",
+    "redaction grep ヒット時 evidence ディレクトリ削除 + exit 80"
+  ],
+  "ci_gate": {
+    "workflow": ".github/workflows/d1-migration-verify.yml",
+    "trigger_paths": [
+      "apps/api/migrations/**",
+      "scripts/d1/**",
+      "scripts/cf.sh"
+    ],
+    "secret_scope": "staging only (CLOUDFLARE_API_TOKEN_STAGING)",
+    "production_secret_in_ci": "禁止"
+  },
+  "test_strategy": {
+    "runner": "bats-core",
+    "command": "pnpm test:scripts",
+    "files": [
+      "scripts/d1/__tests__/preflight.bats",
+      "scripts/d1/__tests__/postcheck.bats",
+      "scripts/d1/__tests__/evidence.bats",
+      "scripts/d1/__tests__/apply-prod.bats"
+    ],
+    "mock_strategy": "PATH 先頭に wrangler shim を置き固定 stdout/stderr を返す"
+  },
+  "local_commands": {
+    "unit_tests": "mise exec -- pnpm test:scripts",
+    "staging_dryrun": "DRY_RUN=1 bash scripts/d1/apply-prod.sh ubm-hyogo-db-staging --env staging"
+  },
+  "definition_of_done": [
+    "bats テスト全 PASS（ローカルまたは PR CI）",
+    "staging DRY_RUN exit 0（credential 利用可能な Phase 13 PR 環境）",
+    "CI gate d1-migration-verify が PR で green",
+    "redaction で機密値混入 0 件",
+    "production 実 apply は本タスクで実行しない (AC-9)"
   ],
   "blocking": {
     "phase_13": "ユーザー明示承認が得られるまで PR 作成しない"

@@ -1,5 +1,13 @@
 {
   "visualEvidence": "NON_VISUAL",
   "screenshotsRequired": false,
-  "reason": "Production migration runbook formalization has no UI surface. Runtime apply evidence is delegated to UT-07B-FU-04."
+  "reason": "Production migration runbook + verification scripts have no UI surface. Visual evidence is replaced by NON_VISUAL evidence: bats test output, staging DRY_RUN log, CI gate green, grep verification, and redaction check.",
+  "alternativeEvidence": [
+    "outputs/phase-11/manual-smoke-log.md",
+    "outputs/phase-11/staging-dry-run.md",
+    "outputs/phase-11/grep-verification.md",
+    "outputs/phase-11/redaction-check.md",
+    "outputs/phase-11/structure-verification.md"
+  ],
+  "runtimeEvidenceDelegation": "UT-07B-FU-04 (production apply execution) and UT-07B-FU-03 Phase 13 PR (bats / staging DRY_RUN / CI gate)"
 }

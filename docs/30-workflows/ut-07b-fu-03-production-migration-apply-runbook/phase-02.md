@@ -1,4 +1,4 @@
-# Phase 2: 設計（runbook 構造・承認ゲート設計）
+# Phase 2: 設計（runbook 構造 + コードアーキテクチャ）
 
 ## メタ情報
 
@@ -7,239 +7,211 @@
 | Task ID | UT-07B-FU-03 |
 | Phase | 2 |
 | 状態 | spec_created |
-| taskType | requirements / operations / runbook |
+| taskType | implementation / operations / runbook + scripts |
+| 実装区分 | [実装仕様書] |
 | visualEvidence | NON_VISUAL |
 | GitHub Issue | #363（CLOSED） |
 
 ## 実行タスク
 
-1. runbook の章立てを 5 セクション（preflight / apply / post-check / evidence / failure handling）で確定する。
-2. 各セクションの具体コマンド（`bash scripts/cf.sh` 経由のみ）と期待結果を設計する。
-3. commit → PR → review/CI → merge → ユーザー承認 → runbook 実走 の 6 段階承認ゲートを設計する。
-4. evidence 保存項目と機密情報除外ルールを定義する。
-5. failure handling 4 ケースの停止判断条件を定義する。
+1. F1〜F4 のスクリプト間データフローを確定する。
+2. 各スクリプトの引数仕様・stdin/stdout・exit code 規約を表として固定する。
+3. evidence の保存スキーマ（meta.json + 3 ログ）を JSON 構造で定義する。
+4. CI gate workflow（F6）のジョブ構成と secret 境界を設計する。
+5. runbook 章立て（5 セクション）と F1〜F5 の対応表を確定する。
+6. 6 段階承認ゲート（G1〜G6）を再掲し、各ゲートと CI gate / scripts の責務を結びつける。
 
 ## 目的
 
-Phase 1 で確定した要件をもとに、runbook 本体（Phase 5 で作成）の章立て・コマンド・承認ゲート・evidence 仕様を設計し、Phase 4 検証戦略および Phase 6 異常系へ橋渡しする。本 Phase では runbook の実走を行わない。
+Phase 1 で確定した F1〜F9 を、runbook 5 セクションと 6 段階承認ゲートに整合する形で配線する。Phase 4 テスト戦略・Phase 5 runbook 本体・Phase 6 異常系へ橋渡しする。
 
 ## 参照資料
 
 - Phase 1 成果物
-- `index.md`
+- `index.md` / `artifacts.json`
 - 対象 SQL: `apps/api/migrations/0008_schema_alias_hardening.sql`
-- `scripts/cf.sh`
-- `apps/api/wrangler.toml`（`[env.production]` binding `ubm-hyogo-db-prod`）
-- 上流 runbook: `../completed-tasks/ut-07b-schema-alias-hardening/outputs/phase-05/migration-runbook.md`
-- 上流 rollback: `../completed-tasks/ut-07b-schema-alias-hardening/outputs/phase-05/rollback-runbook.md`
+- 既存 `scripts/cf.sh`
+- `apps/api/wrangler.toml`
+- 上流 runbook / rollback
 
 ## 入力
 
-- Phase 1 が確定した 5 セクション要件と AC-1〜AC-12
-- 対象オブジェクト 5 件（`schema_aliases`、UNIQUE index 2 件、`schema_diff_queue` 追加カラム 2 件）
-- 運用ラッパ `scripts/cf.sh` の許可コマンド集合
+- F1〜F9 の責務（Phase 1 確定）
+- AC-1〜AC-20
+- 対象 DB 名（production: `ubm-hyogo-db-prod` / staging: `ubm-hyogo-db-staging`）
 
 ## 既存コンポーネント再利用判定
 
 | 観点 | 判定 |
 | --- | --- |
-| `scripts/cf.sh` 経由実行 | 採用（直 `wrangler` 禁止ルールに従う） |
-| UT-07B Phase 5 migration-runbook の章立て | 部分採用（preflight / apply / post-check の構造を継承し、production 専用の承認ゲートと evidence 章を追加） |
-| UT-07B Phase 5 rollback-runbook | failure handling セクションから参照のみ（本タスクで rollback SQL は新規定義しない） |
-| 新規 Secret / Variable | なし |
-| 新規ラッパスクリプト | なし |
+| `scripts/cf.sh` | 採用（薄ラッパとして拡張、orchestrator 本体は別ファイル） |
+| UT-07B Phase 5 migration-runbook | preflight/apply/post-check 構造を継承 |
+| 上流 rollback-runbook | failure handling から参照のみ |
+| 新規 Secret | なし（CI gate は staging Token のみ参照） |
+| bats-core | 採用（dev 依存として package.json に追加） |
 
-## runbook 章立て設計
+## スクリプト間データフロー
 
-| # | セクション | 責務 | 主成果 |
+```
+[user / CI]
+   │
+   ▼
+scripts/cf.sh d1:apply-prod <db> --env <env>            (F5)
+   │ exec
+   ▼
+scripts/d1/apply-prod.sh <db> --env <env> [DRY_RUN=1]  (F4)
+   │
+   ├─(1) scripts/d1/preflight.sh <db> --env <env> --json   (F1)
+   │       │ stdout = pending migrations JSON
+   │       │ exit 0/64/65/66
+   │       ▼
+   │   pending に 0008_schema_alias_hardening.sql が含まれない → exit 10
+   │
+   ├─(2) interactive confirm（--env production のみ）
+   │       拒否 → exit 20
+   │
+   ├─(3) DRY_RUN=1 でなければ
+   │       bash scripts/cf.sh d1 migrations apply <db> --env <env>
+   │       失敗 → exit 30（apply.log は保存）
+   │
+   ├─(4) scripts/d1/postcheck.sh <db> --env <env>          (F2)
+   │       失敗 → exit 40
+   │
+   └─(5) scripts/d1/evidence.sh <db> --env <env> \         (F3)
+           --preflight <tmp> --apply <tmp> --postcheck <tmp>
+           redaction NG → exit 80
+```
+
+## 引数仕様・exit code 規約（確定版）
+
+| Script | 必須 | オプション | exit code |
 | --- | --- | --- | --- |
-| 1 | preflight | 適用前の状態確認・対象 DB 確認・未適用判定 | apply 進行 PASS/STOP の判断 |
-| 2 | apply | migration apply の単一コマンド実行 | exit=0 確認 |
-| 3 | post-check | 適用後の sqlite_master / PRAGMA 検査 | 5 オブジェクト存在確認 |
-| 4 | evidence | 実行記録の保存（機密情報除外） | `outputs/phase-11/` 配下への保存 |
-| 5 | failure handling | 4 ケースの停止判断と次アクション | 即時停止・追加 SQL を即興実行しない |
+| F1 preflight.sh | `<db>` `--env` | `--json` | 0/64/65/66 |
+| F2 postcheck.sh | `<db>` `--env` | なし | 0/64/70/71/72/73/74 |
+| F3 evidence.sh | `<db>` `--env` `--preflight` `--apply` `--postcheck` | なし | 0/64/80/81 |
+| F4 apply-prod.sh | `<db>` `--env` | env: `DRY_RUN=1` | 0/10/20/30/40/80 |
+| F5 cf.sh d1:apply-prod | `<db>` `--env` | F4 と同じ | F4 を継承 |
 
-## セクション 1: preflight 設計
+すべての script で:
 
-### 目的
+- `set -eu` を有効化、`set -x` は禁止
+- `--env` は `staging` | `production` のみ受理（その他は exit 64）
+- DB 名は `[a-z][a-z0-9-]+` の正規表現で簡易検証
 
-production D1 の現在状態を観測し、apply を進めて良いかを判定する。
+## evidence 保存スキーマ
 
-### コマンド設計
-
-```bash
-# 1. 認証確認（Token 値は出力されない）
-bash scripts/cf.sh whoami
-
-# 2. 対象 DB 一覧確認（ubm-hyogo-db-prod の存在確認）
-bash scripts/cf.sh d1 list
-
-# 3. migration list（未適用 / 既適用判定の正本）
-bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production
-
-# 4. schema introspection（ALTER TABLE 二重適用検知）
-bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --env production \
-  --command "PRAGMA table_info(schema_diff_queue);"
-```
-
-### 期待結果と判定
-
-| 観測項目 | 期待結果 | 判定 |
-| --- | --- | --- |
-| `whoami` exit code | 0 | PASS |
-| `d1 list` に `ubm-hyogo-db-prod` が含まれる | Yes | PASS |
-| `migrations list` で `0008_schema_alias_hardening.sql` が **未適用** | Yes | PASS（apply 進行）／ No（STOP・既適用扱い） |
-| `PRAGMA table_info(schema_diff_queue)` に `backfill_cursor` / `backfill_status` が **無い** | Yes | PASS／ No（STOP・ALTER TABLE 二重適用候補） |
-
-いずれかが NG の場合は **apply に進まず failure handling セクションへ遷移**。
-
-## セクション 2: apply 設計
-
-### 目的
-
-承認済み migration を production D1 へ単一コマンドで適用する。
-
-### コマンド設計
-
-```bash
-bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production
-```
-
-### 実行原則
-
-- このコマンド以外の DDL を runbook 内で発行しない（追加 SQL の即興実行禁止）。
-- `--env production` の指定漏れは preflight で対象 DB 名を読み上げ確認することで防止。
-- `set -x` 系のシェルデバッグ出力を有効化しない（evidence への混入リスク回避）。
-
-### 期待結果
-
-| 項目 | 期待値 |
-| --- | --- |
-| exit code | 0 |
-| 標準出力 | `0008_schema_alias_hardening.sql` が `Migrations applied!` 系メッセージで成功扱い |
-| 二重適用 / UNIQUE 衝突 / "duplicate column" 等のエラー | 出力されない |
-
-エラー出力が観測された場合は post-check に進まず failure handling セクションへ遷移。
-
-## セクション 3: post-check 設計
-
-### 目的
-
-apply 後に対象オブジェクト 5 件が production D1 に存在することを read-only で確認する。
-
-### コマンド設計
-
-```bash
-# 5-A. table と UNIQUE index の存在確認
-bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --env production \
-  --command "SELECT name FROM sqlite_master WHERE name IN ('schema_aliases','idx_schema_aliases_revision_stablekey_unique','idx_schema_aliases_revision_question_unique');"
-
-# 5-B. schema_diff_queue 追加カラムの存在確認
-bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --env production \
-  --command "PRAGMA table_info(schema_diff_queue);"
-```
-
-### 期待結果
-
-| 観測項目 | 期待結果 |
-| --- | --- |
-| 5-A の結果に `schema_aliases` / `idx_schema_aliases_revision_stablekey_unique` / `idx_schema_aliases_revision_question_unique` の 3 行が揃う | Yes |
-| 5-B の結果に `backfill_cursor` / `backfill_status` カラムが含まれる | Yes |
-
-post-check は **read / dryRun 系に限定** し、INSERT / UPDATE / DELETE 等の destructive smoke は本 runbook の対象外（別承認で扱う）。
-
-## セクション 4: evidence 設計
-
-### 保存先
-
-`outputs/phase-11/main.md` および `outputs/phase-11/` 配下の補助ログ（runbook 実走タスクが書き出す）。本タスクの仕様 Phase ではテンプレートのみ定義し、実値は記録しない。
-
-### 保存項目
-
-| 項目 | 内容 | 機密扱い |
-| --- | --- | --- |
-| 実行日時 | UTC / JST 両方記録 | 公開 |
-| 承認者 | ユーザー明示承認の発話または PR コメント引用 | 公開 |
-| 対象 DB 名 | `ubm-hyogo-db-prod` | 公開 |
-| 対象 migration | `0008_schema_alias_hardening.sql` | 公開 |
-| commit SHA | apply 時点の main HEAD SHA | 公開 |
-| migration hash | `migrations list` 出力の hash 列 | 公開 |
-| preflight 出力 | コマンドと標準出力 | 公開（Token 値含まない） |
-| apply 出力 | コマンドと標準出力 | 公開 |
-| post-check 出力 | コマンドと標準出力 | 公開 |
-
-### 機密情報除外ルール
-
-- `CLOUDFLARE_API_TOKEN` の値そのもの・部分文字列を記録しない。
-- `CLOUDFLARE_ACCOUNT_ID` の値を記録しない（参照のみ）。
-- `op://` 参照記法は記録してよい（実値ではないため）。
-- evidence 確定前に `rg -n "CLOUDFLARE_API_TOKEN|CLOUDFLARE_ACCOUNT_ID" outputs/phase-11/` 相当の grep を行い、ヒット 0 件を確認する。
-
-## セクション 5: failure handling 設計
-
-### 4 ケースと対応
-
-| ケース | 検知方法 | runbook 上の対応 |
-| --- | --- | --- |
-| 二重適用検知 | preflight `migrations list` で対象 SQL が既適用 | STOP。apply に進まない。Issue 起票して原因調査（既に別経路で適用された可能性） |
-| UNIQUE 衝突 | apply 出力に UNIQUE constraint 違反 | STOP。追加 SQL を runbook 内で実行しない。重複データの調査タスクを別途起票し、判断後に再 apply 計画を立てる |
-| 対象 DB 取り違え | `--env production` 指定漏れ・`d1 list` 結果と DB 名不一致 | 即時 STOP。誤対象 DB に DDL を発行しない。preflight に戻り対象 DB を再確認 |
-| ALTER TABLE 失敗 | apply 出力に `duplicate column` または `no such table` | STOP。preflight の `PRAGMA table_info` 結果を再確認し、二重適用 or 上流 migration 未適用かを切り分け |
-
-### 共通原則
-
-- runbook 内で **rollback SQL を即興発行しない**。rollback が必要な場合は `../completed-tasks/ut-07b-schema-alias-hardening/outputs/phase-05/rollback-runbook.md` を参照し、別承認で実行する。
-- 失敗時は evidence セクションに「失敗ステータス」「停止判断時刻」「次アクション提案」を記録する。
-
-## 承認ゲート設計（6 段階）
+`.evidence/d1/<UTC compact ISO8601, e.g. 20260503T091500Z>/`
 
 ```
-[G1] commit 確定
-       │   feature branch 上で対象 SQL を含む commit が作成される
-       ▼
-[G2] PR 作成
-       │   gh pr create でレビュー対象化
-       ▼
-[G3] PR review / CI gate
-       │   required status checks（typecheck / lint / verify-indexes 等）が all green
-       │   solo dev のため必須レビュアー 0 だが、CI gate を必須通過とする
-       ▼
-[G4] merge to main
-       │   linear history を維持して main に取り込み
-       ▼
-[G5] ユーザー明示承認
-       │   「production migration を apply してよい」という明示の発話 or PR コメント
-       │   ※ 暗黙の承認を許容しない
-       ▼
-[G6] runbook 実走（別タスク）
-       │   preflight → apply → post-check → evidence の順で実行
-       ▼
-完了
+├── meta.json
+├── preflight.log
+├── apply.log
+└── postcheck.log
 ```
 
-各ゲートの責務は **直前ゲートの完了状態を観測してから次へ進む** ことにあり、G5 を欠いた G6 実行は **本仕様違反** として扱う。
+`meta.json`:
+
+```json
+{
+  "db": "ubm-hyogo-db-prod",
+  "env": "production",
+  "commit_sha": "<git rev-parse HEAD>",
+  "migration_filename": "0008_schema_alias_hardening.sql",
+  "timestamp_utc": "2026-05-03T09:15:00Z",
+  "timestamp_jst": "2026-05-03T18:15:00+09:00",
+  "approver": "<user-supplied or CI=actor>",
+  "dry_run": false,
+  "exit_code": 0
+}
+```
+
+### redaction grep 仕様
+
+```
+rg -n "CLOUDFLARE_API_TOKEN|CLOUDFLARE_ACCOUNT_ID|sk-[A-Za-z0-9]+|Bearer [A-Za-z0-9_-]+|eyJ[A-Za-z0-9_-]+\." <evidence dir>
+```
+
+ヒット 0 件で PASS、それ以外で exit 80 + 該当ディレクトリ削除。
+
+## CI gate workflow（F6）構成
+
+ファイル: `.github/workflows/d1-migration-verify.yml`
+
+```yaml
+name: d1-migration-verify
+on:
+  pull_request:
+    paths:
+      - 'apps/api/migrations/**'
+      - 'scripts/d1/**'
+      - 'scripts/cf.sh'
+
+permissions:
+  contents: read
+
+jobs:
+  staging-dryrun:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - run: pnpm install --frozen-lockfile
+      - name: bats install
+        run: sudo apt-get install -y bats
+      - name: unit tests
+        run: pnpm test:scripts
+      - name: staging DRY_RUN
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: DRY_RUN=1 bash scripts/d1/apply-prod.sh ubm-hyogo-db-staging --env staging
+```
+
+production secret は本 workflow で参照禁止（staging 専用）。
+
+## runbook 章立てと F1〜F5 の対応
+
+| # | runbook セクション | 担当 script | exit code を runbook 上で参照 |
+| --- | --- | --- | --- |
+| 1 | preflight | F1 | 0/65/66 を表で説明 |
+| 2 | apply | F4 内部から `cf.sh d1 migrations apply` | F4 exit 30 |
+| 3 | post-check | F2 | 0/70-74 を表で説明 |
+| 4 | evidence | F3 | 0/80 を表で説明 |
+| 5 | failure handling | F4 | 10/20/30/40/80 を全件マッピング |
+
+## 6 段階承認ゲートと scripts/CI の対応
+
+| Gate | 内容 | 自動化 / 手動 | 関連実装 |
+| --- | --- | --- | --- |
+| G1 commit | 対象 SQL 含む commit | 手動 | - |
+| G2 PR | `gh pr create` | 手動 | - |
+| G3 CI gate | `d1-migration-verify` で staging DRY_RUN | 自動 | F6 + F1〜F4 + F7 |
+| G4 merge | linear merge to main | 手動 | - |
+| G5 ユーザー明示承認 | 本番 apply 許可の発話 / PR コメント | 手動 | runbook 冒頭で確認 |
+| G6 runbook 実走 | F4 を `--env production` で実行 | 手動 | F5 経由で F4 |
 
 ## 不変条件 #5 への影響評価
 
-`scripts/cf.sh d1 migrations apply` および `scripts/cf.sh d1 execute` は `apps/api/migrations/` 配下の SQL を D1 に適用・観測する運用コマンドであり、ランタイム経路ではない。`apps/web` からの D1 直接アクセスは新設しない。post-check の `sqlite_master` / `PRAGMA table_info` クエリは read-only かつ運用 evidence 用途のみ。よって **不変条件 #5 は侵害しない**。
+F1〜F5 は運用コマンド境界で、ランタイム経路を作らない。`apps/web` から D1 直接アクセスは新設しない。post-check は read-only。よって不変条件 #5 は侵害しない。
 
 ## 4 条件評価
 
 | 条件 | 判定 | 根拠 |
 | --- | --- | --- |
-| 矛盾なし | PASS | 5 セクション × 6 ゲートが Phase 1 要件と一対一対応、AC-1〜AC-12 と矛盾なし |
-| 漏れなし | PASS | preflight / apply / post-check / evidence / failure handling が AC-4〜AC-8 を網羅、ゲート設計が AC-2 を網羅 |
-| 整合性 | PASS | `scripts/cf.sh` 経由のみ・直 `wrangler` 禁止・`--env production` 必須・対象 DB `ubm-hyogo-db-prod` が CLAUDE.md の Cloudflare CLI 実行ルールと整合 |
-| 依存関係整合 | PASS | UT-07B（SQL 実装）と U-FIX-CF-ACCT-01（Token 最小化）が前提として完了済み、本タスクは runbook 文書化に限定 |
+| 矛盾なし | PASS | データフロー × exit code × runbook 章立てが一対一 |
+| 漏れなし | PASS | F1〜F9 が AC-1〜AC-20 を網羅、CI gate と bats でテスト経路網羅 |
+| 整合性 | PASS | `cf.sh` 経由のみ・直 wrangler 禁止・staging 限定 secret が CLAUDE.md と整合 |
+| 依存関係整合 | PASS | 上流完了、下流（runbook 実走）は本仕様確定後 |
 
 ## 完了条件
 
-- [ ] runbook 5 セクションの責務とコマンドが具体化されている
-- [ ] 6 段階承認ゲート（G1〜G6）が図解されている
-- [ ] evidence 保存項目と機密情報除外ルールが定義されている
-- [ ] failure handling 4 ケースの停止判断条件が定義されている
-- [ ] 不変条件 #5 への影響なしが宣言されている
-- [ ] 4 条件評価が PASS で記録されている
+- [ ] F1〜F4 のデータフロー図が確定
+- [ ] 引数仕様・exit code 表が固定
+- [ ] evidence 保存スキーマ（meta.json）定義
+- [ ] CI gate workflow 構成定義
+- [ ] runbook 章立て × F1〜F5 対応表確定
+- [ ] 不変条件 #5 影響なし
+- [ ] 4 条件評価 PASS
 
 ## 成果物
 
@@ -247,4 +219,4 @@ post-check は **read / dryRun 系に限定** し、INSERT / UPDATE / DELETE 等
 
 ## 統合テスト連携
 
-本 Phase は runbook 設計であり、統合テストは対象外。D1 production に対する実行検証は Phase 13 後の承認付き運用タスクで扱う。
+bats による単体テストは Phase 4 で詳細化、CI gate 上で `pnpm test:scripts` として実行。production 実 apply は本仕様外。

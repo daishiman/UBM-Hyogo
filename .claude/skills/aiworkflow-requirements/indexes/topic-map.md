@@ -2595,7 +2595,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Metadata | L3 |
 | Canonical Artifacts | L13 |
-| Boundary | L25 |
+| Boundary | L30 |
 
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 

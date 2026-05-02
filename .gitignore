@@ -39,6 +39,7 @@ build/
 # Logs
 logs/
 *.log
+.evidence/
 
 # Environment
 .env

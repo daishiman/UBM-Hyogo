@@ -657,6 +657,6 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - No commit, push, or PR was executed.
 # 2026-05-02 UT-07B-FU-03 production migration apply runbook sync
 
-- Registered `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/` as `spec_created / requirements-operations-runbook / NON_VISUAL`.
+- Registered `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/` as `spec_created / implementation+operations+runbook / implemented-local / NON_VISUAL`.
 - Synchronized workflow-local artifact inventory and lessons for the runbook formalization boundary.
-- Clarified that production D1 apply is not executed in this task; Phase 11 staging dry-run remains `OPERATOR_GATE_OPEN`.
+- Clarified that production D1 apply is not executed in this task; PR/CI runtime evidence remains Phase 13 gated.

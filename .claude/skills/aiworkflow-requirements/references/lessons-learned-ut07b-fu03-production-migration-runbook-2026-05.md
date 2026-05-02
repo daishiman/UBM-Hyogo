@@ -6,7 +6,7 @@ Production migration runbooks should remain `spec_created` until the actual prod
 
 ## L-UT07B-FU03-002: Use scoped status labels
 
-Use `DOC_PASS`, `PASS_WITH_OPEN_SYNC`, and `OPERATOR_GATE_OPEN` when a workflow artifact is complete but runtime or repository-wide sync evidence remains open. Avoid bare `PASS` when it can be misread as production execution success.
+Use `DOC_PASS`, `PASS_WITH_OPEN_SYNC`, and `RUNTIME_EVIDENCE_GATED` when a workflow artifact is complete but PR, credential, runtime, or repository-wide sync evidence remains open. Avoid bare `PASS` when it can be misread as production execution success.
 
 ## L-UT07B-FU03-003: Strict Phase 12 files must be real files
 

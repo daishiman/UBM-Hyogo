@@ -1,100 +1,117 @@
 # タスク仕様書 検証レポート
 
-> 検証日時: 2026-05-02T12:12:02.514Z
+> 検証日時: 2026-05-03（実装仕様書化）
 > 対象: docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook
+> 実装区分: **[実装仕様書]**（CONST_004 例外）
 
 ## サマリー
 
 | 項目 | 値 |
-|------|-----|
-| 総Phase数 | 13 |
-| 検証済みPhase | 13 |
-| エラー | 0 |
-| 警告 | 21 |
-| 情報 | 21 |
-| **結果** | **✅ PASS** |
+| --- | --- |
+| 総 Phase 数 | 13 |
+| 状態 spec_created | 12（Phase 1〜12）|
+| 状態 blocked_until_user_approval | 1（Phase 13）|
+| 4 条件評価 | PASS × 4 |
+| AC トレース | AC-1〜AC-20 全件 spec_created |
+| CONST_004 / 005 / 007 | PASS / PASS / PASS |
 
-## Phase別検証結果
+## Phase 別状態
 
-### Phase 1: 要件定義 ✅
+| Phase | 名称 | 状態 | 主成果物 |
+| --- | --- | --- | --- |
+| 1 | 要件定義（実装仕様書化） | spec_created | outputs/phase-01/main.md |
+| 2 | 設計（runbook + コードアーキテクチャ） | spec_created | outputs/phase-02/main.md |
+| 3 | 設計レビュー | spec_created | outputs/phase-03/main.md |
+| 4 | テスト戦略 / bats / CI gate 設計 | spec_created | outputs/phase-04/main.md |
+| 5 | runbook 本体 + scripts 実装手順（Part A/B） | spec_created | outputs/phase-05/main.md |
+| 6 | 異常系・失敗ハンドリング | spec_created | outputs/phase-06/main.md |
+| 7 | AC マトリクス（AC-1〜AC-20） | spec_created | outputs/phase-07/main.md |
+| 8 | DRY 化 | spec_created | outputs/phase-08/main.md |
+| 9 | 品質保証 / 4 条件評価 | spec_created | outputs/phase-09/main.md |
+| 10 | 最終レビュー | spec_created | outputs/phase-10/main.md |
+| 11 | evidence 仕様（NON_VISUAL） | spec_created | outputs/phase-11/main.md |
+| 12 | ドキュメント更新 / 正本同期 | spec_created | outputs/phase-12/main.md |
+| 13 | PR 作成 | blocked_until_user_approval | outputs/phase-13/main.md |
 
-- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「task-ut-07b-fu-04-production-migration-apply-execution.md」の存在を確認してください
+## 実装ファイル F1〜F9（コード実装済み / production 実走未実行）
 
-### Phase 2: 設計 ✅
+| # | パス | 種別 | 状態 |
+| --- | --- | --- | --- |
+| F1 | scripts/d1/preflight.sh | 新規 | implemented-local |
+| F2 | scripts/d1/postcheck.sh | 新規 | implemented-local |
+| F3 | scripts/d1/evidence.sh | 新規 | implemented-local |
+| F4 | scripts/d1/apply-prod.sh | 新規 | implemented-local |
+| F5 | scripts/cf.sh（d1:apply-prod 追加） | 編集 | implemented-local |
+| F6 | .github/workflows/d1-migration-verify.yml | 新規 | implemented-local |
+| F7 | scripts/d1/__tests__/*.bats | 新規 | implemented-local |
+| F8 | outputs/phase-05/main.md（runbook Part B） | 編集 | implemented-local |
+| F9 | package.json（test:scripts 追加） | 編集 | implemented-local |
 
-- ℹ️ [consistency] 参照パス「rg -n "CLOUDFLARE_API_TOKEN|CLOUDFLARE_ACCOUNT_ID" outputs/phase-11/」の存在を確認してください
+## AC-1〜AC-20 サマリ
 
-### Phase 3: 設計レビューゲート ✅
+詳細は `outputs/phase-07/main.md`。全 20 件 spec_created。
 
-- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
+## 4 条件評価
 
-### Phase 4: テスト作成 ✅
+| 条件 | 判定 | 根拠 |
+| --- | --- | --- |
+| 矛盾なし | PASS | 実装仕様書化と production 実 apply 別タスクの境界が一貫（index / phase-01 / phase-12 / phase-13）|
+| 漏れなし | PASS | F1〜F9 全件、AC-1〜AC-20 全件、Phase 12 7 ファイル parity、未タスク 4 件 |
+| 整合性あり | PASS | exit code 規約 / DRY_RUN / op run / scripts/cf.sh / wrangler.toml / D1 migrations 仕様と一致 |
+| 依存関係整合 | PASS | 上流 UT-07B / U-FIX-CF-ACCT-01 完了済、bats が CI で先行、CI gate green が PR merge 前提、production 実 apply は FU-04 |
 
-- ℹ️ [consistency] 参照パス「grep -E '^## (Overview\|承認ゲート\|Preflight\|Apply\|Post-check\|Evidence\|Failure handling\|Smoke 制限)' outputs/phase-05/main.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -n 'apps/api/migrations/0008_schema_alias_hardening\.sql' outputs/phase-05/main.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -nE 'ubm-hyogo-db-prod' outputs/phase-05/main.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -nE -- '--env production' outputs/phase-05/main.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -nE '(schema_aliases\|idx_schema_aliases_revision_stablekey_unique\|idx_schema_aliases_revision_question_unique\|backfill_cursor\|backfill_status)' outputs/phase-05/main.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -nE '^[^#]*\bwrangler\b' outputs/phase-05/main.md \| grep -v 'scripts/cf.sh'」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -nE '(commit \\\| PR \\\| merge\|ユーザー承認\|本タスクでは実行しない)' outputs/phase-05/main.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -nE '(destructive な apply smoke\|別承認)' outputs/phase-05/main.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -nE '(apps/api/migrations\|D1 への直接アクセス)' outputs/phase-05/main.md」の存在を確認してください
+## CONST_005 必須項目チェック
 
-### Phase 5: 実装 ⚠️
+| 項目 | 充足箇所 |
+| --- | --- |
+| 変更対象ファイル一覧 | `index.md` 実装する成果物表 + `artifacts.json` `implementation_artifacts` |
+| 関数シグネチャ | `outputs/phase-12/implementation-guide.md` Part 2 + `outputs/phase-02/main.md` |
+| 入出力・副作用 | `outputs/phase-01/main.md` outputs F1-F5 + `outputs/phase-12/implementation-guide.md` |
+| テスト方針 | `outputs/phase-04/main.md`（bats 19 ケース）+ `artifacts.json` `test_strategy` |
+| ローカル実行コマンド | `outputs/phase-12/implementation-guide.md` Local 実行コマンド + `artifacts.json` `local_commands` |
+| DoD | `index.md` 完了判定 + `artifacts.json` `definition_of_done` + `outputs/phase-12/implementation-guide.md` DoD |
+| exit code 規約 | `outputs/phase-05/main.md` Part A + `outputs/phase-06/main.md` |
+| redaction grep | `outputs/phase-11/redaction-check.md` |
+| mock 戦略 | `outputs/phase-04/main.md` mock wrangler 戦略 |
 
-- ⚠️ [quality] 曖昧表現「必要なら」が1箇所で使用されています
+## 機密情報チェック
 
-### Phase 6: テスト拡充 ✅
+仕様書 / artifacts.json 配下に Token / Account ID / production 実 apply 結果値の記録なし（PASS）。`op://Vault/Item/Field` 参照記法のみ許容。
 
-- ℹ️ [consistency] 参照パス「grep -rEn '[A-Za-z0-9_-]{40,}' outputs/」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -rEn '[a-f0-9]{32}' outputs/」の存在を確認してください
+## GitHub Issue 方針
 
-### Phase 7: テストカバレッジ確認 ✅
+- `Refs #363`（CLOSED）採用
+- `Closes #363` 不採用
+- 再オープンしない
 
-問題なし
+## Phase 12 7 ファイル parity
 
-### Phase 8: リファクタリング ⚠️
+| File | Result |
+| --- | --- |
+| `outputs/phase-12/main.md` | PASS |
+| `outputs/phase-12/implementation-guide.md` | PASS |
+| `outputs/phase-12/system-spec-update-summary.md` | PASS |
+| `outputs/phase-12/documentation-changelog.md` | PASS |
+| `outputs/phase-12/unassigned-task-detection.md` | PASS |
+| `outputs/phase-12/skill-feedback-report.md` | PASS |
+| `outputs/phase-12/phase12-task-spec-compliance-check.md` | PASS |
 
-- ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 7の成果物が文書内で参照されていない可能性があります
+## Phase 11 evidence 構成
 
-### Phase 9: 品質保証 ✅
+| File | 状態 |
+| --- | --- |
+| `outputs/phase-11/main.md` | spec_created |
+| `outputs/phase-11/manual-smoke-log.md` | spec_created（bats 期待出力） |
+| `outputs/phase-11/staging-dry-run.md` | spec_created（DRY_RUN=1 期待出力） |
+| `outputs/phase-11/grep-verification.md` | spec_created |
+| `outputs/phase-11/redaction-check.md` | spec_created |
+| `outputs/phase-11/structure-verification.md` | spec_created |
+| `outputs/phase-11/manual-test-checklist.md` | spec_created |
+| `outputs/phase-11/manual-test-result.md` | DOC_PASS_WITH_OPEN_RUNTIME_EVIDENCE |
+| `outputs/phase-11/discovered-issues.md` | NO_BLOCKER |
+| `outputs/phase-11/link-checklist.md` | PASS |
+| `outputs/phase-11/screenshot-plan.json` | NON_VISUAL（screenshotsRequired=false）|
 
-- ℹ️ [consistency] 参照パス「ls outputs/phase-*/main.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -RE "[A-Za-z0-9_-]{30,}" outputs/phase-11/」の存在を確認してください
+## Final Verdict
 
-### Phase 10: 最終レビューゲート ✅
-
-問題なし
-
-### Phase 11: 手動テスト検証 ⚠️
-
-- ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 8の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 9の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 10の成果物が文書内で参照されていない可能性があります
-
-### Phase 12: ドキュメント更新 ⚠️
-
-- ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 6の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 7の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 8の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 9の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 10の成果物が文書内で参照されていない可能性があります
-- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
-- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
-
-### Phase 13: PR作成 ⚠️
-
-- ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 6の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 7の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 8の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 9の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 10の成果物が文書内で参照されていない可能性があります
-- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
+**PASS（implemented-local / production-not-executed）** — 実装仕様書と F1〜F9 のローカル実装は整備済み。Phase 13 は commit / push / PR のユーザー承認待ち。production 実 apply は UT-07B-FU-04 で `executed` に昇格する。

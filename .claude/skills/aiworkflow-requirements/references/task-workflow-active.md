@@ -33,11 +33,11 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | spec_created / requirements-operations-runbook / NON_VISUAL / Phase 1-12 workflow-local artifacts materialized / Phase 13 blocked_until_user_approval |
+| ステータス | spec_created / implementation+operations+runbook / implemented-local / NON_VISUAL / Phase 13 blocked_until_user_approval |
 | 成果物 | `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/` |
-| 対象 | `apps/api/migrations/0008_schema_alias_hardening.sql` を `ubm-hyogo-db-prod` へ適用するための承認ゲート付き runbook |
+| 対象 | `apps/api/migrations/0008_schema_alias_hardening.sql` を `ubm-hyogo-db-prod` へ適用するための承認ゲート付き runbook + `scripts/d1/*` 検証スクリプト + CI gate |
 | 境界 | production apply は本タスクでは未実行。実 apply は commit / PR / merge 後、ユーザー明示承認を得た別運用タスクで実施 |
-| 検証 | workflow-local strict Phase 12 7 files と root/outputs artifacts parity は materialized。staging `migrations list` は `OPERATOR_GATE_OPEN` |
+| 検証 | workflow-local strict Phase 12 7 files と root/outputs artifacts parity は materialized。`pnpm test:scripts` は fallback 経路で PASS（Node 22 warning あり）。staging DRY_RUN / CI green は Phase 13 PR runtime evidence |
 | Issue | #363 CLOSED 維持。PR では `Refs #363` のみ採用し、`Closes #363` は使わない |
 
 ### UT Coverage 2026-05 Wave（2026-05-01）

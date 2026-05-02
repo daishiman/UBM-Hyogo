@@ -1,0 +1,44 @@
+name: D1 Migration Verify
+
+on:
+  pull_request:
+    paths:
+      - "apps/api/migrations/**"
+      - "scripts/d1/**"
+      - "scripts/cf.sh"
+      - "package.json"
+      - "pnpm-lock.yaml"
+
+jobs:
+  d1-migration-verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Install bats
+        run: sudo apt-get update && sudo apt-get install -y bats
+
+      - name: Run script tests
+        run: bats scripts/d1/__tests__/*.bats
+
+      - name: Staging dry-run
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CF_SH_SKIP_WITH_ENV: "1"
+          DRY_RUN: "1"
+        run: |
+          bash scripts/d1/apply-prod.sh ubm-hyogo-db-staging --env staging --migration 0008_schema_alias_hardening

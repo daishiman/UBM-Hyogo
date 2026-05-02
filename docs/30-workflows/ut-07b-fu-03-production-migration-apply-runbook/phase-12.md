@@ -7,22 +7,24 @@
 | Task ID | UT-07B-FU-03 |
 | Phase | 12 |
 | 状態 | spec_created |
-| taskType | requirements / operations / runbook |
+| taskType | implementation / operations / runbook + scripts |
+| 実装区分 | 実装仕様書 |
 | visualEvidence | NON_VISUAL |
 
 ## 実行タスク
 
-1. 本 Phase の入力（Phase 1〜11 全成果物・artifacts.json）を確認する。
-2. Task 12-1〜12-6 の必須 7 ファイル（`main.md` + 6 補助）を Phase 12 実行時に生成する宣言を本仕様書に固定する。
+1. Phase 1〜11 全成果物 + `artifacts.json` を確認する。
+2. Task 12-1〜12-6 の必須 7 ファイル（`main.md` + 6 補助）を整備する。
 3. 仕様書 root と `outputs/` の `artifacts.json` parity を確認する。
-4. workflow_state を `spec_created` のまま据え置く（runbook は文書完成しても、production 実 apply は別タスクで運用実行されるため `completed` には昇格しない）。
-5. GitHub Issue #363（CLOSED）の再オープン or 新規 Issue 起票判断を Phase 11 evidence に基づき記録する。
+4. workflow_state を `spec_created` のまま据え置く（F1〜F9 は本サイクルでローカル実装済みだが、production 実 apply は別タスクで行うため）。
+5. F1〜F9 実装ファイルの所在を aiworkflow-requirements skill reference へ追記候補としてマークする。
+6. GitHub Issue #363（CLOSED）の再オープン or 新規 Issue 起票判断を Phase 11 evidence に基づき記録する。
 
 ## 目的
 
-skill 規約に従い Phase 12 の必須 7 ファイルを揃え、close-out parity を担保する。本タスクは production migration apply **runbook の文書整備** タスクであり、production への実 apply は本タスクの範囲外であるため、`workflow_state` は `spec_created` のまま据え置く。
+実装仕様書（F1〜F9）に対する Phase 12 の必須 7 ファイル parity を担保し、運用者向け / 中学生向け 2 部構成 implementation-guide で承認ゲート + scripts + CI gate の関係性を明示する。production への実 apply は別タスクで運用実行されるため `workflow_state` は `spec_created` のままとする。
 
-正本仕様（aiworkflow-requirements skill / `docs/00-getting-started-manual/specs/`）への反映は、runbook の存在を D1 関連 reference に追記する候補としてのみ扱い、production の実 apply 結果値で正本仕様を上書きしない。
+正本仕様（aiworkflow-requirements skill / `docs/00-getting-started-manual/specs/`）への反映は、`scripts/d1/*.sh` と `d1-migration-verify.yml` の存在を D1 関連 reference に追記する候補としてのみ扱い、production の実 apply 結果値で正本仕様を上書きしない。
 
 ## 参照資料
 
@@ -38,134 +40,134 @@ skill 規約に従い Phase 12 の必須 7 ファイルを揃え、close-out par
 
 | Task | 名称 | 必須 | 出力先 |
 | --- | --- | --- | --- |
-| 12-1 | 実装ガイド作成（Part 1 中学生向け + Part 2 運用者向け） | ✅ | outputs/phase-12/implementation-guide.md |
+| 12-1 | 実装ガイド作成（Part 1 中学生向け + Part 2 運用者向け F1〜F9） | ✅ | outputs/phase-12/implementation-guide.md |
 | 12-2 | システム仕様書更新サマリー（Step 1-A〜1-C, Step 2 判定） | ✅ | outputs/phase-12/system-spec-update-summary.md |
 | 12-3 | ドキュメント更新履歴 | ✅ | outputs/phase-12/documentation-changelog.md |
-| 12-4 | 未タスク検出レポート（0 件不可・最低 3 件想定） | ✅ | outputs/phase-12/unassigned-task-detection.md |
-| 12-5 | スキルフィードバックレポート（改善点なしでも出力必須） | ✅ | outputs/phase-12/skill-feedback-report.md |
-| 12-6 | Phase 12 task spec compliance check（root evidence） | ✅ | outputs/phase-12/phase12-task-spec-compliance-check.md |
+| 12-4 | 未タスク検出レポート（最低 3 件） | ✅ | outputs/phase-12/unassigned-task-detection.md |
+| 12-5 | スキルフィードバックレポート | ✅ | outputs/phase-12/skill-feedback-report.md |
+| 12-6 | Phase 12 task spec compliance check | ✅ | outputs/phase-12/phase12-task-spec-compliance-check.md |
 
-加えて `outputs/phase-12/main.md` をサマリとして出力（合計 7 ファイル）。**実ファイルの作成は Phase 12 実行時に行い、本仕様書段階では宣言のみとする。**
+加えて `outputs/phase-12/main.md` をサマリとして出力（合計 7 ファイル）。
 
 ## Task 12-1: 実装ガイド構成
 
 ### Part 1（中学生向け）
 
-- 例え話: production D1 は「学校の本物の名簿台帳」、migration は「台帳に新しい欄を増やす作業」、runbook は「その作業をするときの手順書」
-- なぜ必要か: 本物の名簿台帳を書き換えるとき、手順書がないと「どの台帳を / どの順番で / 誰の許可で」変えたか分からなくなって、間違いを取り返せなくなる
-- 何をしたか: 「本物の台帳を変える前に必ず確認すること」「変える命令」「変えた後にちゃんと変わったか見る方法」「失敗したら止める条件」を全部 1 つの紙に書いた
-- 「なぜ本タスクでは本物の台帳を変えないのか」: 手順書を作ること と 手順書に従って実行すること は別の仕事。先に手順書を完成させて、許可をもらってから本物を触る
+- 例え話: production D1 = 「学校の本物の名簿台帳」、migration = 「台帳に新しい欄を増やす作業」、runbook = 「手順書」、F1〜F4 scripts = 「手順書に沿って動く専用ロボット」、CI gate = 「ロボットの空運転を毎回必ず体育館（staging）でやってから職員室（main）に入れるルール」
+- なぜ scripts と CI gate が必要か: 「人間が手順書を読み飛ばすかも」「スクリーンショットを取り忘れるかも」「機密情報を証跡に書いてしまうかも」を機械的に防ぐため
+- なぜ本タスクで本物の台帳を変えないか: 「ロボットを作る仕事」と「ロボットに本物を触らせる仕事」は別。先にロボットを完成させて校長先生（ユーザー）の許可をもらってから本物を触る
 
-### Part 2（運用者向け）
+### Part 2（運用者向け F1〜F9）
 
-- 対象 migration: `apps/api/migrations/0008_schema_alias_hardening.sql`
-- 対象オブジェクト: `schema_aliases` table / `idx_schema_aliases_revision_stablekey_unique` / `idx_schema_aliases_revision_question_unique` / `schema_diff_queue.backfill_cursor` / `schema_diff_queue.backfill_status`
-- 承認ゲート: commit / PR / merge 後 → ユーザー明示承認 → runbook に従い `bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production`
-- preflight: `migrations list` で未適用判定 / 対象 DB 名（`ubm-hyogo-db-prod`）の固定確認 / `--env production` の打鍵確認
-- post-check: `schema_aliases` table 存在 + 2 UNIQUE index 存在 + `schema_diff_queue` への追加 2 カラム存在（read / dryRun 系のみ。destructive smoke は別承認）
-- evidence 保存項目: 実行コマンド / 出力 / exit code / 時刻 / 承認者 / 対象 DB / migration hash or commit SHA（Token 値・Account ID 値は記録しない）
-- failure handling: 二重適用 / UNIQUE 衝突 / DB 取り違え / ALTER TABLE 失敗時は **追加 SQL を即興実行せず判断待ち** に戻す
-- 視覚証跡: UI/UX 変更なしのため Phase 11 スクリーンショット不要（代替証跡: `outputs/phase-11/structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md`）
+| 項目 | 内容 |
+| --- | --- |
+| 対象 migration | `apps/api/migrations/0008_schema_alias_hardening.sql` |
+| 対象オブジェクト 5 件 | `schema_aliases` table / `idx_schema_aliases_revision_stablekey_unique` / `idx_schema_aliases_revision_question_unique` / `schema_diff_queue.backfill_cursor` / `schema_diff_queue.backfill_status` |
+| 6 段階承認ゲート | (G1) commit → (G2) PR → (G3) CI gate `d1-migration-verify` green → (G4) merge to main → (G5) ユーザー明示承認 → (G6) runbook 実走（別タスク） |
+| F1 preflight.sh | `bash scripts/d1/preflight.sh <db> --env <env>` で未適用 migration を JSON 抽出 |
+| F2 postcheck.sh | `bash scripts/d1/postcheck.sh <db> --env <env>` で 5 オブジェクト存在 verify（read-only）|
+| F3 evidence.sh | `bash scripts/d1/evidence.sh <db> --env <env> --commit <sha> --migration <file>` で `.evidence/d1/<UTC-ts>/` に保存 |
+| F4 apply-prod.sh | `bash scripts/d1/apply-prod.sh <db> --env <env> [DRY_RUN=1]` でオーケストレート |
+| F5 cf.sh d1:apply-prod | `bash scripts/cf.sh d1:apply-prod ubm-hyogo-db-prod --env production`（F4 への薄ラッパ）|
+| F6 CI gate | `.github/workflows/d1-migration-verify.yml` が PR で staging に対し DRY_RUN=1 を実行 |
+| F7 bats テスト | `pnpm test:scripts` で 19 ケース全 PASS |
+| F8 runbook 本体 | `outputs/phase-05/main.md` Part B（運用 runbook）|
+| F9 package.json | `test:scripts` script 追加 |
+| evidence 10 項目 | db, env, commit_sha, migration_filename, migration_sha, timestamp_utc, timestamp_jst, approver, dry_run, exit_code |
+| failure handling exit code | 0 成功 / 1 verify失敗 / 2 引数誤り / 3 preflight失敗 / 4 apply失敗 / 5 postcheck失敗 / 6 evidence検証失敗（runbook 用に 10/30/40/80 拡張は Phase 6 参照） |
+| 視覚証跡 | UI/UX 変更なし。代替証跡: `outputs/phase-11/{structure,grep,staging-dry-run,redaction,manual-smoke-log}` |
 
 ## Task 12-2: システム仕様書更新
 
 | Step | 内容 | 本タスクでの扱い |
 | --- | --- | --- |
-| Step 1-A | active workflow / LOGS / topic-map 登録 | `spec_created` 状態として記録。completed-tasks には移動しない |
-| Step 1-B | 実装状況テーブル更新 | `spec_created` として記録。runbook 完成 = production 実 apply 完了 ではないため `completed` に昇格しない |
-| Step 1-C | 関連タスクテーブル更新 | 上流 `UT-07B-schema-alias-hardening-001`（completed） / 並列依存 `U-FIX-CF-ACCT-01` / 下流（運用実行・queue split・admin retry label）の関係を current facts へ更新 |
-| Step 2 | システム仕様更新（正本同期） | runbook の存在を D1 関連 reference に追記する候補のみ。production の実 apply 結果値で正本仕様を上書きしない |
+| Step 1-A | active workflow / LOGS / topic-map 登録 | `spec_created` 状態として記録 |
+| Step 1-B | 実装状況テーブル更新 | `spec_created / implemented-local`（F1〜F9 は本サイクルで実装済み、production 実 apply は未実行）|
+| Step 1-C | 関連タスクテーブル更新 | 上流 UT-07B / U-FIX-CF-ACCT-01、下流 UT-07B-FU-04（運用実行）/ FU-01（queue split）/ FU-02（admin retry） |
+| Step 2 | システム仕様更新（正本同期） | scripts/d1/* + CI gate の所在を aiworkflow-requirements reference に追記候補としてのみ |
 
 ### Step 2 更新対象（候補）
 
-- `.claude/skills/aiworkflow-requirements/references/`（D1 / migration 系 reference に「production migration apply runbook の所在」だけを追記する候補）
-- `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（runbook の所在を 1 行追記する候補）
+- `.claude/skills/aiworkflow-requirements/references/`（`scripts/d1/*.sh` + CI gate `d1-migration-verify` の所在 1 行追記）
+- `.claude/skills/aiworkflow-requirements/indexes/quick-reference.md`（`bash scripts/cf.sh d1:apply-prod` の所在追記）
 - `.claude/skills/aiworkflow-requirements/indexes/topic-map.md`（`generate-index.js` で再生成）
-- `docs/00-getting-started-manual/specs/08-free-database.md`（D1 production migration の運用境界 1 段落追記候補）
+- `docs/00-getting-started-manual/specs/08-free-database.md`（D1 production migration の運用境界 1 段落追記）
 
-> 追記不要と判定する場合の根拠例: 「runbook はワークフロー文書（`docs/30-workflows/`）に閉じる運用ドキュメントであり、aiworkflow-requirements skill は実装契約・正本仕様を扱うため階層が異なる」。Phase 12 実行時に **追記する / しない** のいずれかを明示判定し、根拠を本ファイルに記録する。
+> 既定方針: 「scripts は workflow 文書（`docs/30-workflows/`）に閉じる運用ツールであり skill reference には所在のみ追記する」。Phase 12 実行時に追記する / しないを明示判定。
 
 ## Task 12-3: ドキュメント更新履歴
 
-`outputs/phase-12/documentation-changelog.md` に以下を別ブロックで記録する:
+`outputs/phase-12/documentation-changelog.md` に以下を別ブロックで記録:
 
-- workflow-local 同期（本タスク仕様書配下の `index.md` / `artifacts.json` / `outputs/artifacts.json` の更新差分）
-- global skill sync（aiworkflow-requirements / task-specification-creator の LOGS.md 更新）
-- 各 Step 1-A / 1-B / 1-C / Step 2 の結果を個別に明記（「該当なし」も記録）
+- 旧仕様（runbook 文書のみ）→ 新仕様（実装仕様書化、F1〜F9 + CI gate + bats）への書き換え差分
+- workflow-local 同期（`index.md` / `artifacts.json` / `outputs/artifacts.json` の更新差分）
+- global skill sync（aiworkflow-requirements の `_legacy.md` / indexes / task-workflow / artifact inventory 更新。task-specification-creator は既存 SKILL.md 更新済みで追加差分なし）
+- Step 1-A / 1-B / 1-C / Step 2 の結果（「該当なし」も記録）
 
 ## Task 12-4: 未タスク検出（最低 3 件）
 
-seed `unassigned-task-detection.md`（UT-07B Phase 12 由来）と整合する scope out 候補を最低限列挙する:
-
-1. **production migration apply の運用実行**（本 runbook に従い、ユーザー承認後に `0008_schema_alias_hardening.sql` を `ubm-hyogo-db-prod` に apply する別タスク。状態: candidate / priority: HIGH）
-2. **queue / cron split for large back-fill**（schema diff queue を背景処理に分割する設計タスク。UT-07B の苦戦想定で確認済み。状態: candidate / priority: MEDIUM）
-3. **admin UI retry label の実装**（schema_diff_queue の retry 状態を admin 画面に表示するタスク。状態: candidate / priority: LOW）
-
-各候補は `状態: candidate` / 関連タスク差分確認（上流 UT-07B との重複排除）/ 起票要否判定 を記載する。
+1. **production migration apply 運用実行**（UT-07B-FU-04: ユーザー承認後に F4 apply-prod.sh を `--env production` で実走。状態: candidate / priority: HIGH）
+2. **queue / cron split for large back-fill**（UT-07B-FU-01: schema diff queue 背景処理分割。状態: candidate / priority: MEDIUM）
+3. **admin UI retry label**（UT-07B-FU-02: schema_diff_queue retry 状態の admin 画面表示。状態: candidate / priority: LOW）
+4. **scripts/d1 を aiworkflow-requirements skill から逆引きできる index 整備**（candidate / priority: LOW）
 
 ## Task 12-5: スキルフィードバックレポート
 
-`outputs/phase-12/skill-feedback-report.md` に以下を記録（改善点なしでも出力）:
-
-- テンプレート改善: NON_VISUAL + production runbook タスクにおける Phase 11 evidence 命名（`structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md`）の標準化候補
-- ワークフロー改善: 「runbook 文書整備タスクは production 実 apply を伴わないため `completed` 化しない」という境界の skill ガイドライン化
-- ドキュメント改善: `docs/30-workflows/` 配下の runbook 系タスクを aiworkflow-requirements skill から逆引きできる index 整備の提案
+- テンプレート改善: 実装仕様書 + NON_VISUAL + production runbook を組み合わせるタスクの Phase 11 evidence 標準化候補（bats / staging dry-run / CI gate / grep / redaction の 5 系統）
+- ワークフロー改善: 「実装仕様書化したが production 実 apply は別タスク」境界の skill ガイドライン化（`workflow_state = spec_created` のまま据え置く根拠を明文化）
+- ドキュメント改善: `docs/30-workflows/` 配下の runbook + scripts 系タスクを aiworkflow-requirements skill から逆引きできる index 整備提案
+- bats fixture / mock wrangler 戦略をスキルテンプレートに追加する提案
 
 ## Task 12-6: Compliance check 必須項目
 
-`outputs/phase-12/phase12-task-spec-compliance-check.md` に以下を確認する:
-
 - Phase 12 の 7 ファイル（`main.md` + 6 補助）すべて存在
-- root `artifacts.json` と `outputs/artifacts.json` の phase / status / file parity。`outputs/artifacts.json` がない場合は root `artifacts.json` が唯一正本であることを明記
-- LOGS.md 2 ファイル更新（aiworkflow-requirements / task-specification-creator）
+- root `artifacts.json` と `outputs/artifacts.json` の phase / status / file parity（または root 単独正本宣言）
+- aiworkflow-requirements same-wave 更新（`LOGS/_legacy.md` / indexes / task-workflow / artifact inventory）
 - `node .claude/skills/aiworkflow-requirements/scripts/generate-index.js` 実行結果（topic-map / quick-reference の stale 解消）
-- 仕様書内に Token 値・Account ID 値・production の実 apply 結果値が含まれていないこと
-- GitHub Issue #363（CLOSED）に対して PR 本文で `Refs #363` を採用し `Closes #363` を採用しない方針が固定されていること
+- 仕様書内に Token / Account ID / production 実 apply 結果値が含まれていない
+- F1〜F9 各 AC（AC-1〜AC-20）が Phase 7 と Phase 12 で同一スコープでトレース
+- GitHub Issue #363（CLOSED）に対し PR 本文で `Refs #363` を採用し `Closes #363` を採用しない
 
 ## GitHub Issue #363 再オープン判断
 
-Phase 11 evidence の判定結果に応じて以下のいずれかを `outputs/phase-12/main.md` に明記する:
-
 | 判定 | 条件 | アクション |
 | --- | --- | --- |
-| 再オープン不要 | runbook が AC-1〜AC-12 を満たし、Phase 11 4 検証が全 PASS。本タスクは「文書整備の seed 消化」として CLOSED 状態のまま | 新規 Issue 起票せず、PR 本文で `Refs #363` のみ |
-| 新規 Issue 起票 | Phase 11 で AC 不足が判明した場合 | 新規 Issue を「production migration apply runbook 文書整備の追補」として起票し、本タスクとリンク |
-| 再オープン | Issue #363 のスコープに本タスクが完全包含されると判断された場合 | `gh issue reopen 363` を運用承認のもと実施。ただし solo 開発ポリシーでは原則新規 Issue を優先する |
+| 再オープン不要 | runbook + F1〜F9 仕様が AC-1〜AC-20 を満たし、Phase 11 5 検証が全 PASS | 新規 Issue 起票せず PR 本文で `Refs #363` |
+| 新規 Issue 起票 | Phase 11 で AC 不足が判明 | 「scripts/d1 実装 + CI gate 追補」として新規 Issue を起票し本タスクとリンク |
+| 再オープン | #363 が完全包含と判断 | `gh issue reopen 363`（solo dev では原則新規 Issue を優先）|
 
-> 既定方針: `Refs #363` を採用し `Closes #363` を採用しない（CLOSED Issue を再操作しない）。再オープンは Phase 11 evidence ベースで例外的に判断する。
+> 既定方針: `Refs #363` 採用、`Closes #363` 不採用。
 
 ## Artifacts parity 同期手順
 
 ```bash
-# root と outputs の artifacts.json を diff（outputs mirror がある場合）
 test -f outputs/artifacts.json \
   && diff <(jq -S . artifacts.json) <(jq -S . outputs/artifacts.json) \
-  || echo "PASS: outputs/artifacts.json absent; root artifacts.json is the single canonical ledger for spec_created"
+  || echo "PASS: outputs/artifacts.json absent; root artifacts.json is canonical"
 
-# どちらも phase 1〜12 = spec_created のまま据え置き（completed に昇格させない）
-# Phase 13 status は blocked_until_user_approval のまま（user 承認待ち）
+# Phase 1〜12 = spec_created のまま据え置き、Phase 13 = blocked_until_user_approval
 ```
 
 ## 4 条件評価
 
 | 条件 | 内容 | 判定方法 |
 | --- | --- | --- |
-| 矛盾なし | runbook 文書整備と production 実 apply の境界が一貫している | 12-1 Part 2 / 12-2 Step 1-B / 12-4 候補 1 で「実 apply は別タスク」と一致 |
-| 漏れなし | Phase 12 の 7 ファイルが宣言され、12-4 が最低 3 候補を含む | 12-6 compliance check で全項目存在を検証 |
-| 整合性あり | 正本仕様への追記が「候補のみ」で、production 実 apply 結果値による上書きを禁ずる | 12-2 Step 2 の境界文と redaction grep の整合 |
-| 依存関係整合 | 上流 UT-07B / 並列 U-FIX-CF-ACCT-01 / 下流（運用実行・queue split・admin retry）が 12-2 Step 1-C と 12-4 で一致 | cross check |
+| 矛盾なし | 「実装仕様書化」と「production 実 apply 別タスク」境界が一貫 | 12-1 Part 2 / 12-2 Step 1-B / 12-4 候補 1 で一致 |
+| 漏れなし | Phase 12 の 7 ファイル + 12-4 最低 3 候補 + F1〜F9 全件説明 | 12-6 で全項目検証 |
+| 整合性あり | 正本仕様への追記が「候補のみ」 | 12-2 Step 2 境界 + redaction grep |
+| 依存関係整合 | 上流 UT-07B / 並列 U-FIX-CF-ACCT-01 / 下流 FU-04/01/02 が 12-2 1-C と 12-4 で一致 | cross check |
 
 ## 完了条件
 
-- [ ] Phase 12 の 7 ファイル（`main.md` + 6 補助）の生成が宣言されている
-- [ ] 各 Task の Step が表化されている
-- [ ] root `artifacts.json` と `outputs/artifacts.json` parity、または root 単独正本宣言が記録されている（`spec_created` 同値）
-- [ ] aiworkflow-requirements / `docs/00-getting-started-manual/specs/` への正本同期は **候補列挙のみ** で、production 実 apply 結果値による上書きが禁じられている
-- [ ] LOGS.md 2 ファイルが same-wave で更新されている
-- [ ] workflow_state は `spec_created` のままで `completed` に昇格していない
-- [ ] 仕様書・ログに Token 値・Account ID 値・production 実 apply 結果値が含まれない
-- [ ] GitHub Issue #363 の再オープン or 新規 Issue 起票判断が記録され、`Refs #363` 方針が固定されている
-- [ ] 4 条件評価が全 PASS で記録されている
+- [ ] Phase 12 の 7 ファイル生成宣言
+- [ ] F1〜F9 が Part 2 で全件説明
+- [ ] root `artifacts.json` と `outputs/artifacts.json` parity
+- [ ] aiworkflow-requirements 同期は **候補列挙のみ**
+- [ ] aiworkflow-requirements same-wave 更新
+- [ ] workflow_state は `spec_created` のまま
+- [ ] Token / Account ID / production 実 apply 結果値の記録なし
+- [ ] `Refs #363` 方針が固定
+- [ ] 4 条件評価 全 PASS
 
 ## 成果物
 
@@ -186,8 +188,8 @@ test -f outputs/artifacts.json \
 
 ## 苦戦想定
 
-- runbook が文書として完成すると `completed` 化したくなるが、本タスクは「production 実 apply の運用実行」を含まないため `spec_created` のまま据え置く必要がある。境界を 12-1 Part 2 と 12-2 Step 1-B で 2 重に固定する。
-- 正本仕様（aiworkflow-requirements）に runbook の手順そのものを写経したくなるが、runbook は workflow 文書に閉じる。skill reference には「所在のみ」を追記する境界を Step 2 で守る。
-- `unassigned-task-detection.md` を 0 件で済ませたくなるが、UT-07B seed と本タスクの責務分離により最低 3 件（運用実行 / queue split / admin retry label）が必須。
-- Issue #363 は CLOSED のため `Closes #363` を反射的に書きたくなるが禁止。`Refs #363` のみを採用する方針を 12-6 で固定する。
-- production の実 apply 結果値（適用行数 / hash / 時刻）を「参考」として正本仕様に書きたくなるが、本タスクでは production を触らないため記録しない。
+- F1〜F9 の bats テスト PASS で `completed` に昇格させたくなるが、本タスクは「実装仕様書 + 文書整備」であり production 実 apply（FU-04）が別タスクのため `spec_created` のまま据え置く。
+- aiworkflow-requirements に scripts のコード詳細を写経したくなるが、所在のみ追記。
+- `unassigned-task-detection.md` を 0 件で済ませたくなるが、最低 3 件（FU-04/01/02）を必須。
+- Issue #363 CLOSED に対し `Closes #363` を反射的に書きたくなるが禁止、`Refs #363` のみ。
+- production 実 apply 結果値（適用行数 / hash / 時刻）を「参考」として正本仕様に書きたくなるが本タスクでは触らない。
