@@ -14,6 +14,7 @@ export class FakeD1 {
   responses: FakeRow[] = [];
   responseFields: FakeRow[] = [];
   schemaDiff: FakeRow[] = [];
+  tagQueue: FakeRow[] = [];
 
   prepare(sql: string): FakeStmt {
     return new FakeStmt(this, sql);
@@ -99,6 +100,22 @@ function runFirst<T>(db: FakeD1, sql: string, b: unknown[]): T | null {
   }
   if (/FROM schema_diff_queue/i.test(s) && /diff_id = \?/i.test(s)) {
     const r = db.schemaDiff.find((r) => r["diff_id"] === b[0]);
+    return (r as unknown as T) ?? null;
+  }
+  // 07a hook: enqueueTagCandidate が呼ぶ確認クエリ群
+  if (/FROM member_tags/i.test(s) && /WHERE member_id = \?/i.test(s)) {
+    return null;
+  }
+  if (/FROM tag_assignment_queue/i.test(s) && /idempotency_key = \?/i.test(s)) {
+    const r = db.tagQueue.find((r) => r["idempotency_key"] === b[0]);
+    return (r as unknown as T) ?? null;
+  }
+  if (/FROM tag_assignment_queue/i.test(s) && /WHERE member_id = \?/i.test(s)) {
+    const r = db.tagQueue.find(
+      (r) =>
+        r["member_id"] === b[0] &&
+        (r["status"] === "queued" || r["status"] === "reviewing"),
+    );
     return (r as unknown as T) ?? null;
   }
   return null;
@@ -279,6 +296,34 @@ function runMutation(db: FakeD1, sql: string, b: unknown[]): number {
         });
       }
     }
+    return 1;
+  }
+
+  // 07a hook: enqueueTagCandidate が createIdempotent から呼ぶ INSERT
+  if (/INSERT INTO tag_assignment_queue/i.test(s)) {
+    const idempotencyKey = b[5];
+    if (
+      idempotencyKey != null &&
+      db.tagQueue.find((r) => r["idempotency_key"] === idempotencyKey)
+    ) {
+      throw new Error("UNIQUE constraint failed: idx_tag_queue_idempotency");
+    }
+    const nowIso = new Date().toISOString();
+    db.tagQueue.push({
+      queue_id: b[0],
+      member_id: b[1],
+      response_id: b[2],
+      suggested_tags_json: b[3],
+      reason: b[4],
+      idempotency_key: idempotencyKey,
+      status: "queued",
+      created_at: nowIso,
+      updated_at: nowIso,
+      attempt_count: 0,
+      last_error: null,
+      next_visible_at: null,
+      dlq_at: null,
+    });
     return 1;
   }
 

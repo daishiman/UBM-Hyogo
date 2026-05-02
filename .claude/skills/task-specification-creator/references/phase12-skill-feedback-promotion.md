@@ -77,6 +77,50 @@ docs-only design workflow（route inventory automation design / ADR / topology d
 
 実例: UT-06-FU-A route inventory script design では、`system-spec-update-summary.md` で Step 1-A を「automation follow-up 登録済 / 実 command 昇格は impl-001 完了後」と分離し、`UT-06-FU-A-route-inventory-script-impl-001.md` を同 wave で formalize した。
 
+## Deploy-deferred 評価ルール（implementation / NON_VISUAL / deploy-deferred workflow）
+
+`implementation` task type かつ実 deploy / commit / PR を user 承認まで保留する workflow（例: CD cutover spec、production rollback drill）では、Phase 7 / Phase 11 / Phase 13 を**実測 PASS と書かず**、契約上の placeholder として扱う。spec_created で close するための独立ルールを以下に定める。
+
+### Phase 11: PENDING_IMPLEMENTATION_FOLLOW_UP evidence contract
+
+Phase 11 declared outputs は**必ず実体ファイルとして配置**し、各ファイル冒頭に判定行を置く。runtime PASS の代わりに次のいずれかを使う:
+
+| 判定文字列 | 用途 |
+| --- | --- |
+| `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | spec / contract が同期完了し、runtime evidence は implementation follow-up で取得予定 |
+| `PENDING_IMPLEMENTATION_FOLLOW_UP` | evidence は follow-up task の実行ログから取得予定。owner / unassigned task path を必ず併記 |
+| `Design GO` | 設計成果物の review 完了。runtime GO とは混同しない |
+
+`PASS` / `OK` 単独表記は禁止。実 deploy 前に「動いている」と誤認させない。
+
+### Phase 7: AC matrix の判定列
+
+Phase 7 AC matrix で AC ↔ test ↔ evidence を対応づける際、未実行テストには `OK` / `PASS` を書かず、次を使う:
+
+| 判定文字列 | 用途 |
+| --- | --- |
+| `COVERED_BY_PLANNED_TEST` | テストケース定義済 / 実行は follow-up |
+| `gate defined / pending follow-up execution` | CI gate / quality gate の宣言は完了 / 実測 evidence は follow-up |
+
+### Phase 13: blocked placeholder
+
+Phase 13 declared files（`local-check-result.md` / `change-summary.md` / `pr-info.md` / `pr-creation-result.md` / `approval-gate-status.md`）は**実体配置必須**だが、本文は次の 3 点を明示する blocked placeholder として書く:
+
+- commit / push / PR / 実 deploy は user 明示承認まで実行禁止
+- CLOSED Issue を扱う場合は **再 open 禁止 / `Refs #<n>` 限定**（`Closes #<n>` 禁止）
+- 承認後の実行担当 / rollback 経路 / 二段 rollback（VERSION_ID + Pages dormant 等）の readiness 参照
+
+`artifacts.json` の Phase 13 は `status=blocked` / `user_approval_required=true` / `blockedReason` を必須とする。
+
+### Same-wave 同期点（deploy-deferred 拡張）
+
+通常の 7 同期点に加え、deploy-deferred では次の 2 点を**同 wave で必ず**同期する:
+
+- destructive cleanup（Pages dormant 後の delete 等）は別 unassigned task として独立 formalize（separate approval gate）
+- lessons-learned に二段 rollback path / CLOSED Issue Refs 限定運用 / Design GO vs Runtime GO 境界を 5 要素フォーマットで記録
+
+実例: Issue #355 OpenNext Workers CD cutover では、Phase 11 を 6 ファイル（main + E-1〜E-5）+ 補助 2 ファイル（link-checklist / manual-smoke-log）で `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 契約として保存し、Phase 13 を blocked placeholder 5 ファイルで配置、実 cutover は `unassigned-task/task-impl-opennext-workers-migration-001.md`、Pages 削除は `unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` へ二段分離した。
+
 ## Applied Examples
 
 | Task | Routing decision | Evidence |
@@ -85,6 +129,7 @@ docs-only design workflow（route inventory automation design / ADR / topology d
 | 09b cron monitoring / release runbook | cron env parity、rollback split、NON_VISUAL alternative evidence は aiworkflow-requirements の artifact inventory / lessons へ昇格。candidate task は existing unassigned を先に検索し、重複 formalize を避ける | `references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md`, `references/workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md` |
 | UT-06-FU-A route inventory script design | docs-only design workflow で Phase 03/06/12/13 欠落を Phase 0/1 early gate で検出し、Design GO / runtime GO を分離して implementation follow-up を同 wave で formalize | `outputs/phase-12/system-spec-update-summary.md`, `unassigned-task/UT-06-FU-A-route-inventory-script-impl-001.md` |
 | 03a stableKey literal lint enforcement | warning↔strict mode flag 分離、allow-list 完全パス固定、inline suppression 0 維持、`spec_created → enforced_dry_run` の 7 同期点 reclassification、skill feedback の Decision 列 (Promote / Defer / No-op) は aiworkflow-requirements の lessons / inventory / quick-reference / resource-map へ昇格。lifecycle 再分類運用は本 promotion guide の checklist にも反映した | `references/lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md`, `references/workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md` |
+| Issue #355 OpenNext Workers CD cutover | implementation / NON_VISUAL / deploy-deferred の Phase 11 を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` evidence contract 6 + 2 ファイルで配置、Phase 13 を blocked placeholder 5 ファイルで配置、CLOSED Issue は `Refs #355` 限定で再 open 禁止、destructive Pages 削除を別 unassigned task に分離、二段 rollback（VERSION_ID + Pages dormant）と Phase 1 P50 既実装状態調査の主要価値を lessons-learned へ昇格 | `references/lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md`, `unassigned-task/task-impl-opennext-workers-migration-001.md`, `unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` |
 
 ## 禁止事項
 

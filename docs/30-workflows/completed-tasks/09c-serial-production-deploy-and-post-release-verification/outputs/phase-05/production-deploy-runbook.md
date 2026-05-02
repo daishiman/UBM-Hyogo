@@ -86,7 +86,7 @@ Expected secret names:
 
 | Target | Names |
 | --- | --- |
-| API production | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_FORM_ID`, `RESEND_API_KEY` |
+| API production | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_FORM_ID`, `MAIL_PROVIDER_KEY` |
 | Web production | `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` |
 
 Sanity: names are present; values are never printed.  

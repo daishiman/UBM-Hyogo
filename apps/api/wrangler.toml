@@ -33,6 +33,8 @@ name = "ubm-hyogo-api"
 
 [env.production.vars]
 ENVIRONMENT = "production"
+MAIL_FROM_ADDRESS = "noreply@ubm-hyogo.example"
+AUTH_URL = "https://api.ubm-hyogo.workers.dev"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
@@ -59,6 +61,8 @@ name = "ubm-hyogo-api-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
+MAIL_FROM_ADDRESS = "noreply@staging.ubm-hyogo.example"
+AUTH_URL = "https://api-staging.ubm-hyogo.workers.dev"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"

@@ -1,22 +1,22 @@
-// dashboard 集計用 repository（04c）
-// AdminDashboardView の totals + recentSubmissions + schemaState を 1 ファイルに集約。
+// dashboard 集計用 repository（06c-A）
+// AdminDashboardView の totals (KPI 4) + recentActions を 1 ファイルに集約。
 import type { DbCtx } from "./_shared/db";
 
 export interface DashboardTotals {
-  members: number;
-  pendingConsent: number;
-  deletedMembers: number;
-  queuedTagAssignments: number;
+  totalMembers: number;
+  publicMembers: number;
+  untaggedMembers: number;
+  unresolvedSchema: number;
 }
 
-export interface DashboardRecentSubmission {
-  responseId: string;
-  memberId: string | null;
-  submittedAt: string;
-  fullName: string;
+export interface DashboardRecentAction {
+  auditId: string;
+  actorEmail: string | null;
+  action: string;
+  targetType: string;
+  targetId: string | null;
+  createdAt: string;
 }
-
-export type DashboardSchemaState = "active" | "superseded" | "pending_review";
 
 const countOne = async (c: DbCtx, sql: string): Promise<number> => {
   const r = await c.db.prepare(sql).first<{ n: number }>();
@@ -24,76 +24,57 @@ const countOne = async (c: DbCtx, sql: string): Promise<number> => {
 };
 
 export async function getTotals(c: DbCtx): Promise<DashboardTotals> {
-  const [members, pendingConsent, deletedMembers, queuedTagAssignments] =
+  const [totalMembers, publicMembers, untaggedMembers, unresolvedSchema] =
     await Promise.all([
       countOne(c, "SELECT COUNT(*) AS n FROM member_identities"),
       countOne(
         c,
-        "SELECT COUNT(*) AS n FROM member_status WHERE rules_consent != 'consented' OR public_consent != 'consented'",
+        "SELECT COUNT(*) AS n FROM member_status WHERE publish_state = 'public' AND is_deleted = 0",
       ),
       countOne(
         c,
-        "SELECT COUNT(*) AS n FROM member_status WHERE is_deleted = 1",
+        `SELECT COUNT(*) AS n FROM member_identities mi
+         LEFT JOIN member_tags mt ON mt.member_id = mi.member_id
+         WHERE mt.member_id IS NULL`,
       ),
       countOne(
         c,
-        "SELECT COUNT(*) AS n FROM tag_assignment_queue WHERE status = 'queued'",
+        "SELECT COUNT(*) AS n FROM schema_diff_queue WHERE status != 'resolved'",
       ),
     ]);
-  return { members, pendingConsent, deletedMembers, queuedTagAssignments };
+  return { totalMembers, publicMembers, untaggedMembers, unresolvedSchema };
 }
 
-interface RecentSubmissionRow {
-  response_id: string;
-  member_id: string | null;
-  submitted_at: string;
-  answers_json: string | null;
+interface RecentActionRow {
+  audit_id: string;
+  actor_email: string | null;
+  action: string;
+  target_type: string;
+  target_id: string | null;
+  created_at: string;
 }
 
-export async function listRecentSubmissions(
+export async function listRecentActions(
   c: DbCtx,
   limit: number,
-): Promise<DashboardRecentSubmission[]> {
+): Promise<DashboardRecentAction[]> {
   const r = await c.db
     .prepare(
-      `SELECT mr.response_id, mi.member_id AS member_id, mr.submitted_at, mr.answers_json
-       FROM member_responses mr
-       LEFT JOIN member_identities mi ON mi.current_response_id = mr.response_id
-       ORDER BY mr.submitted_at DESC
+      `SELECT audit_id, actor_email, action, target_type, target_id, created_at
+       FROM audit_log
+       WHERE created_at >= datetime('now','-7 days')
+         AND action != 'dashboard.view'
+       ORDER BY created_at DESC
        LIMIT ?1`,
     )
     .bind(limit)
-    .all<RecentSubmissionRow>();
-  return (r.results ?? []).map((row) => {
-    let fullName = "";
-    if (row.answers_json) {
-      try {
-        const parsed = JSON.parse(row.answers_json) as Record<string, unknown>;
-        const fn = parsed["fullName"];
-        if (typeof fn === "string") fullName = fn;
-      } catch {
-        // ignore
-      }
-    }
-    return {
-      responseId: row.response_id,
-      memberId: row.member_id,
-      submittedAt: row.submitted_at,
-      fullName,
-    };
-  });
-}
-
-export async function getCurrentSchemaState(
-  c: DbCtx,
-): Promise<DashboardSchemaState> {
-  const r = await c.db
-    .prepare(
-      "SELECT state FROM schema_versions ORDER BY synced_at DESC LIMIT 1",
-    )
-    .first<{ state: string }>();
-  if (!r) return "pending_review";
-  const s = r.state;
-  if (s === "active" || s === "superseded" || s === "pending_review") return s;
-  return "pending_review";
+    .all<RecentActionRow>();
+  return (r.results ?? []).map((row) => ({
+    auditId: row.audit_id,
+    actorEmail: row.actor_email,
+    action: row.action,
+    targetType: row.target_type,
+    targetId: row.target_id,
+    createdAt: row.created_at,
+  }));
 }

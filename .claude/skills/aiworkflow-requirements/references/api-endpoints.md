@@ -83,7 +83,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 
 | メソッド | パス | 説明 | 認証 |
 | --- | --- | --- | --- |
-| GET | `/admin/dashboard` | 会員・同意・削除済み・タグ queue・schema 状態の dashboard 集計 | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard` | 06c-A 正本: 単一 endpoint で `kpis = { 総会員数, 公開中人数, 未タグ人数, スキーマ未解決件数 }` と `recentActions`（`audit_log` 直近 7 日 / max 20 / `dashboard.view` 除外）を返す。表示時に `dashboard.view` を `audit_log` へ append する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/members` | admin member list。`filter=active|hidden|deleted` を受け付ける | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
@@ -115,6 +115,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 - request resolve audit は現行 `AuditTargetType` 制約により `targetType='member'`、`targetId=<memberId>`、`after.noteId` で原典を追跡する。action は `admin.request.approve` / `admin.request.reject`。first-class `admin_member_note` / `admin_request` target は follow-up。
 - 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、POST は `after_json`、DELETE は `before_json` に attendance row を残す。
 - 07c follow-up audit browsing は append-only の閲覧専用で、`before_json` / `after_json` の保存値は変更せず、API projection と UI defense-in-depth で email / phone / address / name 相当キーを表示時 masking する。cursor は `{ createdAt, auditId }` の base64url JSON、order は `created_at DESC, audit_id DESC`。
+- 06c-A follow-up: `/admin/dashboard` は単一 endpoint を維持し（`/admin/dashboard/kpi`・`/admin/dashboard/recent-actions` の split は不採用）、表示時に `audit_log` へ `dashboard.view` を append する。`recentActions` は `dashboard.view` を除外フィルタし KPI / 最近の作業の自己ループを防ぐ。
 
 07a close-out で `POST /admin/tags/queue/:queueId/resolve` の body は zod discriminated union に確定した。
 
@@ -275,11 +276,19 @@ UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers C
 | ------ | ---- | ---- | ---- |
 | GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
 | GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `createAttendanceProvider(ctx)` 経由で `member_attendance` + `meeting_sessions` から取得する |
-| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
-| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
+| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='visibility_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
+| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='delete_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
 
 禁止: `PATCH /me/profile` は作らない。`/me/*` path に `:memberId` を入れない。GET 系 response に
 `admin_member_notes` 由来の `notes` / `adminNotes` を含めない。
+
+### Browser proxy 層（apps/web BFF）
+
+`/profile` 等の Client Component から `apps/api` `/me/*` に直接アクセスせず、`apps/web/app/api/me/[...path]/route.ts` の catch-all proxy 経由で叩く（不変条件 #5: D1 直接アクセスは `apps/api` に閉じる の運用形式）。
+
+- proxy は `[...path]` をそのまま `apps/api` `/me/...` にパススルーし、Cookie / Authorization header だけ転送する
+- memberId は backend session（06b-A `/me` API Auth.js cookie session resolver）で解決し、path / クエリに出さない（不変条件 #11）
+- 06b-B では `me-requests-client` が `POST /api/me/visibility-request` / `POST /api/me/delete-request` を呼び、409 を `SelfRequestError(code:'duplicate-pending')` に変換する。401 は未認証、403 は `authGateState !== 'active'` を表す
 
 `MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、D1 read path は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
 

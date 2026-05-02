@@ -1,5 +1,13 @@
 # 05b-A-auth-mail-env-contract-alignment
 
+## Canonical Status
+
+This directory is a legacy historical copy. The current canonical workflow root is:
+
+`docs/30-workflows/05b-A-auth-mail-env-contract-alignment/`
+
+Use the canonical root for Phase outputs, artifacts parity, Phase 11 NON_VISUAL evidence, and Phase 12 close-out checks.
+
 ## wave / mode / owner
 
 | 項目 | 値 |
@@ -18,7 +26,7 @@ Magic Link/認証メールの環境変数名と正本仕様の不整合を解消
 
 このタスクは完了済み本体タスクの復活ではなく、プロトタイプ・仕様書・現行ソースを突き合わせて確認した未反映箇所だけを扱う。
 
-`docs/00-getting-started-manual/specs/10-notification-auth.md` と `08-free-database.md` は `RESEND_API_KEY` / `RESEND_FROM_EMAIL` / `SITE_URL` を要求する。一方、現行実装と aiworkflow-requirements は `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `AUTH_URL` を使う。このままだと Cloudflare Secrets 登録・runbook・実装のどれを正とするかが曖昧になり、staging/prod で Magic Link が失敗する可能性がある。
+この履歴コピーの作成時点では `docs/00-getting-started-manual/specs/10-notification-auth.md` と `08-free-database.md` に `RESEND_API_KEY` / `RESEND_FROM_EMAIL` / `SITE_URL` が残っていた。現行 canonical root では、実装と aiworkflow-requirements に合わせて `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `AUTH_URL` へ整流済みである。
 
 ## scope in / out
 

@@ -142,18 +142,19 @@ export interface FormPreviewView {
 
 export interface AdminDashboardView {
   totals: {
-    members: number;
-    pendingConsent: number;
-    deletedMembers: number;
-    queuedTagAssignments: number;
+    totalMembers: number;
+    publicMembers: number;
+    untaggedMembers: number;
+    unresolvedSchema: number;
   };
-  recentSubmissions: Array<{
-    responseId: ResponseId;
-    memberId: MemberId | null;
-    submittedAt: string;
-    fullName: string;
+  recentActions: Array<{
+    auditId: string;
+    actorEmail: string | null;
+    action: string;
+    targetType: string;
+    targetId: string | null;
+    createdAt: string;
   }>;
-  schemaState: "active" | "superseded" | "pending_review";
   generatedAt: string;
 }
 
