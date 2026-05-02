@@ -104,6 +104,23 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 | `ui-sanity-visual-review.md` | 視覚レビュー |
 | `phase11-capture-metadata.json` | capture 実行時の evidence inventory |
 
+### Runtime smoke 実行後の helper artifact 同期
+
+VISUAL_ON_EXECUTION / staging smoke / production smoke のように、Phase 11 helper files を
+先にテンプレ配置してから実行するタスクでは、`outputs/phase-11/main.md` が
+`PASS` / `BLOCKED` / `FAIL` のいずれかに進んだ時点で、同じ wave 内に以下を同期する。
+
+| ファイル | 同期必須内容 |
+| --- | --- |
+| `manual-test-result.md` | `not_run` / `spec_created` / `explicit user instruction required` を残さず、実行日・最終状態・失敗理由・evidence path を記録する |
+| `discovered-issues.md` | 発見事項 0 件でも実行済み状態を明記し、blocker がある場合は `state / reason / evidence_path / checked_at` を残す |
+| `outputs/phase-12/phase12-task-spec-compliance-check.md` | `PENDING_RUNTIME_EVIDENCE` と `EXECUTED_BLOCKED` / `EXECUTED_FAIL` / `EXECUTED_PASS` を混同しない |
+| `outputs/phase-12/system-spec-update-summary.md` | downstream gate（例: 09c）を変更しない場合でも、no-op decision record と evidence path を残す |
+
+`main.md` だけを更新して helper files が `not_run` のまま残る状態は Phase 11/12 close-out の
+FAIL とする。Cloudflare / staging / production など外部環境 blocker は、実行不能を
+PASS と扱わず、必要なら `unassigned-task-detection.md` で復旧タスクへ formalize する。
+
 ### 環境チェック（Phase 11 着手前）
 
 Phase 11 の screenshot 撮影前に以下を確認する：
