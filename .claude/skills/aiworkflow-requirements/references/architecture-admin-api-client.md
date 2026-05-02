@@ -155,6 +155,7 @@ async function call<T>(
 | `patchMemberNote(memberId, noteId, body)` | `/members/{memberId}/notes/{noteId}` | PATCH | `{ body: string }` |
 | `deleteMember(memberId, reason)` | `/members/{memberId}/delete` | POST | `{ reason: string }` |
 | `restoreMember(memberId)` | `/members/{memberId}/restore` | POST | `{}` |
+| `resolveAdminRequest(noteId, body)` | `/requests/{noteId}/resolve` | POST | `{ resolution: "approve" | "reject", resolutionNote?: string }` |
 | `resolveTagQueue(queueId, body)` | `/tags/queue/{queueId}/resolve` | POST | `{ action: "confirmed", tagCodes: string[] }` or `{ action: "rejected", reason: string }` |
 | `postSchemaAlias(body)` | `/schema/aliases` | POST | `{ questionId, stableKey, diffId? }` |
 | `createMeeting(body)` | `/meetings` | POST | `{ title, heldOn, note? }` |
@@ -164,6 +165,8 @@ async function call<T>(
 すべてのパスは proxy 内で `/admin/` を前置されるため、ここでは `/admin` を **書かない**。
 
 UT-07A-02 以降、`resolveTagQueue` の body 型は `@ubm-hyogo/shared` の `TagQueueResolveBody` を参照する。client 側に同型 union を手書き複製しない。
+
+04b-followup-004 以降、`/admin/requests` page は Server Component で `fetchAdmin("/admin/requests?status=pending&type=...")` を呼び、Client Component `RequestQueuePanel` が `resolveAdminRequest()` を通じて `/api/admin/requests/:noteId/resolve` に mutation する。`nextCursor` がある場合は `cursor` query 付きで次ページへ遷移する。409 は「他の管理者が既に処理済み」として toast + `router.refresh()` に分岐し、delete/visibility approve は confirmation modal で二段確認する。
 
 ### 3.4 不変条件（api.ts）
 

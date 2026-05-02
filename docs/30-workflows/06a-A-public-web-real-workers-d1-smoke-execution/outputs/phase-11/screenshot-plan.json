@@ -1,0 +1,11 @@
+{
+  "taskId": "06a-A-public-web-real-workers-d1-smoke-execution",
+  "mode": "VISUAL_ON_EXECUTION",
+  "status": "pending_user_approved_execution",
+  "scenarios": [
+    { "id": "local-home", "url": "http://localhost:3000/", "output": "outputs/phase-11/evidence/local-home.png" },
+    { "id": "local-members", "url": "http://localhost:3000/members", "output": "outputs/phase-11/evidence/local-members.png" },
+    { "id": "staging-home", "url": "https://ubm-hyogo-web-staging.daishimanju.workers.dev/", "output": "outputs/phase-11/evidence/staging-home.png" },
+    { "id": "staging-members", "url": "https://ubm-hyogo-web-staging.daishimanju.workers.dev/members", "output": "outputs/phase-11/evidence/staging-members.png" }
+  ]
+}
