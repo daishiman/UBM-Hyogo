@@ -2518,14 +2518,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | メタ情報 | L3 |
-| Acceptance Criteria | L19 |
-| Phase Outputs | L31 |
-| Phase 11 Evidence Files（NON_VISUAL） | L49 |
-| Runbook（正本） | L61 |
-| Implementation Constants | L68 |
-| 自走禁止項目（本タスクで実行しないこと） | L88 |
-| Skill Feedback（Phase 12 反映） | L99 |
-| 関連リソース | L107 |
+| Acceptance Criteria | L21 |
+| Phase Outputs | L33 |
+| Phase 11 Evidence Files（NON_VISUAL） | L51 |
+| Runbook（正本） | L63 |
+| Implementation Constants | L70 |
+| 自走禁止項目（本タスクで実行しないこと） | L90 |
+| Skill Feedback（Phase 12 反映） | L101 |
+| 関連リソース | L109 |
 
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
@@ -3582,7 +3582,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 教訓 | L7 |
-| 関連リソース | L44 |
+| 2026-05 / route-inventory-design 追記 | L44 |
+| 関連リソース | L78 |
 
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
