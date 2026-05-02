@@ -75,6 +75,15 @@
 - `before_json` / `after_json` は初期折り畳みとし、展開時も email / phone / address / name 相当値は masked view だけを表示する
 - 編集・削除・再実行・export などの mutation UI は置かない
 
+### `/admin/requests`
+
+- 会員本人が `/me/visibility-request` / `/me/delete-request` から作った依頼を処理する queue
+- `visibility_request` と `delete_request` を切り替え、pending 行を FIFO で確認する
+- 詳細 panel で理由・最小化済み payload・現在の公開状態 / 削除状態を確認する
+- approve / reject は confirmation modal 経由で実行する
+- delete approve と visibility approve は破壊的操作として alert 表示し、二重 resolve は 409 toast で再読込する
+- 初回 local visual evidence は admin session + D1 fixture が必要なため staging smoke task へ委譲する
+
 ---
 
 ## 管理操作の UI 原則
@@ -89,6 +98,7 @@
 | 開催日追加 | `Form` |
 | 参加履歴付与/解除 | `Button` または `Checkbox` |
 | 監査ログ閲覧 | `Filter + Table + Disclosure` |
+| 依頼キュー処理 | `Queue + Detail panel + Confirmation dialog` |
 
 ---
 
@@ -101,6 +111,7 @@
 5. Google Form の変更対応は `/admin/schema` に集約する
 6. 開催日と参加履歴はフォーム同期対象と分離して管理する
 7. 監査ログは append-only とし、閲覧画面では保存値を変更せず表示時 masking を行う
+8. 本人依頼の approve / reject は `/admin/requests` に集約し、管理者が member 本文を直接編集する UI は作らない
 
 ## schema alias assignment（07b）
 

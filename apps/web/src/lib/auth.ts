@@ -13,6 +13,7 @@
 
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import type { JWT } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
@@ -225,6 +226,49 @@ export const buildAuthConfig = (
       clientSecret: googleClientSecret(e),
       authorization: { params: { prompt: "select_account" } },
     }),
+    // 05b-B: Magic Link 検証は callback route で API worker へ委譲済み。
+    // ここではその検証結果（SessionUser）を JSON で受け取り session を確立する。
+    CredentialsProvider({
+      id: "magic-link",
+      name: "Magic Link",
+      credentials: {
+        verifiedUser: { type: "text" },
+      },
+      async authorize(credentials) {
+        const raw = credentials?.["verifiedUser"];
+        if (typeof raw !== "string" || raw.length === 0) return null;
+        let parsed: unknown;
+        try {
+          parsed = JSON.parse(raw);
+        } catch {
+          return null;
+        }
+        if (parsed === null || typeof parsed !== "object") return null;
+        const u = parsed as Partial<{
+          email: string;
+          memberId: string;
+          responseId: string;
+          isAdmin: boolean;
+          authGateState: string;
+        }>;
+        if (
+          typeof u.email !== "string" ||
+          typeof u.memberId !== "string" ||
+          typeof u.responseId !== "string" ||
+          u.email.length === 0 ||
+          u.memberId.length === 0 ||
+          u.responseId.length === 0
+        ) {
+          return null;
+        }
+        return {
+          id: u.memberId,
+          email: u.email,
+          memberId: u.memberId,
+          isAdmin: u.isAdmin === true,
+        } as { id: string; email: string; memberId: string; isAdmin: boolean };
+      },
+    }),
   ],
   pages: {
     signIn: "/login",
@@ -232,6 +276,12 @@ export const buildAuthConfig = (
   },
   callbacks: {
     async signIn({ user, account, profile }) {
+      // 05b-B: magic-link Credentials は authorize() 時点で API worker verify 済み。
+      // signIn callback では再度 D1 を引かず、user object をそのまま通す。
+      if (account?.provider === "credentials") {
+        const u = user as { memberId?: string; isAdmin?: boolean };
+        return typeof u.memberId === "string" && u.memberId.length > 0;
+      }
       if (account?.provider !== "google") return false;
       const email = (profile?.email ?? user?.email ?? "").trim().toLowerCase();
       const verified =

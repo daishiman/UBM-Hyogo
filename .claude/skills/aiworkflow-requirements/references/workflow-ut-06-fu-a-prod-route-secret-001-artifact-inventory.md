@@ -14,7 +14,9 @@
 | domain | route / custom domain / secret key parity / observability target / legacy worker disposition |
 | depends_on | `ut-06-followup-A-opennext-workers-migration` / `apps/web/wrangler.toml`（OpenNext Workers 形式） |
 | 原典 unassigned | `docs/30-workflows/completed-tasks/UT-06-FU-A-production-route-secret-observability.md` |
-| 派生 follow-up | `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-001.md`, `docs/30-workflows/unassigned-task/UT-06-FU-A-logpush-target-diff-script-001.md` |
+| route inventory design workflow | `docs/30-workflows/ut-06-fu-a-route-inventory-script-001-cloudflare-route-inventory/` |
+| 派生 follow-up | `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-impl-001.md`, `docs/30-workflows/unassigned-task/UT-06-FU-A-logpush-target-diff-script-001.md` |
+| consumed pointer | `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-001.md` |
 
 ## Acceptance Criteria
 
