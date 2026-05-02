@@ -3512,6 +3512,14 @@ node scripts/list-specs.js --topics
 | 苦戦箇所（unassigned-task 由来） | L12 |
 | 関連 skill feedback | L19 |
 
+### references/lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+| Downstream boundaries | L53 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |

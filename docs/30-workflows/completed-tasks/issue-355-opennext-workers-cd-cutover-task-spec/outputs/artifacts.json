@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "taskId": "task-impl-opennext-workers-migration-001",
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/355",
+  "parentTask": "ADR-0001 / UT-28 / UT-29",
+  "state": "spec_created",
+  "workflowState": "spec_created",
+  "metadata": {
+    "taskId": "task-impl-opennext-workers-migration-001",
+    "githubIssue": 355,
+    "issueState": "CLOSED",
+    "issue_link_form": "Refs #355",
+    "workflow_state": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "high",
+    "scale": "medium",
+    "createdAt": "2026-05-02",
+    "scope": "apps_web_pages_to_opennext_workers_cd_cutover_spec",
+    "wave": "1",
+    "execution_mode": "sequential",
+    "phase12StrictFilesVerified": true,
+    "phase13Status": "blocked_pending_user_approval",
+    "implementationFollowUpStrategy": "fork_new_issue_or_refs_only_pr"
+  },
+  "task": {
+    "id": "task-impl-opennext-workers-migration-001",
+    "name": "issue-355-opennext-workers-cd-cutover-task-spec",
+    "task_path": "docs/30-workflows/issue-355-opennext-workers-cd-cutover-task-spec",
+    "status": "spec_created",
+    "depends_on": [
+      "ADR-0001",
+      "UT-28",
+      "UT-29"
+    ],
+    "blocks": [
+      "implementation_follow_up_for_web_cd_cutover"
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "spec_created",
+      "summary": "AC-1〜AC-6 / RISK-1〜RISK-5 / scope / ownership 宣言を確定",
+      "outputs": ["outputs/phase-01/main.md"],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "技術設計",
+      "file": "phase-02.md",
+      "status": "spec_created",
+      "summary": "wrangler.toml 最終形 / web-cd.yml 差分 / cutover runbook 6 セクション骨子を確定",
+      "outputs": [
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/wrangler-final-form.md",
+        "outputs/phase-02/web-cd-diff.md",
+        "outputs/phase-02/next-config-compat.md",
+        "outputs/phase-02/cutover-runbook-design.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "テスト計画",
+      "file": "phase-03.md",
+      "status": "spec_created",
+      "summary": "L1〜L4 テスト戦略 / NG-1〜NG-5 / evidence 取得計画を確定",
+      "outputs": [
+        "outputs/phase-03/main.md",
+        "outputs/phase-03/test-cases.md",
+        "outputs/phase-03/no-go-conditions.md",
+        "outputs/phase-03/evidence-plan.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "タスク分解",
+      "file": "phase-04.md",
+      "status": "spec_created",
+      "summary": "workflow 改修 / runbook 執筆 / smoke 再実行 / next.config 確認 のサブタスク分解",
+      "outputs": ["outputs/phase-04/main.md"],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装テンプレート / runbook 本文",
+      "file": "phase-05.md",
+      "status": "spec_created",
+      "summary": "cutover runbook 本文（6 セクション）と実装テンプレを確定",
+      "outputs": [
+        "outputs/phase-05/main.md",
+        "outputs/phase-05/cutover-runbook.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "file": "phase-06.md",
+      "status": "spec_created",
+      "summary": "abnormal case と rollback drill のテストケース拡充",
+      "outputs": ["outputs/phase-06/main.md"],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス / カバレッジ確認",
+      "file": "phase-07.md",
+      "status": "spec_created",
+      "summary": "AC-1〜AC-6 ↔ テストケース ↔ evidence のマトリクス確認",
+      "outputs": [
+        "outputs/phase-07/main.md",
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "CI/CD 品質ゲート",
+      "file": "phase-08.md",
+      "status": "spec_created",
+      "summary": "production manual approval rule / required status checks 確定",
+      "outputs": ["outputs/phase-08/main.md"],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "staging / QA plan",
+      "file": "phase-09.md",
+      "status": "spec_created",
+      "summary": "staging cutover の QA 手順 / smoke 実施計画",
+      "outputs": ["outputs/phase-09/main.md"],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "セキュリティレビュー / 最終レビューゲート",
+      "file": "phase-10.md",
+      "status": "spec_created",
+      "summary": "secret hygiene / Token scope / Design GO 判定",
+      "outputs": [
+        "outputs/phase-10/security-review.md",
+        "outputs/phase-10/threat-model.md"
+      ],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "受入検証（NON_VISUAL）",
+      "file": "phase-11.md",
+      "status": "spec_created",
+      "summary": "E-1 CD log / E-2 wrangler output / E-3 staging smoke / E-4 route mapping / E-5 rollback readiness",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/web-cd-deploy-log.md",
+        "outputs/phase-11/wrangler-deploy-output.md",
+        "outputs/phase-11/staging-smoke-results.md",
+        "outputs/phase-11/route-mapping-snapshot.md",
+        "outputs/phase-11/rollback-readiness.md",
+        "outputs/phase-11/link-checklist.md",
+        "outputs/phase-11/manual-smoke-log.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント close-out / skill feedback",
+      "file": "phase-12.md",
+      "status": "spec_created",
+      "summary": "strict 7 files（main / implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report / phase12-task-spec-compliance-check）の実体を確定。post-promotion-runbook は implementation-guide / Phase 5 runbook へ統合",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "承認ゲート / PR 作成",
+      "file": "phase-13.md",
+      "status": "blocked",
+      "summary": "user 承認 / 実 deploy / push & PR の三役ゲート。CLOSED Issue #355 は再 open せず Refs 採用",
+      "outputs": [
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-info.md",
+        "outputs/phase-13/pr-creation-result.md",
+        "outputs/phase-13/approval-gate-status.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true,
+      "blockedReason": "commit / push / PR / 実 deploy は user 明示承認まで実行しない。Issue #355 は CLOSED のため再 open せず Refs #355 を採用"
+    }
+  ],
+  "specs_referenced": [
+    "docs/00-getting-started-manual/specs/00-overview.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md",
+    "CLAUDE.md",
+    "ADR-0001"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "invariants_touched": [5],
+  "doc_references": [
+    "docs/30-workflows/ut-06-fu-a-route-inventory-script-001-cloudflare-route-inventory/phase-11.md"
+  ]
+}
