@@ -874,9 +874,9 @@ node scripts/list-specs.js --topics
 | エンドポイント命名規則 | L203 |
 | UBM-Hyogo Admin Sync API（03a） | L224 |
 | UBM-Hyogo Member Self-Service API（04b） | L269 |
-| Desktop IPC API サマリー | L289 |
-| 変更履歴 | L320 |
-| 関連ドキュメント | L337 |
+| Desktop IPC API サマリー | L288 |
+| 変更履歴 | L319 |
+| 関連ドキュメント | L336 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1983,6 +1983,16 @@ node scripts/list-specs.js --topics
 | Workflow artifacts | L18 |
 | Downstream ownership | L28 |
 
+### references/workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L13 |
+| Contract | L22 |
+| Phase 12 Required Files | L30 |
+| Related Resources | L42 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2310,6 +2320,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L110 |
 | Validation Chain | L119 |
 
+### references/workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Root Files | L12 |
+| Outputs | L21 |
+| Runtime Evidence Boundary | L36 |
+
 ### references/workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md
 
 | セクション | 行 |
@@ -2527,14 +2546,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | メタ情報 | L3 |
-| Acceptance Criteria | L19 |
-| Phase Outputs | L31 |
-| Phase 11 Evidence Files（NON_VISUAL） | L49 |
-| Runbook（正本） | L61 |
-| Implementation Constants | L68 |
-| 自走禁止項目（本タスクで実行しないこと） | L88 |
-| Skill Feedback（Phase 12 反映） | L99 |
-| 関連リソース | L107 |
+| Acceptance Criteria | L21 |
+| Phase Outputs | L33 |
+| Phase 11 Evidence Files（NON_VISUAL） | L51 |
+| Runbook（正本） | L63 |
+| Implementation Constants | L70 |
+| 自走禁止項目（本タスクで実行しないこと） | L90 |
+| Skill Feedback（Phase 12 反映） | L101 |
+| 関連リソース | L109 |
 
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
@@ -3166,12 +3185,12 @@ node scripts/list-specs.js --topics
 | 概要 | L14 |
 | 使い方 | L22 |
 | Current Alias Overrides（個別互換行） | L29 |
-| Family Summary | L63 |
-| Detailed Register | L84 |
-| Section Extract Register (2026-03-17) | L265 |
-| 500-Line Split Register (2026-03-16) | L276 |
-| Fragment Migration Register (2026-04-28) | L298 |
-| Task Root Path Drift Register (2026-04-30 追記) | L325 |
+| Family Summary | L64 |
+| Detailed Register | L85 |
+| Section Extract Register (2026-03-17) | L266 |
+| 500-Line Split Register (2026-03-16) | L277 |
+| Fragment Migration Register (2026-04-28) | L299 |
+| Task Root Path Drift Register (2026-04-30 追記) | L326 |
 
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
@@ -3292,6 +3311,19 @@ node scripts/list-specs.js --topics
 | L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
 | 横断教訓 | L116 |
 
+### references/lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06BA-001: implementation が入ったら spec_created を残さない | L3 |
+| L-06BA-002: dev token は env 欠落時も fail-closed | L7 |
+| L-06BA-003: local PASS と live smoke PASS を分離する | L11 |
+| L-06BA-004: shared extractor の互換 cookie は仕様に明記する | L15 |
+| L-06BA-005: `AUTH_SECRET` は web/api Worker 間で共有する | L19 |
+| L-06BA-006: 単一 resolver factory に dev / production 経路を集約する | L23 |
+| L-06BA-007: secret 検証ロジックは shared extractor を再利用する | L27 |
+| L-06BA-008: `apps/web` は cookie forwarding 維持・D1 直接アクセス禁止 | L31 |
+
 ### references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md
 
 | セクション | 行 |
@@ -3364,11 +3396,12 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L9 |
-| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L17 |
-| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L25 |
-| L-09A-004: path realignment は top register と drift register の両方に書く | L33 |
-| L-09A-005: skill feedback は報告で止めず promotion target を決める | L41 |
+| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L10 |
+| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L18 |
+| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L26 |
+| L-09A-004: path realignment は top register と drift register の両方に書く | L34 |
+| L-09A-005: skill feedback は報告で止めず promotion target を決める | L42 |
+| L-09A-006: 実 staging smoke の preflight は Cloudflare auth と parent canonical directory の双方を満たす（2026-05-02 追記） | L50 |
 
 ### references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md
 
@@ -3464,6 +3497,16 @@ node scripts/list-specs.js --topics
 | 結論 (個人開発運用ポリシー) | L20 |
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
+
+### references/lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L10 |
+| 苦戦箇所 4 件（L-UUT0107FU01-001〜004） | L14 |
+| 運用ルール 2 件（receiver 系の固定運用） | L44 |
+| canonical 確定（参照用 / 親から継承） | L51 |
+| 後続タスク | L59 |
 
 ### references/lessons-learned-u-ut01-07-sync-log-naming-2026-04.md
 
@@ -3598,7 +3641,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 教訓 | L7 |
-| 関連リソース | L44 |
+| 2026-05 / route-inventory-design 追記 | L44 |
+| 関連リソース | L78 |
 
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
@@ -3656,8 +3700,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L77 |
-| 関連ドキュメント | L82 |
+| 利用順序 | L79 |
+| 関連ドキュメント | L84 |
 
 ### references/llm-embedding.md
 

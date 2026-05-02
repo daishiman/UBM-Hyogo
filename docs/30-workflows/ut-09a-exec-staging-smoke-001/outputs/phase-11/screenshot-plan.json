@@ -1,0 +1,12 @@
+{
+  "status": "pending_explicit_user_instruction",
+  "screenshotsDir": "outputs/phase-11/screenshots",
+  "requiredTargets": [
+    "public-home",
+    "login",
+    "profile",
+    "admin",
+    "authorization-boundary"
+  ],
+  "redactionRequired": true
+}

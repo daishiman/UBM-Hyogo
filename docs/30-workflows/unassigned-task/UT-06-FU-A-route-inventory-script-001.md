@@ -7,14 +7,18 @@
 | 項目 | 内容 |
 | --- | --- |
 | タスクID | UT-06-FU-A-ROUTE-INVENTORY-SCRIPT-001 |
-| 分類 | follow-up / infrastructure-automation |
+| 分類 | design-spec-transfer / infrastructure-automation |
 | 対象 | `apps/web` Cloudflare Workers production route / custom domain inventory |
 | 優先度 | High |
-| ステータス | open |
-| taskType | implementation |
+| ステータス | consumed_by_design_spec |
+| taskType | docs-only |
 | visualEvidence | NON_VISUAL |
 | 親タスク | UT-06-FU-A-PROD-ROUTE-SECRET-001 |
 | 作成日 | 2026-04-30 |
+| formalized workflow | `docs/30-workflows/ut-06-fu-a-route-inventory-script-001-cloudflare-route-inventory/` |
+| implementation follow-up | `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-impl-001.md` |
+
+> 2026-05-01 更新: 本 unassigned は docs-only design workflow として formalize 済み。実装本体・親 runbook 追記・実測 evidence 取得は `UT-06-FU-A-ROUTE-INVENTORY-SCRIPT-IMPL-001` に分離する。
 
 ## 苦戦箇所【記入必須】
 
@@ -25,6 +29,8 @@
 ## 目的
 
 production deploy 承認前に、Cloudflare route / custom domain が `ubm-hyogo-web-production` を指しているかを読み取り専用で一覧化する script を追加する。
+
+この元 unassigned の実装完了条件は後続実装タスクへ移管済み。本ファイルは発生元と移管 trace を残すための pointer として扱う。
 
 ## スコープ
 
