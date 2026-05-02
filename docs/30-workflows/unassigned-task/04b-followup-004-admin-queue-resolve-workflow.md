@@ -10,10 +10,14 @@
 | 対象機能     | admin が `admin_member_notes` の依頼を pickup → 公開状態変更 + audit |
 | 優先度       | 高                                                                  |
 | 見積もり規模 | 中〜大規模                                                          |
-| ステータス   | 未実施                                                              |
+| ステータス   | consumed / canonical workflow 実装完了（canonical: `docs/30-workflows/04b-followup-004-admin-queue-resolve-workflow/`、Phase 1-12 completed、Phase 13 pending_user_approval） |
 | 発見元       | 04b Phase 12 unassigned-task-detection #4                           |
 | 発見日       | 2026-04-29                                                          |
 | 委譲先 wave  | 07a / 07c                                                           |
+
+## Canonical Status
+
+本単票は `docs/30-workflows/04b-followup-004-admin-queue-resolve-workflow/` の Phase 1-13 仕様書へ昇格し、同 canonical workflow で実装完了済み。Current canonical state is `implementation_completed`; this stub is retained only as source trace evidence.
 
 ---
 
@@ -26,7 +30,7 @@
 ### 1.2 問題点・課題
 
 - 依頼を pickup する admin 用 API / UI が無い
-- 確定処理（visibility_request → `members.publish_state` 変更 / delete_request → 論理削除）の trigger 経路が未確定
+- 確定処理（visibility_request → `member_status.publish_state` 変更 / delete_request → 論理削除）の trigger 経路が未確定
 - audit log（誰が・いつ・どの依頼を処理したか）の記録仕様が未定（[04b-followup-001](04b-followup-001-admin-queue-request-status-metadata.md) の request metadata と連動）
 - 依頼処理後の memberに対する通知 (Magic Link 含む) の有無が未定義
 
@@ -34,7 +38,7 @@
 
 - member の編集/削除依頼が機能せず、利用規約上の「自己情報削除権」を満たせない
 - admin 側に依頼一覧が見えない状態で運用開始すると、依頼が滞留し regulatory なクレームが発生
-- audit 履歴が無いまま手作業で `members` を更新すると、不変条件 #4（admin-managed data 分離）の遵守が破綻する
+- audit 履歴が無いまま手作業で `member_status` を更新すると、不変条件 #4（admin-managed data 分離）の遵守が破綻する
 
 ---
 
@@ -42,12 +46,12 @@
 
 ### 2.1 目的
 
-admin が `admin_member_notes` の `note_type='visibility_request'` / `'delete_request'` を **一覧表示し pickup → resolve** する一連のワークフローを構築し、`members` テーブルの公開状態 / 削除状態を整合的に更新する。
+admin が `admin_member_notes` の `note_type='visibility_request'` / `'delete_request'` を **一覧表示し pickup → resolve** する一連のワークフローを構築し、`member_status` テーブルの公開状態 / 削除状態を整合的に更新する。
 
 ### 2.2 最終ゴール
 
 - admin queue 一覧 API（pending 依頼の列挙）が存在する
-- resolve API（`POST /admin/requests/:noteId/resolve`）が `members.publish_state` 更新 / 論理削除 / `admin_member_notes` の status 更新を atomic に実行する
+- resolve API（`POST /admin/requests/:noteId/resolve`）が `member_status.publish_state` 更新 / 論理削除 / `admin_member_notes` の status 更新を atomic に実行する
 - audit 行が `admin_member_notes`（または別テーブル）に追記される
 - admin UI（07a）で pickup 〜 resolve まで操作可能
 
@@ -57,8 +61,8 @@ admin が `admin_member_notes` の `note_type='visibility_request'` / `'delete_r
 
 - pending 依頼一覧 API
 - resolve API（visibility_request / delete_request の両方）
-- D1 transaction での `members` + `admin_member_notes` 同時更新
-- audit metadata（resolved_by / resolved_at / resolution_note）
+- D1 transaction での `member_status` + `admin_member_notes` 同時更新
+- audit metadata（resolved_by / resolved_at / resolutionNote）
 - admin UI 連携（07a と同期）
 
 #### 含まないもの
@@ -88,17 +92,17 @@ admin が `admin_member_notes` の `note_type='visibility_request'` / `'delete_r
 
 1. `GET /admin/requests?status=pending&type=visibility_request|delete_request` 仕様を確定
 2. `POST /admin/requests/:noteId/resolve` 仕様を確定（resolution: approve / reject）
-3. D1 transaction で `members` と `admin_member_notes` を同時更新するリポジトリ層を実装
-4. visibility_request 承認: `members.publish_state` を依頼内容に応じて変更
-5. delete_request 承認: `members.is_deleted` を 1 に、`admin_member_notes.request_status='resolved'` に
+3. D1 transaction で `member_status` と `admin_member_notes` を同時更新するリポジトリ層を実装
+4. visibility_request 承認: `member_status.publish_state` を依頼内容に応じて変更
+5. delete_request 承認: `member_status.is_deleted` を 1 に、`admin_member_notes.request_status='resolved'` に
 6. audit テスト（複数承認・拒否・冪等性）
 
 ### 3.3 受入条件 (AC)
 
 - AC-1: admin が pending 依頼を一覧で取得できる
-- AC-2: visibility_request 承認で `members.publish_state` が更新される
+- AC-2: visibility_request 承認で `member_status.publish_state` が更新される
 - AC-3: delete_request 承認で論理削除フラグが立つ
-- AC-4: 拒否 (reject) 時は `members` を変更せず status だけ resolved にする
+- AC-4: 拒否 (reject) 時は `member_status` を変更せず status を rejected にする
 - AC-5: 同 noteId への二重 resolve が冪等または 409 で拒否される
 - AC-6: 全更新が D1 transaction で atomic（途中失敗でロールバック）
 

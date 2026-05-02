@@ -1,0 +1,7 @@
+{
+  "success": false,
+  "errors": [
+    { "code": 9109, "message": "Logpush is not available on your current plan. Upgrade required." }
+  ],
+  "result": null
+}

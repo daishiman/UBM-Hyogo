@@ -10,11 +10,18 @@
 | 分類 | follow-up / observability-automation |
 | 対象 | `apps/web` production Worker Logs / Tail / Logpush / Analytics target |
 | 優先度 | High |
-| ステータス | open |
+| ステータス | transferred_to_workflow / implementation_complete |
 | taskType | implementation |
 | visualEvidence | NON_VISUAL |
 | 親タスク | UT-06-FU-A-PROD-ROUTE-SECRET-001 |
 | 作成日 | 2026-04-30 |
+
+## Close-out trace
+
+- 実装 workflow: `docs/30-workflows/ut-06-fu-a-logpush-target-diff-script-001/`
+- 実装: `scripts/observability-target-diff.sh`, `scripts/lib/redaction.sh`
+- 検証: `tests/unit/redaction.test.sh`, `tests/integration/observability-target-diff.test.sh`
+- 状態: Phase 1-12 completed / Phase 13 pending_user_approval
 
 ## 苦戦箇所【記入必須】
 

@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "id": "UT-06-FU-A-LOGPUSH-TARGET-DIFF-SCRIPT-001",
+    "taskType": "implementation",
+    "docsOnly": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implementation_complete",
+    "github_issue": 329,
+    "wave": "2-plus",
+    "priority": "HIGH",
+    "execution_mode": "serial",
+    "created_at": "2026-05-01",
+    "scope": "production_observability_target_diff_script"
+  },
+  "task": {
+    "id": "UT-06-FU-A-LOGPUSH-TARGET-DIFF-SCRIPT-001",
+    "name": "ut-06-fu-a-logpush-target-diff-script-001",
+    "task_path": "docs/30-workflows/ut-06-fu-a-logpush-target-diff-script-001",
+    "status": "implementation_complete",
+    "depends_on": [
+      "ut-06-fu-a-prod-route-secret-001-worker-migration-verification"
+    ],
+    "blocks": []
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/script-interface-design.md",
+        "outputs/phase-02/redaction-rules.md",
+        "outputs/phase-02/cf-sh-integration.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビューゲート",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": true
+    },
+    {
+      "phase": 4,
+      "name": "テスト作成",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md"
+      ],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md",
+        "outputs/phase-05/script-implementation.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "テストカバレッジ確認",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md",
+        "outputs/phase-07/ac-matrix.md",
+        "outputs/phase-07/coverage-report.md"
+      ],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビューゲート",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md",
+        "outputs/phase-10/go-no-go.md",
+        "outputs/phase-10/approval-record.md"
+      ],
+      "depends_on_phases": [9],
+      "user_approval_required": true
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト検証",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-run-log.md",
+        "outputs/phase-11/diff-sample.md",
+        "outputs/phase-11/redaction-verification.md",
+        "outputs/phase-11/cf-sh-tail-cross-check.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR作成",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "outputs/phase-13/main.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/unassigned-task/UT-06-FU-A-logpush-target-diff-script-001.md",
+    "docs/30-workflows/completed-tasks/ut-06-fu-a-prod-route-secret-001-worker-migration-verification/",
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md",
+    "CLAUDE.md",
+    "apps/web/wrangler.toml",
+    "scripts/cf.sh"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "invariants_touched": [5],
+  "doc_references": [
+    "docs/30-workflows/unassigned-task/UT-06-FU-A-logpush-target-diff-script-001.md",
+    "docs/30-workflows/completed-tasks/ut-06-fu-a-prod-route-secret-001-worker-migration-verification/"
+  ]
+}
