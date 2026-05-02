@@ -1,8 +1,9 @@
-# lessons-learned: 09a Staging Smoke / Forms Sync Validation 苦戦箇所（2026-05-01）
+# lessons-learned: 09a Staging Smoke / Forms Sync Validation 苦戦箇所（2026-05-01 / 2026-05-02 追記）
 
-> 対象タスク: `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/`
-> 状態: `spec_created` / implementation execution spec / `VISUAL_ON_EXECUTION`
-> 出典: `outputs/phase-12/{implementation-guide,system-spec-update-summary,skill-feedback-report,phase12-task-spec-compliance-check}.md`
+> 対象タスク: `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/`（spec source）
+> および `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（execution promotion）
+> 状態: `spec_created` / implementation execution spec / `VISUAL_ON_EXECUTION` / 2026-05-02 実行 = `BLOCKED`
+> 出典: `outputs/phase-12/{implementation-guide,system-spec-update-summary,skill-feedback-report,phase12-task-spec-compliance-check,unassigned-task-detection,documentation-changelog}.md`
 
 09a は実 staging deploy をまだ実行しない close-out である。将来の staging smoke 実行と Phase 12 同期を短時間で正しく閉じるため、実測 evidence と placeholder の境界、path realignment、artifact parity を再利用可能な形で固定する。
 
@@ -45,4 +46,12 @@
 **5分解決カード**: 各 feedback item に `promotion target / no-op reason / evidence path` を付ける。workflow/template 問題は `task-specification-creator/references/*`、skill update process 問題は `skill-creator/references/update-process.md`、domain lesson は本ファイルのような `aiworkflow-requirements/references/lessons-learned-*.md` に反映する。
 
 **適用条件**: Phase 12 で複数 skill にまたがる改善提案が出た場合。
+
+## L-09A-006: 実 staging smoke の preflight は Cloudflare auth と parent canonical directory の双方を満たす（2026-05-02 追記）
+
+**苦戦箇所**: `ut-09a-exec-staging-smoke-001` で user 明示指示により Phase 11 実 staging smoke を実行したところ、(a) `bash scripts/cf.sh whoami` が `You are not authenticated` を返し `op run --env-file=.env` 経由の `CLOUDFLARE_API_TOKEN` 注入が成立しなかった、(b) parent canonical directory `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` が現 worktree に存在しなかった、の 2 つが同時に発覚し AC-1〜AC-4 が FAIL のまま 09c blocker は維持された。実行前に preflight を分けていなかったため、staging deploy / wrangler tail / Forms sync を一斉に試して全部失敗し、復旧が一括対応になりがちだった。
+
+**5 分解決カード**: 実 staging smoke 着手の最初の 1 コマンドを `bash scripts/cf.sh whoami` に固定し、unauthenticated を即時 fail-fast で blocker 化する。並行して `test -d docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation` で parent canonical directory の存在を確認する。どちらかが欠ける場合は実行を打ち切り、`docs/30-workflows/unassigned-task/task-09a-cloudflare-auth-token-injection-recovery-001.md` と `task-09a-canonical-directory-restoration-001.md` のような recovery follow-up を formalize してから Phase 11 を rerun する。Phase 11 main.md が `BLOCKED` に進んだ場合は `manual-test-result.md` / `discovered-issues.md` を同 wave で同期し、Phase 12 compliance check では `EXECUTED_BLOCKED` と `runtime PASS` を分離する。
+
+**適用条件**: VISUAL_ON_EXECUTION × spec_created の execution task で実 staging（または production）smoke を user 明示指示で初回実行する場合。本 lesson は task-specification-creator の `phase-template-phase11.md`「Runtime smoke 実行後の helper artifact 同期」と `phase-12-documentation-guide.md`「manual-test-result.md / discovered-issues.md 同期 / EXECUTED_BLOCKED 分離」と対をなす（promotion target: それら skill rule への参照、no-op reason: 09a 個別 evidence は本 lesson に集約）。
 

@@ -83,7 +83,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 
 | メソッド | パス | 説明 | 認証 |
 | --- | --- | --- | --- |
-| GET | `/admin/dashboard` | 会員・同意・削除済み・タグ queue・schema 状態の dashboard 集計 | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard` | 06c-A 正本: 単一 endpoint で `kpis = { 総会員数, 公開中人数, 未タグ人数, スキーマ未解決件数 }` と `recentActions`（`audit_log` 直近 7 日 / max 20 / `dashboard.view` 除外）を返す。表示時に `dashboard.view` を `audit_log` へ append する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/members` | admin member list。`filter=active|hidden|deleted` を受け付ける | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
@@ -115,6 +115,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 - request resolve audit は現行 `AuditTargetType` 制約により `targetType='member'`、`targetId=<memberId>`、`after.noteId` で原典を追跡する。action は `admin.request.approve` / `admin.request.reject`。first-class `admin_member_note` / `admin_request` target は follow-up。
 - 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、POST は `after_json`、DELETE は `before_json` に attendance row を残す。
 - 07c follow-up audit browsing は append-only の閲覧専用で、`before_json` / `after_json` の保存値は変更せず、API projection と UI defense-in-depth で email / phone / address / name 相当キーを表示時 masking する。cursor は `{ createdAt, auditId }` の base64url JSON、order は `created_at DESC, audit_id DESC`。
+- 06c-A follow-up: `/admin/dashboard` は単一 endpoint を維持し（`/admin/dashboard/kpi`・`/admin/dashboard/recent-actions` の split は不採用）、表示時に `audit_log` へ `dashboard.view` を append する。`recentActions` は `dashboard.view` を除外フィルタし KPI / 最近の作業の自己ループを防ぐ。
 
 07a close-out で `POST /admin/tags/queue/:queueId/resolve` の body は zod discriminated union に確定した。
 
@@ -269,8 +270,7 @@ UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers C
 ## UBM-Hyogo Member Self-Service API（04b）
 
 `04b-parallel-member-self-service-api-endpoints` で会員本人向け `/me/*` endpoint を追加した。
-Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token は `x-ubm-dev-session: 1`
-がある development request のみ有効で、production / staging では無効。
+06b-A で `/me/*` の session resolver は Auth.js cookie / Bearer JWT 対応に差し替え済み。production / staging では `authjs.session-token` / `__Secure-authjs.session-token`、移行互換の `next-auth.session-token` / `__Secure-next-auth.session-token`、または `Authorization: Bearer <jwt>` を `AUTH_SECRET` で検証する。04b 由来の dev token（`x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>`）は `ENVIRONMENT === "development"` の場合だけ有効で、production / staging / env 欠落時は無効。
 
 | Method | Path | 認可 | 用途 |
 | ------ | ---- | ---- | ---- |

@@ -9,6 +9,7 @@ slug: ui-ux-admin-dashboard
 > 本ドキュメントは UBM 兵庫支部会システム設計仕様の admin 配下 UI 仕様を定義する。
 > 実装は Cloudflare Workers 上の Next.js App Router (`apps/web`)。
 > 詳細出典: `docs/30-workflows/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/outputs/phase-02/admin-pages-design.md`, `phase-07/ac-matrix.md`, `phase-12/implementation-guide.md`
+> 06c-A follow-up: `/admin` dashboard は既存 04c/06c baseline（`総会員 / 同意保留 / 削除済み / 未タグ件数` + `recentSubmissions`）から、`総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数` + `audit_log` recent actions へ差分是正する。詳細は `docs/30-workflows/06c-A-admin-dashboard/`。
 
 ---
 
@@ -87,9 +88,9 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | 要素 | 内容 |
 | --- | --- |
 | `<h1 id="admin-dashboard-h">ダッシュボード</h1>` | 見出し |
-| KPI grid (`role="group"`) | `KpiCard` × 4: 総会員 / 同意保留 / 削除済み / 未タグ件数 |
-| schema 状態 | `<strong data-testid="schema-state">{view.schemaState}</strong>` |
-| 最近の提出 table | `view.recentSubmissions` を `responseId` key で行展開（提出日時 / 氏名 / memberId） |
+| KPI grid (`role="group"`) | 06c baseline: `KpiCard` × 4（総会員 / 同意保留 / 削除済み / 未タグ件数）。06c-A follow-up 後: 総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数 |
+| schema 状態 | 06c baseline: `<strong data-testid="schema-state">{view.schemaState}</strong>`。06c-A follow-up 後: スキーマ未解決件数 KPI に統合 |
+| 最近の提出 table | 06c baseline: `view.recentSubmissions`。06c-A follow-up 後: `audit_log` 直近7日 max20 の `recentActions`（`dashboard.view` 除外） |
 | 生成日時 | `<p class="meta">{view.generatedAt}</p>` |
 
 ### 3.3 KpiCard props
@@ -102,6 +103,9 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 - AC-8: dashboard は 1 fetch に集約する（複数 endpoint を並列で叩かない）。
 - mutation は持たない（読み取り専用）。
+- 06c-A follow-up 確定: 単一 `GET /admin/dashboard` endpoint を維持する（split endpoint `/admin/dashboard/kpi`・`/admin/dashboard/recent-actions` への分割は不採用）。
+- 06c-A follow-up 確定: dashboard 表示時に `audit_log` へ `dashboard.view` を追記する。
+- 06c-A follow-up 確定: `recentActions` は `dashboard.view` を除外フィルタし、KPI／最近の作業の自己ループを防ぐ。
 
 ---
 
@@ -408,4 +412,4 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 ---
 
-Last reviewed: 2026-04-29 / source: 06c-parallel-admin-dashboard-members-tags-schema-meetings-pages
+Last reviewed: 2026-05-02 / source: 06c-parallel-admin-dashboard-members-tags-schema-meetings-pages

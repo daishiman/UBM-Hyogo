@@ -22,7 +22,7 @@ describe("GET /admin/dashboard", () => {
     expect(res.status).toBe(401);
   });
 
-  it("正常系: schema 未投入なら schemaState=pending_review、totals=0 群", async () => {
+  it("正常系: KPI 4 = 0、recentActions は配列", async () => {
     const app = createAdminDashboardRoute();
     const res = await app.request(
       "/dashboard",
@@ -31,9 +31,11 @@ describe("GET /admin/dashboard", () => {
     );
     expect(res.status).toBe(200);
     const body = (await res.json()) as Record<string, unknown>;
-    expect(body.schemaState).toBe("pending_review");
     const totals = body.totals as Record<string, number>;
-    expect(totals.members).toBe(0);
-    expect(totals.deletedMembers).toBe(0);
+    expect(totals.totalMembers).toBe(0);
+    expect(totals.publicMembers).toBe(0);
+    expect(totals.untaggedMembers).toBe(0);
+    expect(totals.unresolvedSchema).toBe(0);
+    expect(Array.isArray(body.recentActions)).toBe(true);
   });
 });

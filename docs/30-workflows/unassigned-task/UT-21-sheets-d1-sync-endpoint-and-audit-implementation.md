@@ -16,6 +16,25 @@
 
 > **Legacy / historical context only**: 以下の本文は UT-21 当初案の履歴証跡であり、現時点の実装指示として使用しない。現行正本は `docs/30-workflows/ut21-forms-sync-conflict-closeout/` と `.claude/skills/aiworkflow-requirements/references/task-workflow.md` の Forms sync 方針である。単一 `POST /admin/sync`、`GET /admin/sync/audit`、`sync_audit_logs`、`sync_audit_outbox`、Sheets direct 実装、`apps/api/src/sync/{core,manual,scheduled,audit}.ts` 新設は本タスクから実施しない。
 
+## Canonical Receiver Note (U-UT01-07-FU01)
+
+This legacy file is not reopened as an implementation instruction. It remains the discoverable receiver path for U-UT01-07-FU01 until the UT-09 / Forms sync implementation work promotes a current workflow root.
+
+Required canonical inputs for any future implementation consumer:
+
+- `sync_job_logs`: physical ledger table name.
+- `sync_locks`: physical mutex table name.
+- `sync_log`: logical concept only; do not create, rename, or drop a physical table with this name.
+
+Required U-UT01-07 Phase 2 references:
+
+- `docs/30-workflows/completed-tasks/u-ut01-07-sync-log-naming-reconciliation/outputs/phase-02/naming-canonical.md`
+- `docs/30-workflows/completed-tasks/u-ut01-07-sync-log-naming-reconciliation/outputs/phase-02/column-mapping-matrix.md`
+- `docs/30-workflows/completed-tasks/u-ut01-07-sync-log-naming-reconciliation/outputs/phase-02/backward-compatibility-strategy.md`
+- `docs/30-workflows/completed-tasks/u-ut01-07-sync-log-naming-reconciliation/outputs/phase-02/handoff-to-ut04-ut09.md`
+
+Boundary: code, migration, grep guard script, hook, and CI implementation remain delegated to the current UT-09 / Forms sync implementation task, not this legacy note.
+
 ## 目的
 
 > **Legacy note**: 本節は履歴であり、実装 ToDo ではない。実装可否・移植先は close-out 仕様書と UT21-U02/U04/U05 を参照する。
