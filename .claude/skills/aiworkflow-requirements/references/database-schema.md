@@ -47,8 +47,8 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 
 | テーブル | 03b の責務 |
 | --- | --- |
-| `member_responses` | `response_id` 単位の履歴。`response_email` は system field として列に保存し、`answers_json` / `raw_answers_json` / `extra_fields_json` も保持する |
-| `member_identities` | `response_email` ごとの identity。最新 `submitted_at`、同値時は `response_id` 降順で `current_response_id` を更新する |
+| `member_responses` | `response_id` 単位の履歴。`response_email` は system field として列に保存し、`answers_json` / `raw_answers_json` / `extra_fields_json` も保持する。`response_email` 列に UNIQUE 制約は付与しない（履歴行のため同値重複を許容する。正本 UNIQUE は `member_identities.response_email` 側） |
+| `member_identities` | `response_email` ごとの identity。最新 `submitted_at`、同値時は `response_id` 降順で `current_response_id` を更新する。`response_email` は本テーブルにて `NOT NULL UNIQUE`（`apps/api/migrations/0001_init.sql` で宣言）であり、システム全体の **正本 UNIQUE** 所在である |
 | `member_status` | current response から `public_consent` / `rules_consent` を snapshot。`is_deleted=1` の identity は更新しない |
 | `response_fields` | known は `stable_key` 行、unknown は `stable_key='__extra__:<questionId>'` の extra row として保存する |
 | `schema_diff_queue` | unknown question を `status='queued'` で enqueue。`question_id` + queued の partial unique index で重複を no-op にする |
