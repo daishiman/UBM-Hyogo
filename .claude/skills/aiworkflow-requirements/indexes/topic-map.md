@@ -2310,6 +2310,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L110 |
 | Validation Chain | L119 |
 
+### references/workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Root Files | L12 |
+| Outputs | L21 |
+| Runtime Evidence Boundary | L36 |
+
 ### references/workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md
 
 | セクション | 行 |

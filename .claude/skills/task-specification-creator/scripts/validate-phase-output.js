@@ -260,7 +260,7 @@ class PhaseValidator {
     const classifyVisualEvidence = (value) => {
       const text = String(value ?? "").trim();
       if (!text) return null;
-      if (/(non[_-]?visual|docs-only|spec_created)/i.test(text)) {
+      if (/(non[_-]?visual|docs-only|spec_created|visual[_-]?on[_-]?execution|visual[_-]?deferred)/i.test(text)) {
         return true;
       }
       if (/(visual|ui)/i.test(text) && !/(non[_-]?visual|docs-only|spec_created)/i.test(text)) {
