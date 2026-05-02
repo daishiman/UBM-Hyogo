@@ -124,7 +124,7 @@
 | GOOGLE_SERVICE_ACCOUNT_EMAIL | Cloudflare Secrets (api production) | `bash scripts/cf.sh secret list --env production --config apps/api/wrangler.toml` |
 | GOOGLE_PRIVATE_KEY | 同上 | 同上 |
 | GOOGLE_FORM_ID | 同上 | 同上 |
-| RESEND_API_KEY | 同上 | 同上 |
+| MAIL_PROVIDER_KEY | 同上 | 同上 |
 | AUTH_SECRET | Cloudflare Workers Secrets (web production) | `bash scripts/cf.sh pages secret list --project-name ubm-hyogo-web` |
 | AUTH_GOOGLE_ID | 同上 | 同上 |
 | AUTH_GOOGLE_SECRET | 同上 | 同上 |

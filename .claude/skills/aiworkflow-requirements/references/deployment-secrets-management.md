@@ -58,6 +58,7 @@ wrangler secret put SLACK_BOT_TOKEN --env staging
 | `SLACK_BOT_TOKEN` | Slack Bot Token（通知機能） | production / staging |
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（内部通知） | production / staging |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Sheets API 用 Service Account JSON key。`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts` が `env.GOOGLE_SERVICE_ACCOUNT_JSON` として参照する正本名。値は `wrangler secret list` でも参照不可（name のみ） | production / staging |
+| `MAIL_PROVIDER_KEY` | Magic Link メール送信 provider API key。`apps/api/src/index.ts` の mail sender factory が参照する正本名。値は 1Password 正本から stdin 投入し、docs / logs / PR に転記しない | production / staging |
 
 ### `GOOGLE_SERVICE_ACCOUNT_JSON` 投入ルール（UT-25 / 2026-04-29）
 
@@ -66,6 +67,14 @@ wrangler secret put SLACK_BOT_TOKEN --env staging
 - staging-first 固定。production への投入は staging の `secret list` name 確認後だけ実施する。
 - rollback は `secret delete` 後、1Password の旧 revision から同じ secret 名へ再投入する。
 - `GOOGLE_SHEETS_SA_JSON` は移行期間の legacy alias として実装側のみ許容し、Cloudflare Workers Secret の正本名は `GOOGLE_SERVICE_ACCOUNT_JSON` に統一する。
+
+### Auth mail env 投入ルール（05b-A / 2026-05-01）
+
+- Cloudflare Workers Secret の正本名は `MAIL_PROVIDER_KEY`。旧 `RESEND_API_KEY` は新規 provisioning しない。
+- `MAIL_FROM_ADDRESS` と `AUTH_URL` は Secret ではなく `apps/api/wrangler.toml` の `[env.<env>.vars]` / Cloudflare Variables で管理する。
+- 値は `op read "op://UBM-Hyogo/auth-mail-<env>/MAIL_PROVIDER_KEY" | bash scripts/cf.sh secret put MAIL_PROVIDER_KEY --config apps/api/wrangler.toml --env <env>` の stdin 経由で投入する。
+- staging-first 固定。staging の name-only secret list と Magic Link smoke は 09a、production readiness は 09c が所有する。
+- evidence には key 名と `op://Vault/Item/Field` 参照だけを残し、値・値ハッシュ・provider response body は残さない。
 
 ### Cloudflare Pages（フロントエンド `apps/web/`）
 
