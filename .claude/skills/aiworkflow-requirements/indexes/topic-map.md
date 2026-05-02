@@ -1996,6 +1996,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L30 |
 | Related Resources | L42 |
 
+### references/workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L13 |
+| Contract | L30 |
+| Phase 12 Required Files | L43 |
+| Related Resources | L55 |
+
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
 | セクション | 行 |
@@ -2356,13 +2366,6 @@ node scripts/list-specs.js --topics
 | Validation Chain | L86 |
 
 ### references/workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Summary | L3 |
-| Implementation Artifacts | L12 |
-| Deferred Evidence | L27 |
-| Boundary | L36 |
 
 ### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
 

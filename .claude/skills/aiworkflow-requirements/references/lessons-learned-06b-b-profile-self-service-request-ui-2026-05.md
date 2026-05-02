@@ -1,11 +1,11 @@
 # lessons-learned: 06b-B Profile Self-Service Request UI 苦戦箇所（2026-05-02）
 
-> 対象タスク: `docs/30-workflows/02-application-implementation/06b-B-profile-self-service-request-ui/`
-> 状態: `spec_created` / docs-only / `NON_VISUAL`（logged-in visual evidence は 06b-C / 09a へ委譲）
+> 対象タスク: `docs/30-workflows/completed-tasks/06b-B-profile-self-service-request-ui/`
+> 状態: `implemented-local` / implementation / `VISUAL_ON_EXECUTION` / runtime-evidence-blocked（logged-in visual evidence は 06b-C / 08b / 09a へ委譲）
 > 出典: `outputs/phase-12/{implementation-guide,system-spec-update-summary,skill-feedback-report,phase12-task-spec-compliance-check}.md`
 > 関連 workflow: 06b-A (`/me` API Auth.js session resolver) / 04b (member self-service queue) / 05b (auth-gate-state) / 06b-C (logged-in visual evidence) / 09a (staging smoke)
 
-06b-B は `/profile` 画面に VisibilityRequest / DeleteRequest UI を docs-only で固定する仕様タスクで、runtime cookie session 解決は 06b-A、本番 visual evidence は 06b-C / 09a に委譲した。次回の `/me` 系 self-service / browser proxy / authGateState UI gating タスクで同じ判断を短時間で再現するため、苦戦箇所を promotion target 付きで固定する。
+06b-B は `/profile` 画面に `RequestActionPanel` / `VisibilityRequestDialog` / `DeleteRequestDialog` を実装し、runtime cookie session 解決は 06b-A、本番 visual evidence は 06b-C / 08b / 09a に委譲した。次回の `/me` 系 self-service / browser proxy / authGateState UI gating タスクで同じ判断を短時間で再現するため、苦戦箇所を promotion target 付きで固定する。
 
 ## L-06B-B-001: 重複申請は 409 + `SelfRequestError(code:'duplicate-pending')` で表現する
 
@@ -41,9 +41,9 @@
 
 ## L-06B-B-005: production runtime evidence は 06b-A session resolver evidence 待ちで Phase 11 placeholder を PASS と扱わない
 
-**苦戦箇所**: 06b-B は UI 仕様 docs-only タスクだが、Phase 11 を「PASS」と書きたくなる。06b-A の cookie session resolver の staging smoke が未済の段階では、`/me/visibility-request` の end-to-end は production で確認できない。logged-in visual evidence も別 wave。
+**苦戦箇所**: 06b-B は UI 実装済みタスクだが、Phase 11 を「PASS」と書きたくなる。06b-A の cookie session resolver の staging smoke が未済の段階では、`/me/visibility-request` の end-to-end は production で確認できない。logged-in visual evidence も別 wave。
 
-**5分解決カード**: Phase 11 には `main.md`, `manual-smoke-log.md`, `link-checklist.md` を placeholder として置き、ステータスは `NOT_EXECUTED` で固定する。「PASS」と表現しない。06b-A の session resolver staging evidence 完了後に 06b-C / 09a 側で logged-in visual evidence を取得し、boundary を明示してリンクする。
+**5分解決カード**: Phase 11 には `main.md` と capture contract を置き、ステータスは `IMPLEMENTED_AWAITING_VISUAL_CAPTURE` または `blocked_runtime_evidence` で固定する。「PASS」と表現しない。06b-A の session resolver staging evidence 完了後に 06b-C / 08b / 09a 側で logged-in visual evidence を取得し、boundary を明示してリンクする。
 
 **promoted-to**: `references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md`, `references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md`
 
