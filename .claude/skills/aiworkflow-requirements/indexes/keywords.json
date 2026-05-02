@@ -4,7 +4,8 @@
       "api-chat-history.md"
     ],
     "Use": [
-      "api-chat-history.md"
+      "api-chat-history.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "Case": [
       "api-chat-history.md"
@@ -961,7 +962,8 @@
       "arch-execution-capability-contract.md"
     ],
     "execution": [
-      "arch-execution-capability-contract.md"
+      "arch-execution-capability-contract.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "capability": [
       "arch-execution-capability-contract.md"
@@ -2460,6 +2462,7 @@
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -2535,6 +2538,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
@@ -2570,6 +2574,7 @@
       "technology-devops.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
@@ -2721,6 +2726,7 @@
       "arch-state-management-skill-creator.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "master-design.md",
       "task-workflow-phases.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
@@ -3859,6 +3865,7 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -4759,7 +4766,8 @@
     "Boundary": [
       "database-schema-07b-schema-alias-assignment.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md"
     ],
     "DDL": [
       "database-schema-ddl-template.md",
@@ -5167,7 +5175,8 @@
       "deployment-secrets-management.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "分離": [
       "deployment-cloudflare-opennext-workers.md"
@@ -5293,8 +5302,10 @@
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md"
     ],
     "デプロイ": [
       "deployment-cloudflare.md"
@@ -5981,7 +5992,8 @@
     ],
     "scoped": [
       "governance-hooks-factory-audit-sink.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "canUseTool": [
       "governance-hooks-factory-audit-sink.md"
@@ -7029,7 +7041,9 @@
       "skill-ledger-fragment-spec.md"
     ],
     "Migration": [
-      "legacy-ordinal-family-register.md"
+      "legacy-ordinal-family-register.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md"
     ],
     "Root": [
       "legacy-ordinal-family-register.md",
@@ -7075,6 +7089,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
@@ -7107,6 +7122,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -7644,6 +7660,7 @@
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
@@ -7700,7 +7717,8 @@
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "consumed": [
-      "lessons-learned-04b-admin-queue-resolve-2026-05.md"
+      "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "状態へ同期する": [
       "lessons-learned-04b-admin-queue-resolve-2026-05.md"
@@ -8673,9 +8691,11 @@
     "Runbook": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "observability-monitoring.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md"
     ],
     "level": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
@@ -8853,6 +8873,7 @@
     ],
     "and": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
@@ -8861,10 +8882,12 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
     "are": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "separate": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "decisions": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
@@ -8877,10 +8900,12 @@
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
     ],
     "must": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "be": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "materialized": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
@@ -8895,7 +8920,8 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
     "not": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "promoted": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
@@ -9025,6 +9051,7 @@
     ],
     "LOGS": [
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "logs-archive-index.md",
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitignore-policy.md"
@@ -9655,6 +9682,7 @@
     ],
     "files": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
     ],
     "outputs": [
@@ -9703,7 +9731,8 @@
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "Apply": [
-      "lessons-learned-ut-gov-001-2026-04.md"
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md"
     ],
     "GET": [
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -9810,6 +9839,36 @@
     "design": [
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "task-workflow-completed-skill-lifecycle-design.md"
+    ],
+    "Production": [
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md"
+    ],
+    "formalization": [
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "is": [
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "labels": [
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "Strict": [
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "real": [
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
+    ],
+    "Parent": [
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "seed": [
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "wording": [
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "replacement": [
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
@@ -14810,6 +14869,7 @@
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
@@ -14844,6 +14904,7 @@
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
@@ -14876,6 +14937,7 @@
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
@@ -14905,6 +14967,7 @@
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "同一": [
@@ -15117,6 +15180,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
@@ -15390,9 +15454,6 @@
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
-    "real": [
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
-    ],
     "workers": [
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
@@ -15435,9 +15496,6 @@
     ],
     "Unassigned": [
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md"
-    ],
-    "Production": [
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
     ],
     "Post": [
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"

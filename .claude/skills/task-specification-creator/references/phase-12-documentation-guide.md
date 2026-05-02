@@ -64,6 +64,7 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - root/output artifacts parity は full mirror と lightweight parity marker を区別する。全項目一致でない場合は、どの key を marker として同期したかを明示し、full mirror 済みと書かない
 - Phase 11 が NON_VISUAL の場合でも `manual-test-checklist.md` など補助成果物の有無を記録する
 - Phase 11 が docs-only / NON_VISUAL の infrastructure verification の場合、`implementation-guide.md` に Phase 11 evidence file 一覧と「実測完了ではなく evidence template 完了」の境界を明記する
+- Production migration runbook formalization など `spec_created` 据え置き型タスクでは、root `workflow_state` を `completed` へ昇格しない。Phase status のみ更新し、実 apply 実行は別 workflow（後継 unassigned-task）へ委譲する。詳細ルールは `phase-11-non-visual-alternative-evidence.md` の「Production migration runbook evidence」節を参照する
 - state-only の修正は NON_VISUAL と判定し、manual-test-checklist.md と自動テスト結果を残す
 - Implementation spec-to-skill sync: Phase 12 が skill behavior を変える場合は owning skill reference / asset を同一 wave で更新し、implementation-guide の current facts だけに閉じ込めない
 
@@ -186,6 +187,7 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - skill feedback の各 item が `promoted-to` または no-op reason まで閉じていることを確認する
 - compliance-check は自己申告 PASS で閉じず、validator 実測値、artifact existence、mirror parity、Phase 11 evidence の実ファイル根拠を結び付けて記録する
 - `docs-only / VISUAL / runtime evidence pending` の task は `Spec template completeness = PASS` と `Production/runtime compliance = PENDING_RUNTIME_EVIDENCE` を分離し、実 production PASS を主張しない
+- production migration apply runbook formalization は `DOC_PASS` と runtime PASS を分離し、Phase 11 evidence の `structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md` 実体、production apply 未実行境界、Phase 13 user approval gate を確認してから PASS にする
 - env-name contract alignment では、`outputs/phase-11/env-name-grep.md` / `secret-list-check.md` / `magic-link-smoke-readiness.md` の実体を確認し、name-only readiness と実 smoke PASS を分ける
 - タスク仕様書に古い候補コマンドが残っていた場合は、実リポジトリの `package.json` / workspace / test runner から現在のコマンドを再解決し、Phase 1 / 4 / 9 / 11 / 12 の command contract を同じ文字列へ更新してから PASS にする
 

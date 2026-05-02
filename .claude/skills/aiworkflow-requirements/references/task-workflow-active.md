@@ -29,6 +29,17 @@
 | 検証 | local typecheck + route/workflow/repository tests 完了。10,000 行 staging D1 / Workers 実測は `staging-deferred` |
 | 後続 | queue/cron split は Phase 11 staging evidence で必要性が出た場合のみ formalize |
 
+### UT-07B-FU-03 Production Migration Apply Runbook（2026-05-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / requirements-operations-runbook / NON_VISUAL / Phase 1-12 workflow-local artifacts materialized / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/` |
+| 対象 | `apps/api/migrations/0008_schema_alias_hardening.sql` を `ubm-hyogo-db-prod` へ適用するための承認ゲート付き runbook |
+| 境界 | production apply は本タスクでは未実行。実 apply は commit / PR / merge 後、ユーザー明示承認を得た別運用タスクで実施 |
+| 検証 | workflow-local strict Phase 12 7 files と root/outputs artifacts parity は materialized。staging `migrations list` は `OPERATOR_GATE_OPEN` |
+| Issue | #363 CLOSED 維持。PR では `Refs #363` のみ採用し、`Closes #363` は使わない |
+
 ### 04b Follow-up 004 Admin Queue Resolve Workflow（2026-05-01）
 
 | 項目 | 値 |

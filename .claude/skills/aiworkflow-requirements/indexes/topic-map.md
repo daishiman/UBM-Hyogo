@@ -2536,6 +2536,14 @@ node scripts/list-specs.js --topics
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
 
+### references/workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L13 |
+| Boundary | L25 |
+
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
 | セクション | 行 |
@@ -3604,6 +3612,16 @@ node scripts/list-specs.js --topics
 | 2026-05 / route-inventory-design 追記 | L44 |
 | 関連リソース | L78 |
 
+### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU03-001: Runbook formalization is not production execution | L3 |
+| L-UT07B-FU03-002: Use scoped status labels | L7 |
+| L-UT07B-FU03-003: Strict Phase 12 files must be real files | L11 |
+| L-UT07B-FU03-004: Parent seed wording must be consumed | L15 |
+| L-UT07B-FU03-005: Workflow LOGS and skill LOGS are separate | L19 |
+
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
 | セクション | 行 |
@@ -3660,8 +3678,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L78 |
-| 関連ドキュメント | L83 |
+| 利用順序 | L79 |
+| 関連ドキュメント | L84 |
 
 ### references/llm-embedding.md
 
@@ -4729,13 +4747,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L89 |
-| フェーズ構造（概要） | L98 |
-| 品質ゲート（概要） | L129 |
-| 出力テンプレート | L140 |
-| 実行時のコマンド・エージェント・スキル | L163 |
-| 昇格パターン集 | L187 |
-| Current Active / Spec Created Tasks | L189 |
+| ドキュメント構成 | L100 |
+| フェーズ構造（概要） | L109 |
+| 品質ゲート（概要） | L140 |
+| 出力テンプレート | L151 |
+| 実行時のコマンド・エージェント・スキル | L174 |
+| 昇格パターン集 | L198 |
+| Current Active / Spec Created Tasks | L200 |
 
 ### references/task-workflow-backlog-part2.md
 

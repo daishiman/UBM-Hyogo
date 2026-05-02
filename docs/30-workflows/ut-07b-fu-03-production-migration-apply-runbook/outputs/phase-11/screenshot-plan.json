@@ -1,0 +1,5 @@
+{
+  "visualEvidence": "NON_VISUAL",
+  "screenshotsRequired": false,
+  "reason": "Production migration runbook formalization has no UI surface. Runtime apply evidence is delegated to UT-07B-FU-04."
+}

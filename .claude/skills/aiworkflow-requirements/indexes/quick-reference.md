@@ -90,6 +90,8 @@ UT-06 Phase 12 UNASSIGNED-E を `spec_created` / docs-only / NON_VISUAL workflow
 
 UT-07B schema alias hardening は、この `schema_aliases` write target replacement を上位前提にする。hardening 対象は alias table の DB constraint、back-fill の再開可能化、`backfill_cpu_budget_exhausted` の HTTP 202 retryable continuation、10,000 行 staging evidence である。参照: `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/`, `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/phase-12/implementation-guide.md`, `references/api-endpoints.md`, `references/database-schema.md`。
 
+UT-07B-FU-03 production migration apply runbook は、`apps/api/migrations/0008_schema_alias_hardening.sql` を `ubm-hyogo-db-prod` へ適用する別運用のための手順書である。workflow root は `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/`。状態は `spec_created`、Phase 11 staging dry-run は `OPERATOR_GATE_OPEN`、production apply は未実行であり正本 production 状態を上書きしない。
+
 | 目的 | 参照先 |
 | --- | --- |
 | 正本 DB 契約 | `references/database-implementation-core.md`（§Schema Alias Resolution Contract） |
