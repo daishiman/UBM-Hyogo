@@ -32,11 +32,11 @@
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -68,7 +68,7 @@
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）

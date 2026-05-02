@@ -1,11 +1,11 @@
-# Phase 10: 最終レビュー — 06c-A-admin-dashboard
+# Phase 5: 実装ランブック — 06c-A-admin-dashboard
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-A-admin-dashboard |
-| phase | 10 / 13 |
+| phase | 5 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -16,7 +16,7 @@
 
 ## 目的
 
-GO/NO-GO 判定と blocker 一覧を確定する。
+実装手順、placeholder、擬似コード、sanity check を確定する。
 
 ## 実行タスク
 
@@ -32,11 +32,11 @@ GO/NO-GO 判定と blocker 一覧を確定する。
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,35 +59,56 @@ GO/NO-GO 判定と blocker 一覧を確定する。
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-10/main.md を作成する
+- [ ] outputs/phase-05/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-10/main.md
+- outputs/phase-05/main.md
 
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）
 - apps/web は D1 直参照せず apps/api 経由で集計データを取得する（#5）
 
-## 追加セクション（Phase 10）
+## 追加セクション（Phase 5）
 
-### GO/NO-GO 判定
+### runbook 概要
+1. 既存 apps/api `routes/admin/dashboard.ts` を require-admin 配下のまま更新
+2. 既存 `repository/dashboard.ts` に KPI / recent actions 集計関数を実装
+3. apps/web `app/(admin)/admin/page.tsx` で proxy 経由 fetch し、KPI tile / 直近アクション component を描画
+4. packages/shared の `AdminDashboardView` / `AdminDashboardViewZ` を更新
+5. audit_log への閲覧記録を組み込む
 
-| 観点 | 判定 | 理由 |
-| --- | --- | --- |
-| 仕様完全性 | GO | AC / failure / runbook 揃い |
-| 不変条件整合 | GO | #5 #11 #13 #15 違反なし |
-| 無料枠 | GO | 上限内 |
-| 実装着手準備 | GO | placeholder と擬似コード提示済み |
+### placeholder
+- KPI 件数の閾値色分け基準
+- 直近アクションの表示件数（既定 20 件）
 
-### blocker 一覧
-- 06b-A session resolver 未完了の場合は実装着手不可
-- 06c admin pages 本体未完了の場合は `/admin` layout が存在しない
+### 擬似コード
+
+```ts
+// services/admin/dashboard-aggregator.ts
+export async function aggregateDashboard(db: D1Database) {
+  const [totalMembers, publicMembers, untaggedMembers, unresolvedSchema, recent] = await Promise.all([
+    db.prepare("SELECT count(*) FROM member_identities").first(),
+    db.prepare("SELECT count(*) FROM members WHERE visibility='public'").first(),
+    db.prepare("SELECT count(*) FROM members m LEFT JOIN member_tags mt ON mt.member_id = m.id WHERE mt.member_id IS NULL").first(),
+    db.prepare("SELECT count(*) FROM schema_diff_queue WHERE status='queued'").first(),
+    db.prepare("SELECT * FROM audit_log WHERE created_at >= datetime('now', '-7 days') AND action != 'dashboard.view' ORDER BY created_at DESC LIMIT 20").all(),
+  ]);
+  await appendAuditLog({ action: "dashboard.view", targetType: "admin_dashboard" });
+  return { kpi: { totalMembers, publicMembers, untaggedMembers, unresolvedSchema }, recent };
+}
+```
+
+### sanity check
+- non-admin で 403、admin で 200
+- KPI 件数が D1 直接 query と一致
+- recent actions は直近 7 日、最大 20 件、`dashboard.view` を除外する
+- dashboard 閲覧は `dashboard.view` として記録し、KPI / recent actions を自己汚染しない
 
 ## タスク100%実行確認
 
@@ -97,4 +118,4 @@ GO/NO-GO 判定と blocker 一覧を確定する。
 
 ## 次 Phase への引き渡し
 
-Phase 11 へ、AC、blocker、evidence path、approval gate を渡す。
+Phase 6 へ、AC、blocker、evidence path、approval gate を渡す。

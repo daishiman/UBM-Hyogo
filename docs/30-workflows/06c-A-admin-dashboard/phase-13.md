@@ -1,11 +1,11 @@
-# Phase 7: AC マトリクス — 06c-A-admin-dashboard
+# Phase 13: PR 作成 — 06c-A-admin-dashboard
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-A-admin-dashboard |
-| phase | 7 / 13 |
+| phase | 13 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -16,7 +16,7 @@
 
 ## 目的
 
-Phase 1 AC × Phase 4 検証 × Phase 5 実装の対応を確定する。
+approval gate / local-check-result / change-summary / PR template を確定する。
 
 ## 実行タスク
 
@@ -32,11 +32,11 @@ Phase 1 AC × Phase 4 検証 × Phase 5 実装の対応を確定する。
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,33 +59,51 @@ Phase 1 AC × Phase 4 検証 × Phase 5 実装の対応を確定する。
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-07/main.md を作成する
+- [ ] outputs/phase-13/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-07/main.md
+- outputs/phase-13/main.md
 
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）
 - apps/web は D1 直参照せず apps/api 経由で集計データを取得する（#5）
 
-## 追加セクション（Phase 7）
+## 追加セクション（Phase 13）
 
-### AC マトリクス
+### approval gate
+- user 明示 GO がない限り commit / push / PR 作成を行わない。
+- Phase 10 の GO/NO-GO が GO であること。
 
-| AC | Phase 4 検証 | Phase 5 実装 |
-| --- | --- | --- |
-| `/admin` admin 二段防御 | authorization suite | middleware + require-admin |
-| KPI tile 表示 | contract + E2E | dashboard-aggregator + KpiTile |
-| 直近 7 日アクション | E2E | RecentActionsList |
-| non-admin 302/403 | authorization suite | middleware redirect / require-admin |
-| audit log 記録 | audit suite | audit writer hook |
-| apps/web D1 直参照禁止 | contract | cookie forward only |
+### local-check-result（placeholder）
+- `mise exec -- pnpm typecheck` PASS
+- `mise exec -- pnpm lint` PASS
+- `mise exec -- pnpm test` PASS
+
+### change-summary（placeholder）
+- 追加: dashboard endpoint / aggregator / UI components / shared schema
+- 変更: admin layout に dashboard link 追加
+- ドキュメント: 11-admin-management.md dashboard 節更新
+
+### PR template
+
+```markdown
+## Summary
+- /admin dashboard の KPI tile / 直近アクション / 集計 API を実装
+- require-admin の二段防御で保護、audit log 記録対応
+
+## Test plan
+- [ ] unit (dashboard-aggregator)
+- [ ] contract (/api/admin/dashboard)
+- [ ] authorization (admin / non-admin)
+- [ ] E2E (/admin SSR)
+- [ ] manual smoke + screenshot
+```
 
 ## タスク100%実行確認
 
@@ -95,4 +113,4 @@ Phase 1 AC × Phase 4 検証 × Phase 5 実装の対応を確定する。
 
 ## 次 Phase への引き渡し
 
-Phase 8 へ、AC、blocker、evidence path、approval gate を渡す。
+次タスクへ、AC、blocker、evidence path、approval gate を渡す。

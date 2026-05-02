@@ -1,11 +1,11 @@
-# Phase 3: 設計レビュー — 06c-A-admin-dashboard
+# Phase 10: 最終レビュー — 06c-A-admin-dashboard
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-A-admin-dashboard |
-| phase | 3 / 13 |
+| phase | 10 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -16,7 +16,7 @@
 
 ## 目的
 
-代替案を比較評価し、Phase 2 の設計を PASS-MINOR-MAJOR で判定する。
+GO/NO-GO 判定と blocker 一覧を確定する。
 
 ## 実行タスク
 
@@ -32,11 +32,11 @@
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,35 +59,35 @@
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-03/main.md を作成する
+- [ ] outputs/phase-10/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-03/main.md
+- outputs/phase-10/main.md
 
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）
 - apps/web は D1 直参照せず apps/api 経由で集計データを取得する（#5）
 
-## 追加セクション（Phase 3）
+## 追加セクション（Phase 10）
 
-### 代替案
-1. **集計 endpoint を 1 本に集約**（採用候補）: `/api/admin/dashboard` で KPI と直近アクションをまとめて返す。
-2. **endpoint を分割**: `/api/admin/dashboard/kpi` と `/api/admin/dashboard/recent-actions` を別系統にする。
-3. **dashboard SSR で D1 直参照**: 不変条件 #5 違反のため不採用。
+### GO/NO-GO 判定
 
-### PASS-MINOR-MAJOR 判定
-- 案 1: PASS（呼び出し回数最小、cache 戦略一本化）
-- 案 2: MINOR（独立 cache が可能だが over-engineering）
-- 案 3: MAJOR（不変条件違反）
+| 観点 | 判定 | 理由 |
+| --- | --- | --- |
+| 仕様完全性 | GO | AC / failure / runbook 揃い |
+| 不変条件整合 | GO | #5 #11 #13 #15 違反なし。KPI は正本の `総会員数 / 公開中 / 未タグ / スキーマ未解決` に統一 |
+| 無料枠 | GO | 上限内 |
+| 実装着手準備 | GO | 単一 endpoint / recent actions 7 日条件 / `dashboard.view` 除外を固定済み |
 
-### 採用方針
-案 1 を採用し、将来 cache 分離が必要になった時点で案 2 に分解する。
+### blocker 一覧
+- 06b-A session resolver 未完了の場合は実装着手不可
+- 06c admin pages 本体未完了の場合は `/admin` layout が存在しない
 
 ## タスク100%実行確認
 
@@ -97,4 +97,4 @@
 
 ## 次 Phase への引き渡し
 
-Phase 4 へ、AC、blocker、evidence path、approval gate を渡す。
+Phase 11 へ、AC、blocker、evidence path、approval gate を渡す。

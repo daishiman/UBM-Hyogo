@@ -1,11 +1,11 @@
-# Phase 5: 実装ランブック — 06c-A-admin-dashboard
+# Phase 11: 手動 smoke / 実測 evidence — 06c-A-admin-dashboard
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-A-admin-dashboard |
-| phase | 5 / 13 |
+| phase | 11 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -16,7 +16,7 @@
 
 ## 目的
 
-実装手順、placeholder、擬似コード、sanity check を確定する。
+screenshot / curl / wrangler 出力 placeholder を含む manual evidence を確定する。
 
 ## 実行タスク
 
@@ -32,11 +32,11 @@
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,52 +59,32 @@
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-05/main.md を作成する
+- [ ] outputs/phase-11/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-05/main.md
+- outputs/phase-11/main.md
 
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）
 - apps/web は D1 直参照せず apps/api 経由で集計データを取得する（#5）
 
-## 追加セクション（Phase 5）
+## 追加セクション（Phase 11）
 
-### runbook 概要
-1. apps/api `routes/admin/dashboard.ts` を追加し、require-admin middleware の下にマウント
-2. `services/admin/dashboard-aggregator.ts` に集計関数を実装
-3. apps/web `app/admin/page.tsx` で fetch し、KPI tile / 直近アクション component を描画
-4. packages/shared に response schema を追加
-5. audit_log への閲覧記録を組み込む
+### manual evidence
 
-### placeholder
-- KPI 件数の閾値色分け基準
-- 直近アクションの表示件数（既定 20 件）
-
-### 擬似コード
-
-```ts
-// services/admin/dashboard-aggregator.ts
-export async function aggregateDashboard(db: D1Database) {
-  const [publicMembers, pendingRequests, openAudits, recent] = await Promise.all([
-    db.prepare("SELECT count(*) FROM members WHERE visibility='public'").first(),
-    db.prepare("SELECT count(*) FROM membership_requests WHERE status='pending'").first(),
-    db.prepare("SELECT count(*) FROM audit_log WHERE resolved_at IS NULL").first(),
-    db.prepare("SELECT * FROM audit_log ORDER BY created_at DESC LIMIT 20").all(),
-  ]);
-  return { kpi: { publicMembers, pendingRequests, openAudits }, recent };
-}
-```
-
-### sanity check
-- non-admin で 403、admin で 200
-- KPI 件数が D1 直接 query と一致
+| 項目 | placeholder |
+| --- | --- |
+| screenshot | `outputs/phase-11/admin-dashboard-200.png` |
+| curl 200 | `curl -b cookie.txt $API/api/admin/dashboard` の出力 placeholder |
+| curl 403 | non-admin cookie で 403 を確認 |
+| wrangler tail | dashboard 閲覧時の audit_log insert ログ placeholder |
+| a11y | axe-core scan 結果 placeholder |
 
 ## タスク100%実行確認
 
@@ -114,4 +94,4 @@ export async function aggregateDashboard(db: D1Database) {
 
 ## 次 Phase への引き渡し
 
-Phase 6 へ、AC、blocker、evidence path、approval gate を渡す。
+Phase 12 へ、AC、blocker、evidence path、approval gate を渡す。

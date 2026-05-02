@@ -1,11 +1,11 @@
-# Phase 6: 異常系検証 — 06c-A-admin-dashboard
+# Phase 4: テスト戦略 — 06c-A-admin-dashboard
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-A-admin-dashboard |
-| phase | 6 / 13 |
+| phase | 4 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -16,7 +16,7 @@
 
 ## 目的
 
-401 / 403 / 404 / 422 / 5xx の failure case と挙動を確定する。
+unit / contract / E2E / authorization の verify suite を設計する。
 
 ## 実行タスク
 
@@ -32,11 +32,11 @@
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,32 +59,32 @@
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-06/main.md を作成する
+- [ ] outputs/phase-04/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-06/main.md
+- outputs/phase-04/main.md
 
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）
 - apps/web は D1 直参照せず apps/api 経由で集計データを取得する（#5）
 
-## 追加セクション（Phase 6）
+## 追加セクション（Phase 4）
 
-### failure cases
+### verify suite
 
-| code | 条件 | 期待挙動 |
+| 種別 | 対象 | 目的 |
 | --- | --- | --- |
-| 401 | session 不正 / 未ログイン | apps/api が JSON で 401 |
-| 403 | session 有効だが admin role なし | require-admin が 403、middleware は 302 で /login |
-| 404 | endpoint typo | `/api/admin/dashboard` 以外は 404 |
-| 422 | query parameter 不正（将来の filter 用） | zod parse 失敗で 422 |
-| 5xx | D1 binding 不在 / migration 未適用 | log 記録の上 500、UI は error boundary |
+| unit | dashboard-aggregator | KPI 集計関数の境界条件 |
+| contract | /api/admin/dashboard | response shape と admin role gate |
+| authorization | require-admin | non-admin → 403 / admin → 200 |
+| E2E | /admin SSR | KPI tile 表示と直近アクション一覧描画 |
+| audit | audit_log writer | dashboard 閲覧が記録される |
 
 ## タスク100%実行確認
 
@@ -94,4 +94,4 @@
 
 ## 次 Phase への引き渡し
 
-Phase 7 へ、AC、blocker、evidence path、approval gate を渡す。
+Phase 5 へ、AC、blocker、evidence path、approval gate を渡す。
