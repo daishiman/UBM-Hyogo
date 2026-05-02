@@ -29,6 +29,20 @@
 | 検証 | local typecheck + route/workflow/repository tests 完了。10,000 行 staging D1 / Workers 実測は `staging-deferred` |
 | 後続 | queue/cron split は Phase 11 staging evidence で必要性が出た場合のみ formalize |
 
+### UT Coverage 2026-05 Wave（2026-05-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / test-fixture implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
+| wave guide | `docs/30-workflows/completed-tasks/ut-coverage-2026-05-wave/README.md` |
+| wave-1 | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/` |
+| wave-2 | `docs/30-workflows/completed-tasks/ut-coverage-2026-05-wave/wave-2-parallel-coverage/` |
+| inventory | `references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md` |
+| lessons | `references/lessons-learned-ut-coverage-2026-05-wave.md`（L-UTCOV-001〜006） |
+| 目的 | apps/api の 13 failing tests を先に解消し、Issue #320 coverage hardening が `coverage-summary.json` を取得できる状態に戻す |
+| AC | precondition gate: apps/api 13 failure green、coverage-summary.json 生成、`bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0、apps/api coverage 80% gate PASS。upgrade gate（Statements/Functions/Lines >=85%, Branches >=80%）は UT-08A-01 に委譲 |
+| 境界 | test fixture `apps/api/src/jobs/__fixtures__/d1-fake.ts` のみ実装済み。runtime production code、apps/web、packages/*、commit、push、PR は Phase 13 user approval まで実行しない |
+
 ### 04b Follow-up 004 Admin Queue Resolve Workflow（2026-05-01）
 
 | 項目 | 値 |
@@ -50,6 +64,7 @@
 | 公開契約 | `Env` interface を API Worker binding 型の SSOT とし、`ctx(env: Pick<Env, "DB">)` で repository context を作る |
 | 検証 | typecheck / lint PASS。API full test は pre-existing `schemaDiffQueue.test.ts` 2 件失敗を記録。boundary lint は `../../api/src/env` relative import も遮断 |
 | 後続 | KV / R2 / OAuth / Magic Link HMAC key は各後続タスクで `wrangler.toml` と `Env` を同一 wave 同期 |
+
 
 ### 目的
 

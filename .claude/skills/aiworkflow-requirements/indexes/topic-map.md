@@ -2575,6 +2575,15 @@ node scripts/list-specs.js --topics
 | Canonical Artifacts | L13 |
 | Notes | L28 |
 
+### references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflows | L3 |
+| Phase 12 Strict Files | L10 |
+| Gate Boundary | L22 |
+| Same-Wave Sync | L28 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -3616,6 +3625,17 @@ node scripts/list-specs.js --topics
 | L-CICD-OBS-003: Phase 12 canonical 7 files は `main.md` + required outputs 6 files と書く | L11 |
 | L-CICD-OBS-004: generator が `phase-01.md` を弱く扱う場合は未タスク化する | L15 |
 | L-CICD-OBS-005: skill feedback は Promote / Defer / Reject で閉じる | L19 |
+
+### references/lessons-learned-ut-coverage-2026-05-wave.md
+
+| セクション | 行 |
+|------------|----|
+| L-UTCOV-001: coverage-summary.json 不在時は coverage-guard が空入力で素通りする | L3 |
+| L-UTCOV-002: D1 binding fake は contract 表面（exec/prepare/dump）を最小再現する | L7 |
+| L-UTCOV-003: 2-layer coverage gate は precondition gate と upgrade gate を別タスク化する | L11 |
+| L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
+| L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
+| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -4772,13 +4792,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L89 |
-| フェーズ構造（概要） | L98 |
-| 品質ゲート（概要） | L129 |
-| 出力テンプレート | L140 |
-| 実行時のコマンド・エージェント・スキル | L163 |
-| 昇格パターン集 | L187 |
-| Current Active / Spec Created Tasks | L189 |
+| ドキュメント構成 | L104 |
+| フェーズ構造（概要） | L113 |
+| 品質ゲート（概要） | L144 |
+| 出力テンプレート | L155 |
+| 実行時のコマンド・エージェント・スキル | L178 |
+| 昇格パターン集 | L202 |
+| Current Active / Spec Created Tasks | L204 |
 
 ### references/task-workflow-backlog-part2.md
 
