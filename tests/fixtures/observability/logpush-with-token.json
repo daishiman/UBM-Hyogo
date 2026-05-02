@@ -1,0 +1,15 @@
+{
+  "result": [
+    {
+      "id": 99999,
+      "name": "mock-app-prod-logs",
+      "destination_conf": "s3://mock-bucket/?X-Amz-Signature=AKIAEXAMPLEFAKEKEY00&exp=999",
+      "dataset": "workers_trace_events",
+      "enabled": true,
+      "filter": "script_name == \"ubm-hyogo-web\"",
+      "logpull_options": "fields=RayID&timestamps=rfc3339",
+      "destination_credential": "Bearer mock_long_token_value_for_test_only_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  ],
+  "success": true
+}

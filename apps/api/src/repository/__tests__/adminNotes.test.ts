@@ -306,3 +306,69 @@ describe("adminNotes (CRUD)", () => {
     expect(_memberCheck).toBe(true);
   });
 });
+
+describe("adminNotes.listPendingRequests (04b-followup-004)", () => {
+  let env: InMemoryD1;
+  beforeEach(async () => {
+    env = await setupD1();
+  });
+
+  it("type+status で絞り込み、created_at ASC, note_id ASC で返す（FIFO）", async () => {
+    const insert = (
+      noteId: string,
+      memberId: string,
+      type: "visibility_request" | "delete_request",
+      requestStatus: "pending" | "resolved",
+      createdAt: string,
+    ) =>
+      env.ctx.db
+        .prepare(
+          `INSERT INTO admin_member_notes
+            (note_id, member_id, body, note_type, request_status, created_by, updated_by, created_at, updated_at)
+           VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?6, ?7, ?7)`,
+        )
+        .bind(noteId, memberId, "{}", type, requestStatus, "owner@example.com", createdAt)
+        .run();
+
+    await insert("n_v_2", "m1", "visibility_request", "pending", "2026-04-02T00:00:00Z");
+    await insert("n_v_1", "m2", "visibility_request", "pending", "2026-04-01T00:00:00Z");
+    await insert("n_v_3", "m3", "visibility_request", "resolved", "2026-04-03T00:00:00Z");
+    await insert("n_d_1", "m4", "delete_request", "pending", "2026-04-04T00:00:00Z");
+
+    const r = await adminNotes.listPendingRequests(env.ctx, {
+      status: "pending",
+      type: "visibility_request",
+      limit: 50,
+    });
+    expect(r.rows.map((x) => x.noteId)).toEqual(["n_v_1", "n_v_2"]);
+    expect(r.nextCursor).toBeNull();
+  });
+
+  it("limit + cursor で paginate する", async () => {
+    for (let i = 1; i <= 3; i += 1) {
+      await env.ctx.db
+        .prepare(
+          `INSERT INTO admin_member_notes
+            (note_id, member_id, body, note_type, request_status, created_by, updated_by, created_at, updated_at)
+           VALUES (?1, ?2, '{}', 'visibility_request', 'pending', 'a@e', 'a@e', ?3, ?3)`,
+        )
+        .bind(`n${i}`, `m${i}`, `2026-04-0${i}T00:00:00Z`)
+        .run();
+    }
+    const page1 = await adminNotes.listPendingRequests(env.ctx, {
+      status: "pending",
+      type: "visibility_request",
+      limit: 2,
+    });
+    expect(page1.rows.map((r) => r.noteId)).toEqual(["n1", "n2"]);
+    expect(page1.nextCursor).not.toBeNull();
+    const page2 = await adminNotes.listPendingRequests(env.ctx, {
+      status: "pending",
+      type: "visibility_request",
+      limit: 2,
+      cursor: page1.nextCursor!,
+    });
+    expect(page2.rows.map((r) => r.noteId)).toEqual(["n3"]);
+    expect(page2.nextCursor).toBeNull();
+  });
+});

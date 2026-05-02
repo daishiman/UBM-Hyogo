@@ -3,7 +3,10 @@
 // 不変条件 #5: web → D1 直接アクセス禁止。本ファイル経由でのみ admin API を呼ぶ。
 // 不変条件 #11: profile 本文編集 mutation は本ライブラリに**意図的に存在させない**。
 // 不変条件 #13: tag 直接更新 mutation も存在させない（resolveTagQueue のみ）。
-import type { TagQueueResolveBody } from "@ubm-hyogo/shared";
+import type {
+  AdminRequestResolveBody,
+  TagQueueResolveBody,
+} from "@ubm-hyogo/shared";
 
 export interface AdminMutationOk<T = unknown> {
   ok: true;
@@ -77,6 +80,16 @@ export const postSchemaAlias = (body: {
   stableKey: string;
   diffId?: string;
 }) => call(`/schema/aliases`, "POST", body);
+
+export const resolveAdminRequest = (
+  noteId: string,
+  body: AdminRequestResolveBody,
+) =>
+  call(
+    `/requests/${encodeURIComponent(noteId)}/resolve`,
+    "POST",
+    body,
+  );
 
 export const createMeeting = (body: { title: string; heldOn: string; note?: string | null }) =>
   call(`/meetings`, "POST", body);
