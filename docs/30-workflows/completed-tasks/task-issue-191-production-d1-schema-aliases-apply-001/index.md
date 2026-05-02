@@ -1,40 +1,46 @@
 # task-issue-191-production-d1-schema-aliases-apply-001
 
+[実装区分: 実装仕様書]
+
+判断根拠: Cloudflare D1 production database (`ubm-hyogo-db-prod`) に対する migration apply / 既適用検証を扱う production-operation であり、NON_VISUAL evidence と SSOT 同期を伴うため実装仕様書として扱う。
+
 ## メタ情報
 
 | 項目 | 内容 |
 | --- | --- |
-| GitHub Issue | #359 (closed のまま扱う) |
-| 状態 | spec_created / Phase 13 blocked_until_user_approval |
+| GitHub Issue | `Refs #359` |
+| 状態 | completed_via_already_applied_path |
 | taskType | implementation (production-operation) |
 | docsOnly | false |
 | visualEvidence | NON_VISUAL |
-| canonical root | `docs/30-workflows/task-issue-191-production-d1-schema-aliases-apply-001/` |
-| 正本仕様 | `.claude/skills/aiworkflow-requirements/references/database-schema.md` |
+| canonical root | `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/` |
+| 正本仕様 | `.claude/skills/aiworkflow-requirements/references/database-schema.md`, `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md` |
 | Priority | High |
 | Scale | small |
 
 ## 目的
 
-Issue #359 の production-operation 要求である `apps/api/migrations/0008_create_schema_aliases.sql` の Cloudflare D1 production database への適用と、適用前後の inventory / PRAGMA evidence 取得、`.claude/skills/aiworkflow-requirements/references/database-schema.md` の production apply 状態同期を、Phase 1〜13 の単独実行可能な仕様へ落とし込む。
+Issue #359 の要求である `apps/api/migrations/0008_create_schema_aliases.sql` の production D1 適用を、ユーザー承認後に安全確認する。2026-05-02 の Phase 13 実行では、production D1 の `d1_migrations` ledger 上で `0008_create_schema_aliases.sql` が 2026-05-01 10:59:35 UTC に既適用であることを検出したため、二重 apply は実行せず、PRAGMA shape verification path で完了した。
 
 ## スコープ
 
 含む:
 
-- production D1 (`ubm-hyogo-db-prod`) への `0008_create_schema_aliases.sql` migration apply
-- apply 前 inventory（既存 table list / 既存 schema_aliases 不在確認）の evidence 化
-- apply 後の `PRAGMA table_info(schema_aliases)` / `PRAGMA index_list(schema_aliases)` 取得
-- `database-schema.md` および `task-workflow-active.md` の production apply 状態 marker 更新
-- ユーザー承認ゲート（Phase 13）でのみ実行する operation 境界の明示
+- production D1 (`ubm-hyogo-db-prod`) の migration inventory 確認
+- `schema_aliases` table の存在確認
+- `d1_migrations` ledger による `0008_create_schema_aliases.sql` 適用履歴確認
+- `PRAGMA table_info(schema_aliases)` / `PRAGMA index_list(schema_aliases)` による Required Shape 検証
+- `database-schema.md` / workflow tracking / artifact inventory への production applied marker 同期
 
 含まない:
 
-- code deploy（apps/api / apps/web の Worker bundle deploy は別タスク）
-- `task-issue-191-schema-questions-fallback-retirement-001` の fallback 廃止
-- `task-issue-191-direct-stable-key-update-guard-001` の direct update guard
-- 07b endpoint path rename / apps/web UI 変更
-- `0008_schema_alias_hardening.sql` 等 0008 系以降の追加 migration
+- duplicate `wrangler d1 migrations apply` 実行
+- code deploy
+- fallback retirement (#299)
+- direct stable_key update guard (#300)
+- 07b endpoint rename / apps/web UI 変更
+- 0008 以降の hardening migration
+- destructive rollback DDL
 
 ## 正本契約
 
@@ -43,10 +49,10 @@ Issue #359 の production-operation 要求である `apps/api/migrations/0008_cr
 | target database | `ubm-hyogo-db-prod` |
 | environment | `production` |
 | migration file | `apps/api/migrations/0008_create_schema_aliases.sql` |
-| 必須 columns | `id`, `revision_id`, `stable_key`, `alias_question_id`, `alias_label`, `source`, `created_at`, `resolved_by`, `resolved_at` |
-| 必須 indexes | `idx_schema_aliases_stable_key`, `idx_schema_aliases_revision_stablekey_unique`, `idx_schema_aliases_revision_question_unique` |
-| 実行ラッパー | `bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production` |
-| 禁止 | `wrangler` 直接実行 / migration apply と code deploy の同時実行 / ユーザー承認前の apply |
+| Required columns | `id`, `revision_id`, `stable_key`, `alias_question_id`, `alias_label`, `source`, `created_at`, `resolved_by`, `resolved_at` |
+| Required indexes | `idx_schema_aliases_stable_key`, `idx_schema_aliases_revision_stablekey_unique`, `idx_schema_aliases_revision_question_unique` |
+| 実行ラッパー | `bash scripts/cf.sh d1 ... --config apps/api/wrangler.toml --env production` |
+| 禁止 | `wrangler` 直接実行 / ユーザー承認前の production write / duplicate apply / push / PR 作成 |
 
 ## Phase 一覧
 
@@ -64,11 +70,16 @@ Issue #359 の production-operation 要求である `apps/api/migrations/0008_cr
 | 10 | GO/NO-GO | [phase-10.md](phase-10.md) | spec_created |
 | 11 | NON_VISUAL evidence | [phase-11.md](phase-11.md) | spec_created |
 | 12 | ドキュメント同期 | [phase-12.md](phase-12.md) | spec_created |
-| 13 | 承認 + 実適用 + PR作成 | [phase-13.md](phase-13.md) | blocked_until_user_approval |
+| 13 | 承認 + 既適用検証 | [phase-13.md](phase-13.md) | completed_via_already_applied_path |
+
+## 依存関係
+
+- #299 `task-issue-191-schema-questions-fallback-retirement-001` は production apply prerequisite satisfied の未割り当てタスクとして継続する。
+- #300 `task-issue-191-direct-stable-key-update-guard-001` は production apply prerequisite satisfied の未割り当てタスクとして継続する。
+- 先行 apply の出所監査は `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` で扱う。今回サイクルで完了させると外部ログ・承認証跡の探索が必要になり、本 production verification の完了条件と独立するため、監査タスクとして分離する。
 
 ## 実行境界
 
-- Issue #359 は closed のまま扱い、Issue 再オープン / ラベル変更 / コメント追加は Phase 13 のユーザー承認まで実行しない。
-- production D1 への migration apply は **Phase 13 のユーザー承認後にのみ** 実行する。Phase 1-12 は仕様書作成・dry-run 計画・evidence template 整備までに留める。
-- `d1 migrations apply` は未適用 migration を適用する操作なので、Phase 13 の preflight で unapplied migration が `0008_create_schema_aliases.sql` のみであることを確認する。target 以外の pending migration があれば NO-GO とし、apply しない。
-- code deploy はこのタスクのスコープ外。
+- Phase 13 ではユーザー承認後に remote inventory / shape verification を実行済み。
+- `schema_aliases` は Required Shape を満たしていたため duplicate apply は実行していない。
+- commit / push / PR 作成はこのタスク仕様のスコープ外であり、ユーザー明示承認なしに実行しない。

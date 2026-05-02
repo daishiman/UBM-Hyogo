@@ -50,5 +50,5 @@ This approval does not authorize:
 
 - code deploy (Worker bundle deploy) — separate gate
 - fallback retirement (`task-issue-191-schema-questions-fallback-retirement-001`)
-- direct stableKey update guard (`task-issue-191-direct-stable-key-update-guard-001`)
+- direct stable_key update guard (`task-issue-191-direct-stable-key-update-guard-001`)
 - 07b endpoint path rename

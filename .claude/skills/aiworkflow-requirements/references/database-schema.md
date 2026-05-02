@@ -60,16 +60,21 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 
 `schema_aliases` は issue-191 以降の manual alias write target である。07b `POST /admin/schema/aliases` は `schema_questions.stable_key` を直接更新せず、この table に alias 行を INSERT する。03a は `schema_aliases` first、miss の場合のみ `schema_questions.stable_key` fallback とする。Production D1 apply は **2026-05-01 10:59:35 UTC に migration `0008_create_schema_aliases.sql` が適用済み**であり、Phase 13 evidence (`docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/outputs/phase-13/`) で PRAGMA table_info / index_list が required shape と一致することを確認済み。
 
-UT-07B hardening では、`schema_aliases` 側に同一 revision collision を防ぐ UNIQUE constraint / index を追加する。`schema_questions.stable_key` への partial UNIQUE は fallback retirement 前の互換制約としてのみ評価し、正本 write target を direct update に戻さない。
+UT-07B hardening では、`schema_aliases` の正本 write target を前提に back-fill を再開可能にする。`schema_questions.stable_key` への partial UNIQUE は fallback retirement 前の互換制約としてのみ評価し、正本 write target を direct update に戻さない。
 
-実 migration `apps/api/migrations/0008_schema_alias_hardening.sql` の正本 DDL:
+実 migration `apps/api/migrations/0008_create_schema_aliases.sql` の正本 DDL:
 
 - `schema_aliases(id, revision_id, stable_key, alias_question_id, alias_label, source, created_at, resolved_by, resolved_at)`
 - `idx_schema_aliases_stable_key`
 - `idx_schema_aliases_revision_stablekey_unique`: `stable_key IS NOT NULL AND stable_key != 'unknown' AND stable_key NOT LIKE '__extra__:%'`
 - `idx_schema_aliases_revision_question_unique`
+
+実 migration `apps/api/migrations/0008_schema_alias_hardening.sql` の正本 DDL:
+
 - `schema_diff_queue.backfill_cursor`
 - `schema_diff_queue.backfill_status`
+
+Production D1 ledger では `0008_schema_alias_hardening.sql` が `2026-05-01 08:21:04 UTC`、`0008_create_schema_aliases.sql` が `2026-05-01 10:59:35 UTC` に記録されている。両 migration の先行適用出所監査は `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` で扱う。
 
 ## Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created）
 

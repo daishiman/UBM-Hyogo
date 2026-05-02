@@ -18,4 +18,4 @@ This phase closes the specification side of the approval-gated production operat
 
 ## State
 
-Workflow remains `spec_created`; Phase 13 remains `blocked_until_user_approval`.
+Workflow is now `completed_via_already_applied_path` after Phase 13 runtime verification. Phase 12 originally prepared the approval-gated operation spec; Phase 13 later confirmed production was already applied and synchronized the runtime evidence.

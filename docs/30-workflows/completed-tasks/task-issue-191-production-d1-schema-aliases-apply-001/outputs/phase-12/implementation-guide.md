@@ -2,9 +2,9 @@
 
 ## Part 1: Middle School Level
 
-This task is like adding one new labeled box to a school library shelf. The box design is already prepared, but we do not place it in the real library until the teacher says yes. For example, we first check that only this one box is waiting to be added. If another box is also waiting, we stop and ask again instead of adding both by accident.
+This task is like checking one new labeled box on a school library shelf after the teacher approved the work. The box design was already prepared. When we checked the real library, the box was already there, so we did not add a second box. Instead, we checked the box shape and wrote down the proof.
 
-Why this matters: the real library is used by everyone. If we place the box at the wrong time, people can get confused. So the order is: get approval, place the box, check that it is there, and write down the result.
+Why this matters: the real library is used by everyone. If we add the same box twice or run the wrong command, people can get confused. So the final order was: get approval, check the real shelf, skip duplicate apply, verify the box shape, and write down the result.
 
 | Term | Plain wording |
 | --- | --- |
@@ -16,19 +16,20 @@ Why this matters: the real library is used by everyone. If we place the box at t
 
 Middle school self-check:
 
-- The real database is not changed before approval.
+- The real database was not changed before approval.
 - The command must point at the API config file.
 - The final check is a real production PRAGMA photo, not just the design sheet.
+- Because the box already existed with the correct ledger entry, adding it again was correctly skipped.
 
 ## Part 2: Technical Details
 
 - Target database: `ubm-hyogo-db-prod`
 - Environment: `production`
 - Migration: `apps/api/migrations/0008_create_schema_aliases.sql`
-- Apply command: `bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production`
+- Apply command prepared but **not executed** because production D1 already had `0008_create_schema_aliases.sql` recorded in `d1_migrations`.
 - Pre evidence: migration list and table inventory.
 - Post evidence: `PRAGMA table_info(schema_aliases)`, `PRAGMA index_list(schema_aliases)`, and migration list.
-- Approval: required before any production write.
+- Approval: recorded before production remote checks.
 - Rollback: destructive DDL is reference-only until additional explicit approval.
 
 ### Required Shape
@@ -63,4 +64,14 @@ Phase 11 is NON_VISUAL and does not require screenshots because this workflow ch
 - `../phase-11/production-apply-readiness.md`
 - `../phase-11/manual-smoke-log.md`
 
-Phase 13 runtime evidence is reserved for explicit user approval and will be written under `../phase-13/`.
+Phase 13 runtime evidence was captured after explicit user approval under `../phase-13/`:
+
+- `../phase-13/user-approval.md`
+- `../phase-13/migrations-list-before.txt`
+- `../phase-13/tables-before.txt`
+- `../phase-13/d1-migrations-table.txt`
+- `../phase-13/pragma-table-info.txt`
+- `../phase-13/pragma-index-list.txt`
+- `../phase-13/migrations-list-after.txt`
+
+No screenshots are required for this NON_VISUAL production operation.

@@ -13,7 +13,7 @@ Phase 13 production D1 apply was approved by the user on 2026-05-02. Execution d
 | Gate-A: Design GO | passed | Phase 1-12 outputs present |
 | Gate-B: Production D1 apply approval | **passed** | `user-approval.md` recorded; user response "y" to pre-apply confirmation |
 | Gate-C1: SSOT update | **passed** | `.claude/skills/aiworkflow-requirements/references/database-schema.md` updated to `production applied` with timestamp + evidence path |
-| Gate-C2: Push / PR creation approval | passed | PR #423 already created earlier in conversation; this commit pushes Phase 13 evidence onto the same PR |
+| Gate-C2: Commit / push / PR approval | not executed | Commit, push, and PR creation require separate explicit user approval |
 
 ## Runtime Evidence (this directory)
 
@@ -55,7 +55,7 @@ Pre-apply inventory triggered this clause. Skipping the apply is the spec-compli
 This Phase 13 execution does not authorize:
 
 - code deploy (Worker bundle deploy)
-- fallback retirement
-- direct stableKey update guard
+- fallback retirement (#299)
+- direct stable_key update guard (#300)
 - 07b endpoint path rename
 - destructive rollback DDL (would require separate explicit approval)

@@ -17,7 +17,7 @@ This workflow has no UI surface. Phase 11 records pre-apply static and local evi
 
 ## Boundary
 
-Phase 11 completion is not production apply success. Runtime PASS requires Phase 13 `user-approval.md`, pre/post migration inventory, apply log, and PRAGMA evidence (EV-13-1〜EV-13-7).
+Phase 11 completion is not production apply success. Runtime PASS requires Phase 13 `user-approval.md`, pre/post migration inventory, and PRAGMA evidence. `migrations-apply.log` is required only when an apply command actually runs; for the already-applied path, `d1-migrations-table.txt` is the ledger substitute.
 
 ## Phase 13 で取得予定の evidence
 
@@ -26,7 +26,7 @@ Phase 11 completion is not production apply success. Runtime PASS requires Phase
 | EV-13-1 | `outputs/phase-13/user-approval.md` |
 | EV-13-2 | `outputs/phase-13/migrations-list-before.txt` |
 | EV-13-3 | `outputs/phase-13/tables-before.txt` |
-| EV-13-4 | `outputs/phase-13/migrations-apply.log` |
+| EV-13-4 | `outputs/phase-13/migrations-apply.log` if apply executes, otherwise `outputs/phase-13/d1-migrations-table.txt` |
 | EV-13-5 | `outputs/phase-13/pragma-table-info.txt` |
 | EV-13-6 | `outputs/phase-13/pragma-index-list.txt` |
 | EV-13-7 | `outputs/phase-13/migrations-list-after.txt` |

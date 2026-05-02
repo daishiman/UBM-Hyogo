@@ -1,21 +1,23 @@
 # Phase 13 Change Summary
 
-Status: draft / blocked_until_user_approval
+Status: completed_via_already_applied_path
 
-## Planned Runtime Change
+## Runtime Result
 
-Apply `apps/api/migrations/0008_create_schema_aliases.sql` to Cloudflare D1 production database `ubm-hyogo-db-prod` using `bash scripts/cf.sh`.
+User approval was recorded, then production preflight showed `schema_aliases` already existed and the remote `d1_migrations` table had `0008_create_schema_aliases.sql` applied at `2026-05-01 10:59:35 UTC`. Per the spec NO-GO clause, the workflow did not run `d1 migrations apply`; it completed via shape verification.
 
-## Planned Evidence
+## Evidence
 
 - `user-approval.md`
 - `migrations-list-before.txt`
 - `tables-before.txt`
-- `migrations-apply.log`
+- `d1-migrations-table.txt`
 - `pragma-table-info.txt`
 - `pragma-index-list.txt`
 - `migrations-list-after.txt`
 
+`migrations-apply.log` was not produced because apply was skipped intentionally after the already-applied state was confirmed.
+
 ## Publishing Boundary
 
-Push and PR creation require a separate explicit instruction after runtime evidence is collected.
+Commit, push, and PR creation were not executed by this task. Any later PR body must use `Refs #359` and must not use `Closes #359`.

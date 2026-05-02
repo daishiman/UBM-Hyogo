@@ -1,4 +1,6 @@
-# Phase 13: 承認 + 実適用 + PR作成
+# Phase 13: 承認 + 既適用検証
+
+[実装区分: 実装仕様書]
 
 ## メタ情報
 
@@ -7,169 +9,78 @@
 | Phase | 13 |
 | 機能名 | task-issue-191-production-d1-schema-aliases-apply-001 |
 | visualEvidence | NON_VISUAL |
-| 状態 | blocked_until_user_approval |
+| 状態 | completed_via_already_applied_path |
 
 ## 目的
 
-ユーザーの **明示的な production apply 承認** を取得した後にのみ、`bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production` を実行し、apply 前後の evidence を取得する。push / PR 作成は production apply とは別の明示承認がある場合だけ実行する。
+ユーザーの明示的な production D1 操作承認後に、`0008_create_schema_aliases.sql` の production state を確認する。2026-05-02 の実行では `schema_aliases` が既に存在し、`d1_migrations` ledger が `0008_create_schema_aliases.sql` の適用履歴を示したため、duplicate apply を実行せず shape verification で完了した。
 
-## 実行タスク
+## 承認ゲート
 
-- Gate-A / Gate-B / Gate-C1 / Gate-C2 を直列に通し、承認前に production write / push / PR を実行しない。
-- Phase 13 必須成果物 4 点を作成し、local checks / change summary / PR creation log を分離する。
-- production apply evidence と repo publishing evidence を別ファイルで記録する。
-
-## 承認ゲート（三段）
-
-| ゲート | 内容 | 通過条件 |
+| ゲート | 内容 | 結果 |
 | --- | --- | --- |
-| Gate-A: Design GO | Phase 1-10 完了 | Phase 10 のチェックリスト全 PASS |
-| Gate-B: User approval | production apply 実行可否 | ユーザーから「production D1 apply を実行してよい」旨のテキスト承認を `outputs/phase-13/user-approval.md` に記録 |
-| Gate-C1: SSOT update draft | apply 後の文書更新 | apply 完了 + 全 evidence 取得 + SSOT applied marker の差分作成 |
-| Gate-C2: Push & PR | git push / PR 作成 | Gate-C1 完了 + ユーザーから push / PR 作成の別承認 |
+| Gate-A: Design GO | Phase 1-12 の operation spec が揃う | PASS |
+| Gate-B: User approval | production D1 state 確認の明示承認 | PASS (`outputs/phase-13/user-approval.md`) |
+| Gate-C1: Already-applied verification | ledger / PRAGMA evidence による shape verification | PASS |
+| Gate-C2: Commit / push / PR | 別承認が必要 | Not executed in this task |
 
-**Gate-A → Gate-B → Gate-C1 → Gate-C2 の順序を厳守する**。
+## Runtime Evidence
 
-## 実行手順
+| Evidence | Status |
+| --- | --- |
+| `outputs/phase-13/user-approval.md` | recorded |
+| `outputs/phase-13/migrations-list-before.txt` | captured |
+| `outputs/phase-13/tables-before.txt` | captured |
+| `outputs/phase-13/d1-migrations-table.txt` | captured |
+| `outputs/phase-13/pragma-table-info.txt` | captured |
+| `outputs/phase-13/pragma-index-list.txt` | captured |
+| `outputs/phase-13/migrations-list-after.txt` | captured |
+| `outputs/phase-13/migrations-apply.log` | intentionally absent; duplicate apply skipped |
 
-### Step 1: 承認取得
+## Required Shape
 
-```text
-outputs/phase-13/user-approval.md に以下を記録:
-- 承認者
-- 承認テキスト（原文）
-- 承認日時 (ISO 8601)
-- 対象 database / environment
-```
-
-### Step 2: 認証確認
-
-`whoami` は Cloudflare state を変更しない read-only/auth preflight だが、本 workflow では Gate-B の後に実行して Runtime GO 条件を単純化する。
-
-```bash
-bash scripts/cf.sh whoami
-# 失敗時は E-1 へ
-```
-
-### Step 3: apply 前 evidence 取得
-
-```bash
-bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production \
-  | tee outputs/phase-13/migrations-list-before.txt
-bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production \
-  --command "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" \
-  | tee outputs/phase-13/tables-before.txt
-```
-
-判定:
-
-- `0008_create_schema_aliases.sql` が unapplied であること（applied なら E-2）。
-- unapplied migration が `0008_create_schema_aliases.sql` だけであること。`0008_schema_alias_hardening.sql` や `0009_*` など target 以外の pending migration があれば E-9 として NO-GO。
-- `tables-before.txt` に `schema_aliases` が含まれないこと。
-
-### Step 4: apply 実行
-
-```bash
-bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production \
-  2>&1 | tee outputs/phase-13/migrations-apply.log
-```
-
-非ゼロ exit の場合は E-3 / rollback DDL を参照。
-
-### Step 5: apply 後 evidence 取得
-
-```bash
-bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production \
-  --command "PRAGMA table_info(schema_aliases);" \
-  | tee outputs/phase-13/pragma-table-info.txt
-bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production \
-  --command "PRAGMA index_list(schema_aliases);" \
-  | tee outputs/phase-13/pragma-index-list.txt
-bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production \
-  | tee outputs/phase-13/migrations-list-after.txt
-```
-
-判定:
-
-- `pragma-table-info.txt` に必須 9 column が揃う（E-4）。
-- `pragma-index-list.txt` に必須 3 index が揃う（E-5）。
-- `migrations-list-after.txt` で `0008_create_schema_aliases.sql` が applied（E-6）。
-- before / after の migration 差分が target 1件のみであること。
-
-### Step 6: SSOT 更新ドラフト
-
-`outputs/phase-12/system-spec-update-summary.md` のドラフトに基づき以下を更新する:
-
-- `.claude/skills/aiworkflow-requirements/references/database-schema.md`
-- `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`
-- `docs/30-workflows/task-issue-191-production-d1-schema-aliases-apply-001/index.md`（workflow_state を `completed` へ）
-- `docs/30-workflows/task-issue-191-production-d1-schema-aliases-apply-001/artifacts.json`（Phase 13 status `completed`）
-
-コミットは Gate-C2 の push / PR 承認と同じ公開単位で実行する。承認前は差分作成と evidence 提示までに留める。
-
-コミット粒度（推奨 5 単位）:
-
-1. evidence ファイル群 (`outputs/phase-13/*`)
-2. database-schema.md 更新
-3. task-workflow-active.md 更新
-4. workflow root index.md / artifacts.json 更新
-5. Phase 12 outputs 確定（implementation-guide / documentation-changelog ほか）
-
-### Step 7: push & PR 作成
-
-Gate-C2 は production apply 完了後の別承認として扱う。ユーザーが push / PR 作成を明示承認するまでは、`outputs/phase-13/change-summary.md` までを提示して停止する。
-
-```bash
-git push -u origin docs/issue-359-production-d1-schema-aliases-apply-task-spec
-gh pr create --title "docs: issue-359 production D1 schema_aliases apply task spec + apply" \
-  --body-file outputs/phase-13/pr-body.md
-```
-
-PR body には以下を含める:
-
-- 適用対象 / environment / 承認テキスト
-- 適用前後 evidence 一覧と要約
-- `Refs #359`（`Closes` は使用しない。Issue は closed のまま扱う）
-
-## ロールバック
-
-apply に失敗し runtime PASS が得られなかった場合は phase-06 の rollback DDL を提示し、破壊的操作は追加の明示承認があるまで実行しない。PR は作成せずユーザーへエスカレーションする。
-
-## 参照資料
-
-| 種別 | パス | 用途 |
+| Object | Expected | Result |
 | --- | --- | --- |
-| approval-gated pattern | `.claude/skills/task-specification-creator/references/phase-template-phase13.md` | 必須成果物 / 三役ゲート |
-| exception design | `phase-06.md` | failure / rollback boundary |
-| change draft | `outputs/phase-13/change-summary.md` | push / PR 前の提示資料 |
+| Table | `schema_aliases` exists | PASS |
+| Columns | `id`, `revision_id`, `stable_key`, `alias_question_id`, `alias_label`, `source`, `created_at`, `resolved_by`, `resolved_at` | PASS |
+| Indexes | `idx_schema_aliases_stable_key`, `idx_schema_aliases_revision_stablekey_unique`, `idx_schema_aliases_revision_question_unique` | PASS |
+| Ledger | `0008_create_schema_aliases.sql` applied | PASS |
 
-## 成果物
+## Scope Boundary
 
-| 成果物 | パス | 説明 |
-| --- | --- | --- |
-| local checks | `outputs/phase-13/local-check-result.md` | Phase 13 着手前 / 適用後の local verification |
-| change summary | `outputs/phase-13/change-summary.md` | ユーザー提示用変更要約 |
-| PR info | `outputs/phase-13/pr-info.md` | PR 作成後の URL / CI |
-| PR creation log | `outputs/phase-13/pr-creation-result.md` | push / PR 作成実行ログ |
-| runtime evidence | `outputs/phase-13/user-approval.md`, `outputs/phase-13/migrations-*.txt`, `outputs/phase-13/pragma-*.txt` | production D1 apply evidence |
-
-## 統合テスト連携
-
-| 連携先 | 確認内容 | evidence |
-| --- | --- | --- |
-| Phase 12 | SSOT update draft を applied marker へ反映 | `outputs/phase-12/system-spec-update-summary.md` |
-| GitHub PR | `Refs #359`、`Closes` 禁止、CI 結果記録 | `outputs/phase-13/pr-info.md` |
+This Phase 13 does not include fallback retirement (#299), direct update guard (#300), code deploy, push, PR creation, or rollback DDL. Those require separate task execution and explicit user approval where applicable.
 
 ## 完了条件
 
-- [ ] Gate-A / Gate-B / Gate-C1 / Gate-C2 を順序通り通過、または Gate-C2 承認待ちとして停止
-- [ ] EV-13-1〜EV-13-7 が揃う
-- [ ] SSOT 3 ファイルが更新されコミット済み
-- [ ] PR が作成され `Refs #359` を含む
-- [ ] 本Phase内の全タスクを100%実行完了
+- [x] user approval evidence is recorded
+- [x] already-applied path is documented
+- [x] duplicate apply was not executed
+- [x] Required Shape is verified by PRAGMA evidence
+- [x] SSOT production applied marker is synchronized
 
-## 注意事項
+## 実行タスク
 
-- ユーザー承認なしに Step 2 以降を実行しない。
-- 承認は本 phase の作業セッションごとに取得する（過去の承認を流用しない）。
-- 失敗時の `--no-verify` 使用は禁止（CLAUDE.md ポリシー）。
+- Record user approval for production D1 remote reads in `outputs/phase-13/user-approval.md`.
+- Capture migration inventory and table inventory before any write command.
+- If `schema_aliases` already exists and `d1_migrations` records `0008_create_schema_aliases.sql`, skip duplicate apply and execute PRAGMA shape verification.
+- Update SSOT only after ledger and PRAGMA evidence match the Required Shape.
+
+## 参照資料
+
+- `outputs/phase-12/implementation-guide.md`
+- `outputs/phase-13/d1-migrations-table.txt`
+- `outputs/phase-13/pragma-table-info.txt`
+- `outputs/phase-13/pragma-index-list.txt`
+- `.claude/skills/aiworkflow-requirements/references/database-schema.md`
+
+## 統合テスト連携
+
+- No UI or application test suite is required for the already-applied production verification path.
+- Runtime verification is the remote D1 ledger plus PRAGMA shape evidence.
+- Follow-on code behavior remains owned by #299 fallback retirement and #300 direct stable-key update guard.
+
+## 成果物/実行手順
+
+- `migrations-apply.log` is intentionally absent because the apply command did not run.
+- `d1-migrations-table.txt` is the ledger substitute for the already-applied path.
+- Commit, push, PR, rollback DDL, and code deploy remain outside this Phase 13 execution.

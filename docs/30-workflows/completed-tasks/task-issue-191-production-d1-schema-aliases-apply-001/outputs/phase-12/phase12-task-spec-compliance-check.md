@@ -2,7 +2,7 @@
 
 ## Verdict
 
-PASS_WITH_RUNTIME_BLOCKED: specification outputs are present, same-wave SSOT sync is recorded, source unassigned close-out is complete, and production apply remains blocked until explicit user approval in Phase 13.
+PASS: Phase 12 strict files are present, root / outputs artifacts are synchronized, and Phase 13 runtime evidence confirms the production D1 already-applied verification path.
 
 ## Required Files
 
@@ -16,10 +16,6 @@ PASS_WITH_RUNTIME_BLOCKED: specification outputs are present, same-wave SSOT syn
 | `skill-feedback-report.md` | PASS |
 | `phase12-task-spec-compliance-check.md` | PASS |
 
-## Artifacts Parity
-
-Root `artifacts.json` and `outputs/artifacts.json` are present and synchronized for the current `spec_created / blocked_until_user_approval` state.
-
 ## Mechanical Checks
 
 | Check | Result |
@@ -27,9 +23,10 @@ Root `artifacts.json` and `outputs/artifacts.json` are present and synchronized 
 | Phase 1-13 root + `outputs/phase-XX/main.md` presence | PASS |
 | Phase 12 strict 7 files | PASS |
 | root / outputs `artifacts.json` byte parity | PASS |
-| source unassigned transferred | PASS |
 | `--config apps/api/wrangler.toml` present in Phase 13 D1 commands | PASS |
 | target-only pending migration NO-GO documented | PASS |
+| duplicate apply skipped when `schema_aliases` already exists and ledger confirms migration | PASS |
+| unassigned-task 9-section structure (1-7 + 8 参照情報 + 9 備考 + 苦戦箇所【記入必須】 + スコープ) for every detected unassigned task | PASS |
 
 ## Four Conditions
 
@@ -38,8 +35,8 @@ Root `artifacts.json` and `outputs/artifacts.json` are present and synchronized 
 | No contradiction | PASS |
 | No missing required spec output | PASS |
 | Consistent naming | PASS |
-| Dependency alignment | PASS_WITH_RUNTIME_BLOCKED |
+| Dependency alignment | PASS |
 
 ## Runtime Boundary
 
-The PASS does not mean production D1 apply has run. Runtime PASS requires Phase 13 `user-approval.md`, pre/post migration inventory, apply log, PRAGMA evidence, SSOT applied-marker update, and separate push/PR approval.
+Runtime PASS does not mean a duplicate production D1 apply command ran. It means Phase 13 recorded user approval, remote migration inventory, `d1_migrations` ledger evidence, PRAGMA evidence, and SSOT applied-marker update. `migrations-apply.log` is intentionally absent because duplicate apply was skipped by the already-applied path.

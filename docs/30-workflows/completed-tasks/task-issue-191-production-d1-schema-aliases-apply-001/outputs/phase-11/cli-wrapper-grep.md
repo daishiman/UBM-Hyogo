@@ -14,7 +14,7 @@ $ rg -n "wrangler d1 migrations apply" scripts/ apps/ packages/
 ```
 → ✅ 実行系コードに 0 件
 
-`docs/30-workflows/task-issue-191-production-d1-schema-aliases-apply-001/` 内 hit はすべて以下のいずれかで、actual invocation ではない:
+`docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/` 内 hit はすべて以下のいずれかで、actual invocation ではない:
 - 検査コマンドそのものを記述する static-check 仕様（`phase-04.md`, `phase-09.md`, `phase-11.md`, `outputs/phase-11/static-checks.md`）
 - 本ファイル（cli-wrapper-grep.md）
 

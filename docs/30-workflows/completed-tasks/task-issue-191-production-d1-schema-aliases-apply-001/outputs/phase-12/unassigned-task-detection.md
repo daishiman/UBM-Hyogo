@@ -4,17 +4,21 @@
 
 | Source | Decision | Evidence |
 | --- | --- | --- |
-| `docs/30-workflows/unassigned-task/task-issue-191-production-d1-schema-aliases-apply-001.md` | transferred_to_workflow | canonical root `docs/30-workflows/task-issue-191-production-d1-schema-aliases-apply-001/` |
+| `docs/30-workflows/unassigned-task/task-issue-191-production-d1-schema-aliases-apply-001.md` | transferred_to_workflow_removed_after_transfer | source marker file no longer exists; canonical root is `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/` |
+| `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` | remains_unassigned_prerequisite_satisfied | production D1 Required Shape verified |
+| `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` | remains_unassigned_prerequisite_satisfied | production D1 Required Shape verified |
+| `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` | created_after_phase13_review | audits the prior operation that applied `0008_schema_alias_hardening.sql` and `0008_create_schema_aliases.sql` before this workflow's Phase 13 |
 
 ## Candidate Classification
 
 | Candidate | Status | Reason |
 | --- | --- | --- |
-| Production apply for `0008_schema_alias_hardening.sql` | baseline_existing | Already tracked by UT-07B schema alias hardening / staging evidence boundary. This task only handles `0008_create_schema_aliases.sql`. |
-| Worker bundle production deploy | baseline_existing | Existing 09c production deploy / post-release verification family owns deploy and smoke. Code deploy is explicitly excluded here. |
-| Production D1 backup runbook | not_formalized_by_design | Helpful future operations work, but not required for this CREATE-only migration because Phase 13 is approval-gated, preflight blocks non-target pending migrations, and rollback remains separate approval. |
-| Target-other-pending migration guard | resolved_in_wave | Added as E-9 / P-1 NO-GO instead of creating a new task. |
+| Fallback retirement (#299) | existing_unassigned | Requires coverage/log audit and code changes outside this production verification |
+| Direct update guard (#300) | existing_unassigned | Requires lint/CI implementation outside this production verification |
+| Production apply for `0008_schema_alias_hardening.sql` | provenance_audit_folded_into_issue359_audit | Ledger shows it was also applied before this workflow; provenance is audited with the create migration |
+| Worker bundle production deploy | baseline_existing | Existing 09c production deploy / post-release verification family owns deploy and smoke |
+| Prior apply attribution audit | new_unassigned | Requires external approval / operation provenance research independent of Required Shape verification |
 
 ## Decision
 
-No new unassigned task is created in this wave. Each candidate is either assigned to an existing baseline owner, resolved directly in the workflow, or intentionally not formalized because it would broaden the production operation scope.
+This wave completes only Issue #359 production D1 already-applied verification. #299/#300 remain separate executable tasks, and the audit task is limited to provenance research for the 2026-05-01 prior applies.
