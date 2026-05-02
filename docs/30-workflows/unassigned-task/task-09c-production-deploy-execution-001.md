@@ -17,10 +17,11 @@ issue_number: 353
 | 対象機能 | Production deploy / Cloudflare Workers / D1 |
 | 優先度 | 高 |
 | 見積もり規模 | 大規模 |
-| ステータス | 未実施 |
+| ステータス | formalized（canonical workflow 作成済 / production execution 未実施） |
 | 発見元 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-01 |
 | 親タスク | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification` |
+| Canonical workflow | `docs/30-workflows/09c-production-deploy-execution-001/` |
 | taskType | implementation |
 | visualEvidence | VISUAL |
 
