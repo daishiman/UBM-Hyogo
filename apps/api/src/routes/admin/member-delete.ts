@@ -1,19 +1,17 @@
 // 04c: POST /admin/members/:memberId/delete, POST /admin/members/:memberId/restore
 import { Hono } from "hono";
 import { z } from "zod";
-import { requireAdmin } from "../../middleware/require-admin";
+import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
-import { asMemberId, asAdminId, auditAction } from "../../repository/_shared/brand";
+import { asMemberId, asAdminId, adminEmail, auditAction } from "../../repository/_shared/brand";
 import { getStatus, setDeleted } from "../../repository/status";
 import { append as auditAppend } from "../../repository/auditLog";
 import { memberExists, type AdminRouteEnv } from "./_shared";
 
 const DeleteBodyZ = z.object({ reason: z.string().min(1) });
 
-const SYSTEM_ADMIN = asAdminId("system");
-
 export const createAdminMemberDeleteRoute = () => {
-  const app = new Hono<{ Bindings: AdminRouteEnv }>();
+  const app = new Hono<{ Bindings: AdminRouteEnv; Variables: RequireAuthVariables }>();
   app.use("*", requireAdmin);
 
   app.post("/members/:memberId/delete", async (c) => {
@@ -35,11 +33,15 @@ export const createAdminMemberDeleteRoute = () => {
       return c.json({ ok: false, error: "member not found" }, 404);
     }
     const before = await getStatus(db, mid);
-    await setDeleted(db, mid, SYSTEM_ADMIN, parsed.data.reason);
+    if (before?.is_deleted === 1) {
+      return c.json({ ok: false, error: "member_already_deleted" }, 409);
+    }
+    const authUser = c.get("authUser");
+    await setDeleted(db, mid, asAdminId(authUser.memberId), parsed.data.reason);
     const after = await getStatus(db, mid);
     await auditAppend(db, {
-      actorId: null,
-      actorEmail: null,
+      actorId: asAdminId(authUser.memberId),
+      actorEmail: adminEmail(authUser.email),
       action: auditAction("admin.member.deleted"),
       targetType: "member",
       targetId: memberId,
@@ -59,12 +61,16 @@ export const createAdminMemberDeleteRoute = () => {
     }
     const before = await getStatus(db, mid);
     if (!before) return c.json({ ok: false, error: "not found" }, 404);
+    if (before.is_deleted !== 1) {
+      return c.json({ ok: false, error: "member_not_deleted" }, 409);
+    }
+    const authUser = c.get("authUser");
 
     await db.db
       .prepare(
-        `UPDATE member_status SET is_deleted = 0, updated_at = datetime('now') WHERE member_id = ?1`,
+        `UPDATE member_status SET is_deleted = 0, updated_by = ?2, updated_at = datetime('now') WHERE member_id = ?1`,
       )
-      .bind(mid)
+      .bind(mid, asAdminId(authUser.memberId))
       .run();
     await db.db
       .prepare("DELETE FROM deleted_members WHERE member_id = ?1")
@@ -73,8 +79,8 @@ export const createAdminMemberDeleteRoute = () => {
 
     const after = await getStatus(db, mid);
     await auditAppend(db, {
-      actorId: null,
-      actorEmail: null,
+      actorId: asAdminId(authUser.memberId),
+      actorEmail: adminEmail(authUser.email),
       action: auditAction("admin.member.restored"),
       targetType: "member",
       targetId: memberId,

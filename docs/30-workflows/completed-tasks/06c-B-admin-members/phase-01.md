@@ -14,7 +14,7 @@
 
 ## 目的
 
-`/admin/members` 一覧と `/admin/members/[id]` 詳細の真の未完了境界を確定する。検索/フィルタ・論理削除/復元・ロール変更・audit 表示を `11-admin-management.md` / `07-edit-delete.md` / `12-search-tags.md` に整合させるため、scope と AC、依存・evidence path を明確化する。
+`/admin/members` 一覧と右ドロワー詳細の真の未完了境界を確定する。検索/フィルタ・論理削除/復元・audit 表示を `11-admin-management.md` / `07-edit-delete.md` / `12-search-tags.md` に整合させるため、scope と AC、依存・evidence path を明確化する。
 
 ## 実行タスク
 
@@ -30,14 +30,14 @@
 - docs/00-getting-started-manual/specs/06-member-auth.md
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
-- apps/web/app/admin/members/page.tsx
-- apps/web/app/admin/members/[id]/page.tsx
-- apps/api/src/routes/admin/members/index.ts
+- apps/web/app/(admin)/admin/members/page.tsx
+- apps/web `MembersClient` / `MemberDrawer`
+- apps/api/src/routes/admin/members.ts
 - apps/api/src/middleware/require-admin.ts
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-B-admin-members/
+- 対象 directory: docs/30-workflows/completed-tasks/06c-B-admin-members/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -57,10 +57,10 @@
 
 ## サブタスク管理
 
-- [ ] refs を確認する
-- [ ] AC と evidence path を対応付ける
-- [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-01/main.md を作成する
+- [x] refs を確認する
+- [x] AC と evidence path を対応付ける
+- [x] blocker / approval gate を明記する
+- [x] outputs/phase-01/main.md を作成する
 
 ## 成果物
 
@@ -68,17 +68,17 @@
 
 ## 完了条件
 
-- 検索 query (`q` / `zone` / `status` / `tag` / `sort`) の契約が `12-search-tags.md` に整合する。
-- soft-delete / restore が `07-edit-delete.md` の論理削除ポリシーに従う。
-- admin 以外で 403、未ログインで 401 を返す。
-- audit log に操作主体・対象 memberId・操作種別・timestamp が記録される。
-- production secret 値が仕様書中に登場しない。
+- [x] 検索 query (`q` / `zone` / `status` / `tag` / `sort`) の契約が `12-search-tags.md` に整合する。
+- [x] delete / restore が `07-edit-delete.md` の論理削除ポリシーに従う。
+- [x] admin 以外で 403、未ログインで 401 を返す。
+- [x] audit log に操作主体・対象 memberId・操作種別・timestamp が記録される。
+- [x] production secret 値が仕様書中に登場しない。
 
 ## タスク100%実行確認
 
-- [ ] この Phase の必須セクションがすべて埋まっている
-- [ ] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
-- [ ] 実装、deploy、commit、push、PR を実行していない
+- [x] この Phase の必須セクションがすべて埋まっている
+- [x] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
+- [x] 実装、deploy、commit、push、PR を実行していない
 
 ## 次 Phase への引き渡し
 

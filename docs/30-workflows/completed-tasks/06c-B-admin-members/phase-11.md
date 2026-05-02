@@ -16,31 +16,38 @@
 
 実装後の手動 smoke と evidence 取得手順を定義する（実測そのものは本仕様書作成では行わない）。
 
+## 実行タスク
+
+1. seeded/sanitized fixture だけを使う visual smoke と API smoke の evidence placeholder を確定する。
+2. 実装完了後に置換する実測 evidence の取得手順を定義する。
+3. 本仕様書作成時点では実測しない境界を明記する。
+
 ## manual evidence（取得対象 placeholder）
 
 | 種別 | path（placeholder） |
 | --- | --- |
 | screenshot 一覧 | outputs/phase-11/screenshots/admin-members-list.png |
 | screenshot 詳細 | outputs/phase-11/screenshots/admin-members-detail.png |
-| screenshot soft-delete confirm | outputs/phase-11/screenshots/admin-members-soft-delete.png |
+| screenshot delete confirm | outputs/phase-11/screenshots/admin-members-delete.png |
 | curl GET list | outputs/phase-11/curl/admin-members-list.txt |
 | curl GET detail | outputs/phase-11/curl/admin-members-detail.txt |
-| curl POST soft-delete | outputs/phase-11/curl/admin-members-soft-delete.txt |
+| curl POST delete | outputs/phase-11/curl/admin-members-delete.txt |
 | curl POST restore | outputs/phase-11/curl/admin-members-restore.txt |
-| curl POST role | outputs/phase-11/curl/admin-members-role.txt |
 | wrangler tail（admin handler ログ） | outputs/phase-11/wrangler-tail.txt |
-| audit_logs SELECT | outputs/phase-11/d1/audit-logs.txt |
+| audit_log SELECT | outputs/phase-11/d1/audit-log.txt |
+| redaction checklist | outputs/phase-11/redaction-checklist.md |
 
 ## smoke 手順 placeholder
 
 1. staging に admin role の test user で login し、`/admin/members` に到達する。
-2. 検索 q/zone/status/tag を組合せて結果が変わることを確認、screenshot 取得。
+2. 検索 filter/q/zone/repeated tag/sort/density を組合せて結果が変わることを確認、screenshot 取得。
 3. 詳細画面を開き、audit log が表示されることを確認。
-4. soft-delete 実行し、list で `status=deleted` filter 時のみ表示されることを確認。
+4. delete 実行し、list で `filter=deleted` 時のみ表示されることを確認。
 5. restore 実行し、通常 list に戻ることを確認。
-6. role 変更を実行し、audit_logs に記録されることを D1 SELECT で確認。
-7. member ロールでアクセス → 403 を確認。
-8. 未ログインアクセス → 401 / login redirect を確認。
+6. audit_log に delete / restore が記録されることを D1 SELECT で確認。
+7. role 変更 UI/API が存在しないことを確認。
+8. member ロールでアクセス → 403 を確認。
+9. 未ログインアクセス → 401 / login redirect を確認。
 
 > **注意**: 本仕様書作成タスクではこれらを実測しない。実測は実装担当者が Phase 5 完了後に行う。
 
@@ -51,7 +58,7 @@
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-B-admin-members/
+- 対象 directory: docs/30-workflows/completed-tasks/06c-B-admin-members/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -62,15 +69,16 @@
 
 ## 多角的チェック観点
 
-- screenshot に PII（実会員 name / email）が映り込まない
+- screenshot は seeded/sanitized fixture のみを使い、実会員 name / email が映り込まない
 - curl 出力に Authorization header の値を残さない
+- D1 SELECT は actor/target/action/timestamp のみを残し、before/after JSON や email を出力しない
 - evidence は staging 環境のものを使用し production を触らない
 
 ## サブタスク管理
 
-- [ ] evidence path placeholder を確定する
-- [ ] smoke 手順を確定する
-- [ ] outputs/phase-11/main.md を作成する
+- [x] evidence path placeholder を確定する
+- [x] smoke 手順を確定する
+- [x] outputs/phase-11/main.md を作成する
 
 ## 成果物
 
@@ -78,14 +86,14 @@
 
 ## 完了条件
 
-- evidence path placeholder が全件決まっている
-- smoke 手順が再現可能
+- [x] evidence path placeholder が全件決まっている
+- [x] smoke 手順が再現可能
 
 ## タスク100%実行確認
 
-- [ ] この Phase の必須セクションがすべて埋まっている
-- [ ] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
-- [ ] 実装、deploy、commit、push、PR を実行していない
+- [x] この Phase の必須セクションがすべて埋まっている
+- [x] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
+- [x] 実装、deploy、commit、push、PR を実行していない
 
 ## 次 Phase への引き渡し
 

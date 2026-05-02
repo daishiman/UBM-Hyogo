@@ -16,31 +16,31 @@
 
 実装フェーズで使う runbook（順序・placeholder・sanity check）を定義する。
 
-## runbook
+## 実行タスク
 
-1. apps/api 側に admin members の 5 endpoint を追加し、`require-admin` で wrap する。
-2. query builder（q/zone/status/tag/sort/page）を追加し、unit テストで合格させる。
-3. soft-delete / restore handler を `07-edit-delete.md` に従い実装し、audit_logs を書く。
-4. role 変更 handler に admin role 確認と audit 書込みを実装する。
+1. apps/api 側に admin members の 4 endpoint を追加し、apps/web middleware と `require-admin` の二段防御で guard する。
+2. query builder（filter/q/zone/repeated tag/sort/density/page）を追加し、unit テストで合格させる。
+3. delete / restore handler を `07-edit-delete.md` に従い実装し、audit_log を書く。
+4. role 変更 UI/API を作らない。
 5. apps/web `/admin/members` 一覧 SSR を fetch + cookie forwarding で実装する。
-6. apps/web `/admin/members/[id]` 詳細を実装し、action 用 form を server action または fetch + revalidate で接続する。
+6. apps/web `MemberDrawer` 詳細を拡張し、action control を fetch + revalidate で接続する。
 7. authorization unit / contract / authz suite が green になることを確認する。
 8. `mise exec -- pnpm typecheck && mise exec -- pnpm lint` を実行する（実装フェーズで）。
 
 ## 擬似コード（参考のみ）
 
 ```ts
-// apps/api/src/routes/admin/members/index.ts
+// apps/api/src/routes/admin/members.ts
 admin.get("/", requireAdmin, async (c) => {
   const params = parseSearch(c.req.query());
   const result = await listMembers(c.env.DB, params);
   return c.json(result);
 });
 
-admin.post("/:id/soft-delete", requireAdmin, async (c) => {
+admin.post("/:id/delete", requireAdmin, async (c) => {
   const id = c.req.param("id");
   const r = await softDelete(c.env.DB, id);
-  await writeAudit(c.env.DB, { actor, target: id, action: "soft-delete" });
+  await writeAudit(c.env.DB, { actor, target: id, action: "delete" });
   return c.json(r);
 });
 ```
@@ -48,21 +48,23 @@ admin.post("/:id/soft-delete", requireAdmin, async (c) => {
 ## sanity check
 
 - 401 / 403 が想定通りに返る
-- soft-delete 後に list で `status=deleted` filter を付けないと表示されない
+- delete 後に list で `filter=deleted` を付けないと表示されない
 - restore 後は通常 list に戻る
-- audit_logs に actor / target / action / timestamp が揃う
+- audit_log に actor / target / action / timestamp が揃う
 
 ## 参照資料
 
 - docs/00-getting-started-manual/specs/11-admin-management.md
 - docs/00-getting-started-manual/specs/07-edit-delete.md
 - docs/00-getting-started-manual/specs/12-search-tags.md
-- apps/api/src/routes/admin/members/index.ts
+- apps/api/src/routes/admin/members.ts
+- apps/api/src/routes/admin/member-delete.ts
+- apps/api/src/routes/admin/member-status.ts
 - apps/api/src/middleware/require-admin.ts
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-B-admin-members/
+- 対象 directory: docs/30-workflows/completed-tasks/06c-B-admin-members/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -79,9 +81,9 @@ admin.post("/:id/soft-delete", requireAdmin, async (c) => {
 
 ## サブタスク管理
 
-- [ ] runbook を確定する
-- [ ] sanity check 項目を確定する
-- [ ] outputs/phase-05/main.md を作成する
+- [x] runbook を確定する
+- [x] sanity check 項目を確定する
+- [x] outputs/phase-05/main.md を作成する
 
 ## 成果物
 
@@ -89,14 +91,14 @@ admin.post("/:id/soft-delete", requireAdmin, async (c) => {
 
 ## 完了条件
 
-- 実装担当が手順を見て独立に進められる
-- placeholder / 擬似コードが正本仕様に整合する
+- [x] 実装担当が手順を見て独立に進められる
+- [x] placeholder / 擬似コードが正本仕様に整合する
 
 ## タスク100%実行確認
 
-- [ ] この Phase の必須セクションがすべて埋まっている
-- [ ] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
-- [ ] 実装、deploy、commit、push、PR を実行していない
+- [x] この Phase の必須セクションがすべて埋まっている
+- [x] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
+- [x] 実装、deploy、commit、push、PR を実行していない
 
 ## 次 Phase への引き渡し
 

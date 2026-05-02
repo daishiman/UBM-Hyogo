@@ -21,9 +21,9 @@ unit / contract / E2E / authorization の 4 層で admin members のテスト責
 | 層 | 対象 | 例 |
 | --- | --- | --- |
 | unit | query builder（q/zone/status/tag/sort）, audit logger | 検索パラメータが SQL 句に正しく変換される |
-| contract | apps/api の 5 endpoint の I/O | `GET /api/admin/members?q=foo` の response shape |
+| contract | apps/api の 4 endpoint の I/O | `GET /api/admin/members?filter=published&q=foo&tag=a&tag=b&density=dense` の response shape |
 | authorization | require-admin middleware | guest=401 / member=403 / admin=200 |
-| E2E | apps/web 一覧→詳細→soft-delete→restore→role 変更 | Playwright（08b で実行） |
+| E2E | apps/web 一覧→詳細→delete→restore | Playwright（08b で実行、seeded/sanitized fixture 前提） |
 
 ## 実行タスク
 
@@ -35,12 +35,12 @@ unit / contract / E2E / authorization の 4 層で admin members のテスト責
 
 - docs/00-getting-started-manual/specs/12-search-tags.md
 - docs/00-getting-started-manual/specs/07-edit-delete.md
-- apps/api/src/routes/admin/members/index.ts
+- apps/api/src/routes/admin/members.ts
 - apps/api/src/middleware/require-admin.ts
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-B-admin-members/
+- 対象 directory: docs/30-workflows/completed-tasks/06c-B-admin-members/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -53,14 +53,14 @@ unit / contract / E2E / authorization の 4 層で admin members のテスト責
 
 - #4 / #5 / #11 / #13 への適合をテストで担保する
 - 401 / 403 / 404 / 422 の境界条件を網羅する
-- audit_logs に書かれることを contract test で検証する
+- audit_log に書かれることを contract test で検証する
 
 ## サブタスク管理
 
-- [ ] unit suite を定義する
-- [ ] contract suite を定義する
-- [ ] authorization suite を定義する
-- [ ] outputs/phase-04/main.md を作成する
+- [x] unit suite を定義する
+- [x] contract suite を定義する
+- [x] authorization suite を定義する
+- [x] outputs/phase-04/main.md を作成する
 
 ## 成果物
 
@@ -68,15 +68,15 @@ unit / contract / E2E / authorization の 4 層で admin members のテスト責
 
 ## 完了条件
 
-- 4 層のテスト責務が分離されている
-- 検索パラメータ組み合わせが網羅されている
-- audit 書込みが検証対象に含まれている
+- [x] 4 層のテスト責務が分離されている
+- [x] 検索パラメータ組み合わせが網羅されている
+- [x] audit 書込みが検証対象に含まれている
 
 ## タスク100%実行確認
 
-- [ ] この Phase の必須セクションがすべて埋まっている
-- [ ] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
-- [ ] 実装、deploy、commit、push、PR を実行していない
+- [x] この Phase の必須セクションがすべて埋まっている
+- [x] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
+- [x] 実装、deploy、commit、push、PR を実行していない
 
 ## 次 Phase への引き渡し
 
