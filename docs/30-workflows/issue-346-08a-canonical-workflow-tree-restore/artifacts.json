@@ -1,0 +1,189 @@
+{
+  "task_name": "issue-346-08a-canonical-workflow-tree-restore",
+  "task_path": "docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore",
+  "issue": 346,
+  "parent_task": "09c-serial-production-deploy-and-post-release-verification",
+  "wave": "restore",
+  "execution_mode": "sequential",
+  "depends_on": [],
+  "external_gates": [],
+  "blocks": [
+    "09a-staging-deploy",
+    "09b-observability-and-cd-post-deploy",
+    "09c-serial-production-deploy-and-post-release-verification"
+  ],
+  "created_at": "2026-05-02",
+  "metadata": {
+    "taskType": "docs-only",
+    "docs_only": true,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "gate_status": "phase13_blocked",
+    "scope": "08a_canonical_workflow_tree_state_normalization",
+    "domain": "aiworkflow_requirements_canonical_state",
+    "size": "medium",
+    "priority": "high",
+    "issue_state_at_spec_time": "CLOSED"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/state-decision-algorithm.md",
+        "outputs/phase-02/aiworkflow-requirements-update-plan.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "タスク分解",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md"
+      ],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装計画",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md",
+        "outputs/phase-05/runbook.md"
+      ],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "テスト戦略",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "受入条件マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md"
+      ],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "CI / 品質ゲート",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "セキュリティ / boundary 検証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "ロールアウト / 後続連携",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "evidence 取得",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/evidence/file-existence.log",
+        "outputs/phase-11/evidence/08a-reference-grep.log",
+        "outputs/phase-11/evidence/aiworkflow-requirements-state-diff.log",
+        "outputs/phase-11/evidence/9a-9b-9c-link-check.log",
+        "outputs/phase-11/evidence/unassigned-task-grep.log",
+        "outputs/phase-11/evidence/verify-indexes.log",
+        "outputs/phase-11/evidence/markdown-link-check.log"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "Phase 12 close-out（実装ガイド・仕様同期・未タスク・スキルフィードバック）",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成（承認ゲート）",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "outputs/phase-13/main.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ]
+}
