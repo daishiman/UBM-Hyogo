@@ -386,3 +386,33 @@ architecture-implementation-patterns.md の「E2Eテストパターン（TASK-8C
 | [interfaces-agent-sdk-skill.md](./interfaces-agent-sdk-skill.md)                    | ScannedSkillMetadata型定義       |
 | [directory-structure.md](./directory-structure.md)                                  | プロジェクトディレクトリ構造     |
 | [TASK-8C-B実装ガイド](../../../docs/30-workflows/TASK-8C-B/outputs/phase-12/implementation-guide.md) | スキル選択E2Eテスト実装ガイド |
+
+---
+
+## UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.test.ts`）
+
+apps/web の React ツリー / route handler / 設定ファイルに対して、ランタイム挙動ではなく **ソース構造そのもの** を Vitest から正規表現スキャンで検証する不変条件群。E2E ではなく "static" な invariants として位置付け、不変条件 #4（profile 本文編集 UI 不在）/ #5（apps/web → D1 直接アクセス禁止）等を構造保証する。
+
+### 共通カタログ
+
+| ID | 不変条件 | 検査対象 | fail 条件 |
+| --- | --- | --- | --- |
+| S-01 | apps/web から D1 直接アクセス禁止（不変条件 #5） | `apps/web/src/**` `apps/web/app/**` | `D1Database` / `env.DB` 等の直接参照を検出したら fail |
+| S-02 | profile 本文編集 mutation 不在 | apps/web 側の admin/me client | `PATCH /me/profile` 等の本文書き換え呼び出しを検出したら fail |
+| S-03 | Auth.js session の必須経路化 | profile / me 経路の Server Component | `auth()` 呼び出し不在もしくは `isLoggedIn` ガード不在で fail |
+| S-04 | profile 本文編集 form/UI 不在（不変条件 #4 の構造保証） | `apps/web/app/profile/**` | `<form>` ないし `<button type="submit">` を検出したら fail |
+
+### S-04 拡張の趣旨（06b-B profile self-service request UI）
+
+06b-B 以降、profile 配下に VisibilityRequest / DeleteRequest のような "申請" UI が同居する。これらは backend に request レコードを作るだけで本文を書き換えないため、本来 S-04 の対象外であるが、誤って `<form onSubmit>` / `<button type="submit">` パターンで実装されると不変条件 #4 を構造的に破壊し得る。よって S-04 は次の二段で fail させる:
+
+1. `apps/web/app/profile/**` 配下で `<form` 要素を検出 → fail
+2. 同配下で `<button[^>]*type=["']submit["']` を検出 → fail
+
+申請 UI は `<button type="button" onClick={...}>` + fetch helper の経路で実装し、submit イベント経由のフォーム送信は **profile 配下では一切許可しない**。これにより本文編集 UI が将来的に意図せず混入する経路を構造で塞ぐ。
+
+### 運用ルール
+
+- S-* はタスク固有 inventory（例: `workflow-task-06b-B-...-artifact-inventory.md`）に閉じず、本カタログを正本とする。新規 ID 追加時は本表に登録 → 各 inventory からは ID 参照だけにする。
+- 検査は Vitest + 正規表現で十分（AST 解析は要求しない）。CI gate に組み込み、fail 時はリンク先 ID と該当ファイルパスをエラーメッセージに含める。
+- 同種の構造保証を admin / api 側に追加する場合も S-NN として連番採番し、対象パスを表に明記する。

@@ -95,6 +95,8 @@ node scripts/list-specs.js --topics
 | 6. 環境変数 | L268 |
 | 7. 不変条件サマリ（admin API client / proxy） | L281 |
 | 8. 関連ドキュメント | L293 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L301 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L318 |
 
 ### references/architecture-auth-security-core.md
 
@@ -105,6 +107,7 @@ node scripts/list-specs.js --topics
 | 認証アーキテクチャ（Supabase + Electron） | L93 |
 | セキュリティアーキテクチャ | L260 |
 | RAGパイプラインアーキテクチャ | L299 |
+| authGateState — 5 状態モデル（auth gate） | L414 |
 
 ### references/architecture-auth-security-details.md
 
@@ -871,12 +874,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L203 |
-| UBM-Hyogo Admin Sync API（03a） | L224 |
-| UBM-Hyogo Member Self-Service API（04b） | L269 |
-| Desktop IPC API サマリー | L288 |
-| 変更履歴 | L319 |
-| 関連ドキュメント | L336 |
+| エンドポイント命名規則 | L204 |
+| UBM-Hyogo Admin Sync API（03a） | L225 |
+| UBM-Hyogo Member Self-Service API（04b） | L270 |
+| Desktop IPC API サマリー | L297 |
+| 変更履歴 | L328 |
+| 関連ドキュメント | L345 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1083,15 +1086,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 全体構成 | L15 |
-| 2. AdminSidebar | L50 |
-| 3. /admin（Dashboard） | L76 |
-| 4. /admin/members | L108 |
-| 5. /admin/tags | L201 |
-| 6. /admin/schema | L256 |
-| 7. /admin/meetings | L310 |
-| 8. 共通の Server/Client 契約 | L379 |
-| 9. 不変条件サマリ（admin UI） | L397 |
+| 1. 全体構成 | L16 |
+| 2. AdminSidebar | L51 |
+| 3. /admin（Dashboard） | L77 |
+| 4. /admin/members | L112 |
+| 5. /admin/tags | L205 |
+| 6. /admin/schema | L260 |
+| 7. /admin/meetings | L314 |
+| 8. 共通の Server/Client 契約 | L383 |
+| 9. 不変条件サマリ（admin UI） | L401 |
 
 ### references/ui-ux-advanced.md
 
@@ -1993,6 +1996,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L30 |
 | Related Resources | L42 |
 
+### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L16 |
+| phase 12 required artifacts | L24 |
+| scope notes | L36 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2342,6 +2355,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L82 |
 | Validation Chain | L86 |
 
+### references/workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Implementation Artifacts | L12 |
+| Deferred Evidence | L27 |
+| Boundary | L36 |
+
 ### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
 
 | セクション | 行 |
@@ -2431,6 +2453,15 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Current Canonical Set | L12 |
 | Open Follow-ups | L25 |
+
+### references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Acceptance Evidence | L15 |
+| Phase 12 Artifacts | L26 |
+| Skill / Spec Sync Targets | L39 |
+| Deferred / Blocked | L50 |
 
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
@@ -2564,6 +2595,15 @@ node scripts/list-specs.js --topics
 | Canonical Artifacts | L13 |
 | Notes | L28 |
 
+### references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflows | L3 |
+| Phase 12 Strict Files | L10 |
+| Gate Boundary | L22 |
+| Same-Wave Sync | L28 |
+
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
 | セクション | 行 |
@@ -2693,7 +2733,8 @@ node scripts/list-specs.js --topics
 | Notification/HistorySearch 実装同期（TASK-UI-01-C-NOTIFICATION-HISTORY-DOMAIN） | L195 |
 | HistorySearch timeline 再設計（TASK-UI-06-HISTORY-SEARCH-VIEW） | L240 |
 | ViewType/ナビ導線 実装同期（TASK-UI-01-D-VIEWTYPE-ROUTING-NAV） | L287 |
-| 続き | L356 |
+| authGateState × UI gating（apps/web 共通） | L356 |
+| 続き | L382 |
 
 ### references/arch-state-management-details.md
 
@@ -3083,6 +3124,7 @@ node scripts/list-specs.js --topics
 | 外部ストレージ取得フォールバックパターン（TASK-FIX-4-2） | L259 |
 | リトライ戦略 | L303 |
 | SkillExecutor リトライ戦略（TASK-SKILL-RETRY-001） | L367 |
+| Self-service クライアント側統一エラー型（SelfRequestError） | L404 |
 
 ### references/error-handling-details.md
 
@@ -3176,12 +3218,12 @@ node scripts/list-specs.js --topics
 | 概要 | L14 |
 | 使い方 | L22 |
 | Current Alias Overrides（個別互換行） | L29 |
-| Family Summary | L64 |
-| Detailed Register | L85 |
-| Section Extract Register (2026-03-17) | L266 |
-| 500-Line Split Register (2026-03-16) | L277 |
-| Fragment Migration Register (2026-04-28) | L299 |
-| Task Root Path Drift Register (2026-04-30 追記) | L326 |
+| Family Summary | L65 |
+| Detailed Register | L86 |
+| Section Extract Register (2026-03-17) | L267 |
+| 500-Line Split Register (2026-03-16) | L278 |
+| Fragment Migration Register (2026-04-28) | L300 |
+| Task Root Path Drift Register (2026-04-30 追記) | L327 |
 
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
@@ -3315,6 +3357,17 @@ node scripts/list-specs.js --topics
 | L-06BA-007: secret 検証ロジックは shared extractor を再利用する | L27 |
 | L-06BA-008: `apps/web` は cookie forwarding 維持・D1 直接アクセス禁止 | L31 |
 
+### references/lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06B-B-001: 重複申請は 409 + `SelfRequestError(code:'duplicate-pending')` で表現する | L10 |
+| L-06B-B-002: VisibilityRequest / DeleteRequest は `authGateState !== 'active'` で disabled | L18 |
+| L-06B-B-003: BFF proxy は `apps/web/app/api/me/[...path]/route.ts` パススルーで memberId を path に出さない | L26 |
+| L-06B-B-004: static-invariants S-04 に `<button type="submit">` 検出を追加して本文編集 UI 不在を構造保証する | L34 |
+| L-06B-B-005: production runtime evidence は 06b-A session resolver evidence 待ちで Phase 11 placeholder を PASS と扱わない | L42 |
+| 関連 artifact / 参照 | L50 |
+
 ### references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md
 
 | セクション | 行 |
@@ -3322,6 +3375,14 @@ node scripts/list-specs.js --topics
 | 対象 | L3 |
 | Lessons | L10 |
 | Follow-up Boundaries | L47 |
+
+### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CA-001: spec_created / docs-only / remaining-only follow-up は contract diff として扱う | L3 |
+| L-06CA-002: 単一 admin dashboard endpoint を維持し split しない | L11 |
+| L-06CA-003: dashboard 表示由来の `dashboard.view` を recent actions / KPI から除外する | L18 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3443,6 +3504,21 @@ node scripts/list-specs.js --topics
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
 | L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
 | L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
+
+### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L12 |
+| 関連 skill feedback | L19 |
+
+### references/lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+| Downstream boundaries | L53 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -3598,6 +3674,17 @@ node scripts/list-specs.js --topics
 | L-CICD-OBS-004: generator が `phase-01.md` を弱く扱う場合は未タスク化する | L15 |
 | L-CICD-OBS-005: skill feedback は Promote / Defer / Reject で閉じる | L19 |
 
+### references/lessons-learned-ut-coverage-2026-05-wave.md
+
+| セクション | 行 |
+|------------|----|
+| L-UTCOV-001: coverage-summary.json 不在時は coverage-guard が空入力で素通りする | L3 |
+| L-UTCOV-002: D1 binding fake は contract 表面（exec/prepare/dump）を最小再現する | L7 |
+| L-UTCOV-003: 2-layer coverage gate は precondition gate と upgrade gate を別タスク化する | L11 |
+| L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
+| L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
+| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
+
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
 | セクション | 行 |
@@ -3684,8 +3771,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L79 |
-| 関連ドキュメント | L84 |
+| 利用順序 | L81 |
+| 関連ドキュメント | L86 |
 
 ### references/llm-embedding.md
 
@@ -4405,6 +4492,7 @@ node scripts/list-specs.js --topics
 | skill-creatorフィクスチャ検証テスト（TASK-8C-G） | L327 |
 | 残課題（未タスク） | L366 |
 | 関連ドキュメント | L377 |
+| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.test.ts`） | L392 |
 
 ### references/quality-requirements-advanced.md
 
@@ -4753,13 +4841,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L89 |
-| フェーズ構造（概要） | L98 |
-| 品質ゲート（概要） | L129 |
-| 出力テンプレート | L140 |
-| 実行時のコマンド・エージェント・スキル | L163 |
-| 昇格パターン集 | L187 |
-| Current Active / Spec Created Tasks | L189 |
+| ドキュメント構成 | L104 |
+| フェーズ構造（概要） | L113 |
+| 品質ゲート（概要） | L144 |
+| 出力テンプレート | L155 |
+| 実行時のコマンド・エージェント・スキル | L178 |
+| 昇格パターン集 | L202 |
+| Current Active / Spec Created Tasks | L204 |
 
 ### references/task-workflow-backlog-part2.md
 

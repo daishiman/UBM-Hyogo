@@ -44,6 +44,11 @@ Phase 1、Phase 2、Phase 3。
 3. Phase 1〜11 では `## 統合テスト連携` を必ず残す。
 4. `完了条件` と `タスク100%実行確認` はチェックリストで書く。
 5. outputs と phase 本文の名称は 1:1 に揃える。
+6. **テストカバレッジ AC は全タスク必須**（詳細は [coverage-standards.md](coverage-standards.md)）。`## 完了条件` には以下のいずれかを必ず含める:
+   - 既定 workspace 閾値: `coverage Statements >=80%, Branches >=80%, Functions >=80%, Lines >=80%（apps/api / apps/web / packages/* 全パッケージ）`
+   - タスク固有で上振れ閾値が設定される場合（例 Issue #320 系）: `coverage Statements >=85%, Branches >=80%, Functions >=85%, Lines >=85%` のようにタスク仕様の数値を明記する。
+   - 検証経路として `bash scripts/coverage-guard.sh` exit 0 を Phase 6 / Phase 9 / Phase 11 の完了条件に必ず記載する。
+   - 例外（pure-docs / migration-only 等で実装テストが発生しないタスク）は index.md メタ情報に「coverage AC 適用外」と理由付きで明記する。
 
 ---
 

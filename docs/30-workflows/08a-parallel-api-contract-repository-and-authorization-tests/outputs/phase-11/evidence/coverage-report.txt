@@ -1,0 +1,442 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260430-161419-wt-6/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+mise WARN  deprecated [idiomatic_version_file_enable_tools]: 
+Idiomatic version files like ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260430-161419-wt-6/.nvmrc are currently enabled by default. However, this will change in mise 2025.10.0 to instead default to disabled.
+
+You can remove this warning by explicitly enabling idiomatic version files for node with:
+
+    mise settings add idiomatic_version_file_enable_tools node
+
+You can disable idiomatic version files with:
+
+    mise settings add idiomatic_version_file_enable_tools "[]"
+
+See https://github.com/jdx/mise/discussions/4345 for more information.
+
+> @ubm-hyogo/api@0.1.0 test:coverage /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260430-161419-wt-6/apps/api
+> vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/api/coverage --coverage.include="apps/api/src/**/*.{ts,tsx}" apps/api
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260430-161419-wt-6
+      Coverage enabled with v8
+
+ ✓ apps/api/src/routes/admin/schema.test.ts (8 tests) 10222ms
+   ✓ admin schema route > authz: GET diff 401 2469ms
+   ✓ admin schema route > GET diff: 200 + items 配列 705ms
+   ✓ admin schema route > POST aliases: body 不正で 400 628ms
+   ✓ admin schema route > POST aliases: 正常 200 770ms
+   ✓ admin schema route > POST aliases?dryRun=true: 書き込みなし 1175ms
+   ✓ admin schema route > POST aliases: collision で 422 1638ms
+   ✓ admin schema route > POST aliases: stableKey regex 違反で 400 1170ms
+   ✓ admin schema route > GET diff: recommendedStableKeys が同梱される 1665ms
+ ✓ apps/api/src/routes/auth/session-resolve.test.ts (9 tests) 10886ms
+   ✓ GET /auth/session-resolve > AC: INTERNAL_AUTH_SECRET 不一致 → 401 2393ms
+   ✓ GET /auth/session-resolve > AC: INTERNAL_AUTH_SECRET 未設定 → 500 676ms
+   ✓ GET /auth/session-resolve > R-06: email クエリ無し → 400 588ms
+   ✓ GET /auth/session-resolve > R-01: identity 無し → unregistered 737ms
+   ✓ GET /auth/session-resolve > R-02: is_deleted=1 → deleted 1177ms
+   ✓ GET /auth/session-resolve > R-03: rules_consent != consented → rules_declined 1287ms
+   ✓ GET /auth/session-resolve > R-04: 一般 member（admin_users 無し） → memberId 返却 / isAdmin=false 1685ms
+   ✓ GET /auth/session-resolve > R-05: admin_users 登録あり → isAdmin=true 1712ms
+   ✓ GET /auth/session-resolve > email 大文字混在は normalize されて lookup される 627ms
+ ✓ apps/api/src/routes/admin/attendance.test.ts (8 tests) 11009ms
+   ✓ admin attendance > authz: 401 2417ms
+   ✓ admin attendance > 正常系 201 + audit 928ms
+   ✓ admin attendance > 重複は 409 + existing row 897ms
+   ✓ admin attendance > 削除済みは 422 1192ms
+   ✓ admin attendance > session 未存在は 404 1357ms
+   ✓ admin attendance > candidates は削除済みと登録済みを除外する 1699ms
+   ✓ admin attendance > candidates は session 未存在なら 404 1569ms
+   ✓ admin attendance > DELETE 200 + audit, missing row 404 945ms
+ ✓ apps/api/src/middleware/require-admin.test.ts (8 tests) 180ms
+ ✓ apps/api/src/routes/admin/tags-queue.test.ts (11 tests) 12807ms
+   ✓ admin tags queue > authz: session なしは 401 2545ms
+   ✓ admin tags queue > GET /tags/queue: 200 + items 757ms
+   ✓ admin tags queue > AC-1: confirmed → member_tags 反映 + queue.status='resolved' 872ms
+   ✓ admin tags queue > AC-2: rejected → reason 記録 1148ms
+   ✓ admin tags queue > AC-2: 空 reason は zod で 400 1217ms
+   ✓ admin tags queue > AC-3: 同じ confirmed action は idempotent (200, audit 件数不変) 1693ms
+   ✓ admin tags queue > AC-4: confirmed 後の rejected は 409 2015ms
+   ✓ admin tags queue > AC-5: resolve 成功で audit_log に 1 件追加 820ms
+   ✓ admin tags queue > AC-6: 未知 tagCode は 422 626ms
+   ✓ admin tags queue > AC-7: 削除済み member は 422 641ms
+   ✓ admin tags queue > 未存在 queueId は 404 470ms
+ ✓ apps/api/src/workflows/tagQueueResolve.test.ts (12 tests) 13670ms
+   ✓ tagQueueResolve > T1 confirmed: member_tags +N + queue.status='resolved' + audit 2883ms
+   ✓ tagQueueResolve > T2 rejected: queue.reason 記録 + audit (queue_rejected) 819ms
+   ✓ tagQueueResolve > reviewing から confirmed へ resolve できる（02b 互換） 823ms
+   ✓ tagQueueResolve > T4 idempotent confirmed: 同一 tagCodes 再呼び出しで audit 件数不変 1191ms
+   ✓ tagQueueResolve > T5 idempotent rejected: 同一 reason で audit 不変 1343ms
+   ✓ tagQueueResolve > T4-2 idempotent payload mismatch: 別 tagCodes で再呼び出しは 409 (state_conflict) 1887ms
+   ✓ tagQueueResolve > T6 unidirectional: confirmed → rejected は state_conflict 1802ms
+   ✓ tagQueueResolve > T7 unidirectional: rejected → confirmed は state_conflict 687ms
+   ✓ tagQueueResolve > T9 unknown tag code: unknown_tag_code (422) 596ms
+   ✓ tagQueueResolve > T10 deleted member: member_deleted (422) 688ms
+   ✓ tagQueueResolve > queue 不在: queue_not_found 395ms
+   ✓ tagQueueResolve > TagQueueResolveError は code を持つ 555ms
+ ✓ apps/api/src/routes/auth/__tests__/auth-routes.test.ts (21 tests) 20315ms
+   ✓ /auth/* contract > POST /auth/magic-link > AC-1 (R1-POST): unregistered → 200 state=unregistered, INSERT 0, mail 0 2289ms
+   ✓ /auth/* contract > POST /auth/magic-link > AC-2 (R2-POST): rules_declined → 200 / INSERT 0 794ms
+   ✓ /auth/* contract > POST /auth/magic-link > AC-3 (R3-POST): deleted → 200 / INSERT 0 678ms
+   ✓ /auth/* contract > POST /auth/magic-link > AC-4 (R4-POST): valid → 200 state=sent / INSERT 1 / mail 1 721ms
+   ✓ /auth/* contract > POST /auth/magic-link > F-01: body 欠落は 400 INVALID_REQUEST 1021ms
+   ✓ /auth/* contract > POST /auth/magic-link > F-02: malformed email は 400 INVALID_REQUEST 1595ms
+   ✓ /auth/* contract > POST /auth/magic-link > F-11: mail 失敗時は 502 + token rollback 1550ms
+   ✓ /auth/* contract > GET /auth/gate-state > AC-1 (R1-GET): unregistered 1243ms
+   ✓ /auth/* contract > GET /auth/gate-state > AC-2 (R2-GET): rules_declined 715ms
+   ✓ /auth/* contract > GET /auth/gate-state > AC-3 (R3-GET): deleted 664ms
+   ✓ /auth/* contract > GET /auth/gate-state > AC-4 (R4-GET): valid → ok / 副作用なし (INSERT 0) 573ms
+   ✓ /auth/* contract > GET /auth/gate-state > Z-02: gate-state response に memberId が含まれない 569ms
+   ✓ /auth/* contract > GET /auth/gate-state > malformed email は 400 443ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > T-01: 有効 token + matching email → 200 ok=true / SessionUser 735ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > AC-5 (T-02): 期限切れ token → 401 reason=expired 594ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > AC-6 (T-03): 二度目使用は 401 reason=already_used 1098ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > T-04: 存在しない token → 401 reason=not_found 739ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > T-05: email mismatch → 401 reason=resolve_failed 1258ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > F-09: 不正な token 形式 (短すぎ) → 400 866ms
+   ✓ /auth/* contract > POST /auth/resolve-session > RS-01: unregistered → 401 1242ms
+   ✓ /auth/* contract > POST /auth/resolve-session > RS-04: valid → 200 ok=true / SessionUser 927ms
+ ✓ apps/api/src/routes/me/index.test.ts (14 tests) 20641ms
+   ✓ /me/* — member self-service API > GET /me > AC-1: 未ログインは 401 で memberId を含まない 2563ms
+   ✓ /me/* — member self-service API > GET /me > AC-7: SessionUser と authGateState=active を返す 1019ms
+   ✓ /me/* — member self-service API > GET /me > AC-7: rules_consent != consented なら authGateState=rules_declined 881ms
+   ✓ /me/* — member self-service API > GET /me > F-3: is_deleted=1 は 410 + DELETED 1769ms
+   ✓ /me/* — member self-service API > GET /me/profile > AC-3 / AC-8: MemberProfile + editResponseUrl を返し、notes を含まない 2087ms
+   ✓ /me/* — member self-service API > GET /me/profile > F-5: editResponseUrl が null の場合は null を返し fallbackResponderUrl が常に存在 2376ms
+   ✓ /me/* — member self-service API > GET /me/profile > AC-1: 未ログインは 401 698ms
+   ✓ /me/* — member self-service API > POST /me/visibility-request > AC-4: 202 + queueId を返し、admin_member_notes に visibility_request 行が入る 915ms
+   ✓ /me/* — member self-service API > POST /me/visibility-request > F-7: 二重申請は 409 DUPLICATE_PENDING_REQUEST 913ms
+   ✓ /me/* — member self-service API > POST /me/visibility-request > F-8: 不正 body は 422 715ms
+   ✓ /me/* — member self-service API > POST /me/visibility-request > F-4: rules_consent != consented は 403 RULES_NOT_ACCEPTED 1381ms
+   ✓ /me/* — member self-service API > POST /me/delete-request > AC-4: 202 + delete_request 行を投入する 1525ms
+   ✓ /me/* — member self-service API > POST /me/delete-request > 空 body も許容 1668ms
+   ✓ /me/* — member self-service API > F-6: rate limit 5 req/min > 6 回目で 429 Retry-After 2128ms
+ ✓ apps/api/src/use-cases/auth/__tests__/issue-magic-link.test.ts (5 tests) 8272ms
+   ✓ issueMagicLink > AC-1: unregistered は token 発行 0 件 / mail 0 通 3255ms
+   ✓ issueMagicLink > AC-2: rules_declined は token 発行 0 件 / mail 0 通 1567ms
+   ✓ issueMagicLink > AC-3: deleted は token 発行 0 件 / mail 0 通 1549ms
+   ✓ issueMagicLink > AC-4: 有効 user は token 発行 1 件 + mail 1 通 + state=sent 756ms
+   ✓ issueMagicLink > F-11: mail 送信失敗時は token を rollback (DELETE) する 1134ms
+ ✓ apps/api/src/sync/schema/forms-schema-sync.test.ts (7 tests) 22729ms
+   ✓ runSchemaSync > AC-1 / AC-5 / AC-8: 31 項目を upsert し sync_jobs が succeeded で記録される 6286ms
+   ✓ runSchemaSync > AC-2: 未知 question は schema_diff_queue に 1 件 = 1 row で積まれる 5307ms
+   ✓ runSchemaSync > AC-4: 同一 revisionId の再実行で schema_versions は重複 row を作らない 7807ms
+   ✓ runSchemaSync > AC-6: 同種 schema_sync が running なら ConflictError 966ms
+   ✓ runSchemaSync > forms.get 失敗時に sync_jobs.status='failed' へ遷移する 788ms
+   ✓ runSchemaSync > 31 項目から逸脱した fixture は SyncIntegrityError で failed 929ms
+   ✓ runSchemaSync > GOOGLE_FORM_ID 未設定なら failed 遷移して SyncIntegrityError 644ms
+ ✓ apps/api/src/repository/__tests__/adminNotes.test.ts (8 tests) 10189ms
+   ✓ adminNotes (CRUD) > listByMemberId で対象 member の notes を取得 3096ms
+   ✓ adminNotes (CRUD) > create で note を追加 1374ms
+   ✓ adminNotes (CRUD) > create で visibility/delete request type を保持し pending 判定できる 2030ms
+   ✓ adminNotes (CRUD) > update で body を変更 779ms
+   ✓ adminNotes (CRUD) > update で未知 id は null 1060ms
+   ✓ adminNotes (CRUD) > remove で削除し、再取得は null 684ms
+   ✓ adminNotes (CRUD) > remove で未知 id は false 686ms
+   ✓ adminNotes (CRUD) > AC-2: PublicMemberProfile / MemberProfile に adminNotes が混入しない（型不在） 479ms
+ ✓ apps/api/src/middleware/__tests__/rate-limit-magic-link.test.ts (3 tests) 9482ms
+   ✓ rate-limit-magic-link > R-01: 同 email 6 回目以降は 429 RATE_LIMITED 5361ms
+   ✓ rate-limit-magic-link > R-02: 異 email は各 1 回目なら全て通る 937ms
+   ✓ rate-limit-magic-link > R-03: 同 IP の gate-state は 61 回目で 429 3182ms
+ ✓ apps/api/src/repository/__tests__/syncJobs.test.ts (8 tests) 10869ms
+   ✓ syncJobs (lifecycle 一方向) > ALLOWED_TRANSITIONS は running -> succeeded/failed のみ 4494ms
+   ✓ syncJobs (lifecycle 一方向) > start -> succeed が成功する 1045ms
+   ✓ syncJobs (lifecycle 一方向) > start -> fail が成功する 1018ms
+   ✓ syncJobs (lifecycle 一方向) > AC-8: succeeded -> failed の逆遷移は IllegalStateTransition 788ms
+   ✓ syncJobs (lifecycle 一方向) > AC-8: terminal update は running 条件付きで上書きを防ぐ 499ms
+   ✓ syncJobs (lifecycle 一方向) > AC-8: failed -> succeeded の逆遷移は IllegalStateTransition 696ms
+   ✓ syncJobs (lifecycle 一方向) > 存在しない job_id は SyncJobNotFound 916ms
+   ✓ syncJobs (lifecycle 一方向) > findLatest / listRecent 1410ms
+ ✓ apps/api/src/use-cases/auth/__tests__/verify-magic-link.test.ts (5 tests) 8368ms
+   ✓ verifyMagicLink > T-01: 有効 token + matching email → ok=true / SessionUser を返す 4252ms
+   ✓ verifyMagicLink > AC-5 (T-02): expired token → reason=expired 692ms
+   ✓ verifyMagicLink > AC-6 (T-03): 二度目使用は already_used 810ms
+   ✓ verifyMagicLink > T-04: 存在しない token → not_found 989ms
+   ✓ verifyMagicLink > T-05: token は valid だが email mismatch → resolve_failed 1623ms
+ ✓ apps/api/src/workflows/schemaAliasAssign.test.ts (9 tests) 30530ms
+   ✓ schemaAliasAssign > question_not_found → throws 2543ms
+   ✓ schemaAliasAssign > apply_updates_stable_key + queue resolved + audit recorded 896ms
+   ✓ schemaAliasAssign > dryRun_no_write 784ms
+   ✓ schemaAliasAssign > collision_422 (conflictExists in dryRun, throws on apply) 1127ms
+   ✓ schemaAliasAssign > idempotent_apply (same stableKey re-apply does not double-audit) 1554ms
+   ✓ schemaAliasAssign > idempotent_apply_resolves_queued_diff_and_resumes_backfill 2334ms
+   ✓ schemaAliasAssign > backfill batch loop (120 行) 18312ms
+   ✓ schemaAliasAssign > deleted_response_skip 1643ms
+   ✓ schemaAliasAssign > diff_question_mismatch → 409 1334ms
+ ✓ apps/api/src/routes/admin/meetings.test.ts (4 tests) 7886ms
+   ✓ admin meetings > authz: 401 3753ms
+   ✓ admin meetings > POST + GET でラウンドトリップ 2489ms
+   ✓ admin meetings > GET は既存 attendance を同梱する 824ms
+   ✓ admin meetings > body 不正 400 818ms
+ ✓ apps/api/src/routes/admin/member-notes.test.ts (4 tests) 8127ms
+   ✓ admin member notes > authz: 401 4454ms
+   ✓ admin member notes > POST: 201 + 作成された note を返す 1964ms
+   ✓ admin member notes > body 空は 400 904ms
+   ✓ admin member notes > PATCH: 別 member の note は 404 804ms
+ ✓ apps/api/src/sync/schema/resolve-stable-key.test.ts (4 tests) 5755ms
+   ✓ resolveStableKey > known: labelToKnownStableKey が返した値を採用する 3633ms
+   ✓ resolveStableKey > alias: D1 既存 stable_key が known より優先される 718ms
+   ✓ resolveStableKey > unknown: alias も known も無ければ stableKey=null / source='unknown' 626ms
+   ✓ resolveStableKey > unknown: D1 に stable_key='unknown' があっても alias 採用しない 776ms
+ ✓ apps/api/src/repository/__tests__/magicTokens.test.ts (7 tests) 9543ms
+   ✓ magicTokens (single-use) > issue で token を発行できる 4764ms
+   ✓ magicTokens (single-use) > verify は valid token を返す、used / expired は null 1070ms
+   ✓ magicTokens (single-use) > AC-7: consume を 2 回呼ぶと 2 回目は already_used 972ms
+   ✓ magicTokens (single-use) > expired token の consume は expired 625ms
+   ✓ magicTokens (single-use) > AC-7: consume の UPDATE は expires_at 条件付きで期限切れを使用済みにしない 693ms
+   ✓ magicTokens (single-use) > expired token の verify は null 709ms
+   ✓ magicTokens (single-use) > not_found token の consume は not_found 708ms
+ ✓ apps/api/src/workflows/tagCandidateEnqueue.test.ts (4 tests) 5843ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > AC-8: member_tags 空 + 未解決 queue 無し → enqueued=true 2348ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > member_tags が既にある場合は skip (has_tags) 718ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > 未解決 queue (queued) がある場合は skip (has_pending_candidate) 1181ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > 既存 queue が resolved/rejected のみなら新規 enqueue 可 1594ms
+ ✓ apps/api/src/sync/schema/flatten.test.ts (5 tests) 12ms
+ ✓ apps/api/src/routes/admin/member-status.test.ts (4 tests) 5874ms
+   ✓ PATCH /admin/members/:memberId/status > authz: 未認証 401 2264ms
+   ✓ PATCH /admin/members/:memberId/status > 正常系: publishState 更新 200 1333ms
+   ✓ PATCH /admin/members/:memberId/status > body 空は 400 1024ms
+   ✓ PATCH /admin/members/:memberId/status > 未存在 member は 404 1250ms
+ ✓ apps/api/src/routes/admin/members.test.ts (4 tests) 6030ms
+   ✓ admin members route > authz: 未認証 401 2368ms
+   ✓ admin members route > GET /members: list を返す 996ms
+   ✓ admin members route > GET /members/:memberId 未存在は 404 1527ms
+   ✓ admin members route > GET /members?filter=invalid は 400 1138ms
+ ✓ apps/api/src/routes/admin/sync-schema.test.ts (5 tests) 13032ms
+   ✓ POST /admin/sync/schema (contract) > authz: Authorization 未指定は 401 4116ms
+   ✓ POST /admin/sync/schema (contract) > authz: 一般会員（不一致トークン）は 403 651ms
+   ✓ POST /admin/sync/schema (contract) > authz: SYNC_ADMIN_TOKEN 未設定は 500 456ms
+   ✓ POST /admin/sync/schema (contract) > AC-5: admin Bearer 一致で 200 / response が { ok, jobId, status, ... } 5741ms
+   ✓ POST /admin/sync/schema (contract) > AC-6: 同種 running があれば 409 2066ms
+ ✓ apps/api/src/sync/schema/schema-hash.test.ts (3 tests) 185ms
+ ✓ apps/api/src/routes/admin/member-delete.test.ts (3 tests) 7739ms
+   ✓ admin member delete/restore > authz: 401 3742ms
+   ✓ admin member delete/restore > delete -> restore 200/200 3115ms
+   ✓ admin member delete/restore > reason 欠落は 400 881ms
+ ✓ apps/api/src/use-cases/auth/__tests__/resolve-session.test.ts (5 tests) 11439ms
+   ✓ resolveSession > RS-01: unregistered → ok=false / reason=unregistered 5443ms
+   ✓ resolveSession > RS-02: rules_declined → ok=false / reason=rules_declined 1023ms
+   ✓ resolveSession > RS-03: deleted → ok=false / reason=deleted 907ms
+   ✓ resolveSession > RS-04: valid → ok=true / SessionUser に memberId と responseId 1297ms
+   ✓ resolveSession > RS-05: admin_users に登録済み email は isAdmin=true 2768ms
+ ✓ apps/api/src/use-cases/auth/__tests__/resolve-gate-state.test.ts (5 tests) 11372ms
+   ✓ resolveGateState > AC-1 (R1): identity 不在は unregistered、memberId は返さない 5555ms
+   ✓ resolveGateState > AC-2 (R2): rules_consent != consented は rules_declined 1105ms
+   ✓ resolveGateState > AC-3 (R3): is_deleted=1 は deleted 925ms
+   ✓ resolveGateState > AC-4: 全条件 OK は ok + memberId / responseId 解決 1262ms
+   ✓ resolveGateState > normalize: 大文字 / 前後空白を吸収する 2523ms
+ ✓ apps/api/src/repository/__tests__/builder.test.ts (22 tests) 401ms
+ ✓ apps/api/src/jobs/sync-forms-responses.test.ts (11 tests) 750ms
+   ✓ runResponseSync > AC-6: 既に同種 sync が走っている状態で起動すると skipped を返す 323ms
+ ✓ apps/api/src/repository/__tests__/auditLog.test.ts (4 tests) 11547ms
+   ✓ auditLog (append-only) > append で 1 件追加できる 3957ms
+   ✓ auditLog (append-only) > listRecent で created_at 降順 2755ms
+   ✓ auditLog (append-only) > listByActor / listByTarget 1903ms
+   ✓ auditLog (append-only) > AC-6: UPDATE / DELETE API は型上不在 2931ms
+ ✓ apps/api/src/sync/schema/diff-queue-writer.test.ts (2 tests) 9387ms
+   ✓ diffQueueWriter > AC-2: 新規 question を 1 件 = 1 row で投入する 6015ms
+   ✓ diffQueueWriter > AC-2 / AC-3: 同 questionId で queued が既にあれば INSERT をスキップする 3370ms
+ ✓ apps/api/src/routes/admin/dashboard.test.ts (2 tests) 9395ms
+   ✓ GET /admin/dashboard > Authorization 未指定は 401 5981ms
+   ✓ GET /admin/dashboard > 正常系: schema 未投入なら schemaState=pending_review、totals=0 群 3412ms
+ ✓ apps/api/src/repository/__tests__/_setup.test.ts (1 test) 8648ms
+   ✓ _setup (in-memory D1 loader) > setupD1 でテーブル作成 + reset + fixture load が共通利用できる 8638ms
+ ✓ apps/api/src/repository/__tests__/adminUsers.test.ts (4 tests) 10738ms
+   ✓ adminUsers > findByEmail で存在する admin を返す 5836ms
+   ✓ adminUsers > findByEmail で存在しない email は null（throw しない） 2798ms
+   ✓ adminUsers > listAll で全 admin を返す 1261ms
+   ✓ adminUsers > isActiveAdmin が active=1 の admin で true 842ms
+ ✓ apps/api/src/jobs/sync-sheets-to-d1.test.ts (7 tests) 26ms
+ ✓ apps/api/src/repository/attendance.test.ts (9 tests) 86ms
+ ✓ apps/api/src/__tests__/invariants.test.ts (5 tests) 47ms
+ ✓ apps/api/src/repository/__tests__/responses.test.ts (8 tests) 39ms
+ ✓ apps/api/src/repository/schemaDiffQueue.test.ts (7 tests) 65ms
+ ✓ apps/api/src/repository/tagQueue.test.ts (9 tests) 36ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-profile-view.test.ts (6 tests) 51ms
+stderr | apps/api/src/health-db.test.ts > GET /health/db (UT-06-FU-H) > T4: D1 prepare が throw した場合 503 + Retry-After:30 + 失敗 schema を返す
+[/health/db] SELECT 1 failed { error: 'Error' }
+
+stderr | apps/api/src/health-db.test.ts > GET /health/db (UT-06-FU-H) > T4: D1 first が throw した場合も 503 + Retry-After:30 を返す
+[/health/db] SELECT 1 failed { error: 'Error' }
+
+stderr | apps/api/src/health-db.test.ts > GET /health/db (UT-06-FU-H) > T4: SELECT 1 が null を返した場合 503 を返す
+[/health/db] SELECT 1 failed { error: 'Error' }
+
+stderr | apps/api/src/health-db.test.ts > GET /health/db (UT-06-FU-H) > DB binding 欠落時は 503 + Retry-After:30 + 失敗 schema を返す
+[/health/db] SELECT 1 failed { error: 'TypeError' }
+
+ ✓ apps/api/src/health-db.test.ts (10 tests) 315ms
+ ✓ apps/api/src/repository/__tests__/members.test.ts (7 tests) 18ms
+ ✓ apps/api/src/repository/__tests__/status.test.ts (6 tests) 43ms
+ ✓ apps/api/src/repository/schemaVersions.test.ts (5 tests) 31ms
+ ✓ apps/api/src/routes/admin/responses-sync.test.ts (5 tests) 91ms
+ ✓ apps/api/src/repository/__tests__/memberTags.test.ts (5 tests) 7ms
+ ✓ apps/api/src/__tests__/authz-matrix.test.ts (4 tests) 74ms
+ ✓ apps/api/src/repository/__tests__/fieldVisibility.test.ts (5 tests) 18ms
+ ✓ apps/api/src/repository/schemaQuestions.test.ts (4 tests) 36ms
+ ✓ apps/api/src/jobs/mappers/normalize-response.test.ts (3 tests) 18ms
+ ✓ apps/api/src/repository/tagDefinitions.test.ts (5 tests) 84ms
+ ✓ apps/api/src/repository/__tests__/identities.test.ts (5 tests) 6ms
+ ✓ apps/api/src/utils/with-retry.test.ts (6 tests) 109ms
+ ✓ apps/api/src/repository/meetings.test.ts (5 tests) 47ms
+ ✓ apps/api/src/jobs/mappers/sheets-to-members.test.ts (5 tests) 26ms
+ ✓ apps/api/src/_shared/__tests__/search-query-parser.test.ts (9 tests) 34ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-list-view.test.ts (2 tests) 34ms
+ ✓ apps/api/src/services/aliasRecommendation.test.ts (8 tests) 33ms
+ ✓ apps/api/src/repository/__tests__/brand.test.ts (8 tests) 16ms
+ ✓ apps/api/src/routes/admin/sync.test.ts (4 tests) 117ms
+ ✓ apps/api/src/view-models/public/__tests__/public-stats-view.test.ts (5 tests) 37ms
+ ✓ apps/api/src/jobs/mappers/extract-consent.test.ts (3 tests) 64ms
+ ✓ apps/api/src/_shared/__tests__/visibility-filter.test.ts (2 tests) 51ms
+ ✓ apps/api/src/__tests__/brand-type.test.ts (3 tests) 189ms
+ ✓ apps/api/src/view-models/public/__tests__/form-preview-view.test.ts (1 test) 59ms
+ ✓ apps/api/src/schemas/tagQueueResolve.test.ts (6 tests) 48ms
+ ✓ apps/api/src/repository/__tests__/responseFields.test.ts (3 tests) 151ms
+ ✓ apps/api/src/repository/__tests__/responseSections.test.ts (3 tests) 68ms
+ ✓ apps/api/src/_shared/__tests__/public-filter.test.ts (7 tests) 18ms
+ ✓ apps/api/src/_shared/__tests__/pagination.test.ts (5 tests) 10ms
+ ✓ apps/api/src/utils/write-queue.test.ts (2 tests) 29ms
+ ✓ apps/api/src/jobs/sync-forms-responses.types.test.ts (1 test) 3ms
+
+ Test Files  74 passed (74)
+      Tests  442 passed (442)
+   Start at  16:39:46
+   Duration  78.06s (transform 9.21s, setup 0ms, collect 88.10s, tests 346.10s, environment 77.00s, prepare 34.12s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   84.18 |    84.13 |   83.37 |   84.18 |                   
+ src               |    46.8 |     92.3 |    12.5 |    46.8 |                   
+  index.ts         |    46.8 |     92.3 |    12.5 |    46.8 | ...40-244,287-320 
+ src/_shared       |   99.07 |    90.69 |     100 |   99.07 |                   
+  pagination.ts    |     100 |      100 |     100 |     100 |                   
+  public-filter.ts |     100 |      100 |     100 |     100 |                   
+  ...ery-parser.ts |   98.43 |     86.2 |     100 |   98.43 | 65                
+  ...ity-filter.ts |     100 |      100 |     100 |     100 |                   
+ src/jobs          |   78.91 |    70.45 |   65.71 |   78.91 |                   
+  cursor-store.ts  |   63.15 |       20 |     100 |   63.15 | 27-31,33-34       
+  ...ts-fetcher.ts |    8.45 |      100 |       0 |    8.45 | ...01-164,168-179 
+  ...-responses.ts |   94.61 |    71.79 |     100 |   94.61 | ...76-377,416-420 
+  sync-lock.ts     |     100 |    85.71 |     100 |     100 | 25                
+  ...eets-to-d1.ts |   95.25 |    71.42 |      90 |   95.25 | 111-112,172-183   
+ ...s/__fixtures__ |   87.79 |    82.65 |   71.42 |   87.79 |                   
+  d1-fake.ts       |   87.79 |    82.65 |   71.42 |   87.79 | ...92-198,297-298 
+ src/jobs/mappers  |     100 |       85 |     100 |     100 |                   
+  ...ct-consent.ts |     100 |      100 |     100 |     100 |                   
+  ...e-response.ts |     100 |    66.66 |     100 |     100 | 43-44,49          
+  ...to-members.ts |     100 |    89.28 |     100 |     100 | 112-113,134       
+ src/middleware    |   78.05 |    87.12 |    87.5 |   78.05 |                   
+  admin-gate.ts    |     100 |      100 |     100 |     100 |                   
+  error-handler.ts |    3.89 |      100 |       0 |    3.89 | 16-39,42-84,87-98 
+  internal-auth.ts |     100 |    83.33 |     100 |     100 | 20                
+  ...magic-link.ts |   97.34 |     87.5 |     100 |   97.34 | 98,118-119        
+  ...lf-request.ts |   93.93 |    85.71 |     100 |   93.93 | 33-34             
+  require-admin.ts |   92.13 |    78.94 |     100 |   92.13 | ...77,80-81,84-85 
+  session-guard.ts |   96.29 |      100 |     100 |   96.29 | 92-93             
+ src/repository    |   86.92 |    80.32 |   89.07 |   86.92 |                   
+  adminNotes.ts    |     100 |     87.5 |     100 |     100 | 54,85             
+  adminUsers.ts    |   76.08 |     87.5 |      80 |   76.08 | 48-58             
+  attendance.ts    |   97.75 |       75 |     100 |   97.75 | 97-98             
+  auditLog.ts      |   97.91 |    77.77 |     100 |   97.91 | 58-59             
+  dashboard.ts     |   71.87 |    44.44 |     100 |   71.87 | 68-83,96,98-99    
+  ...Visibility.ts |     100 |      100 |     100 |     100 |                   
+  identities.ts    |     100 |      100 |     100 |     100 |                   
+  magicTokens.ts   |      93 |    86.36 |     100 |      93 | 144-150           
+  meetings.ts      |   80.85 |       70 |   83.33 |   80.85 | 62-70             
+  memberTags.ts    |   60.86 |      100 |   66.66 |   60.86 | 63-86             
+  members.ts       |     100 |      100 |     100 |     100 |                   
+  publicMembers.ts |    4.83 |      100 |       0 |    4.83 | ...57-178,181-225 
+  ...onseFields.ts |     100 |      100 |     100 |     100 |                   
+  ...seSections.ts |     100 |      100 |     100 |     100 |                   
+  responses.ts     |     100 |    83.33 |     100 |     100 | 60                
+  ...aDiffQueue.ts |     100 |       80 |     100 |     100 | 70-76,100,107     
+  ...aQuestions.ts |     100 |    85.71 |     100 |     100 | 93,98,125         
+  ...maVersions.ts |     100 |    77.77 |     100 |     100 | 64,86             
+  status.ts        |     100 |    83.33 |     100 |     100 | 50                
+  syncJobs.ts      |   95.03 |    84.84 |     100 |   95.03 | 62-63,116-121     
+  ...efinitions.ts |     100 |       75 |     100 |     100 | 35,40             
+  tagQueue.ts      |     100 |     64.7 |     100 |     100 | ...,82,93,103,116 
+ ...y/__fixtures__ |   93.78 |    89.39 |    90.9 |   93.78 |                   
+  admin.fixture.ts |     100 |      100 |     100 |     100 |                   
+  d1mock.ts        |   87.97 |    88.97 |   89.47 |   87.97 | ...17,335,432-433 
+  ...rs.fixture.ts |     100 |      100 |     100 |     100 |                   
+ ...tory/__tests__ |   94.05 |    88.88 |   88.88 |   94.05 |                   
+  _setup.ts        |   94.05 |    88.88 |   88.88 |   94.05 | 120,130,137-140   
+ ...sitory/_shared |   98.82 |    77.27 |   86.66 |   98.82 |                   
+  brand.ts         |     100 |      100 |     100 |     100 |                   
+  builder.ts       |   98.76 |    77.19 |     100 |   98.76 | 50,83-84          
+  db.ts            |     100 |       50 |      50 |     100 | 20-22             
+  sql.ts           |     100 |      100 |     100 |     100 |                   
+ ...ared/__fakes__ |   94.16 |    83.48 |      84 |   94.16 |                   
+  fakeD1.ts        |   94.16 |    83.48 |      84 |   94.16 | ...,92-93,257-258 
+ src/routes/admin  |   81.95 |    91.95 |      80 |   81.95 |                   
+  _shared.ts       |   86.66 |       50 |     100 |   86.66 | 19-20             
+  _test-auth.ts    |     100 |      100 |     100 |     100 |                   
+  attendance.ts    |      90 |      100 |     100 |      90 | ...2,81-82,99-100 
+  dashboard.ts     |   80.64 |      100 |     100 |   80.64 | 28-31,39-40       
+  meetings.ts      |    94.2 |      100 |     100 |    94.2 | 33-34,56-57       
+  member-delete.ts |   91.78 |      100 |     100 |   91.78 | 26-27,35-36,58-59 
+  member-notes.ts  |   67.07 |      100 |     100 |   67.07 | ...70,73-74,81-97 
+  member-status.ts |   83.92 |      100 |     100 |   83.92 | 36-37,51-57       
+  members.ts       |   78.04 |    83.33 |     100 |   78.04 | ...18-121,127-131 
+  ...onses-sync.ts |   94.59 |     87.5 |     100 |   94.59 | 56-57             
+  schema.ts        |   89.76 |    82.75 |     100 |   89.76 | ...41,144,161-162 
+  sync-schema.ts   |   43.15 |      100 |   16.66 |   43.15 | ...,72-86,102-106 
+  sync.ts          |     100 |     87.5 |     100 |     100 | 23                
+  tags-queue.ts    |   94.11 |      100 |     100 |   94.11 | 40-41,55-56       
+ src/routes/auth   |   96.53 |    97.56 |     100 |   96.53 |                   
+  index.ts         |   95.04 |    96.42 |     100 |   95.04 | 145-149           
+  schemas.ts       |     100 |      100 |     100 |     100 |                   
+  ...on-resolve.ts |      96 |      100 |     100 |      96 | 42-43             
+ src/routes/me     |   97.12 |    89.65 |     100 |   97.12 |                   
+  index.ts         |   96.42 |    89.47 |     100 |   96.42 | 78-79,155-156     
+  schemas.ts       |     100 |      100 |     100 |     100 |                   
+  services.ts      |   95.91 |       90 |     100 |   95.91 | 91-92             
+ src/routes/public |   56.94 |      100 |     100 |   56.94 |                   
+  form-preview.ts  |   44.44 |      100 |     100 |   44.44 | 20-29             
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  ...er-profile.ts |   57.14 |      100 |     100 |   57.14 | 17-22             
+  members.ts       |      40 |      100 |     100 |      40 | 18-29             
+  stats.ts         |   72.72 |      100 |     100 |   72.72 | 17-19             
+ src/schemas       |     100 |      100 |     100 |     100 |                   
+  ...eueResolve.ts |     100 |      100 |     100 |     100 |                   
+ src/services      |     100 |    93.54 |     100 |     100 |                   
+  ...mmendation.ts |     100 |    93.54 |     100 |     100 | 43,68             
+ src/services/mail |   49.18 |      100 |      50 |   49.18 |                   
+  ...ink-mailer.ts |   49.18 |      100 |      50 |   49.18 | 67-97             
+ src/sync/schema   |   94.87 |    79.31 |   94.44 |   94.87 |                   
+  ...eue-writer.ts |   94.44 |    85.71 |     100 |   94.44 | 33-34             
+  flatten.ts       |   91.66 |    65.38 |     100 |   91.66 | 40-41,44-45       
+  ...chema-sync.ts |   93.98 |    82.85 |      80 |   93.98 | ...32-133,194-195 
+  index.ts         |     100 |      100 |     100 |     100 |                   
+  ...stable-key.ts |     100 |      100 |     100 |     100 |                   
+  schema-hash.ts   |     100 |    77.77 |     100 |     100 | 21-30             
+  types.ts         |     100 |      100 |     100 |     100 |                   
+ ...use-cases/auth |   92.79 |    83.78 |     100 |   92.79 |                   
+  ...magic-link.ts |   94.11 |       75 |     100 |   94.11 | 43-44             
+  ...gate-state.ts |   92.85 |       90 |     100 |   92.85 | 42-43             
+  ...ve-session.ts |   93.33 |    88.88 |     100 |   93.33 | 53-54             
+  ...magic-link.ts |   89.47 |    83.33 |     100 |   89.47 | 40-41             
+ ...auth/__tests__ |     100 |      100 |     100 |     100 |                   
+  _seed.ts         |     100 |      100 |     100 |     100 |                   
+ ...e-cases/public |    9.96 |      100 |       0 |    9.96 |                   
+  ...rm-preview.ts |    9.67 |      100 |       0 |    9.67 | 30-36,39-95       
+  ...er-profile.ts |    5.76 |      100 |       0 |    5.76 | 23-29,32-79       
+  ...blic-stats.ts |    7.54 |      100 |       0 |    7.54 | 23-29,36-79       
+  ...ic-members.ts |   14.28 |      100 |       0 |   14.28 | ...0,43-50,53-114 
+ src/utils         |   93.87 |     87.5 |   83.33 |   93.87 |                   
+  with-retry.ts    |    92.1 |    83.33 |   66.66 |    92.1 | 25,58-59          
+  write-queue.ts   |     100 |      100 |     100 |     100 |                   
+ ...-models/public |     100 |    84.84 |     100 |     100 |                   
+  ...eview-view.ts |     100 |      100 |     100 |     100 |                   
+  ...-list-view.ts |     100 |      100 |     100 |     100 |                   
+  ...ofile-view.ts |     100 |    80.76 |     100 |     100 | 63,65,114,139-140 
+  ...stats-view.ts |     100 |      100 |     100 |     100 |                   
+ src/workflows     |   92.01 |    80.76 |   92.85 |   92.01 |                   
+  ...liasAssign.ts |   89.91 |    78.43 |   88.88 |   89.91 | ...73-178,244-245 
+  ...ateEnqueue.ts |     100 |      100 |     100 |     100 |                   
+  ...eueResolve.ts |   93.29 |    81.25 |     100 |   93.29 | ...31-135,255-256 
+-------------------|---------|----------|---------|---------|-------------------
