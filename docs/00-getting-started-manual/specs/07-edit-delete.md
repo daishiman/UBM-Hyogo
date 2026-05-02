@@ -102,13 +102,42 @@ MVP では D1 `profile_overrides` 前提を採らない。
 
 ```text
 member requests deletion
-  -> admin confirms
+  -> /profile 本人申請パネル（RequestActionPanel）
+  -> DeleteRequestDialog（reason ≤500 chars + 不可逆同意 checkbox 必須）
+  -> POST /api/me/delete-request
+  -> 202 Accepted で pending banner 表示・該当ボタン disabled
+  -> admin queue（/admin/requests）で承認
   -> member_status.is_deleted = true
   -> deleted_members insert
   -> public/member views hide
 ```
 
+- `reason` は client-side（≤500 chars）と server-side で二重検証する
+- 不可逆同意 checkbox を必須化し、未チェック時は送信ボタンを disabled にする
+- 409 `DUPLICATE_PENDING_REQUEST` は同一 session の pending banner と該当ボタン disabled に接続する
+- network / 5xx はユーザー操作の再試行 CTA を出す
+
 復元時は `is_deleted=false` に戻し、履歴は残す。
+
+---
+
+## 公開停止 / 再公開申請への対応
+
+公開停止 / 再公開も削除と同型で、本人申請 → admin 承認の分離構造をとる。
+
+```text
+member requests visibility change
+  -> /profile 本人申請パネル（RequestActionPanel）
+  -> VisibilityRequestDialog（desiredState=hidden|public + reason ≤500 chars）
+  -> POST /api/me/visibility-request
+  -> 202 Accepted で pending banner 表示・該当ボタン disabled
+  -> admin queue（/admin/requests）で承認
+  -> member_status.publish_state 更新
+```
+
+- `desiredState` は現在の `publishState` と反対側のみ送信可能とする
+- `reason` は削除申請と同じく client / server 二重検証
+- 409 / network / 5xx の UX は削除申請と同一
 
 ---
 
@@ -120,7 +149,7 @@ member requests deletion
 | 本人公開状態変更申請 | `POST /me/visibility-request` |
 | 本人退会申請 | `POST /me/delete-request` |
 | 公開状態変更 | `PATCH /api/admin/members/[id]/publish-state` |
-| 削除 | `PATCH /api/admin/members/[id]/delete` |
+| 削除 | `POST /api/admin/members/[id]/delete` |
 | 復元 | `POST /api/admin/members/[id]/restore` |
 | 参加履歴付与 / 解除 | `POST/DELETE /api/admin/members/[id]/attendance` |
 

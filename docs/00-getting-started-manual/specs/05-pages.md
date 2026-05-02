@@ -71,7 +71,10 @@
 - 公開プロフィールの確認画面と、自分向けの回答確認画面を兼ねる
 - 更新はアプリ内自由編集ではなく、Google Form 再回答導線で行う
 - `情報を更新する` はモーダル確認後に `/register` ではなく実 Google Form へ遷移する
-- `公開停止` と `退会申請` はマイページから申請できるが、反映は管理処理で行う
+- `公開停止 / 再公開 / 退会申請` はマイページの `本人申請パネル`（RequestActionPanel）から申請できるが、反映は管理処理で行う
+- 本人申請パネルは本文編集 UI とは分離し、`公開停止/再公開申請ダイアログ`（VisibilityRequestDialog）と `退会申請ダイアログ`（DeleteRequestDialog）から admin queue へ依頼を作る
+- 申請送信後は `pending banner`（RequestPendingBanner）を `role=status` / `aria-live=polite` で表示し、対応する申請ボタンを disabled にする
+- 申請エラーは `RequestErrorMessage` で表示し、409（DUPLICATE_PENDING_REQUEST）は同一 session の pending banner と該当ボタン disabled に接続する
 
 ### 管理レイヤ
 

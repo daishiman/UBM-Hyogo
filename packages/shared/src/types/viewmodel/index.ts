@@ -172,6 +172,8 @@ export interface AdminMemberListItem {
 export interface AdminMemberListView {
   total: number;
   members: AdminMemberListItem[];
+  page?: number;
+  pageSize?: number;
 }
 
 export interface AdminMemberDetailView {

@@ -1996,6 +1996,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L30 |
 | Related Resources | L42 |
 
+### references/workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L13 |
+| Contract | L30 |
+| Phase 12 Required Files | L43 |
+| Related Resources | L55 |
+
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
 | セクション | 行 |
@@ -2005,6 +2015,17 @@ node scripts/list-specs.js --topics
 | root artifacts | L16 |
 | phase 12 required artifacts | L24 |
 | scope notes | L36 |
+
+### references/workflow-06c-B-admin-members-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts | L25 |
+| implementation source-of-truth | L37 |
+| scope notes | L48 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -2109,6 +2130,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-governance-design-category.md
+
+| セクション | 行 |
+|------------|----|
+| 1. `_design/` カテゴリ定義 | L9 |
+| 2. Current canonical deletion guard | L37 |
+| 3. SKILL.md 入口導線 | L80 |
+| 4. 関連ファイル | L86 |
+| 変更履歴 | L93 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2125,6 +2156,20 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Validation Chain | L26 |
 | Notes | L37 |
+
+### references/workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L16 |
+| Phase Outputs（artifacts.json parity） | L31 |
+| Phase 12 strict 7 files | L51 |
+| Skill 反映先 | L63 |
+| Follow-up / Unassigned | L75 |
+| Workflow Governance Design 文書（artifact inventory） | L82 |
+| Validation Chain | L89 |
+| Branch-level deletion check | L101 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2357,13 +2402,6 @@ node scripts/list-specs.js --topics
 
 ### references/workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md
 
-| セクション | 行 |
-|------------|----|
-| Summary | L3 |
-| Implementation Artifacts | L12 |
-| Deferred Evidence | L27 |
-| Boundary | L36 |
-
 ### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
 
 | セクション | 行 |
@@ -2588,14 +2626,6 @@ node scripts/list-specs.js --topics
 | 自走禁止項目（本タスクで実行しないこと） | L90 |
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
-
-### references/workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Metadata | L3 |
-| Canonical Artifacts | L13 |
-| Boundary | L30 |
 
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
@@ -3235,15 +3265,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L14 |
-| 使い方 | L22 |
-| Current Alias Overrides（個別互換行） | L29 |
-| Family Summary | L65 |
-| Detailed Register | L86 |
-| Section Extract Register (2026-03-17) | L267 |
-| 500-Line Split Register (2026-03-16) | L278 |
-| Fragment Migration Register (2026-04-28) | L300 |
-| Task Root Path Drift Register (2026-04-30 追記) | L327 |
+| 概要 | L15 |
+| 使い方 | L23 |
+| Current Alias Overrides（個別互換行） | L30 |
+| Family Summary | L68 |
+| Detailed Register | L89 |
+| Section Extract Register (2026-03-17) | L270 |
+| 500-Line Split Register (2026-03-16) | L281 |
+| Fragment Migration Register (2026-04-28) | L303 |
+| Task Root Path Drift Register (2026-04-30 追記) | L330 |
 
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
@@ -3404,6 +3434,18 @@ node scripts/list-specs.js --topics
 | L-06CA-002: 単一 admin dashboard endpoint を維持し split しない | L11 |
 | L-06CA-003: dashboard 表示由来の `dashboard.view` を recent actions / KPI から除外する | L18 |
 
+### references/lessons-learned-06c-B-admin-members-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CB-001: `docs-only / outputs_contract_only` ラベルは AC で再判定する | L3 |
+| L-06CB-002: admin members の filter 語彙は code 側 `published|hidden|deleted` を正本にする | L13 |
+| L-06CB-003: list response shape は `{ total, members }` 互換を保ち、`page/pageSize` は additive 拡張で入れる | L22 |
+| L-06CB-004: detail UI は `/admin/members` 右ドロワー、別 route `/admin/members/[id]` は作らない | L30 |
+| L-06CB-005: workflow 契約は `:memberId`、handler ローカル変数 `id` は spec に漏らさない | L38 |
+| L-06CB-006: audit table 名は単数形 `audit_log` を canonical にし、plural を撤回する | L47 |
+| L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L55 |
+
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
 | セクション | 行 |
@@ -3535,6 +3577,18 @@ node scripts/list-specs.js --topics
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
 | L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
 | L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
+
+### references/lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE195FU002-001: workflow governance design 文書は `_design/` に分離する（classification-first） | L9 |
+| L-ISSUE195FU002-002: current canonical path の削除差分は legacy mapping または move destination 必須（branch-level deletion guard） | L21 |
+| L-ISSUE195FU002-003: docs-only governance owner 表に専用テンプレが無い | L33 |
+| L-ISSUE195FU002-004: Phase 12 filename drift 検出 guard が無い | L45 |
+| L-ISSUE195FU002-005: 「主担当 / サブ担当」と「owner / co-owner」の用語不整合 | L57 |
+| OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
+| OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
@@ -3746,16 +3800,6 @@ node scripts/list-specs.js --topics
 | 2026-05 / route-inventory-design 追記 | L44 |
 | 関連リソース | L78 |
 
-### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-UT07B-FU03-001: Runbook formalization is not production execution | L3 |
-| L-UT07B-FU03-002: Use scoped status labels | L7 |
-| L-UT07B-FU03-003: Strict Phase 12 files must be real files | L11 |
-| L-UT07B-FU03-004: Parent seed wording must be consumed | L15 |
-| L-UT07B-FU03-005: Workflow LOGS and skill LOGS are separate | L19 |
-
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
 | セクション | 行 |
@@ -3812,8 +3856,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L82 |
-| 関連ドキュメント | L87 |
+| 利用順序 | L83 |
+| 関連ドキュメント | L88 |
 
 ### references/llm-embedding.md
 
@@ -4882,13 +4926,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L116 |
-| フェーズ構造（概要） | L125 |
-| 品質ゲート（概要） | L156 |
-| 出力テンプレート | L167 |
-| 実行時のコマンド・エージェント・スキル | L190 |
-| 昇格パターン集 | L214 |
-| Current Active / Spec Created Tasks | L216 |
+| ドキュメント構成 | L114 |
+| フェーズ構造（概要） | L123 |
+| 品質ゲート（概要） | L154 |
+| 出力テンプレート | L165 |
+| 実行時のコマンド・エージェント・スキル | L188 |
+| 昇格パターン集 | L212 |
+| Current Active / Spec Created Tasks | L214 |
 
 ### references/task-workflow-backlog-part2.md
 

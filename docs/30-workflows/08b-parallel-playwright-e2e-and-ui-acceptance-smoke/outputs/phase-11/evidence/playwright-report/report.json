@@ -1,0 +1,658 @@
+{
+  "config": {
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "mobile-webkit",
+        "name": "mobile-webkit",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "../../docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/playwright-report/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "profile-delete-request.spec.ts",
+      "file": "profile-delete-request.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "profile delete-request (06b-B)",
+          "file": "profile-delete-request.spec.ts",
+          "line": 7,
+          "column": 15,
+          "specs": [
+            {
+              "title": "TC-E-03: 二段確認後に退会申請 → 202 → pending banner",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-delete-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "60fae8a0f6dc8199c1d7-5ee336466e10f9fc55af",
+              "file": "profile-delete-request.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "TC-E-09: kbd 操作のみで完走（tab/enter）",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-delete-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "60fae8a0f6dc8199c1d7-af18af80c0e8ad5da3f2",
+              "file": "profile-delete-request.spec.ts",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "TC-E-03: 二段確認後に退会申請 → 202 → pending banner",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-delete-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "60fae8a0f6dc8199c1d7-5f391ff493768f003d1a",
+              "file": "profile-delete-request.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "TC-E-09: kbd 操作のみで完走（tab/enter）",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-delete-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "60fae8a0f6dc8199c1d7-26dd4a3e5b2346b7c033",
+              "file": "profile-delete-request.spec.ts",
+              "line": 37,
+              "column": 3
+            },
+            {
+              "title": "TC-E-03: 二段確認後に退会申請 → 202 → pending banner",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-delete-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "60fae8a0f6dc8199c1d7-d352b4ac2985be7a4471",
+              "file": "profile-delete-request.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "TC-E-09: kbd 操作のみで完走（tab/enter）",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-delete-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "60fae8a0f6dc8199c1d7-a494c442bcc884e0514b",
+              "file": "profile-delete-request.spec.ts",
+              "line": 37,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "profile-visibility-request.spec.ts",
+      "file": "profile-visibility-request.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "profile visibility-request (06b-B)",
+          "file": "profile-visibility-request.spec.ts",
+          "line": 7,
+          "column": 15,
+          "specs": [
+            {
+              "title": "TC-E-01: public → 公開停止申請 → 202 → pending banner",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-9cba5290bf17ffcaae6c",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "TC-E-04: 二重申請 409 → エラー banner + ボタン disabled",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-3fab4f4253c1bd320bda",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 32,
+              "column": 3
+            },
+            {
+              "title": "TC-E-05: 422 → inline error",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-5d1bb7a64db78fe598af",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 50,
+              "column": 3
+            },
+            {
+              "title": "TC-E-06: network failure → retry CTA",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-798498c05cd470262824",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 66,
+              "column": 3
+            },
+            {
+              "title": "TC-E-01: public → 公開停止申請 → 202 → pending banner",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-9d5b38bdb54f4828ba03",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "TC-E-04: 二重申請 409 → エラー banner + ボタン disabled",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-95cf54200c312d52402a",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 32,
+              "column": 3
+            },
+            {
+              "title": "TC-E-05: 422 → inline error",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-24d2f2cf35f80c809158",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 50,
+              "column": 3
+            },
+            {
+              "title": "TC-E-06: network failure → retry CTA",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "desktop-firefox",
+                  "projectName": "desktop-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-f07b4a1c3bb1834a8639",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 66,
+              "column": 3
+            },
+            {
+              "title": "TC-E-01: public → 公開停止申請 → 202 → pending banner",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-9b2b348100c1ab94717f",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 8,
+              "column": 3
+            },
+            {
+              "title": "TC-E-04: 二重申請 409 → エラー banner + ボタン disabled",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-9509184c4fbd595dd555",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 32,
+              "column": 3
+            },
+            {
+              "title": "TC-E-05: 422 → inline error",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-4327bf93265fbb774770",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 50,
+              "column": 3
+            },
+            {
+              "title": "TC-E-06: network failure → retry CTA",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-120154-wt-3/apps/web/playwright/tests/profile-visibility-request.spec.ts",
+                        "line": 7,
+                        "column": 15
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "mobile-webkit",
+                  "projectName": "mobile-webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "7540050e56df54ca29c1-e8de20be167b97f8249f",
+              "file": "profile-visibility-request.spec.ts",
+              "line": 66,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-02T21:26:57.176Z",
+    "duration": 1334.237,
+    "expected": 0,
+    "skipped": 18,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
