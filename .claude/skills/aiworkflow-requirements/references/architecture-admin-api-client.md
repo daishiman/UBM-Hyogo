@@ -298,4 +298,29 @@ if (req.method !== "GET" && req.method !== "DELETE") {
 
 ---
 
-Last reviewed: 2026-04-29 / source: 06c-parallel-admin-dashboard-members-tags-schema-meetings-pages
+## 9. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`）
+
+admin BFF proxy（§4）と並列に、会員自身のセルフサービス操作のための proxy を `apps/web/app/api/me/[...path]/route.ts` として配置する。不変条件 #5 の遵守経路をクライアント側にも一意化するための正本。
+
+### 9.1 役割
+
+1. ブラウザ Client Component から同一 origin で apps/api `/me/*` を呼べる経路を提供する。
+2. memberId は **path に出さない**。Auth.js session を proxy 内で resolve し、apps/api 側へ session cookie / `x-internal-auth` を伝搬して memberId は backend で確定する。
+3. 直接 D1 アクセス禁止（不変条件 #5）の運用形式として admin proxy と同型を維持する。
+
+### 9.2 admin proxy との差分
+
+| 項目 | admin proxy | self-service proxy |
+| --- | --- | --- |
+| 進入時ガード | `session.user.isAdmin === true` 必須 | 認証済みユーザであること（active session）。admin 判定はしない |
+| path | `/api/admin/[...path]` → apps/api `/admin/*` | `/api/me/[...path]` → apps/api `/me/*` |
+| memberId | path に含めて良い（admin が任意の会員を操作） | **path に含めない**。backend session resolver が確定 |
+| body 透過 | text 透過、apps/api 側 zod 検証 | 同左 |
+
+### 9.3 client helper
+
+self-service mutation の client helper は `apps/web/src/lib/api/me-requests-client.ts` に集約する。`/api/me/*` を fetch し、エラーは `SelfRequestError` に正規化する（→ `error-handling-core.md` の self-service クライアント側統一エラー型節を参照）。
+
+---
+
+Last reviewed: 2026-05-02 / source: 06b-A-me-api-authjs-session-resolver, 06b-B profile self-service request UI
