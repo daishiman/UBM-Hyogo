@@ -874,9 +874,9 @@ node scripts/list-specs.js --topics
 | エンドポイント命名規則 | L203 |
 | UBM-Hyogo Admin Sync API（03a） | L224 |
 | UBM-Hyogo Member Self-Service API（04b） | L269 |
-| Desktop IPC API サマリー | L289 |
-| 変更履歴 | L320 |
-| 関連ドキュメント | L337 |
+| Desktop IPC API サマリー | L288 |
+| 変更履歴 | L319 |
+| 関連ドキュメント | L336 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1982,6 +1982,16 @@ node scripts/list-specs.js --topics
 | Canonical contract | L11 |
 | Workflow artifacts | L18 |
 | Downstream ownership | L28 |
+
+### references/workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L13 |
+| Contract | L22 |
+| Phase 12 Required Files | L30 |
+| Related Resources | L42 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -3166,12 +3176,12 @@ node scripts/list-specs.js --topics
 | 概要 | L14 |
 | 使い方 | L22 |
 | Current Alias Overrides（個別互換行） | L29 |
-| Family Summary | L63 |
-| Detailed Register | L84 |
-| Section Extract Register (2026-03-17) | L265 |
-| 500-Line Split Register (2026-03-16) | L276 |
-| Fragment Migration Register (2026-04-28) | L298 |
-| Task Root Path Drift Register (2026-04-30 追記) | L325 |
+| Family Summary | L64 |
+| Detailed Register | L85 |
+| Section Extract Register (2026-03-17) | L266 |
+| 500-Line Split Register (2026-03-16) | L277 |
+| Fragment Migration Register (2026-04-28) | L299 |
+| Task Root Path Drift Register (2026-04-30 追記) | L326 |
 
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
@@ -3291,6 +3301,19 @@ node scripts/list-specs.js --topics
 | L-06A-004: zod `catch` だけでは string 加工フォールバックに不足 | L73 |
 | L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
 | 横断教訓 | L116 |
+
+### references/lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06BA-001: implementation が入ったら spec_created を残さない | L3 |
+| L-06BA-002: dev token は env 欠落時も fail-closed | L7 |
+| L-06BA-003: local PASS と live smoke PASS を分離する | L11 |
+| L-06BA-004: shared extractor の互換 cookie は仕様に明記する | L15 |
+| L-06BA-005: `AUTH_SECRET` は web/api Worker 間で共有する | L19 |
+| L-06BA-006: 単一 resolver factory に dev / production 経路を集約する | L23 |
+| L-06BA-007: secret 検証ロジックは shared extractor を再利用する | L27 |
+| L-06BA-008: `apps/web` は cookie forwarding 維持・D1 直接アクセス禁止 | L31 |
 
 ### references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md
 
@@ -3660,8 +3683,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L78 |
-| 関連ドキュメント | L83 |
+| 利用順序 | L79 |
+| 関連ドキュメント | L84 |
 
 ### references/llm-embedding.md
 
