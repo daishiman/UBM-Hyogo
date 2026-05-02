@@ -41,6 +41,7 @@ import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
 import { createAuthRoute } from "./routes/auth";
 import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
+import { createMeSessionResolver } from "./middleware/me-session-resolver";
 
 function timingSafeEqual(a: string, b: string): boolean {
   let mismatch = a.length ^ b.length;
@@ -155,24 +156,16 @@ app.route("/auth", createSessionResolveRoute());
 
 app.get("/me/healthz", (c) => c.json({ ok: true, scope: "me" }));
 
-// 04b: /me/* member self-service。
-// session resolver は 05a/b で Auth.js provider 連携時に差し替える。
-// 現状は MVP として x-ubm-dev-session: 1 付きの dev request に限り、
-// Bearer "session:<email>:<memberId>" 形式の dev token を許容する。
-// 本ヘッダは 05a/b で Auth.js cookie ベースの resolver に置き換える。
+// 04b/06b-A: /me/* member self-service。
+// resolver は createMeSessionResolver() を経由し、
+// - development: x-ubm-dev-session: 1 + Bearer "session:<email>:<memberId>" の dev 経路
+// - production/staging: Auth.js cookie (`authjs.session-token` / `__Secure-authjs.session-token`)
+//   または Authorization: Bearer <jwt> を AUTH_SECRET で HS256 verify する
+// の二段で解決する。失敗時は null を返し sessionGuard が 401 を返す。
 app.route(
   "/me",
   createMeRoute({
-    resolveSession: async (req, env) => {
-      if (env?.ENVIRONMENT && env.ENVIRONMENT !== "development") return null;
-      if (req.headers.get("x-ubm-dev-session") !== "1") return null;
-      const auth = req.headers.get("authorization") ?? "";
-      const m = /^Bearer\s+session:([^:]+):(.+)$/.exec(auth);
-      if (!m) return null;
-      const [, email, memberId] = m;
-      if (!email || !memberId) return null;
-      return { email, memberId };
-    },
+    resolveSession: createMeSessionResolver(),
   }),
 );
 

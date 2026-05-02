@@ -95,7 +95,7 @@ node scripts/list-specs.js --topics
 | 6. 環境変数 | L268 |
 | 7. 不変条件サマリ（admin API client / proxy） | L281 |
 | 8. 関連ドキュメント | L293 |
-| 9. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L301 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L301 |
 
 ### references/architecture-auth-security-core.md
 
@@ -106,7 +106,6 @@ node scripts/list-specs.js --topics
 | 認証アーキテクチャ（Supabase + Electron） | L93 |
 | セキュリティアーキテクチャ | L260 |
 | RAGパイプラインアーキテクチャ | L299 |
-| authGateState — 5 状態モデル（auth gate） | L414 |
 
 ### references/architecture-auth-security-details.md
 
@@ -873,12 +872,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L203 |
-| UBM-Hyogo Admin Sync API（03a） | L224 |
-| UBM-Hyogo Member Self-Service API（04b） | L269 |
-| Desktop IPC API サマリー | L297 |
-| 変更履歴 | L328 |
-| 関連ドキュメント | L345 |
+| エンドポイント命名規則 | L204 |
+| UBM-Hyogo Admin Sync API（03a） | L225 |
+| UBM-Hyogo Member Self-Service API（04b） | L270 |
+| Desktop IPC API サマリー | L289 |
+| 変更履歴 | L320 |
+| 関連ドキュメント | L337 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1085,15 +1084,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 全体構成 | L15 |
-| 2. AdminSidebar | L50 |
-| 3. /admin（Dashboard） | L76 |
-| 4. /admin/members | L108 |
-| 5. /admin/tags | L201 |
-| 6. /admin/schema | L256 |
-| 7. /admin/meetings | L310 |
-| 8. 共通の Server/Client 契約 | L379 |
-| 9. 不変条件サマリ（admin UI） | L397 |
+| 1. 全体構成 | L16 |
+| 2. AdminSidebar | L51 |
+| 3. /admin（Dashboard） | L77 |
+| 4. /admin/members | L112 |
+| 5. /admin/tags | L205 |
+| 6. /admin/schema | L260 |
+| 7. /admin/meetings | L314 |
+| 8. 共通の Server/Client 契約 | L383 |
+| 9. 不変条件サマリ（admin UI） | L401 |
 
 ### references/ui-ux-advanced.md
 
@@ -1985,6 +1984,26 @@ node scripts/list-specs.js --topics
 | Workflow artifacts | L18 |
 | Downstream ownership | L28 |
 
+### references/workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L13 |
+| Contract | L22 |
+| Phase 12 Required Files | L30 |
+| Related Resources | L42 |
+
+### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L16 |
+| phase 12 required artifacts | L24 |
+| scope notes | L36 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2333,15 +2352,6 @@ node scripts/list-specs.js --topics
 | 苦戦箇所（lessons reference） | L72 |
 | Follow-up 未タスク | L82 |
 | Validation Chain | L86 |
-
-### references/workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Summary | L3 |
-| Implementation Artifacts | L12 |
-| Deferred Evidence | L27 |
-| Boundary | L36 |
 
 ### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
 
@@ -2694,8 +2704,7 @@ node scripts/list-specs.js --topics
 | Notification/HistorySearch 実装同期（TASK-UI-01-C-NOTIFICATION-HISTORY-DOMAIN） | L195 |
 | HistorySearch timeline 再設計（TASK-UI-06-HISTORY-SEARCH-VIEW） | L240 |
 | ViewType/ナビ導線 実装同期（TASK-UI-01-D-VIEWTYPE-ROUTING-NAV） | L287 |
-| authGateState × UI gating（apps/web 共通） | L356 |
-| 続き | L382 |
+| 続き | L356 |
 
 ### references/arch-state-management-details.md
 
@@ -3085,7 +3094,6 @@ node scripts/list-specs.js --topics
 | 外部ストレージ取得フォールバックパターン（TASK-FIX-4-2） | L259 |
 | リトライ戦略 | L303 |
 | SkillExecutor リトライ戦略（TASK-SKILL-RETRY-001） | L367 |
-| Self-service クライアント側統一エラー型（SelfRequestError） | L404 |
 
 ### references/error-handling-details.md
 
@@ -3305,16 +3313,18 @@ node scripts/list-specs.js --topics
 | L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
 | 横断教訓 | L116 |
 
-### references/lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md
+### references/lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md
 
 | セクション | 行 |
 |------------|----|
-| L-06B-B-001: 重複申請は 409 + `SelfRequestError(code:'duplicate-pending')` で表現する | L10 |
-| L-06B-B-002: VisibilityRequest / DeleteRequest は `authGateState !== 'active'` で disabled | L18 |
-| L-06B-B-003: BFF proxy は `apps/web/app/api/me/[...path]/route.ts` パススルーで memberId を path に出さない | L26 |
-| L-06B-B-004: static-invariants S-04 に `<button type="submit">` 検出を追加して本文編集 UI 不在を構造保証する | L34 |
-| L-06B-B-005: production runtime evidence は 06b-A session resolver evidence 待ちで Phase 11 placeholder を PASS と扱わない | L42 |
-| 関連 artifact / 参照 | L50 |
+| L-06BA-001: implementation が入ったら spec_created を残さない | L3 |
+| L-06BA-002: dev token は env 欠落時も fail-closed | L7 |
+| L-06BA-003: local PASS と live smoke PASS を分離する | L11 |
+| L-06BA-004: shared extractor の互換 cookie は仕様に明記する | L15 |
+| L-06BA-005: `AUTH_SECRET` は web/api Worker 間で共有する | L19 |
+| L-06BA-006: 単一 resolver factory に dev / production 経路を集約する | L23 |
+| L-06BA-007: secret 検証ロジックは shared extractor を再利用する | L27 |
+| L-06BA-008: `apps/web` は cookie forwarding 維持・D1 直接アクセス禁止 | L31 |
 
 ### references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md
 
@@ -3323,6 +3333,14 @@ node scripts/list-specs.js --topics
 | 対象 | L3 |
 | Lessons | L10 |
 | Follow-up Boundaries | L47 |
+
+### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CA-001: spec_created / docs-only / remaining-only follow-up は contract diff として扱う | L3 |
+| L-06CA-002: 単一 admin dashboard endpoint を維持し split しない | L11 |
+| L-06CA-003: dashboard 表示由来の `dashboard.view` を recent actions / KPI から除外する | L18 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3388,11 +3406,12 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L9 |
-| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L17 |
-| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L25 |
-| L-09A-004: path realignment は top register と drift register の両方に書く | L33 |
-| L-09A-005: skill feedback は報告で止めず promotion target を決める | L41 |
+| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L10 |
+| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L18 |
+| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L26 |
+| L-09A-004: path realignment は top register と drift register の両方に書く | L34 |
+| L-09A-005: skill feedback は報告で止めず promotion target を決める | L42 |
+| L-09A-006: 実 staging smoke の preflight は Cloudflare auth と parent canonical directory の双方を満たす（2026-05-02 追記） | L50 |
 
 ### references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md
 
@@ -3481,6 +3500,16 @@ node scripts/list-specs.js --topics
 | 結論 (個人開発運用ポリシー) | L20 |
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
+
+### references/lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L10 |
+| 苦戦箇所 4 件（L-UUT0107FU01-001〜004） | L14 |
+| 運用ルール 2 件（receiver 系の固定運用） | L44 |
+| canonical 確定（参照用 / 親から継承） | L51 |
+| 後続タスク | L59 |
 
 ### references/lessons-learned-u-ut01-07-sync-log-naming-2026-04.md
 
@@ -3674,8 +3703,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L78 |
-| 関連ドキュメント | L83 |
+| 利用順序 | L80 |
+| 関連ドキュメント | L85 |
 
 ### references/llm-embedding.md
 
@@ -4395,7 +4424,6 @@ node scripts/list-specs.js --topics
 | skill-creatorフィクスチャ検証テスト（TASK-8C-G） | L327 |
 | 残課題（未タスク） | L366 |
 | 関連ドキュメント | L377 |
-| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.test.ts`） | L392 |
 
 ### references/quality-requirements-advanced.md
 
