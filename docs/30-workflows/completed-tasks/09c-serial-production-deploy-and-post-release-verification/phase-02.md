@@ -166,7 +166,7 @@ graph TB
 | GOOGLE_SERVICE_ACCOUNT_EMAIL | (secret) | Cloudflare Secrets (api production) | 確認のみ |
 | GOOGLE_PRIVATE_KEY | (secret) | 同上 | 確認のみ |
 | GOOGLE_FORM_ID | `119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg` | 同上 | 確認のみ |
-| RESEND_API_KEY | (secret) | 同上 | 確認のみ |
+| MAIL_PROVIDER_KEY | (secret) | 同上 | 確認のみ |
 | AUTH_SECRET | (secret) | Cloudflare Workers Secrets (web production) | 確認のみ |
 | AUTH_GOOGLE_ID | (secret) | 同上 | 確認のみ |
 | AUTH_GOOGLE_SECRET | (secret) | 同上 | 確認のみ |

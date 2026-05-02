@@ -410,3 +410,26 @@ RAGシステムのコア機能として、SQLite FTS5による高速全文検索
 - 検索設計: `docs/30-workflows/rag-conversion-system/design-chunks-search.md`
 
 ---
+
+## authGateState — 5 状態モデル（auth gate）
+
+05b（magic-link callback / credentials provider / auth gate state）で導入された apps/web 共通の認証ゲート状態モデル。Auth.js session の有無・期限切れ・magic-link 発行/送信中・致命的エラーを正規化し、UI 側のボタン disabled / banner 表示分岐の唯一のソースとする。
+
+### 5 状態
+
+| state | 意味 | 既定 UI 振る舞い |
+| --- | --- | --- |
+| `active` | session 有効・操作可能 | 通常 UI、self-service 操作ボタン有効 |
+| `expired` | session 期限切れ | 再ログイン誘導 banner、操作ボタン disabled |
+| `needs-magic-link` | magic-link 発行が必要（未認証/refresh 失敗） | magic-link 入力フォーム表示、操作ボタン disabled |
+| `sent` | magic-link を送信した直後 | 「メールを送信しました」banner、再送 cooldown |
+| `error` | 不可逆/想定外のゲート失敗 | error banner、操作ボタン disabled |
+
+### 設計ルール
+
+- state は **5 値の string literal union** として固定する。新規追加時は本表に登録してから利用する。
+- UI 側は **`state === "active"` 以外を一律 disabled** として扱う既定（個別 UI でのみ例外を許容）。
+- 06b-B profile 申請 UI（VisibilityRequest / DeleteRequest）でも、本モデルをそのまま流用し非 `active` 状態では送信ボタンを disabled にする。フォーム独自に「ログイン状態」を再判定しない。
+- 関連: `arch-state-management-core.md` の authGateState × UI gating 節、`error-handling-core.md` の SelfRequestError（`unauthorized` code との対応）。
+
+---
