@@ -5,6 +5,22 @@
 
 ---
 
+### Issue #346 08a canonical workflow tree restore（2026-05-02）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 13 Phase 仕様 | `docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/` |
+| 採用案 | A. canonical tree 復元（08a current/partial canonical root を維持し、本タスクは A restore trace） |
+| 08a canonical root（維持） | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` |
+| 下流 gate | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/` |
+| close-out evidence | `docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/outputs/phase-12/main.md` |
+| Phase 11 evidence | `outputs/phase-11/evidence/{file-existence.log,verify-indexes.log,aiworkflow-state-diff.log,09c-targeted-link-check.log,unassigned-grep.log,secret-hygiene.log}` |
+| 苦戦箇所・教訓 | `references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md` |
+| artifact inventory | `references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md` |
+| Issue 取扱 | #346 は CLOSED at spec time。Phase 13 commit message は `Refs #346` のみ |
+
+---
+
 ### 07c Follow-up 003 Audit Log Browsing UI（2026-05-01）
 
 | 目的 | 参照先 |

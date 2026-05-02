@@ -2443,6 +2443,15 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Open Follow-ups | L25 |
 
+### references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Acceptance Evidence | L15 |
+| Phase 12 Artifacts | L26 |
+| Skill / Spec Sync Targets | L39 |
+| Deferred / Blocked | L50 |
+
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
 | セクション | 行 |
@@ -3471,6 +3480,13 @@ node scripts/list-specs.js --topics
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
 | L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
 | L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
+
+### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L12 |
+| 関連 skill feedback | L19 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
