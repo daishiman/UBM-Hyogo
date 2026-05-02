@@ -339,6 +339,7 @@ Family status: `reclassify-first`
 | 06a-A-public-web-real-workers-d1-smoke-execution (intermediate path) | `docs/30-workflows/02-application-implementation/06a-A-public-web-real-workers-d1-smoke-execution/` | `docs/30-workflows/06a-A-public-web-real-workers-d1-smoke-execution/` | 2026-05-02 | semantic-filename / classification-first 原則に従い、`02-application-implementation/` 配下の中間 path を semantic root へ昇格。旧 path citation は `grep -rl '02-application-implementation/06a-A-public-web-real-workers-d1-smoke-execution' docs/ .claude/skills/aiworkflow-requirements/` で検出して新パスへ書換。 |
 | 05a-authjs-google-oauth-admin-gate followup family | `docs/30-workflows/unassigned-task/05a-authjs-google-oauth-admin-gate/` | `docs/30-workflows/ut-05a-followup-google-oauth-completion/` | 2026-05-01 | task-20260430-181640-wt-5 / Google OAuth 統合 followup wave |
 | 05b-A-auth-mail-env-contract-alignment | `docs/30-workflows/02-application-implementation/05b-A-auth-mail-env-contract-alignment/` | `docs/30-workflows/05b-A-auth-mail-env-contract-alignment/` | 2026-05-01 | task-20260501-181030-wt-8 / spec_created docs-only remaining-only NON_VISUAL |
+| 06c-A-admin-dashboard | `docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/` | `docs/30-workflows/06c-A-admin-dashboard/` | 2026-05-02 | task-20260502-075259-wt-4 / spec_created docs-only remaining-only VISUAL_ON_EXECUTION（Phase 12 strict 7 files present） |
 
 ### 05a ordinal alias（2026-05-01 追記）
 

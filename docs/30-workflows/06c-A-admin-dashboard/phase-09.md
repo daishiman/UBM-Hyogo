@@ -1,11 +1,11 @@
-# Phase 1: 要件定義 — 06c-A-admin-dashboard
+# Phase 9: 品質保証 — 06c-A-admin-dashboard
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-A-admin-dashboard |
-| phase | 1 / 13 |
+| phase | 9 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -16,7 +16,7 @@
 
 ## 目的
 
-未完了の真因、scope、依存境界、成功条件を確定する。
+free-tier 見積もり / secret hygiene / a11y を確定する。
 
 ## 実行タスク
 
@@ -32,11 +32,11 @@
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,40 +59,36 @@
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-01/main.md を作成する
+- [ ] outputs/phase-09/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-01/main.md
+- outputs/phase-09/main.md
 
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）
 - apps/web は D1 直参照せず apps/api 経由で集計データを取得する（#5）
 
-## 追加セクション（Phase 1）
+## 追加セクション（Phase 9）
 
-### true issue
-- `/admin` dashboard の集計 UI / API がプロトタイプ仕様 11-admin-management.md / pages-admin.jsx に対し未接続である点が真の課題。
-- middleware / require-admin API の二段防御は別タスクで担保されるが、dashboard 固有の集計境界が未定義。
+### free-tier 見積もり
+- D1 read: 1 dashboard 表示 = 4 query。admin 操作頻度想定で daily 100 表示 → 400 read。free-tier 上限内。
+- Workers requests: dashboard 同期表示で +1 request/表示。
 
-### 依存境界
-- 上流: 06b-followup-002 session resolver / 06c admin pages 本体 / require-admin middleware
-- 下流: 08b admin E2E / 09a staging admin smoke
+### secret hygiene
+- [ ] 新規 secret 追加なし
+- [ ] AUTH_SECRET の値を log/doc に書かない
+- [ ] admin email allowlist は code に固定値で書かない（既存 env 参照）
 
-### 価値とコスト
-- 価値: 管理者が公開メンバー数 / pending request 件数 / 未解決 audit 件数を即座に把握できる。
-- コスト: 集計 endpoint 1 系統と KPI tile component 群、audit log への閲覧記録 1 行。
-
-### 4 条件
-- 価値性: admin 業務の起点になる KPI を提供する。
-- 実現性: 既存 D1 テーブル（members / membership_requests / audit_log）の集計のみで実装可能。
-- 整合性: #5 / #11 / #13 / #15 と矛盾しない。
-- 運用性: free-tier 範囲内、secret 値の追加なし。
+### a11y
+- KPI tile は h2 / h3 で見出し階層を保つ
+- 件数表示には aria-label で「○件」を含める
+- color contrast WCAG AA 準拠
 
 ## タスク100%実行確認
 
@@ -102,4 +98,4 @@
 
 ## 次 Phase への引き渡し
 
-Phase 2 へ、AC、blocker、evidence path、approval gate を渡す。
+Phase 10 へ、AC、blocker、evidence path、approval gate を渡す。

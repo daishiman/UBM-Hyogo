@@ -1,6 +1,6 @@
 {
   "task_name": "06c-A-admin-dashboard",
-  "task_path": "docs/30-workflows/02-application-implementation/06c-A-admin-dashboard",
+  "task_path": "docs/30-workflows/06c-A-admin-dashboard",
   "wave": "06c-fu",
   "execution_mode": "parallel",
   "depends_on": [
@@ -19,7 +19,9 @@
     "docs_only": true,
     "remaining_only": true,
     "scope": "application_implementation",
-    "visualEvidence": "VISUAL_ON_EXECUTION"
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "workflow_state": "spec_created",
+    "outputs_contract_only": true
   },
   "phases": [
     {
@@ -160,13 +162,13 @@
     "docs/00-getting-started-manual/specs/09-ui-ux.md"
   ],
   "endpoints": [
-    "GET /api/admin/dashboard",
-    "GET /api/admin/dashboard/kpi",
-    "GET /api/admin/dashboard/recent-actions"
+    "GET /admin/dashboard",
+    "GET /api/admin/dashboard"
   ],
   "d1_tables": [
     "members",
-    "membership_requests",
+    "member_tags",
+    "schema_diff_queue",
     "audit_log"
   ],
   "ui_routes": [

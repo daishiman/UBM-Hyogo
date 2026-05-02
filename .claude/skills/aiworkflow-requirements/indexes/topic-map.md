@@ -95,6 +95,7 @@ node scripts/list-specs.js --topics
 | 6. 環境変数 | L268 |
 | 7. 不変条件サマリ（admin API client / proxy） | L281 |
 | 8. 関連ドキュメント | L293 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L301 |
 
 ### references/architecture-auth-security-core.md
 
@@ -871,12 +872,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L203 |
-| UBM-Hyogo Admin Sync API（03a） | L224 |
-| UBM-Hyogo Member Self-Service API（04b） | L269 |
-| Desktop IPC API サマリー | L288 |
-| 変更履歴 | L319 |
-| 関連ドキュメント | L336 |
+| エンドポイント命名規則 | L204 |
+| UBM-Hyogo Admin Sync API（03a） | L225 |
+| UBM-Hyogo Member Self-Service API（04b） | L270 |
+| Desktop IPC API サマリー | L289 |
+| 変更履歴 | L320 |
+| 関連ドキュメント | L337 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1083,15 +1084,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 全体構成 | L15 |
-| 2. AdminSidebar | L50 |
-| 3. /admin（Dashboard） | L76 |
-| 4. /admin/members | L108 |
-| 5. /admin/tags | L201 |
-| 6. /admin/schema | L256 |
-| 7. /admin/meetings | L310 |
-| 8. 共通の Server/Client 契約 | L379 |
-| 9. 不変条件サマリ（admin UI） | L397 |
+| 1. 全体構成 | L16 |
+| 2. AdminSidebar | L51 |
+| 3. /admin（Dashboard） | L77 |
+| 4. /admin/members | L112 |
+| 5. /admin/tags | L205 |
+| 6. /admin/schema | L260 |
+| 7. /admin/meetings | L314 |
+| 8. 共通の Server/Client 契約 | L383 |
+| 9. 不変条件サマリ（admin UI） | L401 |
 
 ### references/ui-ux-advanced.md
 
@@ -1992,6 +1993,16 @@ node scripts/list-specs.js --topics
 | Contract | L22 |
 | Phase 12 Required Files | L30 |
 | Related Resources | L42 |
+
+### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L16 |
+| phase 12 required artifacts | L24 |
+| scope notes | L36 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -3323,6 +3334,14 @@ node scripts/list-specs.js --topics
 | Lessons | L10 |
 | Follow-up Boundaries | L47 |
 
+### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CA-001: spec_created / docs-only / remaining-only follow-up は contract diff として扱う | L3 |
+| L-06CA-002: 単一 admin dashboard endpoint を維持し split しない | L11 |
+| L-06CA-003: dashboard 表示由来の `dashboard.view` を recent actions / KPI から除外する | L18 |
+
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
 | セクション | 行 |
@@ -3684,8 +3703,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L79 |
-| 関連ドキュメント | L84 |
+| 利用順序 | L80 |
+| 関連ドキュメント | L85 |
 
 ### references/llm-embedding.md
 

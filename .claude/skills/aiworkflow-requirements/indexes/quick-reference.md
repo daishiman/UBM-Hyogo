@@ -1299,6 +1299,18 @@ packages/
 | API client 詳細 | `references/architecture-admin-api-client.md`（Server Component `fetchAdmin` / client mutation helper / proxy / 認可境界） |
 | 教訓 | `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
 
+### UBM-Hyogo Admin Dashboard Follow-up 早見（06c-A / 2026-05-02）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/06c-A-admin-dashboard/` |
+| 状態 | `spec_created` / docs-only / remaining-only / `VISUAL_ON_EXECUTION` / outputs contract only |
+| endpoint | apps/api は `GET /admin/dashboard`、apps/web は proxy 経由 `GET /api/admin/dashboard`（split `/kpi` / `/recent-actions` は不採用） |
+| KPI | `総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数` |
+| recent actions | `audit_log` 直近7日 / max20 / `dashboard.view` 除外 |
+| audit | dashboard read は `dashboard.view` として記録し、recent actions と KPI を自己汚染しない |
+| Phase 12 evidence | `docs/30-workflows/06c-A-admin-dashboard/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
 ### UBM-Hyogo Staging Smoke / Forms Sync Validation 早見（09a / 2026-05-01）
 
 | 観点 | 値 / 参照先 |

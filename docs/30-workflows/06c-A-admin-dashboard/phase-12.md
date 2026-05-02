@@ -1,11 +1,11 @@
-# Phase 9: 品質保証 — 06c-A-admin-dashboard
+# Phase 12: ドキュメント更新 — 06c-A-admin-dashboard
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-A-admin-dashboard |
-| phase | 9 / 13 |
+| phase | 12 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -16,7 +16,7 @@
 
 ## 目的
 
-free-tier 見積もり / secret hygiene / a11y を確定する。
+正本仕様、runbook、lessons learned の同期を定義する。
 
 ## 実行タスク
 
@@ -32,11 +32,11 @@ free-tier 見積もり / secret hygiene / a11y を確定する。
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,36 +59,45 @@ free-tier 見積もり / secret hygiene / a11y を確定する。
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-09/main.md を作成する
+- [ ] outputs/phase-12/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-09/main.md
+- outputs/phase-12/main.md
 
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）
 - apps/web は D1 直参照せず apps/api 経由で集計データを取得する（#5）
 
-## 追加セクション（Phase 9）
+## 追加セクション（Phase 12）
 
-### free-tier 見積もり
-- D1 read: 1 dashboard 表示 = 4 query。admin 操作頻度想定で daily 100 表示 → 400 read。free-tier 上限内。
-- Workers requests: dashboard 同期表示で +1 request/表示。
+### 中学生レベル概念説明（implementation-guide.md 抜粋）
 
-### secret hygiene
-- [ ] 新規 secret 追加なし
-- [ ] AUTH_SECRET の値を log/doc に書かない
-- [ ] admin email allowlist は code に固定値で書かない（既存 env 参照）
+- **管理者ダッシュボードってなに？**: 学校の職員室にある「掲示板」のようなもの。生徒数、提出物の未受領件数、まだ対応していない相談件数が一目で分かる。
+- **二段防御の例え**: 校門で生徒証チェック（middleware）、職員室の入口でもう一度顔パス（require-admin API）。どちらか抜けても入れない仕組み。
+- **集計 API の例え**: 給食センターが各クラスの注文数をまとめて 1 枚の紙にして返してくれる。ブラウザは紙を見るだけで、台所（D1）には入らない。
+- **audit log の例え**: 職員室に入った人が必ずノートに名前を書く。誰がいつダッシュボードを見たか後から確認できる。
 
-### a11y
-- KPI tile は h2 / h3 で見出し階層を保つ
-- 件数表示には aria-label で「○件」を含める
-- color contrast WCAG AA 準拠
+### 想定 outputs（strict 7 files）
+- `outputs/phase-12/main.md`（Phase 12 実行結果の正本）
+- `outputs/phase-12/implementation-guide.md`（中学生レベル概念説明 + 日常の例え話）
+- `outputs/phase-12/system-spec-update-summary.md`（11-admin-management.md への追記反映）
+- `outputs/phase-12/documentation-changelog.md`
+- `outputs/phase-12/unassigned-task-detection.md`
+- `outputs/phase-12/skill-feedback-report.md`
+- `outputs/phase-12/phase12-task-spec-compliance-check.md`
+
+### spec_created 境界
+
+- この仕様書作成時点では `outputs/phase-12/*` を実体作成しない。
+- Phase 12 を実行する場合は上記 7 ファイルの実体確認を完了条件に含める。
+- `skill-feedback-report.md` は改善点なしでも作成し、no-op の場合は scope / no-op reason / evidence path を明記する。
+- `unassigned-task-detection.md` は 0 件でも作成し、残課題なしと判断した根拠を記録する。
 
 ## タスク100%実行確認
 
@@ -98,4 +107,4 @@ free-tier 見積もり / secret hygiene / a11y を確定する。
 
 ## 次 Phase への引き渡し
 
-Phase 10 へ、AC、blocker、evidence path、approval gate を渡す。
+Phase 13 へ、AC、blocker、evidence path、approval gate を渡す。

@@ -1,11 +1,11 @@
-# Phase 12: ドキュメント更新 — 06c-A-admin-dashboard
+# Phase 3: 設計レビュー — 06c-A-admin-dashboard
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-A-admin-dashboard |
-| phase | 12 / 13 |
+| phase | 3 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -16,7 +16,7 @@
 
 ## 目的
 
-正本仕様、runbook、lessons learned の同期を定義する。
+代替案を比較評価し、Phase 2 の設計を PASS-MINOR-MAJOR で判定する。
 
 ## 実行タスク
 
@@ -32,11 +32,11 @@
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,37 +59,35 @@
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-12/main.md を作成する
+- [ ] outputs/phase-03/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-12/main.md
+- outputs/phase-03/main.md
 
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）
 - apps/web は D1 直参照せず apps/api 経由で集計データを取得する（#5）
 
-## 追加セクション（Phase 12）
+## 追加セクション（Phase 3）
 
-### 中学生レベル概念説明（implementation-guide.md 抜粋）
+### 代替案
+1. **集計 endpoint を 1 本に集約**（採用候補）: `/api/admin/dashboard` で KPI と直近アクションをまとめて返す。
+2. **endpoint を分割**: `/api/admin/dashboard/kpi` と `/api/admin/dashboard/recent-actions` を別系統にする。不採用。正本契約は単一 `GET /api/admin/dashboard` に固定する。
+3. **dashboard SSR で D1 直参照**: 不変条件 #5 違反のため不採用。
 
-- **管理者ダッシュボードってなに？**: 学校の職員室にある「掲示板」のようなもの。生徒数、提出物の未受領件数、まだ対応していない相談件数が一目で分かる。
-- **二段防御の例え**: 校門で生徒証チェック（middleware）、職員室の入口でもう一度顔パス（require-admin API）。どちらか抜けても入れない仕組み。
-- **集計 API の例え**: 給食センターが各クラスの注文数をまとめて 1 枚の紙にして返してくれる。ブラウザは紙を見るだけで、台所（D1）には入らない。
-- **audit log の例え**: 職員室に入った人が必ずノートに名前を書く。誰がいつダッシュボードを見たか後から確認できる。
+### PASS-MINOR-MAJOR 判定
+- 案 1: PASS（呼び出し回数最小、cache 戦略一本化）
+- 案 2: MINOR（独立 cache が可能だが over-engineering）
+- 案 3: MAJOR（不変条件違反）
 
-### 想定 outputs（6 ファイル）
-- `outputs/phase-12/implementation-guide.md`（中学生レベル概念説明 + 日常の例え話）
-- `outputs/phase-12/system-spec-update-summary.md`（11-admin-management.md への追記反映）
-- `outputs/phase-12/documentation-changelog.md`
-- `outputs/phase-12/unassigned-task-detection.md`
-- `outputs/phase-12/skill-feedback-report.md`
-- `outputs/phase-12/phase12-task-spec-compliance-check.md`
+### 採用方針
+案 1 を採用し、将来 cache 分離が必要になった時点で案 2 に分解する。
 
 ## タスク100%実行確認
 
@@ -99,4 +97,4 @@
 
 ## 次 Phase への引き渡し
 
-Phase 13 へ、AC、blocker、evidence path、approval gate を渡す。
+Phase 4 へ、AC、blocker、evidence path、approval gate を渡す。

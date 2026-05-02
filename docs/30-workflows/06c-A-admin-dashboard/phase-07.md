@@ -1,11 +1,11 @@
-# Phase 11: 手動 smoke / 実測 evidence — 06c-A-admin-dashboard
+# Phase 7: AC マトリクス — 06c-A-admin-dashboard
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-A-admin-dashboard |
-| phase | 11 / 13 |
+| phase | 7 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -16,7 +16,7 @@
 
 ## 目的
 
-screenshot / curl / wrangler 出力 placeholder を含む manual evidence を確定する。
+Phase 1 AC × Phase 4 検証 × Phase 5 実装の対応を確定する。
 
 ## 実行タスク
 
@@ -32,11 +32,11 @@ screenshot / curl / wrangler 出力 placeholder を含む manual evidence を確
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
 - apps/api/src/middleware/require-admin.ts
-- apps/web/app/admin/
+- apps/web/app/(admin)/admin/
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/
+- 対象 directory: docs/30-workflows/06c-A-admin-dashboard/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,32 +59,33 @@ screenshot / curl / wrangler 出力 placeholder を含む manual evidence を確
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-11/main.md を作成する
+- [ ] outputs/phase-07/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-11/main.md
+- outputs/phase-07/main.md
 
 ## 完了条件
 
 - `/admin` は admin role 必須（middleware + require-admin API の二段防御）で保護される
-- KPI tile（公開メンバー数 / pending request 件数 / 未解決 audit 件数）が集計 API 経由で表示される
+- KPI tile（総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数）が単一集計 API 経由で表示される
 - 直近 7 日のアクション一覧が dashboard 上で確認できる
 - 非 admin user が `/admin` にアクセスした場合、middleware で 302、API で 403 を返す
 - dashboard 閲覧は audit log に記録される（#13）
 - apps/web は D1 直参照せず apps/api 経由で集計データを取得する（#5）
 
-## 追加セクション（Phase 11）
+## 追加セクション（Phase 7）
 
-### manual evidence
+### AC マトリクス
 
-| 項目 | placeholder |
-| --- | --- |
-| screenshot | `outputs/phase-11/admin-dashboard-200.png` |
-| curl 200 | `curl -b cookie.txt $API/api/admin/dashboard` の出力 placeholder |
-| curl 403 | non-admin cookie で 403 を確認 |
-| wrangler tail | dashboard 閲覧時の audit_log insert ログ placeholder |
-| a11y | axe-core scan 結果 placeholder |
+| AC | Phase 4 検証 | Phase 5 実装 |
+| --- | --- | --- |
+| `/admin` admin 二段防御 | authorization suite | middleware + require-admin |
+| KPI tile 表示 | contract + E2E | dashboard-aggregator + KpiTile |
+| 直近 7 日アクション | E2E | RecentActionsList |
+| non-admin 302/403 | authorization suite | middleware redirect / require-admin |
+| audit log 記録 | audit suite | audit writer hook |
+| apps/web D1 直参照禁止 | contract | cookie forward only |
 
 ## タスク100%実行確認
 
@@ -94,4 +95,4 @@ screenshot / curl / wrangler 出力 placeholder を含む manual evidence を確
 
 ## 次 Phase への引き渡し
 
-Phase 12 へ、AC、blocker、evidence path、approval gate を渡す。
+Phase 8 へ、AC、blocker、evidence path、approval gate を渡す。
