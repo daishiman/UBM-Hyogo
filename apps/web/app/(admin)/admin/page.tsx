@@ -1,5 +1,5 @@
-// 06c: /admin ダッシュボード
-// AC-8: GET /admin/dashboard 1 fetch 集約
+// 06c-A: /admin ダッシュボード
+// AC: GET /admin/dashboard 1 fetch 集約 (KPI 4 + recentActions)
 import type { AdminDashboardView } from "@ubm-hyogo/shared";
 import { fetchAdmin } from "../../../src/lib/admin/server-fetch";
 
@@ -13,31 +13,32 @@ export default async function AdminDashboardPage() {
       <h1 id="admin-dashboard-h">ダッシュボード</h1>
 
       <div className="kpi-grid" role="group" aria-label="主要指標">
-        <KpiCard label="総会員" value={t.members} />
-        <KpiCard label="同意保留" value={t.pendingConsent} />
-        <KpiCard label="削除済み" value={t.deletedMembers} />
-        <KpiCard label="未タグ件数" value={t.queuedTagAssignments} />
+        <KpiCard label="総会員数" value={t.totalMembers} />
+        <KpiCard label="公開中" value={t.publicMembers} />
+        <KpiCard label="未タグ" value={t.untaggedMembers} />
+        <KpiCard label="スキーマ未解決" value={t.unresolvedSchema} />
       </div>
 
-      <p>
-        schema 状態: <strong data-testid="schema-state">{view.schemaState}</strong>
-      </p>
-
-      <h2>最近の提出</h2>
+      <h2>直近のアクション（7日）</h2>
       <table>
         <thead>
           <tr>
-            <th>提出日時</th>
-            <th>氏名</th>
-            <th>memberId</th>
+            <th>日時</th>
+            <th>実行者</th>
+            <th>アクション</th>
+            <th>対象</th>
           </tr>
         </thead>
         <tbody>
-          {view.recentSubmissions.map((r) => (
-            <tr key={r.responseId}>
-              <td>{r.submittedAt}</td>
-              <td>{r.fullName}</td>
-              <td>{r.memberId ?? "—"}</td>
+          {view.recentActions.map((r) => (
+            <tr key={r.auditId}>
+              <td>{r.createdAt}</td>
+              <td>{r.actorEmail ?? "—"}</td>
+              <td>{r.action}</td>
+              <td>
+                {r.targetType}
+                {r.targetId ? `:${r.targetId}` : ""}
+              </td>
             </tr>
           ))}
         </tbody>

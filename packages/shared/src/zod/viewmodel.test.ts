@@ -113,17 +113,16 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
     expect(MemberProfileZ.safeParse({}).success).toBe(false);
   });
 
-  it("AdminDashboardView totals 4 fields", () => {
+  it("AdminDashboardView totals 4 fields + recentActions", () => {
     expect(
       AdminDashboardViewZ.safeParse({
         totals: {
-          members: 1,
-          pendingConsent: 0,
-          deletedMembers: 0,
-          queuedTagAssignments: 0,
+          totalMembers: 1,
+          publicMembers: 0,
+          untaggedMembers: 0,
+          unresolvedSchema: 0,
         },
-        recentSubmissions: [],
-        schemaState: "active",
+        recentActions: [],
         generatedAt: "2026-04-27T00:00:00Z",
       }).success,
     ).toBe(true);
