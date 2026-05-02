@@ -69,7 +69,7 @@ task_dir_from_path() {
     30-workflows)
       [ -n "${parts[2]:-}" ] || return 1
       case "${parts[2]}" in
-        completed-tasks|unassigned-task)
+        completed-tasks|unassigned-task|02-application-implementation)
           [ -n "${parts[3]:-}" ] || return 1
           printf 'docs/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}"
           ;;
