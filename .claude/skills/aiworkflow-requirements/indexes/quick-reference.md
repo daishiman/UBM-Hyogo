@@ -5,6 +5,25 @@
 
 ---
 
+### Issue #195 03b Follow-up Sync Shared Modules Owner（2026-05-02）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 13 Phase 仕様 | `docs/30-workflows/completed-tasks/issue-195-03b-followup-002-sync-shared-modules-owner/` |
+| owner 表（workflow governance design） | `docs/30-workflows/_design/sync-shared-modules-owner.md` |
+| 対象モジュール | `apps/api/src/jobs/_shared/{ledger,sync-error,index}.ts`（実体化済み skeleton） |
+| 親 workflow リンク追記 | `docs/30-workflows/completed-tasks/03a-parallel-forms-schema-sync-and-stablekey-alias-queue/index.md`, `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` |
+| close-out evidence | `docs/30-workflows/completed-tasks/issue-195-03b-followup-002-sync-shared-modules-owner/outputs/phase-12/main.md` |
+| 苦戦箇所・教訓 | `references/lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md` |
+| artifact inventory | `references/workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md` |
+| governance category 定義 | `references/workflow-governance-design-category.md` |
+| formalize 後続 | `docs/30-workflows/unassigned-task/task-issue195-sync-jobs-contract-schema-consolidation-001.md` |
+| resolved record（同サイクル内解決） | `docs/30-workflows/completed-tasks/task-issue195-owner-coowner-terminology-normalization-001.md` |
+| branch-level check | `git diff --diff-filter=D --name-only` 実測 0 件。current canonical workflow 削除 blocker なし |
+| Issue 取扱 | #195 は CLOSED のまま運用。Phase 13 commit message は `Refs #195` のみ |
+
+---
+
 ### Issue #346 08a canonical workflow tree restore（2026-05-02）
 
 | 目的 | 参照先 |
@@ -53,9 +72,7 @@
 | CI/CD topology drift 正本 | `references/deployment-gha.md`, `references/deployment-cloudflare.md`, `references/deployment-core.md`, `references/deployment-secrets-management.md` |
 | Pages vs Workers deploy target decision | `docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`（ADR-0001 / Workers cutover accepted） |
 | OpenNext Workers 詳細仕様 | `references/deployment-cloudflare-opennext-workers.md` |
-| Issue #355 cutover spec workflow | `docs/30-workflows/completed-tasks/issue-355-opennext-workers-cd-cutover-task-spec/`（spec_created / implementation / NON_VISUAL / Phase 11 evidence contracts） |
 | 残る実装 task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`（`web-cd.yml` Workers deploy 置換 / Cloudflare side cutover / smoke） |
-| Pages delete after dormant | `docs/30-workflows/unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md`（destructive cleanup / separate approval） |
 | 決定 workflow | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` |
 
 ---
@@ -435,11 +452,8 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | Phase 11 template | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11/` |
 | Phase 12 compliance | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory / legacy alias | `references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md`, `references/legacy-ordinal-family-register.md` |
-| production execution | `docs/30-workflows/09c-production-deploy-execution-001/` |
-| production execution status | `spec_created` / implementation / VISUAL / user approval G1-G3 required / production runtime evidence pending |
-| production execution inventory | `references/workflow-task-09c-production-deploy-execution-001-artifact-inventory.md` |
-| production execution lessons | `references/lessons-learned-09c-production-deploy-execution-001-2026-05.md`（L-09C-EXEC-001〜006）|
-| 境界 | 09c 本体は runbook / evidence template。実 production D1 migration / deploy / tag push / 24h verification は `09c-production-deploy-execution-001` の Phase 5-11 で user approval 後に実行 |
+| production execution | `docs/30-workflows/unassigned-task/task-09c-production-deploy-execution-001.md` |
+| 境界 | 09c 本体は runbook / evidence template。実 production D1 migration / deploy / tag push / 24h verification は別承認タスクで実行 |
 
 ---
 
