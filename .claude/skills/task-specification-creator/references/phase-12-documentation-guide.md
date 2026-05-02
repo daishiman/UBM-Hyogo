@@ -180,6 +180,7 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - `spec_created` workflow は root path と status の整合も確認し、`completed-tasks/` 配下にあることを理由に `completed` へ上げない
 - `計画済み` / `更新予定` / `作成待` / `完了または計画済み` は未完了扱いとし、compliance-check を PASS にしない
 - `outputs/phase-11/manual-test-result.md` が `not_run` のままなら Phase 11 / 12 を completed にしない
+- Phase 11 `main.md` が executed `PASS` / `BLOCKED` / `FAIL` に進んでいる場合、`manual-test-result.md` / `discovered-issues.md` / `system-spec-update-summary.md` / `phase12-task-spec-compliance-check.md` に同じ runtime state を反映する。`pending explicit user instruction` や `not_run` が残る場合は stale helper artifact として FAIL。
 - internal adapter の実装だけで public IPC / preload contract 更新済みとは記録しない
 - Phase 13 は user approval 未取得なら `blocked` を維持し、completed へ進めない
 - skill を更新した場合は canonical `.claude/skills/...` と mirror `.agents/skills/...` の parity も記録する

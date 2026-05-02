@@ -8,6 +8,8 @@
 
 **正本**: このファイルがテストカバレッジ基準の正本。phase-templates.md Phase 6/7 のカバレッジ基準はこのファイルから参照される。
 
+**全タスク必須 AC**: 本ファイルの「ユニットテストカバレッジ」表に定める閾値は **全タスク仕様書の `## 完了条件` に必須記載**する（[phase-template-core.md](phase-template-core.md) §共通ルール #6）。タスク固有で上振れ閾値（例: ≥85%）が設定されている場合は、その数値を優先して `index.md` と各 phase の `完了条件` に明記する。実装テストが発生しないタスク（pure-docs / migration-only 等）は `index.md` メタ情報に「coverage AC 適用外」を理由付きで明記する。
+
 ---
 
 ## ユニットテストカバレッジ
@@ -147,6 +149,7 @@ pnpm test:e2e
 
 | Version | Date       | Changes                                                          |
 | ------- | ---------- | ---------------------------------------------------------------- |
+| v1.5.0  | 2026-05-01 | 全タスク仕様書 `完了条件` への coverage AC 必須記載ルールを明記し、phase-template-core.md §共通ルール #6 と相互参照化 |
 | v1.4.0  | 2026-04-29 | coverage-80-enforcement を反映し、workspace 一律 80% と `scripts/coverage-guard.sh` 強制経路を追加 |
 | v1.3.0  | 2026-03-19 | 大規模ファイル（500行超）のカバレッジ評価ガイドライン追加（TASK-IMP-IPC-LAYER-INTEGRITY-FIX-001 知見） |
 | v1.2.0  | 2026-02-12 | テンプレート準拠化: Progressive Disclosureブロックに関連スキーマ・スクリプト追加、正本パス明記、変更履歴にVersionカラム追加 |

@@ -95,6 +95,7 @@ node scripts/list-specs.js --topics
 | 6. 環境変数 | L268 |
 | 7. 不変条件サマリ（admin API client / proxy） | L281 |
 | 8. 関連ドキュメント | L293 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L301 |
 
 ### references/architecture-auth-security-core.md
 
@@ -871,9 +872,9 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L203 |
-| UBM-Hyogo Admin Sync API（03a） | L224 |
-| UBM-Hyogo Member Self-Service API（04b） | L269 |
+| エンドポイント命名規則 | L204 |
+| UBM-Hyogo Admin Sync API（03a） | L225 |
+| UBM-Hyogo Member Self-Service API（04b） | L270 |
 | Desktop IPC API サマリー | L289 |
 | 変更履歴 | L320 |
 | 関連ドキュメント | L337 |
@@ -1083,15 +1084,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 1. 全体構成 | L15 |
-| 2. AdminSidebar | L50 |
-| 3. /admin（Dashboard） | L76 |
-| 4. /admin/members | L108 |
-| 5. /admin/tags | L201 |
-| 6. /admin/schema | L256 |
-| 7. /admin/meetings | L310 |
-| 8. 共通の Server/Client 契約 | L379 |
-| 9. 不変条件サマリ（admin UI） | L397 |
+| 1. 全体構成 | L16 |
+| 2. AdminSidebar | L51 |
+| 3. /admin（Dashboard） | L77 |
+| 4. /admin/members | L112 |
+| 5. /admin/tags | L205 |
+| 6. /admin/schema | L260 |
+| 7. /admin/meetings | L314 |
+| 8. 共通の Server/Client 契約 | L383 |
+| 9. 不変条件サマリ（admin UI） | L401 |
 
 ### references/ui-ux-advanced.md
 
@@ -1983,6 +1984,26 @@ node scripts/list-specs.js --topics
 | Workflow artifacts | L18 |
 | Downstream ownership | L28 |
 
+### references/workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L13 |
+| Contract | L22 |
+| Phase 12 Required Files | L30 |
+| Related Resources | L42 |
+
+### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L16 |
+| phase 12 required artifacts | L24 |
+| scope notes | L36 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2422,6 +2443,15 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Open Follow-ups | L25 |
 
+### references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Acceptance Evidence | L15 |
+| Phase 12 Artifacts | L26 |
+| Skill / Spec Sync Targets | L39 |
+| Deferred / Blocked | L50 |
+
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
 | セクション | 行 |
@@ -2536,14 +2566,6 @@ node scripts/list-specs.js --topics
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
 
-### references/workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Metadata | L3 |
-| Canonical Artifacts | L13 |
-| Boundary | L25 |
-
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
 | セクション | 行 |
@@ -2561,6 +2583,15 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Canonical Artifacts | L13 |
 | Notes | L28 |
+
+### references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflows | L3 |
+| Phase 12 Strict Files | L10 |
+| Gate Boundary | L22 |
+| Same-Wave Sync | L28 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3174,12 +3205,12 @@ node scripts/list-specs.js --topics
 | 概要 | L14 |
 | 使い方 | L22 |
 | Current Alias Overrides（個別互換行） | L29 |
-| Family Summary | L63 |
-| Detailed Register | L84 |
-| Section Extract Register (2026-03-17) | L265 |
-| 500-Line Split Register (2026-03-16) | L276 |
-| Fragment Migration Register (2026-04-28) | L298 |
-| Task Root Path Drift Register (2026-04-30 追記) | L325 |
+| Family Summary | L64 |
+| Detailed Register | L85 |
+| Section Extract Register (2026-03-17) | L266 |
+| 500-Line Split Register (2026-03-16) | L277 |
+| Fragment Migration Register (2026-04-28) | L299 |
+| Task Root Path Drift Register (2026-04-30 追記) | L326 |
 
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
@@ -3300,6 +3331,19 @@ node scripts/list-specs.js --topics
 | L-06A-005: Phase 11 で `wrangler dev` esbuild バージョン不一致により実 Workers + D1 smoke 不能 | L95 |
 | 横断教訓 | L116 |
 
+### references/lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06BA-001: implementation が入ったら spec_created を残さない | L3 |
+| L-06BA-002: dev token は env 欠落時も fail-closed | L7 |
+| L-06BA-003: local PASS と live smoke PASS を分離する | L11 |
+| L-06BA-004: shared extractor の互換 cookie は仕様に明記する | L15 |
+| L-06BA-005: `AUTH_SECRET` は web/api Worker 間で共有する | L19 |
+| L-06BA-006: 単一 resolver factory に dev / production 経路を集約する | L23 |
+| L-06BA-007: secret 検証ロジックは shared extractor を再利用する | L27 |
+| L-06BA-008: `apps/web` は cookie forwarding 維持・D1 直接アクセス禁止 | L31 |
+
 ### references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md
 
 | セクション | 行 |
@@ -3307,6 +3351,14 @@ node scripts/list-specs.js --topics
 | 対象 | L3 |
 | Lessons | L10 |
 | Follow-up Boundaries | L47 |
+
+### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CA-001: spec_created / docs-only / remaining-only follow-up は contract diff として扱う | L3 |
+| L-06CA-002: 単一 admin dashboard endpoint を維持し split しない | L11 |
+| L-06CA-003: dashboard 表示由来の `dashboard.view` を recent actions / KPI から除外する | L18 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3372,11 +3424,12 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L9 |
-| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L17 |
-| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L25 |
-| L-09A-004: path realignment は top register と drift register の両方に書く | L33 |
-| L-09A-005: skill feedback は報告で止めず promotion target を決める | L41 |
+| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L10 |
+| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L18 |
+| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L26 |
+| L-09A-004: path realignment は top register と drift register の両方に書く | L34 |
+| L-09A-005: skill feedback は報告で止めず promotion target を決める | L42 |
+| L-09A-006: 実 staging smoke の preflight は Cloudflare auth と parent canonical directory の双方を満たす（2026-05-02 追記） | L50 |
 
 ### references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md
 
@@ -3427,6 +3480,13 @@ node scripts/list-specs.js --topics
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
 | L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
 | L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
+
+### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L12 |
+| 関連 skill feedback | L19 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -3582,6 +3642,17 @@ node scripts/list-specs.js --topics
 | L-CICD-OBS-004: generator が `phase-01.md` を弱く扱う場合は未タスク化する | L15 |
 | L-CICD-OBS-005: skill feedback は Promote / Defer / Reject で閉じる | L19 |
 
+### references/lessons-learned-ut-coverage-2026-05-wave.md
+
+| セクション | 行 |
+|------------|----|
+| L-UTCOV-001: coverage-summary.json 不在時は coverage-guard が空入力で素通りする | L3 |
+| L-UTCOV-002: D1 binding fake は contract 表面（exec/prepare/dump）を最小再現する | L7 |
+| L-UTCOV-003: 2-layer coverage gate は precondition gate と upgrade gate を別タスク化する | L11 |
+| L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
+| L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
+| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
+
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
 | セクション | 行 |
@@ -3611,16 +3682,6 @@ node scripts/list-specs.js --topics
 | 教訓 | L7 |
 | 2026-05 / route-inventory-design 追記 | L44 |
 | 関連リソース | L78 |
-
-### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-UT07B-FU03-001: Runbook formalization is not production execution | L3 |
-| L-UT07B-FU03-002: Use scoped status labels | L7 |
-| L-UT07B-FU03-003: Strict Phase 12 files must be real files | L11 |
-| L-UT07B-FU03-004: Parent seed wording must be consumed | L15 |
-| L-UT07B-FU03-005: Workflow LOGS and skill LOGS are separate | L19 |
 
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
@@ -3678,8 +3739,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L79 |
-| 関連ドキュメント | L84 |
+| 利用順序 | L80 |
+| 関連ドキュメント | L85 |
 
 ### references/llm-embedding.md
 
@@ -4747,13 +4808,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L100 |
-| フェーズ構造（概要） | L109 |
-| 品質ゲート（概要） | L140 |
-| 出力テンプレート | L151 |
-| 実行時のコマンド・エージェント・スキル | L174 |
-| 昇格パターン集 | L198 |
-| Current Active / Spec Created Tasks | L200 |
+| ドキュメント構成 | L104 |
+| フェーズ構造（概要） | L113 |
+| 品質ゲート（概要） | L144 |
+| 出力テンプレート | L155 |
+| 実行時のコマンド・エージェント・スキル | L178 |
+| 昇格パターン集 | L202 |
+| Current Active / Spec Created Tasks | L204 |
 
 ### references/task-workflow-backlog-part2.md
 
