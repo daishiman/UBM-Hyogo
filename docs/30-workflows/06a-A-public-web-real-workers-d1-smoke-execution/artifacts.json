@@ -1,6 +1,6 @@
 {
   "task_name": "06a-A-public-web-real-workers-d1-smoke-execution",
-  "task_path": "docs/30-workflows/02-application-implementation/06a-A-public-web-real-workers-d1-smoke-execution",
+  "task_path": "docs/30-workflows/06a-A-public-web-real-workers-d1-smoke-execution",
   "wave": "6a-fu",
   "execution_mode": "parallel",
   "depends_on": [
@@ -17,16 +17,17 @@
     "taskType": "implementation-spec",
     "docs_only": true,
     "workflow_state": "spec_created",
-    "visualEvidence": "VISUAL",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
     "priority": "High",
-    "scope": "remaining_application_implementation_only"
+    "scope": "remaining_application_implementation_only",
+    "phase_status_note": "Phase 1-12 documentation/specification deliverables completed. Phase 11 runtime curl/screenshot evidence remains execution-gated and Phase 13 commit/PR is pending user approval."
   },
   "phases": [
     {
       "phase": 1,
       "name": "要件定義",
       "file": "phase-01.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-01/main.md"
       ],
@@ -37,7 +38,7 @@
       "phase": 2,
       "name": "設計",
       "file": "phase-02.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-02/main.md"
       ],
@@ -50,7 +51,7 @@
       "phase": 3,
       "name": "設計レビュー",
       "file": "phase-03.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-03/main.md"
       ],
@@ -63,7 +64,7 @@
       "phase": 4,
       "name": "テスト戦略",
       "file": "phase-04.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-04/main.md"
       ],
@@ -76,7 +77,7 @@
       "phase": 5,
       "name": "実装ランブック",
       "file": "phase-05.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-05/main.md"
       ],
@@ -89,7 +90,7 @@
       "phase": 6,
       "name": "異常系検証",
       "file": "phase-06.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-06/main.md"
       ],
@@ -102,7 +103,7 @@
       "phase": 7,
       "name": "AC マトリクス",
       "file": "phase-07.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-07/main.md"
       ],
@@ -115,7 +116,7 @@
       "phase": 8,
       "name": "DRY 化",
       "file": "phase-08.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-08/main.md"
       ],
@@ -128,7 +129,7 @@
       "phase": 9,
       "name": "品質保証",
       "file": "phase-09.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-09/main.md"
       ],
@@ -141,7 +142,7 @@
       "phase": 10,
       "name": "最終レビュー",
       "file": "phase-10.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-10/main.md"
       ],
@@ -154,9 +155,15 @@
       "phase": 11,
       "name": "手動 smoke / 実測 evidence",
       "file": "phase-11.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
-        "outputs/phase-11/main.md"
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md",
+        "outputs/phase-11/manual-test-checklist.md",
+        "outputs/phase-11/manual-test-result.md",
+        "outputs/phase-11/discovered-issues.md",
+        "outputs/phase-11/screenshot-plan.json"
       ],
       "depends_on_phases": [
         10
@@ -167,9 +174,15 @@
       "phase": 12,
       "name": "ドキュメント更新",
       "file": "phase-12.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
-        "outputs/phase-12/main.md"
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
       ],
       "depends_on_phases": [
         11
@@ -180,7 +193,7 @@
       "phase": 13,
       "name": "PR 作成",
       "file": "phase-13.md",
-      "status": "pending",
+      "status": "pending_user_approval",
       "outputs": [
         "outputs/phase-13/main.md"
       ],
@@ -191,7 +204,7 @@
     }
   ],
   "specs_referenced": [
-    "docs/30-workflows/completed-tasks/06a-A-public-web-real-workers-d1-smoke/",
+    "docs/30-workflows/completed-tasks/06a-followup-001-public-web-real-workers-d1-smoke/",
     "docs/30-workflows/completed-tasks/06a-parallel-public-landing-directory-and-registration-pages/",
     "docs/00-getting-started-manual/specs/05-pages.md",
     "docs/00-getting-started-manual/specs/09-ui-ux.md",
@@ -208,7 +221,7 @@
     "#14 Cloudflare free-tier"
   ],
   "doc_references": [
-    "docs/30-workflows/completed-tasks/06a-A-public-web-real-workers-d1-smoke/",
+    "docs/30-workflows/completed-tasks/06a-followup-001-public-web-real-workers-d1-smoke/",
     "docs/30-workflows/completed-tasks/06a-parallel-public-landing-directory-and-registration-pages/",
     "docs/00-getting-started-manual/specs/05-pages.md",
     "docs/00-getting-started-manual/specs/09-ui-ux.md",
