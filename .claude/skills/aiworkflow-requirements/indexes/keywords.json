@@ -966,6 +966,7 @@
     ],
     "contract": [
       "arch-execution-capability-contract.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
@@ -2362,6 +2363,7 @@
       "arch-state-management-skill-creator.md",
       "database-schema.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
@@ -2392,6 +2394,7 @@
       "arch-state-management-skill-creator.md",
       "database-schema.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
@@ -2960,11 +2963,13 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "ui-ux-admin-dashboard.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md"
     ],
@@ -3026,6 +3031,20 @@
       "architecture-admin-api-client.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
+    "Dashboard": [
+      "architecture-admin-api-client.md",
+      "interfaces-agent-sdk-skill-core.md",
+      "interfaces-agent-sdk-skill-details.md",
+      "ui-ux-admin-dashboard.md"
+    ],
+    "契約": [
+      "architecture-admin-api-client.md",
+      "database-implementation-core.md",
+      "interfaces-skill-verify-contract.md",
+      "ui-history-search-view.md",
+      "ui-ux-admin-dashboard.md",
+      "ui-ux-navigation-chat-patterns.md"
+    ],
     "認証・セキュリティ": [
       "architecture-auth-security-core.md",
       "architecture-auth-security-details.md",
@@ -3085,6 +3104,7 @@
     "state": [
       "architecture-auth-security-core.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "ownership": [
@@ -3602,6 +3622,7 @@
     ],
     "only": [
       "auth-google-oauth-cf-integration.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
@@ -3613,6 +3634,7 @@
     "endpoint": [
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
     "OpenNext": [
@@ -4099,6 +4121,7 @@
     "docs": [
       "claude-code-settings-hierarchy.md",
       "claude-code-skills-process.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
@@ -4192,6 +4215,7 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
@@ -4534,13 +4558,6 @@
       "interfaces-core.md",
       "interfaces-system-prompt.md"
     ],
-    "契約": [
-      "database-implementation-core.md",
-      "interfaces-skill-verify-contract.md",
-      "ui-history-search-view.md",
-      "ui-ux-admin-dashboard.md",
-      "ui-ux-navigation-chat-patterns.md"
-    ],
     "Conversation": [
       "database-implementation-core.md"
     ],
@@ -4704,6 +4721,7 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -4900,6 +4918,7 @@
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "spec-splitting-guidelines.md",
       "task-workflow-completed-agent-view-line-budget.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
@@ -5199,6 +5218,7 @@
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "skill-ledger-overview.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
@@ -6100,11 +6120,6 @@
     "テストアーキテクチャ": [
       "interfaces-agent-sdk-skill-advanced.md"
     ],
-    "Dashboard": [
-      "interfaces-agent-sdk-skill-core.md",
-      "interfaces-agent-sdk-skill-details.md",
-      "ui-ux-admin-dashboard.md"
-    ],
     "AGENT": [
       "interfaces-agent-sdk-skill-core.md",
       "interfaces-agent-sdk-skill-details.md",
@@ -6884,7 +6899,8 @@
     "scope": [
       "ipc-contract-checklist.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md"
     ],
     "分離マトリクス": [
       "ipc-contract-checklist.md"
@@ -7011,6 +7027,7 @@
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
@@ -7042,6 +7059,7 @@
     "Learned": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -7097,6 +7115,7 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
     ],
@@ -7458,6 +7477,7 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md"
     ],
     "変更は": [
@@ -7914,6 +7934,63 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md"
     ],
+    "dashboard": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md"
+    ],
+    "follow": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-backlog.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "CA": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+    ],
+    "remaining": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "として扱う": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
+    ],
+    "単一": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "を維持し": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+    ],
+    "split": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+    ],
+    "しない": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+    ],
+    "表示由来の": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+    ],
+    "view": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "skill-ledger-overview.md",
+      "task-workflow-completed-agent-view-line-budget.md"
+    ],
+    "recent": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+    ],
+    "actions": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+    ],
+    "KPI": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+    ],
+    "から除外する": [
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
+    ],
     "画面": [
       "lessons-learned-06c-admin-ui-2026-04.md",
       "ui-ux-admin-dashboard.md",
@@ -8029,13 +8106,6 @@
     ],
     "を扱わない": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
-    ],
-    "follow": [
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-backlog.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "実体まで作る": [
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
@@ -8255,10 +8325,6 @@
     "JOIN": [
       "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
-    "単一": [
-      "lessons-learned-07c-attendance-audit-2026-04.md",
-      "skill-ledger-gitignore-policy.md"
-    ],
     "SELECT": [
       "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
@@ -8377,13 +8443,11 @@
     "の集約": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
-    "として扱う": [
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
-    ],
     "root": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
@@ -9402,6 +9466,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "context": [
@@ -9435,7 +9500,8 @@
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "ui-ux-feature-components-skill-analysis.md",
-      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md"
+      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md"
     ],
     "を弱く扱う場合は未タスク化する": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
@@ -9583,9 +9649,6 @@
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "で表す": [
-      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
-    ],
-    "remaining": [
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "scan": [
@@ -12934,10 +12997,6 @@
     "集約": [
       "skill-ledger-overview.md"
     ],
-    "view": [
-      "skill-ledger-overview.md",
-      "task-workflow-completed-agent-view-line-budget.md"
-    ],
     "の取得手段": [
       "skill-ledger-overview.md"
     ],
@@ -14577,6 +14636,7 @@
     "Artifact": [
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -14610,6 +14670,7 @@
     "Inventory": [
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",

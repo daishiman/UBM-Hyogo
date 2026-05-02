@@ -295,4 +295,21 @@ if (req.method !== "GET" && req.method !== "DELETE") {
 
 ---
 
-Last reviewed: 2026-04-29 / source: 06c-parallel-admin-dashboard-members-tags-schema-meetings-pages
+## 9. 06c-A Admin Dashboard 契約 (2026-05-02)
+
+06c-A follow-up により `/admin/dashboard` の契約は以下に差分是正される（split endpoint への分割は不採用）。
+
+| 項目 | 06c-A 正本 |
+| --- | --- |
+| upstream endpoint | 単一 `GET /admin/dashboard`（`apps/api/src/routes/admin/dashboard.ts`） |
+| BFF proxy | `/api/admin/dashboard`（`apps/web/app/api/admin/[...path]/route.ts`、追加経路なし） |
+| 型 | `AdminDashboardView` = KPI 4（`総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数`）+ `recentActions` |
+| recentActions ソース | `audit_log` 直近 7 日 / max 20 件 |
+| 除外フィルタ | recentActions は `dashboard.view` を除外し KPI/最近の作業の自己ループを防ぐ |
+| 監査追記 | dashboard 表示時に `audit_log` へ `dashboard.view` を append |
+
+split endpoint（`/admin/dashboard/kpi`・`/admin/dashboard/recent-actions`）は提供しない。client / proxy / `server-fetch` / `api.ts` も単一 fetch を維持する。
+
+---
+
+Last reviewed: 2026-05-02 / source: 06c-parallel-admin-dashboard-members-tags-schema-meetings-pages + 06c-A-admin-dashboard

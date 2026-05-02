@@ -336,6 +336,7 @@ Family status: `reclassify-first`
 | 02c-followup-002-fixtures-prod-build-exclusion | `docs/30-workflows/unassigned-task/02c-followup-002-fixtures-prod-build-exclusion.md` | `docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/` | 2026-05-01 | task-20260501-194019-wt-9 / spec_created implementation-spec（runtime implementation は未実行、旧 file は legacy stub） |
 | 05a-authjs-google-oauth-admin-gate followup family | `docs/30-workflows/unassigned-task/05a-authjs-google-oauth-admin-gate/` | `docs/30-workflows/ut-05a-followup-google-oauth-completion/` | 2026-05-01 | task-20260430-181640-wt-5 / Google OAuth 統合 followup wave |
 | 05b-A-auth-mail-env-contract-alignment | `docs/30-workflows/02-application-implementation/05b-A-auth-mail-env-contract-alignment/` | `docs/30-workflows/05b-A-auth-mail-env-contract-alignment/` | 2026-05-01 | task-20260501-181030-wt-8 / spec_created docs-only remaining-only NON_VISUAL |
+| 06c-A-admin-dashboard | `docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/` | `docs/30-workflows/06c-A-admin-dashboard/` | 2026-05-02 | task-20260502-075259-wt-4 / spec_created docs-only remaining-only VISUAL_ON_EXECUTION（Phase 12 strict 7 files present） |
 
 ### 05a ordinal alias（2026-05-01 追記）
 
