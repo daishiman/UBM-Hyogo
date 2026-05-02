@@ -2650,9 +2650,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L10 |
-| Gate Boundary | L22 |
-| Same-Wave Sync | L28 |
+| Phase 12 Strict Files | L16 |
+| Gate Boundary | L30 |
+| Same-Wave Sync | L37 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3769,6 +3769,7 @@ node scripts/list-specs.js --topics
 | L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
 | L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
+| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -4926,13 +4927,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L114 |
-| フェーズ構造（概要） | L123 |
-| 品質ゲート（概要） | L154 |
-| 出力テンプレート | L165 |
-| 実行時のコマンド・エージェント・スキル | L188 |
-| 昇格パターン集 | L212 |
-| Current Active / Spec Created Tasks | L214 |
+| ドキュメント構成 | L124 |
+| フェーズ構造（概要） | L133 |
+| 品質ゲート（概要） | L164 |
+| 出力テンプレート | L175 |
+| 実行時のコマンド・エージェント・スキル | L198 |
+| 昇格パターン集 | L222 |
+| Current Active / Spec Created Tasks | L224 |
 
 ### references/task-workflow-backlog-part2.md
 

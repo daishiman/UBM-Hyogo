@@ -3052,6 +3052,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "ui-ux-admin-dashboard.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
@@ -3697,7 +3698,8 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
     "snapshot": [
-      "architecture-rag.md"
+      "architecture-rag.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "アーキテクチャ概要図": [
       "architecture-rag.md"
@@ -10574,6 +10576,24 @@
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "に集約する": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "component": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "回避と": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "mock": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "結果の表示反映": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "検証で": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "を取る": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "GOV": [

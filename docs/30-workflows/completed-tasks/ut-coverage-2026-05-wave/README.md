@@ -44,13 +44,13 @@ ut-api-cov-precondition-01 ───▶ ├─ ut-web-cov-02-public-components-c
 
 ### wave-2（並列・5 タスク同時）
 
-| Task | 対象 | visualEvidence |
-| --- | --- | --- |
-| [`ut-08a-01-public-use-case-coverage-hardening`](wave-2-parallel-coverage/ut-08a-01-public-use-case-coverage-hardening/index.md) | apps/api public use-case 4 本 + route handler | NON_VISUAL |
-| [`ut-web-cov-01-admin-components-coverage`](wave-2-parallel-coverage/ut-web-cov-01-admin-components-coverage/index.md) | apps/web admin components 7 本 | NON_VISUAL |
-| [`ut-web-cov-02-public-components-coverage`](wave-2-parallel-coverage/ut-web-cov-02-public-components-coverage/index.md) | apps/web public components 7 本 | NON_VISUAL |
-| [`ut-web-cov-03-auth-fetch-lib-coverage`](wave-2-parallel-coverage/ut-web-cov-03-auth-fetch-lib-coverage/index.md) | apps/web auth/fetch/session lib 7 本 | NON_VISUAL |
-| [`ut-web-cov-04-admin-lib-ui-primitives-coverage`](wave-2-parallel-coverage/ut-web-cov-04-admin-lib-ui-primitives-coverage/index.md) | apps/web admin lib + UI primitives 13 本 | NON_VISUAL |
+| Task | 対象 | Status | visualEvidence |
+| --- | --- | --- | --- |
+| [`ut-08a-01-public-use-case-coverage-hardening`](wave-2-parallel-coverage/ut-08a-01-public-use-case-coverage-hardening/index.md) | apps/api public use-case 4 本 + route handler | spec_created | NON_VISUAL |
+| [`ut-web-cov-01-admin-components-coverage`](../ut-web-cov-01-admin-components-coverage/index.md) | apps/web admin components 7 本 | implemented-local / Phase 1-12 completed | NON_VISUAL |
+| [`ut-web-cov-02-public-components-coverage`](wave-2-parallel-coverage/ut-web-cov-02-public-components-coverage/index.md) | apps/web public components 7 本 | spec_created | NON_VISUAL |
+| [`ut-web-cov-03-auth-fetch-lib-coverage`](wave-2-parallel-coverage/ut-web-cov-03-auth-fetch-lib-coverage/index.md) | apps/web auth/fetch/session lib 7 本 | spec_created | NON_VISUAL |
+| [`ut-web-cov-04-admin-lib-ui-primitives-coverage`](wave-2-parallel-coverage/ut-web-cov-04-admin-lib-ui-primitives-coverage/index.md) | apps/web admin lib + UI primitives 13 本 | spec_created | NON_VISUAL |
 
 #### 並列性の根拠
 
