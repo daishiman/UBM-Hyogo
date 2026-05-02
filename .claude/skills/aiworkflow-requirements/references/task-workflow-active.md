@@ -65,6 +65,16 @@
 | 検証 | typecheck / lint PASS。API full test は pre-existing `schemaDiffQueue.test.ts` 2 件失敗を記録。boundary lint は `../../api/src/env` relative import も遮断 |
 | 後続 | KV / R2 / OAuth / Magic Link HMAC key は各後続タスクで `wrangler.toml` と `Env` を同一 wave 同期 |
 
+### Issue #195 03b Follow-up 002 Sync Shared Modules Owner（2026-05-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | completed / code / NON_VISUAL / implemented-local / Phase 1-12 completed / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-195-03b-followup-002-sync-shared-modules-owner/` |
+| 目的 | 03a / 03b が共有する `apps/api/src/jobs/_shared/{ledger,sync-error,index}.ts` skeleton を実体化し、owner / co-owner / 変更ルールを `docs/30-workflows/_design/sync-shared-modules-owner.md` に明文化する |
+| 境界 | owner 表作成、03a / 03b index 追記、`.github/CODEOWNERS` path 行、`apps/api/src/jobs/_shared/{ledger,sync-error,index}.ts` skeleton と focused tests を同一 wave で実体化済み。既存本体ロジックは `apps/api/src/repository/syncJobs.ts` / `apps/api/src/jobs/sync-forms-responses.ts` に残し、物理移管・置換は未実施 |
+| 後続 | `sync_jobs` `job_type` / `metrics_json` schema 集約は `docs/30-workflows/unassigned-task/task-issue195-sync-jobs-contract-schema-consolidation-001.md`。用語統一候補は本サイクル内 grep で current spec drift なしと判定し、`docs/30-workflows/completed-tasks/task-issue195-owner-coowner-terminology-normalization-001.md` は resolved record として残す |
+
 
 ### 目的
 

@@ -2119,6 +2119,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-governance-design-category.md
+
+| セクション | 行 |
+|------------|----|
+| 1. `_design/` カテゴリ定義 | L9 |
+| 2. Current canonical deletion guard | L37 |
+| 3. SKILL.md 入口導線 | L80 |
+| 4. 関連ファイル | L86 |
+| 変更履歴 | L93 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2135,6 +2145,20 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Validation Chain | L26 |
 | Notes | L37 |
+
+### references/workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L16 |
+| Phase Outputs（artifacts.json parity） | L31 |
+| Phase 12 strict 7 files | L51 |
+| Skill 反映先 | L63 |
+| Follow-up / Unassigned | L75 |
+| Workflow Governance Design 文書（artifact inventory） | L82 |
+| Validation Chain | L89 |
+| Branch-level deletion check | L101 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3230,15 +3254,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L14 |
-| 使い方 | L22 |
-| Current Alias Overrides（個別互換行） | L29 |
-| Family Summary | L65 |
-| Detailed Register | L86 |
-| Section Extract Register (2026-03-17) | L267 |
-| 500-Line Split Register (2026-03-16) | L278 |
-| Fragment Migration Register (2026-04-28) | L300 |
-| Task Root Path Drift Register (2026-04-30 追記) | L327 |
+| 概要 | L15 |
+| 使い方 | L23 |
+| Current Alias Overrides（個別互換行） | L30 |
+| Family Summary | L68 |
+| Detailed Register | L89 |
+| Section Extract Register (2026-03-17) | L270 |
+| 500-Line Split Register (2026-03-16) | L281 |
+| Fragment Migration Register (2026-04-28) | L303 |
+| Task Root Path Drift Register (2026-04-30 追記) | L330 |
 
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
@@ -3531,6 +3555,18 @@ node scripts/list-specs.js --topics
 | L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
 | L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
 
+### references/lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE195FU002-001: workflow governance design 文書は `_design/` に分離する（classification-first） | L9 |
+| L-ISSUE195FU002-002: current canonical path の削除差分は legacy mapping または move destination 必須（branch-level deletion guard） | L21 |
+| L-ISSUE195FU002-003: docs-only governance owner 表に専用テンプレが無い | L33 |
+| L-ISSUE195FU002-004: Phase 12 filename drift 検出 guard が無い | L45 |
+| L-ISSUE195FU002-005: 「主担当 / サブ担当」と「owner / co-owner」の用語不整合 | L57 |
+| OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
+| OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
+
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
 | セクション | 行 |
@@ -3797,8 +3833,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L81 |
-| 関連ドキュメント | L86 |
+| 利用順序 | L82 |
+| 関連ドキュメント | L87 |
 
 ### references/llm-embedding.md
 
@@ -4867,13 +4903,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L104 |
-| フェーズ構造（概要） | L113 |
-| 品質ゲート（概要） | L144 |
-| 出力テンプレート | L155 |
-| 実行時のコマンド・エージェント・スキル | L178 |
-| 昇格パターン集 | L202 |
-| Current Active / Spec Created Tasks | L204 |
+| ドキュメント構成 | L114 |
+| フェーズ構造（概要） | L123 |
+| 品質ゲート（概要） | L154 |
+| 出力テンプレート | L165 |
+| 実行時のコマンド・エージェント・スキル | L188 |
+| 昇格パターン集 | L212 |
+| Current Active / Spec Created Tasks | L214 |
 
 ### references/task-workflow-backlog-part2.md
 
