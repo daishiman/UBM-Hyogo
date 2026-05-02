@@ -1,0 +1,65 @@
+{
+  "task": "ut-09a-exec-staging-smoke-001",
+  "task_id": "UT-09A-EXEC-STAGING-SMOKE-001",
+  "status": "spec_created",
+  "workflow_state": "spec_created",
+  "createdAt": "2026-05-02",
+  "docsOnly": false,
+  "taskType": "implementation",
+  "remainingOnly": false,
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/339",
+  "issueState": "CLOSED",
+  "issueClosedAt": "2026-05-01T23:39:46Z",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "wave": "Wave 9",
+    "priority": "high",
+    "scale": "medium",
+    "category": "improvement",
+    "scope": "Execute only the 09a staging smoke evidence replacement workflow; exclude production deploy and any commit/push/PR unless explicitly approved by the user.",
+    "sourcePhase": "Phase 12",
+    "sourceWorkflow": "09a-parallel-staging-deploy-smoke-and-forms-sync-validation",
+    "upstream": [
+      "08b-parallel-playwright-e2e-and-ui-acceptance-smoke",
+      "ut-27-github-secrets-variables-deployment",
+      "ut-28-cloudflare-pages-projects-creation",
+      "U-04 Sheets→D1 sync"
+    ],
+    "downstream": [
+      "09c-serial-production-deploy-and-post-release-verification"
+    ]
+  },
+  "phases": [
+    { "phase": "01", "title": "要件定義", "file": "phase-01.md", "output": "outputs/phase-01/main.md", "status": "spec_created" },
+    { "phase": "02", "title": "設計", "file": "phase-02.md", "output": "outputs/phase-02/main.md", "status": "spec_created" },
+    { "phase": "03", "title": "設計レビュー", "file": "phase-03.md", "output": "outputs/phase-03/main.md", "status": "spec_created" },
+    { "phase": "04", "title": "テスト戦略", "file": "phase-04.md", "output": "outputs/phase-04/main.md", "status": "spec_created" },
+    { "phase": "05", "title": "実装ランブック", "file": "phase-05.md", "output": "outputs/phase-05/main.md", "status": "spec_created" },
+    { "phase": "06", "title": "異常系検証", "file": "phase-06.md", "output": "outputs/phase-06/main.md", "status": "spec_created" },
+    { "phase": "07", "title": "AC マトリクス", "file": "phase-07.md", "output": "outputs/phase-07/main.md", "status": "spec_created" },
+    { "phase": "08", "title": "DRY 化", "file": "phase-08.md", "output": "outputs/phase-08/main.md", "status": "spec_created" },
+    { "phase": "09", "title": "品質保証", "file": "phase-09.md", "output": "outputs/phase-09/main.md", "status": "spec_created" },
+    { "phase": "10", "title": "最終レビュー", "file": "phase-10.md", "output": "outputs/phase-10/main.md", "status": "spec_created" },
+    { "phase": "11", "title": "手動 smoke / 実測 evidence", "file": "phase-11.md", "output": "outputs/phase-11/main.md", "status": "blocked", "blocker": "cloudflare_unauthenticated", "executedAt": "2026-05-02", "acResult": { "AC-1": "FAIL", "AC-2": "FAIL", "AC-3": "FAIL", "AC-4": "FAIL", "AC-5": "PARTIAL", "AC-6": "MAINTAINED" } },
+    {
+      "phase": "12",
+      "title": "ドキュメント更新",
+      "file": "phase-12.md",
+      "output": "outputs/phase-12/main.md",
+      "status": "spec_created",
+      "requiredOutputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    { "phase": "13", "title": "PR 作成", "file": "phase-13.md", "output": "outputs/phase-13/main.md", "status": "spec_created" }
+  ]
+}
