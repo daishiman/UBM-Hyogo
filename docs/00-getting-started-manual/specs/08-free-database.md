@@ -57,6 +57,8 @@ GitHub Actions が `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` でデプロ
 | `apps/web/wrangler.toml` | Cloudflare Pages (フロントエンド) | `.next` |
 | `apps/api/wrangler.toml` | Cloudflare Workers (API) | `src/index.ts` |
 
+TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interface を正本とする。D1 binding `DB`、非機密 vars、Cloudflare Secrets を追加・変更する場合は、`apps/api/wrangler.toml` と `apps/api/src/env.ts` を同じ変更単位で同期する。
+
 Pages の初回プロジェクト作成は Cloudflare Dashboard → Connect to Git で行う。
 CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.toml` の `name` を参照する。
 
