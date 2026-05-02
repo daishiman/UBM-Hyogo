@@ -1,0 +1,32 @@
+{
+  "task_name": "ut-web-cov-01-admin-components-coverage",
+  "task_path": "docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-web-cov-01-admin-components-coverage",
+  "wave": "ut-coverage",
+  "execution_mode": "parallel",
+  "depends_on": ["06c-A-admin-dashboard","06c-B-admin-members","06c-C-admin-tags","06c-D-admin-schema","06c-E-admin-meetings"],
+  "blocks": ["09b-A-observability-sentry-slack-runtime-smoke"],
+  "created_at": "2026-05-01",
+  "metadata": {
+    "taskType": "docs-only",
+    "workflow_state": "spec_created",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "High",
+    "scope": "remaining_application_implementation_only"
+  },
+  "phases": [
+    {"phase":1,"name":"要件定義","file":"phase-01.md","status":"pending","outputs":["outputs/phase-01/main.md"],"depends_on_phases":[],"user_approval_required":false},
+    {"phase":2,"name":"設計","file":"phase-02.md","status":"pending","outputs":["outputs/phase-02/main.md"],"depends_on_phases":[1],"user_approval_required":false},
+    {"phase":3,"name":"設計レビュー","file":"phase-03.md","status":"pending","outputs":["outputs/phase-03/main.md"],"depends_on_phases":[2],"user_approval_required":false},
+    {"phase":4,"name":"テスト戦略","file":"phase-04.md","status":"pending","outputs":["outputs/phase-04/main.md"],"depends_on_phases":[3],"user_approval_required":false},
+    {"phase":5,"name":"実装ランブック","file":"phase-05.md","status":"pending","outputs":["outputs/phase-05/main.md"],"depends_on_phases":[4],"user_approval_required":false},
+    {"phase":6,"name":"異常系検証","file":"phase-06.md","status":"pending","outputs":["outputs/phase-06/main.md"],"depends_on_phases":[5],"user_approval_required":false},
+    {"phase":7,"name":"AC マトリクス","file":"phase-07.md","status":"pending","outputs":["outputs/phase-07/main.md"],"depends_on_phases":[6],"user_approval_required":false},
+    {"phase":8,"name":"DRY 化","file":"phase-08.md","status":"pending","outputs":["outputs/phase-08/main.md"],"depends_on_phases":[7],"user_approval_required":false},
+    {"phase":9,"name":"品質保証","file":"phase-09.md","status":"pending","outputs":["outputs/phase-09/main.md"],"depends_on_phases":[8],"user_approval_required":false},
+    {"phase":10,"name":"最終レビュー","file":"phase-10.md","status":"pending","outputs":["outputs/phase-10/main.md"],"depends_on_phases":[9],"user_approval_required":false},
+    {"phase":11,"name":"手動 smoke / 実測 evidence","file":"phase-11.md","status":"pending","outputs":["outputs/phase-11/main.md","outputs/phase-11/manual-smoke-log.md","outputs/phase-11/link-checklist.md"],"depends_on_phases":[10],"user_approval_required":false},
+    {"phase":12,"name":"ドキュメント更新","file":"phase-12.md","status":"pending","outputs":["outputs/phase-12/main.md","outputs/phase-12/implementation-guide.md","outputs/phase-12/system-spec-update-summary.md","outputs/phase-12/documentation-changelog.md","outputs/phase-12/unassigned-task-detection.md","outputs/phase-12/skill-feedback-report.md","outputs/phase-12/phase12-task-spec-compliance-check.md"],"depends_on_phases":[11],"user_approval_required":false},
+    {"phase":13,"name":"PR 作成","file":"phase-13.md","status":"pending","outputs":["outputs/phase-13/main.md"],"depends_on_phases":[12],"user_approval_required":true}
+  ],
+  "invariants_touched": ["#5 public/member/admin boundary", "#6 apps/web D1 direct access forbidden"]
+}
