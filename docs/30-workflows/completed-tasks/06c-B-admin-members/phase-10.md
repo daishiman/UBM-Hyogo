@@ -26,7 +26,7 @@ GO / NO-GO を判定し、blocker を一覧化する。
 | blocker | 内容 | 解消条件 |
 | --- | --- | --- |
 | B1 | 06b-A session resolver 未着地時は admin guard が dev token のみ | 06b-A 完了 |
-| B2 | audit_logs migration 未適用 | 07-edit-delete 系 migration を適用 |
+| B2 | audit_log migration 未適用 | 07-edit-delete 系 migration を適用 |
 | B3 | require-admin の admin role 判定基準未確定 | 11-admin-management.md の role table 確認 |
 | B4 | 検索 index 不足 | members(zone, status) / member_tags(memberId, tag) に複合 index |
 
@@ -43,7 +43,7 @@ GO / NO-GO を判定し、blocker を一覧化する。
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-B-admin-members/
+- 対象 directory: docs/30-workflows/completed-tasks/06c-B-admin-members/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,10 +59,10 @@ GO / NO-GO を判定し、blocker を一覧化する。
 
 ## サブタスク管理
 
-- [ ] AC 再点検
-- [ ] blocker 一覧化
-- [ ] GO/NO-GO 判定
-- [ ] outputs/phase-10/main.md を作成する
+- [x] AC 再点検
+- [x] blocker 一覧化
+- [x] GO/NO-GO 判定
+- [x] outputs/phase-10/main.md を作成する
 
 ## 成果物
 
@@ -70,14 +70,14 @@ GO / NO-GO を判定し、blocker を一覧化する。
 
 ## 完了条件
 
-- GO/NO-GO が記録されている
-- blocker と解消条件が記録されている
+- [x] GO/NO-GO が記録されている
+- [x] blocker と解消条件が記録されている
 
 ## タスク100%実行確認
 
-- [ ] この Phase の必須セクションがすべて埋まっている
-- [ ] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
-- [ ] 実装、deploy、commit、push、PR を実行していない
+- [x] この Phase の必須セクションがすべて埋まっている
+- [x] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
+- [x] 実装、deploy、commit、push、PR を実行していない
 
 ## 次 Phase への引き渡し
 
