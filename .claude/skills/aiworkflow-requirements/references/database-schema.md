@@ -18,7 +18,7 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | response_fields | response ごとの stableKey / extra question 値 | ✅ 実装済み |
 | schema_diff_queue | unknown / changed question の管理キュー | ✅ 実装済み |
 | schema_aliases | 07b manual alias resolution の正本書き込み先（issue-191） | spec_created / planned |
-| sync_jobs | schema / response sync の ledger | ✅ 実装済み |
+| sync_jobs | schema / response sync の ledger（正本: [_design/sync-jobs-spec.md](../../../../docs/30-workflows/_design/sync-jobs-spec.md)） | ✅ 実装済み |
 | workflows | ワークフロー定義 | 設計済み |
 | workflow_steps | ワークフローステップ | 設計済み |
 | workflow_executions | 実行履歴 | 設計済み |
@@ -52,9 +52,11 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | `member_status` | current response から `public_consent` / `rules_consent` を snapshot。`is_deleted=1` の identity は更新しない |
 | `response_fields` | known は `stable_key` 行、unknown は `stable_key='__extra__:<questionId>'` の extra row として保存する |
 | `schema_diff_queue` | unknown question を `status='queued'` で enqueue。`question_id` + queued の partial unique index で重複を no-op にする |
-| `sync_jobs` | `job_type='response_sync'` の ledger。`metrics_json.cursor` には `submittedAt|responseId` の high-water mark を保存する |
+| `sync_jobs` | `job_type='response_sync'` の ledger。`metrics_json.cursor` には `submittedAt|responseId` の high-water mark を保存する。`job_type` enum / `metrics_json` schema / lock TTL の正本は [`docs/30-workflows/_design/sync-jobs-spec.md`](../../../../docs/30-workflows/_design/sync-jobs-spec.md) を参照する |
 
 `sync_jobs.metrics_json.cursor` は Google API の `pageToken` ではない。`pageToken` は単一実行内のページングに限定し、次回 cron は high-water mark を `forms.responses.list` の timestamp filter に渡して再開する。
+
+> `sync_jobs` の `job_type` enum / `metrics_json` schema / lock TTL（10 分）/ PII 不混入などの**論理仕様正本**は [`docs/30-workflows/_design/sync-jobs-spec.md`](../../../../docs/30-workflows/_design/sync-jobs-spec.md) に集約済み（03b-followup-005 / Refs #198）。本ドキュメントでは重複定義を持たず、変更は `_design/` 側で行う。
 
 ## Schema aliases write target（issue-191 / UT-07B）
 

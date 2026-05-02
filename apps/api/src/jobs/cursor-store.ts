@@ -3,6 +3,11 @@
 // 直近の response_sync の最終 cursor を読み出すと、次回 sync の差分 base point になる。
 
 import type { D1Db } from "../repository/_shared/db";
+import {
+  parseMetricsJson,
+  RESPONSE_SYNC,
+  responseSyncMetricsSchema,
+} from "./_shared/sync-jobs-schema";
 
 export interface CursorRecord {
   readonly cursor: string | null;
@@ -16,20 +21,16 @@ export async function readLastCursor(
   const r = await db
     .prepare(
       `SELECT metrics_json AS metricsJson FROM sync_jobs
-        WHERE job_type = 'response_sync'
+        WHERE job_type = ?1
           AND status = 'succeeded'
           AND json_extract(metrics_json, '$.skipped') IS NOT 1
         ORDER BY started_at DESC LIMIT 1`,
     )
-    .bind()
+    .bind(RESPONSE_SYNC)
     .first<{ metricsJson: string }>();
   if (!r) return null;
-  try {
-    const parsed = JSON.parse(r.metricsJson) as { cursor?: string | null };
-    return typeof parsed.cursor === "string" && parsed.cursor.length > 0
-      ? parsed.cursor
-      : null;
-  } catch {
-    return null;
-  }
+  const parsed = parseMetricsJson(r.metricsJson, responseSyncMetricsSchema, {});
+  return typeof parsed.cursor === "string" && parsed.cursor.length > 0
+    ? parsed.cursor
+    : null;
 }

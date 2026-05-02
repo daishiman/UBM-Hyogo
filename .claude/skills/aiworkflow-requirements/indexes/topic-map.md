@@ -1061,20 +1061,20 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Schema aliases write target（issue-191 / UT-07B） | L59 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L74 |
-| Legacy Sheets sync transition note（U-UT01-09） | L86 |
-| Schema alias assignment workflow（07b） | L98 |
-| ワークフロー関連テーブル | L102 |
-| ユーザー関連テーブル | L141 |
-| システムプロンプト関連テーブル | L175 |
-| チャット関連テーブル | L210 |
-| RAG関連テーブル | L246 |
-| Knowledge Graph関連テーブル | L288 |
-| 変換処理関連テーブル | L422 |
-| インデックス設計 | L481 |
-| 関連ドキュメント / 変更履歴 | L485 |
-| DDL 同期テンプレ | L490 |
+| Schema aliases write target（issue-191 / UT-07B） | L61 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L76 |
+| Legacy Sheets sync transition note（U-UT01-09） | L88 |
+| Schema alias assignment workflow（07b） | L100 |
+| ワークフロー関連テーブル | L104 |
+| ユーザー関連テーブル | L143 |
+| システムプロンプト関連テーブル | L177 |
+| チャット関連テーブル | L212 |
+| RAG関連テーブル | L248 |
+| Knowledge Graph関連テーブル | L290 |
+| 変換処理関連テーブル | L424 |
+| インデックス設計 | L483 |
+| 関連ドキュメント / 変更履歴 | L487 |
+| DDL 同期テンプレ | L492 |
 
 ---
 
@@ -2281,6 +2281,19 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
 
+### references/workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| 不変条件 Trace | L34 |
+| Phase Outputs | L42 |
+| 主要 Artifact | L60 |
+| Skill 反映先（current canonical set） | L99 |
+| Validation Chain | L109 |
+| 確定値・列定義 | L121 |
+
 ### references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md
 
 | セクション | 行 |
@@ -3269,6 +3282,16 @@ node scripts/list-specs.js --topics
 | L-03A-LINT-004: docs / fixtures / tests は exception glob、inline suppression は 0 維持 | L34 |
 | L-03A-LINT-005: spec_created → enforced_dry_run の lifecycle 再分類は同 wave で全 7 同期点を更新する | L42 |
 | L-03A-LINT-006: skill feedback は「記録のみ」と「実 skill edit」を skill-feedback-report で明示分離する | L50 |
+
+### references/lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-03B-FU005-001: 二重正本 drift 防止は cross-reference 検索 + vitest schema test の二段で担保 | L9 |
+| L-03B-FU005-002: PII guard は metrics_json の write 側と read 側の両方で実装する | L17 |
+| L-03B-FU005-003: lock TTL 10 分の根拠は cron 周期と実行時間の数学的余裕で固定する | L25 |
+| L-03B-FU005-004: D1 DDL は本タスクに含めず物理 schema 変更は別タスクへ委譲する | L33 |
+| L-03B-FU005-005: consumer の `job_type` 文字列リテラル拡散は lint enforcement を follow-up にする | L41 |
 
 ### references/lessons-learned-03b-response-sync-2026-04.md
 
