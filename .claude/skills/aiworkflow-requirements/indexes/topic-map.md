@@ -1062,19 +1062,19 @@ node scripts/list-specs.js --topics
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
 | Schema aliases write target（issue-191 / UT-07B） | L59 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L74 |
-| Legacy Sheets sync transition note（U-UT01-09） | L86 |
-| Schema alias assignment workflow（07b） | L98 |
-| ワークフロー関連テーブル | L102 |
-| ユーザー関連テーブル | L141 |
-| システムプロンプト関連テーブル | L175 |
-| チャット関連テーブル | L210 |
-| RAG関連テーブル | L246 |
-| Knowledge Graph関連テーブル | L288 |
-| 変換処理関連テーブル | L422 |
-| インデックス設計 | L481 |
-| 関連ドキュメント / 変更履歴 | L485 |
-| DDL 同期テンプレ | L490 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L79 |
+| Legacy Sheets sync transition note（U-UT01-09） | L91 |
+| Schema alias assignment workflow（07b） | L103 |
+| ワークフロー関連テーブル | L107 |
+| ユーザー関連テーブル | L146 |
+| システムプロンプト関連テーブル | L180 |
+| チャット関連テーブル | L215 |
+| RAG関連テーブル | L251 |
+| Knowledge Graph関連テーブル | L293 |
+| 変換処理関連テーブル | L427 |
+| インデックス設計 | L486 |
+| 関連ドキュメント / 変更履歴 | L490 |
+| DDL 同期テンプレ | L495 |
 
 ---
 
@@ -2461,6 +2461,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L83 |
 | Validation Chain（spec_created） | L92 |
 
+### references/workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L12 |
+| Source / Follow-Up State | L29 |
+| Runtime Evidence Reservation | L38 |
+
 ### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
 
 | セクション | 行 |
@@ -3546,6 +3555,15 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 
+### references/lessons-learned-issue359-production-d1-apply-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I359-001: D1 migration apply must guard against unrelated pending migrations | L3 |
+| L-I359-002: Wrangler config path belongs in the runbook | L7 |
+| L-I359-003: Rollback SQL is evidence, not permission | L11 |
+| L-I359-004: Source unassigned close-out is part of Phase 12 | L15 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
@@ -3797,8 +3815,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L81 |
-| 関連ドキュメント | L86 |
+| 利用順序 | L82 |
+| 関連ドキュメント | L87 |
 
 ### references/llm-embedding.md
 
