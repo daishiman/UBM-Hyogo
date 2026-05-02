@@ -174,7 +174,7 @@ bash scripts/cf.sh d1 migrations apply ubm_hyogo_production \
 
 ```bash
 bash scripts/cf.sh secret list --env production --config apps/api/wrangler.toml
-# expected: GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY, GOOGLE_FORM_ID, RESEND_API_KEY
+# expected: GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY, GOOGLE_FORM_ID, MAIL_PROVIDER_KEY
 
 bash scripts/cf.sh pages secret list --project-name ubm-hyogo-web
 # expected: AUTH_SECRET, AUTH_GOOGLE_ID, AUTH_GOOGLE_SECRET

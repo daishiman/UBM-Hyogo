@@ -2988,14 +2988,14 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets / Variables（CI/CD 用） | L87 |
-| wrangler.toml の環境別設定 | L112 |
-| ローカル開発での設定 | L144 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L183 |
-| セキュリティ原則 | L220 |
-| Cloudflare API Token の作成手順 | L231 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L260 |
-| 変更履歴 | L303 |
+| GitHub Secrets / Variables（CI/CD 用） | L96 |
+| wrangler.toml の環境別設定 | L121 |
+| ローカル開発での設定 | L153 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L192 |
+| セキュリティ原則 | L229 |
+| Cloudflare API Token の作成手順 | L240 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L269 |
+| 変更履歴 | L312 |
 
 ### references/deployment.md
 

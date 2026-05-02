@@ -111,7 +111,7 @@ production deploy 13 ステップ + tag + share + 24h verify を 4 層（pre-dep
 | ID | ケース | 期待 |
 | --- | --- | --- |
 | D-1 | `bash scripts/cf.sh d1 migrations list ubm_hyogo_production --remote --env production` で全件 `Applied` | AC-1 PASS |
-| D-2 | `bash scripts/cf.sh secret list --env production` で必須 4 種（GOOGLE_*, RESEND_API_KEY）あり | AC-2 PASS（api 側） |
+| D-2 | `bash scripts/cf.sh secret list --env production` で必須 4 種（GOOGLE_*, MAIL_PROVIDER_KEY）あり | AC-2 PASS（api 側） |
 | D-3 | `bash scripts/cf.sh pages secret list --project-name ubm-hyogo-web` で必須 3 種（AUTH_*）あり | AC-2 PASS（web 側） |
 | D-4 | `pnpm --filter @ubm/api deploy:production` exit 0 | AC-3 PASS（api） |
 | D-5 | `pnpm --filter @ubm/web deploy:production` exit 0 | AC-3 PASS（web） |
