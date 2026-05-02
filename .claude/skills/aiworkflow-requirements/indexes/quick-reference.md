@@ -5,6 +5,20 @@
 
 ---
 
+### Issue #196 response_email UNIQUE DDL / Spec Canonicalization（2026-05-02）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-196-03b-followup-003-response-email-unique-ddl/` |
+| 状態 | `implemented-local-static-evidence-pass / implementation / NON_VISUAL / Phase 1-12 strict outputs present / Phase 13 blocked_until_user_approval` |
+| 正本 UNIQUE | `member_identities.response_email TEXT NOT NULL UNIQUE` |
+| 非 UNIQUE | `member_responses.response_email` は履歴行の system field。UNIQUE を付与しない |
+| close-out evidence | `docs/30-workflows/issue-196-03b-followup-003-response-email-unique-ddl/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| migration コメント方針 | `0001_init.sql` / `0005_response_sync.sql` はコメントのみ同期済み。SQL semantics は不変で、typecheck / lint / SQL semantic diff は PASS。production D1 migration list は Phase 13 承認時に取得 |
+| Issue 取扱 | #196 は CLOSED 維持。PR / commit は `Refs #196` のみ |
+
+---
+
 ### Issue #346 08a canonical workflow tree restore（2026-05-02）
 
 | 目的 | 参照先 |
@@ -320,7 +334,7 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `SYNC_ADMIN_TOKEN` 配置 | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
 | D1 health endpoint（`GET /health/db`、`X-Health-Token`、`HEALTH_DB_TOKEN`、401/403/503 境界） | `references/api-endpoints.md`（§UBM-Hyogo Health API）, `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
 | 苦戦箇所（per-sync write 200 cap / partial UNIQUE で重複 enqueue 抑止 / submittedAt 同値時 responseId 降順 tie-break / `metrics_json.cursor` ≠ `pageToken`） | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/outputs/phase-12/implementation-guide.md` Part 2 |
-| follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / `member_responses.response_email` UNIQUE DDL 明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/unassigned-task/03b-response-sync-followups.md` |
+| follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / response_email UNIQUE 所在明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-response-sync-followups.md`。UNIQUE 所在は Issue #196 workflow `docs/30-workflows/issue-196-03b-followup-003-response-email-unique-ddl/` で consumed / 訂正済み: 正本は `member_identities.response_email`、`member_responses.response_email` は非 UNIQUE |
 | 全 phase 設計と AC-1〜AC-10 検証 | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` |
 
 ### Cron Monitoring / Release Runbook（09b / 2026-05-01）
