@@ -18,5 +18,5 @@
 ## Notes
 
 - No commit, push, tag push, PR creation, or production Cloudflare mutation was performed.
-- `outputs/artifacts.json` is intentionally absent; root `artifacts.json` is the single workflow ledger.
+- `outputs/artifacts.json` is synchronized as a mirror of root `artifacts.json`; root is the workflow metadata canonical, `outputs/artifacts.json` exists for validator / artifact-inventory consumption.
 - Phase 9 / 11 screenshots are required in the approved execution wave and are intentionally absent in this spec-created close-out.

@@ -14,7 +14,7 @@
 | 次 Phase | 3 (実装計画 — コマンド列 + rollback 分岐) |
 | 状態 | spec_created |
 | taskType | implementation |
-| visualEvidence | VISUAL |
+| visualEvidence | VISUAL_ON_EXECUTION |
 | user_approval | N/A（G1 承認下で進行 / 本 Phase は実 mutation なし） |
 
 ## 目的

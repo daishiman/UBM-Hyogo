@@ -14,7 +14,7 @@
 | 次 Phase | 6 (production D1 migration 適用) |
 | 状態 | spec_created |
 | taskType | implementation |
-| visualEvidence | VISUAL |
+| visualEvidence | VISUAL_ON_EXECUTION |
 | user_approval | **REQUIRED（本 Phase は user 明示承認 1 回目の gate）** |
 
 ## 目的

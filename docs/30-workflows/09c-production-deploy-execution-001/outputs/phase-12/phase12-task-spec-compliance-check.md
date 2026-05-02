@@ -14,9 +14,7 @@
 
 ## Artifacts Parity
 
-`outputs/artifacts.json` は本ワークフローでは作成されておらず、root `artifacts.json` が唯一正本である。parity check は root のみで実施し PASS とする。
-
-This is an explicit exception for this spec-created execution workflow. It does not change the general rule used by 09a / parent 09c workflows, where root/output parity remains required when `outputs/artifacts.json` is part of that workflow's artifact inventory.
+`artifacts.json` と `outputs/artifacts.json` は同一内容で同期済み。root は workflow metadata の正本、`outputs/artifacts.json` は validator / artifact inventory 用 mirror とする。
 
 ## Approval-Gated Boundary
 
@@ -27,6 +25,7 @@ This is an explicit exception for this spec-created execution workflow. It does 
 | Phase 5-11 runtime evidence paths are reserved paths only. | PASS |
 | Commit / push / PR remain blocked until user approval. | PASS |
 | Issue #353 uses `Refs`, not `Closes`. | PASS |
+| `visualEvidence` is `VISUAL_ON_EXECUTION`, not runtime-complete `VISUAL`. | PASS |
 
 ## Phase Output Inventory
 
@@ -44,6 +43,7 @@ This is an explicit exception for this spec-created execution workflow. It does 
 | 10 | `outputs/phase-10/main.md` exists | GO/NO-GO not decided |
 | 11 | `outputs/phase-11/main.md` exists | 24h metrics/screenshots not captured |
 | 12 | strict 7 files exist | Documentation close-out only |
+| 13 | reserved only; outputs not generated yet | PR creation approval pending, separate from production runtime evidence |
 
 This inventory closes the file-existence gap without converting reserved runtime paths into PASS evidence.
 
@@ -51,7 +51,7 @@ This inventory closes the file-existence gap without converting reserved runtime
 
 | Skill | Result | Evidence |
 | --- | --- | --- |
-| task-specification-creator | PASS | Phase 12 strict filenames and root-only artifacts parity are documented. |
+| task-specification-creator | PASS | Phase 12 strict filenames and root/output artifacts parity are documented. |
 | aiworkflow-requirements | PASS_WITH_OPEN_SYNC | Formalization is recorded; fresh runtime facts must be synced after execution. |
 | automation-30 | PASS | Compact 30-method review is summarized below. |
 

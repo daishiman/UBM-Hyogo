@@ -14,7 +14,7 @@
 | --- | --- |
 | Workflow root | `spec_created` |
 | taskType | `implementation` |
-| visualEvidence | `VISUAL` |
+| visualEvidence | `VISUAL_ON_EXECUTION` |
 | Production mutation | Not executed in this close-out |
 | Phase 13 commit / PR | Blocked until explicit user approval |
 
@@ -25,6 +25,29 @@
 | 09a staging smoke | Upstream gate | Must be green before Phase 5 |
 | 09b release / incident runbook | Upstream gate | Required for Phase 11 sharing |
 | Parent 09c docs-only | Source runbook | Completed as specification source |
+
+## Step 1-D: Runtime Facts Boundary
+
+No runtime facts were promoted to the system specification in this close-out. The following values remain pending until approved production execution:
+
+- final deploy commit
+- API / Web Worker version IDs
+- D1 migration applied state
+- release tag
+- production smoke result
+- 24h Workers / D1 metrics
+
+## Step 1-E: Application Code Surface
+
+No `apps/` or `packages/` source change is required in this wave. This branch formalizes the production execution task spec only; changing API, Web, or shared schemas before production approval would mix specification work with runtime mutation work.
+
+## Step 1-F: Visual Evidence Surface
+
+`VISUAL_ON_EXECUTION` is the canonical visual state. Phase 9 and Phase 11 screenshots are required in the approved execution wave, but their absence in this spec-created close-out is intentional and must not be treated as runtime PASS.
+
+## Step 1-G: Artifact / Index Sync
+
+The workflow root, aiworkflow indexes, artifact inventory, lessons learned, and task-workflow active entry are synchronized for the specification state. Runtime inventory sync is deferred to the execution close-out wave.
 
 ## Step 1-H: Skill Feedback Routing
 
@@ -42,6 +65,6 @@ Reason:
 
 - This wave formalizes the execution workflow and does not contain fresh production runtime evidence.
 - Runtime facts such as final deploy commit, Worker version IDs, D1 migration applied state, and 24h metrics must be synced after actual Phase 5-11 execution.
-- Candidate canonical update targets are `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md`, `docs/00-getting-started-manual/specs/14-implementation-roadmap.md`, and aiworkflow deployment references.
+- Candidate canonical update targets are `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md`, and aiworkflow deployment references.
 
 Open sync is intentional and blocked on user-approved production execution.

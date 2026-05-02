@@ -14,7 +14,7 @@
 | 次 Phase | 13 (PR 作成 / `Refs #353`) |
 | 状態 | spec_created |
 | taskType | implementation |
-| visualEvidence | VISUAL |
+| visualEvidence | VISUAL_ON_EXECUTION |
 | user_approval | REQUIRED（Phase 10 までで取得済み承認の継続管理） |
 | Cloudflare CLI | `bash scripts/cf.sh` 経由のみ |
 | 必須ファイル数 | **7 ファイル**（task-specification-creator skill 仕様） |
@@ -59,7 +59,7 @@ Phase 1-11 で固定した execution evidence（user approval / preflight / D1 m
 | 必須 | .claude/skills/task-specification-creator/references/phase-12-spec.md | Phase 12 7 ファイル仕様 |
 | 必須 | .claude/skills/task-specification-creator/references/phase-12-documentation-guide.md | implementation-guide 構成 |
 | 必須 | docs/00-getting-started-manual/specs/15-infrastructure-runbook.md | spec 更新候補（runbook） |
-| 必須 | docs/00-getting-started-manual/specs/14-implementation-roadmap.md | spec 更新候補（roadmap） |
+| 必須 | docs/00-getting-started-manual/specs/15-infrastructure-runbook.md | production deploy / smoke / 24h verification 更新候補 |
 | 必須 | docs/00-getting-started-manual/specs/08-free-database.md | 24h 無料枠閾値の正本 |
 
 ## 実行手順
@@ -72,7 +72,7 @@ Phase 1-11 で固定した execution evidence（user approval / preflight / D1 m
 
 ### ステップ 2: system-spec-update-summary.md（Step 1-A/B/C + Step 2）
 
-- **Step 1-A: 影響分析** — 正本仕様への影響候補（15-infrastructure-runbook / 14-implementation-roadmap / 08-free-database / 02-auth）
+- **Step 1-A: 影響分析** — 正本仕様への影響候補（15-infrastructure-runbook / 08-free-database / 02-auth）
 - **Step 1-B: 更新箇所一覧** — file path × section × 提案理由（execution evidence ベース）
 - **Step 1-C: 反映方針** — 本タスクで反映する / 別 PR に分離する / spec 化見送り の判定
 
@@ -81,7 +81,7 @@ Phase 1-11 で固定した execution evidence（user approval / preflight / D1 m
 | production deploy 実行 13 ステップを runbook 章に正本化 | 15-infrastructure-runbook.md | 実行 evidence ベースで確定 | 別 PR（spec 専用） |
 | release tag フォーマット `vYYYYMMDD-HHMM` を正本化 | 15-infrastructure-runbook.md | Phase 8 で確定 | 別 PR |
 | 24h post-release verify チェックリスト追加 | 15-infrastructure-runbook.md | Phase 11 evidence ベース | 別 PR |
-| MVP リリース完了報告テンプレ追加 | 14-implementation-roadmap.md | post-release-summary を昇格 | 別 PR |
+| MVP リリース完了報告テンプレ追加 | 15-infrastructure-runbook.md | post-release-summary を昇格 | 実行後 close-out wave |
 | Cloudflare CLI wrapper（`scripts/cf.sh`）の唯一性を spec に追記 | 15-infrastructure-runbook.md | CLAUDE.md secret 管理ルール準拠 | 別 PR |
 
 ### ステップ 3: documentation-changelog.md
@@ -159,7 +159,7 @@ Phase 1-11 で固定した execution evidence（user approval / preflight / D1 m
 
 - root `docs/30-workflows/09c-production-deploy-execution-001/artifacts.json` を唯一正本として確認
 - spec_created / VISUAL / implementation のフラグ整合性を **明示的に check**
-- `outputs/artifacts.json` は作成しない。root 単独正本の文言を `outputs/phase-12/phase12-task-spec-compliance-check.md` に記録
+- `outputs/artifacts.json` を root `artifacts.json` と同期し、parity を `outputs/phase-12/phase12-task-spec-compliance-check.md` に記録
 - 各 phase の status（spec_created）が root artifacts.json と index.md で一致しているか確認
 
 ## 統合テスト連携
@@ -187,7 +187,7 @@ Phase 1-11 で固定した execution evidence（user approval / preflight / D1 m
 | 4 | unassigned-task-detection.md | 12 | spec_created | **0 件でも出力必須** |
 | 5 | skill-feedback-report.md | 12 | spec_created | **改善点なしでも出力必須** / 親 lifecycle 分離記録 |
 | 6 | phase12-task-spec-compliance-check.md | 12 | spec_created | 不変条件 #1-#15 |
-| 7 | root artifacts.json parity 確認 | 12 | spec_created | root 単独正本 |
+| 7 | root/outputs artifacts.json parity 確認 | 12 | spec_created | root と outputs mirror の一致 |
 
 ## 成果物
 
@@ -201,7 +201,7 @@ Phase 1-11 で固定した execution evidence（user approval / preflight / D1 m
 | ドキュメント | outputs/phase-12/skill-feedback-report.md | skill feedback（改善点なしでも必須） |
 | ドキュメント | outputs/phase-12/phase12-task-spec-compliance-check.md | 不変条件 compliance |
 | メタ | artifacts.json (root) | 唯一正本として確認済 |
-| メタ（補助） | outputs/phase-12/phase12-task-spec-compliance-check.md | root 単独正本の parity 検証 |
+| メタ（補助） | outputs/phase-12/phase12-task-spec-compliance-check.md | root/outputs artifacts parity 検証 |
 | メタ | artifacts.json (root) | Phase 12 を completed に更新 |
 
 ## 完了条件

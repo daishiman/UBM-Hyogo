@@ -14,7 +14,7 @@
 | 次 Phase | 2 (設計 — 実行フロー + evidence 設計) |
 | 状態 | spec_created |
 | taskType | implementation |
-| visualEvidence | VISUAL |
+| visualEvidence | VISUAL_ON_EXECUTION |
 | user_approval | REQUIRED（Phase 1 / 5 / 10 の三段ゲート） |
 | Issue | #353（CLOSED, 2026-05-02 — クローズドのまま docs / execution を分離整備） |
 | Cloudflare CLI | `bash scripts/cf.sh` 経由のみ（`wrangler` 直実行禁止） |

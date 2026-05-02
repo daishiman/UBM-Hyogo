@@ -14,7 +14,7 @@
 | 次 Phase | 8 (release tag 付与 + push) |
 | 状態 | spec_created |
 | taskType | implementation |
-| visualEvidence | VISUAL |
+| visualEvidence | VISUAL_ON_EXECUTION |
 | user_approval | REQUIRED（Phase 5 GO の継続有効性に依存。新規 mutation を伴うため Phase 5 GO 後 24h 以内に実行） |
 
 ## 目的

@@ -14,7 +14,7 @@
 | 次 Phase | 7 (production deploy 実行 / API / Web) |
 | 状態 | spec_created |
 | taskType | implementation |
-| visualEvidence | VISUAL |
+| visualEvidence | VISUAL_ON_EXECUTION |
 | user_approval | REQUIRED（Phase 5 GO の継続有効性に依存。再承認は不要だが NO-GO 後は本 Phase 起動禁止） |
 
 ## 目的

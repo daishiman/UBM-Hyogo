@@ -17,7 +17,7 @@
 | 作成日 | 2026-05-02 |
 | 状態 | spec_created |
 | taskType | implementation |
-| visualEvidence | VISUAL |
+| visualEvidence | VISUAL_ON_EXECUTION |
 | user_approval | REQUIRED（Phase 1 で固定 / Phase 5 / Phase 10 でゲート） |
 | Cloudflare CLI | `bash scripts/cf.sh` 経由のみ（`wrangler` 直実行禁止） |
 

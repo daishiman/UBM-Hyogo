@@ -14,7 +14,7 @@
 | 次 Phase | 12 (実装ガイド + 仕様書同期 + 未タスク検出 + skill feedback) |
 | 状態 | spec_created |
 | taskType | implementation |
-| visualEvidence | VISUAL |
+| visualEvidence | VISUAL_ON_EXECUTION |
 | user_approval | REQUIRED（Phase 10 で取得済み承認の継続管理） |
 | Cloudflare CLI | `bash scripts/cf.sh` 経由のみ |
 

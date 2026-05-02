@@ -14,7 +14,7 @@
 | 次 Phase | 5 (preflight 実行 + user 承認 1 回目) |
 | 状態 | spec_created |
 | taskType | implementation |
-| visualEvidence | VISUAL |
+| visualEvidence | VISUAL_ON_EXECUTION |
 | user_approval | REQUIRED（このタスク全体で固定 / Phase 4 自体は gate なし） |
 
 ## 目的
