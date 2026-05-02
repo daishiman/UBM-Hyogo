@@ -1,0 +1,40 @@
+{
+  "taskId": "task-09c-production-deploy-execution-001",
+  "taskName": "09c production deploy / smoke / 24h verification 実行",
+  "directory": "docs/30-workflows/09c-production-deploy-execution-001",
+  "issueNumber": 353,
+  "issueState": "CLOSED",
+  "parentTask": "docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification",
+  "unassignedSource": "docs/30-workflows/unassigned-task/task-09c-production-deploy-execution-001.md",
+  "wave": 9,
+  "executionMode": "serial",
+  "owner": "release-production",
+  "createdDate": "2026-05-02",
+  "status": "spec_created",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "userApproval": "REQUIRED",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_status": "pending_user_approval",
+    "runtimeEvidence": "pending_user_approval",
+    "canonicalPath": "docs/30-workflows/09c-production-deploy-execution-001/"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義 + user approval gate 設計", "file": "phase-01.md", "status": "spec_created" },
+    { "phase": 2, "name": "設計（実行フロー + evidence 設計）", "file": "phase-02.md", "status": "spec_created" },
+    { "phase": 3, "name": "実装計画（コマンド列 + rollback 分岐）", "file": "phase-03.md", "status": "spec_created" },
+    { "phase": 4, "name": "verify suite 設計", "file": "phase-04.md", "status": "spec_created" },
+    { "phase": 5, "name": "preflight 実行 + user 承認 1 回目", "file": "phase-05.md", "status": "spec_created" },
+    { "phase": 6, "name": "production D1 migration 適用", "file": "phase-06.md", "status": "spec_created" },
+    { "phase": 7, "name": "production deploy 実行（API / Web）", "file": "phase-07.md", "status": "spec_created" },
+    { "phase": 8, "name": "release tag 付与 + push", "file": "phase-08.md", "status": "spec_created" },
+    { "phase": 9, "name": "production smoke + 認可境界検証", "file": "phase-09.md", "status": "spec_created" },
+    { "phase": 10, "name": "GO/NO-GO 判定（user 承認 2 回目）", "file": "phase-10.md", "status": "spec_created" },
+    { "phase": 11, "name": "24h post-release 検証 + 共有", "file": "phase-11.md", "status": "spec_created" },
+    { "phase": 12, "name": "実装ガイド + 仕様書同期 + 未タスク検出", "file": "phase-12.md", "status": "spec_created" },
+    { "phase": 13, "name": "PR 作成（Refs #353）", "file": "phase-13.md", "status": "spec_created" }
+  ]
+}

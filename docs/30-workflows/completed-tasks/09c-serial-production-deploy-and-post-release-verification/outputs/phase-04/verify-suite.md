@@ -17,7 +17,7 @@ Runtime evidence: pending_user_approval
 | ID | Case | Expected | Runtime result |
 | --- | --- | --- | --- |
 | D-1 | `bash scripts/cf.sh d1 migrations list ubm_hyogo_production --remote --env production`. | All migrations Applied. | TBD at execution |
-| D-2 | API worker secret list. | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_FORM_ID`, `RESEND_API_KEY` exist. | TBD at execution |
+| D-2 | API worker secret list. | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_FORM_ID`, `MAIL_PROVIDER_KEY` exist. | TBD at execution |
 | D-3 | Web Pages secret list. | `AUTH_SECRET`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` exist. | TBD at execution |
 | D-4 | `pnpm --filter @ubm/api deploy:production`. | exit 0. | TBD at execution |
 | D-5 | `pnpm --filter @ubm/web deploy:production`. | exit 0. | TBD at execution |

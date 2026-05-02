@@ -2424,6 +2424,18 @@ node scripts/list-specs.js --topics
 | Follow-up / Unassigned | L48 |
 | Validation Chain | L60 |
 
+### references/workflow-task-09c-production-deploy-execution-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Roots | L5 |
+| Phase Artifacts | L14 |
+| Approval Gate Matrix | L32 |
+| Boundary | L41 |
+| Skill Compliance | L45 |
+| Related Tasks | L53 |
+| Verification | L67 |
+
 ### references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2988,14 +3000,14 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets / Variables（CI/CD 用） | L87 |
-| wrangler.toml の環境別設定 | L112 |
-| ローカル開発での設定 | L144 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L183 |
-| セキュリティ原則 | L220 |
-| Cloudflare API Token の作成手順 | L231 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L260 |
-| 変更履歴 | L303 |
+| GitHub Secrets / Variables（CI/CD 用） | L96 |
+| wrangler.toml の環境別設定 | L121 |
+| ローカル開発での設定 | L153 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L192 |
+| セキュリティ原則 | L229 |
+| Cloudflare API Token の作成手順 | L240 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L269 |
+| 変更履歴 | L312 |
 
 ### references/deployment.md
 
@@ -3464,6 +3476,17 @@ node scripts/list-specs.js --topics
 | L-09B-003: rollback は worker / pages / D1 / cron を分ける | L25 |
 | L-09B-004: docs-only / NON_VISUAL は screenshot N/A ではなく代替 evidence を固定する | L33 |
 | L-09B-005: skill feedback は candidate task と existing task を分けて route する | L41 |
+
+### references/lessons-learned-09c-production-deploy-execution-001-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-09C-EXEC-001: 親 docs-only と child execution-only は別ワークフローに分離する | L9 |
+| L-09C-EXEC-002: reserved runtime path を PASS evidence にしない | L17 |
+| L-09C-EXEC-003: production mutation gate は G1/G2/G3 を分けて記録する | L25 |
+| L-09C-EXEC-004: Phase 12 strict 7 filenames は drift 検出を Phase 11 終了時に前倒す | L33 |
+| L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
+| L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
 
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 

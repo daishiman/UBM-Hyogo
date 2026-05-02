@@ -27,7 +27,7 @@ Runtime evidence: pending_user_approval
 
 | Check | Command / method | Expected |
 | --- | --- | --- |
-| Repo plaintext scan | `git grep -n "AUTH_SECRET=\\|GOOGLE_PRIVATE_KEY=\\|RESEND_API_KEY="` | 0 hits |
+| Repo plaintext scan | `git grep -n "AUTH_SECRET=\\|GOOGLE_PRIVATE_KEY=\\|MAIL_PROVIDER_KEY="` | 0 hits |
 | Env ignored | `git check-ignore -v .env .env.production` | ignored |
 | API secret names | `bash scripts/cf.sh secret list --env production --config apps/api/wrangler.toml` | 4 expected names only |
 | Web secret names | `bash scripts/cf.sh pages secret list --project-name ubm-hyogo-web` | 3 expected names only |
