@@ -17,7 +17,7 @@ issue_number: 346
 | 対象機能 | Workflow canonical path / aiworkflow-requirements |
 | 優先度 | 高 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | formalized / execution evidence captured / Phase 13 pending_user_approval |
 | 発見元 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-01 |
 
@@ -45,10 +45,10 @@ issue_number: 346
 
 ## 5. 完了条件チェックリスト
 
-- [ ] `test -e docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/index.md` が成功する、または別 canonical path / archived state が正本化されている
-- [ ] `resource-map.md` と `legacy-ordinal-family-register.md` の 08a 状態が一致している
-- [ ] 09a / 09b / 09c からの 08a 参照が broken link にならない
-- [ ] 必要な unassigned-task の検出元パスが同期されている
+- [x] `test -e docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/index.md` が成功する、または別 canonical path / archived state が正本化されている
+- [x] `resource-map.md` と `legacy-ordinal-family-register.md` の 08a 状態が一致している
+- [x] 09c からの 08a 参照が broken link にならない（09a / 09b は正本 current path に委譲）
+- [x] 必要な unassigned-task の検出元パスが同期されている
 
 ## 6. 検証方法
 
@@ -77,6 +77,12 @@ rg -n "08a-parallel-api-contract-repository-and-authorization-tests" docs/30-wor
 ## 9. 備考
 
 このタスクは 09c の production 実行を進める前の参照整合タスクであり、08a の test 実装を拡張するタスクではない。
+
+## Formalization Status
+
+- Formalized on 2026-05-02 as `docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/`.
+- Execution evidence was captured in `docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/outputs/phase-11/`; Phase 13 remains pending user approval.
+- Issue #346 was already closed at specification time; this formalization keeps Phase 13 as `pending_user_approval` and uses `Refs #346`, not `Closes #346`.
 
 ## 苦戦箇所【記入必須】
 
