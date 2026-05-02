@@ -41,7 +41,7 @@ export interface RunResult {
  * runSchemaSync() に渡る Cloudflare Workers Env の最小サブセット。
  */
 export interface SchemaSyncEnv {
-  readonly DB: D1Db;
+  readonly DB: D1Database;
   readonly GOOGLE_FORM_ID?: string;
   readonly GOOGLE_FORM_RESPONDER_URL?: string;
 }

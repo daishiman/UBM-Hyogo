@@ -91,6 +91,8 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/delete` | member を論理削除する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/requests` | visibility/delete request の pending queue を `type=visibility_request|delete_request`, `status=pending`, cursor pagination で FIFO 一覧する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/requests/:noteId/resolve` | admin request を approve/reject する。approve は `member_status` 更新、`admin_member_notes.request_status` 更新、`audit_log` append を D1 batch で同一 workflow 境界に置き、二重 resolve は 409 | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/tags/queue/:queueId/resolve` | queue item を `confirmed`（DB/API status: `resolved`）または `rejected` に解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
@@ -109,6 +111,8 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 - schema 変更は `/admin/schema/*` に集約する。
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
+- 04b-followup-004 admin request resolve は `visibility_request` approve で `member_status.publish_state`、`delete_request` approve で `member_status.is_deleted` と `deleted_members` を更新し、reject では `member_status` を変更しない。approve 前に対象 `member_status` がない場合は 404 `member_status_not_found` とし、note は pending のまま残す。
+- request resolve audit は現行 `AuditTargetType` 制約により `targetType='member'`、`targetId=<memberId>`、`after.noteId` で原典を追跡する。action は `admin.request.approve` / `admin.request.reject`。first-class `admin_member_note` / `admin_request` target は follow-up。
 - 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、POST は `after_json`、DELETE は `before_json` に attendance row を残す。
 - 07c follow-up audit browsing は append-only の閲覧専用で、`before_json` / `after_json` の保存値は変更せず、API projection と UI defense-in-depth で email / phone / address / name 相当キーを表示時 masking する。cursor は `{ createdAt, auditId }` の base64url JSON、order は `created_at DESC, audit_id DESC`。
 
@@ -150,6 +154,18 @@ type SessionResolveResponse = {
   gateReason: GateReason | null;
 };
 ```
+
+### Magic Link callback / Auth.js Credentials Provider（apps/web / 05b-B）
+
+05b-B で Magic Link メール本文の callback URL を `apps/web` に実装した。apps/web は D1 を直接参照せず、token/email の検証は apps/api の `POST /auth/magic-link/verify` に委譲する。
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/api/auth/callback/email?token=<64hex>&email=<email>` | query validation 後、`POST /auth/magic-link/verify` を呼び、成功時のみ Auth.js `signIn("magic-link")` で session cookie を確立する | Magic Link token/email |
+| POST | `/api/auth/callback/email` | callback route の POST は許可しない | 405 |
+| POST | `/auth/magic-link/verify` | Magic Link token/email を検証・消費し、session user shape を返す | Magic Link token/email（public token endpoint）。`/auth/session-resolve` の `X-Internal-Auth` 境界とは別 |
+
+失敗時は session を作らず `/login?error=<code>` に戻す。error code は `missing_token`, `missing_email`, `invalid_link`, `expired`, `already_used`, `resolve_failed`, `temporary_failure`。
 
 Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shared/src/auth.ts` の `encodeAuthSessionJwt` / `decodeAuthSessionJwt` と API 側 `verifySessionJwt` が同じ `AUTH_SECRET` を使う。JWT には `memberId` / `email` / `isAdmin` のみを含め、`responseId` やプロフィール本文は含めない。
 
@@ -253,18 +269,19 @@ UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers C
 ## UBM-Hyogo Member Self-Service API（04b）
 
 `04b-parallel-member-self-service-api-endpoints` で会員本人向け `/me/*` endpoint を追加した。
-Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token は `x-ubm-dev-session: 1`
-がある development request のみ有効で、production / staging では無効。
+06b-A で `/me/*` の session resolver は Auth.js cookie / Bearer JWT 対応に差し替え済み。production / staging では `authjs.session-token` / `__Secure-authjs.session-token`、移行互換の `next-auth.session-token` / `__Secure-next-auth.session-token`、または `Authorization: Bearer <jwt>` を `AUTH_SECRET` で検証する。04b 由来の dev token（`x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>`）は `ENVIRONMENT === "development"` の場合だけ有効で、production / staging / env 欠落時は無効。
 
 | Method | Path | 認可 | 用途 |
 | ------ | ---- | ---- | ---- |
 | GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
-| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す |
+| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `createAttendanceProvider(ctx)` 経由で `member_attendance` + `meeting_sessions` から取得する |
 | POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
 | POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
 
 禁止: `PATCH /me/profile` は作らない。`/me/*` path に `:memberId` を入れない。GET 系 response に
 `admin_member_notes` 由来の `notes` / `adminNotes` を含めない。
+
+`MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、D1 read path は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
 
 ---
 

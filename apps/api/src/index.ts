@@ -22,19 +22,17 @@ import { adminSchemaRoute } from "./routes/admin/schema";
 import { adminMeetingsRoute } from "./routes/admin/meetings";
 import { adminAttendanceRoute } from "./routes/admin/attendance";
 import { adminAuditRoute } from "./routes/admin/audit";
+import { adminRequestsRoute } from "./routes/admin/requests";
 import { ctx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
-import { type SyncEnv } from "./jobs/sync-sheets-to-d1";
+import type { Env } from "./env";
 import {
   manualSyncRoute,
   backfillSyncRoute,
   auditQueryRoute,
   runScheduledSync,
 } from "./sync";
-import {
-  runResponseSync,
-  type ResponseSyncEnv,
-} from "./jobs/sync-forms-responses";
+import { runResponseSync } from "./jobs/sync-forms-responses";
 import { runSchemaSync, ConflictError } from "./sync/schema";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
@@ -43,28 +41,7 @@ import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
 import { createAuthRoute } from "./routes/auth";
 import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
-
-interface Env extends SyncEnv, ResponseSyncEnv {
-  readonly ENVIRONMENT?: "production" | "staging" | "development";
-  readonly SYNC_ADMIN_TOKEN?: string;
-  // 05a: Auth.js v5 + admin gate 用 secrets
-  readonly AUTH_SECRET?: string;
-  readonly INTERNAL_AUTH_SECRET?: string;
-  readonly FORM_ID?: string;
-  readonly GOOGLE_FORM_ID?: string;
-  readonly GOOGLE_FORM_RESPONDER_URL?: string;
-  readonly GOOGLE_SERVICE_ACCOUNT_EMAIL?: string;
-  readonly GOOGLE_PRIVATE_KEY?: string;
-  readonly FORMS_SA_EMAIL?: string;
-  readonly FORMS_SA_KEY?: string;
-  readonly HEALTH_DB_TOKEN?: string;
-  // UT-26: Sheets API E2E smoke test 用 (dev/staging のみ)
-  readonly SMOKE_ADMIN_TOKEN?: string;
-  // 05b: Magic Link / Auth provider 関連（AUTH_SECRET は 05a と共有）
-  readonly AUTH_URL?: string;
-  readonly MAIL_PROVIDER_KEY?: string;
-  readonly MAIL_FROM_ADDRESS?: string;
-}
+import { createMeSessionResolver } from "./middleware/me-session-resolver";
 
 function timingSafeEqual(a: string, b: string): boolean {
   let mismatch = a.length ^ b.length;
@@ -179,24 +156,16 @@ app.route("/auth", createSessionResolveRoute());
 
 app.get("/me/healthz", (c) => c.json({ ok: true, scope: "me" }));
 
-// 04b: /me/* member self-service。
-// session resolver は 05a/b で Auth.js provider 連携時に差し替える。
-// 現状は MVP として x-ubm-dev-session: 1 付きの dev request に限り、
-// Bearer "session:<email>:<memberId>" 形式の dev token を許容する。
-// 本ヘッダは 05a/b で Auth.js cookie ベースの resolver に置き換える。
+// 04b/06b-A: /me/* member self-service。
+// resolver は createMeSessionResolver() を経由し、
+// - development: x-ubm-dev-session: 1 + Bearer "session:<email>:<memberId>" の dev 経路
+// - production/staging: Auth.js cookie (`authjs.session-token` / `__Secure-authjs.session-token`)
+//   または Authorization: Bearer <jwt> を AUTH_SECRET で HS256 verify する
+// の二段で解決する。失敗時は null を返し sessionGuard が 401 を返す。
 app.route(
   "/me",
   createMeRoute({
-    resolveSession: async (req, env) => {
-      if (env?.ENVIRONMENT && env.ENVIRONMENT !== "development") return null;
-      if (req.headers.get("x-ubm-dev-session") !== "1") return null;
-      const auth = req.headers.get("authorization") ?? "";
-      const m = /^Bearer\s+session:([^:]+):(.+)$/.exec(auth);
-      if (!m) return null;
-      const [, email, memberId] = m;
-      if (!email || !memberId) return null;
-      return { email, memberId };
-    },
+    resolveSession: createMeSessionResolver(),
   }),
 );
 
@@ -250,6 +219,8 @@ app.route("/admin", adminSchemaRoute);
 app.route("/admin", adminMeetingsRoute);
 app.route("/admin", adminAttendanceRoute);
 app.route("/admin", adminAuditRoute);
+// 04b-followup-004: admin queue resolve workflow
+app.route("/admin", adminRequestsRoute);
 // UT-26: Sheets API E2E smoke route。production では route 内で 404 を返すため、
 // mount しても本番では露出しない (dev/staging のみで動作する)。
 app.route("/admin/smoke/sheets", createSmokeSheetsRoute());

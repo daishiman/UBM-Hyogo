@@ -199,3 +199,47 @@ type SessionJwtClaims = {
 | unassigned-task-001 | Phase 11 staging 実 OAuth screenshot smoke を 09a に委譲し placeholder を本物に上書き |
 | unassigned-task-002 | Google OAuth verification 本番申請（MVP 卒業時） |
 | unassigned-task-003 | admin 剥奪即時反映 (B-01) を将来必要にする際の KV revocation list 設計検討（D1 sessions 復活は禁止） |
+
+---
+
+## 追加教訓（2026-04 followup / staging 実装サイクル）
+
+### L-05A-007: OpenNext Worker への環境変数 bridge 注入
+- 発生フェーズ: 実装 / staging 検証
+- 症状: `process.env.AUTH_SECRET` が edge runtime で undefined となり、Auth.js callback が fail
+- 根本原因: OpenNext bundle が Cloudflare env を Next.js runtime context に直接渡さない
+- 解決策: `scripts/patch-open-next-worker.mjs` で post-build patch を適用。`buildAuthEnv()` 関数を `.open-next/worker.js` に注入し、`globalThis` 書込 + request header (`x-ubm-*`) の二重経路で credentials を受渡す
+- 同種課題で最初に確認すべき箇所: `.open-next/worker.js` の env layer、`apps/web/src/lib/auth.ts` の env() helper
+- 関連: `scripts/patch-open-next-worker.mjs`、`apps/web/middleware.ts`
+
+### L-05A-008: Cloudflare Workers 同一アカウント loopback subrequest 404
+- 発生フェーズ: staging 検証
+- 症状: `PUBLIC_API_BASE_URL` への外向き fetch が staging で 404
+- 根本原因: 同一アカウントの workers.dev domain への loopback fetch が Cloudflare 側でルーティングされない
+- 解決策: `apps/web/src/lib/fetch/public.ts` を service-binding (`env.API_SERVICE.fetch`) 主経路に統一し、外向き fetch は local fallback に降格。`apps/web/wrangler.toml` の `[[env.staging.services]]` で binding を定義
+- 同種課題で最初に確認すべき箇所: `wrangler tail` の transport ログ、`wrangler.toml` の services binding 定義
+- 関連: `apps/web/src/lib/fetch/public.ts`、`apps/web/wrangler.toml`
+
+### L-05A-009: Next.js 16 + React 19 prerender useContext null
+- 発生フェーズ: ビルド / Phase 11 直前
+- 症状: `pnpm build` で `/_global-error` / `/_not-found` の SSG が `Cannot read properties of null (reading 'useContext')` で fail
+- 根本原因: pending（next 16.2.4 + react 19.2.5 の strict SSR で context provider scope 不在の可能性）
+- 解決策: 未解決。`apps/web/app/global-error.tsx` 追加で部分緩和を試したが prerender failure は継続
+- 同種課題で最初に確認すべき箇所: `next.config.ts` の experimental flags、`app/error.tsx` / `app/global-error.tsx`、GitHub Issue #385、PR #271
+- 関連: `docs/30-workflows/unassigned-task/task-05a-build-prerender-failure-001.md`（blocker）
+
+### L-05A-010: Google OAuth verification と privacy/terms 公開ページの上流依存
+- 発生フェーズ: Phase 11 / OAuth verification 申請準備
+- 症状: `/privacy` / `/terms` が 404、Google OAuth consent screen の URL 登録不能
+- 根本原因: build prerender failure (L-05A-009) で deploy 不能、上流 blocker
+- 解決策: `apps/web/app/privacy/page.tsx` / `terms/page.tsx` を暫定文面で実装済。法務レビュー後に本番文面更新。verification 申請は build 解消後
+- 同種課題で最初に確認すべき箇所: Google Cloud Console OAuth client status、consent screen URLs
+- 関連: `docs/30-workflows/unassigned-task/task-05a-privacy-terms-pages-001.md`
+
+### L-05A-011: Auth.js session-resolve の env 層化（local / Cloudflare / globalThis / request header）
+- 発生フェーズ: 実装 / staging 検証
+- 症状: env 取得元の優先順位が複雑化、staging で credentials undefined のケース
+- 根本原因: 4 種類の runtime context（processEnv / globalEnv / cloudflareEnv / requestEnv）を merge せずに layered fallback で取得していた
+- 解決策: `apps/web/src/lib/auth.ts` で env() helper の優先順位を明示。staging では `console.log` で transport / response を可視化（production は disable）
+- 同種課題で最初に確認すべき箇所: `apps/web/src/lib/auth.ts` の env() / fetchSessionResolve / signIn callback
+- 関連: `apps/api` 側 `/auth/session-resolve`、`INTERNAL_AUTH_SECRET`

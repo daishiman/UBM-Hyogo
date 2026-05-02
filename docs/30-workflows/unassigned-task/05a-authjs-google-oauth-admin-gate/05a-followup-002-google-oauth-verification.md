@@ -1,5 +1,9 @@
 # 05a Follow-up 002: Google OAuth Verification
 
+> 状態: merged_into `docs/30-workflows/ut-05a-followup-google-oauth-completion/`（spec_created）
+> 統合日: 2026-04-30
+> 注記: 単独未タスクとしては新規実行せず、統合 workflow の Stage B/C で実行する。
+
 ## 苦戦箇所【記入必須】
 
 05a は MVP では Google OAuth testing user 運用を許容したが、本番公開前には Google OAuth verification / consent screen の審査状態を確定する必要がある。未対応のままだと testing user 以外の会員がログインできない。

@@ -7,7 +7,7 @@ import { ctx } from "../../repository/_shared/db";
 import { getPublicMemberProfileUseCase } from "../../use-cases/public/get-public-member-profile";
 
 export interface MemberProfileEnv {
-  DB: import("../../repository/_shared/db").D1Db;
+  DB: D1Database;
 }
 
 export const memberProfileRoute = (
