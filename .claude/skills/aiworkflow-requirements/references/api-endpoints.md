@@ -276,11 +276,19 @@ UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers C
 | ------ | ---- | ---- | ---- |
 | GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
 | GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `createAttendanceProvider(ctx)` 経由で `member_attendance` + `meeting_sessions` から取得する |
-| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
-| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能 |
+| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='visibility_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
+| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='delete_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
 
 禁止: `PATCH /me/profile` は作らない。`/me/*` path に `:memberId` を入れない。GET 系 response に
 `admin_member_notes` 由来の `notes` / `adminNotes` を含めない。
+
+### Browser proxy 層（apps/web BFF）
+
+`/profile` 等の Client Component から `apps/api` `/me/*` に直接アクセスせず、`apps/web/app/api/me/[...path]/route.ts` の catch-all proxy 経由で叩く（不変条件 #5: D1 直接アクセスは `apps/api` に閉じる の運用形式）。
+
+- proxy は `[...path]` をそのまま `apps/api` `/me/...` にパススルーし、Cookie / Authorization header だけ転送する
+- memberId は backend session（06b-A `/me` API Auth.js cookie session resolver）で解決し、path / クエリに出さない（不変条件 #11）
+- 06b-B では `me-requests-client` が `POST /api/me/visibility-request` / `POST /api/me/delete-request` を呼び、409 を `SelfRequestError(code:'duplicate-pending')` に変換する。401 は未認証、403 は `authGateState !== 'active'` を表す
 
 `MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、D1 read path は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
 
