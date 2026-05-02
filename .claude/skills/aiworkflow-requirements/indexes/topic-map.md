@@ -4927,13 +4927,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L114 |
-| フェーズ構造（概要） | L123 |
-| 品質ゲート（概要） | L154 |
-| 出力テンプレート | L165 |
-| 実行時のコマンド・エージェント・スキル | L188 |
-| 昇格パターン集 | L212 |
-| Current Active / Spec Created Tasks | L214 |
+| ドキュメント構成 | L124 |
+| フェーズ構造（概要） | L133 |
+| 品質ゲート（概要） | L164 |
+| 出力テンプレート | L175 |
+| 実行時のコマンド・エージェント・スキル | L198 |
+| 昇格パターン集 | L222 |
+| Current Active / Spec Created Tasks | L224 |
 
 ### references/task-workflow-backlog-part2.md
 

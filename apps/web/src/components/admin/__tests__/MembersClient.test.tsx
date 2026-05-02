@@ -33,6 +33,16 @@ vi.mock("../MemberDrawer", () => ({
 
 import { MembersClient } from "../MembersClient";
 
+const baseSearch = {
+  filter: "" as "" | "published" | "hidden" | "deleted",
+  q: "",
+  zone: "all" as const,
+  tag: [] as string[],
+  sort: "recent" as const,
+  density: "comfy" as const,
+  page: 1,
+};
+
 const baseMember = {
   memberId: "m_1",
   fullName: "山田 太郎",
@@ -60,7 +70,7 @@ describe("MembersClient", () => {
         fixture({ memberId: "m_2", fullName: "鈴木 花子", responseEmail: "hanako@example.com", publishState: "private" }),
       ],
     } as any;
-    render(<MembersClient initial={initial} filter={undefined} />);
+    render(<MembersClient initial={initial} search={baseSearch} />);
 
     expect(screen.getByRole("heading", { name: "会員管理" })).toBeTruthy();
     expect(screen.getByText("2 件")).toBeTruthy();
@@ -76,7 +86,7 @@ describe("MembersClient", () => {
   });
 
   it("empty: members=[] / total=0 で 0 件表示・データ行なし", () => {
-    render(<MembersClient initial={{ total: 0, members: [] } as any} filter={undefined} />);
+    render(<MembersClient initial={{ total: 0, members: [] } as any} search={baseSearch} />);
     expect(screen.getByText("0 件")).toBeTruthy();
     expect(screen.queryAllByRole("button", { name: "詳細" })).toHaveLength(0);
     // tbody に行なし
@@ -90,7 +100,7 @@ describe("MembersClient", () => {
       total: 1,
       members: [fixture({ memberId: "m_99" })],
     } as any;
-    render(<MembersClient initial={initial} filter={undefined} />);
+    render(<MembersClient initial={initial} search={baseSearch} />);
 
     expect(screen.queryByTestId("drawer")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "詳細" }));
@@ -124,7 +134,7 @@ describe("MembersClient", () => {
       total: 1,
       members: [fixture({ memberId: "m id/?&", isDeleted: true })],
     } as any;
-    render(<MembersClient initial={initial} filter="published" />);
+    render(<MembersClient initial={initial} search={{ ...baseSearch, filter: "published" }} />);
 
     // 「削除済み」はフィルタボタンと行ラベル両方にあるため数で確認 (>=2)
     expect(screen.getAllByText("削除済み").length).toBeGreaterThanOrEqual(2);
