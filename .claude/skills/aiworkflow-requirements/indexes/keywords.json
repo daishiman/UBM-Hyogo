@@ -3609,6 +3609,7 @@
     ],
     "auth": [
       "auth-google-oauth-cf-integration.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
@@ -5052,6 +5053,7 @@
       "deployment-cloudflare.md",
       "deployment-core.md",
       "deployment-secrets-management.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "r2-storage-decision-guide.md",
@@ -5230,6 +5232,7 @@
     "preflight": [
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
     "デプロイメント": [
@@ -5246,6 +5249,7 @@
     "canonical": [
       "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
@@ -7067,6 +7071,7 @@
     ],
     "追記": [
       "legacy-ordinal-family-register.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "skill-ledger-gitignore-policy.md"
     ],
@@ -8769,6 +8774,20 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
     "を決める": [
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
+    ],
+    "parent": [
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "workflow-ai-chat-llm-integration-fix.md",
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-workspace-parent-reference-sweep-guard.md"
+    ],
+    "directory": [
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "の双方を満たす": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
     "Monitoring": [
@@ -15058,12 +15077,6 @@
     "実装・監査ステータス": [
       "workflow-ai-chat-llm-integration-fix.md"
     ],
-    "parent": [
-      "workflow-ai-chat-llm-integration-fix.md",
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-workspace-parent-reference-sweep-guard.md"
-    ],
     "タスク別の最小読書セット": [
       "workflow-ai-chat-llm-integration-fix.md"
     ],
@@ -15449,9 +15462,6 @@
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
-    ],
-    "directory": [
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
     ],
     "endpoints": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"

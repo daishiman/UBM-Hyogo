@@ -3387,11 +3387,12 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L9 |
-| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L17 |
-| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L25 |
-| L-09A-004: path realignment は top register と drift register の両方に書く | L33 |
-| L-09A-005: skill feedback は報告で止めず promotion target を決める | L41 |
+| L-09A-001: `NOT_EXECUTED` placeholder は PASS 証跡にしない | L10 |
+| L-09A-002: staging smoke は delegated evidence の集約 gate として扱う | L18 |
+| L-09A-003: root/output `artifacts.json` parity は warning ではなく blocker | L26 |
+| L-09A-004: path realignment は top register と drift register の両方に書く | L34 |
+| L-09A-005: skill feedback は報告で止めず promotion target を決める | L42 |
+| L-09A-006: 実 staging smoke の preflight は Cloudflare auth と parent canonical directory の双方を満たす（2026-05-02 追記） | L50 |
 
 ### references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md
 
