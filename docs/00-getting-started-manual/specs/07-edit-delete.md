@@ -159,6 +159,16 @@ stateDiagram-v2
   `member_responses` には触れない。
 - 不変条件 #11: 管理者は member 本文を直接編集できない。state transition は note 行の状態列のみを更新する。
 
+### 管理者による申請確定（04b-followup-004）
+
+`/admin/requests` は `visibility_request` / `delete_request` の pending 行を FIFO で表示する管理 queue である。管理者は各依頼を approve / reject できる。
+
+- visibility approve: 依頼 payload の `desiredState` に従って `member_status.publish_state` を更新し、note を `resolved` にする。
+- delete approve: `member_status.is_deleted=1` と `deleted_members` を更新し、note を `resolved` にする。
+- reject: `member_status` は変更せず、note を `rejected` にする。
+- approve 前に対象 `member_status` がない場合は 404 とし、note は pending のまま残す。
+- 二重 resolve は `WHERE request_status='pending'` の楽観ロックで 409 にする。
+
 ---
 
 ## 事故防止ルール
