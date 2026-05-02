@@ -10,6 +10,9 @@
 apps/api/** @daishiman
 apps/web/** @daishiman
 
+# sync 共通モジュール owner 表: docs/30-workflows/_design/sync-shared-modules-owner.md
+apps/api/src/jobs/_shared/** @daishiman
+
 # --- 3. governance 領域（最も具体度高・末尾配置） ---
 .github/workflows/** @daishiman
 docs/30-workflows/** @daishiman

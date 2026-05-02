@@ -84,7 +84,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | メソッド | パス | 説明 | 認証 |
 | --- | --- | --- | --- |
 | GET | `/admin/dashboard` | 06c-A 正本: 単一 endpoint で `kpis = { 総会員数, 公開中人数, 未タグ人数, スキーマ未解決件数 }` と `recentActions`（`audit_log` 直近 7 日 / max 20 / `dashboard.view` 除外）を返す。表示時に `dashboard.view` を `audit_log` へ append する | Auth.js JWT + `requireAdmin` |
-| GET | `/admin/members` | admin member list。`filter=active|hidden|deleted` を受け付ける | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/members` | 06c-B 正本: admin member list。`filter=published|hidden|deleted`、`q`（trim + 連続空白正規化 + max 200）、`zone=all|0_to_1|1_to_10|10_to_100`、repeated `tag`（tag code / AND / max 5）、`sort=recent|name`、`density=comfy|dense|list`、`page` を受け付け、`{ total, members, page, pageSize }` を返す | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |

@@ -30,7 +30,7 @@
 | [coverage-standards.md](coverage-standards.md) | Phase 6-7 | coverage 基準 |
 | [quality-standards.md](quality-standards.md) | Phase 9-10 | 品質基準 |
 | [review-gate-criteria.md](review-gate-criteria.md) | Phase 3/10 | review 判定基準 |
-| [artifact-naming-conventions.md](artifact-naming-conventions.md) | outputs 作成時 | 命名規則 |
+| [artifact-naming-conventions.md](artifact-naming-conventions.md) | outputs 作成時 / Phase 12 旧名 drift 検出時 / docs-only governance owner table タスク作成時 | 命名規則、§6 Phase 12 filename drift guard、§7 docs-only governance owner table variant |
 | [evidence-sync-rules.md](evidence-sync-rules.md) | Phase 12 | 台帳・証跡同期 |
 | [self-improvement-cycle.md](self-improvement-cycle.md) | 改善分析時 | feedback ループ |
 
