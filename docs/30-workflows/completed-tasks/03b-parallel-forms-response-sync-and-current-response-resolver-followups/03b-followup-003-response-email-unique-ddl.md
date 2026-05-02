@@ -10,12 +10,20 @@
 | 対象機能     | D1 schema における `response_email` UNIQUE 契約（`member_identities` 側）の正本化   |
 | 優先度       | 中                                                                                  |
 | 見積もり規模 | 小規模                                                                              |
-| ステータス   | 未実施                                                                              |
+| ステータス   | consumed_by_issue_196_workflow                                                      |
 | 発見元       | 03b Phase 12 unassigned-task-detection #4                                           |
 | 発見日       | 2026-04-28                                                                          |
 | 引き取り候補 | 01a-parallel-d1-database-schema-migrations-and-tag-seed                             |
 
 ---
+
+## Consumed / Superseded Status
+
+この follow-up は `docs/30-workflows/issue-196-03b-followup-003-response-email-unique-ddl/` に昇格済み。正本訂正は Issue #196 workflow 側で管理する。
+
+- 正本 UNIQUE: `member_identities.response_email`
+- 非 UNIQUE: `member_responses.response_email`（履歴行のため同一 email の複数 response を許容）
+- 旧表題の `member_responses.response_email UNIQUE` は誤記として扱う。履歴改ざんを避けるため本ファイルの原文は残し、この consumed 節で現在状態を明示する。
 
 ## 1. なぜこのタスクが必要か（Why）
 

@@ -83,6 +83,9 @@
 - 続けて `公開 / 会員限定 / 管理用` の件数サマリを置く
 - 回答内容はセクションごとに読み直せるように一覧化する
 - `情報を更新する` は Google Form 再回答モーダルを経由する
+- `公開停止 / 再公開 / 退会申請` は本文編集 UI とは分離し、本人申請パネルから admin queue へ依頼を作る
+- 申請 dialog は `role=dialog`、`aria-modal=true`、`aria-describedby`、Esc close、Tab focus trap を持つ
+- 申請エラーは `role=alert` で表示し、409 は同一 session 中の pending banner と該当ボタン disabled に接続する。network / 5xx はユーザー操作の再試行 CTA を出す
 
 ---
 
