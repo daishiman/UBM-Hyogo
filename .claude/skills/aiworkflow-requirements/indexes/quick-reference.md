@@ -391,7 +391,9 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | 原典 unassigned | `docs/30-workflows/completed-tasks/UT-06-FU-A-production-route-secret-observability.md` |
 | lessons-learned | `references/lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md` |
 | artifact inventory | `references/workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md` |
-| automation follow-up | `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-001.md`, `docs/30-workflows/unassigned-task/UT-06-FU-A-logpush-target-diff-script-001.md` |
+| route automation follow-up | `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-001.md` |
+| Logpush target diff script | `docs/30-workflows/ut-06-fu-a-logpush-target-diff-script-001/`（implementation_complete / Phase 1-12 completed / Phase 13 pending_user_approval） |
+| Logpush diff command | `bash scripts/cf.sh observability-diff --current-worker ubm-hyogo-web-production --legacy-worker ubm-hyogo-web --config apps/web/wrangler.toml` |
 | 対象 Worker | `ubm-hyogo-web-production` |
 | 境界 | route / custom domain / secret key / observability target の preflight。production deploy / DNS 切替 / Worker 削除は別承認 |
 
