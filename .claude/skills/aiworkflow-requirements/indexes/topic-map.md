@@ -2424,6 +2424,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L83 |
 | Validation Chain（spec_created） | L92 |
 
+### references/workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L12 |
+| Source / Follow-Up State | L27 |
+| Runtime Evidence Reservation | L35 |
+
 ### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
 
 | セクション | 行 |
@@ -3443,6 +3452,15 @@ node scripts/list-specs.js --topics
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
 | L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
 | L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
+
+### references/lessons-learned-issue359-production-d1-apply-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I359-001: D1 migration apply must guard against unrelated pending migrations | L3 |
+| L-I359-002: Wrangler config path belongs in the runbook | L7 |
+| L-I359-003: Rollback SQL is evidence, not permission | L11 |
+| L-I359-004: Source unassigned close-out is part of Phase 12 | L15 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 

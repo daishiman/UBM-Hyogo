@@ -17,7 +17,7 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | member_status | consent snapshot / 公開状態 / 退会状態 | ✅ 実装済み |
 | response_fields | response ごとの stableKey / extra question 値 | ✅ 実装済み |
 | schema_diff_queue | unknown / changed question の管理キュー | ✅ 実装済み |
-| schema_aliases | 07b manual alias resolution の正本書き込み先（issue-191） | spec_created / planned |
+| schema_aliases | 07b manual alias resolution の正本書き込み先（issue-191） | local implemented / production apply pending user approval |
 | sync_jobs | schema / response sync の ledger | ✅ 実装済み |
 | workflows | ワークフロー定義 | 設計済み |
 | workflow_steps | ワークフローステップ | 設計済み |
@@ -58,7 +58,7 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 
 ## Schema aliases write target（issue-191 / UT-07B）
 
-`schema_aliases` は issue-191 以降の manual alias write target である。07b `POST /admin/schema/aliases` は `schema_questions.stable_key` を直接更新せず、この table に alias 行を INSERT する。03a は `schema_aliases` first、miss の場合のみ `schema_questions.stable_key` fallback とする。
+`schema_aliases` は issue-191 以降の manual alias write target である。07b `POST /admin/schema/aliases` は `schema_questions.stable_key` を直接更新せず、この table に alias 行を INSERT する。03a は `schema_aliases` first、miss の場合のみ `schema_questions.stable_key` fallback とする。Production D1 apply is not yet marked applied; the approval-gated operation is tracked by `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/` and only Phase 13 fresh production evidence may update this marker to `production applied`.
 
 UT-07B hardening では、`schema_aliases` 側に同一 revision collision を防ぐ UNIQUE constraint / index を追加する。`schema_questions.stable_key` への partial UNIQUE は fallback retirement 前の互換制約としてのみ評価し、正本 write target を direct update に戻さない。
 

@@ -99,6 +99,16 @@ UT-07B schema alias hardening は、この `schema_aliases` write target replace
 | fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
 | direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
 
+### Issue #359 Production D1 schema_aliases Apply（2026-05-02）
+
+| 目的 | 参照先 |
+| --- | --- |
+| approval-gated operation workflow | `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/` |
+| Phase 12 strict outputs | `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/outputs/phase-12/` |
+| runtime evidence reservation | `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/outputs/phase-13/` |
+| production apply command | `bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production` |
+| status | `spec_created / implementation / NON_VISUAL / production-operation / Phase 13 blocked_until_user_approval` |
+
 ### UT-02A Canonical Section/Field Resolver（Issue #108 / 2026-05-01）
 
 | 目的 | 参照先 |
