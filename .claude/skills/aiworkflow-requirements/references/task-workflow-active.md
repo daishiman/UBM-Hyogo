@@ -33,15 +33,25 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | implemented-local / test-fixture implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
-| wave guide | `docs/30-workflows/completed-tasks/ut-coverage-2026-05-wave/README.md` |
+| ステータス | implemented-local / test-fixture + admin component test implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
+| wave guide | `docs/30-workflows/ut-coverage-2026-05-wave/README.md` |
 | wave-1 | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/` |
-| wave-2 | `docs/30-workflows/completed-tasks/ut-coverage-2026-05-wave/wave-2-parallel-coverage/` |
+| wave-2 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/` |
 | inventory | `references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md` |
-| lessons | `references/lessons-learned-ut-coverage-2026-05-wave.md`（L-UTCOV-001〜006） |
-| 目的 | apps/api の 13 failing tests を先に解消し、Issue #320 coverage hardening が `coverage-summary.json` を取得できる状態に戻す |
-| AC | precondition gate: apps/api 13 failure green、coverage-summary.json 生成、`bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0、apps/api coverage 80% gate PASS。upgrade gate（Statements/Functions/Lines >=85%, Branches >=80%）は UT-08A-01 に委譲 |
-| 境界 | test fixture `apps/api/src/jobs/__fixtures__/d1-fake.ts` のみ実装済み。runtime production code、apps/web、packages/*、commit、push、PR は Phase 13 user approval まで実行しない |
+| lessons | `references/lessons-learned-ut-coverage-2026-05-wave.md`（L-UTCOV-001〜007 / L-UTCOV-007 は ut-web-cov-01 admin component coverage の snapshot 回避・mock 結果反映・authz 拒否・scope-out 取扱い） |
+| 目的 | apps/api の 13 failing tests を先に解消し、Issue #320 coverage hardening が `coverage-summary.json` を取得できる状態に戻す。wave-2 では `ut-web-cov-01` の admin component focused tests を実装済み |
+| AC | precondition gate: apps/api 13 failure green、coverage-summary.json 生成、`bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0、apps/api coverage 80% gate PASS。`ut-web-cov-01` gate: web coverage Vitest 21 files / 196 tests PASS、対象7ファイルすべて Statements/Functions/Lines >=85%・Branches >=80%。remaining upgrade gate は未完 wave-2 task に委譲 |
+| 境界 | wave-1 は test fixture `apps/api/src/jobs/__fixtures__/d1-fake.ts` のみ実装済み。`ut-web-cov-01` は apps/web test files のみ実装済み。runtime production code、packages/*、commit、push、PR は Phase 13 user approval まで実行しない |
+
+### 03b Response Sync Follow-ups（2026-05-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | unimplemented follow-up specs / implementation / VISUAL_ON_EXECUTION |
+| 正本 | `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-response-sync-followups.md` |
+| 対象 | `03b-followup-001-email-conflict-identity-merge.md` ほか 8 follow-up |
+| 境界 | 各 follow-up は親 03b Phase 12 由来の単一 md 指示書であり、Phase 1-13 workflow root ではない。着手時に正式 workflow root、`artifacts.json`、Phase 1-13、Phase 12 必須 7 成果物、Phase 13 user approval gate へ昇格する |
+| current fact | responseEmail UNIQUE は `member_identities.response_email` が正本。identity merge は `member_identities` / `member_status` / `audit_log` を主語にし、`member_responses.member_id` 付替を前提にしない |
 
 ### 04b Follow-up 004 Admin Queue Resolve Workflow（2026-05-01）
 
