@@ -655,3 +655,12 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Canonical read path: `createAttendanceProvider(ctx).findByMemberIds()` using 80-id chunks, `member_attendance` + `meeting_sessions` INNER JOIN by `session_id`, `held_on DESC` + `session_id ASC`, missing session exclusion, and duplicate normalization.
 - Added `references/lessons-learned-ut-02a-attendance-profile-integration-2026-05.md` and changelog fragment `changelog/20260501-ut-02a-attendance-profile-integration-closeout.md`.
 - No commit, push, or PR was executed.
+
+## 2026-05-03 - Issue #194 EMAIL_CONFLICT identity merge follow-up sync
+
+- Synced `docs/30-workflows/completed-tasks/issue-194-03b-followup-001-email-conflict-identity-merge/` as implemented-local / implementation-spec / VISUAL_ON_EXECUTION / Phase 1-12 completed / Phase 11 runtime pending / Phase 13 pending_user_approval.
+- Corrected workflow root path drift in `indexes/quick-reference.md`, `indexes/resource-map.md`, `references/task-workflow-active.md`, `references/legacy-ordinal-family-register.md` from `docs/30-workflows/issue-194-...` to actual `docs/30-workflows/completed-tasks/issue-194-...`.
+- Manual specs reflected (same wave): `docs/00-getting-started-manual/specs/01-api-schema.md` (3 endpoints), `08-free-database.md` (3 DDL + atomic D1 batch contract), `11-admin-management.md` (identity merge 節).
+- Added `references/lessons-learned-issue-194-identity-merge-2026-05.md` (L-IDENT-001..006) covering alias-only canonical merge, first-stage 100%-confidence detection scope, PII redact-on-write + mask-on-read 2-stage policy, dismiss upsert PK, undo-via-runbook, and composite cursor `(submittedAt DESC, memberId ASC)`.
+- Added `changelog/20260503-issue-194-identity-merge.md`.
+- No commit, push, or PR was executed. Phase 11 runtime evidence and staging D1 migration apply remain blocked behind Phase 13 user approval.

@@ -64,6 +64,7 @@ export const createAdminMembersRoute = () => {
          LEFT JOIN member_responses mr ON mr.response_id = mi.current_response_id
          LEFT JOIN member_status ms ON ms.member_id = mi.member_id
          ${where}
+         ${where ? "AND" : "WHERE"} mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)
          ORDER BY mi.last_submitted_at DESC`,
       )
       .all<MemberListRow>();

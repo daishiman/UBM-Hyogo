@@ -3230,12 +3230,12 @@ node scripts/list-specs.js --topics
 | 概要 | L14 |
 | 使い方 | L22 |
 | Current Alias Overrides（個別互換行） | L29 |
-| Family Summary | L65 |
-| Detailed Register | L86 |
-| Section Extract Register (2026-03-17) | L267 |
-| 500-Line Split Register (2026-03-16) | L278 |
-| Fragment Migration Register (2026-04-28) | L300 |
-| Task Root Path Drift Register (2026-04-30 追記) | L327 |
+| Family Summary | L66 |
+| Detailed Register | L87 |
+| Section Extract Register (2026-03-17) | L268 |
+| 500-Line Split Register (2026-03-16) | L279 |
+| Fragment Migration Register (2026-04-28) | L301 |
+| Task Root Path Drift Register (2026-04-30 追記) | L328 |
 
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
@@ -3527,6 +3527,14 @@ node scripts/list-specs.js --topics
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
 | L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
 | L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
+
+### references/lessons-learned-issue-194-identity-merge-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L10 |
+| skill-feedback 申し送り | L48 |
+| 確認パス | L53 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
