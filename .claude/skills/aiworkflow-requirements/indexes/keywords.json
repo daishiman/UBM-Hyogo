@@ -646,7 +646,8 @@
       "database-implementation-core.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
+      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "Member": [
       "api-endpoints.md",
@@ -963,6 +964,7 @@
     ],
     "contract": [
       "arch-execution-capability-contract.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
@@ -2004,6 +2006,7 @@
       "arch-ui-components-advanced.md",
       "arch-ui-components-details.md",
       "interfaces-agent-sdk-skill-editor.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
@@ -2356,6 +2359,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "logs-archive-2026-03-history-search-notification-center.md",
@@ -2382,6 +2386,7 @@
       "arch-state-management-skill-creator.md",
       "database-schema.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "logs-archive-2026-03-skill-views-completed-move.md",
@@ -2512,6 +2517,7 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
@@ -2552,6 +2558,7 @@
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -2926,6 +2933,7 @@
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "directory-structure-core.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "ui-ux-atoms-patterns-core.md"
     ],
     "web": [
@@ -2933,6 +2941,7 @@
       "deployment-cloudflare-opennext-workers.md",
       "directory-structure-core.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
     "src": [
@@ -2971,6 +2980,7 @@
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "spec-splitting-guidelines.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
@@ -3645,6 +3655,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -3694,6 +3705,7 @@
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -3753,6 +3765,7 @@
       "database-schema-ddl-template.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -3946,6 +3959,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -4005,6 +4019,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
     ],
     "index": [
@@ -4068,6 +4083,7 @@
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
@@ -4082,6 +4098,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md"
     ],
     "agents": [
@@ -4578,7 +4595,8 @@
     ],
     "Boundary": [
       "database-schema-07b-schema-alias-assignment.md",
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "DDL": [
       "database-schema-ddl-template.md",
@@ -5203,7 +5221,8 @@
       "deployment-cloudflare.md"
     ],
     "binding": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "例は": [
       "deployment-cloudflare.md"
@@ -5397,6 +5416,7 @@
     "main": [
       "deployment-gha.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "skill-ledger-fragment-spec.md"
     ],
     "マージ時": [
@@ -5558,6 +5578,7 @@
     ],
     "local": [
       "directory-structure-core.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
@@ -6872,6 +6893,7 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
@@ -6900,6 +6922,7 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
@@ -7200,6 +7223,7 @@
     "guard": [
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-light-theme-contrast-regression-guard.md",
       "workflow-workspace-parent-reference-sweep-guard.md",
       "workflow-workspace-preview-search-resilience-guard.md"
@@ -7304,6 +7328,7 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "skill-ledger-gitignore-policy.md",
       "task-workflow-completed-ut-06-safety-gate.md",
@@ -7471,6 +7496,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -8254,6 +8280,7 @@
     ],
     "coverage": [
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
@@ -8310,6 +8337,7 @@
     ],
     "regression": [
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-light-theme-contrast-regression-guard.md"
     ],
     "Closed": [
@@ -8538,6 +8566,7 @@
     ],
     "LOGS": [
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-index.md",
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitignore-policy.md"
@@ -8804,8 +8833,10 @@
     ],
     "Wave": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "task-workflow.md",
-      "ui-ux-components.md"
+      "ui-ux-components.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "close": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -9163,6 +9194,94 @@
     "Reject": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
+    "Coverage": [
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "precondition": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "use": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "case": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "UTCOV": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "summary": [
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "不在時は": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "が空入力で素通りする": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "fake": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "表面": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "exec": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "prepare": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "dump": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "を最小再現する": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "layer": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "upgrade": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "を別タスク化する": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "serial": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "parallel": [
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
+    ],
+    "分割は": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "切り分けを安価にする": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "implemented": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "状態を明示する": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "単位で": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "ファイル": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "単位は": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "に集約する": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -9237,10 +9356,6 @@
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "項目": [
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-ut-gov-004-artifact-inventory.md"
-    ],
-    "summary": [
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
@@ -14333,6 +14448,7 @@
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -14363,6 +14479,7 @@
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -14375,7 +14492,8 @@
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "artifact": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -14731,7 +14849,8 @@
       "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
     "Gate": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "分割判断": [
       "workflow-skill-lifecycle-evaluation-scoring-gate.md"
@@ -14812,12 +14931,6 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "parallel": [
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
     "directory": [
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
@@ -14962,7 +15075,8 @@
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
     "Files": [
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "Implementation": [
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
@@ -14982,6 +15096,15 @@
     ],
     "Disposition": [
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+    ],
+    "Workflows": [
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "Strict": [
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "Same": [
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "phases": [
       "workflow-ut-gov-004-artifact-inventory.md",

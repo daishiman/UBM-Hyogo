@@ -627,3 +627,17 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Recorded Discord / Slack notification as unimplemented current facts for the 5 observed workflows.
 - Marked `docs/30-workflows/completed-tasks/UT-CICD-DRIFT-IMPL-OBSERVABILITY-MATRIX-SYNC.md` as transferred to `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/`.
 - Ran `node .claude/skills/aiworkflow-requirements/scripts/generate-index.js` and regenerated topic / keyword indexes.
+# 2026-05-01 UT Coverage 2026-05 Wave Sync
+
+- Synced `docs/30-workflows/ut-api-cov-precondition-01-test-failure-recovery/` and `docs/30-workflows/ut-coverage-2026-05-wave/` as wave-1 implemented-local / test-fixture implementation / NON_VISUAL plus wave orchestration guide.
+- Registered two-layer coverage gate: wave-1 precondition gate is apps/api tests green, coverage-summary.json generated, `bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0, apps/api coverage >=80%; upgrade gate (Statements/Functions/Lines >=85%, Branches >=80%) is delegated to UT-08A-01.
+- Added artifact inventory `references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md`.
+- Boundary: only test fixture `apps/api/src/jobs/__fixtures__/d1-fake.ts` is implemented; runtime production code, apps/web, packages/*, commit, push, and PR creation remain blocked until Phase 13 user approval.
+
+# 2026-05-02 UT Coverage Wave Phase-12 sweep + lessons-learned
+
+- Updated wave-2 five tasks (`ut-08a-01-public-use-case-coverage-hardening`, `ut-web-cov-01..04`) Phase-12 `main.md` from `status: pending` placeholder to `status: spec_created` with explicit handoff line.
+- Rewrote wave-2 five tasks `unassigned-task-detection.md` to include SF-03 four-pattern check (型定義→実装 / 契約→テスト / UI仕様→コンポーネント / 仕様書間差異) and 0-result statement.
+- Created `references/lessons-learned-ut-coverage-2026-05-wave.md` with L-UTCOV-001..006 covering coverage-summary.json gate failure mode, D1-fake binding contract, 2-layer gate split, serial→parallel wave split tradeoff, main.md 3-state convention, and wave-level lessons aggregation policy.
+- Re-pathed canonical workflow references in `indexes/resource-map.md`, `indexes/quick-reference.md`, `references/task-workflow-active.md`, and the artifact inventory to `docs/30-workflows/completed-tasks/...` (the wave directories were relocated under `completed-tasks/` between the initial sync and this sweep).
+- Phase 13 PR creation, commit, push remain blocked.
