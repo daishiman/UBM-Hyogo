@@ -1,6 +1,5 @@
 // 06b: /profile Server Component（read-only）。
-// 不変条件 #4: profile body の編集 form / submit button は描画しない。
-// 06b-B の自己申請 button は本文編集ではなく admin queue への request 作成だけを行う。
+// 不変条件 #4: 本文編集 UI は描画しない（申請 button は admin queue への依頼だけを作る）。
 // 不変条件 #5: D1 直接禁止。`fetchAuthed` 経由で API Worker を叩く。
 // 不変条件 #7: session.memberId のみ参照。responseId は API レスポンス内のみ使用。
 
@@ -18,8 +17,7 @@ import { StatusSummary } from "./_components/StatusSummary";
 import { ProfileFields } from "./_components/ProfileFields";
 import { EditCta } from "./_components/EditCta";
 import { AttendanceList } from "./_components/AttendanceList";
-import { VisibilityRequest } from "./_components/VisibilityRequest.client";
-import { DeleteRequest } from "./_components/DeleteRequest.client";
+import { RequestActionPanel } from "./_components/RequestActionPanel";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -57,11 +55,10 @@ export default async function ProfilePage() {
         editResponseUrl={editResponseUrl}
         fallbackResponderUrl={fallbackResponderUrl}
       />
-      <VisibilityRequest
+      <RequestActionPanel
         publishState={statusSummary.publishState}
-        disabled={me.authGateState !== "active"}
+        rulesConsent={statusSummary.rulesConsent}
       />
-      <DeleteRequest disabled={me.authGateState !== "active"} />
       <AttendanceList attendance={profile.attendance} />
     </main>
   );
