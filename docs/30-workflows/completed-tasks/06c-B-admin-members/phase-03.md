@@ -30,7 +30,7 @@ Phase 2 の設計を 3 つ以上の代替案と比較し、不変条件と運用
 | B: apps/api 経由 + cookie forwarding | 06b-A session resolver を再利用 | 採用 | PASS |
 | C: admin 専用 BFF を別 worker で建てる | 新 worker を追加 | 却下 | MAJOR（無料枠と運用負担） |
 | D: 検索を client-side filter で擬似実装 | クエリを使わず全件取得 | 却下 | MAJOR（性能・無料枠・12-search-tags 不整合） |
-| E: soft-delete を物理削除で代替 | DELETE で row を消す | 却下 | MAJOR（07-edit-delete 不整合・復元不可） |
+| E: delete を物理削除で代替 | DELETE で row を消す | 却下 | MAJOR（07-edit-delete 不整合・復元不可） |
 
 ## 参照資料
 
@@ -41,7 +41,7 @@ Phase 2 の設計を 3 つ以上の代替案と比較し、不変条件と運用
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-B-admin-members/
+- 対象 directory: docs/30-workflows/completed-tasks/06c-B-admin-members/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -59,10 +59,10 @@ Phase 2 の設計を 3 つ以上の代替案と比較し、不変条件と運用
 
 ## サブタスク管理
 
-- [ ] 代替案を 3 案以上記録する
-- [ ] PASS-MINOR-MAJOR を判定する
-- [ ] blocker を Phase 4 に渡す
-- [ ] outputs/phase-03/main.md を作成する
+- [x] 代替案を 3 案以上記録する
+- [x] PASS-MINOR-MAJOR を判定する
+- [x] blocker を Phase 4 に渡す
+- [x] outputs/phase-03/main.md を作成する
 
 ## 成果物
 
@@ -70,14 +70,14 @@ Phase 2 の設計を 3 つ以上の代替案と比較し、不変条件と運用
 
 ## 完了条件
 
-- 採用案が PASS、却下案の MAJOR 理由が不変条件で説明される
-- 12-search-tags / 07-edit-delete に整合する案のみが採用されている
+- [x] 採用案が PASS、却下案の MAJOR 理由が不変条件で説明される
+- [x] 12-search-tags / 07-edit-delete に整合する案のみが採用されている
 
 ## タスク100%実行確認
 
-- [ ] この Phase の必須セクションがすべて埋まっている
-- [ ] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
-- [ ] 実装、deploy、commit、push、PR を実行していない
+- [x] この Phase の必須セクションがすべて埋まっている
+- [x] 完了済み本体タスクの復活ではなく follow-up gate の仕様になっている
+- [x] 実装、deploy、commit、push、PR を実行していない
 
 ## 次 Phase への引き渡し
 

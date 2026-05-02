@@ -7,29 +7,29 @@
 | wave | 06c-fu |
 | mode | parallel |
 | owner | - |
-| 状態 | spec_created / docs-only / remaining-only |
+| 状態 | implemented-local / implementation / Phase 12 review-synced |
 | visualEvidence | VISUAL_ON_EXECUTION |
 
 ## purpose
 
-`/admin/members`（一覧・検索/フィルタ）と `/admin/members/[id]`（詳細・論理削除/復元・ロール変更・audit 表示）の admin UI と対応 API 接続を、`11-admin-management.md` / `07-edit-delete.md` / `12-search-tags.md` の正本仕様に整合させる follow-up 仕様書。実装は行わず spec のみを定義する。
+`/admin/members`（一覧・検索/フィルタ + 右ドロワー詳細・論理削除/復元・audit 表示）の admin UI と対応 API 接続を、`11-admin-management.md` / `07-edit-delete.md` / `12-search-tags.md` の正本仕様に整合させた follow-up。初期ラベルは `docs-only / remaining-only` だったが、目的達成には `apps/` と `packages/` の実コード接続が必要だったため、Phase 12 review cycle で実装まで完了した。
 
 ## why this is not a restored old task
 
 このタスクは完了済み本体タスクの復活ではなく、06c admin pages 本体で骨組みのみ作成された admin members 画面に対し、検索/フィルタ仕様・論理削除/復元 API 接続・audit log 表示の未接続部分だけを切り出して扱う。
 
-`apps/web/app/admin/members/page.tsx` および `[id]/page.tsx` は SSR スケルトンのみで、`GET /api/admin/members` の検索パラメータ（`q` / `zone` / `status` / `tag` / `sort`）と詳細画面の soft-delete / restore / role 変更 API、`12-search-tags.md` の検索 contract を満たしていない。本タスクはこの欠損だけを対象とし、admin の他機能（CSV export / 統計 / 一括操作等）は scope 外とする。
+現行実体は `apps/web/app/(admin)/admin/members/page.tsx` と `apps/api/src/routes/admin/members.ts` / `member-delete.ts` / `member-status.ts` である。`GET /api/admin/members` の検索パラメータ（既存 `filter=published|hidden|deleted` に加え、`q` / `zone` / repeated `tag` / `sort` / `density` を 12-search-tags と整合）と右ドロワー詳細画面の delete / restore / audit 表示の未接続部分だけを対象とし、admin の他機能（CSV export / 統計 / 一括操作等）は scope 外とする。
 
 ## scope in / out
 
 ### Scope In
 - `/admin/members` 一覧 UI（検索フォーム、zone/status/tag フィルタ、sort、ページング）
-- `/admin/members/[id]` 詳細 UI（基本情報・role・audit log 表示・論理削除/復元・ロール変更導線）
-- `GET /api/admin/members?q&zone&status&tag&sort` の query 契約と response 契約
-- `GET /api/admin/members/:id` の response 契約（audit log 含む）
-- `POST /api/admin/members/:id/soft-delete` / `POST /api/admin/members/:id/restore` の admin authorize 境界
-- `POST /api/admin/members/:id/role` の role 変更と audit 記録
+- `/admin/members` 右ドロワー詳細 UI（基本情報・audit log 表示・論理削除/復元導線）
+- `GET /api/admin/members?filter&q&zone&tag&sort&density` の query 契約と response 契約
+- `GET /api/admin/members/:memberId` の response 契約（audit log 含む）
+- `POST /api/admin/members/:memberId/delete` / `POST /api/admin/members/:memberId/restore` の admin authorize 境界
 - require-admin middleware 経由の admin guard
+- apps/web middleware + apps/api `requireAdmin` の二段防御
 - 不変条件 #4 / #5 / #11 / #13 の admin 適用
 
 ### Scope Out
@@ -37,6 +37,7 @@
 - CSV エクスポート、一括操作、統計ダッシュボード
 - Google Form 再回答経路（本人更新は MVP では Form を正本）
 - admin user の招待/作成 flow
+- admin role 変更 UI/API（`11-admin-management.md` の管理者追加/削除 UI 不採用に従い、本タスクでは作らない）
 - production secret 値の記録
 - 未承認 commit/push/PR
 
@@ -46,7 +47,7 @@
 - 06c-A-admin-dashboard（admin shell 共通基盤）
 - 06c admin pages 本体（`/admin/*` のレイアウト・auth gate）
 - 06b-A-me-api-authjs-session-resolver（admin session 解決の前提）
-- 07-edit-delete API（soft-delete / restore endpoint 実装）
+- 07-edit-delete API（delete / restore endpoint 実装）
 - apps/api `require-admin` middleware
 - 12-search-tags.md（admin 検索パラメータ契約）
 
@@ -68,17 +69,19 @@
 - docs/00-getting-started-manual/specs/06-member-auth.md
 - docs/00-getting-started-manual/specs/09-ui-ux.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
-- apps/web/app/admin/members/page.tsx
-- apps/web/app/admin/members/[id]/page.tsx
-- apps/api/src/routes/admin/members/index.ts
+- apps/web/app/(admin)/admin/members/page.tsx
+- apps/web `MembersClient` / `MemberDrawer`
+- apps/api/src/routes/admin/members.ts
+- apps/api/src/routes/admin/member-delete.ts
+- apps/api/src/routes/admin/member-status.ts
 - apps/api/src/middleware/require-admin.ts
 
 ## AC
 
-- `/admin/members` で `q` / `zone` / `status` / `tag` / `sort` の組み合わせ検索が `12-search-tags.md` 通りに動作し、結果がページングされる。
-- `/admin/members/[id]` が基本情報・role・audit log を表示し、admin による soft-delete / restore / role 変更が成功・失敗で分岐表示される。
+- `/admin/members` で `filter` と `q` / `zone` / repeated `tag` / `sort` / `density` の組み合わせ検索が `12-search-tags.md` 通りに動作し、結果がページングされる。
+- `/admin/members` の右ドロワーが基本情報・audit log を表示し、admin による delete / restore が成功・失敗で分岐表示される。
 - `GET /api/admin/members*` は admin 以外で 403、未ログインで 401 を返す。
-- soft-delete / restore は `07-edit-delete.md` の論理削除ポリシーに従い、`deletedAt` / `restoredAt` と audit log を記録する。
+- delete / restore は `07-edit-delete.md` と `api-endpoints.md` の `POST /api/admin/members/:memberId/delete` / `POST /api/admin/members/:memberId/restore`、`member_status.is_deleted` / `deleted_members` ポリシーに従い、audit log を記録する。
 - 不変条件 #4（本文編集禁止）, #5（apps/web D1 直参照禁止）, #11（admin も他人本文編集不可）, #13（audit log 必須）に違反しない。
 - production secret 値は仕様書中に登場しない。
 
@@ -123,4 +126,4 @@
 
 ## completion definition
 
-全 phase 仕様書が揃い、実装・実測時の evidence path と user approval gate が明確であること。アプリケーションコード実装、deploy、commit、push、PR 作成はこの仕様書作成タスクには含めない。
+全 phase 仕様書と Phase 12 strict outputs が揃い、`apps/api` / `apps/web` / `packages/shared` の admin members 検索・ページング接続が実装され、関連ローカルテストが成功していること。staging deploy と実 screenshot smoke、commit、push、PR 作成は user approval gate の外側に残す。

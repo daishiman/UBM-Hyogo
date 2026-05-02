@@ -2016,6 +2016,17 @@ node scripts/list-specs.js --topics
 | phase 12 required artifacts | L24 |
 | scope notes | L36 |
 
+### references/workflow-06c-B-admin-members-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts | L25 |
+| implementation source-of-truth | L37 |
+| scope notes | L48 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3423,6 +3434,18 @@ node scripts/list-specs.js --topics
 | L-06CA-002: 単一 admin dashboard endpoint を維持し split しない | L11 |
 | L-06CA-003: dashboard 表示由来の `dashboard.view` を recent actions / KPI から除外する | L18 |
 
+### references/lessons-learned-06c-B-admin-members-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CB-001: `docs-only / outputs_contract_only` ラベルは AC で再判定する | L3 |
+| L-06CB-002: admin members の filter 語彙は code 側 `published|hidden|deleted` を正本にする | L13 |
+| L-06CB-003: list response shape は `{ total, members }` 互換を保ち、`page/pageSize` は additive 拡張で入れる | L22 |
+| L-06CB-004: detail UI は `/admin/members` 右ドロワー、別 route `/admin/members/[id]` は作らない | L30 |
+| L-06CB-005: workflow 契約は `:memberId`、handler ローカル変数 `id` は spec に漏らさない | L38 |
+| L-06CB-006: audit table 名は単数形 `audit_log` を canonical にし、plural を撤回する | L47 |
+| L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L55 |
+
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
 | セクション | 行 |
@@ -3833,8 +3856,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L82 |
-| 関連ドキュメント | L87 |
+| 利用順序 | L83 |
+| 関連ドキュメント | L88 |
 
 ### references/llm-embedding.md
 

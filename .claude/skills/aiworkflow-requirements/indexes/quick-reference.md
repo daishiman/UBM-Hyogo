@@ -1362,6 +1362,20 @@ packages/
 | audit | dashboard read は `dashboard.view` として記録し、recent actions と KPI を自己汚染しない |
 | Phase 12 evidence | `docs/30-workflows/06c-A-admin-dashboard/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### UBM-Hyogo Admin Members Follow-up 早見（06c-B / 2026-05-02）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/06c-B-admin-members/` |
+| 状態 | `implemented-local` / implementation / `VISUAL_ON_EXECUTION` |
+| existing API baseline | `GET /admin/members?filter=published|hidden|deleted`, `GET /admin/members/:memberId`, `POST /admin/members/:memberId/delete`, `POST /admin/members/:memberId/restore` |
+| search extension | `q` trim + whitespace normalize + max 200, repeated `tag` code AND, `zone`, `sort=recent|name`, `density=comfy|dense|list`, `page` |
+| auth boundary | apps/web middleware UI gate + apps/api `requireAdmin` API gate |
+| scope boundary | role mutation UI/API is out of scope; admin member detail is `/admin/members` right drawer, not a separate required route |
+| audit | canonical table `audit_log`; delete/restore audit evidence must use sanitized fixture output |
+| runtime evidence follow-up | 08b admin members E2E / 09a staging smoke（staging credentials + sanitized fixture 前提） |
+| Phase 12 evidence | `docs/30-workflows/completed-tasks/06c-B-admin-members/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
 ### UBM-Hyogo Staging Smoke / Forms Sync Validation 早見（09a / 2026-05-01）
 
 | 観点 | 値 / 参照先 |
