@@ -155,18 +155,38 @@ describe("static invariants / 06b", () => {
     ).toHaveLength(0);
   });
 
-  it("S-04: app/profile 配下に <form/<input/<textarea/submit button が現れない", async () => {
+  it("S-04: app/profile 配下にプロフィール本文編集 UI が現れない", async () => {
+    // 不変条件 #4: プロフィール本文（displayName/email/kana/address/phone 等）の
+    // アプリ内編集 form を禁止する。
+    // 06b-B により本人申請 dialog（VisibilityRequest / DeleteRequest）に reason textarea と
+    // 不可逆同意 checkbox が導入されたため、許容範囲を本文 field と html <form> に限定する。
     const files = await walk(join(WEB_ROOT, "app/profile"));
     const hits = await findAnyMatches(files, [
       /<form\b/,
-      /<input\b/,
-      /<textarea\b/,
+      // submit 形式の form 送信
       /<button\b[^>]*\btype=["']submit["']/,
       /type=["']submit["'][^>]*>\s*[^<]*<\/button>/,
+      // プロフィール本文 field 名（不変条件 #4 の正本ターゲット）
+      /name=["'](displayName|email|kana|address|phone)["']/,
     ]);
     expect(
       hits,
-      `編集 form/submit 要素が profile 配下に存在: ${JSON.stringify(hits, null, 2)}`,
+      `本文編集 UI が profile 配下に存在: ${JSON.stringify(hits, null, 2)}`,
+    ).toHaveLength(0);
+  });
+
+  it("S-04b: app/profile/_components/Request*.tsx に本文 field 名が現れない", async () => {
+    // phase-05 ステップ11 の grep gate を unit test で固定化。
+    const files = (await walk(join(WEB_ROOT, "app/profile/_components"))).filter(
+      (f) => /Request[A-Z][A-Za-z]*\.tsx$/.test(f) && !f.endsWith(".test.tsx"),
+    );
+    const hits = await findAnyMatches(files, [
+      /name=["'](displayName|email|kana|address|phone)["']/,
+      /\bresponseId\b/,
+    ]);
+    expect(
+      hits,
+      `Request*.tsx に本文 field / responseId が漏出: ${JSON.stringify(hits, null, 2)}`,
     ).toHaveLength(0);
   });
 });

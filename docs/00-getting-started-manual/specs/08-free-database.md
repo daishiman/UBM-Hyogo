@@ -77,8 +77,8 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 | `AUTH_GOOGLE_ID` | Secret | Secrets | - | ✅ (正本) |
 | `AUTH_GOOGLE_SECRET` | Secret | Secrets | - | ✅ (正本) |
 | `MAIL_PROVIDER_KEY` | Secret | Secrets | - | ✅ (正本) |
-| `MAIL_FROM_ADDRESS` | Variable | Variables | - | 任意 |
-| `AUTH_URL` | Variable | Variables | - | 任意 |
+| `MAIL_FROM_ADDRESS` | Variable | Variables | - | 任意（runtime smoke では必須） |
+| `AUTH_URL` | Variable | Variables | - | 任意（runtime smoke では必須） |
 | `CLOUDFLARE_API_TOKEN` | Secret | - | Secrets | ✅ (正本) |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | - | Variables | ✅ (正本) |
 

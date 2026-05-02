@@ -1,16 +1,16 @@
-# Phase 8: DRY 化 — 06b-A-me-api-authjs-session-resolver
+# Phase 8: DRY 化 — 06b-B-profile-self-service-request-ui
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
-| task name | 06b-A-me-api-authjs-session-resolver |
+| task name | 06b-B-profile-self-service-request-ui |
 | phase | 8 / 13 |
 | wave | 06b-fu |
 | mode | parallel wave / serial-gated dependency |
 | 作成日 | 2026-05-01 |
-| taskType | implementation-spec / docs-only |
-| visualEvidence | NON_VISUAL |
+| taskType | implementation |
+| visualEvidence | VISUAL_ON_EXECUTION |
 
 ## 目的
 
@@ -18,39 +18,43 @@
 
 ## 実行タスク
 
-1. 参照資料と該当ソースを確認する。完了条件: 接続漏れの境界が記録される。
+1. 参照資料と該当ソースを確認する。完了条件: 未反映の境界が記録される。
 2. 本タスク固有の scope / AC / evidence を確認する。完了条件: AC と evidence path が対応する。
 3. user approval または上流 gate が必要な操作を分離する。完了条件: 自走禁止操作が明記される。
 
 ## 参照資料
 
-- apps/api/src/index.ts
-- apps/api/src/routes/me/index.ts
-- apps/api/src/middleware/session-guard.ts
-- apps/api/src/middleware/require-admin.ts
-- packages/shared/src/auth.ts
-- apps/web/src/lib/fetch/authed.ts
+- docs/00-getting-started-manual/specs/05-pages.md
+- docs/00-getting-started-manual/specs/07-edit-delete.md
+- docs/00-getting-started-manual/specs/09-ui-ux.md
 - apps/web/app/profile/page.tsx
+- apps/web/app/profile/_components/EditCta.tsx
+- apps/api/src/routes/me/index.ts
 
 ## 実行手順
 
+<<<<<<<< HEAD:docs/30-workflows/06b-B-profile-self-service-request-ui/phase-08.md
+- 対象 directory: docs/30-workflows/06b-B-profile-self-service-request-ui/
+|||||||| c5e3e03f:docs/30-workflows/02-application-implementation/06b-A-me-api-authjs-session-resolver/phase-08.md
+- 対象 directory: docs/30-workflows/02-application-implementation/06b-A-me-api-authjs-session-resolver/
+========
 - 対象 directory: docs/30-workflows/06b-A-me-api-authjs-session-resolver/
+>>>>>>>> origin/main:docs/30-workflows/completed-tasks/06b-A-me-api-authjs-session-resolver/phase-08.md
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
 ## 統合テスト連携
 
-- 上流: 05a Auth.js Google OAuth session JWT, 05b Magic Link callback follow-up, 04b /me route implementation, AUTH_SECRET shared between apps/web and apps/api
-- 下流: 06b logged-in profile visual evidence, 08b profile/auth E2E, 09a staging authenticated smoke
+- 上流: 04b /me self-service API, 06b profile page, 06b Auth.js session resolver follow-up
+- 下流: 06b logged-in profile visual evidence, 08b profile E2E full execution
 
 ## 多角的チェック観点
 
+- #4 profile body edit forbidden
 - #5 apps/web D1 direct access forbidden
-- #7 memberId/responseId separation
-- #11 profile SSR auth gate
-- #15 Auth session boundary
+- #11 member self-service boundary
 - 未実装/未実測を PASS と扱わない。
-- dev-only 経路と production session 経路を混同しない。
+- プロトタイプと仕様書の採用/不採用を混同しない。
 
 ## サブタスク管理
 
@@ -65,11 +69,11 @@
 
 ## 完了条件
 
-- production/staging の `/me` が Auth.js cookie/JWT で 200 を返す
-- 未ログインまたは不正 JWT は 401 を返す
-- 削除済み member は 410、rules 未同意は authGateState で表現される
-- apps/web は D1 直参照せず cookie forwarding のまま成立する
-- dev-only `x-ubm-dev-session` 経路は production で無効のまま維持される
+- マイページから公開停止/再公開申請を送れる
+- マイページから退会申請を送れる
+- 二重申請 409 をユーザーに分かる形で表示する
+- 本文編集 UI は追加しない
+- 申請 UI のスクリーンショット/E2E が保存される
 
 ## タスク100%実行確認
 
