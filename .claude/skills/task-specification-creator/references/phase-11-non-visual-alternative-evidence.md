@@ -125,6 +125,43 @@ Phase 13 のユーザー承認後に不可逆 API を実行する NON_VISUAL imp
 - [ ] secret value / token / provider dashboard response を evidence に転記していない
 - [ ] `env-name-grep.md` / `secret-list-check.md` / `magic-link-smoke-readiness.md` の 3 ファイル実体を確認した
 
+## Production migration runbook evidence（approval-gated / no production apply）
+
+UT-07B-FU-03 production migration apply runbook（2026-05-02）の close-out feedback を反映。production D1 へ migration を適用するための runbook を formalize するが、実 apply は Phase 13 merge 後のユーザー承認付き別運用に残す task では、Phase 11 を **DOC_PASS** として閉じ、runtime PASS と混同しない。
+
+### 適用条件
+
+- task type: `docs-only` または `requirements / operations / runbook`
+- visual evidence: `NON_VISUAL`
+- 対象: D1 production migration / Cloudflare production operation / approval-gated operational runbook
+- 実 production mutation は本タスクで実行しない
+
+### evidence file 命名規則（`outputs/phase-11/`）
+
+| ファイル | 役割 | PASS 条件 |
+| --- | --- | --- |
+| `structure-verification.md` | runbook root / phase files / artifacts parity の構造確認 | root `artifacts.json` と `outputs/artifacts.json` が同じ workflow state / Phase status を示す |
+| `grep-verification.md` | runbook 内の対象 migration / DB / command / approval wording の文字列確認 | target migration、target DB、approval gate、禁止事項が grep で再発見できる |
+| `staging-dry-run.md` | staging dry-run または operator gate の扱い | 実行済み / 未実行 / operator gate open を明示し、production apply PASS と書かない |
+| `redaction-check.md` | secret / token / account id / raw production result の転記防止 | 値を記録せず、shape / path / command name だけを残す |
+
+`outputs/phase-11/main.md` から上記 4 ファイルへリンクし、`outputs/phase-12/system-spec-update-summary.md` と `phase12-task-spec-compliance-check.md` で実体確認する。
+
+### 境界
+
+- `DOC_PASS` は「runbook と evidence 形式がそろった」状態であり、migration applied / production state changed / runtime smoke PASS ではない
+- production apply execution は Phase 13 merge 後、ユーザー承認、fresh runtime evidence、対象 Issue / workflow を別に持つ
+- `spec_created` runbook formalization は root workflow state を `completed` に昇格しない。Phase 1-12 artifact status は completed にできるが、Phase 13 は `blocked_until_user_approval` を維持する
+- production state の正本仕様（D1 applied migration facts など）は fresh apply evidence がある task だけが更新する
+
+### 必須チェック（production migration runbook 系）
+
+- [ ] `structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md` の 4 ファイル実体を確認した
+- [ ] `DOC_PASS` と runtime PASS の語彙を分離した
+- [ ] production apply 未実行を `implementation-guide.md` と `system-spec-update-summary.md` に明記した
+- [ ] Phase 13 が user approval gate のまま残っている
+- [ ] secret value / token / account id / raw production output を evidence に転記していない
+
 ## Cloudflare Workers production preflight evidence template（docs-only infrastructure verification）
 
 UT-06-FU-A production route / secret / observability preflight（2026-04-30）の close-out feedback を反映。`apps/web` / `apps/api` を OpenNext Workers へ移行する際の **production runbook 検証**は、UI 差分なし・コード差分最小・実 production 環境への mutation 不可という条件で行うため、本テンプレートを Phase 11 evidence の最小構成として固定する。

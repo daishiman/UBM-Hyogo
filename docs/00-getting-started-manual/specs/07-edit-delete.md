@@ -149,7 +149,7 @@ member requests visibility change
 | 本人公開状態変更申請 | `POST /me/visibility-request` |
 | 本人退会申請 | `POST /me/delete-request` |
 | 公開状態変更 | `PATCH /api/admin/members/[id]/publish-state` |
-| 削除 | `PATCH /api/admin/members/[id]/delete` |
+| 削除 | `POST /api/admin/members/[id]/delete` |
 | 復元 | `POST /api/admin/members/[id]/restore` |
 | 参加履歴付与 / 解除 | `POST/DELETE /api/admin/members/[id]/attendance` |
 

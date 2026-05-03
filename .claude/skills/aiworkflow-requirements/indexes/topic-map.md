@@ -1062,19 +1062,19 @@ node scripts/list-specs.js --topics
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
 | Schema aliases write target（issue-191 / UT-07B） | L59 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L74 |
-| Legacy Sheets sync transition note（U-UT01-09） | L86 |
-| Schema alias assignment workflow（07b） | L98 |
-| ワークフロー関連テーブル | L102 |
-| ユーザー関連テーブル | L141 |
-| システムプロンプト関連テーブル | L175 |
-| チャット関連テーブル | L210 |
-| RAG関連テーブル | L246 |
-| Knowledge Graph関連テーブル | L288 |
-| 変換処理関連テーブル | L422 |
-| インデックス設計 | L481 |
-| 関連ドキュメント / 変更履歴 | L485 |
-| DDL 同期テンプレ | L490 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L79 |
+| Legacy Sheets sync transition note（U-UT01-09） | L91 |
+| Schema alias assignment workflow（07b） | L103 |
+| ワークフロー関連テーブル | L107 |
+| ユーザー関連テーブル | L146 |
+| システムプロンプト関連テーブル | L180 |
+| チャット関連テーブル | L215 |
+| RAG関連テーブル | L251 |
+| Knowledge Graph関連テーブル | L293 |
+| 変換処理関連テーブル | L427 |
+| インデックス設計 | L486 |
+| 関連ドキュメント / 変更履歴 | L490 |
+| DDL 同期テンプレ | L495 |
 
 ---
 
@@ -2006,6 +2006,17 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L43 |
 | Related Resources | L55 |
 
+### references/workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Contract | L26 |
+| Evidence Path Map | L34 |
+| Phase 12 Required Files | L45 |
+| Related Resources | L57 |
+
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
 | セクション | 行 |
@@ -2015,6 +2026,17 @@ node scripts/list-specs.js --topics
 | root artifacts | L16 |
 | phase 12 required artifacts | L24 |
 | scope notes | L36 |
+
+### references/workflow-06c-B-admin-members-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts | L25 |
+| implementation source-of-truth | L37 |
+| scope notes | L48 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -2485,6 +2507,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L83 |
 | Validation Chain（spec_created） | L92 |
 
+### references/workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L12 |
+| Source / Follow-Up State | L29 |
+| Runtime Evidence Reservation | L38 |
+
 ### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
 
 | セクション | 行 |
@@ -2616,6 +2647,14 @@ node scripts/list-specs.js --topics
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
 
+### references/workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L13 |
+| Boundary | L30 |
+
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
 | セクション | 行 |
@@ -2639,9 +2678,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L10 |
-| Gate Boundary | L22 |
-| Same-Wave Sync | L28 |
+| Phase 12 Strict Files | L16 |
+| Gate Boundary | L30 |
+| Same-Wave Sync | L37 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3413,7 +3452,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L47 |
+| Follow-up Boundaries | L68 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 
@@ -3422,6 +3461,18 @@ node scripts/list-specs.js --topics
 | L-06CA-001: spec_created / docs-only / remaining-only follow-up は contract diff として扱う | L3 |
 | L-06CA-002: 単一 admin dashboard endpoint を維持し split しない | L11 |
 | L-06CA-003: dashboard 表示由来の `dashboard.view` を recent actions / KPI から除外する | L18 |
+
+### references/lessons-learned-06c-B-admin-members-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CB-001: `docs-only / outputs_contract_only` ラベルは AC で再判定する | L3 |
+| L-06CB-002: admin members の filter 語彙は code 側 `published|hidden|deleted` を正本にする | L13 |
+| L-06CB-003: list response shape は `{ total, members }` 互換を保ち、`page/pageSize` は additive 拡張で入れる | L22 |
+| L-06CB-004: detail UI は `/admin/members` 右ドロワー、別 route `/admin/members/[id]` は作らない | L30 |
+| L-06CB-005: workflow 契約は `:memberId`、handler ローカル変数 `id` は spec に漏らさない | L38 |
+| L-06CB-006: audit table 名は単数形 `audit_log` を canonical にし、plural を撤回する | L47 |
+| L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L55 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3581,6 +3632,15 @@ node scripts/list-specs.js --topics
 | Scope | L3 |
 | Lessons | L11 |
 | Downstream boundaries | L53 |
+
+### references/lessons-learned-issue359-production-d1-apply-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I359-001: D1 migration apply must guard against unrelated pending migrations | L3 |
+| L-I359-002: Wrangler config path belongs in the runbook | L7 |
+| L-I359-003: Rollback SQL is evidence, not permission | L11 |
+| L-I359-004: Source unassigned close-out is part of Phase 12 | L15 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -3746,6 +3806,7 @@ node scripts/list-specs.js --topics
 | L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
 | L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
+| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -3776,6 +3837,16 @@ node scripts/list-specs.js --topics
 | 教訓 | L7 |
 | 2026-05 / route-inventory-design 追記 | L44 |
 | 関連リソース | L78 |
+
+### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU03-001: Runbook formalization is not production execution | L3 |
+| L-UT07B-FU03-002: Use scoped status labels | L7 |
+| L-UT07B-FU03-003: Strict Phase 12 files must be real files | L11 |
+| L-UT07B-FU03-004: Parent seed wording must be consumed | L15 |
+| L-UT07B-FU03-005: Workflow LOGS and skill LOGS are separate | L19 |
 
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
@@ -3833,8 +3904,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L82 |
-| 関連ドキュメント | L87 |
+| 利用順序 | L85 |
+| 関連ドキュメント | L90 |
 
 ### references/llm-embedding.md
 
@@ -4903,13 +4974,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L114 |
-| フェーズ構造（概要） | L123 |
-| 品質ゲート（概要） | L154 |
-| 出力テンプレート | L165 |
-| 実行時のコマンド・エージェント・スキル | L188 |
-| 昇格パターン集 | L212 |
-| Current Active / Spec Created Tasks | L214 |
+| ドキュメント構成 | L136 |
+| フェーズ構造（概要） | L145 |
+| 品質ゲート（概要） | L176 |
+| 出力テンプレート | L187 |
+| 実行時のコマンド・エージェント・スキル | L210 |
+| 昇格パターン集 | L234 |
+| Current Active / Spec Created Tasks | L236 |
 
 ### references/task-workflow-backlog-part2.md
 

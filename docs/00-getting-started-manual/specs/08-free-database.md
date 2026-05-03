@@ -316,6 +316,10 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 
 `schema_questions(revision_id, stable_key)` の物理 UNIQUE index は未導入で、現状は workflow pre-check で 422 を返す。物理制約、10,000 行級実測、retryable HTTP contract は `UT-07B-schema-alias-hardening-001` に分離する。
 
+### production migration apply の運用境界
+
+UT-07B の `apps/api/migrations/0008_schema_alias_hardening.sql` を本番 D1 (`ubm-hyogo-db-prod`) に適用する手順は **承認ゲート付き runbook** として `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/outputs/phase-05/main.md` に分離している。production への実 apply は本仕様書（spec 層）で扱わず、必ず runbook 8 セクション（Overview / 承認ゲート / Preflight / Apply / Post-check / Evidence / Failure handling / Smoke 制限）に従い、`bash scripts/cf.sh` 経由でのみ実施する。
+
 ---
 
 ## 関連タスク仕様書
