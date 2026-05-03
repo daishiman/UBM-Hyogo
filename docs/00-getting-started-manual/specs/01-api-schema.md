@@ -222,3 +222,15 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 `GET /admin/schema/diff` は `recommendedStableKeys: string[]` を同梱する。`POST /admin/schema/aliases?dryRun=true` は DB / queue / audit に副作用を出さず、影響件数と collision 有無だけを返す。apply は `schema_questions.stable_key` 更新、任意 `schema_diff_queue.status='resolved'`、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` を実行する。
 
 collision は 422、diff 不在は 404、diff と question 不一致は 409。大規模 back-fill / UNIQUE index / retryable HTTP contract は `docs/30-workflows/unassigned-task/UT-07B-schema-alias-hardening-001.md` に分離する。
+
+## admin identity conflict merge API（Issue #194）
+
+03b response sync が `EMAIL_CONFLICT` を記録した運用文脈では、admin が同一人物の重複 identity を手動確認して merge できる。
+
+| endpoint | request | response | rule |
+| --- | --- | --- | --- |
+| `GET /admin/identity-conflicts?cursor=&limit=` | query: `cursor?`, `limit` 1..100 default 50 | `{ items, nextCursor }` | `requireAdmin` 必須。`member_identities` 全体から `fullName` + `occupation` の NFKC/trim 完全一致を候補化し、`identity_aliases` 登録済 source と `identity_conflict_dismissals` 登録済 pair を除外する |
+| `POST /admin/identity-conflicts/:id/merge` | `{ targetMemberId, reason }` | `{ mergedAt, targetMemberId, archivedSourceMemberId, auditId }` | `:id` は `source__target`。`targetMemberId` 不一致は 400、既 merge は 409、member 不在は 404 |
+| `POST /admin/identity-conflicts/:id/dismiss` | `{ reason }` | `{ dismissedAt }` | 同一 pair の重複 dismiss は 200 upsert とし、reason / dismissed_by / dismissed_at を更新する |
+
+`responseEmail` は API 応答では `responseEmailMasked` のみ返し、full email は UI / log / screenshot に出さない。merge reason は email / phone を `[redacted]` に置換して永続化する。

@@ -1,0 +1,101 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-112259-wt-6/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+mise WARN  deprecated [idiomatic_version_file_enable_tools]: 
+Idiomatic version files like ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-112259-wt-6/.nvmrc are currently enabled by default. However, this will change in mise 2025.10.0 to instead default to disabled.
+
+You can remove this warning by explicitly enabling idiomatic version files for node with:
+
+    mise settings add idiomatic_version_file_enable_tools node
+
+You can disable idiomatic version files with:
+
+    mise settings add idiomatic_version_file_enable_tools "[]"
+
+See https://github.com/jdx/mise/discussions/4345 for more information.
+
+ ⛅️ wrangler 4.85.0 (update available 4.87.0)
+─────────────────────────────────────────────
+Resource location: remote 
+
+🌀 Executing on remote database ubm-hyogo-db-prod (24963f0a-7fbb-4508-a93a-f8e502aa4585):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 1 command in 0.19ms
+[
+  {
+    "results": [
+      {
+        "id": 1,
+        "name": "0001_init.sql",
+        "applied_at": "2026-04-26 08:56:18"
+      },
+      {
+        "id": 2,
+        "name": "0002_admin_managed.sql",
+        "applied_at": "2026-05-01 06:34:52"
+      },
+      {
+        "id": 3,
+        "name": "0002_sync_logs_locks.sql",
+        "applied_at": "2026-05-01 06:34:53"
+      },
+      {
+        "id": 4,
+        "name": "0003_auth_support.sql",
+        "applied_at": "2026-05-01 06:34:53"
+      },
+      {
+        "id": 5,
+        "name": "0004_seed_tags.sql",
+        "applied_at": "2026-05-01 06:34:53"
+      },
+      {
+        "id": 6,
+        "name": "0005_response_sync.sql",
+        "applied_at": "2026-05-01 06:34:53"
+      },
+      {
+        "id": 7,
+        "name": "0006_admin_member_notes_type.sql",
+        "applied_at": "2026-05-01 06:34:53"
+      },
+      {
+        "id": 8,
+        "name": "0007_admin_member_notes_request_status.sql",
+        "applied_at": "2026-05-01 06:34:54"
+      },
+      {
+        "id": 9,
+        "name": "0008_schema_alias_hardening.sql",
+        "applied_at": "2026-05-01 08:21:04"
+      },
+      {
+        "id": 10,
+        "name": "0008_create_schema_aliases.sql",
+        "applied_at": "2026-05-01 10:59:35"
+      },
+      {
+        "id": 11,
+        "name": "0009_tag_queue_idempotency_retry.sql",
+        "applied_at": "2026-05-01 11:38:50"
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "APAC",
+      "served_by_colo": "NRT",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.1925
+      },
+      "duration": 0.1925,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 454656,
+      "rows_read": 11,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]
