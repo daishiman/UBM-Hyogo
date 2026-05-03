@@ -94,6 +94,9 @@ type SessionJwtClaims = {
 
 固定ルール:
 
+- ログイン後 UI の sign-out は `apps/web/src/components/auth/SignOutButton.tsx` に集約し、Auth.js v5 client API `signOut({ redirectTo: "/login" })` を使う。
+- `/profile` と `/admin` のログアウト後は `/login` に戻す。session cookie / OAuth token 値は screenshot / log / docs に保存しない。
+
 1. **`memberId` のみ含める**（不変条件 #7: `responseId` と混同しない）
 2. **プロフィール本文 / `responseId` / `authGateState` を含めない**（不変条件 #4: form schema 外 admin-managed data 分離）
 3. **`isAdmin` は session 発行時に `admin_users.active` を `/auth/session-resolve` で確認した結果**を埋める。API 側 `requireAdmin` は再 lookup せず claim を信頼する（不変条件 #5: D1 直接アクセス禁止の徹底）

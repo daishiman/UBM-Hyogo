@@ -22,6 +22,7 @@ test.describe.skip('admin pages × 認可境界 (5 画面 × 3 ロール)', () =
 
     const tags = new AdminTagsPage(adminPage)
     await tags.visit()
+    await tags.assertQueueShell()
     await tags.screenshot('admin-tags', 'desktop')
 
     const schema = new AdminSchemaPage(adminPage)

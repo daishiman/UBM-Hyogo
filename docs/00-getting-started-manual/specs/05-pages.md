@@ -75,6 +75,7 @@
 - 本人申請パネルは本文編集 UI とは分離し、`公開停止/再公開申請ダイアログ`（VisibilityRequestDialog）と `退会申請ダイアログ`（DeleteRequestDialog）から admin queue へ依頼を作る
 - 申請送信後は `pending banner`（RequestPendingBanner）を `role=status` / `aria-live=polite` で表示し、対応する申請ボタンを disabled にする
 - 申請エラーは `RequestErrorMessage` で表示し、409（DUPLICATE_PENDING_REQUEST）は同一 session の pending banner と該当ボタン disabled に接続する
+- ページ先頭に `MemberHeader` を表示し、Auth.js `signOut({ redirectTo: "/login" })` を呼ぶ `ログアウト` ボタンを置く。runtime screenshot / cookie / session evidence は `ut-05a-auth-ui-logout-button-001` Phase 11 で取得する
 
 ### 管理レイヤ
 
@@ -82,6 +83,7 @@
 
 - ダッシュボードは `総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数` を最短で把握できる構成にする
 - 主要ショートカットは `メンバー管理 / タグ割当 / スキーマ差分 / 開催日管理` とする
+- 管理 sidebar footer に `ログアウト` ボタンを置き、member 側と同じ `SignOutButton` component を使う
 
 #### `/admin/members`
 

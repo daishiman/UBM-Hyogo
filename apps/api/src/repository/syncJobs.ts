@@ -2,8 +2,14 @@
 // AC-8: status transition は running -> succeeded/failed の一方向。逆禁止。
 // DDL: sync_jobs(job_id PK, job_type, started_at, finished_at, status, error_json, metrics_json)
 import type { DbCtx } from "./_shared/db";
+import {
+  assertNoPii,
+  metricsJsonBaseSchema,
+  parseMetricsJson,
+  type SyncJobKind,
+} from "../jobs/_shared/sync-jobs-schema";
 
-export type SyncJobKind = "schema_sync" | "response_sync";
+export type { SyncJobKind };
 export type SyncJobStatus = "running" | "succeeded" | "failed";
 
 export const ALLOWED_TRANSITIONS: Readonly<
@@ -69,7 +75,7 @@ const toRow = (r: RawJobRow): SyncJobRow => ({
   status: r.status,
   startedAt: r.startedAt,
   finishedAt: r.finishedAt,
-  metrics: parseJson<Record<string, unknown>>(r.metricsJson, {}),
+  metrics: parseMetricsJson(r.metricsJson, metricsJsonBaseSchema, {}),
   error: parseJson<Record<string, unknown> | null>(r.errorJson, null),
 });
 
@@ -149,6 +155,7 @@ export const succeed = async (
   metrics: Record<string, unknown>,
 ): Promise<SyncJobRow> => {
   await assertTransition(c, jobId, "succeeded");
+  assertNoPii(metrics);
   const finishedAt = new Date().toISOString();
   const result = await c.db
     .prepare(
