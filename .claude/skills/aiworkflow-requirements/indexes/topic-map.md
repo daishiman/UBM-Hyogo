@@ -2690,6 +2690,12 @@ node scripts/list-specs.js --topics
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
 
+### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| deleted / archived workflow boundary | L15 |
+
 ### references/workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md
 
 | セクション | 行 |
@@ -2992,7 +2998,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L195 |
+| 変更履歴 | L196 |
 
 ### references/deployment-cloudflare-opennext-workers.md
 
