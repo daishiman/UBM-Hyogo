@@ -3340,6 +3340,17 @@ node scripts/list-specs.js --topics
 | Fragment Migration Register (2026-04-28) | L303 |
 | Task Root Path Drift Register (2026-04-30 追記) | L330 |
 
+### references/lessons-fetch-service-binding-testing.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT05A-FP-001: `getCloudflareContext()` mock は closure + reset が必要 | L6 |
+| L-UT05A-FP-002: service-binding テストは globalFetch も並行 mock | L13 |
+| L-UT05A-FP-003: transport label は構造化 console.log で deploy verification と test 契約を共有する | L21 |
+| L-UT05A-FP-004: HTTP fallback 経路は loopback subrequest 404 に注意し、service-binding を一次経路にする | L30 |
+| L-UT05A-FP-005: classification は "spec_created / runtime evidence pending" を堅持する | L38 |
+| 同期参照 | L47 |
+
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
 | セクション | 行 |
@@ -3893,6 +3904,7 @@ node scripts/list-specs.js --topics
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
 | L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
 | L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
+| L-UTCOV-008: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L37 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -3990,8 +4002,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L87 |
-| 関連ドキュメント | L92 |
+| 利用順序 | L88 |
+| 関連ドキュメント | L93 |
 
 ### references/llm-embedding.md
 
@@ -5060,13 +5072,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L148 |
-| フェーズ構造（概要） | L157 |
-| 品質ゲート（概要） | L188 |
-| 出力テンプレート | L199 |
-| 実行時のコマンド・エージェント・スキル | L222 |
-| 昇格パターン集 | L246 |
-| Current Active / Spec Created Tasks | L248 |
+| ドキュメント構成 | L158 |
+| フェーズ構造（概要） | L167 |
+| 品質ゲート（概要） | L198 |
+| 出力テンプレート | L209 |
+| 実行時のコマンド・エージェント・スキル | L232 |
+| 昇格パターン集 | L256 |
+| Current Active / Spec Created Tasks | L258 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -32,6 +32,28 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 
 `link-checklist.md` は仕様書 → 実装ファイル / fake D1 fixture / fixture テスト間の参照リンク有効性を表で記録する。
 
+### Cloudflare deploy-verification subtemplate
+
+`taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION` で、実装差分は local に存在し、
+残りが Cloudflare Workers deploy / curl / tail / local fallback 確認である場合は、Phase 11 を
+runtime PASS と誤読させない deploy-verification evidence contract として扱う。
+
+必須 outputs は次の 6 セクションに分け、未実行なら `PENDING_RUNTIME_EVIDENCE` または
+`blocked_until_user_approval` を明記する。
+
+| evidence | 最小記録内容 |
+| --- | --- |
+| `code-diff-summary.md` | 対象コード / config / focused test の差分要約。runtime PASS とは分離する |
+| `staging-curl.log` | deploy command、対象 URL、HTTP status、checked_at。未実行なら user approval gate を明記 |
+| `production-curl.log` | production deploy / mutation の user gate、HTTP status、rollback 境界 |
+| `wrangler-tail-staging.log` | `bash scripts/cf.sh tail` 経由で確認した transport label。1 件だけでなく複数 request を確認する |
+| `local-dev-fallback.log` | service binding 未注入時の fallback command / result |
+| `redaction-checklist.md` | secret / PII / token が evidence に含まれないこと |
+
+service-binding と HTTP fallback のような two-path 実装では、AC 表を `runtime path × evidence` で分ける。
+例: staging/prod は service-binding path、local dev は HTTP fallback path、unit test は分岐 contract path。
+`implementation-guide.md` にこの対応表を置き、Phase 12 compliance check から参照する。
+
 ## docs-only task テンプレ
 
 - `SKILL.md` から family file へ辿れるか
