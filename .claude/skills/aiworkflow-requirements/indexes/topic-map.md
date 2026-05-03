@@ -2484,6 +2484,20 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts (strict 7) | L25 |
+| phase 11 evidence | L37 |
+| implementation source-of-truth | L45 |
+| skill reflection (same-wave) | L56 |
+| scope notes | L68 |
+| related tasks | L76 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2921,7 +2935,7 @@ node scripts/list-specs.js --topics
 | 3. /auth/session-resolve internal-only endpoint | L86 |
 | 4. OpenNext post-build worker patch | L97 |
 | 5. Auth.js v5 env 層化 | L109 |
-| 変更履歴 | L174 |
+| 変更履歴 | L177 |
 
 ### references/csrf-state-parameter.md
 
@@ -3546,6 +3560,17 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-004: Phase 12 strict 7 filenames は drift 検出を Phase 11 終了時に前倒す | L33 |
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
+
+### references/lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-389-001: metadata canonical / robots を Server Component に固定する | L10 |
+| L-389-002: Google Form 連絡先 href を環境別参照化する | L35 |
+| L-389-003: semantic render test で必須セクションの intent を固定する | L56 |
+| L-389-004: web build #385 regression と OAuth deploy のブロック依存 | L78 |
+| OP-389-1: Phase 12 strict 7 ファイル + artifacts.json parity | L104 |
+| OP-389-2: unassigned-task の formalize と consume | L109 |
 
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 

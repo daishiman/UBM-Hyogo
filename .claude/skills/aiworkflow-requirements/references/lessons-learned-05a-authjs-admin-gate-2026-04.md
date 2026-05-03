@@ -232,9 +232,9 @@ type SessionJwtClaims = {
 - 発生フェーズ: Phase 11 / OAuth verification 申請準備
 - 症状: `/privacy` / `/terms` が 404、Google OAuth consent screen の URL 登録不能
 - 根本原因: build prerender failure (L-05A-009) で deploy 不能、上流 blocker
-- 解決策: `apps/web/app/privacy/page.tsx` / `terms/page.tsx` を暫定文面で実装済。法務レビュー後に本番文面更新。verification 申請は build 解消後
+- 解決策: task-389 で `apps/web/app/privacy/page.tsx` / `terms/page.tsx` を OAuth URL ready 暫定文面へ更新済み。metadata canonical / robots、Google Form 連絡先、制定日/最終改定日、Cookie / Analytics 記載、反社条項、semantic render tests を追加。staging / production HTTP 200 と OAuth consent screen screenshot は web build green + user approval 後に取得し、final legal wording は外部レビュー完了後に別状態として記録する
 - 同種課題で最初に確認すべき箇所: Google Cloud Console OAuth client status、consent screen URLs
-- 関連: `docs/30-workflows/unassigned-task/task-05a-privacy-terms-pages-001.md`
+- 関連: `docs/30-workflows/task-389-privacy-terms-pages-impl/`, `docs/30-workflows/unassigned-task/task-05a-privacy-terms-pages-001.md`（historical source）
 
 ### L-05A-011: Auth.js session-resolve の env 層化（local / Cloudflare / globalThis / request header）
 - 発生フェーズ: 実装 / staging 検証
