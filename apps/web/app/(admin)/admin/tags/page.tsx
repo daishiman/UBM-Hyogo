@@ -2,12 +2,13 @@
 // AC-2 の受け先: ?memberId=... を保持する
 import { fetchAdmin } from "../../../../src/lib/admin/server-fetch";
 import { TagQueuePanel } from "../../../../src/components/admin/TagQueuePanel";
+import type { TagQueueStatus } from "../../../../src/components/admin/TagQueuePanel";
 
 interface QueueItem {
   queueId: string;
   memberId: string;
   responseId: string;
-  status: "queued" | "reviewing" | "resolved" | "rejected";
+  status: TagQueueStatus;
   suggestedTagsJson: string;
   reason: string | null;
   createdAt: string;
@@ -28,7 +29,9 @@ export default async function AdminTagsPage({
   const sp = await searchParams;
   const status = (() => {
     const s = sp["status"];
-    return s === "queued" || s === "reviewing" || s === "resolved" || s === "rejected" ? s : undefined;
+    return s === "queued" || s === "reviewing" || s === "resolved" || s === "rejected" || s === "dlq"
+      ? s
+      : undefined;
   })();
   const focusMemberId = sp["memberId"];
   const qs = status ? `?status=${status}` : "";

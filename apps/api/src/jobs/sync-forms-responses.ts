@@ -17,6 +17,10 @@ import {
   type SyncLock,
 } from "./sync-lock";
 import { readLastCursor } from "./cursor-store";
+import {
+  RESPONSE_SYNC,
+  SYNC_LOCK_TTL_MS,
+} from "./_shared/sync-jobs-schema";
 import { normalizeResponse } from "./mappers/normalize-response";
 import { extractConsent } from "./mappers/extract-consent";
 
@@ -77,7 +81,6 @@ export interface ResponseSyncResult {
   readonly error?: string;
 }
 
-const DEFAULT_LOCK_TTL_MS = 10 * 60 * 1000;
 const DEFAULT_WRITE_CAP = 200;
 const LOCK_ID = "response-sync";
 
@@ -97,7 +100,7 @@ export async function runResponseSync(
 
   // sync_jobs ledger を先に start し、job_id を確定させる
   const dbCtx = ctx({ DB: env.DB });
-  const jobRow = await start(dbCtx, "response_sync");
+  const jobRow = await start(dbCtx, RESPONSE_SYNC);
   const jobId = jobRow.jobId;
 
   // 二重起動防止 lock
@@ -107,7 +110,7 @@ export async function runResponseSync(
       lockId: LOCK_ID,
       holder: jobId,
       triggerType: options.trigger,
-      ttlMs: options.lockTtlMs ?? DEFAULT_LOCK_TTL_MS,
+      ttlMs: options.lockTtlMs ?? SYNC_LOCK_TTL_MS,
       now,
     });
   } catch (_err) {
@@ -181,7 +184,7 @@ export async function runResponseSync(
     await fail(dbCtx, jobId, {
       code: classifyError(err),
       message: redact(err instanceof Error ? err.message : String(err)),
-      payload: { kind: "response_sync" },
+      payload: { kind: RESPONSE_SYNC },
     });
     if (lock) {
       await releaseSyncLock(env.DB, lock).catch(() => undefined);
