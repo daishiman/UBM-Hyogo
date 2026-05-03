@@ -1,14 +1,21 @@
 # 06b-C-profile-logged-in-visual-evidence
 
+## 実装区分
+
+| 項目 | 値 |
+| --- | --- |
+| taskType | **implementation-spec** |
+| 判定根拠 | M-09 / M-10 の自動再現性確保のため既存 Playwright 配置に spec (`apps/web/playwright/tests/profile-readonly.spec.ts`) を新規追加し、合わせて evidence capture を行う wrapper script (`scripts/capture-profile-evidence.sh`) を新規追加するため。アプリ本体（API / Server Component / DB）には変更を加えない。CONST_004 に基づき「コード変更を伴う実測再現スクリプトの追加」は実装仕様書として扱う。 |
+
 ## wave / mode / owner
 
 | 項目 | 値 |
 | --- | --- |
 | wave | 6b-fu |
-| mode | parallel |
+| mode | parallel（実依存は serial） |
 | owner | - |
-| 状態 | spec_created / docs-only / remaining-only |
-| visualEvidence | VISUAL |
+| 状態 | spec_created |
+| visualEvidence | VISUAL_ON_EXECUTION |
 
 ## purpose
 
