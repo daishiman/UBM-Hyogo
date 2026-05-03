@@ -9,6 +9,7 @@
 | Source | issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring |
 | Type | migration-cleanup |
 | GitHub Issue | #299 |
+| Production apply prerequisite | satisfied by `task-issue-191-production-d1-schema-aliases-apply-001` Phase 13 already-applied verification |
 
 ## 1. なぜこのタスクが必要か（Why）
 
@@ -23,11 +24,11 @@
 
 ## 3. どのように実行するか（How）
 
-issue-191 実装完了後、D1 の coverage query と 03a sync logs を見て廃止可否を判断する。例外が 1 件でもある場合は fallback を残し、例外一覧、理由、再判定条件を記録する。
+issue-191 実装完了後、D1 の coverage query と 03a sync logs を見て廃止可否を判断する。2026-05-02 時点で production D1 の `schema_aliases` table と required indexes は確認済みのため、次の blocker は production apply ではなく coverage / runtime fallback hit の監査である。例外が 1 件でもある場合は fallback を残し、例外一覧、理由、再判定条件を記録する。
 
 ## 4. 実行手順
 
-1. issue-191 実装タスクが完了済みであることを確認する。
+1. issue-191 実装タスクと production D1 shape verification が完了済みであることを確認する。
 2. `schema_questions.stable_key IS NOT NULL` の行を抽出する。
 3. 全行が `schema_aliases.alias_question_id` に存在するか確認する。
 4. 03a sync logs で alias lookup hit / fallback hit / unresolved enqueue を確認する。

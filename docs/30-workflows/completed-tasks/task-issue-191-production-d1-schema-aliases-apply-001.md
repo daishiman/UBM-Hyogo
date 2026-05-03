@@ -4,11 +4,16 @@
 
 | Field | Value |
 | --- | --- |
-| Status | unassigned |
+| Status | transferred_to_workflow |
 | Priority | High |
 | Source | task-issue-191-schema-aliases-implementation-001 |
 | Type | production-operation |
 | GitHub Issue | #359 |
+
+## Canonical Workflow
+
+This unassigned item has been formalized into `docs/30-workflows/task-issue-191-production-d1-schema-aliases-apply-001/`.
+Use that workflow root for current Phase 1-13 execution, evidence, and approval-gated Phase 13 operations.
 
 ## 1. なぜこのタスクが必要か（Why）
 

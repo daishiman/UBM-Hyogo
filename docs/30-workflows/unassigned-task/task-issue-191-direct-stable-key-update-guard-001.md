@@ -9,6 +9,7 @@
 | Source | issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring |
 | Type | quality |
 | GitHub Issue | #300 |
+| Production apply prerequisite | satisfied by `task-issue-191-production-d1-schema-aliases-apply-001` Phase 13 already-applied verification |
 
 ## 1. なぜこのタスクが必要か（Why）
 
@@ -17,6 +18,8 @@ issue-191 では、07b alias assignment workflow の正本書き込み先を `sc
 `.claude/skills/aiworkflow-requirements/references/database-implementation-core.md` は `UPDATE schema_questions SET stable_key` を禁止し、静的検査は Phase 9 の grep guard を起点に、後続実装で repository / AST guard へ強化すると定義している。
 
 この未タスクは、禁止された直更新が再混入しないように CI の不変条件として検出するための品質タスクである。不変条件 #14「schema 変更の人手解決は `/admin/schema` 系 workflow（後続 06c/07b）へ集約する」を守るため、手動解決の書き込み境界を `schema_aliases` / `/admin/schema/aliases` に閉じる。
+
+2026-05-02 時点で production D1 の `schema_aliases` table は Phase 13 evidence により required shape 確認済みである。この guard は production apply 待ちではなく、直更新再混入を防ぐ CI 品質タスクとして scheduling 可能な状態である。
 
 ## 2. 何を達成するか（What）
 
