@@ -1306,8 +1306,8 @@ packages/
 | 状態 | `enforced_dry_run` / warning mode / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
 | 実装 | `scripts/lint-stablekey-literal.mjs` + `package.json` `lint:stablekey` / `lint:stablekey:strict` |
 | allow-list | `packages/shared/src/zod/field.ts`, `packages/integrations/google/src/forms/mapper.ts` |
-| strict blocker | 既存 stableKey literal 147 件。`fully enforced` は 0 violation + strict CI gate 後 |
-| follow-up | `docs/30-workflows/unassigned-task/task-03a-stablekey-literal-legacy-cleanup-001.md`, `docs/30-workflows/unassigned-task/task-03a-stablekey-strict-ci-gate-001.md` |
+| strict blocker | 既存 stableKey literal 148 件（2026-05-03 現行実測）。`fully enforced` は 0 violation + strict CI gate 後 |
+| follow-up | `docs/30-workflows/completed-tasks/task-03a-stablekey-literal-legacy-cleanup-001.md`, `docs/30-workflows/completed-tasks/task-03a-stablekey-strict-ci-gate-001.md`, `docs/30-workflows/issue-394-stablekey-strict-ci-gate/` |
 | inventory | `references/workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md` |
 
 ### UBM-Hyogo Admin Backoffice API 早見（04c / 2026-04-29）
@@ -1470,6 +1470,7 @@ UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts
 | --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/` |
 | confirmed contexts | `ci`, `Validate Build`, `verify-indexes-up-to-date` |
+| 将来候補 contexts | `lint:stablekey:strict` (Issue #394 / blocked_by_legacy_cleanup — 148 violations 解消後に required context 候補へ昇格検討) |
 | 実行ゲート | Phase 13 でユーザー明示承認後のみ `gh api -X PUT` / commit / push / PR 作成を実行する |
 | evidence 境界 | Phase 13 の fresh GET output だけを適用証跡にできる。placeholder / PUT payload / expected contexts は current applied の入力にしない |
 | final references 反映 | `docs/30-workflows/completed-tasks/task-utgov001-references-reflect-001/` で反映済み。dev/main contexts は `ci`, `Validate Build`; strict は dev=false / main=true; `verify-indexes-up-to-date` は expected-context drift |
