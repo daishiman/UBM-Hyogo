@@ -2050,6 +2050,18 @@ node scripts/list-specs.js --topics
 | implementation source-of-truth | L45 |
 | scope notes | L59 |
 
+### references/workflow-06c-D-admin-schema-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts | L25 |
+| phase 11 evidence | L37 |
+| implementation source-of-truth | L45 |
+| scope notes | L59 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3540,6 +3552,17 @@ node scripts/list-specs.js --topics
 | L-06CC-004: SKILL.md merge conflict marker 残存検出 hook を導入する | L38 |
 | L-06CC-005: visual evidence は 06c-C 単独で取得せず 08b/09a へ委譲する境界をテンプレ化する | L48 |
 
+### references/lessons-learned-06c-D-admin-schema-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CD-001: `/admin/schema` は 07b schema alias workflow の UI gate として扱う | L3 |
+| L-06CD-002: 4 pane contract は component / POM / spec を同一 wave で更新する | L7 |
+| L-06CD-003: screenshot は 06c-D 単独 PASS にしない | L11 |
+| L-06CD-004: legacy path move は artifact inventory と register で閉じる | L15 |
+| L-06CD-005: protected stableKey は UI だけでなく API workflow で拒否する | L19 |
+| L-06CD-006: remaining-only spec は canonical 正本値を引いて作成する | L23 |
+
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
 | セクション | 行 |
@@ -3980,8 +4003,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L87 |
-| 関連ドキュメント | L92 |
+| 利用順序 | L88 |
+| 関連ドキュメント | L93 |
 
 ### references/llm-embedding.md
 

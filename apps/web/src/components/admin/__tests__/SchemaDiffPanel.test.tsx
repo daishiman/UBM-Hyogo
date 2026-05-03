@@ -22,6 +22,7 @@ const item = (
     questionId: string | null;
     stableKey: string | null;
     suggestedStableKey: string | null;
+    recommendedStableKeys: string[];
   }>,
 ) => ({
   diffId: "d1",
@@ -31,6 +32,7 @@ const item = (
   stableKey: null as string | null,
   label: "Q",
   suggestedStableKey: null as string | null,
+  recommendedStableKeys: [] as string[],
   status: "queued" as const,
   resolvedBy: null,
   resolvedAt: null,
@@ -68,6 +70,9 @@ describe("SchemaDiffPanel", () => {
     expect(screen.getByText("removed-1")).toBeTruthy();
     expect(screen.getByText("unresolved-1")).toBeTruthy();
     expect(screen.getByText("4 件")).toBeTruthy();
+    expect(screen.getByText(/type: added/)).toBeTruthy();
+    expect(screen.getAllByText(/stableKey:/).length).toBe(4);
+    expect(screen.getAllByText(/createdAt:/).length).toBe(4);
   });
 
   it("empty: items=[] で各ペインに「なし」表示、total=0", () => {
@@ -77,7 +82,19 @@ describe("SchemaDiffPanel", () => {
     expect(empties.length).toBe(4);
   });
 
-  it("mutation 成功: 割当→postSchemaAlias 呼出、toast/refresh、form クローズ", async () => {
+  it("mutation 成功: dryRun 確認後に適用→toast/refresh、form クローズ", async () => {
+    postSchemaAliasMock
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        data: {
+          mode: "dryRun",
+          affectedResponseFields: 2,
+          currentStableKeyCount: 0,
+          conflictExists: false,
+        },
+      })
+      .mockResolvedValueOnce({ ok: true, status: 200, data: { mode: "apply" } });
     render(
       <SchemaDiffPanel
         initial={{
@@ -92,13 +109,26 @@ describe("SchemaDiffPanel", () => {
 
     const input = screen.getByLabelText(/新しい stableKey/) as HTMLInputElement;
     fireEvent.change(input, { target: { value: "new_key" } });
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "dryRun" }));
 
     await waitFor(() => {
       expect(postSchemaAliasMock).toHaveBeenCalledWith({
         diffId: "d-x",
         questionId: "q-x",
         stableKey: "new_key",
+        dryRun: true,
+      });
+    });
+    expect(screen.getByRole("status").textContent).toContain("dryRun を確認しました");
+    expect(screen.getByLabelText("dryRun result").textContent).toContain("2");
+
+    fireEvent.click(screen.getByRole("button", { name: "適用" }));
+    await waitFor(() => {
+      expect(postSchemaAliasMock).toHaveBeenLastCalledWith({
+        diffId: "d-x",
+        questionId: "q-x",
+        stableKey: "new_key",
+        dryRun: false,
       });
     });
     expect(screen.getByRole("status").textContent).toContain("alias を割当てました");
@@ -125,7 +155,7 @@ describe("SchemaDiffPanel", () => {
     fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
       target: { value: "k" },
     });
-    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+    fireEvent.click(screen.getByRole("button", { name: "dryRun" }));
 
     await waitFor(() => {
       expect(screen.getByRole("status").textContent).toContain("失敗: forbidden");
@@ -170,7 +200,7 @@ describe("SchemaDiffPanel", () => {
     expect(screen.queryByRole("form", { name: "stableKey alias 割当" })).toBeNull();
   });
 
-  it("suggestedStableKey が input の初期値として設定される", () => {
+  it("recommendedStableKeys が候補表示され、input の初期値として設定される", () => {
     render(
       <SchemaDiffPanel
         initial={{
@@ -180,7 +210,7 @@ describe("SchemaDiffPanel", () => {
               diffId: "d-s",
               questionId: "q-s",
               label: "lbl-s",
-              suggestedStableKey: "suggested_key",
+              recommendedStableKeys: ["recommended_key", "second_key"],
             }),
           ],
         }}
@@ -188,6 +218,25 @@ describe("SchemaDiffPanel", () => {
     );
     fireEvent.click(screen.getByRole("button", { name: /lbl-s/ }));
     const input = screen.getByLabelText(/新しい stableKey/) as HTMLInputElement;
-    expect(input.value).toBe("suggested_key");
+    expect(input.value).toBe("recommended_key");
+    expect(screen.getByLabelText("recommended stableKeys").textContent).toContain("second_key");
+  });
+
+  it("protected stableKey は API 呼び出し前に拒否する", () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 1,
+          items: [item({ diffId: "d-p", questionId: "q-p", label: "lbl-p" })],
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /lbl-p/ }));
+    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+      target: { value: "responseEmail" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "dryRun" }));
+    expect(screen.getByRole("status").textContent).toContain("protected stableKey");
+    expect(postSchemaAliasMock).not.toHaveBeenCalled();
   });
 });

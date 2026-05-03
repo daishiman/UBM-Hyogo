@@ -164,6 +164,23 @@ describe("admin schema route", () => {
     expect(res.status).toBe(422);
   });
 
+  it("POST aliases: protected stableKey は 422", async () => {
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/aliases",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ questionId: "q1", stableKey: "responseEmail", dryRun: true }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(422);
+    const body = (await res.json()) as { code?: string; stableKey?: string };
+    expect(body.code).toBe("protected_stable_key");
+    expect(body.stableKey).toBe("responseEmail");
+  });
+
   it("GET diff: recommendedStableKeys が同梱される", async () => {
     await env.db
       .prepare(
