@@ -2544,6 +2544,7 @@
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
@@ -4951,6 +4952,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -7339,6 +7341,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
@@ -7380,6 +7383,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -7788,6 +7792,7 @@
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
@@ -8048,6 +8053,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-backlog.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
@@ -9506,6 +9512,7 @@
     ],
     "Issue": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
@@ -9552,12 +9559,14 @@
     ],
     "教訓一覧": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
     "申し送り": [
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
@@ -9771,6 +9780,25 @@
     ],
     "one": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
+    ],
+    "EMAIL": [
+      "lessons-learned-issue-194-identity-merge-2026-05.md"
+    ],
+    "CONFLICT": [
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "logs-archive-2026-02-skill-validation-atoms-audit.md"
+    ],
+    "identity": [
+      "lessons-learned-issue-194-identity-merge-2026-05.md"
+    ],
+    "merge": [
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "確認パス": [
+      "lessons-learned-issue-194-identity-merge-2026-05.md"
     ],
     "Shared": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -10071,11 +10099,6 @@
     "関連リンク": [
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
-    "merge": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md",
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md"
     ],
     "自動スキップ運用": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
@@ -12320,9 +12343,6 @@
       "task-workflow-completed-skill-lifecycle-ui.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "task-workflow-completed-ut-06-safety-gate.md"
-    ],
-    "CONFLICT": [
-      "logs-archive-2026-02-skill-validation-atoms-audit.md"
     ],
     "TS": [
       "logs-archive-2026-02-skill-validation-atoms-audit.md",
