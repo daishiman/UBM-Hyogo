@@ -10,7 +10,7 @@
 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-web-cov-02-public-components-coverage/` | spec_created / docs-only / NON_VISUAL / remaining-only | public component coverage hardening spec; Phase 11 placeholder evidence and Phase 12 strict 7 files |
 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-web-cov-03-auth-fetch-lib-coverage/` | spec_created / docs-only / NON_VISUAL / remaining-only | auth/fetch library coverage hardening spec; Phase 11 placeholder evidence and Phase 12 strict 7 files |
 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-web-cov-04-admin-lib-ui-primitives-coverage/` | spec_created / docs-only / NON_VISUAL / remaining-only | admin library and UI primitive coverage hardening spec; Phase 11 placeholder evidence and Phase 12 strict 7 files |
-| `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-08a-01-public-use-case-coverage-hardening/` | spec_created / docs-only / NON_VISUAL / remaining-only | public use-case coverage hardening spec; Phase 11 placeholder evidence and Phase 12 strict 7 files |
+| `docs/30-workflows/completed-tasks/ut-08a-01-public-use-case-coverage-hardening/` | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | public use-case + public route focused tests; Phase 11 NON_VISUAL measured evidence and Phase 12 strict 7 files |
 | `docs/30-workflows/unassigned-task/ut-web-cov-05-followup-post-wave2-gap-analysis.md` | unassigned / wave-3 planning | cross-wave coverage gap roadmap owner; separates task-scope zero new unassigned tasks from global remaining coverage gaps |
 
 ## Phase 12 Strict Files
@@ -25,13 +25,13 @@ The precondition workflow uses exactly these Phase 12 files:
 - `outputs/phase-12/skill-feedback-report.md`
 - `outputs/phase-12/phase12-task-spec-compliance-check.md`
 
-Wave-2 workflows use the same strict 7-file Phase 12 set. `ut-web-cov-01-admin-components-coverage` additionally records measured Phase 11 focused Vitest evidence because its apps/web test implementation is present in this branch.
+Wave-2 workflows use the same strict 7-file Phase 12 set. `ut-web-cov-01-admin-components-coverage` and `ut-08a-01-public-use-case-coverage-hardening` additionally record measured Phase 11 focused Vitest evidence because their test implementations are present in this branch.
 
 ## Gate Boundary
 
 - Precondition gate: apps/api tests green, `apps/api/coverage/coverage-summary.json` generated, `bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0, apps/api coverage >=80%.
-- Upgrade gate: Statements/Functions/Lines >=85% and Branches >=80% is delegated to UT-08A-01 and is not a PASS condition for this precondition workflow.
-- Implementation boundary: wave-1 changes only `apps/api/src/jobs/__fixtures__/d1-fake.ts`; `ut-web-cov-01-admin-components-coverage` changes apps/web tests only. Runtime production code and packages/* are unchanged.
+- Upgrade gate: Statements/Functions/Lines >=85% and Branches >=80% is advanced by UT-08A-01 public use-case / route coverage hardening. Full apps/api coverage execution remains subject to pre-existing `schemaAliasAssign` timeout risk and should not be conflated with focused UT-08A-01 test health.
+- Implementation boundary: wave-1 changes only `apps/api/src/jobs/__fixtures__/d1-fake.ts`; `ut-web-cov-01-admin-components-coverage` changes apps/web tests only; `ut-08a-01-public-use-case-coverage-hardening` changes apps/api test files only. Runtime production code and packages/* are unchanged.
 - Cross-wave gap boundary: `ut-web-cov-01` Phase 12 may report zero new tasks inside its seven-component scope, while remaining layer-level coverage gaps are tracked by `docs/30-workflows/unassigned-task/ut-web-cov-05-followup-post-wave2-gap-analysis.md`.
 
 ## Same-Wave Sync
@@ -42,4 +42,4 @@ Wave-2 workflows use the same strict 7-file Phase 12 set. `ut-web-cov-01-admin-c
 | `indexes/quick-reference.md` | synced with UT coverage quick reference |
 | `references/task-workflow-active.md` | synced with active workflow section |
 | `LOGS/_legacy.md` | synced with 2026-05-01 entry |
-| `references/lessons-learned-ut-coverage-2026-05-wave.md` | L-UTCOV-001〜006（fixture binding contract / coverage-summary.json gate / 2-layer gate / wave 分割 / main.md 3-state / lessons-learned wave 集約） |
+| `references/lessons-learned-ut-coverage-2026-05-wave.md` | L-UTCOV-001〜008（fixture binding contract / coverage-summary.json gate / 2-layer gate / wave 分割 / main.md 3-state / lessons-learned wave 集約 / admin component snapshot 回避・mock 反映・authz 拒否・scope-out 取扱い / public use-case D1 mock SQL fragment dispatch + failOnSql + route handler errorHandler 装着） |

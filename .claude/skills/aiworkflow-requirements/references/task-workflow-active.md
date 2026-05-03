@@ -56,15 +56,15 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | implemented-local / test-fixture + admin component test implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
+| ステータス | implemented-local / test-fixture + admin component + UT-08A-01 public API test implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
 | wave guide | `docs/30-workflows/ut-coverage-2026-05-wave/README.md` |
 | wave-1 | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/` |
-| wave-2 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/` |
+| wave-2 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/`; UT-08A-01 canonical implementation root: `docs/30-workflows/completed-tasks/ut-08a-01-public-use-case-coverage-hardening/` |
 | inventory | `references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md` |
 | lessons | `references/lessons-learned-ut-coverage-2026-05-wave.md`（L-UTCOV-001〜007 / L-UTCOV-007 は ut-web-cov-01 admin component coverage の snapshot 回避・mock 結果反映・authz 拒否・scope-out 取扱い） |
-| 目的 | apps/api の 13 failing tests を先に解消し、Issue #320 coverage hardening が `coverage-summary.json` を取得できる状態に戻す。wave-2 では `ut-web-cov-01` の admin component focused tests を実装済み |
-| AC | precondition gate: apps/api 13 failure green、coverage-summary.json 生成、`bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0、apps/api coverage 80% gate PASS。`ut-web-cov-01` gate: web coverage Vitest 21 files / 196 tests PASS、対象7ファイルすべて Statements/Functions/Lines >=85%・Branches >=80%。remaining upgrade gate は未完 wave-2 task に委譲 |
-| 境界 | wave-1 は test fixture `apps/api/src/jobs/__fixtures__/d1-fake.ts` のみ実装済み。`ut-web-cov-01` は apps/web test files のみ実装済み。runtime production code、packages/*、commit、push、PR は Phase 13 user approval まで実行しない |
+| 目的 | apps/api の 13 failing tests を先に解消し、Issue #320 coverage hardening が `coverage-summary.json` を取得できる状態に戻す。wave-2 では `ut-web-cov-01` の admin component focused tests と `ut-08a-01` の public use-case / public route focused tests を実装済み |
+| AC | precondition gate: apps/api 13 failure green、coverage-summary.json 生成、`bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0、apps/api coverage 80% gate PASS。`ut-web-cov-01` gate: web coverage Vitest 21 files / 196 tests PASS、対象7ファイルすべて Statements/Functions/Lines >=85%・Branches >=80%。`ut-08a-01` gate: public use-case negative matrix、D1 failure、public route cache/auth boundary focused tests を追加。全 apps/api coverage は pre-existing `schemaAliasAssign` timeout risk と分離して扱う |
+| 境界 | wave-1 は test fixture `apps/api/src/jobs/__fixtures__/d1-fake.ts` のみ実装済み。`ut-web-cov-01` は apps/web test files のみ、`ut-08a-01` は apps/api test files のみ実装済み。runtime production code、packages/*、commit、push、PR は Phase 13 user approval まで実行しない |
 
 ### 03b Response Sync Follow-ups（2026-05-02）
 
