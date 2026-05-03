@@ -55,17 +55,16 @@ case "$THRESHOLD" in
 esac
 
 # sync-merge スキップ判定（個人開発運用ポリシー）:
-#   --changed モード（pre-push 用）で push 範囲に merge commit を含む場合、
+#   --changed モード（pre-push 用）で coverage 評価範囲に merge commit を含む場合、
 #   sync-merge による偶発的な coverage 低下を許容してスキップする。
-#   範囲は @{u}..HEAD（upstream 未設定時は HEAD 単体）。
+#   範囲は changed_packages と同じ base (merge-base HEAD origin/dev) からの ...HEAD を用いる。
+#   これにより sync-merge 後の follow-up コミット (indexes rebuild 等) を push する場面でも、
+#   評価範囲に merge commit が残っていればスキップが効く。
 #   feature 単体 push は従来通りチェック対象。
 if [ "$CHANGED" -eq 1 ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
-  if upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null); then
-    range="${upstream}..HEAD"
+  if base=$(git -C "$ROOT_DIR" merge-base HEAD origin/dev 2>/dev/null) && [ -n "$base" ]; then
+    range="${base}..HEAD"
   elif git rev-parse --verify origin/dev >/dev/null 2>&1; then
-    # First push (no upstream yet): use origin/dev as the base — it matches
-    # the base used by changed_packages so sync-merge skip detection covers
-    # the same commit window that coverage measurement walks.
     range="origin/dev..HEAD"
   elif git rev-parse --verify origin/main >/dev/null 2>&1; then
     range="origin/main..HEAD"

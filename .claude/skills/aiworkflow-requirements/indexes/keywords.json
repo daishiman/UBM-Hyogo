@@ -565,6 +565,7 @@
     ],
     "HTTP": [
       "api-core.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
@@ -679,6 +680,7 @@
     "Service": [
       "api-endpoints.md",
       "api-internal-search.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
@@ -2453,6 +2455,7 @@
       "arch-state-management-skill-creator.md",
       "database-schema.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
@@ -2489,6 +2492,7 @@
       "arch-state-management-skill-creator.md",
       "database-schema.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
@@ -2617,6 +2621,7 @@
       "interfaces-api.md",
       "interfaces-shared.md",
       "ipc-contract-checklist.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
@@ -3179,6 +3184,7 @@
       "auth-google-oauth-cf-integration.md",
       "database-admin-repository-boundary.md",
       "error-handling-core.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
@@ -3722,6 +3728,7 @@
     ],
     "runtime": [
       "architecture-rag.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
@@ -3762,6 +3769,7 @@
     "binding": [
       "auth-google-oauth-cf-integration.md",
       "deployment-cloudflare.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "経由の": [
@@ -5370,6 +5378,7 @@
     ],
     "deploy": [
       "deployment-cloudflare-opennext-workers.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "cf": [
@@ -5409,6 +5418,7 @@
     ],
     "fallback": [
       "deployment-cloudflare-opennext-workers.md",
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
@@ -7366,6 +7376,7 @@
       "skill-ledger-gitignore-policy.md"
     ],
     "Lessons": [
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
@@ -7413,6 +7424,7 @@
       "lessons-learned.md"
     ],
     "Learned": [
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
@@ -7452,16 +7464,136 @@
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md"
     ],
-    "fixture": [
-      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+    "fetchPublic": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "Binding": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "Testing": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "FP": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "getCloudflareContext": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "mock": [
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "closure": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "reset": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "が必要": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "テストは": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "globalFetch": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "も並行": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "transport": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "label": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "は構造化": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "console": [
+      "lessons-fetch-service-binding-testing.md",
+      "logging-migration-guide.md",
+      "logs-archive-2026-02-console-migration-patterns.md"
+    ],
+    "log": [
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
+      "logging-migration-guide.md"
+    ],
+    "verification": [
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
     "test": [
+      "lessons-fetch-service-binding-testing.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "quality-e2e-testing.md"
+    ],
+    "契約を共有する": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "経路は": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "loopback": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "subrequest": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "に注意し": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "を一次経路にする": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "classification": [
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "skill-ledger-progressive-disclosure.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "evidence": [
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-06c-C-admin-tags-artifact-inventory.md"
+    ],
+    "pending": [
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "を堅持する": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "同期参照": [
+      "lessons-fetch-service-binding-testing.md"
+    ],
+    "fixture": [
+      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-06c-admin-ui-2026-04.md"
     ],
     "exclusion": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
@@ -8286,12 +8418,6 @@
     "を必ず最初に書く": [
       "lessons-learned-04b-member-self-service.md"
     ],
-    "pending": [
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
-    ],
     "判定は": [
       "lessons-learned-04b-member-self-service.md"
     ],
@@ -8533,10 +8659,6 @@
     ],
     "で許容": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
-    ],
-    "verification": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
     "testing": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
@@ -8894,22 +9016,6 @@
     "不在を構造保証する": [
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md"
     ],
-    "evidence": [
-      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
-      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
-      "lessons-learned-06c-B-admin-members-2026-05.md",
-      "lessons-learned-06c-C-admin-tags-2026-05.md",
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
-      "workflow-06c-C-admin-tags-artifact-inventory.md"
-    ],
     "待ちで": [
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md"
     ],
@@ -9078,14 +9184,6 @@
     ],
     "名は単数形": [
       "lessons-learned-06c-B-admin-members-2026-05.md"
-    ],
-    "log": [
-      "lessons-learned-06c-B-admin-members-2026-05.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
-      "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
-      "logging-migration-guide.md"
     ],
     "にし": [
       "lessons-learned-06c-B-admin-members-2026-05.md"
@@ -10035,11 +10133,6 @@
     ],
     "に分離する": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
-    ],
-    "classification": [
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
-      "skill-ledger-progressive-disclosure.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
     "first": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -10991,9 +11084,6 @@
     "回避と": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
-    "mock": [
-      "lessons-learned-ut-coverage-2026-05-wave.md"
-    ],
     "結果の表示反映": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
@@ -11381,10 +11471,6 @@
     ],
     "ログ移行ガイド": [
       "logging-migration-guide.md"
-    ],
-    "console": [
-      "logging-migration-guide.md",
-      "logs-archive-2026-02-console-migration-patterns.md"
     ],
     "electron": [
       "logging-migration-guide.md"

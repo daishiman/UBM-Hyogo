@@ -3328,6 +3328,17 @@ node scripts/list-specs.js --topics
 | Fragment Migration Register (2026-04-28) | L303 |
 | Task Root Path Drift Register (2026-04-30 追記) | L330 |
 
+### references/lessons-fetch-service-binding-testing.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT05A-FP-001: `getCloudflareContext()` mock は closure + reset が必要 | L6 |
+| L-UT05A-FP-002: service-binding テストは globalFetch も並行 mock | L13 |
+| L-UT05A-FP-003: transport label は構造化 console.log で deploy verification と test 契約を共有する | L21 |
+| L-UT05A-FP-004: HTTP fallback 経路は loopback subrequest 404 に注意し、service-binding を一次経路にする | L30 |
+| L-UT05A-FP-005: classification は "spec_created / runtime evidence pending" を堅持する | L38 |
+| 同期参照 | L47 |
+
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
 | セクション | 行 |
@@ -3968,8 +3979,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L86 |
-| 関連ドキュメント | L91 |
+| 利用順序 | L87 |
+| 関連ドキュメント | L92 |
 
 ### references/llm-embedding.md
 
