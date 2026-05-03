@@ -2038,6 +2038,18 @@ node scripts/list-specs.js --topics
 | implementation source-of-truth | L37 |
 | scope notes | L48 |
 
+### references/workflow-06c-C-admin-tags-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts | L25 |
+| phase 11 evidence | L38 |
+| implementation source-of-truth | L45 |
+| scope notes | L59 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3327,6 +3339,17 @@ node scripts/list-specs.js --topics
 | Fragment Migration Register (2026-04-28) | L303 |
 | Task Root Path Drift Register (2026-04-30 追記) | L330 |
 
+### references/lessons-fetch-service-binding-testing.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT05A-FP-001: `getCloudflareContext()` mock は closure + reset が必要 | L6 |
+| L-UT05A-FP-002: service-binding テストは globalFetch も並行 mock | L13 |
+| L-UT05A-FP-003: transport label は構造化 console.log で deploy verification と test 契約を共有する | L21 |
+| L-UT05A-FP-004: HTTP fallback 経路は loopback subrequest 404 に注意し、service-binding を一次経路にする | L30 |
+| L-UT05A-FP-005: classification は "spec_created / runtime evidence pending" を堅持する | L38 |
+| 同期参照 | L47 |
+
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
 | セクション | 行 |
@@ -3517,6 +3540,16 @@ node scripts/list-specs.js --topics
 | L-06CB-005: workflow 契約は `:memberId`、handler ローカル変数 `id` は spec に漏らさない | L38 |
 | L-06CB-006: audit table 名は単数形 `audit_log` を canonical にし、plural を撤回する | L47 |
 | L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L55 |
+
+### references/lessons-learned-06c-C-admin-tags-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CC-001: `/admin/tags` を「タグ辞書 CRUD」と誤読しない | L3 |
+| L-06CC-002: status union 拡張は 4 箇所に波及するため Panel export で single-source-of-truth 化する | L13 |
+| L-06CC-003: 旧 CRUD POM (`admin-add-tag-button`) を queue-only 化と同 PR で必ず置換する | L29 |
+| L-06CC-004: SKILL.md merge conflict marker 残存検出 hook を導入する | L38 |
+| L-06CC-005: visual evidence は 06c-C 単独で取得せず 08b/09a へ委譲する境界をテンプレ化する | L48 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3966,8 +3999,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L86 |
-| 関連ドキュメント | L91 |
+| 利用順序 | L87 |
+| 関連ドキュメント | L92 |
 
 ### references/llm-embedding.md
 
