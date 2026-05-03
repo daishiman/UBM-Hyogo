@@ -3807,6 +3807,7 @@ node scripts/list-specs.js --topics
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
 | L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
 | L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
+| L-UTCOV-008: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L37 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -4974,13 +4975,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L136 |
-| フェーズ構造（概要） | L145 |
-| 品質ゲート（概要） | L176 |
-| 出力テンプレート | L187 |
-| 実行時のコマンド・エージェント・スキル | L210 |
-| 昇格パターン集 | L234 |
-| Current Active / Spec Created Tasks | L236 |
+| ドキュメント構成 | L146 |
+| フェーズ構造（概要） | L155 |
+| 品質ゲート（概要） | L186 |
+| 出力テンプレート | L197 |
+| 実行時のコマンド・エージェント・スキル | L220 |
+| 昇格パターン集 | L244 |
+| Current Active / Spec Created Tasks | L246 |
 
 ### references/task-workflow-backlog-part2.md
 

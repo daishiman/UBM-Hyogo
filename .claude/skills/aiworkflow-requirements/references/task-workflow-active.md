@@ -54,6 +54,16 @@
 | AC | precondition gate: apps/api 13 failure green、coverage-summary.json 生成、`bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0、apps/api coverage 80% gate PASS。`ut-web-cov-01` gate: web coverage Vitest 21 files / 196 tests PASS、対象7ファイルすべて Statements/Functions/Lines >=85%・Branches >=80%。remaining upgrade gate は未完 wave-2 task に委譲 |
 | 境界 | wave-1 は test fixture `apps/api/src/jobs/__fixtures__/d1-fake.ts` のみ実装済み。`ut-web-cov-01` は apps/web test files のみ実装済み。runtime production code、packages/*、commit、push、PR は Phase 13 user approval まで実行しない |
 
+#### UT-WEB-COV-03 auth/fetch lib coverage implementation spec（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / test_implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/ut-web-cov-03-auth-fetch-lib-coverage/` |
+| 対象 | apps/web auth/fetch/session lib 7 本（`auth.ts` / `magic-link-client.ts` / `oauth-client.ts` / `session.ts` / `fetch/authed.ts` / `fetch/public.ts` / `api/me-types.ts`） |
+| 境界 | 旧 docs-only 指定は CONST_004 により撤回。仕様書 root は wave nested path から top-level workflow root へ移動済み。apps/web test file 実装と coverage 実測は完了。commit・push・PR は Phase 13 user approval まで未実行 |
+| 検証 | root/outputs `artifacts.json` parity、Phase 1-13 specs、Phase 11 NON_VISUAL measured evidence、Phase 12 strict 7 files、`pnpm --filter @ubm-hyogo/web test:coverage` PASS（40 files / 359 tests） |
+
 ### 03b Response Sync Follow-ups（2026-05-02）
 
 | 項目 | 値 |

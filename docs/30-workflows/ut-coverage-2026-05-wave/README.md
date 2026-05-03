@@ -49,7 +49,7 @@ ut-api-cov-precondition-01 ───▶ ├─ ut-web-cov-02-public-components-c
 | [`ut-08a-01-public-use-case-coverage-hardening`](wave-2-parallel-coverage/ut-08a-01-public-use-case-coverage-hardening/index.md) | apps/api public use-case 4 本 + route handler | spec_created | NON_VISUAL |
 | [`ut-web-cov-01-admin-components-coverage`](../ut-web-cov-01-admin-components-coverage/index.md) | apps/web admin components 7 本 | implemented-local / Phase 1-12 completed | NON_VISUAL |
 | [`ut-web-cov-02-public-components-coverage`](wave-2-parallel-coverage/ut-web-cov-02-public-components-coverage/index.md) | apps/web public components 7 本 | spec_created | NON_VISUAL |
-| [`ut-web-cov-03-auth-fetch-lib-coverage`](wave-2-parallel-coverage/ut-web-cov-03-auth-fetch-lib-coverage/index.md) | apps/web auth/fetch/session lib 7 本 | spec_created | NON_VISUAL |
+| [`ut-web-cov-03-auth-fetch-lib-coverage`](../ut-web-cov-03-auth-fetch-lib-coverage/index.md) | apps/web auth/fetch/session lib 7 本 | implemented-local / Phase 1-12 completed | NON_VISUAL |
 | [`ut-web-cov-04-admin-lib-ui-primitives-coverage`](wave-2-parallel-coverage/ut-web-cov-04-admin-lib-ui-primitives-coverage/index.md) | apps/web admin lib + UI primitives 13 本 | spec_created | NON_VISUAL |
 
 #### 並列性の根拠
@@ -119,8 +119,8 @@ ut-api-cov-precondition-01 ───▶ ├─ ut-web-cov-02-public-components-c
 ## 共通仕様（全 6 タスク共通）
 
 - AC 数値目標: Stmts ≥85% / Funcs ≥85% / Lines ≥85% / Branches ≥80%
-- 状態: `spec_created / docs-only / remaining-only`
-- taskType: `docs-only`（実装仕様書作成タスク。アプリケーションコード実装は後続実装フェーズ）
+- 状態: 原則 `spec_created / docs-only / remaining-only`。ただし `ut-web-cov-03-auth-fetch-lib-coverage` は apps/web Vitest test file 追加が完了したため `implemented-local / implementation / test_implementation / Phase 1-12 completed` を正とする。
+- taskType: 原則 `docs-only`（仕様書作成タスク。アプリケーションコード実装は後続実装フェーズ）。ただし `ut-web-cov-03-auth-fetch-lib-coverage` は CONST_004（ラベルより実態優先）により `implementation` へ補正し、今回サイクルで実装済み。
 - Phase 11 evidence: `coverage-result.md` / `regression-check.md` / `manual-evidence.md`（本 wave は unit coverage / NON_VISUAL 証跡で閉じる）
 - Phase 12 必須 7 成果物: `main.md`, `implementation-guide.md`, `system-spec-update-summary.md`, `documentation-changelog.md`, `unassigned-task-detection.md`, `skill-feedback-report.md`, `phase12-task-spec-compliance-check.md`
 - 不変条件: #1 / #2 / #5 / #6（タスクにより該当範囲は異なる、各 `index.md` 参照）
