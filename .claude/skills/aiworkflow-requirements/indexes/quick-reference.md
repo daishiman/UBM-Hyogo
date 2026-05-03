@@ -1319,8 +1319,8 @@ packages/
 | 状態 | `enforced_dry_run` / warning mode / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
 | 実装 | `scripts/lint-stablekey-literal.mjs` + `package.json` `lint:stablekey` / `lint:stablekey:strict` |
 | allow-list | `packages/shared/src/zod/field.ts`, `packages/integrations/google/src/forms/mapper.ts` |
-| strict blocker | 既存 stableKey literal 147 件。`fully enforced` は 0 violation + strict CI gate 後 |
-| follow-up | `docs/30-workflows/unassigned-task/task-03a-stablekey-literal-legacy-cleanup-001.md`, `docs/30-workflows/unassigned-task/task-03a-stablekey-strict-ci-gate-001.md` |
+| strict blocker | legacy literal blocker resolved by `docs/30-workflows/issue-393-stablekey-literal-legacy-cleanup/` (`strict_ready`, 0 violation). `fully enforced` は strict CI gate 後 |
+| follow-up | `docs/30-workflows/unassigned-task/task-03a-stablekey-strict-ci-gate-001.md` |
 | inventory | `references/workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md` |
 
 ### UBM-Hyogo Admin Backoffice API 早見（04c / 2026-04-29）

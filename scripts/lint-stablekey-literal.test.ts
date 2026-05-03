@@ -81,6 +81,14 @@ describe("lint-stablekey-literal", () => {
     }
   });
 
+  // issue-393: legacy literal cleanup 完了後、application code 中の stableKey 文字列リテラルは
+  // 0 件であることを期待する。strict CI gate 昇格 (親 03a AC-7) の前提条件。
+  it("strict mode reports 0 violations after legacy literal cleanup (issue-393)", () => {
+    const { code, report } = runLint(["--strict"]);
+    expect(report.violations).toHaveLength(0);
+    expect(code).toBe(0);
+  });
+
   it("can directly scan Phase 6 violation fixtures even though fixtures are excluded from default scan", () => {
     const { code, report } = runLint([
       "--strict",
