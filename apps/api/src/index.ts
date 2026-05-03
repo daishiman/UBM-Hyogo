@@ -23,6 +23,7 @@ import { adminMeetingsRoute } from "./routes/admin/meetings";
 import { adminAttendanceRoute } from "./routes/admin/attendance";
 import { adminAuditRoute } from "./routes/admin/audit";
 import { adminRequestsRoute } from "./routes/admin/requests";
+import { createAdminIdentityConflictsRoute } from "./routes/admin/identity-conflicts";
 import { ctx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
 import type { Env } from "./env";
@@ -221,6 +222,8 @@ app.route("/admin", adminAttendanceRoute);
 app.route("/admin", adminAuditRoute);
 // 04b-followup-004: admin queue resolve workflow
 app.route("/admin", adminRequestsRoute);
+// issue-194-03b-followup-001: admin identity-conflicts (list/merge/dismiss)
+app.route("/admin", createAdminIdentityConflictsRoute());
 // UT-26: Sheets API E2E smoke route。production では route 内で 404 を返すため、
 // mount しても本番では露出しない (dev/staging のみで動作する)。
 app.route("/admin/smoke/sheets", createSmokeSheetsRoute());

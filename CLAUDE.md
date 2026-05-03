@@ -106,6 +106,16 @@ mise install          # Node 24.15.0 + pnpm 10.33.2 をインストール
 mise exec -- pnpm install  # 正しい Node バージョンで依存インストール
 ```
 
+このリポジトリは他プロジェクトの Node 依存と分離するため、プロジェクトローカルで以下を固定する:
+
+- `.mise.toml`: Node `24.15.0` / pnpm `10.33.2` の正本
+- `.envrc`: direnv 利用環境では `cd` 時に `use mise` で自動切替
+- `package.json#volta`: Volta 利用環境でも同じ Node / pnpm に自動切替
+- `.nvmrc`: nvm / fnm 互換の補助指定
+
+`node -v` が `v24.15.0` ではない場合、`mise exec -- <command>` で実行する。
+direnv を使う場合は初回だけ `direnv allow` を実行すると、このワークツリー内だけ Node 24 に切り替わる。
+
 > **毎回 `pnpm install` が必要な理由**: ワークツリーごとに `node_modules` が独立するため。
 > `mise install` は一度だけ実行すれば OK（バイナリはキャッシュ済みになる）。
 

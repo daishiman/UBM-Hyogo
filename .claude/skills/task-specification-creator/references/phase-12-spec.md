@@ -126,6 +126,10 @@ Phase 12 には `spec formalization path` と `implementation evidence path` が
 - API仕様の変更
 - public response が不変でも、back-fill / CPU budget / retryable error / owner boundary / DB 実スキーマ差分吸収が入る場合
 
+### design-spec タスクの dual canonical（markdown 論理正本 + TS ランタイム正本）登録ルール
+
+design-spec タスクで論理正本（例: `docs/_design/<topic>-spec.md`）と TS / コードランタイム正本（例: `apps/api/src/...`）を分離する場合、`system-spec-update-summary.md` の current canonical set には **両方を必ず列挙**する（片側のみは drift の温床）。Phase 11 NON_VISUAL evidence には、両正本間の参照を確認する `rg` cross-reference 検索結果と、TS 側 schema test（zod parse / type guard 等）の実行ログの **双方** を含める。両者が同一契約を説明していることを `phase12-task-spec-compliance-check.md` で明示する。
+
 ### LOGS / generated index / artifacts parity の実測ルール
 
 Phase 12 の Step 1-A で `LOGS.md` や `topic-map.md` を機械的に N/A にしない。現行 skill が fragment 化されている場合は次のように判定する。
