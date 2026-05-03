@@ -13,7 +13,7 @@ describe("AdminSidebar", () => {
     expect(nav.getAttribute("aria-label")).toBe("管理メニュー");
   });
 
-  it("7 件のリンクをラベルと href の組で全件レンダーする", () => {
+  it("8 件のリンクをラベルと href の組で全件レンダーする", () => {
     render(<AdminSidebar />);
     const expected: Array<[string, string]> = [
       ["ダッシュボード", "/admin"],
@@ -22,6 +22,7 @@ describe("AdminSidebar", () => {
       ["schema", "/admin/schema"],
       ["開催日", "/admin/meetings"],
       ["依頼キュー", "/admin/requests"],
+      ["Identity重複", "/admin/identity-conflicts"],
       ["監査ログ", "/admin/audit"],
     ];
     const links = screen.getAllByRole("link");
@@ -35,6 +36,6 @@ describe("AdminSidebar", () => {
   it("リンクはすべて <li> 内に配置されている (structure)", () => {
     const { container } = render(<AdminSidebar />);
     const items = container.querySelectorAll("nav.admin-sidebar > ul > li > a");
-    expect(items.length).toBe(7);
+    expect(items.length).toBe(8);
   });
 });
