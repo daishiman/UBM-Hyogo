@@ -39,11 +39,14 @@ build/
 # Logs
 logs/
 *.log
+.evidence/
 
 # Environment
 .env
 .env.local
 .env.*.local
+apps/web/playwright/.auth/*.json
+!apps/web/playwright/.auth/.gitkeep
 
 # Temporary files
 tmp/

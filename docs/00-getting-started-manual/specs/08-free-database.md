@@ -316,6 +316,10 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 
 `schema_questions(revision_id, stable_key)` の物理 UNIQUE index は未導入で、現状は workflow pre-check で 422 を返す。物理制約、10,000 行級実測、retryable HTTP contract は `UT-07B-schema-alias-hardening-001` に分離する。
 
+### production migration apply の運用境界
+
+UT-07B の `apps/api/migrations/0008_schema_alias_hardening.sql` を本番 D1 (`ubm-hyogo-db-prod`) に適用する手順は **承認ゲート付き runbook** として `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/outputs/phase-05/main.md` に分離している。production への実 apply は本仕様書（spec 層）で扱わず、必ず runbook 8 セクション（Overview / 承認ゲート / Preflight / Apply / Post-check / Evidence / Failure handling / Smoke 制限）に従い、`bash scripts/cf.sh` 経由でのみ実施する。
+
 ---
 
 ## 関連タスク仕様書
@@ -359,3 +363,15 @@ Auth.js v5 を採用しても **D1 に `sessions` テーブルを作らず、JWT
 - `packages/shared/src/auth.ts`: `signSessionJwt` / `verifySessionJwt` / `SESSION_JWT_TTL_SECONDS`
 - `apps/web/src/lib/auth.ts`: Auth.js cookie session = HS256 JWT
 - `apps/api/src/middleware/require-admin.ts`: cookie / Authorization から JWT 抽出 → verify
+
+## identity conflict merge tables（Issue #194）
+
+EMAIL_CONFLICT 後の admin 手動 merge は Google Form schema 外の管理データとして扱い、raw response 本文は更新しない。
+
+| table | purpose | key columns |
+| --- | --- | --- |
+| `identity_aliases` | source identity を canonical target へ解決する append-only alias | `source_member_id` UNIQUE, `target_member_id`, `created_by`, `reason_redacted` |
+| `identity_merge_audit` | merge 操作の独立 ledger | `actor_admin_id`, `source_member_id`, `target_member_id`, `reason`, `merged_at`, `sync_job_id` |
+| `identity_conflict_dismissals` | admin が「別人」と判断した候補 pair の再検出抑止 | UNIQUE(`source_member_id`, `candidate_target_member_id`), `dismissed_by`, `reason`, `dismissed_at` |
+
+`POST /admin/identity-conflicts/:id/merge` は `identity_aliases` / `identity_merge_audit` / `audit_log` を単一 D1 `batch()` に入れて atomic に記録する。D1 `batch()` が使えない環境では部分適用を避けるため merge を失敗させる。

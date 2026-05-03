@@ -51,7 +51,7 @@ export default async function AdminDashboardPage() {
 
 function KpiCard({ label, value }: { readonly label: string; readonly value: number }) {
   return (
-    <article className="kpi-card">
+    <article className="kpi-card" data-testid="admin-dashboard-card">
       <div className="kpi-label">{label}</div>
       <div className="kpi-value">{value}</div>
     </article>

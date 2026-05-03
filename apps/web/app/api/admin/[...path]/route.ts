@@ -4,7 +4,7 @@
 // 不変条件 #5: D1 直接アクセスはせず、backend Worker 経由のみ。
 
 import type { NextRequest } from "next/server";
-import { auth } from "../../../../src/lib/auth";
+import { getAuth } from "../../../../src/lib/auth";
 
 const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
 
@@ -17,6 +17,7 @@ const apiBase = (): string => {
 const internalSecret = (): string => process.env["INTERNAL_AUTH_SECRET"] ?? "";
 
 async function requireAdmin(): Promise<Response | null> {
+  const { auth } = await getAuth();
   const session = await auth();
   const u = session?.user as { isAdmin?: boolean; memberId?: string } | undefined;
   if (!u || u.isAdmin !== true) {

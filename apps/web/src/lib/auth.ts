@@ -11,10 +11,6 @@
 //   AUTH_SECRET, GOOGLE_CLIENT_ID (= AUTH_GOOGLE_ID), GOOGLE_CLIENT_SECRET (= AUTH_GOOGLE_SECRET),
 //   AUTH_URL, INTERNAL_API_BASE_URL, INTERNAL_AUTH_SECRET
 
-import NextAuth, { type NextAuthConfig } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import type { JWT } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import {
@@ -109,6 +105,20 @@ const googleClientId = (e: AuthEnv): string =>
 const googleClientSecret = (e: AuthEnv): string =>
   e.GOOGLE_CLIENT_SECRET ?? e.AUTH_GOOGLE_SECRET ?? "";
 
+type AuthProviderFactories = {
+  GoogleProvider: (options: unknown) => unknown;
+  CredentialsProvider: (options: unknown) => unknown;
+};
+
+const missingProviderFactories: AuthProviderFactories = {
+  GoogleProvider: () => {
+    throw new Error("Auth providers must be loaded through getAuth()");
+  },
+  CredentialsProvider: () => {
+    throw new Error("Auth providers must be loaded through getAuth()");
+  },
+};
+
 /**
  * API worker `/auth/session-resolve` を Worker-to-Worker 認証で呼ぶ。
  * 失敗 / 5xx は unregistered として扱う（#11 fail-closed）。
@@ -201,40 +211,124 @@ export const fetchSessionResolve = async (
 export const buildAuthConfig = (
   e: AuthEnv = env(),
   fetchImpl: typeof fetch = fetch,
-): NextAuthConfig => {
+  providerFactories: AuthProviderFactories = missingProviderFactories,
+) => {
+  const providers = buildProviders(e, providerFactories);
   return {
     trustHost: true,
     ...(e.AUTH_SECRET ? { secret: e.AUTH_SECRET } : {}),
   session: { strategy: "jwt" as const, maxAge: 24 * 60 * 60 },
   jwt: {
     maxAge: SESSION_JWT_TTL_SECONDS,
-    encode: async ({ token, secret, maxAge }) =>
+    encode: async ({
+      token,
+      secret,
+      maxAge,
+    }: {
+      token: unknown;
+      secret: string | string[];
+      maxAge?: number;
+    }) =>
       encodeAuthSessionJwt(
         Array.isArray(secret) ? secret[0] ?? "" : secret,
-        token,
+        token as Parameters<typeof encodeAuthSessionJwt>[1],
         maxAge ?? SESSION_JWT_TTL_SECONDS,
       ),
-    decode: async ({ token, secret }) =>
-      (await decodeAuthSessionJwt(
+    decode: async ({
+      token,
+      secret,
+    }: {
+      token?: string;
+      secret: string | string[];
+    }) =>
+      await decodeAuthSessionJwt(
         Array.isArray(secret) ? secret[0] ?? "" : secret,
         token,
-      )) as JWT | null,
+      ),
   },
-  providers: [
-    GoogleProvider({
+  providers,
+  pages: {
+    signIn: "/login",
+    error: "/login",
+  },
+  callbacks: {
+    async signIn({ user, account, profile }: any) {
+      // 05b-B: magic-link Credentials は authorize() 時点で API worker verify 済み。
+      // signIn callback では再度 D1 を引かず、user object をそのまま通す。
+      if (account?.provider === "credentials") {
+        const u = user as { memberId?: string; isAdmin?: boolean };
+        return typeof u.memberId === "string" && u.memberId.length > 0;
+      }
+      if (account?.provider !== "google") return false;
+      const maybeUser = user as { email?: string } | undefined;
+      const email = (profile?.email ?? maybeUser?.email ?? "").trim().toLowerCase();
+      const verified = profile?.email_verified ?? false;
+      if (!email || !verified) {
+        return "/login?gate=unregistered";
+      }
+      const resolved = await fetchSessionResolve(email, e, fetchImpl);
+      if (!resolved.memberId) {
+        return `/login?gate=${resolved.gateReason ?? "unregistered"}`;
+      }
+      // jwt callback で拾うために user object に追加プロパティを載せる
+      (user as { memberId?: string; isAdmin?: boolean }).memberId = resolved.memberId;
+      (user as { memberId?: string; isAdmin?: boolean }).isAdmin = resolved.isAdmin;
+      return true;
+    },
+    async jwt({ token, user }: any) {
+      if (user) {
+        const u = user as { memberId?: string; isAdmin?: boolean; email?: string; name?: string };
+        if (u.memberId) {
+          token.sub = u.memberId;
+          (token as Record<string, unknown>).memberId = u.memberId;
+        }
+        (token as Record<string, unknown>).isAdmin = u.isAdmin === true;
+        if (u.email) (token as Record<string, unknown>).email = u.email;
+        if (u.name) (token as Record<string, unknown>).name = u.name;
+      }
+      return token;
+    },
+    async session({ session, token }: any) {
+      const t = token as Record<string, unknown>;
+      session.user = {
+        ...session.user,
+        memberId: (t.memberId as string) ?? "",
+        isAdmin: t.isAdmin === true,
+        email: (t.email as string) ?? session.user?.email ?? "",
+        name: (t.name as string | undefined) ?? session.user?.name,
+      } as typeof session.user & { memberId: string; isAdmin: boolean };
+      return session;
+    },
+    },
+  };
+};
+
+type AuthRuntime = {
+  handlers: {
+    GET: (req: NextRequest) => Response | Promise<Response>;
+    POST: (req: NextRequest) => Response | Promise<Response>;
+  };
+  auth: (...args: unknown[]) => Promise<{ user?: unknown } | null>;
+  signIn: (...args: unknown[]) => Promise<Response>;
+  signOut: (...args: unknown[]) => Promise<unknown>;
+};
+
+let authRuntimePromise: Promise<AuthRuntime> | undefined;
+
+const buildProviders = (e: AuthEnv, factories: AuthProviderFactories): unknown[] => {
+  return [
+    factories.GoogleProvider({
       clientId: googleClientId(e),
       clientSecret: googleClientSecret(e),
       authorization: { params: { prompt: "select_account" } },
     }),
-    // 05b-B: Magic Link 検証は callback route で API worker へ委譲済み。
-    // ここではその検証結果（SessionUser）を JSON で受け取り session を確立する。
-    CredentialsProvider({
+    factories.CredentialsProvider({
       id: "magic-link",
       name: "Magic Link",
       credentials: {
         verifiedUser: { type: "text" },
       },
-      async authorize(credentials) {
+      async authorize(credentials: Record<string, unknown> | undefined) {
         const raw = credentials?.["verifiedUser"];
         if (typeof raw !== "string" || raw.length === 0) return null;
         let parsed: unknown;
@@ -269,66 +363,29 @@ export const buildAuthConfig = (
         } as { id: string; email: string; memberId: string; isAdmin: boolean };
       },
     }),
-  ],
-  pages: {
-    signIn: "/login",
-    error: "/login",
-  },
-  callbacks: {
-    async signIn({ user, account, profile }) {
-      // 05b-B: magic-link Credentials は authorize() 時点で API worker verify 済み。
-      // signIn callback では再度 D1 を引かず、user object をそのまま通す。
-      if (account?.provider === "credentials") {
-        const u = user as { memberId?: string; isAdmin?: boolean };
-        return typeof u.memberId === "string" && u.memberId.length > 0;
-      }
-      if (account?.provider !== "google") return false;
-      const email = (profile?.email ?? user?.email ?? "").trim().toLowerCase();
-      const verified =
-        (profile as { email_verified?: boolean } | undefined)?.email_verified ?? false;
-      if (!email || !verified) {
-        return "/login?gate=unregistered";
-      }
-      const resolved = await fetchSessionResolve(email, e, fetchImpl);
-      if (!resolved.memberId) {
-        return `/login?gate=${resolved.gateReason ?? "unregistered"}`;
-      }
-      // jwt callback で拾うために user object に追加プロパティを載せる
-      (user as { memberId?: string; isAdmin?: boolean }).memberId = resolved.memberId;
-      (user as { memberId?: string; isAdmin?: boolean }).isAdmin = resolved.isAdmin;
-      return true;
-    },
-    async jwt({ token, user }) {
-      if (user) {
-        const u = user as { memberId?: string; isAdmin?: boolean; email?: string; name?: string };
-        if (u.memberId) {
-          token.sub = u.memberId;
-          (token as Record<string, unknown>).memberId = u.memberId;
-        }
-        (token as Record<string, unknown>).isAdmin = u.isAdmin === true;
-        if (u.email) (token as Record<string, unknown>).email = u.email;
-        if (u.name) (token as Record<string, unknown>).name = u.name;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      const t = token as Record<string, unknown>;
-      session.user = {
-        ...session.user,
-        memberId: (t.memberId as string) ?? "",
-        isAdmin: t.isAdmin === true,
-        email: (t.email as string) ?? session.user?.email ?? "",
-        name: (t.name as string | undefined) ?? session.user?.name,
-      } as typeof session.user & { memberId: string; isAdmin: boolean };
-      return session;
-    },
-    },
-  };
+  ];
 };
 
-export const { handlers, auth, signIn, signOut } = NextAuth((request) =>
-  buildAuthConfig({ ...env(), ...requestEnv(request) }),
-);
-
-// Auth.js v5 standard: route handler 用に GET / POST を再 export
-export const { GET, POST } = handlers;
+export const getAuth = (): Promise<AuthRuntime> => {
+  authRuntimePromise ??= (async () => {
+    const [
+      { default: NextAuthModule },
+      { default: GoogleProvider },
+      { default: CredentialsProvider },
+    ] = await Promise.all([
+      import("next-auth"),
+      import("next-auth/providers/google"),
+      import("next-auth/providers/credentials"),
+    ]);
+    const NextAuth = NextAuthModule as unknown as (config: unknown) => AuthRuntime;
+    const providerFactories = {
+      GoogleProvider: GoogleProvider as unknown as AuthProviderFactories["GoogleProvider"],
+      CredentialsProvider:
+        CredentialsProvider as unknown as AuthProviderFactories["CredentialsProvider"],
+    };
+    return NextAuth((request: NextRequest | undefined) =>
+      buildAuthConfig({ ...env(), ...requestEnv(request) }, fetch, providerFactories),
+    );
+  })();
+  return authRuntimePromise;
+};

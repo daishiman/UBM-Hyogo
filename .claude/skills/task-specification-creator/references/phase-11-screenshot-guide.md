@@ -52,6 +52,29 @@
 - `phase-11-manual-test.md` の `テストケース` / `画面カバレッジマトリクス`
 - `screenshots/*.png`
 
+## implementation-spec / Playwright evidence task の Phase 5 事前 gate
+
+Playwright 系 visual evidence タスクで Phase 12 から path drift と storageState leakage を排除するため、Phase 5 ランブック確定前に以下 gate を必ず通す（出典: 06b-C 教訓 L-06B-006 / L-06B-007）。
+
+### Path inventory check
+
+- 仕様書中に登場する code path（`apps/web/playwright/...`, `scripts/...` 等）を `find` / `grep` で repo に存在するか確認する。
+- 不在のパスを宣言した状態で Phase 5 ランブックを書かない。drift 発見時は documentation-changelog に「path correction」表として残す。
+- 例: `find apps/web/playwright -type d`, `test -f scripts/capture-profile-evidence.sh`。
+
+### storageState leakage check
+
+- ログイン済み `storageState` JSON を扱うタスクでは以下を Phase 5 で固定する:
+  - `.gitignore` に該当 JSON を追加（例: `apps/web/playwright/.auth/*.json`）。
+  - `.gitkeep` のみコミットしてディレクトリを保持。
+  - capture wrapper script に「production URL guard」と「storageState 不在時の non-zero exit」を構造で組み込む（人間が flag を渡し忘れても安全側に倒れる）。
+- 実 runtime 実行は別 unassigned-task に分離し、Phase 13 user approval は runtime 実行 task 側で取得する。
+
+### Phase 11 evidence_status 三段階
+
+- `not_implemented` / `PENDING_RUNTIME_EVIDENCE`（spec・wrapper 揃い、実行のみ未済）/ `captured` を区別する。
+- compliance-check の `Phase 11 screenshot evidence` 行は `PENDING_RUNTIME_EVIDENCE` を許容語彙に含めること。
+
 ## Apple UI/UX 観点
 
 - hierarchy が明確か

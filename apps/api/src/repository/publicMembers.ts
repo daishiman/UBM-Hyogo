@@ -35,7 +35,8 @@ const buildBaseFromWhere = (input: ListPublicMembersInput): {
        JOIN member_responses r ON r.response_id = mi.current_response_id
       WHERE s.public_consent = 'consented'
         AND s.publish_state = 'public'
-        AND s.is_deleted = 0`;
+        AND s.is_deleted = 0
+        AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)`;
 
   if (input.q) {
     fromWhere += ` AND r.search_text LIKE ?`;
@@ -125,10 +126,12 @@ export async function existsPublicMember(
   const r = await c.db
     .prepare(
       `SELECT 1 AS hit FROM member_status s
+        JOIN member_identities mi ON mi.member_id = s.member_id
         WHERE s.member_id = ?
           AND s.public_consent = 'consented'
           AND s.publish_state = 'public'
           AND s.is_deleted = 0
+          AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)
         LIMIT 1`,
     )
     .bind(memberId)
@@ -166,6 +169,7 @@ const aggregateByStableKey = async (
         WHERE s.public_consent = 'consented'
           AND s.publish_state = 'public'
           AND s.is_deleted = 0
+          AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)
           AND rf.stable_key = ?
         GROUP BY rf.value_json`,
     )
@@ -190,10 +194,12 @@ const stripJsonString = (raw: string | null): string | null => {
 export async function countAllPublicMembers(c: DbCtx): Promise<number> {
   const r = await c.db
     .prepare(
-      `SELECT COUNT(*) AS cnt FROM member_status
-        WHERE public_consent = 'consented'
-          AND publish_state = 'public'
-          AND is_deleted = 0`,
+      `SELECT COUNT(*) AS cnt FROM member_status s
+        JOIN member_identities mi ON mi.member_id = s.member_id
+        WHERE s.public_consent = 'consented'
+          AND s.publish_state = 'public'
+          AND s.is_deleted = 0
+          AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)`,
     )
     .first<{ cnt: number }>();
   return r?.cnt ?? 0;
@@ -201,7 +207,10 @@ export async function countAllPublicMembers(c: DbCtx): Promise<number> {
 
 export async function countAllMembers(c: DbCtx): Promise<number> {
   const r = await c.db
-    .prepare(`SELECT COUNT(*) AS cnt FROM member_identities`)
+    .prepare(
+      `SELECT COUNT(*) AS cnt FROM member_identities
+        WHERE member_id NOT IN (SELECT source_member_id FROM identity_aliases)`,
+    )
     .first<{ cnt: number }>();
   return r?.cnt ?? 0;
 }
