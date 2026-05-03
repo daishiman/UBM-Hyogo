@@ -94,16 +94,6 @@ const failureToHttp = (
         status: 409,
         body: { ok: false, error: "diff question mismatch" },
       };
-    case "protected_stable_key":
-      return {
-        status: 422,
-        body: {
-          ok: false,
-          code: "protected_stable_key",
-          error: "protected stableKey cannot be assigned",
-          stableKey: err.detail.stableKey,
-        },
-      };
     case "manual_actor_required":
       return { status: 409, body: { ok: false, error: "manual actor required" } };
     case "alias_conflict":

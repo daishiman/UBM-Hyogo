@@ -14,8 +14,7 @@ export interface SchemaDiffItem {
   questionId: string | null;
   stableKey: string | null;
   label: string;
-  suggestedStableKey?: string | null;
-  recommendedStableKeys?: string[];
+  suggestedStableKey: string | null;
   status: "queued" | "resolved";
   resolvedBy: string | null;
   resolvedAt: string | null;
@@ -28,21 +27,6 @@ export interface SchemaDiffListView {
 }
 
 const TYPES: DiffType[] = ["added", "changed", "removed", "unresolved"];
-const PROTECTED_STABLE_KEYS = new Set(["publicConsent", "rulesConsent", "responseEmail"]);
-
-interface DryRunPreview {
-  affectedResponseFields: number;
-  currentStableKeyCount: number;
-  conflictExists: boolean;
-}
-
-const getRecommendedStableKeys = (it: SchemaDiffItem): string[] =>
-  it.recommendedStableKeys ?? (it.suggestedStableKey ? [it.suggestedStableKey] : []);
-
-const formatCreatedAt = (value: string): string => {
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toISOString();
-};
 
 export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListView }) {
   const router = useRouter();
@@ -61,47 +45,29 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
   const [stableKey, setStableKey] = useState("");
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
-  const [dryRunPreview, setDryRunPreview] = useState<DryRunPreview | null>(null);
 
   const onSelect = (it: SchemaDiffItem) => {
     setActive(it);
-    setStableKey(getRecommendedStableKeys(it)[0] ?? it.stableKey ?? "");
-    setDryRunPreview(null);
+    setStableKey(it.suggestedStableKey ?? it.stableKey ?? "");
     setToast(null);
   };
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!active || !active.questionId || !stableKey.trim()) return;
-    if (PROTECTED_STABLE_KEYS.has(stableKey.trim())) {
-      setToast("失敗: protected stableKey cannot be assigned");
-      return;
-    }
     setBusy(true);
     const r = await postSchemaAlias({
       diffId: active.diffId,
       questionId: active.questionId,
       stableKey: stableKey.trim(),
-      dryRun: dryRunPreview === null,
     });
     setBusy(false);
     if (!r.ok) {
       setToast(`失敗: ${r.error}`);
       return;
     }
-    const data = r.data as { mode?: string } & DryRunPreview;
-    if (data.mode === "dryRun") {
-      setDryRunPreview({
-        affectedResponseFields: data.affectedResponseFields,
-        currentStableKeyCount: data.currentStableKeyCount,
-        conflictExists: data.conflictExists,
-      });
-      setToast("dryRun を確認しました");
-      return;
-    }
     setToast("alias を割当てました");
     setActive(null);
-    setDryRunPreview(null);
     router.refresh();
   };
 
@@ -113,7 +79,7 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
 
       <div className="schema-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
         {TYPES.map((t) => (
-          <div key={t} aria-labelledby={`pane-${t}`} data-testid="admin-schema-section">
+          <div key={t} aria-labelledby={`pane-${t}`}>
             <h2 id={`pane-${t}`}>{t}</h2>
             <ul>
               {grouped[t].length === 0 && <li>なし</li>}
@@ -126,11 +92,7 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
                   >
                     {it.label}
                     <br />
-                    <small>
-                      type: {it.type} / questionId: {it.questionId ?? "(no questionId)"} / stableKey:{" "}
-                      {it.stableKey ?? "(unknown)"} / status: {it.status} / createdAt:{" "}
-                      <time dateTime={it.createdAt}>{formatCreatedAt(it.createdAt)}</time>
-                    </small>
+                    <small>{it.questionId ?? "(no questionId)"} — {it.status}</small>
                   </button>
                 </li>
               ))}
@@ -143,52 +105,17 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
         <form onSubmit={onSubmit} aria-label="stableKey alias 割当">
           <h3>{active.label}</h3>
           <p>questionId: <code>{active.questionId}</code></p>
-          {getRecommendedStableKeys(active).length > 0 && (
-            <div aria-label="recommended stableKeys">
-              <p>候補 stableKey</p>
-              <ul>
-                {getRecommendedStableKeys(active).map((key) => (
-                  <li key={key}>
-                    <button type="button" onClick={() => {
-                      setStableKey(key);
-                      setDryRunPreview(null);
-                    }}>
-                      {key}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
           <label>
             新しい stableKey
             <input
               type="text"
               value={stableKey}
-              onChange={(e) => {
-                setStableKey(e.target.value);
-                setDryRunPreview(null);
-              }}
+              onChange={(e) => setStableKey(e.target.value)}
               required
             />
           </label>
-          {dryRunPreview && (
-            <dl aria-label="dryRun result">
-              <dt>影響回答数</dt>
-              <dd>{dryRunPreview.affectedResponseFields}</dd>
-              <dt>現在の stableKey 件数</dt>
-              <dd>{dryRunPreview.currentStableKeyCount}</dd>
-              <dt>衝突</dt>
-              <dd>{dryRunPreview.conflictExists ? "あり" : "なし"}</dd>
-            </dl>
-          )}
-          <button type="submit" disabled={busy || !stableKey.trim()}>
-            {dryRunPreview ? "適用" : "dryRun"}
-          </button>
-          <button type="button" onClick={() => {
-            setActive(null);
-            setDryRunPreview(null);
-          }}>閉じる</button>
+          <button type="submit" disabled={busy || !stableKey.trim()}>割当</button>
+          <button type="button" onClick={() => setActive(null)}>閉じる</button>
         </form>
       )}
       {active && !active.questionId && (
