@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UT-05A Auth UI Logout Button（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-evidence-blocked / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` |
+| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
+| 公開契約 | `/profile` と `/admin` のログイン済 UI に `data-testid="sign-out-button"` を配置し、Auth.js `signOut({ callbackUrl: "/login" })` を単一 component へ集約 |
+| 検証 | focused unit test / web typecheck / task-spec validator。OAuth visual smoke、session-after、cookie redaction は runtime evidence blocked |
+| 上流 / 下流 | 05a-followup-google-oauth-completion M-08 は本 workflow Phase 11 の実 evidence が揃るまで PASS にしない |
+| Issue 取扱 | #386 は CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ |
+
 ### UT-03 Sheets API 認証方式設定（2026-04-29）
 
 | 項目 | 値 |

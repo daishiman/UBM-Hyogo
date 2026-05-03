@@ -3381,6 +3381,16 @@ node scripts/list-specs.js --topics
 | 関連未タスク・後続 wave 連携 | L50 |
 | 参照 | L56 |
 
+### references/lessons-learned-05a-auth-ui-logout-button-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-05A-LO-001: SignOutButton は単一 client component に集約し、配置側は子要素として再利用する | L3 |
+| L-05A-LO-002: `redirectTo`（v5）と `callbackUrl`（v4）を取り違えない | L7 |
+| L-05A-LO-003: `/profile` は `(member)` route group 外なので `MemberHeader` 二重描画は構造的に発生しない | L11 |
+| L-05A-LO-004: VISUAL_ON_EXECUTION の M-08 は upstream OAuth runtime に依存させ、placeholder のまま PASS と書かない | L15 |
+| L-05A-LO-005: 昇格した unassigned stub は完了前なら consumed 中間状態として残す | L19 |
+
 ### references/lessons-learned-05a-authjs-admin-gate-2026-04.md
 
 | セクション | 行 |
@@ -4974,13 +4984,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L136 |
-| フェーズ構造（概要） | L145 |
-| 品質ゲート（概要） | L176 |
-| 出力テンプレート | L187 |
-| 実行時のコマンド・エージェント・スキル | L210 |
-| 昇格パターン集 | L234 |
-| Current Active / Spec Created Tasks | L236 |
+| ドキュメント構成 | L148 |
+| フェーズ構造（概要） | L157 |
+| 品質ゲート（概要） | L188 |
+| 出力テンプレート | L199 |
+| 実行時のコマンド・エージェント・スキル | L222 |
+| 昇格パターン集 | L246 |
+| Current Active / Spec Created Tasks | L248 |
 
 ### references/task-workflow-backlog-part2.md
 
