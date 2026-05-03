@@ -5,11 +5,11 @@
 | Workflow | Status | Evidence |
 | --- | --- | --- |
 | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/` | implemented-local / test-fixture implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | root `artifacts.json`, `outputs/artifacts.json`, Phase 1-13 specs, Phase 11 NON_VISUAL measured evidence (`coverage-result.md`, `regression-check.md`, `manual-evidence.md`, `manual-smoke-log.md`, `link-checklist.md`), Phase 12 strict 7 files |
-| `docs/30-workflows/ut-coverage-2026-05-wave/` | wave orchestration guide / docs-only / active specs | README execution order and five wave-2 coverage workflow roots |
+| `docs/30-workflows/ut-coverage-2026-05-wave/` | wave orchestration guide / docs-only / active specs | README execution order and wave-2 coverage workflow roots; `ut-web-cov-04` current canonical root is top-level |
 | `docs/30-workflows/ut-web-cov-01-admin-components-coverage/` | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | admin component focused tests; Phase 11 measured evidence (`vitest-run.log`: 21 files / 196 tests PASS, `coverage-target-files.txt`: target 7 files all threshold PASS) and Phase 12 strict 7 files |
 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-web-cov-02-public-components-coverage/` | spec_created / docs-only / NON_VISUAL / remaining-only | public component coverage hardening spec; Phase 11 placeholder evidence and Phase 12 strict 7 files |
 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-web-cov-03-auth-fetch-lib-coverage/` | spec_created / docs-only / NON_VISUAL / remaining-only | auth/fetch library coverage hardening spec; Phase 11 placeholder evidence and Phase 12 strict 7 files |
-| `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-web-cov-04-admin-lib-ui-primitives-coverage/` | spec_created / docs-only / NON_VISUAL / remaining-only | admin library and UI primitive coverage hardening spec; Phase 11 placeholder evidence and Phase 12 strict 7 files |
+| `docs/30-workflows/completed-tasks/ut-web-cov-04-admin-lib-ui-primitives-coverage/` | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval | admin library and UI primitive coverage hardening. Phase 11 measured evidence: `@ubm-hyogo/web` test 44 files / 322 tests PASS, `test:coverage` 44 files / 322 tests PASS, 13 target files all AC PASS. Canonical root is the top-level workflow path, not the historical wave-2 nested path |
 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-08a-01-public-use-case-coverage-hardening/` | spec_created / docs-only / NON_VISUAL / remaining-only | public use-case coverage hardening spec; Phase 11 placeholder evidence and Phase 12 strict 7 files |
 | `docs/30-workflows/unassigned-task/ut-web-cov-05-followup-post-wave2-gap-analysis.md` | unassigned / wave-3 planning | cross-wave coverage gap roadmap owner; separates task-scope zero new unassigned tasks from global remaining coverage gaps |
 
@@ -43,3 +43,4 @@ Wave-2 workflows use the same strict 7-file Phase 12 set. `ut-web-cov-01-admin-c
 | `references/task-workflow-active.md` | synced with active workflow section |
 | `LOGS/_legacy.md` | synced with 2026-05-01 entry |
 | `references/lessons-learned-ut-coverage-2026-05-wave.md` | L-UTCOV-001〜006（fixture binding contract / coverage-summary.json gate / 2-layer gate / wave 分割 / main.md 3-state / lessons-learned wave 集約） |
+| `changelog/20260503-ut-web-cov-04-root-path-realignment.md` | ut-web-cov-04 root realignment（旧 wave-2-parallel-coverage 配下 → top-level workflow root）の changelog 記録。Phase 11/12 measured evidence への参照を保持 |

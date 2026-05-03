@@ -3813,8 +3813,10 @@ node scripts/list-specs.js --topics
 | L-UTCOV-003: 2-layer coverage gate は precondition gate と upgrade gate を別タスク化する | L11 |
 | L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
-| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
-| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
+| L-UTCOV-009: package filter と script 名は package.json から実測する | L23 |
+| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L27 |
+| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L31 |
+| L-UTCOV-008: workflow root を wave grouping から top-level へ移したら artifacts / inventory / README を同時更新する | L41 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -3912,8 +3914,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L85 |
-| 関連ドキュメント | L90 |
+| 利用順序 | L86 |
+| 関連ドキュメント | L91 |
 
 ### references/llm-embedding.md
 
@@ -4982,13 +4984,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L136 |
-| フェーズ構造（概要） | L145 |
-| 品質ゲート（概要） | L176 |
-| 出力テンプレート | L187 |
-| 実行時のコマンド・エージェント・スキル | L210 |
-| 昇格パターン集 | L234 |
-| Current Active / Spec Created Tasks | L236 |
+| ドキュメント構成 | L137 |
+| フェーズ構造（概要） | L146 |
+| 品質ゲート（概要） | L177 |
+| 出力テンプレート | L188 |
+| 実行時のコマンド・エージェント・スキル | L211 |
+| 昇格パターン集 | L235 |
+| Current Active / Spec Created Tasks | L237 |
 
 ### references/task-workflow-backlog-part2.md
 
