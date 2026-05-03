@@ -107,6 +107,7 @@ Notes:
 
 - Fresh GET の実値には `verify-indexes-up-to-date` は含まれない。UT-GOV-004 / second-stage reapply の expected contexts との差分として扱い、current applied へ期待値を混入しない。
 - 上流 `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/outputs/phase-13/branch-protection-applied-{dev,main}.json` が `blocked_until_user_approval` placeholder の場合は current applied の入力にしない。
+- 2026-05-03 の `ut-branch-flow-dev-staging-sync` により、ローカル worktree 作成と PR 作成 command の既定 base も `dev` へ同期済み。`origin/dev` は `origin/main` へ同期した後、feature → dev → main フローの統合先として扱う。
 
 ### historical current applied（承認不要 + CODEOWNERS ownership 文書化 / 2026-04-29）
 
@@ -198,6 +199,7 @@ UT-GOV-001 の適用予定値は solo 運用と衝突しないよう、草案の
 | ---- | ---------- | -------- |
 | 2026-04-28 | 1.2.1 | UT-GOV-001 branch protection apply spec_created sync。solo 運用の実適用予定値として `required_pull_request_reviews=null`、UT-GOV-004 contexts 積集合、`lock_branch=false`、`enforce_admins=true`、dev/main 別 payload と rollback 境界を追記。 |
 | 2026-05-01 | 1.4.0 | task-utgov001-references-reflect-001 sync。fresh GitHub GET evidence 由来で dev/main branch protection current applied を反映。実 contexts は `ci`, `Validate Build` の2件で、`verify-indexes-up-to-date` は current applied に含めない。Refs #303。 |
+| 2026-05-03 | 1.4.1 | ut-branch-flow-dev-staging-sync。`scripts/new-worktree.sh` / `CLAUDE.md` / `.claude/commands/ai/diff-to-pr.md` の operational base を `dev` に統一し、dev → main を別 release gate として明記。 |
 | 2026-04-09 | 1.0.0 | 初版作成（feature/dev/main 3層ブランチ戦略） |
 | 2026-04-26 | 1.1.0 | 個人開発方針反映: PR 承認を 2名/1名 → 0名（承認不要）に変更。CI チェック必須は維持。production Required reviewers を 0名に変更。Issue #23 対応。 |
 | 2026-04-28 | 1.2.0 | task-github-governance-branch-protection spec_created sync。dev=1名 / main=2名レビュー、squash-only、linear history、CODEOWNERS / last-push approval、8 required status checks 草案を追記。実適用は後続タスク・ユーザー承認後に限定。 |

@@ -5,7 +5,7 @@ description: |
 
   🔄 ワークフロー:
   複数のエージェントでチームを編成して実行
-  1. リモートmain同期・コンフリクト解消
+  1. リモートdev同期・コンフリクト解消
   1.5. 未タスク自動クローズアウト（Phase-12 完了検出時のみ実行）
   2. 品質検証（typecheck, lint, test）
   3. 差分分析・ブランチ作成・コミット
@@ -40,7 +40,7 @@ model: sonnet
 ## 目的
 
 現在の差分を最適な粒度でブランチ作成→コミット→プルリクエスト作成→PRコメント追加まで実施する。
-**PRコミット前にリモートmainを同期し、品質検証を完了させる。**
+**PRコミット前にリモートdevを同期し、品質検証を完了させる。**
 
 ## 重要: マージは手動実行
 
@@ -49,7 +49,7 @@ PRマージはユーザーがGitHub UIで手動実行します。
 ### AIの役割
 
 0. 複数のエージェントでチームを編成して実行
-1. **リモートmainを同期**（fetch & merge）
+1. **リモートdevを同期**（fetch & merge）
 2. **コンフリクト解消**（発生時）
 3. **品質検証**（typecheck, lint, test）
 4. 差分分析 → ブランチ作成・コミット
@@ -74,17 +74,17 @@ PRマージはユーザーがGitHub UIで手動実行します。
 
 ```bash
 # 1. リモートの最新を取得
-git fetch origin main
+git fetch origin dev
 
 # 2. 現在のブランチ確認
 CURRENT_BRANCH=$(git branch --show-current)
 
-# 3. mainブランチの最新をマージ
+# 3. devブランチの最新をマージ
 # ローカル変更がある場合は一時退避
-git stash push -m "temp-stash-for-main-sync" 2>/dev/null || true
+git stash push -m "temp-stash-for-dev-sync" 2>/dev/null || true
 
-# 4. mainをマージ
-git merge origin/main --no-edit
+# 4. devをマージ
+git merge origin/dev --no-edit
 
 # 5. 退避した変更を復元
 git stash pop 2>/dev/null || true
@@ -114,7 +114,7 @@ git add .claude/skills/aiworkflow-requirements/indexes/
 
 # その他のコンフリクトを手動解消後
 git add <解消したファイル>
-git commit -m "merge: resolve conflicts with origin/main"
+git commit -m "merge: resolve conflicts with origin/dev"
 ```
 
 **コンフリクト解消の優先順位:**
@@ -504,7 +504,7 @@ cat <<'EOF'
 EOF
 } > "$PR_BODY_FILE"
 
-gh pr create --title "<type>: <日本語の説明>" --body-file "$PR_BODY_FILE" --base main
+gh pr create --title "<type>: <日本語の説明>" --body-file "$PR_BODY_FILE" --base dev
 rm -f "$PR_BODY_FILE"
 ```
 
@@ -748,7 +748,7 @@ git status
 
 # 解消後
 git add <解消したファイル>
-git commit -m "merge: resolve conflicts with origin/main"
+git commit -m "merge: resolve conflicts with origin/dev"
 
 # Phase 1の品質検証に進む
 ```
@@ -760,8 +760,8 @@ git commit -m "merge: resolve conflicts with origin/main"
 git stash push -m "work-in-progress"
 
 # mainを同期
-git fetch origin main
-git merge origin/main --no-edit
+git fetch origin dev
+git merge origin/dev --no-edit
 
 # 変更を復元
 git stash pop
@@ -776,8 +776,8 @@ git stash pop
 ```
 ┌─────────────────────────────────────────────────────────┐
 │ Phase 0: リモート同期【必須】                           │
-│   git fetch origin main                                 │
-│   git merge origin/main                                 │
+│   git fetch origin dev                                 │
+│   git merge origin/dev                                  │
 │   (コンフリクト解消)                                    │
 └─────────────────────────────────────────────────────────┘
                             ↓

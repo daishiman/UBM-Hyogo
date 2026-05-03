@@ -5,16 +5,17 @@
 
 ---
 
-### UT-05A Auth UI Logout Button（2026-05-03）
+### Branch Flow Dev/Staging Sync（2026-05-03）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` |
-| 状態 | `implemented-local-runtime-evidence-blocked / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 13 blocked_until_user_approval` |
-| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
-| close-out evidence | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| runtime evidence | `outputs/phase-11/` は placeholder。OAuth visual smoke / cookie / session evidence は未取得で PASS 扱いしない |
-| Issue 取扱 | #386 は CLOSED 維持。PR / comment は user 明示指示後のみ |
+| workflow root | `docs/30-workflows/completed-tasks/ut-branch-flow-dev-staging-sync/` |
+| 状態 | `verified / implementation_complete_pending_pr / implementation / NON_VISUAL / Phase 13 blocked_until_user_approval` |
+| 実装 | `scripts/new-worktree.sh`, `CLAUDE.md`, `.claude/commands/ai/diff-to-pr.md` |
+| branch flow | feature branches start from `origin/dev`; PR default base is `dev`; dev → main is a separate release gate |
+| close-out evidence | `docs/30-workflows/completed-tasks/ut-branch-flow-dev-staging-sync/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| deleted workflow handling | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` は本 wave で削除確定。active evidence link として参照しない |
+| Phase 13 | commit / push / PR は user 明示指示後のみ |
 
 ---
 
