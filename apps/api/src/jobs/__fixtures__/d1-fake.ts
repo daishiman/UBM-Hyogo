@@ -65,10 +65,15 @@ function runFirst<T>(db: FakeD1, sql: string, b: unknown[]): T | null {
       return { status: r["status"] } as unknown as T;
     return mapJobRow(r) as unknown as T;
   }
-  if (/FROM sync_jobs/i.test(s) && /response_sync/i.test(s) && /ORDER BY started_at DESC/i.test(s)) {
+  if (
+    /FROM sync_jobs/i.test(s) &&
+    (/response_sync/i.test(s) || /job_type = \?1/i.test(s)) &&
+    /ORDER BY started_at DESC/i.test(s)
+  ) {
+    const jobType = /job_type = \?1/i.test(s) ? b[0] : "response_sync";
     const ordered = [...db.syncJobs]
       .filter((r) => {
-        if (r["job_type"] !== "response_sync" || r["status"] !== "succeeded") {
+        if (r["job_type"] !== jobType || r["status"] !== "succeeded") {
           return false;
         }
         if (!/skipped/i.test(s)) return true;
