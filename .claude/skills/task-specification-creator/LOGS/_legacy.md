@@ -2580,3 +2580,8 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Phase 11 canonical 3 ファイル（`main.md` / `manual-smoke-log.md` / `link-checklist.md`）と Phase 12 canonical 7 ファイルを配置。
 - root / outputs `artifacts.json` parity を維持。
 - `node .claude/skills/task-specification-creator/scripts/generate-index.js --workflow ... --regenerate` は `phase-01.md` 命名を検出できず弱い index を生成したため、手動で canonical index を復旧。スクリプト側の `phase-01.md` 対応は将来改善候補。
+# 2026-05-02 UT-07B-FU-03 runbook Phase 12 compliance feedback
+
+- Materialized strict Phase 12 7 files for `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/`.
+- Preserved `spec_created` for runbook formalization and separated `DOC_PASS` from runtime PASS.
+- Recorded production runbook NON_VISUAL evidence naming: `structure-verification.md`, `grep-verification.md`, `staging-dry-run.md`, `redaction-check.md`.

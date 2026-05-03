@@ -42,6 +42,6 @@
 
 | Item | Disposition |
 | --- | --- |
-| queue/cron split | formalize only if staging evidence proves repeated exhaustion |
-| admin UI retry label | out of scope; no UI surface changed |
-| production migration apply | approval-gated operation after Phase 13 |
+| queue/cron split | formalized as `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-schema-alias-backfill-queue-cron-split.md`; execute only if staging evidence proves repeated exhaustion |
+| admin UI retry label | formalized as `docs/30-workflows/unassigned-task/task-ut-07b-fu-02-admin-schema-alias-retry-label.md`; no UI surface changed in UT-07B hardening |
+| production migration apply | runbook formalized as `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/`; actual apply execution formalized as `docs/30-workflows/unassigned-task/task-ut-07b-fu-04-production-migration-apply-execution.md` and remains approval-gated |

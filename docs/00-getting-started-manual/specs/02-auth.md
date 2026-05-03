@@ -138,6 +138,18 @@ type SessionResolveResponse = {
 - 呼び出し元: `apps/web/src/lib/auth.ts`（Auth.js `signIn` / `jwt` callback から fetch）
 - 共有型: `packages/shared/src/auth.ts`（`GateReason` / `SessionResolveResponse`）
 
+### apps/web route handler 実装ガイドライン（Plan A lazy factory）
+
+Next.js 16 + React 19 の prerender 経路で `next-auth` の静的 import が `useContext` null を誘発する再発を防ぐため、`apps/web/src/lib/auth.ts` は `getAuth()` lazy factory を正本入口とする。route handler / session helper は top-level で `auth` / `signIn` / `handlers` を import せず、実行時に `const { auth } = await getAuth()` / `const { handlers } = await getAuth()` / `const { signIn } = await getAuth()` で取得する。client 側 `oauth-client.ts` の Google OAuth 開始は `await import("next-auth/react")` 経由に限定する。
+
+禁止:
+
+- `apps/web/src/lib/auth.ts` で `next-auth` / `next-auth/providers/*` / `next-auth/jwt` を静的 import すること（`import type` / `typeof import(...)` も禁止。runtime `await import(...)` のみ可）
+- `apps/web/app/api/**/route.ts` で `next-auth` を直接 import すること
+- `apps/web/src/lib/auth/oauth-client.ts` で `next-auth/react` を top-level import すること
+
+この規約は Issue #385 の Plan A 実装で導入したもので、Auth.js の意味論（Google OAuth / Magic Link / JWT session / session-resolve）は変更しない。さらに `.mise.toml` が local dev 用に `NODE_ENV=development` を注入するため、`apps/web/package.json` の `build` / `build:cloudflare` は `NODE_ENV=production` を明示し、production build の React dispatcher を安定化する。
+
 ### 必要な環境変数
 
 | 変数名 | 説明 |
