@@ -12,7 +12,7 @@
 
 ## purpose
 
-`/admin/schema` を実装し、Google Forms の questionId と internal field の alias mapping を admin が安全に保守・再 sync できる UI / API を成立させる。
+`/admin/schema` を実装し、Google Forms の questionId と stableKey alias assignment を admin が安全に確認・解消できる UI / API を成立させる。
 
 ## why this is not a restored old task
 
@@ -22,12 +22,12 @@
 
 ### Scope In
 - `/admin/schema` ルート（admin 専用 UI）の page / loader / action 仕様
-- 現行 alias mapping 一覧（questionId × internal field alias × source section × last-synced-at）
+- schema diff 一覧（type × questionId × stableKey × label × status × createdAt）
 - 未マップ questionId のハイライトと未同意 mapping の警告
-- 新規 alias 作成・既存 alias 編集・削除の UI flow と監査ログ
-- mapping 変更履歴の表示（admin-managed data 側に保存）
-- 手動 Forms re-sync trigger（read-only sync）
-- `GET /api/admin/schema/aliases` `POST /api/admin/schema/aliases` `POST /api/admin/schema/resync`
+- queued diff に対する stableKey alias 割当 flow と audit_log 記録
+- resolvedAt・resolvedBy を含む解消状態の表示
+- 手動 Forms re-sync は `POST /admin/sync/schema` の既存 route へ handoff し、本タスクでは `/admin/schema` からの新規 client 呼び出しを必須化しない
+- `GET /admin/schema/diff` `POST /admin/schema/aliases` `POST /admin/sync/schema`
 - admin 認可境界の test と Forms drift 検知の前提整備
 
 ### Scope Out
@@ -44,7 +44,7 @@
 ### Depends On
 - 06c-C-admin-tags（admin shell 共通基盤）
 - 06c admin pages 本体（admin shell・nav・auth gate）
-- 07b schema ops 本体（admin-managed data の schema_alias テーブル）
+- 07b schema ops 本体（admin-managed data の schema_aliases テーブル）
 - 06b-A-me-api-authjs-session-resolver（admin session resolver の前提）
 - Forms API integration（`03-data-fetching.md` の sync runner）
 
@@ -66,17 +66,17 @@
 - docs/00-getting-started-manual/specs/03-data-fetching.md
 - docs/00-getting-started-manual/specs/06-member-auth.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
-- apps/web/app/admin/schema/page.tsx（spec target）
-- apps/api/src/routes/admin/schema/index.ts（spec target）
+- apps/web/app/(admin)/admin/schema/page.tsx（spec target）
+- apps/api/src/routes/admin/schema.ts（spec target）
 - apps/api/src/middleware/require-admin.ts
 
 ## AC
 
 - `/admin/schema` が admin session で 200 を返し、未認可は 401 / 403 を返す
-- alias mapping 一覧に questionId / internal field / source section / last-synced-at が表示される
-- 未マップ questionId が画面上で識別可能にハイライトされる
-- 新規 alias 作成・編集・削除が `POST /api/admin/schema/aliases` 経由で永続化され、変更履歴が記録される
-- `POST /api/admin/schema/resync` が Forms API を 1 回叩き、差分 questionId を返す
+- schema diff 一覧に type / questionId / stableKey / label / status / createdAt が表示される
+- added / changed / removed / unresolved の 4 ペインで未解消 diff が識別できる
+- queued diff の stableKey alias 割当が `POST /admin/schema/aliases` 経由で永続化され、audit_log に記録される
+- `POST /admin/sync/schema` は既存 sync route として参照し、06c-D の新規 UI 必須範囲には含めない
 - Forms schema をコードに固定せず、admin-managed data として alias を分離保持できる
 - consent キー（`publicConsent` / `rulesConsent`）と `responseEmail` system field は alias 編集対象外として保護される
 
@@ -110,12 +110,18 @@
 - outputs/phase-10/main.md
 - outputs/phase-11/main.md
 - outputs/phase-12/main.md
+- outputs/phase-12/implementation-guide.md
+- outputs/phase-12/system-spec-update-summary.md
+- outputs/phase-12/documentation-changelog.md
+- outputs/phase-12/unassigned-task-detection.md
+- outputs/phase-12/skill-feedback-report.md
+- outputs/phase-12/phase12-task-spec-compliance-check.md
 - outputs/phase-13/main.md
 
 ## services / secrets
 
 - Cloudflare Workers (`apps/web` admin shell, `apps/api` admin route)
-- Cloudflare D1（admin-managed data: schema_alias / schema_alias_audit）
+- Cloudflare D1（admin-managed data: schema_aliases / audit_log）
 - Google Forms API（read-only sync）
 - secret: `AUTH_SECRET` / `GOOGLE_FORMS_API_KEY`（参照のみ・本仕様には実値を記録しない）
 
@@ -130,4 +136,4 @@
 
 ## completion definition
 
-全 phase 仕様書が揃い、実装・実測時の evidence path と user approval gate が明確であること。アプリケーションコード実装、deploy、commit、push、PR 作成はこの仕様書作成タスクには含めない。
+全 phase 仕様書と declared outputs が揃い、実装・実測時の evidence path と user approval gate が明確であること。アプリケーションコード実装、deploy、commit、push、PR 作成はこの仕様書作成タスクには含めない。

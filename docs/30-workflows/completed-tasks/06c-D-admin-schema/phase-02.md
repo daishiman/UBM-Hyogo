@@ -1,11 +1,11 @@
-# Phase 6: 異常系検証 — 06c-D-admin-schema
+# Phase 2: 設計 — 06c-D-admin-schema
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 06c-D-admin-schema |
-| phase | 6 / 13 |
+| phase | 2 / 13 |
 | wave | 06c-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
@@ -14,7 +14,7 @@
 
 ## 目的
 
-401 / 403 / 404 / 422 / 5xx / Forms sync 失敗 / 未マップ questionId / 重複 alias / consent key 編集試行などの失敗時挙動を定義する。
+最小責務で `/admin/schema` の component / module / endpoint / D1 table / 型を Mermaid と表で固める。
 
 ## 実行タスク
 
@@ -29,12 +29,12 @@
 - docs/00-getting-started-manual/specs/03-data-fetching.md
 - docs/00-getting-started-manual/specs/06-member-auth.md
 - docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx
-- apps/web/app/admin/schema/page.tsx（spec target）
-- apps/api/src/routes/admin/schema/index.ts（spec target）
+- apps/web/app/(admin)/admin/schema/page.tsx（spec target）
+- apps/api/src/routes/admin/schema.ts（spec target）
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/06c-D-admin-schema/
+- 対象 directory: docs/30-workflows/completed-tasks/06c-D-admin-schema/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -48,7 +48,7 @@
 - #1 実フォーム schema をコードに固定しすぎない
 - #2 consent キー（`publicConsent` / `rulesConsent`）を alias 編集対象外として保護
 - #3 `responseEmail` system field を alias 編集対象外として保護
-- #4 admin-managed data 分離（schema_alias / schema_alias_audit）
+- #4 admin-managed data 分離（schema_aliases / audit_log）
 - #5 D1 直接アクセスは `apps/api` に閉じる
 - #13 admin 操作の監査ログ
 - 未実装/未実測を PASS と扱わない。
@@ -59,19 +59,19 @@
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-06/main.md を作成する
+- [ ] outputs/phase-02/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-06/main.md
+- outputs/phase-02/main.md
 
 ## 完了条件
 
 - `/admin/schema` が admin session で 200、未認可で 401 / 403 を返す
-- alias 一覧に questionId / internal field / source section / last-synced-at が表示される
-- 未マップ questionId が UI 上で識別可能にハイライトされる
-- 新規・編集・削除が `POST /api/admin/schema/aliases` で永続化され audit 履歴が残る
-- `POST /api/admin/schema/resync` が Forms API を 1 回叩き差分 questionId を返す
+- schema diff 一覧に type / questionId / stableKey / label / status / createdAt が表示される
+- added / changed / removed / unresolved の 4 ペインで未解消 diff が識別できる
+- queued diff の stableKey alias 割当が `POST /admin/schema/aliases` で永続化され audit_log に記録される
+- `POST /admin/sync/schema` は既存 sync route として参照し、06c-D の新規 UI 必須範囲には含めない
 - consent キーと `responseEmail` system field は alias 編集対象外として保護される
 
 ## タスク100%実行確認
@@ -82,4 +82,4 @@
 
 ## 次 Phase への引き渡し
 
-Phase 7 へ、AC、blocker、evidence path、approval gate を渡す。
+Phase 3 へ、AC、blocker、evidence path、approval gate を渡す。
