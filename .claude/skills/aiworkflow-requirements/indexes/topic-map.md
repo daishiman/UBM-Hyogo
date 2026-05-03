@@ -2038,6 +2038,18 @@ node scripts/list-specs.js --topics
 | implementation source-of-truth | L37 |
 | scope notes | L48 |
 
+### references/workflow-06c-C-admin-tags-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts | L25 |
+| phase 11 evidence | L38 |
+| implementation source-of-truth | L45 |
+| scope notes | L59 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3507,6 +3519,16 @@ node scripts/list-specs.js --topics
 | L-06CB-006: audit table 名は単数形 `audit_log` を canonical にし、plural を撤回する | L47 |
 | L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L55 |
 
+### references/lessons-learned-06c-C-admin-tags-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CC-001: `/admin/tags` を「タグ辞書 CRUD」と誤読しない | L3 |
+| L-06CC-002: status union 拡張は 4 箇所に波及するため Panel export で single-source-of-truth 化する | L13 |
+| L-06CC-003: 旧 CRUD POM (`admin-add-tag-button`) を queue-only 化と同 PR で必ず置換する | L29 |
+| L-06CC-004: SKILL.md merge conflict marker 残存検出 hook を導入する | L38 |
+| L-06CC-005: visual evidence は 06c-C 単独で取得せず 08b/09a へ委譲する境界をテンプレ化する | L48 |
+
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
 | セクション | 行 |
@@ -3945,8 +3967,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L85 |
-| 関連ドキュメント | L90 |
+| 利用順序 | L86 |
+| 関連ドキュメント | L91 |
 
 ### references/llm-embedding.md
 
