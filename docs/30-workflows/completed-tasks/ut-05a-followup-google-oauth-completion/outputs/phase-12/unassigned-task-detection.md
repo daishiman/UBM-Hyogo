@@ -27,14 +27,15 @@
 - 推奨対応: PR template に privacy/terms 変更時の AC 追加
 - 優先度: LOW
 
-### UT-AUTH-LOGOUT-UI (formalized)
+### UT-AUTH-LOGOUT-UI (consumed / implemented-local-runtime-evidence-blocked)
 
 - 内容: ログイン後の web UI にログアウトボタン / sign-out 導線を追加する
 - 起点: Phase 11 staging smoke M-08 実行時に、Auth.js sign-out endpoint はあるがユーザー操作可能な logout UI が無いことを確認
 - 影響: M-08「sign-out で session cookie 削除」を UI evidence 付きで PASS にできない。共有端末・管理画面利用後の session 終了操作が利用者に見えない
-- 推奨対応: member/profile/admin 共通の app shell または header にログアウトボタンを追加し、`signOut()` または `/api/auth/signout` 経由で session cookie を削除する
+- 対応: `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` に移管し、member/profile/admin のログアウト UI を local 実装済み。Auth.js v5 `signOut({ redirectTo: "/login" })` を共通 component に集約した
+- 残状態: M-08 PASS 化には Phase 11 runtime evidence（スクリーンショット、`/api/auth/session`、cookie deletion、保護 route redirect）が必要
 - 優先度: HIGH
-- 起票: `docs/30-workflows/unassigned-task/task-05a-auth-ui-logout-button-001.md`
+- 起票: `docs/30-workflows/unassigned-task/task-05a-auth-ui-logout-button-001.md`（consumed pointer）
 
 ## 検出した未タスク（記録のみ・新規 issue 不要）
 
@@ -43,7 +44,7 @@
 
 ## Formalize 判定
 
-本レビューでは `UT-AUTH-LOGOUT-UI` のみ新規 `docs/30-workflows/unassigned-task/` ファイルとして formalize する。
+本レビューでは `UT-AUTH-LOGOUT-UI` を `docs/30-workflows/unassigned-task/` ファイルとして formalize し、2026-05-03 に `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` へ consumed / implemented-local-runtime-evidence-blocked として移管した。
 
 理由:
 

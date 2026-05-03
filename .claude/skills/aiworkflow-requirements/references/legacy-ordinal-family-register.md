@@ -346,6 +346,7 @@ Family status: `reclassify-first`
 | 05b-A-auth-mail-env-contract-alignment | `docs/30-workflows/02-application-implementation/05b-A-auth-mail-env-contract-alignment/` | `docs/30-workflows/05b-A-auth-mail-env-contract-alignment/` | 2026-05-01 | task-20260501-181030-wt-8 / spec_created docs-only remaining-only NON_VISUAL |
 | 06c-A-admin-dashboard | `docs/30-workflows/02-application-implementation/06c-A-admin-dashboard/` | `docs/30-workflows/06c-A-admin-dashboard/` | 2026-05-02 | task-20260502-075259-wt-4 / spec_created docs-only remaining-only VISUAL_ON_EXECUTION（Phase 12 strict 7 files present） |
 | 06c-B-admin-members | `docs/30-workflows/02-application-implementation/06c-B-admin-members/` | `docs/30-workflows/completed-tasks/06c-B-admin-members/` | 2026-05-02 | task-20260502-210437-wt-4 / implemented-local implementation VISUAL_ON_EXECUTION（Phase 12 strict 7 files present、runtime visual evidence は 08b/09a） |
+| 06c-C-admin-tags | `docs/30-workflows/02-application-implementation/06c-C-admin-tags/` | `docs/30-workflows/completed-tasks/06c-C-admin-tags/` | 2026-05-03 | task-20260503-081058-wt-4 / implemented-local implementation-spec docs-only VISUAL_ON_EXECUTION（Phase 12 strict 7 files + elegant-review-30-methods.md present、`TagQueuePanel` / `AdminTagsPage` queue-only + `dlq` 同期、runtime visual evidence は 08b admin Playwright E2E / 09a staging smoke 委譲） |
 
 ### 05a ordinal alias（2026-05-01 追記）
 
