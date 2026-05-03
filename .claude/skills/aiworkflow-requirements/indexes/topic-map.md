@@ -2349,6 +2349,19 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
 
+### references/workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| 不変条件 Trace | L34 |
+| Phase Outputs | L42 |
+| 主要 Artifact | L60 |
+| Skill 反映先（current canonical set） | L99 |
+| Validation Chain | L109 |
+| 確定値・列定義 | L121 |
+
 ### references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md
 
 | セクション | 行 |
@@ -3348,6 +3361,16 @@ node scripts/list-specs.js --topics
 | L-03A-LINT-005: spec_created → enforced_dry_run の lifecycle 再分類は同 wave で全 7 同期点を更新する | L42 |
 | L-03A-LINT-006: skill feedback は「記録のみ」と「実 skill edit」を skill-feedback-report で明示分離する | L50 |
 
+### references/lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-03B-FU005-001: 二重正本 drift 防止は cross-reference 検索 + vitest schema test の二段で担保 | L9 |
+| L-03B-FU005-002: PII guard は metrics_json の write 側と read 側の両方で実装する | L17 |
+| L-03B-FU005-003: lock TTL 10 分の根拠は cron 周期と実行時間の数学的余裕で固定する | L25 |
+| L-03B-FU005-004: D1 DDL は本タスクに含めず物理 schema 変更は別タスクへ委譲する | L33 |
+| L-03B-FU005-005: consumer の `job_type` 文字列リテラル拡散は lint enforcement を follow-up にする | L41 |
+
 ### references/lessons-learned-03b-response-sync-2026-04.md
 
 | セクション | 行 |
@@ -3944,8 +3967,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L85 |
-| 関連ドキュメント | L90 |
+| 利用順序 | L86 |
+| 関連ドキュメント | L91 |
 
 ### references/llm-embedding.md
 
