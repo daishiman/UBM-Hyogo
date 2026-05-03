@@ -149,6 +149,9 @@ admin gate は **apps/web middleware（UI gate）** と **apps/api `requireAdmin
 
 不変条件:
 
+- `/admin` shell は sidebar footer にログアウト導線を持つ。
+- ログアウト導線は member UI と同じ `SignOutButton` を使い、Auth.js `signOut({ redirectTo: "/login" })` に委譲する。
+
 1. **UI gate / API gate ともに D1 を触らない**。admin 判定は session JWT の `isAdmin` claim を信頼する。`admin_users` の lookup は session 発行時の `/auth/session-resolve` で済んでいる。
 2. **UI gate を bypass しても API gate が独立に 403 を返す**（`__Secure-authjs.session-token` を改竄、Authorization Bearer の偽装、UI middleware の matcher 漏れ等を想定）。
 3. **`/admin/sync*` の cron / Worker-to-Worker 経路は `requireSyncAdmin`（`SYNC_ADMIN_TOKEN` Bearer）を維持** し、人間向け `/admin/*` の `requireAdmin` と分離する。

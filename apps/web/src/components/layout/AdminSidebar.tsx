@@ -1,5 +1,6 @@
 // 06c/07c: admin 画面ナビ
 import Link from "next/link";
+import { SignOutButton } from "../auth/SignOutButton";
 
 const items = [
   { href: "/admin", label: "ダッシュボード" },
@@ -21,6 +22,9 @@ export function AdminSidebar() {
           </li>
         ))}
       </ul>
+      <div className="admin-sidebar-footer">
+        <SignOutButton />
+      </div>
     </nav>
   );
 }
