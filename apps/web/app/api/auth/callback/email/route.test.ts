@@ -7,7 +7,9 @@ const signInMock = vi.fn();
 const verifyMock = vi.fn();
 
 vi.mock("../../../../../src/lib/auth", () => ({
-  signIn: (...args: unknown[]) => signInMock(...args),
+  getAuth: async () => ({
+    signIn: (...args: unknown[]) => signInMock(...args),
+  }),
 }));
 
 vi.mock("../../../../../src/lib/auth/verify-magic-link", async () => {

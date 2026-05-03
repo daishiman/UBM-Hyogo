@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "next build",
-    "build:cloudflare": "opennextjs-cloudflare build && node ../../scripts/patch-open-next-worker.mjs",
+    "build": "NODE_ENV=production next build",
+    "build:cloudflare": "NODE_ENV=production opennextjs-cloudflare build && node ../../scripts/patch-open-next-worker.mjs",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "dev": "next dev",
     "lint": "tsc -p tsconfig.json --noEmit",

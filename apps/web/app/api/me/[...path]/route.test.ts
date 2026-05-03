@@ -6,7 +6,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const authMock = vi.fn();
 
 vi.mock("../../../../src/lib/auth", () => ({
-  auth: () => authMock(),
+  getAuth: async () => ({
+    auth: () => authMock(),
+  }),
 }));
 
 import { GET, POST } from "./route";

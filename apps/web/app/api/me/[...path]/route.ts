@@ -6,7 +6,7 @@
 // session 検証は backend `sessionGuard` に委譲する。本 proxy は cookie の forward のみを担う。
 
 import type { NextRequest } from "next/server";
-import { auth } from "../../../../src/lib/auth";
+import { getAuth } from "../../../../src/lib/auth";
 
 const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
 
@@ -17,6 +17,7 @@ const apiBase = (): string => {
 };
 
 async function requireSession(): Promise<Response | null> {
+  const { auth } = await getAuth();
   const session = await auth();
   const u = session?.user as { memberId?: string } | undefined;
   if (!u || !u.memberId) {
