@@ -3999,8 +3999,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L87 |
-| 関連ドキュメント | L92 |
+| 利用順序 | L88 |
+| 関連ドキュメント | L93 |
 
 ### references/llm-embedding.md
 
