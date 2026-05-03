@@ -1379,18 +1379,6 @@ packages/
 | audit | `admin.tag.queue_resolved`, `admin.tag.queue_rejected` |
 | evidence | Phase 12 strict outputs present。runtime visual evidence は 08b / 09a に委譲 |
 
-### UBM-Hyogo Admin Schema Remaining Spec（06c-D / 2026-05-03）
-
-| 観点 | 値 / 参照先 |
-| --- | --- |
-| canonical task root | `docs/30-workflows/completed-tasks/06c-D-admin-schema/` |
-| 状態 | `spec_created / implementation-spec / docs-only / remaining-only / VISUAL_ON_EXECUTION` |
-| 正本境界 | `/admin/schema` は schema diff と alias assignment の admin UI。06c 親タスク復活ではなく 07b alias workflow への UI gate formalize |
-| API 正本 | `GET /admin/schema/diff`, `POST /admin/schema/aliases`, `POST /admin/sync/schema` |
-| storage 正本 | `schema_aliases` + `audit_log`。旧 `schema_alias` / `schema_alias_audit` は使わない |
-| owner files | `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/api/src/routes/admin/schema.ts` |
-| evidence | Phase 12 strict outputs present。runtime visual evidence は implementation execution / 08b / 09a に委譲 |
-
 ### UBM-Hyogo Admin Dashboard Follow-up 早見（06c-A / 2026-05-02）
 
 | 観点 | 値 / 参照先 |

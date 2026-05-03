@@ -27,7 +27,7 @@ test.describe.skip('admin pages × 認可境界 (5 画面 × 3 ロール)', () =
 
     const schema = new AdminSchemaPage(adminPage)
     await schema.visit()
-    await schema.assertSectionCount(4)
+    await schema.assertSectionCount(6)
     await schema.screenshot('admin-schema', 'desktop')
 
     const meetings = new AdminMeetingsPage(adminPage)
