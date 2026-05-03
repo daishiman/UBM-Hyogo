@@ -3606,6 +3606,14 @@ node scripts/list-specs.js --topics
 | L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
 | L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
 
+### references/lessons-learned-issue-194-identity-merge-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L10 |
+| skill-feedback 申し送り | L48 |
+| 確認パス | L53 |
+
 ### references/lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md
 
 | セクション | 行 |

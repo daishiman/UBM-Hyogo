@@ -12,6 +12,7 @@ export interface D1Stmt {
 export interface D1Db {
   prepare(sql: string): D1Stmt;
   exec(sql: string): Promise<{ count: number; duration: number }>;
+  batch?(statements: D1Stmt[]): Promise<unknown[]>;
 }
 
 export interface DbCtx {
