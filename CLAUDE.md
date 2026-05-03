@@ -152,6 +152,7 @@ mise exec -- pnpm typecheck       # 型チェック
 mise exec -- pnpm lint            # リント
 mise exec -- pnpm build           # ビルド
 mise exec -- pnpm indexes:rebuild # skill indexes を明示再生成（post-merge 廃止後の正規経路）
+mise exec -- pnpm sync:check      # origin/main・origin/dev とローカル/全 worktree の遅れを通知（git fetch 後の手動チェック）
 
 # または mise shell で Node 24 環境に入ってから通常通り実行
 mise shell
@@ -177,6 +178,18 @@ main を feature ブランチへ取り込む sync-merge では、構造的に「
 | pre-push `coverage-guard` | push 範囲 (`@{u}..HEAD`) に merge commit を 1 件以上含む かつ `--changed` モード時 | `scripts/coverage-guard.sh` |
 
 これにより main 取り込み時の `git commit` / `git push` で `--no-verify` を**付ける必要はない**。featureコミット/pushは従来通りhookが効く。`--no-verify` の使用は引き続き避け、hook が誤検知する場合は本セクションの方針に沿って hook 自体を改善すること。
+
+### リモート同期チェック (`pnpm sync:check`) — main / dev 共通
+
+git には `post-fetch` hook が存在しないため、`git fetch` 後にリモートの遅れを自動通知する仕組みは原理的に作れない。代わりに **手動コマンド `pnpm sync:check`** を正規経路とする。
+
+| モード | 発火タイミング | 対象 |
+|-------|----------------|------|
+| `pnpm sync:check`（fetch モード） | 任意のタイミングで手動実行 | `origin/main` / `origin/dev` の先行コミット数、全 worktree の遅れ |
+| `post-merge` フック | `git pull` / `git merge` 後、現在ブランチが `main` または `dev` のとき | 他 worktree の遅れを通知 |
+
+実装: `scripts/hooks/stale-worktree-notice.sh`（read-only・副作用なし）。
+運用: 朝イチや作業ブランチ切替前、PR 作成前に `pnpm sync:check` を実行する。
 
 ---
 
