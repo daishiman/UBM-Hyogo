@@ -1164,6 +1164,7 @@
       "arch-execution-capability-contract.md",
       "arch-state-management-skill-creator.md",
       "interfaces-auth-core.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-skill-lifecycle-ui-verify.md"
     ],
@@ -1485,6 +1486,7 @@
       "interfaces-chat-history-details.md",
       "interfaces-rag-file-selection.md",
       "ipc-contract-checklist.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -3121,6 +3123,7 @@
       "architecture-admin-api-client.md",
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -3140,6 +3143,7 @@
     ],
     "client": [
       "architecture-admin-api-client.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md"
     ],
     "Dashboard": [
@@ -3218,6 +3222,7 @@
     "OAuth": [
       "architecture-auth-security-core.md",
       "error-handling-details.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
@@ -3703,6 +3708,7 @@
     "runtime": [
       "architecture-rag.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
@@ -3814,6 +3820,7 @@
     "Auth": [
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
@@ -4682,6 +4689,7 @@
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md"
     ],
@@ -7320,6 +7328,7 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
@@ -7365,6 +7374,7 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -7462,6 +7472,7 @@
     ],
     "PASS": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
@@ -7971,6 +7982,7 @@
     ],
     "VISUAL": [
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -7998,6 +8010,7 @@
     ],
     "unassigned": [
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
@@ -8009,10 +8022,12 @@
     ],
     "stub": [
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "consumed": [
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "状態へ同期する": [
@@ -8240,6 +8255,90 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md"
     ],
+    "Logout": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "Button": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "LO": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "SignOutButton": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "は単一": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "component": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "に集約し": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "配置側は子要素として再利用する": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "redirectTo": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "callbackUrl": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "を取り違えない": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "profile": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
+    ],
+    "group": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
+      "lessons-learned-06a-public-web-2026-04.md"
+    ],
+    "外なので": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "MemberHeader": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "二重描画は構造的に発生しない": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "ON": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "upstream": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "に依存させ": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "placeholder": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
+    ],
+    "のまま": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "と書かない": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "昇格した": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "は完了前なら": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
+    "中間状態として残す": [
+      "lessons-learned-05a-auth-ui-logout-button-2026-05.md"
+    ],
     "実装の苦戦箇所": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06a-public-web-2026-04.md"
@@ -8319,11 +8418,6 @@
     ],
     "接続不能で証跡が": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
-    ],
-    "placeholder": [
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
     "構造を": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
@@ -8431,9 +8525,6 @@
       "lessons-learned-06a-public-web-2026-04.md"
     ],
     "Router": [
-      "lessons-learned-06a-public-web-2026-04.md"
-    ],
-    "group": [
       "lessons-learned-06a-public-web-2026-04.md"
     ],
     "public": [
@@ -8677,12 +8768,6 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
-    "profile": [
-      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
-      "lessons-learned-06c-admin-ui-2026-04.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "logged": [
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
@@ -10708,9 +10793,6 @@
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "に集約する": [
-      "lessons-learned-ut-coverage-2026-05-wave.md"
-    ],
-    "component": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "回避と": [

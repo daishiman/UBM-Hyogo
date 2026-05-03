@@ -5,6 +5,19 @@
 
 ---
 
+### UT-05A Auth UI Logout Button（2026-05-03）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` |
+| 状態 | `implemented-local-runtime-evidence-blocked / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 13 blocked_until_user_approval` |
+| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
+| close-out evidence | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime evidence | `outputs/phase-11/` は placeholder。OAuth visual smoke / cookie / session evidence は未取得で PASS 扱いしない |
+| Issue 取扱 | #386 は CLOSED 維持。PR / comment は user 明示指示後のみ |
+
+---
+
 ### Issue #196 response_email UNIQUE DDL / Spec Canonicalization（2026-05-02）
 
 | 目的 | 参照先 |
