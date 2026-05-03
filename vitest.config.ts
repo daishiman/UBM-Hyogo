@@ -13,6 +13,7 @@ export default defineConfig({
     include: [
       "apps/**/src/**/*.test.{ts,tsx}",
       "apps/**/app/**/*.test.{ts,tsx}",
+      "apps/**/migrations/**/*.test.ts",
       "packages/**/src/**/*.test.{ts,tsx}",
       "scripts/**/*.test.ts",
     ],

@@ -2182,6 +2182,17 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
 
+### references/workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical files | L11 |
+| Runtime outputs contract | L23 |
+| Status | L40 |
+| Same-wave touched files | L51 |
+| Follow-up unassigned | L83 |
+| Boundary | L89 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3674,6 +3685,16 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 
+### references/lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I399-001: VISUAL_ON_EXECUTION は planned evidence と runtime evidence を分ける | L3 |
+| L-I399-002: staging seed識別は既存ID prefixを優先する | L9 |
+| L-I399-003: parent link はlink先実体化後に適用する | L15 |
+| L-I399-004: Phase 12 strict 7 files は仕様書作成時点でも実体化する | L21 |
+| L-I399-005: synthetic ID prefix の cleanup query 契約は seed と同 wave で固定する | L27 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -3945,8 +3966,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L85 |
-| 関連ドキュメント | L90 |
+| 利用順序 | L86 |
+| 関連ドキュメント | L91 |
 
 ### references/llm-embedding.md
 
@@ -5015,13 +5036,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L148 |
-| フェーズ構造（概要） | L157 |
-| 品質ゲート（概要） | L188 |
-| 出力テンプレート | L199 |
-| 実行時のコマンド・エージェント・スキル | L222 |
-| 昇格パターン集 | L246 |
-| Current Active / Spec Created Tasks | L248 |
+| ドキュメント構成 | L161 |
+| フェーズ構造（概要） | L170 |
+| 品質ゲート（概要） | L201 |
+| 出力テンプレート | L212 |
+| 実行時のコマンド・エージェント・スキル | L235 |
+| 昇格パターン集 | L259 |
+| Current Active / Spec Created Tasks | L261 |
 
 ### references/task-workflow-backlog-part2.md
 
