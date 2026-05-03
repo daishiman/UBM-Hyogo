@@ -219,7 +219,7 @@ export const createAdminMembersRoute = () => {
          LEFT JOIN member_responses mr ON mr.response_id = mi.current_response_id
          LEFT JOIN member_status ms ON ms.member_id = mi.member_id
          ${built.joinSql}
-         ${built.whereSql}`,
+         ${built.whereSql} AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)`,
       )
       .bind(...built.binds)
       .first<{ n: number }>();
@@ -235,7 +235,7 @@ export const createAdminMembersRoute = () => {
          LEFT JOIN member_responses mr ON mr.response_id = mi.current_response_id
          LEFT JOIN member_status ms ON ms.member_id = mi.member_id
          ${built.joinSql}
-         ${built.whereSql}
+         ${built.whereSql} AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)
          ${sortToSql(s.sort)}
          LIMIT ? OFFSET ?`,
       )

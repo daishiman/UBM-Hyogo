@@ -659,6 +659,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Canonical read path: `createAttendanceProvider(ctx).findByMemberIds()` using 80-id chunks, `member_attendance` + `meeting_sessions` INNER JOIN by `session_id`, `held_on DESC` + `session_id ASC`, missing session exclusion, and duplicate normalization.
 - Added `references/lessons-learned-ut-02a-attendance-profile-integration-2026-05.md` and changelog fragment `changelog/20260501-ut-02a-attendance-profile-integration-closeout.md`.
 - No commit, push, or PR was executed.
+# 2026-05-02 UT-07B-FU-03 production migration apply runbook sync
+
+- Registered `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/` as `spec_created / implementation+operations+runbook / implemented-local / NON_VISUAL`.
+- Synchronized workflow-local artifact inventory and lessons for the runbook formalization boundary.
+- Clarified that production D1 apply is not executed in this task; PR/CI runtime evidence remains Phase 13 gated.
 
 ## 2026-05-02 - Issue #359 production D1 schema_aliases apply workflow sync
 

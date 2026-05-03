@@ -227,6 +227,7 @@ type SessionJwtClaims = {
 - 解決策: 未解決。`apps/web/app/global-error.tsx` 追加で部分緩和を試したが prerender failure は継続
 - 同種課題で最初に確認すべき箇所: `next.config.ts` の experimental flags、`app/error.tsx` / `app/global-error.tsx`、GitHub Issue #385、PR #271
 - 関連: `docs/30-workflows/unassigned-task/task-05a-build-prerender-failure-001.md`（blocker）
+- 2026-05-03 更新: Issue #385 は `docs/30-workflows/issue-385-web-build-global-error-prerender-fix/` で `implemented-local / implementation / NON_VISUAL` に昇格。旧 first choice の `global-error.tsx` RSC 化は Next 16 仕様違反として撤回し、Plan A（`apps/web/src/lib/auth.ts` の `getAuth()` lazy factory、route/session helper の lazy access、`oauth-client.ts` dynamic import、`apps/web/package.json` の `NODE_ENV=production` build script 明示）を採用。Phase 11 は typecheck / lint / tests / build / build:cloudflare / worker.js / lazy-import-check が PASS。deploy・commit・push・PR・Issue reopen は user approval 後。
 
 ### L-05A-010: Google OAuth verification と privacy/terms 公開ページの上流依存
 - 発生フェーズ: Phase 11 / OAuth verification 申請準備

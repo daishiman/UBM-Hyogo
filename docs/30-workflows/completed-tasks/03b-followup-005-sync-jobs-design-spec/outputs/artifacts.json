@@ -1,0 +1,40 @@
+{
+  "taskId": "task-03b-followup-005-sync-jobs-design-spec",
+  "taskName": "sync_jobs job_type enum と metrics_json schema の _design/ 集約",
+  "directory": "docs/30-workflows/03b-followup-005-sync-jobs-design-spec",
+  "issueNumber": 198,
+  "issueState": "CLOSED",
+  "parentTask": "docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups",
+  "unassignedSource": "docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-followup-005-sync-jobs-design-spec.md",
+  "wave": 3,
+  "executionMode": "parallel",
+  "owner": "backend-sync",
+  "createdDate": "2026-05-02",
+  "status": "verified",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "userApproval": "NOT_REQUIRED",
+  "metadata": {
+    "workflow_state": "verified",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementation_status": "implementation_complete_pending_pr",
+    "runtimeEvidence": "passed_non_visual",
+    "canonicalPath": "docs/30-workflows/03b-followup-005-sync-jobs-design-spec/"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義（Why/What/不変条件/4条件評価）", "file": "phase-01.md", "status": "completed" },
+    { "phase": 2, "name": "設計（_design/sync-jobs-spec.md 章立て + schema 設計）", "file": "phase-02.md", "status": "completed" },
+    { "phase": 3, "name": "実装計画（変更ファイル一覧 + 差し替え順序）", "file": "phase-03.md", "status": "completed" },
+    { "phase": 4, "name": "verify suite 設計（grep / indexes drift / typecheck）", "file": "phase-04.md", "status": "completed" },
+    { "phase": 5, "name": "既存定義棚卸し（03a/03b/実装3面の差分抽出）", "file": "phase-05.md", "status": "completed" },
+    { "phase": 6, "name": "_shared/sync-jobs-schema.ts 実装 + テスト + _design 注記追加", "file": "phase-06.md", "status": "completed" },
+    { "phase": 7, "name": "sync-forms-responses.ts / syncJobs.ts / cursor-store.ts の差し替え", "file": "phase-07.md", "status": "completed" },
+    { "phase": 8, "name": "database-schema.md の参照更新", "file": "phase-08.md", "status": "completed" },
+    { "phase": 9, "name": "indexes 再生成 + drift 検証", "file": "phase-09.md", "status": "completed" },
+    { "phase": 10, "name": "レビュー + 整合確認（ユーザー承認任意）", "file": "phase-10.md", "status": "completed" },
+    { "phase": 11, "name": "NON_VISUAL evidence 収集（grep結果 / indexes 出力 / cross-ref check）", "file": "phase-11.md", "status": "completed" },
+    { "phase": 12, "name": "実装ガイド + 仕様書同期 + 未タスク検出 + skill feedback", "file": "phase-12.md", "status": "completed" },
+    { "phase": 13, "name": "PR 作成（Refs #198）", "file": "phase-13.md", "status": "pending_user_approval" }
+  ]
+}

@@ -7,7 +7,7 @@
 // 不変条件 #5: web は D1 を直接参照しない。verify は API worker 経由のみ。
 
 import type { NextRequest } from "next/server";
-import { signIn } from "../../../../../src/lib/auth";
+import { getAuth } from "../../../../../src/lib/auth";
 import {
   verifyMagicLink,
   mapVerifyReasonToLoginError,
@@ -45,6 +45,7 @@ export async function GET(req: NextRequest): Promise<Response> {
 
   // Credentials provider に「検証済みユーザー」を渡し session cookie を確立。
   // signIn は redirect: true で next-auth が Response.redirect を throw する。
+  const { signIn } = await getAuth();
   return await signIn("magic-link", {
     verifiedUser: JSON.stringify(result.user),
     redirect: true,

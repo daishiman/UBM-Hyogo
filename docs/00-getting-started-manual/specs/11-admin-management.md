@@ -99,6 +99,7 @@
 | 参加履歴付与/解除 | `Button` または `Checkbox` |
 | 監査ログ閲覧 | `Filter + Table + Disclosure` |
 | 依頼キュー処理 | `Queue + Detail panel + Confirmation dialog` |
+| identity conflict merge | `List + two-step confirmation + dismiss` |
 
 ---
 
@@ -112,6 +113,20 @@
 6. 開催日と参加履歴はフォーム同期対象と分離して管理する
 7. 監査ログは append-only とし、閲覧画面では保存値を変更せず表示時 masking を行う
 8. 本人依頼の approve / reject は `/admin/requests` に集約し、管理者が member 本文を直接編集する UI は作らない
+9. identity merge は `identity_aliases` と audit ledger の追加だけで表現し、`member_responses` / `response_fields` / `member_status` の本文列を直接更新しない
+
+## identity conflict merge（Issue #194）
+
+`/admin/identity-conflicts` は 03b response sync の `EMAIL_CONFLICT` 運用を閉じるための管理画面である。候補は `member_identities` 全体を対象に、`fullName` と `occupation` が NFKC/trim 後に完全一致する pair として表示する。source は新しい `last_submitted_at` 側、target は古い identity 側に揃える。
+
+管理者は候補ごとに以下を実行できる:
+
+| action | behavior |
+| --- | --- |
+| merge | 二段階確認後、`POST /admin/identity-conflicts/:id/merge` で `identity_aliases` / `identity_merge_audit` / `audit_log` を単一 D1 batch に記録する |
+| dismiss | `POST /admin/identity-conflicts/:id/dismiss` で pair を `identity_conflict_dismissals` に保存し、再検出から除外する。重複 dismiss は upsert |
+
+UI は `responseEmailMasked` だけを表示し、merge reason に含まれる email / phone は API 側で `[redacted]` に置換する。誤 merge の取り消しは自動 UI では提供せず、`identity_merge_audit` を根拠に管理者承認付きの手動 runbook で扱う。
 
 ## schema alias assignment（07b）
 
@@ -148,6 +163,9 @@ admin gate は **apps/web middleware（UI gate）** と **apps/api `requireAdmin
 | 第2段（API gate） | `apps/api/src/middleware/require-admin.ts` | `/admin/*` route mount に `requireAdmin` 適用、`claims.isAdmin !== true` は 403 | しない（JWT verify のみ） |
 
 不変条件:
+
+- `/admin` shell は sidebar footer にログアウト導線を持つ。
+- ログアウト導線は member UI と同じ `SignOutButton` を使い、Auth.js `signOut({ redirectTo: "/login" })` に委譲する。
 
 1. **UI gate / API gate ともに D1 を触らない**。admin 判定は session JWT の `isAdmin` claim を信頼する。`admin_users` の lookup は session 発行時の `/auth/session-resolve` で済んでいる。
 2. **UI gate を bypass しても API gate が独立に 403 を返す**（`__Secure-authjs.session-token` を改竄、Authorization Bearer の偽装、UI middleware の matcher 漏れ等を想定）。

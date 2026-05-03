@@ -36,6 +36,14 @@ export default defineConfig({
       name: 'mobile-webkit',
       use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 } },
     },
+    {
+      name: 'staging',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: process.env.PLAYWRIGHT_STAGING_BASE_URL ?? process.env.PLAYWRIGHT_BASE_URL,
+        viewport: { width: 1280, height: 800 },
+      },
+    },
   ],
   webServer: [
     {

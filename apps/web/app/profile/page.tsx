@@ -18,6 +18,7 @@ import { ProfileFields } from "./_components/ProfileFields";
 import { EditCta } from "./_components/EditCta";
 import { AttendanceList } from "./_components/AttendanceList";
 import { RequestActionPanel } from "./_components/RequestActionPanel";
+import { MemberHeader } from "../../src/components/layout/MemberHeader";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -44,22 +45,25 @@ export default async function ProfilePage() {
     profileRes;
 
   return (
-    <main>
-      <h1>マイページ</h1>
-      <StatusSummary
-        statusSummary={statusSummary}
-        authGateState={me.authGateState}
-      />
-      <ProfileFields sections={profile.sections} />
-      <EditCta
-        editResponseUrl={editResponseUrl}
-        fallbackResponderUrl={fallbackResponderUrl}
-      />
-      <RequestActionPanel
-        publishState={statusSummary.publishState}
-        rulesConsent={statusSummary.rulesConsent}
-      />
-      <AttendanceList attendance={profile.attendance} />
-    </main>
+    <>
+      <MemberHeader />
+      <main>
+        <h1>マイページ</h1>
+        <StatusSummary
+          statusSummary={statusSummary}
+          authGateState={me.authGateState}
+        />
+        <ProfileFields sections={profile.sections} />
+        <EditCta
+          editResponseUrl={editResponseUrl}
+          fallbackResponderUrl={fallbackResponderUrl}
+        />
+        <RequestActionPanel
+          publishState={statusSummary.publishState}
+          rulesConsent={statusSummary.rulesConsent}
+        />
+        <AttendanceList attendance={profile.attendance} />
+      </main>
+    </>
   );
 }

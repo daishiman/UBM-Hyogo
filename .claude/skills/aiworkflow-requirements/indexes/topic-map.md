@@ -2006,6 +2006,17 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L43 |
 | Related Resources | L55 |
 
+### references/workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Contract | L26 |
+| Evidence Path Map | L34 |
+| Phase 12 Required Files | L45 |
+| Related Resources | L57 |
+
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
 | セクション | 行 |
@@ -2026,6 +2037,18 @@ node scripts/list-specs.js --topics
 | phase 12 required artifacts | L25 |
 | implementation source-of-truth | L37 |
 | scope notes | L48 |
+
+### references/workflow-06c-C-admin-tags-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts | L25 |
+| phase 11 evidence | L38 |
+| implementation source-of-truth | L45 |
+| scope notes | L59 |
 
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
@@ -2325,6 +2348,19 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
+
+### references/workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| 不変条件 Trace | L34 |
+| Phase Outputs | L42 |
+| 主要 Artifact | L60 |
+| Skill 反映先（current canonical set） | L99 |
+| Validation Chain | L109 |
+| 確定値・列定義 | L121 |
 
 ### references/workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md
 
@@ -2649,6 +2685,14 @@ node scripts/list-specs.js --topics
 | 自走禁止項目（本タスクで実行しないこと） | L90 |
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
+
+### references/workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L13 |
+| Boundary | L30 |
 
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
@@ -3331,6 +3375,16 @@ node scripts/list-specs.js --topics
 | L-03A-LINT-005: spec_created → enforced_dry_run の lifecycle 再分類は同 wave で全 7 同期点を更新する | L42 |
 | L-03A-LINT-006: skill feedback は「記録のみ」と「実 skill edit」を skill-feedback-report で明示分離する | L50 |
 
+### references/lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-03B-FU005-001: 二重正本 drift 防止は cross-reference 検索 + vitest schema test の二段で担保 | L9 |
+| L-03B-FU005-002: PII guard は metrics_json の write 側と read 側の両方で実装する | L17 |
+| L-03B-FU005-003: lock TTL 10 分の根拠は cron 周期と実行時間の数学的余裕で固定する | L25 |
+| L-03B-FU005-004: D1 DDL は本タスクに含めず物理 schema 変更は別タスクへ委譲する | L33 |
+| L-03B-FU005-005: consumer の `job_type` 文字列リテラル拡散は lint enforcement を follow-up にする | L41 |
+
 ### references/lessons-learned-03b-response-sync-2026-04.md
 
 | セクション | 行 |
@@ -3375,6 +3429,16 @@ node scripts/list-specs.js --topics
 | L-04C-005: zod による入力厳格化は query / date / pagination で必ず分岐する | L42 |
 | 関連未タスク・後続 wave 連携 | L50 |
 | 参照 | L56 |
+
+### references/lessons-learned-05a-auth-ui-logout-button-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-05A-LO-001: SignOutButton は単一 client component に集約し、配置側は子要素として再利用する | L3 |
+| L-05A-LO-002: `redirectTo`（v5）と `callbackUrl`（v4）を取り違えない | L7 |
+| L-05A-LO-003: `/profile` は `(member)` route group 外なので `MemberHeader` 二重描画は構造的に発生しない | L11 |
+| L-05A-LO-004: VISUAL_ON_EXECUTION の M-08 は upstream OAuth runtime に依存させ、placeholder のまま PASS と書かない | L15 |
+| L-05A-LO-005: 昇格した unassigned stub は完了前なら consumed 中間状態として残す | L19 |
 
 ### references/lessons-learned-05a-authjs-admin-gate-2026-04.md
 
@@ -3447,7 +3511,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L47 |
+| Follow-up Boundaries | L68 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 
@@ -3468,6 +3532,16 @@ node scripts/list-specs.js --topics
 | L-06CB-005: workflow 契約は `:memberId`、handler ローカル変数 `id` は spec に漏らさない | L38 |
 | L-06CB-006: audit table 名は単数形 `audit_log` を canonical にし、plural を撤回する | L47 |
 | L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L55 |
+
+### references/lessons-learned-06c-C-admin-tags-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CC-001: `/admin/tags` を「タグ辞書 CRUD」と誤読しない | L3 |
+| L-06CC-002: status union 拡張は 4 箇所に波及するため Panel export で single-source-of-truth 化する | L13 |
+| L-06CC-003: 旧 CRUD POM (`admin-add-tag-button`) を queue-only 化と同 PR で必ず置換する | L29 |
+| L-06CC-004: SKILL.md merge conflict marker 残存検出 hook を導入する | L38 |
+| L-06CC-005: visual evidence は 06c-C 単独で取得せず 08b/09a へ委譲する境界をテンプレ化する | L48 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3611,6 +3685,14 @@ node scripts/list-specs.js --topics
 | L-I191-004: transient alias lookup errors must not fallback | L15 |
 | L-I191-005: promoted follow-ups must update inventory and quick-reference | L19 |
 | L-I191-006: alias insert and diff resolve are one D1 batch | L23 |
+
+### references/lessons-learned-issue-194-identity-merge-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L10 |
+| skill-feedback 申し送り | L48 |
+| 確認パス | L53 |
 
 ### references/lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md
 
@@ -3844,6 +3926,16 @@ node scripts/list-specs.js --topics
 | 2026-05 / route-inventory-design 追記 | L44 |
 | 関連リソース | L78 |
 
+### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU03-001: Runbook formalization is not production execution | L3 |
+| L-UT07B-FU03-002: Use scoped status labels | L7 |
+| L-UT07B-FU03-003: Strict Phase 12 files must be real files | L11 |
+| L-UT07B-FU03-004: Parent seed wording must be consumed | L15 |
+| L-UT07B-FU03-005: Workflow LOGS and skill LOGS are separate | L19 |
+
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
 | セクション | 行 |
@@ -3900,8 +3992,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L84 |
-| 関連ドキュメント | L89 |
+| 利用順序 | L86 |
+| 関連ドキュメント | L91 |
 
 ### references/llm-embedding.md
 
@@ -4970,13 +5062,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L124 |
-| フェーズ構造（概要） | L133 |
-| 品質ゲート（概要） | L164 |
-| 出力テンプレート | L175 |
-| 実行時のコマンド・エージェント・スキル | L198 |
-| 昇格パターン集 | L222 |
-| Current Active / Spec Created Tasks | L224 |
+| ドキュメント構成 | L148 |
+| フェーズ構造（概要） | L157 |
+| 品質ゲート（概要） | L188 |
+| 出力テンプレート | L199 |
+| 実行時のコマンド・エージェント・スキル | L222 |
+| 昇格パターン集 | L246 |
+| Current Active / Spec Created Tasks | L248 |
 
 ### references/task-workflow-backlog-part2.md
 
