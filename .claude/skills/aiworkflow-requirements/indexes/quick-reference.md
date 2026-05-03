@@ -1366,6 +1366,18 @@ packages/
 | API client 詳細 | `references/architecture-admin-api-client.md`（Server Component `fetchAdmin` / client mutation helper / proxy / 認可境界） |
 | 教訓 | `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
 
+### UBM-Hyogo Admin Tags Remaining Spec（06c-C / 2026-05-03）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/06c-C-admin-tags/` |
+| 状態 | `spec_created / implementation-spec / docs-only / remaining-only / VISUAL_ON_EXECUTION` |
+| 正本境界 | `/admin/tags` は未タグ会員キュー。タグ辞書 CRUD / alias editor / `member_tags` 直接編集 UI/API は作らない |
+| API 正本 | `GET /admin/tags/queue`, `POST /admin/tags/queue/:queueId/resolve` |
+| schema 正本 | `packages/shared/src/schemas/admin/tag-queue-resolve.ts` の `tagQueueResolveBodySchema` |
+| audit | `admin.tag.queue_resolved`, `admin.tag.queue_rejected` |
+| evidence | Phase 12 strict outputs present。runtime visual evidence は 08b / 09a に委譲 |
+
 ### UBM-Hyogo Admin Dashboard Follow-up 早見（06c-A / 2026-05-02）
 
 | 観点 | 値 / 参照先 |
