@@ -1,7 +1,7 @@
 // 05a: session 取得 helper。Server Component / Route Handler から auth() で session を読む。
 // 不変条件 #11: SessionUser には profile 本文 / responseId を含めない。
 
-import { auth } from "./auth";
+import { getAuth } from "./auth";
 
 export interface SessionUser {
   memberId: string;
@@ -11,6 +11,7 @@ export interface SessionUser {
 }
 
 export const getSession = async (): Promise<SessionUser | null> => {
+  const { auth } = await getAuth();
   const session = await auth();
   if (!session?.user) return null;
   const u = session.user as Partial<SessionUser>;
