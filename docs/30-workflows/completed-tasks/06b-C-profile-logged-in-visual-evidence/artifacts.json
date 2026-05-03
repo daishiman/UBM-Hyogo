@@ -1,6 +1,6 @@
 {
   "task_name": "06b-C-profile-logged-in-visual-evidence",
-  "task_path": "docs/30-workflows/02-application-implementation/06b-C-profile-logged-in-visual-evidence",
+  "task_path": "docs/30-workflows/06b-C-profile-logged-in-visual-evidence",
   "wave": "6b-fu",
   "execution_mode": "parallel",
   "depends_on": [
@@ -15,11 +15,25 @@
   "created_at": "2026-05-01",
   "metadata": {
     "taskType": "implementation-spec",
-    "docs_only": true,
+    "docs_only": false,
     "workflow_state": "spec_created",
-    "visualEvidence": "VISUAL",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
     "priority": "High",
-    "scope": "remaining_application_implementation_only"
+    "scope": "playwright_spec_and_evidence_capture_only",
+    "code_changes": [
+      "apps/web/playwright/tests/profile-readonly.spec.ts (new)",
+      "apps/web/playwright.config.ts (edit: staging project)",
+      ".gitignore (edit: logged-in storageState ignore)",
+      "apps/web/playwright/.auth/.gitkeep (new)",
+      "scripts/capture-profile-evidence.sh (new)"
+    ],
+    "evidence_outputs": [
+      "outputs/phase-11/screenshots/M-08-{viewport}-{date}.png",
+      "outputs/phase-11/screenshots/M-10-{viewport}-{date}.png",
+      "outputs/phase-11/dom/M-09-no-form-{viewport}.json",
+      "outputs/phase-11/dom/M-10-edit-query-ignored-{viewport}.json",
+      "outputs/phase-11/manual-smoke-evidence.md"
+    ]
   },
   "phases": [
     {
@@ -31,7 +45,7 @@
         "outputs/phase-01/main.md"
       ],
       "depends_on_phases": [],
-      "user_approval_required": false
+      "user_approval_required": true
     },
     {
       "phase": 2,
@@ -161,7 +175,7 @@
       "depends_on_phases": [
         10
       ],
-      "user_approval_required": false
+      "user_approval_required": true
     },
     {
       "phase": 12,
@@ -198,7 +212,10 @@
   ],
   "endpoints": [],
   "d1_tables": [],
-  "ui_routes": [],
+  "ui_routes": [
+    "/profile",
+    "/profile?edit=true"
+  ],
   "secrets_introduced": [],
   "invariants_touched": [
     "#4 本文更新は Google Form 再回答のみ",

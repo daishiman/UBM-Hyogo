@@ -4067,6 +4067,7 @@
       "task-workflow-phases.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-skill-identifier-branded-type-resolution.md",
@@ -4785,7 +4786,8 @@
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md"
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
     ],
     "ベクトル検索実装": [
       "database-implementation-core.md"
@@ -4863,6 +4865,7 @@
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-governance-design-category.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -7299,7 +7302,8 @@
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md"
     ],
     "Path": [
-      "legacy-ordinal-family-register.md"
+      "legacy-ordinal-family-register.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
     ],
     "Drift": [
       "legacy-ordinal-family-register.md"
@@ -8671,6 +8675,7 @@
     "profile": [
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "logged": [
@@ -8679,7 +8684,8 @@
     "in": [
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
     ],
     "visual": [
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
@@ -15759,6 +15765,7 @@
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
@@ -15804,6 +15811,7 @@
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
@@ -15868,6 +15876,7 @@
     ],
     "Evidence": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
@@ -15903,6 +15912,7 @@
     "Metadata": [
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -15914,6 +15924,7 @@
     "Facts": [
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
@@ -15921,11 +15932,13 @@
     ],
     "Required": [
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md"
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
     ],
     "Files": [
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
@@ -15933,11 +15946,22 @@
     "Related": [
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md"
     ],
     "Resources": [
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md"
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
+    ],
+    "Logged": [
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
+    ],
+    "Visual": [
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
+    ],
+    "Map": [
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
     ],
     "で更新した": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"

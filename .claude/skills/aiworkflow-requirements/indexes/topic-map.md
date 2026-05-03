@@ -2006,6 +2006,17 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L43 |
 | Related Resources | L55 |
 
+### references/workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Contract | L26 |
+| Evidence Path Map | L34 |
+| Phase 12 Required Files | L45 |
+| Related Resources | L57 |
+
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
 | セクション | 行 |
@@ -3441,7 +3452,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L47 |
+| Follow-up Boundaries | L68 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 
