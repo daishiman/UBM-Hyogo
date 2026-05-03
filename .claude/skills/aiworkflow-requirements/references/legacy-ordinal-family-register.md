@@ -31,6 +31,7 @@ rename は命名作業ではなく、classification-first の結果として行�
 
 | scope | legacy filename | current semantic filename | canonical location | last-verified |
 | --- | --- | --- | --- | --- |
+| `03b-followup-006-per-sync-cap-alert` source follow-up promotion | `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-followup-006-per-sync-cap-alert.md` | `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/` | `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/` | 2026-05-04 |
 | `TASK-RT-03` Phase 12 workflow doc | `docs/30-workflows/skill-creator-agent-sdk-lane/step-09-par-task-rt-03-skill-creation-result-panel/` | `docs/30-workflows/step-09-par-task-rt-03-skill-creation-result-panel/` | `docs/30-workflows/step-09-par-task-rt-03-skill-creation-result-panel/` | 2026-03-30 |
 | `TASK-IMP-AI-RUNTIME-AUTHMODE-UNIFICATION-001` Step-01 | `outputs/phase-9/qa-checklist.md` | `outputs/phase-9/quality-assurance-checklist.md` | `docs/30-workflows/ai-runtime-authmode-unification/tasks/step-01-seq-task-01-ai-runtime-authmode-foundation/` | 2026-03-14 |
 | `TASK-SKILL-LIFECYCLE-04` Phase 12 | `docs/30-workflows/skill-lifecycle-unification/tasks/unassigned-task/TASK-FIX-EVAL-STORE-DISPATCH-001.md` | `docs/30-workflows/completed-tasks/step-03-seq-task-04-evaluation-and-scoring-gate/unassigned-task/task-fix-eval-store-dispatch-001.md` | `docs/30-workflows/completed-tasks/step-03-seq-task-04-evaluation-and-scoring-gate/unassigned-task/` | 2026-03-14 |

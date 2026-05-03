@@ -656,6 +656,7 @@
       "database-implementation-core.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -2823,6 +2824,7 @@
     ],
     "Workflow": [
       "arch-state-management-skill-creator.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
@@ -3244,6 +3246,7 @@
     ],
     "state": [
       "architecture-auth-security-core.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
@@ -4933,6 +4936,7 @@
     ],
     "Follow": [
       "database-schema-07b-schema-alias-assignment.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
@@ -4965,6 +4969,7 @@
     "up": [
       "database-schema-07b-schema-alias-assignment.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
@@ -5083,6 +5088,7 @@
     ],
     "write": [
       "database-schema.md",
+      "deployment-cloudflare.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
@@ -5117,6 +5123,7 @@
     "sync": [
       "database-schema.md",
       "deployment-cloudflare.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
@@ -5810,6 +5817,38 @@
     ],
     "アラート": [
       "deployment-cloudflare.md"
+    ],
+    "per": [
+      "deployment-cloudflare.md",
+      "lessons-learned-03b-response-sync-2026-04.md"
+    ],
+    "cap": [
+      "deployment-cloudflare.md"
+    ],
+    "連続到達アラート": [
+      "deployment-cloudflare.md"
+    ],
+    "followup": [
+      "deployment-cloudflare.md",
+      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-04b-member-self-service.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
+    ],
+    "Issue": [
+      "deployment-cloudflare.md",
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
+      "logs-archive-2026-01-topic-map-remember-choice.md",
+      "ui-ux-feature-components-advanced.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "Deployment": [
       "deployment-core.md",
@@ -6624,7 +6663,8 @@
       "interfaces-agent-sdk.md"
     ],
     "window": [
-      "interfaces-agent-sdk.md"
+      "interfaces-agent-sdk.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
     ],
     "agentAPI": [
       "interfaces-agent-sdk.md"
@@ -7364,6 +7404,7 @@
     "Lessons": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
@@ -7411,6 +7452,7 @@
     "Learned": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
@@ -7863,15 +7905,6 @@
     "で明示分離する": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
     ],
-    "followup": [
-      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
-      "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
-      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
-      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
-    ],
     "Jobs": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
     ],
@@ -7943,7 +7976,8 @@
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
     ],
     "lock": [
-      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
+      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
     ],
     "TTL": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
@@ -8006,6 +8040,68 @@
     "にする": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
     ],
+    "Per": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "Cap": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "Alert": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "Reset": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "rows": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "must": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "stay": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "in": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
+    ],
+    "the": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md"
+    ],
+    "Emit": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "before": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "releasing": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "invariant": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "follows": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+    ],
+    "real": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
+    ],
+    "files": [
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+    ],
     "jobs": [
       "lessons-learned-03b-response-sync-2026-04.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md"
@@ -8064,9 +8160,6 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "無料枠は": [
-      "lessons-learned-03b-response-sync-2026-04.md"
-    ],
-    "per": [
       "lessons-learned-03b-response-sync-2026-04.md"
     ],
     "上限で守る": [
@@ -8928,12 +9021,6 @@
     "logged": [
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
     ],
-    "in": [
-      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
-    ],
     "visual": [
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -9720,17 +9807,6 @@
     "終了時に前倒す": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
-    "Issue": [
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
-      "lessons-learned-issue-194-identity-merge-2026-05.md",
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
-      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
-      "logs-archive-2026-01-topic-map-remember-choice.md",
-      "ui-ux-feature-components-advanced.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
-    ],
     "close": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
@@ -9933,11 +10009,6 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
     ],
-    "must": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
-    ],
     "be": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
@@ -10138,9 +10209,6 @@
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
     ],
     "belongs": [
-      "lessons-learned-issue359-production-d1-apply-2026-05.md"
-    ],
-    "the": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
     ],
     "Rollback": [
@@ -10863,12 +10931,6 @@
     "実体総数を混同しない": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
-    "files": [
-      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
-      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
-    ],
     "と書く": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
@@ -11120,10 +11182,6 @@
     "Strict": [
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
-    ],
-    "real": [
-      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
     "Parent": [
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"

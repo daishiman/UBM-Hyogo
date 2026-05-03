@@ -1,0 +1,288 @@
+{
+  "feature": "task-03b-followup-006-per-sync-cap-alert",
+  "created": "2026-05-03T00:00:00.000Z",
+  "lastUpdated": "2026-05-03T00:00:00.000Z",
+  "status": "implemented-local",
+  "phases": {
+    "1": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-01.md",
+          "description": "要件定義"
+        }
+      ]
+    },
+    "2": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-02.md",
+          "description": "スコープ確定 / アーキテクチャ整合"
+        }
+      ]
+    },
+    "3": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-03.md",
+          "description": "設計"
+        }
+      ]
+    },
+    "4": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-04.md",
+          "description": "実装計画"
+        }
+      ]
+    },
+    "5": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-05.md",
+          "description": "実装着手ランブック"
+        }
+      ]
+    },
+    "6": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-06.md",
+          "description": "単体テスト計画"
+        }
+      ]
+    },
+    "7": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-07.md",
+          "description": "統合 / 契約検証"
+        }
+      ]
+    },
+    "8": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-08.md",
+          "description": "NON_VISUAL governance"
+        }
+      ]
+    },
+    "9": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-09.md",
+          "description": "デプロイ前検証"
+        }
+      ]
+    },
+    "10": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-10.md",
+          "description": "リリース計画"
+        }
+      ]
+    },
+    "11": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-11/main.md",
+          "description": "NON_VISUAL evidence contract"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/manual-smoke-log.md",
+          "description": "manual smoke placeholder"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/link-checklist.md",
+          "description": "link checklist"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/grep-writeCapHit.md",
+          "description": "writeCapHit implementation grep"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/grep-cap-alert.md",
+          "description": "cap-alert implementation grep"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/wrangler-config-grep.md",
+          "description": "Analytics Engine binding grep"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/warn-path-grep.md",
+          "description": "warning path grep"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/typecheck.log",
+          "description": "api typecheck evidence"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/lint.log",
+          "description": "api lint evidence"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/test.log",
+          "description": "api test evidence"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/staging-dry-run.log",
+          "description": "staging dry-run boundary"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/redaction-check.md",
+          "description": "PII redaction review"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/sql-recent-jobs.md",
+          "description": "post-deploy SQL evidence boundary"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-11/analytics-query.log",
+          "description": "Analytics Engine query boundary"
+        }
+      ]
+    },
+    "12": {
+      "status": "completed",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "outputs/phase-12/main.md",
+          "description": "Phase 12 close-out evidence"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-12/implementation-guide.md",
+          "description": "実装ガイド"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-12/system-spec-update-summary.md",
+          "description": "システム仕様更新サマリ"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-12/documentation-changelog.md",
+          "description": "ドキュメント更新履歴"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-12/unassigned-task-detection.md",
+          "description": "未タスク検出"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-12/skill-feedback-report.md",
+          "description": "スキルフィードバック"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-12/phase12-task-spec-compliance-check.md",
+          "description": "Phase 12 compliance check"
+        },
+        {
+          "type": "document",
+          "path": "outputs/phase-12/runbook-per-sync-cap-alert.md",
+          "description": "per-sync cap alert runbook"
+        }
+      ]
+    },
+    "13": {
+      "status": "blocked",
+      "artifacts": [
+        {
+          "type": "document",
+          "path": "phase-13.md",
+          "description": "commit / PR 承認ゲート"
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "2": [
+      "1"
+    ],
+    "3": [
+      "2"
+    ],
+    "4": [
+      "3"
+    ],
+    "5": [
+      "4"
+    ],
+    "6": [
+      "5"
+    ],
+    "7": [
+      "6"
+    ],
+    "8": [
+      "7"
+    ],
+    "9": [
+      "8"
+    ],
+    "10": [
+      "9"
+    ],
+    "11": [
+      "10"
+    ],
+    "12": [
+      "11"
+    ],
+    "13": [
+      "12"
+    ]
+  },
+  "metadata": {
+    "taskId": "TASK-03B-FOLLOWUP-006-PER-SYNC-CAP-ALERT",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented_local_static_evidence_pass",
+    "issue": "https://github.com/daishiman/UBM-Hyogo/issues/199",
+    "issue_state": "OPEN",
+    "approval_gate": "blocked_until_user_instruction",
+    "estimatedPhases": 13,
+    "actualPhases": 12
+  }
+}

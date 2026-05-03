@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #199 03b Follow-up 006 Per-Sync Cap Alert（2026-05-03）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / Phase 11 local evidence present / Phase 12 strict outputs present / Phase 13 blocked_until_user_instruction` |
+| 実装契約 | `sync_jobs.metrics_json.writeCapHit?: boolean`、absent / NULL は false 解釈 |
+| alert event | Analytics Engine dataset `sync_alerts`, event `sync_write_cap_consecutive_hit`, `blobs=["sync_write_cap_consecutive_hit", "response_sync"]`, `doubles=[consecutiveHits, windowSize]`, `indexes=[jobId]` |
+| duplicate guard | latest N=3 window が未達から達成へ遷移した時のみ emit。detector は `ORDER BY started_at DESC, job_id DESC LIMIT 4` で current / previous window を比較し、failed / skipped row は streak reset |
+| runbook | `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/outputs/phase-12/runbook-per-sync-cap-alert.md` |
+| close-out evidence | `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| Issue 取扱 | #199 は OPEN 維持。PR / commit は `Refs #199` のみ、close は user 明示指示後 |
+
+---
+
 ### UT-05A Auth UI Logout Button（2026-05-03）
 
 | 目的 | 参照先 |
