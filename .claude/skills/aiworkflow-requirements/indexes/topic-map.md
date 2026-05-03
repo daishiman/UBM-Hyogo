@@ -1062,19 +1062,19 @@ node scripts/list-specs.js --topics
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
 | Schema aliases write target（issue-191 / UT-07B） | L59 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L74 |
-| Legacy Sheets sync transition note（U-UT01-09） | L86 |
-| Schema alias assignment workflow（07b） | L98 |
-| ワークフロー関連テーブル | L102 |
-| ユーザー関連テーブル | L141 |
-| システムプロンプト関連テーブル | L175 |
-| チャット関連テーブル | L210 |
-| RAG関連テーブル | L246 |
-| Knowledge Graph関連テーブル | L288 |
-| 変換処理関連テーブル | L422 |
-| インデックス設計 | L481 |
-| 関連ドキュメント / 変更履歴 | L485 |
-| DDL 同期テンプレ | L490 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L79 |
+| Legacy Sheets sync transition note（U-UT01-09） | L91 |
+| Schema alias assignment workflow（07b） | L103 |
+| ワークフロー関連テーブル | L107 |
+| ユーザー関連テーブル | L146 |
+| システムプロンプト関連テーブル | L180 |
+| チャット関連テーブル | L215 |
+| RAG関連テーブル | L251 |
+| Knowledge Graph関連テーブル | L293 |
+| 変換処理関連テーブル | L427 |
+| インデックス設計 | L486 |
+| 関連ドキュメント / 変更履歴 | L490 |
+| DDL 同期テンプレ | L495 |
 
 ---
 
@@ -2496,6 +2496,15 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L83 |
 | Validation Chain（spec_created） | L92 |
 
+### references/workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L12 |
+| Source / Follow-Up State | L29 |
+| Runtime Evidence Reservation | L38 |
+
 ### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
 
 | セクション | 行 |
@@ -2627,14 +2636,6 @@ node scripts/list-specs.js --topics
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
 
-### references/workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Metadata | L3 |
-| Canonical Artifacts | L13 |
-| Boundary | L30 |
-
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
 | セクション | 行 |
@@ -2658,9 +2659,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L10 |
-| Gate Boundary | L22 |
-| Same-Wave Sync | L28 |
+| Phase 12 Strict Files | L16 |
+| Gate Boundary | L30 |
+| Same-Wave Sync | L37 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3613,6 +3614,15 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 
+### references/lessons-learned-issue359-production-d1-apply-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I359-001: D1 migration apply must guard against unrelated pending migrations | L3 |
+| L-I359-002: Wrangler config path belongs in the runbook | L7 |
+| L-I359-003: Rollback SQL is evidence, not permission | L11 |
+| L-I359-004: Source unassigned close-out is part of Phase 12 | L15 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
@@ -3777,6 +3787,7 @@ node scripts/list-specs.js --topics
 | L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
 | L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
+| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -3807,16 +3818,6 @@ node scripts/list-specs.js --topics
 | 教訓 | L7 |
 | 2026-05 / route-inventory-design 追記 | L44 |
 | 関連リソース | L78 |
-
-### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-UT07B-FU03-001: Runbook formalization is not production execution | L3 |
-| L-UT07B-FU03-002: Use scoped status labels | L7 |
-| L-UT07B-FU03-003: Strict Phase 12 files must be real files | L11 |
-| L-UT07B-FU03-004: Parent seed wording must be consumed | L15 |
-| L-UT07B-FU03-005: Workflow LOGS and skill LOGS are separate | L19 |
 
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
@@ -4944,13 +4945,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L126 |
-| フェーズ構造（概要） | L135 |
-| 品質ゲート（概要） | L166 |
-| 出力テンプレート | L177 |
-| 実行時のコマンド・エージェント・スキル | L200 |
-| 昇格パターン集 | L224 |
-| Current Active / Spec Created Tasks | L226 |
+| ドキュメント構成 | L124 |
+| フェーズ構造（概要） | L133 |
+| 品質ゲート（概要） | L164 |
+| 出力テンプレート | L175 |
+| 実行時のコマンド・エージェント・スキル | L198 |
+| 昇格パターン集 | L222 |
+| Current Active / Spec Created Tasks | L224 |
 
 ### references/task-workflow-backlog-part2.md
 
