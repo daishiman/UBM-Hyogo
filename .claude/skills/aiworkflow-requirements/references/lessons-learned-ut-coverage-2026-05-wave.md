@@ -23,3 +23,13 @@ docs-only タスクの main.md を `status: pending` のまま放置すると、
 ## L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する
 
 wave-1 / wave-2 で別々に lessons-learned を切ると同一 wave の知見が分散する。**wave 単位で 1 ファイル（本ファイル）+ task 個別の細かい記録は LOGS/_legacy.md** という運用に固定する。fixture 修復 / coverage gate 設計 / wave 分割の 3 トピックは互いに依存するため、同居させた方が将来の再利用時に拾いやすい。
+
+## L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る
+
+`ut-web-cov-01` で `MembersClient` / `TagQueuePanel` / `AdminSidebar` / `SchemaDiffPanel` / `MemberDrawer` / `MeetingPanel` / `AuditLogPanel` を Statements/Functions/Lines >=85%・Branches >=80% に到達させた際に詰まったポイント:
+
+1. **snapshot に逃げると Branches が 80% 未満で止まる**: 表示テキストの一致だけでは disabled 状態・空表示・ロード分岐・authz 拒否の 4 分岐がカバーされず Branches が 60% 台で停滞する。`screen.getByRole('button', { name }).toBeDisabled()` / `expect(getAllByRole('row')).toHaveLength(0)` のような「分岐ごとの DOM 状態」を直接 assert する。
+2. **callback invocation を `vi.fn()` で確認するだけでは Functions が伸びない**: mutation handler 内の Promise 経路（success / error）を両方走らせる必要があり、`fetch` mock を `mockResolvedValueOnce` / `mockRejectedValueOnce` で 2 回呼びに分けて両分岐を踏ませる。
+3. **authz 不足時の表示は admin client mock に「`authError: true`」を返させて確認する**: 実際の Auth.js session を立てずに、`useAdminClient` 等の hook を `vi.mock` で差し替え、403 相当のレスポンスを返したときの「権限不足表示」DOM を確認する方が安定する。
+4. **D1 直接アクセスは絶対しない**: apps/web component test では `apps/api` の admin proxy 越しにしか D1 を見ない原則を維持。component test 内で D1 fixture を立てる誘惑が出るが、admin client の mock で十分。
+5. **scope-out ファイルは `vitest-run.log` に出ても unassigned-task 化しない**: `RequestQueuePanel.tsx` のように本タスク 7 ファイル外の component が同 run でカバレッジ不足を出しても、本タスクの AC は対象 7 ファイル限定。残ギャップは `unassigned-task/ut-web-cov-05-followup-post-wave2-gap-analysis.md` 側で wave-3 として追跡し、本タスク Phase 12 の `unassigned-task-detection.md` には scope-out 分類として明記する。

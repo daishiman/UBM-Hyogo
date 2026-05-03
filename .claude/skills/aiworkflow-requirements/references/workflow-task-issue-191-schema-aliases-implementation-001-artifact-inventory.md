@@ -28,4 +28,4 @@
 | --- | --- |
 | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` | open |
 | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` | open |
-| `docs/30-workflows/unassigned-task/task-issue-191-production-d1-schema-aliases-apply-001.md` | open / approval-gated production operation |
+| `docs/30-workflows/unassigned-task/task-issue-191-production-d1-schema-aliases-apply-001.md` | transferred_to_workflow -> `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/` |

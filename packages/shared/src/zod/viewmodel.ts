@@ -203,6 +203,9 @@ export const AdminMemberListViewZ = z
   .object({
     total: z.number().int().nonnegative(),
     members: z.array(AdminMemberListItemZ),
+    // 06c-B: 検索/フィルタ拡張で導入。後方互換のため optional。
+    page: z.number().int().positive().optional(),
+    pageSize: z.number().int().positive().optional(),
   })
   .strict();
 

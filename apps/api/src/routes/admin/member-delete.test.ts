@@ -56,6 +56,21 @@ describe("admin member delete/restore", () => {
       makeEnv(env),
     );
     expect(r2.status).toBe(200);
+    const audits = await env.db
+      .prepare("SELECT actor_id, actor_email, action FROM audit_log ORDER BY created_at ASC")
+      .all<{ actor_id: string; actor_email: string; action: string }>();
+    expect(audits.results).toEqual([
+      {
+        actor_id: "m_admin",
+        actor_email: "admin@example.com",
+        action: "admin.member.deleted",
+      },
+      {
+        actor_id: "m_admin",
+        actor_email: "admin@example.com",
+        action: "admin.member.restored",
+      },
+    ]);
   });
 
   it("reason 欠落は 400", async () => {
@@ -70,5 +85,27 @@ describe("admin member delete/restore", () => {
       makeEnv(env),
     );
     expect(res.status).toBe(400);
+  });
+
+  it("二重 delete は 409", async () => {
+    const app = createAdminMemberDeleteRoute();
+    const opts = {
+      method: "POST",
+      headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+      body: JSON.stringify({ reason: "test" }),
+    };
+    await app.request("/members/m1/delete", opts, makeEnv(env));
+    const res = await app.request("/members/m1/delete", opts, makeEnv(env));
+    expect(res.status).toBe(409);
+  });
+
+  it("未削除 restore は 409", async () => {
+    const app = createAdminMemberDeleteRoute();
+    const res = await app.request(
+      "/members/m1/restore",
+      { method: "POST", headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(409);
   });
 });
