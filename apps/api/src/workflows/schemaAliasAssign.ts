@@ -58,6 +58,7 @@ export type SchemaAliasAssignError =
   | { kind: "question_not_found" }
   | { kind: "diff_not_found" }
   | { kind: "diff_question_mismatch" }
+  | { kind: "protected_stable_key"; stableKey: string }
   | { kind: "manual_actor_required" }
   | { kind: "alias_conflict"; existingStableKey: string }
   | { kind: "collision"; existingQuestionIds: string[] };
@@ -72,6 +73,7 @@ export class SchemaAliasAssignFailure extends Error {
 
 export const BACKFILL_BATCH_SIZE = 100;
 export const BACKFILL_CPU_BUDGET_MS = 25_000; // Workers 30s 制限の安全マージン
+const PROTECTED_STABLE_KEYS = new Set(["publicConsent", "rulesConsent", "responseEmail"]);
 
 interface QuestionRow {
   question_id: string;
@@ -298,6 +300,13 @@ export const schemaAliasAssign = async (
   c: DbCtx,
   input: SchemaAliasAssignInput,
 ): Promise<SchemaAliasAssignResult> => {
+  if (PROTECTED_STABLE_KEYS.has(input.stableKey)) {
+    throw new SchemaAliasAssignFailure({
+      kind: "protected_stable_key",
+      stableKey: input.stableKey,
+    });
+  }
+
   const question = await fetchQuestion(c, input.questionId);
   if (!question) {
     throw new SchemaAliasAssignFailure({ kind: "question_not_found" });

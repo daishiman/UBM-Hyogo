@@ -2050,6 +2050,18 @@ node scripts/list-specs.js --topics
 | implementation source-of-truth | L45 |
 | scope notes | L59 |
 
+### references/workflow-06c-D-admin-schema-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts | L25 |
+| phase 11 evidence | L37 |
+| implementation source-of-truth | L45 |
+| scope notes | L59 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3329,6 +3341,17 @@ node scripts/list-specs.js --topics
 | Fragment Migration Register (2026-04-28) | L304 |
 | Task Root Path Drift Register (2026-04-30 追記) | L331 |
 
+### references/lessons-fetch-service-binding-testing.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT05A-FP-001: `getCloudflareContext()` mock は closure + reset が必要 | L6 |
+| L-UT05A-FP-002: service-binding テストは globalFetch も並行 mock | L13 |
+| L-UT05A-FP-003: transport label は構造化 console.log で deploy verification と test 契約を共有する | L21 |
+| L-UT05A-FP-004: HTTP fallback 経路は loopback subrequest 404 に注意し、service-binding を一次経路にする | L30 |
+| L-UT05A-FP-005: classification は "spec_created / runtime evidence pending" を堅持する | L38 |
+| 同期参照 | L47 |
+
 ### references/lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md
 
 | セクション | 行 |
@@ -3537,6 +3560,17 @@ node scripts/list-specs.js --topics
 | L-06CC-003: 旧 CRUD POM (`admin-add-tag-button`) を queue-only 化と同 PR で必ず置換する | L29 |
 | L-06CC-004: SKILL.md merge conflict marker 残存検出 hook を導入する | L38 |
 | L-06CC-005: visual evidence は 06c-C 単独で取得せず 08b/09a へ委譲する境界をテンプレ化する | L48 |
+
+### references/lessons-learned-06c-D-admin-schema-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CD-001: `/admin/schema` は 07b schema alias workflow の UI gate として扱う | L3 |
+| L-06CD-002: 4 pane contract は component / POM / spec を同一 wave で更新する | L7 |
+| L-06CD-003: screenshot は 06c-D 単独 PASS にしない | L11 |
+| L-06CD-004: legacy path move は artifact inventory と register で閉じる | L15 |
+| L-06CD-005: protected stableKey は UI だけでなく API workflow で拒否する | L19 |
+| L-06CD-006: remaining-only spec は canonical 正本値を引いて作成する | L23 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3879,6 +3913,8 @@ node scripts/list-specs.js --topics
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
 | L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
 | L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
+| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L37 |
+| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -3976,8 +4012,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L87 |
-| 関連ドキュメント | L92 |
+| 利用順序 | L89 |
+| 関連ドキュメント | L94 |
 
 ### references/llm-embedding.md
 
@@ -5046,13 +5082,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L158 |
-| フェーズ構造（概要） | L167 |
-| 品質ゲート（概要） | L198 |
-| 出力テンプレート | L209 |
-| 実行時のコマンド・エージェント・スキル | L232 |
-| 昇格パターン集 | L256 |
-| Current Active / Spec Created Tasks | L258 |
+| ドキュメント構成 | L168 |
+| フェーズ構造（概要） | L177 |
+| 品質ゲート（概要） | L208 |
+| 出力テンプレート | L219 |
+| 実行時のコマンド・エージェント・スキル | L242 |
+| 昇格パターン集 | L266 |
+| Current Active / Spec Created Tasks | L268 |
 
 ### references/task-workflow-backlog-part2.md
 
