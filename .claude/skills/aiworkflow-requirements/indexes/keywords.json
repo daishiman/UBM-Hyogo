@@ -3057,14 +3057,16 @@
     ],
     "fetch": [
       "architecture-admin-api-client.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "src": [
       "architecture-admin-api-client.md",
       "quality-e2e-testing.md"
     ],
     "lib": [
-      "architecture-admin-api-client.md"
+      "architecture-admin-api-client.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "admin": [
       "architecture-admin-api-client.md",
@@ -3281,6 +3283,7 @@
       "architecture-auth-security-core.md",
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
@@ -3784,7 +3787,8 @@
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md"
+      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "resolve": [
       "auth-google-oauth-cf-integration.md",
@@ -7489,7 +7493,8 @@
       "lessons-fetch-service-binding-testing.md"
     ],
     "テストは": [
-      "lessons-fetch-service-binding-testing.md"
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "globalFetch": [
       "lessons-fetch-service-binding-testing.md"
@@ -11089,6 +11094,19 @@
     "を取る": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
+    "helper": [
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "skill-ledger-fragment-spec.md"
+    ],
+    "構造的": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "uncovered": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "の文書化で": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
     "GOV": [
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
@@ -14294,9 +14312,6 @@
     "append": [
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md"
-    ],
-    "helper": [
-      "skill-ledger-fragment-spec.md"
     ],
     "の責務": [
       "skill-ledger-fragment-spec.md"
