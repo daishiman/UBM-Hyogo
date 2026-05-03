@@ -658,3 +658,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Canonical read path: `createAttendanceProvider(ctx).findByMemberIds()` using 80-id chunks, `member_attendance` + `meeting_sessions` INNER JOIN by `session_id`, `held_on DESC` + `session_id ASC`, missing session exclusion, and duplicate normalization.
 - Added `references/lessons-learned-ut-02a-attendance-profile-integration-2026-05.md` and changelog fragment `changelog/20260501-ut-02a-attendance-profile-integration-closeout.md`.
 - No commit, push, or PR was executed.
+
+## 2026-05-02 - Issue #359 production D1 schema_aliases apply workflow sync
+
+- Registered `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/` as an approval-gated production operation for `apps/api/migrations/0008_create_schema_aliases.sql`.
+- Synchronized quick-reference, resource-map, task-workflow-active, database-schema pending marker, artifact inventory, changelog, and lessons learned.
+- Marked the source unassigned task as `transferred_to_workflow`.
+- Hardened the runbook with `--config apps/api/wrangler.toml`, target-only pending migration NO-GO, rollback separate approval, and Gate-C1/Gate-C2 separation.
+- No production D1 apply, commit, push, or PR was executed.

@@ -134,6 +134,17 @@ UT-07B schema alias hardening は、この `schema_aliases` write target replace
 | fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
 | direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
 
+### Issue #359 Production D1 schema_aliases Apply（2026-05-02）
+
+| 目的 | 参照先 |
+| --- | --- |
+| approval-gated operation workflow | `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/` |
+| Phase 12 strict outputs | `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/outputs/phase-12/` |
+| runtime evidence | `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/outputs/phase-13/` |
+| production apply command | `bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --config apps/api/wrangler.toml --env production` |
+| status | `completed_via_already_applied_path / implementation / NON_VISUAL / production-operation` |
+| production result | `schema_aliases` exists; `d1_migrations` records `0008_create_schema_aliases.sql` applied at `2026-05-01 10:59:35 UTC`; no duplicate apply executed |
+
 ### UT-02A Canonical Section/Field Resolver（Issue #108 / 2026-05-01）
 
 | 目的 | 参照先 |
@@ -219,7 +230,7 @@ UT-07B schema alias hardening は、この `schema_aliases` write target replace
 
 ### UT-GOV-001 Second-Stage Reapply（contexts 後追い再 PUT / 2026-04-30 / approval-gated NON_VISUAL）
 
-UT-GOV-001 で `contexts=[]` 暫定 fallback を採用したケースに対し、UT-GOV-004 由来の実在 context で dev / main 独立 PUT を行う後追いタスク。Phase 13 は user 承認ゲート + 実 PUT 実行ゲート + PR 作成ゲートの三役。
+UT-GOV-001 で `contexts=[]` 暫定 fallback を採用したケースに対し、UT-GOV-004 由来の実在 context で dev / main 独立 PUT を行う後追いタスク。Phase 13 は user 承認ゲート + 実 PUT 実行ゲート + PR作成承認待ちゲートの三役。
 
 | 目的 | 参照先 |
 | --- | --- |
@@ -367,7 +378,7 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | `SessionUser.authGateState` の値域（`active` / `rules_declined` / `deleted`）と spec 整合 | `docs/00-getting-started-manual/specs/04-types.md`, `06-member-auth.md` |
 | 再回答更新方針 / `editResponseUrl` / 退会・公開停止申請の MVP 経路 | `docs/00-getting-started-manual/specs/07-edit-delete.md` |
 | session resolver（production/staging: Auth.js cookie / Bearer JWT + `AUTH_SECRET`; development only: `x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>`。`ENVIRONMENT` 欠落時は dev token deny） | `docs/30-workflows/06b-A-me-api-authjs-session-resolver/outputs/phase-12/implementation-guide.md` |
-| 苦戦知見（`authGateState` enum 文脈分離 / `packages/shared` exports 漏れ / wave 跨ぎ schema 変更宣言 / dev session production guard / 不変条件根拠の集約） | `references/lessons-learned-04b-member-self-service.md`（L-04B-001〜005） |
+| 苦戦知見（`authGateState` enum 文脈分離 / `packages/shared` exports 漏れ / wave 跨ぎ schema 変更宣言 / dev session production 不変条件根拠の集約） | `references/lessons-learned-04b-member-self-service.md`（L-04B-001〜005） |
 
 ### UBM-Hyogo Magic Link / AuthGateState API 早見（05b / 2026-04-29）
 
@@ -531,7 +542,7 @@ Boundary: wave-1 (`ut-api-cov-precondition-01`) と wave-2 の `ut-web-cov-01-ad
 | 目的                                                      | 最初に開くファイル                                                                             |
 | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | owner 分離と failure review return                        | `references/architecture-overview-core.md`                                                     |
-| facade / engine / transition guard / artifact append 詳細 | `references/arch-electron-services-details-part2.md`                                           |
+| facade / engine / transition artifact append 詳細 | `references/arch-electron-services-details-part2.md`                                           |
 | public IPC と `execute-plan` failure lifecycle 契約       | `references/api-ipc-system-core.md`                                                            |
 | auth / ipc 教訓                                           | `references/lessons-learned-auth-ipc-skill-creator-sync-auth-timeout.md`                       |
 | completed ledger                                          | `references/task-workflow-completed.md`                                                        |
@@ -1489,7 +1500,7 @@ UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts
 | --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/` |
 | confirmed contexts | `ci`, `Validate Build`, `verify-indexes-up-to-date` |
-| 実行ゲート | Phase 13 でユーザー明示承認後のみ `gh api -X PUT` / commit / push / PR 作成を実行する |
+| 実行ゲート | Phase 13 でユーザー明示承認後のみ `gh api -X PUT` / commit / push / PR作成承認待ちを実行する |
 | evidence 境界 | Phase 13 の fresh GET output だけを適用証跡にできる。placeholder / PUT payload / expected contexts は current applied の入力にしない |
 | final references 反映 | `docs/30-workflows/completed-tasks/task-utgov001-references-reflect-001/` で反映済み。dev/main contexts は `ci`, `Validate Build`; strict は dev=false / main=true; `verify-indexes-up-to-date` は expected-context drift |
 | downstream precondition | `docs/30-workflows/unassigned-task/task-utgov-downstream-precondition-link-001.md` で UT-GOV-005〜007 の上流前提へ反映 |
