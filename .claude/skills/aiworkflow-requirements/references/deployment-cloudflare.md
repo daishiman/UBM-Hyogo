@@ -561,6 +561,41 @@ UT-08（`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`）で
 
 ---
 
+## per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199）
+
+`apps/api/src/jobs/sync-forms-responses.ts` は per-sync write cap (`RESPONSE_SYNC_WRITE_CAP`、既定 200) を持つ。cap への到達は単発であれば許容するが、連続到達は回答急増 / retry storm / cron 間隔不足のシグナルとして扱い、escalation 階段で運用検知する。
+
+### 検知契約
+
+- `sync_jobs.metrics_json.writeCapHit: boolean` を成功 job 完了時に記録する。`absent` / `null` は `false` 解釈とし、後方互換を維持する。
+- `apps/api/src/jobs/cap-alert.ts` の `evaluateConsecutiveCapHits()` が、`job_type='response_sync'` の直近 N+1 行を `started_at DESC, job_id DESC` で取得し、直近 N 行すべて `writeCapHit=true` のとき `thresholdReached=true` とする。failed / skipped job も `writeCapHit=false` として streak を reset する。直前 window が未達のときだけ `shouldEmit=true` を返し、連続継続中の重複 emit を抑制する。
+- emit 先は Cloudflare Analytics Engine binding `SYNC_ALERTS`（dataset = `sync_alerts` / staging は `sync_alerts_staging`）。binding 未設定時は `console.warn` のみで例外伝播しない。
+
+### 閾値・チャネル抽象化（escalation）
+
+| 段階 | 連続 hit 数 | 経過時間目安 | チャネル候補 | 判断 |
+| --- | --- | --- | --- | --- |
+| Stage 1 | N=3 | 45 分（15 分 × 3 cron） | GitHub issue 自動起票（非同期） | 03b-followup-006 で event 契約を固定 |
+| Stage 2 | N=6 | 90 分 | メール通知（同期） | 05a-parallel-observability 側で実装 |
+| Stage 3 | N=12 | 180 分 | Slack（MVP では抽象化のみ） | 05a 後段 |
+
+03b-followup-006 では event 契約 (`blobs=["sync_write_cap_consecutive_hit", jobKind]`, `doubles=[consecutiveHits, windowSize]`, `indexes=[jobId]`) のみを正本化し、GitHub / mail / Slack の実装は 05a observability guardrails に委譲する。
+
+### コスト試算（D1 無料枠との整合）
+
+| 項目 | 値 |
+| --- | --- |
+| 最大 write/sync | 200 行 |
+| cron 周期 | 15 分（96 回/day） |
+| 上限到達日次 write | 200 × 96 = 19,200 write/day |
+| D1 free tier limit | 100,000 write/day |
+| 占有率 | 19.2%（cap 解除時のリスク試算は runbook 参照） |
+| Analytics Engine free tier | 25M write/month（連続 cap hit 時のみ emit するため余裕大） |
+
+連続 cap hit 検知時のオペレータ手順は `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/outputs/phase-12/runbook-per-sync-cap-alert.md` を参照する。
+
+---
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
@@ -569,3 +604,4 @@ UT-08（`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`）で
 | 2026-04-27 | 1.1.0 | UT-08 モニタリング/アラート設計の SSOT 連携セクション追加 |
 | 2026-04-27 | 1.2.0 | UT-06 派生: `scripts/cf.sh` 章を `wrangler` 直接実行から canonical wrapper に統一（whoami / deploy / d1 / rollback / secret / tail）。ローカル `wrangler login` OAuth 禁止と `op://` 参照経由の `CLOUDFLARE_API_TOKEN` 動的注入を明示。OpenNext Workers 形式 / Pages 形式の判定マトリクスを追加。初回 D1 backup の空 export 取扱を追記。`apps/web/next.config.ts` 例に `outputFileTracingRoot` / `turbopack.root` / `typescript.ignoreBuildErrors` を反映（別 `tsc --noEmit` gate と pair 必須）。API `wrangler.toml` 例に wrangler 4.x strict mode 対応の `[env.staging]` / `[env.production]` を明示 |
 | 2026-04-29 | 1.3.0 | UT-CICD-DRIFT: Pages vs OpenNext Workers の current state 列を判定表に追加、Workers section 冒頭に Pages 運用中の current facts 注記、Cron 表に `0 18 * * *`（03a schema sync）を追加し `apps/api/wrangler.toml` の 3 件と整合、API wrangler.toml KV binding 例を「UT-13 採用後構成」と注記、web-cd 既存フロー後に OpenNext cutover 委譲注記を追加 |
+| 2026-05-03 | 1.4.0 | 03b-followup-006 (Issue #199): per-sync write cap 連続到達アラート節を追加。`sync_jobs.metrics_json.writeCapHit` 契約・`evaluateConsecutiveCapHits` 検知ロジック・Analytics Engine `sync_alerts` binding・Stage 1〜3 escalation 閾値・D1 無料枠 19.2% 占有試算を SSOT 化 |

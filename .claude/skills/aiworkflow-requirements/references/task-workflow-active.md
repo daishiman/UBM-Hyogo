@@ -107,6 +107,16 @@
 | 境界 | 各 follow-up は親 03b Phase 12 由来の単一 md 指示書であり、Phase 1-13 workflow root ではない。着手時に正式 workflow root、`artifacts.json`、Phase 1-13、Phase 12 必須 7 成果物、Phase 13 user approval gate へ昇格する |
 | current fact | responseEmail UNIQUE は `member_identities.response_email` が正本。identity merge は `member_identities` / `member_status` / `audit_log` を主語にし、`member_responses.member_id` 付替を前提にしない |
 
+#### Issue #199 03b Follow-up 006 Per-Sync Cap Alert（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 11 local evidence present / Phase 12 strict outputs present / Phase 13 blocked_until_user_instruction |
+| 成果物 | `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/` |
+| 目的 | `sync_jobs.metrics_json.writeCapHit?: boolean` を追加し、直近 3 件の response sync が cap hit へ未達から達成へ遷移した時だけ Analytics Engine dataset `sync_alerts` へ `sync_write_cap_consecutive_hit` を emit する |
+| alert 契約 | absent / NULL は false 解釈。event payload は `blobs=["sync_write_cap_consecutive_hit", "response_sync"]`, `doubles=[consecutiveHits, windowSize]`, `indexes=[jobId]`。detector は `ORDER BY started_at DESC, job_id DESC LIMIT 4` で current / previous window を比較し、failed / skipped row を streak reset として扱って重複 emit を抑制 |
+| 境界 | cap 値変更、cron 間隔変更、GitHub / Slack / mail 通知チャネル本体構築、Cloudflare deploy、commit / push / PR は user 明示指示まで実行しない。Issue #199 は OPEN 維持し PR / commit は `Refs #199` のみ |
+
 
 ### 04b Follow-up 004 Admin Queue Resolve Workflow（2026-05-01）
 
