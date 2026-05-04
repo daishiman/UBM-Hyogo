@@ -1,0 +1,167 @@
+{
+  "task_id": "ci-test-recovery-coverage-80-2026-05-04",
+  "created_at": "2026-05-04T10:49:16Z",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "branch": "feat/ci-coverage-recovery",
+    "ci_failure_reference": "main run 25297513424 (2026-05-04T02:04Z)",
+    "scope_summary": "CI 失敗 (apps/web 36 test + apps/api 13 test) 回復と全パッケージ coverage 80% 達成、coverage-gate hard gate 化"
+  },
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "要件定義",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-1/phase-1-requirements.md"
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "設計",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-2/phase-2-design.md"
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "アーキテクチャ・タスク分解",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-3/phase-3-architecture.md"
+      ]
+    },
+    {
+      "id": "phase-4",
+      "name": "テスト設計",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-4/phase-4.md"
+      ]
+    },
+    {
+      "id": "phase-5",
+      "name": "実装",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-5/phase-5.md"
+      ]
+    },
+    {
+      "id": "phase-6",
+      "name": "テスト実装",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-6/phase-6.md"
+      ]
+    },
+    {
+      "id": "phase-7",
+      "name": "ローカル検証",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-7/phase-7.md"
+      ]
+    },
+    {
+      "id": "phase-8",
+      "name": "CI 検証",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-8/phase-8.md"
+      ]
+    },
+    {
+      "id": "phase-9",
+      "name": "品質検証",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-9/phase-9.md"
+      ]
+    },
+    {
+      "id": "phase-10",
+      "name": "最終レビュー",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-10/phase-10.md"
+      ]
+    },
+    {
+      "id": "phase-11",
+      "name": "実行証跡 (NON_VISUAL)",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-11/phase-11.md"
+      ]
+    },
+    {
+      "id": "phase-12",
+      "name": "ドキュメント整備",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-12/phase-12.md"
+      ]
+    },
+    {
+      "id": "phase-13",
+      "name": "PR 作成",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-13/phase-13.md"
+      ]
+    }
+  ],
+  "subtasks": [
+    {
+      "id": "ci-recover-task-a-vitest-jsx-dev-runtime",
+      "key": "task-A",
+      "wave": 1,
+      "name": "apps/web vitest jsx-dev-runtime 解決",
+      "canonical_dir": "docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-a-jsx-dev-runtime-resolve/",
+      "depends_on": []
+    },
+    {
+      "id": "ci-recover-task-b-api-test-recovery",
+      "key": "task-B",
+      "wave": 1,
+      "name": "apps/api 13 件 test 失敗修復",
+      "canonical_dir": "docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-b-apps-api-test-recovery/",
+      "depends_on": []
+    },
+    {
+      "id": "ci-recover-task-c-web-coverage-80",
+      "key": "task-C",
+      "wave": 2,
+      "name": "apps/web coverage 80% 達成",
+      "canonical_dir": "docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-c-apps-web-coverage-80/",
+      "depends_on": [
+        "ci-recover-task-a-vitest-jsx-dev-runtime"
+      ]
+    },
+    {
+      "id": "ci-recover-task-d-api-coverage-80",
+      "key": "task-D",
+      "wave": 2,
+      "name": "apps/api coverage 80% 達成",
+      "canonical_dir": "docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-d-apps-api-coverage-80/",
+      "depends_on": [
+        "ci-recover-task-b-api-test-recovery"
+      ]
+    },
+    {
+      "id": "ci-recover-task-e-coverage-gate-hard",
+      "key": "task-E",
+      "wave": 3,
+      "name": "coverage-gate hard gate 化",
+      "canonical_dir": "docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-e-coverage-hard-gate/",
+      "depends_on": [
+        "ci-recover-task-c-web-coverage-80",
+        "ci-recover-task-d-api-coverage-80"
+      ]
+    }
+  ]
+}

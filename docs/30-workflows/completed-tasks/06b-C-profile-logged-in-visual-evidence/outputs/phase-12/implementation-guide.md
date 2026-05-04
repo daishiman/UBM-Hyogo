@@ -17,7 +17,7 @@ Touched files:
 | `apps/web/playwright/.auth/.gitkeep` | Keeps the local auth-state directory without committing secrets. |
 | `apps/web/playwright/tests/profile-readonly.spec.ts` | Adds M-08 screenshot, M-09 no-form, and M-10 edit-query assertions for desktop/mobile. |
 | `scripts/capture-profile-evidence.sh` | Wraps Playwright execution and writes evidence to this workflow's Phase 11 directory. |
-| `docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/{screenshots,dom}/.gitkeep` | Preserves evidence output directories. |
+| `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/{screenshots,dom}/.gitkeep` | Preserves evidence output directories. |
 
 Commands:
 
@@ -26,7 +26,7 @@ bash -n scripts/capture-profile-evidence.sh
 pnpm --filter @ubm-hyogo/web exec playwright test --list playwright/tests/profile-readonly.spec.ts
 scripts/capture-profile-evidence.sh \
   --base-url https://staging.example \
-  --storage-state apps/web/playwright/.auth/state.json
+  --storage-state apps/web/playwright/.auth/member-state.json
 ```
 
 Evidence paths:
