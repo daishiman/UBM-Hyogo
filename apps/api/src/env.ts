@@ -21,6 +21,10 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // wrangler.toml [[d1_databases]] binding = "DB"
   readonly DB: D1Database;
 
+  // wrangler.toml [[analytics_engine_datasets]] binding = "SYNC_ALERTS"
+  // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
+  readonly SYNC_ALERTS?: AnalyticsEngineDataset;
+
   // wrangler.toml [vars] ENVIRONMENT
   readonly ENVIRONMENT?: "production" | "staging" | "development";
 

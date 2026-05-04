@@ -214,3 +214,13 @@ for id in C12P2-1 C12P2-2 C12P2-3 C12P2-4 C12P2-5; do
     && echo "$id: PASS" || echo "$id: FAIL"
 done
 ```
+
+### PASS_WITH_BLOCKER closeout 5-gate (2026-05-03 追加)
+
+PASS_WITH_BLOCKER で closeout する task の Phase-12 では以下 5 gate を全て満たすこと（Phase-12 Task 6 compliance truthfulness check の延長）:
+
+1. **blocker evidence**: current 状態（fail evidence）が `outputs/phase-11/` に物理保存されている
+2. **root-output parity**: root `artifacts.json` と `outputs/artifacts.json` の phases 配列が完全一致
+3. **current vs planned 分離**: evidence directory が `current-*` / `planned-*` で物理分離されている
+4. **compliance truthfulness**: `phase12-task-spec-compliance-check.md` で blocker 状態を正直に記述（"fully enforced" を主張しない）
+5. **promoted feedback**: `skill-feedback-report.md` の `promoted-to` 列が実 skill reference の anchor を指す

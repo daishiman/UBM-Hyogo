@@ -18,6 +18,21 @@
 
 ---
 
+### Issue #399 Admin Queue Resolve Staging Visual Evidence（2026-05-03）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/` |
+| 状態 | `implementation-prepared / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval` |
+| seed識別 | D1 schema変更なし。既存ID列の `ISSUE399-` synthetic prefix で cleanup する |
+| 実装artifacts | apps/api/migrations/seed/issue-399-admin-queue-staging-{seed,cleanup}.sql, scripts/staging/{seed,cleanup}-issue-399.sh, focused Vitest |
+| close-out evidence | `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime evidence | `outputs/phase-11/screenshots/` は未取得。staging seed投入 / screenshot取得 / cleanup は user承認付き実行サイクルで行う |
+| parent | `docs/30-workflows/completed-tasks/04b-followup-004-admin-queue-resolve-workflow/` の delegated visual evidence gap を閉じるための実行仕様 |
+| Issue 取扱 | #399 は CLOSED 維持。reopen / commit / push / PR / Issue comment は user 明示指示後のみ |
+
+---
+
 ### UT-05A Auth UI Logout Button（2026-05-03）
 
 | 目的 | 参照先 |

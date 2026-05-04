@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #399 Admin Queue Resolve Staging Visual Evidence（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implementation-prepared / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/` |
+| 目的 | 04b-followup-004 の `/admin/requests` delegated visual evidence gap を、staging-only reversible seed + 7 screenshot capture runbook + redaction rule + parent evidence link plan で閉じる |
+| seed識別 | D1 schema変更なし。既存ID列の `ISSUE399-` synthetic prefix で投入・撤去対象を識別 |
+| 検証 | `mise exec -- pnpm exec vitest run apps/api/migrations/seed/__tests__ scripts/staging/__tests__`（focused Vitest）。staging seed / screenshot / redaction の runtime evidence は user 承認付き実行サイクル |
+| runtime境界 | staging seed投入 / screenshot取得 / cleanup / 親implementation-guideへの実link適用は Phase 11 runtime evidence 完了後。現時点では PASS 証跡ではない |
+| 親 / 下流 | parent: `docs/30-workflows/completed-tasks/04b-followup-004-admin-queue-resolve-workflow/`; blocks: parent visual evidence complete close-out |
+| Issue 取扱 | #399 CLOSED 維持。reopen / commit / push / PR / Issue comment は user 明示指示後のみ |
+
 ### UT-05A Auth UI Logout Button（2026-05-03）
 
 | 項目 | 値 |
@@ -104,6 +117,16 @@
 | 対象 | `03b-followup-001-email-conflict-identity-merge.md` ほか 8 follow-up |
 | 境界 | 各 follow-up は親 03b Phase 12 由来の単一 md 指示書であり、Phase 1-13 workflow root ではない。着手時に正式 workflow root、`artifacts.json`、Phase 1-13、Phase 12 必須 7 成果物、Phase 13 user approval gate へ昇格する |
 | current fact | responseEmail UNIQUE は `member_identities.response_email` が正本。identity merge は `member_identities` / `member_status` / `audit_log` を主語にし、`member_responses.member_id` 付替を前提にしない |
+
+#### Issue #199 03b Follow-up 006 Per-Sync Cap Alert（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 11 local evidence present / Phase 12 strict outputs present / Phase 13 blocked_until_user_instruction |
+| 成果物 | `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/` |
+| 目的 | `sync_jobs.metrics_json.writeCapHit?: boolean` を追加し、直近 3 件の response sync が cap hit へ未達から達成へ遷移した時だけ Analytics Engine dataset `sync_alerts` へ `sync_write_cap_consecutive_hit` を emit する |
+| alert 契約 | absent / NULL は false 解釈。event payload は `blobs=["sync_write_cap_consecutive_hit", "response_sync"]`, `doubles=[consecutiveHits, windowSize]`, `indexes=[jobId]`。detector は `ORDER BY started_at DESC, job_id DESC LIMIT 4` で current / previous window を比較し、failed / skipped row を streak reset として扱って重複 emit を抑制 |
+| 境界 | cap 値変更、cron 間隔変更、GitHub / Slack / mail 通知チャネル本体構築、Cloudflare deploy、commit / push / PR は user 明示指示まで実行しない。Issue #199 は OPEN 維持し PR / commit は `Refs #199` のみ |
 
 
 ### 04b Follow-up 004 Admin Queue Resolve Workflow（2026-05-01）
