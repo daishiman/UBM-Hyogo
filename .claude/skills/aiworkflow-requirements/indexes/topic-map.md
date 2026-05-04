@@ -2738,9 +2738,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L19 |
-| Gate Boundary | L33 |
-| Same-Wave Sync | L40 |
+| Phase 12 Strict Files | L20 |
+| Gate Boundary | L34 |
+| Same-Wave Sync | L41 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3037,7 +3037,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L195 |
+| 変更履歴 | L196 |
 
 ### references/deployment-cloudflare-opennext-workers.md
 
@@ -3708,6 +3708,18 @@ node scripts/list-specs.js --topics
 | OP-389-1: Phase 12 strict 7 ファイル + artifacts.json parity | L104 |
 | OP-389-2: unassigned-task の formalize と consume | L109 |
 
+### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 正本 4 系（coverage-80-enforcement と同一 SSOT を継承） | L18 |
+| 苦戦箇所 3 件 | L27 |
+| NON_VISUAL Phase 12 Part 1 / Part 2 構成の適用知見 | L50 |
+| branch protection / contexts 登録の上流前提（5 重明記継承） | L56 |
+| 実行タイミングまとめ | L60 |
+| 関連リソース | L69 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -4079,8 +4091,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L92 |
-| 関連ドキュメント | L97 |
+| 利用順序 | L93 |
+| 関連ドキュメント | L98 |
 
 ### references/llm-embedding.md
 
@@ -5149,13 +5161,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L189 |
-| フェーズ構造（概要） | L198 |
-| 品質ゲート（概要） | L229 |
-| 出力テンプレート | L240 |
-| 実行時のコマンド・エージェント・スキル | L263 |
-| 昇格パターン集 | L287 |
-| Current Active / Spec Created Tasks | L289 |
+| ドキュメント構成 | L190 |
+| フェーズ構造（概要） | L199 |
+| 品質ゲート（概要） | L230 |
+| 出力テンプレート | L241 |
+| 実行時のコマンド・エージェント・スキル | L264 |
+| 昇格パターン集 | L288 |
+| Current Active / Spec Created Tasks | L290 |
 
 ### references/task-workflow-backlog-part2.md
 
