@@ -5140,13 +5140,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L189 |
-| フェーズ構造（概要） | L198 |
-| 品質ゲート（概要） | L229 |
-| 出力テンプレート | L240 |
-| 実行時のコマンド・エージェント・スキル | L263 |
-| 昇格パターン集 | L287 |
-| Current Active / Spec Created Tasks | L289 |
+| ドキュメント構成 | L200 |
+| フェーズ構造（概要） | L209 |
+| 品質ゲート（概要） | L240 |
+| 出力テンプレート | L251 |
+| 実行時のコマンド・エージェント・スキル | L274 |
+| 昇格パターン集 | L298 |
+| Current Active / Spec Created Tasks | L300 |
 
 ### references/task-workflow-backlog-part2.md
 
