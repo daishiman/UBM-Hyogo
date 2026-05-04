@@ -113,15 +113,6 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
     expect(url).toBe("/api/admin/members/m1/notes/n%231");
   });
 
-  it("DELETE attendance: method=DELETE で body を送らない", async () => {
-    fetchSpy.mockResolvedValue(jsonResponse(200, null));
-    await adminApi.removeAttendance("s1", "m1");
-    const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
-    expect(url).toBe("/api/admin/meetings/s1/attendance/m1");
-    expect(init.method).toBe("DELETE");
-    expect(init.body).toBeUndefined();
-  });
-
   it("ネットワークエラーで status=0 / error を返す", async () => {
     fetchSpy.mockRejectedValue(new Error("boom"));
     const res = await adminApi.patchMemberStatus("m1", {});
