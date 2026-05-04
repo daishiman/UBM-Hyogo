@@ -58,6 +58,7 @@
 | --- | --- |
 | ステータス | implemented-local / test-fixture + admin component + UT-08A-01 public API test implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
 | wave guide | `docs/30-workflows/ut-coverage-2026-05-wave/README.md` |
+| ci recovery follow-up | `docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/README.md`（spec_created / implementation / NON_VISUAL。Task A-E parent-local canonical dirs、Phase 12 strict 7、root-only artifacts parity） |
 | wave-1 | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/` |
 | wave-2 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/` |
 | ut-web-cov-04 current canonical | `docs/30-workflows/completed-tasks/ut-web-cov-04-admin-lib-ui-primitives-coverage/`（implemented-local / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval。旧 nested path は historical wave grouping path） |
