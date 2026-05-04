@@ -2194,6 +2194,7 @@ node scripts/list-specs.js --topics
 | Workflow Governance Design 文書（artifact inventory） | L82 |
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
+| Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
@@ -3761,6 +3762,7 @@ node scripts/list-specs.js --topics
 | L-ISSUE195FU002-005: 「主担当 / サブ担当」と「owner / co-owner」の用語不整合 | L57 |
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
+| 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
