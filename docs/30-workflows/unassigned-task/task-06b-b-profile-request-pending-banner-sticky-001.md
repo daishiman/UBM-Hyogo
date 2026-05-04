@@ -31,6 +31,42 @@ This unassigned task has been formalized by `docs/30-workflows/06b-b-profile-req
 - Immediate approval / rejection workflow changes.
 - Profile body edit UI.
 
+## スコープ（含む/含まない）
+
+含む:
+- `GET /me/profile` レスポンスへの `pendingRequests` 追加（`admin_member_notes.note_type IN ('visibility_request','delete_request')` かつ `request_status='pending'` を読む）
+- `apps/web/src/lib/api/me-types.ts` の `PendingRequests` mirror 型と `MeProfileResponse.pendingRequests` 追加
+- `/profile` Server Component から `RequestActionPanel` への server pending state 引き渡し（reload 後 banner 持続・duplicate ボタン disabled）
+- API unit / route integration / web unit / Playwright reload-sticky E2E の追加
+
+含まない:
+- 管理画面の申請キュー UI 再設計
+- 承認・却下フローの即時化等の挙動変更
+- profile 本文編集 UI
+- 新規 error code 追加（既存 `DUPLICATE_PENDING_REQUEST` を再利用）
+- `:memberId` を path に持つ web → API ルート追加（不変条件 #11）
+
+## リスクと対策
+
+| リスク | 対策 |
+| --- | --- |
+| client local optimistic state が server pending と乖離し reload 時に banner が消える | `/me/profile.pendingRequests` を single source of truth とし、local state は submit-in-flight のみに限定（implementation-guide.md Part 2）|
+| `apps/web` から D1 への直接アクセスが混入し不変条件 #5 に違反する | `apps/web/app/api/me/[...path]/route.ts` の BFF passthrough のみで API へ到達し、grep gate で web 側 SQL/D1 import を検出する |
+| `:memberId` を web→API path に出して不変条件 #11 違反 | backend session resolve（06b-A）で memberId を解決し、web 側 path には載せない |
+| 別 tab / stale UI 起因の重複申請が増える | API は既存 `request_status='pending'` lookup と 409 + `DUPLICATE_PENDING_REQUEST` 契約を再利用し、UI は server state 優先で disabled / 文言を出す |
+| Phase 11 logged-in screenshot が未取得のまま PASS と誤記される | Phase 11 は `IMPLEMENTED_AWAITING_VISUAL_CAPTURE` / `blocked_runtime_evidence` 固定とし、authenticated capture cycle を別 wave に委譲する |
+| `admin_member_notes` 上に新しい resolved 行が積まれた後も古い pending 行が残るケースで読み取りがずれる | `request_status='pending'` 述語で pending 行のみを抽出し、`apps/api/src/routes/me/index.test.ts` に「新しい resolved + 古い pending」エッジケースを追加する |
+
+## 検証方法
+
+- `mise exec -- pnpm --filter @ubm-hyogo/api test -- src/routes/me/index.test.ts`（pending なし / visibility pending / delete pending / duplicate 409 ケース）
+- `mise exec -- pnpm --filter @ubm-hyogo/web test -- RequestActionPanel`（banner + disabled state）
+- `mise exec -- pnpm --filter @ubm-hyogo/web test -- me-types.test-d.ts`（web mirror 型）
+- `mise exec -- pnpm typecheck && mise exec -- pnpm lint`
+- Playwright: `apps/web/playwright/tests/profile-pending-sticky.spec.ts`（authenticated runtime capture cycle で reload-sticky banner / disabled button screenshot を取得）
+- grep gate: `apps/web` から D1 直接アクセス・`:memberId` 付き API 呼び出しが無いこと、profile 本文編集 UI 追加が無いこと
+- AC-Runtime path 対応は `outputs/phase-12/implementation-guide.md` の AC table を一次ソースとする
+
 ## Acceptance Criteria
 
 - Reloading `/profile` after a pending request still shows the pending banner.

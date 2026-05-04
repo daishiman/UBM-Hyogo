@@ -2,7 +2,7 @@
 
 ## Summary
 
-This Phase 12 close-out formalizes the sticky pending banner implementation specification. The workflow remains `spec_created / implementation / VISUAL_ON_EXECUTION`: code, deploy, runtime screenshots, commit, push, and PR are still user-gated.
+This Phase 12 close-out synchronizes the sticky pending banner implementation after local code and focused tests were added. The workflow is `implemented-local / implementation / VISUAL_ON_EXECUTION`: local static evidence is available, while staging/runtime screenshots, deploy, commit, push, and PR remain user-gated.
 
 ## Strict Outputs
 
@@ -17,5 +17,4 @@ This Phase 12 close-out formalizes the sticky pending banner implementation spec
 
 ## Boundary
 
-The implementation path is additive. Existing 06b-B code is not discarded; the future implementation should extend `GET /me/profile`, read pending rows from `admin_member_notes`, mirror the response type in web, and keep Phase 11 runtime visual evidence pending until an authenticated execution cycle captures it.
-
+The implementation path is additive. Existing 06b-B code is not discarded; the implemented branch extends `GET /me/profile`, reads pending rows from `admin_member_notes`, mirrors the response type in web, and keeps Phase 11 runtime visual evidence pending until an authenticated execution cycle captures it.

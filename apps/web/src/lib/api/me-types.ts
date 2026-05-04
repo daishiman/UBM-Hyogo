@@ -32,7 +32,7 @@ export interface MeProfileStatusSummary {
 }
 
 // 06b-followup-001 (#428): server-side pending request の mirror 型。
-//   apps/api/src/routes/me/schemas.ts と構造一致（drift は typecheck で検出）。
+//   API パッケージ /me/schemas.ts と構造一致（drift は typecheck で検出）。
 export interface PendingVisibilityRequest {
   readonly queueId: string;
   readonly status: "pending";

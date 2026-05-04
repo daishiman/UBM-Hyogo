@@ -10,7 +10,7 @@
 | wave | 06b-fu |
 | mode | parallel（実依存は serial: 06b-A → 06b-B → 06b-B-pending-banner-sticky → 06b-C） |
 | owner | - |
-| 状態 | spec_created |
+| 状態 | implemented-local |
 | taskType | implementation |
 | visualEvidence | VISUAL_ON_EXECUTION |
 | priority | medium |
@@ -138,4 +138,4 @@
 
 ## completion definition
 
-全 phase 仕様書が揃い、`apps/api` と `apps/web` の実装差分・型契約・evidence path・user approval gate が明確であること。実装本体・deploy・commit・push・PR 作成は本仕様書作成タスクでは実行しない。
+`apps/api` と `apps/web` の実装差分・型契約・focused test・evidence path・user approval gate が明確であること。実装本体は local branch に反映済み。staging/runtime screenshot、deploy、commit、push、PR 作成はユーザー承認後に実行する。

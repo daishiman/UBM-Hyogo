@@ -90,6 +90,19 @@ trace は `outputs/phase-11/playwright-report/` に保存。
 - 実機キャプチャ不可の場合、`outputs/phase-11/main.md` に「BLOCKED」セクションを設け、blocker / 委譲先（06b-C）/ 再開条件を記録する
 - artifacts.json の phase-11 status を `IMPLEMENTED_AWAITING_VISUAL_CAPTURE` または `blocked_runtime_evidence` に更新
 
+## BLOCKED — runtime visual evidence
+
+| Item | Value |
+| --- | --- |
+| Status | `blocked_runtime_evidence` |
+| Blocker | Authenticated `/profile` browser session and seeded `admin_member_notes` pending rows are required to capture reliable reload-sticky screenshots |
+| Not claimed | TC-01..TC-05 screenshots, Playwright trace, staging/local browser visual PASS |
+| Static substitute | API/web focused tests and type contracts verify local behavior before runtime capture |
+| Reopen condition | User authorizes local/staging authenticated smoke with test account + pending queue seed |
+| Handoff | 06b-C logged-in visual evidence, 08b Playwright E2E, or 09a staging smoke can consume the same TC-01..TC-05 screenshot contract |
+
+No screenshot files are stored under `outputs/phase-11/screenshots/` in this cycle. The absence is intentional and represented by the artifact ledger phase-11 status, not by a PASS claim.
+
 ## 多角的チェック観点
 
 - reload を物理的に行ったかどうか（楽観的 banner と区別）

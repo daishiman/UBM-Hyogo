@@ -91,14 +91,15 @@ PR body 構成:
 ## Changes
 ### apps/api
 - `src/routes/me/schemas.ts`（`PendingRequestsZ` 追加 / `MeProfileResponseZ` 拡張）
-- `src/routes/me/services.ts`（`getPendingRequestsForMember` 追加）
+- `src/repository/adminNotes.ts`（pending-only read helper 追加）
+- `src/routes/me/services.ts`（`getPendingRequestsForMember` 追加、pending-only read model 使用）
 - `src/routes/me/index.ts`（`GET /me/profile` で pending 合成）
-- `src/routes/me/__tests__/services.pending.test.ts`（新規）
+- `src/routes/me/index.test.ts`（reload sticky / duplicate 409 / pending-only edge case）
 
 ### apps/web
 - `app/profile/page.tsx`（pending を props で渡す）
-- `app/profile/_components/RequestActionPanel.tsx`（disabled 判定を server pending 優先に）
-- `app/profile/_components/{VisibilityRequest,DeleteRequest}.client.tsx`（submit 後 `router.refresh()`）
+- `app/profile/_components/RequestActionPanel.tsx`（disabled 判定を server pending 優先に、submit 後 `router.refresh()`）
+- `src/lib/api/me-types.ts` / `me-types.test-d.ts`（web mirror 型）
 - `playwright/tests/profile-pending-sticky.spec.ts`（新規）
 
 ### docs
@@ -107,10 +108,11 @@ PR body 構成:
 - `docs/00-getting-started-manual/specs/09-ui-ux.md`
 
 ## Test plan
-- [ ] `pnpm typecheck` PASS
-- [ ] `pnpm lint` PASS
-- [ ] `pnpm test`（unit / integration）PASS
-- [ ] Playwright `profile-pending-sticky` PASS（reload 永続性 / stale 409）
+- [x] `pnpm --filter @ubm-hyogo/api typecheck` PASS
+- [x] `pnpm --filter @ubm-hyogo/web typecheck` PASS
+- [x] `pnpm --filter @ubm-hyogo/api test -- apps/api/src/routes/me/index.test.ts` PASS（script は apps/api suite 全体を実行: 106 files / 683 tests）
+- [x] `pnpm --filter @ubm-hyogo/web test -- apps/web/app/profile/_components/RequestActionPanel.test.tsx apps/web/src/lib/api/me-types.test-d.ts` PASS（script は apps/web suite 全体を実行: 48 files / 399 tests）
+- [ ] Playwright `profile-pending-sticky` PASS（authenticated runtime capture pending）
 - [ ] grep gate（#4 / #5 / #11 / S5）
 
 ## Screenshots

@@ -162,6 +162,28 @@ export const findLatestByMemberAndType = async (
 };
 
 /**
+ * 指定 member × note_type の最新 pending 申請を取得する。
+ * `hasPendingRequest` と同じ predicate を使い、read model と二重申請ガードの
+ * 判定対象を一致させる。
+ */
+export const findLatestPendingByMemberAndType = async (
+  c: DbCtx,
+  memberId: MemberId,
+  noteType: Exclude<AdminMemberNoteType, "general">,
+): Promise<AdminMemberNoteRow | null> => {
+  const r = await c.db
+    .prepare(
+      `SELECT ${SELECT_COLS} FROM admin_member_notes
+       WHERE member_id = ?1 AND note_type = ?2 AND request_status = 'pending'
+       ORDER BY created_at DESC
+       LIMIT 1`,
+    )
+    .bind(memberId, noteType)
+    .first<RawNoteRow>();
+  return r ? toRow(r) : null;
+};
+
+/**
  * 同一 member × note_type の pending 申請が既にあれば true を返す。
  * 04b-followup-001: `request_status='pending'` 行のみを判定対象とし、
  *   resolved / rejected 行が残っていても再申請を許容する（AC-3 / AC-7）。

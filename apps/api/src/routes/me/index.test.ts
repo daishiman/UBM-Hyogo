@@ -207,6 +207,25 @@ describe("/me/* — member self-service API", () => {
       const parsed = MeProfileResponseZ.parse(await res.json());
       expect(parsed.pendingRequests.visibility).toBeUndefined();
     });
+
+    it("06b-fu-001: 最新が resolved でも古い pending があれば banner 用 pendingRequests.visibility を返す", async () => {
+      await env.db
+        .prepare(
+          "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, request_status, created_by, updated_by, created_at, updated_at) VALUES ('n_pending_old','m_001','{\"payload\":{\"desiredState\":\"public\"}}','visibility_request','pending','admin@example.com','admin@example.com','2026-05-04T00:00:00Z','2026-05-04T00:00:00Z')",
+        )
+        .run();
+      await env.db
+        .prepare(
+          "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, request_status, resolved_at, created_by, updated_by, created_at, updated_at) VALUES ('n_resolved_new','m_001','{}','visibility_request','resolved',1,'admin@example.com','admin@example.com','2026-05-04T01:00:00Z','2026-05-04T01:00:00Z')",
+        )
+        .run();
+
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests.visibility?.queueId).toBe("n_pending_old");
+      expect(parsed.pendingRequests.visibility?.desiredState).toBe("public");
+    });
   });
 
   describe("POST /me/visibility-request", () => {

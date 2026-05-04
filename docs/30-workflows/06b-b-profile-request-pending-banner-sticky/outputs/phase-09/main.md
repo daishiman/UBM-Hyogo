@@ -41,6 +41,31 @@ mise exec -- pnpm --filter @ubm/web exec playwright test profile-pending-sticky
 | Playwright | TC-E-01..06 全 PASS |
 | grep gate（#4 / #5 / #11 / S2 / S5） | 期待値と完全一致 |
 
+## Local Static Evidence Status
+
+| Gate | Status | Evidence |
+| --- | --- | --- |
+| API implementation | implemented | `apps/api/src/routes/me/{schemas,index,services}.ts` adds `pendingRequests` and `getPendingRequestsForMember` |
+| Repository read model | implemented | `apps/api/src/repository/adminNotes.ts` exposes pending-only lookup aligned with duplicate guard |
+| Web implementation | implemented | `apps/web/app/profile/page.tsx` passes `profileRes.pendingRequests`; `RequestActionPanel` prioritizes server pending |
+| API focused coverage | implemented / rerun required after review patch | `apps/api/src/routes/me/index.test.ts` covers no pending, visibility pending, delete pending, duplicate 409, and pending/read-model edge case |
+| Web focused coverage | implemented / rerun required after review patch | `apps/web/app/profile/_components/RequestActionPanel.test.tsx` covers banner + disabled behavior |
+| Runtime visual evidence | blocked_runtime_evidence | Authenticated browser session + seeded pending queue state are required; see Phase 11 |
+
+This phase records local static implementation evidence only. Runtime screenshot evidence is intentionally not marked PASS until Phase 11 capture runs.
+
+## Executed Verification Results
+
+| Command | Result | Notes |
+| --- | --- | --- |
+| `pnpm --filter @ubm-hyogo/api typecheck` | PASS | `tsc -p tsconfig.json --noEmit` exit 0 |
+| `pnpm --filter @ubm-hyogo/web typecheck` | PASS | `tsc -p tsconfig.json --noEmit` exit 0 |
+| `pnpm --filter @ubm-hyogo/api lint` | PASS | package lint script runs `tsc -p tsconfig.json --noEmit`; exit 0 |
+| `pnpm --filter @ubm-hyogo/web lint` | PASS | package lint script runs `tsc -p tsconfig.json --noEmit`; exit 0 |
+| `pnpm --filter @ubm-hyogo/api test -- apps/api/src/routes/me/index.test.ts` | PASS | package script executed the full apps/api suite: 106 files / 683 tests PASS; target `apps/api/src/routes/me/index.test.ts` had 20 tests PASS |
+| `pnpm --filter @ubm-hyogo/web test -- apps/web/app/profile/_components/RequestActionPanel.test.tsx apps/web/src/lib/api/me-types.test-d.ts` | PASS | package script executed the full apps/web suite: 48 files / 399 tests PASS; target `RequestActionPanel.test.tsx` had 10 tests PASS |
+| Playwright `profile-pending-sticky` | BLOCKED | Spec file exists but remains skipped until authenticated runtime capture is authorized |
+
 ## grep gate 一覧
 
 ```bash

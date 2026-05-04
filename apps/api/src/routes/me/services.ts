@@ -86,12 +86,12 @@ export const getPendingRequestsForMember = async (
   ctx: DbCtx,
   memberId: MemberId,
 ): Promise<PendingRequests> => {
-  const visibility = await adminNotes.findLatestByMemberAndType(
+  const visibility = await adminNotes.findLatestPendingByMemberAndType(
     ctx,
     memberId,
     "visibility_request",
   );
-  const del = await adminNotes.findLatestByMemberAndType(
+  const del = await adminNotes.findLatestPendingByMemberAndType(
     ctx,
     memberId,
     "delete_request",
