@@ -135,39 +135,6 @@ describe("admin attendance", () => {
     await expect(res.json()).resolves.toMatchObject({ error: "session_not_found" });
   });
 
-  it("unknown member は 404", async () => {
-    const app = createAdminAttendanceRoute();
-    const res = await app.request(
-      "/meetings/s1/attendance",
-      {
-        method: "POST",
-        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
-        body: JSON.stringify({ memberId: "missing" }),
-      },
-      makeEnv(env),
-    );
-    expect(res.status).toBe(404);
-    await expect(res.json()).resolves.toMatchObject({ error: "member not found" });
-  });
-
-  it("soft-deleted meeting は 404", async () => {
-    const app = createAdminAttendanceRoute();
-    await env.db
-      .prepare("UPDATE meeting_sessions SET deleted_at = '2026-05-04T00:00:00Z' WHERE session_id = 's1'")
-      .run();
-    const res = await app.request(
-      "/meetings/s1/attendance",
-      {
-        method: "POST",
-        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
-        body: JSON.stringify({ memberId: "m_alive" }),
-      },
-      makeEnv(env),
-    );
-    expect(res.status).toBe(404);
-    await expect(res.json()).resolves.toMatchObject({ error: "session_not_found" });
-  });
-
   it("candidates は削除済みと登録済みを除外する", async () => {
     const app = createAdminAttendanceRoute();
     await app.request(

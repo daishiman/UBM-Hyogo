@@ -35,7 +35,7 @@
 
 **苦戦箇所**: POST add のエラーが `409 duplicate` / `422 deleted_member` / `404 session_not_found` / `404 member_not_found` の 4 種に分かれるが、初期実装は repository が throw する Error message を route が文字列マッチして status を決めていた。i18n / refactor 耐性が低い。
 
-**解決方針**: repository が `type AddAttendanceResult = { ok: true; row: MemberAttendanceRow } | { ok: false; reason: 'duplicate' | 'deleted_member' | 'session_not_found' | 'member_not_found'; existing?: MemberAttendanceRow }` の discriminated union を返す。route は `switch (result.reason)` で HTTP status を決める。テストは reason を直接 assert でき、message 文字列に依存しない。
+**解決方針**: repository が `type AddAttendanceResult = { ok: true; row: MemberAttendanceRow } | { ok: false; reason: 'duplicate' | 'member_deleted' | 'session_not_found' | 'member_not_found'; existing?: MemberAttendanceRow }` の discriminated union を返す。route は `switch (result.reason)` で HTTP status を決める。テストは reason を直接 assert でき、message 文字列に依存しない。
 
 **適用先**: 複数の異常系を扱う repository / service は、`{ ok: boolean; reason?: enum; ... }` の discriminated union を返すパターンを最初から採用する。`throw` で例外を伝播させない。
 

@@ -51,11 +51,6 @@ import { setConsentSnapshot, getStatus } from "../repository/status";
 import { enqueue as enqueueDiff } from "../repository/schemaDiffQueue";
 import { enqueueTagCandidate } from "../workflows/tagCandidateEnqueue";
 import { start, succeed, fail } from "../repository/syncJobs";
-import {
-  evaluateConsecutiveCapHits,
-  emitConsecutiveCapHitEvent,
-  CAP_ALERT_DEFAULT_WINDOW,
-} from "./cap-alert";
 
 import type { GoogleFormsClient } from "@ubm-hyogo/integrations";
 
@@ -63,8 +58,6 @@ export interface ResponseSyncEnv {
   readonly DB: D1Database;
   readonly GOOGLE_FORM_ID?: string;
   readonly RESPONSE_SYNC_WRITE_CAP?: string;
-  // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
-  readonly SYNC_ALERTS?: AnalyticsEngineDataset;
 }
 
 export interface ResponseSyncOptions {
@@ -130,7 +123,6 @@ export async function runResponseSync(
       writes: 0,
       processed: 0,
       skipped: true,
-      writeCapHit: false,
       reason: "another response sync is in progress",
     });
     return {
@@ -145,7 +137,6 @@ export async function runResponseSync(
 
   let processed = 0;
   let writes = 0;
-  let writeCapHit = false;
   let cursor: string | null;
   if (options.fullSync) {
     cursor = null;
@@ -189,7 +180,6 @@ export async function runResponseSync(
       if (!nextPageToken) break;
       if (writes >= writeCap) break;
     }
-    writeCapHit = stopDueToCap || writes >= writeCap;
   } catch (err) {
     await fail(dbCtx, jobId, {
       code: classifyError(err),
@@ -213,32 +203,7 @@ export async function runResponseSync(
     cursor,
     writes,
     processed,
-    writeCapHit,
   });
-  if (writeCapHit) {
-    try {
-      const capAlertEnv = env.SYNC_ALERTS
-        ? { DB: env.DB, SYNC_ALERTS: env.SYNC_ALERTS }
-        : { DB: env.DB };
-      const evalResult = await evaluateConsecutiveCapHits(capAlertEnv, {
-        window: CAP_ALERT_DEFAULT_WINDOW,
-        jobKind: RESPONSE_SYNC,
-      });
-      if (evalResult.shouldEmit) {
-        await emitConsecutiveCapHitEvent(capAlertEnv, {
-          jobId,
-          jobKind: RESPONSE_SYNC,
-          consecutiveHits: evalResult.consecutiveHits,
-          windowSize: evalResult.windowSize,
-        });
-      }
-    } catch (err) {
-      console.warn(
-        "[cap-alert] detector/emit failed",
-        err instanceof Error ? err.message : String(err),
-      );
-    }
-  }
   if (lock) {
     await releaseSyncLock(env.DB, lock).catch(() => undefined);
   }

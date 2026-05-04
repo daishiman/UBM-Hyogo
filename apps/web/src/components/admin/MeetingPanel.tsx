@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   createMeeting,
-  updateMeeting,
   addAttendance,
   removeAttendance,
 } from "../../lib/admin/api";
@@ -61,7 +60,6 @@ export function MeetingPanel({ meetings, candidates }: Props) {
   // 各 session ごとに { memberId -> 既出席 } を維持（API初期値 + 楽観 UI）
   const [attended, setAttended] = useState<Record<string, Set<string>>>(initialAttended);
   const [pickedMember, setPickedMember] = useState<Record<string, string>>({});
-  const [editing, setEditing] = useState<Record<string, { title: string; heldOn: string; note: string }>>({});
 
   const onCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,32 +100,6 @@ export function MeetingPanel({ meetings, candidates }: Props) {
       return next;
     });
     setToast("出席を追加しました");
-  };
-
-  const onUpdate = async (sessionId: string) => {
-    const draft = editing[sessionId];
-    if (!draft || !draft.title.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(draft.heldOn)) return;
-    const r = await updateMeeting(sessionId, {
-      title: draft.title.trim(),
-      heldOn: draft.heldOn,
-      note: draft.note.trim() || null,
-    });
-    if (!r.ok) {
-      setToast(`開催更新に失敗: ${r.error}`);
-      return;
-    }
-    setToast("開催日を更新しました");
-    router.refresh();
-  };
-
-  const onSoftDelete = async (sessionId: string) => {
-    const r = await updateMeeting(sessionId, { deletedAt: new Date().toISOString() });
-    if (!r.ok) {
-      setToast(`開催削除に失敗: ${r.error}`);
-      return;
-    }
-    setToast("開催日を削除しました");
-    router.refresh();
   };
 
   const onRemove = async (sessionId: string, memberId: string) => {
@@ -184,69 +156,6 @@ export function MeetingPanel({ meetings, candidates }: Props) {
               <article>
                 <h3>{m.heldOn} — {m.title}</h3>
                 {m.note && <p>{m.note}</p>}
-                <details>
-                  <summary>編集</summary>
-                  <label>
-                    タイトル
-                    <input
-                      value={editing[m.sessionId]?.title ?? m.title}
-                      onChange={(e) =>
-                        setEditing((s) => ({
-                          ...s,
-                          [m.sessionId]: {
-                            title: e.target.value,
-                            heldOn: s[m.sessionId]?.heldOn ?? m.heldOn,
-                            note: s[m.sessionId]?.note ?? (m.note ?? ""),
-                          },
-                        }))
-                      }
-                    />
-                  </label>
-                  <label>
-                    開催日
-                    <input
-                      type="date"
-                      value={editing[m.sessionId]?.heldOn ?? m.heldOn}
-                      onChange={(e) =>
-                        setEditing((s) => ({
-                          ...s,
-                          [m.sessionId]: {
-                            title: s[m.sessionId]?.title ?? m.title,
-                            heldOn: e.target.value,
-                            note: s[m.sessionId]?.note ?? (m.note ?? ""),
-                          },
-                        }))
-                      }
-                    />
-                  </label>
-                  <label>
-                    メモ
-                    <input
-                      value={editing[m.sessionId]?.note ?? (m.note ?? "")}
-                      onChange={(e) =>
-                        setEditing((s) => ({
-                          ...s,
-                          [m.sessionId]: {
-                            title: s[m.sessionId]?.title ?? m.title,
-                            heldOn: s[m.sessionId]?.heldOn ?? m.heldOn,
-                            note: e.target.value,
-                          },
-                        }))
-                      }
-                    />
-                  </label>
-                  <button type="button" onClick={() => onUpdate(m.sessionId)}>
-                    更新
-                  </button>
-                  <button type="button" onClick={() => onSoftDelete(m.sessionId)}>
-                    開催日を削除
-                  </button>
-                </details>
-                <p>
-                  <a href={`/api/admin/meetings/${encodeURIComponent(m.sessionId)}/export.csv`}>
-                    CSV
-                  </a>
-                </p>
                 <div role="group" aria-label="出席追加">
                   <label>
                     会員を選択

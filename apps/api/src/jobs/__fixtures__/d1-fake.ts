@@ -126,46 +126,9 @@ function runFirst<T>(db: FakeD1, sql: string, b: unknown[]): T | null {
   return null;
 }
 
-function runAll<T>(db: FakeD1, sql: string, b: unknown[]): T[] {
+function runAll<T>(db: FakeD1, sql: string, _b: unknown[]): T[] {
   const s = sql.replace(/\s+/g, " ").trim();
-  if (/FROM sync_jobs/i.test(s)) {
-    // 03b-followup-006: cap-alert detector SQL を再現する。
-    // SELECT job_id, started_at, COALESCE(json_extract(metrics_json,'$.writeCapHit'),0) AS writeCapHit
-    if (
-      /\$\.writeCapHit/.test(s) &&
-      /WHERE job_type = \?1/i.test(s)
-    ) {
-      const jobType = b[0];
-      const limit = typeof b[1] === "number" ? b[1] : Number(b[1]);
-      const filtered = db.syncJobs
-        .filter((r) => {
-          if (r["job_type"] !== jobType) return false;
-          return true;
-        })
-        .sort((a, c) => {
-          const sa = String(a["started_at"]);
-          const sb = String(c["started_at"]);
-          if (sa !== sb) return sb.localeCompare(sa);
-          return String(c["job_id"]).localeCompare(String(a["job_id"]));
-        });
-      const rows = filtered.slice(0, Number.isFinite(limit) ? limit : filtered.length).map((r) => {
-        let writeCapHit: number = 0;
-        try {
-          const m = JSON.parse(String(r["metrics_json"] ?? "{}"));
-          writeCapHit = m.writeCapHit === true || m.writeCapHit === 1 ? 1 : 0;
-        } catch {
-          writeCapHit = 0;
-        }
-        return {
-          job_id: r["job_id"],
-          started_at: r["started_at"],
-          writeCapHit,
-        };
-      });
-      return rows as unknown as T[];
-    }
-    return db.syncJobs.map(mapJobRow) as unknown as T[];
-  }
+  if (/FROM sync_jobs/i.test(s)) return db.syncJobs.map(mapJobRow) as unknown as T[];
   if (/FROM member_responses/i.test(s)) return db.responses as unknown as T[];
   if (/FROM response_fields/i.test(s)) return db.responseFields as unknown as T[];
   return [];
