@@ -28,6 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.05-issue347-external-saas-decision-evidence | 2026-05-05 | Issue #347 Cloudflare Analytics export decision feedback を反映。外部 SaaS / Cloudflare dashboard 認証が必要な docs-only decision workflow では representative schema sample、runtime production sample、constraints file を分離し、user auth 不在の runtime sample を PASS 化しない。 |
 | v2026.05.04-ut07b-fu04-already-applied-verification | 2026-05-04 | UT-07B-FU-04 review feedback を反映。production D1 ledger 既適用時は apply execution を already-applied verification へ再分類し、`d1 migrations apply` を forbidden path、`apply.log` を no-op prohibition evidence とする。post-check は target migration owned objects のみに限定し、placeholder evidence と fresh runtime evidence を Phase 12 で分離する。 |
 | v2026.05.03-ut-05a-deploy-verification-two-path | 2026-05-03 | UT-05A fetchPublic service-binding workflow の skill feedback を反映。Cloudflare Workers の deploy-verification 型 Phase 11 では code diff / staging curl / production curl / tail / local fallback / redaction を分け、未実行 runtime evidence を PASS 化しない。service-binding + HTTP fallback の two-path 実装は AC を runtime path × evidence で記録する。 |
 | v2026.05.04-ut-09a-cloudflare-cli-non-visual | 2026-05-04 | UT-09A Cloudflare auth token injection recovery feedback を反映。Cloudflare CLI / shell wrapper 系 NON_VISUAL Phase 11 は `phase-11-cloudflare-cli-non-visual-evidence.md` を使い、`main.md` PASS 後に helper artifacts / artifacts ledgers / Phase 12 compliance / aiworkflow index を同一 wave で runtime state に同期する。`whoami` exit 0 と deploy scope PASS を混同しない。 |

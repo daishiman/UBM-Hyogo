@@ -5,6 +5,22 @@
 
 ---
 
+### Issue #347 Cloudflare Analytics Long-term Evidence（2026-05-05）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| canonical method | GraphQL Analytics API aggregate-only export |
+| fallback / rejected | CSV fallback with redaction / screenshot rejected |
+| retention | 直近 12 件 active、13 件目以降 `archive/YYYY-MM/` |
+| PII boundary | URL query / body / IP / User-Agent / email / member ID / token 保存禁止 |
+| automation follow-up | `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` |
+| lessons-learned | `references/lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md` |
+| Issue 取扱 | #347 は CLOSED 維持。`Refs #347` のみ |
+
+---
+
 ### Issue #194 / 04c Identity Conflict Merge Alias（2026-05-04）
 
 | 目的 | 参照先 |
