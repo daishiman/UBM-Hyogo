@@ -5,7 +5,7 @@
 
 import { z } from "zod";
 
-import { PublicMemberListItemZ, PublicMemberListViewZ } from "@ubm-hyogo/shared";
+import { PublicMemberListItemZ, PublicMemberListViewZ, STABLE_KEY } from "@ubm-hyogo/shared";
 
 import type { PaginationMeta } from "../../_shared/pagination";
 
@@ -32,7 +32,7 @@ export interface PublicMemberListSource {
   generatedAt: string;
 }
 
-const FORBIDDEN_KEYS = ["responseEmail", "rulesConsent", "adminNotes"] as const;
+const FORBIDDEN_KEYS = ["responseEmail", STABLE_KEY.rulesConsent, "adminNotes"] as const;
 
 const stripForbidden = (obj: Record<string, unknown>): Record<string, unknown> => {
   const clone = { ...obj };

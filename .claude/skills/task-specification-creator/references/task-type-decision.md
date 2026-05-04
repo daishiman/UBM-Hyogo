@@ -27,3 +27,12 @@
 - `scaffolding-only` を PR / push CI gate に入れる場合は manual-only に留め、full execution task で skipped spec 0 / real evidence 取得後に gate 化する
 - `screenshots/` ディレクトリを作成しない（`.gitkeep` も不要）
 - `artifacts.json` の `metadata.visualEvidence` に必ず明記する（省略すると screenshot 要求側に倒れる）
+
+## Closeout state 分類補足 (2026-05-03 追加)
+
+| state | task type | visualEvidence | 用途 |
+| --- | --- | --- | --- |
+| spec_created | implementation / process | 任意 | 仕様書作成完了・実装未着手 |
+| enforced_dry_run | implementation | NON_VISUAL | warning モードで動的検証中、blocking gate へ昇格前 |
+| PASS_WITH_BLOCKER | implementation | NON_VISUAL | 全 phase の design GO は完了、runtime GO は外部前提（legacy cleanup 等）blocked。Issue #394 (stableKey strict CI gate) 実例。current evidence と planned-after-cleanup evidence を物理分離する |
+| completed | implementation / process | 任意 | runtime GO 完了・completed-tasks/ へ移動 |

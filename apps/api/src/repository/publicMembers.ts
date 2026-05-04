@@ -7,6 +7,7 @@
 
 import type { DbCtx } from "./_shared/db";
 import { placeholders } from "./_shared/sql";
+import { STABLE_KEY } from "@ubm-hyogo/shared";
 
 export interface PublicMemberRow {
   member_id: string;
@@ -48,7 +49,7 @@ const buildBaseFromWhere = (input: ListPublicMembersInput): {
       AND EXISTS (
         SELECT 1 FROM response_fields rf_zone
         WHERE rf_zone.response_id = mi.current_response_id
-          AND rf_zone.stable_key = 'ubmZone'
+          AND rf_zone.stable_key = '${STABLE_KEY.ubmZone}'
           AND rf_zone.value_json = ?
       )`;
     binds.push(JSON.stringify(input.zone));
@@ -59,7 +60,7 @@ const buildBaseFromWhere = (input: ListPublicMembersInput): {
       AND EXISTS (
         SELECT 1 FROM response_fields rf_status
         WHERE rf_status.response_id = mi.current_response_id
-          AND rf_status.stable_key = 'ubmMembershipType'
+          AND rf_status.stable_key = '${STABLE_KEY.ubmMembershipType}'
           AND rf_status.value_json = ?
       )`;
     binds.push(JSON.stringify(input.status));
@@ -149,8 +150,8 @@ export interface MembershipCountRow {
   count: number;
 }
 
-const ZONE_STABLE_KEY = "ubmZone";
-const MEMBERSHIP_STABLE_KEY = "ubmMembershipType";
+const ZONE_STABLE_KEY = STABLE_KEY.ubmZone;
+const MEMBERSHIP_STABLE_KEY = STABLE_KEY.ubmMembershipType;
 
 /**
  * stableKey 別 (ubmZone / ubmMembershipType) の値を集計する。

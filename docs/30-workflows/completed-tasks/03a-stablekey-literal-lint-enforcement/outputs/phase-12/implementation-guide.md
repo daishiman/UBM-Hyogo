@@ -35,7 +35,7 @@ Target delta:
 Edge cases:
 
 - Dynamic runtime string composition remains out of scope and is tracked as a follow-up.
-- The final `fully enforced` status is only claimed after error-mode CI evidence exists.
+- The final `fully enforced` status is only claimed after error-mode CI evidence exists. Issue #393 has removed the legacy literal blocker locally, so the remaining blocker is CI gate promotion.
 
 ### TypeScript 型定義
 
@@ -121,7 +121,7 @@ ESLint 依存が monorepo 未導入のため、既存 `scripts/lint-boundaries.m
 
 - stableKey 数: 31（field.ts から動的抽出、count gate あり）
 - allow-list: 2 modules（spec 通り）
-- 既存コード違反数: 147 件（apps/api 配下中心の legacy literal — `enforced` 昇格前の baseline）
+- 既存コード違反数: 0 件（Issue #393 `docs/30-workflows/issue-393-stablekey-literal-legacy-cleanup/` により legacy literal cleanup 完了）
 - 単体テスト: 7/7 PASS
 - typecheck: 全 workspace clean
 - warning モード: lint chain exit 0（CI block しない）
@@ -129,6 +129,6 @@ ESLint 依存が monorepo 未導入のため、既存 `scripts/lint-boundaries.m
 
 ### enforced 昇格条件
 
-1. apps/api/* の legacy literal を supply module 経由 import に refactor
-2. CI workflow で `--strict` を default に切替
+1. CI workflow で `--strict` を default に切替
+2. strict lint を required status check として運用できることを確認
 3. 03a workflow AC-7 を「fully enforced」に更新
