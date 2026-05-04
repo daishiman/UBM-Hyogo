@@ -79,7 +79,6 @@ export const postSchemaAlias = (body: {
   questionId: string;
   stableKey: string;
   diffId?: string;
-  dryRun?: boolean;
 }) => call(`/schema/aliases`, "POST", body);
 
 export const resolveAdminRequest = (

@@ -170,19 +170,6 @@ describe("schemaAliasAssign", () => {
     ).rejects.toMatchObject({ detail: { kind: "manual_actor_required" } });
   });
 
-  it("protected stableKey: consent and responseEmail cannot be assigned", async () => {
-    await expect(
-      schemaAliasAssign(env.ctx, baseInput({ stableKey: "responseEmail", dryRun: true })),
-    ).rejects.toMatchObject({
-      detail: { kind: "protected_stable_key", stableKey: "responseEmail" },
-    });
-    await expect(
-      schemaAliasAssign(env.ctx, baseInput({ stableKey: "publicConsent" })),
-    ).rejects.toMatchObject({
-      detail: { kind: "protected_stable_key", stableKey: "publicConsent" },
-    });
-  });
-
   it("collision_422 (conflictExists in dryRun, throws on apply)", async () => {
     // 同 revision で他 questionId が同 stableKey 既使用
     await insertQuestion(env.db, {

@@ -2032,11 +2032,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | canonical root | L3 |
-| workflow state | L7 |
-| root artifacts | L17 |
-| phase 12 required artifacts | L25 |
-| implementation source-of-truth | L37 |
-| scope notes | L48 |
+| execution supplement | L7 |
+| workflow state | L13 |
+| root artifacts | L23 |
+| phase 12 required artifacts | L31 |
+| implementation source-of-truth | L43 |
+| scope notes | L54 |
 
 ### references/workflow-06c-C-admin-tags-artifact-inventory.md
 
@@ -2047,18 +2048,6 @@ node scripts/list-specs.js --topics
 | root artifacts | L17 |
 | phase 12 required artifacts | L25 |
 | phase 11 evidence | L38 |
-| implementation source-of-truth | L45 |
-| scope notes | L59 |
-
-### references/workflow-06c-D-admin-schema-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| canonical root | L3 |
-| workflow state | L7 |
-| root artifacts | L17 |
-| phase 12 required artifacts | L25 |
-| phase 11 evidence | L37 |
 | implementation source-of-truth | L45 |
 | scope notes | L59 |
 
@@ -2532,6 +2521,20 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| workflow state | L7 |
+| root artifacts | L17 |
+| phase 12 required artifacts (strict 7) | L25 |
+| phase 11 evidence | L37 |
+| implementation source-of-truth | L45 |
+| skill reflection (same-wave) | L56 |
+| scope notes | L68 |
+| related tasks | L76 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2715,9 +2718,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L16 |
-| Gate Boundary | L30 |
-| Same-Wave Sync | L37 |
+| Phase 12 Strict Files | L19 |
+| Gate Boundary | L33 |
+| Same-Wave Sync | L40 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -2977,7 +2980,17 @@ node scripts/list-specs.js --topics
 | 3. /auth/session-resolve internal-only endpoint | L86 |
 | 4. OpenNext post-build worker patch | L97 |
 | 5. Auth.js v5 env 層化 | L109 |
-| 変更履歴 | L174 |
+| 変更履歴 | L177 |
+
+### references/cloudflare-cli-auth-recovery-sop.md
+
+| セクション | 行 |
+|------------|----|
+| Purpose | L3 |
+| Invariants | L7 |
+| Stage Isolation | L14 |
+| Evidence Set | L22 |
+| Close-Out Rule | L34 |
 
 ### references/csrf-state-parameter.md
 
@@ -3540,7 +3553,8 @@ node scripts/list-specs.js --topics
 | L-06CB-004: detail UI は `/admin/members` 右ドロワー、別 route `/admin/members/[id]` は作らない | L30 |
 | L-06CB-005: workflow 契約は `:memberId`、handler ローカル変数 `id` は spec に漏らさない | L38 |
 | L-06CB-006: audit table 名は単数形 `audit_log` を canonical にし、plural を撤回する | L47 |
-| L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L55 |
+| L-06CB-008: delete/restore contract 不整合は同 wave で API/lessons/skill を直す（2026-05 implementation-execution review） | L55 |
+| L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L82 |
 
 ### references/lessons-learned-06c-C-admin-tags-2026-05.md
 
@@ -3551,17 +3565,6 @@ node scripts/list-specs.js --topics
 | L-06CC-003: 旧 CRUD POM (`admin-add-tag-button`) を queue-only 化と同 PR で必ず置換する | L29 |
 | L-06CC-004: SKILL.md merge conflict marker 残存検出 hook を導入する | L38 |
 | L-06CC-005: visual evidence は 06c-C 単独で取得せず 08b/09a へ委譲する境界をテンプレ化する | L48 |
-
-### references/lessons-learned-06c-D-admin-schema-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-06CD-001: `/admin/schema` は 07b schema alias workflow の UI gate として扱う | L3 |
-| L-06CD-002: 4 pane contract は component / POM / spec を同一 wave で更新する | L7 |
-| L-06CD-003: screenshot は 06c-D 単独 PASS にしない | L11 |
-| L-06CD-004: legacy path move は artifact inventory と register で閉じる | L15 |
-| L-06CD-005: protected stableKey は UI だけでなく API workflow で拒否する | L19 |
-| L-06CD-006: remaining-only spec は canonical 正本値を引いて作成する | L23 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3654,6 +3657,17 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-004: Phase 12 strict 7 filenames は drift 検出を Phase 11 終了時に前倒す | L33 |
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
+
+### references/lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-389-001: metadata canonical / robots を Server Component に固定する | L10 |
+| L-389-002: Google Form 連絡先 href を環境別参照化する | L35 |
+| L-389-003: semantic render test で必須セクションの intent を固定する | L56 |
+| L-389-004: web build #385 regression と OAuth deploy のブロック依存 | L78 |
+| OP-389-1: Phase 12 strict 7 ファイル + artifacts.json parity | L104 |
+| OP-389-2: unassigned-task の formalize と consume | L109 |
 
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
@@ -3902,10 +3916,13 @@ node scripts/list-specs.js --topics
 | L-UTCOV-003: 2-layer coverage gate は precondition gate と upgrade gate を別タスク化する | L11 |
 | L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
-| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
-| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
-| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L37 |
-| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
+| L-UTCOV-009: package filter と script 名は package.json から実測する | L23 |
+| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L27 |
+| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L31 |
+| L-UTCOV-008: workflow root を wave grouping から top-level へ移したら artifacts / inventory / README を同時更新する | L41 |
+| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L45 |
+| L-UTCOV-008: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
+| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L48 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -5073,13 +5090,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L158 |
-| フェーズ構造（概要） | L167 |
-| 品質ゲート（概要） | L198 |
-| 出力テンプレート | L209 |
-| 実行時のコマンド・エージェント・スキル | L232 |
-| 昇格パターン集 | L256 |
-| Current Active / Spec Created Tasks | L258 |
+| ドキュメント構成 | L166 |
+| フェーズ構造（概要） | L175 |
+| 品質ゲート（概要） | L206 |
+| 出力テンプレート | L217 |
+| 実行時のコマンド・エージェント・スキル | L240 |
+| 昇格パターン集 | L264 |
+| Current Active / Spec Created Tasks | L266 |
 
 ### references/task-workflow-backlog-part2.md
 
