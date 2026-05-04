@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "プライバシーポリシー | UBM 兵庫支部会",
   description: "UBM 兵庫支部会のプライバシーポリシー",
+  alternates: { canonical: "/privacy" },
+  robots: { index: true, follow: true },
 };
 
 export default function PrivacyPage() {
@@ -20,7 +22,7 @@ export default function PrivacyPage() {
       <ul>
         <li>Google アカウントによる認証情報（メールアドレス、表示名、プロフィール画像）</li>
         <li>Google フォーム経由で入力された会員登録情報</li>
-        <li>サイト利用時のアクセスログ（最低限のもの）</li>
+        <li>サイト利用時のアクセスログおよび Cloudflare が生成する最低限の Cookie / Analytics 情報</li>
       </ul>
 
       <h2>2. 利用目的</h2>
@@ -38,17 +40,27 @@ export default function PrivacyPage() {
       <h2>4. 取得した情報の管理</h2>
       <p>
         取得した個人情報は Cloudflare のインフラ上で適切に管理し、不正アクセス・漏洩・改ざん等の防止に努めます。
+        Cookie やアクセスログは認証、セキュリティ確認、サービスの安定運用に必要な範囲でのみ利用します。
       </p>
 
       <h2>5. 開示・訂正・削除</h2>
       <p>
-        会員本人からの求めに応じ、合理的な範囲で個人情報の開示・訂正・削除に対応します。お問い合わせは Google フォームの再回答または管理者宛に直接ご連絡ください。
+        会員本人からの求めに応じ、合理的な範囲で個人情報の開示・訂正・削除に対応します。お問い合わせは
+        Google フォームの再回答または管理者宛に直接ご連絡ください。
+      </p>
+      <p>
+        連絡先:
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform">
+          Google フォーム再回答ページ
+        </a>
       </p>
 
       <h2>6. 本ポリシーの改定</h2>
       <p>
         本ポリシーは予告なく改定されることがあります。改定後の内容は本ページにて公開します。
       </p>
+
+      <p>制定日: 2026-05-03 / 最終改定日: 2026-05-03</p>
 
       <p>
         <a href="/">トップに戻る</a>
