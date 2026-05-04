@@ -29,7 +29,6 @@ export const metricsJsonBaseSchema = z
     write_count: z.number().int().nonnegative().optional(),
     error_count: z.number().int().nonnegative().optional(),
     skipped: z.union([z.boolean(), z.literal(0), z.literal(1)]).optional(),
-    writeCapHit: z.boolean().optional(),
     reason: z.string().optional(),
     lock_acquired_at: z.string().datetime().nullable().optional(),
   })

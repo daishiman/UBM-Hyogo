@@ -6,15 +6,9 @@
 | --- | --- |
 | Task ID | task-04b-admin-queue-resolve-staging-visual-evidence-001 |
 | Source | 04b-followup-004 Phase 11 / Phase 12 review |
-| Status | consumed / promoted_to_canonical_workflow |
+| Status | unassigned |
 | Priority | high |
 | Type | visual evidence / staging smoke |
-
-## Canonical Status
-
-Canonical workflow: `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/index.md`
-
-Current canonical state is `implementation-prepared`; do not treat as completed evidence. This legacy source record is retained for traceability only. Runtime screenshots, redaction check, cleanup verification, parent evidence link application, commit, push, and PR remain pending explicit user-approved execution.
 
 ## Goal
 

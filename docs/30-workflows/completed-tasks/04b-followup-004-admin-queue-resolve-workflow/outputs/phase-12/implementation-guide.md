@@ -129,9 +129,8 @@ WHERE note_id = ? AND request_status = 'pending';
 
 ### Phase 11 visual evidence
 - Local screenshot files are not present in `outputs/phase-11/` because capture requires an authenticated admin session plus seeded D1 request rows.
-- Current Phase 11 status is `completed_with_delegated_visual_gate`: API/repository/UI component tests passed locally, while actual screenshots are delegated to canonical workflow `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/`.
+- Current Phase 11 status is `completed_with_delegated_visual_gate`: API/repository/UI component tests passed locally, while actual screenshots are delegated to `docs/30-workflows/unassigned-task/task-04b-admin-queue-resolve-staging-visual-evidence-001.md`.
 - The capture plan remains in `outputs/phase-11/screenshot-plan.json`; metadata is recorded in `outputs/phase-11/phase11-capture-metadata.json`.
-- Follow-up workflow `issue-399-admin-queue-resolve-staging-visual-evidence` provides the staging fixture (`apps/api/migrations/seed/issue-399-admin-queue-staging-seed.sql`), env-guarded scripts (`scripts/staging/seed-issue-399.sh` / `cleanup-issue-399.sh`), and the capture runbook (`docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/runbook.md`). Once the staging cycle runs, the redacted screenshots will land in `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/outputs/phase-11/screenshots/` and metadata in the same directory's `phase11-capture-metadata.json`, closing the visual gate.
 
 ### test commands
 ```bash

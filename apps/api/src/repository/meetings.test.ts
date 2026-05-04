@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createFakeD1 } from "./_shared/__fakes__/fakeD1";
-import { findMeetingById, insertMeeting, listMeetings, listRecentMeetings, updateMeeting } from "./meetings";
+import { findMeetingById, insertMeeting, listMeetings, listRecentMeetings } from "./meetings";
 
 const baseSpec = {
   tables: {
@@ -12,7 +12,6 @@ const baseSpec = {
         note: null,
         created_at: "2026-01-01",
         created_by: "admin1",
-        deleted_at: null,
       },
       {
         session_id: "s2",
@@ -21,7 +20,6 @@ const baseSpec = {
         note: "オンライン",
         created_at: "2026-02-01",
         created_by: "admin1",
-        deleted_at: null,
       },
     ],
   },
@@ -62,39 +60,5 @@ describe("meetings repository", () => {
     );
     expect(r.sessionId).toBe("s9");
     expect(fake.state.tables.meeting_sessions).toHaveLength(1);
-  });
-
-  it("updateMeeting は列を更新して返す", async () => {
-    const fake = createFakeD1(baseSpec);
-    const r = await updateMeeting(
-      { db: fake.d1 },
-      "s1",
-      { title: "更新", heldOn: "2026-03-01", note: "note" },
-    );
-    expect(r?.title).toBe("更新");
-    expect(r?.heldOn).toBe("2026-03-01");
-    expect(r?.note).toBe("note");
-  });
-
-  it("listMeetings は deleted_at セット済みを除外する", async () => {
-    const fake = createFakeD1({
-      ...baseSpec,
-      tables: {
-        meeting_sessions: [
-          ...baseSpec.tables.meeting_sessions,
-          {
-            session_id: "s3",
-            title: "削除済み",
-            held_on: "2026-03-10",
-            note: null,
-            created_at: "2026-03-01",
-            created_by: "admin1",
-            deleted_at: "2026-03-11T00:00:00Z",
-          },
-        ],
-      },
-    });
-    const r = await listMeetings({ db: fake.d1 }, 10, 0);
-    expect(r.map((m) => m.sessionId).sort()).toEqual(["s1", "s2"]);
   });
 });

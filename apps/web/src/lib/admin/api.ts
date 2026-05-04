@@ -94,19 +94,11 @@ export const resolveAdminRequest = (
 export const createMeeting = (body: { title: string; heldOn: string; note?: string | null }) =>
   call(`/meetings`, "POST", body);
 
-export const updateMeeting = (
-  sessionId: string,
-  body: { title?: string; heldOn?: string; note?: string | null; deletedAt?: string | null },
-) => call(`/meetings/${encodeURIComponent(sessionId)}`, "PATCH", body);
-
 export const addAttendance = (sessionId: string, memberId: string) =>
-  call(`/meetings/${encodeURIComponent(sessionId)}/attendances`, "POST", {
-    memberId,
-    attended: true,
-  });
+  call(`/meetings/${encodeURIComponent(sessionId)}/attendance`, "POST", { memberId });
 
 export const removeAttendance = (sessionId: string, memberId: string) =>
-  call(`/meetings/${encodeURIComponent(sessionId)}/attendances`, "POST", {
-    memberId,
-    attended: false,
-  });
+  call(
+    `/meetings/${encodeURIComponent(sessionId)}/attendance/${encodeURIComponent(memberId)}`,
+    "DELETE",
+  );

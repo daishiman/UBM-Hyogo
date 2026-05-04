@@ -63,31 +63,9 @@
 
 ### `/admin/meetings`
 
-- 支部会の開催日を追加・編集・論理削除する
+- 支部会の開催日を追加する
 - 開催日ごと、会員ごとの両方から参加履歴を管理できるようにする
-- CSV export は `meetingId, heldOn, memberId, displayName, attended` の列順で返す
 - 開催日と参加履歴はフォーム項目ではなく、管理者データとして扱う
-- 物理 table は `meeting_sessions` / `member_attendance`。web は `/api/admin/meetings*` proxy 経由で apps/api を呼び、D1 を直接参照しない
-
-API 正本:
-
-| Endpoint | 用途 |
-| --- | --- |
-| `GET /admin/meetings` | 開催日一覧 + attendance summary |
-| `POST /admin/meetings` | 開催日作成 |
-| `PATCH /admin/meetings/:id` | title / heldOn / note / deletedAt 更新 |
-| `POST /admin/meetings/:id/attendances` | `{ memberId, attended }` で参加付与 / 解除 |
-| `GET /admin/meetings/:id/export.csv` | CSV export |
-
-Audit action:
-
-| 操作 | action |
-| --- | --- |
-| 開催日作成 | `admin.meeting.created` |
-| 開催日更新 | `meetings.update` |
-| 開催日論理削除 | `meetings.delete` |
-| 参加付与 | `attendance.add` |
-| 参加解除 | `attendance.remove` |
 
 ### `/admin/audit`
 

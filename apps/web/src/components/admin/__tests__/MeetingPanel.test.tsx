@@ -10,19 +10,16 @@ vi.mock("next/navigation", () => ({
 
 vi.mock("../../../lib/admin/api", () => ({
   createMeeting: vi.fn(),
-  updateMeeting: vi.fn(),
   addAttendance: vi.fn(),
   removeAttendance: vi.fn(),
 }));
 
 const mockedCreateMeeting = vi.mocked(adminApi.createMeeting);
-const mockedUpdateMeeting = vi.mocked(adminApi.updateMeeting);
 const mockedAddAttendance = vi.mocked(adminApi.addAttendance);
 const mockedRemoveAttendance = vi.mocked(adminApi.removeAttendance);
 
 beforeEach(() => {
   mockedCreateMeeting.mockReset();
-  mockedUpdateMeeting.mockReset();
   mockedAddAttendance.mockReset();
   mockedRemoveAttendance.mockReset();
 });
@@ -299,49 +296,5 @@ describe("MeetingPanel — empty / mutation / authz", () => {
       />,
     );
     expect(screen.getByText("懇親会あり")).toBeTruthy();
-  });
-
-  it("編集 details から updateMeeting を呼び CSV リンクを表示する", async () => {
-    mockedUpdateMeeting.mockResolvedValueOnce({ ok: true, status: 200, data: {} });
-    render(
-      <MeetingPanel
-        meetings={{ total: 1, items: [{ ...baseMeeting }] }}
-        candidates={[]}
-      />,
-    );
-    expect(screen.getByRole("link", { name: "CSV" }).getAttribute("href")).toBe(
-      "/api/admin/meetings/s1/export.csv",
-    );
-    fireEvent.click(screen.getByText("編集"));
-    fireEvent.change(screen.getAllByLabelText("タイトル")[1]!, { target: { value: "更新例会" } });
-    fireEvent.change(screen.getByLabelText("開催日"), { target: { value: "2026-05-01" } });
-    fireEvent.click(screen.getByRole("button", { name: "更新" }));
-    await waitFor(() => {
-      expect(mockedUpdateMeeting).toHaveBeenCalledWith("s1", {
-        title: "更新例会",
-        heldOn: "2026-05-01",
-        note: null,
-      });
-    });
-    expect(await screen.findByText("開催日を更新しました")).toBeTruthy();
-  });
-
-  it("削除 button は deletedAt 付き updateMeeting を呼ぶ", async () => {
-    mockedUpdateMeeting.mockResolvedValueOnce({ ok: true, status: 200, data: {} });
-    render(
-      <MeetingPanel
-        meetings={{ total: 1, items: [{ ...baseMeeting }] }}
-        candidates={[]}
-      />,
-    );
-    fireEvent.click(screen.getByText("編集"));
-    fireEvent.click(screen.getByRole("button", { name: "開催日を削除" }));
-    await waitFor(() => {
-      expect(mockedUpdateMeeting).toHaveBeenCalledWith(
-        "s1",
-        expect.objectContaining({ deletedAt: expect.any(String) }),
-      );
-    });
-    expect(await screen.findByText("開催日を削除しました")).toBeTruthy();
   });
 });
