@@ -65,6 +65,17 @@
 | 検証 | workflow-local strict Phase 12 7 files と root/outputs artifacts parity は materialized。`pnpm test:scripts` は fallback 経路で PASS（Node 22 warning あり）。staging DRY_RUN / CI green は Phase 13 PR runtime evidence |
 | Issue | #363 CLOSED 維持。PR では `Refs #363` のみ採用し、`Closes #363` は使わない |
 
+### UT-07B-FU-04 Production Migration Already-Applied Verification（2026-05-04）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation+operations+verification / NON_VISUAL / completed_boundary_runtime_pending / runtime verification blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/ut-07b-fu-04-production-migration-apply-execution/` |
+| 対象 | `apps/api/migrations/0008_schema_alias_hardening.sql` の production D1 ledger 既適用 fact を再確認し、duplicate apply を禁止する evidence contract |
+| 境界 | `references/database-schema.md` は `0008_schema_alias_hardening.sql` が `2026-05-01 08:21:04 UTC` に production D1 ledger 登録済みと記録しているため、FU-04 は再 apply ではなく already-applied verification と正本同期に再構成する |
+| 検証 | Phase 11 placeholder evidence / Phase 12 strict 7 files / root-outputs artifacts parity / FU-04 artifact inventory を materialized。Cloudflare runtime verification は user 明示承認まで未実行。post-check scope は `schema_diff_queue.backfill_cursor` / `backfill_status` のみ。苦戦箇所 / 適用ルールは `references/lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md`（L-UT07B-FU04-001〜004） |
+| Issue | #424 CLOSED 維持。PR では `Refs #424` のみ採用し、`Closes #424` は使わない |
+
 ### UT Coverage 2026-05 Wave（2026-05-01）
 
 | 項目 | 値 |
