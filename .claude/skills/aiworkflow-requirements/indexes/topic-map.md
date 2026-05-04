@@ -2017,6 +2017,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L45 |
 | Related Resources | L57 |
 
+### references/workflow-06b-c-runtime-evidence-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Boundary | L28 |
+| Phase 12 Required Files | L36 |
+| Related Resources | L48 |
+
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
 | セクション | 行 |
@@ -3543,7 +3553,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L68 |
+| Follow-up Boundaries | L75 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 
@@ -4040,8 +4050,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L89 |
-| 関連ドキュメント | L94 |
+| 利用順序 | L90 |
+| 関連ドキュメント | L95 |
 
 ### references/llm-embedding.md
 
