@@ -13,7 +13,7 @@ describe("AdminSidebar", () => {
     expect(nav.getAttribute("aria-label")).toBe("管理メニュー");
   });
 
-  it("管理メニューリンクをラベルと href の組で全件レンダーする", () => {
+  it("8 件のリンクをラベルと href の組で全件レンダーする", () => {
     render(<AdminSidebar />);
     const expected: Array<[string, string]> = [
       ["ダッシュボード", "/admin"],
