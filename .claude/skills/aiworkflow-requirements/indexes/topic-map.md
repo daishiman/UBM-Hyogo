@@ -3879,11 +3879,10 @@ node scripts/list-specs.js --topics
 | L-UTCOV-003: 2-layer coverage gate は precondition gate と upgrade gate を別タスク化する | L11 |
 | L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
-| L-UTCOV-009: package filter と script 名は package.json から実測する | L23 |
-| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L27 |
-| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L31 |
-| L-UTCOV-008: workflow root を wave grouping から top-level へ移したら artifacts / inventory / README を同時更新する | L41 |
-| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L45 |
+| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
+| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
+| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L37 |
+| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -3981,8 +3980,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L88 |
-| 関連ドキュメント | L93 |
+| 利用順序 | L87 |
+| 関連ドキュメント | L92 |
 
 ### references/llm-embedding.md
 
@@ -5051,13 +5050,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L159 |
-| フェーズ構造（概要） | L168 |
-| 品質ゲート（概要） | L199 |
-| 出力テンプレート | L210 |
-| 実行時のコマンド・エージェント・スキル | L233 |
-| 昇格パターン集 | L257 |
-| Current Active / Spec Created Tasks | L259 |
+| ドキュメント構成 | L158 |
+| フェーズ構造（概要） | L167 |
+| 品質ゲート（概要） | L198 |
+| 出力テンプレート | L209 |
+| 実行時のコマンド・エージェント・スキル | L232 |
+| 昇格パターン集 | L256 |
+| Current Active / Spec Created Tasks | L258 |
 
 ### references/task-workflow-backlog-part2.md
 
