@@ -3303,6 +3303,7 @@
     ],
     "gate": [
       "architecture-auth-security-core.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
@@ -5072,6 +5073,7 @@
     ],
     "up": [
       "database-schema-07b-schema-alias-assignment.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
@@ -5358,6 +5360,7 @@
       "deployment-gha.md",
       "deployment-secrets-management.md",
       "environment-variables.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -8111,6 +8114,41 @@
     "で明示分離する": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
     ],
+    "Issue": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
+      "logs-archive-2026-01-topic-map-remember-choice.md",
+      "ui-ux-feature-components-advanced.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+    ],
+    "strict": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md"
+    ],
+    "follow": [
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
+      "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "task-workflow-backlog.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
     "followup": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-04b-member-self-service.md",
@@ -8237,20 +8275,6 @@
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md"
-    ],
-    "follow": [
-      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
-      "lessons-learned-04b-admin-queue-resolve-2026-05.md",
-      "lessons-learned-06c-A-admin-dashboard-2026-05.md",
-      "lessons-learned-06c-B-admin-members-2026-05.md",
-      "lessons-learned-06c-C-admin-tags-2026-05.md",
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-issue-194-identity-merge-2026-05.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "task-workflow-backlog.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
     ],
     "にする": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
@@ -9962,12 +9986,6 @@
     "を分けて記録する": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
-    "strict": [
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
-      "lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
-      "workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md"
-    ],
     "filenames": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
@@ -9976,18 +9994,6 @@
     ],
     "終了時に前倒す": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
-    ],
-    "Issue": [
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
-      "lessons-learned-issue-194-identity-merge-2026-05.md",
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
-      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
-      "logs-archive-2026-01-topic-map-remember-choice.md",
-      "ui-ux-feature-components-advanced.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "close": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
