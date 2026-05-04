@@ -121,6 +121,21 @@ Phase 13 declared files（`local-check-result.md` / `change-summary.md` / `pr-in
 
 実例: Issue #355 OpenNext Workers CD cutover では、Phase 11 を 6 ファイル（main + E-1〜E-5）+ 補助 2 ファイル（link-checklist / manual-smoke-log）で `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 契約として保存し、Phase 13 を blocked placeholder 5 ファイルで配置、実 cutover は `unassigned-task/task-impl-opennext-workers-migration-001.md`、Pages 削除は `unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` へ二段分離した。
 
+## Already-applied production migration verification rule
+
+Production D1 migration workflows must re-check current canonical ledger facts before preserving an older apply premise. If `aiworkflow-requirements/references/database-schema.md` or fresh ledger evidence already records the target migration as applied, the workflow must be reclassified from apply execution to already-applied verification in the same wave.
+
+Required handling:
+
+- Phase 1 / 4 / 5 / 6 / 11 must change the preflight PASS condition from `pending/unapplied` to `applied` and treat `pending/unapplied` as `STALE_LEDGER_OR_ENV_MISMATCH`.
+- `d1 migrations apply` must be a forbidden path. `outputs/phase-11/apply.log` may exist, but it must be no-op prohibition evidence (`FORBIDDEN / not_run_duplicate_apply_prohibited`), not an apply success log.
+- For workflows that still apply a migration, `--migration <name>` in wrapper metadata is not enough. Preflight must fail if any target-external pending migration exists, because Wrangler applies the pending set rather than a single named file.
+- Phase 7 / post-check must verify only the objects owned by the target migration file. Do not include sibling migration objects just because they are operational prerequisites.
+- Phase 12 must state whether system spec sync is based on existing ledger fact + placeholder evidence or fresh runtime evidence. Do not write `fresh evidence` when Phase 11 files are placeholders.
+- The consumed unassigned task must be rewritten or marked consumed so stale apply instructions cannot remain as an executable path.
+
+Example: UT-07B-FU-04 reclassified `0008_schema_alias_hardening.sql` from production apply execution to already-applied verification because production D1 ledger already records it as applied at `2026-05-01 08:21:04 UTC`. The valid post-check scope is `schema_diff_queue.backfill_cursor` / `backfill_status`; `schema_aliases` table and UNIQUE indexes belong to `0008_create_schema_aliases.sql`.
+
 ## Applied Examples
 
 | Task | Routing decision | Evidence |
@@ -131,6 +146,7 @@ Phase 13 declared files（`local-check-result.md` / `change-summary.md` / `pr-in
 | 03a stableKey literal lint enforcement | warning↔strict mode flag 分離、allow-list 完全パス固定、inline suppression 0 維持、`spec_created → enforced_dry_run` の 7 同期点 reclassification、skill feedback の Decision 列 (Promote / Defer / No-op) は aiworkflow-requirements の lessons / inventory / quick-reference / resource-map へ昇格。lifecycle 再分類運用は本 promotion guide の checklist にも反映した | `references/lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md`, `references/workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md` |
 | Issue #355 OpenNext Workers CD cutover | implementation / NON_VISUAL / deploy-deferred の Phase 11 を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` evidence contract 6 + 2 ファイルで配置、Phase 13 を blocked placeholder 5 ファイルで配置、CLOSED Issue は `Refs #355` 限定で再 open 禁止、destructive Pages 削除を別 unassigned task に分離、二段 rollback（VERSION_ID + Pages dormant）と Phase 1 P50 既実装状態調査の主要価値を lessons-learned へ昇格 | `references/lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md`, `unassigned-task/task-impl-opennext-workers-migration-001.md`, `unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` |
 | UT-05A fetchPublic service-binding | implementation / VISUAL_ON_EXECUTION / spec_created の Phase 11 を Cloudflare deploy-verification 6 evidence (`code-diff-summary.md` / `staging-curl.log` / `production-curl.log` / `wrangler-tail-staging.log` / `local-dev-fallback.log` / `redaction-checklist.md`) で `PENDING_RUNTIME_EVIDENCE` 配置、Phase 12 7 files は spec completeness PASS、`runtime path × evidence` 表（service-binding / HTTP fallback / unit test の 3 経路）を `implementation-guide.md` に固定、不変条件 5 の構造的決定として `apps/web → apps/api` の正本ルートを Part 2 へ昇格 | `references/phase-template-phase11.md` §「Cloudflare deploy-verification subtemplate」, `references/phase-12-spec.md` §「Phase 11 runtime evidence pending と Phase 12 spec completeness の分離」 |
+| UT-07B-FU-04 production migration already-applied verification | production D1 ledger 既適用 fact がある場合は apply execution を forbidden path に再分類し、Phase 11 `apply.log` を no-op prohibition evidence、Phase 7 post-check を target migration owned objects のみへ縮小、fresh runtime evidence と placeholder evidence を Phase 12 で分離 | `docs/30-workflows/ut-07b-fu-04-production-migration-apply-execution/outputs/phase-12/phase12-task-spec-compliance-check.md`, `references/workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md` |
 
 ## 禁止事項
 

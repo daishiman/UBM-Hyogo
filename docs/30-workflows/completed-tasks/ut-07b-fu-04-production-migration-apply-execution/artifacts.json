@@ -1,0 +1,99 @@
+{
+  "task": "ut-07b-fu-04-production-migration-apply-execution",
+  "task_id": "UT-07B-FU-04-PRODUCTION-MIGRATION-APPLY-EXECUTION",
+  "workflow_id": "ut-07b-fu-04-production-migration-apply-execution",
+  "title": "UT-07B-FU-04 production migration already-applied verification and sync",
+  "status": "spec_created",
+  "workflow_state": "spec_created",
+  "createdAt": "2026-05-04",
+  "docsOnly": false,
+  "taskType": "implementation",
+  "remainingOnly": false,
+  "visualEvidence": "NON_VISUAL",
+  "runtimeEvidenceMode": "VISUAL_ON_EXECUTION_CLI",
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/424",
+  "issueState": "CLOSED",
+  "metadata": {
+    "workflow_id": "ut-07b-fu-04-production-migration-apply-execution",
+    "workflow_state": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "wave": "Wave 7",
+    "issue": 424,
+    "priority": "high",
+    "scale": "small",
+    "category": "operations",
+    "scope": "Verify the existing production D1 ledger fact for 0008_schema_alias_hardening.sql on ubm-hyogo-db-prod, prohibit duplicate apply, capture redacted already-applied verification evidence placeholders until user-approved runtime verification, and sync aiworkflow-requirements. Excludes runbook redesign, duplicate migration apply, large back-fill split, admin UI retry, secret value recording, automated commit/push/PR.",
+    "sourcePhase": "Phase 12 unassigned-task-detection",
+    "sourceWorkflow": "ut-07b-fu-03-production-migration-apply-runbook",
+    "dependencies": [
+      "UT-07B-FU-03-production-migration-apply-runbook",
+      "user_approval_after_phase13_merge"
+    ],
+    "upstream": [
+      "UT-07B-FU-03-production-migration-apply-runbook"
+    ],
+    "downstream": [
+      "aiworkflow-requirements production-applied-fact-sync"
+    ]
+  },
+  "phases": [
+    { "phase": "01", "id": "phase-01", "title": "要件定義", "file": "phase-01.md", "output": "outputs/phase-01/main.md", "status": "spec_created" },
+    { "phase": "02", "id": "phase-02", "title": "設計（既存 runbook 再確認）", "file": "phase-02.md", "output": "outputs/phase-02/main.md", "status": "spec_created" },
+    { "phase": "03", "id": "phase-03", "title": "アーキテクチャ整合", "file": "phase-03.md", "output": "outputs/phase-03/main.md", "status": "spec_created" },
+    { "phase": "04", "id": "phase-04", "title": "実装計画詳細", "file": "phase-04.md", "output": "outputs/phase-04/main.md", "status": "spec_created" },
+    { "phase": "05", "id": "phase-05", "title": "主要実装手順（runbook execution dry-run）", "file": "phase-05.md", "output": "outputs/phase-05/main.md", "status": "spec_created" },
+    { "phase": "06", "id": "phase-06", "title": "単体検証（preflight）", "file": "phase-06.md", "output": "outputs/phase-06/main.md", "status": "spec_created" },
+    { "phase": "07", "id": "phase-07", "title": "統合検証（post-check）", "file": "phase-07.md", "output": "outputs/phase-07/main.md", "status": "spec_created" },
+    { "phase": "08", "id": "phase-08", "title": "品質ゲート", "file": "phase-08.md", "output": "outputs/phase-08/main.md", "status": "spec_created" },
+    { "phase": "09", "id": "phase-09", "title": "ステージング検証（parity 確認）", "file": "phase-09.md", "output": "outputs/phase-09/main.md", "status": "spec_created" },
+    { "phase": "10", "id": "phase-10", "title": "production 切替準備", "file": "phase-10.md", "output": "outputs/phase-10/main.md", "status": "spec_created" },
+    {
+      "phase": "11",
+      "id": "phase-11",
+      "title": "production 既適用検証 + runtime evidence 取得",
+      "file": "phase-11.md",
+      "output": "outputs/phase-11/main.md",
+      "status": "completed_boundary_runtime_pending",
+      "requiredOutputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/preflight-list.log",
+        "outputs/phase-11/apply.log",
+        "outputs/phase-11/post-check.log",
+        "outputs/phase-11/user-approval-record.md",
+        "outputs/phase-11/redaction-checklist.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ]
+    },
+    {
+      "phase": "12",
+      "id": "phase-12",
+      "title": "ドキュメント / 5 タスク + compliance check",
+      "file": "phase-12.md",
+      "output": "outputs/phase-12/main.md",
+      "status": "completed_boundary_runtime_pending",
+      "requiredOutputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    { "phase": "13", "id": "phase-13", "title": "PR 作成", "file": "phase-13.md", "output": "outputs/phase-13/main.md", "status": "spec_created" }
+  ],
+  "artifacts": {
+    "runbook_source": ".claude/skills/aiworkflow-requirements/references/workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
+    "migration_file": "apps/api/migrations/0008_schema_alias_hardening.sql",
+    "wrangler_config": "apps/api/wrangler.toml",
+    "cf_wrapper": "scripts/cf.sh",
+    "target_database": "ubm-hyogo-db-prod",
+    "target_env": "production",
+    "production_ledger_fact": "0008_schema_alias_hardening.sql applied at 2026-05-01 08:21:04 UTC per .claude/skills/aiworkflow-requirements/references/database-schema.md",
+    "system_spec_sync_target": ".claude/skills/aiworkflow-requirements/references/workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
+    "task_workflow_active": ".claude/skills/aiworkflow-requirements/references/task-workflow-active.md"
+  }
+}
