@@ -3,6 +3,7 @@
 // 不変条件 #2 / #3 / #11 を view converter で fail close。
 
 import type { DbCtx } from "../../repository/_shared/db";
+import { STABLE_KEY } from "@ubm-hyogo/shared";
 import { listFieldsByResponseId } from "../../repository/responseFields";
 import {
   countPublicMembers,
@@ -21,12 +22,12 @@ export interface ListPublicMembersDeps {
 }
 
 const SUMMARY_KEYS = [
-  "fullName",
-  "nickname",
-  "occupation",
-  "location",
-  "ubmZone",
-  "ubmMembershipType",
+  STABLE_KEY.fullName,
+  STABLE_KEY.nickname,
+  STABLE_KEY.occupation,
+  STABLE_KEY.location,
+  STABLE_KEY.ubmZone,
+  STABLE_KEY.ubmMembershipType,
 ] as const;
 
 const parseJsonString = (raw: string | null): string => {
@@ -85,13 +86,13 @@ export const listPublicMembersUseCase = async (
     }
     items.push({
       memberId: m.member_id,
-      fullName: parseJsonString(byKey.get("fullName") ?? null),
-      nickname: parseJsonString(byKey.get("nickname") ?? null),
-      occupation: parseJsonString(byKey.get("occupation") ?? null),
-      location: parseJsonString(byKey.get("location") ?? null),
-      ubmZone: parseJsonNullable(byKey.get("ubmZone") ?? null),
+      fullName: parseJsonString(byKey.get(STABLE_KEY.fullName) ?? null),
+      nickname: parseJsonString(byKey.get(STABLE_KEY.nickname) ?? null),
+      occupation: parseJsonString(byKey.get(STABLE_KEY.occupation) ?? null),
+      location: parseJsonString(byKey.get(STABLE_KEY.location) ?? null),
+      ubmZone: parseJsonNullable(byKey.get(STABLE_KEY.ubmZone) ?? null),
       ubmMembershipType: parseJsonNullable(
-        byKey.get("ubmMembershipType") ?? null,
+        byKey.get(STABLE_KEY.ubmMembershipType) ?? null,
       ),
     });
   }

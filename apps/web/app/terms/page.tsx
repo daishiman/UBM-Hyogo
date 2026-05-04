@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "利用規約 | UBM 兵庫支部会",
   description: "UBM 兵庫支部会の利用規約",
+  alternates: { canonical: "/terms" },
+  robots: { index: true, follow: true },
 };
 
 export default function TermsPage() {
@@ -32,6 +34,7 @@ export default function TermsPage() {
         <li>本サービスの運営を妨害する行為</li>
         <li>不正アクセス、リバースエンジニアリング等の技術的迂回行為</li>
         <li>登録情報を他者と共有する行為</li>
+        <li>反社会的勢力への関与、利益供与、または威力を用いた要求行為</li>
       </ul>
 
       <h2>4. 退会</h2>
@@ -48,6 +51,15 @@ export default function TermsPage() {
       <p>
         本規約は予告なく改定されることがあります。改定後の内容は本ページにて公開します。
       </p>
+
+      <p>
+        連絡先:
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform">
+          Google フォーム再回答ページ
+        </a>
+      </p>
+
+      <p>制定日: 2026-05-03 / 最終改定日: 2026-05-03</p>
 
       <p>
         <a href="/">トップに戻る</a>

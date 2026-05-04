@@ -4,13 +4,14 @@
 
 import type { MeProfileStatusSummary } from "../../../src/lib/api/me-types";
 import type { MeAuthGateState } from "../../../src/lib/api/me-types";
+import { STABLE_KEY } from "@ubm-hyogo/shared";
 import { KVList } from "../../../src/components/ui/KVList";
 
 const labelOfPublishState = (s: MeProfileStatusSummary["publishState"]): string =>
   s === "public" ? "公開" : s === "member_only" ? "会員限定" : "非公開";
 
 const labelOfConsent = (
-  c: MeProfileStatusSummary["publicConsent"],
+  c: MeProfileStatusSummary[typeof STABLE_KEY.publicConsent],
 ): string =>
   c === "consented" ? "同意済" : c === "declined" ? "未同意" : "未確認";
 

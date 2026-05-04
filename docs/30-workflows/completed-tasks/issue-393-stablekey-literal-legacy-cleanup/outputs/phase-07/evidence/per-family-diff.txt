@@ -1,0 +1,690 @@
+diff --git a/apps/api/src/jobs/mappers/sheets-to-members.ts b/apps/api/src/jobs/mappers/sheets-to-members.ts
+index faf3aeb4..975874fe 100644
+--- a/apps/api/src/jobs/mappers/sheets-to-members.ts
++++ b/apps/api/src/jobs/mappers/sheets-to-members.ts
+@@ -1,6 +1,8 @@
+ // UT-09: Sheets row → D1 member_responses 行 への mapping。
+ // Sheets schema をコードに固定しない方針 (不変条件 #1) のため、ヘッダ行から index を構築する。
+ 
++import { STABLE_KEY } from "@ubm-hyogo/shared";
++
+ export interface MemberRow {
+   responseId: string;
+   responseEmail: string;
+@@ -43,37 +45,37 @@ export interface MemberRow {
+ const DB_FIELD_MAP: Record<string, keyof MemberRow> = {
+   "タイムスタンプ": "submittedAt",
+   "メールアドレス": "responseEmail",
+-  "氏名": "fullName",
+-  "ニックネーム": "nickname",
+-  "所在地": "location",
+-  "生年月日": "birthDate",
+-  "職業": "occupation",
+-  "出身地": "hometown",
+-  "UBMゾーン": "ubmZone",
+-  "UBM会員種別": "ubmMembershipType",
+-  "UBM入会日": "ubmJoinDate",
+-  "事業概要": "businessOverview",
+-  "強み・スキル": "skills",
+-  "課題": "challenges",
+-  "提供できること": "canProvide",
+-  "趣味": "hobbies",
+-  "最近の関心": "recentInterest",
+-  "座右の銘": "motto",
+-  "その他の活動": "otherActivities",
+-  "Webサイト": "urlWebsite",
+-  "Facebook": "urlFacebook",
+-  "Instagram": "urlInstagram",
+-  "Threads": "urlThreads",
+-  "YouTube": "urlYoutube",
+-  "TikTok": "urlTiktok",
+-  "X": "urlX",
+-  "ブログ": "urlBlog",
+-  "note": "urlNote",
+-  "LinkedIn": "urlLinkedin",
+-  "その他URL": "urlOthers",
+-  "自己紹介": "selfIntroduction",
+-  "公開同意": "publicConsent",
+-  "規約同意": "rulesConsent",
++  "氏名": STABLE_KEY.fullName,
++  "ニックネーム": STABLE_KEY.nickname,
++  "所在地": STABLE_KEY.location,
++  "生年月日": STABLE_KEY.birthDate,
++  "職業": STABLE_KEY.occupation,
++  "出身地": STABLE_KEY.hometown,
++  "UBMゾーン": STABLE_KEY.ubmZone,
++  "UBM会員種別": STABLE_KEY.ubmMembershipType,
++  "UBM入会日": STABLE_KEY.ubmJoinDate,
++  "事業概要": STABLE_KEY.businessOverview,
++  "強み・スキル": STABLE_KEY.skills,
++  "課題": STABLE_KEY.challenges,
++  "提供できること": STABLE_KEY.canProvide,
++  "趣味": STABLE_KEY.hobbies,
++  "最近の関心": STABLE_KEY.recentInterest,
++  "座右の銘": STABLE_KEY.motto,
++  "その他の活動": STABLE_KEY.otherActivities,
++  "Webサイト": STABLE_KEY.urlWebsite,
++  "Facebook": STABLE_KEY.urlFacebook,
++  "Instagram": STABLE_KEY.urlInstagram,
++  "Threads": STABLE_KEY.urlThreads,
++  "YouTube": STABLE_KEY.urlYoutube,
++  "TikTok": STABLE_KEY.urlTiktok,
++  "X": STABLE_KEY.urlX,
++  "ブログ": STABLE_KEY.urlBlog,
++  "note": STABLE_KEY.urlNote,
++  "LinkedIn": STABLE_KEY.urlLinkedin,
++  "その他URL": STABLE_KEY.urlOthers,
++  "自己紹介": STABLE_KEY.selfIntroduction,
++  "公開同意": STABLE_KEY.publicConsent,
++  "規約同意": STABLE_KEY.rulesConsent,
+ };
+ 
+ const CONSENT_MAP: Record<string, "consented" | "declined" | "unknown"> = {
+@@ -137,7 +139,7 @@ export function mapSheetRows(values: string[][]): MapResult {
+         unmapped.push(col.raw);
+         return;
+       }
+-      if (col.key === "publicConsent" || col.key === "rulesConsent") {
++      if (col.key === STABLE_KEY.publicConsent || col.key === STABLE_KEY.rulesConsent) {
+         partial[col.key] = CONSENT_MAP[value.trim().toLowerCase()] ?? "unknown";
+       } else if (col.key !== "responseId") {
+         (partial as Record<string, string>)[col.key] = value;
+@@ -156,35 +158,35 @@ function fillNulls(
+   unmapped: string[],
+ ): MemberRow {
+   const keys: (keyof MemberRow)[] = [
+-    "fullName",
+-    "nickname",
+-    "location",
+-    "birthDate",
+-    "occupation",
+-    "hometown",
+-    "ubmZone",
+-    "ubmMembershipType",
+-    "ubmJoinDate",
+-    "businessOverview",
+-    "skills",
+-    "challenges",
+-    "canProvide",
+-    "hobbies",
+-    "recentInterest",
+-    "motto",
+-    "otherActivities",
+-    "urlWebsite",
+-    "urlFacebook",
+-    "urlInstagram",
+-    "urlThreads",
+-    "urlYoutube",
+-    "urlTiktok",
+-    "urlX",
+-    "urlBlog",
+-    "urlNote",
+-    "urlLinkedin",
+-    "urlOthers",
+-    "selfIntroduction",
++    STABLE_KEY.fullName,
++    STABLE_KEY.nickname,
++    STABLE_KEY.location,
++    STABLE_KEY.birthDate,
++    STABLE_KEY.occupation,
++    STABLE_KEY.hometown,
++    STABLE_KEY.ubmZone,
++    STABLE_KEY.ubmMembershipType,
++    STABLE_KEY.ubmJoinDate,
++    STABLE_KEY.businessOverview,
++    STABLE_KEY.skills,
++    STABLE_KEY.challenges,
++    STABLE_KEY.canProvide,
++    STABLE_KEY.hobbies,
++    STABLE_KEY.recentInterest,
++    STABLE_KEY.motto,
++    STABLE_KEY.otherActivities,
++    STABLE_KEY.urlWebsite,
++    STABLE_KEY.urlFacebook,
++    STABLE_KEY.urlInstagram,
++    STABLE_KEY.urlThreads,
++    STABLE_KEY.urlYoutube,
++    STABLE_KEY.urlTiktok,
++    STABLE_KEY.urlX,
++    STABLE_KEY.urlBlog,
++    STABLE_KEY.urlNote,
++    STABLE_KEY.urlLinkedin,
++    STABLE_KEY.urlOthers,
++    STABLE_KEY.selfIntroduction,
+   ];
+   const out = { ...partial } as unknown as Record<string, unknown>;
+   for (const k of keys) {
+diff --git a/apps/api/src/jobs/sync-sheets-to-d1.ts b/apps/api/src/jobs/sync-sheets-to-d1.ts
+index a4171c6a..d1654840 100644
+--- a/apps/api/src/jobs/sync-sheets-to-d1.ts
++++ b/apps/api/src/jobs/sync-sheets-to-d1.ts
+@@ -12,6 +12,7 @@ import {
+   type SheetsValueRange,
+ } from "./sheets-fetcher";
+ import { mapSheetRows, type MemberRow } from "./mappers/sheets-to-members";
++import { STABLE_KEY } from "@ubm-hyogo/shared";
+ import { withRetry } from "../utils/with-retry";
+ import { WriteQueue } from "../utils/write-queue";
+ 
+@@ -206,21 +207,21 @@ const UPSERT_COLUMNS = [
+   "response_email",
+   "submitted_at",
+   "full_name",
+-  "nickname",
+-  "location",
++  STABLE_KEY.nickname,
++  STABLE_KEY.location,
+   "birth_date",
+-  "occupation",
+-  "hometown",
++  STABLE_KEY.occupation,
++  STABLE_KEY.hometown,
+   "ubm_zone",
+   "ubm_membership_type",
+   "ubm_join_date",
+   "business_overview",
+-  "skills",
+-  "challenges",
++  STABLE_KEY.skills,
++  STABLE_KEY.challenges,
+   "can_provide",
+-  "hobbies",
++  STABLE_KEY.hobbies,
+   "recent_interest",
+-  "motto",
++  STABLE_KEY.motto,
+   "other_activities",
+   "url_website",
+   "url_facebook",
+@@ -244,37 +245,37 @@ const ROW_FIELD_ORDER: (keyof MemberRow)[] = [
+   "responseId",
+   "responseEmail",
+   "submittedAt",
+-  "fullName",
+-  "nickname",
+-  "location",
+-  "birthDate",
+-  "occupation",
+-  "hometown",
+-  "ubmZone",
+-  "ubmMembershipType",
+-  "ubmJoinDate",
+-  "businessOverview",
+-  "skills",
+-  "challenges",
+-  "canProvide",
+-  "hobbies",
+-  "recentInterest",
+-  "motto",
+-  "otherActivities",
+-  "urlWebsite",
+-  "urlFacebook",
+-  "urlInstagram",
+-  "urlThreads",
+-  "urlYoutube",
+-  "urlTiktok",
+-  "urlX",
+-  "urlBlog",
+-  "urlNote",
+-  "urlLinkedin",
+-  "urlOthers",
+-  "selfIntroduction",
+-  "publicConsent",
+-  "rulesConsent",
++  STABLE_KEY.fullName,
++  STABLE_KEY.nickname,
++  STABLE_KEY.location,
++  STABLE_KEY.birthDate,
++  STABLE_KEY.occupation,
++  STABLE_KEY.hometown,
++  STABLE_KEY.ubmZone,
++  STABLE_KEY.ubmMembershipType,
++  STABLE_KEY.ubmJoinDate,
++  STABLE_KEY.businessOverview,
++  STABLE_KEY.skills,
++  STABLE_KEY.challenges,
++  STABLE_KEY.canProvide,
++  STABLE_KEY.hobbies,
++  STABLE_KEY.recentInterest,
++  STABLE_KEY.motto,
++  STABLE_KEY.otherActivities,
++  STABLE_KEY.urlWebsite,
++  STABLE_KEY.urlFacebook,
++  STABLE_KEY.urlInstagram,
++  STABLE_KEY.urlThreads,
++  STABLE_KEY.urlYoutube,
++  STABLE_KEY.urlTiktok,
++  STABLE_KEY.urlX,
++  STABLE_KEY.urlBlog,
++  STABLE_KEY.urlNote,
++  STABLE_KEY.urlLinkedin,
++  STABLE_KEY.urlOthers,
++  STABLE_KEY.selfIntroduction,
++  STABLE_KEY.publicConsent,
++  STABLE_KEY.rulesConsent,
+   "extraFieldsJson",
+   "unmappedQuestionIdsJson",
+ ];
+diff --git a/apps/api/src/repository/_shared/builder.ts b/apps/api/src/repository/_shared/builder.ts
+index 3165a5ee..3d82ebb0 100644
+--- a/apps/api/src/repository/_shared/builder.ts
++++ b/apps/api/src/repository/_shared/builder.ts
+@@ -19,6 +19,7 @@ import type {
+   FieldVisibility,
+   AnswerValue,
+ } from "@ubm-hyogo/shared";
++import { STABLE_KEY } from "@ubm-hyogo/shared";
+ import { findMemberById } from "../members";
+ import { listMembersByIds } from "../members";
+ import { getStatus, listStatusesByMemberIds } from "../status";
+@@ -69,12 +70,12 @@ function extractSummary(answersJson: string): MemberProfileSummary {
+     // パース失敗時はデフォルト値を使用
+   }
+   return {
+-    fullName: (answers["fullName"] as string) ?? "",
+-    nickname: (answers["nickname"] as string) ?? "",
+-    location: (answers["location"] as string) ?? "",
+-    occupation: (answers["occupation"] as string) ?? "",
+-    ubmZone: (answers["ubmZone"] as string | null) ?? null,
+-    ubmMembershipType: (answers["ubmMembershipType"] as string | null) ?? null,
++    fullName: (answers[STABLE_KEY.fullName] as string) ?? "",
++    nickname: (answers[STABLE_KEY.nickname] as string) ?? "",
++    location: (answers[STABLE_KEY.location] as string) ?? "",
++    occupation: (answers[STABLE_KEY.occupation] as string) ?? "",
++    ubmZone: (answers[STABLE_KEY.ubmZone] as string | null) ?? null,
++    ubmMembershipType: (answers[STABLE_KEY.ubmMembershipType] as string | null) ?? null,
+   };
+ }
+ 
+diff --git a/apps/api/src/repository/publicMembers.ts b/apps/api/src/repository/publicMembers.ts
+index 479f814d..b613ce66 100644
+--- a/apps/api/src/repository/publicMembers.ts
++++ b/apps/api/src/repository/publicMembers.ts
+@@ -7,6 +7,7 @@
+ 
+ import type { DbCtx } from "./_shared/db";
+ import { placeholders } from "./_shared/sql";
++import { STABLE_KEY } from "@ubm-hyogo/shared";
+ 
+ export interface PublicMemberRow {
+   member_id: string;
+@@ -47,7 +48,7 @@ const buildBaseFromWhere = (input: ListPublicMembersInput): {
+       AND EXISTS (
+         SELECT 1 FROM response_fields rf_zone
+         WHERE rf_zone.response_id = mi.current_response_id
+-          AND rf_zone.stable_key = 'ubmZone'
++          AND rf_zone.stable_key = '${STABLE_KEY.ubmZone}'
+           AND rf_zone.value_json = ?
+       )`;
+     binds.push(JSON.stringify(input.zone));
+@@ -58,7 +59,7 @@ const buildBaseFromWhere = (input: ListPublicMembersInput): {
+       AND EXISTS (
+         SELECT 1 FROM response_fields rf_status
+         WHERE rf_status.response_id = mi.current_response_id
+-          AND rf_status.stable_key = 'ubmMembershipType'
++          AND rf_status.stable_key = '${STABLE_KEY.ubmMembershipType}'
+           AND rf_status.value_json = ?
+       )`;
+     binds.push(JSON.stringify(input.status));
+@@ -146,8 +147,8 @@ export interface MembershipCountRow {
+   count: number;
+ }
+ 
+-const ZONE_STABLE_KEY = "ubmZone";
+-const MEMBERSHIP_STABLE_KEY = "ubmMembershipType";
++const ZONE_STABLE_KEY = STABLE_KEY.ubmZone;
++const MEMBERSHIP_STABLE_KEY = STABLE_KEY.ubmMembershipType;
+ 
+ /**
+  * stableKey 別 (ubmZone / ubmMembershipType) の値を集計する。
+diff --git a/apps/api/src/routes/admin/members.ts b/apps/api/src/routes/admin/members.ts
+index 1ae72525..fb564773 100644
+--- a/apps/api/src/routes/admin/members.ts
++++ b/apps/api/src/routes/admin/members.ts
+@@ -15,6 +15,7 @@ import {
+   ADMIN_ZONE_VALUES,
+   AdminMemberListViewZ,
+   AdminMemberDetailViewZ,
++  STABLE_KEY,
+   type AdminDensity,
+   type AdminFilter,
+   type AdminSort,
+@@ -247,7 +248,8 @@ export const createAdminMembersRoute = () => {
+       if (row.answers_json) {
+         try {
+           const p = JSON.parse(row.answers_json) as Record<string, unknown>;
+-          if (typeof p["fullName"] === "string") fullName = p["fullName"];
++          const fn = p[STABLE_KEY.fullName];
++          if (typeof fn === "string") fullName = fn;
+         } catch {
+           // ignore
+         }
+diff --git a/apps/api/src/routes/admin/requests.ts b/apps/api/src/routes/admin/requests.ts
+index 417f7898..d3f1bc7d 100644
+--- a/apps/api/src/routes/admin/requests.ts
++++ b/apps/api/src/routes/admin/requests.ts
+@@ -8,7 +8,7 @@
+ // `POST /admin/requests/:noteId/resolve` body: { resolution, resolutionNote? }
+ import { Hono } from "hono";
+ import { z } from "zod";
+-import { adminRequestResolveBodySchema } from "@ubm-hyogo/shared";
++import { adminRequestResolveBodySchema, STABLE_KEY } from "@ubm-hyogo/shared";
+ import {
+   requireAdmin,
+   type RequireAuthVariables,
+@@ -84,7 +84,7 @@ const PII_KEYS = new Set([
+   "address",
+   "addr",
+   "name",
+-  "fullName",
++  STABLE_KEY.fullName,
+   "fullname",
+   "firstName",
+   "firstname",
+diff --git a/apps/api/src/use-cases/public/list-public-members.ts b/apps/api/src/use-cases/public/list-public-members.ts
+index e8a7a985..c3b888d1 100644
+--- a/apps/api/src/use-cases/public/list-public-members.ts
++++ b/apps/api/src/use-cases/public/list-public-members.ts
+@@ -3,6 +3,7 @@
+ // 不変条件 #2 / #3 / #11 を view converter で fail close。
+ 
+ import type { DbCtx } from "../../repository/_shared/db";
++import { STABLE_KEY } from "@ubm-hyogo/shared";
+ import { listFieldsByResponseId } from "../../repository/responseFields";
+ import {
+   countPublicMembers,
+@@ -21,12 +22,12 @@ export interface ListPublicMembersDeps {
+ }
+ 
+ const SUMMARY_KEYS = [
+-  "fullName",
+-  "nickname",
+-  "occupation",
+-  "location",
+-  "ubmZone",
+-  "ubmMembershipType",
++  STABLE_KEY.fullName,
++  STABLE_KEY.nickname,
++  STABLE_KEY.occupation,
++  STABLE_KEY.location,
++  STABLE_KEY.ubmZone,
++  STABLE_KEY.ubmMembershipType,
+ ] as const;
+ 
+ const parseJsonString = (raw: string | null): string => {
+@@ -85,13 +86,13 @@ export const listPublicMembersUseCase = async (
+     }
+     items.push({
+       memberId: m.member_id,
+-      fullName: parseJsonString(byKey.get("fullName") ?? null),
+-      nickname: parseJsonString(byKey.get("nickname") ?? null),
+-      occupation: parseJsonString(byKey.get("occupation") ?? null),
+-      location: parseJsonString(byKey.get("location") ?? null),
+-      ubmZone: parseJsonNullable(byKey.get("ubmZone") ?? null),
++      fullName: parseJsonString(byKey.get(STABLE_KEY.fullName) ?? null),
++      nickname: parseJsonString(byKey.get(STABLE_KEY.nickname) ?? null),
++      occupation: parseJsonString(byKey.get(STABLE_KEY.occupation) ?? null),
++      location: parseJsonString(byKey.get(STABLE_KEY.location) ?? null),
++      ubmZone: parseJsonNullable(byKey.get(STABLE_KEY.ubmZone) ?? null),
+       ubmMembershipType: parseJsonNullable(
+-        byKey.get("ubmMembershipType") ?? null,
++        byKey.get(STABLE_KEY.ubmMembershipType) ?? null,
+       ),
+     });
+   }
+diff --git a/apps/api/src/view-models/public/public-member-list-view.ts b/apps/api/src/view-models/public/public-member-list-view.ts
+index d00afa3a..fd193089 100644
+--- a/apps/api/src/view-models/public/public-member-list-view.ts
++++ b/apps/api/src/view-models/public/public-member-list-view.ts
+@@ -5,7 +5,7 @@
+ 
+ import { z } from "zod";
+ 
+-import { PublicMemberListItemZ, PublicMemberListViewZ } from "@ubm-hyogo/shared";
++import { PublicMemberListItemZ, PublicMemberListViewZ, STABLE_KEY } from "@ubm-hyogo/shared";
+ 
+ import type { PaginationMeta } from "../../_shared/pagination";
+ 
+@@ -32,7 +32,7 @@ export interface PublicMemberListSource {
+   generatedAt: string;
+ }
+ 
+-const FORBIDDEN_KEYS = ["responseEmail", "rulesConsent", "adminNotes"] as const;
++const FORBIDDEN_KEYS = ["responseEmail", STABLE_KEY.rulesConsent, "adminNotes"] as const;
+ 
+ const stripForbidden = (obj: Record<string, unknown>): Record<string, unknown> => {
+   const clone = { ...obj };
+diff --git a/apps/api/src/view-models/public/public-member-profile-view.ts b/apps/api/src/view-models/public/public-member-profile-view.ts
+index 2557733e..f95c99fe 100644
+--- a/apps/api/src/view-models/public/public-member-profile-view.ts
++++ b/apps/api/src/view-models/public/public-member-profile-view.ts
+@@ -4,7 +4,7 @@
+ 
+ import { z } from "zod";
+ 
+-import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
++import { PublicMemberProfileZ, STABLE_KEY } from "@ubm-hyogo/shared";
+ 
+ import {
+   isPublicStatus,
+@@ -40,15 +40,15 @@ export interface ProfileSource {
+   tags: ProfileTagSource[];
+ }
+ 
+-const FORBIDDEN_KEYS = ["responseEmail", "rulesConsent", "adminNotes"] as const;
++const FORBIDDEN_KEYS = ["responseEmail", STABLE_KEY.rulesConsent, "adminNotes"] as const;
+ 
+ const FIELD_TO_SUMMARY: Record<string, keyof Summary> = {
+-  fullName: "fullName",
+-  nickname: "nickname",
+-  location: "location",
+-  occupation: "occupation",
+-  ubmZone: "ubmZone",
+-  ubmMembershipType: "ubmMembershipType",
++  [STABLE_KEY.fullName]: STABLE_KEY.fullName,
++  [STABLE_KEY.nickname]: STABLE_KEY.nickname,
++  [STABLE_KEY.location]: STABLE_KEY.location,
++  [STABLE_KEY.occupation]: STABLE_KEY.occupation,
++  [STABLE_KEY.ubmZone]: STABLE_KEY.ubmZone,
++  [STABLE_KEY.ubmMembershipType]: STABLE_KEY.ubmMembershipType,
+ };
+ 
+ interface Summary {
+@@ -105,7 +105,7 @@ export const toPublicMemberProfile = (
+     // (基本属性は public visibility 前提)
+     const summaryKey = FIELD_TO_SUMMARY[f.stableKey];
+     if (summaryKey) {
+-      if (summaryKey === "ubmZone" || summaryKey === "ubmMembershipType") {
++      if (summaryKey === STABLE_KEY.ubmZone || summaryKey === STABLE_KEY.ubmMembershipType) {
+         summary[summaryKey] = asNullableString(f.value);
+       } else {
+         summary[summaryKey] = asString(f.value);
+diff --git a/apps/web/app/profile/_components/RequestActionPanel.tsx b/apps/web/app/profile/_components/RequestActionPanel.tsx
+index 959b7a29..753f55d3 100644
+--- a/apps/web/app/profile/_components/RequestActionPanel.tsx
++++ b/apps/web/app/profile/_components/RequestActionPanel.tsx
+@@ -5,6 +5,7 @@
+ "use client";
+ 
+ import { useState } from "react";
++import { STABLE_KEY } from "@ubm-hyogo/shared";
+ import type { MeProfileStatusSummary } from "../../../src/lib/api/me-types";
+ import type {
+   QueueAccepted,
+@@ -17,7 +18,7 @@ import { RequestPendingBanner } from "./RequestPendingBanner";
+ 
+ export interface RequestActionPanelProps {
+   readonly publishState: MeProfileStatusSummary["publishState"];
+-  readonly rulesConsent: MeProfileStatusSummary["rulesConsent"];
++  readonly rulesConsent: MeProfileStatusSummary[typeof STABLE_KEY.rulesConsent];
+ }
+ 
+ export function RequestActionPanel({
+diff --git a/apps/web/app/profile/_components/StatusSummary.tsx b/apps/web/app/profile/_components/StatusSummary.tsx
+index 1ed8f5b1..a93a26a6 100644
+--- a/apps/web/app/profile/_components/StatusSummary.tsx
++++ b/apps/web/app/profile/_components/StatusSummary.tsx
+@@ -4,13 +4,14 @@
+ 
+ import type { MeProfileStatusSummary } from "../../../src/lib/api/me-types";
+ import type { MeAuthGateState } from "../../../src/lib/api/me-types";
++import { STABLE_KEY } from "@ubm-hyogo/shared";
+ import { KVList } from "../../../src/components/ui/KVList";
+ 
+ const labelOfPublishState = (s: MeProfileStatusSummary["publishState"]): string =>
+   s === "public" ? "公開" : s === "member_only" ? "会員限定" : "非公開";
+ 
+ const labelOfConsent = (
+-  c: MeProfileStatusSummary["publicConsent"],
++  c: MeProfileStatusSummary[typeof STABLE_KEY.publicConsent],
+ ): string =>
+   c === "consented" ? "同意済" : c === "declined" ? "未同意" : "未確認";
+ 
+diff --git a/apps/web/src/components/public/MemberCard.tsx b/apps/web/src/components/public/MemberCard.tsx
+index 6b4b6e21..1fae2baa 100644
+--- a/apps/web/src/components/public/MemberCard.tsx
++++ b/apps/web/src/components/public/MemberCard.tsx
+@@ -1,6 +1,6 @@
+ import type { z } from "zod";
+ 
+-import { PublicMemberListItemZ } from "@ubm-hyogo/shared";
++import { PublicMemberListItemZ, STABLE_KEY } from "@ubm-hyogo/shared";
+ 
+ import { Avatar } from "../ui/Avatar";
+ 
+@@ -24,11 +24,11 @@ export function MemberCard({ member, density = "comfy" }: MemberCardProps) {
+         />
+         <div data-role="meta">
+           <p data-role="name">{member.fullName}</p>
+-          {member.nickname ? <p data-role="nickname">@{member.nickname}</p> : null}
++          {member.nickname ? <p data-role={STABLE_KEY.nickname}>@{member.nickname}</p> : null}
+           {density !== "list" ? (
+-            <p data-role="occupation">{member.occupation}</p>
++            <p data-role={STABLE_KEY.occupation}>{member.occupation}</p>
+           ) : null}
+-          <p data-role="location">{member.location}</p>
++          <p data-role={STABLE_KEY.location}>{member.location}</p>
+           {member.ubmZone ? (
+             <span data-role="zone">{member.ubmZone}</span>
+           ) : null}
+diff --git a/apps/web/src/components/public/ProfileHero.tsx b/apps/web/src/components/public/ProfileHero.tsx
+index b04c3691..9064761c 100644
+--- a/apps/web/src/components/public/ProfileHero.tsx
++++ b/apps/web/src/components/public/ProfileHero.tsx
+@@ -1,3 +1,5 @@
++import { STABLE_KEY } from "@ubm-hyogo/shared";
++
+ import { Avatar } from "../ui/Avatar";
+ 
+ export interface ProfileHeroProps {
+@@ -16,9 +18,9 @@ export function ProfileHero(props: ProfileHeroProps) {
+       <Avatar memberId={props.memberId} name={props.fullName} size="lg" />
+       <div data-role="meta">
+         <h1>{props.fullName}</h1>
+-        {props.nickname ? <p data-role="nickname">@{props.nickname}</p> : null}
+-        <p data-role="occupation">{props.occupation}</p>
+-        <p data-role="location">{props.location}</p>
++        {props.nickname ? <p data-role={STABLE_KEY.nickname}>@{props.nickname}</p> : null}
++        <p data-role={STABLE_KEY.occupation}>{props.occupation}</p>
++        <p data-role={STABLE_KEY.location}>{props.location}</p>
+         <div data-role="badges">
+           {props.ubmZone ? <span data-key="zone">{props.ubmZone}</span> : null}
+           {props.ubmMembershipType ? (
+diff --git a/packages/shared/src/utils/consent.ts b/packages/shared/src/utils/consent.ts
+index 37d9b0d5..f5415950 100644
+--- a/packages/shared/src/utils/consent.ts
++++ b/packages/shared/src/utils/consent.ts
+@@ -1,4 +1,5 @@
+ import type { ConsentStatus } from "../types/common";
++import { STABLE_KEY } from "../zod/field";
+ 
+ const POSITIVE_TOKENS = new Set([
+   "yes",
+@@ -33,11 +34,11 @@ const RULES_HINT_TOKENS = ["規約", "ルール", "rules", "rule"];
+ 
+ export type ConsentInputValue = unknown;
+ 
+-export const PUBLIC_CONSENT_KEY = "publicConsent" as const;
+-export const RULES_CONSENT_KEY = "rulesConsent" as const;
++export const PUBLIC_CONSENT_KEY = STABLE_KEY.publicConsent;
++export const RULES_CONSENT_KEY = STABLE_KEY.rulesConsent;
+ 
+ const PUBLIC_CONSENT_LEGACY_KEYS = [
+-  "publicConsent",
++  STABLE_KEY.publicConsent,
+   "public_consent",
+   "publishConsent",
+   "shareInfo",
+@@ -45,7 +46,7 @@ const PUBLIC_CONSENT_LEGACY_KEYS = [
+ ] as const;
+ 
+ const RULES_CONSENT_LEGACY_KEYS = [
+-  "rulesConsent",
++  STABLE_KEY.rulesConsent,
+   "rules_consent",
+   "ruleConsent",
+   "rule_consent",
+diff --git a/packages/shared/src/zod/field.ts b/packages/shared/src/zod/field.ts
+index 7ce2ada5..450f7aee 100644
+--- a/packages/shared/src/zod/field.ts
++++ b/packages/shared/src/zod/field.ts
+@@ -63,3 +63,40 @@ if (STABLE_KEY_LIST.length !== 31) {
+ export type StableKeyName = keyof typeof FieldByStableKeyZ;
+ 
+ export type FieldZodMap = typeof FieldByStableKeyZ;
++
++// 正本 stableKey 文字列定数群（不変条件 #1: 二重定義禁止 / 文字列リテラル直書き禁止）。
++// 静的検査 scripts/lint-stablekey-literal.mjs により本ファイル外での literal 直書きは禁止される。
++// アプリケーションコードは必ず本 const 経由で stableKey 値を参照すること。
++export const STABLE_KEY = {
++  fullName: "fullName",
++  nickname: "nickname",
++  location: "location",
++  birthDate: "birthDate",
++  occupation: "occupation",
++  hometown: "hometown",
++  ubmZone: "ubmZone",
++  ubmMembershipType: "ubmMembershipType",
++  ubmJoinDate: "ubmJoinDate",
++  businessOverview: "businessOverview",
++  skills: "skills",
++  challenges: "challenges",
++  canProvide: "canProvide",
++  hobbies: "hobbies",
++  recentInterest: "recentInterest",
++  motto: "motto",
++  otherActivities: "otherActivities",
++  urlWebsite: "urlWebsite",
++  urlFacebook: "urlFacebook",
++  urlInstagram: "urlInstagram",
++  urlThreads: "urlThreads",
++  urlYoutube: "urlYoutube",
++  urlTiktok: "urlTiktok",
++  urlX: "urlX",
++  urlBlog: "urlBlog",
++  urlNote: "urlNote",
++  urlLinkedin: "urlLinkedin",
++  urlOthers: "urlOthers",
++  selfIntroduction: "selfIntroduction",
++  publicConsent: "publicConsent",
++  rulesConsent: "rulesConsent",
++} as const satisfies { readonly [K in StableKeyName]: K };
+diff --git a/scripts/lint-stablekey-literal.test.ts b/scripts/lint-stablekey-literal.test.ts
+index d6a53c70..c69d8013 100644
+--- a/scripts/lint-stablekey-literal.test.ts
++++ b/scripts/lint-stablekey-literal.test.ts
+@@ -81,6 +81,14 @@ describe("lint-stablekey-literal", () => {
+     }
+   });
+ 
++  // issue-393: legacy literal cleanup 完了後、application code 中の stableKey 文字列リテラルは
++  // 0 件であることを期待する。strict CI gate 昇格 (親 03a AC-7) の前提条件。
++  it("strict mode reports 0 violations after legacy literal cleanup (issue-393)", () => {
++    const { code, report } = runLint(["--strict"]);
++    expect(report.violations).toHaveLength(0);
++    expect(code).toBe(0);
++  });
++
+   it("can directly scan Phase 6 violation fixtures even though fixtures are excluded from default scan", () => {
+     const { code, report } = runLint([
+       "--strict",
