@@ -1438,6 +1438,19 @@ packages/
 | audit | dashboard read は `dashboard.view` として記録し、recent actions と KPI を自己汚染しない |
 | Phase 12 evidence | `docs/30-workflows/06c-A-admin-dashboard/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### UBM-Hyogo Playwright Full Execution 早見（08b-A / 2026-05-04）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/` |
+| 状態 | `spec_created` / `implementation-spec` / `VISUAL_ON_EXECUTION` / Phase 1-10 and 12 completed / Phase 11 contract_ready_runtime_pending / Phase 13 pending_user_approval |
+| 実測境界 | Phase 11 runtime evidence is `PENDING_RUNTIME_EVIDENCE`; planned paths are not PASS evidence |
+| evidence manifest | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence-manifest.md` |
+| required runtime evidence | Playwright HTML/JSON report、real axe report、30+ desktop/mobile screenshots、non-admin `/admin/*` UI gate、direct `/api/admin/*` 403、foreign content edit 403、secret hygiene、zero skipped spec inventory |
+| Phase 12 evidence | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| upstream | `08b-parallel-playwright-e2e-and-ui-acceptance-smoke` scaffold |
+| downstream | 09a staging smoke and 09c production deploy remain gated until fresh runtime evidence or explicit blocker |
+
 ### UBM-Hyogo Staging Smoke / Forms Sync Validation 早見（09a / 2026-05-01）
 
 | 観点 | 値 / 参照先 |
