@@ -2541,20 +2541,6 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
-### references/workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| canonical root | L3 |
-| workflow state | L7 |
-| root artifacts | L17 |
-| phase 12 required artifacts (strict 7) | L25 |
-| phase 11 evidence | L37 |
-| implementation source-of-truth | L45 |
-| skill reflection (same-wave) | L56 |
-| scope notes | L68 |
-| related tasks | L76 |
-
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2748,9 +2734,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L19 |
-| Gate Boundary | L33 |
-| Same-Wave Sync | L40 |
+| Phase 12 Strict Files | L16 |
+| Gate Boundary | L30 |
+| Same-Wave Sync | L37 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3010,17 +2996,7 @@ node scripts/list-specs.js --topics
 | 3. /auth/session-resolve internal-only endpoint | L86 |
 | 4. OpenNext post-build worker patch | L97 |
 | 5. Auth.js v5 env 層化 | L109 |
-| 変更履歴 | L177 |
-
-### references/cloudflare-cli-auth-recovery-sop.md
-
-| セクション | 行 |
-|------------|----|
-| Purpose | L3 |
-| Invariants | L7 |
-| Stage Isolation | L14 |
-| Evidence Set | L22 |
-| Close-Out Rule | L34 |
+| 変更履歴 | L174 |
 
 ### references/csrf-state-parameter.md
 
@@ -3707,17 +3683,6 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
 
-### references/lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-389-001: metadata canonical / robots を Server Component に固定する | L10 |
-| L-389-002: Google Form 連絡先 href を環境別参照化する | L35 |
-| L-389-003: semantic render test で必須セクションの intent を固定する | L56 |
-| L-389-004: web build #385 regression と OAuth deploy のブロック依存 | L78 |
-| OP-389-1: Phase 12 strict 7 ファイル + artifacts.json parity | L104 |
-| OP-389-2: unassigned-task の formalize と consume | L109 |
-
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -3985,13 +3950,10 @@ node scripts/list-specs.js --topics
 | L-UTCOV-003: 2-layer coverage gate は precondition gate と upgrade gate を別タスク化する | L11 |
 | L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
-| L-UTCOV-009: package filter と script 名は package.json から実測する | L23 |
-| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L27 |
-| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L31 |
-| L-UTCOV-008: workflow root を wave grouping から top-level へ移したら artifacts / inventory / README を同時更新する | L41 |
-| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L45 |
-| L-UTCOV-008: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
-| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L48 |
+| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
+| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
+| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L37 |
+| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -4098,8 +4060,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L92 |
-| 関連ドキュメント | L97 |
+| 利用順序 | L91 |
+| 関連ドキュメント | L96 |
 
 ### references/llm-embedding.md
 
@@ -5168,13 +5130,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L200 |
-| フェーズ構造（概要） | L209 |
-| 品質ゲート（概要） | L240 |
-| 出力テンプレート | L251 |
-| 実行時のコマンド・エージェント・スキル | L274 |
-| 昇格パターン集 | L298 |
-| Current Active / Spec Created Tasks | L300 |
+| ドキュメント構成 | L192 |
+| フェーズ構造（概要） | L201 |
+| 品質ゲート（概要） | L232 |
+| 出力テンプレート | L243 |
+| 実行時のコマンド・エージェント・スキル | L266 |
+| 昇格パターン集 | L290 |
+| Current Active / Spec Created Tasks | L292 |
 
 ### references/task-workflow-backlog-part2.md
 
