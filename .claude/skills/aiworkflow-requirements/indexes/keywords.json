@@ -650,6 +650,7 @@
       "architecture-admin-api-client.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "ui-ux-admin-dashboard.md"
     ],
@@ -996,6 +997,7 @@
       "arch-execution-capability-contract.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
@@ -3156,6 +3158,7 @@
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
     ],
@@ -3815,6 +3818,7 @@
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
@@ -4364,6 +4368,7 @@
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
@@ -4463,6 +4468,7 @@
     ],
     "artifacts": [
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
@@ -7485,6 +7491,7 @@
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
@@ -7530,6 +7537,7 @@
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -7603,7 +7611,8 @@
       "lessons-fetch-service-binding-testing.md"
     ],
     "label": [
-      "lessons-fetch-service-binding-testing.md"
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md"
     ],
     "は構造化": [
       "lessons-fetch-service-binding-testing.md"
@@ -7668,6 +7677,7 @@
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
@@ -7684,6 +7694,7 @@
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
@@ -7731,6 +7742,7 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "task-workflow-completed-ut-06-safety-gate.md",
@@ -7746,7 +7758,8 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
     ],
     "full": [
-      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
+      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md"
     ],
     "suite": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
@@ -7756,6 +7769,7 @@
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
@@ -9193,6 +9207,7 @@
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-ui-ux-visual-baseline-drift.md"
@@ -9432,6 +9447,82 @@
     ],
     "へ委譲する境界をテンプレ化する": [
       "lessons-learned-06c-C-admin-tags-2026-05.md"
+    ],
+    "Meetings": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md"
+    ],
+    "CE": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md"
+    ],
+    "must": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "not": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "hide": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md"
+    ],
+    "gaps": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md"
+    ],
+    "existing": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
+    ],
+    "compatibility": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "beats": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md"
+    ],
+    "replacement": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
+    ],
+    "root": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
+      "workflow-06c-B-admin-members-artifact-inventory.md",
+      "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
+    ],
+    "parity": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+    ],
+    "be": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
+    ],
+    "explicit": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md"
+    ],
+    "is": [
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "画面": [
       "lessons-learned-06c-admin-ui-2026-04.md",
@@ -9687,11 +9778,6 @@
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
     ],
-    "existing": [
-      "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
-    ],
     "row": [
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
@@ -9831,27 +9917,9 @@
     "の集約": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
-    "root": [
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-ut-coverage-2026-05-wave.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
-      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
-      "workflow-06c-B-admin-members-artifact-inventory.md",
-      "workflow-06c-C-admin-tags-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md",
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
-    ],
     "output": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
-    ],
-    "parity": [
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
-      "lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "blocker": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
@@ -10233,11 +10301,6 @@
     "needs": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
-    "compatibility": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
-    ],
     "and": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
@@ -10266,15 +10329,6 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
     ],
-    "must": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
-    ],
-    "be": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
-    ],
     "materialized": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
@@ -10286,11 +10340,6 @@
     ],
     "errors": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
-    ],
-    "not": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "promoted": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
@@ -10565,10 +10614,6 @@
     ],
     "Rollback": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
-    ],
-    "is": [
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
     ],
     "permission": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
@@ -11585,9 +11630,6 @@
     ],
     "wording": [
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
-    ],
-    "replacement": [
-      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "を上位前提にする": [
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"

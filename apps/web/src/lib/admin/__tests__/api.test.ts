@@ -41,7 +41,7 @@ describe("lib/admin/api.ts (不変条件)", () => {
     const calls: Array<{ input: RequestInfo | URL; init?: RequestInit }> = [];
     const originalFetch = globalThis.fetch;
     globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
-      calls.push({ input, init });
+      calls.push(init === undefined ? { input } : { input, init });
       return new Response(JSON.stringify({ ok: true }), {
         status: 200,
         headers: { "content-type": "application/json" },

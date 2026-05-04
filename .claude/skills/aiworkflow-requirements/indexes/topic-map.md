@@ -874,12 +874,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L204 |
-| UBM-Hyogo Admin Sync API（03a） | L225 |
-| UBM-Hyogo Member Self-Service API（04b） | L270 |
-| Desktop IPC API サマリー | L297 |
-| 変更履歴 | L328 |
-| 関連ドキュメント | L345 |
+| エンドポイント命名規則 | L208 |
+| UBM-Hyogo Admin Sync API（03a） | L229 |
+| UBM-Hyogo Member Self-Service API（04b） | L274 |
+| Desktop IPC API サマリー | L301 |
+| 変更履歴 | L332 |
+| 関連ドキュメント | L349 |
 
 ### references/api-internal-chunk-search.md
 
@@ -3576,6 +3576,15 @@ node scripts/list-specs.js --topics
 | L-06CC-004: SKILL.md merge conflict marker 残存検出 hook を導入する | L38 |
 | L-06CC-005: visual evidence は 06c-C 単独で取得せず 08b/09a へ委譲する境界をテンプレ化する | L48 |
 
+### references/lessons-learned-06c-E-admin-meetings-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CE-001: docs-only label must not hide implementation gaps | L3 |
+| L-06CE-002: existing route compatibility beats contract replacement | L7 |
+| L-06CE-003: root-only artifacts parity must be explicit | L11 |
+| L-06CE-004: visual evidence pending is not full PASS | L15 |
+
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
 | セクション | 行 |
@@ -4040,8 +4049,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L89 |
-| 関連ドキュメント | L94 |
+| 利用順序 | L90 |
+| 関連ドキュメント | L95 |
 
 ### references/llm-embedding.md
 

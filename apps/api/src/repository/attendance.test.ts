@@ -5,7 +5,7 @@ import { asMemberId } from "./_shared/brand";
 
 const newSpec = () => ({
   tables: {
-    meeting_sessions: [{ session_id: "s1", title: "t", held_on: "2026-01-10", note: null, created_at: "2026-01-01", created_by: "admin" }],
+    meeting_sessions: [{ session_id: "s1", title: "t", held_on: "2026-01-10", note: null, created_at: "2026-01-01", created_by: "admin", deleted_at: null as string | null }],
     member_attendance: [],
     member_status: [
       { member_id: "m1", is_deleted: 0 },
