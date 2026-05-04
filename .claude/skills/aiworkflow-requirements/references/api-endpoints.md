@@ -89,8 +89,8 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/members/:memberId/delete` | member を論理削除する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/delete` | member を論理削除する。request body は `{ reason: string.trim().min(1).max(500) }`、不足/超過は **422** を返す。成功時 `{ id, isDeleted: true, deletedAt }` を返し、`member_status` upsert / `deleted_members` upsert / `audit_log` insert(`admin.member.deleted`) を `DB.batch()` で同一 workflow 境界に置く。再 delete は `409 member_already_deleted` | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する。成功時 `{ id, restoredAt }` を返し、`member_status` update / `deleted_members` delete / `audit_log` insert(`admin.member.restored`) を `DB.batch()` で同一 workflow 境界に置く。未削除 member への restore は `409 member_not_deleted` | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/requests` | visibility/delete request の pending queue を `type=visibility_request|delete_request`, `status=pending`, cursor pagination で FIFO 一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/requests/:noteId/resolve` | admin request を approve/reject する。approve は `member_status` 更新、`admin_member_notes.request_status` 更新、`audit_log` append を D1 batch で同一 workflow 境界に置き、二重 resolve は 409 | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |
@@ -99,6 +99,9 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | POST | `/admin/schema/aliases` | question stable key alias を解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings` | meeting sessions と attendance summary（既存出席 memberId）を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings` | meeting session を作成する | Auth.js JWT + `requireAdmin` |
+| PATCH | `/admin/meetings/:sessionId` | title / heldOn / note / deletedAt を更新する。deletedAt セット時は soft delete として一覧から除外する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/meetings/:sessionId/attendances` | 06c-E 正本: `{ memberId, attended }` で attendance を追加 / 削除する。`attended=true` の重複は `409 attendance_already_recorded`、unknown member は `404 member_not_found`、削除済み member は `422 member_is_deleted`、session 不在 / soft-deleted meeting は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/meetings/:sessionId/export.csv` | attendance を `meetingId,heldOn,memberId,displayName,attended` 固定列の CSV で返す。soft-deleted meeting は 404 | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings/:sessionId/attendance/candidates` | attendance 候補を一覧する。session 不在は `404 session_not_found`、削除済み member と登録済み member は除外する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409 attendance_already_recorded`、削除済み member は `422 member_is_deleted`、session 不在は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
 | DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する。row 不在は `404 attendance_not_found` に集約する | Auth.js JWT + `requireAdmin` |
@@ -113,7 +116,8 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 - mutation は `audit_log` append を通す。
 - 04b-followup-004 admin request resolve は `visibility_request` approve で `member_status.publish_state`、`delete_request` approve で `member_status.is_deleted` と `deleted_members` を更新し、reject では `member_status` を変更しない。approve 前に対象 `member_status` がない場合は 404 `member_status_not_found` とし、note は pending のまま残す。
 - request resolve audit は現行 `AuditTargetType` 制約により `targetType='member'`、`targetId=<memberId>`、`after.noteId` で原典を追跡する。action は `admin.request.approve` / `admin.request.reject`。first-class `admin_member_note` / `admin_request` target は follow-up。
-- 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、POST は `after_json`、DELETE は `before_json` に attendance row を残す。
+- 06c-E UI の attendance add/remove は `/admin/meetings/:sessionId/attendances` の `{ attended }` alias を正本として使う。04c の `/attendance` POST/DELETE route は既存互換 route として維持する。
+- 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、追加は `after_json`、削除は `before_json` に attendance row を残す。
 - 07c follow-up audit browsing は append-only の閲覧専用で、`before_json` / `after_json` の保存値は変更せず、API projection と UI defense-in-depth で email / phone / address / name 相当キーを表示時 masking する。cursor は `{ createdAt, auditId }` の base64url JSON、order は `created_at DESC, audit_id DESC`。
 - 06c-A follow-up: `/admin/dashboard` は単一 endpoint を維持し（`/admin/dashboard/kpi`・`/admin/dashboard/recent-actions` の split は不採用）、表示時に `audit_log` へ `dashboard.view` を append する。`recentActions` は `dashboard.view` を除外フィルタし KPI / 最近の作業の自己ループを防ぐ。
 

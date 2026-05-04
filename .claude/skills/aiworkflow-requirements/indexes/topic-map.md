@@ -874,12 +874,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L204 |
-| UBM-Hyogo Admin Sync API（03a） | L225 |
-| UBM-Hyogo Member Self-Service API（04b） | L270 |
-| Desktop IPC API サマリー | L297 |
-| 変更履歴 | L328 |
-| 関連ドキュメント | L345 |
+| エンドポイント命名規則 | L208 |
+| UBM-Hyogo Admin Sync API（03a） | L229 |
+| UBM-Hyogo Member Self-Service API（04b） | L274 |
+| Desktop IPC API サマリー | L301 |
+| 変更履歴 | L332 |
+| 関連ドキュメント | L349 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1974,9 +1974,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Current State | L3 |
-| Implementation Artifacts | L12 |
-| Evidence | L21 |
-| Open Follow-Ups | L30 |
+| Implementation Artifacts | L13 |
+| Evidence | L22 |
+| Open Follow-Ups | L32 |
 
 ### references/workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md
 
@@ -2032,11 +2032,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | canonical root | L3 |
-| workflow state | L7 |
-| root artifacts | L17 |
-| phase 12 required artifacts | L25 |
-| implementation source-of-truth | L37 |
-| scope notes | L48 |
+| execution supplement | L7 |
+| workflow state | L13 |
+| root artifacts | L23 |
+| phase 12 required artifacts | L31 |
+| implementation source-of-truth | L43 |
+| scope notes | L54 |
 
 ### references/workflow-06c-C-admin-tags-artifact-inventory.md
 
@@ -2193,6 +2194,26 @@ node scripts/list-specs.js --topics
 | Workflow Governance Design 文書（artifact inventory） | L82 |
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
+
+### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current State | L3 |
+| Implementation Artifacts | L14 |
+| Evidence | L35 |
+| Open Follow-Ups | L48 |
+
+### references/workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical files | L11 |
+| Runtime outputs contract | L23 |
+| Status | L40 |
+| Same-wave touched files | L51 |
+| Follow-up unassigned | L83 |
+| Boundary | L89 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2717,9 +2738,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L20 |
-| Gate Boundary | L34 |
-| Same-Wave Sync | L41 |
+| Phase 12 Strict Files | L19 |
+| Gate Boundary | L33 |
+| Same-Wave Sync | L40 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3016,7 +3037,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L196 |
+| 変更履歴 | L195 |
 
 ### references/deployment-cloudflare-opennext-workers.md
 
@@ -3064,7 +3085,8 @@ node scripts/list-specs.js --topics
 | 環境分離 | L516 |
 | ロールバック戦略 | L526 |
 | モニタリング/アラート（UT-08 連携） | L547 |
-| 変更履歴 | L564 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
+| 変更履歴 | L599 |
 
 ### references/deployment-core.md
 
@@ -3345,12 +3367,12 @@ node scripts/list-specs.js --topics
 | 概要 | L15 |
 | 使い方 | L23 |
 | Current Alias Overrides（個別互換行） | L30 |
-| Family Summary | L68 |
-| Detailed Register | L89 |
-| Section Extract Register (2026-03-17) | L270 |
-| 500-Line Split Register (2026-03-16) | L281 |
-| Fragment Migration Register (2026-04-28) | L303 |
-| Task Root Path Drift Register (2026-04-30 追記) | L330 |
+| Family Summary | L69 |
+| Detailed Register | L90 |
+| Section Extract Register (2026-03-17) | L271 |
+| 500-Line Split Register (2026-03-16) | L282 |
+| Fragment Migration Register (2026-04-28) | L304 |
+| Task Root Path Drift Register (2026-04-30 追記) | L331 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -3395,6 +3417,7 @@ node scripts/list-specs.js --topics
 | L-03A-LINT-004: docs / fixtures / tests は exception glob、inline suppression は 0 維持 | L34 |
 | L-03A-LINT-005: spec_created → enforced_dry_run の lifecycle 再分類は同 wave で全 7 同期点を更新する | L42 |
 | L-03A-LINT-006: skill feedback は「記録のみ」と「実 skill edit」を skill-feedback-report で明示分離する | L50 |
+| Issue #394 strict CI gate follow-up — 2026-05-03 | L58 |
 
 ### references/lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md
 
@@ -3405,6 +3428,14 @@ node scripts/list-specs.js --topics
 | L-03B-FU005-003: lock TTL 10 分の根拠は cron 周期と実行時間の数学的余裕で固定する | L25 |
 | L-03B-FU005-004: D1 DDL は本タスクに含めず物理 schema 変更は別タスクへ委譲する | L33 |
 | L-03B-FU005-005: consumer の `job_type` 文字列リテラル拡散は lint enforcement を follow-up にする | L41 |
+
+### references/lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-03B006-001: Reset rows must stay in the window | L3 |
+| L-03B006-002: Emit before releasing the sync lock (invariant) | L7 |
+| L-03B006-003: Workflow state follows real files | L11 |
 
 ### references/lessons-learned-03b-response-sync-2026-04.md
 
@@ -3552,7 +3583,8 @@ node scripts/list-specs.js --topics
 | L-06CB-004: detail UI は `/admin/members` 右ドロワー、別 route `/admin/members/[id]` は作らない | L30 |
 | L-06CB-005: workflow 契約は `:memberId`、handler ローカル変数 `id` は spec に漏らさない | L38 |
 | L-06CB-006: audit table 名は単数形 `audit_log` を canonical にし、plural を撤回する | L47 |
-| L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L55 |
+| L-06CB-008: delete/restore contract 不整合は同 wave で API/lessons/skill を直す（2026-05 implementation-execution review） | L55 |
+| L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L82 |
 
 ### references/lessons-learned-06c-C-admin-tags-2026-05.md
 
@@ -3563,6 +3595,15 @@ node scripts/list-specs.js --topics
 | L-06CC-003: 旧 CRUD POM (`admin-add-tag-button`) を queue-only 化と同 PR で必ず置換する | L29 |
 | L-06CC-004: SKILL.md merge conflict marker 残存検出 hook を導入する | L38 |
 | L-06CC-005: visual evidence は 06c-C 単独で取得せず 08b/09a へ委譲する境界をテンプレ化する | L48 |
+
+### references/lessons-learned-06c-E-admin-meetings-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CE-001: docs-only label must not hide implementation gaps | L3 |
+| L-06CE-002: existing route compatibility beats contract replacement | L7 |
+| L-06CE-003: root-only artifacts parity must be explicit | L11 |
+| L-06CE-004: visual evidence pending is not full PASS | L15 |
 
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
@@ -3667,18 +3708,6 @@ node scripts/list-specs.js --topics
 | OP-389-1: Phase 12 strict 7 ファイル + artifacts.json parity | L104 |
 | OP-389-2: unassigned-task の formalize と consume | L109 |
 
-### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
-
-| セクション | 行 |
-|------------|----|
-| 概要 | L8 |
-| 正本 4 系（coverage-80-enforcement と同一 SSOT を継承） | L18 |
-| 苦戦箇所 3 件 | L27 |
-| NON_VISUAL Phase 12 Part 1 / Part 2 構成の適用知見 | L50 |
-| branch protection / contexts 登録の上流前提（5 重明記継承） | L56 |
-| 実行タイミングまとめ | L60 |
-| 関連リソース | L69 |
-
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -3753,6 +3782,26 @@ node scripts/list-specs.js --topics
 | Scope | L3 |
 | Lessons | L11 |
 | Downstream boundaries | L53 |
+
+### references/lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I393-001: branded type と命名衝突するため SSOT は SCREAMING_SNAKE_CASE で固定する | L10 |
+| L-I393-002: 値レベル lint script は型レベル literal を見ないので indexed-access type も同 wave で潰す | L18 |
+| L-I393-003: JSX attribute literal は ESLint auto-fix 候補にならず手作業で family 単位に洗い出す | L26 |
+| L-I393-004: `eslint-disable` / `@ts-ignore` / dynamic 合成を逃げ道にしない不変条件を additive test で固定する | L34 |
+| L-I393-005: SSOT module への単一方向 import で循環依存リスクを潰す | L42 |
+
+### references/lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I399-001: VISUAL_ON_EXECUTION は planned evidence と runtime evidence を分ける | L3 |
+| L-I399-002: staging seed識別は既存ID prefixを優先する | L9 |
+| L-I399-003: parent link はlink先実体化後に適用する | L15 |
+| L-I399-004: Phase 12 strict 7 files は仕様書作成時点でも実体化する | L21 |
+| L-I399-005: synthetic ID prefix の cleanup query 契約は seed と同 wave で固定する | L27 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -4030,8 +4079,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L89 |
-| 関連ドキュメント | L94 |
+| 利用順序 | L92 |
+| 関連ドキュメント | L97 |
 
 ### references/llm-embedding.md
 
@@ -5100,13 +5149,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L167 |
-| フェーズ構造（概要） | L176 |
-| 品質ゲート（概要） | L207 |
-| 出力テンプレート | L218 |
-| 実行時のコマンド・エージェント・スキル | L241 |
-| 昇格パターン集 | L265 |
-| Current Active / Spec Created Tasks | L267 |
+| ドキュメント構成 | L189 |
+| フェーズ構造（概要） | L198 |
+| 品質ゲート（概要） | L229 |
+| 出力テンプレート | L240 |
+| 実行時のコマンド・エージェント・スキル | L263 |
+| 昇格パターン集 | L287 |
+| Current Active / Spec Created Tasks | L289 |
 
 ### references/task-workflow-backlog-part2.md
 
