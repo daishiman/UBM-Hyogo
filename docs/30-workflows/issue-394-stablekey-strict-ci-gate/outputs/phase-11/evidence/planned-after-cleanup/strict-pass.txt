@@ -1,0 +1,1 @@
+Pending legacy stableKey literal cleanup completion (violations=0). This file will be populated post-cleanup with `pnpm lint:stablekey:strict` PASS evidence.
