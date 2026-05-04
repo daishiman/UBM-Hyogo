@@ -1,0 +1,5 @@
+{
+  "mirrors": "../artifacts.json",
+  "status": "synced",
+  "note": "root artifacts.json is the workflow ledger; this file records outputs parity for Phase 12 compliance."
+}

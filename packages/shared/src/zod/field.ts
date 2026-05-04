@@ -63,3 +63,40 @@ if (STABLE_KEY_LIST.length !== 31) {
 export type StableKeyName = keyof typeof FieldByStableKeyZ;
 
 export type FieldZodMap = typeof FieldByStableKeyZ;
+
+// 正本 stableKey 文字列定数群（不変条件 #1: 二重定義禁止 / 文字列リテラル直書き禁止）。
+// 静的検査 scripts/lint-stablekey-literal.mjs により本ファイル外での literal 直書きは禁止される。
+// アプリケーションコードは必ず本 const 経由で stableKey 値を参照すること。
+export const STABLE_KEY = {
+  fullName: "fullName",
+  nickname: "nickname",
+  location: "location",
+  birthDate: "birthDate",
+  occupation: "occupation",
+  hometown: "hometown",
+  ubmZone: "ubmZone",
+  ubmMembershipType: "ubmMembershipType",
+  ubmJoinDate: "ubmJoinDate",
+  businessOverview: "businessOverview",
+  skills: "skills",
+  challenges: "challenges",
+  canProvide: "canProvide",
+  hobbies: "hobbies",
+  recentInterest: "recentInterest",
+  motto: "motto",
+  otherActivities: "otherActivities",
+  urlWebsite: "urlWebsite",
+  urlFacebook: "urlFacebook",
+  urlInstagram: "urlInstagram",
+  urlThreads: "urlThreads",
+  urlYoutube: "urlYoutube",
+  urlTiktok: "urlTiktok",
+  urlX: "urlX",
+  urlBlog: "urlBlog",
+  urlNote: "urlNote",
+  urlLinkedin: "urlLinkedin",
+  urlOthers: "urlOthers",
+  selfIntroduction: "selfIntroduction",
+  publicConsent: "publicConsent",
+  rulesConsent: "rulesConsent",
+} as const satisfies { readonly [K in StableKeyName]: K };

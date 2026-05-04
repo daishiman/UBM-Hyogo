@@ -39,6 +39,7 @@ export default defineConfig({
         "apps/web/src/app/**/not-found.tsx",
         "apps/web/next.config.*",
         "apps/web/middleware.ts",
+        "apps/web/src/lib/api/me-types.ts",
         "**/wrangler.toml",
         "**/*.d.ts",
         "**/*.config.{ts,js,mjs,cjs}",
