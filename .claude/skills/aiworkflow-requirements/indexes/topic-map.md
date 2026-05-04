@@ -2032,11 +2032,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | canonical root | L3 |
-| workflow state | L7 |
-| root artifacts | L17 |
-| phase 12 required artifacts | L25 |
-| implementation source-of-truth | L37 |
-| scope notes | L48 |
+| execution supplement | L7 |
+| workflow state | L13 |
+| root artifacts | L23 |
+| phase 12 required artifacts | L31 |
+| implementation source-of-truth | L43 |
+| scope notes | L54 |
 
 ### references/workflow-06c-C-admin-tags-artifact-inventory.md
 
@@ -3552,7 +3553,8 @@ node scripts/list-specs.js --topics
 | L-06CB-004: detail UI は `/admin/members` 右ドロワー、別 route `/admin/members/[id]` は作らない | L30 |
 | L-06CB-005: workflow 契約は `:memberId`、handler ローカル変数 `id` は spec に漏らさない | L38 |
 | L-06CB-006: audit table 名は単数形 `audit_log` を canonical にし、plural を撤回する | L47 |
-| L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L55 |
+| L-06CB-008: delete/restore contract 不整合は同 wave で API/lessons/skill を直す（2026-05 implementation-execution review） | L55 |
+| L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する | L82 |
 
 ### references/lessons-learned-06c-C-admin-tags-2026-05.md
 
