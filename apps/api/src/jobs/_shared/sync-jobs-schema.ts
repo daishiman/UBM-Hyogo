@@ -35,11 +35,11 @@ export const metricsJsonBaseSchema = z
   })
   .passthrough()
   .superRefine((value, ctx) => {
-    const forbiddenPath = findPiiKeyPath(value);
+    const forbiddenPath = findPiiLeakPath(value);
     if (forbiddenPath) {
       ctx.addIssue({
         code: "custom",
-        message: `metrics_json must not include PII key: ${forbiddenPath}`,
+        message: `metrics_json must not include PII key/value: ${forbiddenPath}`,
       });
     }
   });
@@ -54,9 +54,9 @@ export const schemaSyncMetricsSchema = metricsJsonBaseSchema.safeExtend({
 });
 
 export function assertNoPii(value: unknown): void {
-  const forbiddenPath = findPiiKeyPath(value);
+  const forbiddenPath = findPiiLeakPath(value);
   if (forbiddenPath) {
-    throw new Error(`metrics_json must not include PII key: ${forbiddenPath}`);
+    throw new Error(`metrics_json must not include PII key/value: ${forbiddenPath}`);
   }
 }
 
@@ -74,13 +74,16 @@ export function parseMetricsJson<T>(
   }
 }
 
-function findPiiKeyPath(value: unknown, path = ""): string | null {
+function findPiiLeakPath(value: unknown, path = ""): string | null {
   if (Array.isArray(value)) {
     for (let i = 0; i < value.length; i += 1) {
-      const found = findPiiKeyPath(value[i], `${path}[${i}]`);
+      const found = findPiiLeakPath(value[i], `${path}[${i}]`);
       if (found) return found;
     }
     return null;
+  }
+  if (typeof value === "string" && looksLikeEmail(value)) {
+    return `${path || "<root>"}=<email>`;
   }
   if (value === null || typeof value !== "object") return null;
   for (const [key, child] of Object.entries(value)) {
@@ -88,8 +91,12 @@ function findPiiKeyPath(value: unknown, path = ""): string | null {
     if ((PII_FORBIDDEN_KEYS as readonly string[]).includes(key)) {
       return childPath;
     }
-    const found = findPiiKeyPath(child, childPath);
+    const found = findPiiLeakPath(child, childPath);
     if (found) return found;
   }
   return null;
+}
+
+function looksLikeEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }

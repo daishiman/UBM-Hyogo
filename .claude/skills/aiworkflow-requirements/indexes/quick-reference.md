@@ -403,6 +403,7 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | --- | --- |
 | 管理 API 契約（`POST /admin/sync/responses`、`fullSync` / `cursor` / 409 二重起動） | `references/api-endpoints.md`（§管理同期 API） |
 | D1 スキーマ責務（`member_responses` / `member_identities` / `member_status` / `response_fields` / `schema_diff_queue` / `sync_jobs`） | `references/database-schema.md`（§UBM 会員 Forms 同期テーブル 03b） |
+| `sync_jobs` runtime contract SSOT（Issue #435 / 2026-05-04） | runtime: `apps/api/src/jobs/_shared/sync-jobs-schema.ts` / logical spec: `docs/30-workflows/_design/sync-jobs-spec.md` / owner table: `docs/30-workflows/_design/sync-shared-modules-owner.md` / workflow: `docs/30-workflows/completed-tasks/issue-195-sync-jobs-contract-schema-consolidation-001/` |
 | cron `*/15 * * * *` 設定・JWT 署名・Secret 配置 | `references/deployment-cloudflare.md`（§API Worker cron / Forms response sync 03b） |
 | `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `SYNC_ADMIN_TOKEN` 配置 | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
 | D1 health endpoint（`GET /health/db`、`X-Health-Token`、`HEALTH_DB_TOKEN`、401/403/503 境界） | `references/api-endpoints.md`（§UBM-Hyogo Health API）, `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
