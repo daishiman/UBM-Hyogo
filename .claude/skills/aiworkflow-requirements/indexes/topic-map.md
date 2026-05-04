@@ -3085,7 +3085,8 @@ node scripts/list-specs.js --topics
 | 環境分離 | L516 |
 | ロールバック戦略 | L526 |
 | モニタリング/アラート（UT-08 連携） | L547 |
-| 変更履歴 | L564 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
+| 変更履歴 | L599 |
 
 ### references/deployment-core.md
 
@@ -3366,12 +3367,12 @@ node scripts/list-specs.js --topics
 | 概要 | L15 |
 | 使い方 | L23 |
 | Current Alias Overrides（個別互換行） | L30 |
-| Family Summary | L68 |
-| Detailed Register | L89 |
-| Section Extract Register (2026-03-17) | L270 |
-| 500-Line Split Register (2026-03-16) | L281 |
-| Fragment Migration Register (2026-04-28) | L303 |
-| Task Root Path Drift Register (2026-04-30 追記) | L330 |
+| Family Summary | L69 |
+| Detailed Register | L90 |
+| Section Extract Register (2026-03-17) | L271 |
+| 500-Line Split Register (2026-03-16) | L282 |
+| Fragment Migration Register (2026-04-28) | L304 |
+| Task Root Path Drift Register (2026-04-30 追記) | L331 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -3427,6 +3428,14 @@ node scripts/list-specs.js --topics
 | L-03B-FU005-003: lock TTL 10 分の根拠は cron 周期と実行時間の数学的余裕で固定する | L25 |
 | L-03B-FU005-004: D1 DDL は本タスクに含めず物理 schema 変更は別タスクへ委譲する | L33 |
 | L-03B-FU005-005: consumer の `job_type` 文字列リテラル拡散は lint enforcement を follow-up にする | L41 |
+
+### references/lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-03B006-001: Reset rows must stay in the window | L3 |
+| L-03B006-002: Emit before releasing the sync lock (invariant) | L7 |
+| L-03B006-003: Workflow state follows real files | L11 |
 
 ### references/lessons-learned-03b-response-sync-2026-04.md
 
@@ -4061,8 +4070,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L90 |
-| 関連ドキュメント | L95 |
+| 利用順序 | L91 |
+| 関連ドキュメント | L96 |
 
 ### references/llm-embedding.md
 
@@ -5131,13 +5140,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L179 |
-| フェーズ構造（概要） | L188 |
-| 品質ゲート（概要） | L219 |
-| 出力テンプレート | L230 |
-| 実行時のコマンド・エージェント・スキル | L253 |
-| 昇格パターン集 | L277 |
-| Current Active / Spec Created Tasks | L279 |
+| ドキュメント構成 | L189 |
+| フェーズ構造（概要） | L198 |
+| 品質ゲート（概要） | L229 |
+| 出力テンプレート | L240 |
+| 実行時のコマンド・エージェント・スキル | L263 |
+| 昇格パターン集 | L287 |
+| Current Active / Spec Created Tasks | L289 |
 
 ### references/task-workflow-backlog-part2.md
 
