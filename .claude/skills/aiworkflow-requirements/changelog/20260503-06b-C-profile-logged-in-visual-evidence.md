@@ -19,8 +19,8 @@ Promoted the prior `ut-06b-profile-logged-in-visual-evidence` documentation skel
 - `apps/web/playwright.config.ts` (`staging` project + `PLAYWRIGHT_STAGING_BASE_URL`)
 - `scripts/capture-profile-evidence.sh` (production URL guard + `--storage-state` exit 4)
 - `apps/web/playwright/.auth/.gitkeep` (committed) / `apps/web/playwright/.auth/*.json` (ignored)
-- `docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/{screenshots,dom}/.gitkeep`
-- `docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/` (strict 7 files)
+- `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/{screenshots,dom}/.gitkeep`
+- `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/` (strict 7 files)
 
 ## Deferred Evidence
 
