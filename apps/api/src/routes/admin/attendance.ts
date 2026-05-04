@@ -64,6 +64,9 @@ export const createAdminAttendanceRoute = () => {
     if (!result.ok && result.reason === "session_not_found") {
       return c.json({ ok: false, error: "session_not_found" }, 404);
     }
+    if (!result.ok && result.reason === "member_not_found") {
+      return c.json({ ok: false, error: "member_not_found" }, 404);
+    }
     if (!result.ok && result.reason === "deleted_member") {
       return c.json({ ok: false, error: "member_is_deleted" }, 422);
     }
