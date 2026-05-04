@@ -1402,8 +1402,9 @@ packages/
 | consumes | 05a OAuth/admin gate、06a public web、06b login/profile、06c admin UI、08b Playwright scaffold、03a/03b/U-04 Forms sync |
 | blocks | 09c production deploy。09a の実 staging evidence 完了まで GO 判定不可 |
 | follow-up | `docs/30-workflows/unassigned-task/task-09a-exec-staging-smoke-001.md` |
-| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（spec_created / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`） |
-| execution blockers | `docs/30-workflows/unassigned-task/task-09a-cloudflare-auth-token-injection-recovery-001.md`, `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md` |
+| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（spec_created / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`。2026-05-04 に Cloudflare auth blocker は recovery workflow evidence で unblock ready。canonical directory restoration は別 blocker） |
+| execution blockers | `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md`（auth token recovery source stub: `docs/30-workflows/unassigned-task/task-09a-cloudflare-auth-token-injection-recovery-001.md` は consumed） |
+| auth token recovery workflow | `docs/30-workflows/ut-09a-cloudflare-auth-token-injection-recovery-001/`（runtime_evidence_captured / implementation / NON_VISUAL / Phase 11 PASS / Phase 13 blocked_until_user_approval。`bash scripts/cf.sh whoami` unauthenticated を 1Password / `.env` op reference / `op run --env-file=.env` -> `mise exec --` -> `wrangler whoami` の三段ラップで切り分け、2026-05-04 に exit 0 と redaction PASS を確認。secret 値・実 vault 名・実 item 名・`.env` 値は artifact に保存しない。token 再発行・OAuth 操作・commit / push / PR は未実行） |
 | artifact inventory | `references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md` |
 | 苦戦知見 | `references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md`（L-09A-001〜005） |
 
