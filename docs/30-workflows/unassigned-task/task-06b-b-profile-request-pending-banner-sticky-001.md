@@ -5,7 +5,7 @@
 | Item | Value |
 | --- | --- |
 | source workflow | `docs/30-workflows/completed-tasks/06b-B-profile-self-service-request-ui/` |
-| status | unassigned |
+| status | formalized |
 | taskType | implementation |
 | visualEvidence | VISUAL_ON_EXECUTION |
 | priority | medium |
@@ -13,6 +13,10 @@
 ## Purpose
 
 Make `/profile` self-service request pending state durable across reloads after the initial 06b-B UI is implemented.
+
+## Formalization
+
+This unassigned task has been formalized by `docs/30-workflows/06b-b-profile-request-pending-banner-sticky/` on 2026-05-04. Keep this file as the historical source from 06b-B Phase 12; use the workflow root for execution.
 
 ## Scope In
 
@@ -59,7 +63,7 @@ Make `/profile` self-service request pending state durable across reloads after 
 - **苦戦**: 06b-B と同様、本タスクも logged-in visual evidence は 06b-C / 08b / 09a 側に委譲される可能性が高い。Phase 11 を `PASS` 表現すると evidence boundary が崩れる。
 - **5分解決**: Phase 11 ステータスは `IMPLEMENTED_AWAITING_VISUAL_CAPTURE` または `blocked_runtime_evidence` で固定。logged-in capture は別 wave に委譲リンクする。
 
-### S5: 重複申請語彙は 409 + `SelfRequestError(code:'duplicate-pending')` を再利用
+### S5: 重複申請語彙は 409 + `SelfRequestError(code:'DUPLICATE_PENDING_REQUEST')` を再利用
 
 - **苦戦**: server-side pending を UI から見える形にした途端、「stale UI state からの 2 度押し」「server 側で別 tab から先に投入された」など、複数経路で重複申請が発生する。422 / 401 / 403 と区別する必要がある。
-- **5分解決**: 06b-B で確立した 409 + `SelfRequestError(code:'duplicate-pending')` 契約をそのまま再利用し、UI は「もう申請を受け付け中です」文言で reflect。新たな error code を増やさない。
+- **5分解決**: 06b-B で確立した 409 + `SelfRequestError(code:'DUPLICATE_PENDING_REQUEST')` 契約をそのまま再利用し、UI は「もう申請を受け付け中です」文言で reflect。新たな error code を増やさない。
