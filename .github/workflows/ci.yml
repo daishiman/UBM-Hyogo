@@ -55,11 +55,10 @@ jobs:
 
   coverage-gate:
     # 仕様: docs/30-workflows/coverage-80-enforcement/outputs/phase-12/implementation-guide.md
-    # PR1/3: continue-on-error: true (soft gate / 警告のみ)。PR3/3 で削除して hard gate 化する。
+    # 2026-05-04: hard gate 化済み (continue-on-error 削除 / ci-test-recovery-coverage-80-2026-05-04 Task E)
     name: coverage-gate
     runs-on: ubuntu-latest
     needs: [ci]
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -93,8 +92,6 @@ jobs:
 
       - name: Run coverage-guard
         if: steps.ready.outputs.value == 'true'
-        # PR1/3: step レベルの continue-on-error も付与（job 全体を success 化）。PR3/3 で削除して hard gate 化。
-        continue-on-error: true
         env:
           CI: 'true'
         run: bash scripts/coverage-guard.sh

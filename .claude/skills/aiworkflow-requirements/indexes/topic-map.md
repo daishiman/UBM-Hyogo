@@ -2699,8 +2699,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Metadata | L3 |
 | Canonical Artifacts | L13 |
-| Boundary | L30 |
-| FU-04 Verification Boundary | L34 |
+| Boundary | L31 |
+| FU-04 Verification Boundary | L36 |
 
 ### references/workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md
 
@@ -3023,7 +3023,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L195 |
+| 変更履歴 | L196 |
 
 ### references/deployment-cloudflare-opennext-workers.md
 
@@ -3683,6 +3683,18 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
 
+### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L8 |
+| 正本 4 系（coverage-80-enforcement と同一 SSOT を継承） | L18 |
+| 苦戦箇所 3 件 | L27 |
+| NON_VISUAL Phase 12 Part 1 / Part 2 構成の適用知見 | L50 |
+| branch protection / contexts 登録の上流前提（5 重明記継承） | L56 |
+| 実行タイミングまとめ | L60 |
+| 関連リソース | L69 |
+
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -4060,8 +4072,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L91 |
-| 関連ドキュメント | L96 |
+| 利用順序 | L92 |
+| 関連ドキュメント | L97 |
 
 ### references/llm-embedding.md
 
@@ -5130,13 +5142,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L192 |
-| フェーズ構造（概要） | L201 |
-| 品質ゲート（概要） | L232 |
-| 出力テンプレート | L243 |
-| 実行時のコマンド・エージェント・スキル | L266 |
-| 昇格パターン集 | L290 |
-| Current Active / Spec Created Tasks | L292 |
+| ドキュメント構成 | L204 |
+| フェーズ構造（概要） | L213 |
+| 品質ゲート（概要） | L244 |
+| 出力テンプレート | L255 |
+| 実行時のコマンド・エージェント・スキル | L278 |
+| 昇格パターン集 | L302 |
+| Current Active / Spec Created Tasks | L304 |
 
 ### references/task-workflow-backlog-part2.md
 

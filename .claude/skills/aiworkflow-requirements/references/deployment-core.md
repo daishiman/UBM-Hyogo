@@ -104,7 +104,7 @@
 
 | ファイル | 用途 |
 | -------- | ---- |
-| `ci.yml` | PR 時の CI（型チェック・lint・coverage soft gate） |
+| `ci.yml` | PR 時の CI（型チェック・lint・coverage hard gate） |
 | `validate-build.yml` | PR / push 時の build 検証 |
 | `verify-indexes.yml` | aiworkflow-requirements indexes drift 検出 |
 | `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ。Discord 通知は未実装） |
@@ -130,7 +130,7 @@
 7. ESLint によるコード品質チェック
 8. Next.js ビルドの確認
 9. Vitest によるユニットテストの実行
-10. カバレッジチェックと Codecov 連携（現行は soft gate。hard gate 化は coverage-80-enforcement 系タスクで扱う）
+10. カバレッジチェック（現行 `coverage-gate` は hard gate。`continue-on-error` 再混入は `scripts/coverage-guard.test.ts` で静的検出）
 
 ### CD ワークフロー要件（dev / main マージ時）
 

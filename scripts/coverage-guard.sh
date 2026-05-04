@@ -3,7 +3,7 @@
 # 仕様正本: docs/30-workflows/coverage-80-enforcement/outputs/phase-12/implementation-guide.md
 #
 # Usage:
-#   bash scripts/coverage-guard.sh              # 全 package を test:coverage 実行 → 集計 → 判定
+#   bash scripts/coverage-guard.sh              # 判定対象 package を test:coverage 実行 → 集計 → 判定
 #   bash scripts/coverage-guard.sh --changed    # 変更された package のみ実行 (lefthook pre-push 用)
 #   bash scripts/coverage-guard.sh --package <name>           # 単一 package 限定
 #   bash scripts/coverage-guard.sh --threshold 80             # 閾値上書き (default=80)
@@ -115,12 +115,6 @@ package_name() {
 }
 
 run_tests() {
-  if [ "$CHANGED" = "0" ] && [ -z "$PKG_FILTER" ]; then
-    log "running: pnpm -r --workspace-concurrency=1 test:coverage"
-    ( cd "$ROOT_DIR" && pnpm -r --workspace-concurrency=1 test:coverage )
-    return $?
-  fi
-
   local failed=0
   for pkg in "${TARGETS[@]}"; do
     local name
@@ -193,6 +187,8 @@ if [ "${#TARGETS[@]}" -eq 0 ]; then
 fi
 
 # Main: Vitest is used for measurement; this guard owns the threshold decision.
+# Full mode intentionally runs the same TARGETS that are later aggregated, so the
+# executed packages and the judged packages cannot drift.
 if [ "$RUN_TESTS" = "1" ]; then
   if ! run_tests; then
     log "ENV ERROR: test:coverage command failed before coverage aggregation completed"

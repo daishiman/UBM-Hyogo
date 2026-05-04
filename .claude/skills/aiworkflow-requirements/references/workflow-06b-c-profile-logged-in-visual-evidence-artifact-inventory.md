@@ -5,7 +5,7 @@
 | Item | Value |
 | --- | --- |
 | Task ID | 06b-C-profile-logged-in-visual-evidence |
-| Workflow | `docs/30-workflows/06b-C-profile-logged-in-visual-evidence/` |
+| Workflow | `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/` |
 | Status | implementation-prepared / implementation-spec / VISUAL_ON_EXECUTION |
 | Sync date | 2026-05-03 |
 | Phase 11 | PENDING_RUNTIME_EVIDENCE (storageState + execution required) |
@@ -20,8 +20,8 @@
 | Playwright config | `apps/web/playwright.config.ts` (`staging` project, `PLAYWRIGHT_STAGING_BASE_URL`, optional `storageState`) |
 | Capture wrapper | `scripts/capture-profile-evidence.sh` (production URL guard, storageState exit 4 guard) |
 | Auth state dir | `apps/web/playwright/.auth/.gitkeep` (state JSON ignored via `.gitignore`) |
-| Evidence dirs | `docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/{screenshots,dom}/.gitkeep` |
-| Workflow artifacts | `docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/` (7 files) |
+| Evidence dirs | `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/{screenshots,dom}/.gitkeep` |
+| Workflow artifacts | `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/` (7 files) |
 
 ## Contract
 
