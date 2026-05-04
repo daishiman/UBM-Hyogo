@@ -2967,6 +2967,16 @@ node scripts/list-specs.js --topics
 | 5. Auth.js v5 env 層化 | L109 |
 | 変更履歴 | L174 |
 
+### references/cloudflare-cli-auth-recovery-sop.md
+
+| セクション | 行 |
+|------------|----|
+| Purpose | L3 |
+| Invariants | L7 |
+| Stage Isolation | L14 |
+| Evidence Set | L22 |
+| Close-Out Rule | L34 |
+
 ### references/csrf-state-parameter.md
 
 | セクション | 行 |
