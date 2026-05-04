@@ -44,4 +44,5 @@
 | --- | --- |
 | queue/cron split | formalized as `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-schema-alias-backfill-queue-cron-split.md`; execute only if staging evidence proves repeated exhaustion |
 | admin UI retry label | formalized as `docs/30-workflows/unassigned-task/task-ut-07b-fu-02-admin-schema-alias-retry-label.md`; no UI surface changed in UT-07B hardening |
+| production migration apply | current discoverable runbook stub is `docs/30-workflows/unassigned-task/task-ut-07b-fu-03-production-migration-apply-runbook.md`; actual apply execution formalized as `docs/30-workflows/unassigned-task/task-ut-07b-fu-04-production-migration-apply-execution.md` and remains approval-gated |
 | production migration verification | runbook formalized as `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/`; FU-04 current root is `docs/30-workflows/ut-07b-fu-04-production-migration-apply-execution/` and is reclassified as already-applied verification + duplicate apply prohibition. Runtime read-only verification remains user-gated; duplicate apply is forbidden |

@@ -44,6 +44,8 @@ Wave-2 workflows use the same strict 7-file Phase 12 set. `ut-web-cov-01-admin-c
 | `indexes/quick-reference.md` | synced with UT coverage quick reference |
 | `references/task-workflow-active.md` | synced with active workflow section |
 | `LOGS/_legacy.md` | synced with 2026-05-01 entry |
+| `docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/` | same-wave normalized on 2026-05-04: canonical path table, artifacts schema parity, Phase 12 strict 7 compliance files, root aggregate Phase 4-13 hubs |
+| `references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md` | L-CITR-COV80-001〜003（TARGETS と実行対象の drift 構造除去 / hard gate 再混入防止の二段構造（CI inline + 静的契約テスト）/ branch protection contexts 登録の user-gated 境界） |
 | `changelog/20260503-ut-web-cov-04-root-path-realignment.md` | ut-web-cov-04 root realignment（旧 wave-2-parallel-coverage 配下 → top-level workflow root）の changelog 記録。Phase 11/12 measured evidence への参照を保持 |
 | `references/lessons-learned-ut-coverage-2026-05-wave.md` | L-UTCOV-001〜011（fixture binding contract / coverage-summary.json gate / 2-layer gate / wave 分割 / main.md 3-state / lessons-learned wave 集約 / admin component coverage / root move same-wave sync / package filter batch / public use-case D1 mock dispatch / auth-fetch fetch-mock + structural uncovered） |
 | `docs/30-workflows/issue-433-ut-web-cov-05-wave3-roadmap/` | issue-433 wave-3 roadmap implemented-local sync. Phase 11 CI evidence uses `verify-indexes-current.md` and separates local verification from post-push CI green |

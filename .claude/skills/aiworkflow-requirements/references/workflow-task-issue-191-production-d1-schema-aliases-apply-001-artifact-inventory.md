@@ -48,3 +48,7 @@ Phase 13 runtime evidence captured after explicit user approval:
 - `outputs/phase-13/migrations-list-after.txt`
 
 `outputs/phase-13/migrations-apply.log` is intentionally absent because the workflow hit the already-applied NO-GO path and did not run duplicate apply.
+
+## Cross-reference: out-of-band apply audit
+
+Source attribution for the pre-existing `0008_schema_alias_hardening.sql` (`2026-05-01 08:21:04 UTC`) and `0008_create_schema_aliases.sql` (`2026-05-01 10:59:35 UTC`) entries was performed by `task-issue-359-production-d1-out-of-band-apply-audit-001` (Issue #434, decision: confirmed → `backend-ci` `deploy-production`). See `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/outputs/phase-11/attribution-decision.md` and `outputs/phase-11/single-record.md`.

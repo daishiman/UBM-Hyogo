@@ -2541,20 +2541,6 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
-### references/workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| canonical root | L3 |
-| workflow state | L7 |
-| root artifacts | L17 |
-| phase 12 required artifacts (strict 7) | L25 |
-| phase 11 evidence | L37 |
-| implementation source-of-truth | L45 |
-| skill reflection (same-wave) | L56 |
-| scope notes | L68 |
-| related tasks | L76 |
-
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2575,6 +2561,7 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Source / Follow-Up State | L29 |
 | Runtime Evidence Reservation | L38 |
+| Cross-reference: out-of-band apply audit | L52 |
 
 ### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
 
@@ -2592,6 +2579,12 @@ node scripts/list-specs.js --topics
 | Phase 12 Artifacts | L26 |
 | Skill / Spec Sync Targets | L39 |
 | Deferred / Blocked | L50 |
+
+### references/workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L14 |
 
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
@@ -2713,8 +2706,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Metadata | L3 |
 | Canonical Artifacts | L13 |
-| Boundary | L30 |
-| FU-04 Verification Boundary | L34 |
+| Boundary | L31 |
+| FU-04 Verification Boundary | L36 |
 
 ### references/workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md
 
@@ -3010,17 +3003,7 @@ node scripts/list-specs.js --topics
 | 3. /auth/session-resolve internal-only endpoint | L86 |
 | 4. OpenNext post-build worker patch | L97 |
 | 5. Auth.js v5 env 層化 | L109 |
-| 変更履歴 | L177 |
-
-### references/cloudflare-cli-auth-recovery-sop.md
-
-| セクション | 行 |
-|------------|----|
-| Purpose | L3 |
-| Invariants | L7 |
-| Stage Isolation | L14 |
-| Evidence Set | L22 |
-| Close-Out Rule | L34 |
+| 変更履歴 | L174 |
 
 ### references/csrf-state-parameter.md
 
@@ -3047,7 +3030,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L195 |
+| 変更履歴 | L196 |
 
 ### references/deployment-cloudflare-opennext-workers.md
 
@@ -3128,11 +3111,11 @@ node scripts/list-specs.js --topics
 | 並列実行の活用 | L113 |
 | CD ワークフロー要件（dev / main マージ時） | L169 |
 | Backend ワークフロー要件（dev / main マージ時） | L197 |
-| モニタリングとアラート | L219 |
-| GitHub Secrets の要件 | L253 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L277 |
-| 関連ドキュメント | L297 |
-| 変更履歴 | L304 |
+| モニタリングとアラート | L221 |
+| GitHub Secrets の要件 | L255 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L279 |
+| 関連ドキュメント | L299 |
+| 変更履歴 | L306 |
 
 ### references/deployment-history.md
 
@@ -3707,16 +3690,17 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
 
-### references/lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md
+### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
 | セクション | 行 |
 |------------|----|
-| L-389-001: metadata canonical / robots を Server Component に固定する | L10 |
-| L-389-002: Google Form 連絡先 href を環境別参照化する | L35 |
-| L-389-003: semantic render test で必須セクションの intent を固定する | L56 |
-| L-389-004: web build #385 regression と OAuth deploy のブロック依存 | L78 |
-| OP-389-1: Phase 12 strict 7 ファイル + artifacts.json parity | L104 |
-| OP-389-2: unassigned-task の formalize と consume | L109 |
+| 概要 | L8 |
+| 正本 4 系（coverage-80-enforcement と同一 SSOT を継承） | L18 |
+| 苦戦箇所 3 件 | L27 |
+| NON_VISUAL Phase 12 Part 1 / Part 2 構成の適用知見 | L50 |
+| branch protection / contexts 登録の上流前提（5 重明記継承） | L56 |
+| 実行タイミングまとめ | L60 |
+| 関連リソース | L69 |
 
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 

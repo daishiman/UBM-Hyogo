@@ -77,7 +77,7 @@ UBM-Hyogo monorepo の全 package（`apps/web` / `apps/api` / `packages/shared` 
 ## 受入条件 (AC)
 
 - AC-1: 全 package 一律 80%（lines / branches / functions / statements）が `scripts/coverage-guard.sh` の既定閾値で固定されている（Phase 5 仕様に明記）。Vitest は coverage 計測を担当する。
-- AC-2: `scripts/coverage-guard.sh` が新設され、`pnpm -r test:coverage` を実行 → `coverage/coverage-summary.json` を package 単位で集計 → 80% 未達時に exit 1 する仕様が確定している。
+- AC-2: `scripts/coverage-guard.sh` が新設され、判定対象 package を `pnpm --filter <packageName> test:coverage` で実行 → `coverage/coverage-summary.json` を package 単位で集計 → 80% 未達時に exit 1 する仕様が確定している。root package は実行対象から除外し、実行対象と判定対象を一致させる。
 - AC-3: 80% 未達時、`coverage-guard.sh` は不足ファイル top10（lines 未達順）と「追加すべきテスト雛形パス」（`{src}/{file}.test.ts`）を stderr に出力する仕様が確定している。
 - AC-4: 各 package（`apps/web` / `apps/api` / `packages/shared` / `packages/integrations` / `packages/integrations/google`）に `test` / `test:coverage` script が統一フォーマットで定義される仕様が確定している。
 - AC-5: `.github/workflows/ci.yml` に `coverage-gate` job が追加され、PR① では `continue-on-error: true`（soft gate）、PR③ で `false`（hard gate）に切り替える 2 段階仕様が確定している。
