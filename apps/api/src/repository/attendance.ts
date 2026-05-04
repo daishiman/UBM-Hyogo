@@ -14,7 +14,7 @@ export interface MemberAttendanceRow {
 export type AddAttendanceResult =
   | { ok: true; row: MemberAttendanceRow }
   | { ok: false; reason: "duplicate"; existing: MemberAttendanceRow }
-  | { ok: false; reason: "deleted_member" | "session_not_found" };
+  | { ok: false; reason: "deleted_member" | "member_not_found" | "session_not_found" };
 
 interface AttendanceDbRow {
   member_id: string;
@@ -66,19 +66,25 @@ export async function addAttendance(
   sessionId: string,
   by: string,
 ): Promise<AddAttendanceResult> {
-  // 1. session 存在確認
+  // 1. active session 存在確認
   const session = await c.db
-    .prepare("SELECT session_id FROM meeting_sessions WHERE session_id = ?")
+    .prepare("SELECT session_id FROM meeting_sessions WHERE session_id = ? AND deleted_at IS NULL")
     .bind(sessionId)
     .first<{ session_id: string }>();
   if (!session) return { ok: false, reason: "session_not_found" };
 
-  // 2. 削除済み除外
+  // 2. member 存在 + 削除済み除外
+  const member = await c.db
+    .prepare("SELECT member_id FROM member_identities WHERE member_id = ?")
+    .bind(memberId)
+    .first<{ member_id: string }>();
+  if (!member) return { ok: false, reason: "member_not_found" };
+
   const status = await c.db
     .prepare("SELECT is_deleted FROM member_status WHERE member_id = ?")
     .bind(memberId)
     .first<{ is_deleted: number }>();
-  if (status && status.is_deleted === 1) return { ok: false, reason: "deleted_member" };
+  if (status?.is_deleted === 1) return { ok: false, reason: "deleted_member" };
 
   // 3. PK 制約で重複阻止
   try {

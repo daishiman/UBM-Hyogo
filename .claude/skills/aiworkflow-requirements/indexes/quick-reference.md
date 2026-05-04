@@ -1403,6 +1403,17 @@ packages/
 | API client 詳細 | `references/architecture-admin-api-client.md`（Server Component `fetchAdmin` / client mutation helper / proxy / 認可境界） |
 | 教訓 | `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
 
+### UBM-Hyogo Admin Meetings Remaining（06c-E / 2026-05-04）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/06c-E-admin-meetings/` |
+| 状態 | `implemented-local / implementation / remaining-only / VISUAL_ON_EXECUTION` |
+| API | `PATCH /admin/meetings/:id`, `POST /admin/meetings/:id/attendances`, `GET /admin/meetings/:id/export.csv` |
+| DB | `meeting_sessions.deleted_at`, `member_attendance` |
+| Web | `MeetingPanel` edit details / soft delete / CSV link |
+| Evidence | API meetings 15 PASS / MeetingPanel 17 PASS; visual runtime evidence deferred to 08b / 09a |
+
 ### UBM-Hyogo Admin Tags Remaining Spec（06c-C / 2026-05-03）
 
 | 観点 | 値 / 参照先 |
