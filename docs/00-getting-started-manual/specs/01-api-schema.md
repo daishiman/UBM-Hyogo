@@ -192,6 +192,37 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 ---
 
+## Public members API: GET /public/members
+
+`GET /public/members` は公開メンバー一覧 `/members` の検索/フィルタ API である。認証は不要だが、D1 への直接アクセスは `apps/api` に閉じ、`apps/web` は API 経由でのみ取得する。
+
+### Query
+
+| key | 型 | default | 挙動 |
+| --- | --- | --- | --- |
+| `q` | string | `""` | trim、連続空白正規化、200文字 truncate。`%` / `_` / `\` は LIKE wildcard ではなくリテラル扱い |
+| `zone` | enum | `all` | `all` / `0_to_1` / `1_to_10` / `10_to_100` |
+| `status` | enum | `all` | `all` / `member` / `non_member` / `academy`。参加ステータスであり公開状態ではない |
+| `tag` | repeated string | `[]` | 重複除去、空文字除去、先頭5件。複数指定は AND |
+| `sort` | enum | `recent` | `recent` / `name` |
+| `density` | enum | `comfy` | `comfy` / `dense` / `list`。UI 表示密度として `appliedQuery` に echo |
+| `page` | int | `1` | `>=1` |
+| `limit` | int | `24` | `1..100` に clamp |
+
+enum 外や過大値は 400 ではなく default / clamp に fallback し、内部例外以外は 200 を返す。
+
+### Response
+
+Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagination`、`appliedQuery`、`generatedAt` を返す。`responseEmail`、`publicConsent`、`rulesConsent`、`publishState`、`isDeleted`、管理メモなどの admin-only field は返さない。
+
+### Public boundary
+
+公開一覧は常に `public_consent='consented'`、`publish_state='public'`、`is_deleted=0`、canonical alias source 除外を base WHERE とする。`status=private` や `status=withdrawn` のような値が来ても `status=all` に fallback し、非公開・削除済み・同意なし member を結果に混入させない。
+
+`Cache-Control` は `no-store` とし、admin 側の公開状態変更が公開一覧へ遅延反映されないようにする。
+
+---
+
 ## schema sync で取得する metadata
 
 - `formId`

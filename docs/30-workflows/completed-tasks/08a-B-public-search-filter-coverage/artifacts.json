@@ -1,6 +1,6 @@
 {
   "task_name": "08a-B-public-search-filter-coverage",
-  "task_path": "docs/30-workflows/02-application-implementation/08a-B-public-search-filter-coverage",
+  "task_path": "docs/30-workflows/08a-B-public-search-filter-coverage",
   "wave": "08a-fu",
   "execution_mode": "parallel",
   "depends_on": [
@@ -14,10 +14,11 @@
   ],
   "created_at": "2026-05-01",
   "metadata": {
-    "taskType": "implementation-spec",
-    "docs_only": true,
-    "workflow_state": "spec_created",
-    "visualEvidence": "VISUAL",
+    "taskType": "implementation",
+    "docs_only": false,
+    "workflow_state": "implemented_local",
+    "implementation_status": "implementation_complete_runtime_evidence_pending",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
     "priority": "High",
     "scope": "remaining_application_implementation_only"
   },
@@ -26,7 +27,7 @@
       "phase": 1,
       "name": "要件定義",
       "file": "phase-01.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-01/main.md"
       ],
@@ -37,7 +38,7 @@
       "phase": 2,
       "name": "設計",
       "file": "phase-02.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-02/main.md"
       ],
@@ -50,7 +51,7 @@
       "phase": 3,
       "name": "設計レビュー",
       "file": "phase-03.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-03/main.md"
       ],
@@ -63,7 +64,7 @@
       "phase": 4,
       "name": "テスト戦略",
       "file": "phase-04.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-04/main.md"
       ],
@@ -76,7 +77,7 @@
       "phase": 5,
       "name": "実装ランブック",
       "file": "phase-05.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-05/main.md"
       ],
@@ -89,7 +90,7 @@
       "phase": 6,
       "name": "異常系検証",
       "file": "phase-06.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-06/main.md"
       ],
@@ -102,7 +103,7 @@
       "phase": 7,
       "name": "AC マトリクス",
       "file": "phase-07.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-07/main.md"
       ],
@@ -115,7 +116,7 @@
       "phase": 8,
       "name": "DRY 化",
       "file": "phase-08.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-08/main.md"
       ],
@@ -128,7 +129,7 @@
       "phase": 9,
       "name": "品質保証",
       "file": "phase-09.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-09/main.md"
       ],
@@ -141,7 +142,7 @@
       "phase": 10,
       "name": "最終レビュー",
       "file": "phase-10.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-10/main.md"
       ],
@@ -154,7 +155,7 @@
       "phase": 11,
       "name": "手動 smoke / 実測 evidence",
       "file": "phase-11.md",
-      "status": "pending",
+      "status": "blocked_runtime_evidence",
       "outputs": [
         "outputs/phase-11/main.md"
       ],
@@ -167,7 +168,7 @@
       "phase": 12,
       "name": "ドキュメント更新",
       "file": "phase-12.md",
-      "status": "pending",
+      "status": "completed",
       "outputs": [
         "outputs/phase-12/main.md"
       ],
@@ -180,7 +181,7 @@
       "phase": 13,
       "name": "PR 作成",
       "file": "phase-13.md",
-      "status": "pending",
+      "status": "pending_user_approval",
       "outputs": [
         "outputs/phase-13/main.md"
       ],
@@ -198,7 +199,7 @@
     "docs/00-getting-started-manual/claude-design-prototype/pages-public.jsx"
   ],
   "endpoints": [
-    "GET /api/public/members?q&zone&status&tag&sort"
+    "GET /public/members?q&zone&status&tag&sort&density&page&limit"
   ],
   "d1_tables": [
     "members",

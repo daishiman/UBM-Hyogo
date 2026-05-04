@@ -193,6 +193,20 @@ UT-07B-FU-04 production migration already-applied verification は、`references
 > **検索パターン集・コードパターン早見は [quick-reference-search-patterns.md](quick-reference-search-patterns.md) に分離**
 > 機能・タスク別のキーワード分割、読む順番、IPC/Zustand/Result 等のコードスニペットを収録
 
+### 08a-B Public Members Search Filter
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| workflow root | `docs/30-workflows/08a-B-public-search-filter-coverage/` |
+| query 正本 | `docs/00-getting-started-manual/specs/12-search-tags.md` |
+| public API contract | `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| page / UI contract | `docs/00-getting-started-manual/specs/05-pages.md`, `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| API parser / repository | `apps/api/src/_shared/search-query-parser.ts`, `apps/api/src/repository/publicMembers.ts` |
+| Web URL parser / filter UI | `apps/web/src/lib/url/members-search.ts`, `apps/web/app/(public)/members/_components/MembersFilterBar.client.tsx` |
+| Phase 11 runtime evidence contract | `docs/30-workflows/08a-B-public-search-filter-coverage/outputs/phase-11/main.md` |
+
+`status` は参加ステータスであり、公開状態フィルタではない。公開境界は API の base WHERE（`public_consent` / `publish_state` / `is_deleted` / canonical alias exclusion）で固定する。`q` は LIKE wildcard literal escape、tag AND は先行 bind 数を考慮した placeholders offset、sort は `name`/`recent` とも fullName tie-break を使う。runtime screenshot / curl / axe は VISUAL_ON_EXECUTION として 08b / 09a で取得する。
+
 ### AI Chat / LLM Integration Fix 即時導線（2026-03-21）
 
 | 目的                          | 最初に開くファイル                                                              |
