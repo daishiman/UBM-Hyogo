@@ -19,6 +19,7 @@ import type {
   FieldVisibility,
   AnswerValue,
 } from "@ubm-hyogo/shared";
+import { STABLE_KEY } from "@ubm-hyogo/shared";
 import { findMemberById } from "../members";
 import { listMembersByIds } from "../members";
 import { getStatus, listStatusesByMemberIds } from "../status";
@@ -69,12 +70,12 @@ function extractSummary(answersJson: string): MemberProfileSummary {
     // パース失敗時はデフォルト値を使用
   }
   return {
-    fullName: (answers["fullName"] as string) ?? "",
-    nickname: (answers["nickname"] as string) ?? "",
-    location: (answers["location"] as string) ?? "",
-    occupation: (answers["occupation"] as string) ?? "",
-    ubmZone: (answers["ubmZone"] as string | null) ?? null,
-    ubmMembershipType: (answers["ubmMembershipType"] as string | null) ?? null,
+    fullName: (answers[STABLE_KEY.fullName] as string) ?? "",
+    nickname: (answers[STABLE_KEY.nickname] as string) ?? "",
+    location: (answers[STABLE_KEY.location] as string) ?? "",
+    occupation: (answers[STABLE_KEY.occupation] as string) ?? "",
+    ubmZone: (answers[STABLE_KEY.ubmZone] as string | null) ?? null,
+    ubmMembershipType: (answers[STABLE_KEY.ubmMembershipType] as string | null) ?? null,
   };
 }
 

@@ -1,0 +1,17 @@
+ WARN  Unsupported engine: wanted: {"node":"24.x"} (current: {"node":"v22.21.1","pnpm":"10.33.2"})
+
+> ubm-hyogo@0.1.0 typecheck /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260503-112154-wt-10
+> pnpm -r typecheck
+
+.                                        |  WARN  Unsupported engine: wanted: {"node":"24.x"} (current: {"node":"v22.21.1","pnpm":"10.33.2"})
+Scope: 5 of 6 workspace projects
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+apps/web typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations/google typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations typecheck$ tsc -p tsconfig.json --noEmit
+packages/integrations typecheck: Done
+packages/integrations/google typecheck: Done
+apps/web typecheck: Done
+apps/api typecheck$ tsc -p tsconfig.json --noEmit
+apps/api typecheck: Done

@@ -874,12 +874,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L204 |
-| UBM-Hyogo Admin Sync API（03a） | L225 |
-| UBM-Hyogo Member Self-Service API（04b） | L270 |
-| Desktop IPC API サマリー | L297 |
-| 変更履歴 | L328 |
-| 関連ドキュメント | L345 |
+| エンドポイント命名規則 | L208 |
+| UBM-Hyogo Admin Sync API（03a） | L229 |
+| UBM-Hyogo Member Self-Service API（04b） | L274 |
+| Desktop IPC API サマリー | L301 |
+| 変更履歴 | L332 |
+| 関連ドキュメント | L349 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1061,20 +1061,20 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Schema aliases write target（issue-191 / UT-07B） | L57 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L72 |
-| Legacy Sheets sync transition note（U-UT01-09） | L84 |
-| Schema alias assignment workflow（07b） | L97 |
-| ワークフロー関連テーブル | L101 |
-| ユーザー関連テーブル | L140 |
-| システムプロンプト関連テーブル | L174 |
-| チャット関連テーブル | L209 |
-| RAG関連テーブル | L245 |
-| Knowledge Graph関連テーブル | L287 |
-| 変換処理関連テーブル | L421 |
-| インデックス設計 | L480 |
-| 関連ドキュメント / 変更履歴 | L484 |
-| DDL 同期テンプレ | L489 |
+| Schema aliases write target（issue-191 / UT-07B） | L59 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L79 |
+| Legacy Sheets sync transition note（U-UT01-09） | L91 |
+| Schema alias assignment workflow（07b） | L103 |
+| ワークフロー関連テーブル | L107 |
+| ユーザー関連テーブル | L146 |
+| システムプロンプト関連テーブル | L180 |
+| チャット関連テーブル | L215 |
+| RAG関連テーブル | L251 |
+| Knowledge Graph関連テーブル | L293 |
+| 変換処理関連テーブル | L427 |
+| インデックス設計 | L486 |
+| 関連ドキュメント / 変更履歴 | L490 |
+| DDL 同期テンプレ | L495 |
 
 ---
 
@@ -1974,9 +1974,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Current State | L3 |
-| Implementation Artifacts | L12 |
-| Evidence | L21 |
-| Open Follow-Ups | L30 |
+| Implementation Artifacts | L13 |
+| Evidence | L22 |
+| Open Follow-Ups | L32 |
 
 ### references/workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md
 
@@ -2194,7 +2194,26 @@ node scripts/list-specs.js --topics
 | Workflow Governance Design 文書（artifact inventory） | L82 |
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
-| Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
+
+### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current State | L3 |
+| Implementation Artifacts | L14 |
+| Evidence | L35 |
+| Open Follow-Ups | L48 |
+
+### references/workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical files | L11 |
+| Runtime outputs contract | L23 |
+| Status | L40 |
+| Same-wave touched files | L51 |
+| Follow-up unassigned | L83 |
+| Boundary | L89 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2522,20 +2541,6 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
-### references/workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| canonical root | L3 |
-| workflow state | L7 |
-| root artifacts | L17 |
-| phase 12 required artifacts (strict 7) | L25 |
-| phase 11 evidence | L37 |
-| implementation source-of-truth | L45 |
-| skill reflection (same-wave) | L56 |
-| scope notes | L68 |
-| related tasks | L76 |
-
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -2695,6 +2700,16 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Canonical Artifacts | L13 |
 | Boundary | L30 |
+| FU-04 Verification Boundary | L34 |
+
+### references/workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Boundary | L13 |
+| Artifact Set | L24 |
+| Post-check Scope | L36 |
 
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
@@ -2719,9 +2734,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L18 |
-| Gate Boundary | L32 |
-| Same-Wave Sync | L39 |
+| Phase 12 Strict Files | L16 |
+| Gate Boundary | L30 |
+| Same-Wave Sync | L37 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -2981,17 +2996,7 @@ node scripts/list-specs.js --topics
 | 3. /auth/session-resolve internal-only endpoint | L86 |
 | 4. OpenNext post-build worker patch | L97 |
 | 5. Auth.js v5 env 層化 | L109 |
-| 変更履歴 | L177 |
-
-### references/cloudflare-cli-auth-recovery-sop.md
-
-| セクション | 行 |
-|------------|----|
-| Purpose | L3 |
-| Invariants | L7 |
-| Stage Isolation | L14 |
-| Evidence Set | L22 |
-| Close-Out Rule | L34 |
+| 変更履歴 | L174 |
 
 ### references/csrf-state-parameter.md
 
@@ -3066,7 +3071,8 @@ node scripts/list-specs.js --topics
 | 環境分離 | L516 |
 | ロールバック戦略 | L526 |
 | モニタリング/アラート（UT-08 連携） | L547 |
-| 変更履歴 | L564 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
+| 変更履歴 | L599 |
 
 ### references/deployment-core.md
 
@@ -3347,12 +3353,12 @@ node scripts/list-specs.js --topics
 | 概要 | L15 |
 | 使い方 | L23 |
 | Current Alias Overrides（個別互換行） | L30 |
-| Family Summary | L68 |
-| Detailed Register | L89 |
-| Section Extract Register (2026-03-17) | L270 |
-| 500-Line Split Register (2026-03-16) | L281 |
-| Fragment Migration Register (2026-04-28) | L303 |
-| Task Root Path Drift Register (2026-04-30 追記) | L330 |
+| Family Summary | L69 |
+| Detailed Register | L90 |
+| Section Extract Register (2026-03-17) | L271 |
+| 500-Line Split Register (2026-03-16) | L282 |
+| Fragment Migration Register (2026-04-28) | L304 |
+| Task Root Path Drift Register (2026-04-30 追記) | L331 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -3397,6 +3403,7 @@ node scripts/list-specs.js --topics
 | L-03A-LINT-004: docs / fixtures / tests は exception glob、inline suppression は 0 維持 | L34 |
 | L-03A-LINT-005: spec_created → enforced_dry_run の lifecycle 再分類は同 wave で全 7 同期点を更新する | L42 |
 | L-03A-LINT-006: skill feedback は「記録のみ」と「実 skill edit」を skill-feedback-report で明示分離する | L50 |
+| Issue #394 strict CI gate follow-up — 2026-05-03 | L58 |
 
 ### references/lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md
 
@@ -3407,6 +3414,14 @@ node scripts/list-specs.js --topics
 | L-03B-FU005-003: lock TTL 10 分の根拠は cron 周期と実行時間の数学的余裕で固定する | L25 |
 | L-03B-FU005-004: D1 DDL は本タスクに含めず物理 schema 変更は別タスクへ委譲する | L33 |
 | L-03B-FU005-005: consumer の `job_type` 文字列リテラル拡散は lint enforcement を follow-up にする | L41 |
+
+### references/lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-03B006-001: Reset rows must stay in the window | L3 |
+| L-03B006-002: Emit before releasing the sync lock (invariant) | L7 |
+| L-03B006-003: Workflow state follows real files | L11 |
 
 ### references/lessons-learned-03b-response-sync-2026-04.md
 
@@ -3567,6 +3582,15 @@ node scripts/list-specs.js --topics
 | L-06CC-004: SKILL.md merge conflict marker 残存検出 hook を導入する | L38 |
 | L-06CC-005: visual evidence は 06c-C 単独で取得せず 08b/09a へ委譲する境界をテンプレ化する | L48 |
 
+### references/lessons-learned-06c-E-admin-meetings-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06CE-001: docs-only label must not hide implementation gaps | L3 |
+| L-06CE-002: existing route compatibility beats contract replacement | L7 |
+| L-06CE-003: root-only artifacts parity must be explicit | L11 |
+| L-06CE-004: visual evidence pending is not full PASS | L15 |
+
 ### references/lessons-learned-06c-admin-ui-2026-04.md
 
 | セクション | 行 |
@@ -3659,17 +3683,6 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
 
-### references/lessons-learned-389-privacy-terms-oauth-readiness-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-389-001: metadata canonical / robots を Server Component に固定する | L10 |
-| L-389-002: Google Form 連絡先 href を環境別参照化する | L35 |
-| L-389-003: semantic render test で必須セクションの intent を固定する | L56 |
-| L-389-004: web build #385 regression と OAuth deploy のブロック依存 | L78 |
-| OP-389-1: Phase 12 strict 7 ファイル + artifacts.json parity | L104 |
-| OP-389-2: unassigned-task の formalize と consume | L109 |
-
 ### references/lessons-learned-claude-code-permissions-apply-2026-04.md
 
 | セクション | 行 |
@@ -3715,8 +3728,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 教訓一覧 | L10 |
-| skill-feedback 申し送り | L48 |
-| 確認パス | L53 |
+| skill-feedback 申し送り | L58 |
+| 確認パス | L63 |
 
 ### references/lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md
 
@@ -3729,7 +3742,6 @@ node scripts/list-specs.js --topics
 | L-ISSUE195FU002-005: 「主担当 / サブ担当」と「owner / co-owner」の用語不整合 | L57 |
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
-| 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
@@ -3745,6 +3757,26 @@ node scripts/list-specs.js --topics
 | Scope | L3 |
 | Lessons | L11 |
 | Downstream boundaries | L53 |
+
+### references/lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I393-001: branded type と命名衝突するため SSOT は SCREAMING_SNAKE_CASE で固定する | L10 |
+| L-I393-002: 値レベル lint script は型レベル literal を見ないので indexed-access type も同 wave で潰す | L18 |
+| L-I393-003: JSX attribute literal は ESLint auto-fix 候補にならず手作業で family 単位に洗い出す | L26 |
+| L-I393-004: `eslint-disable` / `@ts-ignore` / dynamic 合成を逃げ道にしない不変条件を additive test で固定する | L34 |
+| L-I393-005: SSOT module への単一方向 import で循環依存リスクを潰す | L42 |
+
+### references/lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I399-001: VISUAL_ON_EXECUTION は planned evidence と runtime evidence を分ける | L3 |
+| L-I399-002: staging seed識別は既存ID prefixを優先する | L9 |
+| L-I399-003: parent link はlink先実体化後に適用する | L15 |
+| L-I399-004: Phase 12 strict 7 files は仕様書作成時点でも実体化する | L21 |
+| L-I399-005: synthetic ID prefix の cleanup query 契約は seed と同 wave で固定する | L27 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -3918,13 +3950,10 @@ node scripts/list-specs.js --topics
 | L-UTCOV-003: 2-layer coverage gate は precondition gate と upgrade gate を別タスク化する | L11 |
 | L-UTCOV-004: serial wave-1 → parallel wave-2 の wave 分割は regression 切り分けを安価にする | L15 |
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
-| L-UTCOV-009: package filter と script 名は package.json から実測する | L23 |
-| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L27 |
-| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L31 |
-| L-UTCOV-008: workflow root を wave grouping から top-level へ移したら artifacts / inventory / README を同時更新する | L41 |
-| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L45 |
-| L-UTCOV-008: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L46 |
-| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L47 |
+| L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
+| L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
+| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L37 |
+| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -3965,6 +3994,15 @@ node scripts/list-specs.js --topics
 | L-UT07B-FU03-003: Strict Phase 12 files must be real files | L11 |
 | L-UT07B-FU03-004: Parent seed wording must be consumed | L15 |
 | L-UT07B-FU03-005: Workflow LOGS and skill LOGS are separate | L19 |
+
+### references/lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU04-001: Duplicate apply 禁止 / canonical ledger fact 優先 | L11 |
+| L-UT07B-FU04-002: preflight `--expect pending|applied` 二モード切替 | L18 |
+| L-UT07B-FU04-003: post-check scope を hardening migration 所有 column のみに縮約 | L25 |
+| L-UT07B-FU04-004: placeholder evidence + user-gate runtime（spec PASS / runtime PENDING 分離） | L32 |
 
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
@@ -4022,8 +4060,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L88 |
-| 関連ドキュメント | L93 |
+| 利用順序 | L91 |
+| 関連ドキュメント | L96 |
 
 ### references/llm-embedding.md
 
@@ -5092,13 +5130,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L164 |
-| フェーズ構造（概要） | L173 |
-| 品質ゲート（概要） | L204 |
-| 出力テンプレート | L215 |
-| 実行時のコマンド・エージェント・スキル | L238 |
-| 昇格パターン集 | L262 |
-| Current Active / Spec Created Tasks | L264 |
+| ドキュメント構成 | L192 |
+| フェーズ構造（概要） | L201 |
+| 品質ゲート（概要） | L232 |
+| 出力テンプレート | L243 |
+| 実行時のコマンド・エージェント・スキル | L266 |
+| 昇格パターン集 | L290 |
+| Current Active / Spec Created Tasks | L292 |
 
 ### references/task-workflow-backlog-part2.md
 
