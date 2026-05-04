@@ -4070,8 +4070,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L90 |
-| 関連ドキュメント | L95 |
+| 利用順序 | L91 |
+| 関連ドキュメント | L96 |
 
 ### references/llm-embedding.md
 
