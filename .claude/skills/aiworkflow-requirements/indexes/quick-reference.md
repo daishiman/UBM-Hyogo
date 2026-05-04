@@ -5,6 +5,19 @@
 
 ---
 
+### Issue #194 / 04c Identity Conflict Merge Alias（2026-05-04）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 実装正本 | `docs/30-workflows/completed-tasks/issue-194-03b-followup-001-email-conflict-identity-merge/` |
+| 04c alias trace | `docs/30-workflows/04c-followup-001-email-conflict-merge-api-and-ui/` |
+| consumed unassigned | `docs/30-workflows/unassigned-task/03b-followup-001-workflow-elevation.md`, `docs/30-workflows/unassigned-task/04c-followup-001-email-conflict-merge-api-and-ui.md` |
+| 正本 tables | `identity_merge_audit`, `identity_aliases`, `identity_conflict_dismissals`, `audit_log` |
+| runtime evidence | issue-194 Phase 11 / Phase 13 user approval boundary。04c alias root では screenshot / deploy / migration / PR を PASS 主張しない |
+| withdrawn stale 04c draft | `identity_dismissals`, `admin_audit_log` 拡張, `sync_jobs.lock_token` 転用, `GET /admin/identity-conflicts/:id`, screenshot 3枚必須, 04c root での `gh pr create` |
+
+---
+
 ### UT-05A Auth UI Logout Button（2026-05-03）
 
 | 目的 | 参照先 |

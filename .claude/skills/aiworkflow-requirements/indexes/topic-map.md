@@ -3700,8 +3700,8 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 教訓一覧 | L10 |
-| skill-feedback 申し送り | L48 |
-| 確認パス | L53 |
+| skill-feedback 申し送り | L58 |
+| 確認パス | L63 |
 
 ### references/lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md
 
