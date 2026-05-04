@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #399 Admin Queue Resolve Staging Visual Evidence（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implementation-prepared / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/` |
+| 目的 | 04b-followup-004 の `/admin/requests` delegated visual evidence gap を、staging-only reversible seed + 7 screenshot capture runbook + redaction rule + parent evidence link plan で閉じる |
+| seed識別 | D1 schema変更なし。既存ID列の `ISSUE399-` synthetic prefix で投入・撤去対象を識別 |
+| 検証 | `mise exec -- pnpm exec vitest run apps/api/migrations/seed/__tests__ scripts/staging/__tests__`（focused Vitest）。staging seed / screenshot / redaction の runtime evidence は user 承認付き実行サイクル |
+| runtime境界 | staging seed投入 / screenshot取得 / cleanup / 親implementation-guideへの実link適用は Phase 11 runtime evidence 完了後。現時点では PASS 証跡ではない |
+| 親 / 下流 | parent: `docs/30-workflows/completed-tasks/04b-followup-004-admin-queue-resolve-workflow/`; blocks: parent visual evidence complete close-out |
+| Issue 取扱 | #399 CLOSED 維持。reopen / commit / push / PR / Issue comment は user 明示指示後のみ |
+
 ### UT-05A Auth UI Logout Button（2026-05-03）
 
 | 項目 | 値 |
