@@ -1,8 +1,37 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
+// pnpm の isolated node-linker (CI 既定) では apps/web を cwd とする vitest 実行時に
+// `react/jsx-dev-runtime` 等の subpath exports を Vite が解決できず
+// "Failed to resolve import 'react/jsx-dev-runtime'" で失敗するケースがある
+// (ローカルは pnpm config の node-linker=hoisted で発症しないため CI 限定で再現)。
+// ルート `node_modules` の react / react-dom を正本として alias + dedupe で固定する。
+const rootReact = fileURLToPath(new URL("./node_modules/react", import.meta.url));
+const rootReactDom = fileURLToPath(new URL("./node_modules/react-dom", import.meta.url));
+
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    dedupe: ["react", "react-dom"],
+    alias: [
+      { find: /^react$/, replacement: `${rootReact}/index.js` },
+      { find: /^react\/jsx-runtime$/, replacement: `${rootReact}/jsx-runtime.js` },
+      { find: /^react\/jsx-dev-runtime$/, replacement: `${rootReact}/jsx-dev-runtime.js` },
+      { find: /^react-dom$/, replacement: `${rootReactDom}/index.js` },
+      { find: /^react-dom\/client$/, replacement: `${rootReactDom}/client.js` },
+      { find: /^react-dom\/test-utils$/, replacement: `${rootReactDom}/test-utils.js` },
+    ],
+  },
+  optimizeDeps: {
+    include: [
+      "react",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "react-dom",
+      "react-dom/client",
+    ],
+  },
   test: {
     environment: "jsdom",
     globals: false,

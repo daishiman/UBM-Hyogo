@@ -2748,9 +2748,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L19 |
-| Gate Boundary | L33 |
-| Same-Wave Sync | L40 |
+| Phase 12 Strict Files | L18 |
+| Gate Boundary | L32 |
+| Same-Wave Sync | L39 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3374,15 +3374,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L15 |
-| 使い方 | L23 |
-| Current Alias Overrides（個別互換行） | L30 |
-| Family Summary | L69 |
-| Detailed Register | L90 |
-| Section Extract Register (2026-03-17) | L271 |
-| 500-Line Split Register (2026-03-16) | L282 |
-| Fragment Migration Register (2026-04-28) | L304 |
-| Task Root Path Drift Register (2026-04-30 追記) | L331 |
+| 概要 | L16 |
+| 使い方 | L24 |
+| Current Alias Overrides（個別互換行） | L31 |
+| Family Summary | L70 |
+| Detailed Register | L91 |
+| Section Extract Register (2026-03-17) | L272 |
+| 500-Line Split Register (2026-03-16) | L283 |
+| Fragment Migration Register (2026-04-28) | L305 |
+| Task Root Path Drift Register (2026-04-30 追記) | L332 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -3989,9 +3989,8 @@ node scripts/list-specs.js --topics
 | L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L27 |
 | L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L31 |
 | L-UTCOV-008: workflow root を wave grouping から top-level へ移したら artifacts / inventory / README を同時更新する | L41 |
-| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L45 |
-| L-UTCOV-008: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
-| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L48 |
+| L-UTCOV-010: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L45 |
+| L-UTCOV-011: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L56 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -5168,13 +5167,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L200 |
-| フェーズ構造（概要） | L209 |
-| 品質ゲート（概要） | L240 |
-| 出力テンプレート | L251 |
-| 実行時のコマンド・エージェント・スキル | L274 |
-| 昇格パターン集 | L298 |
-| Current Active / Spec Created Tasks | L300 |
+| ドキュメント構成 | L194 |
+| フェーズ構造（概要） | L203 |
+| 品質ゲート（概要） | L234 |
+| 出力テンプレート | L245 |
+| 実行時のコマンド・エージェント・スキル | L268 |
+| 昇格パターン集 | L292 |
+| Current Active / Spec Created Tasks | L294 |
 
 ### references/task-workflow-backlog-part2.md
 

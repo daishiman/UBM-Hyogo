@@ -7,6 +7,15 @@
 | 状態 | spec_created / docs-only |
 | 全タスク数 | 6（serial 1 + parallel 5） |
 
+## wave-3 計画
+
+| 項目 | 値 |
+| --- | --- |
+| 仕様書 | `docs/30-workflows/issue-433-ut-web-cov-05-wave3-roadmap/` |
+| roadmap 予定配置 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-3-roadmap.md` |
+| 元未タスク | `docs/30-workflows/unassigned-task/ut-web-cov-05-followup-post-wave2-gap-analysis.md` |
+| 状態 | implemented-local / implementation / NON_VISUAL。Phase 5〜12 で実 coverage 測定と roadmap 本体作成は完了。Phase 13 の commit / push / PR / CI green は user 承認後 |
+
 ## 起票根拠（実測 baseline 2026-05-01）
 
 | package / scope | Lines | Branches | Functions | Statements | 判定 |
