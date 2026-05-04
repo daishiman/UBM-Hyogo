@@ -3057,14 +3057,16 @@
     ],
     "fetch": [
       "architecture-admin-api-client.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "src": [
       "architecture-admin-api-client.md",
       "quality-e2e-testing.md"
     ],
     "lib": [
-      "architecture-admin-api-client.md"
+      "architecture-admin-api-client.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "admin": [
       "architecture-admin-api-client.md",
@@ -3281,6 +3283,7 @@
       "architecture-auth-security-core.md",
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
@@ -3784,7 +3787,8 @@
       "auth-google-oauth-cf-integration.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
-      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md"
+      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "resolve": [
       "auth-google-oauth-cf-integration.md",
@@ -7489,7 +7493,8 @@
       "lessons-fetch-service-binding-testing.md"
     ],
     "テストは": [
-      "lessons-fetch-service-binding-testing.md"
+      "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "globalFetch": [
       "lessons-fetch-service-binding-testing.md"
@@ -7531,6 +7536,7 @@
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "quality-e2e-testing.md"
     ],
     "契約を共有する": [
@@ -8804,6 +8810,7 @@
     ],
     "public": [
       "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
@@ -9753,6 +9760,7 @@
     "SQL": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "security-input-validation.md"
     ],
     "と仕様語を二重化しない": [
@@ -11087,6 +11095,37 @@
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "を取る": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "focused": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "fragment": [
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-overview.md"
+    ],
+    "dispatch": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "failOnSql": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "で集約する": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "helper": [
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "skill-ledger-fragment-spec.md"
+    ],
+    "構造的": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "uncovered": [
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "の文書化で": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "GOV": [
@@ -14271,11 +14310,6 @@
       "skill-ledger-overview.md",
       "skill-ledger-progressive-disclosure.md"
     ],
-    "fragment": [
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-overview.md"
-    ],
     "化の正本": [
       "skill-ledger-fragment-spec.md"
     ],
@@ -14294,9 +14328,6 @@
     "append": [
       "skill-ledger-fragment-spec.md",
       "skill-ledger-gitattributes-policy.md"
-    ],
-    "helper": [
-      "skill-ledger-fragment-spec.md"
     ],
     "の責務": [
       "skill-ledger-fragment-spec.md"
