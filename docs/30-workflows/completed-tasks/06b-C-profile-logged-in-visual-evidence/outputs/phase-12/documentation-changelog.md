@@ -15,5 +15,5 @@
 09a / 08b can consume the new capture command after a real logged-in storageState is created:
 
 ```bash
-scripts/capture-profile-evidence.sh --base-url <origin> --storage-state apps/web/playwright/.auth/state.json
+scripts/capture-profile-evidence.sh --base-url <origin> --storage-state apps/web/playwright/.auth/member-state.json
 ```
