@@ -104,11 +104,11 @@
 
 | ファイル | 用途 |
 | -------- | ---- |
-| `ci.yml` | PR 時の CI（型チェック・lint・coverage soft gate） |
+| `ci.yml` | PR 時の CI（型チェック・lint・coverage hard gate） |
 | `validate-build.yml` | PR / push 時の build 検証 |
 | `verify-indexes.yml` | aiworkflow-requirements indexes drift 検出 |
 | `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ。Discord 通知は未実装） |
-| `backend-ci.yml` | API CD（D1 migrations apply → Workers deploy。Discord 通知は未実装） |
+| `backend-ci.yml` | API CD（D1 migrations apply → Workers deploy。migration 成功後に deploy が失敗した場合は GitHub Actions summary に post-migration deploy failure を記録。Discord 通知は未実装） |
 
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: `.github/workflows/` の現行実体は上記 5 件。Node.js は `24`、pnpm は `10.33.2` / `pnpm/action-setup@v4` が基準。Discord 通知は正本要件として残るが、現行 workflow には未実装であり UT-08-IMPL（観測性実装）へ委譲する。
 
@@ -130,7 +130,7 @@
 7. ESLint によるコード品質チェック
 8. Next.js ビルドの確認
 9. Vitest によるユニットテストの実行
-10. カバレッジチェックと Codecov 連携（現行は soft gate。hard gate 化は coverage-80-enforcement 系タスクで扱う）
+10. カバレッジチェック（現行 `coverage-gate` は hard gate。`continue-on-error` 再混入は `scripts/coverage-guard.test.ts` で静的検出）
 
 ### CD ワークフロー要件（dev / main マージ時）
 
