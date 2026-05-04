@@ -3405,6 +3405,7 @@ node scripts/list-specs.js --topics
 | L-03A-LINT-004: docs / fixtures / tests は exception glob、inline suppression は 0 維持 | L34 |
 | L-03A-LINT-005: spec_created → enforced_dry_run の lifecycle 再分類は同 wave で全 7 同期点を更新する | L42 |
 | L-03A-LINT-006: skill feedback は「記録のみ」と「実 skill edit」を skill-feedback-report で明示分離する | L50 |
+| Issue #394 strict CI gate follow-up — 2026-05-03 | L58 |
 
 ### references/lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md
 

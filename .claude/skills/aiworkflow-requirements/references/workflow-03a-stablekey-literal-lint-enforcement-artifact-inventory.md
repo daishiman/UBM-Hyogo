@@ -34,3 +34,6 @@
 | Task | Reason |
 | --- | --- |
 | `docs/30-workflows/unassigned-task/task-03a-stablekey-strict-ci-gate-001.md` | GitHub Actions does not yet run strict stableKey lint as a blocking gate |
+| `docs/30-workflows/completed-tasks/task-03a-stablekey-literal-legacy-cleanup-001.md` | strict mode still reports legacy stableKey literal violations |
+| `docs/30-workflows/completed-tasks/task-03a-stablekey-strict-ci-gate-001.md` | GitHub Actions does not yet run strict stableKey lint as a blocking gate |
+| `docs/30-workflows/issue-394-stablekey-strict-ci-gate/` | current Issue #394 workflow; blocked until strict violations reach 0 |
