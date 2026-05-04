@@ -128,8 +128,6 @@ staging のみ各層の解決結果を `console.log` で可視化する（transp
 - [ ] middleware が D1 を直接呼んでいないか（edge では D1 binding が無いため build は通るが runtime で fail）
 - [ ] `/auth/session-resolve` が public origin から呼べないことを smoke test で確認したか（外部 curl で 401/403 を返すこと）
 - [ ] Google OAuth verification 用に `apps/web/app/privacy/page.tsx` と `apps/web/app/terms/page.tsx` が公開可能な状態で deploy されているか
-  - 2026-05-03 task-389 local state: pages + semantic tests implemented locally, including canonical/robots metadata, contact href, revision date, Cookie / Analytics note, and anti-social forces clause.
-  - Runtime state: staging / production HTTP 200 and OAuth consent screen screenshot remain pending until web build is green and deploy / Cloud Console operations are user-approved.
 - [ ] `gate=admin` / `gate=unregistered` / `gate=expired` の各 redirect path が UI で文言分岐されているか
 - [ ] `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` が staging / production で別値（dev クライアント混入禁止）
 - [ ] OAuth redirect URI に staging / production の両 worker URL が Google Cloud Console 側で登録されているか
@@ -155,7 +153,6 @@ staging のみ各層の解決結果を `console.log` で可視化する（transp
 | OpenNext post-build patch | `scripts/patch-open-next-worker.mjs` |
 | privacy 公開ページ | `apps/web/app/privacy/page.tsx` |
 | terms 公開ページ | `apps/web/app/terms/page.tsx` |
-| privacy / terms implementation workflow | `docs/30-workflows/task-389-privacy-terms-pages-impl/` |
 | session-resolve handler | `apps/api/src/routes/auth/session-resolve.ts`（pending: 実装 path 要確認） |
 
 # 関連 specs

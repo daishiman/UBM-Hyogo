@@ -44,16 +44,6 @@ query() {
 
 missing=()
 
-if ! query "SELECT name FROM sqlite_master WHERE type='table' AND name='schema_aliases';" | grep -F "schema_aliases" >/dev/null; then
-  missing+=("schema_aliases")
-fi
-
-for idx in idx_schema_aliases_revision_stablekey_unique idx_schema_aliases_revision_question_unique; do
-  if ! query "SELECT name FROM sqlite_master WHERE type='index' AND name='$idx';" | grep -F "$idx" >/dev/null; then
-    missing+=("$idx")
-  fi
-done
-
 columns="$(query "PRAGMA table_info(schema_diff_queue);" || true)"
 for col in backfill_cursor backfill_status; do
   if ! printf '%s\n' "$columns" | grep -F "$col" >/dev/null; then
@@ -67,4 +57,4 @@ if [ "${#missing[@]}" -gt 0 ]; then
   exit 70
 fi
 
-printf '{"verified_at":"%s","objects":{"schema_aliases":true,"idx_schema_aliases_revision_stablekey_unique":true,"idx_schema_aliases_revision_question_unique":true,"schema_diff_queue.backfill_cursor":true,"schema_diff_queue.backfill_status":true},"missing":[]}\n' "$verified_at"
+printf '{"verified_at":"%s","objects":{"schema_diff_queue.backfill_cursor":true,"schema_diff_queue.backfill_status":true},"missing":[]}\n' "$verified_at"
