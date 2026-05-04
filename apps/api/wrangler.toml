@@ -28,6 +28,13 @@ database_name = "ubm-hyogo-db-prod"
 database_id = "24963f0a-7fbb-4508-a93a-f8e502aa4585"
 migrations_dir = "migrations"
 
+# 03b-followup-006: per-sync write cap 連続到達検知用 Analytics Engine dataset
+# Issue #199 / response_sync の 200 cap が 3 連続で hit したとき
+# `sync_write_cap_consecutive_hit` を emit する。free tier 25M write/month。
+[[analytics_engine_datasets]]
+binding = "SYNC_ALERTS"
+dataset = "sync_alerts"
+
 [env.production]
 name = "ubm-hyogo-api"
 
@@ -56,6 +63,11 @@ database_name = "ubm-hyogo-db-prod"
 database_id = "24963f0a-7fbb-4508-a93a-f8e502aa4585"
 migrations_dir = "migrations"
 
+# 03b-followup-006: production 用 Analytics Engine dataset
+[[env.production.analytics_engine_datasets]]
+binding = "SYNC_ALERTS"
+dataset = "sync_alerts"
+
 [env.staging]
 name = "ubm-hyogo-api-staging"
 
@@ -81,3 +93,8 @@ binding = "DB"
 database_name = "ubm-hyogo-db-staging"
 database_id = "990e5d6c-51eb-4826-9c13-c0ae007d5f46"
 migrations_dir = "migrations"
+
+# 03b-followup-006: staging 用 Analytics Engine dataset
+[[env.staging.analytics_engine_datasets]]
+binding = "SYNC_ALERTS"
+dataset = "sync_alerts_staging"

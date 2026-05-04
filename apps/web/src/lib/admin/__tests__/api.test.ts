@@ -36,6 +36,41 @@ describe("lib/admin/api.ts (不変条件)", () => {
     expect(typeof adminApi.addAttendance).toBe("function");
     expect(typeof adminApi.removeAttendance).toBe("function");
   });
+
+  it("attendance mutation は 06c-E の { attended } alias endpoint を使う", async () => {
+    const calls: Array<{ input: RequestInfo | URL; init?: RequestInit }> = [];
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
+      calls.push(init === undefined ? { input } : { input, init });
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      });
+    }) as typeof fetch;
+
+    try {
+      await adminApi.addAttendance("s/1", "m1");
+      await adminApi.removeAttendance("s/1", "m1");
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+
+    expect(calls).toHaveLength(2);
+    expect(calls[0]).toMatchObject({
+      input: "/api/admin/meetings/s%2F1/attendances",
+      init: {
+        method: "POST",
+        body: JSON.stringify({ memberId: "m1", attended: true }),
+      },
+    });
+    expect(calls[1]).toMatchObject({
+      input: "/api/admin/meetings/s%2F1/attendances",
+      init: {
+        method: "POST",
+        body: JSON.stringify({ memberId: "m1", attended: false }),
+      },
+    });
+  });
 });
 
 describe("lib/admin/api.ts call() の振る舞い", () => {
@@ -76,15 +111,6 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
     await adminApi.patchMemberNote("m1", "n#1", "x");
     const [url] = fetchSpy.mock.calls[0] as [string];
     expect(url).toBe("/api/admin/members/m1/notes/n%231");
-  });
-
-  it("DELETE attendance: method=DELETE で body を送らない", async () => {
-    fetchSpy.mockResolvedValue(jsonResponse(200, null));
-    await adminApi.removeAttendance("s1", "m1");
-    const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
-    expect(url).toBe("/api/admin/meetings/s1/attendance/m1");
-    expect(init.method).toBe("DELETE");
-    expect(init.body).toBeUndefined();
   });
 
   it("ネットワークエラーで status=0 / error を返す", async () => {
