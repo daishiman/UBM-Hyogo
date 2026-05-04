@@ -10,7 +10,7 @@
 | 対象機能 | Cloudflare staging smoke preflight |
 | 優先度 | 高 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed_by_workflow / runtime_evidence_captured |
 | 発見元 | `docs/30-workflows/ut-09a-exec-staging-smoke-001/outputs/phase-11/main.md` |
 | 発見日 | 2026-05-02 |
 | 親タスク | `docs/30-workflows/ut-09a-exec-staging-smoke-001/` |
@@ -18,6 +18,10 @@
 | visualEvidence | NON_VISUAL |
 
 ## 1. なぜこのタスクが必要か（Why）
+
+> Canonical workflow: `docs/30-workflows/ut-09a-cloudflare-auth-token-injection-recovery-001/`
+> Runtime evidence: `docs/30-workflows/ut-09a-cloudflare-auth-token-injection-recovery-001/outputs/phase-11/`
+> 状態: 2026-05-04 に `bash scripts/cf.sh whoami` exit 0 / redaction PASS / parent handoff ready を確認済み。本ファイルは起票元 stub として残す。
 
 `ut-09a-exec-staging-smoke-001` の Phase 11 で `bash scripts/cf.sh whoami` を実行したところ
 `You are not authenticated` となり、staging deploy smoke、wrangler tail、Forms sync、
@@ -46,10 +50,10 @@ secret 値は記録せず、存在確認とコマンド結果だけを evidence 
 
 ## 5. 完了条件チェックリスト
 
-- [ ] secret 値を stdout / artifact に出していない
-- [ ] `bash scripts/cf.sh whoami` が exit 0
-- [ ] staging 操作対象 account が確認できる
-- [ ] 復旧 evidence path が `ut-09a-exec-staging-smoke-001` に引き渡されている
+- [x] secret 値を stdout / artifact に出していない
+- [x] `bash scripts/cf.sh whoami` が exit 0
+- [x] staging 操作対象 account が確認できる（redacted evidence）
+- [x] 復旧 evidence path が `ut-09a-exec-staging-smoke-001` に引き渡されている
 
 ## 6. 検証方法
 
@@ -81,4 +85,3 @@ bash scripts/cf.sh whoami
 - `docs/30-workflows/ut-09a-exec-staging-smoke-001/outputs/phase-11/main.md`
 - `docs/30-workflows/ut-09a-exec-staging-smoke-001/outputs/phase-11/wrangler-tail.log`
 - `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md`
-

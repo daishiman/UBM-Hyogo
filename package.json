@@ -29,6 +29,7 @@
     "env:export": "op inject -i .env -o .env.local",
     "prepare": "lefthook install",
     "indexes:rebuild": "node .claude/skills/aiworkflow-requirements/scripts/generate-index.js",
+    "sync:check": "git fetch --quiet origin main dev 2>/dev/null; bash scripts/hooks/stale-worktree-notice.sh fetch",
     "skill:logs:render": "tsx scripts/skill-logs-render.ts",
     "skill:logs:append": "tsx scripts/skill-logs-append.ts"
   },
