@@ -162,6 +162,8 @@ Vitest は coverage 計測を担当し、閾値判定は `scripts/coverage-guard
 
 閾値未達の場合、`coverage-guard.sh` が不足 metric と不足ファイル top10、推奨テストファイルパスを stderr に出力し、CI/CDで失敗する。
 
+> **2026-05-04 hard gate 補足**: `coverage-gate` job では `continue-on-error` を使用しない。過去の soft gate 期間では job と step の両方に `continue-on-error: true` があり、80% 未達でも required check が success になったため、現在は `.github/workflows/ci.yml` と `scripts/coverage-guard.test.ts` の静的検証で再混入を防ぐ。
+
 ### Vitest UI（実装済み 2026-01-05）
 
 @vitest/uiを導入済み。ブラウザでテスト結果を視覚化できる。
