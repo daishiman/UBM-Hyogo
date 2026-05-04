@@ -2702,7 +2702,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Metadata | L3 |
 | Canonical Artifacts | L13 |
-| Boundary | L30 |
+| Boundary | L31 |
 
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
@@ -5109,13 +5109,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L166 |
-| フェーズ構造（概要） | L175 |
-| 品質ゲート（概要） | L206 |
-| 出力テンプレート | L217 |
-| 実行時のコマンド・エージェント・スキル | L240 |
-| 昇格パターン集 | L264 |
-| Current Active / Spec Created Tasks | L266 |
+| ドキュメント構成 | L177 |
+| フェーズ構造（概要） | L186 |
+| 品質ゲート（概要） | L217 |
+| 出力テンプレート | L228 |
+| 実行時のコマンド・エージェント・スキル | L251 |
+| 昇格パターン集 | L275 |
+| Current Active / Spec Created Tasks | L277 |
 
 ### references/task-workflow-backlog-part2.md
 
