@@ -5,6 +5,33 @@
 
 ---
 
+### Issue #194 / 04c Identity Conflict Merge Alias（2026-05-04）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 実装正本 | `docs/30-workflows/completed-tasks/issue-194-03b-followup-001-email-conflict-identity-merge/` |
+| 04c alias trace | `docs/30-workflows/04c-followup-001-email-conflict-merge-api-and-ui/` |
+| consumed unassigned | `docs/30-workflows/unassigned-task/03b-followup-001-workflow-elevation.md`, `docs/30-workflows/unassigned-task/04c-followup-001-email-conflict-merge-api-and-ui.md` |
+| 正本 tables | `identity_merge_audit`, `identity_aliases`, `identity_conflict_dismissals`, `audit_log` |
+| runtime evidence | issue-194 Phase 11 / Phase 13 user approval boundary。04c alias root では screenshot / deploy / migration / PR を PASS 主張しない |
+| withdrawn stale 04c draft | `identity_dismissals`, `admin_audit_log` 拡張, `sync_jobs.lock_token` 転用, `GET /admin/identity-conflicts/:id`, screenshot 3枚必須, 04c root での `gh pr create` |
+
+---
+
+### Issue #399 Admin Queue Resolve Staging Visual Evidence（2026-05-03）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/` |
+| 状態 | `implementation-prepared / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval` |
+| seed識別 | D1 schema変更なし。既存ID列の `ISSUE399-` synthetic prefix で cleanup する |
+| 実装artifacts | apps/api/migrations/seed/issue-399-admin-queue-staging-{seed,cleanup}.sql, scripts/staging/{seed,cleanup}-issue-399.sh, focused Vitest |
+| close-out evidence | `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime evidence | `outputs/phase-11/screenshots/` は未取得。staging seed投入 / screenshot取得 / cleanup は user承認付き実行サイクルで行う |
+| parent | `docs/30-workflows/completed-tasks/04b-followup-004-admin-queue-resolve-workflow/` の delegated visual evidence gap を閉じるための実行仕様 |
+| Issue 取扱 | #399 は CLOSED 維持。reopen / commit / push / PR / Issue comment は user 明示指示後のみ |
+
+---
 ### UT-05A Auth UI Logout Button（2026-05-03）
 
 | 目的 | 参照先 |
@@ -1387,6 +1414,17 @@ packages/
 | UI/UX 詳細 | `references/ui-ux-admin-dashboard.md`（5画面のレイアウト/状態遷移/不変条件/エラー文言） |
 | API client 詳細 | `references/architecture-admin-api-client.md`（Server Component `fetchAdmin` / client mutation helper / proxy / 認可境界） |
 | 教訓 | `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
+
+### UBM-Hyogo Admin Meetings Remaining（06c-E / 2026-05-04）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/06c-E-admin-meetings/` |
+| 状態 | `implemented-local / implementation / remaining-only / VISUAL_ON_EXECUTION` |
+| API | `PATCH /admin/meetings/:id`, `POST /admin/meetings/:id/attendances`, `GET /admin/meetings/:id/export.csv` |
+| DB | `meeting_sessions.deleted_at`, `member_attendance` |
+| Web | `MeetingPanel` edit details / soft delete / CSV link |
+| Evidence | API meetings 15 PASS / MeetingPanel 17 PASS; visual runtime evidence deferred to 08b / 09a |
 
 ### UBM-Hyogo Admin Tags Remaining Spec（06c-C / 2026-05-03）
 
