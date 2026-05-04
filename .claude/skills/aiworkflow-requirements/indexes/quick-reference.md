@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #359 Out-of-Band Production D1 Apply Audit（2026-05-04）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/` |
+| 状態 | `spec_created root / docs-only / NON_VISUAL / Phase 1-12 completed / runtime_evidence_captured / decision=confirmed / Phase 13 blocked_until_user_approval` |
+| 監査対象 | production D1 `ubm-hyogo-db-prod` の `0008_schema_alias_hardening.sql` (`2026-05-01 08:21:04 UTC`) / `0008_create_schema_aliases.sql` (`2026-05-01 10:59:35 UTC`) 先行 apply |
+| runtime evidence | `outputs/phase-11/` に read-only audit evidence を保存済み。`confirmed` = `backend-ci` `deploy-production` / `Apply D1 migrations`（run `25207878876`, `25211958572`） |
+| CI guard | `.github/workflows/backend-ci.yml` に migration success + deploy failure を `$GITHUB_STEP_SUMMARY` へ明示する `Record post-migration deploy failure` step を追加済み |
+| close-out evidence | `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md` |
+| 禁止事項 | production write / additional apply / rollback / deploy / commit / push / PR / Issue state change |
+
+---
+
 ### UT-07B-FU-03 D1 Production Migration Apply Runbook（2026-05-04）
 
 | 目的 | 参照先 |
@@ -45,6 +60,7 @@
 | Issue 取扱 | #399 は CLOSED 維持。reopen / commit / push / PR / Issue comment は user 明示指示後のみ |
 
 ---
+
 ### UT-05A Auth UI Logout Button（2026-05-03）
 
 | 目的 | 参照先 |
