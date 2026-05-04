@@ -1,0 +1,19 @@
+{
+  "status": "NOT_EXECUTED",
+  "source": "baseline values copied from workflow specification; refresh from apps/web/coverage/coverage-summary.json during implementation",
+  "targets": {
+    "apps/web/src/lib/admin/server-fetch.ts": {"statements": 12.5, "branches": null, "functions": 0, "lines": 12.5},
+    "apps/web/src/lib/admin/api.ts": {"statements": 17.24, "branches": null, "functions": 0, "lines": 17.24},
+    "apps/web/src/lib/admin/types.ts": {"statements": 0, "branches": 0, "functions": 0, "lines": 0},
+    "apps/web/src/components/ui/Toast.tsx": {"statements": 61.53, "branches": null, "functions": 50, "lines": 61.53},
+    "apps/web/src/components/ui/Modal.tsx": {"statements": null, "branches": 46.15, "functions": null, "lines": null},
+    "apps/web/src/components/ui/Drawer.tsx": {"statements": null, "branches": 64.7, "functions": null, "lines": null},
+    "apps/web/src/components/ui/Field.tsx": {"statements": null, "branches": 50, "functions": null, "lines": null},
+    "apps/web/src/components/ui/Segmented.tsx": {"statements": null, "branches": null, "functions": 50, "lines": null},
+    "apps/web/src/components/ui/Switch.tsx": {"statements": null, "branches": null, "functions": 50, "lines": null},
+    "apps/web/src/components/ui/Search.tsx": {"statements": null, "branches": null, "functions": 66.66, "lines": null},
+    "apps/web/src/components/ui/icons.ts": {"statements": 0, "branches": 0, "functions": 0, "lines": 0},
+    "apps/web/src/components/ui/index.ts": {"statements": 0, "branches": 0, "functions": 0, "lines": 0},
+    "apps/web/src/lib/url/login-state.ts": {"statements": null, "branches": 33.33, "functions": null, "lines": null}
+  }
+}

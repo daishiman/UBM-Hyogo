@@ -38,7 +38,7 @@ describe("admin member delete/restore", () => {
     expect(res.status).toBe(401);
   });
 
-  it("delete -> restore 200/200", async () => {
+  it("delete -> restore 200/200 with contract response shape", async () => {
     const app = createAdminMemberDeleteRoute();
     const r1 = await app.request(
       "/members/m1/delete",
@@ -50,12 +50,21 @@ describe("admin member delete/restore", () => {
       makeEnv(env),
     );
     expect(r1.status).toBe(200);
+    await expect(r1.json()).resolves.toMatchObject({
+      id: "m1",
+      isDeleted: true,
+      deletedAt: expect.any(String),
+    });
     const r2 = await app.request(
       "/members/m1/restore",
       { method: "POST", headers: { ...await adminAuthHeader() } },
       makeEnv(env),
     );
     expect(r2.status).toBe(200);
+    await expect(r2.json()).resolves.toMatchObject({
+      id: "m1",
+      restoredAt: expect.any(String),
+    });
     const audits = await env.db
       .prepare("SELECT actor_id, actor_email, action FROM audit_log ORDER BY created_at ASC")
       .all<{ actor_id: string; actor_email: string; action: string }>();
@@ -73,7 +82,7 @@ describe("admin member delete/restore", () => {
     ]);
   });
 
-  it("reason 欠落は 400", async () => {
+  it("reason 欠落は 422", async () => {
     const app = createAdminMemberDeleteRoute();
     const res = await app.request(
       "/members/m1/delete",
@@ -84,7 +93,21 @@ describe("admin member delete/restore", () => {
       },
       makeEnv(env),
     );
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(422);
+  });
+
+  it("reason 501 文字超は 422", async () => {
+    const app = createAdminMemberDeleteRoute();
+    const res = await app.request(
+      "/members/m1/delete",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ reason: "x".repeat(501) }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(422);
   });
 
   it("二重 delete は 409", async () => {

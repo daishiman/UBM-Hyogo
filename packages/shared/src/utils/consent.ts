@@ -1,4 +1,5 @@
 import type { ConsentStatus } from "../types/common";
+import { STABLE_KEY } from "../zod/field";
 
 const POSITIVE_TOKENS = new Set([
   "yes",
@@ -33,11 +34,11 @@ const RULES_HINT_TOKENS = ["規約", "ルール", "rules", "rule"];
 
 export type ConsentInputValue = unknown;
 
-export const PUBLIC_CONSENT_KEY = "publicConsent" as const;
-export const RULES_CONSENT_KEY = "rulesConsent" as const;
+export const PUBLIC_CONSENT_KEY = STABLE_KEY.publicConsent;
+export const RULES_CONSENT_KEY = STABLE_KEY.rulesConsent;
 
 const PUBLIC_CONSENT_LEGACY_KEYS = [
-  "publicConsent",
+  STABLE_KEY.publicConsent,
   "public_consent",
   "publishConsent",
   "shareInfo",
@@ -45,7 +46,7 @@ const PUBLIC_CONSENT_LEGACY_KEYS = [
 ] as const;
 
 const RULES_CONSENT_LEGACY_KEYS = [
-  "rulesConsent",
+  STABLE_KEY.rulesConsent,
   "rules_consent",
   "ruleConsent",
   "rule_consent",

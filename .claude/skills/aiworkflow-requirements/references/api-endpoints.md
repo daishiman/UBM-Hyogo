@@ -89,8 +89,8 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/members/:memberId/delete` | member を論理削除する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/delete` | member を論理削除する。request body は `{ reason: string.trim().min(1).max(500) }`、不足/超過は **422** を返す。成功時 `{ id, isDeleted: true, deletedAt }` を返し、`member_status` upsert / `deleted_members` upsert / `audit_log` insert(`admin.member.deleted`) を `DB.batch()` で同一 workflow 境界に置く。再 delete は `409 member_already_deleted` | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する。成功時 `{ id, restoredAt }` を返し、`member_status` update / `deleted_members` delete / `audit_log` insert(`admin.member.restored`) を `DB.batch()` で同一 workflow 境界に置く。未削除 member への restore は `409 member_not_deleted` | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/requests` | visibility/delete request の pending queue を `type=visibility_request|delete_request`, `status=pending`, cursor pagination で FIFO 一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/requests/:noteId/resolve` | admin request を approve/reject する。approve は `member_status` 更新、`admin_member_notes.request_status` 更新、`audit_log` append を D1 batch で同一 workflow 境界に置き、二重 resolve は 409 | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |

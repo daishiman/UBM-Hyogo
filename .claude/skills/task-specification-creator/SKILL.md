@@ -28,6 +28,8 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.03-ut-05a-deploy-verification-two-path | 2026-05-03 | UT-05A fetchPublic service-binding workflow の skill feedback を反映。Cloudflare Workers の deploy-verification 型 Phase 11 では code diff / staging curl / production curl / tail / local fallback / redaction を分け、未実行 runtime evidence を PASS 化しない。service-binding + HTTP fallback の two-path 実装は AC を runtime path × evidence で記録する。 |
+| v2026.05.04-ut-09a-cloudflare-cli-non-visual | 2026-05-04 | UT-09A Cloudflare auth token injection recovery feedback を反映。Cloudflare CLI / shell wrapper 系 NON_VISUAL Phase 11 は `phase-11-cloudflare-cli-non-visual-evidence.md` を使い、`main.md` PASS 後に helper artifacts / artifacts ledgers / Phase 12 compliance / aiworkflow index を同一 wave で runtime state に同期する。`whoami` exit 0 と deploy scope PASS を混同しない。 |
 | v2026.05.03-issue394-pass-with-blocker-parity | 2026-05-03 | Issue #394 stableKey strict CI gate review feedback を反映。`implementation / NON_VISUAL` でも現行 blocker により code change が unsafe な場合は `PASS_WITH_BLOCKER` を許容するが、root/outputs `artifacts.json` parity、current evidence と planned evidence の分離、Phase 12 compliance の実体一致、skill feedback promoted 証跡を同 wave で必須化。 |
 | v2026.05.02-ut07b-fu03-runbook-evidence | 2026-05-02 | UT-07B-FU-03 production migration apply runbook の Phase 12 skill feedback を反映。production apply を実行しない NON_VISUAL runbook formalization では Phase 11 evidence を `structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md` に標準化し、`DOC_PASS` と runtime PASS を分離する。runbook formalization は root workflow state を `completed` に昇格せず `spec_created` + Phase 13 approval gate を維持する。 |
 | v2026.05.02-issue355-deploy-deferred-evidence-contract | 2026-05-02 | Issue #355 OpenNext Workers CD cutover spec review feedback を反映。`implementation / NON_VISUAL / deploy-deferred` workflow では Phase 11 の declared outputs を必ず実体化し、実測ログが未取得の場合は `PENDING_IMPLEMENTATION_FOLLOW_UP` evidence contract として保存する。Phase 7 は runtime `OK/PASS` ではなく `COVERED_BY_PLANNED_TEST` / `gate defined / pending follow-up execution` を使い、Phase 13 declared files は commit / push / PR / deploy 禁止を明示した blocked placeholder として配置する。 |
@@ -77,13 +79,14 @@ node scripts/detect-mode.js --request "{{USER_REQUEST}}"
 
 ## Phase 12 重要仕様（要約）
 
-Phase 12 は次の 5 必須タスクに加え、Task 6 compliance check（`outputs/phase-12/phase12-task-spec-compliance-check.md`）を作成し、最低 7 ファイルを実体確認する:
+Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを実体確認する（Task 6 は実態として全タスクが生成しているため 6 番目に昇格）:
 
 1. 実装ガイド作成（Part 1 中学生レベル + Part 2 技術者レベル）
 2. システム仕様書更新（Step 1-A/B/C + 条件付き Step 2）
 3. ドキュメント更新履歴作成
-4. 未タスク検出レポート作成（**0 件でも出力必須**）
-5. スキルフィードバックレポート作成（**改善点なしでも出力必須**）
+4. 未タスク検出レポート作成（**0 件でも出力必須**。coverage 型タスクは coverage layer 表 `file/before%/after%/delta%` で代替可能）
+5. スキルフィードバックレポート作成（**改善点なしでも出力必須**。章立ては「テンプレ改善 / ワークフロー改善 / ドキュメント改善」の 3 観点固定）
+6. タスク仕様書コンプライアンスチェック（`outputs/phase-12/phase12-task-spec-compliance-check.md`）
 
 詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。`spec_created` / docs-only / NON_VISUAL は root workflow state を据え置き、Phase status と 7 ファイル実体・current/baseline 監査値で検証する。よくある漏れ（UBM-009〜017 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。
 
@@ -117,6 +120,7 @@ Phase 12 は次の 5 必須タスクに加え、Task 6 compliance check（`outpu
 | Phase 12 重要仕様（5 タスク詳細） | [references/phase-12-spec.md](references/phase-12-spec.md) |
 | Phase 12 skill feedback promotion | [references/phase12-skill-feedback-promotion.md](references/phase12-skill-feedback-promotion.md) |
 | Phase 12 よくある漏れ / 苦戦防止 Tips | [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md) |
+| Phase 12 sync パターン（aiworkflow-requirements 同時更新 / workflow root 移動チェックリスト） | [references/patterns-phase12-sync.md](references/patterns-phase12-sync.md) |
 | 品質ゲート / Phase 境界 / 検証コマンド導線（commands.md とハブ関係） | [references/quality-gates.md](references/quality-gates.md) |
 | オーケストレーション / リソース導線 / ベストプラクティス | [references/orchestration.md](references/orchestration.md) |
 | NON_VISUAL governance パターン（Phase 8 単一正本 YAML / check-runs 並走 / Phase 13 二重承認） | [lessons-learned/non-visual-governance-pattern.md](lessons-learned/non-visual-governance-pattern.md) |
