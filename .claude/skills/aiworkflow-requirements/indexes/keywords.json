@@ -915,6 +915,7 @@
     ],
     "CLI": [
       "arch-claude-cli.md",
+      "cloudflare-cli-auth-recovery-sop.md",
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
@@ -3850,6 +3851,7 @@
     ],
     "Auth": [
       "auth-google-oauth-cf-integration.md",
+      "cloudflare-cli-auth-recovery-sop.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
@@ -4626,6 +4628,72 @@
     "構造仕様": [
       "claude-code-skills-structure.md"
     ],
+    "Cloudflare": [
+      "cloudflare-cli-auth-recovery-sop.md",
+      "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare-ut06-gate.md",
+      "deployment-cloudflare.md",
+      "deployment-core.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "r2-storage-decision-guide.md",
+      "technology-core.md"
+    ],
+    "Recovery": [
+      "cloudflare-cli-auth-recovery-sop.md"
+    ],
+    "SOP": [
+      "cloudflare-cli-auth-recovery-sop.md"
+    ],
+    "Purpose": [
+      "cloudflare-cli-auth-recovery-sop.md"
+    ],
+    "Invariants": [
+      "cloudflare-cli-auth-recovery-sop.md",
+      "quality-e2e-testing.md"
+    ],
+    "Stage": [
+      "cloudflare-cli-auth-recovery-sop.md",
+      "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "Isolation": [
+      "cloudflare-cli-auth-recovery-sop.md"
+    ],
+    "Evidence": [
+      "cloudflare-cli-auth-recovery-sop.md",
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+    ],
+    "Set": [
+      "cloudflare-cli-auth-recovery-sop.md",
+      "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+    ],
+    "Close": [
+      "cloudflare-cli-auth-recovery-sop.md",
+      "task-workflow-phases.md"
+    ],
+    "Out": [
+      "cloudflare-cli-auth-recovery-sop.md"
+    ],
+    "Rule": [
+      "cloudflare-cli-auth-recovery-sop.md"
+    ],
     "Parameter": [
       "csrf-state-parameter.md",
       "logs-archive-2026-02-abort-security-loop-guard.md"
@@ -5320,18 +5388,6 @@
     ],
     "ブランチ保護ルール": [
       "deployment-branch-strategy.md"
-    ],
-    "Cloudflare": [
-      "deployment-cloudflare-opennext-workers.md",
-      "deployment-cloudflare-ut06-gate.md",
-      "deployment-cloudflare.md",
-      "deployment-core.md",
-      "deployment-secrets-management.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "r2-storage-decision-guide.md",
-      "technology-core.md"
     ],
     "Workers": [
       "deployment-cloudflare-opennext-workers.md",
@@ -11449,10 +11505,6 @@
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
-    "Stage": [
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
     "Reapply": [
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -13952,9 +14004,6 @@
     "Static": [
       "quality-e2e-testing.md"
     ],
-    "Invariants": [
-      "quality-e2e-testing.md"
-    ],
     "カタログ": [
       "quality-e2e-testing.md"
     ],
@@ -15259,9 +15308,6 @@
     "フェーズ定義": [
       "task-workflow-phases.md"
     ],
-    "Close": [
-      "task-workflow-phases.md"
-    ],
     "ルール・選定基準": [
       "task-workflow-rules.md"
     ],
@@ -16395,17 +16441,6 @@
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
-    "Evidence": [
-      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
-      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
-      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
-    ],
     "Open": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
@@ -16710,15 +16745,6 @@
     "Blocked": [
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
-    ],
-    "Set": [
-      "workflow-issue-191-schema-aliases-artifact-inventory.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
-      "workflow-task-rt-06-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
     "Notes": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
