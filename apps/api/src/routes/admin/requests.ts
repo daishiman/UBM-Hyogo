@@ -8,7 +8,7 @@
 // `POST /admin/requests/:noteId/resolve` body: { resolution, resolutionNote? }
 import { Hono } from "hono";
 import { z } from "zod";
-import { adminRequestResolveBodySchema } from "@ubm-hyogo/shared";
+import { adminRequestResolveBodySchema, STABLE_KEY } from "@ubm-hyogo/shared";
 import {
   requireAdmin,
   type RequireAuthVariables,
@@ -84,7 +84,7 @@ const PII_KEYS = new Set([
   "address",
   "addr",
   "name",
-  "fullName",
+  STABLE_KEY.fullName,
   "fullname",
   "firstName",
   "firstname",
