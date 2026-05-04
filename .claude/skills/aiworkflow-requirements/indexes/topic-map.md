@@ -2700,8 +2700,7 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Canonical Artifacts | L13 |
 | Boundary | L31 |
-| Boundary | L30 |
-| FU-04 Verification Boundary | L34 |
+| FU-04 Verification Boundary | L36 |
 
 ### references/workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md
 
@@ -5143,20 +5142,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L200 |
-| フェーズ構造（概要） | L209 |
-| 品質ゲート（概要） | L240 |
-| 出力テンプレート | L251 |
-| 実行時のコマンド・エージェント・スキル | L274 |
-| 昇格パターン集 | L298 |
-| Current Active / Spec Created Tasks | L300 |
-| ドキュメント構成 | L193 |
-| フェーズ構造（概要） | L202 |
-| 品質ゲート（概要） | L233 |
-| 出力テンプレート | L244 |
-| 実行時のコマンド・エージェント・スキル | L267 |
-| 昇格パターン集 | L291 |
-| Current Active / Spec Created Tasks | L293 |
+| ドキュメント構成 | L204 |
+| フェーズ構造（概要） | L213 |
+| 品質ゲート（概要） | L244 |
+| 出力テンプレート | L255 |
+| 実行時のコマンド・エージェント・スキル | L278 |
+| 昇格パターン集 | L302 |
+| Current Active / Spec Created Tasks | L304 |
 
 ### references/task-workflow-backlog-part2.md
 
