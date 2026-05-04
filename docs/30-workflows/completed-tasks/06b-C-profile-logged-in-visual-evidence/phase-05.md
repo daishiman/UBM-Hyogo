@@ -51,7 +51,7 @@ GREEN でなければステップを進めない。
 | --- | --- | --- |
 | 編集 | root `.gitignore` | `apps/web/playwright/.auth/*.json` を追記、`!apps/web/playwright/.auth/.gitkeep` を例外に |
 
-副作用: state.json がコミット対象から外れる。
+副作用: `member-state.json` / `admin-state.json` がコミット対象から外れる。
 
 ### ステップ 2: `apps/web/playwright/.auth/.gitkeep`
 
@@ -70,7 +70,7 @@ GREEN でなければステップを進めない。
   name: "staging",
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL ?? "https://staging.example",
-    storageState: process.env.PLAYWRIGHT_STORAGE_STATE ?? "tests/e2e/.auth/state.json",
+    storageState: process.env.PLAYWRIGHT_STORAGE_STATE ?? "apps/web/playwright/.auth/member-state.json",
     viewport: { width: 1280, height: 800 },
   },
   testMatch: /tests\/e2e\/.*\.spec\.ts/,

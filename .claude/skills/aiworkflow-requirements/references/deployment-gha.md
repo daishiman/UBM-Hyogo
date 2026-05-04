@@ -83,7 +83,7 @@
   - Patch coverage: 80% 以上
   - 設定ファイル: `codecov.yml`
 
-> **段階性注記（UT-CICD-DRIFT / 2026-04-29）**: 現行 `ci.yml` の `coverage-gate` job は PR1/3 段階で `continue-on-error: true` の **soft gate** として運用されている。`coverage-80-enforcement` task の PR3/3 で `continue-on-error` を外し hard gate 化される設計。テストシャード 16 並列・Vitest pool 設定は将来構成として記載しており、PR1/3 時点で全項目が ci.yml に反映されているわけではない。
+> **current facts（ci-test-recovery-coverage-80-2026-05-04 / 2026-05-04）**: `ci.yml` の `coverage-gate` job は Task E で hard gate 化済み。過去に job レベルと `Run coverage-guard` step レベルの両方に `continue-on-error: true` があり、`coverage-guard.sh` が 80% 未達で exit 1 になっても GitHub Actions の check は success 扱いになっていた。現在は両方の `continue-on-error` を削除し、`scripts/coverage-guard.test.ts` で `coverage-gate` block に `continue-on-error` が再混入しないことを静的検証する。
 
 ---
 
