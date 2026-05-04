@@ -15,6 +15,7 @@ import {
   ADMIN_ZONE_VALUES,
   AdminMemberListViewZ,
   AdminMemberDetailViewZ,
+  STABLE_KEY,
   type AdminDensity,
   type AdminFilter,
   type AdminSort,
@@ -247,7 +248,8 @@ export const createAdminMembersRoute = () => {
       if (row.answers_json) {
         try {
           const p = JSON.parse(row.answers_json) as Record<string, unknown>;
-          if (typeof p["fullName"] === "string") fullName = p["fullName"];
+          const fn = p[STABLE_KEY.fullName];
+          if (typeof fn === "string") fullName = fn;
         } catch {
           // ignore
         }

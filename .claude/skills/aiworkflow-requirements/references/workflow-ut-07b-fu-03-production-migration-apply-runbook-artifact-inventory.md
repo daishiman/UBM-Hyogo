@@ -30,3 +30,7 @@
 ## Boundary
 
 This inventory records the runbook location and artifact parity only. It does not claim production migration execution or production D1 state changes.
+
+## FU-04 Verification Boundary
+
+FU-04 (`docs/30-workflows/ut-07b-fu-04-production-migration-apply-execution/`) consumes this runbook but does not convert FU-03 into an execution record. Because `references/database-schema.md` already records `0008_schema_alias_hardening.sql` as applied in production D1 ledger at `2026-05-01 08:21:04 UTC`, FU-04 is treated as an already-applied verification and duplicate-apply prohibition workflow. Cloudflare runtime verification remains blocked until explicit user approval.
