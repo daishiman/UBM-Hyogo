@@ -77,8 +77,8 @@ DOM dump JSON は test 内で `fs.writeFileSync` ではなく Playwright `testIn
 
 ## storageState 取得手順
 
-1. `pnpm --filter @ubm-hyogo/web exec playwright codegen --save-storage=apps/web/playwright/.auth/state.json https://staging.example/login` で staging 上ログインを 1 回実施
-2. 取得した state.json を **コミットしない**（`apps/web/playwright/.auth/*.json` を gitignore）
+1. `pnpm --filter @ubm-hyogo/web exec playwright codegen --save-storage=apps/web/playwright/.auth/member-state.json https://staging.example/login` で staging 上ログインを 1 回実施
+2. 取得した `member-state.json` を **コミットしない**（`apps/web/playwright/.auth/*.json` を gitignore）
 3. CI で再現したい場合は GitHub Secrets に `PLAYWRIGHT_STORAGE_STATE_JSON` として保管し、job 内で書き出す（本タスクの MVP では CI 統合は実施せず手元実行のみ）
 
 ## CI 実行可否

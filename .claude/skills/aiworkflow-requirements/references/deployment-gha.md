@@ -212,6 +212,8 @@
 - staging は `apps/api/wrangler.toml` の `[env.staging]`、production は top-level 設定を使う
 - migration と deploy の順序を逆にしない
 
+> **current facts (Issue #434 audit / 2026-05-04)**: `.github/workflows/backend-ci.yml` は D1 migrations apply 後に Workers deploy を実行する。migration step 成功後に deploy step が failure になった場合、`Record post-migration deploy failure` step が GitHub Actions summary に「migration は適用済み、deploy 失敗、migration を安易に再実行しない」旨を明示する。これは deploy atomicity を保証するものではなく、partial production operation の可視化と復旧手順の入口である。
+>
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
 ---

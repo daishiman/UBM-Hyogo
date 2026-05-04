@@ -8,6 +8,10 @@
 
 `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/` の Phase 12 review で、`docs-only / NON_VISUAL / spec_created` でも Phase 11/12 の最小 outputs 実体は本 wave で作成し、runtime evidence は `NOT_EXECUTED` placeholder として分離する必要を確認した。cron 方針は GHA schedule export 主経路 + Cloudflare cron healthcheck 補助に統一し、`op://` 参照名は許可しつつ secret 実値 grep gate と分離した。commit / PR / push は未実行。
 
+## 2026-05-04 - UT-07B-FU-05 reverse index close-out feedback
+
+`docs/30-workflows/ut-07b-fu-05-aiworkflow-skill-d1-runbook-reverse-index/` の改善で、skill index 整備のような小規模 NON_VISUAL タスクでも、仕様書作成だけでは完了扱いにせず、対象 skill indexes / LOGS / SKILL changelog / Phase 11-12 evidence を同一 wave で実体化する必要を確認した。Phase 13 commit / push / PR は user-gated のまま維持した。
+
 ## 2026-05-01 - UT-07A-02 contract path discovery feedback
 
 `docs/30-workflows/completed-tasks/ut-07a-02-search-tags-resolve-contract-followup/` の Phase 12 skill-feedback を反映した。生成・計画段階で `apps/api/test/contract/...` や `apps/web/src/lib/api/admin.ts` のような未実在パスを仮置きすると、実装時に route test / admin client / shared schema の追従対象がずれるため、Phase 2 で `rg --files` による current repo layout discovery を必須化した。API と web が `@ubm-hyogo/shared` を共有できる場合は request body union を shared schema SSOT にし、route / client で型を手書き複製しない。commit / PR / push は未実行。

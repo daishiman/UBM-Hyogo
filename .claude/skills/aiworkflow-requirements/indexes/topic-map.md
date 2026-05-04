@@ -2194,6 +2194,7 @@ node scripts/list-specs.js --topics
 | Workflow Governance Design 文書（artifact inventory） | L82 |
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
+| Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
@@ -2561,6 +2562,7 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Source / Follow-Up State | L29 |
 | Runtime Evidence Reservation | L38 |
+| Cross-reference: out-of-band apply audit | L52 |
 
 ### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
 
@@ -2578,6 +2580,12 @@ node scripts/list-specs.js --topics
 | Phase 12 Artifacts | L26 |
 | Skill / Spec Sync Targets | L39 |
 | Deferred / Blocked | L50 |
+
+### references/workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L14 |
 
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
@@ -2699,8 +2707,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Metadata | L3 |
 | Canonical Artifacts | L13 |
-| Boundary | L30 |
-| FU-04 Verification Boundary | L34 |
+| Boundary | L31 |
+| FU-04 Verification Boundary | L36 |
 
 ### references/workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md
 
@@ -3104,11 +3112,11 @@ node scripts/list-specs.js --topics
 | 並列実行の活用 | L113 |
 | CD ワークフロー要件（dev / main マージ時） | L169 |
 | Backend ワークフロー要件（dev / main マージ時） | L197 |
-| モニタリングとアラート | L219 |
-| GitHub Secrets の要件 | L253 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L277 |
-| 関連ドキュメント | L297 |
-| 変更履歴 | L304 |
+| モニタリングとアラート | L221 |
+| GitHub Secrets の要件 | L255 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L279 |
+| 関連ドキュメント | L299 |
+| 変更履歴 | L306 |
 
 ### references/deployment-history.md
 
@@ -3754,6 +3762,7 @@ node scripts/list-specs.js --topics
 | L-ISSUE195FU002-005: 「主担当 / サブ担当」と「owner / co-owner」の用語不整合 | L57 |
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
+| 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
@@ -5142,13 +5151,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L193 |
-| フェーズ構造（概要） | L202 |
-| 品質ゲート（概要） | L233 |
-| 出力テンプレート | L244 |
-| 実行時のコマンド・エージェント・スキル | L267 |
-| 昇格パターン集 | L291 |
-| Current Active / Spec Created Tasks | L293 |
+| ドキュメント構成 | L204 |
+| フェーズ構造（概要） | L213 |
+| 品質ゲート（概要） | L244 |
+| 出力テンプレート | L255 |
+| 実行時のコマンド・エージェント・スキル | L278 |
+| 昇格パターン集 | L302 |
+| Current Active / Spec Created Tasks | L304 |
 
 ### references/task-workflow-backlog-part2.md
 
