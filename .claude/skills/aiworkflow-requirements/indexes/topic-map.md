@@ -2693,6 +2693,16 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Canonical Artifacts | L13 |
 | Boundary | L30 |
+| FU-04 Verification Boundary | L34 |
+
+### references/workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Boundary | L13 |
+| Artifact Set | L24 |
+| Post-check Scope | L36 |
 
 ### references/workflow-ut-07b-schema-alias-hardening-artifact-inventory.md
 
@@ -3962,6 +3972,15 @@ node scripts/list-specs.js --topics
 | L-UT07B-FU03-004: Parent seed wording must be consumed | L15 |
 | L-UT07B-FU03-005: Workflow LOGS and skill LOGS are separate | L19 |
 
+### references/lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU04-001: Duplicate apply 禁止 / canonical ledger fact 優先 | L11 |
+| L-UT07B-FU04-002: preflight `--expect pending|applied` 二モード切替 | L18 |
+| L-UT07B-FU04-003: post-check scope を hardening migration 所有 column のみに縮約 | L25 |
+| L-UT07B-FU04-004: placeholder evidence + user-gate runtime（spec PASS / runtime PENDING 分離） | L32 |
+
 ### references/lessons-learned-ut07b-schema-alias-hardening-2026-05.md
 
 | セクション | 行 |
@@ -5088,13 +5107,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L166 |
-| フェーズ構造（概要） | L175 |
-| 品質ゲート（概要） | L206 |
-| 出力テンプレート | L217 |
-| 実行時のコマンド・エージェント・スキル | L240 |
-| 昇格パターン集 | L264 |
-| Current Active / Spec Created Tasks | L266 |
+| ドキュメント構成 | L177 |
+| フェーズ構造（概要） | L186 |
+| 品質ゲート（概要） | L217 |
+| 出力テンプレート | L228 |
+| 実行時のコマンド・エージェント・スキル | L251 |
+| 昇格パターン集 | L275 |
+| Current Active / Spec Created Tasks | L277 |
 
 ### references/task-workflow-backlog-part2.md
 
