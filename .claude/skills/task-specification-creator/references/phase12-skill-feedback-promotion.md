@@ -121,6 +121,21 @@ Phase 13 declared files（`local-check-result.md` / `change-summary.md` / `pr-in
 
 実例: Issue #355 OpenNext Workers CD cutover では、Phase 11 を 6 ファイル（main + E-1〜E-5）+ 補助 2 ファイル（link-checklist / manual-smoke-log）で `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 契約として保存し、Phase 13 を blocked placeholder 5 ファイルで配置、実 cutover は `unassigned-task/task-impl-opennext-workers-migration-001.md`、Pages 削除は `unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` へ二段分離した。
 
+## Runtime SSOT governance close-out（implementation / NON_VISUAL）
+
+runtime SSOT ADR、owner 表登録、contract test 補強を同一 wave で扱う workflow では、Phase 12 close-out までに次を全て同期する。
+
+| gate | 必須同期 |
+| --- | --- |
+| scope truth | `index.md` / Phase 1 の scope out と実 diff を一致させる。runtime guard の最小補強を行った場合は「logic変更なし」と書かず、semantics / physical move なしと表現する |
+| Phase 11 raw logs | grep / typecheck / lint / focused test / indexes rebuild / drift check を `outputs/phase-11/*.log` として保存し、`main.md` の自己申告だけで PASS にしない |
+| artifacts parity | root `artifacts.json` と `outputs/artifacts.json` の status / phase status を同期する。Phase 1-12 completed、Phase 13 pending_user_approval を機械判定可能にする |
+| discovery indexes | aiworkflow の `resource-map.md` と `quick-reference.md` に workflow / logical spec / owner table / runtime source への導線を追加する |
+| stale design README | `_design/README.md` 等の hub 文書に「起票予定」「unassigned」表記が残っていないか grep し、resolved 状態へ同 wave 補正する |
+| skill feedback | `skill-feedback-report.md` の提案は、同 wave で skill reference へ昇格するか、明確な破綻理由がある場合のみ unassigned task 化する |
+
+実例: Issue #435 sync_jobs runtime contract consolidation では、runtime SSOT を `apps/api/src/jobs/_shared/sync-jobs-schema.ts` 維持とする ADR、owner 表行、email 形式値 PII guard、contract test、Phase 11 raw logs、resource-map / quick-reference 導線を同一 wave で同期した。
+
 ## Applied Examples
 
 | Task | Routing decision | Evidence |

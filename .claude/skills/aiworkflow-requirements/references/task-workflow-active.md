@@ -61,14 +61,12 @@
 | wave-1 | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/` |
 | wave-2 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/` |
 | ut-web-cov-04 current canonical | `docs/30-workflows/completed-tasks/ut-web-cov-04-admin-lib-ui-primitives-coverage/`（implemented-local / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval。旧 nested path は historical wave grouping path） |
-||||||| 7fe67993
 | wave-2 | `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/`; UT-08A-01 canonical implementation root: `docs/30-workflows/completed-tasks/ut-08a-01-public-use-case-coverage-hardening/` |
 | inventory | `references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md` |
 | lessons | `references/lessons-learned-ut-coverage-2026-05-wave.md`（L-UTCOV-001〜008 / L-UTCOV-008 は root move same-wave sync） |
 | 目的 | apps/api の 13 failing tests を先に解消し、Issue #320 coverage hardening が `coverage-summary.json` を取得できる状態に戻す。wave-2 では `ut-web-cov-01` の admin component focused tests を実装済み |
 | AC | precondition gate: apps/api 13 failure green、coverage-summary.json 生成、`bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0、apps/api coverage 80% gate PASS。`ut-web-cov-01` gate: web coverage Vitest 21 files / 196 tests PASS、対象7ファイルすべて Statements/Functions/Lines >=85%・Branches >=80%。remaining upgrade gate は未完 wave-2 task に委譲 |
 | 境界 | wave-1 は test fixture `apps/api/src/jobs/__fixtures__/d1-fake.ts` のみ実装済み。`ut-web-cov-01` は apps/web test files のみ実装済み。runtime production code、packages/*、commit、push、PR は Phase 13 user approval まで実行しない |
-||||||| 7fe67993
 | lessons | `references/lessons-learned-ut-coverage-2026-05-wave.md`（L-UTCOV-001〜007 / L-UTCOV-007 は ut-web-cov-01 admin component coverage の snapshot 回避・mock 結果反映・authz 拒否・scope-out 取扱い） |
 | 目的 | apps/api の 13 failing tests を先に解消し、Issue #320 coverage hardening が `coverage-summary.json` を取得できる状態に戻す。wave-2 では `ut-web-cov-01` の admin component focused tests と `ut-08a-01` の public use-case / public route focused tests を実装済み |
 | AC | precondition gate: apps/api 13 failure green、coverage-summary.json 生成、`bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0、apps/api coverage 80% gate PASS。`ut-web-cov-01` gate: web coverage Vitest 21 files / 196 tests PASS、対象7ファイルすべて Statements/Functions/Lines >=85%・Branches >=80%。`ut-08a-01` gate: public use-case negative matrix、D1 failure、public route cache/auth boundary focused tests を追加。全 apps/api coverage は pre-existing `schemaAliasAssign` timeout risk と分離して扱う |
@@ -125,7 +123,7 @@
 | 成果物 | `docs/30-workflows/completed-tasks/issue-195-03b-followup-002-sync-shared-modules-owner/` |
 | 目的 | 03a / 03b が共有する `apps/api/src/jobs/_shared/{ledger,sync-error,index}.ts` skeleton を実体化し、owner / co-owner / 変更ルールを `docs/30-workflows/_design/sync-shared-modules-owner.md` に明文化する |
 | 境界 | owner 表作成、03a / 03b index 追記、`.github/CODEOWNERS` path 行、`apps/api/src/jobs/_shared/{ledger,sync-error,index}.ts` skeleton と focused tests を同一 wave で実体化済み。既存本体ロジックは `apps/api/src/repository/syncJobs.ts` / `apps/api/src/jobs/sync-forms-responses.ts` に残し、物理移管・置換は未実施 |
-| 後続 | `sync_jobs` `job_type` / `metrics_json` schema 集約は `docs/30-workflows/unassigned-task/task-issue195-sync-jobs-contract-schema-consolidation-001.md`。用語統一候補は本サイクル内 grep で current spec drift なしと判定し、`docs/30-workflows/completed-tasks/task-issue195-owner-coowner-terminology-normalization-001.md` は resolved record として残す |
+| 後続 | `sync_jobs` `job_type` / `metrics_json` schema 集約は `docs/30-workflows/completed-tasks/issue-195-sync-jobs-contract-schema-consolidation-001/` へ昇格し、起票元 `docs/30-workflows/completed-tasks/task-issue195-sync-jobs-contract-schema-consolidation-001.md` は resolved。runtime SSOT は `apps/api/src/jobs/_shared/sync-jobs-schema.ts` 維持、論理正本は `docs/30-workflows/_design/sync-jobs-spec.md`、owner 表は `docs/30-workflows/_design/sync-shared-modules-owner.md`。用語統一候補は本サイクル内 grep で current spec drift なしと判定し、`docs/30-workflows/completed-tasks/task-issue195-owner-coowner-terminology-normalization-001.md` は resolved record として残す |
 
 
 ### 目的

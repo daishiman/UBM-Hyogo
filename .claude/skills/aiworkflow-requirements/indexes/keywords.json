@@ -996,10 +996,12 @@
       "arch-execution-capability-contract.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
     "AccessCapability": [
@@ -5130,10 +5132,12 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "skill-ledger-fragment-spec.md",
       "ui-ux-admin-dashboard.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
@@ -5199,9 +5203,11 @@
       "database-schema.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
@@ -5218,6 +5224,7 @@
       "deployment-cloudflare.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
@@ -5229,6 +5236,7 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-completed-recent-2026-04d.md",
       "workflow-ai-runtime-authmode-unification.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
@@ -8237,6 +8245,8 @@
     ],
     "jobs": [
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md"
     ],
     "cursor": [
@@ -8830,6 +8840,7 @@
       "task-workflow-completed-recent-2026-04b.md",
       "task-workflow-completed.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-task-389-privacy-terms-pages-impl-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
@@ -8862,7 +8873,8 @@
     "Downstream": [
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
-      "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md"
+      "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "boundaries": [
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
@@ -10408,6 +10420,14 @@
     ],
     "検知の運用": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
+    ],
+    "再確認・適用記録": [
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
+    ],
+    "consolidation": [
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "tree": [
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
@@ -13463,9 +13483,6 @@
     "REQUIREMENTS": [
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
       "task-workflow-completed-agent-view-line-budget.md"
-    ],
-    "consolidation": [
-      "logs-archive-2026-03-line-budget-workflow-consolidation.md"
     ],
     "再監査の状態契約・参照導線補強": [
       "logs-archive-2026-03-line-budget-workflow-consolidation.md"

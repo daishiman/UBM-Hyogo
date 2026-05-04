@@ -17,7 +17,7 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | member_status | consent snapshot / 公開状態 / 退会状態 | ✅ 実装済み |
 | response_fields | response ごとの stableKey / extra question 値 | ✅ 実装済み |
 | schema_diff_queue | unknown / changed question の管理キュー | ✅ 実装済み |
-| schema_aliases | 07b manual alias resolution の正本書き込み先（issue-191） | ✅ production applied (2026-05-01 10:59:35 UTC, evidence: `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/outputs/phase-13/`) |
+| schema_aliases | 07b manual alias resolution の正本書き込み先（issue-191） | ✅ production applied（詳細は §Schema aliases write target） |
 | sync_jobs | schema / response sync の ledger | ✅ 実装済み |
 | workflows | ワークフロー定義 | 設計済み |
 | workflow_steps | ワークフローステップ | 設計済み |
@@ -52,9 +52,7 @@ Turso統一アーキテクチャにおけるテーブル設計とインデック
 | `member_status` | current response から `public_consent` / `rules_consent` を snapshot。`is_deleted=1` の identity は更新しない |
 | `response_fields` | known は `stable_key` 行、unknown は `stable_key='__extra__:<questionId>'` の extra row として保存する |
 | `schema_diff_queue` | unknown question を `status='queued'` で enqueue。`question_id` + queued の partial unique index で重複を no-op にする |
-| `sync_jobs` | `job_type='response_sync'` の ledger。`metrics_json.cursor` には `submittedAt|responseId` の high-water mark を保存する |
-
-`sync_jobs.metrics_json.cursor` は Google API の `pageToken` ではない。`pageToken` は単一実行内のページングに限定し、次回 cron は high-water mark を `forms.responses.list` の timestamp filter に渡して再開する。
+| `sync_jobs` | `job_type='response_sync'` の ledger。`metrics_json.cursor` は `submittedAt|responseId` の high-water mark。`job_type` enum / `metrics_json` schema / lock TTL / cursor 意味論 / PII 拒否 / owner-co-owner 境界の論理正本は `docs/30-workflows/_design/sync-jobs-spec.md`、runtime SSOT は `apps/api/src/jobs/_shared/sync-jobs-schema.ts`（1-hop 参照） |
 
 ## Schema aliases write target（issue-191 / UT-07B）
 
@@ -69,12 +67,7 @@ UT-07B hardening では、`schema_aliases` の正本 write target を前提に b
 - `idx_schema_aliases_revision_stablekey_unique`: `stable_key IS NOT NULL AND stable_key != 'unknown' AND stable_key NOT LIKE '__extra__:%'`
 - `idx_schema_aliases_revision_question_unique`
 
-実 migration `apps/api/migrations/0008_schema_alias_hardening.sql` の正本 DDL:
-
-- `schema_diff_queue.backfill_cursor`
-- `schema_diff_queue.backfill_status`
-
-Production D1 ledger では `0008_schema_alias_hardening.sql` が `2026-05-01 08:21:04 UTC`、`0008_create_schema_aliases.sql` が `2026-05-01 10:59:35 UTC` に記録されている。両 migration の先行適用出所監査は `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` で扱う。
+実 migration `apps/api/migrations/0008_schema_alias_hardening.sql` の正本 DDL: `schema_diff_queue.backfill_cursor` / `schema_diff_queue.backfill_status`。Production D1 ledger では `0008_schema_alias_hardening.sql` が `2026-05-01 08:21:04 UTC`、`0008_create_schema_aliases.sql` が `2026-05-01 10:59:35 UTC` に記録され、先行適用出所監査は `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` で扱う。
 
 ## Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created）
 
@@ -91,6 +84,7 @@ U-UT01-08 は docs-only 契約として、既存 `sync_job_logs` 移行時の値
 ## Legacy Sheets sync transition note（U-UT01-09）
 
 UT-01 legacy Sheets→D1 sync の retry / offset 方針は `docs/30-workflows/completed-tasks/u-ut01-09-retry-and-offset-policy-alignment/` を設計判断記録とする。現行 Forms response sync の `sync_jobs.metrics_json.cursor` 契約は上書きしない。
+
 
 | 項目 | U-UT01-09 canonical |
 | --- | --- |

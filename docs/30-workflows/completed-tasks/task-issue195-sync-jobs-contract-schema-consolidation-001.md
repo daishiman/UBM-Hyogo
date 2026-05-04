@@ -2,9 +2,12 @@
 
 ## Status
 
-- status: unassigned
+- status: resolved
 - source: issue-195-03b-followup-002-sync-shared-modules-owner Phase 12
 - type: implementation / docs
+- resolved-by: docs/30-workflows/issue-195-sync-jobs-contract-schema-consolidation-001/
+- resolved-date: 2026-05-04
+- resolved-pr: pending_user_approval
 
 ## Purpose
 

@@ -1061,20 +1061,20 @@ node scripts/list-specs.js --topics
 | 概要 | L6 |
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Schema aliases write target（issue-191 / UT-07B） | L59 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L79 |
-| Legacy Sheets sync transition note（U-UT01-09） | L91 |
-| Schema alias assignment workflow（07b） | L103 |
-| ワークフロー関連テーブル | L107 |
-| ユーザー関連テーブル | L146 |
-| システムプロンプト関連テーブル | L180 |
-| チャット関連テーブル | L215 |
-| RAG関連テーブル | L251 |
-| Knowledge Graph関連テーブル | L293 |
-| 変換処理関連テーブル | L427 |
-| インデックス設計 | L486 |
-| 関連ドキュメント / 変更履歴 | L490 |
-| DDL 同期テンプレ | L495 |
+| Schema aliases write target（issue-191 / UT-07B） | L57 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L72 |
+| Legacy Sheets sync transition note（U-UT01-09） | L84 |
+| Schema alias assignment workflow（07b） | L97 |
+| ワークフロー関連テーブル | L101 |
+| ユーザー関連テーブル | L140 |
+| システムプロンプト関連テーブル | L174 |
+| チャット関連テーブル | L209 |
+| RAG関連テーブル | L245 |
+| Knowledge Graph関連テーブル | L287 |
+| 変換処理関連テーブル | L421 |
+| インデックス設計 | L480 |
+| 関連ドキュメント / 変更履歴 | L484 |
+| DDL 同期テンプレ | L489 |
 
 ---
 
@@ -2194,6 +2194,7 @@ node scripts/list-specs.js --topics
 | Workflow Governance Design 文書（artifact inventory） | L82 |
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
+| Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2718,9 +2719,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L19 |
-| Gate Boundary | L33 |
-| Same-Wave Sync | L40 |
+| Phase 12 Strict Files | L18 |
+| Gate Boundary | L32 |
+| Same-Wave Sync | L39 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3728,6 +3729,7 @@ node scripts/list-specs.js --topics
 | L-ISSUE195FU002-005: 「主担当 / サブ担当」と「owner / co-owner」の用語不整合 | L57 |
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
+| 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
@@ -3921,8 +3923,8 @@ node scripts/list-specs.js --topics
 | L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L31 |
 | L-UTCOV-008: workflow root を wave grouping から top-level へ移したら artifacts / inventory / README を同時更新する | L41 |
 | L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L45 |
-| L-UTCOV-008: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
-| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L48 |
+| L-UTCOV-008: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L46 |
+| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L47 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -5090,13 +5092,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L166 |
-| フェーズ構造（概要） | L175 |
-| 品質ゲート（概要） | L206 |
-| 出力テンプレート | L217 |
-| 実行時のコマンド・エージェント・スキル | L240 |
-| 昇格パターン集 | L264 |
-| Current Active / Spec Created Tasks | L266 |
+| ドキュメント構成 | L164 |
+| フェーズ構造（概要） | L173 |
+| 品質ゲート（概要） | L204 |
+| 出力テンプレート | L215 |
+| 実行時のコマンド・エージェント・スキル | L238 |
+| 昇格パターン集 | L262 |
+| Current Active / Spec Created Tasks | L264 |
 
 ### references/task-workflow-backlog-part2.md
 
