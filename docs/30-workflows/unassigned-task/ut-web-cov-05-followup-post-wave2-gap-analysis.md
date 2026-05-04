@@ -133,9 +133,9 @@ wave は「同時並列実装タスク群」を単位とするが、coverage gap
 - 既存フォーマット参考: `docs/30-workflows/unassigned-task/04b-followup-008-me-profile-ui-consumption.md`
 - wave-2 タスク群:
   - `docs/30-workflows/ut-web-cov-01-admin-components-coverage/`
-  - `docs/30-workflows/completed-tasks/ut-web-cov-02-public-components-coverage/`
-  - `docs/30-workflows/completed-tasks/ut-web-cov-03-auth-fetch-lib-coverage/`
-  - `docs/30-workflows/completed-tasks/ut-web-cov-04-admin-lib-ui-primitives-coverage/`
+  - `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-web-cov-02-*`
+  - `docs/30-workflows/ut-web-cov-03-auth-fetch-lib-coverage/`
+  - `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-web-cov-04-*`
   - `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/ut-08a-01-public-use-case-coverage-hardening`
 - 各タスクの `skill-feedback-report.md` および `outputs/phase-12/implementation-guide.md`
 - aiworkflow-requirements: `.claude/skills/aiworkflow-requirements/references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md`
