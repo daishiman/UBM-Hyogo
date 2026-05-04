@@ -5,6 +5,7 @@
 "use client";
 
 import { useState } from "react";
+import { STABLE_KEY } from "@ubm-hyogo/shared";
 import type { MeProfileStatusSummary } from "../../../src/lib/api/me-types";
 import type {
   QueueAccepted,
@@ -17,7 +18,7 @@ import { RequestPendingBanner } from "./RequestPendingBanner";
 
 export interface RequestActionPanelProps {
   readonly publishState: MeProfileStatusSummary["publishState"];
-  readonly rulesConsent: MeProfileStatusSummary["rulesConsent"];
+  readonly rulesConsent: MeProfileStatusSummary[typeof STABLE_KEY.rulesConsent];
 }
 
 export function RequestActionPanel({

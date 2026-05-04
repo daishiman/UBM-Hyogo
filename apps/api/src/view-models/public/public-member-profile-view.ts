@@ -4,7 +4,7 @@
 
 import { z } from "zod";
 
-import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
+import { PublicMemberProfileZ, STABLE_KEY } from "@ubm-hyogo/shared";
 
 import {
   isPublicStatus,
@@ -40,15 +40,15 @@ export interface ProfileSource {
   tags: ProfileTagSource[];
 }
 
-const FORBIDDEN_KEYS = ["responseEmail", "rulesConsent", "adminNotes"] as const;
+const FORBIDDEN_KEYS = ["responseEmail", STABLE_KEY.rulesConsent, "adminNotes"] as const;
 
 const FIELD_TO_SUMMARY: Record<string, keyof Summary> = {
-  fullName: "fullName",
-  nickname: "nickname",
-  location: "location",
-  occupation: "occupation",
-  ubmZone: "ubmZone",
-  ubmMembershipType: "ubmMembershipType",
+  [STABLE_KEY.fullName]: STABLE_KEY.fullName,
+  [STABLE_KEY.nickname]: STABLE_KEY.nickname,
+  [STABLE_KEY.location]: STABLE_KEY.location,
+  [STABLE_KEY.occupation]: STABLE_KEY.occupation,
+  [STABLE_KEY.ubmZone]: STABLE_KEY.ubmZone,
+  [STABLE_KEY.ubmMembershipType]: STABLE_KEY.ubmMembershipType,
 };
 
 interface Summary {
@@ -105,7 +105,7 @@ export const toPublicMemberProfile = (
     // (基本属性は public visibility 前提)
     const summaryKey = FIELD_TO_SUMMARY[f.stableKey];
     if (summaryKey) {
-      if (summaryKey === "ubmZone" || summaryKey === "ubmMembershipType") {
+      if (summaryKey === STABLE_KEY.ubmZone || summaryKey === STABLE_KEY.ubmMembershipType) {
         summary[summaryKey] = asNullableString(f.value);
       } else {
         summary[summaryKey] = asString(f.value);

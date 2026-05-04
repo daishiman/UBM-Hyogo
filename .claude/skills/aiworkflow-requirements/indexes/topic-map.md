@@ -1974,9 +1974,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Current State | L3 |
-| Implementation Artifacts | L12 |
-| Evidence | L21 |
-| Open Follow-Ups | L30 |
+| Implementation Artifacts | L13 |
+| Evidence | L22 |
+| Open Follow-Ups | L32 |
 
 ### references/workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md
 
@@ -2194,6 +2194,15 @@ node scripts/list-specs.js --topics
 | Workflow Governance Design 文書（artifact inventory） | L82 |
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
+
+### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current State | L3 |
+| Implementation Artifacts | L14 |
+| Evidence | L35 |
+| Open Follow-Ups | L48 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3744,6 +3753,16 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 
+### references/lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I393-001: branded type と命名衝突するため SSOT は SCREAMING_SNAKE_CASE で固定する | L10 |
+| L-I393-002: 値レベル lint script は型レベル literal を見ないので indexed-access type も同 wave で潰す | L18 |
+| L-I393-003: JSX attribute literal は ESLint auto-fix 候補にならず手作業で family 単位に洗い出す | L26 |
+| L-I393-004: `eslint-disable` / `@ts-ignore` / dynamic 合成を逃げ道にしない不変条件を additive test で固定する | L34 |
+| L-I393-005: SSOT module への単一方向 import で循環依存リスクを潰す | L42 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4020,8 +4039,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L88 |
-| 関連ドキュメント | L93 |
+| 利用順序 | L89 |
+| 関連ドキュメント | L94 |
 
 ### references/llm-embedding.md
 
