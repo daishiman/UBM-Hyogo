@@ -1,1 +1,0 @@
-Pending legacy stableKey literal cleanup completion. This file will be populated post-cleanup with intentional fixture violation FAIL evidence to verify gate sensitivity.

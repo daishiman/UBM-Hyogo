@@ -2017,6 +2017,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L45 |
 | Related Resources | L57 |
 
+### references/workflow-06b-c-runtime-evidence-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Boundary | L28 |
+| Phase 12 Required Files | L36 |
+| Related Resources | L48 |
+
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
 | セクション | 行 |
@@ -2194,6 +2204,7 @@ node scripts/list-specs.js --topics
 | Workflow Governance Design 文書（artifact inventory） | L82 |
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
+| Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
@@ -2498,6 +2509,13 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L78 |
 | Validation Chain | L89 |
 
+### references/workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L12 |
+| Runtime Evidence Contract | L27 |
+
 ### references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md
 
 | セクション | 行 |
@@ -2561,6 +2579,7 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Source / Follow-Up State | L29 |
 | Runtime Evidence Reservation | L38 |
+| Cross-reference: out-of-band apply audit | L52 |
 
 ### references/workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md
 
@@ -2578,6 +2597,12 @@ node scripts/list-specs.js --topics
 | Phase 12 Artifacts | L26 |
 | Skill / Spec Sync Targets | L39 |
 | Deferred / Blocked | L50 |
+
+### references/workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L14 |
 
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
@@ -3104,11 +3129,11 @@ node scripts/list-specs.js --topics
 | 並列実行の活用 | L113 |
 | CD ワークフロー要件（dev / main マージ時） | L169 |
 | Backend ワークフロー要件（dev / main マージ時） | L197 |
-| モニタリングとアラート | L219 |
-| GitHub Secrets の要件 | L253 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L277 |
-| 関連ドキュメント | L297 |
-| 変更履歴 | L304 |
+| モニタリングとアラート | L221 |
+| GitHub Secrets の要件 | L255 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L279 |
+| 関連ドキュメント | L299 |
+| 変更履歴 | L306 |
 
 ### references/deployment-history.md
 
@@ -3350,15 +3375,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L15 |
-| 使い方 | L23 |
-| Current Alias Overrides（個別互換行） | L30 |
-| Family Summary | L69 |
-| Detailed Register | L90 |
-| Section Extract Register (2026-03-17) | L271 |
-| 500-Line Split Register (2026-03-16) | L282 |
-| Fragment Migration Register (2026-04-28) | L304 |
-| Task Root Path Drift Register (2026-04-30 追記) | L331 |
+| 概要 | L16 |
+| 使い方 | L24 |
+| Current Alias Overrides（個別互換行） | L31 |
+| Family Summary | L71 |
+| Detailed Register | L92 |
+| Section Extract Register (2026-03-17) | L273 |
+| 500-Line Split Register (2026-03-16) | L284 |
+| Fragment Migration Register (2026-04-28) | L306 |
+| Task Root Path Drift Register (2026-04-30 追記) | L333 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -3549,7 +3574,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L68 |
+| Follow-up Boundaries | L75 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 
@@ -3650,6 +3675,12 @@ node scripts/list-specs.js --topics
 | L-07C-AUDIT-003: cursor paginationはorder keyを明示して再現可能にする | L24 |
 | L-07C-AUDIT-004: Phase 11 visual evidenceとstaging admin E2Eを混同しない | L30 |
 | L-07C-AUDIT-005: skill feedbackは「ルール不足」と「実行漏れ」を分ける | L36 |
+
+### references/lessons-learned-08a-B-public-search-filter-coverage-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L8 |
 
 ### references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md
 
@@ -3754,6 +3785,7 @@ node scripts/list-specs.js --topics
 | L-ISSUE195FU002-005: 「主担当 / サブ担当」と「owner / co-owner」の用語不整合 | L57 |
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
+| 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
@@ -4072,8 +4104,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L92 |
-| 関連ドキュメント | L97 |
+| 利用順序 | L93 |
+| 関連ドキュメント | L98 |
 
 ### references/llm-embedding.md
 
@@ -5142,13 +5174,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L204 |
-| フェーズ構造（概要） | L213 |
-| 品質ゲート（概要） | L244 |
-| 出力テンプレート | L255 |
-| 実行時のコマンド・エージェント・スキル | L278 |
-| 昇格パターン集 | L302 |
-| Current Active / Spec Created Tasks | L304 |
+| ドキュメント構成 | L193 |
+| フェーズ構造（概要） | L202 |
+| 品質ゲート（概要） | L233 |
+| 出力テンプレート | L244 |
+| 実行時のコマンド・エージェント・スキル | L267 |
+| 昇格パターン集 | L291 |
+| Current Active / Spec Created Tasks | L293 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -5556,17 +5588,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L8 |
 | 概要 | L19 |
-| テスト構成 | L43 |
-| セレクター戦略 | L67 |
-| 待機戦略 | L101 |
-| ヘルパー関数パターン | L137 |
-| テストスイート構造 | L182 |
-| アクセシビリティテスト | L229 |
-| beforeEachパターン | L264 |
-| テストスキップパターン | L290 |
-| CI/CD統合 | L306 |
-| デバッグパターン | L358 |
-| 関連ドキュメント | L380 |
+| テスト構成 | L51 |
+| セレクター戦略 | L75 |
+| 待機戦略 | L109 |
+| ヘルパー関数パターン | L145 |
+| テストスイート構造 | L190 |
+| アクセシビリティテスト | L237 |
+| beforeEachパターン | L272 |
+| テストスキップパターン | L298 |
+| CI/CD統合 | L314 |
+| デバッグパターン | L366 |
+| 関連ドキュメント | L388 |
 
 ### references/ui-history-components.md
 
