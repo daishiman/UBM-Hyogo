@@ -29,6 +29,7 @@ allowed-tools:
 | Version | Date | Changes |
 | --- | --- | --- |
 | v2026.05.05-09a-A-staging-deploy-smoke-execution | 2026-05-05 | 09a-A staging deploy smoke execution 仕様書策定 feedback を反映。`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 状態語彙（spec contract 完了 + runtime pending、`PASS` 単独表記禁止）を `phase-template-phase11.md` に追加。`phase-11-non-visual-alternative-evidence.md` に **D1 schema parity verification evidence** セクション（staging vs production の `migrations list` / `PRAGMA table_info` 比較、applied/pending 数値、差分時の `task-d1-prod-parity-followup-NNN.md` 自動発行）を追加。`phase-template-phase13.md` に **G1-G4 multi-stage approval gate**（runtime deploy / Forms sync / D1 apply / commit-push-PR を独立承認、合算承認禁止）を追加。 |
+| v2026.05.05-issue377-retry-tick-default-path | 2026-05-05 | Issue #377 retry tick + DLQ audit review feedback を反映。scheduled / queue retry workflow では injected failure callback だけでなく default scheduled path を focused test で証明し、retry/backoff/DLQ SQL は repository primitive に寄せる。 |
 | v2026.05.05-issue347-external-saas-decision-evidence | 2026-05-05 | Issue #347 Cloudflare Analytics export decision feedback を反映。外部 SaaS / Cloudflare dashboard 認証が必要な docs-only decision workflow では representative schema sample、runtime production sample、constraints file を分離し、user auth 不在の runtime sample を PASS 化しない。 |
 | v2026.05.05-06b-pending-banner-skill-audit | 2026-05-05 | 06b-B pending banner sticky の skill 反映監査を補強。`unassigned-task-required-sections.md` を SKILL.md References と `agents/generate-unassigned-task.md` リソース表に明示し導線化。`phase-12-documentation-guide.md` Task 12-3 へ「`.claude/skills/<skill>/LOGS.md` 更新行を canonical absolute path で必ず列挙する（SKILL.md だけ列挙して LOGS.md 省略は FAIL）」と必須エントリ最小セット表（skill 正本 / skill 履歴 / reference / workflow artifacts / outputs / system spec）を追加。 |
 | v2026.05.04-08b-a-runtime-contract-code-alignment | 2026-05-04 | 08b-A Playwright full execution review feedback を反映。VISUAL_ON_EXECUTION の docs formalization でも、実行時コードの report / screenshot 出力先が Phase 11 evidence manifest と不一致なら実コード設定を同一 wave で補正する。Phase 11 は `completed` と runtime PASS を混同せず `contract_ready_runtime_pending` 等の境界語彙で記録し、30+ screenshot / admin UI gate / direct API 403 / foreign content edit 403 / secret hygiene / zero skip inventory を fresh evidence 条件にする。 |
@@ -167,3 +168,4 @@ docs-only / `spec_created` タスクは workflow root を据え置き、`phases[
 ### 第一適用例（drink-your-own-champagne）
 
 `docs/30-workflows/ut-gov-005-docs-only-nonvisual-template-skill-sync/` 自身が本フローの第一適用例。
+e-skill-sync/` 自身が本フローの第一適用例。
