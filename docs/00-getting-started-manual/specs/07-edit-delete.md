@@ -106,6 +106,7 @@ member requests deletion
   -> DeleteRequestDialog（reason ≤500 chars + 不可逆同意 checkbox 必須）
   -> POST /api/me/delete-request
   -> 202 Accepted で pending banner 表示・該当ボタン disabled
+  -> reload 後は GET /me/profile.pendingRequests.delete から pending banner を復元
   -> admin queue（/admin/requests）で承認
   -> member_status.is_deleted = true
   -> deleted_members insert
@@ -131,6 +132,7 @@ member requests visibility change
   -> VisibilityRequestDialog（desiredState=hidden|public + reason ≤500 chars）
   -> POST /api/me/visibility-request
   -> 202 Accepted で pending banner 表示・該当ボタン disabled
+  -> reload 後は GET /me/profile.pendingRequests.visibility から pending banner を復元
   -> admin queue（/admin/requests）で承認
   -> member_status.publish_state 更新
 ```
@@ -157,6 +159,9 @@ member requests visibility change
 `/me/visibility-request` と `/me/delete-request` は本文を直接更新せず、`admin_member_notes.note_type`
 に `visibility_request` / `delete_request` を保存して admin queue として扱う。`note_type='general'`
 は既存 admin note の後方互換用で、member view model には `admin_member_notes` の本文・種別を混ぜない。
+`GET /me/profile` は member view model に admin note 本文を混ぜず、reload-sticky 表示に必要な
+`pendingRequests: { visibility?, delete? }` だけを返す。`pendingRequests` は
+`admin_member_notes.request_status='pending'` の行だけを読み、resolved / rejected 行はバナー対象にしない。
 
 ---
 

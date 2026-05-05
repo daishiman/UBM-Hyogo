@@ -19,7 +19,7 @@ USAGE
 
 BASE_URL=""
 STORAGE_STATE=""
-OUT_DIR="docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11"
+OUT_DIR="docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11"
 PROJECT="staging"
 MARKERS="M-08,M-09,M-10,M-16"
 

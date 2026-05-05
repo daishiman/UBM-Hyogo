@@ -24,7 +24,7 @@ Promoted the prior `ut-06b-profile-logged-in-visual-evidence` documentation skel
 
 ## Deferred Evidence
 
-- M-08 / M-09 / M-10 runtime screenshots and DOM dumps require a real logged-in `storageState` JSON. Execution is delegated to `docs/30-workflows/unassigned-task/task-06b-c-profile-logged-in-runtime-evidence-execution-001.md` under user-approval gate.
+- M-08 / M-09 / M-10 runtime screenshots and DOM dumps require a real logged-in `storageState` JSON. Execution is now promoted to `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/`; the former unassigned task remains only as a `promoted_to_workflow` pointer.
 - M-14 (Magic Link end-to-end) / M-15 (Google OAuth end-to-end) remain external-gated by 09a staging deploy smoke.
 
 ## Skill Feedback Surfaced
