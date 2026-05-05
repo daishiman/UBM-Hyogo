@@ -18,6 +18,7 @@ export interface PublicD1MockOptions {
   syncJobs?: Partial<Record<"schema_sync" | "response_sync", unknown | null>>;
   failOnSql?: RegExp | string;
   queryLog?: string[];
+  bindLog?: Array<{ sql: string; bindings: unknown[] }>;
 }
 
 interface PreparedRow {
@@ -69,6 +70,7 @@ class MockStmt {
 
   bind(...values: unknown[]): MockStmt {
     this.bindings = values;
+    this.options.bindLog?.push({ sql: this.sql, bindings: values });
     return this;
   }
 

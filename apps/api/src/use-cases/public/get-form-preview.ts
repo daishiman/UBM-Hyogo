@@ -6,6 +6,7 @@ import type { DbCtx } from "../../repository/_shared/db";
 import { listFieldsByVersion } from "../../repository/schemaQuestions";
 import { getLatestVersion } from "../../repository/schemaVersions";
 import { ApiError } from "@ubm-hyogo/shared/errors";
+import { logWarn } from "@ubm-hyogo/shared/logging";
 import {
   toFormPreviewView,
   type FormPreviewResponse,
@@ -44,6 +45,17 @@ export const getFormPreviewUseCase = async (
 
   const manifest = await getLatestVersion(ctx, formId);
   if (!manifest) {
+    // 503 早期検知用 structured log。staging tail で `code:"UBM-5500"` を grep できるようにする。
+    logWarn({
+      code: "UBM-5500",
+      message: "schema_versions row missing — returning 503",
+      context: {
+        where: "getFormPreviewUseCase",
+        formId,
+        usedFallback:
+          env.GOOGLE_FORM_ID === undefined && env.FORM_ID === undefined,
+      },
+    });
     throw new ApiError({
       code: "UBM-5500",
       detail:

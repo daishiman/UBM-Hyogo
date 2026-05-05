@@ -1,0 +1,42 @@
+{
+  "task_id": "task-05a-form-preview-503-001",
+  "created_at": "2026-05-05T00:30:00Z",
+  "metadata": {
+    "taskType": "implementation",
+    "implementation_mode": "new",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local-runtime-evidence-blocked",
+    "issue_number": 388,
+    "issue_state": "CLOSED",
+    "branch": "feat/05a-form-preview-503",
+    "scope_summary": "/public/form-preview の staging 503 を root cause 特定し 200 化（schema_versions 整備 + 回帰テスト + runbook）"
+  },
+  "phases": [
+    { "id": "phase-1", "name": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/main.md"] },
+    { "id": "phase-2", "name": "設計", "status": "completed", "outputs": ["outputs/phase-02/main.md"] },
+    { "id": "phase-3", "name": "設計レビュー", "status": "completed", "outputs": ["outputs/phase-03/main.md"] },
+    { "id": "phase-4", "name": "テスト作成", "status": "completed", "outputs": ["outputs/phase-04/main.md"] },
+    { "id": "phase-5", "name": "実装", "status": "completed-local", "outputs": ["outputs/phase-05/main.md"] },
+    { "id": "phase-6", "name": "テスト拡充", "status": "completed-local", "outputs": ["outputs/phase-06/main.md"] },
+    { "id": "phase-7", "name": "カバレッジ確認", "status": "completed-local", "outputs": ["outputs/phase-07/main.md"] },
+    { "id": "phase-8", "name": "リファクタリング", "status": "completed-local", "outputs": ["outputs/phase-08/main.md"] },
+    { "id": "phase-9", "name": "品質保証", "status": "completed-local", "outputs": ["outputs/phase-09/main.md"] },
+    { "id": "phase-10", "name": "最終レビュー", "status": "completed-with-runtime-blocker", "outputs": ["outputs/phase-10/main.md"] },
+    { "id": "phase-11", "name": "手動テスト", "status": "blocked-pending-runtime-evidence", "outputs": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/manual-smoke-log.md",
+      "outputs/phase-11/link-checklist.md",
+      "outputs/phase-11/manual-test-result.md"
+    ] },
+    { "id": "phase-12", "name": "ドキュメント更新", "status": "completed", "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]},
+    { "id": "phase-13", "name": "PR作成", "status": "blocked-until-user-approval", "outputs": ["outputs/phase-13/pr-description.md"] }
+  ]
+}
