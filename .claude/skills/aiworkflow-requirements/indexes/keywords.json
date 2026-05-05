@@ -991,6 +991,7 @@
     ],
     "execution": [
       "arch-execution-capability-contract.md",
+      "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
@@ -5296,6 +5297,7 @@
     ],
     "workflow": [
       "database-schema.md",
+      "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
