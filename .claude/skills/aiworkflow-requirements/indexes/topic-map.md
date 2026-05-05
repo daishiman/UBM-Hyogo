@@ -2499,6 +2499,13 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L78 |
 | Validation Chain | L89 |
 
+### references/workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L12 |
+| Runtime Evidence Contract | L27 |
+
 ### references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md
 
 | セクション | 行 |
@@ -5571,17 +5578,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L8 |
 | 概要 | L19 |
-| テスト構成 | L43 |
-| セレクター戦略 | L67 |
-| 待機戦略 | L101 |
-| ヘルパー関数パターン | L137 |
-| テストスイート構造 | L182 |
-| アクセシビリティテスト | L229 |
-| beforeEachパターン | L264 |
-| テストスキップパターン | L290 |
-| CI/CD統合 | L306 |
-| デバッグパターン | L358 |
-| 関連ドキュメント | L380 |
+| テスト構成 | L51 |
+| セレクター戦略 | L75 |
+| 待機戦略 | L109 |
+| ヘルパー関数パターン | L145 |
+| テストスイート構造 | L190 |
+| アクセシビリティテスト | L237 |
+| beforeEachパターン | L272 |
+| テストスキップパターン | L298 |
+| CI/CD統合 | L314 |
+| デバッグパターン | L366 |
+| 関連ドキュメント | L388 |
 
 ### references/ui-history-components.md
 

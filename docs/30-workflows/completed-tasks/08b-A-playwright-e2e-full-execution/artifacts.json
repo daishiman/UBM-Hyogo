@@ -1,28 +1,30 @@
 {
-  "task_name": "06c-C-admin-tags",
-  "task_path": "docs/30-workflows/06c-C-admin-tags",
-  "wave": "06c-fu",
-  "execution_mode": "serial-after-06c-B-and-07a",
+  "task_name": "08b-A-playwright-e2e-full-execution",
+  "task_path": "docs/30-workflows/08b-A-playwright-e2e-full-execution",
+  "wave": "8b-fu",
+  "execution_mode": "parallel",
   "depends_on": [
-    "06c-B-admin-members",
-    "07a-parallel-tag-assignment-queue-resolve-workflow",
-    "06b-A-me-api-authjs-session-resolver",
-    "05a-authjs-admin-gate"
+    "06a public pages",
+    "08a-B public members search/filter coverage",
+    "06b member pages",
+    "06c admin pages",
+    "07a/07b/07c admin ops"
   ],
   "blocks": [
-    "docs/30-workflows/08b-A-playwright-e2e-full-execution",
-    "docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke",
-    "docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation",
-    "docs/30-workflows/ut-09a-exec-staging-smoke-001"
+    "09a staging deploy smoke"
   ],
-  "created_at": "2026-05-03",
+  "created_at": "2026-05-01",
   "metadata": {
     "taskType": "implementation-spec",
     "docs_only": true,
-    "remaining_only": true,
-    "scope": "application_implementation",
+    "workflow_state": "spec_created",
     "visualEvidence": "VISUAL_ON_EXECUTION",
-    "workflow_state": "spec_created"
+    "priority": "High",
+    "scope": "full_execution_runbook_and_evidence_contract",
+    "phase12_status": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "runtime_evidence_status": "pending_user_approval",
+    "phase11_status": "contract_ready_runtime_pending",
+    "runtime_user_approval_required": true
   },
   "phases": [
     {
@@ -155,17 +157,16 @@
     },
     {
       "phase": 11,
-      "name": "手動 smoke / 実測 evidence handoff contract",
+      "name": "手動 smoke / 実測 evidence",
       "file": "phase-11.md",
-      "status": "completed",
+      "status": "contract_ready_runtime_pending",
       "outputs": [
-        "outputs/phase-11/main.md",
-        "outputs/phase-11/runtime-evidence-handoff.md"
+        "outputs/phase-11/main.md"
       ],
       "depends_on_phases": [
         10
       ],
-      "user_approval_required": false
+      "user_approval_required": true
     },
     {
       "phase": 12,
@@ -173,14 +174,7 @@
       "file": "phase-12.md",
       "status": "completed",
       "outputs": [
-        "outputs/phase-12/main.md",
-        "outputs/phase-12/implementation-guide.md",
-        "outputs/phase-12/system-spec-update-summary.md",
-        "outputs/phase-12/documentation-changelog.md",
-        "outputs/phase-12/unassigned-task-detection.md",
-        "outputs/phase-12/skill-feedback-report.md",
-        "outputs/phase-12/phase12-task-spec-compliance-check.md",
-        "outputs/phase-12/elegant-review-30-methods.md"
+        "outputs/phase-12/main.md"
       ],
       "depends_on_phases": [
         11
@@ -191,7 +185,7 @@
       "phase": 13,
       "name": "PR 作成",
       "file": "phase-13.md",
-      "status": "completed",
+      "status": "pending_user_approval",
       "outputs": [
         "outputs/phase-13/main.md"
       ],
@@ -202,34 +196,33 @@
     }
   ],
   "specs_referenced": [
-    "docs/00-getting-started-manual/specs/12-search-tags.md",
-    "docs/00-getting-started-manual/specs/11-admin-management.md",
-    "docs/00-getting-started-manual/specs/06-member-auth.md",
-    "docs/00-getting-started-manual/specs/09-ui-ux.md"
+    "docs/30-workflows/unassigned-task/task-08b-playwright-e2e-full-execution-001.md",
+    "docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/",
+    "docs/00-getting-started-manual/specs/09-ui-ux.md",
+    ".claude/skills/aiworkflow-requirements/references/testing-playwright-e2e.md",
+    ".claude/skills/aiworkflow-requirements/references/workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
   ],
-  "endpoints": [
-    "GET /admin/tags/queue",
-    "POST /admin/tags/queue/:queueId/resolve"
-  ],
-  "d1_tables": [
-    "tag_assignment_queue",
-    "tag_definitions",
-    "member_tags",
-    "audit_log"
-  ],
-  "ui_routes": [
-    "/admin/tags"
-  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
   "secrets_introduced": [],
   "invariants_touched": [
-    5,
-    11,
-    13,
-    15
+    "#5 public/member/admin boundary",
+    "#8 localStorage/GAS prototype を正本にしない",
+    "#9 /no-access 専用画面に依存しない"
   ],
   "doc_references": [
-    ".claude/skills/aiworkflow-requirements/references/ui-ux-admin-dashboard.md",
-    ".claude/skills/aiworkflow-requirements/references/api-endpoints.md",
-    ".claude/skills/aiworkflow-requirements/references/architecture-admin-api-client.md"
-  ]
+    "docs/30-workflows/unassigned-task/task-08b-playwright-e2e-full-execution-001.md",
+    "docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/",
+    "docs/00-getting-started-manual/specs/09-ui-ux.md",
+    ".claude/skills/aiworkflow-requirements/references/testing-playwright-e2e.md",
+    ".claude/skills/aiworkflow-requirements/references/workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
+  ],
+  "outputs_artifacts_parity": {
+    "status": "synced",
+    "files": [
+      "artifacts.json",
+      "outputs/artifacts.json"
+    ]
+  }
 }
