@@ -2217,6 +2217,12 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L17 |
+
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
 | セクション | 行 |
@@ -3078,7 +3084,8 @@ node scripts/list-specs.js --topics
 | 11. R2 incremental cache（任意採用） | L191 |
 | 12. 関連リソース | L199 |
 | 13. production route / secret / observability preflight | L217 |
-| 変更履歴 | L258 |
+| 14. analytics read-only token 分離 | L258 |
+| 変更履歴 | L273 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -3143,8 +3150,9 @@ node scripts/list-specs.js --topics
 | モニタリングとアラート | L221 |
 | GitHub Secrets の要件 | L255 |
 | UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L279 |
-| 関連ドキュメント | L299 |
-| 変更履歴 | L306 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L297 |
+| 関連ドキュメント | L317 |
+| 変更履歴 | L324 |
 
 ### references/deployment-history.md
 
@@ -3815,6 +3823,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 苦戦箇所（unassigned-task 由来） | L12 |
 | 関連 skill feedback | L19 |
+
+### references/lessons-learned-issue-351-post-release-dashboard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L8 |
 
 ### references/lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md
 
@@ -5196,13 +5210,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L193 |
-| フェーズ構造（概要） | L202 |
-| 品質ゲート（概要） | L233 |
-| 出力テンプレート | L244 |
-| 実行時のコマンド・エージェント・スキル | L267 |
-| 昇格パターン集 | L291 |
-| Current Active / Spec Created Tasks | L293 |
+| ドキュメント構成 | L206 |
+| フェーズ構造（概要） | L215 |
+| 品質ゲート（概要） | L246 |
+| 出力テンプレート | L257 |
+| 実行時のコマンド・エージェント・スキル | L280 |
+| 昇格パターン集 | L304 |
+| Current Active / Spec Created Tasks | L306 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -5,6 +5,23 @@
 
 ---
 
+### Issue #351 Post-release Dashboard Automation（2026-05-05）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-351-09c-post-release-dashboard-automation/` |
+| 状態 | `spec_created / implementation / NON_VISUAL / Phase 1-12 outputs present / Phase 13 blocked_pending_user_approval` |
+| GitHub Actions | `.github/workflows/post-release-dashboard.yml`（`schedule: '0 0 * * *'` UTC + `workflow_dispatch`） |
+| collector | `scripts/post-release-dashboard/` |
+| Cloudflare API wrapper | `bash scripts/cf.sh api-post /client/v4/graphql -d <json>` |
+| read-only secret | `CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY`（production deploy 用 `CLOUDFLARE_API_TOKEN` と分離） |
+| artifact path | `outputs/post-release-dashboard/<UTC-yyyy-mm-dd>/dashboard.{json,md}` |
+| close-out evidence | `docs/30-workflows/issue-351-09c-post-release-dashboard-automation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md` |
+| lessons-learned | `lessons-learned/lessons-learned-issue-351-post-release-dashboard-2026-05.md`（`api-post` GraphQL allowlist / Phase 12 outputs grep gate / state drift 解消 / formalized stub / actionlint・yamllint Phase 9 標準化 / runtime gate 3 段階分離） |
+
+---
+
 ### Issue #359 Out-of-Band Production D1 Apply Audit（2026-05-04）
 
 | 目的 | 参照先 |
