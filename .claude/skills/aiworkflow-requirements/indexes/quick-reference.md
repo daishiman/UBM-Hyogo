@@ -171,6 +171,20 @@
 | Issue | `Refs #273` のみ、CLOSED 維持 |
 
 ---
+### 09a-A Staging Deploy Smoke Execution（2026-05-05）
+
+09a の `NOT_EXECUTED` 境界を実測 evidence に置換する execution-oriented successor。deploy / D1 apply / Forms sync / Playwright visual / wrangler tail / 09c blocker update は G1〜G4 user approval 後のみ実行し、Phase 12 spec contract completeness と runtime PASS / Phase 12 runtime update を分離する。親 `09a-parallel...` directory は現 worktree 不在のため、親 mirror update は `task-09a-canonical-directory-restoration-001.md` 復元後にのみ実施する。
+
+| 目的 | 参照先 |
+| --- | --- |
+| current execution root | `docs/30-workflows/09a-A-staging-deploy-smoke-execution/` |
+| evidence root | `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/` |
+| Phase 12 compliance | `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md` |
+| parent restoration blocker | `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md` |
+| downstream blocker | `09c-production-deploy-execution-001` remains blocked until actual 09a-A runtime evidence exists |
+
+---
 ### UT-06-FU-E D1 Backup Long-Term Storage（2026-05-01）
 
 UT-06 Phase 12 UNASSIGNED-E を `spec_created` / docs-only / NON_VISUAL workflow として formalize。日次 D1 export は GHA schedule を主経路、Cloudflare cron triggers を R2 latest healthcheck として併用する。R2 30日 + 月次保存、暗号化、UT-08 alert、復元机上演習を実装 PR 前の正本仕様に固定する。
@@ -1493,7 +1507,7 @@ packages/
 
 | 観点 | 値 / 参照先 |
 | --- | --- |
-| canonical task root | `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` |
+| canonical task root | `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/`（現 worktree では不在。復元 blocker は `task-09a-canonical-directory-restoration-001.md`） |
 | 状態 | `spec_created` / implementation execution spec / `VISUAL_ON_EXECUTION` / Phase 13 blocked until user approval |
 | 実測境界 | Phase 11 の `manual-smoke-log.md` / `sync-jobs-staging.json` / `wrangler-tail.log` は現状 `NOT_EXECUTED` placeholder。実測 PASS として扱わない |
 | consumes | 05a OAuth/admin gate、06a public web、06b login/profile、06c admin UI、08b Playwright scaffold、03a/03b/U-04 Forms sync |

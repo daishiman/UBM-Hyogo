@@ -281,6 +281,39 @@ dependencies:
 
 ---
 
+## Execution Follow-up Issue パターン（runtime evidence 実行）
+
+親タスクの outputs / artifacts に `NOT_EXECUTED` placeholder / `pending_user_approval` /
+`runtime evidence pending` が残存したまま CLOSED された場合、execution-only 子 Issue を
+**OPEN で別途発行** する（親が CLOSED でも独立ライフサイクル）。
+
+### 子 Issue 規約（要約）
+
+| 項目 | 値 |
+| ---- | -- |
+| タイトル | `[exec] <parent-task-id>: runtime evidence execution` |
+| Body 必須 | 親 Issue 番号 / placeholder 具体 list / 実行コマンド / user approval gate / 完了時の親 body 更新手順 |
+| クローズ条件 | placeholder 0 件 + 親 outputs/artifacts に実 evidence が反映済み |
+
+### Blocker 行双方向更新
+
+親タスクが下流（例: 09c）をブロックする場合、下流の `dependencies.upstream[].blocker: true`
+は **実測完了時にのみ削除**（仕様書 CLOSED / Issue CLOSED では削除しない）。
+削除後は `gh issue comment` で親・下流両方に双方向リンクを残す。
+
+### D1 schema parity 差分時の自動派生
+
+staging vs production の D1 schema diff 検出時、
+`docs/30-workflows/unassigned-task/task-d1-prod-parity-followup-<NNN>.md` を自動生成する。
+既存の Claude Code Hook（`.claude/hooks/auto-create-issue.sh`）が Write を検知して
+GitHub Issue を自動発行するため、追加 hook 実装は不要。
+
+### 詳細手順
+
+判定条件・テンプレ・コマンド一式は `references/d1-parity-followup.md` を参照。
+
+---
+
 # Part 3: スコアリング＆ラベル
 
 ## スコアリング計算
@@ -334,6 +367,13 @@ dependencies:
 | Asset               | 用途                    |
 | ------------------- | ----------------------- |
 | `issue-template.md` | Issueボディテンプレート |
+
+## references/
+
+| Reference                  | 用途                                                                  |
+| -------------------------- | --------------------------------------------------------------------- |
+| `patterns.md`              | 成功・失敗パターン集                                                  |
+| `d1-parity-followup.md`    | Execution follow-up Issue / D1 parity 連携 / blocker 双方向更新の正本 |
 
 ---
 
