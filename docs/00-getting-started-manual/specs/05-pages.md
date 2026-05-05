@@ -78,6 +78,7 @@
 - `公開停止 / 再公開 / 退会申請` はマイページの `本人申請パネル`（RequestActionPanel）から申請できるが、反映は管理処理で行う
 - 本人申請パネルは本文編集 UI とは分離し、`公開停止/再公開申請ダイアログ`（VisibilityRequestDialog）と `退会申請ダイアログ`（DeleteRequestDialog）から admin queue へ依頼を作る
 - 申請送信後は `pending banner`（RequestPendingBanner）を `role=status` / `aria-live=polite` で表示し、対応する申請ボタンを disabled にする
+- `pending banner` の正本は `GET /me/profile.pendingRequests` が返す server-side pending state とし、ページ reload 後も表示を維持する。client local state は submit 直後の体感補助だけに使う
 - 申請エラーは `RequestErrorMessage` で表示し、409（DUPLICATE_PENDING_REQUEST）は同一 session の pending banner と該当ボタン disabled に接続する
 - ページ先頭に `MemberHeader` を表示し、Auth.js `signOut({ redirectTo: "/login" })` を呼ぶ `ログアウト` ボタンを置く。runtime screenshot / cookie / session evidence は `ut-05a-auth-ui-logout-button-001` Phase 11 で取得する
 

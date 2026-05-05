@@ -155,7 +155,7 @@
 | OpenNext Workers 詳細仕様 | `references/deployment-cloudflare-opennext-workers.md` |
 | Issue #355 cutover spec workflow | `docs/30-workflows/completed-tasks/issue-355-opennext-workers-cd-cutover-task-spec/`（spec_created / implementation / NON_VISUAL / Phase 11 evidence contracts） |
 | 残る実装 task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`（`web-cd.yml` Workers deploy 置換 / Cloudflare side cutover / smoke） |
-| Pages delete after dormant | `docs/30-workflows/unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md`（destructive cleanup / separate approval） |
+| Pages delete after dormant | `docs/30-workflows/issue-419-pages-project-dormant-delete-after-355/`（Issue #419 formalized / `spec_created` / implementation / NON_VISUAL / destructive cleanup / dormant observation + user approval pending）。起票元: `docs/30-workflows/unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` |
 | 決定 workflow | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` |
 
 ---
@@ -589,13 +589,14 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | wave 実行順序 | `docs/30-workflows/ut-coverage-2026-05-wave/README.md` |
 | apps/api coverage precondition | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/index.md` |
 | apps/web auth/fetch/session coverage spec | `docs/30-workflows/ut-web-cov-03-auth-fetch-lib-coverage/index.md` |
+| wave-3 roadmap | `docs/30-workflows/ut-coverage-2026-05-wave/wave-3-roadmap.md`（Issue #433 / implemented-local / Phase 1-12 completed / Phase 13 approval gate） |
 | artifact inventory | `references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md` |
 | lessons learned | `references/lessons-learned-ut-coverage-2026-05-wave.md` |
 | Phase 11 NON_VISUAL evidence | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/outputs/phase-11/` |
 | Phase 12 compliance | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | coverage command | `bash scripts/coverage-guard.sh` |
 
-Boundary: wave-1 is `implemented-local / test-fixture implementation / NON_VISUAL`; only `apps/api/src/jobs/__fixtures__/d1-fake.ts` is changed. `ut-web-cov-03` is now `implemented-local / test implementation / NON_VISUAL`: apps/web auth/fetch/session Vitest tests, `fetch-mock` helper + helper test, and root `vitest.config.ts` coverage exclude are implemented and measured (40 files / 359 tests PASS). Runtime production code, packages/*, commit, push, and PR creation remain blocked until Phase 13 user approval. The remaining package-wide 85% upgrade gate remains delegated to UT-08A-01 and the other wave-2 implementation specs.
+Boundary: wave-1 is `implemented-local / test-fixture implementation / NON_VISUAL`; only `apps/api/src/jobs/__fixtures__/d1-fake.ts` is changed. `ut-web-cov-03` is now `implemented-local / test implementation / NON_VISUAL`: apps/web auth/fetch/session Vitest tests, `fetch-mock` helper + helper test, and root `vitest.config.ts` coverage exclude are implemented and measured (40 files / 359 tests PASS). Issue #433 wave-3 roadmap measured all four packages and materialized 8 candidate tasks; root `vitest.config.ts` also contains the React / React DOM alias used to keep coverage runs stable under isolated node-linker. Runtime production code, packages/*, commit, push, PR creation, and post-push `verify-indexes-up-to-date` CI evidence remain blocked until Phase 13 user approval.
 
 ---
 
@@ -1492,6 +1493,19 @@ packages/
 | audit | dashboard read は `dashboard.view` として記録し、recent actions と KPI を自己汚染しない |
 | Phase 12 evidence | `docs/30-workflows/06c-A-admin-dashboard/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### UBM-Hyogo Playwright Full Execution 早見（08b-A / 2026-05-04）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/` |
+| 状態 | `spec_created` / `implementation-spec` / `VISUAL_ON_EXECUTION` / Phase 1-10 and 12 completed / Phase 11 contract_ready_runtime_pending / Phase 13 pending_user_approval |
+| 実測境界 | Phase 11 runtime evidence is `PENDING_RUNTIME_EVIDENCE`; planned paths are not PASS evidence |
+| evidence manifest | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence-manifest.md` |
+| required runtime evidence | Playwright HTML/JSON report、real axe report、30+ desktop/mobile screenshots、non-admin `/admin/*` UI gate、direct `/api/admin/*` 403、foreign content edit 403、secret hygiene、zero skipped spec inventory |
+| Phase 12 evidence | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| upstream | `08b-parallel-playwright-e2e-and-ui-acceptance-smoke` scaffold |
+| downstream | 09a staging smoke and 09c production deploy remain gated until fresh runtime evidence or explicit blocker |
+
 ### UBM-Hyogo Staging Smoke / Forms Sync Validation 早見（09a / 2026-05-01）
 
 | 観点 | 値 / 参照先 |
@@ -1585,9 +1599,21 @@ packages/
 | payload 正規化 | GET 形（snapshot）→ PUT 形（payload）adapter で `enforce_admins.enabled→bool` / `restrictions.users[].login→配列` / `required_pull_request_reviews=null` を必ず変換（snapshot を直接 PUT すると HTTP 422） |
 | rollback 境界戦略 | snapshot / payload / rollback / applied JSON を `{branch}` サフィックスで分離。bulk PUT 禁止。enforce_admins DELETE 経路を事前準備 |
 | 上流前提 | UT-GOV-004（`required_status_checks.contexts` の実 job 名同期）。未完了時は `contexts=[]` の 2 段階適用 fallback |
-| 実 PUT のゲート | Phase 12 = `spec_created`（仕様書整備のみ）/ Phase 13 = `blocked_until_explicit_user_approval`（ユーザー明示承認後の別オペレーションでのみ実行） |
+
+### Issue #475 coverage-gate required context（runtime evidence captured / 2026-05-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-475-branch-protection-coverage-gate/` |
+| 目的 | `coverage-gate` を `main` / `dev` の `required_status_checks.contexts` に append し、coverage 80% gate を merge gate 化 |
+| current applied 境界 | `deployment-branch-strategy.md` current applied 表を Issue #475 適用後 fresh GET evidence へ更新済み |
+| Gate A | external GitHub PUT は外部適用済みとして fresh GET で観測済。追加 PUT は実行しない |
+| Gate B | git commit / push / PR approval before Phase 13。throwaway PR による `mergeStateStatus=BLOCKED` 経験的観測も Gate B 後 |
+| invariant | Issue #475 起因の non-target drift なし。dev の `required_pull_request_reviews=null` は out-of-scope / solo policy 方向として記録 |
+| runtime evidence | Phase 11 fresh GET / drift / invariant / contexts-preserved / SSOT diff は取得済み。empirical PR observation only pending |
+| 実 PUT のゲート | Gate A は消化済み。Phase 13 = `blocked_pending_gate_b_git_publish_and_empirical_pr`（ユーザー明示承認後の別オペレーションでのみ実行） |
 | 苦戦知見 | `references/lessons-learned-ut-gov-001-2026-04.md`（L-GOV-001 payload adapter / L-GOV-002 5 重明記 / L-GOV-003 Phase 12-13 二重ゲート / L-GOV-004 NON_VISUAL evidence） |
-| 正本仕様 | `references/deployment-branch-strategy.md`（pending apply: UT-GOV-001 セクション） |
+| 正本仕様 | `references/deployment-branch-strategy.md`（current applied / Issue #475 適用 evidence） |
 
 ### GitHub Governance / UT-GOV-001 second-stage reapply（2026-04-30）
 

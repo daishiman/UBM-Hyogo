@@ -1,0 +1,34 @@
+# Phase 12 Task Spec Compliance Check
+
+## Strict Files
+
+| File | Result |
+| --- | --- |
+| `main.md` | PASS |
+| `implementation-guide.md` | PASS |
+| `system-spec-update-summary.md` | PASS |
+| `documentation-changelog.md` | PASS |
+| `unassigned-task-detection.md` | PASS |
+| `skill-feedback-report.md` | PASS |
+| `phase12-task-spec-compliance-check.md` | PASS |
+
+## Skill Compliance
+
+| Requirement | Result | Evidence |
+| --- | --- | --- |
+| Phase 1-13 spec files | PASS | `phase-01.md` through `phase-13.md` exist |
+| root/outputs artifacts parity | PASS | `artifacts.json` and `outputs/artifacts.json` are materialized |
+| Current canonical paths | PASS | completed-tasks roots used for `ut-web-cov-01` and `ut-08a-01` |
+| Current package names | PASS | `@ubm-hyogo/* test:coverage` used |
+| Phase 11 planned/current split | PASS | `verify-indexes-current.md` uses pending marker before push; CI green is not used as Phase 12 evidence |
+| Source unassigned task retained | PASS | source task remains in `docs/30-workflows/unassigned-task/` |
+| `vitest.config.ts` scope expansion | PASS | root `vitest.config.ts` の React alias / coverage exclude 追記は CI gate (`verify-indexes-up-to-date` および isolated node-linker coverage 実測) 修復のための scope 拡張として正当化。production runtime コードは不変、対象は test infrastructure のみ。 |
+
+## Four Conditions
+
+| Condition | Result |
+| --- | --- |
+| 矛盾なし | PASS |
+| 漏れなし | PASS for local implementation evidence; post-push CI evidence remains Phase 13 user-approval gated |
+| 整合性あり | PASS |
+| 依存関係整合 | PASS |

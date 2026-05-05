@@ -1,0 +1,24 @@
+{
+  "task_name": "06b-c-runtime-evidence-execution",
+  "task_path": "docs/30-workflows/06b-c-runtime-evidence-execution",
+  "workflow_state": "spec_created",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "evidence_status": "NOT_EXECUTED_PENDING_USER_APPROVAL",
+  "evidence_canonical_root": "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/",
+  "phases": [
+    { "phase": 1, "status": "pending_user_approval", "outputs": ["outputs/phase-01/main.md"] },
+    { "phase": 2, "status": "not_executed", "outputs": ["outputs/phase-02/main.md"] },
+    { "phase": 3, "status": "not_executed", "outputs": ["outputs/phase-03/main.md"] },
+    { "phase": 4, "status": "not_executed", "outputs": ["outputs/phase-04/main.md"] },
+    { "phase": 5, "status": "not_executed", "outputs": ["outputs/phase-05/main.md", "outputs/phase-05/command-log.md"] },
+    { "phase": 6, "status": "not_executed", "outputs": ["outputs/phase-06/main.md"] },
+    { "phase": 7, "status": "not_executed", "outputs": ["outputs/phase-07/main.md", "outputs/phase-07/ac-matrix.md"] },
+    { "phase": 8, "status": "not_executed", "outputs": ["outputs/phase-08/main.md"] },
+    { "phase": 9, "status": "not_executed", "outputs": ["outputs/phase-09/main.md"] },
+    { "phase": 10, "status": "not_executed", "outputs": ["outputs/phase-10/main.md"] },
+    { "phase": 11, "status": "pending_user_approval", "outputs": ["outputs/phase-11/main.md"] },
+    { "phase": 12, "status": "placeholder_complete_runtime_pending", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/phase12-task-spec-compliance-check.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/documentation-changelog.md"] },
+    { "phase": 13, "status": "pending_user_approval", "outputs": ["outputs/phase-13/main.md"] }
+  ]
+}
