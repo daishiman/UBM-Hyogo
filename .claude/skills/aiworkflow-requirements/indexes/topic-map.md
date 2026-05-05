@@ -2217,6 +2217,17 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-352-postmortem-template-automation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L9 |
+| Implementation Artifacts | L15 |
+| Runtime Contract | L23 |
+| Evidence | L31 |
+| System Spec Sync | L38 |
+
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
 | セクション | 行 |
