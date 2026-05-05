@@ -45,6 +45,7 @@
 
 ### Depends On
 - 06a public pages
+- 08a-B public `/members` search/filter coverage（q / zone / status / tag / sort / density runtime evidence contract）
 - 06b member pages
 - 06c admin pages
 - 07a/07b/07c admin ops
@@ -62,6 +63,7 @@
 ## AC
 
 - skipped spec が 0 件になる条件が定義される
+- `/members` search/filter 9 screenshot、6 curl scenario、axe report を 08a-B Phase 11 contract に沿って取得する
 - 実 Playwright report が保存される
 - real axe report が保存される
 - desktop/mobile screenshot が保存される

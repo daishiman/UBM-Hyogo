@@ -7,12 +7,12 @@
 | wave | 08a-fu |
 | mode | parallel |
 | owner | - |
-| 状態 | spec_created / docs-only / remaining-only |
-| visualEvidence | VISUAL |
+| 状態 | implemented-local / implementation / VISUAL_ON_EXECUTION / Phase 12 synced / Phase 11 runtime pending |
+| visualEvidence | VISUAL_ON_EXECUTION |
 
 ## purpose
 
-公開メンバー一覧 `/members` の検索/フィルタ機能（q / zone / status / tag / sort / density）の動作仕様を `12-search-tags.md` 正本に沿って固定し、08a coverage hardening でカバーされていない検索パラメータの spec gap を解消する。
+公開メンバー一覧 `/members` の検索/フィルタ機能（q / zone / status / tag / sort / density）の動作仕様を `12-search-tags.md` 正本に沿って固定し、08a coverage hardening でカバーされていない検索パラメータの spec gap を解消する。Phase 12 review で AC 直結の実装 drift（q LIKE escape / tag cap / sort order / bind offset）を検出したため、本 workflow は docs-only ではなく `implementation / implemented-local / runtime evidence pending` として扱う。
 
 ## why this is not a restored old task
 
@@ -24,7 +24,7 @@
 
 ### Scope In
 - `/members?q=&zone=&status=&tag=&sort=&density=` のパラメータ仕様
-- public API `GET /api/public/members` の同パラメータ受け取り挙動
+- public API `GET /public/members` の同パラメータ受け取り挙動
 - 部分一致 / enum / multi-tag / sort / density 各々の AC
 - 空結果 / 不正値 / 大量ヒットの UI 挙動仕様
 - a11y（filter UI のキーボード操作・aria）
@@ -58,7 +58,7 @@
 ## AC
 
 - query parameter 6種（q / zone / status / tag / sort / density）すべてに対し既知ケースが spec として記述される
-- `GET /api/public/members` の query 受け取り型と response 形が確定する
+- `GET /public/members` の query 受け取り型と response 形が確定する
 - 空結果 / 不正値（enum 外, 過大文字数）/ 大量ヒット（>=200件）の UI 挙動が記述される
 - a11y: filter input が role / label / keyboard 操作で全て到達可能と明記される
 - 不変条件 #4 公開状態フィルタ正確性 / #5 public boundary / #6 admin-only field 非露出 が AC として明文化される
@@ -103,10 +103,10 @@
 
 ## invariants touched
 
-- #4 公開状態フィルタ正確性（status=非公開/退会済みは public 結果から除外）
+- #4 公開状態フィルタ正確性（`status` query は参加ステータスであり、非公開/退会済みの除外は `public_consent` / `publish_state` / `is_deleted` の固定 WHERE で行う）
 - #5 public/member/admin boundary
 - #6 admin-only field を public response に含めない
 
 ## completion definition
 
-全 phase 仕様書が揃い、検索パラメータごとの AC と evidence path、a11y 観点が明記され、08b E2E / 09a smoke が参照できる状態になること。アプリケーションコード実装、deploy、commit、push、PR 作成はこの仕様書作成タスクには含めない。
+全 phase 仕様書が揃い、検索パラメータごとの AC と evidence path、a11y 観点が明記され、AC 直結の API 実装 drift が `apps/api` に反映済みで、08b E2E / 09a smoke が参照できる状態になること。deploy、commit、push、PR 作成は本タスクには含めない。Phase 11 screenshot / curl / axe の実測 evidence は `VISUAL_ON_EXECUTION` として 08b / 09a runtime cycle で取得するため、本 workflow の close-out は runtime PASS ではなく `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` とする。

@@ -51,10 +51,12 @@
 
 - `q`: キーワード検索
 - `zone`: UBM区画
-- `status`: 参加ステータス
+- `status`: 参加ステータス（公開状態フィルタではない）
 - `tag`: タグ複数選択
 - `sort`: `最近の更新順 / 名前順`
 - `density`: `ゆったり / 密 / リスト`
+
+`/members` の filter input / select / segmented control はすべてラベルを持ち、Tab で `q -> zone -> status -> tag -> sort -> density` の順に到達できる。結果件数や空状態の変化は `role=status` と `aria-live=polite` の領域で伝える。`density` は `comfy` / `dense` / `list` の 3 値で、データ取得条件ではなく表示密度だけを変える。
 
 ### 一覧カード
 

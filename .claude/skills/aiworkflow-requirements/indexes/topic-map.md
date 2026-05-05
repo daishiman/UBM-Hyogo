@@ -3365,15 +3365,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L15 |
-| 使い方 | L23 |
-| Current Alias Overrides（個別互換行） | L30 |
-| Family Summary | L69 |
-| Detailed Register | L90 |
-| Section Extract Register (2026-03-17) | L271 |
-| 500-Line Split Register (2026-03-16) | L282 |
-| Fragment Migration Register (2026-04-28) | L304 |
-| Task Root Path Drift Register (2026-04-30 追記) | L331 |
+| 概要 | L16 |
+| 使い方 | L24 |
+| Current Alias Overrides（個別互換行） | L31 |
+| Family Summary | L71 |
+| Detailed Register | L92 |
+| Section Extract Register (2026-03-17) | L273 |
+| 500-Line Split Register (2026-03-16) | L284 |
+| Fragment Migration Register (2026-04-28) | L306 |
+| Task Root Path Drift Register (2026-04-30 追記) | L333 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -3665,6 +3665,12 @@ node scripts/list-specs.js --topics
 | L-07C-AUDIT-003: cursor paginationはorder keyを明示して再現可能にする | L24 |
 | L-07C-AUDIT-004: Phase 11 visual evidenceとstaging admin E2Eを混同しない | L30 |
 | L-07C-AUDIT-005: skill feedbackは「ルール不足」と「実行漏れ」を分ける | L36 |
+
+### references/lessons-learned-08a-B-public-search-filter-coverage-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L8 |
 
 ### references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md
 

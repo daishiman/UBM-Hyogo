@@ -1,20 +1,20 @@
-# Phase 6: 異常系検証 — 08a-B-public-search-filter-coverage
+# Phase 10: 最終レビュー — 08a-B-public-search-filter-coverage
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 08a-B-public-search-filter-coverage |
-| phase | 6 / 13 |
+| phase | 10 / 13 |
 | wave | 08a-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
-| taskType | implementation-spec / docs-only |
-| visualEvidence | VISUAL |
+| taskType | implementation |
+| visualEvidence | VISUAL_ON_EXECUTION |
 
 ## 目的
 
-空結果 / enum 外 zone-status 値 / 過大文字数 q（>200 chars）/ >=200 件大量ヒット / 不正 sort / 未知 tag id の異常系を洗う。
+GO/NO-GO 判定と blocker 一覧、上流 wave AC 充足を確認する。
 
 ## 実行タスク
 
@@ -32,7 +32,7 @@
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/08a-B-public-search-filter-coverage/
+- 対象 directory: docs/30-workflows/08a-B-public-search-filter-coverage/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -54,16 +54,16 @@
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-06/main.md を作成する
+- [ ] outputs/phase-10/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-06/main.md
+- outputs/phase-10/main.md
 
 ## 完了条件
 
 - query parameter 6種（q / zone / status / tag / sort / density）すべてに対し既知ケースが spec として記述される
-- `GET /api/public/members` の query 受け取り型と response 形が確定する
+- `GET /public/members` の query 受け取り型と response 形が確定する
 - 空結果 / 不正値 / 大量ヒットの UI 挙動が記述される
 - a11y 観点が AC として明文化される
 
@@ -75,4 +75,4 @@
 
 ## 次 Phase への引き渡し
 
-Phase 7 へ、異常系シナリオと期待挙動を渡す。
+Phase 11 へ、GO/NO-GO 判定と blocker 一覧を渡す。

@@ -5,6 +5,7 @@
   "execution_mode": "parallel",
   "depends_on": [
     "06a public pages",
+    "08a-B public members search/filter coverage",
     "06b member pages",
     "06c admin pages",
     "07a/07b/07c admin ops"
