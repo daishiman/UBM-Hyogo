@@ -4,17 +4,17 @@
 
 UBM 兵庫支部会メンバーサイトの Cloudflare Workers Cron Triggers、D1 migration、release / rollback、incident response の運用基準を固定する。詳細な実行手順は `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/outputs/phase-12/release-runbook.md` を参照する。
 
-## Current Facts（2026-05-01 / 09b）
+## Current Facts（2026-05-05 / issue #377）
 
 `apps/api/wrangler.toml` の cron current facts は次の 3 件である。
 
 | cron | 用途 | 備考 |
 | --- | --- | --- |
-| `0 * * * *` | legacy Sheets hourly sync | 撤回・runtime 整理は UT21-U05 |
 | `0 18 * * *` | schema sync | 03:00 JST |
 | `*/15 * * * *` | Forms response sync | response 差分同期 |
+| `*/5 * * * *` | tag queue retry tick | retry 対象 queued row の再試行 / DLQ audit |
 
-09b は docs-only / spec_created / NON_VISUAL の runbook 整備であり、runtime 設定は変更しない。実 deploy / rollback / cron disable は 09c または緊急運用で実行する。
+legacy Sheets hourly sync (`0 * * * *`) は retry tick 追加時に手動限定へ寄せ、top-level / staging / production の cron 本数を3本以内に維持する。実 deploy / rollback / cron disable は 09c または緊急運用で実行する。
 
 ## D1 / Worker 対応表
 
