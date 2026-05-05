@@ -1,0 +1,13 @@
+=== main drift (baseline 2026-05-01 vs after 2026-05-05) ===
+--- phase-1/main-protection-baseline.json	2026-05-05 08:35:21
++++ phase-11/main-protection-after-normalized.json	2026-05-05 08:35:21
+@@ -1,7 +1,8 @@
+ {
+   "contexts": [
+     "ci",
+-    "Validate Build"
++    "Validate Build",
++    "coverage-gate"
+   ],
+   "strict": true,
+   "rpr": {

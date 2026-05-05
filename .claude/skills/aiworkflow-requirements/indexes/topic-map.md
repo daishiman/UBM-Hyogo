@@ -3023,7 +3023,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L196 |
+| 変更履歴 | L213 |
 
 ### references/deployment-cloudflare-opennext-workers.md
 
