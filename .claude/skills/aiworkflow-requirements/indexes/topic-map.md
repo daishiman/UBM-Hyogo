@@ -3077,8 +3077,9 @@ node scripts/list-specs.js --topics
 | 10. CLI 経路の徹底 | L182 |
 | 11. R2 incremental cache（任意採用） | L191 |
 | 12. 関連リソース | L199 |
-| 13. production route / secret / observability preflight | L217 |
-| 変更履歴 | L258 |
+| 13. production route / secret / observability preflight | L218 |
+| 14. Long-term analytics evidence | L259 |
+| 変更履歴 | L265 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -3108,7 +3109,8 @@ node scripts/list-specs.js --topics
 | ロールバック戦略 | L526 |
 | モニタリング/アラート（UT-08 連携） | L547 |
 | per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
-| 変更履歴 | L599 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
+| 変更履歴 | L617 |
 
 ### references/deployment-core.md
 
@@ -3815,6 +3817,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 苦戦箇所（unassigned-task 由来） | L12 |
 | 関連 skill feedback | L19 |
+
+### references/lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+| Downstream boundaries | L53 |
+| 関連リソース | L60 |
 
 ### references/lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md
 

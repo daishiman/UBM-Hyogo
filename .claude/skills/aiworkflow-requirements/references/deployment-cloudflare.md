@@ -596,10 +596,29 @@ UT-08（`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`）で
 
 ---
 
+## Long-term Analytics Evidence（Issue #347 / 2026-05-05）
+
+Cloudflare Analytics の長期保存 evidence は `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` を正本 decision workflow とする。
+
+| 項目 | current contract |
+| --- | --- |
+| canonical method | GraphQL Analytics API aggregate-only query |
+| fallback | dashboard CSV export（保存前 redaction 必須） |
+| rejected | dashboard screenshot（数値 diff / PII 不在検証が弱い） |
+|保存先 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11/long-term-evidence/` |
+| retention | active 直近 12 件、13 件目以降は `archive/YYYY-MM/` |
+| metrics | 4 metric groups / 5 scalar values: requests, totalRequests/errors5xx, D1 readQueries/writeQueries, worker invocations |
+| PII boundary | URL query / request body / response body / IP / User-Agent / email / member ID / session token は保存禁止 |
+| Logpush | Free plan 外のため不採用 |
+| automation follow-up | `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` |
+
+Runtime production sample は Cloudflare dashboard session または API token が必要なため、user approval 後の運用 cycle で取得する。Issue #347 decision workflow は schema sample / redaction check / Free plan constraints / aiworkflow 同期を完了し、09c parent workflow state は変更しない。
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-05 | 1.5.0 | Issue #347 Cloudflare Analytics long-term evidence decision を追加。GraphQL aggregate-only export、12件 retention、PII 非保存、Logpush 不採用、automation follow-up を正本化 |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare 移行） |
 | 2026-04-27 | 1.1.0 | UT-08 モニタリング/アラート設計の SSOT 連携セクション追加 |
 | 2026-04-27 | 1.2.0 | UT-06 派生: `scripts/cf.sh` 章を `wrangler` 直接実行から canonical wrapper に統一（whoami / deploy / d1 / rollback / secret / tail）。ローカル `wrangler login` OAuth 禁止と `op://` 参照経由の `CLOUDFLARE_API_TOKEN` 動的注入を明示。OpenNext Workers 形式 / Pages 形式の判定マトリクスを追加。初回 D1 backup の空 export 取扱を追記。`apps/web/next.config.ts` 例に `outputFileTracingRoot` / `turbopack.root` / `typescript.ignoreBuildErrors` を反映（別 `tsc --noEmit` gate と pair 必須）。API `wrangler.toml` 例に wrangler 4.x strict mode 対応の `[env.staging]` / `[env.production]` を明示 |
