@@ -9,8 +9,8 @@
 | wave | 08a-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
-| taskType | implementation-spec / docs-only |
-| visualEvidence | VISUAL |
+| taskType | implementation |
+| visualEvidence | VISUAL_ON_EXECUTION |
 
 ## 目的
 
@@ -32,7 +32,7 @@ user approval gate、local-check-result、change-summary、PR template を確定
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/08a-B-public-search-filter-coverage/
+- 対象 directory: docs/30-workflows/08a-B-public-search-filter-coverage/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -63,7 +63,7 @@ user approval gate、local-check-result、change-summary、PR template を確定
 ## 完了条件
 
 - query parameter 6種（q / zone / status / tag / sort / density）すべてに対し既知ケースが spec として記述される
-- `GET /api/public/members` の query 受け取り型と response 形が確定する
+- `GET /public/members` の query 受け取り型と response 形が確定する
 - 空結果 / 不正値 / 大量ヒットの UI 挙動が記述される
 - a11y 観点が AC として明文化される
 

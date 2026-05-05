@@ -44,6 +44,10 @@
 - 表示対象は `掲載同意済み` かつ `管理上公開中` のメンバーだけに限定する
 - 一覧の主要操作は検索、絞り込み、並び替え、表示密度切替に絞る
 - 空状態では「該当メンバーなし」と絞り込み解除導線を出す
+- filter UI は `q / zone / status / tag / sort / density` を URL query 正本として扱い、初期値は URL から省略する
+- `status` は参加ステータス（`member` / `non_member` / `academy`）であり、公開状態フィルタは画面に出さない
+- filter 操作は履歴を汚しすぎないよう `router.replace` 相当で URL を更新し、reload 後も同じ条件を復元する
+- 空状態の解除導線は `href="/members"` の `絞り込みをクリア` とする
 
 #### `/members/[id]`
 

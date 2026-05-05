@@ -1,20 +1,20 @@
-# Phase 9: 品質保証 — 08a-B-public-search-filter-coverage
+# Phase 4: テスト戦略 — 08a-B-public-search-filter-coverage
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | task name | 08a-B-public-search-filter-coverage |
-| phase | 9 / 13 |
+| phase | 4 / 13 |
 | wave | 08a-fu |
 | mode | parallel |
 | 作成日 | 2026-05-01 |
-| taskType | implementation-spec / docs-only |
-| visualEvidence | VISUAL |
+| taskType | implementation |
+| visualEvidence | VISUAL_ON_EXECUTION |
 
 ## 目的
 
-型安全 / lint / test / a11y（filter UI のキーボード・aria）/ 無料枠 / secret hygiene を確認する。
+unit / contract / E2E / a11y のテスト戦略を 6種パラメータ × 既知ケース（happy / 空結果 / 不正値）で先に設計する。
 
 ## 実行タスク
 
@@ -32,7 +32,7 @@
 
 ## 実行手順
 
-- 対象 directory: docs/30-workflows/02-application-implementation/08a-B-public-search-filter-coverage/
+- 対象 directory: docs/30-workflows/08a-B-public-search-filter-coverage/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 
@@ -54,16 +54,16 @@
 - [ ] refs を確認する
 - [ ] AC と evidence path を対応付ける
 - [ ] blocker / approval gate を明記する
-- [ ] outputs/phase-09/main.md を作成する
+- [ ] outputs/phase-04/main.md を作成する
 
 ## 成果物
 
-- outputs/phase-09/main.md
+- outputs/phase-04/main.md
 
 ## 完了条件
 
 - query parameter 6種（q / zone / status / tag / sort / density）すべてに対し既知ケースが spec として記述される
-- `GET /api/public/members` の query 受け取り型と response 形が確定する
+- `GET /public/members` の query 受け取り型と response 形が確定する
 - 空結果 / 不正値 / 大量ヒットの UI 挙動が記述される
 - a11y 観点が AC として明文化される
 
@@ -75,4 +75,4 @@
 
 ## 次 Phase への引き渡し
 
-Phase 10 へ、品質チェック結果と無料枠見積もりを渡す。
+Phase 5 へ、verify suite と test 構造を渡す。

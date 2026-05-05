@@ -45,6 +45,7 @@
 
 ### Depends On
 - 08a coverage gate
+- 08a-B public `/members` search/filter coverage（q / zone / status / tag / sort / density runtime evidence contract）
 - 08b E2E evidence
 - Cloudflare staging secrets
 - staging Pages/Workers target
@@ -62,6 +63,7 @@
 ## AC
 
 - 09a Phase 11 の NOT_EXECUTED が実 evidence に置換される
+- `/members` search/filter smoke は 08a-B Phase 11 contract（`/public/members` curl、screenshots、axe）に沿って取得される
 - UI/authz/admin route smoke evidence が保存される
 - Forms schema/responses sync evidence が保存される
 - wrangler tail または取得不能理由が保存される
