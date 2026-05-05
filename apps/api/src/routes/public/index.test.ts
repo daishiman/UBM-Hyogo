@@ -152,6 +152,24 @@ describe("createPublicRouter", () => {
     expect(res.headers.get("cache-control")).toBe("no-store");
   });
 
+  // TC-RED-03 / TC-REG-01: schema_versions 欠落で use-case が UBM-5500 を throw すると
+  // route mapping は HTTP 503 を返し、成功時 Cache-Control: public, max-age=60 を漏らさない。
+  it("GET /form-preview は schema_versions 欠落時に UBM-5500 (HTTP 503) を返す", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({ latestVersion: null }),
+    });
+    const res = await app.request("/public/form-preview", {}, env);
+    expect(res.status).toBe(503);
+    // 成功時 Cache-Control が誤って付与されていないこと（503 は no-store/未設定どちらでも可）
+    expect(res.headers.get("cache-control")).not.toBe("public, max-age=60");
+    const body = (await res.json()) as Record<string, unknown>;
+    expect(body.code).toBe("UBM-5500");
+    expect(body.status).toBe(503);
+  });
+
   it("実アプリ組み込みでも /public/* は session guard なしで到達できる", async () => {
     const res = await apiWorker.fetch(
       new Request("https://api.example.test/public/healthz"),
