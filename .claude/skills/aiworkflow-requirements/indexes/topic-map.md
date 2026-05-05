@@ -2217,6 +2217,16 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Files | L13 |
+| Implementation Artifacts | L26 |
+| Phase 11 Evidence Files | L36 |
+| Same-Wave Touched Files | L44 |
+| Boundary | L66 |
+
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
 | セクション | 行 |
@@ -2537,6 +2547,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Artifacts | L12 |
 | Runtime Evidence Contract | L27 |
+
+### references/workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Artifact Set | L14 |
+| Runtime Evidence Boundary | L23 |
+| Runtime Execution Task | L27 |
+| Same-Wave Sync | L43 |
 
 ### references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md
 
@@ -3859,6 +3879,25 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 
+### references/lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I377-001: human-review queue と machine-retry queue を分ける | L3 |
+| L-I377-002: DLQ state と audit は同じ wave で書く | L7 |
+| L-I377-003: cron 追加は全 env の本数 parity を見る | L11 |
+| L-I377-004: NON_VISUAL evidence は focused suite から始める | L15 |
+| L-I377-005: default scheduled path を必ずテストする | L19 |
+| L-I377-006: retry/DLQ SQL は repository primitive に寄せる | L23 |
+| L-I377-007: tag queue audit target_type は `tag_queue` | L27 |
+
+### references/lessons-learned-issue-379-schema-diff-current-green-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L11 |
+| 関連 skill feedback | L19 |
+
 ### references/lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md
 
 | セクション | 行 |
@@ -4163,8 +4202,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L94 |
-| 関連ドキュメント | L99 |
+| 利用順序 | L96 |
+| 関連ドキュメント | L101 |
 
 ### references/llm-embedding.md
 
@@ -5233,13 +5272,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L208 |
-| フェーズ構造（概要） | L217 |
-| 品質ゲート（概要） | L248 |
-| 出力テンプレート | L259 |
-| 実行時のコマンド・エージェント・スキル | L282 |
-| 昇格パターン集 | L306 |
-| Current Active / Spec Created Tasks | L308 |
+| ドキュメント構成 | L220 |
+| フェーズ構造（概要） | L229 |
+| 品質ゲート（概要） | L260 |
+| 出力テンプレート | L271 |
+| 実行時のコマンド・エージェント・スキル | L294 |
+| 昇格パターン集 | L318 |
+| Current Active / Spec Created Tasks | L320 |
 
 ### references/task-workflow-backlog-part2.md
 
