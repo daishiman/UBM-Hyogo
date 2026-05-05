@@ -1384,6 +1384,7 @@ packages/
 | issue #377 retry tick | `apps/api/src/workflows/tagQueueRetryTick.ts` / `TAG_QUEUE_TICK_CRON="*/5 * * * *"`。retry 対象は `reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL` のいずれか。plain human-review `queued` は skip。default scheduled path でも `incrementRetryWithDlqAudit` を呼び、DLQ 移送時は `admin.tag.queue_dlq_moved` audit (`target_type='tag_queue'`) を D1 batch で同時記録 |
 | `tag_definitions` カテゴリ | 6 カテゴリ single source（41 行 seed） |
 | fake D1 テストパターン | `apps/api/src/repository/_shared/__fakes__/fakeD1.ts`（in-memory pattern-matching SQL） |
+| Issue #379 current verification | `docs/30-workflows/issue-379-schema-diff-queue-faked1-compat/`。旧 `schemaDiffQueue.test.ts` list 系 2 fail は 2026-05-05 focused Vitest 7/7 PASS で stale 扱い。fakeD1 parser 拡張 / seed edit / SQL rewrite は未実施 |
 | 状態遷移系 repository の必須設計 | Phase 2 で **ALLOWED 表**（from→to の許可遷移行列）を提示 |
 | 苦戦知見 | `references/lessons-learned-02b-schema-diff-and-tag-queue.md` (L-02B-001〜005) |
 | 02b 由来未タスク | `docs/30-workflows/unassigned-task/02b-followup-00{1,2,3}-*.md` |

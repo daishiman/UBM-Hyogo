@@ -1,0 +1,13 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260505-083442-wt-7/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260505-083442-wt-7
+
+ ✓ apps/api/src/repository/schemaDiffQueue.test.ts (7 tests) 41ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  10:40:45
+   Duration  7.13s (transform 1.40s, setup 0ms, collect 2.18s, tests 41ms, environment 1.23s, prepare 340ms)
+

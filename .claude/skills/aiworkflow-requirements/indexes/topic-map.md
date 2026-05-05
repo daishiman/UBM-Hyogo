@@ -3867,6 +3867,13 @@ node scripts/list-specs.js --topics
 | L-I377-006: retry/DLQ SQL は repository primitive に寄せる | L23 |
 | L-I377-007: tag queue audit target_type は `tag_queue` | L27 |
 
+### references/lessons-learned-issue-379-schema-diff-current-green-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L11 |
+| 関連 skill feedback | L19 |
+
 ### references/lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md
 
 | セクション | 行 |
@@ -4171,8 +4178,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L94 |
-| 関連ドキュメント | L99 |
+| 利用順序 | L95 |
+| 関連ドキュメント | L100 |
 
 ### references/llm-embedding.md
 
@@ -5241,13 +5248,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L195 |
-| フェーズ構造（概要） | L204 |
-| 品質ゲート（概要） | L235 |
-| 出力テンプレート | L246 |
-| 実行時のコマンド・エージェント・スキル | L269 |
-| 昇格パターン集 | L293 |
-| Current Active / Spec Created Tasks | L295 |
+| ドキュメント構成 | L206 |
+| フェーズ構造（概要） | L215 |
+| 品質ゲート（概要） | L246 |
+| 出力テンプレート | L257 |
+| 実行時のコマンド・エージェント・スキル | L280 |
+| 昇格パターン集 | L304 |
+| Current Active / Spec Created Tasks | L306 |
 
 ### references/task-workflow-backlog-part2.md
 
