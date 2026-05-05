@@ -1996,6 +1996,17 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L30 |
 | Related Resources | L42 |
 
+### references/workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Contract | L31 |
+| AC to Runtime Path | L43 |
+| Phase 12 Required Files | L55 |
+| Related Resources | L67 |
+
 ### references/workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md
 
 | セクション | 行 |
@@ -2016,6 +2027,16 @@ node scripts/list-specs.js --topics
 | Evidence Path Map | L34 |
 | Phase 12 Required Files | L45 |
 | Related Resources | L57 |
+
+### references/workflow-06b-c-runtime-evidence-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Boundary | L28 |
+| Phase 12 Required Files | L36 |
+| Related Resources | L48 |
 
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
@@ -2194,6 +2215,7 @@ node scripts/list-specs.js --topics
 | Workflow Governance Design 文書（artifact inventory） | L82 |
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
+| Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
@@ -2497,6 +2519,13 @@ node scripts/list-specs.js --topics
 | 実装で確定した値 | L69 |
 | Follow-up 未タスク（formalize 済み） | L78 |
 | Validation Chain | L89 |
+
+### references/workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L12 |
+| Runtime Evidence Contract | L27 |
 
 ### references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md
 
@@ -3357,15 +3386,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L16 |
-| 使い方 | L24 |
-| Current Alias Overrides（個別互換行） | L31 |
-| Family Summary | L70 |
-| Detailed Register | L91 |
-| Section Extract Register (2026-03-17) | L272 |
-| 500-Line Split Register (2026-03-16) | L283 |
-| Fragment Migration Register (2026-04-28) | L305 |
-| Task Root Path Drift Register (2026-04-30 追記) | L332 |
+| 概要 | L17 |
+| 使い方 | L25 |
+| Current Alias Overrides（個別互換行） | L32 |
+| Family Summary | L73 |
+| Detailed Register | L94 |
+| Section Extract Register (2026-03-17) | L275 |
+| 500-Line Split Register (2026-03-16) | L286 |
+| Fragment Migration Register (2026-04-28) | L308 |
+| Task Root Path Drift Register (2026-04-30 追記) | L335 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -3539,6 +3568,17 @@ node scripts/list-specs.js --topics
 | L-06BA-007: secret 検証ロジックは shared extractor を再利用する | L27 |
 | L-06BA-008: `apps/web` は cookie forwarding 維持・D1 直接アクセス禁止 | L31 |
 
+### references/lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06B-B-PBS-001: storage source-of-truth は実装前に grep で確定する | L10 |
+| L-06B-B-PBS-002: wire error code と display vocabulary を分離する | L18 |
+| L-06B-B-PBS-003: API response shape 変更時は `apps/web/src/lib/api/me-types.ts` mirror を必ず同 wave で更新する | L26 |
+| L-06B-B-PBS-004: `spec_created` のままコード/テストが存在する状態を Phase 12 で必ず再分類する | L34 |
+| L-06B-B-PBS-005: pending-only predicate を read model と duplicate guard で共有する | L42 |
+| 関連 artifact / 参照 | L50 |
+
 ### references/lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md
 
 | セクション | 行 |
@@ -3556,7 +3596,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L68 |
+| Follow-up Boundaries | L75 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 
@@ -3657,6 +3697,12 @@ node scripts/list-specs.js --topics
 | L-07C-AUDIT-003: cursor paginationはorder keyを明示して再現可能にする | L24 |
 | L-07C-AUDIT-004: Phase 11 visual evidenceとstaging admin E2Eを混同しない | L30 |
 | L-07C-AUDIT-005: skill feedbackは「ルール不足」と「実行漏れ」を分ける | L36 |
+
+### references/lessons-learned-08a-B-public-search-filter-coverage-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L8 |
 
 ### references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md
 
@@ -3761,6 +3807,7 @@ node scripts/list-specs.js --topics
 | L-ISSUE195FU002-005: 「主担当 / サブ担当」と「owner / co-owner」の用語不整合 | L57 |
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
+| 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
@@ -4081,8 +4128,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L92 |
-| 関連ドキュメント | L97 |
+| 利用順序 | L93 |
+| 関連ドキュメント | L98 |
 
 ### references/llm-embedding.md
 
@@ -5151,13 +5198,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L194 |
-| フェーズ構造（概要） | L203 |
-| 品質ゲート（概要） | L234 |
-| 出力テンプレート | L245 |
-| 実行時のコマンド・エージェント・スキル | L268 |
-| 昇格パターン集 | L292 |
-| Current Active / Spec Created Tasks | L294 |
+| ドキュメント構成 | L195 |
+| フェーズ構造（概要） | L204 |
+| 品質ゲート（概要） | L235 |
+| 出力テンプレート | L246 |
+| 実行時のコマンド・エージェント・スキル | L269 |
+| 昇格パターン集 | L293 |
+| Current Active / Spec Created Tasks | L295 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -5565,17 +5612,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L8 |
 | 概要 | L19 |
-| テスト構成 | L43 |
-| セレクター戦略 | L67 |
-| 待機戦略 | L101 |
-| ヘルパー関数パターン | L137 |
-| テストスイート構造 | L182 |
-| アクセシビリティテスト | L229 |
-| beforeEachパターン | L264 |
-| テストスキップパターン | L290 |
-| CI/CD統合 | L306 |
-| デバッグパターン | L358 |
-| 関連ドキュメント | L380 |
+| テスト構成 | L51 |
+| セレクター戦略 | L75 |
+| 待機戦略 | L109 |
+| ヘルパー関数パターン | L145 |
+| テストスイート構造 | L190 |
+| アクセシビリティテスト | L237 |
+| beforeEachパターン | L272 |
+| テストスキップパターン | L298 |
+| CI/CD統合 | L314 |
+| デバッグパターン | L366 |
+| 関連ドキュメント | L388 |
 
 ### references/ui-history-components.md
 

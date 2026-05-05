@@ -30,6 +30,37 @@ export const MeSessionResponseZ = z
 export type MeSessionResponse = z.infer<typeof MeSessionResponseZ>;
 
 // GET /me/profile
+
+// 06b-followup-001 (#428): server-side pending request の正本表現。
+//   self-service 申請の reload 永続性を担保するため、`/me/profile` で同梱して返す。
+export const PendingVisibilityRequestZ = z
+  .object({
+    queueId: z.string().min(1),
+    status: z.literal("pending"),
+    createdAt: z.string().min(1),
+    desiredState: z.enum(["hidden", "public"]),
+  })
+  .strict();
+
+export const PendingDeleteRequestZ = z
+  .object({
+    queueId: z.string().min(1),
+    status: z.literal("pending"),
+    createdAt: z.string().min(1),
+  })
+  .strict();
+
+export const PendingRequestsZ = z
+  .object({
+    visibility: PendingVisibilityRequestZ.optional(),
+    delete: PendingDeleteRequestZ.optional(),
+  })
+  .strict();
+
+export type PendingVisibilityRequest = z.infer<typeof PendingVisibilityRequestZ>;
+export type PendingDeleteRequest = z.infer<typeof PendingDeleteRequestZ>;
+export type PendingRequests = z.infer<typeof PendingRequestsZ>;
+
 export const MeProfileResponseZ = z
   .object({
     profile: MemberProfileZ,
@@ -41,6 +72,7 @@ export const MeProfileResponseZ = z
     }),
     editResponseUrl: z.string().url().nullable(),
     fallbackResponderUrl: z.string().url(),
+    pendingRequests: PendingRequestsZ,
   })
   .strict();
 
