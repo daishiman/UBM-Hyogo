@@ -81,6 +81,44 @@ describe("createPublicRouter", () => {
     expect(res.headers.get("cache-control")).toBe("no-store");
   });
 
+  it("GET /members は 6 query parameter を appliedQuery に反映する", async () => {
+    const app = new Hono();
+    app.onError(errorHandler);
+    app.route("/public", createPublicRouter());
+    const env = buildEnv({
+      DB: createPublicD1Mock({
+        publicMembers: [
+          buildPublicMemberRow({ member_id: "m-1", current_response_id: "r-1" }),
+        ],
+        publicMemberCount: 1,
+        responseFieldsByResponseId: {
+          "r-1": [buildResponseFieldRow()],
+        },
+      }),
+    });
+    const res = await app.request(
+      "/public/members?q=%20hello%20%20world%20&zone=1_to_10&status=member&tag=ai&tag=dx&sort=name&density=dense&page=2&limit=500",
+      {},
+      env,
+    );
+
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toMatchObject({
+      appliedQuery: {
+        q: "hello world",
+        zone: "1_to_10",
+        status: "member",
+        tags: ["ai", "dx"],
+        sort: "name",
+        density: "dense",
+      },
+      pagination: {
+        page: 2,
+        limit: 100,
+      },
+    });
+  });
+
   it("GET /members/:memberId は不適格なら 404 (UBM-1404)", async () => {
     const app = new Hono();
     app.onError(errorHandler);

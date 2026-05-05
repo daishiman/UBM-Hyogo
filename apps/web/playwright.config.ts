@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const EVIDENCE_DIR =
-  '../../docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence'
+  '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -13,8 +13,8 @@ export default defineConfig({
   timeout: 60_000,
   expect: { timeout: 10_000 },
   reporter: [
-    ['html', { outputFolder: `${EVIDENCE_DIR}/playwright-report`, open: 'never' }],
-    ['json', { outputFile: `${EVIDENCE_DIR}/playwright-report/report.json` }],
+    ['html', { outputFolder: `${EVIDENCE_DIR}/playwright-report/html`, open: 'never' }],
+    ['json', { outputFile: `${EVIDENCE_DIR}/playwright-report/results.json` }],
     ['list'],
   ],
   use: {

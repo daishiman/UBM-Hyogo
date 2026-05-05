@@ -5,6 +5,7 @@
   "execution_mode": "parallel",
   "depends_on": [
     "08a coverage gate",
+    "08a-B public members search/filter coverage",
     "08b E2E evidence",
     "Cloudflare staging secrets",
     "staging Pages/Workers target"
