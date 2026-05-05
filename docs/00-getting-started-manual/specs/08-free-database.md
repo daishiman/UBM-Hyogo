@@ -279,7 +279,7 @@ CREATE INDEX IF NOT EXISTS idx_tag_queue_dlq
   ON tag_assignment_queue(status, dlq_at);
 ```
 
-`status` は `queued | reviewing | resolved | rejected | dlq` を扱う。仕様語では `queued` が `candidate`、`resolved` が `confirmed`、`dlq` が retry 上限超過の保留棚に対応する。`idempotency_key` は現行 candidate row では `<memberId>:<responseId>` で生成する。tagCode は admin 確定時に初めて決まるため key に含めない。`member_tags` への確定書き込みは `POST /admin/tags/queue/:queueId/resolve` の guarded update 成功後だけ行う。
+`status` は `queued | reviewing | resolved | rejected | dlq` を扱う。仕様語では `queued` が `candidate`、`resolved` が `confirmed`、`dlq` が retry 上限超過の保留棚に対応する。`idempotency_key` は現行 candidate row では `<memberId>:<responseId>` で生成する。tagCode は admin 確定時に初めて決まるため key に含めない。`member_tags` への確定書き込みは `POST /admin/tags/queue/:queueId/resolve` の guarded update 成功後だけ行う。Issue #377 retry tick は `queued` 全件ではなく、`reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL` のいずれかを満たす行だけを処理する。
 
 ---
 

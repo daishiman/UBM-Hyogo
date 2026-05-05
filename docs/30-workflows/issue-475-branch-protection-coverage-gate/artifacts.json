@@ -1,0 +1,57 @@
+{
+  "taskId": "issue-475-branch-protection-coverage-gate",
+  "createdAt": "2026-05-05",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "runtime_evidence_captured_gate_b_pending",
+  "metadata": {
+    "workflow_state": "runtime_evidence_captured_gate_b_pending",
+    "implementation_status": "gate_a_consumed_gate_b_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "externalMutation": "github_branch_protection_put",
+    "runtimeEvidenceStatus": "fresh_get_captured_merge_pr_empirical_pending"
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/475",
+  "parentWave": "docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/",
+  "phases": {
+    "phase-1":  { "status": "spec_created", "outputs": ["outputs/phase-1/phase-1.md"] },
+    "phase-2":  { "status": "spec_created", "outputs": ["outputs/phase-2/phase-2.md"] },
+    "phase-3":  { "status": "spec_created", "outputs": ["outputs/phase-3/phase-3.md"] },
+    "phase-4":  { "status": "spec_created", "outputs": ["outputs/phase-4/phase-4.md"] },
+    "phase-5":  { "status": "gate_a_consumed_external_apply_observed", "outputs": ["outputs/phase-5/phase-5.md"] },
+    "phase-6":  { "status": "spec_created", "outputs": ["outputs/phase-6/phase-6.md"] },
+    "phase-7":  { "status": "spec_created", "outputs": ["outputs/phase-7/phase-7.md"] },
+    "phase-8":  { "status": "spec_created", "outputs": ["outputs/phase-8/phase-8.md"] },
+    "phase-9":  { "status": "spec_created", "outputs": ["outputs/phase-9/phase-9.md"] },
+    "phase-10": { "status": "spec_created", "outputs": ["outputs/phase-10/phase-10.md"] },
+    "phase-11": {
+      "status": "runtime_evidence_captured_merge_pr_empirical_pending",
+      "outputs": [
+        "outputs/phase-11/phase-11.md",
+        "outputs/phase-11/main-protection-after-full.json",
+        "outputs/phase-11/dev-protection-after-full.json",
+        "outputs/phase-11/main-drift.diff",
+        "outputs/phase-11/dev-drift.diff",
+        "outputs/phase-11/invariant-check.log",
+        "outputs/phase-11/contexts-preserved.log",
+        "outputs/phase-11/merge-gate-behavior.md",
+        "outputs/phase-11/ssot-diff.log"
+      ]
+    },
+    "phase-12": {
+      "status": "completed_runtime_evidence_synced_gate_b_pending",
+      "outputs": [
+        "outputs/phase-12/phase-12.md",
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "blocked_pending_gate_b_git_publish_and_empirical_pr", "outputs": ["outputs/phase-13/phase-13.md"] }
+  }
+}

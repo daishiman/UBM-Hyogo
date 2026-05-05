@@ -27,6 +27,7 @@ import { createAttendanceProvider } from "../../repository/attendance";
 import {
   memberSelfRequestQueue,
   resolveEditResponseUrl,
+  getPendingRequestsForMember,
 } from "./services";
 
 export interface MeRouteEnv extends SessionGuardEnv {
@@ -81,6 +82,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
       return c.json({ code: "PROFILE_UNAVAILABLE" }, 404);
     }
     const editUrl = await resolveEditResponseUrl(ctx, user.memberId);
+    const pendingRequests = await getPendingRequestsForMember(ctx, user.memberId);
     const body: MeProfileResponse = {
       profile,
       statusSummary: {
@@ -92,6 +94,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
       },
       editResponseUrl: editUrl,
       fallbackResponderUrl: pickResponderUrl(c.env),
+      pendingRequests,
     };
     return c.json(MeProfileResponseZ.parse(body));
   });

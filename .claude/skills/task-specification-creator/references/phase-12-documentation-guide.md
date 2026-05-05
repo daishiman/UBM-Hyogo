@@ -127,9 +127,23 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - build artifact の文字列監査は `rg -F` を優先し、0件判定は `rg -q` の exit code と文書上の `match 0件` を対で残す
 - human-authored な Phase 12 成果物は task root 直下ではなく `outputs/phase-12/` に置く
 - `index.md` / `phase-*.md` / `artifacts.json` / `outputs/artifacts.json` の4点同期結果
+- **必須**: 当該 wave で touch した全 skill の `.claude/skills/<skill>/LOGS.md` 更新行を **canonical absolute path** で必ず列挙する。`SKILL.md` だけ列挙して `LOGS.md` を省略するパターンは FAIL（06b-b pending banner 監査で検出）。
 - Step 1-A で更新した `aiworkflow-requirements` / `task-specification-creator` の `SKILL.md` / `LOGS.md` を canonical path で列挙する
 - `skill-creator` を改善した場合は、`skill-creator/SKILL.md` / `LOGS.md` / 変更した template or reference も同じ changelog に列挙する
 - `更新予定` / `計画済み` / `PR マージ後に実施` のような future wording を残さない
+
+### 必須エントリ最小セット（documentation-changelog.md）
+
+以下が **同一 changelog 内で同一 wave として** 揃っているか自己監査する:
+
+| カテゴリ | 必須 path 例 |
+| --- | --- |
+| skill 正本 | `.claude/skills/<skill>/SKILL.md` |
+| skill 履歴 | `.claude/skills/<skill>/LOGS.md` ← **省略禁止** |
+| skill reference / template | `.claude/skills/<skill>/references/*.md`（変更があった場合） |
+| workflow artifacts | `docs/30-workflows/<task>/{index.md,artifacts.json}` |
+| workflow outputs | `docs/30-workflows/<task>/outputs/{artifacts.json,phase-12/*.md}` |
+| system spec | `docs/00-getting-started-manual/specs/*.md`（変更があった場合） |
 
 ## Task 12-4: unassigned detection
 

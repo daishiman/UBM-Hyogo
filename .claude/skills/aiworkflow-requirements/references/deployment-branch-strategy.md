@@ -82,19 +82,19 @@ Settings > Environments > staging:
 
 ## ブランチ保護ルール（推奨設定）
 
-本節は **current applied** と **draft proposal** を分離する。current applied は GitHub REST API `GET /repos/{owner}/{repo}/branches/{branch}/protection` の取得結果を正本とし、expected contexts / PUT payload / rollback payload から推測しない。2026-05-01 の `task-utgov001-references-reflect-001` で取得した fresh GET evidence により、UT-GOV-001 second-stage reapply 後の branch protection 実値を反映済み（Refs #303）。
+本節は **current applied** と **draft proposal** を分離する。current applied は GitHub REST API `GET /repos/{owner}/{repo}/branches/{branch}/protection` の取得結果を正本とし、expected contexts / PUT payload / rollback payload から推測しない。2026-05-05 の `issue-475-branch-protection-coverage-gate` Phase 11 で取得した fresh GET evidence により、Issue #475 適用後の branch protection 実値を反映済み（Refs Issue #475）。
 
-### current applied（GitHub GET evidence / 2026-05-01 / Refs #303）
+### current applied（GitHub GET evidence / 2026-05-05 / Issue #475 適用後）
 
 Evidence:
 
-- `docs/30-workflows/completed-tasks/task-utgov001-references-reflect-001/outputs/phase-13/branch-protection-applied-dev.json`
-- `docs/30-workflows/completed-tasks/task-utgov001-references-reflect-001/outputs/phase-13/branch-protection-applied-main.json`
+- `docs/30-workflows/issue-475-branch-protection-coverage-gate/outputs/phase-11/main-protection-after-full.json`
+- `docs/30-workflows/issue-475-branch-protection-coverage-gate/outputs/phase-11/dev-protection-after-full.json`
 
 | 項目 | `dev` | `main` |
 | --- | --- | --- |
-| Required pull request reviews | enabled / required approvals `0` / code owner reviews `false` / last push approval `false` | enabled / required approvals `0` / code owner reviews `false` / last push approval `false` |
-| Required status checks contexts | `ci`, `Validate Build` | `ci`, `Validate Build` |
+| Required pull request reviews | `null`（solo 運用 / 必須レビュアーなし） | enabled / required approvals `0` / code owner reviews `false` / last push approval `false` |
+| Required status checks contexts | `ci`, `Validate Build`, `coverage-gate` | `ci`, `Validate Build`, `coverage-gate` |
 | Strict status checks | `false` | `true` |
 | Enforce admins | `false` | `false` |
 | Required linear history | `false` | `false` |
@@ -107,7 +107,24 @@ Notes:
 
 - Fresh GET の実値には `verify-indexes-up-to-date` は含まれない。UT-GOV-004 / second-stage reapply の expected contexts との差分として扱い、current applied へ期待値を混入しない。
 - 上流 `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/outputs/phase-13/branch-protection-applied-{dev,main}.json` が `blocked_until_user_approval` placeholder の場合は current applied の入力にしない。
-- `coverage-gate` は 2026-05-04 Task E で hard gate 化済みだが、この 2026-05-01 current applied evidence には required context として含まれていない。GitHub branch protection の実 PUT はユーザー承認が必要な外部設定変更であり、承認後に fresh GET evidence を取り直して本表を更新する。
+- `coverage-gate` は 2026-05-04 Task E で hard gate 化され、Issue #475 で `main` / `dev` 両ブランチの `required_status_checks.contexts` に登録された。
+- dev の `required_pull_request_reviews=null` は CLAUDE.md solo 運用ポリシー (`required_pull_request_reviews=null` 不変条件) と一致する。2026-05-01 baseline (`required_approving_review_count: 0`) から本値への変化は Issue #475 の append-only PUT スコープ外で発生した既存 drift であり、policy invariant 方向への変化のため本表に反映する。
+- main の `required_pull_request_reviews` は `required_approving_review_count: 0` のままで、solo 運用上 merge 手続きには影響しない（reviewers 0 のため pending review でブロックされない）。
+
+### Issue #475 適用 evidence（2026-05-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-475-branch-protection-coverage-gate/` |
+| source unassigned-task | `docs/30-workflows/unassigned-task/task-ci-test-recovery-coverage-80-task-e-branch-protection-coverage-gate-001.md` |
+| target context | `coverage-gate` |
+| target branches | `main`, `dev` |
+| Gate A | 外部 GitHub PUT 承認 — 消化済（PR #477 周辺の外部適用） |
+| Gate B | git commit / push / PR 承認 — 本サイクルでは未取得（throwaway 検証 PR は後続） |
+| invariant | non-target branch protection fields は fresh GET の現行値を正として preserve（hard-code しない） |
+| runtime evidence | `outputs/phase-11/{main,dev}-protection-after-full.json`, `*-drift.diff`, `invariant-check.log`, `contexts-preserved.log`, `merge-gate-behavior.md`, `manual-smoke-log.md`, `ssot-diff.log` |
+| invariant 違反 | 0 件（Issue #475 スコープ）。dev の rpr drift は out-of-scope の policy invariant 方向 |
+| 既存 contexts 維持 | missing=[]（main / dev とも） |
 
 ### historical current applied（承認不要 + CODEOWNERS ownership 文書化 / 2026-04-29）
 
@@ -199,6 +216,8 @@ UT-GOV-001 の適用予定値は solo 運用と衝突しないよう、草案の
 | ---- | ---------- | -------- |
 | 2026-04-28 | 1.2.1 | UT-GOV-001 branch protection apply spec_created sync。solo 運用の実適用予定値として `required_pull_request_reviews=null`、UT-GOV-004 contexts 積集合、`lock_branch=false`、`enforce_admins=true`、dev/main 別 payload と rollback 境界を追記。 |
 | 2026-05-01 | 1.4.0 | task-utgov001-references-reflect-001 sync。fresh GitHub GET evidence 由来で dev/main branch protection current applied を反映。実 contexts は `ci`, `Validate Build` の2件で、`verify-indexes-up-to-date` は current applied に含めない。Refs #303。 |
+| 2026-05-05 | 1.4.1 | Issue #475 coverage-gate required context pending apply を追加。current applied は未更新のまま、Gate A/B、append-only PUT、non-target fields preserve、Phase 11 fresh GET evidence 境界を明記。 |
+| 2026-05-05 | 1.4.2 | Issue #475 適用後 fresh GET evidence で current applied 表を更新。`coverage-gate` を main / dev の required contexts に追加、dev の `required_pull_request_reviews=null`（solo policy 方向の out-of-scope 既存 drift）も反映。Issue #475 invariant 違反 0 件、既存 contexts 維持を確認。 |
 | 2026-04-09 | 1.0.0 | 初版作成（feature/dev/main 3層ブランチ戦略） |
 | 2026-04-26 | 1.1.0 | 個人開発方針反映: PR 承認を 2名/1名 → 0名（承認不要）に変更。CI チェック必須は維持。production Required reviewers を 0名に変更。Issue #23 対応。 |
 | 2026-04-28 | 1.2.0 | task-github-governance-branch-protection spec_created sync。dev=1名 / main=2名レビュー、squash-only、linear history、CODEOWNERS / last-push approval、8 required status checks 草案を追記。実適用は後続タスク・ユーザー承認後に限定。 |
