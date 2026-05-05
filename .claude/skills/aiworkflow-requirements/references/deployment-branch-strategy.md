@@ -107,6 +107,7 @@ Notes:
 
 - Fresh GET の実値には `verify-indexes-up-to-date` は含まれない。UT-GOV-004 / second-stage reapply の expected contexts との差分として扱い、current applied へ期待値を混入しない。
 - 上流 `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/outputs/phase-13/branch-protection-applied-{dev,main}.json` が `blocked_until_user_approval` placeholder の場合は current applied の入力にしない。
+- `coverage-gate` は 2026-05-04 Task E で hard gate 化済みだが、この 2026-05-01 current applied evidence には required context として含まれていない。GitHub branch protection の実 PUT はユーザー承認が必要な外部設定変更であり、承認後に fresh GET evidence を取り直して本表を更新する。
 
 ### historical current applied（承認不要 + CODEOWNERS ownership 文書化 / 2026-04-29）
 

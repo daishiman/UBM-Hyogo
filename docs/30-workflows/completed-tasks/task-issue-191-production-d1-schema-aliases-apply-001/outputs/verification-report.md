@@ -104,3 +104,7 @@
 - ⚠️ [consistency] 依存するPhase 10の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 11の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 12の成果物が文書内で参照されていない可能性があります
+
+## Cross-reference: source attribution
+
+The `0008_create_schema_aliases.sql` (and the preceding `0008_schema_alias_hardening.sql`) entries observed in the production `d1_migrations` ledger were attributed to the `backend-ci` workflow's `deploy-production` job by the read-only audit `task-issue-359-production-d1-out-of-band-apply-audit-001` (Issue #434). See `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/outputs/phase-11/attribution-decision.md` for the single-line decision and `outputs/phase-11/single-record.md` for the consolidated record. No additional production apply was performed by either workflow.
