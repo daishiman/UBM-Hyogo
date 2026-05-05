@@ -1,0 +1,45 @@
+{
+  "task": "issue-419-pages-project-dormant-delete-after-355",
+  "status": "spec_created",
+  "createdAt": "2026-05-04",
+  "githubIssue": 419,
+  "githubIssueState": "CLOSED",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "Cloudflare Pages dormant project physical deletion after Workers cutover (#355) — preflight evidence, dormant observation log, user-approved deletion via bash scripts/cf.sh, post-deletion smoke, redaction gate, aiworkflow-requirements reference cleanup. No commit/push/PR/cf.sh execution within this spec cycle.",
+    "workflow_state": "spec_created",
+    "wave": "issue-419",
+    "mode": "serial",
+    "owner": "-",
+    "revisedAt": "2026-05-04",
+    "direction": "Spec only — Pages project deletion remains pending dormant observation completion + explicit user approval. No commit/push/PR/cf.sh execution within this cycle.",
+    "destructiveOperation": true,
+    "parentIssue": 355,
+    "parentIssueRefRule": "Refs #355 only; Closes #355 forbidden",
+    "cliWrapper": "bash scripts/cf.sh (wrangler direct invocation forbidden)",
+    "phase12Status": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING"
+  },
+  "depends_on": [
+    "issue-355-opennext-workers-cd-cutover-task-spec",
+    "task-impl-opennext-workers-migration-001"
+  ],
+  "blocks": [
+    "aiworkflow-requirements-pages-references-cleanup"
+  ],
+  "phases": [
+    { "phase": "01", "title": "要件定義", "file": "phase-01.md", "output": "outputs/phase-01/main.md", "status": "completed" },
+    { "phase": "02", "title": "設計（観察期間 / 削除フロー / evidence schema）", "file": "phase-02.md", "output": "outputs/phase-02/main.md", "status": "completed" },
+    { "phase": "03", "title": "設計レビュー", "file": "phase-03.md", "output": "outputs/phase-03/main.md", "status": "completed" },
+    { "phase": "04", "title": "テスト戦略", "file": "phase-04.md", "output": "outputs/phase-04/main.md", "status": "completed" },
+    { "phase": "05", "title": "実装ランブック", "file": "phase-05.md", "output": "outputs/phase-05/main.md", "status": "completed" },
+    { "phase": "06", "title": "異常系検証", "file": "phase-06.md", "output": "outputs/phase-06/main.md", "status": "completed" },
+    { "phase": "07", "title": "AC マトリクス", "file": "phase-07.md", "output": "outputs/phase-07/main.md", "status": "completed" },
+    { "phase": "08", "title": "DRY 化", "file": "phase-08.md", "output": "outputs/phase-08/main.md", "status": "completed" },
+    { "phase": "09", "title": "品質保証", "file": "phase-09.md", "output": "outputs/phase-09/main.md", "status": "completed" },
+    { "phase": "10", "title": "最終レビュー", "file": "phase-10.md", "output": "outputs/phase-10/main.md", "status": "completed" },
+    { "phase": "11", "title": "dormant 観察 + 削除 evidence 取得", "file": "phase-11.md", "output": "outputs/phase-11/main.md", "status": "pending_runtime_execution" },
+    { "phase": "12", "title": "ドキュメント更新（aiworkflow-requirements 反映）", "file": "phase-12.md", "output": "outputs/phase-12/main.md", "status": "completed_boundary_runtime_pending" },
+    { "phase": "13", "title": "PR 作成", "file": "phase-13.md", "output": "outputs/phase-13/main.md", "status": "blocked_pending_user_approval" }
+  ]
+}
