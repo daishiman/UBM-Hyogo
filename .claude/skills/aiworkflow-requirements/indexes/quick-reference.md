@@ -182,6 +182,7 @@
 | Phase 12 compliance | `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `references/workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md` |
 | parent restoration blocker | `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md` |
+| runtime exec task | `docs/30-workflows/unassigned-task/task-09a-A-exec-staging-smoke-001.md`（`UT-09A-A-EXEC-STAGING-SMOKE-001`, HIGH, G1-G4 multi-stage approval gate, 2026-05-06 formalize） |
 | downstream blocker | `09c-production-deploy-execution-001` remains blocked until actual 09a-A runtime evidence exists |
 
 ---

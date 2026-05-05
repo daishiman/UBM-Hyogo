@@ -2534,7 +2534,8 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Current Artifact Set | L14 |
 | Runtime Evidence Boundary | L23 |
-| Same-Wave Sync | L27 |
+| Runtime Execution Task | L27 |
+| Same-Wave Sync | L43 |
 
 ### references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md
 

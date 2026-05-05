@@ -1219,7 +1219,8 @@
       "task-workflow-completed-skill-lifecycle-ui-verify.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md"
     ],
     "HealthPolicy": [
       "arch-execution-capability-contract.md",
@@ -6026,6 +6027,7 @@
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",

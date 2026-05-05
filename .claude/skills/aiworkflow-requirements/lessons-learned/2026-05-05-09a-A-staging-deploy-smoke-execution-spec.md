@@ -53,6 +53,27 @@
 - **適用条件**: staging → production の 2 段 deploy 系 workflow（09a → 09c / 03b → 03c など）。
 - **再利用方法**: blocker propagation を artifact inventory の固定セクションにし、09c 着手前に `grep -rl '09a-A-staging-deploy-smoke-execution' docs/30-workflows/09c-production-deploy-execution-001/` で双方向参照が両側に存在することを Phase 1 P50 既実装状態調査で必ず確認する。Phase 11 runtime evidence が PASS になった時点で初めて 09c gate を user に提示できる。
 
+### L-09AA-006: 親 directory 不在の successor は **独立完結経路**で runtime evidence を保存し、parent mirror update を分離 step として明記する
+
+- **背景**: 09a-A は親 `09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` directory が現 worktree に不在のまま spec contract を完了している。restoration task 完了を待つと runtime evidence 取得が無期限に遅延し、09c production deploy も連鎖的に blocked となる。一方で restoration なしに親 path を参照する evidence dump を保存すると、後段で grep 引き直しと artifact 重複が発生する。
+- **教訓**: 親 directory drift / absent の場合、successor は **自身の root 配下のみで evidence path を完結**させ、親 mirror update は exec task の独立 step（例: Step 6）に分離する。restoration task 未完でも 09a-A は単独で runtime PASS まで進められる経路を保ち、親 mirror update は restoration が green になった時点で別 PR / 別 wave で実施する。
+- **適用条件**: parent canonical directory が drift / absent / restoration pending のまま、successor の Phase 11 runtime evidence 取得が必要なケース。
+- **再利用方法**: exec task spec の Step 一覧に「親 mirror update は restoration 完了後の別 step」を mandatory 化し、Phase 11 evidence root は successor 自身の `outputs/phase-11/evidence/` のみを正本とする。successor artifact inventory に `Parent mirror update: pending_until_restoration_pass` 行を固定する。
+
+### L-09AA-007: spec contract PASS と runtime PASS を視覚的に分離するため、**Phase 11 main.md 冒頭に状態行**を必ず置く
+
+- **背景**: Phase 12 strict 7 files が揃っていても Phase 11 runtime evidence が `NOT_EXECUTED` のままの状態は、artifacts.json / quick-reference / resource-map のいずれかを読み損なうと「全 Phase PASS」と読み違える。特に Phase 12 を後から開いた読者は Phase 11 main.md の本文後半の `NOT_EXECUTED` 注記を見落とす可能性が高い。
+- **教訓**: `outputs/phase-11/main.md` の冒頭 1 行目に必ず状態 banner を置く: `state: PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / runtime_evidence: NOT_EXECUTED / approval: G1-G4 pending_user_approval`。Phase 12 の `phase12-task-spec-compliance-check.md` 判定行と一字一句揃え、Phase 12 を「PASS」と要約しても Phase 11 が runtime PASS でないことが必ず露出するようにする。
+- **適用条件**: spec contract 完成と runtime evidence 取得が分離している全 `*-execution` workflow（09a-A / 09c production / 06b-c runtime evidence / 08b-A full execution など）。
+- **再利用方法**: `templates/staging-deploy-smoke-evidence-template.md` の Phase 11 main.md 雛形冒頭に状態 banner 行を含め、generate-index.js 系の validate でこの 1 行が欠落した場合に fail させる validator を将来追加する。
+
+### L-09AA-008: G1-G4 包括承認の解釈リスクは **gate 直前提示プロトコル**で防ぐ
+
+- **背景**: user 発言「進めて」「OK」「実行して」は曖昧で、4 gate 同時実行と解釈すると spec の「合算承認禁止 / 逆順実行禁止」に違反する。特に G3 Forms sync のように外部 API quota を消費する gate を G1 deploy と同時承認したと誤解した場合、rollback 境界が崩れる。
+- **教訓**: 各 gate 直前で **(1) 対象操作 (2) 影響範囲 (3) rollback 手段 (4) 次 gate との独立性** の 4 点を 1 メッセージで提示し、user 承認応答を**当該 gate のみ**に限定する。承認は gate ごとに独立イベントとして記録し、artifact に `approved_at_g1`, `approved_at_g2`, ... のように分離する。「全部 OK」など包括承認発言があった場合でも、Claude Code 側は **gate ごとに再提示・再承認**を求める。
+- **適用条件**: 1 wave に複数 runtime mutation gate がある execution task（deploy + DB migration + 外部 API + git push 等）。
+- **再利用方法**: artifact inventory の `Runtime Execution Task` セクションに `Pre-G1..G4 提示テンプレ` 行を追加し、各 gate の (1)-(4) フィールドを必須化する。Claude Code 運用上は「包括承認発言を gate 数に分割再確認する」を運用ルールとして lessons-learned に固定する。
+
 ## Same-Wave Sync
 
 | target | purpose |
