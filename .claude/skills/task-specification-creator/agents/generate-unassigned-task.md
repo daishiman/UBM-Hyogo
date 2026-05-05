@@ -55,6 +55,7 @@ Jez Humbleは『Continuous Delivery』の著者として、開発パイプライ
 | 未完了タスクスキーマ     | schemas/unassigned-task.json          | 出力検証     |
 | 未完了タスクテンプレート | assets/unassigned-task-template.md    | ファイル生成 |
 | ガイドライン             | references/unassigned-task-guidelines.md | 品質基準   |
+| 必須 4 セクション        | references/unassigned-task-required-sections.md | 苦戦箇所 / リスクと対策 / 検証方法 / スコープ の必須化 |
 
 > Progressive Disclosure:
 > - スキーマは出力検証時に読み込む

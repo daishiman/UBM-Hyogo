@@ -5,8 +5,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { STABLE_KEY } from "@ubm-hyogo/shared";
-import type { MeProfileStatusSummary } from "../../../src/lib/api/me-types";
+import type {
+  MeProfileStatusSummary,
+  PendingRequests,
+} from "../../../src/lib/api/me-types";
 import type {
   QueueAccepted,
   RequestQueueType,
@@ -19,16 +23,23 @@ import { RequestPendingBanner } from "./RequestPendingBanner";
 export interface RequestActionPanelProps {
   readonly publishState: MeProfileStatusSummary["publishState"];
   readonly rulesConsent: MeProfileStatusSummary[typeof STABLE_KEY.rulesConsent];
+  /**
+   * 06b-followup-001 (#428): server-side pending state。
+   * reload 後も banner を sticky 表示するための正本（S1）。
+   */
+  readonly pendingRequests?: PendingRequests;
 }
 
 export function RequestActionPanel({
   publishState,
   rulesConsent,
+  pendingRequests,
 }: RequestActionPanelProps) {
+  const router = useRouter();
   const [visibilityDialogState, setVisibilityDialogState] =
     useState<VisibilityDesiredState | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [pending, setPending] = useState<{
+  const [optimistic, setOptimistic] = useState<{
     type: RequestQueueType;
     createdAt: string;
   } | null>(null);
@@ -45,8 +56,28 @@ export function RequestActionPanel({
   }
 
   const onSubmitted = (accepted: QueueAccepted) => {
-    setPending({ type: accepted.type, createdAt: accepted.createdAt });
+    setOptimistic({ type: accepted.type, createdAt: accepted.createdAt });
+    // server pending を fetch し直して durable な banner を表示する（S1）
+    router.refresh();
   };
+
+  // server pending を最優先（S1）。submit 直後の体感のため optimistic を fallback として併用。
+  const visibilityPending = pendingRequests?.visibility
+    ? {
+        type: "visibility_request" as const,
+        createdAt: pendingRequests.visibility.createdAt,
+      }
+    : optimistic?.type === "visibility_request"
+      ? optimistic
+      : null;
+  const deletePending = pendingRequests?.delete
+    ? {
+        type: "delete_request" as const,
+        createdAt: pendingRequests.delete.createdAt,
+      }
+    : optimistic?.type === "delete_request"
+      ? optimistic
+      : null;
 
   const showHideButton = publishState === "public";
   const showRepublishButton =
@@ -55,15 +86,24 @@ export function RequestActionPanel({
   return (
     <section aria-label="本人申請" data-testid="request-action-panel">
       <h2>本人による申請</h2>
-      {pending ? (
-        <RequestPendingBanner type={pending.type} createdAt={pending.createdAt} />
+      {visibilityPending ? (
+        <RequestPendingBanner
+          type={visibilityPending.type}
+          createdAt={visibilityPending.createdAt}
+        />
+      ) : null}
+      {deletePending ? (
+        <RequestPendingBanner
+          type={deletePending.type}
+          createdAt={deletePending.createdAt}
+        />
       ) : null}
       <div>
         {showHideButton ? (
           <button
             type="button"
             onClick={() => setVisibilityDialogState("hidden")}
-            disabled={pending?.type === "visibility_request"}
+            disabled={visibilityPending !== null}
             data-testid="open-hide-dialog"
           >
             公開を停止する
@@ -73,7 +113,7 @@ export function RequestActionPanel({
           <button
             type="button"
             onClick={() => setVisibilityDialogState("public")}
-            disabled={pending?.type === "visibility_request"}
+            disabled={visibilityPending !== null}
             data-testid="open-republish-dialog"
           >
             再公開を申請する
@@ -82,7 +122,7 @@ export function RequestActionPanel({
         <button
           type="button"
           onClick={() => setDeleteOpen(true)}
-          disabled={pending?.type === "delete_request"}
+          disabled={deletePending !== null}
           data-testid="open-delete-dialog"
         >
           退会を申請する

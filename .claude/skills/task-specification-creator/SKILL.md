@@ -28,6 +28,8 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.05-06b-pending-banner-skill-audit | 2026-05-05 | 06b-B pending banner sticky の skill 反映監査を補強。`unassigned-task-required-sections.md` を SKILL.md References と `agents/generate-unassigned-task.md` リソース表に明示し導線化。`phase-12-documentation-guide.md` Task 12-3 へ「`.claude/skills/<skill>/LOGS.md` 更新行を canonical absolute path で必ず列挙する（SKILL.md だけ列挙して LOGS.md 省略は FAIL）」と必須エントリ最小セット表（skill 正本 / skill 履歴 / reference / workflow artifacts / outputs / system spec）を追加。 |
+| v2026.05.04-06b-pending-banner-implemented-local-reclass | 2026-05-04 | 06b-B pending banner sticky review feedback を反映。implementation workflow で code/tests が存在する場合、`spec_created` / `spec_only_awaiting_implementation` を残さず `implemented-local` へ再分類する。Phase 12 は manual specs / aiworkflow indexes / root+outputs artifacts / Phase 9 static evidence / Phase 11 blocker を同一 wave で同期し、server state-of-truth と client optimistic fallback の境界、web/API mirror type、wire code/display vocabulary、pending-only repository predicate を checklist 化する。 |
 | v2026.05.04-08b-a-runtime-contract-code-alignment | 2026-05-04 | 08b-A Playwright full execution review feedback を反映。VISUAL_ON_EXECUTION の docs formalization でも、実行時コードの report / screenshot 出力先が Phase 11 evidence manifest と不一致なら実コード設定を同一 wave で補正する。Phase 11 は `completed` と runtime PASS を混同せず `contract_ready_runtime_pending` 等の境界語彙で記録し、30+ screenshot / admin UI gate / direct API 403 / foreign content edit 403 / secret hygiene / zero skip inventory を fresh evidence 条件にする。 |
 | v2026.05.04-ut07b-fu04-already-applied-verification | 2026-05-04 | UT-07B-FU-04 review feedback を反映。production D1 ledger 既適用時は apply execution を already-applied verification へ再分類し、`d1 migrations apply` を forbidden path、`apply.log` を no-op prohibition evidence とする。post-check は target migration owned objects のみに限定し、placeholder evidence と fresh runtime evidence を Phase 12 で分離する。 |
 | v2026.05.03-ut-05a-deploy-verification-two-path | 2026-05-03 | UT-05A fetchPublic service-binding workflow の skill feedback を反映。Cloudflare Workers の deploy-verification 型 Phase 11 では code diff / staging curl / production curl / tail / local fallback / redaction を分け、未実行 runtime evidence を PASS 化しない。service-binding + HTTP fallback の two-path 実装は AC を runtime path × evidence で記録する。 |
@@ -122,6 +124,7 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 | Phase 12 skill feedback promotion | [references/phase12-skill-feedback-promotion.md](references/phase12-skill-feedback-promotion.md) |
 | Phase 12 よくある漏れ / 苦戦防止 Tips | [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md) |
 | Phase 12 sync パターン（aiworkflow-requirements 同時更新 / workflow root 移動チェックリスト） | [references/patterns-phase12-sync.md](references/patterns-phase12-sync.md) |
+| 未タスクテンプレ必須 4 セクション（苦戦箇所 / リスクと対策 / 検証方法 / スコープ） | [references/unassigned-task-required-sections.md](references/unassigned-task-required-sections.md) |
 | 品質ゲート / Phase 境界 / 検証コマンド導線（commands.md とハブ関係） | [references/quality-gates.md](references/quality-gates.md) |
 | オーケストレーション / リソース導線 / ベストプラクティス | [references/orchestration.md](references/orchestration.md) |
 | NON_VISUAL governance パターン（Phase 8 単一正本 YAML / check-runs 並走 / Phase 13 二重承認） | [lessons-learned/non-visual-governance-pattern.md](lessons-learned/non-visual-governance-pattern.md) |

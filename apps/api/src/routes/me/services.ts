@@ -14,6 +14,7 @@ import {
 import * as adminNotes from "../../repository/adminNotes";
 import * as auditLog from "../../repository/auditLog";
 import { findCurrentResponse } from "../../repository/responses";
+import type { PendingRequests } from "./schemas";
 
 export interface AppendSelfRequestInput {
   ctx: DbCtx;
@@ -72,6 +73,58 @@ export const memberSelfRequestQueue = {
     appendSelfRequest("visibility_request", input),
   appendDelete: (input: AppendSelfRequestInput) =>
     appendSelfRequest("delete_request", input),
+};
+
+/**
+ * 06b-followup-001 (#428): server-side pending request の取得。
+ * `/me/profile` の reload 永続性のため、最新の pending 申請を visibility / delete に振り分ける。
+ * 該当 type の pending が複数あった場合は最新 1 件 (created_at DESC) を採用する。
+ * desiredState は body JSON に格納された `payload.desiredState` を使用し、
+ * parse 不能なら "hidden" を fallback とする（保守的に hide 側を表示）。
+ */
+export const getPendingRequestsForMember = async (
+  ctx: DbCtx,
+  memberId: MemberId,
+): Promise<PendingRequests> => {
+  const visibility = await adminNotes.findLatestPendingByMemberAndType(
+    ctx,
+    memberId,
+    "visibility_request",
+  );
+  const del = await adminNotes.findLatestPendingByMemberAndType(
+    ctx,
+    memberId,
+    "delete_request",
+  );
+  const result: PendingRequests = {};
+  if (visibility && visibility.requestStatus === "pending") {
+    let desired: "hidden" | "public" = "hidden";
+    try {
+      const body = JSON.parse(visibility.body) as {
+        payload?: { desiredState?: unknown };
+      } | null;
+      const candidate = body?.payload?.desiredState;
+      if (candidate === "hidden" || candidate === "public") {
+        desired = candidate;
+      }
+    } catch {
+      // body 不正は fallback で hidden
+    }
+    result.visibility = {
+      queueId: visibility.noteId,
+      status: "pending",
+      createdAt: visibility.createdAt,
+      desiredState: desired,
+    };
+  }
+  if (del && del.requestStatus === "pending") {
+    result.delete = {
+      queueId: del.noteId,
+      status: "pending",
+      createdAt: del.createdAt,
+    };
+  }
+  return result;
 };
 
 /**

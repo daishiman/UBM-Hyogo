@@ -1996,6 +1996,17 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L30 |
 | Related Resources | L42 |
 
+### references/workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Contract | L31 |
+| AC to Runtime Path | L43 |
+| Phase 12 Required Files | L55 |
+| Related Resources | L67 |
+
 ### references/workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md
 
 | セクション | 行 |
@@ -3378,12 +3389,12 @@ node scripts/list-specs.js --topics
 | 概要 | L16 |
 | 使い方 | L24 |
 | Current Alias Overrides（個別互換行） | L31 |
-| Family Summary | L71 |
-| Detailed Register | L92 |
-| Section Extract Register (2026-03-17) | L273 |
-| 500-Line Split Register (2026-03-16) | L284 |
-| Fragment Migration Register (2026-04-28) | L306 |
-| Task Root Path Drift Register (2026-04-30 追記) | L333 |
+| Family Summary | L72 |
+| Detailed Register | L93 |
+| Section Extract Register (2026-03-17) | L274 |
+| 500-Line Split Register (2026-03-16) | L285 |
+| Fragment Migration Register (2026-04-28) | L307 |
+| Task Root Path Drift Register (2026-04-30 追記) | L334 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -3556,6 +3567,17 @@ node scripts/list-specs.js --topics
 | L-06BA-006: 単一 resolver factory に dev / production 経路を集約する | L23 |
 | L-06BA-007: secret 検証ロジックは shared extractor を再利用する | L27 |
 | L-06BA-008: `apps/web` は cookie forwarding 維持・D1 直接アクセス禁止 | L31 |
+
+### references/lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06B-B-PBS-001: storage source-of-truth は実装前に grep で確定する | L10 |
+| L-06B-B-PBS-002: wire error code と display vocabulary を分離する | L18 |
+| L-06B-B-PBS-003: API response shape 変更時は `apps/web/src/lib/api/me-types.ts` mirror を必ず同 wave で更新する | L26 |
+| L-06B-B-PBS-004: `spec_created` のままコード/テストが存在する状態を Phase 12 で必ず再分類する | L34 |
+| L-06B-B-PBS-005: pending-only predicate を read model と duplicate guard で共有する | L42 |
+| 関連 artifact / 参照 | L50 |
 
 ### references/lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md
 

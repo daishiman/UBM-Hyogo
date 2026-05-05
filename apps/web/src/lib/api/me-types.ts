@@ -31,9 +31,30 @@ export interface MeProfileStatusSummary {
   readonly isDeleted: false;
 }
 
+// 06b-followup-001 (#428): server-side pending request の mirror 型。
+//   API パッケージ /me/schemas.ts と構造一致（drift は typecheck で検出）。
+export interface PendingVisibilityRequest {
+  readonly queueId: string;
+  readonly status: "pending";
+  readonly createdAt: string;
+  readonly desiredState: "hidden" | "public";
+}
+
+export interface PendingDeleteRequest {
+  readonly queueId: string;
+  readonly status: "pending";
+  readonly createdAt: string;
+}
+
+export interface PendingRequests {
+  readonly visibility?: PendingVisibilityRequest;
+  readonly delete?: PendingDeleteRequest;
+}
+
 export interface MeProfileResponse {
   readonly profile: MemberProfile;
   readonly statusSummary: MeProfileStatusSummary;
   readonly editResponseUrl: string | null;
   readonly fallbackResponderUrl: string;
+  readonly pendingRequests: PendingRequests;
 }
