@@ -8,9 +8,11 @@
 | タスク名 | GitHub branch protection の `required_status_checks.contexts` に `coverage-gate` を追加する |
 | 優先度 | HIGH |
 | 推奨Wave | 後続即時 |
-| 状態 | unassigned |
+| 状態 | transferred_to_workflow_consumed_by_issue_475 |
+| 転送先 workflow | `docs/30-workflows/issue-475-branch-protection-coverage-gate/` |
+| 転送日 | 2026-05-05 |
 | 作成日 | 2026-05-04 |
-| 検出元 | `docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-e-coverage-hard-gate/outputs/phase-12/unassigned-task-detection.md` |
+| 検出元 | historical: `docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-e-coverage-hard-gate/outputs/phase-12/unassigned-task-detection.md`（current worktree では親 wave cleanup 済みの場合がある） |
 | taskType | implementation |
 | visualEvidence | NON_VISUAL |
 
@@ -60,7 +62,7 @@
 
 **2. 既存 contexts を破壊しない PUT 戦略**: `gh api PUT .../protection` は contexts を全置換するため、既存 `ci` / `Validate Build` 等を漏らすと merge gate が抜ける。事前に GET で現状の contexts を取得し、`coverage-gate` を append した完全な配列を PUT する。CLAUDE.md `Governance` セクションの drift 検証パターンに従う。
 
-**3. solo 開発ポリシーとの整合**: `required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` の3点 invariant を維持すること。`coverage-gate` 追加時に他 protection 項目を意図せず変更してはならない。`.claude/skills/aiworkflow-requirements/references/deployment-branch-strategy.md` の current applied 表で drift がないか PUT 前後で確認する。
+**3. solo 開発ポリシーとの整合**: `required_pull_request_reviews` / `lock_branch` / `enforce_admins` など branch protection の non-target fields は fresh GET の現行値を維持すること。`coverage-gate` 追加時に他 protection 項目を意図せず変更してはならない。`.claude/skills/aiworkflow-requirements/references/deployment-branch-strategy.md` の current applied 表で drift がないか PUT 前後で確認する。
 
 **4. dev / main 両方への適用順序**: 個人開発フローでは feature → dev → main で merge するため、dev 側の hard gate を先に有効化すると Task A-E 自身の merge が block される可能性がある。安全には main 側を先に hard gate 化し、dev 側は次サイクル以降の PR で安定後に適用する2段階を推奨。
 
@@ -70,26 +72,26 @@
 2. `gh api repos/daishiman/UBM-Hyogo/branches/main/protection > /tmp/main-protection-before.json` で現状取得
 3. `jq` で `required_status_checks.contexts` に `coverage-gate` を append した PUT body を組み立てる
 4. `gh api -X PUT repos/daishiman/UBM-Hyogo/branches/main/protection --input <(...)` で適用
-5. 適用後 `gh api repos/daishiman/UBM-Hyogo/branches/main/protection` で fresh GET し、`coverage-gate` が contexts に含まれ、`required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` が drift していないことを確認
+5. 適用後 `gh api repos/daishiman/UBM-Hyogo/branches/main/protection` で fresh GET し、`coverage-gate` が contexts に含まれ、non-target fields が baseline から drift していないことを確認
 6. dev ブランチについて 2-5 を繰り返す（main 安定確認後）
 7. `.claude/skills/aiworkflow-requirements/references/deployment-branch-strategy.md` の current applied 表に `coverage-gate` を反映
 8. テスト PR を起票し、coverage 80% 未達 commit を push したときに merge button が disabled になることを確認
 
 ## 完了条件
 
-- [ ] `gh api repos/daishiman/UBM-Hyogo/branches/main/protection` の `required_status_checks.contexts` に `coverage-gate` が含まれている
-- [ ] `gh api repos/daishiman/UBM-Hyogo/branches/dev/protection` の `required_status_checks.contexts` に `coverage-gate` が含まれている
-- [ ] 同 GET 結果で `required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` が維持されている（drift なし）
-- [ ] 既存 contexts (`ci` / `Validate Build` 等) が消えていない
-- [ ] `deployment-branch-strategy.md` の current applied 表が更新済み
-- [ ] coverage 未達 PR で merge button が disabled になる挙動を1件以上の検証 PR で確認
+- [x] `gh api repos/daishiman/UBM-Hyogo/branches/main/protection` の `required_status_checks.contexts` に `coverage-gate` が含まれている（Issue #475 Phase 11 fresh GET）
+- [x] `gh api repos/daishiman/UBM-Hyogo/branches/dev/protection` の `required_status_checks.contexts` に `coverage-gate` が含まれている（Issue #475 Phase 11 fresh GET）
+- [x] 同 GET 結果で Issue #475 起因の non-target fields drift がない（dev `required_pull_request_reviews=null` は out-of-scope / solo policy 方向として記録）
+- [x] 既存 contexts (`ci` / `Validate Build` 等) が消えていない
+- [x] `deployment-branch-strategy.md` の current applied 表が更新済み
+- [ ] coverage 未達 PR で merge button が disabled になる挙動を1件以上の検証 PRで確認（Issue #475 Phase 13 Gate B 承認後に同 workflow 内で実施）
 
 ## 参照資料
 
 | 種別 | パス | 用途 |
 | --- | --- | --- |
-| 必須 | docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-e-coverage-hard-gate/outputs/phase-12/implementation-guide.md | hard gate 化の実装根拠・regression guard 仕様 |
-| 必須 | docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-e-coverage-hard-gate/outputs/phase-12/unassigned-task-detection.md | 検出コンテキスト |
+| historical | docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-e-coverage-hard-gate/outputs/phase-12/implementation-guide.md | hard gate 化の実装根拠・regression guard 仕様（親 wave cleanup 済みの場合は `.github/workflows/ci.yml` と `scripts/coverage-guard.test.ts` を current source とする） |
+| historical | docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/task-e-coverage-hard-gate/outputs/phase-12/unassigned-task-detection.md | 検出コンテキスト（current workflow は Issue #475） |
 | 必須 | .claude/skills/aiworkflow-requirements/references/deployment-branch-strategy.md | branch protection の正本仕様・current applied 表 |
 | 必須 | .github/workflows/ci.yml | `coverage-gate` job 定義（context 名の正本） |
 | 参考 | scripts/coverage-guard.sh | hard gate の判定ロジック |

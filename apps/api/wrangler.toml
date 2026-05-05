@@ -13,11 +13,11 @@ SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
-# u-04: production cron は毎時 0 分に sheets→D1 全件 upsert sync を実行（旧 6 時間→1 時間に短縮）
 # 03a: schema sync は 03:00 JST (= 18:00 UTC) に 1 回
 # 03b: response sync は */15 で実行（forms.responses.list 差分同期）
+# issue-377: tag queue retry tick は */5 で実行（legacy Sheets hourly は production と同じく手動限定）
 [triggers]
-crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]
+crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]
 
 # D1 データベースバインディング
 # UT-09 同期ジョブが SQLITE_BUSY retry/backoff・write queue 直列化・短い transaction
@@ -50,12 +50,13 @@ SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
-# production は Cloudflare free plan の account cron 上限を避けるため 2 本に絞る。
+# production は Cloudflare free plan の account cron 上限を避けるため 3 本以内に絞る。
 # - 03a schema sync: 03:00 JST (= 18:00 UTC)
 # - 03b Forms response sync: 15 分ごと
+# - issue-377 tag queue retry tick: 5 分ごと
 # legacy Sheets hourly sync (`0 * * * *`) は response sync 完了後の互換経路として手動実行に限定する。
 [env.production.triggers]
-crons = ["0 18 * * *", "*/15 * * * *"]
+crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]
 
 [[env.production.d1_databases]]
 binding = "DB"
@@ -83,9 +84,9 @@ SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
-# UT-09: staging (=dev 想定) は 1 時間ごとの Sheets 全件 upsert sync + 03a schema sync (03:00 JST = 18:00 UTC) + 03b response sync */15
+# staging は production と同じ 3 本上限に合わせる。legacy Sheets hourly sync は手動限定。
 [env.staging.triggers]
-crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]
+crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]
 
 # staging D1 バインディング (WAL 競合ポリシーは production と同じ)
 [[env.staging.d1_databases]]
