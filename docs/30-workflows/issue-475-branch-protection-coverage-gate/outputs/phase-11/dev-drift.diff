@@ -1,0 +1,23 @@
+=== dev drift (baseline 2026-05-01 vs after 2026-05-05) ===
+--- phase-1/dev-protection-baseline.json	2026-05-05 08:35:21
++++ phase-11/dev-protection-after-normalized.json	2026-05-05 08:35:21
+@@ -1,16 +1,11 @@
+ {
+   "contexts": [
+     "ci",
+-    "Validate Build"
++    "Validate Build",
++    "coverage-gate"
+   ],
+   "strict": false,
+-  "rpr": {
+-    "url": "https://api.github.com/repos/daishiman/UBM-Hyogo/branches/dev/protection/required_pull_request_reviews",
+-    "dismiss_stale_reviews": false,
+-    "require_code_owner_reviews": false,
+-    "require_last_push_approval": false,
+-    "required_approving_review_count": 0
+-  },
++  "rpr": null,
+   "enforce_admins": false,
+   "lock_branch": false,
+   "required_linear_history": false,

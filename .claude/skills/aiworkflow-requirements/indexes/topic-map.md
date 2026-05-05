@@ -1996,6 +1996,17 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L30 |
 | Related Resources | L42 |
 
+### references/workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Contract | L31 |
+| AC to Runtime Path | L43 |
+| Phase 12 Required Files | L55 |
+| Related Resources | L67 |
+
 ### references/workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md
 
 | セクション | 行 |
@@ -2016,6 +2027,16 @@ node scripts/list-specs.js --topics
 | Evidence Path Map | L34 |
 | Phase 12 Required Files | L45 |
 | Related Resources | L57 |
+
+### references/workflow-06b-c-runtime-evidence-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Boundary | L28 |
+| Phase 12 Required Files | L36 |
+| Related Resources | L48 |
 
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
@@ -2759,9 +2780,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L16 |
-| Gate Boundary | L30 |
-| Same-Wave Sync | L37 |
+| Phase 12 Strict Files | L18 |
+| Gate Boundary | L32 |
+| Same-Wave Sync | L39 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3048,7 +3069,7 @@ node scripts/list-specs.js --topics
 | CI/CD トリガー対応表 | L48 |
 | GitHub 環境保護ルール（推奨設定） | L60 |
 | ブランチ保護ルール（推奨設定） | L83 |
-| 変更履歴 | L196 |
+| 変更履歴 | L213 |
 
 ### references/deployment-cloudflare-opennext-workers.md
 
@@ -3066,8 +3087,9 @@ node scripts/list-specs.js --topics
 | 10. CLI 経路の徹底 | L182 |
 | 11. R2 incremental cache（任意採用） | L191 |
 | 12. 関連リソース | L199 |
-| 13. production route / secret / observability preflight | L217 |
-| 変更履歴 | L258 |
+| 13. production route / secret / observability preflight | L218 |
+| 14. Long-term analytics evidence | L259 |
+| 変更履歴 | L265 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -3097,7 +3119,8 @@ node scripts/list-specs.js --topics
 | ロールバック戦略 | L526 |
 | モニタリング/アラート（UT-08 連携） | L547 |
 | per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
-| 変更履歴 | L599 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
+| 変更履歴 | L617 |
 
 ### references/deployment-core.md
 
@@ -3375,15 +3398,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L16 |
-| 使い方 | L24 |
-| Current Alias Overrides（個別互換行） | L31 |
-| Family Summary | L71 |
-| Detailed Register | L92 |
-| Section Extract Register (2026-03-17) | L273 |
-| 500-Line Split Register (2026-03-16) | L284 |
-| Fragment Migration Register (2026-04-28) | L306 |
-| Task Root Path Drift Register (2026-04-30 追記) | L333 |
+| 概要 | L17 |
+| 使い方 | L25 |
+| Current Alias Overrides（個別互換行） | L32 |
+| Family Summary | L73 |
+| Detailed Register | L94 |
+| Section Extract Register (2026-03-17) | L275 |
+| 500-Line Split Register (2026-03-16) | L286 |
+| Fragment Migration Register (2026-04-28) | L308 |
+| Task Root Path Drift Register (2026-04-30 追記) | L335 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -3557,6 +3580,17 @@ node scripts/list-specs.js --topics
 | L-06BA-007: secret 検証ロジックは shared extractor を再利用する | L27 |
 | L-06BA-008: `apps/web` は cookie forwarding 維持・D1 直接アクセス禁止 | L31 |
 
+### references/lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-06B-B-PBS-001: storage source-of-truth は実装前に grep で確定する | L10 |
+| L-06B-B-PBS-002: wire error code と display vocabulary を分離する | L18 |
+| L-06B-B-PBS-003: API response shape 変更時は `apps/web/src/lib/api/me-types.ts` mirror を必ず同 wave で更新する | L26 |
+| L-06B-B-PBS-004: `spec_created` のままコード/テストが存在する状態を Phase 12 で必ず再分類する | L34 |
+| L-06B-B-PBS-005: pending-only predicate を read model と duplicate guard で共有する | L42 |
+| 関連 artifact / 参照 | L50 |
+
 ### references/lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md
 
 | セクション | 行 |
@@ -3574,7 +3608,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L68 |
+| Follow-up Boundaries | L75 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 
@@ -3794,6 +3828,15 @@ node scripts/list-specs.js --topics
 | 苦戦箇所（unassigned-task 由来） | L12 |
 | 関連 skill feedback | L19 |
 
+### references/lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+| Downstream boundaries | L53 |
+| 関連リソース | L60 |
+
 ### references/lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md
 
 | セクション | 行 |
@@ -4008,8 +4051,10 @@ node scripts/list-specs.js --topics
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
 | L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
 | L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
-| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L37 |
-| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
+| L-UTCOV-008: workflow root を wave grouping から top-level へ移したら artifacts / inventory / README を同時更新する | L37 |
+| L-UTCOV-010: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L41 |
+| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L51 |
+| L-UTCOV-011: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L53 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -4116,8 +4161,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L93 |
-| 関連ドキュメント | L98 |
+| 利用順序 | L94 |
+| 関連ドキュメント | L99 |
 
 ### references/llm-embedding.md
 
@@ -5186,13 +5231,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L204 |
-| フェーズ構造（概要） | L213 |
-| 品質ゲート（概要） | L244 |
-| 出力テンプレート | L255 |
-| 実行時のコマンド・エージェント・スキル | L278 |
-| 昇格パターン集 | L302 |
-| Current Active / Spec Created Tasks | L304 |
+| ドキュメント構成 | L195 |
+| フェーズ構造（概要） | L204 |
+| 品質ゲート（概要） | L235 |
+| 出力テンプレート | L246 |
+| 実行時のコマンド・エージェント・スキル | L269 |
+| 昇格パターン集 | L293 |
+| Current Active / Spec Created Tasks | L295 |
 
 ### references/task-workflow-backlog-part2.md
 
