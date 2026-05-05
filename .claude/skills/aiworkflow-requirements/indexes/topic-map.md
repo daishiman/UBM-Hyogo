@@ -2537,6 +2537,16 @@ node scripts/list-specs.js --topics
 | Canonical Artifacts | L12 |
 | Runtime Evidence Contract | L27 |
 
+### references/workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Artifact Set | L14 |
+| Runtime Evidence Boundary | L23 |
+| Runtime Execution Task | L27 |
+| Same-Wave Sync | L43 |
+
 ### references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md
 
 | セクション | 行 |
