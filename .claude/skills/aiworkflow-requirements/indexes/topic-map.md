@@ -2770,9 +2770,9 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Workflows | L3 |
-| Phase 12 Strict Files | L16 |
-| Gate Boundary | L30 |
-| Same-Wave Sync | L37 |
+| Phase 12 Strict Files | L18 |
+| Gate Boundary | L32 |
+| Same-Wave Sync | L39 |
 
 ### references/workflow-ut-gov-004-artifact-inventory.md
 
@@ -3386,15 +3386,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L16 |
-| 使い方 | L24 |
-| Current Alias Overrides（個別互換行） | L31 |
-| Family Summary | L72 |
-| Detailed Register | L93 |
-| Section Extract Register (2026-03-17) | L274 |
-| 500-Line Split Register (2026-03-16) | L285 |
-| Fragment Migration Register (2026-04-28) | L307 |
-| Task Root Path Drift Register (2026-04-30 追記) | L334 |
+| 概要 | L17 |
+| 使い方 | L25 |
+| Current Alias Overrides（個別互換行） | L32 |
+| Family Summary | L73 |
+| Detailed Register | L94 |
+| Section Extract Register (2026-03-17) | L275 |
+| 500-Line Split Register (2026-03-16) | L286 |
+| Fragment Migration Register (2026-04-28) | L308 |
+| Task Root Path Drift Register (2026-04-30 追記) | L335 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4018,8 +4018,10 @@ node scripts/list-specs.js --topics
 | L-UTCOV-005: Phase 12 main.md は spec_created / implemented-local / completed の 3 状態を明示する | L19 |
 | L-UTCOV-006: lessons-learned は wave 単位で 1 ファイル、task 単位は LOGS に集約する | L23 |
 | L-UTCOV-007: admin component coverage は snapshot 回避と「mock 結果の表示反映」検証で `>=85%` を取る | L27 |
-| L-UTCOV-008: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L37 |
-| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L47 |
+| L-UTCOV-008: workflow root を wave grouping から top-level へ移したら artifacts / inventory / README を同時更新する | L37 |
+| L-UTCOV-010: public use-case focused test は D1 mock を SQL fragment dispatch + `failOnSql` で集約する | L41 |
+| L-UTCOV-009: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L51 |
+| L-UTCOV-011: apps/web auth/fetch/session lib テストは fetch-mock helper + 構造的 uncovered の文書化で `>=85%` を取る | L53 |
 
 ### references/lessons-learned-ut-gov-001-2026-04.md
 
@@ -5196,13 +5198,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L193 |
-| フェーズ構造（概要） | L202 |
-| 品質ゲート（概要） | L233 |
-| 出力テンプレート | L244 |
-| 実行時のコマンド・エージェント・スキル | L267 |
-| 昇格パターン集 | L291 |
-| Current Active / Spec Created Tasks | L293 |
+| ドキュメント構成 | L195 |
+| フェーズ構造（概要） | L204 |
+| 品質ゲート（概要） | L235 |
+| 出力テンプレート | L246 |
+| 実行時のコマンド・エージェント・スキル | L269 |
+| 昇格パターン集 | L293 |
+| Current Active / Spec Created Tasks | L295 |
 
 ### references/task-workflow-backlog-part2.md
 

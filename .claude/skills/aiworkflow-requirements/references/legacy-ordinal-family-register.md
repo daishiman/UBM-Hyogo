@@ -1,6 +1,7 @@
 # Legacy Ordinal Family Register
 
 > 最終更新日: 2026-05-04
+> NOTE (2026-05-04 / issue-433-ut-web-cov-05-wave3-roadmap): 本タスクは `issue-NNN` namespace に属し ordinal family（旧 `-a` / `-b` / `-c` 系）外のため本 register への新規行追加は不要。filename family rename / path alias は発生せず、Current Alias Overrides 不変。`issue-NNN` namespace は ordinal family 外として今後も未収録。
 > NOTE (2026-05-04 / 08a-B-public-search-filter-coverage close-out): 08a-B ワークフローは `docs/30-workflows/02-application-implementation/08a-B-public-search-filter-coverage/` から canonical workflow 直下 `docs/30-workflows/08a-B-public-search-filter-coverage/` へ **path 移動**のみ。filename / family 名は不変であり、新規 semantic family rename は発生していない。下表 §Current Alias Overrides に行を追加し、旧 path citation からの引き直し経路を保持する。
 > NOTE (2026-05-02 / issue-195-03b-followup-002-sync-shared-modules-owner): 本タスクは初回登録 / code governance / 2026-05-02。`docs/30-workflows/completed-tasks/issue-195-03b-followup-002-sync-shared-modules-owner/` を semantic root とし、`docs/30-workflows/_design/sync-shared-modules-owner.md` を新カテゴリ "workflow governance design"（runtime spec と分離した design 文書）として明示する。filename family rename ではなく初回 governance 文書の category 確立として下表 §Current Alias Overrides に行を追加し、03a / 03b 並列 wave での `_shared/` モジュール owner 表の正本配置先を保持する。
 > NOTE (2026-05-01 / 07c-followup-003-audit-log-browsing-ui): 旧単票 `docs/30-workflows/completed-tasks/task-07c-audit-log-browsing-ui.md` は昇格traceとして残し、current canonical root は `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/` とする。semantic family renameではないが、旧citation引き直し用に §Current Alias Overrides へ追加した。

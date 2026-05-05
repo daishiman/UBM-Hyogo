@@ -572,13 +572,14 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | wave 実行順序 | `docs/30-workflows/ut-coverage-2026-05-wave/README.md` |
 | apps/api coverage precondition | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/index.md` |
 | apps/web auth/fetch/session coverage spec | `docs/30-workflows/ut-web-cov-03-auth-fetch-lib-coverage/index.md` |
+| wave-3 roadmap | `docs/30-workflows/ut-coverage-2026-05-wave/wave-3-roadmap.md`（Issue #433 / implemented-local / Phase 1-12 completed / Phase 13 approval gate） |
 | artifact inventory | `references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md` |
 | lessons learned | `references/lessons-learned-ut-coverage-2026-05-wave.md` |
 | Phase 11 NON_VISUAL evidence | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/outputs/phase-11/` |
 | Phase 12 compliance | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | coverage command | `bash scripts/coverage-guard.sh` |
 
-Boundary: wave-1 is `implemented-local / test-fixture implementation / NON_VISUAL`; only `apps/api/src/jobs/__fixtures__/d1-fake.ts` is changed. `ut-web-cov-03` is now `implemented-local / test implementation / NON_VISUAL`: apps/web auth/fetch/session Vitest tests, `fetch-mock` helper + helper test, and root `vitest.config.ts` coverage exclude are implemented and measured (40 files / 359 tests PASS). Runtime production code, packages/*, commit, push, and PR creation remain blocked until Phase 13 user approval. The remaining package-wide 85% upgrade gate remains delegated to UT-08A-01 and the other wave-2 implementation specs.
+Boundary: wave-1 is `implemented-local / test-fixture implementation / NON_VISUAL`; only `apps/api/src/jobs/__fixtures__/d1-fake.ts` is changed. `ut-web-cov-03` is now `implemented-local / test implementation / NON_VISUAL`: apps/web auth/fetch/session Vitest tests, `fetch-mock` helper + helper test, and root `vitest.config.ts` coverage exclude are implemented and measured (40 files / 359 tests PASS). Issue #433 wave-3 roadmap measured all four packages and materialized 8 candidate tasks; root `vitest.config.ts` also contains the React / React DOM alias used to keep coverage runs stable under isolated node-linker. Runtime production code, packages/*, commit, push, PR creation, and post-push `verify-indexes-up-to-date` CI evidence remain blocked until Phase 13 user approval.
 
 ---
 
