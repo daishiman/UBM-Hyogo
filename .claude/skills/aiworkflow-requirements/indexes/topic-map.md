@@ -4111,8 +4111,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L93 |
-| 関連ドキュメント | L98 |
+| 利用順序 | L94 |
+| 関連ドキュメント | L99 |
 
 ### references/llm-embedding.md
 
@@ -5181,13 +5181,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L215 |
-| フェーズ構造（概要） | L224 |
-| 品質ゲート（概要） | L255 |
-| 出力テンプレート | L266 |
-| 実行時のコマンド・エージェント・スキル | L289 |
-| 昇格パターン集 | L313 |
-| Current Active / Spec Created Tasks | L315 |
+| ドキュメント構成 | L204 |
+| フェーズ構造（概要） | L213 |
+| 品質ゲート（概要） | L244 |
+| 出力テンプレート | L255 |
+| 実行時のコマンド・エージェント・スキル | L278 |
+| 昇格パターン集 | L302 |
+| Current Active / Spec Created Tasks | L304 |
 
 ### references/task-workflow-backlog-part2.md
 
