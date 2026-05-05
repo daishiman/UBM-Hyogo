@@ -1582,9 +1582,21 @@ packages/
 | payload 正規化 | GET 形（snapshot）→ PUT 形（payload）adapter で `enforce_admins.enabled→bool` / `restrictions.users[].login→配列` / `required_pull_request_reviews=null` を必ず変換（snapshot を直接 PUT すると HTTP 422） |
 | rollback 境界戦略 | snapshot / payload / rollback / applied JSON を `{branch}` サフィックスで分離。bulk PUT 禁止。enforce_admins DELETE 経路を事前準備 |
 | 上流前提 | UT-GOV-004（`required_status_checks.contexts` の実 job 名同期）。未完了時は `contexts=[]` の 2 段階適用 fallback |
-| 実 PUT のゲート | Phase 12 = `spec_created`（仕様書整備のみ）/ Phase 13 = `blocked_until_explicit_user_approval`（ユーザー明示承認後の別オペレーションでのみ実行） |
+
+### Issue #475 coverage-gate required context（runtime evidence captured / 2026-05-05）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-475-branch-protection-coverage-gate/` |
+| 目的 | `coverage-gate` を `main` / `dev` の `required_status_checks.contexts` に append し、coverage 80% gate を merge gate 化 |
+| current applied 境界 | `deployment-branch-strategy.md` current applied 表を Issue #475 適用後 fresh GET evidence へ更新済み |
+| Gate A | external GitHub PUT は外部適用済みとして fresh GET で観測済。追加 PUT は実行しない |
+| Gate B | git commit / push / PR approval before Phase 13。throwaway PR による `mergeStateStatus=BLOCKED` 経験的観測も Gate B 後 |
+| invariant | Issue #475 起因の non-target drift なし。dev の `required_pull_request_reviews=null` は out-of-scope / solo policy 方向として記録 |
+| runtime evidence | Phase 11 fresh GET / drift / invariant / contexts-preserved / SSOT diff は取得済み。empirical PR observation only pending |
+| 実 PUT のゲート | Gate A は消化済み。Phase 13 = `blocked_pending_gate_b_git_publish_and_empirical_pr`（ユーザー明示承認後の別オペレーションでのみ実行） |
 | 苦戦知見 | `references/lessons-learned-ut-gov-001-2026-04.md`（L-GOV-001 payload adapter / L-GOV-002 5 重明記 / L-GOV-003 Phase 12-13 二重ゲート / L-GOV-004 NON_VISUAL evidence） |
-| 正本仕様 | `references/deployment-branch-strategy.md`（pending apply: UT-GOV-001 セクション） |
+| 正本仕様 | `references/deployment-branch-strategy.md`（current applied / Issue #475 適用 evidence） |
 
 ### GitHub Governance / UT-GOV-001 second-stage reapply（2026-04-30）
 
