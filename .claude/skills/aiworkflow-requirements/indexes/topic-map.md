@@ -2217,6 +2217,16 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Files | L13 |
+| Implementation Artifacts | L26 |
+| Phase 11 Evidence Files | L36 |
+| Same-Wave Touched Files | L44 |
+| Boundary | L66 |
+
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
 | セクション | 行 |
@@ -3835,6 +3845,18 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 
+### references/lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I377-001: human-review queue と machine-retry queue を分ける | L3 |
+| L-I377-002: DLQ state と audit は同じ wave で書く | L7 |
+| L-I377-003: cron 追加は全 env の本数 parity を見る | L11 |
+| L-I377-004: NON_VISUAL evidence は focused suite から始める | L15 |
+| L-I377-005: default scheduled path を必ずテストする | L19 |
+| L-I377-006: retry/DLQ SQL は repository primitive に寄せる | L23 |
+| L-I377-007: tag queue audit target_type は `tag_queue` | L27 |
+
 ### references/lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md
 
 | セクション | 行 |
@@ -4139,8 +4161,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L93 |
-| 関連ドキュメント | L98 |
+| 利用順序 | L94 |
+| 関連ドキュメント | L99 |
 
 ### references/llm-embedding.md
 

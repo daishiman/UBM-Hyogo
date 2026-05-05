@@ -28,6 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.05-issue377-retry-tick-default-path | 2026-05-05 | Issue #377 retry tick + DLQ audit review feedback を反映。scheduled / queue retry workflow では injected failure callback だけでなく default scheduled path を focused test で証明し、retry/backoff/DLQ SQL は repository primitive に寄せる。 |
 | v2026.05.05-issue347-external-saas-decision-evidence | 2026-05-05 | Issue #347 Cloudflare Analytics export decision feedback を反映。外部 SaaS / Cloudflare dashboard 認証が必要な docs-only decision workflow では representative schema sample、runtime production sample、constraints file を分離し、user auth 不在の runtime sample を PASS 化しない。 |
 | v2026.05.05-06b-pending-banner-skill-audit | 2026-05-05 | 06b-B pending banner sticky の skill 反映監査を補強。`unassigned-task-required-sections.md` を SKILL.md References と `agents/generate-unassigned-task.md` リソース表に明示し導線化。`phase-12-documentation-guide.md` Task 12-3 へ「`.claude/skills/<skill>/LOGS.md` 更新行を canonical absolute path で必ず列挙する（SKILL.md だけ列挙して LOGS.md 省略は FAIL）」と必須エントリ最小セット表（skill 正本 / skill 履歴 / reference / workflow artifacts / outputs / system spec）を追加。 |
 | v2026.05.04-06b-pending-banner-implemented-local-reclass | 2026-05-04 | 06b-B pending banner sticky review feedback を反映。implementation workflow で code/tests が存在する場合、`spec_created` / `spec_only_awaiting_implementation` を残さず `implemented-local` へ再分類する。Phase 12 は manual specs / aiworkflow indexes / root+outputs artifacts / Phase 9 static evidence / Phase 11 blocker を同一 wave で同期し、server state-of-truth と client optimistic fallback の境界、web/API mirror type、wire code/display vocabulary、pending-only repository predicate を checklist 化する。 |
@@ -167,3 +168,4 @@ docs-only / `spec_created` タスクは workflow root を据え置き、`phases[
 ### 第一適用例（drink-your-own-champagne）
 
 `docs/30-workflows/ut-gov-005-docs-only-nonvisual-template-skill-sync/` 自身が本フローの第一適用例。
+e-skill-sync/` 自身が本フローの第一適用例。

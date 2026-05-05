@@ -1,0 +1,64 @@
+{
+  "workflow": "issue-377-retry-tick-and-dlq-audit",
+  "issue": 377,
+  "issue_state_at_spec_creation": "open",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local"
+  },
+  "workflow_state": "implemented-local",
+  "created_at": "2026-05-05",
+  "wave": "2-plus",
+  "execution_mode": "sequential",
+  "phases": {
+    "phase-01": { "status": "completed", "out": "outputs/phase-01/main.md" },
+    "phase-02": { "status": "completed", "out": "outputs/phase-02/main.md" },
+    "phase-03": { "status": "completed", "out": "outputs/phase-03/main.md" },
+    "phase-04": { "status": "completed", "out": "outputs/phase-04/main.md" },
+    "phase-05": { "status": "completed", "out": "outputs/phase-05/main.md" },
+    "phase-06": { "status": "completed", "out": "outputs/phase-06/main.md" },
+    "phase-07": { "status": "completed", "out": "outputs/phase-07/main.md" },
+    "phase-08": { "status": "completed", "out": "outputs/phase-08/main.md" },
+    "phase-09": { "status": "completed", "out": "outputs/phase-09/main.md" },
+    "phase-10": { "status": "completed", "out": "outputs/phase-10/main.md" },
+    "phase-11": {
+      "status": "completed",
+      "out": "outputs/phase-11/main.md",
+      "evidence_files": [
+        "outputs/phase-11/focused-test.log",
+        "outputs/phase-11/api-typecheck.log",
+        "outputs/phase-11/api-lint.log",
+        "outputs/phase-11/api-test.log"
+      ]
+    },
+    "phase-12": {
+      "status": "completed",
+      "out": "outputs/phase-12",
+      "required_files": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "blocked_pending_user_approval", "out": "outputs/phase-13/main.md" }
+  },
+  "ac": [
+    "AC-1: tagQueueRetryTick.ts new + runTagQueueRetryTick exported",
+    "AC-2: scheduled handler branch added",
+    "AC-3: wrangler.toml cron triggers added (<=3 per env)",
+    "AC-4: admin.tag.queue_dlq_moved audit emitted",
+    "AC-5: TAG_QUEUE_TICK_* constants",
+    "AC-6: 7 focused D1 fixture cases green",
+    "AC-7: retry tick -> DLQ -> audit verified in focused Miniflare D1 fixture",
+    "AC-8: api typecheck/lint pass; focused retry tick pass; broad api test environment caveat documented with focused reruns pass",
+    "AC-9: aiworkflow-requirements updated",
+    "AC-10: phase-12 7 files + unassigned-task spec"
+  ]
+}
