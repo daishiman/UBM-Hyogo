@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-05-05T00:00:00Z",
+  "source": "representative-schema-sample",
+  "runtimeProductionData": false,
+  "metricGroups": {
+    "httpRequestVolume": {
+      "date": "2026-05-04",
+      "requests": 0
+    },
+    "httpErrorRate": {
+      "date": "2026-05-04",
+      "totalRequests": 0,
+      "errors5xx": 0,
+      "errorRate": 0
+    },
+    "d1ReadsWrites": {
+      "date": "2026-05-04",
+      "readQueries": 0,
+      "writeQueries": 0
+    },
+    "workerCronEventVolume": {
+      "date": "2026-05-04",
+      "invocations": 0
+    }
+  }
+}

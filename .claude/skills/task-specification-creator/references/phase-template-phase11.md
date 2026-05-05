@@ -86,6 +86,18 @@ service-binding と HTTP fallback のような two-path 実装では、AC 表を
 
 > 視覚タスク（VISUAL）の必須 outputs（`manual-test-checklist.md` / `manual-test-result.md` / `discovered-issues.md` / `screenshot-plan.json`）とは別セットである点に注意。Phase 1 設計時にタスク種別を確定させ、Phase 11 着手前に再判定すること。
 
+### 外部 SaaS / Cloudflare dashboard 制約確認型 docs-only Phase 11
+
+Cloudflare Analytics、GitHub branch protection、Google Cloud Console など、外部 SaaS の plan / account / dashboard 認証が必要な docs-only decision workflow では、Phase 11 runtime sample を偽装して PASS にしない。以下を物理分離する。
+
+| evidence | 用途 | PASS 条件 |
+| --- | --- | --- |
+| representative schema sample | 保存形式 / field allowlist / redaction command を検証するための repo 内サンプル | `runtimeProductionData: false` 等で実データではないことを明記 |
+| runtime production sample | 実 account / zone / project から取得した fresh evidence | user approval / credential availability / redaction PASS が揃った時のみ PASS |
+| constraints file | plan / rate limit / retention / feature availability の公式 docs 確認 | URL / checked date / runtime boundary を記録 |
+
+Phase 12 compliance check では `SPEC_CREATED_PASS_WITH_RUNTIME_SAMPLE_PENDING_USER_AUTH` のように、spec completeness と runtime production evidence を分けて判定する。外部認証がない状態で「取得サンプル 1 回」を実測済みと書かない。
+
 ### ウォークスルーシナリオ発見事項リアルタイム分類欄
 
 各シナリオ実行中に発見した事項を即座に分類するためのテンプレート。

@@ -8,6 +8,7 @@ import type {
   MeProfileStatusSummary,
   MeSessionResponse,
   MeSessionUser,
+  PendingRequests,
 } from "./me-types";
 
 // TYPE-001: MeAuthGateState は active / rules_declined / deleted の 3 値
@@ -47,3 +48,29 @@ const _u: MeSessionUser = {
   authGateState: "active",
 };
 void _u;
+
+// TYPE-004 (06b-fu-001): PendingRequests は visibility / delete を optional に持つ
+const _pendingEmpty: PendingRequests = {};
+const _pendingFull: PendingRequests = {
+  visibility: {
+    queueId: "q1",
+    status: "pending",
+    createdAt: "2026-05-04T00:00:00Z",
+    desiredState: "hidden",
+  },
+  delete: {
+    queueId: "q2",
+    status: "pending",
+    createdAt: "2026-05-04T00:00:00Z",
+  },
+};
+void _pendingEmpty;
+void _pendingFull;
+
+type ExpectPendingRequests = MeProfileResponse["pendingRequests"] extends PendingRequests
+  ? PendingRequests extends MeProfileResponse["pendingRequests"]
+    ? true
+    : false
+  : false;
+const _t4: ExpectPendingRequests = true;
+void _t4;

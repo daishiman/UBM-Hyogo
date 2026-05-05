@@ -29,7 +29,7 @@
 - Capture wrapper exits 4 when `--storage-state` path is absent, distinguishing "not_executed" from "infra failure".
 - `apps/web/playwright/.auth/*.json` is ignored by `.gitignore`; only `.gitkeep` is committed.
 - `evidence_status` for Phase 11 takes one of: `not_implemented` / `PENDING_RUNTIME_EVIDENCE` / `captured`.
-- Runtime screenshot capture is delegated to `task-06b-c-profile-logged-in-runtime-evidence-execution-001` (user-approved gate).
+- Runtime screenshot capture is delegated to `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/` (promoted from `task-06b-c-profile-logged-in-runtime-evidence-execution-001`; user-approved gate).
 
 ## Evidence Path Map
 
@@ -62,4 +62,5 @@
 - `references/legacy-ordinal-family-register.md` (UT-06B → 06b-C alias)
 - `references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md` (L-06B-001〜008)
 - `changelog/20260503-06b-C-profile-logged-in-visual-evidence.md`
-- Unassigned (runtime execution): `docs/30-workflows/unassigned-task/task-06b-c-profile-logged-in-runtime-evidence-execution-001.md`
+- Runtime execution workflow: `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/`
+- Promoted unassigned pointer (do not execute from unassigned): `docs/30-workflows/completed-tasks/task-06b-c-profile-logged-in-runtime-evidence-execution-001.md`
