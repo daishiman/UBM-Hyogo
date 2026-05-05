@@ -3779,6 +3779,13 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 
+### references/lessons-learned-issue-379-schema-diff-current-green-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所（unassigned-task 由来） | L11 |
+| 関連 skill feedback | L19 |
+
 ### references/lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md
 
 | セクション | 行 |
@@ -4081,8 +4088,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L92 |
-| 関連ドキュメント | L97 |
+| 利用順序 | L93 |
+| 関連ドキュメント | L98 |
 
 ### references/llm-embedding.md
 
@@ -5151,13 +5158,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L204 |
-| フェーズ構造（概要） | L213 |
-| 品質ゲート（概要） | L244 |
-| 出力テンプレート | L255 |
-| 実行時のコマンド・エージェント・スキル | L278 |
-| 昇格パターン集 | L302 |
-| Current Active / Spec Created Tasks | L304 |
+| ドキュメント構成 | L215 |
+| フェーズ構造（概要） | L224 |
+| 品質ゲート（概要） | L255 |
+| 出力テンプレート | L266 |
+| 実行時のコマンド・エージェント・スキル | L289 |
+| 昇格パターン集 | L313 |
+| Current Active / Spec Created Tasks | L315 |
 
 ### references/task-workflow-backlog-part2.md
 
