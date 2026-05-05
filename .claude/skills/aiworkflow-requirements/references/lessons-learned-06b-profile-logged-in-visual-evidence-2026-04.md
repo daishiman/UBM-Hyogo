@@ -62,12 +62,19 @@
 
 - **状況**: Phase 11 visual evidence は capture wrapper・spec・config まで揃って実行可能でも、本物の logged-in storageState が user 操作経由でしか手に入らないため、自動 close-out で `captured` に昇格させると false positive になる。一方で「未着手」と書くと wrapper まで揃った進捗が消える。
 - **学び**: `not_implemented` / `PENDING_RUNTIME_EVIDENCE`（実装済み・実行のみ未済）/ `captured` の三段階を `evidence_status` フィールドで表現する。Phase 11 main.md と compliance-check と root index.md status を三者一致させる。
-- **再発防止**: VISUAL_ON_EXECUTION タスクの artifact `evidence_status` enum を上記三値に固定。compliance-check の `Phase 11 screenshot evidence` 行は `PENDING_RUNTIME_EVIDENCE` を許容語彙に追加。runtime 実行は別 unassigned-task（例: `task-06b-c-profile-logged-in-runtime-evidence-execution-001.md`）として分離し、Phase 13 user approval は runtime 実行 task 側で取得する。
-- **関連 refs**: `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/phase12-task-spec-compliance-check.md`, `docs/30-workflows/unassigned-task/task-06b-c-profile-logged-in-runtime-evidence-execution-001.md`
+- **再発防止**: VISUAL_ON_EXECUTION タスクの artifact `evidence_status` enum を上記三値に固定。compliance-check の `Phase 11 screenshot evidence` 行は `PENDING_RUNTIME_EVIDENCE` を許容語彙に追加。runtime 実行を workflow root に昇格する場合は、元 unassigned task を `promoted_to_workflow` pointer にし、Phase 13 user approval は runtime 実行 workflow 側で取得する。
+- **関連 refs**: `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/phase12-task-spec-compliance-check.md`, `docs/30-workflows/completed-tasks/task-06b-c-profile-logged-in-runtime-evidence-execution-001.md`
+
+### L-06B-009: runtime execution 昇格時は completed-tasks evidence root と unassigned pointer を同時同期する
+
+- **状況**: `task-06b-c-profile-logged-in-runtime-evidence-execution-001.md` を `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/` へ昇格した際、先行 06b-C の実体は `completed-tasks/06b-C-profile-logged-in-visual-evidence/` にある一方、古い索引と wrapper default は non-completed path を指していた。これにより screenshot / DOM dump の保存先を誤るリスクが残った。
+- **学び**: runtime execution workflow は「実行 root」と「evidence canonical root」が分かれることがある。昇格時には wrapper default、artifact inventory、quick-reference、resource-map、task-workflow-active、元 unassigned task の `promoted_to_workflow` を同一 wave で同期する必要がある。
+- **再発防止**: VISUAL_ON_EXECUTION follow-up を workflow root へ昇格する場合、①実 evidence root を completed/current 実体 path に固定、②unassigned task は consumed/promoted pointer 化、③Phase 11 は `NOT_EXECUTED` placeholder を PASS 扱いしない、④Phase 12 strict files は pending runtime と明記する。
+- **関連 refs**: `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/`, `references/workflow-06b-c-runtime-evidence-execution-artifact-inventory.md`, `scripts/capture-profile-evidence.sh`
 
 ## Follow-up Boundaries
 
 - 09a staging deploy smoke が成立した時点で Phase 11 を captured 化し、本タスクの root を `completed` に昇格する。
 - 親タスク 06b の Phase 11 partial captured 状態は、本タスク完了後に `references/task-workflow-active.md` 上の 06b 行で `VISUAL captured` へ更新する（06b 行自体は本 wave では変更しない）。
 - Magic Link 429 Retry-After UI 復元は `docs/30-workflows/unassigned-task/UT-06B-MAGIC-LINK-RETRY-AFTER.md` に分離。
-- Logged-in storageState 取得 + 実 screenshot capture は `docs/30-workflows/unassigned-task/task-06b-c-profile-logged-in-runtime-evidence-execution-001.md` に分離。Phase 13 user approval は runtime 実行 task 側で取得する。
+- Logged-in storageState 取得 + 実 screenshot capture は `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/` に昇格済み。元 unassigned task は `promoted_to_workflow` pointer として残し、二重実行しない。
