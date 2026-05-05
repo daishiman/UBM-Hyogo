@@ -36,7 +36,7 @@ interface CostGuardrailTaskMetadata {
   taskName: "observability-and-cost-guardrails";
   taskType: "spec_created";
   docsOnly: true;
-  canonicalRoot: "docs/05a-parallel-observability-and-cost-guardrails";
+  canonicalRoot: "docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails";
   phase13Status: "pending";
   userApprovalRequired: true;
 }
@@ -73,7 +73,7 @@ interface Phase11Evidence {
 
 | 領域 | Before | After |
 | --- | --- | --- |
-| task root | 移設前パス表記が混在 | `docs/05a-parallel-observability-and-cost-guardrails` に統一 |
+| task root | 移設前パス表記が混在 | `docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails` に統一 |
 | status ledger | `index.md` / `phase-*.md` が `pending` | Phase 1-12 は `completed`、Phase 13 は user approval 待ち |
 | artifacts parity | root 側のみ | root と `outputs/artifacts.json` を同期 |
 | UI evidence | 画像要否が暗黙 | NON_VISUAL と明記し、ログ証跡を採用 |
@@ -82,13 +82,13 @@ interface Phase11Evidence {
 
 ```bash
 node .claude/skills/task-specification-creator/scripts/validate-phase-output.js \
-  docs/05a-parallel-observability-and-cost-guardrails
+  docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails
 
 node .claude/skills/task-specification-creator/scripts/validate-phase12-implementation-guide.js \
-  --workflow docs/05a-parallel-observability-and-cost-guardrails
+  --workflow docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails
 
 node .claude/skills/task-specification-creator/scripts/verify-all-specs.js \
-  --workflow docs/05a-parallel-observability-and-cost-guardrails
+  --workflow docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails
 ```
 
 ### APIシグネチャ
@@ -109,7 +109,7 @@ function readGuardrailDocument(path: GuardrailDocumentPath): string;
 
 ```bash
 rg -n "Pages builds|Workers requests|D1|GitHub Actions" \
-  docs/05a-parallel-observability-and-cost-guardrails/outputs
+  docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails/outputs
 ```
 
 ```typescript
@@ -148,7 +148,7 @@ const phase11: Phase11Evidence = {
 
 | 項目 | 値 |
 | --- | --- |
-| canonical root | `docs/05a-parallel-observability-and-cost-guardrails` |
+| canonical root | `docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails` |
 | Pages warning/action | 400 / 480 builds per month |
 | Workers warning/action | 80,000 / 95,000 requests per day |
 | D1 reads warning/action | 4,000,000 / 4,750,000 rows per day |
@@ -160,7 +160,7 @@ const phase11: Phase11Evidence = {
 
 | 種別 | 実行内容 |
 | --- | --- |
-| Phase output validation | `validate-phase-output.js docs/05a-parallel-observability-and-cost-guardrails` |
-| Phase 12 guide validation | `validate-phase12-implementation-guide.js --workflow docs/05a-parallel-observability-and-cost-guardrails` |
-| Spec validation | `verify-all-specs.js --workflow docs/05a-parallel-observability-and-cost-guardrails` |
+| Phase output validation | `validate-phase-output.js docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails` |
+| Phase 12 guide validation | `validate-phase12-implementation-guide.js --workflow docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails` |
+| Spec validation | `verify-all-specs.js --workflow docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails` |
 | Manual evidence | `outputs/phase-11/main.md`、`manual-smoke-log.md`、`link-checklist.md`、`manual-ops-checklist.md` |

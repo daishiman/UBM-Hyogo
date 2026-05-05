@@ -1,0 +1,13 @@
+=== INSERT/UPDATE/DELETE on member_tags ===
+apps/api/src/repository/memberTags.ts:73:        `INSERT INTO member_tags (member_id, tag_id, source, confidence, assigned_by)
+apps/api/src/workflows/tagCandidateEnqueue.test.ts:33:        "INSERT INTO member_tags (member_id, tag_id, source, assigned_by) VALUES ('m1','t1','rule','system')",
+apps/api/src/workflows/tagQueueResolve.ts:191:            `INSERT INTO member_tags (member_id, tag_id, source, confidence, assigned_at, assigned_by)
+
+=== memberTags repository import 一覧 ===
+apps/api/src/use-cases/public/get-public-member-profile.ts:9:import { listTagsByMemberId } from "../../repository/memberTags";
+
+=== 解説 ===
+- apps/api/src/repository/memberTags.ts:73 = 既存 assignTagsToMember (07a tagQueueResolve workflow からのみ呼ばれる allow list)
+- apps/api/src/workflows/tagQueueResolve.ts:191 = 07a workflow による member_tags 反映 (不変条件 #13 で許容)
+- apps/api/src/workflows/tagCandidateEnqueue.test.ts:33 = test fixture seed のみ
+- 本タスク (ut-02a) で新規追加した write 経路: 0 件

@@ -57,6 +57,8 @@ GitHub Actions が `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` でデプロ
 | `apps/web/wrangler.toml` | Cloudflare Pages (フロントエンド) | `.next` |
 | `apps/api/wrangler.toml` | Cloudflare Workers (API) | `src/index.ts` |
 
+TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interface を正本とする。D1 binding `DB`、非機密 vars、Cloudflare Secrets を追加・変更する場合は、`apps/api/wrangler.toml` と `apps/api/src/env.ts` を同じ変更単位で同期する。
+
 Pages の初回プロジェクト作成は Cloudflare Dashboard → Connect to Git で行う。
 CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.toml` の `name` を参照する。
 
@@ -66,17 +68,19 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 
 本番・staging 環境で必要なシークレットは Cloudflare Secrets に登録する。ローカル開発では 1Password Environments から取得する。
 
-| シークレット名 | Cloudflare Secrets | GitHub Secrets | 1Password |
-|--------------|:-----------------:|:--------------:|:---------:|
-| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | ✅ | - | ✅ (正本) |
-| `GOOGLE_PRIVATE_KEY` | ✅ | - | ✅ (正本) |
-| `GOOGLE_FORM_ID` | ✅ | - | ✅ (正本) |
-| `AUTH_SECRET` | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_ID` | ✅ | - | ✅ (正本) |
-| `AUTH_GOOGLE_SECRET` | ✅ | - | ✅ (正本) |
-| `RESEND_API_KEY` | ✅ | - | ✅ (正本) |
-| `CLOUDFLARE_API_TOKEN` | - | ✅ | ✅ (正本) |
-| `CLOUDFLARE_ACCOUNT_ID` | - | ✅ | ✅ (正本) |
+| 名前 | 種別 | Cloudflare | GitHub | 1Password |
+|--------------|------|:----------:|:------:|:---------:|
+| `GOOGLE_SERVICE_ACCOUNT_EMAIL` | Secret | Secrets | - | ✅ (正本) |
+| `GOOGLE_PRIVATE_KEY` | Secret | Secrets | - | ✅ (正本) |
+| `GOOGLE_FORM_ID` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_SECRET` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_ID` | Secret | Secrets | - | ✅ (正本) |
+| `AUTH_GOOGLE_SECRET` | Secret | Secrets | - | ✅ (正本) |
+| `MAIL_PROVIDER_KEY` | Secret | Secrets | - | ✅ (正本) |
+| `MAIL_FROM_ADDRESS` | Variable | Variables | - | 任意（runtime smoke では必須） |
+| `AUTH_URL` | Variable | Variables | - | 任意（runtime smoke では必須） |
+| `CLOUDFLARE_API_TOKEN` | Secret | - | Secrets | ✅ (正本) |
+| `CLOUDFLARE_ACCOUNT_ID` | Variable | - | Variables | ✅ (正本) |
 
 ---
 
@@ -111,6 +115,7 @@ CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.
 | `meeting_sessions` | 開催日 |
 | `member_attendance` | 参加履歴 |
 | `admin_users` | 管理者 |
+| `admin_member_notes` | 管理メモ / member self-service 申請 queue |
 | `magic_tokens` | Magic Link |
 | `tag_definitions` | タグ辞書 |
 | `member_tags` | 付与済みタグ |
@@ -212,6 +217,38 @@ CREATE TABLE IF NOT EXISTS member_attendance (
 );
 ```
 
+`MemberProfile.attendance` の read path は `member_attendance.member_id IN (...)` を使う。D1 / SQLite bind 上限を避けるため、実装は 80 memberId ごとに chunk 分割し、`meeting_sessions.session_id` へ INNER JOIN して `held_on DESC`, `session_id ASC` で安定化する。`meeting_sessions` に存在しない session は返さない。
+
+### admin_member_notes
+
+```sql
+CREATE TABLE IF NOT EXISTS admin_member_notes (
+  note_id TEXT PRIMARY KEY,
+  member_id TEXT NOT NULL,
+  body TEXT NOT NULL,
+  note_type TEXT NOT NULL DEFAULT 'general',
+  request_status TEXT,
+  resolved_at INTEGER,
+  resolved_by_admin_id TEXT,
+  created_by TEXT NOT NULL,
+  updated_by TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_admin_notes_member_type
+  ON admin_member_notes (member_id, note_type, created_at);
+
+CREATE INDEX IF NOT EXISTS idx_admin_notes_pending_requests
+  ON admin_member_notes (member_id, note_type)
+  WHERE request_status = 'pending';
+```
+
+`note_type='general'` は通常の管理メモで、request 系 3 列を NULL に保つ。
+`visibility_request` / `delete_request` は申請 queue として作成時に
+`request_status='pending'` を設定する。resolve/reject は
+`WHERE request_status='pending'` の条件付き UPDATE で処理済み行の再更新を防ぐ。
+
 ### tag_assignment_queue
 
 ```sql
@@ -222,10 +259,27 @@ CREATE TABLE IF NOT EXISTS tag_assignment_queue (
   status TEXT NOT NULL DEFAULT 'queued',
   suggested_tags_json TEXT NOT NULL DEFAULT '[]',
   reason TEXT,
+  idempotency_key TEXT,
+  attempt_count INTEGER NOT NULL DEFAULT 0,
+  last_error TEXT,
+  next_visible_at TEXT,
+  dlq_at TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_tag_queue_idempotency
+  ON tag_assignment_queue(idempotency_key)
+  WHERE idempotency_key IS NOT NULL;
+
+CREATE INDEX IF NOT EXISTS idx_tag_queue_visible
+  ON tag_assignment_queue(status, next_visible_at);
+
+CREATE INDEX IF NOT EXISTS idx_tag_queue_dlq
+  ON tag_assignment_queue(status, dlq_at);
 ```
+
+`status` は `queued | reviewing | resolved | rejected | dlq` を扱う。仕様語では `queued` が `candidate`、`resolved` が `confirmed`、`dlq` が retry 上限超過の保留棚に対応する。`idempotency_key` は現行 candidate row では `<memberId>:<responseId>` で生成する。tagCode は admin 確定時に初めて決まるため key に含めない。`member_tags` への確定書き込みは `POST /admin/tags/queue/:queueId/resolve` の guarded update 成功後だけ行う。Issue #377 retry tick は `queued` 全件ではなく、`reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL` のいずれかを満たす行だけを処理する。
 
 ---
 
@@ -254,6 +308,23 @@ CREATE TABLE IF NOT EXISTS magic_tokens (
 3. consent は current response から `member_status` へ反映する
 4. 参加履歴・タグ・公開状態は form schema 外テーブルで管理する
 5. 削除しても raw response は監査目的で保持する
+6. 公開停止 / 退会申請は `admin_member_notes` に queue 化し、`member_responses` / `response_fields` は直接更新しない
+
+## schema alias back-fill（07b）
+
+未解決 question は `schema_diff_queue.status='queued'` として入り、07b apply で `resolved` へ進む。実 DB には `response_fields.questionId` / `response_fields.is_deleted` はないため、extra field は `stable_key='__extra__:<questionId>'` で識別し、削除済み member は `member_identities` と `deleted_members` の join で back-fill 対象から外す。
+
+`schema_questions(revision_id, stable_key)` の物理 UNIQUE index は未導入で、現状は workflow pre-check で 422 を返す。物理制約、10,000 行級実測、retryable HTTP contract は `UT-07B-schema-alias-hardening-001` に分離する。
+
+### production migration apply の運用境界
+
+UT-07B の `apps/api/migrations/0008_schema_alias_hardening.sql` を本番 D1 (`ubm-hyogo-db-prod`) に適用する手順は **承認ゲート付き runbook** として `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/outputs/phase-05/main.md` に分離している。production への実 apply は本仕様書（spec 層）で扱わず、必ず runbook 8 セクション（Overview / 承認ゲート / Preflight / Apply / Post-check / Evidence / Failure handling / Smoke 制限）に従い、`bash scripts/cf.sh` 経由でのみ実施する。
+
+---
+
+## 関連タスク仕様書
+
+- UT-04 D1 データスキーマ設計（`docs/30-workflows/ut-04-d1-schema-design/`）— 本書の D1 テーブル群（`member_responses` / `member_identities` / `member_status` / `sync_jobs` ほか）の正本スキーマ設計タスク。
 
 ---
 
@@ -292,3 +363,15 @@ Auth.js v5 を採用しても **D1 に `sessions` テーブルを作らず、JWT
 - `packages/shared/src/auth.ts`: `signSessionJwt` / `verifySessionJwt` / `SESSION_JWT_TTL_SECONDS`
 - `apps/web/src/lib/auth.ts`: Auth.js cookie session = HS256 JWT
 - `apps/api/src/middleware/require-admin.ts`: cookie / Authorization から JWT 抽出 → verify
+
+## identity conflict merge tables（Issue #194）
+
+EMAIL_CONFLICT 後の admin 手動 merge は Google Form schema 外の管理データとして扱い、raw response 本文は更新しない。
+
+| table | purpose | key columns |
+| --- | --- | --- |
+| `identity_aliases` | source identity を canonical target へ解決する append-only alias | `source_member_id` UNIQUE, `target_member_id`, `created_by`, `reason_redacted` |
+| `identity_merge_audit` | merge 操作の独立 ledger | `actor_admin_id`, `source_member_id`, `target_member_id`, `reason`, `merged_at`, `sync_job_id` |
+| `identity_conflict_dismissals` | admin が「別人」と判断した候補 pair の再検出抑止 | UNIQUE(`source_member_id`, `candidate_target_member_id`), `dismissed_by`, `reason`, `dismissed_at` |
+
+`POST /admin/identity-conflicts/:id/merge` は `identity_aliases` / `identity_merge_audit` / `audit_log` を単一 D1 `batch()` に入れて atomic に記録する。D1 `batch()` が使えない環境では部分適用を避けるため merge を失敗させる。

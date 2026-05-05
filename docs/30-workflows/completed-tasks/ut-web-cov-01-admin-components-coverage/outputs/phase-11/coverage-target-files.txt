@@ -1,0 +1,7 @@
+apps/web/src/components/admin/MembersClient.tsx: PASS {"statements":100,"branches":100,"functions":100,"lines":100}
+apps/web/src/components/admin/TagQueuePanel.tsx: PASS {"statements":100,"branches":96.15,"functions":100,"lines":100}
+apps/web/src/components/layout/AdminSidebar.tsx: PASS {"statements":100,"branches":100,"functions":100,"lines":100}
+apps/web/src/components/admin/SchemaDiffPanel.tsx: PASS {"statements":100,"branches":95.65,"functions":100,"lines":100}
+apps/web/src/components/admin/MemberDrawer.tsx: PASS {"statements":96.64,"branches":84.61,"functions":90.9,"lines":96.64}
+apps/web/src/components/admin/MeetingPanel.tsx: PASS {"statements":98.02,"branches":84.44,"functions":100,"lines":98.02}
+apps/web/src/components/admin/AuditLogPanel.tsx: PASS {"statements":100,"branches":98.73,"functions":100,"lines":100}

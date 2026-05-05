@@ -19,7 +19,7 @@ const QSchema = z
 
 const TagSchema = z
   .array(z.string().min(1))
-  .transform((arr) => arr.slice(0, TAG_LIMIT))
+  .transform((arr) => Array.from(new Set(arr)).slice(0, TAG_LIMIT))
   .catch([]);
 
 export const membersSearchSchema = z.object({

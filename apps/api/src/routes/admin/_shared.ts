@@ -4,6 +4,7 @@ import type { RequireAuthEnv } from "../../middleware/require-admin";
 
 export interface AdminRouteEnv extends AdminGateEnv, RequireAuthEnv {
   readonly DB: D1Database;
+  readonly UT07B_BACKFILL_CPU_BUDGET_MS?: string;
 }
 
 // ISO8601 with offset を保証する。Date#toISOString() は 'Z' を返すが

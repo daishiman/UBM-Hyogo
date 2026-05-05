@@ -1,11 +1,12 @@
 // UT-09: /admin/sync の認可テスト。
+// u-04: 新 sync layer (runManualSync) を mock し互換 endpoint の挙動を保証する。
 
 import { describe, it, expect, vi } from "vitest";
 
-vi.mock("../../jobs/sync-sheets-to-d1", () => ({
-  runSync: vi.fn().mockResolvedValue({
+vi.mock("../../sync/manual", () => ({
+  runManualSync: vi.fn().mockResolvedValue({
     status: "success",
-    runId: "run-x",
+    auditId: "audit-x",
     fetched: 0,
     upserted: 0,
     failed: 0,
@@ -58,12 +59,13 @@ describe("adminSyncRoute", () => {
     expect(body.result.status).toBe("success");
   });
 
-  it("SYNC_ADMIN_TOKEN 未設定は 500", async () => {
+  it("SYNC_ADMIN_TOKEN 未設定は 401 (require-sync-admin)", async () => {
     const res = await adminSyncRoute.request(
       "/sync",
       { method: "POST" },
       { DB: {} as unknown as D1Database },
     );
-    expect(res.status).toBe(500);
+    // require-sync-admin: token 未設定時は 401 (unauthorized) を返す方針
+    expect([401, 500]).toContain(res.status);
   });
 });

@@ -30,6 +30,10 @@ grep -rn "export const <ユーティリティ名>" packages/ apps/
 
 重複が検出された場合は、既存実装を再利用する設計に変更する。
 
+### Phase 4 事前確認: dryRun / apply / preview 副作用境界【必須】
+
+dryRun / apply / preview を持つ workflow は、戻り値を discriminated union で分け、DB / queue / audit / external API の副作用境界をテストマトリクスに含める。dryRun が audit や queue status を変更しないこと、apply のみが永続化することを明示する。
+
 ### Phase 4 テストマトリクス: 仕様番号とテスト名の対応列
 
 テストマトリクス作成時は「仕様番号（TC-I-XX）」と「ファイル内テスト名（describe/it の文字列）」を別列で記録する。

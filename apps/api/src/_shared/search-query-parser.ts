@@ -42,13 +42,16 @@ export type ParsedPublicMemberQuery = {
 
 const LIMIT_MAX = 100;
 const LIMIT_MIN = 1;
+const TAG_LIMIT = 5;
+const Q_LIMIT = 200;
 const VALID_ZONES = new Set(["all", "0_to_1", "1_to_10", "10_to_100"]);
 const VALID_STATUSES = new Set(["all", "member", "non_member", "academy"]);
 
 const clampLimit = (n: number): number =>
   Math.min(Math.max(Math.trunc(n), LIMIT_MIN), LIMIT_MAX);
 
-const truncateQ = (q: string): string => (q.length > 200 ? q.slice(0, 200) : q);
+const normalizeQ = (q: string): string =>
+  q.trim().replace(/\s+/g, " ").slice(0, Q_LIMIT);
 
 const dedup = (arr: string[]): string[] => Array.from(new Set(arr));
 
@@ -76,10 +79,10 @@ export const parsePublicMemberQuery = (
   });
   const data = result.success ? result.data : DEFAULT_PUBLIC_MEMBER_QUERY;
   return {
-    q: truncateQ(data.q),
+    q: normalizeQ(data.q),
     zone: normalizeEnumLike(data.zone || "all", VALID_ZONES),
     status: normalizeEnumLike(data.status || "all", VALID_STATUSES),
-    tags: dedup(data.tags),
+    tags: dedup(data.tags.filter((tag) => tag.length > 0)).slice(0, TAG_LIMIT),
     sort: data.sort,
     density: data.density,
     page: Math.max(1, Math.trunc(data.page)),

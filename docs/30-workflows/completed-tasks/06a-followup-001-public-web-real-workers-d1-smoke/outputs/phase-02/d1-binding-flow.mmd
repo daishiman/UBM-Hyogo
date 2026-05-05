@@ -1,0 +1,20 @@
+flowchart LR
+    Browser[Browser / curl]
+    Web[apps/web<br/>Next.js on Workers]
+    API[apps/api<br/>Hono on Workers]
+    D1[(Cloudflare D1<br/>ubm-hyogo-db-*)]
+    Env{{PUBLIC_API_BASE_URL}}
+
+    Browser -->|HTTP| Web
+    Web -->|fetch| Env
+    Env -->|local: http://localhost:8787<br/>staging: https://api-staging...| API
+    API -->|c.env.DB| D1
+    D1 -->|rows| API
+    API -->|JSON| Web
+    Web -->|HTML / JSON| Browser
+
+    classDef forbidden stroke:#d33,stroke-width:2px,stroke-dasharray:4 2
+    Web -.禁止.-> D1:::forbidden
+
+    note1[/不変条件 #5:<br/>apps/web から D1 への直接アクセスは禁止<br/>必ず apps/api を経由する/]
+    Web --- note1

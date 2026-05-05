@@ -144,6 +144,88 @@ describe("/me/* — member self-service API", () => {
       const res = await app.request("/profile", {}, e);
       expect(res.status).toBe(401);
     });
+
+    // 06b-followup-001 (#428): server-side pending state の reload 永続性
+    it("06b-fu-001: pending が無い場合は pendingRequests={}", async () => {
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/profile", {}, e);
+      expect(res.status).toBe(200);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests).toEqual({});
+    });
+
+    it("06b-fu-001: visibility_request POST 後の reload で pendingRequests.visibility が返る", async () => {
+      const { app, env: e } = buildApp(env);
+      const post = await app.request(
+        "/visibility-request",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ desiredState: "hidden", reason: "一時" }),
+        },
+        e,
+      );
+      expect(post.status).toBe(202);
+      const accepted = MeQueueAcceptedResponseZ.parse(await post.json());
+
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests.visibility?.queueId).toBe(accepted.queueId);
+      expect(parsed.pendingRequests.visibility?.status).toBe("pending");
+      expect(parsed.pendingRequests.visibility?.desiredState).toBe("hidden");
+      expect(parsed.pendingRequests.delete).toBeUndefined();
+    });
+
+    it("06b-fu-001: delete_request POST 後の reload で pendingRequests.delete が返る", async () => {
+      const { app, env: e } = buildApp(env);
+      const post = await app.request(
+        "/delete-request",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({}),
+        },
+        e,
+      );
+      expect(post.status).toBe(202);
+
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests.delete?.status).toBe("pending");
+      expect(parsed.pendingRequests.visibility).toBeUndefined();
+    });
+
+    it("06b-fu-001: resolved 行は pending として返さない", async () => {
+      // 直接 resolved 状態の note を入れて pending ではないことを確認
+      await env.db
+        .prepare(
+          "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, request_status, resolved_at, created_by, updated_by, created_at, updated_at) VALUES ('n_resolved','m_001','{}','visibility_request','resolved',1,'admin@example.com','admin@example.com','2026-05-04T00:00:00Z','2026-05-04T00:00:00Z')",
+        )
+        .run();
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests.visibility).toBeUndefined();
+    });
+
+    it("06b-fu-001: 最新が resolved でも古い pending があれば banner 用 pendingRequests.visibility を返す", async () => {
+      await env.db
+        .prepare(
+          "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, request_status, created_by, updated_by, created_at, updated_at) VALUES ('n_pending_old','m_001','{\"payload\":{\"desiredState\":\"public\"}}','visibility_request','pending','admin@example.com','admin@example.com','2026-05-04T00:00:00Z','2026-05-04T00:00:00Z')",
+        )
+        .run();
+      await env.db
+        .prepare(
+          "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, request_status, resolved_at, created_by, updated_by, created_at, updated_at) VALUES ('n_resolved_new','m_001','{}','visibility_request','resolved',1,'admin@example.com','admin@example.com','2026-05-04T01:00:00Z','2026-05-04T01:00:00Z')",
+        )
+        .run();
+
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests.visibility?.queueId).toBe("n_pending_old");
+      expect(parsed.pendingRequests.visibility?.desiredState).toBe("public");
+    });
   });
 
   describe("POST /me/visibility-request", () => {
@@ -176,6 +258,46 @@ describe("/me/* — member self-service API", () => {
         )
         .first<{ c: number }>();
       expect(fields?.c).toBe(RESPONSE_FIELDS_R001.length);
+    });
+
+    it("AC-7: resolved 行のみ存在する member は再申請が 202 で成功する", async () => {
+      const { app, env: e } = buildApp(env);
+      const first = await app.request(
+        "/visibility-request",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ desiredState: "hidden" }),
+        },
+        e,
+      );
+      expect(first.status).toBe(202);
+      const firstJson = MeQueueAcceptedResponseZ.parse(await first.json());
+      // admin が resolve したと仮定して直接 D1 を更新
+      await env.db
+        .prepare(
+          "UPDATE admin_member_notes SET request_status='resolved', resolved_at=?1, resolved_by_admin_id='adm_owner' WHERE note_id=?2",
+        )
+        .bind(Date.now(), firstJson.queueId)
+        .run();
+      const second = await app.request(
+        "/visibility-request",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ desiredState: "hidden" }),
+        },
+        e,
+      );
+      expect(second.status).toBe(202);
+      const secondJson = MeQueueAcceptedResponseZ.parse(await second.json());
+      expect(secondJson.queueId).not.toBe(firstJson.queueId);
+      const pendingRows = await env.db
+        .prepare(
+          "SELECT COUNT(*) AS c FROM admin_member_notes WHERE member_id='m_001' AND note_type='visibility_request' AND request_status='pending'",
+        )
+        .first<{ c: number }>();
+      expect(pendingRows?.c).toBe(1);
     });
 
     it("F-7: 二重申請は 409 DUPLICATE_PENDING_REQUEST", async () => {

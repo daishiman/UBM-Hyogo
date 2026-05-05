@@ -1,5 +1,6 @@
-// 06c: admin 5 画面ナビ
+// 06c/07c: admin 画面ナビ
 import Link from "next/link";
+import { SignOutButton } from "../auth/SignOutButton";
 
 const items = [
   { href: "/admin", label: "ダッシュボード" },
@@ -7,6 +8,9 @@ const items = [
   { href: "/admin/tags", label: "タグキュー" },
   { href: "/admin/schema", label: "schema" },
   { href: "/admin/meetings", label: "開催日" },
+  { href: "/admin/requests", label: "依頼キュー" },
+  { href: "/admin/identity-conflicts", label: "Identity重複" },
+  { href: "/admin/audit", label: "監査ログ" },
 ] as const;
 
 export function AdminSidebar() {
@@ -19,6 +23,9 @@ export function AdminSidebar() {
           </li>
         ))}
       </ul>
+      <div className="admin-sidebar-footer">
+        <SignOutButton />
+      </div>
     </nav>
   );
 }

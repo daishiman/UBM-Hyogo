@@ -1,0 +1,6 @@
+{
+  "status": "PENDING_USER_APPROVAL",
+  "source": "task-09c-production-deploy-execution-001.md",
+  "query": "SELECT id, status, started_at, finished_at FROM sync_jobs ORDER BY started_at DESC LIMIT 5",
+  "result": null
+}

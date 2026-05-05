@@ -10,9 +10,16 @@
 | 対象機能     | apps/api Worker env 型定義と D1 binding wrap helper の正本化                  |
 | 優先度       | 中                                                                            |
 | 見積もり規模 | 小規模                                                                        |
-| ステータス   | 未実施                                                                        |
+| ステータス   | consumed / implemented-local                                                  |
 | 発見元       | 02c Phase 12 unassigned-task-detection #1                                     |
 | 発見日       | 2026-04-27                                                                    |
+
+## Canonical Workflow Status
+
+- 後継 workflow: `docs/30-workflows/issue-112-02c-followup-api-env-type-helper/index.md`
+- Issue: #112（仕様書作成時点で CLOSED）
+- 状態: `implemented-local` / Phase 1-12 completed / Phase 13 pending_user_approval。
+- AC close-out: AC-1〜AC-7 は後継 workflow で実装・evidence 取得・正本同期まで完了済み。commit / push / PR は Phase 13 承認ゲートに残す。
 
 ---
 

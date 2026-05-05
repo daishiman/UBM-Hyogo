@@ -22,7 +22,7 @@ describe("responseFields repository", () => {
 
     it("stable_key が含まれる", async () => {
       const result = await listFieldsByResponseId(ctx, asResponseId("r_001"));
-      expect(result.map((r) => r.stable_key)).toContain("full_name");
+      expect(result.map((r) => r.stable_key)).toContain("fullName");
       expect(result.map((r) => r.stable_key)).toContain("nickname");
       expect(result.map((r) => r.stable_key)).toContain("admin_note_field");
     });

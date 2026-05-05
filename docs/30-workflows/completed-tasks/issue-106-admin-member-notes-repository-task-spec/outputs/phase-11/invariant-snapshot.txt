@@ -1,0 +1,8 @@
+Repository evidence:
+- `export const listByMemberId` exists.
+- SQL binds `member_id = ?1`.
+- SQL orders by `created_at DESC`.
+- `adminNotes.ts` has no imports from public/member view model modules.
+- `member_responses` / `response_fields` occur only in comments documenting invariants, not in SQL writes.
+
+NON_VISUAL: screenshot not applicable.

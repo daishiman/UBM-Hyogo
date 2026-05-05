@@ -10,14 +10,14 @@ FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
-SYNC_MAX_RETRIES = "5"
+SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
-# UT-09: production cron は 6 時間ごとに sheets sync を実行
 # 03a: schema sync は 03:00 JST (= 18:00 UTC) に 1 回
 # 03b: response sync は */15 で実行（forms.responses.list 差分同期）
+# issue-377: tag queue retry tick は */5 で実行（legacy Sheets hourly は production と同じく手動限定）
 [triggers]
-crons = ["0 */6 * * *", "0 18 * * *", "*/15 * * * *"]
+crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]
 
 # D1 データベースバインディング
 # UT-09 同期ジョブが SQLITE_BUSY retry/backoff・write queue 直列化・短い transaction
@@ -28,36 +28,65 @@ database_name = "ubm-hyogo-db-prod"
 database_id = "24963f0a-7fbb-4508-a93a-f8e502aa4585"
 migrations_dir = "migrations"
 
+# 03b-followup-006: per-sync write cap 連続到達検知用 Analytics Engine dataset
+# Issue #199 / response_sync の 200 cap が 3 連続で hit したとき
+# `sync_write_cap_consecutive_hit` を emit する。free tier 25M write/month。
+[[analytics_engine_datasets]]
+binding = "SYNC_ALERTS"
+dataset = "sync_alerts"
+
 [env.production]
 name = "ubm-hyogo-api"
 
 [env.production.vars]
 ENVIRONMENT = "production"
+MAIL_FROM_ADDRESS = "noreply@ubm-hyogo.example"
+AUTH_URL = "https://api.ubm-hyogo.workers.dev"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
+SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
+SYNC_BATCH_SIZE = "100"
+SYNC_MAX_RETRIES = "3"
+SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
+
+# production は Cloudflare free plan の account cron 上限を避けるため 3 本以内に絞る。
+# - 03a schema sync: 03:00 JST (= 18:00 UTC)
+# - 03b Forms response sync: 15 分ごと
+# - issue-377 tag queue retry tick: 5 分ごと
+# legacy Sheets hourly sync (`0 * * * *`) は response sync 完了後の互換経路として手動実行に限定する。
+[env.production.triggers]
+crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]
 
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "ubm-hyogo-db-prod"
 database_id = "24963f0a-7fbb-4508-a93a-f8e502aa4585"
+migrations_dir = "migrations"
+
+# 03b-followup-006: production 用 Analytics Engine dataset
+[[env.production.analytics_engine_datasets]]
+binding = "SYNC_ALERTS"
+dataset = "sync_alerts"
 
 [env.staging]
 name = "ubm-hyogo-api-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
+MAIL_FROM_ADDRESS = "noreply@staging.ubm-hyogo.example"
+AUTH_URL = "https://api-staging.ubm-hyogo.workers.dev"
 SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
 SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
-SYNC_MAX_RETRIES = "5"
+SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 
-# UT-09: staging (=dev 想定) は 1 時間ごとの Sheets sync + 03a schema sync (03:00 JST = 18:00 UTC) + 03b response sync */15
+# staging は production と同じ 3 本上限に合わせる。legacy Sheets hourly sync は手動限定。
 [env.staging.triggers]
-crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]
+crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]
 
 # staging D1 バインディング (WAL 競合ポリシーは production と同じ)
 [[env.staging.d1_databases]]
@@ -65,3 +94,8 @@ binding = "DB"
 database_name = "ubm-hyogo-db-staging"
 database_id = "990e5d6c-51eb-4826-9c13-c0ae007d5f46"
 migrations_dir = "migrations"
+
+# 03b-followup-006: staging 用 Analytics Engine dataset
+[[env.staging.analytics_engine_datasets]]
+binding = "SYNC_ALERTS"
+dataset = "sync_alerts_staging"

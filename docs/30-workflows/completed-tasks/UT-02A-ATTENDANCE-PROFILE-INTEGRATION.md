@@ -1,5 +1,11 @@
 # MemberProfile.attendance 実データ統合 - タスク指示書
 
+## Canonical Status
+
+この旧単票は legacy stub として保持する。現在の正本 workflow root は `docs/30-workflows/ut-02a-attendance-profile-integration/`。
+
+状態: implemented / Phase 1-12 completed / Phase 13 user approval pending。実装、Phase 11 NON_VISUAL evidence、Phase 12 same-wave sync は正本 workflow root 側で管理する。
+
 ## メタ情報
 
 | 項目         | 内容                                                                |
@@ -10,7 +16,7 @@
 | 対象機能     | Member Identity / Profile / Attendance History                      |
 | 優先度       | 中                                                                  |
 | 見積もり規模 | 中規模                                                              |
-| ステータス   | 未実施                                                              |
+| ステータス   | implemented (Phase 1-12 完了 / Phase 13 user-approval pending)       |
 | 発見元       | Phase 12（02a タスク: parallel-member-identity-status-and-response-repository）|
 | 発見日       | 2026-04-27                                                          |
 
@@ -146,7 +152,7 @@
 
 #### 手順
 
-1. `apps/api/src/repository/attendance/index.ts`（または 02b 配下）を新設
+1. `apps/api/src/repository/attendance.ts` に provider を追加
 2. `findByMemberIds(ids: MemberId[]): Promise<Map<MemberId, AttendanceRecord[]>>` を実装
 3. `IN (?,?,...)` で N+1 を回避し、bind 上限を超える場合はチャンク分割
 4. branded type（`MeetingSessionId`）を定義し、既存 `MemberId` / `ResponseId` と衝突しないよう module 分離
@@ -249,7 +255,7 @@ builder に attendance を注入し、UI まで実データが届くことを確
 - `docs/30-workflows/02a-parallel-member-identity-status-and-response-repository/outputs/phase-12/unassigned-task-detection.md`
 - `docs/30-workflows/02a-parallel-member-identity-status-and-response-repository/outputs/phase-12/implementation-guide.md`
 - `apps/api/src/repository/_shared/builder.ts`
-- `doc/00-getting-started-manual/specs/08-free-database.md`
+- `docs/00-getting-started-manual/specs/08-free-database.md`
 
 ### 参考資料
 

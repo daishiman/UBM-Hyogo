@@ -1,5 +1,9 @@
 # 05a Follow-up 001: Staging OAuth Smoke Evidence
 
+> 状態: merged_into `docs/30-workflows/ut-05a-followup-google-oauth-completion/`（spec_created）
+> 統合日: 2026-04-30
+> 注記: 単独未タスクとしては新規実行せず、統合 workflow の Stage A で実行する。
+
 ## 苦戦箇所【記入必須】
 
 05a Phase 11 は実 Google OAuth client と Cloudflare Workers staging/preview が未接続だったため、OAuth redirect/callback、`/login?gate=...`、`/admin/*` redirect、実 cookie を使った curl 証跡、screenshot を取得できなかった。自動化テストで JWT / session-resolve / admin route gate は確認済みだが、ユーザー可視の OAuth flow 証跡は staging で上書きが必要。

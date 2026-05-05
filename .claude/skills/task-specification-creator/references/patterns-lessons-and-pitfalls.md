@@ -392,3 +392,37 @@ exit "$rc"
 - 小規模で fail する設計は本番で必ず fail するため、まず 2 worktree で固める
 - 本番再現で初めて顕在化する事象（lock 取得タイムアウト等）は別 issue として記録
 - 出典: T-6 / Issue #161 workflow
+
+---
+
+## Resumable Batch / Cron Budget チェック項目（U-UT01-09 由来 / 2026-04-30）
+
+cron-driven / queue-driven / paginated batch（Forms sync / Sheets ingest / D1 backfill 等）の retry / offset / cursor / invocation budget を spec 段階で固定するためのチェックリスト。
+相互参照: `.claude/skills/aiworkflow-requirements/references/lessons-learned-u-ut01-09-retry-offset-2026-04.md` の **L-UUT0109-003**（retry/offset canonical 実装契約）。
+
+### Phase 2 設計時の必須チェック項目
+
+| 項目 | 確認内容 | 既定値 / 例 |
+| --- | --- | --- |
+| **chunk size** | 1 invocation あたりの最大処理件数 | U-UT01-09: 200 行 / chunk |
+| **cursor 列名** | 進捗永続化に使う DB 列名（処理済みオフセット） | `processed_offset`（U-UT01-09 では INTEGER NOT NULL DEFAULT 0） |
+| **chunk index 単位** | offset の最小増分単位（行 / バッチ / page） | U-UT01-09: 行単位（chunk 終端で flush） |
+| **invocation budget** | cron 1 ティックあたりの想定実行時間 / quota | Cloudflare Workers 30s CPU / 50 subrequests |
+| **max retry** | 失敗時の最大リトライ回数 | U-UT01-09: 3（旧 5 から下方修正） |
+| **backoff** | リトライ間隔 (linear / exponential / jitter) | U-UT01-09: exponential + jitter |
+| **invalidation 条件** | cursor を巻き戻す / 無効化する条件 | source schema 変化、checksum mismatch、destructive migration |
+| **stable high-water fallback** | 想定外停止時に巻き戻す安全な処理済み境界 | 直前 chunk 終端の processed_offset |
+
+### NG パターン
+
+- chunk / cursor / max retry を spec に書かず実装で決め打ち → 仕様変更追跡不能・combined budget 計算不能
+- max retry を上限のみ書き backoff を書かない → cron 衝突 / quota 飽和 を招く
+- invalidation 条件を「将来検討」で empty にする → 既存仕様を本番運用で上書き破壊する事故源
+- `processed_offset` 列を migration に含めず実装 PR で初出 → spec_created と implementation の責務逆転
+
+### OK パターン
+
+- Phase 2 設計テーブル + Phase 12 main / system-spec-update-summary の双方に retry/offset 数値を併記
+- combined budget = `chunk_size × max_retry × invocation interval` を spec に記録
+- invalidation 条件を 3 系統（schema 変化 / checksum / destructive migration）で列挙
+- 既存 sync / 別タスク（U-UT01-07 / UT-09 等）の現行値を上書きしない場合は「上書き禁止対象」を spec に明記

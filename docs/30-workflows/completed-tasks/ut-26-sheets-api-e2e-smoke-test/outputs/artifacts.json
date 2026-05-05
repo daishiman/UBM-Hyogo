@@ -1,0 +1,205 @@
+{
+  "task_name": "ut-26-sheets-api-e2e-smoke-test",
+  "task_path": "docs/30-workflows/ut-26-sheets-api-e2e-smoke-test",
+  "wave": 1,
+  "execution_mode": "parallel",
+  "depends_on": [
+    "ut-03-sheets-api-auth-setup",
+    "ut-25-cloudflare-secrets-sa-json-deploy",
+    "01c-parallel-google-workspace-bootstrap"
+  ],
+  "blocks": [
+    "ut-09-sheets-d1-sync-job-implementation",
+    "ut-10-error-handling-standardization"
+  ],
+  "created_at": "2026-04-29",
+  "github_issue": 41,
+  "github_issue_state": "CLOSED",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "scope": "smoke_test",
+    "priority": "HIGH",
+    "wave_label": "Wave 1",
+    "visualEvidence": "NON_VISUAL",
+    "artifact_schema_note": "This workflow keeps the repository's array-based phase registry. Spec created while issue #41 is CLOSED per user instruction; status remains CLOSED."
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-01/main.md"],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-02/smoke-test-design.md",
+        "outputs/phase-02/cache-and-error-mapping.md"
+      ],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-03/main.md"],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-04/test-strategy.md"],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-05/implementation-runbook.md"],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-06/failure-cases.md"],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-07/ac-matrix.md"],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化",
+      "file": "phase-08.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-08/main.md"],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-09/main.md",
+        "outputs/phase-09/free-tier-estimation.md"
+      ],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "spec_created",
+      "outputs": ["outputs/phase-10/go-no-go.md"],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke test",
+      "file": "phase-11.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md",
+        "outputs/phase-11/troubleshooting-runbook.md"
+      ],
+      "depends_on_phases": [10],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "spec_created",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/artifacts.json"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "approval_required",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-info.md",
+        "outputs/phase-13/pr-creation-result.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    ".claude/skills/aiworkflow-requirements/references/architecture-overview-core.md",
+    ".claude/skills/aiworkflow-requirements/references/arch-integration-packages.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md",
+    ".claude/skills/aiworkflow-requirements/references/api-endpoints.md",
+    ".claude/skills/aiworkflow-requirements/references/environment-variables.md",
+    ".claude/skills/aiworkflow-requirements/references/quality-e2e-testing.md",
+    ".claude/skills/aiworkflow-requirements/references/testing-playwright-e2e.md",
+    "docs/30-workflows/unassigned-task/UT-26-sheets-api-e2e-smoke-test.md"
+  ],
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/admin/smoke/sheets",
+      "auth": "SMOKE_ADMIN_TOKEN (dev only)",
+      "purpose": "Sheets API v4 疎通確認 (dev 限定 / production では無効化)"
+    }
+  ],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "secrets_referenced": [
+    "GOOGLE_SHEETS_SA_JSON",
+    "SHEETS_SPREADSHEET_ID",
+    "SMOKE_ADMIN_TOKEN"
+  ],
+  "invariants_touched": [1, 4, 5],
+  "doc_references": [
+    "docs/30-workflows/unassigned-task/UT-26-sheets-api-e2e-smoke-test.md",
+    "docs/30-workflows/unassigned-task/UT-03-sheets-api-auth-setup.md",
+    "docs/30-workflows/unassigned-task/UT-25-cloudflare-secrets-sa-json-deploy.md",
+    "docs/30-workflows/ut-09-sheets-to-d1-cron-sync-job/"
+  ]
+}

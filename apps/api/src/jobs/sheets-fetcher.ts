@@ -17,6 +17,10 @@ export interface SheetsFetcher {
   fetchRange(range: string): Promise<SheetsValueRange>;
 }
 
+export interface SheetsFetcherDiagnostics {
+  getTokenFetchCount(): number;
+}
+
 export interface SheetsFetcherOptions {
   readonly spreadsheetId: string;
   readonly serviceAccountJson: string;
@@ -27,6 +31,7 @@ export class GoogleSheetsFetcher implements SheetsFetcher {
   private readonly credentials: ServiceAccountCredentials;
   private readonly fetchImpl: typeof fetch;
   private cachedToken: { token: string; expiresAt: number } | null = null;
+  private tokenFetchCount = 0;
 
   constructor(private readonly options: SheetsFetcherOptions) {
     this.credentials = JSON.parse(
@@ -55,6 +60,10 @@ export class GoogleSheetsFetcher implements SheetsFetcher {
     return (await res.json()) as SheetsValueRange;
   }
 
+  getTokenFetchCount(): number {
+    return this.tokenFetchCount;
+  }
+
   private async getAccessToken(): Promise<string> {
     const now = Math.floor(Date.now() / 1000);
     if (this.cachedToken && this.cachedToken.expiresAt - 60 > now) {
@@ -67,6 +76,7 @@ export class GoogleSheetsFetcher implements SheetsFetcher {
       grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
       assertion,
     });
+    this.tokenFetchCount += 1;
     const res = await this.fetchImpl(tokenUri, {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },

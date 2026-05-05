@@ -45,3 +45,11 @@
 **解決方針**: `session-guard` middleware で `ENVIRONMENT === 'production' || ENVIRONMENT === 'staging'` の場合は dev token を一切受け付けない明示ガードを最初に実装した。`x-ubm-dev-session: 1` 無しの request は dev token を無効化し 401 として扱う。Auth.js resolver 着任時は DI で `resolveSession` を差し替える前提で `createMeRoute(deps)` をファクトリ化した。
 
 **適用先**: 認証スタック未着の段階で dev token を入れる場合は、(1) 環境別 deny ガードを最初に書く、(2) resolver を DI で差し替え可能にする、(3) dev token 受理経路を test ログ以外には残さない、を 3 点セットで実施する。
+
+## L-04B-006: pending 判定は「最新行存在」ではなく `request_status` 列ベースに移行する（04b-followup-001）
+
+**苦戦箇所**: 04b 初版の `hasPendingRequest` は「同一 member × note_type の最新 1 件が存在するか」で pending 判定していたため、admin が resolved/rejected 処理した後も「最新行が残っている」状態となり、本人の再申請が永久に弾かれる構造的バグを抱えていた。`/me/visibility-request` の AC-3（重複ガード）と AC-7（resolved 後の再申請許可）を両立する手段が無かった。既存テストは「最新行存在 = pending」前提で 9 件あり、列ベース判定への切替時に互換性を壊さないよう同期更新が必要だった。
+
+**解決方針**: migration 0007 で `admin_member_notes` に `request_status TEXT` / `resolved_at INTEGER` / `resolved_by_admin_id TEXT` の 3 列を additive ALTER で追加し、既存 visibility_request / delete_request 行を `pending` で backfill した上で partial index `idx_admin_notes_pending_requests`（`WHERE request_status='pending'` 限定）を張った。partial index は pending 行のみを対象とすることで、resolved/rejected 行が増えても index サイズが膨らまない設計とした。`hasPendingRequest` を `WHERE request_status='pending'` の 1 行 SELECT に変更し、resolved 後の再申請を構造的に許容。`apps/api/src/routes/me/index.test.ts` に resolved 後の `POST /me/visibility-request` が 202 で成功するケースを追加し、列ベース判定の互換性を回帰テストで固定した。migration は 0006（note_type 追加）→ 0007（request_status 追加）の additive 連鎖で in-place ALTER + backfill + partial index を 1 migration に収めた。
+
+**適用先**: queue 系テーブルで「処理状態 × 重複ガード × 再申請許容」の 3 条件を満たす際は、行存在ベースではなく状態列 + partial index を初手で採用する。state 列追加 migration は (a) ALTER ADD COLUMN, (b) 既存行 backfill, (c) 状態限定 partial index を 1 migration にまとめ、判定 helper の SQL を WHERE 句で絞ることで O(log n) を担保する。互換性確保には「最新行存在前提」のテストを列ベース前提に書き換えるリストを Phase 4 test-strategy で先に列挙する。

@@ -14,6 +14,7 @@ export class FakeD1 {
   responses: FakeRow[] = [];
   responseFields: FakeRow[] = [];
   schemaDiff: FakeRow[] = [];
+  tagQueue: FakeRow[] = [];
 
   prepare(sql: string): FakeStmt {
     return new FakeStmt(this, sql);
@@ -64,10 +65,15 @@ function runFirst<T>(db: FakeD1, sql: string, b: unknown[]): T | null {
       return { status: r["status"] } as unknown as T;
     return mapJobRow(r) as unknown as T;
   }
-  if (/FROM sync_jobs/i.test(s) && /response_sync/i.test(s) && /ORDER BY started_at DESC/i.test(s)) {
+  if (
+    /FROM sync_jobs/i.test(s) &&
+    (/response_sync/i.test(s) || /job_type = \?1/i.test(s)) &&
+    /ORDER BY started_at DESC/i.test(s)
+  ) {
+    const jobType = /job_type = \?1/i.test(s) ? b[0] : "response_sync";
     const ordered = [...db.syncJobs]
       .filter((r) => {
-        if (r["job_type"] !== "response_sync" || r["status"] !== "succeeded") {
+        if (r["job_type"] !== jobType || r["status"] !== "succeeded") {
           return false;
         }
         if (!/skipped/i.test(s)) return true;
@@ -101,12 +107,65 @@ function runFirst<T>(db: FakeD1, sql: string, b: unknown[]): T | null {
     const r = db.schemaDiff.find((r) => r["diff_id"] === b[0]);
     return (r as unknown as T) ?? null;
   }
+  // 07a hook: enqueueTagCandidate が呼ぶ確認クエリ群
+  if (/FROM member_tags/i.test(s) && /WHERE member_id = \?/i.test(s)) {
+    return null;
+  }
+  if (/FROM tag_assignment_queue/i.test(s) && /idempotency_key = \?/i.test(s)) {
+    const r = db.tagQueue.find((r) => r["idempotency_key"] === b[0]);
+    return (r as unknown as T) ?? null;
+  }
+  if (/FROM tag_assignment_queue/i.test(s) && /WHERE member_id = \?/i.test(s)) {
+    const r = db.tagQueue.find(
+      (r) =>
+        r["member_id"] === b[0] &&
+        (r["status"] === "queued" || r["status"] === "reviewing"),
+    );
+    return (r as unknown as T) ?? null;
+  }
   return null;
 }
 
-function runAll<T>(db: FakeD1, sql: string, _b: unknown[]): T[] {
+function runAll<T>(db: FakeD1, sql: string, b: unknown[]): T[] {
   const s = sql.replace(/\s+/g, " ").trim();
-  if (/FROM sync_jobs/i.test(s)) return db.syncJobs.map(mapJobRow) as unknown as T[];
+  if (/FROM sync_jobs/i.test(s)) {
+    // 03b-followup-006: cap-alert detector SQL を再現する。
+    // SELECT job_id, started_at, COALESCE(json_extract(metrics_json,'$.writeCapHit'),0) AS writeCapHit
+    if (
+      /\$\.writeCapHit/.test(s) &&
+      /WHERE job_type = \?1/i.test(s)
+    ) {
+      const jobType = b[0];
+      const limit = typeof b[1] === "number" ? b[1] : Number(b[1]);
+      const filtered = db.syncJobs
+        .filter((r) => {
+          if (r["job_type"] !== jobType) return false;
+          return true;
+        })
+        .sort((a, c) => {
+          const sa = String(a["started_at"]);
+          const sb = String(c["started_at"]);
+          if (sa !== sb) return sb.localeCompare(sa);
+          return String(c["job_id"]).localeCompare(String(a["job_id"]));
+        });
+      const rows = filtered.slice(0, Number.isFinite(limit) ? limit : filtered.length).map((r) => {
+        let writeCapHit: number = 0;
+        try {
+          const m = JSON.parse(String(r["metrics_json"] ?? "{}"));
+          writeCapHit = m.writeCapHit === true || m.writeCapHit === 1 ? 1 : 0;
+        } catch {
+          writeCapHit = 0;
+        }
+        return {
+          job_id: r["job_id"],
+          started_at: r["started_at"],
+          writeCapHit,
+        };
+      });
+      return rows as unknown as T[];
+    }
+    return db.syncJobs.map(mapJobRow) as unknown as T[];
+  }
   if (/FROM member_responses/i.test(s)) return db.responses as unknown as T[];
   if (/FROM response_fields/i.test(s)) return db.responseFields as unknown as T[];
   return [];
@@ -279,6 +338,34 @@ function runMutation(db: FakeD1, sql: string, b: unknown[]): number {
         });
       }
     }
+    return 1;
+  }
+
+  // 07a hook: enqueueTagCandidate が createIdempotent から呼ぶ INSERT
+  if (/INSERT INTO tag_assignment_queue/i.test(s)) {
+    const idempotencyKey = b[5];
+    if (
+      idempotencyKey != null &&
+      db.tagQueue.find((r) => r["idempotency_key"] === idempotencyKey)
+    ) {
+      throw new Error("UNIQUE constraint failed: idx_tag_queue_idempotency");
+    }
+    const nowIso = new Date().toISOString();
+    db.tagQueue.push({
+      queue_id: b[0],
+      member_id: b[1],
+      response_id: b[2],
+      suggested_tags_json: b[3],
+      reason: b[4],
+      idempotency_key: idempotencyKey,
+      status: "queued",
+      created_at: nowIso,
+      updated_at: nowIso,
+      attempt_count: 0,
+      last_error: null,
+      next_visible_at: null,
+      dlq_at: null,
+    });
     return 1;
   }
 

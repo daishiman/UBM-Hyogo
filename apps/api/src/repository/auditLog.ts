@@ -47,6 +47,32 @@ interface RawAuditRow {
   createdAt: string;
 }
 
+export interface AuditLogListFilters {
+  action?: string;
+  actorEmail?: string;
+  targetType?: string;
+  targetId?: string;
+  fromUtc?: string;
+  toUtcExclusive?: string;
+  cursor?: {
+    createdAt: string;
+    auditId: string;
+  };
+  limit: number;
+}
+
+export interface AuditLogListRow {
+  auditId: string;
+  actorId: string | null;
+  actorEmail: string | null;
+  action: string;
+  targetType: string;
+  targetId: string | null;
+  beforeJson: string | null;
+  afterJson: string | null;
+  createdAt: string;
+}
+
 const SELECT_COLS =
   "audit_id AS auditId, actor_id AS actorId, actor_email AS actorEmail, action, target_type AS targetType, target_id AS targetId, before_json AS beforeJson, after_json AS afterJson, created_at AS createdAt";
 
@@ -148,6 +174,46 @@ export const listByTarget = async (
     .bind(targetType, targetId, limit)
     .all<RawAuditRow>();
   return (r.results ?? []).map(toEntry);
+};
+
+export const listFiltered = async (
+  c: DbCtx,
+  filters: AuditLogListFilters,
+): Promise<AuditLogListRow[]> => {
+  const where: string[] = [];
+  const bindings: Array<string | number | null> = [];
+
+  const add = (sql: string, value: string | number | null) => {
+    bindings.push(value);
+    where.push(sql.replace("?", `?${bindings.length}`));
+  };
+
+  if (filters.action) add("action = ?", filters.action);
+  if (filters.actorEmail) add("actor_email = ?", filters.actorEmail);
+  if (filters.targetType) add("target_type = ?", filters.targetType);
+  if (filters.targetId) add("target_id = ?", filters.targetId);
+  if (filters.fromUtc) add("created_at >= ?", filters.fromUtc);
+  if (filters.toUtcExclusive) add("created_at < ?", filters.toUtcExclusive);
+  if (filters.cursor) {
+    bindings.push(filters.cursor.createdAt, filters.cursor.auditId);
+    where.push(
+      `(created_at < ?${bindings.length - 1} OR (created_at = ?${bindings.length - 1} AND audit_id < ?${bindings.length}))`,
+    );
+  }
+
+  bindings.push(filters.limit);
+  const whereSql = where.length > 0 ? `WHERE ${where.join(" AND ")}` : "";
+  const r = await c.db
+    .prepare(
+      `SELECT ${SELECT_COLS}
+       FROM audit_log
+       ${whereSql}
+       ORDER BY created_at DESC, audit_id DESC
+       LIMIT ?${bindings.length}`,
+    )
+    .bind(...bindings)
+    .all<AuditLogListRow>();
+  return r.results ?? [];
 };
 
 // NOTE: append-only を構造で守るため、UPDATE / DELETE 関数はこのモジュールから export しない。

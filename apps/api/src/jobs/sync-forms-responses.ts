@@ -17,6 +17,10 @@ import {
   type SyncLock,
 } from "./sync-lock";
 import { readLastCursor } from "./cursor-store";
+import {
+  RESPONSE_SYNC,
+  SYNC_LOCK_TTL_MS,
+} from "./_shared/sync-jobs-schema";
 import { normalizeResponse } from "./mappers/normalize-response";
 import { extractConsent } from "./mappers/extract-consent";
 
@@ -45,7 +49,13 @@ import {
 } from "../repository/responseFields";
 import { setConsentSnapshot, getStatus } from "../repository/status";
 import { enqueue as enqueueDiff } from "../repository/schemaDiffQueue";
+import { enqueueTagCandidate } from "../workflows/tagCandidateEnqueue";
 import { start, succeed, fail } from "../repository/syncJobs";
+import {
+  evaluateConsecutiveCapHits,
+  emitConsecutiveCapHitEvent,
+  CAP_ALERT_DEFAULT_WINDOW,
+} from "./cap-alert";
 
 import type { GoogleFormsClient } from "@ubm-hyogo/integrations";
 
@@ -53,6 +63,8 @@ export interface ResponseSyncEnv {
   readonly DB: D1Database;
   readonly GOOGLE_FORM_ID?: string;
   readonly RESPONSE_SYNC_WRITE_CAP?: string;
+  // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
+  readonly SYNC_ALERTS?: AnalyticsEngineDataset;
 }
 
 export interface ResponseSyncOptions {
@@ -76,7 +88,6 @@ export interface ResponseSyncResult {
   readonly error?: string;
 }
 
-const DEFAULT_LOCK_TTL_MS = 10 * 60 * 1000;
 const DEFAULT_WRITE_CAP = 200;
 const LOCK_ID = "response-sync";
 
@@ -96,7 +107,7 @@ export async function runResponseSync(
 
   // sync_jobs ledger を先に start し、job_id を確定させる
   const dbCtx = ctx({ DB: env.DB });
-  const jobRow = await start(dbCtx, "response_sync");
+  const jobRow = await start(dbCtx, RESPONSE_SYNC);
   const jobId = jobRow.jobId;
 
   // 二重起動防止 lock
@@ -106,7 +117,7 @@ export async function runResponseSync(
       lockId: LOCK_ID,
       holder: jobId,
       triggerType: options.trigger,
-      ttlMs: options.lockTtlMs ?? DEFAULT_LOCK_TTL_MS,
+      ttlMs: options.lockTtlMs ?? SYNC_LOCK_TTL_MS,
       now,
     });
   } catch (_err) {
@@ -119,6 +130,7 @@ export async function runResponseSync(
       writes: 0,
       processed: 0,
       skipped: true,
+      writeCapHit: false,
       reason: "another response sync is in progress",
     });
     return {
@@ -133,6 +145,7 @@ export async function runResponseSync(
 
   let processed = 0;
   let writes = 0;
+  let writeCapHit = false;
   let cursor: string | null;
   if (options.fullSync) {
     cursor = null;
@@ -176,11 +189,12 @@ export async function runResponseSync(
       if (!nextPageToken) break;
       if (writes >= writeCap) break;
     }
+    writeCapHit = stopDueToCap || writes >= writeCap;
   } catch (err) {
     await fail(dbCtx, jobId, {
       code: classifyError(err),
       message: redact(err instanceof Error ? err.message : String(err)),
-      payload: { kind: "response_sync" },
+      payload: { kind: RESPONSE_SYNC },
     });
     if (lock) {
       await releaseSyncLock(env.DB, lock).catch(() => undefined);
@@ -199,7 +213,32 @@ export async function runResponseSync(
     cursor,
     writes,
     processed,
+    writeCapHit,
   });
+  if (writeCapHit) {
+    try {
+      const capAlertEnv = env.SYNC_ALERTS
+        ? { DB: env.DB, SYNC_ALERTS: env.SYNC_ALERTS }
+        : { DB: env.DB };
+      const evalResult = await evaluateConsecutiveCapHits(capAlertEnv, {
+        window: CAP_ALERT_DEFAULT_WINDOW,
+        jobKind: RESPONSE_SYNC,
+      });
+      if (evalResult.shouldEmit) {
+        await emitConsecutiveCapHitEvent(capAlertEnv, {
+          jobId,
+          jobKind: RESPONSE_SYNC,
+          consecutiveHits: evalResult.consecutiveHits,
+          windowSize: evalResult.windowSize,
+        });
+      }
+    } catch (err) {
+      console.warn(
+        "[cap-alert] detector/emit failed",
+        err instanceof Error ? err.message : String(err),
+      );
+    }
+  }
   if (lock) {
     await releaseSyncLock(env.DB, lock).catch(() => undefined);
   }
@@ -327,6 +366,17 @@ export async function processResponse(
       consents.rulesConsent,
     );
     writeCount += 1;
+  }
+
+  // 7. tag candidate 自動投入（07a hook）
+  //    member_tags 空 + 未解決 queue 無し のときだけ candidate 行を 1 件作る。
+  //    削除済み member は skip（不変条件 #13 + AC-7 の precaution）。
+  if (!status || status.is_deleted !== 1) {
+    const result = await enqueueTagCandidate(dbCtx, {
+      memberId,
+      responseId,
+    });
+    if (result.enqueued) writeCount += 1;
   }
 
   return { writeCount };

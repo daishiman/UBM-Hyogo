@@ -1,0 +1,6 @@
+Command:
+pnpm exec vitest run --root=../.. --config=vitest.config.ts apps/api/src/routes/admin/attendance.test.ts apps/api/src/repository/attendance.test.ts
+
+Result:
+Test Files 2 passed.
+Tests 16 passed.

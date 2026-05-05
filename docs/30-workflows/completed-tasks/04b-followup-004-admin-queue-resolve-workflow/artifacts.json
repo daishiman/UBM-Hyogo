@@ -1,0 +1,197 @@
+{
+  "task_name": "04b-followup-004-admin-queue-resolve-workflow",
+  "task_path": "docs/30-workflows/04b-followup-004-admin-queue-resolve-workflow",
+  "issue_number": 319,
+  "issue_state": "CLOSED",
+  "created_at": "2026-05-01",
+  "branch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+  "metadata": {
+    "taskType": "implementation",
+    "workflow_state": "implementation_completed",
+    "visualEvidence": "VISUAL",
+    "scope": "admin_queue_resolve_workflow",
+    "commit_pr_prohibited_until_user_approval": true
+  },
+  "depends_on": [
+    "04b-parallel-member-self-service-api-endpoints",
+    "04b-followup-001-admin-queue-request-status-metadata",
+    "05a-parallel-authjs-google-oauth-provider-and-admin-gate",
+    "06c-parallel-admin-dashboard-members-tags-schema-meetings-pages",
+    "07a-parallel-admin-backoffice-and-public-directory",
+    "08a-parallel-api-contract-repository-and-authorization-tests",
+    "08b-parallel-playwright-e2e-and-ui-acceptance-smoke-scaffold"
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": []
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md"
+      ],
+      "depends_on_phases": [
+        1
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [
+        2
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md",
+        "outputs/phase-04/test-strategy.md"
+      ],
+      "depends_on_phases": [
+        3
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "API / repository 実装",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md"
+      ],
+      "depends_on_phases": [
+        4
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "Web UI 実装",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [
+        5
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md",
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [
+        6
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング / DRY 化",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [
+        7
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [
+        8
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md",
+        "outputs/phase-10/go-no-go.md"
+      ],
+      "depends_on_phases": [
+        9
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke / visual evidence",
+      "file": "phase-11.md",
+      "status": "completed_with_delegated_visual_gate",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/screenshot-plan.json",
+        "outputs/phase-11/manual-test-result.md",
+        "outputs/phase-11/manual-test-report.md",
+        "outputs/phase-11/discovered-issues.md",
+        "outputs/phase-11/ui-sanity-visual-review.md",
+        "outputs/phase-11/phase11-capture-metadata.json"
+      ],
+      "depends_on_phases": [
+        10
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [
+        11
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成準備",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/pr-info.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ]
+}

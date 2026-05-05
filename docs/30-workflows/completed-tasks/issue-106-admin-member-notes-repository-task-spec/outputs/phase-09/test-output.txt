@@ -1,0 +1,21 @@
+pnpm --filter ./apps/api test -- adminNotes
+
+Result: PASS
+Test Files: 81 passed (81)
+Tests: 486 passed (486)
+Relevant file: apps/api/src/repository/__tests__/adminNotes.test.ts
+Relevant file result: 18 tests passed
+
+Newly covered Issue #106 cases:
+- AC-4 / AC-6: listByMemberId returns only the requested member and unknown member returns [].
+- AC-5: listByMemberId returns created_at DESC.
+
+Note: command emitted a Node engine warning because local Node is v22.21.1 while repo expects 24.x.
+
+Focused rerun after 04c handoff test additions:
+
+pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/routes/admin/member-notes.test.ts apps/api/src/routes/admin/members.test.ts apps/api/src/repository/__tests__/adminNotes.test.ts
+
+Result: PASS
+Test Files: 3 passed (3)
+Tests: 28 passed (28)

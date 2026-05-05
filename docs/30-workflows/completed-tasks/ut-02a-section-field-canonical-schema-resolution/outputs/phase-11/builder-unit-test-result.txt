@@ -1,0 +1,28 @@
+Command: mise exec -- pnpm --filter @ubm-hyogo/api test
+Date: 2026-05-01
+
+Test Files  83 passed (83)
+Tests       498 passed (498)
+Duration    83.07s
+
+Relevant suites:
+- apps/api/src/repository/_shared/metadata.test.ts (9 tests passed)
+  * resolves consent stable_keys to consent kind (AC-4)
+  * does not misclassify text/select stable_keys as consent (AC-4 boundary)
+  * resolves canonical labels and never returns the stable_key itself (AC-5)
+  * returns Result.err with unknownStableKey for drift (AC-6)
+  * treats responseEmail as system field (invariant #3)
+  * supports alias adapter hook (AC-7)
+  * works without alias adapter (AC-7 fallback)
+  * listSections includes consent and __system__ ordering anchors
+  * UNKNOWN_SECTION_KEY constant is stable
+- apps/api/src/repository/_shared/builder.test.ts (5 tests passed)
+  * place each field in exactly one section (AC-3)
+  * does not leak stable_key as label (AC-5)
+  * isolates unknown stable_keys into __unknown__ section (AC-6)
+  * resolves consent kind for consent stable_keys (AC-4)
+  * filters by allowedVisibilities and never duplicates fields
+
+Auxiliary checks:
+- mise exec -- pnpm typecheck → Done (all 5 packages)
+- mise exec -- pnpm lint → Done (all 5 packages)

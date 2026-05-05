@@ -1,0 +1,333 @@
+{
+  "task_name": "issue-393-stablekey-literal-legacy-cleanup",
+  "task_path": "docs/30-workflows/issue-393-stablekey-literal-legacy-cleanup",
+  "issue": 393,
+  "issue_state": "CLOSED",
+  "issue_note": "Issue #393 はクローズ済みのまま、legacy literal cleanup 実装を本 workflow に引き継いだ。strict CI gate 昇格は本タスクスコープ外（後続）だが、legacy literal cleanup は strict_ready まで到達済み。",
+  "parent_task": "03a-stablekey-literal-lint-enforcement",
+  "source_spec": "docs/30-workflows/completed-tasks/task-03a-stablekey-literal-legacy-cleanup-001.md",
+  "execution_mode": "sequential",
+  "depends_on": [
+    "03a-stablekey-literal-lint-enforcement"
+  ],
+  "external_gates": [
+    {
+      "task": "03a-stablekey-literal-lint-enforcement",
+      "scope": "scripts/lint-stablekey-literal.mjs strict mode 検査スクリプト",
+      "completion_rule": "親 workflow が enforced_dry_run 以降の state でないと、本タスクの strict count 計測が前提崩壊"
+    },
+    {
+      "task": "future-strict-ci-gate-promotion",
+      "scope": "GitHub Actions required check 昇格",
+      "completion_rule": "本タスクは strict_ready state までを担当し、required check 化は別タスク"
+    }
+  ],
+  "blocks": [],
+  "created_at": "2026-05-03",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "strict_ready",
+    "gate_status": "strict_lint_ready",
+    "scope": "stablekey_literal_replacement_to_canonical_import",
+    "domain": "code_quality_legacy_cleanup",
+    "violation_count_before": 148,
+    "violation_count_target": 0,
+    "violation_files_count": 14,
+    "stablekey_count": 31,
+    "violation_count_after": 0,
+    "local_verification": {
+      "strict_lint": "PASS",
+      "typecheck": "PASS",
+      "lint": "PASS",
+      "focused_vitest": "PASS",
+      "node_warning": "local Node v22.21.1 differs from required Node 24.x; commands completed successfully with engine warning"
+    }
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/replacement-design.md",
+        "outputs/phase-02/per-family-plan.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md",
+        "outputs/phase-04/test-matrix.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md",
+        "outputs/phase-05/runbook.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md",
+        "outputs/phase-06/violation-fixture-spec.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "統合検証",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md",
+        "outputs/phase-07/integration-check.md",
+        "outputs/phase-07/evidence/lint-strict-before.txt",
+        "outputs/phase-07/evidence/lint-strict-after.txt",
+        "outputs/phase-07/evidence/typecheck.txt",
+        "outputs/phase-07/evidence/vitest-focused.txt",
+        "outputs/phase-07/evidence/per-family-diff.txt"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "パフォーマンス・運用",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false,
+      "note": "review cycle synchronized to strict_ready"
+    },
+    {
+      "phase": 9,
+      "name": "セキュリティ・品質ゲート",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false,
+      "note": "review cycle synchronized to strict_ready"
+    },
+    {
+      "phase": 10,
+      "name": "リリース準備",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false,
+      "note": "review cycle synchronized to strict_ready"
+    },
+    {
+      "phase": 11,
+      "name": "実測 evidence",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md",
+        "outputs/phase-11/evidence/lint-strict-before.txt",
+        "outputs/phase-11/evidence/lint-strict-after.txt",
+        "outputs/phase-11/evidence/typecheck.txt",
+        "outputs/phase-11/evidence/vitest-focused.txt",
+        "outputs/phase-11/evidence/stable-key-count.txt"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": false,
+      "note": "review cycle synchronized to strict_ready"
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント・未タスク検出・スキルフィードバック",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false,
+      "note": "review cycle synchronized to strict_ready"
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "blocked_until_user_approval",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-template.md",
+        "outputs/phase-13/pr-info.md",
+        "outputs/phase-13/pr-creation-result.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true,
+      "note": "PR/commit/push blocked until explicit user approval"
+    }
+  ],
+  "violation_families": {
+    "A": {
+      "scope": "apps/api - jobs/mappers (sync 系)",
+      "files": [
+        "apps/api/src/jobs/mappers/sheets-to-members.ts",
+        "apps/api/src/jobs/sync-sheets-to-d1.ts"
+      ]
+    },
+    "B": {
+      "scope": "apps/api - repository (D1 アクセス層)",
+      "files": [
+        "apps/api/src/repository/_shared/builder.ts",
+        "apps/api/src/repository/publicMembers.ts"
+      ]
+    },
+    "C": {
+      "scope": "apps/api - routes/admin (admin endpoint)",
+      "files": [
+        "apps/api/src/routes/admin/members.ts",
+        "apps/api/src/routes/admin/requests.ts"
+      ]
+    },
+    "D": {
+      "scope": "apps/api - public use-case / view-model",
+      "files": [
+        "apps/api/src/use-cases/public/list-public-members.ts",
+        "apps/api/src/view-models/public/public-member-list-view.ts",
+        "apps/api/src/view-models/public/public-member-profile-view.ts"
+      ]
+    },
+    "E": {
+      "scope": "apps/web - profile components (会員マイページ)",
+      "files": [
+        "apps/web/app/profile/_components/RequestActionPanel.tsx",
+        "apps/web/app/profile/_components/StatusSummary.tsx"
+      ]
+    },
+    "F": {
+      "scope": "apps/web - public components (公開ディレクトリ)",
+      "files": [
+        "apps/web/src/components/public/MemberCard.tsx",
+        "apps/web/src/components/public/ProfileHero.tsx"
+      ]
+    },
+    "G": {
+      "scope": "packages/shared - utils (共有ロジック / consent)",
+      "files": [
+        "packages/shared/src/utils/consent.ts"
+      ]
+    }
+  },
+  "canonical_supply_modules": [
+    "packages/shared/src/zod/field.ts",
+    "packages/integrations/google/src/forms/mapper.ts"
+  ],
+  "specs_referenced": [
+    "docs/00-getting-started-manual/specs/00-overview.md",
+    "docs/00-getting-started-manual/specs/01-api-schema.md",
+    "docs/30-workflows/completed-tasks/03a-stablekey-literal-lint-enforcement/outputs/phase-12/implementation-guide.md",
+    "docs/30-workflows/completed-tasks/task-03a-stablekey-literal-legacy-cleanup-001.md"
+  ],
+  "endpoints_observed": [],
+  "ui_routes": [],
+  "evidence_artifacts": [
+    "lint-strict-before.txt",
+    "lint-strict-after.txt",
+    "typecheck.txt",
+    "vitest-focused.txt",
+    "per-family-diff.txt",
+    "stable-key-count.txt"
+  ],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    1,
+    2,
+    4
+  ],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/task-03a-stablekey-literal-legacy-cleanup-001.md",
+    "docs/30-workflows/completed-tasks/03a-stablekey-literal-lint-enforcement/"
+  ]
+}

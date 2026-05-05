@@ -1,0 +1,60 @@
+{
+  "task": "04b-followup-004-admin-queue-resolve-workflow",
+  "phase": 11,
+  "viewport": { "width": 1280, "height": 800 },
+  "auth": "admin session via Auth.js (local) / staging admin",
+  "fixtures": "D1 seed: 2 visibility_request pending + 1 delete_request pending + 1 resolved",
+  "targets": [
+    {
+      "name": "requests-pending-list",
+      "viewport": "desktop",
+      "url": "/admin/requests?type=visibility_request",
+      "checkpoints": ["pending list FIFO", "type tabs", "member_id表示", "依頼日時"]
+    },
+    {
+      "name": "resolve-modal-visibility",
+      "viewport": "desktop",
+      "steps": ["pending row 選択", "「承認する」click"],
+      "checkpoints": ["dialog role", "「依頼を承認します」見出し", "公開状態変更案内", "resolutionNote textarea"]
+    },
+    {
+      "name": "resolve-modal-delete",
+      "viewport": "desktop",
+      "url": "/admin/requests?type=delete_request",
+      "steps": ["pending row 選択", "「承認する」click"],
+      "checkpoints": ["論理削除 alert", "取り消し不可注意"]
+    },
+    {
+      "name": "approve-applied",
+      "viewport": "desktop",
+      "steps": ["承認実行 → router.refresh"],
+      "checkpoints": ["対象 row が一覧から消える", "API GET で resolved 化確認"]
+    },
+    {
+      "name": "reject-applied",
+      "viewport": "desktop",
+      "steps": ["却下実行"],
+      "checkpoints": ["対象 row が一覧から消える", "member_status 不変", "note rejected 化"]
+    },
+    {
+      "name": "requests-empty",
+      "viewport": "desktop",
+      "fixtures": "全件 resolved 後",
+      "checkpoints": ["「未処理の依頼はありません」"]
+    },
+    {
+      "name": "resolve-conflict-409",
+      "viewport": "desktop",
+      "steps": ["別タブで先に approve", "本タブで approve 試行"],
+      "checkpoints": ["「他の管理者が既に処理済みです」 toast", "router.refresh で list 更新"]
+    }
+  ],
+  "non_admin_check": {
+    "url": "/admin/requests",
+    "expected": "redirect to /signin or 403",
+    "viewport": "desktop"
+  },
+  "pii_check": {
+    "expected": "DOM 内に raw email/phone/name が現れない（API sanitize 済み）"
+  }
+}

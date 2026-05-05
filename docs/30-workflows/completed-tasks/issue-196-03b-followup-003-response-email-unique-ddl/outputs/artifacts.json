@@ -1,0 +1,70 @@
+{
+  "taskId": "ISSUE-196",
+  "taskName": "response_email UNIQUE DDL / spec canonicalization",
+  "directory": "docs/30-workflows/issue-196-03b-followup-003-response-email-unique-ddl",
+  "wave": "2026-05-02",
+  "executionType": "sequential",
+  "createdAt": "2026-05-02",
+  "owner": "unassigned",
+  "status": "implemented-local-static-evidence-pass",
+  "taskType": "implementation",
+  "subtype": "spec-drift-correction",
+  "visualEvidence": "NON_VISUAL",
+  "metadata": {
+    "taskId": "ISSUE-196",
+    "taskName": "response_email UNIQUE DDL / spec canonicalization",
+    "workflow_state": "implemented-local-static-evidence-pass",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "Canonicalize UNIQUE constraint location for response_email in DDL comments and spec docs; no schema change.",
+    "githubIssue": 196,
+    "issueState": "CLOSED",
+    "createdAt": "2026-05-02",
+    "phase_status_semantics": "implemented-local-static-evidence-pass. Spec and DDL-comment edits are present in the worktree; Phase 11 static evidence (typecheck PASS, lint PASS, SQL semantic diff = 0 rows) acquired in this cycle; Phase 13 PR creation remains blocked_until_user_approval per CONST_002."
+  },
+  "implementationMode": "edit",
+  "priority": "MEDIUM",
+  "phases": {
+    "phase-01": { "name": "要件定義", "status": "done", "artifact": "outputs/phase-01/main.md" },
+    "phase-02": { "name": "設計", "status": "done", "artifact": "outputs/phase-02/main.md" },
+    "phase-03": { "name": "設計レビュー", "status": "done", "artifact": "outputs/phase-03/main.md" },
+    "phase-04": { "name": "テスト戦略", "status": "done", "artifact": "outputs/phase-04/main.md" },
+    "phase-05": { "name": "実装手順", "status": "done", "artifact": "outputs/phase-05/main.md" },
+    "phase-06": { "name": "異常系検証", "status": "done", "artifact": "outputs/phase-06/main.md" },
+    "phase-07": { "name": "AC マトリクス", "status": "done", "artifact": "outputs/phase-07/main.md" },
+    "phase-08": { "name": "DRY 化", "status": "done", "artifact": "outputs/phase-08/main.md" },
+    "phase-09": { "name": "品質保証", "status": "done", "artifact": "outputs/phase-09/main.md" },
+    "phase-10": { "name": "最終レビュー", "status": "done", "artifact": "outputs/phase-10/main.md" },
+    "phase-11": { "name": "手動 smoke test", "status": "done", "artifact": "outputs/phase-11/main.md" },
+    "phase-12": { "name": "ドキュメント更新", "status": "done", "artifact": "outputs/phase-12/main.md" },
+    "phase-13": { "name": "PR作成", "status": "blocked_until_user_approval", "artifact": "outputs/phase-13/main.md" }
+  },
+  "acceptanceCriteria": [
+    "AC-1: database-schema.md に response_email UNIQUE が member_identities 側のみであることが明示されている",
+    "AC-2: 0001_init.sql の member_responses.response_email 行に UNIQUE 不在の旨のコメントがある",
+    "AC-3: 0001_init.sql の member_identities.response_email 行に正本 UNIQUE である旨のコメントがある",
+    "AC-4: 0005_response_sync.sql 既存コメントと文言が整合する",
+    "AC-5: SQL semantics に影響する行差分が 0 件",
+    "AC-6: pnpm typecheck / pnpm lint が PASS",
+    "AC-7: D1 migration hash drift が発生しない（Phase 6）",
+    "AC-8: 03b 検出表 #4 誤記が Phase 12 で正本訂正記録されている",
+    "AC-9: skill 検証 4 条件 PASS"
+  ],
+  "changeTargets": [
+    {
+      "path": ".claude/skills/aiworkflow-requirements/references/database-schema.md",
+      "type": "edit",
+      "summary": "member_responses / member_identities セクションに UNIQUE 所在を明示する文言を追記"
+    },
+    {
+      "path": "apps/api/migrations/0001_init.sql",
+      "type": "edit-comments-only",
+      "summary": "member_responses.response_email 行と member_identities.response_email UNIQUE 行に SQL コメントを追加（実 SQL は不変）"
+    },
+    {
+      "path": "apps/api/migrations/0005_response_sync.sql",
+      "type": "edit-comments-only-optional",
+      "summary": "既存コメント文言を 0001 側と整合させる（必要な場合のみ）"
+    }
+  ]
+}

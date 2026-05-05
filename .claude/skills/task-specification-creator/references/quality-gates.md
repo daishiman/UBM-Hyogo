@@ -30,6 +30,15 @@ UI/UX 実装を含む task では Phase 11 で screenshot と Apple UI/UX 視覚
 
 NON_VISUAL タスク（API repository / library / config / boundary tooling など）で staging 未配備や実フロー前提が成立しない場合は、Phase 11 の代替 evidence プレイブックを使う: [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md)。L1 型 / L2 lint-boundary / L3 in-memory test / L4 意図的 violation の 4 階層と「代替 evidence 差分表」で何を保証し何を保証できないかを明示する。
 
+### Approval-Gated NON_VISUAL Implementation
+
+Phase 13 が user approval + 実行ゲートを兼ねる NON_VISUAL implementation task では、Phase 12 までの JSON は成功証跡ではなく計画 / template / reserved path として扱う。
+
+- `branch-protection-payload-*` など不可逆 API の PUT payload は、承認前でも完全 payload 形を保つ。部分 payload を「後で差分適用される」とみなさない。
+- `current-*` / `applied-*` GET evidence は、Phase 13 承認後の fresh command output で上書きされた時だけ AC evidence にできる。
+- AC matrix では spec evidence と runtime evidence を分離し、`blocked_until_user_approval` placeholder を PUT 成功や drift 解消の根拠にしない。
+- Phase 12 の system spec update は `spec_created` を維持し、実行後の正本反映が必要な場合は正式 unassigned-task へ分離する。
+
 ## 検証コマンド
 
 ```bash
@@ -41,4 +50,4 @@ diff -qr .claude/skills/task-specification-creator .agents/skills/task-specifica
 node scripts/log-usage.js --result success --phase "Phase {{N}}"
 ```
 
-Phase 12 では追加で `detect-unassigned-tasks.js`、`audit-unassigned-tasks.js`、`verify-unassigned-links.js`、`validate-phase12-implementation-guide.js` を実行する。
+Phase 12 は順序付きで検証する: `validate-phase-output` / `verify-all-specs` → `verify-unassigned-links --source` → `audit-unassigned-tasks --target-file`（必要なら `--completed-unassigned-dir`）→ `validate-phase12-implementation-guide --workflow` → workflow `generate-index --regenerate` → aiworkflow `generate-index.js` → `validate-structure.js`。mirror directory が存在する skill だけ `rsync` と `diff -qr` を実行する。存在しない `.agents/skills/<skill>` への `diff -qr` は PASS 条件にしない。

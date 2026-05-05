@@ -9,6 +9,12 @@ BRANCH=$(git branch --show-current)
 # main / dev / develop は対象外
 [[ "$BRANCH" =~ ^(main|dev|develop)$ ]] && exit 0
 
+# マージコミット中はスキップ（sync-merge では他タスク dir の混入が構造的に発生する誤検知のため）
+GIT_DIR=$(git rev-parse --git-dir)
+if [ -e "$GIT_DIR/MERGE_HEAD" ] || [ -e "$GIT_DIR/CHERRY_PICK_HEAD" ] || [ -e "$GIT_DIR/REVERT_HEAD" ]; then
+  exit 0
+fi
+
 BRANCH_SLUG="${BRANCH##*/}"
 
 normalize_slug() {
@@ -31,16 +37,24 @@ contains_task_tokens() {
   # Long task directory names often include extra context not present in the
   # branch. Require at least three meaningful token overlaps to avoid false
   # positives while still blocking unrelated task directories.
+  # Exception: a single significant token (>=5 chars, e.g. `utgov`, `utgov001`) is a
+  # strong identifier and sufficient on its own — common pattern for follow-up
+  # tasks that share a parent task ID but otherwise diverge in slug wording.
   local matches=0
+  local long_match=0
   local token
   IFS='-' read -r -a tokens <<< "$task_slug"
   for token in "${tokens[@]}"; do
     [ ${#token} -lt 4 ] && continue
     case "$branch_slug" in
-      *"$token"* ) matches=$((matches + 1)) ;;
+      *"$token"* )
+        matches=$((matches + 1))
+        [ ${#token} -ge 5 ] && long_match=1
+        ;;
     esac
   done
 
+  [ "$long_match" -eq 1 ] && return 0
   [ "$matches" -ge 3 ]
 }
 
@@ -55,17 +69,20 @@ task_dir_from_path() {
     30-workflows)
       [ -n "${parts[2]:-}" ] || return 1
       case "${parts[2]}" in
-        completed-tasks|unassigned-task)
+        completed-tasks|unassigned-task|02-application-implementation)
           [ -n "${parts[3]:-}" ] || return 1
           printf 'docs/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}"
           ;;
         *)
+          # Top-level workflow files (e.g. LOGS.md) are not task dirs.
+          [[ "${parts[2]}" == *.* ]] && return 1
           printf 'docs/%s/%s\n' "${parts[1]}" "${parts[2]}"
           ;;
       esac
       ;;
     *)
       [ -n "${parts[2]:-}" ] || return 1
+      [[ "${parts[2]}" == *.* ]] && return 1
       printf 'docs/%s/%s\n' "${parts[1]}" "${parts[2]}"
       ;;
   esac

@@ -9,11 +9,11 @@
 | 親タスク | UT-01（Sheets→D1 同期方式定義） |
 | 関連タスク | UT-09（同期ジョブ実装） / UT-04（D1 物理スキーマ） / U-UT01-07（命名整合: `sync_log` 論理名 vs `sync_job_logs` / `sync_locks`） / U-UT01-09（retry 回数 / offset resume 統一） / U-UT01-10（shared sync 契約型 / Zod schema 化） |
 | 優先度 | HIGH |
-| 状態 | unassigned |
+| 状態 | spec_created |
 | 起票日 | 2026-04-29 |
 | visualEvidence | NON_VISUAL |
 | taskType | docs-only-contract |
-| 既存タスク組み込み | 未定（shared 契約 = U-UT01-10、または UT-09 仕様追補のいずれかに統合する判断を本タスクで実施） |
+| 既存タスク組み込み | 契約決定 workflow `docs/30-workflows/u-ut01-08-sync-enum-canonicalization/` を作成済み。実装は UT-04 / UT-09 / U-UT01-10 に委譲 |
 | 検出元 | `docs/30-workflows/ut-01-sheets-d1-sync-design/outputs/phase-12/unassigned-task-detection.md` U-8 |
 
 ## 目的

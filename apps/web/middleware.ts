@@ -12,7 +12,14 @@
 // 不変条件 #9: `/no-access` 専用画面に依存せず /login?... に redirect。
 // 不変条件 #11: admin / profile 画面 HTML を未認証に SSR させない。
 import { NextResponse, type NextRequest } from "next/server";
-import { auth } from "./src/lib/auth";
+import { decodeAuthSessionJwt } from "@ubm-hyogo/shared";
+
+const SESSION_COOKIE_NAMES = [
+  "__Secure-authjs.session-token",
+  "authjs.session-token",
+  "__Secure-next-auth.session-token",
+  "next-auth.session-token",
+] as const;
 
 const buildAdminLoginRedirect = (req: NextRequest): NextResponse => {
   const url = req.nextUrl.clone();
@@ -30,24 +37,42 @@ const buildProfileLoginRedirect = (req: NextRequest): NextResponse => {
   return NextResponse.redirect(url);
 };
 
-export default auth((req) => {
+const authSecret = (req: NextRequest): string =>
+  req.headers.get("x-ubm-auth-secret") ??
+  (typeof process === "undefined" ? "" : process.env["AUTH_SECRET"] ?? "");
+
+const sessionToken = (req: NextRequest): string | undefined => {
+  for (const name of SESSION_COOKIE_NAMES) {
+    const value = req.cookies.get(name)?.value;
+    if (value) return value;
+  }
+  return undefined;
+};
+
+const guardedMiddleware = async (req: NextRequest) => {
   const { pathname } = req.nextUrl;
-  const nReq = req as unknown as NextRequest;
+  const claims = await decodeAuthSessionJwt(authSecret(req), sessionToken(req));
+
   if (pathname.startsWith("/admin")) {
-    const user = req.auth?.user as { isAdmin?: boolean } | undefined;
-    if (!user || user.isAdmin !== true) {
-      return buildAdminLoginRedirect(nReq);
+    if (!claims?.isAdmin) {
+      return buildAdminLoginRedirect(req);
     }
     return NextResponse.next();
   }
   if (pathname.startsWith("/profile")) {
-    if (!req.auth) {
-      return buildProfileLoginRedirect(nReq);
+    if (!claims) {
+      return buildProfileLoginRedirect(req);
     }
     return NextResponse.next();
   }
   return NextResponse.next();
-});
+};
+
+export async function middleware(req: NextRequest) {
+  return guardedMiddleware(req);
+}
+
+export default middleware;
 
 export const config = {
   matcher: ["/admin/:path*", "/profile/:path*"],

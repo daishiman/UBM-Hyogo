@@ -1,0 +1,60 @@
+{
+  "id": "task-ut21-forms-sync-conflict-closeout-001",
+  "name": "UT-21 Sheets sync 仕様を Forms sync 現行正本へ吸収する close-out",
+  "directory": "docs/30-workflows/ut21-forms-sync-conflict-closeout",
+  "wave": 1,
+  "executionMode": "parallel",
+  "createdAt": "2026-04-30",
+  "owner": "unassigned",
+  "status": "spec_created",
+  "taskType": "docs-only",
+  "visualEvidence": "NON_VISUAL",
+  "metadata": {
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "docsOnly": true,
+    "workflow_state": "spec_created",
+    "scope": "specification-cleanup",
+    "closeOutType": "legacy-umbrella"
+  },
+  "priority": "HIGH",
+  "githubIssue": {
+    "number": 234,
+    "state": "CLOSED",
+    "url": "https://github.com/daishiman/UBM-Hyogo/issues/234"
+  },
+  "phases": [
+    { "id": 1, "file": "phase-01.md", "name": "要件定義", "status": "spec_created", "primaryArtifact": "outputs/phase-01/main.md" },
+    { "id": 2, "file": "phase-02.md", "name": "設計（移植マトリクス）", "status": "spec_created", "primaryArtifact": "outputs/phase-02/migration-matrix-design.md" },
+    { "id": 3, "file": "phase-03.md", "name": "設計レビュー", "status": "spec_created", "primaryArtifact": "outputs/phase-03/main.md" },
+    { "id": 4, "file": "phase-04.md", "name": "テスト戦略", "status": "spec_created", "primaryArtifact": "outputs/phase-04/test-strategy.md" },
+    { "id": 5, "file": "phase-05.md", "name": "実装ランブック", "status": "spec_created", "primaryArtifact": "outputs/phase-05/implementation-runbook.md" },
+    { "id": 6, "file": "phase-06.md", "name": "異常系検証", "status": "spec_created", "primaryArtifact": "outputs/phase-06/failure-cases.md" },
+    { "id": 7, "file": "phase-07.md", "name": "AC マトリクス", "status": "spec_created", "primaryArtifact": "outputs/phase-07/ac-matrix.md" },
+    { "id": 8, "file": "phase-08.md", "name": "DRY 化", "status": "spec_created", "primaryArtifact": "outputs/phase-08/main.md" },
+    { "id": 9, "file": "phase-09.md", "name": "品質保証", "status": "spec_created", "primaryArtifact": "outputs/phase-09/main.md" },
+    { "id": 10, "file": "phase-10.md", "name": "最終レビュー", "status": "spec_created", "primaryArtifact": "outputs/phase-10/go-no-go.md" },
+    { "id": 11, "file": "phase-11.md", "name": "手動 smoke test", "status": "spec_created", "primaryArtifact": "outputs/phase-11/main.md" },
+    { "id": 12, "file": "phase-12.md", "name": "ドキュメント更新", "status": "spec_created", "primaryArtifact": "outputs/phase-12/main.md" },
+    { "id": 13, "file": "phase-13.md", "name": "PR作成", "status": "spec_created", "primaryArtifact": "outputs/phase-13/pr-info.md" }
+  ],
+  "acceptanceCriteria": [
+    "AC-1: UT-21 stale 前提 5 項目が差分表として固定",
+    "AC-2: 有効な品質要件 4 種の移植先が 03a/03b/04c/09b に一意割当",
+    "AC-3: POST /admin/sync / GET /admin/sync/audit を新設しない方針が双方に明記",
+    "AC-4: sync_audit_logs / sync_audit_outbox 新設は U02 判定後まで保留",
+    "AC-5: 後続タスク UT21-U02/U04/U05 が別ファイルで存在しリンクされている",
+    "AC-6: 03a/03b/04c/09b 受入条件への patch 案が Phase 5 で提示",
+    "AC-7: aiworkflow-requirements current facts との矛盾なし",
+    "AC-8: 4条件（価値性/実現性/整合性/運用性）の最終判定が PASS",
+    "AC-9: 不変条件 #5 違反なし",
+    "AC-10: 検証コマンドの出力根拠が記録されている",
+    "AC-11: GitHub Issue #234 CLOSED 状態維持"
+  ],
+  "invariantsTouched": [1, 4, 5, 7],
+  "downstreamDerivedTasks": [
+    "task-ut21-sync-audit-tables-necessity-judgement-001 (U02)",
+    "task-ut21-phase11-smoke-rerun-real-env-001 (U04)",
+    "task-ut21-impl-path-boundary-realignment-001 (U05)"
+  ]
+}

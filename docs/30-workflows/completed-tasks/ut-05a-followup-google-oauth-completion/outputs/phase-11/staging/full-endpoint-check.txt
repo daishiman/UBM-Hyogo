@@ -1,0 +1,20 @@
+=== 検証実行: 2026-05-01 20:48 JST ===
+=== staging web (after PUBLIC_API_BASE_URL fix in wrangler.toml; redeploy成功・rebuild失敗) ===
+GET / -> 500
+GET /privacy -> 404
+GET /terms -> 404
+GET /login -> 200
+GET /register -> 200
+GET /members -> 500
+GET /admin -> 307
+GET /api/auth/providers -> 200
+GET /api/auth/csrf -> 200
+GET /api/auth/session -> 200
+
+=== staging api (direct) ===
+GET / -> 200
+GET /healthz -> 200
+GET /public/healthz -> 200
+GET /public/stats -> 200
+GET /public/members?limit=6 -> 200
+GET /public/form-preview -> 503

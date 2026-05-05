@@ -249,6 +249,11 @@ function stripQuotes(s: string): string {
 function compileWhere(whereClause: string, params: unknown[], startIdx: number): Array<(r: Row) => boolean> {
   let pi = startIdx;
   return whereClause.split(/\s+AND\s+/i).map((part) => {
+    const isNull = part.trim().match(/^(\w+)\s+IS\s+NULL$/i);
+    if (isNull) {
+      const col = isNull[1]!;
+      return (r: Row) => r[col] === null || r[col] === undefined;
+    }
     const [colRaw, valRaw] = part.split("=").map((x) => x.trim());
     if (valRaw === "?") {
       const v = params[pi++];
@@ -272,7 +277,22 @@ function compileWhereWithAlias(
   let pi = startIdx;
   const fns: Array<(r: Row) => boolean> = [];
   for (const part of whereClause.split(/\s+AND\s+/i)) {
-    const trimmed = part.trim();
+    const trimmed = part.trim().replace(/^\((.*)\)$/s, "$1").trim();
+    const queuedOrBackfill = trimmed.match(
+      /^status\s*=\s*\?\s+OR\s+backfill_status\s+IN\s*\(([^)]+)\)$/i,
+    );
+    if (queuedOrBackfill) {
+      const status = params[pi++];
+      const backfillStatuses = queuedOrBackfill[1]!
+        .split(",")
+        .map((x) => stripQuotes(x.trim()));
+      fns.push(
+        (row) =>
+          row[`${defaultAlias}.status`] === status ||
+          backfillStatuses.includes(String(row[`${defaultAlias}.backfill_status`])),
+      );
+      continue;
+    }
     // NOT IN sub
     const sub = trimmed.match(
       /^([\w.]+)\s+NOT\s+IN\s*\(\s*SELECT\s+(\w+)\s+FROM\s+(\w+)\s+WHERE\s+(\w+)\s*=\s*\?\s*\)$/i,
@@ -284,6 +304,12 @@ function compileWhereWithAlias(
       const subRows = ensureTable(state, subTbl!);
       const blocked = subRows.filter((r) => r[subWhere!] === v).map((r) => r[subSel!]);
       fns.push((row) => !blocked.includes(row[colKey]));
+      continue;
+    }
+    const isNull = trimmed.match(/^([\w.]+)\s+IS\s+NULL$/i);
+    if (isNull) {
+      const colKey = qualify(isNull[1]!, defaultAlias);
+      fns.push((row) => row[colKey] === null || row[colKey] === undefined);
       continue;
     }
     const [colRaw, valRaw] = trimmed.split("=").map((x) => x.trim());

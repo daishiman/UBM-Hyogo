@@ -1,0 +1,25 @@
+flowchart LR
+  subgraph apps_api["apps/api (Cloudflare Workers + Hono)"]
+    syncJob["03a sync job<br/>forms.get -> upsert"]
+    aliasRepo["schemaAliasesRepository<br/>lookup / insert / update"]
+    questionsRepo["schemaQuestionsRepository"]
+    diffRepo["schemaDiffQueueRepository"]
+    aliasWorkflow["07b alias assignment<br/>workflow (admin API)"]
+  end
+
+  subgraph d1["Cloudflare D1"]
+    schemaAliases[("schema_aliases<br/>NEW")]
+    schemaQuestions[("schema_questions<br/>existing, fallback only")]
+    schemaDiffQueue[("schema_diff_queue<br/>existing")]
+  end
+
+  syncJob -->|1. lookup by question_id| aliasRepo
+  aliasRepo -->|SELECT| schemaAliases
+  syncJob -->|2. fallback if miss| questionsRepo
+  questionsRepo -->|SELECT stable_key| schemaQuestions
+  syncJob -->|3. enqueue if unresolved| diffRepo
+  diffRepo -->|INSERT/UPDATE| schemaDiffQueue
+
+  aliasWorkflow -->|INSERT alias row| aliasRepo
+  aliasWorkflow -->|mark resolved| diffRepo
+  aliasWorkflow -.->|x NEVER UPDATE stable_key directly| schemaQuestions

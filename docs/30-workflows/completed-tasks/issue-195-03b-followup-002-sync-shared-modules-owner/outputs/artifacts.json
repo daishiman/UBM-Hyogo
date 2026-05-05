@@ -1,0 +1,109 @@
+{
+  "task": "issue-195-03b-followup-002-sync-shared-modules-owner",
+  "status": "completed",
+  "createdAt": "2026-05-02",
+  "docsOnly": false,
+  "remainingOnly": false,
+  "metadata": {
+    "workflow_state": "completed",
+    "taskType": "code",
+    "visualEvidence": "NON_VISUAL",
+    "implementation_status": "implemented-local",
+    "phase13": "pending_user_approval",
+    "issue": "#195",
+    "scope": "sync shared module owner governance + _shared skeleton implementation"
+  },
+  "phases": [
+    {
+      "phase": "01",
+      "title": "要件定義",
+      "status": "completed",
+      "file": "phase-01.md",
+      "output": "outputs/phase-01/main.md"
+    },
+    {
+      "phase": "02",
+      "title": "設計",
+      "status": "completed",
+      "file": "phase-02.md",
+      "output": "outputs/phase-02/main.md"
+    },
+    {
+      "phase": "03",
+      "title": "設計レビュー",
+      "status": "completed",
+      "file": "phase-03.md",
+      "output": "outputs/phase-03/review-decision.md"
+    },
+    {
+      "phase": "04",
+      "title": "実装計画",
+      "status": "completed",
+      "file": "phase-04.md",
+      "output": "outputs/phase-04/subtasks.md"
+    },
+    {
+      "phase": "05",
+      "title": "実装（コード + ドキュメント編集）",
+      "status": "completed",
+      "file": "phase-05.md",
+      "output": "outputs/phase-05/edit-log.md"
+    },
+    {
+      "phase": "06",
+      "title": "ユニット相当検証",
+      "status": "completed",
+      "file": "phase-06.md",
+      "output": "outputs/phase-06/markdown-lint.log"
+    },
+    {
+      "phase": "07",
+      "title": "統合相当検証",
+      "status": "completed",
+      "file": "phase-07.md",
+      "output": "outputs/phase-07/cross-ref.log"
+    },
+    {
+      "phase": "08",
+      "title": "受け入れテスト",
+      "status": "completed",
+      "file": "phase-08.md",
+      "output": "outputs/phase-08/acceptance.log"
+    },
+    {
+      "phase": "09",
+      "title": "品質ゲート",
+      "status": "completed",
+      "file": "phase-09.md",
+      "output": "outputs/phase-09/secret-hygiene-grep.log"
+    },
+    {
+      "phase": "10",
+      "title": "設計レビュー記録",
+      "status": "completed",
+      "file": "phase-10.md",
+      "output": "outputs/phase-10/design-review-record.md"
+    },
+    {
+      "phase": "11",
+      "title": "NON_VISUAL evidence",
+      "status": "completed",
+      "file": "phase-11.md",
+      "output": "outputs/phase-11/main.md"
+    },
+    {
+      "phase": "12",
+      "title": "ドキュメント更新 / 未タスク検出 / skill feedback",
+      "status": "completed",
+      "file": "phase-12.md",
+      "output": "outputs/phase-12/main.md"
+    },
+    {
+      "phase": "13",
+      "title": "PR 作成",
+      "status": "pending_user_approval",
+      "file": "phase-13.md",
+      "output": "outputs/phase-13/main.md"
+    }
+  ]
+}

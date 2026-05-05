@@ -3,8 +3,6 @@
 
 "use client";
 
-import { signIn } from "next-auth/react";
-
 const FALLBACK_REDIRECT = "/profile";
 
 /**
@@ -16,5 +14,6 @@ export const signInWithGoogle = async (redirect?: string): Promise<void> => {
     redirect && redirect.startsWith("/") && !redirect.startsWith("//")
       ? redirect
       : FALLBACK_REDIRECT;
+  const { signIn } = await import("next-auth/react");
   await signIn("google", { callbackUrl });
 };

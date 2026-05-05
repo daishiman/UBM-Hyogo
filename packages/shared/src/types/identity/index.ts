@@ -74,7 +74,7 @@ export interface TagAssignmentQueueItem {
   queueId: string;
   memberId: MemberId;
   responseId: ResponseId;
-  status: "queued" | "reviewing" | "resolved";
+  status: "queued" | "reviewing" | "resolved" | "rejected";
   suggestedTags: string[];
   reason: string | null;
   createdAt: string;

@@ -1,0 +1,32 @@
+{
+  "metadata": {
+    "id": "U-UT01-07-FU01",
+    "name": "u-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "docsOnly": true,
+    "sourceIssue": "#333",
+    "createdAt": "2026-05-02"
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "path": "phase-01.md" },
+    { "phase": 2, "status": "completed", "path": "phase-02.md" },
+    { "phase": 3, "status": "completed", "path": "phase-03.md" },
+    { "phase": 4, "status": "completed", "path": "phase-04.md" },
+    { "phase": 5, "status": "completed", "path": "phase-05.md" },
+    { "phase": 6, "status": "completed", "path": "phase-06.md" },
+    { "phase": 7, "status": "completed", "path": "phase-07.md" },
+    { "phase": 8, "status": "completed", "path": "phase-08.md" },
+    { "phase": 9, "status": "completed", "path": "phase-09.md" },
+    { "phase": 10, "status": "completed", "path": "phase-10.md" },
+    { "phase": 11, "status": "completed", "path": "phase-11.md" },
+    { "phase": 12, "status": "completed", "path": "phase-12.md" },
+    { "phase": 13, "status": "pending_user_approval", "path": "phase-13.md" }
+  ],
+  "canonicalReceiver": {
+    "path": "docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md",
+    "status": "existing_unassigned_receiver",
+    "notes": "Formal workflow root creation remains delegated to UT-09 implementation work; this spec fixes the receiver path for handoff."
+  }
+}

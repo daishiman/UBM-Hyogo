@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "taskType": "implementation",
+    "docsOnly": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "scope": "GitHub branch protection second-stage reapply specification; real PUT, commit, push, and PR are blocked until explicit user approval in Phase 13"
+  },
+  "task": {
+    "id": "utgov001-second-stage-reapply",
+    "name": "UT-GOV-001 second-stage reapply",
+    "status": "spec_created",
+    "metadata": {
+      "taskType": "implementation",
+      "docsOnly": false,
+      "visualEvidence": "NON_VISUAL",
+      "source": "UT-GOV-001 Phase 12 unassigned-task-detection C-3",
+      "upstream": [
+        "UT-GOV-001 Phase 13 completed with contexts=[] fallback",
+        "UT-GOV-004 completed with confirmed required_status_checks contexts"
+      ],
+      "approvalBoundary": "Phase 13 requires explicit user approval before real PUT, commit, push, or PR"
+    }
+  },
+  "phases": [
+    { "phase": 1, "status": "spec_created", "outputs": ["outputs/phase-01/main.md"] },
+    { "phase": 2, "status": "spec_created", "outputs": ["outputs/phase-02/contexts-source.json", "outputs/phase-02/expected-contexts-dev.json", "outputs/phase-02/expected-contexts-main.json", "outputs/phase-02/payload-design.md"] },
+    { "phase": 3, "status": "spec_created", "outputs": ["outputs/phase-03/main.md"] },
+    { "phase": 4, "status": "spec_created", "outputs": ["outputs/phase-04/test-strategy.md"] },
+    { "phase": 5, "status": "spec_created", "outputs": ["outputs/phase-05/apply-runbook-second-stage.md"] },
+    { "phase": 6, "status": "spec_created", "outputs": ["outputs/phase-06/failure-cases.md"] },
+    { "phase": 7, "status": "spec_created", "outputs": ["outputs/phase-07/ac-matrix.md"] },
+    { "phase": 8, "status": "spec_created", "outputs": ["outputs/phase-08/main.md"] },
+    { "phase": 9, "status": "spec_created", "outputs": ["outputs/phase-09/main.md", "outputs/phase-09/drift-check.md"] },
+    { "phase": 10, "status": "spec_created", "outputs": ["outputs/phase-10/go-no-go.md"] },
+    { "phase": 11, "status": "spec_created", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/manual-verification-log.md"] },
+    { "phase": 12, "status": "spec_created", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "status": "spec_created", "user_approval_required": true, "outputs": ["outputs/phase-13/local-check-result.md", "outputs/phase-13/change-summary.md", "outputs/phase-13/pr-info.md", "outputs/phase-13/pr-creation-result.md", "outputs/phase-13/branch-protection-current-dev.json", "outputs/phase-13/branch-protection-current-main.json", "outputs/phase-13/branch-protection-payload-dev.json", "outputs/phase-13/branch-protection-payload-main.json", "outputs/phase-13/branch-protection-applied-dev.json", "outputs/phase-13/branch-protection-applied-main.json"] }
+  ]
+}

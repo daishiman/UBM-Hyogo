@@ -23,9 +23,11 @@ import {
   type MeQueueAcceptedResponse,
 } from "./schemas";
 import { buildMemberProfile } from "../../repository/_shared/builder";
+import { createAttendanceProvider } from "../../repository/attendance";
 import {
   memberSelfRequestQueue,
   resolveEditResponseUrl,
+  getPendingRequestsForMember,
 } from "./services";
 
 export interface MeRouteEnv extends SessionGuardEnv {
@@ -72,12 +74,15 @@ export const createMeRoute = (deps: MeRouteDeps) => {
   app.get("/profile", async (c) => {
     const user = c.get("user");
     const ctx = c.get("ctx");
-    const profile = await buildMemberProfile(ctx, user.memberId);
+    const profile = await buildMemberProfile(ctx, user.memberId, {
+      attendanceProvider: createAttendanceProvider(ctx),
+    });
     if (!profile) {
       // identity / response が見つからない (同期未完了など)
       return c.json({ code: "PROFILE_UNAVAILABLE" }, 404);
     }
     const editUrl = await resolveEditResponseUrl(ctx, user.memberId);
+    const pendingRequests = await getPendingRequestsForMember(ctx, user.memberId);
     const body: MeProfileResponse = {
       profile,
       statusSummary: {
@@ -89,6 +94,7 @@ export const createMeRoute = (deps: MeRouteDeps) => {
       },
       editResponseUrl: editUrl,
       fallbackResponderUrl: pickResponderUrl(c.env),
+      pendingRequests,
     };
     return c.json(MeProfileResponseZ.parse(body));
   });

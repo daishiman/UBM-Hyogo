@@ -7,6 +7,7 @@
 //   3. 02a domain ↔ 02b domain（AC-11）
 //   4. 02b domain ↔ 02c domain（AC-11）
 //   5. 02c domain ↔ 02a domain（不変条件 #12 / AC-11）
+//   6. production code → __fixtures__ / __tests__（02c-followup-002 / 不変条件 #6）
 module.exports = {
   forbidden: [
     {
@@ -61,10 +62,26 @@ module.exports = {
         path: "^apps/api/src/repository/(members|identities|status|responses|responseSections|responseFields|fieldVisibility|memberTags)\\.ts$",
       },
     },
+    {
+      name: "no-prod-to-fixtures-or-tests",
+      severity: "error",
+      comment:
+        "production code から __fixtures__ / __tests__ 配下への import を禁止（02c-followup-002 / 不変条件 #6）。dev fixture / test loader は production runtime に流入させない。",
+      from: {
+        path: "^(apps|packages)/.+/src/",
+        pathNot: "(__tests__|__fixtures__)/|\\.test\\.ts$|\\.spec\\.ts$",
+      },
+      to: {
+        path: "(__tests__|__fixtures__)/",
+      },
+    },
   ],
   options: {
     tsConfig: { fileName: "tsconfig.json" },
     doNotFollow: { path: "node_modules" },
-    exclude: { path: "(__tests__|__fixtures__|_shared)" },
+    // 旧 config は (__tests__|__fixtures__|_shared) を全 exclude していたが、
+    // __tests__ / __fixtures__ への production import を境界 lint で検出するために
+    // analysis 対象に残す（02c-followup-002）。_shared 配下の test setup のみ除外する。
+    exclude: { path: "(_shared/__tests__/|_shared/__fixtures__/)" },
   },
 };

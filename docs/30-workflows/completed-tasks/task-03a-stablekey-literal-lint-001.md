@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Source | 03a-parallel-forms-schema-sync-and-stablekey-alias-queue |
-| Status | unassigned |
+| Status | consumed_by_enforced_dry_run |
 | Priority | Medium |
 | Owner candidate | wave 8b lint config |
 
@@ -19,13 +19,24 @@
 | 対象機能     | 静的検証（lint） / AC-7 enforcement |
 | 優先度       | 中 |
 | 見積もり規模 | 小規模 |
-| ステータス   | 未実施 |
+| ステータス   | consumed（`docs/30-workflows/03a-stablekey-literal-lint-enforcement/` に引き継ぎ済み） |
 | 発見元       | Phase 12（unassigned-task-detection / AC-7） |
 | 発見日       | 2026-04-28 |
 
 ## Problem
 
 03a AC-7 requires lint-level detection for direct stableKey literals in application code. Current implementation avoids literals by convention and tests, but there is no CI/static rule that rejects future drift.
+
+## Canonical Status (2026-05-01)
+
+This legacy unassigned task has been consumed by `docs/30-workflows/03a-stablekey-literal-lint-enforcement/`.
+
+Current state is `enforced_dry_run`: `scripts/lint-stablekey-literal.mjs`, focused unit tests, `package.json` scripts, and Phase 11 warning/strict-mode evidence exist. It is not `fully enforced` because strict mode still reports legacy violations and GitHub Actions does not yet run the strict gate as required.
+
+Continuation tasks:
+
+- `docs/30-workflows/unassigned-task/task-03a-stablekey-literal-legacy-cleanup-001.md`
+- `docs/30-workflows/unassigned-task/task-03a-stablekey-strict-ci-gate-001.md`
 
 ## Required Work
 

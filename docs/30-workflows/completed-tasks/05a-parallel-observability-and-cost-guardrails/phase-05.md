@@ -104,8 +104,8 @@
 
 ## サンプルコマンド
 ```bash
-rg -n "AC-|dev|main|D1|Sheets|1Password" docs/05a-parallel-observability-and-cost-guardrails
-git diff -- docs/05a-parallel-observability-and-cost-guardrails
+rg -n "AC-|dev|main|D1|Sheets|1Password" docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails
+git diff -- docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails
 ```
 
 ## 設定ファイル全文

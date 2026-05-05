@@ -1,0 +1,12 @@
+{
+  "task": "07c-followup-003-audit-log-browsing-ui",
+  "targets": [
+    { "name": "audit-initial", "file": "screenshots/audit-initial.png", "viewport": "1280x900" },
+    { "name": "audit-action-filter", "file": "screenshots/audit-action-filter.png", "viewport": "1280x900" },
+    { "name": "audit-json-collapsed", "file": "screenshots/audit-json-collapsed.png", "viewport": "1280x900" },
+    { "name": "audit-json-expanded-masked", "file": "screenshots/audit-json-expanded-masked.png", "viewport": "1280x900" },
+    { "name": "audit-empty", "file": "screenshots/audit-empty.png", "viewport": "1280x900" },
+    { "name": "audit-forbidden", "file": "screenshots/audit-forbidden.png", "viewport": "1280x900" },
+    { "name": "audit-mobile", "file": "screenshots/audit-mobile.png", "viewport": "390x844" }
+  ]
+}

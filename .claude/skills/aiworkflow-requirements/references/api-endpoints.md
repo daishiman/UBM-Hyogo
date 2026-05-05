@@ -66,8 +66,14 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 | メソッド | パス | 説明 | 認証 |
 | --- | --- | --- | --- |
-| POST | /admin/sync | Google Sheets 由来の既存同期ジョブを手動実行 | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | /admin/sync | Google Sheets 由来の既存同期ジョブを手動実行（互換 mount） | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | /admin/sync/run | u-04 正本 manual sync。Google Sheets 回答を fetch → map → D1 upsert し、`sync_job_logs` に audit row を作成する | `SYNC_ADMIN_TOKEN` Bearer |
+| POST | /admin/sync/backfill | u-04 backfill。Sheets 全件を正として `member_responses` を再投入する。admin-managed 列には触れない | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | /admin/sync/audit?limit=N | u-04 audit ledger の最新行を `started_at DESC` で返す。limit は 1〜100 に clamp | `SYNC_ADMIN_TOKEN` Bearer |
 | POST | /admin/sync/responses | Google Forms `forms.responses.list` を D1 に取り込み、`current_response_id` と consent snapshot を更新 | `SYNC_ADMIN_TOKEN` Bearer |
+| GET | /admin/smoke/sheets | Google Sheets API v4 `spreadsheets.values.get` の dev/staging E2E smoke。production は 404 | `SMOKE_ADMIN_TOKEN` Bearer |
+
+u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation/`) では `apps/api/src/sync/` を正本実装とする。manual / scheduled / backfill の 3 経路は `withSyncMutex` で直列化し、論理 `sync_audit` の物理 ledger である `sync_job_logs` に `running -> success|failed|skipped` を記録する。scheduled sync は HTTP endpoint ではなく Cloudflare Workers `scheduled()` handler から `runScheduledSync(env)` を呼び出し、MVP では timestamp drift を避けるため毎時全件 upsert する。
 
 `POST /admin/sync/responses` は `fullSync=true` と `cursor=<submittedAt|responseId>` を query として受け付ける。`cursor` は Google API の `pageToken` ではなく、処理済み response の high-water mark として扱う。二重起動時は `409 Conflict` を返す。
 
@@ -77,22 +83,29 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 
 | メソッド | パス | 説明 | 認証 |
 | --- | --- | --- | --- |
-| GET | `/admin/dashboard` | 会員・同意・削除済み・タグ queue・schema 状態の dashboard 集計 | Auth.js JWT + `requireAdmin` |
-| GET | `/admin/members` | admin member list。`filter=active|hidden|deleted` を受け付ける | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/dashboard` | 06c-A 正本: 単一 endpoint で `kpis = { 総会員数, 公開中人数, 未タグ人数, スキーマ未解決件数 }` と `recentActions`（`audit_log` 直近 7 日 / max 20 / `dashboard.view` 除外）を返す。表示時に `dashboard.view` を `audit_log` へ append する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/members` | 06c-B 正本: admin member list。`filter=published|hidden|deleted`、`q`（trim + 連続空白正規化 + max 200）、`zone=all|0_to_1|1_to_10|10_to_100`、repeated `tag`（tag code / AND / max 5）、`sort=recent|name`、`density=comfy|dense|list`、`page` を受け付け、`{ total, members, page, pageSize }` を返す | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/members/:memberId/delete` | member を論理削除する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/delete` | member を論理削除する。request body は `{ reason: string.trim().min(1).max(500) }`、不足/超過は **422** を返す。成功時 `{ id, isDeleted: true, deletedAt }` を返し、`member_status` upsert / `deleted_members` upsert / `audit_log` insert(`admin.member.deleted`) を `DB.batch()` で同一 workflow 境界に置く。再 delete は `409 member_already_deleted` | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する。成功時 `{ id, restoredAt }` を返し、`member_status` update / `deleted_members` delete / `audit_log` insert(`admin.member.restored`) を `DB.batch()` で同一 workflow 境界に置く。未削除 member への restore は `409 member_not_deleted` | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/requests` | visibility/delete request の pending queue を `type=visibility_request|delete_request`, `status=pending`, cursor pagination で FIFO 一覧する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/requests/:noteId/resolve` | admin request を approve/reject する。approve は `member_status` 更新、`admin_member_notes.request_status` 更新、`audit_log` append を D1 batch で同一 workflow 境界に置き、二重 resolve は 409 | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `queued -> reviewing -> resolved` で解決する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `confirmed`（DB/API status: `resolved`）または `rejected` に解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/schema/aliases` | question stable key alias を解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings` | meeting sessions と attendance summary（既存出席 memberId）を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings` | meeting session を作成する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409`、削除済み member は `422` | Auth.js JWT + `requireAdmin` |
-| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する | Auth.js JWT + `requireAdmin` |
+| PATCH | `/admin/meetings/:sessionId` | title / heldOn / note / deletedAt を更新する。deletedAt セット時は soft delete として一覧から除外する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/meetings/:sessionId/attendances` | 06c-E 正本: `{ memberId, attended }` で attendance を追加 / 削除する。`attended=true` の重複は `409 attendance_already_recorded`、unknown member は `404 member_not_found`、削除済み member は `422 member_is_deleted`、session 不在 / soft-deleted meeting は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/meetings/:sessionId/export.csv` | attendance を `meetingId,heldOn,memberId,displayName,attended` 固定列の CSV で返す。soft-deleted meeting は 404 | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/meetings/:sessionId/attendance/candidates` | attendance 候補を一覧する。session 不在は `404 session_not_found`、削除済み member と登録済み member は除外する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/meetings/:sessionId/attendance` | attendance を追加する。重複は `409 attendance_already_recorded`、削除済み member は `422 member_is_deleted`、session 不在は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
+| DELETE | `/admin/meetings/:sessionId/attendance/:memberId` | attendance を削除する。row 不在は `404 attendance_not_found` に集約する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/audit` | `audit_log` を read-only に検索する。`action` / `actorEmail` / `targetType` / `targetId` / UTC `from` `to` / cursor / limit を受け、raw JSON ではなく masked view を返す | Auth.js JWT + `requireAdmin` |
 
 04c の構造的不変条件:
 
@@ -101,6 +114,32 @@ REST API、Desktop IPC APIの詳細は以下の分割ドキュメントで定義
 - schema 変更は `/admin/schema/*` に集約する。
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
+- 04b-followup-004 admin request resolve は `visibility_request` approve で `member_status.publish_state`、`delete_request` approve で `member_status.is_deleted` と `deleted_members` を更新し、reject では `member_status` を変更しない。approve 前に対象 `member_status` がない場合は 404 `member_status_not_found` とし、note は pending のまま残す。
+- request resolve audit は現行 `AuditTargetType` 制約により `targetType='member'`、`targetId=<memberId>`、`after.noteId` で原典を追跡する。action は `admin.request.approve` / `admin.request.reject`。first-class `admin_member_note` / `admin_request` target は follow-up。
+- 06c-E UI の attendance add/remove は `/admin/meetings/:sessionId/attendances` の `{ attended }` alias を正本として使う。04c の `/attendance` POST/DELETE route は既存互換 route として維持する。
+- 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、追加は `after_json`、削除は `before_json` に attendance row を残す。
+- 07c follow-up audit browsing は append-only の閲覧専用で、`before_json` / `after_json` の保存値は変更せず、API projection と UI defense-in-depth で email / phone / address / name 相当キーを表示時 masking する。cursor は `{ createdAt, auditId }` の base64url JSON、order は `created_at DESC, audit_id DESC`。
+- 06c-A follow-up: `/admin/dashboard` は単一 endpoint を維持し（`/admin/dashboard/kpi`・`/admin/dashboard/recent-actions` の split は不採用）、表示時に `audit_log` へ `dashboard.view` を append する。`recentActions` は `dashboard.view` を除外フィルタし KPI / 最近の作業の自己ループを防ぐ。
+
+07a close-out で `POST /admin/tags/queue/:queueId/resolve` の body は zod discriminated union に確定した。
+
+```ts
+type TagQueueResolveBody =
+  | { action: "confirmed"; tagCodes: string[] }
+  | { action: "rejected"; reason: string };
+```
+
+UT-07A-02 close-out で schema 正本は `packages/shared/src/schemas/admin/tag-queue-resolve.ts` の `tagQueueResolveBodySchema` に移された。apps/api route と apps/web admin client はこの shared schema/type を参照する。`confirmed` と `rejected` の key を混在させた body は 400 `validation_error`。
+
+成功時は `{ ok: true, result: { queueId, status: "resolved" | "rejected", resolvedAt, memberId, tagCodes?, reason?, idempotent } }` を返す。同一 payload の再投入は 200 + `idempotent: true` で追加 audit を作らない。主要 error code は `queue_not_found` (404), `state_conflict` / `idempotent_payload_mismatch` / `race_lost` (409), `unknown_tag_code` / `member_deleted` (422), body validation (400)。
+
+07b schema alias workflow close-out:
+
+- `GET /admin/schema/diff` は `items[].recommendedStableKeys: string[]` を返す。候補は既存 `schema_questions.stable_key` から、label の Levenshtein 距離 + section / position 一致スコアで上位 5 件を提示する。
+- `POST /admin/schema/aliases?dryRun=true` は書き込みを行わず、`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返す。dry-run では `audit_log` も追記しない。
+- `POST /admin/schema/aliases` apply mode は `schema_aliases` へ manual alias を INSERT し、任意 `diffId` の `schema_diff_queue` resolve、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` 追記を同じ workflow 境界で実行する。`schema_questions.stable_key` は fallback 期間の参照互換として残し、manual alias の主 write target には戻さない。
+- collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `409 stable_key_collision` を返す。body validation は `422`、diff 不在は `404`、diff と request question mismatch は `409`。
+- back-fill は batch 100 / CPU budget 25s を上限とし、`deleted_members` に紐づく `member_identities.current_response_id` は対象外にする。既に同 response に新 stableKey 行がある場合は extra 行を削除して冪等性を保つ。CPU budget exhausted は HTTP 202 + retryable body とし、`backfill.status='exhausted'`、`code='backfill_cpu_budget_exhausted'`、`retryable=true`、`queueStatus='resolved'` を返す。`schema_diff_queue.backfill_status` / `backfill_cursor` は continuation 状態を保持し、`exhausted` / `in_progress` / `failed` の diff は再実行対象として一覧可能にする。
 
 ### 認証セッション解決 API（apps/api / 05a）
 
@@ -121,6 +160,18 @@ type SessionResolveResponse = {
 };
 ```
 
+### Magic Link callback / Auth.js Credentials Provider（apps/web / 05b-B）
+
+05b-B で Magic Link メール本文の callback URL を `apps/web` に実装した。apps/web は D1 を直接参照せず、token/email の検証は apps/api の `POST /auth/magic-link/verify` に委譲する。
+
+| メソッド | パス | 説明 | 認証 |
+| --- | --- | --- | --- |
+| GET | `/api/auth/callback/email?token=<64hex>&email=<email>` | query validation 後、`POST /auth/magic-link/verify` を呼び、成功時のみ Auth.js `signIn("magic-link")` で session cookie を確立する | Magic Link token/email |
+| POST | `/api/auth/callback/email` | callback route の POST は許可しない | 405 |
+| POST | `/auth/magic-link/verify` | Magic Link token/email を検証・消費し、session user shape を返す | Magic Link token/email（public token endpoint）。`/auth/session-resolve` の `X-Internal-Auth` 境界とは別 |
+
+失敗時は session を作らず `/login?error=<code>` に戻す。error code は `missing_token`, `missing_email`, `invalid_link`, `expired`, `already_used`, `resolve_failed`, `temporary_failure`。
+
 Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shared/src/auth.ts` の `encodeAuthSessionJwt` / `decodeAuthSessionJwt` と API 側 `verifySessionJwt` が同じ `AUTH_SECRET` を使う。JWT には `memberId` / `email` / `isAdmin` のみを含め、`responseId` やプロフィール本文は含めない。
 
 ### 公開ディレクトリ API（apps/api / 04a）
@@ -135,6 +186,8 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 | GET | `/public/form-preview` | `schema_questions` 由来のフォームプレビューと responder URL | 不要 | `public, max-age=60` |
 
 公開 member の基本条件は `public_consent='consented' AND publish_state='public' AND is_deleted=0`。profile / list response は `responseEmail` / `rulesConsent` / `adminNotes` を含めない。`/public/members` の `tag` は repeated query を AND 条件として扱い、`limit` は 1〜100 に clamp する。
+
+`GET /admin/smoke/sheets` は UT-26 の NON_VISUAL smoke route。`GOOGLE_SHEETS_SA_JSON` / `SHEETS_SPREADSHEET_ID` を読み取り専用で使い、2 回連続 `fetchRange()` の間に OAuth token fetch が 1 回だけであることを `tokenFetchesDuringSmoke=1` として返す。`range` query は 80 文字以内の単一 A1 range のみ許可する。
 
 ### チャット履歴
 
@@ -181,6 +234,29 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 | ------ | ---- | ---- | ---- |
 | POST | `/admin/sync/schema` | `Authorization: Bearer <SYNC_ADMIN_TOKEN>` | Google Forms `forms.get` の live schema を D1 の `schema_versions` / `schema_questions` に同期し、stableKey 未解決 question を `schema_diff_queue` へ投入する |
 
+### Schema Alias Resolution（issue-191 / 07b）
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| POST | `/admin/schema/aliases` | Auth.js admin JWT + `admin_users.active` | 07b の manual alias resolution。HTTP contract は維持し、issue-191 以降の write target は `schema_questions.stable_key` direct update ではなく `schema_aliases` INSERT + `schema_diff_queue.status='resolved'` |
+
+03a は `schema_aliases` first、alias miss の場合のみ `schema_questions.stable_key` fallback とする。D1 transient error は alias miss と扱わず、sync failure + retry へ倒す。
+
+UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers CPU budget を使い切った場合、HTTP 202 の retryable continuation として `backfill_cpu_budget_exhausted` を返す。5xx は infrastructure failure に予約し、継続可能な back-fill state には使わない。
+
+`POST /admin/schema/aliases` レスポンス契約:
+
+| Status | 条件 | Body |
+| ------ | ---- | ---- |
+| 200 | dry-run 成功 | `{ ok: true, mode: "dryRun", questionId, currentStableKey, proposedStableKey, affectedResponseFields, currentStableKeyCount, conflictExists }` |
+| 200 | apply 成功 + back-fill completed | `{ ok: true, mode: "apply", questionId, oldStableKey, newStableKey, affectedResponseFields, queueStatus: "resolved", backfill: { status: "completed", updated, cursor: null, retryable: false } }` |
+| 202 | apply 成功 + back-fill continuation required | `{ ok: true, mode: "apply", questionId, oldStableKey, newStableKey, affectedResponseFields, queueStatus: "resolved", backfill: { status: "exhausted", updated, cursor, code: "backfill_cpu_budget_exhausted", retryable: true } }` |
+| 404 | question / diff 不在 | `{ ok: false, error }` |
+| 409 | diff question mismatch / stable key collision | `{ ok: false, code?: "stable_key_collision", error, existingQuestionIds? }` |
+| 422 | body validation failure | `{ ok: false, error }` |
+
+### UBM-Hyogo Admin Schema Sync API（03a）
+
 レスポンス契約:
 
 | Status | 条件 | Body |
@@ -198,18 +274,27 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 ## UBM-Hyogo Member Self-Service API（04b）
 
 `04b-parallel-member-self-service-api-endpoints` で会員本人向け `/me/*` endpoint を追加した。
-Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token は `x-ubm-dev-session: 1`
-がある development request のみ有効で、production / staging では無効。
+06b-A で `/me/*` の session resolver は Auth.js cookie / Bearer JWT 対応に差し替え済み。production / staging では `authjs.session-token` / `__Secure-authjs.session-token`、移行互換の `next-auth.session-token` / `__Secure-next-auth.session-token`、または `Authorization: Bearer <jwt>` を `AUTH_SECRET` で検証する。04b 由来の dev token（`x-ubm-dev-session: 1` + `Authorization: Bearer session:<email>:<memberId>`）は `ENVIRONMENT === "development"` の場合だけ有効で、production / staging / env 欠落時は無効。
 
 | Method | Path | 認可 | 用途 |
 | ------ | ---- | ---- | ---- |
 | GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
-| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す |
-| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入 |
-| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入 |
+| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `createAttendanceProvider(ctx)` 経由で `member_attendance` + `meeting_sessions` から取得する |
+| POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='visibility_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
+| POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='delete_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
 
 禁止: `PATCH /me/profile` は作らない。`/me/*` path に `:memberId` を入れない。GET 系 response に
 `admin_member_notes` 由来の `notes` / `adminNotes` を含めない。
+
+### Browser proxy 層（apps/web BFF）
+
+`/profile` 等の Client Component から `apps/api` `/me/*` に直接アクセスせず、`apps/web/app/api/me/[...path]/route.ts` の catch-all proxy 経由で叩く（不変条件 #5: D1 直接アクセスは `apps/api` に閉じる の運用形式）。
+
+- proxy は `[...path]` をそのまま `apps/api` `/me/...` にパススルーし、Cookie / Authorization header だけ転送する
+- memberId は backend session（06b-A `/me` API Auth.js cookie session resolver）で解決し、path / クエリに出さない（不変条件 #11）
+- 06b-B では `me-requests-client` が `POST /api/me/visibility-request` / `POST /api/me/delete-request` を呼び、409 を `SelfRequestError(code:'duplicate-pending')` に変換する。401 は未認証、403 は `authGateState !== 'active'` を表す
+
+`MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、D1 read path は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
 
 ---
 
@@ -249,6 +334,7 @@ Auth.js cookie resolver は 05a/05b で差し替える。04b 時点の dev token
 | Version | Date       | Changes                                            |
 | ------- | ---------- | -------------------------------------------------- |
 | 2.7.0   | 2026-04-29 | 04a: 公開ディレクトリ API 4 endpoint を追加 |
+| 2.6.1   | 2026-04-29 | UT-26: `GET /admin/smoke/sheets` dev/staging Sheets API smoke route を追加 |
 | 2.6.0   | 2026-04-29 | 03b: `POST /admin/sync/responses` 管理同期 API を追加 |
 | 2.5.0   | 2026-03-11 | TASK-FIX-APIKEY-CHAT-TOOL-INTEGRATION-001: Desktop IPC API サマリーの AI/チャットへ `llm:set-selected-config` を追加 |
 | 2.4.0   | 2026-03-11 | TASK-UI-08-NOTIFICATION-CENTER: Notification IPC サマリーに `notification:delete` を追加し、058e の個別削除契約へ同期 |

@@ -25,6 +25,7 @@
 | `stableKey` 割当 | ❌ | ✅ |
 | 開催日追加 | ❌ | ✅ |
 | 参加履歴付与/解除 | ❌ | ✅ |
+| 監査ログ閲覧 | ❌ | ✅ |
 
 ---
 
@@ -62,9 +63,48 @@
 
 ### `/admin/meetings`
 
-- 支部会の開催日を追加する
+- 支部会の開催日を追加・編集・論理削除する
 - 開催日ごと、会員ごとの両方から参加履歴を管理できるようにする
+- CSV export は `meetingId, heldOn, memberId, displayName, attended` の列順で返す
 - 開催日と参加履歴はフォーム項目ではなく、管理者データとして扱う
+- 物理 table は `meeting_sessions` / `member_attendance`。web は `/api/admin/meetings*` proxy 経由で apps/api を呼び、D1 を直接参照しない
+
+API 正本:
+
+| Endpoint | 用途 |
+| --- | --- |
+| `GET /admin/meetings` | 開催日一覧 + attendance summary |
+| `POST /admin/meetings` | 開催日作成 |
+| `PATCH /admin/meetings/:id` | title / heldOn / note / deletedAt 更新 |
+| `POST /admin/meetings/:id/attendances` | `{ memberId, attended }` で参加付与 / 解除 |
+| `GET /admin/meetings/:id/export.csv` | CSV export |
+
+Audit action:
+
+| 操作 | action |
+| --- | --- |
+| 開催日作成 | `admin.meeting.created` |
+| 開催日更新 | `meetings.update` |
+| 開催日論理削除 | `meetings.delete` |
+| 参加付与 | `attendance.add` |
+| 参加解除 | `attendance.remove` |
+
+### `/admin/audit`
+
+- `audit_log` を read-only に検索・閲覧する
+- `action / actorEmail / targetType / targetId / from / to / limit` の filter と cursor pagination を提供する
+- 日時入力は JST、API query は UTC、表示は JST に揃える
+- `before_json` / `after_json` は初期折り畳みとし、展開時も email / phone / address / name 相当値は masked view だけを表示する
+- 編集・削除・再実行・export などの mutation UI は置かない
+
+### `/admin/requests`
+
+- 会員本人が `/me/visibility-request` / `/me/delete-request` から作った依頼を処理する queue
+- `visibility_request` と `delete_request` を切り替え、pending 行を FIFO で確認する
+- 詳細 panel で理由・最小化済み payload・現在の公開状態 / 削除状態を確認する
+- approve / reject は confirmation modal 経由で実行する
+- delete approve と visibility approve は破壊的操作として alert 表示し、二重 resolve は 409 toast で再読込する
+- 初回 local visual evidence は admin session + D1 fixture が必要なため staging smoke task へ委譲する
 
 ---
 
@@ -79,6 +119,9 @@
 | スキーマ差分確認 | `List + review panel` |
 | 開催日追加 | `Form` |
 | 参加履歴付与/解除 | `Button` または `Checkbox` |
+| 監査ログ閲覧 | `Filter + Table + Disclosure` |
+| 依頼キュー処理 | `Queue + Detail panel + Confirmation dialog` |
+| identity conflict merge | `List + two-step confirmation + dismiss` |
 
 ---
 
@@ -90,6 +133,34 @@
 4. タグ付与は管理者レビューを通す
 5. Google Form の変更対応は `/admin/schema` に集約する
 6. 開催日と参加履歴はフォーム同期対象と分離して管理する
+7. 監査ログは append-only とし、閲覧画面では保存値を変更せず表示時 masking を行う
+8. 本人依頼の approve / reject は `/admin/requests` に集約し、管理者が member 本文を直接編集する UI は作らない
+9. identity merge は `identity_aliases` と audit ledger の追加だけで表現し、`member_responses` / `response_fields` / `member_status` の本文列を直接更新しない
+
+## identity conflict merge（Issue #194）
+
+`/admin/identity-conflicts` は 03b response sync の `EMAIL_CONFLICT` 運用を閉じるための管理画面である。候補は `member_identities` 全体を対象に、`fullName` と `occupation` が NFKC/trim 後に完全一致する pair として表示する。source は新しい `last_submitted_at` 側、target は古い identity 側に揃える。
+
+管理者は候補ごとに以下を実行できる:
+
+| action | behavior |
+| --- | --- |
+| merge | 二段階確認後、`POST /admin/identity-conflicts/:id/merge` で `identity_aliases` / `identity_merge_audit` / `audit_log` を単一 D1 batch に記録する |
+| dismiss | `POST /admin/identity-conflicts/:id/dismiss` で pair を `identity_conflict_dismissals` に保存し、再検出から除外する。重複 dismiss は upsert |
+
+UI は `responseEmailMasked` だけを表示し、merge reason に含まれる email / phone は API 側で `[redacted]` に置換する。誤 merge の取り消しは自動 UI では提供せず、`identity_merge_audit` を根拠に管理者承認付きの手動 runbook で扱う。
+
+## schema alias assignment（07b）
+
+`/admin/schema` の schema 差分解消は 07b API workflow が正本である。UI は `recommendedStableKeys` を候補表示に使い、dryRun で影響範囲を確認してから apply する。apply 後は `schema_diff_queue` を `queued -> resolved` に進め、過去回答の `__extra__:<questionId>` を stableKey へ back-fill する。
+
+管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を toast 等で分けて表示する。多言語 label 正規化や大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
+
+## tag assignment queue（UT-02A / 07a）
+
+Forms 同期から発生する tag candidate は `tag_assignment_queue` に投入し、管理者が `/admin/tags/queue` で確認する。`GET /admin/tags/queue?status=dlq` は retry 上限超過行を表示できる。通常の確認結果は `POST /admin/tags/queue/:queueId/resolve` で `resolved` / `rejected` に進める。
+
+現行 candidate row は tagCode 未確定のため、重複防止は `<memberId>:<responseId>` の `idempotency_key` で行う。`member_tags` への直接編集 UI / API は作らず、確定書き込みは 07a resolve workflow の guarded update 成功後だけ許可する。Issue #377 retry tick は `reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL` の行だけを処理し、plain human-review `queued` は skip する。DLQ 移送時は `admin.tag.queue_dlq_moved` audit を残す。DLQ requeue は別 follow-up として維持する。
 
 ---
 
@@ -114,6 +185,9 @@ admin gate は **apps/web middleware（UI gate）** と **apps/api `requireAdmin
 | 第2段（API gate） | `apps/api/src/middleware/require-admin.ts` | `/admin/*` route mount に `requireAdmin` 適用、`claims.isAdmin !== true` は 403 | しない（JWT verify のみ） |
 
 不変条件:
+
+- `/admin` shell は sidebar footer にログアウト導線を持つ。
+- ログアウト導線は member UI と同じ `SignOutButton` を使い、Auth.js `signOut({ redirectTo: "/login" })` に委譲する。
 
 1. **UI gate / API gate ともに D1 を触らない**。admin 判定は session JWT の `isAdmin` claim を信頼する。`admin_users` の lookup は session 発行時の `/auth/session-resolve` で済んでいる。
 2. **UI gate を bypass しても API gate が独立に 403 を返す**（`__Secure-authjs.session-token` を改竄、Authorization Bearer の偽装、UI middleware の matcher 漏れ等を想定）。

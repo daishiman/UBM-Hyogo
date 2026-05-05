@@ -4,7 +4,7 @@
 --
 -- 1. schema_diff_queue.question_id の status='queued' 限定 partial UNIQUE INDEX
 --    （AC-2: 同一 question_id の重複 enqueue を no-op 化）
--- 2. member_identities.response_email は 0001_init.sql で UNIQUE 済み（再宣言なし）
+-- 2. member_identities.response_email は 0001_init.sql で正本 UNIQUE が宣言済み（再宣言・再付与なし）。
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_schema_diff_queue_question_open
   ON schema_diff_queue(question_id)

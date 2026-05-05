@@ -22,16 +22,23 @@ const seed = (status: "queued" | "reviewing" | "resolved" = "queued") => ({
 });
 
 describe("tagQueue: 状態遷移", () => {
-  it("isAllowedTransition: 許可される遷移 (AC-4)", () => {
+  it("isAllowedTransition: 許可される遷移 (AC-4 / 07a)", () => {
+    // 02b 既存遷移
     expect(isAllowedTransition("queued", "reviewing")).toBe(true);
     expect(isAllowedTransition("reviewing", "resolved")).toBe(true);
+    // 07a で追加（queued から直接 resolve / reject）
+    expect(isAllowedTransition("queued", "resolved")).toBe(true);
+    expect(isAllowedTransition("queued", "rejected")).toBe(true);
+    expect(isAllowedTransition("reviewing", "rejected")).toBe(true);
   });
 
-  it("isAllowedTransition: 不正遷移は false", () => {
-    expect(isAllowedTransition("queued", "resolved")).toBe(false);
+  it("isAllowedTransition: 不正遷移は false (終端からの逆走禁止)", () => {
     expect(isAllowedTransition("reviewing", "queued")).toBe(false);
     expect(isAllowedTransition("resolved", "reviewing")).toBe(false);
     expect(isAllowedTransition("resolved", "queued")).toBe(false);
+    expect(isAllowedTransition("resolved", "rejected")).toBe(false);
+    expect(isAllowedTransition("rejected", "resolved")).toBe(false);
+    expect(isAllowedTransition("rejected", "queued")).toBe(false);
     expect(isAllowedTransition("queued", "queued")).toBe(false);
   });
 
@@ -52,9 +59,10 @@ describe("tagQueue: 状態遷移", () => {
     await expect(transitionStatus({ db: fake.d1 }, "q1", "reviewing")).rejects.toThrow(/invalid transition/);
   });
 
-  it("transitionStatus: queued → resolved (skip) は throw", async () => {
+  it("transitionStatus: queued → resolved (07a 直接遷移) 成功", async () => {
     const fake = createFakeD1(seed("queued"));
-    await expect(transitionStatus({ db: fake.d1 }, "q1", "resolved")).rejects.toThrow(/invalid transition/);
+    const r = await transitionStatus({ db: fake.d1 }, "q1", "resolved");
+    expect(r.status).toBe("resolved");
   });
 });
 

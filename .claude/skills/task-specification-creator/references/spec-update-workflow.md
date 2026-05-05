@@ -9,14 +9,39 @@
 | --- | --- | --- | --- |
 | Step 1: 完了記録 | すべての task で必須 | workflow 完了と台帳の同期 | [spec-update-step1-completion.md](spec-update-step1-completion.md) |
 | Step 2: domain spec sync | 条件付き | interface / API / architecture 変更の反映 | [spec-update-step2-domain-sync.md](spec-update-step2-domain-sync.md) |
+| Step 1-H: skill/reference feedback promotion | Phase 12 feedback がある場合必須 | `skill-feedback-report.md` の苦戦箇所を owning skill / lesson / no-op に routing | [phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md) |
 | validation | 完了前に必須 | 4系統の validator と pass 基準 | [spec-update-validation-matrix.md](spec-update-validation-matrix.md) |
 
 ## 判断フロー
 
 1. まず Step 1-A〜1-G を完了する。
-2. 次に interface、API、state、security、UI contract の変更有無を判定する。
-3. Step 2 が不要でも、判断根拠を `documentation-changelog.md` と `system-spec-update-summary.md` に残す。
-4. final validation を通してから Phase 12 を閉じる。
+2. Path drift / legacy register 判定を行う。workflow root 移動、旧 citation、artifact inventory、current canonical root の `index.md` / `artifacts.json` 実体を確認し、欠落があれば復元または `archived` / `stale-current` / `baseline` へ再分類してから Step 1 完了にする。
+3. 次に interface、API、state、security、UI contract の変更有無を判定する。
+4. Step 2 が不要でも、判断根拠を `documentation-changelog.md` と `system-spec-update-summary.md` に残す。
+5. `skill-feedback-report.md` の各 item を `task-specification-creator` / `aiworkflow-requirements` / `skill-creator` / no-op に routing し、反映先または no-op reason を残す。
+6. final validation を通してから Phase 12 を閉じる。
+
+### Step 1-H: skill/reference feedback promotion
+
+Phase 12 の feedback は domain spec sync と skill-process sync を分けて扱う。domain implementation lesson は `aiworkflow-requirements/references/lessons-learned-*.md`、workflow/template gap は `task-specification-creator/references/*` または `assets/*`、skill authoring/update-process gap は `skill-creator/references/*` に昇格する。
+
+`skill-creator/SKILL.md` は entrypoint / routing が変わった時だけ更新し、通常は `references/update-process.md` や assets に追記する。昇格しない場合は `documentation-changelog.md` に no-op reason を記録する。
+
+### Path drift / legacy register 判定
+
+workflow root を移動した、または旧 citation が残る task では、Step 1 の一部として `legacy-ordinal-family-register.md` と artifact inventory を確認する。
+
+- 旧 root から新 root へ移動した場合は、filename が同じでも path alias を register に追加する。
+- current canonical set が指す workflow root に実体がない場合は、未タスク化だけで Step 1 完了にしない。root 復元、または `archived` / `stale-current` / `baseline` への再分類を `resource-map.md` と `task-workflow-active.md` に同期する。
+- 実行証跡が未取得の production / external-state task は、runbook template の完成と runtime PASS を分けて記録する。
+
+### 外部状態を最終正本にする task の Step 2 判定
+
+GitHub branch protection など、外部サービスの GET 結果が最終正本になる task では、Phase 12 の予定 payload だけで references 本文へ final state を書かない。
+
+- Phase 12: Step 1 で workflow / LOGS / indexes / active task を同期し、Step 2 は「Phase 13 applied evidence 後に別 task」として分離できる。
+- Phase 13 後: fresh GET output、drift-check、manual-verification-log を evidence として、aiworkflow-requirements references へ final state を反映する。
+- 禁止: placeholder JSON、reserved path、`blocked_until_user_approval` の記述を実適用 evidence として扱うこと。
 
 ## 詳細資料インデックス
 
@@ -46,6 +71,7 @@
 - [phase12-checklist-definition.md](phase12-checklist-definition.md)
 - [technical-documentation-guide.md](technical-documentation-guide.md)
 - [patterns-phase12-sync.md](patterns-phase12-sync.md)
+- [phase12-skill-feedback-promotion.md](phase12-skill-feedback-promotion.md)
 
 ## Step 1-D: 上流仕様書差分追記ルール
 
@@ -61,6 +87,8 @@
 
 | Date | Changes |
 | ---- | ------- |
+| 2026-05-01 | 09a Phase 12 sync を契機に Step 1-H（skill/reference feedback promotion）を追加 |
+| 2026-05-01 | Phase 12 path drift / legacy register 判定を追加。workflow root 移動時は旧→新 path alias、artifact inventory、current canonical root 実体確認を同一 Step 1 で閉じる |
 | 2026-04-27 | UT-08 monitoring-alert-design を契機に Step 1-D（上流仕様書差分追記ルール）を追加 |
 | 2026-04-07 | 974行のmonolithを子ファイル群に分散。本ファイルをフロー図+リンク集（100行以内）に縮小 |
 | 2026-03-26 | UT-IMP-RUNTIME-WORKFLOW-ENGINE-FAILURE-LIFECYCLE-001 を反映 |

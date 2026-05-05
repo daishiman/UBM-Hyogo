@@ -1,0 +1,47 @@
+# 目的: pull_request_target safety gate (triage 専用)
+# 仕様: docs/30-workflows/ut-gov-002-impl-pr-target-safety-gate/outputs/phase-2/design.md §3.1
+# 上位原則: trusted context では untrusted PR code を checkout / install / build / eval しない
+# - PR head の checkout を行わない (本 workflow には actions/checkout を置かない)
+# - secrets を参照しない
+# - workflow デフォルト permissions: {} / job 単位で pull-requests: write のみ昇格
+# - github.event.pull_request.head.* / .title / .body は env: 経由でのみ受け取り、run: のシェル展開に直接埋め込まない
+name: PR Target Safety Gate (triage)
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, labeled, reopened]
+  # T-4 smoke: trusted context の手動 audit。PR head は checkout しない。
+  workflow_dispatch:
+
+# workflow デフォルトは no-permissions（job 単位で最小昇格する）
+permissions: {}
+
+jobs:
+  triage:
+    # branch protection の required_status_checks.contexts 同期対象 (canonical: triage)
+    name: triage
+    runs-on: ubuntu-latest
+    permissions:
+      # label 付与・コメント投稿に必要な最小昇格
+      pull-requests: write
+    steps:
+      # MVP では実 triage/audit ロジックは echo のみで構造を確立する。
+      # label 適用 / コメント投稿を実装する時点で issues: write 等の追加権限を再評価する。
+      - name: Identify PR metadata
+        env:
+          # untrusted 文字列は env: 経由でのみ受け取る (run: のシェル展開に直接埋め込まない)
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_LABEL: ${{ github.event.label.name }}
+          PR_ACTION: ${{ github.event.action }}
+        run: |
+          echo "::notice::triage workflow invoked (action=${PR_ACTION}, pr=#${PR_NUMBER}, author=${PR_AUTHOR}, label=${PR_LABEL})"
+
+      - name: Triage placeholder (label / auto-merge / comment)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          # MVP: 実コマンドは echo のみ。本格的な triage ロジックは別タスクで導入する。
+          # ここでは "PR head を checkout していない" という構造的不変条件のみ確立する。
+          echo "::notice::triage placeholder for PR #${PR_NUMBER} (no checkout, no build, no test)"

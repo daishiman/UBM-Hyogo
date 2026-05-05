@@ -1,0 +1,114 @@
+{
+  "task_name": "issue-194-03b-followup-001-email-conflict-identity-merge",
+  "task_path": "docs/30-workflows/issue-194-03b-followup-001-email-conflict-identity-merge",
+  "wave": "04c-fu",
+  "execution_mode": "parallel",
+  "depends_on": [
+    "03b-parallel-forms-response-sync-and-current-response-resolver",
+    "04c-parallel-admin-backoffice-api-endpoints",
+    "02a-member-identity-status-repository",
+    "03b-followup-003-response-email-unique-ddl"
+  ],
+  "blocks": [
+    "public-directory-duplicate-resolution-operation",
+    "04c-admin-backoffice-e2e-full-path",
+    "03b-followup-006-per-sync-cap-alert"
+  ],
+  "created_at": "2026-05-02",
+  "metadata": {
+    "taskType": "implementation-spec",
+    "docs_only": false,
+    "remaining_only": false,
+    "scope": "application_implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "workflow_state": "implemented-local",
+    "outputs_contract_only": false,
+    "github_issue": 194,
+    "github_issue_state": "closed",
+    "implementation_completed": true,
+    "pr_pending_user_approval": true
+  },
+  "implementation_files": {
+    "migrations": [
+      "apps/api/migrations/0010_identity_merge_audit.sql",
+      "apps/api/migrations/0011_identity_aliases.sql",
+      "apps/api/migrations/0012_identity_conflict_dismissals.sql"
+    ],
+    "repository": [
+      "apps/api/src/repository/identity-conflict.ts",
+      "apps/api/src/repository/identity-merge.ts",
+      "apps/api/src/repository/__tests__/identity-conflict.test.ts",
+      "apps/api/src/repository/__tests__/identity-merge.test.ts"
+    ],
+    "service": [
+      "apps/api/src/services/admin/identity-conflict-detector.ts",
+      "apps/api/src/services/admin/identity-conflict-detector.test.ts"
+    ],
+    "route": [
+      "apps/api/src/routes/admin/identity-conflicts.ts",
+      "apps/api/src/index.ts"
+    ],
+    "shared": [
+      "packages/shared/src/schemas/identity-conflict.ts"
+    ],
+    "ui": [
+      "apps/web/app/(admin)/admin/identity-conflicts/page.tsx",
+      "apps/web/src/components/admin/IdentityConflictRow.tsx"
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": ["outputs/phase-01/main.md"], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "設計", "file": "phase-02.md", "status": "completed", "outputs": ["outputs/phase-02/main.md"], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/main.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "テスト戦略", "file": "phase-04.md", "status": "completed", "outputs": ["outputs/phase-04/main.md"], "depends_on_phases": [3], "user_approval_required": false },
+    { "phase": 5, "name": "実装ランブック", "file": "phase-05.md", "status": "completed", "outputs": ["outputs/phase-05/main.md"], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "異常系検証", "file": "phase-06.md", "status": "completed", "outputs": ["outputs/phase-06/main.md"], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "AC マトリクス", "file": "phase-07.md", "status": "completed", "outputs": ["outputs/phase-07/main.md"], "depends_on_phases": [6], "user_approval_required": false },
+    { "phase": 8, "name": "DRY 化", "file": "phase-08.md", "status": "completed", "outputs": ["outputs/phase-08/main.md"], "depends_on_phases": [7], "user_approval_required": false },
+    { "phase": 9, "name": "品質保証", "file": "phase-09.md", "status": "completed", "outputs": ["outputs/phase-09/main.md"], "evidence": ["typecheck=PASS", "lint=PASS", "vitest=16/16 PASS"], "depends_on_phases": [8], "user_approval_required": false },
+    { "phase": 10, "name": "最終レビュー", "file": "phase-10.md", "status": "completed", "outputs": ["outputs/phase-10/main.md"], "evidence": ["GO/NO-GO=GO"], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "手動 smoke / 実測 evidence", "file": "phase-11.md", "status": "pending_runtime_evidence", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md"], "evidence": ["VISUAL_ON_EXECUTION boundary"], "depends_on_phases": [10], "user_approval_required": false },
+    { "phase": 12, "name": "ドキュメント更新", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [10], "evidence": ["local implementation/doc sync complete; runtime visual evidence remains Phase 11 pending"], "user_approval_required": false },
+    { "phase": 13, "name": "PR 作成", "file": "phase-13.md", "status": "pending_user_approval", "outputs": ["outputs/phase-13/main.md", "outputs/phase-13/local-check-result.md", "outputs/phase-13/change-summary.md", "outputs/phase-13/pr-info.md", "outputs/phase-13/pr-creation-result.md"], "depends_on_phases": [12], "user_approval_required": true }
+  ],
+  "specs_referenced": [
+    "docs/00-getting-started-manual/specs/01-api-schema.md",
+    "docs/00-getting-started-manual/specs/08-free-database.md",
+    "docs/00-getting-started-manual/specs/11-admin-management.md",
+    "docs/00-getting-started-manual/specs/00-overview.md"
+  ],
+  "endpoints": [
+    "GET /admin/identity-conflicts",
+    "POST /admin/identity-conflicts/:id/merge",
+    "POST /admin/identity-conflicts/:id/dismiss"
+  ],
+  "d1_tables": [
+    "member_responses",
+    "member_status",
+    "member_identities",
+    "response_fields",
+    "sync_jobs",
+    "identity_merge_audit",
+    "identity_aliases",
+    "identity_conflict_dismissals",
+    "audit_log"
+  ],
+  "ui_routes": [
+    "/admin/identity-conflicts"
+  ],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    "#1 schema 固定回避",
+    "#3 PII 取扱",
+    "#5 D1 直アクセス apps/api 限定",
+    "#11 管理者も他人本文を直接編集しない",
+    "#13 admin audit logging"
+  ],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-followup-001-email-conflict-identity-merge.md",
+    "docs/00-getting-started-manual/specs/01-api-schema.md",
+    "docs/00-getting-started-manual/specs/08-free-database.md",
+    "docs/00-getting-started-manual/specs/11-admin-management.md",
+    "docs/00-getting-started-manual/specs/00-overview.md"
+  ]
+}

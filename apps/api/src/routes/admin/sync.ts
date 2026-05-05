@@ -1,25 +1,23 @@
-// UT-09: 手動同期エンドポイント。SYNC_ADMIN_TOKEN による Bearer 認証必須。
-// scheduled() と同じ runSync() を呼ぶことで、運用経路を一本化する。
+// u-04: 互換 mount。旧 POST /admin/sync は新しい sync layer (runManualSync) に委譲する。
+// 正本は POST /admin/sync/run（manualSyncRoute）。本ハンドラは互換のため残す。
 
 import { Hono } from "hono";
-import { runSync, type SyncEnv } from "../../jobs/sync-sheets-to-d1";
+import { runManualSync } from "../../sync/manual";
+import { requireSyncAdmin, type SyncAdminEnv } from "../../middleware/require-sync-admin";
+import type { SyncEnvBase } from "../../sync/types";
 
-interface AdminSyncEnv extends SyncEnv {
-  readonly SYNC_ADMIN_TOKEN?: string;
-}
+interface AdminSyncEnv extends SyncEnvBase, SyncAdminEnv {}
 
 export const adminSyncRoute = new Hono<{ Bindings: AdminSyncEnv }>();
 
-adminSyncRoute.post("/sync", async (c) => {
-  const expected = c.env.SYNC_ADMIN_TOKEN;
-  if (!expected) {
-    return c.json({ ok: false, error: "SYNC_ADMIN_TOKEN not configured" }, 500);
+adminSyncRoute.post("/sync", requireSyncAdmin, async (c) => {
+  const result = await runManualSync(c.env);
+  if (result.status === "skipped") {
+    return c.json(
+      { ok: false, error: "sync_in_progress", auditId: result.auditId },
+      409,
+    );
   }
-  const auth = c.req.header("authorization") ?? "";
-  if (auth !== `Bearer ${expected}`) {
-    return c.json({ ok: false, error: "unauthorized" }, 401);
-  }
-  const result = await runSync(c.env, { trigger: "admin" });
   const httpStatus = result.status === "failed" ? 500 : 200;
   return c.json({ ok: result.status !== "failed", result }, httpStatus);
 });

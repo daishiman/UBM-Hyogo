@@ -1,0 +1,109 @@
+{
+  "task_name": "06c-B-admin-members",
+  "task_path": "docs/30-workflows/completed-tasks/06c-B-admin-members",
+  "wave": "06c-fu",
+  "execution_mode": "parallel",
+  "depends_on": [
+    "06c-A-admin-dashboard",
+    "06c-admin-pages",
+    "06b-A-me-api-authjs-session-resolver",
+    "07-edit-delete",
+    "require-admin-middleware"
+  ],
+  "blocks": [
+    "06c-C-admin-tags",
+    "08b-A-playwright-e2e-full-execution",
+    "09a-A-staging-deploy-smoke-execution"
+  ],
+  "created_at": "2026-05-01",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "remaining_only": false,
+    "scope": "application_implementation",
+    "workflow_state": "implemented-local",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "outputs_contract_only": false
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": ["outputs/phase-01/main.md"], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "設計", "file": "phase-02.md", "status": "completed", "outputs": ["outputs/phase-02/main.md"], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/main.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "テスト戦略", "file": "phase-04.md", "status": "completed", "outputs": ["outputs/phase-04/main.md"], "depends_on_phases": [3], "user_approval_required": false },
+    { "phase": 5, "name": "実装ランブック", "file": "phase-05.md", "status": "completed", "outputs": ["outputs/phase-05/main.md"], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "異常系検証", "file": "phase-06.md", "status": "completed", "outputs": ["outputs/phase-06/main.md"], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "AC マトリクス", "file": "phase-07.md", "status": "completed", "outputs": ["outputs/phase-07/main.md"], "depends_on_phases": [6], "user_approval_required": false },
+    { "phase": 8, "name": "DRY 化", "file": "phase-08.md", "status": "completed", "outputs": ["outputs/phase-08/main.md"], "depends_on_phases": [7], "user_approval_required": false },
+    { "phase": 9, "name": "品質保証", "file": "phase-09.md", "status": "completed", "outputs": ["outputs/phase-09/main.md"], "depends_on_phases": [8], "user_approval_required": false },
+    { "phase": 10, "name": "最終レビュー", "file": "phase-10.md", "status": "completed", "outputs": ["outputs/phase-10/main.md"], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "手動 smoke", "file": "phase-11.md", "status": "completed", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md"], "depends_on_phases": [10], "user_approval_required": false },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-template.md"
+      ],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/00-getting-started-manual/specs/11-admin-management.md",
+    "docs/00-getting-started-manual/specs/07-edit-delete.md",
+    "docs/00-getting-started-manual/specs/12-search-tags.md",
+    "docs/00-getting-started-manual/specs/06-member-auth.md",
+    "docs/00-getting-started-manual/specs/09-ui-ux.md"
+  ],
+  "endpoints": [
+    "GET /api/admin/members?filter&q&zone&tag&sort&density",
+    "GET /api/admin/members/:memberId",
+    "POST /api/admin/members/:memberId/delete",
+    "POST /api/admin/members/:memberId/restore"
+  ],
+  "d1_tables": [
+    "members",
+    "member_tags",
+    "audit_log"
+  ],
+  "ui_routes": [
+    "/admin/members",
+    "/admin/members#drawer"
+  ],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    "#4 本文編集禁止（admin も同じ）",
+    "#5 apps/web D1 direct access forbidden",
+    "#11 admin も他人本文編集不可",
+    "#13 admin 操作の audit log 必須"
+  ],
+  "doc_references": [
+    "docs/00-getting-started-manual/specs/11-admin-management.md",
+    "docs/00-getting-started-manual/specs/07-edit-delete.md",
+    "docs/00-getting-started-manual/specs/12-search-tags.md",
+    "docs/00-getting-started-manual/specs/06-member-auth.md",
+    "docs/00-getting-started-manual/specs/09-ui-ux.md",
+    "docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx"
+  ]
+}

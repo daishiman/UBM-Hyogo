@@ -1,0 +1,39 @@
+Command:
+
+pnpm --filter @ubm-hyogo/web test:coverage
+
+Environment:
+
+- Date: 2026-05-03
+- Node: v22.21.1
+- pnpm: 10.33.2
+- Warning: package engine wants Node 24.x.
+
+Result:
+
+- Test Files: 40 passed (40)
+- Tests: 288 passed (288)
+- Duration: 73.41s
+
+Target coverage:
+
+| Component | Statements | Branches | Functions | Lines |
+| --- | ---: | ---: | ---: | ---: |
+| FormPreviewSections.tsx | 100 | 100 | 100 | 100 |
+| Hero.tsx | 100 | 100 | 100 | 100 |
+| MemberCard.tsx | 100 | 100 | 100 | 100 |
+| ProfileHero.tsx | 100 | 100 | 100 | 100 |
+| StatCard.tsx | 100 | 100 | 100 | 100 |
+| Timeline.tsx | 100 | 100 | 100 | 100 |
+| EmptyState.tsx | 100 | 100 | 100 | 100 |
+
+Threshold:
+
+- Statements >= 85: PASS
+- Lines >= 85: PASS
+- Functions >= 85: PASS
+- Branches >= 80: PASS
+
+Full machine-readable summary:
+
+- `coverage-summary.json`

@@ -1,0 +1,3 @@
+sink=https://mock-bucket.r2.cloudflarestorage.com/path?X-Amz-Signature=AKIAEXAMPLEFAKEKEY00&exp=999&token=ya29.MOCK_OAUTH_VALUE_xxxxxxxxxxxxxxxx
+authorization: Bearer mock_token_value_xxxxxxxxx
+dataset_credential=mock_secret_value_xxxxxxx

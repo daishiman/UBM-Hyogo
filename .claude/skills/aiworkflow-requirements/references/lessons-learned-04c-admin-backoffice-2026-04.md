@@ -11,7 +11,7 @@
 
 **苦戦箇所**: `POST /admin/tags/queue/:queueId/resolve` を当初 queue status の `queued -> reviewing -> resolved` 遷移だけで完了させていたが、候補 tag が実際の `member_tags` に反映されず spec 11 の AC が満たせなかった。途中失敗時の冪等性（同一 queueId で再実行可能か）も未定義だった。
 
-**解決方針**: resolver を「queue 行 transition」と「`assignTagsToMember(memberId, tagIds)`（`apps/api/src/repository/memberTags.ts` 新規）」の 2 段で構成し、後段の member_tags 反映は `INSERT OR IGNORE` で冪等化。前段は `transitionStatus` 純粋関数で `queued -> reviewing -> resolved` の必須経由を強制する（中間 status を skip した resolve は 409）。両段を 1 batch（D1 batch）で投入し、片側だけ commit される事故を排除する。
+**解決方針（04c 時点）**: resolver を「queue 行 transition」と「`assignTagsToMember(memberId, tagIds)`（`apps/api/src/repository/memberTags.ts` 新規）」の 2 段で構成した。07a close-out 後の正本は `tagQueueResolve` workflow の guarded update 方式であり、`confirmed/rejected` body、`queued/reviewing -> resolved/rejected`、同一 payload idempotent、race lost 409 を扱う。詳細は `lessons-learned-07a-tag-queue-resolve-2026-04.md`。
 
 **適用先**: queue / outbox / approval-flow 系で「ledger 状態遷移 + 実 effect 反映」を扱う resolver は、status transition の純粋関数化と batch 化を最初に設計する。
 

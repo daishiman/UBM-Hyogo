@@ -19,6 +19,12 @@ name = "ubm-hyogo-web-staging"
 
 [env.staging.vars]
 ENVIRONMENT = "staging"
+PUBLIC_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
+INTERNAL_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
+
+[[env.staging.services]]
+binding = "API_SERVICE"
+service = "ubm-hyogo-api-staging"
 
 [env.staging.assets]
 directory = ".open-next/assets"
@@ -33,6 +39,12 @@ name = "ubm-hyogo-web-production"
 
 [env.production.vars]
 ENVIRONMENT = "production"
+PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
+INTERNAL_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
+
+[[env.production.services]]
+binding = "API_SERVICE"
+service = "ubm-hyogo-api"
 
 [env.production.assets]
 directory = ".open-next/assets"

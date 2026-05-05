@@ -51,6 +51,9 @@ CREATE TABLE IF NOT EXISTS member_responses (
   form_id                    TEXT    NOT NULL,
   revision_id                TEXT    NOT NULL,
   schema_hash                TEXT    NOT NULL,
+  -- NOTE: response_email に UNIQUE は付与しない。member_responses は履歴行のため
+  --       同一 email で複数 row を許容する。正本 UNIQUE は member_identities.response_email
+  --       （本 file 行 90 付近）に存在する。
   response_email             TEXT,
   submitted_at               TEXT    NOT NULL,
   edit_response_url          TEXT,
@@ -87,6 +90,8 @@ CREATE TABLE IF NOT EXISTS member_field_visibility (
 
 CREATE TABLE IF NOT EXISTS member_identities (
   member_id           TEXT PRIMARY KEY,
+  -- NOTE: 正本 UNIQUE。response_email の一意性はここで保証する。
+  --       member_responses 側には UNIQUE を付与しない（履歴行のため）。
   response_email      TEXT NOT NULL UNIQUE,
   current_response_id TEXT NOT NULL,
   first_response_id   TEXT NOT NULL,

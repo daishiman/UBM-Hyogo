@@ -263,3 +263,56 @@ node .claude/skills/task-specification-creator/scripts/validate-phase-output.js 
 3. **トレーサビリティ**: artifacts.jsonで全成果物を追跡可能
 4. **相対パス**: すべてのパスはワークフローディレクトリからの相対パス
 5. **説明付き**: 各成果物には用途の説明を付与
+
+---
+
+## 6. Phase 12 filename drift guard（正本ファイル名ルール）
+
+> **目的**: skill-feedback-report.md (Issue #195 03b follow-up 002) で promote 済の filename drift 検出ルール。task-specification-creator が Phase 12 仕様を生成・検証する際、旧名と現行正本名を取り違えて作成しないために本表を一次情報とする。
+
+| 旧名 (legacy / 誤生成) | 正本 (current canonical) | 検出方法 |
+| --- | --- | --- |
+| `system-spec-update.md` | `system-spec-update-summary.md` | Phase 12 close-out 前に `ls outputs/phase-12/system-spec-update*.md` で旧名出現を検出 |
+| `docs-update-history.md` / `documentation-update-history.md` | `documentation-changelog.md` | `ls outputs/phase-12/documentation-*.md` |
+| `phase12-compliance-check.md` | `phase12-task-spec-compliance-check.md` | `ls outputs/phase-12/*compliance*.md` |
+| `skill-feedback.md` | `skill-feedback-report.md` | `ls outputs/phase-12/skill-feedback*.md` |
+| `unassigned-tasks.md` / `unassigned-detection.md` | `unassigned-task-detection.md` | `ls outputs/phase-12/unassigned-*` |
+
+**運用**:
+- Phase 12 generate 段階で旧名候補を出力した場合は強制 FAIL し、正本名へ自動誘導する
+- close-out 前に下記 grep を必ず実行し、0件でない場合は drift 補正後に Phase 12 PASS とする
+
+```bash
+# Phase 12 旧名 drift 検出（0件であること）
+ls docs/30-workflows/{{FEATURE_NAME}}/outputs/phase-12/ | \
+  grep -E "^(system-spec-update\.md|docs-update-history\.md|documentation-update-history\.md|phase12-compliance-check\.md|skill-feedback\.md|unassigned-tasks\.md|unassigned-detection\.md)$"
+```
+
+詳細は [phase-12-completion-checklist.md](phase-12-completion-checklist.md) §「Phase 12 完了条件チェックリスト」と併用する。
+
+---
+
+## 7. code / NON_VISUAL governance owner table タスクの命名 variant
+
+> **目的**: `docs/30-workflows/_design/` 配下に owner 表を配置し、必要に応じて対応 skeleton を実体化する code / NON_VISUAL governance タスク（例: `issue-195-03b-followup-002-sync-shared-modules-owner`）向けに、AC / Phase 6-11 / Phase 12 の生成テンプレ variant を明示する。
+
+**前提**:
+- `taskType=code` / `visualEvidence=NON_VISUAL` / `metadata.designCategory=workflow-governance-design`（aiworkflow-requirements 側 resource-map で `_design/` カテゴリとして登録される）
+- `docs/30-workflows/_design/<feature>.md` の owner table と、必要最小限の skeleton / CODEOWNERS / focused tests を同一 wave で実体化する
+
+**AC 標準形（最小3件）**:
+1. `docs/30-workflows/_design/<feature>.md` に owner / accountable / responsible 列を含む表が存在する
+2. 既存 canonical 実装パスへ owner table が back-link を張る（`apps/api/...` 等）
+3. legacy 旧パスは `references/legacy-ordinal-family-register.md` に登録される
+
+**Phase 6-11 variant**:
+- Phase 6/7: focused unit test、owner table 構造 grep、CODEOWNERS / cross-reference を実コマンドで検証する
+- Phase 8: AC は owner table と skeleton 実体の双方へ trace する
+- Phase 9-10: typecheck / lint / secret hygiene / design review record を必須化する
+- Phase 11: NON_VISUAL evidence は `main.md` + focused test log + typecheck/lint log + CODEOWNERS validation を保持する
+
+**Phase 12 strict 7 outputs**:
+- `main.md` / `implementation-guide.md` / `documentation-changelog.md` / `system-spec-update-summary.md` / `skill-feedback-report.md` / `unassigned-task-detection.md` / `phase12-task-spec-compliance-check.md`
+- うち `system-spec-update-summary.md` は aiworkflow-requirements 側で `indexes/resource-map.md` の workflow governance design table と同期する
+
+詳細は [task-type-decision.md](task-type-decision.md) と [phase-template-phase12.md](phase-template-phase12.md) を参照。

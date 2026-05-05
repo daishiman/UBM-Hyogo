@@ -48,9 +48,72 @@ UT-06 canonical 前提・5 ゲート → [`deployment-cloudflare-ut06-gate.md`](
 
 production Worker 名を top-level `name` から分離する場合は、production deploy 前に route / custom domain / secrets / observability の対象 Worker を確認する。`apps/web` の deploy / rollback / tail / secret 操作は `bash scripts/cf.sh ... --config apps/web/wrangler.toml --env <env>` 経由に統一し、`wrangler types` のようなローカル型生成とは分離して扱う。
 
+## API Worker Cron（u-04 Sheets → D1 sync）
+
+u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation/`) で、Google Sheets → D1 の scheduled sync を `apps/api` Worker に追加した。
+
+| 項目 | 値 |
+| --- | --- |
+| Cron | `0 * * * *`（毎時 0 分） |
+| 実装 | `apps/api/src/index.ts` `scheduled()` が cron `0 * * * *` の場合のみ `runScheduledSync(env)` を呼ぶ |
+| モジュール | `apps/api/src/sync/scheduled.ts` |
+| audit | `sync_job_logs` (`trigger_type='scheduled'`) |
+| 排他 | `sync_locks` + `withSyncMutex` |
+| Secret / var | `GOOGLE_SERVICE_ACCOUNT_JSON`, `SHEETS_SPREADSHEET_ID`, `SYNC_RANGE`, `SYNC_MAX_RETRIES=3`, `SYNC_ADMIN_TOKEN` |
+
+既存 cron との分岐:
+
+| Cron | 用途 |
+| --- | --- |
+| `*/15 * * * *` | 03b Google Forms response sync |
+| `0 18 * * *` | 03a Google Forms schema sync（03:00 JST） |
+| `0 * * * *` | u-04 Sheets → D1 scheduled sync |
+
+実機 staging smoke は 05b、cron 監視と 30 分超 running alert は 09b の責務とする。
+
+### API Worker Env 型正本（Issue #112 / 2026-05-01）
+
+`apps/api` Worker の TypeScript binding 型は `apps/api/src/env.ts` の `Env` interface を正本とする。`apps/api/wrangler.toml` の D1 binding / vars と Cloudflare Secrets を追加・変更する場合は、同一 PR / 同一 wave で `Env` も更新する。
+
+| 対象 | 正本 |
+| --- | --- |
+| D1 binding | `apps/api/wrangler.toml` `binding = "DB"` + `Env.DB: D1Database` |
+| Sheets / Forms vars | `SHEET_ID`, `SHEETS_SPREADSHEET_ID`, `FORM_ID`, `GOOGLE_FORM_ID` など |
+| Repository context | `apps/api/src/repository/_shared/db.ts` `ctx(env: Pick<Env, "DB">)` |
+| Web boundary | `scripts/lint-boundaries.mjs` が `apps/web` から `apps/api/src/env` への raw / relative import を遮断 |
+
+---
+
+## D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01）
+
+UT-06 Phase 12 UNASSIGNED-E は `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/` で `spec_created` / docs-only / NON_VISUAL workflow として formalize した。現 wave は仕様書と validator 用 placeholder のみで、runtime 実装は Phase 13 ユーザー承認後の別 PR に分離する。
+
+| 項目 | current contract |
+| --- | --- |
+| export 主経路 | `.github/workflows/d1-backup.yml` の GHA schedule。`bash scripts/cf.sh d1 export` → gzip → R2 PUT |
+| Cloudflare cron | `apps/api/wrangler.toml` の R2 latest healthcheck / UT-08 alert 補助。Workers runtime から D1 export CLI は実行しない |
+| retention | `daily/` は 30 日、`monthly/` は 12 ヶ月 |
+| storage | R2 を第一保管先、1Password Environments は月次補助保管先 |
+| encryption | R2 SSE 標準を base case。L3 相当データが入る場合は SSE-C / KMS を再判定 |
+| restore rehearsal | 月次、RTO 15 分未満、結果は restore rehearsal record に追記 |
+| visual evidence | NON_VISUAL。screenshots は不要。Phase 11 placeholder は runtime PASS ではない |
+| follow-ups | `UT-06-FU-E-monthly-restore-rehearsal-sop-001` / `UT-06-FU-E-encryption-mode-finalization-001` / `UT-06-FU-E-gha-backup-monitoring-extension-001` |
+
+実装 PR では `apps/web` を変更せず、Cloudflare 操作は `bash scripts/cf.sh` 経由に統一する。secret 実値は記録禁止で、`op://...` は参照名としてのみ許可する。
+
 ---
 
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）
+
+> **current facts (UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION / 2026-05-01)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` はまだ **Pages deploy**（`pages deploy .next`）を呼ぶ。ADR-0001（`docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`）で Workers cutover を採択済み。残る `web-cd.yml` 置換、Cloudflare side Pages project → Workers script 切替、staging / production smoke は `task-impl-opennext-workers-migration-001` の責務とする。
+
+### Pages 形式と OpenNext Workers 形式の判定（current state 列付き）
+
+| wrangler.toml の特徴 | 判定 | UT-06 での扱い | 現状（2026-05-01） |
+| --- | --- | --- | --- |
+| `pages_build_output_dir = ".next"` | Pages 形式 | OpenNext Workers AC とは非整合。移行または AC 再定義が必要 | `apps/web/wrangler.toml` から撤回済み |
+| `main = ".open-next/worker.js"` + `[assets] directory = ".open-next/assets"` | OpenNext Workers 形式 | UT-06 AC-1 の前提を満たす | **`apps/web/wrangler.toml` の現行形式** |
+| `compatibility_flags = ["nodejs_compat"]` のみ | 不十分 | entrypoint と assets 設定を併せて確認 | n/a |
 
 ### セットアップ手順
 
@@ -158,6 +221,9 @@ database_id = "your-d1-database-id"
 binding = "SESSION_KV"
 id = "your-kv-namespace-id"
 # UT-13 で SESSION_KV に統一。詳細は本ファイル下方「Cloudflare KV セッションキャッシュ」セクション参照
+# 注（UT-CICD-DRIFT / 2026-04-29）: 上記 KV binding 例は UT-13 採用後の構成。
+#                                   現行 `apps/api/wrangler.toml` には KV binding は未追加で、
+#                                   D1 binding のみが配置されている。実適用は UT-13 KV bootstrap 配下。
 
 [env.staging]
 name = "ubm-hyogo-api-staging"
@@ -170,10 +236,15 @@ name = "ubm-hyogo-api"
 
 `apps/api` は二種類の cron を持つ。
 
+> **UT-21 close-out note (2026-04-30)**: 下表の Sheets 由来 cron / `runSync` / Sheets API v4 説明は legacy current-fact の残存であり、現行正本は Forms sync（`forms.get` / `forms.responses.list`、`POST /admin/sync/schema` / `POST /admin/sync/responses`、`sync_jobs` ledger）である。runtime cron / wrangler 設定の撤回・整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱い、本 close-out では `apps/api/wrangler.toml` を変更しない。
+
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |
-| `0 */6 * * *` | Google Sheets 由来の既存同期 | `runSync` |
+| `0 * * * *` | Google Sheets 由来の legacy hourly sync（撤回は UT21-U05） | `runSync` |
+| `0 18 * * *` | 03a: Google Sheets schema sync（03:00 JST 想定） | `runSchemaSync` |
 | `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
+
+> **current facts (09b / 2026-05-01)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は legacy Sheets hourly cron の現行残存であり、撤回・runtime 設定整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱う。09b は docs-only / spec_created のため runtime 設定を変更しない。
 
 Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
 
@@ -386,39 +457,36 @@ export async function blacklistSession(env: Env, jti: string, ttlSec: number): P
 
 ## GitHub Actions CI/CD
 
-### 必要なシークレット・変数
+### UT-28 Cloudflare Pages project creation contract (spec_created / 2026-04-29)
 
-| 名前 | 種別 | 説明 |
-| ---- | ---- | ---- |
-| `CLOUDFLARE_API_TOKEN` | Secret | Cloudflare API トークン |
-| `CLOUDFLARE_ACCOUNT_ID` | Secret | CloudflareアカウントID |
-| `CLOUDFLARE_PAGES_PROJECT` | Variable | Pages プロジェクト名（例: `ubm-hyogo-web`） |
-| `DISCORD_WEBHOOK_URL` | Secret | Discord 通知用 Webhook URL（任意） |
+UT-28 fixes the Cloudflare Pages project naming and creation contract used by `web-cd.yml`. The task is `spec_created`: the workflow and runbook are documented, but the real Cloudflare mutation is still gated by Phase 13 user approval.
 
-### API トークン権限設定
+| Environment | Pages project | Branch | Compatibility | Git integration |
+| --- | --- | --- | --- | --- |
+| production | `ubm-hyogo-web` | `main` | `compatibility_date=2025-01-01`, `nodejs_compat` | OFF |
+| staging | `ubm-hyogo-web-staging` | `dev` | `compatibility_date=2025-01-01`, `nodejs_compat` | OFF |
 
-Cloudflare ダッシュボード → My Profile → API Tokens で以下の権限を付与:
+`CLOUDFLARE_PAGES_PROJECT` stores the production/base name only: `ubm-hyogo-web`. Staging is derived by the GitHub Actions workflow as `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging`; storing `ubm-hyogo-web-staging` in the variable is invalid.
 
-| リソース | 権限 |
-| -------- | ---- |
-| Cloudflare Pages | Edit |
-| Cloudflare Workers | Edit |
-| D1 | Edit |
+Use `bash scripts/cf.sh` for all Cloudflare CLI operations. Direct `wrangler` execution is out of contract because it bypasses the 1Password-backed token injection path.
+
+OpenNext output-form preflight is mandatory before real apply. If `apps/web/wrangler.toml` still uses `pages_build_output_dir = ".next"` and UT-05 has not recorded a Pages-form exception, UT-28 real apply stops and the output-form blocker is routed to UT-05 / `task-impl-opennext-workers-migration-001`.
+
+### 必要なシークレット・変数 / API トークン権限
+
+CI/CD の secret / variable 配置と最小権限は [`deployment-secrets-management.md`](deployment-secrets-management.md) と [`deployment-gha.md`](deployment-gha.md) を正本とする。Cloudflare Pages / Workers / D1 の Edit 権限は deploy token に限定する。
 
 ### デプロイフロー（web-cd.yml）
 
-```
-push to main
-  → Validate Build（型チェック・Lint・ビルド）
-  → Deploy to Cloudflare Pages（wrangler-action）
-  → Discord 通知
-```
+`push` to `dev` / `main` → Validate Build → Deploy to Cloudflare Workers（wrangler-action）。
+
+> **current facts (ADR-0001 / 2026-05-01)**: `apps/web/wrangler.toml` は OpenNext Workers 形式だが、現行 `.github/workflows/web-cd.yml` は Pages deploy（`pages deploy .next`）が残る。ADR-0001 で Workers deploy への cutover を採択済みで、`web-cd.yml` の `wrangler deploy --env <env>` 置換、Cloudflare side 切替、staging / production smoke は `task-impl-opennext-workers-migration-001` の責務。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
 
 ---
 
 ## プレビューデプロイメント
 
-Cloudflare Pages は PRブランチに対して自動でプレビュー環境を作成する。
+Cloudflare Pages の Git Integration は UT-28 以降 OFF を既定とする。deploy は GitHub Actions 主導に一本化し、Pages 側の自動 Git deploy と二重起動させない。
 
 | ブランチ | URL形式 | 用途 |
 | -------- | ------- | ---- |
@@ -426,10 +494,9 @@ Cloudflare Pages は PRブランチに対して自動でプレビュー環境を
 | `dev` | `ubm-hyogo-web-staging.pages.dev` | ステージング |
 | `feature/*` | `<hash>.ubm-hyogo-web.pages.dev` | プレビュー（PR用） |
 
-### プレビュー設定（GitHub連携）
+### Git Integration 設定
 
-Cloudflare ダッシュボード → Pages → プロジェクト → Settings → Git Integration で設定。
-PRごとに自動プレビューURLが GitHub コメントに投稿される。
+Cloudflare ダッシュボード → Pages → プロジェクト → Settings → Git Integration は OFF のまま維持する。PR プレビュー URL が必要な場合も、UT-28 の GitHub Actions 主導方針と競合しない別タスクで再設計する。
 
 ---
 
@@ -494,10 +561,66 @@ UT-08（`docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/`）で
 
 ---
 
+## per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199）
+
+`apps/api/src/jobs/sync-forms-responses.ts` は per-sync write cap (`RESPONSE_SYNC_WRITE_CAP`、既定 200) を持つ。cap への到達は単発であれば許容するが、連続到達は回答急増 / retry storm / cron 間隔不足のシグナルとして扱い、escalation 階段で運用検知する。
+
+### 検知契約
+
+- `sync_jobs.metrics_json.writeCapHit: boolean` を成功 job 完了時に記録する。`absent` / `null` は `false` 解釈とし、後方互換を維持する。
+- `apps/api/src/jobs/cap-alert.ts` の `evaluateConsecutiveCapHits()` が、`job_type='response_sync'` の直近 N+1 行を `started_at DESC, job_id DESC` で取得し、直近 N 行すべて `writeCapHit=true` のとき `thresholdReached=true` とする。failed / skipped job も `writeCapHit=false` として streak を reset する。直前 window が未達のときだけ `shouldEmit=true` を返し、連続継続中の重複 emit を抑制する。
+- emit 先は Cloudflare Analytics Engine binding `SYNC_ALERTS`（dataset = `sync_alerts` / staging は `sync_alerts_staging`）。binding 未設定時は `console.warn` のみで例外伝播しない。
+
+### 閾値・チャネル抽象化（escalation）
+
+| 段階 | 連続 hit 数 | 経過時間目安 | チャネル候補 | 判断 |
+| --- | --- | --- | --- | --- |
+| Stage 1 | N=3 | 45 分（15 分 × 3 cron） | GitHub issue 自動起票（非同期） | 03b-followup-006 で event 契約を固定 |
+| Stage 2 | N=6 | 90 分 | メール通知（同期） | 05a-parallel-observability 側で実装 |
+| Stage 3 | N=12 | 180 分 | Slack（MVP では抽象化のみ） | 05a 後段 |
+
+03b-followup-006 では event 契約 (`blobs=["sync_write_cap_consecutive_hit", jobKind]`, `doubles=[consecutiveHits, windowSize]`, `indexes=[jobId]`) のみを正本化し、GitHub / mail / Slack の実装は 05a observability guardrails に委譲する。
+
+### コスト試算（D1 無料枠との整合）
+
+| 項目 | 値 |
+| --- | --- |
+| 最大 write/sync | 200 行 |
+| cron 周期 | 15 分（96 回/day） |
+| 上限到達日次 write | 200 × 96 = 19,200 write/day |
+| D1 free tier limit | 100,000 write/day |
+| 占有率 | 19.2%（cap 解除時のリスク試算は runbook 参照） |
+| Analytics Engine free tier | 25M write/month（連続 cap hit 時のみ emit するため余裕大） |
+
+連続 cap hit 検知時のオペレータ手順は `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/outputs/phase-12/runbook-per-sync-cap-alert.md` を参照する。
+
+---
+
+## Long-term Analytics Evidence（Issue #347 / 2026-05-05）
+
+Cloudflare Analytics の長期保存 evidence は `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` を正本 decision workflow とする。
+
+| 項目 | current contract |
+| --- | --- |
+| canonical method | GraphQL Analytics API aggregate-only query |
+| fallback | dashboard CSV export（保存前 redaction 必須） |
+| rejected | dashboard screenshot（数値 diff / PII 不在検証が弱い） |
+|保存先 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11/long-term-evidence/` |
+| retention | active 直近 12 件、13 件目以降は `archive/YYYY-MM/` |
+| metrics | 4 metric groups / 5 scalar values: requests, totalRequests/errors5xx, D1 readQueries/writeQueries, worker invocations |
+| PII boundary | URL query / request body / response body / IP / User-Agent / email / member ID / session token は保存禁止 |
+| Logpush | Free plan 外のため不採用 |
+| automation follow-up | `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` |
+
+Runtime production sample は Cloudflare dashboard session または API token が必要なため、user approval 後の運用 cycle で取得する。Issue #347 decision workflow は schema sample / redaction check / Free plan constraints / aiworkflow 同期を完了し、09c parent workflow state は変更しない。
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-05 | 1.5.0 | Issue #347 Cloudflare Analytics long-term evidence decision を追加。GraphQL aggregate-only export、12件 retention、PII 非保存、Logpush 不採用、automation follow-up を正本化 |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare 移行） |
 | 2026-04-27 | 1.1.0 | UT-08 モニタリング/アラート設計の SSOT 連携セクション追加 |
 | 2026-04-27 | 1.2.0 | UT-06 派生: `scripts/cf.sh` 章を `wrangler` 直接実行から canonical wrapper に統一（whoami / deploy / d1 / rollback / secret / tail）。ローカル `wrangler login` OAuth 禁止と `op://` 参照経由の `CLOUDFLARE_API_TOKEN` 動的注入を明示。OpenNext Workers 形式 / Pages 形式の判定マトリクスを追加。初回 D1 backup の空 export 取扱を追記。`apps/web/next.config.ts` 例に `outputFileTracingRoot` / `turbopack.root` / `typescript.ignoreBuildErrors` を反映（別 `tsc --noEmit` gate と pair 必須）。API `wrangler.toml` 例に wrangler 4.x strict mode 対応の `[env.staging]` / `[env.production]` を明示 |
+| 2026-04-29 | 1.3.0 | UT-CICD-DRIFT: Pages vs OpenNext Workers の current state 列を判定表に追加、Workers section 冒頭に Pages 運用中の current facts 注記、Cron 表に `0 18 * * *`（03a schema sync）を追加し `apps/api/wrangler.toml` の 3 件と整合、API wrangler.toml KV binding 例を「UT-13 採用後構成」と注記、web-cd 既存フロー後に OpenNext cutover 委譲注記を追加 |
+| 2026-05-03 | 1.4.0 | 03b-followup-006 (Issue #199): per-sync write cap 連続到達アラート節を追加。`sync_jobs.metrics_json.writeCapHit` 契約・`evaluateConsecutiveCapHits` 検知ロジック・Analytics Engine `sync_alerts` binding・Stage 1〜3 escalation 閾値・D1 無料枠 19.2% 占有試算を SSOT 化 |

@@ -147,7 +147,7 @@
 | 項目 | 確認内容 | 現状 |
 | --- | --- | --- |
 | 正本仕様 | task-spec / aiworkflow skill と関連 reference | 確認済み |
-| 変更分 | docs/05a-parallel-observability-and-cost-guardrails | 確認済み |
+| 変更分 | docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails | 確認済み |
 | legacy drift | legacy snapshot との差分 | 05a canonical root へ同期済み |
 | 外部サービス | Cloudflare Analytics / GitHub Actions | 確認済み |
 

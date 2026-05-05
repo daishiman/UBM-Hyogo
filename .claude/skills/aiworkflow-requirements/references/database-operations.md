@@ -98,6 +98,22 @@
 2. **定期実行**: cronやGitHub Actionsで日次実行
 3. **リストア手順の確認**: 定期的にリストアテストを実施
 
+### Cloudflare D1 バックアップ戦略（UT-06-FU-E / current）
+
+> Turso CLI 記述は legacy 一般例。UBM-Hyogo の Cloudflare D1 current contract は本節を優先する。
+
+| 項目 | current contract |
+| --- | --- |
+| 主経路 | GHA schedule から `bash scripts/cf.sh d1 export` を実行 |
+| 補助経路 | Cloudflare cron は R2 latest healthcheck / UT-08 alert に限定 |
+| 保管 | R2 private bucket。daily 30 日、monthly 12 ヶ月 |
+| 圧縮 | gzip |
+| 暗号化 | R2 SSE 標準を base case、L3 化時は SSE-C / KMS 再判定 |
+| 復元演習 | 月次、RTO 15 分未満、restore 用 D1 へ import して smoke |
+| 証跡 | command transcript、R2 listing、metadata、UT-08 alert trace。UI screenshot は不要 |
+
+関連 workflow: `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/`。現状態は `spec_created` であり、runtime export / restore PASS は未主張。
+
 ---
 
 ## Electron ローカルストレージ

@@ -11,6 +11,18 @@ Phase 12 Task 2 の更新後は、以下を**この順序で**実行する。
 
 - 前提: すべてのコマンドは **リポジトリルート**（`AIWorkflowOrchestrator/`）をカレントディレクトリとして実行する。
 
+### 0. 対象別コマンドマトリクス
+
+存在しない script 名で PASS を記録しない。対象 skill ごとに実在するコマンドだけを使う。
+
+| 対象 | 索引 / 構造 | 補助検証 | mirror parity |
+| --- | --- | --- | --- |
+| `aiworkflow-requirements` | `node .claude/skills/aiworkflow-requirements/scripts/generate-index.js` / `node .claude/skills/aiworkflow-requirements/scripts/validate-structure.js` | `node .claude/skills/aiworkflow-requirements/scripts/search-spec.js "<keyword>" -C 3` | `diff -qr .claude/skills/aiworkflow-requirements .agents/skills/aiworkflow-requirements` |
+| `task-specification-creator` | `node .claude/skills/task-specification-creator/scripts/generate-index.js --workflow <workflow-dir> --regenerate` | `node .claude/skills/task-specification-creator/scripts/validate-phase-output.js <workflow-dir>` / `node .claude/skills/task-specification-creator/scripts/verify-all-specs.js` | `diff -qr .claude/skills/task-specification-creator .agents/skills/task-specification-creator` |
+| `skill-creator` | `node .claude/skills/skill-creator/scripts/validate_structure.js .claude/skills/skill-creator` | `node .claude/skills/skill-creator/scripts/quick_validate.js .claude/skills/skill-creator` / `node .claude/skills/skill-creator/scripts/validate_all.js .claude/skills/skill-creator` | `diff -qr .claude/skills/skill-creator .agents/skills/skill-creator` |
+
+`.agents/skills` が `.claude/skills` への symlink の場合、mirror sync は `ls -la .agents/skills` と `diff -qr .claude/skills .agents/skills` の exit code 0 を parity 証跡とする。
+
 ---
 
 ### 1. 未タスク参照リンク検証

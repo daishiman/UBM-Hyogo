@@ -138,10 +138,41 @@ type SessionResolveResponse = {
 - 呼び出し元: `apps/web/src/lib/auth.ts`（Auth.js `signIn` / `jwt` callback から fetch）
 - 共有型: `packages/shared/src/auth.ts`（`GateReason` / `SessionResolveResponse`）
 
+### apps/web route handler 実装ガイドライン（Plan A lazy factory）
+
+Next.js 16 + React 19 の prerender 経路で `next-auth` の静的 import が `useContext` null を誘発する再発を防ぐため、`apps/web/src/lib/auth.ts` は `getAuth()` lazy factory を正本入口とする。route handler / session helper は top-level で `auth` / `signIn` / `handlers` を import せず、実行時に `const { auth } = await getAuth()` / `const { handlers } = await getAuth()` / `const { signIn } = await getAuth()` で取得する。client 側 `oauth-client.ts` の Google OAuth 開始は `await import("next-auth/react")` 経由に限定する。
+
+禁止:
+
+- `apps/web/src/lib/auth.ts` で `next-auth` / `next-auth/providers/*` / `next-auth/jwt` を静的 import すること（`import type` / `typeof import(...)` も禁止。runtime `await import(...)` のみ可）
+- `apps/web/app/api/**/route.ts` で `next-auth` を直接 import すること
+- `apps/web/src/lib/auth/oauth-client.ts` で `next-auth/react` を top-level import すること
+
+この規約は Issue #385 の Plan A 実装で導入したもので、Auth.js の意味論（Google OAuth / Magic Link / JWT session / session-resolve）は変更しない。さらに `.mise.toml` が local dev 用に `NODE_ENV=development` を注入するため、`apps/web/package.json` の `build` / `build:cloudflare` は `NODE_ENV=production` を明示し、production build の React dispatcher を安定化する。
+
 ### 必要な環境変数
 
 | 変数名 | 説明 |
 |--------|------|
 | `INTERNAL_AUTH_SECRET` | apps/web → apps/api の Worker-to-Worker 共有秘密。両 Worker の Cloudflare Secrets に同値で登録 |
 | `AUTH_SECRET` | Auth.js cookie session JWT (HS256) と API 側 `verifySessionJwt` の共有秘密 |
-| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google OAuth Provider 用（apps/web のみ） |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth Provider 用（apps/web のみ）。新規投入の推奨名 |
+| `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google OAuth Provider 用 legacy alias。実装は互換のため読むが、新規投入では推奨しない |
+
+### Google OAuth staging / production completion runbook
+
+05a で実装済みの Auth.js Google OAuth / admin gate は、実 Google Cloud Console 設定と Cloudflare Secrets 投入を伴う可視 smoke を後続タスク `ut-05a-followup-google-oauth-completion` に集約する。
+
+| 正本 | パス |
+| --- | --- |
+| OAuth redirect URI matrix | `docs/30-workflows/ut-05a-followup-google-oauth-completion/outputs/phase-02/oauth-redirect-uri-matrix.md` |
+| Secrets 配置 matrix | `docs/30-workflows/ut-05a-followup-google-oauth-completion/outputs/phase-02/secrets-placement-matrix.md` |
+| Consent screen specification | `docs/30-workflows/ut-05a-followup-google-oauth-completion/outputs/phase-02/consent-screen-spec.md` |
+| Manual smoke runbook | `docs/30-workflows/ut-05a-followup-google-oauth-completion/outputs/phase-11/manual-runbook.md` |
+
+運用ルール:
+
+- OAuth / Auth.js secret の実値はドキュメント、スクリーンショット、ログに残さない。
+- Cloudflare Secrets は `bash scripts/cf.sh secret put ... --env <staging|production>` 経由で投入する。
+- `wrangler login` によるローカル OAuth token 保持は禁止し、1Password `op://` 参照を正本にする。
+- Google OAuth secret 名は `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` を推奨名とし、`AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` は既存互換 alias とする。

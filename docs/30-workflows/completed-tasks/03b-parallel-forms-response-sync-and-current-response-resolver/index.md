@@ -39,6 +39,8 @@
 
 ## dependencies
 
+> **共通モジュールの owner 表**: [../../_design/sync-shared-modules-owner.md](../../_design/sync-shared-modules-owner.md)
+
 | 種別 | 対象 | 理由 |
 | --- | --- | --- |
 | 上流 | 02a-parallel-member-identity-status-and-response-repository | members / identities / status / responses / sections / fields / extraFields の repository を使う |

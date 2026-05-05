@@ -1,0 +1,19 @@
+{
+  "status": "NON_VISUAL_CAPTURED",
+  "endpoint": "GET /me/profile",
+  "evidence_type": "focused_repository_and_route_contract",
+  "captured_at": "2026-05-01",
+  "contract": {
+    "field": "MemberProfile.attendance",
+    "shape": "AttendanceRecord[]",
+    "source_tables": ["member_attendance", "meeting_sessions"],
+    "provider": "createAttendanceProvider(ctx).findByMemberIds([user.memberId])",
+    "route_wiring": "apps/api/src/routes/me/index.ts injects attendanceProvider into buildMemberProfile"
+  },
+  "verified_by": [
+    "apps/api/src/repository/__tests__/attendance-provider.test.ts",
+    "apps/api/src/repository/__tests__/builder.test.ts",
+    "pnpm --filter @ubm-hyogo/api typecheck"
+  ],
+  "notes": "Real authenticated curl against staging is outside this NON_VISUAL local close-out and remains covered by later staging smoke workflows."
+}

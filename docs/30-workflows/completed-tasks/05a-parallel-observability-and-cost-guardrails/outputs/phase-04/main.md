@@ -12,13 +12,13 @@
 
 ```bash
 # 1. 変更範囲確認（scope 外 drift がないか）
-git diff --stat -- docs/05a-parallel-observability-and-cost-guardrails
+git diff --stat -- docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails
 
 # 2. 主要語の横断確認
-rg -n "dev|main|D1|Sheets|1Password" docs/05a-parallel-observability-and-cost-guardrails
+rg -n "dev|main|D1|Sheets|1Password" docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails
 
 # 3. outputs パス確認
-find docs/05a-parallel-observability-and-cost-guardrails/outputs -type f | sort
+find docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails/outputs -type f | sort
 ```
 
 ## 期待出力表

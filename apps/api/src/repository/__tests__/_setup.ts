@@ -51,9 +51,15 @@ const splitStatements = (sql: string): string[] => {
 };
 
 const TABLES = [
+  "identity_conflict_dismissals",
+  "identity_aliases",
+  "identity_merge_audit",
   "audit_log",
+  "schema_aliases",
   "magic_tokens",
   "sync_jobs",
+  "sync_job_logs",
+  "sync_locks",
   "admin_users",
   "deleted_members",
   "admin_member_notes",
@@ -68,6 +74,7 @@ const TABLES = [
   "response_fields",
   "response_sections",
   "member_responses",
+  "schema_aliases",
   "schema_diff_queue",
   "schema_questions",
   "schema_versions",

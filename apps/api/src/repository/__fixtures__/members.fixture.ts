@@ -160,7 +160,7 @@ export const RESPONSE_SECTIONS_R001: AnyRow[] = [
 export const RESPONSE_FIELDS_R001: AnyRow[] = [
   {
     response_id: "r_001",
-    stable_key: "full_name",
+    stable_key: "fullName",
     value_json: JSON.stringify("山田 太郎"),
     raw_value_json: JSON.stringify("山田 太郎"),
   },
@@ -182,7 +182,7 @@ export const RESPONSE_FIELDS_R001: AnyRow[] = [
 export const FIELD_VISIBILITY_M001: AnyRow[] = [
   {
     member_id: "m_001",
-    stable_key: "full_name",
+    stable_key: "fullName",
     visibility: "public",
     updated_at: "2026-01-01T00:00:00Z",
   },

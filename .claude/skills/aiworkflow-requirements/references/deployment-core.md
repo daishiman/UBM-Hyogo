@@ -26,7 +26,7 @@
 
 | 対象 | プラットフォーム | 更新頻度 | 優先度 |
 | ---- | ---------------- | -------- | ------ |
-| Web フロントエンド | Cloudflare Pages | 機能追加・修正のたび | 高 |
+| Web フロントエンド | Cloudflare Workers + `@opennextjs/cloudflare`（ADR-0001 採択。現行 CD は Pages deploy 残） | 機能追加・修正のたび | 高 |
 | API バックエンド | Cloudflare Workers | 機能追加・修正のたび | 高 |
 | データベース | Cloudflare D1 | スキーマ変更時 | 高 |
 
@@ -35,7 +35,7 @@
 1. 開発者がコードをプッシュ
 2. GitHub Actions で CI（型チェック・Lint・テスト・ビルド）を実行
 3. CI が成功したらまず dev ブランチにマージし、dev の検証が通過したら main ブランチへ昇格する
-4. ブランチに応じて Cloudflare Pages / Workers へ自動デプロイする
+4. ブランチに応じて Cloudflare Workers へ自動デプロイする。2026-05-01 時点では `.github/workflows/web-cd.yml` の Web CD が Pages deploy のまま残っており、`task-impl-opennext-workers-migration-001` で置換する
 5. デプロイ完了後、ヘルスチェックで正常性を確認
 6. 問題があれば Cloudflare ダッシュボードから即座にロールバック
 
@@ -57,7 +57,7 @@
 
 | サービス | 用途 | 無料枠 |
 | -------- | ---- | ------ |
-| Cloudflare Pages | フロントエンド（Next.js） | 無制限リクエスト・500ビルド/月 |
+| Cloudflare Workers + OpenNext | フロントエンド（Next.js） | Workers 無料枠に準拠 |
 | Cloudflare Workers | API バックエンド | 100,000 リクエスト/日 |
 | Cloudflare D1 | SQLite データベース | 5GB・500万読み取り/日 |
 | Cloudflare R2 | オブジェクトストレージ | 10GB・エグレス無料 |
@@ -104,8 +104,13 @@
 
 | ファイル | 用途 |
 | -------- | ---- |
-| `ci.yml` | PR 時の CI（Lint・型チェック・テスト・ビルド） |
-| `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
+| `ci.yml` | PR 時の CI（型チェック・lint・coverage hard gate） |
+| `validate-build.yml` | PR / push 時の build 検証 |
+| `verify-indexes.yml` | aiworkflow-requirements indexes drift 検出 |
+| `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ。Discord 通知は未実装） |
+| `backend-ci.yml` | API CD（D1 migrations apply → Workers deploy。migration 成功後に deploy が失敗した場合は GitHub Actions summary に post-migration deploy failure を記録。Discord 通知は未実装） |
+
+> **current facts (UT-CICD-DRIFT / 2026-04-29)**: `.github/workflows/` の現行実体は上記 5 件。Node.js は `24`、pnpm は `10.33.2` / `pnpm/action-setup@v4` が基準。Discord 通知は正本要件として残るが、現行 workflow には未実装であり UT-08-IMPL（観測性実装）へ委譲する。
 
 ### CI ワークフロー要件（PR 時）
 
@@ -117,15 +122,15 @@
 #### 実行ステップ
 
 1. リポジトリコードの取得
-2. pnpm のセットアップ（バージョン: 9.x）
-3. Node.js のセットアップ（バージョン: 22.x LTS）
+2. pnpm のセットアップ（バージョン: 10.33.2）
+3. Node.js のセットアップ（バージョン: 24）
 4. pnpm キャッシュの有効化
 5. 依存関係のインストール（frozen-lockfile モード）
 6. TypeScript 型チェックの実行
 7. ESLint によるコード品質チェック
 8. Next.js ビルドの確認
 9. Vitest によるユニットテストの実行
-10. カバレッジチェックと Codecov 連携（閾値 80% 未達で CI 失敗）
+10. カバレッジチェック（現行 `coverage-gate` は hard gate。`continue-on-error` 再混入は `scripts/coverage-guard.test.ts` で静的検出）
 
 ### CD ワークフロー要件（dev / main マージ時）
 
@@ -136,8 +141,8 @@
 
 #### 実行内容
 
-1. ブランチに応じて Cloudflare Pages へ自動デプロイ（wrangler-action）
-2. デプロイ完了後、Discord Webhook で通知を送信
+1. ブランチに応じて Cloudflare Workers へ自動デプロイ（`wrangler deploy --env <env>`）。2026-05-01 時点の `web-cd.yml` は Pages deploy 残で、ADR-0001 の後続 migration task で置換する
+2. デプロイ完了後の Discord Webhook 通知は未実装。UT-08-IMPL（観測性実装）で導入する。
 
 ---
 

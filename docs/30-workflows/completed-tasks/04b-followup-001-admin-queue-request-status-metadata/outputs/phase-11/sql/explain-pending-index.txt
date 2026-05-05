@@ -1,0 +1,2 @@
+QUERY PLAN
+`--SEARCH admin_member_notes USING COVERING INDEX idx_admin_notes_pending_requests (member_id=? AND note_type=?)

@@ -11,7 +11,7 @@ Phase 11（手動テスト）完了
         ↓
 Phase 12 ドキュメント整備開始
         ↓
-SubAgent 分担（Phase 1-2）+ リーダー検証（Phase 3）
+SubAgent 分担（監査は並列）+ owner 直列編集 + リーダー検証（Phase 3）
         ↓
 このチェックリストを実行 ← あなたはここ
         ↓
@@ -82,6 +82,8 @@ git diff --stat -- .claude/skills/*/indexes/topic-map.md
 - [ ] **P25対策**: `git diff --stat -- */LOGS.md` で LOGS.md 2ファイルの変更を確認済み
 - [ ] `git diff --stat -- .claude/skills/*/SKILL.md` の結果も changelog 記録と突合済み
 - [ ] **P2/P27対策**: `git diff --stat -- .claude/skills/*/indexes/topic-map.md` で topic-map.md の再生成を確認済み
+- [ ] `generate-index.js` / `validate-structure.js` / mirror sync / `diff -qr` の実測結果を記録済み
+- [ ] 存在しない監査スクリプト名を PASS 根拠にしていない
 
 **失敗時の対応**: `git diff` で未記録の変更がないか確認。あれば `documentation-changelog.md` に追加。SubAgent の自己申告だけでは信頼性が不十分なため、必ず git diff による実態確認を行う。
 

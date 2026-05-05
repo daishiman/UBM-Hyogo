@@ -168,6 +168,23 @@ requirements.md
 task-improvement.md
 ```
 
+### Phase/Workflow派生 follow-up の `<cat>` 語彙（運用実態に基づく規約 / 2026-05-01）
+
+`docs/30-workflows/unassigned-task/` 配下では、上記汎用パターンに加え `task-<cat>-<slug>-NNN.md`
+形式の連番付き follow-up が運用されている。`<cat>` には以下の語彙を **そのまま** 使う（独自略語の発明禁止）:
+
+| `<cat>` 種別 | 採用する語形 | 例 |
+| --- | --- | --- |
+| Phase 派生 follow-up | `<phase-id>-followup`（Phase ID + `-followup`） | `task-04a-followup-001-miniflare-contract-leak-suite.md`, `task-09c-incident-runbook-slack-delivery-001.md` |
+| Workflow / UT 派生 follow-up | `<workflow-id>` 直接（例: `ut02a`, `05b`, `08b`） | `task-05b-magic-link-mail-i18n-a11y-001.md`, `task-ut02a-canonical-metadata-diagnostics-hardening-001.md` |
+| Governance / 横断トピック | `<topic-domain>`（例: `branch`, `codeowners`, `claude-code`, `db-syncjobs`） | `task-branch-workflow-deletion-audit-001.md`, `task-codeowners-validator-ci-001.md`, `task-claude-code-mcp-hook-permission-verification-001.md` |
+
+連番 `NNN` は **その `<cat>` 内で重複しない 3 桁ゼロ埋め**（例: `001`, `002`）とし、
+完了して `completed-tasks/` へ移動した場合も番号は再利用しない。
+
+`<slug>` は kebab-case の英数字のみとし、日本語・大文字を含めない。
+`audit-unassigned-tasks.js`（F-1 で実装予定）はこの命名規則を required pattern として検査する想定。
+
 ---
 
 ## 優先度の判定基準

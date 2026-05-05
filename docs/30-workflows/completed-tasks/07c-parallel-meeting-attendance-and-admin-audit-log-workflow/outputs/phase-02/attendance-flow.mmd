@@ -1,0 +1,8 @@
+flowchart LR
+  UI["/admin/meetings"] --> API["admin attendance route"]
+  API --> Gate["requireAdmin"]
+  Gate --> Repo["attendance repository"]
+  Repo --> D1A[("member_attendance PK(member_id, session_id)")]
+  Repo --> D1S[("member_status is_deleted")]
+  API --> Audit["auditLog.append"]
+  Audit --> D1L[("audit_log")]

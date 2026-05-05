@@ -49,3 +49,16 @@ export interface FormSchema {
   manifest: FormManifest;
   fields: FormFieldDefinition[];
 }
+
+export type SchemaAliasSource = "manual" | "auto" | "migration";
+
+export interface SchemaAlias {
+  id: string;
+  stableKey: StableKey;
+  aliasQuestionId: string;
+  aliasLabel: string | null;
+  source: SchemaAliasSource;
+  createdAt: string;
+  resolvedBy: string | null;
+  resolvedAt: string | null;
+}

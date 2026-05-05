@@ -105,10 +105,25 @@ Phase 1 outputs（`requirements.md` または `artifacts.json`）に以下のチ
 | 他 wave への影響 | consumer wave の列挙（例: 04b は consumer / 07a は producer） |
 | 競合リスク | 同 schema を編集する並列 wave が他にあるか / 解決策（順序付け or 部分分割） |
 | migration 番号 / exports 改名の予約 | 重複防止のための番号予約・命名予約 |
+| test file ownership（並列 wave） | `__tests__/` 配下の cross-cutting test（authz / invariants / brand-type 等）はどの wave が ownership を持つか。wave 跨ぎでの重複作成を防ぐ（08a で `apps/api/src/__tests__/{authz-matrix,brand-type,invariants}.test.ts` を 08 wave 集約と確定した実例に倣う） |
 
 宣言が `no`（owner ではない）にも関わらず編集を実施した場合は、`unassigned-task-detection.md` でフォローアップタスクとして起票し、正式 owner wave へ補強差分の取り込みを依頼する。
 
 参考実例: 04b では `admin_member_notes.note_type` を additive migration として 04b 内で実施し、Phase 12 で「02c 範囲の補強」として明示記録した（`04b-parallel-member-self-service-api-endpoints/outputs/phase-12/unassigned-task-detection.md`）。
+
+### Closed Issue / 既実装 task の canonical owner 確認
+
+GitHub Issue や旧タスク仕様が closed / completed の場合は、候補ファイル名をそのまま新設しない。Phase 1 で以下を表にする。
+
+| 項目 | 確認内容 |
+| --- | --- |
+| issue original candidate | 旧仕様が要求したファイル名・関数名 |
+| current code anchor | 現行実装の実在ファイル・export |
+| canonical owner | 新設せず再利用する owner |
+| duplicate risk | 旧候補名で新設した場合の重複リスク |
+| action | 新設 / adapter 追加 / regression test 追加 / no-op |
+
+旧候補名と現行 owner が異なる場合は、Phase 2 以降の実装計画を current code anchor に合わせて更新する。
 
 ## 1.X 外部 SaaS 無料枠仕様調査（リスク前置き）
 

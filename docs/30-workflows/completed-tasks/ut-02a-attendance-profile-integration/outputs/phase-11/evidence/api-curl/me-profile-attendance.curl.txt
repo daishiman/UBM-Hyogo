@@ -1,0 +1,16 @@
+# NON_VISUAL curl contract for execution environments
+
+```bash
+curl -sS "$API_BASE_URL/me/profile" \
+  -H "Cookie: $AUTH_COOKIE" \
+  | jq '.attendance'
+```
+
+Expected contract:
+
+- Response contains `attendance`.
+- `attendance` is an array of `{ sessionId, title, heldOn }`.
+- Values are sourced through `createAttendanceProvider(ctx)` from `member_attendance` joined to `meeting_sessions`.
+- Missing or deleted meeting sessions are excluded by the inner join.
+
+Local close-out evidence uses focused repository and route wiring tests because this workflow is API-only / NON_VISUAL and no authenticated staging session is available in this worktree.

@@ -237,6 +237,127 @@ describe("runResponseSync", () => {
     expect(result.processedCount).toBeLessThan(50);
   });
 
+  it("S-1: cap 未到達で完了 → metrics_json.writeCapHit === false / emit 0 回 (03b-followup-006)", async () => {
+    const writeDataPoint = vi.fn();
+    const resp = makeResp({ answersByStableKey: { fullName: "山田" } });
+    const client = makeClient([{ responses: [resp] }]);
+    const result = await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        SYNC_ALERTS: { writeDataPoint } as unknown as AnalyticsEngineDataset,
+      },
+      { trigger: "admin", client },
+    );
+    expect(result.status).toBe("succeeded");
+    const m = JSON.parse(String(db.syncJobs[0]?.["metrics_json"] ?? "{}"));
+    expect(m.writeCapHit).toBe(false);
+    expect(writeDataPoint).not.toHaveBeenCalled();
+  });
+
+  it("S-3: 直近 3 件すべて cap 到達 → emit 1 回 (03b-followup-006)", async () => {
+    // 既存 succeeded job 2 件を writeCapHit=true で seed（直前 window は未達）
+    db.syncJobs.push({
+      job_id: "seed-0",
+      job_type: "response_sync",
+      started_at: "2026-01-01T00:00:00Z",
+      finished_at: "2026-01-01T00:01:00Z",
+      status: "succeeded",
+      metrics_json: JSON.stringify({ writeCapHit: false }),
+      error_json: null,
+    });
+    db.syncJobs.push({
+      job_id: "seed-1",
+      job_type: "response_sync",
+      started_at: "2026-01-01T00:15:00Z",
+      finished_at: "2026-01-01T00:16:00Z",
+      status: "succeeded",
+      metrics_json: JSON.stringify({ writeCapHit: true }),
+      error_json: null,
+    });
+    db.syncJobs.push({
+      job_id: "seed-2",
+      job_type: "response_sync",
+      started_at: "2026-01-01T00:30:00Z",
+      finished_at: "2026-01-01T00:31:00Z",
+      status: "succeeded",
+      metrics_json: JSON.stringify({ writeCapHit: true }),
+      error_json: null,
+    });
+
+    const writeDataPoint = vi.fn();
+    const responses = Array.from({ length: 50 }, (_, i) =>
+      makeResp({
+        responseId: `r-${i}`,
+        responseEmail: asResponseEmail(`u${i}@example.com`),
+        submittedAt: `2026-02-${String(i + 1).padStart(2, "0")}T00:00:00Z`,
+      }),
+    );
+    const client = makeClient([
+      { responses: responses.slice(0, 25), nextPageToken: "p2" },
+      { responses: responses.slice(25) },
+    ]);
+    const result = await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        RESPONSE_SYNC_WRITE_CAP: "10",
+        SYNC_ALERTS: { writeDataPoint } as unknown as AnalyticsEngineDataset,
+      },
+      { trigger: "admin", client },
+    );
+    expect(result.status).toBe("succeeded");
+    expect(writeDataPoint).toHaveBeenCalledTimes(1);
+    expect(writeDataPoint).toHaveBeenCalledWith(
+      expect.objectContaining({
+        blobs: ["sync_write_cap_consecutive_hit", "response_sync"],
+        doubles: [3, 3],
+      }),
+    );
+  });
+
+  it("S-4: skipped (lock 取得失敗) → writeCapHit=false / emit 0 回 (03b-followup-006)", async () => {
+    db.syncLocks.push({
+      id: "response-sync",
+      acquired_at: "2099-01-01T00:00:00Z",
+      expires_at: "2099-01-01T00:30:00Z",
+      holder: "other",
+      trigger_type: "cron",
+    });
+    const writeDataPoint = vi.fn();
+    const client = makeClient([{ responses: [] }]);
+    await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        SYNC_ALERTS: { writeDataPoint } as unknown as AnalyticsEngineDataset,
+      },
+      { trigger: "admin", client },
+    );
+    const m = JSON.parse(String(db.syncJobs[0]?.["metrics_json"] ?? "{}"));
+    expect(m.writeCapHit).toBe(false);
+    expect(writeDataPoint).not.toHaveBeenCalled();
+  });
+
+  it("S-5: failed path → emit 0 回 (03b-followup-006)", async () => {
+    const writeDataPoint = vi.fn();
+    const client = {
+      getForm: vi.fn(),
+      listResponses: vi.fn(async () => {
+        throw new Error("forms-api: 503 service unavailable");
+      }),
+    } as unknown as GoogleFormsClient;
+    await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        SYNC_ALERTS: { writeDataPoint } as unknown as AnalyticsEngineDataset,
+      },
+      { trigger: "admin", client },
+    );
+    expect(writeDataPoint).not.toHaveBeenCalled();
+  });
+
   it("失敗系: client.listResponses が throw すると status='failed'", async () => {
     const client = {
       getForm: vi.fn(),

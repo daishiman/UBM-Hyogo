@@ -36,6 +36,17 @@ Phase 2（設計）並列実行可能なSubAgent分担例:
 - NON_VISUAL / docs-heavy / env blocker task では、screen evidence の代替根拠、blocker の絶対パス、既存未タスクとの重複確認結果を同じターンで記録する。
 - UI 再撮影がある場合は `theme lock → screenshot evidence → docs/spec sync` の順で閉じ、`NON_VISUAL` のまま止めず `SCREENSHOT + outputs` を優先する。
 
+### Phase 12 skill feedback 反映
+
+Phase 12 の `skill-feedback-report.md` に改善提案が出た場合は、次の順で処理する。
+
+1. 既存 skill の reference に最小追記できる提案は同一 wave で反映する。
+2. 新規テンプレート追加や agent 構造変更が必要な提案は、`unassigned-task-detection.md` に formalize する。
+3. 反映先は `task-specification-creator`（Phase 運用）、`aiworkflow-requirements`（system spec / indexes / lessons）、`skill-creator`（SubAgent / orchestration / skill生成規約）に分ける。
+4. canonical `.claude/skills/...` を編集し、mirror が存在する場合は mirror sync と `diff -qr` で閉じる。
+
+ADR / topology drift タスクで頻出する改善は、Phase 1 の重複候補検索、base case 別差分マトリクス、Phase 4 doc-only grep、Phase 11 NON_VISUAL evidence の4点を優先して反映する。
+
 ## P43対策: SubAgent ファイル分割基準
 
 | 状況                        | 対応                                               |

@@ -48,5 +48,6 @@ allowed-tools:
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.2.0 | 2026-04-30 | docs-only / NON_VISUAL close-out review feedback。小規模レビューでは30種思考法を compact evidence table に集約可能だが、formalize / 正本同期 / Phase evidence / skill feedback / 4条件検証は省略不可と明記 |
 | 1.1.0 | 2026-04-28 | Codex 検証準拠（R-01〜R-05）に YAML frontmatter を是正。本文は references/elegant-review-prompt.md に退避 |
 | 1.0.0 | 2026-04-19 | 初版作成 |

@@ -1,0 +1,23 @@
+{
+  "taskId": "UT-05A-FOLLOWUP-OAUTH",
+  "mode": "VISUAL",
+  "status": "spec_created",
+  "captures": [
+    {
+      "id": "stage-a-staging-oauth",
+      "target": "outputs/phase-11/staging/",
+      "required": true
+    },
+    {
+      "id": "stage-b-consent-screen",
+      "target": "outputs/phase-11/production/consent-screen.png",
+      "required": true
+    },
+    {
+      "id": "stage-c-login-smoke",
+      "target": "outputs/phase-11/production/login-smoke.png",
+      "required": true
+    }
+  ]
+}
+

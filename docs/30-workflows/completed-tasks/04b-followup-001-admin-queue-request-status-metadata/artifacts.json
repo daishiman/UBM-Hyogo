@@ -1,0 +1,236 @@
+{
+  "task_name": "04b-followup-001-admin-queue-request-status-metadata",
+  "task_path": "docs/30-workflows/04b-followup-001-admin-queue-request-status-metadata",
+  "wave": 4,
+  "execution_mode": "serial",
+  "depends_on": [
+    "04b-parallel-member-self-service-api-endpoints",
+    "02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary"
+  ],
+  "blocks": [
+    "07a-parallel-tag-assignment-queue-resolve-workflow",
+    "07c-parallel-meeting-attendance-and-admin-audit-log-workflow"
+  ],
+  "created_at": "2026-04-30",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "scope": "application_implementation",
+    "workflow_state": "spec_created",
+    "visualEvidence": "NON_VISUAL",
+    "issue_number": 217
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/state-machine.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md",
+        "outputs/phase-04/test-strategy.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md",
+        "outputs/phase-05/migration-runbook.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md",
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-info.md",
+        "outputs/phase-13/pr-creation-result.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/00-getting-started-manual/specs/07-edit-delete.md",
+    "docs/00-getting-started-manual/specs/08-free-database.md"
+  ],
+  "endpoints": [
+    "POST /me/visibility-request",
+    "POST /me/delete-request"
+  ],
+  "d1_tables": [
+    "admin_member_notes"
+  ],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    4,
+    5,
+    11
+  ],
+  "doc_references": [
+    "docs/30-workflows/unassigned-task/04b-followup-001-admin-queue-request-status-metadata.md",
+    ".claude/skills/aiworkflow-requirements/references/api-endpoints.md",
+    ".claude/skills/aiworkflow-requirements/references/database-schema.md",
+    ".claude/skills/aiworkflow-requirements/references/task-workflow-active.md",
+    ".claude/skills/aiworkflow-requirements/indexes/resource-map.md",
+    ".claude/skills/aiworkflow-requirements/indexes/quick-reference.md",
+    "apps/api/migrations/0006_admin_member_notes_type.sql",
+    "apps/api/src/repository/adminNotes.ts"
+  ]
+}

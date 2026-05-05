@@ -29,6 +29,16 @@ describe("syncJobs (lifecycle 一方向)", () => {
     expect(done.finishedAt).not.toBeNull();
   });
 
+  it("metrics_json に PII-like key を書き込まない", async () => {
+    const job = await syncJobs.start(env.ctx, "response_sync");
+    await expect(
+      syncJobs.succeed(env.ctx, job.jobId, {
+        cursor: "2026-01-01T00:00:00Z|r-1",
+        response_email: "member@example.com",
+      }),
+    ).rejects.toThrow(/metrics_json must not include PII key/);
+  });
+
   it("start -> fail が成功する", async () => {
     const job = await syncJobs.start(env.ctx, "response_sync");
     const failed = await syncJobs.fail(env.ctx, job.jobId, { msg: "boom" });

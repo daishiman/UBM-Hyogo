@@ -3,6 +3,10 @@
 // 不変条件 #5: web → D1 直接アクセス禁止。本ファイル経由でのみ admin API を呼ぶ。
 // 不変条件 #11: profile 本文編集 mutation は本ライブラリに**意図的に存在させない**。
 // 不変条件 #13: tag 直接更新 mutation も存在させない（resolveTagQueue のみ）。
+import type {
+  AdminRequestResolveBody,
+  TagQueueResolveBody,
+} from "@ubm-hyogo/shared";
 
 export interface AdminMutationOk<T = unknown> {
   ok: true;
@@ -68,8 +72,8 @@ export const deleteMember = (memberId: string, reason: string) =>
 export const restoreMember = (memberId: string) =>
   call(`/members/${encodeURIComponent(memberId)}/restore`, "POST", {});
 
-export const resolveTagQueue = (queueId: string) =>
-  call(`/tags/queue/${encodeURIComponent(queueId)}/resolve`, "POST", {});
+export const resolveTagQueue = (queueId: string, body: TagQueueResolveBody) =>
+  call(`/tags/queue/${encodeURIComponent(queueId)}/resolve`, "POST", body);
 
 export const postSchemaAlias = (body: {
   questionId: string;
@@ -77,14 +81,32 @@ export const postSchemaAlias = (body: {
   diffId?: string;
 }) => call(`/schema/aliases`, "POST", body);
 
+export const resolveAdminRequest = (
+  noteId: string,
+  body: AdminRequestResolveBody,
+) =>
+  call(
+    `/requests/${encodeURIComponent(noteId)}/resolve`,
+    "POST",
+    body,
+  );
+
 export const createMeeting = (body: { title: string; heldOn: string; note?: string | null }) =>
   call(`/meetings`, "POST", body);
 
+export const updateMeeting = (
+  sessionId: string,
+  body: { title?: string; heldOn?: string; note?: string | null; deletedAt?: string | null },
+) => call(`/meetings/${encodeURIComponent(sessionId)}`, "PATCH", body);
+
 export const addAttendance = (sessionId: string, memberId: string) =>
-  call(`/meetings/${encodeURIComponent(sessionId)}/attendance`, "POST", { memberId });
+  call(`/meetings/${encodeURIComponent(sessionId)}/attendances`, "POST", {
+    memberId,
+    attended: true,
+  });
 
 export const removeAttendance = (sessionId: string, memberId: string) =>
-  call(
-    `/meetings/${encodeURIComponent(sessionId)}/attendance/${encodeURIComponent(memberId)}`,
-    "DELETE",
-  );
+  call(`/meetings/${encodeURIComponent(sessionId)}/attendances`, "POST", {
+    memberId,
+    attended: false,
+  });

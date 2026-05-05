@@ -27,6 +27,8 @@ export type FieldKind =
   | "checkbox"
   | "dropdown"
   | "url"
+  | "consent"
+  | "system"
   | "unknown";
 
 export type AnswerValue =

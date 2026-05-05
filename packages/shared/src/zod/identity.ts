@@ -75,7 +75,7 @@ export const TagAssignmentQueueItemZ = z.object({
   queueId: z.string().min(1),
   memberId: z.string().min(1),
   responseId: z.string().min(1),
-  status: z.enum(["queued", "reviewing", "resolved"]),
+  status: z.enum(["queued", "reviewing", "resolved", "rejected"]),
   suggestedTags: z.array(z.string()),
   reason: z.string().nullable(),
   createdAt: Iso8601Z,

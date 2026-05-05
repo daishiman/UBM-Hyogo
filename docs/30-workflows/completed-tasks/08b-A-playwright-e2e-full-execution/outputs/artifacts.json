@@ -1,0 +1,227 @@
+{
+  "task_name": "08b-A-playwright-e2e-full-execution",
+  "task_path": "docs/30-workflows/08b-A-playwright-e2e-full-execution",
+  "wave": "8b-fu",
+  "execution_mode": "parallel",
+  "depends_on": [
+    "06a public pages",
+    "06b member pages",
+    "06c admin pages",
+    "07a/07b/07c admin ops"
+  ],
+  "blocks": [
+    "09a staging deploy smoke"
+  ],
+  "created_at": "2026-05-01",
+  "metadata": {
+    "taskType": "implementation-spec",
+    "docs_only": true,
+    "workflow_state": "spec_created",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "priority": "High",
+    "scope": "full_execution_runbook_and_evidence_contract",
+    "phase12_status": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "runtime_evidence_status": "pending_user_approval",
+    "phase11_status": "contract_ready_runtime_pending",
+    "runtime_user_approval_required": true
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke / 実測 evidence",
+      "file": "phase-11.md",
+      "status": "contract_ready_runtime_pending",
+      "outputs": [
+        "outputs/phase-11/main.md"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": true
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "outputs/phase-13/main.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/unassigned-task/task-08b-playwright-e2e-full-execution-001.md",
+    "docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/",
+    "docs/00-getting-started-manual/specs/09-ui-ux.md",
+    ".claude/skills/aiworkflow-requirements/references/testing-playwright-e2e.md",
+    ".claude/skills/aiworkflow-requirements/references/workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    "#5 public/member/admin boundary",
+    "#8 localStorage/GAS prototype を正本にしない",
+    "#9 /no-access 専用画面に依存しない"
+  ],
+  "doc_references": [
+    "docs/30-workflows/unassigned-task/task-08b-playwright-e2e-full-execution-001.md",
+    "docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/",
+    "docs/00-getting-started-manual/specs/09-ui-ux.md",
+    ".claude/skills/aiworkflow-requirements/references/testing-playwright-e2e.md",
+    ".claude/skills/aiworkflow-requirements/references/workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
+  ],
+  "outputs_artifacts_parity": {
+    "status": "synced",
+    "files": [
+      "artifacts.json",
+      "outputs/artifacts.json"
+    ]
+  }
+}

@@ -39,7 +39,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
           command: d1 migrations apply ubm-hyogo-db-staging --env staging --remote
@@ -50,11 +50,21 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
           command: deploy --env staging
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Record post-migration deploy failure
+        if: ${{ failure() && steps.migrate.outcome == 'success' && steps.deploy.outcome == 'failure' }}
+        run: |
+          {
+            echo "## Post-migration deploy failure"
+            echo
+            echo "D1 migrations were applied to staging, but the Workers deploy step failed."
+            echo "Do not re-run migrations blindly. Inspect the deploy failure, verify the D1 migration ledger, and re-run the deploy after the root cause is fixed."
+          } >> "$GITHUB_STEP_SUMMARY"
 
   deploy-production:
     if: github.ref_name == 'main'
@@ -84,7 +94,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
           command: d1 migrations apply ubm-hyogo-db-prod --env production --remote
@@ -95,8 +105,18 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
           command: deploy --env production
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Record post-migration deploy failure
+        if: ${{ failure() && steps.migrate.outcome == 'success' && steps.deploy.outcome == 'failure' }}
+        run: |
+          {
+            echo "## Post-migration deploy failure"
+            echo
+            echo "D1 migrations were applied to production, but the Workers deploy step failed."
+            echo "Do not re-run migrations blindly. Inspect the deploy failure, verify the D1 migration ledger, and re-run the deploy after the root cause is fixed."
+          } >> "$GITHUB_STEP_SUMMARY"

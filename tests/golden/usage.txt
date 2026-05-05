@@ -1,0 +1,6 @@
+Usage: bash scripts/observability-target-diff.sh \
+  --current-worker <NAME> --legacy-worker <NAME> \
+  [--config apps/web/wrangler.toml] [--format md|json] [--no-color]
+
+read-only diff of observability targets between two Workers.
+All Cloudflare calls go through bash scripts/cf.sh (no direct wrangler).

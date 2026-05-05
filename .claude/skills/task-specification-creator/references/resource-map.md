@@ -30,7 +30,7 @@
 | [coverage-standards.md](coverage-standards.md) | Phase 6-7 | coverage 基準 |
 | [quality-standards.md](quality-standards.md) | Phase 9-10 | 品質基準 |
 | [review-gate-criteria.md](review-gate-criteria.md) | Phase 3/10 | review 判定基準 |
-| [artifact-naming-conventions.md](artifact-naming-conventions.md) | outputs 作成時 | 命名規則 |
+| [artifact-naming-conventions.md](artifact-naming-conventions.md) | outputs 作成時 / Phase 12 旧名 drift 検出時 / docs-only governance owner table タスク作成時 | 命名規則、§6 Phase 12 filename drift guard、§7 docs-only governance owner table variant |
 | [evidence-sync-rules.md](evidence-sync-rules.md) | Phase 12 | 台帳・証跡同期 |
 | [self-improvement-cycle.md](self-improvement-cycle.md) | 改善分析時 | feedback ループ |
 
@@ -96,6 +96,19 @@
 | --- | --- | --- |
 | `docs/30-workflows/completed-tasks/ut-08-monitoring-alert-design/` | monitoring / alert / observability / WAE / UptimeRobot を含む `spec_created` NON_VISUAL workflow の参照時 | Phase 11 screenshot 不要判定、Phase 12 same-wave sync、`PASS_WITH_OPEN_DEPENDENCY`、UT-08-IMPL 未タスク分離の実例 |
 
+### lessons-learned/
+
+| Lesson | 読み込み条件 | 内容 |
+| --- | --- | --- |
+| [non-visual-governance-pattern.md](../lessons-learned/non-visual-governance-pattern.md) | governance 設定変更を扱う NON_VISUAL implementation タスク作成時 | Phase 8 単一 YAML 入力契約 / `gh api check-runs` 並走 / 二重承認ゲート |
+| [shell-script-redaction-tasks.md](../lessons-learned/shell-script-redaction-tasks.md) | shell script + redaction 不変条件を含む小〜中規模 implementation タスク作成時 | Phase 1-2 統合判断 / redaction-rules.md 集約 / POSIX regex 設計 / shellcheck Phase 9 統合 |
+
+### approval-gated NON_VISUAL implementation 導線
+
+| キーワード | 関連ファイル |
+| --- | --- |
+| approval-gated implementation / 三役ゲート / rollback payload 上書き禁止 / コミット粒度 5 単位 / Phase 13 fresh GET / `Refs #<issue>` | [phase-template-phase13.md](phase-template-phase13.md) §approval-gated / [phase-template-phase13-detail.md](phase-template-phase13-detail.md) §approval-gated 詳細手順 / [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) / [phase-12-spec.md](phase-12-spec.md) / [quality-gates.md](quality-gates.md) / 実例: `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/phase-13.md` |
+
 ## schemas/（8ファイル）
 
 | Schema | 用途 |
@@ -154,3 +167,4 @@
 | 2026-03-06 | assets/11 に更新（Phase 12 compliance template 追加） |
 | 2026-03-03 | screenshot / evidence sync 関連の reference と script を追加 |
 | 2026-04-27 | UT-08 monitoring-alert-design を `spec_created` NON_VISUAL workflow 例として追加 |
+| 2026-05-02 | `lessons-learned/` セクションを resource-map に追加し、shell script + redaction タスク向け lesson を登録 |

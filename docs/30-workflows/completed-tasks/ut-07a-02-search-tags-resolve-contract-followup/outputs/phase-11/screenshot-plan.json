@@ -1,0 +1,6 @@
+{
+  "visualEvidence": "NON_VISUAL",
+  "screenshotsRequired": false,
+  "reason": "API contract follow-up only. UI and staging smoke are delegated to UT-07A-03.",
+  "delegatedTo": "UT-07A-03"
+}

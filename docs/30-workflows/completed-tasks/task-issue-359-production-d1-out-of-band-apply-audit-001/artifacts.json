@@ -1,0 +1,78 @@
+{
+  "task": "task-issue-359-production-d1-out-of-band-apply-audit-001",
+  "task_id": "TASK-ISSUE-359-PRODUCTION-D1-OUT-OF-BAND-APPLY-AUDIT-001",
+  "status": "spec_created",
+  "workflow_state": "spec_created",
+  "createdAt": "2026-05-04",
+  "docsOnly": true,
+  "taskType": "docs-only",
+  "remainingOnly": false,
+  "visualEvidence": "NON_VISUAL",
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/434",
+  "issueState": "CLOSED",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "wave": "Wave 13",
+    "priority": "medium",
+    "scale": "small",
+    "category": "production-operation-audit / docs-only",
+    "runtimeEvidence": "captured_confirmed",
+    "scope": "Read-only audit of out-of-band production D1 apply on 2026-05-01 (0008_schema_alias_hardening / 0008_create_schema_aliases). Classify origin as confirmed or unattributed; cross-reference or formalize recurrence prevention.",
+    "sourceWorkflow": "task-issue-191-production-d1-schema-aliases-apply-001",
+    "sourceIssue": "#434",
+    "parentIssue": "#359",
+    "upstream": [
+      "task-issue-191-production-d1-schema-aliases-apply-001"
+    ],
+    "downstream": []
+  },
+  "phases": [
+    { "phase": "01", "title": "要件定義", "file": "phase-01.md", "output": "outputs/phase-01/main.md", "status": "completed" },
+    { "phase": "02", "title": "設計（監査ストラテジ）", "file": "phase-02.md", "output": "outputs/phase-02/main.md", "status": "completed" },
+    { "phase": "03", "title": "設計レビュー", "file": "phase-03.md", "output": "outputs/phase-03/main.md", "status": "completed" },
+    { "phase": "04", "title": "テスト戦略（監査検証戦略）", "file": "phase-04.md", "output": "outputs/phase-04/main.md", "status": "completed" },
+    { "phase": "05", "title": "実装ランブック（監査ランブック）", "file": "phase-05.md", "output": "outputs/phase-05/main.md", "status": "completed" },
+    { "phase": "06", "title": "異常系検証", "file": "phase-06.md", "output": "outputs/phase-06/main.md", "status": "completed" },
+    { "phase": "07", "title": "AC マトリクス", "file": "phase-07.md", "output": "outputs/phase-07/main.md", "status": "completed" },
+    { "phase": "08", "title": "DRY 化", "file": "phase-08.md", "output": "outputs/phase-08/main.md", "status": "completed" },
+    { "phase": "09", "title": "品質保証", "file": "phase-09.md", "output": "outputs/phase-09/main.md", "status": "completed" },
+    { "phase": "10", "title": "最終レビュー", "file": "phase-10.md", "output": "outputs/phase-10/main.md", "status": "completed" },
+    {
+      "phase": "11",
+      "title": "監査実行 / 実測 evidence",
+      "file": "phase-11.md",
+      "output": "outputs/phase-11/main.md",
+      "status": "completed",
+      "requiredOutputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md",
+        "outputs/phase-11/d1-migrations-ledger.md",
+        "outputs/phase-11/operation-candidate-inventory.md",
+        "outputs/phase-11/attribution-decision.md",
+        "outputs/phase-11/single-record.md",
+        "outputs/phase-11/redaction-checklist.md",
+        "outputs/phase-11/read-only-checklist.md"
+      ]
+    },
+    {
+      "phase": "12",
+      "title": "ドキュメント更新",
+      "file": "phase-12.md",
+      "output": "outputs/phase-12/main.md",
+      "status": "completed",
+      "requiredOutputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    { "phase": "13", "title": "PR 作成", "file": "phase-13.md", "output": "outputs/phase-13/main.md", "status": "blocked_until_user_approval" }
+  ]
+}

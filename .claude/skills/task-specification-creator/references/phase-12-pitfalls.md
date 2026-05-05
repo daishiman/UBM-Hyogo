@@ -42,6 +42,65 @@
 | **[UBM-014]** API/NON_VISUAL タスクで外部依存の環境別挙動が混同される | Phase 9/12 では provider key 未設定時の development/test と production の挙動を分けて書く。例: mailer は dev/test no-op success、production 502 `MAIL_FAILED`。無料枠表だけでなく fail-open / fail-closed も記録する |
 | **[UBM-015]** `apps/web` proxy 実装でコメントや docs が D1/API 境界を曖昧にする | `apps/web` では D1 直参照を禁止し、コメントも「API worker」「upstream auth API」など境界語を使う。`apps/api` 直書き文字列を lint-boundary が拾う場合は、Phase 5 runbook に許容/禁止パターンを明示する |
 | **[UBM-016]** shared 型追加で barrel export の実体が docs より薄い/濃い | Phase 5 着手前に `rg "export .*types" packages/shared/src` を実行し、root export / subpath export / alias-only のどれかを決める。Phase 12 では「shared schema」なのか「補助 alias」なのかを正本仕様に明記する |
+| **[UBM-017]** legacy umbrella close-out が浅い PASS で閉じる | direct 残責務 0 件、stale/current/historical 分類、責務移管表、旧 filename/register、逆リンクの扱いを Phase 12 evidence に明記する。逆リンクや stale 掃除を同 wave で閉じない場合は、`docs/30-workflows/unassigned-task/` に full template で formalize する。SubAgent の自己申告だけで PASS にせず、`git diff --stat`、7 ファイル実体、`audit-unassigned-tasks --target-file`、index 再生成、mirror parity の実測値で確認する |
+| **[UBM-018]** `taskType=implementation × workflow_state=spec_created × docsOnly=true` の三併存ケースを完了扱い / completed 昇格してしまう | spec PR 段階の implementation 系タスク（D1 schema 設計 / API endpoint 設計 / shared 型契約設計 等）は実 DDL・実コードを混入させず docs のみで merge する。下記「三併存ケース集」の判定フローと NG/OK パターンに従い、workflow root は `spec_created` を据え置く。実装 PR で別途 `implemented` へ昇格させる 2 段階運用を Phase 1 / Phase 12 双方で確認する |
+| **[UBM-019]** generated index / fragment LOGS を N/A と誤判定する | `topic-map.md` / `keywords.json` は手編集不要でも generator 実行証跡が必要。`LOGS.md` がなく `LOGS/` fragment 運用の場合は、記録先 fragment または workflow-local changelog を `system-spec-update-summary.md` に明記する |
+| **[UBM-020]** Part 1 初学者説明に英語の技術語が残る | `sync layer`, `NON_VISUAL evidence`, `Cloudflare` などを使う場合は同じ文で日常語を補う。Phase 12 の最後に Part 1 本文だけを `rg -n "sync|evidence|Cloudflare|API|D1|Cron"` で確認する |
+| **[UBM-021]** Phase 12 の `unassigned-task-detection.md` に `new unassigned task` と書いたまま実ファイルを作らない | `new unassigned task` は候補メモではなく formalize 宣言として扱う。同一 wave で `docs/30-workflows/unassigned-task/*.md` を作成し、`system-spec-update-summary.md` / `documentation-changelog.md` / compliance check に path を反映する。作らない場合は `baseline` / `duplicate` / `not needed` に分類し直す |
+| **[UBM-022]** docs-only / NON_VISUAL infrastructure verification の Phase 11 completed を production 実測 PASS と誤読する | `implementation-guide.md` と compliance check に、Phase 11 completed は evidence template / runbook check の完了であり、Cloudflare route mutation、secret value verification、Logpush mutation、DNS cutover、Worker deletion を意味しないと明記する |
+| **[UBM-023]** docs-only / spec_created でも起票元 unassigned の AC close-out / 後継 workflow path を同 wave で更新しないと再発する | Phase 12 で `docs/30-workflows/unassigned-task/<起票元>.md`（または `completed-tasks/<起票元>.md`）の AC 行と後継 workflow link を同 wave 更新する。`rg -n "<起票元タスクID>" docs/30-workflows` で参照網羅を確認し、quick-reference / resource-map / task-workflow-active / SKILL / LOGS と一括同期する。docs-only でも close-out 漏れは下流タスクの retry/offset canonical 不在を招くため必ず実施する（U-UT01-09 / 2026-04-30 由来） |
+| **[UBM-024]** Phase 10 の `technical_go=true` を `user_approved=true` と混同して commit / push / PR を進める | `artifacts.json` / `outputs/phase-10/go-nogo.md` に `technical_go` と `user_approved` を明示的に分離して併記する。`technical_go=true` のみではユーザー承認取得まで commit / push / PR を一切実行しない。Phase 11/12 文書 close-out の進行と承認ゲートは独立フラグで管理する（U-UT01-09 docs-only-closeout-hardening 由来） |
+| **[UBM-025]** 親 docs-only workflow と child execution-only workflow の lifecycle を混在させて runtime PASS を誤主張する | production mutation を伴う実行は親と別 workflow（`<NN>-<topic>-execution-001/`）に分離する。親側は runbook / evidence template、child 側は approval-gated execution として artifacts.json / system-spec-update-summary.md を別管理する。Phase 12 `system-spec-update-summary.md` で `PASS_WITH_OPEN_SYNC` を判定し、runtime facts は実行後の close-out wave で同期する（09c production execution 由来 / L-09C-EXEC-001） |
+| **[UBM-026]** reserved runtime path（`outputs/phase-09/screenshots/*.png`、`outputs/phase-11/screenshots/analytics-*.png` 等）の file 存在を PASS evidence と誤判定する | `phase12-task-spec-compliance-check.md` の `Phase Output Inventory` 表で `Output state`（file 存在）と `Runtime interpretation`（実行有無）を 2 列分離する。reserved runtime path は `exists` / `not_executed` または `not_captured` を必ず併記する。placeholder PNG は file 存在 = OK / runtime PASS 不可（09c production execution 由来 / L-09C-EXEC-002） |
+| **[UBM-027]** production deploy を「user approval 1 回」で進めて Preflight / GO-NO-GO / 24h anomaly の判断ゲートを混同する | Phase 1 (G1: kickoff) / Phase 5 (G2: mutation entry) / Phase 10 (G3: GO/NO-GO) を独立 approval gate として `artifacts.json` と Phase 12 `system-spec-update-summary.md` の approval matrix に記録する。Phase 13 PR 作成承認は **production approval には数えない**ことも併記し、PR 承認 = production 承認の混同を避ける（09c production execution 由来 / L-09C-EXEC-003） |
+| **[UBM-028]** Phase 12 strict 7 filenames の drift を Phase 12 内で初めて検出して close-out wave 内 rename が連鎖する | Phase 11 終了時（Phase 12 着手前）に strict 7 filenames（`main.md` / `implementation-guide.md` / `system-spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md`）を grep で照合する。drift があれば Phase 12 着手前に rename / 新規作成する。`outputs/artifacts.json` の有無も同タイミングで判断し、root-only parity の例外宣言が必要なら compliance check に明示する（09c production execution 由来 / L-09C-EXEC-004） |
+| **[UBM-029]** CLOSED issue に対して `Closes #N` を再付与して reopened / duplicated close 状態にする | source issue が CLOSED の場合、PR 本文と Phase 12 / Phase 13 evidence では `Refs #N` のみを使い `Closes` を付与しない。Phase 12 `system-spec-update-summary.md` の Step 1-A に `Issue: #N remains CLOSED and is referenced with Refs #N` を明記する。Phase 13 PR body テンプレからも `Closes` を除外する（09c production execution 由来 / L-09C-EXEC-005） |
+| **[UBM-030]** canonical alias closeout（canonical 実体は別 workflow root が保持し、当該 root は alias として閉じる）で、Phase 本文と consumed unassigned-task stub に古い endpoint / table / screenshot / commit / push / PR 文面が残留したまま artifacts.json metadata parity だけで 4 conditions PASS と判定する | alias root は Layer 1-6 の本文を持たず `workflow_state=completed_alias` / `canonical_workflow=<canonical-root>` を artifacts.json に明示し、consumed unassigned-task は本文を「consumed by <canonical> / 旧仕様撤回」スタブへ置換する。4 conditions PASS 判定前に必ず `rg -n "<旧 endpoint or table or screenshot path or commit/push/PR 文面>" docs/30-workflows/<alias-root> docs/30-workflows/unassigned-task/<consumed-stub>.md` を実行し、ヒット 0 件を evidence に残す（`grep stale prose before metadata parity` ルール / 04c-followup-001 由来 / L-IDENT-007） |
+| **[UBM-031]** scheduled / queue retry task で injected failure callback のテストだけを PASS evidence にし、default scheduled path が no-op のまま残る | Phase 9 / 11 に「dependency injection なしの本番呼び出し path」テストを必須化する。retry/backoff/DLQ SQL は repository primitive に寄せ、audit atomicity が必要なら repository primitive を拡張する。workflow 層に同じ SQL を複製しない。Phase 3 / 4 では human-review queue（人手確認待ち `queued`）と machine-retry queue（`reason='retry_tick'` / `attempt_count>0` / `last_error` / `next_visible_at` のいずれか）を **taxonomy gate** として分離宣言してから cron 実装に入る。両者を同 cron で同列処理しないことを Phase 8 / 12 の compliance に明記する。起票元 unassigned task は consumed 化し、NON_VISUAL implementation guide には screenshot 不要理由を明記する（Issue #377 retry tick + DLQ audit 由来） |
+
+## 三併存ケース集（spec PR 段階の implementation 系タスク）
+
+> 由来: UT-04 D1 データスキーマ設計 skill-feedback-report に基づく追加（2026-04-29）
+
+### 判定フロー（テキスト）
+
+```
+Q1. taskType は implementation か？
+  └─ Yes
+      Q2. 実コード/DDL/migration を本 PR に混入するか？
+        ├─ Yes → workflow_state=in_progress または completed、docsOnly=false（通常運用）
+        └─ No  → docsOnly=true → workflow_state=spec_created（三併存ケース）
+                  → 実装 PR で別途 implemented / completed へ昇格
+```
+
+### 典型例
+
+| 例 | 三併存になる理由 |
+| --- | --- |
+| D1 schema 設計 PR（UT-04） | 既存 migration から current schema を抽出して仕様化する。実 DDL は実装 PR で `apps/api/migrations/` に投入 |
+| API endpoint 設計 PR | OpenAPI / handler 契約を仕様化。実 handler / route は実装 PR で apps/api 配下に追加 |
+| shared 型契約設計 PR | Zod schema / TypeScript 型の正本契約を仕様化。実 generator / barrel export は実装 PR |
+
+### NG パターン
+
+- workflow root を `completed` にして merge → 実装 PR と二重 close されて ledger 整合が崩れる
+- `docsOnly=false` のまま merge → CI 側の implementation gate が誤発火する
+- Step 2 を「実装が無いから N/A」と書き、根拠（既存正本参照 / 派生作業の別タスク化）を記載しない
+
+### OK パターン
+
+- `metadata.workflow_state=spec_created` / `metadata.docsOnly=true` を artifacts.json と outputs/artifacts.json で 2 重に明示
+- documentation-changelog.md の Block A で `apps/api/migrations/` 等の実コードパス非混入を drift チェックに含める
+- Step 2 N/A 判定例（`phase-12-spec.md` テンプレ参照）に従い、根拠 3 項目（スコープ / 既存正本 / 派生タスク）を必ず記載
+- 実装 PR は別 wave で切り、本 spec PR が merge 後に `implemented` 昇格 PR を作成する
+
+### Phase 12 close-out チェック
+
+- [ ] `git diff --stat` で `apps/api/migrations/`, `apps/api/src/`, `packages/shared/src/`, `apps/web/src/` 等の実コード変更が 0 件
+- [ ] `artifacts.json` / `outputs/artifacts.json` の `metadata.workflow_state` が `spec_created` で一致
+- [ ] `metadata.docsOnly: true` が両 ledger に存在
+- [ ] documentation-changelog.md に「`apps/api/migrations/*.sql` は本 PR に **非混入**」等の drift チェック節がある
+- [ ] system-spec-update-summary.md の Step 1-B が `spec_created` 据え置き旨を明記し、`completed` への昇格を実装 PR に委譲している
 
 > 旧フィードバック（W0-RV-001・SC-13-1/2・UBM-001〜008・FB-SDK-07-2/4）は [../SKILL-changelog.md](../SKILL-changelog.md) に移動済み。
 

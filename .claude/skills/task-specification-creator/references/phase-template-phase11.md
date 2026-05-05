@@ -32,6 +32,66 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 
 `link-checklist.md` は仕様書 → 実装ファイル / fake D1 fixture / fixture テスト間の参照リンク有効性を表で記録する。
 
+### `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 状態語彙（VISUAL_ON_EXECUTION 用）
+
+> 起源: 09a-A staging deploy smoke execution 仕様書策定（2026-05-05）。`PASS` 単独表記が
+> 「仕様書 contract 完了」と「runtime evidence 取得済」を混同させた苦戦点を解消するため、
+> Phase 11 main.md / artifacts.json で必ず boundary suffix 付き語彙を用いる。
+
+#### 適用条件
+
+- `taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION`
+- Phase 11 仕様書 contract（spec template / evidence file 命名 / AC 表 / runbook 整合）は完了済
+- runtime evidence（staging Pages/Workers smoke / Forms sync / D1 apply / curl / tail）は
+  G1-G4 multi-stage approval gate（[phase-template-phase13.md](phase-template-phase13.md) 参照）の
+  user 承認後に取得する設計
+
+#### 状態語彙の使い分け
+
+| 状態語彙 | 意味 | 使用箇所 |
+| --- | --- | --- |
+| `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | 仕様書 contract 完了 / runtime evidence は user 承認後に取得 | spec walkthrough 完了 + runtime 全 pending の典型 |
+| `PASS_BOUNDARY_SYNCED_RUNTIME_PARTIAL` | runtime evidence の一部のみ取得済（例: G1 staging deploy 完了 / G2-G4 pending） | gate 単位で partial を明示する場合 |
+| `PASS_RUNTIME_SYNCED` | 全 G1-G4 runtime evidence 取得済 | 最終形 |
+| `PASS`（単独表記） | **禁止**。boundary suffix を必ず付与 | 誤読防止のため Phase 11 では使用不可 |
+
+#### 必須記録項目（`outputs/phase-11/main.md`）
+
+- 状態語彙（上表のいずれか）と判定根拠
+- 仕様書 contract 完了の evidence path（spec walkthrough log / link-checklist / template 整合確認）
+- runtime evidence の pending 内訳（G1: deploy / G2: Forms sync / G3: D1 apply / G4: commit-push-PR）
+- 各 runtime evidence の取得ゲート（[phase-template-phase13.md](phase-template-phase13.md) §G1-G4）
+- 実行されたら fresh evidence を後追いで `outputs/phase-11/` に追加する旨の宣言
+
+#### Phase 12 compliance との連動
+
+`outputs/phase-12/phase12-task-spec-compliance-check.md` では
+`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を `PASS` と書き換えず、
+runtime pending 内訳を G1-G4 単位で表記する。runtime evidence が後続タスクで取得される場合は、
+`unassigned-task-detection.md` の formalize 先と evidence path を併記する。
+
+### Cloudflare deploy-verification subtemplate
+
+`taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION` で、実装差分は local に存在し、
+残りが Cloudflare Workers deploy / curl / tail / local fallback 確認である場合は、Phase 11 を
+runtime PASS と誤読させない deploy-verification evidence contract として扱う。
+
+必須 outputs は次の 6 セクションに分け、未実行なら `PENDING_RUNTIME_EVIDENCE` または
+`blocked_until_user_approval` を明記する。
+
+| evidence | 最小記録内容 |
+| --- | --- |
+| `code-diff-summary.md` | 対象コード / config / focused test の差分要約。runtime PASS とは分離する |
+| `staging-curl.log` | deploy command、対象 URL、HTTP status、checked_at。未実行なら user approval gate を明記 |
+| `production-curl.log` | production deploy / mutation の user gate、HTTP status、rollback 境界 |
+| `wrangler-tail-staging.log` | `bash scripts/cf.sh tail` 経由で確認した transport label。1 件だけでなく複数 request を確認する |
+| `local-dev-fallback.log` | service binding 未注入時の fallback command / result |
+| `redaction-checklist.md` | secret / PII / token が evidence に含まれないこと |
+
+service-binding と HTTP fallback のような two-path 実装では、AC 表を `runtime path × evidence` で分ける。
+例: staging/prod は service-binding path、local dev は HTTP fallback path、unit test は分岐 contract path。
+`implementation-guide.md` にこの対応表を置き、Phase 12 compliance check から参照する。
+
 ## docs-only task テンプレ
 
 - `SKILL.md` から family file へ辿れるか
@@ -63,6 +123,18 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 - task root の workflow 内リンク（`index.md` / `phase-*.md` / `outputs/*` 間）
 
 > 視覚タスク（VISUAL）の必須 outputs（`manual-test-checklist.md` / `manual-test-result.md` / `discovered-issues.md` / `screenshot-plan.json`）とは別セットである点に注意。Phase 1 設計時にタスク種別を確定させ、Phase 11 着手前に再判定すること。
+
+### 外部 SaaS / Cloudflare dashboard 制約確認型 docs-only Phase 11
+
+Cloudflare Analytics、GitHub branch protection、Google Cloud Console など、外部 SaaS の plan / account / dashboard 認証が必要な docs-only decision workflow では、Phase 11 runtime sample を偽装して PASS にしない。以下を物理分離する。
+
+| evidence | 用途 | PASS 条件 |
+| --- | --- | --- |
+| representative schema sample | 保存形式 / field allowlist / redaction command を検証するための repo 内サンプル | `runtimeProductionData: false` 等で実データではないことを明記 |
+| runtime production sample | 実 account / zone / project から取得した fresh evidence | user approval / credential availability / redaction PASS が揃った時のみ PASS |
+| constraints file | plan / rate limit / retention / feature availability の公式 docs 確認 | URL / checked date / runtime boundary を記録 |
+
+Phase 12 compliance check では `SPEC_CREATED_PASS_WITH_RUNTIME_SAMPLE_PENDING_USER_AUTH` のように、spec completeness と runtime production evidence を分けて判定する。外部認証がない状態で「取得サンプル 1 回」を実測済みと書かない。
 
 ### ウォークスルーシナリオ発見事項リアルタイム分類欄
 
@@ -103,6 +175,23 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 | `discovered-issues.md` | blocker と note |
 | `ui-sanity-visual-review.md` | 視覚レビュー |
 | `phase11-capture-metadata.json` | capture 実行時の evidence inventory |
+
+### Runtime smoke 実行後の helper artifact 同期
+
+VISUAL_ON_EXECUTION / staging smoke / production smoke のように、Phase 11 helper files を
+先にテンプレ配置してから実行するタスクでは、`outputs/phase-11/main.md` が
+`PASS` / `BLOCKED` / `FAIL` のいずれかに進んだ時点で、同じ wave 内に以下を同期する。
+
+| ファイル | 同期必須内容 |
+| --- | --- |
+| `manual-test-result.md` | `not_run` / `spec_created` / `explicit user instruction required` を残さず、実行日・最終状態・失敗理由・evidence path を記録する |
+| `discovered-issues.md` | 発見事項 0 件でも実行済み状態を明記し、blocker がある場合は `state / reason / evidence_path / checked_at` を残す |
+| `outputs/phase-12/phase12-task-spec-compliance-check.md` | `PENDING_RUNTIME_EVIDENCE` と `EXECUTED_BLOCKED` / `EXECUTED_FAIL` / `EXECUTED_PASS` を混同しない |
+| `outputs/phase-12/system-spec-update-summary.md` | downstream gate（例: 09c）を変更しない場合でも、no-op decision record と evidence path を残す |
+
+`main.md` だけを更新して helper files が `not_run` のまま残る状態は Phase 11/12 close-out の
+FAIL とする。Cloudflare / staging / production など外部環境 blocker は、実行不能を
+PASS と扱わず、必要なら `unassigned-task-detection.md` で復旧タスクへ formalize する。
 
 ### 環境チェック（Phase 11 着手前）
 

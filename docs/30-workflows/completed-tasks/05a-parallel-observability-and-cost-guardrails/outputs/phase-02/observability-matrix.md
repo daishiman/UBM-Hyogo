@@ -41,6 +41,9 @@
 | Workers (dev env) requests | CF Dashboard / Workers / dev | ops |
 | D1 staging reads / storage | CF Dashboard / ubm-hyogo-db-staging | ops |
 | GitHub Actions CI runs | GitHub / Actions / ci.yml | ops |
+| GitHub Actions backend deploy (staging) | GitHub / Actions / backend-ci.yml (deploy-staging) | ops |
+| GitHub Actions web deploy (staging) | GitHub / Actions / web-cd.yml (deploy-staging) | ops |
+| GitHub Actions verify-indexes (drift gate) | GitHub / Actions / verify-indexes.yml | ops |
 
 ### main (production) 環境
 
@@ -51,8 +54,29 @@
 | D1 production reads / storage | CF Dashboard / ubm-hyogo-db-prod | ops |
 | GitHub Actions build validation | GitHub / Actions / validate-build.yml | ops |
 | GitHub Actions typecheck / lint | GitHub / Actions / ci.yml | ops |
+| GitHub Actions backend deploy (production) | GitHub / Actions / backend-ci.yml (deploy-production) | ops |
+| GitHub Actions web deploy (production) | GitHub / Actions / web-cd.yml (deploy-production) | ops |
+| GitHub Actions verify-indexes (drift gate) | GitHub / Actions / verify-indexes.yml | ops |
 
 注記: dev / main は観測対象として分ける。ただし Pages builds、Workers requests、R2/KV operations などはアカウントやプラン単位の消費量もあるため、環境別表示だけでなく合算値を同じ確認日に見る。
+
+## CI/CD Workflow 識別子マッピング
+
+workflow file name、workflow display name、job id、required status context は同一ではない。監視対象や branch protection を照合するときは次の 4 列を分離して扱う。
+
+| workflow file | display name (`name:`) | trigger | job id | required status context (confirmed / candidate) |
+| --- | --- | --- | --- | --- |
+| `.github/workflows/ci.yml` | `ci` | `push: main/dev`, `pull_request: main/dev` | `ci`, `coverage-gate` | `ci` confirmed; `coverage-gate` candidate after hard-gate rollout |
+| `.github/workflows/backend-ci.yml` | `backend-ci` | `push: dev/main` | `deploy-staging`, `deploy-production` | none confirmed; deploy jobs are monitoring targets, not current required checks |
+| `.github/workflows/validate-build.yml` | `Validate Build` | `push: main/dev`, `pull_request: main/dev` | `validate-build` | `Validate Build` confirmed |
+| `.github/workflows/verify-indexes.yml` | `verify-indexes-up-to-date` | `push: main`, `pull_request: main/dev` | `verify-indexes-up-to-date` | `verify-indexes-up-to-date` confirmed |
+| `.github/workflows/web-cd.yml` | `web-cd` | `push: dev/main` | `deploy-staging`, `deploy-production` | none confirmed; deploy jobs are monitoring targets, not current required checks |
+
+注記: required status context は UT-GOV-004 / UT-GOV-001 の confirmed contexts（`ci` / `Validate Build` / `verify-indexes-up-to-date`）を正とする。`workflow display name / job id` から組み立てた `workflow / job` 形式は GitHub UI 上の見え方として有用だが、本表では branch protection に投入済みまたは投入候補の context と混同しない。
+
+## Discord 通知の current facts (2026-05-01)
+
+`grep -iE "discord|webhook|notif" .github/workflows/{ci,backend-ci,validate-build,verify-indexes,web-cd}.yml` の結果は 0 件。上記 5 workflow すべて、本タスク作成時点では Discord / Slack 通知は未実装。observability owner は GitHub Actions の run history と Cloudflare Dashboard を主な確認先とする。通知導入は別タスクで扱う。
 
 ## rollback / degrade 判断基準概要 (AC-5)
 

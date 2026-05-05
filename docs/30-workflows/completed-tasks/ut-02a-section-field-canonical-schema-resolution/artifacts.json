@@ -1,0 +1,256 @@
+{
+  "task_name": "ut-02a-section-field-canonical-schema-resolution",
+  "task_path": "docs/30-workflows/ut-02a-section-field-canonical-schema-resolution",
+  "issue": 108,
+  "parent_task": "02a-parallel-member-identity-status-and-response-repository",
+  "origin_unassigned": "docs/30-workflows/completed-tasks/UT-02A-SECTION-FIELD-MAPPING-METADATA.md",
+  "wave": "2+",
+  "execution_mode": "sequential",
+  "depends_on": [
+    "02a-parallel-member-identity-status-and-response-repository",
+    "03a-forms-schema-sync-and-stablekey-alias-queue",
+    "04a-public-api-contract-hardening",
+    "04b-parallel-me-and-profile-api"
+  ],
+  "external_gates": [
+    {
+      "task": "03a-forms-schema-sync-and-stablekey-alias-queue",
+      "scope": "StableKey alias queue interface ドラフト",
+      "completion_rule": "03a interface 未確定時は static manifest 方式で実装。03a 完成後に hybrid / D1 column 切替を再評価"
+    }
+  ],
+  "blocks": [],
+  "created_at": "2026-05-01",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "verified",
+    "gate_status": "implementation_complete_pending_pr",
+    "scope": "repository_shared_builder_canonical_metadata_resolver",
+    "domain": "response_fields_response_sections_normalization"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/resolver-interface.md",
+        "outputs/phase-02/method-comparison.md",
+        "outputs/phase-02/ownership-declaration.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md",
+        "outputs/phase-03/review-record.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md",
+        "outputs/phase-04/test-matrix.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md",
+        "outputs/phase-05/runbook.md",
+        "outputs/phase-05/migration-plan.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md",
+        "outputs/phase-07/ac-matrix.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "DRY 化",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md",
+        "outputs/phase-09/coverage-report.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke",
+      "file": "phase-11.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-test-result.md",
+        "outputs/phase-11/non-visual-evidence.md",
+        "outputs/phase-11/builder-unit-test-result.txt",
+        "outputs/phase-11/drift-detection-log.md",
+        "outputs/phase-11/three-view-parity-check.md"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "pending",
+      "outputs": [
+        "outputs/phase-13/main.md",
+        "outputs/phase-13/local-check-result.md",
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/pr-template.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/00-getting-started-manual/specs/01-api-schema.md",
+    "docs/00-getting-started-manual/specs/00-overview.md",
+    "docs/00-getting-started-manual/specs/08-free-database.md"
+  ],
+  "code_targets": [
+    "apps/api/src/repository/_shared/builder.ts",
+    "apps/api/src/repository/_shared/metadata.ts",
+    "apps/api/src/repository/responseFields.ts",
+    "apps/api/src/repository/responseSections.ts",
+    "apps/api/src/repository/_shared/builder.test.ts"
+  ],
+  "endpoints_observed": [],
+  "ui_routes": [],
+  "evidence_artifacts": [
+    "builder-unit-test-result.txt",
+    "drift-detection-log.md",
+    "three-view-parity-check.md"
+  ],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    1,
+    2,
+    3,
+    5
+  ],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/UT-02A-SECTION-FIELD-MAPPING-METADATA.md",
+    "docs/30-workflows/completed-tasks/02a-parallel-member-identity-status-and-response-repository/outputs/phase-12/unassigned-task-detection.md",
+    "docs/30-workflows/unassigned-task/UT-02A-TAG-ASSIGNMENT-QUEUE-MANAGEMENT.md"
+  ]
+}

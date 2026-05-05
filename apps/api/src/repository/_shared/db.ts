@@ -1,3 +1,5 @@
+import type { Env } from "../../env";
+
 export interface D1Stmt {
   bind(...values: unknown[]): D1Stmt;
   first<T = unknown>(): Promise<T | null>;
@@ -5,16 +7,21 @@ export interface D1Stmt {
   run(): Promise<{ success: boolean; meta: { changes: number; last_row_id: number } }>;
 }
 
+// D1Db は Cloudflare の D1Database と構造互換な局所 alias として維持する
+// (02c で導入した既存 unit test fixture との互換のため)。
 export interface D1Db {
   prepare(sql: string): D1Stmt;
   exec(sql: string): Promise<{ count: number; duration: number }>;
+  batch?(statements: D1Stmt[]): Promise<unknown[]>;
 }
 
 export interface DbCtx {
   readonly db: D1Db;
 }
 
-export const ctx = (env: { DB: D1Db }): DbCtx => ({ db: env.DB });
+export const ctx = (env: Pick<Env, "DB">): DbCtx => ({
+  db: env.DB as unknown as D1Db,
+});
 
 export const isUniqueConstraintError = (err: unknown): boolean => {
   if (!(err instanceof Error)) return false;

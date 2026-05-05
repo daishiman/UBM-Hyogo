@@ -1,0 +1,11 @@
+apps/api/migrations/0002_admin_managed.sql:53:CREATE TABLE IF NOT EXISTS tag_assignment_queue (
+apps/api/migrations/0002_admin_managed.sql:88:  ON tag_assignment_queue(status, created_at);
+apps/api/migrations/0009_tag_queue_idempotency_retry.sql:3:--   tag_assignment_queue を idempotency / retry / DLQ 用途に拡張する。
+apps/api/migrations/0009_tag_queue_idempotency_retry.sql:9:ALTER TABLE tag_assignment_queue ADD COLUMN idempotency_key TEXT;
+apps/api/migrations/0009_tag_queue_idempotency_retry.sql:10:ALTER TABLE tag_assignment_queue ADD COLUMN attempt_count INTEGER NOT NULL DEFAULT 0;
+apps/api/migrations/0009_tag_queue_idempotency_retry.sql:11:ALTER TABLE tag_assignment_queue ADD COLUMN last_error TEXT;
+apps/api/migrations/0009_tag_queue_idempotency_retry.sql:12:ALTER TABLE tag_assignment_queue ADD COLUMN next_visible_at TEXT;
+apps/api/migrations/0009_tag_queue_idempotency_retry.sql:13:ALTER TABLE tag_assignment_queue ADD COLUMN dlq_at TEXT;
+apps/api/migrations/0009_tag_queue_idempotency_retry.sql:17:  ON tag_assignment_queue(idempotency_key)
+apps/api/migrations/0009_tag_queue_idempotency_retry.sql:22:  ON tag_assignment_queue(status, next_visible_at);
+apps/api/migrations/0009_tag_queue_idempotency_retry.sql:26:  ON tag_assignment_queue(status, dlq_at);

@@ -1,5 +1,5 @@
 // 06b: /profile Server Component（read-only）。
-// 不変条件 #4: 編集 form / button は一切描画しない（CTA は外部 Google Form のみ）。
+// 不変条件 #4: 本文編集 UI は描画しない（申請 button は admin queue への依頼だけを作る）。
 // 不変条件 #5: D1 直接禁止。`fetchAuthed` 経由で API Worker を叩く。
 // 不変条件 #7: session.memberId のみ参照。responseId は API レスポンス内のみ使用。
 
@@ -17,6 +17,8 @@ import { StatusSummary } from "./_components/StatusSummary";
 import { ProfileFields } from "./_components/ProfileFields";
 import { EditCta } from "./_components/EditCta";
 import { AttendanceList } from "./_components/AttendanceList";
+import { RequestActionPanel } from "./_components/RequestActionPanel";
+import { MemberHeader } from "../../src/components/layout/MemberHeader";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -43,18 +45,26 @@ export default async function ProfilePage() {
     profileRes;
 
   return (
-    <main>
-      <h1>マイページ</h1>
-      <StatusSummary
-        statusSummary={statusSummary}
-        authGateState={me.authGateState}
-      />
-      <ProfileFields sections={profile.sections} />
-      <EditCta
-        editResponseUrl={editResponseUrl}
-        fallbackResponderUrl={fallbackResponderUrl}
-      />
-      <AttendanceList attendance={profile.attendance} />
-    </main>
+    <>
+      <MemberHeader />
+      <main>
+        <h1>マイページ</h1>
+        <StatusSummary
+          statusSummary={statusSummary}
+          authGateState={me.authGateState}
+        />
+        <ProfileFields sections={profile.sections} />
+        <EditCta
+          editResponseUrl={editResponseUrl}
+          fallbackResponderUrl={fallbackResponderUrl}
+        />
+        <RequestActionPanel
+          publishState={statusSummary.publishState}
+          rulesConsent={statusSummary.rulesConsent}
+          pendingRequests={profileRes.pendingRequests}
+        />
+        <AttendanceList attendance={profile.attendance} />
+      </main>
+    </>
   );
 }

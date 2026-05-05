@@ -3,7 +3,7 @@
 # 仕様正本: docs/30-workflows/coverage-80-enforcement/outputs/phase-12/implementation-guide.md
 #
 # Usage:
-#   bash scripts/coverage-guard.sh              # 全 package を test:coverage 実行 → 集計 → 判定
+#   bash scripts/coverage-guard.sh              # 判定対象 package を test:coverage 実行 → 集計 → 判定
 #   bash scripts/coverage-guard.sh --changed    # 変更された package のみ実行 (lefthook pre-push 用)
 #   bash scripts/coverage-guard.sh --package <name>           # 単一 package 限定
 #   bash scripts/coverage-guard.sh --threshold 80             # 閾値上書き (default=80)
@@ -54,6 +54,30 @@ case "$THRESHOLD" in
   ''|*[!0-9.]*|.*|*.*.*) log "ERROR: --threshold must be a number"; exit 2 ;;
 esac
 
+# sync-merge スキップ判定（個人開発運用ポリシー）:
+#   --changed モード（pre-push 用）で coverage 評価範囲に merge commit を含む場合、
+#   sync-merge による偶発的な coverage 低下を許容してスキップする。
+#   範囲は changed_packages と同じ base (merge-base HEAD origin/dev) からの ...HEAD を用いる。
+#   これにより sync-merge 後の follow-up コミット (indexes rebuild 等) を push する場面でも、
+#   評価範囲に merge commit が残っていればスキップが効く。
+#   feature 単体 push は従来通りチェック対象。
+if [ "$CHANGED" -eq 1 ] && git rev-parse --verify HEAD >/dev/null 2>&1; then
+  if base=$(git -C "$ROOT_DIR" merge-base HEAD origin/dev 2>/dev/null) && [ -n "$base" ]; then
+    range="${base}..HEAD"
+  elif git rev-parse --verify origin/dev >/dev/null 2>&1; then
+    range="origin/dev..HEAD"
+  elif git rev-parse --verify origin/main >/dev/null 2>&1; then
+    range="origin/main..HEAD"
+  else
+    range="HEAD~1..HEAD"
+  fi
+  merge_count=$(git log --merges --format=%H "$range" 2>/dev/null | wc -l | tr -d ' ')
+  if [ "${merge_count:-0}" -ge 1 ]; then
+    log "SKIP: push 範囲 ($range) に merge commit が ${merge_count} 件含まれます。sync-merge のため coverage-guard をスキップします。"
+    exit 0
+  fi
+fi
+
 # Package 列挙: workspace 慣例に従い apps/* / packages/* / packages/integrations/*
 discover_packages() {
   local dirs=()
@@ -91,12 +115,6 @@ package_name() {
 }
 
 run_tests() {
-  if [ "$CHANGED" = "0" ] && [ -z "$PKG_FILTER" ]; then
-    log "running: pnpm -r --workspace-concurrency=1 test:coverage"
-    ( cd "$ROOT_DIR" && pnpm -r --workspace-concurrency=1 test:coverage )
-    return $?
-  fi
-
   local failed=0
   for pkg in "${TARGETS[@]}"; do
     local name
@@ -169,6 +187,8 @@ if [ "${#TARGETS[@]}" -eq 0 ]; then
 fi
 
 # Main: Vitest is used for measurement; this guard owns the threshold decision.
+# Full mode intentionally runs the same TARGETS that are later aggregated, so the
+# executed packages and the judged packages cannot drift.
 if [ "$RUN_TESTS" = "1" ]; then
   if ! run_tests; then
     log "ENV ERROR: test:coverage command failed before coverage aggregation completed"

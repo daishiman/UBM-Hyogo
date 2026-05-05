@@ -56,6 +56,7 @@ task-specification-creator/phase-11-12-guide → spec-update-workflow → primar
                             ↓
 Phase 2: concern 分離
 system spec / screenshot evidence / unassigned formalize / skill update + mirror に lane 分割
+監査 lane は並列実行してよいが、編集は単一 owner が直列適用する。read-only audit だけなら AskUserQuestion は開始条件にしない。実際に skill create/update/improve-prompt を実行する場合は SKILL.md の AskUserQuestion 制約を維持する。
                             ↓
 Phase 3: 実更新
 .claude 正本 / outputs / docs/30-workflows/unassigned-task / workflow-<feature>.md / current canonical set / artifact inventory / legacy register / topic-map を同一ターンで更新
@@ -74,8 +75,23 @@ placeholder-only evidence を排除し、`TC-ID ↔ png ↔ screenshot-coverage.
 close-out remediation follow-up を同一 wave で解消した場合は、新規 remediation workflow を増やさず source / parent workflow の evidence を直接 current facts へ戻し、未完了 open set だけを `docs/30-workflows/unassigned-task/` に残す
 完了移管した follow-up は `docs/30-workflows/completed-tasks/unassigned-task/` へ移し、documentation changelog / system spec summary / backlog / completed ledger の open/done 記述を同じ粒度にそろえる
                             ↓
+Phase 3.8: skill feedback promotion
+Phase 12 `skill-feedback-report.md` の提案を「記録しただけ」で閉じず、task-specification-creator / aiworkflow-requirements / skill-creator の該当 reference へ昇格するか、昇格しない根拠を documentation changelog に残す
+各苦戦箇所は `symptom / cause / recurrence condition / 5-minute resolution / evidence path / promoted-to or no-op reason` に分解する。routing は `task-specification-creator/references/phase12-skill-feedback-promotion.md` に従い、workflow/template gap は task-specification-creator、domain implementation lesson は aiworkflow-requirements、skill authoring/update-process gap は skill-creator に置く。
+cron / release / incident response など運用 runbook 系の docs-only task では、runtime 操作を成功扱いにせず、runbook artifact inventory と domain lesson を aiworkflow-requirements に昇格する。09b のように candidate follow-up が複数出る場合は、既存 `docs/30-workflows/unassigned-task/` を先に検索して formalized / delegated / existing related / candidate を分ける。
+mirror parity は `.agents/skills/<skill>` が存在する場合のみ必須。存在しない mirror を前提に PASS を書かず、N/A 理由を `documentation-changelog.md` に残す。
+Implementation spec-to-skill sync is complete only when workflow outputs, system spec summary, updated skill reference/asset, and mirror diff/N/A evidence all point to the same current contract.
+approval-gated NON_VISUAL implementation では、placeholder evidence と runtime evidence の分離、Phase 13 user approval gate、外部 GET 正本の扱いをテンプレ側へ反映する
+適用先 reference（task-specification-creator 配下、Phase 12 retrospective で同時更新する正本セット）:
+  - `.claude/skills/task-specification-creator/references/phase-11-non-visual-alternative-evidence.md`
+  - `.claude/skills/task-specification-creator/references/phase-12-spec.md`
+  - `.claude/skills/task-specification-creator/references/quality-gates.md`
+  - `.claude/skills/task-specification-creator/references/spec-update-workflow.md`
+  - `.claude/skills/task-specification-creator/references/phase-template-phase13.md`
+  - `.claude/skills/task-specification-creator/references/phase-template-phase13-detail.md`
+                            ↓
 Phase 4: 検証
-verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync → diff -qr
+verify-all-specs → validate-phase-output → verify-unassigned-links --source → audit --diff-from HEAD / --target-file → generate-index.js → validate-structure.js → quick_validate / validate_all → mirror sync（mirror directory が存在する場合のみ）→ diff -qr（対象 skill ごとの差分ゼロ出力を evidence に残す）
                             ↓
 Phase 5: フィードバック
 log-usage + LOGS.md + skill feedback report
@@ -241,3 +257,17 @@ node scripts/validate_all.js .claude/skills/my-skill
 - authority injection・shared auth mode service・decision vocabulary・reason source of truth のいずれかを composition root で変更した場合も internal hardening とみなし、Step 2 / lessons / skill feedback を更新する。
 - handler / consumer テストの期待値は実体 enum と同じ語彙へ合わせ、`integrated_api` / `terminal_handoff` のような canonical vocabulary と reason source 単一化を summary に残す。
 - Phase 12 root evidence を手編集した後は `rg "\\*\\*\\* Add File:|\\*\\*\\* Begin Patch|\\*\\*\\* End Patch"` で patch marker 混入を監査し、artifact existence だけで false green にしない。
+
+## 2026-05-01 追補: Phase 12 skill feedback promotion
+
+Phase 12 由来のスキル更新は、`skill-feedback-report.md` に記録して終わらせない。次の最小ゲートを通す。
+
+| 観点 | 必須確認 |
+| --- | --- |
+| metadata | `description` は短く保ち、詳細な Anchors / Trigger / 履歴は本文または `references/` に退避する |
+| line budget | `SKILL.md` と主要 reference は 500 行以内を目安にし、超過時は classification-first で分割する |
+| generated files | README / CHANGELOG / samples を慣性で増やさず、既存 `LOGS.md` / `SKILL-changelog.md` / `references/resource-map.md` の正本関係を優先する |
+| SubAgent lanes | 入力、責務、出力、編集可否、依存関係を明示し、監査は read-only、編集は owner が直列化する |
+| cross-runtime contract | Claude Code / Codex / 外部CLIで実行差が出る場合は、実行境界と検証コマンドを reference に残す |
+
+補助パスの skill 実装を参照する場合は、丸ごとコピーしない。既存 UBM 側の read-only audit 例外や resource-map 導線を優先し、取り込む要素を `Promote / Defer / Reject` で明示する。

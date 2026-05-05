@@ -1,0 +1,20 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-112259-wt-6/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+mise WARN  deprecated [idiomatic_version_file_enable_tools]: 
+Idiomatic version files like ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260502-112259-wt-6/.nvmrc are currently enabled by default. However, this will change in mise 2025.10.0 to instead default to disabled.
+
+You can remove this warning by explicitly enabling idiomatic version files for node with:
+
+    mise settings add idiomatic_version_file_enable_tools node
+
+You can disable idiomatic version files with:
+
+    mise settings add idiomatic_version_file_enable_tools "[]"
+
+See https://github.com/jdx/mise/discussions/4345 for more information.
+
+ ⛅️ wrangler 4.85.0 (update available 4.87.0)
+─────────────────────────────────────────────
+Resource location: remote 
+
+✅ No migrations to apply!

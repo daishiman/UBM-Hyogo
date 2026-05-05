@@ -1,0 +1,14 @@
+{
+  "task": "04b-followup-004-admin-queue-resolve-workflow",
+  "phase": 11,
+  "captured_at": null,
+  "captured_by": null,
+  "screenshots": [],
+  "delegated_to": "post-merge staging smoke",
+  "reason": "screenshot 取得には authenticated admin session + D1 fixture seeding が必要。Phase 11 完了境界は automated test + delegated evidence で許容（spec に明記）",
+  "automated_evidence": {
+    "api_route_tests": "apps/api/src/routes/admin/requests.test.ts (11 tests)",
+    "repository_tests": "apps/api/src/repository/__tests__/adminNotes.test.ts listPendingRequests (2 tests)",
+    "web_component_tests": "apps/web/src/components/admin/__tests__/RequestQueuePanel.test.tsx (5 tests)"
+  }
+}

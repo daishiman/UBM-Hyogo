@@ -1,0 +1,50 @@
+ WARN  Unsupported engine: wanted: {"node":"24.x"} (current: {"node":"v22.21.1","pnpm":"10.33.2"})
+
+> ubm-hyogo@0.1.0 test /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260503-112154-wt-10
+> bash scripts/with-env.sh vitest run apps/api/src/jobs/sync-sheets-to-d1.test.ts apps/api/src/jobs/mappers/sheets-to-members.test.ts apps/api/src/routes/admin/members.test.ts apps/api/src/routes/admin/requests.test.ts apps/api/src/view-models/public/__tests__/public-member-list-view.test.ts apps/api/src/view-models/public/__tests__/public-member-profile-view.test.ts packages/shared/src/utils/consent.test.ts
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260503-112154-wt-10
+
+ ✓ packages/shared/src/utils/consent.test.ts (9 tests) 310ms
+ ✓ apps/api/src/jobs/mappers/sheets-to-members.test.ts (5 tests) 39ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-list-view.test.ts (2 tests) 100ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-profile-view.test.ts (6 tests) 31ms
+ ✓ apps/api/src/jobs/sync-sheets-to-d1.test.ts (7 tests) 26ms
+ ✓ apps/api/src/routes/admin/requests.test.ts (11 tests) 34611ms
+   ✓ admin requests route — GET /admin/requests > TC-01: 認証なしで 401 8300ms
+   ✓ admin requests route — GET /admin/requests > TC-02: type=visibility_request の pending を古い順で返す 2053ms
+   ✓ admin requests route — GET /admin/requests > invalid query (type 不在) で 400 2185ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-04: visibility_request approve で publish_state が更新される 5484ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-05: delete_request approve で is_deleted=1 2196ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-05b: member_status がない approve は note を resolved にしない 1997ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-06: reject では member_status を変更せず note のみ rejected 3319ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-08: 二重 resolve は 409 で拒否 3640ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-09: resolutionNote > 500 で 400 1364ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-10: unknown noteId で 404 1498ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > visibility_request approve 時 desiredState 不正で 422 2502ms
+ ✓ apps/api/src/routes/admin/members.test.ts (17 tests) 41436ms
+   ✓ admin members route > authz: 未認証 401 8166ms
+   ✓ admin members route > GET /members: list を返す 1700ms
+   ✓ admin members route > GET /members/:memberId 未存在は 404 2111ms
+   ✓ admin members route > GET /members/:memberId の audit は audit_log 由来で admin_member_notes を混ぜない 5565ms
+   ✓ admin members route > GET /members?filter=invalid は 400 1730ms
+   ✓ admin members route > GET /members?sort=invalid は 422 1087ms
+   ✓ admin members route > GET /members?density=invalid は 422 2800ms
+   ✓ admin members route > GET /members?zone=invalid は 422 2585ms
+   ✓ admin members route > GET /members?q=<201 chars> は 422 2964ms
+   ✓ admin members route > GET /members?q=Test は fullName で hit 1430ms
+   ✓ admin members route > GET /members?q=NoMatch は 0 件 1683ms
+   ✓ admin members route > GET /members?page=99999 は 200 + 空配列 2708ms
+   ✓ admin members route > GET /members?page=0 は 422 2486ms
+   ✓ admin members route > GET /members?tag が 6 件以上なら 422 1439ms
+   ✓ admin members route > GET /members?tag=code-a&tag=code-b は tag code AND で hit 882ms
+   ✓ admin members route > GET /members?zone=1_to_10 は ubmZone で絞り込む 796ms
+   ✓ admin members route > GET /members?sort=name は fullName 昇順で返す 1302ms
+
+ Test Files  7 passed (7)
+      Tests  57 passed (57)
+   Start at  15:07:31
+   Duration  53.06s (transform 9.47s, setup 0ms, collect 35.50s, tests 76.55s, environment 20.45s, prepare 3.82s)
+

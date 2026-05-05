@@ -3,6 +3,24 @@
 このファイルにはスキルの使用記録が追記されます。
 
 ---
+## 2026-05-01 - 09b Phase 12 feedback promotion sync
+
+- `references/patterns-success-skill-phase12.md` に docs-only runbook task の feedback promotion pattern を追加。
+- `references/update-process.md` に cron / release / incident response 系 task の runtime 操作未実行境界と candidate dedup を追記。
+- mirror directory はこの worktree に存在しないため mirror sync は N/A。
+
+---
+## 2026-05-01 - Phase 12 skill feedback promotion を update-process へ反映
+
+- **Agent**: skill-creator (update-process)
+- **Phase**: Phase 12 retrospective / spec sync
+- **Result**: success
+- **Notes**:
+  - `references/update-process.md` の Phase 3.8 に、`skill-feedback-report.md` の苦戦箇所を `symptom / cause / recurrence condition / 5-minute resolution / evidence path / promoted-to or no-op reason` へ分解する rule を追加
+  - routing は `task-specification-creator/references/phase12-skill-feedback-promotion.md` に委譲し、workflow/template gap、domain lesson、skill-authoring/update-process gap、validation command gap を owning skill へ昇格する
+  - `.agents/skills/<skill>` が存在する場合だけ mirror parity を必須とし、存在しない mirror は N/A 理由を documentation changelog に残す
+
+---
 ## 2026-04-28 - SKILL.md 200 行 entrypoint 化 / fixture 拡張子規約のテンプレ昇格
 
 - **Agent**: skill-creator (update)

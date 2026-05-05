@@ -169,20 +169,21 @@ export const FormPreviewViewZ = z
 export const AdminDashboardViewZ = z
   .object({
     totals: z.object({
-      members: z.number().int().nonnegative(),
-      pendingConsent: z.number().int().nonnegative(),
-      deletedMembers: z.number().int().nonnegative(),
-      queuedTagAssignments: z.number().int().nonnegative(),
+      totalMembers: z.number().int().nonnegative(),
+      publicMembers: z.number().int().nonnegative(),
+      untaggedMembers: z.number().int().nonnegative(),
+      unresolvedSchema: z.number().int().nonnegative(),
     }),
-    recentSubmissions: z.array(
+    recentActions: z.array(
       z.object({
-        responseId: z.string(),
-        memberId: z.string().nullable(),
-        submittedAt: Iso8601Z,
-        fullName: z.string(),
+        auditId: z.string(),
+        actorEmail: z.string().nullable(),
+        action: z.string(),
+        targetType: z.string(),
+        targetId: z.string().nullable(),
+        createdAt: Iso8601Z,
       }),
     ),
-    schemaState: z.enum(["active", "superseded", "pending_review"]),
     generatedAt: Iso8601Z,
   })
   .strict();
@@ -202,6 +203,9 @@ export const AdminMemberListViewZ = z
   .object({
     total: z.number().int().nonnegative(),
     members: z.array(AdminMemberListItemZ),
+    // 06c-B: 検索/フィルタ拡張で導入。後方互換のため optional。
+    page: z.number().int().positive().optional(),
+    pageSize: z.number().int().positive().optional(),
   })
   .strict();
 

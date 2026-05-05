@@ -2,6 +2,18 @@
 
 > 親ファイル: [patterns.md](patterns.md)
 
+### [Phase12] docs-only runbook task の feedback promotion パターン（09b）
+
+- **状況**: cron / release / incident response の docs-only runbook task で、runtime 操作を実行せずに Phase 12 を閉じる
+- **アプローチ**:
+  - runtime 操作は PASS と扱わず、current facts / expected command / link checklist を代替 evidence にする
+  - 大きい deployment 親ファイルへ詳細を足さず、artifact inventory と lessons child に苦戦箇所を分離する
+  - unassigned candidate は既存 task を先に検索し、formalized / delegated / existing related / candidate に分類する
+- **結果**: `09b` の cron current facts、release runbook、incident response、skill feedback が同一 wave で追跡可能になった
+- **適用条件**: docs-only / `spec_created` / `NON_VISUAL` の運用 runbook close-out
+- **発見日**: 2026-05-01
+- **関連タスク**: 09b-parallel-cron-triggers-monitoring-and-release-runbook
+
 ### [Auth] Supabase認証状態変更後の即時UI更新パターン（AUTH-UI-001）
 
 - **状況**: 認証状態変更（リンク/解除）後にUIが即座に更新されない

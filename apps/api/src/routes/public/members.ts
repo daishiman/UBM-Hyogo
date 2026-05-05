@@ -8,7 +8,7 @@ import { parsePublicMemberQuery } from "../../_shared/search-query-parser";
 import { listPublicMembersUseCase } from "../../use-cases/public/list-public-members";
 
 export interface MembersEnv {
-  DB: import("../../repository/_shared/db").D1Db;
+  DB: D1Database;
 }
 
 export const membersRoute = (

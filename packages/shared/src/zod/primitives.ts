@@ -16,6 +16,8 @@ export const FieldKindZ = z.enum([
   "checkbox",
   "dropdown",
   "url",
+  "consent",
+  "system",
   "unknown",
 ]);
 

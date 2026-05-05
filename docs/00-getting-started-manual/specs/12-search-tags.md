@@ -25,7 +25,23 @@
 
 `q` は前後空白を削り、連続空白を 1 つに正規化したうえで最大 200 文字まで受け付ける。API と Web の双方でこの上限を揃える。
 
-`tag` は repeated query parameter として扱い、複数指定時は AND 条件で検索する。Web UI は URL から既存 tag を復元し、選択済み tag の削除と条件クリアを提供する。新規 tag 候補選択 UI は 06a 後続タスクで扱う。
+`q` に含まれる `%` / `_` / `\` は SQL LIKE のワイルドカードではなく、利用者が入力した文字として扱う。API は `escapeLikePattern` と `LIKE ? ESCAPE '\'` でこの境界を保証する。
+
+`tag` は repeated query parameter として扱い、重複を除き、先頭 5 件まで採用する。複数指定時は AND 条件で検索し、SQL は `HAVING COUNT(DISTINCT td.code) = <tag count>` で全 tag を持つ member だけを返す。Web UI は URL から既存 tag を復元し、選択済み tag の削除と条件クリアを提供する。新規 tag 候補選択 UI は 06a 後続タスクで扱う。
+
+### Query parameter contract（08a-B）
+
+| key | 許容値 | 不正値 | 実装境界 |
+| --- | --- | --- | --- |
+| `q` | 0〜200文字 | 200文字超は truncate | trim + 連続空白正規化 + LIKE escape |
+| `zone` | `all` / `0_to_1` / `1_to_10` / `10_to_100` | `all` fallback | `ubmZone` response field EXISTS |
+| `status` | `all` / `member` / `non_member` / `academy` | `all` fallback | 参加ステータス。公開状態ではない |
+| `tag` | repeated string、最大5件 | 空文字削除、6件目以降無視 | tag AND |
+| `sort` | `recent` / `name` | `recent` fallback | `recent`: `last_submitted_at DESC, fullName ASC, member_id ASC`; `name`: `fullName ASC, member_id ASC` |
+| `density` | `comfy` / `dense` / `list` | `comfy` fallback | UI 表示密度。API は `appliedQuery` に echo |
+| `page` / `limit` | `page>=1`, `1<=limit<=100` | clamp/fallback | default `page=1`, `limit=24` |
+
+`status` query は UBM 参加ステータスであり、公開/非公開/退会済みを切り替える公開状態フィルタではない。公開一覧は常に `public_consent='consented'`、`publish_state='public'`、`is_deleted=0`、canonical alias source 除外を base WHERE として適用する。
 
 ### 画面上の並び
 
@@ -94,6 +110,45 @@ MVP では上記2種類に限定する。
 - 左側に `未タグ会員キュー`
 - 右側に `会員要約 / 事業概要 / スキル / タグ選択`
 - 保存したら次の会員へ進める
+- タグ確定は `POST /admin/tags/queue/:queueId/resolve` のみを使い、会員タグ直接編集 API は作らない
+
+### タグ割当 resolve API（07a）
+
+`POST /admin/tags/queue/:queueId/resolve` は次の body のみ受け付ける。
+
+```ts
+type TagQueueResolveBody =
+  | { action: "confirmed"; tagCodes: string[] }
+  | { action: "rejected"; reason: string };
+```
+
+- schema 正本は `packages/shared/src/schemas/admin/tag-queue-resolve.ts` の `tagQueueResolveBodySchema`
+- `confirmed` と `rejected` の key を混在させた body は受け付けない（400 `validation_error`）
+- `confirmed` は `tag_definitions.code` を `member_tags.tag_id` へ解決し、queue status を `resolved`（仕様語 `confirmed`）にする
+- `rejected` は reason を保存し、queue status を `rejected` にする
+- `dlq` は retry 上限超過の保留状態で、`GET /admin/tags/queue?status=dlq` から確認する
+- 同一 payload の再投入は 200 + `idempotent: true` とし、追加 audit は作らない
+- 別 payload の再投入、`resolved` / `rejected` 間の逆走、race lost は 409
+- unknown tag code / deleted member は 422、body validation は 400
+- audit action は `admin.tag.queue_resolved` / `admin.tag.queue_rejected` / `admin.tag.queue_dlq_moved`
+
+Forms 同期からの candidate 投入は UT-02A の write-side workflow が担当する。重複防止 key は `<memberId>:<responseId>` で、tagCode は admin resolve 時に `confirmed` payload で確定する。
+
+#### 仕様語 / 実装語 alias
+
+| 仕様語 | API action | DB queue status | 備考 |
+| --- | --- | --- | --- |
+| candidate | - | queued / reviewing | レビュー待ち |
+| confirmed | confirmed | resolved | `member_tags` へ反映済み |
+| rejected | rejected | rejected | reason を保存 |
+| dlq | - | dlq | retry 上限超過。`admin.tag.queue_dlq_moved` audit を残し、手動 requeue までは終端扱い |
+
+#### 完了タスク
+
+| タスク | 状態 | 内容 |
+| --- | --- | --- |
+| UT-07A-02 | Phase 1-12 completed / Phase 13 pending_user_approval | resolve body contract を `packages/shared/src/schemas/admin/tag-queue-resolve.ts` に集約し、API route と apps/web admin client が shared type/schema を参照する形に同期 |
+
 
 ### タグ辞書
 
