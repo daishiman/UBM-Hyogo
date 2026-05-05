@@ -2017,6 +2017,16 @@ node scripts/list-specs.js --topics
 | Phase 12 Required Files | L45 |
 | Related Resources | L57 |
 
+### references/workflow-06b-c-runtime-evidence-execution-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Boundary | L28 |
+| Phase 12 Required Files | L36 |
+| Related Resources | L48 |
+
 ### references/workflow-06c-A-admin-dashboard-artifact-inventory.md
 
 | セクション | 行 |
@@ -3564,7 +3574,7 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 対象 | L3 |
 | Lessons | L10 |
-| Follow-up Boundaries | L68 |
+| Follow-up Boundaries | L75 |
 
 ### references/lessons-learned-06c-A-admin-dashboard-2026-05.md
 
@@ -4094,8 +4104,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L92 |
-| 関連ドキュメント | L97 |
+| 利用順序 | L93 |
+| 関連ドキュメント | L98 |
 
 ### references/llm-embedding.md
 
@@ -5164,13 +5174,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L204 |
-| フェーズ構造（概要） | L213 |
-| 品質ゲート（概要） | L244 |
-| 出力テンプレート | L255 |
-| 実行時のコマンド・エージェント・スキル | L278 |
-| 昇格パターン集 | L302 |
-| Current Active / Spec Created Tasks | L304 |
+| ドキュメント構成 | L193 |
+| フェーズ構造（概要） | L202 |
+| 品質ゲート（概要） | L233 |
+| 出力テンプレート | L244 |
+| 実行時のコマンド・エージェント・スキル | L267 |
+| 昇格パターン集 | L291 |
+| Current Active / Spec Created Tasks | L293 |
 
 ### references/task-workflow-backlog-part2.md
 
