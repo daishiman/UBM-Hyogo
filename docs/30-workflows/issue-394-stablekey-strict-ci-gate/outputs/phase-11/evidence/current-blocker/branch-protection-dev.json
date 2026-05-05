@@ -1,1 +1,0 @@
-{"url":"https://api.github.com/repos/daishiman/UBM-Hyogo/branches/dev/protection/required_status_checks","strict":false,"contexts":["ci","Validate Build"],"contexts_url":"https://api.github.com/repos/daishiman/UBM-Hyogo/branches/dev/protection/required_status_checks/contexts","checks":[{"context":"ci","app_id":15368},{"context":"Validate Build","app_id":15368}]}
