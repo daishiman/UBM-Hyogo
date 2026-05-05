@@ -30,9 +30,31 @@
 
 ## Closeout state 分類補足 (2026-05-03 追加)
 
-| state | task type | visualEvidence | 用途 |
-| --- | --- | --- | --- |
-| spec_created | implementation / process | 任意 | 仕様書作成完了・実装未着手 |
-| enforced_dry_run | implementation | NON_VISUAL | warning モードで動的検証中、blocking gate へ昇格前 |
-| PASS_WITH_BLOCKER | implementation | NON_VISUAL | 全 phase の design GO は完了、runtime GO は外部前提（legacy cleanup 等）blocked。Issue #394 (stableKey strict CI gate) 実例。current evidence と planned-after-cleanup evidence を物理分離する |
-| completed | implementation / process | 任意 | runtime GO 完了・completed-tasks/ へ移動 |
+### Phase 1 baseline で stale failure を検出した場合の implementation 再分類ルール (2026-05-05 追加)
+
+判定フロー（行 5-17）で `taskType=implementation` と確定した後でも、Phase 1 の current baseline が既に GREEN なら closeout state を `verified_current_no_code_change` へ再分類する。`taskType` 自体は元 task の意図（code fix 要求）を保つため `implementation` のままにし、サブタイプを `metadata.implementation_mode` に固定する。
+
+**判定条件（3 点とも YES のとき再分類）**:
+
+1. 元 unassigned task / Issue が `apps/<package>` への code fix を要求している（implementation の意図がある）
+2. Phase 1 の focused command を current worktree で実行し、報告 fail が再現せず GREEN（例: Vitest 7/7 PASS）
+3. broader 全体 gate ではなく focused 範囲で再現しないことを test-log diff / coverage snapshot で確認できる
+
+**再分類した場合の artifacts.json metadata（root / outputs 共通）**:
+
+| key | 値 | 備考 |
+| --- | --- | --- |
+| `taskType` | `implementation` | 元 task の意図を保持 |
+| `visualEvidence` | `NON_VISUAL` | code fix が抑止された runtime evidence のみ |
+| `metadata.workflow_state` | `verified_current_no_code_change_pending_pr` | Phase 13 user gate を含む正規値 |
+| `metadata.implementation_mode` | `stale-current-verification` | 実装サブタイプ taxonomy。aiworkflow-requirements 側 `task-workflow-active.md` / lessons-learned と同一文字列で結節させる |
+
+詳細運用と必須 gate は [phase12-skill-feedback-promotion.md §「Stale-current no-code verification rule」](phase12-skill-feedback-promotion.md) を参照。実例は Issue #379 schemaDiffQueue fakeD1 compat verification（`docs/30-workflows/issue-379-schema-diff-queue-faked1-compat/outputs/phase-12/main.md`）。
+
+| state | task type | visualEvidence | metadata.implementation_mode | 用途 |
+| --- | --- | --- | --- | --- |
+| spec_created | implementation / process | 任意 | （未指定） | 仕様書作成完了・実装未着手 |
+| enforced_dry_run | implementation | NON_VISUAL | （未指定） | warning モードで動的検証中、blocking gate へ昇格前 |
+| PASS_WITH_BLOCKER | implementation | NON_VISUAL | （未指定） | 全 phase の design GO は完了、runtime GO は外部前提（legacy cleanup 等）blocked。Issue #394 (stableKey strict CI gate) 実例。current evidence と planned-after-cleanup evidence を物理分離する |
+| verified_current_no_code_change | implementation | NON_VISUAL | `stale-current-verification` | 元タスクは code fix を要求していたが、Phase 1 の current baseline が既に GREEN で stale failure と判定された状態。コード変更せず、baseline / after / coverage / Phase 12 strict outputs と consumed unassigned trace を同 wave で揃える。`metadata.workflow_state` は `verified_current_no_code_change_pending_pr` を使用 |
+| completed | implementation / process | 任意 | （未指定） | runtime GO 完了・completed-tasks/ へ移動 |
