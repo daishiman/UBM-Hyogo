@@ -35,6 +35,8 @@ import {
 } from "./sync";
 import { runResponseSync } from "./jobs/sync-forms-responses";
 import { runSchemaSync, ConflictError } from "./sync/schema";
+import { TAG_QUEUE_TICK_CRON } from "./repository/tagQueue";
+import { runTagQueueRetryTick } from "./workflows/tagQueueRetryTick";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
@@ -281,6 +283,15 @@ export default {
     ctx: ExecutionContext,
   ): Promise<void> {
     const cron = (event as ScheduledController & { cron?: string }).cron ?? "";
+    if (cron === TAG_QUEUE_TICK_CRON) {
+      ctx.waitUntil(
+        runTagQueueRetryTick(env).catch((err) => {
+          const message = err instanceof Error ? err.message : String(err);
+          console.error("[tagQueueRetryTick] failed", { error: message });
+        }),
+      );
+      return;
+    }
     if (cron === "*/15 * * * *") {
       // 03b: 15 分毎の forms response 同期
       try {

@@ -2,7 +2,8 @@
 
 | Version   | Date           | Changes                                                     |
 | --------- | -------------- | ----------------------------------------------------------- |
-| **1.7.0** | **2026-01-21** | **未同期仕様書一括Issue作成機能追加（sync_new_issues.js）** |
+| **v2026.05.05-09a-A-execution-followup-pattern** | **2026-05-05** | **Execution follow-up Issue パターン / D1 schema parity 連携 / blocker 双方向更新を追加（references/d1-parity-followup.md 新設、SKILL.md に要約セクション追加）** |
+| 1.7.0     | 2026-01-21     | 未同期仕様書一括Issue作成機能追加（sync_new_issues.js）     |
 | 1.6.0     | 2026-01-21     | 全Issueラベル一括付与機能追加（label_all_issues.js）        |
 | 1.5.0     | 2026-01-21     | 削除時自動クローズ、孤立Issue検出、再リンク機能追加         |
 | 1.4.0     | 2026-01-21     | 双方向同期（仕様書↔Issue）、issue_number書戻                |
