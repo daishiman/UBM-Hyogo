@@ -4506,6 +4506,7 @@
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
@@ -5288,6 +5289,7 @@
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-02-console-migration-patterns.md",
       "logs-archive-2026-02-skill-validation-atoms-audit.md",
       "logs-archive-2026-02-validator-task-9f-task-9b.md",
@@ -5742,6 +5744,7 @@
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "skill-ledger-fragment-spec.md"
     ],
     "CLOUDFLARE": [
@@ -9688,6 +9691,7 @@
     "root": [
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
@@ -10145,7 +10149,8 @@
     ],
     "top": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "register": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
@@ -10200,6 +10205,7 @@
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "を先に見る": [
@@ -10519,6 +10525,7 @@
     ],
     "inventory": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
@@ -11696,19 +11703,6 @@
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "を同時更新する": [
-      "lessons-learned-ut-coverage-2026-05-wave.md"
-    ],
-    "helper": [
-      "lessons-learned-ut-coverage-2026-05-wave.md",
-      "skill-ledger-fragment-spec.md"
-    ],
-    "構造的": [
-      "lessons-learned-ut-coverage-2026-05-wave.md"
-    ],
-    "uncovered": [
-      "lessons-learned-ut-coverage-2026-05-wave.md"
-    ],
-    "の文書化で": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "focused": [
