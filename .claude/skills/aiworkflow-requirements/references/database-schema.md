@@ -74,7 +74,7 @@ UT-07B hardening では、`schema_aliases` の正本 write target を前提に b
 - `schema_diff_queue.backfill_cursor`
 - `schema_diff_queue.backfill_status`
 
-Production D1 ledger では `0008_schema_alias_hardening.sql` が `2026-05-01 08:21:04 UTC`、`0008_create_schema_aliases.sql` が `2026-05-01 10:59:35 UTC` に記録されている。両 migration の先行適用出所監査は `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` で扱う。
+Production D1 ledger では `0008_schema_alias_hardening.sql` が `2026-05-01 08:21:04 UTC`、`0008_create_schema_aliases.sql` が `2026-05-01 10:59:35 UTC` に記録されている。両 migration の先行適用出所監査は current workflow `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/` で扱い、legacy unassigned source は `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` として参照する。
 
 ## Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created）
 

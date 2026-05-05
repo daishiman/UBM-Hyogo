@@ -1,0 +1,5226 @@
+[
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:52:58Z",
+    "databaseId": 25265008664,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:52:58Z",
+    "databaseId": 25265008660,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:52:58Z",
+    "databaseId": 25265008659,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:52:58Z",
+    "databaseId": 25265008658,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:52:56Z",
+    "databaseId": 25265008112,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:43:33Z",
+    "databaseId": 25264837945,
+    "event": "pull_request",
+    "headBranch": "docs/ut-coverage-2026-05-wave-reorg",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:43:33Z",
+    "databaseId": 25264837941,
+    "event": "pull_request_target",
+    "headBranch": "docs/ut-coverage-2026-05-wave-reorg",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:43:33Z",
+    "databaseId": 25264837940,
+    "event": "pull_request",
+    "headBranch": "docs/ut-coverage-2026-05-wave-reorg",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:43:33Z",
+    "databaseId": 25264837938,
+    "event": "pull_request",
+    "headBranch": "docs/ut-coverage-2026-05-wave-reorg",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:43:33Z",
+    "databaseId": 25264837930,
+    "event": "pull_request",
+    "headBranch": "docs/ut-coverage-2026-05-wave-reorg",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:32:31Z",
+    "databaseId": 25264637028,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:32:31Z",
+    "databaseId": 25264637023,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:32:31Z",
+    "databaseId": 25264637020,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:32:31Z",
+    "databaseId": 25264637017,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:32:31Z",
+    "databaseId": 25264637010,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:21:09Z",
+    "databaseId": 25264396850,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T23:21:09Z",
+    "databaseId": 25264396688,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "D1 Migration Verify"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:21:09Z",
+    "databaseId": 25264396679,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:21:09Z",
+    "databaseId": 25264396675,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:21:09Z",
+    "databaseId": 25264396670,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:21:08Z",
+    "databaseId": 25264396342,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:20:18Z",
+    "databaseId": 25264381724,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:20:18Z",
+    "databaseId": 25264381717,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:20:18Z",
+    "databaseId": 25264381706,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:20:17Z",
+    "databaseId": 25264381694,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:20:16Z",
+    "databaseId": 25264381404,
+    "event": "pull_request_target",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:16:28Z",
+    "databaseId": 25264314933,
+    "event": "pull_request",
+    "headBranch": "docs/issue-198-sync-jobs-design-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:16:28Z",
+    "databaseId": 25264314932,
+    "event": "pull_request",
+    "headBranch": "docs/issue-198-sync-jobs-design-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:16:28Z",
+    "databaseId": 25264314924,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-198-sync-jobs-design-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:16:28Z",
+    "databaseId": 25264314923,
+    "event": "pull_request",
+    "headBranch": "docs/issue-198-sync-jobs-design-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:16:28Z",
+    "databaseId": 25264314922,
+    "event": "pull_request",
+    "headBranch": "docs/issue-198-sync-jobs-design-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T23:11:38Z",
+    "databaseId": 25264230901,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T23:11:38Z",
+    "databaseId": 25264230894,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:11:38Z",
+    "databaseId": 25264230891,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T23:11:38Z",
+    "databaseId": 25264230889,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:11:37Z",
+    "databaseId": 25264230667,
+    "event": "pull_request_target",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T23:05:44Z",
+    "databaseId": 25264127321,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:05:44Z",
+    "databaseId": 25264127315,
+    "event": "pull_request_target",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:05:44Z",
+    "databaseId": 25264127304,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:05:44Z",
+    "databaseId": 25264127302,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T23:05:44Z",
+    "databaseId": 25264127301,
+    "event": "pull_request",
+    "headBranch": "feat/03b-followup-001-email-conflict-identity-merge",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:02:36Z",
+    "databaseId": 25264071433,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:02:36Z",
+    "databaseId": 25264071432,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:02:36Z",
+    "databaseId": 25264071424,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:02:36Z",
+    "databaseId": 25264071422,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T23:02:36Z",
+    "databaseId": 25264071420,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:58:13Z",
+    "databaseId": 25263987164,
+    "event": "pull_request",
+    "headBranch": "docs/issue-194-03b-followup-001-email-conflict-identity-merge-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:58:13Z",
+    "databaseId": 25263987152,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-194-03b-followup-001-email-conflict-identity-merge-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T22:58:13Z",
+    "databaseId": 25263987151,
+    "event": "pull_request",
+    "headBranch": "docs/issue-194-03b-followup-001-email-conflict-identity-merge-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:58:13Z",
+    "databaseId": 25263987146,
+    "event": "pull_request",
+    "headBranch": "docs/issue-194-03b-followup-001-email-conflict-identity-merge-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:58:13Z",
+    "databaseId": 25263987143,
+    "event": "pull_request",
+    "headBranch": "docs/issue-194-03b-followup-001-email-conflict-identity-merge-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:55:35Z",
+    "databaseId": 25263942081,
+    "event": "pull_request",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:55:35Z",
+    "databaseId": 25263942078,
+    "event": "pull_request",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:55:35Z",
+    "databaseId": 25263942070,
+    "event": "pull_request",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:55:35Z",
+    "databaseId": 25263942067,
+    "event": "pull_request",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:55:35Z",
+    "databaseId": 25263941870,
+    "event": "pull_request_target",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:51:09Z",
+    "databaseId": 25263865038,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:51:09Z",
+    "databaseId": 25263865034,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:51:09Z",
+    "databaseId": 25263865030,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:51:09Z",
+    "databaseId": 25263865026,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:51:09Z",
+    "databaseId": 25263865025,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:49:36Z",
+    "databaseId": 25263837888,
+    "event": "pull_request",
+    "headBranch": "feat/issue-195-03b-followup-002-sync-shared-modules-owner",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:49:36Z",
+    "databaseId": 25263837883,
+    "event": "pull_request",
+    "headBranch": "feat/issue-195-03b-followup-002-sync-shared-modules-owner",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:49:36Z",
+    "databaseId": 25263837880,
+    "event": "pull_request_target",
+    "headBranch": "feat/issue-195-03b-followup-002-sync-shared-modules-owner",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:49:36Z",
+    "databaseId": 25263837877,
+    "event": "pull_request",
+    "headBranch": "feat/issue-195-03b-followup-002-sync-shared-modules-owner",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:49:36Z",
+    "databaseId": 25263837875,
+    "event": "pull_request",
+    "headBranch": "feat/issue-195-03b-followup-002-sync-shared-modules-owner",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:46:44Z",
+    "databaseId": 25263789276,
+    "event": "pull_request_target",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T22:46:44Z",
+    "databaseId": 25263789263,
+    "event": "pull_request",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:46:44Z",
+    "databaseId": 25263789262,
+    "event": "pull_request",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:46:44Z",
+    "databaseId": 25263789255,
+    "event": "pull_request",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:46:44Z",
+    "databaseId": 25263789252,
+    "event": "pull_request",
+    "headBranch": "feat/06c-B-admin-members",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:28:48Z",
+    "databaseId": 25263461932,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:28:48Z",
+    "databaseId": 25263461930,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:28:48Z",
+    "databaseId": 25263461926,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:28:48Z",
+    "databaseId": 25263461921,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:28:47Z",
+    "databaseId": 25263461610,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:19:12Z",
+    "databaseId": 25263283379,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:19:12Z",
+    "databaseId": 25263283361,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:19:12Z",
+    "databaseId": 25263283353,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:19:12Z",
+    "databaseId": 25263283348,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:19:12Z",
+    "databaseId": 25263283342,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:17:17Z",
+    "databaseId": 25263249484,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:17:17Z",
+    "databaseId": 25263249478,
+    "event": "pull_request",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:17:17Z",
+    "databaseId": 25263249476,
+    "event": "pull_request",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:17:17Z",
+    "databaseId": 25263249471,
+    "event": "pull_request",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:17:17Z",
+    "databaseId": 25263249468,
+    "event": "pull_request",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:16:32Z",
+    "databaseId": 25263235566,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:16:32Z",
+    "databaseId": 25263235560,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:16:32Z",
+    "databaseId": 25263235559,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:16:32Z",
+    "databaseId": 25263235555,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:16:32Z",
+    "databaseId": 25263235551,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:12:23Z",
+    "databaseId": 25263157195,
+    "event": "pull_request",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:12:23Z",
+    "databaseId": 25263157194,
+    "event": "pull_request",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:12:23Z",
+    "databaseId": 25263157188,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:12:23Z",
+    "databaseId": 25263157186,
+    "event": "pull_request",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:12:23Z",
+    "databaseId": 25263157182,
+    "event": "pull_request",
+    "headBranch": "docs/issue-196-response-email-unique-ddl-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:11:01Z",
+    "databaseId": 25263130539,
+    "event": "pull_request",
+    "headBranch": "feat/06b-B-profile-self-service-request-ui-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:11:01Z",
+    "databaseId": 25263130535,
+    "event": "pull_request",
+    "headBranch": "feat/06b-B-profile-self-service-request-ui-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:11:01Z",
+    "databaseId": 25263130527,
+    "event": "pull_request",
+    "headBranch": "feat/06b-B-profile-self-service-request-ui-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:11:01Z",
+    "databaseId": 25263130508,
+    "event": "pull_request",
+    "headBranch": "feat/06b-B-profile-self-service-request-ui-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T22:11:01Z",
+    "databaseId": 25263130497,
+    "event": "pull_request_target",
+    "headBranch": "feat/06b-B-profile-self-service-request-ui-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T14:15:49Z",
+    "databaseId": 25253877773,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T14:15:48Z",
+    "databaseId": 25253877751,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T14:15:48Z",
+    "databaseId": 25253877740,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T14:15:48Z",
+    "databaseId": 25253877732,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T14:15:48Z",
+    "databaseId": 25253877506,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:54:04Z",
+    "databaseId": 25253453933,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:50:09Z",
+    "databaseId": 25253382995,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:50:09Z",
+    "databaseId": 25253382991,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:50:09Z",
+    "databaseId": 25253382983,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:50:09Z",
+    "databaseId": 25253382982,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:50:09Z",
+    "databaseId": 25253382981,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:46:28Z",
+    "databaseId": 25253316102,
+    "event": "pull_request",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:46:28Z",
+    "databaseId": 25253316099,
+    "event": "pull_request",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:46:28Z",
+    "databaseId": 25253316098,
+    "event": "pull_request",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:46:28Z",
+    "databaseId": 25253316094,
+    "event": "pull_request",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:46:28Z",
+    "databaseId": 25253316045,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:43:11Z",
+    "databaseId": 25253256105,
+    "event": "pull_request",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:43:10Z",
+    "databaseId": 25253256097,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:43:10Z",
+    "databaseId": 25253256096,
+    "event": "pull_request",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:43:10Z",
+    "databaseId": 25253256092,
+    "event": "pull_request",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:43:10Z",
+    "databaseId": 25253256091,
+    "event": "pull_request",
+    "headBranch": "docs/issue-382-05b-a-auth-mail-env-contract-alignment-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:36:09Z",
+    "databaseId": 25253128164,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:36:09Z",
+    "databaseId": 25253128163,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:36:09Z",
+    "databaseId": 25253128156,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:36:09Z",
+    "databaseId": 25253128148,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:36:09Z",
+    "databaseId": 25253128145,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:29:56Z",
+    "databaseId": 25253012685,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:29:56Z",
+    "databaseId": 25253012673,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:29:56Z",
+    "databaseId": 25253012670,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:29:56Z",
+    "databaseId": 25253012663,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:29:55Z",
+    "databaseId": 25253012361,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:22:09Z",
+    "databaseId": 25252873107,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T13:22:09Z",
+    "databaseId": 25252873105,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:22:09Z",
+    "databaseId": 25252873102,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:22:09Z",
+    "databaseId": 25252873101,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:22:08Z",
+    "databaseId": 25252872864,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:10:47Z",
+    "databaseId": 25252664307,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:10:47Z",
+    "databaseId": 25252664294,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:10:47Z",
+    "databaseId": 25252664292,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:10:47Z",
+    "databaseId": 25252664290,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:10:47Z",
+    "databaseId": 25252664281,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:08:59Z",
+    "databaseId": 25252629876,
+    "event": "pull_request",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:08:59Z",
+    "databaseId": 25252629874,
+    "event": "pull_request",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:08:59Z",
+    "databaseId": 25252629869,
+    "event": "pull_request",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:08:58Z",
+    "databaseId": 25252629864,
+    "event": "pull_request",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:08:57Z",
+    "databaseId": 25252629391,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:00:53Z",
+    "databaseId": 25252485054,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:00:53Z",
+    "databaseId": 25252485049,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:00:53Z",
+    "databaseId": 25252485045,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:00:53Z",
+    "databaseId": 25252485025,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T13:00:53Z",
+    "databaseId": 25252485023,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:59:18Z",
+    "databaseId": 25252454553,
+    "event": "pull_request",
+    "headBranch": "feat/06b-b-profile-self-service-request-ui",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:59:18Z",
+    "databaseId": 25252454549,
+    "event": "pull_request",
+    "headBranch": "feat/06b-b-profile-self-service-request-ui",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:59:18Z",
+    "databaseId": 25252454542,
+    "event": "pull_request",
+    "headBranch": "feat/06b-b-profile-self-service-request-ui",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:59:18Z",
+    "databaseId": 25252454536,
+    "event": "pull_request",
+    "headBranch": "feat/06b-b-profile-self-service-request-ui",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:59:16Z",
+    "databaseId": 25252453990,
+    "event": "pull_request_target",
+    "headBranch": "feat/06b-b-profile-self-service-request-ui",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:58:18Z",
+    "databaseId": 25252437012,
+    "event": "pull_request",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:58:18Z",
+    "databaseId": 25252437001,
+    "event": "pull_request",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:58:18Z",
+    "databaseId": 25252436991,
+    "event": "pull_request",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:58:18Z",
+    "databaseId": 25252436988,
+    "event": "pull_request",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:58:18Z",
+    "databaseId": 25252436813,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:49:00Z",
+    "databaseId": 25252272066,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:49:00Z",
+    "databaseId": 25252272064,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:49:00Z",
+    "databaseId": 25252272062,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:49:00Z",
+    "databaseId": 25252272061,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:49:00Z",
+    "databaseId": 25252272053,
+    "event": "pull_request",
+    "headBranch": "docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:28:15Z",
+    "databaseId": 25251900004,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:28:15Z",
+    "databaseId": 25251900003,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:28:15Z",
+    "databaseId": 25251899998,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:28:15Z",
+    "databaseId": 25251899996,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:28:14Z",
+    "databaseId": 25251899662,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:23:56Z",
+    "databaseId": 25251822999,
+    "event": "pull_request_target",
+    "headBranch": "feat/06b-b-profile-self-service-request-ui",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:23:49Z",
+    "databaseId": 25251820911,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-355-opennext-workers-cd-cutover-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:22:05Z",
+    "databaseId": 25251790806,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:22:05Z",
+    "databaseId": 25251790798,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:22:05Z",
+    "databaseId": 25251790796,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:22:05Z",
+    "databaseId": 25251790795,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:22:05Z",
+    "databaseId": 25251790785,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:18:43Z",
+    "databaseId": 25251733027,
+    "event": "pull_request",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:18:43Z",
+    "databaseId": 25251733026,
+    "event": "pull_request",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:18:43Z",
+    "databaseId": 25251733025,
+    "event": "pull_request",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:18:43Z",
+    "databaseId": 25251733024,
+    "event": "pull_request",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:18:41Z",
+    "databaseId": 25251732782,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:11:12Z",
+    "databaseId": 25251604412,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:11:12Z",
+    "databaseId": 25251604410,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:11:12Z",
+    "databaseId": 25251604408,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:11:12Z",
+    "databaseId": 25251604404,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:11:12Z",
+    "databaseId": 25251604401,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:09:34Z",
+    "databaseId": 25251576083,
+    "event": "pull_request",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:09:34Z",
+    "databaseId": 25251576077,
+    "event": "pull_request",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:09:34Z",
+    "databaseId": 25251576076,
+    "event": "pull_request",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:09:34Z",
+    "databaseId": 25251576075,
+    "event": "pull_request",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:09:34Z",
+    "databaseId": 25251575774,
+    "event": "pull_request_target",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:01:28Z",
+    "databaseId": 25251435192,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:01:28Z",
+    "databaseId": 25251435186,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:01:28Z",
+    "databaseId": 25251435180,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:01:28Z",
+    "databaseId": 25251435178,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T12:01:28Z",
+    "databaseId": 25251435177,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T11:59:27Z",
+    "databaseId": 25251396577,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T11:59:27Z",
+    "databaseId": 25251396576,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T11:59:27Z",
+    "databaseId": 25251396574,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T11:59:27Z",
+    "databaseId": 25251396568,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T11:59:27Z",
+    "databaseId": 25251396562,
+    "event": "pull_request_target",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:32:37Z",
+    "databaseId": 25243822933,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:32:37Z",
+    "databaseId": 25243822929,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T04:32:37Z",
+    "databaseId": 25243822926,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:32:37Z",
+    "databaseId": 25243822921,
+    "event": "pull_request",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:32:37Z",
+    "databaseId": 25243822917,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-359-production-d1-schema-aliases-apply-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:30:52Z",
+    "databaseId": 25243791492,
+    "event": "pull_request",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:30:52Z",
+    "databaseId": 25243791491,
+    "event": "pull_request",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:30:52Z",
+    "databaseId": 25243791487,
+    "event": "pull_request",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:30:52Z",
+    "databaseId": 25243791484,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:30:52Z",
+    "databaseId": 25243791483,
+    "event": "pull_request",
+    "headBranch": "docs/issue-346-08a-canonical-workflow-tree-restore-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:29:49Z",
+    "databaseId": 25243771711,
+    "event": "pull_request",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:29:49Z",
+    "databaseId": 25243771703,
+    "event": "pull_request",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:29:49Z",
+    "databaseId": 25243771696,
+    "event": "pull_request_target",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:29:49Z",
+    "databaseId": 25243771695,
+    "event": "pull_request",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:29:49Z",
+    "databaseId": 25243771691,
+    "event": "pull_request",
+    "headBranch": "docs/coverage-2026-05-wave-precondition-recovery-task-specs",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:21:09Z",
+    "databaseId": 25243624019,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:21:09Z",
+    "databaseId": 25243624010,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:21:09Z",
+    "databaseId": 25243624009,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:21:09Z",
+    "databaseId": 25243624007,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T04:21:09Z",
+    "databaseId": 25243624006,
+    "event": "pull_request",
+    "headBranch": "docs/issue-353-09c-production-deploy-execution-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:58:40Z",
+    "databaseId": 25243229323,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:58:40Z",
+    "databaseId": 25243229321,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:58:40Z",
+    "databaseId": 25243229319,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:58:40Z",
+    "databaseId": 25243229317,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:58:40Z",
+    "databaseId": 25243229314,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:40:28Z",
+    "databaseId": 25242927597,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:40:28Z",
+    "databaseId": 25242927594,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:40:28Z",
+    "databaseId": 25242927591,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:40:28Z",
+    "databaseId": 25242927588,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:40:27Z",
+    "databaseId": 25242927295,
+    "event": "pull_request_target",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:37:03Z",
+    "databaseId": 25242868643,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-339-ut-09a-exec-staging-smoke-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:37:03Z",
+    "databaseId": 25242868640,
+    "event": "pull_request",
+    "headBranch": "docs/issue-339-ut-09a-exec-staging-smoke-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:37:03Z",
+    "databaseId": 25242868638,
+    "event": "pull_request",
+    "headBranch": "docs/issue-339-ut-09a-exec-staging-smoke-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:37:03Z",
+    "databaseId": 25242868631,
+    "event": "pull_request",
+    "headBranch": "docs/issue-339-ut-09a-exec-staging-smoke-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:37:03Z",
+    "databaseId": 25242868630,
+    "event": "pull_request",
+    "headBranch": "docs/issue-339-ut-09a-exec-staging-smoke-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:22:31Z",
+    "databaseId": 25242575643,
+    "event": "pull_request_target",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:22:31Z",
+    "databaseId": 25242575639,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:22:31Z",
+    "databaseId": 25242575637,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:22:31Z",
+    "databaseId": 25242575631,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:22:31Z",
+    "databaseId": 25242575630,
+    "event": "pull_request",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:13:35Z",
+    "databaseId": 25242409917,
+    "event": "pull_request_target",
+    "headBranch": "docs/06c-A-admin-dashboard-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:00:48Z",
+    "databaseId": 25242158470,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:00:48Z",
+    "databaseId": 25242158308,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:00:48Z",
+    "databaseId": 25242158293,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:00:48Z",
+    "databaseId": 25242158291,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T03:00:48Z",
+    "databaseId": 25242158286,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:54:18Z",
+    "databaseId": 25242035840,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:54:18Z",
+    "databaseId": 25242035828,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:54:18Z",
+    "databaseId": 25242035819,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:54:18Z",
+    "databaseId": 25242035813,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:54:17Z",
+    "databaseId": 25242035736,
+    "event": "pull_request_target",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:50:36Z",
+    "databaseId": 25241965709,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:50:36Z",
+    "databaseId": 25241965707,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T02:50:36Z",
+    "databaseId": 25241965705,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:50:36Z",
+    "databaseId": 25241965697,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:50:35Z",
+    "databaseId": 25241965677,
+    "event": "pull_request_target",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:47:29Z",
+    "databaseId": 25241909367,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:47:29Z",
+    "databaseId": 25241909352,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:47:29Z",
+    "databaseId": 25241909351,
+    "event": "pull_request_target",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:47:29Z",
+    "databaseId": 25241909347,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T02:47:29Z",
+    "databaseId": 25241909344,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:46:47Z",
+    "databaseId": 25241896888,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:46:47Z",
+    "databaseId": 25241896884,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:46:47Z",
+    "databaseId": 25241896872,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:46:47Z",
+    "databaseId": 25241896871,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:46:47Z",
+    "databaseId": 25241896869,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:45:07Z",
+    "databaseId": 25241865624,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:45:07Z",
+    "databaseId": 25241865614,
+    "event": "pull_request_target",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T02:45:07Z",
+    "databaseId": 25241865603,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:45:07Z",
+    "databaseId": 25241865601,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:45:07Z",
+    "databaseId": 25241865597,
+    "event": "pull_request",
+    "headBranch": "feat/06b-a-me-api-authjs-session-resolver-close",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:44:07Z",
+    "databaseId": 25241845544,
+    "event": "pull_request",
+    "headBranch": "docs/issue-330-u-fix-cf-acct-01-cloudflare-api-token-scope-audit",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:44:07Z",
+    "databaseId": 25241845528,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-330-u-fix-cf-acct-01-cloudflare-api-token-scope-audit",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:44:07Z",
+    "databaseId": 25241845520,
+    "event": "pull_request",
+    "headBranch": "docs/issue-330-u-fix-cf-acct-01-cloudflare-api-token-scope-audit",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:44:07Z",
+    "databaseId": 25241845519,
+    "event": "pull_request",
+    "headBranch": "docs/issue-330-u-fix-cf-acct-01-cloudflare-api-token-scope-audit",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:44:07Z",
+    "databaseId": 25241845515,
+    "event": "pull_request",
+    "headBranch": "docs/issue-330-u-fix-cf-acct-01-cloudflare-api-token-scope-audit",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:21:34Z",
+    "databaseId": 25241424940,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:21:34Z",
+    "databaseId": 25241424938,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:21:34Z",
+    "databaseId": 25241424930,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:21:34Z",
+    "databaseId": 25241424921,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:21:34Z",
+    "databaseId": 25241424918,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:47Z",
+    "databaseId": 25241391858,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:47Z",
+    "databaseId": 25241391851,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:47Z",
+    "databaseId": 25241391850,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:47Z",
+    "databaseId": 25241391847,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:46Z",
+    "databaseId": 25241391464,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:10Z",
+    "databaseId": 25241380891,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:10Z",
+    "databaseId": 25241380882,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:10Z",
+    "databaseId": 25241380878,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:10Z",
+    "databaseId": 25241380872,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T02:19:10Z",
+    "databaseId": 25241380870,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:30:03Z",
+    "databaseId": 25239081778,
+    "event": "pull_request",
+    "headBranch": "docs/06a-A-public-web-real-workers-d1-smoke-execution-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:30:03Z",
+    "databaseId": 25239081683,
+    "event": "pull_request",
+    "headBranch": "docs/06a-A-public-web-real-workers-d1-smoke-execution-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:30:03Z",
+    "databaseId": 25239081668,
+    "event": "pull_request_target",
+    "headBranch": "docs/06a-A-public-web-real-workers-d1-smoke-execution-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:30:03Z",
+    "databaseId": 25239081651,
+    "event": "pull_request",
+    "headBranch": "docs/06a-A-public-web-real-workers-d1-smoke-execution-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:30:03Z",
+    "databaseId": 25239081650,
+    "event": "pull_request",
+    "headBranch": "docs/06a-A-public-web-real-workers-d1-smoke-execution-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:20:57Z",
+    "databaseId": 25238875539,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:20:57Z",
+    "databaseId": 25238875529,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:20:57Z",
+    "databaseId": 25238875528,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:20:57Z",
+    "databaseId": 25238875525,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:20:56Z",
+    "databaseId": 25238874997,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T00:18:05Z",
+    "databaseId": 25238808851,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:18:05Z",
+    "databaseId": 25238808846,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:18:05Z",
+    "databaseId": 25238808839,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:18:05Z",
+    "databaseId": 25238808838,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:18:05Z",
+    "databaseId": 25238808663,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:12:01Z",
+    "databaseId": 25238671431,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:12:01Z",
+    "databaseId": 25238671419,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:12:01Z",
+    "databaseId": 25238671416,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:12:01Z",
+    "databaseId": 25238671415,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:12:01Z",
+    "databaseId": 25238671410,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:09:58Z",
+    "databaseId": 25238623454,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:09:57Z",
+    "databaseId": 25238623444,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:09:57Z",
+    "databaseId": 25238623440,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:09:57Z",
+    "databaseId": 25238623437,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-02T00:09:57Z",
+    "databaseId": 25238623435,
+    "event": "pull_request",
+    "headBranch": "docs/issue-333-ut01-07-fu01-ut09-canonical-sync-job-receiver",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:09:25Z",
+    "databaseId": 25238611189,
+    "event": "pull_request",
+    "headBranch": "feat/wt-5",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:09:25Z",
+    "databaseId": 25238611185,
+    "event": "pull_request",
+    "headBranch": "feat/wt-5",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:09:25Z",
+    "databaseId": 25238611180,
+    "event": "pull_request",
+    "headBranch": "feat/wt-5",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:09:25Z",
+    "databaseId": 25238611165,
+    "event": "pull_request",
+    "headBranch": "feat/wt-5",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:09:24Z",
+    "databaseId": 25238610755,
+    "event": "pull_request_target",
+    "headBranch": "feat/wt-5",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:03:12Z",
+    "databaseId": 25238462331,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:03:12Z",
+    "databaseId": 25238462326,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:03:12Z",
+    "databaseId": 25238462320,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:03:12Z",
+    "databaseId": 25238462319,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:03:12Z",
+    "databaseId": 25238462316,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:01:33Z",
+    "databaseId": 25238423421,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:01:33Z",
+    "databaseId": 25238423420,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:01:33Z",
+    "databaseId": 25238423418,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:01:33Z",
+    "databaseId": 25238423405,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-02T00:01:33Z",
+    "databaseId": 25238423398,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:59:51Z",
+    "databaseId": 25238378474,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:59:51Z",
+    "databaseId": 25238378455,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:59:51Z",
+    "databaseId": 25238378436,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:59:51Z",
+    "databaseId": 25238378432,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:59:51Z",
+    "databaseId": 25238378430,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:46:55Z",
+    "databaseId": 25238055118,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:46:55Z",
+    "databaseId": 25238055112,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:46:55Z",
+    "databaseId": 25238055108,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:46:55Z",
+    "databaseId": 25238055106,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:46:55Z",
+    "databaseId": 25238055105,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-a-logpush-target-diff-script-001-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:41:30Z",
+    "databaseId": 25237920512,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:41:30Z",
+    "databaseId": 25237920511,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:41:30Z",
+    "databaseId": 25237920509,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:41:30Z",
+    "databaseId": 25237920507,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:41:30Z",
+    "databaseId": 25237920413,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:36:57Z",
+    "databaseId": 25237804929,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:36:57Z",
+    "databaseId": 25237804923,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T23:36:57Z",
+    "databaseId": 25237804915,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:36:57Z",
+    "databaseId": 25237804911,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:36:55Z",
+    "databaseId": 25237804445,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:31:17Z",
+    "databaseId": 25237658087,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:31:17Z",
+    "databaseId": 25237658079,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:31:17Z",
+    "databaseId": 25237658076,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:31:17Z",
+    "databaseId": 25237658069,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:31:17Z",
+    "databaseId": 25237658068,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:03:56Z",
+    "databaseId": 25236916282,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:03:56Z",
+    "databaseId": 25236916274,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:03:56Z",
+    "databaseId": 25236916272,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:03:56Z",
+    "databaseId": 25236916270,
+    "event": "pull_request",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:03:56Z",
+    "databaseId": 25236916256,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-319-admin-queue-resolve-workflow-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:02:17Z",
+    "databaseId": 25236870865,
+    "event": "pull_request",
+    "headBranch": "feat/wt-5",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:02:17Z",
+    "databaseId": 25236870852,
+    "event": "pull_request_target",
+    "headBranch": "feat/wt-5",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:02:17Z",
+    "databaseId": 25236870849,
+    "event": "pull_request",
+    "headBranch": "feat/wt-5",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:02:17Z",
+    "databaseId": 25236870846,
+    "event": "pull_request",
+    "headBranch": "feat/wt-5",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T23:02:17Z",
+    "databaseId": 25236870838,
+    "event": "pull_request",
+    "headBranch": "feat/wt-5",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:59:56Z",
+    "databaseId": 25236801192,
+    "event": "pull_request",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:59:56Z",
+    "databaseId": 25236801179,
+    "event": "pull_request",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:59:56Z",
+    "databaseId": 25236801163,
+    "event": "pull_request",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:59:56Z",
+    "databaseId": 25236801162,
+    "event": "pull_request",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:59:55Z",
+    "databaseId": 25236800604,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:50:45Z",
+    "databaseId": 25236547447,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:50:45Z",
+    "databaseId": 25236547435,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:50:45Z",
+    "databaseId": 25236547434,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:50:45Z",
+    "databaseId": 25236547433,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:50:45Z",
+    "databaseId": 25236547431,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:47:56Z",
+    "databaseId": 25236467080,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:47:56Z",
+    "databaseId": 25236467079,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:47:56Z",
+    "databaseId": 25236467077,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:47:56Z",
+    "databaseId": 25236467064,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:47:55Z",
+    "databaseId": 25236466785,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:05:21Z",
+    "databaseId": 25235178267,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T22:05:21Z",
+    "databaseId": 25235178246,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:05:21Z",
+    "databaseId": 25235178243,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:05:21Z",
+    "databaseId": 25235178213,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T22:05:21Z",
+    "databaseId": 25235177825,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:59:31Z",
+    "databaseId": 25234989051,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:59:31Z",
+    "databaseId": 25234989050,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:59:31Z",
+    "databaseId": 25234989034,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:59:31Z",
+    "databaseId": 25234989032,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:59:31Z",
+    "databaseId": 25234989030,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:50:08Z",
+    "databaseId": 25234687183,
+    "event": "pull_request",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:50:08Z",
+    "databaseId": 25234687175,
+    "event": "pull_request",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:50:08Z",
+    "databaseId": 25234687173,
+    "event": "pull_request",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:50:08Z",
+    "databaseId": 25234687170,
+    "event": "pull_request",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:50:07Z",
+    "databaseId": 25234686552,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:39:00Z",
+    "databaseId": 25234314958,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:35:03Z",
+    "databaseId": 25234181215,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:35:03Z",
+    "databaseId": 25234181214,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:35:03Z",
+    "databaseId": 25234181208,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:35:03Z",
+    "databaseId": 25234181206,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:35:03Z",
+    "databaseId": 25234181202,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:22:49Z",
+    "databaseId": 25233751394,
+    "event": "pull_request",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:22:49Z",
+    "databaseId": 25233751381,
+    "event": "pull_request",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:22:49Z",
+    "databaseId": 25233751376,
+    "event": "pull_request",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:22:49Z",
+    "databaseId": 25233751375,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:22:49Z",
+    "databaseId": 25233751372,
+    "event": "pull_request",
+    "headBranch": "docs/issue-192-stablekey-literal-lint-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:13:33Z",
+    "databaseId": 25233427513,
+    "event": "pull_request",
+    "headBranch": "feat/05b-B-magic-link-callback-credentials-provider",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:13:33Z",
+    "databaseId": 25233427499,
+    "event": "pull_request",
+    "headBranch": "feat/05b-B-magic-link-callback-credentials-provider",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:13:33Z",
+    "databaseId": 25233427498,
+    "event": "pull_request",
+    "headBranch": "feat/05b-B-magic-link-callback-credentials-provider",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:13:33Z",
+    "databaseId": 25233427497,
+    "event": "pull_request",
+    "headBranch": "feat/05b-B-magic-link-callback-credentials-provider",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T21:13:32Z",
+    "databaseId": 25233426856,
+    "event": "pull_request_target",
+    "headBranch": "feat/05b-B-magic-link-callback-credentials-provider",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:23:57Z",
+    "databaseId": 25217957077,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:23:57Z",
+    "databaseId": 25217957064,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:23:57Z",
+    "databaseId": 25217957051,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:23:57Z",
+    "databaseId": 25217957048,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:23:57Z",
+    "databaseId": 25217957035,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:22:13Z",
+    "databaseId": 25217894957,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:22:12Z",
+    "databaseId": 25217894711,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:22:12Z",
+    "databaseId": 25217894670,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:22:12Z",
+    "databaseId": 25217894662,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:22:12Z",
+    "databaseId": 25217894647,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:02:13Z",
+    "databaseId": 25217183314,
+    "event": "pull_request_target",
+    "headBranch": "feat/05b-B-magic-link-callback-credentials-provider",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:02:03Z",
+    "databaseId": 25217177323,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:02:03Z",
+    "databaseId": 25217177311,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:02:03Z",
+    "databaseId": 25217177304,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:02:03Z",
+    "databaseId": 25217177287,
+    "event": "pull_request",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:02:03Z",
+    "databaseId": 25217177283,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-06-fu-E-d1-backup-long-term-storage",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:00:56Z",
+    "databaseId": 25217139387,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:00:56Z",
+    "databaseId": 25217139373,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:00:56Z",
+    "databaseId": 25217139369,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T14:00:56Z",
+    "databaseId": 25217139365,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T14:00:56Z",
+    "databaseId": 25217139345,
+    "event": "pull_request",
+    "headBranch": "docs/issue-113-02c-followup-002-fixtures-prod-build-exclusion-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:59:30Z",
+    "databaseId": 25217086598,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:59:30Z",
+    "databaseId": 25217086593,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:59:30Z",
+    "databaseId": 25217086580,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:59:30Z",
+    "databaseId": 25217086577,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:59:30Z",
+    "databaseId": 25217086574,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:57:12Z",
+    "databaseId": 25217009679,
+    "event": "pull_request",
+    "headBranch": "docs/issue-108-ut-02a-response-sections-fields-canonical-schema-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:57:12Z",
+    "databaseId": 25217009672,
+    "event": "pull_request",
+    "headBranch": "docs/issue-108-ut-02a-response-sections-fields-canonical-schema-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:57:12Z",
+    "databaseId": 25217009648,
+    "event": "pull_request",
+    "headBranch": "docs/issue-108-ut-02a-response-sections-fields-canonical-schema-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:57:12Z",
+    "databaseId": 25217009644,
+    "event": "pull_request",
+    "headBranch": "docs/issue-108-ut-02a-response-sections-fields-canonical-schema-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:57:11Z",
+    "databaseId": 25217009408,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-108-ut-02a-response-sections-fields-canonical-schema-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:48:19Z",
+    "databaseId": 25216705798,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:48:19Z",
+    "databaseId": 25216705794,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:48:19Z",
+    "databaseId": 25216705793,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:48:19Z",
+    "databaseId": 25216705783,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:48:19Z",
+    "databaseId": 25216705779,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:45:34Z",
+    "databaseId": 25216617598,
+    "event": "pull_request",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:45:34Z",
+    "databaseId": 25216617578,
+    "event": "pull_request",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:45:34Z",
+    "databaseId": 25216617575,
+    "event": "pull_request",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:45:34Z",
+    "databaseId": 25216617574,
+    "event": "pull_request",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:45:33Z",
+    "databaseId": 25216616991,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:37:17Z",
+    "databaseId": 25216343280,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:37:17Z",
+    "databaseId": 25216343269,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:37:17Z",
+    "databaseId": 25216343265,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:37:17Z",
+    "databaseId": 25216343264,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:37:17Z",
+    "databaseId": 25216343256,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:35:01Z",
+    "databaseId": 25216268553,
+    "event": "pull_request",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:35:01Z",
+    "databaseId": 25216268550,
+    "event": "pull_request",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:35:01Z",
+    "databaseId": 25216268517,
+    "event": "pull_request",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:35:01Z",
+    "databaseId": 25216268515,
+    "event": "pull_request",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:35:00Z",
+    "databaseId": 25216267866,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:29:08Z",
+    "databaseId": 25216068041,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:29:08Z",
+    "databaseId": 25216068037,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:29:08Z",
+    "databaseId": 25216068029,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T13:29:08Z",
+    "databaseId": 25216068015,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:29:08Z",
+    "databaseId": 25216068013,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:18:06Z",
+    "databaseId": 25215712960,
+    "event": "pull_request",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:18:06Z",
+    "databaseId": 25215712959,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:18:06Z",
+    "databaseId": 25215712944,
+    "event": "pull_request",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:18:06Z",
+    "databaseId": 25215712939,
+    "event": "pull_request",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:18:06Z",
+    "databaseId": 25215712935,
+    "event": "pull_request",
+    "headBranch": "feat/ut-05a-followup-google-oauth-completion",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:15:19Z",
+    "databaseId": 25215620721,
+    "event": "pull_request",
+    "headBranch": "feat/05b-A-auth-mail-env-contract-alignment-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:15:19Z",
+    "databaseId": 25215620708,
+    "event": "pull_request",
+    "headBranch": "feat/05b-A-auth-mail-env-contract-alignment-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:15:19Z",
+    "databaseId": 25215620707,
+    "event": "pull_request",
+    "headBranch": "feat/05b-A-auth-mail-env-contract-alignment-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:15:19Z",
+    "databaseId": 25215620706,
+    "event": "pull_request",
+    "headBranch": "feat/05b-A-auth-mail-env-contract-alignment-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:15:18Z",
+    "databaseId": 25215620167,
+    "event": "pull_request_target",
+    "headBranch": "feat/05b-A-auth-mail-env-contract-alignment-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:14:25Z",
+    "databaseId": 25215590635,
+    "event": "pull_request",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:14:25Z",
+    "databaseId": 25215590628,
+    "event": "pull_request",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:14:25Z",
+    "databaseId": 25215590615,
+    "event": "pull_request",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:14:25Z",
+    "databaseId": 25215590603,
+    "event": "pull_request",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:14:24Z",
+    "databaseId": 25215590135,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:08:47Z",
+    "databaseId": 25215417711,
+    "event": "pull_request_target",
+    "headBranch": "feat/05b-A-auth-mail-env-contract-alignment-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T13:05:51Z",
+    "databaseId": 25215331013,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:05:51Z",
+    "databaseId": 25215331002,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:05:51Z",
+    "databaseId": 25215330992,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:05:51Z",
+    "databaseId": 25215330986,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:05:51Z",
+    "databaseId": 25215330974,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:04:12Z",
+    "databaseId": 25215280304,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:04:12Z",
+    "databaseId": 25215280301,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:04:12Z",
+    "databaseId": 25215280282,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:04:12Z",
+    "databaseId": 25215280280,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T13:04:12Z",
+    "databaseId": 25215279835,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T12:58:33Z",
+    "databaseId": 25215113219,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:58:33Z",
+    "databaseId": 25215113199,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:58:33Z",
+    "databaseId": 25215113198,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:58:33Z",
+    "databaseId": 25215113197,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:58:32Z",
+    "databaseId": 25215112470,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:29:17Z",
+    "databaseId": 25214285085,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:29:17Z",
+    "databaseId": 25214285079,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:29:17Z",
+    "databaseId": 25214285075,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:29:17Z",
+    "databaseId": 25214285071,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T12:29:17Z",
+    "databaseId": 25214285068,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:10:58Z",
+    "databaseId": 25213802238,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-108-ut-02a-response-sections-fields-canonical-schema-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:09:09Z",
+    "databaseId": 25213755595,
+    "event": "pull_request",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:09:09Z",
+    "databaseId": 25213755588,
+    "event": "pull_request",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:09:09Z",
+    "databaseId": 25213755566,
+    "event": "pull_request",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:09:09Z",
+    "databaseId": 25213755564,
+    "event": "pull_request",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T12:09:08Z",
+    "databaseId": 25213755178,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-112-02c-followup-api-env-type-helper-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:58:29Z",
+    "databaseId": 25213477739,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:58:29Z",
+    "databaseId": 25213477714,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:58:29Z",
+    "databaseId": 25213477709,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:58:29Z",
+    "databaseId": 25213477707,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:58:28Z",
+    "databaseId": 25213477235,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:53:09Z",
+    "databaseId": 25213340185,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:41:00Z",
+    "databaseId": 25213025154,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T11:38:20Z",
+    "databaseId": 25212958265,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:38:20Z",
+    "databaseId": 25212958262,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:38:20Z",
+    "databaseId": 25212958259,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:38:20Z",
+    "databaseId": 25212958254,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:38:20Z",
+    "databaseId": 25212958251,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:19:40Z",
+    "databaseId": 25212481692,
+    "event": "pull_request",
+    "headBranch": "feat/issue-109-ut-02a-tag-assignment-queue-management",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:19:40Z",
+    "databaseId": 25212481682,
+    "event": "pull_request",
+    "headBranch": "feat/issue-109-ut-02a-tag-assignment-queue-management",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:19:40Z",
+    "databaseId": 25212481680,
+    "event": "pull_request",
+    "headBranch": "feat/issue-109-ut-02a-tag-assignment-queue-management",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:19:40Z",
+    "databaseId": 25212481675,
+    "event": "pull_request_target",
+    "headBranch": "feat/issue-109-ut-02a-tag-assignment-queue-management",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:19:40Z",
+    "databaseId": 25212481670,
+    "event": "pull_request",
+    "headBranch": "feat/issue-109-ut-02a-tag-assignment-queue-management",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:17:20Z",
+    "databaseId": 25212424650,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:17:20Z",
+    "databaseId": 25212424640,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T11:17:20Z",
+    "databaseId": 25212424629,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:17:20Z",
+    "databaseId": 25212424625,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:17:18Z",
+    "databaseId": 25212423867,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T11:00:05Z",
+    "databaseId": 25211982654,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-02a-attendance-profile-integration",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:59:07Z",
+    "databaseId": 25211958585,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:59:07Z",
+    "databaseId": 25211958581,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:59:07Z",
+    "databaseId": 25211958579,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T10:59:07Z",
+    "databaseId": 25211958572,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:59:07Z",
+    "databaseId": 25211958571,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:57:36Z",
+    "databaseId": 25211921597,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:57:36Z",
+    "databaseId": 25211921589,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:57:36Z",
+    "databaseId": 25211921586,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:57:36Z",
+    "databaseId": 25211921584,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:57:35Z",
+    "databaseId": 25211921164,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:52:22Z",
+    "databaseId": 25211786161,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T10:52:22Z",
+    "databaseId": 25211786143,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:52:22Z",
+    "databaseId": 25211786134,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:52:22Z",
+    "databaseId": 25211786130,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:52:22Z",
+    "databaseId": 25211786016,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:44:43Z",
+    "databaseId": 25211591028,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:44:43Z",
+    "databaseId": 25211591019,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:44:43Z",
+    "databaseId": 25211591017,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:44:43Z",
+    "databaseId": 25211591014,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T10:44:43Z",
+    "databaseId": 25211591012,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:37:35Z",
+    "databaseId": 25211413629,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:37:34Z",
+    "databaseId": 25211413541,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T10:37:34Z",
+    "databaseId": 25211413519,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:37:34Z",
+    "databaseId": 25211413512,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T10:37:34Z",
+    "databaseId": 25211413508,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:28:45Z",
+    "databaseId": 25209636793,
+    "event": "pull_request",
+    "headBranch": "docs/issue-106-admin-member-notes-repository-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:28:45Z",
+    "databaseId": 25209636791,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-106-admin-member-notes-repository-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:28:45Z",
+    "databaseId": 25209636780,
+    "event": "pull_request",
+    "headBranch": "docs/issue-106-admin-member-notes-repository-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:28:45Z",
+    "databaseId": 25209636771,
+    "event": "pull_request",
+    "headBranch": "docs/issue-106-admin-member-notes-repository-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:28:45Z",
+    "databaseId": 25209636763,
+    "event": "pull_request",
+    "headBranch": "docs/issue-106-admin-member-notes-repository-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T09:19:06Z",
+    "databaseId": 25209395250,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:19:06Z",
+    "databaseId": 25209395233,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:19:06Z",
+    "databaseId": 25209395216,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:19:06Z",
+    "databaseId": 25209395211,
+    "event": "pull_request",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:19:05Z",
+    "databaseId": 25209394678,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-298-schema-aliases-implementation-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:09:14Z",
+    "databaseId": 25209130653,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T09:09:14Z",
+    "databaseId": 25209130641,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:09:14Z",
+    "databaseId": 25209130638,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:09:14Z",
+    "databaseId": 25209130633,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T09:09:14Z",
+    "databaseId": 25209130619,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:59:05Z",
+    "databaseId": 25208859865,
+    "event": "pull_request",
+    "headBranch": "docs/application-implementation-task-specs",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:59:05Z",
+    "databaseId": 25208859864,
+    "event": "pull_request_target",
+    "headBranch": "docs/application-implementation-task-specs",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:59:05Z",
+    "databaseId": 25208859862,
+    "event": "pull_request",
+    "headBranch": "docs/application-implementation-task-specs",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:59:05Z",
+    "databaseId": 25208859860,
+    "event": "pull_request",
+    "headBranch": "docs/application-implementation-task-specs",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:59:05Z",
+    "databaseId": 25208859859,
+    "event": "pull_request",
+    "headBranch": "docs/application-implementation-task-specs",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:48:01Z",
+    "databaseId": 25208566005,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:48:01Z",
+    "databaseId": 25208565995,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:48:01Z",
+    "databaseId": 25208565994,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T08:48:01Z",
+    "databaseId": 25208565993,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:48:01Z",
+    "databaseId": 25208565991,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:36:36Z",
+    "databaseId": 25208282177,
+    "event": "pull_request",
+    "headBranch": "feat/ut-07a-02-search-tags-resolve-contract-followup",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:36:36Z",
+    "databaseId": 25208282168,
+    "event": "pull_request",
+    "headBranch": "feat/ut-07a-02-search-tags-resolve-contract-followup",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:36:36Z",
+    "databaseId": 25208282166,
+    "event": "pull_request",
+    "headBranch": "feat/ut-07a-02-search-tags-resolve-contract-followup",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:36:36Z",
+    "databaseId": 25208282152,
+    "event": "pull_request",
+    "headBranch": "feat/ut-07a-02-search-tags-resolve-contract-followup",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:36:36Z",
+    "databaseId": 25208281914,
+    "event": "pull_request_target",
+    "headBranch": "feat/ut-07a-02-search-tags-resolve-contract-followup",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:21:20Z",
+    "databaseId": 25207896350,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:21:20Z",
+    "databaseId": 25207896338,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:21:20Z",
+    "databaseId": 25207896337,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:21:20Z",
+    "databaseId": 25207896336,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T08:21:20Z",
+    "databaseId": 25207896328,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:20:38Z",
+    "databaseId": 25207878902,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:20:38Z",
+    "databaseId": 25207878877,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T08:20:38Z",
+    "databaseId": 25207878876,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:20:38Z",
+    "databaseId": 25207878855,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:20:38Z",
+    "databaseId": 25207878854,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:16:03Z",
+    "databaseId": 25207763540,
+    "event": "pull_request",
+    "headBranch": "feat/issue-293-ut-07b-schema-alias-hardening-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:16:03Z",
+    "databaseId": 25207763531,
+    "event": "pull_request",
+    "headBranch": "feat/issue-293-ut-07b-schema-alias-hardening-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:16:03Z",
+    "databaseId": 25207763530,
+    "event": "pull_request",
+    "headBranch": "feat/issue-293-ut-07b-schema-alias-hardening-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:16:03Z",
+    "databaseId": 25207763529,
+    "event": "pull_request",
+    "headBranch": "feat/issue-293-ut-07b-schema-alias-hardening-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T08:16:02Z",
+    "databaseId": 25207763215,
+    "event": "pull_request_target",
+    "headBranch": "feat/issue-293-ut-07b-schema-alias-hardening-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:48:57Z",
+    "databaseId": 25207055951,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:48:57Z",
+    "databaseId": 25207055937,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:48:57Z",
+    "databaseId": 25207055918,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:48:57Z",
+    "databaseId": 25207055917,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T07:48:57Z",
+    "databaseId": 25207055916,
+    "event": "pull_request",
+    "headBranch": "docs/issue-314-audit-log-browsing-ui-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T07:31:44Z",
+    "databaseId": 25206634744,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:31:44Z",
+    "databaseId": 25206634736,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:31:44Z",
+    "databaseId": 25206634732,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:31:44Z",
+    "databaseId": 25206634727,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:31:44Z",
+    "databaseId": 25206634725,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:43Z",
+    "databaseId": 25206164537,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:43Z",
+    "databaseId": 25206164532,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:43Z",
+    "databaseId": 25206164523,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:43Z",
+    "databaseId": 25206164508,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:42Z",
+    "databaseId": 25206164230,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:02Z",
+    "databaseId": 25206148545,
+    "event": "pull_request",
+    "headBranch": "feat/issue-287-ut-cicd-drift-impl-pages-vs-workers-decision-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:02Z",
+    "databaseId": 25206148538,
+    "event": "pull_request",
+    "headBranch": "feat/issue-287-ut-cicd-drift-impl-pages-vs-workers-decision-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:02Z",
+    "databaseId": 25206148533,
+    "event": "pull_request",
+    "headBranch": "feat/issue-287-ut-cicd-drift-impl-pages-vs-workers-decision-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:02Z",
+    "databaseId": 25206148529,
+    "event": "pull_request",
+    "headBranch": "feat/issue-287-ut-cicd-drift-impl-pages-vs-workers-decision-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:12:01Z",
+    "databaseId": 25206148060,
+    "event": "pull_request_target",
+    "headBranch": "feat/issue-287-ut-cicd-drift-impl-pages-vs-workers-decision-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T07:07:49Z",
+    "databaseId": 25206040509,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:07:49Z",
+    "databaseId": 25206040500,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:07:49Z",
+    "databaseId": 25206040499,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:07:49Z",
+    "databaseId": 25206040495,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:07:48Z",
+    "databaseId": 25206040071,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:02:54Z",
+    "databaseId": 25205920863,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "ci"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T07:02:54Z",
+    "databaseId": 25205920861,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:02:54Z",
+    "databaseId": 25205920860,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:02:54Z",
+    "databaseId": 25205920858,
+    "event": "pull_request",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T07:02:52Z",
+    "databaseId": 25205920237,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:59:39Z",
+    "databaseId": 25205835730,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-303-task-spec-design",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T06:55:31Z",
+    "databaseId": 25205732197,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:55:31Z",
+    "databaseId": 25205732194,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:55:31Z",
+    "databaseId": 25205732192,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:55:31Z",
+    "databaseId": 25205732187,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:55:31Z",
+    "databaseId": 25205732185,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:52:22Z",
+    "databaseId": 25205654345,
+    "event": "pull_request",
+    "headBranch": "docs/issue-278-ut-06b-profile-logged-in-visual-evidence-task-spec",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:52:21Z",
+    "databaseId": 25205654281,
+    "event": "pull_request",
+    "headBranch": "docs/issue-278-ut-06b-profile-logged-in-visual-evidence-task-spec",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:52:21Z",
+    "databaseId": 25205654278,
+    "event": "pull_request",
+    "headBranch": "docs/issue-278-ut-06b-profile-logged-in-visual-evidence-task-spec",
+    "name": "PR Build Test (untrusted)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:52:21Z",
+    "databaseId": 25205654274,
+    "event": "pull_request",
+    "headBranch": "docs/issue-278-ut-06b-profile-logged-in-visual-evidence-task-spec",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:52:20Z",
+    "databaseId": 25205653691,
+    "event": "pull_request_target",
+    "headBranch": "docs/issue-278-ut-06b-profile-logged-in-visual-evidence-task-spec",
+    "name": "PR Target Safety Gate (triage)"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:34:19Z",
+    "databaseId": 25205218404,
+    "event": "push",
+    "headBranch": "main",
+    "name": "Validate Build"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:34:19Z",
+    "databaseId": 25205218387,
+    "event": "push",
+    "headBranch": "main",
+    "name": "ci"
+  },
+  {
+    "conclusion": "success",
+    "createdAt": "2026-05-01T06:34:19Z",
+    "databaseId": 25205218380,
+    "event": "push",
+    "headBranch": "main",
+    "name": "web-cd"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T06:34:19Z",
+    "databaseId": 25205218376,
+    "event": "push",
+    "headBranch": "main",
+    "name": "verify-indexes-up-to-date"
+  },
+  {
+    "conclusion": "failure",
+    "createdAt": "2026-05-01T06:34:19Z",
+    "databaseId": 25205218373,
+    "event": "push",
+    "headBranch": "main",
+    "name": "backend-ci"
+  }
+]

@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #359 Out-of-Band Production D1 Apply Audit（2026-05-04）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/` |
+| 状態 | `spec_created root / docs-only / NON_VISUAL / Phase 1-12 completed / runtime_evidence_captured / decision=confirmed / Phase 13 blocked_until_user_approval` |
+| 監査対象 | production D1 `ubm-hyogo-db-prod` の `0008_schema_alias_hardening.sql` (`2026-05-01 08:21:04 UTC`) / `0008_create_schema_aliases.sql` (`2026-05-01 10:59:35 UTC`) 先行 apply |
+| runtime evidence | `outputs/phase-11/` に read-only audit evidence を保存済み。`confirmed` = `backend-ci` `deploy-production` / `Apply D1 migrations`（run `25207878876`, `25211958572`） |
+| CI guard | `.github/workflows/backend-ci.yml` に migration success + deploy failure を `$GITHUB_STEP_SUMMARY` へ明示する `Record post-migration deploy failure` step を追加済み |
+| close-out evidence | `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md` |
+| 禁止事項 | production write / additional apply / rollback / deploy / commit / push / PR / Issue state change |
+
+---
+
 ### UT-07B-FU-03 D1 Production Migration Apply Runbook（2026-05-04）
 
 | 目的 | 参照先 |
@@ -45,6 +60,7 @@
 | Issue 取扱 | #399 は CLOSED 維持。reopen / commit / push / PR / Issue comment は user 明示指示後のみ |
 
 ---
+
 ### UT-05A Auth UI Logout Button（2026-05-03）
 
 | 目的 | 参照先 |
@@ -205,6 +221,20 @@ UT-07B-FU-04 production migration already-applied verification は、`references
 
 > **検索パターン集・コードパターン早見は [quick-reference-search-patterns.md](quick-reference-search-patterns.md) に分離**
 > 機能・タスク別のキーワード分割、読む順番、IPC/Zustand/Result 等のコードスニペットを収録
+
+### 08a-B Public Members Search Filter
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| workflow root | `docs/30-workflows/08a-B-public-search-filter-coverage/` |
+| query 正本 | `docs/00-getting-started-manual/specs/12-search-tags.md` |
+| public API contract | `docs/00-getting-started-manual/specs/01-api-schema.md` |
+| page / UI contract | `docs/00-getting-started-manual/specs/05-pages.md`, `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| API parser / repository | `apps/api/src/_shared/search-query-parser.ts`, `apps/api/src/repository/publicMembers.ts` |
+| Web URL parser / filter UI | `apps/web/src/lib/url/members-search.ts`, `apps/web/app/(public)/members/_components/MembersFilterBar.client.tsx` |
+| Phase 11 runtime evidence contract | `docs/30-workflows/08a-B-public-search-filter-coverage/outputs/phase-11/main.md` |
+
+`status` は参加ステータスであり、公開状態フィルタではない。公開境界は API の base WHERE（`public_consent` / `publish_state` / `is_deleted` / canonical alias exclusion）で固定する。`q` は LIKE wildcard literal escape、tag AND は先行 bind 数を考慮した placeholders offset、sort は `name`/`recent` とも fullName tie-break を使う。runtime screenshot / curl / axe は VISUAL_ON_EXECUTION として 08b / 09a で取得する。
 
 ### AI Chat / LLM Integration Fix 即時導線（2026-03-21）
 
@@ -387,6 +417,7 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | --- | --- |
 | 管理 API 契約（`POST /admin/sync/responses`、`fullSync` / `cursor` / 409 二重起動） | `references/api-endpoints.md`（§管理同期 API） |
 | D1 スキーマ責務（`member_responses` / `member_identities` / `member_status` / `response_fields` / `schema_diff_queue` / `sync_jobs`） | `references/database-schema.md`（§UBM 会員 Forms 同期テーブル 03b） |
+| `sync_jobs` runtime contract SSOT（Issue #435 / 2026-05-04） | runtime: `apps/api/src/jobs/_shared/sync-jobs-schema.ts` / logical spec: `docs/30-workflows/_design/sync-jobs-spec.md` / owner table: `docs/30-workflows/_design/sync-shared-modules-owner.md` / workflow: `docs/30-workflows/completed-tasks/issue-195-sync-jobs-contract-schema-consolidation-001/` |
 | cron `*/15 * * * *` 設定・JWT 署名・Secret 配置 | `references/deployment-cloudflare.md`（§API Worker cron / Forms response sync 03b） |
 | `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `SYNC_ADMIN_TOKEN` 配置 | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
 | D1 health endpoint（`GET /health/db`、`X-Health-Token`、`HEALTH_DB_TOKEN`、401/403/503 境界） | `references/api-endpoints.md`（§UBM-Hyogo Health API）, `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
@@ -1443,6 +1474,19 @@ packages/
 | recent actions | `audit_log` 直近7日 / max20 / `dashboard.view` 除外 |
 | audit | dashboard read は `dashboard.view` として記録し、recent actions と KPI を自己汚染しない |
 | Phase 12 evidence | `docs/30-workflows/06c-A-admin-dashboard/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
+### UBM-Hyogo Playwright Full Execution 早見（08b-A / 2026-05-04）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/` |
+| 状態 | `spec_created` / `implementation-spec` / `VISUAL_ON_EXECUTION` / Phase 1-10 and 12 completed / Phase 11 contract_ready_runtime_pending / Phase 13 pending_user_approval |
+| 実測境界 | Phase 11 runtime evidence is `PENDING_RUNTIME_EVIDENCE`; planned paths are not PASS evidence |
+| evidence manifest | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence-manifest.md` |
+| required runtime evidence | Playwright HTML/JSON report、real axe report、30+ desktop/mobile screenshots、non-admin `/admin/*` UI gate、direct `/api/admin/*` 403、foreign content edit 403、secret hygiene、zero skipped spec inventory |
+| Phase 12 evidence | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| upstream | `08b-parallel-playwright-e2e-and-ui-acceptance-smoke` scaffold |
+| downstream | 09a staging smoke and 09c production deploy remain gated until fresh runtime evidence or explicit blocker |
 
 ### UBM-Hyogo Staging Smoke / Forms Sync Validation 早見（09a / 2026-05-01）
 
