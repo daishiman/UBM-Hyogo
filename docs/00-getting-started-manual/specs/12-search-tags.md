@@ -25,7 +25,23 @@
 
 `q` は前後空白を削り、連続空白を 1 つに正規化したうえで最大 200 文字まで受け付ける。API と Web の双方でこの上限を揃える。
 
-`tag` は repeated query parameter として扱い、複数指定時は AND 条件で検索する。Web UI は URL から既存 tag を復元し、選択済み tag の削除と条件クリアを提供する。新規 tag 候補選択 UI は 06a 後続タスクで扱う。
+`q` に含まれる `%` / `_` / `\` は SQL LIKE のワイルドカードではなく、利用者が入力した文字として扱う。API は `escapeLikePattern` と `LIKE ? ESCAPE '\'` でこの境界を保証する。
+
+`tag` は repeated query parameter として扱い、重複を除き、先頭 5 件まで採用する。複数指定時は AND 条件で検索し、SQL は `HAVING COUNT(DISTINCT td.code) = <tag count>` で全 tag を持つ member だけを返す。Web UI は URL から既存 tag を復元し、選択済み tag の削除と条件クリアを提供する。新規 tag 候補選択 UI は 06a 後続タスクで扱う。
+
+### Query parameter contract（08a-B）
+
+| key | 許容値 | 不正値 | 実装境界 |
+| --- | --- | --- | --- |
+| `q` | 0〜200文字 | 200文字超は truncate | trim + 連続空白正規化 + LIKE escape |
+| `zone` | `all` / `0_to_1` / `1_to_10` / `10_to_100` | `all` fallback | `ubmZone` response field EXISTS |
+| `status` | `all` / `member` / `non_member` / `academy` | `all` fallback | 参加ステータス。公開状態ではない |
+| `tag` | repeated string、最大5件 | 空文字削除、6件目以降無視 | tag AND |
+| `sort` | `recent` / `name` | `recent` fallback | `recent`: `last_submitted_at DESC, fullName ASC, member_id ASC`; `name`: `fullName ASC, member_id ASC` |
+| `density` | `comfy` / `dense` / `list` | `comfy` fallback | UI 表示密度。API は `appliedQuery` に echo |
+| `page` / `limit` | `page>=1`, `1<=limit<=100` | clamp/fallback | default `page=1`, `limit=24` |
+
+`status` query は UBM 参加ステータスであり、公開/非公開/退会済みを切り替える公開状態フィルタではない。公開一覧は常に `public_consent='consented'`、`publish_state='public'`、`is_deleted=0`、canonical alias source 除外を base WHERE として適用する。
 
 ### 画面上の並び
 

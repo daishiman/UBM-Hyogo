@@ -15,5 +15,5 @@
 ## Screenshot / visual evidence reference
 
 - Local Phase 11 screenshot: not captured in this docs-only remaining-only close-out because authenticated admin session + D1 fixture runtime is delegated to 08b/09a. See `outputs/phase-11/runtime-evidence-handoff.md`.
-- Handoff target: `docs/30-workflows/02-application-implementation/08b-A-playwright-e2e-full-execution/outputs/phase-11/` and `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/`.
+- Handoff target: `docs/30-workflows/08b-A-playwright-e2e-full-execution/outputs/phase-11/` and `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/`.
 - Expected screenshot name: `admin-tags` from `apps/web/playwright/tests/admin-pages.spec.ts` via `AdminTagsPage.assertQueueShell()`.

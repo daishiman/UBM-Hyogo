@@ -53,15 +53,19 @@ describe("search-query-parser", () => {
     expect(parsePublicMemberQuery({ limit: "-5" }).limit).toBe(1);
   });
 
-  it("dedups repeated tags and accepts both tag/tags forms", () => {
-    expect(parsePublicMemberQuery({ tag: ["ai", "dx", "ai"] }).tags).toEqual([
-      "ai",
-      "dx",
-    ]);
+  it("dedups repeated tags, drops empty tags, and limits to five", () => {
+    expect(
+      parsePublicMemberQuery({
+        tag: ["ai", "dx", "", "ai", "ops", "sales", "legal", "extra"],
+      }).tags,
+    ).toEqual(["ai", "dx", "ops", "sales", "legal"]);
   });
 
-  it("truncates very long q", () => {
-    const long = "a".repeat(500);
+  it("normalizes q whitespace and truncates very long q", () => {
+    expect(parsePublicMemberQuery({ q: "  hello   world  " }).q).toBe(
+      "hello world",
+    );
+    const long = ` ${"a".repeat(500)} `;
     expect(parsePublicMemberQuery({ q: long }).q.length).toBe(200);
   });
 
