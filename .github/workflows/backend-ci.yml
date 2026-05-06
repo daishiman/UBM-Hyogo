@@ -38,7 +38,7 @@ jobs:
         id: migrate
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CF_TOKEN_D1_STAGING }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
@@ -49,7 +49,7 @@ jobs:
         id: deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CF_TOKEN_WORKERS_STAGING }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
@@ -93,7 +93,7 @@ jobs:
         id: migrate
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CF_TOKEN_D1_PRODUCTION }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
@@ -104,7 +104,7 @@ jobs:
         id: deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          apiToken: ${{ secrets.CF_TOKEN_WORKERS_PRODUCTION }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
