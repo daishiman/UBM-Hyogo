@@ -35,6 +35,11 @@ import {
 } from "./sync";
 import { runResponseSync } from "./jobs/sync-forms-responses";
 import { runSchemaSync, ConflictError } from "./sync/schema";
+import {
+  runBackfillBatch,
+  type BackfillBatchInput,
+} from "./workflows/schemaAliasBackfillBatch";
+import { clearDedupeKey } from "./repository/schemaDiffQueue";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
@@ -273,8 +278,75 @@ app.get("/health/db", async (c) => {
   }
 });
 
+// UT-07B-FU-01: Cloudflare Queue consumer。
+// alias 確定後の back-fill 残件処理を 1 batch ずつ実行し、`exhausted` なら
+// dedupe_key を解放してから再 enqueue する（無限 loop は retry_count <= 5 で停止）。
+interface BackfillQueueMessage {
+  diffId: string;
+  questionId: string;
+  newStableKey: string;
+  retryCount?: number;
+}
+
+const isBackfillMessage = (v: unknown): v is BackfillQueueMessage =>
+  typeof v === "object" &&
+  v !== null &&
+  typeof (v as { diffId?: unknown }).diffId === "string" &&
+  typeof (v as { questionId?: unknown }).questionId === "string" &&
+  typeof (v as { newStableKey?: unknown }).newStableKey === "string";
+
+const handleBackfillMessage = async (
+  env: Env,
+  msg: BackfillQueueMessage,
+): Promise<void> => {
+  const db = ctx({ DB: env.DB });
+  const input: BackfillBatchInput = {
+    diffId: msg.diffId,
+    questionId: msg.questionId,
+    newStableKey: msg.newStableKey,
+    ...(msg.retryCount !== undefined ? { retryCount: msg.retryCount } : {}),
+  };
+  const result = await runBackfillBatch(db, input);
+  if (!result.needsReEnqueue) {
+    await clearDedupeKey(db, msg.diffId);
+    return;
+  }
+  // dedupe_key を解放してから再 enqueue（dedupe_key は 1 件 in-flight を意味するため）
+  await clearDedupeKey(db, msg.diffId);
+  if (env.SCHEMA_ALIAS_BACKFILL_QUEUE) {
+    await env.SCHEMA_ALIAS_BACKFILL_QUEUE.send({
+      diffId: msg.diffId,
+      questionId: msg.questionId,
+      newStableKey: msg.newStableKey,
+      retryCount: result.retryCount,
+    });
+  }
+};
+
 export default {
   fetch: app.fetch,
+  async queue(
+    batch: MessageBatch<unknown>,
+    env: Env,
+    _ctx: ExecutionContext,
+  ): Promise<void> {
+    if (batch.queue !== "schema-alias-backfill" && batch.queue !== "schema-alias-backfill-staging") {
+      return;
+    }
+    for (const msg of batch.messages) {
+      try {
+        if (!isBackfillMessage(msg.body)) {
+          msg.ack();
+          continue;
+        }
+        await handleBackfillMessage(env, msg.body);
+        msg.ack();
+      } catch (e) {
+        // Cloudflare Queue 標準: retry / DLQ は wrangler.toml 設定で吸収
+        msg.retry();
+      }
+    }
+  },
   async scheduled(
     event: ScheduledController,
     env: Env,

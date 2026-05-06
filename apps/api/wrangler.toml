@@ -35,6 +35,20 @@ migrations_dir = "migrations"
 binding = "SYNC_ALERTS"
 dataset = "sync_alerts"
 
+# UT-07B-FU-01: schema alias back-fill queue/cron split
+# alias 確定（Stage 1）と back-fill 継続（Stage 2）の責務分離。
+# Free plan 100k msg/day 内で運用可。Workers Paid 切替が必要になった時点で運用判断する。
+[[queues.producers]]
+binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+queue = "schema-alias-backfill"
+
+[[queues.consumers]]
+queue = "schema-alias-backfill"
+max_batch_size = 1
+max_batch_timeout = 5
+max_retries = 3
+dead_letter_queue = "schema-alias-backfill-dlq"
+
 [env.production]
 name = "ubm-hyogo-api"
 
@@ -68,6 +82,18 @@ migrations_dir = "migrations"
 binding = "SYNC_ALERTS"
 dataset = "sync_alerts"
 
+# UT-07B-FU-01: production 用 Queue binding（drift 防止のため staging と同 queue 名）
+[[env.production.queues.producers]]
+binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+queue = "schema-alias-backfill"
+
+[[env.production.queues.consumers]]
+queue = "schema-alias-backfill"
+max_batch_size = 1
+max_batch_timeout = 5
+max_retries = 3
+dead_letter_queue = "schema-alias-backfill-dlq"
+
 [env.staging]
 name = "ubm-hyogo-api-staging"
 
@@ -98,3 +124,15 @@ migrations_dir = "migrations"
 [[env.staging.analytics_engine_datasets]]
 binding = "SYNC_ALERTS"
 dataset = "sync_alerts_staging"
+
+# UT-07B-FU-01: staging 用 Queue binding（production と同 queue 名で同期）
+[[env.staging.queues.producers]]
+binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+queue = "schema-alias-backfill-staging"
+
+[[env.staging.queues.consumers]]
+queue = "schema-alias-backfill-staging"
+max_batch_size = 1
+max_batch_timeout = 5
+max_retries = 3
+dead_letter_queue = "schema-alias-backfill-staging-dlq"
