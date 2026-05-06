@@ -876,10 +876,10 @@ node scripts/list-specs.js --topics
 | REST API エンドポイント一覧 | L25 |
 | エンドポイント命名規則 | L208 |
 | UBM-Hyogo Admin Sync API（03a） | L229 |
-| UBM-Hyogo Member Self-Service API（04b） | L274 |
-| Desktop IPC API サマリー | L301 |
-| 変更履歴 | L332 |
-| 関連ドキュメント | L349 |
+| UBM-Hyogo Member Self-Service API（04b） | L280 |
+| Desktop IPC API サマリー | L307 |
+| 変更履歴 | L338 |
+| 関連ドキュメント | L355 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1062,19 +1062,19 @@ node scripts/list-specs.js --topics
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L44 |
 | Schema aliases write target（issue-191 / UT-07B） | L59 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L79 |
-| Legacy Sheets sync transition note（U-UT01-09） | L91 |
-| Schema alias assignment workflow（07b） | L103 |
-| ワークフロー関連テーブル | L107 |
-| ユーザー関連テーブル | L146 |
-| システムプロンプト関連テーブル | L180 |
-| チャット関連テーブル | L215 |
-| RAG関連テーブル | L251 |
-| Knowledge Graph関連テーブル | L293 |
-| 変換処理関連テーブル | L427 |
-| インデックス設計 | L486 |
-| 関連ドキュメント / 変更履歴 | L490 |
-| DDL 同期テンプレ | L495 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L89 |
+| Legacy Sheets sync transition note（U-UT01-09） | L101 |
+| Schema alias assignment workflow（07b） | L113 |
+| ワークフロー関連テーブル | L117 |
+| ユーザー関連テーブル | L156 |
+| システムプロンプト関連テーブル | L190 |
+| チャット関連テーブル | L225 |
+| RAG関連テーブル | L261 |
+| Knowledge Graph関連テーブル | L303 |
+| 変換処理関連テーブル | L437 |
+| インデックス設計 | L496 |
+| 関連ドキュメント / 変更履歴 | L500 |
+| DDL 同期テンプレ | L505 |
 
 ---
 
@@ -2777,6 +2777,19 @@ node scripts/list-specs.js --topics
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
 
+### references/workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Contract Summary | L22 |
+| Runtime Boundary | L33 |
+| Code Artifacts | L37 |
+| Implementation Guide Pointers | L50 |
+| Unassigned Task Trace | L60 |
+| Lessons Learned | L69 |
+
 ### references/workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md
 
 | セクション | 行 |
@@ -4165,6 +4178,17 @@ node scripts/list-specs.js --topics
 | 2026-05 / route-inventory-design 追記 | L44 |
 | 関連リソース | L78 |
 
+### references/lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU01-001: Queue dedupe と DB unique 制約の責務分離 | L7 |
+| L-UT07B-FU01-002: Cron 分割で軽量 enqueue と重量 batch を別 cron に分けないと CPU budget 切れで Queue 投入自体が失敗する | L11 |
+| L-UT07B-FU01-003: Public `backfill.status` と Internal `backfill_status` の値域不一致は API 契約境界で明示変換する | L15 |
+| L-UT07B-FU01-004: remaining-scan vs cursor-pagination の選定理由 | L19 |
+| L-UT07B-FU01-005: idempotent 設計のため Queue 消費側で dedupe_key を再確認する | L23 |
+| L-UT07B-FU01-006: Phase 11 gate を「local implementation GO / runtime evidence pending」と明示する | L27 |
+
 ### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
 
 | セクション | 行 |
@@ -5311,13 +5335,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L233 |
-| フェーズ構造（概要） | L242 |
-| 品質ゲート（概要） | L273 |
-| 出力テンプレート | L284 |
-| 実行時のコマンド・エージェント・スキル | L307 |
-| 昇格パターン集 | L331 |
-| Current Active / Spec Created Tasks | L333 |
+| ドキュメント構成 | L253 |
+| フェーズ構造（概要） | L262 |
+| 品質ゲート（概要） | L293 |
+| 出力テンプレート | L304 |
+| 実行時のコマンド・エージェント・スキル | L327 |
+| 昇格パターン集 | L351 |
+| Current Active / Spec Created Tasks | L353 |
 
 ### references/task-workflow-backlog-part2.md
 

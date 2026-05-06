@@ -92,6 +92,26 @@
 | 検証 | local typecheck + route/workflow/repository tests 完了。10,000 行 staging D1 / Workers 実測は `staging-deferred` |
 | 後続 | queue/cron split は Phase 11 staging evidence で必要性が出た場合のみ formalize |
 
+### UT-07B-FU-01 Schema Alias Back-fill Queue/Cron Split（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | spec_created |
+| implementation state | implemented-local |
+| Phase 10 gate | design-ready only |
+| Phase 11 gate | local implementation GO / runtime evidence pending |
+| Phase 12 | strict 7 outputs present |
+| issue | #361 CLOSED (PR text: `Refs #361` only) |
+| artifact inventory | `references/workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md` |
+| ステータス | implemented-local / Phase 5-10 + Phase 11 gate=GO（user 明示） / Phase 12 strict outputs present / staging deploy 未実行 |
+| 成果物 | `docs/30-workflows/ut-07b-fu-01-schema-alias-backfill-queue-cron-split/` |
+| 目的 | staging 10,000+ rows evidence で `backfill_cpu_budget_exhausted` が持続再現する場合だけ、schema alias back-fill を Queue/Cron continuation へ分離する条件付き実装仕様 |
+| 実装 | `apps/api/migrations/0014_schema_diff_queue_dedupe_failure.sql` / `apps/api/src/repository/schemaDiffQueue.ts`（dedupe / failed_items / retry / last_error / last_processed_at）/ `apps/api/src/workflows/schemaAliasBackfillBatch.ts`（remaining-scan + idempotent UPDATE + retry counter）/ `apps/api/src/workflows/schemaAliasEnqueue.ts`（dedupe_key 予約 + producer.send）/ `apps/api/src/routes/admin/schema.ts`（v2 contract: confirmed/backfill.status + GET status）/ `apps/api/src/index.ts queue()` consumer / `apps/api/wrangler.toml` SCHEMA_ALIAS_BACKFILL_QUEUE binding |
+| 契約 | 公開 API `backfill.status` は `pending / running / exhausted / completed`。internal DB `backfill_status='failed'` は public `exhausted` + `internalStatus:'failed'` metadata として返す。`completed=200` / continuation は `202`。後方互換のため `code: "backfill_cpu_budget_exhausted"` / `retryable: true` を `exhausted` と並存維持 |
+| artifacts | root `artifacts.json` と `outputs/artifacts.json` parity、Phase 12 strict 7 files materialized |
+| 検証 | local typecheck / lint / vitest（schemaDiffQueue / schemaAliasAssign / schemaAliasBackfillBatch / schemaAliasEnqueue / route schema） 38 tests PASS。staging deploy / Cloudflare Queue binding apply / production apply は user 明示承認まで未実行 |
+| 境界 | Phase 11 staging evidence による runtime gate 判定本体は実走しておらず、user 明示で local implementation GO として実装した。staging Queue/DLQ 作成、Cloudflare deploy、production migration apply、commit、push、PR、Issue #361 comment/reopen は未実行。Issue #361 は CLOSED 維持で `Refs #361` のみ |
+
 ### UT-07B-FU-03 Production Migration Apply Runbook（2026-05-02）
 
 | 項目 | 値 |
