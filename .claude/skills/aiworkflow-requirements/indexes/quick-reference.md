@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #407 Cloudflare API Token 90 日 rotation（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-407-cf-token-rotation-90day-runbook-automation/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_until_user_approval` |
+| runbook | `docs/30-workflows/operations/cf-token-rotation-runbook.md` |
+| 実施記録 | `docs/30-workflows/operations/cf-token-rotation-log.md` |
+| reminder workflow | `.github/workflows/cf-token-rotation-reminder.yml` |
+| checker | `scripts/check-cf-rotation-reminder.sh` |
+| variable | `CF_TOKEN_ISSUED_AT`（GitHub repository variable、ISO 8601） |
+| 禁止事項 | Token 値 / Token ID / scope 値の記録、production rotation、`gh secret set`、workflow real issue 起票、commit / push / PR は user approval なしで実行しない |
+
+---
+
 ### task-05a `/public/form-preview` 503 root cause + fix（2026-05-05）
 
 | 目的 | 参照先 |

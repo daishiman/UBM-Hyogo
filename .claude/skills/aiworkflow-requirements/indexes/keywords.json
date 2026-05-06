@@ -25,6 +25,7 @@
       "csrf-state-parameter.md",
       "deployment-cloudflare.md",
       "deployment-details.md",
+      "deployment-gha.md",
       "deployment-secrets-management.md",
       "interfaces-agent-sdk.md",
       "interfaces-api.md",
@@ -5474,6 +5475,7 @@
       "deployment-cloudflare-ut06-gate.md",
       "deployment-cloudflare.md",
       "deployment-core.md",
+      "deployment-gha.md",
       "deployment-secrets-management.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
@@ -6070,6 +6072,7 @@
     "Issue": [
       "deployment-cloudflare.md",
       "deployment-gha.md",
+      "deployment-secrets-management.md",
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
@@ -6212,6 +6215,19 @@
       "deployment-gha.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md"
     ],
+    "Token": [
+      "deployment-gha.md",
+      "deployment-secrets-management.md",
+      "r2-storage-decision-guide.md"
+    ],
+    "rotation": [
+      "deployment-gha.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "reminder": [
+      "deployment-gha.md"
+    ],
     "シークレット・環境変数管理": [
       "deployment-secrets-management.md"
     ],
@@ -6287,12 +6303,15 @@
       "security-api-electron.md",
       "security-implementation.md"
     ],
-    "Token": [
-      "deployment-secrets-management.md",
-      "r2-storage-decision-guide.md"
-    ],
     "の作成手順": [
       "deployment-secrets-management.md"
+    ],
+    "runbook": [
+      "deployment-secrets-management.md",
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "skill-ledger-gitignore-policy.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
     ],
     "同期運用": [
       "deployment-secrets-management.md"
@@ -10547,12 +10566,6 @@
     "を先に見る": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
     ],
-    "runbook": [
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "skill-ledger-gitignore-policy.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
-    ],
     "SQL": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
@@ -11833,9 +11846,6 @@
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
     "の不変条件": [
-      "lessons-learned-ut-06-fu-h-2026-04.md"
-    ],
-    "rotation": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
     "時点で": [

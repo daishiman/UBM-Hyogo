@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #407 Cloudflare API Token 90 日 rotation runbook automation（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/issue-407-cf-token-rotation-90day-runbook-automation/` |
+| 実装対象 | `docs/30-workflows/operations/cf-token-rotation-runbook.md`, `docs/30-workflows/operations/cf-token-rotation-log.md`, `.github/workflows/cf-token-rotation-reminder.yml`, `scripts/check-cf-rotation-reminder.sh` |
+| variable | GitHub repository variable `CF_TOKEN_ISSUED_AT` |
+| 境界 | reminder workflow は Issue 起票のみ。Token 発行 / `gh secret set` / production rotation は runbook の user approval gate 後だけ実行 |
+| secret hygiene | Token 値 / Token ID / scope 値は docs / log / evidence / PR body に記録しない |
+| Issue 取扱 | #407 CLOSED 維持。PR 文脈では `Refs #407` のみ |
+| 下流 | U-FIX-CF-ACCT-01-DERIV-01（OIDC 化）後に runbook 改訂または retire |
+
 ### Issue #351 09c Post-release Dashboard Automation（2026-05-05）
 
 | 項目 | 値 |

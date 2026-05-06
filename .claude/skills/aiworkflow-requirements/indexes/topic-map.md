@@ -3176,17 +3176,18 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L54 |
-| キャッシュ戦略 | L90 |
-| 並列実行の活用 | L113 |
-| CD ワークフロー要件（dev / main マージ時） | L169 |
-| Backend ワークフロー要件（dev / main マージ時） | L197 |
-| モニタリングとアラート | L221 |
-| GitHub Secrets の要件 | L255 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L279 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L297 |
-| 関連ドキュメント | L317 |
-| 変更履歴 | L324 |
+| CI ワークフロー要件（PR 時） | L57 |
+| キャッシュ戦略 | L93 |
+| 並列実行の活用 | L116 |
+| CD ワークフロー要件（dev / main マージ時） | L172 |
+| Backend ワークフロー要件（dev / main マージ時） | L200 |
+| モニタリングとアラート | L224 |
+| GitHub Secrets の要件 | L258 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L283 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L301 |
+| Cloudflare API Token rotation reminder (Issue #407 / 2026-05-06) | L319 |
+| 関連ドキュメント | L336 |
+| 変更履歴 | L343 |
 
 ### references/deployment-history.md
 
@@ -3207,8 +3208,9 @@ node scripts/list-specs.js --topics
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L192 |
 | セキュリティ原則 | L229 |
 | Cloudflare API Token の作成手順 | L240 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L282 |
-| 変更履歴 | L325 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L255 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L301 |
+| 変更履歴 | L344 |
 
 ### references/deployment.md
 
@@ -3326,7 +3328,7 @@ node scripts/list-specs.js --topics
 | チーム開発での運用 | L376 |
 | 必須環境変数一覧 | L415 |
 | CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L480 |
-| 関連ドキュメント | L500 |
+| 関連ドキュメント | L501 |
 
 ### references/error-handling-core.md
 
@@ -5300,13 +5302,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L233 |
-| フェーズ構造（概要） | L242 |
-| 品質ゲート（概要） | L273 |
-| 出力テンプレート | L284 |
-| 実行時のコマンド・エージェント・スキル | L307 |
-| 昇格パターン集 | L331 |
-| Current Active / Spec Created Tasks | L333 |
+| ドキュメント構成 | L246 |
+| フェーズ構造（概要） | L255 |
+| 品質ゲート（概要） | L286 |
+| 出力テンプレート | L297 |
+| 実行時のコマンド・エージェント・スキル | L320 |
+| 昇格パターン集 | L344 |
+| Current Active / Spec Created Tasks | L346 |
 
 ### references/task-workflow-backlog-part2.md
 

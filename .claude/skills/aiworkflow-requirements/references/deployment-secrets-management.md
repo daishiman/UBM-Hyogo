@@ -252,6 +252,25 @@ Cloudflare Dashboard > My Profile > API Tokens > Create Token
 
 ---
 
+## Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06）
+
+Cloudflare API Token の 90 日 rotation は `docs/30-workflows/issue-407-cf-token-rotation-90day-runbook-automation/` を current implementation spec とし、手動 runbook と GitHub Actions reminder workflow の 2 層で管理する。
+
+| 項目 | 正本 |
+| --- | --- |
+| runbook | `docs/30-workflows/operations/cf-token-rotation-runbook.md` |
+| 実施記録 | `docs/30-workflows/operations/cf-token-rotation-log.md` |
+| reminder workflow | `.github/workflows/cf-token-rotation-reminder.yml` |
+| checker | `scripts/check-cf-rotation-reminder.sh` |
+| 発行日 variable | GitHub Variable `CF_TOKEN_ISSUED_AT` |
+
+運用境界:
+
+- Token 値 / Token ID / scope 値は runbook、実施記録、Phase outputs、GitHub Issue、PR body、evidence に記録しない。
+- rotation 自動化はしない。workflow は 85 日経過時点で Issue を起票する reminder のみ。
+- staging-first、24h 並行運用、旧 Token disable 後 24h delete、rollback 経路を runbook の必須 gate とする。
+- 実 production rotation と `gh secret set` は user 明示承認後のみ実行する。
+
 ### モニタリング系 Secret（UT-08 連携）
 
 UT-08 モニタリング/アラート設計で追加される Secret 群は **すべて 1Password Environments** で正本管理し、Cloudflare Secrets / GitHub Secrets 経由で配布する。コードへのハードコード禁止。
