@@ -59,6 +59,17 @@
 | 親 / 下流 | parent: `docs/30-workflows/completed-tasks/04b-followup-004-admin-queue-resolve-workflow/`; blocks: parent visual evidence complete close-out |
 | Issue 取扱 | #399 CLOSED 維持。reopen / commit / push / PR / Issue comment は user 明示指示後のみ |
 
+### Issue #400 Admin Request Audit Target Taxonomy（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-400-admin-request-audit-target-taxonomy/` |
+| 実装 | `apps/api/src/repository/auditLog.ts`, `apps/api/src/routes/admin/requests.ts`, `apps/api/src/routes/admin/audit.ts`, `apps/web/src/components/admin/AuditLogPanel.tsx` |
+| 公開契約 | 新規 admin request resolve audit は `targetType='admin_member_note'`, `targetId=<noteId>`, `after.memberId` を保持。既存 `member` 行は migration せず readable |
+| 検証 | focused API repository/route tests、web AuditLogPanel test、typecheck |
+| Issue 取扱 | #400 CLOSED 維持。PR では `Refs #400` のみ採用し、reopen / close automation は行わない |
+
 ### UT-05A Auth UI Logout Button（2026-05-03）
 
 | 項目 | 値 |
