@@ -102,6 +102,7 @@ GitHub リポジトリの `Settings > Secrets and variables > Actions` で管理
 | シークレット名 | 説明 | 使用箇所 |
 | -------------- | ---- | -------- |
 | `CLOUDFLARE_API_TOKEN` | Cloudflare API Token（デプロイ用） | web-cd.yml, backend-ci.yml |
+| `CLOUDFLARE_API_TOKEN_STAGING` | Cloudflare API Token（D1 migration verification staging 用） | d1-migration-verify.yml |
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（デプロイ通知） | 未使用（UT-08-IMPL で導入予定。現行 web-cd.yml / backend-ci.yml には参照なし） |
 | `CODECOV_TOKEN` | Codecov カバレッジアップロード | ci.yml |
 
@@ -322,10 +323,28 @@ unset TMP_CF_TOKEN_STG TMP_CF_TOKEN_PRD
 
 ---
 
+## U-FIX-CF-ACCT-01-DERIV-01: Cloudflare deploy token OIDC migration target（2026-05-06）
+
+DERIV-01 は GitHub Actions の deploy 認証を長命 GitHub Secret から OIDC 起点の job-scoped credential へ移行する target contract である。runtime cutover は未実行のため、`CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_API_TOKEN_STAGING` は current deploy / verification secret として残るが、後続実装 PR では rollback-only または impact-checked の状態へ移行する。
+
+| 項目 | 契約 |
+| --- | --- |
+| current | GitHub environment secret `CLOUDFLARE_API_TOKEN`（staging / production） + `CLOUDFLARE_API_TOKEN_STAGING`（D1 migration verification） |
+| target | GitHub OIDC → AWS STS → job-scoped Cloudflare credential retrieval |
+| lifetime | AWS STS session は Phase 11 で `<= 3600` seconds を実測。Cloudflare Token object の expiry が別仕様の場合はその事実を分離して記録 |
+| scope | `Workers Scripts:Edit` / `D1:Edit` / `Cloudflare Pages:Edit` / `Account Settings:Read` の 4 scope |
+| rollback | 長命 Token の一時再注入は user approval 付き 24h 限定。値・hash・token id を docs / evidence に残さない |
+| revoke | production cutover 後 24h old-token `last_used_on` 更新 0 を確認してから G4 approval で実行。`CLOUDFLARE_API_TOKEN_STAGING` は D1 verify impact check 後に同じ revoke / rollback 境界へ入れる |
+
+secret hygiene: OIDC token、Cloudflare token、1Password item secret、AWS temporary secret の生値は workflow log / docs / PR body / Phase evidence に記録しない。
+
+---
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-06 | 1.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。`CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_API_TOKEN_STAGING` は runtime cutover までは current、cutover 後は rollback-only / impact-checked 24h 限定として分離 |
 | 2026-04-29 | 1.2.0 | UT-27: GitHub Secrets / Variables の 1Password 正本・派生コピー運用、一時環境変数 + unset パターン、Last-Updated メモ運用を追記 |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare/GitHub 2層シークレット管理） |
 | 2026-04-27 | 1.1.0 | UT-06 派生: `scripts/cf.sh` を 1Password / esbuild / mise 統合の canonical wrapper として明文化。`wrangler login` ローカル OAuth トークン保持禁止と `op://` 参照経由の動的注入を必須化 |

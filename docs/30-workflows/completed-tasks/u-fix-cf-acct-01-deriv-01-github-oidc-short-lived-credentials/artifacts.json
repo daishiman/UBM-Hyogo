@@ -1,0 +1,233 @@
+{
+  "task_name": "u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials",
+  "task_path": "docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials",
+  "wave": "post-u-fix-cf-acct-01",
+  "execution_mode": "parallel",
+  "depends_on": [
+    "U-FIX-CF-ACCT-01 Phase 11 verified",
+    "intermediate IdP 経路の技術的成立確認",
+    "GitHub Environments required reviewers 運用"
+  ],
+  "blocks": [
+    "U-FIX-CF-ACCT-01-DERIV-03 (rotation runbook 改訂)"
+  ],
+  "created_at": "2026-05-06",
+  "metadata": {
+    "taskType": "implementation-spec",
+    "docs_only": false,
+    "workflow_state": "spec_created",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "High",
+    "related_issue": 405,
+    "related_issue_state": "closed",
+    "runtime_state": "runtime_evidence_pending_user_approval",
+    "phase_outputs_state": "phase_1_12_spec_outputs_present_phase_13_pending_user_approval"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-02/main.md",
+        "outputs/phase-02/trust-policy-design.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト戦略",
+      "file": "phase-04.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-04/main.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装ランブック (staging cutover)",
+      "file": "phase-05.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-05/main.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": true
+    },
+    {
+      "phase": 6,
+      "name": "異常系検証",
+      "file": "phase-06.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC マトリクス",
+      "file": "phase-07.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-07/main.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "production cutover & 24h 並行運用 + 長命 Token 失効",
+      "file": "phase-08.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": true
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke / 実測 evidence (7 日 green + lifetime 実測)",
+      "file": "phase-11.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": true
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新 (runbook / aiworkflow-requirements)",
+      "file": "phase-12.md",
+      "status": "completed_spec_output",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/runbook/oidc-rollback.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13.md",
+      "status": "pending_user_approval",
+      "outputs": [
+        "outputs/phase-13/main.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-01-github-oidc-short-lived-credentials.md",
+    "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-02-scope-split-tokens.md",
+    "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-03-token-rotation-90day-runbook.md",
+    "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-audit-logs-monitoring.md",
+    "docs/30-workflows/u-fix-cf-acct-01-cloudflare-api-token-scope-audit/phase-03.md",
+    "docs/00-getting-started-manual/specs/15-infrastructure-runbook.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-gha.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [],
+  "secrets_introduced": [],
+  "secrets_replaced": [
+    "CLOUDFLARE_API_TOKEN (long-lived, GitHub Secrets) → OIDC-issued short-lived credential (lifetime <= 1h, job-scoped)"
+  ],
+  "invariants_touched": [
+    "#14 Cloudflare free-tier",
+    "#5 admin/CI boundary"
+  ],
+  "doc_references": [
+    "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-01-github-oidc-short-lived-credentials.md",
+    "docs/30-workflows/u-fix-cf-acct-01-cloudflare-api-token-scope-audit/phase-03.md",
+    "docs/00-getting-started-manual/specs/15-infrastructure-runbook.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-gha.md"
+  ]
+}

@@ -3231,10 +3231,10 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L197 |
 | モニタリングとアラート | L221 |
 | GitHub Secrets の要件 | L255 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L279 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L297 |
-| 関連ドキュメント | L317 |
-| 変更履歴 | L324 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L295 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L313 |
+| 関連ドキュメント | L333 |
+| 変更履歴 | L340 |
 
 ### references/deployment-history.md
 
@@ -3250,13 +3250,14 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L121 |
-| ローカル開発での設定 | L153 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L192 |
-| セキュリティ原則 | L229 |
-| Cloudflare API Token の作成手順 | L240 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L282 |
-| 変更履歴 | L325 |
+| wrangler.toml の環境別設定 | L122 |
+| ローカル開発での設定 | L154 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L193 |
+| セキュリティ原則 | L230 |
+| Cloudflare API Token の作成手順 | L241 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L283 |
+| U-FIX-CF-ACCT-01-DERIV-01: Cloudflare deploy token OIDC migration target（2026-05-06） | L326 |
+| 変更履歴 | L343 |
 
 ### references/deployment.md
 
@@ -4052,6 +4053,17 @@ node scripts/list-specs.js --topics
 | 結論 (個人開発運用ポリシー) | L20 |
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
+
+### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-DERIV01-001: OIDC trust 設計の境界曖昧性 | L15 |
+| L-DERIV01-002: G1-G4 approval gate 用語の過負荷 | L23 |
+| L-DERIV01-003: CLOUDFLARE_API_TOKEN_STAGING の暫定扱い（3 段ライフサイクル） | L31 |
+| L-DERIV01-004: 24h 並行運用中の旧 Token last_used_on 観測の自動化空白 | L39 |
+| L-DERIV01-005: aiworkflow-requirements indexes の同時更新ポリシー | L47 |
+| 関連ファイル | L55 |
 
 ### references/lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md
 
@@ -5382,13 +5394,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L277 |
-| フェーズ構造（概要） | L286 |
-| 品質ゲート（概要） | L317 |
-| 出力テンプレート | L328 |
-| 実行時のコマンド・エージェント・スキル | L351 |
-| 昇格パターン集 | L375 |
-| Current Active / Spec Created Tasks | L377 |
+| ドキュメント構成 | L290 |
+| フェーズ構造（概要） | L299 |
+| 品質ゲート（概要） | L330 |
+| 出力テンプレート | L341 |
+| 実行時のコマンド・エージェント・スキル | L364 |
+| 昇格パターン集 | L388 |
+| Current Active / Spec Created Tasks | L390 |
 
 ### references/task-workflow-backlog-part2.md
 
