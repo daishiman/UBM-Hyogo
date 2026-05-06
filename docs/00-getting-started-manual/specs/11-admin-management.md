@@ -93,6 +93,8 @@ Audit action:
 
 - `audit_log` を read-only に検索・閲覧する
 - `action / actorEmail / targetType / targetId / from / to / limit` の filter と cursor pagination を提供する
+- Issue #400 以後の admin request resolve audit は `targetType=admin_member_note` / `targetId=<noteId>` とし、`after.memberId` / `after.noteId` で会員と申請 note を追跡する
+- 既存の request resolve audit に残る `targetType=member` 行は migration せず、legacy readable として維持する
 - 日時入力は JST、API query は UTC、表示は JST に揃える
 - `before_json` / `after_json` は初期折り畳みとし、展開時も email / phone / address / name 相当値は masked view だけを表示する
 - 編集・削除・再実行・export などの mutation UI は置かない

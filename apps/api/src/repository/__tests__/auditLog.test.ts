@@ -45,6 +45,39 @@ describe("auditLog (append-only)", () => {
     expect(byTarget.length).toBe(2);
   });
 
+  it("admin_member_note target type を append / filter / target lookup で round-trip できる", async () => {
+    const entry = await auditLog.append(env.ctx, {
+      actorId: null,
+      actorEmail: adminEmail("owner@example.com"),
+      action: auditAction("admin.request.approve"),
+      targetType: "admin_member_note",
+      targetId: "note_001",
+      after: { noteId: "note_001", memberId: "m_001", resolution: "approve" },
+    });
+
+    expect(entry.targetType).toBe("admin_member_note");
+
+    const byTarget = await auditLog.listByTarget(
+      env.ctx,
+      "admin_member_note",
+      "note_001",
+      10,
+    );
+    expect(byTarget).toHaveLength(1);
+    expect(byTarget[0]).toMatchObject({
+      targetType: "admin_member_note",
+      targetId: "note_001",
+      after: { noteId: "note_001", memberId: "m_001", resolution: "approve" },
+    });
+
+    const filtered = await auditLog.listFiltered(env.ctx, {
+      targetType: "admin_member_note",
+      targetId: "note_001",
+      limit: 10,
+    });
+    expect(filtered.map((r) => r.auditId)).toEqual([entry.auditId]);
+  });
+
   it("listFiltered: action / actorEmail / targetType / targetId の複合 filter", async () => {
     const rows = await auditLog.listFiltered(env.ctx, {
       action: "member.note.created",

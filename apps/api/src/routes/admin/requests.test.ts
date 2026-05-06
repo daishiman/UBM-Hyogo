@@ -149,7 +149,7 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
       .prepare(
         "SELECT action, target_type AS targetType, target_id AS targetId, after_json AS afterJson FROM audit_log WHERE target_id = ?1",
       )
-      .bind("m_alice")
+      .bind(note.noteId)
       .first<{
         action: string;
         targetType: string;
@@ -157,10 +157,11 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
         afterJson: string;
       }>();
     expect(audit?.action).toBe("admin.request.approve");
-    expect(audit?.targetType).toBe("member");
-    expect(audit?.targetId).toBe("m_alice");
+    expect(audit?.targetType).toBe("admin_member_note");
+    expect(audit?.targetId).toBe(note.noteId);
     expect(JSON.parse(audit?.afterJson ?? "{}")).toMatchObject({
       noteId: note.noteId,
+      memberId: "m_alice",
       resolution: "approve",
     });
   });

@@ -1,0 +1,31 @@
+{
+  "taskId": "issue-400-admin-request-audit-target-taxonomy",
+  "createdAt": "2026-05-06",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented-local",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/400",
+    "parentIssueState": "CLOSED",
+    "parentTask": "04b-followup-004 admin queue resolve workflow (#319)"
+  },
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["outputs/phase-01/main.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["outputs/phase-02/main.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["outputs/phase-03/main.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["outputs/phase-04/main.md"] },
+    "phase-5":  { "status": "completed", "outputs": ["outputs/phase-05/main.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["outputs/phase-06/main.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["outputs/phase-07/main.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["outputs/phase-08/main.md"] },
+    "phase-9":  { "status": "completed", "outputs": ["outputs/phase-09/main.md"] },
+    "phase-10": { "status": "completed", "outputs": ["outputs/phase-10/main.md"] },
+    "phase-11": { "status": "completed", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md", "outputs/phase-11/typecheck.log", "outputs/phase-11/lint.log", "outputs/phase-11/test-api.log", "outputs/phase-11/test-web.log", "outputs/phase-11/coverage-summary.log", "outputs/phase-11/grep-target-type.log", "outputs/phase-11/grep-legacy-member.log"] },
+    "phase-12": { "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    "phase-13": { "status": "blocked_pending_user_approval", "outputs": ["outputs/phase-13/main.md"] }
+  }
+}

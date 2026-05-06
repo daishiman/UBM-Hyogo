@@ -75,6 +75,16 @@ UT-07B hardening では、`schema_aliases` の正本 write target を前提に b
 - `schema_diff_queue.backfill_cursor`
 - `schema_diff_queue.backfill_status`
 
+実 migration `apps/api/migrations/0014_schema_diff_queue_dedupe_failure.sql`（UT-07B-FU-01）の正本 DDL:
+
+- `schema_diff_queue.dedupe_key`（NULL 許容、`idx_schema_diff_queue_dedupe_key` partial UNIQUE index 付）
+- `schema_diff_queue.failed_items_json`（NULL 許容 TEXT。`[{responseId, error}]` の JSON シリアライズ）
+- `schema_diff_queue.retry_count`（NOT NULL DEFAULT 0、上限 5 で `backfill_status='failed'`）
+- `schema_diff_queue.last_error`（NULL 許容 TEXT）
+- `schema_diff_queue.last_processed_at`（NULL 許容 TEXT、ISO 8601）
+
+Cloudflare Queue (`schema-alias-backfill` / `schema-alias-backfill-staging`) consumer が 1 batch ごとに `dedupe_key` で in-flight 排他、`recordBatchProgress` で上記列を更新する。実装本体は `apps/api/src/workflows/schemaAliasBackfillBatch.ts` / `apps/api/src/workflows/schemaAliasEnqueue.ts` / `apps/api/src/index.ts queue()` handler に閉じ、不変条件 #5（D1 アクセスは apps/api 限定）を維持する。
+
 Production D1 ledger では `0008_schema_alias_hardening.sql` が `2026-05-01 08:21:04 UTC`、`0008_create_schema_aliases.sql` が `2026-05-01 10:59:35 UTC` に記録されている。両 migration の先行適用出所監査は current workflow `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/` で扱い、legacy unassigned source は `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` として参照する。
 
 ## Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created）

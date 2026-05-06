@@ -876,10 +876,10 @@ node scripts/list-specs.js --topics
 | REST API エンドポイント一覧 | L25 |
 | エンドポイント命名規則 | L208 |
 | UBM-Hyogo Admin Sync API（03a） | L229 |
-| UBM-Hyogo Member Self-Service API（04b） | L274 |
-| Desktop IPC API サマリー | L301 |
-| 変更履歴 | L332 |
-| 関連ドキュメント | L349 |
+| UBM-Hyogo Member Self-Service API（04b） | L280 |
+| Desktop IPC API サマリー | L307 |
+| 変更履歴 | L338 |
+| 関連ドキュメント | L355 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1062,18 +1062,18 @@ node scripts/list-specs.js --topics
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L45 |
 | Schema aliases write target（issue-191 / UT-07B） | L60 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L80 |
-| Legacy Sheets sync transition note（U-UT01-09） | L92 |
-| Schema alias assignment workflow（07b） | L104 |
-| ワークフロー関連テーブル | L108 |
-| ユーザー関連テーブル | L147 |
-| システムプロンプト関連テーブル | L181 |
-| チャット関連テーブル | L216 |
-| RAG関連テーブル | L252 |
-| Knowledge Graph関連テーブル | L294 |
-| 変換処理関連テーブル | L428 |
-| インデックス設計 | L487 |
-| 関連ドキュメント / 変更履歴 / DDL テンプレ | L491 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L90 |
+| Legacy Sheets sync transition note（U-UT01-09） | L102 |
+| Schema alias assignment workflow（07b） | L114 |
+| ワークフロー関連テーブル | L118 |
+| ユーザー関連テーブル | L157 |
+| システムプロンプト関連テーブル | L191 |
+| チャット関連テーブル | L226 |
+| RAG関連テーブル | L262 |
+| Knowledge Graph関連テーブル | L304 |
+| 変換処理関連テーブル | L438 |
+| インデックス設計 | L497 |
+| 関連ドキュメント / 変更履歴 / DDL テンプレ | L501 |
 
 ---
 
@@ -2750,6 +2750,21 @@ node scripts/list-specs.js --topics
 | Validation chain | L155 |
 | 運用メモ | L166 |
 
+### references/workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Classification（責務分離） | L15 |
+| Phase 12 outputs（strict 7 files） | L26 |
+| Implementation artifacts | L38 |
+| Route contract | L47 |
+| Error mapping | L56 |
+| Audit log emission | L66 |
+| Skill artifacts | L73 |
+| Validation chain | L82 |
+| 運用メモ | L92 |
+
 ### references/workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -2775,6 +2790,19 @@ node scripts/list-specs.js --topics
 | 自走禁止項目（本タスクで実行しないこと） | L90 |
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
+
+### references/workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Contract Summary | L22 |
+| Runtime Boundary | L33 |
+| Code Artifacts | L37 |
+| Implementation Guide Pointers | L50 |
+| Unassigned Task Trace | L60 |
+| Lessons Learned | L69 |
 
 ### references/workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md
 
@@ -4057,6 +4085,16 @@ node scripts/list-specs.js --topics
 | L-UT02A-003: optional provider fallback は互換性、完了証跡ではない | L11 |
 | L-UT02A-004: D1 read aggregator は chunk と deterministic ordering をセットで記録する | L15 |
 
+### references/lessons-learned-ut-02a-attendance-write-operations-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT02A-WRITE-001: `spec_drafted` 非標準語彙は使わない（`implemented-local` 統一） | L5 |
+| L-UT02A-WRITE-002: 既存実装で AC 全充足の follow-up は resolved-by-existing close-out として処理 | L21 |
+| L-UT02A-WRITE-003: contract verification のみ完了時は `CONTRACT_ONLY_NOT_EXECUTED` を明記 | L37 |
+| L-UT02A-WRITE-004: outputs strict 7 files / root parity を Phase 0 で確認 | L53 |
+| L-UT02A-WRITE-005: source unassigned 解消と親 detection を close-out root に同時誘導 | L69 |
+
 ### references/lessons-learned-ut-02a-tag-assignment-queue-2026-05.md
 
 | セクション | 行 |
@@ -4174,6 +4212,17 @@ node scripts/list-specs.js --topics
 | 2026-05 / route-inventory-design 追記 | L44 |
 | 関連リソース | L78 |
 
+### references/lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU01-001: Queue dedupe と DB unique 制約の責務分離 | L7 |
+| L-UT07B-FU01-002: Cron 分割で軽量 enqueue と重量 batch を別 cron に分けないと CPU budget 切れで Queue 投入自体が失敗する | L11 |
+| L-UT07B-FU01-003: Public `backfill.status` と Internal `backfill_status` の値域不一致は API 契約境界で明示変換する | L15 |
+| L-UT07B-FU01-004: remaining-scan vs cursor-pagination の選定理由 | L19 |
+| L-UT07B-FU01-005: idempotent 設計のため Queue 消費側で dedupe_key を再確認する | L23 |
+| L-UT07B-FU01-006: Phase 11 gate を「local implementation GO / runtime evidence pending」と明示する | L27 |
+
 ### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
 
 | セクション | 行 |
@@ -4249,8 +4298,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L96 |
-| 関連ドキュメント | L101 |
+| 利用順序 | L97 |
+| 関連ドキュメント | L102 |
 
 ### references/llm-embedding.md
 
@@ -5320,13 +5369,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L233 |
-| フェーズ構造（概要） | L242 |
-| 品質ゲート（概要） | L273 |
-| 出力テンプレート | L284 |
-| 実行時のコマンド・エージェント・スキル | L307 |
-| 昇格パターン集 | L331 |
-| Current Active / Spec Created Tasks | L333 |
+| ドキュメント構成 | L264 |
+| フェーズ構造（概要） | L273 |
+| 品質ゲート（概要） | L304 |
+| 出力テンプレート | L315 |
+| 実行時のコマンド・エージェント・スキル | L338 |
+| 昇格パターン集 | L362 |
+| Current Active / Spec Created Tasks | L364 |
 
 ### references/task-workflow-backlog-part2.md
 

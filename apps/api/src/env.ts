@@ -25,6 +25,10 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
   readonly SYNC_ALERTS?: AnalyticsEngineDataset;
 
+  // wrangler.toml [[queues.producers]] binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+  // UT-07B-FU-01: schema alias back-fill 継続 job の enqueue 先
+  readonly SCHEMA_ALIAS_BACKFILL_QUEUE?: Queue<unknown>;
+
   // wrangler.toml [vars] ENVIRONMENT
   readonly ENVIRONMENT?: "production" | "staging" | "development";
   readonly RETENTION_PURGE_MODE?: "off" | "dry-run" | "apply";

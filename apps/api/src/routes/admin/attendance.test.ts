@@ -147,7 +147,7 @@ describe("admin attendance", () => {
       makeEnv(env),
     );
     expect(res.status).toBe(404);
-    await expect(res.json()).resolves.toMatchObject({ error: "member not found" });
+    await expect(res.json()).resolves.toMatchObject({ error: "member_not_found" });
   });
 
   it("soft-deleted meeting は 404", async () => {

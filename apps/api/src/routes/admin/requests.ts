@@ -362,7 +362,7 @@ export const createAdminRequestsRoute = () => {
       c.env.DB.prepare(
         `INSERT INTO audit_log
           (audit_id, actor_id, actor_email, action, target_type, target_id, before_json, after_json, created_at)
-         SELECT ?1, NULL, ?2, ?3, 'member', member_id, NULL, ?4, ?5
+         SELECT ?1, NULL, ?2, ?3, 'admin_member_note', note_id, NULL, ?4, ?5
            FROM admin_member_notes
           WHERE note_id = ?6
             AND request_status = 'pending'`,

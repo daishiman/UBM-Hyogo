@@ -179,6 +179,8 @@ export const AdminDashboardViewZ = z
         auditId: z.string(),
         actorEmail: z.string().nullable(),
         action: z.string(),
+        // Read side accepts legacy values; append-side canonical values are
+        // "member" | "admin_member_note" | "tag_queue" | "schema_diff" | "meeting" | "system".
         targetType: z.string(),
         targetId: z.string().nullable(),
         createdAt: Iso8601Z,
