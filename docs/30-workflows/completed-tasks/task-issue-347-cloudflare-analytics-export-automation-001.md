@@ -10,7 +10,10 @@
 | 発生元 | `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/outputs/phase-12/unassigned-task-detection.md` |
 | 優先度 | 中 |
 | 規模 | 小〜中 |
-| 状態 | unassigned |
+| 状態 | consumed_by_issue_484_spec |
+| 消化先 | `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` |
+
+> 2026-05-06: Issue #484 workflow spec に昇格済み。このファイルは issue-347 decision workflow 由来の consumed trace として保持し、実装仕様の current root は `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` とする。
 
 ## Why
 
@@ -109,4 +112,3 @@ grep -E "(email|member_id|session|ip_address|user_agent|url_query)" \
 - `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/outputs/phase-09/free-plan-constraints.md`
 - `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md`
 - `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md`
-

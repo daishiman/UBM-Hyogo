@@ -31,6 +31,8 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
 
   // wrangler.toml [vars] ENVIRONMENT
   readonly ENVIRONMENT?: "production" | "staging" | "development";
+  readonly RETENTION_PURGE_MODE?: "off" | "dry-run" | "apply";
+  readonly RETENTION_PURGE_LIMIT?: string;
 
   // wrangler.toml [vars] SHEET_ID / FORM_ID / GOOGLE_FORM_ID
   readonly SHEET_ID?: string;
