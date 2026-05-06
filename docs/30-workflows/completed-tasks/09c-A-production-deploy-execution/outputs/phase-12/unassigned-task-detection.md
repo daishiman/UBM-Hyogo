@@ -11,7 +11,7 @@
 | 候補 | 判定 | 根拠 |
 | --- | --- | --- |
 | production deploy execution | existing / consumed | `docs/30-workflows/unassigned-task/task-09c-production-deploy-execution-001.md` が本 workflow の source pointer |
-| long-term production observation | existing | `docs/30-workflows/unassigned-task/task-09c-long-term-production-observation-001.md` |
+| long-term production observation | consumed_by_issue_350 | `docs/30-workflows/issue-350-long-term-production-observation/`（source stub: `docs/30-workflows/unassigned-task/task-09c-long-term-production-observation-001.md`） |
 | dashboard automation | existing | `docs/30-workflows/unassigned-task/task-09c-post-release-dashboard-automation-001.md` |
 | release tag automation | existing | `docs/30-workflows/unassigned-task/task-09c-github-release-tag-automation-001.md` |
 | incident Slack delivery | existing | `docs/30-workflows/unassigned-task/task-09c-incident-runbook-slack-delivery-001.md` |

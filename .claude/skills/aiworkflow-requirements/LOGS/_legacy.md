@@ -690,3 +690,19 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Added Phase 12 strict 7 outputs and discovery entries in quick-reference, resource-map, task-workflow-active, and UT-07B artifact inventory.
 - Runtime screenshots, web code changes, commit, push, PR, and Issue #362 comment are not executed in this cycle.
 - Captured 4 lessons in `references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md`: 5-point predicate narrowing (`isSchemaAliasRetryableContinuation`), `confirmed` vs `backfill.status` responsibility split, code-mismatch generic-path fallback, and 4-state manual screenshot deferral.
+
+# 2026-05-06 09c-incident-runbook-slack-delivery
+
+- wave: 9c-fu / serial
+- state: spec_created / implementation-spec / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING
+- spec_path: `/docs/30-workflows/completed-tasks/09c-incident-runbook-slack-delivery/index.md`
+- related: Issue #349 remains CLOSED; use `Refs #349` only
+- sync: Slack incident runbook delivery secret names added to `references/deployment-secrets-management.md`
+- lessons: `references/lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md` 新規作成（L-09C-IRSD-001 workflow_run inputs 制約 / -002 二段環境ゲート / -003 permalink evidence / -004 Refs #N / -005 secret promote）。`indexes/resource-map.md` および `indexes/quick-reference.md` §09c Incident Runbook Slack Delivery に lessons 行を追記。
+
+# 2026-05-06 issue348 GitHub Release tag automation
+
+- Synced Issue #348 as `implemented-local / implementation / NON_VISUAL / release apply user-gated`.
+- Added `references/release-runbook.md` and `references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md`.
+- Registered the workflow in `references/task-workflow-active.md`, `indexes/quick-reference.md`, and `indexes/resource-map.md`.
+- Source unassigned task `task-09c-github-release-tag-automation-001.md` is now consumed / formalized.

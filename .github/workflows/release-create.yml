@@ -1,0 +1,100 @@
+name: release-create
+
+on:
+  push:
+    tags:
+      - 'v[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to render in dry-run mode.
+        required: true
+        type: string
+      target:
+        description: Target commit SHA for dry-run rendering.
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-create-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: create-github-release
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve release inputs
+        id: inputs
+        shell: bash
+        env:
+          DISPATCH_TAG: ${{ inputs.tag }}
+          DISPATCH_TARGET: ${{ inputs.target }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            tag="${DISPATCH_TAG}"
+            target="${DISPATCH_TARGET}"
+            mode="dry-run"
+          else
+            tag="${GITHUB_REF_NAME}"
+            target="${GITHUB_SHA}"
+            mode="apply"
+          fi
+          case "$tag" in
+            v[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]) ;;
+            *) echo "invalid tag: $tag"; exit 64 ;;
+          esac
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "target=$target" >> "$GITHUB_OUTPUT"
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+
+      - name: Render release notes dry-run
+        if: steps.inputs.outputs.mode == 'dry-run'
+        shell: bash
+        run: |
+          bash scripts/release/create-github-release.sh \
+            --tag "${{ steps.inputs.outputs.tag }}" \
+            --target "${{ steps.inputs.outputs.target }}" \
+            --changelog-path docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/documentation-changelog.md \
+            --evidence-url "https://github.com/${{ github.repository }}/tree/${{ steps.inputs.outputs.target }}/docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11" \
+            --dry-run \
+            > release-notes.md
+          cat release-notes.md
+
+      - name: Create draft GitHub Release
+        if: steps.inputs.outputs.mode == 'apply'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          bash scripts/release/create-github-release.sh \
+            --tag "${{ steps.inputs.outputs.tag }}" \
+            --target "${{ steps.inputs.outputs.target }}" \
+            --changelog-path docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/documentation-changelog.md \
+            --evidence-url "https://github.com/${{ github.repository }}/tree/${{ steps.inputs.outputs.target }}/docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11" \
+            --dry-run \
+            > release-notes.md
+          bash scripts/release/create-github-release.sh \
+            --tag "${{ steps.inputs.outputs.tag }}" \
+            --target "${{ steps.inputs.outputs.target }}" \
+            --changelog-path docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/documentation-changelog.md \
+            --evidence-url "https://github.com/${{ github.repository }}/tree/${{ steps.inputs.outputs.target }}/docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11" \
+            --apply \
+            --draft \
+            --reviewed-notes-file release-notes.md
+
+      - name: Upload dry-run notes
+        if: steps.inputs.outputs.mode == 'dry-run'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes-${{ steps.inputs.outputs.tag }}
+          path: release-notes.md
+          if-no-files-found: error
