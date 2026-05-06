@@ -3197,7 +3197,7 @@ node scripts/list-specs.js --topics
 | モニタリング/アラート（UT-08 連携） | L547 |
 | per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
 | Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
-| 変更履歴 | L617 |
+| 変更履歴 | L630 |
 
 ### references/deployment-core.md
 
@@ -3939,6 +3939,18 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 | 関連リソース | L60 |
+
+### references/lessons-learned-issue-350-long-term-observation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所サマリ | L13 |
+| 1. Cloudflare cron 無料枠制約 | L17 |
+| 2. Reminder Issue の重複起票 | L24 |
+| 3. PII / Evidence Boundary | L31 |
+| 4. 09c → Issue #350 Consumed Trace の同時更新 | L38 |
+| 5. Workflow Dispatch と Schedule の二重トリガ | L45 |
+| Follow-up | L51 |
 
 ### references/lessons-learned-issue-351-post-release-dashboard-2026-05.md
 
@@ -5018,6 +5030,17 @@ node scripts/list-specs.js --topics
 | 個人開発における注意点 | L345 |
 | 関連ドキュメント | L373 |
 
+### references/post-release-long-term-observation.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L13 |
+| 正本 runbook | L17 |
+| Current Contract | L21 |
+| Evidence Boundary | L32 |
+| Follow-up Unassigned Tasks | L38 |
+| 関連 | L44 |
+
 ### references/quality-e2e-testing.md
 
 | セクション | 行 |
@@ -5382,13 +5405,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L277 |
-| フェーズ構造（概要） | L286 |
-| 品質ゲート（概要） | L317 |
-| 出力テンプレート | L328 |
-| 実行時のコマンド・エージェント・スキル | L351 |
-| 昇格パターン集 | L375 |
-| Current Active / Spec Created Tasks | L377 |
+| ドキュメント構成 | L290 |
+| フェーズ構造（概要） | L299 |
+| 品質ゲート（概要） | L330 |
+| 出力テンプレート | L341 |
+| 実行時のコマンド・エージェント・スキル | L364 |
+| 昇格パターン集 | L388 |
+| Current Active / Spec Created Tasks | L390 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -5,6 +5,23 @@
 
 ---
 
+### Issue #350 Long-term Production Observation（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-350-long-term-production-observation/` |
+| 状態 | `spec_created / implementation / NON_VISUAL / Phase 1-12 outputs present / runtime evidence pending / Phase 13 blocked_pending_user_approval` |
+| reminder workflow | `.github/workflows/post-release-observation-reminder.yml` |
+| helper scripts | `scripts/observation/create-reminder-issue.sh`, `scripts/observation/reminder-issue-template.md`, `scripts/observation/check-thresholds.md` |
+| runbook | `docs/runbooks/post-release-long-term-observation.md` |
+| SSOT | `references/post-release-long-term-observation.md` |
+| metrics | D+7 / D+30 req/day, D1 reads/writes, 5xx p95, cron success, authz smoke, free plan headroom |
+| boundary | Workers cron 追加なし。real workflow dispatch / Issue creation / commit / push / PR は user approval 後 |
+| source trace | 09c Phase 12 long-term observation row consumed by issue-350 |
+| lessons-learned | `references/lessons-learned-issue-350-long-term-observation-2026-05.md` — Cloudflare cron 無料枠制約 / reminder idempotency / PII boundary / consumed trace 5ファイル更新 / 二重トリガ |
+
+---
+
 ### Issue #401 Admin Request Notification（2026-05-06）
 
 | 目的 | 参照先 |

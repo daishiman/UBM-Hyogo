@@ -614,10 +614,24 @@ Cloudflare Analytics の長期保存 evidence は `docs/30-workflows/completed-t
 
 Runtime production sample は Cloudflare dashboard session または API token が必要なため、user approval 後の運用 cycle で取得する。Issue #347 decision workflow は schema sample / redaction check / Free plan constraints / aiworkflow 同期を完了し、09c parent workflow state は変更しない。
 
+### D+7 / D+30 Post-release Observation Reminder（Issue #350 / 2026-05-06）
+
+09c の 24h post-release verification 後に残る 1週間 / 1か月の継続観測は、`docs/30-workflows/issue-350-long-term-production-observation/` を正本 workflow とする。Cloudflare Workers cron は無料枠 3 本が既に埋まっているため追加せず、`.github/workflows/post-release-observation-reminder.yml` の GitHub Actions schedule / workflow_dispatch で reminder Issue を起票する。
+
+| 項目 | current contract |
+| --- | --- |
+| runbook | `docs/runbooks/post-release-long-term-observation.md` |
+| SSOT reference | `references/post-release-long-term-observation.md` |
+| helper | `scripts/observation/create-reminder-issue.sh` |
+| metrics | req/day, D1 reads/writes, 5xx p95, cron success, authz smoke, free plan headroom |
+| evidence boundary | aggregate-only / redacted evidence。URL query, body, IP, User-Agent, email, member ID, session token, token values are prohibited |
+| runtime gate | real workflow dispatch / Issue creation / commit / push / PR は user approval 後 |
+
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-06 | 1.6.0 | Issue #350 D+7 / D+30 post-release observation reminder を追加。GitHub Actions scheduled reminder、runbook、SSOT reference、PII/evidence boundary、runtime user gate を正本化 |
 | 2026-05-05 | 1.5.0 | Issue #347 Cloudflare Analytics long-term evidence decision を追加。GraphQL aggregate-only export、12件 retention、PII 非保存、Logpush 不採用、automation follow-up を正本化 |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare 移行） |
 | 2026-04-27 | 1.1.0 | UT-08 モニタリング/アラート設計の SSOT 連携セクション追加 |

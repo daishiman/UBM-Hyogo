@@ -21,6 +21,19 @@
 | 起票元 | `docs/30-workflows/unassigned-task/task-09c-post-release-dashboard-automation-001.md` は formalized |
 | Issue 取扱 | #351 CLOSED 維持。commit / push / PR / real workflow dispatch / schedule evidence collection は user 明示指示後のみ |
 
+### Issue #350 09c Long-term Production Observation（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / Phase 1-12 outputs present / Phase 13 blocked_pending_user_approval / runtime evidence pending |
+| 成果物 | `docs/30-workflows/issue-350-long-term-production-observation/` |
+| 目的 | 09c post-release verification 後の D+7 / D+30 継続観測を reminder Issue と runbook で構造化する |
+| 実装対象 | `.github/workflows/post-release-observation-reminder.yml`, `scripts/observation/`, `docs/runbooks/post-release-long-term-observation.md`, `references/post-release-long-term-observation.md` |
+| cron判断 | Cloudflare Workers cron は無料枠 3 本が埋まっているため追加せず、GitHub Actions schedule / workflow_dispatch に寄せる |
+| evidence境界 | aggregate-only / redacted evidence。token / PII / raw body / URL query は保存禁止 |
+| 起票元 | 09c Phase 12 long-term observation row は `consumed by issue-350-long-term-production-observation` として trace 維持 |
+| Issue 取扱 | #350 CLOSED 維持。commit / push / PR / real workflow dispatch / Issue creation evidence は user 明示指示後のみ |
+
 ### task-05a-form-preview-503-001（2026-05-05）
 
 | 項目 | 値 |

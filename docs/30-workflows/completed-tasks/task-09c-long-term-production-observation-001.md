@@ -17,9 +17,13 @@ issue_number: 350
 | 対象機能 | Production observation / post-release metrics |
 | 優先度 | 中 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | consumed_by_issue_350 |
 | 発見元 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-01 |
+| 昇格先 | `docs/30-workflows/issue-350-long-term-production-observation/` |
+| consumed | 2026-05-06 |
+
+> This source unassigned task is consumed by Issue #350. Do not pick it up as 未実施 again; use `docs/30-workflows/issue-350-long-term-production-observation/` as the current workflow root.
 
 ## 1. なぜこのタスクが必要か（Why）
 
@@ -29,7 +33,7 @@ issue_number: 350
 
 ## 2. 何を達成するか（What）
 
-1週間・1か月の production observation checkpoint を仕様化し、指標、閾値、evidence path、異常時の rollback / postmortem 分岐を定義する。
+1週間・1か月の production observation checkpoint を仕様化し、指標、閾値、evidence path、異常時の rollback / postmortem 分岐を定義する。これは `docs/30-workflows/issue-350-long-term-production-observation/` で formalized 済み。
 
 ## 3. どのように実行するか（How）
 
