@@ -1360,6 +1360,19 @@ packages/
 | read path | `createAttendanceProvider(ctx).findByMemberIds()` が `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN。80-id chunk、`held_on DESC` + `session_id ASC`、session 不在 row 除外、同一 session 重複正規化 |
 | 直交タスク | 09a staging smoke / 09b release runbook / 09c production deploy / 06b visual evidence / U-UT01-08 enum canonicalization は本 workflow で代替しない |
 
+### UBM-Hyogo Attendance Write Operations Close-out（UT-02A follow-up / 2026-05-06）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/ut-02a-followup-001-attendance-write-operations/` |
+| 状態 | implemented-local / resolved-by-existing-06cE-07c / implementation / NON_VISUAL |
+| source unassigned | `docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/task-ut-02a-attendance-write-operations-001.md`（解消済み） |
+| repository write | `apps/api/src/repository/attendance.ts` (`addAttendance` / `removeAttendance`) |
+| canonical route | `POST /admin/meetings/:sessionId/attendances` |
+| legacy routes | `POST /admin/meetings/:sessionId/attendance`, `DELETE /admin/meetings/:sessionId/attendance/:memberId` |
+| error boundary | duplicate=409, deleted member=422, session/member not found=404 |
+| design decision | 新規 `AttendanceWriter` / `AttendanceRecordId` は導入しない |
+
 ### UBM-Hyogo DevEx Conflict Prevention Spec Wave（2026-04-28）
 
 | 順序 | canonical task root | 状態 |
