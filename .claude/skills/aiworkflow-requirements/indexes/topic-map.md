@@ -2751,6 +2751,21 @@ node scripts/list-specs.js --topics
 | Validation chain | L155 |
 | 運用メモ | L166 |
 
+### references/workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Classification（責務分離） | L15 |
+| Phase 12 outputs（strict 7 files） | L26 |
+| Implementation artifacts | L38 |
+| Route contract | L47 |
+| Error mapping | L56 |
+| Audit log emission | L66 |
+| Skill artifacts | L73 |
+| Validation chain | L82 |
+| 運用メモ | L92 |
+
 ### references/workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -4061,6 +4076,16 @@ node scripts/list-specs.js --topics
 | L-UT02A-003: optional provider fallback は互換性、完了証跡ではない | L11 |
 | L-UT02A-004: D1 read aggregator は chunk と deterministic ordering をセットで記録する | L15 |
 
+### references/lessons-learned-ut-02a-attendance-write-operations-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT02A-WRITE-001: `spec_drafted` 非標準語彙は使わない（`implemented-local` 統一） | L5 |
+| L-UT02A-WRITE-002: 既存実装で AC 全充足の follow-up は resolved-by-existing close-out として処理 | L21 |
+| L-UT02A-WRITE-003: contract verification のみ完了時は `CONTRACT_ONLY_NOT_EXECUTED` を明記 | L37 |
+| L-UT02A-WRITE-004: outputs strict 7 files / root parity を Phase 0 で確認 | L53 |
+| L-UT02A-WRITE-005: source unassigned 解消と親 detection を close-out root に同時誘導 | L69 |
+
 ### references/lessons-learned-ut-02a-tag-assignment-queue-2026-05.md
 
 | セクション | 行 |
@@ -4264,8 +4289,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L96 |
-| 関連ドキュメント | L101 |
+| 利用順序 | L97 |
+| 関連ドキュメント | L102 |
 
 ### references/llm-embedding.md
 
