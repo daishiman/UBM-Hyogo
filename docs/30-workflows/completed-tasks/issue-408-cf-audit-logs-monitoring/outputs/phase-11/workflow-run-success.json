@@ -1,0 +1,25 @@
+{
+  "_placeholder": true,
+  "_instructions": "Replace this file with the output of: gh run view <RUN_ID> --json databaseId,status,conclusion,createdAt,jobs,workflowName",
+  "_command": "RUN_ID=$(gh run list --workflow=cf-audit-log-monitor.yml --status success --limit 1 --json databaseId --jq '.[0].databaseId'); gh run view \"$RUN_ID\" --json databaseId,status,conclusion,createdAt,jobs,workflowName > outputs/phase-11/workflow-run-success.json",
+  "_expected_shape": {
+    "databaseId": 1234567890,
+    "workflowName": "cf-audit-log-monitor",
+    "status": "completed",
+    "conclusion": "success",
+    "createdAt": "2026-05-DDTHH:MM:SSZ",
+    "jobs": [
+      {
+        "name": "fetch-and-analyze",
+        "status": "completed",
+        "conclusion": "success",
+        "steps": []
+      }
+    ]
+  },
+  "_notes": [
+    "conclusion must be 'success'",
+    "do not include any Bearer tokens or API credentials in the captured JSON",
+    "if jobs[].steps is large, keep but redact any potentially sensitive log output paths"
+  ]
+}

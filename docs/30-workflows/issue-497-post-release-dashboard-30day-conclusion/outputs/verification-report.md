@@ -1,7 +1,7 @@
 # タスク仕様書 検証レポート
 
-> 検証日時: 2026-05-05T22:52:25.655Z
-> 対象: docs/30-workflows/issue-400-admin-request-audit-target-taxonomy
+> 検証日時: 2026-05-06T09:03:51.739Z
+> 対象: docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion
 
 ## サマリー
 
@@ -10,88 +10,82 @@
 | 総Phase数 | 13 |
 | 検証済みPhase | 13 |
 | エラー | 0 |
-| 警告 | 49 |
-| 情報 | 8 |
+| 警告 | 33 |
+| 情報 | 16 |
 | **結果** | **✅ PASS** |
 
 ## Phase別検証結果
 
-### Phase 1: 要件定義 ⚠️
+### Phase 1: 要件定義 ✅
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
+- ℹ️ [consistency] 参照パス「task-issue-351-post-release-dashboard-30day-conclusion-001.md」の存在を確認してください
 
-### Phase 2: 設計 ⚠️
+### Phase 2: 設計 ✅
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
+問題なし
 
 ### Phase 3: 設計レビューゲート ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
-- ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
+- ⚠️ [quality] 曖昧表現「可能であれば」が1箇所で使用されています
 
 ### Phase 4: テスト作成 ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
 - ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 3の成果物が文書内で参照されていない可能性があります
+- ℹ️ [consistency] 参照パス「rg -i "(token\|bearer\|secret\|Authorization)" outputs/phase-11/log-failed-*.log」の存在を確認してください
 
 ### Phase 5: 実装 ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
 - ⚠️ [consistency] 依存するPhase 4の成果物が文書内で参照されていない可能性があります
 
 ### Phase 6: テスト拡充 ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
-- ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
+- ⚠️ [quality] 曖昧表現「など」が1箇所で使用されています
+- ℹ️ [consistency] 参照パス「rg -i "(token\|bearer\|secret\|Authorization)" outputs/phase-11/log-failed-*.log」の存在を確認してください
+- ℹ️ [consistency] 参照パス「jq '[.[] \| select(.conclusion=="failure" or .conclusion=="startup_failure" or .conclusion=="timed_out")] \| length' outputs/phase-11/post-release-dashboard-30d.json」の存在を確認してください
 
 ### Phase 7: テストカバレッジ確認 ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
 - ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 6の成果物が文書内で参照されていない可能性があります
 
 ### Phase 8: リファクタリング ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
-- ⚠️ [quality] 曖昧表現「必要なら」が1箇所で使用されています
 - ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 6の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 7の成果物が文書内で参照されていない可能性があります
+- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
+- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
+- ℹ️ [consistency] 参照パス「 の **post-release-dashboard 章配下にのみ** 30 日 feedback サブ章を追加。他 references（api-endpoints.md / database-schema.md / task-workflow-active.md 等）には書かない | 」の存在を確認してください
+- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
 
 ### Phase 9: 品質保証 ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
 - ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
+- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
+- ℹ️ [consistency] 参照パス「phase12-task-spec-compliance-check.md」の存在を確認してください
 
 ### Phase 10: 最終レビューゲート ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
 - ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
-- ℹ️ [consistency] 参照パス「docs/30-workflows/unassigned-task/task-04b-admin-request-audit-target-taxonomy-001.md」の存在を確認してください
+- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
+- ℹ️ [consistency] 参照パス「phase12-task-spec-compliance-check.md」の存在を確認してください
 
 ### Phase 11: 手動テスト検証 ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
 - ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 6の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 7の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 8の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 9の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 10の成果物が文書内で参照されていない可能性があります
-- ℹ️ [consistency] 参照パス「mise exec -- pnpm typecheck 2>&1 \| tee outputs/phase-11/typecheck.log」の存在を確認してください
-- ℹ️ [consistency] 参照パス「mise exec -- pnpm lint 2>&1 \| tee outputs/phase-11/lint.log」の存在を確認してください
-- ℹ️ [consistency] 参照パス「pnpm exec vitest run --config=vitest.config.ts apps/api/src/repository/__tests__/auditLog.test.ts apps/api/src/routes/admin/requests.test.ts apps/api/src/routes/admin/audit.test.ts 2>&1 \| tee outputs/phase-11/test-api.log」の存在を確認してください
-- ℹ️ [consistency] 参照パス「pnpm --filter @ubm-hyogo/web test -- apps/web/src/components/admin/__tests__/AuditLogPanel.test.tsx 2>&1 \| tee outputs/phase-11/test-web.log」の存在を確認してください
-- ℹ️ [consistency] 参照パス「mise exec -- pnpm test:coverage 2>&1 \| tee outputs/phase-11/coverage-summary.log」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -nE "'admin_member_note'\|\"admin_member_note\"" apps/api/src \| tee outputs/phase-11/grep-target-type.log」の存在を確認してください
-- ℹ️ [consistency] 参照パス「grep -n "target_type='member'\|targetType.*'member'" apps/api/src/routes/admin/requests.ts \| tee outputs/phase-11/grep-legacy-member.log」の存在を確認してください
+- ℹ️ [consistency] 参照パス「rg -n -E "token\|bearer\|secret\|Authorization\|ya29\\.\|ghp_\|ghs_" outputs/phase-11/log-failed-*.log」の存在を確認してください
+- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
 
 ### Phase 12: ドキュメント更新 ⚠️
 
+- ⚠️ [quality] 曖昧表現「必要に応じて」が1箇所で使用されています
 - ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 6の成果物が文書内で参照されていない可能性があります
@@ -99,15 +93,14 @@
 - ⚠️ [consistency] 依存するPhase 8の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 9の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 10の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 11の成果物が文書内で参照されていない可能性があります
+- ℹ️ [consistency] 参照パス「unassigned-task-detection.md」の存在を確認してください
+- ℹ️ [consistency] 参照パス「task-issue-351-post-release-dashboard-30day-conclusion-001.md」の存在を確認してください
 
 ### Phase 13: PR作成 ⚠️
 
-- ⚠️ [structure] 完了条件がチェックリスト形式（- [ ] / - [x]）ではありません
 - ⚠️ [consistency] 依存するPhase 2の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 5の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 6の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 7の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 8の成果物が文書内で参照されていない可能性があります
 - ⚠️ [consistency] 依存するPhase 9の成果物が文書内で参照されていない可能性があります
-- ⚠️ [consistency] 依存するPhase 10の成果物が文書内で参照されていない可能性があります

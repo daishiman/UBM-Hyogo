@@ -1,5 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
-import { createSmokeObservabilityRoute } from "./smoke-observability";
+import {
+  PRODUCTION_CONFIRM_HEADER,
+  PRODUCTION_CONFIRM_VALUE,
+  createSmokeObservabilityRoute,
+  smokeMessagePrefix,
+} from "./smoke-observability";
 
 const TOKEN = "smoke-token";
 const SENTRY_DSN = ["https://public-key@sentry.example.com", "12345"].join("/");
@@ -25,14 +30,71 @@ function makeFetch(status = 200) {
 }
 
 describe("createSmokeObservabilityRoute", () => {
-  it("production 環境では 404 を返す", async () => {
-    const app = createSmokeObservabilityRoute({ fetchImpl: makeFetch() });
+  it("production 環境では confirmation header なしで 403 を返す", async () => {
+    const fetchImpl = makeFetch();
+    const app = createSmokeObservabilityRoute({ fetchImpl });
     const res = await app.request(
       "/",
       { method: "POST", headers: { authorization: `Bearer ${TOKEN}` } },
       buildEnv({ ENVIRONMENT: "production" }),
     );
-    expect(res.status).toBe(404);
+    expect(res.status).toBe(403);
+    expect(await res.json()).toMatchObject({
+      ok: false,
+      errorCode: "PRODUCTION_CONFIRM_REQUIRED",
+    });
+    expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it("production 環境では confirmation header 付きで provider smoke を実行する", async () => {
+    const fetchImpl = makeFetch();
+    const app = createSmokeObservabilityRoute({
+      fetchImpl,
+      now: () => new Date("2026-05-05T00:00:00.000Z"),
+      eventId: () => "abcdef1234567890abcdef1234567890",
+    });
+    const res = await app.request(
+      "/?target=both",
+      {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${TOKEN}`,
+          [PRODUCTION_CONFIRM_HEADER]: PRODUCTION_CONFIRM_VALUE,
+        },
+      },
+      buildEnv({ ENVIRONMENT: "production" }),
+    );
+    expect(res.status).toBe(200);
+    expect(fetchImpl).toHaveBeenCalledTimes(2);
+    const sentryBody = String(fetchImpl.mock.calls[0]?.[1]?.body);
+    const slackBody = String(fetchImpl.mock.calls[1]?.[1]?.body);
+    expect(sentryBody).toContain("UBM production smoke");
+    expect(sentryBody).toContain('"environment":"production"');
+    expect(slackBody).toContain("[PRODUCTION SMOKE]");
+    const bodyText = await res.text();
+    expect(bodyText).toContain('"env":"production"');
+    expect(bodyText).not.toContain(SENTRY_DSN);
+    expect(bodyText).not.toContain(SLACK_WEBHOOK);
+    expect(bodyText).not.toContain(TOKEN);
+  });
+
+  it("production 環境では confirmation header があっても認証を先に検査する", async () => {
+    const fetchImpl = makeFetch();
+    const app = createSmokeObservabilityRoute({ fetchImpl });
+    const res = await app.request(
+      "/?target=both",
+      {
+        method: "POST",
+        headers: {
+          authorization: "Bearer wrong-token",
+          [PRODUCTION_CONFIRM_HEADER]: PRODUCTION_CONFIRM_VALUE,
+        },
+      },
+      buildEnv({ ENVIRONMENT: "production" }),
+    );
+    expect(res.status).toBe(401);
+    expect(await res.json()).toMatchObject({ ok: false, error: "unauthorized" });
+    expect(fetchImpl).not.toHaveBeenCalled();
   });
 
   it("Authorization ヘッダなしで 401", async () => {
@@ -126,5 +188,36 @@ describe("createSmokeObservabilityRoute", () => {
     expect(res.status).toBe(502);
     const body = (await res.json()) as { slack: { errorCode: string } };
     expect(body.slack.errorCode).toBe("UPSTREAM_ERROR");
+  });
+
+  it("fetch が reject しても 502 で UPSTREAM_ERROR を返す", async () => {
+    const fetchImpl = vi.fn(async () => {
+      throw new Error("network failed");
+    });
+    const app = createSmokeObservabilityRoute({ fetchImpl });
+    const res = await app.request(
+      "/?target=both",
+      { method: "POST", headers: { authorization: `Bearer ${TOKEN}` } },
+      buildEnv(),
+    );
+    expect(res.status).toBe(502);
+    const body = (await res.json()) as {
+      sentry: { errorCode: string; evidence: string };
+      slack: { errorCode: string; evidence: string };
+    };
+    expect(body.sentry).toMatchObject({
+      errorCode: "UPSTREAM_ERROR",
+      evidence: "sentry fetch failed",
+    });
+    expect(body.slack).toMatchObject({
+      errorCode: "UPSTREAM_ERROR",
+      evidence: "slack fetch failed",
+    });
+  });
+
+  it("smokeMessagePrefix は environment ごとの prefix を返す", () => {
+    expect(smokeMessagePrefix("production")).toBe("[PRODUCTION SMOKE]");
+    expect(smokeMessagePrefix("staging")).toBe("[STAGING SMOKE]");
+    expect(smokeMessagePrefix(undefined)).toBe("[UNKNOWN SMOKE]");
   });
 });

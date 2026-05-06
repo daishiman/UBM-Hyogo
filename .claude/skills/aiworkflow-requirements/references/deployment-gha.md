@@ -46,8 +46,11 @@
 | `verify-indexes.yml` | aiworkflow-requirements skill indexes drift 検出（`pnpm indexes:rebuild` 結果と committed の差分検証） |
 | `pr-target-safety-gate.yml` | `pull_request_target` trusted context を triage / metadata / manual audit のみに限定する safety gate。PR head checkout / install / build は禁止。 |
 | `pr-build-test.yml` | untrusted PR head の build / lint / typecheck を `pull_request` + `contents: read` のみで実行する workflow。 |
+| `cf-token-rotation-reminder.yml` | Cloudflare API Token 90 日 rotation の 85 日 reminder。`schedule` + `workflow_dispatch` dry-run で Issue 起票を通知に限定する。 |
 
-> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 7 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
+> **current facts (Issue #407 / 2026-05-06)**: `cf-token-rotation-reminder.yml` は `contents: read` / `issues: write` のみを持ち、`secrets.*` を参照しない。発行日は GitHub Variable `CF_TOKEN_ISSUED_AT`、起票 threshold は 85 日、実 rotation / secret injection は runbook 側の user approval gate 後のみ。
+
+> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 8 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
 
 ---
 
@@ -286,6 +289,7 @@
 | ----------- | ---- | ---- |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account 識別子。資格情報ではないため Repository Variable として管理し、workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照する | Yes |
 | `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。UT-28 正本値は `ubm-hyogo-web`。staging は workflow 側で `-staging` suffix を連結して `ubm-hyogo-web-staging` とする | Yes |
+| `CF_TOKEN_ISSUED_AT` | Cloudflare API Token の production 発行日。`cf-token-rotation-reminder.yml` が 85 日経過判定に使用する ISO 8601 日付 | Yes |
 
 `CLOUDFLARE_PAGES_PROJECT` に `ubm-hyogo-web-staging` を直接入れてはいけない。dev deploy は `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging` を使うため、staging 名を入れると `ubm-hyogo-web-staging-staging` になる。
 
@@ -320,7 +324,7 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 ## Post-release dashboard automation (Issue #351 / 2026-05-05)
 
-09c production release 後の 24h metrics は `docs/30-workflows/issue-351-09c-post-release-dashboard-automation/` を current implementation spec とし、GitHub Actions schedule / workflow_dispatch で自動収集する。
+09c production release 後の 24h metrics は `docs/30-workflows/completed-tasks/issue-351-09c-post-release-dashboard-automation/` を current implementation spec とし、GitHub Actions schedule / workflow_dispatch で自動収集する。
 
 | 項目 | 正本 |
 | --- | --- |
@@ -332,23 +336,30 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 | retention | 90 days |
 | metrics | `workers_requests` / `workers_errors` / `d1_reads` / `d1_writes` / `cron_status` |
 | threshold | 09c post-release summary と一致（`< 5000` req/24h, `<= 50000` reads/24h, `<= 10000` writes/24h） |
-| redaction gate | `scripts/post-release-dashboard/lib/redaction-check.sh` が `redaction-check.md` を生成し、secret-like findings 0 件を記録 |
+| redaction gate | `scripts/post-release-dashboard/lib/redaction-check.sh` が artifact directory に `redaction-check.md` を生成し、secret-like findings 0 件を記録 |
+| CI regression gate | `ci.yml` で `pnpm post-release-dashboard:test` を実行し、collector / judgment / redaction report 生成を検証 |
 
 `scripts/cf.sh api-post /client/v4/graphql -d <json>` は GraphQL Analytics discover / metrics query の公開入口とし、`api-post` は `/client/v4/graphql` 以外の path を fail-closed する。workflow は `secrets.CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY` を正参照し、`secrets.CLOUDFLARE_API_TOKEN` を参照しない。
 
----
+### 30 day schedule feedback contract (Issue #497 / 2026-05-06)
 
-## 関連ドキュメント
+Issue #351 の 30 日連続 schedule 実測 feedback は `docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion/` を current follow-up spec とする。これは **runtime conclusion evidence ではなく、30 日 gate 到達後に実行する docs-only / NON_VISUAL 契約**である。
 
-- [デプロイメント概要](./deployment.md)
-- [Cloudflare デプロイ](./deployment-cloudflare.md)
+| 項目 | 正本 |
+| --- | --- |
+| workflow state | `spec_created / docs-only / NON_VISUAL / external-time-dependent` |
+| GitHub Issue | #497 CLOSED 維持。PR 文脈は `Refs #497, Refs #351` のみ |
+| trigger | Issue #351 main merge 後 30 日以上。`gh run list --workflow=post-release-dashboard.yml --limit=80 --json createdAt` の最古 `createdAt` が実行日 - 30 日以前 |
+| Phase 11 raw evidence | `docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion/outputs/phase-11/post-release-dashboard-30d.json` |
+| Phase 11 summaries | conclusion distribution / failure root cause classification / consecutive failure window / failure rate decision / redaction grep |
+| schedule continuity | `event=="schedule"` のみ採用し、日次 gap 0 を確認。manual `workflow_dispatch` は 30 日連続判定に含めない |
+| artifact / duration evidence | `gh run download <id>` の downloadability と `createdAt`〜`updatedAt` 所要時間分布を記録 |
+| redaction gate | `token|bearer|secret|Authorization|ya29\.|ghp_|ghs_` を failure log に対して grep し、skill references へ secret-like value を転記しない |
+| next action threshold | failure rate `< 10%` は現状維持。`>= 10%` は retry / alert 追加を別 unassigned task として起票し、Issue #497 自体は再 OPEN しない |
 
----
+30 日 gate 未達時は runtime PASS を主張せず、workflow root と artifacts は `spec_created` のまま維持する。gate 成立後に Phase 11 / Phase 12 を実行し、この `deployment-gha.md` セクションへ実測値を追記する。
 
-## 変更履歴
-
-| 日付 | バージョン | 変更内容 |
-| ---- | ---------- | -------- |
+| 2026-05-06 | 2.4.0 | Issue #407 Cloudflare API Token rotation reminder workflow を追加。`CF_TOKEN_ISSUED_AT`、85 日 reminder、dry-run、duplicate guard、最小 permissions を正本化 |
 | 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
 | 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。runtime cutover は未実行で、`web-cd.yml` / `backend-ci.yml` の `CLOUDFLARE_API_TOKEN` と `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として分離 |

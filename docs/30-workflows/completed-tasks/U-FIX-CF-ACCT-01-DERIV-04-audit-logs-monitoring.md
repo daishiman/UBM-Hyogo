@@ -8,15 +8,20 @@
 | タスク名 | Cloudflare Audit Logs を取得して API Token 利用パターンを監視・alerting する |
 | 優先度 | MEDIUM |
 | 推奨Wave | U-FIX-CF-ACCT-01 完了後（最小 scope Token 投入後）、DERIV-03 と前後可 |
-| 状態 | unassigned |
+| 状態 | consumed_by_issue_408_runtime_pending |
 | 作成日 | 2026-05-02 |
 | 既存タスク組み込み | なし（UT-25-DERIV-03 は secret 配置の audit log 範囲。本タスクは Token 利用全般） |
 | 組み込み先 | - |
 | 検出元 | docs/30-workflows/u-fix-cf-acct-01-cloudflare-api-token-scope-audit/outputs/phase-12/unassigned-task-detection.md（MEDIUM 行） |
+| task_link | docs/30-workflows/issue-408-cf-audit-logs-monitoring/index.md |
 
 ## 目的
 
 Cloudflare Audit Logs API から API Token の利用イベントを取得し、想定外の Account / Resource アクセス、想定外の時刻・送信元からの呼び出し、scope 拒否（403）の急増などを検知する仕組みを構築する。漏洩や誤用の早期検知を可能にする。
+
+## Canonical Status
+
+本 unassigned-task は `docs/30-workflows/issue-408-cf-audit-logs-monitoring/` に昇格し、同ブランチで workflow / scripts / D1 migration まで local 実装済み。現状態は `consumed_by_issue_408 / implemented_local / runtime pending`。未完了は production credential を伴う Token 発行、GitHub environment secret 登録、production D1 migration apply、7 日 baseline 学習、Phase 11 runtime evidence 実値化に限定する。
 
 > **着手判断基準**: U-FIX-CF-ACCT-01 の最小 scope Token を本番投入後、Token 利用パターンのベースラインを取得できる時期。DERIV-03（rotation）と並行可。
 
