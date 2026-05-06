@@ -12,6 +12,7 @@ SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
+RETENTION_PURGE_MODE = "dry-run"
 
 # 03a: schema sync は 03:00 JST (= 18:00 UTC) に 1 回
 # 03b: response sync は */15 で実行（forms.responses.list 差分同期）
@@ -49,6 +50,7 @@ SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
+RETENTION_PURGE_MODE = "dry-run"
 
 # production は Cloudflare free plan の account cron 上限を避けるため 3 本以内に絞る。
 # - 03a schema sync: 03:00 JST (= 18:00 UTC)
@@ -83,6 +85,7 @@ SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
+RETENTION_PURGE_MODE = "dry-run"
 
 # staging は production と同じ 3 本上限に合わせる。legacy Sheets hourly sync は手動限定。
 [env.staging.triggers]

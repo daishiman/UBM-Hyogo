@@ -34,6 +34,10 @@ import {
   runScheduledSync,
 } from "./sync";
 import { runResponseSync } from "./jobs/sync-forms-responses";
+import {
+  resolveRetentionPurgeOptions,
+  runRetentionPurge,
+} from "./jobs/retention-purge";
 import { runSchemaSync, ConflictError } from "./sync/schema";
 import { TAG_QUEUE_TICK_CRON } from "./repository/tagQueue";
 import { runTagQueueRetryTick } from "./workflows/tagQueueRetryTick";
@@ -314,6 +318,22 @@ export default {
             if (e instanceof ConflictError) return;
             // Secret 未設定などの SyncIntegrityError は環境整備後の次回実行に任せる。
             // その他は sync_jobs.error に記録済みのため throw しない。
+          }
+        })(),
+      );
+      // issue-402: 同 daily branch で retention purge を実行する（cron 本数を増やさない）。
+      // default は dry-run。production apply は RETENTION_PURGE_MODE=apply の明示切替時のみ。
+      ctx.waitUntil(
+        (async () => {
+          try {
+            const opts = resolveRetentionPurgeOptions(env);
+            if (opts) {
+              const report = await runRetentionPurge(env, opts);
+              console.log("[retentionPurge] completed", report);
+            }
+          } catch (err) {
+            const message = err instanceof Error ? err.message : String(err);
+            console.error("[retentionPurge] failed", { error: message });
           }
         })(),
       );

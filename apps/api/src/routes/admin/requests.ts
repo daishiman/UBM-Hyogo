@@ -26,6 +26,7 @@ import {
   adminEmail,
   auditAction,
 } from "../../repository/_shared/brand";
+import { RETENTION_DAYS } from "../../services/retention-policy";
 import type { AdminRouteEnv } from "./_shared";
 
 const NOTE_TYPES = ["visibility_request", "delete_request"] as const;
@@ -169,6 +170,9 @@ const inferDesiredPublishState = (
   return null;
 };
 
+const addDaysIso = (baseIso: string, days: number): string =>
+  new Date(new Date(baseIso).getTime() + days * 24 * 60 * 60 * 1000).toISOString();
+
 export const createAdminRequestsRoute = () => {
   const app = new Hono<{
     Bindings: AdminRouteEnv;
@@ -273,6 +277,10 @@ export const createAdminRequestsRoute = () => {
     const nowIso = new Date(nowMs).toISOString();
     const noteTypeNarrowed = note.noteType as RequestNoteType;
     const memberId = note.memberId as string;
+    const retentionPurgeScheduledAt =
+      noteTypeNarrowed === "delete_request" && resolution === "approve"
+        ? addDaysIso(nowIso, RETENTION_DAYS)
+        : null;
 
     if (resolution === "approve") {
       const currentStatus = await getStatus(db, asMemberId(memberId));
@@ -295,6 +303,7 @@ export const createAdminRequestsRoute = () => {
       memberId,
       noteType: noteTypeNarrowed,
       resolution,
+      retentionPurgeScheduledAt,
     });
 
     const stmts = [];
@@ -421,6 +430,7 @@ export const createAdminRequestsRoute = () => {
         publishState: after?.publish_state ?? "unknown",
         isDeleted: after?.is_deleted === 1,
       },
+      retentionPurgeScheduledAt,
     });
   });
 

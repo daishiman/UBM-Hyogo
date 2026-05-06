@@ -1060,21 +1060,21 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L6 |
 | テーブル一覧 | L11 |
-| UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Schema aliases write target（issue-191 / UT-07B） | L59 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L79 |
-| Legacy Sheets sync transition note（U-UT01-09） | L91 |
-| Schema alias assignment workflow（07b） | L103 |
-| ワークフロー関連テーブル | L107 |
-| ユーザー関連テーブル | L146 |
-| システムプロンプト関連テーブル | L180 |
-| チャット関連テーブル | L215 |
-| RAG関連テーブル | L251 |
-| Knowledge Graph関連テーブル | L293 |
-| 変換処理関連テーブル | L427 |
-| インデックス設計 | L486 |
-| 関連ドキュメント / 変更履歴 | L490 |
-| DDL 同期テンプレ | L495 |
+| `deleted_members`（issue-402 retention purge: `purged_at` / `retention_policy_version` / `idx_deleted_members_purge_due`、migration `0014_add_deleted_members_purge_metadata.sql`、SSOT `data-retention-policy.md`） | L43 |
+| UBM 会員 Forms 同期テーブル（03b） | L45 |
+| Schema aliases write target（issue-191 / UT-07B） | L60 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L80 |
+| Legacy Sheets sync transition note（U-UT01-09） | L92 |
+| Schema alias assignment workflow（07b） | L104 |
+| ワークフロー関連テーブル | L108 |
+| ユーザー関連テーブル | L147 |
+| システムプロンプト関連テーブル | L181 |
+| チャット関連テーブル | L216 |
+| RAG関連テーブル | L252 |
+| Knowledge Graph関連テーブル | L294 |
+| 変換処理関連テーブル | L428 |
+| インデックス設計 | L487 |
+| 関連ドキュメント / 変更履歴 / DDL テンプレ | L491 |
 
 ---
 
@@ -3069,6 +3069,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L221 |
 | 変更履歴 | L229 |
 
+### references/data-retention-policy.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Current Policy | L7 |
+| Audit Minimum | L25 |
+| Existing Soft-Delete Rule Exception | L38 |
+| Runtime Evidence Boundary | L42 |
+
 ### references/deployment-branch-strategy.md
 
 | セクション | 行 |
@@ -3305,8 +3315,8 @@ node scripts/list-specs.js --topics
 | トラブルシューティング | L315 |
 | チーム開発での運用 | L376 |
 | 必須環境変数一覧 | L415 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L480 |
-| 関連ドキュメント | L500 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L476 |
+| 関連ドキュメント | L496 |
 
 ### references/error-handling-core.md
 
@@ -4821,12 +4831,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 無料枠の境界 | L15 |
 | 2. WAE 6 イベント設計（reference） | L42 |
-| 3. アラート閾値設計指針 | L59 |
-| 4. PII 除外ルール | L85 |
-| 5. 苦戦箇所（恒久対策） | L101 |
-| 6. 関連ファイル | L126 |
-| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L138 |
-| 8. 変更履歴 | L146 |
+| 3. アラート閾値設計指針 | L67 |
+| 4. PII 除外ルール | L93 |
+| 5. 苦戦箇所（恒久対策） | L109 |
+| 6. 関連ファイル | L134 |
+| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
+| 8. 変更履歴 | L154 |
 
 ### references/patterns-advanced.md
 
