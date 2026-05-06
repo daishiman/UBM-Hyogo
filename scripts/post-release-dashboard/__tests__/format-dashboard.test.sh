@@ -22,6 +22,6 @@ jq -e '
   ([.metrics[].judgment] | all(. as $j | ["PASS","WARN","FAIL","UNKNOWN"] | index($j)))
 ' "$TMP_DIR/dashboard.json" >/dev/null
 
-rg -F "Workers requests" "$TMP_DIR/dashboard.md" >/dev/null
-rg -F "D1 reads" "$TMP_DIR/dashboard.md" >/dev/null
-rg -F "D1 writes" "$TMP_DIR/dashboard.md" >/dev/null
+grep -F "Workers requests" "$TMP_DIR/dashboard.md" >/dev/null
+grep -F "D1 reads" "$TMP_DIR/dashboard.md" >/dev/null
+grep -F "D1 writes" "$TMP_DIR/dashboard.md" >/dev/null

@@ -1,0 +1,141 @@
+name: cf-token-rotation-reminder
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "true prints the issue body without creating an issue"
+        required: false
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      simulated_issued_at:
+        description: "Optional ISO 8601 issued date for testing. Empty uses vars.CF_TOKEN_ISSUED_AT."
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    env:
+      THRESHOLD_DAYS: "85"
+      RUNBOOK_PATH: docs/30-workflows/operations/cf-token-rotation-runbook.md
+      LOG_PATH: docs/30-workflows/operations/cf-token-rotation-log.md
+      TITLE_PREFIX: "[cf-token-rotation]"
+      DEFAULT_ASSIGNEE: daishiman
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compute elapsed days
+        id: elapsed
+        shell: bash
+        env:
+          CONFIGURED_ISSUED_AT: ${{ vars.CF_TOKEN_ISSUED_AT }}
+          SIMULATED_ISSUED_AT: ${{ github.event.inputs.simulated_issued_at }}
+        run: |
+          set -euo pipefail
+          issued_at="${SIMULATED_ISSUED_AT:-}"
+          if [[ -z "${issued_at}" ]]; then
+            issued_at="${CONFIGURED_ISSUED_AT:-}"
+          fi
+          if [[ -z "${issued_at}" ]]; then
+            echo "::error::CF_TOKEN_ISSUED_AT is not configured"
+            exit 1
+          fi
+          issued_epoch="$(date -u -d "${issued_at}" +%s)"
+          now_epoch="$(date -u +%s)"
+          elapsed_days="$(((now_epoch - issued_epoch) / 86400))"
+          due_at="$(date -u -d "${issued_at} + 90 days" +%Y-%m-%d)"
+          should_remind=false
+          if (( elapsed_days >= THRESHOLD_DAYS )); then
+            should_remind=true
+          fi
+          {
+            echo "issued_at=${issued_at}"
+            echo "elapsed_days=${elapsed_days}"
+            echo "due_at=${due_at}"
+            echo "should_remind=${should_remind}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Detect existing open reminder issue
+        id: existing
+        if: steps.elapsed.outputs.should_remind == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          count="$(gh issue list --state open --search "in:title ${TITLE_PREFIX}" --json number --jq 'length')"
+          echo "count=${count}" >> "$GITHUB_OUTPUT"
+
+      - name: Build issue body
+        id: body
+        if: steps.elapsed.outputs.should_remind == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          body_file="$(mktemp)"
+          {
+            echo "Cloudflare API token rotation is approaching."
+            echo
+            echo "- Runbook: ${RUNBOOK_PATH}"
+            echo "- Rotation log: ${LOG_PATH}"
+            echo "- Elapsed days: ${{ steps.elapsed.outputs.elapsed_days }}"
+            echo "- Recommended due date: ${{ steps.elapsed.outputs.due_at }}"
+            echo
+            echo "Follow the staging-first procedure and do not record secret values."
+          } > "${body_file}"
+          echo "body_file=${body_file}" >> "$GITHUB_OUTPUT"
+
+      - name: Ensure issue labels
+        if: steps.elapsed.outputs.should_remind == 'true' && steps.existing.outputs.count == '0' && (github.event_name != 'workflow_dispatch' || github.event.inputs.dry_run == 'false')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh label create ops --color BFD4F2 --force
+          gh label create cloudflare --color 1D76DB --force
+          gh label create token-rotation --color D93F0B --force
+
+      - name: Dry-run preview
+        if: steps.elapsed.outputs.should_remind == 'true' && (github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run != 'false')
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "dry-run preview" >> "$GITHUB_STEP_SUMMARY"
+          cat "${{ steps.body.outputs.body_file }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create issue
+        if: steps.elapsed.outputs.should_remind == 'true' && steps.existing.outputs.count == '0' && (github.event_name != 'workflow_dispatch' || github.event.inputs.dry_run == 'false')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh issue create \
+            --title "${TITLE_PREFIX} 90 day rotation due soon" \
+            --body-file "${{ steps.body.outputs.body_file }}" \
+            --assignee "${DEFAULT_ASSIGNEE}" \
+            --label ops \
+            --label cloudflare \
+            --label token-rotation
+
+      - name: Skip summary
+        if: steps.elapsed.outputs.should_remind != 'true' || steps.existing.outputs.count != '0'
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "No issue created." >> "$GITHUB_STEP_SUMMARY"
+          echo "should_remind=${{ steps.elapsed.outputs.should_remind }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "existing_count=${{ steps.existing.outputs.count }}" >> "$GITHUB_STEP_SUMMARY"
