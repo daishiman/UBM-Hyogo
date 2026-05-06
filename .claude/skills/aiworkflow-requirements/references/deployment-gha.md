@@ -302,6 +302,24 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 - `if: secrets.X != ''` に依存せず、workflow 側では env に受けて shell で空文字判定する設計を優先する。
 - API Token は Pages Edit / Workers Scripts Edit / D1 Edit / Account Settings Read の最小スコープに限定し、命名規則 `ubm-hyogo-cd-{env}-{yyyymmdd}`（例: `ubm-hyogo-cd-staging-20260429`）でローテーション履歴を Token 名から追えるようにする。
 
+## Post-release dashboard automation (Issue #351 / 2026-05-05)
+
+09c production release 後の 24h metrics は `docs/30-workflows/issue-351-09c-post-release-dashboard-automation/` を current implementation spec とし、GitHub Actions schedule / workflow_dispatch で自動収集する。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow file | `.github/workflows/post-release-dashboard.yml` |
+| 起動 | `schedule: '0 0 * * *'` (UTC, 1 日 1 回) + `workflow_dispatch` |
+| secret | `CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY`（read-only。production deploy 用 `CLOUDFLARE_API_TOKEN` とは別 token） |
+| account variable | `vars.CLOUDFLARE_ACCOUNT_ID` |
+| artifact path | `outputs/post-release-dashboard/<UTC-yyyy-mm-dd>/dashboard.{json,md}` |
+| retention | 90 days |
+| metrics | `workers_requests` / `workers_errors` / `d1_reads` / `d1_writes` / `cron_status` |
+| threshold | 09c post-release summary と一致（`< 5000` req/24h, `<= 50000` reads/24h, `<= 10000` writes/24h） |
+| redaction gate | `scripts/post-release-dashboard/lib/redaction-check.sh` が `redaction-check.md` を生成し、secret-like findings 0 件を記録 |
+
+`scripts/cf.sh api-post /client/v4/graphql -d <json>` は GraphQL Analytics discover / metrics query の公開入口とし、`api-post` は `/client/v4/graphql` 以外の path を fail-closed する。workflow は `secrets.CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY` を正参照し、`secrets.CLOUDFLARE_API_TOKEN` を参照しない。
+
 ---
 
 ## 関連ドキュメント
@@ -315,6 +333,7 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
 | 2026-04-29 | 2.1.0 | UT-27: GitHub Secrets / Variables 配置決定マトリクスと Phase 13 user 承認ゲートを追記 |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron E2E 削除、Cloudflare Pages デプロイへ移行 |

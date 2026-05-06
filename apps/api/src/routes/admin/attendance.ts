@@ -58,7 +58,7 @@ export const createAdminAttendanceRoute = () => {
     const memberId = asMemberId(parsed.data.memberId);
     const authUser = c.get("authUser");
     if (!(await memberExists(c.env.DB, parsed.data.memberId))) {
-      return c.json({ ok: false, error: "member not found" }, 404);
+      return c.json({ ok: false, error: "member_not_found" }, 404);
     }
     const result = await addAttendance(db, memberId, sessionId, authUser.email);
     if (!result.ok && result.reason === "session_not_found") {
