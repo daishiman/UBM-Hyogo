@@ -3099,7 +3099,8 @@ node scripts/list-specs.js --topics
 | 12. 関連リソース | L199 |
 | 13. production route / secret / observability preflight | L218 |
 | 14. Long-term analytics evidence | L259 |
-| 変更履歴 | L265 |
+| 15. 09c-A production execution workflow | L265 |
+| 変更履歴 | L280 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -3408,15 +3409,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L17 |
-| 使い方 | L25 |
-| Current Alias Overrides（個別互換行） | L32 |
-| Family Summary | L73 |
-| Detailed Register | L94 |
-| Section Extract Register (2026-03-17) | L275 |
-| 500-Line Split Register (2026-03-16) | L286 |
-| Fragment Migration Register (2026-04-28) | L308 |
-| Task Root Path Drift Register (2026-04-30 追記) | L335 |
+| 概要 | L18 |
+| 使い方 | L26 |
+| Current Alias Overrides（個別互換行） | L33 |
+| Family Summary | L74 |
+| Detailed Register | L95 |
+| Section Extract Register (2026-03-17) | L276 |
+| 500-Line Split Register (2026-03-16) | L287 |
+| Fragment Migration Register (2026-04-28) | L309 |
+| Task Root Path Drift Register (2026-04-30 追記) | L336 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
