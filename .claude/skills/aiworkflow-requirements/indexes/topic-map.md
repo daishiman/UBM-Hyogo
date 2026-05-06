@@ -2222,11 +2222,17 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L13 |
+
 ### references/workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| User Gate | L17 |
+| User Gate | L21 |
 
 ### references/workflow-issue-352-postmortem-template-automation-artifact-inventory.md
 
@@ -3229,7 +3235,7 @@ node scripts/list-specs.js --topics
 | モニタリング/アラート（UT-08 連携） | L547 |
 | per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
 | Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
-| 変更履歴 | L635 |
+| 変更履歴 | L648 |
 
 ### references/deployment-core.md
 
@@ -3265,9 +3271,6 @@ node scripts/list-specs.js --topics
 | GitHub Secrets の要件 | L260 |
 | UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L304 |
 | Post-release dashboard automation (Issue #351 / 2026-05-05) | L325 |
-| Cloudflare API Token rotation reminder (Issue #407 / 2026-05-06) | L343 |
-| 関連ドキュメント | L360 |
-| 変更履歴 | L367 |
 
 ### references/deployment-history.md
 
@@ -3974,6 +3977,18 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 | 関連リソース | L60 |
+
+### references/lessons-learned-issue-350-long-term-observation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所サマリ | L13 |
+| 1. Cloudflare cron 無料枠制約 | L17 |
+| 2. Reminder Issue の重複起票 | L24 |
+| 3. PII / Evidence Boundary | L31 |
+| 4. 09c → Issue #350 Consumed Trace の同時更新 | L38 |
+| 5. Workflow Dispatch と Schedule の二重トリガ | L45 |
+| Follow-up | L51 |
 
 ### references/lessons-learned-issue-351-post-release-dashboard-2026-05.md
 
@@ -5078,6 +5093,17 @@ node scripts/list-specs.js --topics
 | 個人開発における注意点 | L345 |
 | 関連ドキュメント | L373 |
 
+### references/post-release-long-term-observation.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L13 |
+| 正本 runbook | L17 |
+| Current Contract | L21 |
+| Evidence Boundary | L32 |
+| Follow-up Unassigned Tasks | L38 |
+| 関連 | L44 |
+
 ### references/quality-e2e-testing.md
 
 | セクション | 行 |
@@ -5300,6 +5326,15 @@ node scripts/list-specs.js --topics
 | VectorSearchStrategy（セマンティック検索） | L151 |
 | 関連ドキュメント | L221 |
 
+### references/release-runbook.md
+
+| セクション | 行 |
+|------------|----|
+| Issue #348 GitHub Release Creation | L3 |
+| Mutation Boundary | L16 |
+| Commands | L20 |
+| Lessons Learned (issue-348) | L50 |
+
 ### references/skill-executor-type-migration.md
 
 | セクション | 行 |
@@ -5442,13 +5477,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L316 |
-| フェーズ構造（概要） | L325 |
-| 品質ゲート（概要） | L356 |
-| 出力テンプレート | L367 |
-| 実行時のコマンド・エージェント・スキル | L390 |
-| 昇格パターン集 | L414 |
-| Current Active / Spec Created Tasks | L416 |
+| ドキュメント構成 | L345 |
+| フェーズ構造（概要） | L354 |
+| 品質ゲート（概要） | L385 |
+| 出力テンプレート | L396 |
+| 実行時のコマンド・エージェント・スキル | L419 |
+| 昇格パターン集 | L443 |
+| Current Active / Spec Created Tasks | L445 |
 
 ### references/task-workflow-backlog-part2.md
 
