@@ -1,0 +1,6 @@
+PENDING_RUNTIME_EVIDENCE
+
+Release tag creation and push are blocked until explicit user approval.
+
+Expected format:
+vYYYYMMDD-HHMM
