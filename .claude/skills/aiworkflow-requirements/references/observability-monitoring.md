@@ -84,7 +84,7 @@ UBM-Hyogo の最小計装セット。各イベントは `index1` をテナント
 
 ### 3.3 Webhook fallback
 
-- 一次通知: Slack Incoming Webhook（`SLACK_WEBHOOK_ALERT_URL`、1Password Environments 経由）。
+- 一次通知: Slack Incoming Webhook（`SLACK_ALERT_WEBHOOK_URL`、1Password Environments 経由）。
 - フォールバック: Slack 配送失敗 / 5xx の際はメール通知（運用代表アドレス）に切り替える。
 - 通知本文は `event 種別 / 環境 / 閾値レベル / 直近 5 分の値 / runbook URL` を最小要素とする。
 
@@ -149,11 +149,26 @@ WAE / ログ / アラート本文には以下を絶対に書き込まない。
 
 `sheets_sync` イベント名は legacy 表記を含むため、Forms sync 正本化後の WAE event rename は別タスクで扱う。09b では Cloudflare Analytics / manual SQL / runbook evidence を正本とし、Sentry DSN 登録と Slack 自動通知は unassigned task に分離済み。
 
+## 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05）
+
+09b-A は 09b で未実行として残した Sentry project 受信確認と Slack incident webhook 疎通を、`docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/` の implementation / `NON_VISUAL` / `implemented-local` workflow として正本化する。API Worker route は `apps/api/src/routes/admin/smoke-observability.ts` に実装済みで、Phase 11 は live provider PASS ではなく `provider_smoke_pending_user_approval` である。実 Sentry event / Slack message / production secret 登録は user approval 後の runtime execution wave で取得する。
+
+| Runtime trigger | Severity | Primary evidence | Destination |
+| --- | --- | --- | --- |
+| `sync_jobs.failed` 3 consecutive | P2 | Slack permalink + redacted runbook link | `SLACK_WEBHOOK_INCIDENT` |
+| `sync_jobs.running` stale > 30 min | P1 | Slack permalink + incident runbook reference | `SLACK_WEBHOOK_INCIDENT` |
+| Workers 5xx spike | P1/P2 | Sentry event id + Slack permalink | `SENTRY_DSN_API` / `SLACK_WEBHOOK_INCIDENT` |
+| Sentry P1 tag | P1 | Sentry event id, timestamp, `dsn=redacted=YES` | `SLACK_WEBHOOK_INCIDENT` |
+| Magic Link send failure | P2 | redacted error class + Slack permalink | `SLACK_WEBHOOK_INCIDENT` |
+
+Redaction is part of the contract: DSN URL, Slack webhook URL, Sentry auth token, Cloudflare token, and value hashes are never stored in workflow outputs. Evidence may store secret names, `op://...` reference patterns, short Sentry event ids, timestamps, and Slack message permalinks.
+
 ---
 
-## 8. 変更履歴
+## 9. 変更履歴
 
 | 日付 | 変更 |
 | --- | --- |
+| 2026-05-05 | 09b-A Sentry / Slack runtime smoke contract を追加。`contract_ready_runtime_pending` 境界、5 trigger matrix、secret redaction rules を固定 |
 | 2026-05-01 | 09b cron monitoring / release runbook linkage を追加。`sync_jobs.running` 30 分超 / failed 3 連続の incident response 導線を固定 |
 | 2026-04-27 | UT-08 / UT-13 / UT-12 同期 wave で新規作成。WAE 6 イベント・30 分 dedupe・PII allowlist・identifier drift 対策を集約 |
