@@ -20,6 +20,8 @@
     "lint:deps": "rg --files apps packages -g '*.ts' -g '*.tsx' | xargs pnpm dlx dependency-cruiser --config .dependency-cruiser.cjs",
     "lint:stablekey": "node scripts/lint-stablekey-literal.mjs",
     "lint:stablekey:strict": "node scripts/lint-stablekey-literal.mjs --strict",
+    "verify:static-manifest": "node scripts/verify-static-manifest.mjs",
+    "regenerate:static-manifest": "node scripts/regenerate-static-manifest.mjs",
     "typecheck": "pnpm -r typecheck",
     "test": "bash scripts/with-env.sh vitest run",
     "test:scripts": "bash scripts/d1/run-tests.sh",

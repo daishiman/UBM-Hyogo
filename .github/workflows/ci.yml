@@ -53,6 +53,10 @@ jobs:
         if: steps.ready.outputs.value == 'true'
         run: pnpm lint
 
+      - name: Verify static manifest (UT-02A-FU-DIAG-001)
+        if: steps.ready.outputs.value == 'true'
+        run: pnpm verify:static-manifest
+
   coverage-gate:
     # 仕様: docs/30-workflows/coverage-80-enforcement/outputs/phase-12/implementation-guide.md
     # 2026-05-04: hard gate 化済み (continue-on-error 削除 / ci-test-recovery-coverage-80-2026-05-04 Task E)

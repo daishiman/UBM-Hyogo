@@ -36,6 +36,7 @@ import {
   type ResolveError,
   type SectionKey,
 } from "./metadata";
+import { logWarn } from "../../lib/logger";
 import type { AttendanceProvider, AttendanceRecord } from "../attendance";
 
 // AttendanceProvider 未注入時のフォールバック（02a 互換）
@@ -181,6 +182,15 @@ export function buildSectionsWithDiagnostics(
     const pb = positionByKey.get(b) ?? Number.MAX_SAFE_INTEGER;
     return pa - pb;
   });
+
+  if (diagnostics.unknownStableKeys.length > 0) {
+    logWarn({
+      code: "UBM-MANIFEST-UNKNOWN-KEY",
+      count: diagnostics.unknownStableKeys.length,
+      stableKeys: diagnostics.unknownStableKeys,
+      note: "static-manifest does not include these stable keys; alias queue adapter required",
+    });
+  }
 
   return {
     sections: orderedKeys.map((key) => ({

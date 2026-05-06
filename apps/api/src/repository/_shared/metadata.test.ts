@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
+import { readFile, writeFile, mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve as resolvePath, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   GeneratedManifestResolver,
   defaultMetadataResolver,
   UNKNOWN_SECTION_KEY,
   type AliasQueueAdapter,
 } from "./metadata";
+import { verifyStaticManifest } from "../../../../../scripts/verify-static-manifest.mjs";
 
 describe("GeneratedManifestResolver", () => {
   it("resolves consent stable_keys to consent kind (AC-4)", () => {
@@ -79,5 +84,37 @@ describe("GeneratedManifestResolver", () => {
 
   it("UNKNOWN_SECTION_KEY constant is stable", () => {
     expect(UNKNOWN_SECTION_KEY).toBe("__unknown__");
+  });
+});
+
+describe("static manifest hardening (DT-15 / DT-16)", () => {
+  const REPO_ROOT = resolvePath(dirname(fileURLToPath(import.meta.url)), "../../../../..");
+  const REAL_SOURCE = resolvePath(REPO_ROOT, "docs/00-getting-started-manual/specs/01-api-schema.md");
+  const REAL_MANIFEST = resolvePath(REPO_ROOT, "apps/api/src/repository/_shared/generated/static-manifest.json");
+
+  it("DT-15: manifest hash drift simulation で sourceSpecHashDrift を返す", async () => {
+    const tmp = await mkdtemp(join(tmpdir(), "ubm-meta-"));
+    try {
+      const drifted = join(tmp, "spec.md");
+      const original = await readFile(REAL_SOURCE, "utf8");
+      await writeFile(drifted, original + "\n# drift\n", "utf8");
+      const result = await verifyStaticManifest({
+        sourceSpecPath: drifted,
+        manifestPath: REAL_MANIFEST,
+      });
+      expect(result.ok).toBe(false);
+      if (!result.ok) expect(result.reason).toBe("sourceSpecHashDrift");
+    } finally {
+      await rm(tmp, { recursive: true, force: true });
+    }
+  });
+
+  it("DT-16: metadata.ts に retirement 条件への参照コメントが存在する", async () => {
+    const metaSrc = await readFile(
+      resolvePath(REPO_ROOT, "apps/api/src/repository/_shared/metadata.ts"),
+      "utf8",
+    );
+    expect(metaSrc).toMatch(/Static Manifest Retirement Condition/);
+    expect(metaSrc).toMatch(/verify-static-manifest/);
   });
 });
