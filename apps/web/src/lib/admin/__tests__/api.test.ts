@@ -163,6 +163,102 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
     }
   });
 
+  it("API-01 postSchemaAlias 200 success: confirmed=true, backfill.status=completed, predicate=false", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(200, {
+        ok: true,
+        mode: "apply",
+        confirmed: true,
+        backfill: { status: "completed" },
+      }),
+    );
+    const r = await adminApi.postSchemaAlias({
+      questionId: "q1",
+      stableKey: "k1",
+      diffId: "d1",
+    });
+    expect(r.ok).toBe(true);
+    expect(r.status).toBe(200);
+    expect(adminApi.isSchemaAliasRetryableContinuation(r)).toBe(false);
+  });
+
+  it("API-02 postSchemaAlias 202 retryable continuation: predicate=true", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(202, {
+        ok: true,
+        mode: "apply",
+        confirmed: true,
+        backfill: {
+          status: "exhausted",
+          retryable: true,
+          code: "backfill_cpu_budget_exhausted",
+        },
+      }),
+    );
+    const r = await adminApi.postSchemaAlias({
+      questionId: "q1",
+      stableKey: "k1",
+      diffId: "d1",
+    });
+    expect(r.ok).toBe(true);
+    expect(r.status).toBe(202);
+    expect(adminApi.isSchemaAliasRetryableContinuation(r)).toBe(true);
+  });
+
+  it("API-03 postSchemaAlias 202 status=pending: predicate=false（exhausted 合致を要求）", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(202, {
+        ok: true,
+        mode: "apply",
+        confirmed: true,
+        backfill: { status: "pending", retryable: true },
+      }),
+    );
+    const r = await adminApi.postSchemaAlias({
+      questionId: "q1",
+      stableKey: "k1",
+    });
+    expect(adminApi.isSchemaAliasRetryableContinuation(r)).toBe(false);
+  });
+
+  it("API-03b postSchemaAlias 202 exhausted without code: predicate=false（code 合致を要求）", async () => {
+    fetchSpy.mockResolvedValue(
+      jsonResponse(202, {
+        ok: true,
+        mode: "apply",
+        confirmed: true,
+        backfill: { status: "exhausted", retryable: true },
+      }),
+    );
+    const r = await adminApi.postSchemaAlias({
+      questionId: "q1",
+      stableKey: "k1",
+    });
+    expect(adminApi.isSchemaAliasRetryableContinuation(r)).toBe(false);
+  });
+
+  it("API-04 postSchemaAlias 422 validation error: ok=false / predicate=false", async () => {
+    fetchSpy.mockResolvedValue(jsonResponse(422, { error: "invalid" }));
+    const r = await adminApi.postSchemaAlias({ questionId: "q1", stableKey: "k1" });
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(r.status).toBe(422);
+      expect(r.error).toBe("invalid");
+    }
+    expect(adminApi.isSchemaAliasRetryableContinuation(r)).toBe(false);
+  });
+
+  it("API-05 postSchemaAlias 409 conflict: ok=false / predicate=false", async () => {
+    fetchSpy.mockResolvedValue(jsonResponse(409, { error: "conflict" }));
+    const r = await adminApi.postSchemaAlias({ questionId: "q1", stableKey: "k1" });
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(r.status).toBe(409);
+      expect(r.error).toBe("conflict");
+    }
+    expect(adminApi.isSchemaAliasRetryableContinuation(r)).toBe(false);
+  });
+
   it("postSchemaAlias / resolveAdminRequest / resolveTagQueue も path/body 整合", async () => {
     fetchSpy.mockResolvedValue(jsonResponse(200, {}));
     await adminApi.postSchemaAlias({ questionId: "q1", stableKey: "k1" });

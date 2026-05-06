@@ -139,7 +139,7 @@
 
 **継続観測項目（execution operation 後に発生する継続タスク / 0 件 unassigned とは別軸）**:
 
-- 1 週間後 / 1 ヶ月後の Cloudflare metrics トレンド観測（既存の `task-09c-long-term-production-observation-001.md` で formalize 済み）
+- 1 週間後 / 1 ヶ月後の Cloudflare metrics トレンド観測（`docs/30-workflows/issue-350-long-term-production-observation/` で formalize 済み。source `task-09c-long-term-production-observation-001.md` は consumed stub）
 - 24h verification の自動化（既存の `task-09c-post-release-dashboard-automation-001.md`）
 
 **チェック項目**:
