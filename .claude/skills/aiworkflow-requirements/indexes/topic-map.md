@@ -3271,9 +3271,6 @@ node scripts/list-specs.js --topics
 | GitHub Secrets の要件 | L263 |
 | UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L307 |
 | Post-release dashboard automation (Issue #351 / 2026-05-05) | L328 |
-| Cloudflare API Token rotation reminder (Issue #407 / 2026-05-06) | L346 |
-| 関連ドキュメント | L363 |
-| 変更履歴 | L370 |
 
 ### references/deployment-history.md
 
@@ -5490,13 +5487,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L345 |
-| フェーズ構造（概要） | L354 |
-| 品質ゲート（概要） | L385 |
-| 出力テンプレート | L396 |
-| 実行時のコマンド・エージェント・スキル | L419 |
-| 昇格パターン集 | L443 |
-| Current Active / Spec Created Tasks | L445 |
+| ドキュメント構成 | L350 |
+| フェーズ構造（概要） | L359 |
+| 品質ゲート（概要） | L390 |
+| 出力テンプレート | L401 |
+| 実行時のコマンド・エージェント・スキル | L424 |
+| 昇格パターン集 | L448 |
+| Current Active / Spec Created Tasks | L450 |
 
 ### references/task-workflow-backlog-part2.md
 
