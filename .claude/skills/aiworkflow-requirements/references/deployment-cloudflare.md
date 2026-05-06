@@ -241,7 +241,7 @@ name = "ubm-hyogo-api"
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |
 | `0 * * * *` | Google Sheets 由来の legacy hourly sync（撤回は UT21-U05） | `runSync` |
-| `0 18 * * *` | 03a: Google Sheets schema sync（03:00 JST 想定） | `runSchemaSync` |
+| `0 18 * * *` | 03a schema sync + issue-402 retention purge dry-run/apply 併用（fan-out なし。`apps/api/src/index.ts` cron handler 内で分岐ルーティングし、retention purge は `RETENTION_PURGE_MODE` で dry-run/apply/off を切替。SSOT: [data-retention-policy.md](./data-retention-policy.md)） | `runSchemaSync` + retention purge job |
 | `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
 
 > **current facts (09b / 2026-05-01)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は legacy Sheets hourly cron の現行残存であり、撤回・runtime 設定整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱う。09b は docs-only / spec_created のため runtime 設定を変更しない。

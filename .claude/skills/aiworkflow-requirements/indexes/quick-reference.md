@@ -5,6 +5,42 @@
 
 ---
 
+### U-FIX-CF-ACCT-01-DERIV-01 GitHub OIDC short-lived credentials（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` |
+| 状態 | `spec_created / implementation-spec / NON_VISUAL / Phase 12 strict outputs present / runtime evidence pending_user_approval` |
+| primary IdP | AWS STS（GitHub OIDC federation） |
+| workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
+| current token references | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_API_TOKEN_STAGING` remain current until runtime cutover |
+| approval gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke |
+| close-out evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime evidence | `outputs/phase-11/main.md` + `manual-smoke-log.md` + `link-checklist.md` are RUNTIME_PENDING placeholder ledgers. deploy / revoke are未実行 |
+| 正本 refs | `references/deployment-gha.md`, `references/deployment-secrets-management.md`, `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
+---
+
+### Issue #401 Admin Request Notification（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-401-admin-request-notification/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval` |
+| API | `POST /admin/requests/:noteId/resolve` 後に `notification_outbox` へ best-effort enqueue |
+| DB | `notification_outbox`, `notification_ledger`(migration `0014_notification_outbox.sql`) |
+| mail env | `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS`（旧 `RESEND_API_KEY` / `RESEND_FROM_EMAIL` は使わない） |
+| mail config gate | `MAIL_PROVIDER_KEY` missing / `.example` sender は claim 前に dispatch skip |
+| retry | retryable failure は `pending` 復帰。`failed` は ledger event only |
+| stuck recovery | stale `dispatching` rows are reclaimed after lease timeout |
+| recipient | `member_identities.response_email` |
+| PII boundary | raw `resolutionNote` is not copied to email / `reason_summary` / ledger detail |
+| close-out evidence | `docs/30-workflows/completed-tasks/issue-401-admin-request-notification/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime boundary | staging D1 apply / Resend send / production migration / commit / push / PR は user approval 後 |
+
+---
+
+
 ### task-05a `/public/form-preview` 503 root cause + fix（2026-05-05）
 
 | 目的 | 参照先 |
@@ -21,6 +57,7 @@
 | 禁止事項 | response shape 変更、D1 schema 列追加、apps/web direct D1 access、production mutation、commit / push / PR |
 
 ---
+
 
 ### Issue #359 Out-of-Band Production D1 Apply Audit（2026-05-04）
 
@@ -136,6 +173,18 @@
 
 ---
 
+### Issue #400 Admin Request Audit Target Taxonomy（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-400-admin-request-audit-target-taxonomy/` |
+| API 契約 | `references/api-endpoints.md`（04c 構造的不変条件 / request resolve audit） |
+| 実装 | `apps/api/src/repository/auditLog.ts`, `apps/api/src/routes/admin/requests.ts`, `apps/api/src/routes/admin/audit.ts`, `apps/web/src/components/admin/AuditLogPanel.tsx` |
+| taxonomy | 新規 request resolve audit は `targetType='admin_member_note'`, `targetId=<noteId>`, `after.memberId` を保持。legacy `member` 行は migration せず readable |
+| tests | `apps/api/src/repository/__tests__/auditLog.test.ts`, `apps/api/src/routes/admin/{requests,audit}.test.ts`, `apps/web/src/components/admin/__tests__/AuditLogPanel.test.tsx` |
+
+---
+
 ### UT-21 Forms sync conflict close-out（2026-04-30）
 
 | 目的 | 参照先 |
@@ -156,6 +205,7 @@
 | Issue #355 cutover spec workflow | `docs/30-workflows/completed-tasks/issue-355-opennext-workers-cd-cutover-task-spec/`（spec_created / implementation / NON_VISUAL / Phase 11 evidence contracts） |
 | 残る実装 task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`（`web-cd.yml` Workers deploy 置換 / Cloudflare side cutover / smoke） |
 | Pages delete after dormant | `docs/30-workflows/issue-419-pages-project-dormant-delete-after-355/`（Issue #419 formalized / `spec_created` / implementation / NON_VISUAL / destructive cleanup / dormant observation + user approval pending）。起票元: `docs/30-workflows/unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` |
+| Delete request retention purge | `docs/30-workflows/issue-402-admin-request-retention-physical-delete/`（Issue #402 / `implemented-local` / implementation / NON_VISUAL / retention policy / runtime evidence pending）。SSOT: `references/data-retention-policy.md`。対象 table: `member_responses` / `member_identities` / `member_status` + response child rows; `deleted_members` は tombstone 保持。default `RETENTION_PURGE_MODE=dry-run`、production apply は user-gated |
 | 決定 workflow | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` |
 
 ---
@@ -454,6 +504,7 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | `sync_jobs` runtime contract SSOT（Issue #435 / 2026-05-04） | runtime: `apps/api/src/jobs/_shared/sync-jobs-schema.ts` / logical spec: `docs/30-workflows/_design/sync-jobs-spec.md` / owner table: `docs/30-workflows/_design/sync-shared-modules-owner.md` / workflow: `docs/30-workflows/completed-tasks/issue-195-sync-jobs-contract-schema-consolidation-001/` |
 | cron `*/15 * * * *` 設定・JWT 署名・Secret 配置 | `references/deployment-cloudflare.md`（§API Worker cron / Forms response sync 03b） |
 | `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `SYNC_ADMIN_TOKEN` 配置 | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
+| `RETENTION_PURGE_MODE`（dry-run/apply/off）/ `RETENTION_PURGE_LIMIT` 配置（Issue #402 retention purge gate） | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期）, `references/data-retention-policy.md` |
 | D1 health endpoint（`GET /health/db`、`X-Health-Token`、`HEALTH_DB_TOKEN`、401/403/503 境界） | `references/api-endpoints.md`（§UBM-Hyogo Health API）, `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
 | 苦戦箇所（per-sync write 200 cap / partial UNIQUE で重複 enqueue 抑止 / submittedAt 同値時 responseId 降順 tie-break / `metrics_json.cursor` ≠ `pageToken`） | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/outputs/phase-12/implementation-guide.md` Part 2 |
 | follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / response_email UNIQUE 所在明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-response-sync-followups.md`。UNIQUE 所在は Issue #196 workflow `docs/30-workflows/issue-196-03b-followup-003-response-email-unique-ddl/` で consumed / 訂正済み: 正本は `member_identities.response_email`、`member_responses.response_email` は非 UNIQUE |

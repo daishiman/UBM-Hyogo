@@ -288,3 +288,17 @@ jq -r '.metadata.visualEvidence // empty' \
 `docs/30-workflows/ut-gov-005-docs-only-nonvisual-template-skill-sync/outputs/phase-11/` を参照。
 
 > 既存「docs-only / `spec_created` Phase 11 代替証跡フォーマット（必須3点）」セクションは Phase 8 DRY 化で本セクションに統合する（TECH-M-01）。
+
+## OIDC / deploy auth migration NON_VISUAL evidence matrix
+
+GitHub Actions OIDC、Cloudflare deploy auth、branch protection、external IdP などの NON_VISUAL implementation-spec では、Phase 11 に進む前に次の canonical matrix を `index.md` または Phase 1 output に置き、Phase 5 / 7 / 11 / 13 で同じ値を参照する。provider、workflow 名、evidence 件数、approval gate 名が phase 間で drift した場合は Phase 11 を `FAIL` または `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` に留め、`PASS` 単独表記は禁止する。
+
+| Axis | 必須記載 |
+| --- | --- |
+| provider | primary provider と代替 provider。未採用案は appendix 扱いにする |
+| workflow inventory | 実在する `.github/workflows/*.yml` 名。存在しない例示名を canonical にしない |
+| evidence count | runtime evidence の canonical 件数と detailed sub-artifact の境界 |
+| G1-G4 | runtime mutation gate の意味を固定。commit / push / PR approval は独立 gate として分ける |
+| runtime boundary | spec-created cycle で未実行の external mutation / deploy / revoke を明記 |
+
+この matrix は `phase12-task-spec-compliance-check.md` の 4 条件（矛盾なし / 漏れなし / 整合性 / 依存関係整合）の根拠にする。

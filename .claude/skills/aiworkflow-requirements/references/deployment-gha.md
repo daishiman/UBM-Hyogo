@@ -264,6 +264,22 @@
 | `CLOUDFLARE_API_TOKEN` | 旧単一 Cloudflare API Token。U-FIX-CF-ACCT-01-DERIV-02 の 24h 並行保持後に削除 | Deprecated |
 | `DISCORD_WEBHOOK_URL` | Discord 通知用 Webhook URL | No |
 
+### U-FIX-CF-ACCT-01-DERIV-01: OIDC short-lived credential target contract（2026-05-06）
+
+`docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` は `spec_created / implementation-spec / NON_VISUAL` の target contract である。runtime cutover は未実行であり、現行 `web-cd.yml` / `backend-ci.yml` の長命 `secrets.CLOUDFLARE_API_TOKEN` 参照と `d1-migration-verify.yml` の `secrets.CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として残る。
+
+| 項目 | 契約 |
+| --- | --- |
+| primary IdP | AWS STS（GitHub OIDC federation） |
+| workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
+| deploy job permissions | deploy job のみ `id-token: write` + `contents: read`。top-level / PR job には付与しない |
+| credential lifetime | 1 時間以内を Phase 11 evidence で実測 |
+| credential boundary | Cloudflare Token object が per-job 短命化できない場合は AWS STS session <= 3600s + job-scoped retrieval を短命境界として記録し、Cloudflare Token 自体の 1h expiry を主張しない |
+| approval gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke |
+| commit / push / PR | G1-G4 とは別の user approval。自動実行禁止 |
+
+実装 PR では `secrets.CLOUDFLARE_API_TOKEN` / `secrets.CLOUDFLARE_API_TOKEN_STAGING` 直接参照を対象 workflow から除去または明示的に impact-checked とし、OIDC → AWS STS → job-scoped credential → `scripts/cf.sh` 経路に統一する。rollback 用の長命 Token 再注入は 24h 限定の緊急運用に限る。
+
 ### Variables（非シークレット）
 
 | Variable 名 | 用途 | 必須 |
@@ -335,5 +351,6 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 | ---- | ---------- | -------- |
 | 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
+| 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。runtime cutover は未実行で、`web-cd.yml` / `backend-ci.yml` の `CLOUDFLARE_API_TOKEN` と `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として分離 |
 | 2026-04-29 | 2.1.0 | UT-27: GitHub Secrets / Variables 配置決定マトリクスと Phase 13 user 承認ゲートを追記 |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron E2E 削除、Cloudflare Pages デプロイへ移行 |
