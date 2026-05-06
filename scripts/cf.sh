@@ -78,6 +78,42 @@ if [ "$1" = "api-get" ]; then
   ' _ "$api_path"
 fi
 
+if [ "$1" = "api-post" ]; then
+  shift
+  if [ "$#" -lt 1 ]; then
+    echo "usage: $0 api-post /client/v4/graphql [-d JSON]" >&2
+    exit 64
+  fi
+  api_path="$1"
+  shift
+  case "$api_path" in
+    /client/v4/graphql) ;;
+    *) echo "[cf.sh] api-post only allows /client/v4/graphql" >&2; exit 64 ;;
+  esac
+  if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
+    exec bash -c '
+      set -euo pipefail
+      api_path="$1"
+      shift
+      curl -fsS -X POST \
+        -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN:?CLOUDFLARE_API_TOKEN is required}" \
+        -H "Content-Type: application/json" \
+        "$@" \
+        "https://api.cloudflare.com$api_path"
+    ' _ "$api_path" "$@"
+  fi
+  exec "$REPO_ROOT/scripts/with-env.sh" mise exec -- bash -c '
+    set -euo pipefail
+    api_path="$1"
+    shift
+    curl -fsS -X POST \
+      -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN:?CLOUDFLARE_API_TOKEN is required}" \
+      -H "Content-Type: application/json" \
+      "$@" \
+      "https://api.cloudflare.com$api_path"
+  ' _ "$api_path" "$@"
+fi
+
 if [ "$1" = "d1:apply-prod" ]; then
   shift
   exec bash "$REPO_ROOT/scripts/d1/apply-prod.sh" "$@"

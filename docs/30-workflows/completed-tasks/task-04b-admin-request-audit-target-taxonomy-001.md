@@ -6,7 +6,7 @@
 | --- | --- |
 | Task ID | task-04b-admin-request-audit-target-taxonomy-001 |
 | Source | 04b-followup-004 Phase 12 / skill feedback |
-| Status | unassigned |
+| Status | consumed_by_issue_400 / implemented-local |
 | Priority | medium |
 | Type | audit model hardening |
 
@@ -30,6 +30,12 @@ Add a first-class audit target type for admin request / admin member note resolu
 - Admin request resolution can be filtered independently from general member changes.
 - Existing audit rows remain readable.
 - API and UI documentation are updated.
+
+## Consumed By
+
+- `docs/30-workflows/issue-400-admin-request-audit-target-taxonomy/`
+- GitHub Issue: `https://github.com/daishiman/UBM-Hyogo/issues/400`
+- Canonical target type decision: `admin_member_note`（`admin_request` は候補名として検討済み、`admin_audit` は stale draft 文脈のみ）
 
 ## Risk And Mitigation
 
