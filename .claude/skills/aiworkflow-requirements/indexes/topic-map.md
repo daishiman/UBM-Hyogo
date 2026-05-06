@@ -4320,6 +4320,16 @@ node scripts/list-specs.js --topics
 | L-UT07B-FU01-005: idempotent 設計のため Queue 消費側で dedupe_key を再確認する | L23 |
 | L-UT07B-FU01-006: Phase 11 gate を「local implementation GO / runtime evidence pending」と明示する | L27 |
 
+### references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU02-001: HTTP 202 retryable continuation は 5 点完全合致で narrowing する | L7 |
+| L-UT07B-FU02-002: `confirmed=true` と `backfill.status='exhausted'` は責務を分離して UI に渡す | L13 |
+| L-UT07B-FU02-003: predicate code 不一致は generic path にフォールバックする | L18 |
+| L-UT07B-FU02-004: 4 状態同時 override の manual screenshot は Phase 11 から分離する | L23 |
+| 適用対象 | L28 |
+
 ### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
 
 | セクション | 行 |
@@ -5487,13 +5497,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L350 |
-| フェーズ構造（概要） | L359 |
-| 品質ゲート（概要） | L390 |
-| 出力テンプレート | L401 |
-| 実行時のコマンド・エージェント・スキル | L424 |
-| 昇格パターン集 | L448 |
-| Current Active / Spec Created Tasks | L450 |
+| ドキュメント構成 | L366 |
+| フェーズ構造（概要） | L375 |
+| 品質ゲート（概要） | L406 |
+| 出力テンプレート | L417 |
+| 実行時のコマンド・エージェント・スキル | L440 |
+| 昇格パターン集 | L464 |
+| Current Active / Spec Created Tasks | L466 |
 
 ### references/task-workflow-backlog-part2.md
 
