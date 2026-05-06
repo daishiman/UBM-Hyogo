@@ -13,7 +13,7 @@ issue_number: 388
 | 分類 | bug-fix / investigation |
 | 対象機能 | apps/api public route / register page 依存 |
 | 優先度 | Medium |
-| ステータス | 未実施 |
+| ステータス | consumed_by_workflow / runtime evidence blocked |
 | 発見元 | `ut-05a-followup-google-oauth-completion` Phase 11 Stage B-1 endpoint check |
 | 発見日 | 2026-05-01 |
 
@@ -50,8 +50,13 @@ staging で `https://ubm-hyogo-api-staging.daishimanju.workers.dev/public/form-p
 
 ## 関連
 
+- 昇格先 workflow: `docs/30-workflows/task-05a-form-preview-503-001/`
 - `docs/30-workflows/ut-05a-followup-google-oauth-completion/outputs/phase-11/discovered-issues.md` `P11-PRD-005`
 - `apps/api/src/routes/public/form-preview.ts`
+
+## 昇格メモ（2026-05-05）
+
+本 unassigned spec は `docs/30-workflows/task-05a-form-preview-503-001/` に昇格済み。再度未実施タスクとして拾わない。現状態は local code/test と Phase 12 strict outputs は完了、staging / production / `/register` runtime evidence は user approval gate 後に取得する。
 
 ## 苦戦箇所【記入必須】
 

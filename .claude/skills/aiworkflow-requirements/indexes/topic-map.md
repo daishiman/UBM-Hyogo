@@ -2441,6 +2441,17 @@ node scripts/list-specs.js --topics
 | Validation Chain | L107 |
 | 確定値・列定義 | L120 |
 
+### references/workflow-task-05a-form-preview-503-001-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| workflow artifacts（Phase 12 strict 7 files + Phase 11 NON_VISUAL） | L14 |
+| implementation references（apps/api 側 current contract） | L30 |
+| changed files in this branch（diff vs HEAD） | L44 |
+| skill artifacts | L53 |
+| runtime boundary | L64 |
+
 ### references/workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md
 
 | セクション | 行 |
@@ -3551,6 +3562,19 @@ node scripts/list-specs.js --topics
 | Follow-up（unassigned-task） | L195 |
 | 追加教訓（2026-04 followup / staging 実装サイクル） | L205 |
 
+### references/lessons-learned-05a-form-preview-503-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-05A-FP503-001: D1 column/state drift breaks runbooks | L7 |
+| L-05A-FP503-002: NON_VISUAL は screenshot path を混ぜない | L11 |
+| L-05A-FP503-003: AC は root workflow と Phase 1 で単一化する | L15 |
+| L-05A-FP503-004: spec_created と runtime PASS を分離する | L19 |
+| L-05A-FP503-005: `logWarn({ code: "UBM-5500" })` は throw の直前に 1 回だけ | L23 |
+| L-05A-FP503-006: helper `bindLog` で env→D1 lookup の優先順位を assert する | L31 |
+| L-05A-FP503-007: テスト戦略は use-case と route の二段で書く | L35 |
+| L-05A-FP503-008: runtime evidence と user approval gate の責務境界 | L41 |
+
 ### references/lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md
 
 | セクション | 行 |
@@ -4191,8 +4215,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L95 |
-| 関連ドキュメント | L100 |
+| 利用順序 | L96 |
+| 関連ドキュメント | L101 |
 
 ### references/llm-embedding.md
 
@@ -5262,13 +5286,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L206 |
-| フェーズ構造（概要） | L215 |
-| 品質ゲート（概要） | L246 |
-| 出力テンプレート | L257 |
-| 実行時のコマンド・エージェント・スキル | L280 |
-| 昇格パターン集 | L304 |
-| Current Active / Spec Created Tasks | L306 |
+| ドキュメント構成 | L220 |
+| フェーズ構造（概要） | L229 |
+| 品質ゲート（概要） | L260 |
+| 出力テンプレート | L271 |
+| 実行時のコマンド・エージェント・スキル | L294 |
+| 昇格パターン集 | L318 |
+| Current Active / Spec Created Tasks | L320 |
 
 ### references/task-workflow-backlog-part2.md
 

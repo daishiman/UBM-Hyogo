@@ -5,6 +5,23 @@
 
 ---
 
+### task-05a `/public/form-preview` 503 root cause + fix（2026-05-05）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-05a-form-preview-503-001/` |
+| 状態 | `implemented-local-runtime-evidence-blocked / implementation / NON_VISUAL / Phase 12 strict 7 files present / Phase 11 runtime evidence blocked / Phase 13 blocked_until_user_approval` |
+| 対象 endpoint | staging `GET /public/form-preview`。`getLatestVersion()` null → `UBM-5500` → HTTP 503 |
+| current D1 contract | `schema_versions.form_id`, `revision_id`, `state='active'`, `synced_at`; `schema_questions.revision_id` |
+| runtime fact | 2026-05-05 review curl: staging 503 / production 503。D1 write / production mutation は user approval gate 後 |
+| close-out evidence | `docs/30-workflows/task-05a-form-preview-503-001/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| Phase 11 evidence contract | `outputs/phase-11/main.md`, `manual-smoke-log.md`, `link-checklist.md`, `manual-test-result.md` |
+| artifact inventory | `references/workflow-task-05a-form-preview-503-001-artifact-inventory.md` |
+| lessons | `references/lessons-learned-05a-form-preview-503-2026-05.md` |
+| 禁止事項 | response shape 変更、D1 schema 列追加、apps/web direct D1 access、production mutation、commit / push / PR |
+
+---
+
 ### Issue #359 Out-of-Band Production D1 Apply Audit（2026-05-04）
 
 | 目的 | 参照先 |

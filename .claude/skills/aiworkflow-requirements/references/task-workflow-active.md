@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### task-05a-form-preview-503-001（2026-05-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-evidence-blocked / implementation / NON_VISUAL / Phase 12 strict 7 files present / Phase 11 runtime evidence blocked / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/task-05a-form-preview-503-001/` |
+| Issue 取扱 | GitHub Issue #388 は CLOSED 維持。PR / commit では `Refs #388` のみ採用し、`Closes #388` は使わない |
+| 対象 | staging `GET /public/form-preview` の HTTP 503。直接原因は `getLatestVersion()` が `null` を返し、`UBM-5500` が 503 mapping される経路 |
+| D1 契約 | `schema_versions(form_id, revision_id, schema_hash, state, synced_at, source_url, field_count, unknown_field_count)`。公開可能な最新行は `state = 'active'` |
+| 検証 | NON_VISUAL Phase 11: `outputs/phase-11/main.md` / `manual-smoke-log.md` / `link-checklist.md`。2026-05-05 review curl は staging / production とも 503。focused local regression は code側証跡、runtime 200 は user-approved D1 operation 後に取得 |
+| 境界 | `/public/form-preview` response shape、D1 schema、apps/web direct D1 access、production mutation は変更しない。staging D1 write / deploy / PR は user gate 後 |
+| inventory / lessons | `references/workflow-task-05a-form-preview-503-001-artifact-inventory.md`, `references/lessons-learned-05a-form-preview-503-2026-05.md` |
+
 ### Issue #379 schemaDiffQueue fakeD1 compat verification（2026-05-05）
 
 | 項目 | 値 |
@@ -18,6 +31,7 @@
 | 判断 | 旧前提の `schemaDiffQueue.test.ts` list 系 2 fail は現 worktree で再現せず、focused Vitest は 7/7 PASS。A+B（fakeD1 parser extension + seed parity）実装案は撤回し、current GREEN verification close-out として閉じる |
 | 検証 | `mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/repository/schemaDiffQueue.test.ts` PASS。focused coverage snapshot / Phase 11 after evidence / Phase 12 strict 7 files を保存 |
 | 境界 | `apps/api/src/repository/_shared/__fakes__/fakeD1.ts`、`schemaDiffQueue.ts`、`schemaDiffQueue.test.ts` は未変更。Issue #379 は CLOSED 維持、PR 文脈では `Refs #379` のみ |
+
 
 ### Issue #399 Admin Queue Resolve Staging Visual Evidence（2026-05-03）
 
