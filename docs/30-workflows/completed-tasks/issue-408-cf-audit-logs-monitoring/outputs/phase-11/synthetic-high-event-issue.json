@@ -1,0 +1,23 @@
+{
+  "_placeholder": true,
+  "_instructions": "Replace this file with: gh issue view <NUM> --json number,title,labels,body,createdAt,state,url",
+  "_command": "ISSUE_NUM=$(gh issue list --label 'type:security,priority:high,bot:cf-audit-log-monitor' --json number --jq '.[0].number'); gh issue view \"$ISSUE_NUM\" --json number,title,labels,body,createdAt,state,url > outputs/phase-11/synthetic-high-event-issue.json",
+  "_expected_shape": {
+    "number": 0,
+    "title": "[cf-audit-log-monitor] HIGH: unexpected IP authentication success",
+    "state": "OPEN",
+    "labels": [
+      { "name": "type:security" },
+      { "name": "priority:high" },
+      { "name": "bot:cf-audit-log-monitor" }
+    ],
+    "body": "Detected at: ...\nFingerprint: <hash>\nSeverity: HIGH\nResource: <redacted>\nIP: <redacted-prefix>\n",
+    "createdAt": "2026-05-DDTHH:MM:SSZ",
+    "url": "https://github.com/daishiman/UBM-Hyogo/issues/0"
+  },
+  "_notes": [
+    "body には fingerprint hash を含むこと",
+    "raw IP / user agent / token 値を Issue body に含めない（prefix のみ・redact 済の表現）",
+    "labels に priority:high と type:security の両方を含むこと"
+  ]
+}

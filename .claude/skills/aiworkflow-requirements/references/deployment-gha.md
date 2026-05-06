@@ -216,6 +216,8 @@
 >
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
+> **current facts (U-FIX-CF-ACCT-01-DERIV-02 / 2026-05-06)**: Cloudflare deploy token は現行 workflow step 単位で分割する。`backend-ci.yml` の D1 migration step は `CF_TOKEN_D1_<ENV>`、Workers deploy step は `CF_TOKEN_WORKERS_<ENV>` を使う。`web-cd.yml` の Pages deploy step は `CF_TOKEN_PAGES_<ENV>` を使う。`deploy-staging.yml` / `deploy-production.yml` は現行 repo に存在しないため正本にしない。Issue #406 は CLOSED のため PR 文面は `Refs #406` のみ。
+
 ---
 
 ## モニタリングとアラート
@@ -256,8 +258,27 @@
 
 | Secret 名 | 用途 | 必須 |
 | --------- | ---- | ---- |
-| `CLOUDFLARE_API_TOKEN` | Cloudflare API トークン | Yes |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token | Yes |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token | Yes |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Pages deploy 用 Cloudflare API Token | Yes |
+| `CLOUDFLARE_API_TOKEN` | 旧単一 Cloudflare API Token。U-FIX-CF-ACCT-01-DERIV-02 の 24h 並行保持後に削除 | Deprecated |
 | `DISCORD_WEBHOOK_URL` | Discord 通知用 Webhook URL | No |
+
+### U-FIX-CF-ACCT-01-DERIV-01: OIDC short-lived credential target contract（2026-05-06）
+
+`docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` は `spec_created / implementation-spec / NON_VISUAL` の target contract である。runtime cutover は未実行であり、現行 `web-cd.yml` / `backend-ci.yml` の長命 `secrets.CLOUDFLARE_API_TOKEN` 参照と `d1-migration-verify.yml` の `secrets.CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として残る。
+
+| 項目 | 契約 |
+| --- | --- |
+| primary IdP | AWS STS（GitHub OIDC federation） |
+| workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
+| deploy job permissions | deploy job のみ `id-token: write` + `contents: read`。top-level / PR job には付与しない |
+| credential lifetime | 1 時間以内を Phase 11 evidence で実測 |
+| credential boundary | Cloudflare Token object が per-job 短命化できない場合は AWS STS session <= 3600s + job-scoped retrieval を短命境界として記録し、Cloudflare Token 自体の 1h expiry を主張しない |
+| approval gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke |
+| commit / push / PR | G1-G4 とは別の user approval。自動実行禁止 |
+
+実装 PR では `secrets.CLOUDFLARE_API_TOKEN` / `secrets.CLOUDFLARE_API_TOKEN_STAGING` 直接参照を対象 workflow から除去または明示的に impact-checked とし、OIDC → AWS STS → job-scoped credential → `scripts/cf.sh` 経路に統一する。rollback 用の長命 Token 再注入は 24h 限定の緊急運用に限る。
 
 ### Variables（非シークレット）
 
@@ -282,7 +303,10 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 | 名前 | 種別 | 配置 | 理由 |
 | --- | --- | --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | 環境別 token ローテーションと権限分離を優先 |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | D1 migration step のみが使う token に分離 |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Workers deploy step のみが使う token に分離 |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Pages deploy step のみが使う token に分離 |
+| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | Deprecated。24h 並行保持後に Cloudflare / GitHub から削除 |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | repository-scoped | Account ID は資格情報ではなく識別子。既存 GitHub 実設定に合わせ、`vars.` 参照で空展開を防ぐ |
 | `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | 非機密値で、suffix 連結結果をログで追えるよう Secret 化しない |
@@ -347,5 +371,6 @@ Issue #351 の 30 日連続 schedule 実測 feedback は `docs/30-workflows/issu
 | 2026-05-06 | 2.3.1 | Issue #497 post-release dashboard 30 day schedule feedback contract を追加。30 日 gate、raw evidence、redaction gate、failure rate threshold、Issue #497 CLOSED 維持を正本化 |
 | 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
+| 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。runtime cutover は未実行で、`web-cd.yml` / `backend-ci.yml` の `CLOUDFLARE_API_TOKEN` と `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として分離 |
 | 2026-04-29 | 2.1.0 | UT-27: GitHub Secrets / Variables 配置決定マトリクスと Phase 13 user 承認ゲートを追記 |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron E2E 削除、Cloudflare Pages デプロイへ移行 |
