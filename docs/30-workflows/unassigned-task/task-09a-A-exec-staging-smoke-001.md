@@ -11,10 +11,10 @@ priority: 高
 scale: 中規模
 status: 未実施
 source_phase: Phase 12
-source_workflow: docs/30-workflows/09a-A-staging-deploy-smoke-execution/
+source_workflow: docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/
 created_date: 2026-05-06
 dependencies:
-  - task-09a-canonical-directory-restoration-001
+  - issue-494-09a-A-exec-staging-smoke-runtime
 spec_path: docs/30-workflows/unassigned-task/task-09a-A-exec-staging-smoke-001.md
 parent_spec_pr: https://github.com/daishiman/UBM-Hyogo/pull/493
 ```
@@ -27,8 +27,8 @@ parent_spec_pr: https://github.com/daishiman/UBM-Hyogo/pull/493
 | 推奨Wave | Wave 9a-fu |
 | 状態 | open |
 | 作成日 | 2026-05-06 |
-| 検出元 | docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-12/unassigned-task-detection.md |
-| 親タスク | docs/30-workflows/09a-A-staging-deploy-smoke-execution/ |
+| 検出元 | docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-12/unassigned-task-detection.md |
+| 親タスク | docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/ |
 | taskType | implementation / runtime-evidence-acquisition |
 | visualEvidence | VISUAL_ON_EXECUTION |
 
@@ -131,7 +131,7 @@ parent_spec_pr: https://github.com/daishiman/UBM-Hyogo/pull/493
 | 種別 | 対象 | 理由 |
 | --- | --- | --- |
 | 上流 (resolved) | `task-09a-cloudflare-auth-token-injection-recovery-001` | Cloudflare auth blocker 解消済 |
-| 上流 (open) | `task-09a-canonical-directory-restoration-001` | 親 09a directory 不在を最終的に閉じる |
+| 関連 follow-up | `task-09a-canonical-directory-restoration-001` | 親 mirror update のみの follow-up。09a-A 単独完結経路の blocker ではない |
 | 上流 | `08b-A-playwright-e2e-full-execution` | Playwright config / staging fixture |
 | 上流 | `ut-27-github-secrets-variables-deployment` | Cloudflare secrets availability |
 | 下流 | `09c-serial-production-deploy-and-post-release-verification` | production deploy GO 判定の前提 |
@@ -215,7 +215,7 @@ operator auth で staging admin sync endpoint を実行。
 
 ## 苦戦箇所【記入必須】
 
-- 対象: `docs/30-workflows/09a-A-staging-deploy-smoke-execution/phase-11.md`
+- 対象: `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/phase-11.md`
 - 症状: spec contract PASS と runtime PASS を区別する `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 状態が要求されるため、Phase 11 を `completed` と書きたい誘惑に対し境界を維持する必要がある。
 - 対策: `outputs/phase-11/main.md` 冒頭に状態行を必ず置き、runtime evidence 反映後に `runtime_evidence_captured` へ昇格させる。
 
@@ -232,7 +232,7 @@ operator auth で staging admin sync endpoint を実行。
 ### 単体検証
 
 ```bash
-node .claude/skills/task-specification-creator/scripts/validate-phase-output.js docs/30-workflows/09a-A-staging-deploy-smoke-execution
+node .claude/skills/task-specification-creator/scripts/validate-phase-output.js docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime
 ```
 
 期待: artifacts parity / Phase 12 strict 7 files / outputs mirror PASS。
@@ -260,22 +260,22 @@ node .claude/skills/task-specification-creator/scripts/validate-phase-output.js 
 
 | パス | 内容 |
 | --- | --- |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/preflight/cf-whoami.log` | Cloudflare auth |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/d1/d1-migrations-{staging,prod}.log` | D1 migration list |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/d1/d1-schema-parity.json` | schema parity |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/deploy/deploy-{api,web}-staging.log` | deploy + version id |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/forms/{forms-schema-sync,forms-responses-sync,sync-jobs-staging,audit-log-staging}.{log,json}` | Forms sync |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/playwright/` | Playwright report / trace |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/screenshots/{public-members,login,me,admin}-staging.png` | 4 visual smoke |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/wrangler-tail/api-30min.log` | wrangler tail |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-13/main.md` | G1-G4 承認 timestamp |
-| `docs/30-workflows/09a-A-staging-deploy-smoke-execution/artifacts.json` / `outputs/artifacts.json` | parity |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-11/evidence/preflight/cf-whoami.log` | Cloudflare auth |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-11/evidence/d1/d1-migrations-{staging,prod}.log` | D1 migration list |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-11/evidence/d1/d1-schema-parity.json` | schema parity |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-11/evidence/deploy/deploy-{api,web}-staging.log` | deploy + version id |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-11/evidence/forms/{forms-schema-sync,forms-responses-sync,sync-jobs-staging,audit-log-staging}.{log,json}` | Forms sync |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-11/evidence/playwright/` | Playwright report / trace |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-11/evidence/screenshots/{public-members,login,me,admin}-staging.png` | 4 visual smoke |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-11/evidence/wrangler-tail/api-30min.log` | wrangler tail |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-13/main.md` | G1-G4 承認 timestamp |
+| `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/artifacts.json` / `outputs/artifacts.json` | parity |
 
 ## 8. 参照情報
 
-- `docs/30-workflows/09a-A-staging-deploy-smoke-execution/phase-11.md`
-- `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-12/implementation-guide.md`
-- `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-12/unassigned-task-detection.md`
+- `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/phase-11.md`
+- `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-12/implementation-guide.md`
+- `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-12/unassigned-task-detection.md`
 - `.claude/skills/task-specification-creator/references/phase-template-phase11.md`（`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`）
 - `.claude/skills/task-specification-creator/references/phase-template-phase13.md`（G1-G4 multi-stage approval gate）
 - `.claude/skills/task-specification-creator/references/phase-11-non-visual-alternative-evidence.md`（D1 schema parity verification evidence）

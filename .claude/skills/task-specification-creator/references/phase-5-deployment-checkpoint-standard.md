@@ -142,9 +142,20 @@ root `artifacts.json` と `outputs/artifacts.json` の二重 ledger は同期必
 
 ---
 
-## 6. 参照
+## 6. D1 migration 番号予約 SOP
+
+monitoring / observability 系を中心に D1 新テーブル追加が並列で発生するため、Phase 5 着手前に migration 番号を **予約** する SOP を必須とする（issue-408 で明文化）。
+
+1. Phase 5 着手前に `ls apps/api/migrations/ | tail -3` で現行最終番号を確認する
+2. 自タスクで使う番号を **PR description（または artifacts.json）に「予約番号: 0014」のように宣言** する。並列タスクの担当者・自動化はこの宣言を見て衝突を回避する
+3. 衝突発生時は **smaller-PR-first ルール**: 先に merge された側を残し、後続は番号をずらして rebase する。後続側は migration ファイルのリネーム + 内部参照（artifacts.json / spec / runbook）を同時更新する
+4. 予約は PR open 時点で有効。draft 段階で 7 日以上動きがない予約は他タスクが上書き取得してよい
+5. 予約番号は spec の Phase 5 / artifacts.json に必ず記録し、Phase 12 changelog にも 1 行残す
+
+## 7. 参照
 
 - テンプレ正本: [`phase-5-host-environment-deployment-template.md`](phase-5-host-environment-deployment-template.md)
 - 完了タスク: `docs/30-workflows/completed-tasks/task-claude-code-permissions-apply-001.md`
 - evidence 同期: [`evidence-sync-rules.md`](evidence-sync-rules.md)
 - artifacts 命名: [`artifact-naming-conventions.md`](artifact-naming-conventions.md)
+- D1 migration 衝突の lessons: [`patterns-lessons-and-pitfalls.md`](patterns-lessons-and-pitfalls.md) §Cloudflare Audit Logs / monitoring workflow
