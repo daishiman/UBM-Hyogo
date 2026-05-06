@@ -992,6 +992,7 @@
     ],
     "execution": [
       "arch-execution-capability-contract.md",
+      "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
@@ -1005,6 +1006,7 @@
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
@@ -2586,6 +2588,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
@@ -3350,6 +3353,7 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -3793,6 +3797,7 @@
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
@@ -3867,6 +3872,7 @@
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
@@ -3986,6 +3992,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -4010,6 +4017,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -4138,6 +4146,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -4430,6 +4439,7 @@
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
@@ -4445,6 +4455,7 @@
     "URL": [
       "claude-code-settings-hierarchy.md",
       "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "r2-storage-decision-guide.md"
     ],
     "Reference": [
@@ -4926,6 +4937,7 @@
     "Contract": [
       "database-implementation-core.md",
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
+      "observability-monitoring.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
@@ -5039,6 +5051,8 @@
       "database-schema-07b-schema-alias-assignment.md",
       "interfaces-agent-sdk-skill-advanced.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "observability-monitoring.md",
       "ui-ux-feature-components-core.md",
       "ui-ux-feature-components-details.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
@@ -5321,6 +5335,7 @@
     ],
     "workflow": [
       "database-schema.md",
+      "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
@@ -5641,6 +5656,7 @@
     "secret": [
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
@@ -7463,7 +7479,8 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md"
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
     ],
     "event": [
       "ipc-contract-checklist.md"
@@ -7818,6 +7835,7 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
@@ -7854,6 +7872,7 @@
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
@@ -7866,7 +7885,8 @@
     ],
     "fixture": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
-      "lessons-learned-06c-admin-ui-2026-04.md"
+      "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
     ],
     "exclusion": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
@@ -7936,12 +7956,14 @@
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "を分けて書く": [
-      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
+      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
     ],
     "dry": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
@@ -8111,6 +8133,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
@@ -8150,7 +8173,8 @@
     ],
     "では": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
     ],
     "Node": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
@@ -8278,6 +8302,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
@@ -8303,6 +8328,7 @@
     ],
     "strict": [
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -8511,6 +8537,7 @@
     ],
     "files": [
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
@@ -9080,6 +9107,7 @@
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -9394,7 +9422,8 @@
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md"
     ],
     "BA": [
-      "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md"
+      "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
     ],
     "が入ったら": [
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md"
@@ -9497,7 +9526,8 @@
     ],
     "grep": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
     ],
     "で確定する": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md"
@@ -10296,6 +10326,7 @@
     ],
     "を分ける": [
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md"
@@ -10329,6 +10360,8 @@
     ],
     "Smoke": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "observability-monitoring.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
@@ -10389,6 +10422,71 @@
     ],
     "の双方を満たす": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
+    ],
+    "Sentry": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "observability-monitoring.md"
+    ],
+    "Slack": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "observability-monitoring.md"
+    ],
+    "タスクが破綻する": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "ready": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "命名は": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "legacy": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
+      "logs-archive-legacy.md",
+      "skill-ledger-overview.md",
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ai-chat-llm-integration-fix.md",
+      "workflow-governance-design-category.md",
+      "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
+    ],
+    "generic": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "名と": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "incident": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "名を分離する": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "redaction": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "と本物": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "は宣言と実体を": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "find": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "で先に揃える": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "の改善は既存未タスクと衝突確認してから新規化する": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+    ],
+    "関連ファイル": [
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "observability-monitoring.md",
+      "workflow-governance-design-category.md"
     ],
     "Monitoring": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
@@ -10811,18 +10909,6 @@
     ],
     "の削除差分は": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
-    ],
-    "legacy": [
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
-      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
-      "logs-archive-2026-03-line-budget-workflow-consolidation.md",
-      "logs-archive-legacy.md",
-      "skill-ledger-overview.md",
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ai-chat-llm-integration-fix.md",
-      "workflow-governance-design-category.md",
-      "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
     ],
     "mapping": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -14551,10 +14637,6 @@
     ],
     "恒久対策": [
       "observability-monitoring.md"
-    ],
-    "関連ファイル": [
-      "observability-monitoring.md",
-      "workflow-governance-design-category.md"
     ],
     "Incident": [
       "observability-monitoring.md"

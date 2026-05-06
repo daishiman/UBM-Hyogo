@@ -56,6 +56,8 @@
 | 必須 | docs/30-workflows/02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/outputs/phase-12/ | staging green 引き渡し |
 | 必須 | docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/outputs/phase-12/release-runbook.md | release runbook 本体 |
 | 必須 | docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/outputs/phase-12/incident-response-runbook.md | incident runbook |
+| 必須 | docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/outputs/phase-11/main.md | Sentry / Slack runtime smoke gate。`contract_ready_runtime_pending` の間は production readiness blocker |
+| 必須 | docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/outputs/phase-12/incident-response-runbook.md | restored canonical 09b incident response runbook |
 
 ## 受入条件 (AC)
 
