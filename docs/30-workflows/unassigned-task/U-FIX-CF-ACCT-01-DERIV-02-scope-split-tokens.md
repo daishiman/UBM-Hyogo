@@ -8,13 +8,15 @@
 | タスク名 | Cloudflare API Token を Workers / D1 / Pages 別に分割し、deploy 経路ごとに最小 scope を更に縮小 |
 | 優先度 | MEDIUM |
 | 推奨Wave | U-FIX-CF-ACCT-01 完了後（最小 4 scope 単一 Token の運用安定化後） |
-| 状態 | unassigned |
+| 状態 | consumed_by_workflow |
 | 作成日 | 2026-05-02 |
 | 既存タスク組み込み | なし |
-| 組み込み先 | - |
+| 組み込み先 | `docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/` |
 | 検出元 | docs/30-workflows/u-fix-cf-acct-01-cloudflare-api-token-scope-audit/outputs/phase-12/unassigned-task-detection.md（MEDIUM 行）/ phase-03 Option C |
 
 ## 目的
+
+> **消費トレース（2026-05-06）**: 本 unassigned task は `docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/` に仕様化・実装同期された。Issue #406 は CLOSED のため、後続 PR 文面では `Closes #406` ではなく `Refs #406` を使う。
 
 U-FIX-CF-ACCT-01 で確立した「単一 Token に最小 4 scope」運用を、deploy 経路（Workers / D1 / Pages）ごとに分割した複数 Token 構成に進化させる。各 deploy step が必要とする scope のみを保持する Token を持たせ、漏洩時のブラスト半径を更に縮小する。
 
