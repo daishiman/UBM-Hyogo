@@ -2625,12 +2625,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Roots | L5 |
-| Phase Artifacts | L14 |
-| Approval Gate Matrix | L32 |
-| Boundary | L41 |
-| Skill Compliance | L45 |
-| Related Tasks | L53 |
-| Verification | L67 |
+| Phase Artifacts | L15 |
+| Approval Gate Matrix | L33 |
+| Boundary | L42 |
+| Skill Compliance | L46 |
+| Related Tasks | L54 |
+| Verification | L68 |
 
 ### references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md
 
