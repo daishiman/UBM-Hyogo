@@ -256,17 +256,17 @@
 | Issue | `Refs #273` のみ、CLOSED 維持 |
 
 ---
-### 09a-A Staging Deploy Smoke Execution（2026-05-05）
+### Issue #494 09a-A Runtime Staging Smoke（2026-05-06）
 
-09a の `NOT_EXECUTED` 境界を実測 evidence に置換する execution-oriented successor。deploy / D1 apply / Forms sync / Playwright visual / wrangler tail / 09c blocker update は G1〜G4 user approval 後のみ実行し、Phase 12 spec contract completeness と runtime PASS / Phase 12 runtime update を分離する。親 `09a-parallel...` directory は現 worktree 不在のため、親 mirror update は `task-09a-canonical-directory-restoration-001.md` 復元後にのみ実施する。
+09a の `NOT_EXECUTED` 境界を実測 evidence に置換する execution-oriented successor。current execution root は issue-494 root であり、historical `09a-A-staging-deploy-smoke-execution/` root はこのブランチの実行正本ではない。deploy / D1 apply / Forms sync / Playwright visual / wrangler tail / 09c blocker update は G1〜G4 user approval 後のみ実行し、Phase 12 spec contract completeness と runtime PASS / Phase 12 runtime update を分離する。親 `09a-parallel...` directory は現 worktree 不在のため、親 mirror update は restoration follow-up 後にのみ実施する。
 
 | 目的 | 参照先 |
 | --- | --- |
-| current execution root | `docs/30-workflows/09a-A-staging-deploy-smoke-execution/` |
-| evidence root | `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-11/evidence/` |
-| Phase 12 compliance | `docs/30-workflows/09a-A-staging-deploy-smoke-execution/outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| artifact inventory | `references/workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md` |
-| parent restoration blocker | `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md` |
+| current execution root | `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/` |
+| evidence root | `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-11/evidence/` |
+| Phase 12 compliance | `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md` |
+| parent mirror restoration follow-up | `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md` |
 | runtime exec task | `docs/30-workflows/unassigned-task/task-09a-A-exec-staging-smoke-001.md`（`UT-09A-A-EXEC-STAGING-SMOKE-001`, HIGH, G1-G4 multi-stage approval gate, 2026-05-06 formalize） |
 | downstream blocker | `09c-production-deploy-execution-001` remains blocked until actual 09a-A runtime evidence exists |
 
