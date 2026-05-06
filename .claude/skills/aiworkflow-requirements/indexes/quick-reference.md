@@ -685,6 +685,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | Phase 12 compliance | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory / legacy alias | `references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md`, `references/legacy-ordinal-family-register.md` |
 | production execution | `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/` |
+| production execution issue mirror | `docs/30-workflows/issue-353-09c-production-deploy-execution/` |
 | production execution status | `spec_created` / implementation / VISUAL_ON_EXECUTION / user approval G1-G3 required / production runtime evidence pending |
 | production execution inventory | `references/workflow-task-09c-production-deploy-execution-001-artifact-inventory.md` |
 | production execution lessons | `references/lessons-learned-09c-production-deploy-execution-001-2026-05.md`（L-09C-EXEC-001〜006）|

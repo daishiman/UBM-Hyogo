@@ -1,0 +1,8 @@
+PENDING_RUNTIME_EVIDENCE
+
+Expected execution-time contents:
+- origin/main commit SHA
+- dev -> main PR URL
+- local HEAD / target deploy commit comparison
+
+Do not fill this file with planned values.
