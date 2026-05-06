@@ -5812,6 +5812,7 @@
     ],
     "token": [
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-secrets-management.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "logs-archive-2026-03-history-search-notification-center.md"
     ],
@@ -6424,11 +6425,6 @@
     "DERIV": [
       "deployment-secrets-management.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
-    ],
-    "token": [
-      "deployment-secrets-management.md",
-      "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
-      "logs-archive-2026-03-history-search-notification-center.md"
     ],
     "OIDC": [
       "deployment-secrets-management.md",
@@ -9500,6 +9496,7 @@
     ],
     "approval": [
       "lessons-learned-05a-form-preview-503-2026-05.md",
+      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
     ],
@@ -11714,11 +11711,6 @@
     ],
     "設計の境界曖昧性": [
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
-    ],
-    "approval": [
-      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
     ],
     "用語の過負荷": [
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
