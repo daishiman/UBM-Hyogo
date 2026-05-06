@@ -7,6 +7,7 @@
 ## 仕様書インデックス
 | ファイル | 役割 | 主な見出し |
 | --- | --- | --- |
+| [lessons-learned-05a-form-preview-503-2026-05.md](lessons-learned-05a-form-preview-503-2026-05.md) | UBM-Hyogo `/public/form-preview` 503 root cause lessons | L-05A-FP503-001〜008: D1 column/state drift / NON_VISUAL strict outputs / AC single-source / runtime pending boundary / `logWarn` UBM-5500 単一 emit / helper bindLog opt-in / use-case+route 二段テスト / user approval gate runtime evidence procedure |
 | [lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md](lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md) | 03b follow-up cap alert lessons | L-03B006-001〜003: streak reset rows / emit before lock release / implemented-local state sync |
 | [lessons-learned-current.md](lessons-learned-current.md) | current summary | メタ情報 / 変更履歴 / 最新教訓 |
 | [lessons-learned-ut-02a-attendance-profile-integration-2026-05.md](lessons-learned-ut-02a-attendance-profile-integration-2026-05.md) | UBM-Hyogo repository lessons (attendance profile integration) | L-UT02A-001〜004: workflow state same-wave sync / migration 実体優先 / optional provider fallback / D1 read aggregator chunk |
