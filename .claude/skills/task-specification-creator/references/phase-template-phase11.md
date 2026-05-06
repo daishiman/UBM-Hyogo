@@ -70,6 +70,30 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 runtime pending 内訳を G1-G4 単位で表記する。runtime evidence が後続タスクで取得される場合は、
 `unassigned-task-detection.md` の formalize 先と evidence path を併記する。
 
+#### `manual-evidence-deferred.md` 分離ルール（UT-07B-FU-02 由来 / 2026-05-06）
+
+UI screenshot を後続取得する小規模 implementation / VISUAL_ON_EXECUTION では、**component evidence PASS** と **manual screenshot pending** を物理ファイルレベルで分離する。`outputs/phase-12` のみを根拠に Phase 11 boundary を PASS 扱いしてはならない。
+
+| ファイル | 役割 | PASS 条件 |
+| --- | --- | --- |
+| `outputs/phase-11/main.md` | component evidence の PASS 記録（focused test / vitest / JUnit 件数） | unit test PASS 件数と test 出力 path が記録済 |
+| `outputs/phase-11/manual-evidence-deferred.md` | runtime screenshot 4 状態（normal success / validation error / conflict error / retryable continuation 等）の deferred 記録 | 取得待ち状態の列挙 + 取得ゲート（user 承認 / staging deploy 後）を明記 |
+| `outputs/phase-11/test-junit.xml`（または `.log`） | focused test の生 evidence | 実行コマンド再現可能 |
+
+`manual-evidence-deferred.md` 必須項目:
+
+- 取得待ち screenshot の **状態リスト**（最低 1 件、UI state 単位）
+- 各状態の再現手順（URL / 入力 / 期待表示）
+- 取得ゲート（G1-G4 / user approval / staging deploy 後）
+- 取得後に追記する evidence path のプレースホルダ
+- 「component evidence PASS は `main.md`、screenshot deferred は本ファイル」という責務分離宣言
+
+判定ルール:
+
+- `main.md` の状態語彙は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`（runtime screenshot deferred を含む）を使う
+- `manual-evidence-deferred.md` がない状態で「screenshot は後続取得」とだけ書くのは false green とみなす
+- Phase 12 `phase12-task-spec-compliance-check.md` は両ファイルを別行で参照し、片方欠落で `FAIL`
+
 ### Cloudflare deploy-verification subtemplate
 
 `taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION` で、実装差分は local に存在し、
