@@ -2222,6 +2222,12 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L13 |
+
 ### references/workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md
 
 | セクション | 行 |
@@ -5320,6 +5326,15 @@ node scripts/list-specs.js --topics
 | VectorSearchStrategy（セマンティック検索） | L151 |
 | 関連ドキュメント | L221 |
 
+### references/release-runbook.md
+
+| セクション | 行 |
+|------------|----|
+| Issue #348 GitHub Release Creation | L3 |
+| Mutation Boundary | L16 |
+| Commands | L20 |
+| Lessons Learned (issue-348) | L50 |
+
 ### references/skill-executor-type-migration.md
 
 | セクション | 行 |
@@ -5462,13 +5477,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L346 |
-| フェーズ構造（概要） | L355 |
-| 品質ゲート（概要） | L386 |
-| 出力テンプレート | L397 |
-| 実行時のコマンド・エージェント・スキル | L420 |
-| 昇格パターン集 | L444 |
-| Current Active / Spec Created Tasks | L446 |
+| ドキュメント構成 | L345 |
+| フェーズ構造（概要） | L354 |
+| 品質ゲート（概要） | L385 |
+| 出力テンプレート | L396 |
+| 実行時のコマンド・エージェント・スキル | L419 |
+| 昇格パターン集 | L443 |
+| Current Active / Spec Created Tasks | L445 |
 
 ### references/task-workflow-backlog-part2.md
 

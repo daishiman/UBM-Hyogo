@@ -4964,6 +4964,7 @@
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
@@ -4982,6 +4983,7 @@
       "database-schema-07b-schema-alias-assignment.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "post-release-long-term-observation.md",
+      "release-runbook.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
@@ -5359,8 +5361,10 @@
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
       "observability-monitoring.md",
+      "release-runbook.md",
       "ui-ux-feature-components-advanced.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md"
@@ -5474,6 +5478,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
+      "release-runbook.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -5681,7 +5686,9 @@
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md"
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "release-runbook.md",
+      "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md"
     ],
     "環境保護ルール": [
       "deployment-branch-strategy.md"
@@ -7987,6 +7994,7 @@
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md",
+      "release-runbook.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
@@ -8042,6 +8050,7 @@
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md",
+      "release-runbook.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
     "fetchPublic": [
@@ -10819,6 +10828,8 @@
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "post-release-long-term-observation.md",
+      "release-runbook.md",
+      "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
     ],
@@ -10827,6 +10838,7 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "observability-monitoring.md",
+      "release-runbook.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md"
@@ -11348,6 +11360,7 @@
     ],
     "Automation": [
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
+      "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md"
     ],
     "Cutover": [
@@ -12196,7 +12209,8 @@
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md"
     ],
     "Tag": [
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md"
     ],
     "Management": [
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
@@ -12475,7 +12489,8 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "Creation": [
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "release-runbook.md"
     ],
     "逆配線で本番が": [
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
@@ -15773,6 +15788,12 @@
     "セマンティック検索": [
       "rag-vector-search.md"
     ],
+    "Mutation": [
+      "release-runbook.md"
+    ],
+    "Commands": [
+      "release-runbook.md"
+    ],
     "セキュリティ・": [
       "security-api-electron.md"
     ],
@@ -17795,6 +17816,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
@@ -17857,6 +17879,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
