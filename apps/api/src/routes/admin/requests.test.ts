@@ -180,10 +180,15 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     );
     expect(res.status).toBe(200);
     const body = (await res.json()) as {
+      resolvedAt: string;
+      retentionPurgeScheduledAt: string | null;
       memberAfter: { isDeleted: boolean; publishState: string };
     };
     expect(body.memberAfter.isDeleted).toBe(true);
     expect(body.memberAfter.publishState).toBe("public"); // 物理削除しない
+    expect(body.retentionPurgeScheduledAt).toBe(
+      new Date(new Date(body.resolvedAt).getTime() + 180 * 86400000).toISOString(),
+    );
   });
 
   it("TC-05b: member_status がない approve は note を resolved にしない", async () => {

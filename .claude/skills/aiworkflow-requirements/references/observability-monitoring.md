@@ -52,6 +52,14 @@ UBM-Hyogo の最小計装セット。各イベントは `index1` をテナント
 | 5 | `sheets_sync` | `<env>` | result（ok/fail） | duration_ms, rows_synced | Sheets→D1 同期失敗検知 |
 | 6 | `quota_pulse` | `<env>` | resource（d1_writes/kv_writes/r2_class_a/...） | used_count, used_ratio | 無料枠消費率の継続観測 |
 
+### 2.1 issue-402 retention purge イベント（追加）
+
+| イベント | 主要フィールド | 用途 |
+| --- | --- | --- |
+| `cron.retention.start` | env, mode（dry-run/apply/off）, limit | 日次 retention purge job 開始 |
+| `cron.retention.end` | env, processed_count, purged_count, dry_run_count, duration_ms | retention purge job 結果 |
+| `audit_log.action=retention_purge` | member_id, retention_policy_version, mode | `audit_log` に物理削除 1 件単位で記録（PII を含めない。SSOT は [data-retention-policy.md](./data-retention-policy.md)） |
+
 > identifier drift 防止: `index1` / `blob` 名はリポジトリ内で 1 か所（`apps/api` の WAE 計装ヘルパ）に集約し、文字列リテラルの直書きを禁止する。drift が起きると WAE クエリが silently 0 件返しになり検知の正本が壊れる。
 
 ---

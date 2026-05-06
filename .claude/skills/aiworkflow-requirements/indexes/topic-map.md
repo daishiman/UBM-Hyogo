@@ -1060,21 +1060,20 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L6 |
 | テーブル一覧 | L11 |
-| UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Schema aliases write target（issue-191 / UT-07B） | L59 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L89 |
-| Legacy Sheets sync transition note（U-UT01-09） | L101 |
-| Schema alias assignment workflow（07b） | L113 |
-| ワークフロー関連テーブル | L117 |
-| ユーザー関連テーブル | L156 |
-| システムプロンプト関連テーブル | L190 |
-| チャット関連テーブル | L225 |
-| RAG関連テーブル | L261 |
-| Knowledge Graph関連テーブル | L303 |
-| 変換処理関連テーブル | L437 |
-| インデックス設計 | L496 |
-| 関連ドキュメント / 変更履歴 | L500 |
-| DDL 同期テンプレ | L505 |
+| UBM 会員 Forms 同期テーブル（03b） | L45 |
+| Schema aliases write target（issue-191 / UT-07B） | L60 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L90 |
+| Legacy Sheets sync transition note（U-UT01-09） | L102 |
+| Schema alias assignment workflow（07b） | L114 |
+| ワークフロー関連テーブル | L118 |
+| ユーザー関連テーブル | L157 |
+| システムプロンプト関連テーブル | L191 |
+| チャット関連テーブル | L226 |
+| RAG関連テーブル | L262 |
+| Knowledge Graph関連テーブル | L304 |
+| 変換処理関連テーブル | L438 |
+| インデックス設計 | L497 |
+| 関連ドキュメント / 変更履歴 / DDL テンプレ | L501 |
 
 ---
 
@@ -3125,6 +3124,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L221 |
 | 変更履歴 | L229 |
 
+### references/data-retention-policy.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Current Policy | L7 |
+| Audit Minimum | L25 |
+| Existing Soft-Delete Rule Exception | L38 |
+| Runtime Evidence Boundary | L42 |
+
 ### references/deployment-branch-strategy.md
 
 | セクション | 行 |
@@ -3364,8 +3373,8 @@ node scripts/list-specs.js --topics
 | トラブルシューティング | L315 |
 | チーム開発での運用 | L376 |
 | 必須環境変数一覧 | L415 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L480 |
-| 関連ドキュメント | L500 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L476 |
+| 関連ドキュメント | L496 |
 
 ### references/error-handling-core.md
 
@@ -4932,13 +4941,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 無料枠の境界 | L15 |
 | 2. WAE 6 イベント設計（reference） | L42 |
-| 3. アラート閾値設計指針 | L59 |
-| 4. PII 除外ルール | L85 |
-| 5. 苦戦箇所（恒久対策） | L101 |
-| 6. 関連ファイル | L126 |
-| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L138 |
-| 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L144 |
-| 9. 変更履歴 | L160 |
+| 3. アラート閾値設計指針 | L67 |
+| 4. PII 除外ルール | L93 |
+| 5. 苦戦箇所（恒久対策） | L109 |
+| 6. 関連ファイル | L134 |
+| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
+| 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
+| 9. 変更履歴 | L168 |
 
 ### references/patterns-advanced.md
 
