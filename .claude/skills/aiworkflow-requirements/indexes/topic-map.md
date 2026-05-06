@@ -1028,6 +1028,12 @@ node scripts/list-specs.js --topics
 | Fixed Runtime Values | L24 |
 | Follow-up Boundary | L35 |
 
+### references/database-schema-cf-audit-log.md
+
+| セクション | 行 |
+|------------|----|
+| Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L9 |
+
 ### references/database-schema-ddl-template.md
 
 | セクション | 行 |
@@ -2220,7 +2226,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| User Gate | L17 |
+| User Gate | L21 |
 
 ### references/workflow-issue-352-postmortem-template-automation-artifact-inventory.md
 
@@ -2262,6 +2268,19 @@ node scripts/list-specs.js --topics
 | Same-wave touched files | L51 |
 | Follow-up unassigned | L83 |
 | Boundary | L89 |
+
+### references/workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L38 |
+| same-wave skill sync | L47 |
+| boundary | L61 |
+| deferred evidence | L67 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2661,6 +2680,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Boundary | L14 |
+
+### references/workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Core workflow files | L7 |
+| Required outputs | L14 |
+| Runtime evidence root | L33 |
+| Runtime execution contract | L39 |
+| Related task and blocker | L57 |
+| Historical root note | L65 |
+| Wave Type | L69 |
+| Lessons learned | L73 |
 
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
@@ -3224,17 +3256,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L54 |
-| キャッシュ戦略 | L90 |
-| 並列実行の活用 | L113 |
-| CD ワークフロー要件（dev / main マージ時） | L169 |
-| Backend ワークフロー要件（dev / main マージ時） | L197 |
-| モニタリングとアラート | L223 |
-| GitHub Secrets の要件 | L257 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L300 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L321 |
-| 関連ドキュメント | L341 |
-| 変更履歴 | L348 |
+| CI ワークフロー要件（PR 時） | L57 |
+| キャッシュ戦略 | L93 |
+| 並列実行の活用 | L116 |
+| CD ワークフロー要件（dev / main マージ時） | L172 |
+| Backend ワークフロー要件（dev / main マージ時） | L200 |
+| モニタリングとアラート | L226 |
+| GitHub Secrets の要件 | L260 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L304 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L325 |
 
 ### references/deployment-history.md
 
@@ -3250,14 +3280,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L124 |
-| ローカル開発での設定 | L156 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L195 |
-| セキュリティ原則 | L232 |
-| Cloudflare API Token の作成手順 | L243 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L285 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L333 |
-| 変更履歴 | L348 |
+| wrangler.toml の環境別設定 | L127 |
+| ローカル開発での設定 | L159 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L198 |
+| セキュリティ原則 | L235 |
+| Cloudflare API Token の作成手順 | L246 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L261 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L326 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L374 |
+| 変更履歴 | L389 |
 
 ### references/deployment.md
 
@@ -3375,7 +3406,7 @@ node scripts/list-specs.js --topics
 | チーム開発での運用 | L376 |
 | 必須環境変数一覧 | L415 |
 | CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L476 |
-| 関連ドキュメント | L496 |
+| 関連ドキュメント | L497 |
 
 ### references/error-handling-core.md
 
@@ -4006,6 +4037,19 @@ node scripts/list-specs.js --topics
 | L-I401-006: cron は既存 `*/5` branch に統合する | L23 |
 | L-I401-007: recipient lookup は `member_identities.response_email` | L27 |
 | L-I401-008: workflow root を completed-tasks 配下に置く | L31 |
+
+### references/lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE408-001: Audit Logs API は cursor pagination + INSERT OR IGNORE で中断耐性を持たせる | L7 |
+| L-ISSUE408-002: Account-level Audit Logs には Account scope の API Token が必須 | L23 |
+| L-ISSUE408-003: WranglerD1 経由の `wrangler d1 execute` は数値以外を quote して shell injection を防ぐ | L39 |
+| L-ISSUE408-004: GitHub Issue 連携は Octokit を避けて `fetch` 直叩き | L55 |
+| L-ISSUE408-005: API Token rotation 中の誤検知抑止は環境変数の時刻 window で行う | L71 |
+| L-ISSUE408-006: TTL purge は migration ではなく `analyze.ts` 末尾で毎時 DELETE する | L87 |
+| L-ISSUE408-007: 監視 token と deploy token は必ず別 secret で保つ | L103 |
+| 参照元 | L119 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -4982,7 +5026,8 @@ node scripts/list-specs.js --topics
 | 6. 関連ファイル | L134 |
 | 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
-| 9. 変更履歴 | L168 |
+| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L175 |
+| 10. 変更履歴 | L203 |
 
 ### references/patterns-advanced.md
 
@@ -5404,13 +5449,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L306 |
-| フェーズ構造（概要） | L315 |
-| 品質ゲート（概要） | L346 |
-| 出力テンプレート | L357 |
-| 実行時のコマンド・エージェント・スキル | L380 |
-| 昇格パターン集 | L404 |
-| Current Active / Spec Created Tasks | L406 |
+| ドキュメント構成 | L332 |
+| フェーズ構造（概要） | L341 |
+| 品質ゲート（概要） | L372 |
+| 出力テンプレート | L383 |
+| 実行時のコマンド・エージェント・スキル | L406 |
+| 昇格パターン集 | L430 |
+| Current Active / Spec Created Tasks | L432 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -2,7 +2,7 @@
 
 Issue #351 の post-release dashboard automation 仕様を aiworkflow-requirements に同期した。
 
-- workflow root: `docs/30-workflows/issue-351-09c-post-release-dashboard-automation/`
+- workflow root: `docs/30-workflows/completed-tasks/issue-351-09c-post-release-dashboard-automation/`
 - state: `spec_created / implementation / NON_VISUAL`
 - GitHub Actions 正本: `.github/workflows/post-release-dashboard.yml`
 - collector 正本: `scripts/post-release-dashboard/`
