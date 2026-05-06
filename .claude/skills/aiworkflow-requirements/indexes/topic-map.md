@@ -5231,13 +5231,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L195 |
-| フェーズ構造（概要） | L204 |
-| 品質ゲート（概要） | L235 |
-| 出力テンプレート | L246 |
-| 実行時のコマンド・エージェント・スキル | L269 |
-| 昇格パターン集 | L293 |
-| Current Active / Spec Created Tasks | L295 |
+| ドキュメント構成 | L206 |
+| フェーズ構造（概要） | L215 |
+| 品質ゲート（概要） | L246 |
+| 出力テンプレート | L257 |
+| 実行時のコマンド・エージェント・スキル | L280 |
+| 昇格パターン集 | L304 |
+| Current Active / Spec Created Tasks | L306 |
 
 ### references/task-workflow-backlog-part2.md
 

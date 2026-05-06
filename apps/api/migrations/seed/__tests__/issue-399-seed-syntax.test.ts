@@ -105,7 +105,7 @@ describe("issue-399 staging seed/cleanup SQL", () => {
       "INSERT OR REPLACE INTO deleted_members (member_id, deleted_by, deleted_at, reason) VALUES ('ISSUE399-MEM-D1', 'admin', datetime('now'), 'test')",
     );
     await env.db.exec(
-      "INSERT OR REPLACE INTO audit_log (audit_id, actor_email, action, target_type, target_id, before_json, after_json, created_at) VALUES ('ISSUE399-AUDIT-1', 'admin@example.invalid', 'admin.request.approved', 'member', 'ISSUE399-MEM-D1', NULL, '{}', datetime('now'))",
+      "INSERT OR REPLACE INTO audit_log (audit_id, actor_email, action, target_type, target_id, before_json, after_json, created_at) VALUES ('ISSUE399-AUDIT-1', 'admin@example.invalid', 'admin.request.approve', 'admin_member_note', 'ISSUE399-NOTE-D1', NULL, '{\"memberId\":\"ISSUE399-MEM-D1\",\"noteId\":\"ISSUE399-NOTE-D1\"}', datetime('now'))",
     );
 
     await execAll(env, CLEANUP_SQL);

@@ -388,6 +388,7 @@ describe("AuditLogPanel — render 分岐", () => {
   it("values 未指定 (undefined) でも空文字 default で描画", () => {
     render(<AuditLogPanel values={{}} data={{ items: [], nextCursor: null }} />);
     expect((screen.getByLabelText(/action/) as HTMLInputElement).value).toBe("");
+    expect(screen.getByPlaceholderText("meeting | admin_member_note")).toBeTruthy();
     expect((screen.getByLabelText(/limit/) as HTMLSelectElement).value).toBe("50");
   });
 

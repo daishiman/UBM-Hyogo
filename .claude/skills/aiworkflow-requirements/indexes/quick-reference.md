@@ -119,6 +119,18 @@
 
 ---
 
+### Issue #400 Admin Request Audit Target Taxonomy（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-400-admin-request-audit-target-taxonomy/` |
+| API 契約 | `references/api-endpoints.md`（04c 構造的不変条件 / request resolve audit） |
+| 実装 | `apps/api/src/repository/auditLog.ts`, `apps/api/src/routes/admin/requests.ts`, `apps/api/src/routes/admin/audit.ts`, `apps/web/src/components/admin/AuditLogPanel.tsx` |
+| taxonomy | 新規 request resolve audit は `targetType='admin_member_note'`, `targetId=<noteId>`, `after.memberId` を保持。legacy `member` 行は migration せず readable |
+| tests | `apps/api/src/repository/__tests__/auditLog.test.ts`, `apps/api/src/routes/admin/{requests,audit}.test.ts`, `apps/web/src/components/admin/__tests__/AuditLogPanel.test.tsx` |
+
+---
+
 ### UT-21 Forms sync conflict close-out（2026-04-30）
 
 | 目的 | 参照先 |
