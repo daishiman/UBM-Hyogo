@@ -17,9 +17,10 @@ issue_number: 352
 | 対象機能 | Postmortem / rollback evidence |
 | 優先度 | 低 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed by formal workflow / implemented-local pending PR |
 | 発見元 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-01 |
+| 昇格先 | `docs/30-workflows/issue-352-postmortem-template-automation/` |
 
 ## 1. なぜこのタスクが必要か（Why）
 
@@ -29,7 +30,7 @@ issue_number: 352
 
 ## 2. 何を達成するか（What）
 
-incident / rollback 発生時に、09c Phase 11 evidence と release metadata を入力にした postmortem template を自動生成する手順を作る。
+incident / rollback 発生時に、09c Phase 11 evidence と release metadata を入力にした postmortem template を自動生成する手順を作る。正式 workflow は `docs/30-workflows/issue-352-postmortem-template-automation/` に昇格済み。
 
 ## 3. どのように実行するか（How）
 
@@ -45,10 +46,12 @@ template は blame を避け、timeline、impact、root cause、detection、resp
 
 ## 5. 完了条件チェックリスト
 
-- [ ] postmortem template の見出しが固定されている
-- [ ] 09c evidence path を必須入力として参照している
-- [ ] blame 表現を避ける記述ルールがある
-- [ ] follow-up issue 作成ルールが定義されている
+- [x] postmortem template の見出しが固定されている
+- [x] 09c evidence path を必須入力として参照している
+- [x] blame 表現を避ける記述ルールがある
+- [x] follow-up issue 作成ルールが定義されている
+
+この未割当stubは `docs/30-workflows/issue-352-postmortem-template-automation/` に昇格済み。以後の実装・検証・PR evidence は昇格先 workflow を正本とする。
 
 ## 6. 検証方法
 

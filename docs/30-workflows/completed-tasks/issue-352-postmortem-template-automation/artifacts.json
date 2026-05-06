@@ -1,0 +1,49 @@
+{
+  "task": "issue-352-postmortem-template-automation",
+  "status": "implemented-local",
+  "createdAt": "2026-05-05",
+  "docsOnly": false,
+  "remainingOnly": false,
+  "githubIssue": 352,
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "visualEvidenceClass": "NON_VISUAL",
+    "implementation_status": "implementation_complete_pending_pr",
+    "wave": "09c-fu",
+    "mode": "parallel",
+    "priority": "low",
+    "scale": "small",
+    "dependency_order": "09c-serial-production-deploy-and-post-release-verification -> issue-352-postmortem-template-automation",
+    "invariants_touched": [],
+    "artifactLedger": "outputs/artifacts.json mirrors root artifacts.json for validator parity",
+    "originTaskId": "task-09c-postmortem-template-automation-001",
+    "discoveredFrom": "docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/unassigned-task-detection.md",
+    "discoveredAt": "2026-05-01"
+  },
+  "phases": [
+    { "phase": "01", "title": "要件定義", "file": "phase-01.md", "output": "outputs/phase-01/main.md", "status": "completed" },
+    { "phase": "02", "title": "設計", "file": "phase-02.md", "output": "outputs/phase-02/main.md", "status": "completed" },
+    { "phase": "03", "title": "設計レビュー", "file": "phase-03.md", "output": "outputs/phase-03/main.md", "status": "completed" },
+    { "phase": "04", "title": "テスト戦略", "file": "phase-04.md", "output": "outputs/phase-04/main.md", "status": "completed" },
+    { "phase": "05", "title": "実装ランブック", "file": "phase-05.md", "output": "outputs/phase-05/main.md", "status": "completed" },
+    { "phase": "06", "title": "異常系検証", "file": "phase-06.md", "output": "outputs/phase-06/main.md", "status": "completed" },
+    { "phase": "07", "title": "AC マトリクス", "file": "phase-07.md", "output": "outputs/phase-07/main.md", "status": "completed" },
+    { "phase": "08", "title": "DRY 化", "file": "phase-08.md", "output": "outputs/phase-08/main.md", "status": "completed" },
+    { "phase": "09", "title": "品質保証", "file": "phase-09.md", "output": "outputs/phase-09/main.md", "status": "completed" },
+    { "phase": "10", "title": "最終レビュー", "file": "phase-10.md", "output": "outputs/phase-10/main.md", "status": "completed" },
+    { "phase": "11", "title": "手動 smoke / 実測 evidence", "file": "phase-11.md", "output": "outputs/phase-11/main.md", "status": "completed" },
+    { "phase": "12", "title": "ドキュメント更新", "file": "phase-12.md", "output": "outputs/phase-12/main.md", "status": "completed" },
+    { "phase": "13", "title": "PR 作成", "file": "phase-13.md", "output": "outputs/phase-13/main.md", "status": "blocked_pending_user_approval" }
+  ],
+  "phase12Outputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}
