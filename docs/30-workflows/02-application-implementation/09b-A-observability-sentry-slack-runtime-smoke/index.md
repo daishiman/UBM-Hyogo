@@ -1,5 +1,13 @@
 # 09b-A-observability-sentry-slack-runtime-smoke
 
+## Canonical Pointer
+
+This nested root is a legacy location. The current canonical workflow root for 09b-A is:
+
+`docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/`
+
+Do not update this nested copy as the source of truth. New Phase 11 / Phase 12 evidence, unassigned-task detection, and aiworkflow indexes point to the root-level workflow above.
+
 ## wave / mode / owner
 
 | 項目 | 値 |

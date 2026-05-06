@@ -1,0 +1,85 @@
+name: post-release-dashboard
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      target_date:
+        description: UTC date (yyyy-mm-dd) to collect. Default is today UTC.
+        required: false
+        type: string
+        default: ''
+      lookback_hours:
+        description: Hours of analytics window.
+        required: false
+        type: string
+        default: '24'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: post-release-dashboard-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    name: collect-post-release-dashboard
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      TARGET_DATE: ${{ inputs.target_date }}
+      LOOKBACK_HOURS: ${{ inputs.lookback_hours || '24' }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+
+      - name: Verify analytics token presence
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "missing CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY"
+            exit 1
+          fi
+          if [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+            echo "missing CLOUDFLARE_ACCOUNT_ID"
+            exit 1
+          fi
+
+      - name: Resolve UTC date
+        id: date
+        run: |
+          if [ -z "${TARGET_DATE:-}" ]; then
+            TARGET_DATE="$(date -u +%Y-%m-%d)"
+          fi
+          case "$TARGET_DATE" in
+            ????-??-??) ;;
+            *) echo "target_date must be yyyy-mm-dd"; exit 64 ;;
+          esac
+          echo "target_date=$TARGET_DATE" >> "$GITHUB_OUTPUT"
+
+      - name: Collect dashboard
+        run: bash scripts/post-release-dashboard/collect.sh "${{ steps.date.outputs.target_date }}" "${LOOKBACK_HOURS}"
+
+      - name: Redaction grep gate
+        run: bash scripts/post-release-dashboard/lib/redaction-check.sh "outputs/post-release-dashboard/${{ steps.date.outputs.target_date }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-release-dashboard-${{ steps.date.outputs.target_date }}
+          path: outputs/post-release-dashboard/${{ steps.date.outputs.target_date }}/
+          retention-days: 90
+          if-no-files-found: error
