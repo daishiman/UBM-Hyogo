@@ -2221,7 +2221,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| User Gate | L17 |
+| User Gate | L21 |
 
 ### references/workflow-issue-352-postmortem-template-automation-artifact-inventory.md
 
@@ -3224,8 +3224,8 @@ node scripts/list-specs.js --topics
 | GitHub Secrets の要件 | L255 |
 | UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L279 |
 | Post-release dashboard automation (Issue #351 / 2026-05-05) | L297 |
-| 関連ドキュメント | L317 |
-| 変更履歴 | L324 |
+| 関連ドキュメント | L336 |
+| 変更履歴 | L343 |
 
 ### references/deployment-history.md
 
@@ -5360,13 +5360,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L264 |
-| フェーズ構造（概要） | L273 |
-| 品質ゲート（概要） | L304 |
-| 出力テンプレート | L315 |
-| 実行時のコマンド・エージェント・スキル | L338 |
-| 昇格パターン集 | L362 |
-| Current Active / Spec Created Tasks | L364 |
+| ドキュメント構成 | L279 |
+| フェーズ構造（概要） | L288 |
+| 品質ゲート（概要） | L319 |
+| 出力テンプレート | L330 |
+| 実行時のコマンド・エージェント・スキル | L353 |
+| 昇格パターン集 | L377 |
+| Current Active / Spec Created Tasks | L379 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -5,6 +5,23 @@
 
 ---
 
+### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / external-time-dependent / 30day gate pending` |
+| 親 trace | `docs/30-workflows/completed-tasks/issue-351-09c-post-release-dashboard-automation/outputs/phase-12/unassigned-task-detection.md` U-1 |
+| 対象 workflow | `.github/workflows/post-release-dashboard.yml` |
+| 30 日 gate | `gh run list --workflow=post-release-dashboard.yml --limit=80 --json createdAt` の最古 run が実行日 - 30 日以前 |
+| runtime evidence | `outputs/phase-11/post-release-dashboard-30d.json` と conclusion / root cause / consecutive failure / failure rate / redaction grep |
+| 正本反映先 | `references/deployment-gha.md` §30 day schedule feedback contract, `changelog/20260506-issue497-30day-feedback.md` |
+| 苦戦箇所 | `lessons-learned/lessons-learned-issue-497-post-release-dashboard-30day-conclusion-2026-05.md`（L-497-001..004: 二相状態分離 / file-existence と runtime AC 分離 / 親契約 hardening 同サイクル / 3-fence detection model） |
+| 同サイクル親 hardening | `scripts/post-release-dashboard/lib/redaction-check.sh`（`redaction-check.md` artifact 出力）, `scripts/post-release-dashboard/__tests__/redaction-check.test.sh`, `.github/workflows/ci.yml`（`pnpm post-release-dashboard:test`） |
+| 境界 | screenshots 不要。Issue #497 runtime は docs-only / gate pending。親 Issue #351 automation hardening として redaction report artifact + CI script test を同 cycle で補正。Issue #497 は CLOSED 維持し、PR 文面は `Refs #497, Refs #351` |
+
+---
+
 ### task-05a `/public/form-preview` 503 root cause + fix（2026-05-05）
 
 | 目的 | 参照先 |

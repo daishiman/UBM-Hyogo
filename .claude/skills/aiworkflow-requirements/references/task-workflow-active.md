@@ -13,13 +13,28 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | spec_created / implementation / NON_VISUAL / Phase 1-12 outputs present / Phase 13 blocked_pending_user_approval |
-| 成果物 | `docs/30-workflows/issue-351-09c-post-release-dashboard-automation/` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-351-09c-post-release-dashboard-automation/` |
 | 目的 | 09c post-release verification の 24h metrics を GitHub Actions schedule / workflow_dispatch で自動収集し、artifact として保存する |
 | 実装対象 | `.github/workflows/post-release-dashboard.yml`, `scripts/post-release-dashboard/`, `scripts/cf.sh api-post`, `.gitignore` |
 | secret境界 | analytics 用 read-only secret `CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY` を production deploy 用 `CLOUDFLARE_API_TOKEN` から分離 |
 | artifact | `outputs/post-release-dashboard/<UTC-yyyy-mm-dd>/dashboard.{json,md}` と redaction / schema check evidence |
+| CI / redaction | `ci.yml` が `pnpm post-release-dashboard:test` を実行。`redaction-check.sh` は artifact directory に `redaction-check.md` を生成 |
 | 起票元 | `docs/30-workflows/unassigned-task/task-09c-post-release-dashboard-automation-001.md` は formalized |
 | Issue 取扱 | #351 CLOSED 維持。commit / push / PR / real workflow dispatch / schedule evidence collection は user 明示指示後のみ |
+
+### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / external-time-dependent / 30day gate pending |
+| 成果物 | `docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion/` |
+| 親 trace | `docs/30-workflows/completed-tasks/issue-351-09c-post-release-dashboard-automation/outputs/phase-12/unassigned-task-detection.md` U-1 formalized |
+| 目的 | `post-release-dashboard.yml` の 30 日連続 schedule conclusion を実測集計し、`deployment-gha.md` へ feedback baseline として追記する |
+| 実行 gate | `gh run list --workflow=post-release-dashboard.yml --limit=80 --json createdAt` の最古 run が実行日 - 30 日以前 |
+| Phase 11 evidence | `outputs/phase-11/post-release-dashboard-30d.json`, conclusion distribution, failure root cause, consecutive failure window, failure rate decision, redaction grep |
+| schedule / artifact evidence | `event=="schedule"` の日次 gap 0、artifact downloadability、retention、run duration を確認 |
+| next action | failure rate `< 10%` は現状維持。`>= 10%` は retry / alert 追加を別 unassigned task 化し、Issue #497 は CLOSED 維持 |
+| Issue 取扱 | #497 CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ。PR 文面は `Refs #497, Refs #351` |
 
 ### task-05a-form-preview-503-001（2026-05-05）
 
