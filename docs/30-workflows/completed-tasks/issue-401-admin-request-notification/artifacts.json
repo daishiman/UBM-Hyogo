@@ -1,0 +1,50 @@
+{
+  "taskId": "issue-401-admin-request-notification",
+  "createdAt": "2026-05-06",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented-local",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented_local",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "externalMutation": "d1_migration_apply,resend_api_send,cron_trigger_register",
+    "runtimeEvidenceStatus": "pending_user_approval"
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/401",
+  "parentTask": "docs/30-workflows/completed-tasks/04b-followup-004-admin-queue-resolve-workflow/",
+  "sourceUnassignedTask": "docs/30-workflows/completed-tasks/task-04b-admin-request-notification-001.md",
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["outputs/phase-01/main.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["outputs/phase-02/main.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["outputs/phase-03/main.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["outputs/phase-04/main.md"] },
+    "phase-5":  { "status": "completed", "outputs": ["outputs/phase-05/main.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["outputs/phase-06/main.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["outputs/phase-07/main.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["outputs/phase-08/main.md"] },
+    "phase-9":  { "status": "completed", "outputs": ["outputs/phase-09/main.md"] },
+    "phase-10": { "status": "completed", "outputs": ["outputs/phase-10/main.md"] },
+    "phase-11": { "status": "pending_runtime_evidence", "outputs": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/migration-apply.log",
+      "outputs/phase-11/schema-verification.log",
+      "outputs/phase-11/resolve-enqueue-evidence.log",
+      "outputs/phase-11/dispatch-tick-evidence.log",
+      "outputs/phase-11/dlq-simulation.log",
+      "outputs/phase-11/template-grep-evidence.log",
+      "outputs/phase-11/secret-list-check.log"
+    ] },
+    "phase-12": { "status": "completed", "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]},
+    "phase-13": { "status": "blocked_until_user_approval", "outputs": ["outputs/phase-13/main.md"] }
+  }
+}

@@ -177,7 +177,7 @@ export function AuditLogPanel({
         </label>
         <label>
           targetType
-          <input name="targetType" defaultValue={values.targetType ?? ""} placeholder="meeting" />
+          <input name="targetType" defaultValue={values.targetType ?? ""} placeholder="meeting | admin_member_note" />
         </label>
         <label>
           targetId
