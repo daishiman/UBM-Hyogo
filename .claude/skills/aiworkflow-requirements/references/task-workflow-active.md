@@ -34,6 +34,19 @@
 | 起票元 | `docs/30-workflows/unassigned-task/task-09c-post-release-dashboard-automation-001.md` は formalized |
 | Issue 取扱 | #351 CLOSED 維持。commit / push / PR / real workflow dispatch / schedule evidence collection は user 明示指示後のみ |
 
+### Issue #408 Cloudflare Audit Logs Monitoring（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local / implementation / NON_VISUAL / runtime pending / Issue #408 CLOSED |
+| 成果物 | `docs/30-workflows/issue-408-cf-audit-logs-monitoring/` |
+| 目的 | Cloudflare Audit Logs から API Token 利用イベントを 1 時間ごとに取得し、D1 `cf_audit_log` へ 30 日保管、HIGH/MEDIUM/LOW 判定で GitHub Issue を自動起票する監視 workflow 仕様 |
+| secret境界 | `CF_AUDIT_TOKEN_PROD` は `Account > Audit Logs:Read` のみ。D1 書き込みは `CF_AUDIT_D1_TOKEN_PROD`。deploy 用 `CLOUDFLARE_API_TOKEN` は監視 workflow に注入しない |
+| runtime境界 | `.github/workflows/cf-audit-log-monitor.yml`、watchdog、`scripts/cf-audit-log/*`、D1 migration は local 実装済み。未完了は production Token 発行、environment secret 登録、D1 migration apply、7 日 baseline、Phase 11 runtime evidence 実値化。Phase 11 placeholder は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` であり runtime PASS ではない |
+| alert labels | HIGH=`priority:high`、MEDIUM=`priority:medium`、LOW=`priority:low`、共通=`type:security` |
+| 起票元 | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-audit-logs-monitoring.md` |
+| 正本同期 | `references/deployment-secrets-management.md` / `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
 ### task-05a-form-preview-503-001（2026-05-05）
 
 | 項目 | 値 |

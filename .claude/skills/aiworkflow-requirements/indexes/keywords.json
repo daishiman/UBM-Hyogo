@@ -41,6 +41,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
@@ -2201,6 +2202,7 @@
     "migration": [
       "arch-state-management-reference-permissions-import-lifecycle.md",
       "deployment-cloudflare.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -3123,6 +3125,7 @@
     "fetch": [
       "architecture-admin-api-client.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "src": [
@@ -3165,6 +3168,7 @@
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "quality-e2e-testing.md"
     ],
@@ -3867,7 +3871,8 @@
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "経由の": [
-      "auth-google-oauth-cf-integration.md"
+      "auth-google-oauth-cf-integration.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
     ],
     "internal": [
       "auth-google-oauth-cf-integration.md",
@@ -3893,6 +3898,7 @@
     ],
     "only": [
       "auth-google-oauth-cf-integration.md",
+      "database-schema-cf-audit-log.md",
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
@@ -4884,9 +4890,12 @@
     ],
     "Audit": [
       "data-retention-policy.md",
+      "database-schema-cf-audit-log.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "observability-monitoring.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -5096,6 +5105,7 @@
     "Schema": [
       "database-implementation-core.md",
       "database-schema-07b-schema-alias-assignment.md",
+      "database-schema-cf-audit-log.md",
       "database-schema-index.md",
       "database-schema-indexes.md",
       "database-schema.md",
@@ -5166,6 +5176,7 @@
     ],
     "Database": [
       "database-schema-07b-schema-alias-assignment.md",
+      "database-schema-cf-audit-log.md",
       "database-schema-index.md",
       "database-schema-indexes.md"
     ],
@@ -5280,6 +5291,65 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+    ],
+    "Cloudflare": [
+      "database-schema-cf-audit-log.md",
+      "deployment-cloudflare-opennext-workers.md",
+      "deployment-cloudflare-ut06-gate.md",
+      "deployment-cloudflare.md",
+      "deployment-core.md",
+      "deployment-secrets-management.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "observability-monitoring.md",
+      "r2-storage-decision-guide.md",
+      "technology-core.md"
+    ],
+    "Logs": [
+      "database-schema-cf-audit-log.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "observability-monitoring.md"
+    ],
+    "Issue": [
+      "database-schema-cf-audit-log.md",
+      "deployment-cloudflare.md",
+      "deployment-gha.md",
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
+      "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
+      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
+      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
+      "logs-archive-2026-01-topic-map-remember-choice.md",
+      "observability-monitoring.md",
+      "ui-ux-feature-components-advanced.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
+      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
+      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md"
+    ],
+    "read": [
+      "database-schema-cf-audit-log.md",
+      "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
+      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
+    ],
+    "監視ストア": [
+      "database-schema-cf-audit-log.md"
     ],
     "DDL": [
       "database-schema-ddl-template.md",
@@ -5578,6 +5648,7 @@
       "deployment-gha.md",
       "deployment-secrets-management.md",
       "environment-variables.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md"
@@ -5590,19 +5661,6 @@
     ],
     "ブランチ保護ルール": [
       "deployment-branch-strategy.md"
-    ],
-    "Cloudflare": [
-      "deployment-cloudflare-opennext-workers.md",
-      "deployment-cloudflare-ut06-gate.md",
-      "deployment-cloudflare.md",
-      "deployment-core.md",
-      "deployment-secrets-management.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "r2-storage-decision-guide.md",
-      "technology-core.md"
     ],
     "Workers": [
       "deployment-cloudflare-opennext-workers.md",
@@ -5628,7 +5686,8 @@
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
-      "lessons-learned-06a-public-web-2026-04.md"
+      "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
     ],
     "toml": [
       "deployment-cloudflare-opennext-workers.md",
@@ -5666,6 +5725,7 @@
       "deployment-cloudflare-opennext-workers.md",
       "deployment-secrets-management.md",
       "lessons-fetch-service-binding-testing.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "cf": [
@@ -5785,6 +5845,7 @@
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
@@ -5801,17 +5862,11 @@
     "analytics": [
       "deployment-cloudflare-opennext-workers.md"
     ],
-    "read": [
-      "deployment-cloudflare-opennext-workers.md",
-      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
-      "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
-      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
-      "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
-    ],
     "token": [
       "deployment-cloudflare-opennext-workers.md",
       "deployment-secrets-management.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "logs-archive-2026-03-history-search-notification-center.md"
     ],
     "Long": [
@@ -6057,6 +6112,7 @@
     ],
     "には": [
       "deployment-cloudflare.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "は未追加で": [
@@ -6198,30 +6254,6 @@
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
-    ],
-    "Issue": [
-      "deployment-cloudflare.md",
-      "deployment-gha.md",
-      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
-      "lessons-learned-issue-194-identity-merge-2026-05.md",
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
-      "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
-      "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
-      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
-      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
-      "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
-      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
-      "lessons-learned-issue-401-admin-request-notification-2026-05.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
-      "logs-archive-2026-01-topic-map-remember-choice.md",
-      "ui-ux-feature-components-advanced.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
-      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
-      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
-      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md"
     ],
     "Analytics": [
       "deployment-cloudflare.md",
@@ -6403,6 +6435,7 @@
     ],
     "Token": [
       "deployment-secrets-management.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "r2-storage-decision-guide.md"
     ],
@@ -7084,7 +7117,8 @@
     ],
     "window": [
       "interfaces-agent-sdk.md",
-      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
     ],
     "agentAPI": [
       "interfaces-agent-sdk.md"
@@ -7697,6 +7731,7 @@
       "ipc-contract-checklist.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
@@ -7868,6 +7903,7 @@
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -7921,6 +7957,7 @@
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -8243,6 +8280,7 @@
     ],
     "Account": [
       "lessons-learned-03a-parallel-forms-schema-sync.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "JWT": [
@@ -8626,6 +8664,7 @@
     ],
     "TTL": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "分の根拠は": [
@@ -8756,6 +8795,7 @@
     "cursor": [
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
@@ -8901,6 +8941,7 @@
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
@@ -9054,7 +9095,8 @@
     ],
     "ではなく": [
       "lessons-learned-04b-member-self-service.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
     ],
     "列ベースに移行する": [
       "lessons-learned-04b-member-self-service.md"
@@ -9159,6 +9201,7 @@
     "pagination": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
     ],
     "で必ず分岐する": [
@@ -10699,6 +10742,7 @@
     ],
     "Monitoring": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "observability-monitoring.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md"
     ],
@@ -10720,6 +10764,7 @@
     "level": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
@@ -11097,7 +11142,8 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "ISSUE": [
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
     ],
     "governance": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -11514,6 +11560,94 @@
     ],
     "配下に置く": [
       "lessons-learned-issue-401-admin-request-notification-2026-05.md"
+    ],
+    "INSERT": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "OR": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "IGNORE": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "で中断耐性を持たせる": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "が必須": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "WranglerD": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "execute": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
+      "task-workflow-completed-skill-lifecycle-design.md"
+    ],
+    "は数値以外を": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "quote": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "して": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "shell": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "injection": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "を防ぐ": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "連携は": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "Octokit": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "を避けて": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "直叩き": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "rotation": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md"
+    ],
+    "中の誤検知抑止は環境変数の時刻": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "で行う": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "purge": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "analyze": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "末尾で毎時": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "DELETE": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "rag-vector-search.md"
+    ],
+    "監視": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "は必ず別": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "で保つ": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "参照元": [
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
     ],
     "against": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
@@ -12223,9 +12357,6 @@
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
     "の不変条件": [
-      "lessons-learned-ut-06-fu-h-2026-04.md"
-    ],
-    "rotation": [
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
     "時点で": [
@@ -14769,10 +14900,6 @@
       "task-workflow-completed-ipc-preload-foundation.md",
       "ui-history-integration.md"
     ],
-    "execute": [
-      "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
-      "task-workflow-completed-skill-lifecycle-design.md"
-    ],
     "型追従の": [
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md"
     ],
@@ -15522,9 +15649,6 @@
       "rag-vector-search.md"
     ],
     "CASCADE": [
-      "rag-vector-search.md"
-    ],
-    "DELETE": [
       "rag-vector-search.md"
     ],
     "オフライン・同期アーキテクチャ": [
