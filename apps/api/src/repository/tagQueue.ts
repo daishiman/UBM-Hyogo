@@ -1,6 +1,6 @@
-import type { DbCtx } from "./_shared/db";
+import type { DbCtx, D1Stmt } from "./_shared/db";
 import type { MemberId, ResponseId } from "./_shared/brand";
-import { asMemberId, asResponseId } from "./_shared/brand";
+import { asMemberId, asResponseId, auditAction } from "./_shared/brand";
 
 // 07a / ut-02a: candidate / confirmed / rejected / dlq の semantics を既存値に alias する。
 //   queued    = candidate（初期投入）
@@ -94,6 +94,11 @@ const SELECT_COLS =
 // ut-02a 設定値
 export const TAG_QUEUE_MAX_RETRY = 3;
 export const TAG_QUEUE_BACKOFF_BASE_SEC = 30;
+export const TAG_QUEUE_TICK_BATCH_SIZE = 20;
+export const TAG_QUEUE_TICK_MAX_RUNTIME_MS = 20_000;
+export const TAG_QUEUE_TICK_CRON = "*/5 * * * *";
+export const TAG_QUEUE_DLQ_AUDIT_ACTION = "admin.tag.queue_dlq_moved";
+export const TAG_QUEUE_SYSTEM_ACTOR_EMAIL = "system@retry-tick";
 
 export async function listQueue(c: DbCtx, status?: TagQueueStatus): Promise<TagAssignmentQueueRow[]> {
   if (status) {
@@ -246,27 +251,9 @@ export async function incrementRetry(
   if (!current || current.status !== "queued") {
     return { moved: "noop" };
   }
-  const nextAttempt = current.attemptCount + 1;
-  if (nextAttempt > maxRetry) {
-    // DLQ 移送
-    await c.db
-      .prepare(
-        "UPDATE tag_assignment_queue SET status = ?, dlq_at = ?, last_error = ?, attempt_count = ?, updated_at = ? WHERE queue_id = ? AND status = ?",
-      )
-      .bind("dlq", now, errorMessage, nextAttempt, now, queueId, "queued")
-      .run();
-    return { moved: "dlq" };
-  }
-  // 指数バックオフ
-  const backoffSec = TAG_QUEUE_BACKOFF_BASE_SEC * 2 ** (nextAttempt - 1);
-  const nextVisible = new Date(new Date(now).getTime() + backoffSec * 1000).toISOString();
-  await c.db
-    .prepare(
-      "UPDATE tag_assignment_queue SET attempt_count = ?, last_error = ?, next_visible_at = ?, updated_at = ? WHERE queue_id = ? AND status = ?",
-    )
-    .bind(nextAttempt, errorMessage, nextVisible, now, queueId, "queued")
-    .run();
-  return { moved: "retry" };
+  const retry = buildRetryUpdate(c, current, errorMessage, now, maxRetry);
+  await retry.update.run();
+  return { moved: retry.moved };
 }
 
 /**
@@ -281,13 +268,128 @@ export async function moveToDlq(
 ): Promise<{ changed: boolean }> {
   const current = await findQueueById(c, queueId);
   if (!current || current.status !== "queued") return { changed: false };
-  await c.db
-    .prepare(
-      "UPDATE tag_assignment_queue SET status = ?, dlq_at = ?, last_error = ?, updated_at = ? WHERE queue_id = ? AND status = ?",
-    )
-    .bind("dlq", now, errorMessage, now, queueId, "queued")
-    .run();
+  await buildDlqUpdate(c, current, errorMessage, now, current.attemptCount).run();
   return { changed: true };
+}
+
+export async function incrementRetryWithDlqAudit(
+  c: DbCtx,
+  queueId: string,
+  errorMessage: string,
+  now: string,
+  actorEmail: string = TAG_QUEUE_SYSTEM_ACTOR_EMAIL,
+  maxRetry: number = TAG_QUEUE_MAX_RETRY,
+): Promise<{ moved: "retry" | "dlq" | "noop" }> {
+  const current = await findQueueById(c, queueId);
+  if (!current || current.status !== "queued") return { moved: "noop" };
+
+  const retry = buildRetryUpdate(c, current, errorMessage, now, maxRetry);
+  if (retry.moved !== "dlq") {
+    await retry.update.run();
+    return { moved: retry.moved };
+  }
+
+  const audit = buildDlqAuditInsert(c, current, errorMessage, now, actorEmail, retry.nextAttempt);
+  if (typeof c.db.batch === "function") {
+    await c.db.batch([retry.update, audit]);
+  } else {
+    await retry.update.run();
+    await audit.run();
+  }
+  return { moved: "dlq" };
+}
+
+export async function moveToDlqWithAudit(
+  c: DbCtx,
+  queueId: string,
+  errorMessage: string,
+  now: string,
+  actorEmail: string = TAG_QUEUE_SYSTEM_ACTOR_EMAIL,
+): Promise<{ changed: boolean }> {
+  const current = await findQueueById(c, queueId);
+  if (!current || current.status !== "queued") return { changed: false };
+
+  const update = buildDlqUpdate(c, current, errorMessage, now, current.attemptCount);
+  const audit = buildDlqAuditInsert(c, current, errorMessage, now, actorEmail, current.attemptCount);
+  if (typeof c.db.batch === "function") {
+    await c.db.batch([update, audit]);
+  } else {
+    await update.run();
+    await audit.run();
+  }
+  return { changed: true };
+}
+
+function buildRetryUpdate(
+  c: DbCtx,
+  current: TagAssignmentQueueRow,
+  errorMessage: string,
+  now: string,
+  maxRetry: number,
+): { moved: "retry" | "dlq"; nextAttempt: number; update: D1Stmt } {
+  const nextAttempt = current.attemptCount + 1;
+  if (nextAttempt > maxRetry) {
+    return {
+      moved: "dlq",
+      nextAttempt,
+      update: buildDlqUpdate(c, current, errorMessage, now, nextAttempt),
+    };
+  }
+
+  const backoffSec = TAG_QUEUE_BACKOFF_BASE_SEC * 2 ** (nextAttempt - 1);
+  const nextVisible = new Date(new Date(now).getTime() + backoffSec * 1000).toISOString();
+  return {
+    moved: "retry",
+    nextAttempt,
+    update: c.db
+      .prepare(
+        "UPDATE tag_assignment_queue SET attempt_count = ?, last_error = ?, next_visible_at = ?, updated_at = ? WHERE queue_id = ? AND status = ?",
+      )
+      .bind(nextAttempt, errorMessage, nextVisible, now, current.queueId, "queued"),
+  };
+}
+
+function buildDlqUpdate(
+  c: DbCtx,
+  current: TagAssignmentQueueRow,
+  errorMessage: string,
+  now: string,
+  attemptCount: number,
+): D1Stmt {
+  return c.db
+    .prepare(
+      "UPDATE tag_assignment_queue SET status = ?, dlq_at = ?, last_error = ?, attempt_count = ?, updated_at = ? WHERE queue_id = ? AND status = ?",
+    )
+    .bind("dlq", now, errorMessage, attemptCount, now, current.queueId, "queued");
+}
+
+function buildDlqAuditInsert(
+  c: DbCtx,
+  current: TagAssignmentQueueRow,
+  errorMessage: string,
+  now: string,
+  actorEmail: string,
+  attemptCount: number,
+): D1Stmt {
+  return c.db
+    .prepare(
+      "INSERT INTO audit_log (audit_id, actor_id, actor_email, action, target_type, target_id, before_json, after_json, created_at) VALUES (?1, NULL, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
+    )
+    .bind(
+      crypto.randomUUID(),
+      actorEmail,
+      auditAction(TAG_QUEUE_DLQ_AUDIT_ACTION),
+      "tag_queue",
+      current.queueId,
+      JSON.stringify({ status: current.status, attemptCount: current.attemptCount }),
+      JSON.stringify({
+        status: "dlq",
+        attemptCount,
+        lastError: errorMessage,
+        dlqAt: now,
+      }),
+      now,
+    );
 }
 
 /** idempotency_key 生成 helper（deterministic） */

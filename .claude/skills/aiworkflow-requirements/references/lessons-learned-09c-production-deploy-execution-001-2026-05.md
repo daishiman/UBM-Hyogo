@@ -1,6 +1,6 @@
 # lessons-learned: 09c Production Deploy Execution Spec 苦戦箇所（2026-05-02）
 
-> 対象タスク: `docs/30-workflows/09c-production-deploy-execution-001/`
+> 対象タスク: `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/`
 > 状態: `spec_created` / implementation / `VISUAL` / production runtime evidence pending_user_approval
 > 出典: `outputs/phase-12/{implementation-guide,system-spec-update-summary,skill-feedback-report,phase12-task-spec-compliance-check,unassigned-task-detection}.md`
 

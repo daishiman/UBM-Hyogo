@@ -1,0 +1,4 @@
+PENDING_RUNTIME_EVIDENCE
+
+Mutation command is blocked until explicit user approval:
+bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --remote --env production --config apps/api/wrangler.toml

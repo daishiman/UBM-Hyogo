@@ -36,7 +36,7 @@ Adopted approach: Option C, in-place production deploy with worker / pages / D1 
 | --- | --- | --- |
 | Manual Cloudflare dashboard check | PASS | Zero additional cost and adequate for MVP. |
 | Analytics API + GitHub Actions | MINOR | Useful follow-up, not needed before first release. |
-| Sentry alerting | MINOR | Requires separate integration work. |
+| Sentry / Slack runtime alerting | BLOCKED | Requires 09b-A runtime evidence before production readiness can be considered complete. Canonical gate: `docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/outputs/phase-11/main.md`; smoke route: `POST /admin/smoke/observability` in `apps/api/src/routes/admin/smoke-observability.ts`. |
 
 ## Invariant Review
 

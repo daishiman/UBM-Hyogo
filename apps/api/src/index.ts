@@ -40,10 +40,13 @@ import {
   type BackfillBatchInput,
 } from "./workflows/schemaAliasBackfillBatch";
 import { clearDedupeKey } from "./repository/schemaDiffQueue";
+import { TAG_QUEUE_TICK_CRON } from "./repository/tagQueue";
+import { runTagQueueRetryTick } from "./workflows/tagQueueRetryTick";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
 import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
+import { createSmokeObservabilityRoute } from "./routes/admin/smoke-observability";
 import { createAuthRoute } from "./routes/auth";
 import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
@@ -232,6 +235,8 @@ app.route("/admin", createAdminIdentityConflictsRoute());
 // UT-26: Sheets API E2E smoke route。production では route 内で 404 を返すため、
 // mount しても本番では露出しない (dev/staging のみで動作する)。
 app.route("/admin/smoke/sheets", createSmokeSheetsRoute());
+// 09b-A: Sentry / Slack runtime smoke route。production では route 内で 404。
+app.route("/admin/smoke/observability", createSmokeObservabilityRoute());
 
 app.get("/health", (c) =>
   c.json({
@@ -353,6 +358,15 @@ export default {
     ctx: ExecutionContext,
   ): Promise<void> {
     const cron = (event as ScheduledController & { cron?: string }).cron ?? "";
+    if (cron === TAG_QUEUE_TICK_CRON) {
+      ctx.waitUntil(
+        runTagQueueRetryTick(env).catch((err) => {
+          const message = err instanceof Error ? err.message : String(err);
+          console.error("[tagQueueRetryTick] failed", { error: message });
+        }),
+      );
+      return;
+    }
     if (cron === "*/15 * * * *") {
       // 03b: 15 分毎の forms response 同期
       try {

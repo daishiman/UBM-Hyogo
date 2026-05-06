@@ -32,6 +32,44 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 
 `link-checklist.md` は仕様書 → 実装ファイル / fake D1 fixture / fixture テスト間の参照リンク有効性を表で記録する。
 
+### `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 状態語彙（VISUAL_ON_EXECUTION 用）
+
+> 起源: 09a-A staging deploy smoke execution 仕様書策定（2026-05-05）。`PASS` 単独表記が
+> 「仕様書 contract 完了」と「runtime evidence 取得済」を混同させた苦戦点を解消するため、
+> Phase 11 main.md / artifacts.json で必ず boundary suffix 付き語彙を用いる。
+
+#### 適用条件
+
+- `taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION`
+- Phase 11 仕様書 contract（spec template / evidence file 命名 / AC 表 / runbook 整合）は完了済
+- runtime evidence（staging Pages/Workers smoke / Forms sync / D1 apply / curl / tail）は
+  G1-G4 multi-stage approval gate（[phase-template-phase13.md](phase-template-phase13.md) 参照）の
+  user 承認後に取得する設計
+
+#### 状態語彙の使い分け
+
+| 状態語彙 | 意味 | 使用箇所 |
+| --- | --- | --- |
+| `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | 仕様書 contract 完了 / runtime evidence は user 承認後に取得 | spec walkthrough 完了 + runtime 全 pending の典型 |
+| `PASS_BOUNDARY_SYNCED_RUNTIME_PARTIAL` | runtime evidence の一部のみ取得済（例: G1 staging deploy 完了 / G2-G4 pending） | gate 単位で partial を明示する場合 |
+| `PASS_RUNTIME_SYNCED` | 全 G1-G4 runtime evidence 取得済 | 最終形 |
+| `PASS`（単独表記） | **禁止**。boundary suffix を必ず付与 | 誤読防止のため Phase 11 では使用不可 |
+
+#### 必須記録項目（`outputs/phase-11/main.md`）
+
+- 状態語彙（上表のいずれか）と判定根拠
+- 仕様書 contract 完了の evidence path（spec walkthrough log / link-checklist / template 整合確認）
+- runtime evidence の pending 内訳（G1: deploy / G2: Forms sync / G3: D1 apply / G4: commit-push-PR）
+- 各 runtime evidence の取得ゲート（[phase-template-phase13.md](phase-template-phase13.md) §G1-G4）
+- 実行されたら fresh evidence を後追いで `outputs/phase-11/` に追加する旨の宣言
+
+#### Phase 12 compliance との連動
+
+`outputs/phase-12/phase12-task-spec-compliance-check.md` では
+`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を `PASS` と書き換えず、
+runtime pending 内訳を G1-G4 単位で表記する。runtime evidence が後続タスクで取得される場合は、
+`unassigned-task-detection.md` の formalize 先と evidence path を併記する。
+
 ### Cloudflare deploy-verification subtemplate
 
 `taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION` で、実装差分は local に存在し、
