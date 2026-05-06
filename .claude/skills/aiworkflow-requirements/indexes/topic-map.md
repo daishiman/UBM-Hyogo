@@ -874,12 +874,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L208 |
-| UBM-Hyogo Admin Sync API（03a） | L229 |
-| UBM-Hyogo Member Self-Service API（04b） | L280 |
-| Desktop IPC API サマリー | L307 |
-| 変更履歴 | L338 |
-| 関連ドキュメント | L355 |
+| エンドポイント命名規則 | L209 |
+| UBM-Hyogo Admin Sync API（03a） | L230 |
+| UBM-Hyogo Member Self-Service API（04b） | L281 |
+| Desktop IPC API サマリー | L308 |
+| 変更履歴 | L339 |
+| 関連ドキュメント | L356 |
 
 ### references/api-internal-chunk-search.md
 
@@ -970,12 +970,12 @@ node scripts/list-specs.js --topics
 | 型安全なクエリ実装 | L6 |
 | Embedded Replicas とオフライン対応 | L56 |
 | マイグレーション管理 | L102 |
-| テスト戦略 | L142 |
-| UBM-Hyogo D1 Repository 契約（02b） | L172 |
-| エラーハンドリング | L213 |
-| Conversation DB 初期化パターン | L244 |
-| UBM-Hyogo Schema Sync Contract（03a） | L246 |
-| ベクトル検索実装（DiskANN） | L356 |
+| テスト戦略 | L160 |
+| UBM-Hyogo D1 Repository 契約（02b） | L190 |
+| エラーハンドリング | L231 |
+| Conversation DB 初期化パターン | L262 |
+| UBM-Hyogo Schema Sync Contract（03a） | L264 |
+| ベクトル検索実装（DiskANN） | L374 |
 
 ### references/database-implementation-details.md
 
@@ -3203,7 +3203,7 @@ node scripts/list-specs.js --topics
 | モニタリング/アラート（UT-08 連携） | L547 |
 | per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
 | Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
-| 変更履歴 | L617 |
+| 変更履歴 | L635 |
 
 ### references/deployment-core.md
 
@@ -3235,12 +3235,12 @@ node scripts/list-specs.js --topics
 | 並列実行の活用 | L113 |
 | CD ワークフロー要件（dev / main マージ時） | L169 |
 | Backend ワークフロー要件（dev / main マージ時） | L197 |
-| モニタリングとアラート | L221 |
-| GitHub Secrets の要件 | L255 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L279 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L297 |
-| 関連ドキュメント | L317 |
-| 変更履歴 | L324 |
+| モニタリングとアラート | L223 |
+| GitHub Secrets の要件 | L257 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L300 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L321 |
+| 関連ドキュメント | L341 |
+| 変更履歴 | L348 |
 
 ### references/deployment-history.md
 
@@ -3256,13 +3256,14 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L121 |
-| ローカル開発での設定 | L153 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L192 |
-| セキュリティ原則 | L229 |
-| Cloudflare API Token の作成手順 | L240 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L282 |
-| 変更履歴 | L325 |
+| wrangler.toml の環境別設定 | L124 |
+| ローカル開発での設定 | L156 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L195 |
+| セキュリティ原則 | L232 |
+| Cloudflare API Token の作成手順 | L243 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L285 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L333 |
+| 変更履歴 | L348 |
 
 ### references/deployment.md
 
@@ -3999,6 +4000,19 @@ node scripts/list-specs.js --topics
 | L-I399-004: Phase 12 strict 7 files は仕様書作成時点でも実体化する | L21 |
 | L-I399-005: synthetic ID prefix の cleanup query 契約は seed と同 wave で固定する | L27 |
 
+### references/lessons-learned-issue-401-admin-request-notification-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I401-001: notification enqueue は resolve transaction の外側に置く | L3 |
+| L-I401-002: mail config gate は dispatch tick の claim 前に判定する | L7 |
+| L-I401-003: PII boundary を email / outbox / ledger の三方向に張る | L11 |
+| L-I401-004: claim は CAS、unique 制約は (note_id, outcome) | L15 |
+| L-I401-005: retryable failure は pending、failed は ledger event only | L19 |
+| L-I401-006: cron は既存 `*/5` branch に統合する | L23 |
+| L-I401-007: recipient lookup は `member_identities.response_email` | L27 |
+| L-I401-008: workflow root を completed-tasks 配下に置く | L31 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4045,6 +4059,17 @@ node scripts/list-specs.js --topics
 | 結論 (個人開発運用ポリシー) | L20 |
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
+
+### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-DERIV01-001: OIDC trust 設計の境界曖昧性 | L15 |
+| L-DERIV01-002: G1-G4 approval gate 用語の過負荷 | L23 |
+| L-DERIV01-003: CLOUDFLARE_API_TOKEN_STAGING の暫定扱い（3 段ライフサイクル） | L31 |
+| L-DERIV01-004: 24h 並行運用中の旧 Token last_used_on 観測の自動化空白 | L39 |
+| L-DERIV01-005: aiworkflow-requirements indexes の同時更新ポリシー | L47 |
+| 関連ファイル | L55 |
 
 ### references/lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md
 
@@ -5384,13 +5409,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L277 |
-| フェーズ構造（概要） | L286 |
-| 品質ゲート（概要） | L317 |
-| 出力テンプレート | L328 |
-| 実行時のコマンド・エージェント・スキル | L351 |
-| 昇格パターン集 | L375 |
-| Current Active / Spec Created Tasks | L377 |
+| ドキュメント構成 | L290 |
+| フェーズ構造（概要） | L299 |
+| 品質ゲート（概要） | L330 |
+| 出力テンプレート | L341 |
+| 実行時のコマンド・エージェント・スキル | L364 |
+| 昇格パターン集 | L388 |
+| Current Active / Spec Created Tasks | L390 |
 
 ### references/task-workflow-backlog-part2.md
 

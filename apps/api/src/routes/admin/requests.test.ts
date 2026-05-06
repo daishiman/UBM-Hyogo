@@ -307,6 +307,112 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     expect(res.status).toBe(404);
   });
 
+  it("Issue #401 AC-1: visibility_request approve 後 notification_outbox に pending 行が積まれる", async () => {
+    const note = await createPendingRequest(env, "m_alice", "visibility_request", {
+      desiredState: "hidden",
+    });
+    const headers = await adminAuthHeader();
+    const res = await app.request(
+      `/requests/${note.noteId}/resolve`,
+      {
+        method: "POST",
+        headers: { ...headers, "content-type": "application/json" },
+        body: JSON.stringify({ resolution: "approve" }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const row = await env.db
+      .prepare(
+        "SELECT outcome, status, recipient_email, retry_count FROM notification_outbox WHERE note_id = ?1",
+      )
+      .bind(note.noteId)
+      .first<{ outcome: string; status: string; recipient_email: string; retry_count: number }>();
+    expect(row?.outcome).toBe("approved");
+    expect(row?.status).toBe("pending");
+    expect(row?.recipient_email).toBe("m_alice@example.com");
+    expect(row?.retry_count).toBe(0);
+  });
+
+  it("Issue #401 AC-3: outbox enqueue が throw しても resolve は 200 (best-effort)", async () => {
+    const failingApp = createAdminRequestsRoute({
+      outboxFactory: () => {
+        throw new Error("DB unavailable");
+      },
+    });
+    const note = await createPendingRequest(env, "m_alice", "visibility_request", {
+      desiredState: "hidden",
+    });
+    const headers = await adminAuthHeader();
+    const res = await failingApp.request(
+      `/requests/${note.noteId}/resolve`,
+      {
+        method: "POST",
+        headers: { ...headers, "content-type": "application/json" },
+        body: JSON.stringify({ resolution: "approve" }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const updated = await adminNotes.findById(env.ctx, note.noteId);
+    expect(updated?.requestStatus).toBe("resolved");
+  });
+
+  it("Issue #401 AC-11: recipient email 空文字でも resolve は 200 で完了し outbox enqueue を skip", async () => {
+    await env.db
+      .prepare(
+        `UPDATE member_identities SET response_email = '' WHERE member_id = ?1`,
+      )
+      .bind("m_alice")
+      .run();
+    const note = await createPendingRequest(env, "m_alice", "visibility_request", {
+      desiredState: "hidden",
+    });
+    const headers = await adminAuthHeader();
+    const res = await app.request(
+      `/requests/${note.noteId}/resolve`,
+      {
+        method: "POST",
+        headers: { ...headers, "content-type": "application/json" },
+        body: JSON.stringify({ resolution: "approve" }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const row = await env.db
+      .prepare("SELECT COUNT(*) as cnt FROM notification_outbox WHERE note_id = ?1")
+      .bind(note.noteId)
+      .first<{ cnt: number }>();
+    expect(row?.cnt).toBe(0);
+  });
+
+  it("Issue #401 PII: reject の resolutionNote は outbox reason_summary にコピーしない", async () => {
+    const note = await createPendingRequest(env, "m_alice", "visibility_request", {
+      desiredState: "hidden",
+    });
+    const headers = await adminAuthHeader();
+    const res = await app.request(
+      `/requests/${note.noteId}/resolve`,
+      {
+        method: "POST",
+        headers: { ...headers, "content-type": "application/json" },
+        body: JSON.stringify({
+          resolution: "reject",
+          resolutionNote: "alice@example.com を含む内部メモ",
+        }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const row = await env.db
+      .prepare(
+        "SELECT reason_summary FROM notification_outbox WHERE note_id = ?1",
+      )
+      .bind(note.noteId)
+      .first<{ reason_summary: string | null }>();
+    expect(row?.reason_summary).toBeNull();
+  });
+
   it("visibility_request approve 時 desiredState 不正で 422", async () => {
     const note = await createPendingRequest(env, "m_alice", "visibility_request", {
       desiredState: "bogus",

@@ -5,6 +5,42 @@
 
 ---
 
+### U-FIX-CF-ACCT-01-DERIV-01 GitHub OIDC short-lived credentials（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` |
+| 状態 | `spec_created / implementation-spec / NON_VISUAL / Phase 12 strict outputs present / runtime evidence pending_user_approval` |
+| primary IdP | AWS STS（GitHub OIDC federation） |
+| workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
+| current token references | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_API_TOKEN_STAGING` remain current until runtime cutover |
+| approval gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke |
+| close-out evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime evidence | `outputs/phase-11/main.md` + `manual-smoke-log.md` + `link-checklist.md` are RUNTIME_PENDING placeholder ledgers. deploy / revoke are未実行 |
+| 正本 refs | `references/deployment-gha.md`, `references/deployment-secrets-management.md`, `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
+---
+
+### Issue #401 Admin Request Notification（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-401-admin-request-notification/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval` |
+| API | `POST /admin/requests/:noteId/resolve` 後に `notification_outbox` へ best-effort enqueue |
+| DB | `notification_outbox`, `notification_ledger`(migration `0014_notification_outbox.sql`) |
+| mail env | `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS`（旧 `RESEND_API_KEY` / `RESEND_FROM_EMAIL` は使わない） |
+| mail config gate | `MAIL_PROVIDER_KEY` missing / `.example` sender は claim 前に dispatch skip |
+| retry | retryable failure は `pending` 復帰。`failed` は ledger event only |
+| stuck recovery | stale `dispatching` rows are reclaimed after lease timeout |
+| recipient | `member_identities.response_email` |
+| PII boundary | raw `resolutionNote` is not copied to email / `reason_summary` / ledger detail |
+| close-out evidence | `docs/30-workflows/completed-tasks/issue-401-admin-request-notification/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime boundary | staging D1 apply / Resend send / production migration / commit / push / PR は user approval 後 |
+
+---
+
+
 ### task-05a `/public/form-preview` 503 root cause + fix（2026-05-05）
 
 | 目的 | 参照先 |
@@ -22,6 +58,7 @@
 
 ---
 
+
 ### Issue #359 Out-of-Band Production D1 Apply Audit（2026-05-04）
 
 | 目的 | 参照先 |
@@ -34,6 +71,24 @@
 | close-out evidence | `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `references/workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md` |
 | 禁止事項 | production write / additional apply / rollback / deploy / commit / push / PR / Issue state change |
+
+---
+
+### Issue #484 Cloudflare Analytics Monthly Export Automation（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / code evidence captured / runtime Cloudflare export pending_user_approval / Phase 13 blocked_pending_user_approval` |
+| consumed source | `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` |
+| parent decision | `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` |
+| output dir | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11/long-term-evidence/` |
+| required secrets/env | `CLOUDFLARE_ANALYTICS_API_TOKEN`, `CLOUDFLARE_ZONE_TAG`, `CLOUDFLARE_ACCOUNT_TAG` |
+| persisted identifiers | `zoneTag` / `accountTag` are stored as `[redacted]`; they are GraphQL inputs only |
+| metric aggregation | GraphQL groups are summed across returned buckets |
+| redaction gate | email / IPv4 / bearer-token / URL query / member ID / session-cookie |
+| Phase 12 compliance | `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime boundary | Cloudflare runtime export and PR creation are pending explicit implementation/runtime execution |
 
 ---
 
@@ -560,6 +615,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | workflow root | `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/` |
 | production / staging Pages project contract | `references/deployment-cloudflare.md`（UT-28 Cloudflare Pages project creation contract） |
 | GitHub Actions variable semantics | `references/deployment-gha.md`（`CLOUDFLARE_PAGES_PROJECT` = `ubm-hyogo-web` only） |
+| U-FIX-CF-ACCT-01-DERIV-02 Cloudflare token split | `references/deployment-gha.md`, `references/deployment-secrets-management.md`, `docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/`（`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` / `CF_TOKEN_PAGES_*`, Issue #406 は `Refs`） |
 | 苦戦知見 | `references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md`（L-UT28-001〜005: production_branch 逆配線 / Variable suffix derivation / Pages Git Integration OFF / compatibility_date 同期 / OpenNext blocker handoff） |
 | UT-27 handoff | `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/outputs/phase-10/handoff-to-ut27.md` |
 | Phase 11 NON_VISUAL evidence | `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/outputs/phase-11/` |

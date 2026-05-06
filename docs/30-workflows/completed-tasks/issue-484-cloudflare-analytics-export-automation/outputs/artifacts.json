@@ -1,0 +1,31 @@
+{
+  "task_name": "issue-484-cloudflare-analytics-export-automation",
+  "task_path": "docs/30-workflows/issue-484-cloudflare-analytics-export-automation",
+  "wave": "issue-347-follow-up",
+  "execution_mode": "sequential",
+  "metadata": {
+    "taskType": "implementation",
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented_local_runtime_pending",
+    "visualEvidence": "NON_VISUAL",
+    "issue": 484
+  },
+  "parity_source": "../artifacts.json",
+  "phase12_outputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "phase11_outputs": [
+    "outputs/phase-11/unit-test.log",
+    "outputs/phase-11/typecheck.log",
+    "outputs/phase-11/lint.log",
+    "outputs/phase-11/redaction-check-pass.log",
+    "outputs/phase-11/redaction-check-fail.log",
+    "outputs/phase-11/graphql-introspection.log"
+  ]
+}
