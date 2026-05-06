@@ -2226,7 +2226,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| User Gate | L17 |
+| User Gate | L21 |
 
 ### references/workflow-issue-352-postmortem-template-automation-artifact-inventory.md
 
@@ -2268,6 +2268,19 @@ node scripts/list-specs.js --topics
 | Same-wave touched files | L51 |
 | Follow-up unassigned | L83 |
 | Boundary | L89 |
+
+### references/workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L38 |
+| same-wave skill sync | L47 |
+| boundary | L61 |
+| deferred evidence | L67 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2606,12 +2619,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Canonical Roots | L5 |
-| Phase Artifacts | L14 |
-| Approval Gate Matrix | L32 |
-| Boundary | L41 |
-| Skill Compliance | L45 |
-| Related Tasks | L53 |
-| Verification | L67 |
+| Phase Artifacts | L15 |
+| Approval Gate Matrix | L33 |
+| Boundary | L42 |
+| Skill Compliance | L46 |
+| Related Tasks | L54 |
+| Verification | L68 |
 
 ### references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md
 
@@ -3216,7 +3229,7 @@ node scripts/list-specs.js --topics
 | モニタリング/アラート（UT-08 連携） | L547 |
 | per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
 | Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
-| 変更履歴 | L648 |
+| 変更履歴 | L635 |
 
 ### references/deployment-core.md
 
@@ -3252,9 +3265,6 @@ node scripts/list-specs.js --topics
 | GitHub Secrets の要件 | L260 |
 | UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L304 |
 | Post-release dashboard automation (Issue #351 / 2026-05-05) | L325 |
-| Cloudflare API Token rotation reminder (Issue #407 / 2026-05-06) | L343 |
-| 関連ドキュメント | L360 |
-| 変更履歴 | L367 |
 
 ### references/deployment-history.md
 
@@ -3276,9 +3286,9 @@ node scripts/list-specs.js --topics
 | セキュリティ原則 | L235 |
 | Cloudflare API Token の作成手順 | L246 |
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L261 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L323 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L371 |
-| 変更履歴 | L386 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L326 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L374 |
+| 変更履歴 | L389 |
 
 ### references/deployment.md
 
@@ -3961,18 +3971,6 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 | 関連リソース | L60 |
-
-### references/lessons-learned-issue-350-long-term-observation-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| 苦戦箇所サマリ | L13 |
-| 1. Cloudflare cron 無料枠制約 | L17 |
-| 2. Reminder Issue の重複起票 | L24 |
-| 3. PII / Evidence Boundary | L31 |
-| 4. 09c → Issue #350 Consumed Trace の同時更新 | L38 |
-| 5. Workflow Dispatch と Schedule の二重トリガ | L45 |
-| Follow-up | L51 |
 
 ### references/lessons-learned-issue-351-post-release-dashboard-2026-05.md
 
@@ -5018,8 +5016,8 @@ node scripts/list-specs.js --topics
 | 6. 関連ファイル | L134 |
 | 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
-| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L166 |
-| 10. 変更履歴 | L194 |
+| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L175 |
+| 10. 変更履歴 | L203 |
 
 ### references/patterns-advanced.md
 
@@ -5076,17 +5074,6 @@ node scripts/list-specs.js --topics
 | サンプルプラグイン仕様 | L317 |
 | 個人開発における注意点 | L345 |
 | 関連ドキュメント | L373 |
-
-### references/post-release-long-term-observation.md
-
-| セクション | 行 |
-|------------|----|
-| 概要 | L13 |
-| 正本 runbook | L17 |
-| Current Contract | L21 |
-| Evidence Boundary | L32 |
-| Follow-up Unassigned Tasks | L38 |
-| 関連 | L44 |
 
 ### references/quality-e2e-testing.md
 
@@ -5452,13 +5439,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L330 |
-| フェーズ構造（概要） | L339 |
-| 品質ゲート（概要） | L370 |
-| 出力テンプレート | L381 |
-| 実行時のコマンド・エージェント・スキル | L404 |
-| 昇格パターン集 | L428 |
-| Current Active / Spec Created Tasks | L430 |
+| ドキュメント構成 | L332 |
+| フェーズ構造（概要） | L341 |
+| 品質ゲート（概要） | L372 |
+| 出力テンプレート | L383 |
+| 実行時のコマンド・エージェント・スキル | L406 |
+| 昇格パターン集 | L430 |
+| Current Active / Spec Created Tasks | L432 |
 
 ### references/task-workflow-backlog-part2.md
 

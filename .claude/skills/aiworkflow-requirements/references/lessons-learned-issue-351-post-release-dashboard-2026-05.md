@@ -2,7 +2,7 @@
 
 > task: `issue-351-09c-post-release-dashboard-automation`
 > 関連 spec: `references/deployment-cloudflare-opennext-workers.md`（§14 analytics read-only token）、`references/deployment-gha.md`（Post-release dashboard automation セクション）、`references/task-workflow-active.md`（Issue #351 行）
-> 関連 source: `.github/workflows/post-release-dashboard.yml`、`scripts/post-release-dashboard/{collect.sh,lib/*.sh,__tests__/*.sh}`、`scripts/cf.sh`（api-post GraphQL allowlist）、`docs/30-workflows/issue-351-09c-post-release-dashboard-automation/`
+> 関連 source: `.github/workflows/post-release-dashboard.yml`、`scripts/post-release-dashboard/{collect.sh,lib/*.sh,__tests__/*.sh}`、`scripts/cf.sh`（api-post GraphQL allowlist）、`docs/30-workflows/completed-tasks/issue-351-09c-post-release-dashboard-automation/`
 > 関連 reference: `references/workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md`、`changelog/20260505-issue351-post-release-dashboard.md`
 
 ## 教訓一覧

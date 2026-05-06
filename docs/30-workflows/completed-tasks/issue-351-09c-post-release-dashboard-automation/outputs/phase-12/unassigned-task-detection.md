@@ -11,7 +11,7 @@ workflow_id: issue-351-09c-post-release-dashboard-automation
 
 | ID | 内容 | 判断 | 実施場所 | 実施時期 |
 | --- | --- | --- | --- | --- |
-| U-1 | post-release-dashboard schedule の 30 日連続実行 conclusion 集計と skill feedback 化 | defer allowed | 将来の単独 unassigned task / Issue | 本実装が main merge され、schedule artifact が 30 日分蓄積された後 |
+| U-1 | post-release-dashboard schedule の 30 日連続実行 conclusion 集計と skill feedback 化 | formalized / external-time-dependent | `docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion/` / Issue #497 | 本実装が main merge され、schedule artifact が 30 日分蓄積された後 |
 
 ## U-1 defer 理由
 
@@ -20,9 +20,13 @@ workflow_id: issue-351-09c-post-release-dashboard-automation
 実行コマンド案:
 
 ```bash
-gh run list --workflow=post-release-dashboard.yml --limit=40 --json conclusion,createdAt,databaseId,status
+gh run list --workflow=post-release-dashboard.yml --limit=80 --json conclusion,createdAt,databaseId,status
 ```
 
 ## 今回作成しない理由
 
 U-1 は現時点で実施不能な時間依存タスクであり、具体的な run ID / conclusion が未発生。今回の実装 close-out では `outputs/phase-11/` に local fixture evidence を置き、初回 workflow_dispatch / schedule はユーザー承認後に追記する。
+
+## Formalize trace
+
+- 2026-05-06: U-1 を `docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion/` として formalize 済み。Issue #497 は CLOSED 維持、30 日 gate 成立後に Phase 11 / 12 を実行する。PR 文脈では `Refs #497, Refs #351` のみ使用する。

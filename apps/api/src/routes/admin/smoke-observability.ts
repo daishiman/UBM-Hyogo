@@ -1,7 +1,7 @@
-// 09b-A: Sentry / Slack runtime smoke route。dev/staging 限定。
+// 09b-A: Sentry / Slack runtime smoke route.
 //
 // Security:
-// - production returns 404.
+// - production requires an explicit confirmation header.
 // - SMOKE_ADMIN_TOKEN Bearer auth is required.
 // - DSN URLs, Slack webhook URLs, token values, and value hashes are never returned.
 
@@ -31,6 +31,8 @@ interface SentryDsnParts {
 
 const DEFAULT_TARGET: SmokeTarget = "both";
 const DEFAULT_FETCH = fetch;
+export const PRODUCTION_CONFIRM_HEADER = "x-smoke-production-confirm";
+export const PRODUCTION_CONFIRM_VALUE = "YES";
 
 export function createSmokeObservabilityRoute(
   deps: SmokeObservabilityDeps = {},
@@ -41,14 +43,24 @@ export function createSmokeObservabilityRoute(
   const eventId = deps.eventId ?? (() => crypto.randomUUID().replace(/-/g, ""));
 
   app.post("/", async (c) => {
-    if (c.env.ENVIRONMENT === "production") {
-      return c.notFound();
-    }
-
     const expected = c.env.SMOKE_ADMIN_TOKEN;
     const auth = c.req.header("authorization") ?? "";
     if (!expected || auth !== `Bearer ${expected}`) {
       return c.json({ ok: false, error: "unauthorized" } as const, 401);
+    }
+
+    if (
+      c.env.ENVIRONMENT === "production" &&
+      c.req.header(PRODUCTION_CONFIRM_HEADER) !== PRODUCTION_CONFIRM_VALUE
+    ) {
+      return c.json(
+        {
+          ok: false,
+          errorCode: "PRODUCTION_CONFIRM_REQUIRED",
+          message: `${PRODUCTION_CONFIRM_HEADER}: ${PRODUCTION_CONFIRM_VALUE} is required in production`,
+        } as const,
+        403,
+      );
     }
 
     const target = parseTarget(c.req.query("target"));
@@ -147,11 +159,20 @@ async function sendSentrySmoke(input: {
     smokeId: input.smokeId,
     timestamp: input.timestamp,
   });
-  const response = await input.fetchImpl(parsed.endpoint, {
-    method: "POST",
-    headers: { "content-type": "application/x-sentry-envelope" },
-    body: envelope,
-  });
+  let response: Response;
+  try {
+    response = await input.fetchImpl(parsed.endpoint, {
+      method: "POST",
+      headers: { "content-type": "application/x-sentry-envelope" },
+      body: envelope,
+    });
+  } catch {
+    return {
+      ok: false,
+      errorCode: "UPSTREAM_ERROR",
+      evidence: "sentry fetch failed",
+    };
+  }
 
   return {
     ok: response.ok,
@@ -183,20 +204,29 @@ async function sendSlackSmoke(input: {
     };
   }
 
-  const response = await input.fetchImpl(input.webhookUrl, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      text: `[${input.envName.toUpperCase()} SMOKE] UBM observability test ${input.timestamp}`,
-      metadata: {
-        event_type: "ubm_observability_smoke",
-        event_payload: {
-          smoke_id: input.smokeId.slice(0, 8),
-          env: input.envName,
+  let response: Response;
+  try {
+    response = await input.fetchImpl(input.webhookUrl, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        text: `${smokeMessagePrefix(input.envName)} UBM observability test ${input.timestamp}`,
+        metadata: {
+          event_type: "ubm_observability_smoke",
+          event_payload: {
+            smoke_id: input.smokeId.slice(0, 8),
+            env: input.envName,
+          },
         },
-      },
-    }),
-  });
+      }),
+    });
+  } catch {
+    return {
+      ok: false,
+      errorCode: "UPSTREAM_ERROR",
+      evidence: "slack fetch failed",
+    };
+  }
 
   return {
     ok: response.ok,
@@ -235,13 +265,14 @@ function buildSentryEnvelope(input: {
   readonly smokeId: string;
   readonly timestamp: string;
 }): string {
+  const envName = normalizeSmokeEnvironment(input.envName);
   const event = {
     event_id: input.smokeId,
     timestamp: input.timestamp,
     platform: "javascript",
     level: "info",
-    environment: input.envName,
-    message: `UBM staging smoke ${input.timestamp}`,
+    environment: envName,
+    message: `UBM ${envName} smoke ${input.timestamp}`,
     tags: { smoke: "09b-A", source: "admin-smoke-observability" },
   };
   return [
@@ -255,6 +286,15 @@ function buildSentryEnvelope(input: {
     JSON.stringify(event),
     "",
   ].join("\n");
+}
+
+export function smokeMessagePrefix(envName: string | undefined): string {
+  return `[${normalizeSmokeEnvironment(envName).toUpperCase()} SMOKE]`;
+}
+
+function normalizeSmokeEnvironment(envName: string | undefined): string {
+  if (envName === "production" || envName === "staging") return envName;
+  return envName || "unknown";
 }
 
 function isSlackWebhookUrl(value: string): boolean {

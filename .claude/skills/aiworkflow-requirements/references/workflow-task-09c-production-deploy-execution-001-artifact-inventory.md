@@ -7,8 +7,9 @@ Status: spec_created / implementation / VISUAL_ON_EXECUTION / Phase 12 strict ou
 | Kind | Path |
 | --- | --- |
 | Current workflow root | `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/` |
+| Issue #353 mirror | `docs/30-workflows/issue-353-09c-production-deploy-execution/` |
 | Parent docs-only runbook | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/` |
-| Source unassigned task (consumed) | `docs/30-workflows/unassigned-task/task-09c-production-deploy-execution-001.md` |
+| Source task stub (consumed) | `docs/30-workflows/completed-tasks/task-09c-production-deploy-execution-001.md` |
 | Issue reference | `#353` (CLOSED, referenced via `Refs #353`; `Closes` 不可) |
 
 ## Phase Artifacts
@@ -68,6 +69,8 @@ Status: spec_created / implementation / VISUAL_ON_EXECUTION / Phase 12 strict ou
 
 ```bash
 find docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/outputs/phase-12 -maxdepth 1 -type f | sort
-test ! -f docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/outputs/artifacts.json && echo "root-only parity OK"
+find docs/30-workflows/issue-353-09c-production-deploy-execution/outputs/phase-12 -maxdepth 1 -type f | sort
+test ! -f docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/outputs/artifacts.json && echo "canonical root-only parity OK"
+test ! -f docs/30-workflows/issue-353-09c-production-deploy-execution/outputs/artifacts.json && echo "issue mirror root-only parity OK"
 rg -n '09c-production-deploy-execution-001' .claude/skills/aiworkflow-requirements docs/30-workflows
 ```
