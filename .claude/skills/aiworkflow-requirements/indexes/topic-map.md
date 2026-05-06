@@ -2269,6 +2269,19 @@ node scripts/list-specs.js --topics
 | Follow-up unassigned | L83 |
 | Boundary | L89 |
 
+### references/workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L38 |
+| same-wave skill sync | L47 |
+| boundary | L61 |
+| deferred evidence | L67 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3244,17 +3257,18 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L54 |
-| キャッシュ戦略 | L90 |
-| 並列実行の活用 | L113 |
-| CD ワークフロー要件（dev / main マージ時） | L169 |
-| Backend ワークフロー要件（dev / main マージ時） | L197 |
-| モニタリングとアラート | L223 |
-| GitHub Secrets の要件 | L257 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L300 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L321 |
-| 関連ドキュメント | L341 |
-| 変更履歴 | L348 |
+| CI ワークフロー要件（PR 時） | L57 |
+| キャッシュ戦略 | L93 |
+| 並列実行の活用 | L116 |
+| CD ワークフロー要件（dev / main マージ時） | L172 |
+| Backend ワークフロー要件（dev / main マージ時） | L200 |
+| モニタリングとアラート | L226 |
+| GitHub Secrets の要件 | L260 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L304 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L325 |
+| Cloudflare API Token rotation reminder (Issue #407 / 2026-05-06) | L343 |
+| 関連ドキュメント | L360 |
+| 変更履歴 | L367 |
 
 ### references/deployment-history.md
 
@@ -3275,9 +3289,10 @@ node scripts/list-specs.js --topics
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L198 |
 | セキュリティ原則 | L235 |
 | Cloudflare API Token の作成手順 | L246 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L304 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L352 |
-| 変更履歴 | L367 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L261 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L326 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L374 |
+| 変更履歴 | L389 |
 
 ### references/deployment.md
 
@@ -3395,7 +3410,7 @@ node scripts/list-specs.js --topics
 | チーム開発での運用 | L376 |
 | 必須環境変数一覧 | L415 |
 | CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L476 |
-| 関連ドキュメント | L496 |
+| 関連ドキュメント | L497 |
 
 ### references/error-handling-core.md
 
@@ -5018,8 +5033,8 @@ node scripts/list-specs.js --topics
 | 6. 関連ファイル | L134 |
 | 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
-| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L166 |
-| 10. 変更履歴 | L194 |
+| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L175 |
+| 10. 変更履歴 | L203 |
 
 ### references/patterns-advanced.md
 
@@ -5441,13 +5456,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L303 |
-| フェーズ構造（概要） | L312 |
-| 品質ゲート（概要） | L343 |
-| 出力テンプレート | L354 |
-| 実行時のコマンド・エージェント・スキル | L377 |
-| 昇格パターン集 | L401 |
-| Current Active / Spec Created Tasks | L403 |
+| ドキュメント構成 | L316 |
+| フェーズ構造（概要） | L325 |
+| 品質ゲート（概要） | L356 |
+| 出力テンプレート | L367 |
+| 実行時のコマンド・エージェント・スキル | L390 |
+| 昇格パターン集 | L414 |
+| Current Active / Spec Created Tasks | L416 |
 
 ### references/task-workflow-backlog-part2.md
 

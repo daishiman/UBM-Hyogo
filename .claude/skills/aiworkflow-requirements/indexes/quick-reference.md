@@ -557,6 +557,18 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | 苦戦箇所 / lessons-learned | `references/lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md` |
 | Runtime execution 後続タスク | `docs/30-workflows/unassigned-task/task-09b-a-runtime-provider-smoke-execution-001.md` |
 
+### Sentry / Slack Runtime Smoke Production Extension（Issue #495 / 2026-05-06）
+
+Production smoke uses the same route and secret names as staging, but requires `x-smoke-production-confirm: YES` and G1-G4 approval before runtime execution.
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| workflow root / production AC | `docs/30-workflows/issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension/index.md` |
+| production confirmation gate design | `docs/30-workflows/issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension/phase-02.md` |
+| implementation runbook | `docs/30-workflows/issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension/phase-05.md` |
+| staging / production runtime templates | `docs/30-workflows/issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension/outputs/phase-11/main.md` |
+| production smoke route implementation | `apps/api/src/routes/admin/smoke-observability.ts`, `apps/api/src/routes/admin/smoke-observability.test.ts` |
+
 ---
 
 ### Member Self-Service API / `/me/*` / dev session header（04b / 2026-04-29）
