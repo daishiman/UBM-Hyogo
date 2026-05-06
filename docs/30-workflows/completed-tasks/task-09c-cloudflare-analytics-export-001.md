@@ -17,7 +17,7 @@ issue_number: 347
 | 対象機能 | Cloudflare Analytics / post-release evidence |
 | 優先度 | 低 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed_by_issue_347_decision_and_issue_484_automation |
 | 発見元 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-01 |
 
@@ -29,26 +29,30 @@ issue_number: 347
 
 ## 2. 何を達成するか（What）
 
-Cloudflare Analytics の長期保存用 CSV export または同等の軽量保存方式を決め、保存先、保持期間、PII を含めない集計粒度を正本化する。
+Cloudflare Analytics の長期保存方式は Issue #347 decision workflow で GraphQL aggregate-only export に確定済み。月次 automation は Issue #484 workflow が current root として所有する。本ファイルは 09c 起点の historical source trace として保持する。
 
 ## 3. どのように実行するか（How）
 
-まず Cloudflare Free plan で利用可能な analytics 取得手段を確認し、API export、手動 CSV、dashboard screenshot のどれを canonical evidence とするかを決める。保存先は `docs/30-workflows/.../outputs/phase-11/` か後続 ops evidence 配下に限定し、request body や個人識別情報を保存しない。
+current root:
+- decision: `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/`
+- automation: `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/`
+
+保存先は `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11/long-term-evidence/`。request body や個人識別情報は保存しない。
 
 ## 4. 実行手順
 
-1. `references/deployment-cloudflare*.md` と 09c Phase 11/12 を読み、現行の production evidence path を確認する。
-2. Cloudflare Analytics で取得する指標を req/day、error rate、D1 reads/writes、cron/event volume に絞る。
-3. Free plan で可能な export 方法を選び、保存形式と retention を仕様書へ記載する。
-4. 取得サンプルを1回作成し、PII が入っていないことを確認する。
-5. aiworkflow-requirements の該当 deployment / operations 参照へ導線を追加する。
+1. `references/deployment-cloudflare*.md` と 09c Phase 11/12 を読み、現行の production evidence path を確認する。完了先: Issue #347 / Issue #484。
+2. Cloudflare Analytics で取得する指標を req/day、error rate、D1 reads/writes、cron/event volume に絞る。完了先: Issue #347。
+3. Free plan で可能な export 方法を選び、保存形式と retention を仕様書へ記載する。完了先: Issue #347。
+4. 取得サンプルを1回作成し、PII が入っていないことを確認する。schema sample は Issue #347、runtime sample は Issue #484 runtime operation。
+5. aiworkflow-requirements の該当 deployment / operations 参照へ導線を追加する。完了先: Issue #347 / Issue #484。
 
 ## 5. 完了条件チェックリスト
 
-- [ ] export 方式、保存先、保持期間が1つに決まっている
-- [ ] 保存対象の指標が集計値に限定されている
-- [ ] Cloudflare Free plan 外の機能に依存しないことを確認済み
-- [ ] 09c または ops workflow から evidence path へ辿れる
+- [x] export 方式、保存先、保持期間が1つに決まっている（Issue #347）
+- [x] 保存対象の指標が集計値に限定されている（Issue #347 / Issue #484）
+- [x] Cloudflare Free plan 外の機能に依存しないことを確認済み（Issue #347）
+- [x] 09c または ops workflow から evidence path へ辿れる（Issue #484 quick-reference / resource-map）
 
 ## 6. 検証方法
 

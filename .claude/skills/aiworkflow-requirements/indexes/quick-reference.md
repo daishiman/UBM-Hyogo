@@ -74,6 +74,24 @@
 
 ---
 
+### Issue #484 Cloudflare Analytics Monthly Export Automation（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / code evidence captured / runtime Cloudflare export pending_user_approval / Phase 13 blocked_pending_user_approval` |
+| consumed source | `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` |
+| parent decision | `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` |
+| output dir | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11/long-term-evidence/` |
+| required secrets/env | `CLOUDFLARE_ANALYTICS_API_TOKEN`, `CLOUDFLARE_ZONE_TAG`, `CLOUDFLARE_ACCOUNT_TAG` |
+| persisted identifiers | `zoneTag` / `accountTag` are stored as `[redacted]`; they are GraphQL inputs only |
+| metric aggregation | GraphQL groups are summed across returned buckets |
+| redaction gate | email / IPv4 / bearer-token / URL query / member ID / session-cookie |
+| Phase 12 compliance | `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime boundary | Cloudflare runtime export and PR creation are pending explicit implementation/runtime execution |
+
+---
+
 ### UT-07B-FU-03 D1 Production Migration Apply Runbook（2026-05-04）
 
 | 目的 | 参照先 |
@@ -597,6 +615,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | workflow root | `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/` |
 | production / staging Pages project contract | `references/deployment-cloudflare.md`（UT-28 Cloudflare Pages project creation contract） |
 | GitHub Actions variable semantics | `references/deployment-gha.md`（`CLOUDFLARE_PAGES_PROJECT` = `ubm-hyogo-web` only） |
+| U-FIX-CF-ACCT-01-DERIV-02 Cloudflare token split | `references/deployment-gha.md`, `references/deployment-secrets-management.md`, `docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/`（`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` / `CF_TOKEN_PAGES_*`, Issue #406 は `Refs`） |
 | 苦戦知見 | `references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md`（L-UT28-001〜005: production_branch 逆配線 / Variable suffix derivation / Pages Git Integration OFF / compatibility_date 同期 / OpenNext blocker handoff） |
 | UT-27 handoff | `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/outputs/phase-10/handoff-to-ut27.md` |
 | Phase 11 NON_VISUAL evidence | `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/outputs/phase-11/` |

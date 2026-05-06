@@ -3203,7 +3203,7 @@ node scripts/list-specs.js --topics
 | モニタリング/アラート（UT-08 連携） | L547 |
 | per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
 | Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
-| 変更履歴 | L617 |
+| 変更履歴 | L635 |
 
 ### references/deployment-core.md
 
@@ -3235,12 +3235,12 @@ node scripts/list-specs.js --topics
 | 並列実行の活用 | L113 |
 | CD ワークフロー要件（dev / main マージ時） | L169 |
 | Backend ワークフロー要件（dev / main マージ時） | L197 |
-| モニタリングとアラート | L221 |
-| GitHub Secrets の要件 | L255 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L295 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L313 |
-| 関連ドキュメント | L333 |
-| 変更履歴 | L340 |
+| モニタリングとアラート | L223 |
+| GitHub Secrets の要件 | L257 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L300 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L321 |
+| 関連ドキュメント | L341 |
+| 変更履歴 | L348 |
 
 ### references/deployment-history.md
 
@@ -3256,14 +3256,14 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L124 |
-| ローカル開発での設定 | L156 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L195 |
-| セキュリティ原則 | L232 |
-| Cloudflare API Token の作成手順 | L243 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L301 |
-| U-FIX-CF-ACCT-01-DERIV-01: Cloudflare deploy token OIDC migration target（2026-05-06） | L344 |
-| 変更履歴 | L361 |
+| wrangler.toml の環境別設定 | L127 |
+| ローカル開発での設定 | L159 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L198 |
+| セキュリティ原則 | L235 |
+| Cloudflare API Token の作成手順 | L246 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L304 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L352 |
+| 変更履歴 | L367 |
 
 ### references/deployment.md
 
