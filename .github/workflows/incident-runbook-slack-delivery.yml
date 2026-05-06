@@ -1,0 +1,167 @@
+name: incident-runbook-slack-delivery
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: dryrun or production
+        type: choice
+        required: true
+        default: dryrun
+        options: [dryrun, production]
+      release_version:
+        description: semver (例 v1.2.3)
+        type: string
+        required: true
+      deployed_at:
+        description: ISO8601 UTC (例 2026-05-06T10:00:00Z)
+        type: string
+        required: true
+      runbook_path:
+        description: 'docs/30-workflows/.../incident-runbook.md'
+        type: string
+        required: true
+      oncall_handle:
+        description: '@username'
+        type: string
+        required: true
+      dryrun_evidence_confirmed:
+        description: production only; confirm dry-run evidence was reviewed
+        type: boolean
+        required: true
+        default: false
+  workflow_run:
+    workflows: ["backend-ci", "web-cd"]
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: incident-runbook-slack-delivery-${{ github.event_name == 'workflow_dispatch' && github.event.inputs.mode || 'auto-dryrun' }}
+  cancel-in-progress: false
+
+jobs:
+  derive-context:
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.ctx.outputs.mode }}
+      release_version: ${{ steps.ctx.outputs.release_version }}
+      deployed_at: ${{ steps.ctx.outputs.deployed_at }}
+      runbook_path: ${{ steps.ctx.outputs.runbook_path }}
+      oncall_handle: ${{ steps.ctx.outputs.oncall_handle }}
+      dryrun_evidence_confirmed: ${{ steps.ctx.outputs.dryrun_evidence_confirmed }}
+    steps:
+      - id: ctx
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          WR_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          WR_UPDATED_AT: ${{ github.event.workflow_run.updated_at }}
+          IN_MODE: ${{ github.event.inputs.mode }}
+          IN_RELEASE_VERSION: ${{ github.event.inputs.release_version }}
+          IN_DEPLOYED_AT: ${{ github.event.inputs.deployed_at }}
+          IN_RUNBOOK_PATH: ${{ github.event.inputs.runbook_path }}
+          IN_ONCALL_HANDLE: ${{ github.event.inputs.oncall_handle }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_run" ]; then
+            {
+              echo "mode=dryrun"
+              echo "release_version=auto-${WR_HEAD_SHA}"
+              echo "deployed_at=${WR_UPDATED_AT}"
+              echo "runbook_path=docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11/share-evidence.md"
+              echo "oncall_handle=@release-oncall"
+              echo "dryrun_evidence_confirmed=false"
+            } >> "$GITHUB_OUTPUT"
+          else
+            {
+              echo "mode=${IN_MODE}"
+              echo "release_version=${IN_RELEASE_VERSION}"
+              echo "deployed_at=${IN_DEPLOYED_AT}"
+              echo "runbook_path=${IN_RUNBOOK_PATH}"
+              echo "oncall_handle=${IN_ONCALL_HANDLE}"
+              echo "dryrun_evidence_confirmed=${{ github.event.inputs.dryrun_evidence_confirmed }}"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+  deliver-dryrun:
+    needs: derive-context
+    if: ${{ needs.derive-context.outputs.mode == 'dryrun' && (github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')) }}
+    runs-on: ubuntu-latest
+    environment: production-slack-delivery-dryrun
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+        with:
+          version: 2025.10.0
+      - name: install deps
+        run: pnpm install --frozen-lockfile
+      - name: deliver
+        env:
+          SLACK_BOT_TOKEN_INCIDENT_RUNBOOK: ${{ secrets.SLACK_BOT_TOKEN_INCIDENT_RUNBOOK }}
+          SLACK_INCIDENT_RUNBOOK_CHANNEL_ID: ${{ vars.SLACK_INCIDENT_RUNBOOK_CHANNEL_ID }}
+          SLACK_INCIDENT_RUNBOOK_DRYRUN_CHANNEL_ID: ${{ vars.SLACK_INCIDENT_RUNBOOK_DRYRUN_CHANNEL_ID }}
+          PRODUCTION_APPROVAL_TOKEN: ${{ needs.derive-context.outputs.mode == 'production' && github.run_id || '' }}
+          MODE: ${{ needs.derive-context.outputs.mode }}
+          RELEASE_VERSION: ${{ needs.derive-context.outputs.release_version }}
+          DEPLOYED_AT: ${{ needs.derive-context.outputs.deployed_at }}
+          RUNBOOK_PATH: ${{ needs.derive-context.outputs.runbook_path }}
+          ONCALL_HANDLE: ${{ needs.derive-context.outputs.oncall_handle }}
+          EVIDENCE_DIR: docs/30-workflows/09c-incident-runbook-slack-delivery/outputs/phase-11/evidence
+        run: |
+          tsx scripts/notify/slack-incident-runbook.ts \
+            --mode="${MODE}" \
+            --release-version="${RELEASE_VERSION}" \
+            --deployed-at="${DEPLOYED_AT}" \
+            --runbook-path="${RUNBOOK_PATH}" \
+            --oncall-handle="${ONCALL_HANDLE}" \
+            --commit-sha="${GITHUB_SHA}" \
+            --repo-slug="${GITHUB_REPOSITORY}" \
+            --evidence-dir="${EVIDENCE_DIR}"
+      - name: upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: slack-delivery-evidence-${{ needs.derive-context.outputs.mode }}
+          path: docs/30-workflows/09c-incident-runbook-slack-delivery/outputs/phase-11/evidence/*
+          if-no-files-found: error
+
+  deliver-production:
+    needs: derive-context
+    if: ${{ needs.derive-context.outputs.mode == 'production' }}
+    runs-on: ubuntu-latest
+    environment: production-slack-delivery
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+        with:
+          version: 2025.10.0
+      - name: install deps
+        run: pnpm install --frozen-lockfile
+      - name: deliver
+        env:
+          SLACK_BOT_TOKEN_INCIDENT_RUNBOOK: ${{ secrets.SLACK_BOT_TOKEN_INCIDENT_RUNBOOK }}
+          SLACK_INCIDENT_RUNBOOK_CHANNEL_ID: ${{ vars.SLACK_INCIDENT_RUNBOOK_CHANNEL_ID }}
+          SLACK_INCIDENT_RUNBOOK_DRYRUN_CHANNEL_ID: ${{ vars.SLACK_INCIDENT_RUNBOOK_DRYRUN_CHANNEL_ID }}
+          PRODUCTION_APPROVAL_TOKEN: ${{ github.run_id }}
+          DRYRUN_EVIDENCE_CONFIRMED: ${{ needs.derive-context.outputs.dryrun_evidence_confirmed }}
+          MODE: ${{ needs.derive-context.outputs.mode }}
+          RELEASE_VERSION: ${{ needs.derive-context.outputs.release_version }}
+          DEPLOYED_AT: ${{ needs.derive-context.outputs.deployed_at }}
+          RUNBOOK_PATH: ${{ needs.derive-context.outputs.runbook_path }}
+          ONCALL_HANDLE: ${{ needs.derive-context.outputs.oncall_handle }}
+          EVIDENCE_DIR: docs/30-workflows/09c-incident-runbook-slack-delivery/outputs/phase-11/evidence
+        run: |
+          tsx scripts/notify/slack-incident-runbook.ts \
+            --mode="${MODE}" \
+            --release-version="${RELEASE_VERSION}" \
+            --deployed-at="${DEPLOYED_AT}" \
+            --runbook-path="${RUNBOOK_PATH}" \
+            --oncall-handle="${ONCALL_HANDLE}" \
+            --commit-sha="${GITHUB_SHA}" \
+            --repo-slug="${GITHUB_REPOSITORY}" \
+            --evidence-dir="${EVIDENCE_DIR}"
+      - name: upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: slack-delivery-evidence-${{ needs.derive-context.outputs.mode }}
+          path: docs/30-workflows/09c-incident-runbook-slack-delivery/outputs/phase-11/evidence/*
+          if-no-files-found: error

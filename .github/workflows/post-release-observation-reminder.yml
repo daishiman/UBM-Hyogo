@@ -1,0 +1,46 @@
+name: post-release-observation-reminder
+
+on:
+  schedule:
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+    inputs:
+      release_date:
+        description: "Release date (YYYY-MM-DD). Empty = latest GitHub release."
+        required: false
+        type: string
+      offset_days:
+        description: "Observation offset. Empty = derive from today."
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: post-release-observation-reminder
+  cancel-in-progress: false
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve release date and offset
+        id: resolve
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_OFFSET_DAYS: ${{ inputs.offset_days }}
+          INPUT_RELEASE_DATE: ${{ inputs.release_date }}
+        run: bash scripts/observation/create-reminder-issue.sh --resolve-only
+
+      - name: Create reminder issue
+        if: steps.resolve.outputs.should_remind == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OFFSET: ${{ steps.resolve.outputs.offset }}
+          RELEASE_DATE: ${{ steps.resolve.outputs.release_date }}
+          TARGET_DATE: ${{ steps.resolve.outputs.target_date }}
+        run: bash scripts/observation/create-reminder-issue.sh --create

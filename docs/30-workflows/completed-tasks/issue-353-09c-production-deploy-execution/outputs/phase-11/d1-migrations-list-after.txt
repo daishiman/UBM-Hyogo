@@ -1,0 +1,4 @@
+PENDING_RUNTIME_EVIDENCE
+
+Expected execution-time command:
+bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --remote --env production --config apps/api/wrangler.toml
