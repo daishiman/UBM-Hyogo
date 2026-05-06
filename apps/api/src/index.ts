@@ -41,6 +41,7 @@ import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
 import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
+import { createSmokeObservabilityRoute } from "./routes/admin/smoke-observability";
 import { createAuthRoute } from "./routes/auth";
 import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
@@ -229,6 +230,8 @@ app.route("/admin", createAdminIdentityConflictsRoute());
 // UT-26: Sheets API E2E smoke route。production では route 内で 404 を返すため、
 // mount しても本番では露出しない (dev/staging のみで動作する)。
 app.route("/admin/smoke/sheets", createSmokeSheetsRoute());
+// 09b-A: Sentry / Slack runtime smoke route。production では route 内で 404。
+app.route("/admin/smoke/observability", createSmokeObservabilityRoute());
 
 app.get("/health", (c) =>
   c.json({
