@@ -1,0 +1,84 @@
+name: cf-audit-log-monitor
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+    inputs:
+      since:
+        description: ISO timestamp (UTC) for window start. Defaults to last hour.
+        required: false
+        type: string
+      until:
+        description: ISO timestamp (UTC) for window end. Defaults to current top-of-hour.
+        required: false
+        type: string
+      dry_run:
+        description: Skip GitHub Issue creation in analyze step.
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write
+  actions: write
+
+concurrency:
+  group: cf-audit-log-monitor
+  cancel-in-progress: false
+
+jobs:
+  fetch-and-analyze:
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Compute window
+        id: w
+        run: |
+          set -euo pipefail
+          if [ -n "${{ inputs.since }}" ] && [ -n "${{ inputs.until }}" ]; then
+            SINCE='${{ inputs.since }}'
+            UNTIL='${{ inputs.until }}'
+          else
+            UNTIL=$(date -u +%Y-%m-%dT%H:00:00Z)
+            SINCE=$(date -u -d '1 hour ago' +%Y-%m-%dT%H:00:00Z)
+          fi
+          echo "since=$SINCE" >> "$GITHUB_OUTPUT"
+          echo "until=$UNTIL" >> "$GITHUB_OUTPUT"
+      - name: Fetch audit logs into D1
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_AUDIT_D1_TOKEN_PROD }}
+          CF_AUDIT_TOKEN_PROD: ${{ secrets.CF_AUDIT_TOKEN_PROD }}
+        run: |
+          pnpm exec tsx scripts/cf-audit-log/fetch.ts \
+            --since "${{ steps.w.outputs.since }}" \
+            --until "${{ steps.w.outputs.until }}"
+      - name: Analyze and alert
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_AUDIT_D1_TOKEN_PROD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            pnpm exec tsx scripts/cf-audit-log/analyze.ts --window 1h --dry-run
+          else
+            pnpm exec tsx scripts/cf-audit-log/analyze.ts --window 1h
+          fi
+      - name: Update success heartbeat
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          NOW=$(date -u +%s)
+          if ! gh api -X PATCH repos/${{ github.repository }}/actions/variables/CF_AUDIT_LAST_SUCCESS_AT -f value="$NOW" >/dev/null 2>&1; then
+            gh api -X POST repos/${{ github.repository }}/actions/variables \
+              -f name=CF_AUDIT_LAST_SUCCESS_AT -f value="$NOW"
+          fi

@@ -1,0 +1,41 @@
+{
+  "taskId": "issue-408-cf-audit-logs-monitoring",
+  "createdAt": "2026-05-06",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented_local_runtime_pending",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "runtimePending": "cloudflare_token_issuance + github_secret_registration + production_d1_migration_apply + 7day_baseline + hourly_run_evidence",
+    "sourceUnassignedTask": "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-audit-logs-monitoring.md"
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/408",
+  "parentWave": "docs/30-workflows/u-fix-cf-acct-01-cloudflare-api-token-scope-audit/",
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["outputs/phase-1/phase-1.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["outputs/phase-2/phase-2.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["outputs/phase-3/phase-3.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["outputs/phase-4/phase-4.md"] },
+    "phase-5":  { "status": "completed", "outputs": ["outputs/phase-5/phase-5.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["outputs/phase-6/phase-6.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["outputs/phase-7/phase-7.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["outputs/phase-8/phase-8.md"] },
+    "phase-9":  { "status": "completed_local", "outputs": ["outputs/phase-9/phase-9.md"] },
+    "phase-10": { "status": "completed", "outputs": ["outputs/phase-10/phase-10.md"] },
+    "phase-11": { "status": "runtime_evidence_pending", "outputs": ["outputs/phase-11/phase-11.md"] },
+    "phase-12": { "status": "completed", "outputs": [
+      "outputs/phase-12/phase-12.md",
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ] },
+    "phase-13": { "status": "blocked_pending_user_approval", "outputs": ["outputs/phase-13/phase-13.md"] }
+  }
+}

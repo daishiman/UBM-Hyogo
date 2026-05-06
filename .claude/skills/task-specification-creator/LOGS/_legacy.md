@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-06 - U-FIX-CF-ACCT-01-DERIV-02 workflow path existence gate
+
+`docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/` の Phase 12 review で、CI/CD token split 仕様が当初 `deploy-staging.yml` / `deploy-production.yml` のような存在しない workflow 名を参照し、現行 repo の `backend-ci.yml` / `web-cd.yml` と drift する危険を確認した。`references/phase-template-phase8-10.md` に `.github/workflows/*.yml` 実在確認 gate を追加し、`references/phase12-skill-feedback-promotion.md` に Workflow Path Existence Gate を追加した。commit / push / PR は未実行。
+
 ## 2026-05-01 - UT-06-FU-E data backup docs-only close-out review
 
 `docs/30-workflows/ut-06-followup-E-d1-backup-long-term-storage/` の Phase 12 review で、`docs-only / NON_VISUAL / spec_created` でも Phase 11/12 の最小 outputs 実体は本 wave で作成し、runtime evidence は `NOT_EXECUTED` placeholder として分離する必要を確認した。cron 方針は GHA schedule export 主経路 + Cloudflare cron healthcheck 補助に統一し、`op://` 参照名は許可しつつ secret 実値 grep gate と分離した。commit / PR / push は未実行。

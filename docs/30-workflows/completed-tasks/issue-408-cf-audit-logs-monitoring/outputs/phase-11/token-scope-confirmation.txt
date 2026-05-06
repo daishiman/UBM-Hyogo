@@ -1,0 +1,21 @@
+# PLACEHOLDER — replace with actual `cf.sh whoami` output for the AUDIT token
+#
+# Command (audit token override 経由で whoami を実行):
+#   bash scripts/cf.sh audit-log whoami \
+#     > outputs/phase-11/token-scope-confirmation.txt
+#
+# Expected shape (wrangler whoami の policy 表):
+#
+# 👋 You are logged in with an API Token.
+# Account               Account ID
+# UBM-Hyogo             <REDACT>
+#
+# 🔓 Token Permissions:
+# - 'Audit Logs Read' on Account
+#
+# DoD:
+# - 'Audit Logs Read' / 'Audit Logs:Read' いずれかの文言を含むこと
+# - 'Workers Scripts' / 'Workers Routes' / 'D1' / 'Account Settings: Edit' などの
+#   deploy 系 scope を **含まない** こと
+# - Account ID は転記してもよいが、API Token 値は **絶対に転記しない**
+#   （whoami は Token 値を表示しない設計だが、念のため目視確認すること）

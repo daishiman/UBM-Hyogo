@@ -17,6 +17,10 @@ fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 
+if [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
+  export CF_SH_SKIP_WITH_ENV=1
+fi
+
 if [ "${CF_SH_SKIP_WITH_ENV:-0}" != "1" ]; then
   if ! command -v mise >/dev/null 2>&1; then
     echo "[cf.sh] mise が見つかりません" >&2
@@ -117,6 +121,39 @@ fi
 if [ "$1" = "d1:apply-prod" ]; then
   shift
   exec bash "$REPO_ROOT/scripts/d1/apply-prod.sh" "$@"
+fi
+
+if [ "$1" = "audit-log" ]; then
+  shift
+  if [ "$#" -lt 1 ]; then
+    echo "usage: $0 audit-log <fetch|analyze|baseline|whoami> [--flags...]" >&2
+    exit 64
+  fi
+  sub="$1"; shift
+  if [ "$sub" = "whoami" ]; then
+    if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
+      exec env CLOUDFLARE_API_TOKEN="${CF_AUDIT_TOKEN_PROD:?CF_AUDIT_TOKEN_PROD is required}" "$REPO_ROOT/scripts/cf.sh" whoami "$@"
+    fi
+    exec "$REPO_ROOT/scripts/with-env.sh" mise exec -- bash -c '
+      set -euo pipefail
+      exec env CF_SH_SKIP_WITH_ENV=1 \
+        CLOUDFLARE_API_TOKEN="${CF_AUDIT_TOKEN_PROD:?CF_AUDIT_TOKEN_PROD is required}" \
+        bash "$1" whoami "${@:2}"
+    ' _ "$REPO_ROOT/scripts/cf.sh" "$@"
+  fi
+  case "$sub" in
+    fetch)    script_path="$REPO_ROOT/scripts/cf-audit-log/fetch.ts" ;;
+    analyze)  script_path="$REPO_ROOT/scripts/cf-audit-log/analyze.ts" ;;
+    baseline) script_path="$REPO_ROOT/scripts/cf-audit-log/baseline-cli.ts" ;;
+    *)
+      echo "[cf.sh] unknown audit-log subcommand: $sub" >&2
+      exit 64
+      ;;
+  esac
+  if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
+    exec mise exec -- pnpm exec tsx "$script_path" "$@"
+  fi
+  exec "$REPO_ROOT/scripts/with-env.sh" mise exec -- pnpm exec tsx "$script_path" "$@"
 fi
 
 # ローカル wrangler を優先 (グローバルは依存解決が外側に漏れて不安定)
