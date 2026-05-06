@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### U-FIX-CF-ACCT-01-DERIV-01 GitHub OIDC short-lived credentials（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation-spec / NON_VISUAL / Phase 1-13 outputs present / Phase 12 strict outputs present / runtime evidence pending_user_approval |
+| 成果物 | `docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` |
+| 上流 | U-FIX-CF-ACCT-01 Phase 11 verified / Issue #405 closed |
+| 契約 | GitHub Actions deploy auth を長命 `secrets.CLOUDFLARE_API_TOKEN` / `secrets.CLOUDFLARE_API_TOKEN_STAGING` から GitHub OIDC → AWS STS → job-scoped Cloudflare credential retrieval へ移行する target contract |
+| canonical workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
+| gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke。commit / push / PR は独立 user approval |
+| 境界 | 本 cycle では runtime workflow edit / deploy / token revoke / commit / push / PR は未実行。Phase 11 13 evidence と NON_VISUAL companion outputs は RUNTIME_PENDING |
+| 下流 | DERIV-02 scope split, DERIV-03 rotation runbook reframe, DERIV-04 audit monitoring |
+
 ### Issue #351 09c Post-release Dashboard Automation（2026-05-05）
 
 | 項目 | 値 |
