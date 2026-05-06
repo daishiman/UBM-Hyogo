@@ -21,6 +21,21 @@
 | Issue 取扱 | #407 CLOSED 維持。PR 文脈では `Refs #407` のみ |
 | 下流 | U-FIX-CF-ACCT-01-DERIV-01（OIDC 化）後に runbook 改訂または retire |
 
+### 09c Incident Runbook Slack Delivery（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation-spec / NON_VISUAL / Phase 12 strict outputs present / runtime evidence pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/09c-incident-runbook-slack-delivery/` |
+| lessons | `references/lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md`（L-09C-IRSD-001〜005）|
+| Issue 取扱 | Issue #349 は CLOSED 維持。PR / commit 文脈では `Refs #349` のみ |
+| 目的 | 09b/09c incident response runbook を Slack bot で dry-run / production channel に配信し、`message.permalink` / `ts` / `channel` を Phase 11 evidence に保存する |
+| secret境界 | `SLACK_BOT_TOKEN_INCIDENT_RUNBOOK` は 1Password 正本から GitHub Secrets へ派生。channel id は GitHub Variables |
+| gate | `workflow_run` は automatic dry-run のみ。production は `workflow_dispatch` + `production-slack-delivery` environment approval |
+| 起票元 | `docs/30-workflows/unassigned-task/task-09c-incident-runbook-slack-delivery-001.md` consumed |
+| 境界 | real Slack post / GitHub secret mutation / commit / push / PR は user 明示指示後のみ |
+
+
 ### U-FIX-CF-ACCT-01-DERIV-01 GitHub OIDC short-lived credentials（2026-05-06）
 
 | 項目 | 値 |
@@ -149,16 +164,6 @@
 | 検証 | focused unit test / web typecheck / task-spec validator。OAuth visual smoke、session-after、cookie redaction は runtime evidence blocked |
 | 上流 / 下流 | 05a-followup-google-oauth-completion M-08 は本 workflow Phase 11 の実 evidence が揃るまで PASS にしない |
 | Issue 取扱 | #386 は CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ |
-
-### UT-03 Sheets API 認証方式設定（2026-04-29）
-
-| 項目 | 値 |
-| --- | --- |
-| ステータス | completed / Phase 1-12 完了 / Phase 13 pending / NON_VISUAL |
-| 成果物 | `docs/30-workflows/ut-03-sheets-api-auth-setup/` |
-| 実装 | `packages/integrations/google/src/sheets/auth.ts` / `auth.test.ts` / `auth.contract.test.ts` |
-| 公開契約 | `@ubm-hyogo/integrations-google` の `sheets` namespace export |
-| 後続 | UT-09 / UT-21 が consumer。実 Google Sheets API smoke は UT-26 で実施 |
 
 ### UT-07B Schema Alias Hardening（2026-05-01）
 

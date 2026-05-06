@@ -999,6 +999,7 @@
       "arch-execution-capability-contract.md",
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
@@ -2509,6 +2510,7 @@
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
@@ -4037,6 +4039,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
@@ -4063,6 +4066,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
@@ -4325,6 +4329,7 @@
       "claude-code-skills-structure.md",
       "database-schema-ddl-template.md",
       "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
@@ -5344,6 +5349,7 @@
       "deployment-gha.md",
       "deployment-secrets-management.md",
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -5567,6 +5573,7 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
@@ -5683,6 +5690,7 @@
       "deployment-gha.md",
       "deployment-secrets-management.md",
       "environment-variables.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -5839,6 +5847,7 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -5884,6 +5893,7 @@
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md"
@@ -5934,6 +5944,7 @@
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
@@ -6072,7 +6083,8 @@
     "run": [
       "deployment-cloudflare.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
-      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
     ],
     "file": [
       "deployment-cloudflare.md"
@@ -6453,7 +6465,8 @@
       "deployment-secrets-management.md"
     ],
     "secrets": [
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
     ],
     "手編集しない": [
       "deployment-secrets-management.md"
@@ -6463,7 +6476,8 @@
       "testing-fixtures.md"
     ],
     "派生": [
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
     ],
     "操作": [
       "deployment-secrets-management.md"
@@ -6595,6 +6609,7 @@
     ],
     "github": [
       "directory-structure-core.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
     "ルートの設定ファイル群": [
@@ -7753,6 +7768,7 @@
     ],
     "event": [
       "ipc-contract-checklist.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md"
     ],
     "が異なるか確認": [
@@ -8266,7 +8282,8 @@
     ],
     "dry": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
-      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
     ],
     "substitute": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
@@ -8437,6 +8454,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -8763,6 +8781,7 @@
     "job": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md"
     ],
     "type": [
@@ -9012,6 +9031,7 @@
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
@@ -10110,6 +10130,7 @@
     "契約は": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md"
     ],
     "handler": [
@@ -10758,6 +10779,7 @@
     ],
     "Slack": [
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "observability-monitoring.md"
     ],
     "タスクが破綻する": [
@@ -10835,6 +10857,7 @@
     ],
     "Runbook": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "observability-monitoring.md",
@@ -10879,6 +10902,92 @@
     ],
     "を分けて": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
+    ],
+    "Incident": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "observability-monitoring.md"
+    ],
+    "Delivery": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "IRSD": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "トリガーは": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "inputs": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "を使えないので": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "context": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "を立てる": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "の二段ゲートは": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "Environment": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "ui-ux-feature-components-advanced.md"
+    ],
+    "bool": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "入力で多重防御する": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "配信": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "chat": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
+      "logs-archive-2026-01-topic-map-remember-choice.md",
+      "task-workflow-completed-chat-lifecycle-tests-part2.md",
+      "task-workflow-completed-chat-lifecycle-tests.md",
+      "ui-ux-feature-components-advanced.md",
+      "ui-ux-feature-components-theme-chat.md",
+      "ui-ux-navigation-chat-patterns.md"
+    ],
+    "getPermalink": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "で固定リンク化してから保存する": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "CLOSED": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "由来の": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md",
+      "logs-archive-2026-03-line-budget-workflow-consolidation.md"
+    ],
+    "Refs": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
+    ],
+    "のみで完結させる": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "公開前に": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "deployment": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "management": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+    ],
+    "promote": [
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
     ],
     "Production": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
@@ -10936,9 +11045,6 @@
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "状態は": [
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
-    ],
-    "Refs": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
     "を使い": [
@@ -12568,9 +12674,6 @@
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
-    "context": [
-      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
-    ],
     "値を正とする": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
@@ -13334,15 +13437,6 @@
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-abort-security-loop-guard.md"
-    ],
-    "chat": [
-      "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
-      "logs-archive-2026-01-topic-map-remember-choice.md",
-      "task-workflow-completed-chat-lifecycle-tests-part2.md",
-      "task-workflow-completed-chat-lifecycle-tests.md",
-      "ui-ux-feature-components-advanced.md",
-      "ui-ux-feature-components-theme-chat.md",
-      "ui-ux-navigation-chat-patterns.md"
     ],
     "WCE": [
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -14822,11 +14916,6 @@
     "駆動ライフサイクル統合設計の仕様同期": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
     ],
-    "由来の": [
-      "logs-archive-2026-03-ipc-fallback-phase12-sync.md",
-      "logs-archive-2026-03-line-budget-reform-formalize.md",
-      "logs-archive-2026-03-line-budget-workflow-consolidation.md"
-    ],
     "domain": [
       "logs-archive-2026-03-ipc-fallback-phase12-sync.md"
     ],
@@ -15337,9 +15426,6 @@
       "observability-monitoring.md"
     ],
     "恒久対策": [
-      "observability-monitoring.md"
-    ],
-    "Incident": [
       "observability-monitoring.md"
     ],
     "Response": [
@@ -17369,9 +17455,6 @@
       "ui-ux-feature-components-advanced.md"
     ],
     "Custom": [
-      "ui-ux-feature-components-advanced.md"
-    ],
-    "Environment": [
       "ui-ux-feature-components-advanced.md"
     ],
     "Wiring": [
