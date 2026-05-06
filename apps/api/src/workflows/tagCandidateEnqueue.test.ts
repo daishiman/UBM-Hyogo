@@ -1,13 +1,16 @@
 // @vitest-environment node
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { setupD1, type InMemoryD1 } from "../repository/__tests__/_setup";
-import { enqueueTagCandidate } from "./tagCandidateEnqueue";
+import { enqueueTagCandidate, parsePaused } from "./tagCandidateEnqueue";
 
 describe("enqueueTagCandidate (07a candidate auto-enqueue hook)", () => {
   let env: InMemoryD1;
   beforeEach(async () => {
     env = await setupD1();
   }, 30000);
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it("AC-8: member_tags 空 + 未解決 queue 無し → enqueued=true", async () => {
     const r = await enqueueTagCandidate(env.ctx, {
@@ -85,5 +88,65 @@ describe("enqueueTagCandidate (07a candidate auto-enqueue hook)", () => {
       .prepare("SELECT COUNT(*) AS n FROM tag_assignment_queue WHERE member_id = 'm1'")
       .first<{ n: number }>();
     expect(count?.n).toBe(1);
+  });
+
+  it("TAG_QUEUE_PAUSED 未設定で enqueue される", async () => {
+    const r = await enqueueTagCandidate(
+      env.ctx,
+      {
+        memberId: "m1",
+        responseId: "r1",
+      },
+      parsePaused({}),
+    );
+    expect(r.enqueued).toBe(true);
+  });
+
+  it('TAG_QUEUE_PAUSED="false" で enqueue される', async () => {
+    const r = await enqueueTagCandidate(
+      env.ctx,
+      {
+        memberId: "m1",
+        responseId: "r1",
+      },
+      parsePaused({ TAG_QUEUE_PAUSED: "false" }),
+    );
+    expect(r.enqueued).toBe(true);
+  });
+
+  it('TAG_QUEUE_PAUSED="true" で D1 に触らず paused reason と structured log を返す', async () => {
+    const prepareSpy = vi.spyOn(env.db, "prepare");
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    const r = await enqueueTagCandidate(
+      env.ctx,
+      {
+        memberId: "m1",
+        responseId: "r1",
+      },
+      parsePaused({ TAG_QUEUE_PAUSED: "true" }),
+    );
+
+    expect(r).toEqual({ enqueued: false, reason: "paused" });
+    expect(prepareSpy).not.toHaveBeenCalled();
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy.mock.calls[0]?.[0]).toEqual(
+      expect.stringContaining('"code":"UBM-TAGQ-PAUSED"'),
+    );
+    expect(warnSpy.mock.calls[0]?.[0]).toEqual(
+      expect.stringContaining('"reason":"paused"'),
+    );
+  });
+});
+
+describe("parsePaused", () => {
+  it.each([
+    [{}, false],
+    [{ TAG_QUEUE_PAUSED: "false" }, false],
+    [{ TAG_QUEUE_PAUSED: "true" }, true],
+    [{ TAG_QUEUE_PAUSED: "True" }, false],
+    [{ TAG_QUEUE_PAUSED: "1" }, false],
+  ] as const)("parses %j as %s", (env, expected) => {
+    expect(parsePaused(env)).toBe(expected);
   });
 });

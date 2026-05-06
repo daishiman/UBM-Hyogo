@@ -2255,6 +2255,18 @@ node scripts/list-specs.js --topics
 | Same-Wave Touched Files | L44 |
 | Boundary | L66 |
 
+### references/workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L9 |
+| Implementation Artifacts | L16 |
+| Runtime Contract | L25 |
+| Evidence | L33 |
+| System Spec Sync | L44 |
+| Invariants | L57 |
+
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
 | セクション | 行 |
@@ -3405,14 +3417,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L130 |
-| 環境別設定 | L204 |
-| Electron アプリでの環境変数 | L258 |
-| トラブルシューティング | L315 |
-| チーム開発での運用 | L376 |
-| 必須環境変数一覧 | L415 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L476 |
-| 関連ドキュメント | L497 |
+| セキュリティベストプラクティス | L131 |
+| 環境別設定 | L205 |
+| Electron アプリでの環境変数 | L259 |
+| トラブルシューティング | L316 |
+| チーム開発での運用 | L377 |
+| 必須環境変数一覧 | L416 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L477 |
+| 関連ドキュメント | L498 |
 
 ### references/error-handling-core.md
 

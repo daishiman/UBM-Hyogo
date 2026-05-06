@@ -162,6 +162,8 @@ UI は `responseEmailMasked` だけを表示し、merge reason に含まれる e
 
 Forms 同期から発生する tag candidate は `tag_assignment_queue` に投入し、管理者が `/admin/tags/queue` で確認する。`GET /admin/tags/queue?status=dlq` は retry 上限超過行を表示できる。通常の確認結果は `POST /admin/tags/queue/:queueId/resolve` で `resolved` / `rejected` に進める。
 
+Issue #378 以降、緊急停止時は Cloudflare Workers variable `TAG_QUEUE_PAUSED` を lower-case `"true"` にして API Worker を redeploy すると、Forms sync からの新規 candidate enqueue だけを停止する。未設定 / `"false"` / `"True"` / `"1"` は enqueue 有効として扱う。停止中も既存 queue の一覧・resolve・reject は継続し、停止時は `UBM-TAGQ-PAUSED` structured log を出す。
+
 現行 candidate row は tagCode 未確定のため、重複防止は `<memberId>:<responseId>` の `idempotency_key` で行う。`member_tags` への直接編集 UI / API は作らず、確定書き込みは 07a resolve workflow の guarded update 成功後だけ許可する。Issue #377 retry tick は `reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL` の行だけを処理し、plain human-review `queued` は skip する。DLQ 移送時は `admin.tag.queue_dlq_moved` audit を残す。DLQ requeue は別 follow-up として維持する。
 
 ---
