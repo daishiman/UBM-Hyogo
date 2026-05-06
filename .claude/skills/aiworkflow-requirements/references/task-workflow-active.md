@@ -136,6 +136,22 @@
 | 検証 | local typecheck / lint / vitest（schemaDiffQueue / schemaAliasAssign / schemaAliasBackfillBatch / schemaAliasEnqueue / route schema） 38 tests PASS。staging deploy / Cloudflare Queue binding apply / production apply は user 明示承認まで未実行 |
 | 境界 | Phase 11 staging evidence による runtime gate 判定本体は実走しておらず、user 明示で local implementation GO として実装した。staging Queue/DLQ 作成、Cloudflare deploy、production migration apply、commit、push、PR、Issue #361 comment/reopen は未実行。Issue #361 は CLOSED 維持で `Refs #361` のみ |
 
+### UT-07B-FU-02 Admin Schema Alias Retry Label（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | implemented-local |
+| implementation state | implementation |
+| visualEvidence | VISUAL_ON_EXECUTION |
+| Phase 11 | component evidence PASS / runtime screenshot pending |
+| Phase 12 | strict 7 outputs present |
+| issue | #362 CLOSED (PR text: `Refs #362` only) |
+| 成果物 | `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/` |
+| 目的 | HTTP 202 + `backfill.status='exhausted'` + `retryable=true` + `code='backfill_cpu_budget_exhausted'` を `/admin/schema` UI で通常 success / validation error / conflict error と区別し、続きから再試行できる状態として表示する |
+| 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.test.ts` / `SchemaDiffPanel.test.tsx` |
+| 検証 | focused Vitest 30 tests PASS。JUnit: `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/outputs/phase-11/test-junit.xml` |
+| 境界 | API contract / D1 schema / queue-cron workflow は変更しない。manual screenshot / commit / push / PR は user-gated。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md`（L-UT07B-FU02-001 5 点 narrowing / L-002 confirmed と backfill.status の責務分離 / L-003 code 不一致 fallback / L-004 4 状態 manual screenshot deferred） |
+
 ### UT-07B-FU-03 Production Migration Apply Runbook（2026-05-02）
 
 | 項目 | 値 |

@@ -572,6 +572,7 @@
       "api-core.md",
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "ステータスコード": [
@@ -659,6 +660,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "ui-ux-admin-dashboard.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md"
     ],
@@ -1527,6 +1529,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "llm-ipc-types.md",
       "llm-streaming.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -2692,6 +2695,7 @@
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
@@ -3206,6 +3210,7 @@
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-governance-design-category.md"
@@ -4194,6 +4199,7 @@
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-01-system-spec-gap-skill-retry.md",
@@ -5102,6 +5108,7 @@
       "lessons-learned-03a-parallel-forms-schema-sync.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
@@ -5174,6 +5181,7 @@
       "legacy-ordinal-family-register.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
@@ -5942,6 +5950,7 @@
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
@@ -7888,6 +7897,7 @@
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
@@ -8094,6 +8104,7 @@
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "spec-splitting-guidelines.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md"
     ],
@@ -8210,7 +8221,8 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
     ],
     "true": [
-      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
+      "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
     ],
     "を維持する": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
@@ -8893,6 +8905,7 @@
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
@@ -8902,7 +8915,8 @@
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
     ],
     "要更新": [
       "lessons-learned-04b-admin-queue-resolve-2026-05.md"
@@ -8931,6 +8945,7 @@
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
     "delegated": [
@@ -9778,7 +9793,8 @@
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md"
     ],
     "predicate": [
-      "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md"
+      "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
     ],
     "model": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md"
@@ -10662,7 +10678,8 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
     ],
     "generic": [
-      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
     ],
     "名と": [
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
@@ -11208,6 +11225,7 @@
     "Retry": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md"
     ],
     "Tick": [
@@ -11480,6 +11498,7 @@
     ],
     "retryable": [
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
     "failure": [
@@ -12012,7 +12031,8 @@
     ],
     "confirmed": [
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
-      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
     ],
     "rejected": [
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
@@ -12619,7 +12639,8 @@
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
     ],
     "backfill": [
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
     ],
     "Internal": [
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
@@ -12651,6 +12672,50 @@
     ],
     "と明示する": [
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+    ],
+    "Label": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "continuation": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "点完全合致で": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "narrowing": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "exhausted": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "は責務を分離して": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "に渡す": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "不一致は": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "にフォールバックする": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "状態同時": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "override": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "manual": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
+      "ui-history-integration.md"
+    ],
+    "から分離する": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+    ],
+    "適用対象": [
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
+      "skill-ledger-gitignore-policy.md"
     ],
     "formalization": [
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md"
@@ -15833,9 +15898,6 @@
     "非管理化": [
       "skill-ledger-gitignore-policy.md"
     ],
-    "適用対象": [
-      "skill-ledger-gitignore-policy.md"
-    ],
     "generated": [
       "skill-ledger-gitignore-policy.md"
     ],
@@ -16871,9 +16933,6 @@
       "ui-history-integration.md"
     ],
     "setup": [
-      "ui-history-integration.md"
-    ],
-    "manual": [
       "ui-history-integration.md"
     ],
     "HistorySearchView": [
