@@ -164,7 +164,16 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 ---
 
-`MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile` と admin member detail の builder に `createAttendanceProvider(ctx)` を注入する。
+`MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持する。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile` と admin member detail は default 50 件の先頭ページを返す。
+
+### Attendance pagination
+
+| Endpoint | 認証 | Query | Response |
+| --- | --- | --- | --- |
+| `GET /me/attendance` | member session | `limit?: 1..200`, `cursor?: string` | `{ records: AttendanceRecord[], hasMore: boolean, nextCursor: string | null }` |
+| `GET /admin/members/:memberId/attendance` | admin session | `limit?: 1..200`, `cursor?: string` | `{ records: AttendanceRecord[], hasMore: boolean, nextCursor: string | null }` |
+
+cursor は `{ heldOn, sessionId }` を base64url JSON 化した不透明文字列で、sort は `held_on DESC, session_id DESC`。不正 cursor は 400、`limit < 1` は 400、`limit > 200` は 200 に clamp する。既存 `createAttendanceProvider(ctx).findByMemberIds(ids)` は bulk read の後方互換 API として維持し、個人ページングは `findByMemberId(id, { limit, cursor })` を使う。
 
 ## API health contract: GET /health/db
 

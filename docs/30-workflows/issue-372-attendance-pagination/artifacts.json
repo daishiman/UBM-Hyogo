@@ -1,0 +1,67 @@
+{
+  "task_id": "issue-372-attendance-pagination",
+  "parent_issue": "https://github.com/daishiman/UBM-Hyogo/issues/372",
+  "issue_state": "CLOSED",
+  "source_unassigned_task": "docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/ut-02a-followup-004-attendance-pagination.md",
+  "created_at": "2026-05-06",
+  "task_type": "implementation",
+  "visual_evidence": "VISUAL",
+  "implementation_mode": "implementation_spec",
+  "priority": "LOW",
+  "status": "implemented-local",
+  "expected_pr_count": 1,
+  "coverage_ac": "no_regression_plus_new_pagination_cases",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented_local_phase11_visual_pending",
+    "scope": {
+      "includes": [
+        "apps/api/src/repository/attendance.ts findByMemberId(id, {limit, cursor}) addition",
+        "apps/api/src/repository/_shared/builder.ts attendancePage deps",
+        "packages/shared/src/types/viewmodel attendanceMeta optional field",
+        "packages/shared/src/zod/viewmodel attendanceMeta zod schema",
+        "apps/api/src/routes/me/index.ts /me/profile + /me/attendance",
+        "apps/api/src/routes/admin/members.ts attendance pagination",
+        "apps/web profile and admin attendance load-more UI",
+        "docs/00-getting-started-manual/specs/01-api-schema.md update",
+        "Phase 12 cursor encoding runbook"
+      ],
+      "excludes": [
+        "findByMemberIds bulk pagination",
+        "dashboard analytics (followup-002)",
+        "write path (followup-001)",
+        "virtual scroll / prefetch UX",
+        "Git commit without user approval",
+        "GitHub push without user approval",
+        "PR creation without user approval"
+      ]
+    }
+  },
+  "phases": {
+    "phase-1": {"spec": "phase-01.md", "canonical": "phase-01.md", "planned_output": "outputs/phase-1/phase-1.md", "status": "completed_by_user_instruction"},
+    "phase-2": {"spec": "phase-02.md", "canonical": "phase-02.md", "planned_output": "outputs/phase-2/phase-2.md", "status": "completed"},
+    "phase-3": {"spec": "phase-03.md", "canonical": "phase-03.md", "planned_output": "outputs/phase-3/phase-3.md", "status": "completed"},
+    "phase-4": {"spec": "phase-04.md", "canonical": "phase-04.md", "planned_output": "outputs/phase-4/phase-4.md", "status": "completed"},
+    "phase-5": {"spec": "phase-05.md", "canonical": "phase-05.md", "planned_output": "outputs/phase-5/phase-5.md", "status": "implemented-local"},
+    "phase-6": {"spec": "phase-06.md", "canonical": "phase-06.md", "planned_output": "outputs/phase-6/phase-6.md", "status": "focused_tests_passed"},
+    "phase-7": {"spec": "phase-07.md", "canonical": "phase-07.md", "planned_output": "outputs/phase-7/phase-7.md", "status": "focused_coverage_evidence"},
+    "phase-8": {"spec": "phase-08.md", "canonical": "phase-08.md", "planned_output": "outputs/phase-8/phase-8.md", "status": "completed"},
+    "phase-9": {"spec": "phase-09.md", "canonical": "phase-09.md", "planned_output": "outputs/phase-9/phase-9.md", "status": "focused_green_full_gate_env_blocked"},
+    "phase-10": {"spec": "phase-10.md", "canonical": "phase-10.md", "planned_output": "outputs/phase-10/phase-10.md", "status": "completed"},
+    "phase-11": {"spec": "phase-11.md", "canonical": "phase-11.md", "planned_output": "outputs/phase-11/phase-11.md", "status": "blocked_pending_staging_visual_evidence"},
+    "phase-12": {"spec": "phase-12.md", "canonical": "phase-12.md", "planned_output": "outputs/phase-12/main.md", "status": "completed"},
+    "phase-13": {"spec": "phase-13.md", "canonical": "phase-13.md", "planned_output": "outputs/phase-13/phase-13.md", "status": "pending_user_approval"}
+  },
+  "scope_const_007": {
+    "single_pr_cycle": true,
+    "deferred_tasks": [],
+    "rationale": "backend repository / builder / route, shared type + zod, apps/web profile & admin UI load-more, API schema docs, tests, Phase 12 runbook を 1 サイクルで完了。findByMemberIds 一括 API のページング化は技術的破綻があるため明示除外（個人特化 findByMemberId に分離する設計で吸収）。"
+  },
+  "related_tasks": [
+    "ut-02a-attendance-profile-integration",
+    "ut-02a-followup-001",
+    "ut-02a-followup-002"
+  ]
+}

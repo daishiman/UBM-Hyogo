@@ -41,6 +41,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -934,6 +935,7 @@
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
       "interfaces-agent-sdk-integration.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "security-skill-ipc-core.md",
       "skill-ledger-fragment-spec.md"
@@ -2510,6 +2512,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -3229,6 +3232,7 @@
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
     ],
     "ステータスコード処理方針": [
@@ -3832,6 +3836,7 @@
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
@@ -3893,6 +3898,7 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "resolve": [
@@ -4197,6 +4203,7 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
@@ -4889,6 +4896,7 @@
       "workflow-governance-design-category.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -4985,6 +4993,7 @@
       "post-release-long-term-observation.md",
       "release-runbook.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
@@ -5012,6 +5021,7 @@
       "database-admin-repository-boundary.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
@@ -5351,6 +5361,7 @@
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
@@ -5483,6 +5494,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
@@ -5505,6 +5517,7 @@
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
@@ -5826,6 +5839,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
@@ -5935,6 +5949,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
@@ -6072,14 +6087,16 @@
     "run": [
       "deployment-cloudflare.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
-      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md"
+      "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
     ],
     "file": [
       "deployment-cloudflare.md"
     ],
     "Password": [
       "deployment-cloudflare.md",
-      "deployment-secrets-management.md"
+      "deployment-secrets-management.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
     ],
     "から": [
       "deployment-cloudflare.md",
@@ -6158,6 +6175,7 @@
     ],
     "には": [
       "deployment-cloudflare.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
@@ -7961,6 +7979,7 @@
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
@@ -8021,6 +8040,7 @@
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
@@ -8693,7 +8713,8 @@
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
     ],
     "vitest": [
-      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
+      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
     ],
     "の二段で担保": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
@@ -8866,6 +8887,7 @@
     "cursor": [
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
@@ -9200,6 +9222,8 @@
     "attendance": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
@@ -9272,8 +9296,10 @@
     "pagination": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md"
     ],
     "で必ず分岐する": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -9724,7 +9750,8 @@
       "lessons-learned-06a-public-web-2026-04.md"
     ],
     "string": [
-      "lessons-learned-06a-public-web-2026-04.md"
+      "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
     ],
     "加工フォールバックに不足": [
       "lessons-learned-06a-public-web-2026-04.md"
@@ -9993,6 +10020,7 @@
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
@@ -10529,6 +10557,7 @@
     ],
     "Attendance": [
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md"
     ],
@@ -10712,6 +10741,7 @@
     ],
     "blocker": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
     ],
     "realignment": [
@@ -10910,7 +10940,8 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
     "にしない": [
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
     ],
     "を分けて記録する": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
@@ -11222,6 +11253,7 @@
     ],
     "ISSUE": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
     ],
     "governance": [
@@ -11239,7 +11271,8 @@
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
     ],
     "に分離する": [
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
     ],
     "first": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -11366,6 +11399,102 @@
     "Cutover": [
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md"
     ],
+    "Pagination": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "encoded": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "境界と": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "decoded": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "構造体境界を": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "builder": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "で明確に分ける": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "既存": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "bulk": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "findByMemberIds": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "を混ぜず個人特化": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "を追加する": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "MemberProfile": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "配列は維持し": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "メタ情報は": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "optional": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "attendanceMeta": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "miniflare": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "全体": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "EADDRNOTAVAIL": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "でポート枯渇する": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "focused": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md"
+    ],
+    "を採用する": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "authorization": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
+    ],
+    "timeout": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
+      "task-workflow-completed-skill-lifecycle-security.md",
+      "task-workflow-completed-ut-06-safety-gate.md",
+      "workflow-permission-fallback-abort-skip-retry.md"
+    ],
+    "でフルビルドが落ちても": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "コード起因と環境起因を切り分けて記録する": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "必要なので": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+    ],
+    "参照元": [
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
     "Retry": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -11410,10 +11539,6 @@
     ],
     "を見る": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md"
-    ],
-    "focused": [
-      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
-      "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "から始める": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md"
@@ -11756,9 +11881,6 @@
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
     ],
     "で保つ": [
-      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
-    ],
-    "参照元": [
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
     ],
     "against": [
@@ -12120,9 +12242,6 @@
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
     ],
     "実体を優先する": [
-      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
-    ],
-    "optional": [
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
     ],
     "provider": [
@@ -16584,12 +16703,6 @@
       "task-workflow-completed-skill-lifecycle-security.md",
       "task-workflow-completed-ut-06-safety-gate.md"
     ],
-    "timeout": [
-      "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
-      "task-workflow-completed-skill-lifecycle-security.md",
-      "task-workflow-completed-ut-06-safety-gate.md",
-      "workflow-permission-fallback-abort-skip-retry.md"
-    ],
     "PreToolUse": [
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md"
     ],
@@ -17818,6 +17931,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
@@ -17881,6 +17995,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
@@ -17972,6 +18087,7 @@
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -17996,6 +18112,7 @@
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -18291,6 +18408,7 @@
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
@@ -18612,9 +18730,6 @@
     ],
     "Rename": [
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
-    ],
-    "authorization": [
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
     "Full": [
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
