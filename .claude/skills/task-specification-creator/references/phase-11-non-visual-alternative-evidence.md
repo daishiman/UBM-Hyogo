@@ -346,6 +346,33 @@ done
 - staging が applied / production が pending の状態は正常な intermediate state であり、
   `d1-schema-parity.md` の `applied=mismatch_expected` セクションで明示する
 
+## Monitoring workflow evidence 7区分
+
+issue-408（Cloudflare Audit Logs monitoring）で確立した、monitoring/observability workflow 系タスクの Phase 11 NON_VISUAL evidence 標準 7 区分。Phase 11 outputs に下記 7 ファイルを揃えることで「workflow が正しく稼働し、検出/通知/抑制/baseline 計算が想定通り動く」ことを runtime 非依存に近い形で示す。
+
+| # | ファイル | 主目的 |
+| --- | --- | --- |
+| 1 | `token_scope_confirmation.json` | API Token の scope dump。`Audit Logs:Read` 等、必要権限のみで余剰権限がないことを示す |
+| 2 | `workflow_success.log` | 直近 24h 内の workflow run success ログ。GitHub Actions / Cron 双方含む |
+| 3 | `d1_row_count.json` | monitoring が D1 テーブルへ INSERT した行数（直近 1h）。データ取り込みの実体証跡 |
+| 4 | `synthetic_issue.md` | 合成データ（fixture）で alert 経路を検証した結果。起票された Issue 本文・URL・close ログ |
+| 5 | `dedup_check.json` | fingerprint dedup により duplicate Issue 起票が抑制されたことを示すログ |
+| 6 | `watchdog_status.json` | watchdog workflow heartbeat 確認。「monitor 自体が落ちていないか」の自己監視 |
+| 7 | `baseline_artifact.json` | 7 日 baseline 計算結果。anomaly 判定に用いる統計値の snapshot |
+
+### `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` placeholder 適用シーン
+
+7 区分のうち runtime 完了が前提となるもの（特に #1 production token、#2 production workflow run、#7 ML 用の 90 日 baseline）は、コード/設定 merge 段階では取得できない。その場合、当該ファイルに次の placeholder で記録する:
+
+```
+PASS_BOUNDARY_SYNCED_RUNTIME_PENDING
+runtime_blocker: <production_token_not_issued | baseline_days_insufficient | ...>
+expected_complete_after: <YYYY-MM-DD or condition>
+followup_task: <FU-NN-slug or N/A>
+```
+
+これにより Phase 11 自体は PASS とし、runtime 完了後に同ファイルを実値で上書きする運用とする。`unassigned-task-detection-guide.md` の Followup Task 命名規約と組み合わせ、FU として fully tracked にする。
+
 ## 関連
 
 - `phase-11-guide.md`（base ガイド）
@@ -354,3 +381,4 @@ done
 - Cloudflare preflight 実例: `docs/30-workflows/completed-tasks/ut-06-fu-a-prod-route-secret-001-worker-migration-verification/outputs/phase-11/`
 - Cloudflare CLI ラッパー: `scripts/cf.sh`（`CLAUDE.md` §Cloudflare 系 CLI 実行ルール）
 - D1 parity 適用元: `docs/30-workflows/09a-A-staging-deploy-smoke-execution-task-spec/`
+- monitoring evidence 7 区分の起源: issue-408 Cloudflare Audit Logs monitoring

@@ -6,7 +6,7 @@ state: completed
 
 | ID | Task | Reason | Location |
 | --- | --- | --- | --- |
-| task-issue-347-cloudflare-analytics-export-automation-001 | Cloudflare Analytics monthly export automation | Decision workflow intentionally stops at canonical method / schema / retention. Automation requires API token handling, GitHub Actions cron, and runtime Cloudflare validation, which is an independent implementation / ops scope. | `docs/30-workflows/unassigned-task/task-issue-347-cloudflare-analytics-export-automation-001.md` |
+| task-issue-347-cloudflare-analytics-export-automation-001 | Cloudflare Analytics monthly export automation | Decision workflow intentionally stops at canonical method / schema / retention. Automation requires API token handling, GitHub Actions cron, and runtime Cloudflare validation, which is an independent implementation / ops scope. Consumed by Issue #484 implementation spec on 2026-05-06. | source trace: `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md`; current spec: `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` |
 
 ## CONST_005 classification
 
