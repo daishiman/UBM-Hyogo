@@ -11,10 +11,10 @@ printf 'Authorization: Bearer sample\n' > "$TMP_DIR/fail/dashboard.md"
 
 bash "$SCRIPT_DIR/../lib/redaction-check.sh" "$TMP_DIR/pass" >/dev/null
 test -f "$TMP_DIR/pass/redaction-check.md"
-rg -F "status: PASS" "$TMP_DIR/pass/redaction-check.md" >/dev/null
+grep -F "status: PASS" "$TMP_DIR/pass/redaction-check.md" >/dev/null
 if bash "$SCRIPT_DIR/../lib/redaction-check.sh" "$TMP_DIR/fail" >/dev/null 2>&1; then
   echo "redaction check should fail on sensitive markers" >&2
   exit 1
 fi
 test -f "$TMP_DIR/fail/redaction-check.md"
-rg -F "status: FAIL" "$TMP_DIR/fail/redaction-check.md" >/dev/null
+grep -F "status: FAIL" "$TMP_DIR/fail/redaction-check.md" >/dev/null

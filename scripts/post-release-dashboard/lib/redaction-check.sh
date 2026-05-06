@@ -15,7 +15,7 @@ fi
 REPORT="$TARGET_DIR/redaction-check.md"
 PATTERN="(token|bearer|secret|CLOUDFLARE_API_TOKEN|Authorization)"
 
-if findings="$(rg -i -l "$PATTERN" "$TARGET_DIR" --glob '!redaction-check.md')" && [ -n "$findings" ]; then
+if findings="$(grep -ril -E "$PATTERN" "$TARGET_DIR" --exclude='redaction-check.md')" && [ -n "$findings" ]; then
   {
     echo "# Redaction Check"
     echo
