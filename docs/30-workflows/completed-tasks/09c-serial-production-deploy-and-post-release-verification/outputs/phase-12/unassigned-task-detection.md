@@ -11,7 +11,7 @@ Runtime evidence: pending_user_approval
 | Automate 24h Cloudflare dashboard verification with API / scheduled job. | Future task; not required for MVP. | `docs/30-workflows/unassigned-task/task-09c-post-release-dashboard-automation-001.md` |
 | Auto-create GitHub Releases from release tags. | Future task; keep manual tag for MVP. | `docs/30-workflows/unassigned-task/task-09c-github-release-tag-automation-001.md` |
 | Slack bot delivery for incident response runbook. | Future task; manual Slack/Email evidence is enough now. | `docs/30-workflows/unassigned-task/task-09c-incident-runbook-slack-delivery-001.md` |
-| 1-week and 1-month production cost trend review. | Operational follow-up candidate. | `docs/30-workflows/unassigned-task/task-09c-long-term-production-observation-001.md` |
+| 1-week and 1-month production cost trend review. | Operational follow-up candidate. | `docs/30-workflows/unassigned-task/task-09c-long-term-production-observation-001.md` -> consumed by `docs/30-workflows/issue-350-long-term-production-observation/` (2026-05-06) |
 | Long-term Cloudflare Analytics export / retention. | Future task; evaluate free-tier and privacy constraints. | `docs/30-workflows/unassigned-task/task-09c-cloudflare-analytics-export-001.md` |
 | Postmortem template automation. | Future task after first incident exercise. | `docs/30-workflows/unassigned-task/task-09c-postmortem-template-automation-001.md` |
 | 08a canonical workflow tree is missing while 09c depends on the contract gate. | Large cross-workflow cleanup; do not solve inside 09c. | `docs/30-workflows/unassigned-task/task-08a-canonical-workflow-tree-restore-001.md` |
