@@ -2662,6 +2662,19 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L14 |
 
+### references/workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Core workflow files | L7 |
+| Required outputs | L14 |
+| Runtime evidence root | L33 |
+| Runtime execution contract | L39 |
+| Related task and blocker | L57 |
+| Historical root note | L65 |
+| Wave Type | L69 |
+| Lessons learned | L73 |
+
 ### references/workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md
 
 | セクション | 行 |
