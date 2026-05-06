@@ -17,11 +17,13 @@ issue_number: 348
 | 対象機能 | GitHub Release / release note |
 | 優先度 | 中 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed / formalized |
 | 発見元 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-01 |
 
 ## 1. なぜこのタスクが必要か（Why）
+
+> Canonical Status: consumed by `docs/30-workflows/issue-348-09c-github-release-tag-automation/` on 2026-05-06. This file remains as a historical pointer only; do not execute it as an open unassigned task.
 
 09c では release tag `vYYYYMMDD-HHMM` の作成手順はあるが、GitHub Release の作成と release note の生成は未割当である。tag だけでは、何が production に出たか、どの evidence に対応するかを GitHub 上で追跡しづらい。
 
