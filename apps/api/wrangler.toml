@@ -66,6 +66,10 @@ SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 RETENTION_PURGE_MODE = "dry-run"
 
+# 09b-A production smoke uses Cloudflare Secrets, not vars:
+# SENTRY_DSN_API / SLACK_WEBHOOK_INCIDENT / SMOKE_ADMIN_TOKEN.
+# Provision with `bash scripts/cf.sh secret put --env production <NAME>`.
+
 # production は Cloudflare free plan の account cron 上限を避けるため 3 本以内に絞る。
 # - 03a schema sync: 03:00 JST (= 18:00 UTC)
 # - 03b Forms response sync: 15 分ごと
@@ -112,6 +116,9 @@ SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 RETENTION_PURGE_MODE = "dry-run"
+
+# 09b-A staging smoke uses the same secret names as production with env-scoped values:
+# SENTRY_DSN_API / SLACK_WEBHOOK_INCIDENT / SMOKE_ADMIN_TOKEN.
 
 # staging は production と同じ 3 本上限に合わせる。legacy Sheets hourly sync は手動限定。
 [env.staging.triggers]
