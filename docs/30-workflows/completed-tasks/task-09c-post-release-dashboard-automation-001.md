@@ -17,7 +17,7 @@ issue_number: 351
 | 対象機能 | GitHub Actions / Cloudflare metrics |
 | 優先度 | 中 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | formalized（`docs/30-workflows/issue-351-09c-post-release-dashboard-automation/` に移管済み） |
 | 発見元 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-01 |
 
@@ -74,6 +74,8 @@ rg -n "post-release|dashboard|Cloudflare Analytics" .github/workflows docs/30-wo
 - `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare-opennext-workers.md`
 
 ## 9. 備考
+
+2026-05-05: `docs/30-workflows/issue-351-09c-post-release-dashboard-automation/` として formalize 済み。起票元 task は履歴 stub として残し、実装・証跡・Phase 12 close-out は移管先 workflow を正本とする。
 
 ## 苦戦箇所【記入必須】
 
