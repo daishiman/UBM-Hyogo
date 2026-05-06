@@ -203,6 +203,18 @@ stateDiagram-v2
 - approve 前に対象 `member_status` がない場合は 404 とし、note は pending のまま残す。
 - 二重 resolve は `WHERE request_status='pending'` の楽観ロックで 409 にする。
 
+### 管理者 resolve 後の本人通知（Issue #401）
+
+`POST /admin/requests/:noteId/resolve` は、resolve transaction 完了後に本人通知を best-effort で `notification_outbox` へ enqueue する。通知 enqueue は `member_status` / `admin_member_notes` / `audit_log` の D1 batch とは疎結合であり、enqueue 失敗や宛先 email 不在で resolve transaction を rollback しない。
+
+- 宛先は `member_identities.response_email` を読む。空 / NULL / row 不在は warning log のみで継続する。
+- retryable failure は `notification_outbox.status='pending'` に戻し、`retry_count` と `next_attempt_at` で再試行する。
+- `MAIL_PROVIDER_KEY` missing / `.example` placeholder sender の場合、dispatch tick は claim 前に skip し、pending row を DLQ に流さない。
+- stale `dispatching` row は lease timeout 後に再 claim する。
+- `notification_ledger.detail_json` には provider message id / sanitized error class / retryable 等だけを記録し、raw `resolutionNote` や provider error body は保存しない。raw `resolutionNote` は email / `notification_outbox.reason_summary` にもコピーしない。
+- mail credential は 05b-A 正本の `MAIL_PROVIDER_KEY`、差出人は `MAIL_FROM_ADDRESS` を使う。
+- cron は既存 `*/5 * * * *` branch に統合し、新しい cron expression は追加しない。
+
 ---
 
 ## 事故防止ルール
