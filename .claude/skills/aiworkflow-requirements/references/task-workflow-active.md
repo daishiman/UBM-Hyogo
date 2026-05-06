@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #351 09c Post-release Dashboard Automation（2026-05-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / Phase 1-12 outputs present / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-351-09c-post-release-dashboard-automation/` |
+| 目的 | 09c post-release verification の 24h metrics を GitHub Actions schedule / workflow_dispatch で自動収集し、artifact として保存する |
+| 実装対象 | `.github/workflows/post-release-dashboard.yml`, `scripts/post-release-dashboard/`, `scripts/cf.sh api-post`, `.gitignore` |
+| secret境界 | analytics 用 read-only secret `CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY` を production deploy 用 `CLOUDFLARE_API_TOKEN` から分離 |
+| artifact | `outputs/post-release-dashboard/<UTC-yyyy-mm-dd>/dashboard.{json,md}` と redaction / schema check evidence |
+| 起票元 | `docs/30-workflows/unassigned-task/task-09c-post-release-dashboard-automation-001.md` は formalized |
+| Issue 取扱 | #351 CLOSED 維持。commit / push / PR / real workflow dispatch / schedule evidence collection は user 明示指示後のみ |
+
 ### task-05a-form-preview-503-001（2026-05-05）
 
 | 項目 | 値 |
