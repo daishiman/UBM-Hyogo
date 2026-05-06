@@ -2223,6 +2223,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L17 |
 
+### references/workflow-issue-352-postmortem-template-automation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L9 |
+| Implementation Artifacts | L15 |
+| Runtime Contract | L23 |
+| Evidence | L31 |
+| System Spec Sync | L38 |
+
 ### references/workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md
 
 | セクション | 行 |
