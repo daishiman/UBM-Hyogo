@@ -149,7 +149,7 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
       .prepare(
         "SELECT action, target_type AS targetType, target_id AS targetId, after_json AS afterJson FROM audit_log WHERE target_id = ?1",
       )
-      .bind("m_alice")
+      .bind(note.noteId)
       .first<{
         action: string;
         targetType: string;
@@ -157,10 +157,11 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
         afterJson: string;
       }>();
     expect(audit?.action).toBe("admin.request.approve");
-    expect(audit?.targetType).toBe("member");
-    expect(audit?.targetId).toBe("m_alice");
+    expect(audit?.targetType).toBe("admin_member_note");
+    expect(audit?.targetId).toBe(note.noteId);
     expect(JSON.parse(audit?.afterJson ?? "{}")).toMatchObject({
       noteId: note.noteId,
+      memberId: "m_alice",
       resolution: "approve",
     });
   });
@@ -179,10 +180,15 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     );
     expect(res.status).toBe(200);
     const body = (await res.json()) as {
+      resolvedAt: string;
+      retentionPurgeScheduledAt: string | null;
       memberAfter: { isDeleted: boolean; publishState: string };
     };
     expect(body.memberAfter.isDeleted).toBe(true);
     expect(body.memberAfter.publishState).toBe("public"); // 物理削除しない
+    expect(body.retentionPurgeScheduledAt).toBe(
+      new Date(new Date(body.resolvedAt).getTime() + 180 * 86400000).toISOString(),
+    );
   });
 
   it("TC-05b: member_status がない approve は note を resolved にしない", async () => {

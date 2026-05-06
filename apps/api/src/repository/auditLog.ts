@@ -7,6 +7,7 @@ import type { AdminEmail, AdminId, AuditAction } from "./_shared/brand";
 
 export type AuditTargetType =
   | "member"
+  | "admin_member_note"
   | "tag_queue"
   | "schema_diff"
   | "meeting"

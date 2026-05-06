@@ -30,6 +30,7 @@ import {
   createOutboxRepository,
   type NotificationOutboxRepository,
 } from "../../repository/notificationOutbox";
+import { RETENTION_DAYS } from "../../services/retention-policy";
 import type { AdminRouteEnv } from "./_shared";
 
 const NOTE_TYPES = ["visibility_request", "delete_request"] as const;
@@ -181,6 +182,9 @@ export interface AdminRequestsRouteDeps {
 const defaultOutboxFactory = (env: AdminRouteEnv) =>
   createOutboxRepository(ctx({ DB: env.DB }));
 
+const addDaysIso = (baseIso: string, days: number): string =>
+  new Date(new Date(baseIso).getTime() + days * 24 * 60 * 60 * 1000).toISOString();
+
 export const createAdminRequestsRoute = (
   deps: AdminRequestsRouteDeps = {},
 ) => {
@@ -289,6 +293,10 @@ export const createAdminRequestsRoute = (
     const nowIso = new Date(nowMs).toISOString();
     const noteTypeNarrowed = note.noteType as RequestNoteType;
     const memberId = note.memberId as string;
+    const retentionPurgeScheduledAt =
+      noteTypeNarrowed === "delete_request" && resolution === "approve"
+        ? addDaysIso(nowIso, RETENTION_DAYS)
+        : null;
 
     if (resolution === "approve") {
       const currentStatus = await getStatus(db, asMemberId(memberId));
@@ -311,6 +319,7 @@ export const createAdminRequestsRoute = (
       memberId,
       noteType: noteTypeNarrowed,
       resolution,
+      retentionPurgeScheduledAt,
     });
 
     const stmts = [];
@@ -369,7 +378,7 @@ export const createAdminRequestsRoute = (
       c.env.DB.prepare(
         `INSERT INTO audit_log
           (audit_id, actor_id, actor_email, action, target_type, target_id, before_json, after_json, created_at)
-         SELECT ?1, NULL, ?2, ?3, 'member', member_id, NULL, ?4, ?5
+         SELECT ?1, NULL, ?2, ?3, 'admin_member_note', note_id, NULL, ?4, ?5
            FROM admin_member_notes
           WHERE note_id = ?6
             AND request_status = 'pending'`,
@@ -473,6 +482,7 @@ export const createAdminRequestsRoute = (
         publishState: after?.publish_state ?? "unknown",
         isDeleted: after?.is_deleted === 1,
       },
+      retentionPurgeScheduledAt,
     });
   });
 
