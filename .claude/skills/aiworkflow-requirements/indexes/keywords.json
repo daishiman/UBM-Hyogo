@@ -2459,6 +2459,7 @@
       "arch-state-management-skill-creator.md",
       "interfaces-agent-sdk-skill-advanced.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "ui-ux-feature-components-details.md"
     ],
     "Real": [
@@ -2679,6 +2680,7 @@
       "ipc-contract-checklist.md",
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
@@ -3386,6 +3388,7 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
@@ -3580,7 +3583,8 @@
       "architecture-file-conversion.md"
     ],
     "db": [
-      "architecture-file-conversion.md"
+      "architecture-file-conversion.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
     ],
     "integration": [
       "architecture-file-conversion.md",
@@ -3831,6 +3835,7 @@
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
@@ -3866,7 +3871,8 @@
     ],
     "middleware": [
       "auth-google-oauth-cf-integration.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md"
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
     ],
     "binding": [
       "auth-google-oauth-cf-integration.md",
@@ -4194,6 +4200,7 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
@@ -4999,6 +5006,7 @@
       "database-admin-repository-boundary.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
@@ -5092,7 +5100,8 @@
       "database-implementation-core.md",
       "interfaces-chat-history-core.md",
       "interfaces-core.md",
-      "interfaces-system-prompt.md"
+      "interfaces-system-prompt.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
     ],
     "Conversation": [
       "database-implementation-core.md"
@@ -5251,6 +5260,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
@@ -5295,6 +5305,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
@@ -5330,6 +5341,7 @@
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
@@ -5573,6 +5585,7 @@
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "ワークフロー関連テーブル": [
@@ -5847,6 +5860,7 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "master-design.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
@@ -5933,6 +5947,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
@@ -7660,7 +7675,8 @@
       "ipc-contract-checklist.md"
     ],
     "assertion": [
-      "ipc-contract-checklist.md"
+      "ipc-contract-checklist.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
     ],
     "の使用箇所を検出": [
       "ipc-contract-checklist.md"
@@ -7857,6 +7873,7 @@
     ],
     "Migration": [
       "legacy-ordinal-family-register.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
@@ -7910,6 +7927,7 @@
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
@@ -7968,6 +7986,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
@@ -8077,6 +8096,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
@@ -8202,6 +8222,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
@@ -9173,7 +9194,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "Hono": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
     ],
     "ルートは": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -9375,6 +9397,7 @@
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -9791,7 +9814,8 @@
     "grep": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
-      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
     ],
     "で確定する": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md"
@@ -11105,7 +11129,8 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md"
     ],
     "promoted": [
-      "lessons-learned-issue-191-schema-aliases-2026-04.md"
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "inventory": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
@@ -11269,6 +11294,120 @@
     ],
     "Cutover": [
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md"
+    ],
+    "ctx": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "Provider": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "llm-ipc-types.md",
+      "testing-fixtures.md"
+    ],
+    "DI": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "logs-archive-2026-03-skill-views-completed-move.md"
+    ],
+    "戦略": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "ADR": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "は引数注入": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "container": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "の三択を明示比較する": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "provider": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+    ],
+    "合成型は": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "配下に置き": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "依存逆転を避ける": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "既存": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "DbCtx": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "readonly": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "契約を破らず": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "を増設する": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "missing": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "検知の": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "を文字列契約として固定する": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "builder": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "signature": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "shrink": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "移行手順": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "系へ委譲し": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "BOUNDARY": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "logs-archive-2026-03-auth-mode-migration-sync.md"
+    ],
+    "SYNCED": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+    ],
+    "PENDING": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
+    ],
+    "で閉じる": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
+    ],
+    "検索キーワード": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "indexes": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
+      "lessons-learned-verify-indexes-ci-2026-04.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "rebuild": [
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "skill-ledger-gitignore-policy.md"
     ],
     "Retry": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
@@ -11772,16 +11911,6 @@
     "する循環": [
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
     ],
-    "indexes": [
-      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
-      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
-      "lessons-learned-verify-indexes-ci-2026-04.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
-    ],
-    "rebuild": [
-      "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
-      "skill-ledger-gitignore-policy.md"
-    ],
     "部分失敗で破損": [
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md"
     ],
@@ -12001,10 +12130,6 @@
     "でも正本導線を同": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
-    "で閉じる": [
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
-      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
-    ],
     "technical": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
@@ -12031,11 +12156,6 @@
     ],
     "optional": [
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
-    ],
-    "provider": [
-      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "は互換性": [
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
@@ -12867,9 +12987,6 @@
     "のみに縮約": [
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
     ],
-    "PENDING": [
-      "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
-    ],
     "を上位前提にする": [
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
@@ -12972,10 +13089,6 @@
     ],
     "型定義・": [
       "llm-ipc-types.md"
-    ],
-    "Provider": [
-      "llm-ipc-types.md",
-      "testing-fixtures.md"
     ],
     "チャット関連型定義": [
       "llm-ipc-types.md"
@@ -14487,14 +14600,7 @@
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-2026-03-skill-views-completed-move.md"
     ],
-    "DI": [
-      "logs-archive-2026-03-auth-mode-migration-sync.md",
-      "logs-archive-2026-03-skill-views-completed-move.md"
-    ],
     "SKILLHANDLERS": [
-      "logs-archive-2026-03-auth-mode-migration-sync.md"
-    ],
-    "BOUNDARY": [
       "logs-archive-2026-03-auth-mode-migration-sync.md"
     ],
     "教訓同期強化": [
@@ -17970,9 +18076,6 @@
       "workflow-ai-chat-llm-integration-fix.md"
     ],
     "読む順番": [
-      "workflow-ai-chat-llm-integration-fix.md"
-    ],
-    "検索キーワード": [
       "workflow-ai-chat-llm-integration-fix.md"
     ],
     "注意点": [
