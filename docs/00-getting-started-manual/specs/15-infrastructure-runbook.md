@@ -58,6 +58,16 @@ Cloudflare API Token の 90 日 rotation は `docs/30-workflows/operations/cf-to
 - reminder workflow は `contents: read` / `issues: write` のみを持つ。
 - 実 token 発行、1Password 更新、`gh secret set`、production rotation は user approval gate 後のみ実行する。
 
+## Postmortem 生成（rollback 後の必須運用）
+
+rollback 実行後 24 時間以内に、production 担当者は以下を実施する。
+
+1. `pnpm postmortem:generate` を実行し、`outputs/incident/<date>/postmortem.md` に雛形を生成する。
+2. timeline / impact / detection / response / root cause / prevention を、個人名を主語にせず事実ベースで記入する。
+3. Prevention セクションを基に `gh issue create --label type:operations` で follow-up issue を 1 件以上起票する。
+
+詳細手順は `docs/30-workflows/runbooks/postmortem/README.md` を参照する。本運用は postmortem 生成のみを担い、incident response 手順と Slack 通知連携は既存 runbook または別タスクの正本に従う。
+
 ## 参照
 
 - `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/`

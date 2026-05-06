@@ -115,7 +115,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
 - 04b-followup-004 admin request resolve は `visibility_request` approve で `member_status.publish_state`、`delete_request` approve で `member_status.is_deleted` と `deleted_members` を更新し、reject では `member_status` を変更しない。approve 前に対象 `member_status` がない場合は 404 `member_status_not_found` とし、note は pending のまま残す。
-- request resolve audit は現行 `AuditTargetType` 制約により `targetType='member'`、`targetId=<memberId>`、`after.noteId` で原典を追跡する。action は `admin.request.approve` / `admin.request.reject`。first-class `admin_member_note` / `admin_request` target は follow-up。
+- request resolve audit は Issue #400 以後の新規行で `targetType='admin_member_note'`、`targetId=<noteId>`、`after.memberId` / `after.noteId` で原典を追跡する。action は `admin.request.approve` / `admin.request.reject`。既存 `targetType='member'` 行は migration せず `/admin/audit` で読み取り可能なまま維持する。
 - 06c-E UI の attendance add/remove は `/admin/meetings/:sessionId/attendances` の `{ attended }` alias を正本として使う。04c の `/attendance` POST/DELETE route は既存互換 route として維持する。
 - 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、追加は `after_json`、削除は `before_json` に attendance row を残す。
 - 07c follow-up audit browsing は append-only の閲覧専用で、`before_json` / `after_json` の保存値は変更せず、API projection と UI defense-in-depth で email / phone / address / name 相当キーを表示時 masking する。cursor は `{ createdAt, auditId }` の base64url JSON、order は `created_at DESC, audit_id DESC`。
@@ -254,6 +254,12 @@ UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers C
 | 404 | question / diff 不在 | `{ ok: false, error }` |
 | 409 | diff question mismatch / stable key collision | `{ ok: false, code?: "stable_key_collision", error, existingQuestionIds? }` |
 | 422 | body validation failure | `{ ok: false, error }` |
+
+UT-07B-FU-01（schema alias back-fill queue/cron split）以降、apply mode のレスポンスは `confirmed: true`（Stage 1 = `schema_aliases` INSERT 成功）と `backfill: { status, remaining, lastProcessedAt }` を区別して返す。公開 `backfill.status` は `pending | running | exhausted | completed` の 4 値。internal DB `backfill_status='failed'` は public `exhausted` + `internalStatus:'failed'` metadata として返し、UI / polling は public status だけで分岐する。`completed` は HTTP 200、continuation は HTTP 202。後方互換のため `backfill.code='backfill_cpu_budget_exhausted'` / `backfill.retryable=true` は `backfill.status='exhausted'` と並存させる。
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| GET | `/admin/schema/aliases/:diffId/backfill` | Auth.js admin JWT + `admin_users.active` | UT-07B-FU-01: back-fill 状態取得。`{ ok, diffId, questionId, backfill: { status, remaining, retryCount, lastProcessedAt, lastError, internalStatus, failedItems } }` を返す。公開 `status` は `pending|running|exhausted|completed`。internal `failed` は `status:'exhausted'` + `internalStatus:'failed'`。404 は不在 diff |
 
 ### UBM-Hyogo Admin Schema Sync API（03a）
 

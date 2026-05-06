@@ -164,6 +164,113 @@ describe("admin schema route", () => {
     expect(res.status).toBe(422);
   });
 
+  // UT-07B-FU-01: confirmed + backfill.status v2 contract
+  it("POST aliases: 正常 200 で confirmed:true / backfill.status='completed' を返す", async () => {
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/aliases",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ questionId: "q1", stableKey: "full_name" }),
+      },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      confirmed?: boolean;
+      backfill?: { status: string; lastProcessedAt: string };
+    };
+    expect(body.confirmed).toBe(true);
+    expect(body.backfill?.status).toBe("completed");
+    expect(typeof body.backfill?.lastProcessedAt).toBe("string");
+  });
+
+  it("POST aliases: exhausted 時 confirmed:true / backfill.status='exhausted'", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO member_responses (response_id, form_id, revision_id, schema_hash, submitted_at, answers_json)
+         VALUES ('r_v2','f1','rev1','h','2026-01-01T00:00:00Z','{}')`,
+      )
+      .run();
+    await env.db
+      .prepare(
+        `INSERT INTO response_fields (response_id, stable_key, value_json, raw_value_json)
+         VALUES ('r_v2','__extra__:q1',NULL,'{}')`,
+      )
+      .run();
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/aliases",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ questionId: "q1", stableKey: "full_name" }),
+      },
+      makeEnv(env, { UT07B_BACKFILL_CPU_BUDGET_MS: "-1" }),
+    );
+    expect(res.status).toBe(202);
+    const body = (await res.json()) as {
+      confirmed?: boolean;
+      backfill?: { status: string };
+    };
+    expect(body.confirmed).toBe(true);
+    expect(body.backfill?.status).toBe("exhausted");
+  });
+
+  it("GET /schema/aliases/:diffId/backfill: 不在 diff は 404", async () => {
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/aliases/missing/backfill",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(404);
+  });
+
+  it("GET /schema/aliases/:diffId/backfill: 存在 diff は 200 + status", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO schema_diff_queue (diff_id, revision_id, type, question_id, label, backfill_status, retry_count)
+         VALUES ('d_status','rev1','unresolved','q1','Full name','exhausted',2)`,
+      )
+      .run();
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/aliases/d_status/backfill",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      backfill: { status: string; retryCount: number };
+    };
+    expect(body.backfill.status).toBe("exhausted");
+    expect(body.backfill.retryCount).toBe(2);
+  });
+
+  it("GET /schema/aliases/:diffId/backfill: internal failed は public exhausted として返す", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO schema_diff_queue (diff_id, revision_id, type, question_id, label, backfill_status, retry_count, last_error)
+         VALUES ('d_failed','rev1','unresolved','q1','Full name','failed',5,'retry_count_limit_exceeded')`,
+      )
+      .run();
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/aliases/d_failed/backfill",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      backfill: { status: string; internalStatus: string; retryCount: number };
+    };
+    expect(body.backfill.status).toBe("exhausted");
+    expect(body.backfill.internalStatus).toBe("failed");
+    expect(body.backfill.retryCount).toBe(5);
+  });
+
   it("GET diff: recommendedStableKeys が同梱される", async () => {
     await env.db
       .prepare(
