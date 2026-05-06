@@ -320,7 +320,7 @@ const handleBackfillMessage = async (
   env: Env,
   msg: BackfillQueueMessage,
 ): Promise<void> => {
-  const db = ctx({ DB: env.DB });
+  const db = dbCtx({ DB: env.DB });
   const input: BackfillBatchInput = {
     diffId: msg.diffId,
     questionId: msg.questionId,
