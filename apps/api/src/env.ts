@@ -25,6 +25,10 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
   readonly SYNC_ALERTS?: AnalyticsEngineDataset;
 
+  // wrangler.toml [[queues.producers]] binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+  // UT-07B-FU-01: schema alias back-fill 継続 job の enqueue 先
+  readonly SCHEMA_ALIAS_BACKFILL_QUEUE?: Queue<unknown>;
+
   // wrangler.toml [vars] ENVIRONMENT
   readonly ENVIRONMENT?: "production" | "staging" | "development";
 
@@ -45,6 +49,11 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   readonly HEALTH_DB_TOKEN?: string;
   // UT-26: Sheets API E2E smoke test 用 (dev/staging のみ)
   readonly SMOKE_ADMIN_TOKEN?: string;
+
+  // secrets — 09b-A: observability runtime smoke (dev/staging smoke, production secret gate)
+  readonly SENTRY_DSN_API?: string;
+  readonly SLACK_WEBHOOK_INCIDENT?: string;
+  readonly SLACK_WORKFLOW_URL?: string;
 
   // secrets — 05a: Auth.js v5 + admin gate
   readonly AUTH_SECRET?: string;

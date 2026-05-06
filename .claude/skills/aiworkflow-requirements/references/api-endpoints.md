@@ -255,6 +255,12 @@ UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers C
 | 409 | diff question mismatch / stable key collision | `{ ok: false, code?: "stable_key_collision", error, existingQuestionIds? }` |
 | 422 | body validation failure | `{ ok: false, error }` |
 
+UT-07B-FU-01（schema alias back-fill queue/cron split）以降、apply mode のレスポンスは `confirmed: true`（Stage 1 = `schema_aliases` INSERT 成功）と `backfill: { status, remaining, lastProcessedAt }` を区別して返す。公開 `backfill.status` は `pending | running | exhausted | completed` の 4 値。internal DB `backfill_status='failed'` は public `exhausted` + `internalStatus:'failed'` metadata として返し、UI / polling は public status だけで分岐する。`completed` は HTTP 200、continuation は HTTP 202。後方互換のため `backfill.code='backfill_cpu_budget_exhausted'` / `backfill.retryable=true` は `backfill.status='exhausted'` と並存させる。
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| GET | `/admin/schema/aliases/:diffId/backfill` | Auth.js admin JWT + `admin_users.active` | UT-07B-FU-01: back-fill 状態取得。`{ ok, diffId, questionId, backfill: { status, remaining, retryCount, lastProcessedAt, lastError, internalStatus, failedItems } }` を返す。公開 `status` は `pending|running|exhausted|completed`。internal `failed` は `status:'exhausted'` + `internalStatus:'failed'`。404 は不在 diff |
+
 ### UBM-Hyogo Admin Schema Sync API（03a）
 
 レスポンス契約:

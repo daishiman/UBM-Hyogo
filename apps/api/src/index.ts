@@ -35,12 +35,18 @@ import {
 } from "./sync";
 import { runResponseSync } from "./jobs/sync-forms-responses";
 import { runSchemaSync, ConflictError } from "./sync/schema";
+import {
+  runBackfillBatch,
+  type BackfillBatchInput,
+} from "./workflows/schemaAliasBackfillBatch";
+import { clearDedupeKey } from "./repository/schemaDiffQueue";
 import { TAG_QUEUE_TICK_CRON } from "./repository/tagQueue";
 import { runTagQueueRetryTick } from "./workflows/tagQueueRetryTick";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
 import { createSmokeSheetsRoute } from "./routes/admin/smoke-sheets";
+import { createSmokeObservabilityRoute } from "./routes/admin/smoke-observability";
 import { createAuthRoute } from "./routes/auth";
 import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
@@ -229,6 +235,8 @@ app.route("/admin", createAdminIdentityConflictsRoute());
 // UT-26: Sheets API E2E smoke route。production では route 内で 404 を返すため、
 // mount しても本番では露出しない (dev/staging のみで動作する)。
 app.route("/admin/smoke/sheets", createSmokeSheetsRoute());
+// 09b-A: Sentry / Slack runtime smoke route。production では route 内で 404。
+app.route("/admin/smoke/observability", createSmokeObservabilityRoute());
 
 app.get("/health", (c) =>
   c.json({
@@ -275,8 +283,75 @@ app.get("/health/db", async (c) => {
   }
 });
 
+// UT-07B-FU-01: Cloudflare Queue consumer。
+// alias 確定後の back-fill 残件処理を 1 batch ずつ実行し、`exhausted` なら
+// dedupe_key を解放してから再 enqueue する（無限 loop は retry_count <= 5 で停止）。
+interface BackfillQueueMessage {
+  diffId: string;
+  questionId: string;
+  newStableKey: string;
+  retryCount?: number;
+}
+
+const isBackfillMessage = (v: unknown): v is BackfillQueueMessage =>
+  typeof v === "object" &&
+  v !== null &&
+  typeof (v as { diffId?: unknown }).diffId === "string" &&
+  typeof (v as { questionId?: unknown }).questionId === "string" &&
+  typeof (v as { newStableKey?: unknown }).newStableKey === "string";
+
+const handleBackfillMessage = async (
+  env: Env,
+  msg: BackfillQueueMessage,
+): Promise<void> => {
+  const db = ctx({ DB: env.DB });
+  const input: BackfillBatchInput = {
+    diffId: msg.diffId,
+    questionId: msg.questionId,
+    newStableKey: msg.newStableKey,
+    ...(msg.retryCount !== undefined ? { retryCount: msg.retryCount } : {}),
+  };
+  const result = await runBackfillBatch(db, input);
+  if (!result.needsReEnqueue) {
+    await clearDedupeKey(db, msg.diffId);
+    return;
+  }
+  // dedupe_key を解放してから再 enqueue（dedupe_key は 1 件 in-flight を意味するため）
+  await clearDedupeKey(db, msg.diffId);
+  if (env.SCHEMA_ALIAS_BACKFILL_QUEUE) {
+    await env.SCHEMA_ALIAS_BACKFILL_QUEUE.send({
+      diffId: msg.diffId,
+      questionId: msg.questionId,
+      newStableKey: msg.newStableKey,
+      retryCount: result.retryCount,
+    });
+  }
+};
+
 export default {
   fetch: app.fetch,
+  async queue(
+    batch: MessageBatch<unknown>,
+    env: Env,
+    _ctx: ExecutionContext,
+  ): Promise<void> {
+    if (batch.queue !== "schema-alias-backfill" && batch.queue !== "schema-alias-backfill-staging") {
+      return;
+    }
+    for (const msg of batch.messages) {
+      try {
+        if (!isBackfillMessage(msg.body)) {
+          msg.ack();
+          continue;
+        }
+        await handleBackfillMessage(env, msg.body);
+        msg.ack();
+      } catch (e) {
+        // Cloudflare Queue 標準: retry / DLQ は wrangler.toml 設定で吸収
+        msg.retry();
+      }
+    }
+  },
   async scheduled(
     event: ScheduledController,
     env: Env,

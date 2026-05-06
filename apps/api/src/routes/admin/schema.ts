@@ -7,7 +7,7 @@ import { requireAdmin, type RequireAuthVariables } from "../../middleware/requir
 import { ctx } from "../../repository/_shared/db";
 import { adminEmail, asAdminId } from "../../repository/_shared/brand";
 import type { AdminEmail, AdminId } from "../../repository/_shared/brand";
-import { list as listDiffs } from "../../repository/schemaDiffQueue";
+import { list as listDiffs, findById as findDiffById } from "../../repository/schemaDiffQueue";
 import {
   recommendAliases,
   type RecommendExistingInput,
@@ -16,7 +16,12 @@ import {
   schemaAliasAssign,
   SchemaAliasAssignFailure,
 } from "../../workflows/schemaAliasAssign";
-import type { SchemaAliasAssignInput } from "../../workflows/schemaAliasAssign";
+import type {
+  SchemaAliasAssignInput,
+  SchemaAliasAssignResult,
+  SchemaAliasBackfillResult,
+} from "../../workflows/schemaAliasAssign";
+import { enqueueBackfill } from "../../workflows/schemaAliasEnqueue";
 import type { AdminRouteEnv } from "./_shared";
 
 const AliasBodyZ = z.object({
@@ -79,6 +84,19 @@ const buildRecommendations = async (
     );
   }
   return out;
+};
+
+// UT-07B-FU-01: 既存 SchemaAliasBackfillResult を v2 公開契約 status に射影
+//   completed → completed
+//   exhausted → exhausted
+//   updated=0 で completed → completed（remaining=0 由来）
+//   route 側で remaining も合わせて返す（remaining=updated 直後では未確定なので 0 とする）
+const mapBackfillToV2 = (
+  b: SchemaAliasBackfillResult,
+): { status: "pending" | "running" | "exhausted" | "completed"; remaining: number } => {
+  if (b.status === "completed") return { status: "completed", remaining: 0 };
+  // exhausted: cursor が文字列の updated 位置。実残件は consumer 側で COUNT で再評価する
+  return { status: "exhausted", remaining: -1 };
 };
 
 const failureToHttp = (
@@ -177,8 +195,50 @@ export const createAdminSchemaRoute = () => {
         input.backfillCpuBudgetMs = backfillCpuBudgetMs;
       }
       const result = await schemaAliasAssign(db, input);
-      const status = result.mode === "apply" && result.backfill.status === "exhausted" ? 202 : 200;
-      return c.json({ ok: true, ...result }, status);
+      // UT-07B-FU-01: apply 時は backfill exhausted で Queue / Cron に再開 job を enqueue
+      // し、API response に confirmed / backfill.status を分離して返す。
+      if (result.mode === "apply") {
+        const lastProcessedAt = new Date().toISOString();
+        const v2Backfill = mapBackfillToV2(result.backfill);
+        let enqueueInfo: { dedupeKey: string; alreadyEnqueued: boolean; sent: boolean } | null = null;
+        if (
+          parsed.data.diffId &&
+          (v2Backfill.status === "exhausted" || v2Backfill.status === "pending")
+        ) {
+          enqueueInfo = await enqueueBackfill(
+            db,
+            (c.env as { SCHEMA_ALIAS_BACKFILL_QUEUE?: { send(m: unknown): Promise<void> } })
+              .SCHEMA_ALIAS_BACKFILL_QUEUE ?? null,
+            {
+              diffId: parsed.data.diffId,
+              questionId: input.questionId,
+              newStableKey: input.stableKey,
+            },
+          );
+        }
+        const status =
+          v2Backfill.status === "completed" || v2Backfill.status === "running"
+            ? 200
+            : 202;
+        return c.json(
+          {
+            ok: true,
+            ...result,
+            confirmed: true,
+            backfill: {
+              ...result.backfill,
+              status: v2Backfill.status,
+              remaining: v2Backfill.remaining,
+              lastProcessedAt,
+              ...(enqueueInfo
+                ? { dedupeKey: enqueueInfo.dedupeKey, enqueued: enqueueInfo.sent }
+                : {}),
+            },
+          },
+          status,
+        );
+      }
+      return c.json({ ok: true, ...result }, 200);
     } catch (err) {
       if (err instanceof SchemaAliasAssignFailure) {
         const { status, body } = failureToHttp(err);
@@ -188,7 +248,48 @@ export const createAdminSchemaRoute = () => {
     }
   });
 
+  // UT-07B-FU-01: GET /admin/schema/aliases/:diffId/backfill
+  // back-fill 状態（status / remaining / retryCount / lastProcessedAt）を返す。
+  app.get("/schema/aliases/:diffId/backfill", async (c) => {
+    const diffId = c.req.param("diffId");
+    const db = ctx({ DB: c.env.DB });
+    const row = await findDiffById(db, diffId);
+    if (!row) {
+      return c.json({ ok: false, error: "diff not found" }, 404);
+    }
+    const status: "pending" | "running" | "exhausted" | "completed" =
+      row.backfillStatus === "completed"
+        ? "completed"
+        : row.backfillStatus === "exhausted"
+          ? "exhausted"
+        : row.backfillStatus === "failed"
+            ? "exhausted"
+            : row.backfillStatus === "in_progress" || row.backfillStatus === "running"
+              ? "running"
+              : "pending";
+    return c.json(
+      {
+        ok: true,
+        diffId: row.diffId,
+        questionId: row.questionId,
+        backfill: {
+          status,
+          remaining: -1,
+          retryCount: row.retryCount,
+          lastProcessedAt: row.lastProcessedAt,
+          lastError: row.lastError,
+          internalStatus: row.backfillStatus,
+          failedItems: row.failedItemsJson ? JSON.parse(row.failedItemsJson) : [],
+        },
+      },
+      200,
+    );
+  });
+
   return app;
 };
+
+// 警告抑止（型のみ参照）
+export type _SchemaAliasAssignResultRef = SchemaAliasAssignResult;
 
 export const adminSchemaRoute = createAdminSchemaRoute();
