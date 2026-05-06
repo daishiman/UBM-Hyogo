@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "id": "09b-parallel-cron-triggers-monitoring-and-release-runbook",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "restored_at": "2026-05-05",
+    "restoration_reason": "canonical runbook path required by 09b-A and 09c"
+  },
+  "phases": [
+    {
+      "phase": 12,
+      "name": "runbook outputs",
+      "status": "canonical_restored",
+      "outputs": [
+        "outputs/phase-12/release-runbook.md",
+        "outputs/phase-12/incident-response-runbook.md"
+      ]
+    }
+  ]
+}

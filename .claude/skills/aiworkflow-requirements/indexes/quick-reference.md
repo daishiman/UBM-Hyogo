@@ -454,6 +454,21 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | Direct runbooks | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/outputs/phase-12/release-runbook.md`, `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/outputs/phase-12/incident-response-runbook.md` |
 | Artifact inventory / lessons | `references/workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md`, `references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md` |
 
+### Sentry / Slack Runtime Smoke（09b-A / 2026-05-05）
+
+09b-A は implementation / NON_VISUAL / `implemented-local`。API smoke route は実装済みで、実 Sentry event 受信、Slack message 送信、production secret 登録は user-approved runtime execution wave で取得する。
+
+| 目的 | 最初に開くファイル |
+| --- | --- |
+| workflow root / AC / approval gate | `docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/index.md` |
+| Secret 命名と Slack/Sentry smoke 設計 | `docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/phase-02.md` |
+| Runtime evidence template | `docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/outputs/phase-11/main.md` |
+| Phase 12 strict 7 compliance | `docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| API smoke route 実装 | `apps/api/src/routes/admin/smoke-observability.ts`, `apps/api/src/routes/admin/smoke-observability.test.ts` |
+| Canonical observability / secrets | `references/observability-monitoring.md`, `references/deployment-secrets-management.md` |
+| 苦戦箇所 / lessons-learned | `references/lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md` |
+| Runtime execution 後続タスク | `docs/30-workflows/unassigned-task/task-09b-a-runtime-provider-smoke-execution-001.md` |
+
 ---
 
 ### Member Self-Service API / `/me/*` / dev session header（04b / 2026-04-29）
