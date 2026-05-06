@@ -17,6 +17,10 @@ fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 
+if [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
+  export CF_SH_SKIP_WITH_ENV=1
+fi
+
 if [ "${CF_SH_SKIP_WITH_ENV:-0}" != "1" ]; then
   if ! command -v mise >/dev/null 2>&1; then
     echo "[cf.sh] mise が見つかりません" >&2

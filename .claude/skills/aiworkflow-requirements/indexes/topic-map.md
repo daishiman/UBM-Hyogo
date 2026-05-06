@@ -3163,11 +3163,11 @@ node scripts/list-specs.js --topics
 | 並列実行の活用 | L113 |
 | CD ワークフロー要件（dev / main マージ時） | L169 |
 | Backend ワークフロー要件（dev / main マージ時） | L197 |
-| モニタリングとアラート | L221 |
-| GitHub Secrets の要件 | L255 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L279 |
-| 関連ドキュメント | L299 |
-| 変更履歴 | L306 |
+| モニタリングとアラート | L223 |
+| GitHub Secrets の要件 | L257 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L284 |
+| 関連ドキュメント | L307 |
+| 変更履歴 | L314 |
 
 ### references/deployment-history.md
 
@@ -3183,13 +3183,14 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L121 |
-| ローカル開発での設定 | L153 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L192 |
-| セキュリティ原則 | L229 |
-| Cloudflare API Token の作成手順 | L240 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L282 |
-| 変更履歴 | L325 |
+| wrangler.toml の環境別設定 | L124 |
+| ローカル開発での設定 | L156 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L195 |
+| セキュリティ原則 | L232 |
+| Cloudflare API Token の作成手順 | L243 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L285 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L333 |
+| 変更履歴 | L348 |
 
 ### references/deployment.md
 

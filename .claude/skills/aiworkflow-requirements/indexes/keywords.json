@@ -2333,6 +2333,7 @@
       "arch-state-management-reference.md",
       "arch-state-management.md",
       "architecture-auth-security-core.md",
+      "deployment-secrets-management.md",
       "error-handling-core.md",
       "error-handling-details.md",
       "interfaces-agent-sdk-executor-core.md",
@@ -5515,6 +5516,7 @@
     ],
     "deploy": [
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-secrets-management.md",
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
@@ -6232,6 +6234,24 @@
     ],
     "同期運用": [
       "deployment-secrets-management.md"
+    ],
+    "CF": [
+      "deployment-secrets-management.md"
+    ],
+    "ACCT": [
+      "deployment-secrets-management.md"
+    ],
+    "DERIV": [
+      "deployment-secrets-management.md"
+    ],
+    "token": [
+      "deployment-secrets-management.md",
+      "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
+      "logs-archive-2026-03-history-search-notification-center.md"
+    ],
+    "split": [
+      "deployment-secrets-management.md",
+      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
     ],
     "開発ガイドライン": [
       "development-guidelines-core.md",
@@ -9281,10 +9301,6 @@
     "を残さない": [
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md"
     ],
-    "token": [
-      "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
-      "logs-archive-2026-03-history-search-notification-center.md"
-    ],
     "欠落時も": [
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md"
     ],
@@ -9542,9 +9558,6 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md"
     ],
     "を維持し": [
-      "lessons-learned-06c-A-admin-dashboard-2026-05.md"
-    ],
-    "split": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md"
     ],
     "しない": [
