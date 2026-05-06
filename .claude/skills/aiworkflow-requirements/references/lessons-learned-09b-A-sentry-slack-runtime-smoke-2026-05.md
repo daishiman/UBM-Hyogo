@@ -16,7 +16,7 @@ type: reference
 
 **苦戦箇所**: 「runbook と契約だけあれば足りる」と判断すると、Phase 11 evidence template が空洞化し、09c の observability blocker が解除できない。Sentry / Slack の疎通は API Worker route なしには手元で再現できない。
 
-**5分解決カード**: runtime smoke 系タスクは `contract docs` と `implementation locally runnable` の 2 件を同一 wave に置く。`apps/api/src/routes/admin/smoke-observability.ts` のように production 404 + dev/staging Bearer auth 付きの admin route を最小構成で先行実装し、Phase 11 では `provider_smoke_pending_user_approval` を明示する。
+**5分解決カード**: runtime smoke 系タスクは `contract docs` と `implementation locally runnable` の 2 件を同一 wave に置く。`apps/api/src/routes/admin/smoke-observability.ts` は Issue #495 production extension 後、production では Bearer auth + `x-smoke-production-confirm: YES`、dev/staging では Bearer auth の admin route として扱い、Phase 11 では `provider_smoke_pending_user_approval` を明示する。
 
 **promoted-to**: `references/observability-monitoring.md`（§8 09b-A contract）, `task-specification-creator/references/task-spec-types-and-categories.md`
 
