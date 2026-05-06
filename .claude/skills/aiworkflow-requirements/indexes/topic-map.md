@@ -3231,10 +3231,10 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L197 |
 | モニタリングとアラート | L223 |
 | GitHub Secrets の要件 | L257 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L284 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L302 |
-| 関連ドキュメント | L322 |
-| 変更履歴 | L329 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L300 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L321 |
+| 関連ドキュメント | L341 |
+| 変更履歴 | L348 |
 
 ### references/deployment-history.md
 
