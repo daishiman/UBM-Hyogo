@@ -1,0 +1,38 @@
+{
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "[{{mode}}] UBM兵庫 incident runbook — {{releaseVersion}}",
+        "emoji": true
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        { "type": "mrkdwn", "text": "*Release version*\n`{{releaseVersion}}`" },
+        { "type": "mrkdwn", "text": "*Deployed at (UTC)*\n`{{deployedAt}}`" },
+        { "type": "mrkdwn", "text": "*Oncall*\n{{oncallHandle}}" },
+        { "type": "mrkdwn", "text": "*Mode*\n`{{mode}}`" }
+      ]
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Runbook permalink (commit-pinned)*\n<{{runbookPermalink}}|incident-runbook.md @ {{commitSha}}>"
+      }
+    },
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "mrkdwn",
+          "text": "owner: `{{runbookOwnerPath}}` / delivered by GitHub Actions `incident-runbook-slack-delivery.yml` / approval thread guidance: 返信は本 thread に。"
+        }
+      ]
+    },
+    { "type": "divider" }
+  ]
+}
