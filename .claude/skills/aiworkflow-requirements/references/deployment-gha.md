@@ -46,8 +46,11 @@
 | `verify-indexes.yml` | aiworkflow-requirements skill indexes drift 検出（`pnpm indexes:rebuild` 結果と committed の差分検証） |
 | `pr-target-safety-gate.yml` | `pull_request_target` trusted context を triage / metadata / manual audit のみに限定する safety gate。PR head checkout / install / build は禁止。 |
 | `pr-build-test.yml` | untrusted PR head の build / lint / typecheck を `pull_request` + `contents: read` のみで実行する workflow。 |
+| `cf-token-rotation-reminder.yml` | Cloudflare API Token 90 日 rotation の 85 日 reminder。`schedule` + `workflow_dispatch` dry-run で Issue 起票を通知に限定する。 |
 
-> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 7 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
+> **current facts (Issue #407 / 2026-05-06)**: `cf-token-rotation-reminder.yml` は `contents: read` / `issues: write` のみを持ち、`secrets.*` を参照しない。発行日は GitHub Variable `CF_TOKEN_ISSUED_AT`、起票 threshold は 85 日、実 rotation / secret injection は runbook 側の user approval gate 後のみ。
+
+> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 8 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
 
 ---
 
@@ -216,6 +219,8 @@
 >
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
+> **current facts (U-FIX-CF-ACCT-01-DERIV-02 / 2026-05-06)**: Cloudflare deploy token は現行 workflow step 単位で分割する。`backend-ci.yml` の D1 migration step は `CF_TOKEN_D1_<ENV>`、Workers deploy step は `CF_TOKEN_WORKERS_<ENV>` を使う。`web-cd.yml` の Pages deploy step は `CF_TOKEN_PAGES_<ENV>` を使う。`deploy-staging.yml` / `deploy-production.yml` は現行 repo に存在しないため正本にしない。Issue #406 は CLOSED のため PR 文面は `Refs #406` のみ。
+
 ---
 
 ## モニタリングとアラート
@@ -256,7 +261,10 @@
 
 | Secret 名 | 用途 | 必須 |
 | --------- | ---- | ---- |
-| `CLOUDFLARE_API_TOKEN` | Cloudflare API トークン | Yes |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token | Yes |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token | Yes |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Pages deploy 用 Cloudflare API Token | Yes |
+| `CLOUDFLARE_API_TOKEN` | 旧単一 Cloudflare API Token。U-FIX-CF-ACCT-01-DERIV-02 の 24h 並行保持後に削除 | Deprecated |
 | `DISCORD_WEBHOOK_URL` | Discord 通知用 Webhook URL | No |
 
 ### U-FIX-CF-ACCT-01-DERIV-01: OIDC short-lived credential target contract（2026-05-06）
@@ -281,6 +289,7 @@
 | ----------- | ---- | ---- |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account 識別子。資格情報ではないため Repository Variable として管理し、workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照する | Yes |
 | `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。UT-28 正本値は `ubm-hyogo-web`。staging は workflow 側で `-staging` suffix を連結して `ubm-hyogo-web-staging` とする | Yes |
+| `CF_TOKEN_ISSUED_AT` | Cloudflare API Token の production 発行日。`cf-token-rotation-reminder.yml` が 85 日経過判定に使用する ISO 8601 日付 | Yes |
 
 `CLOUDFLARE_PAGES_PROJECT` に `ubm-hyogo-web-staging` を直接入れてはいけない。dev deploy は `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging` を使うため、staging 名を入れると `ubm-hyogo-web-staging-staging` になる。
 
@@ -298,7 +307,10 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 | 名前 | 種別 | 配置 | 理由 |
 | --- | --- | --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | 環境別 token ローテーションと権限分離を優先 |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | D1 migration step のみが使う token に分離 |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Workers deploy step のみが使う token に分離 |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Pages deploy step のみが使う token に分離 |
+| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | Deprecated。24h 並行保持後に Cloudflare / GitHub から削除 |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | repository-scoped | Account ID は資格情報ではなく識別子。既存 GitHub 実設定に合わせ、`vars.` 参照で空展開を防ぐ |
 | `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | 非機密値で、suffix 連結結果をログで追えるよう Secret 化しない |
@@ -328,6 +340,21 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 `scripts/cf.sh api-post /client/v4/graphql -d <json>` は GraphQL Analytics discover / metrics query の公開入口とし、`api-post` は `/client/v4/graphql` 以外の path を fail-closed する。workflow は `secrets.CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY` を正参照し、`secrets.CLOUDFLARE_API_TOKEN` を参照しない。
 
+## Cloudflare API Token rotation reminder (Issue #407 / 2026-05-06)
+
+`docs/30-workflows/issue-407-cf-token-rotation-90day-runbook-automation/` は Cloudflare API Token の 90 日 rotation runbook と 85 日 reminder workflow を current implementation spec とする。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow file | `.github/workflows/cf-token-rotation-reminder.yml` |
+| 起動 | `schedule: '0 0 * * *'` (UTC, 1 日 1 回) + `workflow_dispatch` |
+| variable | `vars.CF_TOKEN_ISSUED_AT` |
+| permissions | `contents: read`, `issues: write` |
+| dry-run | `workflow_dispatch.inputs.dry_run=true` で Issue 起票せず step summary に preview |
+| duplicate guard | open Issue title prefix `[cf-token-rotation]` を検索し、既存ありなら create を skip |
+
+この workflow は `secrets.CLOUDFLARE_API_TOKEN` を参照しない。Token 発行、1Password 更新、`gh secret set`、production rotation は `docs/30-workflows/operations/cf-token-rotation-runbook.md` の user approval gate 後だけ実行する。
+
 ---
 
 ## 関連ドキュメント
@@ -341,6 +368,7 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-06 | 2.4.0 | Issue #407 Cloudflare API Token rotation reminder workflow を追加。`CF_TOKEN_ISSUED_AT`、85 日 reminder、dry-run、duplicate guard、最小 permissions を正本化 |
 | 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
 | 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。runtime cutover は未実行で、`web-cd.yml` / `backend-ci.yml` の `CLOUDFLARE_API_TOKEN` と `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として分離 |

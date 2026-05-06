@@ -1,0 +1,23 @@
+{
+  "_placeholder": true,
+  "_instructions": "Replace with: gh issue view <NUM> --json number,title,labels,body,createdAt,state,url",
+  "_command": "WD_ISSUE=$(gh issue list --label 'bot:cf-audit-log-watchdog' --json number --jq '.[0].number'); gh issue view \"$WD_ISSUE\" --json number,title,labels,body,createdAt,state,url > outputs/phase-11/watchdog-alert.json",
+  "_expected_shape": {
+    "number": 0,
+    "title": "[CF-AUDIT][WATCHDOG] cf-audit-log-monitor stale ...s",
+    "state": "OPEN",
+    "labels": [
+      { "name": "type:reliability" },
+      { "name": "priority:high" },
+      { "name": "cf-audit" },
+      { "name": "bot:cf-audit-log-watchdog" }
+    ],
+    "body": "Last successful run: ...\nElapsed since: ...h\nMain workflow: cf-audit-log-monitor.yml\nRecovery runbook: docs/30-workflows/issue-408-cf-audit-logs-monitoring/outputs/phase-10/rollback-runbook.md\n",
+    "createdAt": "2026-05-DDTHH:MM:SSZ",
+    "url": "https://github.com/daishiman/UBM-Hyogo/issues/0"
+  },
+  "_notes": [
+    "watchdog Issue は主 workflow の最終 run id / 経過時間 / 復旧手順 link を含むこと",
+    "Token 値や Cloudflare account id を body に含めない"
+  ]
+}

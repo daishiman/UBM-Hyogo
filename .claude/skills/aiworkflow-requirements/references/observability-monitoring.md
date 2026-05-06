@@ -151,7 +151,7 @@ WAE / ログ / アラート本文には以下を絶対に書き込まない。
 
 ## 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05）
 
-09b-A は 09b で未実行として残した Sentry project 受信確認と Slack incident webhook 疎通を、`docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/` の implementation / `NON_VISUAL` / `implemented-local` workflow として正本化する。API Worker route は `apps/api/src/routes/admin/smoke-observability.ts` に実装済みで、Phase 11 は live provider PASS ではなく `provider_smoke_pending_user_approval` である。実 Sentry event / Slack message / production secret 登録は user approval 後の runtime execution wave で取得する。
+09b-A は 09b で未実行として残した Sentry project 受信確認と Slack incident webhook 疎通を、`docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/` の implementation / `NON_VISUAL` / `implemented-local` workflow として正本化する。API Worker route は `apps/api/src/routes/admin/smoke-observability.ts` に実装済みで、Phase 11 は live provider PASS ではなく `provider_smoke_pending_user_approval` である。Issue #495 production extension では同 route を production にも開くが、Bearer 認証に加えて `x-smoke-production-confirm: YES` を必須化し、Slack prefix `[PRODUCTION SMOKE]`、Sentry `environment: production`、G1-G4 approval gate、staging / production evidence file 分離を正本契約にする。実 Sentry event / Slack message / production secret 登録は user approval 後の runtime execution wave で取得する。
 
 | Runtime trigger | Severity | Primary evidence | Destination |
 | --- | --- | --- | --- |
@@ -163,12 +163,49 @@ WAE / ログ / アラート本文には以下を絶対に書き込まない。
 
 Redaction is part of the contract: DSN URL, Slack webhook URL, Sentry auth token, Cloudflare token, and value hashes are never stored in workflow outputs. Evidence may store secret names, `op://...` reference patterns, short Sentry event ids, timestamps, and Slack message permalinks.
 
+Production smoke evidence is stored separately from staging evidence:
+
+| Environment | Slack prefix | Sentry environment | Evidence path |
+| --- | --- | --- | --- |
+| staging | `[STAGING SMOKE]` | `staging` | `docs/30-workflows/issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension/outputs/phase-11/staging-smoke-log.md` |
+| production | `[PRODUCTION SMOKE]` | `production` | `docs/30-workflows/issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension/outputs/phase-11/production-smoke-log.md` |
+
+The production log may record a non-secret Slack channel name or redacted channel id to detect cross-environment webhook mistakes. It must not record webhook URLs.
+
+## 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06）
+
+Issue #408 は Cloudflare Audit Logs から API Token 利用イベントを 1 時間ごとに取得し、D1 へ 30 日保管し、HIGH / MEDIUM / LOW 判定に応じて GitHub Issue を起票する監視 workflow 仕様である。runtime コード（`.github/workflows/cf-audit-log-monitor.yml` / `cf-audit-log-monitor-watchdog.yml`、`scripts/cf-audit-log/**`、`apps/api/migrations/0014_create_cf_audit_log.sql`）は 2026-05-06 の Issue #408 実装 PR で merge 済み。状態は `implementation_merged / NON_VISUAL / runtime pending`：token 発行・1Password / GitHub Secret 登録・migration apply・7 日 baseline 学習・hourly run の連続 green 化は production 担当者が手動 runbook で順次完了させる。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-408-cf-audit-logs-monitoring/` |
+| 監視用 secret | `CF_AUDIT_TOKEN_PROD`（`Account > Audit Logs:Read` のみ） |
+| D1 書き込み secret | `CF_AUDIT_D1_TOKEN_PROD`（監視 workflow 専用。deploy 用 `CLOUDFLARE_API_TOKEN` は注入しない） |
+| deploy token 分離 | `CLOUDFLARE_API_TOKEN` とは名前・scope・rotation を分離し、監視 workflow の env から除外 |
+| storage | D1 `cf_audit_log` / `cf_audit_baseline` / `cf_audit_finding_dedupe`。migration `apps/api/migrations/0014_create_cf_audit_log.sql` は local 実装済み、production apply は runtime gate |
+| baseline | 7 日学習。rotation window は学習対象外 |
+| alert labels | HIGH=`priority:high`, MEDIUM=`priority:medium`, LOW=`priority:low`, 共通=`type:security` |
+| evidence boundary | Phase 11 placeholder は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。実 `PASS` は hourly run / D1 row / synthetic issue / dedup / watchdog / token scope / baseline artifact の 7 evidence が実値化した後 |
+
+Runtime trigger matrix:
+
+| Trigger | Severity | Alert destination | Primary evidence |
+| --- | --- | --- | --- |
+| unexpected IP authentication success | HIGH | GitHub Issue `priority:high` + `type:security` | `synthetic-high-event-issue.json` / D1 `cf_audit_log` row |
+| 403 failure spike above p99 x 1.5 | MEDIUM | GitHub Issue `priority:medium` + `type:security` | analyzer summary + baseline artifact |
+| off-hours token use outside JST 09:00-19:00 | LOW | GitHub Issue `priority:low` + `type:security` | event timestamp + rotation exclusion check |
+| monitor workflow stale/failure | P1 operations alert | watchdog GitHub Issue | `watchdog-alert.json` |
+
+Redaction rule: raw token value, bearer header, full actor IP, user agent, and credential-like values are not stored in workflow outputs or Issue bodies. Evidence may store secret names, redacted IP prefix, fingerprint hash, timestamps, issue number, and GitHub run id.
+
 ---
 
-## 9. 変更履歴
+## 10. 変更履歴
 
 | 日付 | 変更 |
 | --- | --- |
+| 2026-05-06 | Issue #495 production extension を追加。`x-smoke-production-confirm: YES`、production prefix / Sentry environment tag、G1-G4 gate、staging/production evidence 分離を固定 |
+| 2026-05-06 | Issue #408 Cloudflare Audit Logs monitoring contract を追加。`CF_AUDIT_TOKEN_PROD` 分離、severity label、Phase 11 runtime pending evidence 境界を正本化 |
 | 2026-05-05 | 09b-A Sentry / Slack runtime smoke contract を追加。`contract_ready_runtime_pending` 境界、5 trigger matrix、secret redaction rules を固定 |
 | 2026-05-01 | 09b cron monitoring / release runbook linkage を追加。`sync_jobs.running` 30 分超 / failed 3 連続の incident response 導線を固定 |
 | 2026-04-27 | UT-08 / UT-13 / UT-12 同期 wave で新規作成。WAE 6 イベント・30 分 dedupe・PII allowlist・identifier drift 対策を集約 |
