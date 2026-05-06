@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "taskId": "issue-350-long-term-production-observation",
+  "taskPath": "docs/30-workflows/issue-350-long-term-production-observation",
+  "metadata": {
+    "issue": 350,
+    "sourceTaskId": "task-09c-long-term-production-observation-001",
+    "workflow_state": "spec_created",
+    "implementation_status": "spec_contract_ready_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "approvalGate": "commit_push_pr_and_runtime_evidence_user_approval"
+  },
+  "phases": [
+    { "phase": 1, "path": "outputs/phase-1/phase-1.md", "status": "completed" },
+    { "phase": 2, "path": "outputs/phase-2/phase-2.md", "status": "completed" },
+    { "phase": 3, "path": "outputs/phase-3/phase-3.md", "status": "completed" },
+    { "phase": 4, "path": "outputs/phase-4/phase-4.md", "status": "completed" },
+    { "phase": 5, "path": "outputs/phase-5/phase-5.md", "status": "completed" },
+    { "phase": 6, "path": "outputs/phase-6/phase-6.md", "status": "completed" },
+    { "phase": 7, "path": "outputs/phase-7/phase-7.md", "status": "completed" },
+    { "phase": 8, "path": "outputs/phase-8/phase-8.md", "status": "completed" },
+    { "phase": 9, "path": "outputs/phase-9/phase-9.md", "status": "completed" },
+    { "phase": 10, "path": "outputs/phase-10/phase-10.md", "status": "completed" },
+    { "phase": 11, "path": "outputs/phase-11/phase-11.md", "status": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING" },
+    { "phase": 12, "path": "outputs/phase-12/phase-12.md", "status": "completed" },
+    { "phase": 13, "path": "outputs/phase-13/phase-13.md", "status": "blocked_pending_user_approval" }
+  ],
+  "evidence": {
+    "runtime": "PENDING_RUNTIME_EVIDENCE",
+    "local": [
+      "scripts/observation/test/test-create-reminder-issue.sh",
+      ".github/workflows/post-release-observation-reminder.yml",
+      ".claude/skills/aiworkflow-requirements/references/post-release-long-term-observation.md"
+    ]
+  }
+}

@@ -49,10 +49,10 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // secrets — admin / sync gate tokens
   readonly SYNC_ADMIN_TOKEN?: string;
   readonly HEALTH_DB_TOKEN?: string;
-  // UT-26: Sheets API E2E smoke test 用 (dev/staging のみ)
+  // smoke routes: Sheets is dev/staging only; observability also supports production with an explicit confirm header.
   readonly SMOKE_ADMIN_TOKEN?: string;
 
-  // secrets — 09b-A: observability runtime smoke (dev/staging smoke, production secret gate)
+  // secrets — 09b-A: observability runtime smoke (staging + production provider smoke)
   readonly SENTRY_DSN_API?: string;
   readonly SLACK_WEBHOOK_INCIDENT?: string;
   readonly SLACK_WORKFLOW_URL?: string;

@@ -279,7 +279,7 @@ OpenNext Workers production cutover 後の長期 analytics evidence は、親仕
 
 ## 15. 09c-A production execution workflow
 
-Production deploy execution は `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/` を current workflow root とする。状態は `spec_created / implementation / VISUAL_ON_EXECUTION / production runtime evidence pending_user_approval` であり、実 Cloudflare mutation、D1 migration apply、release tag push、production smoke、24h verification は承認後の execution operation でのみ実行する。
+Production deploy execution は `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/` を current workflow root とし、Issue #353 mirror として `docs/30-workflows/issue-353-09c-production-deploy-execution/` も同じ evidence contract を保持する。状態は `spec_created / implementation / VISUAL_ON_EXECUTION / production runtime evidence pending_user_approval` であり、実 Cloudflare mutation、D1 migration apply、release tag push、production smoke、24h verification は承認後の execution operation でのみ実行する。
 
 正本 deploy route は次の通り:
 
