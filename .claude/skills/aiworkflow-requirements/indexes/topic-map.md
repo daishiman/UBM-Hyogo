@@ -2263,6 +2263,19 @@ node scripts/list-specs.js --topics
 | Follow-up unassigned | L83 |
 | Boundary | L89 |
 
+### references/workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 required artifacts | L16 |
+| implementation artifacts | L28 |
+| production runtime evidence templates (Phase 11) | L38 |
+| same-wave skill sync | L47 |
+| boundary | L61 |
+| deferred evidence | L67 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3255,9 +3268,9 @@ node scripts/list-specs.js --topics
 | Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L195 |
 | セキュリティ原則 | L232 |
 | Cloudflare API Token の作成手順 | L243 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L285 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L333 |
-| 変更履歴 | L348 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L288 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L336 |
+| 変更履歴 | L351 |
 
 ### references/deployment.md
 
@@ -4972,7 +4985,7 @@ node scripts/list-specs.js --topics
 | 6. 関連ファイル | L134 |
 | 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
-| 9. 変更履歴 | L168 |
+| 9. 変更履歴 | L177 |
 
 ### references/patterns-advanced.md
 

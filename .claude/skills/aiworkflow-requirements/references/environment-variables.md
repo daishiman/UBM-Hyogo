@@ -440,7 +440,7 @@ TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interfac
 | `GOOGLE_FORM_RESPONDER_URL` | `schema_versions.source_url` fallback 用 responder URL | Cloudflare Variables | No |
 | `GOOGLE_SHEETS_SA_JSON` | Google Sheets API v4 smoke / sync 用 Service Account JSON。平文をログ・PR・永続ファイルに残さない | Cloudflare Secrets | Yes (Sheets sync / UT-26 smoke) |
 | `SHEETS_SPREADSHEET_ID` | Google Sheets API v4 smoke / sync 対象 spreadsheetId | Cloudflare Variables or Secrets | Yes (Sheets sync / UT-26 smoke) |
-| `SMOKE_ADMIN_TOKEN` | `GET /admin/smoke/sheets` dev/staging smoke route の Bearer token。production には配置しない | Cloudflare Secrets | dev/staging only |
+| `SMOKE_ADMIN_TOKEN` | `/admin/smoke/*` の Bearer token。Sheets smoke は dev/staging、observability smoke は staging / production で使用し、production は `x-smoke-production-confirm: YES` と G1-G4 approval gate を必須化 | Cloudflare Secrets | Yes (env-scoped smoke routes) |
 
 互換名: `FORMS_SA_EMAIL` / `FORMS_SA_KEY` は `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` の移行互換として受け付ける。
 

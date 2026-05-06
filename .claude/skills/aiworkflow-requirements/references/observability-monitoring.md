@@ -151,7 +151,7 @@ WAE / ログ / アラート本文には以下を絶対に書き込まない。
 
 ## 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05）
 
-09b-A は 09b で未実行として残した Sentry project 受信確認と Slack incident webhook 疎通を、`docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/` の implementation / `NON_VISUAL` / `implemented-local` workflow として正本化する。API Worker route は `apps/api/src/routes/admin/smoke-observability.ts` に実装済みで、Phase 11 は live provider PASS ではなく `provider_smoke_pending_user_approval` である。実 Sentry event / Slack message / production secret 登録は user approval 後の runtime execution wave で取得する。
+09b-A は 09b で未実行として残した Sentry project 受信確認と Slack incident webhook 疎通を、`docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/` の implementation / `NON_VISUAL` / `implemented-local` workflow として正本化する。API Worker route は `apps/api/src/routes/admin/smoke-observability.ts` に実装済みで、Phase 11 は live provider PASS ではなく `provider_smoke_pending_user_approval` である。Issue #495 production extension では同 route を production にも開くが、Bearer 認証に加えて `x-smoke-production-confirm: YES` を必須化し、Slack prefix `[PRODUCTION SMOKE]`、Sentry `environment: production`、G1-G4 approval gate、staging / production evidence file 分離を正本契約にする。実 Sentry event / Slack message / production secret 登録は user approval 後の runtime execution wave で取得する。
 
 | Runtime trigger | Severity | Primary evidence | Destination |
 | --- | --- | --- | --- |
@@ -163,12 +163,22 @@ WAE / ログ / アラート本文には以下を絶対に書き込まない。
 
 Redaction is part of the contract: DSN URL, Slack webhook URL, Sentry auth token, Cloudflare token, and value hashes are never stored in workflow outputs. Evidence may store secret names, `op://...` reference patterns, short Sentry event ids, timestamps, and Slack message permalinks.
 
+Production smoke evidence is stored separately from staging evidence:
+
+| Environment | Slack prefix | Sentry environment | Evidence path |
+| --- | --- | --- | --- |
+| staging | `[STAGING SMOKE]` | `staging` | `docs/30-workflows/issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension/outputs/phase-11/staging-smoke-log.md` |
+| production | `[PRODUCTION SMOKE]` | `production` | `docs/30-workflows/issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension/outputs/phase-11/production-smoke-log.md` |
+
+The production log may record a non-secret Slack channel name or redacted channel id to detect cross-environment webhook mistakes. It must not record webhook URLs.
+
 ---
 
 ## 9. 変更履歴
 
 | 日付 | 変更 |
 | --- | --- |
+| 2026-05-06 | Issue #495 production extension を追加。`x-smoke-production-confirm: YES`、production prefix / Sentry environment tag、G1-G4 gate、staging/production evidence 分離を固定 |
 | 2026-05-05 | 09b-A Sentry / Slack runtime smoke contract を追加。`contract_ready_runtime_pending` 境界、5 trigger matrix、secret redaction rules を固定 |
 | 2026-05-01 | 09b cron monitoring / release runbook linkage を追加。`sync_jobs.running` 30 分超 / failed 3 連続の incident response 導線を固定 |
 | 2026-04-27 | UT-08 / UT-13 / UT-12 同期 wave で新規作成。WAE 6 イベント・30 分 dedupe・PII allowlist・identifier drift 対策を集約 |
