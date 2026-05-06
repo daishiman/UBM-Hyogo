@@ -82,9 +82,10 @@ MVP では D1 `profile_overrides` 前提を採らない。
 
 ### 2. 削除/復元
 
-- 物理削除はしない
+- admin 承認時点では物理削除しない
 - `member_status.is_deleted` を更新する
 - `deleted_members` に履歴を残す
+- Issue #402 retention policy では、承認から 180 日経過後に `member_responses` / `member_identities` / `member_status` の PII-bearing row を物理削除できる。ただし `deleted_members` は audit minimum tombstone として残す
 
 ### 3. schema 外データ
 
@@ -118,7 +119,7 @@ member requests deletion
 - 409 `DUPLICATE_PENDING_REQUEST` は同一 session の pending banner と該当ボタン disabled に接続する
 - network / 5xx はユーザー操作の再試行 CTA を出す
 
-復元時は `is_deleted=false` に戻し、履歴は残す。
+復元時は `is_deleted=false` に戻し、履歴は残す。Issue #402 の retention purge 実行後は PII-bearing row が物理削除済みになるため、復元は D1 PITR と運用受付境界（7 日）に依存する。
 
 ---
 
@@ -198,10 +199,22 @@ stateDiagram-v2
 `/admin/requests` は `visibility_request` / `delete_request` の pending 行を FIFO で表示する管理 queue である。管理者は各依頼を approve / reject できる。
 
 - visibility approve: 依頼 payload の `desiredState` に従って `member_status.publish_state` を更新し、note を `resolved` にする。
-- delete approve: `member_status.is_deleted=1` と `deleted_members` を更新し、note を `resolved` にする。
+- delete approve: `member_status.is_deleted=1` と `deleted_members` を更新し、note を `resolved` にする。Issue #402 実装後も approve 時点では論理削除に留め、retention purge は `deleted_members.deleted_at` から 180 日経過後に別 job で実行する。
 - reject: `member_status` は変更せず、note を `rejected` にする。
 - approve 前に対象 `member_status` がない場合は 404 とし、note は pending のまま残す。
 - 二重 resolve は `WHERE request_status='pending'` の楽観ロックで 409 にする。
+
+### 管理者 resolve 後の本人通知（Issue #401）
+
+`POST /admin/requests/:noteId/resolve` は、resolve transaction 完了後に本人通知を best-effort で `notification_outbox` へ enqueue する。通知 enqueue は `member_status` / `admin_member_notes` / `audit_log` の D1 batch とは疎結合であり、enqueue 失敗や宛先 email 不在で resolve transaction を rollback しない。
+
+- 宛先は `member_identities.response_email` を読む。空 / NULL / row 不在は warning log のみで継続する。
+- retryable failure は `notification_outbox.status='pending'` に戻し、`retry_count` と `next_attempt_at` で再試行する。
+- `MAIL_PROVIDER_KEY` missing / `.example` placeholder sender の場合、dispatch tick は claim 前に skip し、pending row を DLQ に流さない。
+- stale `dispatching` row は lease timeout 後に再 claim する。
+- `notification_ledger.detail_json` には provider message id / sanitized error class / retryable 等だけを記録し、raw `resolutionNote` や provider error body は保存しない。raw `resolutionNote` は email / `notification_outbox.reason_summary` にもコピーしない。
+- mail credential は 05b-A 正本の `MAIL_PROVIDER_KEY`、差出人は `MAIL_FROM_ADDRESS` を使う。
+- cron は既存 `*/5 * * * *` branch に統合し、新しい cron expression は追加しない。
 
 ---
 
@@ -209,5 +222,5 @@ stateDiagram-v2
 
 1. current response を D1 差分で上書きしない
 2. `publicConsent` と `publishState` を混同しない
-3. 削除を物理削除にしない
+3. admin approve 直後の削除を物理削除にしない。Issue #402 retention purge のみ 180 日経過後の例外として扱う
 4. GAS prototype のローカル編集挙動を本番仕様にしない

@@ -64,10 +64,10 @@
 | `SHEETS_SPREADSHEET_ID` | Variable / Secret | Sheets sync 対象 spreadsheet ID（UT-09 / UT-21 consumer） | `apps/api/wrangler.toml` または Cloudflare Secrets |
 | `SYNC_ADMIN_TOKEN` | Secret | `/admin/sync`, `/admin/sync/run`, `/admin/sync/backfill`, `/admin/sync/audit`, `/admin/sync/responses`, `/admin/sync/schema` Bearer 認証 | Cloudflare Secrets |
 | `HEALTH_DB_TOKEN` | Secret | `GET /health/db` の `X-Health-Token` 検証用 token | Cloudflare Secrets |
+| `RETENTION_PURGE_MODE` | Variable | Issue #402 retention purge job の実行モード。`dry-run` が default、`apply` は staging runtime evidence 後の user-gated operation、`off` は cron branch 内で skip | `apps/api/wrangler.toml` / Cloudflare Variables |
+| `RETENTION_PURGE_LIMIT` | Variable | retention purge 1 tick あたりの処理上限。未指定時 100 | Cloudflare Variables |
 
-`FORM_ID` は旧設定互換として残せるが、03b response sync の正本名は `GOOGLE_FORM_ID` とする。
-`GOOGLE_SERVICE_ACCOUNT_JSON` は Sheets sync 専用の JSON 1 値契約であり、既存 Forms sync の `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を置換しない。値はログ、`.env`、ドキュメント、スクリーンショットに残さず、Cloudflare Secrets と 1Password を正本とする。
-`HEALTH_DB_TOKEN` は 32 byte 以上のランダム値を 1Password `op://UBM-Hyogo/cloudflare-api/HEALTH_DB_TOKEN` に保管し、staging / production の Cloudflare Secrets へ投入する。値はログ、`.env`、ドキュメント、スクリーンショットに残さない。rotation は 90 日ごと、または漏洩疑い時に即時実施する。
+`FORM_ID` は旧設定互換、03b 正本は `GOOGLE_FORM_ID`。`GOOGLE_SERVICE_ACCOUNT_JSON` は Sheets sync 専用の JSON 1 値契約（Forms sync の `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を置換しない）。`HEALTH_DB_TOKEN` は 32 byte 以上のランダム値を 1Password `op://UBM-Hyogo/cloudflare-api/HEALTH_DB_TOKEN` に保管し Cloudflare Secrets へ投入、90 日 rotation。`RETENTION_PURGE_MODE` は destructive operation gate で production default は `dry-run`、`apply` 変更は staging Phase 11 runtime evidence 確認後にユーザー明示承認を得る。`RETENTION_PURGE_LIMIT` は大規模 backlog 初回処理時のみ段階的に下げる。秘密値はログ・`.env`・ドキュメント・スクリーンショットに残さない。
 
 TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interface を正本とする。`apps/api/wrangler.toml` の vars / D1 binding / Secrets を追加・変更する場合は、`Env` の field とコメントも同一 wave で更新する。`apps/web` から `Env` を import することは禁止し、`scripts/lint-boundaries.mjs` が raw token と relative path 解決の両方で遮断する。
 
@@ -469,11 +469,7 @@ GitHub ActionsのCI/CDパイプラインで使用する環境変数。
 4. GitHubリポジトリ → Settings → Secrets and variables → Actions
 5. New repository secret → Name: `CODECOV_TOKEN`, Value: コピーしたトークン
 
-**セキュリティ要件**:
-
-- トークンはGitHub Secretsで暗号化管理
-- ログに出力しない（GitHub Actionsが自動マスキング）
-- 漏洩時は即座にCodecovダッシュボードで再生成
+**セキュリティ要件**: GitHub Secrets で暗号化管理、ログ出力禁止（Actions が自動マスキング）、漏洩時は即時 Codecov ダッシュボードで再生成。
 
 **使用例（.github/workflows/ci.yml）**: `codecov/codecov-action@v5` を使い、`token: ${{ secrets.CODECOV_TOKEN }}` / `fail_ci_if_error: true` を指定する。
 

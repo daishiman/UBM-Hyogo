@@ -874,12 +874,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L208 |
-| UBM-Hyogo Admin Sync API（03a） | L229 |
-| UBM-Hyogo Member Self-Service API（04b） | L280 |
-| Desktop IPC API サマリー | L307 |
-| 変更履歴 | L338 |
-| 関連ドキュメント | L355 |
+| エンドポイント命名規則 | L209 |
+| UBM-Hyogo Admin Sync API（03a） | L230 |
+| UBM-Hyogo Member Self-Service API（04b） | L281 |
+| Desktop IPC API サマリー | L308 |
+| 変更履歴 | L339 |
+| 関連ドキュメント | L356 |
 
 ### references/api-internal-chunk-search.md
 
@@ -970,12 +970,12 @@ node scripts/list-specs.js --topics
 | 型安全なクエリ実装 | L6 |
 | Embedded Replicas とオフライン対応 | L56 |
 | マイグレーション管理 | L102 |
-| テスト戦略 | L142 |
-| UBM-Hyogo D1 Repository 契約（02b） | L172 |
-| エラーハンドリング | L213 |
-| Conversation DB 初期化パターン | L244 |
-| UBM-Hyogo Schema Sync Contract（03a） | L246 |
-| ベクトル検索実装（DiskANN） | L356 |
+| テスト戦略 | L160 |
+| UBM-Hyogo D1 Repository 契約（02b） | L190 |
+| エラーハンドリング | L231 |
+| Conversation DB 初期化パターン | L262 |
+| UBM-Hyogo Schema Sync Contract（03a） | L264 |
+| ベクトル検索実装（DiskANN） | L374 |
 
 ### references/database-implementation-details.md
 
@@ -1060,21 +1060,20 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L6 |
 | テーブル一覧 | L11 |
-| UBM 会員 Forms 同期テーブル（03b） | L44 |
-| Schema aliases write target（issue-191 / UT-07B） | L59 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L89 |
-| Legacy Sheets sync transition note（U-UT01-09） | L101 |
-| Schema alias assignment workflow（07b） | L113 |
-| ワークフロー関連テーブル | L117 |
-| ユーザー関連テーブル | L156 |
-| システムプロンプト関連テーブル | L190 |
-| チャット関連テーブル | L225 |
-| RAG関連テーブル | L261 |
-| Knowledge Graph関連テーブル | L303 |
-| 変換処理関連テーブル | L437 |
-| インデックス設計 | L496 |
-| 関連ドキュメント / 変更履歴 | L500 |
-| DDL 同期テンプレ | L505 |
+| UBM 会員 Forms 同期テーブル（03b） | L45 |
+| Schema aliases write target（issue-191 / UT-07B） | L60 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L90 |
+| Legacy Sheets sync transition note（U-UT01-09） | L102 |
+| Schema alias assignment workflow（07b） | L114 |
+| ワークフロー関連テーブル | L118 |
+| ユーザー関連テーブル | L157 |
+| システムプロンプト関連テーブル | L191 |
+| チャット関連テーブル | L226 |
+| RAG関連テーブル | L262 |
+| Knowledge Graph関連テーブル | L304 |
+| 変換処理関連テーブル | L438 |
+| インデックス設計 | L497 |
+| 関連ドキュメント / 変更履歴 / DDL テンプレ | L501 |
 
 ---
 
@@ -2751,6 +2750,21 @@ node scripts/list-specs.js --topics
 | Validation chain | L155 |
 | 運用メモ | L166 |
 
+### references/workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Classification（責務分離） | L15 |
+| Phase 12 outputs（strict 7 files） | L26 |
+| Implementation artifacts | L38 |
+| Route contract | L47 |
+| Error mapping | L56 |
+| Audit log emission | L66 |
+| Skill artifacts | L73 |
+| Validation chain | L82 |
+| 運用メモ | L92 |
+
 ### references/workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -3110,6 +3124,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L221 |
 | 変更履歴 | L229 |
 
+### references/data-retention-policy.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Current Policy | L7 |
+| Audit Minimum | L25 |
+| Existing Soft-Delete Rule Exception | L38 |
+| Runtime Evidence Boundary | L42 |
+
 ### references/deployment-branch-strategy.md
 
 | セクション | 行 |
@@ -3349,8 +3373,8 @@ node scripts/list-specs.js --topics
 | トラブルシューティング | L315 |
 | チーム開発での運用 | L376 |
 | 必須環境変数一覧 | L415 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L480 |
-| 関連ドキュメント | L500 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L476 |
+| 関連ドキュメント | L496 |
 
 ### references/error-handling-core.md
 
@@ -3969,6 +3993,19 @@ node scripts/list-specs.js --topics
 | L-I399-004: Phase 12 strict 7 files は仕様書作成時点でも実体化する | L21 |
 | L-I399-005: synthetic ID prefix の cleanup query 契約は seed と同 wave で固定する | L27 |
 
+### references/lessons-learned-issue-401-admin-request-notification-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I401-001: notification enqueue は resolve transaction の外側に置く | L3 |
+| L-I401-002: mail config gate は dispatch tick の claim 前に判定する | L7 |
+| L-I401-003: PII boundary を email / outbox / ledger の三方向に張る | L11 |
+| L-I401-004: claim は CAS、unique 制約は (note_id, outcome) | L15 |
+| L-I401-005: retryable failure は pending、failed は ledger event only | L19 |
+| L-I401-006: cron は既存 `*/5` branch に統合する | L23 |
+| L-I401-007: recipient lookup は `member_identities.response_email` | L27 |
+| L-I401-008: workflow root を completed-tasks 配下に置く | L31 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4060,6 +4097,16 @@ node scripts/list-specs.js --topics
 | L-UT02A-002: schema 名は migration 実体を優先する | L7 |
 | L-UT02A-003: optional provider fallback は互換性、完了証跡ではない | L11 |
 | L-UT02A-004: D1 read aggregator は chunk と deterministic ordering をセットで記録する | L15 |
+
+### references/lessons-learned-ut-02a-attendance-write-operations-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT02A-WRITE-001: `spec_drafted` 非標準語彙は使わない（`implemented-local` 統一） | L5 |
+| L-UT02A-WRITE-002: 既存実装で AC 全充足の follow-up は resolved-by-existing close-out として処理 | L21 |
+| L-UT02A-WRITE-003: contract verification のみ完了時は `CONTRACT_ONLY_NOT_EXECUTED` を明記 | L37 |
+| L-UT02A-WRITE-004: outputs strict 7 files / root parity を Phase 0 で確認 | L53 |
+| L-UT02A-WRITE-005: source unassigned 解消と親 detection を close-out root に同時誘導 | L69 |
 
 ### references/lessons-learned-ut-02a-tag-assignment-queue-2026-05.md
 
@@ -4264,8 +4311,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L96 |
-| 関連ドキュメント | L101 |
+| 利用順序 | L97 |
+| 関連ドキュメント | L102 |
 
 ### references/llm-embedding.md
 
@@ -4907,13 +4954,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 無料枠の境界 | L15 |
 | 2. WAE 6 イベント設計（reference） | L42 |
-| 3. アラート閾値設計指針 | L59 |
-| 4. PII 除外ルール | L85 |
-| 5. 苦戦箇所（恒久対策） | L101 |
-| 6. 関連ファイル | L126 |
-| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L138 |
-| 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L144 |
-| 9. 変更履歴 | L160 |
+| 3. アラート閾値設計指針 | L67 |
+| 4. PII 除外ルール | L93 |
+| 5. 苦戦箇所（恒久対策） | L109 |
+| 6. 関連ファイル | L134 |
+| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
+| 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
+| 9. 変更履歴 | L168 |
 
 ### references/patterns-advanced.md
 
@@ -5335,13 +5382,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L253 |
-| フェーズ構造（概要） | L262 |
-| 品質ゲート（概要） | L293 |
-| 出力テンプレート | L304 |
-| 実行時のコマンド・エージェント・スキル | L327 |
-| 昇格パターン集 | L351 |
-| Current Active / Spec Created Tasks | L353 |
+| ドキュメント構成 | L277 |
+| フェーズ構造（概要） | L286 |
+| 品質ゲート（概要） | L317 |
+| 出力テンプレート | L328 |
+| 実行時のコマンド・エージェント・スキル | L351 |
+| 昇格パターン集 | L375 |
+| Current Active / Spec Created Tasks | L377 |
 
 ### references/task-workflow-backlog-part2.md
 
