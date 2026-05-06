@@ -24,7 +24,7 @@ import { adminAttendanceRoute } from "./routes/admin/attendance";
 import { adminAuditRoute } from "./routes/admin/audit";
 import { adminRequestsRoute } from "./routes/admin/requests";
 import { createAdminIdentityConflictsRoute } from "./routes/admin/identity-conflicts";
-import { ctx } from "./repository/_shared/db";
+import { ctx as dbCtx } from "./repository/_shared/db";
 import { listFieldsByVersion } from "./repository/schemaQuestions";
 import type { Env } from "./env";
 import {
@@ -46,6 +46,10 @@ import {
 import { clearDedupeKey } from "./repository/schemaDiffQueue";
 import { TAG_QUEUE_TICK_CRON } from "./repository/tagQueue";
 import { runTagQueueRetryTick } from "./workflows/tagQueueRetryTick";
+import { runNotificationDispatchTick } from "./workflows/notificationDispatchTick";
+import { createOutboxRepository } from "./repository/notificationOutbox";
+import { createMailDispatcher } from "./services/notification/dispatcher";
+import { buildNotificationMessage } from "./services/notification/templates";
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 import { createPublicRouter } from "./routes/public";
 import { createMeRoute } from "./routes/me";
@@ -114,6 +118,18 @@ const webCryptoJwtSigner: JwtSigner = {
   },
 };
 
+export const hasNotificationMailConfig = (
+  env: Pick<Env, "MAIL_PROVIDER_KEY" | "MAIL_FROM_ADDRESS">,
+): boolean => {
+  const fromAddress = env.MAIL_FROM_ADDRESS?.trim() ?? "";
+  return Boolean(
+    env.MAIL_PROVIDER_KEY &&
+      fromAddress.includes("@") &&
+      !fromAddress.endsWith(".example") &&
+      !fromAddress.endsWith(".example.com"),
+  );
+};
+
 function buildFormsClient(env: Env): GoogleFormsClient {
   if (!env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !env.GOOGLE_PRIVATE_KEY) {
     throw new Error(
@@ -129,7 +145,7 @@ function buildFormsClient(env: Env): GoogleFormsClient {
       authDeps: { fetchImpl: fetch, signer: webCryptoJwtSigner },
       questionIdToStableKey: async (raw) => {
         const rows = await listFieldsByVersion(
-          ctx({ DB: env.DB }),
+          dbCtx({ DB: env.DB }),
           env.GOOGLE_FORM_ID ?? env.FORM_ID ?? "",
           raw.revisionId ?? "unknown",
         );
@@ -308,7 +324,7 @@ const handleBackfillMessage = async (
   env: Env,
   msg: BackfillQueueMessage,
 ): Promise<void> => {
-  const db = ctx({ DB: env.DB });
+  const db = dbCtx({ DB: env.DB });
   const input: BackfillBatchInput = {
     diffId: msg.diffId,
     questionId: msg.questionId,
@@ -364,10 +380,47 @@ export default {
     const cron = (event as ScheduledController & { cron?: string }).cron ?? "";
     if (cron === TAG_QUEUE_TICK_CRON) {
       ctx.waitUntil(
-        runTagQueueRetryTick(env).catch((err) => {
-          const message = err instanceof Error ? err.message : String(err);
-          console.error("[tagQueueRetryTick] failed", { error: message });
-        }),
+        (async () => {
+          const tasks: Array<Promise<unknown>> = [
+            runTagQueueRetryTick(env),
+          ];
+          const labels = ["tagQueueRetryTick"];
+          if (hasNotificationMailConfig(env)) {
+            const fromAddress = env.MAIL_FROM_ADDRESS!.trim();
+            const mailSender = createResendSender({ apiKey: env.MAIL_PROVIDER_KEY! });
+            tasks.push(
+              runNotificationDispatchTick({
+                outbox: createOutboxRepository(dbCtx({ DB: env.DB })),
+                dispatcher: createMailDispatcher({
+                  mailSender,
+                  fromAddress,
+                  buildMessage: (row, from) =>
+                    buildNotificationMessage({
+                      to: row.recipientEmail,
+                      from,
+                      outcome: row.outcome,
+                      requestType: row.requestType,
+                      reasonSummary: row.reasonSummary,
+                    }),
+                }),
+                now: () => new Date(),
+              }),
+            );
+            labels.push("notificationDispatchTick");
+          } else {
+            console.warn("[notificationDispatchTick] skipped", {
+              reason: "mail_config_not_ready",
+            });
+          }
+          const results = await Promise.allSettled(tasks);
+          for (const [i, r] of results.entries()) {
+            if (r.status === "rejected") {
+              const err = r.reason;
+              const message = err instanceof Error ? err.message : String(err);
+              console.error(`[${labels[i]}] failed`, { error: message });
+            }
+          }
+        })(),
       );
       return;
     }

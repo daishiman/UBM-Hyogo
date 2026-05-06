@@ -204,6 +204,19 @@
 | 検証 | repository / route / UI component focused Vitest、api/web typecheck。実 screenshot は admin session + D1 fixture staging task へ委譲 |
 | 後続 | notification / audit target taxonomy / retention physical deletion / staging visual evidence |
 
+### Issue #401 Admin Request Notification（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-401-admin-request-notification/` |
+| 目的 | `POST /admin/requests/:noteId/resolve` 完了後に、本人へ approve / reject 結果を outbox + dispatch worker で通知する |
+| 実装 | `apps/api/migrations/0014_notification_outbox.sql`, `apps/api/src/repository/notificationOutbox.ts`, `apps/api/src/services/notification/*`, `apps/api/src/workflows/notificationDispatchTick.ts`, `apps/api/src/routes/admin/requests.ts`, `apps/api/src/index.ts`, `apps/api/src/notification-mail-config.test.ts`, `apps/api/wrangler.toml` |
+| 公開契約 | resolve transaction は rollback せず、notification enqueue は best-effort。recipient は `member_identities.response_email`、mail env は `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS`。`MAIL_PROVIDER_KEY` missing / `.example` sender は claim 前に dispatch skip |
+| retry/DLQ | retryable failure は `pending` に戻す。`failed` は ledger event only。stale `dispatching` は lease timeout 後に再 claim。max retry or non-retryable failure で `dlq` |
+| PII/監査 | raw `resolutionNote` は email / `notification_outbox.reason_summary` / `notification_ledger.detail_json` にコピーしない。provider error body は error class に縮約して保存 |
+| 境界 | staging D1 apply / Resend send / production migration / commit / push / PR / Issue mutation は user 明示承認まで実行しない。Issue #401 は CLOSED 維持し PR では `Refs #401` |
+
 ### Issue #112 API Worker Env 型 SSOT（2026-05-01）
 
 | 項目 | 値 |

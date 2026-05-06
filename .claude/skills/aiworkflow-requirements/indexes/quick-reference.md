@@ -5,6 +5,25 @@
 
 ---
 
+### Issue #401 Admin Request Notification（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-401-admin-request-notification/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval` |
+| API | `POST /admin/requests/:noteId/resolve` 後に `notification_outbox` へ best-effort enqueue |
+| DB | `notification_outbox`, `notification_ledger`(migration `0014_notification_outbox.sql`) |
+| mail env | `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS`（旧 `RESEND_API_KEY` / `RESEND_FROM_EMAIL` は使わない） |
+| mail config gate | `MAIL_PROVIDER_KEY` missing / `.example` sender は claim 前に dispatch skip |
+| retry | retryable failure は `pending` 復帰。`failed` は ledger event only |
+| stuck recovery | stale `dispatching` rows are reclaimed after lease timeout |
+| recipient | `member_identities.response_email` |
+| PII boundary | raw `resolutionNote` is not copied to email / `reason_summary` / ledger detail |
+| close-out evidence | `docs/30-workflows/completed-tasks/issue-401-admin-request-notification/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime boundary | staging D1 apply / Resend send / production migration / commit / push / PR は user approval 後 |
+
+---
+
 ### task-05a `/public/form-preview` 503 root cause + fix（2026-05-05）
 
 | 目的 | 参照先 |
@@ -21,6 +40,7 @@
 | 禁止事項 | response shape 変更、D1 schema 列追加、apps/web direct D1 access、production mutation、commit / push / PR |
 
 ---
+
 
 ### Issue #359 Out-of-Band Production D1 Apply Audit（2026-05-04）
 

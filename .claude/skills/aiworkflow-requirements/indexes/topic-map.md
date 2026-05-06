@@ -874,12 +874,12 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L208 |
-| UBM-Hyogo Admin Sync API（03a） | L229 |
-| UBM-Hyogo Member Self-Service API（04b） | L280 |
-| Desktop IPC API サマリー | L307 |
-| 変更履歴 | L338 |
-| 関連ドキュメント | L355 |
+| エンドポイント命名規則 | L209 |
+| UBM-Hyogo Admin Sync API（03a） | L230 |
+| UBM-Hyogo Member Self-Service API（04b） | L281 |
+| Desktop IPC API サマリー | L308 |
+| 変更履歴 | L339 |
+| 関連ドキュメント | L356 |
 
 ### references/api-internal-chunk-search.md
 
@@ -970,12 +970,12 @@ node scripts/list-specs.js --topics
 | 型安全なクエリ実装 | L6 |
 | Embedded Replicas とオフライン対応 | L56 |
 | マイグレーション管理 | L102 |
-| テスト戦略 | L142 |
-| UBM-Hyogo D1 Repository 契約（02b） | L172 |
-| エラーハンドリング | L213 |
-| Conversation DB 初期化パターン | L244 |
-| UBM-Hyogo Schema Sync Contract（03a） | L246 |
-| ベクトル検索実装（DiskANN） | L356 |
+| テスト戦略 | L160 |
+| UBM-Hyogo D1 Repository 契約（02b） | L190 |
+| エラーハンドリング | L231 |
+| Conversation DB 初期化パターン | L262 |
+| UBM-Hyogo Schema Sync Contract（03a） | L264 |
+| ベクトル検索実装（DiskANN） | L374 |
 
 ### references/database-implementation-details.md
 
@@ -3993,6 +3993,19 @@ node scripts/list-specs.js --topics
 | L-I399-004: Phase 12 strict 7 files は仕様書作成時点でも実体化する | L21 |
 | L-I399-005: synthetic ID prefix の cleanup query 契約は seed と同 wave で固定する | L27 |
 
+### references/lessons-learned-issue-401-admin-request-notification-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I401-001: notification enqueue は resolve transaction の外側に置く | L3 |
+| L-I401-002: mail config gate は dispatch tick の claim 前に判定する | L7 |
+| L-I401-003: PII boundary を email / outbox / ledger の三方向に張る | L11 |
+| L-I401-004: claim は CAS、unique 制約は (note_id, outcome) | L15 |
+| L-I401-005: retryable failure は pending、failed は ledger event only | L19 |
+| L-I401-006: cron は既存 `*/5` branch に統合する | L23 |
+| L-I401-007: recipient lookup は `member_identities.response_email` | L27 |
+| L-I401-008: workflow root を completed-tasks 配下に置く | L31 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5369,13 +5382,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L264 |
-| フェーズ構造（概要） | L273 |
-| 品質ゲート（概要） | L304 |
-| 出力テンプレート | L315 |
-| 実行時のコマンド・エージェント・スキル | L338 |
-| 昇格パターン集 | L362 |
-| Current Active / Spec Created Tasks | L364 |
+| ドキュメント構成 | L277 |
+| フェーズ構造（概要） | L286 |
+| 品質ゲート（概要） | L317 |
+| 出力テンプレート | L328 |
+| 実行時のコマンド・エージェント・スキル | L351 |
+| 昇格パターン集 | L375 |
+| Current Active / Spec Created Tasks | L377 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -26,6 +26,10 @@ import {
   adminEmail,
   auditAction,
 } from "../../repository/_shared/brand";
+import {
+  createOutboxRepository,
+  type NotificationOutboxRepository,
+} from "../../repository/notificationOutbox";
 import { RETENTION_DAYS } from "../../services/retention-policy";
 import type { AdminRouteEnv } from "./_shared";
 
@@ -170,10 +174,22 @@ const inferDesiredPublishState = (
   return null;
 };
 
+export interface AdminRequestsRouteDeps {
+  outboxFactory?: (env: AdminRouteEnv) => NotificationOutboxRepository;
+  logger?: { warn?: (msg: string, meta?: Record<string, unknown>) => void };
+}
+
+const defaultOutboxFactory = (env: AdminRouteEnv) =>
+  createOutboxRepository(ctx({ DB: env.DB }));
+
 const addDaysIso = (baseIso: string, days: number): string =>
   new Date(new Date(baseIso).getTime() + days * 24 * 60 * 60 * 1000).toISOString();
 
-export const createAdminRequestsRoute = () => {
+export const createAdminRequestsRoute = (
+  deps: AdminRequestsRouteDeps = {},
+) => {
+  const outboxFactory = deps.outboxFactory ?? defaultOutboxFactory;
+  const logger = deps.logger ?? console;
   const app = new Hono<{
     Bindings: AdminRouteEnv;
     Variables: RequireAuthVariables;
@@ -419,6 +435,42 @@ export const createAdminRequestsRoute = () => {
     }
 
     const after = await getStatus(db, asMemberId(memberId));
+
+    // Issue #401: best-effort 通知 enqueue。失敗しても resolve は 200 を維持する。
+    try {
+      const outbox = outboxFactory(c.env);
+      const recipient = await outbox.findRecipientEmail(memberId);
+      if (!recipient) {
+        logger.warn?.("notification_enqueue_skipped", {
+          noteId,
+          reason: "missing_email",
+        });
+      } else {
+        const enqueueResult = await outbox.enqueue({
+          noteId,
+          memberId,
+          recipientEmail: recipient.responseEmail,
+          outcome: resolution === "approve" ? "approved" : "rejected",
+          requestType: noteTypeNarrowed,
+          // `resolutionNote` は管理者の内部自由記述として既存 note 境界に閉じる。
+          // member 向けメールには明示的に作られた通知用 summary だけを載せる。
+          reasonSummaryRaw: null,
+          nowIso,
+        });
+        if (!enqueueResult.ok && enqueueResult.reason !== "duplicate") {
+          logger.warn?.("notification_enqueue_failed", {
+            noteId,
+            reason: enqueueResult.reason,
+          });
+        }
+      }
+    } catch (e) {
+      logger.warn?.("notification_enqueue_failed", {
+        noteId,
+        error: e instanceof Error ? e.message : String(e),
+      });
+    }
+
     return c.json({
       ok: true,
       noteId,
