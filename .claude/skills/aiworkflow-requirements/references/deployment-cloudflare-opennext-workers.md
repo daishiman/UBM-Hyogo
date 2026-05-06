@@ -277,12 +277,26 @@ OpenNext Workers production cutover 後の長期 analytics evidence は、親仕
 
 正本 workflow: `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/`
 
+## 15. 09c-A production execution workflow
+
+Production deploy execution は `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/` を current workflow root とする。状態は `spec_created / implementation / VISUAL_ON_EXECUTION / production runtime evidence pending_user_approval` であり、実 Cloudflare mutation、D1 migration apply、release tag push、production smoke、24h verification は承認後の execution operation でのみ実行する。
+
+正本 deploy route は次の通り:
+
+| 対象 | コマンド |
+| --- | --- |
+| API deploy | `bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env production` |
+| Web build | `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare` |
+| Web deploy | `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env production` |
+| D1 migration | `bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --remote --env production --config apps/api/wrangler.toml` |
+
+`apps/api` / `apps/web` の `deploy:production` package script は正本経路ではない。`wrangler` 直接実行も禁止し、`scripts/cf.sh` wrapper 経由に統一する。Phase 11 の placeholder evidence は runtime PASS ではなく、実値は承認済み execution 時に同一パスへ上書きする。
 
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | --- | --- | --- |
-| 2026-05-05 | 1.5.0 | Issue #351 post-release dashboard automation に合わせ、analytics read-only token 分離規約 (§14) と `scripts/cf.sh api-post` の read-only GraphQL 入口を追加 |
+| 2026-05-05 | 1.5.0 | Issue #351 post-release dashboard automation に合わせ、analytics read-only token 分離規約 (§14) と `scripts/cf.sh api-post` の read-only GraphQL 入口を追加。あわせて 09c-A production execution workflow の導線 (§15)、`VISUAL_ON_EXECUTION` 境界、`cf.sh` 正本 deploy route、`ubm-hyogo-db-prod` D1 migration apply route を追加 |
 | 2026-05-05 | 1.4.0 | Issue #347 long-term analytics evidence decision への導線 (§15) を追加。OpenNext Workers の production evidence は GraphQL aggregate-only / PII 非保存 contract に従う |
 | 2026-05-02 | 1.3.0 | UT-06-FU-A-LOGPUSH-TARGET-DIFF-SCRIPT-001 実装反映。Logpush / observability target diff の公開入口を `bash scripts/cf.sh observability-diff`、内部 script を `scripts/observability-target-diff.sh`、redaction module を `scripts/lib/redaction.sh` として正本化。13.1 (R1-R4 4 軸) / 13.2 (redaction R-01〜R-06) / 13.3 (read-only 2 経路) を追記し、`observability-monitoring.md` との責務境界を明示 |
 | 2026-05-01 | 1.2.0 | ADR-0001 により apps/web deploy target を Cloudflare Workers + OpenNext に固定。`web-cd.yml` Pages deploy 残と Cloudflare side 切替は `task-impl-opennext-workers-migration-001` へ委譲 |
