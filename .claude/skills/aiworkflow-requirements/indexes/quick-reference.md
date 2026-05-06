@@ -37,6 +37,24 @@
 
 ---
 
+### Issue #484 Cloudflare Analytics Monthly Export Automation（2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / code evidence captured / runtime Cloudflare export pending_user_approval / Phase 13 blocked_pending_user_approval` |
+| consumed source | `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` |
+| parent decision | `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` |
+| output dir | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11/long-term-evidence/` |
+| required secrets/env | `CLOUDFLARE_ANALYTICS_API_TOKEN`, `CLOUDFLARE_ZONE_TAG`, `CLOUDFLARE_ACCOUNT_TAG` |
+| persisted identifiers | `zoneTag` / `accountTag` are stored as `[redacted]`; they are GraphQL inputs only |
+| metric aggregation | GraphQL groups are summed across returned buckets |
+| redaction gate | email / IPv4 / bearer-token / URL query / member ID / session-cookie |
+| Phase 12 compliance | `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime boundary | Cloudflare runtime export and PR creation are pending explicit implementation/runtime execution |
+
+---
+
 ### UT-07B-FU-03 D1 Production Migration Apply Runbook（2026-05-04）
 
 | 目的 | 参照先 |
