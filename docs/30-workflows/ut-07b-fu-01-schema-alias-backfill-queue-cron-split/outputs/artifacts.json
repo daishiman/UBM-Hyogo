@@ -1,0 +1,56 @@
+{
+  "workflow_id": "ut-07b-fu-01-schema-alias-backfill-queue-cron-split",
+  "workflow_state": "implemented-local",
+  "metadata": {
+    "task_id": "UT-07B-FU-01",
+    "task_name": "Schema alias back-fill queue/cron split for large data volume",
+    "github_issue": 361,
+    "github_issue_state": "CLOSED",
+    "parent_task": "ut-07b-schema-alias-hardening",
+    "source_phase": "docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/phase-12/unassigned-task-detection.md",
+    "created_date": "2026-05-05",
+    "category": "type:performance",
+    "priority": "medium",
+    "scale": "medium",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "docsOnly": false,
+    "gate_state": "local_implementation_go_runtime_pending",
+    "phase10_gate": "design-ready",
+    "phase11_gate": "local_implementation_go_runtime_pending",
+    "wave": 2,
+    "implementation_class": "implemented-local",
+    "trigger_condition": "staging 10000+ rows evidence shows persistent backfill_cpu_budget_exhausted",
+    "dependencies": [
+      "ut-07b-schema-alias-hardening"
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "spec_created", "spec": "phase-01.md" },
+    { "id": 2, "name": "設計（Queue vs Cron / batch contract / remaining-scan model）", "status": "spec_created", "spec": "phase-02.md" },
+    { "id": 3, "name": "設計レビューゲート", "status": "spec_created", "spec": "phase-03.md" },
+    { "id": 4, "name": "検証戦略", "status": "spec_created", "spec": "phase-04.md" },
+    { "id": 5, "name": "仕様 runbook 作成", "status": "completed", "spec": "phase-05.md" },
+    { "id": 6, "name": "異常系（duplicate enqueue / partial failure recovery）", "status": "completed", "spec": "phase-06.md" },
+    { "id": 7, "name": "AC マトリクス", "status": "completed", "spec": "phase-07.md" },
+    { "id": 8, "name": "DRY 化 / 仕様間整合", "status": "completed", "spec": "phase-08.md" },
+    { "id": 9, "name": "品質保証", "status": "completed", "spec": "phase-09.md" },
+    { "id": 10, "name": "最終レビューゲート", "status": "completed", "spec": "phase-10.md" },
+    { "id": 11, "name": "手動検証（staging 10000+ rows evidence + 着手 gate）", "status": "blocked_runtime_evidence", "spec": "phase-11.md" },
+    { "id": 12, "name": "ドキュメント更新", "status": "completed", "spec": "phase-12.md" },
+    { "id": 13, "name": "PR 作成", "status": "spec_created", "spec": "phase-13.md" }
+  ],
+  "ac": [
+    "AC-1: staging 10000+ rows before evidence で着手 gate 判定",
+    "AC-2: Queue vs Cron 採用判断が trade-off 表で根拠付き",
+    "AC-3: alias 確定と back-fill 継続の責務分離",
+    "AC-4: API response が confirmed と backfill.status を区別",
+    "AC-5: remaining-scan model + idempotent update で batch 処理",
+    "AC-6: Cloudflare binding が staging/production/CI/runbook で一致",
+    "AC-7: route/workflow/repository tests が duplicate/partial failure を網羅",
+    "AC-8: staging after evidence で CPU budget exhaustion 収束",
+    "AC-9: 不変条件 #5（D1 アクセスは apps/api 限定）違反ゼロ",
+    "AC-10: 4 条件評価が全 PASS",
+    "AC-11: Phase 12 で 7 必須成果物 + aiworkflow-requirements 同期"
+  ]
+}
