@@ -2311,6 +2311,7 @@
       "interfaces-agent-sdk-skill-editor.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -2634,6 +2635,7 @@
       "interfaces-agent-sdk-skill-advanced.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "ui-ux-feature-components-details.md"
     ],
     "Real": [
@@ -3483,6 +3485,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
@@ -3931,6 +3934,7 @@
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
@@ -4302,6 +4306,7 @@
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
@@ -4538,6 +4543,7 @@
     ],
     "skip": [
       "claude-code-settings-hierarchy.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-security.md",
@@ -4702,6 +4708,7 @@
       "claude-code-settings-hierarchy.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
@@ -4722,6 +4729,7 @@
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -5014,6 +5022,7 @@
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "observability-monitoring.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -5398,6 +5407,7 @@
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "observability-monitoring.md",
@@ -5407,6 +5417,7 @@
     "Logs": [
       "database-schema-cf-audit-log.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "observability-monitoring.md"
     ],
     "Issue": [
@@ -5431,6 +5442,7 @@
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -5477,6 +5489,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "skill-ledger-fragment-spec.md",
       "ui-ux-admin-dashboard.md",
@@ -5843,12 +5856,14 @@
       "deployment-secrets-management.md",
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "cf": [
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "sh": [
@@ -5969,6 +5984,7 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md"
     ],
@@ -5990,6 +6006,7 @@
       "deployment-secrets-management.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "logs-archive-2026-03-history-search-notification-center.md"
     ],
     "Long": [
@@ -6120,7 +6137,9 @@
       "post-release-long-term-observation.md"
     ],
     "Storage": [
-      "deployment-cloudflare.md"
+      "deployment-cloudflare.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "observability-monitoring.md"
     ],
     "FU": [
       "deployment-cloudflare.md",
@@ -7271,7 +7290,8 @@
     "window": [
       "interfaces-agent-sdk.md",
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
-      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "agentAPI": [
       "interfaces-agent-sdk.md"
@@ -8064,6 +8084,7 @@
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -8124,6 +8145,7 @@
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -8214,6 +8236,7 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "logging-migration-guide.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
@@ -8344,7 +8367,8 @@
     ],
     "full": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
-      "lessons-learned-06c-E-admin-meetings-2026-05.md"
+      "lessons-learned-06c-E-admin-meetings-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "suite": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
@@ -8361,6 +8385,7 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md"
     ],
@@ -8404,6 +8429,7 @@
     ],
     "prod": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md"
     ],
@@ -8628,6 +8654,7 @@
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md"
@@ -8742,6 +8769,7 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
@@ -8803,6 +8831,7 @@
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-governance-design-category.md",
@@ -9111,6 +9140,7 @@
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
@@ -9131,6 +9161,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -9191,6 +9222,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
     ],
@@ -9636,6 +9668,7 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -9650,6 +9683,7 @@
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -9985,6 +10019,7 @@
     ],
     "mirror": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "skill-ledger-progressive-disclosure.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
@@ -10154,6 +10189,7 @@
     ],
     "outputs": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
@@ -10202,7 +10238,8 @@
     ],
     "additive": [
       "lessons-learned-06c-B-admin-members-2026-05.md",
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
+      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "拡張で入れる": [
       "lessons-learned-06c-B-admin-members-2026-05.md"
@@ -10570,7 +10607,8 @@
       "lessons-learned-07b-schema-alias-assignment-2026-04.md"
     ],
     "pre": [
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md"
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "check": [
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
@@ -10722,13 +10760,15 @@
     "で固定する": [
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
-      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md"
+      "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "監査ログ閲覧は": [
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md"
     ],
     "raw": [
-      "lessons-learned-07c-audit-log-browsing-ui-2026-05.md"
+      "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "非公開を": [
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md"
@@ -10904,7 +10944,8 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
     ],
     "redaction": [
-      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
+      "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "と本物": [
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md"
@@ -11418,7 +11459,8 @@
     "ISSUE": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
-      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "governance": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -11518,7 +11560,9 @@
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
     ],
     "Export": [
-      "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md"
+      "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "observability-monitoring.md"
     ],
     "Observation": [
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
@@ -11649,13 +11693,16 @@
     ],
     "BOUNDARY": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md"
     ],
     "SYNCED": [
-      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "PENDING": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md"
     ],
     "で閉じる": [
@@ -11707,7 +11754,8 @@
       "lessons-learned-issue-372-attendance-pagination-2026-05.md"
     ],
     "を追加する": [
-      "lessons-learned-issue-372-attendance-pagination-2026-05.md"
+      "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "MemberProfile": [
       "lessons-learned-issue-372-attendance-pagination-2026-05.md"
@@ -11767,7 +11815,8 @@
     ],
     "参照元": [
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
-      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "Retry": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
@@ -12011,7 +12060,8 @@
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
     ],
     "email": [
-      "lessons-learned-issue-401-admin-request-notification-2026-05.md"
+      "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "outbox": [
       "lessons-learned-issue-401-admin-request-notification-2026-05.md"
@@ -12158,6 +12208,93 @@
     ],
     "で保つ": [
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md"
+    ],
+    "Cold": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "observability-monitoring.md"
+    ],
+    "編集正本": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "で同値性を": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "cmp": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "で保証する": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "判定前にすべて": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "materialize": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "と区別する語彙境界": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "irreversible": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "ordering": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+    ],
+    "月次": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "cadence": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "daily": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "now": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "manifest": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "に補正する": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "exporter": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "occurred": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "at": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "に整合し": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "etag": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "Bearer": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "IP": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "UA": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "hash": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "を全": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "sink": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
+    ],
+    "enforce": [
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
     ],
     "against": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
@@ -12521,9 +12658,6 @@
     "deterministic": [
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
     ],
-    "ordering": [
-      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
-    ],
     "をセットで記録する": [
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
     ],
@@ -12779,9 +12913,6 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "private": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
-    ],
-    "Bearer": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "の認証契約を統合せず併存させる判断": [

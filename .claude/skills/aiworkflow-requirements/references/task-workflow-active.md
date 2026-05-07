@@ -103,6 +103,20 @@
 | 起票元 | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-audit-logs-monitoring.md` |
 | 正本同期 | `references/deployment-secrets-management.md` / `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
 
+### Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Issue #514 CLOSED |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-514-cf-audit-logs-cold-storage-r2-export/` |
+| 目的 | Issue #408 の D1 `cf_audit_log` 30 日 retention を超える redacted audit log を R2 cold storage へ日次 export し、半期監査と restore drill に備える |
+| cadence | daily `0 2 * * *`。対象 window は `[now - 29d, now - 26d)`。manifest completed partition は skip |
+| manifest | `cf_audit_log_export_manifest`、`(yyyy, mm, dd)` UNIQUE、`pending -> completed/failed` 2-phase |
+| gate | G1 R2/bucket/secret/deploy -> G2 D1 migration apply -> G3-prod first daily export + restore drill -> G4 commit/push/PR |
+| runtime境界 | 本サイクルでは production R2 / D1 / GitHub Secrets / commit / PR は未実行。Phase 11/12/13 skeleton と SSOT 同期のみ完了 |
+| 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` |
+| 苦戦知見 | `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007: artifacts mirror parity / Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard) |
+
 
 ### task-05a-form-preview-503-001（2026-05-05）
 
