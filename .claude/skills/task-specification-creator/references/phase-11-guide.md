@@ -45,6 +45,30 @@
 10. 発見課題（修正済み・未修正）を outputs/phase-11/discovered-issues.md に出力
 ```
 
+### Phase 11 状態語彙対応表（UT-02A FU-003 反映）
+
+`apps/` / `packages/` への code diff 有無 と local PASS evidence の有無で Phase 11 の状態語彙を選ぶ。詳細な再分類ルールは `phase-12-documentation-guide.md` 「同サイクル `spec_created` → `implemented-local` 再分類」を参照。
+
+| 区分 | 状態語彙 | code diff | local PASS 5 点 | runtime evidence |
+| --- | --- | --- | --- | --- |
+| pre-code | `CONTRACT_READY_IMPLEMENTATION_PENDING` | なし（docs/.claude のみ） | 不要 | 不要 |
+| local-evidence + runtime-pending | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | あり | 必須（5 点全揃） | pending 明示 |
+| runtime PASS | `PASS` | あり | 必須 | staging/production 実走済 |
+
+#### Local PASS 5 点セット evidence path 規約
+
+Local 実装に対する Phase 11 evidence は、以下 5 ファイルを **canonical 固定 path** で残す。命名・拡張子・配置を 1 つでも崩したら local PASS と扱わない。
+
+| 種別 | canonical path |
+| --- | --- |
+| TypeScript 型チェック | `outputs/phase-11/evidence/typecheck.log` |
+| Lint | `outputs/phase-11/evidence/lint.log` |
+| ユニット / 結合テスト | `outputs/phase-11/evidence/test.log` |
+| Build | `outputs/phase-11/evidence/build.log` |
+| Grep gate（禁止トークン / 旧 API 不在確認等） | `outputs/phase-11/evidence/grep-gate.log` |
+
+5 点のうち 1 点でも欠けると `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` は使えず `CONTRACT_READY_IMPLEMENTATION_PENDING` へ格下げ、または欠落理由を `manual-test-result.md` に明記する。
+
 ### Phase 11
 
 - docs-only task: navigation、archive discoverability、mirror parity を確認する。

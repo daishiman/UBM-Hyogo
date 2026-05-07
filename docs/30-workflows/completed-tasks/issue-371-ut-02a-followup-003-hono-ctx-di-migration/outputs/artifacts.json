@@ -1,0 +1,42 @@
+{
+  "task_name": "issue-371-ut-02a-followup-003-hono-ctx-di-migration",
+  "task_path": "docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration",
+  "wave": "ut-02a-follow-up-architecture-refactor",
+  "execution_mode": "sequential",
+  "depends_on": [
+    "docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/",
+    "docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/ut-02a-followup-003-hono-ctx-or-di-container-migration.md",
+    "docs/30-workflows/completed-tasks/05a-parallel-authjs-google-oauth-provider-and-admin-gate/"
+  ],
+  "blocks": [
+    "ut-02a-followup-002",
+    "ut-02a-followup-004"
+  ],
+  "created_at": "2026-05-06",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented_local_evidence_captured",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "Low",
+    "scope": "hono-context-repository-provider-migration",
+    "issue": 371,
+    "issue_state": "closed"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": [], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "設計", "file": "phase-02.md", "status": "completed", "outputs": [], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "代替案比較 ADR", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/adr-di-strategy.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "テスト戦略", "file": "phase-04.md", "status": "completed", "outputs": [], "depends_on_phases": [3], "user_approval_required": false },
+    { "phase": 5, "name": "実装ランブック", "file": "phase-05.md", "status": "completed", "outputs": [], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "コードレビュー観点", "file": "phase-06.md", "status": "completed", "outputs": [], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "静的解析・型チェック", "file": "phase-07.md", "status": "completed", "outputs": [], "depends_on_phases": [6], "user_approval_required": false },
+    { "phase": 8, "name": "単体・統合テスト実行", "file": "phase-08.md", "status": "completed", "outputs": [], "depends_on_phases": [7], "user_approval_required": false },
+    { "phase": 9, "name": "不変条件・契約整合性検査", "file": "phase-09.md", "status": "completed", "outputs": [], "depends_on_phases": [8], "user_approval_required": false },
+    { "phase": 10, "name": "リスク再評価", "file": "phase-10.md", "status": "completed", "outputs": [], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "NON_VISUAL evidence contract", "file": "phase-11.md", "status": "pass_boundary_synced_runtime_pending", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/evidence/typecheck.log", "outputs/phase-11/evidence/lint.log", "outputs/phase-11/evidence/test.log", "outputs/phase-11/evidence/build.log", "outputs/phase-11/evidence/grep-gate.log"], "depends_on_phases": [10], "user_approval_required": false },
+    { "phase": 12, "name": "ドキュメント・未タスク・スキルフィードバック", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [11], "user_approval_required": false },
+    { "phase": 13, "name": "commit / PR 承認ゲート", "file": "phase-13.md", "status": "blocked_pending_user_approval", "outputs": [], "depends_on_phases": [12], "user_approval_required": true }
+  ]
+}

@@ -310,6 +310,8 @@ UT-07B schema alias hardening は、この `schema_aliases` write target replace
 
 UT-07B-FU-01 schema alias back-fill queue/cron split の current root は `docs/30-workflows/ut-07b-fu-01-schema-alias-backfill-queue-cron-split/`。状態は `implemented-local / implementation / NON_VISUAL / local implementation GO / runtime evidence pending`。Phase 10 は `design-ready` のみで、implementation GO / NO-GO / staging-deferred は `outputs/phase-11/gate-decision.md` が唯一の判定点。公開 `backfill.status` は `pending / running / exhausted / completed` に固定し、internal failure state は DB/retry metadata に閉じる。Issue #361 は CLOSED 維持、`Refs #361` のみ。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md`（L-UT07B-FU01-001 Queue dedupe 二層 / L-002 Cron 分割と CPU budget / L-003 public-internal status 値域変換 / L-004 remaining-scan 選定 / L-005 consumer dedupe 再確認 / L-006 Phase 11 gate 文言）。
 
+UT-07B-FU-02 admin schema alias retry label の current root は `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/`。状態は `implemented-local / implementation / VISUAL_ON_EXECUTION / component evidence PASS / runtime screenshot pending`。目的は HTTP 202 + `backfill.status='exhausted'` + `retryable=true` + `code='backfill_cpu_budget_exhausted'` + `mode='apply'` を `/admin/schema` の `SchemaDiffPanel` で通常 success / validation error / conflict error と区別し、「続きから再試行できる状態」として表示すること。web client predicate は `isSchemaAliasRetryableContinuation`（`apps/web/src/lib/admin/api.ts`）で 5 点完全合致による narrowing。不一致時は generic path にフォールバックする。実装は `apps/web/src/lib/admin/api.ts` / `apps/web/src/components/admin/SchemaDiffPanel.tsx` / focused tests、JUnit evidence は `outputs/phase-11/test-junit.xml`（30 tests PASS）。API contract と D1 schema は変更しない。Issue #362 は CLOSED 維持、PR 文面は `Refs #362` のみ。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md`（L-UT07B-FU02-001 5 点 narrowing / L-002 confirmed と backfill.status の責務分離 / L-003 code 不一致 fallback / L-004 4 状態 manual screenshot deferred）。
+
 UT-07B-FU-03 production migration apply runbook は、`apps/api/migrations/0008_schema_alias_hardening.sql` を `ubm-hyogo-db-prod` へ適用する別運用のための手順書 + 検証スクリプト実装である。workflow root は `docs/30-workflows/unassigned-task/task-ut-07b-fu-03-production-migration-apply-runbook.md`。状態は `spec_created / implemented-local / NON_VISUAL`、実装は `scripts/d1/{preflight,postcheck,evidence,apply-prod}.sh`、Cloudflare CLI ラッパー、`.github/workflows/d1-migration-verify.yml`、`pnpm test:scripts`。production apply は未実行であり正本 production 状態を上書きしない。
 
 UT-07B-FU-04 production migration already-applied verification は、`references/database-schema.md` の production D1 ledger fact（`0008_schema_alias_hardening.sql` applied at `2026-05-01 08:21:04 UTC`）を優先し、duplicate apply を禁止する operations verification workflow である。workflow root は `docs/30-workflows/ut-07b-fu-04-production-migration-apply-execution/`。状態は `spec_created / implementation / NON_VISUAL / completed_boundary_runtime_pending / runtime verification blocked_until_user_approval`。Phase 11 は placeholder evidence、Phase 12 は strict 7 files materialized、artifact inventory は `references/workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md`。post-check scope は `schema_diff_queue.backfill_cursor` / `backfill_status` のみで、`schema_aliases` table / UNIQUE indexes は `0008_create_schema_aliases.sql` 側の責務。Issue #424 は CLOSED 維持。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md`（L-UT07B-FU04-001 duplicate apply 禁止 / L-002 preflight `--expect pending|applied` 二モード / L-003 post-check scope 縮約 / L-004 placeholder + user-gate runtime 分離）。
@@ -1539,6 +1541,21 @@ packages/
 | read path | `createAttendanceProvider(ctx).findByMemberIds()` が `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN。80-id chunk、`held_on DESC` + `session_id ASC`、session 不在 row 除外、同一 session 重複正規化 |
 | 直交タスク | 09a staging smoke / 09b release runbook / 09c production deploy / 06b visual evidence / U-UT01-08 enum canonicalization は本 workflow で代替しない |
 
+### Issue #372 Attendance Pagination 早見（implemented-local / 2026-05-07）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/issue-372-attendance-pagination/` |
+| 状態 | implemented-local / implementation / VISUAL / Phase 11 visual evidence pending / Phase 13 pending_user_approval |
+| source | `docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/ut-02a-followup-004-attendance-pagination.md` |
+| repository | `apps/api/src/repository/attendance.ts` (`findByMemberId(id, { limit, cursor })`) |
+| routes | `/me/attendance`, `/admin/members/:memberId/attendance` |
+| shared contract | `MemberProfile.attendance` は配列維持、`attendanceMeta?: { hasMore, nextCursor }` を optional 追加 |
+| web targets | `apps/web/app/profile/_components/AttendanceList.tsx`, `apps/web/src/components/admin/MemberDrawer.tsx` |
+| scope boundary | `findByMemberIds(ids)` bulk pagination は明示スコープ外。未タスク化しない |
+| evidence | local focused tests + Phase 12 strict files: `docs/30-workflows/issue-372-attendance-pagination/outputs/phase-12/`; staging screenshots/curl remain Phase 11 pending |
+| lessons-learned | `references/lessons-learned-issue-372-attendance-pagination-2026-05.md`（L-ISSUE372-001〜006: cursor encoded/decoded 境界 / bulk と個人特化 API 分離 / `attendanceMeta` optional 追加 / miniflare EADDRNOTAVAIL focused run / 1Password CLI timeout 切り分け / Phase 11 visual evidence pending を spec sync の blocker にしない） |
+
 ### UBM-Hyogo Attendance Write Operations Close-out（UT-02A follow-up / 2026-05-06）
 
 | 観点 | 値 / 参照先 |
@@ -1549,8 +1566,34 @@ packages/
 | repository write | `apps/api/src/repository/attendance.ts` (`addAttendance` / `removeAttendance`) |
 | canonical route | `POST /admin/meetings/:sessionId/attendances` |
 | legacy routes | `POST /admin/meetings/:sessionId/attendance`, `DELETE /admin/meetings/:sessionId/attendance/:memberId` |
+
+### UBM-Hyogo Attendance Provider Context Migration（Issue #371 / UT-02A follow-up / 2026-05-06）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+| 状態 | implemented-local / implementation / NON_VISUAL / code evidence captured / runtime smoke pending / Issue #371 CLOSED |
+| source stub | `docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/ut-02a-followup-003-hono-ctx-or-di-container-migration.md`（transferred） |
+| target contract | `buildMemberProfile(c, mid)` / `buildAdminMemberDetailView(c, mid, adminNotes)` に縮小し、provider は `c.var.attendanceProvider` から解決 |
+| type boundary | 既存 `DbCtx` (`readonly db`) は変更せず、attendance builder だけ `RepositoryProviderCtx = DbCtx & { var: RepositoryProviderVariables }` を要求 |
+| evidence boundary | Phase 11 は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。typecheck / lint / test / build / grep gate logs captured、runtime smoke は下流 gate |
 | error boundary | duplicate=409, deleted member=422, session/member not found=404 |
 | design decision | 新規 `AttendanceWriter` / `AttendanceRecordId` は導入しない |
+
+### UBM-Hyogo Attendance Dashboard Analytics（UT-02A follow-up / 2026-05-06）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/ut-02a-followup-002-attendance-dashboard-analytics/` |
+| 状態 | implemented-local / implementation / VISUAL_ON_EXECUTION / local tests passed / runtime curl and UI screenshot pending |
+| source issue | Issue #370（CLOSED 維持、PR は `Refs #370`） |
+| repository aggregate | `apps/api/src/repository/attendance.ts` 末尾に `computeAttendanceOverview` / `listSessionAttendanceStats` / `listMemberAttendanceRanking` を実装済み |
+| route | 既存 `apps/api/src/routes/admin/dashboard.ts` を拡張し `/admin/dashboard/attendance/{overview,by-session,ranking}` を実装済み |
+| web UI | `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx` |
+| proxy | 既存 `apps/web/app/api/admin/[...path]/route.ts` を再利用。attendance 専用 proxy は作らない |
+| schema boundary | `meeting_sessions.session_id` が PK。`meeting_sessions.id` は使用禁止 |
+| index policy | 新規は `idx_member_attendance_member` 1 本。既存 `idx_member_attendance_session` / `idx_meeting_sessions_active_held_on` を流用 |
+| evidence boundary | repository / route / EXPLAIN Vitest は local PASS。runtime curl / browser screenshot は user-approved capture cycle まで pending |
 
 ### UBM-Hyogo DevEx Conflict Prevention Spec Wave（2026-04-28）
 

@@ -37,17 +37,48 @@ import {
   type SectionKey,
 } from "./metadata";
 import { logWarn } from "../../lib/logger";
-import type { AttendanceProvider, AttendanceRecord } from "../attendance";
+import type {
+  AttendanceCursor,
+  AttendanceProvider,
+  AttendanceRecord,
+} from "../attendance";
+import { decodeAttendanceCursor } from "../attendance";
+import type { RepositoryProviderCtx } from "./provider-context";
 
-// AttendanceProvider 未注入時のフォールバック（02a 互換）
-// 本タスク (ut-02a-attendance-profile-integration) の routes 側では provider を必ず注入する。
-const fetchAttendanceFor = async (
+// issue-372: builder 経由で attendance を取得する際の page 指定。
+// `attendancePage` が指定された場合は findByMemberId(id, opts) 経路で取得し、
+// `attendanceMeta` を埋める。未指定時は従来の findByMemberIds 経路を維持する。
+export interface AttendancePageDeps {
+  limit?: number;
+  cursor?: string; // base64url(JSON) encoded
+}
+
+interface PagedAttendance {
+  records: AttendanceRecord[];
+  meta?: { hasMore: boolean; nextCursor: string | null };
+}
+
+const fetchAttendancePagedFor = async (
   mid: MemberId,
   provider: AttendanceProvider | undefined,
-): Promise<AttendanceRecord[]> => {
-  if (!provider) return [];
-  const map = await provider.findByMemberIds([mid]);
-  return [...(map.get(mid) ?? [])];
+  page: AttendancePageDeps | undefined,
+): Promise<PagedAttendance> => {
+  if (!provider) {
+    throw new Error("attendanceProvider not bound to context");
+  }
+  if (!page) {
+    const map = await provider.findByMemberIds([mid]);
+    return { records: [...(map.get(mid) ?? [])] };
+  }
+  const decoded = page.cursor ? decodeAttendanceCursor(page.cursor) : null;
+  const opts: { limit?: number; cursor?: AttendanceCursor } = {};
+  if (page.limit !== undefined) opts.limit = page.limit;
+  if (decoded) opts.cursor = decoded;
+  const result = await provider.findByMemberId(mid, opts);
+  return {
+    records: [...result.records],
+    meta: { hasMore: result.hasMore, nextCursor: result.nextCursor },
+  };
 };
 
 // フィールドの可視性マップを構築するヘルパー
@@ -268,9 +299,9 @@ export async function buildPublicMemberProfile(
  * visibility=public または member のフィールドを含む
  */
 export async function buildMemberProfile(
-  c: DbCtx,
+  c: RepositoryProviderCtx,
   mid: MemberId,
-  deps?: { attendanceProvider?: AttendanceProvider },
+  deps?: { attendancePage?: AttendancePageDeps },
 ): Promise<MemberProfile | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -284,12 +315,12 @@ export async function buildMemberProfile(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags, attendance] = await Promise.all([
+  const [sections, fields, visibilityRows, tags, paged] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
-    fetchAttendanceFor(mid, deps?.attendanceProvider),
+    fetchAttendancePagedFor(mid, c.var.attendanceProvider, deps?.attendancePage),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
@@ -299,7 +330,7 @@ export async function buildMemberProfile(
 
   const summary = extractSummary(response.answers_json);
 
-  return {
+  const profile: MemberProfile = {
     memberId: asMemberId(identity.member_id),
     responseId: responseId,
     responseEmail: asResponseEmail(identity.response_email),
@@ -309,7 +340,7 @@ export async function buildMemberProfile(
     isDeleted: status.is_deleted === 1,
     summary,
     sections: memberSections,
-    attendance,
+    attendance: paged.records,
     tags: tags.map((t) => ({
       code: t.code,
       label: t.label,
@@ -319,6 +350,8 @@ export async function buildMemberProfile(
     lastSubmittedAt: response.submitted_at,
     editResponseUrl: response.edit_response_url,
   };
+  if (paged.meta) profile.attendanceMeta = paged.meta;
+  return profile;
 }
 
 /**
@@ -328,7 +361,7 @@ export async function buildMemberProfile(
  * PublicMemberProfile や MemberProfile には adminNotes を含めない
  */
 export async function buildAdminMemberDetailView(
-  c: DbCtx,
+  c: RepositoryProviderCtx,
   mid: MemberId,
   adminNotes: Array<{
     actor: AdminId;
@@ -336,7 +369,7 @@ export async function buildAdminMemberDetailView(
     occurredAt: string;
     note: string | null;
   }>,
-  deps?: { attendanceProvider?: AttendanceProvider },
+  deps?: { attendancePage?: AttendancePageDeps },
 ): Promise<AdminMemberDetailView | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -349,12 +382,12 @@ export async function buildAdminMemberDetailView(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags, attendance] = await Promise.all([
+  const [sections, fields, visibilityRows, tags, paged] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
-    fetchAttendanceFor(mid, deps?.attendanceProvider),
+    fetchAttendancePagedFor(mid, c.var.attendanceProvider, deps?.attendancePage),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
@@ -374,7 +407,7 @@ export async function buildAdminMemberDetailView(
     isDeleted: status.is_deleted === 1,
     summary,
     sections: adminSections,
-    attendance,
+    attendance: paged.records,
     tags: tags.map((t) => ({
       code: t.code,
       label: t.label,
@@ -384,6 +417,7 @@ export async function buildAdminMemberDetailView(
     lastSubmittedAt: response.submitted_at,
     editResponseUrl: response.edit_response_url,
   };
+  if (paged.meta) profile.attendanceMeta = paged.meta;
 
   return {
     identityMemberId: asMemberId(identity.member_id),

@@ -56,6 +56,11 @@ export interface MemberProfile {
     title: string;
     heldOn: string;
   }>;
+  // issue-372: 直近 N 件 + cursor 継続取得モデル。未注入時は undefined（後方互換）。
+  attendanceMeta?: {
+    hasMore: boolean;
+    nextCursor: string | null;
+  };
   tags: Array<{
     code: string;
     label: string;

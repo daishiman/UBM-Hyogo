@@ -8,9 +8,16 @@ vi.mock("next/navigation", () => ({
 }));
 
 const postSchemaAliasMock = vi.fn();
-vi.mock("../../../lib/admin/api", () => ({
-  postSchemaAlias: (...args: unknown[]) => postSchemaAliasMock(...args),
-}));
+vi.mock("../../../lib/admin/api", async () => {
+  const actual =
+    await vi.importActual<typeof import("../../../lib/admin/api")>(
+      "../../../lib/admin/api",
+    );
+  return {
+    ...actual,
+    postSchemaAlias: (...args: unknown[]) => postSchemaAliasMock(...args),
+  };
+});
 
 import { SchemaDiffPanel } from "../SchemaDiffPanel";
 
@@ -45,7 +52,11 @@ afterEach(() => {
 });
 
 beforeEach(() => {
-  postSchemaAliasMock.mockResolvedValue({ ok: true, status: 200 });
+  postSchemaAliasMock.mockResolvedValue({
+    ok: true,
+    status: 200,
+    data: { ok: true, mode: "apply", confirmed: true, backfill: { status: "completed" } },
+  });
 });
 
 describe("SchemaDiffPanel", () => {
@@ -101,12 +112,14 @@ describe("SchemaDiffPanel", () => {
         stableKey: "new_key",
       });
     });
-    expect(screen.getByRole("status").textContent).toContain("alias を割当てました");
-    expect(refreshMock).toHaveBeenCalled();
-    expect(screen.queryByRole("form", { name: "stableKey alias 割当" })).toBeNull();
+    await waitFor(() => {
+      expect(screen.getByRole("status").textContent).toContain("alias を割当てました");
+      expect(refreshMock).toHaveBeenCalled();
+      expect(screen.queryByRole("form", { name: "stableKey alias 割当" })).toBeNull();
+    });
   });
 
-  it("mutation 失敗 (authz-fail): 403 forbidden で失敗 toast、form は閉じない", async () => {
+  it("mutation 失敗 (authz-fail): 403 forbidden で role=alert、form は閉じない", async () => {
     postSchemaAliasMock.mockResolvedValueOnce({
       ok: false,
       status: 403,
@@ -128,10 +141,162 @@ describe("SchemaDiffPanel", () => {
     fireEvent.click(screen.getByRole("button", { name: "割当" }));
 
     await waitFor(() => {
-      expect(screen.getByRole("status").textContent).toContain("失敗: forbidden");
+      expect(screen.getByRole("alert").textContent).toContain("失敗: forbidden");
     });
     expect(refreshMock).not.toHaveBeenCalled();
     expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+  });
+
+  it("UI-02 retryable continuation: status で「Back-fill 再試行可能」と補助文を表示し、form は開いたまま", async () => {
+    postSchemaAliasMock.mockResolvedValueOnce({
+      ok: true,
+      status: 202,
+      data: {
+        ok: true,
+        mode: "apply",
+        confirmed: true,
+        backfill: {
+          status: "exhausted",
+          retryable: true,
+          code: "backfill_cpu_budget_exhausted",
+        },
+      },
+    });
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 1,
+          items: [item({ diffId: "d-r", questionId: "q-r", label: "lbl-r" })],
+        }}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /lbl-r/ }));
+    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+      target: { value: "k_r" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+
+    await waitFor(() => {
+      const status = screen.getByRole("status");
+      expect(status.textContent).toContain("Back-fill 再試行可能");
+      expect(status.textContent).toContain("続きから処理");
+      expect(status.getAttribute("data-feedback-kind")).toBe("retryable");
+    });
+    expect(refreshMock).not.toHaveBeenCalled();
+    expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+    expect(
+      (screen.getByRole("button", { name: "割当" }) as HTMLButtonElement).disabled,
+    ).toBe(false);
+  });
+
+  it("UI-03 422 validation error: alert で「入力内容に誤り」を含む", async () => {
+    postSchemaAliasMock.mockResolvedValueOnce({
+      ok: false,
+      status: 422,
+      error: "invalid",
+    });
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 1,
+          items: [item({ diffId: "d-v", questionId: "q-v", label: "lbl-v" })],
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /lbl-v/ }));
+    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+      target: { value: "k" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+
+    await waitFor(() => {
+      const alert = screen.getByRole("alert");
+      expect(alert.textContent).toContain("入力内容に誤り");
+      expect(alert.getAttribute("data-feedback-kind")).toBe("validation_error");
+    });
+    expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
+  });
+
+  it("UI-04 409 conflict: alert で「他の操作と競合」を含む", async () => {
+    postSchemaAliasMock.mockResolvedValueOnce({
+      ok: false,
+      status: 409,
+      error: "version mismatch",
+    });
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 1,
+          items: [item({ diffId: "d-cf", questionId: "q-cf", label: "lbl-cf" })],
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /lbl-cf/ }));
+    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+      target: { value: "k" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+
+    await waitFor(() => {
+      const alert = screen.getByRole("alert");
+      expect(alert.textContent).toContain("他の操作と競合");
+      expect(alert.getAttribute("data-feedback-kind")).toBe("conflict_error");
+    });
+  });
+
+  it("UI-05 retryable 後に再 submit→200 success: retryable label が消え success label が出る", async () => {
+    postSchemaAliasMock
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 202,
+        data: {
+          ok: true,
+          mode: "apply",
+          confirmed: true,
+          backfill: {
+            status: "exhausted",
+            retryable: true,
+            code: "backfill_cpu_budget_exhausted",
+          },
+        },
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        data: {
+          ok: true,
+          mode: "apply",
+          confirmed: true,
+          backfill: { status: "completed" },
+        },
+      });
+
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 1,
+          items: [item({ diffId: "d-rt", questionId: "q-rt", label: "lbl-rt" })],
+        }}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /lbl-rt/ }));
+    fireEvent.change(screen.getByLabelText(/新しい stableKey/), {
+      target: { value: "k_rt" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("status").textContent).toContain("Back-fill 再試行可能");
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "割当" }));
+
+    await waitFor(() => {
+      expect(screen.getByRole("status").textContent).toContain("alias を割当てました");
+    });
+    expect(refreshMock).toHaveBeenCalled();
   });
 
   it("questionId が null の diff: alias 割当不可の alert を表示", () => {
