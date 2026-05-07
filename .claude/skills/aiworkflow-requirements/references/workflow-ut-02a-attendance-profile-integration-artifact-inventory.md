@@ -131,6 +131,16 @@
 | unit test (new) | `apps/api/src/repository/__tests__/attendance-provider.test.ts` | attendance 0/1/N、削除 meeting、重複、100 件超 chunk |
 | unit test (touched) | `apps/api/src/repository/__tests__/builder.test.ts` | builder への attendance 注入 / 02a regression |
 
+## Follow-up 003 promoted workflow
+
+| artifact | path | purpose |
+| --- | --- | --- |
+| workflow root | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` | optional `deps?` provider injection を Hono ctx provider path へ移行した implemented-local workflow |
+| source stub | `docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/ut-02a-followup-003-hono-ctx-or-di-container-migration.md` | transferred trace; canonical root へ誘導 |
+| ADR | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/outputs/phase-03/adr-di-strategy.md` | 引数注入 / Hono ctx / DI container 比較 |
+| compliance | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/outputs/phase-12/phase12-task-spec-compliance-check.md` | strict 7 files / 30 thinking compact evidence / 4条件 |
+| evidence logs | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/outputs/phase-11/evidence/` | typecheck / lint / test / build / grep gate logs |
+
 ## Skill artifacts
 
 | artifact | path | purpose |
