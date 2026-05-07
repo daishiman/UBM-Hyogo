@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "workflow": "task-03-w2-par-sentry-workers-sdk-unify",
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "evidence_type": "curl_and_build_grep_with_sentry_dashboard_aux",
+    "parent_workflow": "ui-prototype-alignment-mvp-recovery",
+    "wave": "W2",
+    "depends_on": [
+      "task-01-w1-solo-scope-gate-all-screens",
+      "task-02-w2-par-wrangler-env-injection"
+    ],
+    "depended_by": [
+      "task-04-w3-par-window-guard-and-logger",
+      "task-05-w4-par-error-boundary-and-staging-smoke"
+    ],
+    "phase11_state": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "phase12_strict_outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "created_at": "2026-05-07",
+    "owner": "@daishiman",
+    "branch_protection_policy": "solo-dev (required_pull_request_reviews=null)"
+  },
+  "phases": [
+    {"phase": 1,  "title": "要件定義（AC確定・真の論点・metadata確定・スコープ）", "status": "completed", "file": "phase-01.md"},
+    {"phase": 2,  "title": "設計（runtime別entry分離・DSN注入経路・二重initガード設計）", "status": "completed", "file": "phase-02.md"},
+    {"phase": 3,  "title": "API/型契約（captureException/captureMessage/register シグネチャ凍結）", "status": "completed", "file": "phase-03.md"},
+    {"phase": 4,  "title": "データ/状態（initフラグ・envキー一覧・Cloudflare Secrets投入）", "status": "completed", "file": "phase-04.md"},
+    {"phase": 5,  "title": "テスト戦略（mock・runtime分岐・二重initガード・grep gate）", "status": "completed", "file": "phase-05.md"},
+    {"phase": 6,  "title": "実装計画（変更/新規/削除ファイル詳細表・実装順序）", "status": "completed", "file": "phase-06.md"},
+    {"phase": 7,  "title": "リスク/緩和（bundle解析・SDKバージョン整合・dynamic import失敗）", "status": "completed", "file": "phase-07.md"},
+    {"phase": 8,  "title": "CI/Governance（design-tokens gate非干渉・grep gate追加・diff scope規律）", "status": "completed", "file": "phase-08.md"},
+    {"phase": 9,  "title": "統合/結線（task-02 env受領・task-04 logger前提・task-05 error.tsx接続）", "status": "completed", "file": "phase-09.md"},
+    {"phase": 10, "title": "デプロイ手順（local→staging→production・cf.sh経由secret put）", "status": "completed", "file": "phase-10.md"},
+    {"phase": 11, "title": "検証/Evidence（build grep・test実行ログ・staging Sentry event・PASS状態語彙）", "status": "completed", "file": "phase-11.md"},
+    {"phase": 12, "title": "ドキュメント（中学生向け概念+技術者向け詳細・skill feedback・compliance）", "status": "completed", "file": "phase-12.md"},
+    {"phase": 13, "title": "PR作成（commit/PR は user approval まで禁止）", "status": "blocked_pending_user_approval", "file": "phase-13.md"}
+  ]
+}

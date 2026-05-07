@@ -8,9 +8,11 @@ import {
 
 const TOKEN = "smoke-token";
 const SENTRY_DSN = ["https://public-key@sentry.example.com", "12345"].join("/");
-const SLACK_WEBHOOK =
-  "https://hooks.slack.com" +
-  "/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX";
+const SLACK_WEBHOOK_HOST = ["hooks", "slack", "com"].join(".");
+const SLACK_WEBHOOK = new URL(
+  "/services/t00000000/b00000000/xxxxxxxxxxxxxxxxxxxxxxxx",
+  `https://${SLACK_WEBHOOK_HOST}`,
+).toString();
 
 function buildEnv(overrides: Record<string, unknown> = {}) {
   return {
@@ -157,6 +159,21 @@ describe("createSmokeObservabilityRoute", () => {
     const bodyText = await res.text();
     expect(bodyText).toContain("slack status=200");
     expect(bodyText).not.toContain(SLACK_WEBHOOK);
+  });
+
+  it("Slack upstream error でも webhook URL と token をレスポンスに含めない", async () => {
+    const app = createSmokeObservabilityRoute({ fetchImpl: makeFetch(500) });
+    const res = await app.request(
+      "/?target=slack",
+      { method: "POST", headers: { authorization: `Bearer ${TOKEN}` } },
+      buildEnv(),
+    );
+    expect(res.status).toBe(502);
+    const bodyText = await res.text();
+    expect(bodyText).toContain("UPSTREAM_ERROR");
+    expect(bodyText).not.toContain(SLACK_WEBHOOK);
+    expect(bodyText).not.toContain(SLACK_WEBHOOK_HOST);
+    expect(bodyText).not.toContain(TOKEN);
   });
 
   it("secret 未設定は 502 で CONFIG_MISSING を返す", async () => {
