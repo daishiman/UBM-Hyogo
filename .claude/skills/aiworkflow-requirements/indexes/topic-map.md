@@ -4375,6 +4375,20 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
 
+### references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L9 |
+
+### references/lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+
 ### references/lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md
 
 | セクション | 行 |
@@ -4387,12 +4401,6 @@ node scripts/list-specs.js --topics
 | L-T06-006: NON_VISUAL タスクの Phase 11 alternative evidence は 4 種で網羅する | L33 |
 | L-T06-007: prototype 正本順位と視覚詳細委譲の判断基準 | L39 |
 
-### references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md
-| Scope | L3 |
-| Lessons | L9 |
-### references/lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md
-| Scope | L3 |
-| Lessons | L11 |
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -5781,20 +5789,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L465 |
-| フェーズ構造（概要） | L474 |
-| 品質ゲート（概要） | L505 |
-| 出力テンプレート | L516 |
-| 実行時のコマンド・エージェント・スキル | L539 |
-| 昇格パターン集 | L563 |
-| Current Active / Spec Created Tasks | L565 |
-| ドキュメント構成 | L475 |
-| フェーズ構造（概要） | L484 |
-| 品質ゲート（概要） | L515 |
-| 出力テンプレート | L526 |
-| 実行時のコマンド・エージェント・スキル | L549 |
-| 昇格パターン集 | L573 |
-| Current Active / Spec Created Tasks | L575 |
+| ドキュメント構成 | L481 |
+| フェーズ構造（概要） | L490 |
+| 品質ゲート（概要） | L521 |
+| 出力テンプレート | L532 |
+| 実行時のコマンド・エージェント・スキル | L555 |
+| 昇格パターン集 | L579 |
+| Current Active / Spec Created Tasks | L581 |
 
 ### references/task-workflow-backlog-part2.md
 
