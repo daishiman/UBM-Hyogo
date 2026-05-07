@@ -311,6 +311,37 @@ bash scripts/cf.sh rollback <VERSION_ID> --config apps/api/wrangler.toml --env p
 
 ---
 
+## UI prototype alignment / MVP recovery（進行中ワークフロー）
+
+`docs/30-workflows/ui-prototype-alignment-mvp-recovery/` を参照。
+
+### スコープ（19 routes）
+
+| 層 | 数 | routes |
+|----|----|--------|
+| 公開 | 6 | `/`, `/(public)/members`, `/(public)/members/[id]`, `/(public)/register`, `/privacy`, `/terms` |
+| 会員 | 2 | `/login`, `/profile` |
+| 管理 | 8 | `/(admin)/admin`, `/(admin)/admin/{members,tags,meetings,schema,requests,identity-conflicts,audit}` |
+| 共通 | 3 | `error.tsx`, `not-found.tsx`, `loading.tsx` |
+
+### 不変条件（task-02..22 共通）
+
+1. **既存 API のみ接続**: `apps/api/src/routes/` 配下の現行 endpoint surface のみ利用。新 endpoint 追加・D1 schema 変更・Google Form 仕様変更は禁止。
+2. **OKLch トークン正本化**: 色は `apps/web/src/styles/tokens.css`（task-09）と `docs/00-getting-started-manual/specs/design-tokens.md`（task-08）が正本。HEX 直書き / `bg-[#xxx]` / `text-[#xxx]` 禁止。CI gate `verify-design-tokens`（task-18）で fail 判定。
+3. **プロトタイプ正本順位**: `docs/00-getting-started-manual/claude-design-prototype/` の primitives + tokens + rhythm をデザイン言語の正本とする。プロトタイプ未掲載画面（管理画面群・register・privacy・terms）も同じ primitives 群で構成し、新規 primitive を生やさない。
+4. **D1 直接アクセス禁止**: 既存条件（`apps/web` から D1 binding 禁止）を継続。
+
+### 正本順位（衝突時の優先度）
+
+1. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md`
+2. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-{1,2,3}/phase-N.md`
+3. `docs/00-getting-started-manual/specs/*.md`
+4. プロトタイプ（`docs/00-getting-started-manual/claude-design-prototype/`）
+
+> 既存 API endpoint surface と UI 期待 shape が乖離する場合は、API を変更せず UI 側に adapter 層を置く。
+
+---
+
 ## 参照ドキュメント
 
 | ファイル | 内容 |
