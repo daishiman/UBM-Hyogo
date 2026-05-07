@@ -377,6 +377,7 @@ docs/{task-id}/
 | [06-member-auth.md](./06-member-auth.md) | 会員認証・権限制御 |
 | [07-edit-delete.md](./07-edit-delete.md) | 本人更新・公開状態・削除設計 |
 | [08-free-database.md](./08-free-database.md) | D1 構成と無料構成 |
+| [09g-screen-blueprints-admin.md](./09g-screen-blueprints-admin.md) | 管理層 8 routes + AdminSidebar の screen blueprint |
 | [10-notification-auth.md](./10-notification-auth.md) | ログイン導線と通知補助 |
 | [13-mvp-auth.md](./13-mvp-auth.md) | MVP 認証方針 |
 

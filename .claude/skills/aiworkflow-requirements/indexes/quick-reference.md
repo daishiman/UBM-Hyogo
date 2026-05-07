@@ -20,6 +20,19 @@
 | archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### task-21 09g Admin Screen Blueprints（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-21-w2-par-screen-blueprints-admin/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| primary spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| verify | `scripts/verify-09g-screen-blueprints-admin.sh` |
+| scope | AdminSidebar + admin 8 routes（dashboard / members / tags / meetings / schema / requests / identity-conflicts / audit） |
+| API boundary | current `references/api-endpoints.md` admin contract。旧 `/admin/kpi`、direct tag approve/reject、schema apply、identity resolve は採用しない |
+| downstream | task-15 consumes §2/§3, task-16 consumes §4/§5/§7, task-17 consumes §6/§8/§9, task-22 verifies anchors |
+| evidence | `outputs/phase-07/automated-checks.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
 ### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
 
 | 目的 | 参照先 |

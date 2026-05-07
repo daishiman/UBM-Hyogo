@@ -2663,6 +2663,19 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical contract | L14 |
+| Workflow artifacts | L21 |
+| Phase 12 strict outputs | L33 |
+| Verification | L45 |
+| Downstream ownership | L60 |
+| Same-wave sync targets | L69 |
+| Related Resources | L79 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -4173,6 +4186,16 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
 
+### references/lessons-learned-task-21-09g-admin-blueprint-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T21-001: 旧 draft が現行 API contract と乖離する場合は再生成が低コスト | L3 |
+| L-T21-002: docs-only / NON_VISUAL タスクでも root `index.md` / `artifacts.json` / `outputs/artifacts.json` の full mirror が必須 | L7 |
+| L-T21-003: canonical workflow root の削除検出は task scope 外でも同サイクルで復元する | L11 |
+| L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
+| L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -5544,13 +5567,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L379 |
-| フェーズ構造（概要） | L388 |
-| 品質ゲート（概要） | L419 |
-| 出力テンプレート | L430 |
-| 実行時のコマンド・エージェント・スキル | L453 |
-| 昇格パターン集 | L477 |
-| Current Active / Spec Created Tasks | L479 |
+| ドキュメント構成 | L391 |
+| フェーズ構造（概要） | L400 |
+| 品質ゲート（概要） | L431 |
+| 出力テンプレート | L442 |
+| 実行時のコマンド・エージェント・スキル | L465 |
+| 昇格パターン集 | L489 |
+| Current Active / Spec Created Tasks | L491 |
 
 ### references/task-workflow-backlog-part2.md
 
