@@ -49,7 +49,10 @@ import {
 } from "../repository/responseFields";
 import { setConsentSnapshot, getStatus } from "../repository/status";
 import { enqueue as enqueueDiff } from "../repository/schemaDiffQueue";
-import { enqueueTagCandidate } from "../workflows/tagCandidateEnqueue";
+import {
+  enqueueTagCandidate,
+  parsePaused,
+} from "../workflows/tagCandidateEnqueue";
 import { start, succeed, fail } from "../repository/syncJobs";
 import {
   evaluateConsecutiveCapHits,
@@ -63,6 +66,7 @@ export interface ResponseSyncEnv {
   readonly DB: D1Database;
   readonly GOOGLE_FORM_ID?: string;
   readonly RESPONSE_SYNC_WRITE_CAP?: string;
+  readonly TAG_QUEUE_PAUSED?: string;
   // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
   readonly SYNC_ALERTS?: AnalyticsEngineDataset;
 }
@@ -155,6 +159,7 @@ export async function runResponseSync(
     cursor = await readLastCursor(env.DB);
   }
   let highWater = parseHighWaterCursor(cursor);
+  const tagQueuePaused = parsePaused(env);
 
   try {
     let nextPageToken: string | undefined;
@@ -176,7 +181,9 @@ export async function runResponseSync(
           stopDueToCap = true;
           break;
         }
-        const stats = await processResponse(env.DB, resp);
+        const stats = await processResponse(env.DB, resp, {
+          tagQueuePaused,
+        });
         processed += 1;
         writes += stats.writeCount;
         highWater = maxHighWater(highWater, resp);
@@ -258,6 +265,7 @@ interface PerResponseStats {
 export async function processResponse(
   db: D1Database,
   resp: MemberResponse,
+  options: { readonly tagQueuePaused?: boolean } = {},
 ): Promise<PerResponseStats> {
   const dbCtx = ctx({ DB: db });
   const responseId = resp.responseId as ResponseId;
@@ -375,7 +383,7 @@ export async function processResponse(
     const result = await enqueueTagCandidate(dbCtx, {
       memberId,
       responseId,
-    });
+    }, options.tagQueuePaused === true);
     if (result.enqueued) writeCount += 1;
   }
 

@@ -119,7 +119,7 @@ Phase 12 必須 5 タスク + Task 6 (skill feedback) + Task 7 (compliance check
 | idempotency | `(member_id, response_id, tag_code)` を SHA-256 → `idempotency_key` UNIQUE |
 | retry | exponential backoff (1s / 4s / 16s)、max 3、超過時 DLQ |
 | state machine | `queued → {resolved, rejected, dlq}` 単方向 |
-| circuit breaker | env `TAG_QUEUE_PAUSED=true` で enqueue を 503 へ短絡 |
+| circuit breaker | stale-current。Issue #378 以降は non-secret Cloudflare variable `TAG_QUEUE_PAUSED="true"` で Forms sync candidate enqueue のみ `{ enqueued: false, reason: "paused" }` へ早期 return する。503 短絡は使わない。 |
 | audit | `admin.tag.queue_{enqueued, resolved, rejected, dlq_moved}` |
 
 ## system spec 更新概要
