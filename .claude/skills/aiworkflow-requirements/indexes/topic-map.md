@@ -2264,6 +2264,18 @@ node scripts/list-specs.js --topics
 | Same-Wave Touched Files | L44 |
 | Boundary | L66 |
 
+### references/workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L9 |
+| Implementation Artifacts | L16 |
+| Runtime Contract | L25 |
+| Evidence | L33 |
+| System Spec Sync | L44 |
+| Invariants | L57 |
+
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
 | セクション | 行 |
@@ -3235,17 +3247,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L193 |
-| Cloudflare D1 データベース | L313 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L346 |
-| GitHub Actions CI/CD | L458 |
-| プレビューデプロイメント | L487 |
-| カスタムドメイン設定 | L503 |
-| 環境分離 | L516 |
-| ロールバック戦略 | L526 |
-| モニタリング/アラート（UT-08 連携） | L547 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
-| 変更履歴 | L648 |
+| Cloudflare D1 データベース | L315 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L348 |
+| GitHub Actions CI/CD | L460 |
+| プレビューデプロイメント | L489 |
+| カスタムドメイン設定 | L505 |
+| 環境分離 | L518 |
+| ロールバック戦略 | L528 |
+| モニタリング/アラート（UT-08 連携） | L549 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L566 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L601 |
+| 変更履歴 | L650 |
 
 ### references/deployment-core.md
 
@@ -3415,14 +3427,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L130 |
-| 環境別設定 | L204 |
-| Electron アプリでの環境変数 | L258 |
-| トラブルシューティング | L315 |
-| チーム開発での運用 | L376 |
-| 必須環境変数一覧 | L415 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L476 |
-| 関連ドキュメント | L497 |
+| セキュリティベストプラクティス | L131 |
+| 環境別設定 | L205 |
+| Electron アプリでの環境変数 | L259 |
+| トラブルシューティング | L316 |
+| チーム開発での運用 | L377 |
+| 必須環境変数一覧 | L416 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L477 |
+| 関連ドキュメント | L498 |
 
 ### references/error-handling-core.md
 
