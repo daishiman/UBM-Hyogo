@@ -196,6 +196,40 @@ export const AdminDashboardViewZ = z
   })
   .strict();
 
+export const AttendanceOverviewZ = z
+  .object({
+    totalSessions: z.number().int().nonnegative(),
+    totalMembers: z.number().int().nonnegative(),
+    overallRate: z.number().min(0).max(1),
+  })
+  .strict();
+
+export const SessionAttendanceRowZ = z
+  .object({
+    sessionId: z.string().min(1),
+    title: z.string(),
+    heldOn: z.string().min(1),
+    attendeeCount: z.number().int().nonnegative(),
+    rate: z.number().min(0).max(1),
+  })
+  .strict();
+
+export const MemberAttendanceRankingZ = z
+  .object({
+    memberId: z.string().min(1),
+    displayName: z.string(),
+    attendedCount: z.number().int().nonnegative(),
+    rate: z.number().min(0).max(1),
+  })
+  .strict();
+
+export const SessionAttendanceRowsZ = z.array(SessionAttendanceRowZ);
+export const MemberAttendanceRankingRowsZ = z.array(MemberAttendanceRankingZ);
+
+export type AttendanceOverviewView = z.infer<typeof AttendanceOverviewZ>;
+export type SessionAttendanceRowView = z.infer<typeof SessionAttendanceRowZ>;
+export type MemberAttendanceRankingView = z.infer<typeof MemberAttendanceRankingZ>;
+
 export const AdminMemberListItemZ = z.object({
   memberId: z.string().min(1),
   responseEmail: EmailZ,

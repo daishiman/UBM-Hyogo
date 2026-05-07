@@ -118,6 +118,16 @@ describe("/me/* — member self-service API", () => {
 
   describe("GET /me/profile", () => {
     it("AC-3 / AC-8: MemberProfile + editResponseUrl を返し、notes を含まない", async () => {
+      await env.db
+        .prepare(
+          "INSERT INTO meeting_sessions (session_id, title, held_on, created_by) VALUES ('s_route_me','Route ME','2026-05-06','admin')",
+        )
+        .run();
+      await env.db
+        .prepare(
+          "INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES ('m_001','s_route_me','admin')",
+        )
+        .run();
       const { app, env: e } = buildApp(env);
       const res = await app.request("/profile", {}, e);
       expect(res.status).toBe(200);
@@ -127,6 +137,9 @@ describe("/me/* — member self-service API", () => {
       expect(parsed.editResponseUrl).toBe(
         "https://docs.google.com/forms/edit/r_001",
       );
+      expect(parsed.profile.attendance).toEqual([
+        { sessionId: "s_route_me", title: "Route ME", heldOn: "2026-05-06" },
+      ]);
       // notes leak 0 (#12)
       expect(JSON.stringify(json)).not.toMatch(/"notes"|"adminNotes"/);
     });

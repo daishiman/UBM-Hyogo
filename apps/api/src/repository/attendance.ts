@@ -385,3 +385,170 @@ export const createAttendanceProvider = (c: DbCtx): AttendanceProvider => ({
     return { records, hasMore, nextCursor };
   },
 });
+
+// =====================================================================
+// ut-02a-followup-002 attendance analytics aggregates
+// 制約 (AC-1): chunk pattern (ATTENDANCE_BIND_CHUNK_SIZE) を流用しない。
+// すべて GROUP BY を含む単発クエリで完結する。
+// =====================================================================
+
+export interface AttendanceOverview {
+  totalSessions: number;
+  totalMembers: number;
+  overallRate: number;
+}
+
+export interface SessionAttendanceRow {
+  sessionId: string;
+  title: string;
+  heldOn: string;
+  attendeeCount: number;
+  rate: number;
+}
+
+export interface MemberAttendanceRanking {
+  memberId: MemberId;
+  displayName: string;
+  attendedCount: number;
+  rate: number;
+}
+
+interface OverviewDbRow {
+  totalSessions: number;
+  totalMembers: number;
+  overallRate: number;
+}
+
+interface SessionStatsDbRow {
+  session_id: string;
+  title: string;
+  held_on: string;
+  attendee_count: number;
+  rate: number;
+}
+
+interface RankingDbRow {
+  member_id: string;
+  display_name: string | null;
+  attended_count: number;
+  rate: number;
+}
+
+const ANALYTICS_DEFAULT_LIMIT = 50;
+const ANALYTICS_MAX_LIMIT = 200;
+
+const clampLimit = (limit: number | undefined): number => {
+  const n = limit ?? ANALYTICS_DEFAULT_LIMIT;
+  if (!Number.isFinite(n) || n <= 0) return ANALYTICS_DEFAULT_LIMIT;
+  return Math.min(Math.floor(n), ANALYTICS_MAX_LIMIT);
+};
+
+export async function computeAttendanceOverview(c: DbCtx): Promise<AttendanceOverview> {
+  const row = await c.db
+    .prepare(
+      `SELECT
+         (SELECT COUNT(*) FROM meeting_sessions WHERE deleted_at IS NULL) AS totalSessions,
+         (SELECT COUNT(*) FROM member_identities mi
+            LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+            WHERE COALESCE(ms.is_deleted, 0) = 0) AS totalMembers,
+         COALESCE(
+           CAST((
+             SELECT COUNT(*) FROM member_attendance ma
+               JOIN meeting_sessions s ON s.session_id = ma.session_id
+               JOIN member_identities mi ON mi.member_id = ma.member_id
+               LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+               WHERE s.deleted_at IS NULL
+                 AND COALESCE(ms.is_deleted, 0) = 0
+           ) AS REAL)
+           / NULLIF((SELECT COUNT(*) FROM meeting_sessions WHERE deleted_at IS NULL), 0)
+           / NULLIF((
+               SELECT COUNT(*) FROM member_identities mi
+                 LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+                 WHERE COALESCE(ms.is_deleted, 0) = 0
+             ), 0),
+           0
+         ) AS overallRate`,
+    )
+    .first<OverviewDbRow>();
+  return {
+    totalSessions: row?.totalSessions ?? 0,
+    totalMembers: row?.totalMembers ?? 0,
+    overallRate: row?.overallRate ?? 0,
+  };
+}
+
+export async function listSessionAttendanceStats(
+  c: DbCtx,
+  opts?: { limit?: number },
+): Promise<SessionAttendanceRow[]> {
+  const limit = clampLimit(opts?.limit);
+  const r = await c.db
+    .prepare(
+      `SELECT
+         s.session_id AS session_id,
+         s.title AS title,
+         s.held_on AS held_on,
+         COUNT(CASE WHEN mi.member_id IS NOT NULL AND COALESCE(ms.is_deleted, 0) = 0 THEN mi.member_id END) AS attendee_count,
+         COALESCE(
+           CAST(COUNT(CASE WHEN mi.member_id IS NOT NULL AND COALESCE(ms.is_deleted, 0) = 0 THEN mi.member_id END) AS REAL) /
+           NULLIF((
+             SELECT COUNT(*) FROM member_identities mi
+               LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+               WHERE COALESCE(ms.is_deleted, 0) = 0
+           ), 0),
+           0
+         ) AS rate
+       FROM meeting_sessions s
+       LEFT JOIN member_attendance ma ON ma.session_id = s.session_id
+       LEFT JOIN member_identities mi ON mi.member_id = ma.member_id
+       LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+       WHERE s.deleted_at IS NULL
+       GROUP BY s.session_id, s.title, s.held_on
+       ORDER BY s.held_on DESC, s.session_id ASC
+       LIMIT ?`,
+    )
+    .bind(limit)
+    .all<SessionStatsDbRow>();
+  return (r.results ?? []).map((row) => ({
+    sessionId: row.session_id,
+    title: row.title,
+    heldOn: row.held_on,
+    attendeeCount: row.attendee_count,
+    rate: row.rate,
+  }));
+}
+
+export async function listMemberAttendanceRanking(
+  c: DbCtx,
+  opts?: { limit?: number },
+): Promise<MemberAttendanceRanking[]> {
+  const limit = clampLimit(opts?.limit);
+  const r = await c.db
+    .prepare(
+      `SELECT
+         mi.member_id AS member_id,
+         mi.response_email AS display_name,
+         COUNT(s.session_id) AS attended_count,
+         COALESCE(
+           CAST(COUNT(s.session_id) AS REAL) /
+           NULLIF((SELECT COUNT(*) FROM meeting_sessions WHERE deleted_at IS NULL), 0),
+           0
+         ) AS rate
+       FROM member_identities mi
+       LEFT JOIN member_status ms ON ms.member_id = mi.member_id
+       LEFT JOIN member_attendance ma ON ma.member_id = mi.member_id
+       LEFT JOIN meeting_sessions s ON s.session_id = ma.session_id AND s.deleted_at IS NULL
+       WHERE COALESCE(ms.is_deleted, 0) = 0
+       GROUP BY mi.member_id, mi.response_email
+       ORDER BY attended_count DESC, mi.member_id ASC
+       LIMIT ?`,
+    )
+    .bind(limit)
+    .all<RankingDbRow>();
+  return (r.results ?? []).map((row) => ({
+    memberId: asMemberId(row.member_id),
+    displayName: row.display_name ?? "",
+    attendedCount: row.attended_count,
+    rate: row.rate,
+  }));
+}

@@ -164,7 +164,7 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 ---
 
-`MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持する。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile` と admin member detail は default 50 件の先頭ページを返す。
+`MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile` と admin member detail は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` から provider を解決する。builder call site へ optional `deps?.attendanceProvider` を渡す方式は使わない。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile` と admin member detail は default 50 件の先頭ページを返す。先頭ページの limit 指定は builder の optional `deps?.attendancePage` 経由でのみ渡す。
 
 ### Attendance pagination
 
@@ -174,6 +174,18 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 | `GET /admin/members/:memberId/attendance` | admin session | `limit?: 1..200`, `cursor?: string` | `{ records: AttendanceRecord[], hasMore: boolean, nextCursor: string | null }` |
 
 cursor は `{ heldOn, sessionId }` を base64url JSON 化した不透明文字列で、sort は `held_on DESC, session_id DESC`。不正 cursor は 400、`limit < 1` は 400、`limit > 200` は 200 に clamp する。既存 `createAttendanceProvider(ctx).findByMemberIds(ids)` は bulk read の後方互換 API として維持し、個人ページングは `findByMemberId(id, { limit, cursor })` を使う。
+
+## Admin Dashboard Attendance Analytics API
+
+`ut-02a-followup-002` では admin dashboard 用の attendance aggregate API を `GET /admin/dashboard/attendance/*` に追加する。すべて既存 admin gate 配下で実行し、apps/web は `/api/admin/...` proxy / `fetchAdmin` 経由で呼ぶ。apps/web から D1 を直接参照しない。
+
+| Method | Path | Query | Response |
+|--------|------|-------|----------|
+| GET | `/admin/dashboard/attendance/overview` | なし | `{ totalSessions: number; totalMembers: number; overallRate: number }` |
+| GET | `/admin/dashboard/attendance/by-session` | `limit` default 50 / max 200。不正値は 400 | `Array<{ sessionId: string; title: string; heldOn: string; attendeeCount: number; rate: number }>` |
+| GET | `/admin/dashboard/attendance/ranking` | `limit` default 50 / max 200。不正値は 400 | `Array<{ memberId: MemberId; displayName: string; attendedCount: number; rate: number }>` |
+
+集計分母は `meeting_sessions.deleted_at IS NULL` の active session と `member_status.is_deleted != 1` の active member に揃える。削除済み session / 削除済み member の attendance row は `attendeeCount` / `attendedCount` / `overallRate` に含めない。
 
 ## API health contract: GET /health/db
 

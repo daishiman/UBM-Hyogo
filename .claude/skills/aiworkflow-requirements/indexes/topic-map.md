@@ -877,9 +877,10 @@ node scripts/list-specs.js --topics
 | エンドポイント命名規則 | L210 |
 | UBM-Hyogo Admin Sync API（03a） | L231 |
 | UBM-Hyogo Member Self-Service API（04b） | L282 |
-| Desktop IPC API サマリー | L310 |
-| 変更履歴 | L341 |
-| 関連ドキュメント | L358 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L308 |
+| Desktop IPC API サマリー | L322 |
+| 変更履歴 | L353 |
+| 関連ドキュメント | L370 |
 
 ### references/api-internal-chunk-search.md
 
@@ -972,10 +973,10 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| エラーハンドリング | L231 |
-| Conversation DB 初期化パターン | L262 |
-| UBM-Hyogo Schema Sync Contract（03a） | L264 |
-| ベクトル検索実装（DiskANN） | L374 |
+| エラーハンドリング | L232 |
+| Conversation DB 初期化パターン | L263 |
+| UBM-Hyogo Schema Sync Contract（03a） | L265 |
+| ベクトル検索実装（DiskANN） | L375 |
 
 ### references/database-implementation-details.md
 
@@ -2790,11 +2791,12 @@ node scripts/list-specs.js --topics
 | Phase specs | L36 |
 | Phase outputs | L54 |
 | Implementation artifacts | L122 |
-| Skill artifacts | L134 |
-| Canonical spec touchpoints | L142 |
-| Legacy stub | L149 |
-| Validation chain | L155 |
-| 運用メモ | L166 |
+| Follow-up 003 promoted workflow | L134 |
+| Skill artifacts | L144 |
+| Canonical spec touchpoints | L152 |
+| Legacy stub | L159 |
+| Validation chain | L165 |
+| 運用メモ | L176 |
 
 ### references/workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md
 
@@ -3270,15 +3272,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L57 |
-| キャッシュ戦略 | L93 |
-| 並列実行の活用 | L116 |
-| CD ワークフロー要件（dev / main マージ時） | L172 |
-| Backend ワークフロー要件（dev / main マージ時） | L200 |
-| モニタリングとアラート | L226 |
-| GitHub Secrets の要件 | L260 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L304 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L325 |
+| CI ワークフロー要件（PR 時） | L60 |
+| キャッシュ戦略 | L96 |
+| 並列実行の活用 | L119 |
+| CD ワークフロー要件（dev / main マージ時） | L175 |
+| Backend ワークフロー要件（dev / main マージ時） | L203 |
+| モニタリングとアラート | L229 |
+| GitHub Secrets の要件 | L263 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L307 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L328 |
 
 ### references/deployment-history.md
 
@@ -3294,15 +3296,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L127 |
-| ローカル開発での設定 | L159 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L198 |
-| セキュリティ原則 | L235 |
-| Cloudflare API Token の作成手順 | L246 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L261 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L326 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L374 |
-| 変更履歴 | L389 |
+| wrangler.toml の環境別設定 | L151 |
+| ローカル開発での設定 | L183 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L222 |
+| セキュリティ原則 | L259 |
+| Cloudflare API Token の作成手順 | L270 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L285 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L350 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L398 |
+| 変更履歴 | L413 |
 
 ### references/deployment.md
 
@@ -3886,6 +3888,16 @@ node scripts/list-specs.js --topics
 | L-09B-004: docs-only / NON_VISUAL は screenshot N/A ではなく代替 evidence を固定する | L33 |
 | L-09B-005: skill feedback は candidate task と existing task を分けて route する | L41 |
 
+### references/lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-09C-IRSD-001: `workflow_run` トリガーは `github.event.inputs` を使えないので context 派生 job を立てる | L10 |
+| L-09C-IRSD-002: dry-run → production の二段ゲートは GitHub Environment + bool 入力で多重防御する | L18 |
+| L-09C-IRSD-003: Slack 配信 evidence は `chat.getPermalink` で固定リンク化してから保存する | L26 |
+| L-09C-IRSD-004: CLOSED Issue 由来の execution-spec は `Refs #N` のみで完結させる | L34 |
+| L-09C-IRSD-005: secret 契約は spec 公開前に `deployment-secrets-management.md` へ promote する | L42 |
+
 ### references/lessons-learned-09c-production-deploy-execution-001-2026-05.md
 
 | セクション | 行 |
@@ -4011,6 +4023,19 @@ node scripts/list-specs.js --topics
 | Scope | L3 |
 | Lessons | L11 |
 | Downstream boundaries | L53 |
+
+### references/lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I371-001: DI 戦略 ADR は引数注入 / Hono ctx / DI container の三択を明示比較する | L9 |
+| L-I371-002: provider 合成型は repository 配下に置き middleware 依存逆転を避ける | L21 |
+| L-I371-003: 既存 `DbCtx` の `readonly db` 契約を破らず provider を増設する | L25 |
+| L-I371-004: missing provider 検知の canonical assertion を文字列契約として固定する | L29 |
+| L-I371-005: builder signature shrink の grep gate と test 移行手順 | L33 |
+| L-I371-006: runtime smoke を 09a/09b 系へ委譲し Phase 11 を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` で閉じる | L37 |
+| 関連リソース | L41 |
+| 検索キーワード（indexes rebuild 用） | L52 |
 
 ### references/lessons-learned-issue-372-attendance-pagination-2026-05.md
 
@@ -4330,6 +4355,16 @@ node scripts/list-specs.js --topics
 | L-UT07B-FU01-005: idempotent 設計のため Queue 消費側で dedupe_key を再確認する | L23 |
 | L-UT07B-FU01-006: Phase 11 gate を「local implementation GO / runtime evidence pending」と明示する | L27 |
 
+### references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU02-001: HTTP 202 retryable continuation は 5 点完全合致で narrowing する | L7 |
+| L-UT07B-FU02-002: `confirmed=true` と `backfill.status='exhausted'` は責務を分離して UI に渡す | L13 |
+| L-UT07B-FU02-003: predicate code 不一致は generic path にフォールバックする | L18 |
+| L-UT07B-FU02-004: 4 状態同時 override の manual screenshot は Phase 11 から分離する | L23 |
+| 適用対象 | L28 |
+
 ### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
 
 | セクション | 行 |
@@ -4405,8 +4440,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L97 |
-| 関連ドキュメント | L102 |
+| 利用順序 | L98 |
+| 関連ドキュメント | L103 |
 
 ### references/llm-embedding.md
 
@@ -5497,13 +5532,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L345 |
-| フェーズ構造（概要） | L354 |
-| 品質ゲート（概要） | L385 |
-| 出力テンプレート | L396 |
-| 実行時のコマンド・エージェント・スキル | L419 |
-| 昇格パターン集 | L443 |
-| Current Active / Spec Created Tasks | L445 |
+| ドキュメント構成 | L366 |
+| フェーズ構造（概要） | L375 |
+| 品質ゲート（概要） | L406 |
+| 出力テンプレート | L417 |
+| 実行時のコマンド・エージェント・スキル | L440 |
+| 昇格パターン集 | L464 |
+| Current Active / Spec Created Tasks | L466 |
 
 ### references/task-workflow-backlog-part2.md
 

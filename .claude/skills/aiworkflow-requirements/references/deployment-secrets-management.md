@@ -97,6 +97,30 @@ wrangler pages secret put API_SECRET_KEY --project-name=ubm-hyogo-web
 
 GitHub リポジトリの `Settings > Secrets and variables > Actions` で管理。
 
+### Slack Incident Runbook Delivery（09c / 2026-05-06）
+
+09c production deploy 後に incident response runbook を Slack bot で配信し、message timestamp と permalink を Phase 11 evidence に残す。値そのものは文書・log・PR に記録しない。
+
+| 種別 | 名前 | 設置先 | 1Password 正本 | 用途 |
+| --- | --- | --- | --- | --- |
+| bot token | `SLACK_BOT_TOKEN_INCIDENT_RUNBOOK` | GitHub environment secrets: `production-slack-delivery-dryrun` / `production-slack-delivery` | `op://UBM-Hyogo/Slack Bot - Incident Runbook/credential` | `chat.postMessage` / `chat.getPermalink` |
+| production channel id | `SLACK_INCIDENT_RUNBOOK_CHANNEL_ID` | GitHub environment variable: `production-slack-delivery` | n/a | `#ubm-hyogo-incident-runbook` 宛先 |
+| dry-run channel id | `SLACK_INCIDENT_RUNBOOK_DRYRUN_CHANNEL_ID` | GitHub environment variable: `production-slack-delivery-dryrun` | n/a | `#ubm-hyogo-incident-runbook-dryrun` 宛先 |
+
+Rotation 手順:
+
+1. 1Password の `Slack Bot - Incident Runbook` item で token を更新する。
+2. `gh secret set SLACK_BOT_TOKEN_INCIDENT_RUNBOOK < new_value` を標準入力経由で実行し、shell history に値を残さない。
+3. Slack admin UI で旧 token を revoke する。
+4. dry-run delivery を実行し、`slack-delivery-dryrun.json` の `ok=true` / `message.permalink` を確認する。
+
+取扱原則:
+
+- `xox[b]-` 値、値ハッシュ、Slack API response body の secret 相当部分を docs / logs / PR に残さない。
+- dry-run は GitHub environment `production-slack-delivery-dryrun`（reviewer なし）で secret / variable を解決する。
+- production 配信は GitHub environment `production-slack-delivery` の reviewer approval 後のみ実行する。
+- `workflow_run` は `backend-ci` / `web-cd` の main 成功後 automatic dry-run のみ。production は `workflow_dispatch` + `dryrun_evidence_confirmed=true` + environment approval に限定する。
+
 ### Required Secrets
 
 | シークレット名 | 説明 | 使用箇所 |

@@ -1,9 +1,14 @@
 "use client";
 // 06c: SchemaDiffPanel — added/changed/removed/unresolved の 4 ペイン + alias 割当 form
 // 不変条件 #14: 本コンポーネントは /admin/schema/page.tsx 以外で import しない
+// UT-07B-FU-02: HTTP 202 retryable continuation を「失敗」と区別して表示する。
+//   API contract（/schema/aliases の 200/202 分岐）は変更せず、表示分岐のみで運用者に伝える。
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { postSchemaAlias } from "../../lib/admin/api";
+import {
+  postSchemaAlias,
+  isSchemaAliasRetryableContinuation,
+} from "../../lib/admin/api";
 
 export type DiffType = "added" | "changed" | "removed" | "unresolved";
 
@@ -28,6 +33,19 @@ export interface SchemaDiffListView {
 
 const TYPES: DiffType[] = ["added", "changed", "removed", "unresolved"];
 
+type FeedbackKind =
+  | "success"
+  | "retryable"
+  | "validation_error"
+  | "conflict_error"
+  | "error";
+
+interface Feedback {
+  kind: FeedbackKind;
+  label: string;
+  detail?: string;
+}
+
 export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListView }) {
   const router = useRouter();
   const grouped = useMemo(() => {
@@ -44,12 +62,12 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
   const [active, setActive] = useState<SchemaDiffItem | null>(null);
   const [stableKey, setStableKey] = useState("");
   const [busy, setBusy] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<Feedback | null>(null);
 
   const onSelect = (it: SchemaDiffItem) => {
     setActive(it);
     setStableKey(it.suggestedStableKey ?? it.stableKey ?? "");
-    setToast(null);
+    setFeedback(null);
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -62,11 +80,34 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
       stableKey: stableKey.trim(),
     });
     setBusy(false);
-    if (!r.ok) {
-      setToast(`失敗: ${r.error}`);
+
+    if (isSchemaAliasRetryableContinuation(r)) {
+      setFeedback({
+        kind: "retryable",
+        label: "Back-fill 再試行可能（続きから処理できます）",
+        detail: "もう一度「割当」を押すと続きから処理されます。",
+      });
       return;
     }
-    setToast("alias を割当てました");
+
+    if (!r.ok) {
+      if (r.status === 422) {
+        setFeedback({
+          kind: "validation_error",
+          label: `入力内容に誤りがあります: ${r.error}`,
+        });
+      } else if (r.status === 409) {
+        setFeedback({
+          kind: "conflict_error",
+          label: `他の操作と競合しました: ${r.error}`,
+        });
+      } else {
+        setFeedback({ kind: "error", label: `失敗: ${r.error}` });
+      }
+      return;
+    }
+
+    setFeedback({ kind: "success", label: "alias を割当てました" });
     setActive(null);
     router.refresh();
   };
@@ -75,7 +116,19 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
     <section aria-labelledby="schema-diff-h">
       <h1 id="schema-diff-h">schema 差分</h1>
       <p>{initial.total} 件</p>
-      {toast && <p role="status">{toast}</p>}
+      {feedback && (
+        <div
+          role={
+            feedback.kind === "success" || feedback.kind === "retryable"
+              ? "status"
+              : "alert"
+          }
+          data-feedback-kind={feedback.kind}
+        >
+          <p>{feedback.label}</p>
+          {feedback.detail && <p>{feedback.detail}</p>}
+        </div>
+      )}
 
       <div className="schema-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
         {TYPES.map((t) => (

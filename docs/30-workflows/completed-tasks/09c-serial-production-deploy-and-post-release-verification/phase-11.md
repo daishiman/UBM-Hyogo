@@ -262,17 +262,17 @@ $ git ls-remote --tags origin | grep "$RELEASE_TAG"
 https://github.com/<owner>/UBM-Hyogo/releases/tag/v20260426-1530  # placeholder
 ```
 
-## share-evidence（テンプレ）
+## share-evidence（Slack delivery evidence 参照）
 
 ```text
 # incident response runbook 共有記録
 
 ## 共有先
-- Slack: #ubm-hyogo-prod-incident（placeholder、実 channel 名に置換）
-- Email: admin@ubm-hyogo.example（placeholder、実 recipient に置換）
+- Slack dry-run evidence: docs/30-workflows/09c-incident-runbook-slack-delivery/outputs/phase-11/evidence/slack-delivery-dryrun.json
+- Slack production evidence: docs/30-workflows/09c-incident-runbook-slack-delivery/outputs/phase-11/evidence/slack-delivery-production.json
 
 ## 共有日時
-2026-04-26 15:35 JST  # placeholder
+Slack delivery JSON の deliveredAt / ts を参照する
 
 ## 共有内容
 - runbook URL: docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/outputs/phase-12/incident-response-runbook.md
@@ -281,8 +281,8 @@ https://github.com/<owner>/UBM-Hyogo/releases/tag/v20260426-1530  # placeholder
 - dashboard URL: ${ANALYTICS_URL_API_PRODUCTION} / ${ANALYTICS_URL_D1_PRODUCTION}
 
 ## 受領確認
-- Slack reaction: <絵文字>（placeholder、screenshot を slack-reaction.png に保存）
-- Email reply: from <recipient> at 2026-04-26 15:42  # placeholder
+- Slack thread / reaction evidence は runtime execution 後に share-evidence.md へ追記
+- AC-7 PASS は `ok=true` / `ts` / `channel` / `message.permalink` が揃った後のみ
 ```
 
 ## post-release-24h-evidence（テンプレ）

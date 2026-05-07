@@ -32,6 +32,10 @@ import {
   ATTENDANCE_PAGE_MAX_LIMIT,
 } from "../../repository/attendance";
 import {
+  attendanceProviderMiddleware,
+  type RepositoryProviderVariables,
+} from "../../middleware/repository-providers";
+import {
   memberSelfRequestQueue,
   resolveEditResponseUrl,
   getPendingRequestsForMember,
@@ -54,10 +58,15 @@ const pickResponderUrl = (env: MeRouteEnv): string =>
   env.RESPONDER_URL ?? env.GOOGLE_FORM_RESPONDER_URL ?? RESPONDER_URL_FALLBACK;
 
 export const createMeRoute = (deps: MeRouteDeps) => {
-  const app = new Hono<{ Bindings: MeRouteEnv; Variables: SessionGuardVariables }>();
+  const app = new Hono<{
+    Bindings: MeRouteEnv;
+    Variables: SessionGuardVariables & RepositoryProviderVariables;
+  }>();
 
   // 全 /me/* に session 必須
   app.use("*", sessionGuard({ resolveSession: deps.resolveSession }));
+  // session 確定後に repository provider を bind（issue-371）
+  app.use("*", attendanceProviderMiddleware);
 
   // GET /me — SessionUser
   app.get("/", (c) => {
@@ -81,11 +90,12 @@ export const createMeRoute = (deps: MeRouteDeps) => {
   app.get("/profile", async (c) => {
     const user = c.get("user");
     const ctx = c.get("ctx");
-    const profile = await buildMemberProfile(ctx, user.memberId, {
-      attendanceProvider: createAttendanceProvider(ctx),
+    const profile = await buildMemberProfile(
+      { ...ctx, var: { attendanceProvider: c.var.attendanceProvider } },
+      user.memberId,
       // issue-372: 直近 N 件 + cursor。先頭ページは default limit。
-      attendancePage: { limit: ATTENDANCE_PAGE_DEFAULT_LIMIT },
-    });
+      { attendancePage: { limit: ATTENDANCE_PAGE_DEFAULT_LIMIT } },
+    );
     if (!profile) {
       // identity / response が見つからない (同期未完了など)
       return c.json({ code: "PROFILE_UNAVAILABLE" }, 404);
