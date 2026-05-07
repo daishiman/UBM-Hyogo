@@ -233,4 +233,48 @@ describe("MemberDrawer", () => {
     fireEvent.click(screen.getByRole("button", { name: "キャンセル" }));
     expect(screen.queryByRole("dialog", { name: "変更確認" })).toBeNull();
   });
+
+  it("attendance state: memberId 切替時に前会員の履歴を残さない", async () => {
+    const detail1 = {
+      ...baseDetail,
+      profile: {
+        ...baseDetail.profile,
+        attendance: [{ sessionId: "s_old", title: "old session", heldOn: "2026-01-01" }],
+        attendanceMeta: { hasMore: false, nextCursor: null },
+      },
+    };
+    const detail2 = {
+      ...baseDetail,
+      identityMemberId: "m_2",
+      profile: {
+        ...baseDetail.profile,
+        attendance: [{ sessionId: "s_new", title: "new session", heldOn: "2026-02-01" }],
+        attendanceMeta: { hasMore: false, nextCursor: null },
+      },
+    };
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input);
+        const body = url.includes("/m_2") ? detail2 : detail1;
+        return {
+          ok: true,
+          status: 200,
+          headers: { get: () => "application/json" },
+          json: async () => body,
+        } as unknown as Response;
+      }),
+    );
+
+    const view = render(
+      <MemberDrawer memberId="m_1" onClose={() => {}} onMutated={() => {}} />,
+    );
+    await waitFor(() => expect(screen.getByText("old session")).toBeTruthy());
+
+    view.rerender(
+      <MemberDrawer memberId="m_2" onClose={() => {}} onMutated={() => {}} />,
+    );
+    await waitFor(() => expect(screen.getByText("new session")).toBeTruthy());
+    expect(screen.queryByText("old session")).toBeNull();
+  });
 });

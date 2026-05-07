@@ -37,11 +37,20 @@ const stubProvider = (
     }
     return out;
   },
+  async findByMemberId(id, opts) {
+    const all = data[id as unknown as string] ?? [];
+    const limit = opts?.limit ?? 50;
+    const records = all.slice(0, limit);
+    return { records, hasMore: all.length > limit, nextCursor: null };
+  },
 });
 
 const emptyProvider: AttendanceProvider = {
   async findByMemberIds() {
     return new Map();
+  },
+  async findByMemberId() {
+    return { records: [], hasMore: false, nextCursor: null };
   },
 };
 

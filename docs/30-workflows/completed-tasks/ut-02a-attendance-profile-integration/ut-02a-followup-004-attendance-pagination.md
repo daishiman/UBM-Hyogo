@@ -10,10 +10,10 @@
 | 対象機能 | `AttendanceProvider.findByMemberIds` と `/me/profile` レスポンス |
 | 優先度 | priority:low |
 | 見積もり規模 | 小〜中規模 |
-| ステータス | 未実施（実 evidence 出現後に着手） |
+| ステータス | consumed_by_issue_372 / implemented-local（Phase 11 visual evidence pending） |
 | 発見元 | ut-02a-attendance-profile-integration Phase 12 unassigned-task-detection |
 | 発見日 | 2026-05-01 |
-| 委譲先 wave | 02 系 follow-up |
+| 委譲先 wave | `docs/30-workflows/issue-372-attendance-pagination/` |
 
 ---
 

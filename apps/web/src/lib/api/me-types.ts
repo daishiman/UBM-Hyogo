@@ -58,3 +58,16 @@ export interface MeProfileResponse {
   readonly fallbackResponderUrl: string;
   readonly pendingRequests: PendingRequests;
 }
+
+// issue-372: GET /me/attendance のレスポンス mirror 型。
+export interface MeAttendanceRecord {
+  readonly sessionId: string;
+  readonly title: string;
+  readonly heldOn: string;
+}
+
+export interface MeAttendancePageResponse {
+  readonly records: ReadonlyArray<MeAttendanceRecord>;
+  readonly hasMore: boolean;
+  readonly nextCursor: string | null;
+}
