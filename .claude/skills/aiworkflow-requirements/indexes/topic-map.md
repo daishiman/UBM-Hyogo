@@ -1034,7 +1034,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L9 |
+| Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L11 |
 
 ### references/database-schema-ddl-template.md
 
@@ -2371,6 +2371,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L56 |
 
+### references/workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L13 |
+| Boundary | L29 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3393,9 +3401,9 @@ node scripts/list-specs.js --topics
 | セキュリティ原則 | L262 |
 | Cloudflare API Token の作成手順 | L273 |
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L386 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L434 |
-| 変更履歴 | L449 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L387 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L435 |
+| 変更履歴 | L450 |
 
 ### references/deployment.md
 
@@ -4280,6 +4288,15 @@ node scripts/list-specs.js --topics
 | 後続タスクが事前確認すべき運用 checklist | L168 |
 | 用語集（本タスクで導入 / 確定した語彙） | L179 |
 | 引用元 | L188 |
+
+### references/lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE518-001: HOLD 政策で workflow を残すなら schedule 削除 + workflow_dispatch + dry_run 強制 の三段階で実行を物理的に塞ぐ | L7 |
+| L-ISSUE518-002: schedule を停止した時点で死活監視 watchdog は冗長になるため同一 wave で削除する | L28 |
+| L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
+| 参照元 | L66 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -5270,7 +5287,7 @@ node scripts/list-specs.js --topics
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
-| 11. 変更履歴 | L258 |
+| 10. 変更履歴 | L258 |
 
 ### references/patterns-advanced.md
 
@@ -5723,13 +5740,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L493 |
-| フェーズ構造（概要） | L502 |
-| 品質ゲート（概要） | L533 |
-| 出力テンプレート | L544 |
-| 実行時のコマンド・エージェント・スキル | L567 |
-| 昇格パターン集 | L591 |
-| Current Active / Spec Created Tasks | L593 |
+| ドキュメント構成 | L461 |
+| フェーズ構造（概要） | L470 |
+| 品質ゲート（概要） | L501 |
+| 出力テンプレート | L512 |
+| 実行時のコマンド・エージェント・スキル | L535 |
+| 昇格パターン集 | L559 |
+| Current Active / Spec Created Tasks | L561 |
 
 ### references/task-workflow-backlog-part2.md
 
