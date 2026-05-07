@@ -49,6 +49,9 @@ const emptyProvider: AttendanceProvider = {
   async findByMemberIds() {
     return new Map();
   },
+  async findByMemberId() {
+    return { records: [], hasMore: false, nextCursor: null };
+  },
 };
 
 const withProvider = <T extends { db: unknown }>(

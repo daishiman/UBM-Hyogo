@@ -194,24 +194,15 @@ export interface AttendancePageResult {
 }
 
 const toBase64Url = (s: string): string => {
-  // Cloudflare Workers / Node 共通で動く実装
-  let b64: string;
-  if (typeof btoa === "function") {
-    // btoa は latin-1 のみ。JSON ASCII のみ前提だが、安全側で URI encode 経由
-    b64 = btoa(unescape(encodeURIComponent(s)));
-  } else {
-    b64 = Buffer.from(s, "utf-8").toString("base64");
-  }
+  // btoa は latin-1 のみ。JSON ASCII 前提だが、安全側で URI encode 経由
+  const b64 = btoa(unescape(encodeURIComponent(s)));
   return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 };
 
 const fromBase64Url = (s: string): string => {
   const b64 = s.replace(/-/g, "+").replace(/_/g, "/");
   const pad = b64.length % 4 === 0 ? "" : "=".repeat(4 - (b64.length % 4));
-  if (typeof atob === "function") {
-    return decodeURIComponent(escape(atob(b64 + pad)));
-  }
-  return Buffer.from(b64 + pad, "base64").toString("utf-8");
+  return decodeURIComponent(escape(atob(b64 + pad)));
 };
 
 export const encodeAttendanceCursor = (cursor: AttendanceCursor): string =>
