@@ -1017,8 +1017,9 @@ node scripts/list-specs.js --topics
 | Turso 無料枠の活用 | L8 |
 | セキュリティベストプラクティス | L41 |
 | 運用・メンテナンス | L76 |
-| Electron ローカルストレージ | L119 |
-| 関連ドキュメント | L182 |
+| Issue #503 schema alias back-fill cursor A/B operation | L119 |
+| Electron ローカルストレージ | L137 |
+| 関連ドキュメント | L200 |
 
 ### references/database-schema-07b-schema-alias-assignment.md
 
@@ -1069,18 +1070,18 @@ node scripts/list-specs.js --topics
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L45 |
 | Schema aliases write target（issue-191 / UT-07B） | L60 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L90 |
-| Legacy Sheets sync transition note（U-UT01-09） | L102 |
-| Schema alias assignment workflow（07b） | L114 |
-| ワークフロー関連テーブル | L118 |
-| ユーザー関連テーブル | L157 |
-| システムプロンプト関連テーブル | L191 |
-| チャット関連テーブル | L226 |
-| RAG関連テーブル | L262 |
-| Knowledge Graph関連テーブル | L304 |
-| 変換処理関連テーブル | L438 |
-| インデックス設計 | L497 |
-| 関連ドキュメント / 変更履歴 / DDL テンプレ | L501 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L92 |
+| Legacy Sheets sync transition note（U-UT01-09） | L104 |
+| Schema alias assignment workflow（07b） | L116 |
+| ワークフロー関連テーブル | L120 |
+| ユーザー関連テーブル | L159 |
+| システムプロンプト関連テーブル | L193 |
+| チャット関連テーブル | L228 |
+| RAG関連テーブル | L264 |
+| Knowledge Graph関連テーブル | L306 |
+| 変換処理関連テーブル | L440 |
+| インデックス設計 | L499 |
+| 関連ドキュメント / 変更履歴 / DDL テンプレ | L503 |
 
 ---
 
@@ -2319,6 +2320,16 @@ node scripts/list-specs.js --topics
 | Phase 12 strict 7 Files | L58 |
 | Same-Wave Touched Files | L68 |
 | Boundary | L88 |
+
+### references/workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L3 |
+| Workflow | L7 |
+| Implemented files | L17 |
+| Documentation / evidence | L30 |
+| Boundary | L40 |
 
 ### references/workflow-issue-504-extended-fixture-50k-artifact-inventory.md
 
@@ -5607,13 +5618,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L415 |
-| フェーズ構造（概要） | L424 |
-| 品質ゲート（概要） | L455 |
-| 出力テンプレート | L466 |
-| 実行時のコマンド・エージェント・スキル | L489 |
-| 昇格パターン集 | L513 |
-| Current Active / Spec Created Tasks | L515 |
+| ドキュメント構成 | L427 |
+| フェーズ構造（概要） | L436 |
+| 品質ゲート（概要） | L467 |
+| 出力テンプレート | L478 |
+| 実行時のコマンド・エージェント・スキル | L501 |
+| 昇格パターン集 | L525 |
+| Current Active / Spec Created Tasks | L527 |
 
 ### references/task-workflow-backlog-part2.md
 

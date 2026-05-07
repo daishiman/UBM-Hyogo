@@ -225,6 +225,18 @@
 | 検証 | local typecheck / lint / vitest（schemaDiffQueue / schemaAliasAssign / schemaAliasBackfillBatch / schemaAliasEnqueue / route schema） 38 tests PASS。staging deploy / Cloudflare Queue binding apply / production apply は user 明示承認まで未実行 |
 | 境界 | Phase 11 staging evidence による runtime gate 判定本体は実走しておらず、user 明示で local implementation GO として実装した。staging Queue/DLQ 作成、Cloudflare deploy、production migration apply、commit、push、PR、Issue #361 comment/reopen は未実行。Issue #361 は CLOSED 維持で `Refs #361` のみ |
 
+### Issue #503 UT-07B-FU-01 Cursor Semantics Migration（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / runtime evidence pending_user_gate |
+| 成果物 | `docs/30-workflows/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration/` |
+| 目的 | schema alias back-fill batch の remaining-scan と cursor shadow branch を `BACKFILL_CURSOR_MODE` で A/B 比較できるようにし、runtime evidence で採用判断する |
+| 実装 | `apps/api/src/env.ts` / `apps/api/src/routes/admin/{_shared,schema}.ts` / `apps/api/src/index.ts` / `apps/api/src/repository/schemaDiffQueue.ts` / `apps/api/src/workflows/{schemaAliasAssign,schemaAliasBackfillBatch}.ts` / `apps/api/src/workflows/schemaAliasBackfillBatch.test.ts` |
+| 契約 | default は `remaining-scan`。`cursor` は shadow A/B 用。既存 `schema_diff_queue.backfill_cursor` を再利用し、stale cursor は null reset して row skip を防止する。public `backfill.status` は変更しない |
+| artifacts | `references/workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md` / Phase 12 strict outputs |
+| 境界 | `0015_schema_diff_queue_cursor.sql` は未作成。staging 10,000 行 A/B evidence、cursor 採用/不採用、production apply、commit、push、PR は user 明示承認まで未実行 |
+
 ### Issue #502 / UT-07B-FU-01-FOLLOWUP DLQ Monitoring Dashboard（2026-05-07）
 
 | 項目 | 値 |

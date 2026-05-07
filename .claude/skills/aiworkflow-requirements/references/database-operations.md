@@ -116,6 +116,24 @@
 
 ---
 
+## Issue #503 schema alias back-fill cursor A/B operation
+
+Issue #503（`docs/30-workflows/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration/`）は `implemented-local / implementation / NON_VISUAL / runtime evidence pending_user_gate`。local code は `BACKFILL_CURSOR_MODE` による `remaining-scan` / `cursor` shadow branch を持つが、runtime 採用判断は staging 10,000 行 fixture evidence まで保留する。
+
+| 項目 | current contract |
+| --- | --- |
+| default | `BACKFILL_CURSOR_MODE` 未設定または不正値は `remaining-scan` に fallback |
+| cursor trial | `BACKFILL_CURSOR_MODE=cursor` を staging にだけ設定して A/B evidence を取る |
+| evidence | CPU 時間、残行数推移、retry_count、`EXPLAIN QUERY PLAN`、D1 schema parity |
+| adoption gate | Phase 1 SSOT の E1 CPU 30% 以上削減 + E4 query plan PASS が必須 |
+| migration | cursor 採用までは `0015_schema_diff_queue_cursor.sql` を作成しない。shadow 段階は既存 `schema_diff_queue.backfill_cursor` を再利用 |
+| rollback | env を `remaining-scan` または未設定に戻す。public `backfill.status` は不変のため API rollback は不要 |
+| runtime boundary | staging deploy / fixture 実行 / production apply / commit / push / PR は user 明示承認まで実行しない |
+
+stale cursor で cursor 以下に remaining row が残る場合、batch は cursor を null reset して次回再取得する。これは row skip 禁止の安全側 fallback であり、cursor 採用前の shadow branch に必須。
+
+---
+
 ## Electron ローカルストレージ
 
 デスクトップアプリではクラウドDBとは別に、端末固有の機密情報を保存するローカルストレージを使用する。

@@ -21,6 +21,7 @@ import type {
   SchemaAliasAssignResult,
   SchemaAliasBackfillResult,
 } from "../../workflows/schemaAliasAssign";
+import { resolveBackfillCursorModeWithLog } from "../../workflows/schemaAliasBackfillBatch";
 import { enqueueBackfill } from "../../workflows/schemaAliasEnqueue";
 import type { AdminRouteEnv } from "./_shared";
 
@@ -204,6 +205,7 @@ export const createAdminSchemaRoute = () => {
         : null;
 
     try {
+      const backfillMode = resolveBackfillCursorModeWithLog(c.env.BACKFILL_CURSOR_MODE);
       const input: SchemaAliasAssignInput = {
         questionId: parsed.data.questionId,
         stableKey: parsed.data.stableKey,
@@ -211,6 +213,7 @@ export const createAdminSchemaRoute = () => {
         dryRun,
         actorId,
         actorEmail,
+        backfillMode,
       };
       if (backfillCpuBudgetMs !== null) {
         input.backfillCpuBudgetMs = backfillCpuBudgetMs;
