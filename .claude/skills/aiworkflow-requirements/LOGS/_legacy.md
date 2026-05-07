@@ -717,6 +717,12 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Added `references/release-runbook.md` and `references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md`.
 - Registered the workflow in `references/task-workflow-active.md`, `indexes/quick-reference.md`, and `indexes/resource-map.md`.
 - Source unassigned task `task-09c-github-release-tag-automation-001.md` is now consumed / formalized.
+# 2026-05-07 issue515 cf audit logs ML-ready classifier
+
+- state: implemented_local_runtime_pending / implementation / NON_VISUAL
+- spec_path: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260507-095541-wt-8/docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/index.md`
+- sync: observability-monitoring, deployment-secrets-management, infrastructure runbook, Phase 12 strict outputs
+- runtime gates: 90 day threshold observation, redacted feature export, model selection, production ML switch are external-time-dependent follow-ups.
 # 2026-05-07 Issue #504 schema alias 50k stress trial sync
 
 - Synced `docs/30-workflows/completed-tasks/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` as `spec_created / implementation / NON_VISUAL / staging stress trial user-gated`.

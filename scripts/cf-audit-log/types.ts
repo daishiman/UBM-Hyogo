@@ -19,6 +19,9 @@ export interface Baseline {
 export interface Finding {
   severity: Severity;
   reason: string;
+  confidence?: number;
+  classifierUsed?: string;
+  classifierVersion?: string;
   event: AuditLogEvent;
   dedupeKey: string;
   titlePrefix: string;

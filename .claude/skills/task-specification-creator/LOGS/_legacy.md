@@ -2603,3 +2603,8 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - state: Phase 1-13 spec contract drafted / Phase 12 strict 7 files materialized / runtime evidence pending user approval
 - spec_path: `/docs/30-workflows/09c-incident-runbook-slack-delivery/index.md`
 - skill feedback: strict 7 filename drift fixed in workflow; no template promotion required
+# 2026-05-07 issue515 cf audit logs ML-ready classifier
+
+- Materialized Phase 12 strict 7 files for `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260507-095541-wt-8/docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/`.
+- Corrected state model from `spec_created` vs staging apply mixed wording to `spec_created -> implemented_local_runtime_pending -> pass_boundary_synced_runtime_pending`.
+- Registered external Gate follow-ups as unassigned tasks because 90 day runtime evidence and model artifact selection cannot be completed in this cycle.
