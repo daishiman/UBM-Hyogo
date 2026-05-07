@@ -57,6 +57,17 @@ Issue #408 の Cloudflare Audit Logs monitoring は 2026-05-06 の実装 PR で 
 
 Evidence には secret 値、Bearer header、full IP、user agent を残さない。保存可能なのは secret 名、run id、issue number、timestamp、fingerprint hash、redacted IP prefix までとする。
 
+## Issue #515 audit-log classifier rollback
+
+Issue #515 の classifier abstraction は `CF_AUDIT_CLASSIFIER` 未指定時に threshold を使う。ML skeleton または後続 ML model が不安定な場合、production 担当者は destructive rollback を行わず、まず次を実行する。
+
+1. GitHub Actions variable `CF_AUDIT_CLASSIFIER` を `threshold` に戻す。
+2. 次回 `cf-audit-log-monitor.yml` hourly run が threshold classifier で動作することを確認する。
+3. D1 `cf_audit_log.classifier_used` / `classifier_version` / `confidence` を確認し、rollback 後に `threshold` 記録へ戻っていることを確認する。
+4. D1 追加列は残す。列削除は user approval 付きの破壊的 rollback として別操作にする。
+
+Evidence には model path、raw feature dataset、full IP、user agent、actor email を残さない。保存できるのは classifier name/version、fallback reason、run id、redacted feature summary まで。
+
 ## Evidence 方針
 
 docs-only / NON_VISUAL の運用タスクでは screenshot は必須ではない。代替 evidence として、実行予定コマンド、期待出力、manual smoke log、link checklist、Dashboard 目視確認項目を残す。

@@ -198,12 +198,36 @@ Runtime trigger matrix:
 
 Redaction rule: raw token value, bearer header, full actor IP, user agent, and credential-like values are not stored in workflow outputs or Issue bodies. Evidence may store secret names, redacted IP prefix, fingerprint hash, timestamps, issue number, and GitHub run id.
 
+## 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07）
+
+Issue #515 は Issue #408 の threshold 監視を直ちに ML 本番切替するタスクではなく、`scripts/cf-audit-log/classifier/**` に `Classifier` abstraction を追加し、redacted feature extraction と offline replay で後続比較を可能にする ML-ready 化タスクである。状態は `implemented_local_runtime_pending / implementation / NON_VISUAL`。production classifier switch は 90 日 runtime Gate 後の別タスクとする。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/` |
+| classifier default | `CF_AUDIT_CLASSIFIER` 未指定時は `threshold` |
+| classifier modules | `scripts/cf-audit-log/classifier/{types,threshold,ml,index}.ts` |
+| redacted features | `scripts/cf-audit-log/features/{schema,extract}.ts`。raw IP / full UA / email / token value を出力しない |
+| evaluation | `scripts/cf-audit-log/evaluation/offline-replay.ts` と `secret-leakage-grep.ts` |
+| storage extension | `apps/api/migrations/0016_cf_audit_log_classification.sql`。`classifier_used` / `classifier_version` / `confidence` |
+| rollback | forward-safe。D1 追加列は残し、`CF_AUDIT_CLASSIFIER=threshold` へ戻す |
+
+Gate decision:
+
+| 判定状態 | 条件 | 次アクション |
+| --- | --- | --- |
+| threshold 継続 | false positive rate ≤ 5% かつ tuning cost < 4h/month | ML switch しない |
+| threshold 再調整 | false positive rate > 5% かつ baseline 7 日 | 30〜90 日 baseline へ延長 |
+| ML 比較開始 | 90 日 evidence あり、false positive rate > 5% または tuning cost ≥ 4h/month | redacted dataset で offline replay |
+| production ML 切替 | offline replay で改善、fallback rate 許容、rollback 承認済み | 別 PR で env switch |
+
 ---
 
-## 10. 変更履歴
+## 11. 変更履歴
 
 | 日付 | 変更 |
 | --- | --- |
+| 2026-05-07 | Issue #515 Cloudflare Audit Logs ML-ready classifier contract を追加。threshold default、redacted features、offline replay、forward-safe rollback、90 日 Gate を正本化 |
 | 2026-05-06 | Issue #495 production extension を追加。`x-smoke-production-confirm: YES`、production prefix / Sentry environment tag、G1-G4 gate、staging/production evidence 分離を固定 |
 | 2026-05-06 | Issue #408 Cloudflare Audit Logs monitoring contract を追加。`CF_AUDIT_TOKEN_PROD` 分離、severity label、Phase 11 runtime pending evidence 境界を正本化 |
 | 2026-05-05 | 09b-A Sentry / Slack runtime smoke contract を追加。`contract_ready_runtime_pending` 境界、5 trigger matrix、secret redaction rules を固定 |

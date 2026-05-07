@@ -2289,6 +2289,13 @@ node scripts/list-specs.js --topics
 | boundary | L61 |
 | deferred evidence | L67 |
 
+### references/workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L24 |
+| Gate Conditions (production ML switch 前提) | L30 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3287,15 +3294,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L151 |
-| ローカル開発での設定 | L183 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L222 |
-| セキュリティ原則 | L259 |
-| Cloudflare API Token の作成手順 | L270 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L285 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L350 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L398 |
-| 変更履歴 | L413 |
+| wrangler.toml の環境別設定 | L154 |
+| ローカル開発での設定 | L186 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L225 |
+| セキュリティ原則 | L262 |
+| Cloudflare API Token の作成手順 | L273 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L354 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L402 |
+| 変更履歴 | L417 |
 
 ### references/deployment.md
 
@@ -4079,6 +4086,17 @@ node scripts/list-specs.js --topics
 | L-ISSUE408-006: TTL purge は migration ではなく `analyze.ts` 末尾で毎時 DELETE する | L87 |
 | L-ISSUE408-007: 監視 token と deploy token は必ず別 secret で保つ | L103 |
 | 参照元 | L119 |
+
+### references/lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE515-001: ML-ready 化は「切替」ではなく「比較できる箱」を入れることに留める | L8 |
+| L-ISSUE515-002: classifier は default 名前付き interface で固定し、env 既定値は安全側に倒す | L24 |
+| L-ISSUE515-003: redaction boundary はストレージ層で分け、export は raw を持たない型から作る | L40 |
+| L-ISSUE515-004: D1 マイグレーションは forward-safe を default、破壊的 DOWN は user-gated に分離 | L56 |
+| L-ISSUE515-005: 同 wave SSOT 更新は分散させず、references / specs / skill LOGS を同一 PR 内で同期する | L72 |
+| 参照元 | L88 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -5056,7 +5074,8 @@ node scripts/list-specs.js --topics
 | 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L175 |
-| 10. 変更履歴 | L203 |
+| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L201 |
+| 11. 変更履歴 | L226 |
 
 ### references/patterns-advanced.md
 
@@ -5498,13 +5517,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L366 |
-| フェーズ構造（概要） | L375 |
-| 品質ゲート（概要） | L406 |
-| 出力テンプレート | L417 |
-| 実行時のコマンド・エージェント・スキル | L440 |
-| 昇格パターン集 | L464 |
-| Current Active / Spec Created Tasks | L466 |
+| ドキュメント構成 | L376 |
+| フェーズ構造（概要） | L385 |
+| 品質ゲート（概要） | L416 |
+| 出力テンプレート | L427 |
+| 実行時のコマンド・エージェント・スキル | L450 |
+| 昇格パターン集 | L474 |
+| Current Active / Spec Created Tasks | L476 |
 
 ### references/task-workflow-backlog-part2.md
 

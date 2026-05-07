@@ -81,6 +81,9 @@ export function renderBody(finding: Finding): string {
     ``,
     `- Severity: **${finding.severity}**`,
     `- Reason: ${finding.reason}`,
+    `- Classifier: ${finding.classifierUsed ?? "threshold"} version=${
+      finding.classifierVersion ?? "unknown"
+    } confidence=${finding.confidence ?? 1}`,
     `- Actor: ${finding.event.actor.email ?? "unknown"} (${
       actorIp
     })`,
@@ -95,12 +98,24 @@ export function renderBody(finding: Finding): string {
     `Raw audit event is retained only in D1 cf_audit_log.raw_json. Do not paste full IP, user agent, token values, or raw JSON into this Issue.`,
     ``,
     `Runbook: docs/00-getting-started-manual/specs/15-infrastructure-runbook.md`,
+    ``,
+    `<!-- cf-audit-classifier: ${
+      finding.classifierUsed ?? "threshold"
+    }; version: ${finding.classifierVersion ?? "unknown"}; confidence: ${
+      finding.confidence ?? 1
+    } -->`,
   ].join("\n");
 }
 
 export function buildFinding(
   event: AuditLogEvent,
-  result: { severity: Severity; reason: string },
+  result: {
+    severity: Severity;
+    reason: string;
+    confidence?: number;
+    classifierUsed?: string;
+    classifierVersion?: string;
+  },
 ): Finding {
   const dedupeKey = computeDedupeKey(event, result.severity);
   const labels = labelsFor(result.severity);
@@ -108,6 +123,9 @@ export function buildFinding(
   return {
     severity: result.severity,
     reason: result.reason,
+    confidence: result.confidence,
+    classifierUsed: result.classifierUsed,
+    classifierVersion: result.classifierVersion,
     event,
     dedupeKey,
     titlePrefix,
