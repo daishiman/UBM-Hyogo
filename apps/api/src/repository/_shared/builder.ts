@@ -36,18 +36,48 @@ import {
   type ResolveError,
   type SectionKey,
 } from "./metadata";
-import type { AttendanceProvider, AttendanceRecord } from "../attendance";
+import type {
+  AttendanceCursor,
+  AttendanceProvider,
+  AttendanceRecord,
+} from "../attendance";
+import { decodeAttendanceCursor } from "../attendance";
 import type { RepositoryProviderCtx } from "./provider-context";
 
-const fetchAttendanceFor = async (
+// issue-372: builder 経由で attendance を取得する際の page 指定。
+// `attendancePage` が指定された場合は findByMemberId(id, opts) 経路で取得し、
+// `attendanceMeta` を埋める。未指定時は従来の findByMemberIds 経路を維持する。
+export interface AttendancePageDeps {
+  limit?: number;
+  cursor?: string; // base64url(JSON) encoded
+}
+
+interface PagedAttendance {
+  records: AttendanceRecord[];
+  meta?: { hasMore: boolean; nextCursor: string | null };
+}
+
+const fetchAttendancePagedFor = async (
   mid: MemberId,
   provider: AttendanceProvider | undefined,
-): Promise<AttendanceRecord[]> => {
+  page: AttendancePageDeps | undefined,
+): Promise<PagedAttendance> => {
   if (!provider) {
     throw new Error("attendanceProvider not bound to context");
   }
-  const map = await provider.findByMemberIds([mid]);
-  return [...(map.get(mid) ?? [])];
+  if (!page) {
+    const map = await provider.findByMemberIds([mid]);
+    return { records: [...(map.get(mid) ?? [])] };
+  }
+  const decoded = page.cursor ? decodeAttendanceCursor(page.cursor) : null;
+  const opts: { limit?: number; cursor?: AttendanceCursor } = {};
+  if (page.limit !== undefined) opts.limit = page.limit;
+  if (decoded) opts.cursor = decoded;
+  const result = await provider.findByMemberId(mid, opts);
+  return {
+    records: [...result.records],
+    meta: { hasMore: result.hasMore, nextCursor: result.nextCursor },
+  };
 };
 
 // フィールドの可視性マップを構築するヘルパー
@@ -261,6 +291,7 @@ export async function buildPublicMemberProfile(
 export async function buildMemberProfile(
   c: RepositoryProviderCtx,
   mid: MemberId,
+  deps?: { attendancePage?: AttendancePageDeps },
 ): Promise<MemberProfile | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -274,12 +305,12 @@ export async function buildMemberProfile(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags, attendance] = await Promise.all([
+  const [sections, fields, visibilityRows, tags, paged] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
-    fetchAttendanceFor(mid, c.var.attendanceProvider),
+    fetchAttendancePagedFor(mid, c.var.attendanceProvider, deps?.attendancePage),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
@@ -289,7 +320,7 @@ export async function buildMemberProfile(
 
   const summary = extractSummary(response.answers_json);
 
-  return {
+  const profile: MemberProfile = {
     memberId: asMemberId(identity.member_id),
     responseId: responseId,
     responseEmail: asResponseEmail(identity.response_email),
@@ -299,7 +330,7 @@ export async function buildMemberProfile(
     isDeleted: status.is_deleted === 1,
     summary,
     sections: memberSections,
-    attendance,
+    attendance: paged.records,
     tags: tags.map((t) => ({
       code: t.code,
       label: t.label,
@@ -309,6 +340,8 @@ export async function buildMemberProfile(
     lastSubmittedAt: response.submitted_at,
     editResponseUrl: response.edit_response_url,
   };
+  if (paged.meta) profile.attendanceMeta = paged.meta;
+  return profile;
 }
 
 /**
@@ -326,6 +359,7 @@ export async function buildAdminMemberDetailView(
     occurredAt: string;
     note: string | null;
   }>,
+  deps?: { attendancePage?: AttendancePageDeps },
 ): Promise<AdminMemberDetailView | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -338,12 +372,12 @@ export async function buildAdminMemberDetailView(
   if (!response) return null;
 
   const responseId = asResponseId(response.response_id);
-  const [sections, fields, visibilityRows, tags, attendance] = await Promise.all([
+  const [sections, fields, visibilityRows, tags, paged] = await Promise.all([
     listSectionsByResponseId(c, responseId),
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
-    fetchAttendanceFor(mid, c.var.attendanceProvider),
+    fetchAttendancePagedFor(mid, c.var.attendanceProvider, deps?.attendancePage),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
@@ -363,7 +397,7 @@ export async function buildAdminMemberDetailView(
     isDeleted: status.is_deleted === 1,
     summary,
     sections: adminSections,
-    attendance,
+    attendance: paged.records,
     tags: tags.map((t) => ({
       code: t.code,
       label: t.label,
@@ -373,6 +407,7 @@ export async function buildAdminMemberDetailView(
     lastSubmittedAt: response.submitted_at,
     editResponseUrl: response.edit_response_url,
   };
+  if (paged.meta) profile.attendanceMeta = paged.meta;
 
   return {
     identityMemberId: asMemberId(identity.member_id),

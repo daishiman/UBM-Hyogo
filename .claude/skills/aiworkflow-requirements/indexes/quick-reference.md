@@ -1522,6 +1522,21 @@ packages/
 | read path | `createAttendanceProvider(ctx).findByMemberIds()` が `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN。80-id chunk、`held_on DESC` + `session_id ASC`、session 不在 row 除外、同一 session 重複正規化 |
 | 直交タスク | 09a staging smoke / 09b release runbook / 09c production deploy / 06b visual evidence / U-UT01-08 enum canonicalization は本 workflow で代替しない |
 
+### Issue #372 Attendance Pagination 早見（implemented-local / 2026-05-07）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/issue-372-attendance-pagination/` |
+| 状態 | implemented-local / implementation / VISUAL / Phase 11 visual evidence pending / Phase 13 pending_user_approval |
+| source | `docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/ut-02a-followup-004-attendance-pagination.md` |
+| repository | `apps/api/src/repository/attendance.ts` (`findByMemberId(id, { limit, cursor })`) |
+| routes | `/me/attendance`, `/admin/members/:memberId/attendance` |
+| shared contract | `MemberProfile.attendance` は配列維持、`attendanceMeta?: { hasMore, nextCursor }` を optional 追加 |
+| web targets | `apps/web/app/profile/_components/AttendanceList.tsx`, `apps/web/src/components/admin/MemberDrawer.tsx` |
+| scope boundary | `findByMemberIds(ids)` bulk pagination は明示スコープ外。未タスク化しない |
+| evidence | local focused tests + Phase 12 strict files: `docs/30-workflows/issue-372-attendance-pagination/outputs/phase-12/`; staging screenshots/curl remain Phase 11 pending |
+| lessons-learned | `references/lessons-learned-issue-372-attendance-pagination-2026-05.md`（L-ISSUE372-001〜006: cursor encoded/decoded 境界 / bulk と個人特化 API 分離 / `attendanceMeta` optional 追加 / miniflare EADDRNOTAVAIL focused run / 1Password CLI timeout 切り分け / Phase 11 visual evidence pending を spec sync の blocker にしない） |
+
 ### UBM-Hyogo Attendance Write Operations Close-out（UT-02A follow-up / 2026-05-06）
 
 | 観点 | 値 / 参照先 |

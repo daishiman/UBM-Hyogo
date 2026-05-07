@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L209 |
-| UBM-Hyogo Admin Sync API（03a） | L230 |
-| UBM-Hyogo Member Self-Service API（04b） | L281 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L306 |
-| Desktop IPC API サマリー | L320 |
-| 変更履歴 | L351 |
-| 関連ドキュメント | L368 |
+| エンドポイント命名規則 | L210 |
+| UBM-Hyogo Admin Sync API（03a） | L231 |
+| UBM-Hyogo Member Self-Service API（04b） | L282 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L308 |
+| Desktop IPC API サマリー | L322 |
+| 変更履歴 | L353 |
+| 関連ドキュメント | L370 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2245,6 +2245,14 @@ node scripts/list-specs.js --topics
 | Runtime Contract | L23 |
 | Evidence | L31 |
 | System Spec Sync | L38 |
+
+### references/workflow-issue-372-attendance-pagination-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L13 |
+| Boundary | L25 |
 
 ### references/workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md
 
@@ -4028,6 +4036,18 @@ node scripts/list-specs.js --topics
 | L-I371-006: runtime smoke を 09a/09b 系へ委譲し Phase 11 を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` で閉じる | L37 |
 | 関連リソース | L41 |
 | 検索キーワード（indexes rebuild 用） | L52 |
+
+### references/lessons-learned-issue-372-attendance-pagination-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE372-001: cursor は encoded string 境界と decoded 構造体境界を route / builder / repository で明確に分ける | L7 |
+| L-ISSUE372-002: 既存 bulk API（`findByMemberIds`）には pagination を混ぜず個人特化 API を追加する | L25 |
+| L-ISSUE372-003: `MemberProfile.attendance` 配列は維持し、メタ情報は optional `attendanceMeta` に分離する | L43 |
+| L-ISSUE372-004: miniflare 全体 vitest は EADDRNOTAVAIL でポート枯渇する。focused run を採用する | L61 |
+| L-ISSUE372-005: 1Password CLI authorization timeout でフルビルドが落ちても、コード起因と環境起因を切り分けて記録する | L79 |
+| L-ISSUE372-006: Phase 11 staging visual evidence は runtime session 必要なので Phase 12 spec sync の blocker にしない | L97 |
+| 参照元 | L115 |
 
 ### references/lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md
 
