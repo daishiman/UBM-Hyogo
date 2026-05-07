@@ -1,0 +1,16 @@
+{
+  "classifier": "ml",
+  "version": "ml@v0.0.0-skeleton-fallback",
+  "totalEvents": 2,
+  "labeledAnomalies": 1,
+  "predictedAnomalies": 1,
+  "truePositive": 1,
+  "falsePositive": 0,
+  "falseNegative": 0,
+  "trueNegative": 1,
+  "parseErrors": 0,
+  "precision": 1,
+  "recall": 1,
+  "fpRate": 0,
+  "fnRate": 0
+}

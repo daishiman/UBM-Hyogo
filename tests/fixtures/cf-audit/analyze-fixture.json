@@ -1,0 +1,30 @@
+{
+  "events": [
+    {
+      "id": "analyze-1",
+      "when": "2026-05-07T03:00:00Z",
+      "actor": {
+        "email": "ci@example.com",
+        "ip": "203.0.113.5",
+        "user_agent": "wrangler/4.85.0"
+      },
+      "action": {
+        "type": "token.read",
+        "result": "success",
+        "result_code": 200
+      }
+    }
+  ],
+  "baseline": {
+    "successPerHourP95": 5,
+    "failurePerHourP95": 1,
+    "offHoursRatio": 0.1,
+    "computedAt": "2026-05-07T00:00:00Z",
+    "windowDays": 7
+  },
+  "githubIpRanges": [
+    "140.82.112.0/20",
+    "192.30.252.0/22"
+  ],
+  "rotationWindowMs": null
+}
