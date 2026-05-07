@@ -4,6 +4,12 @@
 
 `docs/30-workflows/completed-tasks/06c-B-admin-members/`
 
+## execution supplement
+
+`docs/30-workflows/completed-tasks/06c-B-admin-members-implementation-execution/`
+
+This supplement does not replace the canonical completed root. It records the Issue #430 execution contract and the same-cycle implementation correction for delete / restore response shape, 422 validation, and `DB.batch()` audit atomicity.
+
 ## workflow state
 
 | field | value |
@@ -50,6 +56,6 @@
 - admin member detail UI は `/admin/members` 右ドロワーを canonical とし、別 route `/admin/members/[id]` は新設しない。
 - list response は `{ total, members }` を維持し、`page` / `pageSize` は optional 追加で互換を保つ。
 - `filter` 語彙は `published | hidden | deleted` を canonical とし、stale な `active|hidden|deleted` を撤回する。
-- audit table 名は単数形 `audit_log` を canonical とし、`POST /api/admin/members/[id]/delete` / `restore` は `auditAppend()` 経由で `admin.member.deleted` / `admin.member.restored` を append する。
+- audit table 名は単数形 `audit_log` を canonical とし、`POST /api/admin/members/[id]/delete` / `restore` は status / deleted_members / audit_log insert を `DB.batch()` で接続し、`admin.member.deleted` / `admin.member.restored` を append する。
 - runtime visual evidence は 08b admin Playwright E2E / 09a staging smoke へ委譲（staging admin Google account + sanitized D1 fixture 前提）。
 - role mutation UI/API、CSV export、bulk operation、admin user invitation は 06c-B では scope out。

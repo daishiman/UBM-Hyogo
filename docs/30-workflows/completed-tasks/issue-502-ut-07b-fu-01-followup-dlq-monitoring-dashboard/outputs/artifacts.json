@@ -1,0 +1,54 @@
+{
+  "workflow_id": "issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard",
+  "workflow_state": "spec_created",
+  "metadata": {
+    "task_id": "issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard",
+    "task_name": "UT-07B-FU-01-FOLLOWUP schema alias back-fill Queue / DLQ monitoring dashboard",
+    "github_issue": 502,
+    "github_issue_state": "CLOSED",
+    "parent_task": "ut-07b-fu-01-schema-alias-backfill-queue-cron-split",
+    "source_phase": "docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-dlq-monitoring-dashboard.md",
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-dlq-monitoring-dashboard.md",
+    "created_date": "2026-05-07",
+    "category": "operability",
+    "priority": "low",
+    "scale": "small",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "docsOnly": true,
+    "docs_only_rationale": "Issue #502 deliverables are limited to (a) runbook markdown addition, (b) read-only D1 aggregation SQL embedded as code blocks in the runbook, (c) aiworkflow-requirements references topic addition for DLQ monitoring, (d) skill index regeneration via pnpm indexes:rebuild. No source / test / configuration changes are introduced. Threshold-driven retry / alert / pager integration remains out-of-scope and would be raised as a separate unassigned task.",
+    "wave": 2,
+    "trigger_condition": "UT-07B-FU-01 staging / production deployment completed; SCHEMA_ALIAS_BACKFILL_QUEUE / DLQ binding live; migration 0014_schema_diff_queue_dedupe_failure.sql applied",
+    "dependencies": [
+      "ut-07b-fu-01-schema-alias-backfill-queue-cron-split"
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義（真の論点 / 観測対象棚卸し / 苦戦箇所）", "status": "spec_created", "spec": "phase-01.md" },
+    { "id": 2, "name": "設計（集計 SQL / runbook 構造 / skill references 追記）", "status": "spec_created", "spec": "phase-02.md" },
+    { "id": 3, "name": "設計レビューゲート", "status": "spec_created", "spec": "phase-03.md" },
+    { "id": 4, "name": "検証戦略（NON_VISUAL / read-only SQL / fixture）", "status": "spec_created", "spec": "phase-04.md" },
+    { "id": 5, "name": "仕様 runbook 作成（gh / cf.sh sequence / 集計 SQL）", "status": "spec_created", "spec": "phase-05.md" },
+    { "id": 6, "name": "異常系（しきい値誤検知 / DLQ ゼロ件 / fixture 欠落）", "status": "spec_created", "spec": "phase-06.md" },
+    { "id": 7, "name": "AC マトリクス", "status": "spec_created", "spec": "phase-07.md" },
+    { "id": 8, "name": "DRY 化 / 仕様間整合", "status": "spec_created", "spec": "phase-08.md" },
+    { "id": 9, "name": "品質保証", "status": "spec_created", "spec": "phase-09.md" },
+    { "id": 10, "name": "最終レビューゲート", "status": "spec_created", "spec": "phase-10.md" },
+    { "id": 11, "name": "手動検証（NON_VISUAL 縮約 / staging fixture 集計）", "status": "contract_ready_runtime_pending", "spec": "phase-11.md" },
+    { "id": 12, "name": "ドキュメント更新（runbook / skill references / changelog）", "status": "completed", "spec": "phase-12.md" },
+    { "id": 13, "name": "PR 作成", "status": "pending_user_approval", "spec": "phase-13.md" }
+  ],
+  "ac": [
+    "AC-1: Cloudflare Queue / DLQ メトリクスの観測手順（dash / Workers Analytics / scripts/cf.sh queues list フォールバック）が runbook に記載",
+    "AC-2: D1 集計 SQL 3 種（DLQ 投入: failed_items_json IS NOT NULL / retry 過剰: retry_count >= 3 / exhausted 滞留: 24h 以上）が runbook に記載",
+    "AC-3: 異常しきい値（DLQ >= 1, retry >= 3, exhausted 24h）が文書化",
+    "AC-4: エスカレーション分岐（観測のみ / 別 unassigned task 起票）が runbook に明記",
+    "AC-5: aiworkflow-requirements references/ に DLQ 監視 topic を追加",
+    "AC-6: topic-map.md / keywords.json / quick-reference.md / resource-map.md / task-workflow-active.md / SKILL.md / LOGS/_legacy.md に Issue #502 導線がある",
+    "AC-7: 集計 SQL が read-only（INSERT/UPDATE/DELETE を含まない）",
+    "AC-8: Queue / DLQ binding 名と D1 schema が aiworkflow-requirements から逆引きできる",
+    "AC-9: 既存 schema / API contract / Queue 構造の変更がない",
+    "AC-10: 4 条件評価（価値性 / 実現性 / 整合性 / 運用性）が contract-ready boundary PASS",
+    "AC-11: Phase 12 strict 7 成果物（main / implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report / phase12-task-spec-compliance-check）+ runbook 本体 + aiworkflow-requirements skill 同期完了"
+  ]
+}

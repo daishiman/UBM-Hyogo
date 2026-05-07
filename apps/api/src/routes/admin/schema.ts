@@ -7,7 +7,7 @@ import { requireAdmin, type RequireAuthVariables } from "../../middleware/requir
 import { ctx } from "../../repository/_shared/db";
 import { adminEmail, asAdminId } from "../../repository/_shared/brand";
 import type { AdminEmail, AdminId } from "../../repository/_shared/brand";
-import { list as listDiffs } from "../../repository/schemaDiffQueue";
+import { list as listDiffs, findById as findDiffById } from "../../repository/schemaDiffQueue";
 import {
   recommendAliases,
   type RecommendExistingInput,
@@ -16,7 +16,13 @@ import {
   schemaAliasAssign,
   SchemaAliasAssignFailure,
 } from "../../workflows/schemaAliasAssign";
-import type { SchemaAliasAssignInput } from "../../workflows/schemaAliasAssign";
+import type {
+  SchemaAliasAssignInput,
+  SchemaAliasAssignResult,
+  SchemaAliasBackfillResult,
+} from "../../workflows/schemaAliasAssign";
+import { resolveBackfillCursorModeWithLog } from "../../workflows/schemaAliasBackfillBatch";
+import { enqueueBackfill } from "../../workflows/schemaAliasEnqueue";
 import type { AdminRouteEnv } from "./_shared";
 
 const AliasBodyZ = z.object({
@@ -28,6 +34,27 @@ const AliasBodyZ = z.object({
     .regex(/^[a-zA-Z][a-zA-Z0-9_]*$/, "stableKey must match /^[a-zA-Z][a-zA-Z0-9_]*$/"),
   dryRun: z.boolean().optional(),
 });
+
+const BackfillTriggerBodyZ = z.object({
+  source: z.literal("issue-504-50k-trial").optional(),
+});
+
+interface FixtureBackfillRow {
+  diff_id: string;
+  question_id: string | null;
+  suggested_stable_key: string | null;
+}
+
+const queueProducer = (
+  queue: AdminRouteEnv["SCHEMA_ALIAS_BACKFILL_QUEUE"],
+): { send(m: unknown): Promise<void> } | null =>
+  queue
+    ? {
+        send: async (message: unknown) => {
+          await queue.send(message);
+        },
+      }
+    : null;
 
 interface ExistingQuestionRow {
   stable_key: string;
@@ -79,6 +106,19 @@ const buildRecommendations = async (
     );
   }
   return out;
+};
+
+// UT-07B-FU-01: 既存 SchemaAliasBackfillResult を v2 公開契約 status に射影
+//   completed → completed
+//   exhausted → exhausted
+//   updated=0 で completed → completed（remaining=0 由来）
+//   route 側で remaining も合わせて返す（remaining=updated 直後では未確定なので 0 とする）
+const mapBackfillToV2 = (
+  b: SchemaAliasBackfillResult,
+): { status: "pending" | "running" | "exhausted" | "completed"; remaining: number } => {
+  if (b.status === "completed") return { status: "completed", remaining: 0 };
+  // exhausted: cursor が文字列の updated 位置。実残件は consumer 側で COUNT で再評価する
+  return { status: "exhausted", remaining: -1 };
 };
 
 const failureToHttp = (
@@ -165,6 +205,7 @@ export const createAdminSchemaRoute = () => {
         : null;
 
     try {
+      const backfillMode = resolveBackfillCursorModeWithLog(c.env.BACKFILL_CURSOR_MODE);
       const input: SchemaAliasAssignInput = {
         questionId: parsed.data.questionId,
         stableKey: parsed.data.stableKey,
@@ -172,13 +213,55 @@ export const createAdminSchemaRoute = () => {
         dryRun,
         actorId,
         actorEmail,
+        backfillMode,
       };
       if (backfillCpuBudgetMs !== null) {
         input.backfillCpuBudgetMs = backfillCpuBudgetMs;
       }
       const result = await schemaAliasAssign(db, input);
-      const status = result.mode === "apply" && result.backfill.status === "exhausted" ? 202 : 200;
-      return c.json({ ok: true, ...result }, status);
+      // UT-07B-FU-01: apply 時は backfill exhausted で Queue / Cron に再開 job を enqueue
+      // し、API response に confirmed / backfill.status を分離して返す。
+      if (result.mode === "apply") {
+        const lastProcessedAt = new Date().toISOString();
+        const v2Backfill = mapBackfillToV2(result.backfill);
+        let enqueueInfo: { dedupeKey: string; alreadyEnqueued: boolean; sent: boolean } | null = null;
+        if (
+          parsed.data.diffId &&
+          (v2Backfill.status === "exhausted" || v2Backfill.status === "pending")
+        ) {
+          enqueueInfo = await enqueueBackfill(
+            db,
+            queueProducer(c.env.SCHEMA_ALIAS_BACKFILL_QUEUE),
+            {
+              diffId: parsed.data.diffId,
+              questionId: input.questionId,
+              newStableKey: input.stableKey,
+            },
+          );
+        }
+        const status =
+          v2Backfill.status === "completed" || v2Backfill.status === "running"
+            ? 200
+            : 202;
+        return c.json(
+          {
+            ok: true,
+            ...result,
+            confirmed: true,
+            backfill: {
+              ...result.backfill,
+              status: v2Backfill.status,
+              remaining: v2Backfill.remaining,
+              lastProcessedAt,
+              ...(enqueueInfo
+                ? { dedupeKey: enqueueInfo.dedupeKey, enqueued: enqueueInfo.sent }
+                : {}),
+            },
+          },
+          status,
+        );
+      }
+      return c.json({ ok: true, ...result }, 200);
     } catch (err) {
       if (err instanceof SchemaAliasAssignFailure) {
         const { status, body } = failureToHttp(err);
@@ -188,7 +271,110 @@ export const createAdminSchemaRoute = () => {
     }
   });
 
+  // Issue #504: staging-only trigger for the 50k fixture stress trial.
+  // This endpoint converts prepared synthetic schema_diff_queue rows into Queue jobs.
+  app.post("/schema/backfill/trigger", async (c) => {
+    if (c.env.ENVIRONMENT === "production") {
+      return c.json(
+        { ok: false, error: "production schema backfill trigger is banned" },
+        403,
+      );
+    }
+    let raw: unknown = {};
+    try {
+      raw = await c.req.json();
+    } catch {
+      raw = {};
+    }
+    const parsed = BackfillTriggerBodyZ.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ ok: false, error: parsed.error.message }, 422);
+    }
+    const db = ctx({ DB: c.env.DB });
+    const rowsResult = await c.env.DB
+      .prepare(
+        `SELECT diff_id, question_id, suggested_stable_key
+           FROM schema_diff_queue
+          WHERE dedupe_key LIKE 'ubm-test-fixture-50k-%'
+            AND status = 'queued'
+            AND question_id IS NOT NULL
+            AND suggested_stable_key IS NOT NULL
+            AND (backfill_status IS NULL OR backfill_status IN ('exhausted', 'failed'))
+          ORDER BY created_at ASC, diff_id ASC`,
+      )
+      .all<FixtureBackfillRow>();
+    const rows = rowsResult.results ?? [];
+    let sent = 0;
+    let alreadyEnqueued = 0;
+    for (const row of rows) {
+      if (!row.question_id || !row.suggested_stable_key) continue;
+      const enqueue = await enqueueBackfill(
+        db,
+        queueProducer(c.env.SCHEMA_ALIAS_BACKFILL_QUEUE),
+        {
+          diffId: row.diff_id,
+          questionId: row.question_id,
+          newStableKey: row.suggested_stable_key,
+        },
+      );
+      if (enqueue.alreadyEnqueued) alreadyEnqueued += 1;
+      if (enqueue.sent) sent += 1;
+    }
+    return c.json(
+      {
+        ok: true,
+        source: parsed.data.source ?? "issue-504-50k-trial",
+        selected: rows.length,
+        queueEnqueued: sent,
+        alreadyEnqueued,
+        queueBindingPresent: Boolean(c.env.SCHEMA_ALIAS_BACKFILL_QUEUE),
+      },
+      202,
+    );
+  });
+
+  // UT-07B-FU-01: GET /admin/schema/aliases/:diffId/backfill
+  // back-fill 状態（status / remaining / retryCount / lastProcessedAt）を返す。
+  app.get("/schema/aliases/:diffId/backfill", async (c) => {
+    const diffId = c.req.param("diffId");
+    const db = ctx({ DB: c.env.DB });
+    const row = await findDiffById(db, diffId);
+    if (!row) {
+      return c.json({ ok: false, error: "diff not found" }, 404);
+    }
+    const status: "pending" | "running" | "exhausted" | "completed" =
+      row.backfillStatus === "completed"
+        ? "completed"
+        : row.backfillStatus === "exhausted"
+          ? "exhausted"
+        : row.backfillStatus === "failed"
+            ? "exhausted"
+            : row.backfillStatus === "in_progress" || row.backfillStatus === "running"
+              ? "running"
+              : "pending";
+    return c.json(
+      {
+        ok: true,
+        diffId: row.diffId,
+        questionId: row.questionId,
+        backfill: {
+          status,
+          remaining: -1,
+          retryCount: row.retryCount,
+          lastProcessedAt: row.lastProcessedAt,
+          lastError: row.lastError,
+          internalStatus: row.backfillStatus,
+          failedItems: row.failedItemsJson ? JSON.parse(row.failedItemsJson) : [],
+        },
+      },
+      200,
+    );
+  });
+
   return app;
 };
+
+// 警告抑止（型のみ参照）
+export type _SchemaAliasAssignResultRef = SchemaAliasAssignResult;
 
 export const adminSchemaRoute = createAdminSchemaRoute();

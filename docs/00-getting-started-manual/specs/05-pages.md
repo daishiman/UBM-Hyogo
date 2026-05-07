@@ -44,6 +44,10 @@
 - 表示対象は `掲載同意済み` かつ `管理上公開中` のメンバーだけに限定する
 - 一覧の主要操作は検索、絞り込み、並び替え、表示密度切替に絞る
 - 空状態では「該当メンバーなし」と絞り込み解除導線を出す
+- filter UI は `q / zone / status / tag / sort / density` を URL query 正本として扱い、初期値は URL から省略する
+- `status` は参加ステータス（`member` / `non_member` / `academy`）であり、公開状態フィルタは画面に出さない
+- filter 操作は履歴を汚しすぎないよう `router.replace` 相当で URL を更新し、reload 後も同じ条件を復元する
+- 空状態の解除導線は `href="/members"` の `絞り込みをクリア` とする
 
 #### `/members/[id]`
 
@@ -74,6 +78,7 @@
 - `公開停止 / 再公開 / 退会申請` はマイページの `本人申請パネル`（RequestActionPanel）から申請できるが、反映は管理処理で行う
 - 本人申請パネルは本文編集 UI とは分離し、`公開停止/再公開申請ダイアログ`（VisibilityRequestDialog）と `退会申請ダイアログ`（DeleteRequestDialog）から admin queue へ依頼を作る
 - 申請送信後は `pending banner`（RequestPendingBanner）を `role=status` / `aria-live=polite` で表示し、対応する申請ボタンを disabled にする
+- `pending banner` の正本は `GET /me/profile.pendingRequests` が返す server-side pending state とし、ページ reload 後も表示を維持する。client local state は submit 直後の体感補助だけに使う
 - 申請エラーは `RequestErrorMessage` で表示し、409（DUPLICATE_PENDING_REQUEST）は同一 session の pending banner と該当ボタン disabled に接続する
 - ページ先頭に `MemberHeader` を表示し、Auth.js `signOut({ redirectTo: "/login" })` を呼ぶ `ログアウト` ボタンを置く。runtime screenshot / cookie / session evidence は `ut-05a-auth-ui-logout-button-001` Phase 11 で取得する
 

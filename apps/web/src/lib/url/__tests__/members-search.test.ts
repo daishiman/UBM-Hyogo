@@ -30,8 +30,8 @@ describe("membersSearchSchema (Phase 4 U-01〜U-06)", () => {
     expect(result.density).toBe("comfy");
   });
 
-  it("U-04: tag は repeated query を配列で保持", () => {
-    const result = parseSearchParams({ tag: ["ai", "dx"] });
+  it("U-04: tag は repeated query を重複除去した配列で保持", () => {
+    const result = parseSearchParams({ tag: ["ai", "dx", "ai"] });
     expect(result.tag).toEqual(["ai", "dx"]);
   });
 
@@ -100,5 +100,24 @@ describe("toApiQuery", () => {
     expect(str).toContain("tag=dx");
     expect(str).toContain("sort=name");
     expect(str).toContain("density=dense");
+  });
+
+  it("API path 用 query として repeated tag と既定値省略を両立する", () => {
+    const search = parseSearchParams({
+      q: "  hello   world  ",
+      zone: "all",
+      status: "academy",
+      tag: ["ai", "dx", "ai"],
+      sort: "recent",
+      density: "list",
+    });
+    const params = toApiQuery(search);
+
+    expect(params.get("q")).toBe("hello world");
+    expect(params.has("zone")).toBe(false);
+    expect(params.get("status")).toBe("academy");
+    expect(params.getAll("tag")).toEqual(["ai", "dx"]);
+    expect(params.has("sort")).toBe(false);
+    expect(params.get("density")).toBe("list");
   });
 });

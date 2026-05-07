@@ -3,7 +3,7 @@ import { mkdir } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 
 const EVIDENCE_BASE =
-  '../../docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence'
+  '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/screenshots'
 
 export abstract class BasePage {
   constructor(protected readonly page: Page) {}

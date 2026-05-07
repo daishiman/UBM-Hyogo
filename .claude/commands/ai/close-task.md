@@ -77,8 +77,10 @@ model: sonnet
 3. Phase-12 成果物の生成状況を確認
 4. 未タスク（残作業・追加対応が必要な項目）を洗い出す
 5. 苦戦箇所を `outputs/phase-2,3,5,8,12/` から特定
+6. **canonical alias closeout 判定**: 当該 root が canonical 実体を保持しないか確認（`artifacts.json` の `metadata.workflow_state=completed_alias` / `canonical_workflow=<root>` 有無）。alias の場合、Layer 1-6 本文と consumed unassigned-task stub の双方を以下の grep gate で検証する。
+7. **grep stale prose before 4 conditions PASS**（必須ゲート / L-IDENT-007 由来 / phase-12-pitfalls.md UBM-030）: 4 conditions PASS と判定する**前に** `rg -n "<旧 endpoint or table or screenshot path or commit/push/PR 文面>" docs/30-workflows/<task> docs/30-workflows/unassigned-task/<consumed-stub>.md` を実行し、ヒット 0 件を確認する。metadata parity だけでは PASS 判定しない。stale ヒットがあれば Phase 2/3 で本文撤回・stub 化を行う。
 
-**ゲート**: 分析完了まで後続フェーズに進まない。
+**ゲート**: 分析完了 + grep gate ヒット 0 件まで後続フェーズに進まない。
 
 ### Phase 2: 未タスク仕様書作成（SubAgent 並列）
 

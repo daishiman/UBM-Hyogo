@@ -39,7 +39,7 @@ Phase 1 で確定した AC を「Playwright spec + evidence capture script」「
 | M-08 / M-09 / M-10 / M-16 | Playwright headless（storageState 経由でログイン状態再現） |
 | M-14 / M-15 | manual 操作 + Playwright `--headed` で screenshot 取得（Magic Link / Google OAuth は人手が必要） |
 
-storageState は staging 上で **1 回ログイン → `apps/web/playwright/.auth/state.json` に保存**（`*.json` は gitignore 必須）。capture script はこの state file を `--storage-state` 引数で渡す。
+storageState は staging 上で **1 回ログイン → `apps/web/playwright/.auth/member-state.json` に保存**（`*.json` は gitignore 必須）。capture script はこの state file を `--storage-state` 引数で渡す。
 
 ### 2.2 ファイル配置
 
@@ -95,8 +95,8 @@ DOM dump JSON 構造:
 ```bash
 scripts/capture-profile-evidence.sh \
   --base-url https://staging.example \
-  --storage-state apps/web/playwright/.auth/state.json \
-  --out-dir docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11 \
+  --storage-state apps/web/playwright/.auth/member-state.json \
+  --out-dir docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11 \
   --markers M-08,M-09,M-10,M-16
 ```
 

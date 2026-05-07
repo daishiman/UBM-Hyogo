@@ -59,3 +59,14 @@ This Phase 13 execution does not authorize:
 - direct stable_key update guard (#300)
 - 07b endpoint path rename
 - destructive rollback DDL (would require separate explicit approval)
+
+## Cross-reference: out-of-band apply audit (Issue #434 / task-issue-359-production-d1-out-of-band-apply-audit-001)
+
+`schema_aliases already exists` 判定を生んだ先行 apply の出所は、別タスク `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001` で read-only に追跡され、`confirmed` に分類された。
+
+| migration | applied_at (UTC) | source workflow run | merge commit |
+| --- | --- | --- | --- |
+| `0008_schema_alias_hardening.sql` | `2026-05-01 08:21:04` | `.github/workflows/backend-ci.yml` `deploy-production` / run id `25207878876` (push main from PR #364 merge) | `9841e06a` |
+| `0008_create_schema_aliases.sql` | `2026-05-01 10:59:35` | `.github/workflows/backend-ci.yml` `deploy-production` / run id `25211958572` (push main from PR #365 merge) | `2ced613d` |
+
+Audit decision evidence: `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/outputs/phase-11/attribution-decision.md`。

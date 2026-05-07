@@ -1,0 +1,196 @@
+{
+  "task_name": "06b-c-runtime-evidence-execution",
+  "task_path": "docs/30-workflows/06b-c-runtime-evidence-execution",
+  "wave": "6b-fu-runtime",
+  "execution_mode": "serial",
+  "depends_on": [
+    "06b-A-me-api-authjs-session-resolver",
+    "06b-B-profile-self-service-request-ui",
+    "09a-staging-smoke-runtime",
+    "06b-C-profile-logged-in-visual-evidence"
+  ],
+  "blocks": [
+    "09a profile readonly continuous visual smoke"
+  ],
+  "created_at": "2026-05-04",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "workflow_state": "spec_created",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "priority": "High",
+    "scope": "runtime_evidence_capture_and_phase11_phase12_sync",
+    "code_changes": [
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/screenshots/*.png (new evidence; 実 path は先行タスク配下)",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/dom/*.json (new evidence; 実 path は先行タスク配下)",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/manual-smoke-evidence.md (edit: pending → captured/blocked/fail)",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/main.md (edit: runtime summary 追記)",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/implementation-guide.md (edit: 実測 command / output path / redaction 結果)",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/unassigned-task-detection.md (edit: 実測後の残課題)",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/phase12-task-spec-compliance-check.md (edit: runtime PASS/BLOCKED 判定)",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/skill-feedback-report.md (edit: runtime execution feedback)",
+      "docs/30-workflows/06b-c-runtime-evidence-execution/outputs/phase-*/main.md (new; 本タスクの runbook / 判定 log)"
+    ],
+    "evidence_outputs": [
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/screenshots/M-08-desktop-{date}.png",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/screenshots/M-08-mobile-{date}.png",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/screenshots/M-10-desktop-{date}.png",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/screenshots/M-10-mobile-{date}.png",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/screenshots/M-16-redirect-{date}.png",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/dom/M-09-no-form-desktop.json",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/dom/M-09-no-form-mobile.json",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/dom/M-10-edit-query-ignored-desktop.json",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/dom/M-10-edit-query-ignored-mobile.json",
+      "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/manual-smoke-evidence.md"
+    ],
+    "evidence_canonical_root": "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/",
+    "evidence_path_drift_legacy_stubs_forbidden": [
+      "docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/",
+      "docs/30-workflows/02-application-implementation/"
+    ]
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "実行対象 URL / storageState / 承認境界の確認",
+      "file": "phase-01.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-01/main.md"],
+      "depends_on_phases": [],
+      "user_approval_required": true
+    },
+    {
+      "phase": 2,
+      "name": "evidence 保存先と redaction 方針確認",
+      "file": "phase-02.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-02/main.md"],
+      "depends_on_phases": [1],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "command dry-run と production guard 確認",
+      "file": "phase-03.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-03/main.md"],
+      "depends_on_phases": [2],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "Playwright 実行条件の確定",
+      "file": "phase-04.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-04/main.md"],
+      "depends_on_phases": [3],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "capture wrapper 実行",
+      "file": "phase-05.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-05/main.md"],
+      "depends_on_phases": [4],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "screenshot / DOM evidence 検査",
+      "file": "phase-06.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-06/main.md"],
+      "depends_on_phases": [5],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "AC M-08 / M-09 / M-10 / M-16 判定",
+      "file": "phase-07.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-07/main.md"],
+      "depends_on_phases": [6],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "manual-smoke-evidence の同期",
+      "file": "phase-08.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-08/main.md"],
+      "depends_on_phases": [7],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "secret 露出チェック",
+      "file": "phase-09.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-09/main.md"],
+      "depends_on_phases": [8],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "失敗時の再実行条件整理",
+      "file": "phase-10.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-10/main.md"],
+      "depends_on_phases": [9],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "実測結果を Phase 11 outputs に保存",
+      "file": "phase-11.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-11/main.md"],
+      "depends_on_phases": [10],
+      "user_approval_required": true
+    },
+    {
+      "phase": 12,
+      "name": "implementation-guide / unassigned-task-detection 同期",
+      "file": "phase-12.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-12/main.md"],
+      "depends_on_phases": [11],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "ユーザー承認待ち commit / PR 境界の記録",
+      "file": "phase-13.md",
+      "status": "pending",
+      "outputs": ["outputs/phase-13/main.md"],
+      "depends_on_phases": [12],
+      "user_approval_required": true
+    }
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/index.md",
+    "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/artifacts.json",
+    "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/phase-11.md",
+    "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/manual-smoke-evidence.md",
+    "apps/web/playwright/tests/profile-readonly.spec.ts",
+    "apps/web/playwright.config.ts",
+    "scripts/capture-profile-evidence.sh",
+    "docs/00-getting-started-manual/specs/06-member-auth.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": ["/profile", "/profile?edit=true", "/login"],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    "#4 本文更新は Google Form 再回答のみ",
+    "#5 public/member/admin boundary",
+    "#8 localStorage/GAS prototype を正本にしない",
+    "#11 管理者も他人本文を直接編集しない"
+  ],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/",
+    "docs/00-getting-started-manual/specs/06-member-auth.md",
+    "docs/00-getting-started-manual/specs/07-edit-delete.md"
+  ]
+}

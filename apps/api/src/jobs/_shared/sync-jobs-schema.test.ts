@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   assertNoPii,
+  metricsJsonBaseSchema,
   parseMetricsJson,
   RESPONSE_SYNC,
   responseSyncMetricsSchema,
@@ -13,9 +14,10 @@ import {
 
 describe("sync-jobs-schema", () => {
   it("exports canonical job types and lock TTL", () => {
+    expect(SYNC_JOB_TYPES).toEqual(["schema_sync", "response_sync"]);
     expect(SYNC_JOB_TYPES).toEqual([SCHEMA_SYNC, RESPONSE_SYNC]);
     expect(SYNC_LOCK_TTL_MINUTES).toBe(10);
-    expect(SYNC_LOCK_TTL_MS).toBe(10 * 60 * 1000);
+    expect(SYNC_LOCK_TTL_MS).toBe(600000);
   });
 
   it("parses response_sync metrics and falls back on invalid JSON", () => {
@@ -41,5 +43,11 @@ describe("sync-jobs-schema", () => {
       assertNoPii({ cursor: "c1", nested: { response_email: "a@example.com" } }),
     ).toThrow(/response_email/);
     expect(() => assertNoPii({ cursor: "c1", writes: 1 })).not.toThrow();
+  });
+
+  it("rejects email-shaped values even under non-PII keys", () => {
+    expect(() =>
+      metricsJsonBaseSchema.parse({ cursor: "c1", source: "a@example.com" }),
+    ).toThrow(/source=<email>/);
   });
 });

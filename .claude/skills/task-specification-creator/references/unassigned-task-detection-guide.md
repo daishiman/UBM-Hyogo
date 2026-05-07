@@ -236,3 +236,47 @@ UT-06 では以下が UNASSIGNED-G として検出され、本ガイドに沿っ
 - [ ] `node .claude/skills/task-specification-creator/scripts/verify-unassigned-links.js` PASS
 - [ ] 親 workflow の Phase 12 changelog に「UNASSIGNED-X → <taskId> formalize」を 1 行記録
 
+## Followup Task Naming Convention
+
+親 spec の implementation 過程で派生する **followup task**（親 spec の主目的を逸脱しないが runtime/外部前提の不足等で完結できない作業）は、独立タスクとして fully-formalize する前段階として、以下の軽量 FU 命名規約で起票する。issue-408（Cloudflare Audit Logs monitoring）実装で確立した規約。
+
+### フォーマット
+
+```
+<PARENT_SPEC_ID>-FU-NN-<slug>.md
+```
+
+- 例: `U-FIX-CF-ACCT-01-DERIV-04-FU-02-cold-storage.md`
+- `<PARENT_SPEC_ID>`: 親 spec の taskId（既存命名に従う）
+- `FU-NN`: followup の連番。**親 spec ごとに `01` から振り、欠番は埋めず追記する**（途中で取り下げになっても番号は再利用しない）
+- `<slug>`: 主題を 2-4 単語の kebab-case で要約（例: `cold-storage`, `ml-baseline`, `token-rotation`）
+
+### status 値（親 spec が runtime 未完了の場合）
+
+親 spec が「コード/設定は merge 済みだが production token 未発行などで runtime 検証ができない」状態のとき、followup の status には次を用いる:
+
+```
+status: consumed_by_issue_<NNN>_runtime_pending
+```
+
+- 例: `consumed_by_issue_408_runtime_pending`
+- `<NNN>` は親 spec を消費した GitHub Issue 番号
+- runtime が完了次第、`consumed_by_issue_<NNN>_runtime_complete` に書き換え、独立タスク化判断を行う
+
+### 軽量 5 section フォーマット
+
+FU 起票時は **完全 13 section を要求しない**。次の 5 section のみで十分:
+
+1. **メタ情報**: parent_spec / status / created / source link
+2. **目的**: 1-2 文で「親 spec のどの不足を埋めるか」
+3. **スコープ**: in-scope / out-of-scope を箇条書き 3-5 項目
+4. **着手判断**: 独立タスク昇格の trigger 条件（例: 「baseline が 90 日蓄積されたら」）
+5. **検証方法**: PASS 条件を 2-4 項目
+
+完全 13 section（task-spec-template 準拠）への昇格は、**独立タスク化が確定したタイミング** でのみ行う。FU 段階では runtime 不足や外部依存の解消待ちが多く、過剰仕様化を避ける。
+
+### 実例参照
+
+- `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-02-cold-storage.md` — 90 日超 audit log を R2 cold storage に export する FU
+- 親 spec 側の Phase 12 changelog にも「FU-02 起票」を 1 行記録すること
+

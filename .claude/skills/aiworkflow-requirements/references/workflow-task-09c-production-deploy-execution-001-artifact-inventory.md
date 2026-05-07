@@ -1,14 +1,15 @@
 # 09c Production Deploy Execution Artifact Inventory
 
-Status: spec_created / implementation / VISUAL / production runtime evidence pending_user_approval
+Status: spec_created / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / production runtime evidence pending_user_approval
 
 ## Canonical Roots
 
 | Kind | Path |
 | --- | --- |
-| Current workflow root | `docs/30-workflows/09c-production-deploy-execution-001/` |
+| Current workflow root | `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/` |
+| Issue #353 mirror | `docs/30-workflows/issue-353-09c-production-deploy-execution/` |
 | Parent docs-only runbook | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/` |
-| Source unassigned task (consumed) | `docs/30-workflows/unassigned-task/task-09c-production-deploy-execution-001.md` |
+| Source task stub (consumed) | `docs/30-workflows/completed-tasks/task-09c-production-deploy-execution-001.md` |
 | Issue reference | `#353` (CLOSED, referenced via `Refs #353`; `Closes` 不可) |
 
 ## Phase Artifacts
@@ -25,9 +26,9 @@ Status: spec_created / implementation / VISUAL / production runtime evidence pen
 | Phase 8 release tag | `outputs/phase-08/main.md` | `vYYYYMMDD-HHMM` tag not pushed |
 | Phase 9 smoke | `outputs/phase-09/main.md`, `screenshots/*.png` | 10-page x 3-role smoke screenshots not captured |
 | Phase 10 GO/NO-GO | `outputs/phase-10/main.md`, `go-no-go.md` | GO/NO-GO not decided |
-| Phase 11 24h verify | `outputs/phase-11/main.md`, `screenshots/{analytics-workers-api,analytics-workers-web,analytics-d1}.png`, `incident-or-no-incident.md` | 24h metrics + analytics screenshots not captured |
+| Phase 11 24h verify | `outputs/phase-11/main.md`, `outputs/phase-11/24h-verification-summary.md`, `outputs/phase-11/24h-metrics-screenshots/README.md` | 24h metrics + analytics screenshots not captured; README reserves screenshot directory only |
 | Phase 12 strict 7 files | `outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` | Documentation close-out only |
-| Phase 13 PR | `outputs/phase-13/main.md` | PR creation blocked until user approval |
+| Phase 13 PR | `outputs/phase-13/main.md`, `outputs/phase-13/pr-template.md`, `outputs/phase-13/pr-creation-result.md` | PR creation blocked until user approval |
 
 ## Approval Gate Matrix
 
@@ -40,7 +41,7 @@ Status: spec_created / implementation / VISUAL / production runtime evidence pen
 
 ## Boundary
 
-09c-production-deploy-execution-001 は親 09c docs-only runbook から分離された execution-only workflow である。`bash scripts/cf.sh` wrapper のみを使用し、`wrangler` 直接呼び出し禁止。Phase 5-11 の reserved runtime path（screenshots, evidence files）は実行前は placeholder として扱い、PASS evidence と混同しない。production mutation / release tag push / PR 作成は user approval 後の close-out wave で実施する。
+09c-A-production-deploy-execution は親 09c docs-only runbook から分離された execution-only workflow である。`bash scripts/cf.sh` wrapper のみを使用し、`wrangler` 直接呼び出し禁止。Phase 5-11 の reserved runtime path（screenshots, evidence files）は実行前は placeholder として扱い、PASS evidence と混同しない。production mutation / release tag push / PR 作成は user approval 後の close-out wave で実施する。
 
 ## Skill Compliance
 
@@ -67,7 +68,9 @@ Status: spec_created / implementation / VISUAL / production runtime evidence pen
 ## Verification
 
 ```bash
-find docs/30-workflows/09c-production-deploy-execution-001/outputs/phase-12 -maxdepth 1 -type f | sort
-test ! -f docs/30-workflows/09c-production-deploy-execution-001/outputs/artifacts.json && echo "root-only parity OK"
+find docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/outputs/phase-12 -maxdepth 1 -type f | sort
+find docs/30-workflows/issue-353-09c-production-deploy-execution/outputs/phase-12 -maxdepth 1 -type f | sort
+test ! -f docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/outputs/artifacts.json && echo "canonical root-only parity OK"
+test ! -f docs/30-workflows/issue-353-09c-production-deploy-execution/outputs/artifacts.json && echo "issue mirror root-only parity OK"
 rg -n '09c-production-deploy-execution-001' .claude/skills/aiworkflow-requirements docs/30-workflows
 ```

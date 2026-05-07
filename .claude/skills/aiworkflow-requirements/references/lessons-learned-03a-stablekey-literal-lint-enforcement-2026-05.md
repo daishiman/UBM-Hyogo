@@ -54,3 +54,9 @@
 **5分解決カード**: `skill-feedback-report.md` の各行に **Decision 列**（`Promote` / `Defer` / `No-op`）と Evidence path を必ず明記し、Promote 行は本 wave で実行、Defer は次回類似 wave での再評価対象、No-op は理由ログとして残す。本人 wave での skill 編集対象を 1 行に絞ることで、編集を直列で安全に進められる。
 
 **promoted-to**: `skill-creator/references/patterns-success-skill-phase12.md`, `task-specification-creator/references/phase12-skill-feedback-promotion.md`
+
+## Issue #394 strict CI gate follow-up — 2026-05-03
+
+- **L-03A-SK-00X (strict gate 昇格保留)**: strict CI gate task は legacy cleanup 完了 (violations=0) まで `.github/workflows/ci.yml` への blocking step 追加を保留する。`spec_created` / `blocked_by_legacy_cleanup` で停止し、`fully enforced` 昇格を主張しない。
+- **L-03A-SK-00Y (path drift 同一 wave 同期)**: completed-tasks への移動など path drift は parent workflow Phase 12 unassigned-task-detection / artifact inventory / quick-reference / resource-map の 4 箇所同時修正が必須（同一 wave 同期）。
+- **L-03A-SK-00Z (CLOSED Issue 取扱い)**: Issue が既に CLOSED の場合、PR 本文・commit message は `Closes #N` ではなく `Refs #N` を使用し re-open 副作用を防ぐ。

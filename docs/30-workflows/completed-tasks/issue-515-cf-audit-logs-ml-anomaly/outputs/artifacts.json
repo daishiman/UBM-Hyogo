@@ -1,0 +1,46 @@
+{
+  "taskId": "issue-515-cf-audit-logs-ml-anomaly",
+  "createdAt": "2026-05-07",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented_local_runtime_pending",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "runtimePending": "production_classifier_switch_to_ml + 90day_threshold_baseline + trained_model_artifact",
+    "sourceUnassignedTask": "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-03-ml-anomaly.md",
+    "gateConditions": [
+      "Gate-A: 90+ days stable threshold operation",
+      "Gate-B: false_positive_rate <= 5% sustained",
+      "Gate-C: tuning_cost > 4h/month",
+      "Gate-D: baseline 7d -> 30-90d retune attempted before ML"
+    ]
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/515",
+  "parentTask": "docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/",
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["phase-01.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["phase-02.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["phase-03.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["phase-04.md"] },
+    "phase-5":  { "status": "completed", "outputs": ["phase-05.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["phase-06.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["phase-07.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["phase-08.md"] },
+    "phase-9":  { "status": "completed", "outputs": ["phase-09.md"] },
+    "phase-10": { "status": "completed", "outputs": ["phase-10.md"] },
+    "phase-11": { "status": "completed", "outputs": ["outputs/phase-11/main.md"] },
+    "phase-12": { "status": "completed", "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ] },
+    "phase-13": { "status": "blocked_pending_user_approval", "outputs": ["phase-13.md"] }
+  }
+}

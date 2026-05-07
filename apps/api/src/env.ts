@@ -21,8 +21,24 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // wrangler.toml [[d1_databases]] binding = "DB"
   readonly DB: D1Database;
 
+  // wrangler.toml [[analytics_engine_datasets]] binding = "SYNC_ALERTS"
+  // 03b-followup-006: per-sync write cap 連続到達検知の event emit 先
+  readonly SYNC_ALERTS?: AnalyticsEngineDataset;
+
+  // wrangler.toml [[queues.producers]] binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+  // UT-07B-FU-01: schema alias back-fill 継続 job の enqueue 先
+  readonly SCHEMA_ALIAS_BACKFILL_QUEUE?: Queue<unknown>;
+
   // wrangler.toml [vars] ENVIRONMENT
   readonly ENVIRONMENT?: "production" | "staging" | "development";
+  readonly RETENTION_PURGE_MODE?: "off" | "dry-run" | "apply";
+  readonly RETENTION_PURGE_LIMIT?: string;
+  // issue #378: Forms sync -> tag_assignment_queue candidate enqueue emergency stop.
+  readonly TAG_QUEUE_PAUSED?: string;
+
+  // Issue #503: schema alias back-fill shadow A/B 用 mode 切替。
+  // 値域: "remaining-scan" (default) / "cursor"
+  readonly BACKFILL_CURSOR_MODE?: string;
 
   // wrangler.toml [vars] SHEET_ID / FORM_ID / GOOGLE_FORM_ID
   readonly SHEET_ID?: string;
@@ -39,8 +55,13 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // secrets — admin / sync gate tokens
   readonly SYNC_ADMIN_TOKEN?: string;
   readonly HEALTH_DB_TOKEN?: string;
-  // UT-26: Sheets API E2E smoke test 用 (dev/staging のみ)
+  // smoke routes: Sheets is dev/staging only; observability also supports production with an explicit confirm header.
   readonly SMOKE_ADMIN_TOKEN?: string;
+
+  // secrets — 09b-A: observability runtime smoke (staging + production provider smoke)
+  readonly SENTRY_DSN_API?: string;
+  readonly SLACK_WEBHOOK_INCIDENT?: string;
+  readonly SLACK_WORKFLOW_URL?: string;
 
   // secrets — 05a: Auth.js v5 + admin gate
   readonly AUTH_SECRET?: string;

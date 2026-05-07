@@ -8,6 +8,7 @@
 | State | `enforced_dry_run` |
 | visualEvidence | `NON_VISUAL` |
 | Phase status | Phase 1-12 completed / Phase 13 pending_user_approval |
+| Legacy cleanup | Issue #393 `strict_ready` / 0 strict violations / CI gate promotion pending |
 
 ## Implementation Artifacts
 
@@ -24,12 +25,15 @@
 | --- | --- |
 | `outputs/phase-11/manual-smoke-log.md` | warning-mode and strict-mode dry-run evidence |
 | `outputs/phase-11/evidence/lint-violation-fail.txt` | strict mode detects legacy violations and exits non-zero |
-| `outputs/phase-11/evidence/lint-clean-pass.txt` | warning-mode lint chain evidence; not a fully enforced clean PASS |
+| `outputs/phase-11/evidence/lint-clean-pass.txt` | warning-mode lint chain evidence for 03a |
+| `docs/30-workflows/issue-393-stablekey-literal-legacy-cleanup/outputs/phase-11/evidence/lint-strict-after.txt` | Issue #393 strict lint clean PASS; legacy literal blocker resolved |
 | `outputs/phase-11/evidence/allow-list-snapshot.json` | allow-list and stableKey count snapshot |
 
 ## Open Follow-Ups
 
 | Task | Reason |
 | --- | --- |
-| `docs/30-workflows/unassigned-task/task-03a-stablekey-literal-legacy-cleanup-001.md` | strict mode still reports legacy stableKey literal violations |
 | `docs/30-workflows/unassigned-task/task-03a-stablekey-strict-ci-gate-001.md` | GitHub Actions does not yet run strict stableKey lint as a blocking gate |
+| `docs/30-workflows/completed-tasks/task-03a-stablekey-literal-legacy-cleanup-001.md` | strict mode still reports legacy stableKey literal violations |
+| `docs/30-workflows/completed-tasks/task-03a-stablekey-strict-ci-gate-001.md` | GitHub Actions does not yet run strict stableKey lint as a blocking gate |
+| `docs/30-workflows/issue-394-stablekey-strict-ci-gate/` | current Issue #394 workflow; blocked until strict violations reach 0 |

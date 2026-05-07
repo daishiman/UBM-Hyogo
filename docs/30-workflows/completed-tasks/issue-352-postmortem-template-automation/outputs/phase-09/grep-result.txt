@@ -1,0 +1,13 @@
+# Phase 09 Grep Result
+
+## Command
+
+```bash
+rg -n -i "\b(owner|responsible|blame|fault)\b|責任|誰が悪い" docs/30-workflows/runbooks/postmortem scripts/postmortem/generate-postmortem.ts
+```
+
+## Result
+
+PASS: 0 hits.
+
+Scope excludes test files and task-analysis documents, which intentionally contain the forbidden vocabulary as regression assertions and review criteria.

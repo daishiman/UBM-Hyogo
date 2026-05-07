@@ -1,0 +1,5 @@
+{
+  "status": "CONTRACT_ONLY_NOT_EXECUTED",
+  "expectedHttpStatus": 404,
+  "expectedError": "session_not_found"
+}

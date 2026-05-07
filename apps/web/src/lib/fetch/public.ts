@@ -37,6 +37,14 @@ function getServiceBinding(): ServiceBinding | undefined {
   return readEnv().API_SERVICE;
 }
 
+function logTransport(transport: "service-binding" | "http-fallback", path: string, status: number) {
+  console.log({
+    transport,
+    path: path.split("?")[0],
+    status,
+  });
+}
+
 export interface FetchPublicOptions extends Omit<RequestInit, "next"> {
   /** revalidate 秒数（Next.js fetch cache）。default 30. */
   revalidate?: number;
@@ -47,10 +55,14 @@ async function doFetch(path: string, init: RequestInit & { next?: { revalidate: 
   if (binding) {
     // service-binding 経由: host は worker 側で無視されるが URL parse のために任意の host を使う
     const url = `https://service-binding.local${path}`;
-    return binding.fetch(url, init);
+    const response = await binding.fetch(url, init);
+    logTransport("service-binding", path, response.status);
+    return response;
   }
   const url = `${getBaseUrl()}${path}`;
-  return fetch(url, init);
+  const response = await fetch(url, init);
+  logTransport("http-fallback", path, response.status);
+  return response;
 }
 
 export async function fetchPublic<T>(

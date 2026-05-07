@@ -249,6 +249,130 @@ bash scripts/cf.sh tail --config apps/web/wrangler.toml --env production --forma
 - [ ] 「evidence template 完了 ≠ production 実測 PASS」の境界を `implementation-guide.md` と `system-spec-update-summary.md` の双方に明記した
 - [ ] 保証外項目（実切替 / secret rotation / legacy delete）を `unassigned-task-detection.md` に申し送った
 
+## D1 schema parity verification evidence（staging vs production）
+
+> 起源: 09a-A staging deploy smoke execution 仕様書策定（2026-05-05）。production migration runbook
+> evidence template に対し、「staging 適用後 / production 適用前」または「両適用後」での schema
+> parity を機械検証する evidence セクションを追加する。
+
+### 適用条件
+
+- `taskType=implementation` または `runbook` で D1 migration apply を含む
+- staging / production それぞれの D1 binding が利用可能（`bash scripts/cf.sh d1` 経由）
+- target migration の applied / pending 状態を Phase 11 evidence として固定したい
+
+### 目的
+
+- staging と production の D1 schema が table / index / column 単位で一致していることの evidence 取得
+- migration applied / pending count を Phase 11 で snapshot し、Phase 13 apply gate（G3）の前後で比較可能にする
+- 差分検出時は production 側 follow-up を `unassigned-task` に自動発行することで silent drift を防ぐ
+
+### evidence file 命名規則（`outputs/phase-11/`）
+
+| ファイル | 役割 | 最小フォーマット |
+| --- | --- | --- |
+| `d1-migrations-list-staging.log` | staging D1 の applied / pending migration 一覧 | `bash scripts/cf.sh d1 migrations list ubm-hyogo-db-staging --env staging` の生出力（secret は redact） |
+| `d1-migrations-list-production.log` | production D1 の applied / pending migration 一覧 | `bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production` の生出力 |
+| `d1-schema-parity.md` | table / index / `PRAGMA table_info` の比較結果 | 比較対象 table 一覧、`diff` 結果、差分 0 件 or 差分内容 |
+| `d1-applied-pending-count.md` | applied / pending 数値の記録 | staging applied=X / pending=Y、production applied=X' / pending=Y'、期待される delta |
+
+### コマンド例
+
+```bash
+# 1. staging / production の applied migration list 取得
+bash scripts/cf.sh d1 migrations list ubm-hyogo-db-staging --env staging \
+  > outputs/phase-11/d1-migrations-list-staging.log
+bash scripts/cf.sh d1 migrations list ubm-hyogo-db-prod --env production \
+  > outputs/phase-11/d1-migrations-list-production.log
+
+# 2. 各環境の table list を取得して比較
+bash scripts/cf.sh d1 execute ubm-hyogo-db-staging --env staging \
+  --command "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" \
+  > /tmp/staging-tables.txt
+bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --env production \
+  --command "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" \
+  > /tmp/production-tables.txt
+diff -u /tmp/staging-tables.txt /tmp/production-tables.txt
+
+# 3. 個別 table の column / type / NOT NULL / default を比較
+for tbl in members responses admin_member_notes; do
+  bash scripts/cf.sh d1 execute ubm-hyogo-db-staging --env staging \
+    --command "PRAGMA table_info('${tbl}');" > /tmp/staging-${tbl}.txt
+  bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --env production \
+    --command "PRAGMA table_info('${tbl}');" > /tmp/production-${tbl}.txt
+  diff -u /tmp/staging-${tbl}.txt /tmp/production-${tbl}.txt
+done
+```
+
+> **値の転記禁止**: `PRAGMA table_info` 出力は schema shape のみ。`SELECT` で row data を取得して
+> evidence に転記しないこと（PII / secret 流出防止）。
+
+### applied / pending 数値の記録方法
+
+`d1-applied-pending-count.md` に以下表形式で固定する:
+
+```markdown
+| 環境 | applied 数 | pending 数 | 最新適用 migration | 取得日時 |
+| --- | --- | --- | --- | --- |
+| staging | 14 | 0 | `0014_admin_notes_audit.sql` | 2026-05-05T10:24:49+09:00 |
+| production | 13 | 1 | `0013_responses_index.sql` | 2026-05-05T10:24:49+09:00 |
+
+期待される delta: production に `0014_admin_notes_audit.sql` を適用する必要あり（G3 apply gate 経由）。
+```
+
+### 差分検出時の対応（unassigned-task 自動発行）
+
+| 検出パターン | 対応 |
+| --- | --- |
+| staging applied > production applied（pending migration 残） | `unassigned-task/task-d1-prod-parity-followup-001.md` を発行し、対象 migration ID / 想定 G3 ゲート / rollback 手順を記載 |
+| staging と production の table / index 集合が一致しない | `d1-schema-parity.md` に差分明細を残し、差分発生原因（手動 ALTER / failed migration 等）を調査タスクとして発行 |
+| `PRAGMA table_info` 結果の column 順序 / type 不一致 | column 単位の差分を unassigned-task に formalize し、production 側補正 migration を起票 |
+| applied 数が同じだが latest migration ID が異なる | migration history 整合性監査タスクを発行（schema_migrations テーブル直接比較） |
+
+### 完了条件（Phase 11 close-out）
+
+- [ ] `d1-migrations-list-staging.log` / `d1-migrations-list-production.log` の 2 ファイルが `outputs/phase-11/` 直下に存在する
+- [ ] `d1-schema-parity.md` で diff 結果（0 件 or 差分明細）が記録済
+- [ ] `d1-applied-pending-count.md` に applied / pending 数値が staging / production の両方記録済
+- [ ] 差分 0 件 **または** production 側 migration TODO が `unassigned-task/` に登録済（任意 ID 命名規則: `task-d1-prod-parity-followup-NNN.md`）
+- [ ] secret value / row data / PII を evidence に転記していない（shape のみ）
+- [ ] Phase 13 G3（D1 migration apply gate）への参照が `outputs/phase-11/main.md` に明記されている
+
+### 境界
+
+- 本 evidence は **schema parity の snapshot** であり、production への migration apply 完了 PASS ではない
+- 実 production apply は Phase 13 G3 gate の user 承認後に実行し、apply 後 fresh GET を別 evidence
+  （`outputs/phase-13/d1-applied-fresh-{env}.log`）として記録する
+- staging が applied / production が pending の状態は正常な intermediate state であり、
+  `d1-schema-parity.md` の `applied=mismatch_expected` セクションで明示する
+
+## Monitoring workflow evidence 7区分
+
+issue-408（Cloudflare Audit Logs monitoring）で確立した、monitoring/observability workflow 系タスクの Phase 11 NON_VISUAL evidence 標準 7 区分。Phase 11 outputs に下記 7 ファイルを揃えることで「workflow が正しく稼働し、検出/通知/抑制/baseline 計算が想定通り動く」ことを runtime 非依存に近い形で示す。
+
+| # | ファイル | 主目的 |
+| --- | --- | --- |
+| 1 | `token_scope_confirmation.json` | API Token の scope dump。`Audit Logs:Read` 等、必要権限のみで余剰権限がないことを示す |
+| 2 | `workflow_success.log` | 直近 24h 内の workflow run success ログ。GitHub Actions / Cron 双方含む |
+| 3 | `d1_row_count.json` | monitoring が D1 テーブルへ INSERT した行数（直近 1h）。データ取り込みの実体証跡 |
+| 4 | `synthetic_issue.md` | 合成データ（fixture）で alert 経路を検証した結果。起票された Issue 本文・URL・close ログ |
+| 5 | `dedup_check.json` | fingerprint dedup により duplicate Issue 起票が抑制されたことを示すログ |
+| 6 | `watchdog_status.json` | watchdog workflow heartbeat 確認。「monitor 自体が落ちていないか」の自己監視 |
+| 7 | `baseline_artifact.json` | 7 日 baseline 計算結果。anomaly 判定に用いる統計値の snapshot |
+
+### `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` placeholder 適用シーン
+
+7 区分のうち runtime 完了が前提となるもの（特に #1 production token、#2 production workflow run、#7 ML 用の 90 日 baseline）は、コード/設定 merge 段階では取得できない。その場合、当該ファイルに次の placeholder で記録する:
+
+```
+PASS_BOUNDARY_SYNCED_RUNTIME_PENDING
+runtime_blocker: <production_token_not_issued | baseline_days_insufficient | ...>
+expected_complete_after: <YYYY-MM-DD or condition>
+followup_task: <FU-NN-slug or N/A>
+```
+
+これにより Phase 11 自体は PASS とし、runtime 完了後に同ファイルを実値で上書きする運用とする。`unassigned-task-detection-guide.md` の Followup Task 命名規約と組み合わせ、FU として fully tracked にする。
+
 ## 関連
 
 - `phase-11-guide.md`（base ガイド）
@@ -256,3 +380,5 @@ bash scripts/cf.sh tail --config apps/web/wrangler.toml --env production --forma
 - 02c 実例: `docs/30-workflows/completed-tasks/02c-parallel-admin-notes-audit-sync-jobs-and-data-access-boundary/outputs/phase-11/`
 - Cloudflare preflight 実例: `docs/30-workflows/completed-tasks/ut-06-fu-a-prod-route-secret-001-worker-migration-verification/outputs/phase-11/`
 - Cloudflare CLI ラッパー: `scripts/cf.sh`（`CLAUDE.md` §Cloudflare 系 CLI 実行ルール）
+- D1 parity 適用元: `docs/30-workflows/09a-A-staging-deploy-smoke-execution-task-spec/`
+- monitoring evidence 7 区分の起源: issue-408 Cloudflare Audit Logs monitoring

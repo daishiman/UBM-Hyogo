@@ -39,8 +39,8 @@
 - apps/web/playwright/.auth/.gitkeep (new)
 - .gitignore (edit: state.json 除外)
 - scripts/capture-profile-evidence.sh (new)
-- docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/* (evidence)
-- docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/* (reports)
+- docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/* (evidence)
+- docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/* (reports)
 
 ## Evidence
 - screenshots: outputs/phase-11/screenshots/M-08..M-16-*.png

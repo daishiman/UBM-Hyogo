@@ -25,25 +25,34 @@ staging 環境に対して実測 evidence を取得し、`outputs/phase-11/` 配
 
 approval が得られるまで本 Phase の実行操作は開始しない。
 
+## テストアカウント境界
+
+| 用途 | account identifier | storageState |
+| --- | --- | --- |
+| `/profile` 本人画面 evidence 主経路 | `manju.manju.03.28@gmail.com`（一般ユーザー） | `apps/web/playwright/.auth/member-state.json` |
+| admin 境界確認が必要な場合のみ | `manjumoto.daishi@senpai-lab.com`（admin） | `apps/web/playwright/.auth/admin-state.json` |
+
+docs に残してよいのは account identifier と state file path だけ。cookie / token / Magic Link URL / mailbox content / OAuth grant screen の個人情報は記録しない。
+
 ## 実行手順
 
 ### 11.1 storageState 取得（一度きり）
 
 ```bash
 mise exec -- pnpm --filter @ubm-hyogo/web exec playwright codegen \
-  --save-storage=apps/web/playwright/.auth/state.json \
+  --save-storage=apps/web/playwright/.auth/member-state.json \
   https://staging.example/login
 ```
 
-ブラウザ上で Magic Link または Google OAuth でログインし、`/profile` まで到達したら codegen を閉じる。state.json が生成される。**コミットしない**こと（gitignore で保護済）。
+ブラウザ上で Magic Link または Google OAuth でログインし、`/profile` まで到達したら codegen を閉じる。`member-state.json` が生成される。**コミットしない**こと（gitignore で保護済）。
 
 ### 11.2 自動取得（M-08 / M-09 / M-10 / M-16）
 
 ```bash
 bash scripts/capture-profile-evidence.sh \
   --base-url https://staging.example \
-  --storage-state apps/web/playwright/.auth/state.json \
-  --out-dir docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11 \
+  --storage-state apps/web/playwright/.auth/member-state.json \
+  --out-dir docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11 \
   --markers M-08,M-09,M-10,M-16
 ```
 
@@ -72,7 +81,7 @@ Google OAuth:
 
 ```bash
 # 軽量視覚チェック（手元）
-open docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/screenshots/*.png
+open docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/screenshots/*.png
 ```
 
 各 screenshot で email / Magic Link URL / session token が見えないことを目視確認。漏れている場合は破棄して再取得。

@@ -57,6 +57,12 @@ export const MemberProfileZ = z
         heldOn: z.string(),
       }),
     ),
+    attendanceMeta: z
+      .object({
+        hasMore: z.boolean(),
+        nextCursor: z.string().nullable(),
+      })
+      .optional(),
     tags: z.array(
       z.object({
         code: z.string(),
@@ -179,6 +185,8 @@ export const AdminDashboardViewZ = z
         auditId: z.string(),
         actorEmail: z.string().nullable(),
         action: z.string(),
+        // Read side accepts legacy values; append-side canonical values are
+        // "member" | "admin_member_note" | "tag_queue" | "schema_diff" | "meeting" | "system".
         targetType: z.string(),
         targetId: z.string().nullable(),
         createdAt: Iso8601Z,
@@ -187,6 +195,40 @@ export const AdminDashboardViewZ = z
     generatedAt: Iso8601Z,
   })
   .strict();
+
+export const AttendanceOverviewZ = z
+  .object({
+    totalSessions: z.number().int().nonnegative(),
+    totalMembers: z.number().int().nonnegative(),
+    overallRate: z.number().min(0).max(1),
+  })
+  .strict();
+
+export const SessionAttendanceRowZ = z
+  .object({
+    sessionId: z.string().min(1),
+    title: z.string(),
+    heldOn: z.string().min(1),
+    attendeeCount: z.number().int().nonnegative(),
+    rate: z.number().min(0).max(1),
+  })
+  .strict();
+
+export const MemberAttendanceRankingZ = z
+  .object({
+    memberId: z.string().min(1),
+    displayName: z.string(),
+    attendedCount: z.number().int().nonnegative(),
+    rate: z.number().min(0).max(1),
+  })
+  .strict();
+
+export const SessionAttendanceRowsZ = z.array(SessionAttendanceRowZ);
+export const MemberAttendanceRankingRowsZ = z.array(MemberAttendanceRankingZ);
+
+export type AttendanceOverviewView = z.infer<typeof AttendanceOverviewZ>;
+export type SessionAttendanceRowView = z.infer<typeof SessionAttendanceRowZ>;
+export type MemberAttendanceRankingView = z.infer<typeof MemberAttendanceRankingZ>;
 
 export const AdminMemberListItemZ = z.object({
   memberId: z.string().min(1),

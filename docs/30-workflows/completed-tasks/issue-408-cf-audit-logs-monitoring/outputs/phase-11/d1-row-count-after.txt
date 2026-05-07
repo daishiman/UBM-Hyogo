@@ -1,0 +1,19 @@
+# PLACEHOLDER — replace with actual D1 query output
+#
+# Command:
+#   bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --env production \
+#     --command "SELECT COUNT(*) AS recent FROM cf_audit_log WHERE ingested_at_ms > (unixepoch() - 3600) * 1000" \
+#     > outputs/phase-11/d1-row-count-after.txt
+#
+# Expected output shape (wrangler D1 execute renders a small table):
+#
+# ┌────────┐
+# │ recent │
+# ├────────┤
+# │   N    │   <- N >= 1 を期待
+# └────────┘
+#
+# DoD:
+# - N が数値であること
+# - N >= 1 であること（直近 1h に audit event が ingest されている）
+# - 個別 row の値（IP / user / resource）は出力しない（COUNT のみ）

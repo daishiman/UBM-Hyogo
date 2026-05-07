@@ -5,7 +5,7 @@ import { asMemberId } from "./_shared/brand";
 
 const newSpec = () => ({
   tables: {
-    meeting_sessions: [{ session_id: "s1", title: "t", held_on: "2026-01-10", note: null, created_at: "2026-01-01", created_by: "admin" }],
+    meeting_sessions: [{ session_id: "s1", title: "t", held_on: "2026-01-10", note: null, created_at: "2026-01-01", created_by: "admin", deleted_at: null as string | null }],
     member_attendance: [],
     member_status: [
       { member_id: "m1", is_deleted: 0 },
@@ -44,6 +44,23 @@ describe("attendance repository", () => {
     const fake = createFakeD1(newSpec());
     const r = await addAttendance({ db: fake.d1 }, asMemberId("m1"), "missing", "admin");
     expect(r).toEqual({ ok: false, reason: "session_not_found" });
+  });
+
+  it("addAttendance: deleted_at 設定済み session は session_not_found 扱い", async () => {
+    const spec = newSpec();
+    spec.tables.meeting_sessions[0] = {
+      ...spec.tables.meeting_sessions[0]!,
+      deleted_at: "2026-05-04T00:00:00Z",
+    };
+    const fake = createFakeD1(spec);
+    const r = await addAttendance({ db: fake.d1 }, asMemberId("m1"), "s1", "admin");
+    expect(r).toEqual({ ok: false, reason: "session_not_found" });
+  });
+
+  it("addAttendance: member_id が存在しない場合は member_not_found", async () => {
+    const fake = createFakeD1(newSpec());
+    const r = await addAttendance({ db: fake.d1 }, asMemberId("missing"), "s1", "admin");
+    expect(r).toEqual({ ok: false, reason: "member_not_found" });
   });
 
   it("addAttendance: 削除済み会員 (is_deleted=1) は deleted_member", async () => {

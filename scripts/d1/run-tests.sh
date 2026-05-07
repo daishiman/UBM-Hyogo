@@ -30,7 +30,56 @@ assert_contains() {
 }
 
 out="$(bash scripts/d1/preflight.sh ubm-hyogo-db-staging --env staging --migration 0008_schema_alias_hardening --json)"
-assert_contains "$out" '"unapplied":["0008_schema_alias_hardening"]'
+assert_contains "$out" '"expected_state":"pending"'
+assert_contains "$out" '"actual_state":"pending"'
+
+cat > "$tmp/cf.sh" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+case "$*" in
+  whoami) echo "ok" ;;
+  "d1 list") echo "ubm-hyogo-db-staging" ;;
+  d1\ migrations\ list*) printf '0008_schema_alias_hardening pending\n0009_other pending\n' ;;
+  d1\ migrations\ apply*) echo "apply should not run in dry-run" >&2; exit 99 ;;
+  *) echo "unexpected $*" >&2; exit 1 ;;
+esac
+SH
+chmod +x "$tmp/cf.sh"
+
+if bash scripts/d1/preflight.sh ubm-hyogo-db-staging --env staging --migration 0008_schema_alias_hardening >/dev/null 2>&1; then
+  echo "preflight target-external pending migrations should fail" >&2
+  exit 1
+fi
+
+cat > "$tmp/cf.sh" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+case "$*" in
+  whoami) echo "ok" ;;
+  "d1 list") echo "ubm-hyogo-db-staging" ;;
+  d1\ migrations\ list*) echo "0008_schema_alias_hardening applied" ;;
+  d1\ migrations\ apply*) echo "apply should not run in dry-run" >&2; exit 99 ;;
+  *) echo "unexpected $*" >&2; exit 1 ;;
+esac
+SH
+chmod +x "$tmp/cf.sh"
+
+out="$(bash scripts/d1/preflight.sh ubm-hyogo-db-staging --env staging --migration 0008_schema_alias_hardening --expect applied --json)"
+assert_contains "$out" '"expected_state":"applied"'
+assert_contains "$out" '"actual_state":"applied"'
+
+cat > "$tmp/cf.sh" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+case "$*" in
+  whoami) echo "ok" ;;
+  "d1 list") echo "ubm-hyogo-db-staging" ;;
+  d1\ migrations\ list*) echo "0008_schema_alias_hardening pending" ;;
+  d1\ migrations\ apply*) echo "apply should not run in dry-run" >&2; exit 99 ;;
+  *) echo "unexpected $*" >&2; exit 1 ;;
+esac
+SH
+chmod +x "$tmp/cf.sh"
 
 if bash scripts/d1/preflight.sh typo-db --env staging >/dev/null 2>&1; then
   echo "preflight db/env mismatch should fail" >&2

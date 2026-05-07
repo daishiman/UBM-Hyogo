@@ -1,0 +1,8 @@
+{
+  "status": "CONTRACT_ONLY_NOT_EXECUTED",
+  "expectedHttpStatus": 200,
+  "route": "POST /admin/meetings/:sessionId/attendances",
+  "body": {
+    "attended": false
+  }
+}

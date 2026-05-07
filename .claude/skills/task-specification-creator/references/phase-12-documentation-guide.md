@@ -81,6 +81,23 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - `task-workflow.md` の完了タスク記録
 - docs-only 前提で作成した follow-up に後からコード変更が入った場合は、`phase-*.md` と `outputs/phase-12/*.md` の narrative も同じターンで current facts に戻す
 - `spec_created` task に code wave が入った場合は、workflow 本文だけでなく system spec 側の current contract も同ターンで更新し、`no-op` を自己申告しない
+
+#### 同サイクル `spec_created` → `implemented-local` 再分類 + 状態語彙選択（UT-02A FU-003 反映）
+
+`spec_created` として起票されたタスクでも、同一サイクル内で `apps/` / `packages/` 配下のコードに変更が入った場合は、Phase 12 close-out 前に **同サイクル `implemented-local` 再分類** を行う。古い `spec_created` 表記を残したまま Phase 11/12 を PASS にしない。
+
+| サイクル状態 | 状態語彙 | 適用条件 | Phase 11 evidence |
+| --- | --- | --- | --- |
+| pre-code（仕様だけ完成、`apps/` / `packages/` に diff なし） | `CONTRACT_READY_IMPLEMENTATION_PENDING` | `git diff --name-only main...HEAD` の対象が `docs/` / `.claude/` のみ | NON_VISUAL evidence template / spec contract のみ |
+| local-evidence + runtime-pending（コードあり、ローカル PASS 5 点取得済み、staging/production runtime 未実走） | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | `apps/` or `packages/` に diff あり、かつ `outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log` が揃う | local PASS 5 点セット（後述）+ runtime pending 明示 |
+| runtime PASS | `PASS` | staging/production curl / smoke / migration apply が実走済み | runtime evidence + local PASS |
+
+**選択ルール**:
+
+- pre-code に local PASS が無いまま `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を使ってはならない。pre-code は必ず `CONTRACT_READY_IMPLEMENTATION_PENDING`。
+- local PASS 5 点が揃っていないのに `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を使ってはならない。揃っていない場合は何が欠けているかを `manual-test-result.md` に記録し、該当語彙の格下げを行う。
+- 隣接ルール: `v2026.05.05-09a-A-staging-deploy-smoke-execution`（`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 導入）、`v2026.05.05-issue379-stale-current-no-code`（`verified_current_no_code_change` で `CONTRACT_READY_IMPLEMENTATION_PENDING` の対極を提示）と整合する。ローカル実装が入った瞬間に stale-current 系の `verified_current_no_code_change` は使えない。
+- 再分類した時点で `artifacts.json` / `outputs/artifacts.json` / `index.md` / `phase-*.md` の `workflow_state` 注記、`taskType`、`implementation_mode` を同 wave で書き換える。`spec_created` 文字列を `rg -F "spec_created" outputs/` で 0 件にしてから Phase 12 を閉じる。
 - Phase 12 は `main.md` を含む 7 成果物を実体確認し、root / outputs `artifacts.json` の Phase status と outputs list を同値にする。成果物があるのに `pending` のまま残す状態は FAIL。
 - 起票元 unassigned がある場合は、後継 workflow path、Issue 状態、AC close-out 状態、実装委譲先を起票元へ追記する。候補だけを workflow 内に残して起票元を未更新にしない。
 - Phase 10 などの approval gate では `technical_go` と `user_approved` を分ける。docs-only NON_VISUAL の Phase 11/12 close-out は進行可でも、commit / push / PR は user approval なしに実行しない。
@@ -127,9 +144,23 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - build artifact の文字列監査は `rg -F` を優先し、0件判定は `rg -q` の exit code と文書上の `match 0件` を対で残す
 - human-authored な Phase 12 成果物は task root 直下ではなく `outputs/phase-12/` に置く
 - `index.md` / `phase-*.md` / `artifacts.json` / `outputs/artifacts.json` の4点同期結果
+- **必須**: 当該 wave で touch した全 skill の `.claude/skills/<skill>/LOGS.md` 更新行を **canonical absolute path** で必ず列挙する。`SKILL.md` だけ列挙して `LOGS.md` を省略するパターンは FAIL（06b-b pending banner 監査で検出）。
 - Step 1-A で更新した `aiworkflow-requirements` / `task-specification-creator` の `SKILL.md` / `LOGS.md` を canonical path で列挙する
 - `skill-creator` を改善した場合は、`skill-creator/SKILL.md` / `LOGS.md` / 変更した template or reference も同じ changelog に列挙する
 - `更新予定` / `計画済み` / `PR マージ後に実施` のような future wording を残さない
+
+### 必須エントリ最小セット（documentation-changelog.md）
+
+以下が **同一 changelog 内で同一 wave として** 揃っているか自己監査する:
+
+| カテゴリ | 必須 path 例 |
+| --- | --- |
+| skill 正本 | `.claude/skills/<skill>/SKILL.md` |
+| skill 履歴 | `.claude/skills/<skill>/LOGS.md` ← **省略禁止** |
+| skill reference / template | `.claude/skills/<skill>/references/*.md`（変更があった場合） |
+| workflow artifacts | `docs/30-workflows/<task>/{index.md,artifacts.json}` |
+| workflow outputs | `docs/30-workflows/<task>/outputs/{artifacts.json,phase-12/*.md}` |
+| system spec | `docs/00-getting-started-manual/specs/*.md`（変更があった場合） |
 
 ## Task 12-4: unassigned detection
 

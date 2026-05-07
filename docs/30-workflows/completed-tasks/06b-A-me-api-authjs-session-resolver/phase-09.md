@@ -33,13 +33,7 @@
 
 ## 実行手順
 
-<<<<<<<< HEAD:docs/30-workflows/06b-B-profile-self-service-request-ui/phase-09.md
-- 対象 directory: docs/30-workflows/06b-B-profile-self-service-request-ui/
-|||||||| c5e3e03f:docs/30-workflows/02-application-implementation/06b-A-me-api-authjs-session-resolver/phase-09.md
-- 対象 directory: docs/30-workflows/02-application-implementation/06b-A-me-api-authjs-session-resolver/
-========
-- 対象 directory: docs/30-workflows/06b-A-me-api-authjs-session-resolver/
->>>>>>>> origin/main:docs/30-workflows/completed-tasks/06b-A-me-api-authjs-session-resolver/phase-09.md
+- 対象 directory: docs/30-workflows/completed-tasks/06b-A-me-api-authjs-session-resolver/
 - 本仕様書作成ではアプリケーションコード、deploy、commit、push、PR 作成を行わない。
 - 実装・実測時は Phase 5 / Phase 11 の runbook と evidence path に従う。
 

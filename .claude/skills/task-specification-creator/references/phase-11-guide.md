@@ -45,6 +45,36 @@
 10. 発見課題（修正済み・未修正）を outputs/phase-11/discovered-issues.md に出力
 ```
 
+### Phase 11 状態語彙対応表（UT-02A FU-003 反映）
+
+`apps/` / `packages/` への code diff 有無 と local PASS evidence の有無で Phase 11 の状態語彙を選ぶ。詳細な再分類ルールは `phase-12-documentation-guide.md` 「同サイクル `spec_created` → `implemented-local` 再分類」を参照。
+
+| 区分 | 状態語彙 | code diff | local PASS 5 点 | runtime evidence |
+| --- | --- | --- | --- | --- |
+| pre-code | `CONTRACT_READY_IMPLEMENTATION_PENDING` | なし（docs/.claude のみ） | 不要 | 不要 |
+| local-evidence + runtime-pending | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | あり | 必須（5 点全揃） | pending 明示 |
+| runtime PASS | `PASS` | あり | 必須 | staging/production 実走済 |
+
+#### Local PASS 5 点セット evidence path 規約
+
+Local 実装に対する Phase 11 evidence は、以下 5 ファイルを **canonical 固定 path** で残す。命名・拡張子・配置を 1 つでも崩したら local PASS と扱わない。
+
+| 種別 | canonical path |
+| --- | --- |
+| TypeScript 型チェック | `outputs/phase-11/evidence/typecheck.log` |
+| Lint | `outputs/phase-11/evidence/lint.log` |
+| ユニット / 結合テスト | `outputs/phase-11/evidence/test.log` |
+| Build | `outputs/phase-11/evidence/build.log` |
+| Grep gate（禁止トークン / 旧 API 不在確認等） | `outputs/phase-11/evidence/grep-gate.log` |
+
+5 点のうち 1 点でも欠けると `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` は使えず `CONTRACT_READY_IMPLEMENTATION_PENDING` へ格下げ、または欠落理由を `manual-test-result.md` に明記する。
+
+#### 外部 channel / secret preflight を伴う NON_VISUAL 実装
+
+Slack Incoming Webhook、GitHub Secret、外部 SaaS channel など、実装は完了しているがユーザー承認付きの外部準備が残る場合は、Phase 11 で `CONTRACT_READY_SECRET_PENDING` を明示する。`outputs/phase-11/evidence/` には実値ログの代わりに、目的 / 取得手順 / approval gate / 記録してよい項目 / 記録禁止の secret-like value を書いた template evidence を配置する。
+
+`CONTRACT_READY_SECRET_PENDING` と `CONTRACT_READY_RUNTIME_PENDING` は併記できる。前者は channel / webhook / secret 登録前、後者は schedule / production runtime の時間依存実走前を表す。どちらも `PASS` ではないため、Phase 12 compliance と implementation-guide では `template only / runtime PASS pending` を明記する。
+
 ### Phase 11
 
 - docs-only task: navigation、archive discoverability、mirror parity を確認する。
@@ -68,6 +98,7 @@
 - screenshot fallback を使った場合でも、`outputs/phase-11/screenshots/phase11-capture-metadata.json` 等に **capture method / failure reason / source evidence / generated-at** を残し、`manual-test-result.md` と時刻・理由を一致させる。
 - `manual-test-result.md` には、fallback 時に使った harness HTML/TSX、capture script、review board PNG、metadata JSON の**実ファイル path**を残す。
 - placeholder PNG だけを置いて Phase 11 PASS にしない。UI 差分がない `NON_VISUAL` task では dummy PNG を作らず、`manual-test-result.md` と `screenshot-plan.json` に blocker / 実行コマンド / 代替 evidence を記録する。visual fallback を採る場合のみ、`TC-ID ↔ png`、`screenshot-coverage.md`、metadata JSON、fallback reason、source evidence の 5 点を current workflow に揃える。
+- `artifacts.json` の `phases.11.outputs` に runtime evidence ファイルを宣言したが、user 承認前で実値を取得できない場合は、ファイル名そのまま（または同名 `.RUNTIME_PENDING_USER_APPROVAL` 接尾辞）の **template ファイルを実体配置** する。中身は「目的 / 取得手順 / approval gate / 実値が入る項目」だけを記載し、live DSN URL / Slack webhook URL / token / event id を絶対に書かない。`phase12-task-spec-compliance-check.md` の compliance 行で「template only / runtime PASS pending」と明示する。これで manifest drift を防ぎつつ、planned evidence と runtime PASS を分離できる。Issue #495 09b-A production extension（2026-05-06）由来。
 - skill root が複数ある repository では、user が指定した root を正本として扱い、Phase 12 完了前に mirror root との drift を `diff -qr` 等で確認する。
 - `spec_created` / docs-heavy task でも、Phase 12 は「計画記録」では閉じない。`.claude/skills/` 側の system spec / LOGS / lessons learned / backlog / `artifacts.json` / `outputs/artifacts.json` を **同ターンで実更新** する。
 - persist / hydration task の Phase 11 では、actual storage key と validation entrypoint を仕様書へ明記し、`electron-store` など generic storage 名を推測で書かない。

@@ -155,7 +155,7 @@ emit_test_template_paths(failed_files) -> list<string>
 
 main()
   1. parse_args
-  2. pnpm -r --workspace-concurrency=1 test:coverage を実行（changed 指定時は変更 pkg のみ）
+  2. 判定対象 package を `pnpm --filter <packageName> test:coverage` で順に実行（root package は明示的に除外し、実行対象と集計対象を一致させる）
   3. collect_summary -> aggregate_pkg_pct
   4. 全 pkg / 全 metric が threshold 以上なら exit 0
   5. 未達 pkg があれば format_top10_failure を stderr 出力 -> exit 1
@@ -212,8 +212,11 @@ main()
 soft → hard 切替（PR③）:
 
 1. `continue-on-error: true` 行を削除
-2. branch protection の `required_status_checks.contexts` に `coverage-gate` を追加（UT-GOV-001 / UT-GOV-004 連携、本タスクでは仕様記述のみ）
-3. lefthook 統合 commit を同 PR に同梱
+2. `scripts/coverage-guard.test.ts` で `coverage-gate` block に `continue-on-error` が再混入しないことを静的検証
+3. branch protection の `required_status_checks.contexts` に `coverage-gate` を追加（GitHub repository setting の実 PUT はユーザー承認後）
+4. lefthook 統合 commit を同 PR に同梱
+
+> **PR③ current facts（ci-test-recovery-coverage-80-2026-05-04 / 2026-05-04）**: `.github/workflows/ci.yml` の `coverage-gate` job と `Run coverage-guard` step から `continue-on-error: true` は削除済み。過去にCIが通っていた直接原因は、この2箇所の soft gate 設定により `coverage-guard.sh` の exit 1 が check success 扱いになっていたこと。現在は workflow hard gate と静的テストで再発防止する。branch protection required context への `coverage-gate` 追加は repository setting 変更のため、ユーザー承認後に fresh GET evidence とともに同期する。
 
 ### lefthook YAML（PR③）
 

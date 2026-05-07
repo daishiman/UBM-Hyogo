@@ -1,10 +1,10 @@
-import { execFileSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 const SCRIPT = resolve(__dirname, "coverage-guard.sh");
+const CI_WORKFLOW = resolve(__dirname, "..", ".github", "workflows", "ci.yml");
 
 let root: string;
 
@@ -113,5 +113,44 @@ describe("coverage-guard.sh", () => {
     const result = run(["--package", "apps/api"]);
     expect(result.code).toBe(0);
     expect(result.stderr).not.toContain("MISSING");
+  });
+
+  it("full mode でも root package の test:coverage を実行対象にしない", () => {
+    const binDir = resolve(root, "bin");
+    mkdirSync(binDir, { recursive: true });
+    writeFileSync(
+      resolve(binDir, "pnpm"),
+      [
+        "#!/usr/bin/env bash",
+        "printf '%s\\n' \"$@\" >> \"$COVERAGE_GUARD_ROOT/pnpm-args.log\"",
+        "exit 0",
+      ].join("\n"),
+      { encoding: "utf8", mode: 0o755 },
+    );
+    writeSummary("apps/api", { lines: 90, branches: 90, functions: 90, statements: 90 });
+    writeSummary("apps/web", { lines: 90, branches: 90, functions: 90, statements: 90 });
+    writeSummary("packages/shared", { lines: 90, branches: 90, functions: 90, statements: 90 });
+
+    const { spawnSync } = require("node:child_process") as typeof import("node:child_process");
+    const result = spawnSync("bash", [SCRIPT], {
+      cwd: root,
+      env: { ...process.env, COVERAGE_GUARD_ROOT: root, PATH: `${binDir}:${process.env.PATH ?? ""}` },
+      encoding: "utf8",
+    });
+    const calls = readFileSync(resolve(root, "pnpm-args.log"), "utf8");
+
+    expect(result.status).toBe(0);
+    expect(calls).toMatch(/--filter\n@fx\/api\ntest:coverage/);
+    expect(calls).toMatch(/--filter\n@fx\/web\ntest:coverage/);
+    expect(calls).toMatch(/--filter\n@fx\/shared\ntest:coverage/);
+    expect(calls).not.toContain("-r");
+  });
+
+  it("CI coverage-gate は continue-on-error を使わない hard gate である", () => {
+    const workflow = readFileSync(CI_WORKFLOW, "utf8");
+    const coverageGate = workflow.match(/\n  coverage-gate:[\s\S]*?(?=\n  [a-zA-Z0-9_-]+:|\n\S|$)/)?.[0] ?? "";
+
+    expect(coverageGate).toContain("run: bash scripts/coverage-guard.sh");
+    expect(coverageGate).not.toMatch(/^\s*continue-on-error:/m);
   });
 });

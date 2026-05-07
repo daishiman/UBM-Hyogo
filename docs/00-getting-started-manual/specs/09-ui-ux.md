@@ -51,10 +51,12 @@
 
 - `q`: キーワード検索
 - `zone`: UBM区画
-- `status`: 参加ステータス
+- `status`: 参加ステータス（公開状態フィルタではない）
 - `tag`: タグ複数選択
 - `sort`: `最近の更新順 / 名前順`
 - `density`: `ゆったり / 密 / リスト`
+
+`/members` の filter input / select / segmented control はすべてラベルを持ち、Tab で `q -> zone -> status -> tag -> sort -> density` の順に到達できる。結果件数や空状態の変化は `role=status` と `aria-live=polite` の領域で伝える。`density` は `comfy` / `dense` / `list` の 3 値で、データ取得条件ではなく表示密度だけを変える。
 
 ### 一覧カード
 
@@ -85,6 +87,8 @@
 - `情報を更新する` は Google Form 再回答モーダルを経由する
 - `公開停止 / 再公開 / 退会申請` は本文編集 UI とは分離し、本人申請パネルから admin queue へ依頼を作る
 - 申請 dialog は `role=dialog`、`aria-modal=true`、`aria-describedby`、Esc close、Tab focus trap を持つ
+- pending banner は `GET /me/profile.pendingRequests` の server-side pending state を正本にし、reload 後も `role=status` / `aria-live=polite` で表示する
+- server pending がある申請種別のボタンは disabled にする。client local state は submit-in-flight の optimistic fallback に限定し、server pending を上書きしない
 - 申請エラーは `role=alert` で表示し、409 は同一 session 中の pending banner と該当ボタン disabled に接続する。network / 5xx はユーザー操作の再試行 CTA を出す
 
 ---

@@ -1,6 +1,6 @@
 {
   "task_name": "06b-C-profile-logged-in-visual-evidence",
-  "task_path": "docs/30-workflows/06b-C-profile-logged-in-visual-evidence",
+  "task_path": "docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence",
   "wave": "6b-fu",
   "execution_mode": "parallel",
   "depends_on": [

@@ -52,6 +52,33 @@ admin members の delete / restore / role 表示 / dashboard recent actions / me
 すべての SQL が `no such table: audit_logs` で 500 を返す。skill 側は `audit_log` 単数形のみを
 canonical とし、plural 表記を見つけたら同じ wave で全置換する。
 
+## L-06CB-008: delete/restore contract 不整合は同 wave で API/lessons/skill を直す（2026-05 implementation-execution review）
+
+`apps/api/src/routes/admin/member-delete.ts` の旧実装は `{ ok: true }` 返却 + `reason` 不正で 400 を返していたが、
+06c-B canonical contract（11-admin-management / 07-edit-delete）は **422 validation** と
+**`{ id, isDeleted, deletedAt }` / `{ id, restoredAt }`** を要求していた。同 review cycle で:
+
+- `DeleteBodyZ = z.object({ reason: z.string().trim().min(1).max(500) })` に固める。
+- `safeParse` 失敗時は `422`（旧 400 から変更）。
+- delete handler は `member_status` upsert / `deleted_members` upsert / `audit_log` insert を
+  `c.env.DB.batch([...])` 1 トランザクションに集約し、`auditAppend()` の段階呼び出しを撤回。
+- restore handler も `member_status` update / `deleted_members` delete / `audit_log` insert を
+  `DB.batch()` に集約。
+- response は `{ ok: true }` をやめ、`{ id, isDeleted: true, deletedAt }` / `{ id, restoredAt }` で
+  client が直接 list refresh / drawer reflect 用 viewmodel に投入できる形に揃える。
+
+判定原則: 既存実装に **canonical contract と矛盾するレスポンス形 / status code / atomicity 設計**
+が見つかった場合、Phase 12 の skill 同期 review で気付いた段階で:
+
+1. 同 wave で実コード + focused tests を補正（次タスクに送らない）。
+2. `references/api-endpoints.md` の該当行に request/response/422/409/`DB.batch()` を補記。
+3. `references/workflow-<task>-artifact-inventory.md` の不変条件行に `DB.batch()` 接続を残す。
+4. lessons-learned に「補正対象 / 補正理由 / 判定原則」を 1 entry 残す（本項目）。
+
+これを次タスクに先送りすると、e2e（08b）/ staging smoke（09a）/ 04b admin queue resolve / dashboard recent
+actions の audit 表示まで `{ ok: true }` 想定の client が伝搬してしまい、後続で同心円的な breaking
+change を生む。同 wave 補正が常に最小コスト。
+
 ## L-06CB-007: runtime visual evidence は 06c-B 内で完結させず 08b/09a に委譲する
 
 admin members の screenshot 取得は staging admin Google account + sanitized D1 fixture が前提で、

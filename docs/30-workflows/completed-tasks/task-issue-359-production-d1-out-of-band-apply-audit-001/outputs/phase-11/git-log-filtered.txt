@@ -1,0 +1,594 @@
+commit fd59c55d996797ca0294e63572f1499343762394
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sun May 3 14:31:01 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sun May 3 14:31:01 2026 +0900
+
+    feat(ut-web-cov-02): public components coverage close-out
+    
+    UT-WEB-COV-02 public components coverage を `implemented-local / implementation / NON_VISUAL` として同期。
+    
+    ## 実装内容
+    - `apps/web/src/components/public/__tests__/` に7コンポーネント (FormPreviewSections / Hero / MemberCard / ProfileHero / StatCard / Timeline) の focused tests を追加
+    - `apps/web/src/components/feedback/__tests__/EmptyState.test.tsx` を追加
+    - 共有フィクスチャ `apps/web/src/test-utils/fixtures/public.ts` を新設
+    
+    ## 測定結果 (Phase 11)
+    - 40 files / 288 tests PASS
+    - 対象 7 component すべて Statements/Functions/Lines/Branches 100% coverage
+    
+    ## Test cases パターン
+    - happy: primary render path
+    - empty-or-null-data: optional fields 不在、空配列
+    - interaction-or-prop-variant: density / labels / fallback / CTA variants
+    
+    ## ドキュメント
+    - workflow root を `docs/30-workflows/completed-tasks/ut-web-cov-02-public-components-coverage/` として登録
+    - Phase 12 strict 7 files、artifact inventory / quick-reference の path drift 補正
+    - aiworkflow-requirements SKILL.md に v2026.05.03 changelog 追加
+    
+    ## 境界
+    - 04a public API contract は変更なし、component input model に閉じる
+    - runtime production code、packages/* 不変
+    - snapshot ではなく role/text/state ベース assertion
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 5dc6b1051dccffa0fe68dc1843a08bf47cd4494e
+Merge: 08eb031c 27b3d7f4
+Author:     daishiman <71166086+daishiman@users.noreply.github.com>
+AuthorDate: Sun May 3 13:03:33 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Sun May 3 13:03:33 2026 +0900
+
+    Merge pull request #427 from daishiman/docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook
+    
+    docs(ut-07b-fu-03): production migration apply runbook + scripts/d1/* + CI gate
+
+commit 29fa24be9fe25453e82f1fab37fc9e1de2689f70
+Merge: 3122fb82 08eb031c
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sun May 3 11:22:08 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sun May 3 11:22:08 2026 +0900
+
+    Merge branch 'main' into docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook
+
+commit 02d7f3c9691a2d1f122862143687c65dbd2aa9ba
+Merge: e5d029e0 069ef35f
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sun May 3 10:59:17 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sun May 3 10:59:17 2026 +0900
+
+    merge: sync docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook with main
+
+commit 00142d35275158308e5cd8b2ff049c85ca6053ec
+Merge: 8d6dd2ee 7c71964d
+Author:     daishiman <71166086+daishiman@users.noreply.github.com>
+AuthorDate: Sun May 3 10:44:54 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Sun May 3 10:44:54 2026 +0900
+
+    Merge pull request #423 from daishiman/docs/issue-359-production-d1-schema-aliases-apply-task-spec
+    
+    docs(issue-359): production D1 schema_aliases apply task spec
+
+commit 90f1d2502b130fa74d2f48da372b86e447da5531
+Merge: b25559a4 8d6dd2ee
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sun May 3 08:51:48 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sun May 3 08:51:48 2026 +0900
+
+    Merge branch 'main' into docs/issue-359-production-d1-schema-aliases-apply-task-spec
+    
+    # Conflicts:
+    #       .claude/skills/aiworkflow-requirements/SKILL.md
+    #       .claude/skills/aiworkflow-requirements/indexes/keywords.json
+    #       .claude/skills/aiworkflow-requirements/indexes/topic-map.md
+
+commit d9504a6bc42d0c3b3210469a78848d2001c22b41
+Merge: f777a8a9 fc1ecea1
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sun May 3 08:15:45 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sun May 3 08:15:45 2026 +0900
+
+    Merge remote-tracking branch 'origin/main' into docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook
+    
+    # Conflicts:
+    #       .claude/skills/aiworkflow-requirements/SKILL.md
+    #       .claude/skills/aiworkflow-requirements/indexes/keywords.json
+    #       .claude/skills/aiworkflow-requirements/indexes/topic-map.md
+    #       docs/30-workflows/LOGS.md
+
+commit f777a8a9c679b900b2859e8e32ea17d48c5c0f75
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sun May 3 08:09:50 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sun May 3 08:09:50 2026 +0900
+
+    docs(ut-07b-fu-03): production migration apply runbook 仕上げと派生タスク追加
+    
+    - runbook 各 phase outputs を最終化し artifacts.json と verification-report を更新
+    - 未タスク (UT-07B-FU-04 / UT-07B-FU-05) を unassigned-task に追加
+    - d1 マイグレーション検証ワークフロー (.github/workflows/d1-migration-verify.yml) と scripts/d1/ 追加
+    - aiworkflow-requirements skill の references / indexes / lessons-learned を同期更新
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit b58a10be35b57bbf7e1cbcef9eace8782796b6c8
+Merge: fbd7b3e9 b6e707b7
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sun May 3 07:23:29 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sun May 3 07:23:29 2026 +0900
+
+    Merge remote-tracking branch 'origin/main' into docs/issue-359-production-d1-schema-aliases-apply-task-spec
+    
+    # Conflicts:
+    #       .claude/skills/aiworkflow-requirements/SKILL.md
+    #       .claude/skills/aiworkflow-requirements/indexes/keywords.json
+    #       .claude/skills/aiworkflow-requirements/indexes/resource-map.md
+    #       .claude/skills/aiworkflow-requirements/indexes/topic-map.md
+    #       .claude/skills/aiworkflow-requirements/references/task-workflow-active.md
+
+commit e14a7843cd8a17ec357f2a0f18b78f3d2a59e805
+Merge: 80390ba6 151ac99f
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 23:15:25 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 23:15:25 2026 +0900
+
+    merge: sync docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook with main
+
+commit f8fe33d42c252790622575ecbb3f5805ed326dcb
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 22:53:03 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 22:53:03 2026 +0900
+
+    docs(issue-359): record Phase 13 production D1 verification evidence
+    
+    Phase 13 production D1 apply was approved by user. Pre-apply inventory
+    revealed schema_aliases was already applied to ubm-hyogo-db-prod on
+    2026-05-01 10:59:35 UTC by a prior operation. Per spec NO-GO clause
+    (schema_aliases already exists -> stop; report state), the apply step
+    was skipped and shape verification path was executed instead.
+    
+    Evidence captured under outputs/phase-13/:
+    - user-approval.md: Gate-B approval record
+    - migrations-list-before/after.txt: --remote returned "No migrations to apply"
+    - tables-before.txt: confirms schema_aliases presence
+    - d1-migrations-table.txt: confirms 0008_create_schema_aliases.sql applied 2026-05-01
+    - pragma-table-info.txt: 9 columns match Required Shape
+    - pragma-index-list.txt: 3 expected indexes (+ pk autoindex) match Required Shape
+    
+    SSOT update:
+    - database-schema.md: marker advanced from "production apply pending user approval"
+      to "production applied (2026-05-01 10:59:35 UTC)" with evidence path
+    
+    Boundary unchanged: this commit does not authorize code deploy, fallback
+    retirement, direct update guard, endpoint rename, or rollback DDL.
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 0b81e1b5da588b25bb312c779886c18305b40205
+Merge: 144217e1 f27ee255
+Author:     daishiman <71166086+daishiman@users.noreply.github.com>
+AuthorDate: Sat May 2 22:36:06 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Sat May 2 22:36:06 2026 +0900
+
+    Merge pull request #418 from daishiman/docs/issue-353-09c-production-deploy-execution-spec
+    
+    docs(issue-353): 09C production deploy execution task spec
+
+commit f27ee255d669491bb9e7c04aa002a2208b4f19b6
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 22:28:11 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 22:28:11 2026 +0900
+
+    chore(indexes): rebuild after 09c-production-deploy-execution-001 docs additions
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 90478953e6ea3fdcc99097496d39a6f12062deba
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 22:21:43 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 22:21:43 2026 +0900
+
+    docs(issue-353): Phase 1-5 evidence + drift detection + safe route preflight
+    
+    Phase 1-4 docs evidence (option A safe route):
+    - outputs/phase-01: AC 1-13 1:1 evidence map, G1/G2/G3 approval gate design, G1 limited approval log
+    - outputs/phase-02: 13-step x evidence design table, Mermaid flow, payload separation rules
+    - outputs/phase-03: full command sequences (preflight/migration/deploy/tag/smoke/24h), rollback branches, Q1-3 clearance, JST tag fix
+    - outputs/phase-04: 3-layer verify suite (PF/SM/MT) with AC matrix and rollback routing
+    
+    Phase 5 read-only preflight (no production mutation):
+    - main-merge-evidence: origin/main = ac1dd37b...
+    - d1-binding-confirmation: production binding confirmed (DRIFT detected)
+    - cf-whoami: BLOCKED (op vault Employee unresolved on current session)
+    - preflight-evidence: aggregate summary
+    - user-approval-log: G2 NO-GO (preflight not satisfied)
+    - upstream-status: 09a-A / ut-09a-exec / 09b-A / 09b-B all spec_created (Phase 6 prerequisite unmet)
+    
+    Critical findings:
+    1. Production D1 name DRIFT: spec wrote 'ubm_hyogo_production', actual wrangler.toml uses 'ubm-hyogo-db-prod' (CLAUDE.md aligned). Spec-side fix to be applied.
+    2. op CLI vault 'Employee' not resolvable on current session — requires manju.1password.com signin.
+    3. Upstream 09a/09b execution tasks all in spec_created state — production deploy prerequisites unmet.
+    
+    Refs #353
+
+commit ae1ec192dede09bebd31ccb39ef77859597752ed
+Merge: 5087a72b 144217e1
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 22:18:22 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 22:18:22 2026 +0900
+
+    Merge branch 'main' into docs/issue-353-09c-production-deploy-execution-spec
+    
+    Resolve conflicts:
+    - .claude/skills/aiworkflow-requirements/indexes/keywords.json: take origin/main (auto-generated index)
+    - docs/30-workflows/06b-B-profile-self-service-request-ui/{,outputs/}artifacts.json: take origin/main (rename from completed-tasks)
+
+commit e73bcff0efe03356efc63eaad2b76801f4985dc9
+Merge: 5a4b3cb2 ac1dd37b
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 21:41:46 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 21:41:46 2026 +0900
+
+    Merge remote-tracking branch 'origin/main' into docs/issue-363-ut-07b-fu-03-production-migration-apply-runbook
+    
+    # Conflicts:
+    #       .claude/skills/aiworkflow-requirements/SKILL.md
+    #       .claude/skills/aiworkflow-requirements/indexes/keywords.json
+    #       .claude/skills/aiworkflow-requirements/indexes/topic-map.md
+    #       .claude/skills/aiworkflow-requirements/references/task-workflow-active.md
+    #       .claude/skills/task-specification-creator/SKILL.md
+    #       docs/30-workflows/06c-A-admin-dashboard/artifacts.json
+    #       docs/30-workflows/LOGS.md
+    #       docs/30-workflows/completed-tasks/06b-A-me-api-authjs-session-resolver/artifacts.json
+    #       docs/30-workflows/completed-tasks/06b-A-me-api-authjs-session-resolver/outputs/artifacts.json
+    #       docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/outputs/verification-report.md
+    #       docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/artifacts.json
+    #       docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/outputs/artifacts.json
+    #       docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/phase-13.md
+
+commit 5a4b3cb2109b1dd91c74889c0e568dc96925d7f6
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 21:36:01 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 21:36:01 2026 +0900
+
+    docs(ut-07b-fu-03): production migration apply runbook タスク仕様 + ワークフローアーカイブ整理
+    
+    - UT-07B-FU-03 production migration apply runbook タスク仕様書（Phase 01-13）を追加
+    - skill references / indexes に runbook artifact inventory と lessons-learned を追加
+    - 完了済みワークフロー（02c-followup-002 / 05b-B / 06a-A 他）の outputs ディレクトリを LOGS にアーカイブ済みのため削除
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 7ddf8dd016fdf41dd8c8b5822b49824d8382b6db
+Merge: 8f9909e6 ac1dd37b
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 21:27:38 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 21:27:38 2026 +0900
+
+    Merge remote-tracking branch 'origin/main' into docs/issue-359-production-d1-schema-aliases-apply-task-spec
+    
+    # Conflicts:
+    #       .claude/skills/aiworkflow-requirements/indexes/keywords.json
+    #       .claude/skills/aiworkflow-requirements/indexes/topic-map.md
+
+commit 8f9909e66a44f4072606c2fd36cbd6343caeb59e
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 13:31:33 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 13:31:33 2026 +0900
+
+    docs: issue-359 production D1 schema_aliases apply task spec & cleanup
+    
+    Add task spec for production D1 schema_aliases apply (issue #191/#359),
+    relocate completed task to completed-tasks/, and update skill indexes.
+    
+    - Add task-issue-191-production-d1-schema-aliases-apply-001 task spec with full
+      Phase 1-12 outputs (implementation guide, phase-11 pre-apply evidence,
+      phase-12 task spec compliance check)
+    - Add lessons-learned and changelog entries for issue 359 production apply
+    - Relocate completed unassigned-task workflow dirs (06a-A, 02c-followup-002,
+      05b-B, ut-06-fu-a-route-inventory) to completed-tasks/ via prior cleanup
+    - Update aiworkflow-requirements skill indexes (keywords.json, quick-reference,
+      resource-map, topic-map) to include new task artifacts
+    - Resolve keywords.json conflict by adopting main's structural deletion of
+      Metadata section while preserving issue 359 references in adjacent groups
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 5087a72b768523f366665bbb99d7ed52b8083931
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Sat May 2 13:18:35 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Sat May 2 13:18:35 2026 +0900
+
+    docs(issue-353): 09C production deploy execution task spec
+    
+    09c-production-deploy-execution-001 ワークフローを spec_created /
+    implementation / VISUAL / production runtime evidence pending_user_approval
+    として正本化。Phase 1-13 outputs、artifacts.json、関連 lessons-learned /
+    artifact inventory / SKILL.md / indexes / task-workflow-active を同期。
+    
+    - Phase 1/5/10 production approval gate G1-G3
+    - Phase 6 D1 backup + migration apply / API/Web Worker deploy / release tag
+    - Phase 9 production smoke / Phase 11 24h post-release verification
+    - Phase 12 strict 7 files、root-only artifacts parity 例外宣言
+    - Phase 13 PR 作成承認は production approval に数えない境界も明示
+    
+    実 Cloudflare mutation / tag push / production smoke screenshots は未実行。
+    Issue #353 は CLOSED のまま `Refs #353` で参照する。
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 0247ef30ce7fedeb55f3be495b9222465b2c68f5
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Fri May 1 22:45:34 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Fri May 1 22:45:34 2026 +0900
+
+    feat(02c-followup-002): exclude fixtures/tests from prod build with triple defense
+    
+    Wire production-build exclusion of test fixtures and test files via
+    `apps/api/tsconfig.build.json`, dep-cruiser `no-prod-to-fixtures-or-tests`
+    rule, and root `lint:deps` gate. Synced 02c invariant #6 as build / lint /
+    runtime triple defense across canonical specs, aiworkflow indexes, and LOGS.
+    
+    - Add `apps/api/tsconfig.build.json` excluding `__tests__` / `__fixtures__` / `*.test.ts`
+    - Update `apps/api/package.json` build to use the build tsconfig
+    - Update `.dependency-cruiser.cjs` with `no-prod-to-fixtures-or-tests` rule
+    - Wire root `lint:deps` script
+    - Add full Phase 1-13 task workflow under docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/
+    - Update parent 02c implementation-guide.md to reference the triple defense
+    - Update aiworkflow skill: SKILL/indexes/references with task lessons + artifact inventory
+    - Add unassigned follow-ups: sync-forms-responses test baseline + wrangler dry-run evidence
+    - Update LOGS.md for 02c-followup-002 implemented-local row
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 25cc01005d3b767ed1c8bd920439a59a5e4f2ee8
+Merge: 6430428f 0af8040f
+Author:     daishiman <71166086+daishiman@users.noreply.github.com>
+AuthorDate: Fri May 1 11:52:40 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Fri May 1 11:52:40 2026 +0900
+
+    Merge pull request #354 from daishiman/docs/09c-path-reference-update
+    
+    docs: 09c production release workflowをclose-out
+
+commit 0af8040f78ac6fd2e116e48f4661712acc4ced16
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Fri May 1 10:50:16 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Fri May 1 10:50:16 2026 +0900
+
+    docs: close out 09c production release workflow
+
+commit aed346e7197e1d378b8dda7085ebf39108c34170
+Merge: d2555be4 31b9efeb
+Author:     daishiman <71166086+daishiman@users.noreply.github.com>
+AuthorDate: Fri May 1 06:13:46 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Fri May 1 06:13:46 2026 +0900
+
+    Merge pull request #334 from daishiman/feat/issue-246-ut-06-fu-a-prod-route-secret-001-task-spec
+    
+    docs(ut-06-fu-a): production Worker preflight close-out + skill sync
+
+commit d91df35b7641edcbcbbbc65291b3ddcc9ab72e64
+Merge: b1cbb76e 3800b4c1
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Thu Apr 30 19:45:16 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Thu Apr 30 19:45:16 2026 +0900
+
+    Merge remote-tracking branch 'origin/main' into feat/08b-parallel-playwright-e2e-and-ui-acceptance-smoke-scaffold
+    
+    # Conflicts:
+    #       .claude/skills/aiworkflow-requirements/SKILL.md
+    #       .claude/skills/aiworkflow-requirements/indexes/quick-reference.md
+    #       .claude/skills/aiworkflow-requirements/indexes/topic-map.md
+    #       .claude/skills/aiworkflow-requirements/references/legacy-ordinal-family-register.md
+    #       docs/30-workflows/02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/phase-04.md
+    #       docs/30-workflows/02-application-implementation/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/phase-10.md
+    #       docs/30-workflows/02-application-implementation/09b-parallel-cron-triggers-monitoring-and-release-runbook/phase-10.md
+    #       docs/30-workflows/02-application-implementation/09c-serial-production-deploy-and-post-release-verification/phase-10.md
+
+commit 5f710041c7b6971398193fbfb36e7414ce929986
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Thu Apr 30 19:40:29 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Thu Apr 30 19:40:29 2026 +0900
+
+    feat(ut-06-fu-a-prod-route-secret): production preflight close-out + skill sync
+    
+    UT-06-FU-A-PROD-ROUTE-SECRET-001 (docs-only Cloudflare Workers production
+    migration verification) を completed-tasks/ 配下に close-out し、
+    aiworkflow-requirements / task-specification-creator skills へ反映。
+    
+    - workflow root を docs/30-workflows/completed-tasks/ 配下に移動
+    - 未タスク 2 件 formalize: route-inventory-script-001 / logpush-target-diff-script-001
+    - aiworkflow-requirements: パスdrift補正、lessons-learned + artifact-inventory + LOGS fragment + changelog 新規
+    - task-specification-creator: phase-12-documentation-guide.md に 7 ファイル strict filename 表追加、phase-11-non-visual-alternative-evidence.md に Cloudflare preflight evidence template 追加
+    - phase-12-pitfalls.md に UBM-021/022 追記（unassigned-task formalize / NON_VISUAL infra 境界）
+    - indexes/keywords.json + topic-map.md は generate-index.js で再生成
+    
+    🤖 Generated with [Claude Code](https://claude.com/claude-code)
+    
+    Co-Authored-By: Claude <noreply@anthropic.com>
+
+commit 3800b4c1dabcdddac4cf2f990f0233f68d2c5e9b
+Merge: c1927efb 7f736901
+Author:     daishiman <71166086+daishiman@users.noreply.github.com>
+AuthorDate: Thu Apr 30 19:36:40 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Thu Apr 30 19:36:40 2026 +0900
+
+    Merge pull request #317 from daishiman/feat/issue-202-utgov001-second-stage-reapply-task-spec
+    
+    feat(utgov001): UT-GOV-001 second-stage reapply spec_created + skill sync
+
+commit 7f73690107068bccc8319037bca81d09c28067a7
+Merge: 9c635e03 c1927efb
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Thu Apr 30 19:31:44 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Thu Apr 30 19:31:44 2026 +0900
+
+    Merge branch 'main' into feat/issue-202-utgov001-second-stage-reapply-task-spec
+    
+    # Conflicts:
+    #       .claude/skills/aiworkflow-requirements/LOGS/_legacy.md
+    #       .claude/skills/aiworkflow-requirements/SKILL.md
+    #       .claude/skills/aiworkflow-requirements/indexes/keywords.json
+    #       .claude/skills/aiworkflow-requirements/indexes/resource-map.md
+    #       .claude/skills/aiworkflow-requirements/indexes/topic-map.md
+    #       .claude/skills/skill-creator/references/update-process.md
+    #       .claude/skills/task-specification-creator/SKILL.md
+    #       .claude/skills/task-specification-creator/references/phase-12-spec.md
+    #       docs/30-workflows/LOGS.md
+
+commit 59dd7746e250aeb32be4b13868eaec197642d1bb
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Thu Apr 30 18:36:14 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Thu Apr 30 18:36:14 2026 +0900
+
+    feat(utgov001): restore stashed second-stage reapply work and resolve conflicts
+
+commit 71e7a0977f63eb3712657ae9e2dc461f78afc872
+Merge: 151f6ea5 cf204fe5
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Thu Apr 30 16:34:31 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Thu Apr 30 16:40:06 2026 +0900
+
+    fix(ut-gov-002): build-test の NODE_ENV を production に明示注入
+    
+    origin/main 取り込み時のコンフリクト（LOGS/_legacy.md ヘッドライン）解消と
+    indexes:rebuild も同梱。
+    
+    問題: pr-build-test の build step が `apps/web` の Next.js prerender
+    (`/_not-found`) で `useContext` null TypeError で失敗。
+    原因: `.mise.toml` の `[env] NODE_ENV = "development"` が `mise exec --`
+    経由で Build step に漏れ、Next.js が development モードで build したため。
+    対応: pr-build-test.yml の Build step に `env: NODE_ENV: production` を
+    明示注入し、`.mise.toml` の development を上書き。
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 9c635e0305fb809e751fdb4f56a0805181e7261b
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Thu Apr 30 15:58:19 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Thu Apr 30 16:00:11 2026 +0900
+
+    feat(utgov001): UT-GOV-001 second-stage reapply spec_created + skill sync
+    
+    UT-GOV-004 で確定した実在 contexts (`ci`, `Validate Build`,
+    `verify-indexes-up-to-date`) を消費し、dev / main branch protection の
+    `required_status_checks.contexts` を Phase 13 user approval 後に再 PUT する
+    approval-gated NON_VISUAL implementation workflow を spec_created で登録。
+    
+    成果物:
+    - `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/`
+      Phase-01〜13 + outputs + artifacts.json + index.md + origin-unassigned-task.md
+    - 未タスク 3 件 (`task-utgov-downstream-precondition-link-001`,
+      `task-utgov001-drift-fix-001`, `task-utgov001-references-reflect-001`)
+    - aiworkflow-requirements: lessons-learned-utgov001-second-stage-reapply-2026-04
+      + workflow-utgov001-second-stage-reapply-artifact-inventory + indexes 同期
+    - task-specification-creator: phase-template-phase13(-detail) に
+      approval-gated NON_VISUAL implementation テンプレを正式昇格 + resource-map 導線
+    - skill-creator/update-process: Phase 3.8 適用先 reference 6 ファイル明示列挙
+    - scripts/hooks/staged-task-dir-guard.sh: 単一識別子 (>=5 chars) を
+      significant token として許容 + 30-workflows 直下のファイル (LOGS.md 等) を
+      task dir 判定から除外する誤検知修正
+    
+    Refs #202
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 79b76999a28fbf8a22f7c4d81e83102cc2b1cff8
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Thu Apr 30 12:44:24 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Thu Apr 30 12:44:24 2026 +0900
+
+    feat(api): add schema alias assignment workflow
+    
+    Implement schema diff stableKey recommendations, dry-run alias assignment, apply back-fill, collision handling, and audit logging. Sync Phase 12 documentation, aiworkflow requirements, follow-up tasks, and completed workflow artifacts.
+
+commit 0838cf972d361d7b36a758cda64b31645172890a
+Merge: e7260b68 7011855f
+Author:     daishiman <71166086+daishiman@users.noreply.github.com>
+AuthorDate: Thu Apr 30 12:26:06 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Thu Apr 30 12:26:06 2026 +0900
+
+    Merge pull request #281 from daishiman/feat/issue-48-ut-28-cloudflare-pages-projects-task-spec
+    
+    feat(ut-28): Cloudflare Pages projects creation (production/staging) と Phase-12 close-out
+
+commit 9dfaa4d365d374aa3b7a0c91daca4e36897b50d3
+Author:     dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+AuthorDate: Wed Apr 29 21:19:26 2026 +0000
+Commit:     GitHub <noreply@github.com>
+CommitDate: Wed Apr 29 21:19:26 2026 +0000
+
+    chore(deps): bump next-auth in /apps/web
+    
+    Bumps [next-auth](https://github.com/nextauthjs/next-auth) from 5.0.0-beta.25 to 5.0.0-beta.30.
+    - [Release notes](https://github.com/nextauthjs/next-auth/releases)
+    - [Commits](https://github.com/nextauthjs/next-auth/commits/next-auth@5.0.0-beta.30)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: next-auth
+      dependency-version: 5.0.0-beta.30
+      dependency-type: direct:production
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+commit ec323f6cb60843b2fe17e5ac728fca06dbd84143
+Author:     daishiman <daishimanju@gmail.com>
+AuthorDate: Thu Apr 30 05:33:39 2026 +0900
+Commit:     daishiman <daishimanju@gmail.com>
+CommitDate: Thu Apr 30 05:33:39 2026 +0900
+
+    feat(UT-28): Cloudflare Pages projects creation spec_created close-out
+    
+    - UT-28 タスクを `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/` に確定（Phase 1-13 spec_created / NON_VISUAL / Phase 13 user approval gate）
+    - production=`ubm-hyogo-web` (main), staging=`ubm-hyogo-web-staging` (dev), `compatibility_date=2025-01-01`, `nodejs_compat`, Pages Git Integration OFF を canonical 化
+    - `references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md` 新規作成（L-UT28-001〜005: production_branch 逆配線 / Variable suffix derivation / Pages Git Integration OFF / compatibility_date 同期 / OpenNext blocker handoff）
+    - aiworkflow-requirements indexes / SKILL.md / LOGS / lessons-learned hub / deployment 系 references / task-workflow-backlog を同 wave 同期
+    - OpenNext output-form blocker は UT-05 / `task-impl-opennext-workers-migration-001` に link、UT-28 では patch しない
+    
+    Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>
+
+commit 9f93f6fba558a0ccc0ee6433b218b52922167f11
+Merge: b0c96752 a1aa6d7b
+Author:     daishiman <71166086+daishiman@users.noreply.github.com>
+AuthorDate: Wed Apr 29 19:58:44 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Wed Apr 29 19:58:44 2026 +0900
+
+    Merge pull request #250 from daishiman/feat/ut-25-cloudflare-secrets-production-deploy
+    
+    feat(ut-25): Cloudflare Secrets 本番配置タスク仕様書とランブック追加

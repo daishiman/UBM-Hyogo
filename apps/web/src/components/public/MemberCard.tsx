@@ -1,6 +1,6 @@
 import type { z } from "zod";
 
-import { PublicMemberListItemZ } from "@ubm-hyogo/shared";
+import { PublicMemberListItemZ, STABLE_KEY } from "@ubm-hyogo/shared";
 
 import { Avatar } from "../ui/Avatar";
 
@@ -24,11 +24,11 @@ export function MemberCard({ member, density = "comfy" }: MemberCardProps) {
         />
         <div data-role="meta">
           <p data-role="name">{member.fullName}</p>
-          {member.nickname ? <p data-role="nickname">@{member.nickname}</p> : null}
+          {member.nickname ? <p data-role={STABLE_KEY.nickname}>@{member.nickname}</p> : null}
           {density !== "list" ? (
-            <p data-role="occupation">{member.occupation}</p>
+            <p data-role={STABLE_KEY.occupation}>{member.occupation}</p>
           ) : null}
-          <p data-role="location">{member.location}</p>
+          <p data-role={STABLE_KEY.location}>{member.location}</p>
           {member.ubmZone ? (
             <span data-role="zone">{member.ubmZone}</span>
           ) : null}

@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created
 allowed-tools:
   - Read
   - Write
@@ -28,14 +28,17 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
-| v2026.05.02-ut07b-fu03-runbook-evidence | 2026-05-02 | UT-07B-FU-03 production migration apply runbook の Phase 12 skill feedback を反映。production apply を実行しない NON_VISUAL runbook formalization では Phase 11 evidence を `structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md` に標準化し、`DOC_PASS` と runtime PASS を分離する。runbook formalization は root workflow state を `completed` に昇格せず `spec_created` + Phase 13 approval gate を維持する。 |
-| v2026.05.02-issue355-deploy-deferred-evidence-contract | 2026-05-02 | Issue #355 OpenNext Workers CD cutover spec review feedback を反映。`implementation / NON_VISUAL / deploy-deferred` workflow では Phase 11 の declared outputs を必ず実体化し、実測ログが未取得の場合は `PENDING_IMPLEMENTATION_FOLLOW_UP` evidence contract として保存する。Phase 7 は runtime `OK/PASS` ではなく `COVERED_BY_PLANNED_TEST` / `gate defined / pending follow-up execution` を使い、Phase 13 declared files は commit / push / PR / deploy 禁止を明示した blocked placeholder として配置する。 |
-| v2026.05.02-09a-phase11-helper-sync | 2026-05-02 | UT-09A execution smoke review feedback を反映。VISUAL_ON_EXECUTION / runtime smoke で Phase 11 `main.md` が PASS/BLOCKED/FAIL に進んだ場合、`manual-test-result.md` / `discovered-issues.md` / Phase 12 compliance / system summary を同一 runtime state へ同期し、`not_run` / `pending explicit user instruction` の stale helper 文言を残さない運用を追加。 |
-| v2026.05.02-06a-a-visual-on-execution-classifier | 2026-05-02 | 06a-A public-web real workers D1 smoke execution の skill feedback を反映。`scripts/validate-phase-output.js` の `classifyVisualEvidence` 正規表現を拡張し、`VISUAL_ON_EXECUTION` / `VISUAL_DEFERRED` を `non_visual` / `docs-only` / `spec_created` と同列に扱う。Phase 11 で実装/設計完了済みかつ UI 証跡を後続 runtime smoke で取得するタスクの誤検出（実行前スクリーンショット不足）を解消。`references/task-type-decision.md` に `VISUAL_ON_EXECUTION` の運用ルールを追記。 |
-| v2026.05.01-route-inventory-design-sync | 2026-05-01 | UT-06-FU-A route inventory script design close-out feedback を反映。docs-only design workflow が新 workflow root と implementation follow-up を作る場合、Phase 12 Step 1 で「実 command / output path の contract 昇格 no-op」と「workflow tracking / open follow-up / artifact inventory 同期」を分離して閉じる運用を追加。`InventoryReport` の competing schema（`reason` vs `notes`）や endpoint drift は Phase 12 で SSOT に戻す。`references/phase12-skill-feedback-promotion.md` に **Phase index / artifacts parity early gate**（Phase 0/1 で `index.md` と `artifacts.json.phases` の整合・root/outputs parity・canonical Phase 12 filename pre-check）と **Design GO / runtime GO 分離ルール**（docs-only design workflow で Phase 10/11/12 を Design GO のみで閉じ、実 command / output path の runtime GO は implementation follow-up 完了時に取得）を追加。 |
-| v2026.05.01-05b-a-env-contract-evidence | 2026-05-01 | 05b-A auth mail env contract alignment の skill feedback を反映。env-name contract docs-only workflow では Phase 11 NON_VISUAL evidence を `env-name-grep.md` / `secret-list-check.md` / `magic-link-smoke-readiness.md` の 3 点に標準化し、Phase 12 strict 7 files は template 記載だけでなく `outputs/phase-12/` 実体確認で閉じる運用を追加。 |
-| v2026.05.01-ut-07a-02-contract-path-discovery | 2026-05-01 | UT-07A-02 search-tags resolve contract follow-up skill-feedback 反映。Phase 2 で存在しない慣用パスを仮置きしないよう、`references/phase-template-core.md` に current repo layout discovery を追加。shared schema SSOT を API と web が既に共有できる場合は重複 union 型を作らず、追従対象表に source-of-truth file と consumer file を明記する。 |
-| v2026.05.01-adr-topology-drift-phase12-feedback | 2026-05-01 | UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION の skill feedback を反映。ADR 起票 / deploy target decision / topology drift docs-only task では Phase 1 に base case 別差分マトリクスを置き、Phase 4 doc-only grep、Phase 11 NON_VISUAL evidence、Phase 12 Step 2 stale contract withdrawal を標準化。 |
+| v2026.05.06-issue371-implemented-local-state-vocab | 2026-05-06 | Issue #371 UT-02A follow-up 003 Hono ctx DI migration の Phase 12 skill-feedback を反映。`spec_created` task に `apps/` / `packages/` の code wave が入った場合は同サイクル内で `implemented-local` へ再分類する手順を `references/phase-12-documentation-guide.md` に明文化。`CONTRACT_READY_IMPLEMENTATION_PENDING`（pre-code・docs/.claude のみ）と `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`（local PASS 5 点取得済 + runtime pending）の使い分けマトリクスを追加。`references/phase-11-guide.md` に状態語彙対応表と Phase 11 evidence canonical path 規約 `outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log` を local PASS 5 点セットとして固定。 |
+| v2026.05.06-workflow-path-existence-gate | 2026-05-06 | U-FIX-CF-ACCT-01-DERIV-02 token split review feedback を反映。CI/CD workflow 変更タスクでは Phase 2 / 5 / 9 / 12 で `.github/workflows/*.yml` の実在確認を必須化し、存在しない `deploy-staging.yml` / `deploy-production.yml` 等を正本として参照したまま PASS しない workflow path existence gate を追加。 |
+| v2026.05.05-task-05a-form-preview-503-bugfix-runbook-integrity | 2026-05-05 | task-05a-form-preview-503-001 の Phase 12 skill-feedback を反映。`references/phase12-skill-feedback-promotion.md` Applied Examples に bugfix / NON_VISUAL タスクの routing decision を 1 行追加。runbook 内 seed file 参照と `schema_versions.state` inline SQL の整合性を同 wave で実ドキュメント側に補正し、テンプレ差分は no-op routing。`logWarn({ code: "UBM-5500", context })` 構造化ログ追加と TC-RED-03 ルート 503 contract test 配置、runtime curl evidence を `PENDING_RUNTIME_EVIDENCE` で Phase 11 close-out する流れを併記。 |
+| v2026.05.05-issue379-stale-current-no-code | 2026-05-05 | Issue #379 schemaDiffQueue fakeD1 compat verification の skill feedback を反映。`implementation / NON_VISUAL` でも Phase 1 current baseline で報告 fail が再現せず GREEN の場合は `verified_current_no_code_change` (`implementation_mode=stale-current-verification`) として close-out できる Stale-current no-code verification rule を `references/phase12-skill-feedback-promotion.md` / `references/task-type-decision.md` に追加。元 unassigned task は consumed trace に書き換え、推測実装（fakeD1 parser 拡張 / seed edit / SQL rewrite）を撤回する。 |
+| v2026.05.05-09a-A-staging-deploy-smoke-execution | 2026-05-05 | 09a-A staging deploy smoke execution 仕様書策定 feedback を反映。`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 状態語彙（spec contract 完了 + runtime pending、`PASS` 単独表記禁止）を `phase-template-phase11.md` に追加。`phase-11-non-visual-alternative-evidence.md` に **D1 schema parity verification evidence** セクション（staging vs production の `migrations list` / `PRAGMA table_info` 比較、applied/pending 数値、差分時の `task-d1-prod-parity-followup-NNN.md` 自動発行）を追加。`phase-template-phase13.md` に **G1-G4 multi-stage approval gate**（runtime deploy / Forms sync / D1 apply / commit-push-PR を独立承認、合算承認禁止）を追加。 |
+| v2026.05.05-issue377-retry-tick-default-path | 2026-05-05 | Issue #377 retry tick + DLQ audit review feedback を反映。scheduled / queue retry workflow では injected failure callback だけでなく default scheduled path を focused test で証明し、retry/backoff/DLQ SQL は repository primitive に寄せる。 |
+| v2026.05.05-issue347-external-saas-decision-evidence | 2026-05-05 | Issue #347 Cloudflare Analytics export decision feedback を反映。外部 SaaS / Cloudflare dashboard 認証が必要な docs-only decision workflow では representative schema sample、runtime production sample、constraints file を分離し、user auth 不在の runtime sample を PASS 化しない。 |
+| v2026.05.05-06b-pending-banner-skill-audit | 2026-05-05 | 06b-B pending banner sticky の skill 反映監査を補強。`unassigned-task-required-sections.md` を SKILL.md References と `agents/generate-unassigned-task.md` リソース表に明示し導線化。`phase-12-documentation-guide.md` Task 12-3 へ「`.claude/skills/<skill>/LOGS.md` 更新行を canonical absolute path で必ず列挙する（SKILL.md だけ列挙して LOGS.md 省略は FAIL）」と必須エントリ最小セット表（skill 正本 / skill 履歴 / reference / workflow artifacts / outputs / system spec）を追加。 |
+| v2026.05.04-08b-a-runtime-contract-code-alignment | 2026-05-04 | 08b-A Playwright full execution review feedback を反映。VISUAL_ON_EXECUTION の docs formalization でも、実行時コードの report / screenshot 出力先が Phase 11 evidence manifest と不一致なら実コード設定を同一 wave で補正する。Phase 11 は `completed` と runtime PASS を混同せず `contract_ready_runtime_pending` 等の境界語彙で記録し、30+ screenshot / admin UI gate / direct API 403 / foreign content edit 403 / secret hygiene / zero skip inventory を fresh evidence 条件にする。 |
+| v2026.05.04-ut07b-fu04-already-applied-verification | 2026-05-04 | UT-07B-FU-04 review feedback を反映。production D1 ledger 既適用時は apply execution を already-applied verification へ再分類し、`d1 migrations apply` を forbidden path、`apply.log` を no-op prohibition evidence とする。post-check は target migration owned objects のみに限定し、placeholder evidence と fresh runtime evidence を Phase 12 で分離する。 |
+| v2026.05.04-ut-09a-cloudflare-cli-non-visual | 2026-05-04 | UT-09A Cloudflare auth token injection recovery feedback を反映。Cloudflare CLI / shell wrapper 系 NON_VISUAL Phase 11 は `phase-11-cloudflare-cli-non-visual-evidence.md` を使い、`main.md` PASS 後に helper artifacts / artifacts ledgers / Phase 12 compliance / aiworkflow index を同一 wave で runtime state に同期する。`whoami` exit 0 と deploy scope PASS を混同しない。 |
 
 ## 設計原則
 
@@ -76,13 +79,14 @@ node scripts/detect-mode.js --request "{{USER_REQUEST}}"
 
 ## Phase 12 重要仕様（要約）
 
-Phase 12 は次の 5 必須タスクに加え、Task 6 compliance check（`outputs/phase-12/phase12-task-spec-compliance-check.md`）を作成し、最低 7 ファイルを実体確認する:
+Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを実体確認する（Task 6 は実態として全タスクが生成しているため 6 番目に昇格）:
 
 1. 実装ガイド作成（Part 1 中学生レベル + Part 2 技術者レベル）
 2. システム仕様書更新（Step 1-A/B/C + 条件付き Step 2）
 3. ドキュメント更新履歴作成
-4. 未タスク検出レポート作成（**0 件でも出力必須**）
-5. スキルフィードバックレポート作成（**改善点なしでも出力必須**）
+4. 未タスク検出レポート作成（**0 件でも出力必須**。coverage 型タスクは coverage layer 表 `file/before%/after%/delta%` で代替可能）
+5. スキルフィードバックレポート作成（**改善点なしでも出力必須**。章立ては「テンプレ改善 / ワークフロー改善 / ドキュメント改善」の 3 観点固定）
+6. タスク仕様書コンプライアンスチェック（`outputs/phase-12/phase12-task-spec-compliance-check.md`）
 
 詳細仕様（Part 1/2 セルフチェック・Step 1-A〜1-D ルール・`spec_created` close-out・docs-only → code 再判定）は [references/phase-12-spec.md](references/phase-12-spec.md)。`spec_created` / docs-only / NON_VISUAL は root workflow state を据え置き、Phase status と 7 ファイル実体・current/baseline 監査値で検証する。よくある漏れ（UBM-009〜017 含む）と苦戦防止 Tips は [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md)。
 
@@ -116,9 +120,13 @@ Phase 12 は次の 5 必須タスクに加え、Task 6 compliance check（`outpu
 | Phase 12 重要仕様（5 タスク詳細） | [references/phase-12-spec.md](references/phase-12-spec.md) |
 | Phase 12 skill feedback promotion | [references/phase12-skill-feedback-promotion.md](references/phase12-skill-feedback-promotion.md) |
 | Phase 12 よくある漏れ / 苦戦防止 Tips | [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md) |
+| Phase 12 sync パターン（aiworkflow-requirements 同時更新 / workflow root 移動チェックリスト） | [references/patterns-phase12-sync.md](references/patterns-phase12-sync.md) |
+| 未タスクテンプレ必須 4 セクション（苦戦箇所 / リスクと対策 / 検証方法 / スコープ） | [references/unassigned-task-required-sections.md](references/unassigned-task-required-sections.md) |
 | 品質ゲート / Phase 境界 / 検証コマンド導線（commands.md とハブ関係） | [references/quality-gates.md](references/quality-gates.md) |
 | オーケストレーション / リソース導線 / ベストプラクティス | [references/orchestration.md](references/orchestration.md) |
 | NON_VISUAL governance パターン（Phase 8 単一正本 YAML / check-runs 並走 / Phase 13 二重承認） | [lessons-learned/non-visual-governance-pattern.md](lessons-learned/non-visual-governance-pattern.md) |
+| NON_VISUAL 不可逆操作タスク（3-gate 分離 / migration literal / SSOT リテラル禁則 / runtime spec_created 起票） | [references/non-visual-irreversible-task-rules.md](references/non-visual-irreversible-task-rules.md) |
+| Completed Tasks Path Normalization（Phase 13 完了後の `completed-tasks/<category>/` 移動 / `Refs #XXX` 連結 / metadata 据え置き） | [references/completed-tasks-policy.md](references/completed-tasks-policy.md) |
 
 ## 最小 workflow
 
@@ -157,3 +165,4 @@ docs-only / `spec_created` タスクは workflow root を据え置き、`phases[
 ### 第一適用例（drink-your-own-champagne）
 
 `docs/30-workflows/ut-gov-005-docs-only-nonvisual-template-skill-sync/` 自身が本フローの第一適用例。
+e-skill-sync/` 自身が本フローの第一適用例。

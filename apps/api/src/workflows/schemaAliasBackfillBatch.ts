@@ -1,0 +1,255 @@
+// UT-07B-FU-01: schema alias back-fill の 1 batch 単位 workflow。
+// alias 確定（Stage 1）から責務分離した remaining-scan + idempotent UPDATE 処理。
+//
+// 不変条件 #5: D1 アクセスは apps/api 内のみ。本 workflow は apps/api/src/workflows 配下に閉じる。
+//
+// 設計根拠: docs/30-workflows/ut-07b-fu-01-schema-alias-backfill-queue-cron-split/phase-02.md
+//   判断 2 / 判断 5 / 判断 6
+//
+// 呼び出し主体:
+//   - apps/api/src/index.ts queue() handler（Cloudflare Queue consumer）
+//   - apps/api/src/index.ts scheduled() handler（Cron fallback / 未採用時は呼ばれない）
+//   - apps/api/src/routes/admin/schema.ts apply route（同期実行 path 互換維持時のみ）
+
+import type { DbCtx } from "../repository/_shared/db";
+import {
+  backfillResponseFields,
+  backfillResponseFieldsByCursor,
+  type SchemaAliasBackfillResult,
+} from "./schemaAliasAssign";
+import {
+  recordBatchProgress,
+  getBackfillCursor,
+} from "../repository/schemaDiffQueue";
+
+// Issue #503: shadow flag for A/B comparison between remaining-scan and cursor mode.
+// public API contract `backfill.status` 不変。
+export type BackfillCursorMode = "remaining-scan" | "cursor";
+
+export const DEFAULT_BACKFILL_CURSOR_MODE: BackfillCursorMode = "remaining-scan";
+
+/**
+ * env value から mode を解決する純関数。
+ * 不正値は default fallback。caller 側で warn log すること。
+ */
+export const resolveBackfillCursorMode = (
+  envValue: string | undefined | null,
+): BackfillCursorMode => {
+  if (envValue === "cursor") return "cursor";
+  if (envValue === "remaining-scan") return "remaining-scan";
+  return DEFAULT_BACKFILL_CURSOR_MODE;
+};
+
+/**
+ * env 解釈の wrapper。不正値時は console.warn を伴う。
+ */
+export const resolveBackfillCursorModeWithLog = (
+  envValue: string | undefined | null,
+): BackfillCursorMode => {
+  const resolved = resolveBackfillCursorMode(envValue);
+  if (
+    envValue !== undefined &&
+    envValue !== null &&
+    envValue !== "cursor" &&
+    envValue !== "remaining-scan"
+  ) {
+    console.warn(
+      `BACKFILL_CURSOR_MODE invalid value '${envValue}', falling back to '${DEFAULT_BACKFILL_CURSOR_MODE}'`,
+    );
+  } else if (resolved === "cursor") {
+    console.info("BACKFILL_CURSOR_MODE cursor mode active (shadow A/B)");
+  }
+  return resolved;
+};
+
+export interface BackfillBatchInput {
+  diffId: string;
+  questionId: string;
+  newStableKey: string;
+  maxBatchRows?: number;
+  cpuBudgetMs?: number;
+  retryCount?: number;
+  // Issue #503: shadow flag。指定時は cursor 経路を使う。未指定は remaining-scan。
+  mode?: BackfillCursorMode;
+}
+
+export interface BackfillBatchResult {
+  // 公開契約値（API response の backfill.status と同一値域）
+  status: "running" | "exhausted" | "completed" | "failed";
+  processed: number;
+  remaining: number;
+  failedItems: Array<{ responseId: string; error: string }>;
+  retryCount: number;
+  lastProcessedAt: string;
+  // 次 enqueue 必要性。consumer 側で判断する
+  needsReEnqueue: boolean;
+}
+
+export const DEFAULT_MAX_BATCH_ROWS = 500;
+export const DEFAULT_CPU_BUDGET_MS = 25_000;
+export const RETRY_COUNT_LIMIT = 5;
+
+const countRemaining = async (
+  c: DbCtx,
+  questionId: string,
+): Promise<number> => {
+  const extraKey = `__extra__:${questionId}`;
+  const r = await c.db
+    .prepare(
+      `SELECT count(*) AS c FROM response_fields
+       WHERE stable_key = ?1
+         AND response_id NOT IN (
+           SELECT mi.current_response_id FROM member_identities mi
+           INNER JOIN deleted_members dm ON dm.member_id = mi.member_id
+         )`,
+    )
+    .bind(extraKey)
+    .first<{ c: number }>();
+  return r?.c ?? 0;
+};
+
+/**
+ * 1 batch を実行する。冪等：再実行しても同一 stable_key の更新は no-op。
+ *
+ * - remaining-scan model: 残件は毎 batch で COUNT(*) 再評価（cursor 不要）
+ * - failed_items: 例外発生時 retry_count++ し、上限到達で `failed` 遷移
+ * - completed: remaining=0 で completed
+ */
+export const runBackfillBatch = async (
+  c: DbCtx,
+  input: BackfillBatchInput,
+): Promise<BackfillBatchResult> => {
+  const lastProcessedAt = new Date().toISOString();
+  const retryCount = input.retryCount ?? 0;
+  const cpuBudgetMs = input.cpuBudgetMs ?? DEFAULT_CPU_BUDGET_MS;
+  const maxBatchRows = input.maxBatchRows ?? DEFAULT_MAX_BATCH_ROWS;
+  const mode: BackfillCursorMode = input.mode ?? DEFAULT_BACKFILL_CURSOR_MODE;
+
+  let result: SchemaAliasBackfillResult;
+  let nextCursor: string | null = null;
+  try {
+    if (mode === "cursor") {
+      const startCursor = await getBackfillCursor(c, input.diffId);
+      const r = await backfillResponseFieldsByCursor(
+        c,
+        input.questionId,
+        input.newStableKey,
+        maxBatchRows,
+        cpuBudgetMs,
+        startCursor,
+      );
+      result = r.result;
+      nextCursor = r.nextCursor;
+    } else {
+      result = await backfillResponseFields(
+        c,
+        input.questionId,
+        input.newStableKey,
+        maxBatchRows,
+        cpuBudgetMs,
+      );
+    }
+  } catch (e) {
+    const message = e instanceof Error ? e.message : String(e);
+    const nextRetry = retryCount + 1;
+    const failed = nextRetry >= RETRY_COUNT_LIMIT;
+    const failedItems = [{ responseId: "*", error: message }];
+    await recordBatchProgress(c, input.diffId, {
+      status: failed ? "failed" : "exhausted",
+      retryCount: nextRetry,
+      failedItemsJson: JSON.stringify(failedItems),
+      lastError: message,
+      lastProcessedAt,
+    });
+    return {
+      status: failed ? "failed" : "exhausted",
+      processed: 0,
+      remaining: await countRemaining(c, input.questionId),
+      failedItems,
+      retryCount: nextRetry,
+      lastProcessedAt,
+      needsReEnqueue: !failed,
+    };
+  }
+
+  const remaining = await countRemaining(c, input.questionId);
+
+  if (result.status === "completed" && remaining === 0) {
+    await recordBatchProgress(c, input.diffId, {
+      status: "completed",
+      cursor: null,
+      lastProcessedAt,
+    });
+    return {
+      status: "completed",
+      processed: result.updated,
+      remaining: 0,
+      failedItems: [],
+      retryCount,
+      lastProcessedAt,
+      needsReEnqueue: false,
+    };
+  }
+
+  // exhausted（CPU budget 枯渇）または completed だが remaining > 0（race / fixture 矛盾）
+  const nextRetry = retryCount + 1;
+  if (nextRetry >= RETRY_COUNT_LIMIT) {
+    await recordBatchProgress(c, input.diffId, {
+      status: "failed",
+      retryCount: nextRetry,
+      lastError: "retry_count_limit_exceeded",
+      lastProcessedAt,
+    });
+    return {
+      status: "failed",
+      processed: result.updated,
+      remaining,
+      failedItems: [],
+      retryCount: nextRetry,
+      lastProcessedAt,
+      needsReEnqueue: false,
+    };
+  }
+
+  await recordBatchProgress(c, input.diffId, {
+    status: "exhausted",
+    cursor:
+      mode === "cursor"
+        ? result.status === "exhausted"
+          ? nextCursor
+          : null
+        : result.status === "exhausted"
+          ? result.cursor
+          : String(result.updated),
+    retryCount: nextRetry,
+    lastProcessedAt,
+  });
+  return {
+    status: "exhausted",
+    processed: result.updated,
+    remaining,
+    failedItems: [],
+    retryCount: nextRetry,
+    lastProcessedAt,
+    needsReEnqueue: true,
+  };
+};
+
+/**
+ * dedupe_key 算出: 同一 (diffId, questionId, newStableKey) の re-enqueue を弾く。
+ * 弱い hash で十分（衝突よりも duplicate enqueue 抑止が目的）。
+ */
+export const computeDedupeKey = async (
+  diffId: string,
+  questionId: string,
+  newStableKey: string,
+): Promise<string> => {
+  const data = new TextEncoder().encode(
+    `${diffId}\u0000${questionId}\u0000${newStableKey}`,
+  );
+  const digest = await crypto.subtle.digest("SHA-256", data);
+  const bytes = new Uint8Array(digest);
+  let hex = "";
+  for (const b of bytes) hex += b.toString(16).padStart(2, "0");
+  return hex;
+};

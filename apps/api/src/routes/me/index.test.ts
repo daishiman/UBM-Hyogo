@@ -22,7 +22,12 @@ import {
   MeProfileResponseZ,
   MeSessionResponseZ,
   MeQueueAcceptedResponseZ,
+  MeAttendancePageResponseZ,
 } from "./schemas";
+import {
+  encodeAttendanceCursor,
+  decodeAttendanceCursor,
+} from "../../repository/attendance";
 
 const seedMember = async (env: InMemoryD1) => {
   const insert = (table: string, row: Record<string, unknown>) => {
@@ -113,6 +118,16 @@ describe("/me/* — member self-service API", () => {
 
   describe("GET /me/profile", () => {
     it("AC-3 / AC-8: MemberProfile + editResponseUrl を返し、notes を含まない", async () => {
+      await env.db
+        .prepare(
+          "INSERT INTO meeting_sessions (session_id, title, held_on, created_by) VALUES ('s_route_me','Route ME','2026-05-06','admin')",
+        )
+        .run();
+      await env.db
+        .prepare(
+          "INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES ('m_001','s_route_me','admin')",
+        )
+        .run();
       const { app, env: e } = buildApp(env);
       const res = await app.request("/profile", {}, e);
       expect(res.status).toBe(200);
@@ -122,6 +137,9 @@ describe("/me/* — member self-service API", () => {
       expect(parsed.editResponseUrl).toBe(
         "https://docs.google.com/forms/edit/r_001",
       );
+      expect(parsed.profile.attendance).toEqual([
+        { sessionId: "s_route_me", title: "Route ME", heldOn: "2026-05-06" },
+      ]);
       // notes leak 0 (#12)
       expect(JSON.stringify(json)).not.toMatch(/"notes"|"adminNotes"/);
     });
@@ -143,6 +161,198 @@ describe("/me/* — member self-service API", () => {
       const { app, env: e } = buildApp(env, null);
       const res = await app.request("/profile", {}, e);
       expect(res.status).toBe(401);
+    });
+
+    // 06b-followup-001 (#428): server-side pending state の reload 永続性
+    it("06b-fu-001: pending が無い場合は pendingRequests={}", async () => {
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/profile", {}, e);
+      expect(res.status).toBe(200);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests).toEqual({});
+    });
+
+    it("06b-fu-001: visibility_request POST 後の reload で pendingRequests.visibility が返る", async () => {
+      const { app, env: e } = buildApp(env);
+      const post = await app.request(
+        "/visibility-request",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ desiredState: "hidden", reason: "一時" }),
+        },
+        e,
+      );
+      expect(post.status).toBe(202);
+      const accepted = MeQueueAcceptedResponseZ.parse(await post.json());
+
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests.visibility?.queueId).toBe(accepted.queueId);
+      expect(parsed.pendingRequests.visibility?.status).toBe("pending");
+      expect(parsed.pendingRequests.visibility?.desiredState).toBe("hidden");
+      expect(parsed.pendingRequests.delete).toBeUndefined();
+    });
+
+    it("06b-fu-001: delete_request POST 後の reload で pendingRequests.delete が返る", async () => {
+      const { app, env: e } = buildApp(env);
+      const post = await app.request(
+        "/delete-request",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({}),
+        },
+        e,
+      );
+      expect(post.status).toBe(202);
+
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests.delete?.status).toBe("pending");
+      expect(parsed.pendingRequests.visibility).toBeUndefined();
+    });
+
+    it("06b-fu-001: resolved 行は pending として返さない", async () => {
+      // 直接 resolved 状態の note を入れて pending ではないことを確認
+      await env.db
+        .prepare(
+          "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, request_status, resolved_at, created_by, updated_by, created_at, updated_at) VALUES ('n_resolved','m_001','{}','visibility_request','resolved',1,'admin@example.com','admin@example.com','2026-05-04T00:00:00Z','2026-05-04T00:00:00Z')",
+        )
+        .run();
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests.visibility).toBeUndefined();
+    });
+
+    it("06b-fu-001: 最新が resolved でも古い pending があれば banner 用 pendingRequests.visibility を返す", async () => {
+      await env.db
+        .prepare(
+          "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, request_status, created_by, updated_by, created_at, updated_at) VALUES ('n_pending_old','m_001','{\"payload\":{\"desiredState\":\"public\"}}','visibility_request','pending','admin@example.com','admin@example.com','2026-05-04T00:00:00Z','2026-05-04T00:00:00Z')",
+        )
+        .run();
+      await env.db
+        .prepare(
+          "INSERT INTO admin_member_notes (note_id, member_id, body, note_type, request_status, resolved_at, created_by, updated_by, created_at, updated_at) VALUES ('n_resolved_new','m_001','{}','visibility_request','resolved',1,'admin@example.com','admin@example.com','2026-05-04T01:00:00Z','2026-05-04T01:00:00Z')",
+        )
+        .run();
+
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.pendingRequests.visibility?.queueId).toBe("n_pending_old");
+      expect(parsed.pendingRequests.visibility?.desiredState).toBe("public");
+    });
+  });
+
+  // issue-372: 出席履歴のページング
+  describe("GET /me/attendance — pagination", () => {
+    const seedSessions = async (count: number) => {
+      for (let i = 0; i < count; i++) {
+        const sid = `s_${String(i).padStart(3, "0")}`;
+        const day = String((i % 28) + 1).padStart(2, "0");
+        const heldOn = `2026-${String((i % 12) + 1).padStart(2, "0")}-${day}`;
+        await env.db
+          .prepare(
+            "INSERT INTO meeting_sessions (session_id, title, held_on, note, created_at, created_by) VALUES (?, ?, ?, NULL, ?, 'admin')",
+          )
+          .bind(sid, `題目${i}`, heldOn, "2026-01-01T00:00:00Z")
+          .run();
+        await env.db
+          .prepare(
+            "INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES (?, ?, 'admin')",
+          )
+          .bind("m_001", sid)
+          .run();
+      }
+    };
+
+    it("default limit 50 件 + hasMore=true / nextCursor 返却（60 件投入）", async () => {
+      await seedSessions(60);
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/profile", {}, e);
+      expect(res.status).toBe(200);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.profile.attendance).toHaveLength(50);
+      expect(parsed.profile.attendanceMeta?.hasMore).toBe(true);
+      expect(parsed.profile.attendanceMeta?.nextCursor).not.toBeNull();
+    });
+
+    it("件数 ≤ default なら hasMore=false / nextCursor=null", async () => {
+      await seedSessions(10);
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/profile", {}, e);
+      const parsed = MeProfileResponseZ.parse(await res.json());
+      expect(parsed.profile.attendance).toHaveLength(10);
+      expect(parsed.profile.attendanceMeta?.hasMore).toBe(false);
+      expect(parsed.profile.attendanceMeta?.nextCursor).toBeNull();
+    });
+
+    it("/me/attendance: cursor で次ページが取れる", async () => {
+      await seedSessions(60);
+      const { app, env: e } = buildApp(env);
+      const first = await app.request("/profile", {}, e);
+      const firstBody = MeProfileResponseZ.parse(await first.json());
+      const cur = firstBody.profile.attendanceMeta!.nextCursor!;
+
+      const next = await app.request(
+        `/attendance?cursor=${encodeURIComponent(cur)}`,
+        {},
+        e,
+      );
+      expect(next.status).toBe(200);
+      const nextBody = MeAttendancePageResponseZ.parse(await next.json());
+      expect(nextBody.records).toHaveLength(10);
+      expect(nextBody.hasMore).toBe(false);
+      expect(nextBody.nextCursor).toBeNull();
+      // first page と次ページで重複しない
+      const firstSet = new Set(firstBody.profile.attendance.map((r) => r.sessionId));
+      for (const r of nextBody.records) {
+        expect(firstSet.has(r.sessionId)).toBe(false);
+      }
+    });
+
+    it("/me/attendance: limit=10 で 10 件 + hasMore=true", async () => {
+      await seedSessions(15);
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/attendance?limit=10", {}, e);
+      const body = MeAttendancePageResponseZ.parse(await res.json());
+      expect(body.records).toHaveLength(10);
+      expect(body.hasMore).toBe(true);
+      expect(body.nextCursor).not.toBeNull();
+    });
+
+    it("/me/attendance: 不正 cursor は 400", async () => {
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/attendance?cursor=!!invalid!!", {}, e);
+      expect(res.status).toBe(400);
+      const body = (await res.json()) as { code: string };
+      expect(body.code).toBe("INVALID_CURSOR");
+    });
+
+    it("/me/attendance: limit=0 は 400", async () => {
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/attendance?limit=0", {}, e);
+      expect(res.status).toBe(400);
+    });
+
+    it("/me/attendance: 未ログインは 401", async () => {
+      const { app, env: e } = buildApp(env, null);
+      const res = await app.request("/attendance", {}, e);
+      expect(res.status).toBe(401);
+    });
+
+    it("/me/attendance: cursor 経由で nextCursor をデコードすると最終 record の (heldOn,sessionId)", async () => {
+      await seedSessions(60);
+      const { app, env: e } = buildApp(env);
+      const res = await app.request("/attendance?limit=5", {}, e);
+      const body = MeAttendancePageResponseZ.parse(await res.json());
+      const last = body.records[body.records.length - 1]!;
+      const decoded = decodeAttendanceCursor(body.nextCursor!);
+      expect(decoded).toEqual({ heldOn: last.heldOn, sessionId: last.sessionId });
+      // encode roundtrip
+      expect(encodeAttendanceCursor(decoded!)).toBe(body.nextCursor);
     });
   });
 

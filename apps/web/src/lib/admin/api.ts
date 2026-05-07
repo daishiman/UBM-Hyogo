@@ -75,11 +75,57 @@ export const restoreMember = (memberId: string) =>
 export const resolveTagQueue = (queueId: string, body: TagQueueResolveBody) =>
   call(`/tags/queue/${encodeURIComponent(queueId)}/resolve`, "POST", body);
 
+export type SchemaAliasBackfillStatus =
+  | "pending"
+  | "running"
+  | "exhausted"
+  | "completed";
+
+export interface SchemaAliasApplySuccessBody {
+  ok: true;
+  mode: "apply";
+  confirmed: true;
+  backfill: {
+    status: SchemaAliasBackfillStatus;
+    remaining?: number;
+    lastProcessedAt?: string;
+    dedupeKey?: string;
+    enqueued?: boolean;
+    code?: "backfill_cpu_budget_exhausted";
+    retryable?: boolean;
+  };
+}
+
+export interface SchemaAliasApplyDryRunBody {
+  ok: true;
+  mode: "dryRun";
+  confirmed?: false;
+}
+
+export type SchemaAliasApplyBody =
+  | SchemaAliasApplySuccessBody
+  | SchemaAliasApplyDryRunBody;
+
 export const postSchemaAlias = (body: {
   questionId: string;
   stableKey: string;
   diffId?: string;
-}) => call(`/schema/aliases`, "POST", body);
+}): Promise<AdminMutationResult<SchemaAliasApplyBody>> =>
+  call<SchemaAliasApplyBody>(`/schema/aliases`, "POST", body);
+
+export const isSchemaAliasRetryableContinuation = (
+  r: AdminMutationResult<SchemaAliasApplyBody>,
+): r is AdminMutationOk<SchemaAliasApplySuccessBody> => {
+  if (!r.ok || r.status !== 202) return false;
+  const body = r.data;
+  if (typeof body !== "object" || body === null) return false;
+  if (!("mode" in body) || body.mode !== "apply") return false;
+  return (
+    body.backfill?.status === "exhausted" &&
+    body.backfill?.retryable === true &&
+    body.backfill?.code === "backfill_cpu_budget_exhausted"
+  );
+};
 
 export const resolveAdminRequest = (
   noteId: string,
@@ -94,11 +140,19 @@ export const resolveAdminRequest = (
 export const createMeeting = (body: { title: string; heldOn: string; note?: string | null }) =>
   call(`/meetings`, "POST", body);
 
+export const updateMeeting = (
+  sessionId: string,
+  body: { title?: string; heldOn?: string; note?: string | null; deletedAt?: string | null },
+) => call(`/meetings/${encodeURIComponent(sessionId)}`, "PATCH", body);
+
 export const addAttendance = (sessionId: string, memberId: string) =>
-  call(`/meetings/${encodeURIComponent(sessionId)}/attendance`, "POST", { memberId });
+  call(`/meetings/${encodeURIComponent(sessionId)}/attendances`, "POST", {
+    memberId,
+    attended: true,
+  });
 
 export const removeAttendance = (sessionId: string, memberId: string) =>
-  call(
-    `/meetings/${encodeURIComponent(sessionId)}/attendance/${encodeURIComponent(memberId)}`,
-    "DELETE",
-  );
+  call(`/meetings/${encodeURIComponent(sessionId)}/attendances`, "POST", {
+    memberId,
+    attended: false,
+  });

@@ -38,6 +38,14 @@ full-execution へ昇格する条件:
 - Playwright HTML/JSON report と real `axe-report.json` が保存済み
 - PR / push CI gate は skipped spec なしで green
 
+### UBM-Hyogo Web full execution 仕様（08b-A）
+
+`docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/` は 08b scaffold を実行可能な gate に昇格するための current execution workflow。状態は `spec_created` / `implementation-spec` / `VISUAL_ON_EXECUTION` / `Phase 1-10 and 12 completed` / `Phase 11 contract_ready_runtime_pending` / `Phase 13 pending_user_approval`。
+
+この workflow の Phase 12 は spec completeness を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として閉じる。実 Playwright 実行、desktop/mobile screenshot、real axe report、Playwright HTML/JSON report、PR/push CI gate promotion は Phase 11 runtime cycle でのみ fresh evidence にできる。
+
+必須 evidence manifest は `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence-manifest.md`。非 admin `/admin/*` UI gate、direct `/api/admin/*` API gate、admin session による他人本文編集 403 は別ファイルで保存し、UI redirect だけを admin authorization PASS と扱わない。desktop/mobile screenshot は合計 30 枚以上を最低ラインにする。
+
 ---
 
 ## テスト構成

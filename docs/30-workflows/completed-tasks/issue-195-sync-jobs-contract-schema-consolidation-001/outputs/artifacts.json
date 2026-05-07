@@ -1,0 +1,41 @@
+{
+  "taskId": "task-issue-195-sync-jobs-contract-schema-consolidation-001",
+  "taskName": "sync_jobs job_type / metrics_json runtime contract 集約（runtime SSOT 配置 ADR + owner 表登録 + contract test 補強）",
+  "directory": "docs/30-workflows/issue-195-sync-jobs-contract-schema-consolidation-001",
+  "issueNumber": 435,
+  "issueState": "CLOSED",
+  "parentTask": "docs/30-workflows/completed-tasks/03b-followup-005-sync-jobs-design-spec",
+  "relatedTask": "docs/30-workflows/completed-tasks/issue-195-03b-followup-002-sync-shared-modules-owner",
+  "unassignedSource": "docs/30-workflows/unassigned-task/task-issue195-sync-jobs-contract-schema-consolidation-001.md",
+  "wave": 5,
+  "executionMode": "parallel",
+  "owner": "backend-sync",
+  "createdDate": "2026-05-04",
+  "status": "implemented-local",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "userApproval": "REQUIRED",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementation_status": "implemented-local",
+    "runtimeEvidence": "captured_non_visual",
+    "canonicalPath": "docs/30-workflows/issue-195-sync-jobs-contract-schema-consolidation-001/"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義（Why/What/不変条件/4条件評価/AC 再マッピング/苦戦箇所引き継ぎ）", "file": "phase-01.md", "status": "completed" },
+    { "phase": 2, "name": "設計（runtime SSOT 配置 ADR 構成 + owner 表行スキーマ + 参照リンク経路）", "file": "phase-02.md", "status": "completed" },
+    { "phase": 3, "name": "実装計画（変更ファイル一覧 + 編集順序 + ロールバック手順）", "file": "phase-03.md", "status": "completed" },
+    { "phase": 4, "name": "verify suite 設計（typecheck / vitest / grep / indexes drift / 1-hop 到達 grep）", "file": "phase-04.md", "status": "completed" },
+    { "phase": 5, "name": "既存 contract test カバレッジ棚卸し（不足ケース抽出）", "file": "phase-05.md", "status": "completed" },
+    { "phase": 6, "name": "runtime SSOT 配置 ADR 追記 + owner 表行追加 + 参照リンク追記", "file": "phase-06.md", "status": "completed" },
+    { "phase": 7, "name": "contract test 補強（不足時のみ） + database-schema.md 参照再確認", "file": "phase-07.md", "status": "completed" },
+    { "phase": 8, "name": "unassigned-task ステータス更新 + 03a/03b spec への 1-hop 参照確認", "file": "phase-08.md", "status": "completed" },
+    { "phase": 9, "name": "indexes 再生成 + drift 検証 + typecheck/lint/test 実行", "file": "phase-09.md", "status": "completed" },
+    { "phase": 10, "name": "レビュー + 整合確認（ADR と owner 表と markdown 論理正本の 1:1 対応）", "file": "phase-10.md", "status": "completed" },
+    { "phase": 11, "name": "NON_VISUAL evidence 収集（grep / typecheck / vitest / indexes diff / 1-hop 到達）", "file": "phase-11.md", "status": "completed" },
+    { "phase": 12, "name": "実装ガイド + 仕様書同期 + 未タスク検出 + skill feedback（strict 7 ファイル）", "file": "phase-12.md", "status": "completed" },
+    { "phase": 13, "name": "PR 作成準備（Refs #435・user approval required）", "file": "phase-13.md", "status": "pending_user_approval" }
+  ]
+}

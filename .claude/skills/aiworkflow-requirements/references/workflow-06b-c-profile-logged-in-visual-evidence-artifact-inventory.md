@@ -5,7 +5,7 @@
 | Item | Value |
 | --- | --- |
 | Task ID | 06b-C-profile-logged-in-visual-evidence |
-| Workflow | `docs/30-workflows/06b-C-profile-logged-in-visual-evidence/` |
+| Workflow | `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/` |
 | Status | implementation-prepared / implementation-spec / VISUAL_ON_EXECUTION |
 | Sync date | 2026-05-03 |
 | Phase 11 | PENDING_RUNTIME_EVIDENCE (storageState + execution required) |
@@ -20,8 +20,8 @@
 | Playwright config | `apps/web/playwright.config.ts` (`staging` project, `PLAYWRIGHT_STAGING_BASE_URL`, optional `storageState`) |
 | Capture wrapper | `scripts/capture-profile-evidence.sh` (production URL guard, storageState exit 4 guard) |
 | Auth state dir | `apps/web/playwright/.auth/.gitkeep` (state JSON ignored via `.gitignore`) |
-| Evidence dirs | `docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/{screenshots,dom}/.gitkeep` |
-| Workflow artifacts | `docs/30-workflows/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/` (7 files) |
+| Evidence dirs | `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/{screenshots,dom}/.gitkeep` |
+| Workflow artifacts | `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-12/` (7 files) |
 
 ## Contract
 
@@ -29,7 +29,7 @@
 - Capture wrapper exits 4 when `--storage-state` path is absent, distinguishing "not_executed" from "infra failure".
 - `apps/web/playwright/.auth/*.json` is ignored by `.gitignore`; only `.gitkeep` is committed.
 - `evidence_status` for Phase 11 takes one of: `not_implemented` / `PENDING_RUNTIME_EVIDENCE` / `captured`.
-- Runtime screenshot capture is delegated to `task-06b-c-profile-logged-in-runtime-evidence-execution-001` (user-approved gate).
+- Runtime screenshot capture is delegated to `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/` (promoted from `task-06b-c-profile-logged-in-runtime-evidence-execution-001`; user-approved gate).
 
 ## Evidence Path Map
 
@@ -62,4 +62,5 @@
 - `references/legacy-ordinal-family-register.md` (UT-06B → 06b-C alias)
 - `references/lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md` (L-06B-001〜008)
 - `changelog/20260503-06b-C-profile-logged-in-visual-evidence.md`
-- Unassigned (runtime execution): `docs/30-workflows/unassigned-task/task-06b-c-profile-logged-in-runtime-evidence-execution-001.md`
+- Runtime execution workflow: `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/`
+- Promoted unassigned pointer (do not execute from unassigned): `docs/30-workflows/completed-tasks/task-06b-c-profile-logged-in-runtime-evidence-execution-001.md`

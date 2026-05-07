@@ -45,6 +45,16 @@
 - **教訓**: cursor を `(last_submitted_at, source_member_id)` の複合キーとし、SQL 側は `ORDER BY last_submitted_at DESC, source_member_id ASC` で固定する。03b sync の `(submittedAt DESC, responseId DESC)` パターンを admin list にも踏襲。
 - **適用**: 監査・ledger・候補リスト系の cursor pagination は **時刻 + 一意 ID の複合キー** を既定とする。単一時刻 cursor は禁止。
 
+### L-IDENT-007: canonical alias closeout は **metadata parity だけでは不十分、Phase 本文 grep が必須**（2026-05-04 04c-followup-001 alias closeout）
+- **背景**: `docs/30-workflows/04c-followup-001-email-conflict-merge-api-and-ui/` を Issue #432 trace の `completed_alias / docs-only / NON_VISUAL` として issue-194 正本へ解決した際、`artifacts.json` / `phase12-task-spec-compliance-check.md` の metadata は揃っていても、Phase 1-13 本文 / 旧 `unassigned-task/03b-followup-001-workflow-elevation.md` / `04c-followup-001-email-conflict-merge-api-and-ui.md` 内に `identity_dismissals` / `admin_audit_log` 拡張 / `sync_jobs.lock_token` 転用 / `GET /admin/identity-conflicts/:id` / screenshot 3 枚 / commit / push / PR 実行文面 といった撤回済み実装案が prose として残存しており、4 conditions PASS 判定を後段で覆すリスクがあった。
+- **教訓**: canonical alias root を closeout する際は **metadata parity 確認の前に**、以下を grep して旧本文 prose を撤回・縮約する。
+  - 旧 endpoint（例: `GET /admin/identity-conflicts/:id`）
+  - 旧テーブル / カラム（例: `identity_dismissals`, `sync_jobs.lock_token`）
+  - screenshot 言及（例: `screenshot`, `phase-11`）
+  - commit / push / PR 実行文面（例: `git commit`, `gh pr create`）
+  - 消費した unassigned task 本文（`unassigned-task/*.md`）も同等に grep し consumed stub 化する。
+- **適用**: 今後の canonical alias closeout（identity / sync / admin 系の重複 root を正本へ畳む操作全般）は、`artifacts.json` 整合より先に Phase body / consumed unassigned body の prose 撤回を完了させてから 4 conditions PASS を主張する。`runbooks/*.md` のような派生 doc に historical draft が残る場合は **「非正本 historical draft」と本文冒頭に明示** し、現行仕様と取り違えられない構造にする。
+
 ## skill-feedback 申し送り
 
 - S-IDENT-1: `task-specification-creator` skill に「PII を含む text 入力 endpoint は redact-on-write + mask-on-read」を必須チェックリスト化する候補（L-IDENT-003 由来）。

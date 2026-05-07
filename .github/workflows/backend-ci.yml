@@ -56,6 +56,16 @@ jobs:
           command: deploy --env staging
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Record post-migration deploy failure
+        if: ${{ failure() && steps.migrate.outcome == 'success' && steps.deploy.outcome == 'failure' }}
+        run: |
+          {
+            echo "## Post-migration deploy failure"
+            echo
+            echo "D1 migrations were applied to staging, but the Workers deploy step failed."
+            echo "Do not re-run migrations blindly. Inspect the deploy failure, verify the D1 migration ledger, and re-run the deploy after the root cause is fixed."
+          } >> "$GITHUB_STEP_SUMMARY"
+
   deploy-production:
     if: github.ref_name == 'main'
     runs-on: ubuntu-latest
@@ -100,3 +110,13 @@ jobs:
           workingDirectory: apps/api
           command: deploy --env production
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Record post-migration deploy failure
+        if: ${{ failure() && steps.migrate.outcome == 'success' && steps.deploy.outcome == 'failure' }}
+        run: |
+          {
+            echo "## Post-migration deploy failure"
+            echo
+            echo "D1 migrations were applied to production, but the Workers deploy step failed."
+            echo "Do not re-run migrations blindly. Inspect the deploy failure, verify the D1 migration ledger, and re-run the deploy after the root cause is fixed."
+          } >> "$GITHUB_STEP_SUMMARY"

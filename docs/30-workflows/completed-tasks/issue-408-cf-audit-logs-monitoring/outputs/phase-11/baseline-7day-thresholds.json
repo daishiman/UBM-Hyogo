@@ -1,0 +1,37 @@
+{
+  "_placeholder": true,
+  "_instructions": "Replace with the actual baseline JSON committed under D1 cf_audit_baseline query output or baseline CLI --output artifact after 7-day learning.",
+  "_command": "cp outputs/phase-11/baseline-7day-thresholds.json outputs/phase-11/baseline-7day-thresholds.json",
+  "_expected_shape": {
+    "version": 1,
+    "learnedAt": "2026-05-DDTHH:MM:SSZ",
+    "learningWindow": {
+      "from": "2026-05-DDTHH:MM:SSZ",
+      "to": "2026-05-DDTHH:MM:SSZ",
+      "durationDays": 7
+    },
+    "thresholds": {
+      "p99_per_minute_403": 0,
+      "off_hours_window": { "start": "22:00", "end": "06:00", "tz": "Asia/Tokyo" },
+      "expected_ip_ranges": ["<github-actions-ranges-from-api.github.com/meta>"],
+      "expected_user_agents": ["<wrangler-or-fetch-script-UA-prefix>"]
+    },
+    "exclusions": {
+      "rotation_blackout": [
+        { "from": "2026-05-DDTHH:MM:SSZ", "to": "2026-05-DDTHH:MM:SSZ", "reason": "DERIV-03 rotation" }
+      ]
+    },
+    "shadowReport": {
+      "totalEvents": 0,
+      "flaggedHigh": 0,
+      "flaggedMedium": 0,
+      "flaggedLow": 0,
+      "falsePositiveRate": 0.0
+    }
+  },
+  "_notes": [
+    "falsePositiveRate <= 0.05 を満たすこと",
+    "expected_ip_ranges は raw value 転記可（公開 range のため secret ではない）",
+    "rotation_blackout の reason に rotation runbook 参照を残す"
+  ]
+}

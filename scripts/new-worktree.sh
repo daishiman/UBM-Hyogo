@@ -14,7 +14,7 @@ echo "=== ワークツリー作成 ==="
 echo "ブランチ: $BRANCH"
 echo "パス    : $WT_PATH"
 
-# リモートdevを最新化（feature/* は dev から分岐する運用: feature → dev → main フロー）
+# リモートdevを最新化（dev = 開発統合ブランチ。main は production リリース時のみ）
 git fetch origin dev
 
 # ワークツリー作成（devから分岐）

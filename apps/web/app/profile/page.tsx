@@ -61,8 +61,12 @@ export default async function ProfilePage() {
         <RequestActionPanel
           publishState={statusSummary.publishState}
           rulesConsent={statusSummary.rulesConsent}
+          pendingRequests={profileRes.pendingRequests}
         />
-        <AttendanceList attendance={profile.attendance} />
+        <AttendanceList
+          attendance={profile.attendance}
+          attendanceMeta={profile.attendanceMeta}
+        />
       </main>
     </>
   );

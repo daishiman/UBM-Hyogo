@@ -85,3 +85,15 @@ same-wave sync エージェントは作業開始時に `git status --porcelain |
 3. 自身の wave の対象 workflow PASS と分けて Phase 12 main.md に「対象 workflow PASS / ブランチ全体 FAIL blocker 残存」を明示
 
 これにより対象 workflow の close-out と branch-level の整合性確保が混在せず、後続 PR レビューで blocker が見落とされない。
+
+## 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04）
+
+後続タスク `docs/30-workflows/completed-tasks/issue-195-sync-jobs-contract-schema-consolidation-001/` で L-001〜L-005 を再適用し、苦戦の再現性と decision card の有効性を確認した。
+
+- **L-001 再適用**: `job_type` enum / `metrics_json` schema 集約は runtime spec 軸のため `apps/api/src/jobs/_shared/sync-jobs-schema.ts` に SSOT を置き、ADR / owner 表登録は `_design/sync-jobs-spec.md` / `_design/sync-shared-modules-owner.md` に分離。`packages/shared` 移管なしの判断が ADR-001 に固定。
+- **L-002 再適用**: 本タスクは追加のみで `D` 差分なし。代わりに workflow root 自体の `R` move（`30-workflows/` 直下 → `completed-tasks/` 配下）と起票元 spec の `R` move を `legacy-ordinal-family-register.md` Task Root Path Drift Register に 2 行追記。
+- **L-003 再適用**: `_design/sync-shared-modules-owner.md` に `sync-jobs-schema.ts` 行を追加した際に Phase 11 で 5 列 schema 検証 / 1-hop 到達 grep / secret-hygiene grep / NON_VISUAL evidence 3 ファイルを再実行し PASS。
+- **L-004 再適用**: Phase 12 strict 7 files filename drift なし。`outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` 全揃い。
+- **L-005 再適用**: Phase 12 main.md / phase-02 main.md / phase-01 main.md 冒頭に「owner = 主担当 / co-owner = サブ担当」alias を 1 行挿入し、用語統一は別 task に委譲。
+
+結論: L-001〜L-005 は本タスクの苦戦をそのままカバーしたため新規 lessons ファイルは作成せず、本ファイルに再確認記録のみを追加。promotion target の有効性も追加検証なしで継続有効。

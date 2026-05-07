@@ -10,7 +10,7 @@
     "05a-authjs-admin-gate"
   ],
   "blocks": [
-    "docs/30-workflows/02-application-implementation/08b-A-playwright-e2e-full-execution",
+    "docs/30-workflows/08b-A-playwright-e2e-full-execution",
     "docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke",
     "docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation",
     "docs/30-workflows/ut-09a-exec-staging-smoke-001"

@@ -6,7 +6,8 @@
 // value を concat 済み)。SQL injection は prepared statement で防御。
 
 import type { DbCtx } from "./_shared/db";
-import { placeholders } from "./_shared/sql";
+import { escapeLikePattern, placeholders } from "./_shared/sql";
+import { STABLE_KEY } from "@ubm-hyogo/shared";
 
 export interface PublicMemberRow {
   member_id: string;
@@ -39,8 +40,8 @@ const buildBaseFromWhere = (input: ListPublicMembersInput): {
         AND mi.member_id NOT IN (SELECT source_member_id FROM identity_aliases)`;
 
   if (input.q) {
-    fromWhere += ` AND r.search_text LIKE ?`;
-    binds.push(`%${input.q}%`);
+    fromWhere += ` AND r.search_text LIKE ? ESCAPE '\\'`;
+    binds.push(`%${escapeLikePattern(input.q)}%`);
   }
 
   if (input.zone !== "all") {
@@ -48,7 +49,7 @@ const buildBaseFromWhere = (input: ListPublicMembersInput): {
       AND EXISTS (
         SELECT 1 FROM response_fields rf_zone
         WHERE rf_zone.response_id = mi.current_response_id
-          AND rf_zone.stable_key = 'ubmZone'
+          AND rf_zone.stable_key = '${STABLE_KEY.ubmZone}'
           AND rf_zone.value_json = ?
       )`;
     binds.push(JSON.stringify(input.zone));
@@ -59,14 +60,14 @@ const buildBaseFromWhere = (input: ListPublicMembersInput): {
       AND EXISTS (
         SELECT 1 FROM response_fields rf_status
         WHERE rf_status.response_id = mi.current_response_id
-          AND rf_status.stable_key = 'ubmMembershipType'
+          AND rf_status.stable_key = '${STABLE_KEY.ubmMembershipType}'
           AND rf_status.value_json = ?
       )`;
     binds.push(JSON.stringify(input.status));
   }
 
   if (input.tagCodes.length > 0) {
-    const ph = placeholders(input.tagCodes.length);
+    const ph = placeholders(input.tagCodes.length, binds.length + 1);
     fromWhere += `
       AND mi.member_id IN (
         SELECT mt.member_id FROM member_tags mt
@@ -98,10 +99,11 @@ export async function listPublicMembers(
   input: ListPublicMembersInput,
 ): Promise<PublicMemberRow[]> {
   const { fromWhere, binds } = buildBaseFromWhere(input);
+  const fullNameExpr = `COALESCE(json_extract(r.answers_json, '$.${STABLE_KEY.fullName}'), '')`;
   const orderBy =
     input.sort === "name"
-      ? "ORDER BY mi.member_id ASC"
-      : "ORDER BY mi.last_submitted_at DESC, mi.member_id ASC";
+      ? `ORDER BY ${fullNameExpr} ASC, mi.member_id ASC`
+      : `ORDER BY mi.last_submitted_at DESC, ${fullNameExpr} ASC, mi.member_id ASC`;
   const offset = Math.max(0, (input.page - 1) * input.limit);
   const sql = `SELECT mi.member_id, mi.current_response_id, mi.last_submitted_at
                ${fromWhere}
@@ -149,8 +151,8 @@ export interface MembershipCountRow {
   count: number;
 }
 
-const ZONE_STABLE_KEY = "ubmZone";
-const MEMBERSHIP_STABLE_KEY = "ubmMembershipType";
+const ZONE_STABLE_KEY = STABLE_KEY.ubmZone;
+const MEMBERSHIP_STABLE_KEY = STABLE_KEY.ubmMembershipType;
 
 /**
  * stableKey 別 (ubmZone / ubmMembershipType) の値を集計する。
