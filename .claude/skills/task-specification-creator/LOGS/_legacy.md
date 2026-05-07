@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-07 - task-02 wrangler env injection NON_VISUAL platform close-out
+
+`docs/30-workflows/task-02-w2-wrangler-env-injection/` の Phase 12 review で、implementation / NON_VISUAL / platform runtime config は実コード実装 (`wrangler.toml` / `.dev.vars.example` / env accessor / focused test) と Phase 12 strict 7 files を同一サイクルで揃え、Cloudflare runtime dry-run と secret put は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として user gate に分離する運用を確認した。既存 Phase 11 NON_VISUAL 代替 evidence / implemented-local 状態語彙で吸収できるため、テンプレート変更は no-op。
+
 ## 2026-05-06 - U-FIX-CF-ACCT-01-DERIV-02 workflow path existence gate
 
 `docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/` の Phase 12 review で、CI/CD token split 仕様が当初 `deploy-staging.yml` / `deploy-production.yml` のような存在しない workflow 名を参照し、現行 repo の `backend-ci.yml` / `web-cd.yml` と drift する危険を確認した。`references/phase-template-phase8-10.md` に `.github/workflows/*.yml` 実在確認 gate を追加し、`references/phase12-skill-feedback-promotion.md` に Workflow Path Existence Gate を追加した。commit / push / PR は未実行。
@@ -2604,6 +2608,10 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - task-06 workflow package を Phase 1-13 仕様として確認し、主成果物 `09-ui-ux.md` の実変更漏れ、`taskType` 分類揺れ、Phase evidence path 表記揺れ、無関係 D diff を修正。
 - NON_VISUAL evidence gate は chapter count / route count / primitive count / visual detail grep / markdown lint を採用。
 
+# 2026-05-07 issue517 follow-up auto-summary foundation
+- Applied strict Phase 12 filename normalization for `docs/30-workflows/issue-517-followup-auto-summary-foundation/`.
+- Materialized canonical Phase 12 7 files: `main.md`, `implementation-guide.md`, `system-spec-update-summary.md`, `documentation-changelog.md`, `unassigned-task-detection.md`, `skill-feedback-report.md`, `phase12-task-spec-compliance-check.md`.
+- Clarified NON_VISUAL Slack channel bootstrap as Phase 11 preflight, not workflow code. Introduced `CONTRACT_READY_SECRET_PENDING` boundary before Slack test post PASS.
 # 2026-05-07 issue515 cf audit logs ML-ready classifier
 
 - Materialized Phase 12 strict 7 files for `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260507-095541-wt-8/docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/`.
