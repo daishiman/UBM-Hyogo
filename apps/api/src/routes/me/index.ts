@@ -16,14 +16,25 @@ import {
   MeSessionResponseZ,
   MeProfileResponseZ,
   MeQueueAcceptedResponseZ,
+  MeAttendancePageResponseZ,
   MeVisibilityRequestBodyZ,
   MeDeleteRequestBodyZ,
   type MeSessionResponse,
   type MeProfileResponse,
   type MeQueueAcceptedResponse,
+  type MeAttendancePageResponse,
 } from "./schemas";
 import { buildMemberProfile } from "../../repository/_shared/builder";
-import { createAttendanceProvider } from "../../repository/attendance";
+import {
+  createAttendanceProvider,
+  decodeAttendanceCursor,
+  ATTENDANCE_PAGE_DEFAULT_LIMIT,
+  ATTENDANCE_PAGE_MAX_LIMIT,
+} from "../../repository/attendance";
+import {
+  attendanceProviderMiddleware,
+  type RepositoryProviderVariables,
+} from "../../middleware/repository-providers";
 import {
   memberSelfRequestQueue,
   resolveEditResponseUrl,
@@ -47,10 +58,15 @@ const pickResponderUrl = (env: MeRouteEnv): string =>
   env.RESPONDER_URL ?? env.GOOGLE_FORM_RESPONDER_URL ?? RESPONDER_URL_FALLBACK;
 
 export const createMeRoute = (deps: MeRouteDeps) => {
-  const app = new Hono<{ Bindings: MeRouteEnv; Variables: SessionGuardVariables }>();
+  const app = new Hono<{
+    Bindings: MeRouteEnv;
+    Variables: SessionGuardVariables & RepositoryProviderVariables;
+  }>();
 
   // 全 /me/* に session 必須
   app.use("*", sessionGuard({ resolveSession: deps.resolveSession }));
+  // session 確定後に repository provider を bind（issue-371）
+  app.use("*", attendanceProviderMiddleware);
 
   // GET /me — SessionUser
   app.get("/", (c) => {
@@ -74,9 +90,12 @@ export const createMeRoute = (deps: MeRouteDeps) => {
   app.get("/profile", async (c) => {
     const user = c.get("user");
     const ctx = c.get("ctx");
-    const profile = await buildMemberProfile(ctx, user.memberId, {
-      attendanceProvider: createAttendanceProvider(ctx),
-    });
+    const profile = await buildMemberProfile(
+      { ...ctx, var: { attendanceProvider: c.var.attendanceProvider } },
+      user.memberId,
+      // issue-372: 直近 N 件 + cursor。先頭ページは default limit。
+      { attendancePage: { limit: ATTENDANCE_PAGE_DEFAULT_LIMIT } },
+    );
     if (!profile) {
       // identity / response が見つからない (同期未完了など)
       return c.json({ code: "PROFILE_UNAVAILABLE" }, 404);
@@ -97,6 +116,47 @@ export const createMeRoute = (deps: MeRouteDeps) => {
       pendingRequests,
     };
     return c.json(MeProfileResponseZ.parse(body));
+  });
+
+  // GET /me/attendance — issue-372: 出席履歴ページング継続取得
+  app.get("/attendance", async (c) => {
+    const user = c.get("user");
+    const ctx = c.get("ctx");
+
+    const limitRaw = c.req.query("limit");
+    let limit: number | undefined;
+    if (limitRaw !== undefined && limitRaw !== "") {
+      const n = Number(limitRaw);
+      if (!Number.isFinite(n) || !Number.isInteger(n) || n < 1) {
+        return c.json({ code: "INVALID_LIMIT" }, 400);
+      }
+      limit = n > ATTENDANCE_PAGE_MAX_LIMIT ? ATTENDANCE_PAGE_MAX_LIMIT : n;
+    }
+
+    const cursorRaw = c.req.query("cursor");
+    let cursor: ReturnType<typeof decodeAttendanceCursor> = null;
+    if (cursorRaw !== undefined && cursorRaw !== "") {
+      cursor = decodeAttendanceCursor(cursorRaw);
+      if (!cursor) {
+        return c.json({ code: "INVALID_CURSOR" }, 400);
+      }
+    }
+
+    const provider = createAttendanceProvider(ctx);
+    const opts: { limit?: number; cursor?: NonNullable<typeof cursor> } = {};
+    if (limit !== undefined) opts.limit = limit;
+    if (cursor) opts.cursor = cursor;
+    const page = await provider.findByMemberId(user.memberId, opts);
+    const body: MeAttendancePageResponse = {
+      records: page.records.map((r) => ({
+        sessionId: r.sessionId,
+        title: r.title,
+        heldOn: r.heldOn,
+      })),
+      hasMore: page.hasMore,
+      nextCursor: page.nextCursor,
+    };
+    return c.json(MeAttendancePageResponseZ.parse(body));
   });
 
   // POST /me/visibility-request

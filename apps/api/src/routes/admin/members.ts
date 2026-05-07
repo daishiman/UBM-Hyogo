@@ -2,11 +2,20 @@
 // 12-search-tags の検索パラメータ (q / zone / tag(repeated) / sort / density / page)
 // と既存 filter (published|hidden|deleted) を組合せて返す。
 import { Hono } from "hono";
-import { requireAdmin } from "../../middleware/require-admin";
+import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
+import {
+  attendanceProviderMiddleware,
+  type RepositoryProviderVariables,
+} from "../../middleware/repository-providers";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId } from "../../repository/_shared/brand";
 import { buildAdminMemberDetailView } from "../../repository/_shared/builder";
-import { createAttendanceProvider } from "../../repository/attendance";
+import {
+  createAttendanceProvider,
+  decodeAttendanceCursor,
+  ATTENDANCE_PAGE_DEFAULT_LIMIT,
+  ATTENDANCE_PAGE_MAX_LIMIT,
+} from "../../repository/attendance";
 import { listByTarget } from "../../repository/auditLog";
 import {
   ADMIN_DENSITY_VALUES,
@@ -192,8 +201,13 @@ const sortToSql = (sort: AdminSort): string => {
 };
 
 export const createAdminMembersRoute = () => {
-  const app = new Hono<{ Bindings: AdminRouteEnv }>();
+  const app = new Hono<{
+    Bindings: AdminRouteEnv;
+    Variables: RequireAuthVariables & RepositoryProviderVariables;
+  }>();
   app.use("*", requireAdmin);
+  // admin gate 後段で repository provider を bind（issue-371）
+  app.use("*", attendanceProviderMiddleware);
 
   app.get("/members", async (c) => {
     const queries = c.req.queries();
@@ -302,9 +316,13 @@ export const createAdminMembersRoute = () => {
       note: null as string | null,
     }));
 
-    const view = await buildAdminMemberDetailView(db, mid, adminAudit, {
-      attendanceProvider: createAttendanceProvider(db),
-    });
+    const view = await buildAdminMemberDetailView(
+      { ...db, var: { attendanceProvider: c.var.attendanceProvider } },
+      mid,
+      adminAudit,
+      // issue-372: admin detail も先頭ページ + cursor を返す
+      { attendancePage: { limit: ATTENDANCE_PAGE_DEFAULT_LIMIT } },
+    );
     if (!view) return c.json({ ok: false, error: "not found" }, 404);
 
     const parsed = AdminMemberDetailViewZ.safeParse(view);
@@ -312,6 +330,49 @@ export const createAdminMembersRoute = () => {
       return c.json({ ok: false, error: parsed.error.message }, 500);
     }
     return c.json(parsed.data, 200);
+  });
+
+  // GET /admin/members/:memberId/attendance — issue-372: ページング継続取得
+  app.get("/members/:memberId/attendance", async (c) => {
+    const memberId = c.req.param("memberId");
+    if (!memberId) return c.json({ ok: false, error: "missing memberId" }, 400);
+
+    const limitRaw = c.req.query("limit");
+    let limit: number | undefined;
+    if (limitRaw !== undefined && limitRaw !== "") {
+      const n = Number(limitRaw);
+      if (!Number.isFinite(n) || !Number.isInteger(n) || n < 1) {
+        return c.json({ ok: false, error: "invalid limit" }, 400);
+      }
+      limit = n > ATTENDANCE_PAGE_MAX_LIMIT ? ATTENDANCE_PAGE_MAX_LIMIT : n;
+    }
+
+    const cursorRaw = c.req.query("cursor");
+    let cursor: ReturnType<typeof decodeAttendanceCursor> = null;
+    if (cursorRaw !== undefined && cursorRaw !== "") {
+      cursor = decodeAttendanceCursor(cursorRaw);
+      if (!cursor) return c.json({ ok: false, error: "invalid cursor" }, 400);
+    }
+
+    const db = ctx({ DB: c.env.DB });
+    const mid = asMemberId(memberId);
+    const provider = createAttendanceProvider(db);
+    const opts: { limit?: number; cursor?: NonNullable<typeof cursor> } = {};
+    if (limit !== undefined) opts.limit = limit;
+    if (cursor) opts.cursor = cursor;
+    const page = await provider.findByMemberId(mid, opts);
+    return c.json(
+      {
+        records: page.records.map((r) => ({
+          sessionId: r.sessionId,
+          title: r.title,
+          heldOn: r.heldOn,
+        })),
+        hasMore: page.hasMore,
+        nextCursor: page.nextCursor,
+      },
+      200,
+    );
   });
 
   return app;
