@@ -27,7 +27,7 @@ approval gate は「人が確認してから本番に進むための止めどこ
 | --- | --- |
 | `SENTRY_DSN_API` | `op://UBM-Hyogo/Sentry API DSN (<env>)/dsn` |
 | `SENTRY_DSN_WEB` | `op://UBM-Hyogo/Sentry Web DSN (<env>)/dsn` |
-| `SLACK_WEBHOOK_INCIDENT` | `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` |
+| `SLACK_WEBHOOK_INCIDENT` | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>` |
 | `SLACK_WORKFLOW_URL` | `op://UBM-Hyogo/Slack Incident Workflow (<env>)/url` |
 
 実値、実値 hash、DSN host/project id、webhook URL は evidence に残さない。
