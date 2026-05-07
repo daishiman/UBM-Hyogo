@@ -134,6 +134,8 @@ type TagQueueResolveBody =
 
 Forms 同期からの candidate 投入は UT-02A の write-side workflow が担当する。重複防止 key は `<memberId>:<responseId>` で、tagCode は admin resolve 時に `confirmed` payload で確定する。
 
+Issue #378 以降、`TAG_QUEUE_PAUSED = "true"` の API Worker deploy 中は Forms 同期からの candidate 投入を早期 return し、`{ enqueued: false, reason: "paused" }` を返す。parser は厳格で、未設定 / `"false"` / `"True"` / `"1"` は停止扱いにしない。既存 queue の resolve contract と `member_tags` 確定書き込み経路は変更しない。
+
 #### 仕様語 / 実装語 alias
 
 | 仕様語 | API action | DB queue status | 備考 |

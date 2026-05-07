@@ -26,6 +26,21 @@ done
 
 存在しない workflow を検出した場合は、同一 wave で実在 workflow 名へ補正するか、新規作成を Phase 5 の実装対象として追加する。単なる `skill-feedback-report.md` の注意書きで済ませず、`phase-template-phase8-10.md` または該当 reference へ promotion する。
 
+## Canonical Root Existence Gate
+
+Runtime execution / evidence capture を継承するタスクでは、`spec_path` / `workflow root` / `evidence root` が現リポジトリに存在することを Phase 1 / Phase 12 で必ず再検証する。削除済み historical root を参照したまま close-out すると、successor workflow が起動時点で fail し、reviewer が手作業で root を辿る負荷が再発する。Issue #494 staging smoke runtime で検出された symptom（successor task が削除済み root を spec_path に持ち、Phase 11 evidence の生成先が空ディレクトリへ落ちる）に対する root cause fix。
+
+```bash
+for root in \
+  "docs/30-workflows/<current-workflow>" \
+  "docs/30-workflows/<current-workflow>/outputs/phase-11" \
+  "docs/30-workflows/<current-workflow>/outputs/phase-12"; do
+  test -d "$root" || { echo "missing canonical root: $root" >&2; exit 1; }
+done
+```
+
+`unassigned-task` 発の successor workflow は、起票時点で source の current root を resolve し、historical root への dependency を残さない。`workflow self-contained` 原則に基づき、外部 handoff を増やすより workflow 内部で fail fast 化する方が elegant fix となる。本ルールは Issue #494 09a-A staging smoke runtime の `skill-feedback-report.md` から promote。
+
 ## Command Contract Drift Rule
 
 タスク仕様書内の候補コマンドが実リポジトリの package script と一致しない場合、`local workflow metadata drift` とだけ記録して no-op にしない。次の順で同一 wave 内に閉じる。

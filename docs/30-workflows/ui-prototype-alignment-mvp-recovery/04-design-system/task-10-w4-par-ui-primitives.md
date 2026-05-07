@@ -1155,3 +1155,14 @@ mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
 - task-15 (admin-dashboard-and-members) では `Sidebar` + `Stat` + `Card` + `Badge` を中心に組み立てる。`MemberDrawer` は本タスクで未提供のため、当該 task で `Drawer` primitive を新設する（本仕様外）。
 - task-18 (verify-tokens-and-playwright-smoke) は `apps/web/src` の HEX 直書き / `bg-[#` を grep で fail 判定するため、本タスクの primitive はすべて token utility のみで構成すること（DoD 必須）。
 - shadcn/ui からの追加 block 採用は本仕様 §3.1 の表を更新し、必ず別タスクで扱う（本タスクで block を増やさない）。
+
+
+---
+
+## diff scope 規律（task-01 反映 / 2026-05-07）
+
+`SCOPE.md §6 diff scope 規律 / archive rule` を遵守する。本 task 完了前に以下を必ず確認:
+
+- `git diff --name-only main...HEAD` の出力が、本 task 仕様 §3「変更対象ファイル」 + 本 task package（`docs/30-workflows/ui-prototype-alignment-mvp-recovery/<dir>/`）配下のみで構成されていること
+- 完了済み workflow dir を整理する場合は `git mv <dir> docs/30-workflows/completed-tasks/<dir>` でアーカイブ（`git rm -r` 純削除は禁止）
+- sync-merge / rebase で混入した範囲外削除は `git checkout HEAD -- <path>` で復旧してから commit する
