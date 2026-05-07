@@ -5761,13 +5761,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L478 |
-| フェーズ構造（概要） | L487 |
-| 品質ゲート（概要） | L518 |
-| 出力テンプレート | L529 |
-| 実行時のコマンド・エージェント・スキル | L552 |
-| 昇格パターン集 | L576 |
-| Current Active / Spec Created Tasks | L578 |
+| ドキュメント構成 | L475 |
+| フェーズ構造（概要） | L484 |
+| 品質ゲート（概要） | L515 |
+| 出力テンプレート | L526 |
+| 実行時のコマンド・エージェント・スキル | L549 |
+| 昇格パターン集 | L573 |
+| Current Active / Spec Created Tasks | L575 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6260,3 +6260,4 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
+
