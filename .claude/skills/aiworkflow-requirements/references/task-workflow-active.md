@@ -37,6 +37,21 @@
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
 
+### UI prototype mapping table task-07（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-07-prototype-mapping-table/` |
+| artifact | `docs/00-getting-started-manual/specs/09a-prototype-map.md` |
+| aiworkflow ref | `references/ui-ux-prototype-map.md` |
+| inventory | `references/workflow-task-07-prototype-mapping-table-artifact-inventory.md` |
+| 苦戦箇所 | `lessons-learned/lessons-learned-task-07-prototype-mapping-table-2026-05.md`（L-07-001..004） |
+| 目的 | frozen prototype JSX の component / route / line range を本番実装 target へ逆引きできる 1 ファイル正本を作る |
+| coverage | 13+ primitives、19 routes、shell/chrome、09c-09h source mapping、25+ line ledger、8 derivation rules |
+| 境界 | apps/packages コード変更なし。token 値 / props-state / API schema 正本化なし。未掲載画面で新規 primitive を生やさない |
+| 検証 | `bash scripts/verify-09a-prototype-line-ranges.sh` exit 0、`09-ui-ux.md` から 09a link あり |
+
 ### Issue #407 Cloudflare API Token 90 日 rotation runbook automation（2026-05-06）
 
 | 項目 | 値 |

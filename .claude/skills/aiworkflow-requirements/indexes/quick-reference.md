@@ -20,6 +20,22 @@
 | archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### UI prototype mapping table task-07（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-07-prototype-mapping-table/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| artifact | `docs/00-getting-started-manual/specs/09a-prototype-map.md` |
+| aiworkflow ref | `references/ui-ux-prototype-map.md` |
+| inventory | `references/workflow-task-07-prototype-mapping-table-artifact-inventory.md` |
+| 苦戦箇所 | `lessons-learned/lessons-learned-task-07-prototype-mapping-table-2026-05.md`（L-07-001..004: 逆引き目次の責務分離 / verifier による frozen JSX 保護 / 層別カウント契約 / derivation rule §5.1-§5.8 固定） |
+| verifier | `scripts/verify-09a-prototype-line-ranges.sh` |
+| scope | frozen prototype JSX -> production component/route/spec mapping, 19 routes, 13+ primitives, shell/chrome, 09c-09h source mapping |
+| boundary | no app/package code, no token values, no props/state canon, no new primitives for missing screens |
+| rejection | `TweaksPanel`, `AvatarStoreProvider`, `data-theme="warm"`, `data-theme="cool"` are `不採用` |
+| downstream | task-10 uses §2/§6, task-11..17 use §3/§5, task-19..22 use §4.2 |
+
 ### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
 
 | 目的 | 参照先 |
