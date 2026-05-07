@@ -5,9 +5,13 @@
 | 項目 | 値 |
 | --- | --- |
 | ID | U-FIX-CF-ACCT-01-DERIV-04-FU-04 |
-| 状態 | unassigned |
+| 状態 | formalized_by_issue_516 |
 | 優先度 | MEDIUM |
-| 親 | `docs/30-workflows/issue-408-cf-audit-logs-monitoring/` |
+| 親 | `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/` |
+| Formalized spec | `docs/30-workflows/issue-516-github-audit-log-cross-source-correlation/` |
+| GitHub Issue | https://github.com/daishiman/UBM-Hyogo/issues/516 |
+
+> この未タスクは 2026-05-07 に Issue #516 仕様書へ昇格済み。以後の実装・Phase 12 close-out・PR 文脈では `docs/30-workflows/issue-516-github-audit-log-cross-source-correlation/` を正本として参照する。
 
 ## 目的
 

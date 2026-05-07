@@ -1,0 +1,5 @@
+{
+  "_meta": "synthetic 429 rate-limit fixture (consumed by github-fetch.test.ts via fetch stub, not by run.sh)",
+  "status": 429,
+  "retryAfterSeconds": 0
+}
