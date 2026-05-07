@@ -1,0 +1,67 @@
+{
+  "task_id": "issue-514-cf-audit-logs-cold-storage-r2-export",
+  "task_path": "docs/30-workflows/issue-514-cf-audit-logs-cold-storage-r2-export",
+  "created_at": "2026-05-07",
+  "updated_at": "2026-05-07",
+  "metadata": {
+    "issue": 514,
+    "issue_state": "closed",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented_local_runtime_pending",
+    "runtime_state": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "approval_state": "blocked_pending_user_approval",
+    "phase12_contract": "strict_7_outputs_present",
+    "outputs_artifacts_policy": "root_and_outputs_mirror"
+  },
+  "gates": {
+    "G1": "pending_user_approval_r2_binding_and_secret",
+    "G2": "pending_user_approval_d1_migration_apply",
+    "G3-prod": "pending_user_approval_first_export_and_restore_drill",
+    "G4": "pending_user_approval_commit_push_pr"
+  },
+  "phases": [
+    { "phase": 1, "path": "phase-01.md", "status": "drafted" },
+    { "phase": 2, "path": "phase-02.md", "status": "drafted" },
+    { "phase": 3, "path": "phase-03.md", "status": "drafted" },
+    { "phase": 4, "path": "phase-04.md", "status": "drafted" },
+    { "phase": 5, "path": "phase-05.md", "status": "drafted" },
+    { "phase": 6, "path": "phase-06.md", "status": "drafted" },
+    { "phase": 7, "path": "phase-07.md", "status": "drafted" },
+    { "phase": 8, "path": "phase-08.md", "status": "drafted" },
+    { "phase": 9, "path": "phase-09.md", "status": "drafted" },
+    { "phase": 10, "path": "phase-10.md", "status": "drafted" },
+    { "phase": 11, "path": "phase-11.md", "status": "runtime_evidence_pending" },
+    { "phase": 12, "path": "phase-12.md", "status": "strict_outputs_present" },
+    { "phase": 13, "path": "phase-13.md", "status": "blocked_pending_user_approval" }
+  ],
+  "required_outputs": {
+    "phase11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/manual-smoke-log.md",
+      "outputs/phase-11/link-checklist.md",
+      "outputs/phase-11/runtime-evidence-pending.md",
+      "outputs/phase-11/redaction-grep.log",
+      "outputs/phase-11/restore-drill-dryrun.log"
+    ],
+    "phase12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "phase13": [
+      "outputs/phase-13/local-check-result.md",
+      "outputs/phase-13/change-summary.md",
+      "outputs/phase-13/pr-draft.md",
+      "outputs/phase-13/g1-rollback-pointer.md",
+      "outputs/phase-13/g3-rollback-sql.sql",
+      "outputs/phase-13/pr-info.md",
+      "outputs/phase-13/pr-creation-result.md"
+    ]
+  }
+}

@@ -218,6 +218,56 @@ describe("admin schema route", () => {
     expect(body.backfill?.status).toBe("exhausted");
   });
 
+  it("POST backfill/trigger: issue-504 fixture rows are enqueued on staging only", async () => {
+    await env.db
+      .prepare(
+        `INSERT INTO schema_diff_queue
+          (diff_id, revision_id, type, question_id, label, suggested_stable_key, status, dedupe_key)
+         VALUES
+          ('fixture-1','rev1','unresolved','q1','Full name','full_name','queued','ubm-test-fixture-50k-0000001-a'),
+          ('fixture-2','rev1','unresolved','q2','Display name','display_name','queued','ubm-test-fixture-50k-0000002-b')`,
+      )
+      .run();
+    const sent: unknown[] = [];
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/backfill/trigger",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ source: "issue-504-50k-trial" }),
+      },
+      makeEnv(env, {
+        ENVIRONMENT: "staging",
+        SCHEMA_ALIAS_BACKFILL_QUEUE: {
+          send: async (message: unknown) => {
+            sent.push(message);
+          },
+        },
+      }),
+    );
+    expect(res.status).toBe(202);
+    const body = (await res.json()) as { selected: number; queueEnqueued: number };
+    expect(body).toMatchObject({ selected: 2, queueEnqueued: 2 });
+    expect(sent).toHaveLength(2);
+    expect(sent[0]).toMatchObject({ diffId: "fixture-1", questionId: "q1", newStableKey: "full_name" });
+    expect(sent[1]).toMatchObject({ diffId: "fixture-2", questionId: "q2", newStableKey: "display_name" });
+  });
+
+  it("POST backfill/trigger: production is fail-closed", async () => {
+    const app = createAdminSchemaRoute();
+    const res = await app.request(
+      "/schema/backfill/trigger",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ source: "issue-504-50k-trial" }),
+      },
+      makeEnv(env, { ENVIRONMENT: "production" }),
+    );
+    expect(res.status).toBe(403);
+  });
+
   it("GET /schema/aliases/:diffId/backfill: 不在 diff は 404", async () => {
     const app = createAdminSchemaRoute();
     const res = await app.request(

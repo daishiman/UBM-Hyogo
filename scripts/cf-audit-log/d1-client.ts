@@ -184,6 +184,43 @@ export async function recordReported(
   );
 }
 
+export async function recordClassification(
+  db: D1Like,
+  eventId: string,
+  input: {
+    severity: string;
+    classifierUsed: string;
+    classifierVersion: string;
+    confidence: number;
+  },
+): Promise<void> {
+  try {
+    await db.exec(
+      `UPDATE cf_audit_log
+         SET severity = ?, classifier_used = ?, classifier_version = ?, confidence = ?
+         WHERE id = ?`,
+      [
+        input.severity,
+        input.classifierUsed,
+        input.classifierVersion,
+        input.confidence,
+        eventId,
+      ],
+    );
+  } catch (error) {
+    if (!isMissingClassifierColumn(error)) throw error;
+    await db.exec(
+      `UPDATE cf_audit_log SET severity = ? WHERE id = ?`,
+      [input.severity, eventId],
+    );
+  }
+}
+
+function isMissingClassifierColumn(error: unknown): boolean {
+  const message = error instanceof Error ? error.message : String(error);
+  return /classifier_used|classifier_version|confidence|no such column/i.test(message);
+}
+
 export async function count403FromActor(
   db: D1Like,
   actorEmail: string | undefined,
@@ -234,6 +271,9 @@ export class InMemoryD1 implements D1Like {
     if (s.startsWith("INSERT OR IGNORE INTO cf_audit_finding_dedupe")) {
       const [k, n, t] = params as [string, number, number];
       if (!this.dedupe.has(k)) this.dedupe.set(k, { issue_number: n, created_at_ms: t });
+      return { changes: 1 };
+    }
+    if (s.startsWith("UPDATE cf_audit_log SET severity")) {
       return { changes: 1 };
     }
     throw new Error(`InMemoryD1.exec unsupported sql: ${s}`);

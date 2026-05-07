@@ -1017,8 +1017,9 @@ node scripts/list-specs.js --topics
 | Turso 無料枠の活用 | L8 |
 | セキュリティベストプラクティス | L41 |
 | 運用・メンテナンス | L76 |
-| Electron ローカルストレージ | L119 |
-| 関連ドキュメント | L182 |
+| Issue #503 schema alias back-fill cursor A/B operation | L119 |
+| Electron ローカルストレージ | L137 |
+| 関連ドキュメント | L200 |
 
 ### references/database-schema-07b-schema-alias-assignment.md
 
@@ -1069,18 +1070,18 @@ node scripts/list-specs.js --topics
 | テーブル一覧 | L11 |
 | UBM 会員 Forms 同期テーブル（03b） | L45 |
 | Schema aliases write target（issue-191 / UT-07B） | L60 |
-| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L90 |
-| Legacy Sheets sync transition note（U-UT01-09） | L102 |
-| Schema alias assignment workflow（07b） | L114 |
-| ワークフロー関連テーブル | L118 |
-| ユーザー関連テーブル | L157 |
-| システムプロンプト関連テーブル | L191 |
-| チャット関連テーブル | L226 |
-| RAG関連テーブル | L262 |
-| Knowledge Graph関連テーブル | L304 |
-| 変換処理関連テーブル | L438 |
-| インデックス設計 | L497 |
-| 関連ドキュメント / 変更履歴 / DDL テンプレ | L501 |
+| Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created） | L92 |
+| Legacy Sheets sync transition note（U-UT01-09） | L104 |
+| Schema alias assignment workflow（07b） | L116 |
+| ワークフロー関連テーブル | L120 |
+| ユーザー関連テーブル | L159 |
+| システムプロンプト関連テーブル | L193 |
+| チャット関連テーブル | L228 |
+| RAG関連テーブル | L264 |
+| Knowledge Graph関連テーブル | L306 |
+| 変換処理関連テーブル | L440 |
+| インデックス設計 | L499 |
+| 関連ドキュメント / 変更履歴 / DDL テンプレ | L503 |
 
 ---
 
@@ -2309,6 +2310,61 @@ node scripts/list-specs.js --topics
 | boundary | L61 |
 | deferred evidence | L67 |
 
+### references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Files | L21 |
+| Runbook / Reference / Changelog（skill 側 1-hop） | L37 |
+| Phase 11 Evidence Files | L46 |
+| Phase 12 strict 7 Files | L58 |
+| Same-Wave Touched Files | L68 |
+| Boundary | L88 |
+
+### references/workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L3 |
+| Workflow | L7 |
+| Implemented files | L17 |
+| Documentation / evidence | L30 |
+| Boundary | L40 |
+
+### references/workflow-issue-504-extended-fixture-50k-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Contract Summary | L25 |
+| Runtime Boundary | L38 |
+| Code Artifacts | L42 |
+| Implementation Guide Pointers | L54 |
+| Unassigned Task Trace | L65 |
+| Lessons Learned | L74 |
+
+### references/workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L24 |
+| Gate Conditions (production ML switch 前提) | L30 |
+
+### references/workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 strict 7 files | L15 |
+| phase 11 evidence (NON_VISUAL alternative) | L27 |
+| implementation artifacts | L43 |
+| same-wave skill sync | L67 |
+| boundary | L81 |
+| upstream / downstream | L87 |
+| deferred follow-ups | L94 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3158,6 +3214,16 @@ node scripts/list-specs.js --topics
 | 利用順序 | L14 |
 | 関連ドキュメント | L19 |
 
+### references/audit-correlation.md
+
+| セクション | 行 |
+|------------|----|
+| 目的 | L7 |
+| 入出力契約 | L11 |
+| Redaction Policy | L19 |
+| MVP Boundary | L31 |
+| References | L35 |
+
 ### references/auth-google-oauth-cf-integration.md
 
 | セクション | 行 |
@@ -3308,15 +3374,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L151 |
-| ローカル開発での設定 | L183 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L222 |
-| セキュリティ原則 | L259 |
-| Cloudflare API Token の作成手順 | L270 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L285 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L350 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L398 |
-| 変更履歴 | L413 |
+| wrangler.toml の環境別設定 | L154 |
+| ローカル開発での設定 | L186 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L225 |
+| セキュリティ原則 | L262 |
+| Cloudflare API Token の作成手順 | L273 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L369 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L417 |
+| 変更履歴 | L432 |
 
 ### references/deployment.md
 
@@ -3420,6 +3486,19 @@ node scripts/list-specs.js --topics
 | デプロイ・運用 | L264 |
 | 開発ガイドライン | L292 |
 | 関連ドキュメント | L323 |
+
+### references/dlq-monitoring.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Queue / DLQ binding（`apps/api/wrangler.toml` の正本） | L15 |
+| 2. 観測対象 D1 列（`schema_diff_queue` / migration `0014_schema_diff_queue_dedupe_failure.sql`） | L24 |
+| 3. 異常しきい値 | L36 |
+| 4. runbook link（1-hop） | L46 |
+| 5. 実行ラッパー（`wrangler` 直接禁止） | L52 |
+| 6. エスカレーション | L60 |
+| 7. 関連 topic | L72 |
+| 8. 出典 | L80 |
 
 ### references/environment-variables.md
 
@@ -4126,6 +4205,41 @@ node scripts/list-specs.js --topics
 | L-ISSUE408-007: 監視 token と deploy token は必ず別 secret で保つ | L103 |
 | 参照元 | L119 |
 
+### references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-502-001: `last_error` 列の SELECT 禁止 — PII / OAuth token 混入リスクは SQL レイヤで遮断する | L10 |
+| L-502-002: Cloudflare Queue / DLQ binding 命名規約 — 環境別 suffix を SSOT で固定する | L22 |
+| L-502-003: しきい値（DLQ ≥ 1 / retry_count ≥ 3 / exhausted 24h）— 初期固定値と再観測ポリシー | L34 |
+| L-502-004: `wrangler` 直接実行禁止 — `scripts/cf.sh` ラッパー強制の根拠 | L46 |
+| L-502-005: docs-only spec_created で Issue CLOSED を維持し、PR は `Refs #502` のみで連結する | L58 |
+| 関連 lessons | L70 |
+
+### references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE514-001: artifacts.json は root 編集正本 + outputs/ mirror で同値性を `cmp -s` で保証する | L7 |
+| L-ISSUE514-002: Phase 12 strict 7 outputs は PASS 判定前にすべて materialize する | L23 |
+| L-ISSUE514-003: `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` は runtime PASS と区別する語彙境界 | L39 |
+| L-ISSUE514-004: irreversible NON_VISUAL pre-deploy gate ordering を G1 -> G2 -> G3-prod -> G4 で固定する | L55 |
+| L-ISSUE514-005: 月次 cadence は daily `0 2 * * *` + `[now - 29d, now - 26d)` window + completed manifest skip に補正する | L71 |
+| L-ISSUE514-006: exporter schema は source D1 (`cf_audit_log.occurred_at`) に整合し、manifest に `r2_etag` を追加する | L87 |
+| L-ISSUE514-007: redaction guard は raw token / Bearer / full IP / UA / email / secret hash を全 sink で additive に enforce する | L103 |
+| 参照元 | L119 |
+
+### references/lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE515-001: ML-ready 化は「切替」ではなく「比較できる箱」を入れることに留める | L8 |
+| L-ISSUE515-002: classifier は default 名前付き interface で固定し、env 既定値は安全側に倒す | L24 |
+| L-ISSUE515-003: redaction boundary はストレージ層で分け、export は raw を持たない型から作る | L40 |
+| L-ISSUE515-004: D1 マイグレーションは forward-safe を default、破壊的 DOWN は user-gated に分離 | L56 |
+| L-ISSUE515-005: 同 wave SSOT 更新は分散させず、references / specs / skill LOGS を同一 PR 内で同期する | L72 |
+| 参照元 | L88 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4172,6 +4286,13 @@ node scripts/list-specs.js --topics
 | 結論 (個人開発運用ポリシー) | L20 |
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
+
+### references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L9 |
 
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
@@ -4366,6 +4487,10 @@ node scripts/list-specs.js --topics
 | L-UT07B-FU01-004: remaining-scan vs cursor-pagination の選定理由 | L19 |
 | L-UT07B-FU01-005: idempotent 設計のため Queue 消費側で dedupe_key を再確認する | L23 |
 | L-UT07B-FU01-006: Phase 11 gate を「local implementation GO / runtime evidence pending」と明示する | L27 |
+| L-UT07B-FU01-007: 50k fixture の deterministic identity は prefix-based dedupe_key に固定する | L31 |
+| L-UT07B-FU01-008: production bulk INSERT/DELETE 禁止は script と API の二重 fail-closed で実装する | L35 |
+| L-UT07B-FU01-009: stress trial trigger は `cf.sh api-post` ではなく ADMIN_SESSION_JWT + 直接 curl を正本とする | L39 |
+| L-UT07B-FU01-010: parent workflow 参照は spec creation 時に `test -f` で実体検証する | L43 |
 
 ### references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md
 
@@ -5102,7 +5227,9 @@ node scripts/list-specs.js --topics
 | 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L175 |
-| 10. 変更履歴 | L203 |
+| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L201 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L224 |
+| 11. 変更履歴 | L246 |
 
 ### references/patterns-advanced.md
 
@@ -5402,6 +5529,17 @@ node scripts/list-specs.js --topics
 | Commands | L20 |
 | Lessons Learned (issue-348) | L50 |
 
+### references/schema-alias-backfill-runbook.md
+
+| セクション | 行 |
+|------------|----|
+| Issue #504 50k Stress Trial Contract | L3 |
+| Fixture Identity | L13 |
+| Runtime Trigger | L29 |
+| Abort Gates | L54 |
+| Evidence | L65 |
+| Manual Fallback Runbook | L79 |
+
 ### references/skill-executor-type-migration.md
 
 | セクション | 行 |
@@ -5544,13 +5682,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L379 |
-| フェーズ構造（概要） | L388 |
-| 品質ゲート（概要） | L419 |
-| 出力テンプレート | L430 |
-| 実行時のコマンド・エージェント・スキル | L453 |
-| 昇格パターン集 | L477 |
-| Current Active / Spec Created Tasks | L479 |
+| ドキュメント構成 | L464 |
+| フェーズ構造（概要） | L473 |
+| 品質ゲート（概要） | L504 |
+| 出力テンプレート | L515 |
+| 実行時のコマンド・エージェント・スキル | L538 |
+| 昇格パターン集 | L562 |
+| Current Active / Spec Created Tasks | L564 |
 
 ### references/task-workflow-backlog-part2.md
 

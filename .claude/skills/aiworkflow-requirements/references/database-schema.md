@@ -85,6 +85,8 @@ UT-07B hardening では、`schema_aliases` の正本 write target を前提に b
 
 Cloudflare Queue (`schema-alias-backfill` / `schema-alias-backfill-staging`) consumer が 1 batch ごとに `dedupe_key` で in-flight 排他、`recordBatchProgress` で上記列を更新する。実装本体は `apps/api/src/workflows/schemaAliasBackfillBatch.ts` / `apps/api/src/workflows/schemaAliasEnqueue.ts` / `apps/api/src/index.ts queue()` handler に閉じ、不変条件 #5（D1 アクセスは apps/api 限定）を維持する。
 
+Issue #503（UT-07B-FU-01 cursor semantics migration）は `implemented-local / runtime evidence pending_user_gate` の shadow flag 実装である。`BACKFILL_CURSOR_MODE` は `remaining-scan`（default）/ `cursor` の 2 値で、queue consumer と initial apply path の両方に適用される。cursor shadow path は既存 `schema_diff_queue.backfill_cursor` TEXT 列を再利用し、専用 `0015_schema_diff_queue_cursor.sql` は Phase 11 staging A/B evidence で cursor 採用が確定するまで作成しない。stale cursor により cursor 以下の remaining row が残った場合は cursor を null reset して次 batch で再取得し、row skip を禁止する。public `backfill.status` contract は変更しない。
+
 Production D1 ledger では `0008_schema_alias_hardening.sql` が `2026-05-01 08:21:04 UTC`、`0008_create_schema_aliases.sql` が `2026-05-01 10:59:35 UTC` に記録されている。両 migration の先行適用出所監査は current workflow `docs/30-workflows/task-issue-359-production-d1-out-of-band-apply-audit-001/` で扱い、legacy unassigned source は `docs/30-workflows/unassigned-task/task-issue-359-production-d1-out-of-band-apply-audit-001.md` として参照する。
 
 ## Sheets→D1 sync enum canonicalization（U-UT01-08 / spec_created）

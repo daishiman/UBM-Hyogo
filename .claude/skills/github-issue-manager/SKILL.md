@@ -11,7 +11,8 @@ description: |
   Trigger:
   GitHub Issue管理, Issue作成, Issue選択, 最適タスク選定, タスク仕様書→Issue化,
   reminder Issue 自動起票, post-release observation, scheduled issue automation,
-  D+7 / D+30 reminder, idempotent issue creation
+  D+7 / D+30 reminder, idempotent issue creation,
+  closed issue reference, Refs-only pattern
   Use when managing GitHub issues, creating issues from task specs, or selecting optimal next task.
 tags:
   - github
@@ -377,6 +378,7 @@ GitHub Issue を自動発行するため、追加 hook 実装は不要。
 | `patterns.md`              | 成功・失敗パターン集                                                  |
 | `d1-parity-followup.md`    | Execution follow-up Issue / D1 parity 連携 / blocker 双方向更新の正本 |
 | `scheduled-reminder-issue-pattern.md` | GitHub Actions schedule + gh CLI による idempotent reminder Issue 自動起票パターン |
+| `closed-issue-reference-pattern.md`   | CLOSED Issue を `Refs #XXX` のみで後続 PR から参照する正本パターン（`Closes` / `Fixes` 禁止、再オープン禁止） |
 
 ---
 
