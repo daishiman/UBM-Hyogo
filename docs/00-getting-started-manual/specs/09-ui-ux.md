@@ -3,6 +3,7 @@
 ## 位置づけ
 
 - 正式な UI 方針は `claude-design-prototype/` に合わせる
+- 色 / radius / shadow / typography / spacing / motion token の値正本は `09b-design-tokens.md` とし、本ファイルには値を重複定義しない
 - `gas-prototype/` は画面叩き台として参照するが、認証・保存・同期の振る舞いは正本にしない
 - 目的は、公開ユーザーには「誰がいるか」が分かり、会員には「自分の掲載状態」が分かり、管理者には「何を処理すべきか」が分かること
 - 実装先は `apps/web` の画面群で、`apps/api` は状態更新と同期の裏側を担う

@@ -33,6 +33,19 @@
 | archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### Task 08 W2 Design Tokens Doc（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-08-w2-design-tokens-doc/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| token SSOT | `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| source values | `docs/00-getting-started-manual/claude-design-prototype/styles.css` L1-L70 |
+| scope | stone / warm / cool OKLch values、surface/text/border HEX、radius、shadow、font、spacing、motion、sRGB fallback、dark placeholder |
+| naming | 正本 token は `--ubm-color-*` / `--ubm-radius-*` / `--ubm-shadow-*` / `--ubm-font-*` / `--ubm-text-*` / `--ubm-space-*` / `--ubm-dur-*` / `--ubm-ease-*`。旧 `--ubm-bg` / `--ubm-accent` は 09b 互換 mapping で置換 |
+| downstream | task-09 `tokens.css` / `@theme inline`、task-10 primitives、task-18 verify-design-tokens |
+| evidence | `docs/30-workflows/task-08-w2-design-tokens-doc/outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
 ### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
 
 | 目的 | 参照先 |

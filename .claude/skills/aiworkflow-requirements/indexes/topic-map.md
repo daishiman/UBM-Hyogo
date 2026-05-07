@@ -2646,6 +2646,16 @@ node scripts/list-specs.js --topics
 | Skill Reflection | L72 |
 | Legacy / Rename | L84 |
 
+### references/workflow-task-08-w2-design-tokens-doc-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 09b Design Tokens Doc | L3 |
+| OKLch Token Scope | L12 |
+| Tailwind Theme Inline Contract | L16 |
+| Compatibility Mapping | L20 |
+| Evidence | L26 |
+
 ### references/workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md
 
 | セクション | 行 |
@@ -4294,6 +4304,13 @@ node scripts/list-specs.js --topics
 | Scope | L3 |
 | Lessons | L9 |
 
+### references/lessons-learned-task-08-w2-design-tokens-doc-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 横展開チェックリスト | L55 |
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -5682,13 +5699,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L464 |
-| フェーズ構造（概要） | L473 |
-| 品質ゲート（概要） | L504 |
-| 出力テンプレート | L515 |
-| 実行時のコマンド・エージェント・スキル | L538 |
-| 昇格パターン集 | L562 |
-| Current Active / Spec Created Tasks | L564 |
+| ドキュメント構成 | L480 |
+| フェーズ構造（概要） | L489 |
+| 品質ゲート（概要） | L520 |
+| 出力テンプレート | L531 |
+| 実行時のコマンド・エージェント・スキル | L554 |
+| 昇格パターン集 | L578 |
+| Current Active / Spec Created Tasks | L580 |
 
 ### references/task-workflow-backlog-part2.md
 
