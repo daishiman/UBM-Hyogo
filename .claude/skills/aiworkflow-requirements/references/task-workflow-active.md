@@ -191,6 +191,26 @@
 | 検証 | local typecheck / lint / vitest（schemaDiffQueue / schemaAliasAssign / schemaAliasBackfillBatch / schemaAliasEnqueue / route schema） 38 tests PASS。staging deploy / Cloudflare Queue binding apply / production apply は user 明示承認まで未実行 |
 | 境界 | Phase 11 staging evidence による runtime gate 判定本体は実走しておらず、user 明示で local implementation GO として実装した。staging Queue/DLQ 作成、Cloudflare deploy、production migration apply、commit、push、PR、Issue #361 comment/reopen は未実行。Issue #361 は CLOSED 維持で `Refs #361` のみ |
 
+### Issue #502 / UT-07B-FU-01-FOLLOWUP DLQ Monitoring Dashboard（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | spec_created |
+| taskType | docs-only |
+| visualEvidence | NON_VISUAL |
+| Phase 11 | contract_ready_runtime_pending（local grep / read-only SQL template evidence captured; staging D1 SQL and dash runtime evidence pending_user_approval） |
+| Phase 12 | strict 7 outputs present |
+| issue | #502 CLOSED (PR text: `Refs #502` only) |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard/` |
+| runbook | `docs/runbooks/dlq-monitoring/schema-alias-backfill.md` |
+| skill reference | `references/dlq-monitoring.md` |
+| artifact inventory | `references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md`（L-502-001〜005） |
+| 目的 | UT-07B-FU-01 の Cloudflare Queue / DLQ binding と D1 `schema_diff_queue` failure 永続化列を、runbook + read-only 集計 SQL で運用者が観測できる状態にする |
+| 契約 | Queue/DLQ は `SCHEMA_ALIAS_BACKFILL_QUEUE` binding、prod `schema-alias-backfill` / `schema-alias-backfill-dlq`、staging `schema-alias-backfill-staging` / `schema-alias-backfill-staging-dlq`。D1 集計 SQL は `retry_count` / `failed_items_json` / `last_processed_at` / `backfill_status` のみを使い、`last_error` 原文 SELECT / 転記は禁止 |
+| しきい値 | DLQ >= 1 / retry_count >= 3 / exhausted 24h |
+| 境界 | Pager / Slack / PagerDuty 連携、Queue / DLQ 構造変更、D1 schema 変更、apps/api 実装変更は本タスク scope 外。しきい値超過時の追加実装は別 unassigned task としてユーザー判断後に起票する |
+
 ### UT-07B-FU-03 Production Migration Apply Runbook（2026-05-02）
 
 | 項目 | 値 |
