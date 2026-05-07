@@ -335,8 +335,27 @@ UT-07B-FU-04 production migration already-applied verification は、`references
 | shared enum | `packages/shared/src/types/common.ts`, `packages/shared/src/zod/primitives.ts` (`FieldKind=consent/system`) |
 | Phase 11 NON_VISUAL evidence | `docs/30-workflows/ut-02a-section-field-canonical-schema-resolution/outputs/phase-11/` |
 | Phase 12 guide | `docs/30-workflows/ut-02a-section-field-canonical-schema-resolution/outputs/phase-12/implementation-guide.md` |
-| follow-up | `docs/30-workflows/unassigned-task/task-ut02a-canonical-metadata-diagnostics-hardening-001.md` |
+| diagnostics hardening workflow | `docs/30-workflows/issue-373-ut02a-canonical-metadata-diagnostics-hardening/` |
+| source follow-up | `docs/30-workflows/completed-tasks/task-ut02a-canonical-metadata-diagnostics-hardening-001.md` (`formalized_as_issue_373_workflow`) |
 | lessons | `lessons-learned/lessons-learned-ut-02a-canonical-schema-resolver-2026-05.md` (L-UT02A-001〜004) |
+
+### Issue #373 UT-02A Canonical Metadata Diagnostics Hardening（UT-02A-FU-DIAG-001 / 2026-05-06）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-373-ut02a-canonical-metadata-diagnostics-hardening/` |
+| 状態 | `implemented-local / Phase 11 evidence captured / Phase 12 completed / Phase 13 blocked_pending_user_approval` |
+| PR本文ソース | `outputs/phase-12/implementation-guide.md` |
+| static manifest stale検出 | `scripts/verify-static-manifest.mjs`（sourceSpecHash drift → exit 1 + stderr、CI gate `verify-static-manifest`） |
+| 決定的再生成 | `scripts/regenerate-static-manifest.mjs`（top-level key固定順序＋sections/fields決定的整列、3連続sha256一致 DT-05 確認） |
+| 構造化 diagnostics | `apps/api/src/repository/_shared/builder.ts` の `buildSectionsWithDiagnostics()` で `logWarn({code:"UBM-MANIFEST-UNKNOWN-KEY",count,stableKeys,note})` 発火 |
+| 構造化ロガー | `apps/api/src/lib/logger.ts`（最小ロガー、sink 差し替え可） |
+| AliasQueueAdapter contract | `apps/api/src/repository/_shared/__tests__/alias-queue-adapter.contract.test.ts`（DT-11..DT-14、D1非依存 `vi.fn()` fake） |
+| retirement condition | `docs/00-getting-started-manual/specs/01-api-schema.md` §Static Manifest Retirement Condition（03a alias queue 完了後に generated manifest と CI gate を retire） |
+| AC PASS 一覧 | AC-1〜AC-8（DT-01/02/05/06/07/11..14/16, builder.test.ts AC-3/AC-6, metadata.test.ts AC-4/AC-5）|
+| 苦戦箇所 | source spec canonicalize↔sourceSpecHash 境界、byte-identical のための key 順序固定、D1非依存 contract 設計、retirement 条件の 03a 依存明文化 |
+| lessons | `lessons-learned/lessons-learned-ut-02a-canonical-schema-resolver-2026-05.md`（L-UT02A-001〜004） |
+| changelog | `changelog/20260506-issue373-ut02a-canonical-metadata-diagnostics-spec.md` |
 
 ## よく使うパターン
 
