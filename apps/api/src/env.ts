@@ -34,6 +34,10 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   readonly RETENTION_PURGE_MODE?: "off" | "dry-run" | "apply";
   readonly RETENTION_PURGE_LIMIT?: string;
 
+  // Issue #503: schema alias back-fill shadow A/B 用 mode 切替。
+  // 値域: "remaining-scan" (default) / "cursor"
+  readonly BACKFILL_CURSOR_MODE?: string;
+
   // wrangler.toml [vars] SHEET_ID / FORM_ID / GOOGLE_FORM_ID
   readonly SHEET_ID?: string;
   readonly FORM_ID?: string;
