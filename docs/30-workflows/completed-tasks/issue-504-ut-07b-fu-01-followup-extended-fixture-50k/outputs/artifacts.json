@@ -1,0 +1,73 @@
+{
+  "taskId": "issue-504-ut-07b-fu-01-followup-extended-fixture-50k",
+  "createdAt": "2026-05-07",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "spec_created",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "implementation_status": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "parentIssueState": "CLOSED_REMAIN",
+    "implementationCategory": "implementation",
+    "runtimeEvidence": "pending_user_gated_staging_stress_trial",
+    "productionApply": "permanently_banned_staging_only"
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/504",
+  "parentTask": "UT-07B-FU-01-FOLLOWUP-extended-fixture-50k",
+  "parentWorkflow": "docs/30-workflows/ut-07b-fu-01-schema-alias-backfill-queue-cron-split/",
+  "sourceUnassignedSpec": "docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-extended-fixture-50k.md",
+  "githubLabels": [
+    "priority:low",
+    "type:improvement",
+    "scale:small",
+    "status:unassigned",
+    "area:api",
+    "area:testing"
+  ],
+  "claudeCodeContext": {
+    "purpose": "Claude Code / Codex がコード実装・PR 作成時に label / tag / scope を確実に共有するためのメタ",
+    "labels": ["priority:low", "type:improvement", "scale:small", "status:unassigned", "area:api", "area:testing"],
+    "prTitlePrefix": "feat(test): issue-504 schema alias back-fill 50k row extended fixture / staging stress trial",
+    "prLabelsToApply": ["priority:low", "type:improvement", "scale:small", "area:api", "area:testing"],
+    "branchNameSuggestion": "feat/issue-504-ut-07b-fu-01-followup-extended-fixture-50k",
+    "ghPrCreateLabelArg": "--label priority:low --label type:improvement --label scale:small --label area:api --label area:testing",
+    "issueLink": "Refs: #504"
+  },
+  "phases": {
+    "phase-1":  { "status": "spec_created", "outputs": ["outputs/phase-1/phase-1.md"] },
+    "phase-2":  { "status": "spec_created", "outputs": ["outputs/phase-2/phase-2.md"] },
+    "phase-3":  { "status": "spec_created", "outputs": ["outputs/phase-3/phase-3.md"] },
+    "phase-4":  { "status": "spec_created", "outputs": ["outputs/phase-4/phase-4.md"] },
+    "phase-5":  { "status": "spec_created", "outputs": ["outputs/phase-5/phase-5.md"] },
+    "phase-6":  { "status": "spec_created", "outputs": ["outputs/phase-6/phase-6.md"] },
+    "phase-7":  { "status": "spec_created", "outputs": ["outputs/phase-7/phase-7.md"] },
+    "phase-8":  { "status": "spec_created", "outputs": ["outputs/phase-8/phase-8.md"] },
+    "phase-9":  { "status": "spec_created", "outputs": ["outputs/phase-9/phase-9.md"] },
+    "phase-10": { "status": "spec_created", "outputs": ["outputs/phase-10/phase-10.md"] },
+    "phase-11": {
+      "status": "pass_boundary_synced_runtime_pending",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/runtime-trial-log.md",
+        "outputs/phase-11/manual-smoke-log.md",
+        "outputs/phase-11/link-checklist.md"
+      ]
+    },
+    "phase-12": {
+      "status": "completed_local_sync",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/elegant-review-30.md"
+      ]
+    },
+    "phase-13": { "status": "spec_created", "outputs": ["outputs/phase-13/phase-13.md"] }
+  }
+}
