@@ -2733,6 +2733,18 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| Phase Outputs | L28 |
+| 主要成果物 | L41 |
+| Skill 反映先（current canonical set） | L48 |
+| 不採用 / 起票見送り（unassigned-task-detection.md より） | L60 |
+| Validation Chain | L69 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -4352,6 +4364,13 @@ node scripts/list-specs.js --topics
 | Scope | L3 |
 | Lessons | L9 |
 
+### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -5740,13 +5759,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L461 |
-| フェーズ構造（概要） | L470 |
-| 品質ゲート（概要） | L501 |
-| 出力テンプレート | L512 |
-| 実行時のコマンド・エージェント・スキル | L535 |
-| 昇格パターン集 | L559 |
-| Current Active / Spec Created Tasks | L561 |
+| ドキュメント構成 | L477 |
+| フェーズ構造（概要） | L486 |
+| 品質ゲート（概要） | L517 |
+| 出力テンプレート | L528 |
+| 実行時のコマンド・エージェント・スキル | L551 |
+| 昇格パターン集 | L575 |
+| Current Active / Spec Created Tasks | L577 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6239,4 +6258,3 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
-

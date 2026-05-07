@@ -2293,6 +2293,7 @@
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
@@ -2530,6 +2531,7 @@
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -3007,6 +3009,7 @@
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -4494,6 +4497,7 @@
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
@@ -4576,6 +4580,7 @@
       "workflow-governance-design-category.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "品質基準": [
@@ -5051,6 +5056,7 @@
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -5108,6 +5114,7 @@
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
+      "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md"
     ],
     "Current": [
@@ -5245,7 +5252,9 @@
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
-      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md"
+      "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
+      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
     ],
     "self": [
       "database-admin-repository-boundary.md"
@@ -6274,6 +6283,7 @@
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
@@ -7426,6 +7436,7 @@
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -8382,6 +8393,7 @@
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
+      "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
@@ -9493,6 +9505,7 @@
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "stub": [
@@ -9911,6 +9924,7 @@
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
+      "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -9927,6 +9941,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -10120,9 +10135,11 @@
     ],
     "public": [
       "lessons-learned-06a-public-web-2026-04.md",
+      "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
     ],
     "と既存": [
       "lessons-learned-06a-public-web-2026-04.md"
@@ -11512,6 +11529,7 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "を新規化と分離する": [
@@ -13073,6 +13091,14 @@
     ],
     "Injection": [
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md"
+    ],
+    "Screen": [
+      "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
+    ],
+    "Blueprints": [
+      "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
     ],
     "OIDC": [
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
@@ -17381,6 +17407,7 @@
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -18980,6 +19007,7 @@
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -19051,6 +19079,7 @@
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -19430,6 +19459,7 @@
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
@@ -19478,12 +19508,35 @@
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "反映先": [
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "文書": [
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
@@ -19733,6 +19786,7 @@
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
@@ -19825,6 +19879,18 @@
     ],
     "Formalized": [
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
+    ],
+    "主要成果物": [
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
+    ],
+    "不採用": [
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
+    ],
+    "起票見送り": [
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
+    ],
+    "より": [
+      "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
     ],
     "参照される実装ファイル": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
