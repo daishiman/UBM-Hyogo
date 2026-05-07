@@ -50,6 +50,20 @@
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
 
+### UI prototype alignment task-03 Sentry Workers SDK unify（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-03-w2-par-sentry-workers-sdk-unify/` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W2 runtime task |
+| 契約 | Workers / Node SSR / Edge は `@sentry/cloudflare`、Browser は `@sentry/nextjs` に entry を分離し、`@sentry/nextjs` / browser SDK token の Workers bundle 混入を grep gate で禁止 |
+| secret境界 | web server DSN は Cloudflare Secret `SENTRY_DSN_WEB`、1Password 正本は `op://UBM-Hyogo/Sentry Web DSN (<env>)/dsn`。Browser DSN は `[vars]` `NEXT_PUBLIC_SENTRY_DSN` |
+| API | `captureException(error, ctx?)`, `captureMessage(message, ctx?)`, `register()` の contract を Phase 3 に固定 |
+| evidence境界 | Phase 11 は local typecheck / tests / build / OpenNext worker grep を取得済みの `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。staging deploy、Sentry dashboard event は user approval 後 |
+| 下流 | task-04 logger、task-05 error boundary / staging smoke |
+| 検証 | `pnpm --filter @ubm-hyogo/web exec tsc --noEmit` PASS、web Vitest 51 files / 420 tests PASS、`pnpm --filter @ubm-hyogo/web build:cloudflare` PASS、worker grep 0 hits、Phase 12 strict 7 outputs、Phase 11 outputs、Phase 13 approval-boundary outputs を同 wave で配置 |
+
 ### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
 
 | 項目 | 値 |

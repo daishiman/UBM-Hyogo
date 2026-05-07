@@ -2534,6 +2534,20 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
 
+### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 11 evidence | L16 |
+| phase 12 required artifacts | L28 |
+| phase 13 reserved artifacts | L40 |
+| implementation artifacts | L46 |
+| env / secret contract | L61 |
+| same-wave skill sync | L71 |
+| state classification | L84 |
+
 ### references/workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -4352,6 +4366,13 @@ node scripts/list-specs.js --topics
 | Scope | L3 |
 | Lessons | L9 |
 
+### references/lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -5740,13 +5761,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L461 |
-| フェーズ構造（概要） | L470 |
-| 品質ゲート（概要） | L501 |
-| 出力テンプレート | L512 |
-| 実行時のコマンド・エージェント・スキル | L535 |
-| 昇格パターン集 | L559 |
-| Current Active / Spec Created Tasks | L561 |
+| ドキュメント構成 | L475 |
+| フェーズ構造（概要） | L484 |
+| 品質ゲート（概要） | L515 |
+| 出力テンプレート | L526 |
+| 実行時のコマンド・エージェント・スキル | L549 |
+| 昇格パターン集 | L573 |
+| Current Active / Spec Created Tasks | L575 |
 
 ### references/task-workflow-backlog-part2.md
 
