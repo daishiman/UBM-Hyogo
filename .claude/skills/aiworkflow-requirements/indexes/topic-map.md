@@ -2297,6 +2297,12 @@ node scripts/list-specs.js --topics
 | boundary | L61 |
 | deferred evidence | L67 |
 
+### references/workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L56 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3281,6 +3287,7 @@ node scripts/list-specs.js --topics
 | GitHub Secrets の要件 | L263 |
 | UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L307 |
 | Post-release dashboard automation (Issue #351 / 2026-05-05) | L328 |
+| post-release-30day-auto-summary | L365 |
 
 ### references/deployment-history.md
 
@@ -4113,6 +4120,20 @@ node scripts/list-specs.js --topics
 | L-ISSUE408-006: TTL purge は migration ではなく `analyze.ts` 末尾で毎時 DELETE する | L87 |
 | L-ISSUE408-007: 監視 token と deploy token は必ず別 secret で保つ | L103 |
 | 参照元 | L119 |
+
+### references/lessons-learned-issue-517-followup-auto-summary-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L9 |
+| 苦戦箇所と学び | L27 |
+| タイムライン（参考） | L119 |
+| 横断的な学び | L136 |
+| 反映先（promoted to） | L147 |
+| 再発防止サマリ表 | L157 |
+| 後続タスクが事前確認すべき運用 checklist | L168 |
+| 用語集（本タスクで導入 / 確定した語彙） | L179 |
+| 引用元 | L188 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -5532,13 +5553,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L366 |
-| フェーズ構造（概要） | L375 |
-| 品質ゲート（概要） | L406 |
-| 出力テンプレート | L417 |
-| 実行時のコマンド・エージェント・スキル | L440 |
-| 昇格パターン集 | L464 |
-| Current Active / Spec Created Tasks | L466 |
+| ドキュメント構成 | L379 |
+| フェーズ構造（概要） | L388 |
+| 品質ゲート（概要） | L419 |
+| 出力テンプレート | L430 |
+| 実行時のコマンド・エージェント・スキル | L453 |
+| 昇格パターン集 | L477 |
+| Current Active / Spec Created Tasks | L479 |
 
 ### references/task-workflow-backlog-part2.md
 

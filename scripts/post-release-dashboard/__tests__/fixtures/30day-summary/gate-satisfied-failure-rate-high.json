@@ -1,0 +1,12 @@
+[
+  {"conclusion":"failure","createdAt":"__TODAY_MINUS_31__","event":"schedule","databaseId":3001,"url":"https://example.invalid/runs/3001"},
+  {"conclusion":"failure","createdAt":"__TODAY_MINUS_30__","event":"schedule","databaseId":3002,"url":"https://example.invalid/runs/3002"},
+  {"conclusion":"failure","createdAt":"__TODAY_MINUS_29__","event":"schedule","databaseId":3003,"url":"https://example.invalid/runs/3003"},
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_28__","event":"schedule","databaseId":3004,"url":"https://example.invalid/runs/3004"},
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_27__","event":"schedule","databaseId":3005,"url":"https://example.invalid/runs/3005"},
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_26__","event":"schedule","databaseId":3006,"url":"https://example.invalid/runs/3006"},
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_25__","event":"schedule","databaseId":3007,"url":"https://example.invalid/runs/3007"},
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_24__","event":"schedule","databaseId":3008,"url":"https://example.invalid/runs/3008"},
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_23__","event":"schedule","databaseId":3009,"url":"https://example.invalid/runs/3009"},
+  {"conclusion":"success","createdAt":"__TODAY_MINUS_22__","event":"schedule","databaseId":3010,"url":"https://example.invalid/runs/3010"}
+]

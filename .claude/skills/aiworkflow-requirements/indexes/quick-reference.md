@@ -5,6 +5,25 @@
 
 ---
 
+### Issue #517 Follow-up Auto-summary Foundation（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-517-followup-auto-summary-foundation/` |
+| 状態 | `spec_created / implementation / NON_VISUAL / channel-bootstrap-preflight` |
+| 対象 workflow | `.github/workflows/post-release-30day-auto-summary.yml` |
+| 対象 script | `scripts/post-release-dashboard/30day-summary.sh`, `scripts/post-release-dashboard/lib/aggregate.sh` |
+| Slack bootstrap | channel `w1618436027-ek2505248` / Incoming Webhook manual bind / 1Password 正本 / GitHub Secret `SLACK_WEBHOOK_URL` |
+| Secret pending | channel / webhook / secret 未準備時は `CONTRACT_READY_SECRET_PENDING` |
+| Runtime pending | scheduled 30 day runtime 未到達時は `CONTRACT_READY_RUNTIME_PENDING` |
+| 正本 refs | `references/deployment-gha.md` §post-release-30day-auto-summary |
+| Inventory | `references/workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md` |
+| Changelog | `changelog/20260507-issue517-followup-auto-summary.md` |
+| 苦戦箇所 | `references/lessons-learned-issue-517-followup-auto-summary-2026-05.md`（L-517-001..006: schedule-only gate 判定 / monthly branch + open PR idempotency / Slack channel manual bootstrap 境界 / fixture 動的日付展開 / plain bash test 化 / Phase-12 strict filename drift 再発防止） |
+| 境界 | Slack App / Bot OAuth / automatic channel creation は含まない。Issue #517 は CLOSED 維持、PR 文面は `Refs` のみ |
+
+---
+
 ### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
 
 | 目的 | 参照先 |
