@@ -1,0 +1,40 @@
+name: audit-correlation-verify
+
+on:
+  pull_request:
+    paths:
+      - 'apps/api/src/audit-correlation/**'
+      - 'scripts/audit-correlation/**'
+      - '.github/workflows/audit-correlation-verify.yml'
+  push:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install dependencies
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: mise exec -- pnpm --filter @ubm-hyogo/api typecheck
+      - name: Lint
+        run: mise exec -- pnpm --filter @ubm-hyogo/api lint
+      - name: Vitest (audit-correlation)
+        run: mise exec -- pnpm --filter @ubm-hyogo/api test src/audit-correlation
+      - name: Install bats and shellcheck
+        run: sudo apt-get update && sudo apt-get install -y bats shellcheck
+      - name: bats grep-gate
+        run: mise exec -- bats scripts/audit-correlation/__tests__/grep-gate.bats
+      - name: bats runner determinism
+        run: mise exec -- bats scripts/audit-correlation/__tests__/runner-determinism.bats
+      - name: shellcheck
+        run: shellcheck scripts/audit-correlation/*.sh
+      - name: actionlint
+        run: |
+          bash <(curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color .github/workflows/audit-correlation-verify.yml
