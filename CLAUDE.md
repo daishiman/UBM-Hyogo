@@ -199,7 +199,8 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 
 ### 目的と絶対原則
 
-- リモート `main` を基準にローカル `main` を同期し、作業ブランチへ取り込んでからPRを作成する。
+- **既定の PR base ブランチは `dev`**（開発統合ブランチ）。`main` への PR は production リリース時の `dev → main` のみ。
+- リモート `dev` を基準にローカル `dev` を同期し、作業ブランチへ取り込んでからPRを作成する。
 - 現在ブランチで上がっている変更は、ステージ済み・未ステージ・未追跡・コミット済み差分を問わず、すべてPRに含める。
 - ファイル種別、サイズ、自動生成物という理由で変更を除外しない。
 - PR本文は `.claude/commands/ai/diff-to-pr.md` をPhase 13仕様として扱い、該当する `outputs/phase-12/implementation-guide.md` の内容を漏れなく反映する。
@@ -207,9 +208,9 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 
 ### 実行順序
 
-1. 現在ブランチと変更状況を確認する。`main` 直上またはブランチ未作成の場合は、差分の主題から `feat/`、`fix/`、`refactor/`、`docs/` のいずれかで作業ブランチを自律作成する。
-2. `git fetch origin main` を実行し、ローカル `main` を `origin/main` にfast-forward同期する。
-3. 作業ブランチに戻り、`main` をマージする。
+1. 現在ブランチと変更状況を確認する。`dev` 直上またはブランチ未作成の場合は、差分の主題から `feat/`、`fix/`、`refactor/`、`docs/` のいずれかで作業ブランチを自律作成する。
+2. `git fetch origin dev` を実行し、ローカル `dev` を `origin/dev` にfast-forward同期する。
+3. 作業ブランチに戻り、`dev` をマージする。
 4. コンフリクトがあれば以下の方針で自律解消し、`git add` と `git commit` まで行う。
 5. 品質検証は次の3コマンドだけを実行する。
    - `pnpm install --force`
@@ -217,18 +218,18 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
    - `pnpm lint`
 6. 品質検証が失敗した場合は最大3回まで自動修復し、修復差分をコミットする。
 7. `git status --porcelain` で未コミット変更を確認し、残っている変更は `git add -A` で全件含めてコミットする。
-8. `git diff main...HEAD --name-only` でPRに入るファイル一覧を取得し、PR本文作成時に漏れなし確認として扱う。
-9. `.claude/commands/ai/diff-to-pr.md` と `outputs/phase-12/implementation-guide.md` を参照してPR本文を作成し、通常PRとして作成する。
+8. `git diff dev...HEAD --name-only` でPRに入るファイル一覧を取得し、PR本文作成時に漏れなし確認として扱う。
+9. `.claude/commands/ai/diff-to-pr.md` と `outputs/phase-12/implementation-guide.md` を参照してPR本文を作成し、`gh pr create --base dev` で作成する（production リリース時のみ `--base main` を明示）。
 
 ### コンフリクト解消の既定方針
 
 | 種別 | 方針 |
 |------|------|
-| `package.json` / `tsconfig` などの設定ファイル | `main` 側を基準に採用し、作業ブランチ側の必要差分を再適用する |
+| `package.json` / `tsconfig` などの設定ファイル | `dev` 側を基準に採用し、作業ブランチ側の必要差分を再適用する |
 | `pnpm-lock.yaml` | 必要なら再生成し、`pnpm install --force` の結果を正とする |
 | ソースコード | 両側の変更意図を保持し、関数・import・型定義を統合する |
 | 自動生成物 | 生成元が明確な場合は再生成結果を正とする |
-| ドキュメント | `main` 側、作業ブランチ側の順に意味を結合し、重複行だけ除去する |
+| ドキュメント | `dev` 側、作業ブランチ側の順に意味を結合し、重複行だけ除去する |
 
 ### 品質検証失敗時の自動修復
 
@@ -240,7 +241,7 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 ### PR作成前チェック
 
 - `git status --porcelain` が空であること。
-- `git diff main...HEAD --name-only` がPRに含めるファイル一覧として取得できていること。
+- `git diff dev...HEAD --name-only` がPRに含めるファイル一覧として取得できていること。
 - `implementation-guide.md` が存在する場合、その主要見出しと内容がPR本文に反映されていること。
 - `outputs/phase-11/` 配下の `png` / `jpg` / `jpeg` / `gif` / `webp` 画像数と、PR本文の画像参照が整合していること。
 - スクリーンショットがない場合、PR本文にスクリーンショット専用セクションを残さないこと。
