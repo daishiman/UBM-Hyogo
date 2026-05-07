@@ -1535,6 +1535,21 @@ packages/
 | error boundary | duplicate=409, deleted member=422, session/member not found=404 |
 | design decision | 新規 `AttendanceWriter` / `AttendanceRecordId` は導入しない |
 
+### UBM-Hyogo Attendance Dashboard Analytics（UT-02A follow-up / 2026-05-06）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/ut-02a-followup-002-attendance-dashboard-analytics/` |
+| 状態 | implemented-local / implementation / VISUAL_ON_EXECUTION / local tests passed / runtime curl and UI screenshot pending |
+| source issue | Issue #370（CLOSED 維持、PR は `Refs #370`） |
+| repository aggregate | `apps/api/src/repository/attendance.ts` 末尾に `computeAttendanceOverview` / `listSessionAttendanceStats` / `listMemberAttendanceRanking` を実装済み |
+| route | 既存 `apps/api/src/routes/admin/dashboard.ts` を拡張し `/admin/dashboard/attendance/{overview,by-session,ranking}` を実装済み |
+| web UI | `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx` |
+| proxy | 既存 `apps/web/app/api/admin/[...path]/route.ts` を再利用。attendance 専用 proxy は作らない |
+| schema boundary | `meeting_sessions.session_id` が PK。`meeting_sessions.id` は使用禁止 |
+| index policy | 新規は `idx_member_attendance_member` 1 本。既存 `idx_member_attendance_session` / `idx_meeting_sessions_active_held_on` を流用 |
+| evidence boundary | repository / route / EXPLAIN Vitest は local PASS。runtime curl / browser screenshot は user-approved capture cycle まで pending |
+
 ### UBM-Hyogo DevEx Conflict Prevention Spec Wave（2026-04-28）
 
 | 順序 | canonical task root | 状態 |

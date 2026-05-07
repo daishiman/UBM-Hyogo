@@ -683,6 +683,14 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 | 2026-05-03 | ut-web-cov-04 implementation evidence sync。`@ubm-hyogo/web` test / test:coverage / typecheck / lint / build PASS、13 target coverage AC PASS、Phase 11/12 evidence を NOT_EXECUTED から measured PASS へ更新。 |
 
 | 2026-05-04 - CI test recovery + coverage 80% follow-up spec sync（`docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/` を `spec_created / implementation / NON_VISUAL / Phase 1-13 specs present / Phase 13 blocked_pending_user_approval` として登録。main CI run 25297513424 の apps/web `react/jsx-dev-runtime` 解決、apps/api 13 test failure 回復、apps/web/apps/api coverage 80% 補強、coverage-gate hard gate 化を Task A-E に分解。canonical child dirs は parent-local `task-a-jsx-dev-runtime-resolve/` / `task-b-apps-api-test-recovery/` / `task-c-apps-web-coverage-80/` / `task-d-apps-api-coverage-80/` / `task-e-coverage-hard-gate/`。同 wave で artifacts schema を root-only parity に統一し、Phase 12 strict 7 files の compliance check と Part 1/Part 2 implementation guide を実体化。`indexes/quick-reference.md` / `indexes/resource-map.md` / `references/task-workflow-active.md` / `references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md` を同期。コード実装、commit、push、PR は未実行） |
+## 2026-05-06 - UT-02A followup-002 attendance dashboard analytics implemented-local sync
+
+- Registered `docs/30-workflows/ut-02a-followup-002-attendance-dashboard-analytics/` as `implemented-local / implementation / VISUAL_ON_EXECUTION / local tests passed / runtime curl and UI screenshot pending`.
+- Synchronized admin attendance analytics API (`/admin/dashboard/attendance/{overview,by-session,ranking}`), repository aggregate functions, shared zod schemas, `idx_member_attendance_member`, and admin sidebar reachability.
+- Fixed aggregate semantics so deleted sessions and deleted members are excluded from count/rate numerators.
+- Refreshed root/outputs artifacts parity and updated manual specs 01/08 plus aiworkflow api/database references.
+- Runtime curl and browser screenshot evidence remain pending; no commit, push, or PR was executed.
+
 # 2026-05-06 UT-07B-FU-02 admin schema alias retry label
 
 - Synced `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/` as `implemented-local / implementation / VISUAL_ON_EXECUTION / component evidence PASS / runtime screenshot pending`.

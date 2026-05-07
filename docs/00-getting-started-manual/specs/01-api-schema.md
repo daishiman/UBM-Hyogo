@@ -166,6 +166,18 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 `MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile` と admin member detail の builder に `createAttendanceProvider(ctx)` を注入する。
 
+## Admin Dashboard Attendance Analytics API
+
+`ut-02a-followup-002` では admin dashboard 用の attendance aggregate API を `GET /admin/dashboard/attendance/*` に追加する。すべて既存 admin gate 配下で実行し、apps/web は `/api/admin/...` proxy / `fetchAdmin` 経由で呼ぶ。apps/web から D1 を直接参照しない。
+
+| Method | Path | Query | Response |
+|--------|------|-------|----------|
+| GET | `/admin/dashboard/attendance/overview` | なし | `{ totalSessions: number; totalMembers: number; overallRate: number }` |
+| GET | `/admin/dashboard/attendance/by-session` | `limit` default 50 / max 200。不正値は 400 | `Array<{ sessionId: string; title: string; heldOn: string; attendeeCount: number; rate: number }>` |
+| GET | `/admin/dashboard/attendance/ranking` | `limit` default 50 / max 200。不正値は 400 | `Array<{ memberId: MemberId; displayName: string; attendedCount: number; rate: number }>` |
+
+集計分母は `meeting_sessions.deleted_at IS NULL` の active session と `member_status.is_deleted != 1` の active member に揃える。削除済み session / 削除済み member の attendance row は `attendeeCount` / `attendedCount` / `overallRate` に含めない。
+
 ## API health contract: GET /health/db
 
 `GET /health/db` は API Worker から D1 binding に `SELECT 1` を実行し、UT-06 AC-4 の API 経由 D1 smoke を可能にするための health endpoint である。D1 への直接アクセスは `apps/api` に閉じ、`apps/web` から D1 binding を参照しない。

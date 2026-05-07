@@ -877,9 +877,10 @@ node scripts/list-specs.js --topics
 | エンドポイント命名規則 | L209 |
 | UBM-Hyogo Admin Sync API（03a） | L230 |
 | UBM-Hyogo Member Self-Service API（04b） | L281 |
-| Desktop IPC API サマリー | L308 |
-| 変更履歴 | L339 |
-| 関連ドキュメント | L356 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L306 |
+| Desktop IPC API サマリー | L320 |
+| 変更履歴 | L351 |
+| 関連ドキュメント | L368 |
 
 ### references/api-internal-chunk-search.md
 
@@ -972,10 +973,10 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| エラーハンドリング | L231 |
-| Conversation DB 初期化パターン | L262 |
-| UBM-Hyogo Schema Sync Contract（03a） | L264 |
-| ベクトル検索実装（DiskANN） | L374 |
+| エラーハンドリング | L232 |
+| Conversation DB 初期化パターン | L263 |
+| UBM-Hyogo Schema Sync Contract（03a） | L265 |
+| ベクトル検索実装（DiskANN） | L375 |
 
 ### references/database-implementation-details.md
 
