@@ -21,6 +21,23 @@
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
 
+### UI prototype alignment / task-19 09c primitives full spec（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-19-w2-primitives-full-spec/` |
+| primary spec | `docs/00-getting-started-manual/specs/09c-primitives.md` |
+| 目的 | `primitives.jsx` の const-based primitive / helper set を 09c contract として固定し、task-10 ui-primitives 実装の入力正本にする |
+| validation | 600-1200 lines、numbered headings + §99、17 JSX excerpts、HEX / `oklch()` / `px` / `bg-[` grep 0、`token-sized` / `09b-token-value` / `token-mix` grep 0 |
+| upstream | task-01 scope gate completed、prototype `primitives.jsx` frozen |
+| downstream | task-06 contract index、task-10 ui-primitives、task-11..17 screens、task-20..22 screen blueprints |
+| boundary | task-19 primary deliverable は docs-only。2026-05-07 review cycle で検出した `apps/api/src/repository/identity-conflict.ts` の隣接 code diff は task-19 evidence から分離して記録 |
+| evidence | `outputs/phase-11/evidence/grep-gate.log`, `scripts/verify-09c-no-visual-values.sh`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| 苦戦箇所 | `references/lessons-learned-task19-primitives-full-spec-2026-05.md`（L-T19-001..005: placeholder token grep / §99 keyword 二段検証 / docs-only staged path scope / prototype const 1:1 照合 / verify script Phase 1-4 雛形配置） |
+| changelog | `changelog/20260507-task19-primitives-full-spec.md` |
+| 運用 | docs-only / contract 系タスクの `scripts/verify-<task>-*.sh` は **Phase 1（task spec 確定時）または Phase 4（AC 確定時）に雛形を repo 配置**する。Phase 11 で初めて作る運用は禁止（後付けは shallow grep PASS の温床になる）。雛形は `set -euo pipefail` / 視覚値 grep / placeholder grep / §99 必須キーワード occurrence ≥ 1 / exit code を最小構成として明記 |
+
 ### Issue #407 Cloudflare API Token 90 日 rotation runbook automation（2026-05-06）
 
 | 項目 | 値 |

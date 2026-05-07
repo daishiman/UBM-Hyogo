@@ -4173,6 +4173,13 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
 
+### references/lessons-learned-task19-primitives-full-spec-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L10 |
+| 関連教訓 | L42 |
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -5544,13 +5551,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L379 |
-| フェーズ構造（概要） | L388 |
-| 品質ゲート（概要） | L419 |
-| 出力テンプレート | L430 |
-| 実行時のコマンド・エージェント・スキル | L453 |
-| 昇格パターン集 | L477 |
-| Current Active / Spec Created Tasks | L479 |
+| ドキュメント構成 | L396 |
+| フェーズ構造（概要） | L405 |
+| 品質ゲート（概要） | L436 |
+| 出力テンプレート | L447 |
+| 実行時のコマンド・エージェント・スキル | L470 |
+| 昇格パターン集 | L494 |
+| Current Active / Spec Created Tasks | L496 |
 
 ### references/task-workflow-backlog-part2.md
 

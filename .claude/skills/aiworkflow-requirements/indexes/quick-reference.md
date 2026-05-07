@@ -20,6 +20,21 @@
 | archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### UI prototype alignment / task-19 09c primitives full spec（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-19-w2-primitives-full-spec/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| primary spec | `docs/00-getting-started-manual/specs/09c-primitives.md` |
+| source | `docs/00-getting-started-manual/claude-design-prototype/primitives.jsx` |
+| validation | 600-1200 lines、17 JSX excerpts、HEX / `oklch()` / `px` / `bg-[` grep 0、placeholder token grep 0 |
+| downstream | task-06 contract index、task-10 ui-primitives、task-11..17 screens、task-20..22 blueprints |
+| evidence | `outputs/phase-11/evidence/grep-gate.log`, `scripts/verify-09c-no-visual-values.sh`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | task-19 primary deliverable は docs-only。隣接 `apps/api/src/repository/identity-conflict.ts` diff は branch review で分離記録 |
+| 苦戦箇所 | `references/lessons-learned-task19-primitives-full-spec-2026-05.md`（L-T19-001..005: placeholder token grep 必須化 / §99 keyword 二段検証 / docs-only staged path scope 検証 / prototype `export const` 1:1 照合 / verify script の Phase 1-4 雛形配置） |
+| changelog | `changelog/20260507-task19-primitives-full-spec.md` |
+
 ### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
 
 | 目的 | 参照先 |
