@@ -379,3 +379,26 @@ docs/{task-id}/
 | [08-free-database.md](./08-free-database.md) | D1 構成と無料構成 |
 | [10-notification-auth.md](./10-notification-auth.md) | ログイン導線と通知補助 |
 | [13-mvp-auth.md](./13-mvp-auth.md) | MVP 認証方針 |
+
+---
+
+## 画面一覧（19 routes）と API mapping
+
+UI 実装スコープと API 接続マッピングは下記を正本とする:
+
+- 全画面一覧と層分け: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md`
+- 画面 -> API endpoint 詳細マッピング: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-3/phase-3.md` §2
+- スコープ拡張根拠 / 非ゴール: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-1/phase-1.md` §1〜§3
+
+### 層別 routes 早見
+
+- 公開（6）: `/`, `/(public)/members`, `/(public)/members/[id]`, `/(public)/register`, `/privacy`, `/terms`
+- 会員（2）: `/login`, `/profile`
+- 管理（8）: `/(admin)/admin`, `/(admin)/admin/{members,tags,meetings,schema,requests,identity-conflicts,audit}`
+- 共通（3）: `error.tsx`, `not-found.tsx`, `loading.tsx`
+
+### API 接続不変条件
+
+- `apps/api/src/routes/` 配下の現行 endpoint のみ利用
+- 新 endpoint 追加・D1 schema 変更・Google Form 仕様変更は本ワークフローでは禁止
+- shape 乖離は UI 側 adapter で吸収（API を変更しない）

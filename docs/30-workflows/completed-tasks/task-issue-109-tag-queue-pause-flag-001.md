@@ -7,12 +7,18 @@
 | タスクID | task-issue-109-tag-queue-pause-flag-001 |
 | 分類 | implementation / operations guard |
 | 優先度 | 低 |
-| ステータス | unassigned |
+| ステータス | consumed_by_issue_378 |
 | 発見元 | issue-109 UT-02A Phase 12 / Phase 13 rollback notes |
+| 解決先 | `docs/30-workflows/issue-378-tag-queue-paused-flag/` |
 
 ## 概要
 
 `TAG_QUEUE_PAUSED` 等の緊急停止 flag を導入し、Forms sync からの candidate enqueue を一時停止できるようにする。
+
+## Close-out
+
+2026-05-06 の Issue #378 workflow で実装済み。current source は `docs/30-workflows/issue-378-tag-queue-paused-flag/` と `docs/30-workflows/runbooks/tag-queue-pause.md`。
+このファイルは historical source trace として残し、未割当タスクとしては扱わない。
 
 ## 苦戦箇所【記入必須】
 

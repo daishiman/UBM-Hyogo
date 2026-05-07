@@ -108,3 +108,20 @@ export const MeQueueAcceptedResponseZ = z
   .strict();
 
 export type MeQueueAcceptedResponse = z.infer<typeof MeQueueAcceptedResponseZ>;
+
+// GET /me/attendance — issue-372: ページング継続取得
+export const MeAttendancePageResponseZ = z
+  .object({
+    records: z.array(
+      z.object({
+        sessionId: z.string().min(1),
+        title: z.string(),
+        heldOn: z.string().min(1),
+      }),
+    ),
+    hasMore: z.boolean(),
+    nextCursor: z.string().nullable(),
+  })
+  .strict();
+
+export type MeAttendancePageResponse = z.infer<typeof MeAttendancePageResponseZ>;

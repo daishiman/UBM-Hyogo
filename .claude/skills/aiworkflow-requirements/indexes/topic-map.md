@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L209 |
-| UBM-Hyogo Admin Sync API（03a） | L230 |
-| UBM-Hyogo Member Self-Service API（04b） | L281 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L306 |
-| Desktop IPC API サマリー | L320 |
-| 変更履歴 | L351 |
-| 関連ドキュメント | L368 |
+| エンドポイント命名規則 | L210 |
+| UBM-Hyogo Admin Sync API（03a） | L231 |
+| UBM-Hyogo Member Self-Service API（04b） | L282 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L308 |
+| Desktop IPC API サマリー | L322 |
+| 変更履歴 | L353 |
+| 関連ドキュメント | L370 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2246,6 +2246,14 @@ node scripts/list-specs.js --topics
 | Evidence | L31 |
 | System Spec Sync | L38 |
 
+### references/workflow-issue-372-attendance-pagination-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L13 |
+| Boundary | L25 |
+
 ### references/workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md
 
 | セクション | 行 |
@@ -2255,6 +2263,18 @@ node scripts/list-specs.js --topics
 | Phase 11 Evidence Files | L36 |
 | Same-Wave Touched Files | L44 |
 | Boundary | L66 |
+
+### references/workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L9 |
+| Implementation Artifacts | L16 |
+| Runtime Contract | L25 |
+| Evidence | L33 |
+| System Spec Sync | L44 |
+| Invariants | L57 |
 
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
@@ -2289,16 +2309,18 @@ node scripts/list-specs.js --topics
 | boundary | L61 |
 | deferred evidence | L67 |
 
-### references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md
+### references/workflow-issue-504-extended-fixture-50k-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| Canonical Files | L21 |
-| Runbook / Reference / Changelog（skill 側 1-hop） | L37 |
-| Phase 11 Evidence Files | L46 |
-| Phase 12 strict 7 Files | L58 |
-| Same-Wave Touched Files | L68 |
-| Boundary | L88 |
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Contract Summary | L25 |
+| Runtime Boundary | L38 |
+| Code Artifacts | L42 |
+| Implementation Guide Pointers | L54 |
+| Unassigned Task Trace | L65 |
+| Lessons Learned | L74 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3238,17 +3260,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L193 |
-| Cloudflare D1 データベース | L313 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L346 |
-| GitHub Actions CI/CD | L458 |
-| プレビューデプロイメント | L487 |
-| カスタムドメイン設定 | L503 |
-| 環境分離 | L516 |
-| ロールバック戦略 | L526 |
-| モニタリング/アラート（UT-08 連携） | L547 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
-| 変更履歴 | L648 |
+| Cloudflare D1 データベース | L315 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L348 |
+| GitHub Actions CI/CD | L460 |
+| プレビューデプロイメント | L489 |
+| カスタムドメイン設定 | L505 |
+| 環境分離 | L518 |
+| ロールバック戦略 | L528 |
+| モニタリング/アラート（UT-08 連携） | L549 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L566 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L601 |
+| 変更履歴 | L650 |
 
 ### references/deployment-core.md
 
@@ -3412,33 +3434,20 @@ node scripts/list-specs.js --topics
 | 開発ガイドライン | L292 |
 | 関連ドキュメント | L323 |
 
-### references/dlq-monitoring.md
-
-| セクション | 行 |
-|------------|----|
-| 1. Queue / DLQ binding（`apps/api/wrangler.toml` の正本） | L15 |
-| 2. 観測対象 D1 列（`schema_diff_queue` / migration `0014_schema_diff_queue_dedupe_failure.sql`） | L24 |
-| 3. 異常しきい値 | L36 |
-| 4. runbook link（1-hop） | L46 |
-| 5. 実行ラッパー（`wrangler` 直接禁止） | L52 |
-| 6. エスカレーション | L60 |
-| 7. 関連 topic | L72 |
-| 8. 出典 | L80 |
-
 ### references/environment-variables.md
 
 | セクション | 行 |
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L130 |
-| 環境別設定 | L204 |
-| Electron アプリでの環境変数 | L258 |
-| トラブルシューティング | L315 |
-| チーム開発での運用 | L376 |
-| 必須環境変数一覧 | L415 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L476 |
-| 関連ドキュメント | L497 |
+| セキュリティベストプラクティス | L131 |
+| 環境別設定 | L205 |
+| Electron アプリでの環境変数 | L259 |
+| トラブルシューティング | L316 |
+| チーム開発での運用 | L377 |
+| 必須環境変数一覧 | L416 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L477 |
+| 関連ドキュメント | L498 |
 
 ### references/error-handling-core.md
 
@@ -4053,6 +4062,18 @@ node scripts/list-specs.js --topics
 | 関連リソース | L41 |
 | 検索キーワード（indexes rebuild 用） | L52 |
 
+### references/lessons-learned-issue-372-attendance-pagination-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE372-001: cursor は encoded string 境界と decoded 構造体境界を route / builder / repository で明確に分ける | L7 |
+| L-ISSUE372-002: 既存 bulk API（`findByMemberIds`）には pagination を混ぜず個人特化 API を追加する | L25 |
+| L-ISSUE372-003: `MemberProfile.attendance` 配列は維持し、メタ情報は optional `attendanceMeta` に分離する | L43 |
+| L-ISSUE372-004: miniflare 全体 vitest は EADDRNOTAVAIL でポート枯渇する。focused run を採用する | L61 |
+| L-ISSUE372-005: 1Password CLI authorization timeout でフルビルドが落ちても、コード起因と環境起因を切り分けて記録する | L79 |
+| L-ISSUE372-006: Phase 11 staging visual evidence は runtime session 必要なので Phase 12 spec sync の blocker にしない | L97 |
+| 参照元 | L115 |
+
 ### references/lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md
 
 | セクション | 行 |
@@ -4117,17 +4138,6 @@ node scripts/list-specs.js --topics
 | L-ISSUE408-006: TTL purge は migration ではなく `analyze.ts` 末尾で毎時 DELETE する | L87 |
 | L-ISSUE408-007: 監視 token と deploy token は必ず別 secret で保つ | L103 |
 | 参照元 | L119 |
-
-### references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-502-001: `last_error` 列の SELECT 禁止 — PII / OAuth token 混入リスクは SQL レイヤで遮断する | L10 |
-| L-502-002: Cloudflare Queue / DLQ binding 命名規約 — 環境別 suffix を SSOT で固定する | L22 |
-| L-502-003: しきい値（DLQ ≥ 1 / retry_count ≥ 3 / exhausted 24h）— 初期固定値と再観測ポリシー | L34 |
-| L-502-004: `wrangler` 直接実行禁止 — `scripts/cf.sh` ラッパー強制の根拠 | L46 |
-| L-502-005: docs-only spec_created で Issue CLOSED を維持し、PR は `Refs #502` のみで連結する | L58 |
-| 関連 lessons | L70 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -4369,6 +4379,10 @@ node scripts/list-specs.js --topics
 | L-UT07B-FU01-004: remaining-scan vs cursor-pagination の選定理由 | L19 |
 | L-UT07B-FU01-005: idempotent 設計のため Queue 消費側で dedupe_key を再確認する | L23 |
 | L-UT07B-FU01-006: Phase 11 gate を「local implementation GO / runtime evidence pending」と明示する | L27 |
+| L-UT07B-FU01-007: 50k fixture の deterministic identity は prefix-based dedupe_key に固定する | L31 |
+| L-UT07B-FU01-008: production bulk INSERT/DELETE 禁止は script と API の二重 fail-closed で実装する | L35 |
+| L-UT07B-FU01-009: stress trial trigger は `cf.sh api-post` ではなく ADMIN_SESSION_JWT + 直接 curl を正本とする | L39 |
+| L-UT07B-FU01-010: parent workflow 参照は spec creation 時に `test -f` で実体検証する | L43 |
 
 ### references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md
 
@@ -5405,6 +5419,17 @@ node scripts/list-specs.js --topics
 | Commands | L20 |
 | Lessons Learned (issue-348) | L50 |
 
+### references/schema-alias-backfill-runbook.md
+
+| セクション | 行 |
+|------------|----|
+| Issue #504 50k Stress Trial Contract | L3 |
+| Fixture Identity | L13 |
+| Runtime Trigger | L29 |
+| Abort Gates | L54 |
+| Evidence | L65 |
+| Manual Fallback Runbook | L79 |
+
 ### references/skill-executor-type-migration.md
 
 | セクション | 行 |
@@ -5547,13 +5572,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L386 |
-| フェーズ構造（概要） | L395 |
-| 品質ゲート（概要） | L426 |
-| 出力テンプレート | L437 |
-| 実行時のコマンド・エージェント・スキル | L460 |
-| 昇格パターン集 | L484 |
-| Current Active / Spec Created Tasks | L486 |
+| ドキュメント構成 | L395 |
+| フェーズ構造（概要） | L404 |
+| 品質ゲート（概要） | L435 |
+| 出力テンプレート | L446 |
+| 実行時のコマンド・エージェント・スキル | L469 |
+| 昇格パターン集 | L493 |
+| Current Active / Spec Created Tasks | L495 |
 
 ### references/task-workflow-backlog-part2.md
 

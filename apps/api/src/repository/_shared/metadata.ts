@@ -2,9 +2,14 @@
 // builder.ts の section 重複・label 流用・heuristic kind 判定 fallback を root から排除する単一の入口。
 // 03a の StableKey alias queue 完成までは static-manifest.json を baseline source として参照する。
 // 不変条件 #1 / #2 / #3 / #5 を resolver 経由で観測可能にする。
+//
+// Static manifest baseline.
+// Retirement: docs/00-getting-started-manual/specs/01-api-schema.md § Static Manifest Retirement Condition
+// Stale detection: scripts/verify-static-manifest.mjs (CI gate: pnpm verify:static-manifest)
 
 import type { FieldKind } from "@ubm-hyogo/shared";
 import staticManifest from "./generated/static-manifest.json";
+import { logWarn } from "../../lib/logger";
 
 export type SectionKey = string;
 export const UNKNOWN_SECTION_KEY: SectionKey = "__unknown__";
@@ -49,9 +54,22 @@ interface ManifestField {
 interface ManifestShape {
   sections: ReadonlyArray<{ key: string; title: string; position: number }>;
   fields: Record<string, ManifestField>;
+  sourceSpecHash?: string;
+  sourceSpecVersion?: string;
 }
 
 const MANIFEST: ManifestShape = staticManifest as unknown as ManifestShape;
+
+// import 時に schema 不正を観測ログに残す（実行時 fail はしない・観測のみ）。
+if (
+  typeof MANIFEST.sourceSpecHash !== "string" ||
+  !MANIFEST.sourceSpecHash.startsWith("sha256:")
+) {
+  logWarn({
+    code: "UBM-MANIFEST-INVALID-SCHEMA",
+    note: "static-manifest.json missing sourceSpecHash; run pnpm regenerate:static-manifest",
+  });
+}
 
 export class GeneratedManifestResolver implements MetadataResolver {
   private readonly manifest: ManifestShape;
