@@ -1532,6 +1532,17 @@ packages/
 | repository write | `apps/api/src/repository/attendance.ts` (`addAttendance` / `removeAttendance`) |
 | canonical route | `POST /admin/meetings/:sessionId/attendances` |
 | legacy routes | `POST /admin/meetings/:sessionId/attendance`, `DELETE /admin/meetings/:sessionId/attendance/:memberId` |
+
+### UBM-Hyogo Attendance Provider Context Migration（Issue #371 / UT-02A follow-up / 2026-05-06）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+| 状態 | implemented-local / implementation / NON_VISUAL / code evidence captured / runtime smoke pending / Issue #371 CLOSED |
+| source stub | `docs/30-workflows/completed-tasks/ut-02a-attendance-profile-integration/ut-02a-followup-003-hono-ctx-or-di-container-migration.md`（transferred） |
+| target contract | `buildMemberProfile(c, mid)` / `buildAdminMemberDetailView(c, mid, adminNotes)` に縮小し、provider は `c.var.attendanceProvider` から解決 |
+| type boundary | 既存 `DbCtx` (`readonly db`) は変更せず、attendance builder だけ `RepositoryProviderCtx = DbCtx & { var: RepositoryProviderVariables }` を要求 |
+| evidence boundary | Phase 11 は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。typecheck / lint / test / build / grep gate logs captured、runtime smoke は下流 gate |
 | error boundary | duplicate=409, deleted member=422, session/member not found=404 |
 | design decision | 新規 `AttendanceWriter` / `AttendanceRecordId` は導入しない |
 

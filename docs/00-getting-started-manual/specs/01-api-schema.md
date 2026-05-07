@@ -164,7 +164,7 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 ---
 
-`MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile` と admin member detail の builder に `createAttendanceProvider(ctx)` を注入する。
+`MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile` と admin member detail は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` から provider を解決する。builder call site へ optional `deps?` を渡す方式は使わない。
 
 ## Admin Dashboard Attendance Analytics API
 
