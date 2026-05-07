@@ -130,7 +130,20 @@
 | Phase 11 evidence | `outputs/phase-11/post-release-dashboard-30d.json`, conclusion distribution, failure root cause, consecutive failure window, failure rate decision, redaction grep |
 | schedule / artifact evidence | `event=="schedule"` の日次 gap 0、artifact downloadability、retention、run duration を確認 |
 | next action | failure rate `< 10%` は現状維持。`>= 10%` は retry / alert 追加を別 unassigned task 化し、Issue #497 は CLOSED 維持 |
-| Issue 取扱 | #497 CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ。PR 文面は `Refs #497, Refs #351` |
+
+### Issue #517 Follow-up Auto-summary Foundation（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / channel-bootstrap-preflight / Phase 12 strict outputs present |
+| 成果物 | `docs/30-workflows/issue-517-followup-auto-summary-foundation/` |
+| 親 trace | Issue #497 / Issue #351 post-release-dashboard automation |
+| 目的 | Issue #497 の 30 日 conclusion 集計を GHA cron + shell script + draft PR + Slack Incoming Webhook で自動化する |
+| 実装対象 | `.github/workflows/post-release-30day-auto-summary.yml`, `scripts/post-release-dashboard/30day-summary.sh`, `scripts/post-release-dashboard/lib/aggregate.sh`, `scripts/post-release-dashboard/__tests__/30day-summary.test.sh` |
+| Slack bootstrap | channel `w1618436027-ek2505248` / Incoming Webhook manual bind / 1Password 正本 / GitHub Secret `SLACK_WEBHOOK_URL` derived copy |
+| 状態語彙 | channel / webhook / secret 未準備時は `CONTRACT_READY_SECRET_PENDING`。scheduled 30 day runtime は `CONTRACT_READY_RUNTIME_PENDING` |
+| 境界 | Slack App / Bot OAuth / automatic channel creation / retry / alert 実装は含まない。Issue #517 は CLOSED 維持し PR 文脈は `Refs #517, Refs #497, Refs #351` |
+| Issue 取扱 | #517 / #497 / #351 CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ。PR 文面は `Refs #517, Refs #497, Refs #351` |
 
 ### Issue #408 Cloudflare Audit Logs Monitoring（2026-05-06）
 

@@ -717,6 +717,14 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Added `references/release-runbook.md` and `references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md`.
 - Registered the workflow in `references/task-workflow-active.md`, `indexes/quick-reference.md`, and `indexes/resource-map.md`.
 - Source unassigned task `task-09c-github-release-tag-automation-001.md` is now consumed / formalized.
+
+# 2026-05-07 issue517 follow-up auto-summary foundation
+
+- Synced Issue #517 as `spec_created / implementation / NON_VISUAL / channel-bootstrap-preflight`.
+- Added `references/deployment-gha.md` section `post-release-30day-auto-summary`.
+- Fixed Slack channel bootstrap contract: channel `w1618436027-ek2505248`, Incoming Webhook manual bind, 1Password canonical source, GitHub Secret `SLACK_WEBHOOK_URL` derived copy, no Slack App / Bot OAuth implementation.
+- State vocabulary: `CONTRACT_READY_SECRET_PENDING` for missing channel/webhook/secret preflight; `CONTRACT_READY_RUNTIME_PENDING` for scheduled 30 day runtime evidence.
+
 # 2026-05-07 issue515 cf audit logs ML-ready classifier
 
 - state: implemented_local_runtime_pending / implementation / NON_VISUAL
