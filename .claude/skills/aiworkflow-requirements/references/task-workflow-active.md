@@ -37,6 +37,22 @@
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
 
+### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
+| public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
+| member blueprint | `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md`（917 行 / section count 3） |
+| endpoint surface | `SCOPE.md` §2 + 現行 `apps/api/src/routes/` の AND: `GET /public/members/:memberId`, `POST /auth/magic-link`, `GET /auth/gate-state`, `GET /auth/session-resolve`, `GET /me`, `POST /me/visibility-request`, `POST /me/delete-request` |
+| login state | `input / sent / unregistered / deleted / rules_declined / error` |
+| legacy 撤回 | `/v1/public/*`, `/public/member-profile/:id`, `/auth/schemas`, `/auth/logout`, `/api/me`, `ruleConsent` を 09e/09f から削除 |
+| docs-only NON_VISUAL lifecycle | `references/lessons-learned-docs-only-lifecycle.md`（L-DOCS-LIFECYCLE-001..005） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260507-task-20-screen-blueprints-public-member.md` |
+| 境界 | apps/packages code change 0。Phase 13 commit / push / PR は user approval 後のみ |
+| evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-11/evidence/{route-coverage,endpoint-surface,state-vocabulary,phase12-strict-outputs,aiworkflow-sync-presence,lint-availability}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
 ### Issue #407 Cloudflare API Token 90 日 rotation runbook automation（2026-05-06）
 
 | 項目 | 値 |
