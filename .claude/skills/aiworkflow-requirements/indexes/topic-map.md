@@ -2309,6 +2309,17 @@ node scripts/list-specs.js --topics
 | boundary | L61 |
 | deferred evidence | L67 |
 
+### references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Files | L21 |
+| Runbook / Reference / Changelog（skill 側 1-hop） | L37 |
+| Phase 11 Evidence Files | L46 |
+| Phase 12 strict 7 Files | L58 |
+| Same-Wave Touched Files | L68 |
+| Boundary | L88 |
+
 ### references/workflow-issue-504-extended-fixture-50k-artifact-inventory.md
 
 | セクション | 行 |
@@ -3434,6 +3445,19 @@ node scripts/list-specs.js --topics
 | 開発ガイドライン | L292 |
 | 関連ドキュメント | L323 |
 
+### references/dlq-monitoring.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Queue / DLQ binding（`apps/api/wrangler.toml` の正本） | L15 |
+| 2. 観測対象 D1 列（`schema_diff_queue` / migration `0014_schema_diff_queue_dedupe_failure.sql`） | L24 |
+| 3. 異常しきい値 | L36 |
+| 4. runbook link（1-hop） | L46 |
+| 5. 実行ラッパー（`wrangler` 直接禁止） | L52 |
+| 6. エスカレーション | L60 |
+| 7. 関連 topic | L72 |
+| 8. 出典 | L80 |
+
 ### references/environment-variables.md
 
 | セクション | 行 |
@@ -4138,6 +4162,17 @@ node scripts/list-specs.js --topics
 | L-ISSUE408-006: TTL purge は migration ではなく `analyze.ts` 末尾で毎時 DELETE する | L87 |
 | L-ISSUE408-007: 監視 token と deploy token は必ず別 secret で保つ | L103 |
 | 参照元 | L119 |
+
+### references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-502-001: `last_error` 列の SELECT 禁止 — PII / OAuth token 混入リスクは SQL レイヤで遮断する | L10 |
+| L-502-002: Cloudflare Queue / DLQ binding 命名規約 — 環境別 suffix を SSOT で固定する | L22 |
+| L-502-003: しきい値（DLQ ≥ 1 / retry_count ≥ 3 / exhausted 24h）— 初期固定値と再観測ポリシー | L34 |
+| L-502-004: `wrangler` 直接実行禁止 — `scripts/cf.sh` ラッパー強制の根拠 | L46 |
+| L-502-005: docs-only spec_created で Issue CLOSED を維持し、PR は `Refs #502` のみで連結する | L58 |
+| 関連 lessons | L70 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -5572,13 +5607,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L395 |
-| フェーズ構造（概要） | L404 |
-| 品質ゲート（概要） | L435 |
-| 出力テンプレート | L446 |
-| 実行時のコマンド・エージェント・スキル | L469 |
-| 昇格パターン集 | L493 |
-| Current Active / Spec Created Tasks | L495 |
+| ドキュメント構成 | L415 |
+| フェーズ構造（概要） | L424 |
+| 品質ゲート（概要） | L455 |
+| 出力テンプレート | L466 |
+| 実行時のコマンド・エージェント・スキル | L489 |
+| 昇格パターン集 | L513 |
+| Current Active / Spec Created Tasks | L515 |
 
 ### references/task-workflow-backlog-part2.md
 
