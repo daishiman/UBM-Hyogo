@@ -41,6 +41,7 @@ import {
 import { runSchemaSync, ConflictError } from "./sync/schema";
 import {
   runBackfillBatch,
+  resolveBackfillCursorModeWithLog,
   type BackfillBatchInput,
 } from "./workflows/schemaAliasBackfillBatch";
 import { clearDedupeKey } from "./repository/schemaDiffQueue";
@@ -325,10 +326,12 @@ const handleBackfillMessage = async (
   msg: BackfillQueueMessage,
 ): Promise<void> => {
   const db = dbCtx({ DB: env.DB });
+  const mode = resolveBackfillCursorModeWithLog(env.BACKFILL_CURSOR_MODE);
   const input: BackfillBatchInput = {
     diffId: msg.diffId,
     questionId: msg.questionId,
     newStableKey: msg.newStableKey,
+    mode,
     ...(msg.retryCount !== undefined ? { retryCount: msg.retryCount } : {}),
   };
   const result = await runBackfillBatch(db, input);

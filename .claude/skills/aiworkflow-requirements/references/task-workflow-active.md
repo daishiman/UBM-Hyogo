@@ -8,6 +8,35 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/task-02-w2-wrangler-env-injection/` |
+| 実装対象 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
+| env contract | `getEnv()` は Cloudflare `getCloudflareContext().env` を優先し、Node build/test では `process.env` fallback。全経路を zod schema で検証 |
+| secret境界 | `SENTRY_DSN_WEB` / `AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
+| 依存 | task-03 とは設計並列可。ただし `wrangler.toml` `[vars]` 実変更は task-02 owner で先行 |
+| 境界 | runtime Cloudflare dry-run、secret put、commit、push、PR は user approval 後 |
+
+### Issue #504 UT-07B-FU-01 extended fixture 50k stress trial（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / Phase 12 strict outputs present / staging stress trial user-gated |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` |
+| Artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-504-extended-fixture-50k-artifact-inventory.md` |
+| 起票元 | `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-extended-fixture-50k.md` |
+| 実装対象 | `scripts/schema-alias-backfill/generate-50k-fixture.ts`, `seed-staging-50k.sh`, `cleanup-staging-50k.sh`, `run-stress-trial.sh`, vitest / bats tests |
+| SSOT | `references/schema-alias-backfill-runbook.md` |
+| fixture identity | `dedupe_key` prefix `ubm-test-fixture-50k-`; count / cleanup selector is `dedupe_key LIKE 'ubm-test-fixture-50k-%'` |
+| trigger | `curl -fsS -X POST -H "Authorization: Bearer ${ADMIN_SESSION_JWT:?}" -H "Content-Type: application/json" --data '{"source":"issue-504-50k-trial"}' "${ADMIN_API_BASE_URL%/}/admin/schema/backfill/trigger"` |
+| abort gates | retry_count <= 3, dlq_count = 0, cpu_ms <= 250000, timeout 1800s |
+| 境界 | staging stress trial / D1 write / Cloudflare Queue runtime / commit / push / PR は user 明示承認後のみ。production bulk INSERT / DELETE は permanent ban |
+| Issue 取扱 | #504 CLOSED 維持。PR 文脈では `Refs #504` のみ |
+
+
 ### UI prototype alignment / MVP recovery task-01 scope gate（2026-05-07）
 
 | 項目 | 値 |
@@ -118,7 +147,20 @@
 | Phase 11 evidence | `outputs/phase-11/post-release-dashboard-30d.json`, conclusion distribution, failure root cause, consecutive failure window, failure rate decision, redaction grep |
 | schedule / artifact evidence | `event=="schedule"` の日次 gap 0、artifact downloadability、retention、run duration を確認 |
 | next action | failure rate `< 10%` は現状維持。`>= 10%` は retry / alert 追加を別 unassigned task 化し、Issue #497 は CLOSED 維持 |
-| Issue 取扱 | #497 CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ。PR 文面は `Refs #497, Refs #351` |
+
+### Issue #517 Follow-up Auto-summary Foundation（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / channel-bootstrap-preflight / Phase 12 strict outputs present |
+| 成果物 | `docs/30-workflows/issue-517-followup-auto-summary-foundation/` |
+| 親 trace | Issue #497 / Issue #351 post-release-dashboard automation |
+| 目的 | Issue #497 の 30 日 conclusion 集計を GHA cron + shell script + draft PR + Slack Incoming Webhook で自動化する |
+| 実装対象 | `.github/workflows/post-release-30day-auto-summary.yml`, `scripts/post-release-dashboard/30day-summary.sh`, `scripts/post-release-dashboard/lib/aggregate.sh`, `scripts/post-release-dashboard/__tests__/30day-summary.test.sh` |
+| Slack bootstrap | channel `w1618436027-ek2505248` / Incoming Webhook manual bind / 1Password 正本 / GitHub Secret `SLACK_WEBHOOK_URL` derived copy |
+| 状態語彙 | channel / webhook / secret 未準備時は `CONTRACT_READY_SECRET_PENDING`。scheduled 30 day runtime は `CONTRACT_READY_RUNTIME_PENDING` |
+| 境界 | Slack App / Bot OAuth / automatic channel creation / retry / alert 実装は含まない。Issue #517 は CLOSED 維持し PR 文脈は `Refs #517, Refs #497, Refs #351` |
+| Issue 取扱 | #517 / #497 / #351 CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ。PR 文面は `Refs #517, Refs #497, Refs #351` |
 
 ### Issue #408 Cloudflare Audit Logs Monitoring（2026-05-06）
 
@@ -132,6 +174,30 @@
 | alert labels | HIGH=`priority:high`、MEDIUM=`priority:medium`、LOW=`priority:low`、共通=`type:security` |
 | 起票元 | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-audit-logs-monitoring.md` |
 | 正本同期 | `references/deployment-secrets-management.md` / `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
+### Issue #515 Cloudflare Audit Logs ML-ready Classifier（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / production ML switch external-gated |
+| 成果物 | `docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/` |
+| 目的 | Issue #408 の threshold 判定を直ちに置換せず、`scripts/cf-audit-log/classifier/**` の interface、redacted feature export、offline replay、D1 classifier metadata、GitHub Actions env を追加して ML-ready 化する |
+| runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、model selection、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up |
+| 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
+### Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Issue #514 CLOSED |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-514-cf-audit-logs-cold-storage-r2-export/` |
+| 目的 | Issue #408 の D1 `cf_audit_log` 30 日 retention を超える redacted audit log を R2 cold storage へ日次 export し、半期監査と restore drill に備える |
+| cadence | daily `0 2 * * *`。対象 window は `[now - 29d, now - 26d)`。manifest completed partition は skip |
+| manifest | `cf_audit_log_export_manifest`、`(yyyy, mm, dd)` UNIQUE、`pending -> completed/failed` 2-phase |
+| gate | G1 R2/bucket/secret/deploy -> G2 D1 migration apply -> G3-prod first daily export + restore drill -> G4 commit/push/PR |
+| runtime境界 | 本サイクルでは production R2 / D1 / GitHub Secrets / commit / PR は未実行。Phase 11/12/13 skeleton と SSOT 同期のみ完了 |
+| 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` |
+| 苦戦知見 | `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007: artifacts mirror parity / Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard) |
 
 
 ### task-05a-form-preview-503-001（2026-05-05）
@@ -225,6 +291,38 @@
 | artifacts | root `artifacts.json` と `outputs/artifacts.json` parity、Phase 12 strict 7 files materialized |
 | 検証 | local typecheck / lint / vitest（schemaDiffQueue / schemaAliasAssign / schemaAliasBackfillBatch / schemaAliasEnqueue / route schema） 38 tests PASS。staging deploy / Cloudflare Queue binding apply / production apply は user 明示承認まで未実行 |
 | 境界 | Phase 11 staging evidence による runtime gate 判定本体は実走しておらず、user 明示で local implementation GO として実装した。staging Queue/DLQ 作成、Cloudflare deploy、production migration apply、commit、push、PR、Issue #361 comment/reopen は未実行。Issue #361 は CLOSED 維持で `Refs #361` のみ |
+
+### Issue #503 UT-07B-FU-01 Cursor Semantics Migration（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / runtime evidence pending_user_gate |
+| 成果物 | `docs/30-workflows/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration/` |
+| 目的 | schema alias back-fill batch の remaining-scan と cursor shadow branch を `BACKFILL_CURSOR_MODE` で A/B 比較できるようにし、runtime evidence で採用判断する |
+| 実装 | `apps/api/src/env.ts` / `apps/api/src/routes/admin/{_shared,schema}.ts` / `apps/api/src/index.ts` / `apps/api/src/repository/schemaDiffQueue.ts` / `apps/api/src/workflows/{schemaAliasAssign,schemaAliasBackfillBatch}.ts` / `apps/api/src/workflows/schemaAliasBackfillBatch.test.ts` |
+| 契約 | default は `remaining-scan`。`cursor` は shadow A/B 用。既存 `schema_diff_queue.backfill_cursor` を再利用し、stale cursor は null reset して row skip を防止する。public `backfill.status` は変更しない |
+| artifacts | `references/workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md` / Phase 12 strict outputs |
+| 境界 | `0015_schema_diff_queue_cursor.sql` は未作成。staging 10,000 行 A/B evidence、cursor 採用/不採用、production apply、commit、push、PR は user 明示承認まで未実行 |
+
+### Issue #502 / UT-07B-FU-01-FOLLOWUP DLQ Monitoring Dashboard（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | spec_created |
+| taskType | docs-only |
+| visualEvidence | NON_VISUAL |
+| Phase 11 | contract_ready_runtime_pending（local grep / read-only SQL template evidence captured; staging D1 SQL and dash runtime evidence pending_user_approval） |
+| Phase 12 | strict 7 outputs present |
+| issue | #502 CLOSED (PR text: `Refs #502` only) |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard/` |
+| runbook | `docs/runbooks/dlq-monitoring/schema-alias-backfill.md` |
+| skill reference | `references/dlq-monitoring.md` |
+| artifact inventory | `references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md`（L-502-001〜005） |
+| 目的 | UT-07B-FU-01 の Cloudflare Queue / DLQ binding と D1 `schema_diff_queue` failure 永続化列を、runbook + read-only 集計 SQL で運用者が観測できる状態にする |
+| 契約 | Queue/DLQ は `SCHEMA_ALIAS_BACKFILL_QUEUE` binding、prod `schema-alias-backfill` / `schema-alias-backfill-dlq`、staging `schema-alias-backfill-staging` / `schema-alias-backfill-staging-dlq`。D1 集計 SQL は `retry_count` / `failed_items_json` / `last_processed_at` / `backfill_status` のみを使い、`last_error` 原文 SELECT / 転記は禁止 |
+| しきい値 | DLQ >= 1 / retry_count >= 3 / exhausted 24h |
+| 境界 | Pager / Slack / PagerDuty 連携、Queue / DLQ 構造変更、D1 schema 変更、apps/api 実装変更は本タスク scope 外。しきい値超過時の追加実装は別 unassigned task としてユーザー判断後に起票する |
 
 ### UT-07B-FU-02 Admin Schema Alias Retry Label（2026-05-06）
 

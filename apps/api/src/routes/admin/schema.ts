@@ -21,6 +21,7 @@ import type {
   SchemaAliasAssignResult,
   SchemaAliasBackfillResult,
 } from "../../workflows/schemaAliasAssign";
+import { resolveBackfillCursorModeWithLog } from "../../workflows/schemaAliasBackfillBatch";
 import { enqueueBackfill } from "../../workflows/schemaAliasEnqueue";
 import type { AdminRouteEnv } from "./_shared";
 
@@ -33,6 +34,27 @@ const AliasBodyZ = z.object({
     .regex(/^[a-zA-Z][a-zA-Z0-9_]*$/, "stableKey must match /^[a-zA-Z][a-zA-Z0-9_]*$/"),
   dryRun: z.boolean().optional(),
 });
+
+const BackfillTriggerBodyZ = z.object({
+  source: z.literal("issue-504-50k-trial").optional(),
+});
+
+interface FixtureBackfillRow {
+  diff_id: string;
+  question_id: string | null;
+  suggested_stable_key: string | null;
+}
+
+const queueProducer = (
+  queue: AdminRouteEnv["SCHEMA_ALIAS_BACKFILL_QUEUE"],
+): { send(m: unknown): Promise<void> } | null =>
+  queue
+    ? {
+        send: async (message: unknown) => {
+          await queue.send(message);
+        },
+      }
+    : null;
 
 interface ExistingQuestionRow {
   stable_key: string;
@@ -183,6 +205,7 @@ export const createAdminSchemaRoute = () => {
         : null;
 
     try {
+      const backfillMode = resolveBackfillCursorModeWithLog(c.env.BACKFILL_CURSOR_MODE);
       const input: SchemaAliasAssignInput = {
         questionId: parsed.data.questionId,
         stableKey: parsed.data.stableKey,
@@ -190,6 +213,7 @@ export const createAdminSchemaRoute = () => {
         dryRun,
         actorId,
         actorEmail,
+        backfillMode,
       };
       if (backfillCpuBudgetMs !== null) {
         input.backfillCpuBudgetMs = backfillCpuBudgetMs;
@@ -207,8 +231,7 @@ export const createAdminSchemaRoute = () => {
         ) {
           enqueueInfo = await enqueueBackfill(
             db,
-            (c.env as { SCHEMA_ALIAS_BACKFILL_QUEUE?: { send(m: unknown): Promise<void> } })
-              .SCHEMA_ALIAS_BACKFILL_QUEUE ?? null,
+            queueProducer(c.env.SCHEMA_ALIAS_BACKFILL_QUEUE),
             {
               diffId: parsed.data.diffId,
               questionId: input.questionId,
@@ -246,6 +269,68 @@ export const createAdminSchemaRoute = () => {
       }
       throw err;
     }
+  });
+
+  // Issue #504: staging-only trigger for the 50k fixture stress trial.
+  // This endpoint converts prepared synthetic schema_diff_queue rows into Queue jobs.
+  app.post("/schema/backfill/trigger", async (c) => {
+    if (c.env.ENVIRONMENT === "production") {
+      return c.json(
+        { ok: false, error: "production schema backfill trigger is banned" },
+        403,
+      );
+    }
+    let raw: unknown = {};
+    try {
+      raw = await c.req.json();
+    } catch {
+      raw = {};
+    }
+    const parsed = BackfillTriggerBodyZ.safeParse(raw);
+    if (!parsed.success) {
+      return c.json({ ok: false, error: parsed.error.message }, 422);
+    }
+    const db = ctx({ DB: c.env.DB });
+    const rowsResult = await c.env.DB
+      .prepare(
+        `SELECT diff_id, question_id, suggested_stable_key
+           FROM schema_diff_queue
+          WHERE dedupe_key LIKE 'ubm-test-fixture-50k-%'
+            AND status = 'queued'
+            AND question_id IS NOT NULL
+            AND suggested_stable_key IS NOT NULL
+            AND (backfill_status IS NULL OR backfill_status IN ('exhausted', 'failed'))
+          ORDER BY created_at ASC, diff_id ASC`,
+      )
+      .all<FixtureBackfillRow>();
+    const rows = rowsResult.results ?? [];
+    let sent = 0;
+    let alreadyEnqueued = 0;
+    for (const row of rows) {
+      if (!row.question_id || !row.suggested_stable_key) continue;
+      const enqueue = await enqueueBackfill(
+        db,
+        queueProducer(c.env.SCHEMA_ALIAS_BACKFILL_QUEUE),
+        {
+          diffId: row.diff_id,
+          questionId: row.question_id,
+          newStableKey: row.suggested_stable_key,
+        },
+      );
+      if (enqueue.alreadyEnqueued) alreadyEnqueued += 1;
+      if (enqueue.sent) sent += 1;
+    }
+    return c.json(
+      {
+        ok: true,
+        source: parsed.data.source ?? "issue-504-50k-trial",
+        selected: rows.length,
+        queueEnqueued: sent,
+        alreadyEnqueued,
+        queueBindingPresent: Boolean(c.env.SCHEMA_ALIAS_BACKFILL_QUEUE),
+      },
+      202,
+    );
   });
 
   // UT-07B-FU-01: GET /admin/schema/aliases/:diffId/backfill

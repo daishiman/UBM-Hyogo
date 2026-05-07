@@ -1,0 +1,9 @@
+# wrangler dev local smoke (manual evidence — pending user approval to execute)
+
+実機 `bash scripts/cf.sh ...` 実行は user approval gate（CLAUDE.md secrets policy / Cloudflare Token は op 注入経由）後に実施。
+ローカル代替検証として:
+- vitest run apps/web/src/lib/__tests__/env.test.ts → 6 PASS（env-test-output.txt 参照）
+- typecheck / lint PASS（apps/web tsc --noEmit）
+- grep gate AC-5 / AC-6 / AC-9 → 0 件（grep-fallback-zero.txt 参照）
+
+wrangler dev 実機 env 注入確認は phase-13 PR review 時に user 側で実行する手順を pr-template.md へ移譲。

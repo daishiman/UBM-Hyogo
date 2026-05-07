@@ -277,6 +277,13 @@ PR作成完了後は、PR URL、採用ブランチ、実行した自動修復、
 - 値は **1Password に保管**し、`.env` には `op://Vault/Item/Field` 参照のみを記述する
 - 実行時に [`scripts/with-env.sh`](scripts/with-env.sh) が `op run --env-file=.env` でラップして動的注入する
 
+### `apps/web` env アクセス不変条件（task-02 wrangler-env-injection）
+
+- `apps/web` ランタイムでの env 参照は **`apps/web/src/lib/env.ts` の `getEnv()` / `getPublicEnv()` 経由のみ** とする。`process.env.*` を直接参照することを禁止する。
+- `getEnv()` は zod schema で検証し、parse 失敗時は throw する。throw は `apps/web/src/app/error.tsx`（task-05）の error boundary で補足する設計のため、try/catch で握り潰さない。
+- 非機密 var は `apps/web/wrangler.toml` の `[vars]` / `[env.staging.vars]` / `[env.production.vars]` で管理。機密値は `bash scripts/cf.sh secret put` で Cloudflare Secrets に投入し、`.dev.vars.example` には `op://Vault/Item/Field` 参照のみを記す。
+- `127.0.0.1:8888` などローカル限定エンドポイントの `apps/web/src` 配下への焼き込みは禁止（task-18 regression smoke で grep gate）。
+
 #### Cloudflare 系 CLI 実行ルール（Claude Code 必読）
 
 Claude Code および手動オペレーション双方で **以下のラッパーのみを使用**すること。`wrangler` を直接呼ばない。
