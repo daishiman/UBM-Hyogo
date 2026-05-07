@@ -3237,17 +3237,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L193 |
-| Cloudflare D1 データベース | L313 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L346 |
-| GitHub Actions CI/CD | L458 |
-| プレビューデプロイメント | L487 |
-| カスタムドメイン設定 | L503 |
-| 環境分離 | L516 |
-| ロールバック戦略 | L526 |
-| モニタリング/アラート（UT-08 連携） | L547 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
-| 変更履歴 | L648 |
+| Cloudflare D1 データベース | L315 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L348 |
+| GitHub Actions CI/CD | L460 |
+| プレビューデプロイメント | L489 |
+| カスタムドメイン設定 | L505 |
+| 環境分離 | L518 |
+| ロールバック戦略 | L528 |
+| モニタリング/アラート（UT-08 連携） | L549 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L566 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L601 |
+| 変更履歴 | L650 |
 
 ### references/deployment-core.md
 
