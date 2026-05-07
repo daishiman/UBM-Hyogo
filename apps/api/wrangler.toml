@@ -13,6 +13,7 @@ SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 RETENTION_PURGE_MODE = "dry-run"
+TAG_QUEUE_PAUSED = "false"
 
 # 03a: schema sync は 03:00 JST (= 18:00 UTC) に 1 回
 # 03b: response sync は */15 で実行（forms.responses.list 差分同期）
@@ -65,6 +66,7 @@ SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 RETENTION_PURGE_MODE = "dry-run"
+TAG_QUEUE_PAUSED = "false"
 
 # 09b-A production smoke uses Cloudflare Secrets, not vars:
 # SENTRY_DSN_API / SLACK_WEBHOOK_INCIDENT / SMOKE_ADMIN_TOKEN.
@@ -116,6 +118,7 @@ SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 RETENTION_PURGE_MODE = "dry-run"
+TAG_QUEUE_PAUSED = "false"
 
 # 09b-A staging smoke uses the same secret names as production with env-scoped values:
 # SENTRY_DSN_API / SLACK_WEBHOOK_INCIDENT / SMOKE_ADMIN_TOKEN.

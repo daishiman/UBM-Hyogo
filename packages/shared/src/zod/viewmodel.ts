@@ -57,6 +57,12 @@ export const MemberProfileZ = z
         heldOn: z.string(),
       }),
     ),
+    attendanceMeta: z
+      .object({
+        hasMore: z.boolean(),
+        nextCursor: z.string().nullable(),
+      })
+      .optional(),
     tags: z.array(
       z.object({
         code: z.string(),

@@ -85,7 +85,8 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | --- | --- | --- | --- |
 | GET | `/admin/dashboard` | 06c-A 正本: 単一 endpoint で `kpis = { 総会員数, 公開中人数, 未タグ人数, スキーマ未解決件数 }` と `recentActions`（`audit_log` 直近 7 日 / max 20 / `dashboard.view` 除外）を返す。表示時に `dashboard.view` を `audit_log` へ append する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/members` | 06c-B 正本: admin member list。`filter=published|hidden|deleted`、`q`（trim + 連続空白正規化 + max 200）、`zone=all|0_to_1|1_to_10|10_to_100`、repeated `tag`（tag code / AND / max 5）、`sort=recent|name`、`density=comfy|dense|list`、`page` を受け付け、`{ total, members, page, pageSize }` を返す | Auth.js JWT + `requireAdmin` |
-| GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める。`MemberProfile.attendance` は `attendanceProviderMiddleware`（`apps/api/src/middleware/repository-providers.ts`）で `c.var.attendanceProvider` を解決し、me 経路（`GET /me/profile`）と DI 経路を対称化（Issue #371）。Issue #372 以後、`profile.attendance` は default 50 件の先頭ページで、`profile.attendanceMeta?: { hasMore, nextCursor }` を返す | Auth.js JWT + `requireAdmin` + `attendanceProviderMiddleware` |
+| GET | `/admin/members/:memberId/attendance` | Issue #372 正本: admin member detail の attendance 継続取得。`limit?: 1..200`、`cursor?: base64url({ heldOn, sessionId })`。不正 cursor / `limit < 1` は 400、`limit > 200` は 200 に silent clamp。response は `{ records, hasMore, nextCursor }` | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |
@@ -286,7 +287,8 @@ UT-07B-FU-01（schema alias back-fill queue/cron split）以降、apply mode の
 | Method | Path | 認可 | 用途 |
 | ------ | ---- | ---- | ---- |
 | GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
-| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `createAttendanceProvider(ctx)` 経由で `member_attendance` + `meeting_sessions` から取得する |
+| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` 経由で `member_attendance` + `meeting_sessions` から取得する。Issue #372 以後、`MemberProfile.attendance` は default 50 件の先頭ページで、`attendanceMeta?: { hasMore, nextCursor }` を返す |
+| GET | `/me/attendance` | session 必須 | Issue #372 正本: 本人 attendance 継続取得。`limit?: 1..200`、`cursor?: base64url({ heldOn, sessionId })`。不正 cursor / `limit < 1` は 400、`limit > 200` は 200 に silent clamp。response は `{ records, hasMore, nextCursor }` |
 | POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='visibility_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
 | POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='delete_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
 
@@ -301,7 +303,7 @@ UT-07B-FU-01（schema alias back-fill queue/cron split）以降、apply mode の
 - memberId は backend session（06b-A `/me` API Auth.js cookie session resolver）で解決し、path / クエリに出さない（不変条件 #11）
 - 06b-B では `me-requests-client` が `POST /api/me/visibility-request` / `POST /api/me/delete-request` を呼び、409 を `SelfRequestError(code:'duplicate-pending')` に変換する。401 は未認証、403 は `authGateState !== 'active'` を表す
 
-`MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、D1 read path は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
+`MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、bulk read path (`findByMemberIds`) は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN し、`held_on DESC, session_id ASC` で返す。Issue #372 の個人 pagination read path (`findByMemberId`) は `held_on DESC, session_id DESC` で cursor tie-break する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
 
 ## Admin Dashboard Attendance Analytics API（UT-02A follow-up 002）
 

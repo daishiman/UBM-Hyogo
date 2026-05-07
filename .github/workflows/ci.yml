@@ -53,9 +53,14 @@ jobs:
         if: steps.ready.outputs.value == 'true'
         run: pnpm lint
 
+      - name: Verify static manifest (UT-02A-FU-DIAG-001)
+        if: steps.ready.outputs.value == 'true'
+        run: pnpm verify:static-manifest
+
       - name: Post-release dashboard script tests
         if: steps.ready.outputs.value == 'true'
         run: pnpm post-release-dashboard:test
+
 
   coverage-gate:
     # 仕様: docs/30-workflows/coverage-80-enforcement/outputs/phase-12/implementation-guide.md

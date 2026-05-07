@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L209 |
-| UBM-Hyogo Admin Sync API（03a） | L230 |
-| UBM-Hyogo Member Self-Service API（04b） | L281 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L306 |
-| Desktop IPC API サマリー | L320 |
-| 変更履歴 | L351 |
-| 関連ドキュメント | L368 |
+| エンドポイント命名規則 | L210 |
+| UBM-Hyogo Admin Sync API（03a） | L231 |
+| UBM-Hyogo Member Self-Service API（04b） | L282 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L308 |
+| Desktop IPC API サマリー | L322 |
+| 変更履歴 | L353 |
+| 関連ドキュメント | L370 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2246,6 +2246,14 @@ node scripts/list-specs.js --topics
 | Evidence | L31 |
 | System Spec Sync | L38 |
 
+### references/workflow-issue-372-attendance-pagination-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L13 |
+| Boundary | L25 |
+
 ### references/workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md
 
 | セクション | 行 |
@@ -2255,6 +2263,18 @@ node scripts/list-specs.js --topics
 | Phase 11 Evidence Files | L36 |
 | Same-Wave Touched Files | L44 |
 | Boundary | L66 |
+
+### references/workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L9 |
+| Implementation Artifacts | L16 |
+| Runtime Contract | L25 |
+| Evidence | L33 |
+| System Spec Sync | L44 |
+| Invariants | L57 |
 
 ### references/workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md
 
@@ -2790,11 +2810,12 @@ node scripts/list-specs.js --topics
 | Phase specs | L36 |
 | Phase outputs | L54 |
 | Implementation artifacts | L122 |
-| Skill artifacts | L134 |
-| Canonical spec touchpoints | L142 |
-| Legacy stub | L149 |
-| Validation chain | L155 |
-| 運用メモ | L166 |
+| Follow-up 003 promoted workflow | L134 |
+| Skill artifacts | L144 |
+| Canonical spec touchpoints | L152 |
+| Legacy stub | L159 |
+| Validation chain | L165 |
+| 運用メモ | L176 |
 
 ### references/workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md
 
@@ -3233,17 +3254,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L193 |
-| Cloudflare D1 データベース | L313 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L346 |
-| GitHub Actions CI/CD | L458 |
-| プレビューデプロイメント | L487 |
-| カスタムドメイン設定 | L503 |
-| 環境分離 | L516 |
-| ロールバック戦略 | L526 |
-| モニタリング/アラート（UT-08 連携） | L547 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L564 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L599 |
-| 変更履歴 | L648 |
+| Cloudflare D1 データベース | L315 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L348 |
+| GitHub Actions CI/CD | L460 |
+| プレビューデプロイメント | L489 |
+| カスタムドメイン設定 | L505 |
+| 環境分離 | L518 |
+| ロールバック戦略 | L528 |
+| モニタリング/アラート（UT-08 連携） | L549 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L566 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L601 |
+| 変更履歴 | L650 |
 
 ### references/deployment-core.md
 
@@ -3413,14 +3434,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 変更履歴 | L6 |
 | 環境変数の分類 | L15 |
-| セキュリティベストプラクティス | L130 |
-| 環境別設定 | L204 |
-| Electron アプリでの環境変数 | L258 |
-| トラブルシューティング | L315 |
-| チーム開発での運用 | L376 |
-| 必須環境変数一覧 | L415 |
-| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L476 |
-| 関連ドキュメント | L497 |
+| セキュリティベストプラクティス | L131 |
+| 環境別設定 | L205 |
+| Electron アプリでの環境変数 | L259 |
+| トラブルシューティング | L316 |
+| チーム開発での運用 | L377 |
+| 必須環境変数一覧 | L416 |
+| CI/CD環境（GitHub Secrets / Variables）（UT-27 追加 2026-04-29） | L477 |
+| 関連ドキュメント | L498 |
 
 ### references/error-handling-core.md
 
@@ -4022,6 +4043,31 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 
+### references/lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I371-001: DI 戦略 ADR は引数注入 / Hono ctx / DI container の三択を明示比較する | L9 |
+| L-I371-002: provider 合成型は repository 配下に置き middleware 依存逆転を避ける | L21 |
+| L-I371-003: 既存 `DbCtx` の `readonly db` 契約を破らず provider を増設する | L25 |
+| L-I371-004: missing provider 検知の canonical assertion を文字列契約として固定する | L29 |
+| L-I371-005: builder signature shrink の grep gate と test 移行手順 | L33 |
+| L-I371-006: runtime smoke を 09a/09b 系へ委譲し Phase 11 を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` で閉じる | L37 |
+| 関連リソース | L41 |
+| 検索キーワード（indexes rebuild 用） | L52 |
+
+### references/lessons-learned-issue-372-attendance-pagination-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE372-001: cursor は encoded string 境界と decoded 構造体境界を route / builder / repository で明確に分ける | L7 |
+| L-ISSUE372-002: 既存 bulk API（`findByMemberIds`）には pagination を混ぜず個人特化 API を追加する | L25 |
+| L-ISSUE372-003: `MemberProfile.attendance` 配列は維持し、メタ情報は optional `attendanceMeta` に分離する | L43 |
+| L-ISSUE372-004: miniflare 全体 vitest は EADDRNOTAVAIL でポート枯渇する。focused run を採用する | L61 |
+| L-ISSUE372-005: 1Password CLI authorization timeout でフルビルドが落ちても、コード起因と環境起因を切り分けて記録する | L79 |
+| L-ISSUE372-006: Phase 11 staging visual evidence は runtime session 必要なので Phase 12 spec sync の blocker にしない | L97 |
+| 参照元 | L115 |
+
 ### references/lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md
 
 | セクション | 行 |
@@ -4424,8 +4470,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L97 |
-| 関連ドキュメント | L102 |
+| 利用順序 | L98 |
+| 関連ドキュメント | L103 |
 
 ### references/llm-embedding.md
 
