@@ -64,7 +64,7 @@ No staging evidence, Cloudflare Queue/DLQ creation, deploy, commit, push, PR, pr
 | Parent task spec | `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-schema-alias-backfill-queue-cron-split.md` | parent seed; consumed by current workflow root |
 | Follow-up: DLQ monitoring dashboard | `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-dlq-monitoring-dashboard.md` | formalized as standalone follow-up; gated on runtime evidence (Cloudflare Queue/DLQ creation + deploy 後) |
 | Follow-up: Cursor semantics migration | `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-cursor-semantics-migration.md` | formalized as standalone follow-up; gated on remaining-scan 劣化観測 |
-| Follow-up: Extended fixture 50k | `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-extended-fixture-50k.md` | formalized as standalone follow-up; gated on Phase 11 staging evidence で 10,000+ rows persistent CPU budget exhaustion を確認した後 |
+| Follow-up: Extended fixture 50k | `docs/30-workflows/completed-tasks/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` | formalized as Issue #504 standalone workflow; staging stress trial remains user-gated; source trace: `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-extended-fixture-50k.md`; Artifact inventory: `references/workflow-issue-504-extended-fixture-50k-artifact-inventory.md` |
 
 ## Lessons Learned
 
