@@ -2352,6 +2352,33 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L24 |
+| Gate Conditions (production ML switch 前提) | L30 |
+
+### references/workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 strict 7 files | L15 |
+| phase 11 evidence (NON_VISUAL alternative) | L27 |
+| implementation artifacts | L43 |
+| same-wave skill sync | L67 |
+| boundary | L81 |
+| upstream / downstream | L87 |
+| deferred follow-ups | L94 |
+
+### references/workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L56 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3201,6 +3228,16 @@ node scripts/list-specs.js --topics
 | 利用順序 | L14 |
 | 関連ドキュメント | L19 |
 
+### references/audit-correlation.md
+
+| セクション | 行 |
+|------------|----|
+| 目的 | L7 |
+| 入出力契約 | L11 |
+| Redaction Policy | L19 |
+| MVP Boundary | L31 |
+| References | L35 |
+
 ### references/auth-google-oauth-cf-integration.md
 
 | セクション | 行 |
@@ -3336,6 +3373,7 @@ node scripts/list-specs.js --topics
 | GitHub Secrets の要件 | L263 |
 | UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L307 |
 | Post-release dashboard automation (Issue #351 / 2026-05-05) | L328 |
+| post-release-30day-auto-summary | L365 |
 
 ### references/deployment-history.md
 
@@ -3360,6 +3398,15 @@ node scripts/list-specs.js --topics
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L350 |
 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L398 |
 | 変更履歴 | L413 |
+| wrangler.toml の環境別設定 | L154 |
+| ローカル開発での設定 | L186 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L225 |
+| セキュリティ原則 | L262 |
+| Cloudflare API Token の作成手順 | L273 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L386 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L434 |
+| 変更履歴 | L449 |
 
 ### references/deployment.md
 
@@ -4009,6 +4056,20 @@ node scripts/list-specs.js --topics
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
 
+### references/lessons-learned-docs-only-lifecycle.md
+
+| セクション | 行 |
+|------------|----|
+| 目的 | L7 |
+| 適用範囲 | L11 |
+| L-DOCS-LIFECYCLE-001: docs-only NON_VISUAL の状態語彙を固定する | L18 |
+| L-DOCS-LIFECYCLE-002: Endpoint surface は SCOPE と現行 route の AND で検証する | L37 |
+| L-DOCS-LIFECYCLE-003: consent key 統一は機械的 grep で検証する | L56 |
+| L-DOCS-LIFECYCLE-004: existing-docs-sync の lifecycle model | L72 |
+| L-DOCS-LIFECYCLE-005: artifacts parity は同一 wave の必須ゲート | L91 |
+| 起点 task との対応 | L103 |
+| 不変条件 | L113 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -4215,6 +4276,31 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
 
+### references/lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE515-001: ML-ready 化は「切替」ではなく「比較できる箱」を入れることに留める | L8 |
+| L-ISSUE515-002: classifier は default 名前付き interface で固定し、env 既定値は安全側に倒す | L24 |
+| L-ISSUE515-003: redaction boundary はストレージ層で分け、export は raw を持たない型から作る | L40 |
+| L-ISSUE515-004: D1 マイグレーションは forward-safe を default、破壊的 DOWN は user-gated に分離 | L56 |
+| L-ISSUE515-005: 同 wave SSOT 更新は分散させず、references / specs / skill LOGS を同一 PR 内で同期する | L72 |
+| 参照元 | L88 |
+
+### references/lessons-learned-issue-517-followup-auto-summary-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L9 |
+| 苦戦箇所と学び | L27 |
+| タイムライン（参考） | L119 |
+| 横断的な学び | L136 |
+| 反映先（promoted to） | L147 |
+| 再発防止サマリ表 | L157 |
+| 後続タスクが事前確認すべき運用 checklist | L168 |
+| 用語集（本タスクで導入 / 確定した語彙） | L179 |
+| 引用元 | L188 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4261,6 +4347,13 @@ node scripts/list-specs.js --topics
 | 結論 (個人開発運用ポリシー) | L20 |
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
+
+### references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L9 |
 
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
@@ -5196,6 +5289,10 @@ node scripts/list-specs.js --topics
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L175 |
 | 10. 変更履歴 | L203 |
+| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
+| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
+| 11. 変更履歴 | L258 |
 
 ### references/patterns-advanced.md
 
@@ -5655,6 +5752,13 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L440 |
 | 昇格パターン集 | L464 |
 | Current Active / Spec Created Tasks | L466 |
+| ドキュメント構成 | L493 |
+| フェーズ構造（概要） | L502 |
+| 品質ゲート（概要） | L533 |
+| 出力テンプレート | L544 |
+| 実行時のコマンド・エージェント・スキル | L567 |
+| 昇格パターン集 | L591 |
+| Current Active / Spec Created Tasks | L593 |
 
 ### references/task-workflow-backlog-part2.md
 

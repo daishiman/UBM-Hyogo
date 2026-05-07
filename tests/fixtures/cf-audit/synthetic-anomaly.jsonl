@@ -1,0 +1,2 @@
+{"expectedSeverity":"HIGH","event":{"id":"a-1","when":"2026-05-07T05:00:00Z","actor":{"email":"ci@example.com","ip":"203.0.113.5"},"action":{"type":"token.read","result":"success"}}}
+{"expectedSeverity":"NONE","event":{"id":"n-1","when":"2026-05-07T05:00:00Z","actor":{"email":"ci@example.com","ip":"140.82.115.10"},"action":{"type":"token.read","result":"success"}}}

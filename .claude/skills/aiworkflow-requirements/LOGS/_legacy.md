@@ -4,6 +4,9 @@
 LOGS は archive index 方式へ再編した。最新更新は本ファイル、詳細 log は references/archive から参照する。
 ## 最新更新ヘッドライン
 | 2026-05-07 - Issue #518 Cloudflare Audit Logs HOLD sync（`docs/30-workflows/issue-518-cf-audit-logs-monitoring-hold/` を `implemented-local / implementation / NON_VISUAL / HOLD manual-check-only / Phase 13 blocked_pending_user_approval` として同期。`.github/workflows/cf-audit-log-monitor.yml` は schedule 削除 + `workflow_dispatch` のみ + `dry_run=true` 既定 + HOLD 中の `dry_run=false` 拒否、`.github/workflows/cf-audit-log-monitor-watchdog.yml` は削除。`docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md` を active runbook とし、Issue #408 canonical root を `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/` に補正。runbook archive policy、Phase 9 evidence path、index/artifacts state、parent U-FIX status を同一 wave で是正。commit / push / PR は未実行） |
+| 2026-05-07 - task-02 wrangler env injection sync（`docs/30-workflows/task-02-w2-wrangler-env-injection/` を `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として同期。`apps/web/wrangler.toml` に local/staging/production non-secret vars を揃え、`.dev.vars.example` と `apps/web/src/lib/env.ts` zod accessor / focused env tests / Phase 12 strict 7 files / quick-reference / resource-map / task-workflow-active を同一 wave で反映。Cloudflare Secrets 値投入、runtime dry-run、commit / push / PR は user approval 後） |
+| 2026-05-07 - Issue #502 UT-07B-FU-01 DLQ monitoring dashboard sync（`docs/30-workflows/completed-tasks/issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard/` を `spec_created / docs-only / NON_VISUAL / contract_ready_runtime_pending` として登録。runbook 正本 `docs/runbooks/dlq-monitoring/schema-alias-backfill.md`（6 章: 監視対象 / dash 手順 / 集計 SQL 3 種 / しきい値 / エスカレーション / しきい値見直し基準）、skill 逆引き `references/dlq-monitoring.md`、`changelog/20260507-issue502-dlq-monitoring.md`、新規 `references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md` / `references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md`（L-502-001〜005: `last_error` SELECT 禁止 / Queue-DLQ binding 命名 / しきい値固定値と 30/60/90 日再観測 / `scripts/cf.sh` 強制 / docs-only `Refs #502`）、quick-reference / resource-map / task-workflow-active / topic-map / keywords / SKILL.md を同一 wave 同期。Queue/DLQ binding（prod=`schema-alias-backfill` / `schema-alias-backfill-dlq`、staging=`schema-alias-backfill-staging` / `schema-alias-backfill-staging-dlq`、binding 変数 `SCHEMA_ALIAS_BACKFILL_QUEUE`）、D1 `schema_diff_queue` 監視列、read-only SQL 3 種、`last_error` SELECT 禁止、DLQ >= 1 / retry >= 3 / exhausted 24h しきい値を正本化。実 D1 SQL / dash runtime evidence、commit、push、PR は user approval 後） |
+| 2026-05-07 - Issue #520 Slack incident channel webhook provisioning sync（`docs/30-workflows/issue-520-slack-incidents-channel-webhook-provisioning/` を `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として登録。`#ubm-hyogo-incidents`、`SLACK_WEBHOOK_INCIDENT`、`op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>`、G1〜G4 runtime gate、redaction grep `scripts/redaction-grep.sh`、runbook `docs/30-workflows/runbooks/slack-incidents-channel-provisioning.md`、ローカル redaction script / `.env.example` / smoke redaction test hardening を同期。実 Slack / 1Password / Cloudflare / GitHub / smoke / commit / push / PR は user approval 後） |
 | 2026-05-06 - Issue #373 UT-02A canonical metadata diagnostics sync（`docs/30-workflows/issue-373-ut02a-canonical-metadata-diagnostics-hardening/` を `implemented-local / implementation / NON_VISUAL / Phase 11 evidence captured / Phase 12 completed / Phase 13 blocked_pending_user_approval` として登録。元 follow-up `docs/30-workflows/completed-tasks/task-ut02a-canonical-metadata-diagnostics-hardening-001.md` は `formalized_as_issue_373_workflow`。static manifest stale detection、決定論的再生成、`UBM-MANIFEST-UNKNOWN-KEY` diagnostics、03a adapter contract test、retirement 条件を実装済みローカル scope として固定。commit / push / PR は未実行。Issue #373 は CLOSED のため PR 文脈は `Refs #373` のみ） |
 | 2026-05-06 - Issue #484 Cloudflare Analytics monthly export automation implemented-local sync（`docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` を `implemented-local / implementation / NON_VISUAL / code evidence captured / runtime Cloudflare export pending_user_approval / Phase 13 blocked_pending_user_approval` として登録。Issue #347 automation follow-up source `completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` を consumed trace 化し、`scripts/fetch-cloudflare-analytics.ts` / `scripts/redaction-check-analytics.sh` / `.github/workflows/cloudflare-analytics-export.yml` / Phase 11 evidence logs / `deployment-cloudflare.md` / `task-workflow-active.md` / quick-reference / resource-map を同一 wave 同期。multi-bucket summation、persisted zone/account redaction、schedule/manual one-export-per-month guard、member ID redaction、GraphQL introspection pending boundary を反映。Cloudflare runtime export / PR 作成は user approval 後） |
 | 2026-05-06 - U-FIX-CF-ACCT-01-DERIV-02 Cloudflare token split sync（`docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/` を `spec_created / implementation / NON_VISUAL / local implementation synced / runtime token issuance pending user operation` として同期。`.github/workflows/backend-ci.yml` は D1 migration と Workers deploy を `CF_TOKEN_D1_<ENV>` / `CF_TOKEN_WORKERS_<ENV>` に分割、`.github/workflows/web-cd.yml` は Pages deploy を `CF_TOKEN_PAGES_<ENV>` に分割。`scripts/cf.sh` は pre-injected `CLOUDFLARE_API_TOKEN` path で 1Password wrapper を skip。`deployment-gha.md` / `deployment-secrets-management.md` / quick-reference / resource-map / task-workflow-active / source unassigned consumed trace を同一 wave 同期。runtime token issuance、environment-scoped GitHub Secrets mutation、7 day staging green、production rollout、old token retirement は user operation pending。Issue #406 は CLOSED のため `Refs #406` のみ。commit / push / PR は未実行） |
@@ -716,3 +719,44 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Added `references/release-runbook.md` and `references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md`.
 - Registered the workflow in `references/task-workflow-active.md`, `indexes/quick-reference.md`, and `indexes/resource-map.md`.
 - Source unassigned task `task-09c-github-release-tag-automation-001.md` is now consumed / formalized.
+
+# 2026-05-07 issue517 follow-up auto-summary foundation
+
+- Synced Issue #517 as `spec_created / implementation / NON_VISUAL / channel-bootstrap-preflight`.
+- Added `references/deployment-gha.md` section `post-release-30day-auto-summary`.
+- Fixed Slack channel bootstrap contract: channel `w1618436027-ek2505248`, Incoming Webhook manual bind, 1Password canonical source, GitHub Secret `SLACK_WEBHOOK_URL` derived copy, no Slack App / Bot OAuth implementation.
+- State vocabulary: `CONTRACT_READY_SECRET_PENDING` for missing channel/webhook/secret preflight; `CONTRACT_READY_RUNTIME_PENDING` for scheduled 30 day runtime evidence.
+
+# 2026-05-07 issue515 cf audit logs ML-ready classifier
+
+- state: implemented_local_runtime_pending / implementation / NON_VISUAL
+- spec_path: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260507-095541-wt-8/docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/index.md`
+- sync: observability-monitoring, deployment-secrets-management, infrastructure runbook, Phase 12 strict outputs
+- runtime gates: 90 day threshold observation, redacted feature export, model selection, production ML switch are external-time-dependent follow-ups.
+# 2026-05-07 Issue #504 schema alias 50k stress trial sync
+
+- Synced `docs/30-workflows/completed-tasks/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` as `spec_created / implementation / NON_VISUAL / staging stress trial user-gated`.
+- Added `references/schema-alias-backfill-runbook.md` with prefix dedupe_key contract, staging trigger contract, abort thresholds, and production permanent ban.
+- Updated `SKILL.md`, `indexes/quick-reference.md`, `indexes/resource-map.md`, `references/task-workflow-active.md`, and UT-07B-FU-01 artifact inventory.
+- No staging D1 write, production operation, commit, push, PR, or Issue comment executed.
+
+# 2026-05-07 Issue #504 50k stress trial Phase 12 close-out follow-up sync
+
+- Corrected path drift: `docs/30-workflows/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` → `docs/30-workflows/completed-tasks/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` across skill references.
+- Updated `references/schema-alias-backfill-runbook.md` runtime trigger to ADMIN_SESSION_JWT + direct `curl` form, replacing the stale `cf.sh api-post` example to match the implemented `scripts/schema-alias-backfill/run-stress-trial.sh` contract.
+- Appended L-UT07B-FU01-007〜010 to `references/lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md`: prefix dedupe_key 固定 / production ban の二重 fail-closed / stress trigger を curl + ADMIN_SESSION_JWT に統一 / parent workflow 参照を `test -f` で実体検証する Phase 12 規律。
+- Added 4 keys to `indexes/keywords.json` (issue-504 / 50k-fixture / stress-trial-50k / extended-fixture-50k); see batch 2.
+- No commit / push / PR / Issue comment executed.
+
+# 2026-05-07 UI prototype alignment task-01 scope gate
+
+- wave: ui-prototype-alignment-mvp-recovery / W1 / serial
+- state: spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval
+- workflow root: `docs/30-workflows/completed-tasks/task-01-w1-solo-scope-gate-all-screens/`
+- scope SSOT: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md`（19 routes / 公開 6 / 会員 2 / 管理 8 / 共通 3）
+- runtime boundary: apps/packages diff 0、新 endpoint / D1 schema / Google Form 変更なし、OKLch token 正本化、apps/web direct D1 access 禁止
+- archive hygiene: 5 dir を `docs/30-workflows/completed-tasks/` へ archive、純削除 blocker 解消
+- sync: `SKILL.md` changelog v2026.05.07-ui-prototype-scope-gate、`indexes/quick-reference.md`、`indexes/resource-map.md`、`references/task-workflow-active.md`、`changelog/20260507-ui-prototype-scope-gate.md` を同一 wave 同期
+- downstream: task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認
+- skill-feedback: なし（task-specification-creator / aiworkflow-requirements 既存ルールでカバー）
+- unassigned-task: 0 件追加（task-02..22 は既起票）
