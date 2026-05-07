@@ -8,4 +8,4 @@ allowBuilds:
   sharp: true
   workerd: true
 patchedDependencies:
-  next-auth@5.0.0-beta.25: patches/next-auth@5.0.0-beta.25.patch
+  next-auth@5.0.0-beta.30: patches/next-auth@5.0.0-beta.30.patch
