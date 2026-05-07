@@ -57,6 +57,25 @@ Issue #408 の Cloudflare Audit Logs monitoring は 2026-05-06 の実装 PR で 
 
 Evidence には secret 値、Bearer header、full IP、user agent を残さない。保存可能なのは secret 名、run id、issue number、timestamp、fingerprint hash、redacted IP prefix までとする。
 
+## Issue #514 audit-log cold storage / R2 export
+
+Issue #514 の cold storage export は Issue #408 の D1 `cf_audit_log` 30 日 retention を補完する。状態は `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。本サイクルでは R2 binding / D1 migration / exporter / restore drill / GitHub Actions workflow のローカル実装まで完了するが、production mutation は実行しない。
+
+運用順序:
+
+1. G1: R2 bucket `ubm-hyogo-audit-cold-storage-prod`、R2 binding `UBM_AUDIT_COLD_STORAGE`、GitHub environment secret `CF_AUDIT_R2_TOKEN_PROD` を準備する。
+2. G2: D1 migration `0015_add_audit_export_manifest.sql` を production に apply し、`cf_audit_log_export_manifest` の存在を fresh GET で確認する。
+3. G3-prod: daily workflow `0 2 * * *` の `workflow_dispatch` で first export を実行し、26〜29 日前 window の row count / object key / sha256 / manifest `completed` を保存する。同 gate 内で任意 1 object の restore drill を実行する。
+4. G4: commit / push / PR を行う。Issue #514 は CLOSED のため PR 文脈は `Refs #514` のみ。
+
+Rollback:
+
+- workflow 異常時は `gh workflow disable cf-audit-log-cold-storage.yml` で自動発火を止める。
+- redaction 漏れ疑い時は `CF_AUDIT_R2_TOKEN_PROD` を revoke し、新規 PUT を止める。
+- R2 object の一括 delete は半期監査要件と相反するため、別途明示承認なしに実行しない。
+
+Evidence には secret 値、Bearer header、full IP、full User-Agent を残さない。保存可能なのは secret 名、run id、object key、row count、sha256、redaction policy version までとする。
+
 ## Evidence 方針
 
 docs-only / NON_VISUAL の運用タスクでは screenshot は必須ではない。代替 evidence として、実行予定コマンド、期待出力、manual smoke log、link checklist、Dashboard 目視確認項目を残す。

@@ -1,0 +1,71 @@
+name: cf-audit-log-cold-storage
+
+# Issue #514: Cloudflare Audit Logs cold storage / R2 export
+# 30 日 TTL purge 前に redacted JSONL.gz を R2 へ日次 export し、半期 1 回 restore drill で検証する。
+# Phase 11 runtime gate (G1-G4) 承認後にのみ enabled 化する。本ファイル merge 時点では schedule 行を
+# コメントアウトすることで自動起動を抑止し、workflow_dispatch による手動 smoke のみ受け付ける。
+
+on:
+  schedule:
+    # 毎日 UTC 02:00 (= JST 11:00) 実行。runtime gate 承認後に有効化。
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      force_restore_drill:
+        description: '半期外でも restore drill を実行する'
+        type: boolean
+        default: false
+      dry_run:
+        description: 'export を dry-run で実施し R2 PUT を行わない'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: cf-audit-log-cold-storage
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install deps
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Export to R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_AUDIT_R2_TOKEN_PROD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: ${{ inputs.dry_run || 'true' }}
+        run: |
+          set -euo pipefail
+          if [ "${DRY_RUN}" = "true" ]; then
+            CF_SH_SKIP_WITH_ENV=1 bash scripts/cf.sh r2 export --env production --dry-run
+          else
+            CF_SH_SKIP_WITH_ENV=1 bash scripts/cf.sh r2 export --env production
+          fi
+
+  restore-drill:
+    needs: export
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install deps
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Restore drill (semiannual judgment in script)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_AUDIT_R2_TOKEN_PROD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FORCE_RESTORE_DRILL: ${{ inputs.force_restore_drill || 'false' }}
+        run: |
+          set -euo pipefail
+          extra=""
+          if [ "${FORCE_RESTORE_DRILL}" = "true" ]; then extra="--force"; fi
+          CF_SH_SKIP_WITH_ENV=1 bash scripts/cf.sh r2 restore --env production --random-pick 1 --verify ${extra}
