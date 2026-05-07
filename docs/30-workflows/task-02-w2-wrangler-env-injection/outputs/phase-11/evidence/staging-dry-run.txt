@@ -1,0 +1,5 @@
+# staging dry-run (deferred to user-approved execution)
+
+`bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging --dry-run` は
+Cloudflare API Token を op 経由で注入する必要があるため、user approval 後に実行する。
+本タスクの implementation-local 完了条件は wrangler.toml の静的検証（typecheck / lint / build / grep gate）で代替する。

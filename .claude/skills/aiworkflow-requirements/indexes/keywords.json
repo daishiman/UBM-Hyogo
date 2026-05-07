@@ -4978,6 +4978,7 @@
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md"
     ],
     "Current": [
@@ -8068,6 +8069,7 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
@@ -9581,6 +9583,7 @@
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
+      "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -9732,6 +9735,7 @@
     ],
     "Env": [
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
+      "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md"
     ],
     "Downstream": [
@@ -12169,7 +12173,8 @@
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
     ],
     "Wrangler": [
-      "lessons-learned-issue359-production-d1-apply-2026-05.md"
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md"
     ],
     "belongs": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
@@ -12325,6 +12330,9 @@
     ],
     "IDs": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
+    ],
+    "Injection": [
+      "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md"
     ],
     "OIDC": [
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
