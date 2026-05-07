@@ -90,6 +90,7 @@ Phase 9: 品質保証
 - コード品質: Lint/型チェッククリア
 - テスト網羅性: カバレッジ基準達成
 - セキュリティ: 重大な脆弱性の不在
+- CI/CD workflow 変更: 仕様書・runbook・PR body が参照する `.github/workflows/*.yml` が current repo に実在することを `test -f` または `rg --files .github/workflows` で確認する。存在しない workflow 名を参照した場合は、実在 workflow へ修正するか Phase 5 で新規作成するまで PASS にしない。
 
 ## 統合テスト連携【必須】
 

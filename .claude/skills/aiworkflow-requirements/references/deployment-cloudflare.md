@@ -241,12 +241,14 @@ name = "ubm-hyogo-api"
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |
 | `0 * * * *` | Google Sheets 由来の legacy hourly sync（撤回は UT21-U05） | `runSync` |
-| `0 18 * * *` | 03a: Google Sheets schema sync（03:00 JST 想定） | `runSchemaSync` |
+| `0 18 * * *` | 03a schema sync + issue-402 retention purge dry-run/apply 併用（fan-out なし。`apps/api/src/index.ts` cron handler 内で分岐ルーティングし、retention purge は `RETENTION_PURGE_MODE` で dry-run/apply/off を切替。SSOT: [data-retention-policy.md](./data-retention-policy.md)） | `runSchemaSync` + retention purge job |
 | `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
 
 > **current facts (09b / 2026-05-01)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は legacy Sheets hourly cron の現行残存であり、撤回・runtime 設定整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱う。09b は docs-only / spec_created のため runtime 設定を変更しない。
 
 Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
+
+Issue #378 以降、Forms response sync の tag candidate enqueue は `TAG_QUEUE_PAUSED` variable で deploy-gated に停止できる。`"true"` 完全一致のみ停止し、停止中は `tag_assignment_queue` への D1 read / write を行わず `{ enqueued: false, reason: "paused" }` と structured log `UBM-TAGQ-PAUSED` を返す。切替手順は `docs/30-workflows/runbooks/tag-queue-pause.md` を正本とし、Cloudflare Secret では扱わない。
 
 Google Sheets API v4 同期は `SHEETS_SPREADSHEET_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_JSON` を Cloudflare Workers Secret として扱う。`GOOGLE_SERVICE_ACCOUNT_JSON` は UT-25 で確定した正本名で、staging / production の両環境に `bash scripts/cf.sh secret put ... --config apps/api/wrangler.toml --env <env>` 経由で配置する。`GOOGLE_SHEETS_SA_JSON` は移行期間の legacy alias として実装側のみ許容し、新規 secret 投入名には使わない。
 
@@ -610,15 +612,49 @@ Cloudflare Analytics の長期保存 evidence は `docs/30-workflows/completed-t
 | metrics | 4 metric groups / 5 scalar values: requests, totalRequests/errors5xx, D1 readQueries/writeQueries, worker invocations |
 | PII boundary | URL query / request body / response body / IP / User-Agent / email / member ID / session token は保存禁止 |
 | Logpush | Free plan 外のため不採用 |
-| automation follow-up | `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` |
+| automation follow-up | consumed source: `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md`; current implementation spec: `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` |
+
+### Monthly Analytics Export Automation Spec（Issue #484 / 2026-05-06）
+
+`docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` is the current implementation specification for the Issue #347 automation follow-up.
+
+| 項目 | contract |
+| --- | --- |
+| task state | `implemented-local / implementation / NON_VISUAL / code evidence captured / runtime Cloudflare export pending_user_approval / Phase 13 blocked_pending_user_approval` |
+| script | `scripts/fetch-cloudflare-analytics.ts` |
+| workflow | `.github/workflows/cloudflare-analytics-export.yml` |
+| secrets/env | `CLOUDFLARE_ANALYTICS_API_TOKEN`, `CLOUDFLARE_ZONE_TAG`, `CLOUDFLARE_ACCOUNT_TAG`; 1Password is canonical, GitHub Secrets are execution copies |
+| schedule | `0 2 1 * *`; schedule and `workflow_dispatch` real runs are limited to one export per target month |
+| output | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-11/long-term-evidence/analytics-export-YYYYMMDD-HHmm-UTC.json` |
+| persisted identifiers | `zoneTag` / `accountTag` are GraphQL inputs only and are stored as `[redacted]` in JSON evidence |
+| metric aggregation | GraphQL group arrays are summed across returned buckets; first-element-only reads are forbidden |
+| redaction gate | email, IPv4, bearer/token, URL query, member ID, session/cookie |
+| runtime boundary | token-backed export and PR creation require explicit implementation/runtime execution; implemented-local close-out claims local code evidence only |
+| automation status | **applied (2026-05-06)** — `scripts/fetch-cloudflare-analytics.ts` / `scripts/redaction-check-analytics.sh` / `.github/workflows/cloudflare-analytics-export.yml` がコードベースに配置済み。実 token 経由の runtime evidence は GitHub Secrets 配置後の workflow_dispatch 実行で取得する |
 
 Runtime production sample は Cloudflare dashboard session または API token が必要なため、user approval 後の運用 cycle で取得する。Issue #347 decision workflow は schema sample / redaction check / Free plan constraints / aiworkflow 同期を完了し、09c parent workflow state は変更しない。
+
+### D+7 / D+30 Post-release Observation Reminder（Issue #350 / 2026-05-06）
+
+09c の 24h post-release verification 後に残る 1週間 / 1か月の継続観測は、`docs/30-workflows/issue-350-long-term-production-observation/` を正本 workflow とする。Cloudflare Workers cron は無料枠 3 本が既に埋まっているため追加せず、`.github/workflows/post-release-observation-reminder.yml` の GitHub Actions schedule / workflow_dispatch で reminder Issue を起票する。
+
+| 項目 | current contract |
+| --- | --- |
+| runbook | `docs/runbooks/post-release-long-term-observation.md` |
+| SSOT reference | `references/post-release-long-term-observation.md` |
+| helper | `scripts/observation/create-reminder-issue.sh` |
+| metrics | req/day, D1 reads/writes, 5xx p95, cron success, authz smoke, free plan headroom |
+| evidence boundary | aggregate-only / redacted evidence。URL query, body, IP, User-Agent, email, member ID, session token, token values are prohibited |
+| runtime gate | real workflow dispatch / Issue creation / commit / push / PR は user approval 後 |
 
 ## 変更履歴
 
 | 日付 | バージョン | 変更内容 |
 | ---- | ---------- | -------- |
+| 2026-05-06 | 1.6.0 | Issue #350 D+7 / D+30 post-release observation reminder を追加。GitHub Actions scheduled reminder、runbook、SSOT reference、PII/evidence boundary、runtime user gate を正本化 |
 | 2026-05-05 | 1.5.0 | Issue #347 Cloudflare Analytics long-term evidence decision を追加。GraphQL aggregate-only export、12件 retention、PII 非保存、Logpush 不採用、automation follow-up を正本化 |
+| 2026-05-06 | 1.6.0 | Issue #484 Cloudflare Analytics monthly export automation spec を current implementation spec として追加。source follow-up task を consumed trace 化し、token/env 名、accountTag、redaction gate、runtime pending 境界を同期 |
+| 2026-05-06 | 1.7.0 | Issue #484 automation を実装適用。`scripts/fetch-cloudflare-analytics.ts` / `scripts/redaction-check-analytics.sh` / `.github/workflows/cloudflare-analytics-export.yml` を配置し、multi-bucket summation / persisted identifier redaction / schedule-manual duplicate guard を applied contract に更新 |
 | 2026-04-09 | 1.0.0 | 初版作成（Cloudflare 移行） |
 | 2026-04-27 | 1.1.0 | UT-08 モニタリング/アラート設計の SSOT 連携セクション追加 |
 | 2026-04-27 | 1.2.0 | UT-06 派生: `scripts/cf.sh` 章を `wrangler` 直接実行から canonical wrapper に統一（whoami / deploy / d1 / rollback / secret / tail）。ローカル `wrangler login` OAuth 禁止と `op://` 参照経由の `CLOUDFLARE_API_TOKEN` 動的注入を明示。OpenNext Workers 形式 / Pages 形式の判定マトリクスを追加。初回 D1 backup の空 export 取扱を追記。`apps/web/next.config.ts` 例に `outputFileTracingRoot` / `turbopack.root` / `typescript.ignoreBuildErrors` を反映（別 `tsc --noEmit` gate と pair 必須）。API `wrangler.toml` 例に wrangler 4.x strict mode 対応の `[env.staging]` / `[env.production]` を明示 |

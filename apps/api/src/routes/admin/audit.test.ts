@@ -51,6 +51,16 @@ const seedAudit = async (env: InMemoryD1) => {
       "2026-04-30T15:00:00.000Z",
     ],
     [
+      "audit_004",
+      "owner@example.com",
+      "admin.request.approve",
+      "admin_member_note",
+      "note_1",
+      null,
+      JSON.stringify({ noteId: "note_1", memberId: "m1", resolution: "approve" }),
+      "2026-04-29T16:00:00.000Z",
+    ],
+    [
       "audit_003",
       "other@example.com",
       "member.note.created",
@@ -151,6 +161,92 @@ describe("admin audit route", () => {
     expect(body.items).toHaveLength(1);
     expect(body.items[0]?.parseError).toBe(true);
     expect(JSON.stringify(body)).not.toContain("{broken");
+  });
+
+  it("GET /audit: admin_member_note filter は request audit のみを返し legacy member 行は読める", async () => {
+    const app = createAdminAuditRoute();
+    const headers = { ...(await adminAuthHeader()) };
+
+    const requestAudit = await app.request(
+      "/audit?targetType=admin_member_note",
+      { headers },
+      makeEnv(env),
+    );
+    expect(requestAudit.status).toBe(200);
+    const requestBody = (await requestAudit.json()) as {
+      items: Array<{ auditId: string; targetType: string; targetId: string }>;
+    };
+    expect(requestBody.items.map(({ auditId, targetType, targetId }) => ({
+      auditId,
+      targetType,
+      targetId,
+    }))).toEqual([
+      { auditId: "audit_004", targetType: "admin_member_note", targetId: "note_1" },
+    ]);
+
+    const legacyMember = await app.request(
+      "/audit?targetType=member",
+      { headers },
+      makeEnv(env),
+    );
+    expect(legacyMember.status).toBe(200);
+    const legacyBody = (await legacyMember.json()) as {
+      items: Array<{ auditId: string; targetType: string; targetId: string }>;
+    };
+    expect(legacyBody.items.map(({ auditId, targetType, targetId }) => ({
+      auditId,
+      targetType,
+      targetId,
+    }))).toEqual([{ auditId: "audit_003", targetType: "member", targetId: "m1" }]);
+  });
+
+  it("GET /audit: admin_member_note filter 下でも cursor pagination が壊れない", async () => {
+    await env.db
+      .prepare(
+        "INSERT INTO audit_log (audit_id, actor_email, action, target_type, target_id, before_json, after_json, created_at) VALUES (?1, ?2, ?3, ?4, ?5, NULL, ?6, ?7)",
+      )
+      .bind(
+        "audit_005",
+        "owner@example.com",
+        "admin.request.reject",
+        "admin_member_note",
+        "note_2",
+        JSON.stringify({ noteId: "note_2", memberId: "m2", resolution: "reject" }),
+        "2026-04-29T17:00:00.000Z",
+      )
+      .run();
+
+    const app = createAdminAuditRoute();
+    const headers = { ...(await adminAuthHeader()) };
+    const first = await app.request(
+      "/audit?targetType=admin_member_note&limit=1",
+      { headers },
+      makeEnv(env),
+    );
+    expect(first.status).toBe(200);
+    const firstBody = (await first.json()) as {
+      items: Array<{ auditId: string; targetType: string }>;
+      nextCursor: string | null;
+    };
+    expect(firstBody.items.map(({ auditId, targetType }) => ({ auditId, targetType }))).toEqual([
+      { auditId: "audit_005", targetType: "admin_member_note" },
+    ]);
+    expect(firstBody.nextCursor).toBeTruthy();
+
+    const second = await app.request(
+      `/audit?targetType=admin_member_note&limit=1&cursor=${encodeURIComponent(firstBody.nextCursor ?? "")}`,
+      { headers },
+      makeEnv(env),
+    );
+    expect(second.status).toBe(200);
+    const secondBody = (await second.json()) as {
+      items: Array<{ auditId: string; targetType: string }>;
+      nextCursor: string | null;
+    };
+    expect(secondBody.items.map(({ auditId, targetType }) => ({ auditId, targetType }))).toEqual([
+      { auditId: "audit_004", targetType: "admin_member_note" },
+    ]);
+    expect(secondBody.nextCursor).toBeNull();
   });
 
   it("GET /audit: limit 1-100 と invalid cursor を 400 にする", async () => {

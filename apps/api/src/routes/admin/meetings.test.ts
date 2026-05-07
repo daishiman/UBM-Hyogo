@@ -201,6 +201,59 @@ describe("admin meetings", () => {
         .prepare("SELECT COUNT(*) AS n FROM member_attendance WHERE member_id = 'm1' AND session_id = 's1'")
         .first<{ n: number }>(),
     ).toEqual({ n: 0 });
+
+    const audits = await env.db
+      .prepare("SELECT action, target_id FROM audit_log WHERE action IN ('attendance.add', 'attendance.remove') ORDER BY created_at ASC")
+      .all<{ action: string; target_id: string }>();
+    expect(audits.results).toEqual([
+      { action: "attendance.add", target_id: "s1" },
+      { action: "attendance.remove", target_id: "s1" },
+    ]);
+  });
+
+  it("POST /meetings/:id/attendances は duplicate を 409 にする", async () => {
+    const app = createAdminMeetingsRoute();
+    await env.db
+      .prepare("INSERT INTO meeting_sessions (session_id, title, held_on, created_by) VALUES ('s1', 'MTG1', '2026-04-01', 'admin')")
+      .run();
+    await env.db
+      .prepare("INSERT INTO member_identities (member_id, response_email, current_response_id, first_response_id, last_submitted_at) VALUES ('m1', 'a@example.com', 'r1', 'r1', '2026-04-01T00:00:00Z')")
+      .run();
+
+    const request = {
+      method: "POST",
+      headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+      body: JSON.stringify({ memberId: "m1", attended: true }),
+    };
+    await app.request("/meetings/s1/attendances", request, makeEnv(env));
+    const duplicate = await app.request("/meetings/s1/attendances", request, makeEnv(env));
+
+    expect(duplicate.status).toBe(409);
+    await expect(duplicate.json()).resolves.toMatchObject({ error: "attendance_already_recorded" });
+  });
+
+  it("POST /meetings/:id/attendances は deleted member を 422 にする", async () => {
+    const app = createAdminMeetingsRoute();
+    await env.db
+      .prepare("INSERT INTO meeting_sessions (session_id, title, held_on, created_by) VALUES ('s1', 'MTG1', '2026-04-01', 'admin')")
+      .run();
+    await env.db
+      .prepare("INSERT INTO member_identities (member_id, response_email, current_response_id, first_response_id, last_submitted_at) VALUES ('m1', 'a@example.com', 'r1', 'r1', '2026-04-01T00:00:00Z')")
+      .run();
+    await env.db.prepare("INSERT INTO member_status (member_id, is_deleted) VALUES ('m1', 1)").run();
+
+    const deletedMember = await app.request(
+      "/meetings/s1/attendances",
+      {
+        method: "POST",
+        headers: { ...await adminAuthHeader(), "content-type": "application/json" },
+        body: JSON.stringify({ memberId: "m1", attended: true }),
+      },
+      makeEnv(env),
+    );
+
+    expect(deletedMember.status).toBe(422);
+    await expect(deletedMember.json()).resolves.toMatchObject({ error: "member_is_deleted" });
   });
 
   it("POST /meetings/:id/attendances は unknown member と soft-deleted meeting を 404 にする", async () => {

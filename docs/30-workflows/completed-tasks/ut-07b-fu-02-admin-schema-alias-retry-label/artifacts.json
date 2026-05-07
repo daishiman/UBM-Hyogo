@@ -1,0 +1,52 @@
+{
+  "workflow_id": "ut-07b-fu-02-admin-schema-alias-retry-label",
+  "workflow_state": "implemented-local",
+  "metadata": {
+    "task_id": "UT-07B-FU-02-admin-schema-alias-retry-label",
+    "task_name": "管理 UI schema alias retryable back-fill 表示",
+    "github_issue": 362,
+    "github_issue_state": "CLOSED",
+    "parent_task": "ut-07b-schema-alias-hardening",
+    "source_phase": "docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/phase-12/unassigned-task-detection.md",
+    "created_date": "2026-05-06",
+    "category": "type:improvement",
+    "priority": "low",
+    "scale": "small",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "docsOnly": false,
+    "wave": 2,
+    "implementation_class": "implemented-local",
+    "dependencies": [
+      "ut-07b-schema-alias-hardening",
+      "ut-07b-fu-01-schema-alias-backfill-queue-cron-split"
+    ]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "completed", "spec": "phase-01.md" },
+    { "id": 2, "name": "設計（response narrowing / 表示分岐）", "status": "completed", "spec": "phase-02.md" },
+    { "id": 3, "name": "設計レビューゲート", "status": "completed", "spec": "phase-03.md" },
+    { "id": 4, "name": "検証戦略", "status": "completed", "spec": "phase-04.md" },
+    { "id": 5, "name": "実装（API client / SchemaDiffPanel）", "status": "completed", "spec": "phase-05.md" },
+    { "id": 6, "name": "異常系（success / validation / conflict / retryable 区別）", "status": "completed", "spec": "phase-06.md" },
+    { "id": 7, "name": "AC マトリクス", "status": "completed", "spec": "phase-07.md" },
+    { "id": 8, "name": "DRY 化 / 仕様間整合", "status": "completed", "spec": "phase-08.md" },
+    { "id": 9, "name": "品質保証（typecheck / lint / unit）", "status": "completed", "spec": "phase-09.md" },
+    { "id": 10, "name": "最終レビューゲート", "status": "completed", "spec": "phase-10.md" },
+    { "id": 11, "name": "手動検証（component + manual mock）", "status": "blocked_runtime_visual_pending", "spec": "phase-11.md" },
+    { "id": 12, "name": "ドキュメント更新", "status": "completed", "spec": "phase-12.md" },
+    { "id": 13, "name": "PR 作成", "status": "blocked_pending_user_approval", "spec": "phase-13.md" }
+  ],
+  "ac": [
+    "AC-1: HTTP 202 + backfill.status='exhausted' + retryable=true が retryable continuation として識別される",
+    "AC-2: API client (postSchemaAlias) が status code と response body を component から判定できる形で公開する",
+    "AC-3: SchemaDiffPanel が success / validation error / conflict error / retryable continuation を 4 区別で表示する",
+    "AC-4: retryable label と通常エラー label が異なる role / wording で表現される",
+    "AC-5: API contract (apps/api/src/routes/admin/schema.ts / schemaAliasAssign.ts) を変更しない",
+    "AC-6: 不変条件 #5（D1 アクセスは apps/api 限定）違反ゼロ",
+    "AC-7: component test で retryable / 通常 success / validation error / conflict error の 4 fixture を区別",
+    "AC-8: api.test.ts で 202 response の status と body 透過が確認される",
+    "AC-9: pnpm typecheck / lint / web unit test が GREEN",
+    "AC-10: Phase 12 で実装ガイド（中学生レベル + 技術者レベル）と未タスク検出と skill feedback を出力"
+  ]
+}

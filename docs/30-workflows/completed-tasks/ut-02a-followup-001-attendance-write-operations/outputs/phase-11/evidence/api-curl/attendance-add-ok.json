@@ -1,0 +1,6 @@
+{
+  "status": "CONTRACT_ONLY_NOT_EXECUTED",
+  "expectedHttpStatus": 200,
+  "route": "POST /admin/meetings/:sessionId/attendances",
+  "reason": "Runtime curl evidence requires local/staging server and authenticated admin session."
+}

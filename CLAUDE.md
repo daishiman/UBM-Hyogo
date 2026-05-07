@@ -199,7 +199,8 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 
 ### 目的と絶対原則
 
-- リモート `main` を基準にローカル `main` を同期し、作業ブランチへ取り込んでからPRを作成する。
+- **既定の PR base ブランチは `dev`**（開発統合ブランチ）。`main` への PR は production リリース時の `dev → main` のみ。
+- リモート `dev` を基準にローカル `dev` を同期し、作業ブランチへ取り込んでからPRを作成する。
 - 現在ブランチで上がっている変更は、ステージ済み・未ステージ・未追跡・コミット済み差分を問わず、すべてPRに含める。
 - ファイル種別、サイズ、自動生成物という理由で変更を除外しない。
 - PR本文は `.claude/commands/ai/diff-to-pr.md` をPhase 13仕様として扱い、該当する `outputs/phase-12/implementation-guide.md` の内容を漏れなく反映する。
@@ -207,9 +208,9 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 
 ### 実行順序
 
-1. 現在ブランチと変更状況を確認する。`main` 直上またはブランチ未作成の場合は、差分の主題から `feat/`、`fix/`、`refactor/`、`docs/` のいずれかで作業ブランチを自律作成する。
-2. `git fetch origin main` を実行し、ローカル `main` を `origin/main` にfast-forward同期する。
-3. 作業ブランチに戻り、`main` をマージする。
+1. 現在ブランチと変更状況を確認する。`dev` 直上またはブランチ未作成の場合は、差分の主題から `feat/`、`fix/`、`refactor/`、`docs/` のいずれかで作業ブランチを自律作成する。
+2. `git fetch origin dev` を実行し、ローカル `dev` を `origin/dev` にfast-forward同期する。
+3. 作業ブランチに戻り、`dev` をマージする。
 4. コンフリクトがあれば以下の方針で自律解消し、`git add` と `git commit` まで行う。
 5. 品質検証は次の3コマンドだけを実行する。
    - `pnpm install --force`
@@ -217,18 +218,18 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
    - `pnpm lint`
 6. 品質検証が失敗した場合は最大3回まで自動修復し、修復差分をコミットする。
 7. `git status --porcelain` で未コミット変更を確認し、残っている変更は `git add -A` で全件含めてコミットする。
-8. `git diff main...HEAD --name-only` でPRに入るファイル一覧を取得し、PR本文作成時に漏れなし確認として扱う。
-9. `.claude/commands/ai/diff-to-pr.md` と `outputs/phase-12/implementation-guide.md` を参照してPR本文を作成し、通常PRとして作成する。
+8. `git diff dev...HEAD --name-only` でPRに入るファイル一覧を取得し、PR本文作成時に漏れなし確認として扱う。
+9. `.claude/commands/ai/diff-to-pr.md` と `outputs/phase-12/implementation-guide.md` を参照してPR本文を作成し、`gh pr create --base dev` で作成する（production リリース時のみ `--base main` を明示）。
 
 ### コンフリクト解消の既定方針
 
 | 種別 | 方針 |
 |------|------|
-| `package.json` / `tsconfig` などの設定ファイル | `main` 側を基準に採用し、作業ブランチ側の必要差分を再適用する |
+| `package.json` / `tsconfig` などの設定ファイル | `dev` 側を基準に採用し、作業ブランチ側の必要差分を再適用する |
 | `pnpm-lock.yaml` | 必要なら再生成し、`pnpm install --force` の結果を正とする |
 | ソースコード | 両側の変更意図を保持し、関数・import・型定義を統合する |
 | 自動生成物 | 生成元が明確な場合は再生成結果を正とする |
-| ドキュメント | `main` 側、作業ブランチ側の順に意味を結合し、重複行だけ除去する |
+| ドキュメント | `dev` 側、作業ブランチ側の順に意味を結合し、重複行だけ除去する |
 
 ### 品質検証失敗時の自動修復
 
@@ -240,7 +241,7 @@ git には `post-fetch` hook が存在しないため、`git fetch` 後にリモ
 ### PR作成前チェック
 
 - `git status --porcelain` が空であること。
-- `git diff main...HEAD --name-only` がPRに含めるファイル一覧として取得できていること。
+- `git diff dev...HEAD --name-only` がPRに含めるファイル一覧として取得できていること。
 - `implementation-guide.md` が存在する場合、その主要見出しと内容がPR本文に反映されていること。
 - `outputs/phase-11/` 配下の `png` / `jpg` / `jpeg` / `gif` / `webp` 画像数と、PR本文の画像参照が整合していること。
 - スクリーンショットがない場合、PR本文にスクリーンショット専用セクションを残さないこと。
@@ -277,6 +278,13 @@ PR作成完了後は、PR URL、採用ブランチ、実行した自動修復、
 - 値は **1Password に保管**し、`.env` には `op://Vault/Item/Field` 参照のみを記述する
 - 実行時に [`scripts/with-env.sh`](scripts/with-env.sh) が `op run --env-file=.env` でラップして動的注入する
 
+### `apps/web` env アクセス不変条件（task-02 wrangler-env-injection）
+
+- `apps/web` ランタイムでの env 参照は **`apps/web/src/lib/env.ts` の `getEnv()` / `getPublicEnv()` 経由のみ** とする。`process.env.*` を直接参照することを禁止する。
+- `getEnv()` は zod schema で検証し、parse 失敗時は throw する。throw は `apps/web/src/app/error.tsx`（task-05）の error boundary で補足する設計のため、try/catch で握り潰さない。
+- 非機密 var は `apps/web/wrangler.toml` の `[vars]` / `[env.staging.vars]` / `[env.production.vars]` で管理。機密値は `bash scripts/cf.sh secret put` で Cloudflare Secrets に投入し、`.dev.vars.example` には `op://Vault/Item/Field` 参照のみを記す。
+- `127.0.0.1:8888` などローカル限定エンドポイントの `apps/web/src` 配下への焼き込みは禁止（task-18 regression smoke で grep gate）。
+
 #### Cloudflare 系 CLI 実行ルール（Claude Code 必読）
 
 Claude Code および手動オペレーション双方で **以下のラッパーのみを使用**すること。`wrangler` を直接呼ばない。
@@ -308,6 +316,37 @@ bash scripts/cf.sh rollback <VERSION_ID> --config apps/api/wrangler.toml --env p
 - `.env` の中身を `cat` / `Read` / `grep` 等で表示・読み取らない（実値は op 参照のみだが慣性事故防止）
 - API Token 値・OAuth トークン値を出力やドキュメントに転記しない
 - `wrangler login` でローカル OAuth トークン (`~/Library/Preferences/.wrangler/config/default.toml`) を保持しない。`.env` の op 参照に一本化する
+
+---
+
+## UI prototype alignment / MVP recovery（進行中ワークフロー）
+
+`docs/30-workflows/ui-prototype-alignment-mvp-recovery/` を参照。
+
+### スコープ（19 routes）
+
+| 層 | 数 | routes |
+|----|----|--------|
+| 公開 | 6 | `/`, `/(public)/members`, `/(public)/members/[id]`, `/(public)/register`, `/privacy`, `/terms` |
+| 会員 | 2 | `/login`, `/profile` |
+| 管理 | 8 | `/(admin)/admin`, `/(admin)/admin/{members,tags,meetings,schema,requests,identity-conflicts,audit}` |
+| 共通 | 3 | `error.tsx`, `not-found.tsx`, `loading.tsx` |
+
+### 不変条件（task-02..22 共通）
+
+1. **既存 API のみ接続**: `apps/api/src/routes/` 配下の現行 endpoint surface のみ利用。新 endpoint 追加・D1 schema 変更・Google Form 仕様変更は禁止。
+2. **OKLch トークン正本化**: 色は `apps/web/src/styles/tokens.css`（task-09）と `docs/00-getting-started-manual/specs/design-tokens.md`（task-08）が正本。HEX 直書き / `bg-[#xxx]` / `text-[#xxx]` 禁止。CI gate `verify-design-tokens`（task-18）で fail 判定。
+3. **プロトタイプ正本順位**: `docs/00-getting-started-manual/claude-design-prototype/` の primitives + tokens + rhythm をデザイン言語の正本とする。プロトタイプ未掲載画面（管理画面群・register・privacy・terms）も同じ primitives 群で構成し、新規 primitive を生やさない。
+4. **D1 直接アクセス禁止**: 既存条件（`apps/web` から D1 binding 禁止）を継続。
+
+### 正本順位（衝突時の優先度）
+
+1. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md`
+2. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-{1,2,3}/phase-N.md`
+3. `docs/00-getting-started-manual/specs/*.md`
+4. プロトタイプ（`docs/00-getting-started-manual/claude-design-prototype/`）
+
+> 既存 API endpoint surface と UI 期待 shape が乖離する場合は、API を変更せず UI 側に adapter 層を置く。
 
 ---
 

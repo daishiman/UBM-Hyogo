@@ -85,14 +85,15 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | --- | --- | --- | --- |
 | GET | `/admin/dashboard` | 06c-A 正本: 単一 endpoint で `kpis = { 総会員数, 公開中人数, 未タグ人数, スキーマ未解決件数 }` と `recentActions`（`audit_log` 直近 7 日 / max 20 / `dashboard.view` 除外）を返す。表示時に `dashboard.view` を `audit_log` へ append する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/members` | 06c-B 正本: admin member list。`filter=published|hidden|deleted`、`q`（trim + 連続空白正規化 + max 200）、`zone=all|0_to_1|1_to_10|10_to_100`、repeated `tag`（tag code / AND / max 5）、`sort=recent|name`、`density=comfy|dense|list`、`page` を受け付け、`{ total, members, page, pageSize }` を返す | Auth.js JWT + `requireAdmin` |
-| GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/members/:memberId` | admin member detail。admin notes は detail にのみ含める。`MemberProfile.attendance` は `attendanceProviderMiddleware`（`apps/api/src/middleware/repository-providers.ts`）で `c.var.attendanceProvider` を解決し、me 経路（`GET /me/profile`）と DI 経路を対称化（Issue #371）。Issue #372 以後、`profile.attendance` は default 50 件の先頭ページで、`profile.attendanceMeta?: { hasMore, nextCursor }` を返す | Auth.js JWT + `requireAdmin` + `attendanceProviderMiddleware` |
+| GET | `/admin/members/:memberId/attendance` | Issue #372 正本: admin member detail の attendance 継続取得。`limit?: 1..200`、`cursor?: base64url({ heldOn, sessionId })`。不正 cursor / `limit < 1` は 400、`limit > 200` は 200 に silent clamp。response は `{ records, hasMore, nextCursor }` | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/status` | publish state / hidden reason を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/notes` | admin note を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/members/:memberId/notes/:noteId` | admin note を更新する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/delete` | member を論理削除する。request body は `{ reason: string.trim().min(1).max(500) }`、不足/超過は **422** を返す。成功時 `{ id, isDeleted: true, deletedAt }` を返し、`member_status` upsert / `deleted_members` upsert / `audit_log` insert(`admin.member.deleted`) を `DB.batch()` で同一 workflow 境界に置く。再 delete は `409 member_already_deleted` | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/members/:memberId/restore` | 論理削除済み member を復元する。成功時 `{ id, restoredAt }` を返し、`member_status` update / `deleted_members` delete / `audit_log` insert(`admin.member.restored`) を `DB.batch()` で同一 workflow 境界に置く。未削除 member への restore は `409 member_not_deleted` | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/requests` | visibility/delete request の pending queue を `type=visibility_request|delete_request`, `status=pending`, cursor pagination で FIFO 一覧する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/requests/:noteId/resolve` | admin request を approve/reject する。approve は `member_status` 更新、`admin_member_notes.request_status` 更新、`audit_log` append を D1 batch で同一 workflow 境界に置き、二重 resolve は 409 | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/requests/:noteId/resolve` | admin request を approve/reject する。approve は `member_status` 更新、`admin_member_notes.request_status` 更新、`audit_log` append を D1 batch で同一 workflow 境界に置き、二重 resolve は 409。Issue #401 実装後は batch 完了後に `notification_outbox` へ best-effort enqueue する。enqueue 失敗 / missing recipient は warning のみで resolve を rollback しない | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/tags/queue/:queueId/resolve` | queue item を `confirmed`（DB/API status: `resolved`）または `rejected` に解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
@@ -115,7 +116,8 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 - `admin_member_notes` は public/member view model へ混入させない。
 - mutation は `audit_log` append を通す。
 - 04b-followup-004 admin request resolve は `visibility_request` approve で `member_status.publish_state`、`delete_request` approve で `member_status.is_deleted` と `deleted_members` を更新し、reject では `member_status` を変更しない。approve 前に対象 `member_status` がない場合は 404 `member_status_not_found` とし、note は pending のまま残す。
-- request resolve audit は現行 `AuditTargetType` 制約により `targetType='member'`、`targetId=<memberId>`、`after.noteId` で原典を追跡する。action は `admin.request.approve` / `admin.request.reject`。first-class `admin_member_note` / `admin_request` target は follow-up。
+- request resolve audit は Issue #400 以後の新規行で `targetType='admin_member_note'`、`targetId=<noteId>`、`after.memberId` / `after.noteId` で原典を追跡する。action は `admin.request.approve` / `admin.request.reject`。既存 `targetType='member'` 行は migration せず `/admin/audit` で読み取り可能なまま維持する。
+- Issue #401 admin resolve notification は `member_identities.response_email` を宛先として読み、`MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` 経由で送信する。notification enqueue / dispatch は resolve transaction の外側に置き、raw `resolutionNote` は email / `notification_outbox.reason_summary` / `notification_ledger.detail_json` にコピーしない。mail config 未準備時は claim 前に dispatch を skip し、pending row を保持する。
 - 06c-E UI の attendance add/remove は `/admin/meetings/:sessionId/attendances` の `{ attended }` alias を正本として使う。04c の `/attendance` POST/DELETE route は既存互換 route として維持する。
 - 07c attendance add/remove は `attendance.add` / `attendance.remove` を `target_type='meeting'`, `target_id=<sessionId>` で append し、追加は `after_json`、削除は `before_json` に attendance row を残す。
 - 07c follow-up audit browsing は append-only の閲覧専用で、`before_json` / `after_json` の保存値は変更せず、API projection と UI defense-in-depth で email / phone / address / name 相当キーを表示時 masking する。cursor は `{ createdAt, auditId }` の base64url JSON、order は `created_at DESC, audit_id DESC`。
@@ -255,6 +257,12 @@ UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers C
 | 409 | diff question mismatch / stable key collision | `{ ok: false, code?: "stable_key_collision", error, existingQuestionIds? }` |
 | 422 | body validation failure | `{ ok: false, error }` |
 
+UT-07B-FU-01（schema alias back-fill queue/cron split）以降、apply mode のレスポンスは `confirmed: true`（Stage 1 = `schema_aliases` INSERT 成功）と `backfill: { status, remaining, lastProcessedAt }` を区別して返す。公開 `backfill.status` は `pending | running | exhausted | completed` の 4 値。internal DB `backfill_status='failed'` は public `exhausted` + `internalStatus:'failed'` metadata として返し、UI / polling は public status だけで分岐する。`completed` は HTTP 200、continuation は HTTP 202。後方互換のため `backfill.code='backfill_cpu_budget_exhausted'` / `backfill.retryable=true` は `backfill.status='exhausted'` と並存させる。
+
+| Method | Path | 認可 | 用途 |
+| ------ | ---- | ---- | ---- |
+| GET | `/admin/schema/aliases/:diffId/backfill` | Auth.js admin JWT + `admin_users.active` | UT-07B-FU-01: back-fill 状態取得。`{ ok, diffId, questionId, backfill: { status, remaining, retryCount, lastProcessedAt, lastError, internalStatus, failedItems } }` を返す。公開 `status` は `pending|running|exhausted|completed`。internal `failed` は `status:'exhausted'` + `internalStatus:'failed'`。404 は不在 diff |
+
 ### UBM-Hyogo Admin Schema Sync API（03a）
 
 レスポンス契約:
@@ -279,7 +287,8 @@ UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers C
 | Method | Path | 認可 | 用途 |
 | ------ | ---- | ---- | ---- |
 | GET | `/me` | session 必須 | `SessionUser` と `authGateState` (`active` / `rules_declined` / `deleted`) を返す |
-| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `createAttendanceProvider(ctx)` 経由で `member_attendance` + `meeting_sessions` から取得する |
+| GET | `/me/profile` | session 必須 | `MemberProfile`、status summary、`editResponseUrl`、`fallbackResponderUrl` を返す。`MemberProfile.attendance` は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` 経由で `member_attendance` + `meeting_sessions` から取得する。Issue #372 以後、`MemberProfile.attendance` は default 50 件の先頭ページで、`attendanceMeta?: { hasMore, nextCursor }` を返す |
+| GET | `/me/attendance` | session 必須 | Issue #372 正本: 本人 attendance 継続取得。`limit?: 1..200`、`cursor?: base64url({ heldOn, sessionId })`。不正 cursor / `limit < 1` は 400、`limit > 200` は 200 に silent clamp。response は `{ records, hasMore, nextCursor }` |
 | POST | `/me/visibility-request` | session + `authGateState=active` | `admin_member_notes.note_type='visibility_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='visibility_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
 | POST | `/me/delete-request` | session + `authGateState=active` | `admin_member_notes.note_type='delete_request'` として admin queue に投入。投入時 `request_status='pending'` で記録され、admin が resolve / reject 後は pending 行が無くなるため再申請可能。**重複ガード**: 同 member に `note_type='delete_request'` かつ `request_status='pending'` の行が既に存在する場合は `409 Conflict` を返す（クライアントは `SelfRequestError(code:'duplicate-pending')` で扱う）|
 
@@ -294,7 +303,19 @@ UT-07B hardening では、`schema_aliases` INSERT 後の back-fill が Workers C
 - memberId は backend session（06b-A `/me` API Auth.js cookie session resolver）で解決し、path / クエリに出さない（不変条件 #11）
 - 06b-B では `me-requests-client` が `POST /api/me/visibility-request` / `POST /api/me/delete-request` を呼び、409 を `SelfRequestError(code:'duplicate-pending')` に変換する。401 は未認証、403 は `authGateState !== 'active'` を表す
 
-`MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、D1 read path は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
+`MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、bulk read path (`findByMemberIds`) は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN し、`held_on DESC, session_id ASC` で返す。Issue #372 の個人 pagination read path (`findByMemberId`) は `held_on DESC, session_id DESC` で cursor tie-break する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
+
+## Admin Dashboard Attendance Analytics API（UT-02A follow-up 002）
+
+`apps/api/src/routes/admin/dashboard.ts` は既存 `requireAdmin` gate 配下に attendance aggregate API を追加する。apps/web の `/admin/dashboard/attendance` は `fetchAdmin` 経由で呼び、D1 直接参照は禁止する。
+
+| Method | Path | Query | Response |
+| ------ | ---- | ----- | -------- |
+| GET | `/admin/dashboard/attendance/overview` | なし | `{ totalSessions: number; totalMembers: number; overallRate: number }` |
+| GET | `/admin/dashboard/attendance/by-session` | `limit` default 50 / max 200。不正値は 400 | `Array<{ sessionId; title; heldOn; attendeeCount; rate }>` |
+| GET | `/admin/dashboard/attendance/ranking` | `limit` default 50 / max 200。不正値は 400 | `Array<{ memberId; displayName; attendedCount; rate }>` |
+
+Aggregate の分子・分母は active session (`meeting_sessions.deleted_at IS NULL`) と active member (`COALESCE(member_status.is_deleted, 0) = 0`) に揃える。削除済み member / session の attendance row は count / rate に含めない。
 
 ---
 

@@ -2779,4 +2779,18 @@
 
 ---
 
+### UT-03 Sheets API 認証方式設定（2026-04-29）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | completed / Phase 1-12 完了 / Phase 13 pending / NON_VISUAL |
+| 成果物 | `docs/30-workflows/ut-03-sheets-api-auth-setup/` |
+| 実装 | `packages/integrations/google/src/sheets/auth.ts` / `auth.test.ts` / `auth.contract.test.ts` |
+| 公開契約 | `@ubm-hyogo/integrations-google` の `sheets` namespace export |
+| 後続 | UT-09 / UT-21 が consumer。実 Google Sheets API smoke は UT-26 で実施 |
+| 苦戦知見 | `references/lessons-learned-ut-03-sheets-auth-2026-04.md` |
+| 移送 | 2026-05-06 に `task-workflow-active.md` から移送（500 行 soft 閾値遵守のため） |
+
+---
+
 - [Workspace](./task-workflow-completed-workspace.md)

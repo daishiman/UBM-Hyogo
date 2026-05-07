@@ -42,12 +42,18 @@
 | `ci.yml` | PR 時の CI（Lint・型チェック・テスト・ビルド） |
 | `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
 | `backend-ci.yml` | API アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
+| `incident-runbook-slack-delivery.yml` | 09c production deploy 後の incident runbook Slack delivery。`backend-ci` / `web-cd` の main 成功後 dry-run、production は `workflow_dispatch` + `production-slack-delivery` approval のみ。 |
 | `validate-build.yml` | ビルド検証（PR / push トリガー、apps/* の `pnpm build` 通過確認） |
 | `verify-indexes.yml` | aiworkflow-requirements skill indexes drift 検出（`pnpm indexes:rebuild` 結果と committed の差分検証） |
 | `pr-target-safety-gate.yml` | `pull_request_target` trusted context を triage / metadata / manual audit のみに限定する safety gate。PR head checkout / install / build は禁止。 |
 | `pr-build-test.yml` | untrusted PR head の build / lint / typecheck を `pull_request` + `contents: read` のみで実行する workflow。 |
+| `cf-token-rotation-reminder.yml` | Cloudflare API Token 90 日 rotation の 85 日 reminder。`schedule` + `workflow_dispatch` dry-run で Issue 起票を通知に限定する。 |
 
-> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 7 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
+> **current facts (Issue #407 / 2026-05-06)**: `cf-token-rotation-reminder.yml` は `contents: read` / `issues: write` のみを持ち、`secrets.*` を参照しない。発行日は GitHub Variable `CF_TOKEN_ISSUED_AT`、起票 threshold は 85 日、実 rotation / secret injection は runbook 側の user approval gate 後のみ。
+
+> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 9 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
+
+> **current facts (09c Slack delivery / 2026-05-06)**: `incident-runbook-slack-delivery.yml` は `workflow_run.workflows: ["backend-ci", "web-cd"]` に接続し、`conclusion == success` かつ `head_branch == main` の場合だけ automatic dry-run を実行する。production 配信は `workflow_dispatch` の `mode=production`、`dryrun_evidence_confirmed=true`、GitHub environment `production-slack-delivery` approval の三条件を要求する。
 
 ---
 
@@ -216,6 +222,8 @@
 >
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
+> **current facts (U-FIX-CF-ACCT-01-DERIV-02 / 2026-05-06)**: Cloudflare deploy token は現行 workflow step 単位で分割する。`backend-ci.yml` の D1 migration step は `CF_TOKEN_D1_<ENV>`、Workers deploy step は `CF_TOKEN_WORKERS_<ENV>` を使う。`web-cd.yml` の Pages deploy step は `CF_TOKEN_PAGES_<ENV>` を使う。`deploy-staging.yml` / `deploy-production.yml` は現行 repo に存在しないため正本にしない。Issue #406 は CLOSED のため PR 文面は `Refs #406` のみ。
+
 ---
 
 ## モニタリングとアラート
@@ -256,8 +264,27 @@
 
 | Secret 名 | 用途 | 必須 |
 | --------- | ---- | ---- |
-| `CLOUDFLARE_API_TOKEN` | Cloudflare API トークン | Yes |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token | Yes |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token | Yes |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Pages deploy 用 Cloudflare API Token | Yes |
+| `CLOUDFLARE_API_TOKEN` | 旧単一 Cloudflare API Token。U-FIX-CF-ACCT-01-DERIV-02 の 24h 並行保持後に削除 | Deprecated |
 | `DISCORD_WEBHOOK_URL` | Discord 通知用 Webhook URL | No |
+
+### U-FIX-CF-ACCT-01-DERIV-01: OIDC short-lived credential target contract（2026-05-06）
+
+`docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` は `spec_created / implementation-spec / NON_VISUAL` の target contract である。runtime cutover は未実行であり、現行 `web-cd.yml` / `backend-ci.yml` の長命 `secrets.CLOUDFLARE_API_TOKEN` 参照と `d1-migration-verify.yml` の `secrets.CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として残る。
+
+| 項目 | 契約 |
+| --- | --- |
+| primary IdP | AWS STS（GitHub OIDC federation） |
+| workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
+| deploy job permissions | deploy job のみ `id-token: write` + `contents: read`。top-level / PR job には付与しない |
+| credential lifetime | 1 時間以内を Phase 11 evidence で実測 |
+| credential boundary | Cloudflare Token object が per-job 短命化できない場合は AWS STS session <= 3600s + job-scoped retrieval を短命境界として記録し、Cloudflare Token 自体の 1h expiry を主張しない |
+| approval gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke |
+| commit / push / PR | G1-G4 とは別の user approval。自動実行禁止 |
+
+実装 PR では `secrets.CLOUDFLARE_API_TOKEN` / `secrets.CLOUDFLARE_API_TOKEN_STAGING` 直接参照を対象 workflow から除去または明示的に impact-checked とし、OIDC → AWS STS → job-scoped credential → `scripts/cf.sh` 経路に統一する。rollback 用の長命 Token 再注入は 24h 限定の緊急運用に限る。
 
 ### Variables（非シークレット）
 
@@ -265,6 +292,7 @@
 | ----------- | ---- | ---- |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account 識別子。資格情報ではないため Repository Variable として管理し、workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照する | Yes |
 | `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。UT-28 正本値は `ubm-hyogo-web`。staging は workflow 側で `-staging` suffix を連結して `ubm-hyogo-web-staging` とする | Yes |
+| `CF_TOKEN_ISSUED_AT` | Cloudflare API Token の production 発行日。`cf-token-rotation-reminder.yml` が 85 日経過判定に使用する ISO 8601 日付 | Yes |
 
 `CLOUDFLARE_PAGES_PROJECT` に `ubm-hyogo-web-staging` を直接入れてはいけない。dev deploy は `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging` を使うため、staging 名を入れると `ubm-hyogo-web-staging-staging` になる。
 
@@ -282,7 +310,10 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 | 名前 | 種別 | 配置 | 理由 |
 | --- | --- | --- | --- |
-| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | 環境別 token ローテーションと権限分離を優先 |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | D1 migration step のみが使う token に分離 |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Workers deploy step のみが使う token に分離 |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Pages deploy step のみが使う token に分離 |
+| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | Deprecated。24h 並行保持後に Cloudflare / GitHub から削除 |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | repository-scoped | Account ID は資格情報ではなく識別子。既存 GitHub 実設定に合わせ、`vars.` 参照で空展開を防ぐ |
 | `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | 非機密値で、suffix 連結結果をログで追えるよう Secret 化しない |
@@ -294,19 +325,90 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 - `if: secrets.X != ''` に依存せず、workflow 側では env に受けて shell で空文字判定する設計を優先する。
 - API Token は Pages Edit / Workers Scripts Edit / D1 Edit / Account Settings Read の最小スコープに限定し、命名規則 `ubm-hyogo-cd-{env}-{yyyymmdd}`（例: `ubm-hyogo-cd-staging-20260429`）でローテーション履歴を Token 名から追えるようにする。
 
----
+## Post-release dashboard automation (Issue #351 / 2026-05-05)
 
-## 関連ドキュメント
+09c production release 後の 24h metrics は `docs/30-workflows/completed-tasks/issue-351-09c-post-release-dashboard-automation/` を current implementation spec とし、GitHub Actions schedule / workflow_dispatch で自動収集する。
 
-- [デプロイメント概要](./deployment.md)
-- [Cloudflare デプロイ](./deployment-cloudflare.md)
+| 項目 | 正本 |
+| --- | --- |
+| workflow file | `.github/workflows/post-release-dashboard.yml` |
+| 起動 | `schedule: '0 0 * * *'` (UTC, 1 日 1 回) + `workflow_dispatch` |
+| secret | `CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY`（read-only。production deploy 用 `CLOUDFLARE_API_TOKEN` とは別 token） |
+| account variable | `vars.CLOUDFLARE_ACCOUNT_ID` |
+| artifact path | `outputs/post-release-dashboard/<UTC-yyyy-mm-dd>/dashboard.{json,md}` |
+| retention | 90 days |
+| metrics | `workers_requests` / `workers_errors` / `d1_reads` / `d1_writes` / `cron_status` |
+| threshold | 09c post-release summary と一致（`< 5000` req/24h, `<= 50000` reads/24h, `<= 10000` writes/24h） |
+| redaction gate | `scripts/post-release-dashboard/lib/redaction-check.sh` が artifact directory に `redaction-check.md` を生成し、secret-like findings 0 件を記録 |
+| CI regression gate | `ci.yml` で `pnpm post-release-dashboard:test` を実行し、collector / judgment / redaction report 生成を検証 |
 
----
+`scripts/cf.sh api-post /client/v4/graphql -d <json>` は GraphQL Analytics discover / metrics query の公開入口とし、`api-post` は `/client/v4/graphql` 以外の path を fail-closed する。workflow は `secrets.CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY` を正参照し、`secrets.CLOUDFLARE_API_TOKEN` を参照しない。
 
-## 変更履歴
+### 30 day schedule feedback contract (Issue #497 / 2026-05-06)
 
-| 日付 | バージョン | 変更内容 |
-| ---- | ---------- | -------- |
+Issue #351 の 30 日連続 schedule 実測 feedback は `docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion/` を current follow-up spec とする。これは **runtime conclusion evidence ではなく、30 日 gate 到達後に実行する docs-only / NON_VISUAL 契約**である。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow state | `spec_created / docs-only / NON_VISUAL / external-time-dependent` |
+| GitHub Issue | #497 CLOSED 維持。PR 文脈は `Refs #497, Refs #351` のみ |
+| trigger | Issue #351 main merge 後 30 日以上。`gh run list --workflow=post-release-dashboard.yml --limit=80 --json createdAt` の最古 `createdAt` が実行日 - 30 日以前 |
+| Phase 11 raw evidence | `docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion/outputs/phase-11/post-release-dashboard-30d.json` |
+| Phase 11 summaries | conclusion distribution / failure root cause classification / consecutive failure window / failure rate decision / redaction grep |
+| schedule continuity | `event=="schedule"` のみ採用し、日次 gap 0 を確認。manual `workflow_dispatch` は 30 日連続判定に含めない |
+| artifact / duration evidence | `gh run download <id>` の downloadability と `createdAt`〜`updatedAt` 所要時間分布を記録 |
+| redaction gate | `token|bearer|secret|Authorization|ya29\.|ghp_|ghs_` を failure log に対して grep し、skill references へ secret-like value を転記しない |
+| next action threshold | failure rate `< 10%` は現状維持。`>= 10%` は retry / alert 追加を別 unassigned task として起票し、Issue #497 自体は再 OPEN しない |
+
+30 日 gate 未達時は runtime PASS を主張せず、workflow root と artifacts は `spec_created` のまま維持する。gate 成立後に Phase 11 / Phase 12 を実行し、この `deployment-gha.md` セクションへ実測値を追記する。
+
+## post-release-30day-auto-summary
+
+Issue #517 follow-up auto-summary foundation は、Issue #497 の 30 日 conclusion 集計を GitHub Actions cron で自動化する implementation / NON_VISUAL workflow である。Issue #517 / #497 / #351 は PR 文面で `Refs` のみ使用し、CLOSED issue を reopen しない。
+
+| 項目 | 正本値 |
+| --- | --- |
+| workflow | `.github/workflows/post-release-30day-auto-summary.yml` |
+| trigger | `schedule: '0 1 * * *'` (UTC 01:00) + `workflow_dispatch` input `dry_run` |
+| script | `scripts/post-release-dashboard/30day-summary.sh` |
+| aggregate lib | `scripts/post-release-dashboard/lib/aggregate.sh` |
+| test | `scripts/post-release-dashboard/__tests__/30day-summary.test.sh` |
+| branch | `auto/post-release-30day-summary-YYYYMM` |
+| PR title prefix | `[auto-summary] post-release-dashboard 30d` |
+| runtime state | `CONTRACT_READY_RUNTIME_PENDING` until scheduled 30 day runtime PASS |
+
+### Steps
+
+1. `gh run list --workflow=post-release-dashboard.yml --limit=80 --json conclusion,createdAt,event,databaseId,url` で raw JSON を取得する。
+2. `event=="schedule"` のみを gate / 集計対象にし、manual `workflow_dispatch` は 30 日連続判定・failure rate・streak に含めない。
+3. 最古 schedule run の `createdAt <= today - 30d`、schedule day 数 `>= 30`、`missing_schedule_gap_days == 0` を 30 日 gate とし、不成立時は exit 0 silent skip にする。
+4. schedule run の conclusion 分布 / 連続 failure / 原因分類 / failure 比率を集計する。
+5. `token` / `bearer` / `secret` / `Authorization` を含む行を redaction する。
+6. 同月内に同 title prefix の open PR が存在する場合は exit 0 silent skip とし、Slack 通知もしない。
+7. gate 成立かつ重複なしの場合のみ branch push と `gh pr create --draft` を実行する。
+8. Slack Incoming Webhook に 5 行以内の summary と PR URL を POST する。
+
+### Slack channel bootstrap
+
+Slack channel 作成は workflow / shell script に入れない。Slack App / Bot OAuth 化を避け、次の manual preflight を Phase 11 evidence と README に固定する。
+
+| 項目 | 正本値 |
+| --- | --- |
+| channel | `w1618436027-ek2505248` |
+| webhook | Incoming Webhook を当該 channel に bind |
+| secret source | 1Password 正本 |
+| GitHub Secret | `SLACK_WEBHOOK_URL`（derived copy / 実値を docs, logs, PR body に残さない） |
+| evidence | `docs/30-workflows/issue-517-followup-auto-summary-foundation/outputs/phase-11/evidence/slack-test-post.log` |
+| pending state | channel / webhook / secret 未準備時は `CONTRACT_READY_SECRET_PENDING` |
+
+### Permissions / failure handling
+
+workflow permissions は `contents: write` / `pull-requests: write` / `actions: read` のみ。`gh run list` 失敗は workflow failure、Slack POST 失敗は PR 残置 + exit 3 とし、retry / alert 実装は本 workflow に含めない。failure 比率 `>= 10%` の場合は PR body に retry / alert 検討節を追記する。
+
+| 2026-05-07 | 2.5.0 | Issue #517 follow-up auto-summary foundation を実装。`.github/workflows/post-release-30day-auto-summary.yml`、`scripts/post-release-dashboard/30day-summary.sh` ＋ TC-01〜TC-07 / TC-05b plain shell test、schedule-only 30 day gate、open PR idempotency、`auto/post-release-30day-summary-YYYYMM` branch / `[auto-summary] post-release-dashboard 30d` PR title prefix / Slack Incoming Webhook (channel `w1618436027-ek2505248`) を正本化。Issue #517 は CLOSED 維持 / `Refs` のみ |
+| 2026-05-06 | 2.4.0 | Issue #407 Cloudflare API Token rotation reminder workflow を追加。`CF_TOKEN_ISSUED_AT`、85 日 reminder、dry-run、duplicate guard、最小 permissions を正本化 |
+| 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
+| 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。runtime cutover は未実行で、`web-cd.yml` / `backend-ci.yml` の `CLOUDFLARE_API_TOKEN` と `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として分離 |
 | 2026-04-29 | 2.1.0 | UT-27: GitHub Secrets / Variables 配置決定マトリクスと Phase 13 user 承認ゲートを追記 |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron E2E 削除、Cloudflare Pages デプロイへ移行 |

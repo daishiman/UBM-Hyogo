@@ -12,6 +12,8 @@ SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
+RETENTION_PURGE_MODE = "dry-run"
+TAG_QUEUE_PAUSED = "false"
 
 # 03a: schema sync は 03:00 JST (= 18:00 UTC) に 1 回
 # 03b: response sync は */15 で実行（forms.responses.list 差分同期）
@@ -35,6 +37,22 @@ migrations_dir = "migrations"
 binding = "SYNC_ALERTS"
 dataset = "sync_alerts"
 
+# UT-07B-FU-01: schema alias back-fill queue/cron split
+# alias 確定（Stage 1）と back-fill 継続（Stage 2）の責務分離。
+# Cloudflare Queues は Workers Paid プラン必須のため、Free plan 運用中は binding を無効化する。
+# コード側 (apps/api/src/index.ts:344, env.ts:30) は optional binding として graceful degradation 済み。
+# Workers Paid に切り替える際は以下 3 箇所（default / env.production / env.staging）を有効化する。
+# [[queues.producers]]
+# binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+# queue = "schema-alias-backfill"
+#
+# [[queues.consumers]]
+# queue = "schema-alias-backfill"
+# max_batch_size = 1
+# max_batch_timeout = 5
+# max_retries = 3
+# dead_letter_queue = "schema-alias-backfill-dlq"
+
 [env.production]
 name = "ubm-hyogo-api"
 
@@ -49,6 +67,12 @@ SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
+RETENTION_PURGE_MODE = "dry-run"
+TAG_QUEUE_PAUSED = "false"
+
+# 09b-A production smoke uses Cloudflare Secrets, not vars:
+# SENTRY_DSN_API / SLACK_WEBHOOK_INCIDENT / SMOKE_ADMIN_TOKEN.
+# Provision with `bash scripts/cf.sh secret put --env production <NAME>`.
 
 # production は Cloudflare free plan の account cron 上限を避けるため 3 本以内に絞る。
 # - 03a schema sync: 03:00 JST (= 18:00 UTC)
@@ -69,6 +93,26 @@ migrations_dir = "migrations"
 binding = "SYNC_ALERTS"
 dataset = "sync_alerts"
 
+# UT-07B-FU-01: production 用 Queue binding（drift 防止のため staging と同 queue 名）
+# Free plan 運用中のため binding を無効化（Workers Paid 切替時に有効化）
+# [[env.production.queues.producers]]
+# binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+# queue = "schema-alias-backfill"
+#
+# [[env.production.queues.consumers]]
+# queue = "schema-alias-backfill"
+# max_batch_size = 1
+# max_batch_timeout = 5
+# max_retries = 3
+# dead_letter_queue = "schema-alias-backfill-dlq"
+
+# Issue #514: Cloudflare Audit Logs cold storage / R2 export
+# 30 日 TTL purge 前に redacted JSONL.gz を R2 へ定期 export する cold storage。
+# bucket 作成 / token 発行は Phase 11 runtime gate (G1-G2) 承認後に実行する。
+[[env.production.r2_buckets]]
+binding = "UBM_AUDIT_COLD_STORAGE"
+bucket_name = "ubm-hyogo-audit-cold-storage-prod"
+
 [env.staging]
 name = "ubm-hyogo-api-staging"
 
@@ -83,6 +127,11 @@ SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
 SYNC_BATCH_SIZE = "100"
 SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
+RETENTION_PURGE_MODE = "dry-run"
+TAG_QUEUE_PAUSED = "false"
+
+# 09b-A staging smoke uses the same secret names as production with env-scoped values:
+# SENTRY_DSN_API / SLACK_WEBHOOK_INCIDENT / SMOKE_ADMIN_TOKEN.
 
 # staging は production と同じ 3 本上限に合わせる。legacy Sheets hourly sync は手動限定。
 [env.staging.triggers]
@@ -99,3 +148,23 @@ migrations_dir = "migrations"
 [[env.staging.analytics_engine_datasets]]
 binding = "SYNC_ALERTS"
 dataset = "sync_alerts_staging"
+
+# UT-07B-FU-01: staging 用 Queue binding（production と同 queue 名で同期）
+# Free plan 運用中のため binding を無効化（Workers Paid 切替時に有効化）
+# [[env.staging.queues.producers]]
+# binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+# queue = "schema-alias-backfill-staging"
+#
+# [[env.staging.queues.consumers]]
+# queue = "schema-alias-backfill-staging"
+# max_batch_size = 1
+# max_batch_timeout = 5
+# max_retries = 3
+# dead_letter_queue = "schema-alias-backfill-staging-dlq"
+
+# Issue #514: staging（spec の preview 相当）の cold storage R2 binding
+# bucket 作成は Phase 11 runtime gate 承認後。
+[[env.staging.r2_buckets]]
+binding = "UBM_AUDIT_COLD_STORAGE"
+bucket_name = "ubm-hyogo-audit-cold-storage-staging"
+preview_bucket_name = "ubm-hyogo-audit-cold-storage-staging"

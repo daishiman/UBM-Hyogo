@@ -1,0 +1,40 @@
+{
+  "task_name": "issue-484-cloudflare-analytics-export-automation",
+  "task_path": "docs/30-workflows/issue-484-cloudflare-analytics-export-automation",
+  "wave": "issue-347-follow-up",
+  "execution_mode": "sequential",
+  "depends_on": [
+    "docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/",
+    "docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/",
+    "docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md"
+  ],
+  "blocks": [
+    "scripts/fetch-cloudflare-analytics.ts implementation",
+    ".github/workflows/cloudflare-analytics-export.yml implementation"
+  ],
+  "created_at": "2026-05-06",
+  "metadata": {
+    "taskType": "implementation",
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented_local_runtime_pending",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "Medium",
+    "scope": "cloudflare-analytics-monthly-export-automation",
+    "issue": 484
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": ["phase-01.md"], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "アーキテクチャ設計", "file": "phase-02.md", "status": "completed", "outputs": ["phase-02.md"], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "詳細設計", "file": "phase-03.md", "status": "completed", "outputs": ["phase-03.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "実装計画", "file": "phase-04.md", "status": "completed", "outputs": ["phase-04.md"], "depends_on_phases": [3], "user_approval_required": false },
+    { "phase": 5, "name": "コア実装仕様", "file": "phase-05.md", "status": "completed", "outputs": ["phase-05.md"], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "単体テスト仕様", "file": "phase-06.md", "status": "completed", "outputs": ["phase-06.md"], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "統合テスト仕様", "file": "phase-07.md", "status": "completed", "outputs": ["phase-07.md"], "depends_on_phases": [6], "user_approval_required": false },
+    { "phase": 8, "name": "E2E 受け入れ仕様", "file": "phase-08.md", "status": "completed", "outputs": ["phase-08.md"], "depends_on_phases": [7], "user_approval_required": false },
+    { "phase": 9, "name": "セキュリティ検証仕様", "file": "phase-09.md", "status": "completed", "outputs": ["phase-09.md"], "depends_on_phases": [8], "user_approval_required": false },
+    { "phase": 10, "name": "ドキュメント整備", "file": "phase-10.md", "status": "completed", "outputs": ["phase-10.md"], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "NON_VISUAL evidence", "file": "phase-11.md", "status": "completed", "outputs": ["phase-11.md", "outputs/phase-11/unit-test.log", "outputs/phase-11/typecheck.log", "outputs/phase-11/lint.log", "outputs/phase-11/redaction-check-pass.log", "outputs/phase-11/redaction-check-fail.log", "outputs/phase-11/graphql-introspection.log"], "depends_on_phases": [10], "user_approval_required": false },
+    { "phase": 12, "name": "Phase 12 close-out", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [11], "user_approval_required": false },
+    { "phase": 13, "name": "PR 作成", "file": "phase-13.md", "status": "blocked_pending_user_approval", "outputs": ["phase-13.md"], "depends_on_phases": [12], "user_approval_required": true }
+  ]
+}

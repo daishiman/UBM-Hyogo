@@ -219,6 +219,15 @@ CREATE TABLE IF NOT EXISTS member_attendance (
 
 `MemberProfile.attendance` の read path は `member_attendance.member_id IN (...)` を使う。D1 / SQLite bind 上限を避けるため、実装は 80 memberId ごとに chunk 分割し、`meeting_sessions.session_id` へ INNER JOIN して `held_on DESC`, `session_id ASC` で安定化する。`meeting_sessions` に存在しない session は返さない。
 
+Admin attendance analytics (`ut-02a-followup-002`) は member profile read path の chunk pattern を流用しない。`computeAttendanceOverview` / `listSessionAttendanceStats` / `listMemberAttendanceRanking` は GROUP BY aggregate query として実装し、削除済み session (`meeting_sessions.deleted_at IS NOT NULL`) と削除済み member (`member_status.is_deleted = 1`) を集計から除外する。
+
+Analytics index は ranking 用に次の 1 本だけ追加する。session 側は既存 `idx_member_attendance_session`、meeting 側は既存 `idx_meeting_sessions_active_held_on` を流用する。
+
+```sql
+CREATE INDEX IF NOT EXISTS idx_member_attendance_member
+  ON member_attendance (member_id);
+```
+
 ### admin_member_notes
 
 ```sql
