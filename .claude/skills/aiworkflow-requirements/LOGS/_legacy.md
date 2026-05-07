@@ -760,3 +760,8 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - downstream: task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認
 - skill-feedback: なし（task-specification-creator / aiworkflow-requirements 既存ルールでカバー）
 - unassigned-task: 0 件追加（task-02..22 は既起票）
+# 2026-05-07 task-06 UI/UX contract rewrite
+
+- task-06 ui-ux-contract-rewrite を `implemented-local / implementation / NON_VISUAL` として参照。
+- `docs/00-getting-started-manual/specs/09-ui-ux.md` の契約のみ rewrite と quick-reference / resource-map / task-workflow-active / changelog 同期を実施。
+- attendance 系 canonical workflow の削除混入は active/resource-map 参照破壊のため復元。

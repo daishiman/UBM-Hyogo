@@ -47,10 +47,20 @@
 | archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
-### UI prototype alignment task-03 Sentry Workers SDK unify（2026-05-07）
+### UI/UX Contract Rewrite task-06（2026-05-07）
 
 | 目的 | 参照先 |
 | --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-06-ui-ux-contract-rewrite/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / primary spec rewritten / Phase 13 pending_user_approval` |
+| primary spec | `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| 契約範囲 | 19 routes、13 primitives、feature components、page state、login 5 状態、dialog / drawer / form / live region a11y、token prefix |
+| 視覚詳細委譲 | `09a-prototype-map.md`, `09b-design-tokens.md`, `09c-primitives.md`, `09d-icons.md`, `09e-screen-blueprints-public.md`, `09f-screen-blueprints-member.md`, `09g-screen-blueprints-admin.md`, `09h-shell-and-fixtures.md`, Storybook VRT |
+| diff discipline | primary M: `docs/00-getting-started-manual/specs/09-ui-ux.md`; same-wave skill/index sync M; A: workflow package + aiworkflow changelog; D: なし |
+| guard | `##` count 10、`### 2.` count 19+、`#### 3.1.` count 13、HEX / oklch / px / `bg-[` 0 hits、route/API trace PASS |
+| downstream | task-07 / task-08 / task-09 / task-10 / task-11..17 / task-19..22 が本契約を grep 起点に参照 |
+
+### UI prototype alignment task-03 Sentry Workers SDK unify（2026-05-07）
 | workflow root | `docs/30-workflows/task-03-w2-par-sentry-workers-sdk-unify/` |
 | 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval` |
 | parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W2 runtime task |
@@ -60,11 +70,7 @@
 | Phase 11 boundary | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`; local typecheck / tests / build / OpenNext worker grep pass, staging deploy and dashboard evidence pending user approval |
 | strict evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-13/pr-creation-result.md` |
 | downstream | task-04 logger and task-05 error boundary consume `captureException` / `captureMessage` contract |
-
 ### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
-
-| 目的 | 参照先 |
-| --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
@@ -75,7 +81,6 @@
 | docs-only NON_VISUAL lifecycle | `references/lessons-learned-docs-only-lifecycle.md`（L-DOCS-LIFECYCLE-001..005: 状態語彙固定 / endpoint surface AND 検証 / consent key grep / lifecycle model / artifacts parity） |
 | changelog | `.claude/skills/aiworkflow-requirements/changelog/20260507-task-20-screen-blueprints-public-member.md` |
 | 境界 | apps/packages コード変更 0。Phase 13 commit / push / PR は user approval 後のみ |
-
 ### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
 
 | 目的 | 参照先 |
