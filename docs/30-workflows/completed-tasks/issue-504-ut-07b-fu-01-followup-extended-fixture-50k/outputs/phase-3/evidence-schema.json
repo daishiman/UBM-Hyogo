@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Issue504SchemaAliasBackfill50kStressTrialEvidence",
+  "type": "object",
+  "required": ["taskId", "runtime", "thresholds", "trials"],
+  "properties": {
+    "taskId": { "const": "issue-504-ut-07b-fu-01-followup-extended-fixture-50k" },
+    "runtime": {
+      "type": "object",
+      "required": ["environment", "triggerPath", "pollIntervalSeconds", "timeoutSeconds"],
+      "properties": {
+        "environment": { "const": "staging" },
+        "triggerPath": { "const": "/admin/schema/backfill/trigger" },
+        "pollIntervalSeconds": { "const": 10 },
+        "timeoutSeconds": { "const": 1800 }
+      },
+      "additionalProperties": false
+    },
+    "thresholds": {
+      "type": "object",
+      "required": ["maxRetryCount", "maxDlqCount", "maxCpuMs"],
+      "properties": {
+        "maxRetryCount": { "const": 3 },
+        "maxDlqCount": { "const": 0 },
+        "maxCpuMs": { "const": 250000 }
+      },
+      "additionalProperties": false
+    },
+    "trials": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["trial", "started_at", "ended_at", "retry_count", "cpu_ms", "queue_enqueued", "dlq_count", "backfill_status"],
+        "properties": {
+          "trial": { "type": "integer", "minimum": 1, "maximum": 10 },
+          "started_at": { "type": "string" },
+          "ended_at": { "type": "string" },
+          "retry_count": { "type": "integer", "minimum": 0 },
+          "cpu_ms": { "type": "integer", "minimum": 0 },
+          "queue_enqueued": { "type": "integer", "minimum": 0 },
+          "dlq_count": { "type": "integer", "minimum": 0 },
+          "backfill_status": { "enum": ["completed", "exhausted"] },
+          "abort_reason": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

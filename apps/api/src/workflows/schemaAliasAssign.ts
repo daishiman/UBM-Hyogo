@@ -22,6 +22,7 @@ export interface SchemaAliasAssignInput {
   actorId: AdminId | null;
   actorEmail: AdminEmail | null;
   backfillCpuBudgetMs?: number;
+  backfillMode?: "remaining-scan" | "cursor";
 }
 
 export type SchemaAliasAssignResult =
@@ -256,6 +257,106 @@ export const backfillResponseFields = async (
 };
 
 /**
+ * Issue #503: cursor 経路の back-fill 実装（shadow A/B 用）。
+ *
+ * remaining-scan との差:
+ *   - SELECT は `response_id > cursor` で範囲を絞り、index sequential scan に近い形にする
+ *   - 1 batch 内で確定する cursor は「最後に確定処理した response_id」
+ *   - 失敗 row が出た場合、その row より cursor を進めない（呼び元 batch 単位で判断）
+ *
+ * 戻り値:
+ *   - result: 既存 SchemaAliasBackfillResult と同形（呼び元の差し替えコスト最小化）
+ *   - nextCursor: 次回 batch で渡すべき cursor（completed/exhausted いずれでも更新後の値）
+ */
+export const backfillResponseFieldsByCursor = async (
+  c: DbCtx,
+  questionId: string,
+  newStableKey: string,
+  batchSize: number = BACKFILL_BATCH_SIZE,
+  cpuBudgetMs: number = BACKFILL_CPU_BUDGET_MS,
+  startCursor: string | null = null,
+): Promise<{ result: SchemaAliasBackfillResult; nextCursor: string | null }> => {
+  const extraKey = `__extra__:${questionId}`;
+  if (extraKey === newStableKey) {
+    return {
+      result: { status: "completed", updated: 0, cursor: null, retryable: false },
+      nextCursor: null,
+    };
+  }
+  const start = Date.now();
+  let total = 0;
+  let cursor: string = startCursor ?? "";
+
+  while (true) {
+    if (Date.now() - start > cpuBudgetMs) {
+      return {
+        result: {
+          status: "exhausted",
+          updated: total,
+          cursor,
+          code: "backfill_cpu_budget_exhausted",
+          retryable: true,
+        },
+        nextCursor: cursor,
+      };
+    }
+    const sel = await c.db
+      .prepare(
+        `SELECT response_id FROM response_fields
+         WHERE stable_key = ?
+           AND response_id > ?
+           AND response_id NOT IN (
+             SELECT mi.current_response_id FROM member_identities mi
+             INNER JOIN deleted_members dm ON dm.member_id = mi.member_id
+           )
+         ORDER BY response_id ASC
+         LIMIT ?`,
+      )
+      .bind(extraKey, cursor, batchSize)
+      .all<{ response_id: string }>();
+    const ids = (sel.results ?? []).map((r) => r.response_id);
+    if (ids.length === 0) break;
+
+    const placeholders = ids.map(() => "?").join(",");
+    // 衝突回避: 既に newStableKey の行が存在する response は extra 行を削除する
+    await c.db
+      .prepare(
+        `DELETE FROM response_fields
+         WHERE stable_key = ?
+           AND response_id IN (${placeholders})
+           AND EXISTS (
+             SELECT 1 FROM response_fields existing
+             WHERE existing.response_id = response_fields.response_id
+               AND existing.stable_key = ?
+           )`,
+      )
+      .bind(extraKey, ...ids, newStableKey)
+      .run();
+
+    await c.db
+      .prepare(
+        `UPDATE response_fields
+         SET stable_key = ?
+         WHERE stable_key = ?
+           AND response_id IN (${placeholders})`,
+      )
+      .bind(newStableKey, extraKey, ...ids)
+      .run();
+
+    total += ids.length;
+    cursor = ids[ids.length - 1] ?? cursor;
+    if (ids.length < batchSize) break;
+  }
+
+  return {
+    result: { status: "completed", updated: total, cursor: null, retryable: false },
+    // completed 時も最後の cursor を保持（次回 enqueue 時の dedupe / debug 用途）。
+    // 呼び元 (runBackfillBatch) で completed 判定時は cursor=null を schema_diff_queue に書く。
+    nextCursor: cursor === "" ? null : cursor,
+  };
+};
+
+/**
  * dryRun mode 用に「もし apply したら何件影響するか」を算出する。
  */
 const countDryRunAffected = async (
@@ -292,6 +393,34 @@ const countCurrentStableKey = async (
     .bind(revisionId, stableKey)
     .first<{ c: number }>();
   return r?.c ?? 0;
+};
+
+const runBackfillForAssign = async (
+  c: DbCtx,
+  input: SchemaAliasAssignInput,
+): Promise<{ result: SchemaAliasBackfillResult; persistedCursor: string | null }> => {
+  if (input.backfillMode === "cursor") {
+    const r = await backfillResponseFieldsByCursor(
+      c,
+      input.questionId,
+      input.stableKey,
+      BACKFILL_BATCH_SIZE,
+      input.backfillCpuBudgetMs ?? BACKFILL_CPU_BUDGET_MS,
+      null,
+    );
+    return {
+      result: r.result,
+      persistedCursor: r.result.status === "exhausted" ? r.nextCursor : null,
+    };
+  }
+  const result = await backfillResponseFields(
+    c,
+    input.questionId,
+    input.stableKey,
+    BACKFILL_BATCH_SIZE,
+    input.backfillCpuBudgetMs ?? BACKFILL_CPU_BUDGET_MS,
+  );
+  return { result, persistedCursor: result.cursor };
 };
 
 export const schemaAliasAssign = async (
@@ -354,15 +483,9 @@ export const schemaAliasAssign = async (
   // idempotent: stable_key が既に同値でも、未完了 back-fill と queued diff resolve は続行する。
   // 途中失敗後の再 apply で recovery できるようにする。
   if (isIdempotent) {
-    const backfill = await backfillResponseFields(
-      c,
-      input.questionId,
-      input.stableKey,
-      BACKFILL_BATCH_SIZE,
-      input.backfillCpuBudgetMs ?? BACKFILL_CPU_BUDGET_MS,
-    );
+    const backfill = await runBackfillForAssign(c, input);
     if (input.diffId) {
-      await markBackfill(c, input.diffId, backfill.status, backfill.cursor);
+      await markBackfill(c, input.diffId, backfill.result.status, backfill.persistedCursor);
     }
     if (input.diffId) {
       await resolveDiff(c, input.diffId, input.actorEmail ?? "system");
@@ -372,9 +495,9 @@ export const schemaAliasAssign = async (
       questionId: input.questionId,
       oldStableKey,
       newStableKey: input.stableKey,
-      affectedResponseFields: backfill.updated,
+      affectedResponseFields: backfill.result.updated,
       queueStatus: "resolved",
-      backfill,
+      backfill: backfill.result,
     };
   }
 
@@ -388,15 +511,9 @@ export const schemaAliasAssign = async (
   if (input.diffId) {
     await resolveDiff(c, input.diffId, input.actorEmail ?? "system");
   }
-  const backfilled = await backfillResponseFields(
-    c,
-    input.questionId,
-    input.stableKey,
-    BACKFILL_BATCH_SIZE,
-    input.backfillCpuBudgetMs ?? BACKFILL_CPU_BUDGET_MS,
-  );
+  const backfilled = await runBackfillForAssign(c, input);
   if (input.diffId) {
-    await markBackfill(c, input.diffId, backfilled.status, backfilled.cursor);
+    await markBackfill(c, input.diffId, backfilled.result.status, backfilled.persistedCursor);
   }
   await auditAppend(c, {
     actorId: input.actorId,
@@ -410,7 +527,7 @@ export const schemaAliasAssign = async (
       aliasId: alias.id,
       questionId: input.questionId,
       diffId: input.diffId ?? null,
-      affectedResponseFields: backfilled.updated,
+      affectedResponseFields: backfilled.result.updated,
     },
   });
 
@@ -419,8 +536,8 @@ export const schemaAliasAssign = async (
     questionId: input.questionId,
     oldStableKey,
     newStableKey: input.stableKey,
-    affectedResponseFields: backfilled.updated,
+    affectedResponseFields: backfilled.result.updated,
     queueStatus: "resolved",
-    backfill: backfilled,
+    backfill: backfilled.result,
   };
 };

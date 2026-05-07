@@ -8,6 +8,35 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #504 UT-07B-FU-01 extended fixture 50k stress trial（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / Phase 12 strict outputs present / staging stress trial user-gated |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` |
+| Artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-504-extended-fixture-50k-artifact-inventory.md` |
+| 起票元 | `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-extended-fixture-50k.md` |
+| 実装対象 | `scripts/schema-alias-backfill/generate-50k-fixture.ts`, `seed-staging-50k.sh`, `cleanup-staging-50k.sh`, `run-stress-trial.sh`, vitest / bats tests |
+| SSOT | `references/schema-alias-backfill-runbook.md` |
+| fixture identity | `dedupe_key` prefix `ubm-test-fixture-50k-`; count / cleanup selector is `dedupe_key LIKE 'ubm-test-fixture-50k-%'` |
+| trigger | `curl -fsS -X POST -H "Authorization: Bearer ${ADMIN_SESSION_JWT:?}" -H "Content-Type: application/json" --data '{"source":"issue-504-50k-trial"}' "${ADMIN_API_BASE_URL%/}/admin/schema/backfill/trigger"` |
+| abort gates | retry_count <= 3, dlq_count = 0, cpu_ms <= 250000, timeout 1800s |
+| 境界 | staging stress trial / D1 write / Cloudflare Queue runtime / commit / push / PR は user 明示承認後のみ。production bulk INSERT / DELETE は permanent ban |
+| Issue 取扱 | #504 CLOSED 維持。PR 文脈では `Refs #504` のみ |
+
+### UI prototype alignment / MVP recovery task-01 scope gate（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-01-w1-solo-scope-gate-all-screens/` |
+| scope SSOT | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md` |
+| 目的 | UI prototype alignment / MVP recovery の W1 gate として、19 routes、既存 API のみ接続、OKLch token 正本化、diff scope discipline を固定する |
+| routes | 公開 6 / 会員 2 / 管理 8 / 共通 3 = 19 routes |
+| 境界 | apps/packages コード変更なし。新 endpoint / D1 schema / Google Form 仕様変更なし。screenshot 不要の NON_VISUAL evidence |
+| archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
+| 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
+
 ### Issue #407 Cloudflare API Token 90 日 rotation runbook automation（2026-05-06）
 
 | 項目 | 値 |
@@ -209,6 +238,38 @@
 | artifacts | root `artifacts.json` と `outputs/artifacts.json` parity、Phase 12 strict 7 files materialized |
 | 検証 | local typecheck / lint / vitest（schemaDiffQueue / schemaAliasAssign / schemaAliasBackfillBatch / schemaAliasEnqueue / route schema） 38 tests PASS。staging deploy / Cloudflare Queue binding apply / production apply は user 明示承認まで未実行 |
 | 境界 | Phase 11 staging evidence による runtime gate 判定本体は実走しておらず、user 明示で local implementation GO として実装した。staging Queue/DLQ 作成、Cloudflare deploy、production migration apply、commit、push、PR、Issue #361 comment/reopen は未実行。Issue #361 は CLOSED 維持で `Refs #361` のみ |
+
+### Issue #503 UT-07B-FU-01 Cursor Semantics Migration（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / runtime evidence pending_user_gate |
+| 成果物 | `docs/30-workflows/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration/` |
+| 目的 | schema alias back-fill batch の remaining-scan と cursor shadow branch を `BACKFILL_CURSOR_MODE` で A/B 比較できるようにし、runtime evidence で採用判断する |
+| 実装 | `apps/api/src/env.ts` / `apps/api/src/routes/admin/{_shared,schema}.ts` / `apps/api/src/index.ts` / `apps/api/src/repository/schemaDiffQueue.ts` / `apps/api/src/workflows/{schemaAliasAssign,schemaAliasBackfillBatch}.ts` / `apps/api/src/workflows/schemaAliasBackfillBatch.test.ts` |
+| 契約 | default は `remaining-scan`。`cursor` は shadow A/B 用。既存 `schema_diff_queue.backfill_cursor` を再利用し、stale cursor は null reset して row skip を防止する。public `backfill.status` は変更しない |
+| artifacts | `references/workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md` / Phase 12 strict outputs |
+| 境界 | `0015_schema_diff_queue_cursor.sql` は未作成。staging 10,000 行 A/B evidence、cursor 採用/不採用、production apply、commit、push、PR は user 明示承認まで未実行 |
+
+### Issue #502 / UT-07B-FU-01-FOLLOWUP DLQ Monitoring Dashboard（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | spec_created |
+| taskType | docs-only |
+| visualEvidence | NON_VISUAL |
+| Phase 11 | contract_ready_runtime_pending（local grep / read-only SQL template evidence captured; staging D1 SQL and dash runtime evidence pending_user_approval） |
+| Phase 12 | strict 7 outputs present |
+| issue | #502 CLOSED (PR text: `Refs #502` only) |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard/` |
+| runbook | `docs/runbooks/dlq-monitoring/schema-alias-backfill.md` |
+| skill reference | `references/dlq-monitoring.md` |
+| artifact inventory | `references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md`（L-502-001〜005） |
+| 目的 | UT-07B-FU-01 の Cloudflare Queue / DLQ binding と D1 `schema_diff_queue` failure 永続化列を、runbook + read-only 集計 SQL で運用者が観測できる状態にする |
+| 契約 | Queue/DLQ は `SCHEMA_ALIAS_BACKFILL_QUEUE` binding、prod `schema-alias-backfill` / `schema-alias-backfill-dlq`、staging `schema-alias-backfill-staging` / `schema-alias-backfill-staging-dlq`。D1 集計 SQL は `retry_count` / `failed_items_json` / `last_processed_at` / `backfill_status` のみを使い、`last_error` 原文 SELECT / 転記は禁止 |
+| しきい値 | DLQ >= 1 / retry_count >= 3 / exhausted 24h |
+| 境界 | Pager / Slack / PagerDuty 連携、Queue / DLQ 構造変更、D1 schema 変更、apps/api 実装変更は本タスク scope 外。しきい値超過時の追加実装は別 unassigned task としてユーザー判断後に起票する |
 
 ### UT-07B-FU-02 Admin Schema Alias Retry Label（2026-05-06）
 
