@@ -1,0 +1,32 @@
+[
+  {
+    "correlationKey": {
+      "fingerprintHash": "b10685974d761bc031882b554380b978853efeac58ac1410fd384c4f46c2635a",
+      "fingerprintVersion": 1
+    },
+    "events": [
+      {
+        "fingerprintHash": "b10685974d761bc031882b554380b978853efeac58ac1410fd384c4f46c2635a",
+        "fingerprintVersion": 1,
+        "source": "github",
+        "eventType": "org.update_member",
+        "occurredAt": 1778148000000,
+        "actorDomain": "example.com",
+        "ipPrefix": "203.0.113.0/24",
+        "userAgentBucket": "chrome"
+      },
+      {
+        "fingerprintHash": "b10685974d761bc031882b554380b978853efeac58ac1410fd384c4f46c2635a",
+        "fingerprintVersion": 1,
+        "source": "cloudflare",
+        "eventType": "login_fail",
+        "occurredAt": 1778148060000,
+        "actorDomain": "example.com",
+        "ipPrefix": "198.51.100.0/24",
+        "userAgentBucket": "curl"
+      }
+    ],
+    "severity": "HIGH",
+    "reason": "cross-source permission change with IP prefix change within 5 minutes"
+  }
+]

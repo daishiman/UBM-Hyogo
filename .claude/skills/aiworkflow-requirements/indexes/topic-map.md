@@ -2351,6 +2351,20 @@ node scripts/list-specs.js --topics
 | Evidence | L24 |
 | Gate Conditions (production ML switch 前提) | L30 |
 
+### references/workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 12 strict 7 files | L15 |
+| phase 11 evidence (NON_VISUAL alternative) | L27 |
+| implementation artifacts | L43 |
+| same-wave skill sync | L67 |
+| boundary | L81 |
+| upstream / downstream | L87 |
+| deferred follow-ups | L94 |
+
 ### references/workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md
 
 | セクション | 行 |
@@ -3205,6 +3219,16 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L6 |
 | 利用順序 | L14 |
 | 関連ドキュメント | L19 |
+
+### references/audit-correlation.md
+
+| セクション | 行 |
+|------------|----|
+| 目的 | L7 |
+| 入出力契約 | L11 |
+| Redaction Policy | L19 |
+| MVP Boundary | L31 |
+| References | L35 |
 
 ### references/auth-google-oauth-cf-integration.md
 
@@ -4283,6 +4307,13 @@ node scripts/list-specs.js --topics
 | 結論 (個人開発運用ポリシー) | L20 |
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
+
+### references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L9 |
 
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
@@ -5672,13 +5703,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L464 |
-| フェーズ構造（概要） | L473 |
-| 品質ゲート（概要） | L504 |
-| 出力テンプレート | L515 |
-| 実行時のコマンド・エージェント・スキル | L538 |
-| 昇格パターン集 | L562 |
-| Current Active / Spec Created Tasks | L564 |
+| ドキュメント構成 | L477 |
+| フェーズ構造（概要） | L486 |
+| 品質ゲート（概要） | L517 |
+| 出力テンプレート | L528 |
+| 実行時のコマンド・エージェント・スキル | L551 |
+| 昇格パターン集 | L575 |
+| Current Active / Spec Created Tasks | L577 |
 
 ### references/task-workflow-backlog-part2.md
 

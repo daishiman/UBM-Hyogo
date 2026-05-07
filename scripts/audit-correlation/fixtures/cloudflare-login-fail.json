@@ -1,0 +1,9 @@
+[
+  {
+    "action": { "type": "login_fail" },
+    "actor": { "email": "alice@example.com", "ip": "198.51.100.7" },
+    "when": "2026-05-07T10:01:00Z",
+    "resource": { "type": "account" },
+    "user_agent": "curl/8.5"
+  }
+]
