@@ -303,6 +303,18 @@ UT-07B-FU-01（schema alias back-fill queue/cron split）以降、apply mode の
 
 `MemberProfile.attendance` は 02a 確定済みの `AttendanceRecord[]` 契約を維持する。UT-02A follow-up では `sessionId` / `title` / `heldOn` を返し、D1 read path は `member_attendance.member_id` を 80-id chunk でまとめ、`meeting_sessions.session_id` へ INNER JOIN する。`meeting_sessions` に存在しない session は返さず、同一 member の同一 session は 1 件へ正規化する。
 
+## Admin Dashboard Attendance Analytics API（UT-02A follow-up 002）
+
+`apps/api/src/routes/admin/dashboard.ts` は既存 `requireAdmin` gate 配下に attendance aggregate API を追加する。apps/web の `/admin/dashboard/attendance` は `fetchAdmin` 経由で呼び、D1 直接参照は禁止する。
+
+| Method | Path | Query | Response |
+| ------ | ---- | ----- | -------- |
+| GET | `/admin/dashboard/attendance/overview` | なし | `{ totalSessions: number; totalMembers: number; overallRate: number }` |
+| GET | `/admin/dashboard/attendance/by-session` | `limit` default 50 / max 200。不正値は 400 | `Array<{ sessionId; title; heldOn; attendeeCount; rate }>` |
+| GET | `/admin/dashboard/attendance/ranking` | `limit` default 50 / max 200。不正値は 400 | `Array<{ memberId; displayName; attendedCount; rate }>` |
+
+Aggregate の分子・分母は active session (`meeting_sessions.deleted_at IS NULL`) と active member (`COALESCE(member_status.is_deleted, 0) = 0`) に揃える。削除済み member / session の attendance row は count / rate に含めない。
+
 ---
 
 ## Desktop IPC API サマリー
