@@ -3380,9 +3380,9 @@ node scripts/list-specs.js --topics
 | セキュリティ原則 | L262 |
 | Cloudflare API Token の作成手順 | L273 |
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L369 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L417 |
-| 変更履歴 | L432 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L386 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L434 |
+| 変更履歴 | L449 |
 
 ### references/deployment.md
 
@@ -4032,6 +4032,20 @@ node scripts/list-specs.js --topics
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
 
+### references/lessons-learned-docs-only-lifecycle.md
+
+| セクション | 行 |
+|------------|----|
+| 目的 | L7 |
+| 適用範囲 | L11 |
+| L-DOCS-LIFECYCLE-001: docs-only NON_VISUAL の状態語彙を固定する | L18 |
+| L-DOCS-LIFECYCLE-002: Endpoint surface は SCOPE と現行 route の AND で検証する | L37 |
+| L-DOCS-LIFECYCLE-003: consent key 統一は機械的 grep で検証する | L56 |
+| L-DOCS-LIFECYCLE-004: existing-docs-sync の lifecycle model | L72 |
+| L-DOCS-LIFECYCLE-005: artifacts parity は同一 wave の必須ゲート | L91 |
+| 起点 task との対応 | L103 |
+| 不変条件 | L113 |
+
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
 | セクション | 行 |
@@ -4286,6 +4300,13 @@ node scripts/list-specs.js --topics
 | 結論 (個人開発運用ポリシー) | L20 |
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
+
+### references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L9 |
 
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
@@ -5219,10 +5240,10 @@ node scripts/list-specs.js --topics
 | 6. 関連ファイル | L134 |
 | 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
-| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L175 |
-| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L201 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L224 |
-| 11. 変更履歴 | L246 |
+| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
+| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
+| 11. 変更履歴 | L258 |
 
 ### references/patterns-advanced.md
 
@@ -5675,13 +5696,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L451 |
-| フェーズ構造（概要） | L460 |
-| 品質ゲート（概要） | L491 |
-| 出力テンプレート | L502 |
-| 実行時のコマンド・エージェント・スキル | L525 |
-| 昇格パターン集 | L549 |
-| Current Active / Spec Created Tasks | L551 |
+| ドキュメント構成 | L480 |
+| フェーズ構造（概要） | L489 |
+| 品質ゲート（概要） | L520 |
+| 出力テンプレート | L531 |
+| 実行時のコマンド・エージェント・スキル | L554 |
+| 昇格パターン集 | L578 |
+| Current Active / Spec Created Tasks | L580 |
 
 ### references/task-workflow-backlog-part2.md
 
