@@ -1,0 +1,78 @@
+{
+  "taskId": "issue-516-github-audit-log-cross-source-correlation",
+  "createdAt": "2026-05-07",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented-local",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "fixture_evidence_captured_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "parentIssueState": "OPEN_REMAIN",
+    "implementationCategory": "implementation",
+    "implementationCategoryRationale": "GitHub audit log fetch / correlation engine / fixture testing / redaction logic / CI grep gate を実体化するため apps/api、scripts、.github/workflows 配下のコード変更が不可欠で docs-only では完了不能",
+    "runtimeEvidence": "fixture_driven_verify_captured_local_esbuild_mismatch_for_cli",
+    "productionApply": "deferred_to_followup",
+    "scopeBoundary": "fixture_verification_until_live_wiring_followup"
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/516",
+  "parentTask": "U-FIX-CF-ACCT-01-DERIV-04-FU-04",
+  "parentWorkflow": "docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/",
+  "parentWorkflowExists": true,
+  "sourceUnassignedSpec": "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-04-github-audit-merge.md",
+  "githubLabels": [
+    "priority:medium",
+    "type:security"
+  ],
+  "claudeCodeContext": {
+    "purpose": "Claude Code / Codex がコード実装・PR 作成時に label / tag / scope を確実に共有するためのメタ",
+    "labels": ["priority:medium", "type:security"],
+    "prTitlePrefix": "feat(security): issue-516 GitHub Actions audit log との cross-source 相関基盤",
+    "prLabelsToApply": ["priority:medium", "type:security"],
+    "branchNameSuggestion": "feat/issue-516-github-audit-log-cross-source-correlation",
+    "ghPrCreateLabelArg": "--label priority:medium --label type:security",
+    "issueLink": "Refs: #516"
+  },
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["outputs/phase-1/phase-1.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["outputs/phase-2/phase-2.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["outputs/phase-3/phase-3.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["outputs/phase-4/phase-4.md"] },
+    "phase-5":  { "status": "completed", "outputs": ["outputs/phase-5/phase-5.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["outputs/phase-6/phase-6.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["outputs/phase-7/phase-7.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["outputs/phase-8/phase-8.md"] },
+    "phase-9":  { "status": "completed", "outputs": ["outputs/phase-9/phase-9.md"] },
+    "phase-10": { "status": "completed", "outputs": ["outputs/phase-10/phase-10.md"] },
+    "phase-11": {
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/typecheck.log",
+        "outputs/phase-11/lint.log",
+        "outputs/phase-11/test.log",
+        "outputs/phase-11/coverage.log",
+        "outputs/phase-11/build.log",
+        "outputs/phase-11/bats.log",
+        "outputs/phase-11/shellcheck.log",
+        "outputs/phase-11/actionlint.log",
+        "outputs/phase-11/grep-gate.log",
+        "outputs/phase-11/high-alert-sample.json"
+      ]
+    },
+    "phase-12": {
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "blocked_pending_user_approval", "outputs": ["outputs/phase-13/phase-13.md"] }
+  }
+}

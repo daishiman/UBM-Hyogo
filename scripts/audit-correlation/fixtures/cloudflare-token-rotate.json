@@ -1,0 +1,9 @@
+[
+  {
+    "action": { "type": "token_rotate" },
+    "actor": { "email": "ops@example.com", "ip": "10.0.0.5" },
+    "when": "2026-05-07T11:00:00Z",
+    "resource": { "type": "api_token", "id": "tok_abc" },
+    "user_agent": "Mozilla/5.0 Firefox/115.0"
+  }
+]
