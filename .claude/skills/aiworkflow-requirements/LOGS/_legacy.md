@@ -715,6 +715,20 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Added `references/release-runbook.md` and `references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md`.
 - Registered the workflow in `references/task-workflow-active.md`, `indexes/quick-reference.md`, and `indexes/resource-map.md`.
 - Source unassigned task `task-09c-github-release-tag-automation-001.md` is now consumed / formalized.
+# 2026-05-07 Issue #504 schema alias 50k stress trial sync
+
+- Synced `docs/30-workflows/completed-tasks/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` as `spec_created / implementation / NON_VISUAL / staging stress trial user-gated`.
+- Added `references/schema-alias-backfill-runbook.md` with prefix dedupe_key contract, staging trigger contract, abort thresholds, and production permanent ban.
+- Updated `SKILL.md`, `indexes/quick-reference.md`, `indexes/resource-map.md`, `references/task-workflow-active.md`, and UT-07B-FU-01 artifact inventory.
+- No staging D1 write, production operation, commit, push, PR, or Issue comment executed.
+
+# 2026-05-07 Issue #504 50k stress trial Phase 12 close-out follow-up sync
+
+- Corrected path drift: `docs/30-workflows/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` → `docs/30-workflows/completed-tasks/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` across skill references.
+- Updated `references/schema-alias-backfill-runbook.md` runtime trigger to ADMIN_SESSION_JWT + direct `curl` form, replacing the stale `cf.sh api-post` example to match the implemented `scripts/schema-alias-backfill/run-stress-trial.sh` contract.
+- Appended L-UT07B-FU01-007〜010 to `references/lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md`: prefix dedupe_key 固定 / production ban の二重 fail-closed / stress trigger を curl + ADMIN_SESSION_JWT に統一 / parent workflow 参照を `test -f` で実体検証する Phase 12 規律。
+- Added 4 keys to `indexes/keywords.json` (issue-504 / 50k-fixture / stress-trial-50k / extended-fixture-50k); see batch 2.
+- No commit / push / PR / Issue comment executed.
 
 # 2026-05-07 UI prototype alignment task-01 scope gate
 

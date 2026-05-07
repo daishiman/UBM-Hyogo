@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #504 UT-07B-FU-01 extended fixture 50k stress trial（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / Phase 12 strict outputs present / staging stress trial user-gated |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-504-ut-07b-fu-01-followup-extended-fixture-50k/` |
+| Artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-504-extended-fixture-50k-artifact-inventory.md` |
+| 起票元 | `docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-extended-fixture-50k.md` |
+| 実装対象 | `scripts/schema-alias-backfill/generate-50k-fixture.ts`, `seed-staging-50k.sh`, `cleanup-staging-50k.sh`, `run-stress-trial.sh`, vitest / bats tests |
+| SSOT | `references/schema-alias-backfill-runbook.md` |
+| fixture identity | `dedupe_key` prefix `ubm-test-fixture-50k-`; count / cleanup selector is `dedupe_key LIKE 'ubm-test-fixture-50k-%'` |
+| trigger | `curl -fsS -X POST -H "Authorization: Bearer ${ADMIN_SESSION_JWT:?}" -H "Content-Type: application/json" --data '{"source":"issue-504-50k-trial"}' "${ADMIN_API_BASE_URL%/}/admin/schema/backfill/trigger"` |
+| abort gates | retry_count <= 3, dlq_count = 0, cpu_ms <= 250000, timeout 1800s |
+| 境界 | staging stress trial / D1 write / Cloudflare Queue runtime / commit / push / PR は user 明示承認後のみ。production bulk INSERT / DELETE は permanent ban |
+| Issue 取扱 | #504 CLOSED 維持。PR 文脈では `Refs #504` のみ |
+
 ### UI prototype alignment / MVP recovery task-01 scope gate（2026-05-07）
 
 | 項目 | 値 |

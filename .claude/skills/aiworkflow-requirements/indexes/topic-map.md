@@ -2309,6 +2309,19 @@ node scripts/list-specs.js --topics
 | boundary | L61 |
 | deferred evidence | L67 |
 
+### references/workflow-issue-504-extended-fixture-50k-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Contract Summary | L25 |
+| Runtime Boundary | L38 |
+| Code Artifacts | L42 |
+| Implementation Guide Pointers | L54 |
+| Unassigned Task Trace | L65 |
+| Lessons Learned | L74 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4366,6 +4379,10 @@ node scripts/list-specs.js --topics
 | L-UT07B-FU01-004: remaining-scan vs cursor-pagination の選定理由 | L19 |
 | L-UT07B-FU01-005: idempotent 設計のため Queue 消費側で dedupe_key を再確認する | L23 |
 | L-UT07B-FU01-006: Phase 11 gate を「local implementation GO / runtime evidence pending」と明示する | L27 |
+| L-UT07B-FU01-007: 50k fixture の deterministic identity は prefix-based dedupe_key に固定する | L31 |
+| L-UT07B-FU01-008: production bulk INSERT/DELETE 禁止は script と API の二重 fail-closed で実装する | L35 |
+| L-UT07B-FU01-009: stress trial trigger は `cf.sh api-post` ではなく ADMIN_SESSION_JWT + 直接 curl を正本とする | L39 |
+| L-UT07B-FU01-010: parent workflow 参照は spec creation 時に `test -f` で実体検証する | L43 |
 
 ### references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md
 
@@ -5402,6 +5419,17 @@ node scripts/list-specs.js --topics
 | Commands | L20 |
 | Lessons Learned (issue-348) | L50 |
 
+### references/schema-alias-backfill-runbook.md
+
+| セクション | 行 |
+|------------|----|
+| Issue #504 50k Stress Trial Contract | L3 |
+| Fixture Identity | L13 |
+| Runtime Trigger | L29 |
+| Abort Gates | L54 |
+| Evidence | L65 |
+| Manual Fallback Runbook | L79 |
+
 ### references/skill-executor-type-migration.md
 
 | セクション | 行 |
@@ -5544,13 +5572,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L379 |
-| フェーズ構造（概要） | L388 |
-| 品質ゲート（概要） | L419 |
-| 出力テンプレート | L430 |
-| 実行時のコマンド・エージェント・スキル | L453 |
-| 昇格パターン集 | L477 |
-| Current Active / Spec Created Tasks | L479 |
+| ドキュメント構成 | L395 |
+| フェーズ構造（概要） | L404 |
+| 品質ゲート（概要） | L435 |
+| 出力テンプレート | L446 |
+| 実行時のコマンド・エージェント・スキル | L469 |
+| 昇格パターン集 | L493 |
+| Current Active / Spec Created Tasks | L495 |
 
 ### references/task-workflow-backlog-part2.md
 
