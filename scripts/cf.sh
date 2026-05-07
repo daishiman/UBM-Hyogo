@@ -123,6 +123,27 @@ if [ "$1" = "d1:apply-prod" ]; then
   exec bash "$REPO_ROOT/scripts/d1/apply-prod.sh" "$@"
 fi
 
+if [ "$1" = "r2" ]; then
+  shift
+  if [ "$#" -lt 1 ]; then
+    echo "usage: $0 r2 <export|restore> [--env <production|preview>] [--dry-run] [--random-pick N] [--no-verify] [--force]" >&2
+    exit 64
+  fi
+  sub="$1"; shift
+  case "$sub" in
+    export)   r2_script_path="$REPO_ROOT/scripts/cf-audit-log/cli/export.ts" ;;
+    restore)  r2_script_path="$REPO_ROOT/scripts/cf-audit-log/cli/restore.ts" ;;
+    *)
+      echo "[cf.sh] unknown r2 subcommand: $sub" >&2
+      exit 64
+      ;;
+  esac
+  if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
+    exec mise exec -- pnpm exec tsx "$r2_script_path" "$@"
+  fi
+  exec "$REPO_ROOT/scripts/with-env.sh" mise exec -- pnpm exec tsx "$r2_script_path" "$@"
+fi
+
 if [ "$1" = "audit-log" ]; then
   shift
   if [ "$#" -lt 1 ]; then

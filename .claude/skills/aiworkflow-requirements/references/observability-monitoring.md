@@ -221,6 +221,26 @@ Gate decision:
 | ML 比較開始 | 90 日 evidence あり、false positive rate > 5% または tuning cost ≥ 4h/month | redacted dataset で offline replay |
 | production ML 切替 | offline replay で改善、fallback rate 許容、rollback 承認済み | 別 PR で env switch |
 
+## 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07）
+
+Issue #514 は Issue #408 の D1 30 日 retention を超える監査用途の cold storage 仕様である。状態は `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。本サイクルでは仕様・Phase 11/12/13 evidence skeleton・SSOT 同期に加え、R2 binding / D1 migration / exporter / restore drill / GitHub Actions workflow のローカル実装まで完了する。R2 bucket / Secret / production D1 migration apply / 初回 export / PR は G1-G4 の user approval 後にのみ実行する。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-514-cf-audit-logs-cold-storage-r2-export/` |
+| R2 binding | `UBM_AUDIT_COLD_STORAGE` |
+| export secret | `CF_AUDIT_R2_TOKEN_PROD`（監視用 `CF_AUDIT_TOKEN_PROD` と分離） |
+| cadence | daily `0 2 * * *`。対象 window は `[now - 29d, now - 26d)`、completed manifest partition は skip |
+| manifest | D1 `cf_audit_log_export_manifest`。`(yyyy, mm, dd)` UNIQUE、`pending -> completed/failed` の 2-phase |
+| object key | `audit/v1/yyyy=YYYY/mm=MM/dd=DD/cf-audit-log-YYYYMMDD.jsonl.gz` |
+| restore drill | 1 月 / 7 月の 1 日に任意 1 object を復元し row count / sha256 を照合 |
+| approval order | G1 R2/bucket/secret/deploy -> G2 D1 migration apply -> G3-prod first daily export + restore drill -> G4 commit/push/PR |
+| evidence boundary | Phase 11/12 は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。runtime PASS は G1-G3-prod の実 evidence 後 |
+
+Redaction rule: export 段階で cold-storage 用 redaction transform を適用し、`actor_ip` は IPv4 `/24` / IPv6 `/48`、`actor_email` は domain のみ、`actor_ua` は `redacted-user-agent`、`raw_json` は保存しない。変換後 JSONL に additive grep guard を走らせ、raw token value、Bearer header、full IP、full User-Agent、email、secret value/hash は R2 object、manifest、workflow outputs、Issue body に保存しない。
+
+苦戦知見: 本契約の cadence 補正 / G1-G4 順序固定 / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / artifacts mirror parity / source schema 整合 + `r2_etag` / 6-category redaction guard の経緯は `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007) を参照する。
+
 ---
 
 ## 11. 変更履歴
@@ -228,6 +248,7 @@ Gate decision:
 | 日付 | 変更 |
 | --- | --- |
 | 2026-05-07 | Issue #515 Cloudflare Audit Logs ML-ready classifier contract を追加。threshold default、redacted features、offline replay、forward-safe rollback、90 日 Gate を正本化 |
+| 2026-05-07 | Issue #514 Cloudflare Audit Logs cold storage / R2 export contract を追加。daily export cadence、manifest 2-phase、G1-G4 order、R2 binding / Secret 境界を正本化 |
 | 2026-05-06 | Issue #495 production extension を追加。`x-smoke-production-confirm: YES`、production prefix / Sentry environment tag、G1-G4 gate、staging/production evidence 分離を固定 |
 | 2026-05-06 | Issue #408 Cloudflare Audit Logs monitoring contract を追加。`CF_AUDIT_TOKEN_PROD` 分離、severity label、Phase 11 runtime pending evidence 境界を正本化 |
 | 2026-05-05 | 09b-A Sentry / Slack runtime smoke contract を追加。`contract_ready_runtime_pending` 境界、5 trigger matrix、secret redaction rules を固定 |

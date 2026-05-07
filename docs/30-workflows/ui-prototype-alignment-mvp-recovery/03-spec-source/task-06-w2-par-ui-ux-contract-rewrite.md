@@ -410,3 +410,14 @@ mise exec -- pnpm lint:md docs/00-getting-started-manual/specs/09-ui-ux.md || tr
 - task-10 ui-primitives → 本契約に従って primitive を実装
 - task-11..17 各画面 task → 本契約の §2 routes 表が実装の正本
 - phase-1 §3 / phase-3 §2 → API 接続の正本
+
+
+---
+
+## diff scope 規律（task-01 反映 / 2026-05-07）
+
+`SCOPE.md §6 diff scope 規律 / archive rule` を遵守する。本 task 完了前に以下を必ず確認:
+
+- `git diff --name-only main...HEAD` の出力が、本 task 仕様 §3「変更対象ファイル」 + 本 task package（`docs/30-workflows/ui-prototype-alignment-mvp-recovery/<dir>/`）配下のみで構成されていること
+- 完了済み workflow dir を整理する場合は `git mv <dir> docs/30-workflows/completed-tasks/<dir>` でアーカイブ（`git rm -r` 純削除は禁止）
+- sync-merge / rebase で混入した範囲外削除は `git checkout HEAD -- <path>` で復旧してから commit する

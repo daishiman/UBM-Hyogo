@@ -758,3 +758,14 @@ prototype に存在しないが現本番に残す:
 - `ProfileFields.tsx`: 入力済みプロフィール本文の read-only 表示
 - `EditCta.tsx`: 「Form 再回答で更新」CTA（不変条件 #7）
 - `AttendanceList.tsx`: 出欠履歴（read-only）
+
+
+---
+
+## diff scope 規律（task-01 反映 / 2026-05-07）
+
+`SCOPE.md §6 diff scope 規律 / archive rule` を遵守する。本 task 完了前に以下を必ず確認:
+
+- `git diff --name-only main...HEAD` の出力が、本 task 仕様 §3「変更対象ファイル」 + 本 task package（`docs/30-workflows/ui-prototype-alignment-mvp-recovery/<dir>/`）配下のみで構成されていること
+- 完了済み workflow dir を整理する場合は `git mv <dir> docs/30-workflows/completed-tasks/<dir>` でアーカイブ（`git rm -r` 純削除は禁止）
+- sync-merge / rebase で混入した範囲外削除は `git checkout HEAD -- <path>` で復旧してから commit する

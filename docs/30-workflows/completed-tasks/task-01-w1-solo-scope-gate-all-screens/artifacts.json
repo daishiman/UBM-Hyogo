@@ -1,0 +1,93 @@
+{
+  "task_name": "task-01-w1-solo-scope-gate-all-screens",
+  "task_path": "docs/30-workflows/task-01-w1-solo-scope-gate-all-screens",
+  "wave": "W1",
+  "execution_mode": "solo",
+  "depends_on": [],
+  "blocks": [
+    "task-02",
+    "task-03",
+    "task-04",
+    "task-05",
+    "task-06",
+    "task-07",
+    "task-08",
+    "task-09",
+    "task-10",
+    "task-11",
+    "task-12",
+    "task-13",
+    "task-14",
+    "task-15",
+    "task-16",
+    "task-17",
+    "task-18",
+    "task-19",
+    "task-20",
+    "task-21",
+    "task-22"
+  ],
+  "created_at": "2026-05-07",
+  "metadata": {
+    "taskType": "docs-only",
+    "docs_only": true,
+    "workflow_state": "spec_created",
+    "implementation_status": "scope_gate_docs_applied_archive_resolved",
+    "phase_completion_state": "phase_1_to_12_completed_phase_13_blocked_until_user_approval",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "High",
+    "scope": "ui_prototype_alignment_mvp_recovery_scope_gate"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": [], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "スコープ確定", "file": "phase-02.md", "status": "completed", "outputs": [], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "設計", "file": "phase-03.md", "status": "completed", "outputs": [], "depends_on_phases": [1, 2], "user_approval_required": false },
+    { "phase": 4, "name": "タスク分解", "file": "phase-04.md", "status": "completed", "outputs": [], "depends_on_phases": [1, 2, 3], "user_approval_required": false },
+    { "phase": 5, "name": "環境・前提条件", "file": "phase-05.md", "status": "completed", "outputs": [], "depends_on_phases": [4], "user_approval_required": false },
+    { "phase": 6, "name": "実装計画", "file": "phase-06.md", "status": "completed", "outputs": [], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 7, "name": "テスト計画", "file": "phase-07.md", "status": "completed", "outputs": [], "depends_on_phases": [5, 6], "user_approval_required": false },
+    { "phase": 8, "name": "リスク・代替案", "file": "phase-08.md", "status": "completed", "outputs": [], "depends_on_phases": [1, 2, 5, 6, 7], "user_approval_required": false },
+    { "phase": 9, "name": "進捗管理", "file": "phase-09.md", "status": "completed", "outputs": [], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 10, "name": "完了条件 / DoD", "file": "phase-10.md", "status": "completed", "outputs": [], "depends_on_phases": [1, 2, 5], "user_approval_required": false },
+    { "phase": 11, "name": "実行検証 / エビデンス", "file": "phase-11.md", "status": "completed", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md"], "depends_on_phases": [1, 2, 5, 6, 7, 8, 9, 10], "user_approval_required": false },
+    { "phase": 12, "name": "ドキュメント整備", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [1, 2, 5, 6, 7, 8, 9, 10, 11], "user_approval_required": false },
+    { "phase": 13, "name": "PR 作成", "file": "phase-13.md", "status": "blocked_pending_user_approval", "outputs": [], "depends_on_phases": [12], "user_approval_required": true }
+  ],
+  "specs_referenced": [
+    "CLAUDE.md",
+    "docs/00-getting-started-manual/specs/00-overview.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/EXECUTION-ORDER.md"
+  ],
+  "endpoints": [],
+  "d1_tables": [],
+  "ui_routes": [
+    "/",
+    "/(public)/members",
+    "/(public)/members/[id]",
+    "/(public)/register",
+    "/privacy",
+    "/terms",
+    "/login",
+    "/profile",
+    "/(admin)/admin",
+    "/(admin)/admin/members",
+    "/(admin)/admin/tags",
+    "/(admin)/admin/meetings",
+    "/(admin)/admin/schema",
+    "/(admin)/admin/requests",
+    "/(admin)/admin/identity-conflicts",
+    "/(admin)/admin/audit",
+    "error.tsx",
+    "not-found.tsx",
+    "loading.tsx"
+  ],
+  "secrets_introduced": [],
+  "files_created": [
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md"
+  ],
+  "files_modified": [
+    "CLAUDE.md",
+    "docs/00-getting-started-manual/specs/00-overview.md"
+  ]
+}
