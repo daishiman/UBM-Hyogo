@@ -1,7 +1,8 @@
 #!/usr/bin/env tsx
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import process from "node:process";
-import { classify } from "./severity-classifier.ts";
+import { getClassifier } from "./classifier/index.ts";
+import { extractFeatures } from "./features/extract.ts";
 import {
   buildFinding,
   reportFinding,
@@ -14,12 +15,13 @@ import {
   loadBaseline,
   purgeOlderThan,
   recentEventsInWindow,
+  recordClassification,
   recordReported,
   WranglerD1,
   type D1Like,
 } from "./d1-client.ts";
 import { parseArgs, parseDurationMs } from "./cli-args.ts";
-import type { AuditLogEvent, Baseline } from "./types.ts";
+import type { AuditLogEvent, Baseline, Severity } from "./types.ts";
 
 interface AnalyzeFixture {
   events: AuditLogEvent[];
@@ -28,22 +30,43 @@ interface AnalyzeFixture {
   rotationWindowMs: { start: number; end: number } | null;
 }
 
+interface LabeledAuditEvent {
+  event: AuditLogEvent;
+  expectedSeverity: Severity | "NONE";
+}
+
 async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
   const dryRun = Boolean(args["dry-run"]);
   const fixturePath = typeof args.fixture === "string" ? args.fixture : null;
+  const evaluatePath = typeof args.evaluate === "string" ? args.evaluate : null;
+  const exportFeaturesPath = typeof args["export-features"] === "string"
+    ? args["export-features"]
+    : null;
   const windowSpec = typeof args.window === "string" ? args.window : "1h";
   const windowMs = parseDurationMs(windowSpec);
 
-  const ctxBundle = await loadContext(fixturePath);
+  const ctxBundle = await loadContext(fixturePath, evaluatePath);
   const { db, baseline, githubIpRanges, rotationWindowMs } = ctxBundle;
   const untilMs = Date.now();
   const sinceMs = untilMs - windowMs;
   const events = await recentEventsInWindow(db, sinceMs, untilMs);
 
+  if (exportFeaturesPath) {
+    exportRedactedFeatures(events, exportFeaturesPath);
+  }
+
   const client: IssueClient = makeIssueClient(dryRun);
   const owner = process.env.GITHUB_REPOSITORY?.split("/")[0] ?? "daishiman";
   const repo = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "UBM-Hyogo";
+  const classifier = getClassifier({
+    CF_AUDIT_CLASSIFIER: typeof args.classifier === "string"
+      ? args.classifier
+      : process.env.CF_AUDIT_CLASSIFIER,
+    ML_MODEL_PATH: typeof args["ml-model-path"] === "string"
+      ? args["ml-model-path"]
+      : process.env.ML_MODEL_PATH,
+  });
 
   let findings = 0;
   for (const ev of events) {
@@ -53,14 +76,24 @@ async function main(): Promise<void> {
       untilMs - 3_600_000,
       untilMs,
     );
-    const r = classify(ev, baseline, {
-      githubIpRanges,
-      businessHoursJst: { start: 9, end: 19 },
-      recentFailuresInHour: recent,
-      rotationWindowMs,
-      failureSpikeMultiplier: 1.5,
+    const r = classifier.classify({
+      event: ev,
+      baseline,
+      context: {
+        githubIpRanges,
+        businessHoursJst: { start: 9, end: 19 },
+        recentFailuresInHour: recent,
+        rotationWindowMs,
+        failureSpikeMultiplier: 1.5,
+      },
     });
     if (!r) continue;
+    await recordClassification(db, ev.id, {
+      severity: r.severity,
+      classifierUsed: r.classifierUsed,
+      classifierVersion: r.classifierVersion,
+      confidence: r.confidence,
+    });
     const finding = buildFinding(ev, r);
     await reportFinding(finding, {
       client,
@@ -77,7 +110,7 @@ async function main(): Promise<void> {
   process.stdout.write(JSON.stringify({ ok: true, findings }) + "\n");
 }
 
-async function loadContext(fixturePath: string | null): Promise<{
+async function loadContext(fixturePath: string | null, evaluatePath: string | null): Promise<{
   db: D1Like;
   baseline: Baseline | null;
   githubIpRanges: string[];
@@ -92,6 +125,18 @@ async function loadContext(fixturePath: string | null): Promise<{
       rotationWindowMs: fx.rotationWindowMs,
     };
   }
+  if (evaluatePath) {
+    const rows = readFileSync(evaluatePath, "utf8")
+      .split(/\r?\n/)
+      .filter(Boolean)
+      .map((line) => JSON.parse(line) as LabeledAuditEvent);
+    return {
+      db: InMemoryD1.fromEvents(rows.map((row) => row.event)),
+      baseline: null,
+      githubIpRanges: ["140.82.112.0/20", "192.30.252.0/22"],
+      rotationWindowMs: null,
+    };
+  }
   const db = new WranglerD1(
     process.env.CF_AUDIT_DB ?? "ubm-hyogo-db-prod",
     "production",
@@ -104,6 +149,14 @@ async function loadContext(fixturePath: string | null): Promise<{
     githubIpRanges,
     rotationWindowMs: parseRotationWindow(process.env.CF_AUDIT_ROTATION_WINDOW),
   };
+}
+
+function exportRedactedFeatures(events: AuditLogEvent[], outPath: string): void {
+  const redactSecret = process.env.CF_AUDIT_REDACT_SECRET ?? "local-redaction-secret";
+  const lines = events.map((event) =>
+    JSON.stringify({ id: event.id, features: extractFeatures(event, { redactSecret }) })
+  );
+  writeFileSync(outPath, `${lines.join("\n")}${lines.length > 0 ? "\n" : ""}`);
 }
 
 async function loadGithubIpRanges(): Promise<string[]> {

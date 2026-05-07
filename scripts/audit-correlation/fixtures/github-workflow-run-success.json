@@ -1,0 +1,11 @@
+[
+  {
+    "action": "workflows.completed_workflow_run",
+    "actor": "ci-bot",
+    "actor_ip": "10.0.0.5",
+    "user_agent": "GHA-Runner/2.300.0",
+    "created_at": 1746590400000,
+    "org": "daishiman",
+    "repo": "daishiman/UBM-Hyogo"
+  }
+]

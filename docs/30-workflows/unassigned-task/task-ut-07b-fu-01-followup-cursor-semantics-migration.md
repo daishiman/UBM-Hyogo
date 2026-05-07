@@ -10,7 +10,7 @@ category: type:improvement
 target_feature: schema alias back-fill batch model
 priority: low
 scale: medium
-status: 未実施
+status: formalized_by_issue_503
 source_phase: docs/30-workflows/ut-07b-fu-01-schema-alias-backfill-queue-cron-split/outputs/phase-12/unassigned-task-detection.md
 created_date: 2026-05-06
 dependencies:
@@ -27,10 +27,16 @@ dependencies:
 | 対象機能 | schema alias back-fill batch model |
 | 優先度 | low |
 | 見積もり規模 | medium |
-| ステータス | 未実施 |
+| ステータス | formalized_by_issue_503 / implemented-local shadow flag / runtime adoption pending |
 | 発見元 | `docs/30-workflows/ut-07b-fu-01-schema-alias-backfill-queue-cron-split/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-06 |
 | issue_number | #503 |
+
+## Consumed Trace（2026-05-07）
+
+本 unassigned task は `docs/30-workflows/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration/` に formalize 済み。今回サイクルで `BACKFILL_CURSOR_MODE` shadow flag、cursor / remaining-scan 分岐、既存 `schema_diff_queue.backfill_cursor` 再利用、row-skip 防止の stale cursor reset test を implemented-local として反映した。
+
+Phase 11 の staging 10,000 行 A/B evidence と cursor 採用/不採用の最終判断は user-gated runtime evidence pending。採用までは専用 `0015_schema_diff_queue_cursor.sql` を作成せず、public `backfill.status` contract も変更しない。
 
 ---
 
