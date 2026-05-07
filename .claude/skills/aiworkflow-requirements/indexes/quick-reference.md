@@ -13,7 +13,7 @@
 | 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | channel SSOT | `#ubm-hyogo-incidents` |
 | secret SSOT | `SLACK_WEBHOOK_INCIDENT` |
-| 1Password 正本 | `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` |
+| 1Password 正本 | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>` |
 | runbook | `docs/30-workflows/runbooks/slack-incidents-channel-provisioning.md` |
 | redaction gate | `bash scripts/redaction-grep.sh .` |
 | blocks | Issue #495 Phase 11 runtime smoke / 09c production readiness observability gate |

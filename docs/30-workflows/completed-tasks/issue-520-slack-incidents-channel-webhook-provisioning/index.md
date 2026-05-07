@@ -25,7 +25,7 @@ issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension は `apps/api/src/rout
 ### Scope In
 - Slack workspace に `#ubm-hyogo-incidents` チャンネルを新規作成（既存時は再利用）
 - Slack incoming webhook を `#ubm-hyogo-incidents` 向けに発行（idempotent: 既存有効 webhook は再利用）
-- 1Password 正本 item の整備（`op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` の path 規約に従う）
+- 1Password 正本 item の整備（`op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>` の path 規約に従う）
 - `bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT --env staging` / `--env production` での Cloudflare Workers secret 投入
 - GitHub Actions secret `SLACK_WEBHOOK_INCIDENT` の登録（CI smoke で参照する場合）
 - staging smoke endpoint からの `[STAGING SMOKE]` prefix POST が `#ubm-hyogo-incidents` に着弾することの確認

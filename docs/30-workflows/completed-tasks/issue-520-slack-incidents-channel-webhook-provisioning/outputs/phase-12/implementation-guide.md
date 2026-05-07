@@ -21,7 +21,7 @@ Canonical values:
 ```ts
 type SlackIncidentWebhookSecret = {
   name: "SLACK_WEBHOOK_INCIDENT";
-  opRef: "op://UBM-Hyogo/Slack Incident Webhook (<env>)/url";
+  opRef: "op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>";
   channel: "ubm-hyogo-incidents";
 };
 ```

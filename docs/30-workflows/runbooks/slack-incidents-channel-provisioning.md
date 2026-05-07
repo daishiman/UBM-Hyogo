@@ -20,11 +20,11 @@ Each gate requires separate user approval. A single approval must not cover mult
 1. In Slack, create or reuse private channel `#ubm-hyogo-incidents`.
 2. Create or reuse an incoming webhook for that channel.
 3. Store the webhook URL in 1Password item `SLACK_WEBHOOK_INCIDENT`, field `url`.
-4. Record only `op://UBM-Hyogo/Slack Incident Webhook (<env>)/url` style references in docs and examples.
+4. Record only `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>` style references in docs and examples.
 5. Put staging secret with stdin:
 
 ```bash
-op read "op://UBM-Hyogo/Slack Incident Webhook (staging)/url" \
+op read "op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_STAGING" \
   | bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT \
       --config apps/api/wrangler.toml \
       --env staging
@@ -41,7 +41,7 @@ bash scripts/cf.sh secret list --config apps/api/wrangler.toml --env staging \
 8. If CI smoke needs the secret, set it through stdin:
 
 ```bash
-op read "op://UBM-Hyogo/Slack Incident Webhook (production)/url" \
+op read "op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION" \
   | gh secret set SLACK_WEBHOOK_INCIDENT --repo daishiman/UBM-Hyogo
 ```
 

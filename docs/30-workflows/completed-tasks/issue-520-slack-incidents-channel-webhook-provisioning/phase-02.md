@@ -42,7 +42,7 @@ Phase 1 の AC-1〜AC-8 を満たす **channel 作成 / webhook 発行 / secret 
 | `docs/30-workflows/runbooks/slack-incidents-channel-provisioning.md` | 新規 | channel 作成 / webhook 発行 / 1Password 投入 / `cf.sh secret put` 投入 / GitHub Secrets 登録 / smoke 着弾確認の運用手順 runbook |
 | `.claude/skills/aiworkflow-requirements/references/observability-monitoring.md` | 編集 | channel 名 `ubm-hyogo-incidents` / webhook 命名 `SLACK_WEBHOOK_INCIDENT` / env-aware Slack prefix の運用規約を追記 |
 | `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` | 編集 | `SLACK_WEBHOOK_INCIDENT` の正本配置先（1Password / Cloudflare Secrets staging+production / GitHub Secrets）と op:// 参照規約を追記 |
-| `.env.example` | 編集 | `SLACK_WEBHOOK_INCIDENT="op://UBM-Hyogo/Slack Incident Webhook (production)/url"` プレースホルダーを追加。実値は書かない |
+| `.env.example` | 編集 | `SLACK_WEBHOOK_INCIDENT="op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PRODUCTION"` プレースホルダーを追加。実値は書かない |
 | `apps/api/src/routes/admin/smoke-observability.test.ts` | 編集 | redaction-safe レスポンステスト追記（response body / error path に `hooks.slack.com/services/[A-Z0-9]` fragment が含まれないこと、log mock に webhook URL が出力されないことの assertion） |
 | `apps/api/src/routes/admin/smoke-observability.ts` | 確認のみ | webhook URL を response に含めない既存設計が継続していることを spot check（コード変更は issue-495 spec で完了済み前提のため Phase 11 まで原則編集しない。redaction 漏れがあれば Phase 9 で最小修正） |
 
