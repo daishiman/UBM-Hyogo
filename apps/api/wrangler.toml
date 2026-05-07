@@ -103,6 +103,13 @@ max_batch_timeout = 5
 max_retries = 3
 dead_letter_queue = "schema-alias-backfill-dlq"
 
+# Issue #514: Cloudflare Audit Logs cold storage / R2 export
+# 30 日 TTL purge 前に redacted JSONL.gz を R2 へ定期 export する cold storage。
+# bucket 作成 / token 発行は Phase 11 runtime gate (G1-G2) 承認後に実行する。
+[[env.production.r2_buckets]]
+binding = "UBM_AUDIT_COLD_STORAGE"
+bucket_name = "ubm-hyogo-audit-cold-storage-prod"
+
 [env.staging]
 name = "ubm-hyogo-api-staging"
 
@@ -150,3 +157,10 @@ max_batch_size = 1
 max_batch_timeout = 5
 max_retries = 3
 dead_letter_queue = "schema-alias-backfill-staging-dlq"
+
+# Issue #514: staging（spec の preview 相当）の cold storage R2 binding
+# bucket 作成は Phase 11 runtime gate 承認後。
+[[env.staging.r2_buckets]]
+binding = "UBM_AUDIT_COLD_STORAGE"
+bucket_name = "ubm-hyogo-audit-cold-storage-staging"
+preview_bucket_name = "ubm-hyogo-audit-cold-storage-staging"
