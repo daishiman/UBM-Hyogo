@@ -729,3 +729,16 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Appended L-UT07B-FU01-007〜010 to `references/lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md`: prefix dedupe_key 固定 / production ban の二重 fail-closed / stress trigger を curl + ADMIN_SESSION_JWT に統一 / parent workflow 参照を `test -f` で実体検証する Phase 12 規律。
 - Added 4 keys to `indexes/keywords.json` (issue-504 / 50k-fixture / stress-trial-50k / extended-fixture-50k); see batch 2.
 - No commit / push / PR / Issue comment executed.
+
+# 2026-05-07 UI prototype alignment task-01 scope gate
+
+- wave: ui-prototype-alignment-mvp-recovery / W1 / serial
+- state: spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval
+- workflow root: `docs/30-workflows/completed-tasks/task-01-w1-solo-scope-gate-all-screens/`
+- scope SSOT: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md`（19 routes / 公開 6 / 会員 2 / 管理 8 / 共通 3）
+- runtime boundary: apps/packages diff 0、新 endpoint / D1 schema / Google Form 変更なし、OKLch token 正本化、apps/web direct D1 access 禁止
+- archive hygiene: 5 dir を `docs/30-workflows/completed-tasks/` へ archive、純削除 blocker 解消
+- sync: `SKILL.md` changelog v2026.05.07-ui-prototype-scope-gate、`indexes/quick-reference.md`、`indexes/resource-map.md`、`references/task-workflow-active.md`、`changelog/20260507-ui-prototype-scope-gate.md` を同一 wave 同期
+- downstream: task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認
+- skill-feedback: なし（task-specification-creator / aiworkflow-requirements 既存ルールでカバー）
+- unassigned-task: 0 件追加（task-02..22 は既起票）

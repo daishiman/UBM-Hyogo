@@ -5,6 +5,21 @@
 
 ---
 
+### UI prototype alignment / MVP recovery scope gate（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-01-w1-solo-scope-gate-all-screens/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| scope SSOT | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md` |
+| 実行順 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/EXECUTION-ORDER.md` |
+| routes | 19 routes（公開 6 / 会員 2 / 管理 8 / 共通 3） |
+| API 境界 | 既存 `apps/api/src/routes/` endpoint のみ接続。新 endpoint / D1 schema / Google Form 変更は禁止 |
+| design boundary | OKLch token 正本化、task-10 primitive set 内で画面を構成、apps/web direct D1 access 禁止 |
+| downstream | task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認 |
+| archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
+| evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
 ### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
 
 | 目的 | 参照先 |
