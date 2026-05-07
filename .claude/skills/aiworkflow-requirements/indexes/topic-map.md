@@ -1034,7 +1034,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L9 |
+| Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L11 |
 
 ### references/database-schema-ddl-template.md
 
@@ -2344,6 +2344,14 @@ node scripts/list-specs.js --topics
 | Unassigned Task Trace | L65 |
 | Lessons Learned | L74 |
 
+### references/workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L13 |
+| Boundary | L29 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3349,9 +3357,9 @@ node scripts/list-specs.js --topics
 | セキュリティ原則 | L259 |
 | Cloudflare API Token の作成手順 | L270 |
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L285 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L365 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L413 |
-| 変更履歴 | L428 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L350 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L398 |
+| 変更履歴 | L413 |
 
 ### references/deployment.md
 
@@ -4197,6 +4205,15 @@ node scripts/list-specs.js --topics
 | L-ISSUE514-006: exporter schema は source D1 (`cf_audit_log.occurred_at`) に整合し、manifest に `r2_etag` を追加する | L87 |
 | L-ISSUE514-007: redaction guard は raw token / Bearer / full IP / UA / email / secret hash を全 sink で additive に enforce する | L103 |
 | 参照元 | L119 |
+
+### references/lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE518-001: HOLD 政策で workflow を残すなら schedule 削除 + workflow_dispatch + dry_run 強制 の三段階で実行を物理的に塞ぐ | L7 |
+| L-ISSUE518-002: schedule を停止した時点で死活監視 watchdog は冗長になるため同一 wave で削除する | L28 |
+| L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
+| 参照元 | L66 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -5178,8 +5195,7 @@ node scripts/list-specs.js --topics
 | 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L175 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L201 |
-| 11. 変更履歴 | L223 |
+| 10. 変更履歴 | L203 |
 
 ### references/patterns-advanced.md
 
@@ -5632,13 +5648,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L441 |
-| フェーズ構造（概要） | L450 |
-| 品質ゲート（概要） | L481 |
-| 出力テンプレート | L492 |
-| 実行時のコマンド・エージェント・スキル | L515 |
-| 昇格パターン集 | L539 |
-| Current Active / Spec Created Tasks | L541 |
+| ドキュメント構成 | L366 |
+| フェーズ構造（概要） | L375 |
+| 品質ゲート（概要） | L406 |
+| 出力テンプレート | L417 |
+| 実行時のコマンド・エージェント・スキル | L440 |
+| 昇格パターン集 | L464 |
+| Current Active / Spec Created Tasks | L466 |
 
 ### references/task-workflow-backlog-part2.md
 
