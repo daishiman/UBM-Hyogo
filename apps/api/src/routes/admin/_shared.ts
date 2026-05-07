@@ -4,6 +4,8 @@ import type { RequireAuthEnv } from "../../middleware/require-admin";
 
 export interface AdminRouteEnv extends AdminGateEnv, RequireAuthEnv {
   readonly DB: D1Database;
+  readonly ENVIRONMENT?: "production" | "staging" | "development";
+  readonly SCHEMA_ALIAS_BACKFILL_QUEUE?: Queue<unknown>;
   readonly UT07B_BACKFILL_CPU_BUDGET_MS?: string;
 }
 
