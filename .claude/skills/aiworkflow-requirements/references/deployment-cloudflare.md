@@ -248,6 +248,8 @@ name = "ubm-hyogo-api"
 
 Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
 
+Issue #378 以降、Forms response sync の tag candidate enqueue は `TAG_QUEUE_PAUSED` variable で deploy-gated に停止できる。`"true"` 完全一致のみ停止し、停止中は `tag_assignment_queue` への D1 read / write を行わず `{ enqueued: false, reason: "paused" }` と structured log `UBM-TAGQ-PAUSED` を返す。切替手順は `docs/30-workflows/runbooks/tag-queue-pause.md` を正本とし、Cloudflare Secret では扱わない。
+
 Google Sheets API v4 同期は `SHEETS_SPREADSHEET_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_JSON` を Cloudflare Workers Secret として扱う。`GOOGLE_SERVICE_ACCOUNT_JSON` は UT-25 で確定した正本名で、staging / production の両環境に `bash scripts/cf.sh secret put ... --config apps/api/wrangler.toml --env <env>` 経由で配置する。`GOOGLE_SHEETS_SA_JSON` は移行期間の legacy alias として実装側のみ許容し、新規 secret 投入名には使わない。
 
 Sheets sync auth は UT-03 で実装した `packages/integrations/google/src/sheets/auth.ts` を使う。`GOOGLE_SERVICE_ACCOUNT_JSON` を Cloudflare Secret として注入し、任意で `SHEETS_SCOPES` を指定する。未指定時の scope は `https://www.googleapis.com/auth/spreadsheets.readonly`。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) を使い、token endpoint の `expires_in` に従って cache し、失効 5 分前に再取得する。UT-09 / UT-21 は `@ubm-hyogo/integrations-google` の `sheets` namespace export 経由で `getSheetsAccessToken()` を呼ぶ。

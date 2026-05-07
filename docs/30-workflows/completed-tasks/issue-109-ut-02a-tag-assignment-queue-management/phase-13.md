@@ -99,7 +99,7 @@ Refs #109   ← Closes は禁止（user 承認後の merge 段階で別途 close
 
 ## Risks / Rollback
 - migration 失敗時: down migration (`*_down.sql`) で table drop
-- 緊急停止: env `TAG_QUEUE_PAUSED=true` を Cloudflare secret から設定し enqueue を 503 短絡
+- 緊急停止: stale-current。Issue #378 以降は `TAG_QUEUE_PAUSED` を Cloudflare secret ではなく non-secret variable として設定し、enqueue は 503 ではなく `{ enqueued: false, reason: "paused" }` で早期 return する。current runbook は `docs/30-workflows/runbooks/tag-queue-pause.md`。
 ```
 
 ### ステップ 6: PR 発行（user 承認後のみ）
@@ -127,7 +127,7 @@ gh pr create --base dev \
 | 種別 | 手順 |
 | --- | --- |
 | migration | down migration 適用: `bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-prod --env production`（down ファイル指定） |
-| 緊急停止 flag | Cloudflare secret 経由で `TAG_QUEUE_PAUSED=true` を設定 → enqueue を 503 短絡 |
+| 緊急停止 flag | stale-current。Issue #378 current contract は Cloudflare variable `TAG_QUEUE_PAUSED="true"` → Forms sync candidate enqueue のみ `{ enqueued: false, reason: "paused" }` で停止。secret / 503 短絡は使わない。 |
 | PR revert | `gh pr revert <PR_NUMBER>` または revert commit を `dev` へ |
 
 ## 統合テスト連携

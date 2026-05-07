@@ -170,10 +170,72 @@ interface AttendanceJoinRow {
   held_on: string;
 }
 
+// issue-372: 大量出席履歴のページング
+// cursor は { heldOn, sessionId } を base64url(JSON) でエンコードする。
+// sort 順序は held_on DESC, session_id DESC（ページング用 tiebreak）。
+// 既存 findByMemberIds は変更しない（後方互換維持）。
+export const ATTENDANCE_PAGE_DEFAULT_LIMIT = 50;
+export const ATTENDANCE_PAGE_MAX_LIMIT = 200;
+
+export interface AttendanceCursor {
+  heldOn: string;
+  sessionId: string;
+}
+
+export interface AttendancePageOptions {
+  limit?: number;
+  cursor?: AttendanceCursor;
+}
+
+export interface AttendancePageResult {
+  records: ReadonlyArray<AttendanceRecord>;
+  hasMore: boolean;
+  nextCursor: string | null;
+}
+
+const toBase64Url = (s: string): string => {
+  // btoa は latin-1 のみ。JSON ASCII 前提だが、安全側で URI encode 経由
+  const b64 = btoa(unescape(encodeURIComponent(s)));
+  return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+};
+
+const fromBase64Url = (s: string): string => {
+  const b64 = s.replace(/-/g, "+").replace(/_/g, "/");
+  const pad = b64.length % 4 === 0 ? "" : "=".repeat(4 - (b64.length % 4));
+  return decodeURIComponent(escape(atob(b64 + pad)));
+};
+
+export const encodeAttendanceCursor = (cursor: AttendanceCursor): string =>
+  toBase64Url(JSON.stringify({ heldOn: cursor.heldOn, sessionId: cursor.sessionId }));
+
+export const decodeAttendanceCursor = (encoded: string): AttendanceCursor | null => {
+  try {
+    const json = fromBase64Url(encoded);
+    const obj = JSON.parse(json) as Record<string, unknown>;
+    if (typeof obj.heldOn !== "string" || typeof obj.sessionId !== "string") return null;
+    if (obj.heldOn.length === 0 || obj.sessionId.length === 0) return null;
+    return { heldOn: obj.heldOn, sessionId: obj.sessionId };
+  } catch {
+    return null;
+  }
+};
+
+export const clampAttendanceLimit = (raw: number | undefined): number => {
+  if (raw === undefined || !Number.isFinite(raw)) return ATTENDANCE_PAGE_DEFAULT_LIMIT;
+  const n = Math.floor(raw);
+  if (n < 1) return ATTENDANCE_PAGE_DEFAULT_LIMIT;
+  if (n > ATTENDANCE_PAGE_MAX_LIMIT) return ATTENDANCE_PAGE_MAX_LIMIT;
+  return n;
+};
+
 export interface AttendanceProvider {
   findByMemberIds(
     ids: ReadonlyArray<MemberId>,
   ): Promise<ReadonlyMap<MemberId, ReadonlyArray<AttendanceRecord>>>;
+  findByMemberId(
+    id: MemberId,
+    opts?: AttendancePageOptions,
+  ): Promise<AttendancePageResult>;
 }
 
 const chunkBy = <T>(items: ReadonlyArray<T>, size: number): T[][] => {
@@ -252,6 +314,66 @@ export const createAttendanceProvider = (c: DbCtx): AttendanceProvider => ({
       result.set(mid, recs.sort(sortRecords));
     }
     return result;
+  },
+
+  async findByMemberId(id, opts) {
+    const limit = clampAttendanceLimit(opts?.limit);
+    const cursor = opts?.cursor;
+
+    // LIMIT N+1 で hasMore を判定する。
+    // sort: held_on DESC, session_id DESC。
+    // cursor 条件: held_on < c.heldOn OR (held_on = c.heldOn AND session_id < c.sessionId)
+    const baseSelect =
+      `SELECT ms.session_id AS session_id,
+              ms.title AS title,
+              ms.held_on AS held_on
+         FROM member_attendance ma
+         INNER JOIN meeting_sessions ms ON ms.session_id = ma.session_id
+        WHERE ma.member_id = ?`;
+    const orderLimit = ` ORDER BY ms.held_on DESC, ms.session_id DESC LIMIT ?`;
+
+    let sql: string;
+    let binds: unknown[];
+    if (cursor) {
+      sql =
+        baseSelect +
+        ` AND (ms.held_on < ? OR (ms.held_on = ? AND ms.session_id < ?))` +
+        orderLimit;
+      binds = [id, cursor.heldOn, cursor.heldOn, cursor.sessionId, limit + 1];
+    } else {
+      sql = baseSelect + orderLimit;
+      binds = [id, limit + 1];
+    }
+
+    const rows = await c.db
+      .prepare(sql)
+      .bind(...binds)
+      .all<AttendanceJoinRow>();
+
+    const all = (rows.results ?? []).map((row) => ({
+      sessionId: row.session_id,
+      title: row.title,
+      heldOn: row.held_on,
+    }));
+
+    // 同一 session_id 重複は dedupe（findByMemberIds と同じ正規化）
+    const seen = new Set<string>();
+    const deduped: AttendanceRecord[] = [];
+    for (const r of all) {
+      if (seen.has(r.sessionId)) continue;
+      seen.add(r.sessionId);
+      deduped.push(r);
+    }
+
+    const hasMore = deduped.length > limit;
+    const records = hasMore ? deduped.slice(0, limit) : deduped;
+    const last = records[records.length - 1];
+    const nextCursor =
+      hasMore && last
+        ? encodeAttendanceCursor({ heldOn: last.heldOn, sessionId: last.sessionId })
+        : null;
+
+    return { records, hasMore, nextCursor };
   },
 });
 

@@ -149,6 +149,109 @@ describe("admin members route", () => {
     expect(JSON.stringify(body.audit)).not.toContain("admin note body");
   });
 
+  // issue-372: 出席履歴ページング
+  it("GET /members/:memberId は default limit 50 + attendanceMeta.hasMore を返す（60 件投入）", async () => {
+    for (let i = 0; i < 60; i++) {
+      const sid = `s_${String(i).padStart(3, "0")}`;
+      const day = String((i % 28) + 1).padStart(2, "0");
+      const heldOn = `2026-${String((i % 12) + 1).padStart(2, "0")}-${day}`;
+      await env.db
+        .prepare(
+          "INSERT INTO meeting_sessions (session_id, title, held_on, note, created_at, created_by) VALUES (?, ?, ?, NULL, '2026-01-01T00:00:00Z', 'admin')",
+        )
+        .bind(sid, `t${i}`, heldOn)
+        .run();
+      await env.db
+        .prepare(
+          "INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES ('m1', ?, 'admin')",
+        )
+        .bind(sid)
+        .run();
+    }
+
+    const app = createAdminMembersRoute();
+    const res = await app.request(
+      "/members/m1",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      profile: {
+        attendance: Array<{ sessionId: string }>;
+        attendanceMeta?: { hasMore: boolean; nextCursor: string | null };
+      };
+    };
+    expect(body.profile.attendance).toHaveLength(50);
+    expect(body.profile.attendanceMeta?.hasMore).toBe(true);
+    expect(body.profile.attendanceMeta?.nextCursor).not.toBeNull();
+  });
+
+  it("GET /members/:memberId/attendance: cursor 経由で次ページを返す", async () => {
+    for (let i = 0; i < 12; i++) {
+      const sid = `s_${i}`;
+      const heldOn = `2026-01-${String(i + 1).padStart(2, "0")}`;
+      await env.db
+        .prepare(
+          "INSERT INTO meeting_sessions (session_id, title, held_on, note, created_at, created_by) VALUES (?, ?, ?, NULL, '2026-01-01T00:00:00Z', 'admin')",
+        )
+        .bind(sid, `t${i}`, heldOn)
+        .run();
+      await env.db
+        .prepare(
+          "INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES ('m1', ?, 'admin')",
+        )
+        .bind(sid)
+        .run();
+    }
+
+    const app = createAdminMembersRoute();
+    const first = await app.request(
+      "/members/m1/attendance?limit=5",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    expect(first.status).toBe(200);
+    const firstBody = (await first.json()) as {
+      records: Array<{ sessionId: string; heldOn: string }>;
+      hasMore: boolean;
+      nextCursor: string | null;
+    };
+    expect(firstBody.records).toHaveLength(5);
+    expect(firstBody.hasMore).toBe(true);
+
+    const second = await app.request(
+      `/members/m1/attendance?limit=5&cursor=${encodeURIComponent(firstBody.nextCursor!)}`,
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    const secondBody = (await second.json()) as {
+      records: Array<{ sessionId: string }>;
+      hasMore: boolean;
+    };
+    expect(secondBody.records).toHaveLength(5);
+    const firstSet = new Set(firstBody.records.map((r) => r.sessionId));
+    for (const r of secondBody.records) {
+      expect(firstSet.has(r.sessionId)).toBe(false);
+    }
+  });
+
+  it("GET /members/:memberId/attendance: 不正 cursor は 400", async () => {
+    const app = createAdminMembersRoute();
+    const res = await app.request(
+      "/members/m1/attendance?cursor=!!invalid!!",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    expect(res.status).toBe(400);
+  });
+
+  it("GET /members/:memberId/attendance: 未認証 401", async () => {
+    const app = createAdminMembersRoute();
+    const res = await app.request("/members/m1/attendance", {}, makeEnv(env));
+    expect(res.status).toBe(401);
+  });
+
   it("GET /members?filter=invalid は 400", async () => {
     const app = createAdminMembersRoute();
     const res = await app.request(
