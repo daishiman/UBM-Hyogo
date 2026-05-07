@@ -66,6 +66,8 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_AUDIT_D1_TOKEN_PROD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          CF_AUDIT_CLASSIFIER: ${{ vars.CF_AUDIT_CLASSIFIER || 'threshold' }}
+          ML_MODEL_PATH: ${{ vars.ML_MODEL_PATH }}
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             pnpm exec tsx scripts/cf-audit-log/analyze.ts --window 1h --dry-run

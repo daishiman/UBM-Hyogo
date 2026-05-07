@@ -2605,3 +2605,9 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Applied strict Phase 12 filename normalization for `docs/30-workflows/issue-517-followup-auto-summary-foundation/`.
 - Materialized canonical Phase 12 7 files: `main.md`, `implementation-guide.md`, `system-spec-update-summary.md`, `documentation-changelog.md`, `unassigned-task-detection.md`, `skill-feedback-report.md`, `phase12-task-spec-compliance-check.md`.
 - Clarified NON_VISUAL Slack channel bootstrap as Phase 11 preflight, not workflow code. Introduced `CONTRACT_READY_SECRET_PENDING` boundary before Slack test post PASS.
+
+# 2026-05-07 issue515 cf audit logs ML-ready classifier
+
+- Materialized Phase 12 strict 7 files for `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260507-095541-wt-8/docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/`.
+- Corrected state model from `spec_created` vs staging apply mixed wording to `spec_created -> implemented_local_runtime_pending -> pass_boundary_synced_runtime_pending`.
+- Registered external Gate follow-ups as unassigned tasks because 90 day runtime evidence and model artifact selection cannot be completed in this cycle.

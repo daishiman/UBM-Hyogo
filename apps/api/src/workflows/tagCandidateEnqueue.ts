@@ -11,6 +11,7 @@ import {
   deriveIdempotencyKey,
 } from "../repository/tagQueue";
 import { asMemberId, asResponseId } from "../repository/_shared/brand";
+import { logWarn } from "@ubm-hyogo/shared/logging";
 
 export interface EnqueueTagCandidateInput {
   memberId: string;
@@ -19,14 +20,34 @@ export interface EnqueueTagCandidateInput {
 
 export interface EnqueueTagCandidateResult {
   enqueued: boolean;
-  reason?: "has_tags" | "has_pending_candidate";
+  reason?: "has_tags" | "has_pending_candidate" | "paused";
   queueId?: string;
+}
+
+export function parsePaused(env: {
+  readonly TAG_QUEUE_PAUSED?: string;
+}): boolean {
+  return env.TAG_QUEUE_PAUSED === "true";
 }
 
 export async function enqueueTagCandidate(
   c: DbCtx,
   input: EnqueueTagCandidateInput,
+  paused = false,
 ): Promise<EnqueueTagCandidateResult> {
+  if (paused) {
+    logWarn({
+      code: "UBM-TAGQ-PAUSED",
+      message: "tag assignment queue candidate enqueue skipped",
+      context: {
+        memberId: input.memberId,
+        responseId: input.responseId,
+        reason: "paused",
+      },
+    });
+    return { enqueued: false, reason: "paused" };
+  }
+
   // 1. member_tags が既に存在する場合は skip
   const tagRow = await c.db
     .prepare("SELECT 1 AS found FROM member_tags WHERE member_id = ? LIMIT 1")

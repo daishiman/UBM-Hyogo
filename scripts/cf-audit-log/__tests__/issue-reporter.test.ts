@@ -127,4 +127,17 @@ describe("issue-reporter", () => {
     expect(body).not.toContain('"raw"');
     expect(body).not.toContain("token-resource-abcdef123456");
   });
+
+  it("includes classifier metadata in the issue body", () => {
+    const finding = buildFinding(ev(), {
+      severity: "HIGH",
+      reason: "foreign-ip",
+      confidence: 0.85,
+      classifierUsed: "ml",
+      classifierVersion: "ml@v0.0.0-skeleton",
+    });
+    const body = renderBody(finding);
+    expect(body).toContain("Classifier: ml version=ml@v0.0.0-skeleton confidence=0.85");
+    expect(body).toContain("<!-- cf-audit-classifier: ml;");
+  });
 });

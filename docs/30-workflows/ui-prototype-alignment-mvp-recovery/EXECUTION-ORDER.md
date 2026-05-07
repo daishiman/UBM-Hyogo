@@ -9,6 +9,18 @@
 
 ---
 
+## task-01 完了状況（2026-05-07 反映）
+
+W1 task-01 は以下の状態で W2 起動 gate を通過済み:
+
+- 3 docs（`CLAUDE.md` / `specs/00-overview.md` / `SCOPE.md`）正本化完了
+- diff scope contamination（5 dir 誤削除）解消済み: `_design/`, `02-application-implementation/`, `issue-348-09c-github-release-tag-automation/`, `issue-494-09a-A-exec-staging-smoke-runtime/`, `issue-497-post-release-dashboard-30day-conclusion/` を `docs/30-workflows/completed-tasks/` 配下へ archive
+- diff scope 規律 / archive rule を `SCOPE.md §6` に明文化（task-02..22 共通遵守）
+
+W2 以降の各 task は `SCOPE.md §6` の diff scope discipline を完了前に必ず検証する。
+
+---
+
 ## Wave 一覧（クリティカルパス）
 
 | wave | 並列度 | タスク | 着手条件 |

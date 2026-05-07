@@ -103,6 +103,32 @@ describe("runResponseSync", () => {
     expect(db.status[0]?.["rules_consent"]).toBe("consented");
   });
 
+  it('Issue #378: TAG_QUEUE_PAUSED="true" は Forms sync からの candidate enqueue だけを停止する', async () => {
+    const resp = makeResp({
+      answersByStableKey: {
+        fullName: "山田",
+        publicConsent: "同意します",
+        rulesConsent: "同意します",
+      },
+    });
+    const client = makeClient([{ responses: [resp] }]);
+    const result = await runResponseSync(
+      {
+        DB: db as unknown as D1Database,
+        GOOGLE_FORM_ID: "form-1",
+        TAG_QUEUE_PAUSED: "true",
+      },
+      { trigger: "admin", client },
+    );
+
+    expect(result.status).toBe("succeeded");
+    expect(result.processedCount).toBe(1);
+    expect(db.identities).toHaveLength(1);
+    expect(db.responses).toHaveLength(1);
+    expect(db.status).toHaveLength(1);
+    expect(db.tagQueue).toHaveLength(0);
+  });
+
   it("AC-2: unknown question を schema_diff_queue に enqueue し、重複 enqueue は no-op", async () => {
     const resp1 = makeResp({
       responseId: "r-A",

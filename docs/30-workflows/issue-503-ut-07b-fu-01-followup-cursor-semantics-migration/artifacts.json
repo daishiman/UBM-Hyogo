@@ -1,0 +1,75 @@
+{
+  "taskId": "issue-503-ut-07b-fu-01-followup-cursor-semantics-migration",
+  "createdAt": "2026-05-07",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented-local",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented-local",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "parentIssueState": "OPEN",
+    "parentIssueStateNote": "ユーザー認識ではクローズ済みだが gh issue view #503 実態は OPEN。本仕様書は state を変更しない。",
+    "implementationCategory": "implementation",
+    "runtimeEvidence": "local_tests_passed_staging_evidence_pending_user_gate",
+    "productionApply": "not_applicable_internal_only"
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/503",
+  "parentTask": "task-ut-07b-fu-01-followup-cursor-semantics-migration",
+  "sourceUnassignedSpec": "docs/30-workflows/unassigned-task/task-ut-07b-fu-01-followup-cursor-semantics-migration.md",
+  "githubLabels": [
+    "priority:low",
+    "type:improvement",
+    "scale:medium",
+    "status:unassigned",
+    "area:api"
+  ],
+  "claudeCodeContext": {
+    "purpose": "Claude Code / Codex がコード実装・PR 作成時に label / tag / scope を確実に共有するためのメタ",
+    "labels": ["priority:low", "type:improvement", "scale:medium", "status:unassigned", "area:api"],
+    "prTitlePrefix": "feat(api): issue-503 schema alias back-fill cursor semantics shadow flag and decision evidence",
+    "prLabelsToApply": ["priority:low", "type:improvement", "scale:medium", "area:api"],
+    "branchNameSuggestion": "feat/issue-503-ut-07b-fu-01-followup-cursor-semantics-migration",
+    "ghPrCreateLabelArg": "--label priority:low --label type:improvement --label scale:medium --label area:api",
+    "issueLink": "Refs: #503"
+  },
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["outputs/phase-1/phase-1.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["outputs/phase-2/phase-2.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["outputs/phase-3/phase-3.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["outputs/phase-4/phase-4.md"] },
+    "phase-5":  { "status": "completed", "outputs": ["outputs/phase-5/phase-5.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["outputs/phase-6/phase-6.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["outputs/phase-7/phase-7.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["outputs/phase-8/phase-8.md"] },
+    "phase-9":  { "status": "completed", "outputs": ["outputs/phase-9/phase-9.md"] },
+    "phase-10": { "status": "completed", "outputs": ["outputs/phase-10/phase-10.md"] },
+    "phase-11": {
+      "status": "blocked_runtime_evidence_pending",
+      "outputs": [
+        "outputs/phase-11/phase-11.md",
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/staging-evidence-remaining-scan.md",
+        "outputs/phase-11/staging-evidence-cursor.md",
+        "outputs/phase-11/decision-record.md",
+        "outputs/phase-11/d1-schema-parity.md",
+        "outputs/phase-11/lint-evidence.log"
+      ]
+    },
+    "phase-12": {
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/phase-12.md",
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "pending", "outputs": ["outputs/phase-13/phase-13.md"] }
+  }
+}

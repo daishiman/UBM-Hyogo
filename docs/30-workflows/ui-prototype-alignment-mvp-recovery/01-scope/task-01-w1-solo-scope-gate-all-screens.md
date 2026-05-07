@@ -3,9 +3,9 @@
 [実装区分: 実装仕様書]
 推定工数: 0.5 人日（docs 編集中心 / レビュー同期含む）
 依存タスク: なし（本タスクは workflow 全体の先行ゲート）
-並列実行: 不可（後続 task-02..18 の前提条件 / W1 単独 wave）
+並列実行: 不可（後続 task-02..22 の前提条件 / W1 単独 wave）
 
-> 本タスクはコード変更を伴わない docs 専用タスクであるが、CLAUDE.md および `docs/00-getting-started-manual/specs/` の正本 docs を改変するため、CONST_005 における「ファイル変更を伴うタスク」として実装仕様書フォーマットで記述する。後続 17 タスクが参照する「全画面実装スコープ」「既存 API のみ接続」「OKLch トークン正本化」の 3 合意を文書化することが目的。
+> 本タスクはコード変更を伴わない docs 専用タスクであるが、CLAUDE.md および `docs/00-getting-started-manual/specs/` の正本 docs を改変するため、CONST_005 における「ファイル変更を伴うタスク」として実装仕様書フォーマットで記述する。後続 21 タスクが参照する「全画面実装スコープ」「既存 API のみ接続」「OKLch トークン正本化」の 3 合意を文書化することが目的。
 
 ---
 
@@ -20,7 +20,7 @@ UI prototype alignment / MVP recovery ワークフロー全体の上位ゴール
 ### 0.2 本タスクの DAG 座標
 
 - **依存元（前提完了）**: なし（workflow 全体の先行ゲート / W1 単独 wave）
-- **依存先（このタスク完了で着手可）**: task-02..18 全 17 タスク
+- **依存先（このタスク完了で着手可）**: task-02..22 全 21 タスク
 - **並列性**: 単独 wave（W1）。本タスク完了まで W2 以降は起動しない
 - **DAG 詳細**: `outputs/phase-2/phase-2.md` §3
 
@@ -62,7 +62,7 @@ shape 乖離発生時は API を変更せず `apps/web` 側に adapter 層を置
 
 ### 0.6 連携シグネチャ（このタスクで定義し他タスクが参照）
 
-後続 task-02..18 が grep / 相対パス参照する正本シグネチャ:
+後続 task-02..22 が grep / 相対パス参照する正本シグネチャ:
 
 - **SCOPE.md の章立て**: `## 1. 全画面実装スコープ（19 routes）` / `## 2. API 接続マッピング要約` / `## 3. 不変条件` / `## 4. 正本順位` / `## 5. 後続タスク導線`
 - **mapping 表（§1）の列構成**: `| 層 | route | プロトタイプ掲載 | 設計指針 |`
@@ -91,7 +91,7 @@ shape 乖離発生時は API を変更せず `apps/web` 側に adapter 層を置
 2. **既存 API のみ接続（API 不変条件）**: `apps/api/src/routes/` 配下の現行 endpoint surface のみを利用し、新 endpoint・D1 schema 変更・Google Form 仕様変更は禁止する。
 3. **OKLch トークン正本化**: `apps/web/src/styles/tokens.css`（task-09 で作成）と `specs/design-tokens.md`（task-08）が色の正本であり、HEX 直書き / `bg-[#xxx]` / `text-[#xxx]` などのトークン外記述を禁止する。
 
-これら 3 合意が CLAUDE.md / specs / SCOPE.md の 3 箇所に明文化されることで、task-02..18 の実装者（および AI エージェント）が判断に迷わないゲートを設置する。
+これら 3 合意が CLAUDE.md / specs / SCOPE.md の 3 箇所に明文化されることで、task-02..22 の実装者（および AI エージェント）が判断に迷わないゲートを設置する。
 
 ---
 
@@ -104,7 +104,7 @@ shape 乖離発生時は API を変更せず `apps/web` 側に adapter 層を置
 | G-01 | CLAUDE.md に「UI prototype alignment / MVP recovery」セクションが追記され、19 routes スコープと 3 不変条件が記述されている | `grep -n "ui-prototype-alignment-mvp-recovery" CLAUDE.md` が 1 件以上 |
 | G-02 | `specs/00-overview.md` に画面一覧（19 routes）と API mapping の参照リンクが追記されている | `grep -n "19 routes" docs/00-getting-started-manual/specs/00-overview.md` で 1 件以上 |
 | G-03 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md` が新規作成され、phase-1 の §1〜§3 と整合している | `test -f` 成功 + 目視レビュー |
-| G-04 | 後続 task-02..18 が `SCOPE.md` を「正本」として参照可能な記述粒度になっている | mapping 表に 19 routes すべてが行として存在 |
+| G-04 | 後続 task-02..22 が `SCOPE.md` を「正本」として参照可能な記述粒度になっている | mapping 表に 19 routes すべてが行として存在 |
 | G-05 | markdown lint が通る（headings / list / link 整合） | `pnpm --filter docs lint` または `pnpm lint` のサブセット成功 |
 
 ### 2.2 非ゴール
@@ -159,7 +159,7 @@ shape 乖離発生時は API を変更せず `apps/web` 側に adapter 層を置
 | 管理 | 8 | `/(admin)/admin`, `/(admin)/admin/{members,tags,meetings,schema,requests,identity-conflicts,audit}` |
 | 共通 | 3 | `error.tsx`, `not-found.tsx`, `loading.tsx` |
 
-### 不変条件（task-02..18 共通）
+### 不変条件（task-02..22 共通）
 
 1. **既存 API のみ接続**: `apps/api/src/routes/` 配下の現行 endpoint surface のみ利用。新 endpoint 追加・D1 schema 変更・Google Form 仕様変更は禁止。
 2. **OKLch トークン正本化**: 色は `apps/web/src/styles/tokens.css`（task-09）と `specs/design-tokens.md`（task-08）が正本。HEX 直書き / `bg-[#xxx]` / `text-[#xxx]` 禁止。CI gate `verify-design-tokens`（task-18）で fail 判定。
@@ -268,7 +268,7 @@ UI 実装スコープと API 接続マッピングは下記を正本とする:
 | 管理 audit | `GET /admin/audit` |
 | 共通 error/404/loading | API call なし（Sentry capture のみ） |
 
-## 3. 不変条件（task-02..18 共通）
+## 3. 不変条件（task-02..22 共通）
 
 1. 既存 API のみ接続（`apps/api/src/routes/` 配下のみ）
 2. D1 schema / Google Form 仕様変更は禁止
@@ -303,7 +303,7 @@ DAG 詳細は `outputs/phase-2/phase-2.md` §3。
 
 - AI エージェント（Claude Code 等）が CLAUDE.md を毎セッション参照するため、19 routes スコープと 3 不変条件が以後の全タスクで自動適用される
 - GitHub PR レビュー（solo）時に SCOPE.md 1 ファイル確認で全体像が掴める
-- task-02..18 の各仕様書から SCOPE.md への相対パスリンクが張られる前提で工数見積されている（phase-2 §5）
+- task-02..22 の各仕様書から SCOPE.md への相対パスリンクが張られる前提で工数見積されている（phase-2 §5）
 
 ---
 
@@ -376,9 +376,9 @@ ls docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-3/phase-3
 - [ ] SCOPE.md §1 の 19 行と phase-1 §2.2 の 19 行が一致
 - [ ] SCOPE.md §2 の endpoint 列と phase-3 §2 / §7 に矛盾なし
 - [ ] mapping 表に欠落 route なし（19 = 6 + 2 + 8 + 3）
-- [ ] 後続 task-02..18 から相対パス `../SCOPE.md` で参照可能
+- [ ] 後続 task-02..22 から相対パス `../SCOPE.md` で参照可能
 - [ ] `pnpm lint` が pass（または markdown lint のみでも可）
-- [ ] `git diff --stat` の変更ファイルが上記 3 件のみ（コード変更ゼロ）
+- [ ] `git diff --name-status` の変更範囲が正本 docs / task package / completed-tasks archive に限定され、apps/packages コード変更が 0 件
 
 ---
 
@@ -403,8 +403,8 @@ ls docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-3/phase-3
 
 ### 9.3 ファイル変更の最小性
 
-3 ファイルのみ変更（edit 2 / new 1）で完結する。phase-N.md は触らず、CLAUDE.md は既存セクションを破壊せず追記のみとする。これにより diff のレビュー負荷を最小化する。
+正本 docs 3 ファイル（edit 2 / new 1）を主成果物とし、task package と completed-tasks archive rename は scope gate の evidence / hygiene として同一 PR に含める。apps/packages は触らず、CLAUDE.md は既存セクションを破壊せず追記のみとする。これにより W2 以降の参照基盤と archive 方針を同時に固定する。
 
 ### 9.4 後続タスクへの引き渡し
 
-task-02..18 の各仕様書冒頭で `依存タスク: task-01` と明記し、`SCOPE.md` を正本参照させる運用を想定する。本タスクが未完了のままだと後続タスクは仕様書執筆段階で参照先がなくなるため、**必ず W1 単独で完了させてから W2 を起動する**。
+task-02..22 の各仕様書冒頭で `依存タスク: task-01` と明記し、`SCOPE.md` を正本参照させる運用を想定する。本タスクが未完了のままだと後続タスクは仕様書執筆段階で参照先がなくなるため、**必ず W1 単独で完了させてから W2 を起動する**。

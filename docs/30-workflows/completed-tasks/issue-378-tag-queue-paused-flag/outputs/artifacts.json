@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "metadata": {
+    "taskType": "implementation",
+    "docsOnly": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "scope": "TAG_QUEUE_PAUSED env flag による Forms sync → tag_assignment_queue enqueue の緊急停止経路導入。env binding / enqueue guard / structured log / runbook / unit test。不変条件 #5 / #13 を遵守する。"
+  },
+  "task": {
+    "id": "task-issue-109-tag-queue-pause-flag-001",
+    "name": "issue-378-tag-queue-paused-flag",
+    "status": "implemented-local",
+    "metadata": {
+      "taskType": "implementation",
+      "docsOnly": false,
+      "visualEvidence": "NON_VISUAL",
+      "wave": "post-mvp",
+      "executionType": "serial",
+      "githubIssue": 378,
+      "githubIssueState": "CLOSED",
+      "source": "docs/30-workflows/unassigned-task/task-issue-109-tag-queue-pause-flag-001.md",
+      "upstream": [
+        "issue-109-ut-02a-tag-assignment-queue-management (enqueue 経路本体)"
+      ],
+      "downstream": [],
+      "invariants": [
+        "#5",
+        "#13"
+      ],
+      "implementedLocalAt": "2026-05-06"
+    }
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "status": "completed",
+      "spec": "phase-01.md",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "status": "completed",
+      "spec": "phase-02.md",
+      "outputs": [
+        "outputs/phase-02/main.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "status": "completed",
+      "spec": "phase-03.md",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "status": "completed",
+      "spec": "phase-04.md",
+      "outputs": [
+        "outputs/phase-04/main.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "status": "completed",
+      "spec": "phase-05.md",
+      "outputs": [
+        "outputs/phase-05/main.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "status": "completed",
+      "spec": "phase-06.md",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "status": "completed",
+      "spec": "phase-07.md",
+      "outputs": [
+        "outputs/phase-07/main.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "status": "completed",
+      "spec": "phase-08.md",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "status": "completed",
+      "spec": "phase-09.md",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ]
+    },
+    {
+      "phase": 10,
+      "status": "completed",
+      "spec": "phase-10.md",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ]
+    },
+    {
+      "phase": 11,
+      "status": "completed",
+      "spec": "phase-11.md",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/non-visual-evidence.md",
+        "outputs/phase-11/link-checklist.md",
+        "outputs/phase-11/manual-smoke-log.md"
+      ]
+    },
+    {
+      "phase": 12,
+      "status": "completed",
+      "spec": "phase-12.md",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "status": "pending_user_approval",
+      "spec": "phase-13.md",
+      "outputs": []
+    }
+  ]
+}
