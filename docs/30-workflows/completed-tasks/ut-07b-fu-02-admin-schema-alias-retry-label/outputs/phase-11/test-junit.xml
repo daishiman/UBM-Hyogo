@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="30" failures="0" errors="0" time="16.539">
+    <testsuite name="apps/web/src/lib/admin/__tests__/api.test.ts" timestamp="2026-05-06T11:38:45.530Z" hostname="ommp2021.local" tests="19" failures="0" errors="0" skipped="0" time="0.074430792">
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts (不変条件) &gt; profile 本文編集の mutation export を持たない (#11)" time="0.007466958">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts (不変条件) &gt; tag 直接更新 mutation を持たず resolveTagQueue のみ (#13)" time="0.004366541">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts (不変条件) &gt; attendance / status / notes / schema-alias / meeting の mutation を export する" time="0.00086375">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts (不変条件) &gt; attendance mutation は 06c-E の { attended } alias endpoint を使う" time="0.016422125">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; PATCH /api/admin/members/:id/status: encodeURIComponent と JSON body を送る" time="0.003871">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; POST notes: ノート作成 path と body 形を確認" time="0.002534667">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; PATCH note: noteId も encode し path を組み立てる" time="0.001315042">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; ネットワークエラーで status=0 / error を返す" time="0.002050708">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; 非 Error の reject も network error にマップする" time="0.000503292">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; res.ok=false かつ JSON {error}: error string をそのまま伝搬する" time="0.001477875">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; res.ok=false かつ非 JSON: HTTP &lt;status&gt; を error にする" time="0.001191291">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; JSON parse 失敗時も throw せず status だけ返す" time="0.001563417">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; API-01 postSchemaAlias 200 success: confirmed=true, backfill.status=completed, predicate=false" time="0.001271125">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; API-02 postSchemaAlias 202 retryable continuation: predicate=true" time="0.000603625">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; API-03 postSchemaAlias 202 status=pending: predicate=false（exhausted 合致を要求）" time="0.00148425">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; API-03b postSchemaAlias 202 exhausted without code: predicate=false（code 合致を要求）" time="0.01111725">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; API-04 postSchemaAlias 422 validation error: ok=false / predicate=false" time="0.0020265">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; API-05 postSchemaAlias 409 conflict: ok=false / predicate=false" time="0.0009265">
+        </testcase>
+        <testcase classname="apps/web/src/lib/admin/__tests__/api.test.ts" name="lib/admin/api.ts call() の振る舞い &gt; postSchemaAlias / resolveAdminRequest / resolveTagQueue も path/body 整合" time="0.001008084">
+        </testcase>
+    </testsuite>
+    <testsuite name="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" timestamp="2026-05-06T11:38:45.633Z" hostname="ommp2021.local" tests="11" failures="0" errors="0" skipped="0" time="4.156222458">
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; happy: 4 ペインに分類して見出しと total を表示する" time="0.346155708">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; empty: items=[] で各ペインに「なし」表示、total=0" time="0.018971875">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; mutation 成功: 割当→postSchemaAlias 呼出、toast/refresh、form クローズ" time="2.056210875">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; mutation 失敗 (authz-fail): 403 forbidden で role=alert、form は閉じない" time="0.172134167">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; UI-02 retryable continuation: status で「Back-fill 再試行可能」と補助文を表示し、form は開いたまま" time="0.1267945">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; UI-03 422 validation error: alert で「入力内容に誤り」を含む" time="0.076439834">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; UI-04 409 conflict: alert で「他の操作と競合」を含む" time="0.262341083">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; UI-05 retryable 後に再 submit→200 success: retryable label が消え success label が出る" time="0.695927125">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; questionId が null の diff: alias 割当不可の alert を表示" time="0.061197042">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; 「閉じる」ボタンで form がクローズされる" time="0.309795458">
+        </testcase>
+        <testcase classname="apps/web/src/components/admin/__tests__/SchemaDiffPanel.test.tsx" name="SchemaDiffPanel &gt; suggestedStableKey が input の初期値として設定される" time="0.026444417">
+        </testcase>
+    </testsuite>
+</testsuites>

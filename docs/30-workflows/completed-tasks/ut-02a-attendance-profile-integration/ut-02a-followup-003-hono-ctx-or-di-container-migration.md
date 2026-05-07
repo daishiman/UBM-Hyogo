@@ -10,10 +10,13 @@
 | 対象機能 | `apps/api/src/repository/_shared/builder.ts` の `deps?` 引数経路 |
 | 優先度 | priority:low |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | transferred_to_workflow / spec_created |
 | 発見元 | ut-02a-attendance-profile-integration Phase 12 unassigned-task-detection |
 | 発見日 | 2026-05-01 |
 | 委譲先 wave | 02 系 architecture follow-up |
+| canonical workflow | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+
+> このスタブは 2026-05-06 に Phase 1-13 workflow へ昇格済み。以後の実装・evidence・Phase 13 gate は canonical workflow root を正本とする。
 
 ---
 

@@ -7,9 +7,9 @@ Runtime evidence: pending_user_approval
 
 | Channel | Value |
 | --- | --- |
-| Slack | TBD at execution |
-| Email | TBD at execution |
-| Recipients | TBD at execution |
+| Slack dry-run | `docs/30-workflows/09c-incident-runbook-slack-delivery/outputs/phase-11/evidence/slack-delivery-dryrun.json` |
+| Slack production | `docs/30-workflows/09c-incident-runbook-slack-delivery/outputs/phase-11/evidence/slack-delivery-production.json` |
+| Recipients | `#ubm-hyogo-incident-runbook` after `production-slack-delivery` approval |
 
 ## Shared Content
 
@@ -25,12 +25,12 @@ Runtime evidence: pending_user_approval
 
 | Field | Value |
 | --- | --- |
-| Shared at | TBD at execution |
-| Slack post URL | TBD at execution |
-| Email sent log | TBD at execution |
-| Receipt confirmation | TBD at execution |
-| Screenshot / artifact path | TBD at execution |
+| Shared at | `deliveredAt` in Slack delivery JSON |
+| Slack post URL | `message.permalink` in Slack delivery JSON |
+| Email sent log | n/a; Slack bot delivery is canonical for this path |
+| Receipt confirmation | Slack thread / reaction evidence after runtime execution |
+| Artifact path | `docs/30-workflows/09c-incident-runbook-slack-delivery/outputs/phase-11/evidence/` |
 
 ## Judgment
 
-Runtime judgment: TBD at execution. Do not mark AC-7 PASS until delivery and receipt evidence is recorded.
+Runtime judgment: pending_user_approval. Do not mark AC-7 PASS until Slack delivery JSON exists with `ok=true`, `ts`, `channel`, and `message.permalink`.

@@ -2593,3 +2593,9 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Materialized strict Phase 12 7 files for `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/`.
 - Preserved `spec_created` for runbook formalization and separated `DOC_PASS` from runtime PASS.
 - Recorded production runbook NON_VISUAL evidence naming: `structure-verification.md`, `grep-verification.md`, `staging-dry-run.md`, `redaction-check.md`.
+# 2026-05-06 09c-incident-runbook-slack-delivery
+
+- wave: 9c-fu / serial
+- state: Phase 1-13 spec contract drafted / Phase 12 strict 7 files materialized / runtime evidence pending user approval
+- spec_path: `/docs/30-workflows/09c-incident-runbook-slack-delivery/index.md`
+- skill feedback: strict 7 filename drift fixed in workflow; no template promotion required

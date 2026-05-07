@@ -37,14 +37,15 @@ import {
   type SectionKey,
 } from "./metadata";
 import type { AttendanceProvider, AttendanceRecord } from "../attendance";
+import type { RepositoryProviderCtx } from "./provider-context";
 
-// AttendanceProvider 未注入時のフォールバック（02a 互換）
-// 本タスク (ut-02a-attendance-profile-integration) の routes 側では provider を必ず注入する。
 const fetchAttendanceFor = async (
   mid: MemberId,
   provider: AttendanceProvider | undefined,
 ): Promise<AttendanceRecord[]> => {
-  if (!provider) return [];
+  if (!provider) {
+    throw new Error("attendanceProvider not bound to context");
+  }
   const map = await provider.findByMemberIds([mid]);
   return [...(map.get(mid) ?? [])];
 };
@@ -258,9 +259,8 @@ export async function buildPublicMemberProfile(
  * visibility=public または member のフィールドを含む
  */
 export async function buildMemberProfile(
-  c: DbCtx,
+  c: RepositoryProviderCtx,
   mid: MemberId,
-  deps?: { attendanceProvider?: AttendanceProvider },
 ): Promise<MemberProfile | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -279,7 +279,7 @@ export async function buildMemberProfile(
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
-    fetchAttendanceFor(mid, deps?.attendanceProvider),
+    fetchAttendanceFor(mid, c.var.attendanceProvider),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);
@@ -318,7 +318,7 @@ export async function buildMemberProfile(
  * PublicMemberProfile や MemberProfile には adminNotes を含めない
  */
 export async function buildAdminMemberDetailView(
-  c: DbCtx,
+  c: RepositoryProviderCtx,
   mid: MemberId,
   adminNotes: Array<{
     actor: AdminId;
@@ -326,7 +326,6 @@ export async function buildAdminMemberDetailView(
     occurredAt: string;
     note: string | null;
   }>,
-  deps?: { attendanceProvider?: AttendanceProvider },
 ): Promise<AdminMemberDetailView | null> {
   const [identity, status] = await Promise.all([
     findMemberById(c, mid),
@@ -344,7 +343,7 @@ export async function buildAdminMemberDetailView(
     listFieldsByResponseId(c, responseId),
     listVisibilityByMemberId(c, mid),
     listTagsByMemberId(c, mid),
-    fetchAttendanceFor(mid, deps?.attendanceProvider),
+    fetchAttendanceFor(mid, c.var.attendanceProvider),
   ]);
 
   const visibilityMap = buildVisibilityMap(visibilityRows);

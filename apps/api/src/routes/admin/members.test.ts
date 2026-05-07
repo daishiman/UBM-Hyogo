@@ -100,6 +100,16 @@ describe("admin members route", () => {
   it("GET /members/:memberId の audit は audit_log 由来で admin_member_notes を混ぜない", async () => {
     await env.db
       .prepare(
+        "INSERT INTO meeting_sessions (session_id, title, held_on, created_by) VALUES ('s_route_admin','Route Admin','2026-05-07','admin')",
+      )
+      .run();
+    await env.db
+      .prepare(
+        "INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES ('m1','s_route_admin','admin')",
+      )
+      .run();
+    await env.db
+      .prepare(
         `INSERT INTO admin_member_notes
          (note_id, member_id, body, created_by, updated_by, created_at, updated_at)
          VALUES ('note_admin_only', 'm1', 'admin note body', 'owner@example.com', 'owner@example.com', '2026-04-01T00:00:00Z', '2026-04-01T00:00:00Z')`,
@@ -123,7 +133,11 @@ describe("admin members route", () => {
     expect(res.status).toBe(200);
     const body = (await res.json()) as {
       audit: Array<{ action: string; note: string | null }>;
+      profile: { attendance: Array<{ sessionId: string; title: string; heldOn: string }> };
     };
+    expect(body.profile.attendance).toEqual([
+      { sessionId: "s_route_admin", title: "Route Admin", heldOn: "2026-05-07" },
+    ]);
     expect(body.audit).toEqual([
       {
         actor: "owner@example.com",
