@@ -345,3 +345,14 @@ mise exec -- pnpm lint:md docs/00-getting-started-manual/specs/09c-primitives.md
 - task-08（09b-design-tokens.md → token 値）
 - task-10 ui-primitives → 本仕様に従って実装
 - task-20/21/22（09e/09f/09g/09h）→ primitive 採用例として 09c に逆 link
+
+
+---
+
+## diff scope 規律（task-01 反映 / 2026-05-07）
+
+`SCOPE.md §6 diff scope 規律 / archive rule` を遵守する。本 task 完了前に以下を必ず確認:
+
+- `git diff --name-only main...HEAD` の出力が、本 task 仕様 §3「変更対象ファイル」 + 本 task package（`docs/30-workflows/ui-prototype-alignment-mvp-recovery/<dir>/`）配下のみで構成されていること
+- 完了済み workflow dir を整理する場合は `git mv <dir> docs/30-workflows/completed-tasks/<dir>` でアーカイブ（`git rm -r` 純削除は禁止）
+- sync-merge / rebase で混入した範囲外削除は `git checkout HEAD -- <path>` で復旧してから commit する
