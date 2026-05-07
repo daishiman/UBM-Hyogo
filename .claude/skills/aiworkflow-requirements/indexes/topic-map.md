@@ -4287,6 +4287,13 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
 
+### references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L9 |
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -5675,13 +5682,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L451 |
-| フェーズ構造（概要） | L460 |
-| 品質ゲート（概要） | L491 |
-| 出力テンプレート | L502 |
-| 実行時のコマンド・エージェント・スキル | L525 |
-| 昇格パターン集 | L549 |
-| Current Active / Spec Created Tasks | L551 |
+| ドキュメント構成 | L464 |
+| フェーズ構造（概要） | L473 |
+| 品質ゲート（概要） | L504 |
+| 出力テンプレート | L515 |
+| 実行時のコマンド・エージェント・スキル | L538 |
+| 昇格パターン集 | L562 |
+| Current Active / Spec Created Tasks | L564 |
 
 ### references/task-workflow-backlog-part2.md
 
