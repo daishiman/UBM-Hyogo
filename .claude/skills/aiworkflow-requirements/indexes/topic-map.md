@@ -2954,6 +2954,12 @@ node scripts/list-specs.js --topics
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
 
+### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| deleted / archived workflow boundary | L15 |
+
 ### references/workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md
 
 | セクション | 行 |
