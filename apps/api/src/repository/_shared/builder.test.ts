@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { buildSections, buildSectionsWithDiagnostics } from "./builder";
 import { defaultMetadataResolver, UNKNOWN_SECTION_KEY } from "./metadata";
+import * as logger from "../../lib/logger";
 import type { FieldVisibility } from "@ubm-hyogo/shared";
 
 const allVis: FieldVisibility[] = ["public", "member", "admin"];
@@ -92,5 +93,29 @@ describe("buildSections (resolver wiring)", () => {
     );
     const flat = sections.flatMap((s) => s.fields.map((f) => f.stableKey));
     expect(flat).toEqual(["fullName"]);
+  });
+
+  it("DT-17: logWarn が unknown 件数と完全一致する payload で呼ばれる", () => {
+    const warnSpy = vi.spyOn(logger, "logWarn").mockImplementation(() => {});
+    try {
+      const result = buildSectionsWithDiagnostics(
+        [],
+        [
+          { stable_key: "fullName", value_json: JSON.stringify("Y") },
+          { stable_key: "ghost_one", value_json: JSON.stringify("v") },
+          { stable_key: "ghost_two", value_json: JSON.stringify("v") },
+        ],
+        visMap({ fullName: "public", ghost_one: "public", ghost_two: "public" }),
+        allVis,
+        defaultMetadataResolver,
+      );
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      const payload = warnSpy.mock.calls[0]![0];
+      expect(payload.code).toBe("UBM-MANIFEST-UNKNOWN-KEY");
+      expect(payload.count).toBe(result.diagnostics.unknownStableKeys.length);
+      expect(payload.stableKeys).toEqual(result.diagnostics.unknownStableKeys);
+    } finally {
+      warnSpy.mockRestore();
+    }
   });
 });

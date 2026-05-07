@@ -874,12 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L209 |
-| UBM-Hyogo Admin Sync API（03a） | L230 |
-| UBM-Hyogo Member Self-Service API（04b） | L281 |
-| Desktop IPC API サマリー | L308 |
-| 変更履歴 | L339 |
-| 関連ドキュメント | L356 |
+| エンドポイント命名規則 | L210 |
+| UBM-Hyogo Admin Sync API（03a） | L231 |
+| UBM-Hyogo Member Self-Service API（04b） | L282 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L308 |
+| Desktop IPC API サマリー | L322 |
+| 変更履歴 | L353 |
+| 関連ドキュメント | L370 |
 
 ### references/api-internal-chunk-search.md
 
@@ -972,10 +973,10 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| エラーハンドリング | L231 |
-| Conversation DB 初期化パターン | L262 |
-| UBM-Hyogo Schema Sync Contract（03a） | L264 |
-| ベクトル検索実装（DiskANN） | L374 |
+| エラーハンドリング | L232 |
+| Conversation DB 初期化パターン | L263 |
+| UBM-Hyogo Schema Sync Contract（03a） | L265 |
+| ベクトル検索実装（DiskANN） | L375 |
 
 ### references/database-implementation-details.md
 
@@ -2245,6 +2246,14 @@ node scripts/list-specs.js --topics
 | Evidence | L31 |
 | System Spec Sync | L38 |
 
+### references/workflow-issue-372-attendance-pagination-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L13 |
+| Boundary | L25 |
+
 ### references/workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md
 
 | セクション | 行 |
@@ -2794,11 +2803,12 @@ node scripts/list-specs.js --topics
 | Phase specs | L36 |
 | Phase outputs | L54 |
 | Implementation artifacts | L122 |
-| Skill artifacts | L134 |
-| Canonical spec touchpoints | L142 |
-| Legacy stub | L149 |
-| Validation chain | L155 |
-| 運用メモ | L166 |
+| Follow-up 003 promoted workflow | L134 |
+| Skill artifacts | L144 |
+| Canonical spec touchpoints | L152 |
+| Legacy stub | L159 |
+| Validation chain | L165 |
+| 運用メモ | L176 |
 
 ### references/workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md
 
@@ -4026,6 +4036,31 @@ node scripts/list-specs.js --topics
 | Lessons | L11 |
 | Downstream boundaries | L53 |
 
+### references/lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I371-001: DI 戦略 ADR は引数注入 / Hono ctx / DI container の三択を明示比較する | L9 |
+| L-I371-002: provider 合成型は repository 配下に置き middleware 依存逆転を避ける | L21 |
+| L-I371-003: 既存 `DbCtx` の `readonly db` 契約を破らず provider を増設する | L25 |
+| L-I371-004: missing provider 検知の canonical assertion を文字列契約として固定する | L29 |
+| L-I371-005: builder signature shrink の grep gate と test 移行手順 | L33 |
+| L-I371-006: runtime smoke を 09a/09b 系へ委譲し Phase 11 を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` で閉じる | L37 |
+| 関連リソース | L41 |
+| 検索キーワード（indexes rebuild 用） | L52 |
+
+### references/lessons-learned-issue-372-attendance-pagination-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE372-001: cursor は encoded string 境界と decoded 構造体境界を route / builder / repository で明確に分ける | L7 |
+| L-ISSUE372-002: 既存 bulk API（`findByMemberIds`）には pagination を混ぜず個人特化 API を追加する | L25 |
+| L-ISSUE372-003: `MemberProfile.attendance` 配列は維持し、メタ情報は optional `attendanceMeta` に分離する | L43 |
+| L-ISSUE372-004: miniflare 全体 vitest は EADDRNOTAVAIL でポート枯渇する。focused run を採用する | L61 |
+| L-ISSUE372-005: 1Password CLI authorization timeout でフルビルドが落ちても、コード起因と環境起因を切り分けて記録する | L79 |
+| L-ISSUE372-006: Phase 11 staging visual evidence は runtime session 必要なので Phase 12 spec sync の blocker にしない | L97 |
+| 参照元 | L115 |
+
 ### references/lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md
 
 | セクション | 行 |
@@ -4332,6 +4367,16 @@ node scripts/list-specs.js --topics
 | L-UT07B-FU01-005: idempotent 設計のため Queue 消費側で dedupe_key を再確認する | L23 |
 | L-UT07B-FU01-006: Phase 11 gate を「local implementation GO / runtime evidence pending」と明示する | L27 |
 
+### references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT07B-FU02-001: HTTP 202 retryable continuation は 5 点完全合致で narrowing する | L7 |
+| L-UT07B-FU02-002: `confirmed=true` と `backfill.status='exhausted'` は責務を分離して UI に渡す | L13 |
+| L-UT07B-FU02-003: predicate code 不一致は generic path にフォールバックする | L18 |
+| L-UT07B-FU02-004: 4 状態同時 override の manual screenshot は Phase 11 から分離する | L23 |
+| 適用対象 | L28 |
+
 ### references/lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md
 
 | セクション | 行 |
@@ -4407,8 +4452,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L97 |
-| 関連ドキュメント | L102 |
+| 利用順序 | L98 |
+| 関連ドキュメント | L103 |
 
 ### references/llm-embedding.md
 
@@ -5499,13 +5544,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L350 |
-| フェーズ構造（概要） | L359 |
-| 品質ゲート（概要） | L390 |
-| 出力テンプレート | L401 |
-| 実行時のコマンド・エージェント・スキル | L424 |
-| 昇格パターン集 | L448 |
-| Current Active / Spec Created Tasks | L450 |
+| ドキュメント構成 | L366 |
+| フェーズ構造（概要） | L375 |
+| 品質ゲート（概要） | L406 |
+| 出力テンプレート | L417 |
+| 実行時のコマンド・エージェント・スキル | L440 |
+| 昇格パターン集 | L464 |
+| Current Active / Spec Created Tasks | L466 |
 
 ### references/task-workflow-backlog-part2.md
 

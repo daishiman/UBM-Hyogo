@@ -4,11 +4,14 @@
 
 | Field | Value |
 | --- | --- |
-| Status | unassigned |
+| Status | formalized_as_issue_373_workflow |
 | Priority | Medium |
 | Source | ut-02a-section-field-canonical-schema-resolution |
 | Type | implementation-hardening |
 | Created | 2026-05-01 |
+| Formalized workflow | `docs/30-workflows/issue-373-ut02a-canonical-metadata-diagnostics-hardening/` |
+
+> 2026-05-06: 本 unassigned hardening scope は `UT-02A-FU-DIAG-001` として Phase 1-13 workflow root へ昇格済み。以後の実装・evidence・Phase 12 同期は `docs/30-workflows/issue-373-ut02a-canonical-metadata-diagnostics-hardening/` を current canonical root とする。
 
 ## なぜこのタスクが必要か（Why）
 

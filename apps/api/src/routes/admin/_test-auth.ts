@@ -9,3 +9,11 @@ export const adminAuthHeader = async (): Promise<{ Authorization: string }> => (
     isAdmin: true,
   })}`,
 });
+
+export const memberAuthHeader = async (): Promise<{ Authorization: string }> => ({
+  Authorization: `Bearer ${await signSessionJwt(TEST_AUTH_SECRET, {
+    memberId: asMemberId("m_member"),
+    email: "member@example.com",
+    isAdmin: false,
+  })}`,
+});

@@ -5,7 +5,11 @@
 // 不変条件 #13: タグ編集は /admin/tags?memberId へのリンクのみ
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import type { AdminMemberDetailView, PublishState } from "@ubm-hyogo/shared";
+import type {
+  AdminMemberDetailView,
+  MemberProfile,
+  PublishState,
+} from "@ubm-hyogo/shared";
 import {
   patchMemberStatus,
   postMemberNote,
@@ -184,6 +188,15 @@ export function MemberDrawer({ memberId, onClose, onMutated }: Props) {
             )}
           </section>
 
+          <section aria-label="出席履歴" data-testid="admin-attendance-section">
+            <h3>出席履歴</h3>
+            <AdminAttendance
+              memberId={memberId}
+              initial={view.profile.attendance}
+              meta={view.profile.attendanceMeta}
+            />
+          </section>
+
           <section aria-label="監査ログ">
             <h3>監査ログ（直近 50 件）</h3>
             <ul>
@@ -225,5 +238,89 @@ export function MemberDrawer({ memberId, onClose, onMutated }: Props) {
         </>
       )}
     </aside>
+  );
+}
+
+// issue-372: 管理者会員詳細ドロワー内の出席履歴ページング
+type AttendanceItem = MemberProfile["attendance"][number];
+
+interface AdminAttendanceProps {
+  readonly memberId: string;
+  readonly initial: MemberProfile["attendance"] | undefined;
+  readonly meta?: MemberProfile["attendanceMeta"];
+}
+
+interface AdminAttendancePageBody {
+  readonly records: ReadonlyArray<AttendanceItem>;
+  readonly hasMore: boolean;
+  readonly nextCursor: string | null;
+}
+
+function AdminAttendance({ memberId, initial, meta }: AdminAttendanceProps) {
+  const [items, setItems] = useState<AttendanceItem[]>(() =>
+    initial ? [...initial] : [],
+  );
+  const [cursor, setCursor] = useState<string | null>(meta?.nextCursor ?? null);
+  const [hasMore, setHasMore] = useState<boolean>(meta?.hasMore ?? false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setItems(initial ? [...initial] : []);
+    setCursor(meta?.nextCursor ?? null);
+    setHasMore(meta?.hasMore ?? false);
+    setLoading(false);
+    setError(null);
+  }, [memberId, initial, meta]);
+
+  const loadMore = async () => {
+    if (!hasMore || !cursor || loading) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const url = `/api/admin/members/${encodeURIComponent(memberId)}/attendance?cursor=${encodeURIComponent(cursor)}`;
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      const body = (await res.json()) as AdminAttendancePageBody;
+      setItems((prev) => [...prev, ...body.records]);
+      setCursor(body.nextCursor);
+      setHasMore(body.hasMore);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "load failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (items.length === 0) {
+    return <p data-state="empty">出席履歴はありません。</p>;
+  }
+
+  return (
+    <>
+      <ul>
+        {items.map((item) => (
+          <li key={item.sessionId}>
+            <time dateTime={item.heldOn}>{item.heldOn}</time>
+            <span> {item.title}</span>
+          </li>
+        ))}
+      </ul>
+      {hasMore && (
+        <button
+          type="button"
+          onClick={loadMore}
+          disabled={loading}
+          data-testid="admin-attendance-load-more"
+        >
+          {loading ? "読み込み中…" : "もっと見る"}
+        </button>
+      )}
+      {error && (
+        <p role="alert" data-testid="admin-attendance-load-error">
+          {error}
+        </p>
+      )}
+    </>
   );
 }
