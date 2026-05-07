@@ -3,6 +3,11 @@ export function parseArgs(argv: string[]): Record<string, string | boolean> {
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]!;
     if (!a.startsWith("--")) continue;
+    const eq = a.indexOf("=");
+    if (eq > 2) {
+      out[a.slice(2, eq)] = a.slice(eq + 1);
+      continue;
+    }
     const key = a.slice(2);
     const next = argv[i + 1];
     if (next === undefined || next.startsWith("--")) {

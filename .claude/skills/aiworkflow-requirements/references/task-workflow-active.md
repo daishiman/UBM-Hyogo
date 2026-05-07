@@ -132,6 +132,16 @@
 | 起票元 | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-audit-logs-monitoring.md` |
 | 正本同期 | `references/deployment-secrets-management.md` / `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
 
+### Issue #515 Cloudflare Audit Logs ML-ready Classifier（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / production ML switch external-gated |
+| 成果物 | `docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/` |
+| 目的 | Issue #408 の threshold 判定を直ちに置換せず、`scripts/cf-audit-log/classifier/**` の interface、redacted feature export、offline replay、D1 classifier metadata、GitHub Actions env を追加して ML-ready 化する |
+| runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、model selection、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up |
+| 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
 ### Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export（2026-05-07）
 
 | 項目 | 値 |
