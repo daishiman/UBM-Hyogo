@@ -357,3 +357,14 @@ bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging --dry-ru
 | `NEXT_PUBLIC_*` の build 時固定でローカル切替が効かない | local 開発体験悪化 | `.dev.vars` を使い `wrangler dev` 経由で起動する手順を README 化 |
 | `getCloudflareContext` が edge / node ランタイムで未定義 | runtime error | `try/catch` でフォールバック、process.env を最終 fallback として保持 |
 | Cloudflare Secrets 投入忘れ | 本番 SENTRY_DSN 欠落 | task-03 の DoD で deploy 前 `wrangler secret list` を確認 |
+
+
+---
+
+## diff scope 規律（task-01 反映 / 2026-05-07）
+
+`SCOPE.md §6 diff scope 規律 / archive rule` を遵守する。本 task 完了前に以下を必ず確認:
+
+- `git diff --name-only main...HEAD` の出力が、本 task 仕様 §3「変更対象ファイル」 + 本 task package（`docs/30-workflows/ui-prototype-alignment-mvp-recovery/<dir>/`）配下のみで構成されていること
+- 完了済み workflow dir を整理する場合は `git mv <dir> docs/30-workflows/completed-tasks/<dir>` でアーカイブ（`git rm -r` 純削除は禁止）
+- sync-merge / rebase で混入した範囲外削除は `git checkout HEAD -- <path>` で復旧してから commit する

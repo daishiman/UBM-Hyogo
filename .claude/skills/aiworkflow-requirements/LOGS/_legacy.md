@@ -698,3 +698,16 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Added `references/release-runbook.md` and `references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md`.
 - Registered the workflow in `references/task-workflow-active.md`, `indexes/quick-reference.md`, and `indexes/resource-map.md`.
 - Source unassigned task `task-09c-github-release-tag-automation-001.md` is now consumed / formalized.
+
+# 2026-05-07 UI prototype alignment task-01 scope gate
+
+- wave: ui-prototype-alignment-mvp-recovery / W1 / serial
+- state: spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval
+- workflow root: `docs/30-workflows/completed-tasks/task-01-w1-solo-scope-gate-all-screens/`
+- scope SSOT: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md`（19 routes / 公開 6 / 会員 2 / 管理 8 / 共通 3）
+- runtime boundary: apps/packages diff 0、新 endpoint / D1 schema / Google Form 変更なし、OKLch token 正本化、apps/web direct D1 access 禁止
+- archive hygiene: 5 dir を `docs/30-workflows/completed-tasks/` へ archive、純削除 blocker 解消
+- sync: `SKILL.md` changelog v2026.05.07-ui-prototype-scope-gate、`indexes/quick-reference.md`、`indexes/resource-map.md`、`references/task-workflow-active.md`、`changelog/20260507-ui-prototype-scope-gate.md` を同一 wave 同期
+- downstream: task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認
+- skill-feedback: なし（task-specification-creator / aiworkflow-requirements 既存ルールでカバー）
+- unassigned-task: 0 件追加（task-02..22 は既起票）

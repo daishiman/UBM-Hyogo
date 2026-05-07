@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UI prototype alignment / MVP recovery task-01 scope gate（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-01-w1-solo-scope-gate-all-screens/` |
+| scope SSOT | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md` |
+| 目的 | UI prototype alignment / MVP recovery の W1 gate として、19 routes、既存 API のみ接続、OKLch token 正本化、diff scope discipline を固定する |
+| routes | 公開 6 / 会員 2 / 管理 8 / 共通 3 = 19 routes |
+| 境界 | apps/packages コード変更なし。新 endpoint / D1 schema / Google Form 仕様変更なし。screenshot 不要の NON_VISUAL evidence |
+| archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
+| 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
+
 ### Issue #407 Cloudflare API Token 90 日 rotation runbook automation（2026-05-06）
 
 | 項目 | 値 |
