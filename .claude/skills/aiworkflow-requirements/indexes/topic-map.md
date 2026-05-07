@@ -2351,6 +2351,19 @@ node scripts/list-specs.js --topics
 | Evidence | L24 |
 | Gate Conditions (production ML switch 前提) | L30 |
 
+### references/workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Root artifacts | L15 |
+| 2. Phase 1-13 specification files | L23 |
+| 3. Phase 12 strict outputs（7 + elegant review） | L41 |
+| 4. Phase 11 evidence ledger | L54 |
+| 5. Implementation source-of-truth | L66 |
+| 6. Skill reflection / same-wave sync | L75 |
+| 7. Scope notes | L89 |
+| 8. Related tasks | L97 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5651,13 +5664,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L451 |
-| フェーズ構造（概要） | L460 |
-| 品質ゲート（概要） | L491 |
-| 出力テンプレート | L502 |
-| 実行時のコマンド・エージェント・スキル | L525 |
-| 昇格パターン集 | L549 |
-| Current Active / Spec Created Tasks | L551 |
+| ドキュメント構成 | L464 |
+| フェーズ構造（概要） | L473 |
+| 品質ゲート（概要） | L504 |
+| 出力テンプレート | L515 |
+| 実行時のコマンド・エージェント・スキル | L538 |
+| 昇格パターン集 | L562 |
+| Current Active / Spec Created Tasks | L564 |
 
 ### references/task-workflow-backlog-part2.md
 
