@@ -3387,9 +3387,9 @@ node scripts/list-specs.js --topics
 | セキュリティ原則 | L262 |
 | Cloudflare API Token の作成手順 | L273 |
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L369 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L417 |
-| 変更履歴 | L432 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L386 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L434 |
+| 変更履歴 | L449 |
 
 ### references/deployment.md
 
@@ -4038,6 +4038,20 @@ node scripts/list-specs.js --topics
 | branch protection / contexts 登録の上流前提（5 重明記） | L74 |
 | 実行タイミングまとめ | L78 |
 | 関連リソース | L87 |
+
+### references/lessons-learned-docs-only-lifecycle.md
+
+| セクション | 行 |
+|------------|----|
+| 目的 | L7 |
+| 適用範囲 | L11 |
+| L-DOCS-LIFECYCLE-001: docs-only NON_VISUAL の状態語彙を固定する | L18 |
+| L-DOCS-LIFECYCLE-002: Endpoint surface は SCOPE と現行 route の AND で検証する | L37 |
+| L-DOCS-LIFECYCLE-003: consent key 統一は機械的 grep で検証する | L56 |
+| L-DOCS-LIFECYCLE-004: existing-docs-sync の lifecycle model | L72 |
+| L-DOCS-LIFECYCLE-005: artifacts parity は同一 wave の必須ゲート | L91 |
+| 起点 task との対応 | L103 |
+| 不変条件 | L113 |
 
 ### references/lessons-learned-issue-106-admin-notes-repository-2026-05.md
 
@@ -5247,10 +5261,10 @@ node scripts/list-specs.js --topics
 | 6. 関連ファイル | L134 |
 | 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
-| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L175 |
-| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L201 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L224 |
-| 11. 変更履歴 | L246 |
+| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
+| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
+| 11. 変更履歴 | L258 |
 
 ### references/patterns-advanced.md
 
@@ -5703,13 +5717,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L477 |
-| フェーズ構造（概要） | L486 |
-| 品質ゲート（概要） | L517 |
-| 出力テンプレート | L528 |
-| 実行時のコマンド・エージェント・スキル | L551 |
-| 昇格パターン集 | L575 |
-| Current Active / Spec Created Tasks | L577 |
+| ドキュメント構成 | L493 |
+| フェーズ構造（概要） | L502 |
+| 品質ゲート（概要） | L533 |
+| 出力テンプレート | L544 |
+| 実行時のコマンド・エージェント・スキル | L567 |
+| 昇格パターン集 | L591 |
+| Current Active / Spec Created Tasks | L593 |
 
 ### references/task-workflow-backlog-part2.md
 
