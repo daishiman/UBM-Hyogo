@@ -39,6 +39,20 @@ const stubProvider = (
   },
 });
 
+const emptyProvider: AttendanceProvider = {
+  async findByMemberIds() {
+    return new Map();
+  },
+};
+
+const withProvider = <T extends { db: unknown }>(
+  c: T,
+  provider: AttendanceProvider = emptyProvider,
+): T & { var: { attendanceProvider: AttendanceProvider } } => ({
+  ...c,
+  var: { attendanceProvider: provider },
+});
+
 describe("builder", () => {
   let store: MockStore;
   let ctx: ReturnType<typeof createMockDbCtx>;
@@ -125,14 +139,14 @@ describe("builder", () => {
 
   describe("buildMemberProfile", () => {
     it("本人用プロフィールを構築できる", async () => {
-      const result = await buildMemberProfile(ctx, asMemberId("m_001"));
+      const result = await buildMemberProfile(withProvider(ctx), asMemberId("m_001"));
       expect(result).not.toBeNull();
       expect(result?.memberId).toBe("m_001");
       expect(result?.responseEmail).toBe("user1@example.com");
     });
 
     it("visibility=public と member のフィールドを含む", async () => {
-      const result = await buildMemberProfile(ctx, asMemberId("m_001"));
+      const result = await buildMemberProfile(withProvider(ctx), asMemberId("m_001"));
       expect(result).not.toBeNull();
       const allFields = result!.sections.flatMap((s) => s.fields);
       const fieldKeys = allFields.map((f) => f.stableKey);
@@ -141,7 +155,7 @@ describe("builder", () => {
     });
 
     it("visibility='admin' のフィールドは MemberProfile に含まれない", async () => {
-      const result = await buildMemberProfile(ctx, asMemberId("m_001"));
+      const result = await buildMemberProfile(withProvider(ctx), asMemberId("m_001"));
       expect(result).not.toBeNull();
       const allFields = result!.sections.flatMap((s) => s.fields);
       const fieldKeys = allFields.map((f) => f.stableKey);
@@ -149,28 +163,34 @@ describe("builder", () => {
     });
 
     it("is_deleted=1 の会員は null を返す", async () => {
-      const result = await buildMemberProfile(ctx, asMemberId("m_003"));
+      const result = await buildMemberProfile(withProvider(ctx), asMemberId("m_003"));
       expect(result).toBeNull();
     });
 
     it("publicConsent と rulesConsent が含まれる", async () => {
-      const result = await buildMemberProfile(ctx, asMemberId("m_001"));
+      const result = await buildMemberProfile(withProvider(ctx), asMemberId("m_001"));
       expect(result?.publicConsent).toBe("consented");
       expect(result?.rulesConsent).toBe("consented");
     });
 
-    it("attendanceProvider 未注入時は attendance:[] のフォールバックを返す（02a 互換）", async () => {
-      const result = await buildMemberProfile(ctx, asMemberId("m_001"));
-      expect(result?.attendance).toEqual([]);
+    it("attendanceProvider 未注入時は throw する (silent fallback 廃止 / issue-371)", async () => {
+      const ctxWithoutProvider = {
+        ...ctx,
+        var: { attendanceProvider: undefined as unknown as AttendanceProvider },
+      };
+      await expect(
+        buildMemberProfile(ctxWithoutProvider, asMemberId("m_001")),
+      ).rejects.toThrow(/attendanceProvider not bound/i);
     });
 
     it("attendanceProvider 注入時は実データが MemberProfile に注入される", async () => {
       const provider = stubProvider({
         m_001: [{ sessionId: "s_001", title: "総会", heldOn: "2026-01-15" }],
       });
-      const result = await buildMemberProfile(ctx, asMemberId("m_001"), {
-        attendanceProvider: provider,
-      });
+      const result = await buildMemberProfile(
+        withProvider(ctx, provider),
+        asMemberId("m_001"),
+      );
       expect(result?.attendance).toEqual([
         { sessionId: "s_001", title: "総会", heldOn: "2026-01-15" },
       ]);
@@ -188,7 +208,7 @@ describe("builder", () => {
         },
       ];
       const result = await buildAdminMemberDetailView(
-        ctx,
+        withProvider(ctx),
         asMemberId("m_001"),
         adminNotes,
       );
@@ -198,7 +218,7 @@ describe("builder", () => {
 
     it("全 visibility のフィールドを含む（admin フィールドも含む）", async () => {
       const result = await buildAdminMemberDetailView(
-        ctx,
+        withProvider(ctx),
         asMemberId("m_001"),
         [],
       );
@@ -220,7 +240,7 @@ describe("builder", () => {
         },
       ];
       const result = await buildAdminMemberDetailView(
-        ctx,
+        withProvider(ctx),
         asMemberId("m_001"),
         adminNotes,
       );
@@ -238,7 +258,7 @@ describe("builder", () => {
 
     it("削除済み会員の詳細も取得できる（admin は削除済みを参照可能）", async () => {
       const result = await buildAdminMemberDetailView(
-        ctx,
+        withProvider(ctx),
         asMemberId("m_003"),
         [],
       );
@@ -254,13 +274,22 @@ describe("builder", () => {
         ],
       });
       const result = await buildAdminMemberDetailView(
-        ctx,
+        withProvider(ctx, provider),
         asMemberId("m_001"),
         [],
-        { attendanceProvider: provider },
       );
       expect(result?.profile.attendance).toHaveLength(2);
       expect(result?.profile.attendance[0]?.sessionId).toBe("s_002");
+    });
+
+    it("attendanceProvider 未注入時は throw する (silent fallback 廃止 / issue-371)", async () => {
+      const ctxWithoutProvider = {
+        ...ctx,
+        var: { attendanceProvider: undefined as unknown as AttendanceProvider },
+      };
+      await expect(
+        buildAdminMemberDetailView(ctxWithoutProvider, asMemberId("m_001"), []),
+      ).rejects.toThrow(/attendanceProvider not bound/i);
     });
   });
 

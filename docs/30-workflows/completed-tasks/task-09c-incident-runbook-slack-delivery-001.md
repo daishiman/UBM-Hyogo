@@ -1,6 +1,8 @@
 # task-09c-incident-runbook-slack-delivery-001
 
-## メタ情報
+> Tombstone: this unassigned task was consumed by `docs/30-workflows/09c-incident-runbook-slack-delivery/` on 2026-05-06. Do not execute the checklist below directly; it is preserved as historical input only.
+
+## GitHub Issue Link
 
 ```yaml
 issue_number: 349
@@ -17,9 +19,13 @@ issue_number: 349
 | 対象機能 | Incident response / Slack delivery |
 | 優先度 | 低 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | consumed / formalized |
 | 発見元 | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-01 |
+
+## Canonical Status
+
+This unassigned task was consumed by `docs/30-workflows/09c-incident-runbook-slack-delivery/index.md` on 2026-05-06. Keep this file as a historical pointer only; do not execute it directly.
 
 ## 1. なぜこのタスクが必要か（Why）
 
@@ -35,7 +41,7 @@ issue_number: 349
 
 Slack token は 1Password 正本から GitHub/Cloudflare の派生 secret に渡し、ドキュメントには secret 値を書かない。dry-run channel と production channel を分け、production 送信は user approval 後に限定する。
 
-## 4. 実行手順
+## 4. 実行手順（historical, do not execute）
 
 1. 09b incident response runbook と 09c share evidence の入力ファイルを確認する。
 2. Slack app/token の必要 scope と secret 配置先を決める。
@@ -43,7 +49,7 @@ Slack token は 1Password 正本から GitHub/Cloudflare の派生 secret に渡
 4. production channel 送信時の approval gate と evidence 保存先を定義する。
 5. message timestamp を Phase 11/ops evidence に保存する。
 
-## 5. 完了条件チェックリスト
+## 5. 完了条件チェックリスト（historical, superseded by consumed workflow）
 
 - [ ] Slack token の配置先と secret 名が正本化されている
 - [ ] dry-run と production の channel が分離されている

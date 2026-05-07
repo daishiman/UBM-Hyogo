@@ -42,6 +42,7 @@
 | `ci.yml` | PR 時の CI（Lint・型チェック・テスト・ビルド） |
 | `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
 | `backend-ci.yml` | API アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
+| `incident-runbook-slack-delivery.yml` | 09c production deploy 後の incident runbook Slack delivery。`backend-ci` / `web-cd` の main 成功後 dry-run、production は `workflow_dispatch` + `production-slack-delivery` approval のみ。 |
 | `validate-build.yml` | ビルド検証（PR / push トリガー、apps/* の `pnpm build` 通過確認） |
 | `verify-indexes.yml` | aiworkflow-requirements skill indexes drift 検出（`pnpm indexes:rebuild` 結果と committed の差分検証） |
 | `pr-target-safety-gate.yml` | `pull_request_target` trusted context を triage / metadata / manual audit のみに限定する safety gate。PR head checkout / install / build は禁止。 |
@@ -50,7 +51,9 @@
 
 > **current facts (Issue #407 / 2026-05-06)**: `cf-token-rotation-reminder.yml` は `contents: read` / `issues: write` のみを持ち、`secrets.*` を参照しない。発行日は GitHub Variable `CF_TOKEN_ISSUED_AT`、起票 threshold は 85 日、実 rotation / secret injection は runbook 側の user approval gate 後のみ。
 
-> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 8 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
+> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 9 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
+
+> **current facts (09c Slack delivery / 2026-05-06)**: `incident-runbook-slack-delivery.yml` は `workflow_run.workflows: ["backend-ci", "web-cd"]` に接続し、`conclusion == success` かつ `head_branch == main` の場合だけ automatic dry-run を実行する。production 配信は `workflow_dispatch` の `mode=production`、`dryrun_evidence_confirmed=true`、GitHub environment `production-slack-delivery` approval の三条件を要求する。
 
 ---
 

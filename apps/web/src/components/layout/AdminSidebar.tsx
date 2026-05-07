@@ -4,6 +4,7 @@ import { SignOutButton } from "../auth/SignOutButton";
 
 const items = [
   { href: "/admin", label: "ダッシュボード" },
+  { href: "/admin/dashboard/attendance", label: "出席分析" },
   { href: "/admin/members", label: "会員管理" },
   { href: "/admin/tags", label: "タグキュー" },
   { href: "/admin/schema", label: "schema" },
