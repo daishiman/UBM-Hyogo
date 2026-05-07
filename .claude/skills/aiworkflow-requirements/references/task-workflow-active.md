@@ -21,6 +21,20 @@
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
 
+### UI/UX Contract Rewrite task-06（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / primary spec rewritten / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-06-ui-ux-contract-rewrite/` |
+| primary spec | `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| 目的 | 09-ui-ux.md を「契約のみ」に再構成し、routes / component props / state / a11y / token prefix / API 接続だけを正本化する |
+| routes | 公開 6 / 会員 2 / 管理 8 / 共通 4 = 19+1 entries。`global-error.tsx` を共通 fallback として契約化 |
+| component | 13 primitives + feature components を contract 表で固定。Storybook VRT を component screenshot 正本にする |
+| 境界 | 視覚値・余白値・font 値・prototype 行範囲は持たない。09a..09h / Storybook へ link 委譲 |
+| diff discipline | Primary M: `docs/00-getting-started-manual/specs/09-ui-ux.md`; same-wave sync M: `.claude/skills/aiworkflow-requirements/{SKILL.md,LOGS/_legacy.md,indexes/{quick-reference,resource-map,topic-map,keywords}.md/json,references/task-workflow-active.md}`, `.claude/skills/task-specification-creator/{SKILL.md,LOGS/_legacy.md}`; A: `docs/30-workflows/completed-tasks/task-06-ui-ux-contract-rewrite/**`, `.claude/skills/aiworkflow-requirements/changelog/20260507-task-06-ui-ux-contract-rewrite.md`, `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md`; D: なし。attendance 系 workflow 削除は参照破壊のため復元 |
+| 検証 | 章数 10 / routes 20 / primitives 13 / 視覚詳細 grep 0 hits / route-API trace PASS / repository lint |
+
 ### Issue #407 Cloudflare API Token 90 日 rotation runbook automation（2026-05-06）
 
 | 項目 | 値 |

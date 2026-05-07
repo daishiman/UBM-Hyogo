@@ -2540,6 +2540,22 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L110 |
 | Validation Chain | L119 |
 
+### references/workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L19 |
+| Phase Outputs（task-06 内成果物） | L30 |
+| Primary Spec 書き換え（実成果物） | L50 |
+| 視覚詳細委譲先（path 確定 / 中身は別 task） | L66 |
+| 下流 task への引渡し点 | L79 |
+| Same-wave skill / index sync（diff scope に含めるべきもの） | L94 |
+| 重要な実装値（09-ui-ux.md で確定） | L109 |
+| Follow-up（task-06 スコープ外・別 wave で workflow dir 起票予定） | L117 |
+| Validation Chain | L129 |
+| 不変条件 trace | L141 |
+
 ### references/workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md
 
 | セクション | 行 |
@@ -4173,6 +4189,18 @@ node scripts/list-specs.js --topics
 | 教訓 (Lesson IDs) | L29 |
 | 関連 | L37 |
 
+### references/lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T06-001: primary rewrite は implementation として状態語彙を揃える | L3 |
+| L-T06-002: AC 番号は index と Phase evidence で再定義しない | L9 |
+| L-T06-003: same-wave skill/index sync は diff scope に含める | L15 |
+| L-T06-004: path 文字列は後続 task owner と同時に名寄せする | L21 |
+| L-T06-005: 無関係 delete diff は復元か formal trace を必須にする | L27 |
+| L-T06-006: NON_VISUAL タスクの Phase 11 alternative evidence は 4 種で網羅する | L33 |
+| L-T06-007: prototype 正本順位と視覚詳細委譲の判断基準 | L39 |
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -4452,8 +4480,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L98 |
-| 関連ドキュメント | L103 |
+| 利用順序 | L99 |
+| 関連ドキュメント | L104 |
 
 ### references/llm-embedding.md
 
@@ -5544,13 +5572,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L379 |
-| フェーズ構造（概要） | L388 |
-| 品質ゲート（概要） | L419 |
-| 出力テンプレート | L430 |
-| 実行時のコマンド・エージェント・スキル | L453 |
-| 昇格パターン集 | L477 |
-| Current Active / Spec Created Tasks | L479 |
+| ドキュメント構成 | L393 |
+| フェーズ構造（概要） | L402 |
+| 品質ゲート（概要） | L433 |
+| 出力テンプレート | L444 |
+| 実行時のコマンド・エージェント・スキル | L467 |
+| 昇格パターン集 | L491 |
+| Current Active / Spec Created Tasks | L493 |
 
 ### references/task-workflow-backlog-part2.md
 

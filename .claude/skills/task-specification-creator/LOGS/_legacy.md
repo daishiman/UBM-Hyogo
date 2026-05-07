@@ -2599,3 +2599,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - state: Phase 1-13 spec contract drafted / Phase 12 strict 7 files materialized / runtime evidence pending user approval
 - spec_path: `/docs/30-workflows/09c-incident-runbook-slack-delivery/index.md`
 - skill feedback: strict 7 filename drift fixed in workflow; no template promotion required
+# 2026-05-07 task-06 UI/UX contract rewrite compliance review
+
+- task-06 workflow package を Phase 1-13 仕様として確認し、主成果物 `09-ui-ux.md` の実変更漏れ、`taskType` 分類揺れ、Phase evidence path 表記揺れ、無関係 D diff を修正。
+- NON_VISUAL evidence gate は chapter count / route count / primitive count / visual detail grep / markdown lint を採用。
