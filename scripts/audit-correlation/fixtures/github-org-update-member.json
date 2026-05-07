@@ -1,0 +1,12 @@
+[
+  {
+    "action": "org.update_member",
+    "actor": "attacker-login",
+    "actor_ip": "203.0.113.45",
+    "user_agent": "Mozilla/5.0 Chrome/120.0",
+    "created_at": 1778148000000,
+    "org": "daishiman",
+    "repo": "daishiman/UBM-Hyogo",
+    "external_identity_nameid": "alice@example.com"
+  }
+]

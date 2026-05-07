@@ -21,7 +21,9 @@ description: |
   GitHub 派生コピー, ストレージ, presigned URL, オブジェクトストレージ,
   legacy umbrella close-out, stale-current classification, post-release-dashboard,
   redaction-check, 30 day gate, 30day-contract, formalized contract,
-  failure rate gate, schedule feedback, external-time-dependent, 3-fence detection
+  failure rate gate, schedule feedback, external-time-dependent, 3-fence detection,
+  DLQ, dead-letter, Cloudflare Queue 監視, observability runbook,
+  dlq-monitoring, schema-alias-backfill, schema_diff_queue
 allowed-tools:
   - Read
   - Glob
@@ -43,6 +45,9 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 | Version | Date | Changes |
 | --- | --- | --- |
 | v2026.05.07-task-06-ui-ux-contract-rewrite | 2026-05-07 | UI/UX contract rewrite task-06 を `implemented-local / implementation / NON_VISUAL` として同期。`09-ui-ux.md` は契約のみ正本（19+1 routes、13 primitives、feature components、login 5 state、server-pending、a11y、token prefix）へ再構成し、視覚詳細は 09a..09h / Storybook VRT へ委譲。task-06 diff scope は `09-ui-ux.md` M + workflow package A のみに固定し、attendance 系 workflow 削除混入は active/resource-map 参照破壊のため復元。 |
+| v2026.05.07-issue503-cursor-semantics-shadow | 2026-05-07 | Issue #503 UT-07B-FU-01 cursor semantics migration を `implemented-local / implementation / NON_VISUAL / runtime evidence pending_user_gate` として同期。`BACKFILL_CURSOR_MODE` shadow A/B、queue consumer + initial apply path 適用、既存 `schema_diff_queue.backfill_cursor` 再利用、stale cursor null reset による row-skip 防止、`0015` migration adoption-gated 境界、artifact inventory / quick-reference / resource-map / task-workflow-active / database schema / operations を反映。 |
+| v2026.05.07-issue502-dlq-monitoring | 2026-05-07 | Issue #502 UT-07B-FU-01 DLQ monitoring dashboard follow-up を `spec_created / docs-only / NON_VISUAL / contract_ready_runtime_pending` として同期。`docs/runbooks/dlq-monitoring/schema-alias-backfill.md`、`references/dlq-monitoring.md`、`changelog/20260507-issue502-dlq-monitoring.md`、quick-reference/resource-map/task-workflow-active/topic-map/keywords を反映。Cloudflare Queue / DLQ binding 名、D1 `schema_diff_queue` 監視列、read-only 集計 SQL 3 種、しきい値（DLQ >= 1 / retry >= 3 / exhausted 24h）、`last_error` SELECT 禁止、Issue #502 CLOSED 維持を正本化。実 D1 SQL / dash runtime evidence は user approval 後に取得する。 |
+| v2026.05.07-issue504-schema-alias-50k-stress-trial | 2026-05-07 | Issue #504 UT-07B-FU-01 extended fixture 50k row follow-up を `spec_created / implementation / NON_VISUAL / staging stress trial user-gated` として同期。`scripts/schema-alias-backfill/` の fixture generation / staging-only seed-cleanup / 10 trial driver、prefix付き `dedupe_key` cleanup contract、trigger path `/admin/schema/backfill/trigger`、abort thresholds (`retry_count<=3`, `dlq_count=0`, `cpu_ms<=250000`, timeout 1800s)、Phase 12 strict outputs、resource-map / quick-reference / task-workflow-active / runbook SSOT を反映。Issue #504 は CLOSED 維持、PR 文脈は `Refs #504` のみ。 |
 | v2026.05.07-ui-prototype-scope-gate | 2026-05-07 | UI prototype alignment / MVP recovery task-01 scope gate を `spec_created / docs-only / NON_VISUAL` として同期。`SCOPE.md` の 19 routes、既存 API のみ接続、OKLch token 正本化、completed-tasks archive rule、quick-reference/resource-map/task-workflow-active/changelog を同一 wave で反映。 |
 | v2026.05.06-issue378-tag-queue-paused-flag | 2026-05-06 | Issue #378 tag queue pause flag を `implemented-local / implementation / NON_VISUAL / Phase 13 pending_user_approval` として同期。canonical workflow root は `docs/30-workflows/completed-tasks/issue-378-tag-queue-paused-flag/`。`TAG_QUEUE_PAUSED` は non-secret Cloudflare variable、`"true"` 完全一致のみ Forms sync candidate enqueue を D1 read/write 前に停止し `{ enqueued: false, reason: "paused" }` と structured log `UBM-TAGQ-PAUSED` を返す。source unassigned `task-issue-109-tag-queue-pause-flag-001.md` は consumed、旧親 docs の secret / 503 rollback 記述は stale-current として撤回。 |
 

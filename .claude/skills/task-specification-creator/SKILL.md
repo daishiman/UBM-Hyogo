@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created
 allowed-tools:
   - Read
   - Write
@@ -118,6 +118,7 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 | オーケストレーション / リソース導線 / ベストプラクティス | [references/orchestration.md](references/orchestration.md) |
 | NON_VISUAL governance パターン（Phase 8 単一正本 YAML / check-runs 並走 / Phase 13 二重承認） | [lessons-learned/non-visual-governance-pattern.md](lessons-learned/non-visual-governance-pattern.md) |
 | NON_VISUAL 不可逆操作タスク（3-gate 分離 / migration literal / SSOT リテラル禁則 / runtime spec_created 起票） | [references/non-visual-irreversible-task-rules.md](references/non-visual-irreversible-task-rules.md) |
+| Completed Tasks Path Normalization（Phase 13 完了後の `completed-tasks/<category>/` 移動 / `Refs #XXX` 連結 / metadata 据え置き） | [references/completed-tasks-policy.md](references/completed-tasks-policy.md) |
 
 ## 最小 workflow
 

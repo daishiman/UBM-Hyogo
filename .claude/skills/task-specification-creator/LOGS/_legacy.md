@@ -2603,3 +2603,9 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - task-06 workflow package を Phase 1-13 仕様として確認し、主成果物 `09-ui-ux.md` の実変更漏れ、`taskType` 分類揺れ、Phase evidence path 表記揺れ、無関係 D diff を修正。
 - NON_VISUAL evidence gate は chapter count / route count / primitive count / visual detail grep / markdown lint を採用。
+
+# 2026-05-07 issue515 cf audit logs ML-ready classifier
+
+- Materialized Phase 12 strict 7 files for `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260507-095541-wt-8/docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/`.
+- Corrected state model from `spec_created` vs staging apply mixed wording to `spec_created -> implemented_local_runtime_pending -> pass_boundary_synced_runtime_pending`.
+- Registered external Gate follow-ups as unassigned tasks because 90 day runtime evidence and model artifact selection cannot be completed in this cycle.

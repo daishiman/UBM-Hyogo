@@ -210,6 +210,31 @@ export async function clearDedupeKey(c: DbCtx, diffId: string): Promise<void> {
     .run();
 }
 
+// Issue #503: cursor 経路 shadow flag 用 helper。
+// 既存 `backfill_cursor` (TEXT) 列を再利用するため migration 不要。
+// adoption 後に専用列が追加される場合は本実装を差し替える。
+export async function getBackfillCursor(
+  c: DbCtx,
+  diffId: string,
+): Promise<string | null> {
+  const r = await c.db
+    .prepare("SELECT backfill_cursor FROM schema_diff_queue WHERE diff_id = ?1")
+    .bind(diffId)
+    .first<{ backfill_cursor: string | null }>();
+  return r?.backfill_cursor ?? null;
+}
+
+export async function updateBackfillCursor(
+  c: DbCtx,
+  diffId: string,
+  cursor: string | null,
+): Promise<void> {
+  await c.db
+    .prepare("UPDATE schema_diff_queue SET backfill_cursor = ?1 WHERE diff_id = ?2")
+    .bind(cursor, diffId)
+    .run();
+}
+
 export async function recordBatchProgress(
   c: DbCtx,
   diffId: string,
