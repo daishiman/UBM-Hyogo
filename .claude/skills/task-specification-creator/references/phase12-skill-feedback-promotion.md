@@ -50,7 +50,10 @@ done
 3. stale command が再発しやすい条件を `skill-feedback-report.md` に `promotion target / no-op reason / evidence path` 付きで routing する。
 4. 再利用可能なテンプレート差分なら `task-specification-creator` へ昇格し、単発 typo なら evidence path と no-op reason を残す。
 
-実例: `issue-106-admin-member-notes-repository-task-spec` では `pnpm --filter @repo/api test:run -- adminNotes` が stale だったため、`pnpm --filter ./apps/api test -- adminNotes` と focused Vitest command へ再解決し、Phase 1/4/9/11/12 に同期した。
+実例:
+
+- `issue-106-admin-member-notes-repository-task-spec` では `pnpm --filter @repo/api test:run -- adminNotes` が stale だったため、`pnpm --filter ./apps/api test -- adminNotes` と focused Vitest command へ再解決し、Phase 1/4/9/11/12 に同期した。
+- `issue-532-extend-ctx-injection-to-write-tag-note-providers` では作成済み spec が `@repo/api` / `test:run` / `test:typecheck` を参照していたが、current package は `@ubm-hyogo/api` で scripts は `test` / `typecheck` だった。Phase 11 evidence と Phase 12 outputs を current command へ補正し、Phase 2 validation matrix 作成時点で `package.json` を読むルールを `phase-template-core.md` へ昇格した。
 
 ## 苦戦箇所 Required Fields
 

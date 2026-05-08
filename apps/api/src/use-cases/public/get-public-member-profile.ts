@@ -6,10 +6,11 @@ import { ApiError } from "@ubm-hyogo/shared/errors";
 
 import { findCurrentResponse } from "../../repository/responses";
 import { listFieldsByResponseId } from "../../repository/responseFields";
-import { listTagsByMemberId } from "../../repository/memberTags";
 import { listFieldsByVersion } from "../../repository/schemaQuestions";
 import { getStatus } from "../../repository/status";
 import { existsPublicMember } from "../../repository/publicMembers";
+import { createWriteTagNoteProviderBundle } from "../../middleware/repository-providers";
+import type { MemberTagsProvider } from "../../repository/_shared/provider-context";
 import {
   toPublicMemberProfile,
   type PublicMemberProfileResponse,
@@ -17,6 +18,7 @@ import {
 
 export interface GetPublicMemberProfileDeps {
   ctx: DbCtx;
+  memberTagsProvider?: MemberTagsProvider;
 }
 
 const parseJson = (raw: string | null): unknown => {
@@ -33,6 +35,8 @@ export const getPublicMemberProfileUseCase = async (
   deps: GetPublicMemberProfileDeps,
 ): Promise<PublicMemberProfileResponse> => {
   const { ctx } = deps;
+  const memberTagsProvider =
+    deps.memberTagsProvider ?? createWriteTagNoteProviderBundle(ctx).memberTagsProvider;
 
   // 公開フィルタ EXISTS で不適格を 404 で隠蔽 (R-1 / AC-4)。
   const exists = await existsPublicMember(ctx, memberId);
@@ -46,7 +50,7 @@ export const getPublicMemberProfileUseCase = async (
 
   const [fieldRows, tagRows, schemaRows] = await Promise.all([
     listFieldsByResponseId(ctx, response.response_id as never),
-    listTagsByMemberId(ctx, memberId as never),
+    memberTagsProvider.listTagsByMemberId(memberId as never),
     listFieldsByVersion(ctx, response.form_id, response.revision_id),
   ]);
 

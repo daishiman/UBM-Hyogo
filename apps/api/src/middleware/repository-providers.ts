@@ -9,7 +9,17 @@ import { ctx as makeCtx, type DbCtx } from "../repository/_shared/db";
 import {
   createAttendanceProvider,
 } from "../repository/attendance";
-import type { RepositoryProviderVariables } from "../repository/_shared/provider-context";
+import { createAdminNotesProvider } from "../repository/adminNotes";
+import { createAuditLogProvider } from "../repository/auditLog";
+import { createMemberTagsProvider } from "../repository/memberTags";
+import { createOutboxRepository } from "../repository/notificationOutbox";
+import { createTagDefinitionsProvider } from "../repository/tagDefinitions";
+import { createTagQueueProvider } from "../repository/tagQueue";
+import type {
+  RepositoryProviderVariables,
+  WriteTagNoteProviderBundle,
+  WriteTagNoteProviderVariables,
+} from "../repository/_shared/provider-context";
 
 export interface RepositoryProviderEnv {
   readonly DB: D1Database;
@@ -28,8 +38,36 @@ export const attendanceProviderMiddleware: MiddlewareHandler<{
 }> = async (c, next) => {
   const existing = c.get("ctx");
   const dbCtx: DbCtx = existing ?? makeCtx({ DB: c.env.DB });
+  if (!existing) c.set("ctx", dbCtx);
   c.set("attendanceProvider", createAttendanceProvider(dbCtx));
   await next();
 };
 
-export type { RepositoryProviderVariables };
+export const writeTagNoteProviderMiddleware: MiddlewareHandler<{
+  Bindings: RepositoryProviderEnv;
+  Variables: RepositoryProviderVariables & Partial<WriteTagNoteProviderVariables> & { ctx?: DbCtx };
+}> = async (c, next) => {
+  const existing = c.get("ctx");
+  const dbCtx: DbCtx = existing ?? makeCtx({ DB: c.env.DB });
+  if (!existing) c.set("ctx", dbCtx);
+  c.set("adminNotesProvider", createAdminNotesProvider(dbCtx));
+  c.set("auditLogProvider", createAuditLogProvider(dbCtx));
+  c.set("notificationOutboxProvider", createOutboxRepository(dbCtx));
+  c.set("tagDefinitionsProvider", createTagDefinitionsProvider(dbCtx));
+  c.set("tagQueueProvider", createTagQueueProvider(dbCtx));
+  c.set("memberTagsProvider", createMemberTagsProvider(dbCtx));
+  await next();
+};
+
+export const createWriteTagNoteProviderBundle = (
+  dbCtx: DbCtx,
+): WriteTagNoteProviderBundle => ({
+  adminNotesProvider: createAdminNotesProvider(dbCtx),
+  auditLogProvider: createAuditLogProvider(dbCtx),
+  notificationOutboxProvider: createOutboxRepository(dbCtx),
+  tagDefinitionsProvider: createTagDefinitionsProvider(dbCtx),
+  tagQueueProvider: createTagQueueProvider(dbCtx),
+  memberTagsProvider: createMemberTagsProvider(dbCtx),
+});
+
+export type { RepositoryProviderVariables, WriteTagNoteProviderVariables };

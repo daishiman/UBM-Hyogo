@@ -1,8 +1,14 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
-import { ctx } from "../../repository/_shared/db";
-import { listFiltered, type AuditLogListRow } from "../../repository/auditLog";
+import {
+  writeTagNoteProviderMiddleware,
+  type WriteTagNoteProviderVariables,
+} from "../../middleware/repository-providers";
+import {
+  requireProvider,
+  type AuditLogListRow,
+} from "../../repository/_shared/provider-context";
 import type { AdminRouteEnv } from "./_shared";
 
 const QueryZ = z.object({
@@ -128,8 +134,12 @@ const toResponseItem = (row: AuditLogListRow) => {
 };
 
 export const createAdminAuditRoute = () => {
-  const app = new Hono<{ Bindings: AdminRouteEnv; Variables: RequireAuthVariables }>();
+  const app = new Hono<{
+    Bindings: AdminRouteEnv;
+    Variables: RequireAuthVariables & Partial<WriteTagNoteProviderVariables>;
+  }>();
   app.use("*", requireAdmin);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/audit", async (c) => {
     const parsed = QueryZ.safeParse({
@@ -161,7 +171,8 @@ export const createAdminAuditRoute = () => {
     }
 
     const limit = parsed.data.limit;
-    const rows = await listFiltered(ctx({ DB: c.env.DB }), {
+    const rows = await requireProvider(c.var.auditLogProvider, "auditLogProvider")
+      .listFiltered({
       ...(parsed.data.action ? { action: parsed.data.action } : {}),
       ...(parsed.data.actorEmail ? { actorEmail: parsed.data.actorEmail.toLowerCase() } : {}),
       ...(parsed.data.targetType ? { targetType: parsed.data.targetType } : {}),

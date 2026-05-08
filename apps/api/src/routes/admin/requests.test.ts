@@ -4,8 +4,8 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../../repository/__tests__/_setup";
 import { createAdminRequestsRoute } from "./requests";
 import { adminAuthHeader, TEST_AUTH_SECRET } from "./_test-auth";
-import * as adminNotes from "../../repository/adminNotes";
 import { adminEmail, asMemberId } from "../../repository/_shared/brand";
+import { createWriteTagNoteProviderBundle } from "../../middleware/repository-providers";
 
 const makeEnv = (env: InMemoryD1) => ({
   DB: env.db as unknown as D1Database,
@@ -41,7 +41,7 @@ const createPendingRequest = async (
   noteType: "visibility_request" | "delete_request",
   payload: Record<string, unknown>,
 ) => {
-  return adminNotes.create(env.ctx, {
+  return createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider.create({
     memberId: asMemberId(memberId),
     body: JSON.stringify({ reason: null, payload }),
     createdBy: adminEmail("system@admin.local"),
@@ -141,7 +141,8 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     expect(body.memberAfter.publishState).toBe("hidden");
     expect(body.memberAfter.isDeleted).toBe(false);
 
-    const updated = await adminNotes.findById(env.ctx, note.noteId);
+    const updated = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider
+      .findById(note.noteId);
     expect(updated?.requestStatus).toBe("resolved");
     expect(updated?.resolvedByAdminId).toBeTruthy();
     expect(updated?.body).toContain("[resolved] OK");
@@ -212,7 +213,8 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     expect(res.status).toBe(404);
     const body = (await res.json()) as { error: string };
     expect(body.error).toBe("member_status_not_found");
-    const unchanged = await adminNotes.findById(env.ctx, note.noteId);
+    const unchanged = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider
+      .findById(note.noteId);
     expect(unchanged?.requestStatus).toBe("pending");
   });
 
@@ -238,7 +240,8 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
     expect(body.requestStatus).toBe("rejected");
     expect(body.memberAfter.publishState).toBe("public");
     expect(body.memberAfter.isDeleted).toBe(false);
-    const updated = await adminNotes.findById(env.ctx, note.noteId);
+    const updated = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider
+      .findById(note.noteId);
     expect(updated?.requestStatus).toBe("rejected");
     expect(updated?.body).toContain("[rejected] 理由");
   });
@@ -354,7 +357,8 @@ describe("admin requests route — POST /admin/requests/:noteId/resolve", () => 
       makeEnv(env),
     );
     expect(res.status).toBe(200);
-    const updated = await adminNotes.findById(env.ctx, note.noteId);
+    const updated = await createWriteTagNoteProviderBundle(env.ctx).adminNotesProvider
+      .findById(note.noteId);
     expect(updated?.requestStatus).toBe("resolved");
   });
 

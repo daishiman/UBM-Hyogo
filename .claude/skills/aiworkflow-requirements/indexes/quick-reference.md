@@ -5,6 +5,23 @@
 
 ---
 
+### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-532-extend-ctx-injection-to-write-tag-note-providers/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / local command evidence recorded / Phase 13 pending_user_approval` |
+| parent | `docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+| provider set | `adminNotesProvider`, `auditLogProvider`, `notificationOutboxProvider`, `tagDefinitionsProvider`, `tagQueueProvider`, `memberTagsProvider` |
+| boundary | D1 schema / public response shape / Auth.js admin gate unchanged |
+| route write consolidation | `/admin/requests` guarded note/status/audit batch is owned by `adminNotesProvider.resolveRequestAtomic()` |
+| scheduled path | Hono `c.var` is route-only; scheduled workflows use explicit provider bundle |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,focused-tests,grep-direct-import,grep-fallback,coverage-guard}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md` |
+| Issue 取扱 | Issue #532 CLOSED 維持。PR 文脈は `Refs #532` のみ |
+| user gate | commit / push / PR は user approval 後のみ |
+
 ### Issue #526 CI actionlint / shellcheck gate（2026-05-08）
 
 | 目的 | 参照先 |
