@@ -26,7 +26,7 @@
 
 - 新規: `scripts/verify-design-tokens.ts` / `scripts/verify-design-tokens.test.ts` / `apps/web/tests/e2e/full-smoke.spec.ts` / `apps/web/tests/e2e/visual/{login,public-top,admin-dashboard,profile}.spec.ts` / `apps/web/tests/e2e/fixtures/auth.ts` / `.github/workflows/verify-design-tokens.yml` / `.github/workflows/playwright-smoke.yml` / `apps/web/tests/e2e/visual/__screenshots__/**`
 - 編集: `apps/web/playwright.config.ts`（projects 追加） / `package.json`（root: `verify:tokens`） / `apps/web/package.json`（`e2e:smoke` / `e2e:visual` / `e2e:visual:update`） / `.github/workflows/e2e-tests.yml`（任意・職掌分離）
-- 参照のみ（変更禁止）: `apps/web/app/globals.css`（task-08/09 の `@theme`） / `docs/00-getting-started-manual/claude-design-prototype/styles.css`（OKLch 正本） / `apps/api/**`
+- 参照のみ（変更禁止）: `docs/00-getting-started-manual/specs/09b-design-tokens.md`（token value SSOT） / `apps/web/src/styles/tokens.css` / `apps/web/src/styles/globals.css`（task-09 の `@theme inline`） / `apps/api/**`
 
 ### §0.4 既存 API（不変）
 
@@ -39,25 +39,19 @@
 ### §0.5 不変条件
 
 1. `apps/api/` の本番コードに触れない（API は smoke の呼び出し対象としてのみ存在）
-2. `apps/web/app/globals.css` の `@theme` 値は本タスクで変えない（drift 検知対象）
-3. prototype `styles.css` を正本とする（drift があれば globals 側を直す方針）
+2. `apps/web/src/styles/tokens.css` と `apps/web/src/styles/globals.css` の `@theme inline` bridge は本タスクで変えない（drift 検知対象）
+3. `09b-design-tokens.md` §9 JSON を token value SSOT とする（drift があれば `tokens.css` / `globals.css` 側を直す方針）
 4. 既存 Playwright project は温存し、`testMatch` で smoke / visual を完全分離する
 5. solo dev ポリシー（`required_pull_request_reviews=null`）の前提を崩さず、品質保証は `required_status_checks` に追加するのみ
 6. `.env` に実値を書かない／`E2E_*_SESSION_TOKEN` は GitHub Secrets / 1Password 参照のみ
 7. visual baseline は ubuntu-latest（CI と同一 OS）で採取し、font hinting flaky を抑える
-8. token 抽出は top-level `oklch(...)` のみ対象（`color-mix(in oklch, ...)` 入れ子は対象外）
+8. token 抽出は 09b §9 JSON の `css` / `value` pair と `tokens.css` の CSS custom properties を対象にし、`globals.css` は `@theme inline` bridge の欠落を検査する
 
 ### §0.6 上流シグネチャ（inline 展開）
 
 - **task-02 export**: `getEnv().STAGING_BASE_URL`（`apps/web/lib/env.ts`）。Playwright の `PLAYWRIGHT_STAGING_BASE_URL` フォールバックとして利用可。
-- **task-08 export**: `:root` スコープの 30+ CSS 変数の正規値。本タスクで監視対象とする 11 primitive token は以下のリテラル（prototype `styles.css` 由来）。
-  - `--accent: oklch(0.58 0.10 55)` / `--accent-soft: oklch(0.95 0.04 55)` / `--accent-ink: oklch(0.20 0.05 55)`
-  - `--ok: oklch(0.62 0.12 155)` / `--ok-soft: oklch(0.95 0.04 155)`
-  - `--warn: oklch(0.75 0.13 85)` / `--warn-soft: oklch(0.96 0.05 85)`
-  - `--danger: oklch(0.55 0.18 25)` / `--danger-soft: oklch(0.95 0.05 25)`
-  - `--info: oklch(0.55 0.09 230)` / `--info-soft: oklch(0.95 0.04 230)`
-  - 値の literal 一致のみ検証（contrast 等の semantic 検証は非ゴール）
-- **task-09 export**: `apps/web/app/globals.css` の `@theme { ... }` ブロック構造。中括弧マッチで切り出し可能な単一ブロックとして投入される（ネストなし）。`@theme inline` 等は使わず、`@theme { ... }` のみ。verify-design-tokens は中括弧抽出 → 内部の `--name: oklch(...)` を走査する。
+- **task-08 export**: `docs/00-getting-started-manual/specs/09b-design-tokens.md` §9 JSON の `css` / `value` pair。監視対象は `--ubm-color-*`、`--ubm-radius-*`、`--ubm-shadow-*`、`--ubm-font-*`、`--ubm-text-*`、`--ubm-space-*`、`--ubm-dur-*`、`--ubm-ease-*` の正本名すべて。値の literal 一致のみ検証（contrast 等の semantic 検証は非ゴール）。
+- **task-09 export**: `apps/web/src/styles/tokens.css` の CSS custom properties と `apps/web/src/styles/globals.css` の `@theme inline { ... }` ブロック構造。verify-design-tokens は 09b JSON → `tokens.css` custom properties → `@theme inline` bridge の順で欠落 / 値 drift を検査する。
 - **task-10 export**: 11 primitive 名と data-testid 規約。
   - primitives: `Button` / `Input` / `Label` / `Card` / `Badge` / `Tag` / `Field` / `Modal` / `Toast` / `Tabs` / `Table`
   - data-testid 規約: kebab-case、prefix は層名（`public-` / `member-` / `admin-`）、要素種別を後置（例 `admin-members-table` / `member-grid` / `login-form` / `login-state-sent` / `not-found` / `public-hero` / `admin-dashboard` / `admin-tags` / `admin-meetings` / `admin-schema` / `admin-requests` / `admin-id-conflicts` / `admin-audit`）
@@ -83,13 +77,13 @@
   - 採取環境は ubuntu-latest / Desktop Chrome / viewport 1280x800 で固定し、commit に含める
 - **Token drift 検知の output 形式**:
   - 成功時: stdout に `✓ design tokens in sync (N tracked)` を 1 行、exit 0
-  - 失敗時: stderr に `✗ token drift detected (K):` ヘッダ + token ごとに `<name> prototype: <oklch>  globals: <oklch> [<reason>]` を整列出力、`reason ∈ {value-mismatch, missing-in-globals, missing-in-prototype}`、exit 1
-  - hint 行に prototype / globals のパスを明示（`docs/00-getting-started-manual/claude-design-prototype/styles.css` / `apps/web/app/globals.css`）
+  - 失敗時: stderr に `✗ token drift detected (K):` ヘッダ + token ごとに `<name> 09b: <value>  tokens.css: <value> [<reason>]` を整列出力、`reason ∈ {value-mismatch, missing-in-tokens-css, missing-in-09b, missing-theme-bridge}`、exit 1
+  - hint 行に 09b / tokens.css / globals.css のパスを明示（`docs/00-getting-started-manual/specs/09b-design-tokens.md` / `apps/web/src/styles/tokens.css` / `apps/web/src/styles/globals.css`）
 
 ### §0.8 用語
 
 - **19 routes smoke**: 本タスクが Playwright で巡回する 19 個の route 集合（公開 6 / 会員 4 / 管理 8 / 共通 1）。各 route で「HTTP < 400」「主要 landmark visible」「axe-core で `serious` / `critical` の violation 0 件」を満たすことを smoke の合格条件とする。
-- **Token drift**: prototype `styles.css` の `:root` スコープにある OKLch literal と、`apps/web/app/globals.css` の `@theme` ブロック内 OKLch literal を、`TRACKED_TOKEN_NAMES`（11 primitive）に絞って比較した結果の差分。`value-mismatch` / `missing-in-globals` / `missing-in-prototype` の 3 種で分類し、いずれか 1 件でも検出された時点で `verify:tokens` を exit 1 とする。
+- **Token drift**: 09b §9 JSON の CSS token と、`apps/web/src/styles/tokens.css` の CSS custom properties、および `apps/web/src/styles/globals.css` の `@theme inline` bridge を比較した結果の差分。`value-mismatch` / `missing-in-tokens-css` / `missing-in-09b` / `missing-theme-bridge` の 4 種で分類し、いずれか 1 件でも検出された時点で `verify:tokens` を exit 1 とする。
 - **Visual baseline**: `apps/web/tests/e2e/visual/__screenshots__/` 配下に commit される PNG 群。`maxDiffPixelRatio: 0.02` を上限とし、超えた場合は CI fail + diff artifact upload。意図的更新時のみ `e2e:visual:update` で再採取する。
 - **Required check**: GitHub branch protection の `required_status_checks.contexts` に登録された context 名。本タスクで追加する 3 本（verify-design-tokens / smoke / visual）はマージ前に green 必須。solo dev ポリシー（review 0 人）でも CI gate により品質を担保する設計。
 
@@ -147,7 +141,7 @@
    - HTTP 200 または「期待される auth リダイレクト（login への 302/307）」を返すこと
    - 主要要素（`<main>` / route ごとの landmark heading）が visible
    - axe-core による a11y violation が `serious` / `critical` で 0 件
-2. **(G2) verify-design-tokens CI**: prototype `docs/00-getting-started-manual/claude-design-prototype/styles.css` の OKLch 値（`--accent` / `--ok` / `--warn` / `--danger` / `--info` および soft / ink バリアント）と `apps/web/app/globals.css` の `@theme` ブロックの値が完全一致すること。drift があれば CI を fail。
+2. **(G2) verify-design-tokens CI**: `docs/00-getting-started-manual/specs/09b-design-tokens.md` §9 JSON の `css` / `value` pair と `apps/web/src/styles/tokens.css` の CSS custom properties が完全一致し、`apps/web/src/styles/globals.css` の `@theme inline` bridge に必要 token が欠落しないこと。drift があれば CI を fail。
 3. **(G3) Visual regression baseline**: 4 画面（`/login` / `/` / `/admin` / `/profile`）の baseline screenshot を確立し、差分閾値（`maxDiffPixelRatio: 0.02`）で軽量検知。
 4. **(G4) Required status check 設定**: PR には `verify-design-tokens` を必須化し、smoke は nightly + main merge で実行。
 
@@ -173,14 +167,15 @@
 | `apps/web/tests/e2e/visual/admin-dashboard.spec.ts` | new | `/admin` の baseline screenshot |
 | `apps/web/tests/e2e/visual/profile.spec.ts` | new | `/profile` の baseline screenshot |
 | `apps/web/tests/e2e/visual/__screenshots__/**` | new (gen) | snapshot baseline 群（git 管理対象） |
-| `scripts/verify-design-tokens.ts` | new | prototype `styles.css` と `globals.css @theme` の OKLch literal diff。 |
+| `scripts/verify-design-tokens.ts` | new | 09b JSON と `tokens.css` / `globals.css @theme inline` の token diff。 |
 | `scripts/verify-design-tokens.test.ts` | new | スクリプト自身の unit test（Vitest）。 |
 | `.github/workflows/verify-design-tokens.yml` | new | PR トリガで verify-design-tokens を実行。 |
 | `.github/workflows/playwright-smoke.yml` | new | PR + nightly + main merge で 19 routes smoke を実行。 |
 | `.github/workflows/e2e-tests.yml` | edit (任意) | 既存 e2e workflow と職掌分離。重複実行を避けるため smoke は別ファイル化。 |
 | `package.json` (root) | edit | `verify:tokens` script を追加。 |
 | `apps/web/package.json` | edit | `e2e:smoke` / `e2e:visual` / `e2e:visual:update` script を追加。 |
-| `apps/web/app/globals.css` | reference only | task-08 / task-09 で確定した `@theme` を **読み取りのみ**。本タスクで値は変えない。 |
+| `apps/web/src/styles/tokens.css` | reference only | task-09 で 09b から転記した CSS custom properties を **読み取りのみ**。本タスクで値は変えない。 |
+| `apps/web/src/styles/globals.css` | reference only | task-09 で確定した `@theme inline` bridge を **読み取りのみ**。本タスクで値は変えない。 |
 
 ---
 
@@ -190,83 +185,56 @@
 
 ```ts
 // scripts/verify-design-tokens.ts
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
-/** prototype と globals 双方で抽出する OKLch tuple */
 export interface TokenValue {
-  /** 例: "--accent" / "--ok-soft" */
-  name: string
-  /** 例: "oklch(0.58 0.10 55)" — 空白正規化後の literal */
-  raw: string
-  /** L (0..1), C (0..0.4), H (0..360) */
-  parsed: { l: number; c: number; h: number }
+  /** 例: "--ubm-color-accent" / "--ubm-color-ok-soft" */
+  name: string;
+  /** 例: "oklch(0.58 0.10 55)" / "#f5f4f1" */
+  raw: string;
   /** 出現したセレクタ（":root" / "[data-theme='warm']" 等） */
-  scope: string
+  scope: string;
 }
 
 export interface VerifyResult {
-  prototypeTokens: Map<string, TokenValue> // key = `${scope}::${name}`
-  globalsTokens: Map<string, TokenValue>
-  drifts: TokenDrift[]
-  ok: boolean
+  specTokens: Map<string, TokenValue>;
+  cssTokens: Map<string, TokenValue>;
+  drifts: TokenDrift[];
+  ok: boolean;
 }
 
 export interface TokenDrift {
-  key: string
-  prototype: TokenValue | null
-  globals: TokenValue | null
-  reason: 'missing-in-globals' | 'missing-in-prototype' | 'value-mismatch'
+  key: string;
+  spec: TokenValue | null;
+  css: TokenValue | null;
+  reason: "missing-in-tokens-css" | "missing-in-09b" | "missing-theme-bridge" | "value-mismatch";
 }
 
-/** 監視対象の token name 一覧（whitelist 方式。drift の本質に集中） */
-export const TRACKED_TOKEN_NAMES: readonly string[] = [
-  '--accent', '--accent-soft', '--accent-ink',
-  '--ok', '--ok-soft',
-  '--warn', '--warn-soft',
-  '--danger', '--danger-soft',
-  '--info', '--info-soft',
-]
-
-/** 監視対象 scope（prototype 側） */
-export const TRACKED_SCOPES: readonly string[] = [':root']
-
-/** 与えられた CSS 文字列から TRACKED_TOKEN_NAMES に該当する OKLch 宣言を抽出 */
-export function extractTokens(css: string, source: 'prototype' | 'globals'): Map<string, TokenValue>
-
-/** OKLch literal をパース。"oklch(0.58 0.10 55)" / "oklch(0.58 0.10 55 / 0.5)" 両対応 */
-export function parseOklch(raw: string): { l: number; c: number; h: number; alpha?: number } | null
-
-/** 2 つの token map を比較し drift 一覧を返す */
-export function diffTokens(
-  proto: Map<string, TokenValue>,
-  globals: Map<string, TokenValue>,
-): TokenDrift[]
-
-/** メインエントリ。失敗時 process.exit(1) */
-export async function main(args: {
-  prototypePath?: string
-  globalsPath?: string
-  /** true なら ":root" 以外も検証（将来用） */
-  includeAllScopes?: boolean
-}): Promise<VerifyResult>
+export async function verifyDesignTokens(options?: {
+  specPath?: string;
+  tokensCssPath?: string;
+  globalsCssPath?: string;
+  includeThemeBridge?: boolean;
+}): Promise<VerifyResult>;
 ```
 
 実装方針:
 
-- 正規表現は `/--([a-z-]+)\s*:\s*oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)\s*;/g` を baseline に。
-  色空間関数の入れ子（`color-mix(in oklch, ...)`）は OKLch 宣言として扱わない（top-level `oklch(...)` のみ）。
-- `globals.css` の `@theme { ... }` ブロックは中括弧マッチで切り出してから token 抽出。
-- diff 順序は token name の宣言順（prototype 基準）。
+- 09b は最初の fenced `json` block を抽出し、leaf の `css` / `value` pair を walk する。
+- `tokens.css` は CSS custom property 宣言を抽出し、09b JSON の `css` names と値を比較する。
+- `globals.css` の `@theme inline { ... }` ブロックは中括弧マッチで切り出し、09b §10 が要求する bridge token の欠落を検査する。
+- diff 順序は 09b JSON の宣言順。
 - 出力フォーマット:
 
 ```
 ✗ token drift detected (3):
-  --accent           prototype: oklch(0.58 0.10 55)   globals: oklch(0.58 0.10 60)   [value-mismatch]
-  --ok-soft          prototype: oklch(0.95 0.04 155)  globals: <missing>             [missing-in-globals]
-  --info             prototype: <missing>             globals: oklch(0.55 0.09 230)  [missing-in-prototype]
-hint: prototype = docs/00-getting-started-manual/claude-design-prototype/styles.css (正本)
-      globals   = apps/web/app/globals.css (@theme block)
+  --ubm-color-accent     09b: oklch(0.58 0.10 55)   tokens.css: oklch(0.58 0.10 60)   [value-mismatch]
+  --ubm-color-ok-soft    09b: oklch(0.95 0.04 155)  tokens.css: <missing>             [missing-in-tokens-css]
+  --color-accent         09b: required bridge        globals.css: <missing>            [missing-theme-bridge]
+hint: 09b        = docs/00-getting-started-manual/specs/09b-design-tokens.md
+      tokens.css = apps/web/src/styles/tokens.css
+      globals    = apps/web/src/styles/globals.css (@theme inline block)
 ```
 
 ### 4.2 Playwright config — baseURL 切替
@@ -460,8 +428,9 @@ on:
   pull_request:
     branches: [main, dev]
     paths:
-      - 'apps/web/app/globals.css'
-      - 'docs/00-getting-started-manual/claude-design-prototype/styles.css'
+      - 'apps/web/src/styles/tokens.css'
+      - 'apps/web/src/styles/globals.css'
+      - 'docs/00-getting-started-manual/specs/09b-design-tokens.md'
       - 'scripts/verify-design-tokens.ts'
       - '.github/workflows/verify-design-tokens.yml'
   push:
@@ -602,13 +571,13 @@ gh api repos/daishiman/UBM-Hyogo/branches/dev/protection \
 
 | ケース | 入力 | 期待 |
 |--------|------|------|
-| C1: 完全一致 | prototype と globals が同値 | `ok: true` / drifts.length === 0 / exit 0 |
-| C2: 値ミスマッチ | globals 側 `--accent` を `oklch(0.99 0 0)` に書換 | `ok: false` / `value-mismatch` 1 件 / exit 1 |
-| C3: globals 側欠落 | globals から `--ok-soft` を削除 | `missing-in-globals` 1 件 / exit 1 |
-| C4: prototype 側欠落 | prototype から `--info` 削除（temp file で検証） | `missing-in-prototype` 1 件 / exit 1 |
+| C1: 完全一致 | 09b JSON と tokens.css が同値、globals bridge 欠落 0 | `ok: true` / drifts.length === 0 / exit 0 |
+| C2: 値ミスマッチ | tokens.css 側 `--ubm-color-accent` を `oklch(0.99 0 0)` に書換 | `ok: false` / `value-mismatch` 1 件 / exit 1 |
+| C3: tokens.css 側欠落 | tokens.css から `--ubm-color-ok-soft` を削除 | `missing-in-tokens-css` 1 件 / exit 1 |
+| C4: 09b 側欠落 | 09b fixture から `--ubm-color-info` を削除（temp file で検証） | `missing-in-09b` 1 件 / exit 1 |
 | C5: 空白正規化 | `oklch(0.58  0.10  55)` (double space) と `oklch(0.58 0.10 55)` | drift 0（normalize 済み） |
 | C6: ネスト無視 | `color-mix(in oklch, var(--accent) 12%, transparent)` を含む宣言 | OKLch literal として扱わない |
-| C7: スコープ外無視 | `[data-theme="warm"]` 内の `--accent` | `:root` のみ対象なので drift 検出されない |
+| C7: theme bridge 欠落 | globals.css の `@theme inline` から `--color-accent` を削除 | `missing-theme-bridge` 1 件 / exit 1 |
 
 実行: `mise exec -- pnpm vitest run scripts/verify-design-tokens.test.ts`
 
@@ -741,10 +710,10 @@ mise exec -- pnpm --filter @ubm-hyogo/web e2e:visual
 
 | 状況 | 運用 |
 |------|------|
-| prototype 側を意図的に更新する場合 | 1) prototype `styles.css` を更新 → 2) globals 側 `@theme` を同値に更新 → 3) `pnpm verify:tokens` で drift 0 を確認 → 4) 1 PR にまとめる |
+| token 正本を意図的に更新する場合 | 1) `09b-design-tokens.md` §9 JSON を更新 → 2) `tokens.css` と `globals.css @theme inline` を同 wave で更新 → 3) `pnpm verify:tokens` で drift 0 を確認 → 4) 1 PR にまとめる |
 | visual diff が意図的な UI 変更で fail | `pnpm --filter @ubm-hyogo/web e2e:visual:update` を実行し baseline を更新、PR に screenshot 差分を含める |
 | smoke が staging 通信タイムアウト | nightly job は `retries: 2` 済み。連続 2 回失敗時のみ Slack 通知（既存 `notify-completion.sh` ルートに統合）。 |
-| token 検証スクリプトが false-positive | `TRACKED_TOKEN_NAMES` から一時除外し、Issue で根拠を残す（whitelist 方式の利点） |
+| token 検証スクリプトが false-positive | 09b JSON parser / CSS parser の fixture を追加し、除外ではなく parser 修正で収束させる |
 
 ## 付録 B. 既存ファイル / 既存 workflow との関係
 

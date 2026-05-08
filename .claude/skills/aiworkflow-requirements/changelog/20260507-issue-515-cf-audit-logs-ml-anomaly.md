@@ -30,5 +30,5 @@
 
 - `unassigned-task/issue-515-90day-baseline-observation.md`
 - `unassigned-task/issue-515-redacted-feature-export.md`
-- `unassigned-task/issue-515-ml-model-selection.md`
-- `unassigned-task/issue-515-production-ml-switch.md`
+- FU-03-C model selection successor: `docs/30-workflows/issue-548-ml-model-selection/` (formalized 2026-05-08)
+- FU-03-D production switch successor: `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-production-classifier-switch.md`

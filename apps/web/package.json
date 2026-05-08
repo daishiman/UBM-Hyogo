@@ -8,7 +8,7 @@
     "build:cloudflare": "NODE_ENV=production opennextjs-cloudflare build && node ../../scripts/patch-open-next-worker.mjs",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "dev": "next dev",
-    "lint": "tsc -p tsconfig.json --noEmit",
+    "lint": "tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'",
     "preview:cloudflare": "pnpm build:cloudflare && opennextjs-cloudflare preview",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web",
@@ -18,9 +18,11 @@
   },
   "dependencies": {
     "@opennextjs/cloudflare": "1.19.4",
+    "@sentry/cloudflare": "^10.51.0",
+    "@sentry/nextjs": "^10.51.0",
     "@ubm-hyogo/shared": "workspace:*",
     "next": "16.2.4",
-    "next-auth": "5.0.0-beta.25",
+    "next-auth": "5.0.0-beta.30",
     "react": "19.2.5",
     "react-dom": "19.2.5",
     "zod": "^4.3.6"
@@ -28,9 +30,16 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",
     "@playwright/test": "^1.50.0",
+    "@tailwindcss/postcss": "~4.0.0",
     "@types/node": "24.10.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
+    "@typescript-eslint/parser": "^8.59.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "eslint": "^10.3.0",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "~4.0.0",
     "typescript": "6.0.3",
     "wrangler": "4.85.0"
   }

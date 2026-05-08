@@ -219,3 +219,24 @@ export const listFiltered = async (
 
 // NOTE: append-only を構造で守るため、UPDATE / DELETE 関数はこのモジュールから export しない。
 //       この不在自体が AC-6 を satisfy する（type test で `// @ts-expect-error` 検証）。
+
+export interface AuditLogProvider {
+  append(e: NewAuditLogEntry): Promise<AuditLogEntry>;
+  listRecent(limit: number): Promise<AuditLogEntry[]>;
+  listByActor(actorEmail: AdminEmail, limit: number): Promise<AuditLogEntry[]>;
+  listByTarget(
+    targetType: AuditTargetType,
+    targetId: string,
+    limit: number,
+  ): Promise<AuditLogEntry[]>;
+  listFiltered(filters: AuditLogListFilters): Promise<AuditLogListRow[]>;
+}
+
+export const createAuditLogProvider = (c: DbCtx): AuditLogProvider => ({
+  append: (e) => append(c, e),
+  listRecent: (limit) => listRecent(c, limit),
+  listByActor: (actorEmail, limit) => listByActor(c, actorEmail, limit),
+  listByTarget: (targetType, targetId, limit) =>
+    listByTarget(c, targetType, targetId, limit),
+  listFiltered: (filters) => listFiltered(c, filters),
+});

@@ -11,6 +11,43 @@ on:
     branches: [main, dev]
 
 jobs:
+  workflow-shell-lint:
+    name: workflow-shell-lint
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Bash syntax for observation reminder
+        run: bash -n scripts/observation/create-reminder-issue.sh
+
+      - name: Observation reminder shell unit
+        run: bash scripts/observation/test/test-create-reminder-issue.sh
+
+      - name: Shellcheck observation scripts
+        run: shellcheck scripts/observation/*.sh scripts/observation/test/*.sh
+
+      - name: Download actionlint
+        run: bash <(curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+
+      - name: Actionlint observation reminder workflow
+        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml
+
+      - name: Verify workflow secret allowlist
+        run: |
+          unexpected="$(
+            grep -RInE 'secrets\.[A-Z0-9_]+' .github/workflows/post-release-observation-reminder.yml \
+              | grep -v 'secrets.GITHUB_TOKEN' || true
+          )"
+          if [ -n "$unexpected" ]; then
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi
+
   ci:
     name: ci
     runs-on: ubuntu-latest
@@ -21,9 +58,9 @@ jobs:
         id: ready
         run: |
           if [ -f "package.json" ] && [ -f "pnpm-workspace.yaml" ]; then
-            echo "value=true" >> $GITHUB_OUTPUT
+            echo "value=true" >> "$GITHUB_OUTPUT"
           else
-            echo "value=false" >> $GITHUB_OUTPUT
+            echo "value=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Skip — monorepo not yet bootstrapped
@@ -44,6 +81,14 @@ jobs:
       - name: Install dependencies
         if: steps.ready.outputs.value == 'true'
         run: pnpm install --frozen-lockfile
+
+      - name: Install observation lint tools
+        if: steps.ready.outputs.value == 'true'
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Post-release observation lint
+        if: steps.ready.outputs.value == 'true'
+        run: pnpm observation:lint
 
       - name: Type check
         if: steps.ready.outputs.value == 'true'
@@ -75,9 +120,9 @@ jobs:
         id: ready
         run: |
           if [ -f "package.json" ] && [ -f "pnpm-workspace.yaml" ]; then
-            echo "value=true" >> $GITHUB_OUTPUT
+            echo "value=true" >> "$GITHUB_OUTPUT"
           else
-            echo "value=false" >> $GITHUB_OUTPUT
+            echo "value=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Skip — monorepo not yet bootstrapped
@@ -98,6 +143,10 @@ jobs:
       - name: Install dependencies
         if: steps.ready.outputs.value == 'true'
         run: pnpm install --frozen-lockfile
+
+      - name: Build apps/web (Tailwind CSS emission for build-output.test.ts)
+        if: steps.ready.outputs.value == 'true'
+        run: pnpm --filter @ubm-hyogo/web build:cloudflare
 
       - name: Run coverage-guard
         if: steps.ready.outputs.value == 'true'

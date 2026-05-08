@@ -81,6 +81,13 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - `task-workflow.md` の完了タスク記録
 - docs-only 前提で作成した follow-up に後からコード変更が入った場合は、`phase-*.md` と `outputs/phase-12/*.md` の narrative も同じターンで current facts に戻す
 - `spec_created` task に code wave が入った場合は、workflow 本文だけでなく system spec 側の current contract も同ターンで更新し、`no-op` を自己申告しない
+- docs-only / NON_VISUAL close-out で `apps/` / `packages/` に dirty diff が存在する場合、次のどちらかを同一 wave で必ず実施する:
+  - 当該 task の実装差分として再分類し、Phase 11 local evidence と system spec を同期する
+  - task 外の隣接 diff として `system-spec-update-summary.md` / `unassigned-task-detection.md` / compliance check に分離記録し、task primary deliverable の PASS 根拠に混ぜない
+- **docs-only 隣接コード差分検出（Phase 12 entry checklist 必須）**: Phase 12 着手の最初の手で `git status --porcelain apps/ packages/ 2>/dev/null` および `git diff --name-only main...HEAD -- 'apps/**' 'packages/**'` を実行し、結果を `documentation-changelog.md` 冒頭の「entry checklist」セクションに**生出力ごと**転記する。1 件以上 hit した場合は上記 2 分岐（再分類 / 分離記録）のどちらかを `phase12-task-spec-compliance-check.md` に明記し、未記録のまま PASS にしない。0 件の場合も「`apps/` `packages/` dirty diff 0 件確認済」と明示記録する。
+- UI spec / token spec では `token-sized` / `09b-token-value` / `token-mix` のような placeholder token を PASS させない。HEX / `oklch()` / `px` / `bg-[` gate に加え、placeholder token grep 0 と §99 必須項目の content check を Phase 11/12 evidence に含める。
+- **placeholder token grep 0 件 gate**（Phase 12 必須 validator）: 禁止語リスト最小セットは `token-sized` / `09b-token-value` / `token-mix` / `token-spacing-N` / `token-radius-N` / `token-color-N`。`rg -n -F -e 'token-sized' -e '09b-token-value' -e 'token-mix' <target>` の exit code と match 件数（0 件）を `documentation-changelog.md` と `phase12-task-spec-compliance-check.md` の双方に転記する。0 件証跡なしに PASS にしない。
+- **§99 必須項目 content check**: 「§99 必須項目」「Required items」など見出しの存在だけでは PASS にしない。当該 section 配下の本文に、対象 spec が要求する keyword（例: `token-sized` 禁止、`HEX 直書き禁止`、`oklch()` 必須、`primitives 一覧`）が**実際に出現すること**を `rg -n` で確認し、match 行を evidence にぶら下げる。見出しだけ存在し本文が placeholder の状態は FAIL。
 
 #### 同サイクル `spec_created` → `implemented-local` 再分類 + 状態語彙選択（UT-02A FU-003 反映）
 
@@ -144,9 +151,10 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - build artifact の文字列監査は `rg -F` を優先し、0件判定は `rg -q` の exit code と文書上の `match 0件` を対で残す
 - human-authored な Phase 12 成果物は task root 直下ではなく `outputs/phase-12/` に置く
 - `index.md` / `phase-*.md` / `artifacts.json` / `outputs/artifacts.json` の4点同期結果
-- **必須**: 当該 wave で touch した全 skill の `.claude/skills/<skill>/LOGS.md` 更新行を **canonical absolute path** で必ず列挙する。`SKILL.md` だけ列挙して `LOGS.md` を省略するパターンは FAIL（06b-b pending banner 監査で検出）。
-- Step 1-A で更新した `aiworkflow-requirements` / `task-specification-creator` の `SKILL.md` / `LOGS.md` を canonical path で列挙する
-- `skill-creator` を改善した場合は、`skill-creator/SKILL.md` / `LOGS.md` / 変更した template or reference も同じ changelog に列挙する
+- **必須**: 当該 wave で touch した全 skill の履歴 ledger を **canonical absolute path** で必ず列挙する。`SKILL.md` だけ列挙して履歴 ledger を省略するパターンは FAIL（06b-b pending banner 監査で検出）。
+- `.claude/skills/<skill>/LOGS.md` が存在する場合は `LOGS.md` を必須履歴 ledger とする。現行 skill が `LOGS/_legacy.md` + `changelog/<yyyymmdd-task>.md` fragment 運用の場合は、dated changelog を同一 wave 履歴として扱い、`documentation-changelog.md` / `system-spec-update-summary.md` に選択した履歴ファイルと `LOGS.md` 不在理由を明記すれば PASS とする。
+- Step 1-A で更新した `aiworkflow-requirements` / `task-specification-creator` の `SKILL.md` / 履歴 ledger を canonical path で列挙する
+- `skill-creator` を改善した場合は、`skill-creator/SKILL.md` / 履歴 ledger / 変更した template or reference も同じ changelog に列挙する
 - `更新予定` / `計画済み` / `PR マージ後に実施` のような future wording を残さない
 
 ### 必須エントリ最小セット（documentation-changelog.md）
@@ -156,11 +164,30 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 | カテゴリ | 必須 path 例 |
 | --- | --- |
 | skill 正本 | `.claude/skills/<skill>/SKILL.md` |
-| skill 履歴 | `.claude/skills/<skill>/LOGS.md` ← **省略禁止** |
+| skill 履歴 | `.claude/skills/<skill>/LOGS.md`、または現行運用で実在する `.claude/skills/<skill>/changelog/<yyyymmdd-task>.md` |
 | skill reference / template | `.claude/skills/<skill>/references/*.md`（変更があった場合） |
 | workflow artifacts | `docs/30-workflows/<task>/{index.md,artifacts.json}` |
 | workflow outputs | `docs/30-workflows/<task>/outputs/{artifacts.json,phase-12/*.md}` |
-| system spec | `docs/00-getting-started-manual/specs/*.md`（変更があった場合） |
+| system spec / specs 個別 path | `docs/00-getting-started-manual/specs/*.md`（変更があった spec の個別 path を 1 行ずつ列挙。`specs/` まとめ表記は不可） |
+| validator 実行記録 | 実行した validator の **コマンド逐語** と **exit code** と **match 件数 / PASS 件数**（例: `rg -n -F 'token-sized' docs/00-getting-started-manual/specs/09c-primitives.md → exit 1 (match 0)`、`bash scripts/verify-09c-no-visual-values.sh → exit 0`） |
+
+**追加運用ルール**:
+
+- 上記 7 カテゴリのうち touch していないカテゴリは「該当なし: 理由」を 1 行残す。表から省略すると省略漏れと自己 drift が区別できなくなるため、空行ではなく明示記録にする。
+- validator 実行記録は「コマンド」「exit code」「件数」の 3 値が揃わない記載を PASS にしない。スクリーンショット転記や「PASS」一語の記録は不十分。
+
+### deterministic verify script の前倒し配置（Phase 1-4 連携）
+
+Phase 12 で初めて validator を書き起こすと、Phase 11 evidence と Phase 12 changelog の両方が「post-hoc 自己採点」になりやすい。これを防ぐため、UI / spec / token / contract 系タスクでは `scripts/verify-<topic>.sh` の**雛形を Phase 1-4 のうち最も早い段階で配置**する運用を正規ルートとする。
+
+| Phase | 配置内容 | 根拠 |
+| --- | --- | --- |
+| Phase 1（要件定義） | `scripts/verify-<topic>.sh` の placeholder（exit 0 + TODO コメントのみ） | validator が AC 構成要素であることを Phase 1 時点で固定する |
+| Phase 2-4（設計 / 契約 / scaffold） | 禁止語 grep / 必須 keyword grep / size limit 等の deterministic check 本体を実装 | Phase 11 evidence で初手から exit code を取得できる |
+| Phase 11 | 既存スクリプトを実行し、`outputs/phase-11/evidence/grep-gate.log` 等に exit code を保存 | post-hoc 自己採点の防止 |
+| Phase 12 | `documentation-changelog.md` の validator 実行記録セクションへコマンド・exit code・件数を転記 | 上記「必須エントリ最小セット」と整合 |
+
+雛形不在のまま Phase 11 で validator を書き起こした場合、`documentation-changelog.md` に「Phase 1-4 verify script 雛形不在 → Phase 11 で新規作成」と理由を記録し、`skill-feedback-report.md` に同じ苦戦点を起票して再発を抑止する。
 
 ## Task 12-4: unassigned detection
 
@@ -222,6 +249,20 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - production migration apply runbook formalization は `DOC_PASS` と runtime PASS を分離し、Phase 11 evidence の `structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md` 実体、production apply 未実行境界、Phase 13 user approval gate を確認してから PASS にする
 - env-name contract alignment では、`outputs/phase-11/env-name-grep.md` / `secret-list-check.md` / `magic-link-smoke-readiness.md` の実体を確認し、name-only readiness と実 smoke PASS を分ける
 - タスク仕様書に古い候補コマンドが残っていた場合は、実リポジトリの `package.json` / workspace / test runner から現在のコマンドを再解決し、Phase 1 / 4 / 9 / 11 / 12 の command contract を同じ文字列へ更新してから PASS にする
+- lint / ESLint gate を AC に置く場合は、設定ファイルの配置だけで PASS にしない。`package.json` の実 `lint` script が該当 rule を実行していること、外部 global ESLint に依存していないこと、`outputs/phase-11/evidence/lint.log` に実コマンドと exit 0 が保存されていることを確認する。`lint` が `tsc` のみの場合は ESLint gate 未実装として同一 wave で script / dependency / config を補正する。
+
+#### lint gate 4要素同期 checklist
+
+ESLint gate を AC に持つ task は、以下 4 要素が**同一 wave で同期**しているかを Phase 12 compliance check に転記する。1 要素でも欠けたら PASS にしない。
+
+| 要素 | 確認内容 | 検証 |
+| --- | --- | --- |
+| package.json `lint` script | `tsc --noEmit && eslint .` の直列起動（または等価な ESLint 実行） | `cat apps/web/package.json` で `scripts.lint` を目視 |
+| dependency | `eslint` / `@typescript-eslint/*` / `eslint-config-next` 等が devDependencies に存在 | `pnpm ls --filter <pkg>` で版数つき確認 |
+| config | `eslint.config.mjs`（または `.eslintrc.*`）で `no-restricted-globals` 等の rule 有効化 | rule 名を `rg -n` で grep |
+| evidence | `outputs/phase-11/evidence/lint.log` に exit 0 と eslint stdout（rule 名・対象ファイル）両方が記録 | `tail` / `grep eslint` で両方の出現確認 |
+
+> Phase 1〜3 限定 workflow を Phase 13 まで拡張する際は `artifacts.json` と `index.md` を同一 commit で同期させる（root ledger drift gate）。Phase 4 以降の outputs を追加してから phase 範囲を拡張する場合も、artifacts ledger と index narrative の Phase 数表記が乖離しないよう、同 wave で書き換える。
 
 **確認コマンド（docs-only / UI task 共通で必須）**:
 
@@ -263,3 +304,26 @@ Phase 12 成果物は以下 7 ファイル名で**完全固定**する。`system
 - リネーム / リファクタリング時は本表を先に更新し、git history を残した上で全 4 箇所に sed 相当の一括置換を当て、`rg -F "<旧名>" docs/30-workflows/<task>/` の出力が 0 件になったことを `documentation-changelog.md` に記録する。
 - task root 直下に `phase-12-documentation.md` 以外の Phase 12 成果物（例: `phase-12-implementation-guide.md` / `phase-12-changelog.md`）を作るのは禁止。すべて `outputs/phase-12/` 配下に置く。
 - 反例として `system-spec-update.md`（summary 抜き）/ `skill-feedback.md`（report 抜き）/ `compliance-check.md`（接頭辞抜き）が頻出するため、Phase 12 着手時に本表の canonical name を `outputs/phase-12/.gitkeep` 相当の placeholder として先に作っておくと drift しにくい。
+
+## Phase 4 で placeholder token (HEX) grep 0 件 gate を前倒し配置（build pipeline タスク類型）
+
+### Trigger キーワード
+
+`tailwind` / `design tokens` / `postcss` / `build pipeline` / `hex-grep-zero` / `placeholder token gate`
+
+上記キーワードが Phase 1 のタスク種別判定で hit する build pipeline 系タスクでは、Phase 11 / 12 で HEX 直書き残存を発見すると差戻しコストが大きい。Phase 4（テスト設計 / gate 設計）の段階で **placeholder token (HEX) grep 0 件 gate** を前倒し配置し、Phase 5 以降で常時 0 件を維持する。
+
+### 配置ルール
+
+- Phase 4 outputs に `outputs/phase-4/hex-grep-gate.sh` を置く（実行可能スクリプト）
+- スクリプトは `apps/web/src/` 配下の HEX literal（`#[0-9a-fA-F]{3,8}` / `bg-[#...]` / `text-[#...]`）を grep し、件数 0 を期待値とする
+- 0 件以外で exit code 非 0 を返し、Phase 5 / Phase 11 / CI gate（`verify-design-tokens` 相当）から呼び出して再利用する
+- Phase 12 `phase12-task-spec-compliance-check.md` ではこの gate の最新実行ログを evidence として参照する
+
+### Evidence
+
+| ファイル | 役割 |
+| --- | --- |
+| `outputs/phase-4/hex-grep-gate.sh` | placeholder token (HEX) 残存 0 件を判定するスクリプト本体（Phase 5 以降で再利用） |
+
+Phase 4 で gate を作らず Phase 11 で初めて grep する運用は本ルール違反とし、`skill-feedback-report.md` に「Phase 4 gate 前倒し未実施」として記録する。
