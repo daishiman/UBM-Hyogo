@@ -341,19 +341,18 @@
 | runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、model selection、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up |
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
 
-### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
+### Issue #534 workflow_state skill guidance（2026-05-08）
 
 | 項目 | 値 |
 | --- | --- |
-| 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Issue #547 CLOSED |
-| 成果物 | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` |
-| 目的 | production D1 `cf_audit_log` から 90 日分の ML feature JSONL を read-only export し、schema validation / manifest / leakage gate で redacted dataset を作る |
-| 実装正本 | `scripts/cf-audit-log/feature-export.ts`, `scripts/cf-audit-log/feature-export/schema-validation.ts`, `scripts/cf-audit-log/feature-export/manifest.ts`, `scripts/cf-audit-log/d1-client.ts`, `scripts/cf.sh` |
-| evidence | `outputs/phase-11/main.md`, `focused-vitest.log`, `fixture-exported-features.jsonl`, `fixture-export-manifest.json`, `secret-leakage-grep.log`, `schema-validation.log` |
-| runtime境界 | production read-only export は `outputs/phase-11/production-pending-user-gate.md` のまま user approval 後のみ実行。local fixture PASS を runtime PASS と扱わない |
-| lessons | `references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md` |
-| artifact inventory | `references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md` |
-| 正本同期 | `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `indexes/quick-reference.md` / `indexes/resource-map.md` / LOGS |
+| 状態 | implemented_local_evidence_captured / implementation / NON_VISUAL / Issue #534 CLOSED / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-534-skill-workflow-state-guidance/` |
+| 目的 | workflow root state、phase status、Phase 11/12 evidence、archive/delete ledger sync の境界を task-specification-creator skill 本体へ昇格する |
+| 実装正本 | `.claude/skills/task-specification-creator/references/workflow-state-vocabulary.md`, `.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/artifacts.json` |
+| runtime境界 | runtime smoke なし。`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` は runtime/deploy/production evidence pending の task に限定する |
+| follow-up | `docs/30-workflows/unassigned-task/task-spec-skill-workflow-state-hook-enforcement.md`, `docs/30-workflows/unassigned-task/task-spec-skill-compliance-check-ci-gate.md` |
+| 正本同期 | `indexes/quick-reference.md` / `indexes/resource-map.md` / LOGS / task-specification-creator SKILL references |
 
 ### Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08）
 

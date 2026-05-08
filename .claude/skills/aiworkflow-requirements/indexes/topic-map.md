@@ -5983,13 +5983,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L665 |
-| フェーズ構造（概要） | L674 |
-| 品質ゲート（概要） | L705 |
-| 出力テンプレート | L716 |
-| 実行時のコマンド・エージェント・スキル | L739 |
-| 昇格パターン集 | L763 |
-| Current Active / Spec Created Tasks | L765 |
+| ドキュメント構成 | L664 |
+| フェーズ構造（概要） | L673 |
+| 品質ゲート（概要） | L704 |
+| 出力テンプレート | L715 |
+| 実行時のコマンド・エージェント・スキル | L738 |
+| 昇格パターン集 | L762 |
+| Current Active / Spec Created Tasks | L764 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6004,7 +6004,8 @@ node scripts/list-specs.js --topics
 | 残課題（未タスク） | L6 |
 | task-worktree-environment-isolation follow-up（2026-04-28） | L356 |
 | TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L367 |
-| 続き | L377 |
+| Issue #534 workflow_state skill guidance follow-up（2026-05-08） | L377 |
+| 続き | L386 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

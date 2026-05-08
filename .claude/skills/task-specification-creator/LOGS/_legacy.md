@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-08 - Issue #534 workflow_state vocabulary promotion
+
+`docs/30-workflows/issue-534-skill-workflow-state-guidance/` の review で、workflow root state、phase status、Phase 11/12 evidence、archive/delete ledger sync の境界を `task-specification-creator` skill 本体へ昇格した。`references/workflow-state-vocabulary.md` と `references/phase12-compliance-check-template.md` を新設し、SKILL.md References、既存 Phase 11/12 references、SKILL-changelog を同期。commit、push、PR は user-gated のまま未実行。
+
 ## 2026-05-08 - Issue #547 redacted feature export boundary promotion
 
 `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` の Phase 12 review で、local fixture export PASS と production 90 day read-only export を同じ PASS にしない boundary を確認した。`references/phase12-skill-feedback-promotion.md` に Issue #547 applied example、`assets/phase12-task-spec-compliance-template.md` に AC / evidence / SSOT / parity / runtime-pending content gates、`references/phase-12-spec.md` に CLOSED Issue `Refs #<issue>` only rule を追加した。production export、commit、push、PR は user-gated のまま未実行。

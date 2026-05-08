@@ -5,18 +5,17 @@
 
 ---
 
-### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
+### Issue #534 workflow_state skill guidance（2026-05-08）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` |
-| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
-| CLI | `scripts/cf.sh audit-log feature-export` |
-| implementation | `scripts/cf-audit-log/feature-export.ts`, `scripts/cf-audit-log/feature-export/schema-validation.ts`, `scripts/cf-audit-log/feature-export/manifest.ts` |
-| D1 boundary | `readEventsForFeatureExport()` returns `AuditLogEvent[]`; `raw_json` does not cross module boundary |
-| evidence | `outputs/phase-11/main.md`, `fixture-exported-features.jsonl`, `fixture-export-manifest.json`, `secret-leakage-grep.log`, `schema-validation.log` |
-| production gate | `outputs/phase-11/production-pending-user-gate.md`; production export is `PENDING_RUNTIME_EVIDENCE` until approval |
-| PR wording | Issue #547 is CLOSED; use `Refs #547` only |
+| workflow root | `docs/30-workflows/issue-534-skill-workflow-state-guidance/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 pending_user_approval` |
+| owning skill | `.claude/skills/task-specification-creator/` |
+| vocabulary | `.claude/skills/task-specification-creator/references/workflow-state-vocabulary.md` |
+| compliance template | `.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md` |
+| archive/delete gate | workflow root の削除・移動時は aiworkflow indexes / active ledger / LOGS を同一 wave で同期 |
+| PR wording | Issue #534 is CLOSED; use `Refs #534` only |
 
 ### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
 
