@@ -1,0 +1,145 @@
+/* UBM Hyogo design tokens — 正本: docs/00-getting-started-manual/specs/09b-design-tokens.md §9 */
+/* prefix: --ubm-* / 3 themes (stone default + warm + cool) / OKLch fallback */
+
+:root {
+  /* Surface */
+  --ubm-color-surface-bg: #f5f4f1;
+  --ubm-color-surface-bg-2: #ebe9e3;
+  --ubm-color-surface-panel: #ffffff;
+  --ubm-color-surface-panel-2: #fafaf8;
+
+  /* Text */
+  --ubm-color-text-primary: #1a1917;
+  --ubm-color-text-secondary: #57554e;
+  --ubm-color-text-muted: #8a877e;
+
+  /* Border */
+  --ubm-color-border-default: #e7e5df;
+  --ubm-color-border-strong: #d6d3cc;
+
+  /* Accent */
+  --ubm-color-accent: oklch(0.58 0.10 55);
+  --ubm-color-accent-soft: oklch(0.95 0.03 65);
+  --ubm-color-accent-ink: oklch(0.38 0.10 55);
+
+  /* Status */
+  --ubm-color-ok: oklch(0.55 0.10 155);
+  --ubm-color-ok-soft: oklch(0.95 0.04 155);
+  --ubm-color-warn: oklch(0.62 0.12 75);
+  --ubm-color-warn-soft: oklch(0.96 0.05 80);
+  --ubm-color-danger: oklch(0.55 0.15 25);
+  --ubm-color-danger-soft: oklch(0.95 0.04 30);
+  --ubm-color-info: oklch(0.55 0.09 230);
+  --ubm-color-info-soft: oklch(0.96 0.025 230);
+
+  /* Zone alias */
+  --ubm-color-zone-a: var(--ubm-color-info);
+  --ubm-color-zone-b: var(--ubm-color-accent);
+  --ubm-color-zone-c: var(--ubm-color-ok);
+  --ubm-color-zone-d: var(--ubm-color-warn);
+  --ubm-color-zone-e: var(--ubm-color-danger);
+
+  /* Radius */
+  --ubm-radius-sm: 8px;
+  --ubm-radius-md: 12px;
+  --ubm-radius-lg: 16px;
+  --ubm-radius-xl: 20px;
+  --ubm-radius-2xl: 28px;
+
+  /* Shadow */
+  --ubm-shadow-xs: 0 1px 2px rgba(24, 23, 20, 0.04);
+  --ubm-shadow-sm: 0 1px 2px rgba(24, 23, 20, 0.05), 0 2px 6px rgba(24, 23, 20, 0.04);
+  --ubm-shadow-md: 0 4px 16px rgba(24, 23, 20, 0.06), 0 1px 2px rgba(24, 23, 20, 0.04);
+  --ubm-shadow-lg: 0 20px 48px rgba(24, 23, 20, 0.10), 0 2px 6px rgba(24, 23, 20, 0.04);
+
+  /* Typography */
+  --ubm-font-jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --ubm-font-en: "Geist", "SF Pro Text", system-ui, sans-serif;
+  --ubm-font-serif: "Noto Serif JP", serif;
+  --ubm-font-body: var(--ubm-font-en), var(--ubm-font-jp);
+  --ubm-font-mono: "SF Mono", "Menlo", ui-monospace, monospace;
+
+  --ubm-text-xs: 11px;
+  --ubm-text-sm: 12.5px;
+  --ubm-text-base: 13.5px;
+  --ubm-text-md: 14px;
+  --ubm-text-lg: 16px;
+  --ubm-text-xl: 20px;
+  --ubm-text-2xl: 24px;
+  --ubm-text-3xl: 32px;
+
+  /* Spacing (4px grid) */
+  --ubm-space-0: 0;
+  --ubm-space-1: 4px;
+  --ubm-space-2: 8px;
+  --ubm-space-3: 12px;
+  --ubm-space-4: 16px;
+  --ubm-space-6: 24px;
+  --ubm-space-8: 32px;
+  --ubm-space-12: 48px;
+  --ubm-space-16: 64px;
+  --ubm-space-24: 96px;
+
+  /* Motion */
+  --ubm-dur-fast: 120ms;
+  --ubm-dur-base: 180ms;
+  --ubm-dur-slow: 260ms;
+  --ubm-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ubm-ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
+  --ubm-ease-decelerate: cubic-bezier(0, 0, 0, 1);
+  --ubm-ease-accelerate: cubic-bezier(0.3, 0, 1, 1);
+}
+
+/* Warm theme override (surface / text / border / accent only) */
+[data-theme="warm"] {
+  --ubm-color-surface-bg: #f7f2ea;
+  --ubm-color-surface-bg-2: #eee5d5;
+  --ubm-color-surface-panel: #fffcf6;
+  --ubm-color-surface-panel-2: #fbf6ec;
+  --ubm-color-border-default: #ece2d1;
+  --ubm-color-border-strong: #d8c9b0;
+  --ubm-color-text-primary: #22180a;
+  --ubm-color-text-secondary: #6b5a42;
+  --ubm-color-text-muted: #9a8a6e;
+  --ubm-color-accent: oklch(0.62 0.14 50);
+  --ubm-color-accent-soft: oklch(0.94 0.05 60);
+  --ubm-color-accent-ink: oklch(0.40 0.13 50);
+}
+
+/* Cool theme override */
+[data-theme="cool"] {
+  --ubm-color-surface-bg: #f1f3f5;
+  --ubm-color-surface-bg-2: #e4e8ec;
+  --ubm-color-surface-panel: #ffffff;
+  --ubm-color-surface-panel-2: #f8fafc;
+  --ubm-color-border-default: #e2e5ea;
+  --ubm-color-border-strong: #cfd5dc;
+  --ubm-color-text-primary: #0f1720;
+  --ubm-color-text-secondary: #4a5563;
+  --ubm-color-text-muted: #7c8693;
+  --ubm-color-accent: oklch(0.52 0.11 240);
+  --ubm-color-accent-soft: oklch(0.95 0.03 235);
+  --ubm-color-accent-ink: oklch(0.36 0.12 240);
+}
+
+/* Dark mode placeholder — values intentionally empty (MVP 非対応) */
+[data-theme="dark"] {
+  /* Intentionally empty. See spec 09b §11. */
+}
+
+/* sRGB fallback for OKLch 非対応ブラウザ */
+@supports not (color: oklch(0% 0 0)) {
+  :root {
+    --ubm-color-accent: #b08049;
+    --ubm-color-accent-soft: #f3ece1;
+    --ubm-color-accent-ink: #6f4f25;
+    --ubm-color-ok: #5e8a5d;
+    --ubm-color-ok-soft: #edf7ee;
+    --ubm-color-warn: #c08540;
+    --ubm-color-warn-soft: #fbf2df;
+    --ubm-color-danger: #b34a3b;
+    --ubm-color-danger-soft: #faece8;
+    --ubm-color-info: #4d7da6;
+    --ubm-color-info-soft: #ecf3fb;
+  }
+}

@@ -3001,6 +3001,7 @@
       "security-implementation.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
     ],
     "配置ルール": [
@@ -3079,6 +3080,7 @@
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -4124,6 +4126,7 @@
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-548-ml-model-selection-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
@@ -4571,6 +4574,7 @@
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
@@ -5243,6 +5247,7 @@
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
@@ -5321,6 +5326,7 @@
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
@@ -8532,7 +8538,8 @@
     "Root": [
       "legacy-ordinal-family-register.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
-      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md"
+      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
     ],
     "Path": [
       "legacy-ordinal-family-register.md",
@@ -8604,6 +8611,7 @@
       "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md",
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
+      "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md",
       "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "lessons-learned-task19-primitives-full-spec-2026-05.md",
@@ -8682,6 +8690,7 @@
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
+      "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
@@ -10186,6 +10195,7 @@
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
+      "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md",
       "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "lessons-learned-task19-primitives-full-spec-2026-05.md",
@@ -10208,6 +10218,7 @@
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
@@ -11447,6 +11458,7 @@
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
+      "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md",
       "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
@@ -13658,7 +13670,8 @@
     ],
     "横展開チェックリスト": [
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
-      "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md"
+      "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
+      "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md"
     ],
     "ui": [
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
@@ -13752,6 +13765,16 @@
     "doc": [
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "Tailwind": [
+      "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md",
+      "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
+    ],
+    "setup": [
+      "lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md",
+      "ui-history-integration.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
     ],
     "Screen": [
       "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
@@ -18970,9 +18993,6 @@
     "タスク依存関係一覧": [
       "ui-history-integration.md"
     ],
-    "setup": [
-      "ui-history-integration.md"
-    ],
     "HistorySearchView": [
       "ui-history-search-view.md"
     ],
@@ -19696,6 +19716,7 @@
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
@@ -19779,6 +19800,7 @@
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
@@ -19826,6 +19848,7 @@
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
@@ -19842,6 +19865,7 @@
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -19874,6 +19898,7 @@
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
@@ -20553,7 +20578,8 @@
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
     "Primary": [
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
     ],
     "書き換え": [
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
@@ -20619,9 +20645,6 @@
     "OKLch": [
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md"
     ],
-    "Tailwind": [
-      "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md"
-    ],
     "Inline": [
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md"
     ],
@@ -20630,6 +20653,13 @@
     ],
     "Full": [
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
+    ],
+    "Inputs": [
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
+    ],
+    "Targets": [
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
+      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
     ],
     "Upstream": [
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
@@ -20683,9 +20713,6 @@
     "band": [
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
-    ],
-    "Targets": [
-      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
     ],
     "Historical": [
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"

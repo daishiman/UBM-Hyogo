@@ -180,6 +180,21 @@
 | lessons | `references/lessons-learned-task-08-w2-design-tokens-doc-2026-05.md`（L-T08W2-001..004）|
 | inventory | `references/workflow-task-08-w2-design-tokens-doc-artifact-inventory.md` |
 
+### Task 09 W3 Tailwind v4 setup（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / VISUAL_ON_EXECUTION / local PASS 5-point evidence captured / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/` |
+| upstream | task-08 `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| 目的 | `apps/web` に Tailwind v4 CSS-first build pipeline を確立し、09b の `--ubm-*` token を `tokens.css` と `globals.css @theme inline` で utility 化する |
+| 境界 | task-09 は単一 PR。task-10 primitives は別 PR で、task-09 完了後のみ着手 |
+| 検証 | Phase 9 local 5点、Phase 11 `preview:cloudflare` 200、generated CSS `.bg-accent` + `var(--ubm-color-accent)`、HEX grep 0、apps/api diff 0 |
+| 状態境界 | 現 wave で実コード実装と local PASS 証跡を取得済み。commit・push・PR は未実行 |
+| Phase 11 evidence | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/outputs/phase-11/evidence/typecheck.log`、`outputs/phase-11/evidence/tokens-test.log`、`outputs/phase-11/evidence/build-output-test.log`、`outputs/phase-11/evidence/preview-200.log`、`outputs/phase-11/evidence/hex-grep-zero.log` |
+| lessons | `references/lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md`（L-T09W3-001..003） |
+| inventory | `references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md` |
+
 ### UI prototype mapping table task-07（2026-05-07）
 
 | 項目 | 値 |

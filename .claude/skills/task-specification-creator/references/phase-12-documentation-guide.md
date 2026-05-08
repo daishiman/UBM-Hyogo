@@ -304,3 +304,26 @@ Phase 12 成果物は以下 7 ファイル名で**完全固定**する。`system
 - リネーム / リファクタリング時は本表を先に更新し、git history を残した上で全 4 箇所に sed 相当の一括置換を当て、`rg -F "<旧名>" docs/30-workflows/<task>/` の出力が 0 件になったことを `documentation-changelog.md` に記録する。
 - task root 直下に `phase-12-documentation.md` 以外の Phase 12 成果物（例: `phase-12-implementation-guide.md` / `phase-12-changelog.md`）を作るのは禁止。すべて `outputs/phase-12/` 配下に置く。
 - 反例として `system-spec-update.md`（summary 抜き）/ `skill-feedback.md`（report 抜き）/ `compliance-check.md`（接頭辞抜き）が頻出するため、Phase 12 着手時に本表の canonical name を `outputs/phase-12/.gitkeep` 相当の placeholder として先に作っておくと drift しにくい。
+
+## Phase 4 で placeholder token (HEX) grep 0 件 gate を前倒し配置（build pipeline タスク類型）
+
+### Trigger キーワード
+
+`tailwind` / `design tokens` / `postcss` / `build pipeline` / `hex-grep-zero` / `placeholder token gate`
+
+上記キーワードが Phase 1 のタスク種別判定で hit する build pipeline 系タスクでは、Phase 11 / 12 で HEX 直書き残存を発見すると差戻しコストが大きい。Phase 4（テスト設計 / gate 設計）の段階で **placeholder token (HEX) grep 0 件 gate** を前倒し配置し、Phase 5 以降で常時 0 件を維持する。
+
+### 配置ルール
+
+- Phase 4 outputs に `outputs/phase-4/hex-grep-gate.sh` を置く（実行可能スクリプト）
+- スクリプトは `apps/web/src/` 配下の HEX literal（`#[0-9a-fA-F]{3,8}` / `bg-[#...]` / `text-[#...]`）を grep し、件数 0 を期待値とする
+- 0 件以外で exit code 非 0 を返し、Phase 5 / Phase 11 / CI gate（`verify-design-tokens` 相当）から呼び出して再利用する
+- Phase 12 `phase12-task-spec-compliance-check.md` ではこの gate の最新実行ログを evidence として参照する
+
+### Evidence
+
+| ファイル | 役割 |
+| --- | --- |
+| `outputs/phase-4/hex-grep-gate.sh` | placeholder token (HEX) 残存 0 件を判定するスクリプト本体（Phase 5 以降で再利用） |
+
+Phase 4 で gate を作らず Phase 11 で初めて grep する運用は本ルール違反とし、`skill-feedback-report.md` に「Phase 4 gate 前倒し未実施」として記録する。

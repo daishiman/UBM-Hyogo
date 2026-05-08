@@ -2809,6 +2809,18 @@ node scripts/list-specs.js --topics
 | Canonical Artifacts | L12 |
 | Runtime Evidence Contract | L27 |
 
+### references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| Current State | L7 |
+| Primary Artifacts | L11 |
+| Canonical Inputs | L20 |
+| Implementation Targets | L26 |
+| Phase 11 Evidence | L42 |
+| Boundary | L53 |
+
 ### references/workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md
 
 | セクション | 行 |
@@ -4586,6 +4598,13 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L12 |
 | 横展開チェックリスト | L55 |
 
+### references/lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L10 |
+| 横展開チェックリスト | L33 |
+
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
 | セクション | 行 |
@@ -6003,13 +6022,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L689 |
-| フェーズ構造（概要） | L698 |
-| 品質ゲート（概要） | L729 |
-| 出力テンプレート | L740 |
-| 実行時のコマンド・エージェント・スキル | L763 |
-| 昇格パターン集 | L787 |
-| Current Active / Spec Created Tasks | L789 |
+| ドキュメント構成 | L704 |
+| フェーズ構造（概要） | L713 |
+| 品質ゲート（概要） | L744 |
+| 出力テンプレート | L755 |
+| 実行時のコマンド・エージェント・スキル | L778 |
+| 昇格パターン集 | L802 |
+| Current Active / Spec Created Tasks | L804 |
 
 ### references/task-workflow-backlog-part2.md
 
