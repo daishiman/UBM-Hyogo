@@ -2389,6 +2389,16 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L15 |
+| Phase Outputs | L29 |
+| Skill 反映先 | L40 |
+| Validation Chain | L55 |
+
 ### references/workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md
 
 | セクション | 行 |
@@ -3472,16 +3482,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L60 |
-| キャッシュ戦略 | L96 |
-| 並列実行の活用 | L119 |
-| CD ワークフロー要件（dev / main マージ時） | L175 |
-| Backend ワークフロー要件（dev / main マージ時） | L203 |
-| モニタリングとアラート | L229 |
-| GitHub Secrets の要件 | L263 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L307 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L328 |
-| post-release-30day-auto-summary | L365 |
+| CI ワークフロー要件（PR 時） | L63 |
+| キャッシュ戦略 | L99 |
+| 並列実行の活用 | L122 |
+| CD ワークフロー要件（dev / main マージ時） | L178 |
+| Backend ワークフロー要件（dev / main マージ時） | L206 |
+| モニタリングとアラート | L232 |
+| GitHub Secrets の要件 | L266 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L310 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L331 |
+| post-release-30day-auto-summary | L368 |
 
 ### references/deployment-history.md
 
@@ -4400,6 +4410,14 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
 
+### references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L41 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4787,8 +4805,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L99 |
-| 関連ドキュメント | L104 |
+| 利用順序 | L100 |
+| 関連ドキュメント | L105 |
 
 ### references/llm-embedding.md
 
@@ -5504,9 +5522,9 @@ node scripts/list-specs.js --topics
 | 概要 | L13 |
 | 正本 runbook | L17 |
 | Current Contract | L21 |
-| Evidence Boundary | L32 |
-| Follow-up Unassigned Tasks | L38 |
-| 関連 | L44 |
+| Evidence Boundary | L35 |
+| Follow-up Unassigned Tasks | L41 |
+| 関連 | L47 |
 
 ### references/quality-e2e-testing.md
 
@@ -5892,13 +5910,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L577 |
-| フェーズ構造（概要） | L586 |
-| 品質ゲート（概要） | L617 |
-| 出力テンプレート | L628 |
-| 実行時のコマンド・エージェント・スキル | L651 |
-| 昇格パターン集 | L675 |
-| Current Active / Spec Created Tasks | L677 |
+| ドキュメント構成 | L591 |
+| フェーズ構造（概要） | L600 |
+| 品質ゲート（概要） | L631 |
+| 出力テンプレート | L642 |
+| 実行時のコマンド・エージェント・スキル | L665 |
+| 昇格パターン集 | L689 |
+| Current Active / Spec Created Tasks | L691 |
 
 ### references/task-workflow-backlog-part2.md
 

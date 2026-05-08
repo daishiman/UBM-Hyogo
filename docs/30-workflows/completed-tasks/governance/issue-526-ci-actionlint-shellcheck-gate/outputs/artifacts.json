@@ -1,0 +1,114 @@
+{
+  "taskId": "issue-526-ci-actionlint-shellcheck-gate",
+  "githubIssue": 526,
+  "status": "completed",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "docsOnly": false,
+  "createdAt": "2026-05-08",
+  "source": "docs/30-workflows/completed-tasks/ut-350-fu-01-ci-actionlint-shellcheck-gate.md",
+  "phases": [
+    {
+      "phase": 1,
+      "file": "phase-01.md",
+      "status": "completed",
+      "name": "要件定義"
+    },
+    {
+      "phase": 2,
+      "file": "phase-02.md",
+      "status": "completed",
+      "name": "基本設計"
+    },
+    {
+      "phase": 3,
+      "file": "phase-03.md",
+      "status": "completed",
+      "name": "設計レビュー"
+    },
+    {
+      "phase": 4,
+      "file": "phase-04.md",
+      "status": "completed",
+      "name": "テスト設計"
+    },
+    {
+      "phase": 5,
+      "file": "phase-05.md",
+      "status": "completed",
+      "name": "実装手順"
+    },
+    {
+      "phase": 6,
+      "file": "phase-06.md",
+      "status": "completed",
+      "name": "失敗ケース"
+    },
+    {
+      "phase": 7,
+      "file": "phase-07.md",
+      "status": "completed",
+      "name": "カバレッジ確認"
+    },
+    {
+      "phase": 8,
+      "file": "phase-08.md",
+      "status": "completed",
+      "name": "リファクタリング"
+    },
+    {
+      "phase": 9,
+      "file": "phase-09.md",
+      "status": "completed",
+      "name": "品質保証"
+    },
+    {
+      "phase": 10,
+      "file": "phase-10.md",
+      "status": "completed",
+      "name": "最終レビュー"
+    },
+    {
+      "phase": 11,
+      "file": "phase-11.md",
+      "status": "completed",
+      "name": "手動 / CI 実行確認"
+    },
+    {
+      "phase": 12,
+      "file": "phase-12.md",
+      "status": "completed",
+      "name": "仕様同期"
+    },
+    {
+      "phase": 13,
+      "file": "phase-13.md",
+      "status": "spec_created",
+      "name": "PR 準備"
+    }
+  ],
+  "references": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/post-release-observation-reminder.yml",
+    "scripts/observation/create-reminder-issue.sh",
+    "docs/30-workflows/completed-tasks/ut-350-fu-01-ci-actionlint-shellcheck-gate.md",
+    "docs/30-workflows/completed-tasks/issue-350-long-term-production-observation/",
+    ".claude/skills/aiworkflow-requirements/references/post-release-long-term-observation.md",
+    "package.json",
+    ".claude/skills/aiworkflow-requirements/references/deployment-gha.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md",
+    ".claude/skills/aiworkflow-requirements/indexes/resource-map.md",
+    ".claude/skills/aiworkflow-requirements/indexes/quick-reference.md",
+    ".claude/skills/aiworkflow-requirements/references/task-workflow-active.md",
+    ".claude/skills/aiworkflow-requirements/changelog/20260508-issue526-ci-actionlint-shellcheck-gate.md"
+  ],
+  "feature": "issue-526-ci-actionlint-shellcheck-gate",
+  "created": "2026-05-08T00:00:00+09:00",
+  "lastUpdated": "2026-05-08T00:00:00+09:00",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "CI workflow / shell lint gate",
+    "workflow_state": "implemented-local"
+  }
+}

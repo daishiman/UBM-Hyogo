@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #526 CI actionlint / shellcheck gate（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/governance/issue-526-ci-actionlint-shellcheck-gate/` |
+| Artifact inventory | `references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md` |
+| Lessons | `references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md` |
+| 実装対象 | `.github/workflows/ci.yml`, `package.json`, `scripts/observation/test/test-create-reminder-issue.sh` |
+| lint対象 | `.github/workflows/post-release-observation-reminder.yml`, `.github/workflows/ci.yml`, `scripts/observation/*.sh`, `scripts/observation/test/*.sh` |
+| merge gate | 既存 required context `ci` 内で `pnpm observation:lint` を実行。dedicated `workflow-shell-lint` job は見やすい分離証跡で、required context 追加は user-gated |
+| 境界 | Reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。GitHub Actions runtime evidence、branch protection PUT、commit、push、PR は user approval 後 |
+| Issue 取扱 | #526 / #350 CLOSED 維持。PR 文脈では `Refs #526, Refs #350` のみ |
+
 ### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
 
 | 項目 | 値 |
