@@ -2423,6 +2423,15 @@ node scripts/list-specs.js --topics
 | Verification state | L52 |
 | Lessons learned | L66 |
 
+### references/workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Sources | L15 |
+| System Spec Reflection | L32 |
+| Scope Notes | L44 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |

@@ -1,3 +1,0 @@
-mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260507-161844-wt-7/.mise.toml are not trusted.
-Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
- ERR_PNPM_RECURSIVE_RUN_NO_SCRIPT  None of the selected packages has a "vitest" script

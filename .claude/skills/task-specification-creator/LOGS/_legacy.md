@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-08 - Issue #533 public profile attendance injection skill feedback
+
+`docs/30-workflows/completed-tasks/issue-533-public-profile-builder-attendance-injection/` の Phase 12 review で、pnpm workspace filter 経由の `test -- <file>` が focused Vitest 実行にならない command drift を確認した。再現性のある command は `pnpm exec vitest run --root=. --config=vitest.config.ts <exact files>` とし、Phase 1/4/9/11/12 の command contract と evidence を同一文字列へ同期する。`spec_created` 由来でも code diff / focused tests / Phase 11 evidence / Phase 12 strict 7 outputs が揃った場合は `verified / implementation_complete_pending_pr` へ昇格し、runtime deploy と commit/PR は user gate に残す。commit / PR / push は未実行。
+
 ## 2026-05-07 - task-02 wrangler env injection NON_VISUAL platform close-out
 
 `docs/30-workflows/task-02-w2-wrangler-env-injection/` の Phase 12 review で、implementation / NON_VISUAL / platform runtime config は実コード実装 (`wrangler.toml` / `.dev.vars.example` / env accessor / focused test) と Phase 12 strict 7 files を同一サイクルで揃え、Cloudflare runtime dry-run と secret put は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として user gate に分離する運用を確認した。既存 Phase 11 NON_VISUAL 代替 evidence / implemented-local 状態語彙で吸収できるため、テンプレート変更は no-op。
