@@ -165,7 +165,9 @@ Rules:
 | `CLOUDFLARE_WORKERS_DOMAIN` | Workers 本番ドメイン | `api.ubm-hyogo.workers.dev` |
 | `CLOUDFLARE_WORKERS_STAGING_DOMAIN` | Workers ステージングドメイン | `api-staging.ubm-hyogo.workers.dev` |
 | `CF_AUDIT_CLASSIFIER` | Cloudflare Audit Logs analyzer の classifier 選択。既定値は `threshold`。`ml` は Issue #515 Gate 後のみ | `threshold` |
-| `ML_MODEL_PATH` | Gate 後の ML model artifact path。未設定時は threshold fallback。secret 値ではないが artifact 配布正本が決まるまで production 設定しない | 未設定 |
+| `ML_MODEL_PATH` | Gate 後の ML model artifact path。`op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` 参照のみを workflow contract に置き、解決値は secret として扱って logs / docs / PR body に残さない。production 設定は Gate-0〜C 通過後のみ | 未設定 |
+| `CF_AUDIT_FALLBACK_RATE_THRESHOLD` | Issue #549 production ML switch 後の fallback rate alert 閾値。既定は `0.05` | `0.05` |
+| `CF_AUDIT_FALLBACK_RATE_CONSECUTIVE_HOURS` | fallback rate alert の連続超過時間。既定は `3` | `3` |
 | `CF_AUDIT_REDACT_SECRET` | redacted feature export の actor hash salt。feature export workflow でのみ使う secret。ログ・dataset へ値を出さない | GitHub environment secret |
 
 ---
@@ -384,7 +386,7 @@ Issue #408 は Cloudflare Audit Logs 監視 workflow 仕様である。Issue #51
 - Phase 11 evidence は token 値ではなく、`Audit Logs:Read` の scope 確認結果と secret 名だけを保存する。
 - runtime workflow (`.github/workflows/cf-audit-log-monitor.yml`)、scripts (`scripts/cf-audit-log/**`)、D1 migration (`apps/api/migrations/0014_create_cf_audit_log.sql`) を Issue #408 実装 PR で追加した（2026-05-06）。Issue #518 で `cf-audit-log-monitor.yml` は schedule 削除 + `dry_run=true` 既定に変更し、`cf-audit-log-monitor-watchdog.yml` は削除した。**ただし** token 発行 / 1Password 登録 / GitHub Secret 登録 / 7 日 baseline 学習 は production 担当者が手動で行う runbook 工程であり、本 PR のコード merge では完了扱いにしない。HOLD 中の運用正本は `docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md`。
 - runtime workflow (`.github/workflows/cf-audit-log-monitor.yml` / `cf-audit-log-monitor-watchdog.yml`)、scripts (`scripts/cf-audit-log/**`)、D1 migration (`apps/api/migrations/0014_create_cf_audit_log.sql`) を Issue #408 実装 PR で追加した（2026-05-06）。**ただし** token 発行 / 1Password 登録 / GitHub Secret 登録 / 7 日 baseline 学習 は production 担当者が手動で行う runbook 工程であり、本 PR のコード merge では完了扱いにしない。`docs/30-workflows/issue-408-cf-audit-logs-monitoring/outputs/phase-5/secrets-registration.md`（または phase-12 implementation guide）を正本として段階的に green 化する。
-- Issue #515 の `CF_AUDIT_CLASSIFIER` は repository variable として `threshold` を既定にする。`ML_MODEL_PATH` と `CF_AUDIT_REDACT_SECRET` は production ML switch / feature export Gate 後に設定し、今回の ML-ready abstraction では secret 値を要求しない。
+- Issue #515 の `CF_AUDIT_CLASSIFIER` は repository variable として `threshold` を既定にする。Issue #549 の Gate-0〜C 通過後のみ production switch PR で `ml` に変更する。`ML_MODEL_PATH` は `op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` を正本参照とし、docs / logs / PR body には解決値を残さない。`CF_AUDIT_REDACT_SECRET` は feature export Gate 後に設定し、ML-ready abstraction では secret 値を要求しない。
 
 ### Issue #514 Cloudflare Audit Logs cold storage R2 export Secret（2026-05-07）
 

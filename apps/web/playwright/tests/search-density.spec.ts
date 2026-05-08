@@ -2,7 +2,7 @@
 import { expect, test } from '@playwright/test'
 import { MembersListPage } from '../page-objects/MembersListPage'
 
-test.describe.skip('search × density (6 パラメータ + density 3 値)', () => {
+test.describe('search × density (6 パラメータ + density 3 値)', () => {
   test('q parameter', async ({ page }) => {
     const list = new MembersListPage(page)
     await list.applyQuery({ q: 'tanaka' })

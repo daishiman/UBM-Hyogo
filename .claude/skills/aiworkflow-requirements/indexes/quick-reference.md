@@ -5,24 +5,18 @@
 
 ---
 
-### Issue #571 Staging Runtime Smoke CI Integration（2026-05-08）
+### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/` |
-| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval` |
-| parent | Issue #531 attendanceProvider runtime smoke runner |
-| reusable workflow | `.github/workflows/runtime-smoke-staging.yml`（`workflow_call`、`if: always()` artifact upload、failure-only Slack post） |
-| caller | `.github/workflows/backend-ci.yml`（API staging deploy 後に reusable call、`[skip runtime-smoke]` escape valve） |
-| smoke runner contract | `bash scripts/smoke/runtime-attendance-provider.sh staging --out-dir ci-evidence --ci-summary` |
-| summary helper | `scripts/smoke/ci-summary-post.sh`（`summary.json` 不在時は exit 1、本文に Bearer/Cookie/raw body を残さない） |
-| GitHub Environment | `staging-runtime-smoke`（runtime credentials は environment-scoped、repository-scoped 禁止） |
-| secret set | `STAGING_API_BASE`, `STAGING_ADMIN_BEARER`, `STAGING_MEMBER_ID`, `STAGING_ME_BEARER`, `SLACK_WEBHOOK_INCIDENT`（failure step only） |
-| ADRs | `docs/40-architecture/adr/ADR-runtime-smoke-secret-injection.md`, `docs/40-architecture/adr/ADR-runtime-smoke-required-status-check.md` |
-| runbook | `docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/operations/setup-github-environment.md` |
-| evidence (local) | `outputs/phase-11/evidence/{typecheck,lint,test,grep-gate,artifact-redaction-grep}.log`（local PASS 5 点） |
-| 観測 follow-ups | FU-001 production runtime smoke / FU-002 required status check promotion / FU-003 secret rotation / FU-004 actionlint（Issue #526 既定）。すべて 30 日 staging 観測後または条件成立後 |
-| boundary | GitHub Environment 作成・staging 実行・Slack real post・commit / push / PR は user approval 後のみ。`set -x` / `bash -x` / `set -o xtrace` 禁止（grep gate） |
+| workflow root | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| CLI | `scripts/cf.sh audit-log feature-export` |
+| implementation | `scripts/cf-audit-log/feature-export.ts`, `scripts/cf-audit-log/feature-export/schema-validation.ts`, `scripts/cf-audit-log/feature-export/manifest.ts` |
+| D1 boundary | `readEventsForFeatureExport()` returns `AuditLogEvent[]`; `raw_json` does not cross module boundary |
+| evidence | `outputs/phase-11/main.md`, `fixture-exported-features.jsonl`, `fixture-export-manifest.json`, `secret-leakage-grep.log`, `schema-validation.log` |
+| production gate | `outputs/phase-11/production-pending-user-gate.md`; production export is `PENDING_RUNTIME_EVIDENCE` until approval |
+| PR wording | Issue #547 is CLOSED; use `Refs #547` only |
 
 ### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
 
@@ -168,6 +162,19 @@
 | downstream | task-09 `tokens.css` / `@theme inline`、task-10 primitives、task-18 verify-design-tokens |
 | evidence | `docs/30-workflows/task-08-w2-design-tokens-doc/outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### Task 09 W3 Tailwind v4 setup（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / local PASS 5-point evidence captured / Phase 13 blocked_pending_user_approval` |
+| upstream | task-08 `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| scope | `apps/web` Tailwind v4 CSS-first build pipeline、`tokens.css`、`globals.css @theme inline`、PostCSS config、token tests |
+| package pins | `tailwindcss@~4.0.0`, `@tailwindcss/postcss@~4.0.0` |
+| evidence boundary | generated CSS は utility probe 経由で `.bg-accent` + `var(--ubm-color-accent)` を確認済み。runtime PASS は Phase 11 local evidence として記録済み |
+| downstream | task-10 primitives, task-11..17 screens, task-18 verify-design-tokens |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md` |
+
 ### UI prototype mapping table task-07（2026-05-07）
 
 | 目的 | 参照先 |
@@ -205,6 +212,16 @@
 | Phase 11 boundary | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`; local typecheck / tests / build / OpenNext worker grep pass, staging deploy and dashboard evidence pending user approval |
 | strict evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-13/pr-creation-result.md` |
 | downstream | task-04 logger and task-05 error boundary consume `captureException` / `captureMessage` contract |
+### UI prototype alignment task-04 Window guard and logger（2026-05-08）
+| workflow root | `docs/30-workflows/task-04-w3-window-guard-and-logger/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval` |
+| runtime guard | `apps/web/src/lib/is-browser.ts` exports `isBrowser()`, `whenBrowser()`, `browserHistory()`, `browserDocument()`; direct `window.` / `document.` runtime code is lint-gated |
+| structured logger | `apps/web/src/lib/logger.ts` emits JSON one-line logs, redacts sensitive keys, and bridges `logger.error({ event, error, digest })` to task-03 `captureException` |
+| ESLint gate | `apps/web/package.json` `lint` runs `tsc` + ESLint; `apps/web/eslint.config.mjs` restricts `window` / `document` outside allow-list |
+| Phase 11 boundary | local typecheck / lint / tests / build / grep-gate PASS; Sentry dashboard smoke and runtime logger staging evidence pending user approval |
+| strict evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md`（L-T04-001..008: `init?.()` / `RUNTIME_TAG` / allow-list 同期 / `lint` false-green / `Error` redaction / `historyImpl` DI / Phase 拡張 ledger / observability swallow） |
+| downstream | task-05 error boundary should call `logger.error({ event, error, digest })`; task-09..17 consume `isBrowser()` / `whenBrowser()` for remaining UI browser APIs |
 ### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
 | workflow root | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |

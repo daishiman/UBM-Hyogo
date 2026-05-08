@@ -326,3 +326,31 @@ GitHub Actions OIDC、Cloudflare deploy auth、branch protection、external IdP 
 | runtime boundary | spec-created cycle で未実行の external mutation / deploy / revoke を明記 |
 
 この matrix は `phase12-task-spec-compliance-check.md` の 4 条件（矛盾なし / 漏れなし / 整合性 / 依存関係整合）の根拠にする。
+
+## Tailwind v4 / PostCSS build artifact verification（VISUAL_ON_EXECUTION build pipeline タスク）
+
+**Anchor**: 「Tailwind v4 / PostCSS build artifact verification」
+
+### 適用条件
+
+- `taskType=implementation` かつ `visualEvidence=VISUAL_ON_EXECUTION`
+- build pipeline / token 系タスク（例: Tailwind v4 setup / PostCSS config / design token CSS variable 配信）
+- generated CSS が runtime evidence の主証跡となるタスク
+
+### generated CSS grep を 2 点で確認する
+
+build pipeline タスクでは emitted CSS を直接 grep して runtime evidence を残す。grep は次の 2 点で実行し、両方 PASS した場合のみ Phase 11 を `PASS` にする。
+
+| # | grep 対象 | 目的 | PASS 条件 |
+| --- | --- | --- | --- |
+| 1 | `var(--ubm-*)` 系 CSS variable | design token が generated CSS に正しく出力されているか確認 | `outputs/phase-11/generated.css` 内に該当 variable 参照が 1 件以上存在 |
+| 2 | utility selector（Tailwind v4 emitted class） | Tailwind v4 の class が生成パイプラインを通過しているか確認 | `outputs/phase-11/generated.css` 内に対象 utility selector が 1 件以上存在 |
+
+### Evidence
+
+| ファイル | 役割 |
+| --- | --- |
+| `outputs/phase-11/generated.css` | build パイプライン出力の生 CSS（grep 対象の正本） |
+| `apps/web/src/__tests__/build-output.test.ts` | 上記 2 点の grep を自動検証する build output test |
+
+両者を `outputs/phase-11/main.md` から参照リンクで結び、`manual-smoke-log.md` に grep コマンドと件数を記録する。grep 件数 0 の場合は `PASS` 不可とし、root cause（PostCSS plugin chain / token CSS import / content glob）を `discovered-issues.md` に分類する。

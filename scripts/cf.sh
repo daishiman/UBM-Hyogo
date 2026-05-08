@@ -43,6 +43,17 @@ for p in darwin-arm64 darwin-x64 linux-x64 linux-arm64; do
   fi
 done
 
+set_tsx_esbuild_binary_path() {
+  local tsx_esbuild_parent="$REPO_ROOT/node_modules/esbuild/node_modules/@esbuild"
+  for p in darwin-arm64 darwin-x64 linux-x64 linux-arm64; do
+    local candidate="$tsx_esbuild_parent/$p/bin/esbuild"
+    if [ -f "$candidate" ]; then
+      export ESBUILD_BINARY_PATH="$candidate"
+      return 0
+    fi
+  done
+}
+
 if [ "${CF_SH_DEBUG:-}" = "1" ]; then
   echo "[cf.sh debug] REPO_ROOT=$REPO_ROOT" >&2
   echo "[cf.sh debug] ESBUILD_BINARY_PATH=${ESBUILD_BINARY_PATH:-<unset>}" >&2
@@ -138,6 +149,7 @@ if [ "$1" = "r2" ]; then
       exit 64
       ;;
   esac
+  set_tsx_esbuild_binary_path
   if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
     exec mise exec -- pnpm exec tsx "$r2_script_path" "$@"
   fi
@@ -147,7 +159,7 @@ fi
 if [ "$1" = "audit-log" ]; then
   shift
   if [ "$#" -lt 1 ]; then
-    echo "usage: $0 audit-log <fetch|analyze|baseline|whoami> [--flags...]" >&2
+    echo "usage: $0 audit-log <fetch|analyze|baseline|feature-export|whoami> [--flags...]" >&2
     exit 64
   fi
   sub="$1"; shift
@@ -166,11 +178,13 @@ if [ "$1" = "audit-log" ]; then
     fetch)    script_path="$REPO_ROOT/scripts/cf-audit-log/fetch.ts" ;;
     analyze)  script_path="$REPO_ROOT/scripts/cf-audit-log/analyze.ts" ;;
     baseline) script_path="$REPO_ROOT/scripts/cf-audit-log/baseline-cli.ts" ;;
+    feature-export) script_path="$REPO_ROOT/scripts/cf-audit-log/feature-export.ts" ;;
     *)
       echo "[cf.sh] unknown audit-log subcommand: $sub" >&2
       exit 64
       ;;
   esac
+  set_tsx_esbuild_binary_path
   if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
     exec mise exec -- pnpm exec tsx "$script_path" "$@"
   fi
