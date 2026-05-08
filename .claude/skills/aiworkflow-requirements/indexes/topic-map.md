@@ -1034,7 +1034,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L9 |
+| Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L11 |
 
 ### references/database-schema-ddl-template.md
 
@@ -1484,6 +1484,16 @@ node scripts/list-specs.js --topics
 | 実装チェックリスト | L167 |
 | 参考実装 | L182 |
 | 関連ドキュメント | L190 |
+
+### references/ui-ux-prototype-map.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L3 |
+| Contract | L12 |
+| Boundaries | L17 |
+| Downstream Consumers | L25 |
+| Validation | L33 |
 
 ### references/ui-ux-search-panel-core.md
 
@@ -2382,6 +2392,14 @@ node scripts/list-specs.js --topics
 | Verification state | L52 |
 | Lessons learned | L66 |
 
+### references/workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L13 |
+| Boundary | L29 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2537,6 +2555,20 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | 関連ドキュメント | L102 |
 
+### references/workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| canonical root | L3 |
+| root artifacts | L7 |
+| phase 11 evidence | L16 |
+| phase 12 required artifacts | L28 |
+| phase 13 reserved artifacts | L40 |
+| implementation artifacts | L46 |
+| env / secret contract | L61 |
+| same-wave skill sync | L71 |
+| state classification | L84 |
+
 ### references/workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2613,6 +2645,22 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク（formalize 済み） | L110 |
 | Validation Chain | L119 |
 
+### references/workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L19 |
+| Phase Outputs（task-06 内成果物） | L30 |
+| Primary Spec 書き換え（実成果物） | L50 |
+| 視覚詳細委譲先（path 確定 / 中身は別 task） | L66 |
+| 下流 task への引渡し点 | L79 |
+| Same-wave skill / index sync（diff scope に含めるべきもの） | L94 |
+| 重要な実装値（09-ui-ux.md で確定） | L109 |
+| Follow-up（task-06 スコープ外・別 wave で workflow dir 起票予定） | L117 |
+| Validation Chain | L129 |
+| 不変条件 trace | L141 |
+
 ### references/workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md
 
 | セクション | 行 |
@@ -2636,6 +2684,20 @@ node scripts/list-specs.js --topics
 | Validation Chain | L86 |
 
 ### references/workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md
+
+### references/workflow-task-07-prototype-mapping-table-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L9 |
+| Implementation Artifacts | L16 |
+| Runtime Contract | L23 |
+| Verifier Invariants | L34 |
+| Evidence | L47 |
+| System Spec Sync | L57 |
+| Downstream Consumers | L72 |
+| Invariants | L80 |
 
 ### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
 
@@ -2662,6 +2724,16 @@ node scripts/list-specs.js --topics
 | Follow-up / Deferred | L64 |
 | Skill Reflection | L72 |
 | Legacy / Rename | L84 |
+
+### references/workflow-task-08-w2-design-tokens-doc-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 09b Design Tokens Doc | L3 |
+| OKLch Token Scope | L12 |
+| Tailwind Theme Inline Contract | L16 |
+| Compatibility Mapping | L20 |
+| Evidence | L26 |
 
 ### references/workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md
 
@@ -2964,6 +3036,12 @@ node scripts/list-specs.js --topics
 | Implementation Artifacts | L22 |
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
+
+### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| deleted / archived workflow boundary | L15 |
 
 ### references/workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md
 
@@ -3398,9 +3476,9 @@ node scripts/list-specs.js --topics
 | セキュリティ原則 | L262 |
 | Cloudflare API Token の作成手順 | L273 |
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L386 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L434 |
-| 変更履歴 | L449 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L387 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L435 |
+| 変更履歴 | L450 |
 
 ### references/deployment.md
 
@@ -4298,6 +4376,15 @@ node scripts/list-specs.js --topics
 | Related Resources | L31 |
 | Search Keywords | L42 |
 
+### references/lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE518-001: HOLD 政策で workflow を残すなら schedule 削除 + workflow_dispatch + dry_run 強制 の三段階で実行を物理的に塞ぐ | L7 |
+| L-ISSUE518-002: schedule を停止した時点で死活監視 watchdog は冗長になるため同一 wave で削除する | L28 |
+| L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
+| 参照元 | L66 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4351,6 +4438,39 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Scope | L3 |
 | Lessons | L9 |
+
+### references/lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+
+### references/lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T06-001: primary rewrite は implementation として状態語彙を揃える | L3 |
+| L-T06-002: AC 番号は index と Phase evidence で再定義しない | L9 |
+| L-T06-003: same-wave skill/index sync は diff scope に含める | L15 |
+| L-T06-004: path 文字列は後続 task owner と同時に名寄せする | L21 |
+| L-T06-005: 無関係 delete diff は復元か formal trace を必須にする | L27 |
+| L-T06-006: NON_VISUAL タスクの Phase 11 alternative evidence は 4 種で網羅する | L33 |
+| L-T06-007: prototype 正本順位と視覚詳細委譲の判断基準 | L39 |
+
+### references/lessons-learned-task-08-w2-design-tokens-doc-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 横展開チェックリスト | L55 |
+
+### references/lessons-learned-task19-primitives-full-spec-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L10 |
+| 関連教訓 | L42 |
 
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
@@ -5287,7 +5407,7 @@ node scripts/list-specs.js --topics
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
-| 11. 変更履歴 | L258 |
+| 10. 変更履歴 | L258 |
 
 ### references/patterns-advanced.md
 
@@ -5747,6 +5867,13 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L585 |
 | 昇格パターン集 | L609 |
 | Current Active / Spec Created Tasks | L611 |
+| ドキュメント構成 | L526 |
+| フェーズ構造（概要） | L535 |
+| 品質ゲート（概要） | L566 |
+| 出力テンプレート | L577 |
+| 実行時のコマンド・エージェント・スキル | L600 |
+| 昇格パターン集 | L624 |
+| Current Active / Spec Created Tasks | L626 |
 
 ### references/task-workflow-backlog-part2.md
 
