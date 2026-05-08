@@ -5,10 +5,10 @@
 本ドキュメントは UBM 兵庫支部会メンバーサイトで使用する **UI Primitives（再利用可能な最小単位 UI コンポーネント）** の正本仕様である。
 `docs/00-getting-started-manual/claude-design-prototype/primitives.jsx`（272 行）を token-perfect に再現するために必要な情報を完全網羅する。
 
-- 設計トークン（color / radius / shadow / typography / spacing 等の `--ubm-*` 変数）の値定義は **09b §1〜§5 参照**
+- 設計トークン（color / radius / shadow / typography / spacing 等の `--ubm-*` 変数）の値定義は **09b §3〜§8 参照**
 - アイコン（`<Icon name="..." />`）の name → SVG マッピングは **09d 参照**
 - ページ単位のレイアウト・ナビゲーションは **09a 参照**
-- prototype の素の CSS では `--accent` / `--text` / `--bg` 等の短縮名を用いているが、本仕様ではプロダクション実装に合わせ **`var(--ubm-*)` 形式** に正規化して記述する。短縮名 → 正規名のマッピングは 09b §0 を参照。
+- prototype の素の CSS では `--accent` / `--text` / `--bg` 等の短縮名を用いているが、本仕様ではプロダクション実装に合わせ **`var(--ubm-*)` 形式** に正規化して記述する。短縮名 → 正規名のマッピングは 09b §2 を参照。
 
 実装者は **本ドキュメント単独で全 primitive を再現可能** であり、prototype JSX を直接参照する必要はない（出典行は §2.x.8 に明記）。
 
@@ -75,6 +75,11 @@ interface ChipProps {
 | `warn` | bg `var(--ubm-warn-soft)` / text `var(--ubm-warn)` / border `var(--ubm-color-mix) 18%, transparent)` | 警告 |
 | `danger` | bg `var(--ubm-danger-soft)` / text `var(--ubm-danger)` / border `var(--ubm-color-mix) 22%, transparent)` | エラー / 退会 |
 | `info` | bg `var(--ubm-info-soft)` / text `var(--ubm-info)` / border `var(--ubm-color-mix) 18%, transparent)` | ゾーン 0→1 |
+| `accent` | bg `var(--ubm-color-accent-soft)` / text `var(--ubm-color-accent-ink)` / border `color-mix(in oklch, var(--ubm-color-accent) 18%, transparent)` | アカデミー生など強調 |
+| `ok` | bg `var(--ubm-ok-soft)` / text `var(--ubm-ok)` / border `color-mix(in oklch, var(--ubm-ok) 18%, transparent)` | 会員、成功 |
+| `warn` | bg `var(--ubm-warn-soft)` / text `var(--ubm-warn)` / border `color-mix(in oklch, var(--ubm-warn) 18%, transparent)` | 警告 |
+| `danger` | bg `var(--ubm-danger-soft)` / text `var(--ubm-danger)` / border `color-mix(in oklch, var(--ubm-danger) 22%, transparent)` | エラー / 退会 |
+| `info` | bg `var(--ubm-info-soft)` / text `var(--ubm-info)` / border `color-mix(in oklch, var(--ubm-info) 18%, transparent)` | ゾーン 0→1 |
 | `solid` | bg `var(--ubm-text)` / text `var(--ubm-panel)` / border transparent | 強調（admin） |
 | `outline` | 上記いずれかと併用、bg を transparent に | 軽量タグ |
 
@@ -135,6 +140,8 @@ CSS（再現に必須）:
 }
 .chip.accent { background: var(--ubm-accent-soft); color: var(--ubm-accent-ink);
   border-color: var(--ubm-color-mix) 18%, transparent); }
+.chip.accent { background: var(--ubm-color-accent-soft); color: var(--ubm-color-accent-ink);
+  border-color: color-mix(in oklch, var(--ubm-color-accent) 18%, transparent); }
 .chip.ok     { background: var(--ubm-ok-soft);     color: var(--ubm-ok);
   border-color: var(--ubm-color-mix) 18%, transparent); }
 .chip.warn   { background: var(--ubm-warn-soft);   color: var(--ubm-warn);
@@ -345,6 +352,8 @@ interface ButtonProps {
 | `primary` | `var(--ubm-text)` | `var(--ubm-panel)` | transparent |
 | `accent`  | `var(--ubm-accent)` | `var(--ubm-color-on-accent)` | transparent |
 | `ghost`   | transparent | `var(--ubm-text)` | `var(--ubm-border-2)` |
+| `accent`  | `var(--ubm-color-accent)` | `#fff` | transparent |
+| `ghost`   | transparent | `var(--ubm-text)` | `var(--ubm-color-border-strong)` |
 | `soft`    | `var(--ubm-bg)` | `var(--ubm-text)` | `var(--ubm-border)` |
 | `danger`  | `var(--ubm-danger-soft)` | `var(--ubm-danger)` | transparent |
 
@@ -371,8 +380,12 @@ interface ButtonProps {
 | hover (soft) | `background: var(--ubm-bg-2); border-color: var(--ubm-border-2)` |
 | hover (danger) | `background: var(--ubm-color-derived)` |
 | active | `transform: translateY(var(--ubm-size-md))` |
+| hover (soft) | `background: var(--ubm-bg-2); border-color: var(--ubm-color-border-strong)` |
+| hover (danger) | `background: oklch(0.90 0.05 30)` |
+| active | `transform: translateY(0.5px)` |
 | disabled | `opacity: 0.5; cursor: not-allowed;` （`disabled` 属性を見る） |
 | focus-visible | （実装で追加）`outline: var(--ubm-size-md) solid var(--ubm-accent); outline-offset: var(--ubm-size-md)` 推奨 |
+| focus-visible | （実装で追加）`outline: 2px solid var(--ubm-color-accent); outline-offset: 2px` 推奨 |
 
 ### 4.6 a11y
 - 必ず `<button type="button|submit|reset">` を使う（`<a>` ではない）
@@ -431,6 +444,10 @@ interface SwitchProps {
 - track bg (off): `var(--ubm-border-2)` / (on): `var(--ubm-accent)`
 - thumb (`::after`): `width: var(--ubm-size-md); height: var(--ubm-size-md); border-radius: 50%; background: var(--ubm-color-on-accent); box-shadow: 0 var(--ubm-size-md) var(--ubm-size-md) rgba(0,0,0,0.15);`
 - thumb 位置: off → `top:var(--ubm-size-md); left:var(--ubm-size-md)`、on → `transform: translateX(var(--ubm-size-md))`
+- track: `width: 40px; height: 24px; border-radius: 999px;`
+- track bg (off): `var(--ubm-color-border-strong)` / (on): `var(--ubm-color-accent)`
+- thumb (`::after`): `width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.15);`
+- thumb 位置: off → `top:2px; left:2px`、on → `transform: translateX(16px)`
 - transition: track `background .15s ease`、thumb `transform .18s ease`
 - flex-shrink: 0
 
@@ -438,6 +455,7 @@ interface SwitchProps {
 - off: track grey
 - on: track accent + thumb 右寄り
 - focus-visible: 実装で `outline: var(--ubm-size-md) solid var(--ubm-accent); outline-offset: var(--ubm-size-md)` 推奨
+- focus-visible: 実装で `outline: 2px solid var(--ubm-color-accent); outline-offset: 2px` 推奨
 - disabled: prototype 未定義（必要なら opacity 0.5 + cursor not-allowed）
 
 ### 5.6 a11y
@@ -613,6 +631,8 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 ### 8.4 visual spec（共通 `.field`）
 - `width: 100%; padding: var(--ubm-size-md) var(--ubm-size-md);`
 - `border: var(--ubm-size-md) solid var(--ubm-border-2);` `border-radius: var(--ubm-size-md);`
+- `width: 100%; padding: 10px 12px;`
+- `border: 1px solid var(--ubm-color-border-strong);` `border-radius: 10px;`
 - `background: var(--ubm-panel);` `color: var(--ubm-text);`
 - `font-size: var(--ubm-size-md);`
 - `transition: border-color .15s ease, box-shadow .15s ease;`
@@ -625,6 +645,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 ### 8.5 状態
 - default: 上記
 - focus: `outline: none; border-color: var(--ubm-accent); box-shadow: 0 0 0 var(--ubm-size-md) var(--ubm-color-mix) 18%, transparent);`
+- focus: `outline: none; border-color: var(--ubm-color-accent); box-shadow: 0 0 0 3px color-mix(in oklch, var(--ubm-color-accent) 18%, transparent);`
 - disabled: 実装側で `opacity: 0.6; cursor: not-allowed;`（prototype 未定義）
 - error: 親 Field の error と組み合わせ、border-color を `var(--ubm-danger)` に切替（実装で追加）
 
@@ -1011,6 +1032,9 @@ interface LinkPillsProps {
 - container: `.row-wrap`（`display: flex; gap: var(--ubm-size-md); flex-wrap: wrap;`）
 - `.link-ext`: `display: inline-flex; align-items: center; gap: var(--ubm-size-md); padding: var(--ubm-size-md) var(--ubm-size-md); background: var(--ubm-bg); border: var(--ubm-size-md) solid var(--ubm-border); border-radius: var(--ubm-size-md); font-size: var(--ubm-size-md); color: var(--ubm-text); transition: all .15s; font-weight: 500;`
 - `.link-ext:hover`: `border-color: var(--ubm-border-2); background: var(--ubm-panel-2);`
+- container: `.row-wrap`（`display: flex; gap: 12px; flex-wrap: wrap;`）
+- `.link-ext`: `display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--ubm-bg); border: 1px solid var(--ubm-border); border-radius: 10px; font-size: 12.5px; color: var(--ubm-text); transition: all .15s; font-weight: 500;`
+- `.link-ext:hover`: `border-color: var(--ubm-color-border-strong); background: var(--ubm-panel-2);`
 - `.link-ext .link-icon`: `color: var(--ubm-text-3); flex-shrink: 0;`
 - 左 icon `link`（var(--ubm-size-md)）/ 右 icon `external`（var(--ubm-size-md)）
 - 空時: `.small.muted`（font-size var(--ubm-size-md) / color var(--ubm-text-3)）
@@ -1019,6 +1043,7 @@ interface LinkPillsProps {
 - default
 - hover: border + bg 変化
 - focus-visible: 実装側で `outline: var(--ubm-size-md) solid var(--ubm-accent); outline-offset: var(--ubm-size-md)`
+- focus-visible: 実装側で `outline: 2px solid var(--ubm-color-accent); outline-offset: 2px`
 
 ### 14.6 a11y
 - `<a target="_blank" rel="noreferrer">`（prototype 通り）。`rel="noopener noreferrer"` への昇格を推奨
@@ -1148,7 +1173,7 @@ const statusTone = (s) => s === "会員" ? "ok" : s === "アカデミー生" ? "
 
 ## 18. 実装上の注意
 
-1. **token 名の正規化**: prototype の `var(--accent)` 等は実装時に `var(--ubm-accent)` に置換する（09b §0 マッピング表に従う）。
+1. **token 名の正規化**: prototype の `var(--accent)` 等は実装時に `var(--ubm-color-accent)` などの正本名へ置換する（09b §2 マッピング表に従う）。
 2. **localStorage キー**: `AvatarStoreProvider` は `ubm-photos` を使用。SSR 時は guard（`typeof window !== "undefined"`）を必須化する。
 3. **JSON.parse 失敗**: `try/catch` で `{}` フォールバック（prototype 通り）。
 4. **toast の id**: `Math.random().toString(36).slice(2)` で十分（衝突しない前提）。型安全性を上げる場合は `crypto.randomUUID()` を推奨。
@@ -1156,6 +1181,8 @@ const statusTone = (s) => s === "会員" ? "ok" : s === "アカデミー生" ? "
 6. **Icon コンポーネント**: 09d 参照。size は number（px）、`name` は 09d の name catalog に存在するもののみ許容。
 7. **CSS 変数の dark mode 対応**: 09b §6 参照（本仕様では light mode token 名のみで定義）。
 8. **prototype 上の素リテラル**: prototype に存在する色・寸法の具体値は 09b token 名へ正規化する。本仕様には値リテラルを残さない。
+7. **CSS 変数の dark mode 対応**: 09b §11 参照（本仕様では light mode token 名のみで定義）。
+8. **prototype 上の素 hex / oklch リテラル**: `#000`（btn-primary hover）、`#fff`（switch thumb / accent text / overlay text）、`oklch(...)` の Avatar hue / toast tone / btn-danger hover は **意匠定義としてそのまま採用**（token 化しない）。token 化は 09b 改訂時に検討する。
 
 ---
 

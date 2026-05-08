@@ -35,7 +35,7 @@
 | 05 | error-boundary-and-staging-smoke | `docs/30-workflows/.../specs/staging-smoke-checklist.md` | C |
 | 06 | ui-ux-contract-rewrite | `docs/30-workflows/.../specs/ui-ux-contract.md` | C |
 | 07 | prototype-mapping-table | `docs/30-workflows/.../specs/prototype-mapping.md` | C |
-| 08 | design-tokens-doc | `docs/30-workflows/.../specs/design-tokens.md` | C |
+| 08 | design-tokens-doc | `docs/30-workflows/.../specs/09b-design-tokens.md` | C |
 | 09 | tailwind-v4-setup | `apps/web/postcss.config.mjs` | M |
 | 09 | tailwind-v4-setup | `apps/web/src/styles/globals.css` | M |
 | 09 | tailwind-v4-setup | `apps/web/src/styles/tokens.css` | C |
@@ -328,7 +328,7 @@ Nav 8 items: Dashboard / Members / Tags / Meetings / Schema / Requests / Identit
 
 ### 4.8 task-08 design-tokens-doc
 
-- `specs/design-tokens.md`
+- `specs/09b-design-tokens.md`
 - color / spacing / typography / radius / shadow / motion の tokens 一覧
 - OKLch fallback（`@supports not (color: oklch(...))` で sRGB 近似値）
 - dark mode 拡張余地
