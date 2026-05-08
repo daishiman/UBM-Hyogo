@@ -2374,7 +2374,7 @@ node scripts/list-specs.js --topics
 | same-wave skill sync | L67 |
 | boundary | L81 |
 | upstream / downstream | L87 |
-| deferred follow-ups | L94 |
+| deferred follow-ups | L95 |
 
 ### references/workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md
 
@@ -2445,6 +2445,21 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Runtime Gate | L23 |
 | Validation | L27 |
+
+### references/workflow-issue-548-ml-model-selection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L27 |
+| Synthetic vs Production Boundary（不変条件） | L34 |
+| Gate Conditions (production model promotion 前提) | L40 |
+
+### references/workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime evidence reserved paths | L16 |
+| Boundaries | L26 |
 
 ### references/workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md
 
@@ -2806,6 +2821,18 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Artifacts | L12 |
 | Runtime Evidence Contract | L27 |
+
+### references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| Current State | L7 |
+| Primary Artifacts | L11 |
+| Canonical Inputs | L20 |
+| Implementation Targets | L26 |
+| Phase 11 Evidence | L42 |
+| Boundary | L53 |
 
 ### references/workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md
 
@@ -3394,7 +3421,12 @@ node scripts/list-specs.js --topics
 | 入出力契約 | L11 |
 | Redaction Policy | L19 |
 | MVP Boundary | L31 |
-| References | L35 |
+| Issue #553 Live Wiring Formalization | L35 |
+| Live wiring (Issue #553) implementation landing | L56 |
+| Cloudflare Secrets (5 種) op-reference rule | L74 |
+| Salt rotation procedure (`fingerprintVersion` v1 → v2) | L92 |
+| Lessons learned (Issue #553 wave) | L112 |
+| References | L122 |
 
 ### references/auth-google-oauth-cf-integration.md
 
@@ -3406,6 +3438,16 @@ node scripts/list-specs.js --topics
 | 4. OpenNext post-build worker patch | L97 |
 | 5. Auth.js v5 env 層化 | L109 |
 | 変更履歴 | L174 |
+
+### references/branch-protection.md
+
+| セクション | 行 |
+|------------|----|
+| Current contract | L3 |
+| Required status checks | L7 |
+| Invariants | L13 |
+| Issue #554 runbook | L25 |
+| References | L41 |
 
 ### references/csrf-state-parameter.md
 
@@ -3547,15 +3589,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L154 |
-| ローカル開発での設定 | L186 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L225 |
-| セキュリティ原則 | L262 |
-| Cloudflare API Token の作成手順 | L273 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L387 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L435 |
-| 変更履歴 | L450 |
+| wrangler.toml の環境別設定 | L156 |
+| ローカル開発での設定 | L188 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L227 |
+| セキュリティ原則 | L264 |
+| Cloudflare API Token の作成手順 | L275 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L290 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L389 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L437 |
+| 変更履歴 | L452 |
 
 ### references/deployment.md
 
@@ -4486,6 +4528,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 5-minute Checklist | L13 |
 
+### references/lessons-learned-issue-548-ml-model-selection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE548-001: synthetic harness と production winner は同じ PASS で扱わない | L8 |
+| L-ISSUE548-002: fallback rate / rejection reason は実 comparison 経路を構造化して計測する | L27 |
+| L-ISSUE548-003: Phase status 語彙を `completed / pending / blocked` に正規化する | L46 |
+| L-ISSUE548-004: FU 依存図は親 issue の successor trace に正本を置く | L65 |
+| L-ISSUE548-005: SSOT 同期は同一 wave で 8 同期点を消化する | L84 |
+| 関連参照 | L108 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4572,6 +4625,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L12 |
 | 横展開チェックリスト | L55 |
+
+### references/lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L10 |
+| 横展開チェックリスト | L33 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
@@ -5531,12 +5591,13 @@ node scripts/list-specs.js --topics
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L236 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L254 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L255 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L269 |
-| 13. 変更履歴 | L291 |
-| 10. 変更履歴 | L292 |
+| 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L236 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L260 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L278 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L279 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L293 |
+| 13. 変更履歴 | L315 |
+| 10. 変更履歴 | L316 |
 
 ### references/patterns-advanced.md
 
@@ -5989,13 +6050,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L677 |
-| フェーズ構造（概要） | L686 |
-| 品質ゲート（概要） | L717 |
-| 出力テンプレート | L728 |
-| 実行時のコマンド・エージェント・スキル | L751 |
-| 昇格パターン集 | L775 |
-| Current Active / Spec Created Tasks | L777 |
+| ドキュメント構成 | L730 |
+| フェーズ構造（概要） | L739 |
+| 品質ゲート（概要） | L770 |
+| 出力テンプレート | L781 |
+| 実行時のコマンド・エージェント・スキル | L804 |
+| 昇格パターン集 | L828 |
+| Current Active / Spec Created Tasks | L830 |
 
 ### references/task-workflow-backlog-part2.md
 
