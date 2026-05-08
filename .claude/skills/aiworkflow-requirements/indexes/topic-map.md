@@ -1035,6 +1035,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L11 |
+| Issue #546 90 Day Observation Result（2026-05-08） | L98 |
 
 ### references/database-schema-ddl-template.md
 
@@ -2389,6 +2390,16 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L15 |
+| Phase Outputs | L29 |
+| Skill 反映先 | L40 |
+| Validation Chain | L55 |
+
 ### references/workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md
 
 | セクション | 行 |
@@ -2401,6 +2412,39 @@ node scripts/list-specs.js --topics
 | 6. Skill reflection / same-wave sync | L75 |
 | 7. Scope notes | L89 |
 | 8. Related tasks | L97 |
+
+### references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Core workflow files | L7 |
+| Required outputs | L14 |
+| Implementation surfaces | L34 |
+| Boundary | L44 |
+| Verification state | L52 |
+| Lessons learned | L66 |
+
+### references/workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Sources | L15 |
+| System Spec Reflection | L32 |
+| Scope Notes | L44 |
+
+### references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Gate Result | L22 |
+
+### references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Gate | L23 |
+| Validation | L27 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3472,16 +3516,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L60 |
-| キャッシュ戦略 | L96 |
-| 並列実行の活用 | L119 |
-| CD ワークフロー要件（dev / main マージ時） | L175 |
-| Backend ワークフロー要件（dev / main マージ時） | L203 |
-| モニタリングとアラート | L229 |
-| GitHub Secrets の要件 | L263 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L307 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L328 |
-| post-release-30day-auto-summary | L365 |
+| CI ワークフロー要件（PR 時） | L63 |
+| キャッシュ戦略 | L99 |
+| 並列実行の活用 | L122 |
+| CD ワークフロー要件（dev / main マージ時） | L178 |
+| Backend ワークフロー要件（dev / main マージ時） | L206 |
+| モニタリングとアラート | L232 |
+| GitHub Secrets の要件 | L266 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L310 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L331 |
+| post-release-30day-auto-summary | L368 |
 
 ### references/deployment-history.md
 
@@ -4400,6 +4444,42 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
 
+### references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L41 |
+
+### references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I532-001: provider 展開は ADR threshold を満たす面だけに限定する | L5 |
+| L-I532-002: route-local raw write は provider primitive に寄せる | L9 |
+| L-I532-003: scheduled workflow は Hono `c.var` を使わず明示 provider bundle を受け取る | L13 |
+| L-I532-004: Phase 2 validation matrix は actual package scripts を読む | L17 |
+| L-I532-005: coverage guard NO-OP と full coverage NOT PASS を実装完了と混同しない | L27 |
+| Related Resources | L31 |
+| Search Keywords | L42 |
+
+### references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE546-001: Hourly 90 day evidence は `gh run list --limit` ではなく paginated API を JSON 配列化する | L8 |
+| L-ISSUE546-002: Alert 0 件は D1 readiness なしに FPR PASS としない | L21 |
+| L-ISSUE546-003: docs-only observation でも root state と phase state は分離する | L34 |
+| L-ISSUE546-004: helper が出力しない成果物は pending evidence marker を実体化する | L47 |
+| 参照元 | L60 |
+
+### references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 5-minute Checklist | L13 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4460,6 +4540,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Scope | L3 |
 | Lessons | L11 |
+
+### references/lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 横展開チェックリスト | L70 |
 
 ### references/lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md
 
@@ -4787,8 +4874,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L99 |
-| 関連ドキュメント | L104 |
+| 利用順序 | L103 |
+| 関連ドキュメント | L108 |
 
 ### references/llm-embedding.md
 
@@ -5438,8 +5525,12 @@ node scripts/list-specs.js --topics
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
-| 10. 変更履歴 | L258 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L236 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L254 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L255 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L269 |
+| 13. 変更履歴 | L291 |
+| 10. 変更履歴 | L292 |
 
 ### references/patterns-advanced.md
 
@@ -5504,9 +5595,9 @@ node scripts/list-specs.js --topics
 | 概要 | L13 |
 | 正本 runbook | L17 |
 | Current Contract | L21 |
-| Evidence Boundary | L32 |
-| Follow-up Unassigned Tasks | L38 |
-| 関連 | L44 |
+| Evidence Boundary | L35 |
+| Follow-up Unassigned Tasks | L41 |
+| 関連 | L47 |
 
 ### references/quality-e2e-testing.md
 
@@ -5892,13 +5983,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L577 |
-| フェーズ構造（概要） | L586 |
-| 品質ゲート（概要） | L617 |
-| 出力テンプレート | L628 |
-| 実行時のコマンド・エージェント・スキル | L651 |
-| 昇格パターン集 | L675 |
-| Current Active / Spec Created Tasks | L677 |
+| ドキュメント構成 | L665 |
+| フェーズ構造（概要） | L674 |
+| 品質ゲート（概要） | L705 |
+| 出力テンプレート | L716 |
+| 実行時のコマンド・エージェント・スキル | L739 |
+| 昇格パターン集 | L763 |
+| Current Active / Spec Created Tasks | L765 |
 
 ### references/task-workflow-backlog-part2.md
 

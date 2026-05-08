@@ -4,9 +4,22 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-08 - Issue #547 redacted feature export boundary promotion
+
+`docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` の Phase 12 review で、local fixture export PASS と production 90 day read-only export を同じ PASS にしない boundary を確認した。`references/phase12-skill-feedback-promotion.md` に Issue #547 applied example、`assets/phase12-task-spec-compliance-template.md` に AC / evidence / SSOT / parity / runtime-pending content gates、`references/phase-12-spec.md` に CLOSED Issue `Refs #<issue>` only rule を追加した。production export、commit、push、PR は user-gated のまま未実行。
+
+## 2026-05-08 - Issue #546 long-running GitHub Actions observation evidence
+
+`docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/` の Phase 12 review で、90 日 hourly run のように `gh run list --limit 500` 上限を超える観測は `gh api --paginate` と JSON array evidence を正本にする必要を確認した。JSON Lines を `.json` 正本にしないこと、D1 table missing / baseline helper 欠測 / tuning-cost 未取得は `PENDING_RUNTIME_EVIDENCE` marker artifact として同じ canonical path に実体化することを `phase-11-non-visual-alternative-evidence.md` へ追加。Issue #546 は CLOSED 維持のため `Refs #546` のみ、次回再観測は unassigned reminder task へ formalize。
+## 2026-05-08 - Issue #533 public profile attendance injection skill feedback
+`docs/30-workflows/completed-tasks/issue-533-public-profile-builder-attendance-injection/` の Phase 12 review で、pnpm workspace filter 経由の `test -- <file>` が focused Vitest 実行にならない command drift を確認した。再現性のある command は `pnpm exec vitest run --root=. --config=vitest.config.ts <exact files>` とし、Phase 1/4/9/11/12 の command contract と evidence を同一文字列へ同期する。`spec_created` 由来でも code diff / focused tests / Phase 11 evidence / Phase 12 strict 7 outputs が揃った場合は `verified / implementation_complete_pending_pr` へ昇格し、runtime deploy と commit/PR は user gate に残す。commit / PR / push は未実行。
 ## 2026-05-07 - task-02 wrangler env injection NON_VISUAL platform close-out
 
 `docs/30-workflows/task-02-w2-wrangler-env-injection/` の Phase 12 review で、implementation / NON_VISUAL / platform runtime config は実コード実装 (`wrangler.toml` / `.dev.vars.example` / env accessor / focused test) と Phase 12 strict 7 files を同一サイクルで揃え、Cloudflare runtime dry-run と secret put は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として user gate に分離する運用を確認した。既存 Phase 11 NON_VISUAL 代替 evidence / implemented-local 状態語彙で吸収できるため、テンプレート変更は no-op。
+
+## 2026-05-08 - Issue #532 command contract drift Phase 2 hardening
+
+`docs/30-workflows/completed-tasks/issue-532-extend-ctx-injection-to-write-tag-note-providers/` の Phase 12 skill feedback で、作成済み spec が stale `@repo/api` / `test:run` / `test:typecheck` を参照し、current package `@ubm-hyogo/api` の `test` / `typecheck` と drift していた。Phase 11 evidence と Phase 12 outputs は current command に補正済み。再発防止として `references/phase-template-core.md` の Phase 2 validation matrix ルールへ `package.json` / test runner config 実在確認を追加し、`references/phase12-skill-feedback-promotion.md` の Command Contract Drift Rule に Issue #532 実例を登録した。commit / push / PR は未実行。
 
 ## 2026-05-06 - U-FIX-CF-ACCT-01-DERIV-02 workflow path existence gate
 

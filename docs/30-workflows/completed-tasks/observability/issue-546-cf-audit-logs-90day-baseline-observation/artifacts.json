@@ -1,0 +1,29 @@
+{
+  "taskId": "issue-546-cf-audit-logs-90day-baseline-observation",
+  "issue": 546,
+  "title": "Cloudflare Audit Logs 90日 baseline runtime 観測",
+  "status": "spec_created",
+  "metadata": {
+    "taskId": "issue-546-cf-audit-logs-90day-baseline-observation",
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "implementationClassification": "ドキュメントのみ",
+    "closedIssueHandling": "Issue #546 is CLOSED and must remain closed; use Refs #546 only."
+  },
+  "phases": [
+    { "phase": 1, "file": "phase-01.md", "status": "completed" },
+    { "phase": 2, "file": "phase-02.md", "status": "completed" },
+    { "phase": 3, "file": "phase-03.md", "status": "completed" },
+    { "phase": 4, "file": "phase-04.md", "status": "completed" },
+    { "phase": 5, "file": "phase-05.md", "status": "completed" },
+    { "phase": 6, "file": "phase-06.md", "status": "completed" },
+    { "phase": 7, "file": "phase-07.md", "status": "completed" },
+    { "phase": 8, "file": "phase-08.md", "status": "completed" },
+    { "phase": 9, "file": "phase-09.md", "status": "completed" },
+    { "phase": 10, "file": "phase-10.md", "status": "completed" },
+    { "phase": 11, "file": "phase-11.md", "status": "completed_with_runtime_blockers" },
+    { "phase": 12, "file": "phase-12.md", "status": "completed" },
+    { "phase": 13, "file": "phase-13.md", "status": "pending_user_approval" }
+  ]
+}

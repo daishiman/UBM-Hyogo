@@ -6,6 +6,9 @@ U-04 Phase 12 close-out の `validate-structure.js` は exit 0 だが、aiworkfl
 特に `deployment-cloudflare.md` は U-04 Cron 追記で 538 行となり、既存超過をさらに進めた。
 generated index は PASS でも、line budget は classification-first で別 wave に分けないと同一 Phase 12 の範囲が膨らみすぎる。
 
+2026-05-08 Issue #526 Phase 12 再検証でも `validate-structure.js` は exit 0 だが、manual references 5 件の 500 行超過 warning が残った。
+今回触った `task-workflow-active.md` も warning 対象に含まれるため、line-budget split は未解消の current backlog として維持する。
+
 ## リスクと対策
 
 | リスク | 対策 |
@@ -31,6 +34,11 @@ diff -qr .claude/skills/aiworkflow-requirements .agents/skills/aiworkflow-requir
 - `arch-state-management-skill-creator.md`
 - `database-schema.md`
 - `deployment-cloudflare.md`
+- `environment-variables.md`
+- `task-workflow-active.md`
+
+過去検出対象:
+
 - `task-workflow-completed-recent-2026-04c.md`
 - `task-workflow-completed.md`
 

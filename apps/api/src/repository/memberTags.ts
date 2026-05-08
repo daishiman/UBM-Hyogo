@@ -87,3 +87,16 @@ export async function assignTagsToMember(
 
 // 型エクスポート
 export type { TagId };
+
+export interface MemberTagsProvider {
+  listTagsByMemberId(mid: MemberId): Promise<MemberTagWithDefinition[]>;
+  listTagsByMemberIds(mids: MemberId[]): Promise<MemberTagWithDefinition[]>;
+  assignTagsToMember(mid: MemberId, tagIds: TagId[], assignedBy: string): Promise<number>;
+}
+
+export const createMemberTagsProvider = (c: DbCtx): MemberTagsProvider => ({
+  listTagsByMemberId: (mid) => listTagsByMemberId(c, mid),
+  listTagsByMemberIds: (mids) => listTagsByMemberIds(c, mids),
+  assignTagsToMember: (mid, tagIds, assignedBy) =>
+    assignTagsToMember(c, mid, tagIds, assignedBy),
+});

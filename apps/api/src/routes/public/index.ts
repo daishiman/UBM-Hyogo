@@ -3,6 +3,7 @@
 
 import { Hono } from "hono";
 
+import type { RepositoryProviderVariables } from "../../middleware/repository-providers";
 import { statsRoute, type StatsEnv } from "./stats";
 import { membersRoute, type MembersEnv } from "./members";
 import {
@@ -17,7 +18,12 @@ export const createPublicRouter = (): Hono<{ Bindings: PublicEnv }> => {
   const app = new Hono<{ Bindings: PublicEnv }>();
   statsRoute(app);
   membersRoute(app);
-  memberProfileRoute(app);
+  memberProfileRoute(
+    app as unknown as Hono<{
+      Bindings: MemberProfileEnv;
+      Variables: RepositoryProviderVariables;
+    }>,
+  );
   formPreviewRoute(app);
   return app;
 };

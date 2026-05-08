@@ -41,7 +41,8 @@ const stubProvider = (
     const all = data[id as unknown as string] ?? [];
     const limit = opts?.limit ?? 50;
     const records = all.slice(0, limit);
-    return { records, hasMore: all.length > limit, nextCursor: null };
+    const hasMore = all.length > limit;
+    return { records, hasMore, nextCursor: hasMore ? "next-cursor" : null };
   },
 });
 
@@ -94,30 +95,89 @@ describe("builder", () => {
 
   describe("buildPublicMemberProfile", () => {
     it("公開同意済み・公開状態の会員のプロフィールを構築できる", async () => {
-      const result = await buildPublicMemberProfile(ctx, asMemberId("m_001"));
+      const result = await buildPublicMemberProfile(withProvider(ctx), asMemberId("m_001"));
       expect(result).not.toBeNull();
       expect(result?.memberId).toBe("m_001");
       expect(result?.summary.fullName).toBe("山田 太郎");
     });
 
+    it("attendanceProvider 経由で attendance を注入する", async () => {
+      const result = await buildPublicMemberProfile(
+        withProvider(
+          ctx,
+          stubProvider({
+            m_001: [
+              { sessionId: "s-1", title: "定例会 1", heldOn: "2026-03-15" },
+            ],
+          }),
+        ),
+        asMemberId("m_001"),
+      );
+      expect(result?.attendance).toEqual([
+        { sessionId: "s-1", title: "定例会 1", heldOn: "2026-03-15" },
+      ]);
+    });
+
+    it("attendancePage 未指定でも default 50 件と attendanceMeta を返す", async () => {
+      const records = Array.from({ length: 60 }, (_, i) => ({
+        sessionId: `s-${String(i).padStart(2, "0")}`,
+        title: `定例会 ${i}`,
+        heldOn: `2026-03-${String((i % 28) + 1).padStart(2, "0")}`,
+      }));
+      const result = await buildPublicMemberProfile(
+        withProvider(ctx, stubProvider({ m_001: records })),
+        asMemberId("m_001"),
+      );
+      expect(result?.attendance).toHaveLength(50);
+      expect(result?.attendanceMeta).toEqual({
+        hasMore: true,
+        nextCursor: "next-cursor",
+      });
+    });
+
+    it("attendanceProvider 未注入時は throw する", async () => {
+      await expect(
+        buildPublicMemberProfile(
+          { ...ctx, var: { attendanceProvider: undefined as unknown as AttendanceProvider } },
+          asMemberId("m_001"),
+        ),
+      ).rejects.toThrow(/attendanceProvider not bound/i);
+    });
+
+    it("公開不適格 member では attendanceProvider を呼ばない", async () => {
+      const throwingProvider: AttendanceProvider = {
+        async findByMemberIds() {
+          throw new Error("attendance provider should not be called");
+        },
+        async findByMemberId() {
+          throw new Error("attendance provider should not be called");
+        },
+      };
+      const result = await buildPublicMemberProfile(
+        withProvider(ctx, throwingProvider),
+        asMemberId("m_002"),
+      );
+      expect(result).toBeNull();
+    });
+
     it("is_deleted=1 の会員は null を返す（不変条件 #11）", async () => {
-      const result = await buildPublicMemberProfile(ctx, asMemberId("m_003"));
+      const result = await buildPublicMemberProfile(withProvider(ctx), asMemberId("m_003"));
       expect(result).toBeNull();
     });
 
     it("public_consent != 'consented' の会員は null を返す", async () => {
-      const result = await buildPublicMemberProfile(ctx, asMemberId("m_002"));
+      const result = await buildPublicMemberProfile(withProvider(ctx), asMemberId("m_002"));
       expect(result).toBeNull();
     });
 
     it("publish_state != 'public' の会員は null を返す", async () => {
       // m_002 は publish_state = 'member_only'
-      const result = await buildPublicMemberProfile(ctx, asMemberId("m_002"));
+      const result = await buildPublicMemberProfile(withProvider(ctx), asMemberId("m_002"));
       expect(result).toBeNull();
     });
 
     it("visibility='admin' のフィールドは PublicMemberProfile に含まれない", async () => {
-      const result = await buildPublicMemberProfile(ctx, asMemberId("m_001"));
+      const result = await buildPublicMemberProfile(withProvider(ctx), asMemberId("m_001"));
       expect(result).not.toBeNull();
       // publicSections のフィールドに admin_note_field が含まれていないことを確認
       const allFields = result!.publicSections.flatMap((s) => s.fields);
@@ -126,7 +186,7 @@ describe("builder", () => {
     });
 
     it("visibility='member' のフィールドも PublicMemberProfile に含まれない", async () => {
-      const result = await buildPublicMemberProfile(ctx, asMemberId("m_001"));
+      const result = await buildPublicMemberProfile(withProvider(ctx), asMemberId("m_001"));
       expect(result).not.toBeNull();
       const allFields = result!.publicSections.flatMap((s) => s.fields);
       const fieldKeys = allFields.map((f) => f.stableKey);
@@ -134,14 +194,14 @@ describe("builder", () => {
     });
 
     it("PublicMemberProfile にはタグ情報が含まれる", async () => {
-      const result = await buildPublicMemberProfile(ctx, asMemberId("m_001"));
+      const result = await buildPublicMemberProfile(withProvider(ctx), asMemberId("m_001"));
       expect(result).not.toBeNull();
       expect(result?.tags).toHaveLength(1);
       expect(result?.tags[0]?.code).toBe("engineer");
     });
 
     it("存在しない member_id では null を返す", async () => {
-      const result = await buildPublicMemberProfile(ctx, asMemberId("nonexistent"));
+      const result = await buildPublicMemberProfile(withProvider(ctx), asMemberId("nonexistent"));
       expect(result).toBeNull();
     });
   });
@@ -259,7 +319,7 @@ describe("builder", () => {
 
     it("adminNotes は引数として受け取り、PublicMemberProfile には含まれない（不変条件 #12）", async () => {
       // PublicMemberProfile を取得して adminNotes が含まれないことを確認
-      const publicProfile = await buildPublicMemberProfile(ctx, asMemberId("m_001"));
+      const publicProfile = await buildPublicMemberProfile(withProvider(ctx), asMemberId("m_001"));
       expect(publicProfile).not.toBeNull();
       // PublicMemberProfile には audit フィールドが存在しない
       expect("audit" in (publicProfile ?? {})).toBe(false);

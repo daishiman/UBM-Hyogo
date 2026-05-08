@@ -151,9 +151,10 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - build artifact の文字列監査は `rg -F` を優先し、0件判定は `rg -q` の exit code と文書上の `match 0件` を対で残す
 - human-authored な Phase 12 成果物は task root 直下ではなく `outputs/phase-12/` に置く
 - `index.md` / `phase-*.md` / `artifacts.json` / `outputs/artifacts.json` の4点同期結果
-- **必須**: 当該 wave で touch した全 skill の `.claude/skills/<skill>/LOGS.md` 更新行を **canonical absolute path** で必ず列挙する。`SKILL.md` だけ列挙して `LOGS.md` を省略するパターンは FAIL（06b-b pending banner 監査で検出）。
-- Step 1-A で更新した `aiworkflow-requirements` / `task-specification-creator` の `SKILL.md` / `LOGS.md` を canonical path で列挙する
-- `skill-creator` を改善した場合は、`skill-creator/SKILL.md` / `LOGS.md` / 変更した template or reference も同じ changelog に列挙する
+- **必須**: 当該 wave で touch した全 skill の履歴 ledger を **canonical absolute path** で必ず列挙する。`SKILL.md` だけ列挙して履歴 ledger を省略するパターンは FAIL（06b-b pending banner 監査で検出）。
+- `.claude/skills/<skill>/LOGS.md` が存在する場合は `LOGS.md` を必須履歴 ledger とする。現行 skill が `LOGS/_legacy.md` + `changelog/<yyyymmdd-task>.md` fragment 運用の場合は、dated changelog を同一 wave 履歴として扱い、`documentation-changelog.md` / `system-spec-update-summary.md` に選択した履歴ファイルと `LOGS.md` 不在理由を明記すれば PASS とする。
+- Step 1-A で更新した `aiworkflow-requirements` / `task-specification-creator` の `SKILL.md` / 履歴 ledger を canonical path で列挙する
+- `skill-creator` を改善した場合は、`skill-creator/SKILL.md` / 履歴 ledger / 変更した template or reference も同じ changelog に列挙する
 - `更新予定` / `計画済み` / `PR マージ後に実施` のような future wording を残さない
 
 ### 必須エントリ最小セット（documentation-changelog.md）
@@ -163,7 +164,7 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 | カテゴリ | 必須 path 例 |
 | --- | --- |
 | skill 正本 | `.claude/skills/<skill>/SKILL.md` |
-| skill 履歴 | `.claude/skills/<skill>/LOGS.md` ← **省略禁止** |
+| skill 履歴 | `.claude/skills/<skill>/LOGS.md`、または現行運用で実在する `.claude/skills/<skill>/changelog/<yyyymmdd-task>.md` |
 | skill reference / template | `.claude/skills/<skill>/references/*.md`（変更があった場合） |
 | workflow artifacts | `docs/30-workflows/<task>/{index.md,artifacts.json}` |
 | workflow outputs | `docs/30-workflows/<task>/outputs/{artifacts.json,phase-12/*.md}` |
@@ -248,6 +249,20 @@ Phase 12 で初めて validator を書き起こすと、Phase 11 evidence と Ph
 - production migration apply runbook formalization は `DOC_PASS` と runtime PASS を分離し、Phase 11 evidence の `structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md` 実体、production apply 未実行境界、Phase 13 user approval gate を確認してから PASS にする
 - env-name contract alignment では、`outputs/phase-11/env-name-grep.md` / `secret-list-check.md` / `magic-link-smoke-readiness.md` の実体を確認し、name-only readiness と実 smoke PASS を分ける
 - タスク仕様書に古い候補コマンドが残っていた場合は、実リポジトリの `package.json` / workspace / test runner から現在のコマンドを再解決し、Phase 1 / 4 / 9 / 11 / 12 の command contract を同じ文字列へ更新してから PASS にする
+- lint / ESLint gate を AC に置く場合は、設定ファイルの配置だけで PASS にしない。`package.json` の実 `lint` script が該当 rule を実行していること、外部 global ESLint に依存していないこと、`outputs/phase-11/evidence/lint.log` に実コマンドと exit 0 が保存されていることを確認する。`lint` が `tsc` のみの場合は ESLint gate 未実装として同一 wave で script / dependency / config を補正する。
+
+#### lint gate 4要素同期 checklist
+
+ESLint gate を AC に持つ task は、以下 4 要素が**同一 wave で同期**しているかを Phase 12 compliance check に転記する。1 要素でも欠けたら PASS にしない。
+
+| 要素 | 確認内容 | 検証 |
+| --- | --- | --- |
+| package.json `lint` script | `tsc --noEmit && eslint .` の直列起動（または等価な ESLint 実行） | `cat apps/web/package.json` で `scripts.lint` を目視 |
+| dependency | `eslint` / `@typescript-eslint/*` / `eslint-config-next` 等が devDependencies に存在 | `pnpm ls --filter <pkg>` で版数つき確認 |
+| config | `eslint.config.mjs`（または `.eslintrc.*`）で `no-restricted-globals` 等の rule 有効化 | rule 名を `rg -n` で grep |
+| evidence | `outputs/phase-11/evidence/lint.log` に exit 0 と eslint stdout（rule 名・対象ファイル）両方が記録 | `tail` / `grep eslint` で両方の出現確認 |
+
+> Phase 1〜3 限定 workflow を Phase 13 まで拡張する際は `artifacts.json` と `index.md` を同一 commit で同期させる（root ledger drift gate）。Phase 4 以降の outputs を追加してから phase 範囲を拡張する場合も、artifacts ledger と index narrative の Phase 数表記が乖離しないよう、同 wave で書き換える。
 
 **確認コマンド（docs-only / UI task 共通で必須）**:
 
