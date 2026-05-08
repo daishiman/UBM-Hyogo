@@ -249,6 +249,20 @@ Phase 12 で初めて validator を書き起こすと、Phase 11 evidence と Ph
 - production migration apply runbook formalization は `DOC_PASS` と runtime PASS を分離し、Phase 11 evidence の `structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md` 実体、production apply 未実行境界、Phase 13 user approval gate を確認してから PASS にする
 - env-name contract alignment では、`outputs/phase-11/env-name-grep.md` / `secret-list-check.md` / `magic-link-smoke-readiness.md` の実体を確認し、name-only readiness と実 smoke PASS を分ける
 - タスク仕様書に古い候補コマンドが残っていた場合は、実リポジトリの `package.json` / workspace / test runner から現在のコマンドを再解決し、Phase 1 / 4 / 9 / 11 / 12 の command contract を同じ文字列へ更新してから PASS にする
+- lint / ESLint gate を AC に置く場合は、設定ファイルの配置だけで PASS にしない。`package.json` の実 `lint` script が該当 rule を実行していること、外部 global ESLint に依存していないこと、`outputs/phase-11/evidence/lint.log` に実コマンドと exit 0 が保存されていることを確認する。`lint` が `tsc` のみの場合は ESLint gate 未実装として同一 wave で script / dependency / config を補正する。
+
+#### lint gate 4要素同期 checklist
+
+ESLint gate を AC に持つ task は、以下 4 要素が**同一 wave で同期**しているかを Phase 12 compliance check に転記する。1 要素でも欠けたら PASS にしない。
+
+| 要素 | 確認内容 | 検証 |
+| --- | --- | --- |
+| package.json `lint` script | `tsc --noEmit && eslint .` の直列起動（または等価な ESLint 実行） | `cat apps/web/package.json` で `scripts.lint` を目視 |
+| dependency | `eslint` / `@typescript-eslint/*` / `eslint-config-next` 等が devDependencies に存在 | `pnpm ls --filter <pkg>` で版数つき確認 |
+| config | `eslint.config.mjs`（または `.eslintrc.*`）で `no-restricted-globals` 等の rule 有効化 | rule 名を `rg -n` で grep |
+| evidence | `outputs/phase-11/evidence/lint.log` に exit 0 と eslint stdout（rule 名・対象ファイル）両方が記録 | `tail` / `grep eslint` で両方の出現確認 |
+
+> Phase 1〜3 限定 workflow を Phase 13 まで拡張する際は `artifacts.json` と `index.md` を同一 commit で同期させる（root ledger drift gate）。Phase 4 以降の outputs を追加してから phase 範囲を拡張する場合も、artifacts ledger と index narrative の Phase 数表記が乖離しないよう、同 wave で書き換える。
 
 **確認コマンド（docs-only / UI task 共通で必須）**:
 
@@ -290,3 +304,26 @@ Phase 12 成果物は以下 7 ファイル名で**完全固定**する。`system
 - リネーム / リファクタリング時は本表を先に更新し、git history を残した上で全 4 箇所に sed 相当の一括置換を当て、`rg -F "<旧名>" docs/30-workflows/<task>/` の出力が 0 件になったことを `documentation-changelog.md` に記録する。
 - task root 直下に `phase-12-documentation.md` 以外の Phase 12 成果物（例: `phase-12-implementation-guide.md` / `phase-12-changelog.md`）を作るのは禁止。すべて `outputs/phase-12/` 配下に置く。
 - 反例として `system-spec-update.md`（summary 抜き）/ `skill-feedback.md`（report 抜き）/ `compliance-check.md`（接頭辞抜き）が頻出するため、Phase 12 着手時に本表の canonical name を `outputs/phase-12/.gitkeep` 相当の placeholder として先に作っておくと drift しにくい。
+
+## Phase 4 で placeholder token (HEX) grep 0 件 gate を前倒し配置（build pipeline タスク類型）
+
+### Trigger キーワード
+
+`tailwind` / `design tokens` / `postcss` / `build pipeline` / `hex-grep-zero` / `placeholder token gate`
+
+上記キーワードが Phase 1 のタスク種別判定で hit する build pipeline 系タスクでは、Phase 11 / 12 で HEX 直書き残存を発見すると差戻しコストが大きい。Phase 4（テスト設計 / gate 設計）の段階で **placeholder token (HEX) grep 0 件 gate** を前倒し配置し、Phase 5 以降で常時 0 件を維持する。
+
+### 配置ルール
+
+- Phase 4 outputs に `outputs/phase-4/hex-grep-gate.sh` を置く（実行可能スクリプト）
+- スクリプトは `apps/web/src/` 配下の HEX literal（`#[0-9a-fA-F]{3,8}` / `bg-[#...]` / `text-[#...]`）を grep し、件数 0 を期待値とする
+- 0 件以外で exit code 非 0 を返し、Phase 5 / Phase 11 / CI gate（`verify-design-tokens` 相当）から呼び出して再利用する
+- Phase 12 `phase12-task-spec-compliance-check.md` ではこの gate の最新実行ログを evidence として参照する
+
+### Evidence
+
+| ファイル | 役割 |
+| --- | --- |
+| `outputs/phase-4/hex-grep-gate.sh` | placeholder token (HEX) 残存 0 件を判定するスクリプト本体（Phase 5 以降で再利用） |
+
+Phase 4 で gate を作らず Phase 11 で初めて grep する運用は本ルール違反とし、`skill-feedback-report.md` に「Phase 4 gate 前倒し未実施」として記録する。

@@ -144,6 +144,10 @@
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
 | any | current segment | ErrorState | Sentry capture only | error | message, reset | alert と retry button | color, space, radius | 09h | raw stack display |
 
+Task-04 runtime guard / logger contract: production code must route browser-only globals through `apps/web/src/lib/is-browser.ts` (`isBrowser()`, `whenBrowser()`, `browserHistory()`, `browserDocument()`) and structured error reporting through `apps/web/src/lib/logger.ts`. Error boundaries should call `logger.error({ event, error, digest })`; the logger emits one-line JSON, redacts sensitive keys, and bridges to task-03 `captureException` / `captureMessage`.
+
+ESLint `no-restricted-globals` の allow-list は以下4経路を正本とする: `apps/web/src/lib/is-browser.ts` / `apps/web/src/instrumentation-client.ts` / `apps/web/src/lib/sentry/**` / `apps/web/src/**/__tests__/**`。それ以外で `window` / `document` / `history` / `navigator` を直接参照することを禁止し、`whenBrowser()` / `browserHistory()` / `browserDocument()` / `browserNavigator()` を経由する。
+
 ### 2.4.2 `app/global-error.tsx`
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |

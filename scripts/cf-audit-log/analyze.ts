@@ -66,6 +66,18 @@ async function main(): Promise<void> {
     ML_MODEL_PATH: typeof args["ml-model-path"] === "string"
       ? args["ml-model-path"]
       : process.env.ML_MODEL_PATH,
+    CF_AUDIT_IF_MODEL: typeof args["if-model"] === "string"
+      ? args["if-model"]
+      : process.env.CF_AUDIT_IF_MODEL,
+    CF_AUDIT_XGB_MODEL: typeof args["xgb-model"] === "string"
+      ? args["xgb-model"]
+      : process.env.CF_AUDIT_XGB_MODEL,
+    CF_AUDIT_WORKERS_AI_URL: typeof args["workers-ai-url"] === "string"
+      ? args["workers-ai-url"]
+      : process.env.CF_AUDIT_WORKERS_AI_URL,
+    CF_AUDIT_WORKERS_AI_TOKEN: typeof args["workers-ai-token"] === "string"
+      ? args["workers-ai-token"]
+      : process.env.CF_AUDIT_WORKERS_AI_TOKEN,
   });
 
   let findings = 0;

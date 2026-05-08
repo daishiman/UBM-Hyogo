@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #549 Cloudflare Audit Logs ML production switch（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
+| 親 | Issue #515 ML-ready classifier / Issue #518 HOLD |
+| switch contract | Gate-0〜C 通過後のみ `.github/workflows/cf-audit-log-monitor.yml` で `CF_AUDIT_CLASSIFIER=ml` |
+| model path | `ML_MODEL_PATH=op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD`（解決値は記録しない） |
+| observation | production switch merge 後 7 日 / 168 hourly snapshots / fallback rate / p95 latency / leakage grep |
+| rollback | `CF_AUDIT_CLASSIFIER=threshold` へ戻す。D1 `classifier_used` / `classifier_version` / `confidence` は削除しない |
+| evidence | local focused tests / skeleton dry-run / grep gate、`outputs/phase-12/` strict 7 files |
+| 境界 | 本サイクルは observation scripts / fallback alert / leakage grep CLI まで。workflow YAML / secret / artifact / production mutation は実行しない。Issue #549 は CLOSED のまま `Refs #549` |
+
 ### Issue #532 write/tag/note provider ctx injection（2026-05-08）
 
 | 項目 | 値 |
@@ -166,6 +180,21 @@
 | lessons | `references/lessons-learned-task-08-w2-design-tokens-doc-2026-05.md`（L-T08W2-001..004）|
 | inventory | `references/workflow-task-08-w2-design-tokens-doc-artifact-inventory.md` |
 
+### Task 09 W3 Tailwind v4 setup（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / VISUAL_ON_EXECUTION / local PASS 5-point evidence captured / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/` |
+| upstream | task-08 `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| 目的 | `apps/web` に Tailwind v4 CSS-first build pipeline を確立し、09b の `--ubm-*` token を `tokens.css` と `globals.css @theme inline` で utility 化する |
+| 境界 | task-09 は単一 PR。task-10 primitives は別 PR で、task-09 完了後のみ着手 |
+| 検証 | Phase 9 local 5点、Phase 11 `preview:cloudflare` 200、generated CSS `.bg-accent` + `var(--ubm-color-accent)`、HEX grep 0、apps/api diff 0 |
+| 状態境界 | 現 wave で実コード実装と local PASS 証跡を取得済み。commit・push・PR は未実行 |
+| Phase 11 evidence | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/outputs/phase-11/evidence/typecheck.log`、`outputs/phase-11/evidence/tokens-test.log`、`outputs/phase-11/evidence/build-output-test.log`、`outputs/phase-11/evidence/preview-200.log`、`outputs/phase-11/evidence/hex-grep-zero.log` |
+| lessons | `references/lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md`（L-T09W3-001..003） |
+| inventory | `references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md` |
+
 ### UI prototype mapping table task-07（2026-05-07）
 
 | 項目 | 値 |
@@ -203,6 +232,15 @@
 | evidence境界 | Phase 11 は local typecheck / tests / build / OpenNext worker grep を取得済みの `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。staging deploy、Sentry dashboard event は user approval 後 |
 | 下流 | task-04 logger、task-05 error boundary / staging smoke |
 | 検証 | `pnpm --filter @ubm-hyogo/web exec tsc --noEmit` PASS、web Vitest 51 files / 420 tests PASS、`pnpm --filter @ubm-hyogo/web build:cloudflare` PASS、worker grep 0 hits、Phase 12 strict 7 outputs、Phase 11 outputs、Phase 13 approval-boundary outputs を同 wave で配置 |
+### UI prototype alignment task-04 Window guard and logger（2026-05-08）
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-04-w3-window-guard-and-logger/` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W3 runtime task |
+| 契約 | Browser-only globals are centralized in `apps/web/src/lib/is-browser.ts`; structured observability is centralized in `apps/web/src/lib/logger.ts`; downstream error boundaries call `logger.error({ event, error, digest })` |
+| ESLint gate | `apps/web/package.json` `lint` runs `tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'`; `apps/web/eslint.config.mjs` rejects runtime `window` / `document` outside `src/lib/is-browser.ts` and `src/instrumentation-client.ts` |
+| evidence境界 | Phase 11 local typecheck / lint / tests / build / grep-gate PASS。Sentry dashboard smoke、runtime logger staging evidence は user approval 後 |
+| 下流 | task-05 error boundary、task-09..17 browser API migration |
+| 検証 | `pnpm --filter @ubm-hyogo/web exec tsc -p tsconfig.json --noEmit` PASS、`pnpm --filter @ubm-hyogo/web lint` PASS、web Vitest 56 files / 441 tests PASS、`pnpm --filter @ubm-hyogo/web build` PASS、grep-gate 0 hits outside allow-list |
 
 ### Issue #560 task-03 follow-up 002 Next standalone instrumentation patch（2026-05-08）
 | ステータス | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
@@ -213,7 +251,7 @@
 | 実装 | existing script に `cwd` guard / `--verify-only` / trace copy regression test / trace parse failure handling / structured log を追加し、`.github/workflows/pr-build-test.yml` の `build-test` job で `@ubm-hyogo/web build:cloudflare` 後に verify gate を実行する |
 | 境界 | `web-cd.yml` Pages deploy cutover、production deploy、Sentry dashboard runtime evidence は対象外。commit / push / PR は user approval 後 |
 
-### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
+||||||| 8f4193d7### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
 | 成果物 | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
 | member blueprint | `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md`（917 行 / section count 3） |
@@ -339,8 +377,45 @@
 | 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / production ML switch external-gated |
 | 成果物 | `docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/` |
 | 目的 | Issue #408 の threshold 判定を直ちに置換せず、`scripts/cf-audit-log/classifier/**` の interface、redacted feature export、offline replay、D1 classifier metadata、GitHub Actions env を追加して ML-ready 化する |
-| runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、model selection、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up |
+| runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up。FU-03-C model selection は Issue #548 として仕様化済み |
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
+### Issue #548 Cloudflare Audit Logs ML Model Selection（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_synthetic / implementation / NON_VISUAL / production winner pending FU-03-B/FU-03-D |
+| 成果物 | `docs/30-workflows/issue-548-ml-model-selection/` |
+| 目的 | Issue #515 の classifier abstraction を使い、threshold baseline と Isolation Forest / XGBoost / Workers AI 候補を同一 redacted dataset で比較する contract を固定する |
+| runtime境界 | この wave は spec + SSOT sync。Synthetic fixture は harness smoke evidence であり production winner ではない。FU-03-B redacted 90-day dataset replay と FU-03-D production switch は user-gated |
+| 正本同期 | `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `indexes/resource-map.md` / `indexes/quick-reference.md` |
+
+### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Issue #547 CLOSED |
+| 成果物 | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` |
+| 目的 | production D1 `cf_audit_log` から 90 日分の ML feature JSONL を read-only export し、schema validation / manifest / leakage gate で redacted dataset を作る |
+| 実装正本 | `scripts/cf-audit-log/feature-export.ts`, `scripts/cf-audit-log/feature-export/schema-validation.ts`, `scripts/cf-audit-log/feature-export/manifest.ts`, `scripts/cf-audit-log/d1-client.ts`, `scripts/cf.sh` |
+| evidence | `outputs/phase-11/main.md`, `focused-vitest.log`, `fixture-exported-features.jsonl`, `fixture-export-manifest.json`, `secret-leakage-grep.log`, `schema-validation.log` |
+| runtime境界 | production read-only export は `outputs/phase-11/production-pending-user-gate.md` のまま user approval 後のみ実行。local fixture PASS を runtime PASS と扱わない |
+| lessons | `references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md` |
+| artifact inventory | `references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md` |
+| 正本同期 | `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `indexes/quick-reference.md` / `indexes/resource-map.md` / LOGS |
+
+### Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | observation_continue / docs-only / NON_VISUAL / Gate-A FAIL / Gate-B-C pending / Issue #546 CLOSED |
+| 成果物 | `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/` |
+| 目的 | Issue #408 / #515 系の Cloudflare Audit Logs 監視について、90 日分の runtime evidence を集計し ML 化へ進むか threshold 継続かを判定する |
+| 2026-05-08 evidence | monitor run 32 件は 2026-05-06T10:43:50Z〜2026-05-07T21:22:18Z の全 failure、watchdog run 32 件も全 failure、`cf-audit` label issue は 0 件、D1 read-only query は `no such table: cf_audit_log` |
+| gate結果 | Gate-A FAIL。Gate-B は D1 readiness 未確認のため PENDING。Gate-C は monthly tuning minutes log 不足のため PENDING |
+| 次アクション | `observation_continue`。Issue #546 は CLOSED 維持。ML comparison / production switch には進まない。successful hourly run が 2026-05-08 から始まる場合、最短の90日再判定は 2026-08-05 以後。追跡: `docs/30-workflows/unassigned-task/issue-546-cf-audit-logs-90day-reobservation-reminder-001.md` |
+| 正本同期 | `references/observability-monitoring.md` / `references/database-schema-cf-audit-log.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+| artifacts / lessons | `references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md` / `references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md` |
 
 ### Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export（2026-05-07）
 
@@ -448,6 +523,26 @@
 | artifacts | root `artifacts.json` と `outputs/artifacts.json` parity、Phase 12 strict 7 files materialized |
 | 検証 | local typecheck / lint / vitest（schemaDiffQueue / schemaAliasAssign / schemaAliasBackfillBatch / schemaAliasEnqueue / route schema） 38 tests PASS。staging deploy / Cloudflare Queue binding apply / production apply は user 明示承認まで未実行 |
 | 境界 | Phase 11 staging evidence による runtime gate 判定本体は実走しておらず、user 明示で local implementation GO として実装した。staging Queue/DLQ 作成、Cloudflare deploy、production migration apply、commit、push、PR、Issue #361 comment/reopen は未実行。Issue #361 は CLOSED 維持で `Refs #361` のみ |
+
+### Issue #502 / UT-07B-FU-01-FOLLOWUP DLQ Monitoring Dashboard（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | spec_created |
+| taskType | docs-only |
+| visualEvidence | NON_VISUAL |
+| Phase 11 | contract_ready_runtime_pending（local grep / read-only SQL template evidence captured; staging D1 SQL and dash runtime evidence pending_user_approval） |
+| Phase 12 | strict 7 outputs present |
+| issue | #502 CLOSED (PR text: `Refs #502` only) |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard/` |
+| runbook | `docs/runbooks/dlq-monitoring/schema-alias-backfill.md` |
+| skill reference | `references/dlq-monitoring.md` |
+| artifact inventory | `references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md`（L-502-001〜005） |
+| 目的 | UT-07B-FU-01 の Cloudflare Queue / DLQ binding と D1 `schema_diff_queue` failure 永続化列を、runbook + read-only 集計 SQL で運用者が観測できる状態にする |
+| 契約 | Queue/DLQ は `SCHEMA_ALIAS_BACKFILL_QUEUE` binding、prod `schema-alias-backfill` / `schema-alias-backfill-dlq`、staging `schema-alias-backfill-staging` / `schema-alias-backfill-staging-dlq`。D1 集計 SQL は `retry_count` / `failed_items_json` / `last_processed_at` / `backfill_status` のみを使い、`last_error` 原文 SELECT / 転記は禁止 |
+| しきい値 | DLQ >= 1 / retry_count >= 3 / exhausted 24h |
+| 境界 | Pager / Slack / PagerDuty 連携、Queue / DLQ 構造変更、D1 schema 変更、apps/api 実装変更は本タスク scope 外。しきい値超過時の追加実装は別 unassigned task としてユーザー判断後に起票する |
 
 ### UT-07B-FU-02 Admin Schema Alias Retry Label（2026-05-06）
 
