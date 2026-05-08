@@ -760,6 +760,9 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - downstream: task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認
 - skill-feedback: なし（task-specification-creator / aiworkflow-requirements 既存ルールでカバー）
 - unassigned-task: 0 件追加（task-02..22 は既起票）
+## 2026-05-07 task-08 W2 design tokens doc sync
+
+`docs/30-workflows/task-08-w2-design-tokens-doc/` を `spec_created / docs-only / NON_VISUAL` として同期した。`docs/00-getting-started-manual/specs/09b-design-tokens.md` を作成し、prototype `styles.css` L1-L70 の OKLch / HEX / radius / shadow / font 値、spacing / motion token、旧 `09c-primitives.md` 短縮 token 互換 mapping、Tailwind v4 `@theme inline` guide を正本化した。09-ui / 09c / 09f / task-09 / task-18 の stale token contract も同一 wave で 09b 正本へ補正し、quick-reference / resource-map / topic-map / keywords / task-workflow-active / changelog も更新した。apps/packages コード変更、commit、push、PR は未実行。
 
 # 2026-05-07 UI prototype mapping table task-07
 

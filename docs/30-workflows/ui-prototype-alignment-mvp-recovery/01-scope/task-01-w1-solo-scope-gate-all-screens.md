@@ -75,7 +75,7 @@ shape 乖離発生時は API を変更せず `apps/web` 側に adapter 層を置
 ### 0.7 用語（このファイル限定の確定定義）
 
 - **「全画面スコープ」**: 公開 6 + 会員 2 + 管理 8 + 共通 3 = **計 19 routes**。旧 MVP 4 画面から拡張済み。phase-1 §2.2 確定。
-- **「OKLch トークン正本化」**: prototype `styles.css` L1-70 の OKLch 定義を task-09 で `apps/web/src/styles/tokens.css` に転記し、`@theme` bridge で Tailwind に流す。`specs/design-tokens.md`（task-08）と `tokens.css` の 2 ファイルが色の正本。HEX 直書き / arbitrary value（`bg-[#xxx]`）は CI gate `verify-design-tokens`（task-18）で fail 判定。
+- **「OKLch トークン正本化」**: prototype `styles.css` L1-70 の OKLch 定義を task-09 で `apps/web/src/styles/tokens.css` に転記し、`@theme` bridge で Tailwind に流す。`specs/09b-design-tokens.md`（task-08）と `tokens.css` の 2 ファイルが色の正本。HEX 直書き / arbitrary value（`bg-[#xxx]`）は CI gate `verify-design-tokens`（task-18）で fail 判定。
 - **「既存 API のみ接続」**: §0.4 に列挙した `apps/api/src/routes/` 配下の現行 endpoint surface 内で UI 実装が完結すること。新 endpoint 追加・D1 schema 変更・Google Form 改変はワークフロー全体で禁止。
 - **「正本順位」**: SCOPE.md > phase-{1,2,3}.md > specs/*.md > prototype の 4 段階優先度。衝突時は上位を採用。
 
@@ -89,7 +89,7 @@ shape 乖離発生時は API を変更せず `apps/web` 側に adapter 層を置
 
 1. **全画面実装スコープ**: 公開 6 / 会員 2 / 管理 8 / 共通 3 = 19 routes すべてを本ワークフローで実装対象とする。
 2. **既存 API のみ接続（API 不変条件）**: `apps/api/src/routes/` 配下の現行 endpoint surface のみを利用し、新 endpoint・D1 schema 変更・Google Form 仕様変更は禁止する。
-3. **OKLch トークン正本化**: `apps/web/src/styles/tokens.css`（task-09 で作成）と `specs/design-tokens.md`（task-08）が色の正本であり、HEX 直書き / `bg-[#xxx]` / `text-[#xxx]` などのトークン外記述を禁止する。
+3. **OKLch トークン正本化**: `apps/web/src/styles/tokens.css`（task-09 で作成）と `specs/09b-design-tokens.md`（task-08）が色の正本であり、HEX 直書き / `bg-[#xxx]` / `text-[#xxx]` などのトークン外記述を禁止する。
 
 これら 3 合意が CLAUDE.md / specs / SCOPE.md の 3 箇所に明文化されることで、task-02..22 の実装者（および AI エージェント）が判断に迷わないゲートを設置する。
 
@@ -162,7 +162,7 @@ shape 乖離発生時は API を変更せず `apps/web` 側に adapter 層を置
 ### 不変条件（task-02..22 共通）
 
 1. **既存 API のみ接続**: `apps/api/src/routes/` 配下の現行 endpoint surface のみ利用。新 endpoint 追加・D1 schema 変更・Google Form 仕様変更は禁止。
-2. **OKLch トークン正本化**: 色は `apps/web/src/styles/tokens.css`（task-09）と `specs/design-tokens.md`（task-08）が正本。HEX 直書き / `bg-[#xxx]` / `text-[#xxx]` 禁止。CI gate `verify-design-tokens`（task-18）で fail 判定。
+2. **OKLch トークン正本化**: 色は `apps/web/src/styles/tokens.css`（task-09）と `specs/09b-design-tokens.md`（task-08）が正本。HEX 直書き / `bg-[#xxx]` / `text-[#xxx]` 禁止。CI gate `verify-design-tokens`（task-18）で fail 判定。
 3. **プロトタイプ正本順位**: `claude-design-prototype/` の primitives + tokens + rhythm を**デザイン言語の正本**とする。プロトタイプ未掲載画面（管理画面群・register・privacy・terms）も同じ primitives 群で構成し、新規 primitive を生やさない。
 4. **D1 直接アクセス禁止**: 既存条件（`apps/web` から D1 binding 禁止）を継続。
 
@@ -272,7 +272,7 @@ UI 実装スコープと API 接続マッピングは下記を正本とする:
 
 1. 既存 API のみ接続（`apps/api/src/routes/` 配下のみ）
 2. D1 schema / Google Form 仕様変更は禁止
-3. OKLch トークン正本化（`tokens.css` + `specs/design-tokens.md`）/ HEX 禁止
+3. OKLch トークン正本化（`tokens.css` + `specs/09b-design-tokens.md`）/ HEX 禁止
 4. `apps/web` から D1 binding 禁止（既存条件）
 5. 新 primitive を生やさない（task-10 で確定する 13 primitive 内で完結）
 6. shape 乖離は UI 側 adapter で吸収

@@ -3,6 +3,7 @@
 ## 1. 位置づけと正本主義
 
 - 正式な UI 方針は `claude-design-prototype/` に合わせる
+- 色 / radius / shadow / typography / spacing / motion token の値正本は `09b-design-tokens.md` とし、本ファイルには値を重複定義しない
 - prototype の行範囲から本番実装先を逆引きする場合は [`09a-prototype-map.md`](./09a-prototype-map.md) を正本にする
 - `gas-prototype/` は画面叩き台として参照するが、認証・保存・同期の振る舞いは正本にしない
 - 目的は、公開ユーザーには「誰がいるか」が分かり、会員には「自分の掲載状態」が分かり、管理者には「何を処理すべきか」が分かること

@@ -50,6 +50,22 @@
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
 
+### Task 08 W2 design tokens doc（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-08-w2-design-tokens-doc/` |
+| token SSOT | `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| 出典 | `docs/00-getting-started-manual/claude-design-prototype/styles.css` L1-L70 |
+| 目的 | stone / warm / cool の OKLch / HEX 値、radius、shadow、font、spacing、motion を `--ubm-*` 正本名で固定し、task-09 / task-10 / task-18 のブロッカーを解除する |
+| 互換境界 | 旧 `--ubm-bg` / `--ubm-accent` / `--ubm-text-2` は 09b の互換 mapping で正本 `--ubm-color-*` へ置換する |
+| 正本同期 | `00-overview.md`, quick-reference, resource-map, topic-map, keywords, changelog を同一 wave で更新 |
+| 境界 | apps/packages コード変更なし。Tailwind `tokens.css` 実装、primitive 実装、verify script 実装は task-09 / task-10 / task-18 |
+| 検証 | 09b 行数 380+、12章、JSON parse、84 token、styles.css L1-L70 full literal cross-check、Phase 12 strict 7 files |
+| lessons | `references/lessons-learned-task-08-w2-design-tokens-doc-2026-05.md`（L-T08W2-001..004）|
+| inventory | `references/workflow-task-08-w2-design-tokens-doc-artifact-inventory.md` |
+
 ### UI prototype mapping table task-07（2026-05-07）
 
 | 項目 | 値 |
