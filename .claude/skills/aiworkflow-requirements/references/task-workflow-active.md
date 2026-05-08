@@ -50,6 +50,19 @@
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
 
+### UI prototype alignment task-21 Admin Blueprint 09g（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-21-w2-screen-blueprints-admin/` |
+| blueprint 正本 | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| 目的 | admin 8 routes と AdminSidebar の screen blueprint contract を後続 task-15 / task-16 / task-17 が実装できる粒度で固定する |
+| 実装境界 | apps/packages code 変更なし。既存補助 route `/admin/dashboard/attendance` は既存 UT-02A 成果物として残し、task-21 は削除しない |
+| API 境界 | 既存 admin endpoint surface のみ参照。`/admin/requests/:noteId/resolve`, `/admin/identity-conflicts/:id/merge`, `/admin/identity-conflicts/:id/dismiss` を正本化 |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-11/link-checklist.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| Phase 13 | commit / push / PR outputs は user approval 後のみ生成 |
+
 ### UI prototype alignment / task-19 09c primitives full spec（2026-05-07）
 
 | 項目 | 値 |

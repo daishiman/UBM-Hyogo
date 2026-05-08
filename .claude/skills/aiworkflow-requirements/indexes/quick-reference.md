@@ -47,6 +47,19 @@
 | archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### UI prototype alignment task-21 Admin Blueprint 09g（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-21-w2-screen-blueprints-admin/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| blueprint 正本 | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| 対象 | admin 8 routes + AdminSidebar contract。既存補助 route `/admin/dashboard/attendance` は削除しない |
+| source | `docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx`, `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-3/phase-3.md` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-11/link-checklist.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| downstream | task-15 / task-16 / task-17 admin implementation |
+| 境界 | apps/packages code 変更なし。既存 admin API endpoint surface のみ参照。screenshot 不要 |
+
 ### UI prototype alignment / task-19 09c primitives full spec（2026-05-07）
 
 | 目的 | 参照先 |
