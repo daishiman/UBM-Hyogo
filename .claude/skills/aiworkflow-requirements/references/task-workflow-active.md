@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #549 Cloudflare Audit Logs ML production switch（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
+| 親 | Issue #515 ML-ready classifier / Issue #518 HOLD |
+| switch contract | Gate-0〜C 通過後のみ `.github/workflows/cf-audit-log-monitor.yml` で `CF_AUDIT_CLASSIFIER=ml` |
+| model path | `ML_MODEL_PATH=op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD`（解決値は記録しない） |
+| observation | production switch merge 後 7 日 / 168 hourly snapshots / fallback rate / p95 latency / leakage grep |
+| rollback | `CF_AUDIT_CLASSIFIER=threshold` へ戻す。D1 `classifier_used` / `classifier_version` / `confidence` は削除しない |
+| evidence | local focused tests / skeleton dry-run / grep gate、`outputs/phase-12/` strict 7 files |
+| 境界 | 本サイクルは observation scripts / fallback alert / leakage grep CLI まで。workflow YAML / secret / artifact / production mutation は実行しない。Issue #549 は CLOSED のまま `Refs #549` |
+
 ### Issue #532 write/tag/note provider ctx injection（2026-05-08）
 
 | 項目 | 値 |

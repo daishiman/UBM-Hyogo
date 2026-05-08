@@ -68,6 +68,18 @@ Issue #515 の classifier abstraction は `CF_AUDIT_CLASSIFIER` 未指定時に 
 
 Evidence には model path、raw feature dataset、full IP、user agent、actor email を残さない。保存できるのは classifier name/version、fallback reason、run id、redacted feature summary まで。
 
+## Issue #549 audit-log ML production switch / 7 day observation
+
+Issue #549 は `CF_AUDIT_CLASSIFIER=ml` への production switch を扱うが、実 merge は Gate-0〜C 通過後の runtime cycle でのみ行う。Gate-0 は 90 日 baseline 条件を満たした、または同等の例外承認 evidence で置換した記録、Gate-A は offline replay で ML が threshold より precision / recall 改善、Gate-B は fallback rate と Issue body redaction が許容範囲、Gate-C は rollback runbook approval / governance evidence の取得である。
+
+Switch 手順:
+
+1. `CF_AUDIT_CLASSIFIER=ml` と `ML_MODEL_PATH=op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` を実装 PR の contract として確認する。解決値は記録しない。
+2. merge 後 7 日間、hourly snapshot 168 件で Issue 起票数、fallback rate、p95 latency、leakage grep result を確認する。
+3. fallback rate > 5% が 3 hour 連続、leakage grep positive、または Issue 起票数が baseline を超過した場合は `CF_AUDIT_CLASSIFIER=threshold` へ戻す PR を作る。
+
+Rollback では D1 `classifier_used` / `classifier_version` / `confidence` を削除しない。model artifact 不整合が続く場合は artifact 再選定 Issue へ差し戻す。
+
 ## Issue #548 audit-log model selection promotion
 
 Issue #548 は Issue #515 の ML-ready classifier を受け、Isolation Forest / XGBoost / Workers AI を threshold baseline と同一 dataset で比較するための実装である。現状態は `implemented_synthetic / implementation / NON_VISUAL`。3 candidate classifier、`evaluation/model-comparison.ts`、`evaluation/selection-criteria.ts`、training script 2 本、synthetic 720 行 fixture、harness smoke evidence (`docs/30-workflows/issue-548-ml-model-selection/outputs/phase-11/`) が実装済み。この runbook は promotion 手順を固定するが production switch は FU-03-D で扱う。Synthetic harness winner（`xgboost`）は informational のみで production winner ではない。
