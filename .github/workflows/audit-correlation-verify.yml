@@ -48,8 +48,9 @@ jobs:
             apps/api/src/routes/audit-correlation
             scripts/audit-correlation
           )
+          # __tests__ 配下は意図的に literal placeholder を含むためスキャン対象外
           check_no_match() {
-            if grep -rE "$1" "${PATHS[@]}"; then
+            if grep -rE --exclude-dir=__tests__ "$1" "${PATHS[@]}"; then
               echo "forbidden pattern matched: $1" >&2
               exit 1
             fi
