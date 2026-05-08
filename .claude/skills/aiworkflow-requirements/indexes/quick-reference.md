@@ -5,6 +5,19 @@
 
 ---
 
+### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| CLI | `scripts/cf.sh audit-log feature-export` |
+| implementation | `scripts/cf-audit-log/feature-export.ts`, `scripts/cf-audit-log/feature-export/schema-validation.ts`, `scripts/cf-audit-log/feature-export/manifest.ts` |
+| D1 boundary | `readEventsForFeatureExport()` returns `AuditLogEvent[]`; `raw_json` does not cross module boundary |
+| evidence | `outputs/phase-11/main.md`, `fixture-exported-features.jsonl`, `fixture-export-manifest.json`, `secret-leakage-grep.log`, `schema-validation.log` |
+| production gate | `outputs/phase-11/production-pending-user-gate.md`; production export is `PENDING_RUNTIME_EVIDENCE` until approval |
+| PR wording | Issue #547 is CLOSED; use `Refs #547` only |
+
 ### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
 
 | 目的 | 参照先 |
@@ -18,19 +31,6 @@
 | redaction gate | `bash scripts/redaction-grep.sh .` |
 | blocks | Issue #495 Phase 11 runtime smoke / 09c production readiness observability gate |
 | boundary | Slack / 1Password / Cloudflare / GitHub / smoke / commit / push / PR は user approval 後のみ |
-
-### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/task-02-w2-wrangler-env-injection/` |
-| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval` |
-| 実装正本 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
-| env contract | `[vars]` / `[env.staging.vars]` / `[env.production.vars]` に `ENVIRONMENT`, `NEXT_PUBLIC_API_BASE_URL`, `PUBLIC_API_BASE_URL`, `INTERNAL_API_BASE_URL`, `AUTH_URL`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` を配置 |
-| secret boundary | `SENTRY_DSN_WEB` / `AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
-| downstream | task-03 は `SENTRY_*`、task-04/05/18 は `getEnv()` / grep gate を利用 |
-| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`。Cloudflare dry-run / secret put / commit / push / PR は user approval 後 |
-| lessons | `references/lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md`（L-T02W2-001..005: getEnv() 単一窓口 / zod throw を error.tsx に委譲 / public env schema 分離 / vars vs Secrets 境界 / NON_VISUAL platform evidence 5 点） |
 
 ### UI prototype alignment / MVP recovery scope gate（2026-05-07）
 

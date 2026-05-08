@@ -2389,6 +2389,13 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Gate | L23 |
+| Validation | L27 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4375,6 +4382,12 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
 
+### references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 5-minute Checklist | L13 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5408,6 +5421,9 @@ node scripts/list-specs.js --topics
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
 | 10. 変更履歴 | L258 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L236 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L254 |
+| 11. 変更履歴 | L276 |
 
 ### references/patterns-advanced.md
 
@@ -5867,6 +5883,13 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L625 |
 | 昇格パターン集 | L649 |
 | Current Active / Spec Created Tasks | L651 |
+| ドキュメント構成 | L483 |
+| フェーズ構造（概要） | L492 |
+| 品質ゲート（概要） | L523 |
+| 出力テンプレート | L534 |
+| 実行時のコマンド・エージェント・スキル | L557 |
+| 昇格パターン集 | L581 |
+| Current Active / Spec Created Tasks | L583 |
 
 ### references/task-workflow-backlog-part2.md
 

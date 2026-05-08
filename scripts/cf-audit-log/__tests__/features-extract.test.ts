@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { extractFeatures } from "../features/extract.ts";
+import { bucketIp, extractFeatures } from "../features/extract.ts";
 import type { AuditLogEvent } from "../types.ts";
 
 function event(overrides: Partial<AuditLogEvent> = {}): AuditLogEvent {
@@ -38,5 +38,9 @@ describe("extractFeatures", () => {
       /redactSecret/,
     );
   });
-});
 
+  it("normalizes compressed IPv6 addresses to a stable /48 bucket", () => {
+    expect(bucketIp("2001:0db8::1")).toBe("2001:db8:0::/48");
+    expect(bucketIp("2001:db8:abcd:0012::99")).toBe("2001:db8:abcd::/48");
+  });
+});

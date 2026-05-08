@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-08 - Issue #547 redacted feature export boundary promotion
+
+`docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` の Phase 12 review で、local fixture export PASS と production 90 day read-only export を同じ PASS にしない boundary を確認した。`references/phase12-skill-feedback-promotion.md` に Issue #547 applied example、`assets/phase12-task-spec-compliance-template.md` に AC / evidence / SSOT / parity / runtime-pending content gates、`references/phase-12-spec.md` に CLOSED Issue `Refs #<issue>` only rule を追加した。production export、commit、push、PR は user-gated のまま未実行。
+
 ## 2026-05-07 - task-02 wrangler env injection NON_VISUAL platform close-out
 
 `docs/30-workflows/task-02-w2-wrangler-env-injection/` の Phase 12 review で、implementation / NON_VISUAL / platform runtime config は実コード実装 (`wrangler.toml` / `.dev.vars.example` / env accessor / focused test) と Phase 12 strict 7 files を同一サイクルで揃え、Cloudflare runtime dry-run と secret put は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として user gate に分離する運用を確認した。既存 Phase 11 NON_VISUAL 代替 evidence / implemented-local 状態語彙で吸収できるため、テンプレート変更は no-op。

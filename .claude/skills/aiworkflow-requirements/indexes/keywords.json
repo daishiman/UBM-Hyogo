@@ -2534,6 +2534,7 @@
       "ui-ux-prototype-map.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -4036,10 +4037,12 @@
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
       "observability-monitoring.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
@@ -5230,6 +5233,7 @@
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
@@ -5504,6 +5508,7 @@
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -5520,7 +5525,8 @@
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md"
     ],
     "schema": [
       "database-operations.md",
@@ -5680,12 +5686,14 @@
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "observability-monitoring.md",
       "r2-storage-decision-guide.md",
       "technology-core.md",
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md"
     ],
     "Logs": [
       "database-schema-cf-audit-log.md",
@@ -5693,8 +5701,10 @@
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
       "observability-monitoring.md",
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md"
     ],
     "read": [
       "database-schema-cf-audit-log.md",
@@ -8463,6 +8473,7 @@
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -8535,6 +8546,7 @@
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -12073,7 +12085,9 @@
     "Export": [
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
-      "observability-monitoring.md"
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
+      "observability-monitoring.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md"
     ],
     "Observation": [
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
@@ -13044,6 +13058,22 @@
     "に固定する": [
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+    ],
+    "Redacted": [
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
+      "observability-monitoring.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md"
+    ],
+    "Feature": [
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
+      "observability-monitoring.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md"
+    ],
+    "minute": [
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md"
+    ],
+    "Checklist": [
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md"
     ],
     "against": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
@@ -19243,6 +19273,7 @@
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -19319,6 +19350,7 @@
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -19798,6 +19830,7 @@
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
