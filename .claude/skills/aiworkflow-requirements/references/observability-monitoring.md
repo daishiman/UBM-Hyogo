@@ -233,7 +233,38 @@ Gate decision:
 | ML 比較開始 | 90 日 evidence あり、false positive rate > 5% または tuning cost ≥ 4h/month | redacted dataset で offline replay |
 | production ML 切替 | offline replay で改善、fallback rate 許容、rollback 承認済み | 別 PR で env switch |
 
-## 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07）
+## 11. Issue #548 Cloudflare Audit Logs ML Model Selection Contract（2026-05-08）
+
+Issue #548 formalizes FU-03-C from Issue #515. The workflow state is `implemented_synthetic / implementation / NON_VISUAL`. The comparison harness, 3 candidate classifiers (`isolation-forest`, `xgboost`, `workers-ai`), training scripts, and selection-criteria are implemented under `scripts/cf-audit-log/`. Synthetic 90-day fixture replay produced `xgboost` as harness-smoke winner; this is informational only and does **not** select a production winner. Production winner requires FU-03-B redacted 90-day dataset replay (FU-03-D).
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-548-ml-model-selection/` |
+| parent | Issue #515 ML-ready classifier contract |
+| candidate classifiers | `isolation-forest`, `xgboost`, `workers-ai` (implemented under `scripts/cf-audit-log/classifier/`) |
+| baseline | existing `threshold` classifier |
+| comparison harness | `scripts/cf-audit-log/evaluation/model-comparison.ts` |
+| selection module | `scripts/cf-audit-log/evaluation/selection-criteria.ts` |
+| training scripts | `scripts/cf-audit-log/evaluation/training/{train-isolation-forest,train-xgboost}.ts` |
+| synthetic dataset | `tests/fixtures/cf-audit/labeled-90day.jsonl` (720 rows) |
+| synthetic harness winner | `xgboost` (informational; do not promote) |
+| criteria | precision >= baseline + 5pt, recall >= baseline, fallback rate <= 1%, latency p95 <= 500ms |
+| tie-breaker | precision desc -> latency p95 asc -> fallback rate asc |
+| model env vars | `CF_AUDIT_IF_MODEL`, `CF_AUDIT_XGB_MODEL`, `CF_AUDIT_WORKERS_AI_URL`, `CF_AUDIT_WORKERS_AI_TOKEN` |
+| synthetic fixture boundary | may prove comparison harness shape only; cannot produce production winner |
+| production winner boundary | requires FU-03-B redacted 90-day dataset replay and user approval |
+| switch boundary | FU-03-D production classifier switch follow-up; `CF_AUDIT_CLASSIFIER` remains `threshold` until approved |
+
+Implementation order:
+
+1. Align classifier contract and factory with candidate names.
+2. Add comparison harness and selection criteria with focused tests.
+3. Generate synthetic fixture report as harness smoke evidence.
+4. Re-run on FU-03-B production-equivalent redacted dataset before promotion.
+
+Redaction rule: comparison metrics, Markdown reports, training artifacts, and Issues must not contain raw IP, full User-Agent, actor email, bearer header, token value, or secret-like values.
+
+## 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07）
 
 Issue #514 は Issue #408 の D1 30 日 retention を超える監査用途の cold storage 仕様である。状態は `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。本サイクルでは仕様・Phase 11/12/13 evidence skeleton・SSOT 同期に加え、R2 binding / D1 migration / exporter / restore drill / GitHub Actions workflow のローカル実装まで完了する。R2 bucket / Secret / production D1 migration apply / 初回 export / PR は G1-G4 の user approval 後にのみ実行する。
 
@@ -255,10 +286,11 @@ Redaction rule: export 段階で cold-storage 用 redaction transform を適用�
 
 ---
 
-## 11. 変更履歴
+## 13. 変更履歴
 
 | 日付 | 変更 |
 | --- | --- |
+| 2026-05-08 | Issue #548 Cloudflare Audit Logs ML model selection contract を追加。3 candidate、selection criteria、tie-breaker、synthetic vs production dataset 境界、FU-03-D production switch 分離を正本化 |
 | 2026-05-07 | Issue #515 Cloudflare Audit Logs ML-ready classifier contract を追加。threshold default、redacted features、offline replay、forward-safe rollback、90 日 Gate を正本化 |
 | 2026-05-07 | Issue #514 Cloudflare Audit Logs cold storage / R2 export contract を追加。daily export cadence、manifest 2-phase、G1-G4 order、R2 binding / Secret 境界を正本化 |
 | 2026-05-06 | Issue #495 production extension を追加。`x-smoke-production-confirm: YES`、production prefix / Sentry environment tag、G1-G4 gate、staging/production evidence 分離を固定 |

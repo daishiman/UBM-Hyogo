@@ -181,8 +181,18 @@
 | 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / production ML switch external-gated |
 | 成果物 | `docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/` |
 | 目的 | Issue #408 の threshold 判定を直ちに置換せず、`scripts/cf-audit-log/classifier/**` の interface、redacted feature export、offline replay、D1 classifier metadata、GitHub Actions env を追加して ML-ready 化する |
-| runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、model selection、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up |
+| runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up。FU-03-C model selection は Issue #548 として仕様化済み |
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
+### Issue #548 Cloudflare Audit Logs ML Model Selection（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_synthetic / implementation / NON_VISUAL / production winner pending FU-03-B/FU-03-D |
+| 成果物 | `docs/30-workflows/issue-548-ml-model-selection/` |
+| 目的 | Issue #515 の classifier abstraction を使い、threshold baseline と Isolation Forest / XGBoost / Workers AI 候補を同一 redacted dataset で比較する contract を固定する |
+| runtime境界 | この wave は spec + SSOT sync。Synthetic fixture は harness smoke evidence であり production winner ではない。FU-03-B redacted 90-day dataset replay と FU-03-D production switch は user-gated |
+| 正本同期 | `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `indexes/resource-map.md` / `indexes/quick-reference.md` |
 
 ### Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export（2026-05-07）
 

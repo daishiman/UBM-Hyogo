@@ -2371,6 +2371,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L56 |
 
+### references/workflow-issue-548-ml-model-selection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L27 |
+| Synthetic vs Production Boundary（不変条件） | L34 |
+| Gate Conditions (production model promotion 前提) | L40 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4275,6 +4283,17 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L179 |
 | 引用元 | L188 |
 
+### references/lessons-learned-issue-548-ml-model-selection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE548-001: synthetic harness と production winner は同じ PASS で扱わない | L8 |
+| L-ISSUE548-002: fallback rate / rejection reason は実 comparison 経路を構造化して計測する | L27 |
+| L-ISSUE548-003: Phase status 語彙を `completed / pending / blocked` に正規化する | L46 |
+| L-ISSUE548-004: FU 依存図は親 issue の successor trace に正本を置く | L65 |
+| L-ISSUE548-005: SSOT 同期は同一 wave で 8 同期点を消化する | L84 |
+| 関連参照 | L108 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5263,8 +5282,9 @@ node scripts/list-specs.js --topics
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
-| 11. 変更履歴 | L258 |
+| 11. Issue #548 Cloudflare Audit Logs ML Model Selection Contract（2026-05-08） | L236 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L267 |
+| 13. 変更履歴 | L289 |
 
 ### references/patterns-advanced.md
 
@@ -5717,13 +5737,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L493 |
-| フェーズ構造（概要） | L502 |
-| 品質ゲート（概要） | L533 |
-| 出力テンプレート | L544 |
-| 実行時のコマンド・エージェント・スキル | L567 |
-| 昇格パターン集 | L591 |
-| Current Active / Spec Created Tasks | L593 |
+| ドキュメント構成 | L503 |
+| フェーズ構造（概要） | L512 |
+| 品質ゲート（概要） | L543 |
+| 出力テンプレート | L554 |
+| 実行時のコマンド・エージェント・スキル | L577 |
+| 昇格パターン集 | L601 |
+| Current Active / Spec Created Tasks | L603 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -68,6 +68,36 @@ Issue #515 の classifier abstraction は `CF_AUDIT_CLASSIFIER` 未指定時に 
 
 Evidence には model path、raw feature dataset、full IP、user agent、actor email を残さない。保存できるのは classifier name/version、fallback reason、run id、redacted feature summary まで。
 
+## Issue #548 audit-log model selection promotion
+
+Issue #548 は Issue #515 の ML-ready classifier を受け、Isolation Forest / XGBoost / Workers AI を threshold baseline と同一 dataset で比較するための実装である。現状態は `implemented_synthetic / implementation / NON_VISUAL`。3 candidate classifier、`evaluation/model-comparison.ts`、`evaluation/selection-criteria.ts`、training script 2 本、synthetic 720 行 fixture、harness smoke evidence (`docs/30-workflows/issue-548-ml-model-selection/outputs/phase-11/`) が実装済み。この runbook は promotion 手順を固定するが production switch は FU-03-D で扱う。Synthetic harness winner（`xgboost`）は informational のみで production winner ではない。
+
+Promotion prerequisites:
+
+1. FU-03-B redacted 90-day dataset が利用可能である。
+2. comparison harness が threshold + candidate classifiers の precision / recall / fallback rate / latency p95 を同じ schema で出力している。
+3. winner が precision >= baseline + 5pt、recall >= baseline、fallback rate <= 1%、latency p95 <= 500ms を満たす。
+4. secret leakage grep が metrics / Markdown report / model artifacts に対して exit 0 である。
+5. `CF_AUDIT_CLASSIFIER=threshold` rollback rehearsal が完了している。
+
+Promotion order:
+
+1. Store only redacted model artifact metadata and comparison report path in evidence. Raw feature dataset, full IP, full User-Agent, actor email, token values, and bearer headers are forbidden.
+2. If winner is `threshold`, do not switch production.
+3. If winner is non-threshold, open FU-03-D and request explicit approval for production variable switch.
+4. After switch, observe 7 days of `cf_audit_log.classifier_used` / `classifier_version` / `confidence` and fallback rate.
+5. Roll back by setting `CF_AUDIT_CLASSIFIER=threshold`; do not drop D1 classifier metadata columns.
+
+Production env contract:
+
+| Classifier | Required env |
+| --- | --- |
+| `threshold` | `CF_AUDIT_CLASSIFIER=threshold` only |
+| `ml` legacy | `CF_AUDIT_CLASSIFIER=ml`, `ML_MODEL_PATH` |
+| `isolation-forest` | `CF_AUDIT_CLASSIFIER=isolation-forest`, `CF_AUDIT_IF_MODEL` |
+| `xgboost` | `CF_AUDIT_CLASSIFIER=xgboost`, `CF_AUDIT_XGB_MODEL` |
+| `workers-ai` | `CF_AUDIT_CLASSIFIER=workers-ai`, `CF_AUDIT_WORKERS_AI_URL`, `CF_AUDIT_WORKERS_AI_TOKEN` |
+
 ## Issue #514 audit-log cold storage / R2 export
 
 Issue #514 の cold storage export は Issue #408 の D1 `cf_audit_log` 30 日 retention を補完する。状態は `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。本サイクルでは R2 binding / D1 migration / exporter / restore drill / GitHub Actions workflow のローカル実装まで完了するが、production mutation は実行しない。

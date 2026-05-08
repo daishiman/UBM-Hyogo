@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-08 - Issue #548 synthetic harness vs production winner boundary
+
+`docs/30-workflows/issue-548-ml-model-selection/` の Phase 12 review で、synthetic fixture による model comparison harness smoke と production-equivalent dataset による winner selection が混在し、root state / Phase 11 / SSOT の語彙が割れる危険を確認した。`references/phase12-skill-feedback-promotion.md` に Synthetic Harness vs Production Winner Rule を追加し、`implemented_synthetic` state、dataset boundary、fallbackRate の構造化計測、env contract 名統一、production switch follow-up 分離を同 wave 必須条件として固定した。commit / push / PR は未実行。
+
 ## 2026-05-07 - task-02 wrangler env injection NON_VISUAL platform close-out
 
 `docs/30-workflows/task-02-w2-wrangler-env-injection/` の Phase 12 review で、implementation / NON_VISUAL / platform runtime config は実コード実装 (`wrangler.toml` / `.dev.vars.example` / env accessor / focused test) と Phase 12 strict 7 files を同一サイクルで揃え、Cloudflare runtime dry-run と secret put は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として user gate に分離する運用を確認した。既存 Phase 11 NON_VISUAL 代替 evidence / implemented-local 状態語彙で吸収できるため、テンプレート変更は no-op。
@@ -2615,3 +2619,9 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Materialized Phase 12 strict 7 files for `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260507-095541-wt-8/docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/`.
 - Corrected state model from `spec_created` vs staging apply mixed wording to `spec_created -> implemented_local_runtime_pending -> pass_boundary_synced_runtime_pending`.
 - Registered external Gate follow-ups as unassigned tasks because 90 day runtime evidence and model artifact selection cannot be completed in this cycle.
+# 2026-05-08 issue548 model selection Phase 12 compliance feedback
+
+- Materialized Phase 12 strict 7 files for `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-141950-wt-8/docs/30-workflows/issue-548-ml-model-selection/`.
+- Normalized phase statuses to `completed` / `pending` / `blocked` while keeping root workflow state `spec_created`.
+- Added `outputs/phase-11/main.md` as `PENDING_IMPLEMENTATION_EVIDENCE` so reserved evidence paths are not mistaken for runtime PASS.
+- Skill feedback: multi-candidate model selection workflows must separate synthetic harness smoke from production winner selection and keep FU-03-D production switch user-gated.

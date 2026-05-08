@@ -759,3 +759,9 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - downstream: task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認
 - skill-feedback: なし（task-specification-creator / aiworkflow-requirements 既存ルールでカバー）
 - unassigned-task: 0 件追加（task-02..22 は既起票）
+# 2026-05-08 issue548 cf audit logs ML model selection
+
+- Synced Issue #548 as `implemented_synthetic / implementation / NON_VISUAL / production winner pending FU-03-B/FU-03-D`.
+- canonical workflow root: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-141950-wt-8/docs/30-workflows/issue-548-ml-model-selection/`
+- sync: observability-monitoring, infrastructure runbook, task-workflow-active, resource-map, quick-reference, parent Issue #515 successor trace
+- boundary: synthetic fixture is harness smoke only; production winner requires FU-03-B redacted 90-day replay. FU-03-D production switch remains user-gated.

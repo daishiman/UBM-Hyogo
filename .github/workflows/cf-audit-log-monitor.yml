@@ -68,6 +68,10 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           CF_AUDIT_CLASSIFIER: ${{ vars.CF_AUDIT_CLASSIFIER || 'threshold' }}
           ML_MODEL_PATH: ${{ vars.ML_MODEL_PATH }}
+          CF_AUDIT_IF_MODEL: ${{ vars.CF_AUDIT_IF_MODEL }}
+          CF_AUDIT_XGB_MODEL: ${{ vars.CF_AUDIT_XGB_MODEL }}
+          CF_AUDIT_WORKERS_AI_URL: ${{ vars.CF_AUDIT_WORKERS_AI_URL }}
+          CF_AUDIT_WORKERS_AI_TOKEN: ${{ secrets.CF_AUDIT_WORKERS_AI_TOKEN }}
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             pnpm exec tsx scripts/cf-audit-log/analyze.ts --window 1h --dry-run
