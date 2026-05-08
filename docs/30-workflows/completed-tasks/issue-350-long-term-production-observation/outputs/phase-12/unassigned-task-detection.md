@@ -17,7 +17,7 @@
 - **スコープ**:
   - 含む: actionlint / shellcheck job 追加
   - 含まない: 既存 workflow の修正（false positive 抑制は別途）
-- **作成先**: `docs/30-workflows/unassigned-task/ut-350-fu-01-ci-actionlint-shellcheck-gate.md`（本 cycle で formalized）
+- **作成先**: `docs/30-workflows/completed-tasks/ut-350-fu-01-ci-actionlint-shellcheck-gate.md`（本 cycle で formalized）
 - **優先度**: 低
 - **規模**: 小
 
@@ -51,4 +51,4 @@
 
 - [x] 検出タスク 2 件（UT-350-FU-01 / -02）が記載されている
 - [x] それぞれに「苦戦箇所 / リスクと対策 / 検証方法 / スコープ」の必須 4 セクションが揃っている
-- [x] `docs/30-workflows/unassigned-task/ut-350-fu-01-ci-actionlint-shellcheck-gate.md` と `ut-350-fu-02-post-merge-runtime-evidence.md` を formalized
+- [x] `docs/30-workflows/completed-tasks/ut-350-fu-01-ci-actionlint-shellcheck-gate.md` と `ut-350-fu-02-post-merge-runtime-evidence.md` を formalized

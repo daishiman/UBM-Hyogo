@@ -2389,6 +2389,40 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L15 |
+| Phase Outputs | L29 |
+| Skill 反映先 | L40 |
+| Validation Chain | L55 |
+
+### references/workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Root artifacts | L15 |
+| 2. Phase 1-13 specification files | L23 |
+| 3. Phase 12 strict outputs（7 + elegant review） | L41 |
+| 4. Phase 11 evidence ledger | L54 |
+| 5. Implementation source-of-truth | L66 |
+| 6. Skill reflection / same-wave sync | L75 |
+| 7. Scope notes | L89 |
+| 8. Related tasks | L97 |
+
+### references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Core workflow files | L7 |
+| Required outputs | L14 |
+| Implementation surfaces | L34 |
+| Boundary | L44 |
+| Verification state | L52 |
+| Lessons learned | L66 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2796,6 +2830,18 @@ node scripts/list-specs.js --topics
 | Boundary | L25 |
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
+
+### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| Phase Outputs | L28 |
+| 主要成果物 | L41 |
+| Skill 反映先（current canonical set） | L48 |
+| 不採用 / 起票見送り（unassigned-task-detection.md より） | L60 |
+| Validation Chain | L69 |
 
 ### references/workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md
 
@@ -3319,12 +3365,7 @@ node scripts/list-specs.js --topics
 | 入出力契約 | L11 |
 | Redaction Policy | L19 |
 | MVP Boundary | L31 |
-| Issue #553 Live Wiring Formalization | L35 |
-| Live wiring (Issue #553) implementation landing | L56 |
-| Cloudflare Secrets (5 種) op-reference rule | L74 |
-| Salt rotation procedure (`fingerprintVersion` v1 → v2) | L92 |
-| Lessons learned (Issue #553 wave) | L112 |
-| References | L122 |
+| References | L35 |
 
 ### references/auth-google-oauth-cf-integration.md
 
@@ -3452,16 +3493,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L60 |
-| キャッシュ戦略 | L96 |
-| 並列実行の活用 | L119 |
-| CD ワークフロー要件（dev / main マージ時） | L175 |
-| Backend ワークフロー要件（dev / main マージ時） | L203 |
-| モニタリングとアラート | L229 |
-| GitHub Secrets の要件 | L263 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L307 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L328 |
-| post-release-30day-auto-summary | L365 |
+| CI ワークフロー要件（PR 時） | L63 |
+| キャッシュ戦略 | L99 |
+| 並列実行の活用 | L122 |
+| CD ワークフロー要件（dev / main マージ時） | L178 |
+| Backend ワークフロー要件（dev / main マージ時） | L206 |
+| モニタリングとアラート | L232 |
+| GitHub Secrets の要件 | L266 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L310 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L331 |
+| post-release-30day-auto-summary | L368 |
 
 ### references/deployment-history.md
 
@@ -4380,6 +4421,26 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
 
+### references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L41 |
+
+### references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I532-001: provider 展開は ADR threshold を満たす面だけに限定する | L5 |
+| L-I532-002: route-local raw write は provider primitive に寄せる | L9 |
+| L-I532-003: scheduled workflow は Hono `c.var` を使わず明示 provider bundle を受け取る | L13 |
+| L-I532-004: Phase 2 validation matrix は actual package scripts を読む | L17 |
+| L-I532-005: coverage guard NO-OP と full coverage NOT PASS を実装完了と混同しない | L27 |
+| Related Resources | L31 |
+| Search Keywords | L42 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4459,6 +4520,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L12 |
 | 横展開チェックリスト | L55 |
+
+### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
 
 ### references/lessons-learned-task-21-09g-admin-blueprint-2026-05.md
 
@@ -4760,8 +4828,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L99 |
-| 関連ドキュメント | L104 |
+| 利用順序 | L101 |
+| 関連ドキュメント | L106 |
 
 ### references/llm-embedding.md
 
@@ -5477,9 +5545,9 @@ node scripts/list-specs.js --topics
 | 概要 | L13 |
 | 正本 runbook | L17 |
 | Current Contract | L21 |
-| Evidence Boundary | L32 |
-| Follow-up Unassigned Tasks | L38 |
-| 関連 | L44 |
+| Evidence Boundary | L35 |
+| Follow-up Unassigned Tasks | L41 |
+| 関連 | L47 |
 
 ### references/quality-e2e-testing.md
 
@@ -5865,13 +5933,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L565 |
-| フェーズ構造（概要） | L574 |
-| 品質ゲート（概要） | L605 |
-| 出力テンプレート | L616 |
-| 実行時のコマンド・エージェント・スキル | L639 |
-| 昇格パターン集 | L663 |
-| Current Active / Spec Created Tasks | L665 |
+| ドキュメント構成 | L609 |
+| フェーズ構造（概要） | L618 |
+| 品質ゲート（概要） | L649 |
+| 出力テンプレート | L660 |
+| 実行時のコマンド・エージェント・スキル | L683 |
+| 昇格パターン集 | L707 |
+| Current Active / Spec Created Tasks | L709 |
 
 ### references/task-workflow-backlog-part2.md
 

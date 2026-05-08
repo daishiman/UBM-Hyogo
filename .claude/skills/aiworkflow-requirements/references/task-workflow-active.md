@@ -22,6 +22,51 @@
 | SSOT | `references/audit-correlation.md` §Issue #553 Live Wiring Formalization / §Live wiring (Issue #553) implementation landing / §Additional implementation surface / §Cloudflare Secrets (5 種) op-reference rule / §Salt rotation procedure / §Lessons learned (Issue #553 wave) |
 | 苦戦記録 | L-AC553-001..007（scheduled retry 不可 / Slack per-finding 部分成功 / INSERT OR IGNORE dedup / fixture vs grep gate 整合 / runbook-url SSOT / env validate throw / redact 3 層） |
 
+### Issue #532 write/tag/note provider ctx injection（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / local command evidence recorded / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-532-extend-ctx-injection-to-write-tag-note-providers/` |
+| parent | `docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+| 目的 | Issue #371 の Hono ctx provider pattern を write/tag/note repositories へ実装展開する |
+| provider set | `adminNotesProvider`, `auditLogProvider`, `notificationOutboxProvider`, `tagDefinitionsProvider`, `tagQueueProvider`, `memberTagsProvider` |
+| scheduled boundary | Hono `c.var` は route 用。`tagQueueRetryTick` / `notificationDispatchTick` は明示 provider bundle を受け取る |
+| route write consolidation | `/admin/requests` の note/status/audit guarded batch は `adminNotesProvider.resolveRequestAtomic()` が所有する |
+| 境界 | D1 schema / API response shape / Auth.js admin gate は変更しない。DI container と optional `deps?` 再導入は禁止 |
+| evidence | Phase 11 typecheck/lint/focused tests/grep logs captured。Full coverage attempted but blocked by local Miniflare port exhaustion |
+| artifact inventory | `references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md` |
+| Issue 取扱 | Issue #532 CLOSED 維持。PR 文脈は `Refs #532` のみ |
+| user gate | commit / push / PR は user approval 後のみ |
+
+### Issue #526 CI actionlint / shellcheck gate（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/governance/issue-526-ci-actionlint-shellcheck-gate/` |
+| Artifact inventory | `references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md` |
+| Lessons | `references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md` |
+| 実装対象 | `.github/workflows/ci.yml`, `package.json`, `scripts/observation/test/test-create-reminder-issue.sh` |
+| lint対象 | `.github/workflows/post-release-observation-reminder.yml`, `.github/workflows/ci.yml`, `scripts/observation/*.sh`, `scripts/observation/test/*.sh` |
+| merge gate | 既存 required context `ci` 内で `pnpm observation:lint` を実行。dedicated `workflow-shell-lint` job は見やすい分離証跡で、required context 追加は user-gated |
+| 境界 | Reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。GitHub Actions runtime evidence、branch protection PUT、commit、push、PR は user approval 後 |
+| Issue 取扱 | #526 / #350 CLOSED 維持。PR 文脈では `Refs #526, Refs #350` のみ |
+
+### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-20-w2-screen-blueprints-public-and-member/` |
+| 実 docs 正本 | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`, `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md` |
+| 目的 | `pages-public.jsx` / `pages-member.jsx` の公開 6 routes + 会員 2 routes を screen blueprint として固定し、task-11..14 の入力にする |
+| 境界 | apps / packages コード変更なし。新 endpoint / D1 schema / Secret 変更なし |
+| 検証 | Phase 11 NON_VISUAL grep evidence、Phase 12 strict 7 files、visual literal gate は fenced JSX prototype 転記を除外 |
+| 下流 | task-11 / task-12 / task-13 / task-14 / task-06 |
+| user gate | commit / push / PR は未実行 |
+
 ### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
 
 | 項目 | 値 |
@@ -49,6 +94,19 @@
 | abort gates | retry_count <= 3, dlq_count = 0, cpu_ms <= 250000, timeout 1800s |
 | 境界 | staging stress trial / D1 write / Cloudflare Queue runtime / commit / push / PR は user 明示承認後のみ。production bulk INSERT / DELETE は permanent ban |
 | Issue 取扱 | #504 CLOSED 維持。PR 文脈では `Refs #504` のみ |
+
+### Issue #531 attendanceProvider staging runtime smoke（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / runtime evidence pending_user_credentials |
+| 成果物 | `docs/30-workflows/issue-531-runtime-smoke-attendance-provider-migration/` |
+| 親タスク | `docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+| 実装対象 | `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/redact.sh` |
+| runtime contract | read-only GET smoke only: admin list/detail/attendance and me root/profile/attendance. DI-bound evidence is admin detail + me profile only |
+| secret/PII境界 | persistent evidence is summary-only; raw body is temporary `mktemp` data removed by `trap` |
+| state boundary | parent issue-371 remains `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` until real staging smoke PASS exists |
+| Issue 取扱 | #531 CLOSED 維持。PR 文脈では `Refs #531` のみ |
 
 
 ### UI prototype alignment / MVP recovery task-01 scope gate（2026-05-07）

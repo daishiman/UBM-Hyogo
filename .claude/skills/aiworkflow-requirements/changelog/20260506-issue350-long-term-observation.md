@@ -22,7 +22,7 @@ Issue #350 を `spec_created / implementation / NON_VISUAL / runtime pending` �
 - `.claude/skills/aiworkflow-requirements/SKILL.md`
 - `.claude/skills/aiworkflow-requirements/changelog/20260506-issue350-long-term-observation.md`（自身）
 - `docs/30-workflows/issue-350-long-term-production-observation/`（タスク仕様一式）
-- `docs/30-workflows/unassigned-task/ut-350-fu-01-ci-actionlint-shellcheck-gate.md`
+- `docs/30-workflows/completed-tasks/ut-350-fu-01-ci-actionlint-shellcheck-gate.md`
 - `docs/30-workflows/unassigned-task/ut-350-fu-02-post-merge-runtime-evidence.md`
 - `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/outputs/phase-12/main.md`（consumed trace）
 - `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/outputs/phase-12/unassigned-task-detection.md`
@@ -40,7 +40,7 @@ Issue #350 を `spec_created / implementation / NON_VISUAL / runtime pending` �
 
 ## Follow-up Unassigned Tasks
 
-- `docs/30-workflows/unassigned-task/ut-350-fu-01-ci-actionlint-shellcheck-gate.md` — actionlint / shellcheck CI gate の追加。
+- `docs/30-workflows/completed-tasks/ut-350-fu-01-ci-actionlint-shellcheck-gate.md` — actionlint / shellcheck CI gate の追加。
 - `docs/30-workflows/unassigned-task/ut-350-fu-02-post-merge-runtime-evidence.md` — マージ後 runtime evidence（実 reminder Issue / workflow run log）の取得。
 
 ## Boundary
