@@ -7,6 +7,7 @@
 ## 仕様書インデックス
 | ファイル | 役割 | 主な見出し |
 | --- | --- | --- |
+| [lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md](lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md) | UBM-Hyogo Issue #532 write/tag/note provider ctx injection lessons | L-I532-001〜005（provider 展開は ADR threshold 対象だけ / `adminNotesProvider.resolveRequestAtomic()` へ route-local raw write 集約 / scheduled workflow は Hono `c.var` ではなく explicit provider bundle / Phase 2 validation matrix は actual package scripts を読む / coverage guard NO-OP と full coverage NOT PASS を実装完了と混同しない） |
 | [lessons-learned-05a-form-preview-503-2026-05.md](lessons-learned-05a-form-preview-503-2026-05.md) | UBM-Hyogo `/public/form-preview` 503 root cause lessons | L-05A-FP503-001〜008: D1 column/state drift / NON_VISUAL strict outputs / AC single-source / runtime pending boundary / `logWarn` UBM-5500 単一 emit / helper bindLog opt-in / use-case+route 二段テスト / user approval gate runtime evidence procedure |
 | [lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md](lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md) | 03b follow-up cap alert lessons | L-03B006-001〜003: streak reset rows / emit before lock release / implemented-local state sync |
 | [lessons-learned-current.md](lessons-learned-current.md) | current summary | メタ情報 / 変更履歴 / 最新教訓 |

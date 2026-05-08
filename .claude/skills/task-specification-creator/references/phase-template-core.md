@@ -102,7 +102,7 @@ Phase 1、Phase 2、Phase 3。
 
 - concern ごとの target topology を table 化する。
 - lane 数は 3 以下に固定する。
-- validation matrix を command 単位で定義する。
+- validation matrix を command 単位で定義する。command gate を書く前に対象 workspace の `package.json` と test runner config を確認し、実在する package name / script 名だけを使う。例: current scripts が `test` / `typecheck` の package に `test:run` / `test:typecheck` を書かない。
 - DI 境界の型配置判断を明示する（下記フロー参照）。
 - 画面遷移 / handoff 改修では、Phase 1 で確定した **既存 state 名** と **既存 route pattern** をそのまま設計へ持ち込む。未定義 state を設計本文で発明しない。
 - 既存 DB / API / shared schema の enum や status を拡張・alias する場合、Phase 2 で **仕様語 ↔ 実装語の対応表** と **追従対象（backend route / web client / shared zod / type / docs）** を明示する。07a feedback: `candidate/confirmed` と `queued/resolved` の drift、web client の空 body 呼び出し、shared schema の `rejected` 漏れを再発防止する。

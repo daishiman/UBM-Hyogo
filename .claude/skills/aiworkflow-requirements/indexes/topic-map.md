@@ -2371,6 +2371,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L56 |
 
+### references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Core workflow files | L7 |
+| Required outputs | L14 |
+| Implementation surfaces | L34 |
+| Boundary | L44 |
+| Verification state | L52 |
+| Lessons learned | L66 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4275,6 +4286,18 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L179 |
 | 引用元 | L188 |
 
+### references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I532-001: provider 展開は ADR threshold を満たす面だけに限定する | L5 |
+| L-I532-002: route-local raw write は provider primitive に寄せる | L9 |
+| L-I532-003: scheduled workflow は Hono `c.var` を使わず明示 provider bundle を受け取る | L13 |
+| L-I532-004: Phase 2 validation matrix は actual package scripts を読む | L17 |
+| L-I532-005: coverage guard NO-OP と full coverage NOT PASS を実装完了と混同しない | L27 |
+| Related Resources | L31 |
+| Search Keywords | L42 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4612,8 +4635,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L98 |
-| 関連ドキュメント | L103 |
+| 利用順序 | L99 |
+| 関連ドキュメント | L104 |
 
 ### references/llm-embedding.md
 
@@ -5717,13 +5740,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L493 |
-| フェーズ構造（概要） | L502 |
-| 品質ゲート（概要） | L533 |
-| 出力テンプレート | L544 |
-| 実行時のコマンド・エージェント・スキル | L567 |
-| 昇格パターン集 | L591 |
-| Current Active / Spec Created Tasks | L593 |
+| ドキュメント構成 | L511 |
+| フェーズ構造（概要） | L520 |
+| 品質ゲート（概要） | L551 |
+| 出力テンプレート | L562 |
+| 実行時のコマンド・エージェント・スキル | L585 |
+| 昇格パターン集 | L609 |
+| Current Active / Spec Created Tasks | L611 |
 
 ### references/task-workflow-backlog-part2.md
 

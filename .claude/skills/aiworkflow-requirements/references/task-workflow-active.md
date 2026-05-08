@@ -8,6 +8,24 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #532 write/tag/note provider ctx injection（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / local command evidence recorded / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-532-extend-ctx-injection-to-write-tag-note-providers/` |
+| parent | `docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+| 目的 | Issue #371 の Hono ctx provider pattern を write/tag/note repositories へ実装展開する |
+| provider set | `adminNotesProvider`, `auditLogProvider`, `notificationOutboxProvider`, `tagDefinitionsProvider`, `tagQueueProvider`, `memberTagsProvider` |
+| scheduled boundary | Hono `c.var` は route 用。`tagQueueRetryTick` / `notificationDispatchTick` は明示 provider bundle を受け取る |
+| route write consolidation | `/admin/requests` の note/status/audit guarded batch は `adminNotesProvider.resolveRequestAtomic()` が所有する |
+| 境界 | D1 schema / API response shape / Auth.js admin gate は変更しない。DI container と optional `deps?` 再導入は禁止 |
+| evidence | Phase 11 typecheck/lint/focused tests/grep logs captured。Full coverage attempted but blocked by local Miniflare port exhaustion |
+| artifact inventory | `references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md` |
+| Issue 取扱 | Issue #532 CLOSED 維持。PR 文脈は `Refs #532` のみ |
+| user gate | commit / push / PR は user approval 後のみ |
+
 ### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
 
 | 項目 | 値 |
