@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-20-w2-screen-blueprints-public-and-member/` |
+| 実 docs 正本 | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`, `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md` |
+| 目的 | `pages-public.jsx` / `pages-member.jsx` の公開 6 routes + 会員 2 routes を screen blueprint として固定し、task-11..14 の入力にする |
+| 境界 | apps / packages コード変更なし。新 endpoint / D1 schema / Secret 変更なし |
+| 検証 | Phase 11 NON_VISUAL grep evidence、Phase 12 strict 7 files、visual literal gate は fenced JSX prototype 転記を除外 |
+| 下流 | task-11 / task-12 / task-13 / task-14 / task-06 |
+| user gate | commit / push / PR は未実行 |
+
 ### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
 
 | 項目 | 値 |

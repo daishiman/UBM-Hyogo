@@ -19,6 +19,20 @@
 | blocks | Issue #495 Phase 11 runtime smoke / 09c production readiness observability gate |
 | boundary | Slack / 1Password / Cloudflare / GitHub / smoke / commit / push / PR は user approval 後のみ |
 
+### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-20-w2-screen-blueprints-public-and-member/` |
+| 状態 | `implemented-local / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| 実 docs 正本 | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`, `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md` |
+| scope | 公開 6 routes + 会員 2 routes の screen blueprint。コード変更なし |
+| API 境界 | 既存 `/public/*`, `/auth/*`, `/me/*` endpoint のみ。新 endpoint / D1 schema 変更なし |
+| visual gate | fenced JSX prototype 転記を除く仕様本文で visual literal 0。凍結 prototype 一字一句転記を優先 |
+| downstream | task-11 / task-12 / task-13 / task-14 / task-06 |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | commit / push / PR は user approval 後 |
+
 ### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
 
 | 目的 | 参照先 |
