@@ -2390,18 +2390,20 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
-### references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md
+### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| Gate Result | L22 |
-### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 | メタ情報 | L3 |
 | Current Facts | L15 |
 | Phase Outputs | L29 |
 | Skill 反映先 | L40 |
 | Validation Chain | L55 |
+
 ### references/workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
 | 1. Root artifacts | L15 |
 | 2. Phase 1-13 specification files | L23 |
 | 3. Phase 12 strict outputs（7 + elegant review） | L41 |
@@ -2410,18 +2412,33 @@ node scripts/list-specs.js --topics
 | 6. Skill reflection / same-wave sync | L75 |
 | 7. Scope notes | L89 |
 | 8. Related tasks | L97 |
+
 ### references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
 | Core workflow files | L7 |
 | Required outputs | L14 |
 | Implementation surfaces | L34 |
 | Boundary | L44 |
 | Verification state | L52 |
 | Lessons learned | L66 |
+
 ### references/workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
 | Workflow | L3 |
 | Implementation Sources | L15 |
 | System Spec Reflection | L32 |
 | Scope Notes | L44 |
+
+### references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Gate Result | L22 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4420,6 +4437,26 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
 
+### references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L41 |
+
+### references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I532-001: provider 展開は ADR threshold を満たす面だけに限定する | L5 |
+| L-I532-002: route-local raw write は provider primitive に寄せる | L9 |
+| L-I532-003: scheduled workflow は Hono `c.var` を使わず明示 provider bundle を受け取る | L13 |
+| L-I532-004: Phase 2 validation matrix は actual package scripts を読む | L17 |
+| L-I532-005: coverage guard NO-OP と full coverage NOT PASS を実装完了と混同しない | L27 |
+| Related Resources | L31 |
+| Search Keywords | L42 |
+
 ### references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md
 
 | セクション | 行 |
@@ -4429,18 +4466,7 @@ node scripts/list-specs.js --topics
 | L-ISSUE546-003: docs-only observation でも root state と phase state は分離する | L34 |
 | L-ISSUE546-004: helper が出力しない成果物は pending evidence marker を実体化する | L47 |
 | 参照元 | L60 |
-### references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md
-| 概要 | L7 |
-| 苦戦箇所 | L11 |
-| 後続タスクへの適用 | L41 |
-### references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md
-| L-I532-001: provider 展開は ADR threshold を満たす面だけに限定する | L5 |
-| L-I532-002: route-local raw write は provider primitive に寄せる | L9 |
-| L-I532-003: scheduled workflow は Hono `c.var` を使わず明示 provider bundle を受け取る | L13 |
-| L-I532-004: Phase 2 validation matrix は actual package scripts を読む | L17 |
-| L-I532-005: coverage guard NO-OP と full coverage NOT PASS を実装完了と混同しない | L27 |
-| Related Resources | L31 |
-| Search Keywords | L42 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4828,10 +4854,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L100 |
-| 関連ドキュメント | L105 |
-| 利用順序 | L101 |
-| 関連ドキュメント | L106 |
+| 利用順序 | L102 |
+| 関連ドキュメント | L107 |
 
 ### references/llm-embedding.md
 
@@ -5937,20 +5961,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L564 |
-| フェーズ構造（概要） | L573 |
-| 品質ゲート（概要） | L604 |
-| 出力テンプレート | L615 |
-| 実行時のコマンド・エージェント・スキル | L638 |
-| 昇格パターン集 | L662 |
-| Current Active / Spec Created Tasks | L664 |
-| ドキュメント構成 | L609 |
-| フェーズ構造（概要） | L618 |
-| 品質ゲート（概要） | L649 |
-| 出力テンプレート | L660 |
-| 実行時のコマンド・エージェント・スキル | L683 |
-| 昇格パターン集 | L707 |
-| Current Active / Spec Created Tasks | L709 |
+| ドキュメント構成 | L622 |
+| フェーズ構造（概要） | L631 |
+| 品質ゲート（概要） | L662 |
+| 出力テンプレート | L673 |
+| 実行時のコマンド・エージェント・スキル | L696 |
+| 昇格パターン集 | L720 |
+| Current Active / Spec Created Tasks | L722 |
 
 ### references/task-workflow-backlog-part2.md
 
