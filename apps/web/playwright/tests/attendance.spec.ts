@@ -2,7 +2,7 @@
 import { test } from '../fixtures/auth'
 import { AdminMeetingsPage } from '../page-objects/AdminMeetingsPage'
 
-test.describe.skip('attendance 二重防御 (#15)', () => {
+test.describe('attendance 二重防御 (#15)', () => {
   // 不変条件 #15: 第 1 防御 — 重複登録 toast
   test('重複登録 → toast 表示', async ({ adminPage }) => {
     const meetings = new AdminMeetingsPage(adminPage)
