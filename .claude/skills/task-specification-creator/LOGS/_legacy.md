@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-08 - Issue #546 long-running GitHub Actions observation evidence
+
+`docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/` の Phase 12 review で、90 日 hourly run のように `gh run list --limit 500` 上限を超える観測は `gh api --paginate` と JSON array evidence を正本にする必要を確認した。JSON Lines を `.json` 正本にしないこと、D1 table missing / baseline helper 欠測 / tuning-cost 未取得は `PENDING_RUNTIME_EVIDENCE` marker artifact として同じ canonical path に実体化することを `phase-11-non-visual-alternative-evidence.md` へ追加。Issue #546 は CLOSED 維持のため `Refs #546` のみ、次回再観測は unassigned reminder task へ formalize。
+
 ## 2026-05-07 - task-02 wrangler env injection NON_VISUAL platform close-out
 
 `docs/30-workflows/task-02-w2-wrangler-env-injection/` の Phase 12 review で、implementation / NON_VISUAL / platform runtime config は実コード実装 (`wrangler.toml` / `.dev.vars.example` / env accessor / focused test) と Phase 12 strict 7 files を同一サイクルで揃え、Cloudflare runtime dry-run と secret put は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として user gate に分離する運用を確認した。既存 Phase 11 NON_VISUAL 代替 evidence / implemented-local 状態語彙で吸収できるため、テンプレート変更は no-op。

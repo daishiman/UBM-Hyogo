@@ -184,6 +184,19 @@
 | runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、model selection、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up |
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
 
+### Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | observation_continue / docs-only / NON_VISUAL / Gate-A FAIL / Gate-B-C pending / Issue #546 CLOSED |
+| 成果物 | `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/` |
+| 目的 | Issue #408 / #515 系の Cloudflare Audit Logs 監視について、90 日分の runtime evidence を集計し ML 化へ進むか threshold 継続かを判定する |
+| 2026-05-08 evidence | monitor run 32 件は 2026-05-06T10:43:50Z〜2026-05-07T21:22:18Z の全 failure、watchdog run 32 件も全 failure、`cf-audit` label issue は 0 件、D1 read-only query は `no such table: cf_audit_log` |
+| gate結果 | Gate-A FAIL。Gate-B は D1 readiness 未確認のため PENDING。Gate-C は monthly tuning minutes log 不足のため PENDING |
+| 次アクション | `observation_continue`。Issue #546 は CLOSED 維持。ML comparison / production switch には進まない。successful hourly run が 2026-05-08 から始まる場合、最短の90日再判定は 2026-08-05 以後。追跡: `docs/30-workflows/unassigned-task/issue-546-cf-audit-logs-90day-reobservation-reminder-001.md` |
+| 正本同期 | `references/observability-monitoring.md` / `references/database-schema-cf-audit-log.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+| artifacts / lessons | `references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md` / `references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md` |
+
 ### Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export（2026-05-07）
 
 | 項目 | 値 |
