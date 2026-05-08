@@ -62,6 +62,8 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 - runtime evidence の pending 内訳（G1: deploy / G2: Forms sync / G3: D1 apply / G4: commit-push-PR）
 - 各 runtime evidence の取得ゲート（[phase-template-phase13.md](phase-template-phase13.md) §G1-G4）
 - 実行されたら fresh evidence を後追いで `outputs/phase-11/` に追加する旨の宣言
+- 外部 SaaS / 1Password / Cloudflare Secret を使う場合は、mutation gate の直前ではなく preflight で canonical vault/item/project の存在を確認する。未 provisioning なら secret put / deploy を実行せず、`unassigned-task-detection.md` で formalize する。
+- OpenNext Workers の server runtime 混入 grep は `apps/web/.open-next/worker.js` など server artifact に限定する。`.open-next/assets/` の browser bundle を同じ AC に含める場合は、browser scope として別 AC に分ける。
 
 #### Phase 12 compliance との連動
 
