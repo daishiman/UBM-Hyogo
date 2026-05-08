@@ -68,6 +68,48 @@ Issue #515 の classifier abstraction は `CF_AUDIT_CLASSIFIER` 未指定時に 
 
 Evidence には model path、raw feature dataset、full IP、user agent、actor email を残さない。保存できるのは classifier name/version、fallback reason、run id、redacted feature summary まで。
 
+## Issue #549 audit-log ML production switch / 7 day observation
+
+Issue #549 は `CF_AUDIT_CLASSIFIER=ml` への production switch を扱うが、実 merge は Gate-0〜C 通過後の runtime cycle でのみ行う。Gate-0 は 90 日 baseline 条件を満たした、または同等の例外承認 evidence で置換した記録、Gate-A は offline replay で ML が threshold より precision / recall 改善、Gate-B は fallback rate と Issue body redaction が許容範囲、Gate-C は rollback runbook approval / governance evidence の取得である。
+
+Switch 手順:
+
+1. `CF_AUDIT_CLASSIFIER=ml` と `ML_MODEL_PATH=op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` を実装 PR の contract として確認する。解決値は記録しない。
+2. merge 後 7 日間、hourly snapshot 168 件で Issue 起票数、fallback rate、p95 latency、leakage grep result を確認する。
+3. fallback rate > 5% が 3 hour 連続、leakage grep positive、または Issue 起票数が baseline を超過した場合は `CF_AUDIT_CLASSIFIER=threshold` へ戻す PR を作る。
+
+Rollback では D1 `classifier_used` / `classifier_version` / `confidence` を削除しない。model artifact 不整合が続く場合は artifact 再選定 Issue へ差し戻す。
+
+## Issue #548 audit-log model selection promotion
+
+Issue #548 は Issue #515 の ML-ready classifier を受け、Isolation Forest / XGBoost / Workers AI を threshold baseline と同一 dataset で比較するための実装である。現状態は `implemented_synthetic / implementation / NON_VISUAL`。3 candidate classifier、`evaluation/model-comparison.ts`、`evaluation/selection-criteria.ts`、training script 2 本、synthetic 720 行 fixture、harness smoke evidence (`docs/30-workflows/issue-548-ml-model-selection/outputs/phase-11/`) が実装済み。この runbook は promotion 手順を固定するが production switch は FU-03-D で扱う。Synthetic harness winner（`xgboost`）は informational のみで production winner ではない。
+
+Promotion prerequisites:
+
+1. FU-03-B redacted 90-day dataset が利用可能である。
+2. comparison harness が threshold + candidate classifiers の precision / recall / fallback rate / latency p95 を同じ schema で出力している。
+3. winner が precision >= baseline + 5pt、recall >= baseline、fallback rate <= 1%、latency p95 <= 500ms を満たす。
+4. secret leakage grep が metrics / Markdown report / model artifacts に対して exit 0 である。
+5. `CF_AUDIT_CLASSIFIER=threshold` rollback rehearsal が完了している。
+
+Promotion order:
+
+1. Store only redacted model artifact metadata and comparison report path in evidence. Raw feature dataset, full IP, full User-Agent, actor email, token values, and bearer headers are forbidden.
+2. If winner is `threshold`, do not switch production.
+3. If winner is non-threshold, open FU-03-D and request explicit approval for production variable switch.
+4. After switch, observe 7 days of `cf_audit_log.classifier_used` / `classifier_version` / `confidence` and fallback rate.
+5. Roll back by setting `CF_AUDIT_CLASSIFIER=threshold`; do not drop D1 classifier metadata columns.
+
+Production env contract:
+
+| Classifier | Required env |
+| --- | --- |
+| `threshold` | `CF_AUDIT_CLASSIFIER=threshold` only |
+| `ml` legacy | `CF_AUDIT_CLASSIFIER=ml`, `ML_MODEL_PATH` |
+| `isolation-forest` | `CF_AUDIT_CLASSIFIER=isolation-forest`, `CF_AUDIT_IF_MODEL` |
+| `xgboost` | `CF_AUDIT_CLASSIFIER=xgboost`, `CF_AUDIT_XGB_MODEL` |
+| `workers-ai` | `CF_AUDIT_CLASSIFIER=workers-ai`, `CF_AUDIT_WORKERS_AI_URL`, `CF_AUDIT_WORKERS_AI_TOKEN` |
+
 ## Issue #547 audit-log redacted feature export
 
 Issue #547 の redacted feature export は Issue #515 の ML-ready classifier から分離した production D1 read-only export である。状態は `implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。local CLI、schema validation、manifest、leakage scan、focused tests、typecheck、lint は完了済みだが、production D1 からの 90 日 export は user approval 後のみ実行する。
