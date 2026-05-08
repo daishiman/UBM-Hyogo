@@ -1,0 +1,68 @@
+{
+  "taskId": "issue-548-ml-model-selection",
+  "createdAt": "2026-05-08",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented_synthetic",
+  "workflow_state": "implemented_synthetic",
+  "metadata": {
+    "workflow_state": "implemented_synthetic",
+    "implementation_status": "implemented_synthetic",
+    "phase_status_vocabulary": "phase status uses completed/pending/blocked; workflow root records implemented_synthetic",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "runtimePending": "production_90day_dataset (FU-03-B) and production_classifier_switch_to_winner (FU-03-D)",
+    "boundary": "Issue #548 is implemented against synthetic 90-day fixture evidence. Phase 11 PASS proves harness/code shape only; production winner remains unselected.",
+    "parentTask": "docs/30-workflows/completed-tasks/issue-515-cf-audit-logs-ml-anomaly/",
+    "parentSpec": "docs/30-workflows/completed-tasks/issue-515-ml-model-selection.md",
+    "parentImplementationGuide": "docs/30-workflows/completed-tasks/issue-515-cf-audit-logs-ml-anomaly/outputs/phase-12/implementation-guide.md",
+    "preconditionGates": [
+      "FU-03-A (#546) Gate-A/B/C judgment completed",
+      "synthetic 90-day fixture available for harness smoke",
+      "FU-03-B production redacted 90-day dataset pending before production winner selection"
+    ],
+    "selectionCriteria": {
+      "precisionMinDelta": 0.05,
+      "recallMinAbsolute": "baseline",
+      "fallbackRateMax": 0.01,
+      "latencyP95Max": 500,
+      "tieBreaker": ["precision_desc", "latencyP95_asc", "fallbackRate_asc"]
+    },
+    "candidateClassifiers": ["isolation-forest", "xgboost", "workers-ai"],
+    "implementationBoundary": {
+      "currentWave": "code_and_synthetic_harness_evidence",
+      "nextCodeWave": "production_dataset_replay_after_FU-03-B",
+      "deferredRuntimeWave": "production_dataset_replay_and_classifier_switch"
+    }
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/548",
+  "issueState": "CLOSED",
+  "issueCloseOnPR": false,
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["phase-01.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["phase-02.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["phase-03.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["phase-04.md"] },
+    "phase-5":  { "status": "completed", "outputs": ["phase-05.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["phase-06.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["phase-07.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["phase-08.md"] },
+    "phase-9":  { "status": "completed", "outputs": ["phase-09.md"] },
+    "phase-10": { "status": "completed", "outputs": ["phase-10.md"] },
+    "phase-11": { "status": "completed", "outputs": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/comparison-metrics.json",
+      "outputs/phase-11/model-comparison-report.md"
+    ] },
+    "phase-12": { "status": "completed", "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ] },
+    "phase-13": { "status": "blocked", "blockedReason": "pending_user_approval_for_commit_push_pr", "outputs": ["phase-13.md"] }
+  }
+}

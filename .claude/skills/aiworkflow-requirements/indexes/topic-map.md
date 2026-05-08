@@ -1035,6 +1035,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L11 |
+| Issue #546 90 Day Observation Result（2026-05-08） | L98 |
 
 ### references/database-schema-ddl-template.md
 
@@ -2422,6 +2423,36 @@ node scripts/list-specs.js --topics
 | Boundary | L44 |
 | Verification state | L52 |
 | Lessons learned | L66 |
+
+### references/workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Implementation Sources | L15 |
+| System Spec Reflection | L32 |
+| Scope Notes | L44 |
+
+### references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Gate Result | L22 |
+
+### references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Gate | L23 |
+| Validation | L27 |
+
+### references/workflow-issue-548-ml-model-selection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L27 |
+| Synthetic vs Production Boundary（不変条件） | L34 |
+| Gate Conditions (production model promotion 前提) | L40 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -4441,6 +4472,33 @@ node scripts/list-specs.js --topics
 | Related Resources | L31 |
 | Search Keywords | L42 |
 
+### references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE546-001: Hourly 90 day evidence は `gh run list --limit` ではなく paginated API を JSON 配列化する | L8 |
+| L-ISSUE546-002: Alert 0 件は D1 readiness なしに FPR PASS としない | L21 |
+| L-ISSUE546-003: docs-only observation でも root state と phase state は分離する | L34 |
+| L-ISSUE546-004: helper が出力しない成果物は pending evidence marker を実体化する | L47 |
+| 参照元 | L60 |
+
+### references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 5-minute Checklist | L13 |
+
+### references/lessons-learned-issue-548-ml-model-selection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE548-001: synthetic harness と production winner は同じ PASS で扱わない | L8 |
+| L-ISSUE548-002: fallback rate / rejection reason は実 comparison 経路を構造化して計測する | L27 |
+| L-ISSUE548-003: Phase status 語彙を `completed / pending / blocked` に正規化する | L46 |
+| L-ISSUE548-004: FU 依存図は親 issue の successor trace に正本を置く | L65 |
+| L-ISSUE548-005: SSOT 同期は同一 wave で 8 同期点を消化する | L84 |
+| 関連参照 | L108 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4501,6 +4559,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Scope | L3 |
 | Lessons | L11 |
+
+### references/lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 横展開チェックリスト | L70 |
 
 ### references/lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md
 
@@ -4828,8 +4893,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L101 |
-| 関連ドキュメント | L106 |
+| 利用順序 | L103 |
+| 関連ドキュメント | L108 |
 
 ### references/llm-embedding.md
 
@@ -5480,8 +5545,10 @@ node scripts/list-specs.js --topics
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
 | 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L236 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L236 |
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L260 |
-| 10. 変更履歴 | L282 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L255 |
+| 10. 変更履歴 | L292 |
 
 ### references/patterns-advanced.md
 
@@ -5934,13 +6001,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L623 |
-| フェーズ構造（概要） | L632 |
-| 品質ゲート（概要） | L663 |
-| 出力テンプレート | L674 |
-| 実行時のコマンド・エージェント・スキル | L697 |
-| 昇格パターン集 | L721 |
-| Current Active / Spec Created Tasks | L723 |
+| ドキュメント構成 | L675 |
+| フェーズ構造（概要） | L684 |
+| 品質ゲート（概要） | L715 |
+| 出力テンプレート | L726 |
+| 実行時のコマンド・エージェント・スキル | L749 |
+| 昇格パターン集 | L773 |
+| Current Active / Spec Created Tasks | L775 |
 
 ### references/task-workflow-backlog-part2.md
 

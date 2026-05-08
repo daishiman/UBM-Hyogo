@@ -80,6 +80,72 @@ Switch 手順:
 
 Rollback では D1 `classifier_used` / `classifier_version` / `confidence` を削除しない。model artifact 不整合が続く場合は artifact 再選定 Issue へ差し戻す。
 
+## Issue #548 audit-log model selection promotion
+
+Issue #548 は Issue #515 の ML-ready classifier を受け、Isolation Forest / XGBoost / Workers AI を threshold baseline と同一 dataset で比較するための実装である。現状態は `implemented_synthetic / implementation / NON_VISUAL`。3 candidate classifier、`evaluation/model-comparison.ts`、`evaluation/selection-criteria.ts`、training script 2 本、synthetic 720 行 fixture、harness smoke evidence (`docs/30-workflows/issue-548-ml-model-selection/outputs/phase-11/`) が実装済み。この runbook は promotion 手順を固定するが production switch は FU-03-D で扱う。Synthetic harness winner（`xgboost`）は informational のみで production winner ではない。
+
+Promotion prerequisites:
+
+1. FU-03-B redacted 90-day dataset が利用可能である。
+2. comparison harness が threshold + candidate classifiers の precision / recall / fallback rate / latency p95 を同じ schema で出力している。
+3. winner が precision >= baseline + 5pt、recall >= baseline、fallback rate <= 1%、latency p95 <= 500ms を満たす。
+4. secret leakage grep が metrics / Markdown report / model artifacts に対して exit 0 である。
+5. `CF_AUDIT_CLASSIFIER=threshold` rollback rehearsal が完了している。
+
+Promotion order:
+
+1. Store only redacted model artifact metadata and comparison report path in evidence. Raw feature dataset, full IP, full User-Agent, actor email, token values, and bearer headers are forbidden.
+2. If winner is `threshold`, do not switch production.
+3. If winner is non-threshold, open FU-03-D and request explicit approval for production variable switch.
+4. After switch, observe 7 days of `cf_audit_log.classifier_used` / `classifier_version` / `confidence` and fallback rate.
+5. Roll back by setting `CF_AUDIT_CLASSIFIER=threshold`; do not drop D1 classifier metadata columns.
+
+Production env contract:
+
+| Classifier | Required env |
+| --- | --- |
+| `threshold` | `CF_AUDIT_CLASSIFIER=threshold` only |
+| `ml` legacy | `CF_AUDIT_CLASSIFIER=ml`, `ML_MODEL_PATH` |
+| `isolation-forest` | `CF_AUDIT_CLASSIFIER=isolation-forest`, `CF_AUDIT_IF_MODEL` |
+| `xgboost` | `CF_AUDIT_CLASSIFIER=xgboost`, `CF_AUDIT_XGB_MODEL` |
+| `workers-ai` | `CF_AUDIT_CLASSIFIER=workers-ai`, `CF_AUDIT_WORKERS_AI_URL`, `CF_AUDIT_WORKERS_AI_TOKEN` |
+
+## Issue #547 audit-log redacted feature export
+
+Issue #547 の redacted feature export は Issue #515 の ML-ready classifier から分離した production D1 read-only export である。状態は `implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。local CLI、schema validation、manifest、leakage scan、focused tests、typecheck、lint は完了済みだが、production D1 からの 90 日 export は user approval 後のみ実行する。
+
+Canonical command:
+
+```bash
+CF_AUDIT_REDACT_SECRET=... bash scripts/cf.sh audit-log feature-export \
+  --days 90 \
+  --out /tmp/cf-audit-features.jsonl \
+  --manifest-out /tmp/cf-audit-features.manifest.json \
+  --confirm-production-export
+```
+
+`--confirm-production-export` is allowed only after explicit user approval. `--dry-run` is limited to local/fixture pipeline validation and does not bypass the production confirmation gate.
+
+Evidence boundary:
+
+- fixture evidence: `fixture-exported-features.jsonl` / `fixture-export-manifest.json`
+- production evidence: `production-exported-features.jsonl` / `production-export-manifest.json` only after approval
+- pending marker: `production-pending-user-gate.md`
+
+保存可能なのは row count、sha256、exportRunId、redaction policy version、schema version、redacted feature summary まで。raw `cf_audit_log.raw_json`、actor email、full IP、full user-agent、Bearer header、token-like value は JSONL / manifest / logs / Issue body に残さない。
+
+## Issue #546 audit-log 90 day baseline observation
+
+Issue #546 は 90 日連続稼働、false positive rate、tuning cost を read-only evidence で判定する docs-only / NON_VISUAL 観測タスクである。2026-05-08 の実測では Gate-A は FAIL、Gate-B/C は pending のため、運用判断は `observation_continue` とする。
+
+| Gate | 2026-05-08 result | Operator action |
+| --- | --- | --- |
+| Gate-A | FAIL: monitor 32 runs and watchdog 32 runs from 2026-05-06 to 2026-05-07 were all failure | production readinessを整え、successful hourly run が90日分そろうまで継続観測 |
+| Gate-B | PENDING: `cf-audit` label issue 0, but D1 query returned `no such table: cf_audit_log` | Issue #408 の D1 migration / runtime readiness を確認してから FPR を再判定 |
+| Gate-C | PENDING: monthly tuning minutes log missing | owner-authored tuning minutes log を残す |
+
+Issue #546 は CLOSED のまま維持し、PR / commit 文脈では `Refs #546` のみを使う。ML comparison または production `CF_AUDIT_CLASSIFIER=ml` switch へ進めるには、Issue #546 の Gate-A/B/C を fresh evidence で再判定する。
+
 ## Issue #514 audit-log cold storage / R2 export
 
 Issue #514 の cold storage export は Issue #408 の D1 `cf_audit_log` 30 日 retention を補完する。状態は `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。本サイクルでは R2 binding / D1 migration / exporter / restore drill / GitHub Actions workflow のローカル実装まで完了するが、production mutation は実行しない。
