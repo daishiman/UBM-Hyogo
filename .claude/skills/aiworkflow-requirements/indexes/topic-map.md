@@ -2389,6 +2389,19 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Root artifacts | L15 |
+| 2. Phase 1-13 specification files | L23 |
+| 3. Phase 12 strict outputs（7 + elegant review） | L41 |
+| 4. Phase 11 evidence ledger | L54 |
+| 5. Implementation source-of-truth | L66 |
+| 6. Skill reflection / same-wave sync | L75 |
+| 7. Scope notes | L89 |
+| 8. Related tasks | L97 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5879,13 +5892,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L564 |
-| フェーズ構造（概要） | L573 |
-| 品質ゲート（概要） | L604 |
-| 出力テンプレート | L615 |
-| 実行時のコマンド・エージェント・スキル | L638 |
-| 昇格パターン集 | L662 |
-| Current Active / Spec Created Tasks | L664 |
+| ドキュメント構成 | L577 |
+| フェーズ構造（概要） | L586 |
+| 品質ゲート（概要） | L617 |
+| 出力テンプレート | L628 |
+| 実行時のコマンド・エージェント・スキル | L651 |
+| 昇格パターン集 | L675 |
+| Current Active / Spec Created Tasks | L677 |
 
 ### references/task-workflow-backlog-part2.md
 

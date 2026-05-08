@@ -49,6 +49,19 @@
 | 境界 | staging stress trial / D1 write / Cloudflare Queue runtime / commit / push / PR は user 明示承認後のみ。production bulk INSERT / DELETE は permanent ban |
 | Issue 取扱 | #504 CLOSED 維持。PR 文脈では `Refs #504` のみ |
 
+### Issue #531 attendanceProvider staging runtime smoke（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / runtime evidence pending_user_credentials |
+| 成果物 | `docs/30-workflows/issue-531-runtime-smoke-attendance-provider-migration/` |
+| 親タスク | `docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+| 実装対象 | `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/redact.sh` |
+| runtime contract | read-only GET smoke only: admin list/detail/attendance and me root/profile/attendance. DI-bound evidence is admin detail + me profile only |
+| secret/PII境界 | persistent evidence is summary-only; raw body is temporary `mktemp` data removed by `trap` |
+| state boundary | parent issue-371 remains `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` until real staging smoke PASS exists |
+| Issue 取扱 | #531 CLOSED 維持。PR 文脈では `Refs #531` のみ |
+
 
 ### UI prototype alignment / MVP recovery task-01 scope gate（2026-05-07）
 

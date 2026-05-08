@@ -1713,6 +1713,18 @@ packages/
 | evidence | local focused tests + Phase 12 strict files: `docs/30-workflows/issue-372-attendance-pagination/outputs/phase-12/`; staging screenshots/curl remain Phase 11 pending |
 | lessons-learned | `references/lessons-learned-issue-372-attendance-pagination-2026-05.md`（L-ISSUE372-001〜006: cursor encoded/decoded 境界 / bulk と個人特化 API 分離 / `attendanceMeta` optional 追加 / miniflare EADDRNOTAVAIL focused run / 1Password CLI timeout 切り分け / Phase 11 visual evidence pending を spec sync の blocker にしない） |
 
+### Issue #531 AttendanceProvider Runtime Smoke 早見（spec_created / 2026-05-07）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/issue-531-runtime-smoke-attendance-provider-migration/` |
+| 状態 | spec_created / implementation / NON_VISUAL / runtime evidence pending_user_credentials |
+| purpose | issue-371 の `c.var.attendanceProvider` middleware DI 移行を Cloudflare staging Worker で read-only smoke する。DI-bound evidence は `/admin/members/:memberId` と `/me/profile` |
+| smoke script | `scripts/smoke/runtime-attendance-provider.sh` |
+| evidence boundary | persistent evidence は summary-only（status / jq contract / count or type）。raw body は `mktemp` + `trap`、保存禁止 |
+| route contract | `/admin/members` = `.members[]`, `/admin/members/:memberId` = `.attendance[]`, `/admin/members/:memberId/attendance` = `.records[]`, `/me/` = `.user.memberId`, `/me/profile` = `.profile.attendance[]`, `/me/attendance` = `.records[]` |
+| boundary | POST self-request routes are inventory-only because they write staging queue state; production smoke remains forbidden |
+
 ### UBM-Hyogo Attendance Write Operations Close-out（UT-02A follow-up / 2026-05-06）
 
 | 観点 | 値 / 参照先 |
