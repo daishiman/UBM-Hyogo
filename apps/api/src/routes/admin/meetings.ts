@@ -12,7 +12,11 @@ import {
   type MeetingAttendanceExportRow,
 } from "../../repository/meetings";
 import { addAttendance, listAttendanceBySession, removeAttendance } from "../../repository/attendance";
-import { append as auditAppend } from "../../repository/auditLog";
+import {
+  writeTagNoteProviderMiddleware,
+  type WriteTagNoteProviderVariables,
+} from "../../middleware/repository-providers";
+import { requireProvider } from "../../repository/_shared/provider-context";
 import type { AdminRouteEnv } from "./_shared";
 
 const CreateMeetingBodyZ = z.object({
@@ -56,8 +60,12 @@ const toCsv = (rows: MeetingAttendanceExportRow[]): string => {
 };
 
 export const createAdminMeetingsRoute = () => {
-  const app = new Hono<{ Bindings: AdminRouteEnv; Variables: RequireAuthVariables }>();
+  const app = new Hono<{
+    Bindings: AdminRouteEnv;
+    Variables: RequireAuthVariables & Partial<WriteTagNoteProviderVariables>;
+  }>();
   app.use("*", requireAdmin);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/meetings", async (c) => {
     const parsed = ListQueryZ.safeParse({
@@ -103,7 +111,7 @@ export const createAdminMeetingsRoute = () => {
       note: parsed.data.note ?? null,
       createdBy: "system",
     });
-    await auditAppend(db, {
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
       actorId: asAdminId(c.get("authUser").memberId),
       actorEmail: adminEmail(c.get("authUser").email),
       action: auditAction("admin.meeting.created"),
@@ -129,7 +137,7 @@ export const createAdminMeetingsRoute = () => {
     const updated = await updateMeeting(db, c.req.param("id"), parsed.data);
     if (!updated) return c.json({ ok: false, error: "not_found" }, 404);
     const authUser = c.get("authUser");
-    await auditAppend(db, {
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
       actorId: asAdminId(authUser.memberId),
       actorEmail: adminEmail(authUser.email),
       action: auditAction(parsed.data.deletedAt ? "meetings.delete" : "meetings.update"),
@@ -174,7 +182,7 @@ export const createAdminMeetingsRoute = () => {
         return c.json({ ok: false, error: "attendance_already_recorded" }, 409);
       }
       if (!result.ok) return c.json({ ok: false, error: "attendance add failed" }, 500);
-      await auditAppend(db, {
+      await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
         actorId: asAdminId(authUser.memberId),
         actorEmail: adminEmail(authUser.email),
         action: auditAction("attendance.add"),
@@ -186,7 +194,7 @@ export const createAdminMeetingsRoute = () => {
     }
     const removed = await removeAttendance(db, asMemberId(parsed.data.memberId), sessionId);
     if (!removed) return c.json({ ok: false, error: "attendance_not_found" }, 404);
-    await auditAppend(db, {
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
       actorId: asAdminId(authUser.memberId),
       actorEmail: adminEmail(authUser.email),
       action: auditAction("attendance.remove"),

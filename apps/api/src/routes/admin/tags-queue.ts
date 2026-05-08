@@ -4,9 +4,17 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
-import { ctx } from "../../repository/_shared/db";
 import { adminEmail, asAdminId } from "../../repository/_shared/brand";
-import { listQueue, type TagQueueStatus } from "../../repository/tagQueue";
+import type { DbCtx } from "../../repository/_shared/db";
+import {
+  writeTagNoteProviderMiddleware,
+  type WriteTagNoteProviderVariables,
+} from "../../middleware/repository-providers";
+import {
+  type TagQueueStatus,
+  requireProvider,
+  type WriteTagNoteProviderCtx,
+} from "../../repository/_shared/provider-context";
 import { tagQueueResolveBodySchema } from "@ubm-hyogo/shared";
 import {
   TagQueueResolveError,
@@ -30,8 +38,12 @@ const ERROR_TO_STATUS: Record<string, number> = {
 };
 
 export const createAdminTagsQueueRoute = () => {
-  const app = new Hono<{ Bindings: AdminRouteEnv; Variables: RequireAuthVariables }>();
+  const app = new Hono<{
+    Bindings: AdminRouteEnv;
+    Variables: RequireAuthVariables & Partial<WriteTagNoteProviderVariables> & { ctx?: DbCtx };
+  }>();
   app.use("*", requireAdmin);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/tags/queue", async (c) => {
     const statusRaw = c.req.query("status");
@@ -39,8 +51,8 @@ export const createAdminTagsQueueRoute = () => {
     if (!parsed.success) {
       return c.json({ ok: false, error: "invalid status" }, 400);
     }
-    const db = ctx({ DB: c.env.DB });
-    const rows = await listQueue(db, parsed.data as TagQueueStatus | undefined);
+    const rows = await requireProvider(c.var.tagQueueProvider, "tagQueueProvider")
+      .listQueue(parsed.data as TagQueueStatus | undefined);
     return c.json({ total: rows.length, items: rows }, 200);
   });
 
@@ -60,10 +72,27 @@ export const createAdminTagsQueueRoute = () => {
     }
 
     const authUser = c.get("authUser");
-    const db = ctx({ DB: c.env.DB });
+    const dbCtx = c.get("ctx") ?? { db: c.env.DB };
+    const providerCtx: WriteTagNoteProviderCtx = {
+      ...dbCtx,
+      var: {
+        adminNotesProvider: requireProvider(c.var.adminNotesProvider, "adminNotesProvider"),
+        auditLogProvider: requireProvider(c.var.auditLogProvider, "auditLogProvider"),
+        notificationOutboxProvider: requireProvider(
+          c.var.notificationOutboxProvider,
+          "notificationOutboxProvider",
+        ),
+        tagDefinitionsProvider: requireProvider(
+          c.var.tagDefinitionsProvider,
+          "tagDefinitionsProvider",
+        ),
+        tagQueueProvider: requireProvider(c.var.tagQueueProvider, "tagQueueProvider"),
+        memberTagsProvider: requireProvider(c.var.memberTagsProvider, "memberTagsProvider"),
+      },
+    };
 
     try {
-      const result = await tagQueueResolve(db, {
+      const result = await tagQueueResolve(providerCtx, {
         queueId,
         actorUserId: authUser.memberId ? asAdminId(String(authUser.memberId)) : null,
         actorEmail: authUser.email ? adminEmail(authUser.email) : null,

@@ -6,11 +6,20 @@
 | --- | --- |
 | タスクID | UT-350-FU-01 |
 | 分類 | governance / CI |
-| ステータス | 未実施 |
+| ステータス | consumed / implemented-local / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING |
 | 優先度 | 低 |
 | 規模 | 小 |
 | 発見元 | `docs/30-workflows/issue-350-long-term-production-observation/outputs/phase-12/unassigned-task-detection.md` |
 | formalized | 2026-05-06 |
+
+## 消費トレース
+
+| 項目 | 内容 |
+| --- | --- |
+| consumed_by | `docs/30-workflows/completed-tasks/governance/issue-526-ci-actionlint-shellcheck-gate/` |
+| 状態 | implemented-local / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING |
+| 反映日 | 2026-05-08 |
+| 備考 | Issue #526 は CLOSED 維持。後続 PR は `Refs #526, Refs #350` のみを使う。 |
 
 ## なぜ必要か
 

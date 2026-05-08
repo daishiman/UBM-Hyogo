@@ -56,11 +56,15 @@ describe("toPublicMemberProfile", () => {
       },
       fields: baseFields,
       schemaFields: baseSchema,
+      attendance: [{ sessionId: "s-1", title: "定例会 1", heldOn: "2026-03-15" }],
       tags: [{ code: "ai", label: "AI", category: "skill" }],
     });
     expect(result.memberId).toBe("m-1");
     expect(result.summary.fullName).toBe("山田太郎");
     expect(result.summary.ubmZone).toBe("0_to_1");
+    expect(result.attendance).toEqual([
+      { sessionId: "s-1", title: "定例会 1", heldOn: "2026-03-15" },
+    ]);
     const flat = JSON.stringify(result);
     expect(flat).not.toContain("leak@example.com");
     expect(flat).not.toContain("internal note");
@@ -81,6 +85,7 @@ describe("toPublicMemberProfile", () => {
         },
         fields: baseFields,
         schemaFields: baseSchema,
+        attendance: [],
         tags: [],
       }),
     ).toThrow(ApiError);
@@ -98,6 +103,7 @@ describe("toPublicMemberProfile", () => {
         status,
         fields: baseFields,
         schemaFields: baseSchema,
+        attendance: [],
         tags: [],
       }),
     ).toThrow();

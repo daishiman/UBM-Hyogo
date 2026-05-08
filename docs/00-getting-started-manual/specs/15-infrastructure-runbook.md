@@ -98,6 +98,42 @@ Production env contract:
 | `xgboost` | `CF_AUDIT_CLASSIFIER=xgboost`, `CF_AUDIT_XGB_MODEL` |
 | `workers-ai` | `CF_AUDIT_CLASSIFIER=workers-ai`, `CF_AUDIT_WORKERS_AI_URL`, `CF_AUDIT_WORKERS_AI_TOKEN` |
 
+## Issue #547 audit-log redacted feature export
+
+Issue #547 の redacted feature export は Issue #515 の ML-ready classifier から分離した production D1 read-only export である。状態は `implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。local CLI、schema validation、manifest、leakage scan、focused tests、typecheck、lint は完了済みだが、production D1 からの 90 日 export は user approval 後のみ実行する。
+
+Canonical command:
+
+```bash
+CF_AUDIT_REDACT_SECRET=... bash scripts/cf.sh audit-log feature-export \
+  --days 90 \
+  --out /tmp/cf-audit-features.jsonl \
+  --manifest-out /tmp/cf-audit-features.manifest.json \
+  --confirm-production-export
+```
+
+`--confirm-production-export` is allowed only after explicit user approval. `--dry-run` is limited to local/fixture pipeline validation and does not bypass the production confirmation gate.
+
+Evidence boundary:
+
+- fixture evidence: `fixture-exported-features.jsonl` / `fixture-export-manifest.json`
+- production evidence: `production-exported-features.jsonl` / `production-export-manifest.json` only after approval
+- pending marker: `production-pending-user-gate.md`
+
+保存可能なのは row count、sha256、exportRunId、redaction policy version、schema version、redacted feature summary まで。raw `cf_audit_log.raw_json`、actor email、full IP、full user-agent、Bearer header、token-like value は JSONL / manifest / logs / Issue body に残さない。
+
+## Issue #546 audit-log 90 day baseline observation
+
+Issue #546 は 90 日連続稼働、false positive rate、tuning cost を read-only evidence で判定する docs-only / NON_VISUAL 観測タスクである。2026-05-08 の実測では Gate-A は FAIL、Gate-B/C は pending のため、運用判断は `observation_continue` とする。
+
+| Gate | 2026-05-08 result | Operator action |
+| --- | --- | --- |
+| Gate-A | FAIL: monitor 32 runs and watchdog 32 runs from 2026-05-06 to 2026-05-07 were all failure | production readinessを整え、successful hourly run が90日分そろうまで継続観測 |
+| Gate-B | PENDING: `cf-audit` label issue 0, but D1 query returned `no such table: cf_audit_log` | Issue #408 の D1 migration / runtime readiness を確認してから FPR を再判定 |
+| Gate-C | PENDING: monthly tuning minutes log missing | owner-authored tuning minutes log を残す |
+
+Issue #546 は CLOSED のまま維持し、PR / commit 文脈では `Refs #546` のみを使う。ML comparison または production `CF_AUDIT_CLASSIFIER=ml` switch へ進めるには、Issue #546 の Gate-A/B/C を fresh evidence で再判定する。
+
 ## Issue #514 audit-log cold storage / R2 export
 
 Issue #514 の cold storage export は Issue #408 の D1 `cf_audit_log` 30 日 retention を補完する。状態は `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。本サイクルでは R2 binding / D1 migration / exporter / restore drill / GitHub Actions workflow のローカル実装まで完了するが、production mutation は実行しない。

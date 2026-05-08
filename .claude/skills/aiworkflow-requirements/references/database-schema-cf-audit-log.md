@@ -93,6 +93,21 @@ migration trigger / scheduled query を採らない理由は D1 が EVENT トリ
 - `scripts/cf-audit-log/d1-client.ts` (`insertAuditEvents` / `purgeOlderThan` / `recordFindingDedupe`)
 - `scripts/cf-audit-log/analyze.ts` (TTL purge schedule)
 - `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/outputs/phase-12/implementation-guide.md`
+- `lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md` (設計判断の根拠集)
+
+## Issue #546 90 Day Observation Result（2026-05-08）
+
+Issue #546 の read-only runtime observation では、production D1 に対する次の aggregate query を実行した。
+
+```sql
+SELECT COUNT(*) AS total
+FROM cf_audit_log
+WHERE occurred_at_ms >= unixepoch('now','-90 days') * 1000;
+```
+
+結果は redacted Cloudflare D1 error `no such table: cf_audit_log` であり、2026-05-08 時点では production D1 側の `cf_audit_log` readiness を確認できなかった。これはアプリ runtime schema 変更を要求するものではなく、Issue #408 の production migration / runtime readiness gate が未完了であることを示す運用 evidence として扱う。
+
+Issue #546 の Gate-B は、この状態では false positive rate PASS として扱わず `PENDING_RUNTIME_EVIDENCE` を維持する。
 - `docs/30-workflows/completed-tasks/issue-518-cf-audit-logs-monitoring-hold/outputs/phase-12/implementation-guide.md` (HOLD 縮退仕様)
 - `docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md` (週次手動確認 runbook)
 - `lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md` (build-out 設計判断)

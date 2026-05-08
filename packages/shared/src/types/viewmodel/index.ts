@@ -41,6 +41,17 @@ export interface MemberProfileSummary {
   ubmMembershipType: string | null;
 }
 
+export interface AttendanceRecord {
+  sessionId: string;
+  title: string;
+  heldOn: string;
+}
+
+export interface AttendanceMeta {
+  hasMore: boolean;
+  nextCursor: string | null;
+}
+
 export interface MemberProfile {
   memberId: MemberId;
   responseId: ResponseId;
@@ -51,16 +62,9 @@ export interface MemberProfile {
   isDeleted: boolean;
   summary: MemberProfileSummary;
   sections: MemberProfileSection[];
-  attendance: Array<{
-    sessionId: string;
-    title: string;
-    heldOn: string;
-  }>;
+  attendance: AttendanceRecord[];
   // issue-372: 直近 N 件 + cursor 継続取得モデル。未注入時は undefined（後方互換）。
-  attendanceMeta?: {
-    hasMore: boolean;
-    nextCursor: string | null;
-  };
+  attendanceMeta?: AttendanceMeta;
   tags: Array<{
     code: string;
     label: string;
@@ -134,6 +138,8 @@ export interface PublicMemberProfile {
   memberId: MemberId;
   summary: MemberProfileSummary;
   publicSections: MemberProfileSection[];
+  attendance: AttendanceRecord[];
+  attendanceMeta?: AttendanceMeta;
   tags: Array<{ code: string; label: string; category: string }>;
 }
 
