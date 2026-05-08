@@ -68,6 +68,30 @@ Issue #515 の classifier abstraction は `CF_AUDIT_CLASSIFIER` 未指定時に 
 
 Evidence には model path、raw feature dataset、full IP、user agent、actor email を残さない。保存できるのは classifier name/version、fallback reason、run id、redacted feature summary まで。
 
+## Issue #547 audit-log redacted feature export
+
+Issue #547 の redacted feature export は Issue #515 の ML-ready classifier から分離した production D1 read-only export である。状態は `implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。local CLI、schema validation、manifest、leakage scan、focused tests、typecheck、lint は完了済みだが、production D1 からの 90 日 export は user approval 後のみ実行する。
+
+Canonical command:
+
+```bash
+CF_AUDIT_REDACT_SECRET=... bash scripts/cf.sh audit-log feature-export \
+  --days 90 \
+  --out /tmp/cf-audit-features.jsonl \
+  --manifest-out /tmp/cf-audit-features.manifest.json \
+  --confirm-production-export
+```
+
+`--confirm-production-export` is allowed only after explicit user approval. `--dry-run` is limited to local/fixture pipeline validation and does not bypass the production confirmation gate.
+
+Evidence boundary:
+
+- fixture evidence: `fixture-exported-features.jsonl` / `fixture-export-manifest.json`
+- production evidence: `production-exported-features.jsonl` / `production-export-manifest.json` only after approval
+- pending marker: `production-pending-user-gate.md`
+
+保存可能なのは row count、sha256、exportRunId、redaction policy version、schema version、redacted feature summary まで。raw `cf_audit_log.raw_json`、actor email、full IP、full user-agent、Bearer header、token-like value は JSONL / manifest / logs / Issue body に残さない。
+
 ## Issue #546 audit-log 90 day baseline observation
 
 Issue #546 は 90 日連続稼働、false positive rate、tuning cost を read-only evidence で判定する docs-only / NON_VISUAL 観測タスクである。2026-05-08 の実測では Gate-A は FAIL、Gate-B/C は pending のため、運用判断は `observation_continue` とする。
