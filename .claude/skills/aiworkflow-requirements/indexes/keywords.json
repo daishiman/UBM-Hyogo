@@ -2719,8 +2719,8 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
-      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -8444,9 +8444,9 @@
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
-      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
+      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
@@ -8514,8 +8514,8 @@
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
-      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
+      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
@@ -9987,9 +9987,9 @@
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
-      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
+      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
@@ -11219,8 +11219,8 @@
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
-      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
+      "lessons-learned-task19-primitives-full-spec-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md"
     ],
     "Staging": [
@@ -13168,13 +13168,6 @@
     "Injection": [
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md"
     ],
-    "primitives": [
-      "lessons-learned-task19-primitives-full-spec-2026-05.md",
-      "ui-ux-components.md"
-    ],
-    "関連教訓": [
-      "lessons-learned-task19-primitives-full-spec-2026-05.md"
-    ],
     "Unify": [
       "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md"
     ],
@@ -13276,6 +13269,13 @@
     ],
     "横展開チェックリスト": [
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md"
+    ],
+    "primitives": [
+      "lessons-learned-task19-primitives-full-spec-2026-05.md",
+      "ui-ux-components.md"
+    ],
+    "関連教訓": [
+      "lessons-learned-task19-primitives-full-spec-2026-05.md"
     ],
     "OIDC": [
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
