@@ -157,6 +157,7 @@
       "legacy-ordinal-family-register.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
@@ -246,8 +247,7 @@
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-ui-ux-visual-baseline-drift.md",
       "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md",
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
+      "workflow-workspace-preview-search-resilience-guard.md"
     ],
     "Cases": [
       "api-chat-history.md",
@@ -828,11 +828,11 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-backlog.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md"
     ],
     "up": [
@@ -854,6 +854,7 @@
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
@@ -868,6 +869,7 @@
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -881,9 +883,7 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Desktop": [
       "api-endpoints.md",
@@ -1201,6 +1201,7 @@
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
@@ -1208,13 +1209,12 @@
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
     "AccessCapability": [
       "arch-execution-capability-contract.md"
@@ -1417,6 +1417,7 @@
       "arch-execution-capability-contract.md",
       "claude-code-skills-agents.md",
       "legacy-ordinal-family-register.md",
+      "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md",
       "logs-archive-2026-02-skill-validation-atoms-audit.md",
       "rag-services.md",
       "task-workflow-completed-skill-lifecycle-design.md",
@@ -1426,8 +1427,7 @@
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
-      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
-      "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md"
+      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
     "HealthPolicy": [
       "arch-execution-capability-contract.md",
@@ -2480,6 +2480,7 @@
       "interfaces-agent-sdk-history.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "interfaces-agent-sdk-skill.md",
+      "lessons-learned-docs-only-lifecycle.md",
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "logs-archive-2026-03-mid-lifecycle-governance-improve.md",
@@ -2494,8 +2495,7 @@
       "ui-ux-history-panel.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md",
-      "lessons-learned-docs-only-lifecycle.md"
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
     ],
     "LLM": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
@@ -2533,6 +2533,7 @@
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
@@ -2546,8 +2547,7 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
     "FIX": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
@@ -2717,6 +2717,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
+      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-001-2026-04.md",
@@ -2742,8 +2743,7 @@
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md"
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "created": [
       "arch-state-management-reference-selectors.md",
@@ -2824,6 +2824,7 @@
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
@@ -2849,15 +2850,14 @@
       "ui-ux-feature-components-skill-analysis.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
+      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
-      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "creator": [
       "arch-state-management-skill-creator.md",
@@ -3052,9 +3052,9 @@
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
-      "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md"
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "Snapshot": [
       "arch-state-management-skill-creator.md"
@@ -3080,14 +3080,14 @@
       "interfaces-agent-sdk-skill.md",
       "interfaces-agent-sdk-ui.md",
       "interfaces-agent-sdk.md",
+      "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md",
       "logs-archive-2026-01-agent-sdk-deps-renderer-api.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "logs-archive-2026-02-console-migration-patterns.md",
       "logs-archive-2026-02-skill-creator-ipc-sdk-integration.md",
       "security-electron-ipc-examples.md",
-      "testing-component-patterns-details.md",
-      "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md"
+      "testing-component-patterns-details.md"
     ],
     "仕様書インデックス": [
       "arch-state-management.md",
@@ -3360,11 +3360,11 @@
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-governance-design-category.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
     "route": [
@@ -3378,9 +3378,9 @@
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
-      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
-      "lessons-learned-docs-only-lifecycle.md"
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
     ],
     "ステータスコード処理方針": [
       "architecture-admin-api-client.md"
@@ -3490,8 +3490,8 @@
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
     "ownership": [
       "architecture-auth-security-core.md",
@@ -4011,6 +4011,81 @@
     "issues": [
       "architecture-rag.md"
     ],
+    "Audit": [
+      "audit-correlation.md",
+      "data-retention-policy.md",
+      "database-schema-cf-audit-log.md",
+      "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
+      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
+      "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
+      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "observability-monitoring.md",
+      "ui-ux-feature-components-reference-organisms-history-surfaces.md",
+      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
+    ],
+    "Correlation": [
+      "audit-correlation.md"
+    ],
+    "目的": [
+      "audit-correlation.md",
+      "claude-code-skills-agents.md",
+      "lessons-learned-docs-only-lifecycle.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "入出力契約": [
+      "audit-correlation.md"
+    ],
+    "Redaction": [
+      "audit-correlation.md"
+    ],
+    "Policy": [
+      "audit-correlation.md",
+      "data-retention-policy.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md"
+    ],
+    "MVP": [
+      "audit-correlation.md",
+      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
+    ],
+    "Boundary": [
+      "audit-correlation.md",
+      "data-retention-policy.md",
+      "database-schema-07b-schema-alias-assignment.md",
+      "lessons-learned-issue-350-long-term-observation-2026-05.md",
+      "post-release-long-term-observation.md",
+      "release-runbook.md",
+      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
+      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
+      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
+      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
+      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
+      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
+      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
+      "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "References": [
+      "audit-correlation.md",
+      "glossary.md"
+    ],
     "テキスト": [
       "auth-google-oauth-cf-integration.md"
     ],
@@ -4073,6 +4148,7 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
@@ -4080,8 +4156,7 @@
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-gov-001-2026-04.md",
-      "skill-ledger-gitattributes-policy.md",
-      "lessons-learned-docs-only-lifecycle.md"
+      "skill-ledger-gitattributes-policy.md"
     ],
     "endpoint": [
       "auth-google-oauth-cf-integration.md",
@@ -4098,10 +4173,10 @@
     ],
     "post": [
       "auth-google-oauth-cf-integration.md",
+      "deployment-gha.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
-      "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
-      "deployment-gha.md"
+      "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md"
     ],
     "build": [
       "auth-google-oauth-cf-integration.md",
@@ -4208,13 +4283,13 @@
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
     "learned": [
       "auth-google-oauth-cf-integration.md",
@@ -4238,12 +4313,12 @@
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-task-10a-c-final-audit.md",
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
     ],
     "関連実装ファイル": [
       "auth-google-oauth-cf-integration.md"
@@ -4374,6 +4449,7 @@
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -4432,6 +4508,7 @@
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -4452,9 +4529,7 @@
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "ペルソナ設計": [
       "claude-code-agents-workflow.md"
@@ -4524,8 +4599,8 @@
       "workflow-governance-design-category.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "品質基準": [
       "claude-code-agents-workflow.md",
@@ -4674,6 +4749,7 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
@@ -4683,8 +4759,7 @@
       "workflow-ai-chat-llm-integration-fix.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-governance-design-category.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "lessons-learned-docs-only-lifecycle.md"
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
     ],
     "URL": [
       "claude-code-settings-hierarchy.md",
@@ -4720,11 +4795,14 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
+      "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
+      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -4737,13 +4815,10 @@
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
-      "lessons-learned-docs-only-lifecycle.md",
-      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
-      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
@@ -4788,6 +4863,7 @@
       "claude-code-settings-hierarchy.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
@@ -4799,13 +4875,12 @@
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
-      "lessons-learned-docs-only-lifecycle.md",
-      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
     "json": [
       "claude-code-settings-hierarchy.md",
@@ -4821,12 +4896,12 @@
     "index": [
       "claude-code-settings-hierarchy.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "logs-archive-index.md",
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
     "zsh": [
@@ -4865,15 +4940,6 @@
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "目的": [
-      "claude-code-skills-agents.md",
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "skill-ledger-progressive-disclosure.md",
-      "audit-correlation.md",
-      "lessons-learned-docs-only-lifecycle.md"
     ],
     "の位置づけ": [
       "claude-code-skills-agents.md"
@@ -5009,6 +5075,7 @@
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -5022,8 +5089,7 @@
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
     ],
     "認証フローにおける統合": [
       "csrf-state-parameter.md"
@@ -5067,20 +5133,14 @@
     "Retention": [
       "data-retention-policy.md"
     ],
-    "Policy": [
-      "data-retention-policy.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "audit-correlation.md"
-    ],
     "Scope": [
       "data-retention-policy.md",
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
-      "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
-      "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md"
+      "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md",
+      "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md"
     ],
     "Current": [
       "data-retention-policy.md",
@@ -5099,6 +5159,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
@@ -5107,26 +5168,7 @@
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
-    ],
-    "Audit": [
-      "data-retention-policy.md",
-      "database-schema-cf-audit-log.md",
-      "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
-      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
-      "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
-      "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
-      "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
-      "observability-monitoring.md",
-      "ui-ux-feature-components-reference-organisms-history-surfaces.md",
-      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
-      "audit-correlation.md",
-      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
     "Minimum": [
       "data-retention-policy.md"
@@ -5201,31 +5243,6 @@
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
-    ],
-    "Boundary": [
-      "data-retention-policy.md",
-      "database-schema-07b-schema-alias-assignment.md",
-      "lessons-learned-issue-350-long-term-observation-2026-05.md",
-      "post-release-long-term-observation.md",
-      "release-runbook.md",
-      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
-      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
-      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
-      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
-      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
-      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
-      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
-      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
-      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
-      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
-      "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
-      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
-      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
-      "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
-      "audit-correlation.md",
-      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
     ],
     "管理者リポジトリ境界仕様": [
       "database-admin-repository-boundary.md"
@@ -5377,9 +5394,7 @@
       "observability-monitoring.md",
       "post-release-long-term-observation.md",
       "schema-alias-backfill-runbook.md",
-      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
-      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
-      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
+      "ui-ux-prototype-map.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
@@ -5387,7 +5402,10 @@
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
-      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md"
+      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
+      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
     "ベクトル検索実装": [
       "database-implementation-core.md"
@@ -5457,6 +5475,8 @@
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -5473,9 +5493,7 @@
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
-      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md"
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
     ],
     "schema": [
       "database-operations.md",
@@ -5601,6 +5619,7 @@
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -5617,8 +5636,7 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
     "Cloudflare": [
       "database-schema-cf-audit-log.md",
@@ -5634,22 +5652,22 @@
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
+      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "observability-monitoring.md",
       "r2-storage-decision-guide.md",
       "technology-core.md",
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
-      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md"
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
     ],
     "Logs": [
       "database-schema-cf-audit-log.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
+      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
       "observability-monitoring.md",
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
-      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md"
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
     ],
     "read": [
       "database-schema-cf-audit-log.md",
@@ -5749,14 +5767,14 @@
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
-      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
-      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
-      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
     ],
     "Sheets": [
       "database-schema.md",
@@ -5770,10 +5788,12 @@
       "deployment-cloudflare.md",
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
+      "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
@@ -5786,14 +5806,12 @@
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
-      "lessons-learned-docs-only-lifecycle.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
+      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md"
     ],
     "enum": [
@@ -5836,6 +5854,7 @@
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
+      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
@@ -5860,18 +5879,17 @@
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md",
-      "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
-      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
-      "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md"
+      "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "ワークフロー関連テーブル": [
       "database-schema.md"
@@ -5978,10 +5996,10 @@
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
-      "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md"
+      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md"
     ],
     "デプロイ仕様": [
       "deployment-cloudflare-opennext-workers.md"
@@ -6237,6 +6255,7 @@
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
@@ -6245,10 +6264,9 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
     ],
     "デプロイメント": [
       "deployment-cloudflare-ut06-gate.md",
@@ -6287,11 +6305,13 @@
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
       "workflow-governance-design-category.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
@@ -6305,9 +6325,7 @@
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "実行ラッパー": [
       "deployment-cloudflare-ut06-gate.md",
@@ -6616,11 +6634,11 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
-      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md"
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
     "Deployment": [
       "deployment-core.md",
@@ -6724,6 +6742,24 @@
     "automation": [
       "deployment-gha.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md"
+    ],
+    "day": [
+      "deployment-gha.md"
+    ],
+    "auto": [
+      "deployment-gha.md",
+      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "skill-ledger-gitignore-policy.md",
+      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md"
+    ],
+    "summary": [
+      "deployment-gha.md",
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "シークレット・環境変数管理": [
       "deployment-secrets-management.md"
@@ -7015,10 +7051,10 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md"
     ],
     "dedupe": [
       "dlq-monitoring.md",
@@ -7225,10 +7261,6 @@
     ],
     "参考資料": [
       "glossary.md"
-    ],
-    "References": [
-      "glossary.md",
-      "audit-correlation.md"
     ],
     "SkillCreatorHooksFactory": [
       "governance-hooks-factory-audit-sink.md"
@@ -7439,6 +7471,7 @@
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
@@ -7450,8 +7483,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
     ],
     "Schedule": [
       "interfaces-agent-sdk-skill-editor.md",
@@ -8212,11 +8244,11 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
     "分離マトリクス": [
@@ -8308,954 +8340,8 @@
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
-    ],
-    "Artifacts": [
-      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
-      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
-      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
-      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
-      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
-      "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
-      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
-      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
-      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
-      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
-      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
-      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
-      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
-      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
-    ],
-    "Open": [
-      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
-      "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
-      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
-    ],
-    "Ups": [
-      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
-      "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
-    ],
-    "Canonical": [
-      "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
-      "workflow-issue-191-schema-aliases-artifact-inventory.md",
-      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
-      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
-      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
-      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
-      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
-      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
-      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
-      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
-      "workflow-task-rt-06-artifact-inventory.md",
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
-      "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
-      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
-      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
-    ],
-    "Metadata": [
-      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
-      "workflow-issue-191-schema-aliases-artifact-inventory.md",
-      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
-      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
-      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
-      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
-      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
-      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
-      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
-    ],
-    "Facts": [
-      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
-      "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
-    ],
-    "Required": [
-      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
-    ],
-    "Files": [
-      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
-      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
-      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
-      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
-    ],
-    "Related": [
-      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
-      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
-    ],
-    "Resources": [
-      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md"
-    ],
-    "Logged": [
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
-    ],
-    "Map": [
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
-    ],
-    "supplement": [
-      "workflow-06c-B-admin-members-artifact-inventory.md"
-    ],
-    "で更新した": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
-    ],
-    "validation": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
-    ],
-    "chain": [
-      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
-    ],
-    "仕様抽出マトリクス": [
-      "workflow-ai-chat-llm-integration-fix.md"
-    ],
-    "現行実装アンカー": [
-      "workflow-ai-chat-llm-integration-fix.md"
-    ],
-    "実装・監査ステータス": [
-      "workflow-ai-chat-llm-integration-fix.md"
-    ],
-    "タスク別の最小読書セット": [
-      "workflow-ai-chat-llm-integration-fix.md"
-    ],
-    "読む順番": [
-      "workflow-ai-chat-llm-integration-fix.md"
-    ],
-    "注意点": [
-      "workflow-ai-chat-llm-integration-fix.md"
-    ],
-    "Unification": [
-      "workflow-ai-runtime-authmode-unification.md"
-    ],
-    "今回の確定事項": [
-      "workflow-ai-runtime-authmode-unification.md"
-    ],
-    "と依存関係": [
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "互換管理": [
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "設定画面レビューの必須改善対象": [
-      "workflow-ai-runtime-authmode-unification.md"
-    ],
-    "後続タスクへの伝搬先": [
-      "workflow-ai-runtime-authmode-unification.md"
-    ],
-    "編成": [
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-aiworkflow-requirements-line-budget-reform.md",
-      "workflow-light-theme-contrast-regression-guard.md",
-      "workflow-onboarding-wizard-alignment.md",
-      "workflow-ui-ux-visual-baseline-drift.md",
-      "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md"
-    ],
-    "関心ごと分離": [
-      "workflow-ai-runtime-authmode-unification.md"
-    ],
-    "同種課題の": [
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-aiworkflow-requirements-line-budget-reform.md",
-      "workflow-apikey-chat-tool-integration-alignment.md",
-      "workflow-light-theme-contrast-regression-guard.md",
-      "workflow-light-theme-global-remediation.md",
-      "workflow-onboarding-wizard-alignment.md",
-      "workflow-permission-fallback-abort-skip-retry.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md",
-      "workflow-ui-ux-visual-baseline-drift.md",
-      "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md"
-    ],
-    "最適なファイル形成": [
-      "workflow-ai-runtime-authmode-unification.md",
-      "workflow-aiworkflow-requirements-line-budget-reform.md",
-      "workflow-apikey-chat-tool-integration-alignment.md",
-      "workflow-light-theme-contrast-regression-guard.md",
-      "workflow-light-theme-global-remediation.md",
-      "workflow-onboarding-wizard-alignment.md",
-      "workflow-ui-ux-visual-baseline-drift.md",
-      "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md"
-    ],
-    "Responsibility": [
-      "workflow-ai-runtime-execution-responsibility-realignment.md"
-    ],
-    "Realignment": [
-      "workflow-ai-runtime-execution-responsibility-realignment.md"
-    ],
-    "extraction": [
-      "workflow-ai-runtime-execution-responsibility-realignment.md"
-    ],
-    "matrix": [
-      "workflow-ai-runtime-execution-responsibility-realignment.md"
-    ],
-    "実装同期ルール": [
-      "workflow-ai-runtime-execution-responsibility-realignment.md"
-    ],
-    "実装ステータススナップショット": [
-      "workflow-ai-runtime-execution-responsibility-realignment.md"
-    ],
-    "Backlog": [
-      "workflow-ai-runtime-execution-responsibility-realignment.md"
-    ],
-    "集計": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "更新した": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
-    ],
-    "control": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
-    ],
-    "更新した既存": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
-    ],
-    "新規": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "再生成・監査コマンド": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "今回実装した内容": [
-      "workflow-aiworkflow-requirements-line-budget-reform.md",
-      "workflow-light-theme-contrast-regression-guard.md",
-      "workflow-onboarding-wizard-alignment.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
-    "苦戦箇所と再発防止": [
-      "workflow-aiworkflow-requirements-line-budget-reform.md",
-      "workflow-apikey-chat-tool-integration-alignment.md",
-      "workflow-light-theme-contrast-regression-guard.md",
-      "workflow-light-theme-global-remediation.md",
-      "workflow-onboarding-wizard-alignment.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
-    "関連改善タスク": [
-      "workflow-aiworkflow-requirements-line-budget-reform.md",
-      "workflow-apikey-chat-tool-integration-alignment.md",
-      "workflow-light-theme-contrast-regression-guard.md",
-      "workflow-light-theme-global-remediation.md",
-      "workflow-onboarding-wizard-alignment.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
-    "キー連動とチャット実行経路整合ワークフロー仕様": [
-      "workflow-apikey-chat-tool-integration-alignment.md"
-    ],
-    "今回実装内容": [
-      "workflow-apikey-chat-tool-integration-alignment.md",
-      "workflow-light-theme-global-remediation.md"
-    ],
-    "責務マトリクス": [
-      "workflow-apikey-chat-tool-integration-alignment.md",
-      "workflow-light-theme-global-remediation.md"
-    ],
-    "最小セット": [
-      "workflow-apikey-chat-tool-integration-alignment.md",
-      "workflow-light-theme-global-remediation.md",
-      "workflow-onboarding-wizard-alignment.md"
-    ],
-    "Governance": [
-      "workflow-governance-design-category.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
-    ],
-    "Category": [
-      "workflow-governance-design-category.md"
-    ],
-    "カテゴリ定義": [
-      "workflow-governance-design-category.md"
-    ],
-    "削除候補": [
-      "workflow-governance-design-category.md"
-    ],
-    "の抽出": [
-      "workflow-governance-design-category.md"
-    ],
-    "配下のみ対象": [
-      "workflow-governance-design-category.md"
-    ],
-    "登録の有無を確認": [
-      "workflow-governance-design-category.md"
-    ],
-    "件なら": [
-      "workflow-governance-design-category.md"
-    ],
-    "FAIL": [
-      "workflow-governance-design-category.md"
-    ],
-    "入口導線": [
-      "workflow-governance-design-category.md"
-    ],
-    "Acceptance": [
-      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
-    ],
-    "Deferred": [
-      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
-      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
-    ],
-    "Blocked": [
-      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
-      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
-    ],
-    "Set": [
-      "workflow-issue-191-schema-aliases-artifact-inventory.md",
-      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
-      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
-      "workflow-task-rt-06-artifact-inventory.md",
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
-      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
-    ],
-    "Notes": [
-      "workflow-issue-191-schema-aliases-artifact-inventory.md",
-      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
-    ],
-    "Outputs": [
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
-      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
-      "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
-    ],
-    "反映先": [
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
-      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
-      "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
-    ],
-    "文書": [
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
-    ],
-    "User": [
-      "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
-      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md"
-    ],
-    "Gate": [
-      "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
-      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md"
-    ],
-    "Postmortem": [
-      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md"
-    ],
-    "Template": [
-      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md"
-    ],
-    "Same": [
-      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
-      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
-      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
-      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
-    ],
-    "Touched": [
-      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
-      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md"
-    ],
-    "Paused": [
-      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
-    ],
-    "Flag": [
-      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
-    ],
-    "Status": [
-      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
-      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
-    ],
-    "sentry": [
-      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
-    ],
-    "slack": [
-      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md"
-    ],
-    "extension": [
-      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md"
-    ],
-    "templates": [
-      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md"
-    ],
-    "Changelog": [
-      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md"
-    ],
-    "semantics": [
-      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
-    ],
-    "Implemented": [
-      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
-    ],
-    "Extended": [
-      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md"
-    ],
-    "Guide": [
-      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
-      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
-    ],
-    "Pointers": [
-      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
-      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
-    ],
-    "Conditions": [
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
-    ],
-    "switch": [
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
-    ],
-    "前提": [
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
-    ],
-    "ライトテーマ": [
-      "workflow-light-theme-contrast-regression-guard.md"
-    ],
-    "contrast": [
-      "workflow-light-theme-contrast-regression-guard.md"
-    ],
-    "ライトモード全画面": [
-      "workflow-light-theme-global-remediation.md"
-    ],
-    "white": [
-      "workflow-light-theme-global-remediation.md"
-    ],
-    "black": [
-      "workflow-light-theme-global-remediation.md"
-    ],
-    "再是正ワークフロー仕様": [
-      "workflow-light-theme-global-remediation.md"
-    ],
-    "color": [
-      "workflow-light-theme-global-remediation.md"
-    ],
-    "仕様作成追補": [
-      "workflow-light-theme-global-remediation.md"
-    ],
-    "Wizard": [
-      "workflow-onboarding-wizard-alignment.md"
-    ],
-    "検出した未タスク": [
-      "workflow-permission-fallback-abort-skip-retry.md"
-    ],
-    "識別子": [
-      "workflow-skill-identifier-branded-type-resolution.md"
-    ],
-    "Type": [
-      "workflow-skill-identifier-branded-type-resolution.md",
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
-    ],
-    "適用ワークフロー仕様": [
-      "workflow-skill-identifier-branded-type-resolution.md"
-    ],
-    "詳細": [
-      "workflow-skill-identifier-branded-type-resolution.md"
-    ],
-    "苦戦箇所由来のリスクと先回り対策": [
-      "workflow-skill-identifier-branded-type-resolution.md"
-    ],
-    "監視・ログ": [
-      "workflow-skill-identifier-branded-type-resolution.md"
-    ],
-    "progressive": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "disclosure": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "改訂された": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "反映ファイル": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "本タスク": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "ファイルツリー再列挙": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "ファイルツリー": [
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
-    ],
-    "Usage": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "Journey": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "必要仕様の抽出セット": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "抽出確認コマンド": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "依存契約": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "接続契約": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "実装コードアンカー": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "検証手順": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "テスト実行": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "ビルド確認": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md"
-    ],
-    "SkillAnalysis": [
-      "workflow-skill-lifecycle-created-skill-usage-journey.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
-    "Evaluation": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "Scoring": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "分割判断": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "今回の実装内容": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "doc": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "関心分離": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "評価イベント連携": [
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
-    ],
-    "Routing": [
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
-    "証跡": [
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
-    "ルーティング": [
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
-    "二次": [
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
-    ],
-    "codex": [
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
-    ],
-    "Criteria": [
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
-      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
-    ],
-    "確定値・列定義": [
-      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
-      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md"
-    ],
-    "endpoints": [
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
-    ],
-    "主要実装物": [
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
-    ],
-    "実装で確定した値": [
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
-    ],
-    "済み": [
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
-    ],
-    "metadata": [
-      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md"
-    ],
-    "changed": [
-      "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
-    ],
-    "this": [
-      "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
-    ],
-    "HEAD": [
-      "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
-    ],
-    "magic": [
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
-    ],
-    "callback": [
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md"
-    ],
-    "credentials": [
-      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md"
-    ],
-    "workers": [
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
-    ],
-    "段階の": [
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
-    ],
-    "Prototype": [
-      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
-    ],
-    "Mapping": [
-      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
-    ],
-    "Verifier": [
-      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
-    ],
-    "Confirmed": [
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
-    ],
-    "Results": [
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
-    ],
-    "Rename": [
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
-    ],
-    "Full": [
-      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
-    ],
-    "Upstream": [
-      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
-    ],
-    "Roots": [
-      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
-    ],
-    "Approval": [
-      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md"
-    ],
-    "Compliance": [
-      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md"
-    ],
-    "Formalized": [
-      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
-    ],
-    "参照される実装ファイル": [
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
-    ],
-    "のため変更は伴わない": [
-      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
-      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
-    ],
-    "Up": [
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
-    ],
-    "Reservation": [
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
-    ],
-    "Cross": [
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
-    ],
-    "band": [
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
-    ],
-    "Targets": [
-      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
-    ],
-    "Core": [
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
-    ],
-    "Historical": [
-      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
-    ],
-    "lefthook": [
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
-    ],
-    "reinstall": [
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
-    ],
-    "形式不要": [
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
-    ],
-    "完了形式": [
-      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
-    ],
-    "forms": [
-      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
-    ],
-    "pr": [
-      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
-    ],
-    "Classification": [
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
-    ],
-    "責務分離": [
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
-    ],
-    "touchpoints": [
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
-    ],
-    "operations": [
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
-    ],
-    "Route": [
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
-    ],
-    "emission": [
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
-    ],
-    "仕様・成果物": [
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
-    ],
-    "同期成果物": [
-      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
-    ],
-    "Constants": [
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
-    ],
-    "自走禁止項目": [
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
-    ],
-    "本タスクで実行しないこと": [
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
-    ],
-    "Feedback": [
-      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
-    ],
-    "Disposition": [
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
-    ],
-    "Workflows": [
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
-    ],
-    "phases": [
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "唯一の機械可読正本": [
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "上書き済み既存タスク": [
-      "workflow-ut-gov-004-artifact-inventory.md"
-    ],
-    "リレー先未タスク": [
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "アラート設計": [
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
-    "ワークフロー概要": [
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
-    "別成果物リスト": [
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
-    "クイック参照": [
-      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
-    ],
-    "入力契約": [
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "出力契約": [
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "適用後": [
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "受入条件": [
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "second": [
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "stage": [
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "固有": [
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "sweep": [
-      "workflow-workspace-parent-reference-sweep-guard.md"
-    ],
-    "今回実装・更新した内容": [
-      "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md"
-    ],
-    "苦戦箇所と標準ルール": [
-      "workflow-workspace-parent-reference-sweep-guard.md",
-      "workflow-workspace-preview-search-resilience-guard.md"
-    ],
-    "resilience": [
-      "workflow-workspace-preview-search-resilience-guard.md"
-    ],
-    "Correlation": [
-      "audit-correlation.md"
-    ],
-    "入出力契約": [
-      "audit-correlation.md"
-    ],
-    "Redaction": [
-      "audit-correlation.md"
-    ],
-    "MVP": [
-      "audit-correlation.md",
-      "lessons-learned-05a-authjs-admin-gate-2026-04.md"
-    ],
-    "day": [
-      "deployment-gha.md"
-    ],
-    "auto": [
-      "deployment-gha.md",
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
-      "skill-ledger-gitignore-policy.md",
-      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md"
-    ],
-    "summary": [
-      "deployment-gha.md",
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
-      "lessons-learned-ut-coverage-2026-05-wave.md",
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
-      "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "Section": [
       "legacy-ordinal-family-register.md"
@@ -10065,6 +9151,7 @@
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
     ],
     "二重正本": [
@@ -10906,6 +9993,7 @@
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -11055,8 +10143,10 @@
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "ui-ux-prototype-map.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "boundaries": [
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
@@ -11079,7 +10169,8 @@
     ],
     "Boundaries": [
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
-      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "ui-ux-prototype-map.md"
     ],
     "公開": [
       "lessons-learned-06a-public-web-2026-04.md"
@@ -13795,6 +12886,28 @@
     "横断的な学び": [
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
     ],
+    "反映先": [
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
     "to": [
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -14123,7 +13236,8 @@
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
     ],
     "prototype": [
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
+      "ui-ux-prototype-map.md"
     ],
     "正本順位と視覚詳細委譲の判断基準": [
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
@@ -15715,7 +14829,8 @@
       "security-implementation.md"
     ],
     "map": [
-      "logs-archive-2026-01-topic-map-remember-choice.md"
+      "logs-archive-2026-01-topic-map-remember-choice.md",
+      "ui-ux-prototype-map.md"
     ],
     "更新": [
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -17658,7 +16773,8 @@
     ],
     "Invariants": [
       "quality-e2e-testing.md",
-      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
+      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "カタログ": [
       "quality-e2e-testing.md"
@@ -19812,6 +18928,15 @@
     "参考実装": [
       "ui-ux-portal-patterns.md"
     ],
+    "Status": [
+      "ui-ux-prototype-map.md",
+      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
+    ],
+    "Consumers": [
+      "ui-ux-prototype-map.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
+    ],
     "検索・置換パネル": [
       "ui-ux-search-panel-core.md",
       "ui-ux-search-panel-details.md",
@@ -20003,6 +19128,7 @@
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
@@ -20076,6 +19202,7 @@
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
@@ -20121,11 +19248,489 @@
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+    ],
+    "Artifacts": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
+      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
+      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
+      "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
+      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
+      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+    ],
+    "Open": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
+    ],
+    "Ups": [
+      "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
+    ],
+    "Canonical": [
+      "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
+      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
+      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
+      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
+      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
+      "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "Metadata": [
+      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
+      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
+      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
+      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+    ],
+    "Facts": [
+      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
+      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
+    ],
+    "Required": [
+      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
+      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
+    ],
+    "Files": [
+      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
+      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
+      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
+      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "Related": [
+      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
+      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
+    ],
+    "Resources": [
+      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
+      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md"
+    ],
+    "Logged": [
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
+    ],
+    "Map": [
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md"
+    ],
+    "supplement": [
+      "workflow-06c-B-admin-members-artifact-inventory.md"
+    ],
+    "で更新した": [
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
+    ],
+    "validation": [
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
+    ],
+    "chain": [
+      "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
+    ],
+    "仕様抽出マトリクス": [
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "現行実装アンカー": [
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "実装・監査ステータス": [
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "タスク別の最小読書セット": [
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "読む順番": [
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "注意点": [
+      "workflow-ai-chat-llm-integration-fix.md"
+    ],
+    "Unification": [
+      "workflow-ai-runtime-authmode-unification.md"
+    ],
+    "今回の確定事項": [
+      "workflow-ai-runtime-authmode-unification.md"
+    ],
+    "と依存関係": [
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "互換管理": [
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "設定画面レビューの必須改善対象": [
+      "workflow-ai-runtime-authmode-unification.md"
+    ],
+    "後続タスクへの伝搬先": [
+      "workflow-ai-runtime-authmode-unification.md"
+    ],
+    "編成": [
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-aiworkflow-requirements-line-budget-reform.md",
+      "workflow-light-theme-contrast-regression-guard.md",
+      "workflow-onboarding-wizard-alignment.md",
+      "workflow-ui-ux-visual-baseline-drift.md",
+      "workflow-workspace-parent-reference-sweep-guard.md",
+      "workflow-workspace-preview-search-resilience-guard.md"
+    ],
+    "関心ごと分離": [
+      "workflow-ai-runtime-authmode-unification.md"
+    ],
+    "同種課題の": [
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-aiworkflow-requirements-line-budget-reform.md",
+      "workflow-apikey-chat-tool-integration-alignment.md",
+      "workflow-light-theme-contrast-regression-guard.md",
+      "workflow-light-theme-global-remediation.md",
+      "workflow-onboarding-wizard-alignment.md",
+      "workflow-permission-fallback-abort-skip-retry.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-ui-ux-visual-baseline-drift.md",
+      "workflow-workspace-parent-reference-sweep-guard.md",
+      "workflow-workspace-preview-search-resilience-guard.md"
+    ],
+    "最適なファイル形成": [
+      "workflow-ai-runtime-authmode-unification.md",
+      "workflow-aiworkflow-requirements-line-budget-reform.md",
+      "workflow-apikey-chat-tool-integration-alignment.md",
+      "workflow-light-theme-contrast-regression-guard.md",
+      "workflow-light-theme-global-remediation.md",
+      "workflow-onboarding-wizard-alignment.md",
+      "workflow-ui-ux-visual-baseline-drift.md",
+      "workflow-workspace-parent-reference-sweep-guard.md",
+      "workflow-workspace-preview-search-resilience-guard.md"
+    ],
+    "Responsibility": [
+      "workflow-ai-runtime-execution-responsibility-realignment.md"
+    ],
+    "Realignment": [
+      "workflow-ai-runtime-execution-responsibility-realignment.md"
+    ],
+    "extraction": [
+      "workflow-ai-runtime-execution-responsibility-realignment.md"
+    ],
+    "matrix": [
+      "workflow-ai-runtime-execution-responsibility-realignment.md"
+    ],
+    "実装同期ルール": [
+      "workflow-ai-runtime-execution-responsibility-realignment.md"
+    ],
+    "実装ステータススナップショット": [
+      "workflow-ai-runtime-execution-responsibility-realignment.md"
+    ],
+    "Backlog": [
+      "workflow-ai-runtime-execution-responsibility-realignment.md"
+    ],
+    "集計": [
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "更新した": [
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+    ],
+    "control": [
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+    ],
+    "更新した既存": [
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
+    ],
+    "新規": [
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "再生成・監査コマンド": [
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "今回実装した内容": [
+      "workflow-aiworkflow-requirements-line-budget-reform.md",
+      "workflow-light-theme-contrast-regression-guard.md",
+      "workflow-onboarding-wizard-alignment.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "苦戦箇所と再発防止": [
+      "workflow-aiworkflow-requirements-line-budget-reform.md",
+      "workflow-apikey-chat-tool-integration-alignment.md",
+      "workflow-light-theme-contrast-regression-guard.md",
+      "workflow-light-theme-global-remediation.md",
+      "workflow-onboarding-wizard-alignment.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "関連改善タスク": [
+      "workflow-aiworkflow-requirements-line-budget-reform.md",
+      "workflow-apikey-chat-tool-integration-alignment.md",
+      "workflow-light-theme-contrast-regression-guard.md",
+      "workflow-light-theme-global-remediation.md",
+      "workflow-onboarding-wizard-alignment.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "キー連動とチャット実行経路整合ワークフロー仕様": [
+      "workflow-apikey-chat-tool-integration-alignment.md"
+    ],
+    "今回実装内容": [
+      "workflow-apikey-chat-tool-integration-alignment.md",
+      "workflow-light-theme-global-remediation.md"
+    ],
+    "責務マトリクス": [
+      "workflow-apikey-chat-tool-integration-alignment.md",
+      "workflow-light-theme-global-remediation.md"
+    ],
+    "最小セット": [
+      "workflow-apikey-chat-tool-integration-alignment.md",
+      "workflow-light-theme-global-remediation.md",
+      "workflow-onboarding-wizard-alignment.md"
+    ],
+    "Governance": [
+      "workflow-governance-design-category.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+    ],
+    "Category": [
+      "workflow-governance-design-category.md"
+    ],
+    "カテゴリ定義": [
+      "workflow-governance-design-category.md"
+    ],
+    "削除候補": [
+      "workflow-governance-design-category.md"
+    ],
+    "の抽出": [
+      "workflow-governance-design-category.md"
+    ],
+    "配下のみ対象": [
+      "workflow-governance-design-category.md"
+    ],
+    "登録の有無を確認": [
+      "workflow-governance-design-category.md"
+    ],
+    "件なら": [
+      "workflow-governance-design-category.md"
+    ],
+    "FAIL": [
+      "workflow-governance-design-category.md"
+    ],
+    "入口導線": [
+      "workflow-governance-design-category.md"
+    ],
+    "Acceptance": [
+      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "Deferred": [
+      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
+    ],
+    "Blocked": [
+      "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
+      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
+    ],
+    "Set": [
+      "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
+      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
+      "workflow-task-rt-06-artifact-inventory.md",
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
+      "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md"
+    ],
+    "Notes": [
+      "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+    ],
+    "Outputs": [
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
+      "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "文書": [
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+    ],
+    "User": [
+      "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
+      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md"
+    ],
+    "Gate": [
+      "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
+      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
+      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "Postmortem": [
+      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md"
+    ],
+    "Template": [
+      "workflow-issue-352-postmortem-template-automation-artifact-inventory.md"
+    ],
+    "Same": [
+      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
+      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "Touched": [
+      "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
+      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md"
+    ],
+    "Paused": [
+      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
+    ],
+    "Flag": [
+      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
+    ],
+    "sentry": [
+      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+    ],
+    "slack": [
+      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md"
+    ],
+    "extension": [
+      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md"
+    ],
+    "templates": [
+      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md"
+    ],
+    "Changelog": [
+      "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md"
+    ],
+    "semantics": [
+      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
+    ],
+    "Implemented": [
+      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
+    ],
+    "Extended": [
+      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md"
+    ],
+    "Guide": [
+      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
+    ],
+    "Pointers": [
+      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
+    ],
+    "Conditions": [
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
+    ],
+    "switch": [
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
+    ],
+    "前提": [
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
     ],
     "correlation": [
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md"
@@ -20139,14 +19744,228 @@
     "hold": [
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
     ],
+    "ライトテーマ": [
+      "workflow-light-theme-contrast-regression-guard.md"
+    ],
+    "contrast": [
+      "workflow-light-theme-contrast-regression-guard.md"
+    ],
+    "ライトモード全画面": [
+      "workflow-light-theme-global-remediation.md"
+    ],
+    "white": [
+      "workflow-light-theme-global-remediation.md"
+    ],
+    "black": [
+      "workflow-light-theme-global-remediation.md"
+    ],
+    "再是正ワークフロー仕様": [
+      "workflow-light-theme-global-remediation.md"
+    ],
+    "color": [
+      "workflow-light-theme-global-remediation.md"
+    ],
+    "仕様作成追補": [
+      "workflow-light-theme-global-remediation.md"
+    ],
+    "Wizard": [
+      "workflow-onboarding-wizard-alignment.md"
+    ],
+    "検出した未タスク": [
+      "workflow-permission-fallback-abort-skip-retry.md"
+    ],
+    "識別子": [
+      "workflow-skill-identifier-branded-type-resolution.md"
+    ],
+    "Type": [
+      "workflow-skill-identifier-branded-type-resolution.md",
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
+    ],
+    "適用ワークフロー仕様": [
+      "workflow-skill-identifier-branded-type-resolution.md"
+    ],
+    "詳細": [
+      "workflow-skill-identifier-branded-type-resolution.md"
+    ],
+    "苦戦箇所由来のリスクと先回り対策": [
+      "workflow-skill-identifier-branded-type-resolution.md"
+    ],
+    "監視・ログ": [
+      "workflow-skill-identifier-branded-type-resolution.md"
+    ],
+    "progressive": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "disclosure": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "改訂された": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "反映ファイル": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "本タスク": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "ファイルツリー再列挙": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "ファイルツリー": [
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "Usage": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "Journey": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "必要仕様の抽出セット": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "抽出確認コマンド": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "依存契約": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "接続契約": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "実装コードアンカー": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "検証手順": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "テスト実行": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "ビルド確認": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md"
+    ],
+    "SkillAnalysis": [
+      "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "Evaluation": [
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "Scoring": [
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "分割判断": [
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "今回の実装内容": [
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "doc": [
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "関心分離": [
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "評価イベント連携": [
+      "workflow-skill-lifecycle-evaluation-scoring-gate.md"
+    ],
+    "Routing": [
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "証跡": [
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "ルーティング": [
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "二次": [
+      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+    ],
+    "codex": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
+    ],
+    "Criteria": [
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
     "par": [
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+    ],
+    "workers": [
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
     ],
     "sdk": [
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
     ],
     "unify": [
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
+    ],
+    "確定値・列定義": [
+      "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md"
+    ],
+    "endpoints": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md"
+    ],
+    "主要実装物": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "実装で確定した値": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
+    ],
+    "済み": [
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
+    ],
+    "metadata": [
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md"
+    ],
+    "changed": [
+      "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
+    ],
+    "this": [
+      "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
+    ],
+    "HEAD": [
+      "workflow-task-05a-form-preview-503-001-artifact-inventory.md"
+    ],
+    "magic": [
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
+    ],
+    "callback": [
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md"
+    ],
+    "credentials": [
+      "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md"
     ],
     "内成果物": [
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
@@ -20190,8 +20009,203 @@
     "起票予定": [
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
+    "段階の": [
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
+    ],
+    "Prototype": [
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
+    ],
+    "Mapping": [
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
+    ],
+    "Verifier": [
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
+    ],
+    "Confirmed": [
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
+    ],
+    "Results": [
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
+    ],
+    "Rename": [
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
+    ],
+    "Full": [
+      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
+    ],
+    "Upstream": [
+      "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
+    ],
+    "Roots": [
+      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
+    ],
+    "Approval": [
+      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md"
+    ],
+    "Compliance": [
+      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md"
+    ],
+    "Formalized": [
+      "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
+    ],
+    "参照される実装ファイル": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "のため変更は伴わない": [
+      "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
+      "workflow-task-worktree-environment-isolation-artifact-inventory.md"
+    ],
+    "Up": [
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
+    ],
+    "Reservation": [
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
+    ],
+    "Cross": [
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
+    ],
+    "band": [
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
+    ],
+    "Targets": [
+      "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
+    ],
+    "Core": [
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
+    ],
+    "Historical": [
+      "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
+    ],
+    "lefthook": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "reinstall": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "形式不要": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "完了形式": [
+      "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "forms": [
+      "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
+    ],
+    "pr": [
+      "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "Classification": [
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
+    ],
+    "責務分離": [
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
+    ],
+    "touchpoints": [
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
+    ],
+    "operations": [
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
+    ],
+    "Route": [
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
+    ],
+    "emission": [
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
+    ],
+    "仕様・成果物": [
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+    ],
+    "同期成果物": [
+      "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md"
+    ],
+    "Constants": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "自走禁止項目": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "本タスクで実行しないこと": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "Feedback": [
+      "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
+    ],
+    "Disposition": [
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+    ],
     "archived": [
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md"
+    ],
+    "Workflows": [
+      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
+    ],
+    "phases": [
+      "workflow-ut-gov-004-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "唯一の機械可読正本": [
+      "workflow-ut-gov-004-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "上書き済み既存タスク": [
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "リレー先未タスク": [
+      "workflow-ut-gov-004-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "アラート設計": [
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "ワークフロー概要": [
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "別成果物リスト": [
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "クイック参照": [
+      "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
+    ],
+    "入力契約": [
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "出力契約": [
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "適用後": [
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "受入条件": [
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "second": [
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "stage": [
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "固有": [
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "sweep": [
+      "workflow-workspace-parent-reference-sweep-guard.md"
+    ],
+    "今回実装・更新した内容": [
+      "workflow-workspace-parent-reference-sweep-guard.md",
+      "workflow-workspace-preview-search-resilience-guard.md"
+    ],
+    "苦戦箇所と標準ルール": [
+      "workflow-workspace-parent-reference-sweep-guard.md",
+      "workflow-workspace-preview-search-resilience-guard.md"
+    ],
+    "resilience": [
+      "workflow-workspace-preview-search-resilience-guard.md"
     ]
   }
 }
