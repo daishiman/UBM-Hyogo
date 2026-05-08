@@ -28,6 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.08-issue553-live-wiring-patterns | 2026-05-08 | Issue #553 (live audit-correlation endpoint) の実装結果を反映。`references/patterns-live-wiring.md` を新設し、(1) Cloudflare Worker `scheduled` event の retry-after 制約（同期 sleep 不可、次 cron cycle 委譲）、(2) redact-safe 4 layer grep gate（route / persist / notify / log）の Phase 2/4/12 必須化、(3) test fixture placeholder と CI grep gate の path filter 整合、(4) `correlationKey = (fingerprintHash, fingerprintVersion)` による salt rotation 期間中の incident 履歴分離、(5) Cloudflare Secrets 投入は `scripts/cf.sh secret put` + op 参照経由のみ（`wrangler secret put` 直接禁則）、(6) Phase 1〜13 の足し算チェックリストを canonical 化。 |
 | v2026.05.08-test-executability-dod | 2026-05-08 | UI E2E failure recovery workflow の skill feedback を反映。`references/quality-gates.md` に **§7. テスト常時実行可能性 DoD** を新設。実装仕様書側で「対象 spec の列挙 / 1 行実行コマンド / 実行前提と自動化スクリプト / un-skip 不変条件」の 4 点と、infra 側で「browser binary 自動 install / dev server 自動起動 / CI gate 化」の 3 点を必須化。`test.describe.skip` を先送り目的で使う運用を CONST_007 と同列の禁止事項とし、Phase 11 evidence canonical path に `e2e-run.log` / `e2e-skip-count.txt` / `runner-version.txt` を追加。さらに **§7.5 E2E lines coverage ≥ 80%** をリポジトリ閾値・タスク閾値として導入し、`monocart-reporter` / `c8` 経由の `coverage/e2e/coverage-summary.json` を CI で enforce。Phase 12 close-out で計 8 点 checklist を `phase12-task-spec-compliance-check.md` に強制反映。 |
 | v2026.05.08-task04-eslint-gate-command-sync | 2026-05-08 | task-04 window guard / logger review feedback を反映。Phase 12 command drift gate に lint / ESLint gate の実接続確認を追加。ESLint config 配置だけ、または `lint` が `tsc` のみの状態を AC PASS にしない。 |
 | v2026.05.08-issue546-long-running-gha-observation | 2026-05-08 | Issue #546 CF audit-log 90 day baseline observation の Phase 12 feedback を反映。長期 GitHub Actions 観測では `gh api --paginate` + JSON array evidence を正本とし、JSON Lines `.json`、readiness 不足のゼロ件 PASS、baseline/helper 欠測の黙殺を禁止するルールを Phase 11 NON_VISUAL evidence guide に追加。 |
@@ -133,6 +134,7 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 | オーケストレーション / リソース導線 / ベストプラクティス | [references/orchestration.md](references/orchestration.md) |
 | NON_VISUAL governance パターン（Phase 8 単一正本 YAML / check-runs 並走 / Phase 13 二重承認） | [lessons-learned/non-visual-governance-pattern.md](lessons-learned/non-visual-governance-pattern.md) |
 | NON_VISUAL 不可逆操作タスク（3-gate 分離 / migration literal / SSOT リテラル禁則 / runtime spec_created 起票） | [references/non-visual-irreversible-task-rules.md](references/non-visual-irreversible-task-rules.md) |
+| Live wiring タスク運用パターン（Cloudflare scheduled retry-after 制約 / redact-safe 4 layer grep gate / fingerprintVersion による salt rotation 分離 / Cloudflare Secrets op 参照 / Phase ごと足し算チェックリスト） | [references/patterns-live-wiring.md](references/patterns-live-wiring.md) |
 | Completed Tasks Path Normalization（Phase 13 完了後の `completed-tasks/<category>/` 移動 / `Refs #XXX` 連結 / metadata 据え置き） | [references/completed-tasks-policy.md](references/completed-tasks-policy.md) |
 
 ## 最小 workflow

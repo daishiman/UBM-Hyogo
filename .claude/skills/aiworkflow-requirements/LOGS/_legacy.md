@@ -798,3 +798,9 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - task-06 ui-ux-contract-rewrite を `implemented-local / implementation / NON_VISUAL` として参照。
 - `docs/00-getting-started-manual/specs/09-ui-ux.md` の契約のみ rewrite と quick-reference / resource-map / task-workflow-active / changelog 同期を実施。
 - attendance 系 canonical workflow の削除混入は active/resource-map 参照破壊のため復元。
+
+# 2026-05-08 issue553 live audit-correlation endpoint
+
+- Synced Issue #553 as `spec_created / implementation / NON_VISUAL / Phase 12 strict 7 outputs present`.
+- Added live wiring formalization for `POST /internal/audit-correlation/run`, Worker cron, D1 redact-safe persistence, and HIGH Slack webhook notification to `references/audit-correlation.md`.
+- Runtime evidence, Cloudflare mutation, D1 apply, secret injection, commit, push, and PR remain G1-G4 user-gated implementation-wave work.
