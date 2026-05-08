@@ -79,6 +79,8 @@ describe("viewmodel parsers — 10 種 (AC-4 / 不変条件 #1)", () => {
           ubmMembershipType: null,
         },
         publicSections: [],
+        attendance: [{ sessionId: "s-1", title: "定例会 1", heldOn: "2026-03-15" }],
+        attendanceMeta: { hasMore: false, nextCursor: null },
         tags: [],
       }).success,
     ).toBe(true);

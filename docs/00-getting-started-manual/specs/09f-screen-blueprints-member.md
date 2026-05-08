@@ -4,7 +4,7 @@
 > token は `09e` 系の design token に従い、hex 直書きは行わない（`var(--accent)` / `var(--ok)` / `var(--ok-soft)` / `var(--danger)` / `var(--text)` / `var(--text-2)` / `var(--text-3)` / `var(--border)` / `var(--panel)` / `var(--accent-soft)` / `var(--accent-ink)` 等）。
 > prototype は UI 叩き台でありバックエンド契約は本仕様書（および `02-auth.md` / `06-member-auth.md` / `07-edit-delete.md` / `13-mvp-auth.md`）が正本。
 
-## 0. 対象画面
+## 対象画面
 
 - `/login` — ログイン（**5+1 状態**: `input` / `sent` / `unregistered` / `deleted` / `rules_declined` / `error`）
 - `/profile` — マイプロフィール（**4 領域**: PublicVisibilityBanner / StatusSummary / RequestActionPanel / DeleteRequestDialog）
@@ -72,7 +72,7 @@ const LoginPage = ({ nav }) => {
     e.preventDefault();
     setPending(true);
     try {
-      const res = await fetch("/auth/magic-link", {
+      const res = await fetch("/api/auth/magic-link", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -293,7 +293,7 @@ stateDiagram-v2
 
 | API | method | request | response | 用途 |
 |-----|--------|---------|----------|------|
-| `/auth/magic-link` | POST | `{ email: string }` | `204 No Content` | Magic Link 送信トリガ |
+| `/api/auth/magic-link` | POST | `{ email: string }` | `{ state: "sent" \| "unregistered" \| "rules_declined" \| "deleted" }` | apps/web BFF 経由の Magic Link 送信トリガ |
 | `/api/auth/gate-state` | GET | query: `email` | `LoginGateState`（discriminated union, 下記） | 入力メールに対するゲート判定 |
 
 ```ts
@@ -387,7 +387,7 @@ prototype 上は `gate-state` 呼び出し相当のロジックがなく `setSte
 | icon | `user` |
 | group | `member` |
 | ガード | 認証済みかつ `isDeleted=false` のみアクセス可 |
-| データソース | `GET /api/me`（自分の Member resource）／同意系 / 申請系 |
+| データソース | `GET /api/me/profile`（apps/web BFF 経由の自分の Member resource）／同意系 / 申請系 |
 | 主要領域 | PublicVisibilityBanner / StatusSummary / RequestActionPanel / DeleteRequestDialog |
 | 仕様連携 | `06-member-auth.md` / `07-edit-delete.md` / `13-mvp-auth.md` |
 
@@ -424,9 +424,9 @@ prototype 上は `gate-state` 呼び出し相当のロジックがなく `setSte
 ```jsx
 const MyProfilePage = ({ nav }) => {
   const { MEMBERS } = window.UBM;
-  const m = MEMBERS[0]; // 自分のレコード（実際は GET /api/me）
+  const m = MEMBERS[0]; // 自分のレコード（実際は apps/web BFF 経由で GET /me/profile）
 
-  // 申請ステータス（GET /api/me から取得・MVP は visibility / delete の 2 種）
+  // 申請ステータス（GET /api/me/profile から取得・MVP は visibility / delete の 2 種）
   const [requests, setRequests] = useState({
     visibility: null,  // null | { state: "pending", requestedAt } | { state: "rejected", reason }
     delete:     null,  // null | { state: "pending", requestedAt } | ...
@@ -596,7 +596,7 @@ const MyProfilePage = ({ nav }) => {
         <div className="eyebrow" style={{ marginTop: 20, marginBottom: 8 }}>同意</div>
         <KVList rows={[
           { k: "ホームページ掲載",       v: m.publicConsent },
-          { k: "勧誘ルール・免責事項",   v: m.ruleConsent },
+          { k: "勧誘ルール・免責事項",   v: m.rulesConsent },
         ]}/>
       </div>
 
@@ -753,10 +753,11 @@ stateDiagram-v2
 
 | API | method | request | response | 用途 |
 |-----|--------|---------|----------|------|
-| `GET /api/me` | GET | （Cookie 認証） | `Member` + `requests: { visibility, delete }` | 自分の情報 + 申請ステータス |
-| `POST /api/me/visibility-request` | POST | `{}` | `{ state: "pending", requestedAt }` | 公開停止申請 |
-| `POST /api/me/delete-request` | POST | `{ reason?: string }` | `{ state: "pending", requestedAt }` | 退会申請 |
-| `POST /auth/magic-link` | POST | — | — | （ログインで使用、ここでは参照のみ） |
+| `GET /api/me/profile` | GET | Cookie / Authorization 転送 | upstream `GET /me/profile` の `MeProfileResponse` | 自分の情報 + status summary + pendingRequests |
+| `POST /api/me/visibility-request` | POST | `{ desiredState: "hidden" \| "public", reason?: string }` | upstream `POST /me/visibility-request` の `MeQueueAcceptedResponse` | 公開範囲申請 |
+| `POST /api/me/delete-request` | POST | `{ reason?: string }` | upstream `POST /me/delete-request` の `MeQueueAcceptedResponse` | 退会申請 |
+| `/api/auth/[...nextauth]` | GET / POST | Auth.js | session / signout | ログアウト・OAuth |
+| `POST /api/auth/magic-link` | POST | — | — | （ログインで使用、ここでは参照のみ） |
 | `GET /api/auth/gate-state` | GET | — | `LoginGateState` | （ログインで使用、ここでは参照のみ） |
 
 ```ts
@@ -781,9 +782,9 @@ type MeResponse = Member & {
 - 「情報を更新する」 → `RevalidateModal` open → `nav("member-form")` で Google Form 動線。
 - 「公開ページを見る」 → `nav("member", { id: m.id })`。
 - 「フォームを開いて更新」 → `nav("member-form")`（FieldsOverview ヘッダ右の secondary CTA）。
-- 「再検証する」 → `GET /api/me` を再フェッチして banner / requests を更新。
-- 「公開を停止する」 → `POST /api/me/visibility-request` 即時送信 → `requests.visibility = pending`。
-- 「退会申請を送る」 → `DeleteRequestDialog` open → 理由入力（任意）→ `POST /api/me/delete-request` → `requests.delete = pending`。
+- 「再検証する」 → `GET /api/me/profile` を再フェッチして banner / pendingRequests を更新。
+- 「公開を停止する」 → `POST /api/me/visibility-request` 即時送信 → `pendingRequests.visibility = pending`。
+- 「退会申請を送る」 → `DeleteRequestDialog` open → 理由入力（任意）→ `POST /api/me/delete-request` → `pendingRequests.delete = pending`。
 - **pending 申請中は対応ボタンが disabled になる連動ロジック**:
   - `hasPendingVisibility = requests.visibility?.state === "pending"`
   - `hasPendingDelete     = requests.delete?.state     === "pending"`
@@ -841,7 +842,7 @@ type MeResponse = Member & {
 | KV: UBM区画 / 参加ステータス / UBM参加時期 / ビジネス概要 / 得意分野・スキル / 現在の課題 / 提供できること | （prototype 準拠） |
 | KV: 趣味・好きなこと / 最近ハマっていること / 座右の銘 / 仕事以外の活動 | （prototype 準拠） |
 | KV: 自己紹介 | 自己紹介 |
-| KV: ホームページ掲載 / 勧誘ルール・免責事項 | （prototype 準拠、`publicConsent` / `ruleConsent` を表示） |
+| KV: ホームページ掲載 / 勧誘ルール・免責事項 | （prototype 準拠、`publicConsent` / `rulesConsent` を表示） |
 | Danger: eyebrow | DANGER ZONE |
 | Danger: 見出し | 公開の停止・退会 |
 | Danger: 本文 | 公開を停止するとメンバー一覧から非表示になります。退会すると回答データは管理者により論理削除されます。 |
@@ -876,11 +877,19 @@ type MeResponse = Member & {
   - `348-368` RevalidateModal（情報を最新化）
 - `data.jsx:96-115`（`MEMBERS[0]` fixture: 山田 太郎）
 - `data.jsx:3-75`（`SURVEY_SECTIONS`: KVList の元データ構造）
-- prototype 未実装で本仕様で追加: pending 申請の連動 disable / 退会申請ダイアログ / `DeleteRequestDialog` / banner の申請中 chip / `GET /api/me` の `requests` フィールド。`07-edit-delete.md` のライフサイクル定義に準拠。
+- prototype 未実装で本仕様で追加: pending 申請の連動 disable / 退会申請ダイアログ / `DeleteRequestDialog` / banner の申請中 chip / `GET /api/me/profile` の `pendingRequests` フィールド。`07-edit-delete.md` のライフサイクル定義に準拠。
 
 ---
 
 ## 付録 A. token / 共通参照
+
+## 99. 不採用要素
+
+| 要素 | 理由 |
+|------|------|
+| AvatarStoreProvider#localStorage | 本番は `/me/profile` と申請 API を正本とし、localStorage を正本化しない |
+| theme switcher | MVP は単一テーマ。token 値は 09b owner |
+| GAS prototype 由来の直接挙動 | 本番仕様の正本は `claude-design-prototype` と 09 series |
 
 | 用途 | token |
 |------|-------|
@@ -905,7 +914,7 @@ color-mix は token 同士の合成のみで使用（hex 直書き禁止）。
 | `06-member-auth.md` | 会員ゲート判定（rules_declined / unregistered / deleted の根拠） |
 | `07-edit-delete.md` | 公開停止 / 退会の申請ライフサイクル・管理者承認 |
 | `13-mvp-auth.md` | MVP 認証方針（gate-state の discriminated union） |
-| `09e-design-tokens.md`（仮） | token 一覧の正本 |
+| `09b-design-tokens.md` | token 一覧の正本 |
 | `claude-design-prototype/pages-member.jsx` | 本仕様の出典（373 行） |
 | `claude-design-prototype/app.jsx` | shell / ROUTES / isBare 判定 |
 | `claude-design-prototype/data.jsx` | fixture（`MEMBERS[0]` / `SURVEY_SECTIONS`） |

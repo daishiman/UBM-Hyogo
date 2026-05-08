@@ -89,6 +89,20 @@ Phase 13 のユーザー承認後に不可逆 API を実行する NON_VISUAL imp
 
 適用実例: UT-GOV-002 pr-target-safety-gate-dry-run（2026-04-29）。
 
+## Long-running GitHub Actions observation evidence
+
+Issue #546 CF audit logs 90 day baseline observation（2026-05-08）の close-out feedback を反映。90 日 hourly run など `gh run list --limit` の上限を超える観測では、Gate evidence は `gh api --paginate` で取得し、`jq -s '.'` などで machine-parseable な JSON array として保存する。JSON Lines を `.json` 正本にしない。
+
+ゼロ件 evidence は、上流 runtime readiness が別 evidence で確認できる場合だけ PASS 判定に使う。D1 table missing、baseline helper 欠測、label taxonomy 未整備、owner-authored tuning minutes log 未取得などがある場合は `PENDING_RUNTIME_EVIDENCE` として分離し、同じ canonical path に pending marker artifact を実体化する。
+
+### 必須チェック（long-running GHA observation）
+
+- [ ] `gh run list --limit` 上限で十分かを Phase 4 で確認し、不足時は `gh api --paginate` に切り替えた
+- [ ] `.json` evidence は JSON array として machine parse 可能である
+- [ ] JSON Lines を使う場合は `.jsonl` 拡張子にし、`.json` と混同していない
+- [ ] ゼロ件 evidence を PASS に使う readiness 前提を明記した
+- [ ] 欠測データは `PENDING_RUNTIME_EVIDENCE` marker artifact として実体化した
+
 ## Env-name contract alignment evidence（Auth / Mail / Magic Link）
 
 05b-A auth mail env contract alignment（2026-05-01）の close-out feedback を反映。実装は既に `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `AUTH_URL` を使っているが、manual specs や provisioning runbook に provider 固有名が残る場合は、docs-only / NON_VISUAL の env-name contract task として扱う。

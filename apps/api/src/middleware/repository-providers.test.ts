@@ -7,7 +7,9 @@ import { describe, expect, it } from "vitest";
 import { Hono } from "hono";
 import {
   attendanceProviderMiddleware,
+  writeTagNoteProviderMiddleware,
   type RepositoryProviderVariables,
+  type WriteTagNoteProviderVariables,
 } from "./repository-providers";
 import type { D1Db, DbCtx } from "../repository/_shared/db";
 
@@ -100,5 +102,40 @@ describe("attendanceProviderMiddleware", () => {
     expect(res.status).toBe(200);
     expect(upstreamCalls).toContain("all");
     expect(envCalls).toEqual([]);
+  });
+});
+
+describe("writeTagNoteProviderMiddleware", () => {
+  it("write/tag/note 系 6 provider を c.var に bind する", async () => {
+    const app = new Hono<{
+      Bindings: { DB: D1Database };
+      Variables: Partial<RepositoryProviderVariables & WriteTagNoteProviderVariables>;
+    }>();
+    app.use("*", writeTagNoteProviderMiddleware);
+    app.get("/probe", (c) => {
+      return c.json({
+        adminNotes: typeof c.var.adminNotesProvider?.create === "function",
+        auditLog: typeof c.var.auditLogProvider?.append === "function",
+        outbox: typeof c.var.notificationOutboxProvider?.enqueue === "function",
+        tagDefinitions: typeof c.var.tagDefinitionsProvider?.findByCode === "function",
+        tagQueue: typeof c.var.tagQueueProvider?.findQueueById === "function",
+        memberTags: typeof c.var.memberTagsProvider?.assignTagsToMember === "function",
+      });
+    });
+
+    const res = await app.request(
+      "/probe",
+      {},
+      { DB: fakeD1() as unknown as D1Database },
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({
+      adminNotes: true,
+      auditLog: true,
+      outbox: true,
+      tagDefinitions: true,
+      tagQueue: true,
+      memberTags: true,
+    });
   });
 });

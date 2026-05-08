@@ -5,7 +5,9 @@ import { Hono } from "hono";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
 import {
   attendanceProviderMiddleware,
+  writeTagNoteProviderMiddleware,
   type RepositoryProviderVariables,
+  type WriteTagNoteProviderVariables,
 } from "../../middleware/repository-providers";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId } from "../../repository/_shared/brand";
@@ -16,7 +18,7 @@ import {
   ATTENDANCE_PAGE_DEFAULT_LIMIT,
   ATTENDANCE_PAGE_MAX_LIMIT,
 } from "../../repository/attendance";
-import { listByTarget } from "../../repository/auditLog";
+import { requireProvider } from "../../repository/_shared/provider-context";
 import {
   ADMIN_DENSITY_VALUES,
   ADMIN_SEARCH_LIMITS,
@@ -203,11 +205,12 @@ const sortToSql = (sort: AdminSort): string => {
 export const createAdminMembersRoute = () => {
   const app = new Hono<{
     Bindings: AdminRouteEnv;
-    Variables: RequireAuthVariables & RepositoryProviderVariables;
+    Variables: RequireAuthVariables & RepositoryProviderVariables & Partial<WriteTagNoteProviderVariables>;
   }>();
   app.use("*", requireAdmin);
   // admin gate 後段で repository provider を bind（issue-371）
   app.use("*", attendanceProviderMiddleware);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/members", async (c) => {
     const queries = c.req.queries();
@@ -308,7 +311,8 @@ export const createAdminMembersRoute = () => {
     const db = ctx({ DB: c.env.DB });
     const mid = asMemberId(memberId);
 
-    const auditRows = await listByTarget(db, "member", memberId, 50);
+    const auditRows = await requireProvider(c.var.auditLogProvider, "auditLogProvider")
+      .listByTarget("member", memberId, 50);
     const adminAudit = auditRows.map((a) => ({
       actor: asAdminId(a.actorEmail ?? a.actorId ?? "system"),
       action: a.action as string,

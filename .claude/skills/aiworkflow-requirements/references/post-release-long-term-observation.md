@@ -5,7 +5,7 @@ related_workflows:
   - 09c-serial-production-deploy-and-post-release-verification
   - issue-350-long-term-production-observation
 runbook_canonical: docs/runbooks/post-release-long-term-observation.md
-last_updated: 2026-05-06
+last_updated: 2026-05-08
 ---
 
 # Post-Release Long-Term Observation (D+7 / D+30)
@@ -28,6 +28,9 @@ Production release 後の D+7 / D+30 観測は、GitHub Actions reminder Issue �
 | manual checklist | `scripts/observation/check-thresholds.md` |
 | source workflow | `docs/30-workflows/issue-350-long-term-production-observation/` |
 | 24h baseline | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/` |
+| lint gate workflow | `.github/workflows/ci.yml` / `workflow-shell-lint` |
+| lint gate task | `docs/30-workflows/completed-tasks/governance/issue-526-ci-actionlint-shellcheck-gate/` |
+| local reproduction | `pnpm observation:lint` |
 
 ## Evidence Boundary
 
@@ -37,7 +40,7 @@ Production release 後の D+7 / D+30 観測は、GitHub Actions reminder Issue �
 
 ## Follow-up Unassigned Tasks
 
-- [`ut-350-fu-01-ci-actionlint-shellcheck-gate`](../../../../docs/30-workflows/unassigned-task/ut-350-fu-01-ci-actionlint-shellcheck-gate.md) — actionlint / shellcheck CI gate
+- [`issue-526-ci-actionlint-shellcheck-gate`](../../../../docs/30-workflows/completed-tasks/governance/issue-526-ci-actionlint-shellcheck-gate/index.md) — actionlint / shellcheck CI gate implemented-local (`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`)
 - [`ut-350-fu-02-post-merge-runtime-evidence`](../../../../docs/30-workflows/unassigned-task/ut-350-fu-02-post-merge-runtime-evidence.md) — マージ後 runtime evidence 取得
 - [`lessons-learned-issue-350-long-term-observation-2026-05`](./lessons-learned-issue-350-long-term-observation-2026-05.md) — 苦戦箇所と教訓
 

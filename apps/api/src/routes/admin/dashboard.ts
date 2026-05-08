@@ -18,7 +18,11 @@ import {
   listSessionAttendanceStats,
   listMemberAttendanceRanking,
 } from "../../repository/attendance";
-import { append as appendAudit } from "../../repository/auditLog";
+import {
+  writeTagNoteProviderMiddleware,
+  type WriteTagNoteProviderVariables,
+} from "../../middleware/repository-providers";
+import { requireProvider } from "../../repository/_shared/provider-context";
 import {
   adminEmail,
   asAdminId,
@@ -37,9 +41,10 @@ const parseAnalyticsLimit = (raw: string | undefined): { ok: true; limit?: numbe
 export const createAdminDashboardRoute = () => {
   const app = new Hono<{
     Bindings: AdminRouteEnv;
-    Variables: { authUser: AuthSessionUser };
+    Variables: { authUser: AuthSessionUser } & Partial<WriteTagNoteProviderVariables>;
   }>();
   app.use("*", requireAdmin);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/dashboard", async (c) => {
     const dbCtx = ctx({ DB: c.env.DB });
@@ -67,7 +72,7 @@ export const createAdminDashboardRoute = () => {
     }
 
     const authUser = c.get("authUser");
-    await appendAudit(dbCtx, {
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
       actorId: authUser.memberId ? asAdminId(authUser.memberId) : null,
       actorEmail: authUser.email ? adminEmail(authUser.email) : null,
       action: auditAction("dashboard.view"),
