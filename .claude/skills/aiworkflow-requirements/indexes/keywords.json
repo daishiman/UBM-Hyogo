@@ -2868,6 +2868,7 @@
       "quality-e2e-testing.md",
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-gitignore-policy.md",
+      "task-workflow-backlog.md",
       "task-workflow-completed-recent-2026-04d.md",
       "task-workflow-completed-skill-create-ui-integration.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
@@ -3527,6 +3528,7 @@
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
+      "task-workflow-backlog.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
@@ -4177,6 +4179,7 @@
       "observability-monitoring.md",
       "release-runbook.md",
       "schema-alias-backfill-runbook.md",
+      "task-workflow-backlog.md",
       "ui-ux-feature-components-advanced.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
@@ -6184,6 +6187,7 @@
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
       "logs-archive-2026-03-workflow02-screenshot-guard.md",
       "spec-splitting-guidelines.md",
+      "task-workflow-backlog.md",
       "task-workflow-completed-agent-view-line-budget.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
@@ -18383,6 +18387,9 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md"
     ],
     "CODEX": [
+      "task-workflow-backlog.md"
+    ],
+    "guidance": [
       "task-workflow-backlog.md"
     ],
     "records": [
