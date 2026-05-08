@@ -48,12 +48,18 @@ jobs:
             apps/api/src/routes/audit-correlation
             scripts/audit-correlation
           )
-          ! grep -rE 'hooks\.slack\.com/services/[A-Za-z0-9/_-]{20,}' "${PATHS[@]}"
-          ! grep -rE 'ghp_[A-Za-z0-9]{20,}' "${PATHS[@]}"
-          ! grep -rE 'ghs_[A-Za-z0-9]{20,}' "${PATHS[@]}"
-          ! grep -rE 'github_pat_[A-Za-z0-9_]{20,}' "${PATHS[@]}"
-          ! grep -rE 'xox[bp]-[A-Za-z0-9-]{20,}' "${PATHS[@]}"
-          ! grep -rE 'AUDIT_CORRELATION_SALT=[^[:space:]]+' "${PATHS[@]}"
+          check_no_match() {
+            if grep -rE "$1" "${PATHS[@]}"; then
+              echo "forbidden pattern matched: $1" >&2
+              exit 1
+            fi
+          }
+          check_no_match 'hooks\.slack\.com/services/[A-Za-z0-9/_-]{20,}'
+          check_no_match 'ghp_[A-Za-z0-9]{20,}'
+          check_no_match 'ghs_[A-Za-z0-9]{20,}'
+          check_no_match 'github_pat_[A-Za-z0-9_]{20,}'
+          check_no_match 'xox[bp]-[A-Za-z0-9-]{20,}'
+          check_no_match 'AUDIT_CORRELATION_SALT=[^[:space:]]+'
       - name: shellcheck
         run: shellcheck scripts/audit-correlation/*.sh
       - name: actionlint
