@@ -3365,7 +3365,12 @@ node scripts/list-specs.js --topics
 | 入出力契約 | L11 |
 | Redaction Policy | L19 |
 | MVP Boundary | L31 |
-| References | L35 |
+| Issue #553 Live Wiring Formalization | L35 |
+| Live wiring (Issue #553) implementation landing | L56 |
+| Cloudflare Secrets (5 種) op-reference rule | L74 |
+| Salt rotation procedure (`fingerprintVersion` v1 → v2) | L92 |
+| Lessons learned (Issue #553 wave) | L112 |
+| References | L122 |
 
 ### references/auth-google-oauth-cf-integration.md
 
@@ -5933,13 +5938,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L609 |
-| フェーズ構造（概要） | L618 |
-| 品質ゲート（概要） | L649 |
-| 出力テンプレート | L660 |
-| 実行時のコマンド・エージェント・スキル | L683 |
-| 昇格パターン集 | L707 |
-| Current Active / Spec Created Tasks | L709 |
+| ドキュメント構成 | L623 |
+| フェーズ構造（概要） | L632 |
+| 品質ゲート（概要） | L663 |
+| 出力テンプレート | L674 |
+| 実行時のコマンド・エージェント・スキル | L697 |
+| 昇格パターン集 | L721 |
+| Current Active / Spec Created Tasks | L723 |
 
 ### references/task-workflow-backlog-part2.md
 
