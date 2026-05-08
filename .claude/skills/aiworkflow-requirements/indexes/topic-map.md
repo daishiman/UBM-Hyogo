@@ -2402,6 +2402,14 @@ node scripts/list-specs.js --topics
 | 7. Scope notes | L89 |
 | 8. Related tasks | L97 |
 
+### references/workflow-issue-548-ml-model-selection-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Evidence | L27 |
+| Synthetic vs Production Boundary（不変条件） | L34 |
+| Gate Conditions (production model promotion 前提) | L40 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4400,6 +4408,17 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
 
+### references/lessons-learned-issue-548-ml-model-selection-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE548-001: synthetic harness と production winner は同じ PASS で扱わない | L8 |
+| L-ISSUE548-002: fallback rate / rejection reason は実 comparison 経路を構造化して計測する | L27 |
+| L-ISSUE548-003: Phase status 語彙を `completed / pending / blocked` に正規化する | L46 |
+| L-ISSUE548-004: FU 依存図は親 issue の successor trace に正本を置く | L65 |
+| L-ISSUE548-005: SSOT 同期は同一 wave で 8 同期点を消化する | L84 |
+| 関連参照 | L108 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5892,13 +5911,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L577 |
-| フェーズ構造（概要） | L586 |
-| 品質ゲート（概要） | L617 |
-| 出力テンプレート | L628 |
-| 実行時のコマンド・エージェント・スキル | L651 |
-| 昇格パターン集 | L675 |
-| Current Active / Spec Created Tasks | L677 |
+| ドキュメント構成 | L587 |
+| フェーズ構造（概要） | L596 |
+| 品質ゲート（概要） | L627 |
+| 出力テンプレート | L638 |
+| 実行時のコマンド・エージェント・スキル | L661 |
+| 昇格パターン集 | L685 |
+| Current Active / Spec Created Tasks | L687 |
 
 ### references/task-workflow-backlog-part2.md
 
