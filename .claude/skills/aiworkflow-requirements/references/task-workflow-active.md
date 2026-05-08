@@ -203,6 +203,15 @@
 | evidence境界 | Phase 11 は local typecheck / tests / build / OpenNext worker grep を取得済みの `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。staging deploy、Sentry dashboard event は user approval 後 |
 | 下流 | task-04 logger、task-05 error boundary / staging smoke |
 | 検証 | `pnpm --filter @ubm-hyogo/web exec tsc --noEmit` PASS、web Vitest 51 files / 420 tests PASS、`pnpm --filter @ubm-hyogo/web build:cloudflare` PASS、worker grep 0 hits、Phase 12 strict 7 outputs、Phase 11 outputs、Phase 13 approval-boundary outputs を同 wave で配置 |
+### UI prototype alignment task-04 Window guard and logger（2026-05-08）
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-04-w3-window-guard-and-logger/` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W3 runtime task |
+| 契約 | Browser-only globals are centralized in `apps/web/src/lib/is-browser.ts`; structured observability is centralized in `apps/web/src/lib/logger.ts`; downstream error boundaries call `logger.error({ event, error, digest })` |
+| ESLint gate | `apps/web/package.json` `lint` runs `tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'`; `apps/web/eslint.config.mjs` rejects runtime `window` / `document` outside `src/lib/is-browser.ts` and `src/instrumentation-client.ts` |
+| evidence境界 | Phase 11 local typecheck / lint / tests / build / grep-gate PASS。Sentry dashboard smoke、runtime logger staging evidence は user approval 後 |
+| 下流 | task-05 error boundary、task-09..17 browser API migration |
+| 検証 | `pnpm --filter @ubm-hyogo/web exec tsc -p tsconfig.json --noEmit` PASS、`pnpm --filter @ubm-hyogo/web lint` PASS、web Vitest 56 files / 441 tests PASS、`pnpm --filter @ubm-hyogo/web build` PASS、grep-gate 0 hits outside allow-list |
 ### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
 | 成果物 | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
@@ -332,6 +341,20 @@
 | runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、model selection、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up |
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
 
+### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Issue #547 CLOSED |
+| 成果物 | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` |
+| 目的 | production D1 `cf_audit_log` から 90 日分の ML feature JSONL を read-only export し、schema validation / manifest / leakage gate で redacted dataset を作る |
+| 実装正本 | `scripts/cf-audit-log/feature-export.ts`, `scripts/cf-audit-log/feature-export/schema-validation.ts`, `scripts/cf-audit-log/feature-export/manifest.ts`, `scripts/cf-audit-log/d1-client.ts`, `scripts/cf.sh` |
+| evidence | `outputs/phase-11/main.md`, `focused-vitest.log`, `fixture-exported-features.jsonl`, `fixture-export-manifest.json`, `secret-leakage-grep.log`, `schema-validation.log` |
+| runtime境界 | production read-only export は `outputs/phase-11/production-pending-user-gate.md` のまま user approval 後のみ実行。local fixture PASS を runtime PASS と扱わない |
+| lessons | `references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md` |
+| artifact inventory | `references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md` |
+| 正本同期 | `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `indexes/quick-reference.md` / `indexes/resource-map.md` / LOGS |
+
 ### Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08）
 
 | 項目 | 値 |
@@ -451,6 +474,26 @@
 | artifacts | root `artifacts.json` と `outputs/artifacts.json` parity、Phase 12 strict 7 files materialized |
 | 検証 | local typecheck / lint / vitest（schemaDiffQueue / schemaAliasAssign / schemaAliasBackfillBatch / schemaAliasEnqueue / route schema） 38 tests PASS。staging deploy / Cloudflare Queue binding apply / production apply は user 明示承認まで未実行 |
 | 境界 | Phase 11 staging evidence による runtime gate 判定本体は実走しておらず、user 明示で local implementation GO として実装した。staging Queue/DLQ 作成、Cloudflare deploy、production migration apply、commit、push、PR、Issue #361 comment/reopen は未実行。Issue #361 は CLOSED 維持で `Refs #361` のみ |
+
+### Issue #502 / UT-07B-FU-01-FOLLOWUP DLQ Monitoring Dashboard（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | spec_created |
+| taskType | docs-only |
+| visualEvidence | NON_VISUAL |
+| Phase 11 | contract_ready_runtime_pending（local grep / read-only SQL template evidence captured; staging D1 SQL and dash runtime evidence pending_user_approval） |
+| Phase 12 | strict 7 outputs present |
+| issue | #502 CLOSED (PR text: `Refs #502` only) |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard/` |
+| runbook | `docs/runbooks/dlq-monitoring/schema-alias-backfill.md` |
+| skill reference | `references/dlq-monitoring.md` |
+| artifact inventory | `references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md`（L-502-001〜005） |
+| 目的 | UT-07B-FU-01 の Cloudflare Queue / DLQ binding と D1 `schema_diff_queue` failure 永続化列を、runbook + read-only 集計 SQL で運用者が観測できる状態にする |
+| 契約 | Queue/DLQ は `SCHEMA_ALIAS_BACKFILL_QUEUE` binding、prod `schema-alias-backfill` / `schema-alias-backfill-dlq`、staging `schema-alias-backfill-staging` / `schema-alias-backfill-staging-dlq`。D1 集計 SQL は `retry_count` / `failed_items_json` / `last_processed_at` / `backfill_status` のみを使い、`last_error` 原文 SELECT / 転記は禁止 |
+| しきい値 | DLQ >= 1 / retry_count >= 3 / exhausted 24h |
+| 境界 | Pager / Slack / PagerDuty 連携、Queue / DLQ 構造変更、D1 schema 変更、apps/api 実装変更は本タスク scope 外。しきい値超過時の追加実装は別 unassigned task としてユーザー判断後に起票する |
 
 ### UT-07B-FU-02 Admin Schema Alias Retry Label（2026-05-06）
 

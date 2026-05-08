@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { isIP } from "node:net";
 import type { AuditLogEvent } from "../types.ts";
 import type {
   ActionCategory,
@@ -36,12 +37,36 @@ export function extractFeatures(
 export function bucketIp(ip: string | undefined): string {
   if (!ip) return "unknown";
   if (ip.includes(":")) {
-    const parts = ip.split(":").filter(Boolean);
+    const parts = expandIpv6(ip);
+    if (!parts) return "unknown";
     return `${parts.slice(0, 3).join(":")}::/48`;
   }
   const parts = ip.split(".");
-  if (parts.length !== 4) return "unknown";
+  if (
+    parts.length !== 4 ||
+    parts.some((part) => {
+      const value = Number(part);
+      return !/^\d+$/.test(part) || value < 0 || value > 255;
+    })
+  ) return "unknown";
   return `${parts[0]}.${parts[1]}.${parts[2]}.0/24`;
+}
+
+function expandIpv6(ip: string): string[] | null {
+  if (isIP(ip) !== 6) return null;
+  const [headRaw, tailRaw] = ip.toLowerCase().split("::");
+  const head = headRaw ? headRaw.split(":").filter(Boolean) : [];
+  const tail = tailRaw ? tailRaw.split(":").filter(Boolean) : [];
+  if (ip.includes("::")) {
+    const missing = 8 - head.length - tail.length;
+    if (missing < 0) return null;
+    return [...head, ...Array.from({ length: missing }, () => "0"), ...tail]
+      .map((part) => part.replace(/^0+(?=[0-9a-f])/, "") || "0");
+  }
+  const parts = ip.toLowerCase().split(":");
+  return parts.length === 8
+    ? parts.map((part) => part.replace(/^0+(?=[0-9a-f])/, "") || "0")
+    : null;
 }
 
 export function categorizeAction(actionType: string | undefined): ActionCategory {
@@ -76,4 +101,3 @@ export function categorizeUserAgent(
   if (value.includes("mozilla") || value.includes("chrome")) return "browser";
   return "unknown";
 }
-

@@ -2439,6 +2439,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Gate Result | L22 |
 
+### references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Gate | L23 |
+| Validation | L27 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4467,6 +4474,12 @@ node scripts/list-specs.js --topics
 | L-ISSUE546-004: helper が出力しない成果物は pending evidence marker を実体化する | L47 |
 | 参照元 | L60 |
 
+### references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 5-minute Checklist | L13 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4527,6 +4540,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Scope | L3 |
 | Lessons | L11 |
+
+### references/lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 横展開チェックリスト | L70 |
 
 ### references/lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md
 
@@ -4854,8 +4874,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L102 |
-| 関連ドキュメント | L107 |
+| 利用順序 | L103 |
+| 関連ドキュメント | L108 |
 
 ### references/llm-embedding.md
 
@@ -5505,10 +5525,12 @@ node scripts/list-specs.js --topics
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L236 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L250 |
-| 13. 変更履歴 | L272 |
-| 10. 変更履歴 | L273 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L236 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L254 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L255 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L269 |
+| 13. 変更履歴 | L291 |
+| 10. 変更履歴 | L292 |
 
 ### references/patterns-advanced.md
 
@@ -5961,13 +5983,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L622 |
-| フェーズ構造（概要） | L631 |
-| 品質ゲート（概要） | L662 |
-| 出力テンプレート | L673 |
-| 実行時のコマンド・エージェント・スキル | L696 |
-| 昇格パターン集 | L720 |
-| Current Active / Spec Created Tasks | L722 |
+| ドキュメント構成 | L665 |
+| フェーズ構造（概要） | L674 |
+| 品質ゲート（概要） | L705 |
+| 出力テンプレート | L716 |
+| 実行時のコマンド・エージェント・スキル | L739 |
+| 昇格パターン集 | L763 |
+| Current Active / Spec Created Tasks | L765 |
 
 ### references/task-workflow-backlog-part2.md
 

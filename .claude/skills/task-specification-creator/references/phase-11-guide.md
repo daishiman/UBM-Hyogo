@@ -69,6 +69,10 @@ Local 実装に対する Phase 11 evidence は、以下 5 ファイルを **cano
 
 5 点のうち 1 点でも欠けると `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` は使えず `CONTRACT_READY_IMPLEMENTATION_PENDING` へ格下げ、または欠落理由を `manual-test-result.md` に明記する。
 
+##### 事例（PASS_BOUNDARY_SYNCED_RUNTIME_PENDING × NON_VISUAL）
+
+- task-04-w3-window-guard-and-logger: PASS_BOUNDARY_SYNCED_RUNTIME_PENDING × NON_VISUAL × Sentry runtime smoke pending（observability runtime evidence は後続 staging deploy で取得）
+
 #### 外部 channel / secret preflight を伴う NON_VISUAL 実装
 
 Slack Incoming Webhook、GitHub Secret、外部 SaaS channel など、実装は完了しているがユーザー承認付きの外部準備が残る場合は、Phase 11 で `CONTRACT_READY_SECRET_PENDING` を明示する。`outputs/phase-11/evidence/` には実値ログの代わりに、目的 / 取得手順 / approval gate / 記録してよい項目 / 記録禁止の secret-like value を書いた template evidence を配置する。

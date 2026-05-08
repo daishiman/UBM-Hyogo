@@ -1,5 +1,11 @@
 # Phase 12 重要仕様
 
+## CLOSED Issue Reference Rule
+
+Implementation / docs-only を問わず、既に CLOSED の GitHub Issue に後続実装や仕様同期を紐づける場合、Phase 13 / PR 文脈は `Refs #<issue>` のみを使う。`Closes #<issue>` / `Fixes #<issue>` / `Resolves #<issue>` は Issue state を誤操作するため禁止する。Issue を reopen しない方針、production/user gate、後続 task との関係は `index.md` と `phase-13.md` に明記する。
+
+例: Issue #547 redacted feature export は Issue が CLOSED のまま implementation を進めるため、PR body は `Refs #547` のみ。
+
 ## 必須タスク（5タスク - 全て完了必須）
 
 | Task | 名称                             | 必須 | 詳細参照                                    |
