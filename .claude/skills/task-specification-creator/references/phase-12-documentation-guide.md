@@ -81,6 +81,13 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - `task-workflow.md` の完了タスク記録
 - docs-only 前提で作成した follow-up に後からコード変更が入った場合は、`phase-*.md` と `outputs/phase-12/*.md` の narrative も同じターンで current facts に戻す
 - `spec_created` task に code wave が入った場合は、workflow 本文だけでなく system spec 側の current contract も同ターンで更新し、`no-op` を自己申告しない
+- docs-only / NON_VISUAL close-out で `apps/` / `packages/` に dirty diff が存在する場合、次のどちらかを同一 wave で必ず実施する:
+  - 当該 task の実装差分として再分類し、Phase 11 local evidence と system spec を同期する
+  - task 外の隣接 diff として `system-spec-update-summary.md` / `unassigned-task-detection.md` / compliance check に分離記録し、task primary deliverable の PASS 根拠に混ぜない
+- **docs-only 隣接コード差分検出（Phase 12 entry checklist 必須）**: Phase 12 着手の最初の手で `git status --porcelain apps/ packages/ 2>/dev/null` および `git diff --name-only main...HEAD -- 'apps/**' 'packages/**'` を実行し、結果を `documentation-changelog.md` 冒頭の「entry checklist」セクションに**生出力ごと**転記する。1 件以上 hit した場合は上記 2 分岐（再分類 / 分離記録）のどちらかを `phase12-task-spec-compliance-check.md` に明記し、未記録のまま PASS にしない。0 件の場合も「`apps/` `packages/` dirty diff 0 件確認済」と明示記録する。
+- UI spec / token spec では `token-sized` / `09b-token-value` / `token-mix` のような placeholder token を PASS させない。HEX / `oklch()` / `px` / `bg-[` gate に加え、placeholder token grep 0 と §99 必須項目の content check を Phase 11/12 evidence に含める。
+- **placeholder token grep 0 件 gate**（Phase 12 必須 validator）: 禁止語リスト最小セットは `token-sized` / `09b-token-value` / `token-mix` / `token-spacing-N` / `token-radius-N` / `token-color-N`。`rg -n -F -e 'token-sized' -e '09b-token-value' -e 'token-mix' <target>` の exit code と match 件数（0 件）を `documentation-changelog.md` と `phase12-task-spec-compliance-check.md` の双方に転記する。0 件証跡なしに PASS にしない。
+- **§99 必須項目 content check**: 「§99 必須項目」「Required items」など見出しの存在だけでは PASS にしない。当該 section 配下の本文に、対象 spec が要求する keyword（例: `token-sized` 禁止、`HEX 直書き禁止`、`oklch()` 必須、`primitives 一覧`）が**実際に出現すること**を `rg -n` で確認し、match 行を evidence にぶら下げる。見出しだけ存在し本文が placeholder の状態は FAIL。
 
 #### 同サイクル `spec_created` → `implemented-local` 再分類 + 状態語彙選択（UT-02A FU-003 反映）
 
@@ -161,7 +168,26 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 | skill reference / template | `.claude/skills/<skill>/references/*.md`（変更があった場合） |
 | workflow artifacts | `docs/30-workflows/<task>/{index.md,artifacts.json}` |
 | workflow outputs | `docs/30-workflows/<task>/outputs/{artifacts.json,phase-12/*.md}` |
-| system spec | `docs/00-getting-started-manual/specs/*.md`（変更があった場合） |
+| system spec / specs 個別 path | `docs/00-getting-started-manual/specs/*.md`（変更があった spec の個別 path を 1 行ずつ列挙。`specs/` まとめ表記は不可） |
+| validator 実行記録 | 実行した validator の **コマンド逐語** と **exit code** と **match 件数 / PASS 件数**（例: `rg -n -F 'token-sized' docs/00-getting-started-manual/specs/09c-primitives.md → exit 1 (match 0)`、`bash scripts/verify-09c-no-visual-values.sh → exit 0`） |
+
+**追加運用ルール**:
+
+- 上記 7 カテゴリのうち touch していないカテゴリは「該当なし: 理由」を 1 行残す。表から省略すると省略漏れと自己 drift が区別できなくなるため、空行ではなく明示記録にする。
+- validator 実行記録は「コマンド」「exit code」「件数」の 3 値が揃わない記載を PASS にしない。スクリーンショット転記や「PASS」一語の記録は不十分。
+
+### deterministic verify script の前倒し配置（Phase 1-4 連携）
+
+Phase 12 で初めて validator を書き起こすと、Phase 11 evidence と Phase 12 changelog の両方が「post-hoc 自己採点」になりやすい。これを防ぐため、UI / spec / token / contract 系タスクでは `scripts/verify-<topic>.sh` の**雛形を Phase 1-4 のうち最も早い段階で配置**する運用を正規ルートとする。
+
+| Phase | 配置内容 | 根拠 |
+| --- | --- | --- |
+| Phase 1（要件定義） | `scripts/verify-<topic>.sh` の placeholder（exit 0 + TODO コメントのみ） | validator が AC 構成要素であることを Phase 1 時点で固定する |
+| Phase 2-4（設計 / 契約 / scaffold） | 禁止語 grep / 必須 keyword grep / size limit 等の deterministic check 本体を実装 | Phase 11 evidence で初手から exit code を取得できる |
+| Phase 11 | 既存スクリプトを実行し、`outputs/phase-11/evidence/grep-gate.log` 等に exit code を保存 | post-hoc 自己採点の防止 |
+| Phase 12 | `documentation-changelog.md` の validator 実行記録セクションへコマンド・exit code・件数を転記 | 上記「必須エントリ最小セット」と整合 |
+
+雛形不在のまま Phase 11 で validator を書き起こした場合、`documentation-changelog.md` に「Phase 1-4 verify script 雛形不在 → Phase 11 で新規作成」と理由を記録し、`skill-feedback-report.md` に同じ苦戦点を起票して再発を抑止する。
 
 ## Task 12-4: unassigned detection
 

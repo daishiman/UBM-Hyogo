@@ -2399,6 +2399,19 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Root artifacts | L15 |
+| 2. Phase 1-13 specification files | L23 |
+| 3. Phase 12 strict outputs（7 + elegant review） | L41 |
+| 4. Phase 11 evidence ledger | L54 |
+| 5. Implementation source-of-truth | L66 |
+| 6. Skill reflection / same-wave sync | L75 |
+| 7. Scope notes | L89 |
+| 8. Related tasks | L97 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2806,6 +2819,31 @@ node scripts/list-specs.js --topics
 | Boundary | L25 |
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
+
+### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| Phase Outputs | L28 |
+| 主要成果物 | L41 |
+| Skill 反映先（current canonical set） | L48 |
+| 不採用 / 起票見送り（unassigned-task-detection.md より） | L60 |
+| Validation Chain | L69 |
+
+### references/workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical contract | L14 |
+| Workflow artifacts | L21 |
+| Phase 12 strict outputs | L33 |
+| Verification | L45 |
+| Downstream ownership | L60 |
+| Same-wave sync targets | L69 |
+| Related Resources | L79 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -4460,6 +4498,30 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L12 |
 | 横展開チェックリスト | L55 |
 
+### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+
+### references/lessons-learned-task-21-09g-admin-blueprint-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T21-001: 旧 draft が現行 API contract と乖離する場合は再生成が低コスト | L3 |
+| L-T21-002: docs-only / NON_VISUAL タスクでも root `index.md` / `artifacts.json` / `outputs/artifacts.json` の full mirror が必須 | L7 |
+| L-T21-003: canonical workflow root の削除検出は task scope 外でも同サイクルで復元する | L11 |
+| L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
+| L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
+
+### references/lessons-learned-task19-primitives-full-spec-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L10 |
+| 関連教訓 | L42 |
+
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
 | セクション | 行 |
@@ -5814,12 +5876,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | テンプレート一覧 | L7 |
 | 命名規則 | L29 |
-| 記述形式 | L101 |
-| すべきこと | L121 |
-| 避けるべきこと | L130 |
-| 新規仕様の追加手順 | L139 |
-| 完了タスクセクション標準化 | L147 |
-| ファイルサイズ管理 | L195 |
+| 記述形式 | L113 |
+| すべきこと | L133 |
+| 避けるべきこと | L142 |
+| 新規仕様の追加手順 | L151 |
+| 完了タスクセクション標準化 | L159 |
+| ファイルサイズ管理 | L207 |
 
 ### references/spec-splitting-guidelines.md
 
@@ -5848,13 +5910,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L509 |
-| フェーズ構造（概要） | L518 |
-| 品質ゲート（概要） | L549 |
-| 出力テンプレート | L560 |
-| 実行時のコマンド・エージェント・スキル | L583 |
-| 昇格パターン集 | L607 |
-| Current Active / Spec Created Tasks | L609 |
+| ドキュメント構成 | L577 |
+| フェーズ構造（概要） | L586 |
+| 品質ゲート（概要） | L617 |
+| 出力テンプレート | L628 |
+| 実行時のコマンド・エージェント・スキル | L651 |
+| 昇格パターン集 | L675 |
+| Current Active / Spec Created Tasks | L677 |
 
 ### references/task-workflow-backlog-part2.md
 

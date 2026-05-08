@@ -7,6 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, NON_VISUAL, docs-only spec, canonical root existence gate, full mirror artifacts parity, Phase 12 strict 7 outputs
   タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created
 allowed-tools:
   - Read
@@ -28,6 +29,9 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.07-task19-phase12-validator-promotion | 2026-05-07 | task-19 09c primitives full spec の Phase 12 review 続編を反映。`references/phase-12-documentation-guide.md` に (1) placeholder token grep 0 件 gate（禁止語リスト + コマンド逐語 + exit code 記録）、(2) §99 必須項目 content check（見出し存在ではなく本文 keyword 出現を `rg -n` で確認）、(3) docs-only 隣接コード差分検出（Phase 12 entry checklist 必須、`git status apps/ packages/` 出力転記）、(4) deterministic verify script の Phase 1-4 前倒し配置運用、(5) `documentation-changelog.md` 必須エントリ最小セット拡張（specs 個別 path / validator 実行記録セクション = コマンド + exit code + 件数 3 値必須）を追加。 |
+| v2026.05.07-task19-placeholder-dirty-code-gates | 2026-05-07 | task-19 09c primitives full spec review feedback を反映。docs-only / NON_VISUAL close-out でも `apps/` / `packages/` dirty diff があれば分類・分離記録なしに PASS しない dirty-code gate、`token-sized` / `09b-token-value` / `token-mix` など placeholder token 0 件 gate、§99 content gate を Phase 12 compliance に追加。 |
+| v2026.05.06-issue371-implemented-local-state-vocab | 2026-05-06 | Issue #371 UT-02A follow-up 003 Hono ctx DI migration の Phase 12 skill-feedback を反映。`spec_created` task に `apps/` / `packages/` の code wave が入った場合は同サイクル内で `implemented-local` へ再分類する手順を `references/phase-12-documentation-guide.md` に明文化。`CONTRACT_READY_IMPLEMENTATION_PENDING`（pre-code・docs/.claude のみ）と `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`（local PASS 5 点取得済 + runtime pending）の使い分けマトリクスを追加。`references/phase-11-guide.md` に状態語彙対応表と Phase 11 evidence canonical path 規約 `outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log` を local PASS 5 点セットとして固定。 |
 | v2026.05.07-task-06-ui-ux-contract-rewrite-classification | 2026-05-07 | task-06 UI/UX contract rewrite review feedback を反映。docs markdown のみでも正本仕様ファイルを全面 rewrite して後続実装 contract を unblock する場合は `implementation / NON_VISUAL` とし、`artifacts.json` / Phase 11 表現 / diff scope を一致させる。主成果物 M が宣言されている場合は同サイクルで実ファイルを更新し、無関係 D diff は active 正本参照を壊すため復元または formal trace を必須にする。 |
 | v2026.05.06-issue371-implemented-local-state-vocab | 2026-05-06 | Issue #371 UT-02A follow-up 003 Hono ctx DI migration の Phase 12 skill-feedback を反映。`spec_created` task に `apps/` / `packages/` の code wave が入った場合は同サイクル内で `implemented-local` へ再分類する手順を `references/phase-12-documentation-guide.md` に明文化。`CONTRACT_READY_IMPLEMENTATION_PENDING`（pre-code・docs/.claude のみ）と `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`（local PASS 5 点取得済 + runtime pending）の使い分けマトリクスを追加。 |
 | v2026.05.06-workflow-path-existence-gate | 2026-05-06 | U-FIX-CF-ACCT-01-DERIV-02 token split review feedback を反映。CI/CD workflow 変更タスクでは Phase 2 / 5 / 9 / 12 で `.github/workflows/*.yml` の実在確認を必須化し、存在しない `deploy-staging.yml` / `deploy-production.yml` 等を正本として参照したまま PASS しない workflow path existence gate を追加。 |
