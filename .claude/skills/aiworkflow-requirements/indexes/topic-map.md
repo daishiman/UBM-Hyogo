@@ -2374,7 +2374,7 @@ node scripts/list-specs.js --topics
 | same-wave skill sync | L67 |
 | boundary | L81 |
 | upstream / downstream | L87 |
-| deferred follow-ups | L94 |
+| deferred follow-ups | L95 |
 
 ### references/workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md
 
@@ -2453,6 +2453,13 @@ node scripts/list-specs.js --topics
 | Evidence | L27 |
 | Synthetic vs Production Boundary（不変条件） | L34 |
 | Gate Conditions (production model promotion 前提) | L40 |
+
+### references/workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime evidence reserved paths | L16 |
+| Boundaries | L26 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3425,6 +3432,16 @@ node scripts/list-specs.js --topics
 | 4. OpenNext post-build worker patch | L97 |
 | 5. Auth.js v5 env 層化 | L109 |
 | 変更履歴 | L174 |
+
+### references/branch-protection.md
+
+| セクション | 行 |
+|------------|----|
+| Current contract | L3 |
+| Required status checks | L7 |
+| Invariants | L13 |
+| Issue #554 runbook | L25 |
+| References | L41 |
 
 ### references/csrf-state-parameter.md
 
