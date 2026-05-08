@@ -2461,11 +2461,12 @@ node scripts/list-specs.js --topics
 | Runtime evidence reserved paths | L16 |
 | Boundaries | L26 |
 
-### references/workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md
+### references/workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| Boundary | L16 |
+| Local implementation artifacts | L11 |
+| Gates | L27 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3420,13 +3421,14 @@ node scripts/list-specs.js --topics
 | 目的 | L7 |
 | 入出力契約 | L11 |
 | Redaction Policy | L19 |
-| MVP Boundary | L31 |
-| Issue #553 Live Wiring Formalization | L35 |
-| Live wiring (Issue #553) implementation landing | L56 |
-| Cloudflare Secrets (5 種) op-reference rule | L74 |
-| Salt rotation procedure (`fingerprintVersion` v1 → v2) | L92 |
-| Lessons learned (Issue #553 wave) | L112 |
-| References | L122 |
+| Issue #555 Salt Rotation Bridge | L31 |
+| MVP Boundary | L46 |
+| Issue #553 Live Wiring Formalization | L50 |
+| Live wiring (Issue #553) implementation landing | L71 |
+| Cloudflare Secrets (5 種) op-reference rule | L89 |
+| Salt rotation procedure (`fingerprintVersion` v1 → v2) | L107 |
+| Lessons learned (Issue #553 wave) | L127 |
+| References | L137 |
 
 ### references/auth-google-oauth-cf-integration.md
 
@@ -3588,16 +3590,16 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L156 |
-| ローカル開発での設定 | L188 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L227 |
-| セキュリティ原則 | L264 |
-| Cloudflare API Token の作成手順 | L275 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L290 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L389 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L437 |
-| 変更履歴 | L452 |
+| GitHub Secrets / Variables（CI/CD 用） | L108 |
+| wrangler.toml の環境別設定 | L168 |
+| ローカル開発での設定 | L200 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L239 |
+| セキュリティ原則 | L276 |
+| Cloudflare API Token の作成手順 | L287 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L302 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L401 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L449 |
+| 変更履歴 | L464 |
 
 ### references/deployment.md
 
@@ -4538,6 +4540,15 @@ node scripts/list-specs.js --topics
 | L-ISSUE548-004: FU 依存図は親 issue の successor trace に正本を置く | L65 |
 | L-ISSUE548-005: SSOT 同期は同一 wave で 8 同期点を消化する | L84 |
 | 関連参照 | L108 |
+
+### references/lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 適用範囲 | L55 |
+| 参考 | L61 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -6050,13 +6061,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L730 |
-| フェーズ構造（概要） | L739 |
-| 品質ゲート（概要） | L770 |
-| 出力テンプレート | L781 |
-| 実行時のコマンド・エージェント・スキル | L804 |
-| 昇格パターン集 | L828 |
-| Current Active / Spec Created Tasks | L830 |
+| ドキュメント構成 | L735 |
+| フェーズ構造（概要） | L744 |
+| 品質ゲート（概要） | L775 |
+| 出力テンプレート | L786 |
+| 実行時のコマンド・エージェント・スキル | L809 |
+| 昇格パターン集 | L833 |
+| Current Active / Spec Created Tasks | L835 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -87,13 +87,14 @@ cp /tmp/merged.json "$DIR/merged.json"
 # /tmp/cf.json も redact 済みであることを確認できない場合はコピーしない。
 ```
 
-## salt rotation 手順（記録のみ・実施は別タスク）
+## salt rotation 手順（Issue #555 実装後）
 
-1. 1Password で新 salt を生成（32 byte 以上の random hex）。
-2. `bash scripts/cf.sh secret put AUDIT_CORRELATION_SALT --config apps/api/wrangler.toml --env staging` で staging に登録。
-3. 動作確認後 production に展開。
-4. `apps/api/src/audit-correlation/types.ts` の `FingerprintVersion` を `2` に上げ、過去データは別 version として扱う（join 不可）。
-5. live wiring follow-up タスクで実装。
+1. `bash scripts/audit-correlation/rotate-salt.sh --dry-run --env staging` で予定操作を確認する。salt literal は出力しない。
+2. user approval 後、staging で `--apply` を実行する。`AUDIT_CORRELATION_SALT_PREVIOUS` と `AUDIT_CORRELATION_SALT` を 1Password / Cloudflare Secrets に同期する。
+3. dual-hash window（既定 7 日）では、runner に `--previous-salt "$AUDIT_CORRELATION_SALT_PREVIOUS"` を渡すか、同名環境変数を設定して実行する。既存 v1 `{ fingerprintHash, fingerprintVersion: 1 }` を adapter で v1-only record として扱い、新 v2 record の `fingerprintHashes.v1/v2` と bridge する。
+4. window に現れない actor の旧 incident は自動 backfill しない。必要な場合は別途 incident review で扱う。
+5. `bash scripts/audit-correlation/rotate-salt.sh --end-rotation --env staging` で previous secret を削除する。削除後に `bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env staging` を user gate 後に実行し、Worker 再起動で single-hash mode を有効化する。production は `--confirm-production` を含む explicit user gate 後のみ。
+6. end-rotation 後 48h の redacted runner output または FU-01 persistence surface で、新規 v1 生成が 0 件であることを確認する。
 
 ## Cloudflare Secrets 登録手順（live wiring follow-up）
 
