@@ -6,7 +6,7 @@ import { MembersListPage } from '../page-objects/MembersListPage'
 import { MemberDetailPage } from '../page-objects/MemberDetailPage'
 import { RegisterPage } from '../page-objects/RegisterPage'
 
-test.describe.skip('public flow (landing → 一覧 → 詳細 → 登録)', () => {
+test.describe('public flow (landing → 一覧 → 詳細 → 登録)', () => {
   test('desktop: full flow', async ({ page }) => {
     const home = new HomePage(page)
     await home.visit()

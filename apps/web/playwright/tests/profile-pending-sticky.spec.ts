@@ -4,7 +4,7 @@
 import { expect } from "@playwright/test";
 import { test } from "../fixtures/auth";
 
-test.describe.skip("profile pending banner sticky (06b-B #428)", () => {
+test.describe("profile pending banner sticky (06b-B #428)", () => {
   test("TC-01/TC-02: reload 後も visibility pending banner 表示 + ボタン disabled", async ({
     memberPage,
   }) => {
