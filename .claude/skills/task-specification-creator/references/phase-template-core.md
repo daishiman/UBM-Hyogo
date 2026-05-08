@@ -111,6 +111,7 @@ Phase 1、Phase 2、Phase 3。
 - OAuth / session / admin gate 系タスクでは、Phase 2 で **session 型定義・JWT encode/decode 契約・provider 間共有 ADR** を必須セクション化する。Auth.js 等の framework default を API 側が検証できる前提にせず、実 cookie/token と API verifier の互換テストを validation matrix に含める。
 - D1 / API / repository 系タスクでは、Phase 2 で `apps/api/migrations/*.sql` と repository contract を grep 照合し、「仕様書記述 vs 実 DB」の対応表を必須セクション化する。存在しないカラム前提を設計本文へ持ち込まない。
 - HTTP 202 / retryable / resumable workflow では、Phase 2 で **continuation visibility** を必須セクション化する。retry target が API list / queue row / documented operator command のどれから再発見できるか、完了状態へ収束する条件、Phase 4 の検証ケースを同じ表に書く。
+- UI prototype alignment のように prototype 掲載画面と未掲載派生画面が混在する docs-only task では、Phase 2 で **派生ルール正本転記計画** を必須セクション化する。派生元参照、転記方式（全文 / 抜粋 + link / link のみ）、派生注記の固定形、新 primitive 生成可否、prototype JSX の扱い（literal JSX / 構造 contract / link only）を表に固定し、Phase 11 AC で検証できる数値に落とす。
 
 ### concern 数による設計書分割基準（TASK-SKILL-LIFECYCLE-08 知見）
 

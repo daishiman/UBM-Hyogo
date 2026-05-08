@@ -61,12 +61,99 @@
 | archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
-### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
+### task-21 09g Admin Screen Blueprints（2026-05-07）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
+| workflow root | `docs/30-workflows/completed-tasks/task-21-w2-par-screen-blueprints-admin/` |
 | 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| primary spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| verify | `scripts/verify-09g-screen-blueprints-admin.sh` |
+| scope | AdminSidebar + admin 8 routes（dashboard / members / tags / meetings / schema / requests / identity-conflicts / audit） |
+| API boundary | current `references/api-endpoints.md` admin contract。旧 `/admin/kpi`、direct tag approve/reject、schema apply、identity resolve は採用しない |
+| downstream | task-15 consumes §2/§3, task-16 consumes §4/§5/§7, task-17 consumes §6/§8/§9, task-22 verifies anchors |
+| evidence | `outputs/phase-07/automated-checks.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
+### UI prototype alignment task-21 Admin Blueprint 09g（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-21-w2-screen-blueprints-admin/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| blueprint 正本 | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| 対象 | admin 8 routes + AdminSidebar contract。既存補助 route `/admin/dashboard/attendance` は削除しない |
+| source | `docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx`, `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-3/phase-3.md` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-11/link-checklist.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| downstream | task-15 / task-16 / task-17 admin implementation |
+| 境界 | apps/packages code 変更なし。既存 admin API endpoint surface のみ参照。screenshot 不要 |
+
+### UI prototype alignment / task-19 09c primitives full spec（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-19-w2-primitives-full-spec/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| primary spec | `docs/00-getting-started-manual/specs/09c-primitives.md` |
+| source | `docs/00-getting-started-manual/claude-design-prototype/primitives.jsx` |
+| validation | 600-1200 lines、17 JSX excerpts、HEX / `oklch()` / `px` / `bg-[` grep 0、placeholder token grep 0 |
+| downstream | task-06 contract index、task-10 ui-primitives、task-11..17 screens、task-20..22 blueprints |
+| evidence | `outputs/phase-11/evidence/grep-gate.log`, `scripts/verify-09c-no-visual-values.sh`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | task-19 primary deliverable は docs-only。隣接 `apps/api/src/repository/identity-conflict.ts` diff は branch review で分離記録 |
+| 苦戦箇所 | `references/lessons-learned-task19-primitives-full-spec-2026-05.md`（L-T19-001..005: placeholder token grep 必須化 / §99 keyword 二段検証 / docs-only staged path scope 検証 / prototype `export const` 1:1 照合 / verify script の Phase 1-4 雛形配置） |
+| changelog | `changelog/20260507-task19-primitives-full-spec.md` |
+
+### Task 08 W2 Design Tokens Doc（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-08-w2-design-tokens-doc/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| token SSOT | `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| source values | `docs/00-getting-started-manual/claude-design-prototype/styles.css` L1-L70 |
+| scope | stone / warm / cool OKLch values、surface/text/border HEX、radius、shadow、font、spacing、motion、sRGB fallback、dark placeholder |
+| naming | 正本 token は `--ubm-color-*` / `--ubm-radius-*` / `--ubm-shadow-*` / `--ubm-font-*` / `--ubm-text-*` / `--ubm-space-*` / `--ubm-dur-*` / `--ubm-ease-*`。旧 `--ubm-bg` / `--ubm-accent` は 09b 互換 mapping で置換 |
+| downstream | task-09 `tokens.css` / `@theme inline`、task-10 primitives、task-18 verify-design-tokens |
+| evidence | `docs/30-workflows/task-08-w2-design-tokens-doc/outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
+### UI prototype mapping table task-07（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-07-prototype-mapping-table/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| artifact | `docs/00-getting-started-manual/specs/09a-prototype-map.md` |
+| aiworkflow ref | `references/ui-ux-prototype-map.md` |
+| inventory | `references/workflow-task-07-prototype-mapping-table-artifact-inventory.md` |
+| 苦戦箇所 | `lessons-learned/lessons-learned-task-07-prototype-mapping-table-2026-05.md`（L-07-001..004: 逆引き目次の責務分離 / verifier による frozen JSX 保護 / 層別カウント契約 / derivation rule §5.1-§5.8 固定） |
+| verifier | `scripts/verify-09a-prototype-line-ranges.sh` |
+| scope | frozen prototype JSX -> production component/route/spec mapping, 19 routes, 13+ primitives, shell/chrome, 09c-09h source mapping |
+| boundary | no app/package code, no token values, no props/state canon, no new primitives for missing screens |
+| rejection | `TweaksPanel`, `AvatarStoreProvider`, `data-theme="warm"`, `data-theme="cool"` are `不採用` |
+| downstream | task-10 uses §2/§6, task-11..17 use §3/§5, task-19..22 use §4.2 |
+
+### UI/UX Contract Rewrite task-06（2026-05-07）
+
+| workflow root | `docs/30-workflows/completed-tasks/task-06-ui-ux-contract-rewrite/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / primary spec rewritten / Phase 13 pending_user_approval` |
+| primary spec | `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| 契約範囲 | 19 routes、13 primitives、feature components、page state、login 5 状態、dialog / drawer / form / live region a11y、token prefix |
+| 視覚詳細委譲 | `09a-prototype-map.md`, `09b-design-tokens.md`, `09c-primitives.md`, `09d-icons.md`, `09e-screen-blueprints-public.md`, `09f-screen-blueprints-member.md`, `09g-screen-blueprints-admin.md`, `09h-shell-and-fixtures.md`, Storybook VRT |
+| diff discipline | primary M: `docs/00-getting-started-manual/specs/09-ui-ux.md`; same-wave skill/index sync M; A: workflow package + aiworkflow changelog; D: なし |
+| guard | `##` count 10、`### 2.` count 19+、`#### 3.1.` count 13、HEX / oklch / px / `bg-[` 0 hits、route/API trace PASS |
+| downstream | task-07 / task-08 / task-09 / task-10 / task-11..17 / task-19..22 が本契約を grep 起点に参照 |
+
+### UI prototype alignment task-03 Sentry Workers SDK unify（2026-05-07）
+| workflow root | `docs/30-workflows/task-03-w2-par-sentry-workers-sdk-unify/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W2 runtime task |
+| server SDK | `@sentry/cloudflare` via `apps/web/src/instrumentation.ts` |
+| browser SDK | `@sentry/nextjs` via `apps/web/src/instrumentation-client.ts` |
+| secret boundary | web server DSN is `SENTRY_DSN_WEB` (`op://UBM-Hyogo/Sentry Web DSN (<env>)/dsn`); browser DSN is `[vars]` `NEXT_PUBLIC_SENTRY_DSN` |
+| Phase 11 boundary | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`; local typecheck / tests / build / OpenNext worker grep pass, staging deploy and dashboard evidence pending user approval |
+| strict evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-13/pr-creation-result.md` |
+| downstream | task-04 logger and task-05 error boundary consume `captureException` / `captureMessage` contract |
+### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
+| workflow root | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
 | member blueprint | `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md`（917 行 / section count 3） |
 | endpoint surface | `SCOPE.md` §2 + 現行 `apps/api` route の AND: `GET /public/members/:memberId`, `POST /auth/magic-link`, `GET /auth/gate-state`, `GET /auth/session-resolve`, `GET /me`, `POST /me/visibility-request`, `POST /me/delete-request` |
@@ -75,7 +162,6 @@
 | docs-only NON_VISUAL lifecycle | `references/lessons-learned-docs-only-lifecycle.md`（L-DOCS-LIFECYCLE-001..005: 状態語彙固定 / endpoint surface AND 検証 / consent key grep / lifecycle model / artifacts parity） |
 | changelog | `.claude/skills/aiworkflow-requirements/changelog/20260507-task-20-screen-blueprints-public-member.md` |
 | 境界 | apps/packages コード変更 0。Phase 13 commit / push / PR は user approval 後のみ |
-
 ### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
 
 | 目的 | 参照先 |

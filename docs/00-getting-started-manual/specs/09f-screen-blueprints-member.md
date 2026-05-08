@@ -914,7 +914,7 @@ color-mix は token 同士の合成のみで使用（hex 直書き禁止）。
 | `06-member-auth.md` | 会員ゲート判定（rules_declined / unregistered / deleted の根拠） |
 | `07-edit-delete.md` | 公開停止 / 退会の申請ライフサイクル・管理者承認 |
 | `13-mvp-auth.md` | MVP 認証方針（gate-state の discriminated union） |
-| `09e-design-tokens.md`（仮） | token 一覧の正本 |
+| `09b-design-tokens.md` | token 一覧の正本 |
 | `claude-design-prototype/pages-member.jsx` | 本仕様の出典（373 行） |
 | `claude-design-prototype/app.jsx` | shell / ROUTES / isBare 判定 |
 | `claude-design-prototype/data.jsx` | fixture（`MEMBERS[0]` / `SURVEY_SECTIONS`） |
