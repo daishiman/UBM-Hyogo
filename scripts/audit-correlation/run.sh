@@ -4,6 +4,7 @@
 #   --github <github-fixture.json> \
 #   --cloudflare <cloudflare-fixture.json> \
 #   --salt <salt-string> \
+#   [--previous-salt <salt-string>] \
 #   [--out <output.json>]
 set -euo pipefail
 
@@ -13,11 +14,12 @@ REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 GITHUB=""
 CLOUDFLARE=""
 SALT=""
+PREVIOUS_SALT="${AUDIT_CORRELATION_SALT_PREVIOUS:-}"
 OUT=""
 
 usage() {
   cat <<'EOF' >&2
-Usage: run.sh --github <gh.json> --cloudflare <cf.json> --salt <salt> [--out <out.json>]
+Usage: run.sh --github <gh.json> --cloudflare <cf.json> --salt <salt> [--previous-salt <salt>] [--out <out.json>]
 exit codes: 0=success, 1=correlation failure, 2=invalid args
 EOF
   exit 2
@@ -28,6 +30,7 @@ while [[ $# -gt 0 ]]; do
     --github) GITHUB="${2:-}"; shift 2 ;;
     --cloudflare) CLOUDFLARE="${2:-}"; shift 2 ;;
     --salt) SALT="${2:-}"; shift 2 ;;
+    --previous-salt) PREVIOUS_SALT="${2:-}"; shift 2 ;;
     --out) OUT="${2:-}"; shift 2 ;;
     -h|--help) usage ;;
     *) echo "unknown arg: $1" >&2; usage ;;
@@ -39,6 +42,9 @@ if [[ -z "$GITHUB" || -z "$CLOUDFLARE" || -z "$SALT" ]]; then
 fi
 
 ARGS=(--github "$GITHUB" --cloudflare "$CLOUDFLARE" --salt "$SALT")
+if [[ -n "$PREVIOUS_SALT" ]]; then
+  ARGS+=(--previous-salt "$PREVIOUS_SALT")
+fi
 if [[ -n "$OUT" ]]; then
   ARGS+=(--out "$OUT")
 fi

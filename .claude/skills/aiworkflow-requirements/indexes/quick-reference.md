@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #555 Audit Correlation Salt Rotation（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-555-audit-correlation-salt-rotation-automation/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / runtime evidence blocked_upstream_pending` |
+| parent | Issue #516 audit correlation |
+| type contract | 既存 `NormalizedAuditEvent` / `CorrelationKey` を拡張し、legacy v1 adapter で v1-only record を bridge する |
+| secret SSOT | `references/deployment-secrets-management.md`（parallel `secrets-management.md` は作らない） |
+| runtime gate | FU-01 live wiring 完了後に staging evidence。production rotation / commit / push / PR は user approval 後。production mutating script mode requires `--confirm-production` |
+| Phase 12 evidence | `docs/30-workflows/completed-tasks/issue-555-audit-correlation-salt-rotation-automation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| Phase 12 logs | `outputs/phase-12/indexes-rebuild.log`, `outputs/phase-12/issue-555-state.log` |
+| inventory | `references/workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md` |
+
 ### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
 
 | 目的 | 参照先 |

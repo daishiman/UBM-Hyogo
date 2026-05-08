@@ -2423,6 +2423,13 @@ node scripts/list-specs.js --topics
 | Verification state | L52 |
 | Lessons learned | L66 |
 
+### references/workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Local implementation artifacts | L11 |
+| Gates | L27 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3364,8 +3371,9 @@ node scripts/list-specs.js --topics
 | 目的 | L7 |
 | 入出力契約 | L11 |
 | Redaction Policy | L19 |
-| MVP Boundary | L31 |
-| References | L35 |
+| Issue #555 Salt Rotation Bridge | L31 |
+| MVP Boundary | L46 |
+| References | L50 |
 
 ### references/auth-google-oauth-cf-integration.md
 
@@ -3517,16 +3525,16 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L154 |
-| ローカル開発での設定 | L186 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L225 |
-| セキュリティ原則 | L262 |
-| Cloudflare API Token の作成手順 | L273 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L387 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L435 |
-| 変更履歴 | L450 |
+| GitHub Secrets / Variables（CI/CD 用） | L108 |
+| wrangler.toml の環境別設定 | L166 |
+| ローカル開発での設定 | L198 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L237 |
+| セキュリティ原則 | L274 |
+| Cloudflare API Token の作成手順 | L285 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L300 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L399 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L447 |
+| 変更履歴 | L462 |
 
 ### references/deployment.md
 
@@ -4440,6 +4448,15 @@ node scripts/list-specs.js --topics
 | L-I532-005: coverage guard NO-OP と full coverage NOT PASS を実装完了と混同しない | L27 |
 | Related Resources | L31 |
 | Search Keywords | L42 |
+
+### references/lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 適用範囲 | L55 |
+| 参考 | L61 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -5933,13 +5950,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L609 |
-| フェーズ構造（概要） | L618 |
-| 品質ゲート（概要） | L649 |
-| 出力テンプレート | L660 |
-| 実行時のコマンド・エージェント・スキル | L683 |
-| 昇格パターン集 | L707 |
-| Current Active / Spec Created Tasks | L709 |
+| ドキュメント構成 | L626 |
+| フェーズ構造（概要） | L635 |
+| 品質ゲート（概要） | L666 |
+| 出力テンプレート | L677 |
+| 実行時のコマンド・エージェント・スキル | L700 |
+| 昇格パターン集 | L724 |
+| Current Active / Spec Created Tasks | L726 |
 
 ### references/task-workflow-backlog-part2.md
 

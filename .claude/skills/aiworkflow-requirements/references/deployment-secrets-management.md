@@ -59,6 +59,8 @@ wrangler secret put SLACK_BOT_TOKEN --env staging
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（内部通知） | production / staging |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Sheets API 用 Service Account JSON key。`apps/api/src/jobs/sheets-fetcher.ts` / `sync-sheets-to-d1.ts` が `env.GOOGLE_SERVICE_ACCOUNT_JSON` として参照する正本名。値は `wrangler secret list` でも参照不可（name のみ） | production / staging |
 | `MAIL_PROVIDER_KEY` | Magic Link メール送信 provider API key。`apps/api/src/index.ts` の mail sender factory が参照する正本名。値は 1Password 正本から stdin 投入し、docs / logs / PR に転記しない | production / staging |
+| `AUDIT_CORRELATION_SALT` | audit-correlation fingerprintHash 生成用 salt。1Password `op://CloudflareSecurity/AuditCorrelationSalt/value` が正本。値は docs / logs / PR / evidence に残さない | production / staging |
+| `AUDIT_CORRELATION_SALT_PREVIOUS` | Issue #555 rotation window 中だけ存在する previous salt。1Password `op://CloudflareSecurity/AuditCorrelationSaltPrevious/value` が正本。window 終了後に Cloudflare Secrets と 1Password から削除 / archive する | production / staging |
 
 ### `GOOGLE_SERVICE_ACCOUNT_JSON` 投入ルール（UT-25 / 2026-04-29）
 
@@ -75,6 +77,16 @@ wrangler secret put SLACK_BOT_TOKEN --env staging
 - 値は `op read "op://UBM-Hyogo/auth-mail-<env>/MAIL_PROVIDER_KEY" | bash scripts/cf.sh secret put MAIL_PROVIDER_KEY --config apps/api/wrangler.toml --env <env>` の stdin 経由で投入する。
 - staging-first 固定。staging の name-only secret list と Magic Link smoke は 09a、production readiness は 09c が所有する。
 - evidence には key 名と `op://Vault/Item/Field` 参照だけを残し、値・値ハッシュ・provider response body は残さない。
+
+### Audit correlation salt rotation（Issue #555 / 2026-05-08）
+
+- Secret policy の正本は本ファイル。parallel `references/secrets-management.md` is intentionally not created。
+- `AUDIT_CORRELATION_SALT` は current、`AUDIT_CORRELATION_SALT_PREVIOUS` は rotation window 中だけの previous とする。
+- 1Password references は `op://CloudflareSecurity/AuditCorrelationSalt/value` と `op://CloudflareSecurity/AuditCorrelationSaltPrevious/value` に統一する。
+- `scripts/audit-correlation/rotate-salt.sh` は `--dry-run` / `--apply` / `--rollback` / `--end-rotation` の 4 modes を持つ。production mutation は user gate + explicit confirmation なしに実行しない。
+- staging `--end-rotation` は previous secret delete 後に Worker deploy まで実行し、env binding refresh を完了させる。production deploy は user gate 後の明示操作に限定する。
+- dual-hash bridge は 7 日を既定 window とし、window に現れない actor の旧 incident は自動 backfill しない。
+- evidence には secret 名、1Password reference、command exit code、redacted runner output のみを残す。salt literal、salt hash full value、Cloudflare token、GitHub PAT は保存禁止。
 
 ### Cloudflare Pages（フロントエンド `apps/web/`）
 
