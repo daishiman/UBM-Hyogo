@@ -15,6 +15,9 @@ const patterns: Array<[string, RegExp]> = [
   ["full-user-agent", /\bMozilla\/[^\n"]{8,}/],
 ];
 
+const UUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export function scanForSecrets(filePath: string): { hits: SecretHit[] } {
   const hits: SecretHit[] = [];
   const lines = readFileSync(filePath, "utf8").split(/\r?\n/);
@@ -26,6 +29,9 @@ export function scanForSecrets(filePath: string): { hits: SecretHit[] } {
           name === "raw-ipv4" &&
           /\.0\/24\b/.test(line.slice(match.index, match.index + match[0].length + 3))
         ) {
+          continue;
+        }
+        if (name === "token-like" && UUID_PATTERN.test(match[0])) {
           continue;
         }
         hits.push({ line: index + 1, pattern: name, sample: match[0] });

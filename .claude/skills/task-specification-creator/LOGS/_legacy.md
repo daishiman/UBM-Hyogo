@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-08 - Issue #547 redacted feature export boundary promotion
+
+`docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` の Phase 12 review で、local fixture export PASS と production 90 day read-only export を同じ PASS にしない boundary を確認した。`references/phase12-skill-feedback-promotion.md` に Issue #547 applied example、`assets/phase12-task-spec-compliance-template.md` に AC / evidence / SSOT / parity / runtime-pending content gates、`references/phase-12-spec.md` に CLOSED Issue `Refs #<issue>` only rule を追加した。production export、commit、push、PR は user-gated のまま未実行。
+
 ## 2026-05-08 - Issue #546 long-running GitHub Actions observation evidence
 
 `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/` の Phase 12 review で、90 日 hourly run のように `gh run list --limit 500` 上限を超える観測は `gh api --paginate` と JSON array evidence を正本にする必要を確認した。JSON Lines を `.json` 正本にしないこと、D1 table missing / baseline helper 欠測 / tuning-cost 未取得は `PENDING_RUNTIME_EVIDENCE` marker artifact として同じ canonical path に実体化することを `phase-11-non-visual-alternative-evidence.md` へ追加。Issue #546 は CLOSED 維持のため `Refs #546` のみ、次回再観測は unassigned reminder task へ formalize。
