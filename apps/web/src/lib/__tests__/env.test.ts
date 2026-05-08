@@ -50,7 +50,39 @@ describe("env", () => {
   it("getEnv allows optional secrets to be absent", () => {
     const env = getEnv(validEnv);
     expect(env.SENTRY_DSN_WEB).toBeUndefined();
+    expect(env.NEXT_PUBLIC_SENTRY_DSN).toBeUndefined();
+    expect(env.NEXT_PUBLIC_SENTRY_ENVIRONMENT).toBeUndefined();
     expect(env.AUTH_SECRET).toBeUndefined();
+  });
+
+  it("getEnv parses NEXT_PUBLIC_SENTRY_DSN when supplied as a valid URL", () => {
+    const env = getEnv({
+      ...validEnv,
+      NEXT_PUBLIC_SENTRY_DSN: "https://abc123@o0.ingest.sentry.io/1",
+      NEXT_PUBLIC_SENTRY_ENVIRONMENT: "staging",
+      NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: "0.2",
+    });
+    expect(env.NEXT_PUBLIC_SENTRY_DSN).toBe("https://abc123@o0.ingest.sentry.io/1");
+    expect(env.NEXT_PUBLIC_SENTRY_ENVIRONMENT).toBe("staging");
+    expect(env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE).toBe(0.2);
+  });
+
+  it("getEnv throws ZodError for invalid NEXT_PUBLIC_SENTRY_DSN", () => {
+    expect(() =>
+      getEnv({ ...validEnv, NEXT_PUBLIC_SENTRY_DSN: "not-a-url" }),
+    ).toThrow(ZodError);
+  });
+
+  it("getEnv throws ZodError for unknown NEXT_PUBLIC_SENTRY_ENVIRONMENT", () => {
+    expect(() =>
+      getEnv({ ...validEnv, NEXT_PUBLIC_SENTRY_ENVIRONMENT: "qa" }),
+    ).toThrow(ZodError);
+  });
+
+  it("getEnv throws ZodError for out-of-range NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE", () => {
+    expect(() =>
+      getEnv({ ...validEnv, NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: "2" }),
+    ).toThrow(ZodError);
   });
 
   it("readRawEnv prefers Cloudflare env when available", () => {

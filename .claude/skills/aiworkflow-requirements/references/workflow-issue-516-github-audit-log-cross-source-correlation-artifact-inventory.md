@@ -2,7 +2,7 @@
 
 ## canonical root
 
-`docs/30-workflows/issue-516-github-audit-log-cross-source-correlation/`
+`docs/30-workflows/completed-tasks/issue-516-github-audit-log-cross-source-correlation/`
 
 ## root artifacts
 
@@ -90,6 +90,7 @@
 | --- | --- |
 | upstream | `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/` (Cloudflare audit logs canonical source) |
 | source unassigned | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-04-github-audit-merge.md`（formalized_by_issue_516） |
+| downstream (FU-02) | `docs/30-workflows/issue-554-audit-correlation-branch-protection-required-check/` (Issue #554, branch protection required status check) / `references/branch-protection.md` / `references/workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md` |
 
 ## deferred follow-ups
 

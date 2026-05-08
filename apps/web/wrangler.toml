@@ -18,7 +18,9 @@ PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 INTERNAL_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 AUTH_URL = "https://ubm-hyogo-web.daishimanju.workers.dev"
 SENTRY_ENVIRONMENT = "production"
+NEXT_PUBLIC_SENTRY_ENVIRONMENT = "production"
 SENTRY_TRACES_SAMPLE_RATE = "0.1"
+NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE = "0.1"
 
 [env.staging]
 name = "ubm-hyogo-web-staging"
@@ -30,7 +32,9 @@ PUBLIC_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
 INTERNAL_API_BASE_URL = "https://ubm-hyogo-api-staging.daishimanju.workers.dev"
 AUTH_URL = "https://ubm-hyogo-web-staging.daishimanju.workers.dev"
 SENTRY_ENVIRONMENT = "staging"
+NEXT_PUBLIC_SENTRY_ENVIRONMENT = "staging"
 SENTRY_TRACES_SAMPLE_RATE = "0.2"
+NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE = "0.2"
 
 [[env.staging.services]]
 binding = "API_SERVICE"
@@ -54,7 +58,9 @@ PUBLIC_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 INTERNAL_API_BASE_URL = "https://ubm-hyogo-api.daishimanju.workers.dev"
 AUTH_URL = "https://ubm-hyogo-web.daishimanju.workers.dev"
 SENTRY_ENVIRONMENT = "production"
+NEXT_PUBLIC_SENTRY_ENVIRONMENT = "production"
 SENTRY_TRACES_SAMPLE_RATE = "0.1"
+NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE = "0.1"
 
 [[env.production.services]]
 binding = "API_SERVICE"

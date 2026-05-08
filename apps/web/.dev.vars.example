@@ -6,8 +6,11 @@ PUBLIC_API_BASE_URL=http://127.0.0.1:8787
 INTERNAL_API_BASE_URL=http://127.0.0.1:8787
 AUTH_URL=http://127.0.0.1:3000
 SENTRY_ENVIRONMENT=local
+NEXT_PUBLIC_SENTRY_ENVIRONMENT=local
 SENTRY_TRACES_SAMPLE_RATE=1.0
+NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE=1.0
 
 # Secrets: keep real values in 1Password / Cloudflare Secrets, never in git.
-SENTRY_DSN_WEB=op://Personal/UBM Sentry Dev/dsn
+SENTRY_DSN_WEB=op://UBM-Hyogo/Sentry Web DSN (local)/dsn
+NEXT_PUBLIC_SENTRY_DSN=op://UBM-Hyogo/Sentry Web DSN (local)/public_dsn
 AUTH_SECRET=op://Personal/UBM Auth/secret

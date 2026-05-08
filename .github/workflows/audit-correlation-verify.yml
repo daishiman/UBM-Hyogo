@@ -4,7 +4,12 @@ on:
   pull_request:
     paths:
       - 'apps/api/src/audit-correlation/**'
+      - 'apps/api/src/routes/audit-correlation/**'
+      - 'apps/api/migrations/*audit_correlation_findings.sql'
+      - 'apps/api/src/env.ts'
+      - 'apps/api/wrangler.toml'
       - 'scripts/audit-correlation/**'
+      - 'docs/runbooks/audit-correlation.md'
       - '.github/workflows/audit-correlation-verify.yml'
   push:
     branches: [main, dev]
@@ -32,6 +37,30 @@ jobs:
         run: mise exec -- bats scripts/audit-correlation/__tests__/grep-gate.bats
       - name: bats runner determinism
         run: mise exec -- bats scripts/audit-correlation/__tests__/runner-determinism.bats
+      - name: bats live-mode (Issue #553)
+        run: mise exec -- bats scripts/audit-correlation/__tests__/live-mode.bats
+      - name: live-mode source grep gate (no webhook / PAT / Slack token / salt literal)
+        run: |
+          set -e
+          # live-mode wiring 関連ファイル群に webhook URL / PAT 値 / salt の literal 漏れがないことを保証
+          PATHS=(
+            apps/api/src/audit-correlation
+            apps/api/src/routes/audit-correlation
+            scripts/audit-correlation
+          )
+          # __tests__ 配下は意図的に literal placeholder を含むためスキャン対象外
+          check_no_match() {
+            if grep -rE --exclude-dir=__tests__ "$1" "${PATHS[@]}"; then
+              echo "forbidden pattern matched: $1" >&2
+              exit 1
+            fi
+          }
+          check_no_match 'hooks\.slack\.com/services/[A-Za-z0-9/_-]{20,}'
+          check_no_match 'ghp_[A-Za-z0-9]{20,}'
+          check_no_match 'ghs_[A-Za-z0-9]{20,}'
+          check_no_match 'github_pat_[A-Za-z0-9_]{20,}'
+          check_no_match 'xox[bp]-[A-Za-z0-9-]{20,}'
+          check_no_match 'AUDIT_CORRELATION_SALT=[^[:space:]]+'
       - name: shellcheck
         run: shellcheck scripts/audit-correlation/*.sh
       - name: actionlint
