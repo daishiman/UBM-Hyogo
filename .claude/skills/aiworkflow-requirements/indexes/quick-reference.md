@@ -1686,6 +1686,20 @@ packages/
 | evidence | local focused tests + Phase 12 strict files: `docs/30-workflows/issue-372-attendance-pagination/outputs/phase-12/`; staging screenshots/curl remain Phase 11 pending |
 | lessons-learned | `references/lessons-learned-issue-372-attendance-pagination-2026-05.md`（L-ISSUE372-001〜006: cursor encoded/decoded 境界 / bulk と個人特化 API 分離 / `attendanceMeta` optional 追加 / miniflare EADDRNOTAVAIL focused run / 1Password CLI timeout 切り分け / Phase 11 visual evidence pending を spec sync の blocker にしない） |
 
+### Issue #533 Public Profile Attendance Injection 早見（verified / 2026-05-08）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/completed-tasks/issue-533-public-profile-builder-attendance-injection/` |
+| 状態 | verified / implementation / NON_VISUAL / implementation_complete_pending_pr / Phase 13 pending_user_approval |
+| issue | GitHub Issue #533 は CLOSED 維持。PR 文脈は `Refs #533` のみ |
+| shared contract | `PublicMemberProfile.attendance: AttendanceRecord[]`, optional `attendanceMeta`。公開 contract の型は `packages/shared/src/types/viewmodel/index.ts` と `packages/shared/src/zod/viewmodel.ts` |
+| read path | `GET /public/members/:memberId` は `attendanceProviderMiddleware` + `RepositoryProviderVariables` で `c.var.attendanceProvider` を bind し、公開適格判定後に default 50 件を返す。soft-deleted meeting は `meeting_sessions.deleted_at IS NULL` で除外 |
+| privacy boundary | `responseEmail`, `audit`, `adminNotes`, member-only/admin-only field は public response に含めない。session/admin guard は `/public/*` に追加しない |
+| evidence | focused tests 5 files / 66 tests PASS、shared zod test 15 files / 170 tests PASS、api typecheck PASS。full api test script は対象指定が効かず全体実行となり、既存長時間 tests timeout が混在したため focused command を正とする |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260508-issue533-public-profile-attendance.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md` |
+
 ### UBM-Hyogo Attendance Write Operations Close-out（UT-02A follow-up / 2026-05-06）
 
 | 観点 | 値 / 参照先 |

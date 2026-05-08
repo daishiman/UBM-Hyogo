@@ -1,9 +1,13 @@
 // GET /public/members/:memberId use-case (04a)
 // 公開フィルタ EXISTS → 0 件なら 404 (AC-4)。view converter で leak 二重チェック。
 
-import type { DbCtx } from "../../repository/_shared/db";
+import type { RepositoryProviderCtx } from "../../repository/_shared/provider-context";
 import { ApiError } from "@ubm-hyogo/shared/errors";
 
+import {
+  ATTENDANCE_PAGE_DEFAULT_LIMIT,
+  type AttendanceProvider,
+} from "../../repository/attendance";
 import { findCurrentResponse } from "../../repository/responses";
 import { listFieldsByResponseId } from "../../repository/responseFields";
 import { listTagsByMemberId } from "../../repository/memberTags";
@@ -16,7 +20,7 @@ import {
 } from "../../view-models/public/public-member-profile-view";
 
 export interface GetPublicMemberProfileDeps {
-  ctx: DbCtx;
+  ctx: RepositoryProviderCtx;
 }
 
 const parseJson = (raw: string | null): unknown => {
@@ -26,6 +30,16 @@ const parseJson = (raw: string | null): unknown => {
   } catch {
     return null;
   }
+};
+
+const requireAttendanceProvider = (
+  ctx: RepositoryProviderCtx,
+): AttendanceProvider => {
+  const provider = ctx.var.attendanceProvider;
+  if (!provider) {
+    throw new Error("attendanceProvider not bound to context");
+  }
+  return provider;
 };
 
 export const getPublicMemberProfileUseCase = async (
@@ -44,10 +58,14 @@ export const getPublicMemberProfileUseCase = async (
   const response = await findCurrentResponse(ctx, memberId as never);
   if (!response) throw new ApiError({ code: "UBM-1404" });
 
-  const [fieldRows, tagRows, schemaRows] = await Promise.all([
+  const attendanceProvider = requireAttendanceProvider(ctx);
+  const [fieldRows, tagRows, schemaRows, attendancePage] = await Promise.all([
     listFieldsByResponseId(ctx, response.response_id as never),
     listTagsByMemberId(ctx, memberId as never),
     listFieldsByVersion(ctx, response.form_id, response.revision_id),
+    attendanceProvider.findByMemberId(memberId as never, {
+      limit: ATTENDANCE_PAGE_DEFAULT_LIMIT,
+    }),
   ]);
 
   return toPublicMemberProfile({
@@ -70,6 +88,11 @@ export const getPublicMemberProfileUseCase = async (
       kind: s.kind,
       position: s.position,
     })),
+    attendance: [...attendancePage.records],
+    attendanceMeta: {
+      hasMore: attendancePage.hasMore,
+      nextCursor: attendancePage.nextCursor,
+    },
     tags: tagRows.map((t) => ({
       code: t.code,
       label: t.label,

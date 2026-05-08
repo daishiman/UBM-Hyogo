@@ -140,6 +140,7 @@ describe("AttendanceProvider.findByMemberId", () => {
     expect(result.records).toHaveLength(10);
     expect(result.hasMore).toBe(false);
     expect(result.nextCursor).toBeNull();
+    expect(db.preparedSqls[0]).toMatch(/ms\.deleted_at IS NULL/);
   });
 
   it("件数が limit を超えると hasMore=true + nextCursor 返却", async () => {

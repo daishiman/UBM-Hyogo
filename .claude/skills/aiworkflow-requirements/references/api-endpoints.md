@@ -184,10 +184,10 @@ Auth.js session cookie は 05a で共有 HS256 JWT に固定し、`packages/shar
 | --- | --- | --- | --- | --- |
 | GET | `/public/stats` | 公開 KPI、zone / membership breakdown、今年の支部会数、直近支部会、schema / response sync 状態 | 不要 | `public, max-age=60` |
 | GET | `/public/members` | 公開会員一覧。`q / zone / status / tag / sort / density / page / limit` を受け付ける | 不要 | `no-store` |
-| GET | `/public/members/:memberId` | 公開会員プロフィール。公開同意・公開状態・未削除を満たさない member は 404 | 不要 | `no-store` |
+| GET | `/public/members/:memberId` | 公開会員プロフィール。公開同意・公開状態・未削除を満たさない member は 404。`attendanceProviderMiddleware` / `RepositoryProviderVariables` 経由で attendance provider を bind し、公開適格判定後に `attendance: AttendanceRecord[]` と optional `attendanceMeta` を返す | 不要 | `no-store` |
 | GET | `/public/form-preview` | `schema_questions` 由来のフォームプレビューと responder URL | 不要 | `public, max-age=60` |
 
-公開 member の基本条件は `public_consent='consented' AND publish_state='public' AND is_deleted=0`。profile / list response は `responseEmail` / `rulesConsent` / `adminNotes` を含めない。`/public/members` の `tag` は repeated query を AND 条件として扱い、`limit` は 1〜100 に clamp する。
+公開 member の基本条件は `public_consent='consented' AND publish_state='public' AND is_deleted=0`。profile / list response は `responseEmail` / `rulesConsent` / `adminNotes` を含めない。`GET /public/members/:memberId` の attendance は `member_attendance` と active `meeting_sessions`（`meeting_sessions.deleted_at IS NULL`）を `session_id` で INNER JOIN した `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）に限定し、soft-deleted meeting、member-only / admin-only field、audit 情報は返さない。非公開 member の attendance 有無は 404 経路で漏らさない。`/public/members` の `tag` は repeated query を AND 条件として扱い、`limit` は 1〜100 に clamp する。
 
 `GET /admin/smoke/sheets` は UT-26 の NON_VISUAL smoke route。`GOOGLE_SHEETS_SA_JSON` / `SHEETS_SPREADSHEET_ID` を読み取り専用で使い、2 回連続 `fetchRange()` の間に OAuth token fetch が 1 回だけであることを `tokenFetchesDuringSmoke=1` として返す。`range` query は 80 文字以内の単一 A1 range のみ許可する。
 

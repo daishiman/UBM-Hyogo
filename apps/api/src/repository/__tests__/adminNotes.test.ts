@@ -300,7 +300,7 @@ describe("adminNotes (CRUD)", () => {
   it("AC-2: PublicMemberProfile / MemberProfile に adminNotes が混入しない（型不在）", () => {
     type ViewModelKeys = keyof import("@ubm-hyogo/shared").PublicMemberProfile;
     type MemberProfileKeys = keyof import("@ubm-hyogo/shared").MemberProfile;
-    const _check: Exclude<ViewModelKeys, "memberId" | "summary" | "publicSections" | "tags"> extends never ? true : false = true;
+    const _check: Exclude<ViewModelKeys, "memberId" | "summary" | "publicSections" | "attendance" | "attendanceMeta" | "tags"> extends never ? true : false = true;
     const _memberCheck: "adminNotes" extends MemberProfileKeys ? false : true = true;
     expect(_check).toBe(true);
     expect(_memberCheck).toBe(true);
