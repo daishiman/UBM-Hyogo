@@ -2381,6 +2381,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L56 |
 
+### references/workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L13 |
+| Boundary | L29 |
+
 ### references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md
 
 | セクション | 行 |
@@ -2391,14 +2399,6 @@ node scripts/list-specs.js --topics
 | Boundary | L44 |
 | Verification state | L52 |
 | Lessons learned | L66 |
-
-### references/workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Metadata | L3 |
-| Current Canonical Set | L13 |
-| Boundary | L29 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -4364,6 +4364,15 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L179 |
 | 引用元 | L188 |
 
+### references/lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE518-001: HOLD 政策で workflow を残すなら schedule 削除 + workflow_dispatch + dry_run 強制 の三段階で実行を物理的に塞ぐ | L7 |
+| L-ISSUE518-002: schedule を停止した時点で死活監視 watchdog は冗長になるため同一 wave で削除する | L28 |
+| L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
+| 参照元 | L66 |
+
 ### references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md
 
 | セクション | 行 |
@@ -4375,15 +4384,6 @@ node scripts/list-specs.js --topics
 | L-I532-005: coverage guard NO-OP と full coverage NOT PASS を実装完了と混同しない | L27 |
 | Related Resources | L31 |
 | Search Keywords | L42 |
-
-### references/lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-ISSUE518-001: HOLD 政策で workflow を残すなら schedule 削除 + workflow_dispatch + dry_run 強制 の三段階で実行を物理的に塞ぐ | L7 |
-| L-ISSUE518-002: schedule を停止した時点で死活監視 watchdog は冗長になるため同一 wave で削除する | L28 |
-| L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
-| 参照元 | L66 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -4755,8 +4755,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L99 |
-| 関連ドキュメント | L104 |
+| 利用順序 | L100 |
+| 関連ドキュメント | L105 |
 
 ### references/llm-embedding.md
 
@@ -5860,20 +5860,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L511 |
-| フェーズ構造（概要） | L520 |
-| 品質ゲート（概要） | L551 |
-| 出力テンプレート | L562 |
-| 実行時のコマンド・エージェント・スキル | L585 |
-| 昇格パターン集 | L609 |
-| Current Active / Spec Created Tasks | L611 |
-| ドキュメント構成 | L526 |
-| フェーズ構造（概要） | L535 |
-| 品質ゲート（概要） | L566 |
-| 出力テンプレート | L577 |
-| 実行時のコマンド・エージェント・スキル | L600 |
-| 昇格パターン集 | L624 |
-| Current Active / Spec Created Tasks | L626 |
+| ドキュメント構成 | L544 |
+| フェーズ構造（概要） | L553 |
+| 品質ゲート（概要） | L584 |
+| 出力テンプレート | L595 |
+| 実行時のコマンド・エージェント・スキル | L618 |
+| 昇格パターン集 | L642 |
+| Current Active / Spec Created Tasks | L644 |
 
 ### references/task-workflow-backlog-part2.md
 
