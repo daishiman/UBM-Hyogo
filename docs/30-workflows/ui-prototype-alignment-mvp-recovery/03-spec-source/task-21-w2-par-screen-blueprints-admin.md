@@ -7,6 +7,7 @@
 ### 0.1 上位ゴール
 
 `docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx`（658 行・凍結正本）の **管理層 8 routes** を `09g-screen-blueprints-admin.md` に current API contract として再構成する。prototype の見出し / button label / placeholder / confirm dialog 文言は維持し、JSX 内の視覚値 literal は 09b / 09c token 名へ正規化する。AdminSidebar は §1 に集約し全画面共通として扱う。queue resolve / schema alias dry-run-apply / identity merge-dismiss 等の current 操作手順を明文化する。
+`docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx`（658 行・凍結正本）の **管理層 8 routes** を `09g-screen-blueprints-admin.md` に **構造 contract として完全再現**する。プロトタイプ未掲載の admin 画面（requests / identity-conflicts / audit など 3 画面）は phase-3 §3 §5.3〜§5.7 の派生ルールを正本転記する。AdminSidebar は §1 に集約し全画面共通として扱う。bulk-action / approve-reject / schema-apply confirm 等の操作手順を明文化する。token は `--ubm-*` 名のみ参照（値は 09b、primitive は 09c、icon は 09d）。
 
 ### 0.2 DAG 座標
 
@@ -107,6 +108,7 @@ aiworkflow-requirements `references/api-endpoints.md` の current admin API を 
 
 1. admin 8 routes + AdminSidebar 共通 = **9 セクション**を 09g に新規作成
 2. プロトタイプ掲載 4 画面（dashboard / members / tags / schema）はコピー文言を維持し、視覚値 literal は token 名へ正規化
+2. プロトタイプ掲載 4 画面（dashboard / members / tags / schema）は 構造・copy・状態 contract 転記
 3. 未掲載 4 画面（meetings / requests / identity-conflicts / audit）は phase-3 §3 派生ルールに従って完全再現
 4. AdminSidebar は §1 集約・他画面で重複記述禁止
 5. bulk-action / queue resolve / schema alias apply 等の操作手順を §X.7 で手順化
@@ -204,7 +206,7 @@ stateDiagram-v2
 ## 1. AdminSidebar (全画面共通)
 
 ### 1.1 prototype 由来
-（AdminLayout 内 sidebar 部分の JSX を一字一句転記）
+（AdminLayout 内 sidebar 部分の JSX を構造 contract 転記）
 
 ### 1.2 nav 項目
 | order | label | route | icon |
@@ -311,7 +313,7 @@ mise exec -- pnpm lint:md docs/00-getting-started-manual/specs/09g-screen-bluepr
 - [ ] `09g-screen-blueprints-admin.md` 新規作成・700〜1200 行
 - [ ] §1 AdminSidebar 共通セクション（重複なし）
 - [ ] §2〜§9 で admin 8 routes blueprint が揃う（dashboard / members / tags / meetings / schema / requests / identity-conflicts / audit）
-- [ ] §2〜§9 各画面で X.1 (JSX or 派生ルール) / X.2 (コピー原文) / X.3 (mermaid) / X.4 (API) / X.5 (props/state) / X.6 (a11y) / X.7 (操作手順) / X.8 (参照) が揃う
+- [ ] §2〜§9 各画面で X.1 (構造 contract or 派生ルール) / X.2 (コピー原文) / X.3 (mermaid) / X.4 (API) / X.5 (props/state) / X.6 (a11y) / X.7 (操作手順) / X.8 (参照) が揃う
 - [ ] 未掲載 4 画面（meetings / requests / identity-conflicts / audit）が phase-3 §3 §5.3〜§5.7 派生ルールに従って正本転記
 - [ ] bulk-action / queue resolve / schema alias apply で confirm Modal の `role="dialog"` + `aria-modal="true"` + focus trap + Esc close が §X.6 に記述
 - [ ] schema alias apply の二段確認（dryRun diff → aliases apply confirm）が §6.3 状態遷移に明示

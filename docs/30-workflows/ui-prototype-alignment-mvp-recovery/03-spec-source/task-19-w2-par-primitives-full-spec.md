@@ -6,7 +6,7 @@
 
 ### 0.1 上位ゴール
 
-`docs/00-getting-started-manual/claude-design-prototype/primitives.jsx`（272 行・凍結正本）に存在する **全 primitive component**（Button / Card / Badge(Chip) / Input(Field) / Select / Switch / Segmented / Sidebar(SidebarItem) / Stat / EmptyState / Avatar / Banner / Drawer / Modal / Toast / KVList / LinkPills 等）の **完全仕様書** `09b-... の隣りに位置する 09c-primitives.md` を新規作成する。各 primitive について「JSX inline（prototype 行範囲一字一句転記）+ props 表 + variants / sizes / states + a11y 仕様 + token 参照名」を 1 セクションに閉じ込め、後続 task-10（ui-primitives 実装）が「09c §X.Y を読んで 1 ファイル書ける」決定論的状態を作る。token 名は task-08（09b）が確定する `--ubm-*` prefix のみを参照し、HEX / oklch / px 値は 0 件にする（値の正本は 09b、視覚 mapping の正本は 09a）。
+`docs/00-getting-started-manual/claude-design-prototype/primitives.jsx`（272 行・凍結正本）に存在する **const-based primitive / helper set**（Chip / Avatar / Button / Switch / Segmented / Field / Input / Textarea / Select / Search / Drawer / Modal / Toast / KVList / LinkPills / zoneTone / statusTone 等）の **完全仕様書** `09b-... の隣りに位置する 09c-primitives.md` を新規作成する。各 primitive について「JSX inline excerpt + props 表 + variants / sizes / states + a11y 仕様 + token 参照名」を 1 セクションに閉じ込め、後続 task-10（ui-primitives 実装）が「09c §X.Y を読んで 1 ファイル書ける」決定論的状態を作る。token 名は task-08（09b）が確定する `--ubm-*` prefix のみを参照し、HEX / oklch / px 値および placeholder token（`token-sized` / `09b-token-value` / `token-mix`）は 0 件にする（値の正本は 09b、視覚 mapping の正本は 09a）。
 
 ### 0.2 DAG 座標
 
@@ -38,29 +38,30 @@ primitive は API 接続を持たない（Button onClick / Field onChange など
 
 - phase-2 §4 の primitives 列挙（13 primitive + feature components）
 - phase-3 §3 の未掲載画面派生ルール（primitive の組合せのみで構成）
-- primitives.jsx の関数宣言行（Chip L6 / SectionTitle L17 / SubSectionTitle / Pill / NavBtn / IconBtn / Button L92 / Switch L113 / Segmented L118 / Field L129 / Drawer L158 / Modal L177 / Toast L198 / KVList L226 / LinkPills L248 など）
+- primitives.jsx の const 宣言行（Chip L6 / AvatarStoreProvider L20 / Avatar L37 / Button L92 / Switch L113 / Segmented L118 / Field L129 / Input L145 / Textarea L146 / Select L147 / Search L150 / Drawer L158 / Modal L177 / ToastProvider L201 / KVList L226 / LinkPills L248 / zoneTone L265 / statusTone L266 など）
 
 ### 0.7 下流へ渡すシグネチャ
 
 新 `09c-primitives.md` は以下の **grep 可能な見出し**を必ず提供する:
 
-- `## 1. Button`
-- `## 2. Card`
-- `## 3. Badge` (旧 Chip)
-- `## 4. Input` / `## 5. Field`
-- `## 6. Select`
-- `## 7. Switch`
-- `## 8. Segmented`
-- `## 9. Sidebar`
-- `## 10. Stat`
-- `## 11. EmptyState`
-- `## 12. Avatar`
-- `## 13. Banner`
-- `## 14. Drawer`
-- `## 15. Modal`
-- `## 16. Toast`
-- `## 17. KVList`
-- `## 18. LinkPills`
+- `## 1. プリミティブ一覧（カタログ）`
+- `## 2. Chip`
+- `## 3. Avatar (+ Store)`
+- `## 4. Button`
+- `## 5. Switch`
+- `## 6. Segmented`
+- `## 7. Field`
+- `## 8. Input / Textarea / Select`
+- `## 9. Search`
+- `## 10. Drawer`
+- `## 11. Modal`
+- `## 12. Toast (Provider + useToast)`
+- `## 13. KVList`
+- `## 14. LinkPills`
+- `## 15. zoneTone / statusTone（ヘルパー関数）`
+- `## 16. グローバルエクスポート（prototype 環境）`
+- `## 17. 補助 primitive / helper 転記`
+- `## 18. 実装上の注意`
 - `## 99. 不採用 primitive`
 
 各 §X は同じ列構成で記述する:
@@ -96,7 +97,7 @@ primitive は API 接続を持たない（Button onClick / Field onChange など
 
 ### 0.8 用語
 
-- **primitive**: 単一責務の最小 UI 部品。Button / Card / Badge / Input / Select / Switch / Segmented / Sidebar / Stat / EmptyState / Avatar / Banner / Drawer / Modal / Toast / KVList / LinkPills。
+- **primitive**: 単一責務の最小 UI 部品。Chip / Avatar / Button / Switch / Segmented / Field / Input / Textarea / Select / Search / Drawer / Modal / Toast / KVList / LinkPills。
 - **feature component**: primitive を組合わせた画面固有の塊（Hero / Stats / MemberCard 等）。本ファイル対象外（09e/09f/09g）。
 - **token 参照名**: `--ubm-color-accent` 等の CSS 変数名。値は 09b、本ファイルは名前のみ。
 
@@ -160,24 +161,24 @@ primitive は API 接続を持たない（Button onClick / Field onChange など
 ### 4.1 章立て（17 primitive + 不採用）
 
 ```
-1. Button (primitives.jsx L92-L110)
-2. Card
-3. Badge (Chip L6-L14)
-4. Input
-5. Field (L129-L143)
-6. Select
-7. Switch (L113-L115)
-8. Segmented (L118-L126)
-9. Sidebar
-10. Stat
-11. EmptyState
-12. Avatar
-13. Banner
-14. Drawer (L158-L174)
-15. Modal (L177-L195)
-16. Toast (L198-L223)
-17. KVList (L226-L235)
-18. LinkPills (L248-L262)
+1. プリミティブ一覧（カタログ）
+2. Chip (primitives.jsx L6-L14)
+3. Avatar (+ Store) (L17-L89)
+4. Button (L92-L110)
+5. Switch (L113-L115)
+6. Segmented (L118-L126)
+7. Field (L129-L143)
+8. Input / Textarea / Select (L145-L147)
+9. Search (L150-L155)
+10. Drawer (L158-L174)
+11. Modal (L177-L195)
+12. Toast (Provider + useToast) (L198-L223)
+13. KVList (L226-L235)
+14. LinkPills (L238-L262)
+15. zoneTone / statusTone (L265-L266)
+16. グローバルエクスポート（prototype 環境）
+17. 補助 primitive / helper 転記
+18. 実装上の注意
 99. 不採用 primitive (TweaksPanel / data-theme switcher / AvatarStoreProvider#localStorage)
 ```
 
