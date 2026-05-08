@@ -158,6 +158,7 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
@@ -3970,6 +3971,7 @@
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
     ],
@@ -5155,6 +5157,7 @@
       "interfaces-agent-sdk-skill-advanced.md",
       "interfaces-agent-sdk-skill-reference-share-debug-analytics.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "observability-monitoring.md",
       "schema-alias-backfill-runbook.md",
       "ui-ux-feature-components-core.md",
@@ -5433,6 +5436,7 @@
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -5721,6 +5725,7 @@
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -5826,6 +5831,7 @@
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
@@ -6094,6 +6100,7 @@
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
     ],
@@ -7151,7 +7158,8 @@
     ],
     "用語集": [
       "glossary.md",
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md"
     ],
     "Glossary": [
       "glossary.md"
@@ -8358,6 +8366,7 @@
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -8425,6 +8434,7 @@
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
@@ -9609,6 +9619,7 @@
       "lessons-learned-07c-attendance-audit-2026-04.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
@@ -9853,6 +9864,7 @@
       "skill-ledger-gitignore-policy.md",
       "skill-ledger-overview.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
     ],
@@ -10351,6 +10363,7 @@
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -11120,6 +11133,7 @@
     "Smoke": [
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "observability-monitoring.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
@@ -11419,6 +11433,7 @@
     "Production": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
@@ -11749,6 +11764,7 @@
     "promoted": [
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "inventory": [
@@ -11765,6 +11781,7 @@
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -11991,6 +12008,7 @@
     "provider": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md"
     ],
@@ -12773,16 +12791,19 @@
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md"
     ],
     "苦戦箇所と学び": [
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md"
     ],
     "タイムライン": [
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
     ],
     "横断的な学び": [
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md"
     ],
     "反映先": [
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
@@ -12805,13 +12826,15 @@
     ],
     "to": [
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "task-workflow-completed-recent-2026-04d.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "再発防止サマリ表": [
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md"
     ],
     "後続タスクが事前確認すべき運用": [
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
@@ -12821,13 +12844,19 @@
       "spec-elegance-consistency-audit.md"
     ],
     "本タスクで導入": [
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md"
     ],
     "確定した語彙": [
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md"
     ],
     "引用元": [
-      "lessons-learned-issue-517-followup-auto-summary-2026-05.md"
+      "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md"
+    ],
+    "attendanceProvider": [
+      "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md"
     ],
     "against": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
@@ -19405,12 +19434,14 @@
     ],
     "User": [
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
-      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md"
+      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md"
     ],
     "Gate": [
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
+      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"

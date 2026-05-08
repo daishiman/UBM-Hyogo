@@ -2371,6 +2371,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L56 |
 
+### references/workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L45 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4274,6 +4280,18 @@ node scripts/list-specs.js --topics
 | 後続タスクが事前確認すべき運用 checklist | L168 |
 | 用語集（本タスクで導入 / 確定した語彙） | L179 |
 | 引用元 | L188 |
+
+### references/lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L10 |
+| 苦戦箇所と学び | L16 |
+| 横断的な学び | L87 |
+| 反映先（promoted to） | L95 |
+| 再発防止サマリ表 | L104 |
+| 用語集（本タスクで導入 / 確定した語彙） | L112 |
+| 引用元 | L118 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 

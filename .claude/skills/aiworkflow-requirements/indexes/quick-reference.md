@@ -5,6 +5,23 @@
 
 ---
 
+### Issue #572 Attendance Provider Production Runtime Smoke（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-572-attendance-provider-production-runtime-smoke/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / production runtime pending_user_gate` |
+| runner | `apps/api/scripts/runtime-smoke/run-smoke.sh` |
+| compatibility wrapper | `apps/api/scripts/runtime-smoke/run-production-smoke.sh` |
+| runbook | `docs/30-workflows/runbooks/production-runtime-smoke-attendance.md` |
+| redaction SSOT | `scripts/lib/redaction.sh` R-07 production runtime smoke rules |
+| DI-bound assertions | `/admin/members/:memberId` `.attendance` array、`/me/profile` `.profile.attendance` array |
+| evidence boundary | `outputs/phase-11/phase-11.md` は手順書。redaction grep は runtime summary と `outputs/phase-11/evidence/` のみ対象 |
+| approval boundary | production GET smoke、Issue #371 `PASS_RUNTIME_VERIFIED` 昇格 commit、push、PR は user approval 後 |
+| lessons-learned | `references/lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md`（L-572-001..003） |
+| artifact inventory | `references/workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md` |
+| changelog | `changelog/20260508-issue-572-attendance-provider-production-runtime-smoke.md` |
+
 ### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
 
 | 目的 | 参照先 |
