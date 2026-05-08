@@ -8,7 +8,7 @@ import {
 import type {
   NotificationOutboxRepository,
   NotificationOutboxRow,
-} from "../repository/notificationOutbox";
+} from "../repository/_shared/provider-context";
 import type {
   DispatchResult,
   NotificationDispatcher,
