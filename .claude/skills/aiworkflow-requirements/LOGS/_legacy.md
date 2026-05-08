@@ -760,6 +760,19 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - downstream: task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認
 - skill-feedback: なし（task-specification-creator / aiworkflow-requirements 既存ルールでカバー）
 - unassigned-task: 0 件追加（task-02..22 は既起票）
+
+# 2026-05-07 UI prototype mapping table task-07
+
+- wave: ui-prototype-alignment-mvp-recovery / W2 / parallel
+- state: spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval
+- workflow root: `docs/30-workflows/completed-tasks/task-07-prototype-mapping-table/`
+- artifact: `docs/00-getting-started-manual/specs/09a-prototype-map.md`
+- inventory: `references/workflow-task-07-prototype-mapping-table-artifact-inventory.md`
+- 苦戦箇所: `lessons-learned/lessons-learned-task-07-prototype-mapping-table-2026-05.md`（L-07-001..004: 逆引き目次の責務分離 / verifier による frozen JSX 保護 / 層別カウント契約 / derivation rule §5.1-§5.8 固定）
+- verifier: `scripts/verify-09a-prototype-line-ranges.sh` checks exactly 19 routes, derivation/rejection counts, line range end existence, and major component start lines
+- sync: `references/ui-ux-prototype-map.md`, `references/workflow-task-07-prototype-mapping-table-artifact-inventory.md`, `lessons-learned/lessons-learned-task-07-prototype-mapping-table-2026-05.md`, `indexes/quick-reference.md`, `indexes/resource-map.md`, `indexes/topic-map.md`, `indexes/keywords.json`, `references/task-workflow-active.md`, and `changelog/20260507-ui-prototype-scope-gate.md` were synchronized in the same wave
+- boundary: apps/packages diff 0、新 endpoint / D1 schema / secret / runtime config 変更なし、screenshot 不要
+- review fix: unrelated deletion diffs for issue-372 and UT-02A attendance dashboard analytics were restored before close-out
 # 2026-05-07 task-06 UI/UX contract rewrite
 
 - task-06 ui-ux-contract-rewrite を `implemented-local / implementation / NON_VISUAL` として参照。

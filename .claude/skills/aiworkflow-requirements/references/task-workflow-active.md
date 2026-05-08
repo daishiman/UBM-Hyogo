@@ -50,10 +50,23 @@
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
 
-### UI/UX Contract Rewrite task-06（2026-05-07）
+### UI prototype mapping table task-07（2026-05-07）
 
 | 項目 | 値 |
 | --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-07-prototype-mapping-table/` |
+| artifact | `docs/00-getting-started-manual/specs/09a-prototype-map.md` |
+| aiworkflow ref | `references/ui-ux-prototype-map.md` |
+| inventory | `references/workflow-task-07-prototype-mapping-table-artifact-inventory.md` |
+| 苦戦箇所 | `lessons-learned/lessons-learned-task-07-prototype-mapping-table-2026-05.md`（L-07-001..004） |
+| 目的 | frozen prototype JSX の component / route / line range を本番実装 target へ逆引きできる 1 ファイル正本を作る |
+| coverage | 13+ primitives、19 routes、shell/chrome、09c-09h source mapping、25+ line ledger、8 derivation rules |
+| 境界 | apps/packages コード変更なし。token 値 / props-state / API schema 正本化なし。未掲載画面で新規 primitive を生やさない |
+| 検証 | `bash scripts/verify-09a-prototype-line-ranges.sh` exit 0、`09-ui-ux.md` から 09a link あり |
+
+### UI/UX Contract Rewrite task-06（2026-05-07）
+
 | ステータス | implemented-local / implementation / NON_VISUAL / primary spec rewritten / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/completed-tasks/task-06-ui-ux-contract-rewrite/` |
 | primary spec | `docs/00-getting-started-manual/specs/09-ui-ux.md` |
@@ -75,7 +88,6 @@
 | 下流 | task-04 logger、task-05 error boundary / staging smoke |
 | 検証 | `pnpm --filter @ubm-hyogo/web exec tsc --noEmit` PASS、web Vitest 51 files / 420 tests PASS、`pnpm --filter @ubm-hyogo/web build:cloudflare` PASS、worker grep 0 hits、Phase 12 strict 7 outputs、Phase 11 outputs、Phase 13 approval-boundary outputs を同 wave で配置 |
 ### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
-| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
 | 成果物 | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
 | member blueprint | `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md`（917 行 / section count 3） |

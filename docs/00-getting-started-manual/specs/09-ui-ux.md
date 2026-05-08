@@ -2,6 +2,11 @@
 
 ## 1. 位置づけと正本主義
 
+- 正式な UI 方針は `claude-design-prototype/` に合わせる
+- prototype の行範囲から本番実装先を逆引きする場合は [`09a-prototype-map.md`](./09a-prototype-map.md) を正本にする
+- `gas-prototype/` は画面叩き台として参照するが、認証・保存・同期の振る舞いは正本にしない
+- 目的は、公開ユーザーには「誰がいるか」が分かり、会員には「自分の掲載状態」が分かり、管理者には「何を処理すべきか」が分かること
+- 実装先は `apps/web` の画面群で、`apps/api` は状態更新と同期の裏側を担う
 この文書は UBM 兵庫支部会メンバーサイトの UI 契約を定義する。
 扱う範囲は routes、component props、state、a11y、API 接続、token 参照名に限定する。
 視覚値、余白値、フォント値、prototype の行範囲、画面 blueprints は別正本へ委譲する。

@@ -1485,6 +1485,16 @@ node scripts/list-specs.js --topics
 | 参考実装 | L182 |
 | 関連ドキュメント | L190 |
 
+### references/ui-ux-prototype-map.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L3 |
+| Contract | L12 |
+| Boundaries | L17 |
+| Downstream Consumers | L25 |
+| Validation | L33 |
+
 ### references/ui-ux-search-panel-core.md
 
 | セクション | 行 |
@@ -2663,6 +2673,20 @@ node scripts/list-specs.js --topics
 | Validation Chain | L86 |
 
 ### references/workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md
+
+### references/workflow-task-07-prototype-mapping-table-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Summary | L3 |
+| Canonical Workflow | L9 |
+| Implementation Artifacts | L16 |
+| Runtime Contract | L23 |
+| Verifier Invariants | L34 |
+| Evidence | L47 |
+| System Spec Sync | L57 |
+| Downstream Consumers | L72 |
+| Invariants | L80 |
 
 ### references/workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md
 
@@ -5789,13 +5813,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L481 |
-| フェーズ構造（概要） | L490 |
-| 品質ゲート（概要） | L521 |
-| 出力テンプレート | L532 |
-| 実行時のコマンド・エージェント・スキル | L555 |
-| 昇格パターン集 | L579 |
-| Current Active / Spec Created Tasks | L581 |
+| ドキュメント構成 | L493 |
+| フェーズ構造（概要） | L502 |
+| 品質ゲート（概要） | L533 |
+| 出力テンプレート | L544 |
+| 実行時のコマンド・エージェント・スキル | L567 |
+| 昇格パターン集 | L591 |
+| Current Active / Spec Created Tasks | L593 |
 
 ### references/task-workflow-backlog-part2.md
 

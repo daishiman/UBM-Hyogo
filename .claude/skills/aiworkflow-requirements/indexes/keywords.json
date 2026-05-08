@@ -677,6 +677,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -1790,6 +1791,7 @@
       "ui-ux-navigation.md",
       "ui-ux-panels.md",
       "ui-ux-portal-patterns.md",
+      "ui-ux-prototype-map.md",
       "ui-ux-search-panel-core.md",
       "ui-ux-search-panel-details.md",
       "ui-ux-search-panel-history.md",
@@ -2522,6 +2524,7 @@
       "interfaces-skill-verify-contract.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
+      "ui-ux-prototype-map.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -3042,6 +3045,7 @@
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
@@ -3890,6 +3894,7 @@
       "ui-ux-llm-selector.md",
       "ui-ux-panels.md",
       "ui-ux-portal-patterns.md",
+      "ui-ux-prototype-map.md",
       "ui-ux-settings-core.md",
       "ui-ux-settings-details.md",
       "ui-ux-settings-history.md",
@@ -5202,6 +5207,7 @@
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
@@ -5229,6 +5235,7 @@
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
@@ -5387,6 +5394,7 @@
       "observability-monitoring.md",
       "post-release-long-term-observation.md",
       "schema-alias-backfill-runbook.md",
+      "ui-ux-prototype-map.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
@@ -5395,6 +5403,7 @@
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
@@ -5572,7 +5581,8 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md"
     ],
     "Table": [
-      "database-schema-07b-schema-alias-assignment.md"
+      "database-schema-07b-schema-alias-assignment.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "Responsibilities": [
       "database-schema-07b-schema-alias-assignment.md"
@@ -7408,7 +7418,8 @@
     "System": [
       "interfaces-agent-sdk-integration.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
-      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
+      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "SkillSlice": [
       "interfaces-agent-sdk-skill-advanced.md",
@@ -8328,6 +8339,7 @@
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
     ],
@@ -9139,6 +9151,7 @@
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
     ],
     "二重正本": [
@@ -9980,6 +9993,7 @@
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -10129,8 +10143,10 @@
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "ui-ux-prototype-map.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "boundaries": [
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
@@ -10153,7 +10169,8 @@
     ],
     "Boundaries": [
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md",
-      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md"
+      "lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md",
+      "ui-ux-prototype-map.md"
     ],
     "公開": [
       "lessons-learned-06a-public-web-2026-04.md"
@@ -13219,7 +13236,8 @@
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
     ],
     "prototype": [
-      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
+      "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
+      "ui-ux-prototype-map.md"
     ],
     "正本順位と視覚詳細委譲の判断基準": [
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
@@ -14811,7 +14829,8 @@
       "security-implementation.md"
     ],
     "map": [
-      "logs-archive-2026-01-topic-map-remember-choice.md"
+      "logs-archive-2026-01-topic-map-remember-choice.md",
+      "ui-ux-prototype-map.md"
     ],
     "更新": [
       "logs-archive-2026-01-topic-map-remember-choice.md",
@@ -16754,7 +16773,8 @@
     ],
     "Invariants": [
       "quality-e2e-testing.md",
-      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
+      "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "カタログ": [
       "quality-e2e-testing.md"
@@ -18908,6 +18928,15 @@
     "参考実装": [
       "ui-ux-portal-patterns.md"
     ],
+    "Status": [
+      "ui-ux-prototype-map.md",
+      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
+    ],
+    "Consumers": [
+      "ui-ux-prototype-map.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
+    ],
     "検索・置換パネル": [
       "ui-ux-search-panel-core.md",
       "ui-ux-search-panel-details.md",
@@ -19099,6 +19128,7 @@
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
@@ -19172,6 +19202,7 @@
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md",
@@ -19217,6 +19248,7 @@
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
@@ -19231,6 +19263,7 @@
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
@@ -19261,6 +19294,7 @@
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
@@ -19656,10 +19690,6 @@
     "Flag": [
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
     ],
-    "Status": [
-      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
-      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
-    ],
     "sentry": [
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md"
@@ -19981,6 +20011,15 @@
     ],
     "段階の": [
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
+    ],
+    "Prototype": [
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
+    ],
+    "Mapping": [
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
+    ],
+    "Verifier": [
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "Confirmed": [
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
