@@ -8,17 +8,19 @@ vi.mock("@sentry/nextjs", () => ({
 }));
 
 describe("instrumentation-client browser init guard", () => {
+  const browserWindow = globalThis.window;
+
   beforeEach(() => {
     initSpy.mockClear();
     vi.resetModules();
-    delete window.__ubmSentryInitialized__;
+    delete browserWindow.__ubmSentryInitialized__;
     process.env.NEXT_PUBLIC_SENTRY_DSN = "https://browser@example.test/1";
     process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT = "staging";
     process.env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE = "0.2";
   });
 
   afterEach(() => {
-    delete window.__ubmSentryInitialized__;
+    delete browserWindow.__ubmSentryInitialized__;
     delete process.env.NEXT_PUBLIC_SENTRY_DSN;
     delete process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT;
     delete process.env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE;
@@ -34,7 +36,7 @@ describe("instrumentation-client browser init guard", () => {
       environment: "staging",
       tracesSampleRate: 0.2,
     });
-    expect(window.__ubmSentryInitialized__).toBe(true);
+    expect(browserWindow.__ubmSentryInitialized__).toBe(true);
   });
 
   it("T-09: missing browser DSN skips init but settles the guard", async () => {
@@ -43,6 +45,6 @@ describe("instrumentation-client browser init guard", () => {
     await import("../instrumentation-client");
 
     expect(initSpy).toHaveBeenCalledTimes(0);
-    expect(window.__ubmSentryInitialized__).toBe(true);
+    expect(browserWindow.__ubmSentryInitialized__).toBe(true);
   });
 });

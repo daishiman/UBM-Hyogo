@@ -1,17 +1,36 @@
-// 06b: apps/web 用 ESLint flat config（placeholder）。
+import tsParser from "@typescript-eslint/parser";
+
+// 06b: apps/web 用 ESLint flat config。
 //
 // 不変条件と対応:
 //  - #4: /profile 配下に編集 form / input / textarea を配置しない（overrides で <form> 等を禁止）
 //  - #6: window.UBM 参照を禁止（no-restricted-globals + no-restricted-syntax）
 //  - #8: localStorage 経由で gate state を退避しない（no-restricted-syntax）
 //  - #9: `/no-access` ルートを採用しない（リテラル検出で error）
-//
-// ESLint dependency は本タスクではセットアップしない（infra タスクで導入）。
-// flat config の構文のみ用意し、運用開始時にそのまま読み込めるようにしておく。
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
   {
+    ignores: [
+      ".next/**",
+      ".open-next/**",
+      "coverage/**",
+      "cloudflare-env.d.ts",
+      "next-env.d.ts",
+      "node_modules/**",
+      "src/**/__tests__/**",
+    ],
+  },
+  {
+    files: ["**/*.{js,mjs,ts,tsx}"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+    },
     rules: {
       "no-restricted-syntax": [
         "error",
@@ -34,6 +53,14 @@ export default [
   {
     // /profile 配下は read-only。編集 form / input / textarea を禁止する（不変条件 #4）。
     files: ["app/profile/**/*.tsx", "app/profile/**/*.ts"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+    },
     rules: {
       "no-restricted-syntax": [
         "error",
@@ -60,6 +87,38 @@ export default [
         {
           selector: "MemberExpression[object.name='UBM']",
           message: "window.UBM は不採用（不変条件 #6）。",
+        },
+      ],
+    },
+  },
+  // task-04: window/document 素手参照禁止
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    ignores: [
+      "src/lib/is-browser.ts",
+      "src/instrumentation-client.ts",
+      "src/lib/sentry/**",
+      "src/**/__tests__/**",
+    ],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
+    },
+    rules: {
+      "no-restricted-globals": [
+        "error",
+        {
+          name: "window",
+          message:
+            "Use isBrowser() from src/lib/is-browser instead of bare window reference.",
+        },
+        {
+          name: "document",
+          message: "Wrap document access with isBrowser() guard.",
         },
       ],
     },

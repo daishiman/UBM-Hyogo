@@ -39,6 +39,17 @@ const SummaryZ = z.object({
   ubmMembershipType: z.string().nullable(),
 });
 
+const AttendanceRecordZ = z.object({
+  sessionId: z.string(),
+  title: z.string(),
+  heldOn: z.string(),
+});
+
+const AttendanceMetaZ = z.object({
+  hasMore: z.boolean(),
+  nextCursor: z.string().nullable(),
+});
+
 export const MemberProfileZ = z
   .object({
     memberId: z.string().min(1),
@@ -50,19 +61,8 @@ export const MemberProfileZ = z
     isDeleted: z.boolean(),
     summary: SummaryZ,
     sections: z.array(SectionZ),
-    attendance: z.array(
-      z.object({
-        sessionId: z.string(),
-        title: z.string(),
-        heldOn: z.string(),
-      }),
-    ),
-    attendanceMeta: z
-      .object({
-        hasMore: z.boolean(),
-        nextCursor: z.string().nullable(),
-      })
-      .optional(),
+    attendance: z.array(AttendanceRecordZ),
+    attendanceMeta: AttendanceMetaZ.optional(),
     tags: z.array(
       z.object({
         code: z.string(),
@@ -152,6 +152,8 @@ export const PublicMemberProfileZ = z
     memberId: z.string().min(1),
     summary: SummaryZ,
     publicSections: z.array(SectionZ),
+    attendance: z.array(AttendanceRecordZ),
+    attendanceMeta: AttendanceMetaZ.optional(),
     tags: z.array(
       z.object({
         code: z.string(),

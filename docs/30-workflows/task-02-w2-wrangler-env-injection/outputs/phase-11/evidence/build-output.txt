@@ -1,9 +1,0 @@
-# build evidence
-
-`pnpm --filter @ubm-hyogo/web typecheck` PASS（tsc --noEmit, 0 errors）
-`pnpm --filter @ubm-hyogo/web lint` PASS（同上、lint script は tsc 委譲）
-`pnpm --filter @ubm-hyogo/web test` 417 PASS（env.test.ts 6 件含む）
-
-Cloudflare 向け full build (`pnpm build:cloudflare`) は CF API Token を要求するため、
-user approval 後に CI（`.github/workflows/`）で実行する。本ローカルゲートでは
-typecheck + lint + unit test の 3 段で構文・型・契約を検証する方針。

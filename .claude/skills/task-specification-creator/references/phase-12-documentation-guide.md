@@ -249,6 +249,20 @@ Phase 12 で初めて validator を書き起こすと、Phase 11 evidence と Ph
 - production migration apply runbook formalization は `DOC_PASS` と runtime PASS を分離し、Phase 11 evidence の `structure-verification.md` / `grep-verification.md` / `staging-dry-run.md` / `redaction-check.md` 実体、production apply 未実行境界、Phase 13 user approval gate を確認してから PASS にする
 - env-name contract alignment では、`outputs/phase-11/env-name-grep.md` / `secret-list-check.md` / `magic-link-smoke-readiness.md` の実体を確認し、name-only readiness と実 smoke PASS を分ける
 - タスク仕様書に古い候補コマンドが残っていた場合は、実リポジトリの `package.json` / workspace / test runner から現在のコマンドを再解決し、Phase 1 / 4 / 9 / 11 / 12 の command contract を同じ文字列へ更新してから PASS にする
+- lint / ESLint gate を AC に置く場合は、設定ファイルの配置だけで PASS にしない。`package.json` の実 `lint` script が該当 rule を実行していること、外部 global ESLint に依存していないこと、`outputs/phase-11/evidence/lint.log` に実コマンドと exit 0 が保存されていることを確認する。`lint` が `tsc` のみの場合は ESLint gate 未実装として同一 wave で script / dependency / config を補正する。
+
+#### lint gate 4要素同期 checklist
+
+ESLint gate を AC に持つ task は、以下 4 要素が**同一 wave で同期**しているかを Phase 12 compliance check に転記する。1 要素でも欠けたら PASS にしない。
+
+| 要素 | 確認内容 | 検証 |
+| --- | --- | --- |
+| package.json `lint` script | `tsc --noEmit && eslint .` の直列起動（または等価な ESLint 実行） | `cat apps/web/package.json` で `scripts.lint` を目視 |
+| dependency | `eslint` / `@typescript-eslint/*` / `eslint-config-next` 等が devDependencies に存在 | `pnpm ls --filter <pkg>` で版数つき確認 |
+| config | `eslint.config.mjs`（または `.eslintrc.*`）で `no-restricted-globals` 等の rule 有効化 | rule 名を `rg -n` で grep |
+| evidence | `outputs/phase-11/evidence/lint.log` に exit 0 と eslint stdout（rule 名・対象ファイル）両方が記録 | `tail` / `grep eslint` で両方の出現確認 |
+
+> Phase 1〜3 限定 workflow を Phase 13 まで拡張する際は `artifacts.json` と `index.md` を同一 commit で同期させる（root ledger drift gate）。Phase 4 以降の outputs を追加してから phase 範囲を拡張する場合も、artifacts ledger と index narrative の Phase 数表記が乖離しないよう、同 wave で書き換える。
 
 **確認コマンド（docs-only / UI task 共通で必須）**:
 

@@ -10,7 +10,7 @@
  */
 
 import { execFileSync } from "node:child_process";
-import type { AuditLogEvent, Baseline } from "./types.ts";
+import type { AuditLogEvent, Baseline, FeatureExportWindow } from "./types.ts";
 
 export interface D1RunResult {
   changes?: number;
@@ -37,8 +37,6 @@ interface CfAuditLogRow {
   result_code: number | null;
   resource_type: string | null;
   resource_id: string | null;
-  raw_json: string;
-  ingested_at_ms: number;
   severity: string | null;
   issue_number: number | null;
 }
@@ -86,6 +84,27 @@ export async function recentEventsInWindow(
   const r = await db.query<CfAuditLogRow>(
     `SELECT * FROM cf_audit_log WHERE occurred_at_ms >= ? AND occurred_at_ms < ? ORDER BY occurred_at_ms ASC`,
     [sinceMs, untilMs],
+  );
+  return r.results.map(rowToEvent);
+}
+
+export async function readEventsForFeatureExport(
+  db: D1Like,
+  window: FeatureExportWindow,
+): Promise<AuditLogEvent[]> {
+  const fromMs = window.fromUtc.getTime();
+  const toMs = window.toUtc.getTime();
+  if (!Number.isFinite(fromMs) || !Number.isFinite(toMs) || fromMs >= toMs) {
+    throw new Error("invalid feature export window");
+  }
+  const r = await db.query<CfAuditLogRow>(
+    `SELECT id, occurred_at, occurred_at_ms, actor_email, actor_ip, actor_ua,
+            action_type, action_result, result_code, resource_type, resource_id,
+            severity, issue_number
+       FROM cf_audit_log
+       WHERE occurred_at_ms >= ? AND occurred_at_ms < ?
+       ORDER BY occurred_at_ms ASC, id ASC`,
+    [fromMs, toMs],
   );
   return r.results.map(rowToEvent);
 }
@@ -281,13 +300,17 @@ export class InMemoryD1 implements D1Like {
 
   async query<T>(sql: string, params: unknown[] = []): Promise<D1QueryResult<T>> {
     const s = sql.replace(/\s+/g, " ").trim();
-    if (s.startsWith("SELECT * FROM cf_audit_log WHERE occurred_at_ms")) {
+    if (
+      s.startsWith("SELECT * FROM cf_audit_log WHERE occurred_at_ms") ||
+      s.startsWith("SELECT id, occurred_at, occurred_at_ms, actor_email")
+    ) {
       const [since, until] = params as [number, number];
       const rows = this.events
         .filter((e) => {
           const t = Date.parse(e.when);
           return t >= since && t < until;
         })
+        .sort((a, b) => Date.parse(a.when) - Date.parse(b.when) || a.id.localeCompare(b.id))
         .map((e) => this.eventToRow(e));
       return { results: rows as unknown as T[] };
     }
@@ -357,8 +380,6 @@ export class InMemoryD1 implements D1Like {
       result_code: e.action.result_code ?? null,
       resource_type: e.resource?.type ?? null,
       resource_id: e.resource?.id ?? null,
-      raw_json: JSON.stringify(e),
-      ingested_at_ms: 0,
       severity: null,
       issue_number: null,
     };
