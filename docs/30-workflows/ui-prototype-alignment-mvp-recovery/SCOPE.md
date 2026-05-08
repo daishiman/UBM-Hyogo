@@ -51,7 +51,7 @@
 
 1. **既存 API のみ接続**: `apps/api/src/routes/` 配下の現行 endpoint surface のみ利用する。新 endpoint 追加は禁止。
 2. **D1 / Form 不変**: D1 schema 変更と Google Form 仕様変更は本 workflow では行わない。
-3. **OKLch トークン正本化**: prototype `styles.css` L1-70 の OKLch 定義を task-09 で `apps/web/src/styles/tokens.css` に転記し、task-08 の `docs/00-getting-started-manual/specs/design-tokens.md` と同期する。
+3. **OKLch トークン正本化**: prototype `styles.css` L1-70 の OKLch 定義を task-09 で `apps/web/src/styles/tokens.css` に転記し、task-08 の `docs/00-getting-started-manual/specs/09b-design-tokens.md` と同期する。
 4. **D1 直接アクセス禁止**: `apps/web` から D1 binding へ直接触らず、既存 `apps/api` route 経由で接続する。
 5. **新 primitive 禁止**: task-10 で確定する prototype primitive set を使い、画面ごとに独自 primitive を増やさない。
 6. **shape 乖離は UI adapter**: 既存 API response と UI 期待 shape が乖離する場合は API を変更せず、`apps/web` 側 adapter で吸収する。
