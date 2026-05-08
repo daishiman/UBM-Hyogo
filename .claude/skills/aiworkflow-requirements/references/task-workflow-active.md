@@ -50,6 +50,18 @@
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
 
+### task-21 09g Admin Screen Blueprints（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-21-w2-par-screen-blueprints-admin/` |
+| primary spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| 目的 | 管理層 8 routes + AdminSidebar を current admin API contract に沿って screen blueprint 化し、task-15/16/17 の実装入力にする |
+| 境界 | apps/packages コード変更なし。新 endpoint / D1 schema / Google Form 仕様変更なし。screenshot 不要の NON_VISUAL evidence |
+| 検証 | `bash scripts/verify-09g-screen-blueprints-admin.sh` PASS（lines=775 / sections=10 / mermaid=8 / derived=4） |
+| 下流 | task-15 §2/§3、task-16 §4/§5/§7、task-17 §6/§8/§9、task-22 anchor verification |
+
 ### UI prototype alignment task-21 Admin Blueprint 09g（2026-05-07）
 
 | 項目 | 値 |

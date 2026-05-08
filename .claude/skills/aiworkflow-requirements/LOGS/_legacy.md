@@ -760,6 +760,17 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - downstream: task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認
 - skill-feedback: なし（task-specification-creator / aiworkflow-requirements 既存ルールでカバー）
 - unassigned-task: 0 件追加（task-02..22 は既起票）
+
+# 2026-05-07 task-21 09g admin screen blueprints
+
+- wave: ui-prototype-alignment-mvp-recovery / W2 / parallel
+- state: spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval
+- workflow root: `docs/30-workflows/completed-tasks/task-21-w2-par-screen-blueprints-admin/`
+- primary spec: `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md`
+- verify: `bash scripts/verify-09g-screen-blueprints-admin.sh` PASS（lines=775 / sections=10 / mermaid=8 / derived=4）
+- sync: `indexes/quick-reference.md`、`indexes/resource-map.md`、`references/task-workflow-active.md`、`changelog/20260507-task21-admin-blueprint.md` を同一 wave 同期
+- boundary: apps/packages diff 0、新 endpoint / D1 schema / Google Form 変更なし。旧 09g draft の stale API / visual literal は撤回
+- downstream: task-15 / task-16 / task-17 が 09g を consuming spec として参照、task-22 が 09a/09b/09c/09d anchor を最終確認
 ## 2026-05-07 task-08 W2 design tokens doc sync
 
 `docs/30-workflows/task-08-w2-design-tokens-doc/` を `spec_created / docs-only / NON_VISUAL` として同期した。`docs/00-getting-started-manual/specs/09b-design-tokens.md` を作成し、prototype `styles.css` L1-L70 の OKLch / HEX / radius / shadow / font 値、spacing / motion token、旧 `09c-primitives.md` 短縮 token 互換 mapping、Tailwind v4 `@theme inline` guide を正本化した。09-ui / 09c / 09f / task-09 / task-18 の stale token contract も同一 wave で 09b 正本へ補正し、quick-reference / resource-map / topic-map / keywords / task-workflow-active / changelog も更新した。apps/packages コード変更、commit、push、PR は未実行。
