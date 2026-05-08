@@ -71,6 +71,16 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   readonly AUTH_URL?: string;
   readonly MAIL_PROVIDER_KEY?: string;
   readonly MAIL_FROM_ADDRESS?: string;
+
+  // Issue #553 — live audit-correlation endpoint
+  // secrets (wrangler secret put) — 1Password 参照経由で注入する
+  readonly GITHUB_AUDIT_PAT?: string;
+  readonly SLACK_AUDIT_INCIDENT_WEBHOOK_URL?: string;
+  readonly AUDIT_CORRELATION_SALT?: string;
+  readonly AUDIT_CORRELATION_INTERNAL_TOKEN?: string;
+  // vars — 公開 runbook URL / GitHub org slug
+  readonly AUDIT_CORRELATION_RUNBOOK_BASE_URL?: string;
+  readonly AUDIT_CORRELATION_GITHUB_ORG?: string;
 }
 
 // 予約欄（本タスク scope 外、後続タスクで `Env` に追加する binding 候補）

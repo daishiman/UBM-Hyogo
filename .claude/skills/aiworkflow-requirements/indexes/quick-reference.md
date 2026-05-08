@@ -130,6 +130,19 @@
 | downstream | task-09 `tokens.css` / `@theme inline`、task-10 primitives、task-18 verify-design-tokens |
 | evidence | `docs/30-workflows/task-08-w2-design-tokens-doc/outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### Task 09 W3 Tailwind v4 setup（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / local PASS 5-point evidence captured / Phase 13 blocked_pending_user_approval` |
+| upstream | task-08 `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| scope | `apps/web` Tailwind v4 CSS-first build pipeline、`tokens.css`、`globals.css @theme inline`、PostCSS config、token tests |
+| package pins | `tailwindcss@~4.0.0`, `@tailwindcss/postcss@~4.0.0` |
+| evidence boundary | generated CSS は utility probe 経由で `.bg-accent` + `var(--ubm-color-accent)` を確認済み。runtime PASS は Phase 11 local evidence として記録済み |
+| downstream | task-10 primitives, task-11..17 screens, task-18 verify-design-tokens |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md` |
+
 ### UI prototype mapping table task-07（2026-05-07）
 
 | 目的 | 参照先 |

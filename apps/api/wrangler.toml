@@ -70,6 +70,13 @@ SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 RETENTION_PURGE_MODE = "dry-run"
 TAG_QUEUE_PAUSED = "false"
 
+# Issue #553 — live audit-correlation endpoint (vars only; secrets are CLI-injected)
+# AUDIT_CORRELATION_RUNBOOK_BASE_URL: 公開 runbook URL (#anchor を notify-slack で付与)
+# AUDIT_CORRELATION_GITHUB_ORG: live fetch する GitHub Org slug
+# Secrets (PAT / Slack webhook / salt / internal token) は `bash scripts/cf.sh secret put --env production <NAME>` で投入する
+AUDIT_CORRELATION_RUNBOOK_BASE_URL = "https://github.com/daishiman/UBM-Hyogo/blob/main/docs/runbooks/audit-correlation.md"
+AUDIT_CORRELATION_GITHUB_ORG = "daishiman"
+
 # 09b-A production smoke uses Cloudflare Secrets, not vars:
 # SENTRY_DSN_API / SLACK_WEBHOOK_INCIDENT / SMOKE_ADMIN_TOKEN.
 # Provision with `bash scripts/cf.sh secret put --env production <NAME>`.
@@ -129,6 +136,10 @@ SYNC_MAX_RETRIES = "3"
 SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
 RETENTION_PURGE_MODE = "dry-run"
 TAG_QUEUE_PAUSED = "false"
+
+# Issue #553 — live audit-correlation endpoint (vars only; secrets are CLI-injected)
+AUDIT_CORRELATION_RUNBOOK_BASE_URL = "https://github.com/daishiman/UBM-Hyogo/blob/main/docs/runbooks/audit-correlation.md"
+AUDIT_CORRELATION_GITHUB_ORG = "daishiman"
 
 # 09b-A staging smoke uses the same secret names as production with env-scoped values:
 # SENTRY_DSN_API / SLACK_WEBHOOK_INCIDENT / SMOKE_ADMIN_TOKEN.
