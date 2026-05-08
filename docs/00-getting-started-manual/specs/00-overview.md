@@ -11,8 +11,9 @@
 - `docs/00-getting-started-manual/claude-design-prototype/` はフロントエンドの画面・導線の参照元
 - `docs/00-getting-started-manual/google-form/` はフォーム構造と利用規約の参照元
 - `docs/00-getting-started-manual/gas-prototype/` は UI の叩き台であり、本番の認証・API・DB 正本ではない
+- `docs/00-getting-started-manual/specs/09b-design-tokens.md` は prototype `styles.css` L1-L70 由来の OKLch / radius / shadow / typography / spacing / motion token 値の正本
 
-この spec では、上記 3 つに整合するようにデータ境界と認証境界を整理する。
+この spec では、上記の正本群に整合するようにデータ境界と認証境界を整理する。
 
 ---
 

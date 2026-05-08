@@ -1,0 +1,289 @@
+{
+  "task_name": "primitives-full-spec",
+  "task_path": "docs/30-workflows/task-19-w2-primitives-full-spec",
+  "wave": "W2",
+  "execution_mode": "parallel",
+  "depends_on": [
+    "task-01-scope-gate-all-screens"
+  ],
+  "blocks": [
+    "task-10-ui-primitives",
+    "task-11-public-screens",
+    "task-12-member-screens",
+    "task-13-admin-screens",
+    "task-14-avatar-store",
+    "task-15-auth-screens",
+    "task-16-error-screens",
+    "task-17-loading-screens"
+  ],
+  "parallel_with": [
+    "task-06-contract",
+    "task-07-prototype-map",
+    "task-08-design-tokens",
+    "task-20-feature-public",
+    "task-21-feature-member",
+    "task-22-feature-admin"
+  ],
+  "created_at": "2026-05-07",
+  "metadata": {
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "docs/00-getting-started-manual/specs/09c-primitives.md の新規作成（600〜1200 行）。task-19 本体は pure-docs。2026-05-07 review cycle で apps/api の隣接コード差分を検出し、task-19 evidence から分離して記録する。",
+    "workflow_state": "spec_created",
+    "docs_only": true,
+    "implementation_mode": "new",
+    "task_classification": "NON_VISUAL",
+    "coverage_ac_applicability": "exempt",
+    "coverage_ac_exempt_reason": "pure-docs / NON_VISUAL タスクで実装テストが発生しないため（CONST_004 例外条件）",
+    "const_refs": [
+      "CONST_005",
+      "CONST_007",
+      "CONST_004_exception"
+    ],
+    "phase_closeout_state": "phase_1_12_completed_phase_13_blocked_pending_user_approval",
+    "primary_deliverable_lines": 1172,
+    "validation": {
+      "lines": 1172,
+      "headings": 21,
+      "section99": 1,
+      "jsx": 17,
+      "hex": 0,
+      "oklch": 0,
+      "px": 0,
+      "bgBracket": 0,
+      "placeholderTokenSized": 0,
+      "placeholder09bTokenValue": 0,
+      "placeholderTokenMix": 0,
+      "dirtyCodeScope": "apps/api/src/repository/identity-conflict.ts is an adjacent branch diff and is not part of task-19 primary deliverable"
+    }
+  },
+  "acceptance_criteria": [
+    "AC-1: 09c-primitives.md が新規作成され 600〜1200 行",
+    "AC-2: §1〜§18 + §99 の grep 可能見出しが揃う（primitives.jsx の const-based primitive / helper set に合わせる）",
+    "AC-3: 各 §X に X.1〜X.6 の 6 サブセクションが揃う",
+    "AC-4: HEX / oklch / Npx / bg-[ が grep 0 件",
+    "AC-5: icon-only Button / IconBtn の aria-label 必須が明記",
+    "AC-6: dialog / drawer / modal で role=dialog + aria-modal=true + focus trap + Esc close 記述",
+    "AC-7: §99 に TweaksPanel / data-theme switcher / AvatarStoreProvider#localStorage 3 件列挙",
+    "AC-8: 09b / 09a / 09e/09f/09g への link が全 primitive で記述",
+    "AC-9: primitives.jsx は凍結正本として改変しない",
+    "AC-10: JSX inline 転記は prototype excerpt を保持し、visual spec は token 名へ正規化する",
+    "AC-11: token 値（HEX / oklch / px）を本ファイルに 0 件含める",
+    "AC-12: 値が必要な箇所は token 名で参照し 09b への link を併記",
+    "AC-13: EDITMODE 専用 primitive を §99 に列挙し本仕様から除外",
+    "AC-14: aria-* / role を WAI-ARIA Authoring Practices に整合",
+    "AC-15: icon-only Button は aria-label 必須",
+    "AC-16: markdown lint で error 0",
+    "AC-17: 17 JSX excerpt + helper/export boundary の列挙漏れなし"
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-01.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/main.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-02.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/main.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-03.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/main.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト作成（markdown 構造検証 / grep gate）",
+      "file": "phase-04.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/main.md",
+        "outputs/phase-04/verify-scripts.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装（09c-primitives.md 執筆）",
+      "file": "phase-05.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/main.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "テスト実行（grep gate / markdown lint）",
+      "file": "phase-06.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/main.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "検証項目網羅性",
+      "file": "phase-07.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/main.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "refactor / DRY 化",
+      "file": "phase-08.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/main.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-09.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/main.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/main.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false,
+      "gate": "TBD"
+    },
+    {
+      "phase": 11,
+      "name": "手動 smoke test",
+      "file": "phase-11.md",
+      "status": "completed",
+      "task_classification": "NON_VISUAL",
+      "outputs": [
+        "outputs/phase-11/main.md"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR作成",
+      "file": "phase-13.md",
+      "status": "blocked_pending_user_approval",
+      "outputs": [
+        "outputs/phase-13/main.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
+  ],
+  "external_services": [],
+  "secrets_introduced": [],
+  "infra_artifacts": [],
+  "doc_references": [
+    "docs/00-getting-started-manual/claude-design-prototype/primitives.jsx",
+    "docs/00-getting-started-manual/claude-design-prototype/styles.css",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/03-spec-source/task-19-w2-par-primitives-full-spec.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/03-spec-source/task-07-w2-par-prototype-mapping-table.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/03-spec-source/task-08-w2-par-design-tokens-doc.md"
+  ],
+  "primary_deliverable": {
+    "path": "docs/00-getting-started-manual/specs/09c-primitives.md",
+    "kind": "new",
+    "min_lines": 600,
+    "max_lines": 1200,
+    "required_headings": [
+      "## 1. プリミティブ一覧（カタログ）",
+      "## 2. Chip",
+      "## 3. Avatar (+ Store)",
+      "## 4. Button",
+      "## 5. Switch",
+      "## 6. Segmented",
+      "## 7. Field",
+      "## 8. Input / Textarea / Select",
+      "## 9. Search",
+      "## 10. Drawer",
+      "## 11. Modal",
+      "## 12. Toast (Provider + useToast)",
+      "## 13. KVList",
+      "## 14. LinkPills",
+      "## 15. zoneTone / statusTone（ヘルパー関数）",
+      "## 16. グローバルエクスポート（prototype 環境）",
+      "## 17. 補助 primitive / helper 転記",
+      "## 18. 実装上の注意",
+      "## 99. 不採用 primitive"
+    ]
+  }
+}

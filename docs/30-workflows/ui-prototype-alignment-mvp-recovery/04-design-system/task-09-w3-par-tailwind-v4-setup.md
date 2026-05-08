@@ -106,11 +106,11 @@ export default config;
 ```
 
 下流が利用可能な Tailwind utility 名（OKLch token 直結）:
-- 色: `bg-bg` / `bg-panel` / `text-ink` / `text-muted` / `border-line` / `bg-accent` / `text-accent-ink` / `bg-accent-soft` / `text-success` / `bg-success-soft` / `text-warning` / `bg-warning-soft` / `text-danger` / `bg-danger-soft` / `text-info` / `bg-info-soft` / `bg-zone-a..e` / `text-zone-a..e`
-- 半径: `rounded-sm` / `rounded-md` / `rounded-lg` / `rounded-xl` / `rounded-pill`
+- 色: `bg-surface` / `bg-surface-2` / `bg-panel` / `text-text` / `text-text-2` / `text-text-3` / `border-border` / `bg-accent` / `text-accent-ink` / `bg-accent-soft` / `text-ok` / `bg-ok-soft` / `text-warn` / `bg-warn-soft` / `text-danger` / `bg-danger-soft` / `text-info` / `bg-info-soft` / `bg-zone-a..e` / `text-zone-a..e`
+- 半径: `rounded-sm` / `rounded-md` / `rounded-lg` / `rounded-xl` / `rounded-2xl`
 - 影: `shadow-sm` / `shadow-md` / `shadow-lg`
 - フォント: `font-sans` / `font-mono`
-- 任意値: `duration-(--ubm-motion-base)` / `[transition-duration:var(--ubm-dur-base)]`
+- 任意値: `duration-(--ubm-dur-base)` / `[transition-duration:var(--ubm-dur-base)]`
 
 #### 0.7.3 Cloudflare Workers ビルド互換確認方法
 
@@ -227,90 +227,49 @@ export default config;
 
 ### 4.3 `apps/web/src/styles/tokens.css`
 
-OKLch palette を **唯一の正本** として定義する。task-08 の値を写し取り、`globals.css` の `@theme` から参照する。
+OKLch palette は 09b を **唯一の正本** とし、本ファイルの snippet は 09b §3〜§8 / §10 の写しに限定する。task-09 実装時は `docs/00-getting-started-manual/specs/09b-design-tokens.md` §9 JSON から `tokens.css` を生成または手転記し、ここにない token 名を追加しない。
 
 ```css
 /* apps/web/src/styles/tokens.css
  * UBM 兵庫 design tokens (OKLch palette).
- * source: docs/00-getting-started-manual/claude-design-prototype/styles.css L1-L80
- * 仕様: task-08-design-tokens-doc.md
+ * source: docs/00-getting-started-manual/specs/09b-design-tokens.md
  */
 :root {
-  /* ---- Brand / Surface ---- */
-  --ubm-color-bg: oklch(0.99 0.005 90);
-  --ubm-color-panel: oklch(1 0 0);
-  --ubm-color-ink: oklch(0.22 0.02 60);
-  --ubm-color-muted: oklch(0.55 0.02 60);
-  --ubm-color-line: oklch(0.92 0.01 80);
-
-  /* ---- Accent (warm) ---- */
+  --ubm-color-surface-bg: #f5f4f1;
+  --ubm-color-surface-bg-2: #ebe9e3;
+  --ubm-color-surface-panel: #ffffff;
+  --ubm-color-surface-panel-2: #fafaf8;
+  --ubm-color-border-default: #e7e5df;
+  --ubm-color-border-strong: #d6d3cc;
+  --ubm-color-text-primary: #1a1917;
+  --ubm-color-text-secondary: #57554e;
+  --ubm-color-text-muted: #8a877e;
   --ubm-color-accent: oklch(0.58 0.10 55);
   --ubm-color-accent-soft: oklch(0.95 0.03 65);
   --ubm-color-accent-ink: oklch(0.38 0.10 55);
-
-  /* ---- Status ---- */
-  --ubm-color-success: oklch(0.55 0.10 155);
-  --ubm-color-success-soft: oklch(0.95 0.04 155);
-  --ubm-color-warning: oklch(0.62 0.12 75);
-  --ubm-color-warning-soft: oklch(0.96 0.05 80);
+  --ubm-color-ok: oklch(0.55 0.10 155);
+  --ubm-color-ok-soft: oklch(0.95 0.04 155);
+  --ubm-color-warn: oklch(0.62 0.12 75);
+  --ubm-color-warn-soft: oklch(0.96 0.05 80);
   --ubm-color-danger: oklch(0.55 0.15 25);
   --ubm-color-danger-soft: oklch(0.95 0.04 30);
   --ubm-color-info: oklch(0.55 0.09 230);
   --ubm-color-info-soft: oklch(0.96 0.025 230);
-
-  /* ---- Zone palette (a..e) ---- */
-  --ubm-color-zone-a: oklch(0.62 0.13 25);
-  --ubm-color-zone-b: oklch(0.62 0.13 55);
-  --ubm-color-zone-c: oklch(0.62 0.13 155);
-  --ubm-color-zone-d: oklch(0.62 0.13 230);
-  --ubm-color-zone-e: oklch(0.62 0.13 305);
-
-  /* ---- Radius ---- */
-  --ubm-radius-sm: 0.25rem;
-  --ubm-radius-md: 0.5rem;
-  --ubm-radius-lg: 0.75rem;
-  --ubm-radius-xl: 1rem;
-  --ubm-radius-pill: 9999px;
-
-  /* ---- Spacing scale (rem) ---- */
-  --ubm-space-1: 0.25rem;
-  --ubm-space-2: 0.5rem;
-  --ubm-space-3: 0.75rem;
-  --ubm-space-4: 1rem;
-  --ubm-space-6: 1.5rem;
-  --ubm-space-8: 2rem;
-  --ubm-space-12: 3rem;
-
-  /* ---- Shadow ---- */
-  --ubm-shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.04);
-  --ubm-shadow-md: 0 4px 12px -2px oklch(0 0 0 / 0.08);
-  --ubm-shadow-lg: 0 16px 48px -8px oklch(0 0 0 / 0.16);
-
-  /* ---- Motion ---- */
-  --ubm-motion-fast: 120ms;
-  --ubm-motion-base: 200ms;
-  --ubm-motion-slow: 320ms;
-  --ubm-motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-
-  /* ---- Typography ---- */
-  --ubm-font-sans: "Inter", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
-  --ubm-font-mono: "JetBrains Mono", ui-monospace, "Menlo", monospace;
-  --ubm-text-xs: 0.75rem;
-  --ubm-text-sm: 0.875rem;
-  --ubm-text-base: 1rem;
-  --ubm-text-lg: 1.125rem;
-  --ubm-text-xl: 1.25rem;
-  --ubm-text-2xl: 1.5rem;
-  --ubm-text-3xl: 2rem;
-}
-
-/* Dark mode placeholder（実際の値決定は task-08 後続で対応） */
-[data-theme="dark"] {
-  --ubm-color-bg: oklch(0.16 0.01 250);
-  --ubm-color-panel: oklch(0.20 0.01 250);
-  --ubm-color-ink: oklch(0.96 0.005 90);
-  --ubm-color-muted: oklch(0.70 0.02 80);
-  --ubm-color-line: oklch(0.30 0.01 250);
+  --ubm-color-zone-a: var(--ubm-color-info);
+  --ubm-color-zone-b: var(--ubm-color-accent);
+  --ubm-color-zone-c: var(--ubm-color-ok);
+  --ubm-color-zone-d: var(--ubm-color-warn);
+  --ubm-color-zone-e: var(--ubm-color-danger);
+  --ubm-radius-sm: 8px;
+  --ubm-radius-md: 12px;
+  --ubm-radius-lg: 16px;
+  --ubm-radius-xl: 20px;
+  --ubm-radius-2xl: 28px;
+  --ubm-shadow-xs: 0 1px 2px rgba(24, 23, 20, 0.04);
+  --ubm-shadow-sm: 0 1px 2px rgba(24, 23, 20, 0.05), 0 2px 6px rgba(24, 23, 20, 0.04);
+  --ubm-shadow-md: 0 4px 16px rgba(24, 23, 20, 0.06), 0 1px 2px rgba(24, 23, 20, 0.04);
+  --ubm-shadow-lg: 0 20px 48px rgba(24, 23, 20, 0.10), 0 2px 6px rgba(24, 23, 20, 0.04);
+  --ubm-font-body: var(--ubm-font-en), var(--ubm-font-jp);
 }
 
 /* OKLch fallback (sRGB approximations) for legacy browsers */
@@ -318,8 +277,8 @@ OKLch palette を **唯一の正本** として定義する。task-08 の値を�
   :root {
     --ubm-color-accent: #b8693c;
     --ubm-color-accent-soft: #f4ece4;
-    --ubm-color-success: #3f8a4a;
-    --ubm-color-warning: #c98a1f;
+    --ubm-color-ok: #5e8a5d;
+    --ubm-color-warn: #c08540;
     --ubm-color-danger: #c0432d;
     --ubm-color-info: #3170b8;
   }
@@ -341,20 +300,22 @@ OKLch palette を **唯一の正本** として定義する。task-08 の値を�
 
 @theme inline {
   /* ---- Tailwind カラー名と OKLch tokens の bridge ---- */
-  --color-bg: var(--ubm-color-bg);
-  --color-panel: var(--ubm-color-panel);
-  --color-ink: var(--ubm-color-ink);
-  --color-muted: var(--ubm-color-muted);
-  --color-line: var(--ubm-color-line);
+  --color-surface: var(--ubm-color-surface-bg);
+  --color-surface-2: var(--ubm-color-surface-bg-2);
+  --color-panel: var(--ubm-color-surface-panel);
+  --color-text: var(--ubm-color-text-primary);
+  --color-text-2: var(--ubm-color-text-secondary);
+  --color-text-3: var(--ubm-color-text-muted);
+  --color-border: var(--ubm-color-border-default);
 
   --color-accent: var(--ubm-color-accent);
   --color-accent-soft: var(--ubm-color-accent-soft);
   --color-accent-ink: var(--ubm-color-accent-ink);
 
-  --color-success: var(--ubm-color-success);
-  --color-success-soft: var(--ubm-color-success-soft);
-  --color-warning: var(--ubm-color-warning);
-  --color-warning-soft: var(--ubm-color-warning-soft);
+  --color-ok: var(--ubm-color-ok);
+  --color-ok-soft: var(--ubm-color-ok-soft);
+  --color-warn: var(--ubm-color-warn);
+  --color-warn-soft: var(--ubm-color-warn-soft);
   --color-danger: var(--ubm-color-danger);
   --color-danger-soft: var(--ubm-color-danger-soft);
   --color-info: var(--ubm-color-info);
@@ -371,7 +332,7 @@ OKLch palette を **唯一の正本** として定義する。task-08 の値を�
   --radius-md: var(--ubm-radius-md);
   --radius-lg: var(--ubm-radius-lg);
   --radius-xl: var(--ubm-radius-xl);
-  --radius-pill: var(--ubm-radius-pill);
+  --radius-2xl: var(--ubm-radius-2xl);
 
   /* ---- Shadow ---- */
   --shadow-sm: var(--ubm-shadow-sm);
@@ -379,7 +340,7 @@ OKLch palette を **唯一の正本** として定義する。task-08 の値を�
   --shadow-lg: var(--ubm-shadow-lg);
 
   /* ---- Font ---- */
-  --font-sans: var(--ubm-font-sans);
+  --font-sans: var(--ubm-font-body);
   --font-mono: var(--ubm-font-mono);
 }
 
@@ -394,9 +355,9 @@ OKLch palette を **唯一の正本** として定義する。task-08 の値を�
   body {
     margin: 0;
     padding: 0;
-    background: var(--ubm-color-bg);
-    color: var(--ubm-color-ink);
-    font-family: var(--ubm-font-sans);
+    background: var(--ubm-color-surface-bg);
+    color: var(--ubm-color-text-primary);
+    font-family: var(--ubm-font-body);
     font-size: var(--ubm-text-base);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -478,7 +439,7 @@ import "@/styles/globals.css";
 ### 5.1 入力
 
 - `docs/00-getting-started-manual/claude-design-prototype/styles.css`（OKLch palette の出典）
-- task-08 の `specs/design-tokens.md`（正本）
+- task-08 の `specs/09b-design-tokens.md`（正本）
 - 既存 `apps/web/app/styles.css`（廃棄対象）
 
 ### 5.2 出力
@@ -526,8 +487,8 @@ describe("design tokens", () => {
   it("OKLch palette が全て定義されている", () => {
     const required = [
       "--ubm-color-accent",
-      "--ubm-color-success",
-      "--ubm-color-warning",
+      "--ubm-color-ok",
+      "--ubm-color-warn",
       "--ubm-color-danger",
       "--ubm-color-info",
       "--ubm-color-zone-a",
@@ -615,7 +576,7 @@ mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
 
 - task-10 (`ui-primitives`) は本タスクで作成された `globals.css` の `@theme` 経由で OKLch tokens を Tailwind utility として参照する前提。
 - task-11..17（screens 系）は `bg-accent` `text-info` `border-warn` 等の utility を直接書ける。HEX 直書きは task-18 の verify-design-tokens で fail させる（PR gate）。
-- token 名の追加・改廃は **必ず task-08 の `specs/design-tokens.md` を更新**してから tokens.css に反映する（一方向同期）。
+- token 名の追加・改廃は **必ず task-08 の `specs/09b-design-tokens.md` を更新**してから tokens.css に反映する（一方向同期）。
 
 
 ---
