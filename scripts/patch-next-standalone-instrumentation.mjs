@@ -62,8 +62,26 @@ function verifyArtifact(standaloneNextDir) {
     );
     process.exit(1);
   }
-  const content = readFileSync(target, "utf8");
-  const missing = VERIFY_TOKENS.filter((t) => !content.includes(t));
+  // Turbopack/Webpack 出力では instrumentation.js が chunk loader shim になる場合があるため、
+  // trace files[] が指す chunk も含めて token を検査する。
+  const corpus = [readFileSync(target, "utf8")];
+  const traceTarget = join(standaloneNextDir, TRACE_FILE);
+  if (existsSync(traceTarget)) {
+    try {
+      const trace = JSON.parse(readFileSync(traceTarget, "utf8"));
+      const files = Array.isArray(trace.files) ? trace.files : [];
+      for (const rel of files) {
+        const chunkPath = join(standaloneNextDir, "server", rel);
+        if (existsSync(chunkPath)) {
+          corpus.push(readFileSync(chunkPath, "utf8"));
+        }
+      }
+    } catch {
+      // trace が読めない場合は instrumentation.js 単体での判定にフォールバック
+    }
+  }
+  const combined = corpus.join("\n");
+  const missing = VERIFY_TOKENS.filter((t) => !combined.includes(t));
   if (missing.length > 0) {
     logEvent("verify_failed", {
       reason: "tokens_missing",
