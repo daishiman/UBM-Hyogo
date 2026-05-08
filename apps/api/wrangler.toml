@@ -39,17 +39,19 @@ dataset = "sync_alerts"
 
 # UT-07B-FU-01: schema alias back-fill queue/cron split
 # alias 確定（Stage 1）と back-fill 継続（Stage 2）の責務分離。
-# Free plan 100k msg/day 内で運用可。Workers Paid 切替が必要になった時点で運用判断する。
-[[queues.producers]]
-binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
-queue = "schema-alias-backfill"
-
-[[queues.consumers]]
-queue = "schema-alias-backfill"
-max_batch_size = 1
-max_batch_timeout = 5
-max_retries = 3
-dead_letter_queue = "schema-alias-backfill-dlq"
+# Cloudflare Queues は Workers Paid プラン必須のため、Free plan 運用中は binding を無効化する。
+# コード側 (apps/api/src/index.ts:344, env.ts:30) は optional binding として graceful degradation 済み。
+# Workers Paid に切り替える際は以下 3 箇所（default / env.production / env.staging）を有効化する。
+# [[queues.producers]]
+# binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+# queue = "schema-alias-backfill"
+#
+# [[queues.consumers]]
+# queue = "schema-alias-backfill"
+# max_batch_size = 1
+# max_batch_timeout = 5
+# max_retries = 3
+# dead_letter_queue = "schema-alias-backfill-dlq"
 
 [env.production]
 name = "ubm-hyogo-api"
@@ -92,16 +94,17 @@ binding = "SYNC_ALERTS"
 dataset = "sync_alerts"
 
 # UT-07B-FU-01: production 用 Queue binding（drift 防止のため staging と同 queue 名）
-[[env.production.queues.producers]]
-binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
-queue = "schema-alias-backfill"
-
-[[env.production.queues.consumers]]
-queue = "schema-alias-backfill"
-max_batch_size = 1
-max_batch_timeout = 5
-max_retries = 3
-dead_letter_queue = "schema-alias-backfill-dlq"
+# Free plan 運用中のため binding を無効化（Workers Paid 切替時に有効化）
+# [[env.production.queues.producers]]
+# binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+# queue = "schema-alias-backfill"
+#
+# [[env.production.queues.consumers]]
+# queue = "schema-alias-backfill"
+# max_batch_size = 1
+# max_batch_timeout = 5
+# max_retries = 3
+# dead_letter_queue = "schema-alias-backfill-dlq"
 
 # Issue #514: Cloudflare Audit Logs cold storage / R2 export
 # 30 日 TTL purge 前に redacted JSONL.gz を R2 へ定期 export する cold storage。
@@ -147,16 +150,17 @@ binding = "SYNC_ALERTS"
 dataset = "sync_alerts_staging"
 
 # UT-07B-FU-01: staging 用 Queue binding（production と同 queue 名で同期）
-[[env.staging.queues.producers]]
-binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
-queue = "schema-alias-backfill-staging"
-
-[[env.staging.queues.consumers]]
-queue = "schema-alias-backfill-staging"
-max_batch_size = 1
-max_batch_timeout = 5
-max_retries = 3
-dead_letter_queue = "schema-alias-backfill-staging-dlq"
+# Free plan 運用中のため binding を無効化（Workers Paid 切替時に有効化）
+# [[env.staging.queues.producers]]
+# binding = "SCHEMA_ALIAS_BACKFILL_QUEUE"
+# queue = "schema-alias-backfill-staging"
+#
+# [[env.staging.queues.consumers]]
+# queue = "schema-alias-backfill-staging"
+# max_batch_size = 1
+# max_batch_timeout = 5
+# max_retries = 3
+# dead_letter_queue = "schema-alias-backfill-staging-dlq"
 
 # Issue #514: staging（spec の preview 相当）の cold storage R2 binding
 # bucket 作成は Phase 11 runtime gate 承認後。
