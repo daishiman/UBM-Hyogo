@@ -2390,13 +2390,6 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
-### references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Runtime Gate | L23 |
-| Validation | L27 |
-
 ### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -2445,6 +2438,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Gate Result | L22 |
+
+### references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Runtime Gate | L23 |
+| Validation | L27 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -4444,12 +4444,6 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
 
-### references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| 5-minute Checklist | L13 |
-
 ### references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md
 
 | セクション | 行 |
@@ -4479,6 +4473,12 @@ node scripts/list-specs.js --topics
 | L-ISSUE546-003: docs-only observation でも root state と phase state は分離する | L34 |
 | L-ISSUE546-004: helper が出力しない成果物は pending evidence marker を実体化する | L47 |
 | 参照元 | L60 |
+
+### references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 5-minute Checklist | L13 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -4867,8 +4867,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L102 |
-| 関連ドキュメント | L107 |
+| 利用順序 | L103 |
+| 関連ドキュメント | L108 |
 
 ### references/llm-embedding.md
 
@@ -5518,15 +5518,12 @@ node scripts/list-specs.js --topics
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
-| 10. 変更履歴 | L258 |
 | 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L236 |
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L254 |
-| 11. 変更履歴 | L276 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L236 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L250 |
-| 13. 変更履歴 | L272 |
-| 10. 変更履歴 | L273 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L255 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L269 |
+| 13. 変更履歴 | L291 |
+| 10. 変更履歴 | L292 |
 
 ### references/patterns-advanced.md
 
@@ -5979,27 +5976,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L551 |
-| フェーズ構造（概要） | L560 |
-| 品質ゲート（概要） | L591 |
-| 出力テンプレート | L602 |
-| 実行時のコマンド・エージェント・スキル | L625 |
-| 昇格パターン集 | L649 |
-| Current Active / Spec Created Tasks | L651 |
-| ドキュメント構成 | L483 |
-| フェーズ構造（概要） | L492 |
-| 品質ゲート（概要） | L523 |
-| 出力テンプレート | L534 |
-| 実行時のコマンド・エージェント・スキル | L557 |
-| 昇格パターン集 | L581 |
-| Current Active / Spec Created Tasks | L583 |
-| ドキュメント構成 | L622 |
-| フェーズ構造（概要） | L631 |
-| 品質ゲート（概要） | L662 |
-| 出力テンプレート | L673 |
-| 実行時のコマンド・エージェント・スキル | L696 |
-| 昇格パターン集 | L720 |
-| Current Active / Spec Created Tasks | L722 |
+| ドキュメント構成 | L656 |
+| フェーズ構造（概要） | L665 |
+| 品質ゲート（概要） | L696 |
+| 出力テンプレート | L707 |
+| 実行時のコマンド・エージェント・スキル | L730 |
+| 昇格パターン集 | L754 |
+| Current Active / Spec Created Tasks | L756 |
 
 ### references/task-workflow-backlog-part2.md
 
