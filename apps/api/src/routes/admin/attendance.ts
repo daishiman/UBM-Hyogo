@@ -11,7 +11,11 @@ import {
   removeAttendance,
   type MemberAttendanceRow,
 } from "../../repository/attendance";
-import { append as auditAppend } from "../../repository/auditLog";
+import {
+  writeTagNoteProviderMiddleware,
+  type WriteTagNoteProviderVariables,
+} from "../../middleware/repository-providers";
+import { requireProvider } from "../../repository/_shared/provider-context";
 import { memberExists, type AdminRouteEnv } from "./_shared";
 
 const AddBodyZ = z.object({ memberId: z.string().min(1) });
@@ -25,8 +29,12 @@ const toAttendanceResponse = (row: MemberAttendanceRow) => ({
 });
 
 export const createAdminAttendanceRoute = () => {
-  const app = new Hono<{ Bindings: AdminRouteEnv; Variables: RequireAuthVariables }>();
+  const app = new Hono<{
+    Bindings: AdminRouteEnv;
+    Variables: RequireAuthVariables & Partial<WriteTagNoteProviderVariables>;
+  }>();
   app.use("*", requireAdmin);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/meetings/:sessionId/attendance/candidates", async (c) => {
     const sessionId = c.req.param("sessionId");
@@ -83,7 +91,7 @@ export const createAdminAttendanceRoute = () => {
     if (!result.ok) {
       return c.json({ ok: false, error: "attendance add failed" }, 500);
     }
-    await auditAppend(db, {
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
       actorId: asAdminId(authUser.memberId),
       actorEmail: adminEmail(authUser.email),
       action: auditAction("attendance.add"),
@@ -107,7 +115,7 @@ export const createAdminAttendanceRoute = () => {
     if (!removed) {
       return c.json({ ok: false, error: "attendance_not_found" }, 404);
     }
-    await auditAppend(db, {
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
       actorId: asAdminId(authUser.memberId),
       actorEmail: adminEmail(authUser.email),
       action: auditAction("attendance.remove"),

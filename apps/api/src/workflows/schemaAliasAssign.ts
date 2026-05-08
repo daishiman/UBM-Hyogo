@@ -12,7 +12,7 @@ import { asStableKey, auditAction } from "../repository/_shared/brand";
 import type { AdminEmail, AdminId } from "../repository/_shared/brand";
 import { findAliasByQuestionId, findRevisionStableKeyCollisions, insertManualAlias } from "../repository/schemaAliases";
 import { findById as findDiffById, markBackfill, resolve as resolveDiff } from "../repository/schemaDiffQueue";
-import { append as auditAppend } from "../repository/auditLog";
+import { createWriteTagNoteProviderBundle } from "../middleware/repository-providers";
 
 export interface SchemaAliasAssignInput {
   questionId: string;
@@ -515,7 +515,7 @@ export const schemaAliasAssign = async (
   if (input.diffId) {
     await markBackfill(c, input.diffId, backfilled.result.status, backfilled.persistedCursor);
   }
-  await auditAppend(c, {
+  await createWriteTagNoteProviderBundle(c).auditLogProvider.append({
     actorId: input.actorId,
     actorEmail: input.actorEmail,
     action: auditAction("schema_diff.alias_assigned"),

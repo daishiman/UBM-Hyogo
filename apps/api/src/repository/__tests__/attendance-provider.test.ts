@@ -19,6 +19,7 @@ interface SessionRow {
   session_id: string;
   title: string;
   held_on: string;
+  deleted_at?: string | null;
 }
 
 class MemoryDb implements D1Db {
@@ -48,7 +49,7 @@ class MemoryDb implements D1Db {
         for (const a of self.attendance) {
           if (!memberSet.has(a.member_id)) continue;
           const sess = sessionMap.get(a.session_id);
-          if (!sess) continue; // 削除済み meeting 除外
+          if (!sess || sess.deleted_at !== null && sess.deleted_at !== undefined) continue;
           out.push({
             member_id: a.member_id,
             session_id: sess.session_id,
@@ -90,7 +91,7 @@ describe("AttendanceProvider", () => {
 
   it("attendance 1 件を取得できる", async () => {
     const db = new MemoryDb();
-    db.sessions = [{ session_id: "s_001", title: "総会", held_on: "2026-01-15" }];
+    db.sessions = [{ session_id: "s_001", title: "総会", held_on: "2026-01-15", deleted_at: null }];
     db.attendance = [
       { member_id: "m_001", session_id: "s_001", title: "", held_on: "" },
     ];
@@ -123,7 +124,7 @@ describe("AttendanceProvider", () => {
 
   it("削除済み meeting（meeting_sessions に存在しない session）は除外される", async () => {
     const db = new MemoryDb();
-    db.sessions = [{ session_id: "s_alive", title: "現存", held_on: "2026-03-01" }];
+    db.sessions = [{ session_id: "s_alive", title: "現存", held_on: "2026-03-01", deleted_at: null }];
     db.attendance = [
       { member_id: "m_001", session_id: "s_alive", title: "", held_on: "" },
       { member_id: "m_001", session_id: "s_deleted", title: "", held_on: "" },
@@ -135,9 +136,32 @@ describe("AttendanceProvider", () => {
     ]);
   });
 
+  it("soft-deleted meeting（deleted_at 設定済み session）は除外される", async () => {
+    const db = new MemoryDb();
+    db.sessions = [
+      { session_id: "s_alive", title: "現存", held_on: "2026-03-01", deleted_at: null },
+      {
+        session_id: "s_soft_deleted",
+        title: "削除済み",
+        held_on: "2026-03-02",
+        deleted_at: "2026-05-08T00:00:00Z",
+      },
+    ];
+    db.attendance = [
+      { member_id: "m_001", session_id: "s_alive", title: "", held_on: "" },
+      { member_id: "m_001", session_id: "s_soft_deleted", title: "", held_on: "" },
+    ];
+    const provider = createAttendanceProvider(ctx(db));
+    const result = await provider.findByMemberIds([asMemberId("m_001")]);
+    expect(result.get(asMemberId("m_001"))?.map((r) => r.sessionId)).toEqual([
+      "s_alive",
+    ]);
+    expect(db.preparedSqls[0]).toMatch(/ms\.deleted_at IS NULL/);
+  });
+
   it("同一 member の同一 session 重複登録は 1 件に正規化", async () => {
     const db = new MemoryDb();
-    db.sessions = [{ session_id: "s_001", title: "重複検証", held_on: "2026-04-01" }];
+    db.sessions = [{ session_id: "s_001", title: "重複検証", held_on: "2026-04-01", deleted_at: null }];
     db.attendance = [
       { member_id: "m_001", session_id: "s_001", title: "", held_on: "" },
       { member_id: "m_001", session_id: "s_001", title: "", held_on: "" },
@@ -197,7 +221,7 @@ describe("AttendanceProvider", () => {
 
   it("発行 SQL は INNER JOIN + IN(?,?,...) のバッチクエリで N+1 を発生させない", async () => {
     const db = new MemoryDb();
-    db.sessions = [{ session_id: "s_001", title: "x", held_on: "2026-01-01" }];
+    db.sessions = [{ session_id: "s_001", title: "x", held_on: "2026-01-01", deleted_at: null }];
     db.attendance = [
       { member_id: "m_001", session_id: "s_001", title: "", held_on: "" },
       { member_id: "m_002", session_id: "s_001", title: "", held_on: "" },
@@ -211,6 +235,7 @@ describe("AttendanceProvider", () => {
     ]);
     expect(db.preparedSqls).toHaveLength(1); // N+1 なし
     expect(db.preparedSqls[0]).toMatch(/INNER JOIN meeting_sessions/);
+    expect(db.preparedSqls[0]).toMatch(/ms\.deleted_at IS NULL/);
     expect(db.preparedSqls[0]).toMatch(/member_id IN \(/);
   });
 });

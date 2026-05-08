@@ -14,6 +14,7 @@ export interface PublicD1MockOptions {
   memberStatusById?: Record<string, unknown | null>;
   currentResponseByMemberId?: Record<string, unknown | null>;
   tagsByMemberId?: Record<string, unknown[]>;
+  attendanceByMemberId?: Record<string, unknown[]>;
   meetings?: unknown[];
   syncJobs?: Partial<Record<"schema_sync" | "response_sync", unknown | null>>;
   failOnSql?: RegExp | string;
@@ -205,6 +206,17 @@ class MockStmt {
       return { results: meetings.slice(0, limit) as T[] };
     }
 
+    if (
+      sql.includes("FROM member_attendance ma") &&
+      sql.includes("INNER JOIN meeting_sessions ms") &&
+      sql.includes("ma.member_id = ?")
+    ) {
+      const memberId = String(this.bindings[0]);
+      const limit = Number(this.bindings[this.bindings.length - 1] ?? 50);
+      const rows = (this.options.attendanceByMemberId?.[memberId] ?? []) as T[];
+      return { results: rows.slice(0, limit) };
+    }
+
     return { results: [] };
   }
 
@@ -340,5 +352,14 @@ export const buildMeetingRow = (
   note: null,
   created_at: "2026-03-01T00:00:00.000Z",
   created_by: "admin",
+  ...overrides,
+});
+
+export const buildAttendanceJoinRow = (
+  overrides: Partial<Record<string, unknown>> = {},
+): Record<string, unknown> => ({
+  session_id: "s-1",
+  title: "定例会 1",
+  held_on: "2026-03-15",
   ...overrides,
 });
