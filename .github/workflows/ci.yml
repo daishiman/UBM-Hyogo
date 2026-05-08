@@ -28,6 +28,9 @@ jobs:
       - name: Observation reminder shell unit
         run: bash scripts/observation/test/test-create-reminder-issue.sh
 
+      - name: Runtime smoke shell unit
+        run: pnpm smoke:test
+
       - name: Shellcheck observation scripts
         run: shellcheck scripts/observation/*.sh scripts/observation/test/*.sh
 

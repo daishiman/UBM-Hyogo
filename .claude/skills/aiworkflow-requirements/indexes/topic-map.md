@@ -3534,15 +3534,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L96 |
-| wrangler.toml の環境別設定 | L154 |
-| ローカル開発での設定 | L186 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L225 |
-| セキュリティ原則 | L262 |
-| Cloudflare API Token の作成手順 | L273 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L288 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L387 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L435 |
-| 変更履歴 | L450 |
+| wrangler.toml の環境別設定 | L173 |
+| ローカル開発での設定 | L205 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L244 |
+| セキュリティ原則 | L281 |
+| Cloudflare API Token の作成手順 | L292 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L307 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L406 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L454 |
+| 変更履歴 | L469 |
 
 ### references/deployment.md
 
@@ -5505,10 +5505,11 @@ node scripts/list-specs.js --topics
 | 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
 | 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L236 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L250 |
-| 13. 変更履歴 | L272 |
-| 10. 変更履歴 | L273 |
+| 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L227 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L254 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L268 |
+| 13. 変更履歴 | L290 |
+| 10. 変更履歴 | L291 |
 
 ### references/patterns-advanced.md
 
@@ -5961,13 +5962,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L622 |
-| フェーズ構造（概要） | L631 |
-| 品質ゲート（概要） | L662 |
-| 出力テンプレート | L673 |
-| 実行時のコマンド・エージェント・スキル | L696 |
-| 昇格パターン集 | L720 |
-| Current Active / Spec Created Tasks | L722 |
+| ドキュメント構成 | L638 |
+| フェーズ構造（概要） | L647 |
+| 品質ゲート（概要） | L678 |
+| 出力テンプレート | L689 |
+| 実行時のコマンド・エージェント・スキル | L712 |
+| 昇格パターン集 | L736 |
+| Current Active / Spec Created Tasks | L738 |
 
 ### references/task-workflow-backlog-part2.md
 

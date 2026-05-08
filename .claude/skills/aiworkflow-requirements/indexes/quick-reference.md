@@ -5,6 +5,25 @@
 
 ---
 
+### Issue #571 Staging Runtime Smoke CI Integration（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval` |
+| parent | Issue #531 attendanceProvider runtime smoke runner |
+| reusable workflow | `.github/workflows/runtime-smoke-staging.yml`（`workflow_call`、`if: always()` artifact upload、failure-only Slack post） |
+| caller | `.github/workflows/backend-ci.yml`（API staging deploy 後に reusable call、`[skip runtime-smoke]` escape valve） |
+| smoke runner contract | `bash scripts/smoke/runtime-attendance-provider.sh staging --out-dir ci-evidence --ci-summary` |
+| summary helper | `scripts/smoke/ci-summary-post.sh`（`summary.json` 不在時は exit 1、本文に Bearer/Cookie/raw body を残さない） |
+| GitHub Environment | `staging-runtime-smoke`（runtime credentials は environment-scoped、repository-scoped 禁止） |
+| secret set | `STAGING_API_BASE`, `STAGING_ADMIN_BEARER`, `STAGING_MEMBER_ID`, `STAGING_ME_BEARER`, `SLACK_WEBHOOK_INCIDENT`（failure step only） |
+| ADRs | `docs/40-architecture/adr/ADR-runtime-smoke-secret-injection.md`, `docs/40-architecture/adr/ADR-runtime-smoke-required-status-check.md` |
+| runbook | `docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/operations/setup-github-environment.md` |
+| evidence (local) | `outputs/phase-11/evidence/{typecheck,lint,test,grep-gate,artifact-redaction-grep}.log`（local PASS 5 点） |
+| 観測 follow-ups | FU-001 production runtime smoke / FU-002 required status check promotion / FU-003 secret rotation / FU-004 actionlint（Issue #526 既定）。すべて 30 日 staging 観測後または条件成立後 |
+| boundary | GitHub Environment 作成・staging 実行・Slack real post・commit / push / PR は user approval 後のみ。`set -x` / `bash -x` / `set -o xtrace` 禁止（grep gate） |
+
 ### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
 
 | 目的 | 参照先 |

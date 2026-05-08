@@ -135,6 +135,25 @@ Rotation 手順:
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（デプロイ通知） | 未使用（UT-08-IMPL で導入予定。現行 web-cd.yml / backend-ci.yml には参照なし） |
 | `CODECOV_TOKEN` | Codecov カバレッジアップロード | ci.yml |
 
+### Issue #571 staging runtime smoke GitHub Environment（2026-05-08）
+
+`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。
+
+| Category | Secret | Placement | Purpose |
+| --- | --- | --- | --- |
+| staging runtime credential | `STAGING_API_BASE` | GitHub Environment secret: `staging-runtime-smoke` | staging API base URL for smoke |
+| staging runtime credential | `STAGING_ADMIN_BEARER` | GitHub Environment secret: `staging-runtime-smoke` | admin read-only smoke auth |
+| staging runtime credential | `STAGING_MEMBER_ID` | GitHub Environment secret: `staging-runtime-smoke` | member fixture id |
+| staging runtime credential | `STAGING_ME_BEARER` | GitHub Environment secret: `staging-runtime-smoke` | member `/me` smoke auth |
+| staging runtime credential | `SLACK_WEBHOOK_INCIDENT` | GitHub Environment secret: `staging-runtime-smoke` | failure-only incident post |
+
+Rules:
+
+- Repository-scoped secrets must not store staging runtime credentials.
+- The smoke workflow is invoked through reusable `workflow_call` from `backend-ci.yml`; no repository-scoped dispatch token is required for Issue #571.
+- Evidence may record secret names and placement only. Values, value hashes, token fragments, webhook URLs, and decoded cookies are forbidden in docs, logs, artifacts, PR body, and commit messages.
+- Before runtime execution, validate both name-only secret inventory and a value-without-printing staging marker check for `STAGING_API_BASE`.
+
 ### GitHub Variables（非機密設定値）
 
 `Settings > Secrets and variables > Actions > Variables` で管理。
