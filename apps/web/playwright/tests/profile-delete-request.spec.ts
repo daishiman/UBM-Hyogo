@@ -4,7 +4,7 @@
 import { expect } from "@playwright/test";
 import { test } from "../fixtures/auth";
 
-test.describe.skip("profile delete-request (06b-B)", () => {
+test.describe("profile delete-request (06b-B)", () => {
   test("TC-E-03: 二段確認後に退会申請 → 202 → pending banner", async ({
     memberPage,
   }) => {

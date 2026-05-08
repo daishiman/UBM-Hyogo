@@ -4,7 +4,7 @@
 import { expect } from "@playwright/test";
 import { test } from "../fixtures/auth";
 
-test.describe.skip("profile visibility-request (06b-B)", () => {
+test.describe("profile visibility-request (06b-B)", () => {
   test("TC-E-01: public → 公開停止申請 → 202 → pending banner", async ({
     memberPage,
   }) => {
