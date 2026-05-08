@@ -1034,9 +1034,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L9 |
-| Issue #546 90 Day Observation Result（2026-05-08） | L96 |
 | Cloudflare Audit Logs (Issue #408) — read-only 監視ストア | L11 |
+| Issue #546 90 Day Observation Result（2026-05-08） | L98 |
 
 ### references/database-schema-ddl-template.md
 
@@ -2383,12 +2382,6 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L56 |
 
-### references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Gate Result | L22 |
-
 ### references/workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md
 
 | セクション | 行 |
@@ -2396,6 +2389,12 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Current Canonical Set | L13 |
 | Boundary | L29 |
+
+### references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Gate Result | L22 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -4374,6 +4373,15 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L179 |
 | 引用元 | L188 |
 
+### references/lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE518-001: HOLD 政策で workflow を残すなら schedule 削除 + workflow_dispatch + dry_run 強制 の三段階で実行を物理的に塞ぐ | L7 |
+| L-ISSUE518-002: schedule を停止した時点で死活監視 watchdog は冗長になるため同一 wave で削除する | L28 |
+| L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
+| 参照元 | L66 |
+
 ### references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md
 
 | セクション | 行 |
@@ -4383,15 +4391,6 @@ node scripts/list-specs.js --topics
 | L-ISSUE546-003: docs-only observation でも root state と phase state は分離する | L34 |
 | L-ISSUE546-004: helper が出力しない成果物は pending evidence marker を実体化する | L47 |
 | 参照元 | L60 |
-
-### references/lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-ISSUE518-001: HOLD 政策で workflow を残すなら schedule 削除 + workflow_dispatch + dry_run 強制 の三段階で実行を物理的に塞ぐ | L7 |
-| L-ISSUE518-002: schedule を停止した時点で死活監視 watchdog は冗長になるため同一 wave で削除する | L28 |
-| L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
-| 参照元 | L66 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -4773,8 +4772,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L99 |
-| 関連ドキュメント | L104 |
+| 利用順序 | L100 |
+| 関連ドキュメント | L105 |
 
 ### references/llm-embedding.md
 
@@ -5427,8 +5426,7 @@ node scripts/list-specs.js --topics
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L236 |
 | 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L250 |
 | 13. 変更履歴 | L272 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L236 |
-| 10. 変更履歴 | L258 |
+| 10. 変更履歴 | L273 |
 
 ### references/patterns-advanced.md
 
@@ -5881,20 +5879,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L506 |
-| フェーズ構造（概要） | L515 |
-| 品質ゲート（概要） | L546 |
-| 出力テンプレート | L557 |
-| 実行時のコマンド・エージェント・スキル | L580 |
-| 昇格パターン集 | L604 |
-| Current Active / Spec Created Tasks | L606 |
-| ドキュメント構成 | L551 |
-| フェーズ構造（概要） | L560 |
-| 品質ゲート（概要） | L591 |
-| 出力テンプレート | L602 |
-| 実行時のコマンド・エージェント・スキル | L625 |
-| 昇格パターン集 | L649 |
-| Current Active / Spec Created Tasks | L651 |
+| ドキュメント構成 | L564 |
+| フェーズ構造（概要） | L573 |
+| 品質ゲート（概要） | L604 |
+| 出力テンプレート | L615 |
+| 実行時のコマンド・エージェント・スキル | L638 |
+| 昇格パターン集 | L662 |
+| Current Active / Spec Created Tasks | L664 |
 
 ### references/task-workflow-backlog-part2.md
 
