@@ -144,9 +144,10 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 - build artifact の文字列監査は `rg -F` を優先し、0件判定は `rg -q` の exit code と文書上の `match 0件` を対で残す
 - human-authored な Phase 12 成果物は task root 直下ではなく `outputs/phase-12/` に置く
 - `index.md` / `phase-*.md` / `artifacts.json` / `outputs/artifacts.json` の4点同期結果
-- **必須**: 当該 wave で touch した全 skill の `.claude/skills/<skill>/LOGS.md` 更新行を **canonical absolute path** で必ず列挙する。`SKILL.md` だけ列挙して `LOGS.md` を省略するパターンは FAIL（06b-b pending banner 監査で検出）。
-- Step 1-A で更新した `aiworkflow-requirements` / `task-specification-creator` の `SKILL.md` / `LOGS.md` を canonical path で列挙する
-- `skill-creator` を改善した場合は、`skill-creator/SKILL.md` / `LOGS.md` / 変更した template or reference も同じ changelog に列挙する
+- **必須**: 当該 wave で touch した全 skill の履歴 ledger を **canonical absolute path** で必ず列挙する。`SKILL.md` だけ列挙して履歴 ledger を省略するパターンは FAIL（06b-b pending banner 監査で検出）。
+- `.claude/skills/<skill>/LOGS.md` が存在する場合は `LOGS.md` を必須履歴 ledger とする。現行 skill が `LOGS/_legacy.md` + `changelog/<yyyymmdd-task>.md` fragment 運用の場合は、dated changelog を同一 wave 履歴として扱い、`documentation-changelog.md` / `system-spec-update-summary.md` に選択した履歴ファイルと `LOGS.md` 不在理由を明記すれば PASS とする。
+- Step 1-A で更新した `aiworkflow-requirements` / `task-specification-creator` の `SKILL.md` / 履歴 ledger を canonical path で列挙する
+- `skill-creator` を改善した場合は、`skill-creator/SKILL.md` / 履歴 ledger / 変更した template or reference も同じ changelog に列挙する
 - `更新予定` / `計画済み` / `PR マージ後に実施` のような future wording を残さない
 
 ### 必須エントリ最小セット（documentation-changelog.md）
@@ -156,7 +157,7 @@ canonical workflow tree の削除を検出した場合、`docs/30-workflows/unas
 | カテゴリ | 必須 path 例 |
 | --- | --- |
 | skill 正本 | `.claude/skills/<skill>/SKILL.md` |
-| skill 履歴 | `.claude/skills/<skill>/LOGS.md` ← **省略禁止** |
+| skill 履歴 | `.claude/skills/<skill>/LOGS.md`、または現行運用で実在する `.claude/skills/<skill>/changelog/<yyyymmdd-task>.md` |
 | skill reference / template | `.claude/skills/<skill>/references/*.md`（変更があった場合） |
 | workflow artifacts | `docs/30-workflows/<task>/{index.md,artifacts.json}` |
 | workflow outputs | `docs/30-workflows/<task>/outputs/{artifacts.json,phase-12/*.md}` |
