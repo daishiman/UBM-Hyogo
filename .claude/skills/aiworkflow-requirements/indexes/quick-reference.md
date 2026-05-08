@@ -22,6 +22,23 @@
 | Issue 取扱 | Issue #532 CLOSED 維持。PR 文脈は `Refs #532` のみ |
 | user gate | commit / push / PR は user approval 後のみ |
 
+### Issue #526 CI actionlint / shellcheck gate（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/governance/issue-526-ci-actionlint-shellcheck-gate/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval` |
+| CI owner | `.github/workflows/ci.yml` |
+| dedicated job | `workflow-shell-lint` |
+| required context path | 既存 required context `ci` 内で `pnpm observation:lint` を実行 |
+| local command | `pnpm observation:lint` |
+| lint対象 | `.github/workflows/post-release-observation-reminder.yml`, `.github/workflows/ci.yml`, `scripts/observation/*.sh`, `scripts/observation/test/*.sh` |
+| source unassigned | `docs/30-workflows/completed-tasks/ut-350-fu-01-ci-actionlint-shellcheck-gate.md` consumed |
+| 正本 refs | `references/deployment-gha.md`, `references/post-release-long-term-observation.md`, `references/task-workflow-active.md` |
+| inventory | `references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md` |
+| 境界 | reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。runtime CI evidence、branch protection PUT、commit / push / PR は user approval 後 |
+
 ### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
 
 | 目的 | 参照先 |
@@ -35,6 +52,20 @@
 | redaction gate | `bash scripts/redaction-grep.sh .` |
 | blocks | Issue #495 Phase 11 runtime smoke / 09c production readiness observability gate |
 | boundary | Slack / 1Password / Cloudflare / GitHub / smoke / commit / push / PR は user approval 後のみ |
+
+### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-20-w2-screen-blueprints-public-and-member/` |
+| 状態 | `implemented-local / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| 実 docs 正本 | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`, `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md` |
+| scope | 公開 6 routes + 会員 2 routes の screen blueprint。コード変更なし |
+| API 境界 | 既存 `/public/*`, `/auth/*`, `/me/*` endpoint のみ。新 endpoint / D1 schema 変更なし |
+| visual gate | fenced JSX prototype 転記を除く仕様本文で visual literal 0。凍結 prototype 一字一句転記を優先 |
+| downstream | task-11 / task-12 / task-13 / task-14 / task-06 |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | commit / push / PR は user approval 後 |
 
 ### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
 
@@ -63,6 +94,32 @@
 | downstream | task-02..22 は `SCOPE.md §6` の diff scope discipline / archive rule を完了前に確認 |
 | archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
+### task-21 09g Admin Screen Blueprints（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-21-w2-par-screen-blueprints-admin/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| primary spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| verify | `scripts/verify-09g-screen-blueprints-admin.sh` |
+| scope | AdminSidebar + admin 8 routes（dashboard / members / tags / meetings / schema / requests / identity-conflicts / audit） |
+| API boundary | current `references/api-endpoints.md` admin contract。旧 `/admin/kpi`、direct tag approve/reject、schema apply、identity resolve は採用しない |
+| downstream | task-15 consumes §2/§3, task-16 consumes §4/§5/§7, task-17 consumes §6/§8/§9, task-22 verifies anchors |
+| evidence | `outputs/phase-07/automated-checks.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
+### UI prototype alignment task-21 Admin Blueprint 09g（2026-05-07）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-21-w2-screen-blueprints-admin/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| blueprint 正本 | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| 対象 | admin 8 routes + AdminSidebar contract。既存補助 route `/admin/dashboard/attendance` は削除しない |
+| source | `docs/00-getting-started-manual/claude-design-prototype/pages-admin.jsx`, `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-3/phase-3.md` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-11/link-checklist.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| downstream | task-15 / task-16 / task-17 admin implementation |
+| 境界 | apps/packages code 変更なし。既存 admin API endpoint surface のみ参照。screenshot 不要 |
 
 ### UI prototype alignment / task-19 09c primitives full spec（2026-05-07）
 
@@ -1689,6 +1746,18 @@ packages/
 | scope boundary | `findByMemberIds(ids)` bulk pagination は明示スコープ外。未タスク化しない |
 | evidence | local focused tests + Phase 12 strict files: `docs/30-workflows/issue-372-attendance-pagination/outputs/phase-12/`; staging screenshots/curl remain Phase 11 pending |
 | lessons-learned | `references/lessons-learned-issue-372-attendance-pagination-2026-05.md`（L-ISSUE372-001〜006: cursor encoded/decoded 境界 / bulk と個人特化 API 分離 / `attendanceMeta` optional 追加 / miniflare EADDRNOTAVAIL focused run / 1Password CLI timeout 切り分け / Phase 11 visual evidence pending を spec sync の blocker にしない） |
+
+### Issue #531 AttendanceProvider Runtime Smoke 早見（spec_created / 2026-05-07）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical task root | `docs/30-workflows/issue-531-runtime-smoke-attendance-provider-migration/` |
+| 状態 | spec_created / implementation / NON_VISUAL / runtime evidence pending_user_credentials |
+| purpose | issue-371 の `c.var.attendanceProvider` middleware DI 移行を Cloudflare staging Worker で read-only smoke する。DI-bound evidence は `/admin/members/:memberId` と `/me/profile` |
+| smoke script | `scripts/smoke/runtime-attendance-provider.sh` |
+| evidence boundary | persistent evidence は summary-only（status / jq contract / count or type）。raw body は `mktemp` + `trap`、保存禁止 |
+| route contract | `/admin/members` = `.members[]`, `/admin/members/:memberId` = `.attendance[]`, `/admin/members/:memberId/attendance` = `.records[]`, `/me/` = `.user.memberId`, `/me/profile` = `.profile.attendance[]`, `/me/attendance` = `.records[]` |
+| boundary | POST self-request routes are inventory-only because they write staging queue state; production smoke remains forbidden |
 
 ### UBM-Hyogo Attendance Write Operations Close-out（UT-02A follow-up / 2026-05-06）
 

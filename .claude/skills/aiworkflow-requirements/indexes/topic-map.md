@@ -2389,6 +2389,29 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L13 |
 | Boundary | L29 |
 
+### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L15 |
+| Phase Outputs | L29 |
+| Skill 反映先 | L40 |
+| Validation Chain | L55 |
+
+### references/workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Root artifacts | L15 |
+| 2. Phase 1-13 specification files | L23 |
+| 3. Phase 12 strict outputs（7 + elegant review） | L41 |
+| 4. Phase 11 evidence ledger | L54 |
+| 5. Implementation source-of-truth | L66 |
+| 6. Skill reflection / same-wave sync | L75 |
+| 7. Scope notes | L89 |
+| 8. Related tasks | L97 |
+
 ### references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md
 
 | セクション | 行 |
@@ -2807,6 +2830,31 @@ node scripts/list-specs.js --topics
 | Boundary | L25 |
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
+
+### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Acceptance Criteria | L17 |
+| Phase Outputs | L28 |
+| 主要成果物 | L41 |
+| Skill 反映先（current canonical set） | L48 |
+| 不採用 / 起票見送り（unassigned-task-detection.md より） | L60 |
+| Validation Chain | L69 |
+
+### references/workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical contract | L14 |
+| Workflow artifacts | L21 |
+| Phase 12 strict outputs | L33 |
+| Verification | L45 |
+| Downstream ownership | L60 |
+| Same-wave sync targets | L69 |
+| Related Resources | L79 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -3445,16 +3493,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L60 |
-| キャッシュ戦略 | L96 |
-| 並列実行の活用 | L119 |
-| CD ワークフロー要件（dev / main マージ時） | L175 |
-| Backend ワークフロー要件（dev / main マージ時） | L203 |
-| モニタリングとアラート | L229 |
-| GitHub Secrets の要件 | L263 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L307 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L328 |
-| post-release-30day-auto-summary | L365 |
+| CI ワークフロー要件（PR 時） | L63 |
+| キャッシュ戦略 | L99 |
+| 並列実行の活用 | L122 |
+| CD ワークフロー要件（dev / main マージ時） | L178 |
+| Backend ワークフロー要件（dev / main マージ時） | L206 |
+| モニタリングとアラート | L232 |
+| GitHub Secrets の要件 | L266 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L310 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L331 |
+| post-release-30day-auto-summary | L368 |
 
 ### references/deployment-history.md
 
@@ -4373,6 +4421,14 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
 
+### references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L41 |
+
 ### references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md
 
 | セクション | 行 |
@@ -4464,6 +4520,23 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L12 |
 | 横展開チェックリスト | L55 |
+
+### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+
+### references/lessons-learned-task-21-09g-admin-blueprint-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T21-001: 旧 draft が現行 API contract と乖離する場合は再生成が低コスト | L3 |
+| L-T21-002: docs-only / NON_VISUAL タスクでも root `index.md` / `artifacts.json` / `outputs/artifacts.json` の full mirror が必須 | L7 |
+| L-T21-003: canonical workflow root の削除検出は task scope 外でも同サイクルで復元する | L11 |
+| L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
+| L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
 
 ### references/lessons-learned-task19-primitives-full-spec-2026-05.md
 
@@ -4755,8 +4828,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L100 |
-| 関連ドキュメント | L105 |
+| 利用順序 | L101 |
+| 関連ドキュメント | L106 |
 
 ### references/llm-embedding.md
 
@@ -5472,9 +5545,9 @@ node scripts/list-specs.js --topics
 | 概要 | L13 |
 | 正本 runbook | L17 |
 | Current Contract | L21 |
-| Evidence Boundary | L32 |
-| Follow-up Unassigned Tasks | L38 |
-| 関連 | L44 |
+| Evidence Boundary | L35 |
+| Follow-up Unassigned Tasks | L41 |
+| 関連 | L47 |
 
 ### references/quality-e2e-testing.md
 
@@ -5826,12 +5899,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | テンプレート一覧 | L7 |
 | 命名規則 | L29 |
-| 記述形式 | L101 |
-| すべきこと | L121 |
-| 避けるべきこと | L130 |
-| 新規仕様の追加手順 | L139 |
-| 完了タスクセクション標準化 | L147 |
-| ファイルサイズ管理 | L195 |
+| 記述形式 | L113 |
+| すべきこと | L133 |
+| 避けるべきこと | L142 |
+| 新規仕様の追加手順 | L151 |
+| 完了タスクセクション標準化 | L159 |
+| ファイルサイズ管理 | L207 |
 
 ### references/spec-splitting-guidelines.md
 
@@ -5860,13 +5933,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L544 |
-| フェーズ構造（概要） | L553 |
-| 品質ゲート（概要） | L584 |
-| 出力テンプレート | L595 |
-| 実行時のコマンド・エージェント・スキル | L618 |
-| 昇格パターン集 | L642 |
-| Current Active / Spec Created Tasks | L644 |
+| ドキュメント構成 | L609 |
+| フェーズ構造（概要） | L618 |
+| 品質ゲート（概要） | L649 |
+| 出力テンプレート | L660 |
+| 実行時のコマンド・エージェント・スキル | L683 |
+| 昇格パターン集 | L707 |
+| Current Active / Spec Created Tasks | L709 |
 
 ### references/task-workflow-backlog-part2.md
 
