@@ -22,6 +22,51 @@
 | evidence | local focused tests / skeleton dry-run / grep gate、`outputs/phase-12/` strict 7 files |
 | 境界 | 本サイクルは observation scripts / fallback alert / leakage grep CLI まで。workflow YAML / secret / artifact / production mutation は実行しない。Issue #549 は CLOSED のまま `Refs #549` |
 
+### Issue #532 write/tag/note provider ctx injection（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / local command evidence recorded / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-532-extend-ctx-injection-to-write-tag-note-providers/` |
+| parent | `docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+| 目的 | Issue #371 の Hono ctx provider pattern を write/tag/note repositories へ実装展開する |
+| provider set | `adminNotesProvider`, `auditLogProvider`, `notificationOutboxProvider`, `tagDefinitionsProvider`, `tagQueueProvider`, `memberTagsProvider` |
+| scheduled boundary | Hono `c.var` は route 用。`tagQueueRetryTick` / `notificationDispatchTick` は明示 provider bundle を受け取る |
+| route write consolidation | `/admin/requests` の note/status/audit guarded batch は `adminNotesProvider.resolveRequestAtomic()` が所有する |
+| 境界 | D1 schema / API response shape / Auth.js admin gate は変更しない。DI container と optional `deps?` 再導入は禁止 |
+| evidence | Phase 11 typecheck/lint/focused tests/grep logs captured。Full coverage attempted but blocked by local Miniflare port exhaustion |
+| artifact inventory | `references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md` |
+| Issue 取扱 | Issue #532 CLOSED 維持。PR 文脈は `Refs #532` のみ |
+| user gate | commit / push / PR は user approval 後のみ |
+
+### Issue #526 CI actionlint / shellcheck gate（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/governance/issue-526-ci-actionlint-shellcheck-gate/` |
+| Artifact inventory | `references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md` |
+| Lessons | `references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md` |
+| 実装対象 | `.github/workflows/ci.yml`, `package.json`, `scripts/observation/test/test-create-reminder-issue.sh` |
+| lint対象 | `.github/workflows/post-release-observation-reminder.yml`, `.github/workflows/ci.yml`, `scripts/observation/*.sh`, `scripts/observation/test/*.sh` |
+| merge gate | 既存 required context `ci` 内で `pnpm observation:lint` を実行。dedicated `workflow-shell-lint` job は見やすい分離証跡で、required context 追加は user-gated |
+| 境界 | Reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。GitHub Actions runtime evidence、branch protection PUT、commit、push、PR は user approval 後 |
+| Issue 取扱 | #526 / #350 CLOSED 維持。PR 文脈では `Refs #526, Refs #350` のみ |
+
+### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-20-w2-screen-blueprints-public-and-member/` |
+| 実 docs 正本 | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`, `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md` |
+| 目的 | `pages-public.jsx` / `pages-member.jsx` の公開 6 routes + 会員 2 routes を screen blueprint として固定し、task-11..14 の入力にする |
+| 境界 | apps / packages コード変更なし。新 endpoint / D1 schema / Secret 変更なし |
+| 検証 | Phase 11 NON_VISUAL grep evidence、Phase 12 strict 7 files、visual literal gate は fenced JSX prototype 転記を除外 |
+| 下流 | task-11 / task-12 / task-13 / task-14 / task-06 |
+| user gate | commit / push / PR は未実行 |
+
 ### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
 
 | 項目 | 値 |
@@ -50,6 +95,19 @@
 | 境界 | staging stress trial / D1 write / Cloudflare Queue runtime / commit / push / PR は user 明示承認後のみ。production bulk INSERT / DELETE は permanent ban |
 | Issue 取扱 | #504 CLOSED 維持。PR 文脈では `Refs #504` のみ |
 
+### Issue #531 attendanceProvider staging runtime smoke（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / runtime evidence pending_user_credentials |
+| 成果物 | `docs/30-workflows/issue-531-runtime-smoke-attendance-provider-migration/` |
+| 親タスク | `docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
+| 実装対象 | `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/redact.sh` |
+| runtime contract | read-only GET smoke only: admin list/detail/attendance and me root/profile/attendance. DI-bound evidence is admin detail + me profile only |
+| secret/PII境界 | persistent evidence is summary-only; raw body is temporary `mktemp` data removed by `trap` |
+| state boundary | parent issue-371 remains `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` until real staging smoke PASS exists |
+| Issue 取扱 | #531 CLOSED 維持。PR 文脈では `Refs #531` のみ |
+
 
 ### UI prototype alignment / MVP recovery task-01 scope gate（2026-05-07）
 
@@ -63,6 +121,18 @@
 | 境界 | apps/packages コード変更なし。新 endpoint / D1 schema / Google Form 仕様変更なし。screenshot 不要の NON_VISUAL evidence |
 | archive hygiene | 5 dir の削除混入は `docs/30-workflows/completed-tasks/` への archive rename として整理済み。task-02..22 は `SCOPE.md §6` を完了前に確認 |
 | 検証 | `mise exec -- pnpm lint` exit 0、route count 19、staged diff 243 件は docs/archive 範囲のみ、apps/packages diff 0 |
+
+### task-21 09g Admin Screen Blueprints（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-21-w2-par-screen-blueprints-admin/` |
+| primary spec | `docs/00-getting-started-manual/specs/09g-screen-blueprints-admin.md` |
+| 目的 | 管理層 8 routes + AdminSidebar を current admin API contract に沿って screen blueprint 化し、task-15/16/17 の実装入力にする |
+| 境界 | apps/packages コード変更なし。新 endpoint / D1 schema / Google Form 仕様変更なし。screenshot 不要の NON_VISUAL evidence |
+| 検証 | `bash scripts/verify-09g-screen-blueprints-admin.sh` PASS（lines=775 / sections=10 / mermaid=8 / derived=4） |
+| 下流 | task-15 §2/§3、task-16 §4/§5/§7、task-17 §6/§8/§9、task-22 anchor verification |
 
 ### UI prototype alignment task-21 Admin Blueprint 09g（2026-05-07）
 

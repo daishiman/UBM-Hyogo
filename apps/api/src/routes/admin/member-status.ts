@@ -6,8 +6,12 @@ import { requireAdmin } from "../../middleware/require-admin";
 import { ctx } from "../../repository/_shared/db";
 import { asMemberId, asAdminId } from "../../repository/_shared/brand";
 import { getStatus, setPublishState } from "../../repository/status";
-import { append as auditAppend } from "../../repository/auditLog";
 import { auditAction } from "../../repository/_shared/brand";
+import {
+  writeTagNoteProviderMiddleware,
+  type WriteTagNoteProviderVariables,
+} from "../../middleware/repository-providers";
+import { requireProvider } from "../../repository/_shared/provider-context";
 import { PublishStateZ } from "@ubm-hyogo/shared";
 import type { AdminRouteEnv } from "./_shared";
 
@@ -23,8 +27,12 @@ const PatchBodyZ = z
 const SYSTEM_ADMIN = asAdminId("system");
 
 export const createAdminMemberStatusRoute = () => {
-  const app = new Hono<{ Bindings: AdminRouteEnv }>();
+  const app = new Hono<{
+    Bindings: AdminRouteEnv;
+    Variables: Partial<WriteTagNoteProviderVariables>;
+  }>();
   app.use("*", requireAdmin);
+  app.use("*", writeTagNoteProviderMiddleware);
 
   app.patch("/members/:memberId/status", async (c) => {
     const memberId = c.req.param("memberId");
@@ -57,7 +65,7 @@ export const createAdminMemberStatusRoute = () => {
     }
     const after = await getStatus(db, mid);
 
-    await auditAppend(db, {
+    await requireProvider(c.var.auditLogProvider, "auditLogProvider").append({
       actorId: null,
       actorEmail: null,
       action: auditAction("admin.member.status_updated"),
