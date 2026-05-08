@@ -8,6 +8,34 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #553 Live audit-correlation endpoint（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-553-live-audit-correlation-endpoint/` |
+| 親 | Issue #516 GitHub audit log cross-source correlation |
+| 目的 | FU-01 live wiring: Cloudflare Worker route + cron + D1 redact-safe persistence + HIGH Slack incoming webhook notification をローカル実装し、runtime operation を user gate に分離 |
+| 実装対象 | `apps/api/src/routes/audit-correlation/`, `apps/api/src/audit-correlation/{scheduled,run-correlation,persist,notify-slack,runbook-url}.ts`, `apps/api/wrangler.toml`, `apps/api/migrations/*audit_correlation_findings.sql`, `scripts/audit-correlation/`, `.github/workflows/audit-correlation-verify.yml`, `docs/runbooks/audit-correlation.md` |
+| evidence boundary | Phase 11 は local evidence / staging runtime evidence path を分離。Cloudflare deploy / D1 apply / secrets / production PASS は user approval 後に取得 |
+| approval boundary | Cloudflare deploy / D1 apply / secret injection / commit / push / PR は G1-G4 user approval 後のみ |
+| SSOT | `references/audit-correlation.md` §Issue #553 Live Wiring Formalization / §Live wiring (Issue #553) implementation landing / §Additional implementation surface / §Cloudflare Secrets (5 種) op-reference rule / §Salt rotation procedure / §Lessons learned (Issue #553 wave) |
+| 苦戦記録 | L-AC553-001..007（scheduled retry 不可 / Slack per-finding 部分成功 / INSERT OR IGNORE dedup / fixture vs grep gate 整合 / runbook-url SSOT / env validate throw / redact 3 層） |
+
+### Issue #549 Cloudflare Audit Logs ML production switch（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
+| 親 | Issue #515 ML-ready classifier / Issue #518 HOLD |
+| switch contract | Gate-0〜C 通過後のみ `.github/workflows/cf-audit-log-monitor.yml` で `CF_AUDIT_CLASSIFIER=ml` |
+| model path | `ML_MODEL_PATH=op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD`（解決値は記録しない） |
+| observation | production switch merge 後 7 日 / 168 hourly snapshots / fallback rate / p95 latency / leakage grep |
+| rollback | `CF_AUDIT_CLASSIFIER=threshold` へ戻す。D1 `classifier_used` / `classifier_version` / `confidence` は削除しない |
+| evidence | local focused tests / skeleton dry-run / grep gate、`outputs/phase-12/` strict 7 files |
+| 境界 | 本サイクルは observation scripts / fallback alert / leakage grep CLI まで。workflow YAML / secret / artifact / production mutation は実行しない。Issue #549 は CLOSED のまま `Refs #549` |
+
 ### Issue #532 write/tag/note provider ctx injection（2026-05-08）
 
 | 項目 | 値 |
@@ -165,6 +193,21 @@
 | 検証 | 09b 行数 380+、12章、JSON parse、84 token、styles.css L1-L70 full literal cross-check、Phase 12 strict 7 files |
 | lessons | `references/lessons-learned-task-08-w2-design-tokens-doc-2026-05.md`（L-T08W2-001..004）|
 | inventory | `references/workflow-task-08-w2-design-tokens-doc-artifact-inventory.md` |
+
+### Task 09 W3 Tailwind v4 setup（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / VISUAL_ON_EXECUTION / local PASS 5-point evidence captured / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/` |
+| upstream | task-08 `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| 目的 | `apps/web` に Tailwind v4 CSS-first build pipeline を確立し、09b の `--ubm-*` token を `tokens.css` と `globals.css @theme inline` で utility 化する |
+| 境界 | task-09 は単一 PR。task-10 primitives は別 PR で、task-09 完了後のみ着手 |
+| 検証 | Phase 9 local 5点、Phase 11 `preview:cloudflare` 200、generated CSS `.bg-accent` + `var(--ubm-color-accent)`、HEX grep 0、apps/api diff 0 |
+| 状態境界 | 現 wave で実コード実装と local PASS 証跡を取得済み。commit・push・PR は未実行 |
+| Phase 11 evidence | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/outputs/phase-11/evidence/typecheck.log`、`outputs/phase-11/evidence/tokens-test.log`、`outputs/phase-11/evidence/build-output-test.log`、`outputs/phase-11/evidence/preview-200.log`、`outputs/phase-11/evidence/hex-grep-zero.log` |
+| lessons | `references/lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md`（L-T09W3-001..003） |
+| inventory | `references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md` |
 
 ### UI prototype mapping table task-07（2026-05-07）
 
@@ -338,7 +381,7 @@
 | 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / production ML switch external-gated |
 | 成果物 | `docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/` |
 | 目的 | Issue #408 の threshold 判定を直ちに置換せず、`scripts/cf-audit-log/classifier/**` の interface、redacted feature export、offline replay、D1 classifier metadata、GitHub Actions env を追加して ML-ready 化する |
-| runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、model selection、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up |
+| runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up。FU-03-C model selection は Issue #548 として仕様化済み |
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
 
 ### Issue #534 workflow_state skill guidance（2026-05-08）
@@ -353,6 +396,30 @@
 | runtime境界 | runtime smoke なし。`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` は runtime/deploy/production evidence pending の task に限定する |
 | follow-up | `docs/30-workflows/unassigned-task/task-spec-skill-workflow-state-hook-enforcement.md`, `docs/30-workflows/unassigned-task/task-spec-skill-compliance-check-ci-gate.md` |
 | 正本同期 | `indexes/quick-reference.md` / `indexes/resource-map.md` / LOGS / task-specification-creator SKILL references |
+
+### Issue #548 Cloudflare Audit Logs ML Model Selection（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_synthetic / implementation / NON_VISUAL / production winner pending FU-03-B/FU-03-D |
+| 成果物 | `docs/30-workflows/issue-548-ml-model-selection/` |
+| 目的 | Issue #515 の classifier abstraction を使い、threshold baseline と Isolation Forest / XGBoost / Workers AI 候補を同一 redacted dataset で比較する contract を固定する |
+| runtime境界 | この wave は spec + SSOT sync。Synthetic fixture は harness smoke evidence であり production winner ではない。FU-03-B redacted 90-day dataset replay と FU-03-D production switch は user-gated |
+| 正本同期 | `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `indexes/resource-map.md` / `indexes/quick-reference.md` |
+
+### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Issue #547 CLOSED |
+| 成果物 | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` |
+| 目的 | production D1 `cf_audit_log` から 90 日分の ML feature JSONL を read-only export し、schema validation / manifest / leakage gate で redacted dataset を作る |
+| 実装正本 | `scripts/cf-audit-log/feature-export.ts`, `scripts/cf-audit-log/feature-export/schema-validation.ts`, `scripts/cf-audit-log/feature-export/manifest.ts`, `scripts/cf-audit-log/d1-client.ts`, `scripts/cf.sh` |
+| evidence | `outputs/phase-11/main.md`, `focused-vitest.log`, `fixture-exported-features.jsonl`, `fixture-export-manifest.json`, `secret-leakage-grep.log`, `schema-validation.log` |
+| runtime境界 | production read-only export は `outputs/phase-11/production-pending-user-gate.md` のまま user approval 後のみ実行。local fixture PASS を runtime PASS と扱わない |
+| lessons | `references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md` |
+| artifact inventory | `references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md` |
+| 正本同期 | `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `indexes/quick-reference.md` / `indexes/resource-map.md` / LOGS |
 
 ### Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08）
 
