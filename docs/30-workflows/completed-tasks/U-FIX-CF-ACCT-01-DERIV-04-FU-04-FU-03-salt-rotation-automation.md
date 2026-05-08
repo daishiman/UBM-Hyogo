@@ -17,7 +17,7 @@ issue_number: 555
 | 対象機能     | `apps/api/src/audit-correlation/redact.ts` + Cloudflare Secrets + runbook      |
 | 優先度       | 中（priority:medium）                                                         |
 | 見積もり規模 | 中規模（scale:medium）                                                        |
-| ステータス   | 未実施（status:unassigned）                                                   |
+| ステータス   | formalized / consumed by Issue #555 workflow（元 status:unassigned）          |
 | 発見元       | Issue #516 Phase-12 / outputs/phase-12/unassigned-task-detection.md          |
 | 発見日       | 2026-05-07                                                                    |
 | 親タスク     | `docs/30-workflows/issue-516-github-audit-log-cross-source-correlation/`     |
@@ -25,6 +25,12 @@ issue_number: 555
 | 着手判断     | FU-01 の live wiring が staging で 1 回以上成功し、salt 値が実 incident 履歴と紐づいた後（rotation を回す前提が成立してから） |
 
 ---
+
+## Consumed Trace（2026-05-08）
+
+本 unassigned task は `docs/30-workflows/completed-tasks/issue-555-audit-correlation-salt-rotation-automation/` に formalize され、local implementation wave で `apps/api/src/audit-correlation/{types,redact,correlate}.ts`、`apps/api/src/audit-correlation/__tests__/rotation.test.ts`、`scripts/audit-correlation/{rotate-salt.sh,run.sh,runner.ts}`、`scripts/grep-gate/audit-correlation-secrets.sh`、runbook、aiworkflow-requirements SSOT に反映済み。
+
+Runtime staging evidence は親 FU-01 live wiring 完了と user approval まで `blocked_upstream_pending` として維持する。Issue #555 は CLOSED のまま扱い、PR では `Refs #555` のみを使う。
 
 ## 1. なぜこのタスクが必要か（Why）
 

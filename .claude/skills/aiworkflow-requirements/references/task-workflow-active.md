@@ -8,6 +8,23 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #555 audit correlation salt rotation（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / runtime evidence blocked_upstream_pending |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-555-audit-correlation-salt-rotation-automation/` |
+| parent | Issue #516 audit correlation |
+| source | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-04-FU-03-salt-rotation-automation.md` |
+| 目的 | `AUDIT_CORRELATION_SALT` の 4-mode rotation と `fingerprintVersion=2` bridge を local 実装する |
+| type contract | 既存 `NormalizedAuditEvent` / `CorrelationKey` を拡張。並行 `FingerprintRecord` モデルは作らない |
+| secret SSOT | `references/deployment-secrets-management.md`。`references/secrets-management.md` は新設しない |
+| runtime gate | FU-01 live wiring 完了後に staging evidence を取得。production rotation / commit / push / PR は user approval 後。production mutating script mode requires `--confirm-production` |
+| compliance | `docs/30-workflows/completed-tasks/issue-555-audit-correlation-salt-rotation-automation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| inventory | `references/workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md` |
+| phase-12 logs | `outputs/phase-12/indexes-rebuild.log`, `outputs/phase-12/issue-555-state.log` |
+
 ### Issue #553 Live audit-correlation endpoint（2026-05-08）
 
 | 項目 | 値 |
