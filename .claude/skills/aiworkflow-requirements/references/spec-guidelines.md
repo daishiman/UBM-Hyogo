@@ -57,6 +57,18 @@ Pages / Workers のように現状と採択後状態が分かれる decision は
 | legacy mapping | 起票元・旧 stub がある場合は `legacy-ordinal-family-register.md` に canonical path を登録する |
 | residual work | manifest stale detection や外部 branch risk など大きな残課題は unassigned task に formalize する |
 
+### UI prototype alignment docs-only workflow の同期判定
+
+UI prototype alignment / screen blueprint 系の docs-only workflow では、「実装コードを触らない」ことと「正本 index 同期不要」は同義ではない。既存 spec の repair でも、後続実装 task の一次導線になる場合は same-wave で index を更新する。
+
+| 変更種別 | indexes 同期 | 理由 |
+| --- | --- | --- |
+| 新規 screen blueprint / 後続実装の一次導線化 | 必要 | `quick-reference` / `resource-map` / `task-workflow-active` から到達できないと後続 task が stale spec を読む |
+| 既存 spec の typo / 表記ゆれ修正のみ | 不要 | 検索入口や workflow state を変えない |
+| 既存 spec の AC repair / API contract repair | 必要 | 実装判断に影響する contract が変わる |
+| 親 workflow の W task 完了 | 必要 | active guide に Phase 1-12 完了と Phase 13 gate を残す |
+| topic / anchor / 参照 path 追加 | 必要 | `topic-map` / `keywords` / 手動 index の drift 防止 |
+
 ### Generated artifact を暫定正本とする workflow の retirement 条件
 
 `apps/api/src/repository/_shared/generated/static-manifest.json` のような generated artifact を「暫定 baseline source」として採用する場合、無期限に残留しないよう retirement 条件を仕様側に明記する。最低限次を Phase 1 / Phase 12 ドキュメントへ記録する。
