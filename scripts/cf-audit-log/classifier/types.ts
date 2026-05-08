@@ -1,7 +1,12 @@
 import type { AuditLogEvent, Baseline, Severity } from "../types.ts";
 import type { ClassifierContext } from "../severity-classifier.ts";
 
-export type ClassifierName = "threshold" | "ml";
+export type ClassifierName =
+  | "threshold"
+  | "ml"
+  | "isolation-forest"
+  | "xgboost"
+  | "workers-ai";
 
 export interface SeverityResult {
   severity: Severity;
@@ -20,6 +25,6 @@ export interface ClassifierInput {
 export interface Classifier {
   readonly name: ClassifierName;
   readonly version: string;
+  readonly fallbackActive?: boolean;
   classify(input: ClassifierInput): SeverityResult | null;
 }
-

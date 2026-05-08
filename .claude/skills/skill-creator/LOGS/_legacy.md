@@ -3,6 +3,13 @@
 このファイルにはスキルの使用記録が追記されます。
 
 ---
+## 2026-05-08 - Issue #547 Phase 12 no-op routing clarification
+
+- `references/update-process.md` Phase 3.8 に、implementation-spec-to-skill sync audit が直接 skill edit 不要と判断する場合でも、no-op reason / evidence path / owning skill or reference を `skill-feedback-report.md` に残す rule を追加。
+- Issue #547 では task-specification-creator と aiworkflow-requirements へ昇格し、skill-creator 側は no-op routing の明文化のみ実施。
+- mirror directory はこの worktree に存在しない場合 N/A。
+
+---
 ## 2026-05-01 - 09b Phase 12 feedback promotion sync
 
 - `references/patterns-success-skill-phase12.md` に docs-only runbook task の feedback promotion pattern を追加。
