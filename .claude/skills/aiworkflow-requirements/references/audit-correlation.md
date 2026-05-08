@@ -2,7 +2,7 @@
 
 > 管理: `.claude/skills/aiworkflow-requirements/`
 > 状態: implemented-local / implementation / NON_VISUAL / fixture evidence captured / runtime pending
-> 対象 workflow: `docs/30-workflows/issue-516-github-audit-log-cross-source-correlation/`
+> 対象 workflow: `docs/30-workflows/completed-tasks/issue-516-github-audit-log-cross-source-correlation/`
 
 ## 目的
 
@@ -34,6 +34,8 @@ Issue #516 の実装範囲は fixture-driven verify、redaction / fingerprint / 
 
 ## References
 
-- Workflow: `docs/30-workflows/issue-516-github-audit-log-cross-source-correlation/`
+- Workflow: `docs/30-workflows/completed-tasks/issue-516-github-audit-log-cross-source-correlation/`
 - Upstream: `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/`
+- Downstream (Issue #554, branch protection required check): `docs/30-workflows/issue-554-audit-correlation-branch-protection-required-check/` / `references/branch-protection.md`
 - Runbook target: `docs/runbooks/audit-correlation.md`
+- Lessons learned: `lessons-learned/lessons-learned-issue-516-audit-correlation-2026-05.md`、`lessons-learned/lessons-learned-issue-554-branch-protection-required-check-2026-05.md`
