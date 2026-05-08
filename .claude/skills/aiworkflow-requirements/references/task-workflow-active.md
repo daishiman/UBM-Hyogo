@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #553 Live audit-correlation endpoint（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-553-live-audit-correlation-endpoint/` |
+| 親 | Issue #516 GitHub audit log cross-source correlation |
+| 目的 | FU-01 live wiring: Cloudflare Worker route + cron + D1 redact-safe persistence + HIGH Slack incoming webhook notification をローカル実装し、runtime operation を user gate に分離 |
+| 実装対象 | `apps/api/src/routes/audit-correlation/`, `apps/api/src/audit-correlation/{scheduled,run-correlation,persist,notify-slack,runbook-url}.ts`, `apps/api/wrangler.toml`, `apps/api/migrations/*audit_correlation_findings.sql`, `scripts/audit-correlation/`, `.github/workflows/audit-correlation-verify.yml`, `docs/runbooks/audit-correlation.md` |
+| evidence boundary | Phase 11 は local evidence / staging runtime evidence path を分離。Cloudflare deploy / D1 apply / secrets / production PASS は user approval 後に取得 |
+| approval boundary | Cloudflare deploy / D1 apply / secret injection / commit / push / PR は G1-G4 user approval 後のみ |
+| SSOT | `references/audit-correlation.md` §Issue #553 Live Wiring Formalization / §Live wiring (Issue #553) implementation landing / §Additional implementation surface / §Cloudflare Secrets (5 種) op-reference rule / §Salt rotation procedure / §Lessons learned (Issue #553 wave) |
+| 苦戦記録 | L-AC553-001..007（scheduled retry 不可 / Slack per-finding 部分成功 / INSERT OR IGNORE dedup / fixture vs grep gate 整合 / runbook-url SSOT / env validate throw / redact 3 層） |
+
 ### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
 
 | 項目 | 値 |

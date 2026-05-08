@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #553 Live Audit-Correlation Endpoint（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-553-live-audit-correlation-endpoint/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval` |
+| parent | Issue #516 fixture correlation engine |
+| live contract | `POST /internal/audit-correlation/run`, Worker cron `*/15 * * * *`, D1 `audit_correlation_findings`, HIGH Slack incoming webhook |
+| SSOT | `.claude/skills/aiworkflow-requirements/references/audit-correlation.md` §Issue #553 Live Wiring Formalization |
+| 5 secrets contract | `references/audit-correlation.md` §Cloudflare Secrets (5 種) op-reference rule（GITHUB_AUDIT_PAT / SLACK_AUDIT_INCIDENT_WEBHOOK_URL / AUDIT_CORRELATION_SALT / AUDIT_CORRELATION_INTERNAL_TOKEN / AUDIT_CORRELATION_RUNBOOK_BASE_URL） |
+| salt rotation | `references/audit-correlation.md` §Salt rotation procedure (`fingerprintVersion` v1 → v2) — 7-step boundary; cross-version join 禁止 |
+| lessons-learned | `references/audit-correlation.md` §Lessons learned (Issue #553 wave) — L-AC553-001..007（scheduled retry, slack per-finding, INSERT OR IGNORE, fixture-vs-grep-gate, runbook-url SSOT, env validate throw, redact 3-layer） |
+| evidence boundary | Local source changes exist; Cloudflare deploy / D1 apply / secret injection / production runtime PASS are not claimed before user approval |
+| approval boundary | Cloudflare deploy / D1 apply / secret injection / commit / push / PR require G1-G4 user approval |
+
 ### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
 
 | 目的 | 参照先 |
