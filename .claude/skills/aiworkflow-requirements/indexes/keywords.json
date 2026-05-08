@@ -1206,6 +1206,7 @@
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
+      "observability-monitoring.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
@@ -6158,6 +6159,7 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
+      "observability-monitoring.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
@@ -16663,6 +16665,10 @@
     "Linkage": [
       "observability-monitoring.md"
     ],
+    "switch": [
+      "observability-monitoring.md",
+      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
+    ],
     "プロジェクト概要": [
       "overview.md"
     ],
@@ -19760,9 +19766,6 @@
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
     "Conditions": [
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
-    ],
-    "switch": [
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md"
     ],
     "前提": [

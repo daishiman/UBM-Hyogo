@@ -68,6 +68,18 @@ Issue #515 の classifier abstraction は `CF_AUDIT_CLASSIFIER` 未指定時に 
 
 Evidence には model path、raw feature dataset、full IP、user agent、actor email を残さない。保存できるのは classifier name/version、fallback reason、run id、redacted feature summary まで。
 
+## Issue #549 audit-log ML production switch / 7 day observation
+
+Issue #549 は `CF_AUDIT_CLASSIFIER=ml` への production switch を扱うが、実 merge は Gate-0〜C 通過後の runtime cycle でのみ行う。Gate-0 は 90 日 baseline 条件を満たした、または同等の例外承認 evidence で置換した記録、Gate-A は offline replay で ML が threshold より precision / recall 改善、Gate-B は fallback rate と Issue body redaction が許容範囲、Gate-C は rollback runbook approval / governance evidence の取得である。
+
+Switch 手順:
+
+1. `CF_AUDIT_CLASSIFIER=ml` と `ML_MODEL_PATH=op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` を実装 PR の contract として確認する。解決値は記録しない。
+2. merge 後 7 日間、hourly snapshot 168 件で Issue 起票数、fallback rate、p95 latency、leakage grep result を確認する。
+3. fallback rate > 5% が 3 hour 連続、leakage grep positive、または Issue 起票数が baseline を超過した場合は `CF_AUDIT_CLASSIFIER=threshold` へ戻す PR を作る。
+
+Rollback では D1 `classifier_used` / `classifier_version` / `confidence` を削除しない。model artifact 不整合が続く場合は artifact 再選定 Issue へ差し戻す。
+
 ## Issue #514 audit-log cold storage / R2 export
 
 Issue #514 の cold storage export は Issue #408 の D1 `cf_audit_log` 30 日 retention を補完する。状態は `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。本サイクルでは R2 binding / D1 migration / exporter / restore drill / GitHub Actions workflow のローカル実装まで完了するが、production mutation は実行しない。

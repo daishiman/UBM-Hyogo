@@ -5,6 +5,20 @@
 
 ---
 
+### Issue #549 Cloudflare Audit Logs ML Production Switch（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| switch gate | Gate-0 90日 baseline or exception evidence / Gate-A offline replay improvement / Gate-B fallback + redaction tolerance / Gate-C rollback approval evidence |
+| classifier env | `CF_AUDIT_CLASSIFIER=ml` は Gate 後のみ |
+| model path | `op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD` |
+| observation | 7 day hourly snapshots / fallback rate / p95 latency / leakage grep |
+| rollback | `CF_AUDIT_CLASSIFIER=threshold` に戻し、D1 classifier columns は残す |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | 本サイクルは observation scripts / fallback alert / leakage grep CLI まで。workflow YAML / secret / artifact / production mutation は Gate 後。Issue #549 は `Refs #549` のみ |
+
 ### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
 
 | 目的 | 参照先 |
