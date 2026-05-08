@@ -4416,13 +4416,6 @@ node scripts/list-specs.js --topics
 | Scope | L3 |
 | Lessons | L9 |
 
-### references/lessons-learned-task-08-w2-design-tokens-doc-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| 教訓一覧 | L12 |
-| 横展開チェックリスト | L55 |
-
 ### references/lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md
 
 | セクション | 行 |
@@ -4441,6 +4434,13 @@ node scripts/list-specs.js --topics
 | L-T06-005: 無関係 delete diff は復元か formal trace を必須にする | L27 |
 | L-T06-006: NON_VISUAL タスクの Phase 11 alternative evidence は 4 種で網羅する | L33 |
 | L-T06-007: prototype 正本順位と視覚詳細委譲の判断基準 | L39 |
+
+### references/lessons-learned-task-08-w2-design-tokens-doc-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 横展開チェックリスト | L55 |
 
 ### references/lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md
 
@@ -5830,20 +5830,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L480 |
-| フェーズ構造（概要） | L489 |
-| 品質ゲート（概要） | L520 |
-| 出力テンプレート | L531 |
-| 実行時のコマンド・エージェント・スキル | L554 |
-| 昇格パターン集 | L578 |
-| Current Active / Spec Created Tasks | L580 |
-| ドキュメント構成 | L493 |
-| フェーズ構造（概要） | L502 |
-| 品質ゲート（概要） | L533 |
-| 出力テンプレート | L544 |
-| 実行時のコマンド・エージェント・スキル | L567 |
-| 昇格パターン集 | L591 |
-| Current Active / Spec Created Tasks | L593 |
+| ドキュメント構成 | L509 |
+| フェーズ構造（概要） | L518 |
+| 品質ゲート（概要） | L549 |
+| 出力テンプレート | L560 |
+| 実行時のコマンド・エージェント・スキル | L583 |
+| 昇格パターン集 | L607 |
+| Current Active / Spec Created Tasks | L609 |
 
 ### references/task-workflow-backlog-part2.md
 
