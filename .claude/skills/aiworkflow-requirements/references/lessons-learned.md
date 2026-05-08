@@ -7,6 +7,7 @@
 ## 仕様書インデックス
 | ファイル | 役割 | 主な見出し |
 | --- | --- | --- |
+| [lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md](lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md) | UI/UX contract rewrite task-06 lessons (NON_VISUAL × markdown contract / 19 routes × 13 primitives) | L-T06-001〜007: implementation 状態語彙統一 / AC index-Phase 同一化 / same-wave skill sync 明示 / path 名寄せ / 無関係 D diff 復元 / NON_VISUAL alternative evidence 4 種（grep gate / structure check / markdown lint / trace check）/ prototype 正本順位と視覚詳細委譲基準 |
 | [lessons-learned-05a-form-preview-503-2026-05.md](lessons-learned-05a-form-preview-503-2026-05.md) | UBM-Hyogo `/public/form-preview` 503 root cause lessons | L-05A-FP503-001〜008: D1 column/state drift / NON_VISUAL strict outputs / AC single-source / runtime pending boundary / `logWarn` UBM-5500 単一 emit / helper bindLog opt-in / use-case+route 二段テスト / user approval gate runtime evidence procedure |
 | [lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md](lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md) | 03b follow-up cap alert lessons | L-03B006-001〜003: streak reset rows / emit before lock release / implemented-local state sync |
 | [lessons-learned-current.md](lessons-learned-current.md) | current summary | メタ情報 / 変更履歴 / 最新教訓 |

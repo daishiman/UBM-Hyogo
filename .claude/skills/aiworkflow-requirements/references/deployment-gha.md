@@ -362,6 +362,50 @@ Issue #351 の 30 日連続 schedule 実測 feedback は `docs/30-workflows/issu
 
 30 日 gate 未達時は runtime PASS を主張せず、workflow root と artifacts は `spec_created` のまま維持する。gate 成立後に Phase 11 / Phase 12 を実行し、この `deployment-gha.md` セクションへ実測値を追記する。
 
+## post-release-30day-auto-summary
+
+Issue #517 follow-up auto-summary foundation は、Issue #497 の 30 日 conclusion 集計を GitHub Actions cron で自動化する implementation / NON_VISUAL workflow である。Issue #517 / #497 / #351 は PR 文面で `Refs` のみ使用し、CLOSED issue を reopen しない。
+
+| 項目 | 正本値 |
+| --- | --- |
+| workflow | `.github/workflows/post-release-30day-auto-summary.yml` |
+| trigger | `schedule: '0 1 * * *'` (UTC 01:00) + `workflow_dispatch` input `dry_run` |
+| script | `scripts/post-release-dashboard/30day-summary.sh` |
+| aggregate lib | `scripts/post-release-dashboard/lib/aggregate.sh` |
+| test | `scripts/post-release-dashboard/__tests__/30day-summary.test.sh` |
+| branch | `auto/post-release-30day-summary-YYYYMM` |
+| PR title prefix | `[auto-summary] post-release-dashboard 30d` |
+| runtime state | `CONTRACT_READY_RUNTIME_PENDING` until scheduled 30 day runtime PASS |
+
+### Steps
+
+1. `gh run list --workflow=post-release-dashboard.yml --limit=80 --json conclusion,createdAt,event,databaseId,url` で raw JSON を取得する。
+2. `event=="schedule"` のみを gate / 集計対象にし、manual `workflow_dispatch` は 30 日連続判定・failure rate・streak に含めない。
+3. 最古 schedule run の `createdAt <= today - 30d`、schedule day 数 `>= 30`、`missing_schedule_gap_days == 0` を 30 日 gate とし、不成立時は exit 0 silent skip にする。
+4. schedule run の conclusion 分布 / 連続 failure / 原因分類 / failure 比率を集計する。
+5. `token` / `bearer` / `secret` / `Authorization` を含む行を redaction する。
+6. 同月内に同 title prefix の open PR が存在する場合は exit 0 silent skip とし、Slack 通知もしない。
+7. gate 成立かつ重複なしの場合のみ branch push と `gh pr create --draft` を実行する。
+8. Slack Incoming Webhook に 5 行以内の summary と PR URL を POST する。
+
+### Slack channel bootstrap
+
+Slack channel 作成は workflow / shell script に入れない。Slack App / Bot OAuth 化を避け、次の manual preflight を Phase 11 evidence と README に固定する。
+
+| 項目 | 正本値 |
+| --- | --- |
+| channel | `w1618436027-ek2505248` |
+| webhook | Incoming Webhook を当該 channel に bind |
+| secret source | 1Password 正本 |
+| GitHub Secret | `SLACK_WEBHOOK_URL`（derived copy / 実値を docs, logs, PR body に残さない） |
+| evidence | `docs/30-workflows/issue-517-followup-auto-summary-foundation/outputs/phase-11/evidence/slack-test-post.log` |
+| pending state | channel / webhook / secret 未準備時は `CONTRACT_READY_SECRET_PENDING` |
+
+### Permissions / failure handling
+
+workflow permissions は `contents: write` / `pull-requests: write` / `actions: read` のみ。`gh run list` 失敗は workflow failure、Slack POST 失敗は PR 残置 + exit 3 とし、retry / alert 実装は本 workflow に含めない。failure 比率 `>= 10%` の場合は PR body に retry / alert 検討節を追記する。
+
+| 2026-05-07 | 2.5.0 | Issue #517 follow-up auto-summary foundation を実装。`.github/workflows/post-release-30day-auto-summary.yml`、`scripts/post-release-dashboard/30day-summary.sh` ＋ TC-01〜TC-07 / TC-05b plain shell test、schedule-only 30 day gate、open PR idempotency、`auto/post-release-30day-summary-YYYYMM` branch / `[auto-summary] post-release-dashboard 30d` PR title prefix / Slack Incoming Webhook (channel `w1618436027-ek2505248`) を正本化。Issue #517 は CLOSED 維持 / `Refs` のみ |
 | 2026-05-06 | 2.4.0 | Issue #407 Cloudflare API Token rotation reminder workflow を追加。`CF_TOKEN_ISSUED_AT`、85 日 reminder、dry-run、duplicate guard、最小 permissions を正本化 |
 | 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
