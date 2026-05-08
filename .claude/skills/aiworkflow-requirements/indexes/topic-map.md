@@ -2446,6 +2446,12 @@ node scripts/list-specs.js --topics
 | Runtime Gate | L23 |
 | Validation | L27 |
 
+### references/workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L16 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5983,13 +5989,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L665 |
-| フェーズ構造（概要） | L674 |
-| 品質ゲート（概要） | L705 |
-| 出力テンプレート | L716 |
-| 実行時のコマンド・エージェント・スキル | L739 |
-| 昇格パターン集 | L763 |
-| Current Active / Spec Created Tasks | L765 |
+| ドキュメント構成 | L677 |
+| フェーズ構造（概要） | L686 |
+| 品質ゲート（概要） | L717 |
+| 出力テンプレート | L728 |
+| 実行時のコマンド・エージェント・スキル | L751 |
+| 昇格パターン集 | L775 |
+| Current Active / Spec Created Tasks | L777 |
 
 ### references/task-workflow-backlog-part2.md
 

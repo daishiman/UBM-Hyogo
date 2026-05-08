@@ -10,6 +10,9 @@ export const EnvSchema = z.object({
   SENTRY_DSN_WEB: z.string().url().optional(),
   SENTRY_ENVIRONMENT: z.enum(["local", "staging", "production"]),
   SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1),
+  NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
+  NEXT_PUBLIC_SENTRY_ENVIRONMENT: z.enum(["local", "staging", "production"]).optional(),
+  NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1).optional(),
   AUTH_SECRET: z.string().min(16).optional(),
 });
 

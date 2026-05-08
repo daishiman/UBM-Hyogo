@@ -195,7 +195,7 @@
 
 ### UI prototype alignment task-03 Sentry Workers SDK unify（2026-05-07）
 | ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
-| 成果物 | `docs/30-workflows/task-03-w2-par-sentry-workers-sdk-unify/` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-03-w2-par-sentry-workers-sdk-unify/` |
 | parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W2 runtime task |
 | 契約 | Workers / Node SSR / Edge は `@sentry/cloudflare`、Browser は `@sentry/nextjs` に entry を分離し、`@sentry/nextjs` / browser SDK token の Workers bundle 混入を grep gate で禁止 |
 | secret境界 | web server DSN は Cloudflare Secret `SENTRY_DSN_WEB`、1Password 正本は `op://UBM-Hyogo/Sentry Web DSN (<env>)/dsn`。Browser DSN は `[vars]` `NEXT_PUBLIC_SENTRY_DSN` |
@@ -203,6 +203,18 @@
 | evidence境界 | Phase 11 は local typecheck / tests / build / OpenNext worker grep を取得済みの `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。staging deploy、Sentry dashboard event は user approval 後 |
 | 下流 | task-04 logger、task-05 error boundary / staging smoke |
 | 検証 | `pnpm --filter @ubm-hyogo/web exec tsc --noEmit` PASS、web Vitest 51 files / 420 tests PASS、`pnpm --filter @ubm-hyogo/web build:cloudflare` PASS、worker grep 0 hits、Phase 12 strict 7 outputs、Phase 11 outputs、Phase 13 approval-boundary outputs を同 wave で配置 |
+### Issue #559 task-03 follow-up 001 Sentry staging runtime evidence（2026-05-08）
+| ステータス | spec_created / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/issue-559-task-03-followup-001-sentry-staging-runtime-evidence/` |
+| parent canonical | `docs/30-workflows/completed-tasks/task-03-w2-par-sentry-workers-sdk-unify/` |
+| parent source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/02-runtime/task-03-w2-par-sentry-workers-sdk-unify.md` |
+| 目的 | parent task-03 の local Sentry SDK split を staging runtime で検証し、G0〜G5 完了後だけ `PASS_BOUNDARY_SYNCED_RUNTIME_VERIFIED` へ昇格する |
+| local evidence | G0 post-rebase preflight PASS、web typecheck / lint / 445 tests / Next build / OpenNext build PASS、`apps/web/.open-next/worker.js` grep gate 0 hits、DSN leak scan real leak 0 |
+| runtime pending | G1 secret put、G2 staging deploy、G3 curl + Sentry server/browser event、G5 parent state promotion は未実行 |
+| blocker | 1Password `UBM-Hyogo` vault / `Sentry Web DSN (staging|production)` item 未 provisioning |
+| follow-up | `docs/30-workflows/unassigned-task/task-issue-559-sentry-project-1password-dsn-provisioning-001.md` |
+| inventory | `references/workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md` |
+| 境界 | Cloudflare secret put / deploy / Sentry dashboard observation / commit / push / PR は user approval 後のみ |
 ### UI prototype alignment task-04 Window guard and logger（2026-05-08）
 | ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
 | 成果物 | `docs/30-workflows/task-04-w3-window-guard-and-logger/` |
