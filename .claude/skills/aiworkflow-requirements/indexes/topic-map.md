@@ -2381,6 +2381,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L56 |
 
+### references/workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Canonical Set | L13 |
+| Boundary | L29 |
+
 ### references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md
 
 | セクション | 行 |
@@ -2390,14 +2398,6 @@ node scripts/list-specs.js --topics
 | Phase Outputs | L29 |
 | Skill 反映先 | L40 |
 | Validation Chain | L55 |
-
-### references/workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Metadata | L3 |
-| Current Canonical Set | L13 |
-| Boundary | L29 |
 
 ### references/workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md
 
@@ -4401,14 +4401,6 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L179 |
 | 引用元 | L188 |
 
-### references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| 概要 | L7 |
-| 苦戦箇所 | L11 |
-| 後続タスクへの適用 | L41 |
-
 ### references/lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md
 
 | セクション | 行 |
@@ -4417,6 +4409,14 @@ node scripts/list-specs.js --topics
 | L-ISSUE518-002: schedule を停止した時点で死活監視 watchdog は冗長になるため同一 wave で削除する | L28 |
 | L-ISSUE518-003: 自動監視の再開条件は alerting 経路の private 化を前提条件として spec に固定する | L44 |
 | 参照元 | L66 |
+
+### references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L41 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -4805,8 +4805,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L99 |
-| 関連ドキュメント | L104 |
+| 利用順序 | L100 |
+| 関連ドキュメント | L105 |
 
 ### references/llm-embedding.md
 
@@ -5910,13 +5910,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L577 |
-| フェーズ構造（概要） | L586 |
-| 品質ゲート（概要） | L617 |
-| 出力テンプレート | L628 |
-| 実行時のコマンド・エージェント・スキル | L651 |
-| 昇格パターン集 | L675 |
-| Current Active / Spec Created Tasks | L677 |
+| ドキュメント構成 | L591 |
+| フェーズ構造（概要） | L600 |
+| 品質ゲート（概要） | L631 |
+| 出力テンプレート | L642 |
+| 実行時のコマンド・エージェント・スキル | L665 |
+| 昇格パターン集 | L689 |
+| Current Active / Spec Created Tasks | L691 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6409,3 +6409,4 @@ node scripts/list-specs.js --topics
 | SkillLifecyclePanel 責務別props分離パターン | L82 |
 
 ---
+
