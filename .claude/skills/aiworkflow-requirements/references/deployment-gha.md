@@ -48,8 +48,11 @@
 | `pr-target-safety-gate.yml` | `pull_request_target` trusted context を triage / metadata / manual audit のみに限定する safety gate。PR head checkout / install / build は禁止。 |
 | `pr-build-test.yml` | untrusted PR head の build / lint / typecheck を `pull_request` + `contents: read` のみで実行する workflow。 |
 | `cf-token-rotation-reminder.yml` | Cloudflare API Token 90 日 rotation の 85 日 reminder。`schedule` + `workflow_dispatch` dry-run で Issue 起票を通知に限定する。 |
+| `.github/workflows/ci.yml` / `workflow-shell-lint` | Issue #526 post-release observation reminder lint gate。PR / push の既存 CI で `.github/workflows/post-release-observation-reminder.yml` と `.github/workflows/ci.yml` を actionlint、`scripts/observation/*.sh` と `scripts/observation/test/*.sh` を shellcheck / bash syntax / shell unit で検査する。 |
 
 > **current facts (Issue #407 / 2026-05-06)**: `cf-token-rotation-reminder.yml` は `contents: read` / `issues: write` のみを持ち、`secrets.*` を参照しない。発行日は GitHub Variable `CF_TOKEN_ISSUED_AT`、起票 threshold は 85 日、実 rotation / secret injection は runbook 側の user approval gate 後のみ。
+
+> **current facts (Issue #526 / 2026-05-08)**: `ci.yml` に `workflow-shell-lint` job を追加済み。job は `contents: read` のみを持ち、`bash -n scripts/observation/create-reminder-issue.sh`、`bash scripts/observation/test/test-create-reminder-issue.sh`、`shellcheck scripts/observation/*.sh scripts/observation/test/*.sh`、downloaded `actionlint` による `.github/workflows/post-release-observation-reminder.yml` / `.github/workflows/ci.yml` 検査、`secrets.GITHUB_TOKEN` 以外の `secrets.*` literal allowlist grep を実行する。既存 branch protection required context は `ci`, `Validate Build`, `coverage-gate` であるため、同じ gate を `ci` job 内の `pnpm observation:lint` にも組み込み、PR merge gate の強制力を既存 required context 経由で担保する。`post-release-observation-reminder.yml` の schedule / workflow_dispatch / Issue 作成副作用は変更しない。Runtime CI evidence は PR 後の `gh run view` で追記するため `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。
 
 > **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 9 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
 

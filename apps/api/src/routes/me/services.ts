@@ -5,19 +5,21 @@
 
 import type { DbCtx } from "../../repository/_shared/db";
 import {
+  requireProvider,
+  type WriteTagNoteProviderCtx,
+} from "../../repository/_shared/provider-context";
+import {
   asMemberId,
   type MemberId,
   type AdminEmail,
   adminEmail as toAdminEmail,
   auditAction as toAuditAction,
 } from "../../repository/_shared/brand";
-import * as adminNotes from "../../repository/adminNotes";
-import * as auditLog from "../../repository/auditLog";
 import { findCurrentResponse } from "../../repository/responses";
 import type { PendingRequests } from "./schemas";
 
 export interface AppendSelfRequestInput {
-  ctx: DbCtx;
+  ctx: WriteTagNoteProviderCtx;
   memberId: MemberId;
   actorEmail: string;
   reason?: string | undefined;
@@ -44,13 +46,21 @@ const appendSelfRequest = async (
   type: "visibility_request" | "delete_request",
   input: AppendSelfRequestInput,
 ): Promise<SelfRequestResult> => {
-  const note = await adminNotes.create(input.ctx, {
+  const adminNotesProvider = requireProvider(
+    input.ctx.var.adminNotesProvider,
+    "adminNotesProvider",
+  );
+  const auditLogProvider = requireProvider(
+    input.ctx.var.auditLogProvider,
+    "auditLogProvider",
+  );
+  const note = await adminNotesProvider.create({
     memberId: input.memberId,
     body: buildBody(input.reason, input.payload),
     createdBy: toAdminEmail(input.actorEmail),
     noteType: type,
   });
-  await auditLog.append(input.ctx, {
+  await auditLogProvider.append({
     actorId: null,
     actorEmail: toAdminEmail(input.actorEmail) as AdminEmail,
     action: toAuditAction(`member.self.${type}`),
@@ -67,8 +77,13 @@ const appendSelfRequest = async (
 };
 
 export const memberSelfRequestQueue = {
-  hasPending: (ctx: DbCtx, memberId: MemberId, type: "visibility_request" | "delete_request") =>
-    adminNotes.hasPendingRequest(ctx, memberId, type),
+  hasPending: (
+    ctx: WriteTagNoteProviderCtx,
+    memberId: MemberId,
+    type: "visibility_request" | "delete_request",
+  ) =>
+    requireProvider(ctx.var.adminNotesProvider, "adminNotesProvider")
+      .hasPendingRequest(memberId, type),
   appendVisibility: (input: AppendSelfRequestInput) =>
     appendSelfRequest("visibility_request", input),
   appendDelete: (input: AppendSelfRequestInput) =>
@@ -83,16 +98,18 @@ export const memberSelfRequestQueue = {
  * parse 不能なら "hidden" を fallback とする（保守的に hide 側を表示）。
  */
 export const getPendingRequestsForMember = async (
-  ctx: DbCtx,
+  ctx: WriteTagNoteProviderCtx,
   memberId: MemberId,
 ): Promise<PendingRequests> => {
-  const visibility = await adminNotes.findLatestPendingByMemberAndType(
-    ctx,
+  const adminNotesProvider = requireProvider(
+    ctx.var.adminNotesProvider,
+    "adminNotesProvider",
+  );
+  const visibility = await adminNotesProvider.findLatestPendingByMemberAndType(
     memberId,
     "visibility_request",
   );
-  const del = await adminNotes.findLatestPendingByMemberAndType(
-    ctx,
+  const del = await adminNotesProvider.findLatestPendingByMemberAndType(
     memberId,
     "delete_request",
   );

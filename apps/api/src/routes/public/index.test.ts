@@ -10,6 +10,7 @@ import {
   buildMeetingRow,
   buildMemberResponseRow,
   buildMemberStatusRow,
+  buildAttendanceJoinRow,
   buildPublicMemberRow,
   buildResponseFieldRow,
   buildSchemaQuestionRow,
@@ -145,11 +146,24 @@ describe("createPublicRouter", () => {
         },
         schemaFields: [buildSchemaQuestionRow()],
         tagsByMemberId: { "m-1": [] },
+        attendanceByMemberId: {
+          "m-1": [
+            buildAttendanceJoinRow({
+              session_id: "s-1",
+              title: "定例会 1",
+              held_on: "2026-03-15",
+            }),
+          ],
+        },
       }),
     });
     const res = await app.request("/public/members/m-1", {}, env);
     expect(res.status).toBe(200);
     expect(res.headers.get("cache-control")).toBe("no-store");
+    await expect(res.json()).resolves.toMatchObject({
+      memberId: "m-1",
+      attendance: [{ sessionId: "s-1", title: "定例会 1", heldOn: "2026-03-15" }],
+    });
   });
 
   // TC-RED-03 / TC-REG-01: schema_versions 欠落で use-case が UBM-5500 を throw すると

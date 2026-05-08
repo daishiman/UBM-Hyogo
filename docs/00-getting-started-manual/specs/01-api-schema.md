@@ -164,7 +164,13 @@ type ConsentStatus = "consented" | "declined" | "unknown";
 
 ---
 
-`MemberProfile.attendance` は `member_attendance` と `meeting_sessions` を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile` と admin member detail は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` から provider を解決する。builder call site へ optional `deps?.attendanceProvider` を渡す方式は使わない。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile` と admin member detail は default 50 件の先頭ページを返す。先頭ページの limit 指定は builder の optional `deps?.attendancePage` 経由でのみ渡す。
+`MemberProfile.attendance` と `PublicMemberProfile.attendance` は `member_attendance` と active `meeting_sessions`（`meeting_sessions.deleted_at IS NULL`）を `session_id` で INNER JOIN して返す。API contract は `AttendanceRecord[]`（`sessionId`, `title`, `heldOn`）を維持し、`GET /me/profile`、admin member detail、`GET /public/members/:memberId` は `attendanceProviderMiddleware` が Hono context に bind した `c.var.attendanceProvider` から provider を解決する。builder call site へ optional `deps?.attendanceProvider` を渡す方式は使わない。大量履歴向けに `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` を optional 追加し、`GET /me/profile`、admin member detail、public member detail は default 50 件の先頭ページを返す。先頭ページの limit 指定は builder の optional `deps?.attendancePage` または use-case の default page request 経由でのみ渡す。public member detail は公開適格判定（`public_consent='consented'`, `publish_state='public'`, `is_deleted=0`）が成立した後に attendance を読む。非公開 member の attendance 有無や soft-deleted meeting を 404 / 除外経路で漏らさない。
+
+### Public Profile Attendance Contract
+
+| Endpoint | 認証 | Response 追加 | Privacy boundary |
+| --- | --- | --- | --- |
+| `GET /public/members/:memberId` | public / session 不要 | `attendance: AttendanceRecord[]`, `attendanceMeta?: { hasMore: boolean; nextCursor: string | null }` | `responseEmail`, `audit`, `adminNotes`, member-only/admin-only field は返さない。公開適格でない member は attendance read 前に 404 |
 
 ### Attendance pagination
 

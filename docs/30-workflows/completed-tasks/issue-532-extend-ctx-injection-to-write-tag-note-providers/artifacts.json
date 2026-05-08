@@ -1,0 +1,48 @@
+{
+  "taskId": "issue-532-extend-ctx-injection-to-write-tag-note-providers",
+  "createdAt": "2026-05-08",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented-local",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented_local_evidence_recorded",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "parentIssueState": "CLOSED",
+    "parentIssueStateNote": "Issue #532 is intentionally kept CLOSED; this workflow only creates implementation specs and must use Refs #532.",
+    "implementationCategory": "implementation",
+    "runtimeEvidence": "local_command_evidence_recorded_runtime_smoke_not_required",
+    "productionApply": "not_applicable_internal_api_refactor"
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/532",
+  "parentTask": "docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/",
+  "sourceUnassignedSpec": "docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/unassigned-task/extend-ctx-injection-to-write-tag-note-providers.md",
+  "githubLabels": [
+    "priority:low",
+    "type:improvement",
+    "scale:small",
+    "status:spec-created",
+    "area:api"
+  ],
+  "claudeCodeContext": {
+    "branchNameSuggestion": "feat/issue-532-write-tag-note-provider-ctx-injection",
+    "prTitlePrefix": "refactor(api): issue-532 extend ctx provider injection to write tag note repositories",
+    "issueLink": "Refs: #532"
+  },
+  "phases": {
+    "phase-01": { "status": "completed", "outputs": ["phase-01.md"] },
+    "phase-02": { "status": "completed", "outputs": ["phase-02.md"] },
+    "phase-03": { "status": "completed", "outputs": ["phase-03.md"] },
+    "phase-04": { "status": "completed", "outputs": ["phase-04.md"] },
+    "phase-05": { "status": "completed", "outputs": ["phase-05.md"] },
+    "phase-06": { "status": "completed", "outputs": ["phase-06.md"] },
+    "phase-07": { "status": "completed", "outputs": ["phase-07.md"] },
+    "phase-08": { "status": "completed", "outputs": ["phase-08.md"] },
+    "phase-09": { "status": "completed", "outputs": ["phase-09.md"] },
+    "phase-10": { "status": "completed", "outputs": ["phase-10.md"] },
+    "phase-11": { "status": "completed", "outputs": ["phase-11.md"] },
+    "phase-12": { "status": "completed", "outputs": ["phase-12.md"] },
+    "phase-13": { "status": "blocked_pending_user_approval", "outputs": ["phase-13.md"] }
+  }
+}
