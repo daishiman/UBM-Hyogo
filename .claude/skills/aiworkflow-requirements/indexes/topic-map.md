@@ -4541,6 +4541,13 @@ node scripts/list-specs.js --topics
 | Scope | L3 |
 | Lessons | L11 |
 
+### references/lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L12 |
+| 横展開チェックリスト | L70 |
+
 ### references/lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md
 
 | セクション | 行 |
@@ -5976,13 +5983,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L656 |
-| フェーズ構造（概要） | L665 |
-| 品質ゲート（概要） | L696 |
-| 出力テンプレート | L707 |
-| 実行時のコマンド・エージェント・スキル | L730 |
-| 昇格パターン集 | L754 |
-| Current Active / Spec Created Tasks | L756 |
+| ドキュメント構成 | L665 |
+| フェーズ構造（概要） | L674 |
+| 品質ゲート（概要） | L705 |
+| 出力テンプレート | L716 |
+| 実行時のコマンド・エージェント・スキル | L739 |
+| 昇格パターン集 | L763 |
+| Current Active / Spec Created Tasks | L765 |
 
 ### references/task-workflow-backlog-part2.md
 

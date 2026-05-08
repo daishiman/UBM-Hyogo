@@ -199,6 +199,16 @@
 | Phase 11 boundary | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`; local typecheck / tests / build / OpenNext worker grep pass, staging deploy and dashboard evidence pending user approval |
 | strict evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-13/pr-creation-result.md` |
 | downstream | task-04 logger and task-05 error boundary consume `captureException` / `captureMessage` contract |
+### UI prototype alignment task-04 Window guard and logger（2026-05-08）
+| workflow root | `docs/30-workflows/task-04-w3-window-guard-and-logger/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval` |
+| runtime guard | `apps/web/src/lib/is-browser.ts` exports `isBrowser()`, `whenBrowser()`, `browserHistory()`, `browserDocument()`; direct `window.` / `document.` runtime code is lint-gated |
+| structured logger | `apps/web/src/lib/logger.ts` emits JSON one-line logs, redacts sensitive keys, and bridges `logger.error({ event, error, digest })` to task-03 `captureException` |
+| ESLint gate | `apps/web/package.json` `lint` runs `tsc` + ESLint; `apps/web/eslint.config.mjs` restricts `window` / `document` outside allow-list |
+| Phase 11 boundary | local typecheck / lint / tests / build / grep-gate PASS; Sentry dashboard smoke and runtime logger staging evidence pending user approval |
+| strict evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md`（L-T04-001..008: `init?.()` / `RUNTIME_TAG` / allow-list 同期 / `lint` false-green / `Error` redaction / `historyImpl` DI / Phase 拡張 ledger / observability swallow） |
+| downstream | task-05 error boundary should call `logger.error({ event, error, digest })`; task-09..17 consume `isBrowser()` / `whenBrowser()` for remaining UI browser APIs |
 ### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
 | workflow root | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
