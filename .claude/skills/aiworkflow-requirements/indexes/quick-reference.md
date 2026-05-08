@@ -5,67 +5,20 @@
 
 ---
 
-### Issue #555 Audit Correlation Salt Rotation（2026-05-08）
+### Issue #554 audit-correlation required status check（2026-05-08）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/issue-555-audit-correlation-salt-rotation-automation/` |
-| 状態 | `implemented-local / implementation / NON_VISUAL / runtime evidence blocked_upstream_pending` |
-| parent | Issue #516 audit correlation |
-| type contract | 既存 `NormalizedAuditEvent` / `CorrelationKey` を拡張し、legacy v1 adapter で v1-only record を bridge する |
-| secret SSOT | `references/deployment-secrets-management.md`（parallel `secrets-management.md` は作らない） |
-| runtime gate | FU-01 live wiring 完了後に staging evidence。production rotation / commit / push / PR は user approval 後。production mutating script mode requires `--confirm-production` |
-| Phase 12 evidence | `docs/30-workflows/completed-tasks/issue-555-audit-correlation-salt-rotation-automation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| Phase 12 logs | `outputs/phase-12/indexes-rebuild.log`, `outputs/phase-12/issue-555-state.log` |
-| inventory | `references/workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md` |
-| lessons | `references/lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md` |
-
-### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` |
-| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
-| CLI | `scripts/cf.sh audit-log feature-export` |
-| implementation | `scripts/cf-audit-log/feature-export.ts`, `scripts/cf-audit-log/feature-export/schema-validation.ts`, `scripts/cf-audit-log/feature-export/manifest.ts` |
-| D1 boundary | `readEventsForFeatureExport()` returns `AuditLogEvent[]`; `raw_json` does not cross module boundary |
-| evidence | `outputs/phase-11/main.md`, `fixture-exported-features.jsonl`, `fixture-export-manifest.json`, `secret-leakage-grep.log`, `schema-validation.log` |
-| production gate | `outputs/phase-11/production-pending-user-gate.md`; production export is `PENDING_RUNTIME_EVIDENCE` until approval |
-| PR wording | Issue #547 is CLOSED; use `Refs #547` only |
-
-### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/issue-532-extend-ctx-injection-to-write-tag-note-providers/` |
-| 状態 | `implemented-local / implementation / NON_VISUAL / local command evidence recorded / Phase 13 pending_user_approval` |
-| parent | `docs/30-workflows/completed-tasks/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` |
-| provider set | `adminNotesProvider`, `auditLogProvider`, `notificationOutboxProvider`, `tagDefinitionsProvider`, `tagQueueProvider`, `memberTagsProvider` |
-| boundary | D1 schema / public response shape / Auth.js admin gate unchanged |
-| route write consolidation | `/admin/requests` guarded note/status/audit batch is owned by `adminNotesProvider.resolveRequestAtomic()` |
-| scheduled path | Hono `c.var` is route-only; scheduled workflows use explicit provider bundle |
-| evidence | `outputs/phase-11/evidence/{typecheck,lint,focused-tests,grep-direct-import,grep-fallback,coverage-guard}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| artifact inventory | `references/workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md` |
-| lessons | `references/lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md` |
-| Issue 取扱 | Issue #532 CLOSED 維持。PR 文脈は `Refs #532` のみ |
-| user gate | commit / push / PR は user approval 後のみ |
-
-### Issue #526 CI actionlint / shellcheck gate（2026-05-08）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/governance/issue-526-ci-actionlint-shellcheck-gate/` |
-| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval` |
-| CI owner | `.github/workflows/ci.yml` |
-| dedicated job | `workflow-shell-lint` |
-| required context path | 既存 required context `ci` 内で `pnpm observation:lint` を実行 |
-| local command | `pnpm observation:lint` |
-| lint対象 | `.github/workflows/post-release-observation-reminder.yml`, `.github/workflows/ci.yml`, `scripts/observation/*.sh`, `scripts/observation/test/*.sh` |
-| source unassigned | `docs/30-workflows/completed-tasks/ut-350-fu-01-ci-actionlint-shellcheck-gate.md` consumed |
-| 正本 refs | `references/deployment-gha.md`, `references/post-release-long-term-observation.md`, `references/task-workflow-active.md` |
-| inventory | `references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md` |
-| lessons | `references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md` |
-| 境界 | reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。runtime CI evidence、branch protection PUT、commit / push / PR は user approval 後 |
+| workflow root | `docs/30-workflows/issue-554-audit-correlation-branch-protection-required-check/` |
+| 状態 | `spec_created / implementation / NON_VISUAL / CONTRACT_READY_IMPLEMENTATION_PENDING` |
+| required context | `audit-correlation-verify / verify` |
+| target branches | `dev`, `main` |
+| upstream workflow | `.github/workflows/audit-correlation-verify.yml` |
+| branch protection SSOT | `.claude/skills/aiworkflow-requirements/references/branch-protection.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md` |
+| lessons learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-554-branch-protection-required-check-2026-05.md` (L-554-001..004) |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260508-issue554-audit-correlation-required-check.md` |
+| boundary | `gh api -X PUT`, fresh before/after JSON, commit, push, PR are Phase 13 user-gated |
 
 ### Issue #520 Slack Incident Channel Webhook Provisioning（2026-05-07）
 
@@ -177,6 +130,19 @@
 | downstream | task-09 `tokens.css` / `@theme inline`、task-10 primitives、task-18 verify-design-tokens |
 | evidence | `docs/30-workflows/task-08-w2-design-tokens-doc/outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### Task 09 W3 Tailwind v4 setup（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / local PASS 5-point evidence captured / Phase 13 blocked_pending_user_approval` |
+| upstream | task-08 `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| scope | `apps/web` Tailwind v4 CSS-first build pipeline、`tokens.css`、`globals.css @theme inline`、PostCSS config、token tests |
+| package pins | `tailwindcss@~4.0.0`, `@tailwindcss/postcss@~4.0.0` |
+| evidence boundary | generated CSS は utility probe 経由で `.bg-accent` + `var(--ubm-color-accent)` を確認済み。runtime PASS は Phase 11 local evidence として記録済み |
+| downstream | task-10 primitives, task-11..17 screens, task-18 verify-design-tokens |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md` |
+
 ### UI prototype mapping table task-07（2026-05-07）
 
 | 目的 | 参照先 |
@@ -214,16 +180,6 @@
 | Phase 11 boundary | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`; local typecheck / tests / build / OpenNext worker grep pass, staging deploy and dashboard evidence pending user approval |
 | strict evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-13/pr-creation-result.md` |
 | downstream | task-04 logger and task-05 error boundary consume `captureException` / `captureMessage` contract |
-### UI prototype alignment task-04 Window guard and logger（2026-05-08）
-| workflow root | `docs/30-workflows/task-04-w3-window-guard-and-logger/` |
-| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval` |
-| runtime guard | `apps/web/src/lib/is-browser.ts` exports `isBrowser()`, `whenBrowser()`, `browserHistory()`, `browserDocument()`; direct `window.` / `document.` runtime code is lint-gated |
-| structured logger | `apps/web/src/lib/logger.ts` emits JSON one-line logs, redacts sensitive keys, and bridges `logger.error({ event, error, digest })` to task-03 `captureException` |
-| ESLint gate | `apps/web/package.json` `lint` runs `tsc` + ESLint; `apps/web/eslint.config.mjs` restricts `window` / `document` outside allow-list |
-| Phase 11 boundary | local typecheck / lint / tests / build / grep-gate PASS; Sentry dashboard smoke and runtime logger staging evidence pending user approval |
-| strict evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md`（L-T04-001..008: `init?.()` / `RUNTIME_TAG` / allow-list 同期 / `lint` false-green / `Error` redaction / `historyImpl` DI / Phase 拡張 ledger / observability swallow） |
-| downstream | task-05 error boundary should call `logger.error({ event, error, digest })`; task-09..17 consume `isBrowser()` / `whenBrowser()` for remaining UI browser APIs |
 ### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
 | workflow root | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
@@ -1873,10 +1829,6 @@ packages/
 | tag 書き込み境界 | `tag_assignment_queue` への enqueue/resolve のみ。`tag_definitions` は read-only マスタ（不変条件 #13）。UT-02A は enqueue 側（`idempotency_key=<memberId>:<responseId>`, retry max=3 / backoff `30s × 2^(attempt-1)`, partial unique index `WHERE idempotency_key IS NOT NULL`, `dlq` status terminal）、07a は resolve 側 |
 | UT-02A 早見 | canonical: `docs/30-workflows/issue-109-ut-02a-tag-assignment-queue-management/`、migration: `apps/api/migrations/0009_tag_queue_idempotency_retry.sql`、repository: `apps/api/src/repository/tagQueue.ts`（既存規約 `repository/` 単数形・`tagQueue.ts` 短縮名を優先 / spec の `repositories/tagAssignmentQueue.ts` 表記とは差分あり）、type-level read-only test: `apps/api/src/repository/__tests__/memberTags.readonly.test-d.ts`、苦戦知見: `references/lessons-learned-ut-02a-tag-assignment-queue-2026-05.md`（L-UT02A-001〜007） |
 | issue #377 retry tick | `apps/api/src/workflows/tagQueueRetryTick.ts` / `TAG_QUEUE_TICK_CRON="*/5 * * * *"`。retry 対象は `reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL` のいずれか。plain human-review `queued` は skip。default scheduled path でも `incrementRetryWithDlqAudit` を呼び、DLQ 移送時は `admin.tag.queue_dlq_moved` audit (`target_type='tag_queue'`) を D1 batch で同時記録 |
-| issue #378 pause flag | `TAG_QUEUE_PAUSED` は non-secret Cloudflare variable。`"true"` 完全一致のみ Forms sync candidate enqueue を停止し、`has_tags` / `has_pending_candidate` / `paused` reason contract を維持する。runbook: `docs/30-workflows/runbooks/tag-queue-pause.md`、workflow: `docs/30-workflows/completed-tasks/issue-378-tag-queue-paused-flag/`、inventory: `references/workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md`、苦戦知見: `lessons-learned/lessons-learned-issue-378-tag-queue-paused-flag-2026-05.md`（L-378-001〜004） |
-| Issue #408 Cloudflare audit-log monitoring | canonical: `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/`。secret は `CF_AUDIT_TOKEN_PROD` (`Account > Audit Logs:Read` only) で deploy 用 `CLOUDFLARE_API_TOKEN` と分離。alert labels は HIGH=`priority:high` / MEDIUM=`priority:medium` / LOW=`priority:low` + `type:security`。runtime コード (`scripts/cf-audit-log/{fetch,analyze,baseline}.ts` / migration `0014_create_cf_audit_log.sql` / 2 workflows: `cf-audit-log-monitor.yml` `0 * * * *` + `cf-audit-log-monitor-watchdog.yml` `15 * * * *` `WATCHDOG_STALE_MINUTES=90`) は merge 済。Token 発行・1Password 登録・GitHub Secret 登録・D1 apply・7 日 baseline は manual runbook (`outputs/phase-5/secrets-registration.md`)。Phase 11 placeholder = `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。D1 schema: `references/database-schema-cf-audit-log.md` (`cf_audit_log` / `cf_audit_baseline` / `cf_audit_finding_dedupe`、apps/api runtime read-only)。苦戦知見: `references/lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md`（L-ISSUE408-001〜007: cursor pagination + INSERT OR IGNORE / Account scope / WranglerD1 quoting / fetch 直接呼び / rotation window env / TTL purge in analyze.ts / 監視・deploy token 分離）。followup 3 件: FU-02 cold-storage / FU-03 ml-anomaly / FU-04 github-audit-merge |
-| Issue #546 Cloudflare audit-log 90 day baseline observation | canonical: `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/`。status は `observation_continue / docs-only / NON_VISUAL / Gate-A FAIL / Gate-B-C pending`。2026-05-08 evidence: monitor 32 runs and watchdog 32 runs from 2026-05-06〜2026-05-07 are all failure; monitor evidence is normalized to a JSON array; `cf-audit` issue label count 0; production D1 read-only query returned `no such table: cf_audit_log`; baseline thresholds and monthly tuning minutes log are pending. Issue #546 remains CLOSED and PR text must use `Refs #546` only. ML comparison / production switch is not unlocked by this evidence; earliest 90 day re-check is after 2026-08-05 if successful hourly runs begin on 2026-05-08. Reminder: `docs/30-workflows/unassigned-task/issue-546-cf-audit-logs-90day-reobservation-reminder-001.md`; inventory: `references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md`; lessons: `references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md`. |
-| Issue #514 Cloudflare audit-log cold storage / R2 export | canonical: `docs/30-workflows/completed-tasks/issue-514-cf-audit-logs-cold-storage-r2-export/`。status は `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。daily `0 2 * * *` で `[now - 29d, now - 26d)` を export、manifest `cf_audit_log_export_manifest` は `(yyyy, mm, dd)` UNIQUE + `pending -> completed/failed` + `r2_etag`。R2 binding は `UBM_AUDIT_COLD_STORAGE`、Secret は `CF_AUDIT_R2_TOKEN_PROD`。G1 R2/bucket/secret/deploy -> G2 D1 migration apply -> G3-prod first daily export + restore drill -> G4 commit/push/PR。Issue #514 CLOSED のため PR 文脈は `Refs #514` のみ。苦戦知見: `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md`（L-ISSUE514-001..007: artifacts mirror parity / Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard） |
 | Issue #408 / #518 Cloudflare audit-log monitoring | canonical: `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/`、HOLD spec: `docs/30-workflows/issue-518-cf-audit-logs-monitoring-hold/`、manual runbook: `docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md`。secret は `CF_AUDIT_TOKEN_PROD` (`Account > Audit Logs:Read` only) で deploy 用 `CLOUDFLARE_API_TOKEN` と分離。Issue #518 により runtime は HOLD / manual-check-only: `cf-audit-log-monitor.yml` は schedule 削除 + `workflow_dispatch` のみ + `dry_run=true` 既定、`cf-audit-log-monitor-watchdog.yml` は削除。runtime コード (`scripts/cf-audit-log/{fetch,analyze,baseline}.ts` / migration `0014_create_cf_audit_log.sql`) と D1 schema は保持。自動 alert labels は HIGH=`priority:high` / MEDIUM=`priority:medium` / LOW=`priority:low` + `type:security` だが HOLD 中は公開 Issue 自動起票を既定無効。D1 schema: `references/database-schema-cf-audit-log.md` (`cf_audit_log` / `cf_audit_baseline` / `cf_audit_finding_dedupe`、apps/api runtime read-only)。苦戦知見: `references/lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md`。followup 3 件: FU-02 cold-storage / FU-03 ml-anomaly / FU-04 github-audit-merge |
 | `tag_definitions` カテゴリ | 6 カテゴリ single source（41 行 seed） |
 | fake D1 テストパターン | `apps/api/src/repository/_shared/__fakes__/fakeD1.ts`（in-memory pattern-matching SQL） |

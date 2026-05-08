@@ -104,7 +104,63 @@ bash scripts/cf.sh secret put AUDIT_CORRELATION_SALT --config apps/api/wrangler.
 bash scripts/cf.sh secret put AUDIT_CORRELATION_SALT --config apps/api/wrangler.toml --env production
 ```
 
+## live wiring 手順（Issue #553）
+
+Issue #553 で fixture-only から Worker live 実行へ移行。`*/15 * * * *` cron と `POST /internal/audit-correlation/run` の 2 経路で起動する。
+
+### 構成
+- route: `apps/api/src/routes/audit-correlation/run.ts` — `POST /internal/audit-correlation/run`、Bearer token authz（timing-safe）
+- scheduled: `apps/api/src/audit-correlation/scheduled.ts` — `*/15 * * * *` cron handler（既存 forms response sync と同 cron に相乗り）
+- orchestration: `apps/api/src/audit-correlation/run-correlation.ts` — fetch → redact → correlate → persist → notify-slack
+- persist: `apps/api/src/audit-correlation/persist.ts` — `audit_correlation_findings` table へ redact-safe 列のみ INSERT OR IGNORE
+- notify: `apps/api/src/audit-correlation/notify-slack.ts` — HIGH only / fingerprint prefix 8 文字 / runbook URL 付き
+- migration: `apps/api/migrations/0017_audit_correlation_findings.sql`
+
+### 必要 env / secret（Cloudflare Workers）
+| 種別 | 名前 | 1Password 参照 |
+| --- | --- | --- |
+| secret | `GITHUB_AUDIT_PAT` | `op://CloudflareSecurity/GitHubAuditPAT/credential` |
+| secret | `SLACK_AUDIT_INCIDENT_WEBHOOK_URL` | `op://CloudflareSecurity/SlackAuditIncidentWebhook/url` |
+| secret | `AUDIT_CORRELATION_SALT` | `op://CloudflareSecurity/AuditCorrelationSalt/value`（≥16 chars） |
+| secret | `AUDIT_CORRELATION_INTERNAL_TOKEN` | `op://CloudflareSecurity/AuditCorrelationInternalToken/value`（≥32 chars） |
+| var | `AUDIT_CORRELATION_RUNBOOK_BASE_URL` | wrangler.toml [vars] |
+| var | `AUDIT_CORRELATION_GITHUB_ORG` | wrangler.toml [vars] |
+
+### 投入手順（staging → production の順 / user gate 後のみ）
+```bash
+# 1. D1 migration を staging に適用
+bash scripts/cf.sh d1 migrations apply ubm-hyogo-db-staging --env staging
+# 2. secret 投入（1Password 参照経由）
+bash scripts/cf.sh secret put GITHUB_AUDIT_PAT --config apps/api/wrangler.toml --env staging
+bash scripts/cf.sh secret put SLACK_AUDIT_INCIDENT_WEBHOOK_URL --config apps/api/wrangler.toml --env staging
+bash scripts/cf.sh secret put AUDIT_CORRELATION_SALT --config apps/api/wrangler.toml --env staging
+bash scripts/cf.sh secret put AUDIT_CORRELATION_INTERNAL_TOKEN --config apps/api/wrangler.toml --env staging
+# 3. デプロイ
+bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env staging
+# 4. 手動 POST 経路で 1 回 dry-run
+export AUDIT_CORRELATION_INTERNAL_TOKEN="$(op read 'op://CloudflareSecurity/AuditCorrelationInternalToken/value')"
+bash scripts/audit-correlation/run.sh --mode=live \
+  --endpoint https://ubm-hyogo-api-staging.<account>.workers.dev/internal/audit-correlation/run \
+  --token-env AUDIT_CORRELATION_INTERNAL_TOKEN
+# production への展開も同手順を --env production で繰り返す。
+```
+
+### cron trigger 監視
+- 15 分間隔の scheduled invocation が 2 サイクル連続で fail した場合、`wrangler tail` か observability dashboard で原因を確認する。
+- D1 に書かれない場合、`SELECT MAX(created_at) FROM audit_correlation_findings` を確認し、最終書き込み時刻が 30 分以上前なら異常とみなす。
+
+### fingerprintVersion またぎ運用
+- 現状 `fingerprintVersion=1`。salt rotation を行うと既存 fingerprint と join 不可になる。
+- rotation 後は `fingerprint_version` 列で古い row と新しい row を区別する。
+- migration を伴うため、後続 FU-03 の責務（本タスク scope 外）。
+
+### redact 不変条件（live wiring 固有）
+- D1 に保存する列: `fingerprint_hash_prefix`（8 文字）、`fingerprint_version`、`actor_domain`、`ip_prefix`、`ua_bucket`、`severity`、`event_type`、`reason`、`observed_at`、`created_at` のみ。
+- Slack payload / D1 に含めてはいけない値: secret 全般、完全 IP、actor email の local-part、完全 UA、salt 値、webhook URL 値、PAT 値、internal token 値、完全 fingerprint hash（64 文字）。
+- CI gate `audit-correlation-verify` の grep gate で `hooks.slack.com/services/...` / `ghp_...` / `ghs_...` / `github_pat_...` の literal が source に混入しないことを恒久化。
+
 ## 関連
 - 仕様書: `docs/30-workflows/issue-516-github-audit-log-cross-source-correlation/`
+- live wiring: `docs/30-workflows/issue-553-live-audit-correlation-endpoint/`
 - SSOT: `.claude/skills/aiworkflow-requirements/references/audit-correlation.md`
 - CI: `.github/workflows/audit-correlation-verify.yml`

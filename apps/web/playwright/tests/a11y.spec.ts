@@ -4,7 +4,7 @@ import AxeBuilder from '@axe-core/playwright'
 
 const PUBLIC_PATHS = ['/', '/members', '/members/m-1', '/register', '/login']
 
-test.describe.skip('a11y — WCAG 2.1 AA 主要違反 0 件', () => {
+test.describe('a11y — WCAG 2.1 AA 主要違反 0 件', () => {
   for (const path of PUBLIC_PATHS) {
     test(`axe ${path}`, async ({ page }) => {
       await page.goto(path)

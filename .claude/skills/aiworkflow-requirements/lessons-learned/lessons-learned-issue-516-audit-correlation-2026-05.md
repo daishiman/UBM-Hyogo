@@ -33,7 +33,7 @@
 
 ## メタ
 
-- workflow root: `docs/30-workflows/issue-516-github-audit-log-cross-source-correlation/`
+- workflow root: `docs/30-workflows/completed-tasks/issue-516-github-audit-log-cross-source-correlation/`
 - source unassigned: `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-04-github-audit-merge.md`（formalized_by_issue_516）
 - upstream: `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/`
 - Phase-12 verdict: PASS_BOUNDARY_SYNCED_RUNTIME_PENDING（strict 7 files / 4 conditions all PASS）
