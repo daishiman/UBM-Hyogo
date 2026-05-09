@@ -1,0 +1,35 @@
+{
+  "task_id": "task-doc-w2-screen-blueprints-public-and-member-001",
+  "created_at": "2026-05-07T00:00:00+09:00",
+  "task_type": "docs-only",
+  "visual_evidence": "NON_VISUAL",
+  "implementation_mode": "implemented-local",
+  "priority": "high",
+  "status": "blocked",
+  "metadata": {
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "implementation_status": "docs_artifacts_complete_pending_pr",
+    "scope": [
+      "docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md",
+      "docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md",
+      "docs/30-workflows/task-20-w2-screen-blueprints-public-and-member/"
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed" },
+    { "phase": 2, "name": "設計", "file": "phase-02.md", "status": "completed" },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-03.md", "status": "completed" },
+    { "phase": 4, "name": "テスト戦略", "file": "phase-04.md", "status": "completed" },
+    { "phase": 5, "name": "実装ランブック", "file": "phase-05.md", "status": "completed" },
+    { "phase": 6, "name": "異常系検証", "file": "phase-06.md", "status": "completed" },
+    { "phase": 7, "name": "AC マトリクス", "file": "phase-07.md", "status": "completed" },
+    { "phase": 8, "name": "DRY 化", "file": "phase-08.md", "status": "completed" },
+    { "phase": 9, "name": "品質保証", "file": "phase-09.md", "status": "completed" },
+    { "phase": 10, "name": "最終レビュー", "file": "phase-10.md", "status": "completed" },
+    { "phase": 11, "name": "NON_VISUAL evidence", "file": "phase-11.md", "status": "completed" },
+    { "phase": 12, "name": "ドキュメント更新", "file": "phase-12.md", "status": "completed" },
+    { "phase": 13, "name": "PR 作成", "file": "phase-13.md", "status": "blocked", "user_approval_required": true }
+  ]
+}

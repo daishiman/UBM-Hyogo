@@ -282,7 +282,9 @@ export const createAttendanceProvider = (c: DbCtx): AttendanceProvider => ({
                   ms.title AS title,
                   ms.held_on AS held_on
            FROM member_attendance ma
-           INNER JOIN meeting_sessions ms ON ms.session_id = ma.session_id
+           INNER JOIN meeting_sessions ms
+             ON ms.session_id = ma.session_id
+            AND ms.deleted_at IS NULL
            WHERE ma.member_id IN (${ph})`,
         )
         .bind(...ch)
@@ -328,7 +330,9 @@ export const createAttendanceProvider = (c: DbCtx): AttendanceProvider => ({
               ms.title AS title,
               ms.held_on AS held_on
          FROM member_attendance ma
-         INNER JOIN meeting_sessions ms ON ms.session_id = ma.session_id
+         INNER JOIN meeting_sessions ms
+           ON ms.session_id = ma.session_id
+          AND ms.deleted_at IS NULL
         WHERE ma.member_id = ?`;
     const orderLimit = ` ORDER BY ms.held_on DESC, ms.session_id DESC LIMIT ?`;
 

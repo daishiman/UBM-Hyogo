@@ -38,7 +38,7 @@ jobs:
         id: migrate
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CF_TOKEN_D1_STAGING }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
@@ -49,7 +49,7 @@ jobs:
         id: deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CF_TOKEN_WORKERS_STAGING }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
@@ -93,7 +93,7 @@ jobs:
         id: migrate
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CF_TOKEN_D1_PRODUCTION }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
@@ -104,7 +104,7 @@ jobs:
         id: deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CF_TOKEN_WORKERS_PRODUCTION }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: 4.85.0
           workingDirectory: apps/api
@@ -120,3 +120,10 @@ jobs:
             echo "D1 migrations were applied to production, but the Workers deploy step failed."
             echo "Do not re-run migrations blindly. Inspect the deploy failure, verify the D1 migration ledger, and re-run the deploy after the root cause is fixed."
           } >> "$GITHUB_STEP_SUMMARY"
+
+  runtime-smoke-staging:
+    name: runtime smoke staging
+    needs: [deploy-staging]
+    if: success() && github.ref_name == 'dev' && !contains(github.event.head_commit.message, '[skip runtime-smoke]')
+    uses: ./.github/workflows/runtime-smoke-staging.yml
+    secrets: inherit

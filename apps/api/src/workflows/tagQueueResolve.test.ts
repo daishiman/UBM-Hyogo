@@ -4,6 +4,8 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { setupD1, type InMemoryD1 } from "../repository/__tests__/_setup";
 import { tagQueueResolve, TagQueueResolveError } from "./tagQueueResolve";
 import { adminEmail, asAdminId } from "../repository/_shared/brand";
+import { createWriteTagNoteProviderBundle } from "../middleware/repository-providers";
+import type { WriteTagNoteProviderCtx } from "../repository/_shared/provider-context";
 
 const seed = async (env: InMemoryD1, status = "queued") => {
   await env.db
@@ -33,13 +35,18 @@ const baseInput = {
 
 describe("tagQueueResolve", () => {
   let env: InMemoryD1;
+  let providerCtx: WriteTagNoteProviderCtx;
   beforeEach(async () => {
     env = await setupD1();
     await seed(env);
+    providerCtx = {
+      ...env.ctx,
+      var: createWriteTagNoteProviderBundle(env.ctx),
+    };
   }, 30000);
 
   it("T1 confirmed: member_tags +N + queue.status='resolved' + audit", async () => {
-    const r = await tagQueueResolve(env.ctx, {
+    const r = await tagQueueResolve(providerCtx, {
       ...baseInput,
       action: "confirmed",
       tagCodes: ["tag-1", "tag-2"],
@@ -60,7 +67,7 @@ describe("tagQueueResolve", () => {
   });
 
   it("T2 rejected: queue.reason 記録 + audit (queue_rejected)", async () => {
-    const r = await tagQueueResolve(env.ctx, {
+    const r = await tagQueueResolve(providerCtx, {
       ...baseInput,
       action: "rejected",
       reason: "spam",
@@ -80,7 +87,7 @@ describe("tagQueueResolve", () => {
     await env.db
       .prepare("UPDATE tag_assignment_queue SET status = 'reviewing' WHERE queue_id = 'q1'")
       .run();
-    const r = await tagQueueResolve(env.ctx, {
+    const r = await tagQueueResolve(providerCtx, {
       ...baseInput,
       action: "confirmed",
       tagCodes: ["tag-1"],
@@ -89,12 +96,12 @@ describe("tagQueueResolve", () => {
   });
 
   it("T4 idempotent confirmed: 同一 tagCodes 再呼び出しで audit 件数不変", async () => {
-    await tagQueueResolve(env.ctx, {
+    await tagQueueResolve(providerCtx, {
       ...baseInput,
       action: "confirmed",
       tagCodes: ["tag-1"],
     });
-    const r2 = await tagQueueResolve(env.ctx, {
+    const r2 = await tagQueueResolve(providerCtx, {
       ...baseInput,
       action: "confirmed",
       tagCodes: ["tag-1"],
@@ -107,8 +114,8 @@ describe("tagQueueResolve", () => {
   });
 
   it("T5 idempotent rejected: 同一 reason で audit 不変", async () => {
-    await tagQueueResolve(env.ctx, { ...baseInput, action: "rejected", reason: "dup" });
-    const r2 = await tagQueueResolve(env.ctx, { ...baseInput, action: "rejected", reason: "dup" });
+    await tagQueueResolve(providerCtx, { ...baseInput, action: "rejected", reason: "dup" });
+    const r2 = await tagQueueResolve(providerCtx, { ...baseInput, action: "rejected", reason: "dup" });
     expect(r2.idempotent).toBe(true);
     const audits = await env.db
       .prepare("SELECT COUNT(*) AS n FROM audit_log WHERE target_id = 'q1'")
@@ -117,37 +124,37 @@ describe("tagQueueResolve", () => {
   });
 
   it("T4-2 idempotent payload mismatch: 別 tagCodes で再呼び出しは 409 (state_conflict)", async () => {
-    await tagQueueResolve(env.ctx, {
+    await tagQueueResolve(providerCtx, {
       ...baseInput,
       action: "confirmed",
       tagCodes: ["tag-1"],
     });
     await expect(
-      tagQueueResolve(env.ctx, { ...baseInput, action: "confirmed", tagCodes: ["tag-2"] }),
+      tagQueueResolve(providerCtx, { ...baseInput, action: "confirmed", tagCodes: ["tag-2"] }),
     ).rejects.toMatchObject({ code: "idempotent_payload_mismatch" });
   });
 
   it("T6 unidirectional: confirmed → rejected は state_conflict", async () => {
-    await tagQueueResolve(env.ctx, {
+    await tagQueueResolve(providerCtx, {
       ...baseInput,
       action: "confirmed",
       tagCodes: ["tag-1"],
     });
     await expect(
-      tagQueueResolve(env.ctx, { ...baseInput, action: "rejected", reason: "no" }),
+      tagQueueResolve(providerCtx, { ...baseInput, action: "rejected", reason: "no" }),
     ).rejects.toMatchObject({ code: "state_conflict" });
   });
 
   it("T7 unidirectional: rejected → confirmed は state_conflict", async () => {
-    await tagQueueResolve(env.ctx, { ...baseInput, action: "rejected", reason: "no" });
+    await tagQueueResolve(providerCtx, { ...baseInput, action: "rejected", reason: "no" });
     await expect(
-      tagQueueResolve(env.ctx, { ...baseInput, action: "confirmed", tagCodes: ["tag-1"] }),
+      tagQueueResolve(providerCtx, { ...baseInput, action: "confirmed", tagCodes: ["tag-1"] }),
     ).rejects.toMatchObject({ code: "state_conflict" });
   });
 
   it("T9 unknown tag code: unknown_tag_code (422)", async () => {
     await expect(
-      tagQueueResolve(env.ctx, {
+      tagQueueResolve(providerCtx, {
         ...baseInput,
         action: "confirmed",
         tagCodes: ["nonexistent"],
@@ -160,13 +167,59 @@ describe("tagQueueResolve", () => {
       .prepare("UPDATE member_status SET is_deleted = 1 WHERE member_id = 'm1'")
       .run();
     await expect(
-      tagQueueResolve(env.ctx, { ...baseInput, action: "confirmed", tagCodes: ["tag-1"] }),
+      tagQueueResolve(providerCtx, { ...baseInput, action: "confirmed", tagCodes: ["tag-1"] }),
     ).rejects.toMatchObject({ code: "member_deleted" });
+  });
+
+  it("race_lost: guarded update changed=false の場合は member_tags/audit 副作用を書かない", async () => {
+    const calls: string[] = [];
+    const mockCtx: WriteTagNoteProviderCtx = {
+      ...env.ctx,
+      var: {
+        ...providerCtx.var,
+        tagQueueProvider: {
+          ...providerCtx.var.tagQueueProvider,
+          resolveConfirmed: async () => {
+            calls.push("resolveConfirmed");
+            return { changed: false };
+          },
+        },
+        memberTagsProvider: {
+          ...providerCtx.var.memberTagsProvider,
+          assignTagsToMember: async () => {
+            calls.push("assignTagsToMember");
+            return 1;
+          },
+        },
+        auditLogProvider: {
+          ...providerCtx.var.auditLogProvider,
+          append: async (entry) => {
+            calls.push("auditAppend");
+            return {
+              ...entry,
+              auditId: "audit_mock",
+              before: entry.before ?? null,
+              after: entry.after ?? null,
+              createdAt: new Date().toISOString(),
+            };
+          },
+        },
+      },
+    };
+
+    await expect(
+      tagQueueResolve(mockCtx, {
+        ...baseInput,
+        action: "confirmed",
+        tagCodes: ["tag-1"],
+      }),
+    ).rejects.toMatchObject({ code: "race_lost" });
+    expect(calls).toEqual(["resolveConfirmed"]);
   });
 
   it("queue 不在: queue_not_found", async () => {
     await expect(
-      tagQueueResolve(env.ctx, {
+      tagQueueResolve(providerCtx, {
         ...baseInput,
         queueId: "nope",
         action: "confirmed",

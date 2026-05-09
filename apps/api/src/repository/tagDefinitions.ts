@@ -46,3 +46,15 @@ export async function findByCode(c: DbCtx, code: string): Promise<TagDefinitionR
 }
 
 // 不変条件 #13: write API は提供しない。seed は 01a で投入済み。
+
+export interface TagDefinitionsProvider {
+  listAllTagDefinitions(): Promise<TagDefinitionRow[]>;
+  listByCategory(category: string): Promise<TagDefinitionRow[]>;
+  findByCode(code: string): Promise<TagDefinitionRow | null>;
+}
+
+export const createTagDefinitionsProvider = (c: DbCtx): TagDefinitionsProvider => ({
+  listAllTagDefinitions: () => listAllTagDefinitions(c),
+  listByCategory: (category) => listByCategory(c, category),
+  findByCode: (code) => findByCode(c, code),
+});

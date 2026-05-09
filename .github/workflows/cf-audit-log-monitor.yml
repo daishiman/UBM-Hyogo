@@ -1,8 +1,10 @@
+# HOLD: Issue #518 により hourly schedule を停止し、週次手動確認へ縮退中。
+# 再開条件は docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md の
+# 「再開条件チェックリスト」を参照。
+# 手動起動: gh workflow run cf-audit-log-monitor.yml -f dry_run=true
 name: cf-audit-log-monitor
 
 on:
-  schedule:
-    - cron: '0 * * * *'
   workflow_dispatch:
     inputs:
       since:
@@ -14,10 +16,10 @@ on:
         required: false
         type: string
       dry_run:
-        description: Skip GitHub Issue creation in analyze step.
+        description: Skip GitHub Issue creation in analyze step (HOLD requires true by default).
         required: false
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: read
@@ -51,6 +53,11 @@ jobs:
           fi
           echo "since=$SINCE" >> "$GITHUB_OUTPUT"
           echo "until=$UNTIL" >> "$GITHUB_OUTPUT"
+      - name: Enforce HOLD dry-run mode
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          echo "Issue #518 HOLD mode rejects dry_run=false. Follow docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md before re-enabling alerting." >&2
+          exit 1
       - name: Fetch audit logs into D1
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
@@ -68,6 +75,10 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           CF_AUDIT_CLASSIFIER: ${{ vars.CF_AUDIT_CLASSIFIER || 'threshold' }}
           ML_MODEL_PATH: ${{ vars.ML_MODEL_PATH }}
+          CF_AUDIT_IF_MODEL: ${{ vars.CF_AUDIT_IF_MODEL }}
+          CF_AUDIT_XGB_MODEL: ${{ vars.CF_AUDIT_XGB_MODEL }}
+          CF_AUDIT_WORKERS_AI_URL: ${{ vars.CF_AUDIT_WORKERS_AI_URL }}
+          CF_AUDIT_WORKERS_AI_TOKEN: ${{ secrets.CF_AUDIT_WORKERS_AI_TOKEN }}
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             pnpm exec tsx scripts/cf-audit-log/analyze.ts --window 1h --dry-run

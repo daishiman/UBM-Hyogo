@@ -57,3 +57,22 @@ jobs:
         # `useContext` null エラーになるため、bash 内で `NODE_ENV=production` を
         # 上書きしてから pnpm build を起動する。
         run: mise exec -- bash -c 'NODE_ENV=production pnpm build'
+
+      # Issue #560: scripts/patch-next-standalone-instrumentation.mjs の
+      # regression test。fixture ベースで cwd guard / trace copy / --verify-only を
+      # 検証する。secret 非接触で fork PR でも安全に走る。
+      - name: Patch script regression test
+        run: mise exec -- node --test scripts/__tests__/patch-next-standalone-instrumentation.test.mjs
+
+      # Issue #560: Next.js standalone build の instrumentation 自動 copy 漏れを
+      # build pipeline で恒常的に検出する gate。`build:cloudflare` の opennextjs-cloudflare
+      # が `apps/web/open-next.config.ts` の buildCommand 経由で patch script を実行し、
+      # 直後の verify-only step が standalone artifact の存在 + Sentry/register token を
+      # assert する。fail 時は "Sentry server instrumentation missing in standalone build artifact"
+      # を log に出力する (docs/runbooks/next-standalone-instrumentation-patch.md §4)。
+      - name: Build (Cloudflare standalone)
+        run: mise exec -- bash -c 'NODE_ENV=production pnpm --filter @ubm-hyogo/web build:cloudflare'
+
+      - name: verify-web-instrumentation-patch
+        working-directory: apps/web
+        run: mise exec -- node ../../scripts/patch-next-standalone-instrumentation.mjs --verify-only
