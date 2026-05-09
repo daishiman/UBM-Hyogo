@@ -1226,6 +1226,7 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
+| task-10 UI primitives integration contract（2026-05-09） | L32 |
 
 ### references/ui-ux-design-principles-core.md
 
