@@ -1,0 +1,46 @@
+{
+  "name": "task-14-my-profile-and-requests",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "workflow_state": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
+    "implementation_status": "implemented_local_runtime_pending",
+    "scope": "Phase 1-13 implementation specification for rebuilding /profile into a four-region member page. Apps/web implementation is reflected locally; visual runtime evidence, staging deploy, production smoke, commit, push, and PR remain user-gated.",
+    "wave": "W5",
+    "mode": "parallel",
+    "owner": "solo (daishiman)",
+    "createdAt": "2026-05-09",
+    "source": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/06-screens-member/task-14-w5-par-my-profile-and-requests.md"
+  },
+  "phases": [
+    { "id": "phase-01", "title": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/main.md"] },
+    { "id": "phase-02", "title": "ドメイン分析", "status": "completed", "outputs": ["outputs/phase-02/main.md"] },
+    { "id": "phase-03", "title": "アーキテクチャ設計", "status": "completed", "outputs": ["outputs/phase-03/main.md"] },
+    { "id": "phase-04", "title": "データ設計", "status": "completed", "outputs": ["outputs/phase-04/main.md"] },
+    { "id": "phase-05", "title": "API 契約", "status": "completed", "outputs": ["outputs/phase-05/main.md"] },
+    { "id": "phase-06", "title": "UI / Component 設計", "status": "completed", "outputs": ["outputs/phase-06/main.md"] },
+    { "id": "phase-07", "title": "テスト設計", "status": "completed", "outputs": ["outputs/phase-07/main.md"] },
+    { "id": "phase-08", "title": "実装計画", "status": "completed", "outputs": ["outputs/phase-08/main.md"] },
+    { "id": "phase-09", "title": "実装ガイド", "status": "completed", "outputs": ["outputs/phase-09/main.md"] },
+    { "id": "phase-10", "title": "品質検証", "status": "completed", "outputs": ["outputs/phase-10/main.md"] },
+    { "id": "phase-11", "title": "デプロイ / staging smoke", "status": "runtime_pending", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/test-log.md", "outputs/phase-11/manual-evidence-deferred.md"] },
+    { "id": "phase-12", "title": "ドキュメント更新", "status": "completed", "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ] },
+    { "id": "phase-13", "title": "クローズアウト / PR", "status": "pending_user_approval", "outputs": ["outputs/phase-13/main.md"] }
+  ],
+  "dependencies": {
+    "dependsOn": [
+      "task-09-w4-par-tailwind-v4-setup",
+      "task-10-w4-par-ui-primitives",
+      "task-13-login-redirect-profile"
+    ],
+    "blocks": ["task-18-regression-smoke"]
+  }
+}
