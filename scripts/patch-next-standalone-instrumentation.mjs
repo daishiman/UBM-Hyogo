@@ -123,6 +123,15 @@ function main() {
 
   if (verifyOnly) {
     logEvent("verify_start", { mode: "verify-only", target: standaloneNextDir });
+    // webpack 経路では .next/server/instrumentation.js が emit されないため、
+    // 入力側に source が無い場合は verify を skip する（copy mode と対称）。
+    if (!existsSync(join(nextDir, INSTRUMENTATION_FILE))) {
+      logEvent("verify_skipped", {
+        reason: "instrumentation_not_emitted",
+        source: join(nextDir, INSTRUMENTATION_FILE),
+      });
+      return;
+    }
     verifyArtifact(standaloneNextDir);
     logEvent("verify_done");
     return;
