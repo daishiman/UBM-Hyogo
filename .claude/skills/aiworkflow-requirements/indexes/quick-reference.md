@@ -5,6 +5,22 @@
 
 ---
 
+### Issue #559 Sentry Staging Runtime Evidence（2026-05-08）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-559-task-03-followup-001-sentry-staging-runtime-evidence/` |
+| 状態 | `spec_created / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| parent canonical | `docs/30-workflows/completed-tasks/task-03-w2-par-sentry-workers-sdk-unify/` |
+| parent source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/02-runtime/task-03-w2-par-sentry-workers-sdk-unify.md` |
+| scope | parent task-03 の staging runtime evidence（Cloudflare secret placement、staging deploy、curl 200、Sentry server/browser event、OpenNext worker grep gate） |
+| local evidence | `outputs/phase-11/main.md`, `outputs/phase-11/evidence/preflight-g0.log`, `grep-gate-runtime.log`, `dsn-leak-scan.log` |
+| deferred evidence | `secret-list-staging.log`, `deploy-staging.log`, `curl-staging.log`, `sentry-staging-server-event.png`, `sentry-staging-browser-event.png` |
+| blocker | 1Password `UBM-Hyogo` vault / `Sentry Web DSN (staging|production)` item 未 provisioning |
+| follow-up | `docs/30-workflows/unassigned-task/task-issue-559-sentry-project-1password-dsn-provisioning-001.md` |
+| inventory | `references/workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md` |
+| boundary | secret put / deploy / dashboard observation / state promotion / commit / push / PR は user approval and provisioning 後のみ |
+
 ### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
 
 | 目的 | 参照先 |
@@ -18,7 +34,21 @@
 | production gate | `outputs/phase-11/production-pending-user-gate.md`; production export is `PENDING_RUNTIME_EVIDENCE` until approval |
 | PR wording | Issue #547 is CLOSED; use `Refs #547` only |
 
-### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
+### Issue #560 Next Standalone Instrumentation Patch（2026-05-08）
+
+| workflow root | `docs/30-workflows/issue-560-task-03-followup-002-next-standalone-instrumentation-patch/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| source follow-up | `docs/30-workflows/completed-tasks/task-03-followup-002-next-standalone-instrumentation-patch-001.md` |
+| parent | `docs/30-workflows/completed-tasks/task-03-w2-par-sentry-workers-sdk-unify/` |
+| current script | `scripts/patch-next-standalone-instrumentation.mjs` |
+| current copy path | `.next/server/instrumentation.js` -> `.next/standalone/apps/web/.next/server/instrumentation.js` plus `.map`, `.nft.json`, trace files |
+| implemented hardening | `cwd` guard, `--verify-only`, regression test, trace parse failure handling, `.github/workflows/pr-build-test.yml` `build-test` gate, runbook |
+| command | `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare` then `cd apps/web && node ../../scripts/patch-next-standalone-instrumentation.mjs --verify-only` |
+| boundary | `web-cd.yml` Pages deploy cutover and production deploy are out of scope. Commit / push / PR are user-gated |
+| artifact inventory | `references/workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md` |
+
+||||||| 8f4193d7### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
 
 | 目的 | 参照先 |
 | --- | --- |
@@ -162,19 +192,6 @@
 | downstream | task-09 `tokens.css` / `@theme inline`、task-10 primitives、task-18 verify-design-tokens |
 | evidence | `docs/30-workflows/task-08-w2-design-tokens-doc/outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
-### Task 09 W3 Tailwind v4 setup（2026-05-08）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/` |
-| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / local PASS 5-point evidence captured / Phase 13 blocked_pending_user_approval` |
-| upstream | task-08 `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
-| scope | `apps/web` Tailwind v4 CSS-first build pipeline、`tokens.css`、`globals.css @theme inline`、PostCSS config、token tests |
-| package pins | `tailwindcss@~4.0.0`, `@tailwindcss/postcss@~4.0.0` |
-| evidence boundary | generated CSS は utility probe 経由で `.bg-accent` + `var(--ubm-color-accent)` を確認済み。runtime PASS は Phase 11 local evidence として記録済み |
-| downstream | task-10 primitives, task-11..17 screens, task-18 verify-design-tokens |
-| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md` |
-
 ### UI prototype mapping table task-07（2026-05-07）
 
 | 目的 | 参照先 |
@@ -203,7 +220,7 @@
 | downstream | task-07 / task-08 / task-09 / task-10 / task-11..17 / task-19..22 が本契約を grep 起点に参照 |
 
 ### UI prototype alignment task-03 Sentry Workers SDK unify（2026-05-07）
-| workflow root | `docs/30-workflows/task-03-w2-par-sentry-workers-sdk-unify/` |
+| workflow root | `docs/30-workflows/completed-tasks/task-03-w2-par-sentry-workers-sdk-unify/` |
 | 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval` |
 | parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W2 runtime task |
 | server SDK | `@sentry/cloudflare` via `apps/web/src/instrumentation.ts` |

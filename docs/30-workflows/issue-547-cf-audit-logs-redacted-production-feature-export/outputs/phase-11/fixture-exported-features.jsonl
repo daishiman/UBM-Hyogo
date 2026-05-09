@@ -1,2 +1,0 @@
-{"id":"feature-1","occurredAt":"2026-05-07T15:30:00.000Z","features":{"ipBucket":"203.0.113.0/24","hourOfDay":15,"dayOfWeek":4,"actionCategory":"tokens","statusClass":"4xx","actorRoleHash":"b6a0a632746a3c75","userAgentCategory":"browser","tokenIdPresent":true}}
-{"id":"feature-2","occurredAt":"2026-05-08T00:15:00.000Z","features":{"ipBucket":"2001:db8:abcd::/48","hourOfDay":0,"dayOfWeek":5,"actionCategory":"workers","statusClass":"2xx","actorRoleHash":"a1ea3ddbf66381f9","userAgentCategory":"cli-wrangler","tokenIdPresent":false}}
