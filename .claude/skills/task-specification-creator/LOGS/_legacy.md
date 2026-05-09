@@ -6,6 +6,10 @@
 
 ## 2026-05-08 - Issue #534 workflow_state vocabulary promotion
 
+## 2026-05-09 - task-13 login rebuild spec sync
+
+`docs/30-workflows/task-13-login-rebuild/` の 30 種思考法レビューで、Phase 1-13 は存在するが Phase 12 strict 7、root/output artifacts parity、canonical state vocabulary、aiworkflow sync、`@ubm-hyogo/web` command contract が不足していた。さらに apps/web 実装差分が存在したため、仕様 package を `implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` として再分類した。`data-testid="login-card"` + `data-state` locator、`LoginCardProps.state`、`rules_declined role="alert"`、Magic Link failure `state=error` URL transition、`verify-design-tokens` script、Phase 11 local screenshots、Phase 13 user approval gate を同一 wave で補正。staging smoke、production-equivalent runtime evidence、commit、push、PR は未実行。
+
 `docs/30-workflows/issue-534-skill-workflow-state-guidance/` の review で、workflow root state、phase status、Phase 11/12 evidence、archive/delete ledger sync の境界を `task-specification-creator` skill 本体へ昇格した。`references/workflow-state-vocabulary.md` と `references/phase12-compliance-check-template.md` を新設し、SKILL.md References、既存 Phase 11/12 references、SKILL-changelog を同期。commit、push、PR は user-gated のまま未実行。
 
 ## 2026-05-08 - Issue #548 synthetic harness vs production winner boundary

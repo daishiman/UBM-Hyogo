@@ -5,6 +5,23 @@
 
 ---
 
+### UI prototype alignment / MVP recovery task-13 login rebuild（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-13-login-rebuild/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| route scope | `/login` |
+| implementation targets | `apps/web/app/login/page.tsx`, `apps/web/app/login/_components/{LoginPanel.client,LoginCard,LoginStatus,MagicLinkForm.client,GoogleOAuthButton.client}.tsx`, `apps/web/src/lib/url/login-query.ts`, `apps/web/playwright/tests/login-smoke.spec.ts` |
+| UI contract | 5 core states (`input / sent / unregistered / deleted / error`) + `rules_declined` derived state + `gate=admin_required` overlay |
+| locator contract | `data-testid="login-card"` + `data-state="<LoginGateState>"` |
+| a11y contract | `deleted` / `error` / `rules_declined` are `role="alert"` |
+| API boundary | Auth.js + Magic Link API surface unchanged; `apps/web/app/api/auth/*` diff must remain 0 |
+| dependencies | task-09 / task-10 |
+| downstream | task-18 regression smoke / verify-design-tokens |
+| evidence boundary | Phase 12 strict 7, artifacts parity, apps/web implementation, focused tests, and local screenshot evidence are present. Staging smoke, production-equivalent runtime evidence, commit, push, and PR remain user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-13-login-rebuild-artifact-inventory.md` |
+
 ### CI Pipeline Recovery Web CD And Runtime Smoke（2026-05-09）
 
 | 目的 | 参照先 |

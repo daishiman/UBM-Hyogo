@@ -8,14 +8,24 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ refresh: vi.fn(), push: vi.fn(), replace: vi.fn() }),
 }));
 
+const mocks = vi.hoisted(() => ({
+  sendMagicLink: vi.fn(async () => ({ state: "sent" as const })),
+  replaceLoginState: vi.fn(),
+  routerRefresh: vi.fn(),
+}));
+
 // sendMagicLink を成功固定にモック
 vi.mock("../../../src/lib/auth/magic-link-client", () => ({
-  sendMagicLink: vi.fn(async () => ({ state: "sent" as const })),
+  sendMagicLink: mocks.sendMagicLink,
 }));
 
 // replaceLoginState は副作用 (history) を避けるため no-op
 vi.mock("../../../src/lib/url/login-state", () => ({
-  replaceLoginState: vi.fn(),
+  replaceLoginState: mocks.replaceLoginState,
+}));
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ refresh: mocks.routerRefresh, push: vi.fn(), replace: vi.fn() }),
 }));
 
 import { MagicLinkForm } from "./MagicLinkForm.client";
@@ -23,6 +33,8 @@ import { MagicLinkForm } from "./MagicLinkForm.client";
 afterEach(() => {
   cleanup();
   vi.useRealTimers();
+  vi.clearAllMocks();
+  mocks.sendMagicLink.mockResolvedValue({ state: "sent" as const });
 });
 
 beforeEach(() => {
@@ -69,5 +81,27 @@ describe("MagicLinkForm cooldown / U-03", () => {
     });
     expect(button.disabled).toBe(false);
     expect(button.textContent).toBe("メールリンクを送信");
+  });
+
+  it("送信失敗時は local error ではなく URL query state=error に遷移する", async () => {
+    mocks.sendMagicLink.mockRejectedValueOnce(new Error("x".repeat(250)));
+    render(<MagicLinkForm redirect="/profile" />);
+
+    const input = screen.getByLabelText("メールアドレス") as HTMLInputElement;
+    await act(async () => {
+      fireEvent.change(input, { target: { value: "user@example.com" } });
+    });
+
+    await act(async () => {
+      fireEvent.submit(input.closest("form")!);
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+
+    expect(mocks.replaceLoginState).toHaveBeenCalledWith("error", "/profile", {
+      error: "x".repeat(200),
+    });
+    expect(mocks.routerRefresh).toHaveBeenCalled();
+    expect(screen.queryByRole("alert")).toBeNull();
   });
 });
