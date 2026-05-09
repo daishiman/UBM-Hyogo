@@ -2194,6 +2194,19 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Stage Responsibility Split (classification-first) | L16 |
+| Current Facts (Stage 0 implementation) | L25 |
+| Phase 12 Strict 7 Files (all stages) | L39 |
+| Phase 11 Evidence Path Map | L51 |
+| Tier-Aware Coverage Policy | L62 |
+| Contract | L71 |
+| Related Resources | L78 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -2692,6 +2705,12 @@ node scripts/list-specs.js --topics
 | Skill 反映先（current canonical set） | L98 |
 | Validation Chain | L107 |
 | 確定値・列定義 | L120 |
+
+### references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L13 |
 
 ### references/workflow-task-05a-form-preview-503-001-artifact-inventory.md
 
@@ -6091,13 +6110,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L774 |
-| フェーズ構造（概要） | L783 |
-| 品質ゲート（概要） | L814 |
-| 出力テンプレート | L825 |
-| 実行時のコマンド・エージェント・スキル | L848 |
-| 昇格パターン集 | L872 |
-| Current Active / Spec Created Tasks | L874 |
+| ドキュメント構成 | L790 |
+| フェーズ構造（概要） | L799 |
+| 品質ゲート（概要） | L830 |
+| 出力テンプレート | L841 |
+| 実行時のコマンド・エージェント・スキル | L864 |
+| 昇格パターン集 | L888 |
+| Current Active / Spec Created Tasks | L890 |
 
 ### references/task-workflow-backlog-part2.md
 
