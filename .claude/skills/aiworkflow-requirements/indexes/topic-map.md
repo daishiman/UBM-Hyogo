@@ -1226,6 +1226,7 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
+| task-10 UI primitives integration contract（2026-05-09） | L32 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -2192,6 +2193,19 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L109 |
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
+
+### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Stage Responsibility Split (classification-first) | L16 |
+| Current Facts (Stage 0 implementation) | L25 |
+| Phase 12 Strict 7 Files (all stages) | L39 |
+| Phase 11 Evidence Path Map | L51 |
+| Tier-Aware Coverage Policy | L62 |
+| Contract | L71 |
+| Related Resources | L78 |
 
 ### references/workflow-governance-design-category.md
 
@@ -6096,13 +6110,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L787 |
-| フェーズ構造（概要） | L796 |
-| 品質ゲート（概要） | L827 |
-| 出力テンプレート | L838 |
-| 実行時のコマンド・エージェント・スキル | L861 |
-| 昇格パターン集 | L885 |
-| Current Active / Spec Created Tasks | L887 |
+| ドキュメント構成 | L804 |
+| フェーズ構造（概要） | L813 |
+| 品質ゲート（概要） | L844 |
+| 出力テンプレート | L855 |
+| 実行時のコマンド・エージェント・スキル | L878 |
+| 昇格パターン集 | L902 |
+| Current Active / Spec Created Tasks | L904 |
 
 ### references/task-workflow-backlog-part2.md
 
