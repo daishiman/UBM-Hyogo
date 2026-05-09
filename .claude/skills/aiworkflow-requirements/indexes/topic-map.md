@@ -4731,6 +4731,18 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L10 |
 | 横展開チェックリスト | L33 |
 
+### references/lessons-learned-task-11-public-top-and-member-list-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T11-001: route segment colocation（`_components/`）廃止と `src/components/public/` 集約 | L31 |
+| L-T11-002: Hero / StatCard / Timeline 単体構成 → Hero+Stats+ZoneIntro+Timeline 4セクション集約への置換 | L61 |
+| L-T11-003: `apps/web/src/lib/api/public.ts` API adapter 層新設で D1 直接アクセス禁止を強制 | L92 |
+| L-T11-004: `force-dynamic` 撤去 → `connection()` 移行（OpenNext + Cloudflare Workers） | L125 |
+| L-T11-005: local D1 に `member_identities` 不在で screenshot / axe 未取得 → task-ut-04 seed-data-runbook follow-up | L155 |
+| L-T11-006: `playwright.config.ts` を `desktop-chromium` 単独 project に絞り込み | L184 |
+| 横断教訓 | L216 |
+
 ### references/lessons-learned-task-12-member-detail-register-legal-2026-05.md
 
 | セクション | 行 |
@@ -6161,13 +6173,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L859 |
-| フェーズ構造（概要） | L868 |
-| 品質ゲート（概要） | L899 |
-| 出力テンプレート | L910 |
-| 実行時のコマンド・エージェント・スキル | L933 |
-| 昇格パターン集 | L957 |
-| Current Active / Spec Created Tasks | L959 |
+| ドキュメント構成 | L860 |
+| フェーズ構造（概要） | L869 |
+| 品質ゲート（概要） | L900 |
+| 出力テンプレート | L911 |
+| 実行時のコマンド・エージェント・スキル | L934 |
+| 昇格パターン集 | L958 |
+| Current Active / Spec Created Tasks | L960 |
 
 ### references/task-workflow-backlog-part2.md
 

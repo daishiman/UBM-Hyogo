@@ -21,6 +21,36 @@
 | Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
 
+### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| parent workflow root | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| sub-task specs | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/` |
+| 2a spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2a-admin-requests.md` |
+| 2a implementation target | `apps/web/playwright/tests/admin-requests.spec.ts` |
+| 状態 | `implemented-local-runtime-pass / implementation / NON_VISUAL` |
+| strict outputs | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/outputs/phase-12/` strict 7 files |
+| evidence boundary | 2a local E2E spec and support code are implemented. Desktop Chromium E2E passed 6/6; coverage 70% / CI gate PASS remains Stage 3-owned |
+| SSR fixture boundary | Server Component initial `/admin/requests` data uses `PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1` + `NODE_ENV !== "production"` because browser `page.route()` cannot intercept SSR `fetchAdmin()` |
+| downstream | `docs/30-workflows/e2e-quality-uplift-stage-3/` |
+
+### UI prototype alignment / MVP recovery task-11 public top and member list（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-11-public-top-and-member-list/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| screen scope | `/` public top, `/members` public member list |
+| implementation targets | `apps/web/app/page.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/components/public/**`, `apps/web/src/lib/api/public.ts`, `apps/web/src/lib/url/members-search.ts` |
+| API boundary | 既存 `/public/stats` / `/public/members` のみ消費。`apps/api/**` 変更なし |
+| UI contract | Hero / Stats / ZoneIntro / Timeline, MemberFilters, MemberGrid, MemberTable, Pagination meta, EmptyState |
+| invariants | `router.replace` URL 正本、`MemberCard` は comfy/dense のみ、list は `MemberTable`、`force-dynamic` 不使用、revalidate stats=60 / members=30 |
+| dependencies | task-02 / task-04 / task-05 / task-08 / task-09 / task-10 |
+| downstream | task-18 regression smoke / verify-design-tokens |
+| evidence boundary | Phase 12 strict 7 と artifacts parity は present。apps/web 実装はローカル反映済み。screenshot / axe / coverage / commit / push / PR は user approval 後 |
+
+
 ### UI prototype alignment / MVP recovery task-05 error boundary and staging smoke（2026-05-09）
 
 | 目的 | 参照先 |
@@ -2071,7 +2101,7 @@ packages/
 | consumes | 05a OAuth/admin gate、06a public web、06b login/profile、06c admin UI、08b Playwright scaffold、03a/03b/U-04 Forms sync |
 | blocks | 09c production deploy。09a の実 staging evidence 完了まで GO 判定不可 |
 | follow-up | `docs/30-workflows/unassigned-task/task-09a-exec-staging-smoke-001.md` |
-| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（spec_created / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`） |
+| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（implemented-local / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`） |
 | execution blockers | `docs/30-workflows/unassigned-task/task-09a-cloudflare-auth-token-injection-recovery-001.md`, `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md` |
 | artifact inventory | `references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md` |
 | 苦戦知見 | `references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md`（L-09A-001〜005） |
