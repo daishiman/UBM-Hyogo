@@ -5,6 +5,21 @@
 
 ---
 
+### UI prototype alignment / MVP recovery task-11 public top and member list（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-11-public-top-and-member-list/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| screen scope | `/` public top, `/members` public member list |
+| implementation targets | `apps/web/app/page.tsx`, `apps/web/app/(public)/members/page.tsx`, `apps/web/src/components/public/**`, `apps/web/src/lib/api/public.ts`, `apps/web/src/lib/url/members-search.ts` |
+| API boundary | 既存 `/public/stats` / `/public/members` のみ消費。`apps/api/**` 変更なし |
+| UI contract | Hero / Stats / ZoneIntro / Timeline, MemberFilters, MemberGrid, MemberTable, Pagination meta, EmptyState |
+| invariants | `router.replace` URL 正本、`MemberCard` は comfy/dense のみ、list は `MemberTable`、`force-dynamic` 不使用、revalidate stats=60 / members=30 |
+| dependencies | task-02 / task-04 / task-05 / task-08 / task-09 / task-10 |
+| downstream | task-18 regression smoke / verify-design-tokens |
+| evidence boundary | Phase 12 strict 7 と artifacts parity は present。apps/web 実装はローカル反映済み。screenshot / axe / coverage / commit / push / PR は user approval 後 |
+
 ### UI prototype alignment / MVP recovery task-05 error boundary and staging smoke（2026-05-09）
 
 | 目的 | 参照先 |
@@ -2055,7 +2070,7 @@ packages/
 | consumes | 05a OAuth/admin gate、06a public web、06b login/profile、06c admin UI、08b Playwright scaffold、03a/03b/U-04 Forms sync |
 | blocks | 09c production deploy。09a の実 staging evidence 完了まで GO 判定不可 |
 | follow-up | `docs/30-workflows/unassigned-task/task-09a-exec-staging-smoke-001.md` |
-| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（spec_created / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`） |
+| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（implemented-local / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`） |
 | execution blockers | `docs/30-workflows/unassigned-task/task-09a-cloudflare-auth-token-injection-recovery-001.md`, `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md` |
 | artifact inventory | `references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md` |
 | 苦戦知見 | `references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md`（L-09A-001〜005） |

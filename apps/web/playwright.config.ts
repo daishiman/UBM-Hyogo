@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const isStagingSmoke = process.argv.some((arg) => arg.includes('staging-smoke'))
+const isTask11PublicSmoke = process.argv.some((arg) => arg.includes('public-top-and-list.spec.ts'))
 const isTask12PublicSmoke = process.argv.some((arg) =>
   arg.includes('public-detail-register-legal.spec.ts'),
 )
@@ -8,9 +9,11 @@ const isTask12Evidence = process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-12-membe
 
 const EVIDENCE_DIR = isStagingSmoke
   ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
-  : isTask12PublicSmoke || isTask12Evidence
-    ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
-    : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+  : isTask11PublicSmoke
+    ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
+    : isTask12PublicSmoke || isTask12Evidence
+      ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
+      : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
 
 const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
