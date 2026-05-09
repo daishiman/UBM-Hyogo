@@ -1,0 +1,66 @@
+{
+  "taskId": "issue-554-audit-correlation-branch-protection-required-check",
+  "taskCode": "U-FIX-CF-ACCT-01-DERIV-04-FU-04-FU-02",
+  "parentIssue": 554,
+  "parentIssueState": "CLOSED",
+  "parentTaskIssue": 516,
+  "metadata": {
+    "workflow_state": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "runtimeEvidence": "blocked_until_user_approval",
+    "implementation_status": "contract_ready_user_gate_pending",
+    "phase12_status": "CONTRACT_READY_IMPLEMENTATION_PENDING"
+  },
+  "implementationCategory": "implementation_spec",
+  "scale": "small",
+  "priority": "medium",
+  "type": "security",
+  "branch": "docs/issue-554-branch-protection-required-check",
+  "prBase": "dev",
+  "prTitle": "docs(issue-554): register audit-correlation-verify as required status check on dev/main",
+  "prLabels": ["priority:medium", "type:security", "scale:small"],
+  "claudeCodeContext": {
+    "issueRef": "Refs: #554",
+    "ghPrCreateArgs": "--label priority:medium --label type:security --label scale:small",
+    "branchName": "docs/issue-554-branch-protection-required-check",
+    "parentTask": "docs/30-workflows/completed-tasks/issue-516-github-audit-log-cross-source-correlation/",
+    "sourceSpec": "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-04-FU-02-branch-protection-required-check.md"
+  },
+  "requiredContextString": "audit-correlation-verify / verify",
+  "targets": {
+    "branches": ["dev", "main"],
+    "repository": "daishiman/UBM-Hyogo"
+  },
+  "invariants": {
+    "required_pull_request_reviews": null,
+    "lock_branch": false,
+    "enforce_admins": true,
+    "required_linear_history": true,
+    "required_conversation_resolution": true
+  },
+  "phases": [
+    { "phase": 1, "name": "requirements_gate", "status": "spec_created" },
+    { "phase": 2, "name": "schema_design", "status": "spec_created" },
+    { "phase": 3, "name": "ssot_design", "status": "spec_created" },
+    { "phase": 4, "name": "verification_design", "status": "spec_created" },
+    { "phase": 5, "name": "dev_protection_put", "status": "blocked_until_user_approval" },
+    { "phase": 6, "name": "main_protection_put", "status": "blocked_until_user_approval" },
+    { "phase": 7, "name": "claude_md_update", "status": "spec_created" },
+    { "phase": 8, "name": "skill_references_update", "status": "spec_created" },
+    { "phase": 9, "name": "indexes_rebuild", "status": "spec_created" },
+    { "phase": 10, "name": "drift_check", "status": "spec_created" },
+    { "phase": 11, "name": "evidence_capture", "status": "blocked_until_user_approval" },
+    { "phase": 12, "name": "implementation_guide", "status": "completed" },
+    { "phase": 13, "name": "pr_creation", "status": "blocked_until_user_approval" }
+  ],
+  "phase12Outputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}
