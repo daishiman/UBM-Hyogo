@@ -63,7 +63,7 @@ jobs:
           retention-days: 30
 
       - name: post failure summary to Slack
-        if: failure()
+        if: ${{ failure() && hashFiles('ci-evidence/summary.json') != '' }}
         env:
           SLACK_WEBHOOK_INCIDENT: ${{ secrets.SLACK_WEBHOOK_INCIDENT }}
         run: |
