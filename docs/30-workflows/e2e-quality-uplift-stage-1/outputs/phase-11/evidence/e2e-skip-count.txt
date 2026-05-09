@@ -1,0 +1,2 @@
+standard_skip_count=0
+evidence_capture_skip_allowed=1

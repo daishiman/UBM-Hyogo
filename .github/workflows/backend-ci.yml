@@ -120,3 +120,10 @@ jobs:
             echo "D1 migrations were applied to production, but the Workers deploy step failed."
             echo "Do not re-run migrations blindly. Inspect the deploy failure, verify the D1 migration ledger, and re-run the deploy after the root cause is fixed."
           } >> "$GITHUB_STEP_SUMMARY"
+
+  runtime-smoke-staging:
+    name: runtime smoke staging
+    needs: [deploy-staging]
+    if: success() && github.ref_name == 'dev' && !contains(github.event.head_commit.message, '[skip runtime-smoke]')
+    uses: ./.github/workflows/runtime-smoke-staging.yml
+    secrets: inherit

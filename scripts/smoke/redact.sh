@@ -3,6 +3,7 @@ set -euo pipefail
 
 sed -E \
   -e 's/^([Ss]et-[Cc]ookie):.*/\1: [REDACTED]/' \
+  -e 's/^([Cc]ookie):.*/\1: [REDACTED]/' \
   -e 's/^([Aa]uthorization):.*/\1: [REDACTED]/' \
   -e 's/Bearer [A-Za-z0-9._~+\/=-]+/Bearer [REDACTED]/g' \
   -e 's/cf-_session=[A-Za-z0-9._-]+/cf-_session=[REDACTED]/g' \

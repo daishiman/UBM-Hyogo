@@ -8,10 +8,18 @@
 | タスク名 | Next.js standalone instrumentation copy patch の build pipeline 恒常化と regression test 化 |
 | 分類 | infrastructure / build / observability |
 | 優先度 | 中 |
-| ステータス | 未実施 |
+| ステータス | formalized_consumed |
 | 発見元 | task-03-w2-par-sentry-workers-sdk-unify 実装中に追加された `scripts/patch-next-standalone-instrumentation.mjs` と `apps/web/open-next.config.ts` 連携 |
 | 発見日 | 2026-05-07 |
 | 親タスク | task-03-w2-par-sentry-workers-sdk-unify |
+
+## Formalization / Consumption Marker
+
+This source follow-up is formalized and consumed by:
+
+`docs/30-workflows/issue-560-task-03-followup-002-next-standalone-instrumentation-patch/`
+
+The implementation is now tracked as `implemented-local / implementation / NON_VISUAL`; this file remains as the historical source record and is no longer an open unassigned implementation task.
 
 ## Why
 
@@ -63,11 +71,11 @@ mise exec -- pnpm --filter @ubm-hyogo/web exec rg '@sentry/cloudflare' \
 
 ## 完了条件
 
-- [ ] `scripts/patch-next-standalone-instrumentation.mjs` の責務 / 入出力境界が implementation-guide.md に追記済み
-- [ ] standalone build 後の `instrumentation.js` 存在 + sentry register 含有を assert する regression test が CI で実行される
-- [ ] CI gate が web build job に組み込まれ、欠落時に fail する
-- [ ] Next.js / OpenNext upstream 追従 RUN BOOK が `outputs/phase-12/` または専用 runbook に追加済み
-- [ ] patch script の `cwd` 前提が runbook で明示され、worktree 直叩き時の安全策が文書化済み
+- [x] `scripts/patch-next-standalone-instrumentation.mjs` の責務 / 入出力境界が implementation-guide.md に追記済み
+- [x] standalone build 後の `instrumentation.js` 存在 + sentry register 含有を assert する regression test が CI で実行される
+- [x] CI gate が web build job に組み込まれ、欠落時に fail する
+- [x] Next.js / OpenNext upstream 追従 RUN BOOK が `outputs/phase-12/` または専用 runbook に追加済み
+- [x] patch script の `cwd` 前提が runbook で明示され、worktree 直叩き時の安全策が文書化済み
 
 ## 参照
 
