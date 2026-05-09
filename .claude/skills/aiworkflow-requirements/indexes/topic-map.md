@@ -2498,6 +2498,12 @@ node scripts/list-specs.js --topics
 | Implemented Artifacts | L28 |
 | State Classification | L38 |
 
+### references/workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L45 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2924,6 +2930,16 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-12-member-detail-register-legal-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Runtime Boundary | L14 |
+| Upstream And Downstream | L20 |
+| Evidence | L29 |
+| Lessons Learned | L33 |
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -3235,6 +3251,8 @@ node scripts/list-specs.js --topics
 | 6. skill 反映先（aiworkflow-requirements / task-specification-creator） | L72 |
 | 7. リレー先未タスク（Phase 12 unassigned-task-detection 由来） | L86 |
 | 8. 不変条件 touched | L95 |
+
+### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
 
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
@@ -4598,6 +4616,18 @@ node scripts/list-specs.js --topics
 | L-560-006: Silent Failure Prevention On Trace Parse | L33 |
 | L-560-007: OpenNext / Next.js Upstream Workaround Boundary | L39 |
 
+### references/lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L10 |
+| 苦戦箇所と学び | L16 |
+| 横断的な学び | L87 |
+| 反映先（promoted to） | L95 |
+| 再発防止サマリ表 | L104 |
+| 用語集（本タスクで導入 / 確定した語彙） | L112 |
+| 引用元 | L118 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4691,6 +4721,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L10 |
 | 横展開チェックリスト | L33 |
+
+### references/lessons-learned-task-12-member-detail-register-legal-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK12-001: Playwright evidence path 多重ルーティング | L7 |
+| L-TASK12-002: Playwright `webServer.env.PORT` の URL 由来同期 | L14 |
+| L-TASK12-003: legacy public CSS のコンポーネント拡張は selector list join | L21 |
+| L-TASK12-004: task-10 primitive (`.ui-card`) と legacy-public.css の境界 | L28 |
+| L-TASK12-005: `responder-link` と `register-cta` の dual-role CSS | L35 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
@@ -4993,14 +5033,16 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L7 |
 | 申し送り（open / baseline 未タスク） | L37 |
 
+### references/lessons-learned-web-app-route-bundle-parse-fix-2026-05.md
+
 ### references/lessons-learned.md
 
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L103 |
-| 関連ドキュメント | L108 |
+| 利用順序 | L105 |
+| 関連ドキュメント | L110 |
 
 ### references/llm-embedding.md
 
@@ -6110,13 +6152,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L804 |
-| フェーズ構造（概要） | L813 |
-| 品質ゲート（概要） | L844 |
-| 出力テンプレート | L855 |
-| 実行時のコマンド・エージェント・スキル | L878 |
-| 昇格パターン集 | L902 |
-| Current Active / Spec Created Tasks | L904 |
+| ドキュメント構成 | L846 |
+| フェーズ構造（概要） | L855 |
+| 品質ゲート（概要） | L886 |
+| 出力テンプレート | L897 |
+| 実行時のコマンド・エージェント・スキル | L920 |
+| 昇格パターン集 | L944 |
+| Current Active / Spec Created Tasks | L946 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6131,7 +6173,8 @@ node scripts/list-specs.js --topics
 | 残課題（未タスク） | L6 |
 | task-worktree-environment-isolation follow-up（2026-04-28） | L356 |
 | TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L367 |
-| 続き | L377 |
+| Issue #534 workflow_state skill guidance follow-up（2026-05-08） | L377 |
+| 続き | L386 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

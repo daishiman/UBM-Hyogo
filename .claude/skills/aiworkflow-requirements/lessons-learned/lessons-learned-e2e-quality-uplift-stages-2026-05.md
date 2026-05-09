@@ -70,4 +70,39 @@
 - **状況**: CLAUDE.md と GitHub branch protection 実値の間で `required_status_checks.contexts` が drift しがちで、CI 名の表記揺れが発生していた（`ci` / `Validate Build` / `coverage-gate` / `lighthouse-ci` / `e2e-tests-coverage-gate`）。
 - **学び**: 正本は GitHub branch protection 実値とし、CLAUDE.md は運用参照に位置付ける。drift 検出は `gh api repos/daishiman/UBM-Hyogo/branches/{dev,main}/protection | jq '.required_status_checks.contexts'` を runbook 化して定期実行する。
 - **再発防止**: Stage 3 spec は CLAUDE.md の「ブランチ戦略 / Governance」セクションに contexts 表を追加するだけで、enforcement 実体は GitHub API で確認する手順に分離。CLAUDE.md 編集だけで「protection を変えた気になる」事故を防ぐ。
-- **関連 refs**: `CLAUDE.md`（ブランチ戦略 / Governance）, `docs/30-workflows/e2e-quality-uplift-stage-3/phase-12.md`
+- **関連 refs**: `CLAUDE.md`（ブランチ戦略 / Governance）, `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/phase-12.md`
+
+### L-E2EQU-008: Runtime 評価と spec 完了の状態混同防止（`spec_created / runtime_pending / completed` 三値）
+
+- **状況**: Stage 3 系 spec で「Phase 12 strict 7 outputs が揃った時点で `completed`」と誤記すると、実 CI run（lighthouse-ci / e2e-tests-coverage-gate）未実行のまま `completed` 扱いになり、Phase-12 compliance check が後段で FAIL を返す。`spec_created` と `completed` の二値運用では runtime 未実行と spec 完成を区別できない。
+- **学び**: spec 完成 + 実装着地 + runtime 評価という 3 段階を `spec_created` / `runtime_pending` / `completed` の 3 値で厳格に運用する。`runtime_pending` は「spec / 実装は届いているが CI run / branch protection mutation 等の runtime evidence 未確定」状態を表し、Phase-12 compliance check の canonical vocabulary とする。task-workflow-active / artifacts.json / SKILL changelog の status 値はこの三値からのみ採用し、自由記述を許さない。
+- **再発防止**: task-workflow-active 行と SKILL changelog の status 列を canonical 値（`spec_created` / `implemented-local` / `runtime_pending` / `completed` / `runtime_evidence_captured` 等）に閉じる lint を入れ、未登録語彙は PR レビューで reject する。Stage 3 系のように runtime gate が user 承認に依存する spec は default で `runtime_pending` を貼る。
+- **関連 refs**: `references/task-workflow-active.md` (Stage 3 行), `indexes/quick-reference.md` Stage 3 lookup 表, `SKILL-changelog.md` の status 表記揺れ対策
+
+### L-E2EQU-009: 親 workflow 移動 (`completed-tasks/`) 時の child path drift
+
+- **状況**: Stage 3 親 umbrella を `docs/30-workflows/e2e-quality-uplift-stage-3/` から `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/` に移動した際、子タスク 3a / 3b / 3c の parent ref / lessons-learned 内 cross-reference / resource-map 行に旧 path が残り、後段の link check で drift が露呈した。親移動と子参照更新が別 PR に分かれると修正コストが指数的に増える。
+- **学び**: 親 workflow を `completed-tasks/` に archive する PR では、`grep -rn "30-workflows/<old>" docs/ .claude/` を必須 gate にして 0 hits を確認するまで merge しない。子タスクの parent ref（artifacts.json の `parent_workflow` キー、lessons-learned 内の関連 refs、resource-map / quick-reference / task-workflow-active 行）を同 PR 内で同時更新する。
+- **再発防止**: workflow 移動チェックリストに「親移動 PR は (a) 親 path replace、(b) 子 spec の parent_workflow / cross-ref replace、(c) skill side の resource-map / quick-reference / task-workflow-active replace、(d) `grep -r` 0 hits、を 1 wave で実施する」を追加。skill-side の verification は `pnpm indexes:rebuild` 後の drift 0 で評価する。
+- **関連 refs**: `indexes/resource-map.md` Stage 3 entry, `indexes/quick-reference.md` Stage 3 lookup, `references/task-workflow-active.md` Stage 3 行
+
+### L-E2EQU-010: 決定 ID の単一情報源（phase / artifacts.json / evidence file 3 か所同時更新）
+
+- **状況**: 3a で `Q-02`（`/profile` 縮退判定）の evidence path が `phase-11.md` の説明、`artifacts.json` の outputs 列、`outputs/phase-11/lhci-profile-q02-judgement.md` の冒頭メタ行、の 3 か所で揺れて review fix が複数往復発生した。決定 ID の path 表記が同期しないと compliance-check / link check が偽陰性 / 偽陽性のどちらにも倒れる。
+- **学び**: 決定 ID（`Q-NN`, `D-NN`, `O-NN` など）を採番した瞬間、(1) phase-N.md 該当節, (2) `artifacts.json` の `decisions[]` または `outputs[]` 行, (3) evidence file 自体の冒頭メタ行、の 3 か所を「同一文字列」で同期する template を持つ。後追い更新は drift 源になる。
+- **再発防止**: phase template に `decision_id / evidence_path / artifacts_json_pointer` の 3 列を必須化し、Phase 12 compliance-check で 3 か所の文字列一致を gate にする。決定 ID 採番時は本体 phase だけでなく artifacts.json と evidence file を同時に作成する。
+- **関連 refs**: `indexes/quick-reference.md` Stage 3 lookup（Q-02 evidence path 行）, Phase template (`task-specification-creator` 配下)
+
+### L-E2EQU-011: CI command の決定論性（unpinned `npx` 排除）
+
+- **状況**: 3a Lighthouse CI workflow の draft で `npx wait-on http://localhost:3000` を使ったところ、registry latency / version drift で flake が再現し、LHCI 評価そのものより前段で fail する事故が発生した。`npx <pkg>` は version pin が効かず、CI gate に乗せると非決定的になる。
+- **学び**: CI で外部 CLI を呼ぶ場合は `pnpm exec <pkg>` または `node ./node_modules/.bin/<pkg>` で `package.json` lock の version に閉じる。`npx` の利用は禁止し、未インストール bin は dev dep に追加する方を default にする。Lighthouse CI / Playwright 等 retry に弱い flake 系 gate ほど、上流コマンドの決定論性が AC になる。
+- **再発防止**: `.github/workflows/*.yml` に対して `grep -nE '\bnpx\b' .github/workflows/` を CI lint に追加し、検出時は fail させる。helper script 経由の場合も同 grep を `scripts/` に拡張する。例外（公式 init コマンド等）は許容ファイル一覧に明記する。
+- **関連 refs**: `.github/workflows/lighthouse.yml` (3a), `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/`
+
+### L-E2EQU-012: Branch protection mutation の user gate 設計と `enforce_admins` drift の別 issue 化
+
+- **状況**: 3c で dev/main の required contexts 拡張に `gh api -X PUT /repos/.../branches/{dev,main}/protection` mutation が必要だが、AI agent が即時実行すると user policy（solo dev・enforce_admins / lock_branch などの drift）と衝突する恐れがある。さらに観測中に `enforce_admins` の drift（true → false 等）を検出した場合、同 PR で押し付けると scope creep になり revert コストが跳ねる。
+- **学び**: `gh api -X PUT` mutation は spec / runtime / 配線が揃っても **AI が自動実行しない明示 gate** を 3c spec の Phase 13 に固定する。pre/post JSON の read-only evidence（`gh api -X GET ... protection > before.json` 等）は事前取得して spec に添付してよい。観測中に発見した `enforce_admins` / `lock_branch` / `required_pull_request_reviews` 等の drift は同 PR に含めず、O-NN 別 issue として起票し、3c は contexts 拡張の単一責務に閉じる。
+- **再発防止**: branch protection 系 spec の Phase 13 雛形に「user 承認後のみ mutation 実行」「drift 観測は別 issue 起票で 1 PR 1 責務」「fresh GET evidence は before / after 双方取得」の 3 条項を必須化。`scripts/cf.sh` 等の wrapper で mutation コマンドを直接書かず、runbook 経由で操作させる。
+- **関連 refs**: `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/`, `CLAUDE.md` Governance / CODEOWNERS 節, `references/deployment-branch-strategy.md`
