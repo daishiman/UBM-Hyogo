@@ -24,7 +24,7 @@
 
 | ファイル | 状態 |
 |---------|------|
-| `index.md` | Phase 1-13 status を done に更新（Phase 13 完了時） |
+| `index.md` | Phase 1-12 completed と Phase 13 pending_user_approval を同期 |
 | `phase-1.md..phase-13.md` | 全揃い |
 | 関連 `docs/00-getting-started-manual/specs/*.md` | 改修不要 |
 
@@ -42,14 +42,14 @@
 |----|------|-----------|
 | F-1 | `LEAK_PROBE_EMAIL` の fixture seed 拡張（vacuous test 解消） | Stage 2 |
 | F-2 | `mockMeWithPending` の global util 化（複数 spec 跨ぎが増えた場合） | Stage 2 / 3 |
-| F-3 | `signSession` TODO_PLACEHOLDER の実 Auth.js 署名化 | 別 workflow |
+| F-3 | Playwright fixture `signSession()` の Auth.js 互換署名化 | 本サイクルで対応済（production Auth.js 実装変更は範囲外） |
 | F-4 | `/@/` probe を全 public route に展開する横展開 | Stage 2 |
 
 ## 6. Phase 11 入口条件
 
-- [ ] §1 4 観点 すべて GO
-- [ ] §2 完了条件すべて充足
-- [ ] §5 残課題が phase-12 未タスクへ転送されている
+- [x] §1 4 観点 すべて GO
+- [x] §2 完了条件すべて充足
+- [x] §5 残課題が phase-12 未タスクへ転送されている
 
 ---
 
@@ -61,7 +61,7 @@
 - phase: 10
 - task classification: implementation / NON_VISUAL
 - coverageTier: standard
-- workflow_state: spec_verified
+- workflow_state: implemented_local
 
 ## 目的
 
@@ -82,27 +82,26 @@ Stage 1 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 1. 本 phase の既存本文を確認する。
 2. 対応する実ファイル差分または evidence を確認する。
-3. validator と grep gate の結果を Phase 11 / Phase 12 evidence に反映する。
+3. validator と grep gate の結果を Phase 12 evidence に反映し、Phase 11 は実行ログ・skip count・runner version として分離する。
 
 ## 統合テスト連携
 
-- NON_VISUAL phase は Playwright 実行の代替として list smoke、grep gate、typecheck を使用する。
-- E2E runtime 実行が必要な項目は outputs/phase-11/evidence に結果を保存する。
+- NON_VISUAL implementation phase は Playwright assertion 差分、spec completeness、grep gate、artifact parity を検証する。
+- E2E runtime 実行結果は outputs/phase-11/evidence に保存する。
 
 ## 成果物
 
 - 本 phase markdown
 - 関連 outputs/phase-11 または outputs/phase-12 evidence
-- 必要に応じた apps/web / .claude/skills 実ファイル差分
+- apps/web/playwright/tests/public-flow.spec.ts、profile-visibility-request.spec.ts、profile-delete-request.spec.ts の assertion 差分
 
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

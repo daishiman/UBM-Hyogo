@@ -1,74 +1,59 @@
-// `/` ランディングページ (Server Component)
-// 06a: AC-1, AC-2 — 4 ルートの起点。stats と featured members を並列 fetch。
-// 不変条件 #5: 全データ取得は public API 経由。
+// task-11: 公開トップ。Hero / Stats / ZoneIntro / Timeline + 任意の MemberGrid (recent 6)。
+// 不変条件 #5 (D1 直接アクセス禁止): 全データは /public API 経由。
+// revalidate: stats=60s, members=30s。
 
-import type { z } from "zod";
-
-import {
-  PublicMemberListViewZ,
-  PublicStatsViewZ,
-} from "@ubm-hyogo/shared";
+import { connection } from "next/server";
 
 import { Hero } from "../src/components/public/Hero";
-import { MemberCard } from "../src/components/public/MemberCard";
-import { StatCard } from "../src/components/public/StatCard";
+import { MemberGrid } from "../src/components/public/MemberGrid";
+import { PublicFooter } from "../src/components/public/PublicFooter";
+import { PublicHeader } from "../src/components/public/PublicHeader";
+import { Stats } from "../src/components/public/Stats";
 import { Timeline } from "../src/components/public/Timeline";
-import { fetchPublic } from "../src/lib/fetch/public";
+import { ZoneIntro } from "../src/components/public/ZoneIntro";
+import {
+  PUBLIC_API_REVALIDATE,
+  getStats,
+  listMembersRaw,
+} from "../src/lib/api/public";
 
-type PublicStatsView = z.infer<typeof PublicStatsViewZ>;
-type PublicMemberListView = z.infer<typeof PublicMemberListViewZ>;
-
-export const dynamic = "force-dynamic";
+// stats=60s revalidate (AC-9)
 export const revalidate = 60;
 
 export default async function HomePage() {
+  await connection();
   const [stats, members] = await Promise.all([
-    fetchPublic<PublicStatsView>("/public/stats", { revalidate: 60 }),
-    fetchPublic<PublicMemberListView>("/public/members?limit=6", {
-      revalidate: 60,
+    getStats({ revalidate: PUBLIC_API_REVALIDATE.stats }),
+    listMembersRaw("limit=6&sort=recent", {
+      revalidate: PUBLIC_API_REVALIDATE.members,
     }),
   ]);
 
   return (
-    <main data-page="home">
-      <Hero
-        title="UBM 兵庫支部会"
-        subtitle="兵庫で活動するメンバーをつなぐコミュニティ"
-        primaryCta={{ label: "メンバーを見る", href: "/members" }}
-        secondaryCta={{ label: "登録する", href: "/register" }}
-      />
-      <StatCard stats={stats} />
-      <section data-component="about">
-        <h2>UBM 兵庫支部会について</h2>
-        <p>
-          メンバーは UBM のコアバリューに基づき、月次の支部会で学びと実践を共有しています。
-        </p>
-      </section>
-      <section data-component="featured">
-        <h2>新規メンバー</h2>
-        <ul>
-          {members.items.map((m) => (
-            <li key={m.memberId}>
-              <MemberCard member={m} density="comfy" />
-            </li>
-          ))}
-        </ul>
-      </section>
-      <Timeline entries={stats.recentMeetings} />
-      <section data-component="faq">
-        <h2>よくある質問</h2>
-        <dl>
-          <dt>登録は無料ですか？</dt>
-          <dd>はい。登録は Google フォームから無料で行えます。</dd>
-          <dt>メンバー情報の編集はどうしますか？</dt>
-          <dd>Google フォームへの再回答が正式な経路です。</dd>
-        </dl>
-      </section>
-      <section data-component="cta">
-        <a href="/register" data-variant="primary">
-          UBM 兵庫支部会に登録する
-        </a>
-      </section>
-    </main>
+    <>
+      <PublicHeader />
+      <main data-page="home">
+        <Hero
+          eyebrow="UBM 兵庫支部会"
+          title="兵庫から、ゆるやかに事業を伸ばす"
+          subtitle="0→1 / 1→10 / 10→100 を一緒に進める仲間が、ここにいます。"
+          primaryCta={{ label: "メンバーを見る", href: "/members" }}
+          secondaryCta={{ label: "登録する", href: "/register" }}
+        />
+        <Stats stats={stats} />
+        <ZoneIntro />
+        <Timeline entries={stats.recentMeetings} />
+        {members.items.length > 0 ? (
+          <section data-component="featured-members">
+            <h2>新しく参加したメンバー</h2>
+            <MemberGrid items={members.items} density="comfy" />
+            <p>
+              <a href="/members">メンバー一覧を見る →</a>
+            </p>
+          </section>
+        ) : null}
+      </main>
+      <PublicFooter />
+    </>
   );
 }

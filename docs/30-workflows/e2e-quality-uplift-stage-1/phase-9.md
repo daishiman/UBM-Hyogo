@@ -30,9 +30,9 @@
 |------|------|
 | 触る spec ファイル数 | 3（既存） |
 | 新規ファイル | 0 |
-| production code 変更 | 0 |
+| production code 変更 | 1（`apps/web/src/styles/tokens.css` の accent contrast 最小修正） |
 | schema / endpoint 追加 | 0 |
-| design token / HEX 改修 | 0 |
+| design token / HEX 改修 | 1（既存 axe contrast failure 解消の最小 token 修正。HEX 移行はなし） |
 | 範囲外 route への波及 | なし |
 
 ## 4. CI gate チェック
@@ -65,9 +65,9 @@
 
 ## 7. Phase 10 入口条件
 
-- [ ] §1 AC 8 件すべて green / 受容判定済
-- [ ] §2 不変条件 4 件すべて OK
-- [ ] §4 CI gate すべて green
+- [x] §1 AC 8 件すべて green / 受容判定済
+- [x] §2 不変条件 4 件すべて OK
+- [x] §4 CI gate 状態を記録済（PR/CI 実行は Phase 13 user gate、local E2E は green evidence として記録）
 
 ---
 
@@ -79,7 +79,7 @@
 - phase: 9
 - task classification: implementation / NON_VISUAL
 - coverageTier: standard
-- workflow_state: spec_verified
+- workflow_state: implemented_local
 
 ## 目的
 
@@ -100,27 +100,26 @@ Stage 1 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 1. 本 phase の既存本文を確認する。
 2. 対応する実ファイル差分または evidence を確認する。
-3. validator と grep gate の結果を Phase 11 / Phase 12 evidence に反映する。
+3. validator と grep gate の結果を Phase 12 evidence に反映し、Phase 11 は実行ログ・skip count・runner version として分離する。
 
 ## 統合テスト連携
 
-- NON_VISUAL phase は Playwright 実行の代替として list smoke、grep gate、typecheck を使用する。
-- E2E runtime 実行が必要な項目は outputs/phase-11/evidence に結果を保存する。
+- NON_VISUAL implementation phase は Playwright assertion 差分、spec completeness、grep gate、artifact parity を検証する。
+- E2E runtime 実行結果は outputs/phase-11/evidence に保存する。
 
 ## 成果物
 
 - 本 phase markdown
 - 関連 outputs/phase-11 または outputs/phase-12 evidence
-- 必要に応じた apps/web / .claude/skills 実ファイル差分
+- apps/web/playwright/tests/public-flow.spec.ts、profile-visibility-request.spec.ts、profile-delete-request.spec.ts の assertion 差分
 
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-
