@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-pending / implementation / NON_VISUAL / Phase 12 strict 7 outputs present / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/ut-15-waf-rate-limiting-rules-setup/` |
+| Issue | Issue #18 CLOSED。PR 文脈は `Refs #18` のみ |
+| Cloudflare phase contract | Custom Rules `http_request_firewall_custom` -> Rate Limiting `http_ratelimit` -> Managed Rules `http_request_firewall_managed` |
+| Rate Limiting contract | `http_ratelimit` entry point ruleset with rule-level `ratelimit` object |
+| Workers binding boundary | Optional Worker-side rate limit uses current `[[ratelimits]]`; initial UT-15 implementation keeps it no-op |
+| user gate | Cloudflare mutation / production Enforce / seven-day observation / commit / push / PR are Phase 13 user-gated |
+| inventory | `references/workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md` |
+| canonical spec | `references/cloudflare-edge-security.md` |
+| lessons | `references/lessons-learned-ut-15-waf-rate-limiting.md` |
+
 ### web-app-route-bundle-parse-fix（2026-05-09）
 
 | 項目 | 値 |

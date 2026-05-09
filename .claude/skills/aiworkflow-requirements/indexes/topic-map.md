@@ -3184,6 +3184,16 @@ node scripts/list-specs.js --topics
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
 
+### references/workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Classification | L3 |
+| Canonical Contract | L13 |
+| Required Workflow Artifacts | L24 |
+| Local Implementation Artifacts | L42 |
+| Runtime Boundary | L54 |
+
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
 | セクション | 行 |
@@ -3494,6 +3504,14 @@ node scripts/list-specs.js --topics
 | Invariants | L13 |
 | Issue #554 runbook | L25 |
 | References | L41 |
+
+### references/cloudflare-edge-security.md
+
+| セクション | 行 |
+|------------|----|
+| UT-15 WAF / Rate Limiting Rules | L3 |
+| Simulate To Enforce Gate | L17 |
+| Responsibility Split | L26 |
 
 ### references/csrf-state-parameter.md
 
@@ -4845,6 +4863,16 @@ node scripts/list-specs.js --topics
 | L-HDBH-004: HEALTH_DB_TOKEN rotation を Phase 12 close-out 時点で formalize する | L42 |
 | 関連参照 | L55 |
 
+### references/lessons-learned-ut-15-waf-rate-limiting.md
+
+| セクション | 行 |
+|------------|----|
+| L-UT15-001 Thresholds Need Observation | L3 |
+| L-UT15-002 Edge And App Limits Have Different Jobs | L8 |
+| L-UT15-003 Dry-run Must Not Become False Green | L13 |
+| L-UT15-004 Free Plan Capacity Is A Design Constraint | L18 |
+| L-UT15-005 Public Route Groups Are Not URL Literals | L23 |
+
 ### references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md
 
 | セクション | 行 |
@@ -6132,13 +6160,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L818 |
-| フェーズ構造（概要） | L827 |
-| 品質ゲート（概要） | L858 |
-| 出力テンプレート | L869 |
-| 実行時のコマンド・エージェント・スキル | L892 |
-| 昇格パターン集 | L916 |
-| Current Active / Spec Created Tasks | L918 |
+| ドキュメント構成 | L833 |
+| フェーズ構造（概要） | L842 |
+| 品質ゲート（概要） | L873 |
+| 出力テンプレート | L884 |
+| 実行時のコマンド・エージェント・スキル | L907 |
+| 昇格パターン集 | L931 |
+| Current Active / Spec Created Tasks | L933 |
 
 ### references/task-workflow-backlog-part2.md
 
