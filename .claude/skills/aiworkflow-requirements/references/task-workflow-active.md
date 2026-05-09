@@ -284,7 +284,17 @@
 | evidence境界 | Phase 11 local typecheck / lint / tests / build / grep-gate PASS。Sentry dashboard smoke、runtime logger staging evidence は user approval 後 |
 | 下流 | task-05 error boundary、task-09..17 browser API migration |
 | 検証 | `pnpm --filter @ubm-hyogo/web exec tsc -p tsconfig.json --noEmit` PASS、`pnpm --filter @ubm-hyogo/web lint` PASS、web Vitest 56 files / 441 tests PASS、`pnpm --filter @ubm-hyogo/web build` PASS、grep-gate 0 hits outside allow-list |
-### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
+
+### Issue #560 task-03 follow-up 002 Next standalone instrumentation patch（2026-05-08）
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-560-task-03-followup-002-next-standalone-instrumentation-patch/` |
+| source follow-up | `docs/30-workflows/completed-tasks/task-03-followup-002-next-standalone-instrumentation-patch-001.md` |
+| current script | `scripts/patch-next-standalone-instrumentation.mjs` |
+| current artifact path | `.next/server/instrumentation.js` -> `.next/standalone/apps/web/.next/server/instrumentation.js` |
+| 実装 | existing script に `cwd` guard / `--verify-only` / trace copy regression test / trace parse failure handling / structured log を追加し、`.github/workflows/pr-build-test.yml` の `build-test` job で `@ubm-hyogo/web build:cloudflare` 後に verify gate を実行する |
+| 境界 | `web-cd.yml` Pages deploy cutover、production deploy、Sentry dashboard runtime evidence は対象外。commit / push / PR は user approval 後 |
+
+||||||| 8f4193d7### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
 | 成果物 | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
 | member blueprint | `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md`（917 行 / section count 3） |

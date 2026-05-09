@@ -34,7 +34,21 @@
 | production gate | `outputs/phase-11/production-pending-user-gate.md`; production export is `PENDING_RUNTIME_EVIDENCE` until approval |
 | PR wording | Issue #547 is CLOSED; use `Refs #547` only |
 
-### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
+### Issue #560 Next Standalone Instrumentation Patch（2026-05-08）
+
+| workflow root | `docs/30-workflows/issue-560-task-03-followup-002-next-standalone-instrumentation-patch/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval` |
+| source follow-up | `docs/30-workflows/completed-tasks/task-03-followup-002-next-standalone-instrumentation-patch-001.md` |
+| parent | `docs/30-workflows/completed-tasks/task-03-w2-par-sentry-workers-sdk-unify/` |
+| current script | `scripts/patch-next-standalone-instrumentation.mjs` |
+| current copy path | `.next/server/instrumentation.js` -> `.next/standalone/apps/web/.next/server/instrumentation.js` plus `.map`, `.nft.json`, trace files |
+| implemented hardening | `cwd` guard, `--verify-only`, regression test, trace parse failure handling, `.github/workflows/pr-build-test.yml` `build-test` gate, runbook |
+| command | `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare` then `cd apps/web && node ../../scripts/patch-next-standalone-instrumentation.mjs --verify-only` |
+| boundary | `web-cd.yml` Pages deploy cutover and production deploy are out of scope. Commit / push / PR are user-gated |
+| artifact inventory | `references/workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md` |
+
+||||||| 8f4193d7### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
 
 | 目的 | 参照先 |
 | --- | --- |

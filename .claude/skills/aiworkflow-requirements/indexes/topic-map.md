@@ -2474,6 +2474,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Boundary | L16 |
 
+### references/workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| Root Artifacts | L7 |
+| Phase 12 Required Artifacts | L16 |
+| Implemented Artifacts | L28 |
+| State Classification | L38 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4556,6 +4566,18 @@ node scripts/list-specs.js --topics
 | 適用範囲 | L55 |
 | 参考 | L61 |
 
+### references/lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-560-001: Current Script First | L3 |
+| L-560-002: Logical Artifact vs Physical Path | L9 |
+| L-560-003: CI Workflow Placeholder Gate | L15 |
+| L-560-004: RED With Existing Code | L21 |
+| L-560-005: Patch Script Idempotency | L27 |
+| L-560-006: Silent Failure Prevention On Trace Parse | L33 |
+| L-560-007: OpenNext / Next.js Upstream Workaround Boundary | L39 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6067,13 +6089,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L747 |
-| フェーズ構造（概要） | L756 |
-| 品質ゲート（概要） | L787 |
-| 出力テンプレート | L798 |
-| 実行時のコマンド・エージェント・スキル | L821 |
-| 昇格パターン集 | L845 |
-| Current Active / Spec Created Tasks | L847 |
+| ドキュメント構成 | L757 |
+| フェーズ構造（概要） | L766 |
+| 品質ゲート（概要） | L797 |
+| 出力テンプレート | L808 |
+| 実行時のコマンド・エージェント・スキル | L831 |
+| 昇格パターン集 | L855 |
+| Current Active / Spec Created Tasks | L857 |
 
 ### references/task-workflow-backlog-part2.md
 
