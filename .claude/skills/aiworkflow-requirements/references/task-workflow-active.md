@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### web-app-route-bundle-parse-fix（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/web-app-route-bundle-parse-fix/` |
+| 目的 | Next.js 16 Turbopack default が App Route Handler bundle に残す `[project]/...` virtual specifier による Cloudflare Worker parse fail を、OpenNext 互換の webpack build に切り替えて解消する |
+| 実装対象 | `apps/web/package.json`, `scripts/patch-next-standalone-instrumentation.mjs` |
+| evidence | typecheck / lint / `build:cloudflare` / `.open-next/worker.js` `[project]/` grep PASS |
+| runtime gate | staging / production deploy, smoke, tail evidence, commit / push / PR are user-gated |
+| inventory | `references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md` |
+| lessons | `references/lessons-learned-web-app-route-bundle-parse-fix-2026-05.md` |
+
 ### Issue #549 Cloudflare Audit Logs ML production switch（2026-05-08）
 
 | 項目 | 値 |

@@ -9,6 +9,7 @@ const standaloneNextDir = resolve(
   ".next/standalone/apps/web/.next",
 );
 const traceFile = "server/instrumentation.js.nft.json";
+const instrumentationFile = "server/instrumentation.js";
 
 function copyRelative(relativePath) {
   const source = join(nextDir, relativePath);
@@ -20,7 +21,14 @@ function copyRelative(relativePath) {
   copyFileSync(source, target);
 }
 
-copyRelative("server/instrumentation.js");
+if (!existsSync(join(nextDir, instrumentationFile))) {
+  console.log(
+    "[patch-next-standalone-instrumentation] instrumentation not emitted; skipping",
+  );
+  process.exit(0);
+}
+
+copyRelative(instrumentationFile);
 copyRelative("server/instrumentation.js.map");
 copyRelative(traceFile);
 

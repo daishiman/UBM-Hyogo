@@ -2103,8 +2103,10 @@
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "quality-e2e-testing.md",
-      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
+      "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "共通": [
       "arch-state-management-core.md",
@@ -2229,6 +2231,7 @@
       "interfaces-auth-history.md",
       "interfaces-chat-history-history.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "quality-requirements-history.md",
       "security-skill-ipc-history.md",
       "task-workflow-history.md",
@@ -2242,7 +2245,8 @@
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
       "ui-ux-feature-components-reference.md",
       "ui-ux-search-panel-history.md",
-      "ui-ux-settings-history.md"
+      "ui-ux-settings-history.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "reference": [
       "arch-state-management-reference-permissions-import-lifecycle.md",
@@ -3381,7 +3385,9 @@
     "app": [
       "architecture-admin-api-client.md",
       "lessons-learned-06a-public-web-2026-04.md",
-      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md"
+      "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "path": [
       "architecture-admin-api-client.md",
@@ -3416,7 +3422,9 @@
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
-      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "ステータスコード処理方針": [
       "architecture-admin-api-client.md"
@@ -8631,6 +8639,7 @@
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "lessons-learned.md",
       "release-runbook.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
@@ -8706,6 +8715,7 @@
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "lessons-learned.md",
       "release-runbook.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
@@ -12659,8 +12669,10 @@
     ],
     "fix": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
-      "workflow-skill-md-codex-validation-fix-artifact-inventory.md"
+      "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "候補にならず手作業で": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -14929,6 +14941,10 @@
     ],
     "連鎖発火タスク": [
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md"
+    ],
+    "parse": [
+      "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "教訓集": [
       "lessons-learned.md"
@@ -19726,7 +19742,8 @@
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "Inventory": [
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
@@ -19809,7 +19826,8 @@
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md",
+      "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
     "stablekey": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",

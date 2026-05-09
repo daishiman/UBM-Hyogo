@@ -1,0 +1,43 @@
+{
+  "taskId": "web-app-route-bundle-parse-fix",
+  "createdAt": "2026-05-08",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented-local",
+  "workflow_state": "implemented-local",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "phase_status_vocabulary": "phase status uses completed/pending/blocked; workflow root records implemented-local; implementation_status records local PASS with runtime deploy pending user approval",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "branch": "fix/web-app-route-bundle-parse-fix",
+    "baseBranch": "dev",
+    "baseRef": "origin/dev (5913a3cc)",
+    "scope": "minimal build pipeline change: switch Next.js 16 from Turbopack to webpack and keep the existing standalone instrumentation patch compatible when instrumentation is not emitted; adjacent admin audit helper extraction keeps current typecheck executable under Next App Router page export rules",
+    "rootCause": "Next.js 16 default Turbopack emits `[project]/...` virtual module paths in App Route Handler bundles which @opennextjs/cloudflare 1.19.4 cannot resolve at Worker runtime, producing `Could not parse module` 500 on /api/auth/error et al",
+    "fix": "Add --webpack flag to apps/web/package.json scripts.build; make scripts/patch-next-standalone-instrumentation.mjs skip cleanly when webpack output does not emit instrumentation.js",
+    "preconditionGates": [
+      "current staging deploy reproduces /api/auth/error 500 with Could not parse module tail log",
+      "rollback target version IDs captured: efc4051e-160b-4c77-93ca-6a5751e952f3 (staging) / e608d54e-37a8-414d-865c-798ebfd71735 (production)"
+    ],
+    "runtimePending": "staging deploy + smoke + tail observation, then production deploy + smoke require explicit user approval gates",
+    "localEvidence": "outputs/phase-11/main.md",
+    "phase12StrictOutputs": "outputs/phase-12/"
+  },
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["phase-01.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["phase-02.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["phase-03.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["phase-04.md", "outputs/phase-04/task-01-switch-next-build-to-webpack.md"] },
+    "phase-5":  { "status": "completed", "outputs": ["phase-05.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["phase-06.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["phase-07.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["phase-08.md"] },
+    "phase-9":  { "status": "completed", "outputs": ["phase-09.md"] },
+    "phase-10": { "status": "completed", "outputs": ["phase-10.md"] },
+    "phase-11": { "status": "completed", "outputs": ["phase-11.md", "outputs/phase-11/main.md", "outputs/phase-11/evidence/"], "boundary": "local evidence captured; staging/production runtime evidence pending user approval" },
+    "phase-12": { "status": "completed", "outputs": ["phase-12.md", "outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    "phase-13": { "status": "blocked", "blockedReason": "pending_user_approval_for_commit_push_pr", "outputs": ["phase-13.md"] }
+  }
+}

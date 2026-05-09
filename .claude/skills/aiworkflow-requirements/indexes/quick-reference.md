@@ -5,6 +5,20 @@
 
 ---
 
+### web-app-route-bundle-parse-fix（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/web-app-route-bundle-parse-fix/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| code | `apps/web/package.json` (`next build --webpack`) |
+| adjacent fix | `apps/web/app/(admin)/admin/audit/audit-query.ts` keeps admin audit helper outside `page.tsx` for App Router typecheck |
+| build patch | `scripts/patch-next-standalone-instrumentation.mjs` skips when webpack output does not emit `instrumentation.js` |
+| evidence | `outputs/phase-11/main.md`, `evidence/{typecheck,lint,build,grep-gate}.log`, `evidence/runner-version.txt` |
+| runtime gate | staging / production deploy, smoke, tail evidence pending explicit user approval |
+| inventory | `references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md` |
+| lessons | `references/lessons-learned-web-app-route-bundle-parse-fix-2026-05.md` |
+
 ### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
 
 | 目的 | 参照先 |

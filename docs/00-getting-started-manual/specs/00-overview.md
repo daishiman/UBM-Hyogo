@@ -79,6 +79,7 @@ apps/web (Cloudflare Workers via @opennextjs/cloudflare)
   -> public pages
   -> member pages
   -> admin pages
+  -> production build uses next build --webpack for OpenNext Workers bundle compatibility
 ```
 
 ---
