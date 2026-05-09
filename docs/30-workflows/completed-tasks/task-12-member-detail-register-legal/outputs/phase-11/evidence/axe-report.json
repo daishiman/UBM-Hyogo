@@ -1,0 +1,14 @@
+{
+  "register": {
+    "criticalCount": 0,
+    "violationCount": 2
+  },
+  "privacy": {
+    "criticalCount": 0,
+    "violationCount": 1
+  },
+  "terms": {
+    "criticalCount": 0,
+    "violationCount": 1
+  }
+}
