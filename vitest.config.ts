@@ -40,11 +40,11 @@ export default defineConfig({
     testTimeout: 30000,
     hookTimeout: 30000,
     include: [
-      "apps/**/src/**/*.test.{ts,tsx}",
-      "apps/**/app/**/*.test.{ts,tsx}",
-      "apps/**/migrations/**/*.test.ts",
-      "packages/**/src/**/*.test.{ts,tsx}",
-      "scripts/**/*.test.ts",
+      "apps/**/src/**/*.{test,spec}.{ts,tsx}",
+      "apps/**/app/**/*.{test,spec}.{ts,tsx}",
+      "apps/**/migrations/**/*.{test,spec}.ts",
+      "packages/**/src/**/*.{test,spec}.{ts,tsx}",
+      "scripts/**/*.{test,spec}.ts",
     ],
     coverage: {
       provider: "v8",

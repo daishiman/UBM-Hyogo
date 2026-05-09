@@ -4088,6 +4088,7 @@
     ],
     "snapshot": [
       "architecture-rag.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md"
     ],
     "アーキテクチャ概要図": [
@@ -4166,6 +4167,7 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
@@ -4200,6 +4202,7 @@
       "task-workflow-backlog.md",
       "ui-ux-feature-components-advanced.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -4392,6 +4395,7 @@
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
@@ -4607,6 +4611,7 @@
       "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
@@ -4850,6 +4855,7 @@
     "Invariants": [
       "branch-protection.md",
       "quality-e2e-testing.md",
+      "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
@@ -6338,6 +6344,7 @@
       "lessons-learned-06c-B-admin-members-2026-05.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
@@ -7264,6 +7271,7 @@
       "ipc-contract-checklist.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
@@ -8911,10 +8919,12 @@
     ],
     "Migration": [
       "legacy-ordinal-family-register.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
+      "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md"
     ],
@@ -8964,6 +8974,7 @@
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
@@ -9656,6 +9667,7 @@
     ],
     "vitest": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md"
     ],
     "の二段で担保": [
@@ -9802,7 +9814,8 @@
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
     ],
     "invariant": [
-      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
     ],
     "follows": [
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
@@ -12572,6 +12585,69 @@
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
+    "Test": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
+      "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md"
+    ],
+    "Suffix": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
+      "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md"
+    ],
+    "Rename": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
+      "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
+      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
+    ],
+    "suffix": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
+      "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
+    ],
+    "責務分類の境界判定": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
+    ],
+    "件数": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
+    ],
+    "の事前": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
+    ],
+    "include": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
+      "logs-archive-2026-03-workflow02-screenshot-guard.md"
+    ],
+    "two": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
+    ],
+    "拡張": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
+    ],
+    "rename": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
+    ],
+    "の状態同期漏れリスク": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
+    ],
+    "out": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "task-workflow-phases.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
+    ],
+    "の明示と未タスク棚卸し": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
+    ],
+    "引用関係": [
+      "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md"
+    ],
     "tree": [
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
@@ -13269,10 +13345,6 @@
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "r2-storage-decision-guide.md"
     ],
-    "suffix": [
-      "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
-    ],
     "しきい値": [
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md"
     ],
@@ -13865,6 +13937,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
@@ -14039,19 +14112,6 @@
     "Source": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
-    ],
-    "out": [
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
-      "task-workflow-phases.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
     ],
     "part": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
@@ -17705,9 +17765,6 @@
     "完了状態の再同期": [
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
-    "include": [
-      "logs-archive-2026-03-workflow02-screenshot-guard.md"
-    ],
     "をシステム仕様へ同期": [
       "logs-archive-2026-03-workflow02-screenshot-guard.md"
     ],
@@ -20286,6 +20343,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
@@ -21177,9 +21235,6 @@
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
     ],
     "Results": [
-      "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
-    ],
-    "Rename": [
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md"
     ],
     "Doc": [

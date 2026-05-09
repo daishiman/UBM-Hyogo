@@ -1,0 +1,36 @@
+=== rg/grep evidence: vitest config ===
+2:import { defineConfig } from "vitest/config";
+5:// pnpm の isolated node-linker (CI 既定) では apps/web を cwd とする vitest 実行時に
+23:      { find: /^react-dom\/test-utils$/, replacement: `${rootReactDom}/test-utils.js` },
+35:  test: {
+39:    // testTimeout / hookTimeout を 30000 ms に統一する。
+40:    testTimeout: 30000,
+43:      "apps/**/src/**/*.{test,spec}.{ts,tsx}",
+44:      "apps/**/app/**/*.{test,spec}.{ts,tsx}",
+45:      "apps/**/migrations/**/*.{test,spec}.ts",
+46:      "packages/**/src/**/*.{test,spec}.{ts,tsx}",
+47:      "scripts/**/*.{test,spec}.ts",
+58:        "**/*.test.{ts,tsx}",
+59:        "**/*.spec.{ts,tsx}",
+=== package.json scripts ===
+package.json:26:    "test": "bash scripts/with-env.sh vitest run",
+package.json:27:    "test:scripts": "bash scripts/d1/run-tests.sh",
+package.json:28:    "test:coverage": "bash scripts/with-env.sh vitest run --coverage",
+package.json:29:    "post-release-dashboard:test": "bash scripts/post-release-dashboard/__tests__/run-all.sh",
+package.json:30:    "observation:lint": "set -e; bash -n scripts/observation/create-reminder-issue.sh; bash scripts/observation/test/test-create-reminder-issue.sh; shellcheck scripts/observation/*.sh scripts/observation/test/*.sh; tmpdir=$(mktemp -d); trap 'rm -rf \"$tmpdir\"' EXIT; curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o \"$tmpdir/download-actionlint.bash\"; (cd \"$tmpdir\" && bash download-actionlint.bash >/dev/null); \"$tmpdir/actionlint\" -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml",
+package.json:42:    "schema-alias-backfill:test": "pnpm exec vitest run scripts/schema-alias-backfill/__tests__/generate-50k-fixture.test.ts && bash -n scripts/schema-alias-backfill/seed-staging-50k.sh && bash -n scripts/schema-alias-backfill/cleanup-staging-50k.sh && bash -n scripts/schema-alias-backfill/run-stress-trial.sh && bash scripts/schema-alias-backfill/run-stress-trial.sh --trials 10 --trigger-path /admin/schema/backfill/trigger --poll-interval-seconds 10 --timeout-seconds 1800 --evidence-out /tmp/evidence-50k-dryrun.json --dry-run"
+package.json:47:    "@testing-library/jest-dom": "^6.0.0",
+package.json:48:    "@testing-library/react": "^16.0.0",
+package.json:57:    "vitest": "^2.0.0",
+package.json:58:    "@vitest/coverage-v8": "^2.1.9",
+apps/api/package.json:12:    "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/api",
+apps/api/package.json:13:    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/api/coverage --coverage.include=\"apps/api/src/**/*.{ts,tsx}\" apps/api"
+apps/api/package.json:25:    "vitest": "^2.1.9",
+apps/web/package.json:14:    "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web",
+apps/web/package.json:15:    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include=\"apps/web/src/**/*.{ts,tsx}\" apps/web",
+apps/web/package.json:16:    "test:e2e": "playwright test",
+apps/web/package.json:17:    "test:e2e:list": "playwright test --list"
+apps/web/package.json:32:    "@playwright/test": "^1.50.0",
+=== lefthook.yml ===
+=== .github/workflows/ ===
+(no glob refs)
