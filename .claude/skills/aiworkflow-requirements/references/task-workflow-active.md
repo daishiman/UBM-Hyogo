@@ -8,6 +8,28 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### E2E Quality Uplift Stage 0-3（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | Stage 0: `implementation_complete_pending_pr` / Stage 1: `implemented_local / implementation_complete_e2e_verification_recorded` / Stage 2-3: `spec_verified_pending_dependency` |
+| 区分 | NON_VISUAL（4 stage いずれも） |
+| 成果物 | `docs/30-workflows/e2e-quality-uplift-stage-{0,1,2,3}/` |
+| 目的 | E2E 品質 uplift を 4 stage 分割: Stage 0 Playwright 整備 / Stage 1 regression assertion 拡充 / Stage 2 tier-aware coverage 自動 enforcement / Stage 3 branch protection contexts 正本化 |
+| Stage 0 implementation | `apps/web/playwright/README.md`（7章）/ `playwright.config.ts` (`evidence-capture` project) / `apps/web/package.json#scripts.e2e`（`--project=desktop-chromium,desktop-firefox,mobile-webkit`）/ `tests/profile-readonly-logged-in.spec.ts` rename/extract / `quality-gates.md §7.1 (4)` 8 行例外 |
+| Stage 1 implementation | `apps/web/playwright/fixtures/auth.ts`（HS256 JWT 署名）/ `/me/profile` server fetch 用 mock API fixture / regression assertion: email leak / visibility round-trip / delete round-trip / tracked `.txt` evidence |
+| Stage 2 spec | tier 閾値 `critical ≥80% / standard ≥70% / experimental ≥50%`、workspace 80% guard と責務分離。実装 land は別 cycle |
+| Stage 3 spec | branch protection contexts 正本は GitHub branch protection 実値。drift 検出 `gh api repos/daishiman/UBM-Hyogo/branches/{dev,main}/protection | jq '.required_status_checks.contexts'`。実 PUT は user-gated |
+| 依存 | 逐次依存（Stage N+1 は Stage N の land 後）。Stage 2 は Stage 1 implemented_local + workspace guard 境界確定後 |
+| evidence boundary | Stage 0/1 は tracked runtime evidence (`evidence/*.txt`)。Stage 2/3 は placeholder (`evidence_status: PLANNED_BECAUSE_PHASE11_NOT_EXECUTED`) |
+| Phase 12 strict 7 | 全 stage に present。validator-first close-out（prose-only done table より曖昧でない） |
+| 苦戦箇所 | L-E2EQU-002A: Server Component の `fetchAuthed()` は Node 側で実行されるため、Playwright の `page.route("**/api/me/profile")` だけでは server state を差し替えられない。server fetch 用 mock fixture / `INTERNAL_API_BASE_URL` 差し替えが必須 |
+| tier policy 正本 | `.claude/skills/task-specification-creator/references/coverage-standards.md`、`quality-gates.md §7.1 (4)` |
+| artifact inventory | `references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md` |
+| lessons | `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md`（L-E2EQU-001..007 + 002A） |
+| changelog | `changelog/20260509-e2e-quality-uplift-stage0-3.md` |
+| user gate | runtime tier enforcement / branch protection PUT / commit / push / PR は user approval 後 |
+
 ### CI pipeline recovery web CD and runtime smoke（2026-05-09）
 
 | 項目 | 値 |

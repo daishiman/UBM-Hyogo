@@ -12,16 +12,23 @@
 ### L-E2EQU-001: Stage 0..3 4 段分割と spec_verified_pending_dependency 状態の運用
 
 - **状況**: E2E 品質向上を 1 ワークフローで完結させると Phase 4-13 が肥大化し、tier-aware coverage / regression assertion / branch protection contexts 正本化など責務の異なる作業が混入する。実装が他ステージの land に gated されるため、PR 単位でも実装責務と仕様確定責務が混じってしまう。
-- **学び**: classification-first で「実装が走るのは Stage 0 のみ、Stage 1-3 は spec のみ確定（spec_verified_pending_dependency）」と明示分割すれば、Phase 11 evidence の placeholder vs runtime の区別が破綻しない。`spec_verified_pending_dependency` は spec_created と異なり「spec レビュー完了・実装未着手」を表すため、後続 cycle の起点として再利用可能。
+- **学び**: classification-first で「Stage 0/1 は実装、Stage 2-3 は spec のみ確定（spec_verified_pending_dependency）」と明示分割すれば、Phase 11 evidence の placeholder vs runtime の区別が破綻しない。`spec_verified_pending_dependency` は spec_created と異なり「spec レビュー完了・実装未着手」を表すため、後続 cycle の起点として再利用可能。
 - **再発防止**: 同種の「複数依存ステージにまたがる品質 uplift」は最初から 4 stage 分割を default にする。各 stage 直下で完結する `phase-{1..13}.md` + `outputs/phase-{11,12}/` を持たせ、Stage N+1 は Stage N artifact を input として参照する。
 - **関連 refs**: `references/task-workflow-active.md`（Stage 0-3 のリンク）, `references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md`
 
 ### L-E2EQU-002: Phase 11 placeholder evidence と runtime evidence の lifecycle 分離
 
-- **状況**: Stage 1-3 では実 Playwright run を回さず spec のみ確定する。Phase 11 に placeholder `main.md` だけを置くと、compliance-check が evidence captured と誤判定して false positive を出すリスクがあった（L-06B-002 と同型課題）。
+- **状況**: Stage 2-3 では実 Playwright run を回さず spec のみ確定する。Phase 11 に placeholder `main.md` だけを置くと、compliance-check が evidence captured と誤判定して false positive を出すリスクがある（L-06B-002 と同型課題）。Stage 1 のように実装へ昇格した stage は tracked runtime evidence に切り替える。
 - **学び**: Phase 11 evidence_status を `PLANNED_BECAUSE_PHASE11_NOT_EXECUTED` で明示すれば、Phase 12 strict 7 outputs を先行作成しても compliance-check は「実 evidence 未取得」と正しく判定する。runtime evidence は Stage 0 merge 後の別 cycle に外出し、追跡 workflow を別途立てる。
 - **再発防止**: spec-only stage の `phase-11.md` には必ず evidence_status を明記。Phase 11 の `outputs/phase-11/main.md` 冒頭に `> evidence_status: PLANNED_BECAUSE_PHASE11_NOT_EXECUTED` を 1 行入れる慣習を `task-specification-creator/references/phase-template-core.md` 経由で展開する。
 - **関連 refs**: `lessons-learned-06b-profile-logged-in-visual-evidence-2026-04.md` の L-06B-002
+
+### L-E2EQU-002A: Server Component fetch は browser route mock では検証できない
+
+- **状況**: `/profile` は Server Component が `fetchAuthed("/me/profile")` を Node 側で実行するため、Playwright の `page.route("**/api/me/profile")` では server state を差し替えられない。
+- **学び**: server state round-trip を証明する E2E は、browser request mock ではなく、server fetch 経路へ効く mock API / seed / `INTERNAL_API_BASE_URL` 差し替えを使う。Stage 1 では `apps/web/playwright/fixtures/auth.ts` に local API mock を置き、`/me/profile` の `pendingRequests` を test state として制御する。
+- **再発防止**: Next Server Component / route handler の fetch を含む E2E は、Phase 4 の test design で「browser request / server fetch」の2軸を明記する。server fetch に対する `page.route()` だけの AC は FAIL とする。
+- **関連 refs**: `apps/web/app/profile/page.tsx`, `apps/web/src/lib/fetch/authed.ts`, `apps/web/playwright/fixtures/auth.ts`
 
 ### L-E2EQU-003: Tier-aware E2E coverage policy と workspace 80% guard の責務分離
 
