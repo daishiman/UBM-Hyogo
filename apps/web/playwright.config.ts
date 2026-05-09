@@ -24,7 +24,12 @@ const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
 const localPort = new URL(localBaseURL).port || '3000'
 const localEnv =
-  'ENVIRONMENT=local NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 PUBLIC_API_BASE_URL=http://127.0.0.1:8787 INTERNAL_API_BASE_URL=http://127.0.0.1:8787 AUTH_URL=http://127.0.0.1:3000 SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=1'
+  'ENVIRONMENT=local SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=0 ' +
+  'NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
+  'PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
+  'INTERNAL_API_BASE_URL=http://127.0.0.1:8787 ' +
+  'AUTH_URL=http://localhost:3000 ' +
+  'AUTH_SECRET=playwright-e2e-auth-secret-32-bytes'
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -87,8 +92,8 @@ export default defineConfig({
         webServer: [
           {
             command: isAdminRequestsRun
-              ? `${localEnv} AUTH_SECRET=playwright-auth-secret-playwright-auth-secret PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
-              : 'pnpm --filter @ubm-hyogo/web dev',
+              ? `${localEnv} PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+              : `${localEnv} pnpm --filter @ubm-hyogo/web dev`,
             url: localBaseURL,
             reuseExistingServer: !process.env.CI,
             timeout: 120_000,
