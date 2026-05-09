@@ -26,7 +26,7 @@
 
 | 対象 | プラットフォーム | 更新頻度 | 優先度 |
 | ---- | ---------------- | -------- | ------ |
-| Web フロントエンド | Cloudflare Workers + `@opennextjs/cloudflare`（ADR-0001 採択。現行 CD は Pages deploy 残） | 機能追加・修正のたび | 高 |
+| Web フロントエンド | Cloudflare Workers + `@opennextjs/cloudflare`（ADR-0001 採択。Issue #331 で Web CD も Workers deploy 経路へ同期済み） | 機能追加・修正のたび | 高 |
 | API バックエンド | Cloudflare Workers | 機能追加・修正のたび | 高 |
 | データベース | Cloudflare D1 | スキーマ変更時 | 高 |
 
@@ -141,7 +141,7 @@
 
 #### 実行内容
 
-1. ブランチに応じて Cloudflare Workers へ自動デプロイ（`wrangler deploy --env <env>`）。2026-05-01 時点の `web-cd.yml` は Pages deploy 残で、ADR-0001 の後続 migration task で置換する
+1. ブランチに応じて Cloudflare Workers へ自動デプロイする。Web CD は `pnpm --filter @ubm-hyogo/web build:cloudflare` 後に `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` を実行する
 2. デプロイ完了後の Discord Webhook 通知は未実装。UT-08-IMPL（観測性実装）で導入する。
 
 ---

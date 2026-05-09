@@ -1,10 +1,10 @@
 # Phase 12 outputs
 
-状態: implemented-local / NON_VISUAL
+状態: implemented-local / NON_VISUAL / local-static PASS / runtime evidence pending_user_approval
 
 ## サマリー
 
-Issue #331 の CI/CD runtime warning cleanup は、仕様書改善だけでなく実ファイルへ反映済み。
+Issue #331 の CI/CD runtime warning cleanup は、仕様書改善だけでなく実ファイルへ反映済み。現時点の PASS は repo-local/static evidence であり、Cloudflare/GitHub runtime warning-zero evidence は Phase 13 の user approval 後に取得する。
 
 - `apps/api/wrangler.toml`: top-level `[vars]` を削除し、`[env.production.vars]` / `[env.staging.vars]` を正本化
 - `.github/workflows/web-cd.yml`: Pages deploy を撤去し、OpenNext Workers build + `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <env>` に統一

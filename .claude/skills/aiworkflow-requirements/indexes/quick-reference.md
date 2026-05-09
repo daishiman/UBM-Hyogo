@@ -43,6 +43,7 @@
 | PR wording | Issue #331 is CLOSED; use `Refs #331` only |
 | boundary | `web-cd.yml` cutover landed in repo; staging/production runtime verification is user-gated |
 | artifact inventory | `references/workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md` |
+| lessons learned | `lessons-learned/lessons-learned-issue-331-cicd-runtime-warning-cleanup-2026-05.md`（L-331-001..005） |
 
 ### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
 
@@ -509,7 +510,7 @@
 | Pages vs Workers deploy target decision | `docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`（ADR-0001 / Workers cutover accepted） |
 | OpenNext Workers 詳細仕様 | `references/deployment-cloudflare-opennext-workers.md` |
 | Issue #355 cutover spec workflow | `docs/30-workflows/completed-tasks/issue-355-opennext-workers-cd-cutover-task-spec/`（spec_created / implementation / NON_VISUAL / Phase 11 evidence contracts） |
-| 残る実装 task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`（`web-cd.yml` Workers deploy 置換 / Cloudflare side cutover / smoke） |
+| 残る実装 task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md` は repo-side `web-cd.yml` Workers deploy 置換を Issue #331 で consumed。残る範囲は Cloudflare side retirement / route verification / smoke。 |
 | Pages delete after dormant | `docs/30-workflows/issue-419-pages-project-dormant-delete-after-355/`（Issue #419 formalized / `implemented-local` / implementation / NON_VISUAL / destructive cleanup / dormant observation + user approval pending）。起票元: `docs/30-workflows/unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` |
 | Delete request retention purge | `docs/30-workflows/issue-402-admin-request-retention-physical-delete/`（Issue #402 / `implemented-local` / implementation / NON_VISUAL / retention policy / runtime evidence pending）。SSOT: `references/data-retention-policy.md`。対象 table: `member_responses` / `member_identities` / `member_status` + response child rows; `deleted_members` は tombstone 保持。default `RETENTION_PURGE_MODE=dry-run`、production apply は user-gated |
 | 決定 workflow | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` |

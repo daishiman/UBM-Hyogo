@@ -297,7 +297,7 @@
 | `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。Issue #331 cleanup 後の `web-cd.yml` では未参照。削除は Pages project retirement 確認後に行う | Deprecated |
 | `CF_TOKEN_ISSUED_AT` | Cloudflare API Token の production 発行日。`cf-token-rotation-reminder.yml` が 85 日経過判定に使用する ISO 8601 日付 | Yes |
 
-`CLOUDFLARE_PAGES_PROJECT` に `ubm-hyogo-web-staging` を直接入れてはいけない。dev deploy は `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging` を使うため、staging 名を入れると `ubm-hyogo-web-staging-staging` になる。
+Deprecated Pages variable note: historical Pages workflows derived staging as `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging`, so storing `ubm-hyogo-web-staging` was invalid. Current `web-cd.yml` no longer references this variable.
 
 ### セキュリティ要件
 
@@ -319,7 +319,7 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Stale Pages target after Issue #331 cleanup; remove only after token split plan is reconciled |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | repository-scoped | Account ID は資格情報ではなく識別子。既存 GitHub 実設定に合わせ、`vars.` 参照で空展開を防ぐ |
 | `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
-| `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | 非機密値で、suffix 連結結果をログで追えるよう Secret 化しない |
+| `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | Deprecated after Issue #331; not referenced by current `web-cd.yml`. Delete only after Pages retirement approval |
 
 運用ゲート:
 

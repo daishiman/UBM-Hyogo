@@ -75,6 +75,8 @@ bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env production
 
 Runtime CI deploy evidence and production warning-zero logs remain user-gated because they require branch push / GitHub Actions execution.
 
+Current status is local-static PASS only. Do not describe AC-2 / AC-5 / AC-6 as runtime PASS until the dry-run and GitHub Actions run URLs are captured.
+
 ### 使用例
 
 ```bash
@@ -104,24 +106,6 @@ bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging
 - `backend-ci.yml` は今回の Web CD cutover 対象外であり、`wrangler-action` 残存は別の current fact として扱う。
 - `CLOUDFLARE_PAGES_PROJECT` は Web CD から未参照になるが、Cloudflare Pages project retirement は外部 mutation なので user-gated。
 - Issue #331 は CLOSED のため PR は `Refs #331` のみを使う。
-
-### 使用例
-
-```bash
-pnpm --filter @ubm-hyogo/web build:cloudflare
-bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging
-```
-
-```yaml
-- name: Build OpenNext Workers bundle
-  run: pnpm --filter @ubm-hyogo/web build:cloudflare
-
-- name: Deploy web app to Cloudflare Workers
-  env:
-    CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-    CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-  run: bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging
-```
 
 ### 設定項目と定数一覧
 

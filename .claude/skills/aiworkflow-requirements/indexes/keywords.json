@@ -4419,6 +4419,7 @@
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md",
       "release-runbook.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -8905,6 +8906,7 @@
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "lessons-learned.md",
       "release-runbook.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],

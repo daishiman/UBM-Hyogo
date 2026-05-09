@@ -2256,8 +2256,9 @@ node scripts/list-specs.js --topics
 | Workflow Root | L3 |
 | Classification | L7 |
 | Primary Repo Changes | L11 |
-| Consumed / Superseded Trace | L21 |
-| Runtime Boundary | L29 |
+| Consumed / Superseded Trace | L25 |
+| Runtime Boundary | L33 |
+| Lessons Learned | L37 |
 
 ### references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md
 
@@ -3550,11 +3551,11 @@ node scripts/list-specs.js --topics
 | 10. CLI 経路の徹底 | L182 |
 | 11. R2 incremental cache（任意採用） | L191 |
 | 12. 関連リソース | L199 |
-| 13. production route / secret / observability preflight | L218 |
-| 14. analytics read-only token 分離 | L259 |
-| 15. Long-term analytics evidence | L274 |
-| 15. 09c-A production execution workflow | L280 |
-| 変更履歴 | L295 |
+| 13. production route / secret / observability preflight | L219 |
+| 14. analytics read-only token 分離 | L260 |
+| 15. Long-term analytics evidence | L275 |
+| 15. 09c-A production execution workflow | L281 |
+| 変更履歴 | L296 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 

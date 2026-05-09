@@ -105,7 +105,7 @@ UT-06 Phase 12 UNASSIGNED-E は `docs/30-workflows/ut-06-followup-E-d1-backup-lo
 
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）
 
-> **current facts (UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION / 2026-05-01)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` はまだ **Pages deploy**（`pages deploy .next`）を呼ぶ。ADR-0001（`docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md`）で Workers cutover を採択済み。残る `web-cd.yml` 置換、Cloudflare side Pages project → Workers script 切替、staging / production smoke は `task-impl-opennext-workers-migration-001` の責務とする。
+> **current facts (Issue #331 cleanup / 2026-05-09)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` も `pnpm --filter @ubm-hyogo/web build:cloudflare` 後に `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` を呼ぶ。repo-side Pages deploy cutover は完了済み。Cloudflare side Pages project retirement、custom domain / route verification、staging / production runtime smoke は user approval 後の Issue #419 / Phase 13 evidence 境界とする。
 
 ### Pages 形式と OpenNext Workers 形式の判定（current state 列付き）
 
@@ -480,9 +480,9 @@ CI/CD の secret / variable 配置と最小権限は [`deployment-secrets-manage
 
 ### デプロイフロー（web-cd.yml）
 
-`push` to `dev` / `main` → Validate Build → Deploy to Cloudflare Workers（wrangler-action）。
+`push` to `dev` / `main` → OpenNext Workers bundle build → `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>`。
 
-> **current facts (ADR-0001 / 2026-05-01)**: `apps/web/wrangler.toml` は OpenNext Workers 形式だが、現行 `.github/workflows/web-cd.yml` は Pages deploy（`pages deploy .next`）が残る。ADR-0001 で Workers deploy への cutover を採択済みで、`web-cd.yml` の `wrangler deploy --env <env>` 置換、Cloudflare side 切替、staging / production smoke は `task-impl-opennext-workers-migration-001` の責務。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
+> **current facts (Issue #331 cleanup / 2026-05-09)**: 現行 `.github/workflows/web-cd.yml` は Pages deploy を呼ばない。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
 
 ---
 
