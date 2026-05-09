@@ -3216,6 +3216,8 @@ node scripts/list-specs.js --topics
 | 7. リレー先未タスク（Phase 12 unassigned-task-detection 由来） | L86 |
 | 8. 不変条件 touched | L95 |
 
+### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
+
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
 | セクション | 行 |
@@ -4973,14 +4975,16 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L7 |
 | 申し送り（open / baseline 未タスク） | L37 |
 
+### references/lessons-learned-web-app-route-bundle-parse-fix-2026-05.md
+
 ### references/lessons-learned.md
 
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L103 |
-| 関連ドキュメント | L108 |
+| 利用順序 | L104 |
+| 関連ドキュメント | L109 |
 
 ### references/llm-embedding.md
 
@@ -6089,13 +6093,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L757 |
-| フェーズ構造（概要） | L766 |
-| 品質ゲート（概要） | L797 |
-| 出力テンプレート | L808 |
-| 実行時のコマンド・エージェント・スキル | L831 |
-| 昇格パターン集 | L855 |
-| Current Active / Spec Created Tasks | L857 |
+| ドキュメント構成 | L771 |
+| フェーズ構造（概要） | L780 |
+| 品質ゲート（概要） | L811 |
+| 出力テンプレート | L822 |
+| 実行時のコマンド・エージェント・スキル | L845 |
+| 昇格パターン集 | L869 |
+| Current Active / Spec Created Tasks | L871 |
 
 ### references/task-workflow-backlog-part2.md
 
