@@ -1,0 +1,147 @@
+{
+  "task_id": "task-issue-577-api-full-coverage-rerun-miniflare-port-exhaustion-001",
+  "task_path": "docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion",
+  "created_at": "2026-05-09",
+  "updated_at": "2026-05-09",
+  "metadata": {
+    "issue": 577,
+    "issue_state": "closed",
+    "parent_issue": 532,
+    "parent_issue_state": "closed",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_pending_pr",
+    "implementation_status": "implemented_local",
+    "runtime_state": "completed",
+    "approval_state": "pending_user_approval_pr_creation",
+    "phase12_contract": "strict_7_outputs_completed_with_runtime_evidence",
+    "outputs_artifacts_policy": "root_outputs_parity_required",
+    "base_branch": "dev",
+    "category": "improvement",
+    "priority": "medium",
+    "scale": "small",
+    "area": "testing"
+  },
+  "claudeCodeContext": {
+    "branch_name": "docs/issue-577-api-coverage-rerun-task-spec",
+    "pr_title": "fix(api): stabilize issue-577 full coverage rerun under miniflare",
+    "pr_base": "dev",
+    "labels": [
+      "priority:medium",
+      "type:improvement",
+      "scale:small",
+      "area:testing"
+    ],
+    "issue": 577,
+    "parent_issue": 532,
+    "refs": [
+      "Refs: #577",
+      "Refs: #532"
+    ],
+    "gh_pr_create_args": "--base dev --label priority:medium --label type:improvement --label scale:small --label area:testing"
+  },
+  "gates": {
+    "G1": "passed_runtime_rerun_eaddr_resolved",
+    "G2": "passed_evidence_local",
+    "G3": "passed_issue532_sync",
+    "G4": "pending_user_approval_commit_push_pr"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "path": "phase-01.md",
+      "status": "blocked_pending_user_approval"
+    },
+    {
+      "phase": 2,
+      "path": "phase-02.md",
+      "status": "completed"
+    },
+    {
+      "phase": 3,
+      "path": "phase-03.md",
+      "status": "completed"
+    },
+    {
+      "phase": 4,
+      "path": "phase-04.md",
+      "status": "completed"
+    },
+    {
+      "phase": 5,
+      "path": "phase-05.md",
+      "status": "completed"
+    },
+    {
+      "phase": 6,
+      "path": "phase-06.md",
+      "status": "completed"
+    },
+    {
+      "phase": 7,
+      "path": "phase-07.md",
+      "status": "completed"
+    },
+    {
+      "phase": 8,
+      "path": "phase-08.md",
+      "status": "completed"
+    },
+    {
+      "phase": 9,
+      "path": "phase-09.md",
+      "status": "completed"
+    },
+    {
+      "phase": 10,
+      "path": "phase-10.md",
+      "status": "completed"
+    },
+    {
+      "phase": 11,
+      "path": "phase-11.md",
+      "status": "completed"
+    },
+    {
+      "phase": 12,
+      "path": "phase-12.md",
+      "status": "completed"
+    },
+    {
+      "phase": 13,
+      "path": "phase-13.md",
+      "status": "blocked_pending_user_approval"
+    }
+  ],
+  "required_outputs": {
+    "phase01_10": [
+      "outputs/phase-01/main.md",
+      "outputs/phase-02/main.md",
+      "outputs/phase-03/main.md",
+      "outputs/phase-04/main.md",
+      "outputs/phase-05/main.md",
+      "outputs/phase-06/main.md",
+      "outputs/phase-07/main.md",
+      "outputs/phase-08/main.md",
+      "outputs/phase-09/main.md",
+      "outputs/phase-10/main.md"
+    ],
+    "phase11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/evidence/full-coverage-rerun.log",
+      "outputs/phase-11/evidence/triage-summary.md"
+    ],
+    "phase12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "phase13": [
+      "outputs/phase-13/phase-13.md"
+    ]
+  }
+}
