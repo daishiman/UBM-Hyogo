@@ -7,10 +7,11 @@ import { basename, dirname, join, resolve } from "node:path";
 
 const VERIFY_TOKENS = ["register", "Sentry"];
 const TRACE_FILE = "server/instrumentation.js.nft.json";
+const INSTRUMENTATION_FILE = "server/instrumentation.js";
 const FAILURE_MESSAGE =
   "Sentry server instrumentation missing in standalone build artifact";
 const REQUIRED_INPUTS = [
-  "server/instrumentation.js",
+  INSTRUMENTATION_FILE,
   "server/instrumentation.js.map",
   TRACE_FILE,
 ];
@@ -54,7 +55,7 @@ function copyRelative(nextDir, standaloneNextDir, relativePath) {
 }
 
 function verifyArtifact(standaloneNextDir) {
-  const target = join(standaloneNextDir, "server/instrumentation.js");
+  const target = join(standaloneNextDir, INSTRUMENTATION_FILE);
   if (!existsSync(target)) {
     logEvent(
       "verify_failed",
@@ -122,8 +123,27 @@ function main() {
 
   if (verifyOnly) {
     logEvent("verify_start", { mode: "verify-only", target: standaloneNextDir });
+    // webpack 経路では .next/server/instrumentation.js が emit されないため、
+    // 入力側に source が無い場合は verify を skip する（copy mode と対称）。
+    if (!existsSync(join(nextDir, INSTRUMENTATION_FILE))) {
+      logEvent("verify_skipped", {
+        reason: "instrumentation_not_emitted",
+        source: join(nextDir, INSTRUMENTATION_FILE),
+      });
+      return;
+    }
     verifyArtifact(standaloneNextDir);
     logEvent("verify_done");
+    return;
+  }
+
+  // webpack 経路では instrumentation.js が emit されない場合があるため、
+  // 入力が無いときは copy/verify を skip して exit 0 で抜ける。
+  if (!existsSync(join(nextDir, INSTRUMENTATION_FILE))) {
+    logEvent("copy_skipped", {
+      reason: "instrumentation_not_emitted",
+      source: join(nextDir, INSTRUMENTATION_FILE),
+    });
     return;
   }
 

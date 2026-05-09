@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { jstLocalToUtcIso } from "./page";
+import { jstLocalToUtcIso } from "./audit-query";
 
 describe("admin audit page helpers", () => {
   it("converts JST datetime-local values to UTC ISO query values", () => {

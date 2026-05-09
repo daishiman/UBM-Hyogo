@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-08 - Issue #534 workflow_state vocabulary promotion
+
+`docs/30-workflows/issue-534-skill-workflow-state-guidance/` の review で、workflow root state、phase status、Phase 11/12 evidence、archive/delete ledger sync の境界を `task-specification-creator` skill 本体へ昇格した。`references/workflow-state-vocabulary.md` と `references/phase12-compliance-check-template.md` を新設し、SKILL.md References、既存 Phase 11/12 references、SKILL-changelog を同期。commit、push、PR は user-gated のまま未実行。
+
 ## 2026-05-08 - Issue #548 synthetic harness vs production winner boundary
 
 `docs/30-workflows/issue-548-ml-model-selection/` の Phase 12 review で、synthetic fixture による model comparison harness smoke と production-equivalent dataset による winner selection が混在し、root state / Phase 11 / SSOT の語彙が割れる危険を確認した。`references/phase12-skill-feedback-promotion.md` に Synthetic Harness vs Production Winner Rule を追加し、`implemented_synthetic` state、dataset boundary、fallbackRate の構造化計測、env contract 名統一、production switch follow-up 分離を同 wave 必須条件として固定した。commit / push / PR は未実行。
