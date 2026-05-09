@@ -10,7 +10,7 @@ category: 改善
 target_feature: Cloudflare Audit Logs monitoring baseline
 priority: 低
 scale: 小規模
-status: 未実施
+status: promoted_to_canonical_pointer
 source_phase: docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/outputs/phase-12/unassigned-task-detection.md
 created_date: 2026-05-08
 dependencies: []
@@ -24,17 +24,20 @@ dependencies: []
 | 対象機能 | Cloudflare Audit Logs monitoring baseline |
 | 優先度 | 低 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | promoted_to_canonical_pointer |
 | 発見元 | `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-08 |
 | source issue | Issue #546 (CLOSED; use `Refs #546` only) |
 | taskType | docs-only / runtime observation |
 | visualEvidence | NON_VISUAL |
 | earliest execution date | 2026-08-05, only if successful hourly runs begin on 2026-05-08 |
+| canonical workflow | `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/` |
 
 ---
 
 ## 1. なぜこのタスクが必要か（Why）
+
+> 2026-05-09 追記: 本 reminder は Issue #581 の正式 workflow package `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/` に昇格済み。今後の Phase 1-13 実行、Phase 11/12 evidence、closed issue handling は canonical workflow を正本とし、この unassigned task は source reminder / pointer として保持する。
 
 ### 1.1 背景
 
@@ -260,7 +263,7 @@ bash scripts/cf.sh d1 execute ubm-hyogo-db-prod --remote --json \
 
 | リスク | 影響度 | 発生確率 | 対策 |
 | --- | --- | --- | --- |
-| CLOSED Issue #546 のため再観測が忘れられる | 中 | 中 | 本 unassigned task を canonical reminder とし、task-workflow-active の Issue #546 行から参照する |
+| CLOSED Issue #546 のため再観測が忘れられる | 中 | 中 | Issue #581 workflow package を canonical reminder とし、本 unassigned task は source reminder / pointer として task-workflow-active の Issue #546 行から参照する |
 | JSON Lines を `.json` として保存し後続 parser が壊れる | 中 | 中 | paginated output は `jq -s '.'` で JSON array に正規化する |
 | D1 unreadiness の alert 0 件を FPR PASS と誤判定する | 高 | 中 | D1 summary / baseline thresholds / alert issue evidence の 3 点が揃うまで Gate-B を pending にする |
 

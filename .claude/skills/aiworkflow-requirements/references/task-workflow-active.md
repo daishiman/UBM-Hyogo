@@ -583,6 +583,18 @@
 | 正本同期 | `references/observability-monitoring.md` / `references/database-schema-cf-audit-log.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
 | artifacts / lessons | `references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md` / `references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md` |
 
+#### Issue #581 re-observation reminder canonical package（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | spec_created |
+| runtime decision | observation_continue |
+| 成果物 | `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/` |
+| 目的 | Issue #546 の 90 day re-observation reminder を Phase 1-13 workflow package として formalize。runtime evidence は 2026-08-05 以後、または successful hourly run 開始から90日後以降に取得する |
+| 境界 | app code / workflow YAML / D1 schema / Cloudflare Secret は変更しない。Phase 12 strict 7 と aiworkflow-requirements 同期だけを同一 wave で完了 |
+| watchdog | Issue #518 HOLD で watchdog workflow は削除済み。Issue #581 は存在しない watchdog workflow API を叩かず lifecycle marker JSON を Phase 11 evidence に保存する |
+| pointer | `docs/30-workflows/unassigned-task/issue-546-cf-audit-logs-90day-reobservation-reminder-001.md` は source reminder / pointer として保持 |
+
 ### Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export（2026-05-07）
 
 | 項目 | 値 |
