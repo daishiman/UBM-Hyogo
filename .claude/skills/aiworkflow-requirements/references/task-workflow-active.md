@@ -483,6 +483,19 @@
 | runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up。FU-03-C model selection は Issue #548 として仕様化済み |
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
 
+### Issue #534 workflow_state skill guidance（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_local_evidence_captured / implementation / NON_VISUAL / Issue #534 CLOSED / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-534-skill-workflow-state-guidance/` |
+| 目的 | workflow root state、phase status、Phase 11/12 evidence、archive/delete ledger sync の境界を task-specification-creator skill 本体へ昇格する |
+| 実装正本 | `.claude/skills/task-specification-creator/references/workflow-state-vocabulary.md`, `.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/artifacts.json` |
+| runtime境界 | runtime smoke なし。`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` は runtime/deploy/production evidence pending の task に限定する |
+| follow-up | `docs/30-workflows/unassigned-task/task-spec-skill-workflow-state-hook-enforcement.md`, `docs/30-workflows/unassigned-task/task-spec-skill-compliance-check-ci-gate.md` |
+| 正本同期 | `indexes/quick-reference.md` / `indexes/resource-map.md` / LOGS / task-specification-creator SKILL references |
+
 ### Issue #548 Cloudflare Audit Logs ML Model Selection（2026-05-08）
 
 | 項目 | 値 |
