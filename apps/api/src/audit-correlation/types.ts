@@ -1,9 +1,15 @@
 export type FingerprintHash = string & { readonly __brand: 'FingerprintHash' };
-export type FingerprintVersion = 1;
+export type FingerprintVersion = 1 | 2;
+
+export interface FingerprintHashPair {
+  readonly v1?: FingerprintHash;
+  readonly v2?: FingerprintHash;
+}
 
 export interface CorrelationKey {
   readonly fingerprintHash: FingerprintHash;
   readonly fingerprintVersion: FingerprintVersion;
+  readonly fingerprintHashes?: FingerprintHashPair;
 }
 
 export interface RawGitHubAuditEvent {
@@ -54,6 +60,7 @@ export interface FingerprintInput {
 
 export interface RedactOpts {
   readonly salt: string;
+  readonly previousSalt?: string | undefined;
 }
 
 export interface GitHubFetchOpts {

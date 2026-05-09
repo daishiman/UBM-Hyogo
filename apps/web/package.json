@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "NODE_ENV=production next build",
+    "build": "NODE_ENV=production next build --webpack",
     "build:cloudflare": "NODE_ENV=production opennextjs-cloudflare build && node ../../scripts/patch-open-next-worker.mjs",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "dev": "next dev",
@@ -14,7 +14,8 @@
     "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web",
     "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include=\"apps/web/src/**/*.{ts,tsx}\" apps/web",
     "test:e2e": "playwright test",
-    "test:e2e:list": "playwright test --list"
+    "test:e2e:list": "playwright test --list",
+    "e2e:staging": "playwright test tests/e2e/staging-smoke.spec.ts --project=staging-smoke"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "1.19.4",

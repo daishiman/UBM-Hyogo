@@ -1,0 +1,77 @@
+{
+  "taskId": "issue-555-audit-correlation-salt-rotation-automation",
+  "createdAt": "2026-05-08",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented-local",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented-local",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "issueNumber": 555,
+    "issueState": "CLOSED",
+    "issueStateNote": "Issue #555 は CLOSED のまま運用する（ユーザー指示）。本仕様書は state を変更しない。",
+    "parentIssueNumber": 516,
+    "parentIssueStateNote": "親 Issue #516 の state は本タスクで変更しない。FU-01 live wiring 完了が Phase 11 staging evidence の前提。",
+    "implementationCategory": "implementation",
+    "runtimeEvidence": "blocked_upstream_pending",
+    "productionApply": "not_in_scope_user_gate_required"
+  },
+  "issueLink": "https://github.com/daishiman/UBM-Hyogo/issues/555",
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/516",
+  "parentTask": "issue-516-github-audit-log-cross-source-correlation",
+  "sourceUnassignedSpec": "docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-04-FU-03-salt-rotation-automation.md",
+  "githubLabels": [
+    "priority:medium",
+    "type:security",
+    "scale:medium",
+    "status:unassigned"
+  ],
+  "claudeCodeContext": {
+    "purpose": "Claude Code / Codex がコード実装・PR 作成時に label / tag / scope を確実に共有するためのメタ",
+    "labels": ["priority:medium", "type:security", "scale:medium", "status:unassigned"],
+    "prTitlePrefix": "feat(api,infra): issue-555 AUDIT_CORRELATION_SALT rotation automation and fingerprintVersion=2 migration",
+    "prLabelsToApply": ["priority:medium", "type:security", "scale:medium", "area:api", "area:infra"],
+    "branchNameSuggestion": "feat/issue-555-audit-correlation-salt-rotation-automation",
+    "ghPrCreateLabelArg": "--label priority:medium --label type:security --label scale:medium --label area:api --label area:infra",
+    "issueLink": "Refs: #555",
+    "parentIssueLink": "Refs: #516",
+    "issueOperationPolicy": "do_not_reopen_or_close_issue_555_remains_CLOSED"
+  },
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["outputs/phase-1/phase-1.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["outputs/phase-2/phase-2.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["outputs/phase-3/phase-3.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["outputs/phase-4/phase-4.md"] },
+    "phase-5":  { "status": "completed_skipped_no_migration", "outputs": ["outputs/phase-5/phase-5.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["outputs/phase-6/phase-6.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["outputs/phase-7/phase-7.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["outputs/phase-8/phase-8.md"] },
+    "phase-9":  { "status": "completed", "outputs": ["outputs/phase-9/phase-9.md"] },
+    "phase-10": { "status": "completed_local_evidence", "outputs": ["outputs/phase-10/phase-10.md"] },
+    "phase-11": {
+      "status": "blocked_upstream_pending",
+      "blockedReason": "親タスク FU-01 (issue-516) の staging live wiring 完了が前提",
+      "outputs": [
+        "outputs/phase-11/phase-11.md",
+        "outputs/phase-11/staging-evidence.md",
+        "outputs/phase-11/dual-hash-grep-gate.log"
+      ]
+    },
+    "phase-12": {
+      "status": "completed_local_runtime_pending",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/phase-12.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "pending_user_approval", "outputs": ["outputs/phase-13/phase-13.md"] }
+  }
+}

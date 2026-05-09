@@ -199,6 +199,24 @@ else
   WRANGLER_BIN="wrangler"
 fi
 
+if [ "$1" = "deploy" ] && printf '%s\n' "$@" | grep -qx -- "--config"; then
+  config_path=""
+  deploy_env=""
+  prev=""
+  for arg in "$@"; do
+    if [ "$prev" = "--config" ]; then
+      config_path="$arg"
+    elif [ "$prev" = "--env" ]; then
+      deploy_env="$arg"
+    fi
+    prev="$arg"
+  done
+  if [ "$config_path" = "apps/web/wrangler.toml" ] && [ "${deploy_env:-production}" = "production" ] && [ "${ENABLE_STAGING_SMOKE_FIXTURE:-}" = "1" ]; then
+    echo "[cf.sh] refusing production web deploy with ENABLE_STAGING_SMOKE_FIXTURE=1" >&2
+    exit 64
+  fi
+fi
+
 if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
   exec "$WRANGLER_BIN" "$@"
 fi

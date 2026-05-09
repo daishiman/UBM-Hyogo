@@ -78,6 +78,7 @@ feature/* --PR--> dev --PR--> main
 > **solo 運用ポリシー**: 個人開発のため必須レビュアー数は 0（GitHub branch protection の `required_pull_request_reviews` は `null`）。
 > 品質保証は CI（`required_status_checks`）/ 線形履歴（`required_linear_history`）/ 会話解決必須化（`required_conversation_resolution`）/ force-push & 削除禁止 で担保する。
 > GitHub 側の branch protection 実値を正本とし、CLAUDE.md は運用参照として扱う。UT-GOV-001 適用時は `gh api repos/{owner}/{repo}/branches/dev/protection` と `gh api repos/{owner}/{repo}/branches/main/protection` を個別に実行し、`grep` で `required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` の drift がないことを確認する。
+> Issue #554 では `audit-correlation-verify / verify` を `dev` / `main` の required status check に追加する。実 `gh api -X PUT`、after JSON、commit、push、PR はユーザー明示承認後のみ実行する。read-only before JSON は事前 evidence として取得可能。
 
 ---
 
@@ -284,6 +285,7 @@ PR作成完了後は、PR URL、採用ブランチ、実行した自動修復、
 - `getEnv()` は zod schema で検証し、parse 失敗時は throw する。throw は `apps/web/src/app/error.tsx`（task-05）の error boundary で補足する設計のため、try/catch で握り潰さない。
 - 非機密 var は `apps/web/wrangler.toml` の `[vars]` / `[env.staging.vars]` / `[env.production.vars]` で管理。機密値は `bash scripts/cf.sh secret put` で Cloudflare Secrets に投入し、`.dev.vars.example` には `op://Vault/Item/Field` 参照のみを記す。
 - `127.0.0.1:8888` などローカル限定エンドポイントの `apps/web/src` 配下への焼き込みは禁止（task-18 regression smoke で grep gate）。
+- `apps/web` の production build は OpenNext Workers 互換のため `next build --webpack` を正本とする。Next.js 16 の Turbopack は local dev 用に限定し、Cloudflare Workers deploy bundle へ `[project]/...` 仮想 module specifier を混入させない。
 
 #### Cloudflare 系 CLI 実行ルール（Claude Code 必読）
 

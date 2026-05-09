@@ -1,0 +1,52 @@
+{
+  "taskId": "issue-560-task-03-followup-002-next-standalone-instrumentation-patch",
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/560",
+  "parentTask": "task-03-w2-par-sentry-workers-sdk-unify",
+  "createdAt": "2026-05-08",
+  "workflowState": "implemented-local",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "implementationMode": "implementation_complete_pending_pr",
+  "scopeBoundary": {
+    "includes": [
+      "scripts/patch-next-standalone-instrumentation.mjs",
+      "scripts/__tests__/patch-next-standalone-instrumentation.test.mjs",
+      "apps/web/open-next.config.ts",
+      ".github/workflows/pr-build-test.yml (build:cloudflare + verify-web-instrumentation-patch step)",
+      "docs/runbooks/next-standalone-instrumentation-patch.md"
+    ],
+    "excludes": [
+      "apps/api/**",
+      "Sentry SDK の構成変更（task-03 責務）",
+      "OpenNext / Next.js 本体への upstream PR",
+      "production deploy"
+    ]
+  },
+  "claudeCodeContext": {
+    "issueRef": "#560",
+    "branch": "feat/issue-560-next-standalone-instrumentation-patch",
+    "prTitle": "feat(web): issue-560 next standalone instrumentation patch pipeline + regression test",
+    "prLabels": [
+      "priority:medium",
+      "type:improvement",
+      "scale:medium",
+      "area:testing"
+    ],
+    "ghPrCreateArgs": "--label priority:medium --label type:improvement --label scale:medium --label area:testing"
+  },
+  "phases": [
+    { "id": 1, "title": "要件定義 / GO 判定", "state": "completed" },
+    { "id": 2, "title": "current state 調査", "state": "completed" },
+    { "id": 3, "title": "設計", "state": "completed" },
+    { "id": 4, "title": "テスト設計", "state": "completed" },
+    { "id": 5, "title": "テスト実装（RED）", "state": "completed" },
+    { "id": 6, "title": "本実装（GREEN）", "state": "completed" },
+    { "id": 7, "title": "RUN BOOK + CI workflow", "state": "completed" },
+    { "id": 8, "title": "リファクタリング", "state": "completed" },
+    { "id": 9, "title": "品質保証", "state": "completed" },
+    { "id": 10, "title": "最終レビュー", "state": "completed" },
+    { "id": 11, "title": "NON_VISUAL evidence", "state": "completed" },
+    { "id": 12, "title": "ドキュメント整備", "state": "completed" },
+    { "id": 13, "title": "PR 作成", "state": "blocked_pending_user_approval" }
+  ]
+}
