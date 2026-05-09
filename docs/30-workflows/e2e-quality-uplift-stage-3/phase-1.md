@@ -20,7 +20,7 @@
 | `dev` `required_pull_request_reviews` | `null`（solo policy 整合） | 同上 |
 | `dev` `enforce_admins.enabled` | `false` | 同上（CLAUDE.md governance では `true` が期待値 — Stage 3c で drift 観測として記録、本 Stage では現状維持し別 workflow で扱う） |
 | `dev` `lock_branch.enabled` | `false` | 同上 |
-| Stage 2 完了状況 | `docs/30-workflows/e2e-quality-uplift-stage-2/` は artifacts と Phase 1-13 を保有 | `ls docs/30-workflows/e2e-quality-uplift-stage-2/` |
+| Stage 2 完了状況 | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` は artifacts と Phase 1-13 を保有 | `ls docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
 
 > **注**: `enforce_admins=false` は CLAUDE.md governance（`enforce_admins=true` 期待）と drift しているが、Stage 3 のスコープ外（既存状態）として扱い、`phase-3.md` GO/NO-GO で blocking 扱いしない。Stage 3c の payload は `enforce_admins` を変更せず、`required_status_checks.contexts` のみ更新する。
 
@@ -232,4 +232,3 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

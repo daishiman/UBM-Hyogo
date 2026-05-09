@@ -5,6 +5,20 @@
 
 ---
 
+### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| parent workflow root | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| sub-task specs | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/` |
+| 2a spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2a-admin-requests.md` |
+| 2a implementation target | `apps/web/playwright/tests/admin-requests.spec.ts` |
+| 状態 | `implemented-local-runtime-pass / implementation / NON_VISUAL` |
+| strict outputs | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/outputs/phase-12/` strict 7 files |
+| evidence boundary | 2a local E2E spec and support code are implemented. Desktop Chromium E2E passed 6/6; coverage 70% / CI gate PASS remains Stage 3-owned |
+| SSR fixture boundary | Server Component initial `/admin/requests` data uses `PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1` + `NODE_ENV !== "production"` because browser `page.route()` cannot intercept SSR `fetchAdmin()` |
+| downstream | `docs/30-workflows/e2e-quality-uplift-stage-3/` |
+
 ### UI prototype alignment / MVP recovery task-05 error boundary and staging smoke（2026-05-09）
 
 | 目的 | 参照先 |

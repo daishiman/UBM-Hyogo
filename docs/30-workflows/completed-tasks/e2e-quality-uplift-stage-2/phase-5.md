@@ -14,9 +14,9 @@
 
 | # | path | 種別 | 状態 | 行数目安 |
 |---|------|------|------|----------|
-| 1 | `apps/web/playwright/e2e/admin-requests.spec.ts` | E2E | 新規 | 180-220 |
-| 2 | `apps/web/playwright/e2e/admin-identity-conflicts.spec.ts` | E2E | 新規 | 200-240 |
-| 3 | `apps/web/playwright/e2e/admin-member-delete.spec.ts` | E2E | 新規 | 180-220 |
+| 1 | `apps/web/playwright/tests/admin-requests.spec.ts` | E2E | 新規 | 180-220 |
+| 2 | `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` | E2E | 新規 | 200-240 |
+| 3 | `apps/web/playwright/tests/admin-member-delete.spec.ts` | E2E | 新規 | 180-220 |
 | 4 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` | Vitest | 新規 | 200-260 |
 | 5 | `apps/api/src/routes/admin/member-delete.ts` | route | **既存・参照のみ** | — |
 
@@ -120,7 +120,7 @@ describe('GET /admin/audit', ...)
 | `memberDeleteResponse` | `{ id, isDeleted:true, deletedAt }` |
 | `auditEntry` | `{ auditId, actorId, action:'admin.member.deleted', targetId, createdAt }` |
 
-> `mergedMemberId` は **使用しない**（Phase 4 §1 Q2 結論）。merge response fixture は `{ targetMemberId, sourceMemberId, mergedAt }`。
+> `mergedMemberId` は **使用しない**（Phase 4 §1 Q2 結論）。merge response fixture は shared `MergeIdentityResponseZ` 準拠の `{ mergedAt, targetMemberId, archivedSourceMemberId, auditId }`。
 
 ---
 
@@ -201,4 +201,3 @@ Stage 2 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

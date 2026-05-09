@@ -4,7 +4,7 @@
 |------|----|
 | 入力 | `phase-6.md` |
 | 出力 | line coverage >= 70% gate の実測検証結果 / Q-03 縮退判定 |
-| 前提 | Stage 2 完了（`docs/30-workflows/e2e-quality-uplift-stage-2/` で coverage 70% 達成済） |
+| 前提 | Stage 2 完了（`docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` の spec package materialized）。coverage 70% の実測は Stage 3 が取得する |
 
 ---
 
@@ -12,11 +12,11 @@
 
 | # | 確認項目 | コマンド | 期待 |
 |---|---------|----------|------|
-| C-01 | Stage 2 phase-7 evidence で line >= 70 を達成 | `cat docs/30-workflows/e2e-quality-uplift-stage-2/outputs/phase-7/coverage-summary.json \| jq '.total.lines.pct'` | `>= 70` |
+| C-01 | Stage 2 spec package exists | `test -f docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/index.md && test -f docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/artifacts.json` | exit 0 |
 | C-02 | Stage 2 で flaky test quarantine 済 | Stage 2 phase-6 / phase-9 の記述 | 記載あり |
 | C-03 | `@critical-route` tag が Stage 2 で付与済 | `grep -r '@critical-route' apps/web/playwright/tests/critical/ \| wc -l` | `>= 1` |
 
-C-01 が NG なら Stage 3 の coverage gate を有効化しない（Stage 2 に差戻し）。
+C-01 が NG なら Stage 3 の coverage gate を有効化しない（Stage 2 に差戻し）。coverage 数値は Stage 3 Phase 11 の `outputs/phase-11/coverage-summary.json` で初めて PASS/FAIL 判定する。
 
 ---
 
@@ -163,4 +163,3 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

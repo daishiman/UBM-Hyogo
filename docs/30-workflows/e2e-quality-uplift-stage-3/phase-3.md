@@ -13,7 +13,7 @@
 |---|------|------|------|
 | C1 | 受入基準が測定可能 | PASS | AC-3a-1..4 / AC-3b-1..6 / AC-3c-1..5 が全て `gh run` / `gh api` / artifact / `jq` で機械検証可能 |
 | C2 | 不変条件と矛盾しない | PASS | `required_pull_request_reviews=null` / `lock_branch=false` を payload で明示維持。standard tier=70% を quality-gates.md から踏襲。`wrangler` 直叩きなし |
-| C3 | 依存タスクが解決済み or ブロッキングが明示 | CONDITIONAL | Stage 2（`docs/30-workflows/e2e-quality-uplift-stage-2/`）は artifacts と Phase 1-13 を保有し、Stage 3 着手条件を満たす |
+| C3 | 依存タスクが解決済み or ブロッキングが明示 | CONDITIONAL | Stage 2（`docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/`）は artifacts と Phase 1-13 を保有し、Stage 3 着手条件を満たす |
 | C4 | リスクと緩和策が一対 | PASS | phase-2.md §5 で 7 リスク全てに対し具体的緩和策を 1 対 1 紐付け |
 
 ---
@@ -22,7 +22,7 @@
 
 | ID | 内容 | 解消条件 |
 |----|------|----------|
-| BLK-01 | Stage 2 dependency verified | `docs/30-workflows/e2e-quality-uplift-stage-2/index.md` と artifacts.json が存在し、runtime E2E は Stage 3 の user-gated evidence として分離 |
+| BLK-01 | Stage 2 dependency verified | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/index.md` と artifacts.json が存在し、runtime E2E は Stage 3 の user-gated evidence として分離 |
 | BLK-02 | `monocart-reporter` / `c8` / `@lhci/cli` が `apps/web/package.json` に未追加 | Phase 5 実装内で `pnpm add -D` を実行し lockfile に反映 |
 | BLK-03 | Stage 3a / 3b の context 名が GitHub に未登録のまま 3c を実行すると PR 永久 pending | 3a / 3b を dev へマージし、それぞれ実 run を 1 回観測してから 3c を実行する順序を厳守 |
 
@@ -136,4 +136,3 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

@@ -153,10 +153,10 @@
 
 | 種別 | path | 状態 |
 |------|------|------|
-| spec doc | `docs/30-workflows/e2e-quality-uplift-stage-2/index.md` | 本 Stage で作成 |
-| spec doc | `docs/30-workflows/e2e-quality-uplift-stage-2/phase-1.md` | 本ファイル |
-| spec doc | `docs/30-workflows/e2e-quality-uplift-stage-2/phase-2.md` | 本 Stage で作成 |
-| spec doc | `docs/30-workflows/e2e-quality-uplift-stage-2/phase-3.md` | 本 Stage で作成 |
+| spec doc | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/index.md` | 本 Stage で作成 |
+| spec doc | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/phase-1.md` | 本ファイル |
+| spec doc | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/phase-2.md` | 本 Stage で作成 |
+| spec doc | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/phase-3.md` | 本 Stage で作成 |
 | (実装範囲外) | `apps/web/playwright/tests/admin-requests.spec.ts` | 後続タスクで実装 |
 | (実装範囲外) | `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` | 後続タスクで実装 |
 | (実装範囲外) | `apps/web/playwright/tests/admin-member-delete.spec.ts` | 後続タスクで実装 |
@@ -216,4 +216,3 @@ Stage 2 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

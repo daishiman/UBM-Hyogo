@@ -1,11 +1,17 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const EVIDENCE_DIR =
-  process.argv.some((arg) => arg.includes('staging-smoke'))
-    ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
-    : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+  process.env.ADMIN_REQUESTS_EVIDENCE === '1' ||
+  process.argv.some((arg) => arg.includes('admin-requests.spec.ts'))
+    ? '../../docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-11'
+    : process.argv.some((arg) => arg.includes('staging-smoke'))
+      ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+      : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
 
 const shouldStartLocalServer = !process.argv.some((arg) => arg.includes('staging-smoke'))
+const isAdminRequestsRun = process.argv.some((arg) => arg.includes('admin-requests.spec.ts'))
+const localEnv =
+  'ENVIRONMENT=local NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 PUBLIC_API_BASE_URL=http://127.0.0.1:8787 INTERNAL_API_BASE_URL=http://127.0.0.1:8787 AUTH_URL=http://127.0.0.1:3000 SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=1'
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -67,7 +73,10 @@ export default defineConfig({
     ? {
         webServer: [
           {
-            command: 'pnpm --filter @ubm-hyogo/web dev',
+            command:
+              isAdminRequestsRun
+                ? `${localEnv} AUTH_SECRET=playwright-auth-secret-playwright-auth-secret PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+                : 'pnpm --filter @ubm-hyogo/web dev',
             url: 'http://localhost:3000',
             reuseExistingServer: !process.env.CI,
             timeout: 120_000,
