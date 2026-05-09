@@ -2940,6 +2940,17 @@ node scripts/list-specs.js --topics
 | Evidence | L29 |
 | Lessons Learned | L33 |
 
+### references/workflow-task-13-login-rebuild-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Runtime Boundary | L14 |
+| Contract Highlights | L20 |
+| Upstream And Downstream | L31 |
+| Evidence | L39 |
+| Lessons Learned | L43 |
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -6164,13 +6175,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L847 |
-| フェーズ構造（概要） | L856 |
-| 品質ゲート（概要） | L887 |
-| 出力テンプレート | L898 |
-| 実行時のコマンド・エージェント・スキル | L921 |
-| 昇格パターン集 | L945 |
-| Current Active / Spec Created Tasks | L947 |
+| ドキュメント構成 | L848 |
+| フェーズ構造（概要） | L857 |
+| 品質ゲート（概要） | L888 |
+| 出力テンプレート | L899 |
+| 実行時のコマンド・エージェント・スキル | L922 |
+| 昇格パターン集 | L946 |
+| Current Active / Spec Created Tasks | L948 |
 
 ### references/task-workflow-backlog-part2.md
 

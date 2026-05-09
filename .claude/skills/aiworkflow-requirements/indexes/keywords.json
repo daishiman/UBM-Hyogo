@@ -3111,6 +3111,7 @@
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -4254,6 +4255,7 @@
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
@@ -4454,6 +4456,7 @@
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
@@ -4800,6 +4803,7 @@
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -5702,6 +5706,7 @@
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
@@ -5736,6 +5741,7 @@
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
@@ -5910,6 +5916,7 @@
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
     "ベクトル検索実装": [
@@ -8961,6 +8968,7 @@
       "release-runbook.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
     "fetchPublic": [
@@ -10441,6 +10449,7 @@
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
@@ -10601,6 +10610,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
     ],
     "boundaries": [
@@ -12695,7 +12705,8 @@
     "rebuild": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
-      "skill-ledger-gitignore-policy.md"
+      "skill-ledger-gitignore-policy.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md"
     ],
     "Pagination": [
       "lessons-learned-issue-372-attendance-pagination-2026-05.md"
@@ -13860,6 +13871,7 @@
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
@@ -13947,7 +13959,8 @@
     "Upstream": [
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
-      "workflow-task-12-member-detail-register-legal-artifact-inventory.md"
+      "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md"
     ],
     "Workaround": [
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
@@ -20288,6 +20301,7 @@
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
@@ -20387,6 +20401,7 @@
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -20699,6 +20714,7 @@
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
@@ -21168,7 +21184,14 @@
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
     ],
     "And": [
-      "workflow-task-12-member-detail-register-legal-artifact-inventory.md"
+      "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
+      "workflow-task-13-login-rebuild-artifact-inventory.md"
+    ],
+    "login": [
+      "workflow-task-13-login-rebuild-artifact-inventory.md"
+    ],
+    "Highlights": [
+      "workflow-task-13-login-rebuild-artifact-inventory.md"
     ],
     "主要成果物": [
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
