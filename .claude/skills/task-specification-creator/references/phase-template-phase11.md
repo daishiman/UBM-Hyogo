@@ -67,6 +67,8 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 
 #### Phase 12 compliance との連動
 
+状態語彙の定義は [workflow-state-vocabulary.md](workflow-state-vocabulary.md) を、Phase 12 compliance-check の観点は [phase12-compliance-check-template.md](phase12-compliance-check-template.md) を参照する。
+
 `outputs/phase-12/phase12-task-spec-compliance-check.md` では
 `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を `PASS` と書き換えず、
 runtime pending 内訳を G1-G4 単位で表記する。runtime evidence が後続タスクで取得される場合は、
