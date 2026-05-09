@@ -2,6 +2,7 @@
 
 import type { AnchorHTMLAttributes, HTMLAttributes, ReactNode } from "react";
 import { cn } from "../../lib/cn";
+import { isBrowser } from "../../lib/is-browser";
 
 export interface SidebarProps extends HTMLAttributes<HTMLElement> {
   label?: string;
@@ -23,7 +24,8 @@ export interface SidebarSectionProps {
 }
 
 function isActiveHref(href: string, matchPrefix?: string): boolean {
-  if (typeof window === "undefined") return false;
+  if (!isBrowser()) return false;
+  // eslint-disable-next-line no-restricted-globals -- isBrowser() guard above ensures window is defined
   const pathname = window.location.pathname;
   return matchPrefix ? pathname.startsWith(matchPrefix) : pathname === href;
 }
