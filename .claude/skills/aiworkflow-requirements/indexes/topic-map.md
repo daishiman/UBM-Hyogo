@@ -2249,6 +2249,16 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Classification | L7 |
+| Primary Repo Changes | L11 |
+| Consumed / Superseded Trace | L21 |
+| Runtime Boundary | L29 |
+
 ### references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md
 
 | セクション | 行 |
