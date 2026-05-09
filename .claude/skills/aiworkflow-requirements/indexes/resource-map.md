@@ -987,3 +987,12 @@ node scripts/search-spec.js "safeInvoke"
 | 2026-01-26 | 1.2.0      | 未登録ファイル18件追加: arch-6件、rag-6件、api-ipc-3件、ui-ux-3件                                                                                                                                                                                                                                                                                                          |
 | 2026-01-26 | 1.1.0      | 分割ファイル追加: llm-4件、rag-search-5件、ui-history-4件、security-3件                                                                                                                                                                                                                                                                                                    |
 | 2026-01-26 | 1.0.0      | 初版作成（topic-map.mdから派生）                                                                                                                                                                                                                                                                                                                                           |
+
+### E2E Quality Uplift Stage 3 / Hard CI Gate Specs（2026-05-09）
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/` | Stage 3 umbrella archive. Lighthouse CI、E2E coverage hard gate、branch protection contexts の親仕様 | Stage 3 全体のAC、依存、親子境界を確認する時 |
+| `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/` | `lighthouse-ci` context を登録する Lighthouse CI implementation spec | Lighthouse CI workflow、`lighthouserc.json`、Q-02 `/profile` 縮退判定を確認する時 |
+| `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` | `e2e-tests-coverage-gate` context を登録する E2E hard gate implementation spec | `.github/workflows/e2e-tests.yml`、Monocart reporter、line coverage 70% gate を確認する時 |
+| `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/` | dev/main branch protection required contexts を5件へ拡張する approval-gated implementation spec | `gh api -X PUT` payload、fresh GET evidence、solo policy drift guard を確認する時 |
