@@ -237,6 +237,8 @@ Example: UT-07B-FU-04 reclassified `0008_schema_alias_hardening.sql` from produc
 
 ## Applied Examples
 
+> 状態語彙の定義は [workflow-state-vocabulary.md](workflow-state-vocabulary.md) を、compliance-check 観点は [phase12-compliance-check-template.md](phase12-compliance-check-template.md) を参照する。
+
 | Task | Routing decision | Evidence |
 | --- | --- | --- |
 | 09a staging smoke / Forms sync validation | placeholder evidence boundary と artifacts parity は task-specification-creator、domain lesson は aiworkflow-requirements、skill update process は skill-creator へ昇格 | `references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md` |
