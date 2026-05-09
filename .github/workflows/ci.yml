@@ -22,6 +22,15 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+
       - name: Bash syntax for observation reminder
         run: bash -n scripts/observation/create-reminder-issue.sh
 
