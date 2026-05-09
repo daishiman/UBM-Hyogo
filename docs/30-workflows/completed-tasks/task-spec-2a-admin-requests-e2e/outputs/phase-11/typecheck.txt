@@ -1,0 +1,4 @@
+Command: mise exec -- pnpm --filter @ubm-hyogo/web typecheck
+Result: PASS
+
+tsc -p tsconfig.json --noEmit exited 0.

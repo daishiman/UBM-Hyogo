@@ -5,12 +5,18 @@ afterEach(() => cleanup());
 import { Chip } from "../Chip";
 import { Avatar } from "../Avatar";
 import { Button } from "../Button";
+import { Card } from "../Card";
+import { Badge } from "../Badge";
 import { Switch } from "../Switch";
 import { Segmented } from "../Segmented";
 import { Field } from "../Field";
 import { Input } from "../Input";
 import { Textarea } from "../Textarea";
 import { Select } from "../Select";
+import { Sidebar } from "../Sidebar";
+import { Stat } from "../Stat";
+import { EmptyState } from "../EmptyState";
+import { Banner } from "../Banner";
 import { Search } from "../Search";
 import { Drawer } from "../Drawer";
 import { Modal } from "../Modal";
@@ -42,6 +48,20 @@ describe("Button", () => {
   it("has aria-busy when loading", () => {
     render(<Button loading>Click</Button>);
     expect(screen.getByRole("button").getAttribute("aria-busy")).toBe("true");
+  });
+});
+
+describe("Card", () => {
+  it("renders className on the root", () => {
+    render(<Card aria-label="summary">content</Card>);
+    expect(screen.getByLabelText("summary").className).toContain("ui-card");
+  });
+});
+
+describe("Badge", () => {
+  it("exposes tone as data attribute", () => {
+    render(<Badge tone="success">公開中</Badge>);
+    expect(screen.getByText("公開中").getAttribute("data-tone")).toBe("success");
   });
 });
 
@@ -88,6 +108,40 @@ describe("Textarea", () => {
 describe("Select", () => {
   it("renders without throwing", () => {
     render(<Select options={[{ value: "a", label: "A" }]} />);
+  });
+});
+
+describe("Sidebar", () => {
+  it("renders complementary navigation with label", () => {
+    render(<Sidebar label="管理メニュー">Menu</Sidebar>);
+    expect(screen.getByRole("complementary", { name: "管理メニュー" })).toBeTruthy();
+  });
+});
+
+describe("Stat", () => {
+  it("renders label and value", () => {
+    render(<Stat label="総会員数" value="42" />);
+    expect(screen.getByText("総会員数")).toBeTruthy();
+    expect(screen.getByText("42")).toBeTruthy();
+  });
+});
+
+describe("EmptyState", () => {
+  it("renders title, description, and action", () => {
+    render(<EmptyState title="未登録" description="表示できる項目がありません" action={<button>追加</button>} />);
+    expect(screen.getByRole("heading", { name: "未登録" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "追加" })).toBeTruthy();
+  });
+});
+
+describe("Banner", () => {
+  it("uses status role and tone", () => {
+    render(<Banner tone="info">確認してください</Banner>);
+    expect(screen.getByRole("status").getAttribute("data-tone")).toBe("info");
+  });
+  it("uses alert role for warning and danger", () => {
+    render(<Banner tone="warning">確認してください</Banner>);
+    expect(screen.getByRole("alert")).toBeTruthy();
   });
 });
 

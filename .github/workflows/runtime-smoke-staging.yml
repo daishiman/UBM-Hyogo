@@ -1,0 +1,74 @@
+# 目的: API staging deploy 完了後に attendanceProvider runtime smoke を自動実行
+# trigger: backend-ci.yml から workflow_call / workflow_dispatch (debug)
+# 実装仕様: docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/phase-05.md
+name: runtime-smoke-staging
+
+on:
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "manual run reason"
+        required: false
+        default: "ad-hoc smoke"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: runtime-smoke-staging
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    environment: staging-runtime-smoke
+    timeout-minutes: 10
+    env:
+      STAGING_API_BASE: ${{ secrets.STAGING_API_BASE }}
+      STAGING_ADMIN_BEARER: ${{ secrets.STAGING_ADMIN_BEARER }}
+      STAGING_MEMBER_ID: ${{ secrets.STAGING_MEMBER_ID }}
+      STAGING_ME_BEARER: ${{ secrets.STAGING_ME_BEARER }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: mask staging credentials
+        run: |
+          echo "::add-mask::$STAGING_ADMIN_BEARER"
+          echo "::add-mask::$STAGING_ME_BEARER"
+          echo "::add-mask::$STAGING_API_BASE"
+          echo "::add-mask::$STAGING_MEMBER_ID"
+
+      - name: run runtime smoke
+        run: |
+          mkdir -p ci-evidence
+          bash scripts/smoke/runtime-attendance-provider.sh staging --out-dir ci-evidence --ci-summary
+
+      - name: redaction grep gate
+        if: always()
+        run: |
+          leak_files="$(grep -rEl 'Cookie:|authorization:|Bearer [A-Za-z0-9_-]{20,}|hooks\.slack\.com/services/[A-Z0-9]|sentry\.io/[0-9]+/[0-9]+|xox[bp]-' ci-evidence/ || true)"
+          if [ -n "$leak_files" ]; then
+            echo "::error::redaction grep gate failed; leaking content is suppressed"
+            printf '%s\n' "$leak_files" | sed 's#^#leak-candidate-file=#'
+            exit 1
+          fi
+
+      - name: upload evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-smoke-staging-${{ github.run_id }}
+          path: ci-evidence/
+          retention-days: 30
+
+      - name: post failure summary to Slack
+        if: ${{ failure() && hashFiles('ci-evidence/summary.json') != '' }}
+        env:
+          SLACK_WEBHOOK_INCIDENT: ${{ secrets.SLACK_WEBHOOK_INCIDENT }}
+        run: |
+          if [ -z "${SLACK_WEBHOOK_INCIDENT:-}" ]; then
+            echo "::error::SLACK_WEBHOOK_INCIDENT is required for failure notification"
+            exit 1
+          fi
+          bash scripts/smoke/ci-summary-post.sh ci-evidence

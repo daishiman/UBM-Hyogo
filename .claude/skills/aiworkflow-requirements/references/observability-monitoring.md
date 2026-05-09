@@ -224,6 +224,24 @@ Issue #515 は Issue #408 の threshold 監視を直ちに ML 本番切替する
 | storage extension | `apps/api/migrations/0016_cf_audit_log_classification.sql`。`classifier_used` / `classifier_version` / `confidence` |
 | rollback | forward-safe。D1 追加列は残し、`CF_AUDIT_CLASSIFIER=threshold` へ戻す |
 
+## 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08）
+
+Issue #571 implements the staging-only GitHub Actions integration for the attendanceProvider runtime smoke established by Issue #531. Current workflow state is `implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`; GitHub Environment mutation, staging smoke execution, Slack real post, commit, push, and PR remain user-gated.
+
+| Item | Contract |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/` |
+| parent | `docs/30-workflows/completed-tasks/issue-531-runtime-smoke-attendance-provider-migration/` |
+| workflow | `.github/workflows/runtime-smoke-staging.yml` |
+| trigger | reusable `workflow_call` from `backend-ci.yml` after API staging deploy; `workflow_dispatch` for debug |
+| runtime command | `bash scripts/smoke/runtime-attendance-provider.sh staging --out-dir ci-evidence --ci-summary` |
+| artifact | summary-only, 30-day retention, no raw body / cookie / bearer |
+| incident post | failure-only Slack post via required `SLACK_WEBHOOK_INCIDENT`; success posts 0 messages |
+| required status check | optional in first cycle; evaluate after 30 consecutive days of staging PASS and false-positive rate < 2% |
+| production extension | do not create or execute now; revisit after 30-day staging observation |
+
+Redaction contract: workflow logs and artifacts must not contain Cookie, Authorization, Bearer values, Slack webhook URLs, Sentry DSN URLs, or Slack bot tokens. Evidence may store secret names, run IDs, artifact names, status codes, redacted summary fields, and short non-secret identifiers.
+
 Gate decision:
 
 | 判定状態 | 条件 | 次アクション |

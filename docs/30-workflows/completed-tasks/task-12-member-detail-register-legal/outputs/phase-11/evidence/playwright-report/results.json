@@ -1,0 +1,419 @@
+{
+  "config": {
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-webkit",
+        "name": "mobile-webkit",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging",
+        "name": "staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging-smoke",
+        "name": "staging-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/staging-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence/playwright-report/html",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence/playwright-report/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "public-detail-register-legal.spec.ts",
+      "file": "public-detail-register-legal.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "public detail / register / legal",
+          "file": "public-detail-register-legal.spec.ts",
+          "line": 39,
+          "column": 6,
+          "specs": [
+            {
+              "title": "/members/[id] renders profile hero and sections",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 15306,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-component=\"profile-hero\"]')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-component=\"profile-hero\"]')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-component=\"profile-hero\"]')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-component=\"profile-hero\"]')\u001b[22m\n\n    at /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts:44:67",
+                        "location": {
+                          "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts",
+                          "column": 67,
+                          "line": 44
+                        },
+                        "snippet": "  42 |     expect(res?.status()).toBe(200);\n  43 |     await expect(page.getByRole(\"heading\", { level: 1 })).toBeVisible();\n> 44 |     await expect(page.locator('[data-component=\"profile-hero\"]')).toBeVisible();\n     |                                                                   ^\n  45 |     await expect(page.locator(\"[data-section]\").first()).toBeVisible();\n  46 |     await expect(page.locator(\"[data-stable-key]\").first()).toBeVisible();\n  47 |     await captureEvidence(page, \"member-detail\");"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts",
+                            "column": 67,
+                            "line": 44
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-component=\"profile-hero\"]')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-component=\"profile-hero\"]')\u001b[22m\n\n\n  42 |     expect(res?.status()).toBe(200);\n  43 |     await expect(page.getByRole(\"heading\", { level: 1 })).toBeVisible();\n> 44 |     await expect(page.locator('[data-component=\"profile-hero\"]')).toBeVisible();\n     |                                                                   ^\n  45 |     await expect(page.locator(\"[data-section]\").first()).toBeVisible();\n  46 |     await expect(page.locator(\"[data-stable-key]\").first()).toBeVisible();\n  47 |     await captureEvidence(page, \"member-detail\");\n    at /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts:44:67"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-09T10:26:11.692Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results/public-detail-register-leg-47393-s-profile-hero-and-sections-desktop-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results/public-detail-register-leg-47393-s-profile-hero-and-sections-desktop-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results/public-detail-register-leg-47393-s-profile-hero-and-sections-desktop-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results/public-detail-register-leg-47393-s-profile-hero-and-sections-desktop-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts",
+                        "column": 67,
+                        "line": 44
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f21b40ce322b63b8a6a7-9613a3e3e4ccff94771e",
+              "file": "public-detail-register-legal.spec.ts",
+              "line": 40,
+              "column": 3
+            },
+            {
+              "title": "/members/non-existent triggers notFound",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 936,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m200\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n    at /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts:52:27",
+                        "location": {
+                          "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts",
+                          "column": 27,
+                          "line": 52
+                        },
+                        "snippet": "  50 |   test(\"/members/non-existent triggers notFound\", async ({ page }) => {\n  51 |     const res = await page.goto(\"/members/__definitely_not_exist__\");\n> 52 |     expect(res?.status()).toBe(404);\n     |                           ^\n  53 |     await captureEvidence(page, \"not-found\");\n  54 |   });\n  55 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts",
+                            "column": 27,
+                            "line": 52
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m404\u001b[39m\nReceived: \u001b[31m200\u001b[39m\n\n  50 |   test(\"/members/non-existent triggers notFound\", async ({ page }) => {\n  51 |     const res = await page.goto(\"/members/__definitely_not_exist__\");\n> 52 |     expect(res?.status()).toBe(404);\n     |                           ^\n  53 |     await captureEvidence(page, \"not-found\");\n  54 |   });\n  55 |\n    at /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts:52:27"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-09T10:26:28.997Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results/public-detail-register-leg-6968d--existent-triggers-notFound-desktop-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results/public-detail-register-leg-6968d--existent-triggers-notFound-desktop-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results/public-detail-register-leg-6968d--existent-triggers-notFound-desktop-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results/public-detail-register-leg-6968d--existent-triggers-notFound-desktop-chromium/trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-173158-wt-13/apps/web/playwright/tests/public-detail-register-legal.spec.ts",
+                        "column": 27,
+                        "line": 52
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "f21b40ce322b63b8a6a7-8b9eb8ef61b7d73eb044",
+              "file": "public-detail-register-legal.spec.ts",
+              "line": 50,
+              "column": 3
+            },
+            {
+              "title": "/register exposes external CTA with responderUrl",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2733,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-09T10:26:31.466Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f21b40ce322b63b8a6a7-188194358c7cece78f22",
+              "file": "public-detail-register-legal.spec.ts",
+              "line": 56,
+              "column": 3
+            },
+            {
+              "title": "/privacy renders LegalProse",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2222,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-09T10:26:34.390Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f21b40ce322b63b8a6a7-8a84c4f3453ede24467f",
+              "file": "public-detail-register-legal.spec.ts",
+              "line": 69,
+              "column": 3
+            },
+            {
+              "title": "/terms renders LegalProse",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2059,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-09T10:26:36.628Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "f21b40ce322b63b8a6a7-e8bd6eafaf96d1f66d60",
+              "file": "public-detail-register-legal.spec.ts",
+              "line": 79,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-09T10:25:56.300Z",
+    "duration": 42621.530000000006,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
