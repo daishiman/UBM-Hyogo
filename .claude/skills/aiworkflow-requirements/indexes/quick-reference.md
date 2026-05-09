@@ -122,6 +122,24 @@
 | archive hygiene | 5 dir は `docs/30-workflows/completed-tasks/` へ archive。純削除 blocker は解消済み |
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
+### UI prototype alignment / MVP recovery task-10 UI primitives（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
+| 状態 | `implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration` |
+| current baseline | `apps/web/src/components/ui/index.ts` の PascalCase barrel export |
+| 方針 | Wave 0 の 15 primitive を削除せず、task-10 の 11 primitive contract を統合 |
+| 既存拡張 | `Button / Avatar / Field / Input / Select` |
+| 新規追加 | `Card / Badge / Sidebar / Stat / EmptyState / Banner` |
+| 維持 | `Chip / Switch / Segmented / Textarea / Search / Drawer / Modal / Toast / KVList / LinkPills` |
+| local evidence | typecheck / lint / focused test / coverage / next build PASS |
+| blocker | `build:cloudflare` は OpenNext esbuild host `0.25.4` / binary `0.21.5` mismatch で pending |
+| downstream | task-11..17 は `@/components/ui` から import |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`。runtime screenshot / axe は build blocker 解消後に取得 |
+| 苦戦箇所 | `lessons-learned/lessons-learned-task-10-ui-primitives-2026-05.md`（L-T10-001 OpenNext esbuild mismatch / L-T10-002 C/M/R + barrel owner / L-T10-003 VISUAL_ON_EXECUTION local↔runtime 分離 / L-T10-004 lint.log capture header） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260509-task-10-ui-primitives-implemented-local.md` |
+
 ### task-21 09g Admin Screen Blueprints（2026-05-07）
 
 | 目的 | 参照先 |

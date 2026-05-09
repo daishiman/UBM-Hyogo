@@ -1220,6 +1220,7 @@
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "logs-archive-2026-03-auth-mode-migration-sync.md",
       "observability-monitoring.md",
+      "ui-ux-components.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
@@ -3793,6 +3794,7 @@
     "integration": [
       "architecture-file-conversion.md",
       "task-workflow-completed-skill-create-ui-integration.md",
+      "ui-ux-components.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "実装済みコンバーター": [
@@ -10358,6 +10360,7 @@
       "task-workflow-backlog.md",
       "task-workflow-completed-recent-2026-04b.md",
       "task-workflow-completed.md",
+      "ui-ux-components.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",

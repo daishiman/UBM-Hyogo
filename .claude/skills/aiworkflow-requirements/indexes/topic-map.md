@@ -1226,6 +1226,7 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
+| task-10 UI primitives integration contract（2026-05-09） | L32 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -6109,13 +6110,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L789 |
-| フェーズ構造（概要） | L798 |
-| 品質ゲート（概要） | L829 |
-| 出力テンプレート | L840 |
-| 実行時のコマンド・エージェント・スキル | L863 |
-| 昇格パターン集 | L887 |
-| Current Active / Spec Created Tasks | L889 |
+| ドキュメント構成 | L790 |
+| フェーズ構造（概要） | L799 |
+| 品質ゲート（概要） | L830 |
+| 出力テンプレート | L841 |
+| 実行時のコマンド・エージェント・スキル | L864 |
+| 昇格パターン集 | L888 |
+| Current Active / Spec Created Tasks | L890 |
 
 ### references/task-workflow-backlog-part2.md
 
