@@ -20,10 +20,40 @@ export interface AdminFetchOptions {
   readonly body?: unknown;
 }
 
+const adminRequestsFixture = () => ({
+  ok: true,
+  items: ["alpha", "beta", "gamma"].map((suffix, index) => ({
+    noteId: `req_${String(index + 1).padStart(3, "0")}`,
+    memberId: `mem_${suffix}`,
+    noteType: "visibility_request",
+    requestStatus: "pending",
+    requestedAt: "2026-05-01T00:00:00.000Z",
+    requestedReason: null,
+    requestedPayload: { desiredState: "public" },
+    memberSummary: {
+      memberId: `mem_${suffix}`,
+      publicHandle: suffix,
+      publishState: "private",
+      isDeleted: false,
+    },
+  })),
+  nextCursor: null,
+  appliedFilters: { status: "pending", type: "visibility_request" },
+});
+
 export async function fetchAdmin<T>(
   path: string,
   opts: AdminFetchOptions = {},
 ): Promise<T> {
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/requests")
+  ) {
+    return adminRequestsFixture() as T;
+  }
+
   const url = `${resolveApiBase()}${path}`;
   const headers: Record<string, string> = {
     "x-internal-auth": resolveInternalSecret(),

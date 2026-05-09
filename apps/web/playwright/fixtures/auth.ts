@@ -1,4 +1,3 @@
-// TODO(08b): 実装は Phase 11 manual smoke で活性化
 import { test as base, expect, type Page, type BrowserContext } from '@playwright/test'
 import { signSessionJwt, type MemberId } from '@ubm-hyogo/shared'
 import { createServer, type Server, type ServerResponse } from 'node:http'
