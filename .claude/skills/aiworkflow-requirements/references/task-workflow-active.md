@@ -21,6 +21,38 @@
 | inventory | `references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md` |
 | lessons | `references/lessons-learned-web-app-route-bundle-parse-fix-2026-05.md` |
 
+
+### Issue #555 audit correlation salt rotation（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / runtime evidence blocked_upstream_pending |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-555-audit-correlation-salt-rotation-automation/` |
+| parent | Issue #516 audit correlation |
+| source | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-04-FU-03-salt-rotation-automation.md` |
+| 目的 | `AUDIT_CORRELATION_SALT` の 4-mode rotation と `fingerprintVersion=2` bridge を local 実装する |
+| type contract | 既存 `NormalizedAuditEvent` / `CorrelationKey` を拡張。並行 `FingerprintRecord` モデルは作らない |
+| secret SSOT | `references/deployment-secrets-management.md`。`references/secrets-management.md` は新設しない |
+| runtime gate | FU-01 live wiring 完了後に staging evidence を取得。production rotation / commit / push / PR は user approval 後。production mutating script mode requires `--confirm-production` |
+| compliance | `docs/30-workflows/completed-tasks/issue-555-audit-correlation-salt-rotation-automation/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| inventory | `references/workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md` |
+| phase-12 logs | `outputs/phase-12/indexes-rebuild.log`, `outputs/phase-12/issue-555-state.log` |
+
+### Issue #553 Live audit-correlation endpoint（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-553-live-audit-correlation-endpoint/` |
+| 親 | Issue #516 GitHub audit log cross-source correlation |
+| 目的 | FU-01 live wiring: Cloudflare Worker route + cron + D1 redact-safe persistence + HIGH Slack incoming webhook notification をローカル実装し、runtime operation を user gate に分離 |
+| 実装対象 | `apps/api/src/routes/audit-correlation/`, `apps/api/src/audit-correlation/{scheduled,run-correlation,persist,notify-slack,runbook-url}.ts`, `apps/api/wrangler.toml`, `apps/api/migrations/*audit_correlation_findings.sql`, `scripts/audit-correlation/`, `.github/workflows/audit-correlation-verify.yml`, `docs/runbooks/audit-correlation.md` |
+| evidence boundary | Phase 11 は local evidence / staging runtime evidence path を分離。Cloudflare deploy / D1 apply / secrets / production PASS は user approval 後に取得 |
+| approval boundary | Cloudflare deploy / D1 apply / secret injection / commit / push / PR は G1-G4 user approval 後のみ |
+| SSOT | `references/audit-correlation.md` §Issue #553 Live Wiring Formalization / §Live wiring (Issue #553) implementation landing / §Additional implementation surface / §Cloudflare Secrets (5 種) op-reference rule / §Salt rotation procedure / §Lessons learned (Issue #553 wave) |
+| 苦戦記録 | L-AC553-001..007（scheduled retry 不可 / Slack per-finding 部分成功 / INSERT OR IGNORE dedup / fixture vs grep gate 整合 / runbook-url SSOT / env validate throw / redact 3 層） |
+
 ### Issue #549 Cloudflare Audit Logs ML production switch（2026-05-08）
 
 | 項目 | 値 |
@@ -193,6 +225,21 @@
 | lessons | `references/lessons-learned-task-08-w2-design-tokens-doc-2026-05.md`（L-T08W2-001..004）|
 | inventory | `references/workflow-task-08-w2-design-tokens-doc-artifact-inventory.md` |
 
+### Task 09 W3 Tailwind v4 setup（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / VISUAL_ON_EXECUTION / local PASS 5-point evidence captured / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/` |
+| upstream | task-08 `docs/00-getting-started-manual/specs/09b-design-tokens.md` |
+| 目的 | `apps/web` に Tailwind v4 CSS-first build pipeline を確立し、09b の `--ubm-*` token を `tokens.css` と `globals.css @theme inline` で utility 化する |
+| 境界 | task-09 は単一 PR。task-10 primitives は別 PR で、task-09 完了後のみ着手 |
+| 検証 | Phase 9 local 5点、Phase 11 `preview:cloudflare` 200、generated CSS `.bg-accent` + `var(--ubm-color-accent)`、HEX grep 0、apps/api diff 0 |
+| 状態境界 | 現 wave で実コード実装と local PASS 証跡を取得済み。commit・push・PR は未実行 |
+| Phase 11 evidence | `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/outputs/phase-11/evidence/typecheck.log`、`outputs/phase-11/evidence/tokens-test.log`、`outputs/phase-11/evidence/build-output-test.log`、`outputs/phase-11/evidence/preview-200.log`、`outputs/phase-11/evidence/hex-grep-zero.log` |
+| lessons | `references/lessons-learned-task-09-w3-tailwind-v4-setup-2026-05.md`（L-T09W3-001..003） |
+| inventory | `references/workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md` |
+
 ### UI prototype mapping table task-07（2026-05-07）
 
 | 項目 | 値 |
@@ -222,7 +269,7 @@
 
 ### UI prototype alignment task-03 Sentry Workers SDK unify（2026-05-07）
 | ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
-| 成果物 | `docs/30-workflows/task-03-w2-par-sentry-workers-sdk-unify/` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-03-w2-par-sentry-workers-sdk-unify/` |
 | parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W2 runtime task |
 | 契約 | Workers / Node SSR / Edge は `@sentry/cloudflare`、Browser は `@sentry/nextjs` に entry を分離し、`@sentry/nextjs` / browser SDK token の Workers bundle 混入を grep gate で禁止 |
 | secret境界 | web server DSN は Cloudflare Secret `SENTRY_DSN_WEB`、1Password 正本は `op://UBM-Hyogo/Sentry Web DSN (<env>)/dsn`。Browser DSN は `[vars]` `NEXT_PUBLIC_SENTRY_DSN` |
@@ -230,6 +277,18 @@
 | evidence境界 | Phase 11 は local typecheck / tests / build / OpenNext worker grep を取得済みの `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。staging deploy、Sentry dashboard event は user approval 後 |
 | 下流 | task-04 logger、task-05 error boundary / staging smoke |
 | 検証 | `pnpm --filter @ubm-hyogo/web exec tsc --noEmit` PASS、web Vitest 51 files / 420 tests PASS、`pnpm --filter @ubm-hyogo/web build:cloudflare` PASS、worker grep 0 hits、Phase 12 strict 7 outputs、Phase 11 outputs、Phase 13 approval-boundary outputs を同 wave で配置 |
+### Issue #559 task-03 follow-up 001 Sentry staging runtime evidence（2026-05-08）
+| ステータス | spec_created / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/issue-559-task-03-followup-001-sentry-staging-runtime-evidence/` |
+| parent canonical | `docs/30-workflows/completed-tasks/task-03-w2-par-sentry-workers-sdk-unify/` |
+| parent source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/02-runtime/task-03-w2-par-sentry-workers-sdk-unify.md` |
+| 目的 | parent task-03 の local Sentry SDK split を staging runtime で検証し、G0〜G5 完了後だけ `PASS_BOUNDARY_SYNCED_RUNTIME_VERIFIED` へ昇格する |
+| local evidence | G0 post-rebase preflight PASS、web typecheck / lint / 445 tests / Next build / OpenNext build PASS、`apps/web/.open-next/worker.js` grep gate 0 hits、DSN leak scan real leak 0 |
+| runtime pending | G1 secret put、G2 staging deploy、G3 curl + Sentry server/browser event、G5 parent state promotion は未実行 |
+| blocker | 1Password `UBM-Hyogo` vault / `Sentry Web DSN (staging|production)` item 未 provisioning |
+| follow-up | `docs/30-workflows/unassigned-task/task-issue-559-sentry-project-1password-dsn-provisioning-001.md` |
+| inventory | `references/workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md` |
+| 境界 | Cloudflare secret put / deploy / Sentry dashboard observation / commit / push / PR は user approval 後のみ |
 ### UI prototype alignment task-04 Window guard and logger（2026-05-08）
 | ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
 | 成果物 | `docs/30-workflows/task-04-w3-window-guard-and-logger/` |
@@ -239,6 +298,16 @@
 | evidence境界 | Phase 11 local typecheck / lint / tests / build / grep-gate PASS。Sentry dashboard smoke、runtime logger staging evidence は user approval 後 |
 | 下流 | task-05 error boundary、task-09..17 browser API migration |
 | 検証 | `pnpm --filter @ubm-hyogo/web exec tsc -p tsconfig.json --noEmit` PASS、`pnpm --filter @ubm-hyogo/web lint` PASS、web Vitest 56 files / 441 tests PASS、`pnpm --filter @ubm-hyogo/web build` PASS、grep-gate 0 hits outside allow-list |
+
+### Issue #560 task-03 follow-up 002 Next standalone instrumentation patch（2026-05-08）
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-560-task-03-followup-002-next-standalone-instrumentation-patch/` |
+| source follow-up | `docs/30-workflows/completed-tasks/task-03-followup-002-next-standalone-instrumentation-patch-001.md` |
+| current script | `scripts/patch-next-standalone-instrumentation.mjs` |
+| current artifact path | `.next/server/instrumentation.js` -> `.next/standalone/apps/web/.next/server/instrumentation.js` |
+| 実装 | existing script に `cwd` guard / `--verify-only` / trace copy regression test / trace parse failure handling / structured log を追加し、`.github/workflows/pr-build-test.yml` の `build-test` job で `@ubm-hyogo/web build:cloudflare` 後に verify gate を実行する |
+| 境界 | `web-cd.yml` Pages deploy cutover、production deploy、Sentry dashboard runtime evidence は対象外。commit / push / PR は user approval 後 |
+
 ### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
 | 成果物 | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
@@ -803,6 +872,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 
 | タスク | 状態 | 仕様書 root | Phase 12 状態 |
 | --- | --- | --- | --- |
+| issue-554-audit-correlation-branch-protection-required-check | spec_created / implementation / NON_VISUAL / CONTRACT_READY_IMPLEMENTATION_PENDING / Phase 13 blocked_until_user_approval | `docs/30-workflows/issue-554-audit-correlation-branch-protection-required-check/` | Issue #516 の `.github/workflows/audit-correlation-verify.yml` `verify` job を branch protection required context `audit-correlation-verify / verify` として `dev` / `main` に登録する user-gated governance workflow。Phase 12 strict 7 outputs と aiworkflow branch-protection SSOT は同期済み。`gh api -X PUT`、fresh before/after JSON、commit、push、PR は user approval 後のみ。Issue #554 は CLOSED 維持で `Refs #554`。 |
 | issue-196-03b-followup-003-response-email-unique-ddl | implemented-local-static-evidence-pass / implementation / NON_VISUAL / Phase 1-12 strict outputs present / Phase 13 blocked_until_user_approval | `docs/30-workflows/issue-196-03b-followup-003-response-email-unique-ddl/` | `response_email` の正本 UNIQUE は `member_identities.response_email`、`member_responses.response_email` は履歴行で UNIQUE 不在。03b 検出表 #4 の誤記は履歴改ざんせず本 workflow Phase 12 で訂正記録。既適用 migration への差分はコメントのみで SQL semantics 0 行差分を確認済み。production D1 migration list は Phase 13 承認時に取得し、取得不可の場合の縮退境界も定義済み。Issue #196 は CLOSED 維持で `Refs #196` のみ。 |
 | UT-CICD-DRIFT-IMPL-OBSERVABILITY-MATRIX-SYNC | spec_created / docs-only / NON_VISUAL / Phase 1-12 outputs present / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/` | 05a `observability-matrix.md` を対象 5 workflow（`ci.yml` / `backend-ci.yml` / `validate-build.yml` / `verify-indexes.yml` / `web-cd.yml`）へ同期。mapping は workflow file / display name / trigger / job id / required status context を分離し、required context は confirmed 値（`ci` / `Validate Build` / `verify-indexes-up-to-date`）を正とする。原典 unassigned は `transferred_to_workflow`。 |
 | 03a-stablekey-literal-lint-enforcement | enforced_dry_run / warning mode / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/03a-stablekey-literal-lint-enforcement/` | 03a AC-7 stableKey literal 直書き禁止の静的検査を standalone Node script として実装。warning mode は `pnpm lint` chain に統合済み、strict mode は 147 legacy violations で fail するため fully enforced 未達。元 unassigned `completed-tasks/task-03a-stablekey-literal-lint-001.md` は consumed。follow-up は legacy cleanup と strict CI gate の 2 件。 |

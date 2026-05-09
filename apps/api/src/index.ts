@@ -60,6 +60,9 @@ import { createAuthRoute } from "./routes/auth";
 import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
 import { createMeSessionResolver } from "./middleware/me-session-resolver";
+import { auditCorrelationRunRoute } from "./routes/audit-correlation";
+import { scheduledAuditCorrelation } from "./audit-correlation/scheduled";
+import type { AuditCorrelationRuntimeEnv } from "./audit-correlation/run-correlation";
 
 function timingSafeEqual(a: string, b: string): boolean {
   let mismatch = a.length ^ b.length;
@@ -259,6 +262,9 @@ app.route("/admin/smoke/sheets", createSmokeSheetsRoute());
 // 09b-A: Sentry / Slack runtime smoke route。production は Bearer auth + confirmation header 必須。
 app.route("/admin/smoke/observability", createSmokeObservabilityRoute());
 
+// Issue #553 — internal audit-correlation run endpoint (Bearer token authz)
+app.route("/internal/audit-correlation", auditCorrelationRunRoute);
+
 app.get("/health", (c) =>
   c.json({
     ok: true,
@@ -434,6 +440,18 @@ export default {
         ctx.waitUntil(runResponseSync(env, { trigger: "cron", client }));
       } catch (_err) {
         // GOOGLE secret 未設定など: cron 単位では fail させずスキップ
+      }
+      // Issue #553: 同 */15 cron で live audit-correlation を起動する。
+      // env 未設定時 (staging 投入前) は scheduled.ts 内で AuditCorrelationEnvError として log だけ残し、cron は fail させない。
+      if (
+        env.GITHUB_AUDIT_PAT &&
+        env.SLACK_AUDIT_INCIDENT_WEBHOOK_URL &&
+        env.AUDIT_CORRELATION_SALT &&
+        env.AUDIT_CORRELATION_INTERNAL_TOKEN &&
+        env.AUDIT_CORRELATION_RUNBOOK_BASE_URL &&
+        env.AUDIT_CORRELATION_GITHUB_ORG
+      ) {
+        scheduledAuditCorrelation(env as unknown as AuditCorrelationRuntimeEnv, ctx);
       }
       return;
     }
