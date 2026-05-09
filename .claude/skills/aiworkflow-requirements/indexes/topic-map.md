@@ -6091,13 +6091,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L773 |
-| フェーズ構造（概要） | L782 |
-| 品質ゲート（概要） | L813 |
-| 出力テンプレート | L824 |
-| 実行時のコマンド・エージェント・スキル | L847 |
-| 昇格パターン集 | L871 |
-| Current Active / Spec Created Tasks | L873 |
+| ドキュメント構成 | L774 |
+| フェーズ構造（概要） | L783 |
+| 品質ゲート（概要） | L814 |
+| 出力テンプレート | L825 |
+| 実行時のコマンド・エージェント・スキル | L848 |
+| 昇格パターン集 | L872 |
+| Current Active / Spec Created Tasks | L874 |
 
 ### references/task-workflow-backlog-part2.md
 
