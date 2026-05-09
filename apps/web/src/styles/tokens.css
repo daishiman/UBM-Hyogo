@@ -18,7 +18,7 @@
   --ubm-color-border-strong: #d6d3cc;
 
   /* Accent */
-  --ubm-color-accent: oklch(0.58 0.10 55);
+  --ubm-color-accent: oklch(0.52 0.10 55);
   --ubm-color-accent-soft: oklch(0.95 0.03 65);
   --ubm-color-accent-ink: oklch(0.38 0.10 55);
 
