@@ -46,8 +46,8 @@ jobs:
       - name: Download actionlint
         run: bash <(curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
-      - name: Actionlint observation reminder workflow
-        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml
+      - name: Actionlint workflow syntax
+        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/web-cd.yml .github/workflows/runtime-smoke-staging.yml
 
       - name: Verify workflow secret allowlist
         run: |
