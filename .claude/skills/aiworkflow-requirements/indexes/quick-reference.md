@@ -32,6 +32,18 @@
 | production gate | `outputs/phase-11/production-pending-user-gate.md`; production export is `PENDING_RUNTIME_EVIDENCE` until approval |
 | PR wording | Issue #547 is CLOSED; use `Refs #547` only |
 
+### Issue #331 CI/CD Runtime Warning Cleanup（2026-05-09）
+
+| workflow root | `docs/30-workflows/issue-331-cicd-runtime-warning-cleanup/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / Phase 12 strict outputs present / Phase 13 blocked_until_user_approval` |
+| API wrangler fix | `apps/api/wrangler.toml` top-level `[vars]` removed; env vars live under `[env.production.vars]` / `[env.staging.vars]` |
+| Web CD fix | `.github/workflows/web-cd.yml` uses `pnpm --filter @ubm-hyogo/web build:cloudflare` then `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging\|production>` |
+| manual trigger | `workflow_dispatch` present for user-gated staging verification |
+| consumed trace | `U-FIX-CF-ACCT-02`, ADR Pages vs Workers decision, and the repo cutover portion of `task-impl-opennext-workers-migration-001` |
+| PR wording | Issue #331 is CLOSED; use `Refs #331` only |
+| boundary | `web-cd.yml` cutover landed in repo; staging/production runtime verification is user-gated |
+| artifact inventory | `references/workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md` |
+
 ### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
 
 | 目的 | 参照先 |

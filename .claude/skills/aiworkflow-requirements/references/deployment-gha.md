@@ -184,7 +184,7 @@
 
 ### 実行内容
 
-1. ブランチに応じて Cloudflare Workers へ自動デプロイ（`cloudflare/wrangler-action@v3` + `wrangler deploy --env <env>`）。2026-05-01 時点の `.github/workflows/web-cd.yml` は Pages deploy 残で、ADR-0001 / `task-impl-opennext-workers-migration-001` で置換する
+1. ブランチに応じて Cloudflare Workers へ自動デプロイ（`pnpm --filter @ubm-hyogo/web build:cloudflare` → `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>`）。Issue #331 cleanup で `.github/workflows/web-cd.yml` の Pages deploy 残は撤去済み
 2. デプロイ完了後、Discord Webhook で通知を送信
 
 ### 通知要件
@@ -199,7 +199,7 @@
 
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 Discord Webhook 通知ステップは現行 `.github/workflows/web-cd.yml` には未実装。UT-08-IMPL（観測性実装、Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
-> **deploy target current facts (ADR-0001 / 2026-05-01)**: `apps/web/wrangler.toml` は OpenNext Workers 形式、`.github/workflows/web-cd.yml` は Pages deploy 残。Workers deploy への切替は `task-impl-opennext-workers-migration-001` の責務。
+> **deploy target current facts (Issue #331 cleanup / 2026-05-09)**: `apps/web/wrangler.toml` は OpenNext Workers 形式、`.github/workflows/web-cd.yml` は OpenNext bundle build 後に `scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` を呼ぶ。`CLOUDFLARE_PAGES_PROJECT` は Web CD 経路では未参照。
 
 ---
 
@@ -225,7 +225,7 @@
 >
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
-> **current facts (U-FIX-CF-ACCT-01-DERIV-02 / 2026-05-06)**: Cloudflare deploy token は現行 workflow step 単位で分割する。`backend-ci.yml` の D1 migration step は `CF_TOKEN_D1_<ENV>`、Workers deploy step は `CF_TOKEN_WORKERS_<ENV>` を使う。`web-cd.yml` の Pages deploy step は `CF_TOKEN_PAGES_<ENV>` を使う。`deploy-staging.yml` / `deploy-production.yml` は現行 repo に存在しないため正本にしない。Issue #406 は CLOSED のため PR 文面は `Refs #406` のみ。
+> **current facts (Issue #331 cleanup / 2026-05-09)**: 現行 `backend-ci.yml` / `web-cd.yml` は environment-scoped `secrets.CLOUDFLARE_API_TOKEN` を継続利用する。U-FIX-CF-ACCT-01-DERIV-02 の step-scoped `CF_TOKEN_*` 分割は target contract であり、runtime cutover は未完了。`deploy-staging.yml` / `deploy-production.yml` は現行 repo に存在しないため正本にしない。
 
 ---
 
@@ -267,10 +267,10 @@
 
 | Secret 名 | 用途 | 必須 |
 | --------- | ---- | ---- |
-| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token | Yes |
-| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token | Yes |
-| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Pages deploy 用 Cloudflare API Token | Yes |
-| `CLOUDFLARE_API_TOKEN` | 旧単一 Cloudflare API Token。U-FIX-CF-ACCT-01-DERIV-02 の 24h 並行保持後に削除 | Deprecated |
+| `CLOUDFLARE_API_TOKEN` | 現行 `backend-ci.yml` / `web-cd.yml` の environment-scoped Cloudflare API Token | Yes |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token target contract。runtime cutover 未完了 | Pending |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token target contract。runtime cutover 未完了 | Pending |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | 旧 Pages deploy 用 Cloudflare API Token target contract。Issue #331 cleanup 後の `web-cd.yml` では未参照 | Deprecated target |
 | `DISCORD_WEBHOOK_URL` | Discord 通知用 Webhook URL | No |
 
 ### U-FIX-CF-ACCT-01-DERIV-01: OIDC short-lived credential target contract（2026-05-06）
@@ -294,7 +294,7 @@
 | Variable 名 | 用途 | 必須 |
 | ----------- | ---- | ---- |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account 識別子。資格情報ではないため Repository Variable として管理し、workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照する | Yes |
-| `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。UT-28 正本値は `ubm-hyogo-web`。staging は workflow 側で `-staging` suffix を連結して `ubm-hyogo-web-staging` とする | Yes |
+| `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。Issue #331 cleanup 後の `web-cd.yml` では未参照。削除は Pages project retirement 確認後に行う | Deprecated |
 | `CF_TOKEN_ISSUED_AT` | Cloudflare API Token の production 発行日。`cf-token-rotation-reminder.yml` が 85 日経過判定に使用する ISO 8601 日付 | Yes |
 
 `CLOUDFLARE_PAGES_PROJECT` に `ubm-hyogo-web-staging` を直接入れてはいけない。dev deploy は `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging` を使うため、staging 名を入れると `ubm-hyogo-web-staging-staging` になる。
@@ -313,10 +313,10 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 | 名前 | 種別 | 配置 | 理由 |
 | --- | --- | --- | --- |
-| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | D1 migration step のみが使う token に分離 |
-| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Workers deploy step のみが使う token に分離 |
-| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Pages deploy step のみが使う token に分離 |
-| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | Deprecated。24h 並行保持後に Cloudflare / GitHub から削除 |
+| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | Current runtime secret for `backend-ci.yml` / `web-cd.yml` |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Target contract for D1-only token split; not current runtime |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Target contract for Workers-only token split; not current runtime |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Stale Pages target after Issue #331 cleanup; remove only after token split plan is reconciled |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | repository-scoped | Account ID は資格情報ではなく識別子。既存 GitHub 実設定に合わせ、`vars.` 参照で空展開を防ぐ |
 | `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | 非機密値で、suffix 連結結果をログで追えるよう Secret 化しない |

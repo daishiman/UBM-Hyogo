@@ -35,7 +35,7 @@
 1. 開発者がコードをプッシュ
 2. GitHub Actions で CI（型チェック・Lint・テスト・ビルド）を実行
 3. CI が成功したらまず dev ブランチにマージし、dev の検証が通過したら main ブランチへ昇格する
-4. ブランチに応じて Cloudflare Workers へ自動デプロイする。2026-05-01 時点では `.github/workflows/web-cd.yml` の Web CD が Pages deploy のまま残っており、`task-impl-opennext-workers-migration-001` で置換する
+4. ブランチに応じて Cloudflare Workers へ自動デプロイする。Web CD は OpenNext bundle を生成してから `scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` を実行する
 5. デプロイ完了後、ヘルスチェックで正常性を確認
 6. 問題があれば Cloudflare ダッシュボードから即座にロールバック
 
