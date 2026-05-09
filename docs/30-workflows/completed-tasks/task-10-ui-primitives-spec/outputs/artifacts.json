@@ -1,0 +1,58 @@
+{
+  "workflow_id": "task-10-ui-primitives-spec",
+  "workflow_state": "implemented-local-build-blocked",
+  "metadata": {
+    "task_id": "task-10-ui-primitives-spec",
+    "task_name": "UI primitives task-10 existing baseline integration specification",
+    "created_date": "2026-05-09",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_mode": "existing-ui-integration",
+    "implementation_status": "implemented-local",
+    "scope": "Integrate task-10 UI primitive contract with current apps/web/src/components/ui baseline without deleting existing exports.",
+    "phase13_state": "blocked_pending_user_approval",
+    "local_build_state": "next_build_pass_cloudflare_build_blocked_esbuild_binary_mismatch"
+  },
+  "depends_on": [
+    "task-08-design-tokens-doc",
+    "task-09-tailwind-v4-setup",
+    "task-19-primitives-full-spec",
+    "task-22-shell-icons-fixtures"
+  ],
+  "blocks": [
+    "task-11-public-top-and-member-list",
+    "task-12-member-detail-register-legal",
+    "task-13-login-rebuild",
+    "task-14-my-profile-and-requests",
+    "task-15-admin-dashboard-and-members",
+    "task-16-admin-tags-meetings-requests",
+    "task-17-admin-schema-conflicts-audit"
+  ],
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "spec_created", "spec": "phase-01.md" },
+    { "id": 2, "name": "設計", "status": "spec_created", "spec": "phase-02.md" },
+    { "id": 3, "name": "設計レビューゲート", "status": "spec_created", "spec": "phase-03.md" },
+    { "id": 4, "name": "テスト作成", "status": "spec_created", "spec": "phase-04.md" },
+    { "id": 5, "name": "実装", "status": "implemented-local", "spec": "phase-05.md" },
+    { "id": 6, "name": "テスト拡充", "status": "completed", "spec": "phase-06.md" },
+    { "id": 7, "name": "テストカバレッジ確認", "status": "completed", "spec": "phase-07.md" },
+    { "id": 8, "name": "リファクタリング", "status": "completed", "spec": "phase-08.md" },
+    { "id": 9, "name": "品質保証", "status": "blocked_build_cloudflare_esbuild_mismatch", "spec": "phase-09.md" },
+    { "id": 10, "name": "最終レビューゲート", "status": "blocked_build_cloudflare_esbuild_mismatch", "spec": "phase-10.md" },
+    { "id": 11, "name": "手動テスト検証", "status": "local_evidence_captured_runtime_visual_pending", "spec": "phase-11.md" },
+    { "id": 12, "name": "ドキュメント更新", "status": "completed_with_build_blocker_recorded", "spec": "phase-12.md" },
+    { "id": 13, "name": "PR作成", "status": "blocked_pending_user_approval", "spec": "phase-13.md" }
+  ],
+  "acceptance_criteria": [
+    "AC-1: Existing apps/web/src/components/ui/index.ts exports are not removed.",
+    "AC-2: The task-10 11 primitive contract is importable from @/components/ui.",
+    "AC-3: Button, Avatar, Field, Input, and Select keep backward-compatible props.",
+    "AC-4: Card, Badge, Sidebar, Stat, EmptyState, and Banner are added or aliased.",
+    "AC-5: Existing Chip, Switch, Segmented, Textarea, Search, Drawer, Modal, Toast, KVList, and LinkPills remain exported.",
+    "AC-6: UI primitive classes use OKLch token utilities or project CSS variables only.",
+    "AC-7: lucide-react is the icon source; new hand-rolled icon components are not introduced.",
+    "AC-8: Smoke and accessibility tests cover the primitive contract.",
+    "AC-9: typecheck, test, build:cloudflare, coverage, and token grep gates pass.",
+    "AC-10: Phase 12 strict 7 files and aiworkflow-requirements sync are completed."
+  ]
+}

@@ -1226,6 +1226,7 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
+| task-10 UI primitives integration contract（2026-05-09） | L32 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -2193,6 +2194,19 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Stage Responsibility Split (classification-first) | L16 |
+| Current Facts (Stage 0 implementation) | L25 |
+| Phase 12 Strict 7 Files (all stages) | L39 |
+| Phase 11 Evidence Path Map | L51 |
+| Tier-Aware Coverage Policy | L62 |
+| Contract | L71 |
+| Related Resources | L78 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -2484,6 +2498,12 @@ node scripts/list-specs.js --topics
 | Implemented Artifacts | L28 |
 | State Classification | L38 |
 
+### references/workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L45 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2691,6 +2711,12 @@ node scripts/list-specs.js --topics
 | Skill 反映先（current canonical set） | L98 |
 | Validation Chain | L107 |
 | 確定値・列定義 | L120 |
+
+### references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L13 |
 
 ### references/workflow-task-05a-form-preview-503-001-artifact-inventory.md
 
@@ -3215,6 +3241,8 @@ node scripts/list-specs.js --topics
 | 6. skill 反映先（aiworkflow-requirements / task-specification-creator） | L72 |
 | 7. リレー先未タスク（Phase 12 unassigned-task-detection 由来） | L86 |
 | 8. 不変条件 touched | L95 |
+
+### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
 
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
@@ -4578,6 +4606,18 @@ node scripts/list-specs.js --topics
 | L-560-006: Silent Failure Prevention On Trace Parse | L33 |
 | L-560-007: OpenNext / Next.js Upstream Workaround Boundary | L39 |
 
+### references/lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L10 |
+| 苦戦箇所と学び | L16 |
+| 横断的な学び | L87 |
+| 反映先（promoted to） | L95 |
+| 再発防止サマリ表 | L104 |
+| 用語集（本タスクで導入 / 確定した語彙） | L112 |
+| 引用元 | L118 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4973,14 +5013,16 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L7 |
 | 申し送り（open / baseline 未タスク） | L37 |
 
+### references/lessons-learned-web-app-route-bundle-parse-fix-2026-05.md
+
 ### references/lessons-learned.md
 
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L103 |
-| 関連ドキュメント | L108 |
+| 利用順序 | L104 |
+| 関連ドキュメント | L109 |
 
 ### references/llm-embedding.md
 
@@ -6090,13 +6132,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L773 |
-| フェーズ構造（概要） | L782 |
-| 品質ゲート（概要） | L813 |
-| 出力テンプレート | L824 |
-| 実行時のコマンド・エージェント・スキル | L847 |
-| 昇格パターン集 | L871 |
-| Current Active / Spec Created Tasks | L873 |
+| ドキュメント構成 | L818 |
+| フェーズ構造（概要） | L827 |
+| 品質ゲート（概要） | L858 |
+| 出力テンプレート | L869 |
+| 実行時のコマンド・エージェント・スキル | L892 |
+| 昇格パターン集 | L916 |
+| Current Active / Spec Created Tasks | L918 |
 
 ### references/task-workflow-backlog-part2.md
 
