@@ -53,7 +53,7 @@ const summarizePayload = (payload: unknown): string => {
 
 export function RequestQueuePanel({ initial, type }: Props) {
   const router = useRouter();
-  const items = initial.items;
+  const [items, setItems] = useState(initial.items);
   const [selectedId, setSelectedId] = useState<string | null>(
     items[0]?.noteId ?? null,
   );
@@ -61,6 +61,7 @@ export function RequestQueuePanel({ initial, type }: Props) {
     null,
   );
   const [resolutionNote, setResolutionNote] = useState("");
+  const [validationError, setValidationError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -88,14 +89,20 @@ export function RequestQueuePanel({ initial, type }: Props) {
   const closeConfirm = () => {
     setConfirming(null);
     setResolutionNote("");
+    setValidationError(null);
   };
 
   const onSubmit = async () => {
     if (!current || !confirming) return;
+    const trimmedNote = resolutionNote.trim();
+    if (confirming === "reject" && !trimmedNote) {
+      setValidationError("却下理由を入力してください");
+      return;
+    }
     setBusy(true);
     const r = await resolveAdminRequest(current.noteId, {
       resolution: confirming,
-      ...(resolutionNote.trim() ? { resolutionNote: resolutionNote.trim() } : {}),
+      ...(trimmedNote ? { resolutionNote: trimmedNote } : {}),
     });
     setBusy(false);
     if (!r.ok) {
@@ -111,6 +118,11 @@ export function RequestQueuePanel({ initial, type }: Props) {
     setToast(
       confirming === "approve" ? "依頼を承認しました" : "依頼を却下しました",
     );
+    setItems((prev) => {
+      const next = prev.filter((item) => item.noteId !== current.noteId);
+      setSelectedId(next[0]?.noteId ?? null);
+      return next;
+    });
     closeConfirm();
     router.refresh();
   };
@@ -239,14 +251,20 @@ export function RequestQueuePanel({ initial, type }: Props) {
             </p>
           )}
           <label>
-            メモ（任意・最大 500 文字、PII を含めない）
+            {confirming === "reject"
+              ? "却下理由（必須・最大 500 文字、PII を含めない）"
+              : "メモ（任意・最大 500 文字、PII を含めない）"}
             <textarea
               value={resolutionNote}
-              onChange={(e) => setResolutionNote(e.target.value.slice(0, 500))}
+              onChange={(e) => {
+                setResolutionNote(e.target.value.slice(0, 500));
+                setValidationError(null);
+              }}
               maxLength={500}
               rows={3}
             />
           </label>
+          {validationError && <p role="alert">{validationError}</p>}
           <div role="group" aria-label="確認">
             <button type="button" onClick={onSubmit} disabled={busy}>
               {confirming === "approve" ? "承認を実行" : "却下を実行"}
