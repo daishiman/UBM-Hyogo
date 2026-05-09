@@ -1,0 +1,49 @@
+{
+  "name": "task-11-public-top-and-member-list",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "workflow_state": "implemented-local",
+    "implementation_status": "implemented-local-runtime-pending",
+    "scope": "apps/web implementation is reflected locally; runtime screenshot / axe / coverage, staging deploy, commit, push, and PR remain user-gated.",
+    "wave": "W5",
+    "mode": "parallel",
+    "owner": null,
+    "createdAt": "2026-05-09",
+    "source": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/05-screens-public/task-11-w5-par-public-top-and-member-list.md"
+  },
+  "phases": [
+    { "id": "phase-01", "title": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/main.md"] },
+    { "id": "phase-02", "title": "設計", "status": "completed", "outputs": ["outputs/phase-02/main.md"] },
+    { "id": "phase-03", "title": "設計レビュー", "status": "completed", "outputs": ["outputs/phase-03/main.md"] },
+    { "id": "phase-04", "title": "テスト戦略", "status": "completed", "outputs": ["outputs/phase-04/main.md"] },
+    { "id": "phase-05", "title": "実装ランブック", "status": "completed", "outputs": ["outputs/phase-05/main.md"] },
+    { "id": "phase-06", "title": "異常系検証", "status": "completed", "outputs": ["outputs/phase-06/main.md"] },
+    { "id": "phase-07", "title": "AC マトリクス", "status": "completed", "outputs": ["outputs/phase-07/main.md"] },
+    { "id": "phase-08", "title": "DRY 化", "status": "completed", "outputs": ["outputs/phase-08/main.md"] },
+    { "id": "phase-09", "title": "品質保証", "status": "completed", "outputs": ["outputs/phase-09/main.md"] },
+    { "id": "phase-10", "title": "最終レビュー", "status": "completed", "outputs": ["outputs/phase-10/main.md"] },
+    { "id": "phase-11", "title": "手動 smoke / 実測 evidence", "status": "runtime-evidence-pending", "outputs": ["outputs/phase-11/main.md"] },
+    { "id": "phase-12", "title": "ドキュメント更新", "status": "completed", "outputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ] },
+    { "id": "phase-13", "title": "PR 作成", "status": "pending", "outputs": ["outputs/phase-13/main.md"] }
+  ],
+  "dependencies": {
+    "dependsOn": [
+      "task-02-w2-par-wrangler-env-injection",
+      "task-04-w4-par-logger-and-error-reporting",
+      "task-05-error-boundary-and-staging-smoke",
+      "task-08-w3-par-design-tokens-doc",
+      "task-09-w3-par-tailwind-v4-setup",
+      "task-10-w4-par-ui-primitives"
+    ],
+    "blocks": ["task-18-w6-ser-regression-smoke"]
+  }
+}

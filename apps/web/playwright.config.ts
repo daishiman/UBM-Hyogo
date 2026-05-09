@@ -1,8 +1,9 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const EVIDENCE_DIR =
-  process.argv.some((arg) => arg.includes('staging-smoke'))
-    ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+const EVIDENCE_DIR = process.argv.some((arg) => arg.includes('staging-smoke'))
+  ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+  : process.argv.some((arg) => arg.includes('public-top-and-list.spec.ts'))
+    ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
     : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
 
 const shouldStartLocalServer = !process.argv.some((arg) => arg.includes('staging-smoke'))
