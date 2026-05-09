@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "workflow_id": "task-spec-2a-admin-requests-e2e",
+    "workflow_state": "implemented-local-runtime-pass",
+    "implementation_status": "implemented_local_e2e_pass",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "coverageTier": "standard",
+    "updated_at": "2026-05-09"
+  },
+  "canonical": {
+    "parent_workflow": "docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/",
+    "source_subtask": "docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2a-admin-requests.md",
+    "target_spec": "apps/web/playwright/tests/admin-requests.spec.ts"
+  },
+  "evidence": {
+    "phase11": "outputs/phase-11/report.md",
+    "phase12": "outputs/phase-12"
+  }
+}

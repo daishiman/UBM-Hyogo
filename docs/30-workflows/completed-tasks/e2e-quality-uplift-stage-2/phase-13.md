@@ -42,9 +42,9 @@ test(e2e): admin mutation flow + contract for requests / identity-conflicts / me
 - cascade preview は API 未実装のため Stage 3 持越し
 
 ## Scope
-- `apps/web/playwright/e2e/admin-requests.spec.ts`（新規）
-- `apps/web/playwright/e2e/admin-identity-conflicts.spec.ts`（新規）
-- `apps/web/playwright/e2e/admin-member-delete.spec.ts`（新規）
+- `apps/web/playwright/tests/admin-requests.spec.ts`（新規）
+- `apps/web/playwright/tests/admin-identity-conflicts.spec.ts`（新規）
+- `apps/web/playwright/tests/admin-member-delete.spec.ts`（新規）
 - `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts`（新規）
 
 ## Coverage / Critical Smoke
@@ -170,4 +170,3 @@ Stage 2 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

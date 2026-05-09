@@ -13,9 +13,9 @@
 
 | # | path | 更新種別 |
 |---|------|---------|
-| 1 | `docs/30-workflows/e2e-quality-uplift-stage-2/outputs/phase-12/implementation-guide.md` | 新規（Part 1/2） |
-| 2 | `docs/30-workflows/e2e-quality-uplift-stage-2/index.md` の Phase status | 更新（4-13 = done） |
-| 3 | `docs/30-workflows/e2e-quality-uplift-stage-2/outputs/phase-12/未タスク.md` | 新規（Stage 3 持越し 3 件） |
+| 1 | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/outputs/phase-12/implementation-guide.md` | 新規（Part 1/2） |
+| 2 | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/index.md` の Phase status | 更新（4-13 = done） |
+| 3 | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/outputs/phase-12/unassigned-task-detection.md` | 新規（Stage 3 持越しは既存 Stage 3 spec が所有） |
 
 ---
 
@@ -38,9 +38,9 @@
 
 | path | 役割 |
 |------|------|
-| `apps/web/playwright/e2e/admin-requests.spec.ts` | approve/reject + race + 認可 |
-| `apps/web/playwright/e2e/admin-identity-conflicts.spec.ts` | merge/dismiss + DB 整合 + 認可 |
-| `apps/web/playwright/e2e/admin-member-delete.spec.ts` | 二段確認 + delete + audit + 認可 |
+| `apps/web/playwright/tests/admin-requests.spec.ts` | approve/reject + race + 認可 |
+| `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` | merge/dismiss + DB 整合 + 認可 |
+| `apps/web/playwright/tests/admin-member-delete.spec.ts` | 二段確認 + delete + audit + 認可 |
 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` | UI ↔ API shape 同型性（zod parse） |
 
 ### 3.2 mock pattern（要点）
@@ -84,15 +84,15 @@
 
 ---
 
-## 5. Stage 3 持越し（未タスク.md）
+## 5. Stage 3 連携事項（既存 Stage 3 spec が所有）
 
 | # | 内容 | 起点 phase |
 |---|------|-----------|
-| 1 | cascade preview API 実装 + spec 2c-2 有効化 | Phase 4 §1 Q5 |
-| 2 | line cov 70% 未達時の追加 unit test | Phase 7 §2 |
-| 3 | `DeleteBodyZ` を `packages/shared/src/schemas/` 移管 | Phase 4 §1 Q6 |
+| 1 | cascade preview API 実装 + spec 2c-2 有効化 | Phase 4 §1 Q5 | `docs/30-workflows/e2e-quality-uplift-stage-3/` が後続 evidence / gate を所有 |
+| 2 | line cov 70% gate の実測取得 | Phase 7 §2 | Stage 3 Phase 11 の `outputs/phase-11/coverage-summary.json` が正本 evidence |
+| 3 | `DeleteBodyZ` shared 移管 | Phase 4 §1 Q6 | Stage 2 では named export で contract test を unblock。shared 昇格は任意改善であり未タスク新規作成なし |
 
-> 上記は `outputs/phase-12/未タスク.md` に転記し、Stage 3 の Phase 1（要件定義）が拾う。
+> `outputs/phase-12/未タスク.md` は作成しない。Phase 12 strict 7 の正規成果物 `unassigned-task-detection.md` が「新規未タスク 0 件」と、Stage 3 既存 spec への所有権委譲を記録する。
 
 ---
 
@@ -110,7 +110,7 @@
 - [x] Part 1（中学生レベル概念説明）含む
 - [x] Part 2（実装詳細）含む
 - [x] Task 1-5 全完了表明
-- [x] Stage 3 持越し 3 件を `未タスク.md` に分離
+- [x] Stage 3 連携事項を `unassigned-task-detection.md` に記録
 - [x] index.md Phase 4-13 を done に更新
 
 > Phase 13 へ進める。
@@ -164,4 +164,3 @@ Stage 2 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

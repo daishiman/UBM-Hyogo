@@ -51,6 +51,20 @@
 - **再発防止**: `task-specification-creator/SKILL.md` の Phase 12 セクションに「docs-only stage でも strict 7 outputs を維持する」を明文化。aiworkflow `quick-reference` / `resource-map` に登録する際、Phase 12 strict 7 の present/absent を明示するカラムを残す。
 - **関連 refs**: `task-specification-creator/SKILL.md`, `indexes/quick-reference.md`, `indexes/resource-map.md`
 
+### L-E2EQU-008: SSR Server Component 配下の Playwright fixture 注入境界
+
+- **状況**: `task-spec-2a-admin-requests-e2e` の `/admin/requests` は Next.js Server Component で `apps/web/src/lib/admin/server-fetch.ts` の `fetchAdmin()` を呼び出し SSR 段階で初期 HTML を組み立てる。`page.route("**/admin/requests*")` で API mock を仕込んでも、SSR fetch は browser context の外（Workers/Node 側）で実行されるため intercept されず、初期 HTML が空 list で返ってきて E2E が常時 fail した。
+- **学び**: SSR fetch を E2E から差し替えるには「test fixture mode を環境変数で early return させる」二重 guard が現実解。`server-fetch.ts` 冒頭で `process.env.PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE === "1" && process.env.NODE_ENV !== "production"` のときに固定 fixture を return し、production には絶対に到達しない設計とする。`page.route()` は同じ test 内で client-side の `POST /resolve` と二度目の `GET` のみを mock する責務に分離する。
+- **再発防止**: SSR を含む admin 系 E2E spec を新規追加する際は、target が SSR 経由か client fetch 経由かを Phase 4 設計で明示し、SSR 経由なら必ず env guard fixture を `apps/web/src/lib/<area>/server-fetch.ts` に同居させる。env 名は `PLAYWRIGHT_<AREA>_FIXTURE` 規約に統一。production guard（`NODE_ENV !== "production"`）と組み合わせ、`apps/web/wrangler.toml` の `[env.production.vars]` には絶対に登録しない。
+- **関連 refs**: `apps/web/playwright/tests/admin-requests.spec.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/fixtures/auth.ts`, `docs/30-workflows/task-spec-2a-admin-requests-e2e/phase-4.md`, `docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-12/implementation-guide.md`
+
+### L-E2EQU-009: middleware admin gate redirect 仕様の E2E 整合（`/login?gate=admin_required`）
+
+- **状況**: 2a で member 権限で `/admin/requests` にアクセスしたときの期待 redirect 先を初版 spec では `/login` としていたが、実 middleware は `/login?gate=admin_required` query を付与する仕様だった。spec 通りに assertion を書くと test が常時 fail する。
+- **学び**: middleware が付与する query/hash を含めた最終 URL を E2E 期待値の正本にする。spec 側を実 middleware 仕様に合わせて補正し、middleware 側は変更しない（middleware は他画面でも参照されるため副作用範囲が広い）。
+- **再発防止**: admin gate を持つ画面の E2E spec を起こす前に `apps/web/middleware.ts` の admin redirect 分岐を一読して正確な query を Phase 4 に転記する。anonymous は `/login`、member は `/login?gate=admin_required` を共通規約として `references/architecture-admin-api-client.md` 等に追記する。
+- **関連 refs**: `apps/web/middleware.ts`, `apps/web/playwright/tests/admin-requests.spec.ts`, `docs/30-workflows/task-spec-2a-admin-requests-e2e/phase-4.md`
+
 ### L-E2EQU-007: Branch protection contexts 正本化（Stage 3）の運用ドリフト対策
 
 - **状況**: CLAUDE.md と GitHub branch protection 実値の間で `required_status_checks.contexts` が drift しがちで、CI 名の表記揺れが発生していた（`ci` / `Validate Build` / `coverage-gate` / `lighthouse-ci` / `e2e-tests-coverage-gate`）。

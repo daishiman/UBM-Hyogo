@@ -16,7 +16,7 @@
 | # | 問い | 解決結果 | 根拠 |
 |---|------|---------|------|
 | Q1 | `requireAdmin` middleware が member に対し 403 か `/login` redirect か | **API は 401/403 を JSON で返す**（`requireAdmin` は middleware 層で `c.json({error:"unauthorized"},401)` / `c.json({error:"forbidden"},403)`）。UI 側は `apps/web` の middleware/route handler が 401 を捕捉して `/login` redirect する想定。member（cookie 有・isAdmin=false）→ **API 403 → UI は admin layout で 403 page or `/profile` redirect**、anonymous → **API 401 → UI は `/login` redirect** | `apps/api/src/middleware/require-admin.ts:80,84,110,114,117-118` |
-| Q2 | merge response に `mergedMemberId` が含まれるか | **含まれない**。`mergeIdentities()` の戻り値は `targetMemberId` を返す（identity-merge.ts:149,171）。spec の mock fixture は `{ targetMemberId, sourceMemberId, mergedAt }` shape に修正 | `apps/api/src/repository/identity-merge.ts:149,171` |
+| Q2 | merge response に `mergedMemberId` が含まれるか | **含まれない**。shared `MergeIdentityResponseZ` の戻り値は `{ mergedAt, targetMemberId, archivedSourceMemberId, auditId }`。spec の mock fixture も shared schema shape に修正 | `packages/shared/src/schemas/identity-conflict.ts` |
 | Q3 | `/admin/members/:id/delete` の `reason` 必須/任意 | **必須**。`DeleteBodyZ = z.object({ reason: z.string().trim().min(1).max(500) })`。空文字 / 欠落は 422 | `apps/api/src/routes/admin/member-delete.ts:10,53-56` |
 | Q4 | audit endpoint の sort 順 | Phase 4 で確認した結果、audit エンドポイント側は spec mock では sort 順を固定 fixture で表現するため **実装側 sort 順に依存しない** 設計とする | `apps/api/src/routes/admin/audit.ts:144` (mock 側で order 固定) |
 | Q5 | cascade preview endpoint 実在 | **未実装**。`grep -rn "delete-preview\|deletePreview\|cascade.*preview"` で 0 件。**2c シナリオ 2（cascade preview）は skip + Stage 3 持越し**。phase-12 未タスクへ送る | grep 結果 0 件 |
@@ -30,12 +30,12 @@
 
 | # | path | 種別 | 状態 |
 |---|------|------|------|
-| 2a | `apps/web/playwright/e2e/admin-requests.spec.ts` | E2E (Playwright) | 新規 |
-| 2b | `apps/web/playwright/e2e/admin-identity-conflicts.spec.ts` | E2E (Playwright) | 新規 |
-| 2c | `apps/web/playwright/e2e/admin-member-delete.spec.ts` | E2E (Playwright) | 新規 |
+| 2a | `apps/web/playwright/tests/admin-requests.spec.ts` | E2E (Playwright) | 新規 |
+| 2b | `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` | E2E (Playwright) | 新規 |
+| 2c | `apps/web/playwright/tests/admin-member-delete.spec.ts` | E2E (Playwright) | 新規 |
 | 2d | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` | Vitest contract | 新規 |
 
-> ファイル命名は既存 `apps/web/playwright/e2e/admin-pages.spec.ts` 命名規則と整合（kebab-case + `.spec.ts`）。
+> ファイル命名は既存 `apps/web/playwright/tests/admin-pages.spec.ts` 命名規則と整合（kebab-case + `.spec.ts`）。
 
 ---
 
@@ -79,7 +79,7 @@
 | `GET /admin/requests` | route 実装の query schema | UI fixture object を `parse` → ok |
 | `POST /admin/requests/:id/resolve` | request body schema | `{ resolution:'approve' }` / `{ resolution:'reject', resolutionNote }` parse |
 | `GET /admin/identity-conflicts` | route schema + `IdentityConflict` zod | items[].shape 同型 |
-| `POST /admin/identity-conflicts/:id/merge` | `MergeIdentityRequestZ`（`packages/shared`） | UI fixture parse + response shape `{ targetMemberId, sourceMemberId, mergedAt }` 確認 |
+| `POST /admin/identity-conflicts/:id/merge` | `MergeIdentityRequestZ` / `MergeIdentityResponseZ`（`packages/shared`） | UI fixture parse + response shape `{ mergedAt, targetMemberId, archivedSourceMemberId, auditId }` 確認 |
 | `POST /admin/identity-conflicts/:id/dismiss` | `DismissIdentityConflictRequestZ` | parse |
 | `POST /admin/members/:id/delete` | `DeleteBodyZ`（route 内 inline → 2d で再 export） | `reason` 必須・空 NG |
 | `GET /admin/audit` | response schema | items[].shape 同型 |
@@ -93,7 +93,7 @@
 | GET `/admin/requests` | `**/admin/requests*` | GET | inline fixture（items 3 件 / status=pending） |
 | POST `/admin/requests/:id/resolve` | `**/admin/requests/*/resolve` | POST | counter 付き handler（1 回目 200 / 2 回目 409 で race 検証） |
 | GET `/admin/identity-conflicts` | `**/admin/identity-conflicts*` | GET | items 2 件 |
-| POST `/admin/identity-conflicts/:id/merge` | `**/identity-conflicts/*/merge` | POST | request body assert + 200 `{ targetMemberId, sourceMemberId, mergedAt }` |
+| POST `/admin/identity-conflicts/:id/merge` | `**/identity-conflicts/*/merge` | POST | request body assert + 200 `{ mergedAt, targetMemberId, archivedSourceMemberId, auditId }` |
 | POST `/admin/identity-conflicts/:id/dismiss` | `**/identity-conflicts/*/dismiss` | POST | 200 `{ dismissedAt }` |
 | POST `/admin/members/:id/delete` | `**/admin/members/*/delete` | POST | reason 空 → 422 / reason 有 → 200 `{ id, isDeleted, deletedAt }` |
 | GET `/admin/audit` | `**/admin/audit*` | GET | 削除 entry を含む items |
@@ -190,4 +190,3 @@ Stage 2 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-
