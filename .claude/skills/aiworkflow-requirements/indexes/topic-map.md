@@ -1226,6 +1226,7 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
+| task-10 UI primitives integration contract（2026-05-09） | L32 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -2193,6 +2194,19 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Stage Responsibility Split (classification-first) | L16 |
+| Current Facts (Stage 0 implementation) | L25 |
+| Phase 12 Strict 7 Files (all stages) | L39 |
+| Phase 11 Evidence Path Map | L51 |
+| Tier-Aware Coverage Policy | L62 |
+| Contract | L71 |
+| Related Resources | L78 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -2691,6 +2705,12 @@ node scripts/list-specs.js --topics
 | Skill 反映先（current canonical set） | L98 |
 | Validation Chain | L107 |
 | 確定値・列定義 | L120 |
+
+### references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L13 |
 
 ### references/workflow-task-05a-form-preview-503-001-artifact-inventory.md
 
@@ -6094,13 +6114,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L787 |
-| フェーズ構造（概要） | L796 |
-| 品質ゲート（概要） | L827 |
-| 出力テンプレート | L838 |
-| 実行時のコマンド・エージェント・スキル | L861 |
-| 昇格パターン集 | L885 |
-| Current Active / Spec Created Tasks | L887 |
+| ドキュメント構成 | L818 |
+| フェーズ構造（概要） | L827 |
+| 品質ゲート（概要） | L858 |
+| 出力テンプレート | L869 |
+| 実行時のコマンド・エージェント・スキル | L892 |
+| 昇格パターン集 | L916 |
+| Current Active / Spec Created Tasks | L918 |
 
 ### references/task-workflow-backlog-part2.md
 
