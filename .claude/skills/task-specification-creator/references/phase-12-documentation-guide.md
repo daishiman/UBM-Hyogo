@@ -99,12 +99,14 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 | --- | --- | --- | --- |
 | pre-code（仕様だけ完成、`apps/` / `packages/` に diff なし） | `CONTRACT_READY_IMPLEMENTATION_PENDING` | `git diff --name-only main...HEAD` の対象が `docs/` / `.claude/` のみ | NON_VISUAL evidence template / spec contract のみ |
 | local-evidence + runtime-pending（コードあり、ローカル PASS 5 点取得済み、staging/production runtime 未実走） | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | `apps/` or `packages/` に diff あり、かつ `outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log` が揃う | local PASS 5 点セット（後述）+ runtime pending 明示 |
+| local-implementation + evidence-pending（コードあり、ローカル PASS 5 点または visual evidence が未取得） | `IMPLEMENTED_LOCAL_RUNTIME_PENDING` | `apps/` or `packages/` に diff あり、実装は採用するが Phase 11 evidence が未完了 | 欠けている evidence file / screenshot / axe / coverage を明示 |
 | runtime PASS | `PASS` | staging/production curl / smoke / migration apply が実走済み | runtime evidence + local PASS |
 
 **選択ルール**:
 
 - pre-code に local PASS が無いまま `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を使ってはならない。pre-code は必ず `CONTRACT_READY_IMPLEMENTATION_PENDING`。
 - local PASS 5 点が揃っていないのに `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` を使ってはならない。揃っていない場合は何が欠けているかを `manual-test-result.md` に記録し、該当語彙の格下げを行う。
+- `apps/` / `packages/` dirty diff があるのに root `workflow_state` / aiworkflow index / Phase 12 summary を `spec_created` のまま残してはならない。実装を採用するなら `implemented-local` に昇格し、runtime 証跡未取得なら `IMPLEMENTED_LOCAL_RUNTIME_PENDING` を使う。
 - 隣接ルール: `v2026.05.05-09a-A-staging-deploy-smoke-execution`（`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 導入）、`v2026.05.05-issue379-stale-current-no-code`（`verified_current_no_code_change` で `CONTRACT_READY_IMPLEMENTATION_PENDING` の対極を提示）と整合する。ローカル実装が入った瞬間に stale-current 系の `verified_current_no_code_change` は使えない。
 - 再分類した時点で `artifacts.json` / `outputs/artifacts.json` / `index.md` / `phase-*.md` の `workflow_state` 注記、`taskType`、`implementation_mode` を同 wave で書き換える。`spec_created` 文字列を `rg -F "spec_created" outputs/` で 0 件にしてから Phase 12 を閉じる。
 - Phase 12 は `main.md` を含む 7 成果物を実体確認し、root / outputs `artifacts.json` の Phase status と outputs list を同値にする。成果物があるのに `pending` のまま残す状態は FAIL。

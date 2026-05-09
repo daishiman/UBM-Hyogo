@@ -1,25 +1,24 @@
-// `/members` 公開メンバー一覧 (Server Component)
-// AC-3, AC-5, AC-6 — searchParams を zod parse → 04a へ渡す
+// task-11: `/members` 公開メンバー一覧 (Server Component)
+// AC-2 / AC-3 / AC-5 / AC-6 — searchParams を zod parse → listMembers 経由で取得
 // 不変条件 #5: public API 経由のみ
 // 不変条件 #8: density / sort / tag / q / zone / status は URL query 正本
 
-import type { z } from "zod";
-
-import { PublicMemberListViewZ } from "@ubm-hyogo/shared";
+import { connection } from "next/server";
 
 import { EmptyState } from "../../../src/components/feedback/EmptyState";
-import { fetchPublic } from "../../../src/lib/fetch/public";
+import { MemberFilters } from "../../../src/components/public/MemberFilters.client";
+import { MemberGrid } from "../../../src/components/public/MemberGrid";
+import { MemberTable } from "../../../src/components/public/MemberTable";
+import {
+  PUBLIC_API_REVALIDATE,
+  listMembers,
+} from "../../../src/lib/api/public";
 import {
   parseSearchParams,
-  toApiQuery,
   type MembersSearch,
 } from "../../../src/lib/url/members-search";
-import { MemberList } from "./_components/MemberList";
-import { MembersFilterBar } from "./_components/MembersFilterBar.client";
 
-type PublicMemberListView = z.infer<typeof PublicMemberListViewZ>;
-
-export const dynamic = "force-dynamic";
+// members=30s revalidate (AC-9)
 export const revalidate = 30;
 
 interface MembersPageProps {
@@ -28,29 +27,27 @@ interface MembersPageProps {
 }
 
 export default async function MembersPage({ searchParams }: MembersPageProps) {
+  await connection();
   const sp = await searchParams;
   const search: MembersSearch = parseSearchParams(sp);
-  const apiQuery = toApiQuery(search).toString();
-  const path = apiQuery
-    ? `/public/members?${apiQuery}`
-    : "/public/members";
-
-  const list = await fetchPublic<PublicMemberListView>(path, {
-    revalidate: 30,
+  const list = await listMembers(search, {
+    revalidate: PUBLIC_API_REVALIDATE.members,
   });
 
   return (
     <main data-page="members">
       <h1>メンバー一覧</h1>
-      <MembersFilterBar initial={search} />
+      <MemberFilters initial={search} />
       {list.items.length === 0 ? (
         <EmptyState
           title="該当するメンバーがいません"
           description="検索条件を変更するか、絞り込みをクリアしてください。"
           resetHref="/members"
         />
+      ) : search.density === "list" ? (
+        <MemberTable items={list.items} />
       ) : (
-        <MemberList items={list.items} density={search.density} />
+        <MemberGrid items={list.items} density={search.density} />
       )}
       <p data-role="pagination-meta">
         {list.pagination.total} 件中 {list.items.length} 件表示

@@ -10,7 +10,8 @@
 | Branch | `feat/e2e-quality-uplift` |
 | PR base | `dev` |
 | Stage 0 status | `implementation_complete_pending_pr` (verified) |
-| Stage 1-3 status | `spec_verified_pending_dependency` (docs-only spec; Phase 11 placeholder evidence) |
+| Stage 1 status | `implemented_local / implementation_complete_e2e_verification_recorded` |
+| Stage 2-3 status | `spec_verified_pending_dependency` (docs-only spec; Phase 11 placeholder evidence) |
 | Phase 12 | strict 7 files present in all 4 stages |
 
 ## Stage Responsibility Split (classification-first)
@@ -18,8 +19,8 @@
 | Stage | 責務 | 実装/仕様の区別 | 依存 |
 | --- | --- | --- | --- |
 | Stage 0 | Playwright 整備（README / project filter / `evidence-capture` project / logged-in spec split / quality-gate exception 8 行追記） | implementation | none |
-| Stage 1 | regression assertion 拡充（email leak / visibility round-trip / delete round-trip） | spec_verified | Stage 0 implementation merged |
-| Stage 2 | tier-aware coverage 自動 enforcement（critical ≥80% / standard ≥70% / experimental ≥50%） | spec_verified | Stage 1 spec landed + workspace 80% guard との境界確定 |
+| Stage 1 | regression assertion 拡充（email leak / visibility round-trip / delete round-trip）+ Playwright auth fixture signing + server fetch mock API | implemented_local | Stage 0 implementation merged |
+| Stage 2 | tier-aware coverage 自動 enforcement（critical ≥80% / standard ≥70% / experimental ≥50%） | spec_verified | Stage 1 implemented_local + workspace 80% guard との境界確定 |
 | Stage 3 | branch protection contexts 正本化（CI / Lighthouse / e2e-tests-coverage-gate） | spec_verified | Stage 2 enforcement reachable on dev |
 
 ## Current Facts (Stage 0 implementation)
@@ -53,11 +54,11 @@
 | Stage | Evidence kind | Path |
 | --- | --- | --- |
 | 0 | runtime-evidence (NON_VISUAL) | `outputs/phase-11/evidence/{e2e-run.log,e2e-skip-count.txt,runner-version.txt}` |
-| 1 | spec-evidence (placeholder) | `outputs/phase-11/main.md`（実 runtime evidence は Stage 0 PR merge 後の別 cycle） |
+| 1 | runtime-evidence (NON_VISUAL, tracked) | `outputs/phase-11/evidence/{e2e-run.txt,e2e-list.txt,e2e-skip-count.txt,runner-version.txt}` |
 | 2 | spec-evidence (placeholder) | `outputs/phase-11/main.md`（tier enforcement 実装は別 cycle） |
 | 3 | spec-evidence (placeholder) | `outputs/phase-11/main.md`（branch protection 実反映は user-gated） |
 
-> 重要: Stage 1-3 の Phase 11 は `evidence_status: PLANNED_BECAUSE_PHASE11_NOT_EXECUTED`（lessons L-06B-002 と同じ運用）。compliance-check で false positive を出さないため、placeholder 表記を維持する。
+> 重要: Stage 2-3 の Phase 11 は `evidence_status: PLANNED_BECAUSE_PHASE11_NOT_EXECUTED`（lessons L-06B-002 と同じ運用）。Stage 1 は実装済みのため `.gitignore` 対象外の `.txt` evidence を正本にする。
 
 ## Tier-Aware Coverage Policy
 
@@ -71,7 +72,7 @@
 ## Contract
 
 - `evidence-capture` Playwright project は default e2e run から除外（quality-gate §7.1 (4) 例外条項により coverage 閾値判定の対象外）
-- Stage 1-3 の Phase 11 evidence は placeholder。実 runtime E2E 実行は Stage 0 merge 後の追跡 workflow に外出し
+- Stage 1 の Phase 11 evidence は tracked runtime evidence。Stage 2-3 の Phase 11 evidence は placeholder。実 tier enforcement / branch protection 反映は後続 stage に分離
 - Stage 3 の branch protection contexts 正本は GitHub branch protection 実値。CLAUDE.md は運用参照（drift 検出は `gh api repos/daishiman/UBM-Hyogo/branches/{dev,main}/protection | jq '.required_status_checks.contexts'`）
 - 4 stage は逐次依存（Stage N+1 は Stage N の実装/仕様 land 後に着手）
 
