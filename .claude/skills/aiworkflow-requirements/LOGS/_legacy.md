@@ -799,3 +799,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - `docs/00-getting-started-manual/specs/09-ui-ux.md` の契約のみ rewrite と quick-reference / resource-map / task-workflow-active / changelog 同期を実施。
 - attendance 系 canonical workflow の削除混入は active/resource-map 参照破壊のため復元。
 | 2026-05-08 - Issue #560 Next standalone instrumentation patch implementation sync（`docs/30-workflows/issue-560-task-03-followup-002-next-standalone-instrumentation-patch/` を `implemented-local / implementation / NON_VISUAL` として formalize + 実装。既存 `scripts/patch-next-standalone-instrumentation.mjs` の `.next/server` -> `.next/standalone/apps/web/.next/server/instrumentation.js` trace copy 方式を current fact として固定し、`cwd` guard / `--verify-only` / trace parse failure handling / `@ubm-hyogo/web build:cloudflare` / `.github/workflows/pr-build-test.yml` gate / runbook 追加を同一 cycle で反映。Phase 12 strict 7 outputs と aiworkflow indexes / task-workflow / artifact inventory / lessons / changelog を同期。commit / push / PR は未実行） |
+
+# 2026-05-09 Issue #325 test suffix rename migration spec sync
+
+- Synced `docs/30-workflows/issue-325-test-suffix-rename-migration/` as `implementation_completed / implementation / NON_VISUAL / Phase 11 evidence captured / Phase 12 strict 7 files present / Phase 13 pending_user_approval`.
+- Renamed all `apps/api/src/**/*.test.ts` files to suffix-classified `*.spec.ts` names (132 files; contract=41 / authz=4 / repository=38 / unit=49) with R100 pure rename semantics.
+- Updated `vitest.config.ts` test include globs to cover `*.{test,spec}.{ts,tsx}` during the transition and recorded typecheck / lint / api test PASS evidence.
+- Registered artifact inventory `references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md`, task-workflow-active, quick-reference, and resource-map.
+- Updated 08a artifact inventory so `UT-08A-06-test-suffix-rename-migration.md` points to Issue #325 successor.

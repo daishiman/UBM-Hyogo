@@ -48,7 +48,7 @@
 | artifact inventory | `references/workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md` |
 | lessons | `references/lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md` |
 
-||||||| 8f4193d7### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
+### Issue #532 Write/Tag/Note Provider ctx Injection（2026-05-08）
 
 | 目的 | 参照先 |
 | --- | --- |
@@ -932,6 +932,19 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | route inventory design lessons | `references/lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md` § 2026-05 / route-inventory-design 追記（L-UT06FUA-008〜013） |
 | automation follow-up | `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-impl-001.md`, `docs/30-workflows/unassigned-task/UT-06-FU-A-logpush-target-diff-script-001.md` |
 | consumed pointer | `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-001.md` |
+
+### Issue #325 Test Suffix Rename Migration（2026-05-09 / implementation_completed）
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-325-test-suffix-rename-migration/` |
+| source | `docs/30-workflows/unassigned-task/UT-08A-06-test-suffix-rename-migration.md` |
+| state | `implementation_completed / implementation / NON_VISUAL / Phase 11 evidence captured / Phase 12 strict 7 files present / Phase 13 pending_user_approval` |
+| target | `apps/api/src/**/*.test.ts` 132 files renamed to suffix-classified `*.spec.ts` |
+| classification | contract=41 / authz=4 / repository=38 / unit=49 |
+| ADR | `outputs/phase-12/test-file-suffix-adr.md` |
+| inventory | `references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-11/rename-mapping.csv`, `outputs/phase-11/glob-coverage-grep.log` |
 | Logpush target diff script | `docs/30-workflows/ut-06-fu-a-logpush-target-diff-script-001/`（implementation_complete / Phase 1-12 completed / Phase 13 pending_user_approval） |
 | Logpush diff command | `bash scripts/cf.sh observability-diff --current-worker ubm-hyogo-web-production --legacy-worker ubm-hyogo-web --config apps/web/wrangler.toml` |
 | 対象 Worker | `ubm-hyogo-web-production` |

@@ -2235,6 +2235,12 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Invariants | L16 |
+
 ### references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md
 
 | セクション | 行 |
@@ -4319,6 +4325,17 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
+
+### references/lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-325-001: suffix 責務分類の境界判定 | L11 |
+| L-325-002: 件数 invariant の事前 snapshot | L18 |
+| L-325-003: vitest include の two-suffix 拡張 | L24 |
+| L-325-004: rename-only workflow の状態同期漏れリスク | L30 |
+| L-325-005: scope out の明示と未タスク棚卸し | L40 |
+| 引用関係 | L46 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
