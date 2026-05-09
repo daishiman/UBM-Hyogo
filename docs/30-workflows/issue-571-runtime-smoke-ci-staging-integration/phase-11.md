@@ -34,27 +34,14 @@ visualEvidence: NON_VISUAL（HTTP / workflow run log / artifact / Slack post の
 
 ### G1 承認 — GitHub Environment / Secret 配置
 
-ユーザー承認 + 以下を runbook に従って実行（本仕様書作成サイクル外）:
+Status: prepared-local / pending user approval. 2026-05-09 CI recovery wave 以降、secret 配置は `scripts/smoke/provision-staging-secrets.sh` を正本 runbook とする。ユーザー承認後に以下を実行し、値を出さない name-only inventory を evidence として保存する。
 
 ```bash
-# 1. Environment 作成（GitHub UI または gh CLI）
+# 1. Environment 作成（未作成の場合のみ。GitHub UI または gh CLI）
 gh api -X PUT repos/daishiman/UBM-Hyogo/environments/staging-runtime-smoke
 
-# 2. Environment-scoped secret 5 件配置（値は 1Password 経由 echo はしない）
-op read 'op://.../STAGING_API_BASE/value'       | gh secret set STAGING_API_BASE       --env staging-runtime-smoke --body-file -
-op read 'op://.../STAGING_ADMIN_BEARER/value'   | gh secret set STAGING_ADMIN_BEARER   --env staging-runtime-smoke --body-file -
-op read 'op://.../STAGING_MEMBER_ID/value'      | gh secret set STAGING_MEMBER_ID      --env staging-runtime-smoke --body-file -
-op read 'op://.../STAGING_ME_BEARER/value'      | gh secret set STAGING_ME_BEARER      --env staging-runtime-smoke --body-file -
-op read 'op://.../SLACK_WEBHOOK_INCIDENT/value' | gh secret set SLACK_WEBHOOK_INCIDENT --env staging-runtime-smoke --body-file -
-
-# 4. 配置確認（name のみ）
-gh api repos/daishiman/UBM-Hyogo/environments/staging-runtime-smoke/secrets --jq '.secrets[].name' | sort
-
-# 5. 値を出さない staging marker check
-case "${STAGING_API_BASE:?}" in
-  *staging*|*dev*) echo "PASS: staging host marker present" ;;
-  *) echo "FAIL: STAGING_API_BASE host marker is not staging/dev" >&2; exit 1 ;;
-esac
+# 2. Environment-scoped secret 5 件配置 + name-only inventory verification
+bash scripts/smoke/provision-staging-secrets.sh
 ```
 
 ### G2 承認 — workflow YAML レビュー & merge
