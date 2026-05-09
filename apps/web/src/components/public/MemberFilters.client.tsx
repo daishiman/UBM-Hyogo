@@ -1,19 +1,20 @@
 "use client";
 
-// Client Component. URL query を正本として state を保持しない。
-// AC-3 / AC-4 / AC-5 を担保: Filter 操作で `router.replace` のみ呼び、
-// reload で復元される（不変条件 #8）。
+// task-11: 公開メンバー一覧の検索フィルタ。
+// URL query を正本とし state は持たない (不変条件 #8)。
+// AC-3 / AC-4 / AC-5 を担保。
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
-import { Search } from "../../../../src/components/ui/Search";
-import { Segmented } from "../../../../src/components/ui/Segmented";
-import { Select } from "../../../../src/components/ui/Select";
+import { Search } from "../ui/Search";
+import { Segmented } from "../ui/Segmented";
+import { Select } from "../ui/Select";
 import {
   MEMBERS_SEARCH_LIMITS,
   type MembersSearch,
-} from "../../../../src/lib/url/members-search";
+} from "../../lib/url/members-search";
+import { DensityToggle } from "./DensityToggle.client";
 
 type Patch = Partial<MembersSearch>;
 
@@ -36,24 +37,17 @@ const SORT_OPTIONS = [
   { value: "name", label: "名前順" },
 ];
 
-const DENSITY_OPTIONS = [
-  { value: "comfy", label: "ゆったり" },
-  { value: "dense", label: "詰め込み" },
-  { value: "list", label: "リスト" },
-];
-
-export interface MembersFilterBarProps {
+export interface MemberFiltersProps {
   initial: MembersSearch;
 }
 
-export function MembersFilterBar({ initial }: MembersFilterBarProps) {
+export function MemberFilters({ initial }: MemberFiltersProps) {
   const router = useRouter();
   const sp = useSearchParams();
 
   const update = useCallback(
     (patch: Patch) => {
       const next = new URLSearchParams(sp ? sp.toString() : "");
-
       for (const [key, value] of Object.entries(patch)) {
         if (Array.isArray(value)) {
           next.delete(key);
@@ -66,9 +60,7 @@ export function MembersFilterBar({ initial }: MembersFilterBarProps) {
           next.set(key, String(value));
         }
       }
-
       const qs = next.toString();
-      // history を汚染しないため replace を採用 (Phase 3 Q1)
       router.replace(qs ? `/members?${qs}` : "/members");
     },
     [router, sp],
@@ -83,7 +75,7 @@ export function MembersFilterBar({ initial }: MembersFilterBarProps) {
   };
 
   return (
-    <div data-component="members-filter-bar">
+    <div data-component="member-filters">
       <Search
         value={initial.q}
         onChange={(v) => update({ q: v })}
@@ -92,7 +84,9 @@ export function MembersFilterBar({ initial }: MembersFilterBarProps) {
       <Select
         options={ZONE_OPTIONS}
         value={initial.zone}
-        onChange={(e) => update({ zone: e.target.value as MembersSearch["zone"] })}
+        onChange={(e) =>
+          update({ zone: e.target.value as MembersSearch["zone"] })
+        }
         aria-label="ゾーンで絞り込み"
       />
       <Select
@@ -108,11 +102,7 @@ export function MembersFilterBar({ initial }: MembersFilterBarProps) {
         value={initial.sort}
         onChange={(v) => update({ sort: v as MembersSearch["sort"] })}
       />
-      <Segmented
-        options={DENSITY_OPTIONS}
-        value={initial.density}
-        onChange={(v) => update({ density: v as MembersSearch["density"] })}
-      />
+      <DensityToggle value={initial.density} />
       {initial.tag.length > 0 ? (
         <ul data-role="active-tags">
           {initial.tag.map((t) => (
