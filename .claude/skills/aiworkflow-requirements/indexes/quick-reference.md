@@ -91,6 +91,19 @@
 | API 境界 | 既存 `/public/*`, `/auth/*`, `/me/*` endpoint のみ。新 endpoint / D1 schema 変更なし |
 | visual gate | fenced JSX prototype 転記を除く仕様本文で visual literal 0。凍結 prototype 一字一句転記を優先 |
 | downstream | task-11 / task-12 / task-13 / task-14 / task-06 |
+
+### UI prototype alignment task-12 member detail / register / legal（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-12-member-detail-register-legal/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / runtime evidence pending_user_approval` |
+| 対象 routes | `/members/[id]`, `/register`, `/privacy`, `/terms` |
+| API surface | `GET /public/members/:memberId`, `GET /public/form-preview` のみ消費。新 endpoint 追加なし |
+| AC 正本 | `index.md` 13 項目。Phase 7 / 10 / 12 はこの 13 項目へ同期 |
+| strict evidence | `outputs/artifacts.json`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| CI gate | `.github/workflows/e2e-tests.yml`, `.github/workflows/pr-build-test.yml` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-12-member-detail-register-legal-artifact-inventory.md` |
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | boundary | commit / push / PR は user approval 後 |
 

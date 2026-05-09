@@ -286,13 +286,44 @@
     padding: 18px;
   }
 
-  [data-page="register"] [data-role="responder-link"] {
+  [data-component="register-callout"] .ui-card {
+    border: 1px solid var(--ubm-color-border-strong);
+    border-color: var(--ubm-color-border-strong);
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-surface-panel);
+    padding: var(--ubm-space-6);
+    box-shadow: var(--ubm-shadow-sm);
+  }
+
+  [data-component="register-callout"] .ui-card-title {
+    margin: 0 0 var(--ubm-space-2);
+  }
+
+  [data-component="register-callout"] .ui-card-description,
+  [data-component="register-callout"] .consent-list {
+    color: var(--ubm-color-text-secondary);
+    line-height: 1.7;
+  }
+
+  [data-page="register"] [data-role="responder-link"],
+  [data-page="register"] [data-role="register-cta"] {
+    display: inline-flex;
+    min-height: 52px;
+    align-items: center;
+    justify-content: center;
     margin: var(--ubm-space-3) 0 28px;
+    border-radius: var(--ubm-radius-sm);
+    background: var(--ubm-color-accent);
+    color: var(--ubm-color-surface-panel);
+    padding: 0 var(--ubm-space-6);
+    font-weight: 800;
+    text-decoration: none;
   }
 
   [data-component="form-preview-sections"],
   [data-component="form-preview-sections"] ul,
-  [data-component="timeline"] ol {
+  [data-component="timeline"] ol,
+  [data-component="member-activity"] ol {
     display: grid;
     gap: var(--ubm-space-4);
   }
@@ -302,7 +333,8 @@
   }
 
   [data-component="form-preview-sections"] ul,
-  [data-component="timeline"] ol {
+  [data-component="timeline"] ol,
+  [data-component="member-activity"] ol {
     padding: 0;
     list-style: none;
   }
@@ -330,11 +362,27 @@
     color: var(--ubm-color-warn);
   }
 
-  [data-component="timeline"] li {
+  [data-component="timeline"] li,
+  [data-component="member-activity"] li {
     display: flex;
     gap: var(--ubm-space-3);
     border-left: 3px solid var(--ubm-color-accent);
     padding-left: var(--ubm-space-3);
+  }
+
+  [data-component="legal-prose"] {
+    max-width: 760px;
+  }
+
+  [data-component="legal-prose"] p,
+  [data-component="legal-prose"] li {
+    color: var(--ubm-color-text-secondary);
+    line-height: 1.8;
+  }
+
+  [data-component="legal-prose"] ul {
+    display: grid;
+    gap: var(--ubm-space-2);
   }
 
   [data-component="empty-state"] {
