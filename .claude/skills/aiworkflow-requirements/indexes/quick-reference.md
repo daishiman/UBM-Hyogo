@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #577 API full coverage rerun / Miniflare port exhaustion triage（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
+| 状態 | `implemented_local_pending_pr / implementation / NON_VISUAL / runtime completed / PR pending_user_approval` |
+| parent | Issue #532 CLOSED / `docs/30-workflows/completed-tasks/issue-532-extend-ctx-injection-to-write-tag-note-providers/` |
+| source unassigned | `docs/30-workflows/unassigned-task/task-issue-532-api-full-coverage-rerun-miniflare-port-exhaustion-001.md` |
+| GitHub Issue | #577 CLOSED（2026-05-08T21:36:04Z）。PR は `Refs #577` で追跡 |
+| coverage command | `mise exec -- pnpm --filter @ubm-hyogo/api test:coverage` |
+| evidence | `outputs/phase-11/evidence/{baseline-rerun-*.log,full-coverage-rerun.log,triage-summary.md,env-snapshot.txt}` |
+| close-out mode | triage patch adopted: `apps/api/package.json#scripts.test:coverage` に `--maxWorkers=1 --minWorkers=1` を追加、post-patch 133/133 PASS / 0 EADDRNOTAVAIL |
+| guardrail | `coverage-guard.sh` no-op is not full coverage PASS; Issue #532 remains `Refs #532` only |
+| boundary | runtime rerun and Issue #532 evidence sync are completed locally; commit, push, PR are user-gated |
+
 ### Issue #554 audit-correlation required status check（2026-05-08）
 
 | 目的 | 参照先 |

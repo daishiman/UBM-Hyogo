@@ -6061,13 +6061,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L735 |
-| フェーズ構造（概要） | L744 |
-| 品質ゲート（概要） | L775 |
-| 出力テンプレート | L786 |
-| 実行時のコマンド・エージェント・スキル | L809 |
-| 昇格パターン集 | L833 |
-| Current Active / Spec Created Tasks | L835 |
+| ドキュメント構成 | L751 |
+| フェーズ構造（概要） | L760 |
+| 品質ゲート（概要） | L791 |
+| 出力テンプレート | L802 |
+| 実行時のコマンド・エージェント・スキル | L825 |
+| 昇格パターン集 | L849 |
+| Current Active / Spec Created Tasks | L851 |
 
 ### references/task-workflow-backlog-part2.md
 

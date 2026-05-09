@@ -71,6 +71,22 @@
 | Issue 取扱 | Issue #532 CLOSED 維持。PR 文脈は `Refs #532` のみ |
 | user gate | commit / push / PR は user approval 後のみ |
 
+### Issue #577 API full coverage rerun / Miniflare port exhaustion triage（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_pending_pr / implementation / NON_VISUAL / runtime completed / Phase 12 strict 7 completed / PR pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
+| parent | Issue #532 write/tag/note provider ctx injection（CLOSED 維持） |
+| source | `docs/30-workflows/unassigned-task/task-issue-532-api-full-coverage-rerun-miniflare-port-exhaustion-001.md` |
+| GitHub Issue | #577 CLOSED（2026-05-08T21:36:04Z）。PR は `Refs #577` で追跡 |
+| 目的 | `@ubm-hyogo/api` full coverage rerun を PR 前 evidence として固定し、Miniflare / undici `EADDRNOTAVAIL` を worker cap で解消する |
+| evidence boundary | `outputs/phase-11/evidence/{baseline-rerun-*.log,full-coverage-rerun.log,triage-summary.md,env-snapshot.txt}` 取得済み。fail 時も exit code / duration / EADDRNOTAVAIL count を保存済み |
+| close-out mode | baseline rerun 3 回で EADDRNOTAVAIL 再現（23/38/51）。軸 B `--maxWorkers=1 --minWorkers=1` 採用後、post-patch full coverage 133/133 PASS / 0 EADDRNOTAVAIL |
+| sync target | `docs/30-workflows/completed-tasks/issue-532-extend-ctx-injection-to-write-tag-note-providers/outputs/phase-11/main.md` と Phase 12 changelog / implementation guide へ same-wave follow-up |
+| guardrail | `coverage-guard.sh` no-op と full coverage PASS を混同しない。`coverage-guard.sh` は threshold guard 責務のため原則編集しない |
+| user gate | commit / push / PR は user approval 後のみ。runtime rerun / Issue #532 sync はローカル完了済み |
+
 ### Issue #526 CI actionlint / shellcheck gate（2026-05-08）
 
 | 項目 | 値 |
