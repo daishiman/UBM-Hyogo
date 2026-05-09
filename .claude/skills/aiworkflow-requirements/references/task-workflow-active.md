@@ -71,6 +71,22 @@
 | Issue 取扱 | Issue #532 CLOSED 維持。PR 文脈は `Refs #532` のみ |
 | user gate | commit / push / PR は user approval 後のみ |
 
+### Issue #571 staging runtime smoke CI integration（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/` |
+| parent | `docs/30-workflows/completed-tasks/issue-531-runtime-smoke-attendance-provider-migration/` |
+| 目的 | attendanceProvider runtime smoke を staging deploy 後に GitHub Actions で自動実行する workflow / scripts / ADR を固定 |
+| workflow | `.github/workflows/runtime-smoke-staging.yml` |
+| trigger | reusable `workflow_call` from `backend-ci.yml` after API staging deploy + debug `workflow_dispatch` |
+| runtime command | `bash scripts/smoke/runtime-attendance-provider.sh staging --out-dir ci-evidence --ci-summary` |
+| secret境界 | staging runtime credentials は GitHub Environment `staging-runtime-smoke` only。repository-scoped dispatch token は不要 |
+| evidence boundary | local PASS 5 点取得済み。G1-G4 approval 後に real workflow run / artifact redaction grep / Slack failure injection evidence を取得 |
+| production boundary | production runtime smoke CI は staging 30 日観測後に起票・着手 |
+| Issue 取扱 | Issue #571 CLOSED 維持。PR 文脈では `Refs #571` のみ |
+
 ### Issue #526 CI actionlint / shellcheck gate（2026-05-08）
 
 | 項目 | 値 |
