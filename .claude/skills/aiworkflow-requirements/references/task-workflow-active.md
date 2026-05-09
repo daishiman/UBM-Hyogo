@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### web-app-route-bundle-parse-fix（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/web-app-route-bundle-parse-fix/` |
+| 目的 | Next.js 16 Turbopack default が App Route Handler bundle に残す `[project]/...` virtual specifier による Cloudflare Worker parse fail を、OpenNext 互換の webpack build に切り替えて解消する |
+| 実装対象 | `apps/web/package.json`, `scripts/patch-next-standalone-instrumentation.mjs` |
+| evidence | typecheck / lint / `build:cloudflare` / `.open-next/worker.js` `[project]/` grep PASS |
+| runtime gate | staging / production deploy, smoke, tail evidence, commit / push / PR are user-gated |
+| inventory | `references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md` |
+| lessons | `references/lessons-learned-web-app-route-bundle-parse-fix-2026-05.md` |
+
 ### UI prototype alignment / MVP recovery task-05 error boundary and staging smoke（2026-05-09）
 
 | 項目 | 値 |
@@ -21,6 +34,7 @@
 | 下流 | task-18 regression smoke |
 | evidence boundary | Phase 12 strict 7 + artifacts parity は present。staging deploy / runtime Playwright / Sentry dashboard / commit / push / PR は user approval 後 |
 | artifact inventory | `references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md` |
+
 
 ### Issue #555 audit correlation salt rotation（2026-05-08）
 
@@ -340,7 +354,7 @@
 | 実装 | existing script に `cwd` guard / `--verify-only` / trace copy regression test / trace parse failure handling / structured log を追加し、`.github/workflows/pr-build-test.yml` の `build-test` job で `@ubm-hyogo/web build:cloudflare` 後に verify gate を実行する |
 | 境界 | `web-cd.yml` Pages deploy cutover、production deploy、Sentry dashboard runtime evidence は対象外。commit / push / PR は user approval 後 |
 
-||||||| 8f4193d7### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
+### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
 | 成果物 | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
 | public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
 | member blueprint | `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md`（917 行 / section count 3） |
