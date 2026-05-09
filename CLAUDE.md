@@ -154,6 +154,7 @@ mise exec -- pnpm lint            # リント
 mise exec -- pnpm build           # ビルド
 mise exec -- pnpm indexes:rebuild # skill indexes を明示再生成（post-merge 廃止後の正規経路）
 mise exec -- pnpm sync:check      # origin/main・origin/dev とローカル/全 worktree の遅れを通知（git fetch 後の手動チェック）
+mise exec -- pnpm exec lhci healthcheck --config=./lighthouserc.json # Lighthouse CI 設定チェック
 
 # または mise shell で Node 24 環境に入ってから通常通り実行
 mise shell

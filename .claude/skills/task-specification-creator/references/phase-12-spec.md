@@ -47,6 +47,25 @@ Phase 12 では `outputs/phase-12/` 配下に以下 **7 ファイルを必ず揃
 
 新規スキル / template fixture / SubAgent prompt にこの 7 ファイル名を埋め込む際は、上表の正規名を **コピーペースト** で記載すること。エイリアス命名規則を内部で許容してはならない。
 
+### Phase ステータス語彙 3 値定義（2026-05-09 stage-3-impl 由来）
+
+Phase / runtime artifact のステータスは **`spec_created` / `runtime_pending` / `completed` の 3 値** を厳格運用する。これら 3 値は Phase 12 の `phase12-task-spec-compliance-check.md` および各 Phase の status 表で混同してはならない。e2e-quality-uplift stage-3-impl の 3 サブタスクで、runtime CI 実行前に `completed` を貼ってしまい compliance check が FAIL になった実例がある。
+
+| 値 | 適用条件 | 禁止事項 |
+| --- | --- | --- |
+| `spec_created` | 仕様書のみ作成済み。コード差分なし、Phase 11 evidence 未取得、runtime CI 未実行 | runtime evidence を擬似的に `completed` とラベルしない |
+| `runtime_pending` | spec / コード / local 5 点 PASS は揃ったが、**runtime CI / staging deploy / fresh GET / production smoke のいずれかが未実行** | 「local PASS = completed」と短絡しない。runtime artifact ファイルが空 or placeholder のまま `completed` を貼らない |
+| `completed` | runtime CI が **実際に exit 0 で完了し、artifact ファイル（log / evidence / fresh GET JSON）が物理生成済み** で、検証日時とコマンドが `documentation-changelog.md` に転記済み | runtime CI 実行前に予測値で `completed` を付与しない |
+
+**3 値運用の必須ルール**:
+
+1. **runtime CI 実行前に `completed` を付与しない**: テンプレートの runtime evidence セクションに `completed` を埋め込んだまま提出することを禁止。runtime CI 未実行時は `runtime_pending` を必ず採用する。
+2. `runtime_pending` から `completed` への昇格は **runtime artifact が物理ファイルとして outputs/phase-11/evidence/ 配下に存在し、`exit code` 行が記録されている** ことを条件にする。
+3. `phase12-task-spec-compliance-check.md` の各 AC / Step 判定行は、3 値のいずれかを必ず明示し、`PASS` 単独表記は禁止（`completed (runtime PASS)` / `runtime_pending (CI scheduled)` / `spec_created (no impl yet)` のように suffix 必須）。
+4. テンプレ生成時は `runtime_pending` をデフォルト値にする。AI が runtime 実行を自律判断して `completed` を貼ることは禁止。
+
+`PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` / `CONTRACT_READY_IMPLEMENTATION_PENDING` / `PENDING_RUNTIME_EVIDENCE` 等の既存 boundary 語彙は本 3 値の `runtime_pending` に対応する詳細サブカテゴリとして引き続き併用する。
+
 ### Implementation evidence path の状態表現
 
 Phase 12 には `spec formalization path` と `implementation evidence path` がある。コード差分、Phase 11 evidence、Phase 12 7 成果物がすでに存在する実装タスクでは、root `artifacts.json`、`index.md`、`phase12-task-spec-compliance-check.md` の状態を `verified` / `implementation_complete_pending_pr` へ揃える。`spec_created` は実装着手前の状態だけに使い、実装済みタスクの compliance check に残さない。
