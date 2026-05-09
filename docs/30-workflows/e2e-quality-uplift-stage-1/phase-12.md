@@ -37,7 +37,7 @@
 | U-1 | `LEAK_PROBE_EMAIL` を fixture seed に追加 | Stage 2 |
 | U-2 | `mockMeWithPending` を global util 化 | Stage 2 / 3 |
 | U-3 | `/@/` probe を `/login` / `/admin/*` に横展開 | Stage 2 |
-| U-4 | `signSession` TODO_PLACEHOLDER 実 Auth.js 署名化 | 別 workflow（auth uplift） |
+| U-4 | Playwright fixture `signSession()` の shared JWT helper 接続 | 本サイクルで対応済。production Auth.js 認証変更は範囲外 |
 
 ## 5. lessons-learned 候補
 
@@ -58,9 +58,9 @@
 
 ## 7. Phase 13 入口条件
 
-- [ ] Task 1〜5 すべて done
-- [ ] §4 未タスクが Stage 2 spec の入力候補として整理済
-- [ ] index.md の Phase status table を更新可能な状態
+- [x] Task 1〜5 すべて done
+- [x] §4 未タスクが Stage 2 spec の入力候補として整理済
+- [x] index.md の Phase status table を更新可能な状態
 
 ---
 
@@ -72,7 +72,7 @@
 - phase: 12
 - task classification: implementation / NON_VISUAL
 - coverageTier: standard
-- workflow_state: spec_verified
+- workflow_state: implemented_local
 
 ## 目的
 
@@ -93,22 +93,21 @@ Stage 1 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 1. 本 phase の既存本文を確認する。
 2. 対応する実ファイル差分または evidence を確認する。
-3. validator と grep gate の結果を Phase 11 / Phase 12 evidence に反映する。
+3. validator と grep gate の結果を Phase 12 evidence に反映し、Phase 11 は実行ログ・skip count・runner version として分離する。
 
 ## 成果物
 
 - 本 phase markdown
 - 関連 outputs/phase-11 または outputs/phase-12 evidence
-- 必要に応じた apps/web / .claude/skills 実ファイル差分
+- apps/web/playwright/tests/public-flow.spec.ts、profile-visibility-request.spec.ts、profile-delete-request.spec.ts の assertion 差分
 
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

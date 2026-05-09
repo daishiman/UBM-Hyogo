@@ -6,6 +6,13 @@ const EVIDENCE_DIR =
     : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
 
 const shouldStartLocalServer = !process.argv.some((arg) => arg.includes('staging-smoke'))
+const localEnv =
+  'ENVIRONMENT=local SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=0 ' +
+  'NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
+  'PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
+  'INTERNAL_API_BASE_URL=http://127.0.0.1:8787 ' +
+  'AUTH_URL=http://localhost:3000 ' +
+  'AUTH_SECRET=playwright-e2e-auth-secret-32-bytes'
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -67,7 +74,7 @@ export default defineConfig({
     ? {
         webServer: [
           {
-            command: 'pnpm --filter @ubm-hyogo/web dev',
+            command: `${localEnv} pnpm --filter @ubm-hyogo/web dev`,
             url: 'http://localhost:3000',
             reuseExistingServer: !process.env.CI,
             timeout: 120_000,

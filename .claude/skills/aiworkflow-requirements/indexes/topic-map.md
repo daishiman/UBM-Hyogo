@@ -2199,13 +2199,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
-| Stage Responsibility Split (classification-first) | L16 |
-| Current Facts (Stage 0 implementation) | L25 |
-| Phase 12 Strict 7 Files (all stages) | L39 |
-| Phase 11 Evidence Path Map | L51 |
-| Tier-Aware Coverage Policy | L62 |
-| Contract | L71 |
-| Related Resources | L78 |
+| Stage Responsibility Split (classification-first) | L17 |
+| Current Facts (Stage 0 implementation) | L26 |
+| Phase 12 Strict 7 Files (all stages) | L40 |
+| Phase 11 Evidence Path Map | L52 |
+| Tier-Aware Coverage Policy | L63 |
+| Contract | L72 |
+| Related Resources | L79 |
 
 ### references/workflow-governance-design-category.md
 
@@ -6110,13 +6110,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L804 |
-| フェーズ構造（概要） | L813 |
-| 品質ゲート（概要） | L844 |
-| 出力テンプレート | L855 |
-| 実行時のコマンド・エージェント・スキル | L878 |
-| 昇格パターン集 | L902 |
-| Current Active / Spec Created Tasks | L904 |
+| ドキュメント構成 | L826 |
+| フェーズ構造（概要） | L835 |
+| 品質ゲート（概要） | L866 |
+| 出力テンプレート | L877 |
+| 実行時のコマンド・エージェント・スキル | L900 |
+| 昇格パターン集 | L924 |
+| Current Active / Spec Created Tasks | L926 |
 
 ### references/task-workflow-backlog-part2.md
 
