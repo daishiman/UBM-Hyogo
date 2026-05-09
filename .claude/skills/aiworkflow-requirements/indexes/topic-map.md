@@ -2930,6 +2930,16 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-12-member-detail-register-legal-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Runtime Boundary | L14 |
+| Upstream And Downstream | L20 |
+| Evidence | L29 |
+| Lessons Learned | L33 |
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -4712,17 +4722,15 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L10 |
 | 横展開チェックリスト | L33 |
 
-### references/lessons-learned-task-11-public-top-and-member-list-2026-05.md
+### references/lessons-learned-task-12-member-detail-register-legal-2026-05.md
 
 | セクション | 行 |
 |------------|----|
-| L-T11-001: route segment colocation（`_components/`）廃止と `src/components/public/` 集約 | L31 |
-| L-T11-002: Hero / StatCard / Timeline 単体構成 → Hero+Stats+ZoneIntro+Timeline 4セクション集約への置換 | L61 |
-| L-T11-003: `apps/web/src/lib/api/public.ts` API adapter 層新設で D1 直接アクセス禁止を強制 | L92 |
-| L-T11-004: `force-dynamic` 撤去 → `connection()` 移行（OpenNext + Cloudflare Workers） | L125 |
-| L-T11-005: local D1 に `member_identities` 不在で screenshot / axe 未取得 → task-ut-04 seed-data-runbook follow-up | L155 |
-| L-T11-006: `playwright.config.ts` を `desktop-chromium` 単独 project に絞り込み | L184 |
-| 横断教訓 | L216 |
+| L-TASK12-001: Playwright evidence path 多重ルーティング | L7 |
+| L-TASK12-002: Playwright `webServer.env.PORT` の URL 由来同期 | L14 |
+| L-TASK12-003: legacy public CSS のコンポーネント拡張は selector list join | L21 |
+| L-TASK12-004: task-10 primitive (`.ui-card`) と legacy-public.css の境界 | L28 |
+| L-TASK12-005: `responder-link` と `register-cta` の dual-role CSS | L35 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
@@ -5033,8 +5041,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L104 |
-| 関連ドキュメント | L109 |
+| 利用順序 | L105 |
+| 関連ドキュメント | L110 |
 
 ### references/llm-embedding.md
 
@@ -6144,13 +6152,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L805 |
-| フェーズ構造（概要） | L814 |
-| 品質ゲート（概要） | L845 |
-| 出力テンプレート | L856 |
-| 実行時のコマンド・エージェント・スキル | L879 |
-| 昇格パターン集 | L903 |
-| Current Active / Spec Created Tasks | L905 |
+| ドキュメント構成 | L846 |
+| フェーズ構造（概要） | L855 |
+| 品質ゲート（概要） | L886 |
+| 出力テンプレート | L897 |
+| 実行時のコマンド・エージェント・スキル | L920 |
+| 昇格パターン集 | L944 |
+| Current Active / Spec Created Tasks | L946 |
 
 ### references/task-workflow-backlog-part2.md
 

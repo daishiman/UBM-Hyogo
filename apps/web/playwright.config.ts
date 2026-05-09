@@ -1,12 +1,23 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const EVIDENCE_DIR = process.argv.some((arg) => arg.includes('staging-smoke'))
-  ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
-  : process.argv.some((arg) => arg.includes('public-top-and-list.spec.ts'))
-    ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
-    : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+const isStagingSmoke = process.argv.some((arg) => arg.includes('staging-smoke'))
+const isTask11PublicSmoke = process.argv.some((arg) => arg.includes('public-top-and-list.spec.ts'))
+const isTask12PublicSmoke = process.argv.some((arg) =>
+  arg.includes('public-detail-register-legal.spec.ts'),
+)
+const isTask12Evidence = process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-12-member-detail-register-legal'
 
-const shouldStartLocalServer = !process.argv.some((arg) => arg.includes('staging-smoke'))
+const EVIDENCE_DIR = isStagingSmoke
+  ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+  : isTask11PublicSmoke
+    ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
+    : isTask12PublicSmoke || isTask12Evidence
+      ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
+      : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+
+const shouldStartLocalServer = !isStagingSmoke
+const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
+const localPort = new URL(localBaseURL).port || '3000'
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -23,7 +34,7 @@ export default defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000',
+    baseURL: localBaseURL,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -69,9 +80,10 @@ export default defineConfig({
         webServer: [
           {
             command: 'pnpm --filter @ubm-hyogo/web dev',
-            url: 'http://localhost:3000',
+            url: localBaseURL,
             reuseExistingServer: !process.env.CI,
             timeout: 120_000,
+            env: { PORT: localPort },
           },
         ],
       }

@@ -106,6 +106,19 @@
 | API 境界 | 既存 `/public/*`, `/auth/*`, `/me/*` endpoint のみ。新 endpoint / D1 schema 変更なし |
 | visual gate | fenced JSX prototype 転記を除く仕様本文で visual literal 0。凍結 prototype 一字一句転記を優先 |
 | downstream | task-11 / task-12 / task-13 / task-14 / task-06 |
+
+### UI prototype alignment task-12 member detail / register / legal（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-12-member-detail-register-legal/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / runtime evidence pending_user_approval` |
+| 対象 routes | `/members/[id]`, `/register`, `/privacy`, `/terms` |
+| API surface | `GET /public/members/:memberId`, `GET /public/form-preview` のみ消費。新 endpoint 追加なし |
+| AC 正本 | `index.md` 13 項目。Phase 7 / 10 / 12 はこの 13 項目へ同期 |
+| strict evidence | `outputs/artifacts.json`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| CI gate | `.github/workflows/e2e-tests.yml`, `.github/workflows/pr-build-test.yml` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-12-member-detail-register-legal-artifact-inventory.md` |
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | boundary | commit / push / PR は user approval 後 |
 
@@ -2237,3 +2250,20 @@ UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts
 | Node / pnpm バージョン固定（Node 24 / pnpm 10.33.2 / mise） | `CLAUDE.md` 「開発環境セットアップ」節 | `references/technology-devops-core.md` baseline 章 | CLAUDE.md > aiworkflow-requirements |
 | references/ 配下の API/D1/IPC/UI/auth 仕様 | `references/*.md`（aiworkflow-requirements が一次正本） | `CLAUDE.md` は概要のみ言及 | aiworkflow-requirements > CLAUDE.md。実装契約・schema・状態定数は references/ を正とする |
 | 教訓 / lessons-learned ID（L-XXX-NNN） | `references/lessons-learned-*.md`（aiworkflow-requirements が一次正本） | CLAUDE.md には記載しない | aiworkflow-requirements > CLAUDE.md |
+
+### E2E Quality Uplift Stage 3 / Lighthouse and Hard CI Gates（2026-05-09）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| parent umbrella archive | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/` |
+| 3a Lighthouse CI spec | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/` |
+| 3b E2E hard gate spec | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` |
+| 3c branch protection spec | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/` |
+| state boundary | `spec_created / implementation / NON_VISUAL / runtime_pending`; real CI runs, branch protection mutation, commit, push, and PR are user-gated |
+| 3a context | `lighthouse-ci` |
+| 3b context | `e2e-tests-coverage-gate` |
+| 3c target contexts | `ci`, `Validate Build`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate` |
+| 3a profile degradation decision | `Q-02`; evidence path `outputs/phase-11/lhci-profile-q02-judgement.md`. 決定 ID は phase-N.md / artifacts.json / evidence file 冒頭メタの 3 か所で同一文字列同期 (L-E2EQU-010) |
+| Phase 12 strict 7 outputs (docs-only stage) | `main / implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report / phase12-task-spec-compliance-check` を docs-only stage でも完備する (L-E2EQU-006 / L-E2EQU-008) |
+| status vocabulary (canonical 三値) | `spec_created` / `runtime_pending` / `completed` を厳格運用。Stage 3 系は default `runtime_pending`、CI run 完了後のみ `completed` 昇格 (L-E2EQU-008) |
+| governance mutation user gate | `gh api -X PUT .../protection` 等の mutation は AI 自動実行禁止。Phase 13 user 承認後のみ。`enforce_admins` / `lock_branch` drift は同 PR でなく O-NN 別 issue 起票 (L-E2EQU-012) |
