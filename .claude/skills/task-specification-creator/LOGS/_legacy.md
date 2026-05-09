@@ -2645,3 +2645,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Normalized phase statuses to `completed` / `pending` / `blocked` while keeping root workflow state `spec_created`.
 - Added `outputs/phase-11/main.md` as `PENDING_IMPLEMENTATION_EVIDENCE` so reserved evidence paths are not mistaken for runtime PASS.
 - Skill feedback: multi-candidate model selection workflows must separate synthetic harness smoke from production winner selection and keep FU-03-D production switch user-gated.
+# 2026-05-09 UT-17 cloudflare analytics alerts + Slack 日本語化リレー close-out
+
+- 対象: `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` (UT-17 / Cloudflare Analytics Alerts + Slack 日本語化リレー)
+- 種別: implementation-completed-local close-out / Phase 12 strict 7 outputs 完了
+- 結果: Phase 12 canonical 7 files (`main.md` / `implementation-guide.md` / `system-spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md`) を materialize。
+- skill feedback: no template change required (no-op skill feedback)。formatter / 未タスク state vocabulary / strict 7 outputs 命名はいずれも既存 task-specification-creator テンプレートで充足。
+- evidence: `docs/30-workflows/ut-17-cloudflare-analytics-alerts/outputs/phase-12/skill-feedback-report.md`
+

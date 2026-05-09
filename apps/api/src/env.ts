@@ -81,6 +81,14 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // vars — 公開 runbook URL / GitHub org slug
   readonly AUDIT_CORRELATION_RUNBOOK_BASE_URL?: string;
   readonly AUDIT_CORRELATION_GITHUB_ORG?: string;
+
+  // UT-17 — Cloudflare Notifications generic webhook → Slack 日本語化リレー
+  // 1Password 正本 → Cloudflare Secrets（`bash scripts/cf.sh secret put` 経由）
+  readonly CF_WEBHOOK_AUTH_SECRET?: string;
+  readonly SLACK_WEBHOOK_URL?: string;
+  // vars — Slack message links shown in UT-17 alert cards
+  readonly CF_ALERT_DASHBOARD_URL?: string;
+  readonly CF_ALERT_RUNBOOK_URL?: string;
 }
 
 // 予約欄（本タスク scope 外、後続タスクで `Env` に追加する binding 候補）

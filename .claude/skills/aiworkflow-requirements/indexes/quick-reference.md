@@ -5,6 +5,17 @@
 
 ---
 
+### UT-17 Cloudflare Analytics Alerts（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING` |
+| baseline | Cloudflare Notifications email + runbook |
+| optional relay | Professional+ / webhook-eligible account only: generic webhook -> `/internal/alert-relay` -> Slack |
+| auth | `cf-webhook-auth` fixed secret; body HMAC and `X-CF-Alert-Signature` are not part of the contract |
+| phase gates | Local code/tests are complete; Cloudflare Secrets, deploy, Notification Policy setup, Slack runtime smoke, commit, push, and PR remain user-gated |
+
 ### Issue #559 Sentry Staging Runtime Evidence（2026-05-08）
 
 | 目的 | 参照先 |

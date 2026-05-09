@@ -3159,6 +3159,16 @@ node scripts/list-specs.js --topics
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
 
+### references/workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Code | L13 |
+| Tests | L26 |
+| Runbooks | L35 |
+| Runtime Boundary | L42 |
+
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
 | セクション | 行 |
