@@ -75,10 +75,15 @@ UI / API / boundary を伴うタスクの仕様書 (`docs/30-workflows/<feature>
 VISUAL タスクは `phase-template-phase11.md` の screenshot evidence に加え、以下 3 件を `outputs/phase-11/evidence/` に必ず残す:
 
 ```
-e2e-run.log              # 該当 spec のフル実行ログ（pass/fail 集計が末尾にあるもの）
+e2e-run.txt              # 該当 spec のフル実行ログ（pass/fail 集計が末尾にある tracked evidence）
+e2e-list.txt             # 対象 spec の列挙結果（実行対象 drift 防止）
 e2e-skip-count.txt       # skip 集計（0 を期待）
 runner-version.txt       # @playwright/test / vitest 等のバージョン固定証跡
 ```
+
+`*.log` が repository `.gitignore` で無視される環境では、`.log` を canonical evidence にしない。Phase 12 compliance は `git check-ignore` または `git status --short -- <evidence>` で evidence が追跡可能な path であることを確認する。untracked / ignored evidence だけを PASS 根拠にすることは禁止。
+
+Next.js Server Component / route handler などが Node 側で `fetch()` する E2E では、Playwright の `page.route()` は server-side fetch を捕捉しない。server state を検証する AC は、mock API server、test seed、または `INTERNAL_API_BASE_URL` 差し替えなど、server fetch 経路に効く仕組みを Phase 4 までに用意し、Phase 11 evidence にその起動 path を記録する。
 
 NON_VISUAL タスクは [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) の L3 in-memory test layer と統合する。
 

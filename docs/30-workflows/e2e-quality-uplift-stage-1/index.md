@@ -8,10 +8,10 @@
 | 項目 | 値 |
 |------|----|
 | workflow id | `e2e-quality-uplift-stage-1` |
-| branch | `feat/e2e-quality-uplift` |
+| branch | `feat/task-spec-e2e-stage-2` |
 | 起票日 | 2026-05-08 |
-| tier | standard（lines >= 70% / critical route smoke 100%） |
-| implementation_mode | `new`（既存 spec ファイルへの新規 test case 追加） |
+| tier | standard（E2E lines >= 80% / critical route smoke 100%） |
+| implementation_mode | `new`（既存 spec ファイルへの assertion / test case 追加） |
 | サイクル | CONST_007 単一サイクル（無関係 route への spec 追加禁止） |
 | depends-on | `e2e-quality-uplift-stage-0`（PR #594 由来 unskipped specs が dev に取り込まれていること） |
 
@@ -24,19 +24,20 @@
 
 ## 受け入れ条件（workflow 全体）
 
-- [ ] 1a: `responseEmail` 既知 fixture 値（例: `system+responseEmail@example.test`）が `/`, `/members`, `/members/[id]` の DOM 全体に対して `not.toContainText` で assert される。
-- [ ] 1a: 任意の `@` を含む文字列が body に存在しないことを補助 assertion として組み込み（false negative 削減）。
-- [ ] 1b: visibility-request / delete-request 双方で「submit → 202 → pending 表示 → 別 route へ navigate → `/profile` に戻る → 依然として pending banner が見える」round-trip assertion を追加する。
-- [ ] 1b: 復帰時の `GET /api/me` を `page.route` で mock し、`pendingRequests` に該当 type が含まれた response を返却する。
-- [ ] CI gate（既存 playwright smoke job）が green。
-- [ ] `apps/api` および `apps/web` の production code に変更を入れない（spec / fixture のみ）。
+- [x] 1a: `responseEmail` 既知 fixture 値（`system+responseEmail@example.test`）が `/`, `/members`, `/members/[id]` の DOM 全体に対して `not.toContainText` で assert される。
+- [x] 1a: 任意の email-like 文字列が body に存在しないことを補助 assertion として組み込み（false negative 削減）。
+- [x] 1b: visibility-request / delete-request 双方で「submit → 202 → pending 表示 → 別 route へ navigate → `/profile` に戻る → 依然として pending banner が見える」round-trip assertion を追加する。
+- [x] 1b: 復帰時の server-side `GET /me/profile` を local mock API で返し、`pendingRequests` に該当 type が含まれた response を返却する。
+- [x] CI gate 相当のローカル Playwright smoke が green。実行結果は `outputs/phase-11/evidence/e2e-run.txt` に記録済み。
+- [x] `apps/api` production code に変更を入れない。`apps/web/src/styles/tokens.css` は既存 axe contrast failure を解消する最小 token 修正のみ。
 
 ## 範囲外（明示的）
 
 - 新規 spec ファイル作成（既存 2 ファイルへの追記のみ）。
 - 他 route（`/login`, `/admin/*`, `/(admin)/*`）への assertion 拡張。
-- D1 schema 変更・API endpoint 追加・実 Auth.js 署名実装（`signSession` の TODO は本サイクル対象外）。
-- HEX/`bg-[#xxx]` 移行や design token 整備。
+- D1 schema 変更・API endpoint 追加・production code の Auth.js 認証実装変更。
+- Playwright fixture の `signSession()` は本サイクルで shared JWT helper に接続し、Stage 2 依存条件の placeholder 0 件 gate と整合させる。
+- HEX/`bg-[#xxx]` 移行や design token 全面整備（ただし既存 axe contrast failure 解消に必要な最小 accent token 修正は本サイクル内で実施）。
 
 ## 不変条件参照
 
@@ -63,7 +64,7 @@
 | 10 | 統合 | done | `phase-10.md` |
 | 11 | リリース準備 | done | `phase-11.md` |
 | 12 | 中学生レベル概念説明 | done | `phase-12.md` |
-| 13 | PR 作成 | done | `phase-13.md` |
+| 13 | PR 作成 | pending_user_approval | `phase-13.md` |
 
 ## 関連ドキュメント
 
@@ -79,8 +80,8 @@
 
 | key | value |
 | --- | --- |
-| タスク種別 | docs-only |
+| タスク種別 | implementation |
 | visualEvidence | NON_VISUAL |
 | coverageTier | standard |
-| workflow_state | spec_verified |
-| evidence_state | runtime_pending |
+| workflow_state | implemented_local |
+| evidence_state | e2e_verification_recorded |
