@@ -69,12 +69,12 @@ test("TC-01: cwd guard fails outside apps/web", () => {
   assert.match(r.stderr, /cwd_guard_failed/);
 });
 
-test("TC-02: missing input causes failure", () => {
+test("TC-02: missing input is skipped (webpack build path)", () => {
   setupFixture({ includeInstrumentation: false });
   const r = runScript(appsWebDir);
-  assert.equal(r.status, 1);
-  assert.match(r.stderr, /copy_failed/);
-  assert.match(r.stderr, /missing/);
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /copy_skipped/);
+  assert.match(r.stdout, /instrumentation_not_emitted/);
 });
 
 test("TC-03: happy path copies instrumentation to standalone", () => {

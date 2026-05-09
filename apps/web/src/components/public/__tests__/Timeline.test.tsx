@@ -23,9 +23,10 @@ describe("Timeline", () => {
     expect(times[2]?.textContent).toBe("2026-03-10");
   });
 
-  it("returns null when entries=[] (empty)", () => {
-    const { container } = render(<Timeline entries={[]} />);
-    expect(container.firstChild).toBeNull();
+  it("renders EmptyState when entries=[] (empty)", () => {
+    render(<Timeline entries={[]} />);
+    expect(screen.getByRole("status")).toBeTruthy();
+    expect(screen.getByText("まだ支部会の記録がありません")).toBeTruthy();
   });
 
   it("renders single entry without React key warning (variant)", () => {
