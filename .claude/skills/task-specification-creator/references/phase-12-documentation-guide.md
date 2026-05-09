@@ -12,6 +12,7 @@
 - 専門用語は使わない（使う場合は即座に説明）
 - 「なぜ必要か」を先に説明してから「何をするか」を説明
 - 作成後に `references/phase12-checklist-definition.md` と `validate-phase12-implementation-guide.js` で内容要件を確認する
+- **逐語コピペ運用**: 仕様書 `phase-12.md` 側に Part 1 ドラフト（中学生レベル例え話 + 専門用語セルフチェック表）が用意されている場合、`implementation-guide.md` Part 1 はそのドラフトを **逐語コピペ**する。AI による「自然な書き直し」「言い回しの推敲」は禁止。理由: Part 1 ドラフトは意図的に冗長化したテキストであり、推敲によって専門用語に戻る経路がある。drift fence として、Part 1 を改稿するなら同 wave で `phase-12.md` 側のドラフトを更新する。`lessons-learned/n-day-close-out-cross-run-aggregation.md` も参照。
 
 **Part 2 追補ルール**:
 - `spec_created` workflow では「実装済み」と書かず、`current contract` と `target delta` を分けて書く
@@ -64,6 +65,7 @@ docs-only / NON_VISUAL、または legacy umbrella close-out では、Part 1 は
 - root/output artifacts parity は full mirror と lightweight parity marker を区別する。全項目一致でない場合は、どの key を marker として同期したかを明示し、full mirror 済みと書かない
 - Phase 11 が NON_VISUAL の場合でも `manual-test-checklist.md` など補助成果物の有無を記録する
 - Phase 11 が docs-only / NON_VISUAL の infrastructure verification の場合、`implementation-guide.md` に Phase 11 evidence file 一覧と「実測完了ではなく evidence template 完了」の境界を明記する
+- N日 close-out / scheduled observation の Phase 12 では、cross-run artifact download 方式（`gh api` か `actions/download-artifact` か）、runtime aggregate JSON の `expectedSnapshots` / `actualSnapshots`、run URL 一覧、fallback/leakage/classifier/skeleton metrics gate、evidence PR 起票方式を `implementation-guide.md` と system spec に同一語彙で記録する。
 - Production migration runbook formalization など `spec_created` 据え置き型タスクでは、root `workflow_state` を `completed` へ昇格しない。Phase status のみ更新し、実 apply 実行は別 workflow（後継 unassigned-task）へ委譲する。詳細ルールは `phase-11-non-visual-alternative-evidence.md` の「Production migration runbook evidence」節を参照する
 - state-only の修正は NON_VISUAL と判定し、manual-test-checklist.md と自動テスト結果を残す
 - Implementation spec-to-skill sync: Phase 12 が skill behavior を変える場合は owning skill reference / asset を同一 wave で更新し、implementation-guide の current facts だけに閉じ込めない
