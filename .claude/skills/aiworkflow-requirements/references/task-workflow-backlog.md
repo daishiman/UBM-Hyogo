@@ -374,6 +374,15 @@
 
 ---
 
+## Issue #534 workflow_state skill guidance follow-up（2026-05-08）
+
+| タスクID | タスク名 | 優先度 | 発見元 | タスク仕様書 |
+| --- | --- | --- | --- | --- |
+| task-spec-skill-workflow-state-hook-enforcement | `workflow_state` / phase status / runtime pending boundary の hook・lefthook・CI enforcement 設計実装 | 中 | Issue #534 Phase 12 unassigned-task-detection | `docs/30-workflows/unassigned-task/task-spec-skill-workflow-state-hook-enforcement.md` |
+| task-spec-skill-compliance-check-ci-gate | Phase 12 compliance-check template の CI gate 化と failure-mode 固定 | 中 | Issue #534 Phase 12 unassigned-task-detection | `docs/30-workflows/unassigned-task/task-spec-skill-compliance-check-ci-gate.md` |
+
+---
+
 ## 続き
 
 後半コンテンツは分割ファイルを参照:

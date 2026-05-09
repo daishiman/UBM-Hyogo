@@ -8,6 +8,34 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### web-app-route-bundle-parse-fix（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/web-app-route-bundle-parse-fix/` |
+| 目的 | Next.js 16 Turbopack default が App Route Handler bundle に残す `[project]/...` virtual specifier による Cloudflare Worker parse fail を、OpenNext 互換の webpack build に切り替えて解消する |
+| 実装対象 | `apps/web/package.json`, `scripts/patch-next-standalone-instrumentation.mjs` |
+| evidence | typecheck / lint / `build:cloudflare` / `.open-next/worker.js` `[project]/` grep PASS |
+| runtime gate | staging / production deploy, smoke, tail evidence, commit / push / PR are user-gated |
+| inventory | `references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md` |
+| lessons | `references/lessons-learned-web-app-route-bundle-parse-fix-2026-05.md` |
+
+### UI prototype alignment / MVP recovery task-05 error boundary and staging smoke（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / runtime evidence pending_user_approval / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/task-05-error-boundary-and-staging-smoke/` |
+| 目的 | App Router `error.tsx` / `global-error.tsx` / `not-found.tsx` / `loading.tsx` と 19 routes staging smoke の実装仕様を固定する |
+| route SSOT | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/specs/staging-smoke-checklist.md` |
+| fixture gate | `ENABLE_STAGING_SMOKE_FIXTURE=1` required; `NODE_ENV` fixture control forbidden |
+| 上流 | task-02 env / task-03 Sentry / task-04 logger |
+| 下流 | task-18 regression smoke |
+| evidence boundary | Phase 12 strict 7 + artifacts parity は present。staging deploy / runtime Playwright / Sentry dashboard / commit / push / PR は user approval 後 |
+| artifact inventory | `references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md` |
+
+
 ### Issue #555 audit correlation salt rotation（2026-05-08）
 
 | 項目 | 値 |
@@ -25,11 +53,25 @@
 | lessons | `references/lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md` |
 | phase-12 logs | `outputs/phase-12/indexes-rebuild.log`, `outputs/phase-12/issue-555-state.log` |
 
+### UI prototype alignment / MVP recovery task-05 error boundary and staging smoke（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / runtime evidence pending_user_approval / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/task-05-error-boundary-and-staging-smoke/` |
+| 目的 | App Router `error.tsx` / `global-error.tsx` / `not-found.tsx` / `loading.tsx` と 19 routes staging smoke の実装仕様を固定する |
+| route SSOT | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/specs/staging-smoke-checklist.md` |
+| fixture gate | `ENABLE_STAGING_SMOKE_FIXTURE=1` required; `NODE_ENV` fixture control forbidden |
+| 上流 | task-02 env / task-03 Sentry / task-04 logger |
+| 下流 | task-18 regression smoke |
+| evidence boundary | Phase 12 strict 7 + artifacts parity は present。staging deploy / runtime Playwright / Sentry dashboard / commit / push / PR は user approval 後 |
+| artifact inventory | `references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md` |
+
 ### Issue #553 Live audit-correlation endpoint（2026-05-08）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
+| ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
 | 成果物 | `docs/30-workflows/issue-553-live-audit-correlation-endpoint/` |
 | 親 | Issue #516 GitHub audit log cross-source correlation |
 | 目的 | FU-01 live wiring: Cloudflare Worker route + cron + D1 redact-safe persistence + HIGH Slack incoming webhook notification をローカル実装し、runtime operation を user gate に分離 |
@@ -107,7 +149,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/completed-tasks/governance/issue-526-ci-actionlint-shellcheck-gate/` |
 | Artifact inventory | `references/workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md` |
 | Lessons | `references/lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md` |
@@ -134,7 +176,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/task-02-w2-wrangler-env-injection/` |
 | 実装対象 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
 | env contract | `getEnv()` は Cloudflare `getCloudflareContext().env` を優先し、Node build/test では `process.env` fallback。全経路を zod schema で検証 |
@@ -168,7 +210,7 @@
 | 実装対象 | `scripts/smoke/runtime-attendance-provider.sh`, `scripts/smoke/redact.sh` |
 | runtime contract | read-only GET smoke only: admin list/detail/attendance and me root/profile/attendance. DI-bound evidence is admin detail + me profile only |
 | secret/PII境界 | persistent evidence is summary-only; raw body is temporary `mktemp` data removed by `trap` |
-| state boundary | parent issue-371 remains `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` until real staging smoke PASS exists |
+| state boundary | parent issue-371 remains `IMPLEMENTED_LOCAL_RUNTIME_PENDING` until real staging smoke PASS exists |
 | Issue 取扱 | #531 CLOSED 維持。PR 文脈では `Refs #531` のみ |
 
 
@@ -288,11 +330,13 @@
 ### UI prototype alignment task-03 Sentry Workers SDK unify（2026-05-07）
 | ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
 | 成果物 | `docs/30-workflows/completed-tasks/task-03-w2-par-sentry-workers-sdk-unify/` |
+| ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-03-w2-par-sentry-workers-sdk-unify/` |
 | parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W2 runtime task |
 | 契約 | Workers / Node SSR / Edge は `@sentry/cloudflare`、Browser は `@sentry/nextjs` に entry を分離し、`@sentry/nextjs` / browser SDK token の Workers bundle 混入を grep gate で禁止 |
 | secret境界 | web server DSN は Cloudflare Secret `SENTRY_DSN_WEB`、1Password 正本は `op://UBM-Hyogo/Sentry Web DSN (<env>)/dsn`。Browser DSN は `[vars]` `NEXT_PUBLIC_SENTRY_DSN` |
 | API | `captureException(error, ctx?)`, `captureMessage(message, ctx?)`, `register()` の contract を Phase 3 に固定 |
-| evidence境界 | Phase 11 は local typecheck / tests / build / OpenNext worker grep を取得済みの `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。staging deploy、Sentry dashboard event は user approval 後 |
+| evidence境界 | Phase 11 は local typecheck / tests / build / OpenNext worker grep を取得済みの `IMPLEMENTED_LOCAL_RUNTIME_PENDING`。staging deploy、Sentry dashboard event は user approval 後 |
 | 下流 | task-04 logger、task-05 error boundary / staging smoke |
 | 検証 | `pnpm --filter @ubm-hyogo/web exec tsc --noEmit` PASS、web Vitest 51 files / 420 tests PASS、`pnpm --filter @ubm-hyogo/web build:cloudflare` PASS、worker grep 0 hits、Phase 12 strict 7 outputs、Phase 11 outputs、Phase 13 approval-boundary outputs を同 wave で配置 |
 ### Issue #559 task-03 follow-up 001 Sentry staging runtime evidence（2026-05-08）
@@ -308,7 +352,7 @@
 | inventory | `references/workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md` |
 | 境界 | Cloudflare secret put / deploy / Sentry dashboard observation / commit / push / PR は user approval 後のみ |
 ### UI prototype alignment task-04 Window guard and logger（2026-05-08）
-| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
+| ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
 | 成果物 | `docs/30-workflows/task-04-w3-window-guard-and-logger/` |
 | parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` W3 runtime task |
 | 契約 | Browser-only globals are centralized in `apps/web/src/lib/is-browser.ts`; structured observability is centralized in `apps/web/src/lib/logger.ts`; downstream error boundaries call `logger.error({ event, error, digest })` |
@@ -326,3 +370,674 @@
 | 実装 | existing script に `cwd` guard / `--verify-only` / trace copy regression test / trace parse failure handling / structured log を追加し、`.github/workflows/pr-build-test.yml` の `build-test` job で `@ubm-hyogo/web build:cloudflare` 後に verify gate を実行する |
 | 境界 | `web-cd.yml` Pages deploy cutover、production deploy、Sentry dashboard runtime evidence は対象外。commit / push / PR は user approval 後 |
 
+### UI prototype alignment task-20 public/member screen blueprints（2026-05-07）
+| 成果物 | `docs/30-workflows/completed-tasks/task-20-screen-blueprints-public-and-member/` |
+| public blueprint | `docs/00-getting-started-manual/specs/09e-screen-blueprints-public.md`（990 行 / section count 6） |
+| member blueprint | `docs/00-getting-started-manual/specs/09f-screen-blueprints-member.md`（917 行 / section count 3） |
+| endpoint surface | `SCOPE.md` §2 + 現行 `apps/api/src/routes/` の AND: `GET /public/members/:memberId`, `POST /auth/magic-link`, `GET /auth/gate-state`, `GET /auth/session-resolve`, `GET /me`, `POST /me/visibility-request`, `POST /me/delete-request` |
+| login state | `input / sent / unregistered / deleted / rules_declined / error` |
+| legacy 撤回 | `/v1/public/*`, `/public/member-profile/:id`, `/auth/schemas`, `/auth/logout`, `/api/me`, `ruleConsent` を 09e/09f から削除 |
+| docs-only NON_VISUAL lifecycle | `references/lessons-learned-docs-only-lifecycle.md`（L-DOCS-LIFECYCLE-001..005） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260507-task-20-screen-blueprints-public-member.md` |
+| 境界 | apps/packages code change 0。Phase 13 commit / push / PR は user approval 後のみ |
+| evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-11/evidence/{route-coverage,endpoint-surface,state-vocabulary,phase12-strict-outputs,aiworkflow-sync-presence,lint-availability}.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+### Issue #407 Cloudflare API Token 90 日 rotation runbook automation（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/issue-407-cf-token-rotation-90day-runbook-automation/` |
+| 実装対象 | `docs/30-workflows/operations/cf-token-rotation-runbook.md`, `docs/30-workflows/operations/cf-token-rotation-log.md`, `.github/workflows/cf-token-rotation-reminder.yml`, `scripts/check-cf-rotation-reminder.sh` |
+| variable | GitHub repository variable `CF_TOKEN_ISSUED_AT` |
+| 境界 | reminder workflow は Issue 起票のみ。Token 発行 / `gh secret set` / production rotation は runbook の user approval gate 後だけ実行 |
+| secret hygiene | Token 値 / Token ID / scope 値は docs / log / evidence / PR body に記録しない |
+| Issue 取扱 | #407 CLOSED 維持。PR 文脈では `Refs #407` のみ |
+| 下流 | U-FIX-CF-ACCT-01-DERIV-01（OIDC 化）後に runbook 改訂または retire |
+
+### 09c Incident Runbook Slack Delivery（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation-spec / NON_VISUAL / Phase 12 strict outputs present / runtime evidence pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/09c-incident-runbook-slack-delivery/` |
+| lessons | `references/lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md`（L-09C-IRSD-001〜005）|
+| Issue 取扱 | Issue #349 は CLOSED 維持。PR / commit 文脈では `Refs #349` のみ |
+| 目的 | 09b/09c incident response runbook を Slack bot で dry-run / production channel に配信し、`message.permalink` / `ts` / `channel` を Phase 11 evidence に保存する |
+| secret境界 | `SLACK_BOT_TOKEN_INCIDENT_RUNBOOK` は 1Password 正本から GitHub Secrets へ派生。channel id は GitHub Variables |
+| gate | `workflow_run` は automatic dry-run のみ。production は `workflow_dispatch` + `production-slack-delivery` environment approval |
+| 起票元 | `docs/30-workflows/unassigned-task/task-09c-incident-runbook-slack-delivery-001.md` consumed |
+| 境界 | real Slack post / GitHub secret mutation / commit / push / PR は user 明示指示後のみ |
+
+
+### U-FIX-CF-ACCT-01-DERIV-01 GitHub OIDC short-lived credentials（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation-spec / NON_VISUAL / Phase 1-13 outputs present / Phase 12 strict outputs present / runtime evidence pending_user_approval |
+| 成果物 | `docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` |
+| 上流 | U-FIX-CF-ACCT-01 Phase 11 verified / Issue #405 closed |
+| 契約 | GitHub Actions deploy auth を長命 `secrets.CLOUDFLARE_API_TOKEN` / `secrets.CLOUDFLARE_API_TOKEN_STAGING` から GitHub OIDC → AWS STS → job-scoped Cloudflare credential retrieval へ移行する target contract |
+| canonical workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
+| gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke。commit / push / PR は独立 user approval |
+| 境界 | 本 cycle では runtime workflow edit / deploy / token revoke / commit / push / PR は未実行。Phase 11 13 evidence と NON_VISUAL companion outputs は RUNTIME_PENDING |
+| 下流 | DERIV-02 scope split, DERIV-03 rotation runbook reframe, DERIV-04 audit monitoring |
+
+### Issue #351 09c Post-release Dashboard Automation（2026-05-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / Phase 1-12 outputs present / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-351-09c-post-release-dashboard-automation/` |
+| 目的 | 09c post-release verification の 24h metrics を GitHub Actions schedule / workflow_dispatch で自動収集し、artifact として保存する |
+| 実装対象 | `.github/workflows/post-release-dashboard.yml`, `scripts/post-release-dashboard/`, `scripts/cf.sh api-post`, `.gitignore` |
+| secret境界 | analytics 用 read-only secret `CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY` を production deploy 用 `CLOUDFLARE_API_TOKEN` から分離 |
+| artifact | `outputs/post-release-dashboard/<UTC-yyyy-mm-dd>/dashboard.{json,md}` と redaction / schema check evidence |
+| CI / redaction | `ci.yml` が `pnpm post-release-dashboard:test` を実行。`redaction-check.sh` は artifact directory に `redaction-check.md` を生成 |
+| 起票元 | `docs/30-workflows/unassigned-task/task-09c-post-release-dashboard-automation-001.md` は formalized |
+| Issue 取扱 | #351 CLOSED 維持。commit / push / PR / real workflow dispatch / schedule evidence collection は user 明示指示後のみ |
+
+### Issue #348 09c GitHub Release Tag Automation（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 12 strict outputs present / release apply user-gated / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-348-09c-github-release-tag-automation/` |
+| 目的 | 09c release tag `vYYYYMMDD-HHMM` から Phase 12 changelog と Phase 11 evidence URL を含む GitHub Release note を生成し、draft Release 作成まで自動化する |
+| 実装対象 | `scripts/release/`, `.github/workflows/release-create.yml`, `docs/runbooks/release-create.md` |
+| SSOT | `references/release-runbook.md`, `references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md` |
+| 境界 | `workflow_dispatch` は dry-run artifact のみ。tag push は draft release 作成。local `--apply` は user 明示承認まで禁止 |
+| 起票元 | `docs/30-workflows/unassigned-task/task-09c-github-release-tag-automation-001.md` は consumed / formalized |
+| Issue 取扱 | #348 CLOSED 維持。PR 文脈では `Refs #348` のみ |
+
+### Issue #497 Post-release Dashboard 30 Day Feedback（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / docs-only / NON_VISUAL / external-time-dependent / 30day gate pending |
+| 成果物 | `docs/30-workflows/issue-497-post-release-dashboard-30day-conclusion/` |
+| 親 trace | `docs/30-workflows/completed-tasks/issue-351-09c-post-release-dashboard-automation/outputs/phase-12/unassigned-task-detection.md` U-1 formalized |
+| 目的 | `post-release-dashboard.yml` の 30 日連続 schedule conclusion を実測集計し、`deployment-gha.md` へ feedback baseline として追記する |
+| 実行 gate | `gh run list --workflow=post-release-dashboard.yml --limit=80 --json createdAt` の最古 run が実行日 - 30 日以前 |
+| Phase 11 evidence | `outputs/phase-11/post-release-dashboard-30d.json`, conclusion distribution, failure root cause, consecutive failure window, failure rate decision, redaction grep |
+| schedule / artifact evidence | `event=="schedule"` の日次 gap 0、artifact downloadability、retention、run duration を確認 |
+| next action | failure rate `< 10%` は現状維持。`>= 10%` は retry / alert 追加を別 unassigned task 化し、Issue #497 は CLOSED 維持 |
+
+### Issue #517 Follow-up Auto-summary Foundation（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation / NON_VISUAL / channel-bootstrap-preflight / Phase 12 strict outputs present |
+| 成果物 | `docs/30-workflows/issue-517-followup-auto-summary-foundation/` |
+| 親 trace | Issue #497 / Issue #351 post-release-dashboard automation |
+| 目的 | Issue #497 の 30 日 conclusion 集計を GHA cron + shell script + draft PR + Slack Incoming Webhook で自動化する |
+| 実装対象 | `.github/workflows/post-release-30day-auto-summary.yml`, `scripts/post-release-dashboard/30day-summary.sh`, `scripts/post-release-dashboard/lib/aggregate.sh`, `scripts/post-release-dashboard/__tests__/30day-summary.test.sh` |
+| Slack bootstrap | channel `w1618436027-ek2505248` / Incoming Webhook manual bind / 1Password 正本 / GitHub Secret `SLACK_WEBHOOK_URL` derived copy |
+| 状態語彙 | channel / webhook / secret 未準備時は `CONTRACT_READY_SECRET_PENDING`。scheduled 30 day runtime は `CONTRACT_READY_RUNTIME_PENDING` |
+| 境界 | Slack App / Bot OAuth / automatic channel creation / retry / alert 実装は含まない。Issue #517 は CLOSED 維持し PR 文脈は `Refs #517, Refs #497, Refs #351` |
+| Issue 取扱 | #517 / #497 / #351 CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ。PR 文面は `Refs #517, Refs #497, Refs #351` |
+
+### Issue #408 / #518 Cloudflare Audit Logs Monitoring HOLD（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | HOLD / manual-check-only / implementation / NON_VISUAL / Issue #408 and #518 CLOSED |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/` + `docs/30-workflows/issue-518-cf-audit-logs-monitoring-hold/` |
+| 目的 | Cloudflare Audit Logs から API Token 利用イベントを必要時に手動確認する。Issue #518 により 1 時間ごとの自動取得、watchdog、公開 Issue 自動起票は HOLD |
+| secret境界 | `CF_AUDIT_TOKEN_PROD` は `Account > Audit Logs:Read` のみ。D1 書き込みは `CF_AUDIT_D1_TOKEN_PROD`。deploy 用 `CLOUDFLARE_API_TOKEN` は監視 workflow に注入しない |
+| runtime境界 | `.github/workflows/cf-audit-log-monitor.yml` は schedule 削除 + `workflow_dispatch` のみ + `dry_run=true` 既定。watchdog workflow は削除。`scripts/cf-audit-log/*` と D1 migration は保持。HOLD 中は hourly run / watchdog / public Issue alert の runtime PASS を要求しない。週次手動確認 runbook は `docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md` |
+| alert labels | HIGH=`priority:high`、MEDIUM=`priority:medium`、LOW=`priority:low`、共通=`type:security` |
+| 起票元 | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-audit-logs-monitoring.md` |
+| 正本同期 | `references/deployment-secrets-management.md` / `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
+### Issue #515 Cloudflare Audit Logs ML-ready Classifier（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / production ML switch external-gated |
+| 成果物 | `docs/30-workflows/issue-515-cf-audit-logs-ml-anomaly/` |
+| 目的 | Issue #408 の threshold 判定を直ちに置換せず、`scripts/cf-audit-log/classifier/**` の interface、redacted feature export、offline replay、D1 classifier metadata、GitHub Actions env を追加して ML-ready 化する |
+| runtime境界 | local code / focused tests / SSOT は同期済み。staging D1 apply、90 日 baseline 観測、redacted production export、production `CF_AUDIT_CLASSIFIER=ml` switch は user-gated follow-up。FU-03-C model selection は Issue #548 として仕様化済み |
+| 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+
+### Issue #548 Cloudflare Audit Logs ML Model Selection（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_synthetic / implementation / NON_VISUAL / production winner pending FU-03-B/FU-03-D |
+| 成果物 | `docs/30-workflows/issue-548-ml-model-selection/` |
+| 目的 | Issue #515 の classifier abstraction を使い、threshold baseline と Isolation Forest / XGBoost / Workers AI 候補を同一 redacted dataset で比較する contract を固定する |
+| runtime境界 | この wave は spec + SSOT sync。Synthetic fixture は harness smoke evidence であり production winner ではない。FU-03-B redacted 90-day dataset replay と FU-03-D production switch は user-gated |
+| 正本同期 | `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `indexes/resource-map.md` / `indexes/quick-reference.md` |
+
+### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Issue #547 CLOSED |
+| 成果物 | `docs/30-workflows/issue-547-cf-audit-logs-redacted-production-feature-export/` |
+| 目的 | production D1 `cf_audit_log` から 90 日分の ML feature JSONL を read-only export し、schema validation / manifest / leakage gate で redacted dataset を作る |
+| 実装正本 | `scripts/cf-audit-log/feature-export.ts`, `scripts/cf-audit-log/feature-export/schema-validation.ts`, `scripts/cf-audit-log/feature-export/manifest.ts`, `scripts/cf-audit-log/d1-client.ts`, `scripts/cf.sh` |
+| evidence | `outputs/phase-11/main.md`, `focused-vitest.log`, `fixture-exported-features.jsonl`, `fixture-export-manifest.json`, `secret-leakage-grep.log`, `schema-validation.log` |
+| runtime境界 | production read-only export は `outputs/phase-11/production-pending-user-gate.md` のまま user approval 後のみ実行。local fixture PASS を runtime PASS と扱わない |
+| lessons | `references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md` |
+| artifact inventory | `references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md` |
+| 正本同期 | `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `indexes/quick-reference.md` / `indexes/resource-map.md` / LOGS |
+
+### Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | observation_continue / docs-only / NON_VISUAL / Gate-A FAIL / Gate-B-C pending / Issue #546 CLOSED |
+| 成果物 | `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/` |
+| 目的 | Issue #408 / #515 系の Cloudflare Audit Logs 監視について、90 日分の runtime evidence を集計し ML 化へ進むか threshold 継続かを判定する |
+| 2026-05-08 evidence | monitor run 32 件は 2026-05-06T10:43:50Z〜2026-05-07T21:22:18Z の全 failure、watchdog run 32 件も全 failure、`cf-audit` label issue は 0 件、D1 read-only query は `no such table: cf_audit_log` |
+| gate結果 | Gate-A FAIL。Gate-B は D1 readiness 未確認のため PENDING。Gate-C は monthly tuning minutes log 不足のため PENDING |
+| 次アクション | `observation_continue`。Issue #546 は CLOSED 維持。ML comparison / production switch には進まない。successful hourly run が 2026-05-08 から始まる場合、最短の90日再判定は 2026-08-05 以後。追跡: `docs/30-workflows/unassigned-task/issue-546-cf-audit-logs-90day-reobservation-reminder-001.md` |
+| 正本同期 | `references/observability-monitoring.md` / `references/database-schema-cf-audit-log.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
+| artifacts / lessons | `references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md` / `references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md` |
+
+### Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Issue #514 CLOSED |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-514-cf-audit-logs-cold-storage-r2-export/` |
+| 目的 | Issue #408 の D1 `cf_audit_log` 30 日 retention を超える redacted audit log を R2 cold storage へ日次 export し、半期監査と restore drill に備える |
+| cadence | daily `0 2 * * *`。対象 window は `[now - 29d, now - 26d)`。manifest completed partition は skip |
+| manifest | `cf_audit_log_export_manifest`、`(yyyy, mm, dd)` UNIQUE、`pending -> completed/failed` 2-phase |
+| gate | G1 R2/bucket/secret/deploy -> G2 D1 migration apply -> G3-prod first daily export + restore drill -> G4 commit/push/PR |
+| runtime境界 | 本サイクルでは production R2 / D1 / GitHub Secrets / commit / PR は未実行。Phase 11/12/13 skeleton と SSOT 同期のみ完了 |
+| 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` |
+| 苦戦知見 | `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007: artifacts mirror parity / Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard) |
+
+
+### task-05a-form-preview-503-001（2026-05-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-evidence-blocked / implementation / NON_VISUAL / Phase 12 strict 7 files present / Phase 11 runtime evidence blocked / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/task-05a-form-preview-503-001/` |
+| Issue 取扱 | GitHub Issue #388 は CLOSED 維持。PR / commit では `Refs #388` のみ採用し、`Closes #388` は使わない |
+| 対象 | staging `GET /public/form-preview` の HTTP 503。直接原因は `getLatestVersion()` が `null` を返し、`UBM-5500` が 503 mapping される経路 |
+| D1 契約 | `schema_versions(form_id, revision_id, schema_hash, state, synced_at, source_url, field_count, unknown_field_count)`。公開可能な最新行は `state = 'active'` |
+| 検証 | NON_VISUAL Phase 11: `outputs/phase-11/main.md` / `manual-smoke-log.md` / `link-checklist.md`。2026-05-05 review curl は staging / production とも 503。focused local regression は code側証跡、runtime 200 は user-approved D1 operation 後に取得 |
+| 境界 | `/public/form-preview` response shape、D1 schema、apps/web direct D1 access、production mutation は変更しない。staging D1 write / deploy / PR は user gate 後 |
+| inventory / lessons | `references/workflow-task-05a-form-preview-503-001-artifact-inventory.md`, `references/lessons-learned-05a-form-preview-503-2026-05.md` |
+
+### Issue #379 schemaDiffQueue fakeD1 compat verification（2026-05-05）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-379-schema-diff-queue-faked1-compat/` |
+| 元 trace | `docs/30-workflows/unassigned-task/task-schema-diff-queue-faked1-compat-001.md` |
+| 判断 | 旧前提の `schemaDiffQueue.test.ts` list 系 2 fail は現 worktree で再現せず、focused Vitest は 7/7 PASS。A+B（fakeD1 parser extension + seed parity）実装案は撤回し、current GREEN verification close-out として閉じる |
+| 検証 | `mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/repository/schemaDiffQueue.test.ts` PASS。focused coverage snapshot / Phase 11 after evidence / Phase 12 strict 7 files を保存 |
+| 境界 | `apps/api/src/repository/_shared/__fakes__/fakeD1.ts`、`schemaDiffQueue.ts`、`schemaDiffQueue.test.ts` は未変更。Issue #379 は CLOSED 維持、PR 文脈では `Refs #379` のみ |
+
+
+### Issue #399 Admin Queue Resolve Staging Visual Evidence（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implementation-prepared / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/issue-399-admin-queue-resolve-staging-visual-evidence/` |
+| 目的 | 04b-followup-004 の `/admin/requests` delegated visual evidence gap を、staging-only reversible seed + 7 screenshot capture runbook + redaction rule + parent evidence link plan で閉じる |
+| seed識別 | D1 schema変更なし。既存ID列の `ISSUE399-` synthetic prefix で投入・撤去対象を識別 |
+| 検証 | `mise exec -- pnpm exec vitest run apps/api/migrations/seed/__tests__ scripts/staging/__tests__`（focused Vitest）。staging seed / screenshot / redaction の runtime evidence は user 承認付き実行サイクル |
+| runtime境界 | staging seed投入 / screenshot取得 / cleanup / 親implementation-guideへの実link適用は Phase 11 runtime evidence 完了後。現時点では PASS 証跡ではない |
+| 親 / 下流 | parent: `docs/30-workflows/completed-tasks/04b-followup-004-admin-queue-resolve-workflow/`; blocks: parent visual evidence complete close-out |
+| Issue 取扱 | #399 CLOSED 維持。reopen / commit / push / PR / Issue comment は user 明示指示後のみ |
+
+### Issue #400 Admin Request Audit Target Taxonomy（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-400-admin-request-audit-target-taxonomy/` |
+| 実装 | `apps/api/src/repository/auditLog.ts`, `apps/api/src/routes/admin/requests.ts`, `apps/api/src/routes/admin/audit.ts`, `apps/web/src/components/admin/AuditLogPanel.tsx` |
+| 公開契約 | 新規 admin request resolve audit は `targetType='admin_member_note'`, `targetId=<noteId>`, `after.memberId` を保持。既存 `member` 行は migration せず readable |
+| 検証 | focused API repository/route tests、web AuditLogPanel test、typecheck |
+| Issue 取扱 | #400 CLOSED 維持。PR では `Refs #400` のみ採用し、reopen / close automation は行わない |
+
+### UT-05A Auth UI Logout Button（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-evidence-blocked / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/ut-05a-auth-ui-logout-button-001/` |
+| 実装 | `apps/web/src/components/auth/SignOutButton.tsx`, `apps/web/src/components/layout/MemberHeader.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/app/(member)/layout.tsx`, `apps/web/src/components/layout/AdminSidebar.tsx` |
+| 公開契約 | `/profile` と `/admin` のログイン済 UI に `data-testid="sign-out-button"` を配置し、Auth.js `signOut({ callbackUrl: "/login" })` を単一 component へ集約 |
+| 検証 | focused unit test / web typecheck / task-spec validator。OAuth visual smoke、session-after、cookie redaction は runtime evidence blocked |
+| 上流 / 下流 | 05a-followup-google-oauth-completion M-08 は本 workflow Phase 11 の実 evidence が揃るまで PASS にしない |
+| Issue 取扱 | #386 は CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ |
+
+### UT-07B Schema Alias Hardening（2026-05-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL |
+| 成果物 | `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/` |
+| 実装 | `apps/api/migrations/0008_schema_alias_hardening.sql` / `apps/api/src/repository/schemaAliases.ts` / `apps/api/src/workflows/schemaAliasAssign.ts` / `apps/api/src/routes/admin/schema.ts` |
+| 公開契約 | `POST /admin/schema/aliases` HTTP 202 retryable continuation（`backfill_cpu_budget_exhausted`） |
+| 検証 | local typecheck + route/workflow/repository tests 完了。10,000 行 staging D1 / Workers 実測は `staging-deferred` |
+| 後続 | queue/cron split は Phase 11 staging evidence で必要性が出た場合のみ formalize |
+
+### UT-07B-FU-01 Schema Alias Back-fill Queue/Cron Split（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | spec_created |
+| implementation state | implemented-local |
+| Phase 10 gate | design-ready only |
+| Phase 11 gate | local implementation GO / runtime evidence pending |
+| Phase 12 | strict 7 outputs present |
+| issue | #361 CLOSED (PR text: `Refs #361` only) |
+| artifact inventory | `references/workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md` |
+| ステータス | implemented-local / Phase 5-10 + Phase 11 gate=GO（user 明示） / Phase 12 strict outputs present / staging deploy 未実行 |
+| 成果物 | `docs/30-workflows/ut-07b-fu-01-schema-alias-backfill-queue-cron-split/` |
+| 目的 | staging 10,000+ rows evidence で `backfill_cpu_budget_exhausted` が持続再現する場合だけ、schema alias back-fill を Queue/Cron continuation へ分離する条件付き実装仕様 |
+| 実装 | `apps/api/migrations/0014_schema_diff_queue_dedupe_failure.sql` / `apps/api/src/repository/schemaDiffQueue.ts`（dedupe / failed_items / retry / last_error / last_processed_at）/ `apps/api/src/workflows/schemaAliasBackfillBatch.ts`（remaining-scan + idempotent UPDATE + retry counter）/ `apps/api/src/workflows/schemaAliasEnqueue.ts`（dedupe_key 予約 + producer.send）/ `apps/api/src/routes/admin/schema.ts`（v2 contract: confirmed/backfill.status + GET status）/ `apps/api/src/index.ts queue()` consumer / `apps/api/wrangler.toml` SCHEMA_ALIAS_BACKFILL_QUEUE binding |
+| 契約 | 公開 API `backfill.status` は `pending / running / exhausted / completed`。internal DB `backfill_status='failed'` は public `exhausted` + `internalStatus:'failed'` metadata として返す。`completed=200` / continuation は `202`。後方互換のため `code: "backfill_cpu_budget_exhausted"` / `retryable: true` を `exhausted` と並存維持 |
+| artifacts | root `artifacts.json` と `outputs/artifacts.json` parity、Phase 12 strict 7 files materialized |
+| 検証 | local typecheck / lint / vitest（schemaDiffQueue / schemaAliasAssign / schemaAliasBackfillBatch / schemaAliasEnqueue / route schema） 38 tests PASS。staging deploy / Cloudflare Queue binding apply / production apply は user 明示承認まで未実行 |
+| 境界 | Phase 11 staging evidence による runtime gate 判定本体は実走しておらず、user 明示で local implementation GO として実装した。staging Queue/DLQ 作成、Cloudflare deploy、production migration apply、commit、push、PR、Issue #361 comment/reopen は未実行。Issue #361 は CLOSED 維持で `Refs #361` のみ |
+
+### Issue #502 / UT-07B-FU-01-FOLLOWUP DLQ Monitoring Dashboard（2026-05-07）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | spec_created |
+| taskType | docs-only |
+| visualEvidence | NON_VISUAL |
+| Phase 11 | contract_ready_runtime_pending（local grep / read-only SQL template evidence captured; staging D1 SQL and dash runtime evidence pending_user_approval） |
+| Phase 12 | strict 7 outputs present |
+| issue | #502 CLOSED (PR text: `Refs #502` only) |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard/` |
+| runbook | `docs/runbooks/dlq-monitoring/schema-alias-backfill.md` |
+| skill reference | `references/dlq-monitoring.md` |
+| artifact inventory | `references/workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md`（L-502-001〜005） |
+| 目的 | UT-07B-FU-01 の Cloudflare Queue / DLQ binding と D1 `schema_diff_queue` failure 永続化列を、runbook + read-only 集計 SQL で運用者が観測できる状態にする |
+| 契約 | Queue/DLQ は `SCHEMA_ALIAS_BACKFILL_QUEUE` binding、prod `schema-alias-backfill` / `schema-alias-backfill-dlq`、staging `schema-alias-backfill-staging` / `schema-alias-backfill-staging-dlq`。D1 集計 SQL は `retry_count` / `failed_items_json` / `last_processed_at` / `backfill_status` のみを使い、`last_error` 原文 SELECT / 転記は禁止 |
+| しきい値 | DLQ >= 1 / retry_count >= 3 / exhausted 24h |
+| 境界 | Pager / Slack / PagerDuty 連携、Queue / DLQ 構造変更、D1 schema 変更、apps/api 実装変更は本タスク scope 外。しきい値超過時の追加実装は別 unassigned task としてユーザー判断後に起票する |
+
+### UT-07B-FU-02 Admin Schema Alias Retry Label（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | implemented-local |
+| implementation state | implementation |
+| visualEvidence | VISUAL_ON_EXECUTION |
+| Phase 11 | component evidence PASS / runtime screenshot pending |
+| Phase 12 | strict 7 outputs present |
+| issue | #362 CLOSED (PR text: `Refs #362` only) |
+| 成果物 | `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/` |
+| 目的 | HTTP 202 + `backfill.status='exhausted'` + `retryable=true` + `code='backfill_cpu_budget_exhausted'` を `/admin/schema` UI で通常 success / validation error / conflict error と区別し、続きから再試行できる状態として表示する |
+| 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.test.ts` / `SchemaDiffPanel.test.tsx` |
+| 検証 | focused Vitest 30 tests PASS。JUnit: `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/outputs/phase-11/test-junit.xml` |
+| 境界 | API contract / D1 schema / queue-cron workflow は変更しない。manual screenshot / commit / push / PR は user-gated。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md`（L-UT07B-FU02-001 5 点 narrowing / L-002 confirmed と backfill.status の責務分離 / L-003 code 不一致 fallback / L-004 4 状態 manual screenshot deferred） |
+
+### UT-07B-FU-03 Production Migration Apply Runbook（2026-05-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation+operations+runbook / implemented-local / NON_VISUAL / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/ut-07b-fu-03-production-migration-apply-runbook/` |
+| 対象 | `apps/api/migrations/0008_schema_alias_hardening.sql` を `ubm-hyogo-db-prod` へ適用するための承認ゲート付き runbook + `scripts/d1/*` 検証スクリプト + CI gate |
+| 境界 | production apply は本タスクでは未実行。実 apply は commit / PR / merge 後、ユーザー明示承認を得た別運用タスクで実施 |
+| 検証 | workflow-local strict Phase 12 7 files と root/outputs artifacts parity は materialized。`pnpm test:scripts` は fallback 経路で PASS（Node 22 warning あり）。staging DRY_RUN / CI green は Phase 13 PR runtime evidence |
+| Issue | #363 CLOSED 維持。PR では `Refs #363` のみ採用し、`Closes #363` は使わない |
+
+### UT-07B-FU-04 Production Migration Already-Applied Verification（2026-05-04）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | spec_created / implementation+operations+verification / NON_VISUAL / completed_boundary_runtime_pending / runtime verification blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/ut-07b-fu-04-production-migration-apply-execution/` |
+| 対象 | `apps/api/migrations/0008_schema_alias_hardening.sql` の production D1 ledger 既適用 fact を再確認し、duplicate apply を禁止する evidence contract |
+| 境界 | `references/database-schema.md` は `0008_schema_alias_hardening.sql` が `2026-05-01 08:21:04 UTC` に production D1 ledger 登録済みと記録しているため、FU-04 は再 apply ではなく already-applied verification と正本同期に再構成する |
+| 検証 | Phase 11 placeholder evidence / Phase 12 strict 7 files / root-outputs artifacts parity / FU-04 artifact inventory を materialized。Cloudflare runtime verification は user 明示承認まで未実行。post-check scope は `schema_diff_queue.backfill_cursor` / `backfill_status` のみ。苦戦箇所 / 適用ルールは `references/lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md`（L-UT07B-FU04-001〜004） |
+| Issue | #424 CLOSED 維持。PR では `Refs #424` のみ採用し、`Closes #424` は使わない |
+
+### UT Coverage 2026-05 Wave（2026-05-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / test-fixture + admin component + UT-08A-01 public API test implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
+| wave guide | `docs/30-workflows/ut-coverage-2026-05-wave/README.md` |
+| ci recovery follow-up | `docs/30-workflows/ci-test-recovery-coverage-80-2026-05-04/README.md`（spec_created / implementation / NON_VISUAL。Task A-E parent-local canonical dirs、Phase 12 strict 7、root-only artifacts parity） |
+| wave-1 | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/` |
+| wave-2 | completed workflow roots under `docs/30-workflows/completed-tasks/` with historical grouping under `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/`; UT-08A-01 canonical implementation root: `docs/30-workflows/completed-tasks/ut-08a-01-public-use-case-coverage-hardening/` |
+| ut-web-cov-04 current canonical | `docs/30-workflows/completed-tasks/ut-web-cov-04-admin-lib-ui-primitives-coverage/`（implemented-local / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval。旧 nested path は historical wave grouping path） |
+| task-10 ui primitives current canonical | `docs/30-workflows/task-10-ui-primitives-spec/`（implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration）。既存 `apps/web/src/components/ui` Wave 0 baseline を削除せず、task-10 の 11 primitive contract を barrel `@/components/ui` へ統合済み。`build:cloudflare` は OpenNext esbuild mismatch で blocker、runtime screenshot / axe は pending。 |
+| wave-3 roadmap | `docs/30-workflows/issue-433-ut-web-cov-05-wave3-roadmap/`（implemented-local / implementation / NON_VISUAL / Issue #433 / Phase 1-12 completed / Phase 13 blocked_pending_user_approval）。Final roadmap path: `docs/30-workflows/ut-coverage-2026-05-wave/wave-3-roadmap.md` |
+| inventory | `references/workflow-ut-coverage-2026-05-wave-artifact-inventory.md` |
+| lessons | `references/lessons-learned-ut-coverage-2026-05-wave.md`（L-UTCOV-001〜011。009: package filter batch、010: public use-case D1 mock dispatch、011: auth/fetch/session fetch-mock + structural uncovered） |
+| 目的 | apps/api の 13 failing tests を先に解消し、Issue #320 coverage hardening が `coverage-summary.json` を取得できる状態に戻す。wave-2 では `ut-web-cov-01` の admin component focused tests と `ut-08a-01` の public use-case / public route focused tests を実装済み |
+| AC | precondition gate: apps/api 13 failure green、coverage-summary.json 生成、`bash scripts/coverage-guard.sh --no-run --package apps/api` exit 0、apps/api coverage 80% gate PASS。wave-2 focused gates は `ut-web-cov-01`〜`04` + `ut-08a-01` で実測済み（`ut-web-cov-01` gate: web coverage Vitest 21 files / 196 tests PASS、対象7ファイルすべて Statements/Functions/Lines >=85%・Branches >=80%。`ut-08a-01` gate: public use-case negative matrix、D1 failure、public route cache/auth boundary focused tests を追加。全 apps/api coverage は pre-existing `schemaAliasAssign` timeout risk と分離して扱う）。Issue #433 wave-3 roadmap は package totals / gap mapping / 8 candidate tasks を materialize 済みで、post-push `verify-indexes-up-to-date` green は Phase 13 user 承認後に取得 |
+| 境界 | wave-1 は test fixture `apps/api/src/jobs/__fixtures__/d1-fake.ts` のみ実装済み。`ut-web-cov-01` は apps/web test files のみ、`ut-08a-01` は apps/api test files のみ実装済み。runtime production code、packages/*、commit、push、PR は Phase 13 user approval まで実行しない |
+
+#### UT-WEB-COV-03 auth/fetch lib coverage implementation spec（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / test_implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/ut-web-cov-03-auth-fetch-lib-coverage/` |
+| 対象 | apps/web auth/fetch/session lib 7 本（`auth.ts` / `magic-link-client.ts` / `oauth-client.ts` / `session.ts` / `fetch/authed.ts` / `fetch/public.ts` / `api/me-types.ts`） |
+| 境界 | 旧 docs-only 指定は CONST_004 により撤回。仕様書 root は wave nested path から top-level workflow root へ移動済み。apps/web test file 実装と coverage 実測は完了。commit・push・PR は Phase 13 user approval まで未実行 |
+| 検証 | root/outputs `artifacts.json` parity、Phase 1-13 specs、Phase 11 NON_VISUAL measured evidence、Phase 12 strict 7 files、`pnpm --filter @ubm-hyogo/web test:coverage` PASS（40 files / 359 tests） |
+
+### 03b Response Sync Follow-ups（2026-05-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | unimplemented follow-up specs / implementation / VISUAL_ON_EXECUTION |
+| 正本 | `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-response-sync-followups.md` |
+| 対象 | `03b-followup-001-email-conflict-identity-merge.md` ほか 8 follow-up |
+| 境界 | 各 follow-up は親 03b Phase 12 由来の単一 md 指示書であり、Phase 1-13 workflow root ではない。着手時に正式 workflow root、`artifacts.json`、Phase 1-13、Phase 12 必須 7 成果物、Phase 13 user approval gate へ昇格する |
+| current fact | responseEmail UNIQUE は `member_identities.response_email` が正本。identity merge は `member_identities` / `member_status` / `audit_log` を主語にし、`member_responses.member_id` 付替を前提にしない |
+
+#### Issue #199 03b Follow-up 006 Per-Sync Cap Alert（2026-05-03）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 11 local evidence present / Phase 12 strict outputs present / Phase 13 blocked_until_user_instruction |
+| 成果物 | `docs/30-workflows/completed-tasks/task-03b-followup-006-per-sync-cap-alert/` |
+| 目的 | `sync_jobs.metrics_json.writeCapHit?: boolean` を追加し、直近 3 件の response sync が cap hit へ未達から達成へ遷移した時だけ Analytics Engine dataset `sync_alerts` へ `sync_write_cap_consecutive_hit` を emit する |
+| alert 契約 | absent / NULL は false 解釈。event payload は `blobs=["sync_write_cap_consecutive_hit", "response_sync"]`, `doubles=[consecutiveHits, windowSize]`, `indexes=[jobId]`。detector は `ORDER BY started_at DESC, job_id DESC LIMIT 4` で current / previous window を比較し、failed / skipped row を streak reset として扱って重複 emit を抑制 |
+| 境界 | cap 値変更、cron 間隔変更、GitHub / Slack / mail 通知チャネル本体構築、Cloudflare deploy、commit / push / PR は user 明示指示まで実行しない。Issue #199 は OPEN 維持し PR / commit は `Refs #199` のみ |
+
+
+### 04b Follow-up 004 Admin Queue Resolve Workflow（2026-05-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implementation_completed / Phase 1-12 完了 / Phase 13 pending_user_approval / VISUAL deferred-to-staging |
+| 成果物 | `docs/30-workflows/04b-followup-004-admin-queue-resolve-workflow/` |
+| 実装 | `apps/api/src/routes/admin/requests.ts`, `apps/api/src/repository/adminNotes.ts`, `apps/web/app/(admin)/admin/requests/page.tsx`, `apps/web/src/components/admin/RequestQueuePanel.tsx`, `apps/web/src/lib/admin/api.ts` |
+| 公開契約 | `GET /admin/requests`, `POST /admin/requests/:noteId/resolve` |
+| 検証 | repository / route / UI component focused Vitest、api/web typecheck。実 screenshot は admin session + D1 fixture staging task へ委譲 |
+| 後続 | notification / audit target taxonomy / retention physical deletion / staging visual evidence |
+
+### Issue #401 Admin Request Notification（2026-05-06）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 11 runtime evidence pending / Phase 13 blocked_until_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-401-admin-request-notification/` |
+| 目的 | `POST /admin/requests/:noteId/resolve` 完了後に、本人へ approve / reject 結果を outbox + dispatch worker で通知する |
+| 実装 | `apps/api/migrations/0014_notification_outbox.sql`, `apps/api/src/repository/notificationOutbox.ts`, `apps/api/src/services/notification/*`, `apps/api/src/workflows/notificationDispatchTick.ts`, `apps/api/src/routes/admin/requests.ts`, `apps/api/src/index.ts`, `apps/api/src/notification-mail-config.test.ts`, `apps/api/wrangler.toml` |
+| 公開契約 | resolve transaction は rollback せず、notification enqueue は best-effort。recipient は `member_identities.response_email`、mail env は `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS`。`MAIL_PROVIDER_KEY` missing / `.example` sender は claim 前に dispatch skip |
+| retry/DLQ | retryable failure は `pending` に戻す。`failed` は ledger event only。stale `dispatching` は lease timeout 後に再 claim。max retry or non-retryable failure で `dlq` |
+| PII/監査 | raw `resolutionNote` は email / `notification_outbox.reason_summary` / `notification_ledger.detail_json` にコピーしない。provider error body は error class に縮約して保存 |
+| 境界 | staging D1 apply / Resend send / production migration / commit / push / PR / Issue mutation は user 明示承認まで実行しない。Issue #401 は CLOSED 維持し PR では `Refs #401` |
+
+### Issue #112 API Worker Env 型 SSOT（2026-05-01）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL |
+| 成果物 | `docs/30-workflows/issue-112-02c-followup-api-env-type-helper/` |
+| 実装 | `apps/api/src/env.ts` / `apps/api/src/repository/_shared/db.ts` / `scripts/lint-boundaries.mjs` |
+| 公開契約 | `Env` interface を API Worker binding 型の SSOT とし、`ctx(env: Pick<Env, "DB">)` で repository context を作る |
+| 検証 | typecheck / lint PASS。API full test は pre-existing `schemaDiffQueue.test.ts` 2 件失敗を記録。boundary lint は `../../api/src/env` relative import も遮断 |
+| 後続 | KV / R2 / OAuth / Magic Link HMAC key は各後続タスクで `wrangler.toml` と `Env` を同一 wave 同期 |
+
+### Issue #195 03b Follow-up 002 Sync Shared Modules Owner（2026-05-02）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | completed / code / NON_VISUAL / implemented-local / Phase 1-12 completed / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-195-03b-followup-002-sync-shared-modules-owner/` |
+| 目的 | 03a / 03b が共有する `apps/api/src/jobs/_shared/{ledger,sync-error,index}.ts` skeleton を実体化し、owner / co-owner / 変更ルールを `docs/30-workflows/_design/sync-shared-modules-owner.md` に明文化する |
+| 境界 | owner 表作成、03a / 03b index 追記、`.github/CODEOWNERS` path 行、`apps/api/src/jobs/_shared/{ledger,sync-error,index}.ts` skeleton と focused tests を同一 wave で実体化済み。既存本体ロジックは `apps/api/src/repository/syncJobs.ts` / `apps/api/src/jobs/sync-forms-responses.ts` に残し、物理移管・置換は未実施 |
+| 後続 | `sync_jobs` `job_type` / `metrics_json` schema 集約は `docs/30-workflows/unassigned-task/task-issue195-sync-jobs-contract-schema-consolidation-001.md`。用語統一候補は本サイクル内 grep で current spec drift なしと判定し、`docs/30-workflows/completed-tasks/task-issue195-owner-coowner-terminology-normalization-001.md` は resolved record として残す |
+
+
+### 目的
+
+ユーザーから与えられた複雑なタスクを分解し、以下を実現する：
+
+- 単一責務の原則に基づいたサブタスク分割
+- 各サブタスクに最適なコマンド・エージェント・スキルの選定
+- そのまま実行可能な仕様書ドキュメントの生成
+- TDDサイクル（Red→Green→Refactor）の組み込み
+- 品質ゲートの明確化
+
+### 成果物配置
+
+生成された仕様書は以下のパス形式で配置する。
+
+| 要素       | 説明                               | 例                                                        |
+| ---------- | ---------------------------------- | --------------------------------------------------------- |
+| ベースパス | `docs/30-workflows/`               | 固定                                                      |
+| 機能名     | 実装対象の機能を表すディレクトリ名 | `skill-import-agent/`                                     |
+| ファイル名 | `task-step{N}-{機能名}.md` 形式    | `task-step1-init.md`                                      |
+| 完全パス例 | 上記を組み合わせた配置先           | `docs/30-workflows/skill-import-agent/task-step1-init.md` |
+
+---
+
+### docs-only direction-reconciliation の stale 撤回境界
+
+docs-only / direction-reconciliation で採用方針 A を維持する場合でも、既存 references、runtime mount、cron、Secret、migration に不採用方針 B の current 風記述・経路が残るなら、Phase 12 Step 2 は「不発火」ではなく **stale 撤回として発火**させる。
+
+- 正本採用更新: 不採用方針を新たに current 登録しない。
+- stale 撤回: 残存する不採用方針の current 風記述・runtime 経路を audit し、撤回・停止タスクを起票する。
+- 判定表記: 実測 PASS、記述済み、pending_creation、NOT_APPLICABLE を分け、未実行 validator や未起票タスクを PASS としない。
+
+第一適用例: `docs/30-workflows/ut09-direction-reconciliation/`。
+
+---
+
+## ドキュメント構成
+
+| ドキュメント     | ファイル                                             | 説明                                           |
+| ---------------- | ---------------------------------------------------- | ---------------------------------------------- |
+| フェーズ定義     | [task-workflow-phases.md](./task-workflow-phases.md) | Phase 0〜6の詳細定義とテンプレート             |
+| ルール・選定基準 | [task-workflow-rules.md](./task-workflow-rules.md)   | 品質ゲート、コマンド・エージェント・スキル選定 |
+
+---
+
+## フェーズ構造（概要）
+
+すべてのタスクは以下のフェーズ構造に従う。詳細は [task-workflow-phases.md](./task-workflow-phases.md) を参照。
+
+| フェーズ                                  | ID接頭辞 | 目的                                         |
+| ----------------------------------------- | -------- | -------------------------------------------- |
+| Phase 0: 要件定義                         | `T-00`   | タスクの目的、スコープ、受け入れ基準を明文化 |
+| Phase 1: 設計                             | `T-01`   | 要件を実現可能な構造に落とし込む             |
+| Phase 2: テスト作成 (TDD: Red)            | `T-02`   | 期待される動作を検証するテストを先行作成     |
+| Phase 3: 実装 (TDD: Green)                | `T-03`   | テストを通すための最小限の実装               |
+| Phase 4: リファクタリング (TDD: Refactor) | `T-04`   | 動作を変えずにコード品質を改善               |
+| Phase 5: 品質保証                         | `T-05`   | 定義された品質基準をすべて満たすことを検証   |
+| Phase 6: ドキュメント更新                 | `T-06`   | 実装内容をシステム要件ドキュメントに反映     |
+
+### フェーズ遷移図
+
+以下の表はフェーズ間の遷移関係を示す。通常は上から順に進行し、Phase 5で品質ゲートを通過しない場合はPhase 4に戻る。
+
+| 遷移元                    | 遷移先                    | 条件                 |
+| ------------------------- | ------------------------- | -------------------- |
+| Phase 0: 要件定義         | Phase 1: 設計             | 要件定義完了         |
+| Phase 1: 設計             | Phase 2: テスト作成       | 設計完了             |
+| Phase 2: テスト作成       | Phase 3: 実装             | テスト作成完了       |
+| Phase 3: 実装             | Phase 4: リファクタリング | 実装完了             |
+| Phase 4: リファクタリング | Phase 5: 品質保証         | リファクタリング完了 |
+| Phase 5: 品質保証         | Phase 6: ドキュメント更新 | 品質ゲート通過       |
+| Phase 5: 品質保証         | Phase 4: リファクタリング | 品質ゲート未通過     |
+| Phase 6: ドキュメント更新 | 完了                      | ドキュメント更新完了 |
+
+---
+
+## 品質ゲート（概要）
+
+次フェーズに進む前に満たすべき品質基準。詳細は [task-workflow-rules.md](./task-workflow-rules.md) を参照。
+
+- 機能検証: 全テスト成功（ユニット、統合、E2E）
+- コード品質: Lintエラーなし、型エラーなし、フォーマット適用済み
+- テスト網羅性: カバレッジ基準達成（60%以上）
+- セキュリティ: 脆弱性スキャン完了、重大な脆弱性なし
+
+---
+
+## 出力テンプレート
+
+### ファイル配置
+
+タスク実行仕様書は `docs/30-workflows/{機能名}/task-step{N}-{機能名}.md` の形式で配置する。詳細は「成果物配置」セクションの表を参照。
+
+### テンプレート構造
+
+タスク実行仕様書は以下の構造を持つ：
+
+1. **ユーザーからの元の指示** - 元の指示文をそのまま記載
+2. **タスク概要** - 目的、背景、最終ゴール、成果物一覧
+3. **参照ファイル** - コマンド・エージェント・スキル選定の参照先
+4. **タスク分解サマリー** - 全サブタスクの一覧表
+5. **実行フロー図** - Mermaidによるフロー可視化
+6. **各フェーズの詳細** - Phase 0〜5の各サブタスク詳細
+7. **品質ゲートチェックリスト** - 完了条件のチェック項目
+8. **リスクと対策** - リスク分析と対応方針
+9. **前提条件** - タスク実行の前提
+10. **備考** - 技術的制約、参考資料
+
+---
+
+## 実行時のコマンド・エージェント・スキル
+
+### 本ドキュメント作成に使用するコマンド
+
+| コマンド       | 用途                                                            |
+| -------------- | --------------------------------------------------------------- |
+| `/sc:workflow` | PRDと機能要件から構造化された実装ワークフローを生成             |
+| `/sc:document` | コンポーネント、関数、API、機能の重点的文書生成                 |
+| `/sc:design`   | システムアーキテクチャ、API、コンポーネントインターフェース設計 |
+
+### 本ドキュメント作成に使用するエージェント
+
+| エージェント           | 用途                                                   |
+| ---------------------- | ------------------------------------------------------ |
+| `technical-writer`     | 使いやすさとアクセシビリティに重点を置いた技術文書作成 |
+| `requirements-analyst` | 曖昧なプロジェクトアイデアを具体的な仕様に変換         |
+| `system-architect`     | スケーラブルシステムアーキテクチャ設計                 |
+
+### 本ドキュメント作成に使用するスキル
+
+タスク実行仕様書の生成には、プロジェクト固有のスキル定義（`.claude/skills/skill_list.md`）を参照する。
+
+---
+
+## 昇格パターン集
+
+## Current Active / Spec Created Tasks
+
+| タスク | 状態 | 仕様書 root | Phase 12 状態 |
+| --- | --- | --- | --- |
+| issue-554-audit-correlation-branch-protection-required-check | spec_created / implementation / NON_VISUAL / CONTRACT_READY_IMPLEMENTATION_PENDING / Phase 13 blocked_until_user_approval | `docs/30-workflows/issue-554-audit-correlation-branch-protection-required-check/` | Issue #516 の `.github/workflows/audit-correlation-verify.yml` `verify` job を branch protection required context `audit-correlation-verify / verify` として `dev` / `main` に登録する user-gated governance workflow。Phase 12 strict 7 outputs と aiworkflow branch-protection SSOT は同期済み。`gh api -X PUT`、fresh before/after JSON、commit、push、PR は user approval 後のみ。Issue #554 は CLOSED 維持で `Refs #554`。 |
+| issue-196-03b-followup-003-response-email-unique-ddl | implemented-local-static-evidence-pass / implementation / NON_VISUAL / Phase 1-12 strict outputs present / Phase 13 blocked_until_user_approval | `docs/30-workflows/issue-196-03b-followup-003-response-email-unique-ddl/` | `response_email` の正本 UNIQUE は `member_identities.response_email`、`member_responses.response_email` は履歴行で UNIQUE 不在。03b 検出表 #4 の誤記は履歴改ざんせず本 workflow Phase 12 で訂正記録。既適用 migration への差分はコメントのみで SQL semantics 0 行差分を確認済み。production D1 migration list は Phase 13 承認時に取得し、取得不可の場合の縮退境界も定義済み。Issue #196 は CLOSED 維持で `Refs #196` のみ。 |
+| UT-CICD-DRIFT-IMPL-OBSERVABILITY-MATRIX-SYNC | spec_created / docs-only / NON_VISUAL / Phase 1-12 outputs present / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-observability-matrix-sync/` | 05a `observability-matrix.md` を対象 5 workflow（`ci.yml` / `backend-ci.yml` / `validate-build.yml` / `verify-indexes.yml` / `web-cd.yml`）へ同期。mapping は workflow file / display name / trigger / job id / required status context を分離し、required context は confirmed 値（`ci` / `Validate Build` / `verify-indexes-up-to-date`）を正とする。原典 unassigned は `transferred_to_workflow`。 |
+| 03a-stablekey-literal-lint-enforcement | enforced_dry_run / warning mode / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/03a-stablekey-literal-lint-enforcement/` | 03a AC-7 stableKey literal 直書き禁止の静的検査を standalone Node script として実装。warning mode は `pnpm lint` chain に統合済み、strict mode は 147 legacy violations で fail するため fully enforced 未達。元 unassigned `completed-tasks/task-03a-stablekey-literal-lint-001.md` は consumed。follow-up は legacy cleanup と strict CI gate の 2 件。 |
+| issue-393-stablekey-literal-legacy-cleanup | strict_ready / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | docs/30-workflows/issue-393-stablekey-literal-legacy-cleanup/ | 親 03a の strict CI gate 昇格 blocker だった legacy stableKey literal 148 件 / 14 ファイル（family A=sync job, B=repository, C=admin route, D=use-case/view-model, E=web profile, F=web public, G=consent util）を `packages/shared/src/zod/field.ts` 新規 `STABLE_KEY` const への named import に置換し、`lint-stablekey-literal.mjs --strict` を 0 violation 化。`STABLE_KEY` は branded type `StableKey` と name collision 回避のため SCREAMING_SNAKE_CASE + `as const satisfies` で型保証。test 側 `scripts/lint-stablekey-literal.test.ts` に issue-393 0-violation 期待値テストを additive。残 follow-up は `task-03a-stablekey-strict-ci-gate-001.md` のみ（legacy cleanup follow-up は consumed）。 |
+| issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring | spec_created / docs-only / NON_VISUAL | `docs/30-workflows/completed-tasks/issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring/` | CLOSED issue #191 の補完仕様として、`schema_aliases` D1 table、07b `POST /admin/schema/aliases` の write target replacement、03a alias-first lookup + temporary `schema_questions.stable_key` fallback を正本化。実装本体 / fallback retirement / direct update guard は `docs/30-workflows/unassigned-task/task-issue-191-*.md` 3 件へ分離 |
+| task-issue-191-production-d1-schema-aliases-apply-001 | completed_via_already_applied_path / implementation / NON_VISUAL / production-operation / Phase 13 runtime evidence captured | `docs/30-workflows/completed-tasks/task-issue-191-production-d1-schema-aliases-apply-001/` | Issue #359 の closed 状態を維持しつつ、production D1 `ubm-hyogo-db-prod` を検証。2026-05-02 の Phase 13 で明示承認後、preflight が `schema_aliases` 既存 + `d1_migrations` 上の `0008_create_schema_aliases.sql` applied (`2026-05-01 10:59:35 UTC`) を確認したため、二重 apply は実行せず shape verification path で完了。PRAGMA evidence と `database-schema.md` production applied marker を同期済み。code deploy / hardening migration / fallback retirement / direct update guard は scope 外。 |
+| issue-355-opennext-workers-cd-cutover-task-spec | spec_created / implementation / NON_VISUAL / Phase 1-12 outputs present / Phase 13 blocked_pending_user_approval | `docs/30-workflows/completed-tasks/issue-355-opennext-workers-cd-cutover-task-spec/` | CLOSED Issue #355 の cutover 実装仕様root。`.github/workflows/web-cd.yml` の Pages deploy 残、Workers deploy置換、Cloudflare side cutover、staging smoke、rollback readiness を `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md` の実装follow-upへ接続する。Phase 11は実測PASSではなく5つのNON_VISUAL evidence contractとして保存し、実 deploy / commit / PR はuser承認まで禁止。 |
+| issue-419-pages-project-dormant-delete-after-355 | spec_created / implementation / NON_VISUAL / destructive-operation / Phase 11 runtime evidence pending / Phase 12 strict outputs present / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-419-pages-project-dormant-delete-after-355/` | Issue #419 (`Refs #355`) の Pages dormant 物理削除 runtime contract。Workers cutover 完了、Pages custom domain detach、最低 2 週間 dormant 観察、user 明示承認、`bash scripts/cf.sh pages project delete <PROJECT_NAME> --yes`、post-deletion smoke、redaction grep、aiworkflow Pages 言及 cleanup を AC-1〜AC-6 として固定。削除実行・Cloudflare CLI・commit・push・PR は本 spec_created cycle では未実行。起票元 unassigned は `docs/30-workflows/unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md`。 |
+| issue-402-admin-request-retention-physical-delete | implemented-local / implementation / NON_VISUAL / retention-policy / Phase 12 strict outputs present / Phase 11 runtime evidence pending / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-402-admin-request-retention-physical-delete/` | CLOSED Issue #402 の delete request 承認後 retention purge 実装。admin approve 直後は既存どおり `member_status.is_deleted=1` + `deleted_members` tombstone の論理削除に留め、`deleted_members.deleted_at` から 180 日経過後に `member_responses` / `member_identities` / `member_status` と response child rows を purge する。`deleted_members` は audit minimum (`member_id`, `deleted_by`, `deleted_at`, `reason`, `purged_at`, `retention_policy_version`) として残す。cron は既存 daily `0 18 * * *` branch を再利用し本数追加なし。production apply は `RETENTION_PURGE_MODE=apply` の明示 user gate、default は `dry-run`。SSOT: `references/data-retention-policy.md`。runtime evidence / production enable / commit / push / PR は user gate。 |
+| issue-385-web-build-global-error-prerender-fix | implemented-local / implementation / NON_VISUAL / Plan A applied / Phase 11 PASS / Phase 13 blocked_pending_user_approval | `docs/30-workflows/completed-tasks/issue-385-web-build-global-error-prerender-fix/` | CLOSED Issue #385 の apps/web build blocker 対応。Next.js 16.2.4 + React 19.2.5 で `/_global-error` / `/_not-found` prerender が `useContext` null で fail する経路を、`next-auth` 静的 import 隔離と `.mise.toml` 由来 `NODE_ENV=development` の build script 上書き不足の複合問題として解消した。`apps/web/src/lib/auth.ts` の `getAuth()` lazy factory、`oauth-client.ts` dynamic import、auth/admin/me route handler と `session.ts` の lazy 取得、`apps/web/package.json` の `NODE_ENV=production` build scripts を同期。`global-error.tsx` RSC 化 / Next patch upgrade / React downgrade / `serverExternalPackages` / pnpm patch は不採用。Phase 11 は typecheck / lint / tests / build / build:cloudflare / worker.js / lazy-import-check PASS。下流 P11-PRD-003 / P11-PRD-004 / wrangler API URL / 09a / 09c は本 build 緑化後に再開。deploy・commit・push・PR・Issue reopen は user approval 後。 |
+| ut-cicd-drift-impl-pages-vs-workers-decision | spec_created / docs-only / NON_VISUAL / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` | ADR-0001 Pages vs Workers deploy target decision を Accepted / Workers cutover として確定。`apps/web/wrangler.toml` は OpenNext Workers 形式、`.github/workflows/web-cd.yml` は Pages deploy 残として current facts を分離し、実 cutover は `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md` に委譲。 |
+| task-claude-code-permissions-deny-bypass-verification-001 | spec_created / docs-only / NON_VISUAL | `docs/30-workflows/completed-tasks/task-claude-code-permissions-deny-bypass-verification-001/` | Claude Code `permissions.deny` と `--dangerously-skip-permissions` の優先関係を公式 docs 調査 + isolated 実機検証 runbook として仕様化。実検証は `task-claude-code-permissions-deny-bypass-execution-001` へ分離 |
+| utgov001-second-stage-reapply | spec_created / implementation / NON_VISUAL / Phase 13 approval gate（三役: user 承認 + 実 PUT 実行 + PR作成承認待ち）/ `user_approval_required=true` | `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/` | UT-GOV-001 `contexts=[]` fallback を UT-GOV-004 confirmed contexts で後追い再 PUT する仕様。Phase 13 で **自走禁止 3 項目**（(1) `gh api -X PUT .../branches/{dev,main}/protection` 実 PUT / (2) `git commit` + `git push` / (3) `gh pr create`）を user 明示承認後にのみ実行。Issue #202 は **CLOSED のまま** で `Refs #202` のみ採用（`Closes #202` 禁止 / 再オープン禁止）。dev / main 独立 PUT（直列実行）/ rollback payload は UT-GOV-001 のものを再利用・上書き禁止 / admin token は `op://Employee/ubm-hyogo-env/GITHUB_ADMIN_TOKEN` 経由で揮発取得。applied GET evidence 後に `task-utgov001-references-reflect-001` へ引き渡す |
+| task-utgov001-references-reflect-001 | docs-only / NON_VISUAL / Phase 1-12 executed / Phase 13 approval gate（commit・push・PR blocked） | `docs/30-workflows/completed-tasks/task-utgov001-references-reflect-001/` | Issue #303 reflect task。fresh GitHub GET evidence を `outputs/phase-13/branch-protection-applied-{dev,main}.json` に保存し、aiworkflow-requirements の branch protection current applied へ同期。current applied contexts は dev/main とも `ci`, `Validate Build`、strict は dev=false / main=true。`verify-indexes-up-to-date` は expected-context drift として扱い、current applied に混入しない。Issue #303 は closed のまま `Refs #303`。 |
+| issue-475-branch-protection-coverage-gate | runtime_evidence_captured_gate_b_pending / implementation / NON_VISUAL / settings-only / Gate A consumed / Gate B git publish pending | `docs/30-workflows/issue-475-branch-protection-coverage-gate/` | Issue #475 coverage-gate required context fresh GET evidence。`coverage-gate` は `main` / `dev` の `required_status_checks.contexts` に登録済みで、current applied は `deployment-branch-strategy.md` v1.4.2 に同期済。Issue #475 起因の non-target drift なし（dev `required_pull_request_reviews=null` は out-of-scope / solo policy 方向）。Phase 11 fresh GET / drift / contexts-preserved / SSOT diff evidence 取得済。commit / push / PR と throwaway PR `mergeStateStatus=BLOCKED` 経験的観測は Gate B 後。source unassigned-task は `transferred_to_workflow`。 |
+| task-worktree-environment-isolation | spec_created / docs-only / NON_VISUAL | `docs/30-workflows/task-worktree-environment-isolation/` | worktree / tmux / shell state 分離仕様を development-guidelines と lessons-learned に同期済み。コード実装は未タスクへ分離 |
+| TASK-SKILL-CODEX-VALIDATION-001 | completed / Phase 1-12 完了 / Phase 13 user_approval_required / NON_VISUAL | `docs/30-workflows/completed-tasks/skill-md-codex-validation-fix/` | Codex SKILL.md frontmatter 検証契約 R-01〜R-07 を validator + 二段ガード + CLI 経路三段目で実装。AC-1〜AC-8 8/8 PASS。current facts: (1) `description ≤1024 字 / string scalar / YAML 構文有効`、(2) 二段ガード（generate / write）+ `quick_validate` 三段目、(3) フィクスチャ 30 件 `*.fixture` 化で skill discovery 圏外化、(4) 退避先 Markdown 統一（`references/{topic}.md`）、(5) Anchors ≤5 / Trigger keywords ≤15 自動退避、(6) `.claude/` ↔ `.agents/` 同 wave sync、(7) codex_validation.test.js 24 ケース GREEN、(8) follow-up 3 件を unassigned-task-detection.md に分離 |
+| ut-02a-section-field-canonical-schema-resolution | verified / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/ut-02a-section-field-canonical-schema-resolution/` | Issue #108。`apps/api/src/repository/_shared/builder.ts` の broad section assignment / stable_key label leakage / heuristic field kind fallback を `MetadataResolver` + generated static manifest baseline へ置換。`FieldKind` に `consent` / `system` を追加し、public / member / admin 3 view は同一 resolver から section/key/kind/label を導出。Phase 11 は builder unit test / drift detection log / three-view parity の NON_VISUAL evidence。Phase 12 は aiworkflow-requirements indexes と legacy mapping を same-wave sync。manifest stale detection、diagnostics hardening、03a adapter contract test、retirement 条件 formalization は `docs/30-workflows/issue-373-ut02a-canonical-metadata-diagnostics-hardening/` に昇格済み。 |
+| issue-373-ut02a-canonical-metadata-diagnostics-hardening | implemented-local / implementation / NON_VISUAL / Phase 11 evidence captured / Phase 12 completed / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-373-ut02a-canonical-metadata-diagnostics-hardening/` | CLOSED Issue #373 / UT-02A-FU-DIAG-001。UT-02A static manifest baseline の stale detection、決定論的再生成、`UBM-MANIFEST-UNKNOWN-KEY` diagnostics、03a alias queue adapter contract test、static manifest retirement 条件正本反映を実装済みローカル current workflow root。元 `completed-tasks/task-ut02a-canonical-metadata-diagnostics-hardening-001.md` は `formalized_as_issue_373_workflow`。commit / push / PR は user approval 後のみ。Issue は CLOSED のため PR 文脈は `Refs #373` のみ。 |
+| task-lefthook-multi-worktree-reinstall-runbook | spec_created / docs-only / runbook-spec / NON_VISUAL | `docs/30-workflows/completed-tasks/task-lefthook-multi-worktree-reinstall-runbook/` | 30+ worktree への lefthook 一括再 install runbook 仕様を確定。`doc/00-getting-started-manual/lefthook-operations.md` への差分追記内容を Step 2-1〜2-4 で specify。固有教訓は `lessons-learned-lefthook-mwr-runbook-2026-04.md`（L-MWR-001〜006）。スクリプト実装（`scripts/reinstall-lefthook-all-worktrees.sh`）は別 Wave に分離 |
+| ut-06-followup-A-opennext-workers-migration | implemented / static_verified / NON_VISUAL | `docs/30-workflows/ut-06-followup-A-opennext-workers-migration/` | apps/web `wrangler.toml` を Pages 形式から OpenNext Workers 形式へ移行。AC-1〜AC-7 / AC-13〜AC-16 は静的検証済み。AC-8〜AC-12（build / staging deploy / smoke / bundle size / fallback 実測）はユーザー承認後に Phase 11 へ追記 |
+| FIX-CF-ACCT-ID-VARS-001 | implemented / static_verified / NON_VISUAL / Phase 13 user_approval_required | `docs/30-workflows/completed-tasks/fix-cf-account-id-vars-reference/` | `.github/workflows/backend-ci.yml` 4 箇所と `.github/workflows/web-cd.yml` 2 箇所の `CLOUDFLARE_ACCOUNT_ID` 参照を `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` に同期。Repository Variable 登録あり / Secret 不在を `gh api` で確認済み。actionlint / yamllint はローカル未導入のため deferred。関連未タスク `U-FIX-CF-ACCT-01` / `U-FIX-CF-ACCT-02` を formalize。 |
+| U-FIX-CF-ACCT-01-DERIV-02 | spec_created / implementation / NON_VISUAL / local implementation synced / runtime token issuance pending user operation | `docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/` | Issue #406 CLOSED. Cloudflare deploy token を D1 / Workers / Pages x staging / production の 6 Secret に分割し、現行 `backend-ci.yml` / `web-cd.yml` へ反映。`scripts/cf.sh` は pre-injected token path を追加。Cloudflare dashboard token issuance / GitHub Secrets mutation / 7 day staging green / 24h old-token retirement は Phase 11 user operation pending。PR 文面は `Refs #406` のみ。 |
+| UT-06-FU-A-PROD-ROUTE-SECRET-001 | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / docs-only / NON_VISUAL | `docs/30-workflows/completed-tasks/ut-06-fu-a-prod-route-secret-001-worker-migration-verification/` | UT-06-FU-A OpenNext Workers production cutover 前の route / custom domain / secret key / observability target split-brain 防止 runbook。`outputs/phase-05/runbook.md` を workflow-local 正本とし、secret 値は記録せず key 名のみ、Cloudflare 操作は `bash scripts/cf.sh` 経由、production deploy / DNS 切替 / Worker 削除は別承認に分離。原典 unassigned は `docs/30-workflows/completed-tasks/UT-06-FU-A-production-route-secret-observability.md` に移動済み。route inventory は design workflow `docs/30-workflows/ut-06-fu-a-route-inventory-script-001-cloudflare-route-inventory/` と実装 follow-up `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-impl-001.md` に分離済み。Logpush target diff automation は `docs/30-workflows/ut-06-fu-a-logpush-target-diff-script-001/` で implementation_complete。Phase 11 evidence は NON_VISUAL infrastructure verification の format check 完了であり、production 実測 PASS は別承認 operation に分離。固有教訓 `references/lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md`（L-UT06FUA-001〜007）、artifact inventory `references/workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md`。 |
+| UT-06-FU-A-ROUTE-INVENTORY-SCRIPT-001 | spec_created / docs-only / NON_VISUAL / Phase 12 completed / Phase 13 blocked_pending_user_approval | `docs/30-workflows/ut-06-fu-a-route-inventory-script-001-cloudflare-route-inventory/` | production Worker route inventory script の設計 close-out。`InventoryReport` SSOT、GET allowlist（workers scripts / zone workers routes / workers domains）、secret leak guard、mutation grep、NON_VISUAL evidence を固定。元 unassigned `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-001.md` は consumed pointer。実装・実 command・親 runbook 追記・実測 evidence は `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-impl-001.md` に委譲。 |
+| UT-06-FU-A-LOGPUSH-TARGET-DIFF-SCRIPT-001 | implementation_complete / Phase 1-12 completed / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/ut-06-fu-a-logpush-target-diff-script-001/` | production observability target diff script。公開入口は `bash scripts/cf.sh observability-diff --current-worker ubm-hyogo-web-production --legacy-worker ubm-hyogo-web --config apps/web/wrangler.toml`、内部実装は `scripts/observability-target-diff.sh` / `scripts/lib/redaction.sh`。Workers Logs / Tail / Logpush / Analytics Engine の 4 軸を新旧 Worker で比較し、token / credential / sink URL query は redaction 済みで出力する。検証は `bash tests/unit/redaction.test.sh` 11 PASS、`bash tests/integration/observability-target-diff.test.sh` 18 PASS。起源 unassigned `docs/30-workflows/unassigned-task/UT-06-FU-A-logpush-target-diff-script-001.md` は transferred_to_workflow。 |
+| 04c-parallel-admin-backoffice-api-endpoints | completed / Phase 1-12 完了 / Phase 13 pending / NON_VISUAL | `docs/30-workflows/04c-parallel-admin-backoffice-api-endpoints/` | UBM-Hyogo 管理者バックオフィス API（9 router / 16 endpoint）を `apps/api` に実装。dashboard / members（list/detail/status/notes/delete/restore）/ tags-queue（resolve）/ schema（diff/aliases）/ meetings（list/create/attendance）。05a close-out で人間向け `/admin/*` は Auth.js JWT + `admin_users.active` 判定の `requireAdmin` へ差し替え済み。同期系 `/admin/sync*` のみ `SYNC_ADMIN_TOKEN` Bearer を維持。不在 endpoint（`PATCH /admin/members/:memberId/profile` / `PATCH /admin/members/:memberId/tags`）は構造で保証。新規 repository: `apps/api/src/repository/dashboard.ts` / `apps/api/src/repository/memberTags.ts`（`assignTagsToMember`）。検証: typecheck エラー 0 / vitest 251 PASS。固有教訓 `lessons-learned-04c-admin-backoffice-2026-04.md`（L-04C-001〜005） |
+| 04b-followup-001-admin-queue-request-status-metadata | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/04b-followup-001-admin-queue-request-status-metadata/` | `admin_member_notes` に `request_status` / `resolved_at` / `resolved_by_admin_id` と partial index `idx_admin_notes_pending_requests` を追加。`adminNotes.hasPendingRequest` は `request_status='pending'` 限定、`markResolved` / `markRejected` は pending 条件付き UPDATE。`docs/00-getting-started-manual/specs/07-edit-delete.md` / `08-free-database.md` / `references/database-admin-repository-boundary.md` と同期済み。 |
+| issue-106-admin-member-notes-repository-task-spec | implementation / NON_VISUAL / implemented_pending_user_approval / Phase 1-12 完了 / Phase 13 blocked_pending_user_approval | `docs/30-workflows/completed-tasks/issue-106-admin-member-notes-repository-task-spec/` | Closed issue #106 の再検証 workflow。現行正本は `apps/api/src/repository/adminNotes.ts` / `listByMemberId` で、`adminMemberNotes.ts` は重複新設しない。member_id filter、空配列、`created_at DESC`、admin note mutation の `audit_log` append、admin detail audit と `admin_member_notes` の非混同を regression tests で固定。 |
+| 07b-parallel-schema-diff-alias-assignment-workflow | completed_without_pr / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL / superseded-by UT-07B hardening | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/` | 初期 07b では `schema_diff_queue` の alias 候補提示・dryRun・apply workflow を `apps/api` に実装。UT-07B hardening 以降の current contract は `schema_aliases` INSERT、collision `409 stable_key_collision`、HTTP 202 retryable continuation。旧 `schema_questions.stable_key` direct update / collision 422 記述は historical baseline としてのみ扱う。 |
+| UT-07B-schema-alias-hardening-001 | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/` | issue-191 の `schema_aliases` write target replacement を上位前提に、07b alias apply を DB constraint / resumable back-fill / HTTP 202 retryable continuation で harden した追加実装タスク。10,000 行 staging evidence は Cloudflare staging credentials 前提のため Phase 11 deferred。Issue #293 は CLOSED 維持、PR では `Refs #293` のみ採用。 |
+| 05b-parallel-magic-link-provider-and-auth-gate-state | completed_without_pr / Phase 1-12 完了 / Phase 13 pending / NON_VISUAL | `docs/30-workflows/05b-parallel-magic-link-provider-and-auth-gate-state/` | Magic Link 発行・検証と AuthGateState 判定 API を `apps/api` に実装。`GET /auth/gate-state`、`POST /auth/magic-link`、`POST /auth/magic-link/verify`、`POST /auth/resolve-session`、Resend mailer、email/IP rate limit、`magic_tokens.deleteByToken` rollback、apps/web 同 origin proxy 3 本、shared auth 補助 alias export（`SessionUserAuthGateState`）を追加。`/no-access` route 不在と apps/web D1 直参照不在は fs-check で保証。Phase 11 は `ui_routes: []` のため screenshot ではなく Hono direct fetch + Vitest + fs-check evidence。Auth.js Credentials Provider 本体と `/api/auth/callback/email` route は 05b-B で implemented-local 済み。正本仕様は `api-endpoints.md` / `environment-variables.md` / `lessons-learned-05b-magic-link-auth-gate-2026-04.md` に同期済み。 |
+| 05b-B-magic-link-callback-credentials-provider | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval | `docs/30-workflows/05b-B-magic-link-callback-credentials-provider/` | 05b 起票元 `task-05b-authjs-callback-route-credentials-provider-001.md` を Phase 1-13 workflow へ昇格し、Auth.js Credentials Provider `id="magic-link"`、`/api/auth/callback/email` GET route、`verify-magic-link.ts` helper、failure redirect mapping、focused tests を実装。apps/web D1 direct access 禁止は boundary check PASS。dev-server curl / Auth.js real Set-Cookie / staging smoke は 09a 系 runtime evidence に委譲。旧 `02-application-implementation/05b-B...` path は legacy register に記録。 |
+| 02c-followup-002-fixtures-prod-build-exclusion | spec_created / implementation-spec / docs-only / NON_VISUAL / Phase 1-12 spec complete / Phase 13 blocked_pending_user_approval | `docs/30-workflows/02c-followup-002-fixtures-prod-build-exclusion/` | 02c Phase 12 unassigned-task #6 を Phase 1-13 workflow へ昇格。対象は `apps/api` の `__fixtures__` / `__tests__` を production build artifact から除外する build/test boundary、Vitest fixture compatibility、dependency-cruiser import guard。runtime implementation / tests / artifact grep は未実行で、Phase 11 reserved evidence path に分離。元 unassigned task path は legacy stub として canonical root へ誘導。 |
+| 05a-parallel-authjs-google-oauth-provider-and-admin-gate | completed / Phase 1-12 完了 / Phase 13 pending（user approval 待ち） / VISUAL smoke deferred to 09a | `docs/30-workflows/completed-tasks/05a-parallel-authjs-google-oauth-provider-and-admin-gate/` | Auth.js v5 Google OAuth provider、`GET /auth/session-resolve`（`X-Internal-Auth` 必須 / D1 直接アクセス禁止の唯一経路）、共有 HS256 JWT session（`memberId` / `isAdmin` のみ最小化）、apps/web `/admin/*` middleware（UI gate）、apps/api `requireAdmin`（API gate）を実装。`packages/shared/src/auth.ts` に `AuthSessionUser` / `SessionJwtClaims` / `GateReason`（`unregistered` / `deleted` / `rules_declined` 05b と共有命名）/ JWT sign/verify / Auth.js encode/decode adapter を追加。人間向け admin API 9 router は `requireAdmin` に差し替え、sync 系は `requireSyncAdmin`（`SYNC_ADMIN_TOKEN` Bearer）を維持。D1 `sessions` テーブル不採用で無料枠 reads/day を温存。Phase 11 は OAuth credentials / staging 未接続のため screenshot smoke を 09a に委譲し、代替として JWT互換・session-resolve・admin route gate tests を PASS。固有教訓 `references/lessons-learned-05a-authjs-admin-gate-2026-04.md`（L-05A-001〜006）。Follow-up: unassigned-task-001（Phase 11 staging 実 OAuth screenshot）/ unassigned-task-002（Google OAuth verification 本番申請、MVP 卒業時）/ unassigned-task-003（admin 剥奪即時反映 B-01 用 KV revocation list 設計検討、D1 sessions 復活禁止） |
+| 05b-A-auth-mail-env-contract-alignment | spec_created / docs-only / remaining-only / NON_VISUAL / Phase 13 pending_user_approval | `docs/30-workflows/05b-A-auth-mail-env-contract-alignment/` | Magic Link メール送信の env 名 drift を解消する仕様整流タスク。正本 env 名は `MAIL_PROVIDER_KEY`（Secret）/ `MAIL_FROM_ADDRESS`（Variable）/ `AUTH_URL`（Variable）。旧 `RESEND_API_KEY` / `RESEND_FROM_EMAIL` / `SITE_URL` は新規 provisioning しない stale manual-spec 名として撤回。Phase 11 は NON_VISUAL readiness templates のみ、実 staging smoke は 09a、production readiness は 09c、callback/provider 統合は 05b-B に委譲。 |
+| ut-05a-followup-google-oauth-completion | spec_created / implementation / VISUAL | `docs/30-workflows/ut-05a-followup-google-oauth-completion/` | 05a follow-up 001（staging OAuth smoke evidence）と 002（Google OAuth verification）を統合。単一 OAuth client / redirect URI matrix / Cloudflare Secrets placement / consent screen / Stage A-B-C manual smoke を仕様化し、B-03 解除条件 a/b/c を `13-mvp-auth.md` と同期する。現時点は repo 外の Google Cloud Console / Cloudflare Secrets 操作未実行のため workflow root は `spec_created` を維持し、Phase 11 screenshots は placeholder のみ。実 evidence 取得後に Phase 12 system spec update を再適用する。 |
+| u-04-serial-sheets-to-d1-sync-implementation | completed / Phase 1-12 完了 / Phase 13 pending（user approval 待ち） / NON_VISUAL | `docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implementation/` | UT-01 の Sheets→D1 同期方式を `apps/api/src/sync/` に実装。`POST /admin/sync/run`、`POST /admin/sync/backfill`、`GET /admin/sync/audit`、Cloudflare Cron `0 * * * *` の `runScheduledSync(env)` を追加。`requireSyncAdmin` / `SYNC_ADMIN_TOKEN` Bearer、`withSyncMutex`、`sync_job_logs` audit ledger、`sync_locks` mutex、Workers 互換 fetch + `crypto.subtle` Sheets client を採用。Phase 11 は UI 変更なしのため NON_VISUAL、代替 evidence を `outputs/phase-11/evidence/non-visual-evidence.md` に配置。staging smoke は 05b、cron monitoring / 30 分超 running alert は 09b へ relay。 |
+| U-UT01-08 sync enum canonicalization | spec_created / docs-only / NON_VISUAL / Phase 13 pending_user_approval | `docs/30-workflows/u-ut01-08-sync-enum-canonicalization/` | UT-01 論理設計と既存 `sync_job_logs` / `sync_locks` 実装の enum drift を契約化。canonical `status` は `pending` / `in_progress` / `completed` / `failed` / `skipped`、canonical `trigger_type` は `manual` / `cron` / `backfill`。既存 `running -> in_progress`、`success -> completed`、`admin -> manual + triggered_by='admin'` を migration 変換案として固定。コード変更なし。実 migration / sync literal rewrite / shared type+Zod は UT-04 / UT-09 / U-UT01-10 に委譲。 |
+| U-UT01-07-FU01 UT-09 canonical sync job receiver | completed / docs-only / NON_VISUAL / Phase 1-12 完了 / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/u-ut01-07-fu01-ut09-canonical-sync-job-receiver/` | 親 U-UT01-07 Phase 2 の canonical 名 `sync_job_logs` / `sync_locks` と `sync_log` 物理化禁止を UT-09 実装受け皿へ引き渡す receiver 仕様。受け皿 path は既存 `docs/30-workflows/unassigned-task/UT-21-sheets-d1-sync-endpoint-and-audit-implementation.md`。本タスクはコード・migration・script・hook・CI gate を作らず、UT-09 / governance guard へ委譲する。 |
+| UT-04 D1 データスキーマ設計 | spec_created / docsOnly=true / NON_VISUAL / Phase 13 blocked | `docs/30-workflows/ut-04-d1-schema-design/` | Cloudflare D1 初期 schema の current canonical set を `member_responses` / `member_identities` / `member_status` / `response_fields` / `schema_diff_queue` / `sync_jobs` に確定。旧 `members` は legacy、既存 `sync_job_logs` / `sync_locks` は UT-09 owned transition tables として扱う。`references/database-schema.md` / `references/database-schema-ddl-template.md` / `references/database-indexes.md` に DDL 反映テンプレとインデックス責務分離を同期済み。実 migration 投入、seed data、shared Zod codegen、sync ledger transition は未タスクとして分離。workflow root は `spec_created` を維持し、実 DDL merge まで `implemented` に昇格しない。 |
+| UT-01 Sheets→D1 同期方式定義 | spec_created / docs-only / NON_VISUAL / design_specification | `docs/30-workflows/completed-tasks/ut-01-sheets-d1-sync-design/` | Cron pull 採択、手動 / 定期 / バックフィル 3 フロー、`sync_log` 論理設計、Sheets 優先 SoT を確定。既存 `apps/api` 実装との差分（`sync_job_logs` / `sync_locks`、enum、retry、offset、shared 契約）は U-7〜U-10 として未タスク化。Phase 13 はユーザー承認待ち |
+| U-UT01-09 retry 回数と offset resume 方針の統一 | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/u-ut01-09-retry-and-offset-policy-alignment/` | UT-01 U-9 の canonical 設計判断記録。legacy Sheets→D1 sync の retry max=3、backoff base 1s / factor 2 / cap 32s / jitter ±20%、`processed_offset` = chunk index（chunk 100）を採択。実コード反映（`DEFAULT_MAX_RETRIES=3`、withRetry cap/jitter、migration、resume）は UT-09、物理 ledger mapping は U-UT01-07 へ委譲。現行 Forms sync / `sync_jobs.metrics_json.cursor` 契約は上書きしない。 |
+| 03b-followup-005-sync-jobs-design-spec | verified / implementation / NON_VISUAL / implementation_complete_pending_pr / Phase 13 pending_user_approval | `docs/30-workflows/03b-followup-005-sync-jobs-design-spec/` | 03b follow-up #5 を full workflow 化。`sync_jobs` の `job_type` enum、`metrics_json` schema、lock TTL 10分を `docs/30-workflows/_design/sync-jobs-spec.md` と `apps/api/src/jobs/_shared/sync-jobs-schema.ts` へ集約し、`sync-forms-responses.ts` / `cursor-store.ts` / `repository/syncJobs.ts` は TS ランタイム正本参照へ差し替えた。D1 DDL・migration 変更は含めない。NON_VISUAL evidence は targeted Vitest 23 tests / cross-reference / job_type coverage / indexes drift。 |
+| 06b-parallel-member-login-and-profile-pages | completed / Phase 1-12 完了 / Phase 13 pending（user approval 待ち） / VISUAL partial captured | `docs/30-workflows/completed-tasks/06b-parallel-member-login-and-profile-pages/` | apps/web 会員向け `/login` と `/profile` を実装。`/login` は AuthGateState 5 状態（input / sent / unregistered / rules_declined / deleted）、Magic Link form、Google OAuth button、`/no-access` 不採用、sent email 非表示、`normalizeRedirectPath` による safe redirect を提供。`/profile` は 04b `/me` `/me/profile` を `fetchAuthed` で取得し、read-only `StatusSummary` / `ProfileFields` / 外部 Google Form `EditCta` / `AttendanceList` を表示。`apps/web/middleware.ts` は `/profile/:path*` 未ログインを `/login?redirect=...` へ誘導。検証: `@ubm-hyogo/web typecheck` PASS、06b focused Vitest 23 PASS、Phase 11 local `/login` screenshot M-01〜M-05 + `/profile` redirect curl captured。Follow-up: `UT-06B-PROFILE-VISUAL-EVIDENCE`（logged-in profile / staging screenshot）, `UT-06B-MAGIC-LINK-RETRY-AFTER`（429 Retry-After UI 復元） |
+| 06b-B-profile-self-service-request-ui | implemented-local / implementation / runtime-evidence-blocked / VISUAL_ON_EXECUTION / Phase 1-10・12 completed / Phase 11 blocked_runtime_evidence / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/06b-B-profile-self-service-request-ui/` | `/profile` に本人の公開停止/再公開申請 UI と退会申請 UIを追加済み。04b `/me/visibility-request` / `/me/delete-request` と 06b profile page を上流にし、client は同一 origin `/api/me/visibility-request` / `/api/me/delete-request` proxy 経由で API Worker を叩く。実装 component は `RequestActionPanel`、`VisibilityRequestDialog`、`DeleteRequestDialog`、`RequestPendingBanner`、`RequestErrorMessage`、client helper は `apps/web/src/lib/api/me-requests.ts`。本文編集 UI は追加せず、409 duplicate pending request、success/error/pending statesを固定。Phase 11 logged-in screenshot / unskipped E2E は runtime capture pending で、06b-C / 08b / 09a が visual evidence として消費する。pending banner sticky 化は `docs/30-workflows/unassigned-task/task-06b-b-profile-request-pending-banner-sticky-001.md` に分離。 |
+| 06b-b-profile-request-pending-banner-sticky | implemented-local / implementation / VISUAL_ON_EXECUTION / Phase 1-10・12 completed / Phase 11 blocked_runtime_evidence / Phase 13 pending_user_approval | `docs/30-workflows/06b-b-profile-request-pending-banner-sticky/` | 06b-B から分離された pending banner sticky 化 follow-up を local 実装済み。`/profile` reload 後も server-side pending state から `RequestPendingBanner` を表示し、重複申請ボタンを disabled にする。`GET /me/profile.pendingRequests`、`admin_member_notes.request_status='pending'` + `note_type IN ('visibility_request','delete_request')` 読み取り、`apps/web/src/lib/api/me-types.ts` mirror、`RequestActionPanel` props 追加を実装済み。409 は既存 `DUPLICATE_PENDING_REQUEST` を再利用し、新 endpoint / memberId path / apps/web D1 direct access は追加しない。authenticated runtime screenshot / trace は未取得で 06b-C / 08b / 09a capture gate に接続。旧 unassigned task は formalized source として保持。 |
+| 06b-A-me-api-authjs-session-resolver | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/06b-A-me-api-authjs-session-resolver/` | `/profile` SSR が cookie forwarding で呼ぶ `/me` / `/me/profile` を、apps/api 側で Auth.js session cookie/JWT から解決する follow-up 実装。`apps/api/src/middleware/me-session-resolver.ts` が `authjs.session-token` / `__Secure-authjs.session-token` / next-auth v4 migration cookie / Authorization Bearer JWT を `AUTH_SECRET` で検証し、dev-only `x-ubm-dev-session` は `ENVIRONMENT === "development"` 限定で fail-closed。`apps/api/src/index.ts` の `/me` mount を inline dev-only resolver から `createMeSessionResolver()` に差し替え。Focused tests: `apps/api/src/middleware/me-session-resolver.test.ts` 12 cases（dev path / production rejection / env missing rejection / cookie names / wrong secret / expired / missing / malformed）。staging / production live smoke と deploy は 09a / 09c gate。旧 root `docs/30-workflows/02-application-implementation/06b-A-me-api-authjs-session-resolver/` は legacy mapping に登録。 |
+| UT-05A fetchPublic service-binding | spec_created / implementation / VISUAL_ON_EXECUTION / runtime evidence pending_user_approval / Phase 13 pending_user_approval | `docs/30-workflows/ut-05a-fetchpublic-service-binding-001/` | Issue #387 CLOSED 維持のまま formalize。`apps/web/src/lib/fetch/public.ts` は `env.API_SERVICE.fetch(...)` 優先 + `PUBLIC_API_BASE_URL` local fallback、`apps/web/wrangler.toml` は staging `ubm-hyogo-api-staging` / production `ubm-hyogo-api` の `API_SERVICE` binding を正本とする。Phase 11 は deploy / curl / tail / local fallback の runtime evidence contract で、実 staging / production deploy・commit・push・PR は user 明示指示後のみ。root / outputs `artifacts.json` parity と Phase 12 strict 7 files を配置済み。 |
+| 08b-parallel-playwright-e2e-and-ui-acceptance-smoke | spec_created / scaffolding-only / VISUAL_DEFERRED / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/` | apps/web Playwright scaffold を追加。`apps/web/playwright.config.ts`、page objects、7 skipped spec、auth/D1 fixture placeholder、manual-only `.github/workflows/e2e-tests.yml`、Phase 11 evidence inventory を作成。実 screenshot / real axe / real Playwright report は未取得で、CI gate 化も未実施。full execution は `docs/30-workflows/unassigned-task/task-08b-playwright-e2e-full-execution-001.md` または 09a staging smoke へ委譲。 |
+| 08b-A-playwright-e2e-full-execution | spec_created / implementation-spec / VISUAL_ON_EXECUTION / Phase 1-10 and 12 completed / Phase 11 contract_ready_runtime_pending / Phase 13 pending_user_approval / runtime evidence pending | `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/` | 08b scaffold の full-execution 契約。Phase 11 evidence manifest に Playwright HTML/JSON report、real axe report、30+ desktop/mobile screenshot、admin UI gate、direct `/api/admin/*` 403、foreign content edit 403、secret hygiene、skip inventory の保存先を固定。Phase 12 strict 7 files と root/outputs artifacts parity は配置済み。実 Playwright 実行、CI gate promotion、commit / push / PR は user approval 後のみ。 |
+| 08a-B-public-search-filter-coverage | implemented-local / implementation-spec / VISUAL_ON_EXECUTION / Phase 12 strict 7 files present / Phase 11 runtime evidence pending / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/08a-B-public-search-filter-coverage/` | `/members` public search/filter 6 query parameter（`q / zone / status / tag / sort / density` + `page/limit`）を正本 specs と実コードへ同期。`status` は参加ステータスであり公開状態ではない。公開境界は `public_consent='consented'` / `publish_state='public'` / `is_deleted=0` / canonical alias source 除外で固定。`apps/api/src/_shared/search-query-parser.ts` は q trim + whitespace normalize + 200 truncate、tag dedup + empty drop + 5 limit。`apps/api/src/repository/publicMembers.ts` は LIKE wildcard literal escape、tag AND bind offset、`sort=name` fullName ASC + member_id ASC、`sort=recent` lastSubmittedAt DESC + fullName ASC + member_id ASC。正本 specs `12-search-tags.md` / `05-pages.md` / `01-api-schema.md` / `09-ui-ux.md` に同一 wave 同期済み。runtime screenshot / curl / axe evidence は 08b / 09a 実行時に取得する。 |
+| 06b-C-profile-logged-in-visual-evidence | implementation-prepared / implementation-spec / VISUAL_ON_EXECUTION / Phase 12 strict 7 files present / Phase 11 runtime evidence pending / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/06b-C-profile-logged-in-visual-evidence/` | 親 06b / 06b-B で未取得だった `/profile` logged-in 画面 visual evidence を補完する canonical workflow。既存 Playwright layout に `apps/web/playwright/tests/profile-readonly.spec.ts` を追加し、M-08 logged-in screenshot、M-09 no profile edit form、M-10 `?edit=true` ignored、M-16 logout redirect を実測できる。`scripts/capture-profile-evidence.sh` は production URL を拒否し、logged-in `storageState` 不在を exit 4 で止め、default out-dir も completed-tasks evidence root に同期済み。Phase 11 screenshots / DOM dumps / M-14 Magic Link / M-15 Google OAuth は user-approved runtime execution まで pending。legacy UT-06B path は本 06b-C root に集約。 |
+| 06b-c-runtime-evidence-execution | spec_created / implementation / VISUAL_ON_EXECUTION / Phase 1-13 specification + placeholder outputs materialized / Phase 11 runtime evidence pending_user_approval / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/06b-c-runtime-evidence-execution/` | `task-06b-c-profile-logged-in-runtime-evidence-execution-001.md` を workflow root に昇格した execution-only follow-up。ユーザー承認済み local/staging target と logged-in `storageState` を使い、`scripts/capture-profile-evidence.sh` で先行 06b-C canonical evidence root（`completed-tasks/06b-C-profile-logged-in-visual-evidence/outputs/phase-11/`）へ screenshots / DOM dumps を保存する。未タスク側は `promoted_to_workflow` として二重実行禁止。実 screenshot / DOM capture は user approval gate まで未実行で PASS 扱いしない。 |
+| 09a-parallel-staging-deploy-smoke-and-forms-sync-validation | spec_created / implementation spec / docsOnly=true / NON_VISUAL close-out / VISUAL_ON_EXECUTION / Phase 13 blocked_until_user_approval | `docs/30-workflows/09a-parallel-staging-deploy-smoke-and-forms-sync-validation/` | staging deploy smoke と Forms sync validation の実行仕様。05a/06a/06b/06c/08b から委譲された staging visual smoke、03a/03b/U-04 の schema/response sync evidence、Cloudflare free-tier / authz / web-D1 boundary を Phase 11 実行時に取得する。今回 close-out では placeholder を PASS と扱わず、`outputs/phase-11/*` は `NOT_EXECUTED` 境界を明記。root / outputs `artifacts.json` parity と Phase 12 7成果物を配置済み。実 staging 実行は `docs/30-workflows/unassigned-task/task-09a-exec-staging-smoke-001.md` に formalize 済みで、09c はその実測 evidence まで blocked。 |
+| issue-494-09a-A-exec-staging-smoke-runtime | spec_created / implementation-spec / runtime-contract-formalization / VISUAL_ON_EXECUTION / Phase 1-10 and 12 spec contract completed / Phase 11 runtime evidence pending_user_approval / Phase 12 runtime update pending_after_phase_11 / Phase 13 pending_user_approval | `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/` | 09a の実行 successor。`NOT_EXECUTED` placeholder を Phase 11 actual evidence に置換するため、staging API/Web deploy、public/auth/profile/admin visual smoke、Forms sync、D1 migration/schema parity、wrangler tail、09c blocker update の evidence path と G1-G4 approval gate を固定。Cloudflare auth blocker は recovery workflow により unblock-ready だが、本 runtime execution / commit / push / PR は未実行。Phase 12 strict 7 files と root/outputs artifacts parity は配置済みで、runtime PASS ではなく `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。親 `09a-parallel...` directory 不在は parent mirror restoration follow-up であり、issue-494 self-contained execution path の blocker ではない。Phase 11 runtime execution は `docs/30-workflows/unassigned-task/task-09a-A-exec-staging-smoke-001.md` (`UT-09A-A-EXEC-STAGING-SMOKE-001`, HIGH, G1-G4 multi-stage approval gate) で実行する。inventory: `references/workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md`。 |
+| UT-09A-A-EXEC-STAGING-SMOKE-001 | open / pending_user_approval / runtime-evidence-acquisition / VISUAL_ON_EXECUTION / G1-G4 multi-stage approval gate | `docs/30-workflows/unassigned-task/task-09a-A-exec-staging-smoke-001.md` | 09a-A spec の Phase 11 runtime evidence 取得を独立タスクとして分離（2026-05-06 wave で 0→1 件 formalize）。G1 staging API/Web deploy、G2 D1 migration apply、G3 Forms schema/responses sync、G4 evidence commit-push-PR-blocker-update を**独立**承認下で逐次実行する（合算承認禁止 / 逆順実行禁止）。Cloudflare auth blocker は `bash scripts/cf.sh whoami` PASS により 2026-05-06 時点で解消、残るは G1-G4 user 承認のみ。`task-09a-canonical-directory-restoration-001` は親 mirror update のみの blocker で 09a-A 単独完結経路は restoration 未完でも可。`09c-production-deploy-execution-001` は本 task の runtime evidence 完了まで blocked。検出元: `docs/30-workflows/issue-494-09a-A-exec-staging-smoke-runtime/outputs/phase-12/unassigned-task-detection.md`。 |
+| ut-09a-exec-staging-smoke-001 | spec_created / implementation / VISUAL_ON_EXECUTION / Phase 11 executed_BLOCKED / Phase 13 blocked_until_user_approval | `docs/30-workflows/ut-09a-exec-staging-smoke-001/` | 09a staging smoke 実行 follow-up。2026-05-02 に user 明示指示後 Phase 11 を試行したが、`bash scripts/cf.sh whoami` が unauthenticated となり staging deploy / Playwright screenshot / Forms sync / wrangler tail は BLOCKED。さらに親 09a canonical directory が現 worktree に不在のため AC-1 placeholder 置換も不可。09c blocker decision: `blocked`, reason=`cloudflare_unauthenticated + 09a_directory_missing`, evidence=`docs/30-workflows/ut-09a-exec-staging-smoke-001/outputs/phase-11/main.md`, checked_at=`2026-05-02`。Follow-up: `docs/30-workflows/unassigned-task/task-09a-cloudflare-auth-token-injection-recovery-001.md`, `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md`。 |
+| 09b-parallel-cron-triggers-monitoring-and-release-runbook | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` | Cron triggers monitoring + release runbook 仕様。`apps/api/wrangler.toml` current facts (`0 * * * *`, `0 18 * * *`, `*/15 * * * *`) を監視対象として記録し、legacy Sheets hourly cron の撤回は UT21-U05 に分離。Phase 11 は screenshot 不要で `main.md` + `manual-smoke-log.md` + `link-checklist.md`、Phase 12 は skill 必須 7 成果物 + release / incident / diff plan、Phase 13 は user 明示承認まで PR作成承認待ち禁止。09a staging smoke と 09c production deploy へ runbook を引き渡す。artifact inventory: `references/workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md`。lessons: `references/lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md`。 |
+| 09b-A-observability-sentry-slack-runtime-smoke | implemented-local / implementation / NON_VISUAL / Phase 12 strict 7 files present / Phase 11 provider_smoke_pending_user_approval / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/09b-A-observability-sentry-slack-runtime-smoke/` | 09b の残 runtime gate である Sentry DSN 登録 smoke と Slack incident webhook smoke を formalize し、API smoke route を `apps/api/src/routes/admin/smoke-observability.ts` / `POST /admin/smoke/observability` に実装済み。Issue #495 production extension により production は Bearer token + `x-smoke-production-confirm: YES` 必須、dev/staging は `SMOKE_ADMIN_TOKEN` 必須の既存挙動を維持する。`SENTRY_DSN_API` / `SENTRY_DSN_WEB` / `SLACK_WEBHOOK_INCIDENT` / optional `SLACK_WORKFLOW_URL` を正本 secret 名とし、実値・hash・DSN URL・webhook URL は evidence に残さない。Canonical 09b release / incident runbook root は `docs/30-workflows/09b-parallel-cron-triggers-monitoring-and-release-runbook/` に restored。Phase 11 の実Provider evidence は後続 user-approved execution wave。09c production readiness の observability blocker を引き継ぐ。旧 nested root `docs/30-workflows/02-application-implementation/09b-A-observability-sentry-slack-runtime-smoke/` は legacy pointer。 |
+| issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension | implemented-local / implementation / NON_VISUAL / production-extension / runtime_pending_user_approval | `docs/30-workflows/issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension/` | Issue #495 の staging runtime smoke route を production に拡張。`POST /admin/smoke/observability` は production で Bearer token + `x-smoke-production-confirm: YES` を必須化し、Slack `[PRODUCTION SMOKE]` prefix、Sentry `environment=production`、staging / production evidence file 分離、G1 secret placement / G2 staging PASS / G3 production smoke / G4 redaction evidence gate を固定。実 secret 投入・runtime smoke・commit・push・PR は user approval まで未実行。 |
+| issue-520-slack-incidents-channel-webhook-provisioning | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / runtime user-gated | `docs/30-workflows/issue-520-slack-incidents-channel-webhook-provisioning/` | Issue #520。Issue #495 Phase 11 runtime smoke の外部 SaaS 前提として、Slack incident channel `#ubm-hyogo-incidents` と incoming webhook provisioning、`SLACK_WEBHOOK_INCIDENT` の 1Password 正本 `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_<ENV>`、Cloudflare staging / production secret placement、GitHub Actions secret placement、redaction grep gate `scripts/redaction-grep.sh`、runbook `docs/30-workflows/runbooks/slack-incidents-channel-provisioning.md` を正本化。ローカル redaction script / `.env.example` / smoke redaction test hardening は反映済み。実 Slack / 1Password / Cloudflare / GitHub / smoke / commit / push / PR は G1〜G4 + Phase 13 user approval 後のみ。 |
+| ut-02a-attendance-profile-integration | implemented / Phase 1-12 completed / NON_VISUAL / Phase 13 pending_user_approval | `docs/30-workflows/ut-02a-attendance-profile-integration/` | 02a Phase 12 由来の `MemberProfile.attendance` 実データ統合 follow-up。`createAttendanceProvider().findByMemberIds()`、D1 80-id chunked read、builder optional `attendanceProvider` injection、meeting/attendance branded type module を実装済み。`member_attendance` + `meeting_sessions` は `session_id` で INNER JOIN し、`held_on DESC` + `session_id ASC` で安定化する。旧単票は `docs/30-workflows/completed-tasks/UT-02A-ATTENDANCE-PROFILE-INTEGRATION.md` の Canonical Status で本 root へ誘導。09a/09b/09c、06b visual、U-UT01-08 enum canonicalization は削除・代替しない。artifact inventory: `references/workflow-ut-02a-attendance-profile-integration-artifact-inventory.md` / 固有教訓: `references/lessons-learned-ut-02a-attendance-profile-integration-2026-05.md` / closeout: `changelog/20260501-ut-02a-attendance-profile-integration-closeout.md`。 |
+| issue-371-ut-02a-followup-003-hono-ctx-di-migration | implemented-local / implementation / NON_VISUAL / code evidence captured / runtime smoke pending / Issue #371 CLOSED | `docs/30-workflows/issue-371-ut-02a-followup-003-hono-ctx-di-migration/` | UT-02A follow-up 003 を実装完了。`buildMemberProfile` / `buildAdminMemberDetailView` の optional `deps?` provider 注入を撤去し、`attendanceProviderMiddleware` + Hono `c.var.attendanceProvider` 経由へ移行。現行 `DbCtx` (`readonly db`) は変更せず、repository-owned `RepositoryProviderCtx = DbCtx & { var: RepositoryProviderVariables }` を `apps/api/src/repository/_shared/provider-context.ts` に配置して middleware 依存逆転を回避。Phase 11 は typecheck / lint / test / build / grep gate logs captured、runtime smoke は下流 09a / 09b gate。source stub `completed-tasks/ut-02a-attendance-profile-integration/ut-02a-followup-003-hono-ctx-or-di-container-migration.md` は transferred trace。 |
+| issue-372-attendance-pagination | implemented-local / implementation / VISUAL / Phase 11 visual evidence pending / Phase 13 pending_user_approval | `docs/30-workflows/issue-372-attendance-pagination/` | Issue #372。`MemberProfile.attendance` の大量履歴を個人特化 cursor pagination に切り出す local 実装。実装済み: `createAttendanceProvider().findByMemberId(id, { limit, cursor })`、`/me/attendance`、`/admin/members/:memberId/attendance`、optional `attendanceMeta`、`/profile` / admin detail load-more UI。既存 `findByMemberIds(ids)` bulk read は変更せず、bulk pagination は明示スコープ外で未タスク化しない。`docs/00-getting-started-manual/specs/01-api-schema.md` / `references/api-endpoints.md` / Phase 12 strict 7 files + cursor runbook は同期済み。staging visual evidence、commit / push / PR は user approval gate 後。artifact inventory: `references/workflow-issue-372-attendance-pagination-artifact-inventory.md`。 |
+| issue-533-public-profile-builder-attendance-injection | verified / implementation / NON_VISUAL / implementation_complete_pending_pr / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-533-public-profile-builder-attendance-injection/` | Issue #533。`PublicMemberProfile` と `GET /public/members/:memberId` に `attendance: AttendanceRecord[]` と optional `attendanceMeta` を追加し、`attendanceProviderMiddleware` / `RepositoryProviderVariables` 経由で provider を bind する。公開適格判定後に attendance を読み、非公開 member の attendance 有無は 404 経路で漏らさない。public route は session/admin guard を追加しない。artifact inventory: `references/workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md`。Issue #533 は CLOSED 維持、PR 文脈は `Refs #533` のみ。 |
+| ut-02a-followup-001-attendance-write-operations | implemented-local / resolved-by-existing-06cE-07c / implementation / NON_VISUAL / Phase 12 strict 7 files present / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/ut-02a-followup-001-attendance-write-operations/` | UT-02A Phase 12 起票元 `task-ut-02a-attendance-write-operations-001.md` を、既存 06c-E / 07c 実装へ吸収して close-out。write 正本は `apps/api/src/repository/attendance.ts` の `addAttendance` / `removeAttendance`、canonical route は `POST /admin/meetings/:sessionId/attendances`、legacy route は `POST /admin/meetings/:sessionId/attendance` + `DELETE /admin/meetings/:sessionId/attendance/:memberId`。duplicate は repository reason + HTTP 409、deleted member は 422、session/member not found は 404。新規 `AttendanceWriter` / `AttendanceRecordId` は過剰抽象として導入しない。 |
+| ut-02a-followup-002-attendance-dashboard-analytics | implemented-local / implementation / VISUAL_ON_EXECUTION / local tests passed / runtime curl and UI screenshot pending | `docs/30-workflows/ut-02a-followup-002-attendance-dashboard-analytics/` | Issue #370。admin attendance analytics dashboard の実装。aggregate API 3 本は `/admin/dashboard/attendance/{overview,by-session,ranking}`、repository は `apps/api/src/repository/attendance.ts` 末尾追記、route は既存 `apps/api/src/routes/admin/dashboard.ts` 拡張、UI は `apps/web/app/(admin)/admin/dashboard/attendance/page.tsx`。schema 正本は `meeting_sessions.session_id`、new index は `idx_member_attendance_member` のみで既存 `idx_member_attendance_session` / `idx_meeting_sessions_active_held_on` を流用。削除済み member/session は count/rate から除外。Phase 11 は repository / route / EXPLAIN Vitest PASS、runtime curl / browser screenshot は user-approved capture cycle まで pending。 |
+| 09c-serial-production-deploy-and-post-release-verification | docs-only / spec_created / VISUAL / runtime evidence pending_user_approval | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/` | Wave 9 terminal production release runbook specification。09a staging green と 09b release / incident runbook の引き渡しを受け、production D1 migration / deploy / release tag / smoke / 24h verification の runbook と evidence template を固定。実 production deploy は `task-09c-production-deploy-execution-001` に分離し、`bash scripts/cf.sh` wrapper、solo CI gate branch strategy、Phase 11 runtime evidence pending 境界を正本化。artifact inventory は `references/workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md`、旧 root alias は `references/legacy-ordinal-family-register.md` に登録。 |
+| 09c-production-deploy-execution-001 | spec_created / implementation / VISUAL_ON_EXECUTION / Phase 12 strict outputs present / production runtime evidence pending_user_approval | `docs/30-workflows/completed-tasks/09c-A-production-deploy-execution/`（issue mirror: `docs/30-workflows/issue-353-09c-production-deploy-execution/`） | 親 09c docs-only runbook から分離した production execution workflow。Phase 1/5/10 の production approval G1-G3、Phase 6 D1 backup + migration apply、API/Web deploy、release tag、production smoke、24h post-release verification、Phase 12 strict 7 files を固定。Phase 13 は PR 作成承認であり production approval には数えない。実 Cloudflare mutation / tag push / PR 作成は未実行。artifact inventory: `references/workflow-task-09c-production-deploy-execution-001-artifact-inventory.md` / 固有教訓: `references/lessons-learned-09c-production-deploy-execution-001-2026-05.md`（L-09C-EXEC-001〜006）。Issue #353 は CLOSED のまま `Refs #353` で追跡し、production execution 未完了状態は workflow runtime evidence pending として管理する。 |
+| issue-348-09c-github-release-tag-automation | implemented-local / implementation / NON_VISUAL / Phase 12 strict outputs present / release apply user-gated / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-348-09c-github-release-tag-automation/` | Issue #348。`scripts/release/generate-release-notes.sh` は Phase 12 changelog + Phase 11 evidence URL + template から release note を stdout 生成し、`scripts/release/create-github-release.sh` は `--dry-run` と `--apply --draft` の境界を担う。`.github/workflows/release-create.yml` は `workflow_dispatch` dry-run / tag push draft release 作成。artifact inventory: `references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md`。SSOT: `references/release-runbook.md`。元 unassigned task は consumed。 |
+| issue-352-postmortem-template-automation | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval | `docs/30-workflows/completed-tasks/issue-352-postmortem-template-automation/` | Issue #352。09c Phase 11 evidence と release metadata から postmortem markdown を生成する CLI / template / runbook を追加。`generatePostmortem(input, template)` は pure、CLI が template read / evidence directory `main.md` check / rollback evidence file check（0 byte warning）/ stdout or `--out` write を担当。`docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` に rollback 後 24h postmortem 生成運用を追記。artifact inventory: `references/workflow-issue-352-postmortem-template-automation-artifact-inventory.md`。固有教訓: `lessons-learned/lessons-learned-issue-352-postmortem-template-automation-2026-05.md`（L-352-001 同一 wave 5 点同期 / L-352-002 NON_VISUAL でも宣言済 evidence 必須 / L-352-003 TS CLI は `node --experimental-strip-types`）。元 unassigned stub は `docs/30-workflows/completed-tasks/task-09c-postmortem-template-automation-001.md` に close-out 移動済み。commit / push / PR は user approval 待ち。 |
+| 06c-parallel-admin-dashboard-members-tags-schema-meetings-pages | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / VISUAL screenshot deferred to 08b/09a | `docs/30-workflows/02-application-implementation/06c-parallel-admin-dashboard-members-tags-schema-meetings-pages/` | apps/web `/admin` 5画面（dashboard / members / tags / schema / meetings）を App Router `(admin)` 配下に実装。04c admin API と 05a admin gate を接続し、`AdminSidebar`、`MemberDrawer`、`TagQueuePanel`、`SchemaDiffPanel`、`MeetingPanel`、`/api/admin/[...path]` proxy、Server Component `fetchAdmin` を追加。profile本文直接編集なし、tag直接編集なし、schema解消は`/admin/schema`のみ、deleted attendance除外、duplicate attendance disabled + 409/422 toast。検証: web typecheck PASS / Vitest 7 files 36 tests PASS。Phase 11 screenshot は D1 fixture・staging admin 前提のため 08b Playwright / 09a staging smoke に委譲。固有教訓 `references/lessons-learned-06c-admin-ui-2026-04.md`（L-06C-001〜005） |
+| 06c-A-admin-dashboard | spec_created / docs-only / remaining-only / VISUAL_ON_EXECUTION / Phase 12 strict 7 files present / Phase 13 pending_user_approval | `docs/30-workflows/06c-A-admin-dashboard/` | 06c 親タスクを復活させず、admin dashboard の既存 04c/06c contract 差分だけを formalize。正本 KPI は `総会員数 / 公開中人数 / 未タグ人数 / スキーマ未解決件数`、endpoint は apps/api `GET /admin/dashboard` + apps/web proxy `GET /api/admin/dashboard` の単一 dashboard contract。recent actions は `audit_log` 直近7日 max20 で `dashboard.view` を除外し、dashboard read は audit に `dashboard.view` として記録する。Phase 12 evidence: `outputs/phase-12/phase12-task-spec-compliance-check.md`。runtime visual evidence は implementation execution / 08b / 09a へ委譲。 |
+| 06c-B-admin-members | implemented-local / implementation / VISUAL_ON_EXECUTION / Phase 12 strict 7 files present / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/06c-B-admin-members/` | 06c 親タスクを復活させず、admin members の残差を実装完了。既存 API baseline は `GET /admin/members?filter=published|hidden|deleted`, detail, delete, restore。検索追補は `q` max 200 / repeated `tag` code AND / `zone` / `sort=recent|name` / `density=comfy|dense|list` / `page`。実装正本は `apps/api/src/routes/admin/members.ts`、`apps/web/app/(admin)/admin/members/page.tsx`、`apps/web/src/components/admin/MembersClient.tsx`、`packages/shared/src/admin/search.ts`。UI は `/admin/members` 一覧 + 右ドロワー詳細、apps/web middleware + apps/api `requireAdmin` の二段防御、`audit_log` canonical spelling、role mutation UI/API scope out を固定。runtime visual evidence は 08b / 09a へ委譲。 |
+| 06c-B-admin-members-implementation-execution | execution-supplement / implementation patch / VISUAL_ON_EXECUTION / Phase 12 strict 7 files present / runtime evidence pending_user_approval / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/06c-B-admin-members-implementation-execution/` | 06c-B completed canonical root を置換せず、Issue #430 実装実行契約の supplement として登録。今回 review cycle で `apps/api/src/routes/admin/member-delete.ts` を契約へ再整合し、delete reason 422、delete response `{ id, isDeleted, deletedAt }`、restore response `{ id, restoredAt }`、status / deleted_members / audit_log の `DB.batch()` 接続を実コード + focused tests に反映。Focused evidence: admin members/delete/web drawer/shared viewmodel 5 files / 51 tests PASS、typecheck PASS、lint PASS。runtime screenshots / staging curl / D1 / tail は 08b / 09a へ委譲。 |
+| 06c-C-admin-tags | spec_created / implementation-spec / docs-only / remaining-only / VISUAL_ON_EXECUTION / Phase 12 strict 7 files present / Phase 13 pending_user_approval | `docs/30-workflows/06c-C-admin-tags/` | 06c 親タスクを復活させず、admin tags の残差を正本仕様に合わせて formalize。`/admin/tags` は未タグ会員キューであり、API は `GET /admin/tags/queue` と `POST /admin/tags/queue/:queueId/resolve` のみ。旧案のタグ辞書 CRUD / alias editor / `member_tags` 直接編集 UI/API / 新規 migration は正本違反として撤回。schema 正本は `packages/shared/src/schemas/admin/tag-queue-resolve.ts`、audit は `admin.tag.queue_resolved` / `admin.tag.queue_rejected`。runtime visual evidence は 08b / 09a へ委譲。 |
+| 06c-E-admin-meetings | implemented-local / implementation / remaining-only / VISUAL_ON_EXECUTION / Phase 12 strict 7 files present / Phase 13 pending_user_approval | `docs/30-workflows/06c-E-admin-meetings/` | 06c 親タスクを復活させず、admin meetings の残差を実装完了。`meeting_sessions.deleted_at` を migration `0013_meeting_sessions_soft_delete.sql` で追加し、API は `PATCH /admin/meetings/:id`、`POST /admin/meetings/:id/attendances`、`GET /admin/meetings/:id/export.csv` を提供。attendance mutation は unknown member / soft-deleted meeting を 404、deleted member を 422、duplicate を 409 に固定。Web `MeetingPanel` は編集 details / soft delete / CSV link を追加。Focused tests: API meetings / attendance / MeetingPanel PASS。runtime visual evidence は 08b / 09a へ委譲。 |
+| UT-07A-02 search-tags resolve contract follow-up | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/completed-tasks/ut-07a-02-search-tags-resolve-contract-followup/` | 07a resolve body contract を shared schema SSOT に昇格。`packages/shared/src/schemas/admin/tag-queue-resolve.ts` の strict discriminated union を API route と apps/web admin client が参照し、`confirmed + tagCodes` / `rejected + reason` / mixed body 400 / idempotent / 409 / 422 を focused Vitest 31 tests と typecheck で検証。`docs/30-workflows/completed-tasks/UT-07A-02-search-tags-resolve-contract-followup.md` は consumed。UT-07A-03 staging smoke の前提を満たす。 |
+| 07a-parallel-tag-assignment-queue-resolve-workflow | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/` | tag assignment queue resolve workflow を `apps/api` に実装。`POST /admin/tags/queue/:queueId/resolve` は `{ action: "confirmed", tagCodes }` / `{ action: "rejected", reason }` を受け、guarded update 成功後だけ `member_tags` / `audit_log` を更新する。`queued/reviewing -> resolved/rejected`、同一 payload idempotent、409 race/state conflict、422 unknown tag/deleted member。03b response sync hook から未タグ member の candidate queue を自動投入。apps/web admin client と `TagQueuePanel`、packages/shared zod/type も `rejected` と resolve body に追従。検証: api typecheck PASS / web typecheck PASS / shared typecheck PASS / api Vitest 69 files 406 tests PASS / web Vitest 13 files 72 tests PASS。固有教訓 `references/lessons-learned-07a-tag-queue-resolve-2026-04.md`（L-07A-001〜007）。Follow-up: UT-07A-01 / UT-07A-03 / UT-07A-04（UT-07A-02 は consumed） |
+| issue-109-ut-02a-tag-assignment-queue-management | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #109 CLOSED | `docs/30-workflows/completed-tasks/issue-109-ut-02a-tag-assignment-queue-management/` | 02a `memberTags.ts` read-only 境界を維持したまま、Forms sync から `tag_assignment_queue` へ candidate を投入する write-side repository / workflow を実装。`enqueueTagCandidate(env, payload)` は `createIdempotent` 経由で `<memberId>:<responseId>` key を使い、migration `0009_tag_queue_idempotency_retry.sql` で idempotency / retry / DLQ 列を追加。admin queue は `status=dlq` filter を許可。manual specs 08/11/12 と Phase 12 7 outputs は同一 wave 同期済み。open follow-up: `task-issue-109-dlq-requeue-api-001.md`, `task-issue-109-tag-queue-pause-flag-001.md`。consumed: `task-issue-109-retry-tick-and-dlq-audit-001.md`（issue-377へ昇格済み）、`task-schema-diff-queue-faked1-compat-001.md`（Issue #379 current GREEN verification で consumed trace 化済み）。 |
+| issue-377-retry-tick-and-dlq-audit | implemented-local / implementation / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval / Issue #377 CLOSED | `docs/30-workflows/issue-377-retry-tick-and-dlq-audit/` | UT-02A retry/DLQ primitives を scheduled cron で駆動。`apps/api/src/workflows/tagQueueRetryTick.ts` は retry tick 対象条件（`reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL`）を満たす queued row のみ処理し、plain human-review queued row は skip。default scheduled path でも `incrementRetryWithDlqAudit` を呼び、max retry 超過 / non-retryable error では `status='dlq'` と `admin.tag.queue_dlq_moved` audit (`target_type='tag_queue'`) を D1 batch で同時記録する。`apps/api/wrangler.toml` は top-level / staging / production を3 cron以内に維持し、legacy Sheets hourly は手動限定。Focused evidence: `tagQueueRetryTick.test.ts` 7 tests PASS + api typecheck PASS。Phase 13 は `Refs #377` のみ、commit / push / PR / deploy は user-gated。 |
+| 07c-parallel-meeting-attendance-and-admin-audit-log-workflow | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/completed-tasks/07c-parallel-meeting-attendance-and-admin-audit-log-workflow/` | apps/api attendance 3 endpoint を 05a `requireAdmin` 配下で実装。`GET /admin/meetings/:sessionId/attendance/candidates` は session 不在 `404 session_not_found`、削除済み・登録済み member 除外。`POST /admin/meetings/:sessionId/attendance` は duplicate `409 attendance_already_recorded` / deleted `422 member_is_deleted` / session 不在 `404 session_not_found`。`DELETE /admin/meetings/:sessionId/attendance/:memberId` は row 不在を `404 attendance_not_found` に集約。add/remove 成功時のみ `audit_log` に `attendance.add` / `attendance.remove` を append（target_type=`meeting`, target_id=sessionId）。Phase 11 は API-only のため Vitest smoke evidence、visual は 08b/09a に委譲。固有教訓 `references/lessons-learned-07c-attendance-audit-2026-04.md`（L-07C-001〜005）。 |
+| 07c-followup-003-audit-log-browsing-ui | completed / Phase 1-12 完了 / Phase 13 blocked_user_approval / VISUAL | `docs/30-workflows/completed-tasks/07c-followup-003-audit-log-browsing-ui/` | `/admin/audit` 監査ログ閲覧 UI と `GET /admin/audit` を実装。API は `requireAdmin`、複合 filter、UTC range、cursor pagination、limit 1-100、maskedBefore/maskedAfter projection、broken JSON parseError を提供し raw `before_json` / `after_json` を返さない。Web は admin proxy 経由の read-only table/filter/disclosure UI、JST 入力・表示、UI 側 PII 再 mask、AdminSidebar 導線を追加。検証: api typecheck PASS / web typecheck PASS / api Vitest 82 files 493 tests PASS / focused web Vitest 2 files 7 tests PASS。web 全体 test は既存 `/no-access` invariant で FAIL（本差分外）。Phase 11 screenshot 7 件を保存。 |
+| 08a-parallel-api-contract-repository-and-authorization-tests | partial / Phase 1-10 completed / Phase 11-12 partial / Phase 13 pending_user_approval / NON_VISUAL | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` | apps/api の API contract / repository / authz / brand type / invariant tests を整備。Phase 11 実測は 74 files / 442 tests PASS、coverage は Statements 84.18% / Branches 84.13% / Functions 83.37% / Lines 84.18% で AC-6 PARTIAL。代表 authz matrix + route tests で現状を観測し、全 endpoint generated matrix と public use-case coverage 補強は `docs/30-workflows/unassigned-task/UT-08A-01-public-use-case-coverage-hardening.md` に formalize。UI route なしのため screenshot 不要、Phase 11 evidence は `outputs/phase-11/evidence/{test-run.log,coverage-report.txt,ci-workflow.yml}`。Phase 12 close-out: `outputs/phase-12/{main,implementation-guide,documentation-changelog,system-spec-update-summary,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md`（全 6 + 1 揃い）。Follow-up は UT-08A-01〜06 の計 6 本を `unassigned-task/` に formalize（02 visual regression / 03 production load test / 04 D1 migration test guideline / 05 shared package type test / 06 test suffix rename）。task root path drift（`02-application-implementation/` → `30-workflows/` 直下）を `legacy-ordinal-family-register.md` の Task Root Path Drift Register に記録。 |
+| issue-346-08a-canonical-workflow-tree-restore | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/` | 09c production release runbook が参照する 08a upstream contract gate の trace 回復タスク。A restore を採用し、`docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` を current/partial canonical root として維持する。08a-A は follow-up であり canonical root の代替ではない。Phase 11 evidence は file existence / aiworkflow state diff / 09c targeted link check / unassigned grep / `pnpm indexes:rebuild` drift 0 / secret hygiene を NON_VISUAL として保存。アプリコード変更なし、screenshot 不要。Issue #346 は仕様作成時点で closed のため Phase 13 は `Refs #346` のみ。artifact inventory: `references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md`。lessons: `references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md`（L-I346-001〜006）。 |
+| 06a-parallel-public-landing-directory-and-registration-pages | completed / Phase 1-12 完了 / Phase 13 pending_user_approval / VISUAL | `docs/30-workflows/completed-tasks/06a-parallel-public-landing-directory-and-registration-pages/` | apps/web 公開 4 route（`/`, `/members`, `/members/[id]`, `/register`）を実装。`apps/web/src/lib/url/members-search.ts` は `q` max 200、`zone/status/tag/sort/density` を URL query 正本として parse し、`fetchPublic` 経由で 04a public API のみを呼ぶ。Phase 11 は `wrangler dev` esbuild mismatch のため local mock API で curl + screenshot smoke を PASS、実 Workers + D1 smoke は 08b / 09a に引き継ぎ。follow-up: real Workers/D1 smoke、OGP/sitemap、mobile FilterBar + tag picker、04a shared query parser extraction 継続。固有教訓 `references/lessons-learned-06a-public-web-2026-04.md`（L-06A-001〜005）。 |
+| task-sync-forms-d1-legacy-umbrella-001 | spec_created / docs-only / NON_VISUAL | `docs/30-workflows/completed-tasks/task-sync-forms-d1-legacy-umbrella-001/` | 旧 UT-09 Sheets→D1 sync を legacy umbrella として close。実装責務は 03a（Forms schema sync）/ 03b（Forms response sync）/ 04c（admin sync endpoints; current canonical は `references/api-endpoints.md`）/ 09b（cron runbook）/ 02c（sync_jobs 排他）へ移管。単一 `/admin/sync`、`sync_audit`、Google Sheets API 前提を stale とし、Forms API / split endpoint / `sync_jobs` を current として固定。**retry/offset canonical（max retry=3 / exponential backoff base 1s/factor 2/cap 32s/jitter ±20% / `processed_offset` chunk index）は U-UT01-09（2026-04-30）にて確定済み**。実装反映時は `references/lessons-learned-u-ut01-09-retry-offset-2026-04.md`（L-UUT0109-001〜003）を参照する。 |
+| issue-194-03b-followup-001-email-conflict-identity-merge | implemented-local / implementation-spec / VISUAL_ON_EXECUTION / Phase 1-12 completed / Phase 11 runtime pending / Phase 13 pending_user_approval | `docs/30-workflows/completed-tasks/issue-194-03b-followup-001-email-conflict-identity-merge/` | 03b の `EMAIL_CONFLICT` follow-up を Phase 1-13 仕様へ再構成し、ローカル実装差分として admin API / D1 migrations / repository / shared schema / web UI を追加済み。候補抽出は `EMAIL_CONFLICT` が存在する運用文脈で `member_identities` 全体から name+affiliation 完全一致を検出し、merge は raw response 移動ではなく `identity_aliases.source_member_id -> target_member_id` と `identity_merge_audit` / `audit_log` の単一 D1 batch で canonical identity を記録する。Phase 11 は VISUAL_ON_EXECUTION helper のみ、Phase 12 strict 7 files と root/outputs `artifacts.json` parity を配置済み。historical source: `completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-followup-001-email-conflict-identity-merge.md`。固有教訓: `references/lessons-learned-issue-194-identity-merge-2026-05.md`（L-IDENT-001〜006）。staging D1 migration / screenshots / commit / push / PR は user approval gate。 |
+| 04c-followup-001-email-conflict-merge-api-and-ui | completed_alias / docs-only / NON_VISUAL / Issue #432 trace | `docs/30-workflows/04c-followup-001-email-conflict-merge-api-and-ui/` | 新規 implementation workflow ではなく、Issue #432 / 04c follow-up 名称を issue-194 正本へ誘導する alias。旧 draft の `identity_dismissals` / `admin_audit_log` 拡張 / `sync_jobs.lock_token` 転用 / `GET /admin/identity-conflicts/:id` / screenshot 3枚 / PR 実行文面は撤回。元 unassigned `03b-followup-001-workflow-elevation` と `04c-followup-001-email-conflict-merge-api-and-ui` は consumed stub。runtime evidence と Phase 13 は issue-194 user approval gate に従う。 |
+| 06a-followup-001-public-web-real-workers-d1-smoke | historical/design canonical / superseded-for-execution-by 06a-A / NON_VISUAL | `docs/30-workflows/completed-tasks/06a-followup-001-public-web-real-workers-d1-smoke/` | 06a Phase 11 で deferred になった real Workers + D1 smoke を formalize した旧 root。設計背景と昇格 trace は保持するが、actual local / staging curl log と screenshot の保存先は current execution root `docs/30-workflows/06a-A-public-web-real-workers-d1-smoke-execution/` に一本化する。元 unassigned task は `docs/30-workflows/completed-tasks/task-06a-followup-001-real-workers-d1-smoke.md` に rename（昇格 trace のみ保持）。Issue #273 は CLOSED のまま `Refs #273` のみ。inventory: `references/workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md`。 |
+| 06a-A-public-web-real-workers-d1-smoke-execution | spec_created / implementation-spec / docs-only / VISUAL_ON_EXECUTION / Phase 1-12 completed / Phase 13 pending_user_approval | `docs/30-workflows/06a-A-public-web-real-workers-d1-smoke-execution/` | 06a follow-up 001 の execution-oriented successor。既存 `completed-tasks/06a-followup-001-public-web-real-workers-d1-smoke/` を履歴・設計正本として残しつつ、実行時の local + staging real Workers/D1 smoke 手順、evidence path、Phase 12 strict 7 outputs、root/outputs `artifacts.json` parity、user approval gate を current execution root に固定する。`apps/web/wrangler.toml` の staging / production API URL と `scripts/cf.sh` wrapper は既存で足りるため、本 spec wave は code/env/CI を変更しない。actual curl log / screenshot は Phase 11 実行後に保存し、planned evidence を PASS と扱わない。actual Phase 11 evidence completion が 08b / 09a の下流解放条件。inventory: `references/workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md`。 |
+| issue-347-cloudflare-analytics-export-decision | spec_created / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval | `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` | Cloudflare Analytics long-term evidence decision。GraphQL Analytics API aggregate-only export を canonical とし、CSV fallback / screenshot reject、4 metric groups / 5 scalar values、12 件 retention、PII 非保存、Logpush 不採用を正本化。Runtime production sample は Cloudflare dashboard session / API token が必要なため user approval 後の operation cycle で取得し、現 workflow は schema sample / redaction check / Free plan constraints / aiworkflow 同期までを完了範囲とする。Automation follow-up source `docs/30-workflows/completed-tasks/task-issue-347-cloudflare-analytics-export-automation-001.md` は Issue #484 spec に consumed。Issue #347 は CLOSED 維持、`Refs #347` のみ。 |
+| issue-484-cloudflare-analytics-export-automation | implemented-local / implementation / NON_VISUAL / code evidence captured / runtime Cloudflare export pending_user_approval / Phase 13 blocked_pending_user_approval | `docs/30-workflows/issue-484-cloudflare-analytics-export-automation/` | Issue #347 automation follow-up を current implementation spec へ昇格。`scripts/fetch-cloudflare-analytics.ts`、`.github/workflows/cloudflare-analytics-export.yml`、redaction gate、multi-bucket summation、persisted zone/account redaction、active retention 12、`CLOUDFLARE_ANALYTICS_API_TOKEN` / `CLOUDFLARE_ACCOUNT_TAG`、schedule/manual one-export-per-month branch guard を固定。Runtime Cloudflare export / PR creation / token-backed workflow run は user approval 後の implementation cycle。 |
+
+### unassigned-task → Phase 1-13 仕様書ディレクトリへの昇格パターン
+
+- **用途**: `docs/30-workflows/unassigned-task/` の簡易仕様書を完全な Phase 1-13 仕様書に昇格させる
+- **配置先**: `docs/30-workflows/completed-tasks/{{task-id}}/`
+- **手順**:
+  1. unassigned-task 仕様書の Why/What/How を Phase 1 要件定義へ変換
+  2. Phase 2-13 の仕様書を task-specification-creator テンプレートで生成
+  3. 元の unassigned-task ファイルを completed-tasks に移動
+  4. aiworkflow-requirements の同 wave 更新
+- **参考**: UT-UIUX-VISUAL-BASELINE-DRIFT-001（2026-04-03）

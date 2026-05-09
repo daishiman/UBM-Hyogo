@@ -146,6 +146,8 @@
 
 Task-04 runtime guard / logger contract: production code must route browser-only globals through `apps/web/src/lib/is-browser.ts` (`isBrowser()`, `whenBrowser()`, `browserHistory()`, `browserDocument()`) and structured error reporting through `apps/web/src/lib/logger.ts`. Error boundaries should call `logger.error({ event, error, digest })`; the logger emits one-line JSON, redacts sensitive keys, and bridges to task-03 `captureException` / `captureMessage`.
 
+Task-05 implemented-local contract: `app/error.tsx` renders `role="alert"` / `aria-live="assertive"`, shows digest as `エラーID` when present, exposes a reset button, and hides stack traces unless `NODE_ENV !== "production"`. The boundary emits `logger.error({ event: "error.boundary.caught", digest, err })`; it must not import Sentry directly.
+
 ESLint `no-restricted-globals` の allow-list は以下4経路を正本とする: `apps/web/src/lib/is-browser.ts` / `apps/web/src/instrumentation-client.ts` / `apps/web/src/lib/sentry/**` / `apps/web/src/**/__tests__/**`。それ以外で `window` / `document` / `history` / `navigator` を直接参照することを禁止し、`whenBrowser()` / `browserHistory()` / `browserDocument()` / `browserNavigator()` を経由する。
 
 ### 2.4.2 `app/global-error.tsx`
@@ -154,17 +156,31 @@ ESLint `no-restricted-globals` の allow-list は以下4経路を正本とする
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
 | any | document fallback | ErrorState | Sentry capture only | error | message, reset | alert と main landmark | color, space, radius | 09h | raw stack display |
 
+Task-05 implemented-local contract: `app/global-error.tsx` owns the document fallback (`html` / `body`) and emits `logger.error({ event: "error.global-boundary.caught", digest, err })`. It keeps the same digest / reset behavior as route error boundaries and avoids direct app data fetches.
+
 ### 2.4.3 `app/not-found.tsx`
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
 | any | current shell | EmptyState | API call なし | empty | title, description, cta | h1 と戻る link | color, space, radius | 09h | silent redirect |
 
+Task-05 implemented-local contract: `app/not-found.tsx` uses `data-testid="not-found"`, `aria-labelledby`, an `h1` reading `ページが見つかりません`, and recovery links to `/` and `/members`. It does not redirect silently and does not call APIs.
+
 ### 2.4.4 `app/loading.tsx`
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
 | any | current shell | Skeleton | API call なし | loading | label, regions | `aria-busy` と status | color, space, radius | 09h | layout shift |
+
+Task-05 implemented-local contract: `app/loading.tsx` uses `role="status"`, `aria-busy="true"`, `aria-live="polite"`, and an sr-only `読み込み中` label. Skeleton blocks use `var(--ubm-color-*)` tokens only.
+
+### 2.4.5 Staging smoke fixture routes
+
+| 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
+|------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
+| staging fixture only | `app/__smoke__/*` | SmokeFixture | API call なし | error / success | fixture flag | alert or main landmark | color, space | 09h | production exposure |
+
+`app/__smoke__/error-boundary` と `app/__smoke__/members-list` は `ENABLE_STAGING_SMOKE_FIXTURE=1` かつ `ENVIRONMENT !== "production"` のときだけ有効にする。production deploy は `scripts/cf.sh deploy --config apps/web/wrangler.toml --env production` の preflight で `ENABLE_STAGING_SMOKE_FIXTURE=1` を拒否する。Playwright `staging-smoke` project は remote `STAGING_BASE_URL` 専用で、localhost dev server を起動しない。
 
 ## 3. component 契約一覧
 
@@ -404,3 +420,4 @@ props、state、a11y、token prefix がこの文書と Storybook で矛盾した
 | Date | Change |
 |------|--------|
 | 2026-05-07 | task-06 ui-ux-contract-rewrite により、UI/UX 文書を契約のみへ再構成 |
+| 2026-05-09 | task-05 error boundary / not-found / loading / staging smoke fixture contract を implemented-local として同期 |
