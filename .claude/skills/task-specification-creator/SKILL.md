@@ -127,6 +127,8 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 | Phase テンプレ詳細（Phase 1〜13 / Task ナビ） | [references/phase-templates.md](references/phase-templates.md) |
 | Phase 12 重要仕様（5 タスク詳細） | [references/phase-12-spec.md](references/phase-12-spec.md) |
 | Phase 12 skill feedback promotion | [references/phase12-skill-feedback-promotion.md](references/phase12-skill-feedback-promotion.md) |
+| workflow_state 語彙 / 状態 → 必要証跡マッピング / reclassify ルール / 禁止表記 | [references/workflow-state-vocabulary.md](references/workflow-state-vocabulary.md) |
+| Phase 12 compliance-check テンプレ（観点 / 検証コマンド / drift パターン例） | [references/phase12-compliance-check-template.md](references/phase12-compliance-check-template.md) |
 | Phase 12 よくある漏れ / 苦戦防止 Tips | [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md) |
 | Phase 12 sync パターン（aiworkflow-requirements 同時更新 / workflow root 移動チェックリスト） | [references/patterns-phase12-sync.md](references/patterns-phase12-sync.md) |
 | 未タスクテンプレ必須 4 セクション（苦戦箇所 / リスクと対策 / 検証方法 / スコープ） | [references/unassigned-task-required-sections.md](references/unassigned-task-required-sections.md) |

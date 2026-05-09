@@ -2509,6 +2509,12 @@ node scripts/list-specs.js --topics
 | Implemented Artifacts | L28 |
 | State Classification | L38 |
 
+### references/workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L45 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3246,6 +3252,8 @@ node scripts/list-specs.js --topics
 | 6. skill 反映先（aiworkflow-requirements / task-specification-creator） | L72 |
 | 7. リレー先未タスク（Phase 12 unassigned-task-detection 由来） | L86 |
 | 8. 不変条件 touched | L95 |
+
+### references/workflow-web-app-route-bundle-parse-fix-artifact-inventory.md
 
 ### references/workflow-workspace-parent-reference-sweep-guard.md
 
@@ -4609,6 +4617,18 @@ node scripts/list-specs.js --topics
 | L-560-006: Silent Failure Prevention On Trace Parse | L33 |
 | L-560-007: OpenNext / Next.js Upstream Workaround Boundary | L39 |
 
+### references/lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L10 |
+| 苦戦箇所と学び | L16 |
+| 横断的な学び | L87 |
+| 反映先（promoted to） | L95 |
+| 再発防止サマリ表 | L104 |
+| 用語集（本タスクで導入 / 確定した語彙） | L112 |
+| 引用元 | L118 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5004,14 +5024,16 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L7 |
 | 申し送り（open / baseline 未タスク） | L37 |
 
+### references/lessons-learned-web-app-route-bundle-parse-fix-2026-05.md
+
 ### references/lessons-learned.md
 
 | セクション | 行 |
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L103 |
-| 関連ドキュメント | L108 |
+| 利用順序 | L104 |
+| 関連ドキュメント | L109 |
 
 ### references/llm-embedding.md
 
@@ -6121,13 +6143,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L804 |
-| フェーズ構造（概要） | L813 |
-| 品質ゲート（概要） | L844 |
-| 出力テンプレート | L855 |
-| 実行時のコマンド・エージェント・スキル | L878 |
-| 昇格パターン集 | L902 |
-| Current Active / Spec Created Tasks | L904 |
+| ドキュメント構成 | L831 |
+| フェーズ構造（概要） | L840 |
+| 品質ゲート（概要） | L871 |
+| 出力テンプレート | L882 |
+| 実行時のコマンド・エージェント・スキル | L905 |
+| 昇格パターン集 | L929 |
+| Current Active / Spec Created Tasks | L931 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6142,7 +6164,8 @@ node scripts/list-specs.js --topics
 | 残課題（未タスク） | L6 |
 | task-worktree-environment-isolation follow-up（2026-04-28） | L356 |
 | TASK-SKILL-CODEX-VALIDATION-001 follow-up（2026-04-28） | L367 |
-| 続き | L377 |
+| Issue #534 workflow_state skill guidance follow-up（2026-05-08） | L377 |
+| 続き | L386 |
 
 ### references/task-workflow-completed-abort-contract-auth-session-chat.md
 

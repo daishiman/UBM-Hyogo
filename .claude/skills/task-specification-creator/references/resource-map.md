@@ -17,7 +17,7 @@
 | [update-system-specs.md](../agents/update-system-specs.md) | Phase 12 Task 2 | system spec 同期 |
 | [generate-unassigned-task.md](../agents/generate-unassigned-task.md) | Phase 12 Task 4 | 未タスク formalize |
 
-## references/（36ファイル）
+## references/（38ファイル）
 
 ### workflow core
 
@@ -44,6 +44,8 @@
 | [phase-template-phase11.md](phase-template-phase11.md) | Phase 11 作成時 | manual test template |
 | [phase-template-phase12.md](phase-template-phase12.md) | Phase 12 作成時 | documentation template |
 | [phase-template-phase13.md](phase-template-phase13.md) | Phase 13 作成時 | approval / PR template |
+| [workflow-state-vocabulary.md](workflow-state-vocabulary.md) | workflow_state / phase status / runtime pending boundary の確認時 | 状態語彙、必要証跡、reclassify ルール、禁止表記 |
+| [phase12-compliance-check-template.md](phase12-compliance-check-template.md) | Phase 12 compliance-check 作成・再監査時 | 観点、検証コマンド、drift パターン、4条件 verdict template |
 
 ### Phase 11/12 family
 
