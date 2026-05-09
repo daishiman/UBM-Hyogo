@@ -1,7 +1,11 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const EVIDENCE_DIR =
-  '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+  process.argv.some((arg) => arg.includes('staging-smoke'))
+    ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+    : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+
+const shouldStartLocalServer = !process.argv.some((arg) => arg.includes('staging-smoke'))
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -44,13 +48,31 @@ export default defineConfig({
         viewport: { width: 1280, height: 800 },
       },
     },
-  ],
-  webServer: [
     {
-      command: 'pnpm --filter @ubm-hyogo/web dev',
-      url: 'http://localhost:3000',
-      reuseExistingServer: !process.env.CI,
-      timeout: 120_000,
+      name: 'staging-smoke',
+      testDir: './tests/e2e',
+      testMatch: /staging-smoke\.spec\.ts$/,
+      retries: 2,
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: process.env.STAGING_BASE_URL,
+        viewport: { width: 1280, height: 800 },
+        extraHTTPHeaders: process.env.STAGING_AUTH_BEARER
+          ? { Authorization: `Bearer ${process.env.STAGING_AUTH_BEARER}` }
+          : undefined,
+      },
     },
   ],
+  ...(shouldStartLocalServer
+    ? {
+        webServer: [
+          {
+            command: 'pnpm --filter @ubm-hyogo/web dev',
+            url: 'http://localhost:3000',
+            reuseExistingServer: !process.env.CI,
+            timeout: 120_000,
+          },
+        ],
+      }
+    : {}),
 })

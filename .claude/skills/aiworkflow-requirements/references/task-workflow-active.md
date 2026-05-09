@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UI prototype alignment / MVP recovery task-05 error boundary and staging smoke（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / runtime evidence pending_user_approval / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/task-05-error-boundary-and-staging-smoke/` |
+| 目的 | App Router `error.tsx` / `global-error.tsx` / `not-found.tsx` / `loading.tsx` と 19 routes staging smoke の実装仕様を固定する |
+| route SSOT | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/specs/staging-smoke-checklist.md` |
+| fixture gate | `ENABLE_STAGING_SMOKE_FIXTURE=1` required; `NODE_ENV` fixture control forbidden |
+| 上流 | task-02 env / task-03 Sentry / task-04 logger |
+| 下流 | task-18 regression smoke |
+| evidence boundary | Phase 12 strict 7 + artifacts parity は present。staging deploy / runtime Playwright / Sentry dashboard / commit / push / PR は user approval 後 |
+| artifact inventory | `references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md` |
+
 ### Issue #555 audit correlation salt rotation（2026-05-08）
 
 | 項目 | 値 |

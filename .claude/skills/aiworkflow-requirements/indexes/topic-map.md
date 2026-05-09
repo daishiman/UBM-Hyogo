@@ -2692,6 +2692,12 @@ node scripts/list-specs.js --topics
 | Validation Chain | L107 |
 | 確定値・列定義 | L120 |
 
+### references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L13 |
+
 ### references/workflow-task-05a-form-preview-503-001-artifact-inventory.md
 
 | セクション | 行 |
@@ -6090,13 +6096,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L773 |
-| フェーズ構造（概要） | L782 |
-| 品質ゲート（概要） | L813 |
-| 出力テンプレート | L824 |
-| 実行時のコマンド・エージェント・スキル | L847 |
-| 昇格パターン集 | L871 |
-| Current Active / Spec Created Tasks | L873 |
+| ドキュメント構成 | L787 |
+| フェーズ構造（概要） | L796 |
+| 品質ゲート（概要） | L827 |
+| 出力テンプレート | L838 |
+| 実行時のコマンド・エージェント・スキル | L861 |
+| 昇格パターン集 | L885 |
+| Current Active / Spec Created Tasks | L887 |
 
 ### references/task-workflow-backlog-part2.md
 
