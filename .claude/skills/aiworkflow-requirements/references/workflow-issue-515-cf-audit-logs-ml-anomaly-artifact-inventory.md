@@ -19,7 +19,7 @@
 | lessons-learned | `references/lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md` (L-ISSUE515-001..005) |
 | skill feedback | `outputs/phase-12/skill-feedback-report.md` (3-state Phase 11 template proposal — pending promotion) |
 | Phase 12 strict 7 | `outputs/phase-12/{main,implementation-guide,documentation-changelog,unassigned-task-detection,skill-feedback-report,system-spec-update-summary,phase12-task-spec-compliance-check}.md` |
-| follow-up unassigned | `docs/30-workflows/unassigned-task/issue-515-{90day-baseline-observation,redacted-feature-export}.md`; FU-03-C successor `docs/30-workflows/issue-548-ml-model-selection/`; FU-03-D successor `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-production-classifier-switch.md` |
+| follow-up unassigned | `docs/30-workflows/unassigned-task/issue-515-{90day-baseline-observation,redacted-feature-export}.md`; FU-03-C successor historical root `docs/30-workflows/issue-548-ml-model-selection/` (deleted in current branch; trace retained in `references/workflow-issue-548-ml-model-selection-artifact-inventory.md`); FU-03-D successor `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-production-classifier-switch.md` |
 
 ## Evidence
 

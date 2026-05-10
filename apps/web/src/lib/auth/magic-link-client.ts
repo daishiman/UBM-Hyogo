@@ -23,7 +23,8 @@ const isLoginGateState = (value: unknown): value is LoginGateState =>
   value === "sent" ||
   value === "unregistered" ||
   value === "rules_declined" ||
-  value === "deleted";
+  value === "deleted" ||
+  value === "error";
 
 /**
  * `/api/auth/magic-link` POST で magic link を送信し、結果 state を返す。

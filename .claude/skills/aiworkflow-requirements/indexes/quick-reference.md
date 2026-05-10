@@ -5,16 +5,19 @@
 
 ---
 
-### UT-17 Cloudflare Analytics Alerts（2026-05-09）
+### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
 
-| 目的 | 参照先 |
+| 観点 | 値 / 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` |
-| 状態 | `implemented-local / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING` |
-| baseline | Cloudflare Notifications email + runbook |
-| optional relay | Professional+ / webhook-eligible account only: generic webhook -> `/internal/alert-relay` -> Slack |
-| auth | `cf-webhook-auth` fixed secret; body HMAC and `X-CF-Alert-Signature` are not part of the contract |
-| phase gates | Local code/tests are complete; Cloudflare Secrets, deploy, Notification Policy setup, Slack runtime smoke, commit, push, and PR remain user-gated |
+| workflow root | `docs/30-workflows/completed-tasks/ut-15-waf-rate-limiting-rules-setup/` |
+| 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL / Phase 12 strict 7 outputs present / Phase 13 blocked_pending_user_approval` |
+| Cloudflare phase order | Custom Rules `http_request_firewall_custom` -> Rate Limiting `http_ratelimit` -> Managed Rules `http_request_firewall_managed` |
+| Rate Limiting API contract | `http_ratelimit` entry point ruleset with rule-level `ratelimit` object (`characteristics`, `period`, `requests_per_period`, `mitigation_timeout`) |
+| Workers binding boundary | Optional Worker-side API uses current `[[ratelimits]]`; initial UT-15 implementation keeps it no-op |
+| wrapper rule | Cloudflare operations go through `bash scripts/cf.sh` / `scripts/cf-waf-apply.sh`; mutation and PR creation are user-gated |
+| artifact inventory | `references/workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md` |
+| canonical spec | `references/cloudflare-edge-security.md` |
+| lessons | `references/lessons-learned-ut-15-waf-rate-limiting.md` |
 
 ### UI prototype alignment / MVP recovery task-05 error boundary and staging smoke（2026-05-09）
 

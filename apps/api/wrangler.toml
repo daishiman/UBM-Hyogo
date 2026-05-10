@@ -3,17 +3,9 @@ main = "src/index.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
-[vars]
-ENVIRONMENT = "production"
-SHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
-FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
-GOOGLE_FORM_ID = "119ec539YYGmkUEnSYlhI-zMXtvljVpvDFMm7nfhp7Xg"
-SHEETS_SPREADSHEET_ID = "10XQqUko2A5jFXT-J0ibvPt3KUX56divqEk6kDccH5vw"
-SYNC_BATCH_SIZE = "100"
-SYNC_MAX_RETRIES = "3"
-SYNC_RANGE = "Form Responses 1!A1:ZZ10000"
-RETENTION_PURGE_MODE = "dry-run"
-TAG_QUEUE_PAUSED = "false"
+# top-level [vars] is intentionally absent. Wrangler does not inherit
+# top-level vars into named environments, so production/staging vars live only
+# under [env.production.vars] and [env.staging.vars].
 
 # 03a: schema sync は 03:00 JST (= 18:00 UTC) に 1 回
 # 03b: response sync は */15 で実行（forms.responses.list 差分同期）

@@ -58,7 +58,7 @@
 - [ ] critical 5 route smoke 100% 維持
 
 ## Out of scope
-- fixture seed 拡張、`signSession` 実署名、design token 改修、新規 endpoint
+- fixture seed 拡張、production Auth.js 認証変更、design token 全面改修、新規 endpoint
 ```
 
 ## 5. 本サイクル成果物 inventory
@@ -87,7 +87,7 @@ EOF
 | 項目 | 担当 stage |
 |------|-----------|
 | Stage 2 着手 | phase-12 §4 未タスク U-1..U-3 を入力に新 workflow 起票 |
-| `signSession` 実装 | 別 workflow（auth uplift） |
+| production Auth.js 認証変更 | 別 workflow（auth uplift） |
 | lessons-learned 反映 | Stage 2 完了時にまとめて反映 |
 
 ## 8. 完了条件
@@ -107,7 +107,7 @@ EOF
 - phase: 13
 - task classification: implementation / NON_VISUAL
 - coverageTier: standard
-- workflow_state: spec_verified
+- workflow_state: implemented_local
 
 ## 目的
 
@@ -128,22 +128,21 @@ Stage 1 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 1. 本 phase の既存本文を確認する。
 2. 対応する実ファイル差分または evidence を確認する。
-3. validator と grep gate の結果を Phase 11 / Phase 12 evidence に反映する。
+3. validator と grep gate の結果を Phase 12 evidence に反映し、Phase 11 は実行ログ・skip count・runner version として分離する。
 
 ## 成果物
 
 - 本 phase markdown
 - 関連 outputs/phase-11 または outputs/phase-12 evidence
-- 必要に応じた apps/web / .claude/skills 実ファイル差分
+- apps/web/playwright/tests/public-flow.spec.ts、profile-visibility-request.spec.ts、profile-delete-request.spec.ts の assertion 差分
 
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

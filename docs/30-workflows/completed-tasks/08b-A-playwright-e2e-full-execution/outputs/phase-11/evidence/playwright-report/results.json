@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright.config.ts",
-    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests",
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/apps/web/playwright/tests",
     "forbidOnly": false,
     "fullyParallel": true,
     "globalSetup": null,
@@ -16,7 +16,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -24,7 +24,7 @@
         },
         "id": "desktop-chromium",
         "name": "desktop-chromium",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/apps/web/playwright/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -32,7 +32,7 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -40,7 +40,7 @@
         },
         "id": "desktop-firefox",
         "name": "desktop-firefox",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/apps/web/playwright/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -48,7 +48,7 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -56,7 +56,7 @@
         },
         "id": "mobile-webkit",
         "name": "mobile-webkit",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/apps/web/playwright/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -64,7 +64,7 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -72,10 +72,26 @@
         },
         "id": "staging",
         "name": "staging",
-        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/apps/web/playwright/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging-smoke",
+        "name": "staging-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/apps/web/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/staging-smoke\\.spec\\.ts$/"
         ],
         "timeout": 60000
       }
@@ -114,2749 +130,229 @@
   },
   "suites": [
     {
-      "title": "a11y.spec.ts",
-      "file": "a11y.spec.ts",
+      "title": "admin-identity-conflicts.spec.ts",
+      "file": "admin-identity-conflicts.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "a11y — WCAG 2.1 AA 主要違反 0 件",
-          "file": "a11y.spec.ts",
-          "line": 7,
-          "column": 15,
-          "specs": [
-            {
-              "title": "axe /",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.505Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "aa3ad05f8c0e05077efb-4a7268ad2c9fcbf5871d",
-              "file": "a11y.spec.ts",
-              "line": 9,
-              "column": 5
-            },
-            {
-              "title": "axe /members",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.507Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "aa3ad05f8c0e05077efb-045bbb29bcd7dcc08996",
-              "file": "a11y.spec.ts",
-              "line": 9,
-              "column": 5
-            },
-            {
-              "title": "axe /members/m-1",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.508Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "aa3ad05f8c0e05077efb-25eb425433b771ebdedc",
-              "file": "a11y.spec.ts",
-              "line": 9,
-              "column": 5
-            },
-            {
-              "title": "axe /register",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.508Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "aa3ad05f8c0e05077efb-02eb4bd111b9a4ed39d2",
-              "file": "a11y.spec.ts",
-              "line": 9,
-              "column": 5
-            },
-            {
-              "title": "axe /login",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.508Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/a11y.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "aa3ad05f8c0e05077efb-3323283a1265a235cd71",
-              "file": "a11y.spec.ts",
-              "line": 9,
-              "column": 5
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "admin-pages.spec.ts",
-      "file": "admin-pages.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "admin pages × 認可境界 (5 画面 × 3 ロール)",
-          "file": "admin-pages.spec.ts",
-          "line": 12,
-          "column": 15,
-          "specs": [
-            {
-              "title": "admin: 5 画面すべてアクセス可能 + screenshot",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/admin-pages.spec.ts",
-                        "line": 12,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.509Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/admin-pages.spec.ts",
-                            "line": 12,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "eb8dc4b206445fd3e86e-0e3a5fc0bcc3b8ebfb20",
-              "file": "admin-pages.spec.ts",
-              "line": 13,
-              "column": 3
-            },
-            {
-              "title": "member: /admin/* は 403",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/admin-pages.spec.ts",
-                        "line": 12,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.510Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/admin-pages.spec.ts",
-                            "line": 12,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "eb8dc4b206445fd3e86e-9ec698b679b60d6342c2",
-              "file": "admin-pages.spec.ts",
-              "line": 38,
-              "column": 3
-            },
-            {
-              "title": "anonymous: /admin/* は /login へ redirect",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/admin-pages.spec.ts",
-                        "line": 12,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.510Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/admin-pages.spec.ts",
-                            "line": 12,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "eb8dc4b206445fd3e86e-7b5c6cb9645df3712e92",
-              "file": "admin-pages.spec.ts",
-              "line": 45,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "attendance.spec.ts",
-      "file": "attendance.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "attendance 二重防御 (#15)",
-          "file": "attendance.spec.ts",
-          "line": 5,
-          "column": 15,
-          "specs": [
-            {
-              "title": "重複登録 → toast 表示",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/attendance.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.511Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/attendance.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "3b9a56e6ecc460e88dcd-80fcb7c4cd1fa0c6cfc4",
-              "file": "attendance.spec.ts",
-              "line": 7,
-              "column": 3
-            },
-            {
-              "title": "削除済み member は候補に出ない",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/attendance.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.512Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/attendance.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "3b9a56e6ecc460e88dcd-aa2944b09f2a630af89b",
-              "file": "attendance.spec.ts",
-              "line": 17,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "auth-gate-state.spec.ts",
-      "file": "auth-gate-state.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "auth gate state (5 状態 + /no-access 不在)",
-          "file": "auth-gate-state.spec.ts",
-          "line": 7,
-          "column": 15,
-          "specs": [
-            {
-              "title": "desktop: /login state=input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.513Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-e6efa00f66826ad88103",
-              "file": "auth-gate-state.spec.ts",
-              "line": 9,
-              "column": 5
-            },
-            {
-              "title": "mobile: /login state=input",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.513Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-e238c1eea7ca82bd214c",
-              "file": "auth-gate-state.spec.ts",
-              "line": 14,
-              "column": 5
-            },
-            {
-              "title": "desktop: /login state=sent",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.513Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-da0b387a1bce011fa643",
-              "file": "auth-gate-state.spec.ts",
-              "line": 9,
-              "column": 5
-            },
-            {
-              "title": "mobile: /login state=sent",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.513Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-3a6833fce3635c0d6f85",
-              "file": "auth-gate-state.spec.ts",
-              "line": 14,
-              "column": 5
-            },
-            {
-              "title": "desktop: /login state=unregistered",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.513Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-ba82f0822d038d75ee8d",
-              "file": "auth-gate-state.spec.ts",
-              "line": 9,
-              "column": 5
-            },
-            {
-              "title": "mobile: /login state=unregistered",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.514Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-9563e4f9f54a20551fdc",
-              "file": "auth-gate-state.spec.ts",
-              "line": 14,
-              "column": 5
-            },
-            {
-              "title": "desktop: /login state=rules_declined",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-1ad4640925fb41c1e2b6",
-              "file": "auth-gate-state.spec.ts",
-              "line": 9,
-              "column": 5
-            },
-            {
-              "title": "mobile: /login state=rules_declined",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-d960226a781a2b48f523",
-              "file": "auth-gate-state.spec.ts",
-              "line": 14,
-              "column": 5
-            },
-            {
-              "title": "desktop: /login state=deleted",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-b29c03a2c0ff3c944150",
-              "file": "auth-gate-state.spec.ts",
-              "line": 9,
-              "column": 5
-            },
-            {
-              "title": "mobile: /login state=deleted",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-6ac99adee268fa4d178b",
-              "file": "auth-gate-state.spec.ts",
-              "line": 14,
-              "column": 5
-            },
-            {
-              "title": "/no-access route が存在しない（404）",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/auth-gate-state.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "565eac36b0ce35abb44e-9557e3ca4d5422486df7",
-              "file": "auth-gate-state.spec.ts",
-              "line": 22,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "profile-delete-request.spec.ts",
-      "file": "profile-delete-request.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "profile delete-request (06b-B)",
-          "file": "profile-delete-request.spec.ts",
-          "line": 7,
-          "column": 15,
-          "specs": [
-            {
-              "title": "TC-E-03: 二段確認後に退会申請 → 202 → pending banner",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-delete-request.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-delete-request.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "60fae8a0f6dc8199c1d7-5ee336466e10f9fc55af",
-              "file": "profile-delete-request.spec.ts",
-              "line": 8,
-              "column": 3
-            },
-            {
-              "title": "TC-E-09: kbd 操作のみで完走（tab/enter）",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-delete-request.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-delete-request.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "60fae8a0f6dc8199c1d7-af18af80c0e8ad5da3f2",
-              "file": "profile-delete-request.spec.ts",
-              "line": 37,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "profile-pending-sticky.spec.ts",
-      "file": "profile-pending-sticky.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "profile pending banner sticky (06b-B #428)",
-          "file": "profile-pending-sticky.spec.ts",
-          "line": 7,
-          "column": 15,
-          "specs": [
-            {
-              "title": "TC-01/TC-02: reload 後も visibility pending banner 表示 + ボタン disabled",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-pending-sticky.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-pending-sticky.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "7382bc0da4708fc63256-4fc7cfbfdcfaef29e82c",
-              "file": "profile-pending-sticky.spec.ts",
-              "line": 8,
-              "column": 3
-            },
-            {
-              "title": "TC-05: 別経路で作成された delete pending が reload 後に反映される",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-pending-sticky.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-pending-sticky.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "7382bc0da4708fc63256-aaf82da832f21b2b174b",
-              "file": "profile-pending-sticky.spec.ts",
-              "line": 25,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "profile-readonly.spec.ts",
-      "file": "profile-readonly.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "06b-C profile logged-in read-only evidence",
-          "file": "profile-readonly.spec.ts",
-          "line": 62,
+          "title": "/admin/identity-conflicts × mutation",
+          "file": "admin-identity-conflicts.spec.ts",
+          "line": 33,
           "column": 6,
           "specs": [
             {
-              "title": "M-08 desktop logged-in /profile screenshot",
+              "title": "成功系: 一覧表示",
               "ok": true,
               "tags": [],
               "tests": [
                 {
                   "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                        "line": 63,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
+                  "annotations": [],
+                  "expectedStatus": "passed",
                   "projectId": "desktop-chromium",
                   "projectName": "desktop-chromium",
                   "results": [
                     {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2953,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.515Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                            "line": 63,
-                            "column": 8
-                          }
-                        }
-                      ],
+                      "startTime": "2026-05-09T22:14:24.343Z",
+                      "annotations": [],
                       "attachments": []
                     }
                   ],
-                  "status": "skipped"
+                  "status": "expected"
                 }
               ],
-              "id": "8a9dd03376604c2be46a-ccdda9742ed36cc4bc39",
-              "file": "profile-readonly.spec.ts",
-              "line": 67,
-              "column": 5
-            },
-            {
-              "title": "M-09 desktop no profile edit form",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                        "line": 63,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                            "line": 63,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8a9dd03376604c2be46a-9cc80d8bcd780ed401dd",
-              "file": "profile-readonly.spec.ts",
-              "line": 79,
-              "column": 5
-            },
-            {
-              "title": "M-10 desktop edit query ignored",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                        "line": 63,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                            "line": 63,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8a9dd03376604c2be46a-3811deb5715eb764dd66",
-              "file": "profile-readonly.spec.ts",
-              "line": 91,
-              "column": 5
-            },
-            {
-              "title": "M-08 mobile logged-in /profile screenshot",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                        "line": 63,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                            "line": 63,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8a9dd03376604c2be46a-6cb7aed95fc81a26aab1",
-              "file": "profile-readonly.spec.ts",
-              "line": 67,
-              "column": 5
-            },
-            {
-              "title": "M-09 mobile no profile edit form",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                        "line": 63,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                            "line": 63,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8a9dd03376604c2be46a-d061300cd02d96c7e2ab",
-              "file": "profile-readonly.spec.ts",
-              "line": 79,
-              "column": 5
-            },
-            {
-              "title": "M-10 mobile edit query ignored",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                        "line": 63,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                            "line": 63,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8a9dd03376604c2be46a-9b26df642d929d91c51b",
-              "file": "profile-readonly.spec.ts",
-              "line": 91,
-              "column": 5
-            },
-            {
-              "title": "M-16 logout redirects /profile to /login",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                        "line": 63,
-                        "column": 8
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "description": "PROFILE_EVIDENCE_STORAGE_STATE is required for logged-in evidence capture",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-readonly.spec.ts",
-                            "line": 63,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "8a9dd03376604c2be46a-98cdc030c196faa67aea",
-              "file": "profile-readonly.spec.ts",
-              "line": 108,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "profile-visibility-request.spec.ts",
-      "file": "profile-visibility-request.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "profile visibility-request (06b-B)",
-          "file": "profile-visibility-request.spec.ts",
-          "line": 7,
-          "column": 15,
-          "specs": [
-            {
-              "title": "TC-E-01: public → 公開停止申請 → 202 → pending banner",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-visibility-request.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-visibility-request.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "7540050e56df54ca29c1-9cba5290bf17ffcaae6c",
-              "file": "profile-visibility-request.spec.ts",
-              "line": 8,
-              "column": 3
-            },
-            {
-              "title": "TC-E-04: 二重申請 409 → エラー banner + ボタン disabled",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-visibility-request.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-visibility-request.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "7540050e56df54ca29c1-3fab4f4253c1bd320bda",
-              "file": "profile-visibility-request.spec.ts",
-              "line": 32,
-              "column": 3
-            },
-            {
-              "title": "TC-E-05: 422 → inline error",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-visibility-request.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-visibility-request.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "7540050e56df54ca29c1-5d1bb7a64db78fe598af",
-              "file": "profile-visibility-request.spec.ts",
-              "line": 50,
-              "column": 3
-            },
-            {
-              "title": "TC-E-06: network failure → retry CTA",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-visibility-request.spec.ts",
-                        "line": 7,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile-visibility-request.spec.ts",
-                            "line": 7,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "7540050e56df54ca29c1-798498c05cd470262824",
-              "file": "profile-visibility-request.spec.ts",
-              "line": 66,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "profile.spec.ts",
-      "file": "profile.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "profile (#4 編集 form 不在 / #8 reload 後 session 維持)",
-          "file": "profile.spec.ts",
-          "line": 6,
-          "column": 15,
-          "specs": [
-            {
-              "title": "desktop: 編集 form 不在 + editResponseUrl ボタン",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile.spec.ts",
-                        "line": 6,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile.spec.ts",
-                            "line": 6,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "e8b79b4ee550a37632f1-6b99c5353bf941a04824",
-              "file": "profile.spec.ts",
-              "line": 7,
-              "column": 3
-            },
-            {
-              "title": "editResponseUrl click → Google Form viewform へ遷移",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile.spec.ts",
-                        "line": 6,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.516Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile.spec.ts",
-                            "line": 6,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "e8b79b4ee550a37632f1-7f3263766755b77d94c1",
-              "file": "profile.spec.ts",
-              "line": 14,
-              "column": 3
-            },
-            {
-              "title": "reload 後 session 維持 (#8)",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile.spec.ts",
-                        "line": 6,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/profile.spec.ts",
-                            "line": 6,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "e8b79b4ee550a37632f1-3b7447b8ae504544afe8",
-              "file": "profile.spec.ts",
-              "line": 22,
-              "column": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "title": "public-flow.spec.ts",
-      "file": "public-flow.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
-        {
-          "title": "public flow (landing → 一覧 → 詳細 → 登録)",
-          "file": "public-flow.spec.ts",
-          "line": 9,
-          "column": 15,
-          "specs": [
-            {
-              "title": "desktop: full flow",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/public-flow.spec.ts",
-                        "line": 9,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/public-flow.spec.ts",
-                            "line": 9,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "d06c978a1a48b76228e3-ae754feeb181010915ca",
-              "file": "public-flow.spec.ts",
-              "line": 10,
-              "column": 3
-            },
-            {
-              "title": "mobile: full flow",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/public-flow.spec.ts",
-                        "line": 9,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/public-flow.spec.ts",
-                            "line": 9,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "d06c978a1a48b76228e3-2f16339b80f58f42dddd",
-              "file": "public-flow.spec.ts",
+              "id": "46e2a5de08c3e54b0b6e-a8a6c469356af3dec790",
+              "file": "admin-identity-conflicts.spec.ts",
               "line": 34,
               "column": 3
+            },
+            {
+              "title": "成功系: merge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 712,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-09T22:14:27.676Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "46e2a5de08c3e54b0b6e-a10c68dc76b162a6b514",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "成功系: dismiss",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 641,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-09T22:14:28.410Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "46e2a5de08c3e54b0b6e-273d30820f3598de1d50",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 108,
+              "column": 3
+            },
+            {
+              "title": "refresh 境界: merge 後に router.refresh() のみ実行され、members 詳細 fetch は発生しない",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 717,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-09T22:14:29.075Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "46e2a5de08c3e54b0b6e-cd6177ebcaaaa0dc44d7",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 140,
+              "column": 3
             }
           ]
-        }
-      ]
-    },
-    {
-      "title": "search-density.spec.ts",
-      "file": "search-density.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [],
-      "suites": [
+        },
         {
-          "title": "search × density (6 パラメータ + density 3 値)",
-          "file": "search-density.spec.ts",
-          "line": 5,
-          "column": 15,
+          "title": "/admin/identity-conflicts × authz",
+          "file": "admin-identity-conflicts.spec.ts",
+          "line": 181,
+          "column": 6,
           "specs": [
             {
-              "title": "q parameter",
+              "title": "認可: member は /login redirect (admin 専用要素は不可視)",
               "ok": true,
               "tags": [],
               "tests": [
                 {
                   "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
+                  "annotations": [],
+                  "expectedStatus": "passed",
                   "projectId": "desktop-chromium",
                   "projectName": "desktop-chromium",
                   "results": [
                     {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1683,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
+                      "startTime": "2026-05-09T22:14:29.806Z",
+                      "annotations": [],
                       "attachments": []
                     }
                   ],
-                  "status": "skipped"
+                  "status": "expected"
                 }
               ],
-              "id": "5e99dc804cdd07f9b888-809a52238419f0c44176",
-              "file": "search-density.spec.ts",
-              "line": 6,
+              "id": "46e2a5de08c3e54b0b6e-6d3c616b6a99ecd99bb6",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 182,
               "column": 3
             },
             {
-              "title": "zone + status combo",
+              "title": "認可: anonymous は /login redirect",
               "ok": true,
               "tags": [],
               "tests": [
                 {
                   "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
+                  "annotations": [],
+                  "expectedStatus": "passed",
                   "projectId": "desktop-chromium",
                   "projectName": "desktop-chromium",
                   "results": [
                     {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1062,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
+                      "startTime": "2026-05-09T22:14:31.505Z",
+                      "annotations": [],
                       "attachments": []
                     }
                   ],
-                  "status": "skipped"
+                  "status": "expected"
                 }
               ],
-              "id": "5e99dc804cdd07f9b888-80dbb1b547062bbf3d7d",
-              "file": "search-density.spec.ts",
-              "line": 13,
+              "id": "46e2a5de08c3e54b0b6e-7c5a45aacfe9cca8db7c",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 198,
               "column": 3
-            },
-            {
-              "title": "tag filter",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5e99dc804cdd07f9b888-53d6a37901e1240d174c",
-              "file": "search-density.spec.ts",
-              "line": 19,
-              "column": 3
-            },
-            {
-              "title": "sort",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5e99dc804cdd07f9b888-2f52646d100842df279c",
-              "file": "search-density.spec.ts",
-              "line": 25,
-              "column": 3
-            },
-            {
-              "title": "6 パラメータ複合",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5e99dc804cdd07f9b888-a863a05786f5dc85546a",
-              "file": "search-density.spec.ts",
-              "line": 31,
-              "column": 3
-            },
-            {
-              "title": "density=comfy",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5e99dc804cdd07f9b888-2ab4a25bd9c564830d5a",
-              "file": "search-density.spec.ts",
-              "line": 45,
-              "column": 5
-            },
-            {
-              "title": "density=dense",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5e99dc804cdd07f9b888-c001b80930e7fdbb35cb",
-              "file": "search-density.spec.ts",
-              "line": 45,
-              "column": 5
-            },
-            {
-              "title": "density=list",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                        "line": 5,
-                        "column": 15
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "desktop-chromium",
-                  "projectName": "desktop-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-05-08T09:16:14.517Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260508-172418-wt-12/apps/web/playwright/tests/search-density.spec.ts",
-                            "line": 5,
-                            "column": 15
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "5e99dc804cdd07f9b888-7d2d6bb8184ad46cfd59",
-              "file": "search-density.spec.ts",
-              "line": 45,
-              "column": 5
             }
           ]
         }
@@ -2865,10 +361,10 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-05-08T09:16:13.402Z",
-    "duration": 1117.174,
-    "expected": 0,
-    "skipped": 49,
+    "startTime": "2026-05-09T22:14:03.521Z",
+    "duration": 29326.353,
+    "expected": 6,
+    "skipped": 0,
     "unexpected": 0,
     "flaky": 0
   }
