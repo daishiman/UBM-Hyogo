@@ -48,8 +48,12 @@ test.describe("public detail / register / legal", () => {
   });
 
   test("/members/non-existent triggers notFound", async ({ page }) => {
+    // Next.js dev (Turbopack/webpack) は async server component 内の notFound() で
+    // 404 を返さず 200 + not-found.tsx を返すため、HTTP status ではなくレンダリング
+    // 結果（not-found page の data-testid）で検証する。production build では 404 を返す。
     const res = await page.goto("/members/__definitely_not_exist__");
-    expect(res?.status()).toBe(404);
+    expect(res?.status()).toBeLessThan(500);
+    await expect(page.locator('[data-testid="not-found"]')).toBeVisible();
     await captureEvidence(page, "not-found");
   });
 

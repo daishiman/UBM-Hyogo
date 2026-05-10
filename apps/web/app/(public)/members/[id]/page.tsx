@@ -4,7 +4,6 @@
 // 不変条件 #5: web から D1 直接禁止 → public API 経由のみ
 
 import { notFound } from "next/navigation";
-import { connection } from "next/server";
 import type { z } from "zod";
 
 import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
@@ -24,27 +23,39 @@ interface MemberDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function MemberDetailPage({
-  params,
-}: MemberDetailPageProps) {
-  await connection();
-  const { id } = await params;
-
-  let profile: PublicMemberProfile | null = null;
-  let notFoundFlag = false;
+async function fetchProfile(
+  id: string,
+): Promise<PublicMemberProfile | null> {
   try {
-    profile = await fetchPublicOrNotFound<PublicMemberProfile>(
+    return await fetchPublicOrNotFound<PublicMemberProfile>(
       `/public/members/${encodeURIComponent(id)}`,
       { revalidate: 0 },
     );
   } catch (e) {
     if (e instanceof Error && e.name === "FetchPublicNotFoundError") {
-      notFoundFlag = true;
-    } else {
-      throw e;
+      return null;
     }
+    throw e;
   }
-  if (notFoundFlag || !profile) {
+}
+
+export async function generateMetadata({ params }: MemberDetailPageProps) {
+  const { id } = await params;
+  const profile = await fetchProfile(id);
+  if (!profile) {
+    notFound();
+  }
+  return {
+    title: `${profile.summary.fullName} | UBM 兵庫支部会`,
+  };
+}
+
+export default async function MemberDetailPage({
+  params,
+}: MemberDetailPageProps) {
+  const { id } = await params;
+  const profile = await fetchProfile(id);
+  if (!profile) {
     notFound();
   }
 
