@@ -80,7 +80,9 @@ export default defineConfig({
         outputFile: `${EVIDENCE_DIR}/monocart/index.html`,
         coverage: {
           outputDir: `${process.cwd()}/coverage`,
-          entryFilter: (entry: { url: string }) => entry.url.includes('/_next/static/'),
+          entryFilter: (entry: { url: string }) =>
+            entry.url.includes('/_next/static/') &&
+            !/(node_modules|%40sentry|sentry|next-auth|react-dom|@opentelemetry)/i.test(entry.url),
           sourceFilter: (sourcePath: string) => sourcePath.includes('apps/web/src/'),
           reports: [
             ['v8', { outputDir: 'coverage/v8' }],
