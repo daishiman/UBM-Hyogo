@@ -2,9 +2,21 @@ import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
 
 import { MemberTable } from "../MemberTable";
+import type { PublicMemberListItem } from "../MemberCard";
 import { buildMember } from "../../../test-utils/fixtures/public";
 
 afterEach(() => cleanup());
+
+const buildEmptyOptional = (
+  overrides: Partial<PublicMemberListItem> = {},
+): PublicMemberListItem =>
+  ({
+    memberId: "mem-empty",
+    fullName: "鈴木 花子",
+    occupation: "エンジニア",
+    location: "兵庫県神戸市",
+    ...overrides,
+  }) as PublicMemberListItem;
 
 describe("MemberTable", () => {
   it("ヘッダ行 5 列と各 item の行をレンダーする", () => {
@@ -17,13 +29,7 @@ describe("MemberTable", () => {
         ubmZone: "Kobe",
         ubmMembershipType: "regular",
       }),
-      buildMember({
-        memberId: "m_2",
-        fullName: "鈴木 花子",
-        nickname: null,
-        ubmZone: null,
-        ubmMembershipType: null,
-      }),
+      buildEmptyOptional({ memberId: "m_2", fullName: "鈴木 花子" }),
     ];
     const { container } = render(<MemberTable items={items} />);
     expect(
@@ -37,18 +43,9 @@ describe("MemberTable", () => {
     expect(link.getAttribute("href")).toBe("/members/m_1");
   });
 
-  it("nickname / zone / status が null の行は空文字でレンダーする (empty fields)", () => {
+  it("nickname / zone / status が未指定の行は空文字でレンダーする (empty fields)", () => {
     const { container } = render(
-      <MemberTable
-        items={[
-          buildMember({
-            memberId: "m_x",
-            nickname: null,
-            ubmZone: null,
-            ubmMembershipType: null,
-          }),
-        ]}
-      />,
+      <MemberTable items={[buildEmptyOptional({ memberId: "m_x" })]} />,
     );
     const cells = container.querySelectorAll("tbody tr td");
     expect(cells[0]?.textContent).toBe("");
