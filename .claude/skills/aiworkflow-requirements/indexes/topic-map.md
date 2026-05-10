@@ -2996,6 +2996,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Notes | L16 |
 
+### references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -6312,13 +6314,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L971 |
-| フェーズ構造（概要） | L980 |
-| 品質ゲート（概要） | L1011 |
-| 出力テンプレート | L1022 |
-| 実行時のコマンド・エージェント・スキル | L1045 |
-| 昇格パターン集 | L1069 |
-| Current Active / Spec Created Tasks | L1071 |
+| ドキュメント構成 | L986 |
+| フェーズ構造（概要） | L995 |
+| 品質ゲート（概要） | L1026 |
+| 出力テンプレート | L1037 |
+| 実行時のコマンド・エージェント・スキル | L1060 |
+| 昇格パターン集 | L1084 |
+| Current Active / Spec Created Tasks | L1086 |
 
 ### references/task-workflow-backlog-part2.md
 

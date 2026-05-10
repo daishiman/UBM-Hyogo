@@ -106,7 +106,7 @@
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
-| admin | admin layout | TagsQueue, MemberDetail | GET `/admin/tags-queue`; POST `/admin/tags-queue/:id/decision` | page standard, reviewing | queueItems, selectedCandidate, decision | queue item は button semantics | color, space, radius, text | 09g | tag dictionary editor |
+| admin | admin layout | TagsQueue, MemberDetail | GET `/admin/tags/queue`; POST `/admin/tags/queue/:queueId/resolve` | page standard, reviewing | queueItems, selectedCandidate, resolution | queue item は button semantics | color, space, radius, text | 09g | tag dictionary editor |
 
 ### 2.3.4 `/(admin)/admin/meetings`
 
@@ -124,7 +124,7 @@
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
-| admin | admin layout | RequestsQueue, RequestDetail | GET `/admin/requests`; POST `/admin/requests/:id/decision` | page standard, reviewing | items, selectedRequest, decision | approval action は確認文を持つ | color, space, radius, text | 09g | hidden approval |
+| admin | admin layout | RequestsQueue, RequestDetail | GET `/admin/requests`; POST `/admin/requests/:noteId/resolve` | page standard, reviewing | items, selectedRequest, resolution | approval action は確認文を持つ | color, space, radius, text | 09g | hidden approval |
 
 ### 2.3.7 `/(admin)/admin/identity-conflicts`
 

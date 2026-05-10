@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 12 completed |
+| 成果物 | `docs/30-workflows/task-16-admin-tags-meetings-requests/` |
+| 目的 | `/admin/tags`, `/admin/meetings`, `/admin/requests` を現行 admin 実装正本に合わせて補強・検証する仕様パッケージ |
+| 実装対象 | `apps/web/app/(admin)/admin/{tags,meetings,requests}/page.tsx`, `apps/web/src/components/admin/{TagQueuePanel,MeetingPanel,RequestQueuePanel}.tsx`, `apps/web/src/lib/admin/{api,server-fetch}.ts` |
+| API 境界 | `apps/api` と `apps/web/app/api/admin/[...path]/route.ts` は read-only。requests は `POST /admin/requests/:noteId/resolve`、tags は `POST /admin/tags/queue/:queueId/resolve` |
+| drift 修正 | stale `apps/web/src/app` / `src/features/admin` / `lib/api/admin-*` / `adminClient` / `/decision` / `approved` を normative contract から撤回 |
+| 上流 | task-09 tokens / task-10 primitives / task-15 admin layout / task-21 admin blueprint |
+| 下流 | task-18 regression smoke / visual evidence |
+| evidence boundary | Phase 12 strict 7 + artifacts parity + Phase 11 pending runtime evidence marker are present. Runtime screenshots, staging smoke, commit, push, and PR are user-gated |
+| artifact inventory | `references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md` |
+
 ### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
 
 | 項目 | 値 |
@@ -43,7 +58,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | IMPLEMENTED_LOCAL_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / runtime_pending / Phase 13 pending_user_approval |
+| ステータス | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/task-14-my-profile-and-requests/` |
 | 目的 | `/profile` を公開状態バナー / 公開範囲サマリ / 申請パネル / 削除申請 Dialog の 4 領域に再構成する実装仕様を固定する |
 | API 境界 | `apps/api/src/routes/me/*` と `apps/web/app/api/me/*` は read-only。component は `fetchAuthed("/me/*")` を使い `/api/me/*` を hardcode しない |
@@ -51,7 +66,7 @@
 | selector contract | `public-visibility-banner`, `status-summary`, `request-action-panel`, `visibility-request-dialog`, `delete-request-dialog` |
 | 上流 | task-09 OKLch tokens / task-10 UI primitives / task-13 login redirect |
 | 下流 | task-18 regression smoke / verify-design-tokens |
-| evidence boundary | Phase 12 strict 7 + artifacts parity は present。apps/web implementation は local reflected。visual runtime evidence / staging deploy / production smoke / commit / push / PR は user approval 後 |
+| evidence boundary | Phase 12 strict 7 + artifacts parity + Phase 11 deterministic evidence は present。apps/web implementation は local reflected。authenticated screenshot / visual runtime evidence / staging deploy / production smoke / commit / push / PR は user approval 後 |
 | artifact inventory | `references/workflow-task-14-my-profile-and-requests-artifact-inventory.md` |
 
 ### E2E Quality Uplift Stage 0-3（2026-05-09）

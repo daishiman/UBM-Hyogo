@@ -1,0 +1,48 @@
+{
+  "taskId": "task-16-admin-tags-meetings-requests",
+  "taskName": "admin-tags-meetings-requests",
+  "createdAt": "2026-05-10",
+  "updatedAt": "2026-05-10",
+  "implementationMode": "existing-implementation-contract-alignment",
+  "implementationStatus": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
+  "workflowState": "implemented-local",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "sourceSpec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/07-screens-admin/task-16-w6-par-admin-tags-meetings-requests.md",
+  "outputDir": "docs/30-workflows/task-16-admin-tags-meetings-requests/",
+  "prBase": "dev",
+  "phases": {
+    "phase-01": { "status": "completed", "file": "phase-01.md" },
+    "phase-02": { "status": "completed", "file": "phase-02.md" },
+    "phase-03": { "status": "completed", "file": "phase-03.md" },
+    "phase-04": { "status": "completed", "file": "phase-04.md" },
+    "phase-05": { "status": "completed", "file": "phase-05.md" },
+    "phase-06": { "status": "completed", "file": "phase-06.md" },
+    "phase-07": { "status": "completed", "file": "phase-07.md" },
+    "phase-08": { "status": "completed", "file": "phase-08.md" },
+    "phase-09": { "status": "completed", "file": "phase-09.md" },
+    "phase-10": { "status": "completed", "file": "phase-10.md" },
+    "phase-11": { "status": "runtime_pending", "file": "phase-11.md" },
+    "phase-12": { "status": "completed", "file": "phase-12.md" },
+    "phase-13": { "status": "blocked_pending_user_approval", "file": "phase-13.md" }
+  },
+  "dependencies": {
+    "upstream": ["task-09", "task-10", "task-15", "task-21"],
+    "parallel": ["task-17"],
+    "downstream": ["task-18"]
+  },
+  "canonicalImplementationTargets": [
+    "apps/web/app/(admin)/admin/tags/page.tsx",
+    "apps/web/app/(admin)/admin/meetings/page.tsx",
+    "apps/web/app/(admin)/admin/requests/page.tsx",
+    "apps/web/src/components/admin/TagQueuePanel.tsx",
+    "apps/web/src/components/admin/MeetingPanel.tsx",
+    "apps/web/src/components/admin/RequestQueuePanel.tsx",
+    "apps/web/src/lib/admin/api.ts",
+    "apps/web/src/lib/admin/server-fetch.ts",
+    "apps/web/src/components/admin/__tests__/TagQueuePanel.test.tsx",
+    "apps/web/src/components/admin/__tests__/MeetingPanel.test.tsx",
+    "apps/web/src/components/admin/__tests__/RequestQueuePanel.test.tsx"
+  ],
+  "userGates": ["runtime screenshot", "staging smoke", "commit", "push", "PR"]
+}
