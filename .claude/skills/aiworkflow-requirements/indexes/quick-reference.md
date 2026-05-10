@@ -30,13 +30,13 @@
 | 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL` |
 | web deploy | `.github/workflows/web-cd.yml` uses `build:cloudflare` + `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production` |
 | web deploy secret | `.github/workflows/web-cd.yml` maps environment-scoped `secrets.CLOUDFLARE_API_TOKEN` into env `CLOUDFLARE_API_TOKEN` for both staging and production, with `Verify CF token is present` early-fail step |
-| runtime smoke guard | `.github/workflows/runtime-smoke-staging.yml` Slack post runs only when `ci-evidence/summary.json` exists |
-| secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh` |
-| Phase 12 | parent design root pending; task-01 strict outputs at `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime smoke guard | `.github/workflows/runtime-smoke-staging.yml` verifies `STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` before masking credentials or running smoke; Slack post runs only when `ci-evidence/summary.json` exists |
+| secret provisioning | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` is the operator entrypoint; recommended execution path is `bash scripts/smoke/provision-staging-secrets.sh`; manual `gh secret set` is fallback |
+| Phase 12 | task-01 strict outputs at `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md`; task-02 strict outputs at `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-02-runtime-smoke-staging-secrets-provisioning/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | approval boundary | secret placement / deploy run / runtime smoke / Slack failure injection / commit / push / PR are user-gated |
 | build mode 不変条件 | `apps/web` production build は `next build --webpack`。Turbopack は local dev 限定（`deployment-cloudflare-opennext-workers.md` §11.1） |
 | failure cascade guard | 通知 step は `if: ${{ failure() && hashFiles('<artifact>') != '' }}` で前提 artifact を guard する（`deployment-gha.md`） |
-| Environment secret 0 件問題 | smoke 起動前に `bash scripts/smoke/provision-staging-secrets.sh` + name-only inventory を必須化（`deployment-secrets-management.md`） |
+| Environment secret 0 件問題 | smoke 起動前に `verify required staging secrets` が smoke 必須 4 secret を name-only early-fail。runbook/helper は 5 secret name-only inventory を確認し、Slack は failure summary post step が guard する（`deployment-secrets-management.md`） |
 | lessons-learned | `references/lessons-learned-ci-pipeline-recovery-2026-05.md`（L-CIPR-001〜006） |
 
 ### E2E quality uplift Stage 2 / 2a admin requests（2026-05-09）

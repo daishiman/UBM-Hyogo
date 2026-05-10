@@ -19,7 +19,7 @@
 | タスク種別 | implementation |
 | visualEvidence | NON_VISUAL |
 | coverageTier | n/a（CI yml + docs 編集） |
-| workflow_state | spec_created |
+| workflow_state | implemented-local-runtime-pending |
 | evidence_state | runtime_pending |
 | implementation_mode | edit + new |
 
@@ -100,19 +100,19 @@
 
 | Phase | 名称 | 状態 | 出力 |
 |-------|------|------|------|
-| 1 | 要件定義 | spec | `phase-1.md` |
-| 2 | 設計レビュー | spec | `phase-2.md` |
-| 3 | 実装計画 | spec | `phase-3.md` |
-| 4 | テスト設計 | spec | `phase-4.md` |
-| 5 | 実装手順 | spec | `phase-5.md` |
-| 6 | 単体 / 静的検証 | spec | `phase-6.md` |
-| 7 | 結合テスト | spec | `phase-7.md` |
-| 8 | リファクタリング判断 | spec | `phase-8.md` |
-| 9 | 品質ゲート | spec | `phase-9.md` |
-| 10 | 最終レビュー | spec | `phase-10.md` |
-| 11 | 手動受入 evidence | spec | `phase-11.md` |
-| 12 | ドキュメント同期 | spec | `phase-12.md` |
-| 13 | PR 作成 | spec | `phase-13.md` |
+| 1 | 要件定義 | completed | `phase-1.md` |
+| 2 | 設計レビュー | completed | `phase-2.md` |
+| 3 | 実装計画 | completed | `phase-3.md` |
+| 4 | テスト設計 | completed | `phase-4.md` |
+| 5 | 実装手順 | completed | `phase-5.md` |
+| 6 | 単体 / 静的検証 | completed | `phase-6.md` |
+| 7 | 結合テスト | completed | `phase-7.md` |
+| 8 | リファクタリング判断 | completed | `phase-8.md` |
+| 9 | 品質ゲート | completed | `phase-9.md` |
+| 10 | 最終レビュー | completed | `phase-10.md` |
+| 11 | 手動受入 evidence | static-completed / runtime-pending | `phase-11.md` |
+| 12 | ドキュメント同期 | completed | `phase-12.md` |
+| 13 | PR 作成 | pending | `phase-13.md` |
 
 ---
 

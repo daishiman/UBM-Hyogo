@@ -28,7 +28,11 @@
 
 ```bash
 # QG-1
-pnpm dlx actionlint -color .github/workflows/runtime-smoke-staging.yml
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
+curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o "$tmpdir/download-actionlint.bash"
+(cd "$tmpdir" && bash download-actionlint.bash >/dev/null)
+"$tmpdir/actionlint" -color .github/workflows/runtime-smoke-staging.yml
 
 # QG-2
 python3 -c "import yaml; yaml.safe_load(open('.github/workflows/runtime-smoke-staging.yml'))"

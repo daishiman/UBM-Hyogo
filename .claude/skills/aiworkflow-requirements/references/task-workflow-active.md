@@ -52,11 +52,12 @@
 | ステータス | implemented-local-runtime-pending / implementation / NON_VISUAL / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/` |
 | 目的 | `web-cd / deploy-staging` の Pages 25 MiB failure と `runtime-smoke-staging` の environment secret 欠落 failure を同一 cycle で local 修復する |
-| 実装対象 | `.github/workflows/web-cd.yml`, `.github/workflows/runtime-smoke-staging.yml`, `scripts/smoke/provision-staging-secrets.sh` |
+| 実装対象 | `.github/workflows/web-cd.yml`, `.github/workflows/runtime-smoke-staging.yml`, `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md`; `scripts/smoke/provision-staging-secrets.sh` はユーザー実行用 helper |
 | task-01 | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/`。`web-cd.yml` は environment-scoped `secrets.CLOUDFLARE_API_TOKEN` を job env `CLOUDFLARE_API_TOKEN` に注入し、staging/production 両 job で `Verify CF token is present` early-fail step を持つ |
+| task-02 | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-02-runtime-smoke-staging-secrets-provisioning/`。`runtime-smoke-staging.yml` は `STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` を smoke 実行前に name-only early-fail し、`staging-runtime-smoke` secret 投入 runbook と Phase 12 strict 7 outputs を持つ |
 | 正本同期 | `deployment-gha.md`, `deployment-cloudflare.md`, `deployment-secrets-management.md`, Issue #571 `phase-11.md` |
 | evidence boundary | Phase 12 strict outputs present。secret placement / deploy run / runtime smoke / Slack failure injection は user approval 後 |
-| compliance | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| compliance | task-01: `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md`; task-02: `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-02-runtime-smoke-staging-secrets-provisioning/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
 ### web-app-route-bundle-parse-fix（2026-05-09）
 

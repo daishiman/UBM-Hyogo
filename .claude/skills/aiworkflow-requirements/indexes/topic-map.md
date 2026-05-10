@@ -4301,7 +4301,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L14 |
+| 関連リソース | L16 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -6217,13 +6217,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L902 |
-| フェーズ構造（概要） | L911 |
-| 品質ゲート（概要） | L942 |
-| 出力テンプレート | L953 |
-| 実行時のコマンド・エージェント・スキル | L976 |
-| 昇格パターン集 | L1000 |
-| Current Active / Spec Created Tasks | L1002 |
+| ドキュメント構成 | L903 |
+| フェーズ構造（概要） | L912 |
+| 品質ゲート（概要） | L943 |
+| 出力テンプレート | L954 |
+| 実行時のコマンド・エージェント・スキル | L977 |
+| 昇格パターン集 | L1001 |
+| Current Active / Spec Created Tasks | L1003 |
 
 ### references/task-workflow-backlog-part2.md
 
