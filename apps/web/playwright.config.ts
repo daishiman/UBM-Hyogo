@@ -45,8 +45,15 @@ const localEnv =
   'AUTH_URL=http://localhost:3000 ' +
   'AUTH_SECRET=playwright-e2e-auth-secret-32-bytes'
 
+// admin-identity-conflicts spec は server-side fetch を `PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1`
+// で inline fixture に切替える設計のため、fixture 無効な coverage-gate job では除外して 404 タイムアウトを回避する。
+const fixtureGatedTestIgnore: string[] = isAdminIdentityConflictsRun
+  ? []
+  : ['**/admin-identity-conflicts.spec.ts']
+
 export default defineConfig({
   testDir: './playwright/tests',
+  testIgnore: fixtureGatedTestIgnore,
   outputDir: `${EVIDENCE_DIR}/test-results`,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
