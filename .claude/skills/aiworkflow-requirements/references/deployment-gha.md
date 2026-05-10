@@ -184,6 +184,7 @@
 
 ### 実行内容
 
+1. ブランチに応じて Cloudflare Workers へ自動デプロイ（`pnpm --filter @ubm-hyogo/web build:cloudflare` → `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>`）。Issue #331 cleanup で `.github/workflows/web-cd.yml` の Pages deploy 残は撤去済み
 1. ブランチに応じて Cloudflare Workers へ自動デプロイ。2026-05-09 CI recovery wave 以降、`.github/workflows/web-cd.yml` は `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare` で OpenNext Workers bundle を作成し、`bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production` で配備する。
 2. デプロイ完了後、Discord Webhook で通知を送信
 
@@ -199,6 +200,7 @@
 
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 Discord Webhook 通知ステップは現行 `.github/workflows/web-cd.yml` には未実装。UT-08-IMPL（観測性実装、Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
+> **deploy target current facts (Issue #331 cleanup / 2026-05-09)**: `apps/web/wrangler.toml` は OpenNext Workers 形式、`.github/workflows/web-cd.yml` は OpenNext bundle build 後に `scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` を呼ぶ。`CLOUDFLARE_PAGES_PROJECT` は Web CD 経路では未参照。
 > **deploy target current facts (CI recovery / 2026-05-09)**: `apps/web/wrangler.toml` は OpenNext Workers 形式、`.github/workflows/web-cd.yml` は Pages deploy を撤去済み。runtime deployment evidence は user-approved dev/main run 後に取得する。
 
 ---
@@ -225,6 +227,7 @@
 >
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
+> **current facts (Issue #331 cleanup / 2026-05-09)**: 現行 `backend-ci.yml` / `web-cd.yml` は environment-scoped `secrets.CLOUDFLARE_API_TOKEN` を継続利用する。U-FIX-CF-ACCT-01-DERIV-02 の step-scoped `CF_TOKEN_*` 分割は target contract であり、runtime cutover は未完了。`deploy-staging.yml` / `deploy-production.yml` は現行 repo に存在しないため正本にしない。
 > **current facts (CI recovery task-01 / 2026-05-09)**: Cloudflare deploy token の target contract は backend 系では step 単位分割を維持する。`backend-ci.yml` の D1 migration step は `CF_TOKEN_D1_<ENV>`、Workers deploy step は `CF_TOKEN_WORKERS_<ENV>` を使う target contract。一方、`web-cd.yml` は実 GitHub Environment に登録済みの `secrets.CLOUDFLARE_API_TOKEN` を job-level env `CLOUDFLARE_API_TOKEN` へマップし、`Verify CF token is present` step で空展開を早期 fail する。`CF_TOKEN_PAGES_<ENV>` は current web-cd path で使用しない。
 
 ---
@@ -267,6 +270,10 @@
 
 | Secret 名 | 用途 | 必須 |
 | --------- | ---- | ---- |
+| `CLOUDFLARE_API_TOKEN` | 現行 `backend-ci.yml` / `web-cd.yml` の environment-scoped Cloudflare API Token | Yes |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token target contract。runtime cutover 未完了 | Pending |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token target contract。runtime cutover 未完了 | Pending |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | 旧 Pages deploy 用 Cloudflare API Token target contract。Issue #331 cleanup 後の `web-cd.yml` では未参照 | Deprecated target |
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token | Yes |
 | `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | backend-ci Workers deploy 用 Cloudflare API Token。`web-cd.yml` では task-01 alignment 後に使用しない | Yes for backend-ci / Not used by web-cd |
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Historical only |
@@ -294,9 +301,11 @@
 | Variable 名 | 用途 | 必須 |
 | ----------- | ---- | ---- |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account 識別子。資格情報ではないため Repository Variable として管理し、workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照する | Yes |
+| `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。Issue #331 cleanup 後の `web-cd.yml` では未参照。削除は Pages project retirement 確認後に行う | Deprecated |
 | `CLOUDFLARE_PAGES_PROJECT` | Deprecated for current `web-cd.yml`; retained only for historical Pages/UT-28 references. Current web deploy target comes from `apps/web/wrangler.toml` `[env.staging].name` / `[env.production].name` | Historical only |
 | `CF_TOKEN_ISSUED_AT` | Cloudflare API Token の production 発行日。`cf-token-rotation-reminder.yml` が 85 日経過判定に使用する ISO 8601 日付 | Yes |
 
+Deprecated Pages variable note: historical Pages workflows derived staging as `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging`, so storing `ubm-hyogo-web-staging` was invalid. Current `web-cd.yml` no longer references this variable.
 Current `web-cd.yml` must not read `CLOUDFLARE_PAGES_PROJECT`. Historical Pages workflows must not store `ubm-hyogo-web-staging` in this variable because suffix concatenation would produce `ubm-hyogo-web-staging-staging`.
 
 ### セキュリティ要件
@@ -313,12 +322,17 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 | 名前 | 種別 | 配置 | 理由 |
 | --- | --- | --- | --- |
+| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | Current runtime secret for `backend-ci.yml` / `web-cd.yml` |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Target contract for D1-only token split; not current runtime |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Target contract for Workers-only token split; not current runtime |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Stale Pages target after Issue #331 cleanup; remove only after token split plan is reconciled |
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | D1 migration step のみが使う token に分離 |
 | `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | backend-ci Workers deploy step 用。web-cd は task-01 alignment 後に `CLOUDFLARE_API_TOKEN` を使う |
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Pages deploy step のみが使う token に分離 |
 | `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | web-cd deploy token 正本名。backend/OIDC cutover 文脈では transitional direct token |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | repository-scoped | Account ID は資格情報ではなく識別子。既存 GitHub 実設定に合わせ、`vars.` 参照で空展開を防ぐ |
 | `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
+| `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | Deprecated after Issue #331; not referenced by current `web-cd.yml`. Delete only after Pages retirement approval |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | Deprecated historical Pages value; current `web-cd.yml` must not read it |
 
 運用ゲート:
