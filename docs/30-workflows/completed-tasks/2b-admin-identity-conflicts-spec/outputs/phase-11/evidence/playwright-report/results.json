@@ -16,7 +16,7 @@
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -32,7 +32,7 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -48,7 +48,7 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -64,7 +64,7 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
@@ -80,7 +80,7 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/test-results",
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-231153-wt-12/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
         "repeatEach": 1,
         "retries": 2,
         "metadata": {
@@ -101,14 +101,14 @@
       [
         "html",
         {
-          "outputFolder": "../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/playwright-report/html",
+          "outputFolder": "../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/playwright-report/html",
           "open": "never"
         }
       ],
       [
         "json",
         {
-          "outputFile": "../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence/playwright-report/results.json"
+          "outputFile": "../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/playwright-report/results.json"
         }
       ],
       [
@@ -139,7 +139,7 @@
         {
           "title": "/admin/identity-conflicts × mutation",
           "file": "admin-identity-conflicts.spec.ts",
-          "line": 33,
+          "line": 32,
           "column": 6,
           "specs": [
             {
@@ -158,12 +158,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 2953,
+                      "duration": 4382,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-09T22:14:24.343Z",
+                      "startTime": "2026-05-09T22:52:09.037Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -173,7 +173,7 @@
               ],
               "id": "46e2a5de08c3e54b0b6e-a8a6c469356af3dec790",
               "file": "admin-identity-conflicts.spec.ts",
-              "line": 34,
+              "line": 33,
               "column": 3
             },
             {
@@ -192,12 +192,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 712,
+                      "duration": 705,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-09T22:14:27.676Z",
+                      "startTime": "2026-05-09T22:52:13.776Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -207,7 +207,7 @@
               ],
               "id": "46e2a5de08c3e54b0b6e-a10c68dc76b162a6b514",
               "file": "admin-identity-conflicts.spec.ts",
-              "line": 68,
+              "line": 67,
               "column": 3
             },
             {
@@ -226,12 +226,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 641,
+                      "duration": 600,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-09T22:14:28.410Z",
+                      "startTime": "2026-05-09T22:52:14.496Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -241,7 +241,7 @@
               ],
               "id": "46e2a5de08c3e54b0b6e-273d30820f3598de1d50",
               "file": "admin-identity-conflicts.spec.ts",
-              "line": 108,
+              "line": 107,
               "column": 3
             },
             {
@@ -260,12 +260,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 717,
+                      "duration": 618,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-09T22:14:29.075Z",
+                      "startTime": "2026-05-09T22:52:15.113Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -275,7 +275,7 @@
               ],
               "id": "46e2a5de08c3e54b0b6e-cd6177ebcaaaa0dc44d7",
               "file": "admin-identity-conflicts.spec.ts",
-              "line": 140,
+              "line": 139,
               "column": 3
             }
           ]
@@ -283,7 +283,7 @@
         {
           "title": "/admin/identity-conflicts × authz",
           "file": "admin-identity-conflicts.spec.ts",
-          "line": 181,
+          "line": 180,
           "column": 6,
           "specs": [
             {
@@ -302,12 +302,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1683,
+                      "duration": 1067,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-09T22:14:29.806Z",
+                      "startTime": "2026-05-09T22:52:15.743Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -317,7 +317,7 @@
               ],
               "id": "46e2a5de08c3e54b0b6e-6d3c616b6a99ecd99bb6",
               "file": "admin-identity-conflicts.spec.ts",
-              "line": 182,
+              "line": 181,
               "column": 3
             },
             {
@@ -336,12 +336,12 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1062,
+                      "duration": 373,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-05-09T22:14:31.505Z",
+                      "startTime": "2026-05-09T22:52:16.823Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -351,7 +351,7 @@
               ],
               "id": "46e2a5de08c3e54b0b6e-7c5a45aacfe9cca8db7c",
               "file": "admin-identity-conflicts.spec.ts",
-              "line": 198,
+              "line": 197,
               "column": 3
             }
           ]
@@ -361,8 +361,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-05-09T22:14:03.521Z",
-    "duration": 29326.353,
+    "startTime": "2026-05-09T22:51:56.678Z",
+    "duration": 20691.861999999997,
     "expected": 6,
     "skipped": 0,
     "unexpected": 0,
