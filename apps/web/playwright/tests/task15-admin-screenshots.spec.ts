@@ -17,11 +17,11 @@ test.describe('task-15 admin dashboard and members screenshots', () => {
     await expect(adminPage.getByTestId('admin-kpi-card-total')).toBeVisible()
     await screenshot(adminPage, 'admin-dashboard-default.png')
 
-    mockApi.setAdminDashboardUnresolvedSchema(5)
+    await mockApi.setAdminDashboardUnresolvedSchema(5)
     await adminPage.goto('/admin')
     await expect(adminPage.getByText('スキーマ未解決: 5 件')).toBeVisible()
     await screenshot(adminPage, 'admin-dashboard-schema-alert.png')
-    mockApi.setAdminDashboardUnresolvedSchema(0)
+    await mockApi.setAdminDashboardUnresolvedSchema(0)
     await adminPage.goto('/admin')
 
     await screenshot(adminPage, 'admin-dashboard-zone-placeholder.png')

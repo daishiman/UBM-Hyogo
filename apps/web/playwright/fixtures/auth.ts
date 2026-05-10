@@ -41,7 +41,7 @@ type MockApi = {
   setVisibilityPending: (createdAt?: string) => Promise<void>
   setDeletePending: (createdAt?: string) => Promise<void>
   setVisibilityError: (status: number, body: unknown) => void
-  setAdminDashboardUnresolvedSchema: (count: number) => void
+  setAdminDashboardUnresolvedSchema: (count: number) => Promise<void>
 }
 
 const STANDALONE_BASE = `http://127.0.0.1:${MOCK_API_PORT}`
@@ -314,8 +314,9 @@ const mockApi: MockApi = {
   setVisibilityError: (status, body) => {
     state.visibilityPost = { status, body }
   },
-  setAdminDashboardUnresolvedSchema: (count) => {
+  setAdminDashboardUnresolvedSchema: async (count) => {
     state.adminDashboardUnresolvedSchema = count
+    await postControl('/__test__/admin-dashboard', { unresolvedSchema: count })
   },
 }
 

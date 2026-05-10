@@ -46,11 +46,13 @@ const readBody = (req) =>
 const state = {
   pendingRequests: {},
   attendance: new Set(), // `${sessionId}:${memberId}`
+  adminDashboardUnresolvedSchema: 0,
 };
 
 const resetState = () => {
   state.pendingRequests = {};
   state.attendance = new Set();
+  state.adminDashboardUnresolvedSchema = 0;
 };
 
 const buildPublicProfile = (id) => ({
@@ -270,6 +272,13 @@ const server = createServer(async (req, res) => {
     }
     return json(res, 200, { ok: true, pendingRequests: state.pendingRequests });
   }
+  if (req.method === "POST" && pathname === "/__test__/admin-dashboard") {
+    const body = await readBody(req);
+    if (typeof body.unresolvedSchema === "number") {
+      state.adminDashboardUnresolvedSchema = body.unresolvedSchema;
+    }
+    return json(res, 200, { ok: true, adminDashboardUnresolvedSchema: state.adminDashboardUnresolvedSchema });
+  }
 
   if (req.method === "GET" && pathname === "/health") return json(res, 200, { ok: true });
 
@@ -359,7 +368,12 @@ const server = createServer(async (req, res) => {
   // ---- /admin ----
   if (req.method === "GET" && pathname === "/admin/dashboard") {
     return json(res, 200, {
-      totals: { totalMembers: 1, publicMembers: 1, untaggedMembers: 0, unresolvedSchema: 0 },
+      totals: {
+        totalMembers: 1,
+        publicMembers: 1,
+        untaggedMembers: 0,
+        unresolvedSchema: state.adminDashboardUnresolvedSchema,
+      },
       recentActions: [],
       generatedAt: NOW,
     });
