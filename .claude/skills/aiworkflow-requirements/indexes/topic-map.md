@@ -3247,6 +3247,16 @@ node scripts/list-specs.js --topics
 | Local Implementation Artifacts | L42 |
 | Runtime Boundary | L54 |
 
+### references/workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Code | L13 |
+| Tests | L26 |
+| Runbooks | L35 |
+| Runtime Boundary | L42 |
+
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
 | セクション | 行 |
