@@ -165,6 +165,25 @@ grep -rn "register.*Handlers\|unregister.*Handlers" apps/desktop/src/main/
 
 Phase 4 で確認した既存ユーティリティの再利用状況を実装時にも再確認する。新規ユーティリティを作成する場合は、配置先を `architecture-implementation-patterns-core.md` の横断ユーティリティ配置ガイドラインに従って決定する。
 
+## Production deploy workflow YAML 必須 set（Phase 5/6 implementation）
+
+production 環境にデプロイする workflow YAML、または production runtime artifact を生成する workflow YAML は、**以下 4 set を必須**として明示する。Issue #586 7day close-out cycle の skill feedback で promote。
+
+| 必須 set | 形式 | 役割 |
+| --- | --- | --- |
+| `environment: production` | top-level または job-level | environment-scoped secrets / vars の bind |
+| `permissions:` block | minimum required scope を明示 | 最小権限。`actions: read`（cross-run artifact）/ `contents: write`（PR 起票）/ `pull-requests: write`（PR 起票）/ `issues: write`（fail 時 Issue）を必要に応じて宣言 |
+| `vars.<KEY>` + `secrets.<KEY>` 参照 | `env:` block で bind | 非機密は `vars`、機密は `secrets`。直接埋め込み禁止 |
+| `retention-days = 観測ウィンドウ + 1 日マージン` | `actions/upload-artifact@v4` の input | N 日 close-out cross-run aggregation を保護。7 日観測なら `retention-days: 8` |
+
+**Cross-run artifact aggregation 規約**:
+- `actions/download-artifact@v4` は **same-run 限定**であることを明示し、別 run の artifact を取得する場合は `gh api workflows/<name>/runs --paginate` + `gh api .../actions/artifacts/<id>/zip --silent --output -` を使う
+- list → filter → download → unzip → aggregate の 5 step に分離
+- expired artifact は list 段階で `expired: true` を grep 除外
+- `actualSnapshots < expectedSnapshots` を aggregate gate の exit 1 trigger に含める（skeleton zero metrics gate と組み合わせる）
+
+詳細は `lessons-learned/n-day-close-out-cross-run-aggregation.md` を参照。
+
 ## 注意事項
 
 - Phase 5 は `.claude` 正本を先に更新する。

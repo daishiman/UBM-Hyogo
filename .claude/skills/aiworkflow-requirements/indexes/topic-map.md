@@ -2477,7 +2477,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Gate Result | L22 |
+| Gate Result | L26 |
+| Re-observation Reminder Package (Issue #581) | L36 |
 
 ### references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md
 
@@ -2529,6 +2530,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | User Gate | L45 |
+
+### references/workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L47 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3252,6 +3259,16 @@ node scripts/list-specs.js --topics
 | Required Workflow Artifacts | L24 |
 | Local Implementation Artifacts | L42 |
 | Runtime Boundary | L54 |
+
+### references/workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L3 |
+| Code | L13 |
+| Tests | L26 |
+| Runbooks | L35 |
+| Runtime Boundary | L42 |
 
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
@@ -4663,7 +4680,8 @@ node scripts/list-specs.js --topics
 | L-ISSUE546-002: Alert 0 件は D1 readiness なしに FPR PASS としない | L21 |
 | L-ISSUE546-003: docs-only observation でも root state と phase state は分離する | L34 |
 | L-ISSUE546-004: helper が出力しない成果物は pending evidence marker を実体化する | L47 |
-| 参照元 | L60 |
+| L-ISSUE546-005: reminder 昇格時は unassigned task を pointer 化する | L60 |
+| 参照元 | L73 |
 
 ### references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md
 
@@ -4714,6 +4732,18 @@ node scripts/list-specs.js --topics
 | 再発防止サマリ表 | L104 |
 | 用語集（本タスクで導入 / 確定した語彙） | L112 |
 | 引用元 | L118 |
+
+### references/lessons-learned-issue-586-post-switch-7day-close-out-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L10 |
+| 苦戦箇所と学び | L16 |
+| 横断的な学び | L88 |
+| 反映先（promoted to） | L96 |
+| 再発防止サマリ表 | L106 |
+| 用語集（本タスクで導入 / 確定した語彙） | L114 |
+| 引用元 | L120 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -5823,12 +5853,12 @@ node scripts/list-specs.js --topics
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
 | 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L227 |
 | 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L254 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L278 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L296 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L297 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L311 |
-| 13. 変更履歴 | L333 |
-| 10. 変更履歴 | L334 |
+| 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L278 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L307 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L325 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L326 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L342 |
+| 13. 変更履歴 | L364 |
 
 ### references/patterns-advanced.md
 

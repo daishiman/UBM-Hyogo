@@ -3,8 +3,8 @@
 | 項目 | 値 |
 |------|----|
 | 入力 | `phase-6.md` |
-| 出力 | line coverage >= 70% gate の実測検証結果 / Q-03 縮退判定 |
-| 前提 | Stage 2 完了（`docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` の spec package materialized）。coverage 70% の実測は Stage 3 が取得する |
+| 出力 | line coverage >= 80% gate の実測検証結果 / Q-03 縮退判定 |
+| 前提 | Stage 2 完了（`docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` の spec package materialized）。coverage 80% の実測は Stage 3 が取得する |
 
 ---
 
@@ -29,7 +29,7 @@ C-01 が NG なら Stage 3 の coverage gate を有効化しない（Stage 2 に
 | L-01 | `pnpm install --frozen-lockfile` | exit 0 |
 | L-02 | `pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium` | exit 0 |
 | L-03 | `pnpm --filter @ubm-hyogo/web e2e` | 全件 pass |
-| L-04 | `bash scripts/coverage-gate-e2e.sh` | exit 0 / `total.lines.pct >= 70` |
+| L-04 | `bash scripts/coverage-gate-e2e.sh` | exit 0 / `total.lines.pct >= 80` |
 | L-05 | `apps/web/coverage/summary/coverage-summary.json` 内容確認 | `lines.pct` を控える |
 
 ### 2.2 CI run（PR-B が dev に未マージの段階で draft PR 経由で実行）
@@ -37,15 +37,15 @@ C-01 が NG なら Stage 3 の coverage gate を有効化しない（Stage 2 に
 | # | 操作 | 期待 |
 |---|------|------|
 | CI-01 | draft PR を `dev` 向けに作成 | `e2e-tests-coverage-gate` job 起動 |
-| CI-02 | green run を観測 | `pct >= 70` |
+| CI-02 | green run を観測 | `pct >= 80` |
 | CI-03 | `gh run download <run-id> --name e2e-coverage-<sha>` で artifact 取得 | `coverage-summary.json` 内容で再確認 |
 
 ### 2.3 しきい値割れ再現（dummy）
 
 | # | 操作 | 期待 |
 |---|------|------|
-| N-01 | テンポラリブランチで `apps/web/src/lib/env.ts`、`apps/web/app/profile/page.tsx`、`apps/web/src/components/profile/RequestActionPanel.tsx` の広範な path を `/* istanbul ignore next */` 削除等で coverage 落とす | line < 70 |
-| N-02 | 同 PR で `e2e-tests-coverage-gate` が `failure` | `gh run view --log` に `line coverage X < 70` |
+| N-01 | テンポラリブランチで `apps/web/src/lib/env.ts`、`apps/web/app/profile/page.tsx`、`apps/web/src/components/profile/RequestActionPanel.tsx` の広範な path を `/* istanbul ignore next */` 削除等で coverage 落とす | line < 80 |
+| N-02 | 同 PR で `e2e-tests-coverage-gate` が `failure` | `gh run view --log` に `line coverage X < 80` |
 | N-03 | テンポラリブランチを破棄 | — |
 
 ---
@@ -96,7 +96,7 @@ phase-1 §5 / phase-3 §4 で deferred とした `/profile` 未認証時の a11y
 | # | 条件 |
 |---|------|
 | EX-01 | C-01..C-03 全て pass |
-| EX-02 | L-04 と CI-02 が両方 pass で line >= 70 |
+| EX-02 | L-04 と CI-02 が両方 pass で line >= 80 |
 | EX-03 | Q-03 判定が「維持」または「縮退」のいずれかで確定し、対応する成果物が保存されている |
 | EX-04 | N-01..N-03 でしきい値割れ時 `failure` が観測されている（gate が機能している証拠） |
 
@@ -156,7 +156,7 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】
