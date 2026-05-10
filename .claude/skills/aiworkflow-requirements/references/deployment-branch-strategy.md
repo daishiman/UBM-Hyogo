@@ -50,8 +50,8 @@ feature/xxx  →  dev  →  main
 | ワークフロー | ブランチ | 動作 |
 | ------------ | -------- | ---- |
 | `ci.yml` | `main`, `dev`, PR to `main`/`dev` | Lint・Typecheck・Test・Build |
-| `web-cd.yml` | `main` push | Cloudflare Pages production デプロイ |
-| `web-cd.yml` | `dev` push | Cloudflare Pages staging デプロイ |
+| `web-cd.yml` | `main` push | Cloudflare Workers production デプロイ（OpenNext bundle + `scripts/cf.sh deploy --env production`） |
+| `web-cd.yml` | `dev` push | Cloudflare Workers staging デプロイ（OpenNext bundle + `scripts/cf.sh deploy --env staging`） |
 | `backend-ci.yml` | `main` push | Cloudflare Workers production デプロイ |
 | `backend-ci.yml` | `dev` push | Cloudflare Workers staging デプロイ |
 

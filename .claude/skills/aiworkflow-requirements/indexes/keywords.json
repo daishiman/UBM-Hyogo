@@ -2791,6 +2791,7 @@
       "ui-ux-components-details.md",
       "ui-ux-feature-components-advanced.md",
       "ui-ux-feature-components-reference-organisms-history-surfaces.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -3101,8 +3102,10 @@
       "master-design.md",
       "task-workflow-phases.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-governance-design-category.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
@@ -3381,6 +3384,7 @@
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md"
     ],
@@ -4211,6 +4215,7 @@
       "ui-ux-feature-components-advanced.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -4252,6 +4257,8 @@
       "post-release-long-term-observation.md",
       "release-runbook.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
@@ -4470,6 +4477,8 @@
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "lessons-learned.md",
       "release-runbook.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
@@ -5717,6 +5726,7 @@
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
@@ -6462,6 +6472,7 @@
       "technology-devops-history.md",
       "technology-devops.md",
       "testing-playwright-e2e.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md"
     ],
     "CD": [
@@ -6476,7 +6487,8 @@
       "technology-devops-details.md",
       "technology-devops-history.md",
       "technology-devops.md",
-      "testing-playwright-e2e.md"
+      "testing-playwright-e2e.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md"
     ],
     "トリガー対応表": [
       "deployment-branch-strategy.md"
@@ -8942,6 +8954,7 @@
     ],
     "Root": [
       "legacy-ordinal-family-register.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
@@ -9042,6 +9055,7 @@
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "lessons-learned.md",
       "release-runbook.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
@@ -12484,7 +12498,8 @@
     ],
     "identity": [
       "lessons-learned-issue-194-identity-merge-2026-05.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md"
     ],
     "確認パス": [
       "lessons-learned-issue-194-identity-merge-2026-05.md"
@@ -12695,11 +12710,13 @@
     ],
     "Consumed": [
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
     ],
     "Trace": [
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
@@ -13018,7 +13035,8 @@
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md"
     ],
     "Cleanup": [
-      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
+      "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md"
     ],
     "branded": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -13957,11 +13975,13 @@
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
@@ -20421,11 +20441,13 @@
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
@@ -20559,6 +20581,7 @@
     ],
     "Canonical": [
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
@@ -20594,6 +20617,7 @@
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
@@ -20629,6 +20653,7 @@
       "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
@@ -20645,6 +20670,12 @@
     ],
     "supplement": [
       "workflow-06c-B-admin-members-artifact-inventory.md"
+    ],
+    "conflicts": [
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md"
+    ],
+    "Linked": [
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md"
     ],
     "で更新した": [
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md"
@@ -20929,6 +20960,29 @@
     "文書": [
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
+    "Warning": [
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md"
+    ],
+    "Classification": [
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
+      "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
+    ],
+    "Primary": [
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
+    ],
+    "Repo": [
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md"
+    ],
+    "Changes": [
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md"
+    ],
+    "Superseded": [
+      "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md"
+    ],
     "User": [
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
@@ -21034,11 +21088,6 @@
     ],
     "Local": [
       "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md"
-    ],
-    "Classification": [
-      "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
@@ -21260,10 +21309,6 @@
     ],
     "内成果物": [
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
-    ],
-    "Primary": [
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
-      "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md"
     ],
     "書き換え": [
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"

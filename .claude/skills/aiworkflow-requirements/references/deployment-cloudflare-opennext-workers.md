@@ -226,6 +226,8 @@ CLAUDE.md の `apps/web` env アクセス不変条件（`apps/web/src/lib/env.ts
 | route inventory automation follow-up | `docs/30-workflows/unassigned-task/UT-06-FU-A-route-inventory-script-001.md` |
 | Logpush target diff automation | `docs/30-workflows/ut-06-fu-a-logpush-target-diff-script-001/`（implemented script: `scripts/observability-target-diff.sh` / public command: `bash scripts/cf.sh observability-diff`） |
 | deploy target ADR | `docs/00-getting-started-manual/specs/adr/0001-pages-vs-workers-deploy-target.md` |
+| repo-side Web CD cutover | `docs/30-workflows/issue-331-cicd-runtime-warning-cleanup/`（`.github/workflows/web-cd.yml` の Pages deploy 撤去済み） |
+| 残る user-gated migration / retirement | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md` / `docs/30-workflows/issue-419-pages-project-dormant-delete-after-355/` |
 | web-cd migration residual task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`（2026-05-09 CI recovery wave で Pages deploy 撤去は local 実装済み。残りは Cloudflare side cutover / runtime evidence） |
 | Long-term analytics evidence decision | `docs/30-workflows/completed-tasks/issue-347-cloudflare-analytics-export-decision/` |
 
@@ -310,6 +312,7 @@ Production deploy execution は `docs/30-workflows/completed-tasks/09c-A-product
 
 | 日付 | バージョン | 変更内容 |
 | --- | --- | --- |
+| 2026-05-09 | 1.6.0 | Issue #331 で `.github/workflows/web-cd.yml` の repo-side Pages deploy 残を撤去し、OpenNext Workers build + `scripts/cf.sh deploy` に同期。Cloudflare side retirement / smoke は user-gated 境界として維持 |
 | 2026-05-09 | 1.6.0 | CI pipeline recovery: §11.1 「Build mode の不変条件」を追加。`next build --webpack` を production build 正本とし、Turbopack を local dev 限定に固定。`patch-next-standalone-instrumentation.mjs --verify-only` の emit-skip ガード（commit 532d9ab5）と webpack build path 整合テスト（commit ec0556f9）を併記し、CLAUDE.md の `apps/web` env アクセス不変条件と相互参照 |
 | 2026-05-05 | 1.5.0 | Issue #351 post-release dashboard automation に合わせ、analytics read-only token 分離規約 (§14) と `scripts/cf.sh api-post` の read-only GraphQL 入口を追加。あわせて 09c-A production execution workflow の導線 (§15)、`VISUAL_ON_EXECUTION` 境界、`cf.sh` 正本 deploy route、`ubm-hyogo-db-prod` D1 migration apply route を追加 |
 | 2026-05-05 | 1.4.0 | Issue #347 long-term analytics evidence decision への導線 (§15) を追加。OpenNext Workers の production evidence は GraphQL aggregate-only / PII 非保存 contract に従う |
