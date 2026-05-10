@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### E2E quality uplift Stage 2 sub-task 2b admin identity conflicts spec（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 completed |
+| 成果物 | `docs/30-workflows/2b-admin-identity-conflicts-spec/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2b-admin-identity-conflicts.md` |
+| source unassigned | `docs/30-workflows/unassigned-task/e2e-stage-2-2b-admin-identity-conflicts-001.md`（formalized trace） |
+| 実装対象 | `apps/web/playwright/tests/admin-identity-conflicts.spec.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright.config.ts`, `packages/shared/src/schemas/identity-conflict.ts` |
+| mock boundary | initial list は Server Component `fetchAdmin()` 経由の server-side fetch。browser `page.route()` は `/api/admin/identity-conflicts/*/{merge,dismiss}` のみ |
+| schema boundary | `IdentityConflictRowZ` の `conflictId` / `candidateTargetMemberId` / `matchedFields` / `detectedAt` / `responseEmailMasked` / `syncJobId` を正本化 |
+| fixture boundary | `test` / `expect` を `apps/web/playwright/fixtures/auth.ts` から import。`adminPage` named import 禁止 |
+| evidence | `docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime gate | local chromium Phase 11 evidence 取得済み。firefox / webkit / staging / CI、commit / push / PR は user approval 後 |
+
 ### UI prototype alignment / MVP recovery task-14 my profile and requests（2026-05-09）
 
 | 項目 | 値 |
@@ -50,12 +66,13 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | implemented-local-runtime-pending / implementation / NON_VISUAL / Phase 13 pending_user_approval |
-| 成果物 | `docs/30-workflows/ci-pipeline-recovery-web-cd-and-runtime-smoke/` |
+| 成果物 | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/` |
 | 目的 | `web-cd / deploy-staging` の Pages 25 MiB failure と `runtime-smoke-staging` の environment secret 欠落 failure を同一 cycle で local 修復する |
 | 実装対象 | `.github/workflows/web-cd.yml`, `.github/workflows/runtime-smoke-staging.yml`, `scripts/smoke/provision-staging-secrets.sh` |
+| task-01 | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/`。`web-cd.yml` は environment-scoped `secrets.CLOUDFLARE_API_TOKEN` を job env `CLOUDFLARE_API_TOKEN` に注入し、staging/production 両 job で `Verify CF token is present` early-fail step を持つ |
 | 正本同期 | `deployment-gha.md`, `deployment-cloudflare.md`, `deployment-secrets-management.md`, Issue #571 `phase-11.md` |
 | evidence boundary | Phase 12 strict outputs present。secret placement / deploy run / runtime smoke / Slack failure injection は user approval 後 |
-| compliance | `docs/30-workflows/ci-pipeline-recovery-web-cd-and-runtime-smoke/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| compliance | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 
 ### web-app-route-bundle-parse-fix（2026-05-09）
 

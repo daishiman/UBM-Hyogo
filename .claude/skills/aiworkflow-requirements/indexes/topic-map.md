@@ -2091,6 +2091,15 @@ node scripts/list-specs.js --topics
 | implementation source-of-truth | L45 |
 | scope notes | L59 |
 
+### references/workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Files | L14 |
+| Linked Lessons | L29 |
+| Boundary | L33 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -3679,7 +3688,7 @@ node scripts/list-specs.js --topics
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L335 |
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L434 |
 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
-| 変更履歴 | L497 |
+| 変更履歴 | L498 |
 
 ### references/deployment.md
 
@@ -4301,7 +4310,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L12 |
+| 関連リソース | L14 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -6217,13 +6226,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L901 |
-| フェーズ構造（概要） | L910 |
-| 品質ゲート（概要） | L941 |
-| 出力テンプレート | L952 |
-| 実行時のコマンド・エージェント・スキル | L975 |
-| 昇格パターン集 | L999 |
-| Current Active / Spec Created Tasks | L1001 |
+| ドキュメント構成 | L918 |
+| フェーズ構造（概要） | L927 |
+| 品質ゲート（概要） | L958 |
+| 出力テンプレート | L969 |
+| 実行時のコマンド・エージェント・スキル | L992 |
+| 昇格パターン集 | L1016 |
+| Current Active / Spec Created Tasks | L1018 |
 
 ### references/task-workflow-backlog-part2.md
 
