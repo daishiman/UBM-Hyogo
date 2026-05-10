@@ -1,0 +1,57 @@
+name: verify-gate-metadata
+
+on:
+  pull_request:
+    paths:
+      - "**/artifacts.json"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "packages/shared/package.json"
+      - "packages/shared/src/index.ts"
+      - "packages/shared/src/gate-metadata/**"
+      - "scripts/gate-metadata/**"
+      - ".github/workflows/verify-gate-metadata.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.15.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install actionlint
+        run: go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7
+
+      - name: Lint workflow
+        run: actionlint .github/workflows/verify-gate-metadata.yml
+
+      - name: Typecheck shared package
+        run: pnpm --filter @ubm-hyogo/shared typecheck
+
+      - name: Run focused gate metadata tests
+        run: pnpm --filter @ubm-hyogo/shared test -- gate-metadata
+
+      - name: Run gate-metadata validator
+        shell: bash
+        run: |
+          mapfile -t changed_artifacts < <(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- "**/artifacts.json")
+          pnpm gate-metadata:validate --require-gates-for-changed "${changed_artifacts[@]}"
