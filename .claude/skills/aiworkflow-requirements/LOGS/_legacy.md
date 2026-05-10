@@ -833,3 +833,6 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Updated `vitest.config.ts` test include globs to cover `*.{test,spec}.{ts,tsx}` during the transition and recorded typecheck / lint / api test PASS evidence.
 - Registered artifact inventory `references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md`, task-workflow-active, quick-reference, and resource-map.
 - Updated 08a artifact inventory so `UT-08A-06-test-suffix-rename-migration.md` points to Issue #325 successor.
+# 2026-05-10
+
+- task-15 admin dashboard and members close-out sync: `implemented-local-runtime-pending / implementation / VISUAL`. Added local Playwright screenshot evidence, `jest-axe` unit a11y, Phase 12 strict 7 physical files, artifact inventory, quick-reference/resource-map/task-workflow-active/changelog entries. Phase 13 remains user-gated.
