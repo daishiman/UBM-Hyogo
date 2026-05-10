@@ -22,7 +22,7 @@ const PUBLISH_OPTIONS: PublishState[] = ["public", "member_only", "hidden"];
 interface Props {
   readonly memberId: string;
   readonly onClose: () => void;
-  readonly onMutated: () => void;
+  readonly onMutated: (mutation?: { memberId: string; isDeleted: boolean }) => void;
 }
 
 export function MemberDrawer({ memberId, onClose, onMutated }: Props) {
@@ -86,7 +86,7 @@ export function MemberDrawer({ memberId, onClose, onMutated }: Props) {
     }
     setConfirmDelete(false);
     setDeleteReason("");
-    onMutated();
+    onMutated({ memberId, isDeleted: true });
     onClose();
   };
 
@@ -96,7 +96,7 @@ export function MemberDrawer({ memberId, onClose, onMutated }: Props) {
       setError(r.error);
       return;
     }
-    onMutated();
+    onMutated({ memberId, isDeleted: false });
     onClose();
   };
 

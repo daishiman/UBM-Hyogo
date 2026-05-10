@@ -3,7 +3,11 @@
 // admin gate は layout.tsx で実施済みなので、ここでは worker-to-worker 認証を載せる。
 
 import { cookies } from "next/headers";
-import { ListIdentityConflictsResponseZ } from "@ubm-hyogo/shared";
+import {
+  AdminMemberListViewZ,
+  ListIdentityConflictsResponseZ,
+} from "@ubm-hyogo/shared";
+import type { AdminAuditListResponse } from "./types";
 
 const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
 
@@ -69,6 +73,62 @@ const adminIdentityConflictsFixture = () => ({
   nextCursor: null,
 });
 
+const adminMemberDeleteFixture = (path: string) => {
+  const url = new URL(path, "http://fixture.local");
+  const filter = url.searchParams.get("filter");
+  const members = [
+    {
+      memberId: "mem_001",
+      responseEmail: "active@example.test",
+      fullName: "削除対象 太郎",
+      publicConsent: "consented",
+      rulesConsent: "consented",
+      publishState: "public",
+      isDeleted: false,
+      lastSubmittedAt: "2026-05-09T00:00:00.000Z",
+    },
+    {
+      memberId: "mem_002",
+      responseEmail: "deleted@example.test",
+      fullName: "削除済み 花子",
+      publicConsent: "consented",
+      rulesConsent: "consented",
+      publishState: "hidden",
+      isDeleted: true,
+      lastSubmittedAt: "2026-05-08T00:00:00.000Z",
+    },
+  ];
+  const filtered =
+    filter === "deleted" ? members.filter((m) => m.isDeleted) : members;
+  return {
+    total: filtered.length,
+    members: filtered,
+    page: 1,
+    pageSize: 20,
+  };
+};
+
+const adminMemberDeleteAuditFixture = (): AdminAuditListResponse => ({
+  items: [
+    {
+      auditId: "aud_member_delete_001",
+      actorEmail: "admin@example.test",
+      action: "admin.member.deleted",
+      targetType: "member",
+      targetId: "mem_001",
+      maskedBefore: { is_deleted: 0 },
+      maskedAfter: { is_deleted: 1 },
+      parseError: false,
+      createdAt: "2026-05-10T00:00:00.000Z",
+    },
+  ],
+  nextCursor: null,
+  appliedFilters: {
+    action: "admin.member.deleted",
+    limit: 50,
+  },
+});
+
 export async function fetchAdmin<T>(
   path: string,
   opts: AdminFetchOptions = {},
@@ -89,6 +149,24 @@ export async function fetchAdmin<T>(
     path.startsWith("/admin/identity-conflicts")
   ) {
     return ListIdentityConflictsResponseZ.parse(adminIdentityConflictsFixture()) as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/members")
+  ) {
+    return AdminMemberListViewZ.parse(adminMemberDeleteFixture(path)) as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/audit")
+  ) {
+    return adminMemberDeleteAuditFixture() as T;
   }
 
   const url = `${resolveApiBase()}${path}`;

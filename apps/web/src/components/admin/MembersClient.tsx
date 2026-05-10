@@ -2,7 +2,7 @@
 // 06c / 06c-B: /admin/members の client shell
 // 12-search-tags: q / zone / tag / sort / density / page を URL 正本として扱う。
 // AC-1: profile 本文編集 form を持たない（MemberDrawer 内で input なし）
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { AdminMemberListView } from "@ubm-hyogo/shared";
@@ -29,6 +29,11 @@ export function MembersClient({
   const [, startTransition] = useTransition();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [draftQ, setDraftQ] = useState(search.q);
+  const [members, setMembers] = useState(initial.members);
+
+  useEffect(() => {
+    setMembers(initial.members);
+  }, [initial.members]);
 
   const navigate = (next: AdminMemberSearch) => {
     const params = toAdminApiQuery(next);
@@ -72,6 +77,19 @@ export function MembersClient({
     navigate({ ...search, tag: search.tag.filter((x) => x !== t), page: 1 });
 
   const goPage = (page: number) => navigate({ ...search, page });
+
+  const onMemberMutated = (mutation?: { memberId: string; isDeleted: boolean }) => {
+    if (mutation) {
+      setMembers((current) =>
+        current.map((member) =>
+          member.memberId === mutation.memberId
+            ? { ...member, isDeleted: mutation.isDeleted }
+            : member,
+        ),
+      );
+    }
+    router.refresh();
+  };
 
   const pageSize = initial.pageSize ?? ADMIN_SEARCH_LIMITS.PAGE_SIZE;
   const totalPages = Math.max(1, Math.ceil(initial.total / pageSize));
@@ -187,7 +205,7 @@ export function MembersClient({
           </tr>
         </thead>
         <tbody>
-          {initial.members.map((m) => (
+          {members.map((m) => (
             <tr key={m.memberId}>
               <td>{m.fullName}</td>
               <td>{m.responseEmail}</td>
@@ -207,7 +225,7 @@ export function MembersClient({
         </tbody>
       </table>
 
-      {initial.members.length === 0 && (
+      {members.length === 0 && (
         <p role="status">条件に合う会員がいません。</p>
       )}
 
@@ -237,7 +255,7 @@ export function MembersClient({
         <MemberDrawer
           memberId={selectedId}
           onClose={() => setSelectedId(null)}
-          onMutated={() => router.refresh()}
+          onMutated={onMemberMutated}
         />
       )}
     </section>

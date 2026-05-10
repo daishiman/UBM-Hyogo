@@ -17,15 +17,18 @@ vi.mock("../MemberDrawer", () => ({
   }: {
     memberId: string;
     onClose: () => void;
-    onMutated: () => void;
+    onMutated: (mutation?: { memberId: string; isDeleted: boolean }) => void;
   }) => (
     <div data-testid="drawer">
       drawer-{memberId}
       <button type="button" onClick={onClose}>
         close-drawer
       </button>
-      <button type="button" onClick={onMutated}>
+      <button type="button" onClick={() => onMutated()}>
         mutate-drawer
+      </button>
+      <button type="button" onClick={() => onMutated({ memberId, isDeleted: true })}>
+        delete-drawer
       </button>
     </div>
   ),
@@ -123,6 +126,10 @@ describe("MembersClient", () => {
     // onMutated callback → router.refresh
     fireEvent.click(screen.getByRole("button", { name: "mutate-drawer" }));
     expect(refreshMock).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByRole("button", { name: "delete-drawer" }));
+    expect(screen.getByRole("row", { name: /taro@example.com/ }).textContent).toContain("削除済み");
+    expect(refreshMock).toHaveBeenCalledTimes(2);
 
     // close drawer
     fireEvent.click(screen.getByRole("button", { name: "close-drawer" }));
