@@ -3385,7 +3385,8 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
-      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md"
+      "workflow-task-04b-followup-001-admin-queue-request-status-metadata-artifact-inventory.md",
+      "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md"
     ],
     "server": [
       "architecture-admin-api-client.md",
@@ -6400,6 +6401,7 @@
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
@@ -10188,7 +10190,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md",
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "ui-ux-admin-dashboard.md",
-      "workflow-06c-C-admin-tags-artifact-inventory.md"
+      "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md"
     ],
     "への二段書き込みが境界": [
       "lessons-learned-04c-admin-backoffice-2026-04.md"
@@ -10526,6 +10529,7 @@
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
+      "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
@@ -14020,6 +14024,7 @@
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
+      "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
@@ -14538,7 +14543,8 @@
     ],
     "requests": [
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md",
-      "workflow-task-14-my-profile-and-requests-artifact-inventory.md"
+      "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
+      "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md"
     ],
     "例の型と実": [
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md"
@@ -19801,7 +19807,8 @@
       "ui-ux-admin-dashboard.md"
     ],
     "meetings": [
-      "ui-ux-admin-dashboard.md"
+      "ui-ux-admin-dashboard.md",
+      "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md"
     ],
     "共通の": [
       "ui-ux-admin-dashboard.md"
@@ -20485,6 +20492,7 @@
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
+      "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",

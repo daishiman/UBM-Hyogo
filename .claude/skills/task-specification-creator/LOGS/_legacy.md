@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-10 - task-14 my-profile-and-requests strict evidence correction
+
+`docs/30-workflows/task-14-my-profile-and-requests/` の 30 種思考法レビューで、Phase 1-13 は存在するが `outputs/` 実体、Phase 12 strict 7、root/output artifacts parity、canonical state vocabulary、`@ubm-hyogo/web` command contract が不足していた。root state を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` へ補正し、Phase 11 deterministic evidence、Phase 12 strict 7、Phase 13 readiness checklist、aiworkflow-requirements 導線を同一 wave で実体化した。authenticated screenshot、staging smoke、production runtime evidence、commit、push、PR は user-gated のまま未実行。
+
 ## 2026-05-08 - Issue #534 workflow_state vocabulary promotion
 
 ## 2026-05-09 - ci secret alignment task-01 Phase 12 strict outputs
@@ -2657,3 +2661,6 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Normalized phase statuses to `completed` / `pending` / `blocked` while keeping root workflow state `spec_created`.
 - Added `outputs/phase-11/main.md` as `PENDING_IMPLEMENTATION_EVIDENCE` so reserved evidence paths are not mistaken for runtime PASS.
 - Skill feedback: multi-candidate model selection workflows must separate synthetic harness smoke from production winner selection and keep FU-03-D production switch user-gated.
+## 2026-05-10 - task-16 admin-tags-meetings-requests contract alignment
+
+`docs/30-workflows/task-16-admin-tags-meetings-requests/` の 30 種思考法レビューで、旧生成仕様が `apps/web/src/app` / `src/features/admin` / `lib/api/admin-*` / `/decision` / `approved` という stale contract を含んでいた。現行 repo 正本（`apps/web/app`, `apps/web/src/components/admin`, `apps/web/src/lib/admin`）へ非破壊再構成し、Phase 01-13 canonical naming、root/output artifacts parity、Phase 11 pending runtime marker、Phase 12 strict 7、aiworkflow-requirements 同期を同一 wave で実体化した。runtime screenshots、staging smoke、commit、push、PR は user-gated。
