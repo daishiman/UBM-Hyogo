@@ -2264,6 +2264,17 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Invariants | L16 |
 
+### references/workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Root | L3 |
+| Classification | L7 |
+| Primary Repo Changes | L11 |
+| Consumed / Superseded Trace | L25 |
+| Runtime Boundary | L33 |
+| Lessons Learned | L37 |
+
 ### references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md
 
 | セクション | 行 |
@@ -3591,11 +3602,11 @@ node scripts/list-specs.js --topics
 | 11. R2 incremental cache（任意採用） | L191 |
 | 11.1 Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
 | 12. 関連リソース | L213 |
-| 13. production route / secret / observability preflight | L232 |
-| 14. analytics read-only token 分離 | L273 |
-| 15. Long-term analytics evidence | L288 |
-| 15. 09c-A production execution workflow | L294 |
-| 変更履歴 | L309 |
+| 13. production route / secret / observability preflight | L234 |
+| 14. analytics read-only token 分離 | L275 |
+| 15. Long-term analytics evidence | L290 |
+| 15. 09c-A production execution workflow | L296 |
+| 変更履歴 | L311 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -3615,28 +3626,28 @@ node scripts/list-specs.js --topics
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L193 |
-| Cloudflare D1 データベース | L315 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L348 |
-| GitHub Actions CI/CD | L460 |
-| プレビューデプロイメント | L489 |
-| カスタムドメイン設定 | L505 |
-| 環境分離 | L518 |
-| ロールバック戦略 | L528 |
-| モニタリング/アラート（UT-08 連携） | L549 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L566 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L601 |
-| 変更履歴 | L650 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L194 |
+| Cloudflare D1 データベース | L316 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L349 |
+| GitHub Actions CI/CD | L461 |
+| プレビューデプロイメント | L492 |
+| カスタムドメイン設定 | L508 |
+| 環境分離 | L521 |
+| ロールバック戦略 | L531 |
+| モニタリング/アラート（UT-08 連携） | L552 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L569 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L604 |
+| 変更履歴 | L653 |
 
 ### references/deployment-core.md
 
 | セクション | 行 |
 |------------|----|
 | デプロイメント戦略概要 | L6 |
-| Cloudflare デプロイ戦略 | L54 |
-| GitHub Actions CI/CD パイプライン | L101 |
-| ロールバック戦略 | L149 |
-| 変更履歴 | L195 |
+| Cloudflare デプロイ戦略 | L56 |
+| GitHub Actions CI/CD パイプライン | L103 |
+| ロールバック戦略 | L152 |
+| 変更履歴 | L198 |
 
 ### references/deployment-details.md
 
@@ -3657,14 +3668,14 @@ node scripts/list-specs.js --topics
 | キャッシュ戦略 | L99 |
 | 並列実行の活用 | L122 |
 | CD ワークフロー要件（dev / main マージ時） | L178 |
-| Backend ワークフロー要件（dev / main マージ時） | L206 |
-| モニタリングとアラート | L232 |
-| GitHub Secrets の要件 | L266 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L310 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L331 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L342 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L363 |
-| post-release-30day-auto-summary | L400 |
+| Backend ワークフロー要件（dev / main マージ時） | L208 |
+| モニタリングとアラート | L235 |
+| GitHub Secrets の要件 | L269 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L319 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L345 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L356 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L377 |
+| post-release-30day-auto-summary | L414 |
 
 ### references/deployment-history.md
 
@@ -3680,15 +3691,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L108 |
-| wrangler.toml の環境別設定 | L201 |
-| ローカル開発での設定 | L233 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L272 |
-| セキュリティ原則 | L309 |
-| Cloudflare API Token の作成手順 | L320 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L335 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L434 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
-| 変更履歴 | L498 |
+| wrangler.toml の環境別設定 | L206 |
+| ローカル開発での設定 | L238 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L277 |
+| セキュリティ原則 | L314 |
+| Cloudflare API Token の作成手順 | L325 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L340 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L439 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L491 |
+| 変更履歴 | L510 |
 
 ### references/deployment.md
 
