@@ -67,7 +67,7 @@
 | AC | 状態 |
 |----|------|
 | AC-01 lighthouse-ci 4 routes assertion | pending in 3a runtime evidence |
-| AC-02 coverage<70% で fail / critical-route smoke fail で fail | pending in 3b runtime evidence |
+| AC-02 coverage<80% で fail / critical-route smoke fail で fail | pending in 3b runtime evidence |
 | AC-03 monocart-reporter 追加 + 既存 reporter 維持 | pending in 3b implementation |
 | AC-04 coverage / failure HTML report の artifact 取得可 | pending in 3b runtime evidence |
 | AC-05 dev / main contexts 5 件揃い | pending in 3c user-gated mutation |
@@ -217,7 +217,7 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】

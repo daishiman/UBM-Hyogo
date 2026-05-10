@@ -1,0 +1,87 @@
+# Issue #587 — CF audit ML model artifact rotation: canary workflow
+# Manual entrypoint for evaluating a candidate ML artifact in staging before
+# any promotion PR. The workflow does NOT mutate production artifact references.
+# Refs #549, #587
+name: cf-audit-log-artifact-canary
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidatePath:
+        description: |
+          1Password reference to the candidate artifact, e.g.
+          op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_CANDIDATE.
+          Resolved values must never be entered here.
+        required: true
+        type: string
+      baselinePath:
+        description: |
+          1Password reference to the current production baseline artifact, e.g.
+          op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD.
+        required: false
+        type: string
+        default: op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD
+      windowHours:
+        description: Offline replay window length in hours (default 1).
+        required: false
+        type: string
+        default: "1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cf-audit-log-artifact-canary
+  cancel-in-progress: false
+
+jobs:
+  canary:
+    runs-on: ubuntu-latest
+    environment: staging
+    timeout-minutes: 15
+    steps:
+      - name: Validate inputs are op references
+        run: |
+          set -euo pipefail
+          for ref in "${{ inputs.candidatePath }}" "${{ inputs.baselinePath }}"; do
+            case "$ref" in
+              op://*/*/*) ;;
+              *) echo "input is not an op reference: refusing to proceed"; exit 1 ;;
+            esac
+          done
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Prepare evidence directory
+        run: |
+          mkdir -p docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/outputs/phase-11/evidence
+      - name: Run artifact canary (staging dry-run)
+        env:
+          CF_AUDIT_ML_MODEL_PATH_CANDIDATE: ${{ inputs.candidatePath }}
+          CF_AUDIT_ML_MODEL_PATH_PROD: ${{ inputs.baselinePath }}
+        run: |
+          set -euo pipefail
+          OUT=docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/outputs/phase-11/evidence/canary-dry-run.json
+          node --experimental-strip-types scripts/cf-audit-log/rotation/artifact-canary.ts \
+            --candidate "${{ inputs.candidatePath }}" \
+            --baseline "${{ inputs.baselinePath }}" \
+            --window "${{ inputs.windowHours }}" \
+            --out "$OUT"
+      - name: Collect rotation evidence
+        run: |
+          set -euo pipefail
+          IN=docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/outputs/phase-11/evidence/canary-dry-run.json
+          OUT=docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/outputs/phase-11/evidence/rotation-evidence.json
+          node --experimental-strip-types scripts/cf-audit-log/rotation/rotation-evidence-collector.ts \
+            --canary-out "$IN" \
+            --result "$OUT" \
+            --phase canary
+      - name: Upload canary evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cf-audit-log-artifact-canary-evidence
+          path: docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/outputs/phase-11/evidence/
+          if-no-files-found: warn
+          retention-days: 14

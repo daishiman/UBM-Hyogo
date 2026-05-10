@@ -1,59 +1,42 @@
-// 06c-A: /admin ダッシュボード
+// task-15: /admin ダッシュボード
 // AC: GET /admin/dashboard 1 fetch 集約 (KPI 4 + recentActions)
+// `byZone` / `byStatus` は API 未提供、web local mapper で optional placeholder
 import type { AdminDashboardView } from "@ubm-hyogo/shared";
 import { fetchAdmin } from "../../../src/lib/admin/server-fetch";
+import { toAdminDashboardUi } from "../../../src/lib/admin/admin-dashboard-ui";
+import {
+  AdminPageHeader,
+  KpiGrid,
+  ZoneDistribution,
+  StatusDistribution,
+  RecentActionsTable,
+  SchemaAlertCard,
+} from "../../../src/features/admin/components";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
   const view = await fetchAdmin<AdminDashboardView>("/admin/dashboard");
-  const t = view.totals;
-  return (
-    <section aria-labelledby="admin-dashboard-h">
-      <h1 id="admin-dashboard-h">ダッシュボード</h1>
+  const ui = toAdminDashboardUi(view);
 
-      <div className="kpi-grid" role="group" aria-label="主要指標">
-        <KpiCard label="総会員数" value={t.totalMembers} />
-        <KpiCard label="公開中" value={t.publicMembers} />
-        <KpiCard label="未タグ" value={t.untaggedMembers} />
-        <KpiCard label="スキーマ未解決" value={t.unresolvedSchema} />
+  return (
+    <section aria-labelledby="admin-dashboard-h" className="flex flex-col gap-4">
+      <AdminPageHeader
+        title="ダッシュボード"
+        description="UBM 兵庫支部会のメンバー状況と直近のアクション"
+        breadcrumbs={[{ label: "管理", href: "/admin" }, { label: "ダッシュボード" }]}
+      />
+      <h1 id="admin-dashboard-h" className="sr-only">
+        ダッシュボード
+      </h1>
+      {ui.totals.unresolvedSchema > 0 ? <SchemaAlertCard count={ui.totals.unresolvedSchema} /> : null}
+      <KpiGrid totals={ui.totals} />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <ZoneDistribution slices={ui.byZone} />
+        <RecentActionsTable items={ui.recentActions} />
       </div>
-
-      <h2>直近のアクション（7日）</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>日時</th>
-            <th>実行者</th>
-            <th>アクション</th>
-            <th>対象</th>
-          </tr>
-        </thead>
-        <tbody>
-          {view.recentActions.map((r) => (
-            <tr key={r.auditId}>
-              <td>{r.createdAt}</td>
-              <td>{r.actorEmail ?? "—"}</td>
-              <td>{r.action}</td>
-              <td>
-                {r.targetType}
-                {r.targetId ? `:${r.targetId}` : ""}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <p className="meta">生成日時: {view.generatedAt}</p>
+      <StatusDistribution slices={ui.byStatus} />
+      <p className="text-xs text-[var(--ubm-color-text-muted)]">生成日時: {ui.generatedAt}</p>
     </section>
-  );
-}
-
-function KpiCard({ label, value }: { readonly label: string; readonly value: number }) {
-  return (
-    <article className="kpi-card" data-testid="admin-dashboard-card">
-      <div className="kpi-label">{label}</div>
-      <div className="kpi-value">{value}</div>
-    </article>
   );
 }

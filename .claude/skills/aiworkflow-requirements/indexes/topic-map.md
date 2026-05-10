@@ -2477,7 +2477,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Gate Result | L22 |
+| Gate Result | L26 |
+| Re-observation Reminder Package (Issue #581) | L36 |
 
 ### references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md
 
@@ -2529,6 +2530,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | User Gate | L45 |
+
+### references/workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L47 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2982,6 +2989,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | State | L17 |
+
+### references/workflow-task-15-admin-dashboard-and-members-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L16 |
 
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
@@ -3718,16 +3731,16 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets / Variables（CI/CD 用） | L108 |
-| wrangler.toml の環境別設定 | L206 |
-| ローカル開発での設定 | L238 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L277 |
-| セキュリティ原則 | L314 |
-| Cloudflare API Token の作成手順 | L325 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L340 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L439 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L491 |
-| 変更履歴 | L510 |
+| GitHub Secrets / Variables（CI/CD 用） | L103 |
+| wrangler.toml の環境別設定 | L203 |
+| ローカル開発での設定 | L235 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L274 |
+| セキュリティ原則 | L306 |
+| Cloudflare API Token の作成手順 | L317 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L332 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L430 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
+| 変更履歴 | L501 |
 
 ### references/deployment.md
 
@@ -4667,7 +4680,8 @@ node scripts/list-specs.js --topics
 | L-ISSUE546-002: Alert 0 件は D1 readiness なしに FPR PASS としない | L21 |
 | L-ISSUE546-003: docs-only observation でも root state と phase state は分離する | L34 |
 | L-ISSUE546-004: helper が出力しない成果物は pending evidence marker を実体化する | L47 |
-| 参照元 | L60 |
+| L-ISSUE546-005: reminder 昇格時は unassigned task を pointer 化する | L60 |
+| 参照元 | L73 |
 
 ### references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md
 
@@ -4719,14 +4733,17 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L112 |
 | 引用元 | L118 |
 
-### references/lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md
+### references/lessons-learned-issue-586-post-switch-7day-close-out-2026-05.md
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L3 |
-| 苦戦箇所と知見 | L7 |
-| 運用知見 | L49 |
-| 参照 | L57 |
+| 概要 | L10 |
+| 苦戦箇所と学び | L16 |
+| 横断的な学び | L88 |
+| 反映先（promoted to） | L96 |
+| 再発防止サマリ表 | L106 |
+| 用語集（本タスクで導入 / 確定した語彙） | L114 |
+| 引用元 | L120 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -4853,6 +4870,16 @@ node scripts/list-specs.js --topics
 | L-TASK14-003: data-region selector は disabled / enabled 双方の section に必要 | L21 |
 | L-TASK14-004: Dialog 純 UI 分離は今 wave で未達 — limitation 化を明記 | L28 |
 | L-TASK14-005: `deriveBannerView` の優先順位（authGateState > publishState） | L35 |
+
+### references/lessons-learned-task-15-admin-dashboard-and-members-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK15-001: shared schema 不変条件は web 側 mapper で吸収する | L7 |
+| L-TASK15-002: VISUAL evidence は local mock API / fixture server を経由する | L14 |
+| L-TASK15-003: `it.todo` a11y placeholder は同 cycle で解消する | L21 |
+| L-TASK15-004: Phase 12 strict 7 は物理ファイルとして生成する | L28 |
+| L-TASK15-005: 非同期 UI race は cancelled flag と try/finally で構造的に消す | L35 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
@@ -5173,8 +5200,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L107 |
-| 関連ドキュメント | L112 |
+| 利用順序 | L108 |
+| 関連ドキュメント | L113 |
 
 ### references/llm-embedding.md
 
@@ -5826,12 +5853,13 @@ node scripts/list-specs.js --topics
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
 | 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L227 |
 | 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L254 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L278 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L296 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L297 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L311 |
-| 13. 変更履歴 | L333 |
-| 10. 変更履歴 | L334 |
+| 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L278 |
+| 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L307 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L336 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L354 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L355 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L371 |
+| 13. 変更履歴 | L393 |
 
 ### references/patterns-advanced.md
 
@@ -5915,7 +5943,7 @@ node scripts/list-specs.js --topics
 | skill-creatorフィクスチャ検証テスト（TASK-8C-G） | L327 |
 | 残課題（未タスク） | L366 |
 | 関連ドキュメント | L377 |
-| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.runtime.spec.ts`） | L392 |
+| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.test.ts`） | L392 |
 
 ### references/quality-requirements-advanced.md
 
@@ -6284,13 +6312,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L947 |
-| フェーズ構造（概要） | L956 |
-| 品質ゲート（概要） | L987 |
-| 出力テンプレート | L998 |
-| 実行時のコマンド・エージェント・スキル | L1021 |
-| 昇格パターン集 | L1045 |
-| Current Active / Spec Created Tasks | L1047 |
+| ドキュメント構成 | L971 |
+| フェーズ構造（概要） | L980 |
+| 品質ゲート（概要） | L1011 |
+| 出力テンプレート | L1022 |
+| 実行時のコマンド・エージェント・スキル | L1045 |
+| 昇格パターン集 | L1069 |
+| Current Active / Spec Created Tasks | L1071 |
 
 ### references/task-workflow-backlog-part2.md
 
