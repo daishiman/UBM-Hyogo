@@ -36,10 +36,25 @@ type MockApiState = {
 }
 
 type MockApi = {
-  reset: () => void
-  setVisibilityPending: (createdAt?: string) => void
-  setDeletePending: (createdAt?: string) => void
+  reset: () => Promise<void>
+  setVisibilityPending: (createdAt?: string) => Promise<void>
+  setDeletePending: (createdAt?: string) => Promise<void>
   setVisibilityError: (status: number, body: unknown) => void
+}
+
+const STANDALONE_BASE = `http://127.0.0.1:${MOCK_API_PORT}`
+
+async function postControl(path: string, body?: unknown): Promise<void> {
+  try {
+    const init: RequestInit = {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+    }
+    if (body !== undefined) init.body = JSON.stringify(body)
+    await fetch(`${STANDALONE_BASE}${path}`, init)
+  } catch {
+    // standalone mock 未起動 (local dev) はフォールバック (内蔵 server で処理)
+  }
 }
 
 const state: MockApiState = { pendingRequests: {} }
@@ -155,24 +170,29 @@ async function ensureMockApi(): Promise<void> {
 }
 
 const mockApi: MockApi = {
-  reset: () => {
+  reset: async () => {
     state.pendingRequests = {}
     delete state.visibilityPost
+    await postControl('/__test__/reset')
   },
-  setVisibilityPending: (createdAt = '2026-05-09T00:00:00.000Z') => {
+  setVisibilityPending: async (createdAt = '2026-05-09T00:00:00.000Z') => {
     state.pendingRequests.visibility = {
       queueId: 'q1',
       status: 'pending',
       createdAt,
       desiredState: 'hidden',
     }
+    await postControl('/__test__/seed-pending', {
+      visibility: { desiredState: 'hidden' },
+    })
   },
-  setDeletePending: (createdAt = '2026-05-09T00:00:00.000Z') => {
+  setDeletePending: async (createdAt = '2026-05-09T00:00:00.000Z') => {
     state.pendingRequests.delete = {
       queueId: 'q2',
       status: 'pending',
       createdAt,
     }
+    await postControl('/__test__/seed-pending', { delete: true })
   },
   setVisibilityError: (status, body) => {
     state.visibilityPost = { status, body }
@@ -194,9 +214,9 @@ async function signSession(payload: {
 export const test = base.extend<AuthFixtures>({
   mockApi: async ({}, use) => {
     await ensureMockApi()
-    mockApi.reset()
+    await mockApi.reset()
     await use(mockApi)
-    mockApi.reset()
+    await mockApi.reset()
   },
   adminContext: async ({ browser, baseURL, mockApi }, use) => {
     void mockApi

@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+// e2e-mock-api: Playwright E2E 用 deterministic mock API.
+// stateful 部分（pending requests / attendance）は in-memory + reset endpoint で管理する。
+// 不変条件: D1 を一切触らず、Worker の API surface を再現する。
 import { createServer } from "node:http";
 
 const PORT = Number(process.env.E2E_MOCK_API_PORT ?? 8787);
@@ -18,6 +21,76 @@ const json = (res, status, body) => {
   res.writeHead(status, { "content-type": "application/json" });
   res.end(JSON.stringify(body));
 };
+
+const readBody = (req) =>
+  new Promise((resolve) => {
+    let raw = "";
+    req.on("data", (chunk) => {
+      raw += String(chunk);
+    });
+    req.on("end", () => {
+      try {
+        resolve(raw ? JSON.parse(raw) : {});
+      } catch {
+        resolve({});
+      }
+    });
+  });
+
+const state = {
+  pendingRequests: {},
+  attendance: new Set(), // `${sessionId}:${memberId}`
+};
+
+const resetState = () => {
+  state.pendingRequests = {};
+  state.attendance = new Set();
+};
+
+const buildPublicProfile = (id) => ({
+  memberId: id,
+  summary: {
+    fullName: member.fullName,
+    nickname: member.nickname,
+    location: member.location,
+    occupation: member.occupation,
+    ubmZone: member.ubmZone,
+    ubmMembershipType: member.ubmMembershipType,
+  },
+  publicSections: [
+    {
+      key: "profile",
+      title: "プロフィール",
+      fields: [
+        {
+          stableKey: "profile:introduction",
+          label: "自己紹介",
+          value: "UBM Hyogo member",
+          kind: "longText",
+          visibility: "public",
+          source: "forms",
+        },
+      ],
+    },
+    {
+      key: "activity",
+      title: "活動",
+      fields: [
+        {
+          stableKey: "activity:summary",
+          label: "活動サマリ",
+          value: "アクティブ",
+          kind: "shortText",
+          visibility: "public",
+          source: "forms",
+        },
+      ],
+    },
+  ],
+  attendance: [{ sessionId: "s-1", title: "定例会", heldOn: "2026-05-01" }],
+  attendanceMeta: { hasMore: false, nextCursor: null },
+  tags: [{ code: "engineer", label: "Engineer", category: "skill" }],
+});
 
 const publicList = (url) => {
   const q = url.searchParams.get("q") ?? "";
@@ -46,37 +119,6 @@ const publicList = (url) => {
   };
 };
 
-const publicProfile = {
-  memberId: member.memberId,
-  summary: {
-    fullName: member.fullName,
-    nickname: member.nickname,
-    location: member.location,
-    occupation: member.occupation,
-    ubmZone: member.ubmZone,
-    ubmMembershipType: member.ubmMembershipType,
-  },
-  publicSections: [
-    {
-      key: "profile",
-      title: "プロフィール",
-      fields: [
-        {
-          stableKey: "profile:introduction",
-          label: "自己紹介",
-          value: "UBM Hyogo member",
-          kind: "longText",
-          visibility: "public",
-          source: "forms",
-        },
-      ],
-    },
-  ],
-  attendance: [{ sessionId: "s-1", title: "定例会", heldOn: "2026-05-01" }],
-  attendanceMeta: { hasMore: false, nextCursor: null },
-  tags: [{ code: "engineer", label: "Engineer", category: "skill" }],
-};
-
 const adminMembers = {
   total: 1,
   page: 1,
@@ -95,56 +137,179 @@ const adminMembers = {
   ],
 };
 
-const meProfile = {
-  profile: {
-    sections: [],
-    attendance: [],
-    attendanceMeta: { hasMore: false, nextCursor: null },
-  },
-  statusSummary: {
-    publicConsent: "consented",
-    rulesConsent: "consented",
-    publishState: "public",
-    isDeleted: false,
-  },
-  editResponseUrl: "https://forms.example.test/edit",
-  fallbackResponderUrl: "https://forms.example.test/responder",
-  pendingRequests: {},
+// /admin/schema/diff: 6 セクション (テスト admin-pages.spec.ts:13 が toHaveCount(6) を要求)
+const adminSchemaDiff = {
+  total: 6,
+  items: Array.from({ length: 6 }, (_, i) => ({
+    sectionKey: `section-${i + 1}`,
+    sectionTitle: `セクション${i + 1}`,
+    fieldCount: 0,
+    state: "synced",
+    lastSyncedAt: NOW,
+  })),
+  sections: Array.from({ length: 6 }, (_, i) => ({
+    sectionKey: `section-${i + 1}`,
+    title: `セクション${i + 1}`,
+    fields: [],
+  })),
 };
 
-const server = createServer((req, res) => {
-  const url = new URL(req.url ?? "/", `http://127.0.0.1:${PORT}`);
-  console.log(`${req.method} ${url.pathname}${url.search}`);
+// /admin/meetings + /admin/meetings/:id: attendance 候補 6 名 (m-1..m-5 + m-6 deleted)
+const meetingsList = {
+  total: 1,
+  items: [
+    {
+      sessionId: "sess-1",
+      title: "5月定例会",
+      heldOn: "2026-05-01",
+      attendanceCount: 0,
+    },
+  ],
+};
 
-  if (req.method === "GET" && url.pathname === "/health") return json(res, 200, { ok: true });
-  if (req.method === "GET" && url.pathname === "/me") {
-    return json(res, 200, {
-      user: {
-        memberId: "m-1",
-        responseId: "r-1",
-        email: "member@example.test",
-        isAdmin: false,
-        authGateState: "active",
-      },
-      authGateState: "active",
-    });
+const meetingDetail = (sessionId) => ({
+  sessionId,
+  title: "5月定例会",
+  heldOn: "2026-05-01",
+  candidates: [
+    { memberId: "m-1", fullName: "山田 太郎", isDeleted: false },
+    { memberId: "m-2", fullName: "鈴木 花子", isDeleted: false },
+    { memberId: "m-3", fullName: "佐藤 次郎", isDeleted: false },
+    { memberId: "m-4", fullName: "田中 三郎", isDeleted: false },
+    // m-5 deleted は候補に含めない (UI 側 第2防御)
+  ],
+  attendees: [...state.attendance]
+    .filter((k) => k.startsWith(`${sessionId}:`))
+    .map((k) => ({ memberId: k.split(":")[1] })),
+});
+
+const adminRequests = {
+  ok: true,
+  items: [],
+  nextCursor: null,
+  appliedFilters: { status: "pending", type: "visibility_request" },
+};
+
+const meSession = {
+  user: {
+    memberId: "m-1",
+    responseId: "r-1",
+    email: "member@example.test",
+    isAdmin: false,
+    authGateState: "active",
+  },
+  authGateState: "active",
+};
+
+const buildMeProfile = (url) => {
+  const seedPending = url?.searchParams.get("seedPending");
+  const pending = { ...state.pendingRequests };
+  if (seedPending === "visibility" && !pending.visibility) {
+    pending.visibility = {
+      queueId: "qseed",
+      status: "pending",
+      createdAt: NOW,
+      desiredState: "hidden",
+    };
   }
-  if (req.method === "GET" && url.pathname === "/me/profile") return json(res, 200, meProfile);
-  if (req.method === "POST" && url.pathname === "/me/visibility-request") {
-    meProfile.pendingRequests.visibility = {
+  if (seedPending === "delete" && !pending.delete) {
+    pending.delete = { queueId: "qseed", status: "pending", createdAt: NOW };
+  }
+  return {
+    profile: {
+      sections: [],
+      attendance: [],
+      attendanceMeta: { hasMore: false, nextCursor: null },
+    },
+    statusSummary: {
+      publicConsent: "consented",
+      rulesConsent: "consented",
+      publishState: "public",
+      isDeleted: false,
+    },
+    editResponseUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform",
+    fallbackResponderUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform",
+    pendingRequests: pending,
+  };
+};
+
+const server = createServer(async (req, res) => {
+  const url = new URL(req.url ?? "/", `http://127.0.0.1:${PORT}`);
+  const { pathname } = url;
+  console.log(`${req.method} ${pathname}${url.search}`);
+
+  // ---- internal control endpoints ----
+  if (req.method === "POST" && pathname === "/__test__/reset") {
+    resetState();
+    return json(res, 200, { ok: true });
+  }
+  if (req.method === "POST" && pathname === "/__test__/seed-pending") {
+    const body = await readBody(req);
+    if (body.visibility) {
+      state.pendingRequests.visibility = {
+        queueId: "qseed",
+        status: "pending",
+        createdAt: NOW,
+        desiredState: body.visibility.desiredState ?? "hidden",
+      };
+    }
+    if (body.delete) {
+      state.pendingRequests.delete = {
+        queueId: "qseed",
+        status: "pending",
+        createdAt: NOW,
+      };
+    }
+    return json(res, 200, { ok: true, pendingRequests: state.pendingRequests });
+  }
+
+  if (req.method === "GET" && pathname === "/health") return json(res, 200, { ok: true });
+
+  // ---- /me ----
+  if (req.method === "GET" && pathname === "/me") return json(res, 200, meSession);
+  if (req.method === "GET" && pathname === "/me/profile") return json(res, 200, buildMeProfile(url));
+
+  if (req.method === "POST" && pathname === "/me/visibility-request") {
+    const body = await readBody(req);
+    if (body.reason === "__invalid__") return json(res, 422, { error: "INVALID_REQUEST" });
+    if (body.reason === "__server__") return json(res, 500, { error: "UPSTREAM_500" });
+    if (state.pendingRequests.visibility) {
+      return json(res, 409, { error: "DUPLICATE_PENDING_REQUEST" });
+    }
+    state.pendingRequests.visibility = {
       queueId: "q1",
       status: "pending",
       createdAt: NOW,
       desiredState: "hidden",
     };
-    return json(res, 202, { queueId: "q1", type: "visibility_request", status: "pending", createdAt: NOW });
+    return json(res, 202, {
+      queueId: "q1",
+      type: "visibility_request",
+      status: "pending",
+      createdAt: NOW,
+    });
   }
-  if (req.method === "POST" && url.pathname === "/me/delete-request") {
-    meProfile.pendingRequests.delete = { queueId: "q2", status: "pending", createdAt: NOW };
-    return json(res, 202, { queueId: "q2", type: "delete_request", status: "pending", createdAt: NOW });
+  if (req.method === "POST" && pathname === "/me/delete-request") {
+    if (state.pendingRequests.delete) {
+      return json(res, 409, { error: "DUPLICATE_PENDING_REQUEST" });
+    }
+    state.pendingRequests.delete = {
+      queueId: "q2",
+      status: "pending",
+      createdAt: NOW,
+    };
+    return json(res, 202, {
+      queueId: "q2",
+      type: "delete_request",
+      status: "pending",
+      createdAt: NOW,
+    });
   }
 
-  if (req.method === "GET" && url.pathname === "/public/stats") {
+  // ---- /public ----
+  if (req.method === "GET" && pathname === "/public/stats") {
     return json(res, 200, {
       memberCount: 1,
       publicMemberCount: 1,
@@ -156,10 +321,15 @@ const server = createServer((req, res) => {
       generatedAt: NOW,
     });
   }
-  if (req.method === "GET" && url.pathname === "/public/members") return json(res, 200, publicList(url));
-  if (req.method === "GET" && url.pathname === "/public/members/m-1") return json(res, 200, publicProfile);
-  if (req.method === "GET" && url.pathname.startsWith("/public/members/")) return json(res, 404, { error: "NOT_FOUND" });
-  if (req.method === "GET" && url.pathname === "/public/form-preview") {
+  if (req.method === "GET" && pathname === "/public/members") return json(res, 200, publicList(url));
+  if (req.method === "GET" && pathname.startsWith("/public/members/")) {
+    const id = pathname.slice("/public/members/".length);
+    if (id.startsWith("__") || id === "non-existent" || id === "definitely-not-exist") {
+      return json(res, 404, { error: "NOT_FOUND" });
+    }
+    return json(res, 200, buildPublicProfile(id));
+  }
+  if (req.method === "GET" && pathname === "/public/form-preview") {
     return json(res, 200, {
       manifest: {
         formId: "form-1",
@@ -179,21 +349,43 @@ const server = createServer((req, res) => {
     });
   }
 
-  if (req.method === "GET" && url.pathname === "/admin/dashboard") {
+  // ---- /admin ----
+  if (req.method === "GET" && pathname === "/admin/dashboard") {
     return json(res, 200, {
       totals: { totalMembers: 1, publicMembers: 1, untaggedMembers: 0, unresolvedSchema: 0 },
       recentActions: [],
       generatedAt: NOW,
     });
   }
-  if (req.method === "GET" && url.pathname === "/admin/members") return json(res, 200, adminMembers);
-  if (req.method === "GET" && url.pathname === "/admin/tags/queue") return json(res, 200, { total: 0, items: [] });
-  if (req.method === "GET" && url.pathname === "/admin/schema/diff") return json(res, 200, { total: 0, items: [] });
-  if (req.method === "GET" && url.pathname === "/admin/meetings") return json(res, 200, { total: 0, items: [] });
-  if (req.method === "POST" && /\/admin\/requests\/.+\/resolve$/.test(url.pathname)) return json(res, 200, { ok: true });
+  if (req.method === "GET" && pathname === "/admin/members") return json(res, 200, adminMembers);
+  if (req.method === "GET" && pathname === "/admin/tags/queue") return json(res, 200, { total: 0, items: [] });
+  if (req.method === "GET" && pathname === "/admin/schema/diff") return json(res, 200, adminSchemaDiff);
+  if (req.method === "GET" && pathname === "/admin/schema") return json(res, 200, adminSchemaDiff);
+  if (req.method === "GET" && pathname === "/admin/meetings") return json(res, 200, meetingsList);
+  if (req.method === "GET" && pathname.startsWith("/admin/meetings/")) {
+    const id = pathname.slice("/admin/meetings/".length);
+    return json(res, 200, meetingDetail(id));
+  }
+  if (req.method === "POST" && pathname.startsWith("/admin/meetings/") && pathname.endsWith("/attendance")) {
+    const sessionId = pathname.split("/")[3];
+    const body = await readBody(req);
+    const memberId = body.memberId;
+    if (!memberId) return json(res, 400, { error: "BAD_REQUEST" });
+    const key = `${sessionId}:${memberId}`;
+    if (state.attendance.has(key)) {
+      return json(res, 409, { error: "DUPLICATE_ATTENDANCE" });
+    }
+    state.attendance.add(key);
+    return json(res, 201, { sessionId, memberId, registeredAt: NOW });
+  }
+  if (req.method === "GET" && pathname === "/admin/requests") return json(res, 200, adminRequests);
+  if (req.method === "POST" && /\/admin\/requests\/.+\/resolve$/.test(pathname)) return json(res, 200, { ok: true });
+  if (req.method === "GET" && pathname === "/admin/identity-conflicts") return json(res, 200, { items: [], nextCursor: null });
+  if (req.method === "GET" && pathname === "/admin/audit") return json(res, 200, { items: [], nextCursor: null });
+
   if (req.method === "POST" || req.method === "PATCH" || req.method === "DELETE") return json(res, 200, { ok: true });
 
-  return json(res, 404, { error: "MOCK_API_NOT_FOUND", path: url.pathname });
+  return json(res, 404, { error: "MOCK_API_NOT_FOUND", path: pathname });
 });
 
 server.listen(PORT, () => {
