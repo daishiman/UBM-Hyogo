@@ -2199,13 +2199,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
-| Stage Responsibility Split (classification-first) | L16 |
-| Current Facts (Stage 0 implementation) | L25 |
-| Phase 12 Strict 7 Files (all stages) | L39 |
-| Phase 11 Evidence Path Map | L51 |
-| Tier-Aware Coverage Policy | L62 |
-| Contract | L71 |
-| Related Resources | L78 |
+| Stage Responsibility Split (classification-first) | L17 |
+| Current Facts (Stage 0 implementation) | L26 |
+| Phase 12 Strict 7 Files (all stages) | L40 |
+| Phase 11 Evidence Path Map | L52 |
+| Tier-Aware Coverage Policy | L63 |
+| Contract | L72 |
+| Related Resources | L79 |
 
 ### references/workflow-governance-design-category.md
 
@@ -2248,6 +2248,12 @@ node scripts/list-specs.js --topics
 | Validation Chain | L89 |
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
+
+### references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Invariants | L16 |
 
 ### references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md
 
@@ -2939,6 +2945,17 @@ node scripts/list-specs.js --topics
 | Upstream And Downstream | L20 |
 | Evidence | L29 |
 | Lessons Learned | L33 |
+
+### references/workflow-task-13-login-rebuild-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Runtime Boundary | L14 |
+| Contract Highlights | L20 |
+| Upstream And Downstream | L31 |
+| Evidence | L39 |
+| Lessons Learned | L43 |
 
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
@@ -4366,6 +4383,17 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
+
+### references/lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-325-001: suffix 責務分類の境界判定 | L11 |
+| L-325-002: 件数 invariant の事前 snapshot | L18 |
+| L-325-003: vitest include の two-suffix 拡張 | L24 |
+| L-325-004: rename-only workflow の状態同期漏れリスク | L30 |
+| L-325-005: scope out の明示と未タスク棚卸し | L40 |
+| 引用関係 | L46 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
@@ -6173,13 +6201,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L861 |
-| フェーズ構造（概要） | L870 |
-| 品質ゲート（概要） | L901 |
-| 出力テンプレート | L912 |
-| 実行時のコマンド・エージェント・スキル | L935 |
-| 昇格パターン集 | L959 |
-| Current Active / Spec Created Tasks | L961 |
+| ドキュメント構成 | L886 |
+| フェーズ構造（概要） | L895 |
+| 品質ゲート（概要） | L926 |
+| 出力テンプレート | L937 |
+| 実行時のコマンド・エージェント・スキル | L960 |
+| 昇格パターン集 | L984 |
+| Current Active / Spec Created Tasks | L986 |
 
 ### references/task-workflow-backlog-part2.md
 

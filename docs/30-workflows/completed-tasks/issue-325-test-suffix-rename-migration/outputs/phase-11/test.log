@@ -1,0 +1,606 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-071205-wt-3/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> @ubm-hyogo/api@0.1.0 test /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-071205-wt-3/apps/api
+> vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/api
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-071205-wt-3
+
+ ✓ apps/api/src/workflows/schemaAliasBackfillBatch.contract.spec.ts (11 tests) 29306ms
+   ✓ schemaAliasBackfillBatch > 残件なし → completed / needsReEnqueue=false 6781ms
+   ✓ schemaAliasBackfillBatch > CPU budget 枯渇 → exhausted + retry_count++ + needsReEnqueue=true 2041ms
+   ✓ schemaAliasBackfillBatch > retry_count 上限超過 → failed / needsReEnqueue=false 1593ms
+   ✓ schemaAliasBackfillBatch > Issue #503: shadow flag (BACKFILL_CURSOR_MODE) > resolveBackfillCursorMode: 値域 2912ms
+   ✓ schemaAliasBackfillBatch > Issue #503: shadow flag (BACKFILL_CURSOR_MODE) > resolveBackfillCursorModeWithLog: 不正値で warn log 2060ms
+   ✓ schemaAliasBackfillBatch > Issue #503: shadow flag (BACKFILL_CURSOR_MODE) > cursor mode: 残件なし → completed 1765ms
+   ✓ schemaAliasBackfillBatch > Issue #503: shadow flag (BACKFILL_CURSOR_MODE) > cursor mode: 通常実行で remaining=0 + cursor 列が null に戻る 1531ms
+   ✓ schemaAliasBackfillBatch > Issue #503: shadow flag (BACKFILL_CURSOR_MODE) > cursor mode: CPU budget 枯渇 → exhausted + cursor 進行 2887ms
+   ✓ schemaAliasBackfillBatch > Issue #503: shadow flag (BACKFILL_CURSOR_MODE) > cursor mode: stale cursor 以下の残件がある場合は cursor を reset して再実行で回収する 3592ms
+   ✓ schemaAliasBackfillBatch > Issue #503: shadow flag (BACKFILL_CURSOR_MODE) > cursor mode: API contract `backfill.status` 値域に cursor が露出しない 2514ms
+   ✓ schemaAliasBackfillBatch > 二重実行で remaining-scan は単調減少（idempotent） 1624ms
+ ✓ apps/api/src/routes/admin/meetings.contract.spec.ts (11 tests) 29671ms
+   ✓ admin meetings > authz: 401 6452ms
+   ✓ admin meetings > POST + GET でラウンドトリップ 2384ms
+   ✓ admin meetings > GET は既存 attendance を同梱する 1705ms
+   ✓ admin meetings > body 不正 400 2961ms
+   ✓ admin meetings > PATCH は meeting を更新し audit を追加する 2245ms
+   ✓ admin meetings > PATCH unknown は 404 1587ms
+   ✓ admin meetings > GET export.csv は固定列順と CSV escape で返す 1460ms
+   ✓ admin meetings > POST /meetings/:id/attendances は attended true/false を upsert/remove に割り当てる 3347ms
+   ✓ admin meetings > POST /meetings/:id/attendances は duplicate を 409 にする 4209ms
+   ✓ admin meetings > POST /meetings/:id/attendances は deleted member を 422 にする 1916ms
+   ✓ admin meetings > POST /meetings/:id/attendances は unknown member と soft-deleted meeting を 404 にする 1385ms
+stderr | apps/api/src/routes/admin/requests.contract.spec.ts > admin requests route — POST /admin/requests/:noteId/resolve > Issue #401 AC-3: outbox enqueue が throw しても resolve は 200 (best-effort)
+notification_enqueue_failed {
+  noteId: '11a9d90f-1831-4b51-8a99-3fe81635b7f2',
+  error: 'DB unavailable'
+}
+
+stderr | apps/api/src/routes/admin/requests.contract.spec.ts > admin requests route — POST /admin/requests/:noteId/resolve > Issue #401 AC-11: recipient email 空文字でも resolve は 200 で完了し outbox enqueue を skip
+notification_enqueue_skipped {
+  noteId: 'd644b234-5b65-457a-8bc8-cd5dd74104f5',
+  reason: 'missing_email'
+}
+
+ ✓ apps/api/src/routes/admin/requests.contract.spec.ts (15 tests) 39605ms
+   ✓ admin requests route — GET /admin/requests > TC-01: 認証なしで 401 6652ms
+   ✓ admin requests route — GET /admin/requests > TC-02: type=visibility_request の pending を古い順で返す 2423ms
+   ✓ admin requests route — GET /admin/requests > invalid query (type 不在) で 400 1780ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-04: visibility_request approve で publish_state が更新される 3774ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-05: delete_request approve で is_deleted=1 1980ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-05b: member_status がない approve は note を resolved にしない 1346ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-06: reject では member_status を変更せず note のみ rejected 2342ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-08: 二重 resolve は 409 で拒否 2678ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-09: resolutionNote > 500 で 400 3466ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > TC-10: unknown noteId で 404 2047ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > Issue #401 AC-1: visibility_request approve 後 notification_outbox に pending 行が積まれる 1477ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > Issue #401 AC-3: outbox enqueue が throw しても resolve は 200 (best-effort) 1996ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > Issue #401 AC-11: recipient email 空文字でも resolve は 200 で完了し outbox enqueue を skip 3226ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > Issue #401 PII: reject の resolutionNote は outbox reason_summary にコピーしない 1958ms
+   ✓ admin requests route — POST /admin/requests/:noteId/resolve > visibility_request approve 時 desiredState 不正で 422 2455ms
+ ✓ apps/api/src/routes/admin/schema.contract.spec.ts (16 tests) 40014ms
+   ✓ admin schema route > authz: GET diff 401 6553ms
+   ✓ admin schema route > GET diff: 200 + items 配列 2125ms
+   ✓ admin schema route > POST aliases: body 不正で 422 1520ms
+   ✓ admin schema route > POST aliases: 正常 200 3733ms
+   ✓ admin schema route > POST aliases: CPU budget exhausted は 202 retryable 2115ms
+   ✓ admin schema route > POST aliases?dryRun=true: 書き込みなし 1807ms
+   ✓ admin schema route > POST aliases: collision で 422 1519ms
+   ✓ admin schema route > POST aliases: stableKey regex 違反で 422 2455ms
+   ✓ admin schema route > POST aliases: 正常 200 で confirmed:true / backfill.status='completed' を返す 3964ms
+   ✓ admin schema route > POST aliases: exhausted 時 confirmed:true / backfill.status='exhausted' 2450ms
+   ✓ admin schema route > POST backfill/trigger: issue-504 fixture rows are enqueued on staging only 1475ms
+   ✓ admin schema route > POST backfill/trigger: production is fail-closed 1142ms
+   ✓ admin schema route > GET /schema/aliases/:diffId/backfill: 不在 diff は 404 2705ms
+   ✓ admin schema route > GET /schema/aliases/:diffId/backfill: 存在 diff は 200 + status 2332ms
+   ✓ admin schema route > GET /schema/aliases/:diffId/backfill: internal failed は public exhausted として返す 1322ms
+   ✓ admin schema route > GET diff: recommendedStableKeys が同梱される 2791ms
+ ✓ apps/api/src/workflows/schemaAliasAssign.contract.spec.ts (11 tests) 45920ms
+   ✓ schemaAliasAssign > question_not_found → throws 6455ms
+   ✓ schemaAliasAssign > apply_updates_stable_key + queue resolved + audit recorded 2790ms
+   ✓ schemaAliasAssign > dryRun_no_write 2253ms
+   ✓ schemaAliasAssign > manual_actor_required: apply requires an actor but dryRun does not 3714ms
+   ✓ schemaAliasAssign > collision_422 (conflictExists in dryRun, throws on apply) 1724ms
+   ✓ schemaAliasAssign > idempotent_apply (same stableKey re-apply does not double-audit) 1668ms
+   ✓ schemaAliasAssign > idempotent_apply_resolves_queued_diff_and_resumes_backfill 3823ms
+   ✓ schemaAliasAssign > backfill batch loop (120 行) 14479ms
+   ✓ schemaAliasAssign > cpu budget exhausted returns retryable continuation and persists diff backfill state 3319ms
+   ✓ schemaAliasAssign > deleted_response_skip 3988ms
+   ✓ schemaAliasAssign > diff_question_mismatch → 409 1702ms
+ ✓ apps/api/src/repository/__tests__/adminNotes.repository.spec.ts (20 tests) 46754ms
+   ✓ adminNotes (CRUD) > listByMemberId で対象 member の notes を取得 6568ms
+   ✓ adminNotes (CRUD) > AC-4 / AC-6: listByMemberId は対象 member だけを返し、未知 member は空配列 1963ms
+   ✓ adminNotes (CRUD) > AC-5: listByMemberId は created_at DESC で返す 1712ms
+   ✓ adminNotes (CRUD) > create で note を追加 3090ms
+   ✓ adminNotes (CRUD) > create で visibility/delete request type を保持し pending 判定できる 2410ms
+   ✓ adminNotes (CRUD) > AC-1: general 行は request_status / resolved_at / resolved_by_admin_id 全て NULL 1468ms
+   ✓ adminNotes (CRUD) > AC-4: markResolved で pending → resolved に遷移し metadata が記録される 1391ms
+   ✓ adminNotes (CRUD) > AC-4: general 行への markResolved は null（UPDATE 0 件） 2557ms
+   ✓ adminNotes (CRUD) > AC-5: markRejected で pending → rejected に遷移し reason が body 末尾に追記される 2174ms
+   ✓ adminNotes (CRUD) > AC-5: markRejected は UPDATE 時点の body に reason を追記する 3298ms
+   ✓ adminNotes (CRUD) > AC-6: resolved 行への再 markResolved / markRejected は null（pending ガード） 2024ms
+   ✓ adminNotes (CRUD) > AC-7: resolved 行のみ存在する member は再度 hasPendingRequest=false で再申請可能 1402ms
+   ✓ adminNotes (CRUD) > markResolved / markRejected: 未知 id は null 1464ms
+   ✓ adminNotes (CRUD) > update で body を変更 2784ms
+   ✓ adminNotes (CRUD) > update で未知 id は null 2118ms
+   ✓ adminNotes (CRUD) > remove で削除し、再取得は null 1283ms
+   ✓ adminNotes (CRUD) > remove で未知 id は false 2833ms
+   ✓ adminNotes (CRUD) > AC-2: PublicMemberProfile / MemberProfile に adminNotes が混入しない（型不在） 3061ms
+   ✓ adminNotes.listPendingRequests (04b-followup-004) > type+status で絞り込み、created_at ASC, note_id ASC で返す（FIFO） 2170ms
+   ✓ adminNotes.listPendingRequests (04b-followup-004) > limit + cursor で paginate する 977ms
+ ✓ apps/api/src/routes/auth/__tests__/auth-routes.contract.spec.ts (21 tests) 47096ms
+   ✓ /auth/* contract > POST /auth/magic-link > AC-1 (R1-POST): unregistered → 200 state=unregistered, INSERT 0, mail 0 6518ms
+   ✓ /auth/* contract > POST /auth/magic-link > AC-2 (R2-POST): rules_declined → 200 / INSERT 0 2166ms
+   ✓ /auth/* contract > POST /auth/magic-link > AC-3 (R3-POST): deleted → 200 / INSERT 0 1579ms
+   ✓ /auth/* contract > POST /auth/magic-link > AC-4 (R4-POST): valid → 200 state=sent / INSERT 1 / mail 1 3227ms
+   ✓ /auth/* contract > POST /auth/magic-link > F-01: body 欠落は 400 INVALID_REQUEST 1907ms
+   ✓ /auth/* contract > POST /auth/magic-link > F-02: malformed email は 400 INVALID_REQUEST 1477ms
+   ✓ /auth/* contract > POST /auth/magic-link > F-11: mail 失敗時は 502 + token rollback 1466ms
+   ✓ /auth/* contract > GET /auth/gate-state > AC-1 (R1-GET): unregistered 2026ms
+   ✓ /auth/* contract > GET /auth/gate-state > AC-2 (R2-GET): rules_declined 2316ms
+   ✓ /auth/* contract > GET /auth/gate-state > AC-3 (R3-GET): deleted 3517ms
+   ✓ /auth/* contract > GET /auth/gate-state > AC-4 (R4-GET): valid → ok / 副作用なし (INSERT 0) 1926ms
+   ✓ /auth/* contract > GET /auth/gate-state > Z-02: gate-state response に memberId が含まれない 1275ms
+   ✓ /auth/* contract > GET /auth/gate-state > malformed email は 400 821ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > T-01: 有効 token + matching email → 200 ok=true / SessionUser 2264ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > AC-5 (T-02): 期限切れ token → 401 reason=expired 2721ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > AC-6 (T-03): 二度目使用は 401 reason=already_used 2006ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > T-04: 存在しない token → 401 reason=not_found 2469ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > T-05: email mismatch → 401 reason=resolve_failed 3201ms
+   ✓ /auth/* contract > POST /auth/magic-link/verify > F-09: 不正な token 形式 (短すぎ) → 400 2122ms
+   ✓ /auth/* contract > POST /auth/resolve-session > RS-01: unregistered → 401 1100ms
+   ✓ /auth/* contract > POST /auth/resolve-session > RS-04: valid → 200 ok=true / SessionUser 987ms
+ ✓ apps/api/src/workflows/notificationDispatchTick.spec.ts (6 tests) 516ms
+ ✓ apps/api/src/routes/admin/members.contract.spec.ts (21 tests) 57694ms
+   ✓ admin members route > authz: 未認証 401 6765ms
+   ✓ admin members route > GET /members: list を返す 2238ms
+   ✓ admin members route > GET /members/:memberId 未存在は 404 1724ms
+   ✓ admin members route > GET /members/:memberId の audit は audit_log 由来で admin_member_notes を混ぜない 3660ms
+   ✓ admin members route > GET /members/:memberId は default limit 50 + attendanceMeta.hasMore を返す（60 件投入） 8642ms
+   ✓ admin members route > GET /members/:memberId/attendance: cursor 経由で次ページを返す 4898ms
+   ✓ admin members route > GET /members/:memberId/attendance: 不正 cursor は 400 1193ms
+   ✓ admin members route > GET /members/:memberId/attendance: 未認証 401 1054ms
+   ✓ admin members route > GET /members?filter=invalid は 400 2235ms
+   ✓ admin members route > GET /members?sort=invalid は 422 2788ms
+   ✓ admin members route > GET /members?density=invalid は 422 1796ms
+   ✓ admin members route > GET /members?zone=invalid は 422 2439ms
+   ✓ admin members route > GET /members?q=<201 chars> は 422 3006ms
+   ✓ admin members route > GET /members?q=Test は fullName で hit 2249ms
+   ✓ admin members route > GET /members?q=NoMatch は 0 件 1455ms
+   ✓ admin members route > GET /members?page=99999 は 200 + 空配列 1053ms
+   ✓ admin members route > GET /members?page=0 は 422 1134ms
+   ✓ admin members route > GET /members?tag が 6 件以上なら 422 2659ms
+   ✓ admin members route > GET /members?tag=code-a&tag=code-b は tag code AND で hit 3665ms
+   ✓ admin members route > GET /members?zone=1_to_10 は ubmZone で絞り込む 1746ms
+   ✓ admin members route > GET /members?sort=name は fullName 昇順で返す 1291ms
+ ✓ apps/api/src/routes/admin/audit.contract.spec.ts (9 tests) 23517ms
+   ✓ admin audit route > authz: 未認証は 401 7443ms
+   ✓ admin audit route > GET /audit: filters, JST range, masked JSON projection, raw JSON 非露出 2156ms
+   ✓ admin audit route > GET /audit: UTC ISO range query を受け付ける 1257ms
+   ✓ admin audit route > GET /audit: broken JSON は parseError true で raw を返さない 1794ms
+   ✓ admin audit route > GET /audit: admin_member_note filter は request audit のみを返し legacy member 行は読める 4805ms
+   ✓ admin audit route > GET /audit: admin_member_note filter 下でも cursor pagination が壊れない 2108ms
+   ✓ admin audit route > GET /audit: limit 1-100 と invalid cursor を 400 にする 1347ms
+   ✓ admin audit route > GET /audit: cursor pagination は filter 状態を維持する 1236ms
+   ✓ admin audit route > GET /audit: syntactically valid but unknown cursor returns empty page 1368ms
+ ✓ apps/api/src/repository/__tests__/notificationOutbox.repository.spec.ts (11 tests) 24960ms
+   ✓ notificationOutbox repository > AC-1: enqueue が pending row を作成し ledger に enqueued を記録 7837ms
+   ✓ notificationOutbox repository > AC-2: 同一 (noteId, outcome) の二度目 enqueue は duplicate を返す 1925ms
+   ✓ notificationOutbox repository > AC-9: reasonSummary は sanitize される (制御文字除去 + 200 char truncate) 1071ms
+   ✓ notificationOutbox repository > AC-4: claimNextBatch は pending → dispatching の CAS で二度目は同 row を返さない 1434ms
+   ✓ notificationOutbox repository > claimNextBatch は next_attempt_at が未来の row を取得しない 3652ms
+   ✓ notificationOutbox repository > stale dispatching row は lease timeout 後に再 claim できる 3201ms
+   ✓ notificationOutbox repository > markSent は status='sent' + provider_message_id を更新 1250ms
+   ✓ notificationOutbox repository > markRetryableFailure は status='pending' に戻し retry_count++ + next_attempt_at を更新 (AC-6) 1489ms
+   ✓ notificationOutbox repository > moveToDlq は status='dlq' に遷移 (AC-7) 1292ms
+   ✓ notificationOutbox repository > findRecipientEmail: 空文字 / 行不在は null を返す 1799ms
+ ✓ apps/api/src/middleware/me-session-resolver.authz.spec.ts (12 tests) 182ms
+ ✓ apps/api/src/routes/admin/attendance.contract.spec.ts (10 tests) 27385ms
+   ✓ admin attendance > authz: 401 7746ms
+   ✓ admin attendance > 正常系 201 + audit 2109ms
+   ✓ admin attendance > 重複は 409 + existing row 1543ms
+   ✓ admin attendance > 削除済みは 422 1680ms
+   ✓ admin attendance > session 未存在は 404 2421ms
+   ✓ admin attendance > unknown member は 404 2068ms
+   ✓ admin attendance > soft-deleted meeting は 404 1473ms
+   ✓ admin attendance > candidates は削除済みと登録済みを除外する 2204ms
+   ✓ admin attendance > candidates は session 未存在なら 404 3063ms
+   ✓ admin attendance > DELETE 200 + audit, missing row 404 3072ms
+ ✓ apps/api/src/repository/__tests__/attendance-analytics.repository.spec.ts (11 tests) 28312ms
+   ✓ attendance analytics aggregates > computeAttendanceOverview > 空テーブル時は 0 を返す 5808ms
+   ✓ attendance analytics aggregates > computeAttendanceOverview > 削除済 session / member を除外する 1676ms
+   ✓ attendance analytics aggregates > listSessionAttendanceStats > 空テーブル時は空配列を返す 1968ms
+   ✓ attendance analytics aggregates > listSessionAttendanceStats > 削除済 session を除外し、held_on DESC で並ぶ 2254ms
+   ✓ attendance analytics aggregates > listSessionAttendanceStats > limit が effective 1934ms
+   ✓ attendance analytics aggregates > listMemberAttendanceRanking > 空テーブル時は空配列を返す 1505ms
+   ✓ attendance analytics aggregates > listMemberAttendanceRanking > 削除済 member を除外し attendedCount DESC 2041ms
+   ✓ attendance analytics aggregates > listMemberAttendanceRanking > limit が effective 3270ms
+   ✓ attendance analytics aggregates > AC-1: chunk pattern 非流用 > attendance.ts は ATTENDANCE_BIND_CHUNK_SIZE を analytics 関数内で使用しない 2232ms
+   ✓ attendance analytics aggregates > AC-3: EXPLAIN QUERY PLAN > by-session SQL は meeting_sessions / member_attendance の full scan を含まない 2953ms
+   ✓ attendance analytics aggregates > AC-3: EXPLAIN QUERY PLAN > ranking SQL は member_attendance の full scan を含まない 2453ms
+ ✓ apps/api/src/routes/admin/tags-queue.contract.spec.ts (14 tests) 36349ms
+   ✓ admin tags queue > authz: session なしは 401 7482ms
+   ✓ admin tags queue > GET /tags/queue: 200 + items 1842ms
+   ✓ admin tags queue > GET /tags/queue?status=dlq: DLQ 行を返す 1440ms
+   ✓ admin tags queue > AC-1: confirmed → member_tags 反映 + queue.status='resolved' 1718ms
+   ✓ admin tags queue > AC-2: rejected → reason 記録 1996ms
+   ✓ admin tags queue > AC-2: 空 reason は zod で 400 2050ms
+   ✓ admin tags queue > AC-2: confirmed/rejected mixed body は zod で 400 1949ms
+   ✓ admin tags queue > AC-3: 同じ confirmed action は idempotent (200, audit 件数不変) 1687ms
+   ✓ admin tags queue > AC-3: 同じ rejected action は idempotent (200, audit 件数不変) 2493ms
+   ✓ admin tags queue > AC-4: confirmed 後の rejected は 409 2848ms
+   ✓ admin tags queue > AC-5: resolve 成功で audit_log に 1 件追加 2922ms
+   ✓ admin tags queue > AC-6: 未知 tagCode は 422 2777ms
+   ✓ admin tags queue > AC-7: 削除済み member は 422 2481ms
+   ✓ admin tags queue > 未存在 queueId は 404 2660ms
+ ✓ apps/api/src/workflows/tagQueueRetryTick.contract.spec.ts (7 tests) 24824ms
+   ✓ runTagQueueRetryTick > retryable error increments attempt_count and next_visible_at 5947ms
+   ✓ runTagQueueRetryTick > default scheduled processor advances retry-eligible rows 1779ms
+   ✓ runTagQueueRetryTick > max retry overflow moves to DLQ and writes one audit row atomically 2360ms
+   ✓ runTagQueueRetryTick > batchSize limits scanned rows 6713ms
+   ✓ runTagQueueRetryTick > maxRuntimeMs aborts and leaves remaining rows for the next tick 2680ms
+   ✓ runTagQueueRetryTick > NonRetryableTagQueueError moves directly to DLQ and writes audit 3105ms
+   ✓ runTagQueueRetryTick > plain human-review queued rows are skipped by default 2238ms
+ ✓ apps/api/src/repository/publicMembers.repository.spec.ts (4 tests) 18617ms
+   ✓ publicMembers canonical alias exclusion > excludes archived alias source from public list and counts 9183ms
+   ✓ publicMembers canonical alias exclusion > sorts by fullName for public sort=name 3776ms
+   ✓ publicMembers canonical alias exclusion > keeps q, zone, status, and tag binds aligned for compound filters 3713ms
+   ✓ publicMembers canonical alias exclusion > uses fullName as the tie-breaker for public sort=recent 1944ms
+ ✓ apps/api/src/workflows/tagQueueResolve.contract.spec.ts (13 tests) 32290ms
+   ✓ tagQueueResolve > T1 confirmed: member_tags +N + queue.status='resolved' + audit 4336ms
+   ✓ tagQueueResolve > T2 rejected: queue.reason 記録 + audit (queue_rejected) 2289ms
+   ✓ tagQueueResolve > reviewing から confirmed へ resolve できる（02b 互換） 2318ms
+   ✓ tagQueueResolve > T4 idempotent confirmed: 同一 tagCodes 再呼び出しで audit 件数不変 2273ms
+   ✓ tagQueueResolve > T5 idempotent rejected: 同一 reason で audit 不変 1583ms
+   ✓ tagQueueResolve > T4-2 idempotent payload mismatch: 別 tagCodes で再呼び出しは 409 (state_conflict) 2629ms
+   ✓ tagQueueResolve > T6 unidirectional: confirmed → rejected は state_conflict 3149ms
+   ✓ tagQueueResolve > T7 unidirectional: rejected → confirmed は state_conflict 3252ms
+   ✓ tagQueueResolve > T9 unknown tag code: unknown_tag_code (422) 2477ms
+   ✓ tagQueueResolve > T10 deleted member: member_deleted (422) 2934ms
+   ✓ tagQueueResolve > race_lost: guarded update changed=false の場合は member_tags/audit 副作用を書かない 2609ms
+   ✓ tagQueueResolve > queue 不在: queue_not_found 1176ms
+   ✓ tagQueueResolve > TagQueueResolveError は code を持つ 1263ms
+ ✓ apps/api/src/routes/auth/session-resolve.contract.spec.ts (9 tests) 24879ms
+   ✓ GET /auth/session-resolve > AC: INTERNAL_AUTH_SECRET 不一致 → 401 7339ms
+   ✓ GET /auth/session-resolve > AC: INTERNAL_AUTH_SECRET 未設定 → 500 3381ms
+   ✓ GET /auth/session-resolve > R-06: email クエリ無し → 400 2875ms
+   ✓ GET /auth/session-resolve > R-01: identity 無し → unregistered 3017ms
+   ✓ GET /auth/session-resolve > R-02: is_deleted=1 → deleted 1238ms
+   ✓ GET /auth/session-resolve > R-03: rules_consent != consented → rules_declined 1407ms
+   ✓ GET /auth/session-resolve > R-04: 一般 member（admin_users 無し） → memberId 返却 / isAdmin=false 1342ms
+   ✓ GET /auth/session-resolve > R-05: admin_users 登録あり → isAdmin=true 1541ms
+   ✓ GET /auth/session-resolve > email 大文字混在は normalize されて lookup される 2731ms
+ ✓ apps/api/src/sync/audit.contract.spec.ts (7 tests) 24181ms
+   ✓ u-04 audit > U-A-01: startRun が running 行を 1 件 insert する 7989ms
+   ✓ u-04 audit > U-A-02: 二重 startRun は 2 件目を skipped で記録する 4198ms
+   ✓ u-04 audit > U-A-03: finishRun が running を success に上書きする 2301ms
+   ✓ u-04 audit > U-X-01: withSyncMutex が success 経路で finalize する 1801ms
+   ✓ u-04 audit > U-X-02: 内部 throw でも finishRun が failed で確定し lock も解放される 1600ms
+   ✓ u-04 audit > U-X-03: 二重実行時に 2 本目は skipped を返す 2067ms
+   ✓ u-04 audit > U-A-08: listRecent は started_at desc + limit を respect する 4222ms
+ ✓ apps/api/src/routes/me/index.contract.spec.ts (28 tests) 99246ms
+   ✓ /me/* — member self-service API > GET /me > AC-1: 未ログインは 401 で memberId を含まない 7237ms
+   ✓ /me/* — member self-service API > GET /me > AC-7: SessionUser と authGateState=active を返す 2282ms
+   ✓ /me/* — member self-service API > GET /me > AC-7: rules_consent != consented なら authGateState=rules_declined 2946ms
+   ✓ /me/* — member self-service API > GET /me > F-3: is_deleted=1 は 410 + DELETED 2976ms
+   ✓ /me/* — member self-service API > GET /me/profile > AC-3 / AC-8: MemberProfile + editResponseUrl を返し、notes を含まない 2180ms
+   ✓ /me/* — member self-service API > GET /me/profile > F-5: editResponseUrl が null の場合は null を返し fallbackResponderUrl が常に存在 3070ms
+   ✓ /me/* — member self-service API > GET /me/profile > AC-1: 未ログインは 401 2967ms
+   ✓ /me/* — member self-service API > GET /me/profile > 06b-fu-001: pending が無い場合は pendingRequests={} 4117ms
+   ✓ /me/* — member self-service API > GET /me/profile > 06b-fu-001: visibility_request POST 後の reload で pendingRequests.visibility が返る 1996ms
+   ✓ /me/* — member self-service API > GET /me/profile > 06b-fu-001: delete_request POST 後の reload で pendingRequests.delete が返る 3532ms
+   ✓ /me/* — member self-service API > GET /me/profile > 06b-fu-001: resolved 行は pending として返さない 3321ms
+   ✓ /me/* — member self-service API > GET /me/profile > 06b-fu-001: 最新が resolved でも古い pending があれば banner 用 pendingRequests.visibility を返す 3302ms
+   ✓ /me/* — member self-service API > GET /me/attendance — pagination > default limit 50 件 + hasMore=true / nextCursor 返却（60 件投入） 7970ms
+   ✓ /me/* — member self-service API > GET /me/attendance — pagination > 件数 ≤ default なら hasMore=false / nextCursor=null 5494ms
+   ✓ /me/* — member self-service API > GET /me/attendance — pagination > /me/attendance: cursor で次ページが取れる 6956ms
+   ✓ /me/* — member self-service API > GET /me/attendance — pagination > /me/attendance: limit=10 で 10 件 + hasMore=true 4006ms
+   ✓ /me/* — member self-service API > GET /me/attendance — pagination > /me/attendance: 不正 cursor は 400 1625ms
+   ✓ /me/* — member self-service API > GET /me/attendance — pagination > /me/attendance: limit=0 は 400 1805ms
+   ✓ /me/* — member self-service API > GET /me/attendance — pagination > /me/attendance: 未ログインは 401 2168ms
+   ✓ /me/* — member self-service API > GET /me/attendance — pagination > /me/attendance: cursor 経由で nextCursor をデコードすると最終 record の (heldOn,sessionId) 10925ms
+   ✓ /me/* — member self-service API > POST /me/visibility-request > AC-4: 202 + queueId を返し、admin_member_notes に visibility_request 行が入る 3676ms
+   ✓ /me/* — member self-service API > POST /me/visibility-request > AC-7: resolved 行のみ存在する member は再申請が 202 で成功する 1555ms
+   ✓ /me/* — member self-service API > POST /me/visibility-request > F-7: 二重申請は 409 DUPLICATE_PENDING_REQUEST 1621ms
+   ✓ /me/* — member self-service API > POST /me/visibility-request > F-8: 不正 body は 422 1769ms
+   ✓ /me/* — member self-service API > POST /me/visibility-request > F-4: rules_consent != consented は 403 RULES_NOT_ACCEPTED 2159ms
+   ✓ /me/* — member self-service API > POST /me/delete-request > AC-4: 202 + delete_request 行を投入する 3516ms
+   ✓ /me/* — member self-service API > POST /me/delete-request > 空 body も許容 1764ms
+   ✓ /me/* — member self-service API > F-6: rate limit 5 req/min > 6 回目で 429 Retry-After 2301ms
+ ✓ apps/api/src/repository/__tests__/identity-conflict.repository.spec.ts (6 tests) 14390ms
+   ✓ listIdentityConflicts > name+affiliation 完全一致の候補を 1 件返す（source は新しい側） 7116ms
+   ✓ listIdentityConflicts > dismiss 後は候補から除外される 2260ms
+   ✓ listIdentityConflicts > dismiss reason 内のメール / 電話を [redacted] に置換する 1797ms
+   ✓ listIdentityConflicts > identity_aliases に登録済の source は候補から除外される 3213ms
+ ✓ apps/api/src/repository/__tests__/identity-merge.repository.spec.ts (6 tests) 18093ms
+   ✓ mergeIdentities > identity_aliases / identity_merge_audit / audit_log を atomic に書き込む 5042ms
+   ✓ mergeIdentities > 二重 merge は MergeConflictAlreadyApplied 3779ms
+   ✓ mergeIdentities > source 不在は MergeIdentityNotFound 1598ms
+   ✓ mergeIdentities > source == target は MergeSelfReference 1983ms
+   ✓ mergeIdentities > PII redaction: reason 内のメール / 電話を [redacted] に置換する 2430ms
+   ✓ mergeIdentities > resolveCanonicalMemberId で merge 後 target が引ける 3259ms
+ ✓ apps/api/migrations/seed/__tests__/issue-399-seed-syntax.test.ts (5 tests) 8006ms
+   ✓ issue-399 staging seed/cleanup SQL > seed inserts 5 ISSUE399- members and 5 ISSUE399- notes 412ms
+   ✓ issue-399 staging seed/cleanup SQL > 3 visibility_request + 2 delete_request rows are pending 305ms
+   ✓ issue-399 staging seed/cleanup SQL > cleanup removes runtime byproducts for ISSUE399 members 407ms
+   ✓ issue-399 staging seed/cleanup SQL > cleanup is idempotent — first run zeroes out, second run remains 0 556ms
+ ✓ apps/api/src/services/notification/__tests__/dispatcher.spec.ts (5 tests) 179ms
+ ✓ apps/api/src/routes/admin/member-notes.contract.spec.ts (5 tests) 17963ms
+   ✓ admin member notes > authz: 401 5233ms
+   ✓ admin member notes > POST: 201 + 作成された note を返す 2753ms
+   ✓ admin member notes > body 空は 400 2811ms
+   ✓ admin member notes > PATCH: 別 member の note は 404 3500ms
+   ✓ admin member notes > PATCH: 200 + note 更新 + audit 追加 3664ms
+ ✓ apps/api/src/workflows/tagCandidateEnqueue.contract.spec.ts (13 tests) 25846ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > AC-8: member_tags 空 + 未解決 queue 無し → enqueued=true 6773ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > member_tags が既にある場合は skip (has_tags) 2165ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > 未解決 queue (queued) がある場合は skip (has_pending_candidate) 1489ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > 既存 queue が resolved/rejected のみなら新規 enqueue 可 2756ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > 同じ memberId/responseId は idempotency key で既存 queueId を返す 2946ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > TAG_QUEUE_PAUSED 未設定で enqueue される 2908ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > TAG_QUEUE_PAUSED="false" で enqueue される 3540ms
+   ✓ enqueueTagCandidate (07a candidate auto-enqueue hook) > TAG_QUEUE_PAUSED="true" で D1 に触らず paused reason と structured log を返す 3243ms
+ ✓ apps/api/src/services/notification/__tests__/templates.spec.ts (8 tests) 210ms
+ ✓ apps/api/src/repository/__tests__/auditLog.repository.spec.ts (7 tests) 24987ms
+   ✓ auditLog (append-only) > append で 1 件追加できる 5619ms
+   ✓ auditLog (append-only) > listRecent で created_at 降順 2643ms
+   ✓ auditLog (append-only) > listByActor / listByTarget 3115ms
+   ✓ auditLog (append-only) > admin_member_note target type を append / filter / target lookup で round-trip できる 3753ms
+   ✓ auditLog (append-only) > listFiltered: action / actorEmail / targetType / targetId の複合 filter 3286ms
+   ✓ auditLog (append-only) > listFiltered: JST 由来 UTC range と cursor で created_at/audit_id 降順 pagination 3822ms
+   ✓ auditLog (append-only) > AC-6: UPDATE / DELETE API は型上不在 2743ms
+ ✓ apps/api/src/middleware/require-admin.authz.spec.ts (8 tests) 232ms
+ ✓ apps/api/src/routes/admin/identity-conflicts.contract.spec.ts (4 tests) 14817ms
+   ✓ admin identity-conflicts route > requires admin authorization 9191ms
+   ✓ admin identity-conflicts route > lists conflict candidates with masked email 1669ms
+   ✓ admin identity-conflicts route > rejects merge target mismatch 2391ms
+   ✓ admin identity-conflicts route > translates duplicate merge to 409 1565ms
+ ✓ apps/api/src/routes/admin/dashboard.contract.spec.ts (10 tests) 25084ms
+   ✓ GET /admin/dashboard > Authorization 未指定は 401 9064ms
+   ✓ GET /admin/dashboard > 正常系: KPI 4 = 0、recentActions は配列 4200ms
+   ✓ GET /admin/dashboard/attendance/* (ut-02a-followup-002) > overview: 認証なしは 401 2533ms
+   ✓ GET /admin/dashboard/attendance/* (ut-02a-followup-002) > by-session: 認証なしは 401 1983ms
+   ✓ GET /admin/dashboard/attendance/* (ut-02a-followup-002) > ranking: 認証なしは 401 1328ms
+   ✓ GET /admin/dashboard/attendance/* (ut-02a-followup-002) > overview: 非 admin は 403 1735ms
+   ✓ GET /admin/dashboard/attendance/* (ut-02a-followup-002) > overview: admin 通過時 200 + AC-5 shape 1004ms
+   ✓ GET /admin/dashboard/attendance/* (ut-02a-followup-002) > by-session: admin 通過時 200 + 配列 1142ms
+   ✓ GET /admin/dashboard/attendance/* (ut-02a-followup-002) > ranking: admin 通過時 200 + 配列 1033ms
+   ✓ GET /admin/dashboard/attendance/* (ut-02a-followup-002) > limit が不正なら 400 1056ms
+ ✓ apps/api/src/sync/schema/forms-schema-sync.spec.ts (7 tests) 42953ms
+   ✓ runSchemaSync > AC-1 / AC-5 / AC-8: 31 項目を upsert し sync_jobs が succeeded で記録される 11479ms
+   ✓ runSchemaSync > AC-2: 未知 question は schema_diff_queue に 1 件 = 1 row で積まれる 9655ms
+   ✓ runSchemaSync > AC-4: 同一 revisionId の再実行で schema_versions は重複 row を作らない 17246ms
+   ✓ runSchemaSync > AC-6: 同種 schema_sync が running なら ConflictError 1222ms
+   ✓ runSchemaSync > forms.get 失敗時に sync_jobs.status='failed' へ遷移する 1050ms
+   ✓ runSchemaSync > 31 項目から逸脱した fixture は SyncIntegrityError で failed 1051ms
+   ✓ runSchemaSync > GOOGLE_FORM_ID 未設定なら failed 遷移して SyncIntegrityError 1248ms
+ ✓ apps/api/src/routes/admin/member-delete.contract.spec.ts (6 tests) 11661ms
+   ✓ admin member delete/restore > authz: 401 4697ms
+   ✓ admin member delete/restore > delete -> restore 200/200 with contract response shape 1783ms
+   ✓ admin member delete/restore > reason 欠落は 422 1258ms
+   ✓ admin member delete/restore > reason 501 文字超は 422 1199ms
+   ✓ admin member delete/restore > 二重 delete は 409 1474ms
+   ✓ admin member delete/restore > 未削除 restore は 409 1191ms
+ ✓ apps/api/src/sync/schema/resolve-stable-key.spec.ts (5 tests) 9063ms
+   ✓ resolveStableKey > known: labelToKnownStableKey が返した値を採用する 3022ms
+   ✓ resolveStableKey > alias: D1 既存 stable_key が known より優先される 1362ms
+   ✓ resolveStableKey > fallback: schema_aliases miss の場合だけ schema_questions stable_key を読む 1313ms
+   ✓ resolveStableKey > unknown: alias も known も無ければ stableKey=null / source='unknown' 1422ms
+   ✓ resolveStableKey > unknown: D1 に stable_key='unknown' があっても alias 採用しない 1943ms
+ ✓ apps/api/src/use-cases/auth/__tests__/issue-magic-link.spec.ts (5 tests) 9338ms
+   ✓ issueMagicLink > AC-1: unregistered は token 発行 0 件 / mail 0 通 3157ms
+   ✓ issueMagicLink > AC-2: rules_declined は token 発行 0 件 / mail 0 通 1406ms
+   ✓ issueMagicLink > AC-3: deleted は token 発行 0 件 / mail 0 通 1316ms
+   ✓ issueMagicLink > AC-4: 有効 user は token 発行 1 件 + mail 1 通 + state=sent 1364ms
+   ✓ issueMagicLink > F-11: mail 送信失敗時は token を rollback (DELETE) する 2091ms
+ ✓ apps/api/src/middleware/__tests__/rate-limit-magic-link.authz.spec.ts (3 tests) 10029ms
+   ✓ rate-limit-magic-link > R-01: 同 email 6 回目以降は 429 RATE_LIMITED 3663ms
+   ✓ rate-limit-magic-link > R-02: 異 email は各 1 回目なら全て通る 1582ms
+   ✓ rate-limit-magic-link > R-03: 同 IP の gate-state は 61 回目で 429 4782ms
+ ✓ apps/api/src/use-cases/auth/__tests__/verify-magic-link.spec.ts (5 tests) 10014ms
+   ✓ verifyMagicLink > T-01: 有効 token + matching email → ok=true / SessionUser を返す 3236ms
+   ✓ verifyMagicLink > AC-5 (T-02): expired token → reason=expired 1443ms
+   ✓ verifyMagicLink > AC-6 (T-03): 二度目使用は already_used 1639ms
+   ✓ verifyMagicLink > T-04: 存在しない token → not_found 2489ms
+   ✓ verifyMagicLink > T-05: token は valid だが email mismatch → resolve_failed 1204ms
+ ✓ apps/api/src/repository/__tests__/syncJobs.repository.spec.ts (9 tests) 15373ms
+   ✓ syncJobs (lifecycle 一方向) > ALLOWED_TRANSITIONS は running -> succeeded/failed のみ 3811ms
+   ✓ syncJobs (lifecycle 一方向) > start -> succeed が成功する 1639ms
+   ✓ syncJobs (lifecycle 一方向) > metrics_json に PII-like key を書き込まない 1124ms
+   ✓ syncJobs (lifecycle 一方向) > start -> fail が成功する 1412ms
+   ✓ syncJobs (lifecycle 一方向) > AC-8: succeeded -> failed の逆遷移は IllegalStateTransition 1286ms
+   ✓ syncJobs (lifecycle 一方向) > AC-8: terminal update は running 条件付きで上書きを防ぐ 1762ms
+   ✓ syncJobs (lifecycle 一方向) > AC-8: failed -> succeeded の逆遷移は IllegalStateTransition 2152ms
+   ✓ syncJobs (lifecycle 一方向) > 存在しない job_id は SyncJobNotFound 1226ms
+   ✓ syncJobs (lifecycle 一方向) > findLatest / listRecent 958ms
+ ✓ apps/api/src/workflows/schemaAliasEnqueue.contract.spec.ts (4 tests) 8528ms
+   ✓ enqueueBackfill > 初回 enqueue は dedupe_key 予約 + producer.send 呼出 4758ms
+   ✓ enqueueBackfill > 同一 (diffId, questionId, newStableKey) の重複 enqueue は alreadyEnqueued=true でスキップ 1423ms
+   ✓ enqueueBackfill > producer なし（local dev / Free plan）は dedupe_key を予約せず sent=false 1044ms
+   ✓ enqueueBackfill > producer.send 失敗時は dedupe_key を解放して throw 1301ms
+ ✓ apps/api/src/sync/sheets-client.contract.spec.ts (5 tests) 21ms
+ ✓ apps/api/src/sync/backfill.contract.spec.ts (2 tests) 4897ms
+   ✓ u-04 backfill > I-07: backfill 経路が動作し member_status admin 列を変更しない 3191ms
+   ✓ u-04 backfill > I-10: backfill は valid row 0 件なら destructive delete しない 1704ms
+ ✓ apps/api/src/sync/schema/flatten.spec.ts (5 tests) 21ms
+ ✓ apps/api/src/sync/manual.contract.spec.ts (3 tests) 4563ms
+   ✓ u-04 manual sync > I-01: 成功時は success + auditId を返し sync_job_logs を 1 件残す 4546ms
+ ✓ apps/api/src/sync/scheduled.contract.spec.ts (3 tests) 7619ms
+   ✓ u-04 scheduled sync > I-04: cursor 未設定 (logs 空) では null を返す 3307ms
+   ✓ u-04 scheduled sync > I-05: success 行があれば最大 finished_at を返す 1874ms
+   ✓ u-04 scheduled sync > I-06: runScheduledSync は cursor を読みつつ全件 upsert として trigger=scheduled で audit する 2437ms
+ ✓ apps/api/src/repository/__tests__/magicTokens.repository.spec.ts (7 tests) 11699ms
+   ✓ magicTokens (single-use) > issue で token を発行できる 3259ms
+   ✓ magicTokens (single-use) > verify は valid token を返す、used / expired は null 1232ms
+   ✓ magicTokens (single-use) > AC-7: consume を 2 回呼ぶと 2 回目は already_used 1370ms
+   ✓ magicTokens (single-use) > expired token の consume は expired 1383ms
+   ✓ magicTokens (single-use) > AC-7: consume の UPDATE は expires_at 条件付きで期限切れを使用済みにしない 1054ms
+   ✓ magicTokens (single-use) > expired token の verify は null 1900ms
+   ✓ magicTokens (single-use) > not_found token の consume は not_found 1498ms
+ ✓ apps/api/src/routes/admin/member-status.contract.spec.ts (4 tests) 8122ms
+   ✓ PATCH /admin/members/:memberId/status > authz: 未認証 401 3009ms
+   ✓ PATCH /admin/members/:memberId/status > 正常系: publishState 更新 200 1832ms
+   ✓ PATCH /admin/members/:memberId/status > body 空は 400 1847ms
+   ✓ PATCH /admin/members/:memberId/status > 未存在 member は 404 1432ms
+ ✓ apps/api/src/sync/schema/schema-hash.spec.ts (3 tests) 216ms
+ ✓ apps/api/src/use-cases/auth/__tests__/resolve-session.spec.ts (5 tests) 10733ms
+   ✓ resolveSession > RS-01: unregistered → ok=false / reason=unregistered 3188ms
+   ✓ resolveSession > RS-02: rules_declined → ok=false / reason=rules_declined 2601ms
+   ✓ resolveSession > RS-03: deleted → ok=false / reason=deleted 1108ms
+   ✓ resolveSession > RS-04: valid → ok=true / SessionUser に memberId と responseId 1507ms
+   ✓ resolveSession > RS-05: admin_users に登録済み email は isAdmin=true 2327ms
+ ✓ apps/api/src/routes/admin/sync-schema.contract.spec.ts (5 tests) 14420ms
+   ✓ POST /admin/sync/schema (contract) > authz: Authorization 未指定は 401 2668ms
+   ✓ POST /admin/sync/schema (contract) > authz: 一般会員（不一致トークン）は 403 1343ms
+   ✓ POST /admin/sync/schema (contract) > authz: SYNC_ADMIN_TOKEN 未設定は 500 1167ms
+   ✓ POST /admin/sync/schema (contract) > AC-5: admin Bearer 一致で 200 / response が { ok, jobId, status, ... } 7599ms
+   ✓ POST /admin/sync/schema (contract) > AC-6: 同種 running があれば 409 1641ms
+ ✓ apps/api/src/use-cases/auth/__tests__/resolve-gate-state.spec.ts (5 tests) 12244ms
+   ✓ resolveGateState > AC-1 (R1): identity 不在は unregistered、memberId は返さない 3726ms
+   ✓ resolveGateState > AC-2 (R2): rules_consent != consented は rules_declined 2499ms
+   ✓ resolveGateState > AC-3 (R3): is_deleted=1 は deleted 1913ms
+   ✓ resolveGateState > AC-4: 全条件 OK は ok + memberId / responseId 解決 1997ms
+   ✓ resolveGateState > normalize: 大文字 / 前後空白を吸収する 2107ms
+ ✓ apps/api/src/sync/audit-route.contract.spec.ts (3 tests) 9300ms
+   ✓ u-04 audit-route > I-08: limit 既定で 200 + items 配列を返す 5313ms
+   ✓ u-04 audit-route > I-09: limit=0 や limit=200 のような不正値は 400 1875ms
+   ✓ u-04 audit-route > 無認証は 401 を返す 2111ms
+ ✓ apps/api/src/repository/schemaAliases.repository.spec.ts (2 tests) 6933ms
+   ✓ schemaAliases repository > insert + lookup: questionId から stableKey alias を取得できる 4745ms
+   ✓ schemaAliases repository > update: patch した列だけを更新する 2187ms
+ ✓ apps/api/src/repository/__tests__/_setup.repository.spec.ts (1 test) 5078ms
+   ✓ _setup (in-memory D1 loader) > setupD1 でテーブル作成 + reset + fixture load が共通利用できる 5076ms
+ ✓ apps/api/src/notification-mail-config.spec.ts (2 tests) 9ms
+ ✓ apps/api/src/sync/schema/diff-queue-writer.spec.ts (2 tests) 6421ms
+   ✓ diffQueueWriter > AC-2: 新規 question を 1 件 = 1 row で投入する 5028ms
+   ✓ diffQueueWriter > AC-2 / AC-3: 同 questionId で queued が既にあれば INSERT をスキップする 1391ms
+stderr | apps/api/src/repository/__tests__/builder.repository.spec.ts > builder > buildAdminMemberDetailView > 管理者用詳細ビューを構築できる
+{"level":"warn","code":"UBM-MANIFEST-UNKNOWN-KEY","count":1,"stableKeys":["admin_note_field"],"note":"static-manifest does not include these stable keys; alias queue adapter required"}
+
+stderr | apps/api/src/repository/__tests__/builder.repository.spec.ts > builder > buildAdminMemberDetailView > 全 visibility のフィールドを含む（admin フィールドも含む）
+{"level":"warn","code":"UBM-MANIFEST-UNKNOWN-KEY","count":1,"stableKeys":["admin_note_field"],"note":"static-manifest does not include these stable keys; alias queue adapter required"}
+
+stderr | apps/api/src/repository/__tests__/builder.repository.spec.ts > builder > buildAdminMemberDetailView > adminNotes が audit フィールドに反映される
+{"level":"warn","code":"UBM-MANIFEST-UNKNOWN-KEY","count":1,"stableKeys":["admin_note_field"],"note":"static-manifest does not include these stable keys; alias queue adapter required"}
+
+stderr | apps/api/src/repository/__tests__/builder.repository.spec.ts > builder > buildAdminMemberDetailView > attendanceProvider 注入時は admin profile.attendance に実データが注入される
+{"level":"warn","code":"UBM-MANIFEST-UNKNOWN-KEY","count":1,"stableKeys":["admin_note_field"],"note":"static-manifest does not include these stable keys; alias queue adapter required"}
+
+ ✓ apps/api/src/repository/__tests__/builder.repository.spec.ts (30 tests) 68ms
+stderr | apps/api/src/jobs/sync-forms-responses.contract.spec.ts > runResponseSync > Issue #378: TAG_QUEUE_PAUSED="true" は Forms sync からの candidate enqueue だけを停止する
+{"level":"warn","timestamp":"2026-05-09T02:17:01.286Z","code":"UBM-TAGQ-PAUSED","message":"tag assignment queue candidate enqueue skipped","context":{"memberId":"85f2fc68-d2b2-46ec-9ac0-e39f5ae15192","responseId":"r-1","reason":"paused"}}
+
+ ✓ apps/api/src/jobs/sync-forms-responses.contract.spec.ts (16 tests) 613ms
+ ✓ apps/api/src/repository/__tests__/adminUsers.repository.spec.ts (4 tests) 9703ms
+   ✓ adminUsers > findByEmail で存在する admin を返す 4602ms
+   ✓ adminUsers > findByEmail で存在しない email は null（throw しない） 1138ms
+   ✓ adminUsers > listAll で全 admin を返す 1992ms
+   ✓ adminUsers > isActiveAdmin が active=1 の admin で true 1969ms
+ ✓ apps/api/src/jobs/retention-purge.contract.spec.ts (11 tests) 155ms
+ ✓ apps/api/src/repository/tagQueueIdempotencyRetry.repository.spec.ts (13 tests) 63ms
+ ✓ apps/api/src/repository/__tests__/attendance-provider.repository.spec.ts (11 tests) 126ms
+ ✓ apps/api/src/routes/admin/smoke-observability.contract.spec.ts (12 tests) 595ms
+stdout | apps/api/src/routes/admin/smoke-sheets.contract.spec.ts > createSmokeSheetsRoute > 正常系: 200, cacheHit=true (token fetch 1 回), spreadsheetId が redact される
+{"event":"smoke_sheets_ok","env":"development","spreadsheetIdRedacted":"1ABC***WXYZ","rangeRequested":"Sheet1!A1:B2","firstLatencyMs":100,"secondLatencyMs":5,"tokenFetchesDuringSmoke":1,"cacheHit":true}
+
+stderr | apps/api/src/routes/admin/smoke-sheets.contract.spec.ts > createSmokeSheetsRoute > 401 エラー: errorCode='AUTH_INVALID'
+{"event":"smoke_sheets_error","env":"development","spreadsheetIdRedacted":"1ABC***WXYZ","rangeRequested":"Sheet1!A1:B2","errorCode":"AUTH_INVALID"}
+
+stderr | apps/api/src/routes/admin/smoke-sheets.contract.spec.ts > createSmokeSheetsRoute > 403 エラー: errorCode='PERMISSION_DENIED'
+{"event":"smoke_sheets_error","env":"development","spreadsheetIdRedacted":"1ABC***WXYZ","rangeRequested":"Sheet1!A1:B2","errorCode":"PERMISSION_DENIED"}
+
+stderr | apps/api/src/routes/admin/smoke-sheets.contract.spec.ts > createSmokeSheetsRoute > 429 エラー: errorCode='RATE_LIMITED'
+{"event":"smoke_sheets_error","env":"development","spreadsheetIdRedacted":"1ABC***WXYZ","rangeRequested":"Sheet1!A1:B2","errorCode":"RATE_LIMITED"}
+
+ ✓ apps/api/src/routes/admin/smoke-sheets.contract.spec.ts (10 tests) 458ms
+ ✓ apps/api/src/jobs/cap-alert.contract.spec.ts (12 tests) 153ms
+ ✓ apps/api/src/repository/__tests__/attendance-pagination.repository.spec.ts (11 tests) 83ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-form-preview.spec.ts (9 tests) 214ms
+ ✓ apps/api/src/jobs/sync-sheets-to-d1.contract.spec.ts (7 tests) 76ms
+ ✓ apps/api/src/audit-correlation/__tests__/rotation.spec.ts (9 tests) 156ms
+ ✓ apps/api/src/__tests__/invariants.spec.ts (5 tests) 95ms
+ ✓ apps/api/src/repository/attendance.repository.spec.ts (11 tests) 103ms
+ ✓ apps/api/src/middleware/repository-providers.spec.ts (4 tests) 132ms
+stderr | apps/api/src/health-db.contract.spec.ts > GET /health/db (UT-06-FU-H) > T4: D1 prepare が throw した場合 503 + Retry-After:30 + 失敗 schema を返す
+[/health/db] SELECT 1 failed { error: 'Error' }
+
+stderr | apps/api/src/health-db.contract.spec.ts > GET /health/db (UT-06-FU-H) > T4: D1 first が throw した場合も 503 + Retry-After:30 を返す
+[/health/db] SELECT 1 failed { error: 'Error' }
+
+stderr | apps/api/src/health-db.contract.spec.ts > GET /health/db (UT-06-FU-H) > T4: SELECT 1 が null を返した場合 503 を返す
+[/health/db] SELECT 1 failed { error: 'Error' }
+
+stderr | apps/api/src/health-db.contract.spec.ts > GET /health/db (UT-06-FU-H) > DB binding 欠落時は 503 + Retry-After:30 + 失敗 schema を返す
+[/health/db] SELECT 1 failed { error: 'TypeError' }
+
+ ✓ apps/api/src/health-db.contract.spec.ts (10 tests) 116ms
+stderr | apps/api/src/routes/public/index.contract.spec.ts > createPublicRouter > GET /members/:memberId は不適格なら 404 (UBM-1404)
+{"level":"error","timestamp":"2026-05-09T02:17:11.412Z","code":"UBM-1404","status":404,"message":"対象のリソースが見つかりません。","traceId":"urn:uuid:f7613afa-6559-4b2e-b0f5-3f414ce5d6ca","instance":"urn:uuid:f7613afa-6559-4b2e-b0f5-3f414ce5d6ca","requestId":"c8341426-3fe2-4ce6-bed5-e0e7ad6df01d","method":"GET","path":"/public/members/m-missing","log":{}}
+
+stderr | apps/api/src/routes/public/index.contract.spec.ts > createPublicRouter > GET /form-preview は schema_versions 欠落時に UBM-5500 (HTTP 503) を返す
+{"level":"warn","timestamp":"2026-05-09T02:17:11.425Z","code":"UBM-5500","message":"schema_versions row missing — returning 503","context":{"where":"getFormPreviewUseCase","formId":"form-test","usedFallback":false}}
+{"level":"error","timestamp":"2026-05-09T02:17:11.428Z","code":"UBM-5500","status":503,"message":"公開可能な schema_versions が未投入です。schema sync 完了後に再実行してください。","traceId":"urn:uuid:16749cb3-eec2-4e9c-9454-15912f9e2b56","instance":"urn:uuid:16749cb3-eec2-4e9c-9454-15912f9e2b56","requestId":"0b7caf40-fbc4-4d27-9732-fcbcdb1173e3","method":"GET","path":"/public/form-preview","log":{}}
+
+ ✓ apps/api/src/routes/public/index.contract.spec.ts (8 tests) 163ms
+stderr | apps/api/src/repository/_shared/builder.repository.spec.ts > buildSections (resolver wiring) > isolates unknown stable_keys into __unknown__ section (AC-6)
+{"level":"warn","code":"UBM-MANIFEST-UNKNOWN-KEY","count":1,"stableKeys":["q_section1_company_name"],"note":"static-manifest does not include these stable keys; alias queue adapter required"}
+
+ ✓ apps/api/src/repository/_shared/builder.repository.spec.ts (6 tests) 14ms
+ ✓ apps/api/src/repository/_shared/metadata.repository.spec.ts (11 tests) 60ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-public-member-profile.spec.ts (6 tests) 41ms
+ ✓ apps/api/src/audit-correlation/__tests__/redact.spec.ts (15 tests) 77ms
+ ✓ apps/api/src/audit-correlation/__tests__/run-correlation.spec.ts (5 tests) 86ms
+ ✓ apps/api/src/audit-correlation/__tests__/correlate.spec.ts (7 tests) 50ms
+ ✓ apps/api/src/repository/_shared/__tests__/static-manifest.verify.repository.spec.ts (7 tests) 1549ms
+   ✓ regenerateStaticManifest (DT-05〜DT-07) > DT-05: 同入力で 2 回連続実行が byte-identical 1274ms
+ ✓ apps/api/src/services/mail/__tests__/magic-link-mailer.spec.ts (4 tests) 92ms
+ ✓ apps/api/src/repository/__tests__/responses.repository.spec.ts (8 tests) 47ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-profile-view.spec.ts (6 tests) 20ms
+ ✓ apps/api/src/repository/tagQueue.repository.spec.ts (9 tests) 320ms
+ ✓ apps/api/src/audit-correlation/__tests__/persist.spec.ts (4 tests) 11ms
+ ✓ apps/api/src/audit-correlation/__tests__/github-fetch.spec.ts (4 tests) 259ms
+stderr | apps/api/src/audit-correlation/__tests__/notify-slack.spec.ts > notifyHighFindingsToSlack > counts non-ok response as not succeeded but does not throw
+audit-correlation slack notify non-ok { status: 429 }
+
+ ✓ apps/api/src/audit-correlation/__tests__/notify-slack.spec.ts (6 tests) 122ms
+ ✓ apps/api/src/audit-correlation/__tests__/run-route.contract.spec.ts (5 tests) 185ms
+stderr | apps/api/src/repository/_shared/__tests__/builder.diagnostics.repository.spec.ts > buildSectionsWithDiagnostics structured logging (DT-08〜DT-10) > DT-08: unknown stable key 検出時 logWarn が UBM-MANIFEST-UNKNOWN-KEY で呼ばれる
+{"level":"warn","code":"UBM-MANIFEST-UNKNOWN-KEY","count":2,"stableKeys":["totally_unknown_x","another_unknown_y"],"note":"static-manifest does not include these stable keys; alias queue adapter required"}
+
+stderr | apps/api/src/repository/_shared/__tests__/builder.diagnostics.repository.spec.ts > buildSectionsWithDiagnostics structured logging (DT-08〜DT-10) > DT-18: logWarn の count が unknownStableKeys.length と一致
+{"level":"warn","code":"UBM-MANIFEST-UNKNOWN-KEY","count":3,"stableKeys":["x_unknown_a","x_unknown_b","x_unknown_c"],"note":"static-manifest does not include these stable keys; alias queue adapter required"}
+
+ ✓ apps/api/src/repository/_shared/__tests__/builder.diagnostics.repository.spec.ts (4 tests) 11ms
+ ✓ apps/api/src/repository/meetings.repository.spec.ts (7 tests) 103ms
+ ✓ apps/api/src/repository/schemaDiffQueue.repository.spec.ts (7 tests) 91ms
+ ✓ apps/api/src/repository/_shared/__tests__/alias-queue-adapter.repository.spec.ts (4 tests) 123ms
+ ✓ apps/api/src/repository/__tests__/members.repository.spec.ts (7 tests) 116ms
+ ✓ apps/api/src/repository/__tests__/status.repository.spec.ts (6 tests) 31ms
+ ✓ apps/api/src/repository/schemaVersions.repository.spec.ts (5 tests) 61ms
+ ✓ apps/api/src/use-cases/public/__tests__/get-public-stats.spec.ts (3 tests) 114ms
+ ✓ apps/api/src/routes/admin/responses-sync.contract.spec.ts (5 tests) 89ms
+ ✓ apps/api/src/__tests__/authz-matrix.authz.spec.ts (4 tests) 177ms
+ ✓ apps/api/src/repository/__tests__/memberTags.repository.spec.ts (5 tests) 15ms
+ ✓ apps/api/src/use-cases/public/__tests__/list-public-members.spec.ts (3 tests) 57ms
+ ✓ apps/api/src/repository/schemaQuestions.repository.spec.ts (3 tests) 15ms
+ ✓ apps/api/src/repository/__tests__/fieldVisibility.repository.spec.ts (5 tests) 19ms
+ ✓ apps/api/src/jobs/mappers/normalize-response.spec.ts (3 tests) 11ms
+ ✓ apps/api/src/_shared/__tests__/search-query-parser.spec.ts (9 tests) 34ms
+ ✓ apps/api/src/services/admin/identity-conflict-detector.spec.ts (5 tests) 47ms
+ ✓ apps/api/src/repository/__tests__/identities.repository.spec.ts (5 tests) 44ms
+ ✓ apps/api/src/repository/tagDefinitions.repository.spec.ts (5 tests) 67ms
+ ✓ apps/api/src/utils/with-retry.spec.ts (6 tests) 189ms
+ ✓ apps/api/src/jobs/mappers/sheets-to-members.spec.ts (5 tests) 165ms
+ ✓ apps/api/src/routes/admin/sync.contract.spec.ts (4 tests) 249ms
+ ✓ apps/api/src/repository/__tests__/brand.repository.spec.ts (8 tests) 22ms
+ ✓ apps/api/src/audit-correlation/__tests__/runbook-url.spec.ts (4 tests) 29ms
+ ✓ apps/api/src/services/aliasRecommendation.spec.ts (8 tests) 7ms
+ ✓ apps/api/src/view-models/public/__tests__/public-member-list-view.spec.ts (2 tests) 22ms
+ ✓ apps/api/src/jobs/_shared/sync-jobs-schema.spec.ts (5 tests) 37ms
+ ✓ apps/api/src/view-models/public/__tests__/public-stats-view.spec.ts (5 tests) 62ms
+ ✓ apps/api/src/jobs/mappers/extract-consent.spec.ts (3 tests) 10ms
+ ✓ apps/api/src/_shared/__tests__/visibility-filter.spec.ts (2 tests) 7ms
+ ✓ apps/api/src/__tests__/brand-type.spec.ts (3 tests) 5ms
+ ✓ apps/api/src/view-models/public/__tests__/form-preview-view.spec.ts (1 test) 29ms
+ ✓ apps/api/src/audit-correlation/__tests__/contract.contract.spec.ts (5 tests) 10ms
+ ✓ apps/api/src/repository/__tests__/responseFields.repository.spec.ts (3 tests) 22ms
+ ✓ apps/api/src/_shared/__tests__/public-filter.spec.ts (7 tests) 11ms
+ ✓ apps/api/src/schemas/tagQueueResolve.spec.ts (6 tests) 160ms
+ ✓ apps/api/src/repository/__tests__/responseSections.repository.spec.ts (3 tests) 139ms
+ ✓ apps/api/src/jobs/_shared/__tests__/sync-error.spec.ts (5 tests) 90ms
+ ✓ apps/api/src/_shared/__tests__/pagination.spec.ts (5 tests) 49ms
+ ✓ apps/api/src/utils/write-queue.spec.ts (2 tests) 185ms
+ ✓ apps/api/src/jobs/sync-forms-responses.types.contract.spec.ts (1 test) 3ms
+ ✓ apps/api/src/env.spec.ts (2 tests) 5ms
+ ✓ apps/api/src/repository/_shared/sql.repository.spec.ts (3 tests) 90ms
+ ✓ apps/api/src/jobs/_shared/__tests__/ledger.spec.ts (2 tests) 19ms
+
+ Test Files  133 passed (133)
+      Tests  936 passed (936)
+   Start at  11:14:20
+   Duration  219.84s (transform 8.90s, setup 0ms, collect 163.46s, tests 1089.22s, environment 171.37s, prepare 77.06s)
+
+
+EXIT_CODE=0
