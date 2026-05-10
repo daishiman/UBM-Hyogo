@@ -5184,8 +5184,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L106 |
-| 関連ドキュメント | L111 |
+| 利用順序 | L107 |
+| 関連ドキュメント | L112 |
 
 ### references/llm-embedding.md
 
@@ -5841,14 +5841,8 @@ node scripts/list-specs.js --topics
 | 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L307 |
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L325 |
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L326 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L340 |
-| 13. 変更履歴 | L362 |
-| 10. 変更履歴 | L363 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L278 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L296 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L297 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L313 |
-| 13. 変更履歴 | L335 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L342 |
+| 13. 変更履歴 | L364 |
 
 ### references/patterns-advanced.md
 

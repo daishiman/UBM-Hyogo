@@ -5658,6 +5658,7 @@
       "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
       "workflow-issue-548-ml-model-selection-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
+      "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
@@ -12771,6 +12772,7 @@
     ],
     "out": [
       "lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md",
+      "lessons-learned-issue-586-post-switch-7day-close-out-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -12778,7 +12780,9 @@
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
+      "observability-monitoring.md",
       "task-workflow-phases.md",
+      "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
@@ -14204,20 +14208,6 @@
     "Placeholder": [
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
     ],
-    "Gate": [
-      "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
-      "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
-      "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
-      "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
-      "workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md",
-      "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
-      "workflow-issue-548-ml-model-selection-artifact-inventory.md",
-      "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
-      "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md",
-      "workflow-skill-lifecycle-evaluation-scoring-gate.md",
-      "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
-      "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
-    ],
     "RED": [
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md"
     ],
@@ -14258,22 +14248,6 @@
       "observability-monitoring.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md"
-    ],
-    "out": [
-      "lessons-learned-issue-586-post-switch-7day-close-out-2026-05.md",
-      "lessons-learned-issue359-production-d1-apply-2026-05.md",
-      "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md",
-      "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
-      "observability-monitoring.md",
-      "task-workflow-phases.md",
-      "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md"
     ],
     "against": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
