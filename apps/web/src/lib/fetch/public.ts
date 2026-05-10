@@ -30,10 +30,11 @@ function readEnv(): PublicEnv {
 
 function getBaseUrl(): string {
   const env = readEnv();
-  return env.PUBLIC_API_BASE_URL ?? process.env.PUBLIC_API_BASE_URL ?? DEFAULT_BASE_URL;
+  return process.env.PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL ?? DEFAULT_BASE_URL;
 }
 
 function getServiceBinding(): ServiceBinding | undefined {
+  if (process.env.PUBLIC_API_BASE_URL) return undefined;
   return readEnv().API_SERVICE;
 }
 

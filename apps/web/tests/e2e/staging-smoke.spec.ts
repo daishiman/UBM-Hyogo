@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from '../../playwright/fixtures/coverage';
 
 // Route source of truth:
 // docs/30-workflows/ui-prototype-alignment-mvp-recovery/specs/staging-smoke-checklist.md
