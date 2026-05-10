@@ -2966,6 +2966,12 @@ node scripts/list-specs.js --topics
 | Evidence | L39 |
 | Lessons Learned | L43 |
 
+### references/workflow-task-14-my-profile-and-requests-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L17 |
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -3682,7 +3688,7 @@ node scripts/list-specs.js --topics
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L335 |
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L434 |
 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
-| 変更履歴 | L497 |
+| 変更履歴 | L498 |
 
 ### references/deployment.md
 
@@ -4304,7 +4310,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L12 |
+| 関連リソース | L14 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -4790,6 +4796,16 @@ node scripts/list-specs.js --topics
 | L-TASK12-004: task-10 primitive (`.ui-card`) と legacy-public.css の境界 | L28 |
 | L-TASK12-005: `responder-link` と `register-cta` の dual-role CSS | L35 |
 
+### references/lessons-learned-task-14-my-profile-and-requests-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK14-001: phase-9 仕様書 JSX 例の型と実 API 型の乖離 | L7 |
+| L-TASK14-002: 楽観的 UI からの撤退（server pending only） | L14 |
+| L-TASK14-003: data-region selector は disabled / enabled 双方の section に必要 | L21 |
+| L-TASK14-004: Dialog 純 UI 分離は今 wave で未達 — limitation 化を明記 | L28 |
+| L-TASK14-005: `deriveBannerView` の優先順位（authGateState > publishState） | L35 |
+
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
 | セクション | 行 |
@@ -5099,8 +5115,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L105 |
-| 関連ドキュメント | L110 |
+| 利用順序 | L106 |
+| 関連ドキュメント | L111 |
 
 ### references/llm-embedding.md
 
@@ -6210,13 +6226,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L886 |
-| フェーズ構造（概要） | L895 |
-| 品質ゲート（概要） | L926 |
-| 出力テンプレート | L937 |
-| 実行時のコマンド・エージェント・スキル | L960 |
-| 昇格パターン集 | L984 |
-| Current Active / Spec Created Tasks | L986 |
+| ドキュメント構成 | L902 |
+| フェーズ構造（概要） | L911 |
+| 品質ゲート（概要） | L942 |
+| 出力テンプレート | L953 |
+| 実行時のコマンド・エージェント・スキル | L976 |
+| 昇格パターン集 | L1000 |
+| Current Active / Spec Created Tasks | L1002 |
 
 ### references/task-workflow-backlog-part2.md
 
