@@ -16,7 +16,7 @@
     "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/web/coverage --coverage.include=\"apps/web/src/**/*.{ts,tsx}\" apps/web",
     "test:e2e": "playwright test",
     "test:e2e:list": "playwright test --list",
-    "verify-design-tokens": "vitest run --root=../.. --config=vitest.config.ts apps/web/src/__tests__/tokens.test.ts",
+    "verify-design-tokens": "vitest run --root=../.. --config=vitest.config.ts apps/web/src/__tests__/tokens.runtime.spec.ts",
     "e2e:staging": "playwright test tests/e2e/staging-smoke.spec.ts --project=staging-smoke"
   },
   "dependencies": {

@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #621 apps/web test suffix rename（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 12 strict outputs present / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/` |
+| Issue | Issue #621 OPEN。PR 文脈は `Refs #621` のみ |
+| scope | `apps/web/**/*.test.ts(x)` 70 files; existing Playwright/E2E `*.spec.ts(x)` 17 files untouched |
+| classification | component 36 / route 4 / page 1 / runtime 5 / lib-unit 24 |
+| implementation sync | `apps/web/package.json`, `.github/workflows/ci.yml`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `scripts/lint-boundaries.mjs`, `scripts/lint-stablekey-literal.mjs`, `apps/web/src/lib/api/me-types.spec-d.ts` |
+| evidence | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-11/main.md`, `rename-mapping.csv`, `test-count-diff.log`, `typecheck.log`, `lint.log`, `verify-design-tokens.log` |
+| ADR | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-12/test-file-suffix-adr-apps-web.md` |
+| consumed input | `docs/30-workflows/unassigned-task/task-issue-325-followup-001-apps-web-test-suffix-rename.md` |
+
 ### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
 
 | 項目 | 値 |
@@ -275,7 +289,7 @@
 | --- | --- |
 | ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/task-02-w2-wrangler-env-injection/` |
-| 実装対象 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
+| 実装対象 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
 | env contract | `getEnv()` は Cloudflare `getCloudflareContext().env` を優先し、Node build/test では `process.env` fallback。全経路を zod schema で検証 |
 | secret境界 | `SENTRY_DSN_WEB` / `AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
 | 依存 | task-03 とは設計並列可。ただし `wrangler.toml` `[vars]` 実変更は task-02 owner で先行 |
@@ -772,7 +786,7 @@
 | issue | #362 CLOSED (PR text: `Refs #362` only) |
 | 成果物 | `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/` |
 | 目的 | HTTP 202 + `backfill.status='exhausted'` + `retryable=true` + `code='backfill_cpu_budget_exhausted'` を `/admin/schema` UI で通常 success / validation error / conflict error と区別し、続きから再試行できる状態として表示する |
-| 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.test.ts` / `SchemaDiffPanel.test.tsx` |
+| 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.spec.ts` / `SchemaDiffPanel.component.spec.tsx` |
 | 検証 | focused Vitest 30 tests PASS。JUnit: `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/outputs/phase-11/test-junit.xml` |
 | 境界 | API contract / D1 schema / queue-cron workflow は変更しない。manual screenshot / commit / push / PR は user-gated。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md`（L-UT07B-FU02-001 5 点 narrowing / L-002 confirmed と backfill.status の責務分離 / L-003 code 不一致 fallback / L-004 4 状態 manual screenshot deferred） |
 

@@ -5,6 +5,19 @@
 
 ---
 
+### Issue #621 apps/web Test Suffix Rename（2026-05-10）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / Phase 12 strict outputs present / Phase 13 pending_user_approval` |
+| scope | `apps/web/**/*.test.ts(x)` 70 files renamed; existing Playwright/E2E `*.spec.ts(x)` 17 files untouched |
+| classification | component 36 / route 4 / page 1 / runtime 5 / lib-unit 24 |
+| ADR | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-12/test-file-suffix-adr-apps-web.md` |
+| evidence | `outputs/phase-11/main.md`, `rename-mapping.csv`, `test-count-diff.log`, `typecheck.log`, `lint.log`, `verify-design-tokens.log` |
+| same-wave sync | `apps/web/package.json`, `.github/workflows/ci.yml`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `scripts/lint-boundaries.mjs`, `scripts/lint-stablekey-literal.mjs`, `apps/web/src/lib/api/me-types.spec-d.ts` |
+| input consumed | `docs/30-workflows/unassigned-task/task-issue-325-followup-001-apps-web-test-suffix-rename.md` |
+
 ### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
 
 | 観点 | 値 / 参照先 |
@@ -114,7 +127,7 @@
 | --- | --- |
 | workflow root | `docs/30-workflows/task-02-w2-wrangler-env-injection/` |
 | 状態 | `implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval` |
-| 実装正本 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
+| 実装正本 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
 | env contract | `[vars]` / `[env.staging.vars]` / `[env.production.vars]` に `ENVIRONMENT`, `NEXT_PUBLIC_API_BASE_URL`, `PUBLIC_API_BASE_URL`, `INTERNAL_API_BASE_URL`, `AUTH_URL`, `SENTRY_ENVIRONMENT`, `SENTRY_TRACES_SAMPLE_RATE` を配置 |
 | secret boundary | `SENTRY_DSN_WEB` / `AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
 | downstream | task-03 は `SENTRY_*`、task-04/05/18 は `getEnv()` / grep gate を利用 |
@@ -489,7 +502,7 @@
 | API 契約 | `references/api-endpoints.md`（04c 構造的不変条件 / request resolve audit） |
 | 実装 | `apps/api/src/repository/auditLog.ts`, `apps/api/src/routes/admin/requests.ts`, `apps/api/src/routes/admin/audit.ts`, `apps/web/src/components/admin/AuditLogPanel.tsx` |
 | taxonomy | 新規 request resolve audit は `targetType='admin_member_note'`, `targetId=<noteId>`, `after.memberId` を保持。legacy `member` 行は migration せず readable |
-| tests | `apps/api/src/repository/__tests__/auditLog.test.ts`, `apps/api/src/routes/admin/{requests,audit}.test.ts`, `apps/web/src/components/admin/__tests__/AuditLogPanel.test.tsx` |
+| tests | `apps/api/src/repository/__tests__/auditLog.test.ts`, `apps/api/src/routes/admin/{requests,audit}.test.ts`, `apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx` |
 
 ---
 

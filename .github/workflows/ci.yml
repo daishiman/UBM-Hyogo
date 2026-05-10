@@ -156,7 +156,7 @@ jobs:
         if: steps.ready.outputs.value == 'true'
         run: pnpm install --frozen-lockfile
 
-      - name: Build apps/web (Tailwind CSS emission for build-output.test.ts)
+      - name: Build apps/web (Tailwind CSS emission for build-output.runtime.spec.ts)
         if: steps.ready.outputs.value == 'true'
         run: pnpm --filter @ubm-hyogo/web build:cloudflare
 
