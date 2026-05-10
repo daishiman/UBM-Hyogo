@@ -1,6 +1,6 @@
 // 06b-B: /profile からの退会申請 E2E。
 // 紐付き TC: TC-E-03 / TC-E-09 / TC-E-10。
-import { expect } from "@playwright/test";
+import { expect } from '../fixtures/coverage';
 import { test } from "../fixtures/auth";
 
 const SCREENSHOT_DIR =

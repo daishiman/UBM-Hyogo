@@ -101,6 +101,23 @@ Rotation order:
 
 Do not drop D1 `classifier_used` / `classifier_version` / `confidence` during rotation rollback. Evidence may contain op reference names, classifier versions, run ids, and aggregate metrics only.
 
+## Issue #586 post-switch 7 day close-out（Refs #549）
+
+Issue #586 は #549 の close-out として、Issue #518 で HOLD 化していた `cf-audit-log-monitor.yml` の hourly schedule を復活させ、production hourly run に 3 つの post-step（leakage grep / fallback rate alert / artifact upload）を組み込み、`cf-audit-log-7day-summary.yml` で 168 hourly snapshots を集約して `pass_runtime_synced` 昇格を判定する。
+
+3 段昇格:
+
+1. **`implemented_local_runtime_pending`**（merge 前）: workflow YAML 改修 + SSOT 4 ファイル + Phase 11 local 5 evidence + Phase 12 strict 7 outputs
+2. **`pass_boundary_synced_runtime_pending`**（merge 後 D+0）: production env で `vars.CF_AUDIT_CLASSIFIER=ml` 設定済み + hourly run が成功
+3. **`pass_runtime_synced`**（D+7）: 168 hourly snapshots 集約完了 + leakage grep 7 日連続 clean + fallback rate mean ≤ 5%
+
+Evidence canonical path:
+
+- 本サイクル: `docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/{typecheck,lint,test,build,grep-gate}.log`
+- D+7: `docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/{hourly-run-7day.md,hourly-run-7day-summary.json,leakage-grep-7day.log,issue-rate-comparison.md}`
+
+Rollback は `gh variable set CF_AUDIT_CLASSIFIER --env production --body "threshold"` の env 1 行戻し。D1 schema には触らない（forward-safe）。
+
 ## Issue #548 audit-log model selection promotion
 
 Issue #548 は Issue #515 の ML-ready classifier を受け、Isolation Forest / XGBoost / Workers AI を threshold baseline と同一 dataset で比較するための実装である。現状態は `implemented_synthetic / implementation / NON_VISUAL`。3 candidate classifier、`evaluation/model-comparison.ts`、`evaluation/selection-criteria.ts`、training script 2 本、synthetic 720 行 fixture、harness smoke evidence (`docs/30-workflows/issue-548-ml-model-selection/outputs/phase-11/`) が実装済み。この runbook は promotion 手順を固定するが production switch は FU-03-D で扱う。Synthetic harness winner（`xgboost`）は informational のみで production winner ではない。

@@ -1,0 +1,39 @@
+{
+  "workflowId": "2b-admin-identity-conflicts-spec",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "coverageTier": "standard",
+    "implementationMode": "new",
+    "workflow_state": "runtime_pending",
+    "parentWorkflow": "e2e-quality-uplift-stage-2",
+    "sourceSpec": "docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2b-admin-identity-conflicts.md"
+  },
+  "outputs": {
+    "primary": "apps/web/playwright/tests/admin-identity-conflicts.spec.ts",
+    "phase12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  },
+  "phases": [
+    { "id": 1,  "status": "completed", "file": "phase-1.md" },
+    { "id": 2,  "status": "completed", "file": "phase-2.md" },
+    { "id": 3,  "status": "completed", "file": "phase-3.md" },
+    { "id": 4,  "status": "completed", "file": "phase-4.md" },
+    { "id": 5,  "status": "completed", "file": "phase-5.md" },
+    { "id": 6,  "status": "completed", "file": "phase-6.md" },
+    { "id": 7,  "status": "completed", "file": "phase-7.md" },
+    { "id": 8,  "status": "completed", "file": "phase-8.md" },
+    { "id": 9,  "status": "completed", "file": "phase-9.md" },
+    { "id": 10, "status": "completed", "file": "phase-10.md" },
+    { "id": 11, "status": "runtime_pending", "file": "phase-11.md", "note": "desktop-chromium 6 PASS / firefox+webkit+staging は CI runtime 待ち" },
+    { "id": 12, "status": "completed", "file": "phase-12.md" },
+    { "id": 13, "status": "pending",   "file": "phase-13.md" }
+  ]
+}
