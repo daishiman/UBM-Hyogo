@@ -3656,7 +3656,7 @@ node scripts/list-specs.js --topics
 | Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L335 |
 | UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L434 |
 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
-| 変更履歴 | L497 |
+| 変更履歴 | L498 |
 
 ### references/deployment.md
 
@@ -4278,7 +4278,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L12 |
+| 関連リソース | L14 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -6173,13 +6173,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L860 |
-| フェーズ構造（概要） | L869 |
-| 品質ゲート（概要） | L900 |
-| 出力テンプレート | L911 |
-| 実行時のコマンド・エージェント・スキル | L934 |
-| 昇格パターン集 | L958 |
-| Current Active / Spec Created Tasks | L960 |
+| ドキュメント構成 | L861 |
+| フェーズ構造（概要） | L870 |
+| 品質ゲート（概要） | L901 |
+| 出力テンプレート | L912 |
+| 実行時のコマンド・エージェント・スキル | L935 |
+| 昇格パターン集 | L959 |
+| Current Active / Spec Created Tasks | L961 |
 
 ### references/task-workflow-backlog-part2.md
 

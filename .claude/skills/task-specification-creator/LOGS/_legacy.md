@@ -6,6 +6,10 @@
 
 ## 2026-05-08 - Issue #534 workflow_state vocabulary promotion
 
+## 2026-05-09 - ci secret alignment task-01 Phase 12 strict outputs
+
+`docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/` の review で、implementation / NON_VISUAL の小規模 workflow YAML 修正でも Phase 12 strict 7 files を省略すると `spec_created` と local code diff が混線することを確認した。task-01 は `.github/workflows/web-cd.yml` の local 実装、Phase 11 local evidence、Phase 12 strict 7 outputs を同一 wave で揃え、dev/main runtime CI は `runtime_pending` として user approval 後に分離した。テンプレート変更は不要で既存 Phase 12 7-file gate を適用。
+
 `docs/30-workflows/issue-534-skill-workflow-state-guidance/` の review で、workflow root state、phase status、Phase 11/12 evidence、archive/delete ledger sync の境界を `task-specification-creator` skill 本体へ昇格した。`references/workflow-state-vocabulary.md` と `references/phase12-compliance-check-template.md` を新設し、SKILL.md References、既存 Phase 11/12 references、SKILL-changelog を同期。commit、push、PR は user-gated のまま未実行。
 
 ## 2026-05-08 - Issue #548 synthetic harness vs production winner boundary
