@@ -80,6 +80,27 @@ Switch 手順:
 
 Rollback では D1 `classifier_used` / `classifier_version` / `confidence` を削除しない。model artifact 不整合が続く場合は artifact 再選定 Issue へ差し戻す。
 
+## Issue #587 audit-log ML model artifact rotation
+
+Issue #587 は Issue #549 の production switch 後に、次世代 ML model artifact を candidate evaluation → canary → promotion → rollback の 4 段で入れ替えるための contract である。本サイクルで rotation scripts (`scripts/cf-audit-log/rotation/artifact-canary.ts`, `rotation-evidence-collector.ts`)、focused vitest、canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) を整備済み。実 production promotion は Gate-R0〜R3 と user approval 後に別サイクルで実施する。詳細手順は `docs/30-workflows/runbooks/ml-model-artifact-rotation.md` を正本 runbook contract とする。
+
+Rotation prerequisites:
+
+1. Gate-R0: Issue #549 runtime boundary or equivalent approval evidence exists.
+2. Gate-R1: candidate offline replay is no worse than baseline for precision / recall proxy.
+3. Gate-R2: fallback rate < 5%, p95 latency <= 1.5x baseline, leakage hits = 0.
+4. Gate-R3: previous production artifact reference and rollback owner are recorded.
+
+Rotation order:
+
+1. Read only op reference names: `CF_AUDIT_ML_MODEL_PATH_PROD`, `CF_AUDIT_ML_MODEL_PATH_CANDIDATE`, and `CF_AUDIT_ML_MODEL_PATH_PREVIOUS`.
+2. Run canary dry-run and write aggregate metrics to `outputs/phase-11/evidence/canary-dry-run.json`.
+3. Run leakage grep and dataset grep before attaching any evidence.
+4. If gates pass, open a promotion PR with `Refs #549, #587`. Do not include resolved artifact values.
+5. Roll back by restoring the production artifact reference to the previous op-managed value. If classifier behavior is unstable, follow Issue #549 and set `CF_AUDIT_CLASSIFIER=threshold`.
+
+Do not drop D1 `classifier_used` / `classifier_version` / `confidence` during rotation rollback. Evidence may contain op reference names, classifier versions, run ids, and aggregate metrics only.
+
 ## Issue #586 post-switch 7 day close-out（Refs #549）
 
 Issue #586 は #549 の close-out として、Issue #518 で HOLD 化していた `cf-audit-log-monitor.yml` の hourly schedule を復活させ、production hourly run に 3 つの post-step（leakage grep / fallback rate alert / artifact upload）を組み込み、`cf-audit-log-7day-summary.yml` で 168 hourly snapshots を集約して `pass_runtime_synced` 昇格を判定する。

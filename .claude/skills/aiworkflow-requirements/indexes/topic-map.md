@@ -2990,12 +2990,6 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L17 |
 
-### references/workflow-task-15-admin-dashboard-and-members-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Notes | L16 |
-
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -3731,16 +3725,16 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets / Variables（CI/CD 用） | L108 |
-| wrangler.toml の環境別設定 | L206 |
-| ローカル開発での設定 | L238 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L277 |
-| セキュリティ原則 | L314 |
-| Cloudflare API Token の作成手順 | L325 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L340 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L439 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L491 |
-| 変更履歴 | L510 |
+| GitHub Secrets / Variables（CI/CD 用） | L103 |
+| wrangler.toml の環境別設定 | L203 |
+| ローカル開発での設定 | L235 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L274 |
+| セキュリティ原則 | L306 |
+| Cloudflare API Token の作成手順 | L317 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L332 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L430 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
+| 変更履歴 | L501 |
 
 ### references/deployment.md
 
@@ -4871,16 +4865,6 @@ node scripts/list-specs.js --topics
 | L-TASK14-004: Dialog 純 UI 分離は今 wave で未達 — limitation 化を明記 | L28 |
 | L-TASK14-005: `deriveBannerView` の優先順位（authGateState > publishState） | L35 |
 
-### references/lessons-learned-task-15-admin-dashboard-and-members-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-TASK15-001: shared schema 不変条件は web 側 mapper で吸収する | L7 |
-| L-TASK15-002: VISUAL evidence は local mock API / fixture server を経由する | L14 |
-| L-TASK15-003: `it.todo` a11y placeholder は同 cycle で解消する | L21 |
-| L-TASK15-004: Phase 12 strict 7 は物理ファイルとして生成する | L28 |
-| L-TASK15-005: 非同期 UI race は cancelled flag と try/finally で構造的に消す | L35 |
-
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
 | セクション | 行 |
@@ -5853,12 +5837,13 @@ node scripts/list-specs.js --topics
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
 | 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L227 |
 | 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L254 |
-| 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L278 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L307 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L325 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L326 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L342 |
-| 13. 変更履歴 | L364 |
+| 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L278 |
+| 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L307 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L336 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L354 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L355 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L371 |
+| 13. 変更履歴 | L393 |
 
 ### references/patterns-advanced.md
 
@@ -6311,13 +6296,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L946 |
-| フェーズ構造（概要） | L955 |
-| 品質ゲート（概要） | L986 |
-| 出力テンプレート | L997 |
-| 実行時のコマンド・エージェント・スキル | L1020 |
-| 昇格パターン集 | L1044 |
-| Current Active / Spec Created Tasks | L1046 |
+| ドキュメント構成 | L958 |
+| フェーズ構造（概要） | L967 |
+| 品質ゲート（概要） | L998 |
+| 出力テンプレート | L1009 |
+| 実行時のコマンド・エージェント・スキル | L1032 |
+| 昇格パターン集 | L1056 |
+| Current Active / Spec Created Tasks | L1058 |
 
 ### references/task-workflow-backlog-part2.md
 

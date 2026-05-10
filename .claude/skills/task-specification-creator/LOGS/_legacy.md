@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-10 - Issue #587 artifact rotation implemented-local close-out
+
+`docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/` の Phase 12 review で、実コード・workflow が同一 wave に入った場合は `spec_created` のまま閉じず `implemented_local_runtime_pending` へ再分類する必要を確認した。root/outputs `artifacts.json` parity、Phase 11 NON_VISUAL 3 files、typecheck/lint/focused tests 19 件/local fixture canary/rotation evidence/leakage/dataset evidence、strict 7 outputs、SSOT same-wave sync、LOGS、unassigned formalize を実体化して close-out。production artifact promotion は Gate-R0〜R3 と user approval 後の runtime operation に残し、CLOSED Issue 文脈は `Refs #549, #587` のみに固定した。commit / push / PR は未実行。
+
 ## 2026-05-08 - Issue #534 workflow_state vocabulary promotion
 
 ## 2026-05-09 - ci secret alignment task-01 Phase 12 strict outputs
