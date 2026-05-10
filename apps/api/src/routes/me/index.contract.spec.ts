@@ -538,6 +538,14 @@ describe("/me/* — member self-service API", () => {
         responses.push(r.status);
       }
       expect(responses[RATE_LIMIT_MAX]).toBe(429);
+      const blocked = await fire();
+      expect(blocked.status).toBe(429);
+      expect(blocked.headers.get("x-ratelimit-source")).toBe("app");
+      await expect(blocked.json()).resolves.toEqual({
+        error: "rate_limited",
+        retryAfterSec: expect.any(Number),
+        reason: "app",
+      });
     });
   });
 });

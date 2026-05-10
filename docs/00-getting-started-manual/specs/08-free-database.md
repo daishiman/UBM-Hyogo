@@ -54,13 +54,12 @@ GitHub Actions が `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` でデプロ
 
 | ファイル | サービス | build output |
 |---------|---------|-------------|
-| `apps/web/wrangler.toml` | Cloudflare Pages (フロントエンド) | `.next` |
+| `apps/web/wrangler.toml` | Cloudflare Workers + OpenNext (フロントエンド) | `.open-next/worker.js` + `.open-next/assets` |
 | `apps/api/wrangler.toml` | Cloudflare Workers (API) | `src/index.ts` |
 
 TypeScript 側の API Worker Env 型は `apps/api/src/env.ts` の `Env` interface を正本とする。D1 binding `DB`、非機密 vars、Cloudflare Secrets を追加・変更する場合は、`apps/api/wrangler.toml` と `apps/api/src/env.ts` を同じ変更単位で同期する。
 
-Pages の初回プロジェクト作成は Cloudflare Dashboard → Connect to Git で行う。
-CI/CD パイプライン (`wrangler pages deploy`) からは `apps/web/wrangler.toml` の `name` を参照する。
+Web CD は `pnpm --filter @ubm-hyogo/web build:cloudflare` で OpenNext Workers bundle を生成し、`bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` でデプロイする。旧 Pages project / `CLOUDFLARE_PAGES_PROJECT` は rollback window と Issue #419 の user-gated retirement 完了まで外部環境側に残り得るが、現行 `web-cd.yml` からは未参照である。
 
 ---
 
