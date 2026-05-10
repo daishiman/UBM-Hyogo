@@ -1,9 +1,10 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "./tokens.css";
 @import "./legacy-public.css";
 
 @source "../../app";
 @source "../components";
+@source "../features";
 @source "../lib";
 @source "../__tests__/__fixtures__";
 

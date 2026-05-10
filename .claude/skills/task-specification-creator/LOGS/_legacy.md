@@ -8,6 +8,10 @@
 
 `docs/30-workflows/task-14-my-profile-and-requests/` の 30 種思考法レビューで、Phase 1-13 は存在するが `outputs/` 実体、Phase 12 strict 7、root/output artifacts parity、canonical state vocabulary、`@ubm-hyogo/web` command contract が不足していた。root state を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` へ補正し、Phase 11 deterministic evidence、Phase 12 strict 7、Phase 13 readiness checklist、aiworkflow-requirements 導線を同一 wave で実体化した。authenticated screenshot、staging smoke、production runtime evidence、commit、push、PR は user-gated のまま未実行。
 
+## 2026-05-10 - Issue #587 artifact rotation implemented-local close-out
+
+`docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/` の Phase 12 review で、実コード・workflow が同一 wave に入った場合は `spec_created` のまま閉じず `implemented_local_runtime_pending` へ再分類する必要を確認した。root/outputs `artifacts.json` parity、Phase 11 NON_VISUAL 3 files、typecheck/lint/focused tests 19 件/local fixture canary/rotation evidence/leakage/dataset evidence、strict 7 outputs、SSOT same-wave sync、LOGS、unassigned formalize を実体化して close-out。production artifact promotion は Gate-R0〜R3 と user approval 後の runtime operation に残し、CLOSED Issue 文脈は `Refs #549, #587` のみに固定した。commit / push / PR は未実行。
+
 ## 2026-05-08 - Issue #534 workflow_state vocabulary promotion
 
 ## 2026-05-09 - ci secret alignment task-01 Phase 12 strict outputs
@@ -2664,3 +2668,19 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 ## 2026-05-10 - task-16 admin-tags-meetings-requests contract alignment
 
 `docs/30-workflows/task-16-admin-tags-meetings-requests/` の 30 種思考法レビューで、旧生成仕様が `apps/web/src/app` / `src/features/admin` / `lib/api/admin-*` / `/decision` / `approved` という stale contract を含んでいた。現行 repo 正本（`apps/web/app`, `apps/web/src/components/admin`, `apps/web/src/lib/admin`）へ非破壊再構成し、Phase 01-13 canonical naming、root/output artifacts parity、Phase 11 pending runtime marker、Phase 12 strict 7、aiworkflow-requirements 同期を同一 wave で実体化した。runtime screenshots、staging smoke、commit、push、PR は user-gated。
+# 2026-05-09 issue586 post-switch 7-day close-out review feedback
+
+- Added Phase 11/12 guidance for N-day scheduled observation close-out: cross-run artifact download via `gh api`, durable `expectedSnapshots` / `actualSnapshots`, run URL evidence, aggregate gates for fallback/leakage/classifier/skeleton metrics, and evidence PR creation without direct push.
+- Applied to `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-211455-wt-6/docs/30-workflows/issue-586-post-switch-7day-close-out/`.
+
+# 2026-05-09 UT-17 cloudflare analytics alerts + Slack 日本語化リレー close-out
+
+- 対象: `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` (UT-17 / Cloudflare Analytics Alerts + Slack 日本語化リレー)
+- 種別: implementation-completed-local close-out / Phase 12 strict 7 outputs 完了
+- 結果: Phase 12 canonical 7 files (`main.md` / `implementation-guide.md` / `system-spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md`) を materialize。
+- skill feedback: no template change required (no-op skill feedback)。formatter / 未タスク state vocabulary / strict 7 outputs 命名はいずれも既存 task-specification-creator テンプレートで充足。
+- evidence: `docs/30-workflows/ut-17-cloudflare-analytics-alerts/outputs/phase-12/skill-feedback-report.md`
+
+# 2026-05-10
+
+- task-15 admin dashboard and members review feedback applied: Phase 12 strict 7 files must be physical files, artifacts must reference existing outputs, and VISUAL tasks need local fixture screenshot evidence when staging is not yet available. `it.todo` a11y placeholders were replaced with `jest-axe` tests in the same cycle.
