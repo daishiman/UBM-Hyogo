@@ -26,6 +26,7 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
       setToast("既に出席登録済み");
       return;
     }
+    setRegistered((s) => new Set(s).add(memberId));
     const r = await fetch(
       `/api/admin/meetings/${encodeURIComponent(detail.sessionId)}/attendance`,
       {

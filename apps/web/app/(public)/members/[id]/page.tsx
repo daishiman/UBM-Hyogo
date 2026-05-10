@@ -14,10 +14,7 @@ import { MemberDetailSections } from "../../../../src/components/public/MemberDe
 import { MemberLinks } from "../../../../src/components/public/MemberLinks";
 import { MemberTags } from "../../../../src/components/public/MemberTags";
 import { ProfileHero } from "../../../../src/components/public/ProfileHero";
-import {
-  fetchPublicOrNotFound,
-  FetchPublicNotFoundError,
-} from "../../../../src/lib/fetch/public";
+import { fetchPublicOrNotFound } from "../../../../src/lib/fetch/public";
 
 type PublicMemberProfile = z.infer<typeof PublicMemberProfileZ>;
 
@@ -34,18 +31,22 @@ export default async function MemberDetailPage({
   const { id } = await params;
 
   let profile: PublicMemberProfile | null = null;
+  let notFoundFlag = false;
   try {
     profile = await fetchPublicOrNotFound<PublicMemberProfile>(
       `/public/members/${encodeURIComponent(id)}`,
       { revalidate: 0 },
     );
   } catch (e) {
-    if (e instanceof FetchPublicNotFoundError) {
-      notFound();
+    if (e instanceof Error && e.name === "FetchPublicNotFoundError") {
+      notFoundFlag = true;
+    } else {
+      throw e;
     }
-    throw e;
   }
-  if (!profile) notFound();
+  if (notFoundFlag || !profile) {
+    notFound();
+  }
 
   // activity セクションは MemberActivity 側で取り出すため汎用 sections では除外する
   const detailSections = profile.publicSections.filter(
