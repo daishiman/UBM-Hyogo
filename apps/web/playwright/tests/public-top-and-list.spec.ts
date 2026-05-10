@@ -3,7 +3,7 @@
 // 各ケースで axe critical violations = 0 を確認。
 
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test } from '../fixtures/coverage';
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -27,7 +27,7 @@ const assertNoCriticalAxe = async (page: import("@playwright/test").Page) => {
   expect(critical, JSON.stringify(critical, null, 2)).toHaveLength(0);
 };
 
-test.describe("public top & members list", () => {
+test.describe("public top & members list @critical-route", () => {
   test("`/` shows hero / stats / zone-intro", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

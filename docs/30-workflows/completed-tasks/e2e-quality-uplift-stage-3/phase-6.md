@@ -56,7 +56,7 @@ GitHub Actions Free Tier（private repo は 2,000 min/月）を前提に、Stage
 | F-02 | playwright の page.goto race で coverage 取得失敗 | retry: `apps/web/playwright.config.ts:retries` を `process.env.CI ? 2 : 0` に維持 |
 | F-03 | サーバ起動完了前に test 開始 | `webServer.timeout: 120000` を維持（既存設定） |
 | F-04 | source map 未解決で coverage path mismatch | `monocart-reporter.coverage.sourceFilter` で `apps/web/src/` 限定 |
-| F-05 | 70% 直近で揺らぐ regression | しきい値割れ時の rerun を `gh run rerun --failed` で 1 回まで自動化（運用ルール、CI 内自動化はしない） |
+| F-05 | 80% 直近で揺らぐ regression | しきい値割れ時の rerun を `gh run rerun --failed` で 1 回まで自動化（運用ルール、CI 内自動化はしない） |
 
 ### 2.2 拡充テスト
 
@@ -101,7 +101,7 @@ GitHub Actions Free Tier（private repo は 2,000 min/月）を前提に、Stage
 
 | 項目 | 内容 |
 |------|------|
-| 実測対象 | line coverage >= 70% を **実 CI run** で観測 |
+| 実測対象 | line coverage >= 80% を **実 CI run** で観測 |
 | Stage 2 連携 | Stage 2 の coverage 実績を本 Stage の baseline として参照 |
 
 ---
@@ -151,7 +151,7 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】

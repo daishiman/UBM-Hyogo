@@ -1,6 +1,6 @@
 // 06b-B: /profile からの公開停止/再公開申請 E2E。
 // 紐付き TC: TC-E-01 / TC-E-02 / TC-E-04 / TC-E-05 / TC-E-07。
-import { expect } from "@playwright/test";
+import { expect } from '../fixtures/coverage';
 import { test } from "../fixtures/auth";
 
 const SCREENSHOT_DIR =
@@ -42,10 +42,9 @@ test.describe("profile visibility-request (06b-B)", () => {
     memberPage,
     mockApi,
   }) => {
-    mockApi.setVisibilityError(409, { error: "DUPLICATE_PENDING_REQUEST" });
+    // 先に pending を seed → 次の POST は mock-api 側が 409 を返す
+    await mockApi.setVisibilityPending();
     await memberPage.goto("/profile");
-    await memberPage.getByTestId("open-hide-dialog").click();
-    await memberPage.getByTestId("visibility-submit").click();
     await expect(
       memberPage.locator("[data-pending-type=visibility_request]"),
     ).toBeVisible();

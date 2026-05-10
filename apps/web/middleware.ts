@@ -54,8 +54,15 @@ const guardedMiddleware = async (req: NextRequest) => {
   const claims = await decodeAuthSessionJwt(authSecret(req), sessionToken(req));
 
   if (pathname.startsWith("/admin")) {
-    if (!claims?.isAdmin) {
+    if (!claims) {
       return buildAdminLoginRedirect(req);
+    }
+    if (!claims.isAdmin) {
+      // 認証済 non-admin: /login redirect ではなく 403 を返す（一段防御 + UX）
+      return new NextResponse("Forbidden", {
+        status: 403,
+        headers: { "content-type": "text/plain; charset=utf-8" },
+      });
     }
     return NextResponse.next();
   }

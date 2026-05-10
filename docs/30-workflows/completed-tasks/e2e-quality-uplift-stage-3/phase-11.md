@@ -16,7 +16,7 @@ Step A: PR-A draft 作成（lighthouse.yml + lighthouserc.json）
 Step B: PR-A merge to dev
    ↓
 Step C: PR-B draft 作成（e2e-tests.yml + reporter swap + coverage gate）
-   ↓ run 観測（coverage >= 70 確認）
+   ↓ run 観測（coverage >= 80 確認）
 Step D: PR-B merge to dev
    ↓
 Step E: dev で 1 PR 上で両 context 登録確認（gh api check-runs）
@@ -56,8 +56,8 @@ Step G: 適用後 drift 検証 + evidence 保存
 | # | 操作 | evidence 保存先 |
 |---|------|----------------|
 | C-01 | PR-B を `feat/e2e-coverage-gate` で `dev` 向け draft 作成 | `outputs/phase-11/pr-b-url.txt` |
-| C-02 | `e2e-tests-coverage-gate` job 実行 + green | `outputs/phase-11/pr-b-e2e.log` |
-| C-03 | `coverage-summary.json` 取得（line >= 70 確認） | `outputs/phase-11/coverage-summary.json` |
+| C-02 | `e2e-tests-coverage-gate` job 実行 + green | `outputs/phase-11/pr-b-e2e-run.txt` |
+| C-03 | `coverage-summary.json` 取得（line >= 80 確認） | `outputs/phase-11/coverage-summary.json` |
 | C-04 | `monocart-reporter` artifact 取得 | `outputs/phase-11/e2e-monocart/index.html` |
 | C-05 | 故意 fail 再現（local branch で coverage 落とし fail を一度観測 → revert） | `outputs/phase-11/coverage-gate-failure-evidence.md` |
 
@@ -143,7 +143,7 @@ done > outputs/phase-11/branch-protection-drift-check.log
 | `outputs/phase-11/lhci-report-*.png` | Lighthouse report スクリーンショット ×4（縮退時 ×3） |
 | `outputs/phase-11/lhci-profile-q03-judgement.md` | Q-03 縮退判定 |
 | `outputs/phase-11/pr-b-url.txt` | PR-B URL |
-| `outputs/phase-11/pr-b-e2e.log` | e2e run log |
+| `outputs/phase-11/pr-b-e2e-run.txt` | e2e run metadata / URL / conclusion |
 | `outputs/phase-11/coverage-summary.json` | line coverage summary |
 | `outputs/phase-11/e2e-monocart/index.html` | monocart report |
 | `outputs/phase-11/coverage-gate-failure-evidence.md` | 故意 fail 再現の記録 |
@@ -233,7 +233,7 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】

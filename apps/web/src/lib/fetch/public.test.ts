@@ -78,6 +78,15 @@ describe("fetchPublic", () => {
     expect(spy.mock.calls[0]?.[0]).toBe("https://process.example.com/v1/bar");
   });
 
+  it("process.env.PUBLIC_API_BASE_URL があれば Cloudflare env より優先する", async () => {
+    cloudflareEnv.PUBLIC_API_BASE_URL = "https://cloudflare.example.com";
+    process.env.PUBLIC_API_BASE_URL = "https://process.example.com";
+    const spy = mockFetchOnce({ status: 200, body: { ok: 3 } });
+    const r = await fetchPublic<{ ok: number }>("/v1/baz");
+    expect(r).toEqual({ ok: 3 });
+    expect(spy.mock.calls[0]?.[0]).toBe("https://process.example.com/v1/baz");
+  });
+
   it("PUBLIC_API_BASE_URL 未指定なら DEFAULT_BASE_URL", async () => {
     cloudflareContext.mockImplementation(() => {
       throw new Error("not in CF");

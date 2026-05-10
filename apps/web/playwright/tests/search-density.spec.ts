@@ -1,5 +1,5 @@
 // TODO(08b): 実装は Phase 11 manual smoke で活性化
-import { expect, test } from '@playwright/test'
+import { expect, test } from '../fixtures/coverage'
 import { MembersListPage } from '../page-objects/MembersListPage'
 
 test.describe('search × density (6 パラメータ + density 3 値)', () => {
