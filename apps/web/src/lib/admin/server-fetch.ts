@@ -69,6 +69,87 @@ const adminIdentityConflictsFixture = () => ({
   nextCursor: null,
 });
 
+const task17SchemaFixture = () => ({
+  total: 4,
+  items: [
+    {
+      diffId: "schema_added_001",
+      revisionId: "rev_task17",
+      type: "added",
+      questionId: "q_new_department",
+      stableKey: null,
+      label: "所属部署",
+      suggestedStableKey: "member_department",
+      status: "queued",
+      resolvedBy: null,
+      resolvedAt: null,
+      createdAt: "2026-05-10T00:00:00.000Z",
+    },
+    {
+      diffId: "schema_changed_001",
+      revisionId: "rev_task17",
+      type: "changed",
+      questionId: "q_display_name",
+      stableKey: "member_display_name",
+      label: "表示名（旧: 氏名）",
+      suggestedStableKey: "member_display_name",
+      status: "queued",
+      resolvedBy: null,
+      resolvedAt: null,
+      createdAt: "2026-05-10T00:01:00.000Z",
+    },
+    {
+      diffId: "schema_removed_001",
+      revisionId: "rev_task17",
+      type: "removed",
+      questionId: "q_legacy_zone",
+      stableKey: "member_legacy_zone",
+      label: "旧地区",
+      suggestedStableKey: null,
+      status: "resolved",
+      resolvedBy: "admin@example.com",
+      resolvedAt: "2026-05-10T00:10:00.000Z",
+      createdAt: "2026-05-10T00:02:00.000Z",
+    },
+    {
+      diffId: "schema_unresolved_001",
+      revisionId: "rev_task17",
+      type: "unresolved",
+      questionId: null,
+      stableKey: null,
+      label: "自由記述メモ",
+      suggestedStableKey: null,
+      status: "queued",
+      resolvedBy: null,
+      resolvedAt: null,
+      createdAt: "2026-05-10T00:03:00.000Z",
+    },
+  ],
+});
+
+const task17AuditFixture = (path: string) => {
+  const url = new URL(path, "http://internal.test");
+  const isEmpty = url.searchParams.get("targetType") === "empty";
+  const isFiltered = url.searchParams.has("actorEmail") || url.searchParams.has("targetType");
+  return {
+    items: isEmpty
+      ? []
+      : [
+          {
+            auditId: isFiltered ? "audit_filtered_001" : "audit_default_001",
+            actorEmail: isFiltered ? "manjumoto.daishi@senpai-lab.com" : "admin@example.com",
+            action: isFiltered ? "schema.alias.assign" : "identity.merge",
+            targetType: isFiltered ? "schema_question" : "member",
+            targetId: isFiltered ? "q_display_name" : "m_dst_01",
+            maskedBefore: { email: "old@example.com", displayName: "Old Name" },
+            maskedAfter: { email: "new@example.com", displayName: "New Name" },
+            createdAt: "2026-05-10T00:00:00.000Z",
+          },
+        ],
+    nextCursor: isEmpty ? null : "cursor-task17-next",
+  };
+};
+
 export async function fetchAdmin<T>(
   path: string,
   opts: AdminFetchOptions = {},
@@ -89,6 +170,24 @@ export async function fetchAdmin<T>(
     path.startsWith("/admin/identity-conflicts")
   ) {
     return ListIdentityConflictsResponseZ.parse(adminIdentityConflictsFixture()) as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/schema/diff")
+  ) {
+    return task17SchemaFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TASK17_ADMIN_FIXTURE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/audit")
+  ) {
+    return task17AuditFixture(path) as T;
   }
 
   const url = `${resolveApiBase()}${path}`;

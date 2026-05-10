@@ -2972,6 +2972,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L17 |
 
+### references/workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Workflow Files | L9 |
+| Canonical Implementation Inputs | L30 |
+| API Inputs | L45 |
+| Notes | L54 |
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -4806,6 +4816,15 @@ node scripts/list-specs.js --topics
 | L-TASK14-004: Dialog 純 UI 分離は今 wave で未達 — limitation 化を明記 | L28 |
 | L-TASK14-005: `deriveBannerView` の優先順位（authGateState > publishState） | L35 |
 
+### references/lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK17-001: Server Component fetch は browser route() で mock できない | L7 |
+| L-TASK17-002: artifacts.json は root と outputs の二元化が drift 源 | L14 |
+| L-TASK17-003: `new` 前提で task spec を起こす前に worktree inventory を取る | L21 |
+| L-TASK17-004: Phase 11 evidence の AUTH_SECRET override は fixture cookie を無効化する | L28 |
+
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
 | セクション | 行 |
@@ -6226,13 +6245,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L918 |
-| フェーズ構造（概要） | L927 |
-| 品質ゲート（概要） | L958 |
-| 出力テンプレート | L969 |
-| 実行時のコマンド・エージェント・スキル | L992 |
-| 昇格パターン集 | L1016 |
-| Current Active / Spec Created Tasks | L1018 |
+| ドキュメント構成 | L932 |
+| フェーズ構造（概要） | L941 |
+| 品質ゲート（概要） | L972 |
+| 出力テンプレート | L983 |
+| 実行時のコマンド・エージェント・スキル | L1006 |
+| 昇格パターン集 | L1030 |
+| Current Active / Spec Created Tasks | L1032 |
 
 ### references/task-workflow-backlog-part2.md
 

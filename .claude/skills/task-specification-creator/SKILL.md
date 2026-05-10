@@ -28,6 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.10-task17-existing-ui-inventory-gate | 2026-05-10 | task-17 admin schema/conflicts/audit spec review feedback を反映。UI 実装タスクでは元仕様の `new` 前提をそのまま採用せず、Phase 1 で current worktree の route/component/helper を確認し、実在する場合は `existing-*-hardening` / `existing-*-alignment` に再分類する gate を追加。 |
 | v2026.05.09-issue325-rename-evidence-state-sync | 2026-05-09 | Issue #325 test suffix rename review feedback を反映。rename-only workflow で実コード差分が同一 cycle に入った場合は `spec_created` / pending 表記を残さず、root artifacts / Phase 11 / Phase 12 / aiworkflow を `implementation_completed` へ同時同期する。`rename-mapping.csv` は header + data rows、raw command logs、glob evidence を Phase 11 に保存する。 |
 | v2026.05.09-e2e-tracked-evidence-server-fetch | 2026-05-09 | e2e-quality-uplift-stage-1 review feedback を反映。Playwright / Next Server Component 系 E2E では `page.route()` が server-side `fetch()` を捕捉しないため、Phase 2/4/11 に server fetch 経路へ効く mock API / seed / `INTERNAL_API_BASE_URL` 差し替え証跡を必須化。Phase 11 evidence は `.gitignore` 対象の `*.log` ではなく tracked `.txt` / `.md` を canonical とし、untracked evidence を PASS 根拠にしない。 |
 | v2026.05.09-task11-implemented-local-runtime-pending | 2026-05-09 | task-11 public top/member list review feedback を反映。`apps/` / `packages/` dirty diff がある `spec_created` PASS を禁止し、ローカル実装済み・runtime evidence 未取得の状態語彙 `IMPLEMENTED_LOCAL_RUNTIME_PENDING` を Phase 12 再分類表に追加。 |
