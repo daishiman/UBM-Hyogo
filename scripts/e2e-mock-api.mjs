@@ -145,14 +145,8 @@ const adminMembers = {
 
 // /admin/schema/diff: 6 セクション (テスト admin-pages.spec.ts:13 が toHaveCount(6) を要求)
 const adminSchemaDiff = {
-  total: 6,
-  items: Array.from({ length: 6 }, (_, i) => ({
-    sectionKey: `section-${i + 1}`,
-    sectionTitle: `セクション${i + 1}`,
-    fieldCount: 0,
-    state: "synced",
-    lastSyncedAt: NOW,
-  })),
+  total: 0,
+  items: [],
   sections: Array.from({ length: 6 }, (_, i) => ({
     sectionKey: `section-${i + 1}`,
     title: `セクション${i + 1}`,

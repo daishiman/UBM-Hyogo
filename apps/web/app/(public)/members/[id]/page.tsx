@@ -4,6 +4,7 @@
 // 不変条件 #5: web から D1 直接禁止 → public API 経由のみ
 
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import type { z } from "zod";
 
 import { PublicMemberProfileZ } from "@ubm-hyogo/shared";
@@ -29,12 +30,14 @@ interface MemberDetailPageProps {
 export default async function MemberDetailPage({
   params,
 }: MemberDetailPageProps) {
+  await connection();
   const { id } = await params;
 
   let profile: PublicMemberProfile | null = null;
   try {
     profile = await fetchPublicOrNotFound<PublicMemberProfile>(
       `/public/members/${encodeURIComponent(id)}`,
+      { revalidate: 0 },
     );
   } catch (e) {
     if (e instanceof FetchPublicNotFoundError) {

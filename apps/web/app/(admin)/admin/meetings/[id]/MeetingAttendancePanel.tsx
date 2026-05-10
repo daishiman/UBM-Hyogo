@@ -26,10 +26,8 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
       setToast("既に出席登録済み");
       return;
     }
-    const apiBase =
-      process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
     const r = await fetch(
-      `${apiBase}/admin/meetings/${encodeURIComponent(detail.sessionId)}/attendance`,
+      `/api/admin/meetings/${encodeURIComponent(detail.sessionId)}/attendance`,
       {
         method: "POST",
         headers: { "content-type": "application/json" },
