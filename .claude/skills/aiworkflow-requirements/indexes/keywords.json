@@ -10139,6 +10139,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
@@ -10185,7 +10186,8 @@
     ],
     "化する": [
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
-      "lessons-learned-06c-C-admin-tags-2026-05.md"
+      "lessons-learned-06c-C-admin-tags-2026-05.md",
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
     ],
     "SessionUserZ": [
       "lessons-learned-04b-member-self-service.md"
@@ -10578,6 +10580,7 @@
       "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md",
       "lessons-learned-issue-379-schema-diff-current-green-2026-05.md",
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
@@ -12785,7 +12788,8 @@
       "lessons-learned-issue-350-long-term-observation-2026-05.md"
     ],
     "Reminder": [
-      "lessons-learned-issue-350-long-term-observation-2026-05.md"
+      "lessons-learned-issue-350-long-term-observation-2026-05.md",
+      "workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md"
     ],
     "の重複起票": [
       "lessons-learned-issue-350-long-term-observation-2026-05.md"
@@ -13908,7 +13912,8 @@
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
     ],
     "observation": [
-      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
+      "workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md"
     ],
     "phase": [
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
@@ -13931,6 +13936,15 @@
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
     ],
     "を実体化する": [
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
+    ],
+    "reminder": [
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
+    ],
+    "昇格時は": [
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
+    ],
+    "pointer": [
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
     ],
     "Redacted": [
@@ -21212,6 +21226,12 @@
     ],
     "Sources": [
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md"
+    ],
+    "Re": [
+      "workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md"
+    ],
+    "Package": [
+      "workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md"
     ],
     "Synthetic": [
       "workflow-issue-548-ml-model-selection-artifact-inventory.md"

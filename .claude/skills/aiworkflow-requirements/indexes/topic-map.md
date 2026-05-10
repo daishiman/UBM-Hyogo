@@ -2477,7 +2477,8 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| Gate Result | L22 |
+| Gate Result | L26 |
+| Re-observation Reminder Package (Issue #581) | L36 |
 
 ### references/workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md
 
@@ -4667,7 +4668,8 @@ node scripts/list-specs.js --topics
 | L-ISSUE546-002: Alert 0 件は D1 readiness なしに FPR PASS としない | L21 |
 | L-ISSUE546-003: docs-only observation でも root state と phase state は分離する | L34 |
 | L-ISSUE546-004: helper が出力しない成果物は pending evidence marker を実体化する | L47 |
-| 参照元 | L60 |
+| L-ISSUE546-005: reminder 昇格時は unassigned task を pointer 化する | L60 |
+| 参照元 | L73 |
 
 ### references/lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md
 
@@ -5820,9 +5822,8 @@ node scripts/list-specs.js --topics
 | 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L278 |
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L296 |
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L297 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L311 |
-| 13. 変更履歴 | L333 |
-| 10. 変更履歴 | L334 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L313 |
+| 13. 変更履歴 | L335 |
 
 ### references/patterns-advanced.md
 
@@ -6275,13 +6276,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L933 |
-| フェーズ構造（概要） | L942 |
-| 品質ゲート（概要） | L973 |
-| 出力テンプレート | L984 |
-| 実行時のコマンド・エージェント・スキル | L1007 |
-| 昇格パターン集 | L1031 |
-| Current Active / Spec Created Tasks | L1033 |
+| ドキュメント構成 | L945 |
+| フェーズ構造（概要） | L954 |
+| 品質ゲート（概要） | L985 |
+| 出力テンプレート | L996 |
+| 実行時のコマンド・エージェント・スキル | L1019 |
+| 昇格パターン集 | L1043 |
+| Current Active / Spec Created Tasks | L1045 |
 
 ### references/task-workflow-backlog-part2.md
 
