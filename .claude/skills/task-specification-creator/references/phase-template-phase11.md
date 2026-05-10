@@ -55,6 +55,21 @@ API smoke evidence では screenshot は不要。代わりに以下を `manual-s
 | `PASS_RUNTIME_SYNCED` | 全 G1-G4 runtime evidence 取得済 | 最終形 |
 | `PASS`（単独表記） | **禁止**。boundary suffix を必ず付与 | 誤読防止のため Phase 11 では使用不可 |
 
+### N日 close-out / cross-run artifact aggregation evidence
+
+scheduled GitHub Actions の D+7 / D+30 / 90日観測のように、複数 run の artifact を後段 workflow で集約して runtime 昇格するタスクでは、Phase 11 を「local evidence」と「runtime close-out evidence」に分ける。
+
+| evidence | 必須内容 |
+| --- | --- |
+| local evidence | `typecheck` / `lint` / focused test / redaction or grep gate。`PASS` 単独ではなく `OK_LOCAL` / `OK_FOCUSED` 等で記録する |
+| runtime aggregate JSON | `expectedSnapshots` と `actualSnapshots` を両方持つ。shell の件数比較だけを唯一の証跡にしない |
+| run URL list | 集約対象 run の URL 一覧を markdown evidence に残す |
+| aggregate gate | `actualSnapshots < expectedSnapshots`、fallback rate threshold 超過、leakage hit、classifier mismatch、skeleton zero metrics を PR 起票前に fail させる |
+| cross-run download | `actions/download-artifact@v4` は same-run 向け。別 workflow / 別 run の artifact 集約では `gh api workflows/<name>/runs` + `gh api .../artifacts/<id>/zip` を正本パターンとしてよい |
+| evidence PR | runtime window 終了後の evidence 追加は `peter-evans/create-pull-request` 等で別ブランチ PR 化し、直 push しない |
+
+実測 metrics をまだ接続していない skeleton snapshot（例: 全 snapshot が `totalEvents=0` / `fallbackRate=0` / `p95LatencyMs=0`）を D+N runtime PASS の根拠にしてはならない。
+
 #### 必須記録項目（`outputs/phase-11/main.md`）
 
 - 状態語彙（上表のいずれか）と判定根拠

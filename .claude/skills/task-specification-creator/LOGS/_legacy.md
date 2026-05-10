@@ -2657,6 +2657,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Normalized phase statuses to `completed` / `pending` / `blocked` while keeping root workflow state `spec_created`.
 - Added `outputs/phase-11/main.md` as `PENDING_IMPLEMENTATION_EVIDENCE` so reserved evidence paths are not mistaken for runtime PASS.
 - Skill feedback: multi-candidate model selection workflows must separate synthetic harness smoke from production winner selection and keep FU-03-D production switch user-gated.
+
+# 2026-05-09 issue586 post-switch 7-day close-out review feedback
+
+- Added Phase 11/12 guidance for N-day scheduled observation close-out: cross-run artifact download via `gh api`, durable `expectedSnapshots` / `actualSnapshots`, run URL evidence, aggregate gates for fallback/leakage/classifier/skeleton metrics, and evidence PR creation without direct push.
+- Applied to `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-211455-wt-6/docs/30-workflows/issue-586-post-switch-7day-close-out/`.
 # 2026-05-09 UT-17 cloudflare analytics alerts + Slack 日本語化リレー close-out
 
 - 対象: `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` (UT-17 / Cloudflare Analytics Alerts + Slack 日本語化リレー)

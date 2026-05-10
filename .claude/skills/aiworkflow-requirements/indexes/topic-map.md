@@ -2531,6 +2531,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L45 |
 
+### references/workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L47 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4721,6 +4727,18 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L112 |
 | 引用元 | L118 |
 
+### references/lessons-learned-issue-586-post-switch-7day-close-out-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L10 |
+| 苦戦箇所と学び | L16 |
+| 横断的な学び | L88 |
+| 反映先（promoted to） | L96 |
+| 再発防止サマリ表 | L106 |
+| 用語集（本タスクで導入 / 確定した語彙） | L114 |
+| 引用元 | L120 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5166,8 +5184,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L106 |
-| 関連ドキュメント | L111 |
+| 利用順序 | L107 |
+| 関連ドキュメント | L112 |
 
 ### references/llm-embedding.md
 
@@ -5819,11 +5837,12 @@ node scripts/list-specs.js --topics
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
 | 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L227 |
 | 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L254 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L278 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L296 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L297 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L313 |
-| 13. 変更履歴 | L335 |
+| 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L278 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L307 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L325 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L326 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L342 |
+| 13. 変更履歴 | L364 |
 
 ### references/patterns-advanced.md
 
