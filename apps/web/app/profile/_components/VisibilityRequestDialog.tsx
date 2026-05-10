@@ -124,6 +124,7 @@ export function VisibilityRequestDialog({
       ref={dialogRef}
       onKeyDown={onDialogKeyDown}
       data-testid="visibility-request-dialog"
+      data-region="visibility-request-dialog"
       data-desired-state={desiredState}
     >
       <h3 id={titleId}>{heading}</h3>

@@ -61,6 +61,7 @@ import { createResendSender } from "./services/mail/magic-link-mailer";
 import { createSessionResolveRoute } from "./routes/auth/session-resolve";
 import { createMeSessionResolver } from "./middleware/me-session-resolver";
 import { auditCorrelationRunRoute } from "./routes/audit-correlation";
+import { createAlertRelayRoute } from "./routes/internal/alert-relay";
 import { scheduledAuditCorrelation } from "./audit-correlation/scheduled";
 import type { AuditCorrelationRuntimeEnv } from "./audit-correlation/run-correlation";
 
@@ -264,6 +265,9 @@ app.route("/admin/smoke/observability", createSmokeObservabilityRoute());
 
 // Issue #553 — internal audit-correlation run endpoint (Bearer token authz)
 app.route("/internal/audit-correlation", auditCorrelationRunRoute);
+
+// UT-17 — Cloudflare Notifications generic webhook → Slack 日本語化リレー
+app.route("/internal/alert-relay", createAlertRelayRoute());
 
 app.get("/health", (c) =>
   c.json({
