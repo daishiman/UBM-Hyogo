@@ -10,21 +10,25 @@ const isTask12PublicSmoke = process.argv.some((arg) =>
 )
 const isTask12Evidence = process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-12-member-detail-register-legal'
 
-const EVIDENCE_DIR = isAdminRequestsRun
-  ? '../../docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-11'
-  : isStagingSmoke
-    ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
-    : isTask11PublicSmoke
-      ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
-      : isTask12PublicSmoke || isTask12Evidence
-        ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
-        : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+const EVIDENCE_DIR =
+  process.env.PLAYWRIGHT_EVIDENCE_DIR ??
+  (isAdminRequestsRun
+    ? '../../docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-11'
+    : isStagingSmoke
+      ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+      : isTask11PublicSmoke
+        ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
+        : isTask12PublicSmoke || isTask12Evidence
+          ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
+          : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
 const localPort = new URL(localBaseURL).port || '3000'
+const localCoverageDir = `${process.cwd()}/coverage/v8`
 const localEnv =
   'ENVIRONMENT=local SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=0 ' +
+  `NODE_V8_COVERAGE=${localCoverageDir} ` +
   'NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
   'PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
   'INTERNAL_API_BASE_URL=http://127.0.0.1:8787 ' +
@@ -36,7 +40,7 @@ export default defineConfig({
   outputDir: `${EVIDENCE_DIR}/test-results`,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
+  retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : 1,
   timeout: 60_000,
   expect: { timeout: 10_000 },
@@ -44,6 +48,23 @@ export default defineConfig({
     ['html', { outputFolder: `${EVIDENCE_DIR}/playwright-report/html`, open: 'never' }],
     ['json', { outputFile: `${EVIDENCE_DIR}/playwright-report/results.json` }],
     ['list'],
+    [
+      'monocart-reporter',
+      {
+        name: 'UBM-Hyogo E2E',
+        outputFile: `${EVIDENCE_DIR}/monocart/index.html`,
+        coverage: {
+          outputDir: `${process.cwd()}/coverage`,
+          entryFilter: (entry: { url: string }) => entry.url.includes('/_next/static/'),
+          sourceFilter: (sourcePath: string) => sourcePath.includes('apps/web/src/'),
+          reports: [
+            ['v8', { outputDir: 'coverage/v8' }],
+            'json-summary',
+            ['lcovonly', { outputFile: 'coverage/lcov.info' }],
+          ],
+        },
+      },
+    ],
   ],
   use: {
     baseURL: localBaseURL,

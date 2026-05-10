@@ -31,7 +31,7 @@
 | 2a implementation target | `apps/web/playwright/tests/admin-requests.spec.ts` |
 | 状態 | `implemented-local-runtime-pass / implementation / NON_VISUAL` |
 | strict outputs | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/outputs/phase-12/` strict 7 files |
-| evidence boundary | 2a local E2E spec and support code are implemented. Desktop Chromium E2E passed 6/6; coverage 70% / CI gate PASS remains Stage 3-owned |
+| evidence boundary | 2a local E2E spec and support code are implemented. Desktop Chromium E2E passed 6/6; coverage 80% / CI gate PASS remains Stage 3-owned |
 | SSR fixture boundary | Server Component initial `/admin/requests` data uses `PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1` + `NODE_ENV !== "production"` because browser `page.route()` cannot intercept SSR `fetchAdmin()` |
 | downstream | `docs/30-workflows/e2e-quality-uplift-stage-3/` |
 
@@ -42,9 +42,9 @@
 | workflow roots | `docs/30-workflows/e2e-quality-uplift-stage-{0,1,2,3}/` |
 | Stage 0 状態 | `implementation_complete_pending_pr / implementation / NON_VISUAL` (Playwright README / project filter / `evidence-capture` project / logged-in spec split / quality-gate exception) |
 | Stage 1 状態 | `implemented_local / implementation_complete_e2e_verification_recorded / NON_VISUAL`（auth fixture HS256 JWT 署名・server fetch mock API・tracked `.txt` evidence） |
-| Stage 2 状態 | `spec_verified_pending_dependency / docs-only spec / NON_VISUAL`（tier-aware coverage 自動 enforcement: critical ≥80% / standard ≥70% / experimental ≥50%） |
-| Stage 3 状態 | `spec_verified_pending_dependency / docs-only spec / NON_VISUAL`（branch protection contexts 正本化: CI / Lighthouse / e2e-tests-coverage-gate） |
-| evidence boundary | Stage 0/1 は tracked runtime evidence。Stage 2/3 は placeholder evidence（`evidence_status: PLANNED_BECAUSE_PHASE11_NOT_EXECUTED`）。Stage N+1 は Stage N 実装/仕様 land 後に着手 |
+| Stage 2 状態 | `spec_verified_pending_dependency / docs-only spec / NON_VISUAL`（tier-aware coverage 自動 enforcement: critical ≥80% / standard ≥80% / experimental ≥50%） |
+| Stage 3 状態 | 3b `implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING`、3c は user-gated branch protection spec（CI / Lighthouse / e2e-tests-coverage-gate） |
+| evidence boundary | Stage 0/1 は tracked runtime evidence。Stage 2 は placeholder evidence。Stage 3 3b は local implementation present + PR CI runtime artifacts pending user approval。Stage N+1 は Stage N 実装/仕様 land 後に着手 |
 | tier policy 正本 | `.claude/skills/task-specification-creator/references/coverage-standards.md` + `quality-gates.md §7.1 (4)` (`evidence-capture` project 例外条項) |
 | artifact inventory | `references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md`（4 stage 責務分割表 / Phase 11 evidence kind matrix / tier policy 表） |
 | lessons-learned | `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md`（L-E2EQU-001..007 + 002A: Server Component fetch は browser route mock で検証不可） |

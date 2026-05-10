@@ -1,7 +1,7 @@
 // 06b-B follow-up #428: /profile pending banner reload sticky evidence.
 // Auth fixture and seeded pending queue are runtime-gated; Phase 11 unskips this
 // after a real authenticated session and admin_member_notes seed are available.
-import { expect } from "@playwright/test";
+import { expect } from '../fixtures/coverage';
 import { test } from "../fixtures/auth";
 
 test.describe("profile pending banner sticky (06b-B #428)", () => {

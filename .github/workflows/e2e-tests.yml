@@ -1,22 +1,33 @@
-# Phase 5 scaffold workflow — 実証跡取得タスクで gate 化するまでは手動実行のみ
-name: e2e-tests
+name: e2e-tests-coverage-gate
 
 on:
+  pull_request:
+    branches: [dev, main]
   workflow_dispatch:
 
-jobs:
-  playwright:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
 
-      - uses: pnpm/action-setup@v3
+jobs:
+  e2e:
+    name: e2e-tests-coverage-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PLAYWRIGHT_EVIDENCE_DIR: playwright/evidence
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
           version: 10.33.2
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 24.15.0
           cache: pnpm
@@ -25,34 +36,42 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium webkit firefox
+        run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium firefox webkit
 
-      - name: Start API (background)
-        run: pnpm --filter @ubm-hyogo/api dev &
-        env:
-          CI: 'true'
+      - name: Start deterministic mock API
+        run: node scripts/e2e-mock-api.mjs > /tmp/e2e-mock-api.log 2>&1 &
 
-      - name: Build web
-        run: pnpm --filter @ubm-hyogo/web build
+      - name: Critical-route smoke (fail-fast)
+        run: pnpm --filter @ubm-hyogo/web e2e --grep @critical-route
 
-      - name: Run Playwright tests
-        run: pnpm --filter @ubm-hyogo/web test:e2e
-        env:
-          CI: 'true'
-          PLAYWRIGHT_BASE_URL: http://localhost:3000
+      - name: Run e2e (full)
+        if: success()
+        run: pnpm --filter @ubm-hyogo/web e2e
 
-      - name: Upload Playwright HTML report
+      - name: Coverage gate (line >= 80%)
+        if: success()
+        run: bash scripts/coverage-gate-e2e.sh
+
+      - name: Upload coverage artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
-          path: docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/playwright-report
+          name: e2e-coverage-${{ github.sha }}
+          path: apps/web/coverage/
           retention-days: 14
 
-      - name: Upload screenshot evidence
+      - name: Upload monocart artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-evidence
-          path: docs/30-workflows/08b-parallel-playwright-e2e-and-ui-acceptance-smoke/outputs/phase-11/evidence/
-          retention-days: 14
+          name: e2e-monocart-${{ github.sha }}
+          path: apps/web/playwright/evidence/monocart/
+          retention-days: 7
+
+      - name: Upload Playwright HTML report (failure only)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-html-report-${{ github.sha }}
+          path: apps/web/playwright/evidence/playwright-report/html/
+          retention-days: 7

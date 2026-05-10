@@ -1,6 +1,6 @@
 // 06b-B: /profile からの公開停止/再公開申請 E2E。
 // 紐付き TC: TC-E-01 / TC-E-02 / TC-E-04 / TC-E-05 / TC-E-07。
-import { expect } from "@playwright/test";
+import { expect } from '../fixtures/coverage';
 import { test } from "../fixtures/auth";
 
 const SCREENSHOT_DIR =

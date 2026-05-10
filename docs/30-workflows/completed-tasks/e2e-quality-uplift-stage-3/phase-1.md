@@ -5,7 +5,7 @@
 | 起票日 | 2026-05-08 |
 | 担当 | solo (daishiman) |
 | 対象 PR base | `dev` |
-| tier | standard（lines >= 70%） |
+| tier | standard（lines >= 80%） |
 
 ---
 
@@ -81,7 +81,7 @@
 |----------|-------------|
 | `.github/workflows/e2e-tests.yml` を PR トリガ + coverage gate に書き換え | Stage 2 の coverage 計測実装本体（前提） |
 | `apps/web/playwright.config.ts` reporter に `monocart-reporter` 追加 | reporter `html` / `json` / `list` の削除 |
-| `c8` 経由の line coverage 集計 + 70% gate script | branch / function / statement coverage gate（standard tier は line のみ） |
+| `c8` 経由の line coverage 集計 + 80% gate script | branch / function / statement coverage gate（standard tier は line のみ） |
 | 失敗時の HTML report artifact upload | trace viewer ホスティング |
 
 ### 3.2 pre-conditions
@@ -95,7 +95,7 @@
 | # | 内容 |
 |---|------|
 | AC-3b-1 | PR to `dev` で `e2e-tests-coverage-gate` job が起動 |
-| AC-3b-2 | `pnpm e2e` の line coverage < 70% で job が fail |
+| AC-3b-2 | `pnpm e2e` の line coverage < 80% で job が fail |
 | AC-3b-3 | `@critical-route` を持つ test が 1 件でも fail で job が fail |
 | AC-3b-4 | `coverage-summary.json` artifact が retention 14 日でアップロード |
 | AC-3b-5 | failure 時のみ `playwright-html-report` artifact が retention 7 日でアップロード |
@@ -108,7 +108,7 @@
 | `.github/workflows/e2e-tests.yml` | edit（major rewrite — workflow_dispatch から PR トリガへ） |
 | `apps/web/playwright.config.ts` | edit（reporter 配列に monocart 追加） |
 | `apps/web/package.json` | edit（`monocart-reporter` / `c8` を devDependencies） |
-| `scripts/coverage-gate-e2e.sh`（新規） | new（line coverage 70% 判定スクリプト） |
+| `scripts/coverage-gate-e2e.sh`（新規） | new（line coverage 80% 判定スクリプト） |
 | `pnpm-lock.yaml` | regenerate |
 
 ### 3.5 naming conventions
@@ -225,7 +225,7 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】

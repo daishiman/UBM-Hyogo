@@ -1,7 +1,7 @@
 // task-12 Playwright smoke: 公開詳細 / 登録 / 法務 4 ページ + 404 ページの 200/404 + axe critical=0
 import AxeBuilder from "@axe-core/playwright";
-import { test, expect } from "@playwright/test";
-import type { Page } from "@playwright/test";
+import { test, expect } from '../fixtures/coverage';
+import type { Page } from '../fixtures/coverage';
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 

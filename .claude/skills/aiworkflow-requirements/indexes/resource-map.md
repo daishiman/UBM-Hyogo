@@ -994,5 +994,5 @@ node scripts/search-spec.js "safeInvoke"
 | --- | --- | --- |
 | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/` | Stage 3 umbrella archive. Lighthouse CI、E2E coverage hard gate、branch protection contexts の親仕様 | Stage 3 全体のAC、依存、親子境界を確認する時 |
 | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/` | `lighthouse-ci` context を登録する Lighthouse CI implementation spec | Lighthouse CI workflow、`lighthouserc.json`、Q-02 `/profile` 縮退判定を確認する時 |
-| `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` | `e2e-tests-coverage-gate` context を登録する E2E hard gate implementation spec | `.github/workflows/e2e-tests.yml`、Monocart reporter、line coverage 70% gate を確認する時 |
+| `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` | `e2e-tests-coverage-gate` context を登録する E2E hard gate implementation spec（implemented-local / runtime evidence pending） | `.github/workflows/e2e-tests.yml`、`scripts/e2e-mock-api.mjs`、Monocart reporter、line coverage 80% gate を確認する時 |
 | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/` | dev/main branch protection required contexts を5件へ拡張する approval-gated implementation spec | `gh api -X PUT` payload、fresh GET evidence、solo policy drift guard を確認する時 |
