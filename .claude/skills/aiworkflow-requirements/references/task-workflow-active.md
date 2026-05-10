@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### E2E quality uplift Stage 2 sub-task 2b admin identity conflicts spec（2026-05-09）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 completed |
+| 成果物 | `docs/30-workflows/2b-admin-identity-conflicts-spec/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2b-admin-identity-conflicts.md` |
+| source unassigned | `docs/30-workflows/unassigned-task/e2e-stage-2-2b-admin-identity-conflicts-001.md`（formalized trace） |
+| 実装対象 | `apps/web/playwright/tests/admin-identity-conflicts.spec.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright.config.ts`, `packages/shared/src/schemas/identity-conflict.ts` |
+| mock boundary | initial list は Server Component `fetchAdmin()` 経由の server-side fetch。browser `page.route()` は `/api/admin/identity-conflicts/*/{merge,dismiss}` のみ |
+| schema boundary | `IdentityConflictRowZ` の `conflictId` / `candidateTargetMemberId` / `matchedFields` / `detectedAt` / `responseEmailMasked` / `syncJobId` を正本化 |
+| fixture boundary | `test` / `expect` を `apps/web/playwright/fixtures/auth.ts` から import。`adminPage` named import 禁止 |
+| evidence | `docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime gate | local chromium Phase 11 evidence 取得済み。firefox / webkit / staging / CI、commit / push / PR は user approval 後 |
+
 ### CI pipeline recovery web CD and runtime smoke（2026-05-09）
 
 | 項目 | 値 |

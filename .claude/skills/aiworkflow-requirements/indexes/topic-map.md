@@ -2091,6 +2091,15 @@ node scripts/list-specs.js --topics
 | implementation source-of-truth | L45 |
 | scope notes | L59 |
 
+### references/workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Files | L14 |
+| Linked Lessons | L29 |
+| Boundary | L33 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -6173,13 +6182,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L860 |
-| フェーズ構造（概要） | L869 |
-| 品質ゲート（概要） | L900 |
-| 出力テンプレート | L911 |
-| 実行時のコマンド・エージェント・スキル | L934 |
-| 昇格パターン集 | L958 |
-| Current Active / Spec Created Tasks | L960 |
+| ドキュメント構成 | L876 |
+| フェーズ構造（概要） | L885 |
+| 品質ゲート（概要） | L916 |
+| 出力テンプレート | L927 |
+| 実行時のコマンド・エージェント・スキル | L950 |
+| 昇格パターン集 | L974 |
+| Current Active / Spec Created Tasks | L976 |
 
 ### references/task-workflow-backlog-part2.md
 
