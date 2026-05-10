@@ -16,19 +16,19 @@ export const IdentityConflictRowZ = z.object({
   detectedAt: z.string().min(1),
   responseEmailMasked: z.string().min(1),
   syncJobId: z.string().nullable(),
-});
+}).strict();
 export type IdentityConflictRow = z.infer<typeof IdentityConflictRowZ>;
 
 export const ListIdentityConflictsResponseZ = z.object({
   items: z.array(IdentityConflictRowZ),
   nextCursor: z.string().nullable(),
-});
+}).strict();
 export type ListIdentityConflictsResponse = z.infer<typeof ListIdentityConflictsResponseZ>;
 
 export const MergeIdentityRequestZ = z.object({
   targetMemberId: z.string().min(1),
   reason: z.string().min(1).max(500),
-});
+}).strict();
 export type MergeIdentityRequest = z.infer<typeof MergeIdentityRequestZ>;
 
 export const MergeIdentityResponseZ = z.object({
@@ -36,17 +36,17 @@ export const MergeIdentityResponseZ = z.object({
   targetMemberId: z.string().min(1),
   archivedSourceMemberId: z.string().min(1),
   auditId: z.string().min(1),
-});
+}).strict();
 export type MergeIdentityResponse = z.infer<typeof MergeIdentityResponseZ>;
 
 export const DismissIdentityConflictRequestZ = z.object({
   reason: z.string().min(1).max(500),
-});
+}).strict();
 export type DismissIdentityConflictRequest = z.infer<typeof DismissIdentityConflictRequestZ>;
 
 export const DismissIdentityConflictResponseZ = z.object({
   dismissedAt: z.string().min(1),
-});
+}).strict();
 export type DismissIdentityConflictResponse = z.infer<typeof DismissIdentityConflictResponseZ>;
 
 /**

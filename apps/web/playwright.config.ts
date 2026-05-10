@@ -1,11 +1,45 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const EVIDENCE_DIR =
-  process.argv.some((arg) => arg.includes('staging-smoke'))
-    ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
-    : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+const isStagingSmoke = process.argv.some((arg) => arg.includes('staging-smoke'))
+const isAdminRequestsRun =
+  process.env.ADMIN_REQUESTS_EVIDENCE === '1' ||
+  process.argv.some((arg) => arg.includes('admin-requests.spec.ts'))
+const isAdminIdentityConflictsRun =
+  process.env.ADMIN_IDENTITY_CONFLICTS_EVIDENCE === '1' ||
+  process.argv.some((arg) => arg.includes('admin-identity-conflicts.spec.ts'))
+const isTask11PublicSmoke = process.argv.some((arg) => arg.includes('public-top-and-list.spec.ts'))
+const isTask12PublicSmoke = process.argv.some((arg) =>
+  arg.includes('public-detail-register-legal.spec.ts'),
+)
+const isTask12Evidence = process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-12-member-detail-register-legal'
+const isTask13LoginSmoke =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-13-login-rebuild' ||
+  process.argv.some((arg) => arg.includes('login-smoke.spec.ts'))
 
-const shouldStartLocalServer = !process.argv.some((arg) => arg.includes('staging-smoke'))
+const EVIDENCE_DIR = isAdminRequestsRun
+  ? '../../docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-11'
+  : isAdminIdentityConflictsRun
+    ? '../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence'
+    : isStagingSmoke
+      ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+      : isTask11PublicSmoke
+        ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
+        : isTask12PublicSmoke || isTask12Evidence
+          ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
+          : isTask13LoginSmoke
+            ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
+            : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+
+const shouldStartLocalServer = !isStagingSmoke
+const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
+const localPort = new URL(localBaseURL).port || '3000'
+const localEnv =
+  'ENVIRONMENT=local SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=0 ' +
+  'NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
+  'PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
+  'INTERNAL_API_BASE_URL=http://127.0.0.1:8787 ' +
+  'AUTH_URL=http://localhost:3000 ' +
+  'AUTH_SECRET=playwright-e2e-auth-secret-32-bytes'
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -22,7 +56,7 @@ export default defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000',
+    baseURL: localBaseURL,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -67,10 +101,15 @@ export default defineConfig({
     ? {
         webServer: [
           {
-            command: 'pnpm --filter @ubm-hyogo/web dev',
-            url: 'http://localhost:3000',
+            command: isAdminRequestsRun
+              ? `${localEnv} AUTH_SECRET=playwright-auth-secret-playwright-auth-secret PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+              : isAdminIdentityConflictsRun
+                ? `${localEnv} AUTH_SECRET=playwright-auth-secret-playwright-auth-secret PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+                : `${localEnv} pnpm --filter @ubm-hyogo/web dev`,
+            url: localBaseURL,
             reuseExistingServer: !process.env.CI,
             timeout: 120_000,
+            env: { PORT: localPort },
           },
         ],
       }
