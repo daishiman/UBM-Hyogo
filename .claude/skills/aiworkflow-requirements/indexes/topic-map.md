@@ -2249,6 +2249,12 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Invariants | L16 |
+
 ### references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md
 
 | セクション | 行 |
@@ -2939,6 +2945,23 @@ node scripts/list-specs.js --topics
 | Upstream And Downstream | L20 |
 | Evidence | L29 |
 | Lessons Learned | L33 |
+
+### references/workflow-task-13-login-rebuild-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Runtime Boundary | L14 |
+| Contract Highlights | L20 |
+| Upstream And Downstream | L31 |
+| Evidence | L39 |
+| Lessons Learned | L43 |
+
+### references/workflow-task-14-my-profile-and-requests-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L17 |
 
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
@@ -4278,7 +4301,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L12 |
+| 関連リソース | L14 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -4366,6 +4389,17 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
+
+### references/lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-325-001: suffix 責務分類の境界判定 | L11 |
+| L-325-002: 件数 invariant の事前 snapshot | L18 |
+| L-325-003: vitest include の two-suffix 拡張 | L24 |
+| L-325-004: rename-only workflow の状態同期漏れリスク | L30 |
+| L-325-005: scope out の明示と未タスク棚卸し | L40 |
+| 引用関係 | L46 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
@@ -4753,6 +4787,16 @@ node scripts/list-specs.js --topics
 | L-TASK12-004: task-10 primitive (`.ui-card`) と legacy-public.css の境界 | L28 |
 | L-TASK12-005: `responder-link` と `register-cta` の dual-role CSS | L35 |
 
+### references/lessons-learned-task-14-my-profile-and-requests-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK14-001: phase-9 仕様書 JSX 例の型と実 API 型の乖離 | L7 |
+| L-TASK14-002: 楽観的 UI からの撤退（server pending only） | L14 |
+| L-TASK14-003: data-region selector は disabled / enabled 双方の section に必要 | L21 |
+| L-TASK14-004: Dialog 純 UI 分離は今 wave で未達 — limitation 化を明記 | L28 |
+| L-TASK14-005: `deriveBannerView` の優先順位（authGateState > publishState） | L35 |
+
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
 | セクション | 行 |
@@ -5062,8 +5106,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L105 |
-| 関連ドキュメント | L110 |
+| 利用順序 | L106 |
+| 関連ドキュメント | L111 |
 
 ### references/llm-embedding.md
 
@@ -6174,13 +6218,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L898 |
-| フェーズ構造（概要） | L907 |
-| 品質ゲート（概要） | L938 |
-| 出力テンプレート | L949 |
-| 実行時のコマンド・エージェント・スキル | L972 |
-| 昇格パターン集 | L996 |
-| Current Active / Spec Created Tasks | L998 |
+| ドキュメント構成 | L915 |
+| フェーズ構造（概要） | L924 |
+| 品質ゲート（概要） | L955 |
+| 出力テンプレート | L966 |
+| 実行時のコマンド・エージェント・スキル | L989 |
+| 昇格パターン集 | L1013 |
+| Current Active / Spec Created Tasks | L1015 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -225,7 +225,7 @@
 >
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
-> **current facts (CI recovery / 2026-05-09)**: Cloudflare deploy token の target contract は step 単位分割を維持する。`backend-ci.yml` の D1 migration step は `CF_TOKEN_D1_<ENV>`、Workers deploy step は `CF_TOKEN_WORKERS_<ENV>` を使う target contract。`web-cd.yml` は Pages deploy を撤去し、job ごとに `secrets.CF_TOKEN_WORKERS_STAGING` / `secrets.CF_TOKEN_WORKERS_PRODUCTION` を `scripts/cf.sh` 互換の `CLOUDFLARE_API_TOKEN` env へマップする。`CF_TOKEN_PAGES_<ENV>` は current web-cd path で使用しない。
+> **current facts (CI recovery task-01 / 2026-05-09)**: Cloudflare deploy token の target contract は backend 系では step 単位分割を維持する。`backend-ci.yml` の D1 migration step は `CF_TOKEN_D1_<ENV>`、Workers deploy step は `CF_TOKEN_WORKERS_<ENV>` を使う target contract。一方、`web-cd.yml` は実 GitHub Environment に登録済みの `secrets.CLOUDFLARE_API_TOKEN` を job-level env `CLOUDFLARE_API_TOKEN` へマップし、`Verify CF token is present` step で空展開を早期 fail する。`CF_TOKEN_PAGES_<ENV>` は current web-cd path で使用しない。
 
 ---
 
@@ -268,14 +268,14 @@
 | Secret 名 | 用途 | 必須 |
 | --------- | ---- | ---- |
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token | Yes |
-| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token | Yes |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | backend-ci Workers deploy 用 Cloudflare API Token。`web-cd.yml` では task-01 alignment 後に使用しない | Yes for backend-ci / Not used by web-cd |
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Historical only |
-| `CLOUDFLARE_API_TOKEN` | 旧単一 Cloudflare API Token。U-FIX-CF-ACCT-01-DERIV-02 の 24h 並行保持後に削除 | Deprecated |
+| `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped deploy token 正本名。backend / future OIDC cutover では legacy direct token として扱う | Yes for web-cd / Transitional elsewhere |
 | `DISCORD_WEBHOOK_URL` | Discord 通知用 Webhook URL | No |
 
 ### U-FIX-CF-ACCT-01-DERIV-01: OIDC short-lived credential target contract（2026-05-06）
 
-`docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` は `spec_created / implementation-spec / NON_VISUAL` の target contract である。runtime cutover は未実行であり、現行 `backend-ci.yml` の長命 `secrets.CLOUDFLARE_API_TOKEN` 参照と `d1-migration-verify.yml` の `secrets.CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として残る。`web-cd.yml` は 2026-05-09 CI recovery wave で `CF_TOKEN_WORKERS_<ENV>` 参照へ先行同期済み。
+`docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` は `spec_created / implementation-spec / NON_VISUAL` の target contract である。runtime cutover は未実行であり、現行 `backend-ci.yml` の長命 `secrets.CLOUDFLARE_API_TOKEN` 参照と `d1-migration-verify.yml` の `secrets.CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として残る。`web-cd.yml` は 2026-05-09 task-01 web-cd secret alignment で実 Environment 名 `CLOUDFLARE_API_TOKEN` へ同期済み。
 
 | 項目 | 契約 |
 | --- | --- |
@@ -314,9 +314,9 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 | 名前 | 種別 | 配置 | 理由 |
 | --- | --- | --- | --- |
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | D1 migration step のみが使う token に分離 |
-| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Workers deploy step のみが使う token に分離 |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | backend-ci Workers deploy step 用。web-cd は task-01 alignment 後に `CLOUDFLARE_API_TOKEN` を使う |
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Pages deploy step のみが使う token に分離 |
-| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | Deprecated。24h 並行保持後に Cloudflare / GitHub から削除 |
+| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | web-cd deploy token 正本名。backend/OIDC cutover 文脈では transitional direct token |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | repository-scoped | Account ID は資格情報ではなく識別子。既存 GitHub 実設定に合わせ、`vars.` 参照で空展開を防ぐ |
 | `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | Deprecated historical Pages value; current `web-cd.yml` must not read it |
@@ -445,6 +445,6 @@ workflow permissions は `contents: write` / `pull-requests: write` / `actions: 
 | 2026-05-06 | 2.4.0 | Issue #407 Cloudflare API Token rotation reminder workflow を追加。`CF_TOKEN_ISSUED_AT`、85 日 reminder、dry-run、duplicate guard、最小 permissions を正本化 |
 | 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
-| 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。runtime cutover は未実行で、`backend-ci.yml` の `CLOUDFLARE_API_TOKEN` と `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として分離。`web-cd.yml` は 2026-05-09 に `CF_TOKEN_WORKERS_<ENV>` へ先行同期 |
+| 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。runtime cutover は未実行で、`backend-ci.yml` の `CLOUDFLARE_API_TOKEN` と `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として分離。`web-cd.yml` は 2026-05-09 task-01 alignment 後、environment-scoped `secrets.CLOUDFLARE_API_TOKEN` を使う |
 | 2026-04-29 | 2.1.0 | UT-27: GitHub Secrets / Variables 配置決定マトリクスと Phase 13 user 承認ゲートを追記 |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron E2E 削除、Cloudflare Pages デプロイへ移行 |
