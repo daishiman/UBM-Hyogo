@@ -58,7 +58,7 @@
 | R-1 | `responseEmail` fixture seed 未整備で 1a が vacuous | 中 | Phase 1 §5 で受容、後続 stage で seed 拡張 |
 | R-2 | `/@/` probe の false positive | 低 | sentinel-only に縮退できる実装構造（Phase 5） |
 | R-3 | `/api/me` shape 乖離で 1b 不成立 | 中 | Phase 4 shape gate / 1b を依存 gate として明示 |
-| R-4 | `auth.ts` `signSession` が TODO_PLACEHOLDER のまま（`auth.ts:15-17`）で memberPage が実体的に未認証扱い | 中 | 本サイクル対象外（既存 spec も同条件で運用）。Phase 8 dynamic で観測、必要時に Stage 2 へエスカレート |
+| R-4 | `auth.ts` `signSession` placeholder が残ると memberPage が実体的に未認証扱い | 中 | 本サイクルで `@ubm-hyogo/shared` の `signSessionJwt()` に接続し、Stage 2 の placeholder 0 件 gate と整合 |
 
 ## 6. 後続フェーズ入口条件
 
@@ -85,7 +85,7 @@
 - phase: 3
 - task classification: implementation / NON_VISUAL
 - coverageTier: standard
-- workflow_state: spec_verified
+- workflow_state: implemented_local
 
 ## 目的
 
@@ -106,27 +106,26 @@ Stage 1 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 1. 本 phase の既存本文を確認する。
 2. 対応する実ファイル差分または evidence を確認する。
-3. validator と grep gate の結果を Phase 11 / Phase 12 evidence に反映する。
+3. validator と grep gate の結果を Phase 12 evidence に反映し、Phase 11 は実行ログ・skip count・runner version として分離する。
 
 ## 統合テスト連携
 
-- NON_VISUAL phase は Playwright 実行の代替として list smoke、grep gate、typecheck を使用する。
-- E2E runtime 実行が必要な項目は outputs/phase-11/evidence に結果を保存する。
+- NON_VISUAL implementation phase は Playwright assertion 差分、spec completeness、grep gate、artifact parity を検証する。
+- E2E runtime 実行結果は outputs/phase-11/evidence に保存する。
 
 ## 成果物
 
 - 本 phase markdown
 - 関連 outputs/phase-11 または outputs/phase-12 evidence
-- 必要に応じた apps/web / .claude/skills 実ファイル差分
+- apps/web/playwright/tests/public-flow.spec.ts、profile-visibility-request.spec.ts、profile-delete-request.spec.ts の assertion 差分
 
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-

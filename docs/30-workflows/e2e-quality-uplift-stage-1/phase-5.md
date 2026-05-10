@@ -113,10 +113,10 @@ test('TC-E-07: visibility pending sticky after round-trip', async ({ memberPage 
 
 ## 8. 実装後 self-check
 
-- [ ] `pnpm --filter @ubm/web exec playwright test public-flow profile-visibility-request profile-delete-request` がローカル run 可能
-- [ ] 既存 TC-E-01..06 / 09 を破壊していない
-- [ ] `git diff main...HEAD --name-only` が 3 ファイルのみを示す
-- [ ] `apps/api/**` および `apps/web/src/**` の diff が空
+- [x] `pnpm --filter @ubm-hyogo/web exec playwright test --project=desktop-chromium playwright/tests/public-flow.spec.ts playwright/tests/profile-visibility-request.spec.ts playwright/tests/profile-delete-request.spec.ts` がローカル run 可能
+- [x] 既存 TC-E-01..06 / 09 を破壊していない
+- [x] `git diff --stat` が対象 3 spec + auth fixture + web config/token + workflow docs の範囲に収まる
+- [x] `apps/api/**` の diff が空。`apps/web/src/**` は axe contrast failure 解消の `tokens.css` 1 件のみ
 
 ---
 
@@ -128,7 +128,7 @@ test('TC-E-07: visibility pending sticky after round-trip', async ({ memberPage 
 - phase: 5
 - task classification: implementation / NON_VISUAL
 - coverageTier: standard
-- workflow_state: spec_verified
+- workflow_state: implemented_local
 
 ## 目的
 
@@ -149,27 +149,26 @@ Stage 1 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 
 1. 本 phase の既存本文を確認する。
 2. 対応する実ファイル差分または evidence を確認する。
-3. validator と grep gate の結果を Phase 11 / Phase 12 evidence に反映する。
+3. validator と grep gate の結果を Phase 12 evidence に反映し、Phase 11 は実行ログ・skip count・runner version として分離する。
 
 ## 統合テスト連携
 
-- NON_VISUAL phase は Playwright 実行の代替として list smoke、grep gate、typecheck を使用する。
-- E2E runtime 実行が必要な項目は outputs/phase-11/evidence に結果を保存する。
+- NON_VISUAL implementation phase は Playwright assertion 差分、spec completeness、grep gate、artifact parity を検証する。
+- E2E runtime 実行結果は outputs/phase-11/evidence に保存する。
 
 ## 成果物
 
 - 本 phase markdown
 - 関連 outputs/phase-11 または outputs/phase-12 evidence
-- 必要に応じた apps/web / .claude/skills 実ファイル差分
+- apps/web/playwright/tests/public-flow.spec.ts、profile-visibility-request.spec.ts、profile-delete-request.spec.ts の assertion 差分
 
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】
 
 - [x] phase 本文のタスクを棚卸しした。
 - [x] 未実行項目を PASS として扱っていない。
-
