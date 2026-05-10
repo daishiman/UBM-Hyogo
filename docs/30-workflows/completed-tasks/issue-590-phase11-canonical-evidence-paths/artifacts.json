@@ -1,0 +1,56 @@
+{
+  "taskId": "issue-590-phase11-canonical-evidence-paths",
+  "createdAt": "2026-05-10",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented-local",
+  "metadata": {
+    "workflow_state": "implemented-local",
+    "implementation_status": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementation_mode": "new",
+    "sourceUnassignedTask": "docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-05.md",
+    "parentSpec": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/",
+    "runtimePending": "親Issue #549のpost-merge 7日runtime observation evidenceは本タスク外。schema/validator導入のみ完了。"
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/590",
+  "parentTask": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/",
+  "phases": {
+    "phase-1": { "status": "completed", "outputs": ["phase-01.md", "outputs/phase-01/main.md"] },
+    "phase-2": { "status": "completed", "outputs": ["phase-02.md", "outputs/phase-02/main.md"] },
+    "phase-3": { "status": "completed", "outputs": ["phase-03.md", "outputs/phase-03/main.md"] },
+    "phase-4": { "status": "completed", "outputs": ["phase-04.md", "outputs/phase-04/main.md"] },
+    "phase-5": { "status": "completed", "outputs": ["phase-05.md", "outputs/phase-05/main.md"] },
+    "phase-6": { "status": "completed", "outputs": ["phase-06.md", "outputs/phase-06/main.md"] },
+    "phase-7": { "status": "completed", "outputs": ["phase-07.md", "outputs/phase-07/main.md"] },
+    "phase-8": { "status": "completed", "outputs": ["phase-08.md", "outputs/phase-08/main.md"] },
+    "phase-9": { "status": "completed", "outputs": ["phase-09.md", "outputs/phase-09/main.md"] },
+    "phase-10": { "status": "completed", "outputs": ["phase-10.md", "outputs/phase-10/main.md"] },
+    "phase-11": {
+      "status": "implemented-local",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/canonical-paths.json",
+        "outputs/phase-11/evidence/typecheck.log",
+        "outputs/phase-11/evidence/lint.log",
+        "outputs/phase-11/evidence/schema-validation.log",
+        "outputs/phase-11/evidence/validator-test.log",
+        "outputs/phase-11/evidence/phase11-paths.log"
+      ]
+    },
+    "phase-12": {
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "blocked_pending_user_approval", "outputs": ["phase-13.md", "outputs/phase-13/main.md"] }
+  }
+}

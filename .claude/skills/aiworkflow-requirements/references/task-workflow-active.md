@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-590-phase11-canonical-evidence-paths/` |
+| 目的 | Phase 11 runtime evidence path の表記揺れを `outputs/phase-11/canonical-paths.json` と validator で排除する |
+| 実装対象 | `.claude/skills/task-specification-creator/schemas/phase11-evidence-canonical-paths.schema.json`, `.claude/skills/task-specification-creator/scripts/validate-phase11-canonical-evidence-paths.js`, `.claude/skills/task-specification-creator/scripts/__tests__/validate-phase11-canonical-evidence-paths.test.mjs`, `.claude/skills/task-specification-creator/package.json`, `package.json#scripts.validate:phase11-paths` |
+| 親適用 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-11/canonical-paths.json` |
+| source unassigned | `docs/30-workflows/completed-tasks/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-05.md`（superseded / consumed） |
+| evidence boundary | 本タスクは schema / validator 導入のみ。親 #549 の post-merge 7 day runtime observation は別 gate |
+| artifact inventory | `references/workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md` |
+| user gate | commit / push / PR は user approval 後 |
+
 ### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
 
 | 項目 | 値 |
