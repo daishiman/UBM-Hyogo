@@ -3647,16 +3647,16 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets / Variables（CI/CD 用） | L108 |
-| wrangler.toml の環境別設定 | L201 |
-| ローカル開発での設定 | L233 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L272 |
-| セキュリティ原則 | L309 |
-| Cloudflare API Token の作成手順 | L320 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L335 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L434 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
-| 変更履歴 | L497 |
+| GitHub Secrets / Variables（CI/CD 用） | L103 |
+| wrangler.toml の環境別設定 | L198 |
+| ローカル開発での設定 | L230 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L269 |
+| セキュリティ原則 | L301 |
+| Cloudflare API Token の作成手順 | L312 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L327 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L425 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L473 |
+| 変更履歴 | L488 |
 
 ### references/deployment.md
 
@@ -5715,12 +5715,13 @@ node scripts/list-specs.js --topics
 | 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
 | 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L227 |
 | 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L254 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L278 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L296 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L297 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L311 |
-| 13. 変更履歴 | L333 |
-| 10. 変更履歴 | L334 |
+| 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L278 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L307 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L325 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L326 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L340 |
+| 13. 変更履歴 | L362 |
+| 10. 変更履歴 | L363 |
 
 ### references/patterns-advanced.md
 
@@ -6173,13 +6174,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L885 |
-| フェーズ構造（概要） | L894 |
-| 品質ゲート（概要） | L925 |
-| 出力テンプレート | L936 |
-| 実行時のコマンド・エージェント・スキル | L959 |
-| 昇格パターン集 | L983 |
-| Current Active / Spec Created Tasks | L985 |
+| ドキュメント構成 | L898 |
+| フェーズ構造（概要） | L907 |
+| 品質ゲート（概要） | L938 |
+| 出力テンプレート | L949 |
+| 実行時のコマンド・エージェント・スキル | L972 |
+| 昇格パターン集 | L996 |
+| Current Active / Spec Created Tasks | L998 |
 
 ### references/task-workflow-backlog-part2.md
 

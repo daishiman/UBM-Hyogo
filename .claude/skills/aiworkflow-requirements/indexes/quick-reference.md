@@ -5,6 +5,23 @@
 
 ---
 
+### Issue #587 Cloudflare Audit Logs ML Model Artifact Rotation（2026-05-10）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| parent | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
+| runbook contract | `docs/30-workflows/runbooks/ml-model-artifact-rotation.md` |
+| rotation stages | candidate evaluation → canary → promotion → rollback |
+| op references | `CF_AUDIT_ML_MODEL_PATH_PROD`, `CF_AUDIT_ML_MODEL_PATH_CANDIDATE`, `CF_AUDIT_ML_MODEL_PATH_PREVIOUS` |
+| evidence boundary | local evidence captured: typecheck / lint / focused tests 19 件 / local fixture canary / rotation evidence / leakage / dataset grep。production promotion remains Gate-R0〜R3 + user approval pending |
+| redaction | resolved artifact path, raw feature dataset, full IP, full user-agent, actor email, bearer header, token value, value hash are forbidden |
+| PR wording | use `Refs #549, #587`; do not use `Closes` / `Fixes` / `Resolves` |
+| unassigned followups | `docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-fu-02-a.md` (next ML model training/selection), `-b.md` (auto rotation scheduler), `-c.md` (rotation evidence long-term retention), `-d.md` (candidate path lifecycle automation) |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-587-cf-audit-ml-artifact-rotation-2026-05.md`（L-587-001 責務分離 / 002 forward-safe rollback / 003 4段モデル / 004 Gate-R0〜R3 + `implemented_local_runtime_pending` / 005 redaction 4軸） |
+| skill feedback promote | `task-specification-creator/references/phase-templates.md` に「artifact rotation 4段テンプレ」追記済（candidate / canary / promotion / rollback 表 + Phase 5/6 canary workflow） |
+
 ### CI Pipeline Recovery Web CD And Runtime Smoke（2026-05-09）
 
 | 目的 | 参照先 |

@@ -4354,6 +4354,7 @@
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
+      "observability-monitoring.md",
       "workflow-issue-555-audit-correlation-salt-rotation-artifact-inventory.md"
     ],
     "procedure": [
@@ -6924,8 +6925,7 @@
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md"
     ],
     "認証確認": [
-      "deployment-cloudflare.md",
-      "deployment-secrets-management.md"
+      "deployment-cloudflare.md"
     ],
     "run": [
       "deployment-cloudflare.md",
@@ -7330,9 +7330,8 @@
     "ランタイム": [
       "deployment-secrets-management.md"
     ],
-    "環境": [
-      "deployment-secrets-management.md",
-      "environment-variables.md"
+    "に対して以下を投入": [
+      "deployment-secrets-management.md"
     ],
     "サーバーサイドのシークレット": [
       "deployment-secrets-management.md"
@@ -7382,16 +7381,6 @@
     "派生": [
       "deployment-secrets-management.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
-    ],
-    "操作": [
-      "deployment-secrets-management.md"
-    ],
-    "デプロイ・": [
-      "deployment-secrets-management.md"
-    ],
-    "rollback": [
-      "deployment-secrets-management.md",
-      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
     ],
     "セキュリティ原則": [
       "deployment-secrets-management.md",
@@ -7668,6 +7657,9 @@
       "environment-variables.md"
     ],
     "必須環境変数一覧": [
+      "environment-variables.md"
+    ],
+    "環境": [
       "environment-variables.md"
     ],
     "エラーハンドリング仕様": [
@@ -10927,6 +10919,7 @@
     "model": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-docs-only-lifecycle.md",
+      "observability-monitoring.md",
       "workflow-issue-548-ml-model-selection-artifact-inventory.md"
     ],
     "duplicate": [
@@ -10940,6 +10933,7 @@
     "artifact": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06b-b-profile-self-service-request-ui-2026-05.md",
+      "observability-monitoring.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix.md",
@@ -11943,6 +11937,9 @@
       "security-input-validation.md"
     ],
     "と仕様語を二重化しない": [
+      "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
+    ],
+    "rollback": [
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md"
     ],
     "pages": [
