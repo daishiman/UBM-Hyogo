@@ -6,6 +6,14 @@
 
 ## 2026-05-08 - Issue #534 workflow_state vocabulary promotion
 
+## 2026-05-09 - ci secret alignment task-01 Phase 12 strict outputs
+
+`docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/` の review で、implementation / NON_VISUAL の小規模 workflow YAML 修正でも Phase 12 strict 7 files を省略すると `spec_created` と local code diff が混線することを確認した。task-01 は `.github/workflows/web-cd.yml` の local 実装、Phase 11 local evidence、Phase 12 strict 7 outputs を同一 wave で揃え、dev/main runtime CI は `runtime_pending` として user approval 後に分離した。テンプレート変更は不要で既存 Phase 12 7-file gate を適用。
+
+## 2026-05-09 - task-13 login rebuild spec sync
+
+`docs/30-workflows/task-13-login-rebuild/` の 30 種思考法レビューで、Phase 1-13 は存在するが Phase 12 strict 7、root/output artifacts parity、canonical state vocabulary、aiworkflow sync、`@ubm-hyogo/web` command contract が不足していた。さらに apps/web 実装差分が存在したため、仕様 package を `implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` として再分類した。`data-testid="login-card"` + `data-state` locator、`LoginCardProps.state`、`rules_declined role="alert"`、Magic Link failure `state=error` URL transition、`verify-design-tokens` script、Phase 11 local screenshots、Phase 13 user approval gate を同一 wave で補正。staging smoke、production-equivalent runtime evidence、commit、push、PR は未実行。
+
 `docs/30-workflows/issue-534-skill-workflow-state-guidance/` の review で、workflow root state、phase status、Phase 11/12 evidence、archive/delete ledger sync の境界を `task-specification-creator` skill 本体へ昇格した。`references/workflow-state-vocabulary.md` と `references/phase12-compliance-check-template.md` を新設し、SKILL.md References、既存 Phase 11/12 references、SKILL-changelog を同期。commit、push、PR は user-gated のまま未実行。
 
 ## 2026-05-08 - Issue #548 synthetic harness vs production winner boundary
@@ -2654,3 +2662,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - Added Phase 11/12 guidance for N-day scheduled observation close-out: cross-run artifact download via `gh api`, durable `expectedSnapshots` / `actualSnapshots`, run URL evidence, aggregate gates for fallback/leakage/classifier/skeleton metrics, and evidence PR creation without direct push.
 - Applied to `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-211455-wt-6/docs/30-workflows/issue-586-post-switch-7day-close-out/`.
+# 2026-05-09 UT-17 cloudflare analytics alerts + Slack 日本語化リレー close-out
+
+- 対象: `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` (UT-17 / Cloudflare Analytics Alerts + Slack 日本語化リレー)
+- 種別: implementation-completed-local close-out / Phase 12 strict 7 outputs 完了
+- 結果: Phase 12 canonical 7 files (`main.md` / `implementation-guide.md` / `system-spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md`) を materialize。
+- skill feedback: no template change required (no-op skill feedback)。formatter / 未タスク state vocabulary / strict 7 outputs 命名はいずれも既存 task-specification-creator テンプレートで充足。
+- evidence: `docs/30-workflows/ut-17-cloudflare-analytics-alerts/outputs/phase-12/skill-feedback-report.md`
+

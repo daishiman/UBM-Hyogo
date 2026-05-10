@@ -6,6 +6,10 @@
 // MVP として cross-isolate 厳密性は KV / WAF 移行で担保する（Phase 5 Q1）。
 
 import type { MiddlewareHandler } from "hono";
+import {
+  buildRateLimitedResponse,
+  toHonoResponse,
+} from "./edge-rate-limit-headers";
 
 interface RateLimitState {
   readonly windowStart: number;
@@ -73,13 +77,11 @@ const checkAndIncrement = (
 };
 
 const sendRateLimited = (
-  c: Parameters<MiddlewareHandler>[0],
+  _c: Parameters<MiddlewareHandler>[0],
   retryAfterSec: number,
 ): Response =>
-  c.json(
-    { code: "RATE_LIMITED", retryAfter: retryAfterSec },
-    429,
-    { "Retry-After": String(retryAfterSec) },
+  toHonoResponse(
+    buildRateLimitedResponse({ retryAfterSec, reason: "app" }),
   );
 
 /**

@@ -115,6 +115,7 @@ export function DeleteRequestDialog({
       ref={dialogRef}
       onKeyDown={onDialogKeyDown}
       data-testid="delete-request-dialog"
+      data-region="delete-request-dialog"
     >
       <h3 id={titleId}>退会を申請する</h3>
       <p id={descId}>
