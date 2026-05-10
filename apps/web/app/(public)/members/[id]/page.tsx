@@ -21,7 +21,6 @@ import {
 type PublicMemberProfile = z.infer<typeof PublicMemberProfileZ>;
 
 export const dynamic = "force-dynamic";
-export const revalidate = 60;
 
 interface MemberDetailPageProps {
   params: Promise<{ id: string }>;
@@ -32,16 +31,18 @@ export default async function MemberDetailPage({
 }: MemberDetailPageProps) {
   const { id } = await params;
 
-  let profile: PublicMemberProfile;
+  let profile: PublicMemberProfile | null = null;
   try {
     profile = await fetchPublicOrNotFound<PublicMemberProfile>(
       `/public/members/${encodeURIComponent(id)}`,
-      { revalidate: 60 },
     );
   } catch (e) {
-    if (e instanceof FetchPublicNotFoundError) notFound();
+    if (e instanceof FetchPublicNotFoundError) {
+      notFound();
+    }
     throw e;
   }
+  if (!profile) notFound();
 
   // activity セクションは MemberActivity 側で取り出すため汎用 sections では除外する
   const detailSections = profile.publicSections.filter(

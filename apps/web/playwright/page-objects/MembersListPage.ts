@@ -14,7 +14,7 @@ export class MembersListPage extends BasePage {
   readonly searchInput = this.page.locator('[data-testid="members-search-input"]')
   readonly memberCards = this.page.locator('[data-component="member-card"]')
   readonly densityToggle = this.page.locator('[data-testid="density-toggle"]')
-  readonly grid = this.page.locator('[data-component="member-grid"]')
+  readonly grid = this.page.locator('[data-page="members"]')
 
   async applyQuery(params: MembersQuery): Promise<void> {
     const search = new URLSearchParams()

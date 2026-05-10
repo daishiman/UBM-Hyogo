@@ -17,8 +17,14 @@ const member = {
   ubmMembershipType: "regular",
 };
 
+const CORS_HEADERS = {
+  "access-control-allow-origin": "*",
+  "access-control-allow-methods": "GET,POST,PATCH,DELETE,OPTIONS",
+  "access-control-allow-headers": "content-type,authorization,cookie",
+};
+
 const json = (res, status, body) => {
-  res.writeHead(status, { "content-type": "application/json" });
+  res.writeHead(status, { "content-type": "application/json", ...CORS_HEADERS });
   res.end(JSON.stringify(body));
 };
 
@@ -240,6 +246,12 @@ const server = createServer(async (req, res) => {
   const { pathname } = url;
   console.log(`${req.method} ${pathname}${url.search}`);
 
+  if (req.method === "OPTIONS") {
+    res.writeHead(204, CORS_HEADERS);
+    res.end();
+    return;
+  }
+
   // ---- internal control endpoints ----
   if (req.method === "POST" && pathname === "/__test__/reset") {
     resetState();
@@ -345,7 +357,8 @@ const server = createServer(async (req, res) => {
       fields: [],
       sectionCount: 0,
       fieldCount: 0,
-      responderUrl: "https://example.com/respond",
+      responderUrl:
+        "https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform",
     });
   }
 

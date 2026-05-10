@@ -64,7 +64,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : 1,
+  // workers=1: shared mock-api (scripts/e2e-mock-api.mjs) の in-memory state を競合させないため。
+  // 並列化は project (browser) shard 単位で十分。
+  workers: 1,
   timeout: 60_000,
   expect: { timeout: 10_000 },
   reporter: [
