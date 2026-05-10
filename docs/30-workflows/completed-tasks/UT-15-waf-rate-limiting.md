@@ -8,11 +8,21 @@
 | タスク名 | WAF / Rate Limiting ルール設定 |
 | 優先度 | MEDIUM |
 | 推奨Wave | Wave 2+ |
-| 状態 | unassigned |
+| 状態 | promoted / consumed_by_current_workflow_runtime_pending |
 | 作成日 | 2026-04-23 |
 | 既存タスク組み込み | なし |
 | 組み込み先 | - |
 | 検出元タスク | 01b-parallel-cloudflare-base-bootstrap (UN-04) |
+
+## Promotion Trace
+
+This umbrella task has been promoted into `docs/30-workflows/ut-15-waf-rate-limiting-rules-setup/`.
+The current workflow owns the local implementation artifacts: `scripts/cf-waf-apply.sh`,
+`scripts/cf-waf-apply/`, `apps/api/src/middleware/edge-rate-limit-headers.ts`, existing
+app-layer rate-limit middleware integration, and `docs/runbooks/cloudflare-waf-operations.md`.
+
+Cloudflare mutation, seven-day Simulate observation, production Enforce, commit, push, and PR remain
+blocked until explicit user approval.
 
 ## 目的
 
