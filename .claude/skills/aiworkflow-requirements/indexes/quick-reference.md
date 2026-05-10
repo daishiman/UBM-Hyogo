@@ -206,6 +206,22 @@
 | 苦戦箇所 | `lessons-learned/lessons-learned-task-10-ui-primitives-2026-05.md`（L-T10-001 OpenNext esbuild mismatch / L-T10-002 C/M/R + barrel owner / L-T10-003 VISUAL_ON_EXECUTION local↔runtime 分離 / L-T10-004 lint.log capture header） |
 | changelog | `.claude/skills/aiworkflow-requirements/changelog/20260509-task-10-ui-primitives-implemented-local.md` |
 
+### E2E quality uplift Stage 2 sub-task 2b admin identity conflicts spec（2026-05-09）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/2b-admin-identity-conflicts-spec/` |
+| 状態 | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 completed` |
+| primary implementation file | `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| parent | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2b-admin-identity-conflicts.md` |
+| source unassigned | `docs/30-workflows/unassigned-task/e2e-stage-2-2b-admin-identity-conflicts-001.md`（formalized trace） |
+| mock boundary | initial list is server-side `fetchAdmin()` and uses `PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1`; browser `page.route()` is only for `/api/admin/identity-conflicts/*/{merge,dismiss}` and negative `/api/admin/members/*` observation |
+| schema | `IdentityConflictRowZ` uses `conflictId`, `candidateTargetMemberId`, `matchedFields`, `detectedAt`, `responseEmailMasked`, `syncJobId` |
+| auth fixture | import `test` / `expect` from `apps/web/playwright/fixtures/auth.ts`; do not named-import `adminPage` |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime gate | local chromium Phase 11 evidence captured; firefox / webkit / staging / CI, commit, push, PR are user-gated |
+
 ### task-21 09g Admin Screen Blueprints（2026-05-07）
 
 | 目的 | 参照先 |
