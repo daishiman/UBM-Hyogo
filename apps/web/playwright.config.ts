@@ -45,11 +45,17 @@ const localEnv =
   'AUTH_URL=http://localhost:3000 ' +
   'AUTH_SECRET=playwright-e2e-auth-secret-32-bytes'
 
-// admin-identity-conflicts spec は server-side fetch を `PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1`
-// で inline fixture に切替える設計のため、fixture 無効な coverage-gate job では除外して 404 タイムアウトを回避する。
-const fixtureGatedTestIgnore: string[] = isAdminIdentityConflictsRun
-  ? []
-  : ['**/admin-identity-conflicts.spec.ts']
+// SSR fixture mode 必須の admin spec は、対応する fixture env が立っていない場合に
+// 除外する（mock API 側に対応 GET endpoint が無く、404 → 30 分タイムアウトの主因のため）。
+//   - admin-identity-conflicts.spec.ts → PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1
+//   - admin-requests.spec.ts            → PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1
+const fixtureGatedTestIgnore: string[] = []
+if (!isAdminIdentityConflictsRun) {
+  fixtureGatedTestIgnore.push('**/admin-identity-conflicts.spec.ts')
+}
+if (!isAdminRequestsRun) {
+  fixtureGatedTestIgnore.push('**/admin-requests.spec.ts')
+}
 
 export default defineConfig({
   testDir: './playwright/tests',
@@ -57,7 +63,7 @@ export default defineConfig({
   outputDir: `${EVIDENCE_DIR}/test-results`,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : 1,
   timeout: 60_000,
   expect: { timeout: 10_000 },

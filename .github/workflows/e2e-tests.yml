@@ -10,10 +10,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Playwright project 単位で shard 並列実行することで「1 project が失敗しても他 project は独立に進む」
+  # ようにし、30 分単一タイムアウトを回避する。各 shard は 18 分 timeout、fail-fast 無効。
   e2e:
-    name: e2e-tests-coverage-gate
+    name: e2e (${{ matrix.project }})
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 18
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [desktop-chromium, desktop-firefox, mobile-webkit]
     env:
       PLAYWRIGHT_EVIDENCE_DIR: playwright/evidence
 
@@ -35,28 +41,30 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install Playwright browsers
-        run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium firefox webkit
+      - name: Install Playwright browser (matrix project only)
+        run: |
+          case "${{ matrix.project }}" in
+            desktop-chromium) BROWSER=chromium ;;
+            desktop-firefox)  BROWSER=firefox  ;;
+            mobile-webkit)    BROWSER=webkit   ;;
+          esac
+          pnpm --filter @ubm-hyogo/web exec playwright install --with-deps "$BROWSER"
 
       - name: Start deterministic mock API
         run: node scripts/e2e-mock-api.mjs > /tmp/e2e-mock-api.log 2>&1 &
 
       - name: Critical-route smoke (fail-fast)
-        run: pnpm --filter @ubm-hyogo/web e2e --grep @critical-route
+        run: pnpm --filter @ubm-hyogo/web e2e --project=${{ matrix.project }} --grep @critical-route
 
       - name: Run e2e (full)
         if: success()
-        run: pnpm --filter @ubm-hyogo/web e2e
-
-      - name: Coverage gate (line >= 80%)
-        if: success()
-        run: bash scripts/coverage-gate-e2e.sh
+        run: pnpm --filter @ubm-hyogo/web e2e --project=${{ matrix.project }}
 
       - name: Upload coverage artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-coverage-${{ github.sha }}
+          name: e2e-coverage-${{ matrix.project }}-${{ github.sha }}
           path: apps/web/coverage/
           retention-days: 14
 
@@ -64,7 +72,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-monocart-${{ github.sha }}
+          name: e2e-monocart-${{ matrix.project }}-${{ github.sha }}
           path: apps/web/playwright/evidence/monocart/
           retention-days: 7
 
@@ -72,6 +80,48 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: e2e-html-report-${{ github.sha }}
+          name: e2e-html-report-${{ matrix.project }}-${{ github.sha }}
           path: apps/web/playwright/evidence/playwright-report/html/
           retention-days: 7
+
+  # 全 shard 完了後、coverage gate を集約 job として 1 度だけ実行する。
+  # Required CI context として参照するのはこの集約 job 名 (`e2e-tests-coverage-gate`)。
+  e2e-tests-coverage-gate:
+    name: e2e-tests-coverage-gate
+    needs: e2e
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify all e2e shards succeeded
+        run: |
+          if [[ "${{ needs.e2e.result }}" != "success" ]]; then
+            echo "::error::e2e matrix shards did not all succeed (result=${{ needs.e2e.result }})"
+            exit 1
+          fi
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.15.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download coverage from chromium shard
+        uses: actions/download-artifact@v4
+        with:
+          name: e2e-coverage-desktop-chromium-${{ github.sha }}
+          path: apps/web/coverage/
+
+      - name: Coverage gate (line >= 80%)
+        run: bash scripts/coverage-gate-e2e.sh
