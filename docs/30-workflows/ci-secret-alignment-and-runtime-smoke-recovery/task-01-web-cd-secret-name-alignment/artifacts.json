@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "workflow_id": "ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment",
+    "parent_workflow_id": "ci-secret-alignment-and-runtime-smoke-recovery",
+    "subtask_id": "task-01",
+    "implementation_mode": "edit",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implementation_complete_pending_runtime_ci",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "coverageTier": "n/a",
+    "coverage_threshold": null,
+    "coverage_threshold_source": "n/a (YAML edit only, no app source change)",
+    "base_branch": "dev",
+    "feature_branch": "fix/web-cd-secret-name-alignment",
+    "updated_at": "2026-05-09"
+  },
+  "inventory": [
+    { "path": ".github/workflows/web-cd.yml", "kind": "edit", "scope": "secret-ref-rename + verify-step-add" }
+  ],
+  "phases": [
+    { "phase": 1, "status": "spec_created", "path": "phase-1.md" },
+    { "phase": 2, "status": "spec_created", "path": "phase-2.md" },
+    { "phase": 3, "status": "spec_created", "path": "phase-3.md" },
+    { "phase": 4, "status": "spec_created", "path": "phase-4.md" },
+    { "phase": 5, "status": "completed", "path": "phase-5.md" },
+    { "phase": 6, "status": "completed", "path": "phase-6.md" },
+    { "phase": 7, "status": "spec_created", "path": "phase-7.md" },
+    { "phase": 8, "status": "spec_created", "path": "phase-8.md" },
+    { "phase": 9, "status": "spec_created", "path": "phase-9.md" },
+    { "phase": 10, "status": "spec_created", "path": "phase-10.md" },
+    { "phase": 11, "status": "runtime_pending", "path": "phase-11.md" },
+    { "phase": 12, "status": "completed", "path": "phase-12.md" },
+    { "phase": 13, "status": "spec_created", "path": "phase-13.md" }
+  ],
+  "evidence": {
+    "phase11": "outputs/phase-11/evidence/",
+    "phase11_files": [
+      "yaml-syntax.log",
+      "actionlint.log",
+      "grep-gate.log",
+      "secret-residue.log",
+      "typecheck.log",
+      "lint.log",
+      "runtime-ci-pending.md"
+    ],
+    "phase12": "outputs/phase-12/"
+  },
+  "acceptance_criteria_trace": {
+    "AC-01": ["phase-1.md§6", "phase-4.md§3", "phase-6.md§1", "phase-9.md G-04", "phase-11.md§3"],
+    "AC-02": ["phase-1.md§6", "phase-4.md§3", "phase-6.md§1", "phase-9.md G-05", "phase-11.md§3"],
+    "AC-03": ["phase-1.md§6", "phase-2.md§2.3", "phase-5.md§2-§3", "phase-9.md G-06", "phase-11.md§3"],
+    "AC-04": ["phase-1.md§6", "phase-7.md§2-§5", "phase-9.md G-10", "phase-11.md§4"],
+    "AC-05": ["phase-1.md§6", "phase-7.md§2-§5", "phase-9.md G-10"],
+    "AC-06": ["phase-1.md§6", "phase-4.md§5", "phase-9.md G-07", "phase-11.md§2"]
+  }
+}

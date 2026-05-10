@@ -9,6 +9,9 @@ const isTask12PublicSmoke = process.argv.some((arg) =>
   arg.includes('public-detail-register-legal.spec.ts'),
 )
 const isTask12Evidence = process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-12-member-detail-register-legal'
+const isTask13LoginSmoke =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-13-login-rebuild' ||
+  process.argv.some((arg) => arg.includes('login-smoke.spec.ts'))
 
 const EVIDENCE_DIR =
   process.env.PLAYWRIGHT_EVIDENCE_DIR ??
@@ -20,7 +23,9 @@ const EVIDENCE_DIR =
         ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
         : isTask12PublicSmoke || isTask12Evidence
           ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
-          : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
+          : isTask13LoginSmoke
+            ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
+            : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
@@ -113,7 +118,7 @@ export default defineConfig({
         webServer: [
           {
             command: isAdminRequestsRun
-              ? `${localEnv} PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+              ? `${localEnv} AUTH_SECRET=playwright-auth-secret-playwright-auth-secret PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
               : `${localEnv} pnpm --filter @ubm-hyogo/web dev`,
             url: localBaseURL,
             reuseExistingServer: !process.env.CI,

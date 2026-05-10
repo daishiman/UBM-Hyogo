@@ -4,6 +4,9 @@
 
 ```yaml
 issue_number: 577
+status: consumed_by_current_workflow
+consumed_by: docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion/
+consumed_at: 2026-05-09
 ```
 
 
@@ -261,3 +264,10 @@ Full coverage should be rerun before PR if the local Miniflare port exhaustion c
 ### 補足事項
 
 このタスクは Issue #532 の実装漏れではなく、PR 前の検証証跡 debt を扱う。Issue #532 自体は CLOSED 維持で、後続 PR は `Refs #532` を使う。
+
+## Consumed
+
+- consumed_by_current_workflow: `docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion/`
+- consumed_at: 2026-05-09
+- closure_state: triage_adopted（軸 B `--maxWorkers=1 --minWorkers=1` 採用、`apps/api/package.json#test:coverage` に最小差分 patch、133/133 PASS / 0 EADDRNOTAVAIL）
+- evidence: `docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion/outputs/phase-11/evidence/`

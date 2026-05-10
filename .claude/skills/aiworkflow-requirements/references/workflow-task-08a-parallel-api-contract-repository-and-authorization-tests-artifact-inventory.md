@@ -84,7 +84,7 @@ per-table repository test を D1 binding mock factory（`int-test-skill/referenc
 | UT-08A-03 | `docs/30-workflows/unassigned-task/UT-08A-03-production-load-test.md` | Cloudflare Workers / D1 の production 環境負荷テスト（NON_VISUAL / 低 / 中規模） |
 | UT-08A-04 | `docs/30-workflows/unassigned-task/UT-08A-04-d1-migration-test-guideline.md` | 新規 D1 migration 追加時の test 化ガイドライン（governance / 中 / 小規模） |
 | UT-08A-05 | `docs/30-workflows/unassigned-task/UT-08A-05-shared-package-type-test.md` | `packages/shared` の `@ts-expect-error` 型テスト整備（NON_VISUAL / 中 / 小規模） |
-| UT-08A-06 | `docs/30-workflows/unassigned-task/UT-08A-06-test-suffix-rename-migration.md` | `*.test.ts` → `*.contract.spec.ts` 段階的 rename（refactor / 低 / 中規模） |
+| UT-08A-06 | `docs/30-workflows/unassigned-task/UT-08A-06-test-suffix-rename-migration.md` → successor `docs/30-workflows/issue-325-test-suffix-rename-migration/` | `*.test.ts` → suffix-classified `*.spec.ts` rename（refactor / 低 / 中規模）。Issue #325 workflow で implementation_completed。`apps/api/src/**/*.test.ts` 132 files は R100 rename 済み、Phase 11 evidence captured。 |
 
 ## Validation Chain
 
