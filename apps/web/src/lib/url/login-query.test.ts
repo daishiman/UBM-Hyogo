@@ -64,4 +64,17 @@ describe("parseLoginQuery / U-02 fallback", () => {
     const q = parseLoginQuery({ state: ["sent", "input"] });
     expect(q.state).toBe("sent");
   });
+
+  it("state=error と error メッセージが保持される（task-13）", () => {
+    const q = parseLoginQuery({ state: "error", error: "送信失敗" });
+    expect(q.state).toBe("error");
+    expect(q.error).toBe("送信失敗");
+  });
+
+  it("error メッセージが 200 文字超過なら 200 文字に切り詰める", () => {
+    const long = "x".repeat(201);
+    const q = parseLoginQuery({ state: "error", error: long });
+    expect(q.state).toBe("error");
+    expect(q.error).toHaveLength(200);
+  });
 });

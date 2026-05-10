@@ -5,16 +5,22 @@
 
 ---
 
-### task-14 `/profile` my profile and requests（2026-05-09）
+### UI prototype alignment / MVP recovery task-13 login rebuild（2026-05-09）
 
-| 項目 | 値 |
+| 目的 | 参照先 |
 | --- | --- |
-| workflow | `docs/30-workflows/task-14-my-profile-and-requests/` |
-| state | `IMPLEMENTED_LOCAL_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / runtime_pending` |
-| purpose | `/profile` 4 領域 rebuild: public visibility banner, status summary, request action panel, delete request dialog |
-| API boundary | no changes to `apps/api/src/routes/me/*` or `apps/web/app/api/me/*`; component calls use `fetchAuthed("/me/*")` |
-| selector contract | `public-visibility-banner`, `status-summary`, `request-action-panel`, `visibility-request-dialog`, `delete-request-dialog` |
-| runtime gate | apps/web implementation is reflected locally; screenshots, staging deploy, production smoke, commit, push, PR require user approval |
+| workflow root | `docs/30-workflows/task-13-login-rebuild/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| route scope | `/login` |
+| implementation targets | `apps/web/app/login/page.tsx`, `apps/web/app/login/_components/{LoginPanel.client,LoginCard,LoginStatus,MagicLinkForm.client,GoogleOAuthButton.client}.tsx`, `apps/web/src/lib/url/login-query.ts`, `apps/web/playwright/tests/login-smoke.spec.ts` |
+| UI contract | 5 core states (`input / sent / unregistered / deleted / error`) + `rules_declined` derived state + `gate=admin_required` overlay |
+| locator contract | `data-testid="login-card"` + `data-state="<LoginGateState>"` |
+| a11y contract | `deleted` / `error` / `rules_declined` are `role="alert"` |
+| API boundary | Auth.js + Magic Link API surface unchanged; `apps/web/app/api/auth/*` diff must remain 0 |
+| dependencies | task-09 / task-10 |
+| downstream | task-18 regression smoke / verify-design-tokens |
+| evidence boundary | Phase 12 strict 7, artifacts parity, apps/web implementation, focused tests, and local screenshot evidence are present. Staging smoke, production-equivalent runtime evidence, commit, push, and PR remain user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-13-login-rebuild-artifact-inventory.md` |
 
 ### CI Pipeline Recovery Web CD And Runtime Smoke（2026-05-09）
 
@@ -500,7 +506,7 @@
 | 目的 | 参照先 |
 | --- | --- |
 | 13 Phase 仕様 | `docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/` |
-| 採用案 | A. canonical tree 復元（08a current/member_only canonical root を維持し、本タスクは A restore trace） |
+| 採用案 | A. canonical tree 復元（08a current/partial canonical root を維持し、本タスクは A restore trace） |
 | 08a canonical root（維持） | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/` |
 | 下流 gate | `docs/30-workflows/completed-tasks/09c-serial-production-deploy-and-post-release-verification/` |
 | close-out evidence | `docs/30-workflows/issue-346-08a-canonical-workflow-tree-restore/outputs/phase-12/main.md` |
@@ -880,7 +886,7 @@ Google Forms `forms.responses.list` を D1 に冪等取り込み、`current_resp
 | `GOOGLE_FORM_ID` / `GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` / `SYNC_ADMIN_TOKEN` 配置 | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
 | `RETENTION_PURGE_MODE`（dry-run/apply/off）/ `RETENTION_PURGE_LIMIT` 配置（Issue #402 retention purge gate） | `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期）, `references/data-retention-policy.md` |
 | D1 health endpoint（`GET /health/db`、`X-Health-Token`、`HEALTH_DB_TOKEN`、401/403/503 境界） | `references/api-endpoints.md`（§UBM-Hyogo Health API）, `references/environment-variables.md`（§Cloudflare Workers / Google Forms 同期） |
-| 苦戦箇所（per-sync write 200 cap / member_only UNIQUE で重複 enqueue 抑止 / submittedAt 同値時 responseId 降順 tie-break / `metrics_json.cursor` ≠ `pageToken`） | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/outputs/phase-12/implementation-guide.md` Part 2 |
+| 苦戦箇所（per-sync write 200 cap / partial UNIQUE で重複 enqueue 抑止 / submittedAt 同値時 responseId 降順 tie-break / `metrics_json.cursor` ≠ `pageToken`） | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/outputs/phase-12/implementation-guide.md` Part 2 |
 | follow-up 責務 8 項目（responseEmail merge / 退会 identity 表示制御 / sync 共通モジュール owner / response_email UNIQUE 所在明文化 / 旧 `ruleConsent` lint / per-sync cap 通知 / lock TTL 解除 runbook / E2E fixture） | `docs/30-workflows/completed-tasks/03b-parallel-forms-response-sync-and-current-response-resolver-followups/03b-response-sync-followups.md`。UNIQUE 所在は Issue #196 workflow `docs/30-workflows/issue-196-03b-followup-003-response-email-unique-ddl/` で consumed / 訂正済み: 正本は `member_identities.response_email`、`member_responses.response_email` は非 UNIQUE |
 | 全 phase 設計と AC-1〜AC-10 検証 | `docs/30-workflows/03b-parallel-forms-response-sync-and-current-response-resolver/index.md` |
 
@@ -1817,7 +1823,7 @@ packages/
 | 目的 | 参照先 |
 | --- | --- |
 | Cloudflare 無料枠数値（Pages / Workers / D1 / KV / R2） | `references/deployment-cloudflare.md` |
-| GitHub Actions minutes（public/hidden 区別） | `references/deployment-gha.md` |
+| GitHub Actions minutes（public/private 区別） | `references/deployment-gha.md` |
 | デプロイ品質ゲート / rollback 手順 | `references/deployment-core.md` |
 | secret 配置（Cloudflare / GitHub / 1Password） | `references/environment-variables.md` |
 | 観測対象一覧・閾値（warning / action） | `docs/30-workflows/completed-tasks/05a-parallel-observability-and-cost-guardrails/outputs/phase-02/observability-matrix.md` |
@@ -1959,7 +1965,7 @@ packages/
 | 実装パス | `apps/api/src/repository/`（attendance / meetings / schemaDiffQueue / schemaQuestions / schemaVersions / tagDefinitions / tagQueue + `_shared/`） |
 | schema diff queue 未解決 status 正本 | `'queued'`（`pending` / `unresolved` / `open` 等は不可。不変条件 #14） |
 | `schemaVersions.getLatestVersion()` | `ORDER BY synced_at DESC` で確定（不変条件 #15） |
-| tag 書き込み境界 | `tag_assignment_queue` への enqueue/resolve のみ。`tag_definitions` は read-only マスタ（不変条件 #13）。UT-02A は enqueue 側（`idempotency_key=<memberId>:<responseId>`, retry max=3 / backoff `30s × 2^(attempt-1)`, member_only unique index `WHERE idempotency_key IS NOT NULL`, `dlq` status terminal）、07a は resolve 側 |
+| tag 書き込み境界 | `tag_assignment_queue` への enqueue/resolve のみ。`tag_definitions` は read-only マスタ（不変条件 #13）。UT-02A は enqueue 側（`idempotency_key=<memberId>:<responseId>`, retry max=3 / backoff `30s × 2^(attempt-1)`, partial unique index `WHERE idempotency_key IS NOT NULL`, `dlq` status terminal）、07a は resolve 側 |
 | UT-02A 早見 | canonical: `docs/30-workflows/issue-109-ut-02a-tag-assignment-queue-management/`、migration: `apps/api/migrations/0009_tag_queue_idempotency_retry.sql`、repository: `apps/api/src/repository/tagQueue.ts`（既存規約 `repository/` 単数形・`tagQueue.ts` 短縮名を優先 / spec の `repositories/tagAssignmentQueue.ts` 表記とは差分あり）、type-level read-only test: `apps/api/src/repository/__tests__/memberTags.readonly.test-d.ts`、苦戦知見: `references/lessons-learned-ut-02a-tag-assignment-queue-2026-05.md`（L-UT02A-001〜007） |
 | issue #377 retry tick | `apps/api/src/workflows/tagQueueRetryTick.ts` / `TAG_QUEUE_TICK_CRON="*/5 * * * *"`。retry 対象は `reason='retry_tick'` / `attempt_count > 0` / `last_error IS NOT NULL` / `next_visible_at IS NOT NULL` のいずれか。plain human-review `queued` は skip。default scheduled path でも `incrementRetryWithDlqAudit` を呼び、DLQ 移送時は `admin.tag.queue_dlq_moved` audit (`target_type='tag_queue'`) を D1 batch で同時記録 |
 | issue #378 pause flag | `TAG_QUEUE_PAUSED` は non-secret Cloudflare variable。`"true"` 完全一致のみ Forms sync candidate enqueue を停止し、`has_tags` / `has_pending_candidate` / `paused` reason contract を維持する。runbook: `docs/30-workflows/runbooks/tag-queue-pause.md`、workflow: `docs/30-workflows/completed-tasks/issue-378-tag-queue-paused-flag/`、inventory: `references/workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md`、苦戦知見: `lessons-learned/lessons-learned-issue-378-tag-queue-paused-flag-2026-05.md`（L-378-001〜004） |
