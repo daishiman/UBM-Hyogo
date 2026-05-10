@@ -35,7 +35,7 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
   });
 
   return (
-    <main data-page="members">
+    <main data-page="members" data-density={search.density}>
       <h1>メンバー一覧</h1>
       <MemberFilters initial={search} />
       {list.items.length === 0 ? (

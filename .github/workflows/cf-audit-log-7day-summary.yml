@@ -1,0 +1,176 @@
+# Issue #586 / Refs #549: 7 日 close-out サマリ集計 workflow
+# 168 hourly snapshots を `cf-audit-log-monitor.yml` の artifact から download し、
+# `post-switch-monitor.ts --aggregate` で集約して `outputs/phase-11/evidence/` に PR 起票する。
+# 直 push 禁止。peter-evans/create-pull-request@v6 で別ブランチに PR を起票する。
+name: cf-audit-log-7day-summary
+
+on:
+  schedule:
+    - cron: '0 1 */7 * *'
+  workflow_dispatch:
+    inputs:
+      window_hours:
+        description: 集約対象の hourly snapshots 件数 (default 168)
+        required: false
+        type: string
+        default: '168'
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+concurrency:
+  group: cf-audit-log-7day-summary
+  cancel-in-progress: false
+
+env:
+  EXPECTED_SNAPSHOTS_7DAY: ${{ inputs.window_hours || '168' }}
+
+jobs:
+  aggregate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Download hourly artifacts (last 7 days, cross-run)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          mkdir -p hourly-artifacts hourly-merged
+          mkdir -p docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
+          # 直近 7 日 (168h + safety margin) の cf-audit-log-monitor.yml run を列挙
+          SINCE=$(date -u -d '8 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          gh api --paginate \
+            "repos/${GITHUB_REPOSITORY}/actions/workflows/cf-audit-log-monitor.yml/runs?created=>${SINCE}&per_page=100" \
+            --jq '.workflow_runs[] | [.id, .html_url] | @tsv' > run-ids.tsv
+          cut -f1,2 run-ids.tsv > docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/run-urls.tsv
+          while IFS=$'\t' read -r RID RUN_URL; do
+            [ -z "$RID" ] && continue
+            ARTIFACT_ID=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RID}/artifacts" \
+              --jq '.artifacts[] | select(.name | startswith("hourly-snapshot-")) | .id' | head -1)
+            [ -z "$ARTIFACT_ID" ] && continue
+            mkdir -p "hourly-artifacts/${RID}"
+            gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}/zip" > "hourly-artifacts/${RID}/snapshot.zip" || continue
+            unzip -qq -o "hourly-artifacts/${RID}/snapshot.zip" -d "hourly-artifacts/${RID}" || true
+            find "hourly-artifacts/${RID}" -name '*.json' -exec cp {} hourly-merged/ \;
+          done < run-ids.tsv
+      - name: Stage snapshots
+        id: stage
+        run: |
+          set -euo pipefail
+          COUNT=$(find hourly-merged -name '*.json' | wc -l | tr -d ' ')
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+          echo "Found $COUNT snapshots (expected ${EXPECTED_SNAPSHOTS_7DAY})."
+      - name: Aggregate 7-day summary
+        env:
+          ACTUAL_SNAPSHOTS: ${{ steps.stage.outputs.count }}
+        run: |
+          set -euo pipefail
+          mkdir -p docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
+          OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
+          OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
+          pnpm exec tsx scripts/cf-audit-log/observation/post-switch-monitor.ts \
+            --aggregate \
+            --input=hourly-merged \
+            --expected-snapshots="${EXPECTED_SNAPSHOTS_7DAY}" \
+            --require-non-skeleton \
+            --out="$OUT_JSON"
+          pnpm exec tsx scripts/cf-audit-log/observation/post-switch-monitor.ts \
+            --aggregate \
+            --input=hourly-merged \
+            --expected-snapshots="${EXPECTED_SNAPSHOTS_7DAY}" \
+            --require-non-skeleton \
+            --format=markdown \
+            --out="$OUT_MD"
+          if [ "$ACTUAL_SNAPSHOTS" -lt "$EXPECTED_SNAPSHOTS_7DAY" ]; then
+            echo "::error::actualSnapshots=$ACTUAL_SNAPSHOTS < expectedSnapshots=$EXPECTED_SNAPSHOTS_7DAY"
+            exit 1
+          fi
+          node - "$OUT_JSON" <<'NODE'
+          const fs = require("node:fs");
+          const summary = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+          const errors = [];
+          if (summary.actualSnapshots < summary.expectedSnapshots) errors.push("snapshots_mismatch");
+          if (summary.fallbackRateMean > 0.05) errors.push("fallback_rate_mean_gt_5pct");
+          if (summary.leakageHits > 0) errors.push("leakage_hits");
+          if (summary.mlSnapshots < summary.expectedSnapshots) errors.push("ml_snapshots_below_expected");
+          if (errors.length) {
+            console.error(`::error::${errors.join(",")}`);
+            process.exit(1);
+          }
+          NODE
+      - name: Append hourly run URL list
+        run: |
+          set -euo pipefail
+          OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
+          URLS=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/run-urls.tsv
+          {
+            echo
+            echo "## Hourly run URLs"
+            echo
+            echo "| run id | url |"
+            echo "| --- | --- |"
+            awk -F '\t' '{ printf "| %s | %s |\\n", $1, $2 }' "$URLS"
+          } >> "$OUT_MD"
+          rm -f "$URLS"
+      - name: Generate issue-rate comparison evidence
+        run: |
+          set -euo pipefail
+          OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
+          OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/issue-rate-comparison.md
+          node - "$OUT_JSON" "$OUT_MD" <<'NODE'
+          const fs = require("node:fs");
+          const [summaryPath, outPath] = process.argv.slice(2);
+          const summary = JSON.parse(fs.readFileSync(summaryPath, "utf8"));
+          const lines = [
+            "# Issue Rate Comparison",
+            "",
+            "| metric | value |",
+            "| --- | ---: |",
+            `| expectedSnapshots | ${summary.expectedSnapshots} |`,
+            `| actualSnapshots | ${summary.actualSnapshots} |`,
+            `| issuesOpenedTotal | ${summary.issuesOpenedTotal} |`,
+            `| fallbackRateMean | ${summary.fallbackRateMean} |`,
+            `| fallbackRateMax | ${summary.fallbackRateMax} |`,
+            `| leakageHits | ${summary.leakageHits} |`,
+            "",
+            "Threshold-period baseline comparison is finalized in the D+7 evidence PR using parent #549 baseline artifacts.",
+            "",
+          ];
+          fs.writeFileSync(outPath, lines.join("\n"));
+          NODE
+      - name: Leakage grep across 7-day window
+        run: |
+          set -euo pipefail
+          OUT=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/leakage-grep-7day.log
+          pnpm exec tsx scripts/cf-audit-log/evaluation/secret-leakage-grep.ts \
+            --exit-on-detect \
+            --input hourly-merged \
+            | tee "$OUT"
+      - name: Open PR with evidence
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/issue-586-7day-evidence-${{ github.run_id }}
+          base: dev
+          title: 'chore(cf-audit-log): post-switch 7-day evidence (Refs #549, Refs #586)'
+          commit-message: |
+            chore(cf-audit-log): add 7-day post-switch evidence
+
+            Refs #549, Refs #586
+          body: |
+            ## Summary
+
+            - 168 hourly snapshots aggregation by `post-switch-monitor.ts --aggregate`
+            - leakage grep 7-day window result attached
+            - SSOT 4 ファイルの `pass_runtime_synced` 昇格判定材料
+
+            Refs #549, Refs #586
+          add-paths: |
+            docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/

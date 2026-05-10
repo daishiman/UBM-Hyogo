@@ -36,6 +36,7 @@ interface LabeledAuditEvent {
 }
 
 async function main(): Promise<void> {
+  const startedAt = Date.now();
   const args = parseArgs(process.argv.slice(2));
   const dryRun = Boolean(args["dry-run"]);
   const fixturePath = typeof args.fixture === "string" ? args.fixture : null;
@@ -119,7 +120,17 @@ async function main(): Promise<void> {
   }
 
   await purgeOlderThan(db, untilMs - 30 * 86_400_000);
-  process.stdout.write(JSON.stringify({ ok: true, findings }) + "\n");
+  process.stdout.write(
+    JSON.stringify({
+      ok: true,
+      totalEvents: events.length,
+      findings,
+      classifierUsed: classifier.name,
+      classifierVersion: classifier.version,
+      fallbackActive: classifier.fallbackActive === true,
+      elapsedMs: Date.now() - startedAt,
+    }) + "\n",
+  );
 }
 
 async function loadContext(fixturePath: string | null, evaluatePath: string | null): Promise<{

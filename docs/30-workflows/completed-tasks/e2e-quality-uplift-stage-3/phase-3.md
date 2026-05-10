@@ -12,7 +12,7 @@
 | # | 条件 | 評価 | 根拠 |
 |---|------|------|------|
 | C1 | 受入基準が測定可能 | PASS | AC-3a-1..4 / AC-3b-1..6 / AC-3c-1..5 が全て `gh run` / `gh api` / artifact / `jq` で機械検証可能 |
-| C2 | 不変条件と矛盾しない | PASS | `required_pull_request_reviews=null` / `lock_branch=false` を payload で明示維持。standard tier=70% を quality-gates.md から踏襲。`wrangler` 直叩きなし |
+| C2 | 不変条件と矛盾しない | PASS | `required_pull_request_reviews=null` / `lock_branch=false` を payload で明示維持。standard tier=80% を quality-gates.md から踏襲。`wrangler` 直叩きなし |
 | C3 | 依存タスクが解決済み or ブロッキングが明示 | CONDITIONAL | Stage 2（`docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/`）は artifacts と Phase 1-13 を保有し、Stage 3 着手条件を満たす |
 | C4 | リスクと緩和策が一対 | PASS | phase-2.md §5 で 7 リスク全てに対し具体的緩和策を 1 対 1 紐付け |
 
@@ -129,7 +129,7 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】

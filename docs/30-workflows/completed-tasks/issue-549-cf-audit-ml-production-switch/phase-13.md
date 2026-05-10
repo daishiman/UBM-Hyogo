@@ -91,6 +91,8 @@ PR merge 後、本ワークフロー root を以下に移動する（references/
 
 `legacy-ordinal-family-register.md` への mapping entry 追加（legacy path / canonical path / 昇格日 / canonical state = `spec_created`）も same-wave で実施する。実装サイクル完走 + 7 日観測完走で `pass_runtime_synced` に昇格した時点で本注記は撤去する。
 
+> **2026-05-09 update（Refs #586）**: Issue #586 close-out で workflow YAML 改修 + `cf-audit-log-7day-summary.yml` 新規 + SSOT 4 ファイル更新を実施した。本サイクル merge 直後の状態は `pass_boundary_synced_runtime_pending` に昇格し、D+7 で 168 hourly snapshots 集約 + leakage grep 7 日連続 clean + fallback rate mean ≤ 5% を満たした時点で `pass_runtime_synced` に昇格させる。本 stub の撤去は D+7 完走後の close-out PR で行う。
+
 ## 出力
 
 - `outputs/phase-13/main.md`（PR URL / 採用ブランチ / 承認 Gate G1〜G4 のタイムスタンプ / 残課題）

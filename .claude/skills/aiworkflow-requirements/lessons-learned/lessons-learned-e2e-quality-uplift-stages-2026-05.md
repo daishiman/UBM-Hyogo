@@ -107,6 +107,27 @@
 - **再発防止**: `.github/workflows/*.yml` に対して `grep -nE '\bnpx\b' .github/workflows/` を CI lint に追加し、検出時は fail させる。helper script 経由の場合も同 grep を `scripts/` に拡張する。例外（公式 init コマンド等）は許容ファイル一覧に明記する。
 - **関連 refs**: `.github/workflows/lighthouse.yml` (3a), `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/`
 
+### L-E2EQU-013: `PUBLIC_API_BASE_URL` を service binding より優先して CI mock を成立させる
+
+- **状況**: Cloudflare Workers ランタイムでは `apps/web/src/lib/fetch/public.ts` が `env.API_SERVICE` (service binding) を優先する設計だったため、CI 上で `scripts/e2e-mock-api.mjs` を `127.0.0.1:8787` に立てて `INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` で差し替えても、binding 経由 fetch が先に走り mock に届かなかった。Server Component の SSR fetch を E2E から差し替える経路がふさがると、coverage gate を回しても挙動を再現できない。
+- **学び**: `PUBLIC_API_BASE_URL` が明示されているときは service binding を **使わず** HTTP fallback を優先する分岐（`apps/web/src/lib/fetch/public.ts` 冒頭）を入れる。production では `PUBLIC_API_BASE_URL` を設定しないことで binding 優先のままにし、CI / local E2E でだけ env で上書きする設計に閉じる。env 名は L-E2EQU-008 の `PLAYWRIGHT_<AREA>_FIXTURE` 規約とは別軸（base URL 差し替え）として整理する。
+- **再発防止**: SSR fetch を含む新 helper を作るときは「service binding 優先」と「明示 base URL があるときは HTTP 優先」の二軸を helper の最上段に書く。`apps/web/src/lib/fetch/public.test.ts` で env 設定ありの分岐を unit test として固定し、Phase 4 の test design で「binding 経路 vs HTTP 経路」を必ず両方カバーする。
+- **関連 refs**: `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/fetch/public.test.ts`, `scripts/e2e-mock-api.mjs`, `.github/workflows/e2e-tests.yml`
+
+### L-E2EQU-014: Playwright reporter 配列に monocart を追加するときは末尾追加で既存 3 件を維持する
+
+- **状況**: 3b 初版 draft では `apps/web/playwright.config.ts` の `reporter` を `[['monocart-reporter', {...}]]` で置き換える形にしてしまい、既存の `html` / `json` / `list` reporter が失われ、08b-A artifact upload や CI ログ出力が壊れる回帰が発生しかけた。Phase 4 design で「既存 reporter を維持」を明示しないと、新 reporter 追加が既存 evidence パイプラインを壊す。
+- **学び**: reporter 追加は **配列末尾追加** を default にする。`html` / `json` / `list` の 3 件は別 workflow（playwright-report upload / monocart-report upload / CI 行ログ）が依存しており、コミット前に `grep -nE "html|json|list" playwright.config.ts` で 3 件残存を機械検証する。`monocart-reporter` の出力先は `playwright/evidence/` 以下に閉じ、既存 `playwright-report/` には触れない。
+- **再発防止**: Playwright reporter 系の Phase 12 compliance check に「既存 reporter 維持・末尾追加・出力先 path 衝突なし」の 3 項目を追加。`apps/web/playwright/README.md` の reporter 節に「追加は末尾、削除は別 PR」を明文化。
+- **関連 refs**: `apps/web/playwright.config.ts`, `apps/web/playwright/README.md`, `docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/`
+
+### L-E2EQU-015: `THRESHOLD_FIXTURE` override と 3 fixture 構成で coverage gate スクリプト自体を unit test 可能にする
+
+- **状況**: `scripts/coverage-gate-e2e.sh` を実 `coverage-summary.json` だけで検証すると、80% 境界・不在ケース・79.99% near-fail を再現できず、CI で初めて挙動が判明するため fail 修正サイクルが長くなる。`THRESHOLD_FIXTURE` を持たないと、しきい値変更時に regression が出ても気付けない。
+- **学び**: shell gate スクリプトには `THRESHOLD_FIXTURE` 環境変数で `coverage-summary.json` 探索 path を override する仕組みを最初から入れる。fixture は `scripts/__tests__/coverage-gate-e2e.fixture/{pass,fail-79,missing}/` の 3 系統（PASS 85.0% / FAIL 79.99% / 不在）で固定し、ローカル T-3b-5..7 で `exit 0 / exit 1 / exit 1` を検証してから CI に乗せる。`set -euo pipefail` と `::error::` / `::notice::` の GitHub Actions annotation 出力を冒頭で固定し、CI ログから境界判定を即座に拾えるようにする。
+- **再発防止**: 新規 CI gate shell スクリプトは「fixture override env」「pass / boundary-fail / missing の 3 fixture」「`set -euo pipefail`」「しきい値根拠の `references/quality-gates.md` path コメント」「`shellcheck` violation 0」の 5 点を着地条件にする。actionlint バイナリが用意できない環境では `pnpm dlx @action-validator/cli` で YAML 構文を代替検証し、Phase 12 DoD に「actionlint 不在時は @action-validator/cli」を但し書きで残す。
+- **関連 refs**: `scripts/coverage-gate-e2e.sh`, `scripts/__tests__/coverage-gate-e2e.fixture/`, `scripts/e2e-mock-api.mjs`, `task-specification-creator/references/quality-gates.md` §7.5
+
 ### L-E2EQU-012: Branch protection mutation の user gate 設計と `enforce_admins` drift の別 issue 化
 
 - **状況**: 3c で dev/main の required contexts 拡張に `gh api -X PUT /repos/.../branches/{dev,main}/protection` mutation が必要だが、AI agent が即時実行すると user policy（solo dev・enforce_admins / lock_branch などの drift）と衝突する恐れがある。さらに観測中に `enforce_admins` の drift（true → false 等）を検出した場合、同 PR で押し付けると scope creep になり revert コストが跳ねる。
