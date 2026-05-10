@@ -176,6 +176,19 @@
 | evidence | 本サイクル: local 5 evidence (`typecheck.log`/`lint.log`/`test.log`/`build.log`/`grep-gate.log`)。D+7: `hourly-run-7day.md` / `hourly-run-7day-summary.json` / `leakage-grep-7day.log` / `issue-rate-comparison.md` |
 | 境界 | Issue #549 / #586 は CLOSED のまま `Refs #549, Refs #586`。D1 schema 変更なし（forward-safe）|
 
+### Issue #587 Cloudflare Audit Logs ML model artifact rotation（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/` |
+| parent | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
+| runbook | `docs/30-workflows/runbooks/ml-model-artifact-rotation.md` |
+| 目的 | 次世代 ML model artifact の candidate evaluation / canary / promotion / rollback を Gate-R0〜R3 と user approval 境界付きで再現可能にする |
+| runtime境界 | rotation scripts / canary workflow は local 実装済み。Phase 11 evidence は typecheck / lint / focused tests / leakage grep / dataset grep / local fixture canary / rotation evidence を取得済み。production artifact promotion は Gate-R0〜R3 + user approval pending |
+| 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / quick-reference / resource-map / LOGS |
+| Issue 取扱 | Issue #587 / #549 は CLOSED 維持。PR 文脈は `Refs #549, #587` のみ |
+
 ### Issue #532 write/tag/note provider ctx injection（2026-05-08）
 
 | 項目 | 値 |
