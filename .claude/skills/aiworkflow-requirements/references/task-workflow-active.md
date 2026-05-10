@@ -349,6 +349,19 @@
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-11/link-checklist.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | Phase 13 | commit / push / PR outputs は user approval 後のみ生成 |
 
+### UI prototype alignment task-15 Admin Dashboard and Members（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-pending / implementation / VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-15-admin-dashboard-and-members/` |
+| primary screens | `/admin`, `/admin/members` |
+| implementation | `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/admin/page.tsx`, `apps/web/app/(admin)/admin/members/page.tsx`, `apps/web/src/features/admin/components/**`, `apps/web/src/lib/admin/admin-dashboard-ui.ts` |
+| evidence | local Playwright screenshot 9 files in `outputs/phase-11/`, Phase 12 strict 7 files, `jest-axe` unit a11y |
+| boundary | existing `/admin/dashboard` and `/admin/members` API only; no new endpoint, no D1 schema change, no shared schema mutation |
+| downstream | task-16 / task-17 may consume admin layout owner surface after branch integration; task-18 consumes visual/test evidence |
+| Phase 13 | commit / push / PR outputs are user-gated |
+
 ### UI prototype alignment / task-19 09c primitives full spec（2026-05-07）
 
 | 項目 | 値 |

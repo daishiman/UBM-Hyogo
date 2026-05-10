@@ -1,6 +1,7 @@
 // task-15: MembersFilters TC-MF-01〜05
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { axe } from "jest-axe";
 import { MembersFilters, type MembersFilterValue } from "../_members/MembersFilters";
 
 afterEach(() => cleanup());
@@ -49,5 +50,9 @@ describe("MembersFilters", () => {
     expect(status.textContent).toContain("更新中");
   });
 
-  it.todo("a11y violations 0");
+  it("a11y violations 0", async () => {
+    const { container } = render(<MembersFilters value={baseValue} onChange={() => {}} />);
+    const results = await axe(container);
+    expect(results.violations).toHaveLength(0);
+  });
 });

@@ -2983,6 +2983,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | State | L17 |
 
+### references/workflow-task-15-admin-dashboard-and-members-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Notes | L16 |
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -4835,6 +4841,16 @@ node scripts/list-specs.js --topics
 | L-TASK14-004: Dialog 純 UI 分離は今 wave で未達 — limitation 化を明記 | L28 |
 | L-TASK14-005: `deriveBannerView` の優先順位（authGateState > publishState） | L35 |
 
+### references/lessons-learned-task-15-admin-dashboard-and-members-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK15-001: shared schema 不変条件は web 側 mapper で吸収する | L7 |
+| L-TASK15-002: VISUAL evidence は local mock API / fixture server を経由する | L14 |
+| L-TASK15-003: `it.todo` a11y placeholder は同 cycle で解消する | L21 |
+| L-TASK15-004: Phase 12 strict 7 は物理ファイルとして生成する | L28 |
+| L-TASK15-005: 非同期 UI race は cancelled flag と try/finally で構造的に消す | L35 |
+
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
 | セクション | 行 |
@@ -5154,8 +5170,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L106 |
-| 関連ドキュメント | L111 |
+| 利用順序 | L107 |
+| 関連ドキュメント | L112 |
 
 ### references/llm-embedding.md
 
@@ -6265,13 +6281,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L933 |
-| フェーズ構造（概要） | L942 |
-| 品質ゲート（概要） | L973 |
-| 出力テンプレート | L984 |
-| 実行時のコマンド・エージェント・スキル | L1007 |
-| 昇格パターン集 | L1031 |
-| Current Active / Spec Created Tasks | L1033 |
+| ドキュメント構成 | L946 |
+| フェーズ構造（概要） | L955 |
+| 品質ゲート（概要） | L986 |
+| 出力テンプレート | L997 |
+| 実行時のコマンド・エージェント・スキル | L1020 |
+| 昇格パターン集 | L1044 |
+| Current Active / Spec Created Tasks | L1046 |
 
 ### references/task-workflow-backlog-part2.md
 

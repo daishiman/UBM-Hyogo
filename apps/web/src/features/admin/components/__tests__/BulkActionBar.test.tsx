@@ -1,6 +1,7 @@
 // task-15: BulkActionBar TC-BAB-01〜04
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
+import { axe } from "jest-axe";
 
 vi.mock("@/lib/admin/api", () => ({
   patchMemberStatus: vi.fn().mockResolvedValue({ ok: true, status: 200, data: {} }),
@@ -53,5 +54,9 @@ describe("BulkActionBar", () => {
     expect(vi.mocked(deleteMember)).toHaveBeenCalledWith("a", "bulk-delete");
   });
 
-  it.todo("a11y violations 0");
+  it("a11y violations 0", async () => {
+    const { container } = render(<BulkActionBar selectedIds={["a", "b"]} onComplete={() => {}} />);
+    const results = await axe(container);
+    expect(results.violations).toHaveLength(0);
+  });
 });

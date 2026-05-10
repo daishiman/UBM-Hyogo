@@ -1,6 +1,7 @@
 // task-15: MembersTable TC-MT-01〜05
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { axe } from "jest-axe";
 import type { AdminMemberListView } from "@ubm-hyogo/shared";
 import { asMemberId, asResponseEmail } from "@ubm-hyogo/shared";
 import { MembersTable } from "../_members/MembersTable";
@@ -114,5 +115,21 @@ describe("MembersTable", () => {
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
-  it.todo("a11y violations 0");
+  it("a11y violations 0", async () => {
+    const { container } = render(
+      <MembersTable
+        items={[mkMember("a", "山田")]}
+        selected={new Set()}
+        onToggleSelect={() => {}}
+        onToggleSelectAll={() => {}}
+        onOpenRow={() => {}}
+        page={1}
+        pageSize={50}
+        total={1}
+        onPageChange={() => {}}
+      />,
+    );
+    const results = await axe(container);
+    expect(results.violations).toHaveLength(0);
+  });
 });

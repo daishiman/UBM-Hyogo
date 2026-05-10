@@ -33,6 +33,7 @@ type PendingRequests = {
 type MockApiState = {
   pendingRequests: PendingRequests
   visibilityPost?: { status: number; body: unknown }
+  adminDashboardUnresolvedSchema?: number
 }
 
 type MockApi = {
@@ -40,6 +41,7 @@ type MockApi = {
   setVisibilityPending: (createdAt?: string) => void
   setDeletePending: (createdAt?: string) => void
   setVisibilityError: (status: number, body: unknown) => void
+  setAdminDashboardUnresolvedSchema: (count: number) => void
 }
 
 const state: MockApiState = { pendingRequests: {} }
@@ -70,6 +72,100 @@ function profileBody() {
   }
 }
 
+function adminDashboardBody() {
+  return {
+    totals: {
+      totalMembers: 128,
+      publicMembers: 76,
+      untaggedMembers: 9,
+      unresolvedSchema: state.adminDashboardUnresolvedSchema ?? 0,
+    },
+    recentActions: [
+      {
+        auditId: 'audit_001',
+        actorEmail: 'admin@example.test',
+        action: 'admin.member.status_updated',
+        targetType: 'member',
+        targetId: 'mem_alpha',
+        createdAt: '2026-05-10T01:00:00.000Z',
+      },
+      {
+        auditId: 'audit_002',
+        actorEmail: 'system@example.test',
+        action: 'admin.member.note_created',
+        targetType: 'member',
+        targetId: 'mem_beta',
+        createdAt: '2026-05-10T00:30:00.000Z',
+      },
+    ],
+    generatedAt: '2026-05-10T01:05:00.000Z',
+  }
+}
+
+function adminMembersBody(query: URLSearchParams) {
+  const q = query.get('q') ?? ''
+  const baseMembers = [
+    {
+      memberId: 'mem_alpha',
+      responseEmail: 'alpha@example.test',
+      fullName: '青木 太郎',
+      publicConsent: 'consented',
+      rulesConsent: 'consented',
+      publishState: 'public',
+      isDeleted: false,
+      lastSubmittedAt: '2026-05-09T12:00:00.000Z',
+    },
+    {
+      memberId: 'mem_beta',
+      responseEmail: 'beta@example.test',
+      fullName: '兵庫 花子',
+      publicConsent: 'consented',
+      rulesConsent: 'consented',
+      publishState: 'hidden',
+      isDeleted: false,
+      lastSubmittedAt: '2026-05-08T12:00:00.000Z',
+    },
+    {
+      memberId: 'mem_gamma',
+      responseEmail: 'gamma@example.test',
+      fullName: '神戸 次郎',
+      publicConsent: 'unknown',
+      rulesConsent: 'consented',
+      publishState: 'member_only',
+      isDeleted: false,
+      lastSubmittedAt: '2026-05-07T12:00:00.000Z',
+    },
+  ]
+  const members = q === 'zzzzz' ? [] : baseMembers
+  return {
+    total: members.length,
+    page: 1,
+    pageSize: 50,
+    members,
+  }
+}
+
+function adminMemberDetailBody(memberId: string) {
+  return {
+    identityMemberId: memberId,
+    identityEmail: `${memberId}@example.test`,
+    status: {
+      publicConsent: 'consented',
+      rulesConsent: 'consented',
+      publishState: 'public',
+      isDeleted: false,
+    },
+    audit: [
+      {
+        occurredAt: '2026-05-10T01:00:00.000Z',
+        actor: 'admin@example.test',
+        action: 'admin.member.status_updated',
+        note: 'fixture',
+      },
+    ],
+  }
+}
+
 async function ensureMockApi(): Promise<void> {
   if (serverPromise) return serverPromise
   serverPromise = new Promise((resolve, reject) => {
@@ -90,6 +186,26 @@ async function ensureMockApi(): Promise<void> {
       }
       if (req.method === 'GET' && url.pathname === '/me/profile') {
         response(res, 200, profileBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/dashboard') {
+        response(res, 200, adminDashboardBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/members') {
+        response(res, 200, adminMembersBody(url.searchParams))
+        return
+      }
+      const memberDetailMatch = url.pathname.match(/^\/admin\/members\/([^/]+)$/)
+      if (req.method === 'GET' && memberDetailMatch?.[1]) {
+        response(res, 200, adminMemberDetailBody(memberDetailMatch[1]))
+        return
+      }
+      if (
+        (req.method === 'PATCH' || req.method === 'POST') &&
+        url.pathname.startsWith('/admin/members/')
+      ) {
+        response(res, 200, { ok: true })
         return
       }
       if (req.method === 'POST' && url.pathname === '/me/visibility-request') {
@@ -158,6 +274,7 @@ const mockApi: MockApi = {
   reset: () => {
     state.pendingRequests = {}
     delete state.visibilityPost
+    delete state.adminDashboardUnresolvedSchema
   },
   setVisibilityPending: (createdAt = '2026-05-09T00:00:00.000Z') => {
     state.pendingRequests.visibility = {
@@ -176,6 +293,9 @@ const mockApi: MockApi = {
   },
   setVisibilityError: (status, body) => {
     state.visibilityPost = { status, body }
+  },
+  setAdminDashboardUnresolvedSchema: (count) => {
+    state.adminDashboardUnresolvedSchema = count
   },
 }
 

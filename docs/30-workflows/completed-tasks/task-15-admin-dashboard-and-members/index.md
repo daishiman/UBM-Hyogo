@@ -7,7 +7,7 @@
 > implementation_mode: `new`（新規実装）
 > taskType: `implementation`
 > visualEvidence: `VISUAL`（admin 2 画面の UI 構築 + Phase 11 で screenshot 必須）
-> workflow_state: `spec_created`（本ディレクトリは実装前の仕様書一式。Phase 5 以降を実行した時点で implemented-local 系へ再分類）
+> workflow_state: `implemented-local-runtime-pending`（apps/web 実装・local unit/a11y・local Playwright screenshot evidence 取得済み。Phase 13 commit/push/PR は user-gated）
 > スコープ原則: 全 Phase を 1 サイクル内で完了（CONST_007）。先送り禁止。
 
 ---
@@ -40,7 +40,7 @@
 | 8 | リファクタリング | [phase-08.md](./phase-08.md) | 旧 `apps/web/src/components/admin/` 残骸整理 / barrel export 統一 |
 | 9 | 品質保証 | [phase-09.md](./phase-09.md) | typecheck / lint / build / verify-design-tokens green |
 | 10 | 最終レビュー | [phase-10.md](./phase-10.md) | DoD G-01〜G-12 一括判定 |
-| 11 | 手動テスト | [phase-11.md](./phase-11.md) | screenshot 9 枚 + a11y 視覚検証 + manual test |
+| 11 | 手動テスト | [phase-11.md](./phase-11.md) | local Playwright screenshot 9 枚 + a11y 視覚検証 + manual test |
 | 12 | ドキュメント更新 | [phase-12.md](./phase-12.md) | strict 7 files / implementation-guide / system-spec sync / unassigned / feedback |
 | 13 | PR 作成 | [phase-13.md](./phase-13.md) | user 明示承認後のみ実施 |
 
@@ -66,7 +66,19 @@ docs/30-workflows/task-15-admin-dashboard-and-members/
 |-------------|------|
 | 含む | Phase 1 §4 の新規 20 件 + 修正 3 件 / Phase 4 TDD 5 ファイル / Phase 6 拡張後 8 ファイル 36 ケース / Phase 11 screenshot 9 枚 / Phase 12 strict 7 files |
 | 含まない（仕様明記の非ゴール） | 新 admin endpoint 追加 / D1 schema 変更 / virtual scroll / CSV export 実装 / task-17 audit 画面のフィルタ反映 |
-| 先送りなし | 1 サイクル内で task-15 を完全クローズ。`byZone`/`byStatus` placeholder 表示は本 task 内で実装（API 拡張は別タスク化候補として Phase 12 で記録） |
+| 先送りなし | 1 サイクル内で task-15 local close-out を完了。`byZone`/`byStatus` placeholder 表示、a11y unit assertions、Phase 11 local screenshots、Phase 12 strict 7 を本 task 内で実装・同期 |
+
+## 実装状態
+
+| 項目 | 状態 |
+| --- | --- |
+| Phase 1-12 | completed |
+| Phase 11 | completed with local Playwright fixture screenshots |
+| Phase 12 strict 7 | physical files present |
+| apps/web 実装 | implemented local |
+| unit / a11y tests | `pnpm -F @ubm-hyogo/web test` PASS |
+| screenshot command | `pnpm -F @ubm-hyogo/web exec playwright test --project=desktop-chromium playwright/tests/task15-admin-screenshots.spec.ts` PASS |
+| Phase 13 | blocked pending explicit user approval |
 
 ## 並列実行ガイダンス
 

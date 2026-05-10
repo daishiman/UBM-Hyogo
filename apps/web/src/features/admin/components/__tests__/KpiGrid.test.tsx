@@ -1,6 +1,7 @@
 // task-15: KpiGrid TC-KG-01〜04
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
+import { axe } from "jest-axe";
 import { KpiGrid } from "../_dashboard/KpiGrid";
 
 afterEach(() => cleanup());
@@ -45,5 +46,11 @@ describe("KpiGrid", () => {
     expect(value?.className).toContain("text-[var(--ubm-color-warn)]");
   });
 
-  it.todo("a11y violations 0");
+  it("a11y violations 0", async () => {
+    const { container } = render(
+      <KpiGrid totals={{ totalMembers: 100, publicMembers: 50, untaggedMembers: 0, unresolvedSchema: 0 }} />,
+    );
+    const results = await axe(container);
+    expect(results.violations).toHaveLength(0);
+  });
 });

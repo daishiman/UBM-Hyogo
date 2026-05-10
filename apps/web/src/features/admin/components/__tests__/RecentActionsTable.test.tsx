@@ -1,6 +1,7 @@
 // task-15: RecentActionsTable TC-RAT-01〜03
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
+import { axe } from "jest-axe";
 import { RecentActionsTable } from "../_dashboard/RecentActionsTable";
 
 afterEach(() => cleanup());
@@ -30,5 +31,9 @@ describe("RecentActionsTable", () => {
     expect(link.getAttribute("href")).toBe("/admin/audit");
   });
 
-  it.todo("a11y violations 0");
+  it("a11y violations 0", async () => {
+    const { container } = render(<RecentActionsTable items={[]} />);
+    const results = await axe(container);
+    expect(results.violations).toHaveLength(0);
+  });
 });

@@ -2657,3 +2657,6 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Normalized phase statuses to `completed` / `pending` / `blocked` while keeping root workflow state `spec_created`.
 - Added `outputs/phase-11/main.md` as `PENDING_IMPLEMENTATION_EVIDENCE` so reserved evidence paths are not mistaken for runtime PASS.
 - Skill feedback: multi-candidate model selection workflows must separate synthetic harness smoke from production winner selection and keep FU-03-D production switch user-gated.
+# 2026-05-10
+
+- task-15 admin dashboard and members review feedback applied: Phase 12 strict 7 files must be physical files, artifacts must reference existing outputs, and VISUAL tasks need local fixture screenshot evidence when staging is not yet available. `it.todo` a11y placeholders were replaced with `jest-axe` tests in the same cycle.

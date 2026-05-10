@@ -180,6 +180,18 @@
 | downstream | task-15 / task-16 / task-17 admin implementation |
 | 境界 | apps/packages code 変更なし。既存 admin API endpoint surface のみ参照。screenshot 不要 |
 
+### UI prototype alignment task-15 Admin Dashboard and Members（2026-05-10）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-15-admin-dashboard-and-members/` |
+| 状態 | `implemented-local-runtime-pending / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| screens | `/admin`, `/admin/members`, `(admin)/layout.tsx` |
+| implementation | `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/admin/page.tsx`, `apps/web/app/(admin)/admin/members/page.tsx`, `apps/web/src/features/admin/components/**`, `apps/web/src/lib/admin/admin-dashboard-ui.ts` |
+| evidence | `outputs/phase-11/*.png`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | no new admin endpoint, no D1 schema change, no shared schema mutation |
+| downstream | task-16 / task-17 consume admin layout surface; task-18 consumes screenshot/test evidence |
+
 ### UI prototype alignment / task-19 09c primitives full spec（2026-05-07）
 
 | 目的 | 参照先 |

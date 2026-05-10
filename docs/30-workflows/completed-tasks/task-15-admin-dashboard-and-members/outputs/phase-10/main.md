@@ -9,11 +9,11 @@
 | G-05 | Server / Client 境界明示 | ✅ | page = Server Component (await getSession + fetch)、interactive = `"use client"` (`MembersClientShell` / `BulkActionBar` / `MemberDrawer` 等) |
 | G-06 | URL state sync (q/zone/filter/sort/page) | ✅ | `MembersClientShell` で `useSearchParams` + `router.replace` + `useTransition` |
 | G-07 | TDD red→green | ✅ | Phase 4 で 5 file の RED → Phase 5 実装で全 case GREEN |
-| G-08 | a11y role / aria 配置 | ✅ | `role="status"` / `role="img"` / `aria-label` / `aria-live="polite"` を網羅。jest-axe 自動検査は Phase 6 残課題 |
+| G-08 | a11y role / aria 配置 | ✅ | `role="status"` / `role="img"` / `aria-label` / `aria-live="polite"` を網羅。Phase 6 で `jest-axe` 自動検査 5 件 PASS |
 | G-09 | キーボード導線 | ✅ | 全 interactive は `<button>` / `<input>` / `<a>` の native semantics で focusable |
 | G-10 | エラー / 空 / 中間状態の placeholder | ✅ | `MembersTable` empty / `Zone/Status Distribution` empty / `KpiCard` zero / `BulkActionBar` busy / `SchemaAlertCard` 0=非表示 |
 | G-11 | 型 / lint / build green | ✅ | Phase 9 全 gate pass |
 | G-12 | task-09/task-10 primitives 整合 | ✅ | `ui-card` / `--ubm-radius-*` / `--ubm-color-*` のみ使用。新 primitive 追加なし |
 
 ## 総合判定
-**GO** — 12/12 充足。Phase 8 の旧 component 物理削除のみユーザー承認待ち（production 影響なし）。
+**GO** — 12/12 充足。旧 `MembersClient` / `MemberDrawer` は現 tree に存在せず、新 `features/admin/components/_members/*` が正本。
