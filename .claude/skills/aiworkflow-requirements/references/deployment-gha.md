@@ -40,7 +40,7 @@
 | ファイル | 用途 |
 | -------- | ---- |
 | `ci.yml` | PR 時の CI（Lint・型チェック・テスト・ビルド） |
-| `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
+| `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ。OpenNext Workers bundle を `scripts/cf.sh deploy` で配備） |
 | `backend-ci.yml` | API アプリ CD（dev: staging / main: production 自動デプロイ + Discord 通知） |
 | `incident-runbook-slack-delivery.yml` | 09c production deploy 後の incident runbook Slack delivery。`backend-ci` / `web-cd` の main 成功後 dry-run、production は `workflow_dispatch` + `production-slack-delivery` approval のみ。 |
 | `validate-build.yml` | ビルド検証（PR / push トリガー、apps/* の `pnpm build` 通過確認） |
@@ -185,6 +185,7 @@
 ### 実行内容
 
 1. ブランチに応じて Cloudflare Workers へ自動デプロイ（`pnpm --filter @ubm-hyogo/web build:cloudflare` → `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>`）。Issue #331 cleanup で `.github/workflows/web-cd.yml` の Pages deploy 残は撤去済み
+1. ブランチに応じて Cloudflare Workers へ自動デプロイ。2026-05-09 CI recovery wave 以降、`.github/workflows/web-cd.yml` は `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare` で OpenNext Workers bundle を作成し、`bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production` で配備する。
 2. デプロイ完了後、Discord Webhook で通知を送信
 
 ### 通知要件
@@ -200,6 +201,7 @@
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 上記 Discord Webhook 通知ステップは現行 `.github/workflows/web-cd.yml` には未実装。UT-08-IMPL（観測性実装、Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
 > **deploy target current facts (Issue #331 cleanup / 2026-05-09)**: `apps/web/wrangler.toml` は OpenNext Workers 形式、`.github/workflows/web-cd.yml` は OpenNext bundle build 後に `scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` を呼ぶ。`CLOUDFLARE_PAGES_PROJECT` は Web CD 経路では未参照。
+> **deploy target current facts (CI recovery / 2026-05-09)**: `apps/web/wrangler.toml` は OpenNext Workers 形式、`.github/workflows/web-cd.yml` は Pages deploy を撤去済み。runtime deployment evidence は user-approved dev/main run 後に取得する。
 
 ---
 
@@ -226,6 +228,7 @@
 > **current facts (UT-CICD-DRIFT / 2026-04-29)**: 現行 `.github/workflows/backend-ci.yml` には D1 migrations apply + Workers deploy のステップは実装済みだが、Discord Webhook 通知ステップは未実装。UT-08-IMPL（Wave 2）で導入予定。UT-CICD-DRIFT では存在しない派生タスクIDへ委譲せず、通知未実装を current facts として固定する。
 
 > **current facts (Issue #331 cleanup / 2026-05-09)**: 現行 `backend-ci.yml` / `web-cd.yml` は environment-scoped `secrets.CLOUDFLARE_API_TOKEN` を継続利用する。U-FIX-CF-ACCT-01-DERIV-02 の step-scoped `CF_TOKEN_*` 分割は target contract であり、runtime cutover は未完了。`deploy-staging.yml` / `deploy-production.yml` は現行 repo に存在しないため正本にしない。
+> **current facts (CI recovery task-01 / 2026-05-09)**: Cloudflare deploy token の target contract は backend 系では step 単位分割を維持する。`backend-ci.yml` の D1 migration step は `CF_TOKEN_D1_<ENV>`、Workers deploy step は `CF_TOKEN_WORKERS_<ENV>` を使う target contract。一方、`web-cd.yml` は実 GitHub Environment に登録済みの `secrets.CLOUDFLARE_API_TOKEN` を job-level env `CLOUDFLARE_API_TOKEN` へマップし、`Verify CF token is present` step で空展開を早期 fail する。`CF_TOKEN_PAGES_<ENV>` は current web-cd path で使用しない。
 
 ---
 
@@ -271,11 +274,15 @@
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token target contract。runtime cutover 未完了 | Pending |
 | `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token target contract。runtime cutover 未完了 | Pending |
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | 旧 Pages deploy 用 Cloudflare API Token target contract。Issue #331 cleanup 後の `web-cd.yml` では未参照 | Deprecated target |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token | Yes |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | backend-ci Workers deploy 用 Cloudflare API Token。`web-cd.yml` では task-01 alignment 後に使用しない | Yes for backend-ci / Not used by web-cd |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Historical only |
+| `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped deploy token 正本名。backend / future OIDC cutover では legacy direct token として扱う | Yes for web-cd / Transitional elsewhere |
 | `DISCORD_WEBHOOK_URL` | Discord 通知用 Webhook URL | No |
 
 ### U-FIX-CF-ACCT-01-DERIV-01: OIDC short-lived credential target contract（2026-05-06）
 
-`docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` は `spec_created / implementation-spec / NON_VISUAL` の target contract である。runtime cutover は未実行であり、現行 `web-cd.yml` / `backend-ci.yml` の長命 `secrets.CLOUDFLARE_API_TOKEN` 参照と `d1-migration-verify.yml` の `secrets.CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として残る。
+`docs/30-workflows/u-fix-cf-acct-01-deriv-01-github-oidc-short-lived-credentials/` は `spec_created / implementation-spec / NON_VISUAL` の target contract である。runtime cutover は未実行であり、現行 `backend-ci.yml` の長命 `secrets.CLOUDFLARE_API_TOKEN` 参照と `d1-migration-verify.yml` の `secrets.CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として残る。`web-cd.yml` は 2026-05-09 task-01 web-cd secret alignment で実 Environment 名 `CLOUDFLARE_API_TOKEN` へ同期済み。
 
 | 項目 | 契約 |
 | --- | --- |
@@ -295,9 +302,11 @@
 | ----------- | ---- | ---- |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account 識別子。資格情報ではないため Repository Variable として管理し、workflow では `${{ vars.CLOUDFLARE_ACCOUNT_ID }}` で参照する | Yes |
 | `CLOUDFLARE_PAGES_PROJECT` | Pages production/base プロジェクト名。Issue #331 cleanup 後の `web-cd.yml` では未参照。削除は Pages project retirement 確認後に行う | Deprecated |
+| `CLOUDFLARE_PAGES_PROJECT` | Deprecated for current `web-cd.yml`; retained only for historical Pages/UT-28 references. Current web deploy target comes from `apps/web/wrangler.toml` `[env.staging].name` / `[env.production].name` | Historical only |
 | `CF_TOKEN_ISSUED_AT` | Cloudflare API Token の production 発行日。`cf-token-rotation-reminder.yml` が 85 日経過判定に使用する ISO 8601 日付 | Yes |
 
 Deprecated Pages variable note: historical Pages workflows derived staging as `${{ vars.CLOUDFLARE_PAGES_PROJECT }}-staging`, so storing `ubm-hyogo-web-staging` was invalid. Current `web-cd.yml` no longer references this variable.
+Current `web-cd.yml` must not read `CLOUDFLARE_PAGES_PROJECT`. Historical Pages workflows must not store `ubm-hyogo-web-staging` in this variable because suffix concatenation would produce `ubm-hyogo-web-staging-staging`.
 
 ### セキュリティ要件
 
@@ -317,9 +326,14 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Target contract for D1-only token split; not current runtime |
 | `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Target contract for Workers-only token split; not current runtime |
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Stale Pages target after Issue #331 cleanup; remove only after token split plan is reconciled |
+| `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | D1 migration step のみが使う token に分離 |
+| `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | backend-ci Workers deploy step 用。web-cd は task-01 alignment 後に `CLOUDFLARE_API_TOKEN` を使う |
+| `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Secret | environment-scoped（`staging` / `production`） | Pages deploy step のみが使う token に分離 |
+| `CLOUDFLARE_API_TOKEN` | Secret | environment-scoped（`staging` / `production`） | web-cd deploy token 正本名。backend/OIDC cutover 文脈では transitional direct token |
 | `CLOUDFLARE_ACCOUNT_ID` | Variable | repository-scoped | Account ID は資格情報ではなく識別子。既存 GitHub 実設定に合わせ、`vars.` 参照で空展開を防ぐ |
 | `DISCORD_WEBHOOK_URL` | Secret | repository-scoped（分離が必要なら environment-scoped） | MVP は単一通知先。未設定時も CI 全体を落とさない |
 | `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | Deprecated after Issue #331; not referenced by current `web-cd.yml`. Delete only after Pages retirement approval |
+| `CLOUDFLARE_PAGES_PROJECT` | Variable | repository-scoped | Deprecated historical Pages value; current `web-cd.yml` must not read it |
 
 運用ゲート:
 
@@ -327,6 +341,38 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 - dev push smoke は `backend-ci.yml` / `web-cd.yml` の `deploy-staging` green と Discord 通知または未設定耐性を確認する。
 - `if: secrets.X != ''` に依存せず、workflow 側では env に受けて shell で空文字判定する設計を優先する。
 - API Token は Pages Edit / Workers Scripts Edit / D1 Edit / Account Settings Read の最小スコープに限定し、命名規則 `ubm-hyogo-cd-{env}-{yyyymmdd}`（例: `ubm-hyogo-cd-staging-20260429`）でローテーション履歴を Token 名から追えるようにする。
+
+## Workflow lint scope の不変条件（CI recovery / 2026-05-09）
+
+`.github/workflows/ci.yml` の `workflow-shell-lint` job が呼び出す actionlint は、対象 workflow を継続的に拡張する。Issue #526 時点では `post-release-observation-reminder.yml` と `ci.yml` の 2 file だったが、2026-05-09 CI recovery wave で `web-cd.yml` と `runtime-smoke-staging.yml` を追加した。新規 workflow を `.github/workflows/` に追加する場合、actionlint 対象 list へ同時に追記することを必須とし、未掲載のまま PR を出した場合は `workflow-shell-lint` が fail する設計にする。
+
+| 観点 | 正本 |
+| --- | --- |
+| actionlint runner | `.github/workflows/ci.yml` の `workflow-shell-lint` job 内 actionlint step |
+| 対象 workflow（2026-05-09 時点） | `ci.yml`, `post-release-observation-reminder.yml`, `web-cd.yml`, `runtime-smoke-staging.yml` |
+| 拡張ルール | `.github/workflows/` への workflow 追加と同時に actionlint 対象に追記する |
+| shellcheck 対象 | `scripts/observation/*.sh`, `scripts/observation/test/*.sh`, 加えて recovery wave で `scripts/smoke/provision-staging-secrets.sh` を追加対象とする |
+
+## Failure cascade 抑止 pattern（CI recovery / 2026-05-09）
+
+通知 / post step が依存する artifact 不在時に Slack webhook POST や `${VAR:?}` 展開で job 全段が連鎖失敗するのを防ぐため、**前提 artifact の存在を `hashFiles(...)` で guard する** pattern を canonical とする。`.github/workflows/runtime-smoke-staging.yml` の Slack failure post step は次の形を採用しており、他 workflow にも横展開推奨する。
+
+```yaml
+- name: Post Slack failure
+  if: ${{ failure() && hashFiles('ci-evidence/summary.json') != '' }}
+  env:
+    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_INCIDENT }}
+  run: |
+    bash scripts/smoke/post-slack-failure.sh
+```
+
+| guard 対象 | 評価式 |
+| --- | --- |
+| 必須 artifact が emit されているか | `hashFiles('<path>') != ''` |
+| previous step の失敗 | `failure()` |
+| 両方を AND 結合 | `${{ failure() && hashFiles('<path>') != '' }}` |
+
+`if: secrets.X != ''` は repository / environment の解決順序によって false positive が起こり得るため、shell 内で空文字判定するか、本 pattern と組み合わせる。`${VAR:?}` を必要とする step は guard 内側に閉じ、guard 不成立時には step 全体を skip させて連鎖失敗を抑止する。
 
 ## Post-release dashboard automation (Issue #351 / 2026-05-05)
 
@@ -408,10 +454,11 @@ Slack channel 作成は workflow / shell script に入れない。Slack App / Bo
 
 workflow permissions は `contents: write` / `pull-requests: write` / `actions: read` のみ。`gh run list` 失敗は workflow failure、Slack POST 失敗は PR 残置 + exit 3 とし、retry / alert 実装は本 workflow に含めない。failure 比率 `>= 10%` の場合は PR body に retry / alert 検討節を追記する。
 
+| 2026-05-09 | 2.6.0 | CI recovery wave: 「Workflow lint scope の不変条件」と「Failure cascade 抑止 pattern」を追加。actionlint 対象 workflow に `web-cd.yml` / `runtime-smoke-staging.yml` を含めること、Slack failure post 等の通知 step は `hashFiles('<artifact>') != ''` guard で連鎖失敗を抑止することを正本化 |
 | 2026-05-07 | 2.5.0 | Issue #517 follow-up auto-summary foundation を実装。`.github/workflows/post-release-30day-auto-summary.yml`、`scripts/post-release-dashboard/30day-summary.sh` ＋ TC-01〜TC-07 / TC-05b plain shell test、schedule-only 30 day gate、open PR idempotency、`auto/post-release-30day-summary-YYYYMM` branch / `[auto-summary] post-release-dashboard 30d` PR title prefix / Slack Incoming Webhook (channel `w1618436027-ek2505248`) を正本化。Issue #517 は CLOSED 維持 / `Refs` のみ |
 | 2026-05-06 | 2.4.0 | Issue #407 Cloudflare API Token rotation reminder workflow を追加。`CF_TOKEN_ISSUED_AT`、85 日 reminder、dry-run、duplicate guard、最小 permissions を正本化 |
 | 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
 | 2026-04-29 | 2.2.0 | UT-CICD-DRIFT: Node 22→24 / pnpm 9→10.33.2 同期、workflow 構成表に `validate-build.yml` / `verify-indexes.yml` を追加、Discord 通知未実装の current facts 注記、coverage soft→hard gate 段階性注記 |
-| 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。runtime cutover は未実行で、`web-cd.yml` / `backend-ci.yml` の `CLOUDFLARE_API_TOKEN` と `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として分離 |
+| 2026-05-06 | 2.3.0 | U-FIX-CF-ACCT-01-DERIV-01 OIDC short-lived credential target contract を追加。runtime cutover は未実行で、`backend-ci.yml` の `CLOUDFLARE_API_TOKEN` と `d1-migration-verify.yml` の `CLOUDFLARE_API_TOKEN_STAGING` 参照は current fact として分離。`web-cd.yml` は 2026-05-09 task-01 alignment 後、environment-scoped `secrets.CLOUDFLARE_API_TOKEN` を使う |
 | 2026-04-29 | 2.1.0 | UT-27: GitHub Secrets / Variables 配置決定マトリクスと Phase 13 user 承認ゲートを追記 |
 | 2026-04-09 | 2.0.0 | 旧デプロイ基盤・Electron E2E 削除、Cloudflare Pages デプロイへ移行 |

@@ -2091,6 +2091,15 @@ node scripts/list-specs.js --topics
 | implementation source-of-truth | L45 |
 | scope notes | L59 |
 
+### references/workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Files | L14 |
+| Linked Lessons | L29 |
+| Boundary | L33 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2199,13 +2208,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
-| Stage Responsibility Split (classification-first) | L16 |
-| Current Facts (Stage 0 implementation) | L25 |
-| Phase 12 Strict 7 Files (all stages) | L39 |
-| Phase 11 Evidence Path Map | L51 |
-| Tier-Aware Coverage Policy | L62 |
-| Contract | L71 |
-| Related Resources | L78 |
+| Stage Responsibility Split (classification-first) | L17 |
+| Current Facts (Stage 0 implementation) | L26 |
+| Phase 12 Strict 7 Files (all stages) | L40 |
+| Phase 11 Evidence Path Map | L52 |
+| Tier-Aware Coverage Policy | L63 |
+| Contract | L72 |
+| Related Resources | L79 |
 
 ### references/workflow-governance-design-category.md
 
@@ -2249,16 +2258,11 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
-### references/workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md
+### references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| Workflow Root | L3 |
-| Classification | L7 |
-| Primary Repo Changes | L11 |
-| Consumed / Superseded Trace | L25 |
-| Runtime Boundary | L33 |
-| Lessons Learned | L37 |
+| Invariants | L16 |
 
 ### references/workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md
 
@@ -2941,6 +2945,33 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-12-member-detail-register-legal-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Runtime Boundary | L14 |
+| Upstream And Downstream | L20 |
+| Evidence | L29 |
+| Lessons Learned | L33 |
+
+### references/workflow-task-13-login-rebuild-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Runtime Boundary | L14 |
+| Contract Highlights | L20 |
+| Upstream And Downstream | L31 |
+| Evidence | L39 |
+| Lessons Learned | L43 |
+
+### references/workflow-task-14-my-profile-and-requests-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L17 |
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -3558,12 +3589,13 @@ node scripts/list-specs.js --topics
 | 9. 旧 Pages プロジェクトの並走方針 | L170 |
 | 10. CLI 経路の徹底 | L182 |
 | 11. R2 incremental cache（任意採用） | L191 |
-| 12. 関連リソース | L199 |
-| 13. production route / secret / observability preflight | L219 |
-| 14. analytics read-only token 分離 | L260 |
-| 15. Long-term analytics evidence | L275 |
-| 15. 09c-A production execution workflow | L281 |
-| 変更履歴 | L296 |
+| 11.1 Build mode の不変条件（CI recovery / 2026-05-09） | L199 |
+| 12. 関連リソース | L213 |
+| 13. production route / secret / observability preflight | L232 |
+| 14. analytics read-only token 分離 | L273 |
+| 15. Long-term analytics evidence | L288 |
+| 15. 09c-A production execution workflow | L294 |
+| 変更履歴 | L309 |
 
 ### references/deployment-cloudflare-ut06-gate.md
 
@@ -3629,8 +3661,10 @@ node scripts/list-specs.js --topics
 | モニタリングとアラート | L232 |
 | GitHub Secrets の要件 | L266 |
 | UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L310 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L331 |
-| post-release-30day-auto-summary | L368 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L331 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L342 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L363 |
+| post-release-30day-auto-summary | L400 |
 
 ### references/deployment-history.md
 
@@ -3646,15 +3680,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L108 |
-| wrangler.toml の環境別設定 | L187 |
-| ローカル開発での設定 | L219 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L258 |
-| セキュリティ原則 | L295 |
-| Cloudflare API Token の作成手順 | L306 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L321 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L420 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L468 |
-| 変更履歴 | L483 |
+| wrangler.toml の環境別設定 | L201 |
+| ローカル開発での設定 | L233 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L272 |
+| セキュリティ原則 | L309 |
+| Cloudflare API Token の作成手順 | L320 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L335 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L434 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
+| 変更履歴 | L498 |
 
 ### references/deployment.md
 
@@ -4272,6 +4306,12 @@ node scripts/list-specs.js --topics
 | L-09C-EXEC-005: Issue close 状態は `Refs #N` を使い `Closes` を再付与しない | L41 |
 | L-09C-EXEC-006: follow-up の existing detection を新規化と分離する | L49 |
 
+### references/lessons-learned-ci-pipeline-recovery-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 関連リソース | L14 |
+
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
 | セクション | 行 |
@@ -4358,6 +4398,17 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-1: 同一 wave 同期の漏れ無し基準（governance docs-only 版） | L69 |
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
+
+### references/lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-325-001: suffix 責務分類の境界判定 | L11 |
+| L-325-002: 件数 invariant の事前 snapshot | L18 |
+| L-325-003: vitest include の two-suffix 拡張 | L24 |
+| L-325-004: rename-only workflow の状態同期漏れリスク | L30 |
+| L-325-005: scope out の明示と未タスク棚卸し | L40 |
+| 引用関係 | L46 |
 
 ### references/lessons-learned-issue-346-08a-canonical-workflow-tree-restore-2026-05.md
 
@@ -4723,6 +4774,38 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L10 |
 | 横展開チェックリスト | L33 |
 
+### references/lessons-learned-task-11-public-top-and-member-list-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T11-001: route segment colocation（`_components/`）廃止と `src/components/public/` 集約 | L31 |
+| L-T11-002: Hero / StatCard / Timeline 単体構成 → Hero+Stats+ZoneIntro+Timeline 4セクション集約への置換 | L61 |
+| L-T11-003: `apps/web/src/lib/api/public.ts` API adapter 層新設で D1 直接アクセス禁止を強制 | L92 |
+| L-T11-004: `force-dynamic` 撤去 → `connection()` 移行（OpenNext + Cloudflare Workers） | L125 |
+| L-T11-005: local D1 に `member_identities` 不在で screenshot / axe 未取得 → task-ut-04 seed-data-runbook follow-up | L155 |
+| L-T11-006: `playwright.config.ts` を `desktop-chromium` 単独 project に絞り込み | L184 |
+| 横断教訓 | L216 |
+
+### references/lessons-learned-task-12-member-detail-register-legal-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK12-001: Playwright evidence path 多重ルーティング | L7 |
+| L-TASK12-002: Playwright `webServer.env.PORT` の URL 由来同期 | L14 |
+| L-TASK12-003: legacy public CSS のコンポーネント拡張は selector list join | L21 |
+| L-TASK12-004: task-10 primitive (`.ui-card`) と legacy-public.css の境界 | L28 |
+| L-TASK12-005: `responder-link` と `register-cta` の dual-role CSS | L35 |
+
+### references/lessons-learned-task-14-my-profile-and-requests-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK14-001: phase-9 仕様書 JSX 例の型と実 API 型の乖離 | L7 |
+| L-TASK14-002: 楽観的 UI からの撤退（server pending only） | L14 |
+| L-TASK14-003: data-region selector は disabled / enabled 双方の section に必要 | L21 |
+| L-TASK14-004: Dialog 純 UI 分離は今 wave で未達 — limitation 化を明記 | L28 |
+| L-TASK14-005: `deriveBannerView` の優先順位（authGateState > publishState） | L35 |
+
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
 | セクション | 行 |
@@ -5032,8 +5115,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L104 |
-| 関連ドキュメント | L109 |
+| 利用順序 | L106 |
+| 関連ドキュメント | L111 |
 
 ### references/llm-embedding.md
 
@@ -6143,13 +6226,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L831 |
-| フェーズ構造（概要） | L840 |
-| 品質ゲート（概要） | L871 |
-| 出力テンプレート | L882 |
-| 実行時のコマンド・エージェント・スキル | L905 |
-| 昇格パターン集 | L929 |
-| Current Active / Spec Created Tasks | L931 |
+| ドキュメント構成 | L918 |
+| フェーズ構造（概要） | L927 |
+| 品質ゲート（概要） | L958 |
+| 出力テンプレート | L969 |
+| 実行時のコマンド・エージェント・スキル | L992 |
+| 昇格パターン集 | L1016 |
+| Current Active / Spec Created Tasks | L1018 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -1,0 +1,78 @@
+{
+  "metadata": {
+    "workflow_id": "e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci",
+    "parent_workflow_id": "e2e-quality-uplift-stage-3",
+    "implementation_mode": "new",
+    "workflow_state": "spec_created",
+    "implementation_status": "spec_created",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "evidence_state": "runtime_pending",
+    "coverageTier": "standard",
+    "base_branch": "dev",
+    "feature_branch": "feat/lighthouse-ci",
+    "context_name": "lighthouse-ci",
+    "updated_at": "2026-05-09"
+  },
+  "phases": [
+    { "phase": 1,  "status": "spec_created", "path": "phase-1.md" },
+    { "phase": 2,  "status": "spec_created", "path": "phase-2.md" },
+    { "phase": 3,  "status": "spec_created", "path": "phase-3.md" },
+    { "phase": 4,  "status": "spec_created", "path": "phase-4.md" },
+    { "phase": 5,  "status": "spec_created", "path": "phase-5.md" },
+    { "phase": 6,  "status": "spec_created", "path": "phase-6.md" },
+    { "phase": 7,  "status": "spec_created", "path": "phase-7.md" },
+    { "phase": 8,  "status": "spec_created", "path": "phase-8.md" },
+    { "phase": 9,  "status": "spec_created", "path": "phase-9.md" },
+    { "phase": 10, "status": "spec_created", "path": "phase-10.md" },
+    { "phase": 11, "status": "spec_created", "path": "phase-11.md" },
+    { "phase": 12, "status": "spec_created", "path": "phase-12.md" },
+    { "phase": 13, "status": "spec_created", "path": "phase-13.md" }
+  ],
+  "deliverables": {
+    "new_files": [
+      ".github/workflows/lighthouse.yml",
+      "lighthouserc.json"
+    ],
+    "edit_files": [
+      "apps/web/package.json",
+      "pnpm-lock.yaml"
+    ],
+    "dev_dependencies_added": [
+      { "name": "@lhci/cli", "version": "^0.14.0", "scope": "apps/web" }
+    ]
+  },
+  "evidence": {
+    "phase11_dir": "outputs/phase-11",
+    "local_files": [
+      "outputs/phase-11/evidence.md",
+      "outputs/phase-7/lhci-profile-q02-judgement.md",
+      "outputs/phase-7/grep-gate-evidence.log",
+      "outputs/phase-7/local-smoke-evidence.log"
+    ],
+    "runtime_pending_files": [
+      "outputs/phase-11/pr-a-url.txt",
+      "outputs/phase-11/pr-a-lighthouse.log",
+      "outputs/phase-11/lhci-scores.json",
+      "outputs/phase-11/lhci-profile-q02-judgement.md",
+      "outputs/phase-11/lhci-report-root.png",
+      "outputs/phase-11/lhci-report-members.png",
+      "outputs/phase-11/lhci-report-profile.png",
+      "outputs/phase-11/lhci-report-login.png",
+      "outputs/phase-11/lighthouse-fail.log",
+      "outputs/phase-11/registered-contexts.txt"
+    ]
+  },
+  "dependencies": {
+    "depends_on": [
+      "stage-2-completed",
+      "pr-build-test.yml-green"
+    ],
+    "blocks": [
+      "e2e-quality-uplift-stage-3/3c-branch-protection-contexts"
+    ],
+    "relates_to": [
+      "e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate"
+    ]
+  }
+}

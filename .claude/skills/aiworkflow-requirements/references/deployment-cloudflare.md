@@ -106,6 +106,7 @@ UT-06 Phase 12 UNASSIGNED-E は `docs/30-workflows/ut-06-followup-E-d1-backup-lo
 ## Cloudflare Workers デプロイ（Next.js / OpenNext）
 
 > **current facts (Issue #331 cleanup / 2026-05-09)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` も `pnpm --filter @ubm-hyogo/web build:cloudflare` 後に `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>` を呼ぶ。repo-side Pages deploy cutover は完了済み。Cloudflare side Pages project retirement、custom domain / route verification、staging / production runtime smoke は user approval 後の Issue #419 / Phase 13 evidence 境界とする。
+> **current facts (CI recovery / 2026-05-09)**: `apps/web/wrangler.toml` は **OpenNext Workers 形式**（`main = ".open-next/worker.js"` + `[assets]`）で、`.github/workflows/web-cd.yml` も `build:cloudflare` + `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production` へ同期済み。Pages deploy (`pages deploy .next`) は current web-cd path から撤去済み。staging / production runtime deploy evidence は user-approved Actions run 後に取得する。
 
 ### Pages 形式と OpenNext Workers 形式の判定（current state 列付き）
 
@@ -481,8 +482,10 @@ CI/CD の secret / variable 配置と最小権限は [`deployment-secrets-manage
 ### デプロイフロー（web-cd.yml）
 
 `push` to `dev` / `main` → OpenNext Workers bundle build → `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env <staging|production>`。
+`push` to `dev` / `main` → setup Node/pnpm/mise → `pnpm --filter @ubm-hyogo/web build:cloudflare` → `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production`。
 
 > **current facts (Issue #331 cleanup / 2026-05-09)**: 現行 `.github/workflows/web-cd.yml` は Pages deploy を呼ばない。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
+> **current facts (CI recovery / 2026-05-09)**: `.github/workflows/web-cd.yml` の Pages deploy は撤去済み。Discord 通知ステップは現状未実装で、UT-08-IMPL で導入予定。
 
 ---
 

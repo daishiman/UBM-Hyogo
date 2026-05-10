@@ -1,11 +1,10 @@
-# 目的: Cloudflare Workers の dev/main デプロイ
-# 範囲: dev -> staging Worker, main -> production Worker
+# 目的: Cloudflare Workers (OpenNext) への dev/main デプロイ
+# 範囲: dev -> ubm-hyogo-web-staging, main -> ubm-hyogo-web-production
 name: web-cd
 
 on:
   push:
     branches: [dev, main]
-  workflow_dispatch:
 
 concurrency:
   group: web-cd-${{ github.ref_name }}
@@ -19,9 +18,20 @@ jobs:
       name: staging
     permissions:
       contents: read
-      deployments: write
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+
+      - name: Verify CF token is present
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is empty. Confirm GitHub Environment 'staging' has CLOUDFLARE_API_TOKEN registered."
+            exit 1
+          fi
 
       - uses: pnpm/action-setup@v4
         with:
@@ -33,15 +43,13 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: mise exec -- pnpm install --frozen-lockfile
 
-      - name: Build OpenNext Workers bundle
-        run: pnpm --filter @ubm-hyogo/web build:cloudflare
+      - name: Build web app (OpenNext Workers bundle)
+        run: mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
 
-      - name: Deploy web app to Cloudflare Workers
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Deploy to Cloudflare Workers (staging)
+        id: deploy
         run: bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging
 
   deploy-production:
@@ -51,9 +59,20 @@ jobs:
       name: production
     permissions:
       contents: read
-      deployments: write
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+
+      - name: Verify CF token is present
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is empty. Confirm GitHub Environment 'production' has CLOUDFLARE_API_TOKEN registered."
+            exit 1
+          fi
 
       - uses: pnpm/action-setup@v4
         with:
@@ -65,13 +84,11 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: mise exec -- pnpm install --frozen-lockfile
 
-      - name: Build OpenNext Workers bundle
-        run: pnpm --filter @ubm-hyogo/web build:cloudflare
+      - name: Build web app (OpenNext Workers bundle)
+        run: mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare
 
-      - name: Deploy web app to Cloudflare Workers
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Deploy to Cloudflare Workers (production)
+        id: deploy
         run: bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env production

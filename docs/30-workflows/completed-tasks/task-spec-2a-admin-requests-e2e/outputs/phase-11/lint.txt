@@ -1,0 +1,8 @@
+Command: mise exec -- pnpm lint
+Result: PASS
+
+Root lint exited 0:
+- boundary lint PASS
+- dependency-cruiser PASS
+- stableKey literal lint PASS (warning mode)
+- packages/shared, packages/integrations, packages/integrations/google, apps/web, apps/api lint PASS
