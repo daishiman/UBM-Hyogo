@@ -954,6 +954,14 @@ node scripts/search-spec.js "safeInvoke"
 
 ## 変更履歴
 
+### UT-17 Cloudflare Analytics Alerts（2026-05-09）
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` | Cloudflare usage alerts + optional Slack Japanese relay workflow. State: `implemented-local / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING`. Local `apps/api` relay route, formatter, auth middleware, Slack sender, focused tests, and runbooks are implemented. Cloudflare Secrets, deploy, Notification Policy setup, Slack runtime smoke, commit, push, and PR remain user-gated. | Cloudflare Notifications / Webhook relay / usage alert task planning |
+| `docs/30-workflows/ut-17-cloudflare-analytics-alerts/outputs/phase-12/phase12-task-spec-compliance-check.md` | Skill compliance evidence for artifacts, Phase 12 strict 7 files, `cf-webhook-auth`, plan gate split, and command drift correction. | UT-17 compliance review |
+| `docs/30-workflows/completed-tasks/01b-parallel-cloudflare-base-bootstrap/outputs/phase-02/cloudflare-topology.md` | Upstream Cloudflare resource topology for UT-17 alert targets. | Alert target confirmation |
+
 | 日付       | バージョン | 変更内容                                                                                                                                                                                                                                                                                                                                                                   |
 | ---------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-04-30 | 1.32.0     | issue-191 schema aliases docs-only closeout sync。`schema_aliases` implemented-local D1 table、07b `POST /admin/schema/aliases` write target replacement、03a alias-first lookup、3 follow-up unassigned tasks、artifact inventory を登録 |
