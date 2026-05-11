@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #589 Gate Metadata Structured Ledger（2026-05-10）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-589-gate-metadata-structured-ledger/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| SSOT | `.claude/skills/aiworkflow-requirements/references/gate-metadata.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-589-gate-metadata-2026-05.md`（state vocabulary 判断 / historical-vs-forward 二重モード / `CODEOWNERS:<group>` approver 形式） |
+| parent | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
+| source | `docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-04.md` |
+| implementation targets | `packages/shared/src/gate-metadata/**`, `scripts/gate-metadata/**`, `.github/workflows/verify-gate-metadata.yml`, Issue #549 artifacts backfill |
+| validator command | `pnpm gate-metadata:validate` |
+| evidence boundary | schema / validator / CI workflow file / #549 backfill / Phase 12 strict 7 are local implemented; branch protection required-check mutation / commit / push / PR remain user-gated |
+| closed Issue rule | PR wording uses `Refs #589` and `Refs #549` only |
+
 ### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
 
 | 目的 | 参照先 |
