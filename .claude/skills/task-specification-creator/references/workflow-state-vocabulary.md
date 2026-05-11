@@ -62,6 +62,23 @@ state is explicitly `completed`.
 | Runtime/production evidence | Not required | Planned if applicable | Optional | Pending/required later | Required if in scope |
 | Phase 13 commit/PR/merge state | Pending | Pending | Pending | Pending | Complete or explicitly user-gated |
 
+## State Aliases
+
+ledger / changelog / unassigned-task の自然文では、`metadata.workflow_state` の identifier を kebab-case で表記する慣習がある。両表記は **同一の状態** を指すため、ledger 検索時は両方を grep する。
+
+| Canonical (artifacts.json) | Kebab alias (prose / changelog) | 用途 |
+| --- | --- | --- |
+| `implemented_local_evidence_captured` | `implemented-local-evidence-captured` | 自然文で言及する場合 |
+| `implemented_local_runtime_pending` | `implemented-local-runtime-pending` | task-15 admin dashboard 系のように staging/production 実機 smoke が **別タスク gate で pending** な状態を自然文で示すとき |
+| `pass_boundary_synced_runtime_pending` | `pass-boundary-synced-runtime-pending` | merge 後 runtime 観測中 |
+| `pass_runtime_synced` | `pass-runtime-synced` | N-day close-out 完了 |
+
+`implemented-local-runtime-pending` は `spec_created` / `implemented_local_evidence_captured` / `pass_boundary_synced_runtime_pending` との関係上、以下のように位置付ける:
+
+- `spec_created` から直接遷移しない。必ず `implemented_local_evidence_captured`（local PASS 5 点取得済み）を経由してから、staging/production smoke が **別 unassigned-task gate** に分離されている場合に限って alias として使う。
+- merge 後に runtime 観測そのものが開始されるならば `pass_boundary_synced_runtime_pending` へ昇格。
+- runtime smoke が完走し evidence PR が user-approved されたら `pass_runtime_synced` または `completed`。
+
 ## Forbidden Wording
 
 - Do not write `PASS` alone when runtime or production evidence is pending.

@@ -2100,6 +2100,12 @@ node scripts/list-specs.js --topics
 | Linked Lessons | L29 |
 | Boundary | L33 |
 
+### references/workflow-admin-member-delete-e2e-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L16 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2995,8 +3001,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Notes | L16 |
+| Post-merge CI fixes (PR #677 後 / 2026-05-11) | L20 |
 
 ### references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md
+
+### references/workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Workflow Files | L9 |
+| Canonical Implementation Inputs | L30 |
+| API Inputs | L45 |
+| Notes | L54 |
 
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
@@ -4367,7 +4384,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L14 |
+| 関連リソース | L16 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -4885,6 +4902,16 @@ node scripts/list-specs.js --topics
 | L-TASK15-003: `it.todo` a11y placeholder は同 cycle で解消する | L21 |
 | L-TASK15-004: Phase 12 strict 7 は物理ファイルとして生成する | L28 |
 | L-TASK15-005: 非同期 UI race は cancelled flag と try/finally で構造的に消す | L35 |
+| Post-merge CI fixes（PR #677 マージ後 2026-05-11 に確定した知見） | L44 |
+
+### references/lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK17-001: Server Component fetch は browser route() で mock できない | L7 |
+| L-TASK17-002: artifacts.json は root と outputs の二元化が drift 源 | L14 |
+| L-TASK17-003: `new` 前提で task spec を起こす前に worktree inventory を取る | L21 |
+| L-TASK17-004: Phase 11 evidence の AUTH_SECRET override は fixture cookie を無効化する | L28 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
@@ -6317,13 +6344,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L986 |
-| フェーズ構造（概要） | L995 |
-| 品質ゲート（概要） | L1026 |
-| 出力テンプレート | L1037 |
-| 実行時のコマンド・エージェント・スキル | L1060 |
-| 昇格パターン集 | L1084 |
-| Current Active / Spec Created Tasks | L1086 |
+| ドキュメント構成 | L1015 |
+| フェーズ構造（概要） | L1024 |
+| 品質ゲート（概要） | L1055 |
+| 出力テンプレート | L1066 |
+| 実行時のコマンド・エージェント・スキル | L1089 |
+| 昇格パターン集 | L1113 |
+| Current Active / Spec Created Tasks | L1115 |
 
 ### references/task-workflow-backlog-part2.md
 
