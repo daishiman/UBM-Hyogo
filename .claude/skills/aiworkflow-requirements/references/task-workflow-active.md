@@ -20,6 +20,21 @@
 | evidence boundary | Phase 11 screenshot 37 件 + axe JSON violations 0 は取得済み。`build:cloudflare` は followup-001 esbuild mismatch blocker 継続 |
 | user gate | commit / push / PR / staging deploy / production smoke |
 
+### Issue #589 Gate metadata structured ledger（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-589-gate-metadata-structured-ledger/` |
+| 親 | Issue #549 Cloudflare Audit Logs ML production switch |
+| source | `docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-04.md` |
+| 目的 | `artifacts.json.metadata.gates[]` の schema / validator / CI gate / Phase 12 結線 / Issue #549 backfill を実装・仕様化する |
+| SSOT | `references/gate-metadata.md` |
+| local implementation | `packages/shared/src/gate-metadata/**`, `scripts/gate-metadata/**`, `.github/workflows/verify-gate-metadata.yml`, root `package.json`, Issue #549 artifacts mirror backfill |
+| evidence boundary | schema / validator / CI workflow file / #549 backfill / Phase 12 strict 7 / aiworkflow discovery sync は完了。branch protection PUT / commit / push / PR は user-gated |
+| pending user-gated operation | PR/merge 承認後に `verify-gate-metadata / validate` を dev/main required status check へ追加する。実 `gh api -X PUT` はユーザー明示承認まで禁止 |
+| Issue 取扱 | #589 / #549 CLOSED 維持。PR 文脈は `Refs #589` / `Refs #549` のみ |
+
 ### E2E quality uplift Stage 2 sub-task 2c admin member delete spec（2026-05-10）
 
 | 項目 | 値 |

@@ -4293,6 +4293,7 @@
       "audit-correlation.md",
       "data-retention-policy.md",
       "database-schema-07b-schema-alias-assignment.md",
+      "gate-metadata.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "post-release-long-term-observation.md",
@@ -5749,6 +5750,7 @@
     ],
     "Gate": [
       "cloudflare-edge-security.md",
+      "gate-metadata.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
@@ -6119,6 +6121,7 @@
     ],
     "Contract": [
       "database-implementation-core.md",
+      "gate-metadata.md",
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "observability-monitoring.md",
       "post-release-long-term-observation.md",
@@ -8001,6 +8004,60 @@
     ],
     "エラーハンドリングの実装指針": [
       "error-handling-details.md"
+    ],
+    "Metadata": [
+      "gate-metadata.md",
+      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
+      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
+      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
+      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
+      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
+      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
+      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
+      "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
+      "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
+      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
+      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
+      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
+      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
+    ],
+    "Structured": [
+      "gate-metadata.md"
+    ],
+    "Ledger": [
+      "gate-metadata.md",
+      "skill-ledger-fragment-spec.md",
+      "skill-ledger-gitattributes-policy.md",
+      "skill-ledger-gitignore-policy.md",
+      "skill-ledger-overview.md",
+      "skill-ledger-progressive-disclosure.md"
+    ],
+    "Status": [
+      "gate-metadata.md",
+      "ui-ux-prototype-map.md",
+      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
+    ],
+    "Purpose": [
+      "gate-metadata.md"
+    ],
+    "Entry": [
+      "gate-metadata.md"
+    ],
+    "Validator": [
+      "gate-metadata.md"
+    ],
+    "Rollout": [
+      "gate-metadata.md"
     ],
     "用語集": [
       "glossary.md",
@@ -18993,13 +19050,6 @@
     "苦戦した箇所と解決策": [
       "skill-executor-type-migration.md"
     ],
-    "Ledger": [
-      "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md",
-      "skill-ledger-gitignore-policy.md",
-      "skill-ledger-overview.md",
-      "skill-ledger-progressive-disclosure.md"
-    ],
     "化の正本": [
       "skill-ledger-fragment-spec.md"
     ],
@@ -20638,11 +20688,6 @@
     "参考実装": [
       "ui-ux-portal-patterns.md"
     ],
-    "Status": [
-      "ui-ux-prototype-map.md",
-      "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
-      "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
-    ],
     "Consumers": [
       "ui-ux-prototype-map.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
@@ -20990,30 +21035,6 @@
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
-    ],
-    "Metadata": [
-      "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
-      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
-      "workflow-06b-b-profile-self-service-request-ui-artifact-inventory.md",
-      "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
-      "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
-      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
-      "workflow-issue-191-schema-aliases-artifact-inventory.md",
-      "workflow-issue-372-attendance-pagination-artifact-inventory.md",
-      "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
-      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
-      "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
-      "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
-      "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
-      "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
-      "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
-      "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
-      "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
-      "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
-      "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Facts": [
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",

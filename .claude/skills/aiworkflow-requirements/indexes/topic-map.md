@@ -3938,6 +3938,16 @@ node scripts/list-specs.js --topics
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
 
+### references/gate-metadata.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L3 |
+| Purpose | L12 |
+| Gate Entry Contract | L16 |
+| Validator Contract | L40 |
+| Rollout Boundary | L60 |
+
 ### references/governance-hooks-factory-audit-sink.md
 
 | セクション | 行 |
@@ -6345,13 +6355,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1027 |
-| フェーズ構造（概要） | L1036 |
-| 品質ゲート（概要） | L1067 |
-| 出力テンプレート | L1078 |
-| 実行時のコマンド・エージェント・スキル | L1101 |
-| 昇格パターン集 | L1125 |
-| Current Active / Spec Created Tasks | L1127 |
+| ドキュメント構成 | L1030 |
+| フェーズ構造（概要） | L1039 |
+| 品質ゲート（概要） | L1070 |
+| 出力テンプレート | L1081 |
+| 実行時のコマンド・エージェント・スキル | L1104 |
+| 昇格パターン集 | L1128 |
+| Current Active / Spec Created Tasks | L1130 |
 
 ### references/task-workflow-backlog-part2.md
 
