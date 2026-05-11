@@ -61,6 +61,9 @@ if (!isAdminIdentityConflictsRun) {
 if (!isAdminRequestsRun) {
   fixtureGatedTestIgnore.push('**/admin-requests.spec.ts')
 }
+if (!isTask17AdminEvidence) {
+  fixtureGatedTestIgnore.push('**/admin-schema-conflicts-audit.spec.ts')
+}
 
 export default defineConfig({
   testDir: './playwright/tests',
