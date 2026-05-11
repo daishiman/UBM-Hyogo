@@ -3366,6 +3366,7 @@
       "architecture-admin-api-client.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
+      "testing-playwright-e2e.md",
       "ui-ux-admin-dashboard.md"
     ],
     "side": [
@@ -3376,7 +3377,8 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
-      "lessons-learned-ut-coverage-2026-05-wave.md"
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "testing-playwright-e2e.md"
     ],
     "src": [
       "architecture-admin-api-client.md",
@@ -3436,6 +3438,7 @@
     ],
     "mutation": [
       "architecture-admin-api-client.md",
+      "branch-protection.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
     "api": [
@@ -3608,6 +3611,7 @@
     ],
     "state": [
       "architecture-auth-security-core.md",
+      "branch-protection.md",
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
@@ -4108,6 +4112,7 @@
     ],
     "runtime": [
       "architecture-rag.md",
+      "branch-protection.md",
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
@@ -4404,6 +4409,7 @@
     ],
     "rule": [
       "audit-correlation.md",
+      "branch-protection.md",
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md"
     ],
     "rotation": [
@@ -4936,6 +4942,66 @@
       "post-release-long-term-observation.md",
       "skill-ledger-gitignore-policy.md",
       "workflow-task-lefthook-multi-worktree-reinstall-artifact-inventory.md"
+    ],
+    "specific": [
+      "branch-protection.md"
+    ],
+    "drift": [
+      "branch-protection.md",
+      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
+      "lessons-learned-05a-form-preview-503-2026-05.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
+      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "workflow-ui-ux-visual-baseline-drift.md"
+    ],
+    "Stage": [
+      "branch-protection.md",
+      "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
+      "testing-playwright-e2e.md",
+      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "vocabulary": [
+      "branch-protection.md",
+      "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md"
+    ],
+    "required": [
+      "branch-protection.md",
+      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
+      "lessons-learned-ut-gov-001-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
+      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
+      "workflow-06c-B-admin-members-artifact-inventory.md",
+      "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
+      "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
+      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
+      "workflow-ut-gov-004-artifact-inventory.md"
+    ],
+    "contexts": [
+      "branch-protection.md",
+      "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
+      "lessons-learned-coverage-80-enforcement-2026-04.md",
+      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
+      "workflow-ut-gov-004-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
+    ],
+    "target": [
+      "branch-protection.md",
+      "database-schema.md",
+      "lessons-learned-04b-admin-queue-resolve-2026-05.md",
+      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-issue-191-schema-aliases-2026-04.md",
+      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
+      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
+      "logs-archive-2026-03-notification-history-sigterm-guard.md"
     ],
     "Agent": [
       "claude-code-agents-spec.md",
@@ -6374,15 +6440,6 @@
       "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md"
-    ],
-    "target": [
-      "database-schema.md",
-      "lessons-learned-04b-admin-queue-resolve-2026-05.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-issue-191-schema-aliases-2026-04.md",
-      "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
-      "lessons-learned-ut07b-schema-alias-hardening-2026-05.md",
-      "logs-archive-2026-03-notification-history-sigterm-guard.md"
     ],
     "issue": [
       "database-schema.md",
@@ -9810,18 +9867,6 @@
     "二重正本": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
     ],
-    "drift": [
-      "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
-      "lessons-learned-05a-form-preview-503-2026-05.md",
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
-      "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
-      "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
-      "task-workflow-completed-ui-ux-visual-baseline-drift.md",
-      "workflow-ui-ux-visual-baseline-drift.md"
-    ],
     "防止は": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
     ],
@@ -11096,9 +11141,6 @@
     "display": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md"
     ],
-    "vocabulary": [
-      "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md"
-    ],
     "shape": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-06c-B-admin-members-2026-05.md"
@@ -11588,7 +11630,8 @@
     ],
     "Component": [
       "lessons-learned-06c-admin-ui-2026-04.md",
-      "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md"
+      "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
+      "testing-playwright-e2e.md"
     ],
     "の責務分離を最初に設計する": [
       "lessons-learned-06c-admin-ui-2026-04.md"
@@ -12428,14 +12471,6 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-ut-gov-004-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "contexts": [
-      "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
-      "lessons-learned-coverage-80-enforcement-2026-04.md",
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -15584,19 +15619,6 @@
     "OBS": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
-    "required": [
-      "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
-      "lessons-learned-ut-gov-001-2026-04.md",
-      "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
-      "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
-      "workflow-06c-A-admin-dashboard-artifact-inventory.md",
-      "workflow-06c-B-admin-members-artifact-inventory.md",
-      "workflow-06c-C-admin-tags-artifact-inventory.md",
-      "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
-      "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
-      "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
-      "workflow-ut-gov-004-artifact-inventory.md"
-    ],
     "値を正とする": [
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md"
     ],
@@ -16081,11 +16103,6 @@
     ],
     "Second": [
       "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "Stage": [
-      "lessons-learned-utgov001-second-stage-reapply-2026-04.md",
-      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "Reapply": [
@@ -20051,6 +20068,9 @@
       "testing-playwright-e2e.md"
     ],
     "デバッグパターン": [
+      "testing-playwright-e2e.md"
+    ],
+    "観測パターン": [
       "testing-playwright-e2e.md"
     ],
     "履歴": [

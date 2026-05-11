@@ -1,0 +1,371 @@
+{
+  "config": {
+    "configFile": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/apps/web/playwright.config.ts",
+    "rootDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/apps/web/playwright/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-chromium",
+        "name": "desktop-chromium",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-webkit",
+        "name": "mobile-webkit",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging",
+        "name": "staging",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/apps/web/playwright/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/test-results",
+        "repeatEach": 1,
+        "retries": 2,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "staging-smoke",
+        "name": "staging-smoke",
+        "testDir": "/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-122452-wt-15/apps/web/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/staging-smoke\\.spec\\.ts$/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/playwright-report/html",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence/playwright-report/results.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "admin-identity-conflicts.spec.ts",
+      "file": "admin-identity-conflicts.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "/admin/identity-conflicts × mutation",
+          "file": "admin-identity-conflicts.spec.ts",
+          "line": 32,
+          "column": 6,
+          "specs": [
+            {
+              "title": "成功系: 一覧表示",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5288,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-10T07:55:01.856Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "46e2a5de08c3e54b0b6e-a8a6c469356af3dec790",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 33,
+              "column": 3
+            },
+            {
+              "title": "成功系: merge",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1080,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-10T07:55:07.956Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "46e2a5de08c3e54b0b6e-a10c68dc76b162a6b514",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 67,
+              "column": 3
+            },
+            {
+              "title": "成功系: dismiss",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 826,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-10T07:55:09.054Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "46e2a5de08c3e54b0b6e-273d30820f3598de1d50",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 107,
+              "column": 3
+            },
+            {
+              "title": "refresh 境界: merge 後に router.refresh() のみ実行され、members 詳細 fetch は発生しない",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 829,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-10T07:55:09.896Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "46e2a5de08c3e54b0b6e-cd6177ebcaaaa0dc44d7",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 139,
+              "column": 3
+            }
+          ]
+        },
+        {
+          "title": "/admin/identity-conflicts × authz",
+          "file": "admin-identity-conflicts.spec.ts",
+          "line": 180,
+          "column": 6,
+          "specs": [
+            {
+              "title": "認可: member は /login redirect (admin 専用要素は不可視)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1287,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-10T07:55:10.752Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "46e2a5de08c3e54b0b6e-6d3c616b6a99ecd99bb6",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 181,
+              "column": 3
+            },
+            {
+              "title": "認可: anonymous は /login redirect",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "desktop-chromium",
+                  "projectName": "desktop-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 876,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-05-10T07:55:12.059Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "46e2a5de08c3e54b0b6e-7c5a45aacfe9cca8db7c",
+              "file": "admin-identity-conflicts.spec.ts",
+              "line": 197,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-10T07:54:27.732Z",
+    "duration": 45740.595,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

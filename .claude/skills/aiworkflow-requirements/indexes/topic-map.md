@@ -3598,7 +3598,10 @@ node scripts/list-specs.js --topics
 | Required status checks | L7 |
 | Invariants | L13 |
 | Issue #554 runbook | L25 |
-| References | L41 |
+| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L41 |
+| 3-state vocabulary（runtime mutation 系） | L59 |
+| Stage 3c required contexts target（2026-05-10） | L78 |
+| References | L89 |
 
 ### references/cloudflare-edge-security.md
 
@@ -6766,7 +6769,8 @@ node scripts/list-specs.js --topics
 | テストスキップパターン | L298 |
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
-| 関連ドキュメント | L388 |
+| Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
+| 関連ドキュメント | L423 |
 
 ### references/ui-history-components.md
 
