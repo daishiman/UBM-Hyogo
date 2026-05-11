@@ -109,10 +109,13 @@
 | `ci.yml` | PR 時の CI（型チェック・lint・coverage hard gate） |
 | `validate-build.yml` | PR / push 時の build 検証 |
 | `verify-indexes.yml` | aiworkflow-requirements indexes drift 検出 |
+| `verify-phase12-compliance.yml` | changed workflow root の `outputs/phase-12/phase12-task-spec-compliance-check.md` 存在と canonical heading 9 項目を検出 |
 | `web-cd.yml` | Web アプリ CD（dev: staging / main: production 自動デプロイ。Discord 通知は未実装） |
 | `backend-ci.yml` | API CD（D1 migrations apply → Workers deploy。migration 成功後に deploy が失敗した場合は GitHub Actions summary に post-migration deploy failure を記録。Discord 通知は未実装） |
 
-> **current facts (UT-CICD-DRIFT / 2026-04-29)**: `.github/workflows/` の現行実体は上記 5 件。Node.js は `24`、pnpm は `10.33.2` / `pnpm/action-setup@v4` が基準。Discord 通知は正本要件として残るが、現行 workflow には未実装であり UT-08-IMPL（観測性実装）へ委譲する。
+> **current facts (UT-CICD-DRIFT / 2026-04-29)**: `.github/workflows/` の基準 workflow set は上表。Node.js は `24`、pnpm は `10.33.2` / `pnpm/action-setup@v4` が基準。Discord 通知は正本要件として残るが、現行 `web-cd.yml` / `backend-ci.yml` には未実装であり UT-08-IMPL（観測性実装）へ委譲する。
+>
+> **current facts (Issue #603 / 2026-05-11)**: `.github/workflows/verify-phase12-compliance.yml` は `docs/30-workflows/**`、同 workflow、自身の package script、検証 script/test/fixture、canonical template の変更 PR で Phase 12 compliance check の strict heading gate と focused Vitest を実行する。
 
 ### CI ワークフロー要件（PR 時）
 

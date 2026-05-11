@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT
 allowed-tools:
   - Read
   - Write
@@ -28,6 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.11-issue603-phase12-compliance-ci-gate | 2026-05-11 | Issue #603 を反映。`references/phase12-compliance-check-template.md` の Required Sections 9 項目を CI gate `verify-phase12-compliance` の canonical heading SSOT として固定し、template / script / fixture の同一 PR 同期を必須化。 |
 | v2026.05.11-task15-todo-gate-mock-screenshot-state-alias | 2026-05-11 | task-15 admin dashboard and members 実装サイクル feedback を反映。`references/quality-gates.md` §7.3 に **`it.todo` / `test.todo` 残留禁止 (Phase 6 close-out gate)** を追加し a11y todo の実 assertion 昇格と CI `todo-count` step を必須化。`references/workflow-state-vocabulary.md` に State Aliases 節を追加し `implemented-local-runtime-pending` (kebab) と `implemented_local_runtime_pending` (snake) の同一性および遷移条件を明示。`references/phase-11-screenshot-guide.md` に **VISUAL タスクの local mock-screenshot 経路** を追加し、standalone mock を single source of truth とする許容条件 4 件と落とし穴（mock 二重化 / selector drift / provenance 偽装）を規定。 |
 | v2026.05.10-stage3-skill-feedback-promotion | 2026-05-10 | e2e-quality-uplift stage-3-impl 3b / 3c の Phase 12 skill-feedback を反映。(1) `schemas/artifact-definition.json` の `phases[].status` / root `status` enum に canonical 3-state（`spec_created` / `runtime_pending`）を追加し、`metadata` に `governance_mutation_user_gate` / `mutation_commands` / `read_only_evidence_allowed_pre_gate` / `user_approval_marker` / `actual_read_only_evidence_files` / `actual_mutation_evidence_files` を追加。(2) `references/workflow-state-vocabulary.md` に canonical short-form alias 表を追加し `PASS` 単独表記禁止を明文化。(3) `references/phase12-compliance-check-template.md` に 3-state verdict vocabulary / evidence ledger split / branch-specific drift check / Server Component E2E compliance を追加。(4) 新規 `references/server-component-e2e-pattern.md`（`page.route()` 禁則 / `INTERNAL_API_BASE_URL` 差し替え / mock API + seed / tracked evidence）と `references/governance-branch-protection-pattern.md`（dev / main 個別 GET / 個別 PUT / branch-specific evidence 分離）を新設。(5) `references/completed-tasks-policy.md` に親アーカイブパス整合性チェック（親 → 子 sub-workflow 同 wave 移動 / aiworkflow register 同期）を追加。(6) `references/resource-map.md` へ 2 新規 reference を登録。 |
 | v2026.05.10-task17-existing-ui-inventory-gate | 2026-05-10 | task-17 admin schema/conflicts/audit spec review feedback を反映。UI 実装タスクでは元仕様の `new` 前提をそのまま採用せず、Phase 1 で current worktree の route/component/helper を確認し、実在する場合は `existing-*-hardening` / `existing-*-alignment` に再分類する gate を追加。 |

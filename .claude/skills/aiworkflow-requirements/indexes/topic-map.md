@@ -2543,6 +2543,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L47 |
 
+### references/workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L10 |
+| Boundaries | L26 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3709,8 +3716,8 @@ node scripts/list-specs.js --topics
 | デプロイメント戦略概要 | L6 |
 | Cloudflare デプロイ戦略 | L56 |
 | GitHub Actions CI/CD パイプライン | L103 |
-| ロールバック戦略 | L152 |
-| 変更履歴 | L198 |
+| ロールバック戦略 | L155 |
+| 変更履歴 | L201 |
 
 ### references/deployment-details.md
 
@@ -6361,6 +6368,13 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1104 |
 | 昇格パターン集 | L1128 |
 | Current Active / Spec Created Tasks | L1130 |
+| ドキュメント構成 | L999 |
+| フェーズ構造（概要） | L1008 |
+| 品質ゲート（概要） | L1039 |
+| 出力テンプレート | L1050 |
+| 実行時のコマンド・エージェント・スキル | L1073 |
+| 昇格パターン集 | L1097 |
+| Current Active / Spec Created Tasks | L1099 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -1,0 +1,38 @@
+[
+  {
+    "index": 1,
+    "heading": "Summary verdict"
+  },
+  {
+    "index": 2,
+    "heading": "Changed-files classification"
+  },
+  {
+    "index": 3,
+    "heading": "`workflow_state` and phase status consistency"
+  },
+  {
+    "index": 4,
+    "heading": "Phase 11 evidence file inventory"
+  },
+  {
+    "index": 5,
+    "heading": "Phase 12 strict 7 file inventory"
+  },
+  {
+    "index": 6,
+    "heading": "Skill/reference/system spec same-wave sync"
+  },
+  {
+    "index": 7,
+    "heading": "Runtime or user-gated boundary"
+  },
+  {
+    "index": 8,
+    "heading": "Archive/delete stale-reference gate"
+  },
+  {
+    "index": 9,
+    "heading": "Four-condition verdict"
+  }
+]

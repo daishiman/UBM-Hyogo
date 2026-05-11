@@ -1,0 +1,19 @@
+{
+  "taskId": "issue-603-phase12-compliance-check-ci-gate",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "workflow_state": "implemented_local_runtime_pending",
+  "phase12StrictOutputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "phases": [
+    { "phase": 12, "status": "completed" },
+    { "phase": 13, "status": "pending_user_approval" }
+  ]
+}

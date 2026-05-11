@@ -20,6 +20,19 @@
 | evidence boundary | schema / validator / CI workflow file / #549 backfill / Phase 12 strict 7 are local implemented; branch protection required-check mutation / commit / push / PR remain user-gated |
 | closed Issue rule | PR wording uses `Refs #589` and `Refs #549` only |
 
+### Issue #603 phase-12 compliance-check CI gate（2026-05-11）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-603-phase12-compliance-check-ci-gate/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| CI gate | `.github/workflows/verify-phase12-compliance.yml` |
+| script | `scripts/verify-phase12-compliance.ts` |
+| canonical headings | `.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md` Required Sections 9 項目 |
+| focused test | `scripts/__tests__/verify-phase12-compliance.test.ts` |
+| artifact inventory | `references/workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md` |
+| source task | `task-spec-skill-compliance-check-ci-gate` consumed/promoted |
+
 ### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
 
 | 目的 | 参照先 |
