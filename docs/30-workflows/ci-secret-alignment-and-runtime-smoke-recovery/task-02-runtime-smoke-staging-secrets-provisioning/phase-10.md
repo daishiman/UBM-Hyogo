@@ -53,6 +53,35 @@
 
 - `.github/workflows/runtime-smoke-staging.yml` の追加 step のみ
 
+### 追記 (2026-05-11): 即時 mitigation — pre-check の soft-disable (audit C2)
+
+pre-check 自体が誤検知で smoke を恒常的に停止させている場合（例: secret 名 typo / env 名不一致など）、`git revert` を待たずに **soft-disable hotfix** を当てて smoke 本体を流せる状態に戻す。
+
+#### 手順
+
+1. 対象 commit を特定:
+   ```bash
+   git log --oneline -- .github/workflows/runtime-smoke-staging.yml
+   ```
+2. `.github/workflows/runtime-smoke-staging.yml` の `verify required staging secrets` step block に `if: false` を付与する hotfix commit を作成。
+   ```yaml
+   - name: verify required staging secrets
+     if: false  # hotfix(2026-05-11): pre-check soft-disable — see task-02 phase-10 §3.2
+     run: |
+       ...
+   ```
+3. push して smoke 本体が動くことを確認。
+4. 原因を特定し fix した後、原状回復は:
+   ```bash
+   git revert <hotfix-sha>
+   ```
+5. revert 後に Pass 2（phase-11 §2.4）を再観測して pre-check が正しく動作することを確認する。
+
+#### 注意
+
+- soft-disable は **時間制限付きの緊急 mitigation**。fix 完了まで放置せず、必ず revert で原状回復する。
+- soft-disable 中は readiness gate が無効化されているため、smoke の fail が secret 不足由来かどうかを別途確認する必要がある。
+
 ---
 
 ## 4. レビュー観点（self-review）
