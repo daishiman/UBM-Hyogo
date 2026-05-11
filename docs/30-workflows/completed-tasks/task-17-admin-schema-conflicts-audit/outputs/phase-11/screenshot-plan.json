@@ -1,0 +1,19 @@
+{
+  "taskId": "task-17-admin-schema-conflicts-audit",
+  "mode": "VISUAL_ON_EXECUTION",
+  "status": "CAPTURED",
+  "command": "PLAYWRIGHT_EVIDENCE_TASK=task-17-admin-schema-conflicts-audit pnpm -F @ubm-hyogo/web exec playwright test playwright/tests/admin-schema-conflicts-audit.spec.ts --project=desktop-chromium",
+  "metadata": "outputs/phase-11/phase11-capture-metadata.json",
+  "screenshots": [
+    { "name": "admin-schema-default.png", "tc": "TC-01", "state": "captured" },
+    { "name": "admin-schema-empty.png", "tc": "TC-02", "state": "captured" },
+    { "name": "admin-schema-apply-modal.png", "tc": "TC-03", "state": "captured-inline-form" },
+    { "name": "admin-schema-assign-error.png", "tc": "TC-04", "state": "captured" },
+    { "name": "admin-identity-conflicts-default.png", "tc": "TC-05", "state": "captured" },
+    { "name": "admin-identity-conflicts-empty.png", "tc": "TC-06", "state": "captured-component-contract" },
+    { "name": "admin-identity-conflicts-merge-modal.png", "tc": "TC-07", "state": "captured-inline-confirmation" },
+    { "name": "admin-audit-default.png", "tc": "TC-08", "state": "captured" },
+    { "name": "admin-audit-filtered.png", "tc": "TC-09", "state": "captured" },
+    { "name": "admin-audit-empty.png", "tc": "TC-10", "state": "captured" }
+  ]
+}
