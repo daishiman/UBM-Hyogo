@@ -1,0 +1,18 @@
+{
+  "taskId": "task-10-followup-002-runtime-visual-axe-evidence",
+  "status": "completed",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL_ON_EXECUTION",
+  "workflow_state": "runtime-evidence-captured",
+  "canonicalEvidenceRoot": "docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/outputs/phase-11/evidence",
+  "outputs": {
+    "phase11": "outputs/phase-11/main.md",
+    "phase12": "outputs/phase-12/main.md",
+    "implementationGuide": "outputs/phase-12/implementation-guide.md",
+    "systemSpecUpdateSummary": "outputs/phase-12/system-spec-update-summary.md",
+    "documentationChangelog": "outputs/phase-12/documentation-changelog.md",
+    "unassignedTaskDetection": "outputs/phase-12/unassigned-task-detection.md",
+    "skillFeedbackReport": "outputs/phase-12/skill-feedback-report.md",
+    "phase12ComplianceCheck": "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  }
+}

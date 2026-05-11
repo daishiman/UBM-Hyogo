@@ -1,22 +1,19 @@
-# OpenNext esbuild host/binary mismatch 解消 - タスク指示書
+# SUPERSEDED: OpenNext esbuild host/binary mismatch 解消 - タスク指示書
 
-## メタ情報
-
-```yaml
-issue_number: 609
-```
+本ファイルは `docs/30-workflows/task-10-followup-001-opennext-esbuild-mismatch/` の Phase 1-13 workflow に展開済み。2026-05-11 の実行で `package.json` / `pnpm-lock.yaml` に esbuild override を反映し、`build:cloudflare` PASS を `outputs/phase-11/evidence/after-build-cloudflare.log` に保存した。以後の正本は workflow directory を参照する。
 
 ## メタ情報
 
 | 項目         | 内容                                                            |
 | ------------ | --------------------------------------------------------------- |
 | タスクID     | task-10-followup-001-opennext-esbuild-mismatch                  |
+| Issue        | #609                                                            |
 | タスク名     | `build:cloudflare` を阻む OpenNext / esbuild バージョン整合     |
 | 分類         | 改善（環境）                                                    |
 | 対象機能     | `apps/web` Cloudflare Workers ビルドパイプライン                |
 | 優先度       | 高                                                              |
 | 見積もり規模 | 小規模                                                          |
-| ステータス   | 未実施                                                          |
+| ステータス   | SUPERSEDED / 実装済み                                           |
 | 発見元       | task-10-ui-primitives-spec / Phase 11 evidence                  |
 | 発見日       | 2026-05-09                                                      |
 
@@ -26,7 +23,7 @@ issue_number: 609
 
 ### 1.1 背景
 
-task-10 (UI primitives 実装) で `mise exec -- pnpm --filter @repo/web build:cloudflare` を実行したところ、`@opennextjs/cloudflare` 内部で利用される esbuild の host バージョン (`0.25.4`) と node_modules に解決されたバイナリ (`0.21.5`) の不一致で fail した。`pnpm rebuild esbuild` でも mismatch が解消しなかった。
+task-10 (UI primitives 実装) で `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare` を実行したところ、`@opennextjs/cloudflare` 内部で利用される esbuild の host バージョン (`0.25.4`) と node_modules に解決されたバイナリ (`0.21.5`) の不一致で fail した。`pnpm rebuild esbuild` でも mismatch が解消しなかった。
 
 ### 1.2 問題点・課題
 

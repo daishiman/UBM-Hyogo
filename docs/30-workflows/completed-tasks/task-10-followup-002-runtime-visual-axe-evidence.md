@@ -1,22 +1,19 @@
-# task-10 runtime visual + axe evidence 取得 - タスク指示書
+# COMPLETED: task-10 runtime visual + axe evidence 取得 - タスク指示書
 
-## メタ情報
-
-```yaml
-issue_number: 610
-```
+2026-05-11 実行済み。`docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/outputs/phase-11/evidence/screenshots/task10-ui-primitives-runtime.png` と `axe-report.json` に runtime screenshot / axe evidence を保存した。実行 spec は `apps/web/playwright/tests/task10-ui-primitives.spec.ts`、検証 route は `/smoke/ui-primitives`。本ファイルは履歴として残し、追加の未タスク化は不要。
 
 ## メタ情報
 
 | 項目         | 内容                                                            |
 | ------------ | --------------------------------------------------------------- |
 | タスクID     | task-10-followup-002-runtime-visual-axe-evidence                |
+| Issue        | #610                                                            |
 | タスク名     | task-10 UI primitives の runtime screenshot / axe 取得          |
 | 分類         | 検証                                                            |
 | 対象機能     | `apps/web/src/components/ui/` 11 primitive                      |
 | 優先度       | 中                                                              |
 | 見積もり規模 | 小規模                                                          |
-| ステータス   | 未実施                                                          |
+| ステータス   | 完了（2026-05-11）                                             |
 | 発見元       | task-10-ui-primitives-spec / Phase 11 (VISUAL_ON_EXECUTION)     |
 | 発見日       | 2026-05-09                                                      |
 

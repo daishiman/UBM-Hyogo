@@ -222,18 +222,20 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
-| 状態 | `implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration` |
+| 状態 | `runtime-evidence-captured / implementation / VISUAL_ON_EXECUTION / existing-ui-integration` |
 | current baseline | `apps/web/src/components/ui/index.ts` の PascalCase barrel export |
 | 方針 | Wave 0 の 15 primitive を削除せず、task-10 の 11 primitive contract を統合 |
 | 既存拡張 | `Button / Avatar / Field / Input / Select` |
 | 新規追加 | `Card / Badge / Sidebar / Stat / EmptyState / Banner` |
 | 維持 | `Chip / Switch / Segmented / Textarea / Search / Drawer / Modal / Toast / KVList / LinkPills` |
 | local evidence | typecheck / lint / focused test / coverage / next build PASS |
-| blocker | `build:cloudflare` は OpenNext esbuild host `0.25.4` / binary `0.21.5` mismatch で pending |
+| blocker | 解消済み。follow-up 001 で `pnpm.overrides.esbuild = 0.25.4` により `build:cloudflare` PASS |
 | downstream | task-11..17 は `@/components/ui` から import |
-| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`。runtime screenshot / axe は build blocker 解消後に取得 |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`、`outputs/phase-11/evidence/screenshots/task10-ui-primitives-runtime.png`、`outputs/phase-11/evidence/axe-report.json` |
+| follow-up 001 | `docs/30-workflows/task-10-followup-001-opennext-esbuild-mismatch/`、`references/workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md`、`lessons-learned/lessons-learned-task-10-followup-001-opennext-esbuild-mismatch-2026-05.md` |
+| follow-up 002 | `docs/30-workflows/task-10-followup-002-runtime-visual-axe-evidence/`、`lessons-learned/lessons-learned-task-10-followup-002-runtime-visual-axe-evidence-2026-05.md`（L-T10FU002-001 VISUAL_ON_EXECUTION 2 段 workflow_state / -002 親 evidence 集約 / -003 axe DOM 構造） |
 | 苦戦箇所 | `lessons-learned/lessons-learned-task-10-ui-primitives-2026-05.md`（L-T10-001 OpenNext esbuild mismatch / L-T10-002 C/M/R + barrel owner / L-T10-003 VISUAL_ON_EXECUTION local↔runtime 分離 / L-T10-004 lint.log capture header） |
-| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260509-task-10-ui-primitives-implemented-local.md` |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260511-task-10-runtime-evidence-captured.md`、`.claude/skills/aiworkflow-requirements/changelog/20260511-task-10-followup-001-opennext-esbuild-mismatch.md` |
 
 ### E2E quality uplift Stage 2 sub-task 2b admin identity conflicts spec（2026-05-09）
 

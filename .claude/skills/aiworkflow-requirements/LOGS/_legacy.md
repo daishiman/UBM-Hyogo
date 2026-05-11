@@ -842,3 +842,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 # 2026-05-10
 
 - task-15 admin dashboard and members close-out sync: `implemented-local-runtime-pending / implementation / VISUAL`. Added local Playwright screenshot evidence, `jest-axe` unit a11y, Phase 12 strict 7 physical files, artifact inventory, quick-reference/resource-map/task-workflow-active/changelog entries. Phase 13 remains user-gated.
+# 2026-05-11
+
+- task-10 runtime evidence sync: follow-up 001 resolved OpenNext esbuild host/binary mismatch with `pnpm.overrides.esbuild = 0.25.4`; `build:cloudflare` PASS evidence captured. follow-up 002 captured runtime screenshot and axe report for 11 UI primitives via `/smoke/ui-primitives` and Playwright. `Stat` axe structure violation was fixed in `apps/web/src/components/ui/Stat.tsx`. Commit / push / PR remain user-gated.
+- task-10 unassigned-task sync: both follow-up 001 / 002 task spec files moved from `docs/30-workflows/unassigned-task/` to `docs/30-workflows/completed-tasks/` (rename) since they were executed in the same cycle. Duplicate `## メタ情報` heading in both spec files was merged into a single table with `Issue #609 / #610` rows. Added `lessons-learned/lessons-learned-task-10-followup-002-runtime-visual-axe-evidence-2026-05.md` recording L-T10FU002-001 (2-stage `workflow_state` for `VISUAL_ON_EXECUTION`), -002 (parent task evidence aggregation rule), -003 (axe DOM grouping element contract at Phase 5).

@@ -62,5 +62,10 @@
   "dependencies": {
     "@slack/web-api": "^7.10.0",
     "zod": "^4.3.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.25.4"
+    }
   }
 }

@@ -1,8 +1,8 @@
 # Phase 11 Boundary Ledger
 
-判定: `VISUAL_ON_EXECUTION` / `implemented-local-build-blocked`
+判定: `VISUAL_ON_EXECUTION` / `runtime-evidence-captured`
 
-task-10 は UI primitive 実装タスクであり、ローカル実装と local evidence は取得済み。runtime screenshot と axe evidence は `build:cloudflare` blocker 解消後に取得する。現時点では screenshot / axe PASS は主張しない。
+task-10 は UI primitive 実装タスクであり、ローカル実装と local evidence は取得済み。2026-05-11 に `build:cloudflare` blocker を follow-up 001 で解消し、runtime screenshot と axe evidence を取得した。
 
 ## Evidence Boundary
 
@@ -13,7 +13,7 @@ task-10 は UI primitive 実装タスクであり、ローカル実装と local 
 | focused test | `outputs/phase-11/evidence/test.log` PASS（50 files / 427 tests） |
 | coverage | `outputs/phase-09/coverage.txt` PASS（All files 83.47/87.29/83.19/83.47、components/ui 88.70/76.14/77.50/88.70） |
 | next build | `outputs/phase-11/evidence/next-build.log` PASS |
-| build:cloudflare | `outputs/phase-11/evidence/build.log` FAIL（esbuild host/binary mismatch） |
-| runtime screenshot | 実装完了後に取得 |
-| axe | 実装完了後に取得 |
-| keyboard traversal | 実装完了後に取得 |
+| build:cloudflare | `docs/30-workflows/task-10-followup-001-opennext-esbuild-mismatch/outputs/phase-11/evidence/after-build-cloudflare.log` PASS |
+| runtime screenshot | `outputs/phase-11/evidence/screenshots/task10-ui-primitives-runtime.png` PASS |
+| axe | `outputs/phase-11/evidence/axe-report.json` PASS（critical/serious 0） |
+| Playwright runtime | `outputs/phase-11/evidence/task10-ui-primitives-playwright.log` PASS |

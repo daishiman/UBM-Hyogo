@@ -41,4 +41,4 @@
 
 task-10 contract は 11 primitive、Wave 0 baseline は 15 primitive、prototype full catalog は 21 primitive として語彙を分離する。後続 task-11..17 は task-10 の 11 primitive contract と Wave 0 維持 export の交差を `@/components/ui` barrel から使う。09c の 21 primitive catalog は full prototype reference であり、task-10 の完了条件ではない。
 
-状態語彙は `implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration`。typecheck / lint / focused test / coverage / Next build は PASS。`build:cloudflare` は OpenNext esbuild host `0.25.4` / binary `0.21.5` mismatch で blocker のため、runtime screenshot / axe は blocker 解消後に取得する。現時点で screenshot PASS は主張しない。
+状態語彙は `runtime-evidence-captured / implementation / VISUAL_ON_EXECUTION / existing-ui-integration`。typecheck / lint / focused test / coverage / Next build は PASS。2026-05-11 に follow-up 001 で OpenNext esbuild mismatch を `pnpm.overrides.esbuild = 0.25.4` により解消し、`build:cloudflare` は PASS。follow-up 002 相当の runtime screenshot / axe は `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/outputs/phase-11/evidence/` に保存済み。axe で検出した `Stat` の `<dt>/<dd>` 構造違反は同 cycle で `dl > div > dt/dd` 構造へ修正した。

@@ -2969,6 +2969,14 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L10 |
+| Evidence | L18 |
+| Phase 12 | L30 |
+
 ### references/workflow-task-12-member-detail-register-legal-artifact-inventory.md
 
 | セクション | 行 |
