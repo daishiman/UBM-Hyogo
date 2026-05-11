@@ -3,14 +3,14 @@
 ## Summary
 
 - workflow root: `docs/30-workflows/task-14-my-profile-and-requests/`
-- state: `IMPLEMENTED_LOCAL_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / runtime_pending`
+- state: `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING`
 - scope: `/profile` four-region member page rebuild implementation specification
 - synced artifacts: Phase 1-13, root/output `artifacts.json` parity, Phase 12 strict seven files
 - canonical contract: existing `/me` self-service API consumption only, no `apps/api/src/routes/me/*` or `apps/web/app/api/me/*` changes, `fetchAuthed("/me/*")` component call strings, no direct D1 access, OKLch token-only styling. Dialog pure UI split is a design target and is not claimed as completed in this local wave.
 - selectors: `public-visibility-banner`, `status-summary`, `request-action-panel`, `visibility-request-dialog`, `delete-request-dialog`
 - dependencies: task-09, task-10, task-13
 - downstream: task-18 regression smoke / verify-design-tokens
-- boundary: apps/web implementation is reflected locally; visual/runtime evidence, staging deploy, production smoke, commit, push, and PR remain user-gated
+- boundary: apps/web implementation and Phase 11 deterministic evidence are reflected locally; authenticated screenshot/runtime evidence, staging deploy, production smoke, commit, push, and PR remain user-gated
 
 ## Review Fixes
 

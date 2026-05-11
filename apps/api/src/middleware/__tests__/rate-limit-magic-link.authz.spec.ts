@@ -56,6 +56,12 @@ describe("rate-limit-magic-link", () => {
     const blocked = await post("10.0.0.99");
     expect(blocked.status).toBe(429);
     expect(blocked.headers.get("Retry-After")).toBeTruthy();
+    expect(blocked.headers.get("x-ratelimit-source")).toBe("app");
+    await expect(blocked.json()).resolves.toEqual({
+      error: "rate_limited",
+      retryAfterSec: expect.any(Number),
+      reason: "app",
+    });
   });
 
   it("R-02: 異 email は各 1 回目なら全て通る", async () => {
@@ -91,5 +97,11 @@ describe("rate-limit-magic-link", () => {
       e,
     );
     expect(blocked.status).toBe(429);
+    expect(blocked.headers.get("x-ratelimit-source")).toBe("app");
+    await expect(blocked.json()).resolves.toEqual({
+      error: "rate_limited",
+      retryAfterSec: expect.any(Number),
+      reason: "app",
+    });
   });
 });

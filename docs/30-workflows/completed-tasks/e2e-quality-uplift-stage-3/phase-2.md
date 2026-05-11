@@ -100,14 +100,14 @@ reporter: [
 |------|----|
 | 計測方式 | Playwright `monocart-reporter` の v8 coverage hook（`page.coverage.startJSCoverage()` 内蔵）→ lcov 出力 |
 | c8 単独運用 | 採用しない（Playwright と二重計測になるため） |
-| しきい値判定 | `c8 check-coverage --lines 70 --reporter text` を `monocart-reporter` 出力 lcov に対して実行 |
+| しきい値判定 | `c8 check-coverage --lines 80 --reporter text` を `monocart-reporter` 出力 lcov に対して実行 |
 | script | `scripts/coverage-gate-e2e.sh` |
 
 `scripts/coverage-gate-e2e.sh` の責務:
 
 1. `pnpm --filter @ubm-hyogo/web exec c8 report --reporter=json-summary --temp-directory=apps/web/coverage/v8 --report-dir=apps/web/coverage/summary`
-2. `coverage-summary.json` の `total.lines.pct` を読み、< 70 で `exit 1`
-3. しきい値値は `.claude/skills/task-specification-creator/references/quality-gates.md §7.5` を参照（standard tier = 70）
+2. `coverage-summary.json` の `total.lines.pct` を読み、< 80 で `exit 1`
+3. しきい値値は `.claude/skills/task-specification-creator/references/quality-gates.md §7.5` を参照（standard tier = 80）
 
 ### 2.3 `.github/workflows/e2e-tests.yml` 構造（major rewrite）
 
@@ -216,7 +216,7 @@ gh api repos/daishiman/UBM-Hyogo/branches/main/protection | jq '.required_status
 | risk | 影響 | 緩和策 |
 |------|------|--------|
 | CI minute budget 超過 | 月次 GitHub Actions 無料枠の圧迫 | (a) `concurrency.cancel-in-progress=true` で同 PR の旧 run をキャンセル (b) Lighthouse `numberOfRuns: 1`（3→1） (c) e2e job の workers=2 維持 |
-| coverage flakiness（特に async path） | PR が散発的に 70% を割る | (a) `coverage-summary.json` を毎 run artifact 化し回帰調査可能に (b) 70% は **line のみ**（branch/function は対象外） (c) Stage 2 で flaky test を quarantine 済み前提 |
+| coverage flakiness（特に async path） | PR が散発的に 80% を割る | (a) `coverage-summary.json` を毎 run artifact 化し回帰調査可能に (b) 80% は **line のみ**（branch/function は対象外） (c) Stage 2 で flaky test を quarantine 済み前提 |
 | Lighthouse perf スコアの環境依存ぶれ | localhost run でも CI ランナー負荷で perf 80 を割る | (a) `preset: desktop` 固定 (b) `pnpm start`（production build）で計測 (c) しきい値割れ頻発時は Phase 11 で perf>=75 へ緩和提案 |
 | `/profile` 未認証 redirect で a11y 計測が `/login` に偏る | a11y スコア重複 | (a) `/profile` を skip-on-redirect 設定 (b) 必要なら lighthouserc から外し 3 routes に縮退 |
 | reporter 追加で既存 evidence path 破損 | Stage 0/1 evidence 互換性喪失 | (a) `html`/`json`/`list` は維持し monocart は **追加** のみ (b) `EVIDENCE_DIR` 配下にサブディレクトリで隔離 |
@@ -286,7 +286,7 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】
