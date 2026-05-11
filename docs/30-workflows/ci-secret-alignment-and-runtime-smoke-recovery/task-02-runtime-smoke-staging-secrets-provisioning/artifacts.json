@@ -4,14 +4,16 @@
     "parent_workflow_id": "ci-secret-alignment-and-runtime-smoke-recovery",
     "subtask_id": "task-02",
     "implementation_mode": "edit+new",
-    "workflow_state": "spec_created",
-    "implementation_status": "spec_pending_implementation",
+    "workflow_state": "implemented-local-runtime-pending",
+    "implementation_status": "implemented-local-runtime-pending",
     "taskType": "implementation",
     "visualEvidence": "NON_VISUAL",
     "coverageTier": "n/a",
     "base_branch": "dev",
     "feature_branch": "fix/runtime-smoke-staging-readiness-gate",
-    "updated_at": "2026-05-09"
+    "pr_number": 676,
+    "pr_branch": "feat/task-02-runtime-smoke-staging-secrets-readiness-gate",
+    "updated_at": "2026-05-11"
   },
   "inventory": [
     { "path": ".github/workflows/runtime-smoke-staging.yml", "kind": "edit", "scope": "step-insert" },
@@ -25,19 +27,19 @@
     { "action": "gh secret set", "secret": "SLACK_WEBHOOK_INCIDENT", "env": "staging-runtime-smoke" }
   ],
   "phases": [
-    { "phase": 1, "status": "spec_created", "path": "phase-1.md" },
-    { "phase": 2, "status": "spec_created", "path": "phase-2.md" },
-    { "phase": 3, "status": "spec_created", "path": "phase-3.md" },
-    { "phase": 4, "status": "spec_created", "path": "phase-4.md" },
-    { "phase": 5, "status": "spec_created", "path": "phase-5.md" },
-    { "phase": 6, "status": "spec_created", "path": "phase-6.md" },
-    { "phase": 7, "status": "spec_created", "path": "phase-7.md" },
-    { "phase": 8, "status": "spec_created", "path": "phase-8.md" },
-    { "phase": 9, "status": "spec_created", "path": "phase-9.md" },
-    { "phase": 10, "status": "spec_created", "path": "phase-10.md" },
-    { "phase": 11, "status": "spec_created", "path": "phase-11.md" },
-    { "phase": 12, "status": "spec_created", "path": "phase-12.md" },
-    { "phase": 13, "status": "spec_created", "path": "phase-13.md" }
+    { "phase": 1, "status": "completed", "path": "phase-1.md" },
+    { "phase": 2, "status": "completed", "path": "phase-2.md" },
+    { "phase": 3, "status": "completed", "path": "phase-3.md" },
+    { "phase": 4, "status": "completed", "path": "phase-4.md" },
+    { "phase": 5, "status": "completed", "path": "phase-5.md" },
+    { "phase": 6, "status": "completed", "path": "phase-6.md" },
+    { "phase": 7, "status": "completed", "path": "phase-7.md" },
+    { "phase": 8, "status": "completed", "path": "phase-8.md" },
+    { "phase": 9, "status": "completed", "path": "phase-9.md" },
+    { "phase": 10, "status": "completed", "path": "phase-10.md" },
+    { "phase": 11, "status": "static-completed / runtime-pending", "path": "phase-11.md" },
+    { "phase": 12, "status": "completed", "path": "phase-12.md" },
+    { "phase": 13, "status": "pr-open", "path": "phase-13.md" }
   ],
   "evidence": {
     "phase11": "outputs/phase-11/evidence/",
