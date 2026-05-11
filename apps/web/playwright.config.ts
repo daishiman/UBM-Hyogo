@@ -15,6 +15,9 @@ const isTask12Evidence = process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-12-membe
 const isTask13LoginSmoke =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-13-login-rebuild' ||
   process.argv.some((arg) => arg.includes('login-smoke.spec.ts'))
+const isTask17AdminEvidence =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-17-admin-schema-conflicts-audit' ||
+  process.argv.some((arg) => arg.includes('admin-schema-conflicts-audit.spec.ts'))
 
 const EVIDENCE_DIR =
   process.env.PLAYWRIGHT_EVIDENCE_DIR ??
@@ -30,7 +33,9 @@ const EVIDENCE_DIR =
             ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
             : isTask13LoginSmoke
               ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
-              : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
+              : isTask17AdminEvidence
+                ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
+                : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
@@ -55,6 +60,9 @@ if (!isAdminIdentityConflictsRun) {
 }
 if (!isAdminRequestsRun) {
   fixtureGatedTestIgnore.push('**/admin-requests.spec.ts')
+}
+if (!isTask17AdminEvidence) {
+  fixtureGatedTestIgnore.push('**/admin-schema-conflicts-audit.spec.ts')
 }
 
 export default defineConfig({
@@ -142,7 +150,9 @@ export default defineConfig({
             command: isAdminRequestsRun
               ? `${localEnv} AUTH_SECRET=playwright-auth-secret-playwright-auth-secret PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
               : isAdminIdentityConflictsRun
-                ? `${localEnv} AUTH_SECRET=playwright-auth-secret-playwright-auth-secret PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+                ? `${localEnv} PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+                : isTask17AdminEvidence
+                  ? `${localEnv} PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
                 : `${localEnv} pnpm --filter @ubm-hyogo/web dev`,
             url: localBaseURL,
             reuseExistingServer: !process.env.CI,
