@@ -1,0 +1,95 @@
+{
+  "taskId": "issue-589-gate-metadata-structured-ledger",
+  "taskCode": "U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-FU-04",
+  "taskPath": "docs/30-workflows/completed-tasks/issue-589-gate-metadata-structured-ledger",
+  "createdAt": "2026-05-10",
+  "updatedAt": "2026-05-10",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented_local_runtime_pending",
+  "metadata": {
+    "issue": 589,
+    "issue_state": "closed",
+    "issue_state_policy": "stays_closed_no_reopen_in_this_spec",
+    "parent_issue": 549,
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local",
+    "phase12_contract": "strict_7_outputs_present",
+    "outputs_artifacts_policy": "root_and_outputs_mirror",
+    "base_branch": "dev",
+    "sourceUnassignedTask": "docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-04.md",
+    "parentSpec": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-589-gate-metadata-structured-ledger/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 仕様書が root に揃い、scope / DoD / 実装区分根拠を確定"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-10T02:13:00Z",
+        "evidence_path": "packages/shared/src/gate-metadata/__tests__/schema.test.ts",
+        "approver": "CODEOWNERS:apps-api",
+        "notes": "validator_green: pnpm --filter @ubm-hyogo/shared test -- gate-metadata completed 16 files / 188 tests passed; pnpm exec vitest run scripts/gate-metadata/__tests__/walk.test.ts completed 12 tests; pnpm gate-metadata:validate exit 0"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/verify-gate-metadata.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: workflow が PR 発火し actionlint clean / pnpm gate-metadata:validate exit 0 になった時点で passed。required status check 化は user approval 後"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "passed",
+        "passed_at": "2026-05-10T02:13:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/artifacts.json",
+        "approver": "daishiman",
+        "notes": "backfill_549: Issue #549 artifacts.json と outputs mirror に gates[] 4 件が backfill され、cmp parity と validator exit 0 を確認"
+      }
+    ]
+  },
+  "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/589",
+  "parentTask": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/",
+  "phases": {
+    "phase-1":  { "status": "completed", "outputs": ["phase-01.md"] },
+    "phase-2":  { "status": "completed", "outputs": ["phase-02.md"] },
+    "phase-3":  { "status": "completed", "outputs": ["phase-03.md"] },
+    "phase-4":  { "status": "completed", "outputs": ["phase-04.md"] },
+    "phase-5":  { "status": "completed", "outputs": ["phase-05.md"] },
+    "phase-6":  { "status": "completed", "outputs": ["phase-06.md"] },
+    "phase-7":  { "status": "completed", "outputs": ["phase-07.md"] },
+    "phase-8":  { "status": "completed", "outputs": ["phase-08.md"] },
+    "phase-9":  { "status": "completed", "outputs": ["phase-09.md"] },
+    "phase-10": { "status": "completed", "outputs": ["phase-10.md"] },
+    "phase-11": { "status": "completed", "outputs": ["phase-11.md"] },
+    "phase-12": { "status": "completed", "outputs": ["phase-12.md"] },
+    "phase-13": { "status": "pending_user_approval", "outputs": ["phase-13.md"] }
+  },
+  "required_outputs": {
+    "phase11": [
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/manual-smoke-log.md",
+      "outputs/phase-11/link-checklist.md"
+    ],
+    "phase12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "phase13": [
+      "outputs/phase-13/phase-13.md"
+    ]
+  }
+}

@@ -46,11 +46,13 @@ const readBody = (req) =>
 const state = {
   pendingRequests: {},
   attendance: new Set(), // `${sessionId}:${memberId}`
+  adminDashboardUnresolvedSchema: 0,
 };
 
 const resetState = () => {
   state.pendingRequests = {};
   state.attendance = new Set();
+  state.adminDashboardUnresolvedSchema = 0;
 };
 
 const buildPublicProfile = (id) => ({
@@ -125,23 +127,65 @@ const publicList = (url) => {
   };
 };
 
-const adminMembers = {
-  total: 1,
-  page: 1,
-  pageSize: 20,
-  members: [
+const adminMembersBase = [
+  {
+    memberId: "mem_alpha",
+    responseEmail: "alpha@example.test",
+    fullName: "青木 太郎",
+    publicConsent: "consented",
+    rulesConsent: "consented",
+    publishState: "public",
+    isDeleted: false,
+    lastSubmittedAt: NOW,
+  },
+  {
+    memberId: "mem_beta",
+    responseEmail: "beta@example.test",
+    fullName: "兵庫 花子",
+    publicConsent: "consented",
+    rulesConsent: "consented",
+    publishState: "hidden",
+    isDeleted: false,
+    lastSubmittedAt: NOW,
+  },
+  {
+    memberId: "mem_gamma",
+    responseEmail: "gamma@example.test",
+    fullName: "神戸 次郎",
+    publicConsent: "unknown",
+    rulesConsent: "consented",
+    publishState: "member_only",
+    isDeleted: false,
+    lastSubmittedAt: NOW,
+  },
+];
+
+const adminMembersResponse = (search) => {
+  const q = search?.get("q") ?? "";
+  const filter = search?.get("filter") ?? "";
+  let members = q === "zzzzz" ? [] : adminMembersBase;
+  if (filter === "published") members = members.filter((m) => m.publishState === "public");
+  return { total: members.length, page: 1, pageSize: 50, members };
+};
+
+const adminMemberDetail = (memberId) => ({
+  identityMemberId: memberId,
+  identityEmail: `${memberId}@example.test`,
+  status: {
+    publicConsent: "consented",
+    rulesConsent: "consented",
+    publishState: "public",
+    isDeleted: false,
+  },
+  audit: [
     {
-      memberId: member.memberId,
-      responseEmail: "member@example.test",
-      fullName: member.fullName,
-      publicConsent: "consented",
-      rulesConsent: "consented",
-      publishState: "public",
-      isDeleted: false,
-      lastSubmittedAt: NOW,
+      occurredAt: NOW,
+      actor: "admin@example.test",
+      action: "admin.member.status_updated",
+      note: "fixture",
     },
   ],
-};
+});
 
 // /admin/schema/diff: 6 セクション (テスト admin-pages.spec.ts:13 が toHaveCount(6) を要求)
 const adminSchemaDiff = {
@@ -270,6 +314,13 @@ const server = createServer(async (req, res) => {
     }
     return json(res, 200, { ok: true, pendingRequests: state.pendingRequests });
   }
+  if (req.method === "POST" && pathname === "/__test__/admin-dashboard") {
+    const body = await readBody(req);
+    if (typeof body.unresolvedSchema === "number") {
+      state.adminDashboardUnresolvedSchema = body.unresolvedSchema;
+    }
+    return json(res, 200, { ok: true, adminDashboardUnresolvedSchema: state.adminDashboardUnresolvedSchema });
+  }
 
   if (req.method === "GET" && pathname === "/health") return json(res, 200, { ok: true });
 
@@ -359,12 +410,24 @@ const server = createServer(async (req, res) => {
   // ---- /admin ----
   if (req.method === "GET" && pathname === "/admin/dashboard") {
     return json(res, 200, {
-      totals: { totalMembers: 1, publicMembers: 1, untaggedMembers: 0, unresolvedSchema: 0 },
+      totals: {
+        totalMembers: 1,
+        publicMembers: 1,
+        untaggedMembers: 0,
+        unresolvedSchema: state.adminDashboardUnresolvedSchema,
+      },
       recentActions: [],
       generatedAt: NOW,
     });
   }
-  if (req.method === "GET" && pathname === "/admin/members") return json(res, 200, adminMembers);
+  if (req.method === "GET" && pathname === "/admin/members") return json(res, 200, adminMembersResponse(url.searchParams));
+  {
+    const detail = pathname.match(/^\/admin\/members\/([^/]+)$/);
+    if (req.method === "GET" && detail?.[1]) return json(res, 200, adminMemberDetail(detail[1]));
+    if ((req.method === "PATCH" || req.method === "POST") && pathname.startsWith("/admin/members/")) {
+      return json(res, 200, { ok: true });
+    }
+  }
   if (req.method === "GET" && pathname === "/admin/tags/queue") return json(res, 200, { total: 0, items: [] });
   if (req.method === "GET" && pathname === "/admin/schema/diff") return json(res, 200, adminSchemaDiff);
   if (req.method === "GET" && pathname === "/admin/schema") return json(res, 200, adminSchemaDiff);

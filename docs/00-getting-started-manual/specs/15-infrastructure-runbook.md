@@ -80,6 +80,43 @@ Switch 手順:
 
 Rollback では D1 `classifier_used` / `classifier_version` / `confidence` を削除しない。model artifact 不整合が続く場合は artifact 再選定 Issue へ差し戻す。
 
+## Issue #588 fallback alert Slack / mail extension
+
+Issue #588 は Issue #549 の fallback rate alert を、GitHub Issue 起票のみから GitHub Issue + Slack + mail HTTP webhook へ拡張する。実装状態は `implemented-local-runtime-pending / implementation / NON_VISUAL`。`scripts/cf-audit-log/observation/fallback-rate-alert.ts` が `outputs/observation/*.json` の hourly snapshot を評価し、fallback rate > 5% が 3 hour 連続した場合のみ通知する。
+
+Runtime contract:
+
+| Destination | Env | Behavior |
+| --- | --- | --- |
+| GitHub Issue | `GITHUB_TOKEN`, `GITHUB_REPOSITORY` | 必須 audit trail。失敗は throw 伝播 |
+| Slack | `SLACK_WEBHOOK_INCIDENT` | optional。Issue #520 の incident channel 正本名。未設定時 no-op。失敗は stderr に記録して継続 |
+| Mail HTTP webhook | `EMAIL_WEBHOOK_URL`, `EMAIL_FROM`, `EMAIL_TO` | optional。3 変数のいずれかが未設定なら no-op。失敗は stderr に記録して継続 |
+
+Notification payload は `redactForNotification()` を必ず経由し、32+ hex、`userId=...`、`tenantId=...`、Bearer token、Slack webhook URL を伏せる。GitHub Issue body は既存 audit trail として `buildIssueBody()` を維持するが、Slack/mail body は redacted body のみを使う。
+
+`.github/workflows/cf-audit-log-monitor.yml` は `analyze.ts` 実行後に `outputs/observation/*.json` が存在する場合だけ fallback-rate alert step を実行する。Issue #518 HOLD 中は `dry_run=true` が強制されるため、Slack/mail 実送信と production completion は user-approved runtime wave または自然発生 incident の観測まで pending とする。Secret / variable mutation、HOLD removal、commit、push、PR は user 明示承認後のみ実行する。
+
+## Issue #587 audit-log ML model artifact rotation
+
+Issue #587 は Issue #549 の production switch 後に、次世代 ML model artifact を candidate evaluation → canary → promotion → rollback の 4 段で入れ替えるための contract である。本サイクルで rotation scripts (`scripts/cf-audit-log/rotation/artifact-canary.ts`, `rotation-evidence-collector.ts`)、focused vitest、canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) を整備済み。実 production promotion は Gate-R0〜R3 と user approval 後に別サイクルで実施する。詳細手順は `docs/30-workflows/runbooks/ml-model-artifact-rotation.md` を正本 runbook contract とする。
+
+Rotation prerequisites:
+
+1. Gate-R0: Issue #549 runtime boundary or equivalent approval evidence exists.
+2. Gate-R1: candidate offline replay is no worse than baseline for precision / recall proxy.
+3. Gate-R2: fallback rate < 5%, p95 latency <= 1.5x baseline, leakage hits = 0.
+4. Gate-R3: previous production artifact reference and rollback owner are recorded.
+
+Rotation order:
+
+1. Read only op reference names: `CF_AUDIT_ML_MODEL_PATH_PROD`, `CF_AUDIT_ML_MODEL_PATH_CANDIDATE`, and `CF_AUDIT_ML_MODEL_PATH_PREVIOUS`.
+2. Run canary dry-run and write aggregate metrics to `outputs/phase-11/evidence/canary-dry-run.json`.
+3. Run leakage grep and dataset grep before attaching any evidence.
+4. If gates pass, open a promotion PR with `Refs #549, #587`. Do not include resolved artifact values.
+5. Roll back by restoring the production artifact reference to the previous op-managed value. If classifier behavior is unstable, follow Issue #549 and set `CF_AUDIT_CLASSIFIER=threshold`.
+
+Do not drop D1 `classifier_used` / `classifier_version` / `confidence` during rotation rollback. Evidence may contain op reference names, classifier versions, run ids, and aggregate metrics only.
+
 ## Issue #586 post-switch 7 day close-out（Refs #549）
 
 Issue #586 は #549 の close-out として、Issue #518 で HOLD 化していた `cf-audit-log-monitor.yml` の hourly schedule を復活させ、production hourly run に 3 つの post-step（leakage grep / fallback rate alert / artifact upload）を組み込み、`cf-audit-log-7day-summary.yml` で 168 hourly snapshots を集約して `pass_runtime_synced` 昇格を判定する。

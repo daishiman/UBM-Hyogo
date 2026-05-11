@@ -1,0 +1,82 @@
+{
+  "taskId": "ISSUE-331-CICD-WARNING-001",
+  "taskName": "apps/api wrangler.toml vars inheritance warning cleanup + web-cd.yml pages-to-workers deploy migration",
+  "directory": "docs/30-workflows/issue-331-cicd-runtime-warning-cleanup",
+  "wave": 1,
+  "executionType": "serial",
+  "createdAt": "2026-05-09",
+  "owner": "unassigned",
+  "status": "implemented-local-runtime-pending",
+  "taskType": "implementation",
+  "subtype": "ci-config-cleanup",
+  "visualEvidence": "NON_VISUAL",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local-runtime-pending",
+    "githubIssue": "https://github.com/daishiman/UBM-Hyogo/issues/331"
+  },
+  "implementationMode": "new",
+  "priority": "MEDIUM",
+  "phases": {
+    "phase-01": { "name": "要件定義", "status": "completed", "artifact": "outputs/phase-01/main.md" },
+    "phase-02": { "name": "設計", "status": "completed", "artifact": "outputs/phase-02/main.md" },
+    "phase-03": { "name": "設計レビュー", "status": "completed", "artifact": "outputs/phase-03/main.md" },
+    "phase-04": { "name": "テスト戦略", "status": "completed", "artifact": "outputs/phase-04/main.md" },
+    "phase-05": { "name": "実装ランブック", "status": "completed", "artifact": "outputs/phase-05/main.md" },
+    "phase-06": { "name": "異常系検証", "status": "completed", "artifact": "outputs/phase-06/main.md" },
+    "phase-07": { "name": "AC マトリクス", "status": "completed", "artifact": "outputs/phase-07/main.md" },
+    "phase-08": { "name": "DRY 化", "status": "completed", "artifact": "outputs/phase-08/main.md" },
+    "phase-09": { "name": "品質保証", "status": "completed", "artifact": "outputs/phase-09/main.md" },
+    "phase-10": { "name": "最終レビュー", "status": "completed", "artifact": "outputs/phase-10/main.md" },
+    "phase-11": { "name": "手動 smoke test", "status": "completed_static_runtime_pending", "artifact": "outputs/phase-11/main.md" },
+    "phase-12": { "name": "ドキュメント更新", "status": "completed", "artifact": "outputs/phase-12/main.md" },
+    "phase-13": { "name": "PR作成", "status": "pending_user_approval", "artifact": "outputs/phase-13/main.md" }
+  },
+  "subtasks": [
+    {
+      "id": "S1",
+      "name": "apps/api/wrangler.toml top-level [vars] 重複解消",
+      "executionOrder": 1,
+      "primaryFile": "apps/api/wrangler.toml"
+    },
+    {
+      "id": "S2",
+      "name": ".github/workflows/web-cd.yml pages deploy -> workers deploy via scripts/cf.sh",
+      "executionOrder": 2,
+      "primaryFile": ".github/workflows/web-cd.yml"
+    }
+  ],
+  "acceptanceCriteria": [
+    "AC-1: apps/api/wrangler.toml の top-level [vars] env-specific 重複キーが解消",
+    "AC-2: scripts/cf.sh deploy --dry-run で apps/api production/staging の vars 継承 warning がゼロ（runtime evidence pending_user_approval）",
+    "AC-3: web-cd.yml が scripts/cf.sh deploy 経路（または wrangler-action で Workers deploy）に移行",
+    "AC-4: pages deploy 文字列が web-cd.yml から消失",
+    "AC-5: staging deploy (web-cd dev push) が green",
+    "AC-6: production deploy で wrangler warning が CI ログにゼロ",
+    "AC-7: aiworkflow-requirements の deployment-gha.md / environment-variables.md が同期",
+    "AC-8: U-FIX-CF-ACCT-02 / UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION の supersede 関係が明記",
+    "AC-9: 不変条件（D1 / wrangler 直接呼び出し禁止）を侵害しない",
+    "AC-10: skill 検証 4 条件が PASS",
+    "AC-11: Phase 12 の 7 ファイル（main.md + 6 補助）が揃っている"
+  ],
+  "dependencies": {
+    "upstream": [
+      "FIX-CF-ACCT-ID-VARS-001 (account ID 参照修正)",
+      "OpenNext Workers 移行 (apps/web/wrangler.toml)"
+    ],
+    "parallel": [],
+    "downstream": ["web-cd 全体（dev / main）", "backend-ci の wrangler warning ベースライン"]
+  },
+  "scopeOut": [
+    "apps/api / apps/web のコードロジック変更",
+    "D1 schema 変更",
+    "Google Form schema 変更",
+    "API Token のスコープ最小化監査（別タスク）",
+    "Token ローテーション運用（issue-407 別タスク）"
+  ],
+  "supersedes": [
+    "docs/30-workflows/completed-tasks/fix-cf-account-id-vars-reference/U-FIX-CF-ACCT-02-cicd-runtime-warning-cleanup.md",
+    "UT-CICD-DRIFT-IMPL-PAGES-VS-WORKERS-DECISION"
+  ]
+}

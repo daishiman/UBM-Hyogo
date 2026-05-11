@@ -1,0 +1,14 @@
+Command:
+CI=1 ADMIN_MEMBER_DELETE_EVIDENCE=1 PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1 mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test admin-member-delete.spec.ts --project=desktop-chromium
+
+Result:
+- 5 passed
+- 1 skipped: cascade preview（API 未実装・Stage 3 持越し）
+- duration: 26.0s
+
+Passed tests:
+- 成功系: 詳細 drawer → 二段確認 → reason 付き論理削除
+- 失敗系: reason 空では削除実行が disabled で API に到達しない
+- audit log entry 連動: admin.member.deleted を監査ログで確認できる
+- 認可: member は admin 専用画面から login forbidden gate へ redirect
+- 認可: anonymous は login へ redirect

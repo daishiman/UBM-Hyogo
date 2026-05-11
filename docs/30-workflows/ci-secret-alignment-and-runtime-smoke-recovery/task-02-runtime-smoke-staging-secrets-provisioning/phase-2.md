@@ -26,15 +26,12 @@
 ```
 jobs.smoke.steps:
   - actions/checkout            # 既存
-  - actions/setup-node          # 既存
-  - pnpm/action-setup           # 既存
-  - mise install                # 既存
-  - pnpm install                # 既存（任意）
   - verify required staging secrets   # ← 新規。mask credentials の直前
   - mask staging credentials    # 既存
   - run runtime smoke           # 既存
+  - redaction grep gate         # 既存
   - upload evidence             # 既存
-  - notify slack on failure     # 既存（if: failure()）
+  - post failure summary to Slack # 既存（failure + summary artifact がある時のみ）
 ```
 
 `mask staging credentials` の **直前** に置く理由: mask 自体は値が空でも失敗しないため、空のまま下流に進む余地を残してしまう。pre-check で空を検出し exit 1 するのが最短経路。
@@ -77,22 +74,22 @@ jobs.smoke.steps:
 
 ## 3. SLACK_WEBHOOK_INCIDENT を pre-check 必須対象から外す根拠
 
-既存 `runtime-smoke-staging.yml` line 65-74 付近の通知 step は以下構造を持つ（current 実装を尊重）:
+既存 `runtime-smoke-staging.yml` の通知 step は `failure() && hashFiles('ci-evidence/summary.json') != ''` の時だけ走る。つまり、pre-check で `ci-evidence/summary.json` が作られない失敗では Slack 通知 step 自体が実行されない。summary artifact 作成後の failure では `SLACK_WEBHOOK_INCIDENT` を fail-closed で要求する。
 
 ```yaml
-- name: notify slack on failure
-  if: failure()
+- name: post failure summary to Slack
+  if: ${{ failure() && hashFiles('ci-evidence/summary.json') != '' }}
   env:
     SLACK_WEBHOOK_INCIDENT: ${{ secrets.SLACK_WEBHOOK_INCIDENT }}
   run: |
     if [ -z "${SLACK_WEBHOOK_INCIDENT:-}" ]; then
-      echo "::warning::SLACK_WEBHOOK_INCIDENT not set; skipping incident notification"
-      exit 0
+      echo "::error::SLACK_WEBHOOK_INCIDENT is required for failure notification"
+      exit 1
     fi
-    # post incident webhook
+    bash scripts/smoke/ci-summary-post.sh ci-evidence
 ```
 
-incident 通知は **best-effort** であり、smoke 自体の合否判定には影響しない。pre-check 対象に含めると「webhook 未投入で smoke 全体が fail」という誤った blocking を生む。runbook では推奨投入対象として案内する。
+`SLACK_WEBHOOK_INCIDENT` は smoke 本体を始めるための必須 4 secret ではないため、pre-check 対象には含めない。一方で failure summary を Slack に送る段階では必須であり、runbook と helper は 5 secret inventory として投入・確認する。
 
 ---
 

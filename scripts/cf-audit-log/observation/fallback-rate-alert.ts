@@ -70,6 +70,34 @@ export function buildIssueBody(evaluation: AlertEvaluation): string {
   return lines.join("\n");
 }
 
+export function redactForNotification(text: string): string {
+  return text
+    .replace(/[A-Fa-f0-9]{32,}/g, "[REDACTED:hash]")
+    .replace(/userId=[^\s,]+/g, "userId=[REDACTED]")
+    .replace(/tenantId=[^\s,]+/g, "tenantId=[REDACTED]")
+    .replace(/(["']userId["']\s*:\s*["'])[^"']+(["'])/g, "$1[REDACTED]$2")
+    .replace(/(["']tenantId["']\s*:\s*["'])[^"']+(["'])/g, "$1[REDACTED]$2")
+    .replace(/(["']user_id["']\s*:\s*["'])[^"']+(["'])/g, "$1[REDACTED]$2")
+    .replace(/(["']tenant_id["']\s*:\s*["'])[^"']+(["'])/g, "$1[REDACTED]$2")
+    .replace(/Bearer\s+[A-Za-z0-9._-]+/g, "Bearer [REDACTED]")
+    .replace(/https?:\/\/hooks\.slack\.com\/[^\s]+/g, "[REDACTED:slack-webhook]");
+}
+
+export interface NotificationPayload {
+  title: string;
+  text: string;
+}
+
+export function buildNotificationPayload(
+  evaluation: AlertEvaluation,
+  threshold: number,
+  window: number,
+): NotificationPayload {
+  const title = `[cf-audit] fallback rate > ${threshold} for ${window}h`;
+  const body = [`Reason: ${evaluation.reason}`, "", buildIssueBody(evaluation)].join("\n");
+  return { title, text: redactForNotification(`${title}\n\n${body}`) };
+}
+
 interface CliArgs {
   window: number;
   threshold: number;
@@ -121,6 +149,46 @@ export interface IssueCreator {
   }): Promise<string>;
 }
 
+export interface SlackDispatcher {
+  (params: { url: string; payload: NotificationPayload }): Promise<void>;
+}
+
+export const defaultSlackDispatcher: SlackDispatcher = async ({ url, payload }) => {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ text: payload.text }),
+  });
+  if (!response.ok) {
+    throw new Error(`Slack webhook ${response.status}: ${await response.text()}`);
+  }
+};
+
+export interface MailDispatcher {
+  (params: {
+    url: string;
+    payload: NotificationPayload;
+    from: string;
+    to: string;
+  }): Promise<void>;
+}
+
+export const defaultMailDispatcher: MailDispatcher = async ({ url, payload, from, to }) => {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      subject: payload.title,
+      body: payload.text,
+      from,
+      to,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error(`Mail webhook ${response.status}: ${await response.text()}`);
+  }
+};
+
 const defaultIssueCreator: IssueCreator = async ({ repo, title, body, labels, token }) => {
   const response = await fetch(`https://api.github.com/repos/${repo}/issues`, {
     method: "POST",
@@ -147,23 +215,96 @@ export async function evaluateAndAlert(opts: {
   repo?: string;
   token?: string;
   createIssue?: IssueCreator;
-}): Promise<{ evaluation: AlertEvaluation; issueUrl?: string }> {
+  slackWebhookUrl?: string;
+  emailWebhookUrl?: string;
+  emailFrom?: string;
+  emailTo?: string;
+  dispatchSlack?: SlackDispatcher;
+  dispatchMail?: MailDispatcher;
+}): Promise<{
+  evaluation: AlertEvaluation;
+  issueUrl?: string;
+  slackDelivered?: boolean;
+  slackError?: string;
+  mailDelivered?: boolean;
+  mailError?: string;
+}> {
   const evaluation = evaluateConsecutive(opts.snapshots, opts.threshold, opts.window);
-  if (!evaluation.triggered || opts.dryRun) {
+  if (!evaluation.triggered) {
+    return { evaluation };
+  }
+  const payload = buildNotificationPayload(evaluation, opts.threshold, opts.window);
+  if (opts.dryRun) {
+    process.stdout.write(`[dry-run] notification payload: ${JSON.stringify(payload)}\n`);
     return { evaluation };
   }
   if (!opts.repo || !opts.token) {
     throw new Error("repo and token are required to create issue");
   }
   const creator = opts.createIssue ?? defaultIssueCreator;
-  const issueUrl = await creator({
+  const issuePromise = creator({
     repo: opts.repo,
-    title: `[cf-audit] fallback rate > ${opts.threshold} for ${opts.window}h`,
+    title: payload.title,
     body: buildIssueBody(evaluation),
     labels: ["type:incident", "priority:high", "cf-audit"],
     token: opts.token,
   });
-  return { evaluation, issueUrl };
+
+  const slackPromise = opts.slackWebhookUrl
+    ? (async (): Promise<{ delivered: boolean; error?: string }> => {
+        const slack = opts.dispatchSlack ?? defaultSlackDispatcher;
+        try {
+          await slack({ url: opts.slackWebhookUrl, payload });
+          return { delivered: true };
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          process.stderr.write(`slack dispatch failed: ${message}\n`);
+          return { delivered: false, error: message };
+        }
+      })()
+    : Promise.resolve(undefined);
+
+  const mailPromise =
+    opts.emailWebhookUrl && opts.emailFrom && opts.emailTo
+      ? (async (): Promise<{ delivered: boolean; error?: string }> => {
+          const mail = opts.dispatchMail ?? defaultMailDispatcher;
+          try {
+            await mail({
+              url: opts.emailWebhookUrl,
+              payload,
+              from: opts.emailFrom,
+              to: opts.emailTo,
+            });
+            return { delivered: true };
+          } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            process.stderr.write(`mail dispatch failed: ${message}\n`);
+            return { delivered: false, error: message };
+          }
+        })()
+      : Promise.resolve(undefined);
+
+  const [issueResult, slackResult, mailResult] = await Promise.allSettled([
+    issuePromise,
+    slackPromise,
+    mailPromise,
+  ]);
+
+  if (issueResult.status === "rejected") {
+    throw issueResult.reason;
+  }
+
+  const slack = slackResult.status === "fulfilled" ? slackResult.value : undefined;
+  const mail = mailResult.status === "fulfilled" ? mailResult.value : undefined;
+
+  return {
+    evaluation,
+    issueUrl: issueResult.value,
+    slackDelivered: slack?.delivered,
+    slackError: slack?.error,
+    mailDelivered: mail?.delivered,
+    mailError: mail?.error,
+  };
 }
 
 export async function runCli(argv: string[]): Promise<void> {
@@ -171,6 +312,10 @@ export async function runCli(argv: string[]): Promise<void> {
   const snapshots = readSnapshots(args.snapshotsDir);
   const repo = process.env.GITHUB_REPOSITORY;
   const token = process.env.GITHUB_TOKEN;
+  const slackWebhookUrl = process.env.SLACK_WEBHOOK_INCIDENT ?? process.env.SLACK_WEBHOOK_URL;
+  const emailWebhookUrl = process.env.EMAIL_WEBHOOK_URL;
+  const emailFrom = process.env.EMAIL_FROM;
+  const emailTo = process.env.EMAIL_TO;
   const result = await evaluateAndAlert({
     snapshots,
     window: args.window,
@@ -178,6 +323,10 @@ export async function runCli(argv: string[]): Promise<void> {
     dryRun: args.dryRun || !token || !repo,
     repo,
     token,
+    slackWebhookUrl,
+    emailWebhookUrl,
+    emailFrom,
+    emailTo,
   });
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
 }

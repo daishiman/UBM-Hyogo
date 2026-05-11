@@ -23,6 +23,22 @@ one ambiguous PASS label.
 values. They are not root `metadata.workflow_state` values except where the root
 state is explicitly `completed`.
 
+## Canonical Short-form Aliases（2026-05-10 stage-3 由来）
+
+`phases[].status` および root `status` で許容する canonical 3-state short-form は次の通り。schema (`schemas/artifact-definition.json`) でも同 enum を強制する。
+
+| canonical short-form | 同義の長い境界語彙 | 想定 phase |
+| --- | --- | --- |
+| `spec_created` | （同名） | Phase 1-4 のみ完了 / コード差分なし |
+| `in_progress` | `CONTRACT_READY_IMPLEMENTATION_PENDING` 等 | コード着手済 / Phase 11 evidence 未取得 |
+| `runtime_pending` | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` / `IMPLEMENTED_LOCAL_RUNTIME_PENDING` / `PENDING_RUNTIME_EVIDENCE` | local 5 点 PASS 済 / runtime CI / staging deploy / fresh GET 未完 |
+| `completed` | （同名） | runtime artifact 物理生成済 + 検証ログ記録済 |
+| `blocked` | （同名） | 外部依存・user gate で停止中 |
+
+短縮形と長い境界語彙はどちらを使ってもよいが、**1 つの artifacts.json / index.md / phase12-task-spec-compliance-check.md 内では混在させない**。混在させる場合は同 wave で統一する。
+
+`PASS` 単独表記は禁止。compliance check / Phase 12 行レベル判定では canonical short-form を suffix する（例: `completed (runtime PASS / verified at <ISO8601>)`、`runtime_pending (CI scheduled)`）。
+
 ## Reclassify Rules
 
 | Trigger | Required action |
@@ -45,6 +61,23 @@ state is explicitly `completed`.
 | Phase 12 strict 7 files | Optional | Planned | Required | Required | Required |
 | Runtime/production evidence | Not required | Planned if applicable | Optional | Pending/required later | Required if in scope |
 | Phase 13 commit/PR/merge state | Pending | Pending | Pending | Pending | Complete or explicitly user-gated |
+
+## State Aliases
+
+ledger / changelog / unassigned-task の自然文では、`metadata.workflow_state` の identifier を kebab-case で表記する慣習がある。両表記は **同一の状態** を指すため、ledger 検索時は両方を grep する。
+
+| Canonical (artifacts.json) | Kebab alias (prose / changelog) | 用途 |
+| --- | --- | --- |
+| `implemented_local_evidence_captured` | `implemented-local-evidence-captured` | 自然文で言及する場合 |
+| `implemented_local_runtime_pending` | `implemented-local-runtime-pending` | task-15 admin dashboard 系のように staging/production 実機 smoke が **別タスク gate で pending** な状態を自然文で示すとき |
+| `pass_boundary_synced_runtime_pending` | `pass-boundary-synced-runtime-pending` | merge 後 runtime 観測中 |
+| `pass_runtime_synced` | `pass-runtime-synced` | N-day close-out 完了 |
+
+`implemented-local-runtime-pending` は `spec_created` / `implemented_local_evidence_captured` / `pass_boundary_synced_runtime_pending` との関係上、以下のように位置付ける:
+
+- `spec_created` から直接遷移しない。必ず `implemented_local_evidence_captured`（local PASS 5 点取得済み）を経由してから、staging/production smoke が **別 unassigned-task gate** に分離されている場合に限って alias として使う。
+- merge 後に runtime 観測そのものが開始されるならば `pass_boundary_synced_runtime_pending` へ昇格。
+- runtime smoke が完走し evidence PR が user-approved されたら `pass_runtime_synced` または `completed`。
 
 ## Forbidden Wording
 
