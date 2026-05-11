@@ -385,6 +385,41 @@ pnpm --filter @repo/desktop exec playwright test --trace on
 
 ---
 
+## Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10）
+
+Next.js App Router の Server Component が SSR フェーズで実行する server-side `fetch()` は **Playwright `page.route()` で intercept できない**。browser-context の HTTP を intercept する `page.route()` は SSR fetch の対象外。`apps/web` の `/`, `/(public)/members`, `/(public)/members/[id]` などは SSR fetch で API を呼ぶため、E2E で deterministic に動かすには別経路の mock が必要。
+
+| 戦略 | 内容 |
+| --- | --- |
+| deterministic mock API | `scripts/e2e-mock-api.mjs` を CI で起動し `http://127.0.0.1:8787` で待受 |
+| env 注入 | `INTERNAL_API_BASE_URL=http://127.0.0.1:8787` と `PUBLIC_API_BASE_URL=http://127.0.0.1:8787` を CI job env に設定 |
+| fetch helper の HTTP fallback 優先 | `apps/web/src/lib/fetch/public.ts` は `PUBLIC_API_BASE_URL` 明示時、Cloudflare service binding より HTTP fallback を優先する |
+| grep gate | ローカル限定エンドポイント（`127.0.0.1:8787` 等）の `apps/web/src` 配下への焼き込みを task-18 regression smoke の grep gate で禁止 |
+
+CI 設定例（`.github/workflows/e2e-tests.yml`）:
+
+```yaml
+env:
+  INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+  PUBLIC_API_BASE_URL: http://127.0.0.1:8787
+  PLAYWRIGHT_EVIDENCE_DIR: playwright/evidence
+steps:
+  - name: Start deterministic mock API
+    run: node scripts/e2e-mock-api.mjs &
+  - name: Wait for mock API
+    run: curl --retry 10 --retry-delay 1 --retry-connrefused http://127.0.0.1:8787/health
+  - name: Run e2e
+    run: pnpm --filter @ubm-hyogo/web e2e
+```
+
+詳細は次を参照:
+
+- canonical workflow: `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/`
+- 関連 lessons: `lessons-learned/lessons-learned-e2e-stage3b-server-component-mock-api-2026-05.md`
+- `apps/web/src/lib/fetch/public.ts`: HTTP fallback 優先ロジック
+- `scripts/e2e-mock-api.mjs`: CI hard gate 用 deterministic mock API
+- `scripts/coverage-gate-e2e.sh`: line coverage 80% gate（`THRESHOLD_FIXTURE` で fixture override 可能）
+
 ## 関連ドキュメント
 
 | ドキュメント                                         | 内容                   |
@@ -393,3 +428,4 @@ pnpm --filter @repo/desktop exec playwright test --trace on
 | [testing-accessibility.md](./testing-accessibility.md) | アクセシビリティ仕様 |
 | [testing-fixtures.md](./testing-fixtures.md)         | テストフィクスチャ仕様 |
 | [deployment-gha.md](./deployment-gha.md)             | CIでのE2E実行要件      |
+| [branch-protection.md](./branch-protection.md)       | branch-specific drift rule（Stage 3c） |

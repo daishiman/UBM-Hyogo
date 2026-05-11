@@ -3606,7 +3606,10 @@ node scripts/list-specs.js --topics
 | Required status checks | L7 |
 | Invariants | L13 |
 | Issue #554 runbook | L25 |
-| References | L41 |
+| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L41 |
+| 3-state vocabulary（runtime mutation 系） | L59 |
+| Stage 3c required contexts target（2026-05-10） | L78 |
+| References | L89 |
 
 ### references/cloudflare-edge-security.md
 
@@ -3941,6 +3944,16 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L6 |
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
+
+### references/gate-metadata.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L3 |
+| Purpose | L12 |
+| Gate Entry Contract | L16 |
+| Validator Contract | L40 |
+| Rollout Boundary | L60 |
 
 ### references/governance-hooks-factory-audit-sink.md
 
@@ -6349,13 +6362,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1015 |
-| フェーズ構造（概要） | L1024 |
-| 品質ゲート（概要） | L1055 |
-| 出力テンプレート | L1066 |
-| 実行時のコマンド・エージェント・スキル | L1089 |
-| 昇格パターン集 | L1113 |
-| Current Active / Spec Created Tasks | L1115 |
+| ドキュメント構成 | L1030 |
+| フェーズ構造（概要） | L1039 |
+| 品質ゲート（概要） | L1070 |
+| 出力テンプレート | L1081 |
+| 実行時のコマンド・エージェント・スキル | L1104 |
+| 昇格パターン集 | L1128 |
+| Current Active / Spec Created Tasks | L1130 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6774,7 +6787,8 @@ node scripts/list-specs.js --topics
 | テストスキップパターン | L298 |
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
-| 関連ドキュメント | L388 |
+| Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
+| 関連ドキュメント | L423 |
 
 ### references/ui-history-components.md
 
