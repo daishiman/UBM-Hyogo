@@ -2,7 +2,7 @@
 
 ## Summary
 
-`docs/30-workflows/task-10-ui-primitives-spec/` を `implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration` として同期した。
+`docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` を `implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration` として同期した。
 
 ## Code
 

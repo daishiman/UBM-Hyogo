@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence.md` |
+| 実装対象 | `apps/web/app/(dev)/primitives-harness/page.tsx`, `apps/web/app/(dev)/layout.tsx`, `apps/web/playwright/tests/ui-primitives-visual.spec.ts`, `apps/web/playwright.config.ts`, `apps/web/src/components/ui/Stat.tsx`, `apps/web/src/components/ui/Sidebar.tsx` |
+| evidence boundary | Phase 11 screenshot 37 件 + axe JSON violations 0 は取得済み。`build:cloudflare` は followup-001 esbuild mismatch blocker 継続 |
+| user gate | commit / push / PR / staging deploy / production smoke |
+
 ### E2E quality uplift Stage 2 sub-task 2c admin member delete spec（2026-05-10）
 
 | 項目 | 値 |
@@ -890,7 +902,7 @@
 | wave-1 | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/` |
 | wave-2 | completed workflow roots under `docs/30-workflows/completed-tasks/` with historical grouping under `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/`; UT-08A-01 canonical implementation root: `docs/30-workflows/completed-tasks/ut-08a-01-public-use-case-coverage-hardening/` |
 | ut-web-cov-04 current canonical | `docs/30-workflows/completed-tasks/ut-web-cov-04-admin-lib-ui-primitives-coverage/`（implemented-local / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval。旧 nested path は historical wave grouping path） |
-| task-10 ui primitives current canonical | `docs/30-workflows/task-10-ui-primitives-spec/`（implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration）。既存 `apps/web/src/components/ui` Wave 0 baseline を削除せず、task-10 の 11 primitive contract を barrel `@/components/ui` へ統合済み。`build:cloudflare` は OpenNext esbuild mismatch で blocker、runtime screenshot / axe は pending。 |
+| task-10 ui primitives current canonical | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/`（implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration）。既存 `apps/web/src/components/ui` Wave 0 baseline を削除せず、task-10 の 11 primitive contract を barrel `@/components/ui` へ統合済み。`build:cloudflare` は OpenNext esbuild mismatch で blocker、runtime screenshot / axe は pending。 |
 | task-11 public top + member list current canonical | `docs/30-workflows/task-11-public-top-and-member-list/`（implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING）。公開トップ `/` と `/members` の実装仕様。既存 `/public/stats` / `/public/members` のみ消費し、`apps/api/**` 変更なし。Phase 12 strict 7 と root/output artifacts parity は present。apps/web 実装はローカル反映済み。runtime screenshot / axe / coverage、commit / push / PR は user approval 後。Lessons: `references/lessons-learned-task-11-public-top-and-member-list-2026-05.md`（L-T11-001..006: route colocation 廃止 / 4 section 集約 / API adapter 層 / `force-dynamic` 撤去 / `PENDING_RUNTIME_EVIDENCE` follow-up / playwright project 絞込）。Changelog: `changelog/20260509-task-11-public-top-and-member-list.md`。 |
 | task-13 login rebuild current canonical | `docs/30-workflows/task-13-login-rebuild/`（implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING）。`/login` を 5 core states (`input / sent / unregistered / deleted / error`) + `rules_declined` derived state + `gate=admin_required` overlay のカード型 UI へ rebuild。Phase 12 strict 7 と root/output artifacts parity は present。`data-testid="login-card"` + `data-state` locator、`rules_declined` alert role、Magic Link failure `state=error` URL transition、Auth.js + Magic Link API route surface 不変、`@ubm-hyogo/web` command contract / `verify-design-tokens` script を正本化。apps/web 実装、focused Vitest、local Playwright screenshot evidence はローカル反映済み。staging smoke / production-equivalent runtime evidence / commit / push / PR は user approval 後。Changelog: `changelog/20260509-task-13-login-rebuild.md`。 |
 | wave-3 roadmap | `docs/30-workflows/issue-433-ut-web-cov-05-wave3-roadmap/`（implemented-local / implementation / NON_VISUAL / Issue #433 / Phase 1-12 completed / Phase 13 blocked_pending_user_approval）。Final roadmap path: `docs/30-workflows/ut-coverage-2026-05-wave/wave-3-roadmap.md` |

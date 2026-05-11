@@ -851,6 +851,7 @@
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "task-workflow-backlog.md",
+      "ui-ux-components.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md"
@@ -881,6 +882,7 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md",
       "post-release-long-term-observation.md",
       "task-workflow-backlog.md",
+      "ui-ux-components.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
       "workflow-ai-chat-llm-integration-fix-artifact-inventory.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
@@ -4128,6 +4130,7 @@
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
+      "ui-ux-components.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
@@ -7009,6 +7012,7 @@
       "lessons-learned-ut-gov-001-2026-04.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
+      "ui-ux-components.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
@@ -11284,6 +11288,7 @@
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
+      "ui-ux-components.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
     "CA": [
@@ -14699,7 +14704,8 @@
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
     ],
     "axe": [
-      "lessons-learned-task-11-public-top-and-member-list-2026-05.md"
+      "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
+      "ui-ux-components.md"
     ],
     "未取得": [
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md"

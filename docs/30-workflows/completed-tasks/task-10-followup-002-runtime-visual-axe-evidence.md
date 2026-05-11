@@ -16,7 +16,7 @@ issue_number: 610
 | 対象機能     | `apps/web/src/components/ui/` 11 primitive                      |
 | 優先度       | 中                                                              |
 | 見積もり規模 | 小規模                                                          |
-| ステータス   | 未実施                                                          |
+| ステータス   | formalized: `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` |
 | 発見元       | task-10-ui-primitives-spec / Phase 11 (VISUAL_ON_EXECUTION)     |
 | 発見日       | 2026-05-09                                                      |
 
@@ -99,7 +99,7 @@ task-10 は `VISUAL_ON_EXECUTION` 境界で、Phase 11 で runtime screenshot / 
 1. すでに本 repo に存在する visual / a11y tooling を `pnpm` scripts から確認する。
 2. 11 primitive を 1 ページにまとめた検証ページ（既存があれば再利用）でレンダ。
 3. Playwright + axe-core でスクリーンショットと a11y レポートを同時取得。
-4. evidence を task-10 spec に追記し、Phase 11 ledger を `runtime-evidence-captured` に更新。
+4. evidence を task-10 spec に追記し、Phase 11 ledger を `implemented_local_evidence_captured` に更新。
 
 ---
 
@@ -168,7 +168,7 @@ task-10 spec の Phase 11 ledger を完結させる。
 
 1. evidence を spec 配下にコピー
 2. `outputs/phase-11/main.md` に取得済みステータスを反映
-3. `workflow_state` を `implemented-local-build-blocked` から `runtime-evidence-captured` 等の妥当な状態語へ更新
+3. `workflow_state` を `implemented-local-build-blocked` から `implemented_local_evidence_captured` 等の正規状態語へ更新
 
 #### 完了条件
 
@@ -233,10 +233,19 @@ mise exec -- pnpm --filter @repo/web dev
 
 ## 9. 参照情報
 
+### 9.1 Formalized Successor
+
+| 項目 | 値 |
+| --- | --- |
+| successor workflow | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` |
+| successor state | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| consumed date | 2026-05-11 |
+| note | 本 unassigned は削除せず、後続 workflow への trace として保持する。runtime screenshot / axe は successor の Phase 11 / Phase 12 で取得済み。 |
+
 ### 関連ドキュメント
 
-- `docs/30-workflows/task-10-ui-primitives-spec/outputs/phase-11/main.md`
-- `docs/30-workflows/task-10-ui-primitives-spec/outputs/phase-12/implementation-guide.md`
+- `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/outputs/phase-11/main.md`
+- `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/outputs/phase-12/implementation-guide.md`
 - `.claude/skills/aiworkflow-requirements/references/ui-ux-components.md`
 
 ### 関連 issue / task

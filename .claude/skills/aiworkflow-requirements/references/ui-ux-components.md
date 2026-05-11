@@ -31,7 +31,7 @@
 
 ## task-10 UI primitives integration contract（2026-05-09）
 
-`docs/30-workflows/task-10-ui-primitives-spec/` は Wave 0 baseline の破棄ではなく、既存 `apps/web/src/components/ui/` と task-10 contract の統合実装である。既存 PascalCase files と barrel export を維持し、後続 task-11..17 は `@/components/ui` から import する。
+`docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` は Wave 0 baseline の破棄ではなく、既存 `apps/web/src/components/ui/` と task-10 contract の統合実装である。既存 PascalCase files と barrel export を維持し、後続 task-11..17 は `@/components/ui` から import する。
 
 | 区分 | primitive | 方針 |
 | --- | --- | --- |
@@ -41,4 +41,12 @@
 
 task-10 contract は 11 primitive、Wave 0 baseline は 15 primitive、prototype full catalog は 21 primitive として語彙を分離する。後続 task-11..17 は task-10 の 11 primitive contract と Wave 0 維持 export の交差を `@/components/ui` barrel から使う。09c の 21 primitive catalog は full prototype reference であり、task-10 の完了条件ではない。
 
-状態語彙は `implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration`。typecheck / lint / focused test / coverage / Next build は PASS。`build:cloudflare` は OpenNext esbuild host `0.25.4` / binary `0.21.5` mismatch で blocker のため、runtime screenshot / axe は blocker 解消後に取得する。現時点で screenshot PASS は主張しない。
+状態語彙は `implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration`。typecheck / lint / focused test / coverage / Next build は PASS。`build:cloudflare` は OpenNext esbuild host `0.25.4` / binary `0.21.5` mismatch で blocker。runtime screenshot / axe は `task-10-followup-002-runtime-visual-axe-evidence` で取得済み。
+
+## task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
+
+`docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` は task-10 の pending runtime screenshot / axe evidence を取得するための executable follow-up workflow である。状態は `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION`。
+
+実装対象は `apps/web/app/(dev)/primitives-harness/page.tsx`、`apps/web/app/(dev)/layout.tsx`、`apps/web/playwright/tests/ui-primitives-visual.spec.ts`、`apps/web/playwright.config.ts`。axe で検出した HTML 意味論不整合の同一サイクル修正として `apps/web/src/components/ui/Stat.tsx` と `apps/web/src/components/ui/Sidebar.tsx` も最小更新する。production runtime では `ENABLE_PRIMITIVES_HARNESS=1` なしに harness を到達不能にし、Playwright 実行時のみ `PLAYWRIGHT_EVIDENCE_TASK=task-10-followup-002` で evidence dir を workflow 配下へ向ける。
+
+Phase 11 actual inventory は screenshot 37 件、`axe-report.json` violations 0、Playwright 38 passed。`build:cloudflare` は followup-001 の esbuild mismatch blocker が残るため、Cloudflare build PASS は未主張のままにする。

@@ -21,6 +21,9 @@ const isTask13LoginSmoke =
 const isTask17AdminEvidence =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-17-admin-schema-conflicts-audit' ||
   process.argv.some((arg) => arg.includes('admin-schema-conflicts-audit.spec.ts'))
+const isTask10Followup002Evidence =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-10-followup-002' ||
+  process.argv.some((arg) => arg.includes('ui-primitives-visual.spec.ts'))
 
 const EVIDENCE_DIR =
   process.env.PLAYWRIGHT_EVIDENCE_DIR ??
@@ -40,6 +43,8 @@ const EVIDENCE_DIR =
                 ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
                 : isTask17AdminEvidence
                   ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
+                  : isTask10Followup002Evidence
+                    ? '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
                   : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
@@ -163,6 +168,8 @@ export default defineConfig({
                   ? `${localEnv} PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
                   : isTask17AdminEvidence
                     ? `${localEnv} PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+                    : isTask10Followup002Evidence
+                      ? `${localEnv} ENABLE_PRIMITIVES_HARNESS=1 pnpm --filter @ubm-hyogo/web dev`
                     : `${localEnv} pnpm --filter @ubm-hyogo/web dev`,
             url: localBaseURL,
             reuseExistingServer: !process.env.CI,

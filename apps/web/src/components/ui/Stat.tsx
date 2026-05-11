@@ -1,7 +1,7 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import { cn } from "../../lib/cn";
 
-export interface StatProps extends HTMLAttributes<HTMLDivElement> {
+export interface StatProps extends HTMLAttributes<HTMLDListElement> {
   label: string;
   value: ReactNode;
   delta?: ReactNode;
@@ -11,11 +11,13 @@ export interface StatProps extends HTMLAttributes<HTMLDivElement> {
 
 export function Stat({ label, value, delta, tone = "neutral", helpText, className, ...props }: StatProps) {
   return (
-    <div {...props} className={cn("ui-stat", className)} data-tone={tone}>
+    <dl {...props} className={cn("ui-stat", className)} data-tone={tone}>
       <dt>{label}</dt>
-      <dd>{value}</dd>
-      {delta ? <p>{delta}</p> : null}
-      {helpText ? <p>{helpText}</p> : null}
-    </div>
+      <dd>
+        <span>{value}</span>
+        {delta ? <span>{delta}</span> : null}
+        {helpText ? <span>{helpText}</span> : null}
+      </dd>
+    </dl>
   );
 }

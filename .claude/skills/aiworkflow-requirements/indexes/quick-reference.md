@@ -5,6 +5,19 @@
 
 ---
 
+### task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| parent workflow | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence.md` |
+| implementation targets | `apps/web/app/(dev)/primitives-harness/page.tsx`, `apps/web/app/(dev)/layout.tsx`, `apps/web/playwright/tests/ui-primitives-visual.spec.ts`, `apps/web/playwright.config.ts`, `apps/web/src/components/ui/Stat.tsx`, `apps/web/src/components/ui/Sidebar.tsx` |
+| evidence | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/main.md` |
+| Phase 12 | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | screenshots 37 件 + axe JSON violations 0 は取得済み。`build:cloudflare` は followup-001 esbuild mismatch blocker 継続。commit / push / PR は user-gated |
+
 ### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
 
 | 目的 | 参照先 |
