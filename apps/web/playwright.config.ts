@@ -19,46 +19,84 @@ const isTask17AdminEvidence =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-17-admin-schema-conflicts-audit' ||
   process.argv.some((arg) => arg.includes('admin-schema-conflicts-audit.spec.ts'))
 
-const EVIDENCE_DIR = isAdminRequestsRun
-  ? '../../docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-11'
-  : isAdminIdentityConflictsRun
-    ? '../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence'
-    : isStagingSmoke
-      ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
-      : isTask11PublicSmoke
-        ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
-        : isTask12PublicSmoke || isTask12Evidence
-          ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
-          : isTask13LoginSmoke
-            ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
-            : isTask17AdminEvidence
-              ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
-              : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence'
+const EVIDENCE_DIR =
+  process.env.PLAYWRIGHT_EVIDENCE_DIR ??
+  (isAdminRequestsRun
+    ? '../../docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-11'
+    : isAdminIdentityConflictsRun
+      ? '../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence'
+      : isStagingSmoke
+        ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+        : isTask11PublicSmoke
+          ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
+          : isTask12PublicSmoke || isTask12Evidence
+            ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
+            : isTask13LoginSmoke
+              ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
+              : isTask17AdminEvidence
+                ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
+                : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
 const localPort = new URL(localBaseURL).port || '3000'
+const localCoverageDir = `${process.cwd()}/coverage/v8`
 const localEnv =
   'ENVIRONMENT=local SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=0 ' +
+  `NODE_V8_COVERAGE=${localCoverageDir} ` +
   'NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
   'PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
   'INTERNAL_API_BASE_URL=http://127.0.0.1:8787 ' +
   'AUTH_URL=http://localhost:3000 ' +
   'AUTH_SECRET=playwright-e2e-auth-secret-32-bytes'
 
+// SSR fixture mode 必須の admin spec は、対応する fixture env が立っていない場合に
+// 除外する（mock API 側に対応 GET endpoint が無く、404 → 30 分タイムアウトの主因のため）。
+//   - admin-identity-conflicts.spec.ts → PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1
+//   - admin-requests.spec.ts            → PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1
+const fixtureGatedTestIgnore: string[] = []
+if (!isAdminIdentityConflictsRun) {
+  fixtureGatedTestIgnore.push('**/admin-identity-conflicts.spec.ts')
+}
+if (!isAdminRequestsRun) {
+  fixtureGatedTestIgnore.push('**/admin-requests.spec.ts')
+}
+
 export default defineConfig({
   testDir: './playwright/tests',
+  testIgnore: fixtureGatedTestIgnore,
   outputDir: `${EVIDENCE_DIR}/test-results`,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : 1,
+  // workers=1: shared mock-api (scripts/e2e-mock-api.mjs) の in-memory state を競合させないため。
+  // 並列化は project (browser) shard 単位で十分。
+  workers: 1,
   timeout: 60_000,
   expect: { timeout: 10_000 },
   reporter: [
     ['html', { outputFolder: `${EVIDENCE_DIR}/playwright-report/html`, open: 'never' }],
     ['json', { outputFile: `${EVIDENCE_DIR}/playwright-report/results.json` }],
     ['list'],
+    [
+      'monocart-reporter',
+      {
+        name: 'UBM-Hyogo E2E',
+        outputFile: `${EVIDENCE_DIR}/monocart/index.html`,
+        coverage: {
+          outputDir: `${process.cwd()}/coverage`,
+          entryFilter: (entry: { url: string }) =>
+            entry.url.includes('/_next/static/') &&
+            !/(node_modules|%40sentry|sentry|next-auth|react-dom|@opentelemetry)/i.test(entry.url),
+          sourceFilter: (sourcePath: string) => sourcePath.includes('apps/web/src/'),
+          reports: [
+            ['v8', { outputDir: 'coverage/v8' }],
+            'json-summary',
+            ['lcovonly', { outputFile: 'coverage/lcov.info' }],
+          ],
+        },
+      },
+    ],
   ],
   use: {
     baseURL: localBaseURL,

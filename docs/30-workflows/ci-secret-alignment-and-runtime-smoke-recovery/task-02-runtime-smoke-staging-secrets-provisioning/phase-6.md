@@ -51,6 +51,26 @@
 
 placeholder の `eyJ...` (3 文字 + `...`) は `{20,}` 量化子に達しないため検出されない。同じく `hooks.slack.com/services/...` の `...` も検出されない。これにより runbook に「形式の例」を書きつつ実値を書かない設計が両立する。
 
+### 追記 (2026-05-11): grep gate 正規表現の self-test evidence
+
+grep gate の正規表現自体が壊れていないこと（正例で hit、負例で hit しない）を機械検証する。次のコマンドを `outputs/phase-6/evidence/grep-gate-selftest.log` に保存する。
+
+```bash
+# 正例: ヒットするべき pattern を hit させる（shell 展開で実行時のみマッチ文字列を生成し、docs 本文には残さない）
+echo "eyJ$(printf 'a%.0s' $(seq 1 25))" | grep -E 'eyJ[A-Za-z0-9_-]{20,}' && echo OK
+# 負例: docs に残る placeholder はヒットしてはならない
+echo 'eyJ.REDACTED.example' | grep -E 'eyJ[A-Za-z0-9_-]{20,}' || echo OK
+```
+
+> **注意**: 正例は意図的に shell 展開で生成する（`eyJ` の直後に `a` を 25 文字並べた文字列を実行時に作る）。これにより本 docs / phase-6.md 自身は QG-4 grep gate のパターンにマッチせず、self-test 例示と secret 漏洩検出を両立する。負例は `eyJ.REDACTED.example` のように `.` を含めることで `[A-Za-z0-9_-]` クラス外の文字を間に挟み、`{20,}` 量化子に到達しないように設計する。
+
+期待:
+
+- 正例: `eyJ` の後に `a` が 25 文字続いた合計 28 文字（`eyJ` + `a`×25）が出力され、続いて `OK` が出力される（exit 0）。期待文字列を docs に直書きすると本ファイルが grep gate に検出されてしまうため、長さで表現する。
+- 負例: grep が hit せず `OK` のみが出力される（grep exit 1 を `||` で吸収）。
+
+出力先: `outputs/phase-6/evidence/grep-gate-selftest.log`。本 self-test が失敗した場合は ST-4 の正規表現を修正してから commit に進む。
+
 ---
 
 ## 4. 静的検証ログの保存

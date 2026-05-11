@@ -93,6 +93,17 @@
 | `gh secret set SLACK_WEBHOOK_INCIDENT --env staging-runtime-smoke` | **ユーザー** | 同上 |
 | 投入後の `gh workflow run` で smoke 再実行 | **ユーザー**（または PR push の自動 trigger） | 再実行に repo 操作権限が必要 |
 
+### 追記 (2026-05-11): AI がやってはいけない操作（実値非露出の責務境界）
+
+AI と user の責務境界として、AI は以下 4 つの操作を**一切行わない**。user が直接 op / shell / GitHub UI で実行する。
+
+| # | AI 禁止操作 | 理由 |
+|---|------------|------|
+| 1 | bearer / webhook 実値の AI チャットへの入力 | AI コンテキストへの secret 混入は学習・ログ・transcript 経由で恒久的に流出する可能性がある |
+| 2 | DevTools Network からコピーした `Authorization` ヘッダ値の AI チャット貼付 | 上記同様。 `Bearer eyJ...` の生 token が AI に渡る経路を作らない |
+| 3 | `bash scripts/cf.sh d1 execute ... SELECT id FROM members` の出力の AI チャット貼付 | member id は smoke の `STAGING_MEMBER_ID` 候補。PII / 識別子混入を防ぐ |
+| 4 | `op read op://...` を AI が代行実行すること | 1Password 取り出しは user 自身の端末で完結させる。AI は `op` を起動しない（実行は user） |
+
 ---
 
 ## 5. 実装順序

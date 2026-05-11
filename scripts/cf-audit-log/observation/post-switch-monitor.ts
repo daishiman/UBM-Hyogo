@@ -21,7 +21,18 @@ export interface HourlySnapshot {
   };
 }
 
+interface AnalyzeSummary {
+  totalEvents?: number;
+  findings?: number;
+  classifierUsed?: ClassifierName;
+  classifierVersion?: string;
+  fallbackActive?: boolean;
+  elapsedMs?: number;
+}
+
 export interface AggregateSummary {
+  expectedSnapshots: number;
+  actualSnapshots: number;
   windowHours: number;
   fallbackRateMean: number;
   fallbackRateMax: number;
@@ -32,7 +43,10 @@ export interface AggregateSummary {
   mlSnapshots: number;
 }
 
-export function aggregateSnapshots(snapshots: HourlySnapshot[]): AggregateSummary {
+export function aggregateSnapshots(
+  snapshots: HourlySnapshot[],
+  expectedSnapshots = snapshots.length,
+): AggregateSummary {
   if (snapshots.length === 0) {
     throw new Error("aggregateSnapshots: empty input");
   }
@@ -43,6 +57,8 @@ export function aggregateSnapshots(snapshots: HourlySnapshot[]): AggregateSummar
       ? latencies[(latencies.length - 1) / 2]
       : (latencies[latencies.length / 2 - 1] + latencies[latencies.length / 2]) / 2;
   return {
+    expectedSnapshots,
+    actualSnapshots: snapshots.length,
     windowHours: snapshots.length,
     fallbackRateMean:
       fallbacks.reduce((acc, x) => acc + x, 0) / fallbacks.length,
@@ -69,6 +85,8 @@ export function renderSummaryMarkdown(summary: AggregateSummary): string {
   return [
     "# CF Audit ML Production Switch — Observation Summary",
     "",
+    `- expected snapshots: ${summary.expectedSnapshots}`,
+    `- actual snapshots: ${summary.actualSnapshots}`,
     `- window hours: ${summary.windowHours}`,
     `- fallback rate (mean): ${(summary.fallbackRateMean * 100).toFixed(2)}%`,
     `- fallback rate (max): ${(summary.fallbackRateMax * 100).toFixed(2)}%`,
@@ -84,19 +102,36 @@ interface CliArgs {
   hour?: string;
   out?: string;
   input?: string;
+  analyzeLog?: string;
+  expectedSnapshots?: number;
+  requireNonSkeleton: boolean;
   aggregate: boolean;
   format: "json" | "markdown";
 }
 
 export function parseArgs(argv: string[]): CliArgs {
-  const args: CliArgs = { aggregate: false, format: "json" };
+  const args: CliArgs = {
+    aggregate: false,
+    format: "json",
+    requireNonSkeleton: false,
+  };
   for (const raw of argv) {
     if (raw === "--aggregate" || raw.startsWith("--aggregate=")) args.aggregate = true;
+    else if (raw === "--require-non-skeleton") args.requireNonSkeleton = true;
     else if (raw.startsWith("--hour=")) args.hour = raw.slice("--hour=".length);
     else if (raw.startsWith("--out=")) args.out = raw.slice("--out=".length);
     else if (raw.startsWith("--output=")) args.out = raw.slice("--output=".length);
     else if (raw.startsWith("--input=")) args.input = raw.slice("--input=".length);
     else if (raw.startsWith("--in=")) args.input = raw.slice("--in=".length);
+    else if (raw.startsWith("--analyze-log=")) {
+      args.analyzeLog = raw.slice("--analyze-log=".length);
+    }
+    else if (raw.startsWith("--expected-snapshots=")) {
+      args.expectedSnapshots = Number.parseInt(
+        raw.slice("--expected-snapshots=".length),
+        10,
+      );
+    }
     else if (raw.startsWith("--window=")) {
       // Accepted for runbook compatibility. The aggregate window is inferred from input files.
       continue;
@@ -112,6 +147,35 @@ export function parseArgs(argv: string[]): CliArgs {
   return args;
 }
 
+function readAnalyzeSummary(logPath: string | undefined): AnalyzeSummary | null {
+  if (!logPath) return null;
+  const lines = readFileSync(logPath, "utf8").split(/\r?\n/).filter(Boolean);
+  for (let i = lines.length - 1; i >= 0; i--) {
+    try {
+      const parsed = JSON.parse(lines[i]) as AnalyzeSummary & { ok?: boolean };
+      if (parsed.ok === true) return parsed;
+    } catch {
+      continue;
+    }
+  }
+  return null;
+}
+
+export function assertNonSkeletonSnapshots(snapshots: HourlySnapshot[]): void {
+  const allSkeletonMetrics = snapshots.every(
+    (s) =>
+      s.totalEvents === 0 &&
+      s.issuesOpenedThisHour === 0 &&
+      s.fallbackRate === 0 &&
+      s.p95LatencyMs === 0,
+  );
+  if (allSkeletonMetrics) {
+    throw new Error(
+      "aggregateSnapshots: all snapshots contain skeleton zero metrics; refusing runtime promotion evidence",
+    );
+  }
+}
+
 function ensureDir(filePath: string): void {
   mkdirSync(dirname(filePath), { recursive: true });
 }
@@ -125,21 +189,27 @@ function emit(content: string, out: string | undefined): void {
   process.stdout.write(content.endsWith("\n") ? content : `${content}\n`);
 }
 
-export function buildSkeletonSnapshot(hour: string): HourlySnapshot {
+export function buildSkeletonSnapshot(
+  hour: string,
+  analyzeSummary: AnalyzeSummary | null = null,
+): HourlySnapshot {
   const classifier = (process.env.CF_AUDIT_CLASSIFIER as ClassifierName) ?? "threshold";
   const leakage =
     (process.env.LEAKAGE_GREP_RESULT as LeakageGrepResult) === "dirty"
       ? "dirty"
       : "clean";
+  const classifierUsed = analyzeSummary?.classifierUsed ?? classifier;
   return {
     hour,
-    classifierUsed: classifier,
+    classifierUsed,
     classifierVersion:
-      process.env.CF_AUDIT_CLASSIFIER_VERSION ?? `${classifier}@unknown`,
-    totalEvents: 0,
-    issuesOpenedThisHour: 0,
-    fallbackRate: 0,
-    p95LatencyMs: 0,
+      analyzeSummary?.classifierVersion ??
+      process.env.CF_AUDIT_CLASSIFIER_VERSION ??
+      `${classifierUsed}@unknown`,
+    totalEvents: analyzeSummary?.totalEvents ?? 0,
+    issuesOpenedThisHour: analyzeSummary?.findings ?? 0,
+    fallbackRate: analyzeSummary?.fallbackActive ? 1 : 0,
+    p95LatencyMs: analyzeSummary?.elapsedMs ?? 0,
     leakageGrepResult: leakage,
   };
 }
@@ -149,7 +219,14 @@ export function runCli(argv: string[]): void {
   if (args.aggregate) {
     if (!args.input) throw new Error("--aggregate requires --input=<dir>");
     const snapshots = readSnapshotsFromDir(args.input);
-    const summary = aggregateSnapshots(snapshots);
+    if (args.requireNonSkeleton) {
+      assertNonSkeletonSnapshots(snapshots);
+    }
+    const envExpected = process.env.EXPECTED_SNAPSHOTS_7DAY
+      ? Number.parseInt(process.env.EXPECTED_SNAPSHOTS_7DAY, 10)
+      : undefined;
+    const expectedSnapshots = args.expectedSnapshots ?? envExpected;
+    const summary = aggregateSnapshots(snapshots, expectedSnapshots);
     const out =
       args.format === "markdown"
         ? renderSummaryMarkdown(summary)
@@ -160,7 +237,7 @@ export function runCli(argv: string[]): void {
   if (!args.hour) {
     throw new Error("--hour=<ISO8601> is required when not --aggregate");
   }
-  const snapshot = buildSkeletonSnapshot(args.hour);
+  const snapshot = buildSkeletonSnapshot(args.hour, readAnalyzeSummary(args.analyzeLog));
   emit(`${JSON.stringify(snapshot, null, 2)}\n`, args.out);
 }
 

@@ -28,7 +28,7 @@
 | INV-02 | `lock_branch=false` | drift なし |
 | INV-03 | `required_status_checks.strict=false`（merge queue 未導入） | drift なし |
 | INV-04 | Lighthouse CI は PR to `dev` のみ | drift なし（`on.pull_request.branches: [dev]`） |
-| INV-05 | coverage threshold は `quality-gates.md §7.5` 参照（70%） | drift なし（script 内コメントで根拠 path 記載） |
+| INV-05 | coverage threshold は `quality-gates.md §7.5` 参照（80%） | drift なし（script 内コメントで根拠 path 記載） |
 | INV-06 | `wrangler` 直叩き禁止 | drift なし（CI 内で `wrangler` 不使用） |
 | INV-07 | `enforce_admins` 既存値維持（既存 `false`） | drift なし（payload で `false` 明示） |
 
@@ -47,7 +47,7 @@
 | `.github/workflows/lighthouse.yml` | lhci CI 実行 | ✅ |
 | `.github/workflows/e2e-tests.yml` | e2e + coverage gate CI | ✅ |
 | `apps/web/playwright.config.ts` | reporter 設定 | ✅（既存責務に追加のみ） |
-| `scripts/coverage-gate-e2e.sh` | coverage 70% 判定ロジック | ✅ |
+| `scripts/coverage-gate-e2e.sh` | coverage 80% 判定ロジック | ✅ |
 
 ---
 
@@ -158,7 +158,7 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】

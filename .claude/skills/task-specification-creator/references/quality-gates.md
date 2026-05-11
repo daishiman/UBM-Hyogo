@@ -70,6 +70,15 @@ UI / API / boundary を伴うタスクの仕様書 (`docs/30-workflows/<feature>
 - skip / fixme を含む spec ファイルは Phase 11 evidence で「skip count = 0」を AC matrix に明記する（仕様書側で記述）。
 - regression guard として `grep -rn "test.describe.skip\|test\.skip(true" apps/*/playwright/tests/` が 0 件を返すことを Phase 11 evidence に含めることを推奨。
 
+#### `it.todo` / `test.todo` 残留禁止（Phase 6 close-out gate）
+
+`it.todo("...")` / `test.todo("...")` は実装未着手 placeholder のため Phase 6 close-out 時点で **必ず実装または削除する**。残留したまま Phase 6 を閉じることを禁止する（task-15 admin dashboard の a11y todo 残留事例を踏まえた規約）。
+
+- Phase 6 close-out gate: `grep -rn "\bit\.todo\|\btest\.todo" apps/*/src apps/*/playwright/tests packages/*/src` の hit が 0 件であることを Phase 11 evidence (`todo-count.txt`) に記録する。1 件でも残れば FAIL。
+- a11y / accessibility 系 todo は同 cycle 内で **実 assertion へ昇格**させる（例: `axe-core` / `@axe-core/playwright` の `expect(results.violations).toEqual([])`）。
+- どうしても skip が必要な場合のみ `test.skip("reason: <issue-url>")` を使用し、理由コメントと追跡 Issue を inline 必須。`test.skip` の総数は Phase 11 evidence で 0 を期待し、>0 の場合は `unassigned-task` へ formalize する。
+- CI gate として `.github/workflows/*.yml` に `todo-count` step を組み込み、`it.todo` / `test.todo` の出現で job を fail させる。
+
 ### 7.4 Phase 11 evidence への落とし込み
 
 VISUAL タスクは `phase-template-phase11.md` の screenshot evidence に加え、以下 3 件を `outputs/phase-11/evidence/` に必ず残す:
