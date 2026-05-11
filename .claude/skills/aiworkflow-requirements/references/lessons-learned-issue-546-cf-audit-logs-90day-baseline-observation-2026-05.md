@@ -57,9 +57,23 @@ runtime blocker で出力が作れない場合も、canonical path に redacted 
 
 ---
 
+## L-ISSUE546-005: reminder 昇格時は unassigned task を pointer 化する
+
+### 現象
+Issue #546 の re-observation reminder を Issue #581 の Phase 1-13 workflow package へ昇格すると、既存 `unassigned-task/issue-546-cf-audit-logs-90day-reobservation-reminder-001.md` と新規 workflow が同じ再観測を指し、二重の observation loop を作る危険がある。
+
+### 採用解決策
+新規 workflow `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/` を canonical package とし、既存 unassigned task は source reminder / pointer として保持する。Phase 12 strict 7、artifact inventory、task-workflow-active も同じ wave で同期する。
+
+### 再利用ガイド
+unassigned reminder を full workflow に昇格した場合は、新規バックログを作らず既存 reminder に canonical workflow path を追記する。root `workflow_state` と domain decision（例: `observation_continue`）は分けて記録する。
+
+---
+
 ## 参照元
 
 - `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/outputs/phase-11/gate-decision.md`
 - `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/outputs/phase-11/manual-smoke-log.md`
 - `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/outputs/phase-12/implementation-guide.md`
 - `.claude/skills/aiworkflow-requirements/references/observability-monitoring.md` §11
+- `docs/30-workflows/issue-581-cf-audit-90day-reobservation-reminder/`

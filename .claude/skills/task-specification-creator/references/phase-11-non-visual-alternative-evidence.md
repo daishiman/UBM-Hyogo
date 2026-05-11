@@ -103,6 +103,21 @@ Issue #546 CF audit logs 90 day baseline observation（2026-05-08）の close-ou
 - [ ] ゼロ件 evidence を PASS に使う readiness 前提を明記した
 - [ ] 欠測データは `PENDING_RUNTIME_EVIDENCE` marker artifact として実体化した
 
+### HOLD / deleted workflow lifecycle marker
+
+Issue #581 CF audit logs 90 day re-observation reminder（2026-05-09）の close-out feedback を反映。上流 workflow が HOLD 化され、watchdog workflow などが削除済みの場合は、存在しない GitHub Actions workflow API を叩かない。削除済み workflow の evidence path は run history array ではなく lifecycle marker object とし、Phase 2 schema / Phase 3 command / Phase 4 verification / Phase 11 completion condition を同じ object contract に揃える。
+
+```json
+{
+  "workflow": "cf-audit-log-monitor-watchdog.yml",
+  "status": "deleted_by_issue_518_hold",
+  "source": "docs/30-workflows/completed-tasks/issue-518-cf-audit-logs-monitoring-hold/",
+  "gateAUse": "watchdog heartbeat is not available during HOLD; Gate-A uses monitor run history plus this lifecycle marker"
+}
+```
+
+P-1 などの入口 gate で早期終了する場合は、runtime strict evidence を捏造しない。`precondition-check.md` / `main.md` / `manual-smoke-log.md` / `gate-decision.md` の最小 4 ファイルを Phase 11 の完了条件として明記し、strict file list 全件要求と矛盾させない。
+
 ## Env-name contract alignment evidence（Auth / Mail / Magic Link）
 
 05b-A auth mail env contract alignment（2026-05-01）の close-out feedback を反映。実装は既に `MAIL_PROVIDER_KEY` / `MAIL_FROM_ADDRESS` / `AUTH_URL` を使っているが、manual specs や provisioning runbook に provider 固有名が残る場合は、docs-only / NON_VISUAL の env-name contract task として扱う。

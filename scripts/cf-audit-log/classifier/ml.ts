@@ -4,6 +4,7 @@ import type { Classifier, ClassifierInput, SeverityResult } from "./types.ts";
 export class MLClassifier implements Classifier {
   readonly name = "ml" as const;
   readonly version: string;
+  readonly fallbackActive = true;
   private readonly fallback = new ThresholdClassifier();
   constructor(modelPath: string | undefined) {
     void modelPath;

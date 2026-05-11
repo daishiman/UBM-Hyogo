@@ -69,6 +69,7 @@ export default defineConfig({
         "apps/web/next.config.*",
         "apps/web/middleware.ts",
         "apps/web/src/lib/api/me-types.ts",
+        "apps/web/src/__tests__/__fixtures__/**",
         "**/wrangler.toml",
         "**/*.d.ts",
         "**/*.config.{ts,js,mjs,cjs}",

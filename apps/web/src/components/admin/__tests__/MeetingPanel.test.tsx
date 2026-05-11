@@ -301,7 +301,7 @@ describe("MeetingPanel — empty / mutation / authz", () => {
     expect(screen.getByText("懇親会あり")).toBeTruthy();
   });
 
-  it("編集 details から updateMeeting を呼び CSV リンクを表示する", async () => {
+  it("編集 details から updateMeeting を呼び、MVP 範囲外の CSV リンクは表示しない", async () => {
     mockedUpdateMeeting.mockResolvedValueOnce({ ok: true, status: 200, data: {} });
     render(
       <MeetingPanel
@@ -309,9 +309,7 @@ describe("MeetingPanel — empty / mutation / authz", () => {
         candidates={[]}
       />,
     );
-    expect(screen.getByRole("link", { name: "CSV" }).getAttribute("href")).toBe(
-      "/api/admin/meetings/s1/export.csv",
-    );
+    expect(screen.queryByRole("link", { name: "CSV" })).toBeNull();
     fireEvent.click(screen.getByText("編集"));
     fireEvent.change(screen.getAllByLabelText("タイトル")[1]!, { target: { value: "更新例会" } });
     fireEvent.change(screen.getByLabelText("開催日"), { target: { value: "2026-05-01" } });
