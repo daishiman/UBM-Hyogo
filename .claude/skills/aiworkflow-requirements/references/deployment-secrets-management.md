@@ -148,7 +148,7 @@ Rotation 手順:
 
 ### Issue #571 staging runtime smoke GitHub Environment（2026-05-08）
 
-`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-09 の CI recovery wave 以降、配置 runbook の正本は `bash scripts/smoke/provision-staging-secrets.sh` とし、`op read` 出力は `gh secret set --body -` へ stdin で直結する。
+`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-10 の task-02 close-out 以降、配置 runbook の入口正本は `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` とする。推奨実行経路は `bash scripts/smoke/provision-staging-secrets.sh` で、`op read` 出力は `gh secret set --body -` へ stdin で直結する。手動 `gh secret set` は fallback として runbook に残す。
 
 | Category | Secret | Placement | Purpose |
 | --- | --- | --- | --- |
@@ -175,8 +175,8 @@ GitHub Environment は作成されているが secret が 0 件のまま staging
 | pre-flight 経路 | `bash scripts/smoke/provision-staging-secrets.sh`（idempotent / redacted） |
 | inventory check | `gh secret list --env staging-runtime-smoke --json name -q '.[].name'` で **name のみ** を確認。値・値 hash を出力しない |
 | 投入経路 | `op read "op://<Vault>/<Item>/<Field>" \| gh secret set <NAME> --env staging-runtime-smoke --body -` の stdin 直結 |
-| smoke 起動 gate | name inventory が runtime contract（`STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT`）と一致した時点でのみ user-approved Actions run を実施 |
-| `${VAR:?}` の扱い | smoke workflow 側では `${VAR:?}` を残し fail-closed を維持。invocation 前の pre-flight で 0 件を検出し、smoke を起動しないことで連鎖失敗を抑止 |
+| smoke 起動 gate | user-approved Actions run 前の inventory は 5 secret（`STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT`）一致を確認する。ただし workflow 内 early-fail は smoke 本体必須 4 secret のみを対象にし、Slack は failure summary post step の fail-closed guard が担当する |
+| `${VAR:?}` の扱い | smoke workflow 側では smoke 本体必須 4 secret を name-only early-fail する。invocation 前の runbook/helper pre-flight で 0 件を検出し、連鎖失敗を抑止する |
 | ログ衛生 | Environment 名と secret 名のみを stdout に出力。値、Authorization header、cookie, decoded webhook URL は出力 / 文書 / PR / evidence に転記禁止 |
 
 ### GitHub Variables（非機密設定値）
@@ -505,6 +505,7 @@ done
 | 2026-05-10 | 1.4.3 | Issue #587 rotation scripts (`scripts/cf-audit-log/rotation/`) と canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) が op 参照名のみを受理することを正本化。candidate/previous resolved value を inputs / logs / artifact upload に残さない境界を実装で固定 |
 | 2026-05-10 | 1.4.2 | Issue #587 Cloudflare Audit Logs ML model artifact rotation の candidate / previous op 参照名を追加。resolved artifact path を docs / logs / PR body に残さない境界を正本化 |
 | 2026-05-09 | 1.4.1 | CI recovery task-01: web-cd の deploy secret 正本名を environment-scoped `CLOUDFLARE_API_TOKEN` へ同期。`CF_TOKEN_WORKERS_*` は backend-ci Workers deploy 用として維持し、web-cd では使用しない境界へ補正。 |
+| 2026-05-10 | 1.4.1 | task-02 close-out: 配置 runbook 入口を `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md`、推奨実行経路を `scripts/smoke/provision-staging-secrets.sh` として分離。workflow early-fail は smoke 本体必須 4 secret、Slack は failure summary post step の fail-closed guard が担当する境界へ補正 |
 | 2026-05-09 | 1.4.0 | CI recovery wave: Issue #571 staging runtime smoke 節に「Environment 作成済み・secret 0 件問題」の pre-flight 検証 pattern を追加。`scripts/smoke/provision-staging-secrets.sh` を canonical 投入経路、`gh secret list --json name -q` を name-only inventory として正本化し、`${VAR:?}` 連鎖失敗の抑止経路を明記 |
 | 2026-05-07 | 1.3.1 | Issue #518 Cloudflare Audit Logs HOLD を反映。監視 secret は保持するが、schedule 自動監視と watchdog は停止し、手動確認時のみ利用する |
 | 2026-05-06 | 1.3.0 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token を D1 / Workers / Pages x staging / production の 6 Secret へ分割（旧 `CLOUDFLARE_API_TOKEN` は 24h 並行保持後に失効する deprecated secret として扱う）。Issue #408 Cloudflare Audit Logs monitoring の `CF_AUDIT_TOKEN_PROD` を `spec_created / runtime pending` として追加し、deploy token と監視 token の名前・scope・rotation 分離を正本化 |

@@ -14,8 +14,8 @@
 | # | ファイル | 取得 phase | 取得方法 |
 |---|---------|-----------|---------|
 | E-1 | `yaml-syntax.log` | phase-6 ST-1 | `python3 -c "import yaml; yaml.safe_load(open('.github/workflows/runtime-smoke-staging.yml'))"` 出力（成功時は空、stderr を含めて redirect） |
-| E-2 | `actionlint.log` | phase-6 ST-3 / phase-9 QG-1 | `pnpm dlx actionlint -color .github/workflows/runtime-smoke-staging.yml` 出力 |
-| E-3 | `grep-gate.log` | phase-6 ST-4 / phase-9 QG-4 | `grep -rE 'eyJ[A-Za-z0-9_-]{20,}\|sk_[A-Za-z0-9]{20,}\|hooks\.slack\.com/services/[A-Z0-9]{8,}' docs/.../ci-secret-alignment-and-runtime-smoke-recovery/ ; echo "exit=$?"` |
+| E-2 | `actionlint.log` | phase-6 ST-3 / phase-9 QG-1 | actionlint 公式 download script で取得した binary の出力 |
+| E-3 | `grep-gate.log` | phase-6 ST-4 / phase-9 QG-4 | docs / workflow / git diff の secret pattern grep 出力 |
 | E-4 | `pre-check-fail-run.log` | phase-7 §2 / phase-9 QG-8 | `gh run view <run-id> --log` for Pass 1 |
 | E-5 | `secret-name-list-after.log` | phase-7 §3 / phase-9 QG-9 補助 | `gh api .../environments/staging-runtime-smoke/secrets --jq '.secrets[].name' \| sort` |
 | E-6 | `pre-check-success-run.log` | phase-7 §4 / phase-9 QG-9 | `gh run view <run-id> --log` for Pass 2 |
@@ -34,11 +34,17 @@ OUT=docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-02-run
 python3 -c "import yaml; yaml.safe_load(open('.github/workflows/runtime-smoke-staging.yml')); print('YAML parse OK')" \
   > "$OUT/yaml-syntax.log" 2>&1
 
-pnpm dlx actionlint -color .github/workflows/runtime-smoke-staging.yml \
-  > "$OUT/actionlint.log" 2>&1 || true
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
+curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o "$tmpdir/download-actionlint.bash"
+(cd "$tmpdir" && bash download-actionlint.bash >/dev/null)
+"$tmpdir/actionlint" -color .github/workflows/runtime-smoke-staging.yml \
+  > "$OUT/actionlint.log" 2>&1
 
 (grep -rE 'eyJ[A-Za-z0-9_-]{20,}|sk_[A-Za-z0-9]{20,}|hooks\.slack\.com/services/[A-Z0-9]{8,}' \
-  docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/ ; \
+  docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/ .github/workflows/runtime-smoke-staging.yml ; \
+  git diff -- .github/workflows/runtime-smoke-staging.yml docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/ \
+    | grep -E 'eyJ[A-Za-z0-9_-]{20,}|sk_[A-Za-z0-9]{20,}|hooks\.slack\.com/services/[A-Z0-9]{8,}' ; \
   echo "exit=$?") > "$OUT/grep-gate.log" 2>&1
 ```
 

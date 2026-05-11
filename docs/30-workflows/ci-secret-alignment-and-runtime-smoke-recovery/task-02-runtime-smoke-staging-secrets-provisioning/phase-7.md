@@ -44,8 +44,10 @@ gh run watch
 ### 2.2 観測
 
 ```bash
+OUT=docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-02-runtime-smoke-staging-secrets-provisioning/outputs/phase-11/evidence
+mkdir -p "$OUT"
 RUN_ID=$(gh run list --workflow=runtime-smoke-staging.yml --branch=fix/runtime-smoke-staging-readiness-gate --json databaseId --jq '.[0].databaseId')
-gh run view "$RUN_ID" --log > outputs/phase-11/evidence/pre-check-fail-run.log
+gh run view "$RUN_ID" --log > "$OUT/pre-check-fail-run.log"
 ```
 
 ### 2.3 期待
@@ -63,10 +65,16 @@ gh run view "$RUN_ID" --log > outputs/phase-11/evidence/pre-check-fail-run.log
 
 ## 3. User Action: 5 secret 投入
 
-`runbooks/secret-provisioning.md` §投入手順 に従いユーザーが実施。
+`runbooks/secret-provisioning.md` §投入手順 に従いユーザーが実施。推奨は helper 経路。
 
 ```bash
 # ユーザー操作（AI には委ねない）
+bash scripts/smoke/provision-staging-secrets.sh
+```
+
+手動 fallback:
+
+```bash
 gh secret set STAGING_API_BASE       --env staging-runtime-smoke
 gh secret set STAGING_ADMIN_BEARER   --env staging-runtime-smoke
 gh secret set STAGING_MEMBER_ID      --env staging-runtime-smoke
@@ -77,8 +85,9 @@ gh secret set SLACK_WEBHOOK_INCIDENT --env staging-runtime-smoke
 投入確認:
 
 ```bash
+OUT=docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-02-runtime-smoke-staging-secrets-provisioning/outputs/phase-11/evidence
 gh api repos/daishiman/UBM-Hyogo/environments/staging-runtime-smoke/secrets \
-  --jq '.secrets[].name' | sort > outputs/phase-11/evidence/secret-name-list-after.log
+  --jq '.secrets[].name' | sort > "$OUT/secret-name-list-after.log"
 ```
 
 期待出力（5 行、ソート済）:
@@ -105,8 +114,9 @@ gh run watch
 ### 4.2 観測
 
 ```bash
+OUT=docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-02-runtime-smoke-staging-secrets-provisioning/outputs/phase-11/evidence
 RUN_ID=$(gh run list --workflow=runtime-smoke-staging.yml --branch=dev --json databaseId --jq '.[0].databaseId')
-gh run view "$RUN_ID" --log > outputs/phase-11/evidence/pre-check-success-run.log
+gh run view "$RUN_ID" --log > "$OUT/pre-check-success-run.log"
 ```
 
 ### 4.3 期待

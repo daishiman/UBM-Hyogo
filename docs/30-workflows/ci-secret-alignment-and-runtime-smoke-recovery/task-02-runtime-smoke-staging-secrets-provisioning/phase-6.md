@@ -13,8 +13,8 @@
 |---|------|---------|------|
 | ST-1 | YAML 構文 | `python3 -c "import yaml; yaml.safe_load(open('.github/workflows/runtime-smoke-staging.yml'))"` | exit 0 |
 | ST-2 | pre-check step 件数 | `grep -c 'verify required staging secrets' .github/workflows/runtime-smoke-staging.yml` | `1` |
-| ST-3 | actionlint | `pnpm dlx actionlint -color .github/workflows/runtime-smoke-staging.yml` | violation 0 |
-| ST-4 | secret 実値 grep（docs 全体） | `grep -rE 'eyJ[A-Za-z0-9_-]{20,}\|sk_[A-Za-z0-9]{20,}\|hooks\.slack\.com/services/[A-Z0-9]{8,}' docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/` | 0 件（grep exit 1） |
+| ST-3 | actionlint | actionlint 公式 download script で取得した binary を使い `.github/workflows/runtime-smoke-staging.yml` を検証 | violation 0 |
+| ST-4 | secret 実値 grep（docs + workflow diff） | `(grep -rE 'eyJ[A-Za-z0-9_-]{20,}\|sk_[A-Za-z0-9]{20,}\|hooks\.slack\.com/services/[A-Z0-9]{8,}' docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/ .github/workflows/runtime-smoke-staging.yml; git diff -- .github/workflows/runtime-smoke-staging.yml docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/ \| grep -E 'eyJ[A-Za-z0-9_-]{20,}\|sk_[A-Za-z0-9]{20,}\|hooks\.slack\.com/services/[A-Z0-9]{8,}')` | 0 件（grep exit 1） |
 | ST-5 | runbook 章立て | `grep -E '^## (目的\|必要 secret 一覧\|投入手順\|投入確認\|動作確認\|ローテーション運用\|禁止事項)' docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` | 7 行 |
 | ST-6 | 禁止事項に AI 言及 | `grep -F 'AI エージェントに' docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` | 1 行以上 |
 | ST-7 | smoke スクリプト不変 | `git diff origin/dev... -- scripts/smoke/runtime-attendance-provider.sh` | 空 |
@@ -45,7 +45,7 @@
 
 ### 3.2 検出範囲
 
-`docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/` 配下全体。runbook / spec / outputs を含む。
+`docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/` 配下全体、`.github/workflows/runtime-smoke-staging.yml`、および同範囲の `git diff`。runbook / spec / outputs / workflow diff を含む。
 
 ### 3.3 false positive 緩和
 
