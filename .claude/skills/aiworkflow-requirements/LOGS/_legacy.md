@@ -844,6 +844,14 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 
 - task-15 admin dashboard and members close-out sync: `implemented-local-runtime-pending / implementation / VISUAL`. Added local Playwright screenshot evidence, `jest-axe` unit a11y, Phase 12 strict 7 physical files, artifact inventory, quick-reference/resource-map/task-workflow-active/changelog entries. Phase 13 remains user-gated.
 
+# 2026-05-10 Issue #588 fallback alert Slack / mail extension
+
+- Synced workflow `docs/30-workflows/issue-588-fallback-alert-slack-mail-extension/` as `implemented-local-runtime-pending / implementation / NON_VISUAL`.
+- Updated `scripts/cf-audit-log/observation/fallback-rate-alert.ts`, focused tests, `cf-audit-log-monitor.yml`, infrastructure runbook, quick-reference, resource-map, task-workflow-active, changelog, and artifact inventory.
+- Captured local evidence: focused Vitest 22 tests PASS, `pnpm typecheck` PASS, `pnpm lint` PASS.
+- Runtime Slack/mail delivery, HOLD removal, secret mutation, commit, push, and PR remain user-gated.
+- Added lessons-learned `lessons-learned/lessons-learned-issue-588-fallback-alert-slack-mail-extension-2026-05.md` (L-588-001..004: notification 3-point sync, best-effort isolation, twin-layer redaction, closed-source supersede).
+
 # 2026-05-11 E2E Stage 3b / 3c implementation lessons reflection
 
 - 3b: Server Component server-side `fetch()` は Playwright `page.route()` で捕捉不可。deterministic mock API (`scripts/e2e-mock-api.mjs`) + `INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` 注入を `lessons-learned-e2e-stage3b-server-component-mock-api-2026-05.md` と `references/testing-playwright-e2e.md` に追記。`artifacts.json` status vocabulary drift / completed-tasks 親アーカイブパス整合 / `IMPLEMENTED_LOCAL_RUNTIME_PENDING` 明示も同 wave で反映。

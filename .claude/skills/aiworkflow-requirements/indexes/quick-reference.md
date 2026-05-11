@@ -190,6 +190,20 @@
 | blocks | Issue #495 Phase 11 runtime smoke / 09c production readiness observability gate |
 | boundary | Slack / 1Password / Cloudflare / GitHub / smoke / commit / push / PR は user approval 後のみ |
 
+### Issue #588 Fallback Alert Slack / Mail Extension（2026-05-10）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-588-fallback-alert-slack-mail-extension/` |
+| 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| parent | Issue #549 Cloudflare Audit Logs ML production switch |
+| implementation | `scripts/cf-audit-log/observation/fallback-rate-alert.ts`, `scripts/cf-audit-log/observation/__tests__/fallback-rate-alert.test.ts`, `.github/workflows/cf-audit-log-monitor.yml` |
+| alert destinations | GitHub Issue required, Slack optional via canonical `SLACK_WEBHOOK_INCIDENT`, mail optional via `EMAIL_WEBHOOK_URL` + `EMAIL_FROM` + `EMAIL_TO` |
+| redaction | 32+ hex / `userId=` / `tenantId=` / JSON `userId` / JSON `tenantId` / `user_id` / `tenant_id` / Bearer / Slack webhook URL |
+| evidence | `outputs/phase-11/evidence/{test,typecheck,lint,grep-gate}.log`, `outputs/phase-11/evidence/secret-grep.txt` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-588-fallback-alert-slack-mail-extension-2026-05.md`（L-588-001〜004） |
+| boundary | HOLD removal / secret mutation / production Slack-mail delivery / commit / push / PR は user approval 後のみ |
+
 ### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
 
 | 目的 | 参照先 |

@@ -106,17 +106,26 @@ jobs:
           pnpm exec tsx scripts/cf-audit-log/evaluation/secret-leakage-grep.ts \
             --exit-on-detect \
             --input outputs/observation
-      - name: Fallback rate alert (3h consecutive)
-        if: ${{ inputs.dry_run != true }}
+      - name: Evaluate fallback rate notification
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          SLACK_WEBHOOK_INCIDENT: ${{ secrets.SLACK_WEBHOOK_INCIDENT }}
+          EMAIL_WEBHOOK_URL: ${{ secrets.EMAIL_WEBHOOK_URL }}
+          EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+          EMAIL_TO: ${{ vars.EMAIL_TO }}
         run: |
-          set -euo pipefail
-          pnpm exec tsx scripts/cf-audit-log/observation/fallback-rate-alert.ts \
-            --threshold=0.05 \
-            --window=3 \
-            --input=outputs/observation || true
+          if compgen -G "outputs/observation/*.json" > /dev/null; then
+            if [ "${{ inputs.dry_run }}" = "true" ]; then
+              pnpm exec tsx scripts/cf-audit-log/observation/fallback-rate-alert.ts \
+                --window=3 --threshold=0.05 --input=outputs/observation --dry-run
+            else
+              pnpm exec tsx scripts/cf-audit-log/observation/fallback-rate-alert.ts \
+                --window=3 --threshold=0.05 --input=outputs/observation
+            fi
+          else
+            echo "No outputs/observation/*.json snapshots found; skipping fallback rate notification."
+          fi
       - name: Upload hourly artifact
         if: always()
         uses: actions/upload-artifact@v4
