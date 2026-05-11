@@ -75,6 +75,23 @@ Playwright 系 visual evidence タスクで Phase 12 から path drift と stora
 - `not_implemented` / `PENDING_RUNTIME_EVIDENCE`（spec・wrapper 揃い、実行のみ未済）/ `captured` を区別する。
 - compliance-check の `Phase 11 screenshot evidence` 行は `PENDING_RUNTIME_EVIDENCE` を許容語彙に含めること。
 
+## VISUAL タスクの local mock-screenshot 経路（staging 不在時の許容条件）
+
+VISUAL タスクで staging 実機 deploy が **別 gate で pending** の場合、local Playwright fixture + standalone mock API を経由した screenshot を Phase 11 evidence の **暫定 canonical** として採用してよい（task-15 admin dashboard で適用された経路）。
+
+### 許容条件（4 件すべて満たすこと）
+
+1. staging 実機 smoke が `implemented-local-runtime-pending` 等で別タスクに分離され、Phase 13 で user 承認済みであること。
+2. screenshot capture に使う mock は **standalone HTTP server**（例: `apps/web/playwright/fixtures/standalone-mock-server.ts`）として独立して起動し、Playwright の `page.route()` には依存しないこと（Next.js Server Component の `fetch()` は `page.route()` を捕捉しないため）。
+3. SSR fetch 経路（`INTERNAL_API_BASE_URL` / `apps/api` への server-side `fetch()`）は **必ず standalone mock 側**を経由する。fixture-internal mock と並走させない。
+4. `outputs/phase-11/` の screenshot に `provenance: local-mock` メタを `phase11-capture-metadata.json` に明記し、staging fresh evidence を取得した際の差し替え plan を `unassigned-task` として formalize する。
+
+### 落とし穴
+
+- **mock の二重実装**: fixture 内 `page.route()` mock と standalone server を同時に持つと state drift（A は更新済み、B は古い）が発生する。standalone mock のみを single source of truth とし、必要なら HTTP control endpoint（`POST /__mock/state`）で Playwright test から状態を切り替える。
+- **selector drift**: page-object と実装側 `data-testid` の照合を `grep -rn 'data-testid="<id>"' apps/web/src` で必ず確認。`data-testid` 命名は機能 prefix + kebab で統一（例: `admin-kpi-card-total`）。
+- **provenance 偽装**: local mock screenshot を staging fresh evidence のように記述しない。`provenance` 列を AC matrix に必ず置く。
+
 ## Apple UI/UX 観点
 
 - hierarchy が明確か

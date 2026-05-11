@@ -11,7 +11,9 @@
     "coverageTier": "n/a",
     "base_branch": "dev",
     "feature_branch": "fix/runtime-smoke-staging-readiness-gate",
-    "updated_at": "2026-05-09"
+    "pr_number": 676,
+    "pr_branch": "feat/task-02-runtime-smoke-staging-secrets-readiness-gate",
+    "updated_at": "2026-05-11"
   },
   "inventory": [
     { "path": ".github/workflows/runtime-smoke-staging.yml", "kind": "edit", "scope": "step-insert" },

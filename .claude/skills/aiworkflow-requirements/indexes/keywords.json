@@ -6567,6 +6567,7 @@
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "logs-archive-2026-02-completed-move-preload-sync.md",
@@ -6580,7 +6581,8 @@
       "technology-devops.md",
       "testing-playwright-e2e.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
-      "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md"
+      "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
+      "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md"
     ],
     "CD": [
       "deployment-branch-strategy.md",
@@ -7358,7 +7360,9 @@
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
-      "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md"
+      "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
+      "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md"
     ],
     "キャッシュ戦略": [
       "deployment-gha.md"
@@ -7430,8 +7434,10 @@
     "Post": [
       "deployment-gha.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "post-release-long-term-observation.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
+      "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md"
     ],
     "release": [
@@ -11425,8 +11431,10 @@
       "lessons-learned-06c-C-admin-tags-2026-05.md",
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "skill-ledger-fragment-spec.md",
-      "skill-ledger-gitattributes-policy.md"
+      "skill-ledger-gitattributes-policy.md",
+      "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md"
     ],
     "conflict": [
       "lessons-learned-06c-C-admin-tags-2026-05.md",
@@ -14800,6 +14808,16 @@
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
     ],
     "で構造的に消す": [
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
+    ],
+    "fixes": [
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
+      "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md"
+    ],
+    "マージ後": [
+      "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
+    ],
+    "に確定した知見": [
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md"
     ],
     "Screen": [

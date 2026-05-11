@@ -94,6 +94,14 @@
 | 並列可 | task-01（web-cd secret 名整合）と独立。共有変更なし | 並列 |
 | user-action | 5 secret の `gh secret set` 投入 | spec 完了後にユーザー実施 |
 
+### task-01 と独立な根拠
+
+task-01（web-cd secret 名整合）と本 task-02 が干渉せず並列実行可能である根拠を以下 3 点で示す:
+
+1. **edit path 集合の disjoint**: task-01 は `.github/workflows/web-cd.yml` のみを編集する。task-02 は `.github/workflows/runtime-smoke-staging.yml` および `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` を編集対象とする。両 task の編集ファイル集合に重複は無い。
+2. **target GitHub Environment が別**: task-01 の secret 投入対象は `staging` / `production` env、task-02 の対象は `staging-runtime-smoke` env。secret 集合は disjoint で、片方の rotation が他方の readiness に影響しない。
+3. **workflow trigger graph 上で web-cd → runtime-smoke の edge 無し**: `runtime-smoke-staging.yml` は `backend-ci.yml` から `workflow_call` で呼ばれる構成で、`web-cd.yml` の deploy 結果に依存しない（親 README / index.md にも明記の通り）。よって task-01 の workflow 改修が task-02 の smoke 実行を block しない。
+
 ---
 
 ## Phase 1-13 状態表

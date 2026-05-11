@@ -41,6 +41,33 @@ before:                              after:
           fi
 ```
 
+### 追記 (2026-05-11): pre-check 実装と spec の等価性
+
+PR #676 の実 workflow 実装は §1.2 に示した env 再宣言 + 4 行直接展開ではなく、以下の **for-loop + `${!name:-}` indirect 展開**形式を採用している。
+
+```yaml
+      - name: verify required staging secrets
+        run: |
+          missing=()
+          for name in STAGING_API_BASE STAGING_ADMIN_BEARER STAGING_MEMBER_ID STAGING_ME_BEARER; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+          if [ "${#missing[@]}" -gt 0 ]; then
+            echo "::error::missing secrets in environment 'staging-runtime-smoke': ${missing[*]}"
+            exit 1
+          fi
+```
+
+両者は **挙動として等価**であり、AC では行ごとの逐語一致ではなく次の挙動一致のみを検証する:
+
+- missing が複数のとき空白区切り 1 行で `${missing[*]}` 展開して列挙する。
+- early-return せず 4 件すべて評価してから exit 1 する。
+- exit code は missing>0 のとき 1、missing=0 のとき 0。
+
+したがって §1.2 の YAML は spec 上の reference であり、実装側で同等挙動を保てば for-loop 形式を採用してよい。
+
 ### 1.3 編集手順
 
 1. `.github/workflows/runtime-smoke-staging.yml` を開く。
@@ -108,3 +135,13 @@ before:                              after:
 | 3 | `docs/30-workflows/.../task-02-.../**` | `docs(spec): add Phase 1-13 spec for task-02 runtime-smoke readiness gate` |
 
 3 commit に分けるのは review 容易性のため。1 commit に集約しても DoD 上は同等。
+
+### 追記 (2026-05-11): 既存 helper の参照（新規作成ではない）
+
+`scripts/smoke/provision-staging-secrets.sh` は **既存 helper** として PR #676 から runbook の正規経路として参照する。本 task では:
+
+- 新規作成しない（既存 path をそのまま利用）。
+- runbook §投入手順 から path 参照のみ追記する。
+- helper 自体の内容変更は本 task の inventory 外。
+
+commit 単位の inventory には含めず、参照のみ phase-1.md および runbook で明示する。

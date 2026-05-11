@@ -85,6 +85,35 @@ gh run watch "$RUN_ID"
 gh run view "$RUN_ID" --log > "$OUT/pre-check-success-run.log"
 ```
 
+### 追記 (2026-05-11): Pass 2 成功判定の jq 検証 (audit A3)
+
+Pass 2 の `gh run watch` 完了だけでは「pre-check 突破 + smoke 本体 PASS」の機械判定にならない。runtime artifact (`runtime-smoke-staging-<run_id>`) を取得して `summary.json` を jq で検証し、`gh run view --json conclusion` で workflow 全体の conclusion も確認する。
+
+```bash
+# 1. runtime artifact をダウンロード
+gh run download "$RUN_ID" -n "runtime-smoke-staging-${RUN_ID}" -D ci-evidence
+
+# 2. summary.json の status を検査（200 以外が 0 件で成功）
+jq -e '.results[] | select(.status != 200)' ci-evidence/summary.json
+# ↑ exit 1 (= match 0 件) なら成功。exit 0 (= 1 件以上 match) なら fail
+# 注: jq -e は select 結果が空のとき exit 1 を返す（= 成功扱い）
+
+# 3. workflow 全体の conclusion を確認
+gh run view "$RUN_ID" --json conclusion > "$OUT/pass2-run-conclusion.json"
+jq -e '.conclusion == "success"' "$OUT/pass2-run-conclusion.json"
+
+# 4. evidence として保存
+cp ci-evidence/summary.json "$OUT/pass2-summary.json"
+```
+
+evidence 保存先:
+- `outputs/phase-11/evidence/pass2-summary.json` — runtime smoke の全 endpoint 結果
+- `outputs/phase-11/evidence/pass2-run-conclusion.json` — workflow conclusion
+
+判定:
+- `pass2-summary.json` の全 `.results[].status` が `200` かつ `pass2-run-conclusion.json` の `.conclusion` が `"success"` で PASS。
+- いずれか欠ければ §3 (追記) failure decision tree に進む。
+
 ---
 
 ## 3. evidence 内容の検証ルール
@@ -111,3 +140,19 @@ gh run view "$RUN_ID" --log > "$OUT/pre-check-success-run.log"
 - 静的検証 evidence（E-1..E-3）: AI（commit 前に取得）。
 - runtime evidence（E-4..E-6）: ユーザー（PR push と secret 投入の権限が必要）。
 - E-5 は runtime 観測の補助として PR コメントに添付してもよい（実値でない name 一覧のため）。
+
+---
+
+## 6. 追記 (2026-05-11): failure decision tree — pre-check 通過後 smoke 本体 fail 時 (audit B3)
+
+Pass 2 で `verify required staging secrets` step が PASS した後、smoke 本体（`scripts/smoke/runtime-attendance-provider.sh` 実行 step）が fail する場合、`pass2-summary.json` の `.results[]` の `status` を見て下記表で切り分ける。
+
+| HTTP status | suspect | 戻り先 |
+|---|---|---|
+| 401 | bearer 失効（`STAGING_ADMIN_BEARER` / `STAGING_ME_BEARER`） | `runbooks/secret-provisioning.md` §rotation → bearer 再投入 |
+| 404 | `STAGING_MEMBER_ID` が D1 と不整合（member 削除済み等） | `runbooks/secret-provisioning.md` §投入手順 §member id 取得 から再取得 |
+| 5xx | Worker down / D1 down | `bash scripts/cf.sh deploy --config apps/api/wrangler.toml --env staging` 再デプロイ判断（task-01 経由） |
+| timeout / DNS error | `STAGING_API_BASE` URL 不正 / Workers route 未公開 | `STAGING_API_BASE` の URL を再確認、`curl -I "$STAGING_API_BASE"` で疎通確認 |
+| その他 | smoke スクリプト本体の不具合 | task-02 rollback ではなく smoke スクリプト調査タスクとして起票（phase-10 §3 参照） |
+
+切り分け後の対応 commit / PR は本 task-02 の範囲外（task-01 もしくは別 fix task）。
