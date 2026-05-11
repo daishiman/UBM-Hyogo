@@ -242,11 +242,6 @@ export function MeetingPanel({ meetings, candidates }: Props) {
                     開催日を削除
                   </button>
                 </details>
-                <p>
-                  <a href={`/api/admin/meetings/${encodeURIComponent(m.sessionId)}/export.csv`}>
-                    CSV
-                  </a>
-                </p>
                 <div role="group" aria-label="出席追加">
                   <label>
                     会員を選択

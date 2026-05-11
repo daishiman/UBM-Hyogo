@@ -125,3 +125,20 @@ PR 本文 §User action に明記した 3 ステップを、merge 前または m
 - [ ] CI（`Validate Build` / `actionlint`）が green。
 - [ ] AC-T2-1..AC-T2-4 が PR diff / CI で PASS。
 - [ ] AC-T2-5 は user action 完了後に PR コメントで報告。
+
+### 追記 (2026-05-11): Post-merge close-out (audit A4)
+
+PR #676（本 spec の実装 PR）merge 後、runtime 観測（user-gated）が PASS した時点で以下を **順序通り** 実行する。merge 単体では完了しない点に注意。
+
+1. `artifacts.json` の `workflow_state` を `implemented-local-runtime-pending` → `completed` に昇格。
+2. `artifacts.json` の `evidence_state` を `runtime_pending` → `runtime_passed` に更新し、`updated_at` を当日日付（ISO-8601、JST）に書き換え。
+3. 親 `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/index.md` の DoD チェックを更新（task-01 / task-02 の状態列を `completed` に）。
+4. `.claude/skills/aiworkflow-requirements/references/task-workflow-active.md` の task-02 entry を `closed` に。
+5. `.claude/skills/aiworkflow-requirements/references/lessons-learned-ci-pipeline-recovery-2026-05.md` に runtime PASS 取得日時（`pass2-run-conclusion.json` の取得タイムスタンプ）を追記。
+6. `pnpm indexes:rebuild` で skill indexes を再生成 → `.github/workflows/verify-indexes.yml` の drift gate を通過することを確認。
+
+#### スコープ注意
+
+- `outputs/phase-11/evidence/*`（特に `pass2-summary.json` / `pass2-run-conclusion.json` / `pre-check-success-run.log` / `secret-name-list-after.log`）は **runtime 取得前の PR #676 merge 時点では未生成**。
+- 本 follow-up PR（spec 補強）および PR #676 のスコープには **含めない**。user-gated runtime 実行後、別途 evidence 追加 PR を起票する。
+- runtime PASS が未取得の段階で `workflow_state=completed` には昇格させない（evidence trail が壊れるため）。

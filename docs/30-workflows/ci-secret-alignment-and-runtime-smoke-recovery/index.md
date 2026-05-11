@@ -37,7 +37,7 @@
 | ID | タイトル | 実装区分 | 並列性 |
 |----|---------|---------|--------|
 | task-01 | web-cd workflow の secret 名を実 Environment に整合させる | implemented_local_runtime_pending | task-02 と並列可 |
-| task-02 | staging-runtime-smoke 環境の readiness gate と secret provisioning | 実装仕様書 | task-01 と並列可 |
+| task-02 | staging-runtime-smoke 環境の readiness gate と secret provisioning | implemented_local_runtime_pending | task-01 と並列可 |
 
 両タスクとも 1 サイクルで完了させる（CONST_007）。先送り対象なし。
 

@@ -1,0 +1,24 @@
+{
+  "canaryRunId": "canary-2026-05-10T01-32-51-969Z",
+  "candidatePathRef": "op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_CANDIDATE",
+  "baselinePathRef": "op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD",
+  "replayWindowHours": 1,
+  "candidateClassifierVersion": "ml@v0.0.0-skeleton-fallback",
+  "baselineClassifierVersion": "ml@v0.0.0-skeleton-fallback",
+  "totalEventsReplayed": 720,
+  "candidate": {
+    "precisionProxy": 0.312649,
+    "recallProxy": 1,
+    "fallbackRate": 0,
+    "p95LatencyMs": 1,
+    "leakageHits": 0
+  },
+  "baseline": {
+    "precisionProxy": 0.312649,
+    "recallProxy": 1,
+    "fallbackRate": 0,
+    "p95LatencyMs": 1,
+    "leakageHits": 0
+  },
+  "verdict": "candidate_pass"
+}

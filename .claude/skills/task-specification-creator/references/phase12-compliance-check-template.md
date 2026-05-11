@@ -59,3 +59,34 @@ rg -n 'workflow-state-vocabulary|phase12-compliance-check-template' .claude/skil
 | 漏れなし | PASS/FAIL | Required skill outputs and Phase 12 files are present. |
 | 整合性あり | PASS/FAIL | Terms, paths, JSON metadata, and ledger entries match. |
 | 依存関係整合 | PASS/FAIL | Upstream/downstream tasks, moved/deleted roots, and indexes are synchronized. |
+
+## 3-state Verdict Vocabulary（PASS 単独表記禁止 / 2026-05-10 stage-3 由来）
+
+各 AC / Step / 行レベルの判定は **`spec_created` / `runtime_pending` / `completed` の 3-state で suffix する**。`PASS` 単独表記は禁止。
+
+| 表記 | 適用条件 |
+| --- | --- |
+| `spec_created (no impl yet)` | 仕様書のみ。コード差分・evidence なし |
+| `runtime_pending (CI scheduled)` | local 5 点 PASS 取得済 / runtime CI / staging deploy / fresh GET いずれか未完 |
+| `completed (runtime PASS / verified at <ISO8601>)` | runtime artifact が tracked file として物理生成済 + 検証コマンドと exit code 記録 |
+| `PASS_WITH_OPEN_SYNC` | same-wave sync 未完。blocker を逐語列挙する場合のみ許容 |
+| `FAIL` | 上記のいずれにも該当しない / blocker 解消不能 |
+
+### Evidence Ledger Split（NON_VISUAL / governance task 必須）
+
+governance mutation / 不可逆 deploy / D1 migrations apply 等を含むタスクでは、`artifacts.json.metadata` の evidence ledger を **read-only と mutation で分離** する:
+
+| ledger key | 内容 |
+| --- | --- |
+| `actual_read_only_evidence_files` | AI が user 承認前に取得した read-only evidence（before GET / migrations list / fresh GET の read-only スナップショット 等） |
+| `actual_mutation_evidence_files` | user 承認後に mutation 実行後の after evidence（PUT 直後 fresh GET / deploy log / apply log 等） |
+
+compliance check では両 ledger の tracked file 存在を独立に検証する。`actual_mutation_evidence_files` が空のまま root `workflow_state=completed` は FAIL。
+
+### Branch-specific Drift Check（branch protection 等）
+
+dev / main 等の **ブランチ別 governance API** を扱うタスクでは、ブランチごとに before / payload / after evidence を分離し、compliance check 行も branch ごとに独立に判定する。詳細は [governance-branch-protection-pattern.md](governance-branch-protection-pattern.md) を参照。
+
+### Server Component E2E 系の compliance check
+
+Server Component / Server Action E2E を含むタスクは [server-component-e2e-pattern.md](server-component-e2e-pattern.md) に従い、`page.route()` を server-side fetch evidence にしていないこと、`INTERNAL_API_BASE_URL` 差し替え / mock API / seed の 3 点が tracked file で揃っていることを compliance check の独立行として検証する。
