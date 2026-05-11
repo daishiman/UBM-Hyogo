@@ -12,8 +12,8 @@
 | # | path | 種別 | 概算差分行数 | 担当 |
 |---|------|------|---------------|------|
 | 1 | `.github/workflows/runtime-smoke-staging.yml` | edit | +18 行（pre-check step 追加のみ） | AI（spec 通り編集） |
-| 2 | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` | new | +60 行（runbook 全文） | AI（実値は書かない） |
-| — | （ユーザー操作） `gh secret set <NAME> --env staging-runtime-smoke` × 5 | env 設定 | n/a | **ユーザー** |
+| 2 | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` | edit/new | helper 推奨経路 + 手動 fallback | AI（実値は書かない） |
+| — | （ユーザー操作） `bash scripts/smoke/provision-staging-secrets.sh` または `gh secret set <NAME> --env staging-runtime-smoke` × 5 | env 設定 | n/a | **ユーザー** |
 
 ---
 
@@ -27,19 +27,16 @@
 
 ```yaml
       - name: verify required staging secrets
-        env:
-          STAGING_API_BASE: ${{ env.STAGING_API_BASE }}
-          STAGING_ADMIN_BEARER: ${{ env.STAGING_ADMIN_BEARER }}
-          STAGING_MEMBER_ID: ${{ env.STAGING_MEMBER_ID }}
-          STAGING_ME_BEARER: ${{ env.STAGING_ME_BEARER }}
         run: |
           missing=()
-          [ -z "${STAGING_API_BASE:-}" ] && missing+=("STAGING_API_BASE")
-          [ -z "${STAGING_ADMIN_BEARER:-}" ] && missing+=("STAGING_ADMIN_BEARER")
-          [ -z "${STAGING_MEMBER_ID:-}" ] && missing+=("STAGING_MEMBER_ID")
-          [ -z "${STAGING_ME_BEARER:-}" ] && missing+=("STAGING_ME_BEARER")
+          for name in STAGING_API_BASE STAGING_ADMIN_BEARER STAGING_MEMBER_ID STAGING_ME_BEARER; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+
           if [ "${#missing[@]}" -gt 0 ]; then
-            echo "::error::missing secrets in environment 'staging-runtime-smoke': ${missing[*]}"
+            printf "::error::missing secrets in environment 'staging-runtime-smoke': %s\n" "${missing[*]}"
             echo "::error::register via 'gh secret set <NAME> --env staging-runtime-smoke' (see docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md)"
             exit 1
           fi
@@ -50,13 +47,11 @@
 | 既存 step | 状態 |
 |---|---|
 | `actions/checkout@v4` | 不変 |
-| `actions/setup-node@v4` | 不変 |
-| `pnpm/action-setup@v4` | 不変 |
-| `mise install` | 不変 |
 | `mask staging credentials` | 不変（直前に新規 step 挿入のみ） |
 | `run runtime smoke` | 不変 |
+| `redaction grep gate` | 不変 |
 | `upload evidence` | 不変 |
-| `notify slack on failure` (`if: failure()`) | 不変 |
+| `post failure summary to Slack` (`failure() && hashFiles('ci-evidence/summary.json') != ''`) | 不変 |
 
 ---
 
@@ -68,7 +63,7 @@
 |---|------|
 | 目的 | runbook の責務 + 「実値はこの doc に書かない」明示 |
 | 必要 secret 一覧 | name / 取得元 / 例形式（実値ではない placeholder） |
-| 投入手順（ユーザー操作） | `gh secret set <NAME> --env staging-runtime-smoke` × 5 の逐語コマンド |
+| 投入手順（ユーザー操作） | `bash scripts/smoke/provision-staging-secrets.sh` を推奨経路にし、手動 `gh secret set <NAME> --env staging-runtime-smoke` × 5 を fallback として併記 |
 | 投入確認 | `gh api repos/.../environments/staging-runtime-smoke/secrets --jq '.secrets[].name' \| sort` |
 | 動作確認（再実行） | `gh workflow run runtime-smoke-staging.yml --ref dev` |
 | ローテーション運用 | bearer 失効時の再投入手順 |
@@ -86,12 +81,24 @@
 |---|---|---|
 | workflow YAML 編集 | AI | コードのみ。実値なし |
 | runbook 作成 | AI | placeholder のみ。実値なし |
+| `bash scripts/smoke/provision-staging-secrets.sh` | **ユーザー** | `op read` で実値を扱うため AI は実行しない |
 | `gh secret set STAGING_API_BASE --env staging-runtime-smoke` | **ユーザー** | 実値投入のため AI には委ねない（不変条件 2） |
 | `gh secret set STAGING_ADMIN_BEARER --env staging-runtime-smoke` | **ユーザー** | 同上 |
 | `gh secret set STAGING_MEMBER_ID --env staging-runtime-smoke` | **ユーザー** | 同上 |
 | `gh secret set STAGING_ME_BEARER --env staging-runtime-smoke` | **ユーザー** | 同上 |
 | `gh secret set SLACK_WEBHOOK_INCIDENT --env staging-runtime-smoke` | **ユーザー** | 同上 |
 | 投入後の `gh workflow run` で smoke 再実行 | **ユーザー**（または PR push の自動 trigger） | 再実行に repo 操作権限が必要 |
+
+### 追記 (2026-05-11): AI がやってはいけない操作（実値非露出の責務境界）
+
+AI と user の責務境界として、AI は以下 4 つの操作を**一切行わない**。user が直接 op / shell / GitHub UI で実行する。
+
+| # | AI 禁止操作 | 理由 |
+|---|------------|------|
+| 1 | bearer / webhook 実値の AI チャットへの入力 | AI コンテキストへの secret 混入は学習・ログ・transcript 経由で恒久的に流出する可能性がある |
+| 2 | DevTools Network からコピーした `Authorization` ヘッダ値の AI チャット貼付 | 上記同様。 `Bearer eyJ...` の生 token が AI に渡る経路を作らない |
+| 3 | `bash scripts/cf.sh d1 execute ... SELECT id FROM members` の出力の AI チャット貼付 | member id は smoke の `STAGING_MEMBER_ID` 候補。PII / 識別子混入を防ぐ |
+| 4 | `op read op://...` を AI が代行実行すること | 1Password 取り出しは user 自身の端末で完結させる。AI は `op` を起動しない（実行は user） |
 
 ---
 
@@ -112,4 +119,4 @@
 |---|------|
 | pre-check step の bash 配列構文が runner shell で動かない | GitHub Actions runner の default shell は bash。bash array は使用可。phase-6 で構文検証する |
 | `env:` 再宣言を job 直下と step 直下で二重に書くことの冗長 | phase-2 §1 で「step 単位の意図明示」として正当化済 |
-| runbook が `op` 経由運用と齟齬 | `SLACK_WEBHOOK_INCIDENT` は 1Password Vault 参照を runbook に明記。CLAUDE.md シークレット管理セクションと整合 |
+| runbook が `op` 経由運用と齟齬 | runbook の推奨経路を `scripts/smoke/provision-staging-secrets.sh` にし、手動 `gh secret set` は fallback として分離 |

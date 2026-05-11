@@ -93,8 +93,8 @@ phase-2.md §2.1 の差分を `apps/web/playwright.config.ts:15-19` に適用。
 | 3 | `summary=apps/web/coverage/summary/coverage-summary.json` |
 | 4 | `[ -f "$summary" ] \|\| { echo "::error::coverage-summary.json not found"; exit 1; }` |
 | 5 | `pct=$(jq -r '.total.lines.pct' "$summary")` |
-| 6 | `awk "BEGIN { exit !($pct >= 70) }"` で fail 時 `::error::line coverage $pct < 70` |
-| 7 | success 時 `::notice::line coverage $pct >= 70` |
+| 6 | `awk "BEGIN { exit !($pct >= 80) }"` で fail 時 `::error::line coverage $pct < 80` |
+| 7 | success 時 `::notice::line coverage $pct >= 80` |
 
 > しきい値 70 は `.claude/skills/task-specification-creator/references/quality-gates.md §7.5`（standard tier）を正本参照。スクリプト内ハードコードは const コメントで根拠 path を併記する。
 
@@ -262,7 +262,7 @@ Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ
 ## 完了条件
 
 - [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=70%、workspace coverage guard は既存基準に従う。
+- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
 - [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
 
 ## タスク100%実行確認【必須】

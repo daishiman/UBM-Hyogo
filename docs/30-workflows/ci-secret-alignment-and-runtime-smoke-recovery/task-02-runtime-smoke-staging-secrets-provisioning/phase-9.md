@@ -28,7 +28,11 @@
 
 ```bash
 # QG-1
-pnpm dlx actionlint -color .github/workflows/runtime-smoke-staging.yml
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
+curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o "$tmpdir/download-actionlint.bash"
+(cd "$tmpdir" && bash download-actionlint.bash >/dev/null)
+"$tmpdir/actionlint" -color .github/workflows/runtime-smoke-staging.yml
 
 # QG-2
 python3 -c "import yaml; yaml.safe_load(open('.github/workflows/runtime-smoke-staging.yml'))"
@@ -38,7 +42,11 @@ test "$(grep -c 'verify required staging secrets' .github/workflows/runtime-smok
 
 # QG-4
 ! grep -rE 'eyJ[A-Za-z0-9_-]{20,}|sk_[A-Za-z0-9]{20,}|hooks\.slack\.com/services/[A-Z0-9]{8,}' \
-  docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/
+  docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/ \
+  docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/outputs/phase-11/evidence/ \
+  .github/workflows/runtime-smoke-staging.yml \
+  scripts/smoke/runtime-attendance-provider.sh \
+  scripts/smoke/provision-staging-secrets.sh
 
 # QG-5
 RUNBOOK=docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md
@@ -69,6 +77,25 @@ PR merge 条件:
 
 - QG-1..QG-8, QG-10 が PASS。
 - QG-9 はユーザー操作後の事後観測でよい（PR diff 単体ではセキュリティ的に検証不能なため）。
+
+### 追記 (2026-05-11): QG-11 production env 誤投入 gate (audit B5)
+
+`production` env に `STAGING_*` secret が誤投入されていないこと、また `staging` env（`staging-runtime-smoke` ではない素の `staging`）にも `STAGING_*` が漏れていないことを機械検証する。
+
+```bash
+# production env への STAGING_* 漏洩なし
+gh api repos/daishiman/UBM-Hyogo/environments/production/secrets \
+  --jq '.secrets[].name' | grep -E '^STAGING_' && exit 1 || true
+
+# staging env (素の staging) への STAGING_* 漏洩なし
+# （正規の保管先は staging-runtime-smoke env のみ）
+gh api repos/daishiman/UBM-Hyogo/environments/staging/secrets \
+  --jq '.secrets[].name' | grep -E '^STAGING_' && exit 1 || true
+```
+
+判定:
+- 1 件でも match で **NO-GO**（rollback 起動 + 該当 env から即時削除 + ローテーション）
+- 0 件で **GO**
 
 ---
 

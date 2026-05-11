@@ -20,6 +20,35 @@
 | evidence boundary | schema / validator / CI workflow file / #549 backfill / Phase 12 strict 7 are local implemented; branch protection required-check mutation / commit / push / PR remain user-gated |
 | closed Issue rule | PR wording uses `Refs #589` and `Refs #549` only |
 
+### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-16-admin-tags-meetings-requests/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| route scope | `/admin/tags`, `/admin/meetings`, `/admin/requests` |
+| implementation targets | `apps/web/app/(admin)/admin/{tags,meetings,requests}/page.tsx`, `apps/web/src/components/admin/{TagQueuePanel,MeetingPanel,RequestQueuePanel}.tsx`, `apps/web/src/lib/admin/{api,server-fetch}.ts` |
+| API boundary | Existing admin endpoints only: `/admin/tags/queue`, `/admin/tags/queue/:queueId/resolve`, `/admin/meetings`, `/admin/meetings/:id`, `/admin/meetings/:id/attendances`, `/admin/requests`, `/admin/requests/:noteId/resolve` |
+| corrected drift | Stale `apps/web/src/app`, `src/features/admin`, `adminClient`, `/decision`, and `approved` wording removed from normative task-16 contract |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md` |
+| user gate | runtime screenshots / staging smoke / commit / push / PR |
+
+### UI prototype alignment / MVP recovery task-14 my profile and requests（2026-05-10）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-14-my-profile-and-requests/` |
+| 状態 | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| route scope | `/profile` |
+| implementation targets | `apps/web/app/profile/page.tsx`, `apps/web/app/profile/_components/*` |
+| UI contract | `PublicVisibilityBanner`, `StatusSummary`, `RequestActionPanel`, `VisibilityRequestDialog`, `DeleteRequestDialog` |
+| selector contract | `public-visibility-banner`, `status-summary`, `request-action-panel`, `visibility-request-dialog`, `delete-request-dialog` |
+| API boundary | Existing `/me` self-service API only; no task-14 changes to `apps/api/src/routes/me/*` or new `apps/web/app/api/me/*` handlers |
+| evidence | `outputs/phase-11/manifest.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-14-my-profile-and-requests-artifact-inventory.md` |
+| user gate | authenticated screenshots / staging smoke / production smoke / commit / push / PR |
+
 ### UI prototype alignment / MVP recovery task-13 login rebuild（2026-05-09）
 
 | 目的 | 参照先 |
@@ -237,6 +266,21 @@
 | evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | runtime gate | local chromium Phase 11 evidence captured; firefox / webkit / staging / CI, commit, push, PR are user-gated |
 
+### E2E quality uplift Stage 2 sub-task 2c admin member delete spec（2026-05-10）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/admin-member-delete-e2e-spec/` |
+| 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 completed` |
+| primary implementation file | `apps/web/playwright/tests/admin-member-delete.spec.ts` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2c-admin-member-delete.md` |
+| source unassigned | `docs/30-workflows/unassigned-task/e2e-stage-2-2c-admin-member-delete-001.md`（consumed trace） |
+| mock boundary | initial members/audit are server-side `fetchAdmin()` and use `PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1`; browser `page.route()` is only for drawer detail and delete mutation |
+| UI reflection | delete/restore mutation passes `{ memberId, isDeleted }` from `MemberDrawer` to `MembersClient`; row label updates before `router.refresh()` completes |
+| evidence | `outputs/phase-11/evidence/e2e-run.txt` = desktop-chromium 5 passed / 1 skipped |
+| reusable refs | `references/workflow-admin-member-delete-e2e-spec-artifact-inventory.md`, `lessons-learned/lessons-learned-admin-member-delete-e2e-2026-05.md` |
+| runtime gate | firefox / webkit / staging / CI, commit, push, PR are user-gated |
+
 ### task-21 09g Admin Screen Blueprints（2026-05-07）
 
 | 目的 | 参照先 |
@@ -249,6 +293,21 @@
 | API boundary | current `references/api-endpoints.md` admin contract。旧 `/admin/kpi`、direct tag approve/reject、schema apply、identity resolve は採用しない |
 | downstream | task-15 consumes §2/§3, task-16 consumes §4/§5/§7, task-17 consumes §6/§8/§9, task-22 verifies anchors |
 | evidence | `outputs/phase-07/automated-checks.log`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+
+### UI prototype alignment task-17 admin schema-conflicts-audit（2026-05-10）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-17-admin-schema-conflicts-audit/` |
+| 状態 | `implemented-local / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_pass` |
+| 実装方針 | `existing-admin-contract-hardening-with-e2e-fixture-fix`。新規 route tree ではなく既存 admin route/component/helper の不足補強 |
+| route 正本 | `apps/web/app/(admin)/admin/schema/page.tsx`, `apps/web/app/(admin)/admin/identity-conflicts/page.tsx`, `apps/web/app/(admin)/admin/audit/page.tsx` |
+| component 正本 | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/components/admin/AuditLogPanel.tsx` |
+| helper 正本 | `apps/web/src/lib/admin/api.ts`, `apps/web/src/lib/admin/server-fetch.ts` |
+| API 境界 | 既存 `apps/api/src/routes/admin/{schema,sync-schema,identity-conflicts,audit}.ts` のみ。新 endpoint / D1 schema 追加なし |
+| downstream | task-18 Playwright smoke / design-token / a11y regression |
+| evidence | `docs/30-workflows/completed-tasks/task-17-admin-schema-conflicts-audit/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md`（L-TASK17-001 Server Component fixture / 002 artifacts.json parity / 003 existing-UI inventory / 004 AUTH_SECRET override 禁止） |
 
 ### UI prototype alignment task-21 Admin Blueprint 09g（2026-05-07）
 
@@ -833,6 +892,32 @@ UT-GOV-001 を安全に実行するための前提タスク。確定 contexts �
 | Phase 12 close-out 6 成果物 | `outputs/phase-12/{implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
 | relay 先 | UT-GOV-001（apply 実行）/ UT-GOV-005（unit-test / integration-test / security-scan / docs-link 新設）/ UT-GOV-007（workflow `name:` drift 自動検出）|
 | 関連既存タスク | `docs/30-workflows/completed-tasks/task-github-governance-branch-protection/`（草案 8 contexts は本タスクで上書き確定済み）, `task-git-hooks-lefthook-and-post-merge` |
+
+### E2E Stage 3b / 3c Trigger キーワード（2026-05-11 追記）
+
+| キーワード | 用途 | 参照先 |
+| --- | --- | --- |
+| server component e2e mock api / `INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` | Next.js Server Component の SSR `fetch()` を Playwright で観測する deterministic mock API パターン | `references/testing-playwright-e2e.md` §Server Component fetch 観測パターン, `lessons-learned/lessons-learned-e2e-stage3b-server-component-mock-api-2026-05.md`, `scripts/e2e-mock-api.mjs` |
+| coverage gate fixture override / `THRESHOLD_FIXTURE` | line coverage 80% gate の fixture-driven 検証 | `scripts/coverage-gate-e2e.sh`, `lessons-learned/lessons-learned-e2e-stage3b-server-component-mock-api-2026-05.md` L-E2EQU3B-005 |
+| branch-specific drift / dev reviews null / main reviews object | `dev` / `main` の branch protection pre 値差分。固定 payload 禁止、pre 値保全＋contexts append のみ | `references/branch-protection.md` §Branch-specific drift rule, `lessons-learned/lessons-learned-e2e-stage3c-branch-protection-runtime-vocabulary-2026-05.md` L-E2EQU3C-002 |
+| 3-state vocabulary / `spec_created` / `runtime_pending` / `completed` | runtime mutation を含むガバナンス task の Phase 12 state 表記。`PASS` 単独表記禁止 | `references/branch-protection.md` §3-state vocabulary, `lessons-learned/lessons-learned-e2e-stage3c-branch-protection-runtime-vocabulary-2026-05.md` L-E2EQU3C-004 |
+| artifacts ledger split / `actual_read_only_evidence_files` / `actual_mutation_evidence_files` | read-only GET と mutation PUT の evidence を別 ledger で管理し、pre-only evidence で completed 誤判定を回避 | `lessons-learned/lessons-learned-e2e-stage3c-branch-protection-runtime-vocabulary-2026-05.md` L-E2EQU3C-003 |
+| canonical path normalization / `e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/` | Stage 3 family サブタスクの canonical root と非 canonical path drift（`docs/30-workflows/3c-branch-protection-contexts/` は intentionally absent） | `lessons-learned/lessons-learned-e2e-stage3c-branch-protection-runtime-vocabulary-2026-05.md` L-E2EQU3C-001 |
+| `IMPLEMENTED_LOCAL_RUNTIME_PENDING` 明示 | ローカル実装完了と CI runtime PASS / production runtime PASS の layer 分離 | `lessons-learned/lessons-learned-e2e-stage3b-server-component-mock-api-2026-05.md` L-E2EQU3B-004 |
+
+### E2E Stage 3 Branch Protection Contexts（3c / 2026-05-10 / user-gated NON_VISUAL）
+
+| 目的 | 参照先 |
+| --- | --- |
+| canonical workflow root | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/` |
+| non-canonical path note | `docs/30-workflows/3c-branch-protection-contexts/` is intentionally absent; use the canonical root above |
+| state | `spec_created / implementation / NON_VISUAL / runtime_pending / branch-protection user-gated` |
+| mutation gate | `artifacts.json.metadata.governance_mutation_user_gate=true`; approval marker `outputs/phase-13/user-approval-3c-<timestamp>.md` |
+| required contexts target | `ci`, `Validate Build`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate` |
+| branch-specific pre values | 2026-05-10 pre evidence: dev reviews `null` / strict `false`; main reviews object present / strict `true`; runtime PUT must preserve pre values and append contexts only |
+| approval boundary | read-only `gh api` GET and payload draft are allowed before approval; `gh api -X PUT`, commit, push, and PR are forbidden before explicit user approval |
+| follow-up execution | `docs/30-workflows/unassigned-task/task-e2e-stage3c-runtime-gh-api-put-execution-001.md` |
+| governance policy alignment | `docs/30-workflows/unassigned-task/task-e2e-stage3c-enforce-admins-claudemd-alignment-001.md` covers `enforce_admins` and `required_linear_history` expectation drift |
 
 ### Sheets→D1 同期方式定義（UT-01 / 2026-04-29）
 
@@ -2003,7 +2088,7 @@ packages/
 | issue #378 pause flag | `TAG_QUEUE_PAUSED` は non-secret Cloudflare variable。`"true"` 完全一致のみ Forms sync candidate enqueue を停止し、`has_tags` / `has_pending_candidate` / `paused` reason contract を維持する。runbook: `docs/30-workflows/runbooks/tag-queue-pause.md`、workflow: `docs/30-workflows/completed-tasks/issue-378-tag-queue-paused-flag/`、inventory: `references/workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md`、苦戦知見: `lessons-learned/lessons-learned-issue-378-tag-queue-paused-flag-2026-05.md`（L-378-001〜004） |
 | Issue #408 Cloudflare audit-log monitoring | canonical: `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/`。secret は `CF_AUDIT_TOKEN_PROD` (`Account > Audit Logs:Read` only) で deploy 用 `CLOUDFLARE_API_TOKEN` と分離。alert labels は HIGH=`priority:high` / MEDIUM=`priority:medium` / LOW=`priority:low` + `type:security`。runtime コード (`scripts/cf-audit-log/{fetch,analyze,baseline}.ts` / migration `0014_create_cf_audit_log.sql` / 2 workflows: `cf-audit-log-monitor.yml` `0 * * * *` + `cf-audit-log-monitor-watchdog.yml` `15 * * * *` `WATCHDOG_STALE_MINUTES=90`) は merge 済。Token 発行・1Password 登録・GitHub Secret 登録・D1 apply・7 日 baseline は manual runbook (`outputs/phase-5/secrets-registration.md`)。Phase 11 placeholder = `IMPLEMENTED_LOCAL_RUNTIME_PENDING`。D1 schema: `references/database-schema-cf-audit-log.md` (`cf_audit_log` / `cf_audit_baseline` / `cf_audit_finding_dedupe`、apps/api runtime read-only)。苦戦知見: `references/lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md`（L-ISSUE408-001〜007: cursor pagination + INSERT OR IGNORE / Account scope / WranglerD1 quoting / fetch 直接呼び / rotation window env / TTL purge in analyze.ts / 監視・deploy token 分離）。followup 3 件: FU-02 cold-storage / FU-03 ml-anomaly / FU-04 github-audit-merge |
 | Issue #546 Cloudflare audit-log 90 day baseline observation | canonical: `docs/30-workflows/completed-tasks/observability/issue-546-cf-audit-logs-90day-baseline-observation/`。status は `observation_continue / docs-only / NON_VISUAL / Gate-A FAIL / Gate-B-C pending`。2026-05-08 evidence: monitor 32 runs and watchdog 32 runs from 2026-05-06〜2026-05-07 are all failure; monitor evidence is normalized to a JSON array; `cf-audit` issue label count 0; production D1 read-only query returned `no such table: cf_audit_log`; baseline thresholds and monthly tuning minutes log are pending. Issue #546 remains CLOSED and PR text must use `Refs #546` only. ML comparison / production switch is not unlocked by this evidence; earliest 90 day re-check is after 2026-08-05 if successful hourly runs begin on 2026-05-08. Reminder: `docs/30-workflows/unassigned-task/issue-546-cf-audit-logs-90day-reobservation-reminder-001.md`; inventory: `references/workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md`; lessons: `references/lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md`. |
-| Issue #514 Cloudflare audit-log cold storage / R2 export | canonical: `docs/30-workflows/completed-tasks/issue-514-cf-audit-logs-cold-storage-r2-export/`。status は `implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING`。daily `0 2 * * *` で `[now - 29d, now - 26d)` を export、manifest `cf_audit_log_export_manifest` は `(yyyy, mm, dd)` UNIQUE + `pending -> completed/failed` + `r2_etag`。R2 binding は `UBM_AUDIT_COLD_STORAGE`、Secret は `CF_AUDIT_R2_TOKEN_PROD`。G1 R2/bucket/secret/deploy -> G2 D1 migration apply -> G3-prod first daily export + restore drill -> G4 commit/push/PR。Issue #514 CLOSED のため PR 文脈は `Refs #514` のみ。苦戦知見: `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md`（L-ISSUE514-001..007: artifacts mirror parity / Phase 12 strict 7 outputs / `IMPLEMENTED_LOCAL_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard） |
+| Issue #514 Cloudflare audit-log cold storage / R2 export | canonical: `docs/30-workflows/completed-tasks/issue-514-cf-audit-logs-cold-storage-r2-export/`。status は `implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING`。daily `0 2 * * *` で `[now - 29d, now - 26d)` を export、manifest `cf_audit_log_export_manifest` は `(yyyy, mm, dd)` UNIQUE + `pending -> completed/failed` + `r2_etag`。R2 binding は `UBM_AUDIT_COLD_STORAGE`、Secret は `CF_AUDIT_R2_TOKEN_PROD`。G1 R2/bucket/secret/deploy -> G2 D1 migration apply -> G3-prod first daily export + restore drill -> G4 commit/push/PR。Issue #514 CLOSED のため PR 文脈は `Refs #514` のみ。苦戦知見: `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md`（L-ISSUE514-001..007: artifacts mirror parity / Phase 11 10 screenshots, Phase 12 strict 7 outputs / `IMPLEMENTED_LOCAL_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard） |
 | Issue #408 / #518 Cloudflare audit-log monitoring | canonical: `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/`、HOLD spec: `docs/30-workflows/issue-518-cf-audit-logs-monitoring-hold/`、manual runbook: `docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md`。secret は `CF_AUDIT_TOKEN_PROD` (`Account > Audit Logs:Read` only) で deploy 用 `CLOUDFLARE_API_TOKEN` と分離。Issue #518 により runtime は HOLD / manual-check-only: `cf-audit-log-monitor.yml` は schedule 削除 + `workflow_dispatch` のみ + `dry_run=true` 既定、`cf-audit-log-monitor-watchdog.yml` は削除。runtime コード (`scripts/cf-audit-log/{fetch,analyze,baseline}.ts` / migration `0014_create_cf_audit_log.sql`) と D1 schema は保持。自動 alert labels は HIGH=`priority:high` / MEDIUM=`priority:medium` / LOW=`priority:low` + `type:security` だが HOLD 中は公開 Issue 自動起票を既定無効。D1 schema: `references/database-schema-cf-audit-log.md` (`cf_audit_log` / `cf_audit_baseline` / `cf_audit_finding_dedupe`、apps/api runtime read-only)。苦戦知見: `references/lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md`。followup 3 件: FU-02 cold-storage / FU-03 ml-anomaly / FU-04 github-audit-merge |
 | `tag_definitions` カテゴリ | 6 カテゴリ single source（41 行 seed） |
 | fake D1 テストパターン | `apps/api/src/repository/_shared/__fakes__/fakeD1.ts`（in-memory pattern-matching SQL） |

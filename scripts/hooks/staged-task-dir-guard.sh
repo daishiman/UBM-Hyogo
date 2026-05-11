@@ -69,7 +69,11 @@ task_dir_from_path() {
     30-workflows)
       [ -n "${parts[2]:-}" ] || return 1
       case "${parts[2]}" in
-        completed-tasks|unassigned-task|02-application-implementation)
+        unassigned-task|runbooks)
+          # 共通領域: 単一ファイル形式の受け皿。ブランチ slug 整合は不要。
+          return 1
+          ;;
+        completed-tasks|02-application-implementation)
           [ -n "${parts[3]:-}" ] || return 1
           printf 'docs/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}"
           ;;

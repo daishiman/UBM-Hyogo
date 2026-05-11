@@ -1,7 +1,7 @@
 // task-spec-2a: /admin/requests admin mutation flow + 認可境界 E2E
 // 設計正本: docs/30-workflows/task-spec-2a-admin-requests-e2e/{phase-2.md, phase-5.md, phase-6.md}
 // 不変条件: 既存 API endpoint surface のみ・page.route() mock 限定・新 fixture 追加なし。
-import { expect } from '@playwright/test'
+import { expect } from '../fixtures/coverage'
 import { test } from '../fixtures/auth'
 
 const API_RESOLVE_PATTERN = '**/api/admin/requests/*/resolve'

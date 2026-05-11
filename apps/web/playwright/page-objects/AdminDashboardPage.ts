@@ -3,7 +3,7 @@ import { BasePage } from './BasePage'
 
 export class AdminDashboardPage extends BasePage {
   readonly url = '/admin'
-  readonly dashboardCards = this.page.locator('[data-testid="admin-dashboard-card"]')
+  readonly dashboardCards = this.page.locator('[data-testid^="admin-kpi-card-"]')
   readonly sidebar = this.page.locator('[data-testid="admin-sidebar"]')
 
   async assertCards(): Promise<void> {
