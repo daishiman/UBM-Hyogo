@@ -11,6 +11,10 @@
 
 ## クイックルックアップ
 
+| タスク | 最初に読む | 必要に応じて読む |
+| --- | --- | --- |
+| UI prototype alignment task-16 admin tags meetings requests（implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING / 2026-05-10） | `docs/30-workflows/task-16-admin-tags-meetings-requests/index.md`, `docs/30-workflows/task-16-admin-tags-meetings-requests/outputs/phase-12/phase12-task-spec-compliance-check.md`, `references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md`, `references/task-workflow-active.md`, `indexes/quick-reference.md` | Existing implementation contract alignment for `/admin/tags`, `/admin/meetings`, `/admin/requests`: `apps/web/app/(admin)/admin/{tags,meetings,requests}/page.tsx`, `apps/web/src/components/admin/{TagQueuePanel,MeetingPanel,RequestQueuePanel}.tsx`, `apps/web/src/lib/admin/{api,server-fetch}.ts`; no new `src/features/admin` tree, no `/decision` endpoint, and no meeting CSV export link in the task-16 UI. |
+
 ### タスク種別別リソース選択ガイド
 
 | タスク種別                                                                                                                                                                                                                                                                                                      | 最初に読む                                                                                                                                                                                                                                                                                                  | 必要に応じて読む                                                                                                                                                                                                                                                                                                                                                    |
