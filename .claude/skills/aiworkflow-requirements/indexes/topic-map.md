@@ -2995,6 +2995,7 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Notes | L16 |
+| Post-merge CI fixes (PR #677 後 / 2026-05-11) | L20 |
 
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
@@ -4880,6 +4881,7 @@ node scripts/list-specs.js --topics
 | L-TASK15-003: `it.todo` a11y placeholder は同 cycle で解消する | L21 |
 | L-TASK15-004: Phase 12 strict 7 は物理ファイルとして生成する | L28 |
 | L-TASK15-005: 非同期 UI race は cancelled flag と try/finally で構造的に消す | L35 |
+| Post-merge CI fixes（PR #677 マージ後 2026-05-11 に確定した知見） | L44 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
