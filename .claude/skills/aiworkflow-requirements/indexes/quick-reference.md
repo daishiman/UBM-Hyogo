@@ -5,6 +5,21 @@
 
 ---
 
+### E2E Stage 2 sub-task 2d contract test（2026-05-11）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_LOCAL_CANONICAL / Phase 13 pending_user_approval` |
+| parent workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-contract-stage-2.md` |
+| source unassigned | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2-001.md` consumed |
+| implementation | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts`, `apps/api/src/routes/admin/{member-delete,requests,audit}.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| evidence | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/outputs/phase-11/main.md` |
+| compliance | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md` |
+| command | `mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts --reporter=verbose` |
+
 ### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
 
 | 観点 | 値 / 参照先 |

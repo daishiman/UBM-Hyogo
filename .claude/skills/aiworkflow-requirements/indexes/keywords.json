@@ -1234,6 +1234,7 @@
       "observability-monitoring.md",
       "ui-ux-components.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -3111,6 +3112,7 @@
       "task-workflow-phases.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-governance-design-category.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
@@ -4269,6 +4271,7 @@
       "release-runbook.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -5843,6 +5846,7 @@
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -14104,6 +14108,7 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -20621,6 +20626,7 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -20713,6 +20719,7 @@
     ],
     "Implementation": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -20732,6 +20739,7 @@
     ],
     "Artifacts": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -21034,6 +21042,10 @@
     ],
     "Aware": [
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
+    ],
+    "stage": [
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "Category": [
       "workflow-governance-design-category.md"
@@ -21744,9 +21756,6 @@
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "second": [
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
-    ],
-    "stage": [
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "固有": [

@@ -1,0 +1,48 @@
+{
+  "metadata": {
+    "workflow_id": "e2e-stage-2-2d-contract-stage-2",
+    "parent_umbrella_issue": 607,
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "evidence_state": "PASS_LOCAL_CANONICAL",
+    "coverageTier": "standard",
+    "implementation_mode": "new",
+    "created_at": "2026-05-10",
+    "updated_at": "2026-05-11"
+  },
+  "implementation": [
+    "apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts",
+    "apps/api/src/routes/admin/member-delete.ts",
+    "apps/api/src/routes/admin/requests.ts",
+    "apps/api/src/routes/admin/audit.ts",
+    "apps/web/src/lib/admin/server-fetch.ts",
+    "apps/web/playwright/tests/admin-identity-conflicts.spec.ts"
+  ],
+  "evidence": [
+    "outputs/phase-11/evidence/typecheck.txt",
+    "outputs/phase-11/evidence/api-lint.txt",
+    "outputs/phase-11/evidence/lint.txt",
+    "outputs/phase-11/evidence/vitest-run.txt",
+    "outputs/phase-11/evidence/grep-gate.txt",
+    "outputs/phase-11/evidence/runner-version.txt",
+    "outputs/phase-11/evidence/wc.txt",
+    "outputs/phase-11/evidence/dirty-diff.txt"
+  ],
+  "phases": [
+    { "phase": 1, "status": "completed" },
+    { "phase": 2, "status": "completed" },
+    { "phase": 3, "status": "completed" },
+    { "phase": 4, "status": "completed" },
+    { "phase": 5, "status": "completed" },
+    { "phase": 6, "status": "completed" },
+    { "phase": 7, "status": "completed" },
+    { "phase": 8, "status": "completed" },
+    { "phase": 9, "status": "completed" },
+    { "phase": 10, "status": "completed" },
+    { "phase": 11, "status": "completed" },
+    { "phase": 12, "status": "completed" },
+    { "phase": 13, "status": "runtime_pending" }
+  ]
+}

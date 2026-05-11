@@ -8,6 +8,23 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### E2E Stage 2 sub-task 2d contract test（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_LOCAL_CANONICAL / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-contract-stage-2.md` |
+| source unassigned | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2-001.md` consumed |
+| 目的 | 2a/2b/2c の UI fixture object と admin route zod schema の同型性を pure unit contract test で検証する |
+| 実装対象 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts`, `apps/api/src/routes/admin/{member-delete,requests,audit}.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| schema boundary | `MergeIdentityResponseZ` は shared schema が正本。2d test 内 `z.object(` は 0 件。requests/audit response envelope は route exported type + `satisfies` で接続 |
+| evidence | focused Vitest 23/23 PASS, `@ubm-hyogo/api` typecheck PASS, `@ubm-hyogo/api` lint PASS, grep gate PASS |
+| root lint boundary | root `pnpm lint` は既存 `apps/web` `monocart-reporter` type resolution で blocked。本 API contract change の判定には `@ubm-hyogo/api` lint/typecheck を使う |
+| artifact inventory | `references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md` |
+| user gate | commit / push / PR は user approval 後のみ |
+
 ### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
 
 | 項目 | 値 |
