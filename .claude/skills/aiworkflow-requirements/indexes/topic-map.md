@@ -2222,6 +2222,14 @@ node scripts/list-specs.js --topics
 | Contract | L72 |
 | Related Resources | L79 |
 
+### references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Artifacts | L12 |
+| Evidence Artifacts | L24 |
+| Boundary | L39 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -6344,13 +6352,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1015 |
-| フェーズ構造（概要） | L1024 |
-| 品質ゲート（概要） | L1055 |
-| 出力テンプレート | L1066 |
-| 実行時のコマンド・エージェント・スキル | L1089 |
-| 昇格パターン集 | L1113 |
-| Current Active / Spec Created Tasks | L1115 |
+| ドキュメント構成 | L1032 |
+| フェーズ構造（概要） | L1041 |
+| 品質ゲート（概要） | L1072 |
+| 出力テンプレート | L1083 |
+| 実行時のコマンド・エージェント・スキル | L1106 |
+| 昇格パターン集 | L1130 |
+| Current Active / Spec Created Tasks | L1132 |
 
 ### references/task-workflow-backlog-part2.md
 
