@@ -104,6 +104,7 @@
 | --- | --- | --- |
 | [non-visual-governance-pattern.md](../lessons-learned/non-visual-governance-pattern.md) | governance 設定変更を扱う NON_VISUAL implementation タスク作成時 | Phase 8 単一 YAML 入力契約 / `gh api check-runs` 並走 / 二重承認ゲート |
 | [shell-script-redaction-tasks.md](../lessons-learned/shell-script-redaction-tasks.md) | shell script + redaction 不変条件を含む小〜中規模 implementation タスク作成時 | Phase 1-2 統合判断 / redaction-rules.md 集約 / POSIX regex 設計 / shellcheck Phase 9 統合 |
+| [n-day-close-out-cross-run-aggregation.md](../lessons-learned/n-day-close-out-cross-run-aggregation.md) | post-switch / N 日 baseline / time-windowed close-out など、production runtime 観測が時間経過に依存するタスク作成時 | cross-run artifact aggregation pattern（`actions/download-artifact@v4` same-run 制限 + `gh api` 経路）/ skeleton zero metrics gate / 3 段昇格状態語彙（`implemented_local_runtime_pending` → `pass_boundary_synced_runtime_pending` → `pass_runtime_synced`）/ Part 1 ドラフト逐語コピペ運用 |
 
 ### approval-gated NON_VISUAL implementation 導線
 

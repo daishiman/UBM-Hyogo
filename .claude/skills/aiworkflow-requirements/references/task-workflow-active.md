@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 12 completed |
+| 成果物 | `docs/30-workflows/task-16-admin-tags-meetings-requests/` |
+| 目的 | `/admin/tags`, `/admin/meetings`, `/admin/requests` を現行 admin 実装正本に合わせて補強・検証する仕様パッケージ |
+| 実装対象 | `apps/web/app/(admin)/admin/{tags,meetings,requests}/page.tsx`, `apps/web/src/components/admin/{TagQueuePanel,MeetingPanel,RequestQueuePanel}.tsx`, `apps/web/src/lib/admin/{api,server-fetch}.ts` |
+| API 境界 | `apps/api` と `apps/web/app/api/admin/[...path]/route.ts` は read-only。requests は `POST /admin/requests/:noteId/resolve`、tags は `POST /admin/tags/queue/:queueId/resolve` |
+| drift 修正 | stale `apps/web/src/app` / `src/features/admin` / `lib/api/admin-*` / `adminClient` / `/decision` / `approved` を normative contract から撤回 |
+| 上流 | task-09 tokens / task-10 primitives / task-15 admin layout / task-21 admin blueprint |
+| 下流 | task-18 regression smoke / visual evidence |
+| evidence boundary | Phase 12 strict 7 + artifacts parity + Phase 11 pending runtime evidence marker are present. Runtime screenshots, staging smoke, commit, push, and PR are user-gated |
+| artifact inventory | `references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md` |
+
 ### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
 
 | 項目 | 値 |
@@ -43,7 +58,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | IMPLEMENTED_LOCAL_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / runtime_pending / Phase 13 pending_user_approval |
+| ステータス | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/task-14-my-profile-and-requests/` |
 | 目的 | `/profile` を公開状態バナー / 公開範囲サマリ / 申請パネル / 削除申請 Dialog の 4 領域に再構成する実装仕様を固定する |
 | API 境界 | `apps/api/src/routes/me/*` と `apps/web/app/api/me/*` は read-only。component は `fetchAuthed("/me/*")` を使い `/api/me/*` を hardcode しない |
@@ -51,7 +66,7 @@
 | selector contract | `public-visibility-banner`, `status-summary`, `request-action-panel`, `visibility-request-dialog`, `delete-request-dialog` |
 | 上流 | task-09 OKLch tokens / task-10 UI primitives / task-13 login redirect |
 | 下流 | task-18 regression smoke / verify-design-tokens |
-| evidence boundary | Phase 12 strict 7 + artifacts parity は present。apps/web implementation は local reflected。visual runtime evidence / staging deploy / production smoke / commit / push / PR は user approval 後 |
+| evidence boundary | Phase 12 strict 7 + artifacts parity + Phase 11 deterministic evidence は present。apps/web implementation は local reflected。authenticated screenshot / visual runtime evidence / staging deploy / production smoke / commit / push / PR は user approval 後 |
 | artifact inventory | `references/workflow-task-14-my-profile-and-requests-artifact-inventory.md` |
 
 ### E2E Quality Uplift Stage 0-3（2026-05-09）
@@ -162,19 +177,32 @@
 | SSOT | `references/audit-correlation.md` §Issue #553 Live Wiring Formalization / §Live wiring (Issue #553) implementation landing / §Additional implementation surface / §Cloudflare Secrets (5 種) op-reference rule / §Salt rotation procedure / §Lessons learned (Issue #553 wave) |
 | 苦戦記録 | L-AC553-001..007（scheduled retry 不可 / Slack per-finding 部分成功 / INSERT OR IGNORE dedup / fixture vs grep gate 整合 / runbook-url SSOT / env validate throw / redact 3 層） |
 
-### Issue #549 Cloudflare Audit Logs ML production switch（2026-05-08）
+### Issue #549 Cloudflare Audit Logs ML production switch（2026-05-08 → 2026-05-09 #586 close-out）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 blocked_pending_user_approval |
-| 成果物 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
-| 親 | Issue #515 ML-ready classifier / Issue #518 HOLD |
-| switch contract | Gate-0〜C 通過後のみ `.github/workflows/cf-audit-log-monitor.yml` で `CF_AUDIT_CLASSIFIER=ml` |
+| ステータス | Issue #586（Refs #549）で workflow YAML 改修 + 7day summary workflow 新規 + SSOT 同期。本サイクル merge 前 = `implemented_local_runtime_pending` / merge 後 = `pass_boundary_synced_runtime_pending` / D+7 168 snapshots 完走後 = `pass_runtime_synced` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` + `docs/30-workflows/issue-586-post-switch-7day-close-out/` |
+| 親 | Issue #515 ML-ready classifier / Issue #518 HOLD（#586 で解除） |
+| switch contract | production env で `vars.CF_AUDIT_CLASSIFIER=ml`（Gate-RUNTIME-CLASSIFIER-SET）+ `.github/workflows/cf-audit-log-monitor.yml` の hourly post-step 3 点 + artifact upload |
 | model path | `ML_MODEL_PATH=op://Employee/ubm-hyogo-env/CF_AUDIT_ML_MODEL_PATH_PROD`（解決値は記録しない） |
-| observation | production switch merge 後 7 日 / 168 hourly snapshots / fallback rate / p95 latency / leakage grep |
-| rollback | `CF_AUDIT_CLASSIFIER=threshold` へ戻す。D1 `classifier_used` / `classifier_version` / `confidence` は削除しない |
-| evidence | local focused tests / skeleton dry-run / grep gate、`outputs/phase-12/` strict 7 files |
-| 境界 | 本サイクルは observation scripts / fallback alert / leakage grep CLI まで。workflow YAML / secret / artifact / production mutation は実行しない。Issue #549 は CLOSED のまま `Refs #549` |
+| observation | production switch merge 後 7 日 / 168 hourly snapshots / fallback rate / p95 latency / leakage grep / `cf-audit-log-7day-summary.yml` で集約 |
+| rollback | `gh variable set CF_AUDIT_CLASSIFIER --env production --body "threshold"` 1 行戻し。D1 `classifier_used` / `classifier_version` / `confidence` は削除しない |
+| evidence | 本サイクル: local 5 evidence (`typecheck.log`/`lint.log`/`test.log`/`build.log`/`grep-gate.log`)。D+7: `hourly-run-7day.md` / `hourly-run-7day-summary.json` / `leakage-grep-7day.log` / `issue-rate-comparison.md` |
+| 境界 | Issue #549 / #586 は CLOSED のまま `Refs #549, Refs #586`。D1 schema 変更なし（forward-safe）|
+
+### Issue #587 Cloudflare Audit Logs ML model artifact rotation（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-587-cf-audit-ml-artifact-rotation/` |
+| parent | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
+| runbook | `docs/30-workflows/runbooks/ml-model-artifact-rotation.md` |
+| 目的 | 次世代 ML model artifact の candidate evaluation / canary / promotion / rollback を Gate-R0〜R3 と user approval 境界付きで再現可能にする |
+| runtime境界 | rotation scripts / canary workflow は local 実装済み。Phase 11 evidence は typecheck / lint / focused tests / leakage grep / dataset grep / local fixture canary / rotation evidence を取得済み。production artifact promotion は Gate-R0〜R3 + user approval pending |
+| 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / quick-reference / resource-map / LOGS |
+| Issue 取扱 | Issue #587 / #549 は CLOSED 維持。PR 文脈は `Refs #549, #587` のみ |
 
 ### Issue #532 write/tag/note provider ctx injection（2026-05-08）
 
@@ -348,6 +376,19 @@
 | API 境界 | 既存 admin endpoint surface のみ参照。`/admin/requests/:noteId/resolve`, `/admin/identity-conflicts/:id/merge`, `/admin/identity-conflicts/:id/dismiss` を正本化 |
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-11/link-checklist.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | Phase 13 | commit / push / PR outputs は user approval 後のみ生成 |
+
+### UI prototype alignment task-15 Admin Dashboard and Members（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-pending / implementation / VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/task-15-admin-dashboard-and-members/` |
+| primary screens | `/admin`, `/admin/members` |
+| implementation | `apps/web/app/(admin)/layout.tsx`, `apps/web/app/(admin)/admin/page.tsx`, `apps/web/app/(admin)/admin/members/page.tsx`, `apps/web/src/features/admin/components/**`, `apps/web/src/lib/admin/admin-dashboard-ui.ts` |
+| evidence | local Playwright screenshot 9 files in `outputs/phase-11/`, Phase 12 strict 7 files, `jest-axe` unit a11y |
+| boundary | existing `/admin/dashboard` and `/admin/members` API only; no new endpoint, no D1 schema change, no shared schema mutation |
+| downstream | task-16 / task-17 may consume admin layout owner surface after branch integration; task-18 consumes visual/test evidence |
+| Phase 13 | commit / push / PR outputs are user-gated |
 
 ### UI prototype alignment / task-19 09c primitives full spec（2026-05-07）
 
@@ -573,15 +614,15 @@
 | 境界 | Slack App / Bot OAuth / automatic channel creation / retry / alert 実装は含まない。Issue #517 は CLOSED 維持し PR 文脈は `Refs #517, Refs #497, Refs #351` |
 | Issue 取扱 | #517 / #497 / #351 CLOSED 維持。commit / push / PR / Issue comment は user 明示指示後のみ。PR 文面は `Refs #517, Refs #497, Refs #351` |
 
-### Issue #408 / #518 Cloudflare Audit Logs Monitoring HOLD（2026-05-07）
+### Issue #408 / #518 Cloudflare Audit Logs Monitoring HOLD（2026-05-07, superseded by #586 on 2026-05-09）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | HOLD / manual-check-only / implementation / NON_VISUAL / Issue #408 and #518 CLOSED |
+| ステータス | historical HOLD state / superseded by Issue #586 hourly restart / Issue #408 and #518 CLOSED |
 | 成果物 | `docs/30-workflows/completed-tasks/issue-408-cf-audit-logs-monitoring/` + `docs/30-workflows/issue-518-cf-audit-logs-monitoring-hold/` |
-| 目的 | Cloudflare Audit Logs から API Token 利用イベントを必要時に手動確認する。Issue #518 により 1 時間ごとの自動取得、watchdog、公開 Issue 自動起票は HOLD |
+| 目的 | Issue #518 による一時 HOLD の履歴を保持する。現在の hourly restart / 7-day close-out 正本は Issue #586 entry と `docs/30-workflows/issue-586-post-switch-7day-close-out/` |
 | secret境界 | `CF_AUDIT_TOKEN_PROD` は `Account > Audit Logs:Read` のみ。D1 書き込みは `CF_AUDIT_D1_TOKEN_PROD`。deploy 用 `CLOUDFLARE_API_TOKEN` は監視 workflow に注入しない |
-| runtime境界 | `.github/workflows/cf-audit-log-monitor.yml` は schedule 削除 + `workflow_dispatch` のみ + `dry_run=true` 既定。watchdog workflow は削除。`scripts/cf-audit-log/*` と D1 migration は保持。HOLD 中は hourly run / watchdog / public Issue alert の runtime PASS を要求しない。週次手動確認 runbook は `docs/30-workflows/runbooks/cf-audit-logs-weekly-manual-check.md` |
+| runtime境界 | historical: Issue #518 では schedule 削除 + `workflow_dispatch` のみ + `dry_run=true` 既定。current: Issue #586 で hourly schedule / post-step / 7day summary workflow を再開し、D+7 evidence まで `pass_runtime_synced` は未昇格 |
 | alert labels | HIGH=`priority:high`、MEDIUM=`priority:medium`、LOW=`priority:low`、共通=`type:security` |
 | 起票元 | `docs/30-workflows/unassigned-task/U-FIX-CF-ACCT-01-DERIV-04-audit-logs-monitoring.md` |
 | 正本同期 | `references/deployment-secrets-management.md` / `references/observability-monitoring.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` |
