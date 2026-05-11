@@ -7,6 +7,9 @@ const isAdminRequestsRun =
 const isAdminIdentityConflictsRun =
   process.env.ADMIN_IDENTITY_CONFLICTS_EVIDENCE === '1' ||
   process.argv.some((arg) => arg.includes('admin-identity-conflicts.spec.ts'))
+const isAdminMemberDeleteRun =
+  process.env.ADMIN_MEMBER_DELETE_EVIDENCE === '1' ||
+  process.argv.some((arg) => arg.includes('admin-member-delete.spec.ts'))
 const isTask11PublicSmoke = process.argv.some((arg) => arg.includes('public-top-and-list.spec.ts'))
 const isTask12PublicSmoke = process.argv.some((arg) =>
   arg.includes('public-detail-register-legal.spec.ts'),
@@ -25,17 +28,19 @@ const EVIDENCE_DIR =
     ? '../../docs/30-workflows/task-spec-2a-admin-requests-e2e/outputs/phase-11'
     : isAdminIdentityConflictsRun
       ? '../../docs/30-workflows/2b-admin-identity-conflicts-spec/outputs/phase-11/evidence'
-      : isStagingSmoke
-        ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
-        : isTask11PublicSmoke
-          ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
-          : isTask12PublicSmoke || isTask12Evidence
-            ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
-            : isTask13LoginSmoke
-              ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
-              : isTask17AdminEvidence
-                ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
-                : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
+      : isAdminMemberDeleteRun
+        ? '../../docs/30-workflows/admin-member-delete-e2e-spec/outputs/phase-11/evidence'
+        : isStagingSmoke
+          ? '../../docs/30-workflows/task-05-error-boundary-and-staging-smoke/outputs/phase-11/evidence'
+          : isTask11PublicSmoke
+            ? '../../docs/30-workflows/task-11-public-top-and-member-list/outputs/phase-11/evidence'
+            : isTask12PublicSmoke || isTask12Evidence
+              ? '../../docs/30-workflows/task-12-member-detail-register-legal/outputs/phase-11/evidence'
+              : isTask13LoginSmoke
+                ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
+                : isTask17AdminEvidence
+                  ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
+                  : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
@@ -63,6 +68,9 @@ if (!isAdminRequestsRun) {
 }
 if (!isTask17AdminEvidence) {
   fixtureGatedTestIgnore.push('**/admin-schema-conflicts-audit.spec.ts')
+}
+if (!isAdminMemberDeleteRun) {
+  fixtureGatedTestIgnore.push('**/admin-member-delete.spec.ts')
 }
 
 export default defineConfig({
@@ -151,9 +159,11 @@ export default defineConfig({
               ? `${localEnv} AUTH_SECRET=playwright-auth-secret-playwright-auth-secret PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
               : isAdminIdentityConflictsRun
                 ? `${localEnv} PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
-                : isTask17AdminEvidence
-                  ? `${localEnv} PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
-                : `${localEnv} pnpm --filter @ubm-hyogo/web dev`,
+                : isAdminMemberDeleteRun
+                  ? `${localEnv} PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+                  : isTask17AdminEvidence
+                    ? `${localEnv} PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+                    : `${localEnv} pnpm --filter @ubm-hyogo/web dev`,
             url: localBaseURL,
             reuseExistingServer: !process.env.CI,
             timeout: 120_000,

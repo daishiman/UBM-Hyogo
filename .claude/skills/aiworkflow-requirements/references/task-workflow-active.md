@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### E2E quality uplift Stage 2 sub-task 2c admin member delete spec（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 completed |
+| 成果物 | `docs/30-workflows/admin-member-delete-e2e-spec/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2c-admin-member-delete.md` |
+| source unassigned | `docs/30-workflows/unassigned-task/e2e-stage-2-2c-admin-member-delete-001.md`（consumed trace） |
+| 実装対象 | `apps/web/playwright/tests/admin-member-delete.spec.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright.config.ts` |
+| mock boundary | initial members/audit は Server Component `fetchAdmin()` 経由の server-side fetch。browser `page.route()` は drawer detail / delete mutation のみ |
+| UI reflection | `MemberDrawer` delete/restore mutation result を `MembersClient` が受け、対象行の `削除済み` 表示を即時更新してから `router.refresh()` |
+| reusable refs | `references/workflow-admin-member-delete-e2e-spec-artifact-inventory.md`, `lessons-learned/lessons-learned-admin-member-delete-e2e-2026-05.md` |
+| evidence | `docs/30-workflows/admin-member-delete-e2e-spec/outputs/phase-11/evidence/e2e-run.txt`（desktop-chromium 5 passed / 1 skipped） |
+| runtime gate | firefox / webkit / staging / CI、commit / push / PR は user approval 後 |
+
 ### UI prototype alignment task-17 admin schema-conflicts-audit（2026-05-10）
 
 | 項目 | 値 |

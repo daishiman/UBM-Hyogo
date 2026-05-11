@@ -2100,6 +2100,12 @@ node scripts/list-specs.js --topics
 | Linked Lessons | L29 |
 | Boundary | L33 |
 
+### references/workflow-admin-member-delete-e2e-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L16 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -6335,13 +6341,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L999 |
-| フェーズ構造（概要） | L1008 |
-| 品質ゲート（概要） | L1039 |
-| 出力テンプレート | L1050 |
-| 実行時のコマンド・エージェント・スキル | L1073 |
-| 昇格パターン集 | L1097 |
-| Current Active / Spec Created Tasks | L1099 |
+| ドキュメント構成 | L1015 |
+| フェーズ構造（概要） | L1024 |
+| 品質ゲート（概要） | L1055 |
+| 出力テンプレート | L1066 |
+| 実行時のコマンド・エージェント・スキル | L1089 |
+| 昇格パターン集 | L1113 |
+| Current Active / Spec Created Tasks | L1115 |
 
 ### references/task-workflow-backlog-part2.md
 
