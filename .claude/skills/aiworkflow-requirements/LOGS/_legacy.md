@@ -831,3 +831,8 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Updated `vitest.config.ts` test include globs to cover `*.{test,spec}.{ts,tsx}` during the transition and recorded typecheck / lint / api test PASS evidence.
 - Registered artifact inventory `references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md`, task-workflow-active, quick-reference, and resource-map.
 - Updated 08a artifact inventory so `UT-08A-06-test-suffix-rename-migration.md` points to Issue #325 successor.
+
+# 2026-05-11 E2E Stage 3b / 3c implementation lessons reflection
+
+- 3b: Server Component server-side `fetch()` は Playwright `page.route()` で捕捉不可。deterministic mock API (`scripts/e2e-mock-api.mjs`) + `INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` 注入を `lessons-learned-e2e-stage3b-server-component-mock-api-2026-05.md` と `references/testing-playwright-e2e.md` に追記。`artifacts.json` status vocabulary drift / completed-tasks 親アーカイブパス整合 / `IMPLEMENTED_LOCAL_RUNTIME_PENDING` 明示も同 wave で反映。
+- 3c: canonical path normalization（`e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/`）、branch-specific drift（dev reviews=null/strict=false vs main reviews=object/strict=true）、artifacts.json ledger 分割（`actual_read_only_evidence_files` / `actual_mutation_evidence_files`）、3-state vocabulary（`spec_created` / `runtime_pending` / `completed`）を `lessons-learned-e2e-stage3c-branch-protection-runtime-vocabulary-2026-05.md` と `references/branch-protection.md` に反映。コミット / push / PR は未実行。
