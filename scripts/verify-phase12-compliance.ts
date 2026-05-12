@@ -13,8 +13,8 @@ const TEMPLATE_PATH =
 
 export async function main(): Promise<number> {
   const repoRoot = process.cwd();
-  const baseRef = process.env.GITHUB_BASE_REF ?? "origin/dev";
-  const headRef = process.env.GITHUB_HEAD_REF ?? "HEAD";
+  const baseRef = process.env.COMPLIANCE_BASE_REF ?? "origin/dev";
+  const headRef = process.env.COMPLIANCE_HEAD_REF ?? "HEAD";
   const canonicalHeadings = loadCanonicalHeadings(resolve(repoRoot, TEMPLATE_PATH));
   const roots = await collectChangedWorkflowRoots({ baseRef, headRef, repoRoot });
 

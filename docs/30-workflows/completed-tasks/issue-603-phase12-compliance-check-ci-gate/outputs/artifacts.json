@@ -1,17 +1,60 @@
 {
-  "taskId": "issue-603-phase12-compliance-check-ci-gate",
-  "taskType": "implementation",
-  "visualEvidence": "NON_VISUAL",
-  "workflow_state": "implemented_local_runtime_pending",
-  "phase12StrictOutputs": [
-    "outputs/phase-12/main.md",
-    "outputs/phase-12/implementation-guide.md",
-    "outputs/phase-12/system-spec-update-summary.md",
-    "outputs/phase-12/documentation-changelog.md",
-    "outputs/phase-12/unassigned-task-detection.md",
-    "outputs/phase-12/skill-feedback-report.md",
-    "outputs/phase-12/phase12-task-spec-compliance-check.md"
-  ],
+  "metadata": {
+    "task_id": "issue-603-phase12-compliance-check-ci-gate",
+    "task_name": "Phase 12 task-spec compliance check CI gate (outputs mirror)",
+    "parent_issue": "https://github.com/daishiman/UBM-Hyogo/issues/603",
+    "parent_issue_state": "OPEN",
+    "created_date": "2026-05-11",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "spec_path": "docs/30-workflows/completed-tasks/issue-603-phase12-compliance-check-ci-gate/",
+    "issue_link_directive": "Refs #603 (do not use Closes)",
+    "phase12StrictOutputs": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-603-phase12-compliance-check-ci-gate/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec present at root, scope and DoD finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-603-phase12-compliance-check-ci-gate/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: focused vitest 10/10 PASS, verify:phase12-compliance script implemented"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/verify-phase12-compliance.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: verify-phase12-compliance workflow added; awaiting green CI on PR"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-603-phase12-compliance-check-ci-gate/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: PR #687 awaits user-gated merge into dev"
+      }
+    ]
+  },
   "phases": [
     { "phase": 12, "status": "completed" },
     { "phase": 13, "status": "pending_user_approval" }

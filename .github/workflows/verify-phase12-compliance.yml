@@ -43,8 +43,8 @@ jobs:
 
       - name: Verify phase-12 compliance
         env:
-          GITHUB_BASE_REF: origin/${{ github.base_ref }}
-          GITHUB_HEAD_REF: HEAD
+          COMPLIANCE_BASE_REF: origin/${{ github.base_ref }}
+          COMPLIANCE_HEAD_REF: HEAD
         run: |
           git fetch origin ${{ github.base_ref }}
           pnpm test:phase12-compliance
