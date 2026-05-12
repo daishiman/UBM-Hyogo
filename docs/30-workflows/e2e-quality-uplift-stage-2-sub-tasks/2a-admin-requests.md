@@ -120,6 +120,8 @@ await adminPage.route('**/admin/requests/*/resolve', async (route) => {
 
 ## 6. fixture object 標準形
 
+> **2d contract sync**: fixture shape は `2d-contract-stage-2.md` §5 標準形に揃える。`GET /admin/requests` response は route 正本の `AdminRequestsListResponseZ`、query は `ListRequestsQueryZ`、resolve body は `adminRequestResolveBodySchema` を正とし、2d contract test が同じ shape を zod parse / type-level で検証する。
+
 `phase-5.md` §4 と同型。本 spec 内 inline 定義。
 
 ```ts

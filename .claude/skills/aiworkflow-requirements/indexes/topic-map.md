@@ -3120,6 +3120,13 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
 
+### references/workflow-task-spec-2d-contract-stage-2-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Set | L12 |
+| Boundary | L22 |
+
 ### references/workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md
 
 | セクション | 行 |
@@ -4927,6 +4934,17 @@ node scripts/list-specs.js --topics
 | L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
 | L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
 
+### references/lessons-learned-task-spec-2d-contract-stage-2-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-2D-001: shared schema が response shape の SSOT で、parent workflow の記述は派生 | L7 |
+| L-2D-002: route の inline `z.object` は contract test 起票と同 wave で named export に昇格させる | L21 |
+| L-2D-003: contract test は pure unit に固定し、D1 / Cloudflare binding に触れない | L34 |
+| L-2D-004: fixture object は test 内 inline、別ファイル化は別 phase の責務 | L42 |
+| L-2D-005: zod 未エクスポート response の同型確認は type-level に逃がす | L51 |
+| L-2D-006: workflow root が `completed-tasks/` に移動した直後は skill 全 path を一括更新 | L57 |
+
 ### references/lessons-learned-task19-primitives-full-spec-2026-05.md
 
 | セクション | 行 |
@@ -6341,13 +6359,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1015 |
-| フェーズ構造（概要） | L1024 |
-| 品質ゲート（概要） | L1055 |
-| 出力テンプレート | L1066 |
-| 実行時のコマンド・エージェント・スキル | L1089 |
-| 昇格パターン集 | L1113 |
-| Current Active / Spec Created Tasks | L1115 |
+| ドキュメント構成 | L1030 |
+| フェーズ構造（概要） | L1039 |
+| 品質ゲート（概要） | L1070 |
+| 出力テンプレート | L1081 |
+| 実行時のコマンド・エージェント・スキル | L1104 |
+| 昇格パターン集 | L1128 |
+| Current Active / Spec Created Tasks | L1130 |
 
 ### references/task-workflow-backlog-part2.md
 

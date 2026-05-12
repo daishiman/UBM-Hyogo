@@ -181,6 +181,8 @@ test('認可: anonymous は /login redirect', async ({ anonymousPage }) => {
 
 ## 5. fixture object 標準形
 
+> **2d contract sync**: fixture shape は `2d-contract-stage-2.md` §5 標準形に揃える。delete request body は route 正本の `DeleteBodyZ`、audit response は `AdminAuditListResponseZ`、audit query は `ListAuditQueryZ` を正とし、2d contract test が同じ shape を zod parse / type-level で検証する。
+
 `test.describe` の外、ファイル冒頭に const 定義する。phase-5 §4 の標準形に整合。
 
 | 名前 | 形 | 用途 |

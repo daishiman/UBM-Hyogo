@@ -22,12 +22,15 @@ parent_sub_task_spec: docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-
 | visualEvidence | NON_VISUAL |
 | 行数目安 | 200-260 行 |
 | 優先度 | High |
-| ステータス | unassigned（spec 未作成、grep で未存在を確認済み） |
+| ステータス | consumed（`docs/30-workflows/task-spec-2d-contract-stage-2/` で仕様化・実装・local PASS 済み） |
 | 起点日 | 2026-05-09 |
+| 消費日 | 2026-05-11 |
+| 消費先 | `docs/30-workflows/task-spec-2d-contract-stage-2/` |
+| 実装先 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` |
 
 ## 背景
 
-`e2e-quality-uplift-stage-2` 親 workflow（completed-tasks 配下）の Stage 2 サブタスク 2d として位置付けられているが、対象成果物 `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` は **未作成**（リポジトリ grep で 0 hit）。本タスクで未実装分を捕捉する。
+`e2e-quality-uplift-stage-2` 親 workflow（completed-tasks 配下）の Stage 2 サブタスク 2d として位置付けられていた。2026-05-11 の `task-spec-2d-contract-stage-2` 実装サイクルで、対象成果物 `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` は作成済みとなり、focused Vitest / typecheck / lint / grep gates も local PASS したため、本 unassigned task は consumed とする。
 
 2a/2b/2c の Playwright spec が `page.route()` で返す UI fixture object と、`apps/api` 側 route 実装が parse する zod schema が同型であることを CI で機械検証する pure unit test。drift があれば mock が通る環境で本番 API が 422/400 を返す事故が発生し、E2E green が production 信頼性を担保しなくなるため、本 contract test を CI gate として配置する。
 
@@ -85,3 +88,14 @@ parent_sub_task_spec: docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-
 - 共有 schema: `packages/shared/src/schemas/identity-conflict.ts`
 - API 実装（参照のみ + named export 1 行修正）: `apps/api/src/routes/admin/{requests,identity-conflicts,member-delete,audit}.ts`
 - 既存 contract test 命名・構造参照: `apps/api/src/audit-correlation/__tests__/contract.test.ts`
+
+## Consumed Trace（2026-05-11）
+
+| 項目 | 値 |
+|------|-----|
+| canonical workflow | `docs/30-workflows/task-spec-2d-contract-stage-2/` |
+| implementation | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` |
+| route exports | `DeleteBodyZ`, `ListRequestsQueryZ`, `ListAuditQueryZ`, `AdminRequestsListResponseZ`, `AdminAuditListResponseZ` |
+| local evidence | `docs/30-workflows/task-spec-2d-contract-stage-2/outputs/phase-11/` |
+| state | `implemented-local-runtime-pending / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| remaining gate | commit / push / PR / CI runtime require explicit user approval |
