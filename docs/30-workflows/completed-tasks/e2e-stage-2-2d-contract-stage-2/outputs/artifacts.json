@@ -10,7 +10,41 @@
     "coverageTier": "standard",
     "implementation_mode": "new",
     "created_at": "2026-05-10",
-    "updated_at": "2026-05-11"
+    "updated_at": "2026-05-11",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec present; pure unit contract test scope finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/outputs/phase-11/evidence/vitest-run.txt",
+        "approver": "daishiman",
+        "notes": "validator_green: focused Vitest 23/23 PASS, @ubm-hyogo/api typecheck/lint PASS, grep gate PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: contract test wiring into required-checks pending user approval"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "waived",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/phase-13.md",
+        "approver": "daishiman",
+        "notes": "runtime_evidence: contract test is pure unit (no DB/network/FS/CF binding); local pass = canonical pass"
+      }
+    ]
   },
   "implementation": [
     "apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts",
