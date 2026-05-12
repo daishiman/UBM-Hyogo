@@ -71,7 +71,7 @@
 
 | 名前 | shape（zod parse 対象） | 用途 |
 |------|----------------------|------|
-| `adminRequestItem` | `AdminRequestListItemZ` 同型 (`{ noteId, memberId, noteType, requestStatus, requestedAt, requestedReason, requestedPayload, memberSummary }`) | `GET /admin/requests` response items[] |
+| `adminRequestItem` | `{ noteId: string, memberId: string, status: 'pending', type: 'visibility_request' \| 'delete_request', createdAt: string }` | `GET /admin/requests` response items[] |
 | `requestResolveApproveBody` | `{ resolution: 'approve' }` | `POST /admin/requests/:noteId/resolve` body |
 | `requestResolveRejectBody` | `{ resolution: 'reject', resolutionNote: string }` | 同上 |
 | `identityConflictItem` | `IdentityConflictRowZ` 同型 (`{ conflictId, sourceMemberId, candidateTargetMemberId, matchedFields, detectedAt, responseEmailMasked, syncJobId }`) | `GET /admin/identity-conflicts` response items[] |
@@ -81,10 +81,9 @@
 | `dismissResponseBody` | `{ dismissedAt }` | 同上 response |
 | `memberDeleteBody` | `{ reason: string }` | `POST /admin/members/:memberId/delete` request |
 | `memberDeleteResponse` | `{ id, isDeleted: true, deletedAt }` | 同上 response |
-| `auditEntry` | `AdminAuditListItemZ` 同型 (`{ auditId, actorId, actorEmail, action, targetType, targetId, maskedBefore, maskedAfter, parseError, createdAt }`) | `GET /admin/audit` response items[] |
+| `auditEntry` | `{ auditId, actorId, action: 'admin.member.deleted', targetId, createdAt }` | `GET /admin/audit` response items[] |
 
 > **重要なズレ補正**: phase-4 §1 Q2 では merge response shape を `{ targetMemberId, sourceMemberId, mergedAt }` と記載していたが、`packages/shared` の `MergeIdentityResponseZ` 実体は `{ mergedAt, targetMemberId, archivedSourceMemberId, auditId }` であるため、**正本は shared schema** とする。2a/2b/2c の Playwright fixture も `archivedSourceMemberId` を含む形で揃える必要がある。本仕様書はこの差を明示し、2b spec 設計時に揃える前提を共有する（phase-5 §4 の表現も `mergeResponseBody` を shared schema 準拠に揃える）。
-> **2026-05-11 実装補正**: 2d test は `GET /admin/requests` と `GET /admin/audit` の response fixture を手書き subset ではなく、route export の `AdminRequestsListResponseZ` / `AdminAuditListResponseZ` で parse する。旧 `status/type/createdAt` および `actorId` 中心 subset は drift を見逃すため使わない。
 
 ---
 

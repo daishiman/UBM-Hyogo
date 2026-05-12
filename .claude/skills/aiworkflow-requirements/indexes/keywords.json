@@ -15148,6 +15148,7 @@
     ],
     "stage": [
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
+      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-task-spec-2d-contract-stage-2-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
@@ -21409,10 +21410,6 @@
     ],
     "Aware": [
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
-    ],
-    "stage": [
-      "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
-      "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "Category": [
       "workflow-governance-design-category.md"

@@ -253,5 +253,3 @@ export const createAdminAuditRoute = () => {
 };
 
 export const adminAuditRoute = createAdminAuditRoute();
-
-export { QueryZ as ListAuditQueryZ };
