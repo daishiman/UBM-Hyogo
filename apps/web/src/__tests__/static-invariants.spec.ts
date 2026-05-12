@@ -106,7 +106,7 @@ const findAnyMatches = async (
 };
 
 const isSelfTestFile = (file: string): boolean =>
-  file.endsWith("static-invariants.test.ts");
+  file.endsWith("static-invariants.spec.ts");
 
 const isPlaywrightHarnessFile = (file: string): boolean =>
   file.includes(`${WEB_ROOT}/playwright/`);
@@ -178,7 +178,7 @@ describe("static invariants / 06b", () => {
   it("S-04b: app/profile/_components/Request*.tsx に本文 field 名が現れない", async () => {
     // phase-05 ステップ11 の grep gate を unit test で固定化。
     const files = (await walk(join(WEB_ROOT, "app/profile/_components"))).filter(
-      (f) => /Request[A-Z][A-Za-z]*\.tsx$/.test(f) && !f.endsWith(".test.tsx"),
+      (f) => /Request[A-Z][A-Za-z]*\.tsx$/.test(f) && !f.endsWith(".spec.tsx"),
     );
     const hits = await findAnyMatches(files, [
       /name=["'](displayName|email|kana|address|phone)["']/,

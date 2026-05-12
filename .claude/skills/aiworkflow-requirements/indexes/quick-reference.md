@@ -5,6 +5,18 @@
 
 ---
 
+### Issue #623 Vitest spec suffix convergence（2026-05-12）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 親 ADR | `docs/30-workflows/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-issue-325-followup-003-vitest-spec-suffix-convergence.md`（consumed） |
+| Phase 12 | `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| implementation targets | `vitest.config.ts`, `scripts/hooks/block-test-suffix.sh`, `lefthook.yml`, `.github/workflows/verify-test-suffix.yml`, `CLAUDE.md`, issue-325 ADR |
+| boundary | Local rename/config/gate implementation and Phase 11 local evidence are present. Full `pnpm test --run` `numTotalTests` parity, commit, push, and PR remain pending/user-gated. Closed Issue references must use `Refs #623` only. |
+
 ### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
 ### Issue #589 Gate Metadata Structured Ledger（2026-05-10）
 

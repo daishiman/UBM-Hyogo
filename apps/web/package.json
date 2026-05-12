@@ -17,7 +17,7 @@
     "test:e2e": "playwright test",
     "e2e": "playwright test",
     "test:e2e:list": "playwright test --list",
-    "verify-design-tokens": "vitest run --root=../.. --config=vitest.config.ts apps/web/src/__tests__/tokens.test.ts",
+    "verify-design-tokens": "vitest run --root=../.. --config=vitest.config.ts apps/web/src/__tests__/tokens.spec.ts",
     "e2e:staging": "playwright test tests/e2e/staging-smoke.spec.ts --project=staging-smoke"
   },
   "dependencies": {

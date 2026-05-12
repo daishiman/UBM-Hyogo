@@ -2,8 +2,8 @@
 // 認可境界（401 / 403 / 200）を 1 ファイルで集約 verify する代表ケース。
 //
 // 個別の詳細ケースは下記ファイルで網羅済み（DRY のため本ファイルでは重複させない）:
-//   - apps/api/src/middleware/require-admin.test.ts（admin endpoint 軸）
-//   - apps/api/src/routes/me/index.test.ts（member endpoint 軸 / session-guard）
+//   - apps/api/src/middleware/require-admin.spec.ts（admin endpoint 軸）
+//   - apps/api/src/routes/me/index.spec.ts（member endpoint 軸 / session-guard）
 //   - apps/api/src/routes/public/*（public endpoint は認証不要）
 //
 // 本ファイルの責務:

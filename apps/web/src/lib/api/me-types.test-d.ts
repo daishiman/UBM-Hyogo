@@ -1,5 +1,5 @@
 // ut-web-cov-03 Phase 4/5: me-types.ts の type round-trip 検証（type-only file の代替 coverage）。
-// vitest include は *.test.{ts,tsx} のみのため、本ファイルは tsc 経由 typecheck で評価される。
+// vitest include は *.spec.{ts,tsx} のみのため、本ファイルは tsc 経由 typecheck で評価される。
 // ランタイム実行されないが、import がコンパイルされる時点で型互換性が保証される。
 
 import type {

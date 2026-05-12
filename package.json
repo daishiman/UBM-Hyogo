@@ -42,7 +42,7 @@
     "skill:logs:append": "tsx scripts/skill-logs-append.ts",
     "analytics:fetch": "tsx scripts/fetch-cloudflare-analytics.ts",
     "analytics:redaction-check": "bash scripts/redaction-check-analytics.sh",
-    "schema-alias-backfill:test": "pnpm exec vitest run scripts/schema-alias-backfill/__tests__/generate-50k-fixture.test.ts && bash -n scripts/schema-alias-backfill/seed-staging-50k.sh && bash -n scripts/schema-alias-backfill/cleanup-staging-50k.sh && bash -n scripts/schema-alias-backfill/run-stress-trial.sh && bash scripts/schema-alias-backfill/run-stress-trial.sh --trials 10 --trigger-path /admin/schema/backfill/trigger --poll-interval-seconds 10 --timeout-seconds 1800 --evidence-out /tmp/evidence-50k-dryrun.json --dry-run"
+    "schema-alias-backfill:test": "pnpm exec vitest run scripts/schema-alias-backfill/__tests__/generate-50k-fixture.spec.ts && bash -n scripts/schema-alias-backfill/seed-staging-50k.sh && bash -n scripts/schema-alias-backfill/cleanup-staging-50k.sh && bash -n scripts/schema-alias-backfill/run-stress-trial.sh && bash scripts/schema-alias-backfill/run-stress-trial.sh --trials 10 --trigger-path /admin/schema/backfill/trigger --poll-interval-seconds 10 --timeout-seconds 1800 --evidence-out /tmp/evidence-50k-dryrun.json --dry-run"
   },
   "devDependencies": {
     "tsx": "^4.19.0",

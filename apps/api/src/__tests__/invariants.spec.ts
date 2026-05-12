@@ -115,7 +115,7 @@ describe("invariants（08a AC-5 集約 verify）", () => {
           walk(p);
         } else if (/\.(ts|tsx|mjs|js)$/.test(name)) {
           // boundary 検査自身を例外扱い（forbidden token を文字列として含む）
-          if (p.includes("__tests__/boundary.test.ts")) continue;
+          if (p.includes("__tests__/boundary.spec.ts")) continue;
           const content = readFileSync(p, "utf8");
           for (const re of FORBIDDEN) {
             if (re.test(content)) {
