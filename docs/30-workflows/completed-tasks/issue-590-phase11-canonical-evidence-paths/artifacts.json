@@ -12,21 +12,115 @@
     "implementation_mode": "new",
     "sourceUnassignedTask": "docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-05.md",
     "parentSpec": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/",
-    "runtimePending": "親Issue #549のpost-merge 7日runtime observation evidenceは本タスク外。schema/validator導入のみ完了。"
+    "runtimePending": "親Issue #549のpost-merge 7日runtime observation evidenceは本タスク外。schema/validator導入のみ完了。",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-590-phase11-canonical-evidence-paths/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec present, schema/validator scope finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-590-phase11-canonical-evidence-paths/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: pnpm typecheck PASS, pnpm lint PASS, focused validator tests PASS, schema-validation logs captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: pnpm validate:phase11-paths wiring to CI required-checks pending user approval"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-590-phase11-canonical-evidence-paths/phase-13.md",
+        "approver": "daishiman",
+        "notes": "runtime_evidence: parent Issue #549 post-merge 7-day runtime observation is out-of-scope; this task is schema/validator only"
+      }
+    ]
   },
   "parentIssue": "https://github.com/daishiman/UBM-Hyogo/issues/590",
   "parentTask": "docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/",
   "phases": {
-    "phase-1": { "status": "completed", "outputs": ["phase-01.md", "outputs/phase-01/main.md"] },
-    "phase-2": { "status": "completed", "outputs": ["phase-02.md", "outputs/phase-02/main.md"] },
-    "phase-3": { "status": "completed", "outputs": ["phase-03.md", "outputs/phase-03/main.md"] },
-    "phase-4": { "status": "completed", "outputs": ["phase-04.md", "outputs/phase-04/main.md"] },
-    "phase-5": { "status": "completed", "outputs": ["phase-05.md", "outputs/phase-05/main.md"] },
-    "phase-6": { "status": "completed", "outputs": ["phase-06.md", "outputs/phase-06/main.md"] },
-    "phase-7": { "status": "completed", "outputs": ["phase-07.md", "outputs/phase-07/main.md"] },
-    "phase-8": { "status": "completed", "outputs": ["phase-08.md", "outputs/phase-08/main.md"] },
-    "phase-9": { "status": "completed", "outputs": ["phase-09.md", "outputs/phase-09/main.md"] },
-    "phase-10": { "status": "completed", "outputs": ["phase-10.md", "outputs/phase-10/main.md"] },
+    "phase-1": {
+      "status": "completed",
+      "outputs": [
+        "phase-01.md",
+        "outputs/phase-01/main.md"
+      ]
+    },
+    "phase-2": {
+      "status": "completed",
+      "outputs": [
+        "phase-02.md",
+        "outputs/phase-02/main.md"
+      ]
+    },
+    "phase-3": {
+      "status": "completed",
+      "outputs": [
+        "phase-03.md",
+        "outputs/phase-03/main.md"
+      ]
+    },
+    "phase-4": {
+      "status": "completed",
+      "outputs": [
+        "phase-04.md",
+        "outputs/phase-04/main.md"
+      ]
+    },
+    "phase-5": {
+      "status": "completed",
+      "outputs": [
+        "phase-05.md",
+        "outputs/phase-05/main.md"
+      ]
+    },
+    "phase-6": {
+      "status": "completed",
+      "outputs": [
+        "phase-06.md",
+        "outputs/phase-06/main.md"
+      ]
+    },
+    "phase-7": {
+      "status": "completed",
+      "outputs": [
+        "phase-07.md",
+        "outputs/phase-07/main.md"
+      ]
+    },
+    "phase-8": {
+      "status": "completed",
+      "outputs": [
+        "phase-08.md",
+        "outputs/phase-08/main.md"
+      ]
+    },
+    "phase-9": {
+      "status": "completed",
+      "outputs": [
+        "phase-09.md",
+        "outputs/phase-09/main.md"
+      ]
+    },
+    "phase-10": {
+      "status": "completed",
+      "outputs": [
+        "phase-10.md",
+        "outputs/phase-10/main.md"
+      ]
+    },
     "phase-11": {
       "status": "implemented-local",
       "outputs": [
@@ -51,6 +145,12 @@
         "outputs/phase-12/phase12-task-spec-compliance-check.md"
       ]
     },
-    "phase-13": { "status": "blocked_pending_user_approval", "outputs": ["phase-13.md", "outputs/phase-13/main.md"] }
+    "phase-13": {
+      "status": "blocked_pending_user_approval",
+      "outputs": [
+        "phase-13.md",
+        "outputs/phase-13/main.md"
+      ]
+    }
   }
 }
