@@ -2553,6 +2553,13 @@ node scripts/list-specs.js --topics
 | Lessons Learned | L28 |
 | User-Gated Runtime Items | L34 |
 
+### references/workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Boundary | L16 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4796,6 +4803,14 @@ node scripts/list-specs.js --topics
 | L-I359-003: Rollback SQL is evidence, not permission | L11 |
 | L-I359-004: Source unassigned close-out is part of Phase 12 | L15 |
 
+### references/lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所 | L10 |
+| 同様の課題を将来簡潔に解決するための知見 | L25 |
+| 関連リンク | L35 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
@@ -6364,13 +6379,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1047 |
-| フェーズ構造（概要） | L1056 |
-| 品質ゲート（概要） | L1087 |
-| 出力テンプレート | L1098 |
-| 実行時のコマンド・エージェント・スキル | L1121 |
-| 昇格パターン集 | L1145 |
-| Current Active / Spec Created Tasks | L1147 |
+| ドキュメント構成 | L1062 |
+| フェーズ構造（概要） | L1071 |
+| 品質ゲート（概要） | L1102 |
+| 出力テンプレート | L1113 |
+| 実行時のコマンド・エージェント・スキル | L1136 |
+| 昇格パターン集 | L1160 |
+| Current Active / Spec Created Tasks | L1162 |
 
 ### references/task-workflow-backlog-part2.md
 
