@@ -2222,6 +2222,14 @@ node scripts/list-specs.js --topics
 | Contract | L72 |
 | Related Resources | L79 |
 
+### references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Artifacts | L12 |
+| Evidence Artifacts | L24 |
+| Boundary | L39 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -4807,6 +4815,15 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L114 |
 | 引用元 | L120 |
 
+### references/lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L49 |
+| 参照 | L57 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5291,8 +5308,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L108 |
-| 関連ドキュメント | L113 |
+| 利用順序 | L109 |
+| 関連ドキュメント | L114 |
 
 ### references/llm-embedding.md
 
@@ -6034,7 +6051,7 @@ node scripts/list-specs.js --topics
 | skill-creatorフィクスチャ検証テスト（TASK-8C-G） | L327 |
 | 残課題（未タスク） | L366 |
 | 関連ドキュメント | L377 |
-| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.test.ts`） | L392 |
+| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.runtime.spec.ts`） | L392 |
 
 ### references/quality-requirements-advanced.md
 
@@ -6403,13 +6420,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1062 |
-| フェーズ構造（概要） | L1071 |
-| 品質ゲート（概要） | L1102 |
-| 出力テンプレート | L1113 |
-| 実行時のコマンド・エージェント・スキル | L1136 |
-| 昇格パターン集 | L1160 |
-| Current Active / Spec Created Tasks | L1162 |
+| ドキュメント構成 | L1094 |
+| フェーズ構造（概要） | L1103 |
+| 品質ゲート（概要） | L1134 |
+| 出力テンプレート | L1145 |
+| 実行時のコマンド・エージェント・スキル | L1168 |
+| 昇格パターン集 | L1192 |
+| Current Active / Spec Created Tasks | L1194 |
 
 ### references/task-workflow-backlog-part2.md
 

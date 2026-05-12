@@ -4,7 +4,7 @@
 
 - `docs/30-workflows/ut-05a-fetchpublic-service-binding-001/` を `spec_created / implementation / VISUAL_ON_EXECUTION / runtime evidence pending_user_approval` として skill 正本へ同期。
 - `apps/web/src/lib/fetch/public.ts` に `logTransport()` を追加し、`env.API_SERVICE.fetch(...)` 優先 + `PUBLIC_API_BASE_URL` HTTP fallback の二経路を `transport: 'service-binding' | 'http-fallback'` の構造化 console.log で出力する仕様を確立。
-- `apps/web/src/lib/fetch/public.test.ts` を新規作成し、AC-1（service-binding 優先）/ HTTP fallback / logTransport 出力を `vi.mock` + `vi.stubGlobal` で検証。
+- `apps/web/src/lib/fetch/public.spec.ts` を新規作成し、AC-1（service-binding 優先）/ HTTP fallback / logTransport 出力を `vi.mock` + `vi.stubGlobal` で検証。
 - `apps/web/wrangler.toml` の staging `ubm-hyogo-api-staging` / production `ubm-hyogo-api` service binding と `apps/api/wrangler.toml` の Worker name を service-binding 正本として記録。
 - 苦戦箇所 L-UT05A-FP-001〜005 を `references/lessons-fetch-service-binding-testing.md` に新規記録（500 行以内）。
 - Issue #387 は CLOSED 維持、commit / push / PR / production deploy は user 明示指示後のみ。

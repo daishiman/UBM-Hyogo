@@ -11,7 +11,7 @@ import {
 } from "../../repository/_shared/provider-context";
 import type { AdminRouteEnv } from "./_shared";
 
-const QueryZ = z.object({
+export const ListAuditQueryZ = z.object({
   action: z.string().min(1).optional(),
   actorEmail: z.string().email().optional(),
   targetType: z.string().min(1).optional(),
@@ -132,6 +132,21 @@ const toResponseItem = (row: AuditLogListRow) => {
     createdAt: row.createdAt,
   };
 };
+export type AuditResponseItem = ReturnType<typeof toResponseItem>;
+export interface ListAuditResponse {
+  ok: true;
+  items: AuditResponseItem[];
+  nextCursor: string | null;
+  appliedFilters: {
+    action: string | null;
+    actorEmail: string | null;
+    targetType: string | null;
+    targetId: string | null;
+    from: string | null;
+    to: string | null;
+    limit: number;
+  };
+}
 
 export const createAdminAuditRoute = () => {
   const app = new Hono<{
@@ -142,7 +157,7 @@ export const createAdminAuditRoute = () => {
   app.use("*", writeTagNoteProviderMiddleware);
 
   app.get("/audit", async (c) => {
-    const parsed = QueryZ.safeParse({
+    const parsed = ListAuditQueryZ.safeParse({
       action: c.req.query("action") || undefined,
       actorEmail: c.req.query("actorEmail") || undefined,
       targetType: c.req.query("targetType") || undefined,
@@ -201,7 +216,7 @@ export const createAdminAuditRoute = () => {
           to: parsed.data.to ?? null,
           limit,
         },
-      },
+      } satisfies ListAuditResponse,
       200,
     );
   });

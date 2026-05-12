@@ -20,7 +20,7 @@
     "e2e:smoke": "PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 playwright test --project=smoke-chromium",
     "e2e:visual": "PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 playwright test --project=visual-chromium",
     "e2e:visual:update": "PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 playwright test --project=visual-chromium --update-snapshots",
-    "verify-design-tokens": "vitest run --root=../.. --config=vitest.config.ts apps/web/src/__tests__/tokens.test.ts",
+    "verify-design-tokens": "vitest run --root=../.. --config=vitest.config.ts apps/web/src/__tests__/tokens.runtime.spec.ts",
     "e2e:staging": "playwright test tests/e2e/staging-smoke.spec.ts --project=staging-smoke"
   },
   "dependencies": {

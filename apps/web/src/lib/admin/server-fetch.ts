@@ -52,7 +52,7 @@ const adminRequestsFixture = () => ({
 const adminIdentityConflictsFixture = () => ({
   items: [
     {
-      conflictId: "cf_001",
+      conflictId: "m_src_01__m_dst_01",
       sourceMemberId: "m_src_01",
       candidateTargetMemberId: "m_dst_01",
       matchedFields: ["name", "affiliation"],
@@ -61,7 +61,7 @@ const adminIdentityConflictsFixture = () => ({
       syncJobId: "sync_001",
     },
     {
-      conflictId: "cf_002",
+      conflictId: "m_src_02__m_dst_02",
       sourceMemberId: "m_src_02",
       candidateTargetMemberId: "m_dst_02",
       matchedFields: ["name"],
