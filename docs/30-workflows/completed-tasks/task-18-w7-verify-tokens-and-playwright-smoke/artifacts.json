@@ -10,7 +10,41 @@
     "canonicalRoot": "docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/",
     "createdAt": "2026-05-12",
     "sourceTask": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/08-regression/task-18-w7-solo-verify-tokens-and-playwright-smoke.md",
-    "refsPolicy": "Refs only; do not use Closes/Fixes/Resolves"
+    "refsPolicy": "Refs only; do not use Closes/Fixes/Resolves",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + outputs scaffolding present at completed-tasks root"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local 5-point gates (typecheck/lint/unit/verify-tokens/grep-gate) captured as tracked evidence"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/playwright-smoke.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: verify-design-tokens + playwright-smoke + visual baseline must turn green on PR; runtime evidence captured by CI"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: branch protection PUT for dev/main + PR merge remain user-gated"
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "status": "completed", "path": "phase-01.md" },

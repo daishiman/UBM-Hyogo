@@ -49,7 +49,7 @@ const EVIDENCE_DIR =
                     : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
-const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
+const localBaseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000'
 const localServerReadyURL = isTask18RegressionGate ? `${localBaseURL}/login` : localBaseURL
 const localPort = new URL(localBaseURL).port || '3000'
 const localCoverageDir = `${process.cwd()}/coverage/v8`
@@ -125,6 +125,7 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
+      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -139,10 +140,12 @@ export default defineConfig({
     },
     {
       name: 'desktop-firefox',
+      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/],
       use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
       name: 'mobile-webkit',
+      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/],
       use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 } },
     },
     {
