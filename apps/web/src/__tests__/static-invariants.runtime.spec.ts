@@ -106,13 +106,7 @@ const findAnyMatches = async (
 };
 
 const isSelfTestFile = (file: string): boolean =>
-<<<<<<<< HEAD:apps/web/src/__tests__/static-invariants.spec.ts
-  file.endsWith("static-invariants.spec.ts");
-|||||||| d2bc747a:apps/web/src/__tests__/static-invariants.test.ts
-  file.endsWith("static-invariants.test.ts");
-========
   file.endsWith("static-invariants.runtime.spec.ts");
->>>>>>>> origin/dev:apps/web/src/__tests__/static-invariants.runtime.spec.ts
 
 const isPlaywrightHarnessFile = (file: string): boolean =>
   file.includes(`${WEB_ROOT}/playwright/`);
@@ -184,15 +178,9 @@ describe("static invariants / 06b", () => {
   it("S-04b: app/profile/_components/Request*.tsx に本文 field 名が現れない", async () => {
     // phase-05 ステップ11 の grep gate を unit test で固定化。
     const files = (await walk(join(WEB_ROOT, "app/profile/_components"))).filter(
-<<<<<<<< HEAD:apps/web/src/__tests__/static-invariants.spec.ts
-      (f) => /Request[A-Z][A-Za-z]*\.tsx$/.test(f) && !f.endsWith(".spec.tsx"),
-|||||||| d2bc747a:apps/web/src/__tests__/static-invariants.test.ts
-      (f) => /Request[A-Z][A-Za-z]*\.tsx$/.test(f) && !f.endsWith(".test.tsx"),
-========
       (f) =>
         /Request[A-Z][A-Za-z]*\.tsx$/.test(f) &&
         !f.endsWith(".component.spec.tsx"),
->>>>>>>> origin/dev:apps/web/src/__tests__/static-invariants.runtime.spec.ts
     );
     const hits = await findAnyMatches(files, [
       /name=["'](displayName|email|kana|address|phone)["']/,
