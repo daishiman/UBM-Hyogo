@@ -196,6 +196,8 @@ GitHub Environment は作成されているが secret が 0 件のまま staging
 | `CF_AUDIT_ML_MODEL_PATH_PREVIOUS` | Issue #587 promotion 前に現行 production artifact reference を退避する previous op 参照名。rollback target の識別に使い、解決値は保存しない | 未設定 |
 | `CF_AUDIT_FALLBACK_RATE_THRESHOLD` | Issue #549 production ML switch 後の fallback rate alert 閾値。既定は `0.05` | `0.05` |
 | `CF_AUDIT_FALLBACK_RATE_CONSECUTIVE_HOURS` | fallback rate alert の連続超過時間。既定は `3` | `3` |
+| `EMAIL_FROM` | Issue #588 fallback alert mail HTTP webhook の From。GitHub Actions environment variable。mail provider 未確定時は未設定でよい | 未設定 |
+| `EMAIL_TO` | Issue #588 fallback alert mail HTTP webhook の宛先。GitHub Actions environment variable。mail provider 未確定時は未設定でよい | 未設定 |
 | `CF_AUDIT_REDACT_SECRET` | redacted feature export の actor hash salt。feature export workflow でのみ使う secret。ログ・dataset へ値を出さない | GitHub environment secret |
 
 ---
@@ -392,6 +394,19 @@ Placement gates:
 - G4: production smoke PASS and `bash scripts/redaction-grep.sh .` PASS.
 
 `wrangler secret put` must not be executed directly. Use `bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT --config apps/api/wrangler.toml --env <env>` with the value supplied by stdin from 1Password. Name-only verification may use `bash scripts/cf.sh secret list --config apps/api/wrangler.toml --env <env> | grep SLACK_WEBHOOK_INCIDENT`.
+
+### Issue #588 fallback alert Slack / mail GitHub Actions secrets（2026-05-10）
+
+Issue #588 の `cf-audit-log-monitor.yml` は fallback rate > 5% が 3 hour 連続した場合、GitHub Issue 起票に加えて Slack / mail HTTP webhook を best-effort で送る。Slack は Issue #520 の incident channel 正本名に寄せ、GitHub Actions でも `SLACK_WEBHOOK_INCIDENT` を使う。`SLACK_WEBHOOK_URL` は CLI の local fallback 名としてのみ許容し、新規 GitHub Actions secret として作らない。
+
+| Secret / Variable 名 | 用途 | 配布先 | 正本 |
+| --- | --- | --- | --- |
+| `SLACK_WEBHOOK_INCIDENT` | `#ubm-hyogo-incidents` fallback alert Slack post | GitHub Actions environment secret (`production`) | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PROD` |
+| `EMAIL_WEBHOOK_URL` | fallback alert mail provider HTTP endpoint。provider 契約後に設定 | GitHub Actions environment secret (`production`) | 1Password provider item（契約時に item/path を確定） |
+| `EMAIL_FROM` | mail webhook payload `from` | GitHub Actions environment variable (`production`) | provider 契約時の sender address |
+| `EMAIL_TO` | mail webhook payload `to` | GitHub Actions environment variable (`production`) | incident distribution address |
+
+`EMAIL_WEBHOOK_URL` / `EMAIL_FROM` / `EMAIL_TO` のいずれかが未設定の場合、mail dispatcher は no-op で skip する。これは provider 未契約時の runtime boundary であり、GitHub Issue 起票と Slack 通知を阻害しない。
 
 ### Issue #408 Cloudflare Audit Logs monitoring Secret（2026-05-06）
 
