@@ -2551,6 +2551,23 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L47 |
 
+### references/workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Implementation Artifacts | L7 |
+| Evidence Artifacts | L16 |
+| Lessons Learned | L28 |
+| User-Gated Runtime Items | L34 |
+
+### references/workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Boundary | L16 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3762,15 +3779,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| wrangler.toml の環境別設定 | L203 |
-| ローカル開発での設定 | L235 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L274 |
-| セキュリティ原則 | L306 |
-| Cloudflare API Token の作成手順 | L317 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L332 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L430 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
-| 変更履歴 | L501 |
+| wrangler.toml の環境別設定 | L205 |
+| ローカル開発での設定 | L237 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L276 |
+| セキュリティ原則 | L308 |
+| Cloudflare API Token の作成手順 | L319 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L334 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L445 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L497 |
+| 変更履歴 | L516 |
 
 ### references/deployment.md
 
@@ -3944,6 +3961,16 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L6 |
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
+
+### references/gate-metadata.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L3 |
+| Purpose | L12 |
+| Gate Entry Contract | L16 |
+| Validator Contract | L40 |
+| Rollout Boundary | L60 |
 
 ### references/governance-hooks-factory-audit-sink.md
 
@@ -4783,6 +4810,14 @@ node scripts/list-specs.js --topics
 | L-I359-002: Wrangler config path belongs in the runbook | L7 |
 | L-I359-003: Rollback SQL is evidence, not permission | L11 |
 | L-I359-004: Source unassigned close-out is part of Phase 12 | L15 |
+
+### references/lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所 | L10 |
+| 同様の課題を将来簡潔に解決するための知見 | L25 |
+| 関連リンク | L35 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -6352,13 +6387,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1032 |
-| フェーズ構造（概要） | L1041 |
-| 品質ゲート（概要） | L1072 |
-| 出力テンプレート | L1083 |
-| 実行時のコマンド・エージェント・スキル | L1106 |
-| 昇格パターン集 | L1130 |
-| Current Active / Spec Created Tasks | L1132 |
+| ドキュメント構成 | L1062 |
+| フェーズ構造（概要） | L1071 |
+| 品質ゲート（概要） | L1102 |
+| 出力テンプレート | L1113 |
+| 実行時のコマンド・エージェント・スキル | L1136 |
+| 昇格パターン集 | L1160 |
+| Current Active / Spec Created Tasks | L1162 |
 
 ### references/task-workflow-backlog-part2.md
 
