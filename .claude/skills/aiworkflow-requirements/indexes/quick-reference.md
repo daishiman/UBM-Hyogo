@@ -5,6 +5,34 @@
 
 ---
 
+### E2E Quality Uplift Stage 3 — branch protection desired-state manifest land（Issue #608 / 2026-05-12）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/e2e-quality-uplift-stage-3/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL`（Phase 12 strict 7 PASS / apply+verify evidence captured） |
+| desired contexts manifest | `.github/branch-protection/{dev,main}.json`（`ci`, `Validate Build`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate` のみを宣言。PUT body 全体ではない） |
+| adapter | `.github/branch-protection/apply.sh`（fresh GET → contexts/strict 差し替え → CLAUDE.md 不変条件正規化 → optional fields は fresh 値保持） |
+| verifier | `scripts/verify-branch-protection.sh`（read-only drift gate / 契約: 最終行 `OK(<branch>): no drift`） |
+| INV 正規化対象 | INV-SOLO (`required_pull_request_reviews=null`) / INV-ENF (`enforce_admins=true`) / INV-LINEAR (`required_linear_history=true`) / INV-LOCK (`lock_branch=false`) |
+| lighthouse readiness | `.github/workflows/lighthouse.yml`（`nohup pnpm --filter @ubm-hyogo/web start` + `pnpm dlx wait-on -t 120000 http-get://localhost:3000` / `pull_request.branches=[dev,main]` + `workflow_dispatch`） |
+| canonical reference | `references/branch-protection-desired-state-manifest.md` |
+| 関連 lessons | `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md` L-E2EQU-S3A-001..003 |
+| operational SSOT | GitHub branch protection fresh GET（`gh api repos/daishiman/UBM-Hyogo/branches/{dev,main}/protection`） |
+| user gate | PR creation / `gh pr checks` required-context 表示 / Lighthouse workflow run / commit / push / PR |
+
+### Wait-on readiness pattern（CI server startup）
+
+| 目的 | 内容 |
+| --- | --- |
+| 適用先 | 外部サーバ起動を待つ CI step（Lighthouse / smoke / E2E） |
+| 起動 | `nohup pnpm --filter <app> start > /tmp/<app>-server.log 2>&1 &` + `echo $! > /tmp/<app>-server.pid` |
+| 待機 | `pnpm dlx wait-on -t 120000 http-get://localhost:<port>`（`npx` は L-E2EQU-011 により禁止） |
+| 利点 | exit code / timeout / cleanup を構造担保。手作り retry loop の二重起動・SIGTERM 漏れを排除 |
+| 関連 | `references/quality-e2e-testing.md`「lighthouse-ci の readiness pattern」/ L-E2EQU-S3A-003 |
+
+---
+
 ### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
 
 | 目的 | 参照先 |
@@ -90,14 +118,14 @@
 | Stage 0 状態 | `implementation_complete_pending_pr / implementation / NON_VISUAL` (Playwright README / project filter / `evidence-capture` project / logged-in spec split / quality-gate exception) |
 | Stage 1 状態 | `implemented_local / implementation_complete_e2e_verification_recorded / NON_VISUAL`（auth fixture HS256 JWT 署名・server fetch mock API・tracked `.txt` evidence） |
 | Stage 2 状態 | `spec_verified_pending_dependency / docs-only spec / NON_VISUAL`（tier-aware coverage 自動 enforcement: critical ≥80% / standard ≥70% / experimental ≥50%） |
-| Stage 3 状態 | `spec_verified_pending_dependency / docs-only spec / NON_VISUAL`（branch protection contexts 正本化: CI / Lighthouse / e2e-tests-coverage-gate） |
-| evidence boundary | Stage 0/1 は tracked runtime evidence。Stage 2/3 は placeholder evidence（`evidence_status: PLANNED_BECAUSE_PHASE11_NOT_EXECUTED`）。Stage N+1 は Stage N 実装/仕様 land 後に着手 |
+| Stage 3 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL`（branch protection desired contexts: CI / Lighthouse / e2e-tests-coverage-gate、local execution root `docs/30-workflows/e2e-quality-uplift-stage-3/`） |
+| evidence boundary | Stage 0/1 は tracked runtime evidence。Stage 2 は placeholder evidence。Stage 3 は branch protection PUT + verify evidence captured、PR CI required 表示 / Lighthouse run / commit / push / PR は user-gated |
 | tier policy 正本 | `.claude/skills/task-specification-creator/references/coverage-standards.md` + `quality-gates.md §7.1 (4)` (`evidence-capture` project 例外条項) |
 | artifact inventory | `references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md`（4 stage 責務分割表 / Phase 11 evidence kind matrix / tier policy 表） |
 | lessons-learned | `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md`（L-E2EQU-001..007 + 002A: Server Component fetch は browser route mock で検証不可） |
 | changelog | `changelog/20260509-e2e-quality-uplift-stage0-3.md` |
 | Phase 12 strict 7 | 4 stage 全てに present（main / implementation-guide / system-spec-update-summary / documentation-changelog / unassigned-task-detection / skill-feedback-report / phase12-task-spec-compliance-check） |
-| user gate | runtime tier enforcement / branch protection PUT / commit / push / PR は user approval 後 |
+| user gate | runtime tier enforcement / PR CI required 表示 / Lighthouse run / commit / push / PR は user approval 後 |
 
 
 ### UI prototype alignment / MVP recovery task-05 error boundary and staging smoke（2026-05-09）

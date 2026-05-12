@@ -2214,13 +2214,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
-| Stage Responsibility Split (classification-first) | L17 |
-| Current Facts (Stage 0 implementation) | L26 |
-| Phase 12 Strict 7 Files (all stages) | L40 |
-| Phase 11 Evidence Path Map | L52 |
-| Tier-Aware Coverage Policy | L63 |
-| Contract | L72 |
-| Related Resources | L79 |
+| Stage Responsibility Split (classification-first) | L18 |
+| Current Facts (Stage 3 local execution) | L27 |
+| Current Facts (Stage 0 implementation) | L39 |
+| Phase 12 Strict 7 Files (all stages) | L53 |
+| Phase 11 Evidence Path Map | L65 |
+| Tier-Aware Coverage Policy | L76 |
+| Contract | L85 |
+| Related Resources | L92 |
 
 ### references/workflow-governance-design-category.md
 
@@ -3589,6 +3590,21 @@ node scripts/list-specs.js --topics
 | 4. OpenNext post-build worker patch | L97 |
 | 5. Auth.js v5 env 層化 | L109 |
 | 変更履歴 | L174 |
+
+### references/branch-protection-desired-state-manifest.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 三層構成と責務 | L9 |
+| 2. desired-state manifest schema | L20 |
+| 3. CLAUDE.md 不変条件（INV-*）の正規化対象 | L41 |
+| 4. drift 判定基準（Stage 3 land 時点） | L54 |
+| 5. drift 取り込み判定（Phase 4 design 必須） | L64 |
+| 6. workflow `name:` フィールドと contexts manifest の整合 | L75 |
+| 7. 集約 required context の設計指針 | L89 |
+| 8. Lighthouse readiness pattern との接続 | L93 |
+| 9. 関連参照 | L108 |
+| 10. 履歴 | L119 |
 
 ### references/branch-protection.md
 
@@ -6341,13 +6357,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1015 |
-| フェーズ構造（概要） | L1024 |
-| 品質ゲート（概要） | L1055 |
-| 出力テンプレート | L1066 |
-| 実行時のコマンド・エージェント・スキル | L1089 |
-| 昇格パターン集 | L1113 |
-| Current Active / Spec Created Tasks | L1115 |
+| ドキュメント構成 | L1016 |
+| フェーズ構造（概要） | L1025 |
+| 品質ゲート（概要） | L1056 |
+| 出力テンプレート | L1067 |
+| 実行時のコマンド・エージェント・スキル | L1090 |
+| 昇格パターン集 | L1114 |
+| Current Active / Spec Created Tasks | L1116 |
 
 ### references/task-workflow-backlog-part2.md
 
