@@ -37,8 +37,8 @@ test.describe('/admin/identity-conflicts × mutation', () => {
       adminPage.getByRole('heading', { name: /Identity 重複候補/ }),
     ).toBeVisible()
 
-    await expect(adminPage.getByText('conflict: cf_001')).toBeVisible()
-    await expect(adminPage.getByText('conflict: cf_002')).toBeVisible()
+    await expect(adminPage.getByText('conflict: m_src_01__m_dst_01')).toBeVisible()
+    await expect(adminPage.getByText('conflict: m_src_02__m_dst_02')).toBeVisible()
 
     await expect(adminPage.getByText('m_src_01')).toBeVisible()
     await expect(adminPage.getByText('m_dst_01')).toBeVisible()
@@ -51,7 +51,7 @@ test.describe('/admin/identity-conflicts × mutation', () => {
     const dismissButtons = adminPage.getByRole('button', { name: '別人マーク' })
     await expect(dismissButtons).toHaveCount(2)
 
-    // matched fields の差異が描画されていること (cf_001 は name+affiliation, cf_002 は name のみ)
+    // matched fields の差異が描画されていること (1件目は name+affiliation, 2件目は name のみ)
     await expect(adminPage.getByText(/matched: name, affiliation/)).toBeVisible()
     await expect(
       adminPage.getByText(/matched: name(?!, affiliation)/),
@@ -82,7 +82,7 @@ test.describe('/admin/identity-conflicts × mutation', () => {
 
     await adminPage.goto('/admin/identity-conflicts')
     const row = adminPage
-      .getByText('conflict: cf_001')
+      .getByText('conflict: m_src_01__m_dst_01')
       .locator('xpath=ancestor::li[1]')
     await row.getByRole('button', { name: 'merge' }).click()
     await row.getByRole('button', { name: '次へ' }).click()
@@ -121,7 +121,7 @@ test.describe('/admin/identity-conflicts × mutation', () => {
 
     await adminPage.goto('/admin/identity-conflicts')
     const row = adminPage
-      .getByText('conflict: cf_002')
+      .getByText('conflict: m_src_02__m_dst_02')
       .locator('xpath=ancestor::li[1]')
     await row.getByRole('button', { name: '別人マーク' }).click()
     await row
@@ -161,7 +161,7 @@ test.describe('/admin/identity-conflicts × mutation', () => {
 
     await adminPage.goto('/admin/identity-conflicts')
     const row = adminPage
-      .getByText('conflict: cf_001')
+      .getByText('conflict: m_src_01__m_dst_01')
       .locator('xpath=ancestor::li[1]')
     await row.getByRole('button', { name: 'merge' }).click()
     await row.getByRole('button', { name: '次へ' }).click()

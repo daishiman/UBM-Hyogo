@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "issue-590-phase11-canonical-evidence-paths",
+  "workflowDir": "docs/30-workflows/completed-tasks/issue-590-phase11-canonical-evidence-paths",
+  "evidence": [
+    {
+      "id": "typecheck",
+      "kind": "typecheck",
+      "path": "outputs/phase-11/evidence/typecheck.log",
+      "command": "pnpm typecheck",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "lint",
+      "kind": "lint",
+      "path": "outputs/phase-11/evidence/lint.log",
+      "command": "pnpm lint",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "schema-validation",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/schema-validation.log",
+      "command": "node .claude/skills/task-specification-creator/scripts/validate-schema.js --schema schemas/phase11-evidence-canonical-paths.schema.json --data docs/30-workflows/completed-tasks/issue-590-phase11-canonical-evidence-paths/outputs/phase-11/canonical-paths.json",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "validator-test",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/validator-test.log",
+      "command": "node --test .claude/skills/task-specification-creator/scripts/__tests__/validate-phase11-canonical-evidence-paths.test.mjs",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "phase11-paths",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/phase11-paths.log",
+      "command": "pnpm validate:phase11-paths docs/30-workflows/completed-tasks/issue-590-phase11-canonical-evidence-paths/outputs/phase-11/canonical-paths.json --check-existence",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    }
+  ]
+}

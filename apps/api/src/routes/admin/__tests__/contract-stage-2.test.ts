@@ -1,146 +1,155 @@
 // @vitest-environment node
-// task-spec-2d-contract-stage-2:
-// 2a/2b/2c Playwright spec が `page.route()` で返す UI fixture object と、
-// `apps/api` 側 route の zod schema が drift していないことを CI で機械検証する
-// pure unit contract test。DB / Network / FS / Cloudflare binding を一切触らない。
-import { describe, it, expect, expectTypeOf } from "vitest";
+import { describe, expect, expectTypeOf, it } from "vitest";
 import {
-  MergeIdentityRequestZ,
-  MergeIdentityResponseZ,
   DismissIdentityConflictRequestZ,
   DismissIdentityConflictResponseZ,
   IdentityConflictRowZ,
   ListIdentityConflictsResponseZ,
+  MergeIdentityRequestZ,
+  MergeIdentityResponseZ,
   adminRequestResolveBodySchema,
 } from "@ubm-hyogo/shared";
-import { AdminRequestsListResponseZ, ListRequestsQueryZ } from "../requests";
-import { AdminAuditListResponseZ, ListAuditQueryZ } from "../audit";
+import { ListAuditQueryZ, type ListAuditResponse } from "../audit";
 import { DeleteBodyZ } from "../member-delete";
+import {
+  ListRequestsQueryZ,
+  type ListRequestsResponse,
+  type ResolveRequestResponse,
+} from "../requests";
 
-// --- fixture objects (inline, `as const`) ---
 const adminRequestItem = {
   noteId: "note_001",
   memberId: "m_001",
-  noteType: "visibility_request" as const,
-  requestStatus: "pending" as const,
-  requestedAt: "2026-05-11T00:00:00.000Z",
-  requestedReason: null,
-  requestedPayload: { desiredState: "public" },
+  noteType: "visibility_request",
+  requestStatus: "pending",
+  requestedAt: "2026-05-10T00:00:00.000Z",
+  requestedReason: "公開状態を変更したい",
+  requestedPayload: { desiredState: "hidden" },
   memberSummary: {
     memberId: "m_001",
-    publicHandle: "alpha",
+    publicHandle: null,
     publishState: "public",
     isDeleted: false,
   },
 } as const;
 
-const adminRequestsListResponse = {
-  ok: true as const,
+const adminRequestsResponse = {
+  ok: true,
   items: [adminRequestItem],
   nextCursor: null,
-  appliedFilters: { status: "pending" as const, type: "visibility_request" as const },
-} as const;
-
-const requestResolveApproveBody = { resolution: "approve" as const } as const;
-const requestResolveRejectBody = {
-  resolution: "reject" as const,
-  resolutionNote: "duplicate",
-} as const;
+  appliedFilters: { status: "pending", type: "visibility_request" },
+} satisfies ListRequestsResponse;
 
 const identityConflictItem = {
-  conflictId: "ic_001",
-  sourceMemberId: "m_002",
-  candidateTargetMemberId: "m_001",
-  matchedFields: ["name", "affiliation"] as const,
-  detectedAt: "2026-05-11T00:00:00.000Z",
-  responseEmailMasked: "u***@example.com",
+  conflictId: "m_source__m_target",
+  sourceMemberId: "m_source",
+  candidateTargetMemberId: "m_target",
+  matchedFields: ["name", "affiliation"],
+  detectedAt: "2026-05-10T00:00:00.000Z",
+  responseEmailMasked: "n***@example.com",
   syncJobId: null,
 } as const;
 
-const mergeRequestBody = {
-  targetMemberId: "m_001",
-  reason: "同一人物確定",
-} as const;
-
 const mergeResponseBody = {
-  mergedAt: "2026-05-11T00:00:00.000Z",
-  targetMemberId: "m_001",
-  archivedSourceMemberId: "m_002",
+  mergedAt: "2026-05-10T00:00:00.000Z",
+  targetMemberId: "m_target",
+  archivedSourceMemberId: "m_source",
   auditId: "audit_001",
 } as const;
 
-const dismissRequestBody = { reason: "別人と判明" } as const;
-const dismissResponseBody = { dismissedAt: "2026-05-11T00:00:00.000Z" } as const;
-
-const memberDeleteBody = { reason: "退会希望" } as const;
 const memberDeleteResponse = {
   id: "m_001",
-  isDeleted: true as const,
-  deletedAt: "2026-05-11T00:00:00.000Z",
+  isDeleted: true,
+  deletedAt: "2026-05-10T00:00:00.000Z",
 } as const;
+
+const resolveResponse = {
+  ok: true,
+  noteId: "note_001",
+  requestStatus: "resolved",
+  resolvedAt: "2026-05-10T00:00:00.000Z",
+  resolvedByAdminId: "admin_001",
+  memberAfter: { memberId: "m_001", publishState: "hidden", isDeleted: false },
+  retentionPurgeScheduledAt: null,
+} satisfies ResolveRequestResponse;
 
 const auditEntry = {
   auditId: "audit_001",
   actorId: "admin_001",
-  actorEmail: "admin@example.test",
-  action: "admin.member.deleted" as const,
+  actorEmail: "admin@example.com",
+  action: "admin.member.deleted",
   targetType: "member",
   targetId: "m_001",
-  maskedBefore: { is_deleted: 0 },
-  maskedAfter: { is_deleted: 1 },
+  maskedBefore: null,
+  maskedAfter: { isDeleted: true },
   parseError: false,
-  createdAt: "2026-05-11T00:00:00.000Z",
+  createdAt: "2026-05-10T00:00:00.000Z",
 } as const;
 
-const auditListResponse = {
-  ok: true as const,
+const auditResponse = {
+  ok: true,
   items: [auditEntry],
   nextCursor: null,
   appliedFilters: {
     action: "admin.member.deleted",
-    actorEmail: null,
-    targetType: null,
-    targetId: null,
+    actorEmail: "admin@example.com",
+    targetType: "member",
+    targetId: "m_001",
     from: null,
     to: null,
     limit: 50,
   },
-} as const;
-
-// --- describe / test ---
+} satisfies ListAuditResponse;
 
 describe("GET /admin/requests", () => {
-  it("query schema が UI fixture を parse できる", () => {
+  it("query schema parses the Stage 2 UI fixture filter", () => {
     expect(() =>
-      ListRequestsQueryZ.parse({ status: "pending", type: "visibility_request" }),
+      ListRequestsQueryZ.parse({
+        status: "pending",
+        type: "visibility_request",
+        limit: "50",
+      }),
     ).not.toThrow();
   });
 
-  it("response items[] shape が route response schema と同型", () => {
-    expect(() => AdminRequestsListResponseZ.parse(adminRequestsListResponse)).not.toThrow();
+  it("rejects missing request type", () => {
+    expect(() => ListRequestsQueryZ.parse({ status: "pending" })).toThrow();
+  });
+
+  it("response envelope stays compatible with the admin requests route", () => {
+    expectTypeOf<typeof adminRequestsResponse>().toMatchTypeOf<ListRequestsResponse>();
   });
 });
 
 describe("POST /admin/requests/:noteId/resolve", () => {
-  it("approve body parse", () => {
-    expect(() => adminRequestResolveBodySchema.parse(requestResolveApproveBody)).not.toThrow();
+  it("parses approve bodies", () => {
+    expect(() => adminRequestResolveBodySchema.parse({ resolution: "approve" })).not.toThrow();
   });
 
-  it("reject + note body parse", () => {
-    expect(() => adminRequestResolveBodySchema.parse(requestResolveRejectBody)).not.toThrow();
+  it("parses reject bodies with a resolution note", () => {
+    expect(() =>
+      adminRequestResolveBodySchema.parse({
+        resolution: "reject",
+        resolutionNote: "本人確認できないため",
+      }),
+    ).not.toThrow();
   });
 
-  it("失敗系: 不正 resolution は throw", () => {
+  it("rejects unknown resolution values", () => {
     expect(() => adminRequestResolveBodySchema.parse({ resolution: "unknown" })).toThrow();
+  });
+
+  it("response envelope stays compatible with the resolve route", () => {
+    expectTypeOf<typeof resolveResponse>().toMatchTypeOf<ResolveRequestResponse>();
   });
 });
 
 describe("GET /admin/identity-conflicts", () => {
-  it("items[] が IdentityConflictRowZ と同型", () => {
+  it("parses identity conflict row fixtures", () => {
     expect(() => IdentityConflictRowZ.parse(identityConflictItem)).not.toThrow();
   });
 
-  it("list response 全体が ListIdentityConflictsResponseZ と同型", () => {
+  it("parses list responses with nullable cursors", () => {
     expect(() =>
       ListIdentityConflictsResponseZ.parse({
         items: [identityConflictItem],
@@ -151,53 +160,67 @@ describe("GET /admin/identity-conflicts", () => {
 });
 
 describe("POST /admin/identity-conflicts/:id/merge", () => {
-  it("request body parse", () => {
-    expect(() => MergeIdentityRequestZ.parse(mergeRequestBody)).not.toThrow();
+  it("parses merge request bodies", () => {
+    expect(() =>
+      MergeIdentityRequestZ.parse({
+        targetMemberId: "m_target",
+        reason: "同一人物と判断したため",
+      }),
+    ).not.toThrow();
   });
 
-  it("失敗系: reason 空は throw", () => {
+  it("rejects blank merge reasons", () => {
     expect(() =>
-      MergeIdentityRequestZ.parse({ targetMemberId: "m_001", reason: "" }),
+      MergeIdentityRequestZ.parse({
+        targetMemberId: "m_target",
+        reason: "",
+      }),
     ).toThrow();
   });
 
-  it("response body parse", () => {
+  it("parses the shared merge response shape", () => {
     expect(() => MergeIdentityResponseZ.parse(mergeResponseBody)).not.toThrow();
   });
 });
 
 describe("POST /admin/identity-conflicts/:id/dismiss", () => {
-  it("request body parse", () => {
-    expect(() => DismissIdentityConflictRequestZ.parse(dismissRequestBody)).not.toThrow();
+  it("parses dismiss request bodies", () => {
+    expect(() =>
+      DismissIdentityConflictRequestZ.parse({ reason: "別人と確認したため" }),
+    ).not.toThrow();
   });
 
-  it("失敗系: reason 空は throw", () => {
+  it("rejects blank dismiss reasons", () => {
     expect(() => DismissIdentityConflictRequestZ.parse({ reason: "" })).toThrow();
   });
 
-  it("response body parse", () => {
-    expect(() => DismissIdentityConflictResponseZ.parse(dismissResponseBody)).not.toThrow();
+  it("parses dismiss responses", () => {
+    expect(() =>
+      DismissIdentityConflictResponseZ.parse({
+        dismissedAt: "2026-05-10T00:00:00.000Z",
+      }),
+    ).not.toThrow();
   });
 });
 
 describe("POST /admin/members/:memberId/delete", () => {
-  it("request body parse", () => {
-    expect(() => DeleteBodyZ.parse(memberDeleteBody)).not.toThrow();
+  it("parses member delete request bodies", () => {
+    expect(() => DeleteBodyZ.parse({ reason: "退会希望のため" })).not.toThrow();
   });
 
-  it("失敗系: reason 空は throw", () => {
+  it("rejects blank delete reasons", () => {
     expect(() => DeleteBodyZ.parse({ reason: "" })).toThrow();
   });
 
-  it("失敗系: reason 欠落は throw", () => {
+  it("rejects missing delete reasons", () => {
     expect(() => DeleteBodyZ.parse({})).toThrow();
   });
 
-  it("失敗系: reason 501 文字は throw", () => {
+  it("rejects delete reasons longer than 500 characters", () => {
     expect(() => DeleteBodyZ.parse({ reason: "a".repeat(501) })).toThrow();
   });
 
-  it("response shape が UI fixture と同型 (type-level)", () => {
+  it("response item shape stays compatible with the member delete UI fixture", () => {
     expectTypeOf<typeof memberDeleteResponse>().toMatchTypeOf<{
       id: string;
       isDeleted: true;
@@ -207,17 +230,22 @@ describe("POST /admin/members/:memberId/delete", () => {
 });
 
 describe("GET /admin/audit", () => {
-  it("query schema が UI fixture を parse できる", () => {
+  it("query schema parses audit filters", () => {
     expect(() =>
-      ListAuditQueryZ.parse({ action: "admin.member.deleted", limit: 50 }),
+      ListAuditQueryZ.parse({
+        action: "admin.member.deleted",
+        actorEmail: "admin@example.com",
+        targetType: "member",
+        limit: "50",
+      }),
     ).not.toThrow();
   });
 
-  it("失敗系: actorEmail が email 形式でない場合 throw", () => {
+  it("rejects invalid actor email filters", () => {
     expect(() => ListAuditQueryZ.parse({ actorEmail: "not-email" })).toThrow();
   });
 
-  it("audit response shape が route response schema と同型", () => {
-    expect(() => AdminAuditListResponseZ.parse(auditListResponse)).not.toThrow();
+  it("response envelope stays compatible with the audit route", () => {
+    expectTypeOf<typeof auditResponse>().toMatchTypeOf<ListAuditResponse>();
   });
 });
