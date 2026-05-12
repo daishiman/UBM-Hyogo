@@ -24,7 +24,41 @@
       "lib-unit": 24
     },
     "spec_path": "docs/30-workflows/issue-621-apps-web-test-suffix-rename/",
-    "issue_link_directive": "Refs #621 (do not use Closes)"
+    "issue_link_directive": "Refs #621 (do not use Closes)",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-621-apps-web-test-suffix-rename/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec present at root, scope and DoD finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-10T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: pnpm typecheck PASS, pnpm lint PASS, apps/web vitest 70 renamed specs PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: build label and verify-design-tokens path aligned to .spec; awaiting green CI on PR"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-621-apps-web-test-suffix-rename/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: PR #682 awaits user-gated merge into dev"
+      }
+    ]
   },
   "phases": [
     { "id": 1, "name": "要件定義 / Gate 整理 / 真の論点", "status": "completed", "output": "phase-01.md" },
