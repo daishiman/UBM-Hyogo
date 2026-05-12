@@ -5,6 +5,19 @@
 
 ---
 
+### Issue #617 CI Test Time Reduction Split（2026-05-11）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-617-ci-test-time-reduction-split/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / LOCAL_EVIDENCE_PARTIAL_CI_RUNTIME_PENDING` |
+| source issue | Issue #617 CLOSED。PR 文脈は `Refs #617` のみ |
+| source trace | `docs/30-workflows/unassigned-task/task-issue-577-followup-003-test-grouping-by-d1-usage.md`（historical #618, expanded consumed） |
+| implementation targets | `vitest.config.ts`, `vitest.d1.config.ts`, `apps/api/package.json`, `apps/web/package.json`, `scripts/coverage-guard.sh`, `scripts/coverage-merge.mjs`, `.github/workflows/ci.yml` |
+| CI design | `coverage-gate-shard` matrix（web / api-unit / api-d1 / packages）+ aggregate `coverage-gate` required context 維持。shard は artifact-only、80% 判定は aggregate のみ |
+| Phase 12 | `docs/30-workflows/issue-617-ci-test-time-reduction-split/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md` |
+
 ### Issue #589 Gate Metadata Structured Ledger（2026-05-10）
 
 | 目的 | 参照先 |

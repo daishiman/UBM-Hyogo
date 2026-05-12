@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #617 CI test time reduction split（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / LOCAL_EVIDENCE_PARTIAL_CI_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-617-ci-test-time-reduction-split/` |
+| source issue | Issue #617 CLOSED。PR 文脈は `Refs #617` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/task-issue-577-followup-003-test-grouping-by-d1-usage.md`（historical #618, expanded consumed） |
+| 目的 | apps/api D1/unit split、apps/web/packages coverage split、CI wall-clock reduction |
+| implementation targets | `vitest.config.ts`, `vitest.d1.config.ts`, `apps/api/package.json`, `apps/web/package.json`, `scripts/coverage-guard.sh`, `scripts/coverage-merge.mjs`, `.github/workflows/ci.yml` |
+| CI design | `coverage-gate-shard` matrix fan-out + aggregate `coverage-gate` required context 維持。shard は artifact-only、80% 判定は aggregate のみ |
+| evidence boundary | Local typecheck / lint / coverage-merge test / classification checks are recorded; GitHub Actions runtime wall-clock and full shard coverage remain pending |
+| user gate | GitHub Actions runtime evidence, commit, push, and PR |
+
 ### Issue #589 Gate metadata structured ledger（2026-05-10）
 
 | 項目 | 値 |
