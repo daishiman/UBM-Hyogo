@@ -100,6 +100,19 @@
 | evidence | `docs/30-workflows/completed-tasks/task-17-admin-schema-conflicts-audit/outputs/phase-11/phase11-capture-metadata.json` / `docs/30-workflows/completed-tasks/task-17-admin-schema-conflicts-audit/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | Phase 13 | commit / push / PR outputs は user approval 後のみ生成 |
 
+### Issue #603 phase-12 compliance-check CI gate（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_runtime_pending / implementation / NON_VISUAL / Phase 12 strict 7 outputs present / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-603-phase12-compliance-check-ci-gate/` |
+| Issue | Issue #603 CLOSED。PR 文脈は `Refs #603` のみ |
+| CI gate | `.github/workflows/verify-phase12-compliance.yml` |
+| implementation targets | `scripts/verify-phase12-compliance.ts`, `scripts/lib/phase12-compliance/**`, `scripts/__tests__/verify-phase12-compliance.test.ts`, `scripts/__tests__/fixtures/phase12-compliance/**` |
+| canonical SSOT | `.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md` Required Sections 9 項目 |
+| user gate | commit / push / PR creation / PR-side CI log capture |
+| artifact inventory | `references/workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md` |
+
 ### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
 
 | 項目 | 値 |
