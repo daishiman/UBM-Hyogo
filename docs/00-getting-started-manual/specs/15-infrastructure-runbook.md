@@ -86,6 +86,22 @@ Switch 手順:
 
 Rollback では D1 `classifier_used` / `classifier_version` / `confidence` を削除しない。model artifact 不整合が続く場合は artifact 再選定 Issue へ差し戻す。
 
+## Issue #588 fallback alert Slack / mail extension
+
+Issue #588 は Issue #549 の fallback rate alert を、GitHub Issue 起票のみから GitHub Issue + Slack + mail HTTP webhook へ拡張する。実装状態は `implemented-local-runtime-pending / implementation / NON_VISUAL`。`scripts/cf-audit-log/observation/fallback-rate-alert.ts` が `outputs/observation/*.json` の hourly snapshot を評価し、fallback rate > 5% が 3 hour 連続した場合のみ通知する。
+
+Runtime contract:
+
+| Destination | Env | Behavior |
+| --- | --- | --- |
+| GitHub Issue | `GITHUB_TOKEN`, `GITHUB_REPOSITORY` | 必須 audit trail。失敗は throw 伝播 |
+| Slack | `SLACK_WEBHOOK_INCIDENT` | optional。Issue #520 の incident channel 正本名。未設定時 no-op。失敗は stderr に記録して継続 |
+| Mail HTTP webhook | `EMAIL_WEBHOOK_URL`, `EMAIL_FROM`, `EMAIL_TO` | optional。3 変数のいずれかが未設定なら no-op。失敗は stderr に記録して継続 |
+
+Notification payload は `redactForNotification()` を必ず経由し、32+ hex、`userId=...`、`tenantId=...`、Bearer token、Slack webhook URL を伏せる。GitHub Issue body は既存 audit trail として `buildIssueBody()` を維持するが、Slack/mail body は redacted body のみを使う。
+
+`.github/workflows/cf-audit-log-monitor.yml` は `analyze.ts` 実行後に `outputs/observation/*.json` が存在する場合だけ fallback-rate alert step を実行する。Issue #518 HOLD 中は `dry_run=true` が強制されるため、Slack/mail 実送信と production completion は user-approved runtime wave または自然発生 incident の観測まで pending とする。Secret / variable mutation、HOLD removal、commit、push、PR は user 明示承認後のみ実行する。
+
 ## Issue #587 audit-log ML model artifact rotation
 
 Issue #587 は Issue #549 の production switch 後に、次世代 ML model artifact を candidate evaluation → canary → promotion → rollback の 4 段で入れ替えるための contract である。本サイクルで rotation scripts (`scripts/cf-audit-log/rotation/artifact-canary.ts`, `rotation-evidence-collector.ts`)、focused vitest、canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) を整備済み。実 production promotion は Gate-R0〜R3 と user approval 後に別サイクルで実施する。詳細手順は `docs/30-workflows/runbooks/ml-model-artifact-rotation.md` を正本 runbook contract とする。
