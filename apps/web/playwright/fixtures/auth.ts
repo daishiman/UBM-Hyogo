@@ -396,7 +396,7 @@ async function addSessionCookie(
   payload: { adminUserId?: string; memberId?: string },
   baseURL?: string,
 ): Promise<void> {
-  const url = baseURL ?? process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
+  const url = baseURL || process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000'
   await ctx.addCookies([
     {
       name: SESSION_COOKIE_NAME,
