@@ -44,6 +44,32 @@ export const ListRequestsQueryZ = z.object({
   cursor: z.string().min(1).optional(),
 });
 
+export const AdminRequestListItemZ = z.object({
+  noteId: z.string().min(1),
+  memberId: z.string().min(1),
+  noteType: TypeZ,
+  requestStatus: StatusZ,
+  requestedAt: z.string().min(1),
+  requestedReason: z.string().nullable(),
+  requestedPayload: z.unknown().nullable(),
+  memberSummary: z.object({
+    memberId: z.string().min(1),
+    publicHandle: z.string().nullable(),
+    publishState: z.string().min(1),
+    isDeleted: z.boolean(),
+  }).strict(),
+}).strict();
+
+export const AdminRequestsListResponseZ = z.object({
+  ok: z.literal(true),
+  items: z.array(AdminRequestListItemZ),
+  nextCursor: z.string().nullable(),
+  appliedFilters: z.object({
+    status: StatusZ,
+    type: TypeZ,
+  }).strict(),
+}).strict();
+
 // cursor は base64url(JSON {createdAt,noteId})
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();

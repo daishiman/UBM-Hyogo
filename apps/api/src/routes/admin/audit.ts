@@ -22,6 +22,34 @@ export const ListAuditQueryZ = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(50),
 });
 
+export const AdminAuditListItemZ = z.object({
+  auditId: z.string().min(1),
+  actorId: z.string().min(1),
+  actorEmail: z.string().nullable(),
+  action: z.string().min(1),
+  targetType: z.string().nullable(),
+  targetId: z.string().nullable(),
+  maskedBefore: z.unknown().nullable(),
+  maskedAfter: z.unknown().nullable(),
+  parseError: z.boolean(),
+  createdAt: z.string().min(1),
+}).strict();
+
+export const AdminAuditListResponseZ = z.object({
+  ok: z.literal(true),
+  items: z.array(AdminAuditListItemZ),
+  nextCursor: z.string().nullable(),
+  appliedFilters: z.object({
+    action: z.string().nullable(),
+    actorEmail: z.string().nullable(),
+    targetType: z.string().nullable(),
+    targetId: z.string().nullable(),
+    from: z.string().nullable(),
+    to: z.string().nullable(),
+    limit: z.number().int().min(1).max(100),
+  }).strict(),
+}).strict();
+
 type Cursor = { createdAt: string; auditId: string };
 
 const textEncoder = new TextEncoder();
