@@ -2575,7 +2575,6 @@ node scripts/list-specs.js --topics
 | Canonical Artifacts | L10 |
 | Boundaries | L26 |
 
-
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6404,13 +6403,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1094 |
-| フェーズ構造（概要） | L1103 |
-| 品質ゲート（概要） | L1134 |
-| 出力テンプレート | L1145 |
-| 実行時のコマンド・エージェント・スキル | L1168 |
-| 昇格パターン集 | L1192 |
-| Current Active / Spec Created Tasks | L1194 |
+| ドキュメント構成 | L1107 |
+| フェーズ構造（概要） | L1116 |
+| 品質ゲート（概要） | L1147 |
+| 出力テンプレート | L1158 |
+| 実行時のコマンド・エージェント・スキル | L1181 |
+| 昇格パターン集 | L1205 |
+| Current Active / Spec Created Tasks | L1207 |
 
 ### references/task-workflow-backlog-part2.md
 
