@@ -1,13 +1,13 @@
-# task-e2e-stage3c-enforce-admins-claudemd-alignment-001: branch protection `enforce_admins` 期待値 vs 実値の drift 解消 + governance 文書整合
+# task-e2e-stage3c-enforce-admins-claudemd-alignment-001: branch protection `enforce_admins` / `required_linear_history` 期待値 vs 実値の drift 解消 + governance 文書整合
 
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
 | タスクID | task-e2e-stage3c-enforce-admins-claudemd-alignment-001 |
-| タスク名 | `enforce_admins` の CLAUDE.md governance 文言（期待 `true`）と GitHub branch protection 実値の drift を解消し、両者を一意に整合させる |
+| タスク名 | `enforce_admins` / `required_linear_history` の CLAUDE.md governance 文言（期待 `true`）と GitHub branch protection 実値の drift を解消し、両者を一意に整合させる |
 | 分類 | governance / 文書整合 / branch protection 期待値正本化 |
-| 対象機能 | CLAUDE.md `## ブランチ戦略` / `## Governance / CODEOWNERS` ↔ `gh api repos/.../branches/{dev,main}/protection` の `enforce_admins.enabled` |
+| 対象機能 | CLAUDE.md `## ブランチ戦略` / `## Governance / CODEOWNERS` ↔ `gh api repos/.../branches/{dev,main}/protection` の `enforce_admins.enabled` / `required_linear_history.enabled` |
 | 優先度 | MEDIUM |
 | 見積もり規模 | 小〜中規模 |
 | ステータス | 未実施 (proposed) |
@@ -36,7 +36,7 @@ CLAUDE.md `## ブランチ戦略` 節は次のように定義している。
 > 品質保証は CI（`required_status_checks`）/ 線形履歴（`required_linear_history`）/ 会話解決必須化（`required_conversation_resolution`）/ force-push & 削除禁止 で担保する。
 > GitHub 側の branch protection 実値を正本とし、CLAUDE.md は運用参照として扱う。UT-GOV-001 適用時は `gh api repos/{owner}/{repo}/branches/dev/protection` と `gh api repos/{owner}/{repo}/branches/main/protection` を個別に実行し、`grep` で `required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` の drift がないことを確認する。
 
-すなわち、CLAUDE.md は **`enforce_admins=true` を期待値として明示**しているが、GitHub branch protection の実値が `enforce_admins.enabled=false`（または historical な経緯で異なる値）になっている可能性が 3c phase-13 で示唆されている。3c runtime（pre snapshot 取得時）で実値が確定する。
+すなわち、CLAUDE.md は **`enforce_admins=true` と `required_linear_history=true` を期待値として明示**しているが、GitHub branch protection の 2026-05-10 pre evidence では dev/main とも `enforce_admins.enabled=false`、`required_linear_history.enabled=false` である。3c runtime は contexts append のタスクであり、この governance 期待値 drift の解消は本タスクで扱う。
 
 ### 1.2 問題点・課題
 
@@ -57,20 +57,20 @@ CLAUDE.md `## ブランチ戦略` 節は次のように定義している。
 
 ### 2.1 目的
 
-3c runtime で確定した `enforce_admins.enabled` の実値を踏まえ、以下のいずれかを選択して整合させる。
+3c runtime で確定した `enforce_admins.enabled` / `required_linear_history.enabled` の実値を踏まえ、以下のいずれかを選択して整合させる。
 
-- **方向 A**: 実値を正本として CLAUDE.md `## ブランチ戦略` / `## Governance / CODEOWNERS` の `enforce_admins=true` 文言を実値に合わせる（例: 実値が `false` なら CLAUDE.md を `false` に書換え、判断根拠を併記）
-- **方向 B**: CLAUDE.md 期待値を正本として GitHub 実値を `gh api -X PUT` で `enforce_admins=true` に揃える（solo dev 運用上の影響を許容する判断を併せて記録）
+- **方向 A**: 実値を正本として CLAUDE.md `## ブランチ戦略` / `## Governance / CODEOWNERS` の `enforce_admins=true` / `required_linear_history=true` 文言を実値に合わせる（例: 実値が `false` なら CLAUDE.md を `false` に書換え、判断根拠を併記）
+- **方向 B**: CLAUDE.md 期待値を正本として GitHub 実値を `gh api -X PUT` で `enforce_admins=true` / `required_linear_history=true` に揃える（solo dev 運用上の影響を許容する判断を併せて記録）
 
 判断は **CLAUDE.md「GitHub 側の branch protection 実値を正本とし、CLAUDE.md は運用参照」**という既存ルールに従い、原則 **方向 A**（実値正本化）を第 1 候補とするが、solo dev policy としての governance 強度を引き上げたい場合に方向 B を採る。
 
 ### 2.2 最終ゴール（AC）
 
-- **AC-AL-01**: 3c runtime evidence (`outputs/phase-11/branch-protection-{dev,main}-{pre,post}.json`) の `enforce_admins.enabled` 実値が確定し、本タスクの判断ログ（後述 §2.5 成果物）に記録されている
+- **AC-AL-01**: 3c runtime evidence (`outputs/phase-11/branch-protection-{dev,main}-{pre,post}.json`) の `enforce_admins.enabled` / `required_linear_history.enabled` 実値が確定し、本タスクの判断ログ（後述 §2.5 成果物）に記録されている
 - **AC-AL-02**: 方向 A / B のいずれを採用したかが本タスクの commit message + PR 本文 + governance 整合ログで明示されている
-- **AC-AL-03 (方向 A 採用時)**: CLAUDE.md `## ブランチ戦略` / `## Governance / CODEOWNERS` の `enforce_admins=true` 期待値文言が実値と一致する文言に更新されている。判断根拠（solo dev 運用上の trade-off / 既存ルール「実値正本化」）が同一節または注釈に併記されている
-- **AC-AL-04 (方向 B 採用時)**: `gh api -X PUT` で `dev` / `main` の `enforce_admins.enabled=true` が実 mutation 実行され、post snapshot で確認されている。CLAUDE.md 文言は変更しない
-- **AC-AL-05**: 方向 A / B いずれの場合も、`required_pull_request_reviews=null` / `lock_branch=false` / `required_linear_history=true` 等 5 項目の不変条件は drift していない
+- **AC-AL-03 (方向 A 採用時)**: CLAUDE.md `## ブランチ戦略` / `## Governance / CODEOWNERS` の `enforce_admins=true` / `required_linear_history=true` 期待値文言が実値と一致する文言に更新されている。判断根拠（solo dev 運用上の trade-off / 既存ルール「実値正本化」）が同一節または注釈に併記されている
+- **AC-AL-04 (方向 B 採用時)**: `gh api -X PUT` で `dev` / `main` の `enforce_admins.enabled=true` / `required_linear_history.enabled=true` が実 mutation 実行され、post snapshot で確認されている。CLAUDE.md 文言は変更しない
+- **AC-AL-05**: 方向 A / B いずれの場合も、branch-specific pre snapshot 値（dev reviews `null` / strict `false`; main reviews object present / strict `true`; lock `false`; conversation resolution `true`）は drift していない
 
 ### 2.3 検証エビデンス
 
@@ -83,11 +83,11 @@ CLAUDE.md `## ブランチ戦略` 節は次のように定義している。
 
 #### 含むもの
 
-- 3c runtime evidence の `enforce_admins.enabled` 実値読み取り
+- 3c runtime evidence の `enforce_admins.enabled` / `required_linear_history.enabled` 実値読み取り
 - 方向 A / B の判断ログ作成（`governance-alignment-decision.md`）
 - 方向 A 採用時: CLAUDE.md 該当節（`## ブランチ戦略` 引用ブロック / `## Governance / CODEOWNERS` 注釈）の文言更新
-- 方向 B 採用時: `gh api -X PUT` で `enforce_admins=true` 適用（dev / main 個別、ユーザー明示承認 gate）
-- 不変条件 5 項目（reviews=null / lock=false / required_linear_history=true / allow_force_pushes=false / allow_deletions=false）の drift 検証
+- 方向 B 採用時: `gh api -X PUT` で `enforce_admins=true` / `required_linear_history=true` 適用（dev / main 個別、ユーザー明示承認 gate）
+- branch-specific pre snapshot 値（reviews / strict / lock / force-push / deletion / conversation resolution）の drift 検証
 
 #### 含まないもの
 
@@ -267,13 +267,13 @@ REST API のレスポンス側は `enforce_admins.enabled: true/false` の neste
 
 | 項目 | 値 |
 | --- | --- |
-| `required_pull_request_reviews` | `null` を維持（solo 運用ポリシー） |
+| `required_pull_request_reviews` | branch-specific pre snapshot 値を維持（2026-05-10 pre evidence は dev `null`、main object present） |
 | `lock_branch.enabled` | `false` を維持 |
-| `required_linear_history.enabled` | `true` を維持 |
+| `required_linear_history.enabled` | 方向 A では実値に合わせる。方向 B では `true` へ変更し post snapshot で確認 |
 | `allow_force_pushes.enabled` | `false` を維持 |
 | `allow_deletions.enabled` | `false` を維持 |
 | `required_conversation_resolution.enabled` | `true` を維持 |
-| `required_status_checks.strict` | `false` を維持 |
+| `required_status_checks.strict` | branch-specific pre snapshot 値を維持（2026-05-10 pre evidence は dev `false`、main `true`） |
 | `required_status_checks.contexts` | 5 件構成を維持（本タスクで変更しない） |
 | 正本ソース | GitHub branch protection 実値が正本。CLAUDE.md は運用参照（CLAUDE.md 既存ルール） |
 | 整合判断記録 | `governance-alignment-decision.md` に方向 A / B いずれを採ったかと判断根拠を必ず明記 |
@@ -284,15 +284,15 @@ REST API のレスポンス側は `enforce_admins.enabled: true/false` の neste
 ## 8. 完了条件チェックリスト
 
 - [ ] 3c runtime evidence (`pre/post JSON`) が canonical path にコミット済み
-- [ ] `enforce_admins.enabled` の dev / main 実値を抽出（`jq -r '.enforce_admins.enabled'`）
-- [ ] CLAUDE.md 期待値（`true`）と実値の一致 / 乖離を判定
+- [ ] `enforce_admins.enabled` / `required_linear_history.enabled` の dev / main 実値を抽出
+- [ ] CLAUDE.md 期待値（各 `true`）と実値の一致 / 乖離を判定
 - [ ] 判定が「一致」: 判断ログに noop として記録し close
 - [ ] 判定が「乖離」: 方向 A / B を選択し、判断根拠を `governance-alignment-decision.md` に記録
 - [ ] 方向 A 採用時: CLAUDE.md `## ブランチ戦略` / `## Governance` 節の文言更新 + 注釈追加
 - [ ] 方向 A 採用時: 関連 governance ドキュメント（UT-GOV-001 drift check 等）の期待値同期
 - [ ] 方向 B 採用時: ユーザー明示承認取得済み
-- [ ] 方向 B 採用時: `gh api -X PUT` 成功 + post snapshot で `enforce_admins.enabled=true` 確認
-- [ ] 不変条件 5 項目（reviews=null / lock=false / required_linear_history=true / allow_force_pushes=false / allow_deletions=false）の drift = 0
+- [ ] 方向 B 採用時: `gh api -X PUT` 成功 + post snapshot で `enforce_admins.enabled=true` / `required_linear_history.enabled=true` 確認
+- [ ] branch-specific pre snapshot 値（reviews / strict / lock / force-push / deletion / conversation resolution）の drift = 0
 - [ ] 判断結果が親 Phase 13 統合 PR の本文 / 後段独立 PR の本文に反映
 - [ ] commit message に方向 A / B の選択結果を明記
 

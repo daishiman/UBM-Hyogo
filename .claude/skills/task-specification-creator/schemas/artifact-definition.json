@@ -62,8 +62,8 @@
     },
     "status": {
       "type": "string",
-      "enum": ["in_progress", "completed", "on_hold", "blocked"],
-      "description": "ワークフロー全体のステータス"
+      "enum": ["spec_created", "in_progress", "runtime_pending", "completed", "on_hold", "blocked"],
+      "description": "ワークフロー全体のステータス。canonical 3-state vocabulary（spec_created / runtime_pending / completed）と legacy（in_progress / on_hold / blocked）を許容。詳細は references/workflow-state-vocabulary.md を参照。"
     },
     "phases": {
       "anyOf": [
@@ -77,8 +77,8 @@
               "properties": {
                 "status": {
                   "type": "string",
-                  "enum": ["pending", "in_progress", "completed", "skipped", "blocked"],
-                  "description": "Phaseステータス"
+                  "enum": ["pending", "spec_created", "in_progress", "runtime_pending", "completed", "skipped", "blocked"],
+                  "description": "Phaseステータス。canonical 3-state vocabulary（spec_created / runtime_pending / completed）と legacy（pending / in_progress / skipped / blocked）を許容。runtime CI 実行前は completed を付与せず runtime_pending を採用する。詳細は references/workflow-state-vocabulary.md / phase-12-spec.md §Phase ステータス語彙 3 値定義 を参照。"
                 },
                 "startedAt": {
                   "type": "string",
@@ -151,8 +151,8 @@
               },
               "status": {
                 "type": "string",
-                "enum": ["pending", "in_progress", "completed", "skipped", "blocked"],
-                "description": "Phaseステータス"
+                "enum": ["pending", "spec_created", "in_progress", "runtime_pending", "completed", "skipped", "blocked"],
+                "description": "Phaseステータス。canonical 3-state vocabulary（spec_created / runtime_pending / completed）と legacy（pending / in_progress / skipped / blocked）を許容。"
               },
               "outputs": {
                 "type": "array",
@@ -206,6 +206,38 @@
         "actualPhases": {
           "type": "integer",
           "description": "実行Phase数"
+        },
+        "workflow_state": {
+          "type": "string",
+          "description": "canonical workflow state（spec_created / CONTRACT_READY_IMPLEMENTATION_PENDING / implemented_local_evidence_captured / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / runtime_pending / verified_current_no_code_change_pending_pr / completed）。references/workflow-state-vocabulary.md 参照"
+        },
+        "governance_mutation_user_gate": {
+          "type": "boolean",
+          "description": "governance mutation（gh api -X PUT / wrangler deploy / d1 migrations apply / gh secret set 等の不可逆 mutation）に user 明示承認 gate を要する場合 true。references/non-visual-irreversible-task-rules.md §0 参照"
+        },
+        "mutation_commands": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "governance_mutation_user_gate=true 時に実行予定の mutation コマンドを literal 一覧で列挙する"
+        },
+        "read_only_evidence_allowed_pre_gate": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "user 承認前に AI 実行可能な read-only evidence 取得コマンド一覧"
+        },
+        "user_approval_marker": {
+          "type": "string",
+          "description": "user 明示承認 evidence の物理保存先（例: outputs/phase-13/user-approval-<task-id>-<timestamp>.md）"
+        },
+        "actual_read_only_evidence_files": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Phase 11/13 で取得済みの read-only evidence ファイル群（branch protection GET / migrations list / fresh GET JSON 等）。governance / NON_VISUAL タスクでは mutation evidence と分離して台帳化する"
+        },
+        "actual_mutation_evidence_files": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "user 承認後に実行した mutation の evidence ファイル群（gh api -X PUT の after JSON / wrangler deploy log 等）。user_approval_marker と対で管理する"
         }
       }
     },

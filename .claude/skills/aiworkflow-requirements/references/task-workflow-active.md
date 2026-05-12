@@ -8,6 +8,36 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-590-phase11-canonical-evidence-paths/` |
+| 目的 | Phase 11 runtime evidence path の表記揺れを `outputs/phase-11/canonical-paths.json` と validator で排除する |
+| 実装対象 | `.claude/skills/task-specification-creator/schemas/phase11-evidence-canonical-paths.schema.json`, `.claude/skills/task-specification-creator/scripts/validate-phase11-canonical-evidence-paths.js`, `.claude/skills/task-specification-creator/scripts/__tests__/validate-phase11-canonical-evidence-paths.test.mjs`, `.claude/skills/task-specification-creator/package.json`, `package.json#scripts.validate:phase11-paths` |
+| 親適用 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-11/canonical-paths.json` |
+| source unassigned | `docs/30-workflows/completed-tasks/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-05.md`（superseded / consumed） |
+| evidence boundary | 本タスクは schema / validator 導入のみ。親 #549 の post-merge 7 day runtime observation は別 gate |
+| artifact inventory | `references/workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md` |
+| user gate | commit / push / PR は user approval 後 |
+
+### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
+### Issue #589 Gate metadata structured ledger（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-589-gate-metadata-structured-ledger/` |
+| 親 | Issue #549 Cloudflare Audit Logs ML production switch |
+| source | `docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-04.md` |
+| 目的 | `artifacts.json.metadata.gates[]` の schema / validator / CI gate / Phase 12 結線 / Issue #549 backfill を実装・仕様化する |
+| SSOT | `references/gate-metadata.md` |
+| local implementation | `packages/shared/src/gate-metadata/**`, `scripts/gate-metadata/**`, `.github/workflows/verify-gate-metadata.yml`, root `package.json`, Issue #549 artifacts mirror backfill |
+| evidence boundary | schema / validator / CI workflow file / #549 backfill / Phase 12 strict 7 / aiworkflow discovery sync は完了。branch protection PUT / commit / push / PR は user-gated |
+| pending user-gated operation | PR/merge 承認後に `verify-gate-metadata / validate` を dev/main required status check へ追加する。実 `gh api -X PUT` はユーザー明示承認まで禁止 |
+| Issue 取扱 | #589 / #549 CLOSED 維持。PR 文脈は `Refs #589` / `Refs #549` のみ |
+
 ### E2E quality uplift Stage 2 sub-task 2c admin member delete spec（2026-05-10）
 
 | 項目 | 値 |
@@ -233,6 +263,23 @@
 | runtime境界 | rotation scripts / canary workflow は local 実装済み。Phase 11 evidence は typecheck / lint / focused tests / leakage grep / dataset grep / local fixture canary / rotation evidence を取得済み。production artifact promotion は Gate-R0〜R3 + user approval pending |
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / quick-reference / resource-map / LOGS |
 | Issue 取扱 | Issue #587 / #549 は CLOSED 維持。PR 文脈は `Refs #549, #587` のみ |
+
+### Issue #588 fallback alert Slack / mail extension（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-pending / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/issue-588-fallback-alert-slack-mail-extension/` |
+| parent | Issue #549 Cloudflare Audit Logs ML production switch |
+| source | `docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-03.md` consumed |
+| 実装対象 | `scripts/cf-audit-log/observation/fallback-rate-alert.ts`, `scripts/cf-audit-log/observation/__tests__/fallback-rate-alert.test.ts`, `.github/workflows/cf-audit-log-monitor.yml` |
+| 目的 | fallback rate > 5% x 3h 連続時に GitHub Issue 起票に加えて Slack / mail HTTP webhook 通知を行う |
+| destinations | GitHub Issue は必須 audit trail。Slack は canonical `SLACK_WEBHOOK_INCIDENT`、mail は `EMAIL_WEBHOOK_URL` + `EMAIL_FROM` + `EMAIL_TO` の3点成立時のみ optional best-effort |
+| failure isolation | Issue / Slack / mail dispatch は同一 alert cycle 内で開始し、Slack / mail の失敗は Issue 起票を阻害しない |
+| workflow wiring | `analyze.ts` 後に `outputs/observation/*.json` が存在する場合のみ `fallback-rate-alert.ts` を実行。Issue #518 HOLD の `dry_run=true` 制約は維持 |
+| evidence | focused Vitest 22 tests / `pnpm typecheck` / `pnpm lint` PASS。Phase 12 strict 7 files present |
+| inventory | `references/workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md` |
+| 境界 | production delivery evidence、HOLD removal、GitHub secret / variable mutation、commit、push、PR は user approval 後 |
 
 ### Issue #532 write/tag/note provider ctx injection（2026-05-08）
 

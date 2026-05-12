@@ -23,6 +23,22 @@ one ambiguous PASS label.
 values. They are not root `metadata.workflow_state` values except where the root
 state is explicitly `completed`.
 
+## Canonical Short-form Aliases（2026-05-10 stage-3 由来）
+
+`phases[].status` および root `status` で許容する canonical 3-state short-form は次の通り。schema (`schemas/artifact-definition.json`) でも同 enum を強制する。
+
+| canonical short-form | 同義の長い境界語彙 | 想定 phase |
+| --- | --- | --- |
+| `spec_created` | （同名） | Phase 1-4 のみ完了 / コード差分なし |
+| `in_progress` | `CONTRACT_READY_IMPLEMENTATION_PENDING` 等 | コード着手済 / Phase 11 evidence 未取得 |
+| `runtime_pending` | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` / `IMPLEMENTED_LOCAL_RUNTIME_PENDING` / `PENDING_RUNTIME_EVIDENCE` | local 5 点 PASS 済 / runtime CI / staging deploy / fresh GET 未完 |
+| `completed` | （同名） | runtime artifact 物理生成済 + 検証ログ記録済 |
+| `blocked` | （同名） | 外部依存・user gate で停止中 |
+
+短縮形と長い境界語彙はどちらを使ってもよいが、**1 つの artifacts.json / index.md / phase12-task-spec-compliance-check.md 内では混在させない**。混在させる場合は同 wave で統一する。
+
+`PASS` 単独表記は禁止。compliance check / Phase 12 行レベル判定では canonical short-form を suffix する（例: `completed (runtime PASS / verified at <ISO8601>)`、`runtime_pending (CI scheduled)`）。
+
 ## Reclassify Rules
 
 | Trigger | Required action |
