@@ -2,7 +2,7 @@
 
 > task: `task-10-ui-primitives-spec`
 > 関連 spec: `docs/30-workflows/task-10-ui-primitives-spec/phase-{01..13}.md`、`docs/00-getting-started-manual/specs/09-ui-ux.md`、`docs/00-getting-started-manual/claude-design-prototype/`
-> 関連 source: `apps/web/src/components/ui/{Avatar,Badge,Banner,Button,Card,EmptyState,Field,Input,Select,Sidebar,Stat}.tsx`、`apps/web/src/lib/cn.ts`、`apps/web/src/components/ui/__tests__/{primitives,task10-contract}.test.tsx`
+> 関連 source: `apps/web/src/components/ui/{Avatar,Badge,Banner,Button,Card,EmptyState,Field,Input,Select,Sidebar,Stat}.tsx`、`apps/web/src/lib/cn.ts`、`apps/web/src/components/ui/__tests__/{primitives,task10-contract}.component.spec.tsx`
 > 関連 reference: `references/ui-ux-components.md`（task-10 integration contract セクション）/ `references/task-workflow-active.md`（task-10 行）
 
 ## 教訓一覧

@@ -12,9 +12,9 @@
 ### L-T09W3-001: VISUAL_ON_EXECUTION の generated CSS 検証は **2 点契約** で固定する
 
 - **症状**: build pipeline タスクは「token が CSS に出ているか」だけだと utility class の生成可否を見落とす。`tokens.css` import のみで `@theme inline` が抜けても test が緑になり得る。
-- **採用解**: Phase 11 build-output 検証を `var(--ubm-color-accent)` の存在 と `.bg-accent` 等の utility selector 存在の **2 点 grep 契約** に固定。`apps/web/src/__tests__/build-output.test.ts` で両方を assert し、片方だけでは fail する。`outputs/phase-11/evidence/generated-css-with-oklch.log` と `generated-css-with-bridge.log` の 2 ファイルで証跡分離。
+- **採用解**: Phase 11 build-output 検証を `var(--ubm-color-accent)` の存在 と `.bg-accent` 等の utility selector 存在の **2 点 grep 契約** に固定。`apps/web/src/__tests__/build-output.runtime.spec.ts` で両方を assert し、片方だけでは fail する。`outputs/phase-11/evidence/generated-css-with-oklch.log` と `generated-css-with-bridge.log` の 2 ファイルで証跡分離。
 - **再発防止**: VISUAL_ON_EXECUTION の Phase 11 テンプレに「token surface + utility surface の 2 点 grep」を必須化する旨を `skill-feedback-report.md` で task-specification-creator skill に promotion。
-- **関連**: `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/outputs/phase-11/main.md`、`apps/web/src/__tests__/build-output.test.ts`、`outputs/phase-12/skill-feedback-report.md` 行 7。
+- **関連**: `docs/30-workflows/task-09-w3-par-tailwind-v4-setup/outputs/phase-11/main.md`、`apps/web/src/__tests__/build-output.runtime.spec.ts`、`outputs/phase-12/skill-feedback-report.md` 行 7。
 
 ### L-T09W3-002: placeholder token grep 0 件 gate は **Phase 4 に前倒し** する
 
