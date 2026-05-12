@@ -8,7 +8,25 @@
     "visualEvidence": "NON_VISUAL",
     "coverageTier": "standard",
     "coverageException": "contract schema parse test; coverage is judged by green/fail and not line uplift",
-    "updated_at": "2026-05-11"
+    "updated_at": "2026-05-11",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec present, DoD finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "local_evidence: focused Vitest 23/23 PASS, typecheck/lint/grep gates exit 0"
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "status": "completed", "path": "phase-1.md" },
