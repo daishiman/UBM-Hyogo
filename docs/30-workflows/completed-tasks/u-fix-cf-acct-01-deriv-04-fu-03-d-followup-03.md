@@ -1,10 +1,12 @@
 # Fallback alert Slack and mail extension
 
+> Superseded: 2026-05-10 に `docs/30-workflows/issue-588-fallback-alert-slack-mail-extension/` として実装・正本同期済み。以後は Issue #588 workflow を canonical とする。
+
 ## メタ情報
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | 未着手 |
+| ステータス | superseded_by_issue_588 |
 | 親 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/` |
 
 ## 1. なぜこのタスクが必要か（Why）
