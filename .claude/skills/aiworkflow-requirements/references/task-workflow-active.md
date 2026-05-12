@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #622 packages test suffix rename（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented-local / implementation / NON_VISUAL / rename-only / local-evidence-partial` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-622-packages-test-suffix-rename/` |
+| source | `docs/30-workflows/completed-tasks/task-issue-325-followup-002-packages-test-suffix-rename.md` |
+| 親 Issue | #622（OPEN） |
+| 上流 | #325 apps/api suffix rename（CLOSED）, #621 apps/web suffix rename（completed） |
+| 下流 | #623 / `docs/30-workflows/unassigned-task/task-issue-325-followup-003-vitest-spec-suffix-convergence.md` |
+| 目的 | `packages/shared` 17 件 + `packages/integrations` / `packages/integrations-google` 11 件、計 28 件の `*.test.ts` を `*.spec.ts` に rename する実装 |
+| implementation targets | `packages/shared/**/*.spec.ts`, `packages/integrations/**/*.spec.ts`, `packages/shared/ADR-test-suffix.md`, `packages/integrations/ADR-test-suffix.md`, `apps/api/tsconfig.build.json` |
+| evidence | `rename-mapping.csv` 28 rows, `find` residual 0, focused package tests including `@ubm-hyogo/integrations-google`, typecheck, lint, `pnpm -r test`, `git log --follow` |
+| Phase 12 | strict 7 outputs present under `outputs/phase-12/`; root `artifacts.json` is the only artifact ledger |
+| Issue 取扱 | implementation PR may use `Closes #622`; closed upstream issues use `Refs #325` / `Refs #621`; downstream unblock uses `Refs #623`; commit / push / PR remain user-gated |
+
 ### Issue #589 Gate metadata structured ledger（2026-05-10）
 
 | 項目 | 値 |

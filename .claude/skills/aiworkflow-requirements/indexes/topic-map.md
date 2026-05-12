@@ -6354,13 +6354,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1030 |
-| フェーズ構造（概要） | L1039 |
-| 品質ゲート（概要） | L1070 |
-| 出力テンプレート | L1081 |
-| 実行時のコマンド・エージェント・スキル | L1104 |
-| 昇格パターン集 | L1128 |
-| Current Active / Spec Created Tasks | L1130 |
+| ドキュメント構成 | L1046 |
+| フェーズ構造（概要） | L1055 |
+| 品質ゲート（概要） | L1086 |
+| 出力テンプレート | L1097 |
+| 実行時のコマンド・エージェント・スキル | L1120 |
+| 昇格パターン集 | L1144 |
+| Current Active / Spec Created Tasks | L1146 |
 
 ### references/task-workflow-backlog-part2.md
 
