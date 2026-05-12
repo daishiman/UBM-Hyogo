@@ -111,6 +111,8 @@
 | キーワード | 関連ファイル |
 | --- | --- |
 | approval-gated implementation / 三役ゲート / rollback payload 上書き禁止 / コミット粒度 5 単位 / Phase 13 fresh GET / `Refs #<issue>` | [phase-template-phase13.md](phase-template-phase13.md) §approval-gated / [phase-template-phase13-detail.md](phase-template-phase13-detail.md) §approval-gated 詳細手順 / [phase-11-non-visual-alternative-evidence.md](phase-11-non-visual-alternative-evidence.md) / [phase-12-spec.md](phase-12-spec.md) / [quality-gates.md](quality-gates.md) / 実例: `docs/30-workflows/completed-tasks/utgov001-second-stage-reapply/phase-13.md` |
+| branch protection PUT / dev・main 個別 drift / governance mutation user gate / read-only pre-gate / branch-specific evidence 分離 | [governance-branch-protection-pattern.md](governance-branch-protection-pattern.md) / [non-visual-irreversible-task-rules.md](non-visual-irreversible-task-rules.md) §0 / 実例: e2e-quality-uplift stage-3-impl 3c |
+| Server Component E2E / `page.route()` 禁則 / `INTERNAL_API_BASE_URL` 差し替え / mock API server / seed fixture / tracked evidence | [server-component-e2e-pattern.md](server-component-e2e-pattern.md) / [quality-gates.md](quality-gates.md) §7 / 実例: e2e-quality-uplift stage-3-impl 3b |
 
 ## schemas/（8ファイル）
 
