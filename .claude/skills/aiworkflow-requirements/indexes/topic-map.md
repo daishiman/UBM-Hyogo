@@ -2543,6 +2543,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L47 |
 
+### references/workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L15 |
+| Phase Outputs | L27 |
+| Skill 反映先 | L36 |
+| Validation Chain | L46 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4777,6 +4787,16 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L114 |
 | 引用元 | L120 |
 
+### references/lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+| Downstream boundaries | L45 |
+| 関連リソース | L51 |
+| 検索キーワード（indexes rebuild 用） | L59 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6354,13 +6374,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1030 |
-| フェーズ構造（概要） | L1039 |
-| 品質ゲート（概要） | L1070 |
-| 出力テンプレート | L1081 |
-| 実行時のコマンド・エージェント・スキル | L1104 |
-| 昇格パターン集 | L1128 |
-| Current Active / Spec Created Tasks | L1130 |
+| ドキュメント構成 | L1047 |
+| フェーズ構造（概要） | L1056 |
+| 品質ゲート（概要） | L1087 |
+| 出力テンプレート | L1098 |
+| 実行時のコマンド・エージェント・スキル | L1121 |
+| 昇格パターン集 | L1145 |
+| Current Active / Spec Created Tasks | L1147 |
 
 ### references/task-workflow-backlog-part2.md
 

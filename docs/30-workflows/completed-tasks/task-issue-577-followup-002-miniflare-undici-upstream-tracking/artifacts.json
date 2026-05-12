@@ -1,0 +1,76 @@
+{
+  "task_name": "task-issue-577-followup-002-miniflare-undici-upstream-tracking",
+  "task_path": "docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking",
+  "parent_task": "docs/30-workflows/completed-tasks/issue-577-api-coverage-rerun-miniflare-port-exhaustion",
+  "github_issue": 616,
+  "github_issue_state": "CLOSED",
+  "wave": 2,
+  "execution_mode": "sequential",
+  "depends_on": [
+    "issue-577-api-coverage-rerun-miniflare-port-exhaustion"
+  ],
+  "blocks": [],
+  "created_at": "2026-05-11",
+  "metadata": {
+    "taskType": "implementation",
+    "implementationCategory": "conditional",
+    "wave_label": "followup",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "verified_current_no_code_change_pending_pr",
+    "implementation_status": "verified_current_no_code_change_pending_pr",
+    "scope": "upstream_tracking_and_worker_cap_reevaluation",
+    "domain": "api_vitest_coverage_miniflare_undici",
+    "evidence_type": "triage_table_and_optional_ab_logs",
+    "planned_evidence_outputs": [
+      "outputs/phase-11/evidence/triage-table.md",
+      "outputs/phase-11/evidence/pkg-unchanged.log",
+      "outputs/phase-11/evidence/ab-2-run-1.log",
+      "outputs/phase-11/evidence/ab-2-run-2.log",
+      "outputs/phase-11/evidence/ab-2-run-3.log",
+      "outputs/phase-11/evidence/ab-4-run-1.log",
+      "outputs/phase-11/evidence/ab-4-run-2.log",
+      "outputs/phase-11/evidence/ab-4-run-3.log",
+      "outputs/phase-11/evidence/ab-auto-run-1.log",
+      "outputs/phase-11/evidence/ab-auto-run-2.log",
+      "outputs/phase-11/evidence/ab-auto-run-3.log"
+    ],
+    "conditional_file_change": {
+      "file": "apps/api/package.json",
+      "field": "scripts.test:coverage",
+      "current_value": "--maxWorkers=1 --minWorkers=1",
+      "candidate_values": ["--maxWorkers=2", "--maxWorkers=4", "--maxWorkers=auto"],
+      "change_condition": "AC-4 を満たす A/B 結果が得られた場合のみ"
+    }
+  },
+  "phases": [
+    {"phase": 1, "name": "要件定義", "file": "phase-01.md", "status": "completed", "outputs": ["outputs/phase-01/main.md"], "depends_on_phases": [], "user_approval_required": false},
+    {"phase": 2, "name": "設計（追跡フロー）", "file": "phase-02.md", "status": "completed", "outputs": ["outputs/phase-02/main.md"], "depends_on_phases": [1], "user_approval_required": false},
+    {"phase": 3, "name": "設計レビュー", "file": "phase-03.md", "status": "completed", "outputs": ["outputs/phase-03/main.md"], "depends_on_phases": [2], "user_approval_required": false},
+    {"phase": 4, "name": "テスト戦略", "file": "phase-04.md", "status": "completed", "outputs": ["outputs/phase-04/main.md"], "depends_on_phases": [3], "user_approval_required": false},
+    {"phase": 5, "name": "実装ランブック", "file": "phase-05.md", "status": "completed", "outputs": ["outputs/phase-05/main.md"], "depends_on_phases": [4], "user_approval_required": false},
+    {"phase": 6, "name": "異常系検証", "file": "phase-06.md", "status": "completed", "outputs": ["outputs/phase-06/main.md"], "depends_on_phases": [5], "user_approval_required": false},
+    {"phase": 7, "name": "AC マトリクス", "file": "phase-07.md", "status": "completed", "outputs": ["outputs/phase-07/main.md"], "depends_on_phases": [6], "user_approval_required": false},
+    {"phase": 8, "name": "DRY 化", "file": "phase-08.md", "status": "completed", "outputs": ["outputs/phase-08/main.md"], "depends_on_phases": [7], "user_approval_required": false},
+    {"phase": 9, "name": "品質保証", "file": "phase-09.md", "status": "completed", "outputs": ["outputs/phase-09/main.md"], "depends_on_phases": [8], "user_approval_required": false},
+    {"phase": 10, "name": "最終レビュー", "file": "phase-10.md", "status": "completed", "outputs": ["outputs/phase-10/main.md"], "depends_on_phases": [9], "user_approval_required": false},
+    {"phase": 11, "name": "手動評価実行", "file": "phase-11.md", "status": "completed", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/evidence/"], "depends_on_phases": [10], "user_approval_required": false},
+    {"phase": 12, "name": "ドキュメント更新", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/phase12-task-spec-compliance-check.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/documentation-changelog.md"], "depends_on_phases": [11], "user_approval_required": false},
+    {"phase": 13, "name": "PR 作成", "file": "phase-13.md", "status": "blocked", "outputs": ["outputs/phase-13/main.md"], "depends_on_phases": [12], "user_approval_required": true}
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/unassigned-task/task-issue-577-followup-002-miniflare-undici-upstream-tracking.md",
+    "apps/api/package.json",
+    "CLAUDE.md"
+  ],
+  "endpoints": [],
+  "ui_routes": [],
+  "d1_tables": [],
+  "secrets_introduced": [],
+  "invariants_touched": [5],
+  "doc_references": [
+    "docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/outputs/phase-02/main.md",
+    "docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/outputs/phase-05/main.md",
+    "docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/outputs/phase-11/main.md"
+  ]
+}

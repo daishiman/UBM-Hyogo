@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #616 Miniflare / undici Upstream Tracking（2026-05-11）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/` |
+| 状態 | `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional` |
+| parent | `docs/30-workflows/completed-tasks/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
+| source | `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking.md`（consumed trace） |
+| Issue | #616 CLOSED 維持。#617 は followup-003 |
+| current cap | `apps/api/package.json#scripts.test:coverage` = `--maxWorkers=1 --minWorkers=1` |
+| adoption gate | `--maxWorkers=2 → 4 → auto` の段階評価。候補 N は連続 3 回 133/133 PASS / 0 EADDRNOTAVAIL / coverage regression なしが必須。低い候補が fail した場合、より大きい候補は skip 理由を記録して打ち切る |
+| adoption contract | `--minWorkers` を削除し `--maxWorkers=<採用N>` のみ正本化 |
+| artifact inventory | `references/workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md` |
+| user gate | package.json 編集 / commit / push / PR / Issue 操作 |
+
 ### Issue #589 Gate Metadata Structured Ledger（2026-05-10）
 
 | 目的 | 参照先 |

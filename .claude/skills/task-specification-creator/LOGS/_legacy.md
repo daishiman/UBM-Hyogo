@@ -2688,3 +2688,8 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 # 2026-05-10
 
 - task-15 admin dashboard and members review feedback applied: Phase 12 strict 7 files must be physical files, artifacts must reference existing outputs, and VISUAL tasks need local fixture screenshot evidence when staging is not yet available. `it.todo` a11y placeholders were replaced with `jest-axe` tests in the same cycle.
+# 2026-05-11 Issue #616 conditional implementation category
+
+- Added `metadata.implementationCategory` enum to `schemas/artifact-definition.json`, including `conditional` for implementation tasks where code/config changes happen only after upstream improvement detection.
+- Promoted Issue #616 review feedback so no-code-change verified triage workflows can use `verified_current_no_code_change_pending_pr` instead of stale `spec_created` after Phase 11 evidence is captured.
+- Commit / push / PR were not executed.

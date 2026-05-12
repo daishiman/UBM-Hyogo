@@ -8,6 +8,23 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking.md`（consumed trace） |
+| Issue | #616 CLOSED 維持。#617 は followup-003 のため誤参照禁止 |
+| 目的 | Miniflare / undici / workerd の socket / keep-alive / port reuse 改善を triage し、`apps/api` coverage の worker cap 緩和可否を判定する |
+| current cap | `apps/api/package.json#scripts.test:coverage` の `--maxWorkers=1 --minWorkers=1` |
+| 採用条件 | `--maxWorkers=2 → 4 → auto` の段階評価。候補 N は連続 3 回 133/133 PASS、0 EADDRNOTAVAIL、coverage regression なし。低い候補が fail した場合、より大きい候補は skip 理由を記録して打ち切る |
+| 採用時 script 方針 | `--minWorkers` を削除し、`--maxWorkers=<採用N>` のみを正本化 |
+| 不変条件 | apps/api runtime code / D1 schema / Cloudflare binding は変更しない |
+| artifact inventory | `references/workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md` |
+| user gate | `apps/api/package.json` 編集、commit、push、PR、Issue 操作は user approval 後 |
+
 ### Issue #589 Gate metadata structured ledger（2026-05-10）
 
 | 項目 | 値 |
@@ -271,7 +288,7 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | implemented_local_pending_pr / implementation / NON_VISUAL / runtime completed / Phase 12 strict 7 completed / PR pending_user_approval |
-| 成果物 | `docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
 | parent | Issue #532 write/tag/note provider ctx injection（CLOSED 維持） |
 | source | `docs/30-workflows/unassigned-task/task-issue-532-api-full-coverage-rerun-miniflare-port-exhaustion-001.md` |
 | GitHub Issue | #577 CLOSED（2026-05-08T21:36:04Z）。PR は `Refs #577` で追跡 |
