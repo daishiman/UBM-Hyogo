@@ -7,7 +7,7 @@ import { asMemberId, asAdminId, adminEmail, auditAction } from "../../repository
 import { getStatus } from "../../repository/status";
 import { memberExists, normalizeIso, type AdminRouteEnv } from "./_shared";
 
-const DeleteBodyZ = z.object({ reason: z.string().trim().min(1).max(500) });
+export const DeleteBodyZ = z.object({ reason: z.string().trim().min(1).max(500) });
 
 const auditInsert = (
   db: D1Database,
