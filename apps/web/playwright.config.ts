@@ -21,6 +21,10 @@ const isTask13LoginSmoke =
 const isTask17AdminEvidence =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-17-admin-schema-conflicts-audit' ||
   process.argv.some((arg) => arg.includes('admin-schema-conflicts-audit.spec.ts'))
+const isTask18RegressionGate =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-18-w7' ||
+  process.argv.some((arg) => arg.includes('full-smoke.spec.ts')) ||
+  process.argv.some((arg) => arg.includes('/visual/'))
 
 const EVIDENCE_DIR =
   process.env.PLAYWRIGHT_EVIDENCE_DIR ??
@@ -40,10 +44,13 @@ const EVIDENCE_DIR =
                 ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
                 : isTask17AdminEvidence
                   ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
-                  : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
+                  : isTask18RegressionGate
+                    ? '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
+                    : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
+const localServerReadyURL = isTask18RegressionGate ? `${localBaseURL}/login` : localBaseURL
 const localPort = new URL(localBaseURL).port || '3000'
 const localCoverageDir = `${process.cwd()}/coverage/v8`
 const localEnv =
@@ -84,7 +91,7 @@ export default defineConfig({
   // 並列化は project (browser) shard 単位で十分。
   workers: 1,
   timeout: 60_000,
-  expect: { timeout: 10_000 },
+  expect: { timeout: 10_000, toHaveScreenshot: { maxDiffPixelRatio: 0.02 } },
   reporter: [
     ['html', { outputFolder: `${EVIDENCE_DIR}/playwright-report/html`, open: 'never' }],
     ['json', { outputFile: `${EVIDENCE_DIR}/playwright-report/results.json` }],
@@ -118,6 +125,16 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
+    },
+    {
+      name: 'smoke-chromium',
+      testMatch: /full-smoke\.spec\.ts$/,
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
+    },
+    {
+      name: 'visual-chromium',
+      testMatch: /visual\/.*\.spec\.ts$/,
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -163,8 +180,10 @@ export default defineConfig({
                   ? `${localEnv} PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
                   : isTask17AdminEvidence
                     ? `${localEnv} PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
+                    : isTask18RegressionGate
+                      ? `${localEnv} PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev`
                     : `${localEnv} pnpm --filter @ubm-hyogo/web dev`,
-            url: localBaseURL,
+            url: localServerReadyURL,
             reuseExistingServer: !process.env.CI,
             timeout: 120_000,
             env: { PORT: localPort },

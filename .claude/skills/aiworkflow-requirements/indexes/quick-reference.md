@@ -673,3 +673,13 @@ UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts
 | Node / pnpm バージョン固定（Node 24 / pnpm 10.33.2 / mise） | `CLAUDE.md` 「開発環境セットアップ」節 | `references/technology-devops-core.md` baseline 章 | CLAUDE.md > aiworkflow-requirements |
 | references/ 配下の API/D1/IPC/UI/auth 仕様 | `references/*.md`（aiworkflow-requirements が一次正本） | `CLAUDE.md` は概要のみ言及 | aiworkflow-requirements > CLAUDE.md。実装契約・schema・状態定数は references/ を正とする |
 | 教訓 / lessons-learned ID（L-XXX-NNN） | `references/lessons-learned-*.md`（aiworkflow-requirements が一次正本） | CLAUDE.md には記載しない | aiworkflow-requirements > CLAUDE.md |
+### Task 18 W7 verify tokens and Playwright smoke（2026-05-12）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | `implemented-local / implementation / NON_VISUAL / runtime_pending` |
+| workflow root | `docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/` |
+| implementation targets | `scripts/verify-design-tokens.ts`, `apps/web/playwright/tests/full-smoke.spec.ts`, `apps/web/playwright/tests/visual/*.spec.ts`, `.github/workflows/{verify-design-tokens,playwright-smoke}.yml` |
+| required status checks | `verify-design-tokens / verify-design-tokens`, `playwright-smoke / smoke (chromium)`, `playwright-smoke / visual (chromium, 4 screens)` |
+| evidence boundary | tracked `.txt` / `.json` evidence only; `.log` evidence is ignored by `.gitignore` and not canonical |
+| user gate | branch protection PUT / commit / push / PR は user approval 後 |

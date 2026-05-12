@@ -1,6 +1,7 @@
 import { test as base, expect, type Page, type BrowserContext } from '@playwright/test'
 import { signSessionJwt, type MemberId } from '@ubm-hyogo/shared'
 import { createServer, type Server, type ServerResponse } from 'node:http'
+import { buildMember, buildPreview, buildStats } from '../../src/test-utils/fixtures/public'
 
 type AuthFixtures = {
   adminPage: Page
@@ -117,6 +118,48 @@ function adminDashboardBody() {
   }
 }
 
+function publicMembersBody() {
+  return {
+    items: [buildMember({ memberId: 'sample-001', fullName: '佐藤 サンプル' })],
+    pagination: { total: 1, page: 1, limit: 50, totalPages: 1, hasNext: false, hasPrev: false },
+    appliedQuery: { q: '', zone: 'all', status: 'public', tags: [], sort: 'recent', density: 'comfy' },
+    generatedAt: '2026-05-12T00:00:00.000Z',
+  }
+}
+
+function publicMemberProfileBody() {
+  return {
+    memberId: 'sample-001',
+    summary: {
+      fullName: '佐藤 サンプル',
+      nickname: 'sample',
+      location: '兵庫県神戸市',
+      occupation: '事業開発',
+      ubmZone: 'Kobe',
+      ubmMembershipType: 'regular',
+    },
+    publicSections: [
+      {
+        key: 'profile',
+        title: 'プロフィール',
+        fields: [
+          {
+            stableKey: 'member_display_name',
+            label: '表示名',
+            value: '佐藤 サンプル',
+            kind: 'shortText',
+            visibility: 'public',
+            source: 'forms',
+          },
+        ],
+      },
+    ],
+    attendance: [{ sessionId: 'session_task18', title: '2026年5月 定例会', heldOn: '2026-05-12' }],
+    attendanceMeta: { hasMore: false, nextCursor: null },
+    tags: [{ code: 'kobe', label: 'Kobe', category: 'zone' }],
+  }
+}
+
 function adminMembersBody(query: URLSearchParams) {
   const q = query.get('q') ?? ''
   const baseMembers = [
@@ -201,6 +244,22 @@ async function ensureMockApi(): Promise<void> {
       }
       if (req.method === 'GET' && url.pathname === '/me/profile') {
         response(res, 200, profileBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/public/stats') {
+        response(res, 200, buildStats({ generatedAt: '2026-05-12T00:00:00.000Z' }))
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/public/members') {
+        response(res, 200, publicMembersBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/public/members/sample-001') {
+        response(res, 200, publicMemberProfileBody())
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/public/form-preview') {
+        response(res, 200, buildPreview())
         return
       }
       if (req.method === 'GET' && url.pathname === '/admin/dashboard') {
@@ -332,6 +391,29 @@ async function signSession(payload: {
   })
 }
 
+async function addSessionCookie(
+  ctx: BrowserContext,
+  payload: { adminUserId?: string; memberId?: string },
+  baseURL?: string,
+): Promise<void> {
+  const url = baseURL ?? process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'
+  await ctx.addCookies([
+    {
+      name: SESSION_COOKIE_NAME,
+      value: await signSession(payload),
+      url,
+    },
+  ])
+}
+
+export async function adminLogin(ctx: BrowserContext): Promise<void> {
+  await addSessionCookie(ctx, { adminUserId: 'admin-1' })
+}
+
+export async function memberLogin(ctx: BrowserContext): Promise<void> {
+  await addSessionCookie(ctx, { memberId: 'm-1' })
+}
+
 export const test = base.extend<AuthFixtures>({
   mockApi: async ({}, use) => {
     await ensureMockApi()
@@ -344,13 +426,7 @@ export const test = base.extend<AuthFixtures>({
     const ctx = await browser.newContext({
       extraHTTPHeaders: { 'x-ubm-auth-secret': E2E_AUTH_SECRET },
     })
-    await ctx.addCookies([
-      {
-        name: SESSION_COOKIE_NAME,
-        value: await signSession({ adminUserId: 'admin-1' }),
-        url: baseURL ?? 'http://localhost:3000',
-      },
-    ])
+    await addSessionCookie(ctx, { adminUserId: 'admin-1' }, baseURL)
     await use(ctx)
     await ctx.close()
   },
@@ -359,13 +435,7 @@ export const test = base.extend<AuthFixtures>({
     const ctx = await browser.newContext({
       extraHTTPHeaders: { 'x-ubm-auth-secret': E2E_AUTH_SECRET },
     })
-    await ctx.addCookies([
-      {
-        name: SESSION_COOKIE_NAME,
-        value: await signSession({ memberId: 'm-1' }),
-        url: baseURL ?? 'http://localhost:3000',
-      },
-    ])
+    await addSessionCookie(ctx, { memberId: 'm-1' }, baseURL)
     await use(ctx)
     await ctx.close()
   },

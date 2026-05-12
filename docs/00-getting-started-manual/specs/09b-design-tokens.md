@@ -465,6 +465,8 @@ task-09 は本ファイルの §9 JSON と §3〜§8 表を参照し、`apps/web
 task-09 の `tokens.css` は `:root` に stone values を置き、`[data-theme="warm"]` と `[data-theme="cool"]` に 12 個ずつ override を置く。
 `ok` / `warn` / `danger` / `info` は 3 theme 共通であり、warm / cool block に重複して書かない。
 task-18 の verifier は `tokens.css` と本ファイル §9 の CSS names を比較し、欠落 0 を gate にする。
+また `apps/web/src/styles/globals.css` の `@theme inline` bridge も検査対象に含め、`--ubm-*` 正本 token から Tailwind utility token への接続漏れを CI で検出する。
+設計値の変更は本仕様書を先に更新する別 workflow とし、task-18 では転記漏れ・bridge 欠落の同期補正だけを許可する。
 
 ## 11. Dark Mode Placeholder
 

@@ -420,6 +420,29 @@ steps:
 - `scripts/e2e-mock-api.mjs`: CI hard gate 用 deterministic mock API
 - `scripts/coverage-gate-e2e.sh`: line coverage 80% gate（`THRESHOLD_FIXTURE` で fixture override 可能）
 
+## task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12）
+
+`docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/` で確定した MVP regression gate。
+
+| 項目 | 内容 |
+| --- | --- |
+| Smoke spec | `apps/web/playwright/tests/full-smoke.spec.ts`（17 URL routes: public 6 / member 2 / admin 8 / not-found 1） |
+| Visual specs | `apps/web/playwright/tests/visual/*.spec.ts`（`/login` / `/` / `/admin` / `/profile` の 4 screen baseline） |
+| Token verifier | `scripts/verify-design-tokens.ts`（`09b-design-tokens.md` §9 / `apps/web/src/styles/tokens.css` / `apps/web/src/styles/globals.css @theme inline` の 3 層 bridge drift gate） |
+| Fixture | `apps/web/playwright/fixtures/auth.ts`（`serviceWorkers: "block"` 必須） |
+| Web server | `apps/web/playwright.config.ts` で `next dev --webpack` を固定（Turbopack 禁止：OpenNext Workers bundle と非互換） |
+| SSR fixture | `apps/web/src/lib/admin/server-fetch.ts` に `PLAYWRIGHT_TASK18_ADMIN_FIXTURE` env-gated branch（`NODE_ENV !== "production"` で active） |
+| 実行 script | `pnpm verify:tokens` / `pnpm --filter @ubm-hyogo/web e2e:smoke` / `e2e:visual` |
+| CI workflows | `.github/workflows/verify-design-tokens.yml` / `.github/workflows/playwright-smoke.yml` |
+| Evidence | tracked `.txt` / `.json` のみ canonical（`.log` は `.gitignore` 対象） |
+| Visual baseline 更新 | `--update-snapshots` は user-gated。`apps/web/playwright/tests/visual/<spec>-snapshots/` に tracked |
+| Required check 候補 | `verify-design-tokens / verify-design-tokens` / `playwright-smoke / smoke (chromium)` / `playwright-smoke / visual (chromium, 4 screens)` |
+
+詳細: `references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md` /
+`references/lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md`
+
+拡張は `docs/30-workflows/unassigned-task/task-18-full-visual-regression-suite-001.md`（17 URL routes × 3 viewport の full baseline）で扱う。
+
 ## 関連ドキュメント
 
 | ドキュメント                                         | 内容                   |
@@ -428,4 +451,4 @@ steps:
 | [testing-accessibility.md](./testing-accessibility.md) | アクセシビリティ仕様 |
 | [testing-fixtures.md](./testing-fixtures.md)         | テストフィクスチャ仕様 |
 | [deployment-gha.md](./deployment-gha.md)             | CIでのE2E実行要件      |
-| [branch-protection.md](./branch-protection.md)       | branch-specific drift rule（Stage 3c） |
+| [branch-protection.md](./branch-protection.md)       | branch-specific drift rule（Stage 3c）/ task-18 required check 候補 |
