@@ -1,0 +1,11 @@
+Command:
+mise exec -- pnpm --filter @ubm-hyogo/web lint
+
+Result:
+PASS: `tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'` exited 0.
+
+Additional focused unit verification:
+`mise exec -- pnpm --filter @ubm-hyogo/web exec vitest run --root=../.. --config=vitest.config.ts apps/web/src/components/admin/__tests__/MembersClient.test.tsx apps/web/src/components/admin/__tests__/MemberDrawer.test.tsx`
+
+Result:
+PASS: 2 files / 18 tests.

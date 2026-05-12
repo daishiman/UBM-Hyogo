@@ -10,6 +10,7 @@ export * from "./schemas";
 export * from "./admin/search";
 export * from "./utils/consent";
 export * from "./auth";
+export * from "./gate-metadata";
 
 export const runtimeFoundation = {
   node: "24.x",

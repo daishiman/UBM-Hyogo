@@ -8,6 +8,9 @@
 > - 本ドキュメントは「コード実装に直接落とせる test 構造・mock pattern・fixture 形・DoD」を確定する位置付け
 > - したがって要件仕様書ではなく **実装仕様書** として作成する
 
+> **2026-05-10 実装同期**:
+> 本 sub-task は `docs/30-workflows/admin-member-delete-e2e-spec/` で消費済み。実装は `apps/web/playwright/tests/admin-member-delete.spec.ts` 175 行、SSR 初期 fetch は `PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1`、Client detail/delete は `page.route()`。local desktop-chromium evidence は 5 pass + 1 skip、状態は `implemented-local-runtime-pending / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。
+
 ---
 
 ## 1. メタ情報
@@ -23,8 +26,8 @@
 | coverageTier | `standard`（lines >= 70% / critical route smoke 100%） |
 | visualEvidence | `NON_VISUAL` |
 | implementation_mode | `new` |
-| workflow_state | `spec_verified` |
-| evidence_state | `runtime_pending` |
+| workflow_state | `implemented-local-runtime-pending` |
+| evidence_state | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | Tier-aware skip 例外 | cascade preview 1 件のみ（CONST_007 例外条件 1, 2 該当） |
 | 起点日 | 2026-05-09 |
 
@@ -34,9 +37,9 @@
 
 | # | path | 種別 | 状態 | 行数目安 |
 |---|------|------|------|----------|
-| 1 | `apps/web/playwright/tests/admin-member-delete.spec.ts` | E2E (Playwright) | 新規 | **180-220 行** |
+| 1 | `apps/web/playwright/tests/admin-member-delete.spec.ts` | E2E (Playwright) | 新規 | **175 行** |
 
-> 修正対象なし。新規 1 ファイルのみ。`apps/api/src/routes/admin/member-delete.ts` および `apps/api/src/routes/admin/audit.ts` は **参照のみ**（変更禁止 = Stage 2 不変条件 1）。
+> API route / D1 schema は参照のみ。Server Component 初期 fetch 対応のため `server-fetch.ts` / `playwright.config.ts` を修正し、削除後 UI 反映のため `MemberDrawer.tsx` / `MembersClient.tsx` を補強した。
 
 ---
 
@@ -113,7 +116,7 @@ test('失敗系: reason 空 → 422 inline error', async ({ adminPage }) => {
   // reason 未入力のまま submit
   await dialog.getByRole('button', { name: /確定|削除する/ }).click()
 
-  // UI inline error 表示（UI バリデーション or API 422 ハンドリング）
+  // UI disabled 表示（API 422 は backend contract 側）
   await expect(dialog.getByText(/理由.*必須|required/)).toBeVisible()
 })
 ```
@@ -194,21 +197,21 @@ test('認可: anonymous は /login redirect', async ({ anonymousPage }) => {
 
 | 項目 | 内容 |
 |------|------|
-| 入力 | Playwright fixture (`adminPage` / `memberPage` / `anonymousPage`) のみ。実 D1 / 実 API 呼び出しなし |
+| 入力 | Playwright fixture (`adminPage` / `memberPage` / `anonymousPage`) と `PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1` による Server Component 初期 fetch fixture。実 D1 呼び出しなし |
 | 出力 | `pnpm test:e2e` の 5 test green + 1 test skipped、レポート（`apps/web/playwright-report/`） |
-| 副作用 | なし（`page.route()` mock 完結。実 fetch・実 D1 書込みなし） |
-| 環境変数 | 既存 `apps/web/playwright.config.ts` の baseURL に従う。本 spec で env 追加なし |
+| 副作用 | なし（SSR fixture gate + `page.route()` mock 完結。実 D1 書込みなし） |
+| 環境変数 | `PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1`（`apps/web/playwright.config.ts` が focused run 時に dev server へ注入） |
 
 ---
 
 ## 7. テスト方針
 
 1. **skip 禁止**: cascade preview 1 件以外で `test.skip` / `test.fixme` を追加しない（CONST_007）。Tier-aware standard で 1 件 skip が許容される根拠は phase-4.md §1 Q5（API 未実装）と CONST_007 例外条件 1（外部依存未実装）, 2（後続 Stage 持越し明記）の 2 条件同時該当。
-2. **reason 必須 validation の二重化**: UI inline validation（textarea required）と API 422 ハンドリング（`DeleteBodyZ.parse` 失敗）の **両層** を test #3 でカバーする。どちらか一方だけのカバーは不可。
+2. **reason 必須 validation の責務分離**: E2E は UI disabled + API 到達 0 を確認する。API 422 ハンドリング（`DeleteBodyZ.parse` 失敗）は backend contract 側で担保し、本 spec では重複検証しない。
 3. **二段確認の明示**: test #1 で「1 段目 button click」「2 段目 confirm dialog 表示」「dialog 内 reason 入力」「dialog 内 confirm button」の 4 ステップを別々に assert する（一段確認の取り違えを防ぐ）。
-4. **audit 連動の確認方法**: test #4 は `GET /admin/audit` の mock を設定し、UI 上の audit 表示で `action='admin.member.deleted'` 文字列を検出する。actorId / targetId の一致は contract test 2d 側で検証する。
+4. **audit 連動の確認方法**: test #4 は削除 POST 成功後に `/admin/audit?action=admin.member.deleted` へ遷移し、UI 上の audit 表示で `action='admin.member.deleted'` と targetId を検出する。actorId の詳細一致は contract test 2d 側で検証する。
 5. **認可 3 ロール**: admin（成功）/ member（403）/ anonymous（redirect）の **3 分岐すべて** を本 spec 内でカバー。Stage 1 fixture（`apps/web/playwright/fixtures/auth.ts`）を再利用し、新 fixture は禁止。
-6. **D1 直接アクセス禁止**: `page.route()` mock のみ使用。`apps/web` から D1 binding を叩く UI 経路がないことを前提に、すべて HTTP レイヤで mock する（CLAUDE.md 重要不変条件 5）。
+6. **D1 直接アクセス禁止**: Server Component 初期 fetch は env fixture gate、Client detail/delete は `page.route()` を使用する。`apps/web` から D1 binding を叩く UI 経路は作らない（CLAUDE.md 重要不変条件 5）。
 7. **selector 戦略**: `getByRole` / `getByLabel` / `getByText` を優先。色値依存・class 名依存のセレクタは禁止（OKLch 不変条件 / Stage 2 不変条件 5）。
 
 ---
@@ -237,14 +240,14 @@ mise exec -- pnpm lint
 
 | # | 項目 | 検証方法 |
 |---|------|---------|
-| 1 | ファイル `apps/web/playwright/tests/admin-member-delete.spec.ts` が存在する（180-220 行） | `wc -l apps/web/playwright/tests/admin-member-delete.spec.ts` |
+| 1 | ファイル `apps/web/playwright/tests/admin-member-delete.spec.ts` が存在する（175 行） | `wc -l apps/web/playwright/tests/admin-member-delete.spec.ts` |
 | 2 | cascade preview を除く **5 test が green** | `pnpm --filter @ubm-hyogo/web test:e2e admin-member-delete.spec.ts` 結果 |
 | 3 | cascade preview test が `test.skip(...)` で明示され、`// TODO(stage-3)` コメント付き（fail / error にしない） | spec 静的検査 + Playwright report の `skipped: 1` |
 | 4 | `pnpm typecheck` pass（spec ファイル含む） | コマンド exit code 0 |
 | 5 | `pnpm lint` pass | コマンド exit code 0 |
 | 6 | 認可 3 ロール（admin / member / anonymous）すべて分岐 test 存在 | spec 内 `adminPage` / `memberPage` / `anonymousPage` 出現確認 |
-| 7 | mock は `page.route()` のみ。`fetch` / `node:fetch` / 実 API 呼び出しなし | spec 内 grep（`page.route(` 出現 ≥ 3、直接 `fetch(` 出現 = 0） |
-| 8 | reason 必須 validation を UI inline と API 422 の **両層** で確認 | test #3 内に inline error assertion と 422 mock の両方が存在 |
+| 7 | mock は SSR fixture gate + `page.route()`。spec 内直接 `fetch` / `node:fetch` なし | spec 内 grep（`page.route(` 出現 ≥ 1、直接 `fetch(` 出現 = 0） |
+| 8 | reason 必須 validation は UI disabled + API 到達 0、API 422 は backend contract 側 | test #3 と backend contract spec |
 | 9 | 新 fixture を追加していない（`adminPage` / `memberPage` / `anonymousPage` 再利用のみ） | `apps/web/playwright/fixtures/` に diff なし |
 | 10 | skip は cascade preview の **1 件のみ** | spec 内 `test.skip` 出現 = 1、`test.fixme` 出現 = 0 |
 
@@ -273,7 +276,7 @@ mise exec -- pnpm lint
 | 3 | OKLch 正本（HEX 直書き禁止） | selector に色値を使用しない（`getByRole` / `getByLabel` / `getByText` のみ） |
 | 4 | 既存 fixture 再利用、新 fixture 禁止 | `adminPage` / `memberPage` / `anonymousPage`（`apps/web/playwright/fixtures/auth.ts:1-67`）のみ使用 |
 | 5 | reason は zod schema で必須（`DeleteBodyZ`） | test #3 で 422 を mock し、UI inline error を検証 |
-| 6 | spec のみ作成、コード生成は範囲外 | 本仕様書は `.spec.ts` 1 ファイルの test 構造のみ規定 |
+| 6 | 実装差分は Stage 2 境界内 | `.spec.ts`、SSR fixture gate、focused config、削除後 UI 反映補強のみ |
 | 7 | E2E は決定論的 | mock counter / state を test scope で完結。test 間共有 state なし |
 
 ---

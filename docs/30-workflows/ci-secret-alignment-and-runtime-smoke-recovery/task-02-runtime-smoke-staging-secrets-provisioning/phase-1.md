@@ -93,7 +93,7 @@ STAGING_API_BASE: STAGING_API_BASE is required
 | # | 内容 |
 |---|------|
 | AC-T2-1 | `.github/workflows/runtime-smoke-staging.yml` に `verify required staging secrets` step が 1 回だけ存在する（`grep -c` = 1） |
-| AC-T2-2 | secret 未投入の状態で smoke を起動したとき pre-check で exit 1 し、`::error::` ログに 4 件の不足 secret 名が列挙される |
+| AC-T2-2 | secret 未投入の状態で smoke を起動したとき pre-check で exit 1 し、`::error::` ログに 4 件の不足 secret 名が列挙される。missing が複数のときは **全件を 1 行に空白区切りで列挙** し、early-return せず 4 件の checks をすべて評価しきった上で exit する |
 | AC-T2-3 | runbook が新規作成され、5 secret 投入手順 + 取得経路 + 禁止事項 + ローテーション運用を含む |
 | AC-T2-4 | docs / diff の secret 実値 grep が 0 件（`eyJ[A-Za-z0-9_-]{20,}` / `sk_[A-Za-z0-9]{20,}` / `hooks\.slack\.com/services/[A-Z0-9]{8,}`） |
 | AC-T2-5 | secret 投入後の再実行で smoke job が pre-check を突破する |
@@ -106,6 +106,15 @@ STAGING_API_BASE: STAGING_API_BASE is required
 |------|------|-----------|
 | `.github/workflows/runtime-smoke-staging.yml` | edit | `mask staging credentials` step の直前に pre-check step を 1 件追加（差分 ≈ 18 行） |
 | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` | new | 5 secret 投入 runbook（≈ 60 行） |
+
+### 追記 (2026-05-11): PR #676 で含まれる inventory 補強
+
+PR #676 の実装で実際に同梱される（または既存として参照される）リソースを spec 上でも明示する。
+
+| path | 種別 | 役割 |
+|------|------|------|
+| `scripts/smoke/provision-staging-secrets.sh` | **既存 helper（参照のみ）** | runbook の正規経路として参照する secret 投入 helper。新規作成ではなく既存実装をそのまま利用する。runbook §投入手順 から参照される |
+| `runtime-smoke-staging.yml` の "post failure summary to Slack" step | edit（fail-closed guard 既存挙動の明文化） | `SLACK_WEBHOOK_INCIDENT` が未設定のとき step を skip するのではなく **exit 1 で fail-closed** とする既存挙動を spec に反映。incident 通知の silent skip を許容しない |
 
 ---
 

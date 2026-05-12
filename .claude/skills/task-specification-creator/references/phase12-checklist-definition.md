@@ -145,6 +145,17 @@ git diff --name-only HEAD -- \
 - #17 未実施UTの completed-only area 混在なし: OK/NG
 - #18 canonical root + mirror sync: OK/NG/N/A
 - #19 completed workflow に planned wording 残置なし: OK/NG
+- #20 gate-metadata validator green (`pnpm gate-metadata:validate` exit 0): OK/NG/N/A
 
 総合判定: PASS / FAIL (NG項目数: X/20)
+
+### 補足: gate-metadata validator (#20)
+
+`artifacts.json` に `metadata.gates[]` を含むタスクは、Phase 12 完了判定に
+`mise exec -- pnpm gate-metadata:validate` exit 0（schema 適合 + 全 status の
+`evidence_path` repo-root relative / path traversal なし + `status === "passed"` の
+`evidence_path` 実体存在）を加える。PR CI では変更された `artifacts.json` を
+`--require-gates-for-changed` に渡し、新規・編集 workflow の `metadata.gates[]` 欠落を ERROR にする。schema/CLI 仕様は
+`.claude/skills/aiworkflow-requirements/references/gate-metadata.md` を SSOT とする。
+`gates[]` 不在の歴史的 artifacts は WARN/skip 扱いで N/A 判定して良い。
 ```

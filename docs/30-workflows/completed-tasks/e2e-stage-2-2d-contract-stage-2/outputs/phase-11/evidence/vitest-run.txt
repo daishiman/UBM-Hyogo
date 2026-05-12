@@ -1,0 +1,35 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-175035-wt-5/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260510-175035-wt-5
+
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > GET /admin/requests > query schema parses the Stage 2 UI fixture filter
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > GET /admin/requests > rejects missing request type
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > GET /admin/requests > response envelope stays compatible with the admin requests route
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/requests/:noteId/resolve > parses approve bodies
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/requests/:noteId/resolve > parses reject bodies with a resolution note
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/requests/:noteId/resolve > rejects unknown resolution values
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/requests/:noteId/resolve > response envelope stays compatible with the resolve route
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > GET /admin/identity-conflicts > parses identity conflict row fixtures
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > GET /admin/identity-conflicts > parses list responses with nullable cursors
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/identity-conflicts/:id/merge > parses merge request bodies
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/identity-conflicts/:id/merge > rejects blank merge reasons
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/identity-conflicts/:id/merge > parses the shared merge response shape
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/identity-conflicts/:id/dismiss > parses dismiss request bodies
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/identity-conflicts/:id/dismiss > rejects blank dismiss reasons
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/identity-conflicts/:id/dismiss > parses dismiss responses
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/members/:memberId/delete > parses member delete request bodies
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/members/:memberId/delete > rejects blank delete reasons
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/members/:memberId/delete > rejects missing delete reasons
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/members/:memberId/delete > rejects delete reasons longer than 500 characters
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > POST /admin/members/:memberId/delete > response item shape stays compatible with the member delete UI fixture
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > GET /admin/audit > query schema parses audit filters
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > GET /admin/audit > rejects invalid actor email filters
+ ✓ apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts > GET /admin/audit > response envelope stays compatible with the audit route
+
+ Test Files  1 passed (1)
+      Tests  23 passed (23)
+   Start at  08:03:26
+   Duration  8.12s (transform 802ms, setup 0ms, collect 1.20s, tests 39ms, environment 1ms, prepare 980ms)
+

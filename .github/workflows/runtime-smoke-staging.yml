@@ -32,6 +32,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: verify required staging secrets
+        run: |
+          missing=()
+          for name in STAGING_API_BASE STAGING_ADMIN_BEARER STAGING_MEMBER_ID STAGING_ME_BEARER; do
+            if [ -z "${!name:-}" ]; then
+              missing+=("$name")
+            fi
+          done
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf "::error::missing secrets in environment 'staging-runtime-smoke': %s\n" "${missing[*]}"
+            echo "::error::register via 'gh secret set <NAME> --env staging-runtime-smoke' (see docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md)"
+            exit 1
+          fi
+
       - name: mask staging credentials
         run: |
           echo "::add-mask::$STAGING_ADMIN_BEARER"

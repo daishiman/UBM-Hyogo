@@ -2100,6 +2100,12 @@ node scripts/list-specs.js --topics
 | Linked Lessons | L29 |
 | Boundary | L33 |
 
+### references/workflow-admin-member-delete-e2e-spec-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Boundary | L16 |
+
 ### references/workflow-ai-chat-llm-integration-fix-artifact-inventory.md
 
 | セクション | 行 |
@@ -2215,6 +2221,14 @@ node scripts/list-specs.js --topics
 | Tier-Aware Coverage Policy | L63 |
 | Contract | L72 |
 | Related Resources | L79 |
+
+### references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Artifacts | L12 |
+| Evidence Artifacts | L24 |
+| Boundary | L39 |
 
 ### references/workflow-governance-design-category.md
 
@@ -2536,6 +2550,23 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | User Gate | L47 |
+
+### references/workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Implementation Artifacts | L7 |
+| Evidence Artifacts | L16 |
+| Lessons Learned | L28 |
+| User-Gated Runtime Items | L34 |
+
+### references/workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Boundary | L16 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -2995,6 +3026,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Notes | L16 |
+| Post-merge CI fixes (PR #677 後 / 2026-05-11) | L20 |
+
+### references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md
+
+### references/workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Workflow Files | L9 |
+| Canonical Implementation Inputs | L30 |
+| API Inputs | L45 |
+| Notes | L54 |
 
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
@@ -3579,7 +3623,10 @@ node scripts/list-specs.js --topics
 | Required status checks | L7 |
 | Invariants | L13 |
 | Issue #554 runbook | L25 |
-| References | L41 |
+| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L41 |
+| 3-state vocabulary（runtime mutation 系） | L59 |
+| Stage 3c required contexts target（2026-05-10） | L78 |
+| References | L89 |
 
 ### references/cloudflare-edge-security.md
 
@@ -3732,15 +3779,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| wrangler.toml の環境別設定 | L203 |
-| ローカル開発での設定 | L235 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L274 |
-| セキュリティ原則 | L306 |
-| Cloudflare API Token の作成手順 | L317 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L332 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L430 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
-| 変更履歴 | L501 |
+| wrangler.toml の環境別設定 | L205 |
+| ローカル開発での設定 | L237 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L276 |
+| セキュリティ原則 | L308 |
+| Cloudflare API Token の作成手順 | L319 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L334 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L445 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L497 |
+| 変更履歴 | L516 |
 
 ### references/deployment.md
 
@@ -3914,6 +3961,16 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L6 |
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
+
+### references/gate-metadata.md
+
+| セクション | 行 |
+|------------|----|
+| Status | L3 |
+| Purpose | L12 |
+| Gate Entry Contract | L16 |
+| Validator Contract | L40 |
+| Rollout Boundary | L60 |
 
 ### references/governance-hooks-factory-audit-sink.md
 
@@ -4362,7 +4419,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L14 |
+| 関連リソース | L16 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -4754,6 +4811,14 @@ node scripts/list-specs.js --topics
 | L-I359-003: Rollback SQL is evidence, not permission | L11 |
 | L-I359-004: Source unassigned close-out is part of Phase 12 | L15 |
 
+### references/lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所 | L10 |
+| 同様の課題を将来簡潔に解決するための知見 | L25 |
+| 関連リンク | L35 |
+
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
 | セクション | 行 |
@@ -4880,6 +4945,16 @@ node scripts/list-specs.js --topics
 | L-TASK15-003: `it.todo` a11y placeholder は同 cycle で解消する | L21 |
 | L-TASK15-004: Phase 12 strict 7 は物理ファイルとして生成する | L28 |
 | L-TASK15-005: 非同期 UI race は cancelled flag と try/finally で構造的に消す | L35 |
+| Post-merge CI fixes（PR #677 マージ後 2026-05-11 に確定した知見） | L44 |
+
+### references/lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK17-001: Server Component fetch は browser route() で mock できない | L7 |
+| L-TASK17-002: artifacts.json は root と outputs の二元化が drift 源 | L14 |
+| L-TASK17-003: `new` 前提で task spec を起こす前に worktree inventory を取る | L21 |
+| L-TASK17-004: Phase 11 evidence の AUTH_SECRET override は fixture cookie を無効化する | L28 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
@@ -6312,13 +6387,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L971 |
-| フェーズ構造（概要） | L980 |
-| 品質ゲート（概要） | L1011 |
-| 出力テンプレート | L1022 |
-| 実行時のコマンド・エージェント・スキル | L1045 |
-| 昇格パターン集 | L1069 |
-| Current Active / Spec Created Tasks | L1071 |
+| ドキュメント構成 | L1080 |
+| フェーズ構造（概要） | L1089 |
+| 品質ゲート（概要） | L1120 |
+| 出力テンプレート | L1131 |
+| 実行時のコマンド・エージェント・スキル | L1154 |
+| 昇格パターン集 | L1178 |
+| Current Active / Spec Created Tasks | L1180 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6737,7 +6812,8 @@ node scripts/list-specs.js --topics
 | テストスキップパターン | L298 |
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
-| 関連ドキュメント | L388 |
+| Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
+| 関連ドキュメント | L423 |
 
 ### references/ui-history-components.md
 

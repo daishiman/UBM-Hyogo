@@ -148,7 +148,7 @@ Rotation 手順:
 
 ### Issue #571 staging runtime smoke GitHub Environment（2026-05-08）
 
-`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-09 の CI recovery wave 以降、配置 runbook の正本は `bash scripts/smoke/provision-staging-secrets.sh` とし、`op read` 出力は `gh secret set --body -` へ stdin で直結する。
+`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-10 の task-02 close-out 以降、配置 runbook の入口正本は `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` とする。推奨実行経路は `bash scripts/smoke/provision-staging-secrets.sh` で、`op read` 出力は `gh secret set --body -` へ stdin で直結する。手動 `gh secret set` は fallback として runbook に残す。
 
 | Category | Secret | Placement | Purpose |
 | --- | --- | --- | --- |
@@ -175,8 +175,8 @@ GitHub Environment は作成されているが secret が 0 件のまま staging
 | pre-flight 経路 | `bash scripts/smoke/provision-staging-secrets.sh`（idempotent / redacted） |
 | inventory check | `gh secret list --env staging-runtime-smoke --json name -q '.[].name'` で **name のみ** を確認。値・値 hash を出力しない |
 | 投入経路 | `op read "op://<Vault>/<Item>/<Field>" \| gh secret set <NAME> --env staging-runtime-smoke --body -` の stdin 直結 |
-| smoke 起動 gate | name inventory が runtime contract（`STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT`）と一致した時点でのみ user-approved Actions run を実施 |
-| `${VAR:?}` の扱い | smoke workflow 側では `${VAR:?}` を残し fail-closed を維持。invocation 前の pre-flight で 0 件を検出し、smoke を起動しないことで連鎖失敗を抑止 |
+| smoke 起動 gate | user-approved Actions run 前の inventory は 5 secret（`STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT`）一致を確認する。ただし workflow 内 early-fail は smoke 本体必須 4 secret のみを対象にし、Slack は failure summary post step の fail-closed guard が担当する |
+| `${VAR:?}` の扱い | smoke workflow 側では smoke 本体必須 4 secret を name-only early-fail する。invocation 前の runbook/helper pre-flight で 0 件を検出し、連鎖失敗を抑止する |
 | ログ衛生 | Environment 名と secret 名のみを stdout に出力。値、Authorization header、cookie, decoded webhook URL は出力 / 文書 / PR / evidence に転記禁止 |
 
 ### GitHub Variables（非機密設定値）
@@ -196,6 +196,8 @@ GitHub Environment は作成されているが secret が 0 件のまま staging
 | `CF_AUDIT_ML_MODEL_PATH_PREVIOUS` | Issue #587 promotion 前に現行 production artifact reference を退避する previous op 参照名。rollback target の識別に使い、解決値は保存しない | 未設定 |
 | `CF_AUDIT_FALLBACK_RATE_THRESHOLD` | Issue #549 production ML switch 後の fallback rate alert 閾値。既定は `0.05` | `0.05` |
 | `CF_AUDIT_FALLBACK_RATE_CONSECUTIVE_HOURS` | fallback rate alert の連続超過時間。既定は `3` | `3` |
+| `EMAIL_FROM` | Issue #588 fallback alert mail HTTP webhook の From。GitHub Actions environment variable。mail provider 未確定時は未設定でよい | 未設定 |
+| `EMAIL_TO` | Issue #588 fallback alert mail HTTP webhook の宛先。GitHub Actions environment variable。mail provider 未確定時は未設定でよい | 未設定 |
 | `CF_AUDIT_REDACT_SECRET` | redacted feature export の actor hash salt。feature export workflow でのみ使う secret。ログ・dataset へ値を出さない | GitHub environment secret |
 
 ---
@@ -393,6 +395,19 @@ Placement gates:
 
 `wrangler secret put` must not be executed directly. Use `bash scripts/cf.sh secret put SLACK_WEBHOOK_INCIDENT --config apps/api/wrangler.toml --env <env>` with the value supplied by stdin from 1Password. Name-only verification may use `bash scripts/cf.sh secret list --config apps/api/wrangler.toml --env <env> | grep SLACK_WEBHOOK_INCIDENT`.
 
+### Issue #588 fallback alert Slack / mail GitHub Actions secrets（2026-05-10）
+
+Issue #588 の `cf-audit-log-monitor.yml` は fallback rate > 5% が 3 hour 連続した場合、GitHub Issue 起票に加えて Slack / mail HTTP webhook を best-effort で送る。Slack は Issue #520 の incident channel 正本名に寄せ、GitHub Actions でも `SLACK_WEBHOOK_INCIDENT` を使う。`SLACK_WEBHOOK_URL` は CLI の local fallback 名としてのみ許容し、新規 GitHub Actions secret として作らない。
+
+| Secret / Variable 名 | 用途 | 配布先 | 正本 |
+| --- | --- | --- | --- |
+| `SLACK_WEBHOOK_INCIDENT` | `#ubm-hyogo-incidents` fallback alert Slack post | GitHub Actions environment secret (`production`) | `op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_PROD` |
+| `EMAIL_WEBHOOK_URL` | fallback alert mail provider HTTP endpoint。provider 契約後に設定 | GitHub Actions environment secret (`production`) | 1Password provider item（契約時に item/path を確定） |
+| `EMAIL_FROM` | mail webhook payload `from` | GitHub Actions environment variable (`production`) | provider 契約時の sender address |
+| `EMAIL_TO` | mail webhook payload `to` | GitHub Actions environment variable (`production`) | incident distribution address |
+
+`EMAIL_WEBHOOK_URL` / `EMAIL_FROM` / `EMAIL_TO` のいずれかが未設定の場合、mail dispatcher は no-op で skip する。これは provider 未契約時の runtime boundary であり、GitHub Issue 起票と Slack 通知を阻害しない。
+
 ### Issue #408 Cloudflare Audit Logs monitoring Secret（2026-05-06）
 
 Issue #408 は Cloudflare Audit Logs 監視 workflow 仕様である。Issue #518 により自動監視は `HOLD / manual-check-only` へ縮退したが、手動確認と将来再開のため deploy token とは別に次の監視用 Secret を正本化する。値は 1Password 正本から GitHub environment secret へ派生コピーし、docs / logs / PR body / Phase evidence に実値・値 hash・Authorization header を残さない。
@@ -505,6 +520,7 @@ done
 | 2026-05-10 | 1.4.3 | Issue #587 rotation scripts (`scripts/cf-audit-log/rotation/`) と canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) が op 参照名のみを受理することを正本化。candidate/previous resolved value を inputs / logs / artifact upload に残さない境界を実装で固定 |
 | 2026-05-10 | 1.4.2 | Issue #587 Cloudflare Audit Logs ML model artifact rotation の candidate / previous op 参照名を追加。resolved artifact path を docs / logs / PR body に残さない境界を正本化 |
 | 2026-05-09 | 1.4.1 | CI recovery task-01: web-cd の deploy secret 正本名を environment-scoped `CLOUDFLARE_API_TOKEN` へ同期。`CF_TOKEN_WORKERS_*` は backend-ci Workers deploy 用として維持し、web-cd では使用しない境界へ補正。 |
+| 2026-05-10 | 1.4.1 | task-02 close-out: 配置 runbook 入口を `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md`、推奨実行経路を `scripts/smoke/provision-staging-secrets.sh` として分離。workflow early-fail は smoke 本体必須 4 secret、Slack は failure summary post step の fail-closed guard が担当する境界へ補正 |
 | 2026-05-09 | 1.4.0 | CI recovery wave: Issue #571 staging runtime smoke 節に「Environment 作成済み・secret 0 件問題」の pre-flight 検証 pattern を追加。`scripts/smoke/provision-staging-secrets.sh` を canonical 投入経路、`gh secret list --json name -q` を name-only inventory として正本化し、`${VAR:?}` 連鎖失敗の抑止経路を明記 |
 | 2026-05-07 | 1.3.1 | Issue #518 Cloudflare Audit Logs HOLD を反映。監視 secret は保持するが、schedule 自動監視と watchdog は停止し、手動確認時のみ利用する |
 | 2026-05-06 | 1.3.0 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token を D1 / Workers / Pages x staging / production の 6 Secret へ分割（旧 `CLOUDFLARE_API_TOKEN` は 24h 並行保持後に失効する deprecated secret として扱う）。Issue #408 Cloudflare Audit Logs monitoring の `CF_AUDIT_TOKEN_PROD` を `spec_created / runtime pending` として追加し、deploy token と監視 token の名前・scope・rotation 分離を正本化 |
