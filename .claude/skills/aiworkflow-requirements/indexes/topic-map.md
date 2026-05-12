@@ -2222,6 +2222,14 @@ node scripts/list-specs.js --topics
 | Contract | L72 |
 | Related Resources | L79 |
 
+### references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Artifacts | L12 |
+| Evidence Artifacts | L24 |
+| Boundary | L39 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -2543,12 +2551,30 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L47 |
 
+### references/workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Implementation Artifacts | L7 |
+| Evidence Artifacts | L16 |
+| Lessons Learned | L28 |
+| User-Gated Runtime Items | L34 |
+
+### references/workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Boundary | L16 |
+
 ### references/workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Canonical Artifacts | L10 |
 | Boundaries | L26 |
+
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3761,15 +3787,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| wrangler.toml の環境別設定 | L203 |
-| ローカル開発での設定 | L235 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L274 |
-| セキュリティ原則 | L306 |
-| Cloudflare API Token の作成手順 | L317 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L332 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L430 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
-| 変更履歴 | L501 |
+| wrangler.toml の環境別設定 | L205 |
+| ローカル開発での設定 | L237 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L276 |
+| セキュリティ原則 | L308 |
+| Cloudflare API Token の作成手順 | L319 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L334 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L445 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L497 |
+| 変更履歴 | L516 |
 
 ### references/deployment.md
 
@@ -4784,6 +4810,15 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L114 |
 | 引用元 | L120 |
 
+### references/lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L49 |
+| 参照 | L57 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4792,6 +4827,14 @@ node scripts/list-specs.js --topics
 | L-I359-002: Wrangler config path belongs in the runbook | L7 |
 | L-I359-003: Rollback SQL is evidence, not permission | L11 |
 | L-I359-004: Source unassigned close-out is part of Phase 12 | L15 |
+
+### references/lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所 | L10 |
+| 同様の課題を将来簡潔に解決するための知見 | L25 |
+| 関連リンク | L35 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -5249,8 +5292,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L108 |
-| 関連ドキュメント | L113 |
+| 利用順序 | L109 |
+| 関連ドキュメント | L114 |
 
 ### references/llm-embedding.md
 
@@ -5992,7 +6035,7 @@ node scripts/list-specs.js --topics
 | skill-creatorフィクスチャ検証テスト（TASK-8C-G） | L327 |
 | 残課題（未タスク） | L366 |
 | 関連ドキュメント | L377 |
-| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.test.ts`） | L392 |
+| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.runtime.spec.ts`） | L392 |
 
 ### references/quality-requirements-advanced.md
 
@@ -6361,20 +6404,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1030 |
-| フェーズ構造（概要） | L1039 |
-| 品質ゲート（概要） | L1070 |
-| 出力テンプレート | L1081 |
-| 実行時のコマンド・エージェント・スキル | L1104 |
-| 昇格パターン集 | L1128 |
-| Current Active / Spec Created Tasks | L1130 |
-| ドキュメント構成 | L999 |
-| フェーズ構造（概要） | L1008 |
-| 品質ゲート（概要） | L1039 |
-| 出力テンプレート | L1050 |
-| 実行時のコマンド・エージェント・スキル | L1073 |
-| 昇格パターン集 | L1097 |
-| Current Active / Spec Created Tasks | L1099 |
+| ドキュメント構成 | L1094 |
+| フェーズ構造（概要） | L1103 |
+| 品質ゲート（概要） | L1134 |
+| 出力テンプレート | L1145 |
+| 実行時のコマンド・エージェント・スキル | L1168 |
+| 昇格パターン集 | L1192 |
+| Current Active / Spec Created Tasks | L1194 |
 
 ### references/task-workflow-backlog-part2.md
 

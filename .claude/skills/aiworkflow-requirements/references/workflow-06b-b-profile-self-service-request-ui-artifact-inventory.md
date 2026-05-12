@@ -23,8 +23,8 @@
 | Same-origin proxy | `apps/web/app/api/me/visibility-request/route.ts`, `apps/web/app/api/me/delete-request/route.ts` |
 | Client helper | `apps/web/src/lib/api/me-requests.ts` |
 | Client types | `apps/web/src/lib/api/me-requests.types.ts` |
-| Focused tests | `apps/web/app/profile/_components/{RequestActionPanel,VisibilityRequestDialog,DeleteRequestDialog,RequestErrorMessage,RequestPendingBanner}.test.tsx`, `apps/web/src/lib/api/me-requests.test.ts` |
-| Static invariant | `apps/web/src/__tests__/static-invariants.test.ts` (S-04b: Request*.tsx に responseId / 本文 field 名禁止) |
+| Focused tests | `apps/web/app/profile/_components/{RequestActionPanel,VisibilityRequestDialog,DeleteRequestDialog,RequestErrorMessage,RequestPendingBanner}.component.spec.tsx`, `apps/web/src/lib/api/me-requests.spec.ts` |
+| Static invariant | `apps/web/src/__tests__/static-invariants.runtime.spec.ts` (S-04b: Request*.tsx に responseId / 本文 field 名禁止) |
 | Playwright E2E | `apps/web/playwright/tests/profile-visibility-request.spec.ts`, `apps/web/playwright/tests/profile-delete-request.spec.ts`（`describe.skip`、Phase 11 smoke 時に unskip） |
 
 ## Contract

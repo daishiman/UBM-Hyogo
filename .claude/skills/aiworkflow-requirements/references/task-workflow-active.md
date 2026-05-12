@@ -8,6 +8,52 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #621 apps/web test suffix rename（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 12 strict outputs present / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/` |
+| Issue | Issue #621 OPEN。PR 文脈は `Refs #621` のみ |
+| scope | `apps/web/**/*.test.ts(x)` 70 files; existing Playwright/E2E `*.spec.ts(x)` 17 files untouched |
+| classification | component 36 / route 4 / page 1 / runtime 5 / lib-unit 24 |
+| implementation sync | `apps/web/package.json`, `.github/workflows/ci.yml`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `scripts/lint-boundaries.mjs`, `scripts/lint-stablekey-literal.mjs`, `apps/web/src/lib/api/me-types.spec-d.ts` |
+| evidence | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-11/main.md`, `rename-mapping.csv`, `test-count-diff.log`, `typecheck.log`, `lint.log`, `verify-design-tokens.log` |
+| ADR | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-12/test-file-suffix-adr-apps-web.md` |
+| consumed input | `docs/30-workflows/unassigned-task/task-issue-325-followup-001-apps-web-test-suffix-rename.md` |
+
+### E2E Stage 2 sub-task 2d contract test（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_LOCAL_CANONICAL / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-contract-stage-2.md` |
+| source unassigned | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2-001.md` consumed |
+| 目的 | 2a/2b/2c の UI fixture object と admin route zod schema の同型性を pure unit contract test で検証する |
+| 実装対象 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts`, `apps/api/src/routes/admin/{member-delete,requests,audit}.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| schema boundary | `MergeIdentityResponseZ` は shared schema が正本。2d test 内 `z.object(` は 0 件。requests/audit response envelope は route exported type + `satisfies` で接続 |
+| evidence | focused Vitest 23/23 PASS, `@ubm-hyogo/api` typecheck PASS, `@ubm-hyogo/api` lint PASS, grep gate PASS |
+| root lint boundary | root `pnpm lint` は既存 `apps/web` `monocart-reporter` type resolution で blocked。本 API contract change の判定には `@ubm-hyogo/api` lint/typecheck を使う |
+| artifact inventory | `references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md` |
+| user gate | commit / push / PR は user approval 後のみ |
+
+### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-590-phase11-canonical-evidence-paths/` |
+| 目的 | Phase 11 runtime evidence path の表記揺れを `outputs/phase-11/canonical-paths.json` と validator で排除する |
+| 実装対象 | `.claude/skills/task-specification-creator/schemas/phase11-evidence-canonical-paths.schema.json`, `.claude/skills/task-specification-creator/scripts/validate-phase11-canonical-evidence-paths.js`, `.claude/skills/task-specification-creator/scripts/__tests__/validate-phase11-canonical-evidence-paths.test.mjs`, `.claude/skills/task-specification-creator/package.json`, `package.json#scripts.validate:phase11-paths` |
+| 親適用 | `docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-11/canonical-paths.json` |
+| source unassigned | `docs/30-workflows/completed-tasks/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-05.md`（superseded / consumed） |
+| evidence boundary | 本タスクは schema / validator 導入のみ。親 #549 の post-merge 7 day runtime observation は別 gate |
+| artifact inventory | `references/workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md` |
+| user gate | commit / push / PR は user approval 後 |
+
+### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
 ### Issue #589 Gate metadata structured ledger（2026-05-10）
 
 | 項目 | 値 |
@@ -22,6 +68,7 @@
 | evidence boundary | schema / validator / CI workflow file / #549 backfill / Phase 12 strict 7 / aiworkflow discovery sync は完了。branch protection PUT / commit / push / PR は user-gated |
 | pending user-gated operation | PR/merge 承認後に `verify-gate-metadata / validate` を dev/main required status check へ追加する。実 `gh api -X PUT` はユーザー明示承認まで禁止 |
 | Issue 取扱 | #589 / #549 CLOSED 維持。PR 文脈は `Refs #589` / `Refs #549` のみ |
+
 
 ### E2E quality uplift Stage 2 sub-task 2c admin member delete spec（2026-05-10）
 
@@ -261,6 +308,23 @@
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / quick-reference / resource-map / LOGS |
 | Issue 取扱 | Issue #587 / #549 は CLOSED 維持。PR 文脈は `Refs #549, #587` のみ |
 
+### Issue #588 fallback alert Slack / mail extension（2026-05-10）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-pending / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING |
+| 成果物 | `docs/30-workflows/issue-588-fallback-alert-slack-mail-extension/` |
+| parent | Issue #549 Cloudflare Audit Logs ML production switch |
+| source | `docs/30-workflows/unassigned-task/u-fix-cf-acct-01-deriv-04-fu-03-d-followup-03.md` consumed |
+| 実装対象 | `scripts/cf-audit-log/observation/fallback-rate-alert.ts`, `scripts/cf-audit-log/observation/__tests__/fallback-rate-alert.test.ts`, `.github/workflows/cf-audit-log-monitor.yml` |
+| 目的 | fallback rate > 5% x 3h 連続時に GitHub Issue 起票に加えて Slack / mail HTTP webhook 通知を行う |
+| destinations | GitHub Issue は必須 audit trail。Slack は canonical `SLACK_WEBHOOK_INCIDENT`、mail は `EMAIL_WEBHOOK_URL` + `EMAIL_FROM` + `EMAIL_TO` の3点成立時のみ optional best-effort |
+| failure isolation | Issue / Slack / mail dispatch は同一 alert cycle 内で開始し、Slack / mail の失敗は Issue 起票を阻害しない |
+| workflow wiring | `analyze.ts` 後に `outputs/observation/*.json` が存在する場合のみ `fallback-rate-alert.ts` を実行。Issue #518 HOLD の `dry_run=true` 制約は維持 |
+| evidence | focused Vitest 22 tests / `pnpm typecheck` / `pnpm lint` PASS。Phase 12 strict 7 files present |
+| inventory | `references/workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md` |
+| 境界 | production delivery evidence、HOLD removal、GitHub secret / variable mutation、commit、push、PR は user approval 後 |
+
 ### Issue #532 write/tag/note provider ctx injection（2026-05-08）
 
 | 項目 | 値 |
@@ -360,7 +424,7 @@
 | --- | --- |
 | ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/task-02-w2-wrangler-env-injection/` |
-| 実装対象 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
+| 実装対象 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
 | env contract | `getEnv()` は Cloudflare `getCloudflareContext().env` を優先し、Node build/test では `process.env` fallback。全経路を zod schema で検証 |
 | secret境界 | `SENTRY_DSN_WEB` / `AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
 | 依存 | task-03 とは設計並列可。ただし `wrangler.toml` `[vars]` 実変更は task-02 owner で先行 |
@@ -882,7 +946,7 @@
 | issue | #362 CLOSED (PR text: `Refs #362` only) |
 | 成果物 | `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/` |
 | 目的 | HTTP 202 + `backfill.status='exhausted'` + `retryable=true` + `code='backfill_cpu_budget_exhausted'` を `/admin/schema` UI で通常 success / validation error / conflict error と区別し、続きから再試行できる状態として表示する |
-| 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.test.ts` / `SchemaDiffPanel.test.tsx` |
+| 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.spec.ts` / `SchemaDiffPanel.component.spec.tsx` |
 | 検証 | focused Vitest 30 tests PASS。JUnit: `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/outputs/phase-11/test-junit.xml` |
 | 境界 | API contract / D1 schema / queue-cron workflow は変更しない。manual screenshot / commit / push / PR は user-gated。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md`（L-UT07B-FU02-001 5 点 narrowing / L-002 confirmed と backfill.status の責務分離 / L-003 code 不一致 fallback / L-004 4 状態 manual screenshot deferred） |
 
