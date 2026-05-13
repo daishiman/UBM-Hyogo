@@ -22,14 +22,11 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
+      - name: Setup project
+        uses: ./.github/actions/setup-project
         with:
           node-version: '24'
-          cache: pnpm
+          install: 'false'
 
       - name: Bash syntax for observation reminder
         run: bash -n scripts/observation/create-reminder-issue.sh
@@ -47,7 +44,26 @@ jobs:
         run: bash <(curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
       - name: Actionlint workflow syntax
-        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/web-cd.yml .github/workflows/runtime-smoke-staging.yml
+        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/e2e-tests.yml .github/workflows/lighthouse.yml .github/workflows/pr-build-test.yml .github/workflows/web-cd.yml .github/workflows/runtime-smoke-staging.yml
+
+      - name: Validate setup-project composite action structure
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const source = fs.readFileSync('.github/actions/setup-project/action.yml', 'utf8');
+          for (const token of [
+            'runs:',
+            "using: 'composite'",
+            'uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1',
+            'uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020',
+            'uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac',
+          ]) {
+            if (!source.includes(token)) {
+              console.error(`missing token: ${token}`);
+              process.exit(1);
+            }
+          }
+          NODE
 
       - name: Verify workflow secret allowlist
         run: |
@@ -79,20 +95,9 @@ jobs:
         if: steps.ready.outputs.value == 'false'
         run: echo "::notice::package.json / pnpm-workspace.yaml not found — typecheck and lint skipped"
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup project
         if: steps.ready.outputs.value == 'true'
-        with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
-        if: steps.ready.outputs.value == 'true'
-        with:
-          node-version: '24'
-          cache: pnpm
-
-      - name: Install dependencies
-        if: steps.ready.outputs.value == 'true'
-        run: pnpm install --frozen-lockfile
+        uses: ./.github/actions/setup-project
 
       - name: Install observation lint tools
         if: steps.ready.outputs.value == 'true'
@@ -141,20 +146,9 @@ jobs:
         if: steps.ready.outputs.value == 'false'
         run: echo "::notice::package.json / pnpm-workspace.yaml not found — coverage-gate skipped"
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup project
         if: steps.ready.outputs.value == 'true'
-        with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
-        if: steps.ready.outputs.value == 'true'
-        with:
-          node-version: '24'
-          cache: pnpm
-
-      - name: Install dependencies
-        if: steps.ready.outputs.value == 'true'
-        run: pnpm install --frozen-lockfile
+        uses: ./.github/actions/setup-project
 
       - name: Build apps/web (Tailwind CSS emission for build-output.runtime.spec.ts)
         if: steps.ready.outputs.value == 'true'
