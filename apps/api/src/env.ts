@@ -89,6 +89,10 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // vars — Slack message links shown in UT-17 alert cards
   readonly CF_ALERT_DASHBOARD_URL?: string;
   readonly CF_ALERT_RUNBOOK_URL?: string;
+
+  // ut-17-followup-002: alert-relay dedup を isolate 跨ぎで永続化する KV namespace。
+  // wrangler.toml の `[[env.{staging,production}.kv_namespaces]]` で binding = "ALERT_DEDUP_KV" を割当てる。
+  readonly ALERT_DEDUP_KV: KVNamespace;
 }
 
 // 予約欄（本タスク scope 外、後続タスクで `Env` に追加する binding 候補）

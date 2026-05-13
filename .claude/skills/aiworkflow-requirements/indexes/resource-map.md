@@ -1016,3 +1016,14 @@ node scripts/search-spec.js "safeInvoke"
 | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/` | `lighthouse-ci` context を登録する Lighthouse CI implementation spec | Lighthouse CI workflow、`lighthouserc.json`、Q-02 `/profile` 縮退判定を確認する時 |
 | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` | `e2e-tests-coverage-gate` context を登録する E2E hard gate implementation spec | `.github/workflows/e2e-tests.yml`、Monocart reporter、line coverage 70% gate を確認する時 |
 | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/` | dev/main branch protection required contexts を5件へ拡張する approval-gated implementation spec | `gh api -X PUT` payload、fresh GET evidence、solo policy drift guard を確認する時 |
+
+### UT-17 Follow-up 002 / Alert Relay Dedup KV（2026-05-13）
+
+| リソース | 役割 | 読み込み条件 |
+| --- | --- | --- |
+| `docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv/` | KV dedup migration successor workflow root | alert-relay dedup / Issue #634 / KV binding を確認する時 |
+| `docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv/outputs/phase-12/phase12-task-spec-compliance-check.md` | Phase 12 strict 7 / 30 thinking compact evidence / 4 conditions | close-out compliance を確認する時 |
+| `references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md` | Canonical artifacts and user-gated boundary | 成果物棚卸し・差分確認時 |
+| `references/patterns-kv-dedup.md` | Cloudflare KV dedup persistence の再利用パターン集（env binding narrowing / KV stub fixture / persistence ordering / wrangler binding gating / wording 規律） | KV / 外部通知 dedup を新規 task で扱う時、必須 binding 追加で型 narrowing が必要な時 |
+| `lessons-learned/lessons-learned-ut-17-followup-002-alert-relay-dedup-kv-2026-05.md` | 5 教訓（Env contravariance / KV stub fixture / wrangler gating / Slack 成功後 put / wording 規律） | 同種の KV dedup / 必須 binding 追加 / eventually consistent persistence を実装する時 |
+| `docs/30-workflows/unassigned-task/ut-17-followup-002-alert-relay-dedup-kv-persistence.md` | Source task transferred to successor workflow | 旧未タスクから追跡する時 |
