@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #626 RB-01 build output sharing between Lighthouse and PR build（2026-05-12）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-626-rb01-share-build-output-lighthouse-pr-build/` |
+| 親 Issue | Issue #626（CLOSED） / parent Stage 3 Issue #608（CLOSED） |
+| backlog | `docs/30-workflows/e2e-quality-uplift/backlog.md` RB-01 |
+| 目的 | `.github/workflows/lighthouse.yml` の standalone Lighthouse build と `.github/workflows/pr-build-test.yml` の web build を統合し、`.next` artifact を `build-test` から `lighthouse-ci` へ共有する |
+| implementation target | `.github/workflows/pr-build-test.yml` edit、`.github/workflows/lighthouse.yml` delete、RB-01 backlog status update |
+| trigger boundary | 現行 Lighthouse の dev-base PR 境界を維持し、統合後 `lighthouse-ci` は `if: github.base_ref == 'dev'`。`build-test` は全 PR 継続 |
+| evidence boundary | Phase 11 は local command logs、read-only current branch protection JSON、dry-run PR checks pending、merge-time branch protection before/after diff pending を canonical evidence とする |
+| state vocabulary | root は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。local implementation + deterministic evidence は取得済み、GitHub Actions PR runtime evidence と merge-time governance diff は user-gated。N-day close-out 専用語彙は使わない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md` |
+| user gate | commit / push / PR / merge / Issue close mutation は user approval 後 |
+
 ### E2E quality uplift Stage 2 sub-task 2d contract-stage-2 spec（2026-05-11）
 
 | 項目 | 値 |
@@ -36,6 +52,22 @@
 | evidence | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-11/main.md`, `rename-mapping.csv`, `test-count-diff.log`, `typecheck.log`, `lint.log`, `verify-design-tokens.log` |
 | ADR | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-12/test-file-suffix-adr-apps-web.md` |
 | consumed input | `docs/30-workflows/unassigned-task/task-issue-325-followup-001-apps-web-test-suffix-rename.md` |
+
+### Issue #626 RB-01 build output sharing between Lighthouse and PR build（2026-05-12）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-626-rb01-share-build-output-lighthouse-pr-build/` |
+| 親 Issue | Issue #626（CLOSED） / parent Stage 3 Issue #608（CLOSED） |
+| backlog | `docs/30-workflows/e2e-quality-uplift/backlog.md` RB-01 |
+| 目的 | `.github/workflows/lighthouse.yml` の standalone Lighthouse build と `.github/workflows/pr-build-test.yml` の web build を統合し、`.next` artifact を `build-test` から `lighthouse-ci` へ共有する |
+| implementation target | `.github/workflows/pr-build-test.yml` edit、`.github/workflows/lighthouse.yml` delete、RB-01 backlog status update |
+| trigger boundary | 現行 Lighthouse の dev-base PR 境界を維持し、統合後 `lighthouse-ci` は `if: github.base_ref == 'dev'`。`build-test` は全 PR 継続 |
+| evidence boundary | Phase 11 は local command logs、read-only current branch protection JSON、dry-run PR checks pending、merge-time branch protection before/after diff pending を canonical evidence とする |
+| state vocabulary | root は `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。local implementation + deterministic evidence は取得済み、GitHub Actions PR runtime evidence と merge-time governance diff は user-gated。N-day close-out 専用語彙は使わない |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md` |
+| user gate | commit / push / PR / merge / Issue close mutation は user approval 後 |
 
 ### E2E Stage 2 sub-task 2d contract test（2026-05-11）
 

@@ -5,6 +5,22 @@
 
 ---
 
+### Issue #626 RB-01 Build Output Sharing（2026-05-12）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-626-rb01-share-build-output-lighthouse-pr-build/` |
+| 状態 | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / implementation / NON_VISUAL` |
+| Issue | #626 CLOSED（PR 文脈は `Refs #626, #608` のみ） |
+| scope | `.github/workflows/pr-build-test.yml` に `lighthouse-ci` job を統合し、`.github/workflows/lighthouse.yml` を削除 |
+| artifact sharing | `build-test` が標準 `Build` 直後に `next-build-${{ github.sha }}` を upload、`lighthouse-ci` が `needs: build-test` で download |
+| trigger boundary | `build-test` は全 PR、`lighthouse-ci` は `if: github.base_ref == 'dev'` で現行 Lighthouse dev-base 境界を維持 |
+| evidence boundary | Phase 11 evidence は local typecheck/lint/actionlint/regression/secret grep、read-only current branch protection JSON、dry-run PR checks pending、merge-time branch protection diff pending |
+| Phase 12 | strict 7 files 必須、root/output `artifacts.json` parity 必須 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md` |
+| lessons learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-626-rb01-share-build-output-2026-05.md`（L-ISSUE626-001 branch protection context continuity / 002 artifact trust boundary / 003 secret-grep false-positive 境界判定） |
+| user gate | commit / push / PR / merge / Issue close mutation は user approval 後 |
+
 ### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
 ### Issue #589 Gate Metadata Structured Ledger（2026-05-10）
 

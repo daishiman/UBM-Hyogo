@@ -2575,6 +2575,15 @@ node scripts/list-specs.js --topics
 | Canonical Artifacts | L10 |
 | Boundaries | L26 |
 
+### references/workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L10 |
+| Implementation Targets | L21 |
+| Evidence Boundary | L30 |
+| State Vocabulary | L37 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4825,6 +4834,14 @@ node scripts/list-specs.js --topics
 | 運用知見 | L49 |
 | 参照 | L57 |
 
+### references/lessons-learned-issue-626-rb01-share-build-output-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE626-001: workflow 統合時の branch protection context 名 continuity | L11 |
+| L-ISSUE626-002: artifact 共有における trust boundary 設計 | L18 |
+| L-ISSUE626-003: secret-grep false-positive の境界判定 | L24 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6421,13 +6438,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1123 |
-| フェーズ構造（概要） | L1132 |
-| 品質ゲート（概要） | L1163 |
-| 出力テンプレート | L1174 |
-| 実行時のコマンド・エージェント・スキル | L1197 |
-| 昇格パターン集 | L1221 |
-| Current Active / Spec Created Tasks | L1223 |
+| ドキュメント構成 | L1155 |
+| フェーズ構造（概要） | L1164 |
+| 品質ゲート（概要） | L1195 |
+| 出力テンプレート | L1206 |
+| 実行時のコマンド・エージェント・スキル | L1229 |
+| 昇格パターン集 | L1253 |
+| Current Active / Spec Created Tasks | L1255 |
 
 ### references/task-workflow-backlog-part2.md
 
