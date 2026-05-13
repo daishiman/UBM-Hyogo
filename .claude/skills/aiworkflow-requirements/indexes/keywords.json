@@ -11482,7 +11482,8 @@
     ],
     "を維持し": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
-      "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md"
+      "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "しない": [
       "lessons-learned-06c-A-admin-dashboard-2026-05.md"
@@ -12385,6 +12386,7 @@
       "lessons-learned-09b-cron-monitoring-release-runbook-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
@@ -15275,6 +15277,23 @@
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "relocate": [
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+    ],
+    "accent": [
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+    ],
+    "contrast": [
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "workflow-light-theme-contrast-regression-guard.md"
+    ],
+    "を確保する": [
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+    ],
+    "global": [
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "logs-archive-2026-03-line-budget-reform-formalize.md"
+    ],
+    "置換": [
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "Cross": [
@@ -18316,9 +18335,6 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
     "正本へ同期": [
-      "logs-archive-2026-03-line-budget-reform-formalize.md"
-    ],
-    "global": [
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
     "light": [
@@ -21873,9 +21889,6 @@
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md"
     ],
     "ライトテーマ": [
-      "workflow-light-theme-contrast-regression-guard.md"
-    ],
-    "contrast": [
       "workflow-light-theme-contrast-regression-guard.md"
     ],
     "ライトモード全画面": [

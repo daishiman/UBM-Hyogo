@@ -5007,7 +5007,9 @@ node scripts/list-specs.js --topics
 | L-TASK18-W7-008: artifacts.json は `metadata.gates` 配列を Gate-A〜Gate-D で必ず満たす | L56 |
 | L-TASK18-W7-009: `phase12-task-spec-compliance-check.md` は 9 canonical headings を厳格に要求する | L63 |
 | L-TASK18-W7-010: completed-tasks/ 直下の follow-up spec は orphan workflow root を生むので unassigned-task/ へ即時 relocate | L70 |
-| Cross-Reference | L77 |
+| L-TASK18-W7-011: accent token は L=0.52 を維持し a11y contrast 4.5:1 を確保する | L77 |
+| L-TASK18-W7-012: Playwright project-level testIgnore は global testIgnore を **置換** する | L84 |
+| Cross-Reference | L91 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
