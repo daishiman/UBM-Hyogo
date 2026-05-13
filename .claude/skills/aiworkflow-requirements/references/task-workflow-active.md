@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### E2E quality uplift Stage 2 sub-task 2d contract-stage-2 spec（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented-local-runtime-pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present |
+| 成果物 | `docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-contract-stage-2.md` |
+| 実装対象 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` |
+| route export boundary | `DeleteBodyZ`, `ListRequestsQueryZ`, `ListAuditQueryZ` are non-breaking named exports from existing route modules |
+| schema boundary | 2d test imports route/shared schemas, parses request/audit response fixtures through exported route response schemas, and keeps `z.object(` count at 0 |
+| fixture boundary | 2a/2b/2c inline fixtures must match the 2d standard; `MergeIdentityResponseZ` shared schema wins over handwritten shape |
+| evidence | `docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/outputs/phase-11/main.md`, `docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime gate | local implementation test creation, focused Vitest, typecheck, lint, and grep gates passed; commit, push, PR, and CI runtime are user-gated |
+
 ### Issue #621 apps/web test suffix rename（2026-05-10）
 
 | 項目 | 値 |
@@ -54,6 +69,7 @@
 | user gate | commit / push / PR は user approval 後 |
 
 ### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
+
 ### Issue #589 Gate metadata structured ledger（2026-05-10）
 
 | 項目 | 値 |
@@ -99,6 +115,19 @@
 | 依存 | task-09 / task-10 は completed-tasks、task-15 は `ui-prototype-alignment-mvp-recovery/07-screens-admin/task-15-w5-par-admin-dashboard-and-members.md`。task-16 と並列、task-18 は staging/CI smoke を継続 |
 | evidence | `docs/30-workflows/completed-tasks/task-17-admin-schema-conflicts-audit/outputs/phase-11/phase11-capture-metadata.json` / `docs/30-workflows/completed-tasks/task-17-admin-schema-conflicts-audit/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | Phase 13 | commit / push / PR outputs は user approval 後のみ生成 |
+
+### Issue #603 phase-12 compliance-check CI gate（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_runtime_pending / implementation / NON_VISUAL / Phase 12 strict 7 outputs present / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-603-phase12-compliance-check-ci-gate/` |
+| Issue | Issue #603 CLOSED。PR 文脈は `Refs #603` のみ |
+| CI gate | `.github/workflows/verify-phase12-compliance.yml` |
+| implementation targets | `scripts/verify-phase12-compliance.ts`, `scripts/lib/phase12-compliance/**`, `scripts/__tests__/verify-phase12-compliance.test.ts`, `scripts/__tests__/fixtures/phase12-compliance/**` |
+| canonical SSOT | `.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md` Required Sections 9 項目 |
+| user gate | commit / push / PR creation / PR-side CI log capture |
+| artifact inventory | `references/workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md` |
 
 ### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
 
