@@ -6,8 +6,42 @@
     "taskType": "implementation",
     "visualEvidence": "NON_VISUAL",
     "coverageTier": "standard",
-    "updated_at": "2026-05-11",
-    "runtime_gate": "branch protection PUT and read-only verify are captured; PR CI required display, Lighthouse workflow run, commit, push, and PR require explicit user approval"
+    "updated_at": "2026-05-13",
+    "runtime_gate": "branch protection PUT and read-only verify are captured; PR CI required display, Lighthouse workflow run, commit, push, and PR require explicit user approval",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; desired-state manifest, apply.sh, verify script scopes locked"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: apply/verify stdout captured, pre/post snapshots saved, pnpm typecheck + lint PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/lighthouse.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: required contexts include lighthouse-ci and e2e-tests-coverage-gate; awaiting green CI on PR #694"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: PR #694 awaits user-gated merge into dev and post-merge runtime evidence"
+      }
+    ]
   },
   "phases": [
     {"phase": 1, "status": "spec_created", "path": "phase-1.md"},
