@@ -145,7 +145,16 @@ export default defineConfig({
     },
     {
       name: 'mobile-webkit',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      // admin-pages.spec.ts は desktop primary な admin UI を 5 連続ナビゲーションする構造で、
+      // iPhone 13 webkit emulation (hasTouch + isMobile) では Next router prefetch と
+      // navigation が race して "Navigation interrupted by another navigation" を発生させる。
+      // 管理画面は desktop-chromium / desktop-firefox 側で carried されるため mobile-webkit からは除外する。
+      testIgnore: [
+        /visual\/.*\.spec\.ts$/,
+        /full-smoke\.spec\.ts$/,
+        /admin-pages\.spec\.ts$/,
+        ...fixtureGatedTestIgnore,
+      ],
       use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 } },
     },
     {
