@@ -1,0 +1,17 @@
+apps/web/playwright/tests/a11y.spec.ts
+apps/web/playwright/tests/admin-identity-conflicts.spec.ts
+apps/web/playwright/tests/admin-pages.spec.ts
+apps/web/playwright/tests/admin-requests.spec.ts
+apps/web/playwright/tests/attendance.spec.ts
+apps/web/playwright/tests/auth-gate-state.spec.ts
+apps/web/playwright/tests/login-smoke.spec.ts
+apps/web/playwright/tests/profile-delete-request.spec.ts
+apps/web/playwright/tests/profile-pending-sticky.spec.ts
+apps/web/playwright/tests/profile-readonly.spec.ts
+apps/web/playwright/tests/profile-visibility-request.spec.ts
+apps/web/playwright/tests/profile.spec.ts
+apps/web/playwright/tests/public-detail-register-legal.spec.ts
+apps/web/playwright/tests/public-flow.spec.ts
+apps/web/playwright/tests/public-top-and-list.spec.ts
+apps/web/playwright/tests/search-density.spec.ts
+apps/web/tests/e2e/staging-smoke.spec.ts

@@ -2568,6 +2568,13 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L3 |
 | Boundary | L16 |
 
+### references/workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L10 |
+| Boundaries | L26 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3144,6 +3151,13 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
+
+### references/workflow-task-spec-2d-contract-stage-2-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Set | L12 |
+| Boundary | L22 |
 
 ### references/workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md
 
@@ -3734,8 +3748,8 @@ node scripts/list-specs.js --topics
 | デプロイメント戦略概要 | L6 |
 | Cloudflare デプロイ戦略 | L56 |
 | GitHub Actions CI/CD パイプライン | L103 |
-| ロールバック戦略 | L152 |
-| 変更履歴 | L198 |
+| ロールバック戦略 | L155 |
+| 変更履歴 | L201 |
 
 ### references/deployment-details.md
 
@@ -4802,6 +4816,15 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L114 |
 | 引用元 | L120 |
 
+### references/lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L49 |
+| 参照 | L57 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4972,6 +4995,17 @@ node scripts/list-specs.js --topics
 | L-T21-003: canonical workflow root の削除検出は task scope 外でも同サイクルで復元する | L11 |
 | L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
 | L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
+
+### references/lessons-learned-task-spec-2d-contract-stage-2-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-2D-001: shared schema が response shape の SSOT で、parent workflow の記述は派生 | L7 |
+| L-2D-002: route の inline `z.object` は contract test 起票と同 wave で named export に昇格させる | L21 |
+| L-2D-003: contract test は pure unit に固定し、D1 / Cloudflare binding に触れない | L34 |
+| L-2D-004: fixture object は test 内 inline、別ファイル化は別 phase の責務 | L42 |
+| L-2D-005: zod 未エクスポート response の同型確認は type-level に逃がす | L51 |
+| L-2D-006: workflow root が `completed-tasks/` に移動した直後は skill 全 path を一括更新 | L57 |
 
 ### references/lessons-learned-task19-primitives-full-spec-2026-05.md
 
@@ -5275,8 +5309,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L108 |
-| 関連ドキュメント | L113 |
+| 利用順序 | L109 |
+| 関連ドキュメント | L114 |
 
 ### references/llm-embedding.md
 
@@ -6018,7 +6052,7 @@ node scripts/list-specs.js --topics
 | skill-creatorフィクスチャ検証テスト（TASK-8C-G） | L327 |
 | 残課題（未タスク） | L366 |
 | 関連ドキュメント | L377 |
-| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.test.ts`） | L392 |
+| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.runtime.spec.ts`） | L392 |
 
 ### references/quality-requirements-advanced.md
 
@@ -6387,13 +6421,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1080 |
-| フェーズ構造（概要） | L1089 |
-| 品質ゲート（概要） | L1120 |
-| 出力テンプレート | L1131 |
-| 実行時のコマンド・エージェント・スキル | L1154 |
-| 昇格パターン集 | L1178 |
-| Current Active / Spec Created Tasks | L1180 |
+| ドキュメント構成 | L1123 |
+| フェーズ構造（概要） | L1132 |
+| 品質ゲート（概要） | L1163 |
+| 出力テンプレート | L1174 |
+| 実行時のコマンド・エージェント・スキル | L1197 |
+| 昇格パターン集 | L1221 |
+| Current Active / Spec Created Tasks | L1223 |
 
 ### references/task-workflow-backlog-part2.md
 

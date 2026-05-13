@@ -44,14 +44,14 @@
 | ファイル | 役割 |
 |---|---|
 | `apps/web/app/api/auth/callback/email/route.ts` | `GET` で token/email を受け、`verifyMagicLink()` 委譲 → 成功時 `signIn("magic-link", ...)`、失敗時 `?error=<reason>` redirect。`POST` は 405。 |
-| `apps/web/app/api/auth/callback/email/route.test.ts` | route-level test 11 case（success / 4xx / 405 / error mapping） |
+| `apps/web/app/api/auth/callback/email/route.route.spec.ts` | route-level test 11 case（success / 4xx / 405 / error mapping） |
 
 ### Helpers（apps/web）
 
 | ファイル | 役割 |
 |---|---|
 | `apps/web/src/lib/auth/verify-magic-link.ts` | `apps/api` `POST /auth/magic-link/verify` を呼ぶ HTTP client。token/email を渡し、`SessionUser` または error code を返す。`X-Internal-Auth` 必須の `/auth/session-resolve` とは別境界。 |
-| `apps/web/src/lib/auth/verify-magic-link.test.ts` | helper unit test 15 case（success / network failure / 4xx / 5xx / shape validation） |
+| `apps/web/src/lib/auth/verify-magic-link.spec.ts` | helper unit test 15 case（success / network failure / 4xx / 5xx / shape validation） |
 
 ### Auth.js 設定（apps/web）
 
@@ -96,7 +96,7 @@
 | 検証項目 | 結果 |
 |---|---|
 | typecheck（apps/web） | PASS |
-| focused tests（route.test.ts 11 case / verify-magic-link.test.ts 15 case） | PASS |
+| focused tests（route.route.spec.ts 11 case / verify-magic-link.spec.ts 15 case） | PASS |
 | boundary check（apps/web 配下の D1 import 0 件） | PASS |
 | 不変条件 #5 / #6 / #15 trace | PASS |
 | Phase 12 7 成果物 parity（root artifacts.json / outputs/artifacts.json） | PASS |
