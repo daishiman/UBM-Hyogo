@@ -39,6 +39,55 @@ Phase 11 PASS 根拠ファイルとして `.log` 拡張子で evidence を出す
 - **Why:** GitHub branch protection は registered check のみ評価する。未 run の context は green にならない。Stage 3c の lighthouse-ci / e2e-tests-coverage-gate 採用時と同じ制約。
 - **How to apply:** workflow を `dev` で 1 回成功させ、`gh api repos/.../check-runs` に出現することを確認した後で、user approval を経て `gh api -X PUT` を実行する。read response の payload を normalize し、`required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` を保全する。
 
+## L-TASK18-W7-006: `PLAYWRIGHT_BASE_URL` の env fallback は `||` で空文字も拾う
+
+`apps/web/playwright.config.ts` と `apps/web/playwright/fixtures/auth.ts` の base URL 取得で `process.env.PLAYWRIGHT_BASE_URL ?? 'http://localhost:3000'` を使うと、CI で env が空文字で注入された場合に `new URL('')` で `TypeError: Invalid URL` / `Cookie should have a url or a domain/path pair` で全 spec が転倒する。
+
+- **Why:** `??` は `null` / `undefined` のみ fallback。空文字は valid value 扱い。GitHub Actions の env passthrough は未設定キーを `''` として export することがある。
+- **How to apply:** Playwright config / fixture の URL 取得は `process.env.X || default` で統一する。`apps/web/playwright.config.ts:52` と `apps/web/playwright/fixtures/auth.ts:399` を一律 `||` に揃え、`localBaseURL` から派生する `localPort` / cookie URL も同じ source を経由させる。
+
+## L-TASK18-W7-007: project レベル testIgnore で smoke / visual を chromium-linux baseline project に閉じ込める
+
+`apps/web/playwright/tests/visual/*.spec.ts` と `full-smoke.spec.ts` を全 project（desktop-chromium / desktop-firefox / mobile-webkit / smoke-chromium / visual-chromium）で実行すると、firefox / mobile-webkit には baseline PNG が無く `A snapshot doesn't exist ... writing actual` で失敗、smoke も二重実行で workers=1 のため 30 分超のタイムアウトを誘発する。
+
+- **Why:** Playwright visual baseline は `<spec>.spec.ts-snapshots/<name>-<project>-<platform>.png` で project + platform 別に格納される設計。chromium-linux 1 系統だけ baseline 化する MVP 方針なら、他 project では実行しないのが正しい。
+- **How to apply:** `apps/web/playwright.config.ts` の `desktop-chromium` / `desktop-firefox` / `mobile-webkit` project に `testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/]` を入れ、`smoke-chromium` / `visual-chromium` project に `testMatch` で対象を絞る。baseline 増設時は対応する `*-<project>-<platform>.png` を spec-snapshots ディレクトリに追加し、CI artifact の `*-actual.png` をリネームしてコピーするのが最短経路。
+
+## L-TASK18-W7-008: artifacts.json は `metadata.gates` 配列を Gate-A〜Gate-D で必ず満たす
+
+`verify-gate-metadata` CI gate（`docs/30-workflows/completed-tasks/*/artifacts.json` と root の同名ファイル両方を zod 検証）は `metadata.gates: [{gate_id, status, passed_at, evidence_path, approver, notes}, ...]` を必須にしている。同じファイルが workflow root と `outputs/` 下に同名で存在する場合は **両者を一字一句揃える** ことが期待される。
+
+- **Why:** Gate-A=spec_review / Gate-B=validator_green / Gate-C=ci_integration / Gate-D=pr_approval の 4 段階を統一台帳化するため。`outputs/artifacts.json` だけ更新して root を放置すると CI が ERROR を投げる（ファイル単位の独立検証）。
+- **How to apply:** artifacts.json 生成時に gates 配列を埋め、`cp outputs/artifacts.json ./artifacts.json` または `git diff` で両者一致を確認する。task-18 では Gate-A/B を passed（2026-05-12 daishiman 承認）、Gate-C を pending（CI integration runtime）、Gate-D を pending（branch protection PUT）として記録した。
+
+## L-TASK18-W7-009: `phase12-task-spec-compliance-check.md` は 9 canonical headings を厳格に要求する
+
+`verify-phase12-compliance` CI gate は `outputs/phase-12/phase12-task-spec-compliance-check.md` の以下 9 H2 headings の有無を grep で検証する：Summary verdict / Changed-files classification / `workflow_state` and phase status consistency / Phase 11 evidence file inventory / Phase 12 strict 7 file inventory / Skill/reference/system spec same-wave sync / Runtime or user-gated boundary / Archive/delete stale-reference gate / Four-condition verdict。
+
+- **Why:** Phase 12 監査の SSOT を任意フォーマットに任せると後続タスクで形骸化する。CI で機械検証可能にするため heading は固定化されている。
+- **How to apply:** Phase 12 開始時にこの 9 heading のスケルトンをコピーして埋める。`completed-tasks/<task>/outputs/phase-12/` 直下に置き、各 heading 下に PASS / NG / partial と evidence path を表で記載する。task-18 では canonical fix としてこの形式へ書き直し済み。
+
+## L-TASK18-W7-010: completed-tasks/ 直下の follow-up spec は orphan workflow root を生むので unassigned-task/ へ即時 relocate
+
+`docs/30-workflows/completed-tasks/<followup-spec>.md` を completed-tasks/ 直下に置くと、`verify-phase12-compliance` は親パスを「Phase 1-13 を持つ workflow root」と誤検出して strict 7 ファイル不足で fail する。
+
+- **Why:** completed-tasks/ 直下は「完了済み workflow ディレクトリ」専用領域。スタンドアロンの .md は workflow root と判別される。
+- **How to apply:** follow-up は `docs/30-workflows/unassigned-task/<task-id>.md` に置く。task-18 では `task-18-full-visual-regression-suite-001.md` を `git mv` で unassigned-task/ に移動して fail を解消した。
+
+## L-TASK18-W7-011: accent token は L=0.52 を維持し a11y contrast 4.5:1 を確保する
+
+`--ubm-color-accent` を `oklch(0.58 0.10 55)` に上げると `apps/web/playwright/tests/a11y.spec.ts` の axe `color-contrast` (WCAG 2.1 AA) が `/`, `/members`, `/members/m-1`, `/register`, `/login` で serious 違反を出し、`e2e-tests-coverage-gate` が落ちる。
+
+- **Why:** stone theme の accent は白背景上の小文字・リンク色として 4.5:1 を満たす必要がある。L=0.58 では `panel: #ffffff` 上の contrast が 3.x:1 に落ちる。L=0.52 で 4.5:1 を保つ。
+- **How to apply:** 3-layer bridge を `oklch(0.52 0.10 55)` で揃える（`apps/web/src/styles/tokens.css:21` / `docs/00-getting-started-manual/specs/09b-design-tokens.md` §3.2 / §3.4.1 / §JSON snippet）。`pnpm verify:tokens` で 3-layer 一致を確認した上で a11y spec を回す。
+
+## L-TASK18-W7-012: Playwright project-level testIgnore は global testIgnore を **置換** する
+
+`apps/web/playwright.config.ts` で global `testIgnore: fixtureGatedTestIgnore` を設定しても、project に `testIgnore: [/visual.../, /full-smoke/]` を書くと project 側が **置換** される設計のため、`admin-identity-conflicts.spec.ts` / `admin-requests.spec.ts` / `admin-member-delete.spec.ts` / `admin-schema-conflicts-audit.spec.ts` が fixture env なしで走り、`e2e-tests-coverage-gate` の全 project (desktop-chromium / desktop-firefox / mobile-webkit) で SSR fixture 未通電による失敗を起こす。
+
+- **Why:** Playwright `Project.testIgnore` は global `testIgnore` を merge せず置き換える設計。fixture-gated admin spec を一括除外するには project 配列にも明示 spread が必要。
+- **How to apply:** 各 project の testIgnore を `[/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore]` のように spread で合成する。新規 admin spec を追加した際は `fixtureGatedTestIgnore` push 条件の見直しを同時にレビューする。
+
 ## Cross-Reference
 
 - Artifact inventory: `references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md`

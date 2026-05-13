@@ -5,6 +5,27 @@
 
 ---
 
+### task-18 W7 verify-tokens-and-playwright-smoke（2026-05-12 / sync-after fixes 2026-05-13）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / runtime_pending`（local 5-point gates PASS） |
+| token verifier | `scripts/verify-design-tokens.ts`（3 層 bridge: spec §9 / tokens.css / globals.css `@theme inline`） |
+| smoke spec | `apps/web/playwright/tests/full-smoke.spec.ts`（17 URL routes） |
+| visual specs | `apps/web/playwright/tests/visual/*.spec.ts`（4 screen baseline、chromium-linux のみ tracked） |
+| baseline paths | `apps/web/playwright/tests/visual/<spec>.spec.ts-snapshots/<name>-visual-chromium-linux.png` |
+| CI workflows | `.github/workflows/verify-design-tokens.yml` / `.github/workflows/playwright-smoke.yml` |
+| required check 候補 | `verify-design-tokens / verify-design-tokens` / `playwright-smoke / smoke (chromium)` / `playwright-smoke / visual (chromium, 4 screens)` |
+| URL fallback rule | `apps/web/playwright.config.ts:52` / `apps/web/playwright/fixtures/auth.ts:399` は `||` 固定（`??` だと CI 空文字で `Invalid URL`） |
+| project testIgnore | `desktop-chromium` / `desktop-firefox` / `mobile-webkit` で `visual/*.spec.ts` + `full-smoke.spec.ts` を除外 |
+| Phase 12 SSOT | `outputs/phase-12/phase12-task-spec-compliance-check.md` は 9 canonical headings 必須（verify-phase12-compliance） |
+| gate metadata | `artifacts.json` と `outputs/artifacts.json` 両方に Gate-A..D を一致して持つ（verify-gate-metadata） |
+| follow-up | `docs/30-workflows/unassigned-task/task-18-full-visual-regression-suite-001.md`（completed-tasks/ 直下に置かない） |
+| lessons | `references/lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md` L-001..L-010 |
+| inventory | `references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md` |
+| changelog | `changelog/20260512-task-18-w7-verify-tokens-and-playwright-smoke.md`（After-sync regression fixes セクション含む） |
+
 ### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
 ### Issue #589 Gate Metadata Structured Ledger（2026-05-10）
 

@@ -443,6 +443,14 @@ steps:
 
 拡張は `docs/30-workflows/unassigned-task/task-18-full-visual-regression-suite-001.md`（17 URL routes × 3 viewport の full baseline）で扱う。
 
+### 2026-05-13 sync-after fix: URL fallback と project testIgnore
+
+CI 初回 run で得た sync-after lesson:
+
+- **`PLAYWRIGHT_BASE_URL` の fallback は `||`**: `apps/web/playwright.config.ts:52` と `apps/web/playwright/fixtures/auth.ts:399` で `process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000'` を使う。`??` だと空文字 (CI env passthrough) が valid 扱いになり `new URL('')` で全 spec 転倒する。
+- **project レベル testIgnore で visual/full-smoke を chromium-linux に閉じ込め**: `desktop-chromium` / `desktop-firefox` / `mobile-webkit` project に `testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/]` を入れ、`smoke-chromium` / `visual-chromium` project に `testMatch` で対象を絞る。firefox/webkit に baseline PNG が無いまま実行すると `A snapshot doesn't exist` で fail し、smoke の二重実行で workers=1 が長時間ブロックされる。
+- **Visual baseline の初期 commit 経路**: 初回は `--update-snapshots` ローカル生成ではなく、CI で 1 度 fail させて `playwright-visual-artifacts/*-actual.png` を `gh run download` し、`apps/web/playwright/tests/visual/<spec>.spec.ts-snapshots/<name>-visual-chromium-linux.png` にリネームコピーして tracked 化する。chromium-linux 環境差を排除できる。
+
 ## 関連ドキュメント
 
 | ドキュメント                                         | 内容                   |

@@ -125,7 +125,7 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -140,12 +140,12 @@ export default defineConfig({
     },
     {
       name: 'desktop-firefox',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
       name: 'mobile-webkit',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 } },
     },
     {

@@ -3058,7 +3058,8 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L54 |
 | User Gates | L61 |
 | Dependencies | L67 |
-| Cross-Reference | L72 |
+| After-sync regression fixes (2026-05-13) | L72 |
+| Cross-Reference | L87 |
 
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
@@ -5001,7 +5002,12 @@ node scripts/list-specs.js --topics
 | L-TASK18-W7-003: Server Component fetch は env-gated SSR fixture でしか visual evidence を取れない | L21 |
 | L-TASK18-W7-004: Phase 11 evidence は `.txt` / `.json` のみ canonical。`.log` は `.gitignore` で落ちる | L28 |
 | L-TASK18-W7-005: required status check 候補は CI で 1 回 success run を出してから PUT する | L35 |
-| Cross-Reference | L42 |
+| L-TASK18-W7-006: `PLAYWRIGHT_BASE_URL` の env fallback は `||` で空文字も拾う | L42 |
+| L-TASK18-W7-007: project レベル testIgnore で smoke / visual を chromium-linux baseline project に閉じ込める | L49 |
+| L-TASK18-W7-008: artifacts.json は `metadata.gates` 配列を Gate-A〜Gate-D で必ず満たす | L56 |
+| L-TASK18-W7-009: `phase12-task-spec-compliance-check.md` は 9 canonical headings を厳格に要求する | L63 |
+| L-TASK18-W7-010: completed-tasks/ 直下の follow-up spec は orphan workflow root を生むので unassigned-task/ へ即時 relocate | L70 |
+| Cross-Reference | L77 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
@@ -6872,7 +6878,7 @@ node scripts/list-specs.js --topics
 | デバッグパターン | L366 |
 | Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
 | task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
-| 関連ドキュメント | L446 |
+| 関連ドキュメント | L454 |
 
 ### references/ui-history-components.md
 

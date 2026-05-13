@@ -7,7 +7,7 @@
 | Task ID | task-18-w7-verify-tokens-and-playwright-smoke |
 | Workflow | `docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/` |
 | Status | `implemented-local / implementation / NON_VISUAL / runtime_pending` |
-| Sync date | 2026-05-12 |
+| Sync date | 2026-05-12 (after-sync regression fixes: 2026-05-13) |
 | Phase 11 | static evidence captured / runtime evidence pending_user_approval |
 | Phase 12 | strict 7 outputs present |
 | Phase 13 | `blocked_pending_user_approval`（commit / push / PR / branch protection PUT） |
@@ -68,6 +68,21 @@
 
 - Upstream: task-08 (tokens 整備) / task-09 (login) / task-10 (UI primitives) / task-11..17 (画面群)
 - Downstream: `task-18-full-visual-regression-suite-001`（17 URL routes × 3 viewport の拡張 baseline）
+
+## After-sync regression fixes (2026-05-13)
+
+| Issue | Fix |
+| --- | --- |
+| `verify-indexes-up-to-date` fail after dev merge | `pnpm indexes:rebuild` で `indexes/keywords.json` 再生成・commit |
+| `verify-phase12-compliance` (parent root) fail | stray `task-18-full-visual-regression-suite-001.md` を `docs/30-workflows/unassigned-task/` に `git mv` |
+| `verify-phase12-compliance` (task-18) fail | `outputs/phase-12/phase12-task-spec-compliance-check.md` を 9 canonical headings に書き直し |
+| `verify-gate-metadata` ERROR | `metadata.gates` (Gate-A passed / Gate-B passed / Gate-C pending / Gate-D pending) を root + outputs 両 `artifacts.json` に追加 |
+| `playwright-smoke` URL `Invalid URL` | `apps/web/playwright.config.ts:52` を `??` → `\|\|` |
+| `playwright-smoke` cookie `domain/path pair` | `apps/web/playwright/fixtures/auth.ts:399` を `??` → `\|\|` |
+| `playwright-smoke / visual` `A snapshot doesn't exist` | CI artifact `playwright-visual-artifacts/*-actual.png` を chromium-linux baseline として 4 spec-snapshots ディレクトリに commit |
+| `playwright-smoke` Firefox/WebKit project が visual+smoke を実行して長時間タイムアウト | `desktop-chromium` / `desktop-firefox` / `mobile-webkit` project に `testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/]` |
+
+CI head `c5e36dac` の結果: `playwright-smoke / smoke (chromium)` および `playwright-smoke / visual (chromium, 4 screens)` 共に ✅。`e2e-tests-coverage-gate` の既存 a11y / admin-* spec 失敗は task-18 スコープ外。
 
 ## Cross-Reference
 
