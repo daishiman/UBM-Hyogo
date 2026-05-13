@@ -88,6 +88,13 @@ Phase 11 PASS 根拠ファイルとして `.log` 拡張子で evidence を出す
 - **Why:** Playwright `Project.testIgnore` は global `testIgnore` を merge せず置き換える設計。fixture-gated admin spec を一括除外するには project 配列にも明示 spread が必要。
 - **How to apply:** 各 project の testIgnore を `[/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore]` のように spread で合成する。新規 admin spec を追加した際は `fixtureGatedTestIgnore` push 条件の見直しを同時にレビューする。
 
+## L-TASK18-W7-013: Playwright webServer は `next dev --webpack` を使い、Turbopack の `[project]/...` 解決失敗を避ける
+
+`apps/web/package.json` の `"dev": "next dev"` は Next.js 16 のデフォルトで Turbopack を起動するが、`e2e-tests-coverage-gate` (mobile-webkit) で `[project]/.../next/dist/server/route-modules/app-route/vendored/contexts/app-router-context.js, file not found` が発生し、`/members` ページが応答せず 60s タイムアウト → ジョブ全体が 18min 上限を超えてキャンセルされる。
+
+- **Why:** Turbopack の `[project]/...` 仮想モジュール解決は OpenNext Workers bundle / Playwright webServer の長時間運用と相性が悪く、`pnpm` の symlinked node_modules pathが間欠的に解決不能になる。CLAUDE.md の `apps/web` 不変条件 (`Next.js 16 の Turbopack は local dev 用に限定し、Cloudflare Workers deploy bundle へ [project]/... 仮想 module specifier を混入させない`) と同根の問題。`next build --webpack` は既に正本化されているが、`next dev` だけ Turbopack のまま残っていた。
+- **How to apply:** `apps/web/package.json` に `"dev:webpack": "next dev --webpack"` を追加し、`apps/web/playwright.config.ts` の webServer command を `pnpm --filter @ubm-hyogo/web dev:webpack` に書き換える。local の対話 dev では `pnpm dev` (Turbopack) のまま速度を維持し、Playwright / CI のみ webpack を強制する。修正後の mobile-webkit shard で `/members` が 1-3s で応答し、`e2e-tests-coverage-gate` が green に戻ることを確認すること。
+
 ## Cross-Reference
 
 - Artifact inventory: `references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md`

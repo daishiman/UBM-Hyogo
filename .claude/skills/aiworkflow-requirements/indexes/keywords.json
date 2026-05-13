@@ -6847,6 +6847,7 @@
     ],
     "next": [
       "deployment-cloudflare-opennext-workers.md",
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md"
     ],
     "を生成": [
@@ -7545,6 +7546,7 @@
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md"
     ],
@@ -12580,7 +12582,8 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
     "を使い": [
-      "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
+      "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "Closes": [
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
@@ -14982,7 +14985,8 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
     ],
     "webServer": [
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "PORT": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
@@ -15294,6 +15298,15 @@
       "logs-archive-2026-03-line-budget-reform-formalize.md"
     ],
     "置換": [
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+    ],
+    "webpack": [
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+    ],
+    "Turbopack": [
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+    ],
+    "解決失敗を避ける": [
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
     ],
     "Cross": [

@@ -5009,7 +5009,8 @@ node scripts/list-specs.js --topics
 | L-TASK18-W7-010: completed-tasks/ 直下の follow-up spec は orphan workflow root を生むので unassigned-task/ へ即時 relocate | L70 |
 | L-TASK18-W7-011: accent token は L=0.52 を維持し a11y contrast 4.5:1 を確保する | L77 |
 | L-TASK18-W7-012: Playwright project-level testIgnore は global testIgnore を **置換** する | L84 |
-| Cross-Reference | L91 |
+| L-TASK18-W7-013: Playwright webServer は `next dev --webpack` を使い、Turbopack の `[project]/...` 解決失敗を避ける | L91 |
+| Cross-Reference | L98 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
