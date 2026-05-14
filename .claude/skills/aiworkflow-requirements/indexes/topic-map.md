@@ -4818,6 +4818,15 @@ node scripts/list-specs.js --topics
 | 運用知見 | L49 |
 | 参照 | L57 |
 
+### references/lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L49 |
+| 参照 | L58 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |

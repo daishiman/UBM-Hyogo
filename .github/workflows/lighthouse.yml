@@ -32,6 +32,9 @@ jobs:
         run: pnpm --filter @ubm-hyogo/web build
 
       - name: Start server (background)
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
         run: pnpm --filter @ubm-hyogo/web start &
 
       - name: Wait for server
@@ -51,5 +54,38 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lhci-report-${{ github.sha }}
-          path: .lighthouseci/
+          path: apps/web/.lighthouseci/
+          retention-days: 7
+
+      - name: Generate LHCI auth storage state
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+        run: pnpm --filter @ubm-hyogo/web lhci:auth-storage
+
+      - name: Start authenticated profile mock API (background)
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+        run: pnpm --filter @ubm-hyogo/web lhci:profile-mock-api &
+
+      - name: Wait for authenticated profile mock API
+        run: |
+          for i in {1..30}; do
+            curl -fsS http://127.0.0.1:8787/health >/dev/null && exit 0
+            sleep 1
+          done
+          echo "Timed out waiting for http://127.0.0.1:8787/health"
+          exit 1
+
+      - name: Run Lighthouse CI (authenticated /profile)
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          INTERNAL_API_BASE_URL: http://127.0.0.1:8787
+        run: pnpm --filter @ubm-hyogo/web exec lhci autorun --config=../../lighthouserc.authenticated.json
+
+      - name: Upload Lighthouse authenticated artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lhci-report-authenticated-${{ github.sha }}
+          path: apps/web/.lighthouseci-authenticated/
           retention-days: 7

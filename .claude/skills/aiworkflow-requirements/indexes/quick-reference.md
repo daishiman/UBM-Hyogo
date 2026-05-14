@@ -124,6 +124,21 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md` |
 | user gate | runtime screenshots / staging smoke / commit / push / PR |
 
+### Issue #630 authenticated /profile LHCI a11y（2026-05-13）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-630-authenticated-profile-lhci-a11y/` |
+| 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL` |
+| issue state | #630 CLOSED at `2026-05-12T06:26:21Z`; use `Refs #630` |
+| route scope | `/profile` |
+| auth contract | `signSessionJwt(AUTH_SECRET, { memberId, email, isAdmin: false, ttlSeconds: 3600 })` |
+| cookie | `authjs.session-token` for `localhost` |
+| implementation targets | `apps/web/scripts/lhci-auth-storage.ts`, `apps/web/scripts/lhci-profile-mock-api.ts`, `apps/web/lhci/lhci-auth.cjs`, `lighthouserc.authenticated.json`, `.github/workflows/lighthouse.yml`, `lighthouserc.json` |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; CI LHCI artifacts pending user-approved PR run |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md` |
+| user gate | GitHub Secret mutation / runtime LHCI / commit / push / PR |
+
 ### UI prototype alignment / MVP recovery task-14 my profile and requests（2026-05-10）
 
 | 目的 | 参照先 |
