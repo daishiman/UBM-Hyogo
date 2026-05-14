@@ -21,7 +21,7 @@ const ALLOW_LIST = [
 ];
 
 const EXCEPTION_GLOBS = [
-  /\.test\.(ts|tsx|mjs|js)$/,
+  /\.(test|spec)\.(ts|tsx|mjs|js)$/,
   /\.spec\.(ts|tsx|mjs|js)$/,
   /[\\/]__fixtures__[\\/]/,
   /[\\/]__tests__[\\/]/,

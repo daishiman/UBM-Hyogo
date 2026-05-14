@@ -23,7 +23,7 @@ State: `implemented-local / implementation / VISUAL_ON_EXECUTION / runtime evide
 | --- | --- |
 | depends on task-08 | `docs/30-workflows/task-08-w2-design-tokens-doc/` |
 | depends on task-09 | `docs/30-workflows/task-09-w3-tailwind-v4-setup/` |
-| depends on task-10 | `docs/30-workflows/task-10-ui-primitives-spec/` |
+| depends on task-10 | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
 | blocks task-18 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/06-regression/` |
 
 ## Evidence

@@ -51,9 +51,9 @@
 | `apps/web/src/instrumentation-client.ts` | browser entry — `@sentry/nextjs` register |
 | `apps/web/src/lib/sentry/` | capture wrapper (`captureException` / `captureMessage` / `register`) |
 | `apps/web/src/lib/env.ts` | `getEnv()` helper — Cloudflare binding 優先 / `process.env` fallback |
-| `apps/web/src/__tests__/instrumentation.test.ts` | server init contract test |
-| `apps/web/src/__tests__/instrumentation-client.test.ts` | browser init contract test |
-| `apps/web/src/lib/__tests__/sentry-capture.test.ts` | capture wrapper fail-soft test |
+| `apps/web/src/__tests__/instrumentation.runtime.spec.ts` | server init contract test |
+| `apps/web/src/__tests__/instrumentation-client.runtime.spec.ts` | browser init contract test |
+| `apps/web/src/lib/__tests__/sentry-capture.spec.ts` | capture wrapper fail-soft test |
 | `apps/web/open-next.config.ts` | OpenNext build adjustment for instrumentation injection |
 | `scripts/patch-next-standalone-instrumentation.mjs` | post-build patch for standalone bundle instrumentation hook |
 | `apps/web/package.json` | `@sentry/cloudflare` / `@sentry/nextjs` dependency split |

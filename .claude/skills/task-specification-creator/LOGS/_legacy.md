@@ -8,6 +8,10 @@
 
 `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/outputs/phase-12/skill-feedback-report.md` および `3c-branch-protection-contexts/outputs/phase-12/skill-feedback-report.md` を反映。schemas/artifact-definition.json の status enum に `spec_created` / `runtime_pending` を追加し、metadata に governance gate / evidence ledger split キーを正規化。`references/server-component-e2e-pattern.md`（`page.route()` を server-side fetch evidence にしない / `INTERNAL_API_BASE_URL` 差し替え / mock API + seed / tracked evidence）と `references/governance-branch-protection-pattern.md`（dev / main 個別 GET・個別 PUT / branch-specific evidence 分離）を新設。`references/phase12-compliance-check-template.md` に 3-state verdict vocabulary と evidence ledger split を追加し PASS 単独表記を禁止。`references/completed-tasks-policy.md` に親アーカイブパス整合性チェックを追加。`references/workflow-state-vocabulary.md` に canonical short-form alias 表を追加。SKILL.md / resource-map.md に同期。
 
+## 2026-05-11 - Issue #603 Phase 12 compliance CI gate
+
+`docs/30-workflows/issue-603-phase12-compliance-check-ci-gate/` の実装で、`phase12-compliance-check-template.md` の Required Sections 9 項目を `verify-phase12-compliance` CI gate の canonical heading SSOT として固定した。workflow 自身 / `package.json` / verifier script / lib / tests / fixtures / template 変更で focused Vitest と verifier を実行する経路を同期し、move 時の削除元 workflow root を false-block しない root collection 挙動を同一 wave でテスト化した。PR CI、commit、push、PR は user-gated のまま未実行。
+
 ## 2026-05-10 - task-14 my-profile-and-requests strict evidence correction
 
 `docs/30-workflows/task-14-my-profile-and-requests/` の 30 種思考法レビューで、Phase 1-13 は存在するが `outputs/` 実体、Phase 12 strict 7、root/output artifacts parity、canonical state vocabulary、`@ubm-hyogo/web` command contract が不足していた。root state を `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` へ補正し、Phase 11 deterministic evidence、Phase 12 strict 7、Phase 13 readiness checklist、aiworkflow-requirements 導線を同一 wave で実体化した。authenticated screenshot、staging smoke、production runtime evidence、commit、push、PR は user-gated のまま未実行。
