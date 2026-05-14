@@ -8,10 +8,24 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
-### Issue #617 CI test time reduction split（2026-05-11）
+### Issue #622 packages test suffix rename（2026-05-11）
 
 | 項目 | 値 |
 | --- | --- |
+| ステータス | `implemented-local / implementation / NON_VISUAL / rename-only / local-evidence-partial` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-622-packages-test-suffix-rename/` |
+| source | `docs/30-workflows/completed-tasks/task-issue-325-followup-002-packages-test-suffix-rename.md` |
+| 親 Issue | #622（OPEN） |
+| 上流 | #325 apps/api suffix rename（CLOSED）, #621 apps/web suffix rename（completed） |
+| 下流 | #623 / `docs/30-workflows/unassigned-task/task-issue-325-followup-003-vitest-spec-suffix-convergence.md` |
+| 目的 | `packages/shared` 17 件 + `packages/integrations` / `packages/integrations-google` 11 件、計 28 件の `*.test.ts` を `*.spec.ts` に rename する実装 |
+| implementation targets | `packages/shared/**/*.spec.ts`, `packages/integrations/**/*.spec.ts`, `packages/shared/ADR-test-suffix.md`, `packages/integrations/ADR-test-suffix.md`, `apps/api/tsconfig.build.json` |
+| evidence | `rename-mapping.csv` 28 rows, `find` residual 0, focused package tests including `@ubm-hyogo/integrations-google`, typecheck, lint, `pnpm -r test`, `git log --follow` |
+| Phase 12 | strict 7 outputs present under `outputs/phase-12/`; root `artifacts.json` is the only artifact ledger |
+| Issue 取扱 | implementation PR may use `Closes #622`; closed upstream issues use `Refs #325` / `Refs #621`; downstream unblock uses `Refs #623`; commit / push / PR remain user-gated |
+
+### Issue #617 CI test time reduction split（2026-05-11）
+
 | ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / LOCAL_EVIDENCE_PARTIAL_CI_RUNTIME_PENDING` |
 | 成果物 | `docs/30-workflows/issue-617-ci-test-time-reduction-split/` |
 | source issue | Issue #617 CLOSED。PR 文脈は `Refs #617` のみ |
@@ -24,8 +38,6 @@
 
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
 
-| 項目 | 値 |
-| --- | --- |
 | ステータス | `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional / Phase 12 strict 7 present` |
 | 成果物 | `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/` |
 | 親 workflow | `docs/30-workflows/completed-tasks/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
@@ -41,8 +53,6 @@
 
 ### task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
 
-| 項目 | 値 |
-| --- | --- |
 | ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
 | 成果物 | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` |
 | 親 workflow | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
@@ -53,8 +63,6 @@
 
 ### E2E quality uplift Stage 2 sub-task 2d contract-stage-2 spec（2026-05-11）
 
-| 項目 | 値 |
-| --- | --- |
 | ステータス | implemented-local-runtime-pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present |
 | 成果物 | `docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/` |
 | 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
@@ -68,8 +76,6 @@
 
 ### Issue #621 apps/web test suffix rename（2026-05-10）
 
-| 項目 | 値 |
-| --- | --- |
 | ステータス | implemented-local / implementation / NON_VISUAL / Phase 12 strict outputs present / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/` |
 | Issue | Issue #621 OPEN。PR 文脈は `Refs #621` のみ |
@@ -82,12 +88,8 @@
 
 ### E2E Stage 2 sub-task 2d contract test（2026-05-11）
 
-| 項目 | 値 |
-| --- | --- |
 | ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_LOCAL_CANONICAL / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/` |
-| 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
-| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-contract-stage-2.md` |
 | source unassigned | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2-001.md` consumed |
 | 目的 | 2a/2b/2c の UI fixture object と admin route zod schema の同型性を pure unit contract test で検証する |
 | 実装対象 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts`, `apps/api/src/routes/admin/{member-delete,requests,audit}.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
