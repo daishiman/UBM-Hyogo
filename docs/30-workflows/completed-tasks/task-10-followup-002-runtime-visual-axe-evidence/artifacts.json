@@ -13,7 +13,41 @@
     "parent_workflow": "docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/",
     "source_unassigned": "docs/30-workflows/unassigned-task/task-10-followup-002-runtime-visual-axe-evidence.md",
     "phase13_state": "blocked_pending_user_approval",
-    "cloudflare_build_state": "blocked_by_task-10-followup-001-opennext-esbuild-mismatch"
+    "cloudflare_build_state": "blocked_by_task-10-followup-001-opennext-esbuild-mismatch",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized at task root"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: 37 screenshots captured, axe violations 0, Playwright 38 passed"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: awaiting green CI on PR"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-13/main.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: awaiting user-gated merge into dev"
+      }
+    ]
   },
   "depends_on": [
     "task-10-followup-001-opennext-esbuild-mismatch",
