@@ -188,6 +188,17 @@
 | evidence boundary | runtime deploy / Playwright smoke / Sentry dashboard は user approval 後。Phase 12 strict 7 と artifacts parity は作成済み |
 | artifact inventory | `references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md` |
 
+### UI prototype alignment task-26 error boundary token utility migration（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
+| 実装正本 | `apps/web/app/error.tsx`, `apps/web/app/not-found.tsx`, `apps/web/app/loading.tsx` |
+| token boundary | SSOT `docs/00-getting-started-manual/specs/09b-design-tokens.md` と bridge `apps/web/src/styles/globals.css` は変更せず、consumer を既存 utility へ移行 |
+| evidence | `apps/web/app/__tests__/error.component.spec.tsx`, `outputs/phase-11/screenshots/not-found-desktop.png`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md` |
+
 ### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
 
 | 目的 | 参照先 |
@@ -2453,3 +2464,16 @@ UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts
 | Node / pnpm バージョン固定（Node 24 / pnpm 10.33.2 / mise） | `CLAUDE.md` 「開発環境セットアップ」節 | `references/technology-devops-core.md` baseline 章 | CLAUDE.md > aiworkflow-requirements |
 | references/ 配下の API/D1/IPC/UI/auth 仕様 | `references/*.md`（aiworkflow-requirements が一次正本） | `CLAUDE.md` は概要のみ言及 | aiworkflow-requirements > CLAUDE.md。実装契約・schema・状態定数は references/ を正とする |
 | 教訓 / lessons-learned ID（L-XXX-NNN） | `references/lessons-learned-*.md`（aiworkflow-requirements が一次正本） | CLAUDE.md には記載しない | aiworkflow-requirements > CLAUDE.md |
+
+### Issue #627 Composite setup-project action（RB-02 / 2026-05-12）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-627-composite-setup-action/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL / CI infra` |
+| composite contract | `.github/actions/setup-project/action.yml` implemented locally. Checkout is caller-owned; action owns Node / pnpm or mise setup plus optional install. |
+| input vocabulary | `setup-strategy: node-setup | mise`, `install: 'true' | 'false'`, `node-version`, `pnpm-version`, `working-directory` |
+| required contexts preserved | `ci`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate`, `build-test`, `workflow-shell-lint` |
+| evidence boundary | Local static checks passed; GitHub Actions runtime evidence is `runtime_pending` until user-approved commit / push / draft PR. |
+| closed issue rule | Issue #627 is CLOSED; PR text must use `Refs #627` only. |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-627-composite-setup-action-2026-05.md` (L-627-001..003) |

@@ -17,6 +17,8 @@ vi.mock("../../src/lib/logger", () => ({
 }));
 
 import RouteError from "../error";
+import Loading from "../loading";
+import NotFound from "../not-found";
 import { logger } from "../../src/lib/logger";
 
 afterEach(() => {
@@ -102,6 +104,48 @@ describe("RouteError", () => {
       rerender(<RouteError error={err} reset={reset} />);
       rerender(<RouteError error={err} reset={reset} />);
       expect(logger.error).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("TC-U-08: token utility migration", () => {
+    function expectNoStaleTokenClasses(html: string) {
+      expect(html).not.toContain("text-[var(");
+      expect(html).not.toContain("bg-[var(");
+      expect(html).not.toContain("border-[var(");
+      expect(html).not.toContain("ubm-color-fg-muted");
+      expect(html).not.toContain("ubm-color-primary");
+      expect(html).not.toContain("ubm-color-on-primary");
+      expect(html).not.toContain("ubm-color-border");
+      expect(html).not.toContain("ubm-color-surface-2");
+    }
+
+    it("does not render arbitrary token classes or stale tokens in RouteError", () => {
+      const reset = vi.fn();
+      const { container } = render(<RouteError error={makeError({ digest: "d1" })} reset={reset} />);
+      const html = container.innerHTML;
+      expectNoStaleTokenClasses(html);
+      expect(html).toContain("text-danger");
+      expect(html).toContain("text-text-3");
+      expect(html).toContain("bg-accent");
+      expect(html).toContain("border-border");
+    });
+
+    it("does not render arbitrary token classes or stale tokens in Loading", () => {
+      const { container } = render(<Loading />);
+      const html = container.innerHTML;
+      expectNoStaleTokenClasses(html);
+      expect(html).toContain("bg-surface-2");
+      expect(html).toContain("motion-safe:animate-pulse");
+    });
+
+    it("does not render arbitrary token classes or stale tokens in NotFound", () => {
+      const { container } = render(<NotFound />);
+      const html = container.innerHTML;
+      expectNoStaleTokenClasses(html);
+      expect(html).toContain("text-text-3");
+      expect(html).toContain("bg-accent");
+      expect(html).toContain("text-panel");
+      expect(html).toContain("border-border");
     });
   });
 });
