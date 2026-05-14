@@ -3107,6 +3107,14 @@ node scripts/list-specs.js --topics
 | Same-wave sync targets | L69 |
 | Related Resources | L79 |
 
+### references/workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Status | L3 |
+| Artifact Set | L13 |
+| Boundary | L26 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -5075,6 +5083,16 @@ node scripts/list-specs.js --topics
 | L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
 | L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
 
+### references/lessons-learned-task-24.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK24-001 — 22×6 invariant matrix shape の SSOT 化 | L22 |
+| L-TASK24-002 — read-only audit task の Phase-5 / Phase-11 役割定義 | L38 |
+| L-TASK24-003 — `audit-runner.sh` の I/O contract を spec 化する | L52 |
+| L-TASK24-004 — task root rename 時の self-reference path 一括更新 | L68 |
+| Backlinks | L88 |
+
 ### references/lessons-learned-task-spec-2d-contract-stage-2-2026-05.md
 
 | セクション | 行 |
@@ -6500,13 +6518,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1153 |
-| フェーズ構造（概要） | L1162 |
-| 品質ゲート（概要） | L1193 |
-| 出力テンプレート | L1204 |
-| 実行時のコマンド・エージェント・スキル | L1227 |
-| 昇格パターン集 | L1251 |
-| Current Active / Spec Created Tasks | L1253 |
+| ドキュメント構成 | L1167 |
+| フェーズ構造（概要） | L1176 |
+| 品質ゲート（概要） | L1207 |
+| 出力テンプレート | L1218 |
+| 実行時のコマンド・エージェント・スキル | L1241 |
+| 昇格パターン集 | L1265 |
+| Current Active / Spec Created Tasks | L1267 |
 
 ### references/task-workflow-backlog-part2.md
 

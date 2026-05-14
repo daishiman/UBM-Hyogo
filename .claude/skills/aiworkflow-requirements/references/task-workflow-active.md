@@ -506,6 +506,20 @@
 | Issue 取扱 | #531 CLOSED 維持。PR 文脈では `Refs #531` のみ |
 
 
+### UI prototype alignment task-24 invariant audit（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_runtime_pending / implementation / NON_VISUAL / W8-par / local audit evidence captured / Phase 13 blocked_pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/` |
+| parent | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| final deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/INVARIANT-AUDIT.md` |
+| 目的 | task-01..22 の成果物と実装を INV-1..6 で read-only audit し、22×6 matrix と violation evidence を生成する |
+| implementation boundary | audit-runner.sh と markdown evidence は生成済み。既存 apps/packages code mutation は禁止。commit / push / PR / CI は user approval 後 |
+| dependency | upstream task-01..22、parallel task-23/25/26、downstream task-27 |
+| evidence | `outputs/artifacts.json` parity、`outputs/phase-5/*` audit evidence、`outputs/phase-11/*` NON_VISUAL helper、`outputs/phase-12/*` strict 7、parent SCOPE / EXECUTION-ORDER W8/W9 sync |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260514-task24-invariant-audit-spec-sync.md` |
+
 ### UI prototype alignment / MVP recovery task-01 scope gate（2026-05-07）
 
 | 項目 | 値 |

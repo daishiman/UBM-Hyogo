@@ -83,7 +83,7 @@ Matrix A の各セル `(task, layer) = K` について Matrix B の `layer` 内 
 
 | 入力 | 出典 |
 |------|------|
-| 19 routes 定義 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md` |
+| 19 routes 定義 | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` |
 | 22 task 主題 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/task-NN/index.md` |
 | WARN/FAIL 一覧 | `docs/30-workflows/task-23-.../outputs/phase-5/`（実体）または task-23 spec |
 | invariant audit | `docs/30-workflows/task-24-.../outputs/phase-5/`（実体）または保留 |
