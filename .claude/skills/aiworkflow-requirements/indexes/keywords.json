@@ -2359,6 +2359,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -2614,6 +2615,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -4281,6 +4283,7 @@
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "lessons-learned-issue-586-post-switch-7day-close-out-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
       "lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
@@ -4314,7 +4317,8 @@
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
-      "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md"
+      "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md"
     ],
     "Salt": [
       "audit-correlation.md"
@@ -4531,6 +4535,7 @@
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "lessons-learned-issue-586-post-switch-7day-close-out-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
       "lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
@@ -5188,6 +5193,7 @@
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -5406,6 +5412,7 @@
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
@@ -6142,6 +6149,7 @@
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
@@ -6214,6 +6222,7 @@
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
       "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md",
       "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
@@ -7212,6 +7221,7 @@
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "master-design.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
@@ -8542,6 +8552,7 @@
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -11198,6 +11209,7 @@
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
       "ui-ux-prototype-map.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -11210,7 +11222,8 @@
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
-      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md"
+      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md"
     ],
     "Magic": [
       "lessons-learned-05b-magic-link-auth-gate-2026-04.md"
@@ -13388,10 +13401,12 @@
     ],
     "検索キーワード": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
       "workflow-ai-chat-llm-integration-fix.md"
     ],
     "indexes": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "lessons-learned-verify-indexes-ci-2026-04.md",
@@ -13399,6 +13414,7 @@
     ],
     "rebuild": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "skill-ledger-gitignore-policy.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md"
@@ -14139,6 +14155,7 @@
       "lessons-learned-issue-586-post-switch-7day-close-out-2026-05.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
@@ -14558,6 +14575,7 @@
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -14665,6 +14683,8 @@
     ],
     "Upstream": [
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md",
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md"
@@ -14681,6 +14701,18 @@
       "observability-monitoring.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md"
+    ],
+    "Miniflare": [
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md"
+    ],
+    "undici": [
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md"
+    ],
+    "Tracking": [
+      "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md"
     ],
     "苦戦箇所と知見": [
       "lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md"
@@ -21352,6 +21384,7 @@
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -21527,6 +21560,7 @@
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md"
@@ -21818,6 +21852,7 @@
     "Outputs": [
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
+      "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
