@@ -16,11 +16,19 @@ issue_number: 636
 | 対象機能     | Cloudflare Account Notification Policies（Workers / D1 read+write / Pages / R2） |
 | 優先度       | 低                                                                    |
 | 見積もり規模 | 中規模                                                                |
-| ステータス   | 未実施                                                                |
+| ステータス   | promoted / consumed（current workflow: `docs/30-workflows/ut-17-followup-004-cloudflare-notification-policy-iac/`） |
 | 発見元       | ut-17-cloudflare-analytics-alerts                                     |
 | 発見日       | 2026-05-09                                                            |
 
 ---
+
+## Promoted / Consumed Trace
+
+- 2026-05-14: 本 unassigned task は `docs/30-workflows/ut-17-followup-004-cloudflare-notification-policy-iac/` へ昇格済み。
+- 現状態: `implementation_complete / implementation / NON_VISUAL / runtime Cloudflare mutation pending_user_approval`。
+- 実装済み: `infra/cloudflare-alerts/`, `scripts/cf.sh alerts`, `.github/workflows/cloudflare-alerts-drift.yml`, `pnpm test:alerts`。
+- 未実行の user-gated operation: GitHub Secret 配置、Cloudflare `alerts apply --yes`、commit、push、PR。
+- 本ファイルは履歴・発見元 trace として残す。再起票・二重実行はしない。
 
 ## 1. なぜこのタスクが必要か（Why）
 

@@ -5,6 +5,19 @@
 
 ---
 
+### UT-17 follow-up 004 — Cloudflare Notification Policy IaC（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/ut-17-followup-004-cloudflare-notification-policy-iac/` |
+| 状態 | `implementation_complete / implementation / NON_VISUAL / runtime Cloudflare mutation pending_user_approval` |
+| scope | Cloudflare Notification Policy 4 categories / 5 policy files + webhook destination 1 件を IaC 化済み。Cloudflare apply は user-gated |
+| command contract | `bash scripts/cf.sh alerts {apply,diff,list}`（implemented。Cloudflare update は `PUT`） |
+| token contract | apply=`CLOUDFLARE_ALERTS_TOKEN_APPLY` / read=`CLOUDFLARE_ALERTS_TOKEN_READ` / URL drift=`CLOUDFLARE_ALERT_RELAY_URL` |
+| webhook definition root | `infra/cloudflare-alerts/webhooks/` |
+| parent | `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` |
+| user gate | Cloudflare token placement / Cloudflare mutation / commit / push / PR |
+
 ### E2E Quality Uplift Stage 3 — branch protection desired-state manifest land（Issue #608 / 2026-05-12）
 
 | 目的 | 参照先 |

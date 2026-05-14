@@ -45,6 +45,7 @@ export default defineConfig({
       "apps/**/migrations/**/*.{test,spec}.ts",
       "packages/**/src/**/*.{test,spec}.{ts,tsx}",
       "scripts/**/*.{test,spec}.ts",
+      "infra/cloudflare-alerts/lib/__tests__/**/*.{test,spec}.ts",
     ],
     // issue-617: D1 binding を使う apps/api test は vitest.d1.config.ts に分離。
     // Phase 4 classification.md (docs/30-workflows/issue-617-ci-test-time-reduction-split/) を正本。
