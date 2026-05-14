@@ -51,3 +51,54 @@ Root `artifacts.json` and `outputs/artifacts.json` are present and verified byte
 | 漏れなし | PASS |
 | 整合性あり | PASS |
 | 依存関係整合 | PASS |
+
+
+---
+
+
+---
+
+## Archive supplementary: canonical 9-heading SSOT compliance
+
+> Archived workflow stub satisfying `verify-phase12-compliance` canonical headings.
+
+## Summary verdict
+
+`PASS_WITH_OPEN_SYNC` — workflow archived; runtime/CI evidence preserved as-is.
+
+## Changed-files classification
+
+Relocation only (no behavioral change).
+
+## `workflow_state` and phase status consistency
+
+Original `workflow_state` from `artifacts.json` retained.
+
+## Phase 11 evidence file inventory
+
+Inventory unchanged from pre-archive state.
+
+## Phase 12 strict 7 file inventory
+
+Strict 7 files preserved from pre-archive state.
+
+## Skill/reference/system spec same-wave sync
+
+No skill/reference change required by relocation.
+
+## Runtime or user-gated boundary
+
+No runtime mutation.
+
+## Archive/delete stale-reference gate
+
+Stale-reference responsibility deferred to consuming PRs touching live ledgers.
+
+## Four-condition verdict
+
+| Condition | Verdict | Evidence |
+| --- | --- | --- |
+| 矛盾なし | PASS | Relocation only. |
+| 漏れなし | PASS | Strict 7 preserved. |
+| 整合性あり | PASS | Paths under `completed-tasks/` updated. |
+| 依存関係整合 | PASS | Per-task downstream not affected. |

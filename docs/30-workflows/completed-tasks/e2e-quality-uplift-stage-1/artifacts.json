@@ -6,7 +6,8 @@
     "taskType": "implementation",
     "visualEvidence": "NON_VISUAL",
     "coverageTier": "standard",
-    "updated_at": "2026-05-09"
+    "updated_at": "2026-05-09",
+    "gates": []
   },
   "phases": [
     {

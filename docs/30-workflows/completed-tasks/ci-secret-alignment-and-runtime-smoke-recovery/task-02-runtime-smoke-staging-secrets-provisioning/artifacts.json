@@ -13,33 +13,114 @@
     "feature_branch": "fix/runtime-smoke-staging-readiness-gate",
     "pr_number": 676,
     "pr_branch": "feat/task-02-runtime-smoke-staging-secrets-readiness-gate",
-    "updated_at": "2026-05-11"
+    "updated_at": "2026-05-11",
+    "gates": []
   },
   "inventory": [
-    { "path": ".github/workflows/runtime-smoke-staging.yml", "kind": "edit", "scope": "step-insert" },
-    { "path": "docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md", "kind": "edit", "scope": "runbook" }
+    {
+      "path": ".github/workflows/runtime-smoke-staging.yml",
+      "kind": "edit",
+      "scope": "step-insert"
+    },
+    {
+      "path": "docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md",
+      "kind": "edit",
+      "scope": "runbook"
+    }
   ],
   "user_actions": [
-    { "action": "gh secret set", "secret": "STAGING_API_BASE", "env": "staging-runtime-smoke" },
-    { "action": "gh secret set", "secret": "STAGING_ADMIN_BEARER", "env": "staging-runtime-smoke" },
-    { "action": "gh secret set", "secret": "STAGING_MEMBER_ID", "env": "staging-runtime-smoke" },
-    { "action": "gh secret set", "secret": "STAGING_ME_BEARER", "env": "staging-runtime-smoke" },
-    { "action": "gh secret set", "secret": "SLACK_WEBHOOK_INCIDENT", "env": "staging-runtime-smoke" }
+    {
+      "action": "gh secret set",
+      "secret": "STAGING_API_BASE",
+      "env": "staging-runtime-smoke"
+    },
+    {
+      "action": "gh secret set",
+      "secret": "STAGING_ADMIN_BEARER",
+      "env": "staging-runtime-smoke"
+    },
+    {
+      "action": "gh secret set",
+      "secret": "STAGING_MEMBER_ID",
+      "env": "staging-runtime-smoke"
+    },
+    {
+      "action": "gh secret set",
+      "secret": "STAGING_ME_BEARER",
+      "env": "staging-runtime-smoke"
+    },
+    {
+      "action": "gh secret set",
+      "secret": "SLACK_WEBHOOK_INCIDENT",
+      "env": "staging-runtime-smoke"
+    }
   ],
   "phases": [
-    { "phase": 1, "status": "completed", "path": "phase-1.md" },
-    { "phase": 2, "status": "completed", "path": "phase-2.md" },
-    { "phase": 3, "status": "completed", "path": "phase-3.md" },
-    { "phase": 4, "status": "completed", "path": "phase-4.md" },
-    { "phase": 5, "status": "completed", "path": "phase-5.md" },
-    { "phase": 6, "status": "completed", "path": "phase-6.md" },
-    { "phase": 7, "status": "completed", "path": "phase-7.md" },
-    { "phase": 8, "status": "completed", "path": "phase-8.md" },
-    { "phase": 9, "status": "completed", "path": "phase-9.md" },
-    { "phase": 10, "status": "completed", "path": "phase-10.md" },
-    { "phase": 11, "status": "runtime_pending", "path": "phase-11.md" },
-    { "phase": 12, "status": "completed", "path": "phase-12.md" },
-    { "phase": 13, "status": "pending", "path": "phase-13.md" }
+    {
+      "phase": 1,
+      "status": "completed",
+      "path": "phase-1.md"
+    },
+    {
+      "phase": 2,
+      "status": "completed",
+      "path": "phase-2.md"
+    },
+    {
+      "phase": 3,
+      "status": "completed",
+      "path": "phase-3.md"
+    },
+    {
+      "phase": 4,
+      "status": "completed",
+      "path": "phase-4.md"
+    },
+    {
+      "phase": 5,
+      "status": "completed",
+      "path": "phase-5.md"
+    },
+    {
+      "phase": 6,
+      "status": "completed",
+      "path": "phase-6.md"
+    },
+    {
+      "phase": 7,
+      "status": "completed",
+      "path": "phase-7.md"
+    },
+    {
+      "phase": 8,
+      "status": "completed",
+      "path": "phase-8.md"
+    },
+    {
+      "phase": 9,
+      "status": "completed",
+      "path": "phase-9.md"
+    },
+    {
+      "phase": 10,
+      "status": "completed",
+      "path": "phase-10.md"
+    },
+    {
+      "phase": 11,
+      "status": "runtime_pending",
+      "path": "phase-11.md"
+    },
+    {
+      "phase": 12,
+      "status": "completed",
+      "path": "phase-12.md"
+    },
+    {
+      "phase": 13,
+      "status": "pending",
+      "path": "phase-13.md"
+    }
   ],
   "evidence": {
     "phase11": "outputs/phase-11/evidence/",
@@ -56,11 +137,32 @@
     "phase12": "outputs/phase-12/"
   },
   "acceptance_criteria_trace": {
-    "AC-T2-1": ["phase-1.md§7", "phase-6.md§1#ST-2", "phase-9.md§1#QG-3"],
-    "AC-T2-2": ["phase-1.md§7", "phase-4.md§3", "phase-7.md§2", "phase-9.md§1#QG-8"],
-    "AC-T2-3": ["phase-1.md§7", "phase-5.md§2", "phase-9.md§1#QG-5"],
-    "AC-T2-4": ["phase-1.md§7", "phase-6.md§1#ST-4", "phase-9.md§1#QG-4"],
-    "AC-T2-5": ["phase-1.md§7", "phase-7.md§4", "phase-9.md§1#QG-9"]
+    "AC-T2-1": [
+      "phase-1.md§7",
+      "phase-6.md§1#ST-2",
+      "phase-9.md§1#QG-3"
+    ],
+    "AC-T2-2": [
+      "phase-1.md§7",
+      "phase-4.md§3",
+      "phase-7.md§2",
+      "phase-9.md§1#QG-8"
+    ],
+    "AC-T2-3": [
+      "phase-1.md§7",
+      "phase-5.md§2",
+      "phase-9.md§1#QG-5"
+    ],
+    "AC-T2-4": [
+      "phase-1.md§7",
+      "phase-6.md§1#ST-4",
+      "phase-9.md§1#QG-4"
+    ],
+    "AC-T2-5": [
+      "phase-1.md§7",
+      "phase-7.md§4",
+      "phase-9.md§1#QG-9"
+    ]
   },
   "invariants": [
     "secret 実値はリポジトリ・コミット・PR 本文・runbook に一切書かない",
