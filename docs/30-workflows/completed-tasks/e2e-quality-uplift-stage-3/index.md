@@ -1,91 +1,106 @@
-# Stage 3 — CI gate + Lighthouse + Branch Protection
+# E2E Quality Uplift — Stage 3: CI Gate Hard-Lock + Lighthouse + Branch Protection
+
+> Issue #608 を解消する最終 stage。Stage 0-2 の成果物（E2E 拡充・coverage gate・critical-route smoke）を **PR ブロッキング可能な hard CI gate** に昇格させ、`dev` / `main` の branch protection に新規 status check を登録する。
+
+## メタ情報
 
 | 項目 | 値 |
 |------|----|
 | workflow id | `e2e-quality-uplift-stage-3` |
-| base branch | `dev` |
-| feature branch | `feat/e2e-quality-uplift` |
-| 起票日 | 2026-05-08 |
-| CONST_007 | single cycle |
-| 適用 tier | standard（lines >= 80%） |
-| 正本 | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/` |
+| origin issue | https://github.com/daishiman/UBM-Hyogo/issues/608（CLOSED のまま昇格） |
+| branch | `docs/issue-608-e2e-quality-uplift-stage-3`（タスク仕様書） / 実装は別ブランチで実施 |
+| 起票日 | 2026-05-11 |
+| tier | governance（branch protection drift gate） |
+| implementation_mode | `implemented_local_runtime_pending`（既存 workflow ファイルの required gate 登録は適用済み、PR CI runtime evidence pending） |
+| taskType | `implementation` |
+| visualEvidence | `NON_VISUAL` |
+| workflow_state | `implemented_local_runtime_pending` (2026-05-11 branch protection apply + verify 済み、PR CI required 表示 / Lighthouse workflow runtime evidence は pending) |
+| サイクル | CONST_007 単一サイクル |
+| depends-on | Stage 1 / Stage 2 sub-tasks（runtime evidence 済み） |
 
-## 機械検証メタ情報
+## 実装区分
 
-| key | value |
-| --- | --- |
-| タスク種別 | docs-only |
-| visualEvidence | NON_VISUAL |
-| coverageTier | standard |
-| workflow_state | umbrella_archived_decomposed |
-| evidence_state | runtime_pending |
+**[実装区分: 実装仕様書]**
 
----
+判定根拠:
+- branch protection contexts への新規 status check 追加は `gh api -X PUT` による **コード等価の構成変更** であり、再現性のため `.github/branch-protection/` 配下に desired-state manifest を置きスクリプト適用する設計とする
+- `lighthouserc.json` / `e2e-tests.yml` / `lighthouse.yml` / `scripts/coverage-gate-e2e.sh` は既存だったが、**`required_status_checks.contexts` への登録**と **`apps/web` 側 prod server 起動 step の安定化**が必要だったため、コード変更を伴う
+- ユーザー指定が docs-only であっても、Issue #608 の受け入れ条件「CI 上で E2E + Lighthouse が PR ブロッキング gate として動作」は構成変更なしには成立しない（CONST_004: ラベルより実態優先）
 
-## 目的
+## Issue #608 現状調査結果（2026-05-11 時点）
 
-Stage 0-2 で整備した E2E / coverage / critical-route smoke を、**PR ブロッキング可能な hard CI gate** に昇格させるための親 umbrella 仕様。現在は 3a / 3b / 3c の子 workflow に分解済みで、実 CI evidence と branch protection mutation は各子 workflow の user-gated runtime phase で取得する。
+| 受け入れ条件 | 現状 | 判定 |
+|------------|-----|------|
+| `.github/workflows/e2e-tests.yml` | 存在（`e2e-tests-coverage-gate` job, matrix 3 project） | done |
+| `.github/workflows/lighthouse.yml` | 存在（`lighthouse-ci` job） | done |
+| `lighthouserc.json` | 存在 | done |
+| `scripts/coverage-gate-e2e.sh` | 存在 | done |
+| branch protection snapshot | `outputs/phase-11/` に pre/post JSON 配置済み | done |
+| `required_status_checks.contexts` 更新 | `dev` / `main` ともに `e2e-tests-coverage-gate` / `lighthouse-ci` 登録済み | done |
+| PR CI runtime evidence + workflow_state=implemented_local_runtime_pending | branch protection PUT / verify 済み。PR checks Required 表示と Lighthouse run は PR 作成後に取得 | pending |
 
----
+> 結論: Issue は CLOSED のまま、branch protection hard-lock は適用済み。残る完了条件は user-gated PR CI / Lighthouse runtime evidence の取得。
 
-## サブタスク一覧
+## スコープ（CONST_007 単一サイクル）
 
-| ID | 名称 | implementation_mode | 主成果物 |
-|----|------|---------------------|----------|
-| 3a | Lighthouse CI 導入 | `new` / child spec_created / runtime_pending | `.github/workflows/lighthouse.yml` / `lighthouserc.json` |
-| 3b | `e2e-tests.yml` hard gate 化 | `new` / child spec_created / runtime_pending | `.github/workflows/e2e-tests.yml` / `apps/web/playwright.config.ts` reporter swap / coverage gate script |
-| 3c | Branch protection contexts 更新 | user-gated mutation / child spec_created | `gh api` 適用コマンド + 検証手順（ファイル成果物なし） |
+### 含む
 
----
+1. `.github/branch-protection/dev.json` / `main.json` を desired contexts manifest として配置（apply script 付き）
+2. `dev` / `main` の `required_status_checks.contexts` に以下を追加:
+   - `e2e-tests-coverage-gate`
+   - `lighthouse-ci`
+3. `lighthouse.yml` の prod server 起動 step を `pnpm --filter @ubm-hyogo/web start &` から `nohup` + `wait-on` ベースへ安定化
+4. pre/post snapshot を `outputs/phase-11/branch-protection-{dev,main}-{pre,post}.json` に保存
+5. runtime evidence（最新 PR で新 contexts が required として表示されるスクショ or `gh api` 結果）を `outputs/phase-11/runtime-evidence/` に記録
+6. branch protection PUT と verify 取得後も、PR CI required 表示 / Lighthouse workflow run evidence が揃うまでは `workflow_state=implemented_local_runtime_pending` を維持し、完了後にのみ `completed` へ更新
 
-## 依存関係
+### 含まない
 
-| 種別 | 内容 | 状態 |
-|------|------|------|
-| depends-on | Stage 2 完了（coverage 80% 達成 + critical-route smoke 整備） | **完了**（Stage 2 artifacts と Phase 1-13 を確認済み） |
-| depends-on | `apps/web/playwright.config.ts:15-19` の reporter 構成（現状 `html` / `json` / `list`） | 確認済み |
-| depends-on | `dev` branch protection 現行 contexts: `ci` / `Validate Build` / `coverage-gate`（`gh api` 確認済み 2026-05-08） | 確認済み |
-| blocks | なし（Stage 3 が本ワークフロー終端） | — |
+- E2E spec 自体の新規追加（Stage 1/2 で完了済み）
+- coverage 閾値変更（既存 80% を維持）
+- `enforce_admins` / `required_linear_history` / `lock_branch` の変更（CLAUDE.md 不変条件: `enforce_admins=true` / `lock_branch=false` の drift 維持）
+- `required_pull_request_reviews` の変更（solo 運用ポリシーにより `null` 維持）
 
----
+## 不変条件参照
 
-## 受入基準（workflow 全体）
+| ID | 内容 | 出典 |
+|----|------|------|
+| INV-SOLO | `required_pull_request_reviews=null` を維持 | `CLAUDE.md` ブランチ戦略 |
+| INV-ENF | `enforce_admins=true` を維持 | `CLAUDE.md` ブランチ戦略 |
+| INV-LOCK | `lock_branch=false` を維持 | `CLAUDE.md` ブランチ戦略 |
+| INV-LINEAR | `required_linear_history=true` を維持 | `CLAUDE.md` ブランチ戦略 |
+| INV-SECRET | `CLOUDFLARE_API_TOKEN` 等の実値を仕様書に書かない | `CLAUDE.md` シークレット管理 |
 
-| # | 受入基準 | 検証方法 |
-|---|----------|----------|
-| AC-01 | `lighthouse-ci` job が `/`, `/(public)/members`, `/profile`, `/login` の 4 routes に対し perf>=80 / a11y>=90 / best-practices>=90 / seo>=80 を assertion し、しきい値割れで PR を fail させる | 3a PR runtime evidence で確認 |
-| AC-02 | `e2e-tests.yml` が `pnpm e2e` を CI で実行し、line coverage < 80% で fail / critical-route smoke 失敗で fail する | 3b PR runtime evidence で確認 |
-| AC-03 | `apps/web/playwright.config.ts` reporter に `monocart-reporter` が追加され、coverage artifact が生成される | 3b CI ログ + artifact 一覧で確認 |
-| AC-04 | coverage artifact / 失敗時 HTML report が `actions/upload-artifact@v4` 経由で取得可能 | 3b `gh run download` で確認 |
-| AC-05 | `dev` / `main` branch protection の `required_status_checks.contexts` に `lighthouse-ci` / `e2e-tests-coverage-gate` が追加される | 3c user-gated `gh api` evidence で確認 |
-| AC-06 | `required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true`（CLAUDE.md governance）が drift していない | 3c post-snapshot で確認 |
+## Phase 1-13 ステータス
 
----
+| Phase | 名称 | ステータス | 成果物 |
+|-------|------|-----------|--------|
+| 1 | 要件定義 | spec_created | `phase-1.md` |
+| 2 | 設計 | spec_created | `phase-2.md` |
+| 3 | 設計レビュー | spec_created | `phase-3.md` |
+| 4 | テスト計画 | spec_created | `phase-4.md` |
+| 5 | テスト実装 | spec_created | `phase-5.md` |
+| 6 | 実装 | implemented_local_runtime_pending | `phase-6.md` |
+| 7 | 静的検証 | spec_created | `phase-7.md` |
+| 8 | 動的検証 | runtime_pending | `phase-8.md` |
+| 9 | 受け入れ検証 | runtime_pending | `phase-9.md` |
+| 10 | 統合 | runtime_pending | `phase-10.md` |
+| 11 | リリース準備 | runtime_pending | `phase-11.md` |
+| 12 | 中学生レベル概念説明 | completed | `phase-12.md` |
+| 13 | PR 作成 | blocked_pending_user_approval | `phase-13.md` |
 
-## Phase 1-13 状態表
+## Runtime 境界
 
-| Phase | 名称 | 状態 | 出力 |
-|-------|------|------|------|
-| 1 | 要件定義 | archived parent spec | `phase-1.md` |
-| 2 | 設計 | archived parent spec | `phase-2.md` |
-| 3 | 設計レビュー | archived parent spec | `phase-3.md` |
-| 4 | テスト作成 | archived parent spec | `phase-4.md` |
-| 5 | 実装 | archived parent spec | `phase-5.md` |
-| 6 | テスト拡充 | archived parent spec | `phase-6.md` |
-| 7 | カバレッジ確認 | archived parent spec | `phase-7.md` |
-| 8 | リファクタリング | archived parent spec | `phase-8.md` |
-| 9 | 品質保証 | archived parent spec | `phase-9.md` |
-| 10 | 最終レビュー | archived parent spec | `phase-10.md` |
-| 11 | 手動テスト / Evidence | runtime_pending in child workflows | `phase-11.md` |
-| 12 | ドキュメント更新 | decomposed into child workflows | `phase-12.md` |
-| 13 | PR | user-gated in child workflows | `phase-13.md` |
+この workflow は実装仕様書であり、`gh api -X PUT` による branch protection mutation と fresh GET verify は 2026-05-11 に実施済み。commit、push、PR 作成、および PR 上で新 contexts が Required 表示される runtime CI evidence はユーザー明示承認後のみ実施する。承認前の正しい状態語彙は `implemented_local_runtime_pending` であり、`completed` は PR CI evidence と Lighthouse workflow run evidence を確認した後にだけ使用する。
 
----
+## 関連ドキュメント
 
-## 不変条件（Stage 3 固有）
-
-1. solo dev policy: `required_pull_request_reviews=null` を保持する。レビュアー必須化は導入しない。
-2. `required_status_checks.strict=false`（現状）を維持する（merge queue 未導入のため）。
-3. Lighthouse CI は **PR to `dev`** のみで実行（`main` への PR は `dev` 経由で既に通過済みのため重複実行しない）。
-4. coverage gate のしきい値変更は `.claude/skills/task-specification-creator/references/quality-gates.md §7.5`（standard tier = 80%）の正本に従う。Stage 3 内で独自しきい値を持たない。
-5. `wrangler` 直叩きを CI 内で行わない（必要時は `scripts/cf.sh` 経由）。
+| パス | 用途 |
+|------|------|
+| `.github/workflows/e2e-tests.yml` | 既存 E2E gate（matrix 3 project） |
+| `.github/workflows/lighthouse.yml` | 既存 Lighthouse gate |
+| `lighthouserc.json` | performance budget |
+| `scripts/coverage-gate-e2e.sh` | coverage / critical route smoke gate |
+| `CLAUDE.md` ブランチ戦略 | branch protection 不変条件 |
+| `docs/30-workflows/e2e-quality-uplift-stage-1/` | Stage 1 成果物 |
+| `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/` | Stage 2 成果物 |

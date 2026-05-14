@@ -1227,6 +1227,7 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L18 |
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
 | task-10 UI primitives integration contract（2026-05-09） | L32 |
+| task-10 follow-up 002 runtime visual + axe evidence（2026-05-11） | L46 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -2214,13 +2215,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
-| Stage Responsibility Split (classification-first) | L17 |
-| Current Facts (Stage 0 implementation) | L26 |
-| Phase 12 Strict 7 Files (all stages) | L40 |
-| Phase 11 Evidence Path Map | L52 |
-| Tier-Aware Coverage Policy | L63 |
-| Contract | L72 |
-| Related Resources | L79 |
+| Stage Responsibility Split (classification-first) | L18 |
+| Current Facts (Stage 3 local execution) | L27 |
+| Current Facts (Stage 0 implementation) | L39 |
+| Phase 12 Strict 7 Files (all stages) | L53 |
+| Phase 11 Evidence Path Map | L65 |
+| Tier-Aware Coverage Policy | L76 |
+| Contract | L85 |
+| Related Resources | L92 |
 
 ### references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md
 
@@ -2574,6 +2576,42 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Canonical Artifacts | L10 |
 | Boundaries | L26 |
+
+### references/workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L15 |
+| Phase Outputs | L27 |
+| Skill 反映先 | L36 |
+| Validation Chain | L46 |
+
+### references/workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical artifacts | L13 |
+| Implementation targets | L25 |
+| Governance boundary | L37 |
+
+### references/workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Invariants | L18 |
+| Scope Out | L26 |
+| Lessons / Genealogy | L32 |
+
+### references/workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L10 |
+| Implementation Targets | L21 |
+| Evidence Boundary | L30 |
+| State Vocabulary | L37 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3001,6 +3039,14 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L10 |
+| Evidence | L18 |
+| Phase 12 | L30 |
+
 ### references/workflow-task-12-member-detail-register-legal-artifact-inventory.md
 
 | セクション | 行 |
@@ -3046,6 +3092,21 @@ node scripts/list-specs.js --topics
 | Canonical Implementation Inputs | L30 |
 | API Inputs | L45 |
 | Notes | L54 |
+
+### references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Artifacts | L15 |
+| Phase 12 Outputs | L34 |
+| Required Status Check Candidates | L46 |
+| Evidence Boundary | L54 |
+| User Gates | L61 |
+| Dependencies | L67 |
+| After-sync regression fixes (2026-05-13) | L72 |
+| After-sync regression fixes — round 2 (2026-05-14) | L87 |
+| Cross-Reference | L102 |
 
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
@@ -3629,18 +3690,33 @@ node scripts/list-specs.js --topics
 | 5. Auth.js v5 env 層化 | L109 |
 | 変更履歴 | L174 |
 
+### references/branch-protection-desired-state-manifest.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 三層構成と責務 | L9 |
+| 2. desired-state manifest schema | L20 |
+| 3. CLAUDE.md 不変条件（INV-*）の正規化対象 | L41 |
+| 4. drift 判定基準（Stage 3 land 時点） | L54 |
+| 5. drift 取り込み判定（Phase 4 design 必須） | L64 |
+| 6. workflow `name:` フィールドと contexts manifest の整合 | L75 |
+| 7. 集約 required context の設計指針 | L89 |
+| 8. Lighthouse readiness pattern との接続 | L93 |
+| 9. 関連参照 | L108 |
+| 10. 履歴 | L119 |
+
 ### references/branch-protection.md
 
 | セクション | 行 |
 |------------|----|
 | Current contract | L3 |
 | Required status checks | L7 |
-| Invariants | L13 |
-| Issue #554 runbook | L25 |
-| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L41 |
-| 3-state vocabulary（runtime mutation 系） | L59 |
-| Stage 3c required contexts target（2026-05-10） | L78 |
-| References | L89 |
+| Invariants | L16 |
+| Issue #554 runbook | L28 |
+| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L44 |
+| 3-state vocabulary（runtime mutation 系） | L62 |
+| Stage 3c required contexts target（2026-05-10） | L81 |
+| References | L92 |
 
 ### references/cloudflare-edge-security.md
 
@@ -4044,15 +4120,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L18 |
-| 使い方 | L26 |
-| Current Alias Overrides（個別互換行） | L33 |
-| Family Summary | L74 |
-| Detailed Register | L95 |
-| Section Extract Register (2026-03-17) | L276 |
-| 500-Line Split Register (2026-03-16) | L287 |
-| Fragment Migration Register (2026-04-28) | L309 |
-| Task Root Path Drift Register (2026-04-30 追記) | L336 |
+| 概要 | L21 |
+| 使い方 | L29 |
+| Current Alias Overrides（個別互換行） | L36 |
+| Family Summary | L77 |
+| Detailed Register | L98 |
+| Section Extract Register (2026-03-17) | L279 |
+| 500-Line Split Register (2026-03-16) | L290 |
+| Fragment Migration Register (2026-04-28) | L312 |
+| Task Root Path Drift Register (2026-04-30 追記) | L339 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4816,6 +4892,16 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L114 |
 | 引用元 | L120 |
 
+### references/lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| Scope | L3 |
+| Lessons | L11 |
+| Downstream boundaries | L45 |
+| 関連リソース | L51 |
+| 検索キーワード（indexes rebuild 用） | L59 |
+
 ### references/lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md
 
 | セクション | 行 |
@@ -4824,6 +4910,24 @@ node scripts/list-specs.js --topics
 | 苦戦箇所と知見 | L7 |
 | 運用知見 | L49 |
 | 参照 | L57 |
+
+### references/lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-623-001: ENOSPC で full test parity 未取得 | L11 |
+| L-623-002: 二段階移行の終了タイミング判断 | L18 |
+| L-623-003: import path drift 修正の事前 grep | L24 |
+| L-623-004: lefthook + GitHub Action 二重 gate 設計 | L30 |
+| 引用関係 | L36 |
+
+### references/lessons-learned-issue-626-rb01-share-build-output-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE626-001: workflow 統合時の branch protection context 名 continuity | L11 |
+| L-ISSUE626-002: artifact 共有における trust boundary 設計 | L18 |
+| L-ISSUE626-003: secret-grep false-positive の境界判定 | L24 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -4978,6 +5082,25 @@ node scripts/list-specs.js --topics
 | L-TASK17-002: artifacts.json は root と outputs の二元化が drift 源 | L14 |
 | L-TASK17-003: `new` 前提で task spec を起こす前に worktree inventory を取る | L21 |
 | L-TASK17-004: Phase 11 evidence の AUTH_SECRET override は fixture cookie を無効化する | L28 |
+
+### references/lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK18-W7-001: Design token SSOT は 3 層 bridge を検証しないと drift が黙過される | L7 |
+| L-TASK18-W7-002: Playwright fixture は service worker と build artifact を遮断しないと flaky になる | L14 |
+| L-TASK18-W7-003: Server Component fetch は env-gated SSR fixture でしか visual evidence を取れない | L21 |
+| L-TASK18-W7-004: Phase 11 evidence は `.txt` / `.json` のみ canonical。`.log` は `.gitignore` で落ちる | L28 |
+| L-TASK18-W7-005: required status check 候補は CI で 1 回 success run を出してから PUT する | L35 |
+| L-TASK18-W7-006: `PLAYWRIGHT_BASE_URL` の env fallback は `||` で空文字も拾う | L42 |
+| L-TASK18-W7-007: project レベル testIgnore で smoke / visual を chromium-linux baseline project に閉じ込める | L49 |
+| L-TASK18-W7-008: artifacts.json は `metadata.gates` 配列を Gate-A〜Gate-D で必ず満たす | L56 |
+| L-TASK18-W7-009: `phase12-task-spec-compliance-check.md` は 9 canonical headings を厳格に要求する | L63 |
+| L-TASK18-W7-010: completed-tasks/ 直下の follow-up spec は orphan workflow root を生むので unassigned-task/ へ即時 relocate | L70 |
+| L-TASK18-W7-011: accent token は L=0.52 を維持し a11y contrast 4.5:1 を確保する | L77 |
+| L-TASK18-W7-012: Playwright project-level testIgnore は global testIgnore を **置換** する | L84 |
+| L-TASK18-W7-013: Playwright webServer は `next dev --webpack` を使い、Turbopack の `[project]/...` 解決失敗を避ける | L91 |
+| Cross-Reference | L98 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
@@ -6421,13 +6544,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1123 |
-| フェーズ構造（概要） | L1132 |
-| 品質ゲート（概要） | L1163 |
-| 出力テンプレート | L1174 |
-| 実行時のコマンド・エージェント・スキル | L1197 |
-| 昇格パターン集 | L1221 |
-| Current Active / Spec Created Tasks | L1223 |
+| ドキュメント構成 | L1217 |
+| フェーズ構造（概要） | L1226 |
+| 品質ゲート（概要） | L1257 |
+| 出力テンプレート | L1268 |
+| 実行時のコマンド・エージェント・スキル | L1291 |
+| 昇格パターン集 | L1315 |
+| Current Active / Spec Created Tasks | L1317 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6847,7 +6970,8 @@ node scripts/list-specs.js --topics
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
 | Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
-| 関連ドキュメント | L423 |
+| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
+| 関連ドキュメント | L464 |
 
 ### references/ui-history-components.md
 
