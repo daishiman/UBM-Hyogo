@@ -12,7 +12,41 @@
     "coverageTier": "standard",
     "base_branch": "dev",
     "feature_branch": "feat/issue-627-composite-setup-action",
-    "updated_at": "2026-05-12"
+    "updated_at": "2026-05-12",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-627-composite-setup-action/phase-1.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec for composite setup action. Approved locally."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-627-composite-setup-action/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local actionlint and composite structure check PASS; runtime GHA evidence pending."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/actions/setup-project/action.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: validate / verify-phase12-compliance / workflow-shell-lint green required."
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-627-composite-setup-action/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: user-gated merge into dev."
+      }
+    ]
   },
   "inventory": [
     { "path": ".github/actions/setup-project/action.yml", "kind": "new", "scope": "checkout-less Node / pnpm / mise setup composite action" },
