@@ -1,161 +1,150 @@
-# Phase 6: テスト拡充（Stage 3）
+# Phase 6: 実装
 
-| 項目 | 値 |
-|------|----|
-| 入力 | `phase-5.md` |
-| 出力 | CI minute budget 試算 / coverage flakiness 緩和策 / 拡充テスト計画 |
+## 変更対象ファイル一覧
 
----
-
-## 1. CI minute budget 試算
-
-GitHub Actions Free Tier（private repo は 2,000 min/月）を前提に、Stage 3 導入後の月次消費を算定する。
-
-### 1.1 1 PR あたりの所要時間（試算）
-
-| job | 所要 (min) | 根拠 |
-|-----|-----------|------|
-| 既存 `ci` | 3 | typecheck + lint |
-| 既存 `Validate Build` | 5 | `pnpm build` |
-| 既存 `coverage-gate` | 4 | unit coverage |
-| 新規 `lighthouse-ci` | 8 | build + start + 4 routes × 1 run |
-| 新規 `e2e-tests-coverage-gate` | 12 | playwright install + 全件 e2e + coverage 集計 |
-| **合計** | **32** | 1 PR / 1 push |
-
-### 1.2 月次想定
-
-| 想定 | 値 |
-|------|----|
-| PR/月 | 20 |
-| 平均 push/PR | 3 |
-| 月次消費 | 32 × 20 × 3 = 1,920 min |
-| Free Tier | 2,000 min |
-| 余裕 | 4%（**ぎりぎり**） |
-
-### 1.3 緩和策
-
-| # | 策 | 効果 |
-|---|----|------|
-| M-01 | `concurrency.cancel-in-progress: true`（phase-2.md §1.1 / §2.3 適用済） | 同 PR の旧 run キャンセル → 平均 push 影響減 |
-| M-02 | Lighthouse `numberOfRuns: 1`（phase-2.md §1.2 適用済） | 3 → 1 run で約 16 min/PR 削減 |
-| M-03 | path filter `paths: ['apps/web/**', 'lighthouserc.json']` を `lighthouse.yml` `on.pull_request` に追加 | docs-only PR で skip |
-| M-04 | path filter `paths: ['apps/web/**', '.github/workflows/e2e-tests.yml', 'scripts/coverage-gate-e2e.sh']` を `e2e-tests.yml` に追加 | 同上 |
-| M-05 | `actions/setup-node@v4` の `cache: pnpm` で install 短縮 | ≈ 1 min/job |
-
-> M-03 / M-04 は **branch protection を満たすために `paths-ignore` で skip させると required check が pending のまま** になるリスクがある。GitHub の仕様上「実行されなかった required check は pending 扱い」なので、代わりに **`if:` で early-exit する dummy job** を置くか、**docs-only の場合は手動 override**（admin merge）で運用する。本 Stage では simplicity 優先で path filter を **採用しない**。`enforce_admins=false` 維持により admin override は可能。
-
----
-
-## 2. coverage flakiness 対策
-
-### 2.1 想定される flaky パターン
-
-| # | パターン | 緩和策 |
-|---|---------|--------|
-| F-01 | `/profile` の `next/font` lazy load 未評価で line coverage が 1-2 pt 揺らぐ | `monocart-reporter` の `entryFilter` で `_next/static` のみ集計（phase-2.md §2.1） |
-| F-02 | playwright の page.goto race で coverage 取得失敗 | retry: `apps/web/playwright.config.ts:retries` を `process.env.CI ? 2 : 0` に維持 |
-| F-03 | サーバ起動完了前に test 開始 | `webServer.timeout: 120000` を維持（既存設定） |
-| F-04 | source map 未解決で coverage path mismatch | `monocart-reporter.coverage.sourceFilter` で `apps/web/src/` 限定 |
-| F-05 | 80% 直近で揺らぐ regression | しきい値割れ時の rerun を `gh run rerun --failed` で 1 回まで自動化（運用ルール、CI 内自動化はしない） |
-
-### 2.2 拡充テスト
-
-| # | 内容 | 採否 |
-|---|------|------|
-| EXT-01 | `/profile` 認証済セッションでの a11y 別計測 | **採用しない**（Stage 3 スコープ外。Stage 4 以降で扱う） |
-| EXT-02 | `lighthouse-ci` の 5 連続 run でのスコアばらつき観測 | phase-11 evidence で実施 |
-| EXT-03 | coverage gate dry-run の fixture テスト（`scripts/coverage-gate-e2e.sh` 単体） | **採用** — phase-4 T-3b-4..T-3b-6 をスクリプト化 |
-| EXT-04 | `monocart-reporter` の lcov 出力構造 snapshot | **不採用**（library output に依存しすぎ） |
-
-### 2.3 EXT-03 fixture 設計
-
-| 項目 | 値 |
-|------|----|
-| 場所 | `scripts/__tests__/coverage-gate-e2e.fixture/` |
-| ケース | (a) `pct=85`（pass） (b) `pct=69.99`（fail） (c) ファイル不在（fail） |
-| 実行 | `bash scripts/__tests__/coverage-gate-e2e.test.sh`（手動 / `pnpm test:scripts` 等の登録は Stage 4 で検討） |
-
----
-
-## 3. 既存テスト資産との整合
-
-| 資産 | 影響 | 対応 |
+| パス | 種別 | 概要 |
 |------|------|------|
-| `apps/web/playwright/tests/critical/**` (Stage 2 産物) | `@critical-route` tag 必須 | Stage 2 完了確認時に検証済（phase-4 P-02） |
-| `apps/web/coverage/` 既存ディレクトリ | `c8 report` 出力先と衝突しないか | `temp-directory=apps/web/coverage/v8`、`report-dir=apps/web/coverage/summary` でサブディレクトリ分離 |
-| `EVIDENCE_DIR`（既存 `apps/web/playwright.config.ts`） | reporter 出力先 | `monocart-reporter.outputFile = ${EVIDENCE_DIR}/monocart/index.html` で互換維持 |
+| `.github/branch-protection/dev.json` | 新規 | dev desired contexts + strict manifest |
+| `.github/branch-protection/main.json` | 新規 | main desired contexts + strict manifest |
+| `.github/branch-protection/apply.sh` | 新規 | fresh GET から contexts 差し替え + CLAUDE.md invariants 正規化を行う idempotent apply スクリプト |
+| `.github/branch-protection/README.md` | 新規 | 使い方の最小説明（apply / verify 手順のみ） |
+| `scripts/verify-branch-protection.sh` | 新規 | drift 検査スクリプト |
+| `.github/workflows/lighthouse.yml` | 編集 | prod server 起動 step を `nohup` + `wait-on` 化 |
+| `docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/branch-protection-dev-pre.json` | 新規 | 適用前 dev snapshot |
+| `docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/branch-protection-main-pre.json` | 新規 | 適用前 main snapshot |
+| `docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/branch-protection-dev-post.json` | 新規 | 適用後 dev snapshot |
+| `docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/branch-protection-main-post.json` | 新規 | 適用後 main snapshot |
+| `docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/runtime-evidence/required-contexts-dev.txt` | 新規 | dev contexts evidence |
+| `docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/runtime-evidence/required-contexts-main.txt` | 新規 | main contexts evidence |
 
----
+## 実装手順（実行順）
 
-## 4. 終了基準
+### Step 1: pre snapshot 取得（read-only）
 
-| # | 条件 |
-|---|------|
-| EX-01 | CI minute 月次試算が free tier 内に収まる見込みであること（§1.2） |
-| EX-02 | flaky パターン F-01..F-05 全てに緩和策が紐付くこと（§2.1） |
-| EX-03 | EXT-03 fixture が phase-7 の coverage 確認で参照可能であること |
+```bash
+mkdir -p docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/runtime-evidence
+gh api repos/daishiman/UBM-Hyogo/branches/dev/protection | jq -S . \
+  > docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/branch-protection-dev-pre.json
+gh api repos/daishiman/UBM-Hyogo/branches/main/protection | jq -S . \
+  > docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/branch-protection-main-pre.json
+```
 
----
+### Step 2: desired contexts manifest 作成
 
-## 5. 引き継ぎ（Phase 7 へ）
+#### `.github/branch-protection/dev.json`
 
-| 項目 | 内容 |
-|------|------|
-| 実測対象 | line coverage >= 80% を **実 CI run** で観測 |
-| Stage 2 連携 | Stage 2 の coverage 実績を本 Stage の baseline として参照 |
+```json
+{
+  "strict": false,
+  "contexts": [
+    "ci",
+    "Validate Build",
+    "coverage-gate",
+    "lighthouse-ci",
+    "e2e-tests-coverage-gate"
+  ]
+}
+```
 
----
+#### `.github/branch-protection/main.json`
 
-## Template Compliance Appendix
+```json
+{
+  "strict": false,
+  "contexts": [
+    "ci",
+    "Validate Build",
+    "coverage-gate",
+    "lighthouse-ci",
+    "e2e-tests-coverage-gate"
+  ]
+}
+```
 
-## メタ情報
+### Step 3: apply.sh 実装
 
-- workflow: e2e-quality-uplift-stage-3
-- phase: 6
-- task classification: implementation / NON_VISUAL
-- coverageTier: standard
-- workflow_state: spec_verified
+`phase-2.md` D-3 の通り。実装では fresh GET から PUT payload を生成し、contexts を desired manifest に差し替え、CLAUDE.md invariants を正規化し、その他 optional fields を保持する。`chmod +x .github/branch-protection/apply.sh`。
 
-## 目的
+### Step 4: verify-branch-protection.sh 実装
 
-Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ同期し、矛盾なし・漏れなし・整合性あり・依存関係整合を満たす。
+`phase-5.md` の通り。`chmod +x scripts/verify-branch-protection.sh`。
 
-## 実行タスク
+### Step 5: lighthouse.yml 編集
 
-- 既存本文の phase 内容を実行単位として保持する。
-- 実ファイル変更、仕様書、Phase evidence、skill feedback の対応を確認する。
+該当 step を差し替え:
 
-## 参照資料
+```yaml
+      - name: Build (Next.js production)
+        run: pnpm --filter @ubm-hyogo/web build
 
-- .claude/skills/task-specification-creator/references/phase-template-core.md
-- .claude/skills/task-specification-creator/references/quality-gates.md
-- .claude/skills/aiworkflow-requirements/SKILL.md
+      - name: Start server (background)
+        run: |
+          nohup pnpm --filter @ubm-hyogo/web start \
+            > /tmp/web-server.log 2>&1 &
+          echo $! > /tmp/web-server.pid
 
-## 実行手順
+      - name: Wait for server (wait-on)
+        run: pnpm dlx wait-on -t 120000 http-get://localhost:3000
+```
 
-1. 本 phase の既存本文を確認する。
-2. 対応する実ファイル差分または evidence を確認する。
-3. validator と grep gate の結果を Phase 11 / Phase 12 evidence に反映する。
+`pull_request.branches` は `[dev, main]` にする。main の branch protection でも `lighthouse-ci` を required にするため、main 向け PR で check が生成されない状態を禁止する。旧 `for i in {1..60}` loop は削除。
 
-## 統合テスト連携
+### Step 6: branch protection apply（**ユーザー承認後のみ**）
 
-- NON_VISUAL phase は Playwright 実行の代替として list smoke、grep gate、typecheck を使用する。
-- E2E runtime 実行が必要な項目は outputs/phase-11/evidence に結果を保存する。
+```bash
+bash .github/branch-protection/apply.sh all
+```
 
-## 成果物
+### Step 7: post snapshot 取得
 
-- 本 phase markdown
-- 関連 outputs/phase-11 または outputs/phase-12 evidence
-- 必要に応じた apps/web / .claude/skills 実ファイル差分
+```bash
+gh api repos/daishiman/UBM-Hyogo/branches/dev/protection | jq -S . \
+  > docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/branch-protection-dev-post.json
+gh api repos/daishiman/UBM-Hyogo/branches/main/protection | jq -S . \
+  > docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/branch-protection-main-post.json
+```
 
-## 完了条件
+### Step 8: runtime evidence 取得
 
-- [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
-- [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
+```bash
+gh api repos/daishiman/UBM-Hyogo/branches/dev/protection \
+  | jq '.required_status_checks.contexts | sort' \
+  > docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/runtime-evidence/required-contexts-dev.txt
+gh api repos/daishiman/UBM-Hyogo/branches/main/protection \
+  | jq '.required_status_checks.contexts | sort' \
+  > docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/runtime-evidence/required-contexts-main.txt
+```
 
-## タスク100%実行確認【必須】
+### Step 9: drift 検査で OK 確認
 
-- [x] phase 本文のタスクを棚卸しした。
-- [x] 未実行項目を PASS として扱っていない。
+```bash
+bash scripts/verify-branch-protection.sh
+# 期待出力:
+# OK(dev): no drift
+# OK(main): no drift
+```
 
+## 入出力・副作用
+
+| Step | 入力 | 出力 | 副作用 |
+|------|------|------|--------|
+| 1 | GitHub API | snapshot JSON | なし（read-only） |
+| 2 | 設計値 | desired contexts manifest | repo に commit |
+| 3-5 | 設計仕様 | bash/yml | repo に commit |
+| 6 | desired contexts + fresh GET | branch protection contexts 更新 | **GitHub repo 設定変更（要承認）** |
+| 7-8 | GitHub API | snapshot/evidence | repo に commit |
+| 9 | desired contexts + 現状 | OK/NG | なし（read-only） |
+
+## エラーハンドリング
+
+- Step 1/7/8 が 404 → repo 権限を確認、`gh auth status` で再ログイン
+- Step 6 が 422 → context 名の正確性を確認（`e2e-tests.yml` / `lighthouse.yml` の集約 job `name` と完全一致しているか）
+- Step 9 が DRIFT → 原因特定後 Step 6 を再実行
+
+## DoD（Definition of Done）
+
+- [ ] 12 ファイルすべてが repo に存在し、git status clean
+- [ ] `bash scripts/verify-branch-protection.sh` が exit 0 で `OK(dev) / OK(main)` を出力
+- [ ] dev/main 双方の post snapshot が pre と context diff を持つ（`e2e-tests-coverage-gate` / `lighthouse-ci` 増加）
+- [ ] lighthouse.yml の Wait for server step が `pnpm dlx wait-on` を使用
+- [ ] CLAUDE.md 不変条件（4 項目）に drift なし

@@ -128,6 +128,33 @@
 - **再発防止**: 新規 CI gate shell スクリプトは「fixture override env」「pass / boundary-fail / missing の 3 fixture」「`set -euo pipefail`」「しきい値根拠の `references/quality-gates.md` path コメント」「`shellcheck` violation 0」の 5 点を着地条件にする。actionlint バイナリが用意できない環境では `pnpm dlx @action-validator/cli` で YAML 構文を代替検証し、Phase 12 DoD に「actionlint 不在時は @action-validator/cli」を但し書きで残す。
 - **関連 refs**: `scripts/coverage-gate-e2e.sh`, `scripts/__tests__/coverage-gate-e2e.fixture/`, `scripts/e2e-mock-api.mjs`, `task-specification-creator/references/quality-gates.md` §7.5
 
+### L-E2EQU-S3A-001: desired-state manifest と operational SSOT の二層運用（Stage 3 land）
+
+- **状況**: branch protection は GitHub API 実値が operational source of truth であり、repo 内に full PUT body を JSON で固定すると Issue 範囲外の field（`required_pull_request_reviews` 詳細、`allow_force_pushes`、`allow_deletions`、`required_conversation_resolution` 等）まで巻き込んで上書きしかねず、Issue scope 外の rollback 境界が崩れる。Stage 3 では `required_status_checks.contexts` と `strict` のみを desired-state として宣言したい。
+- **学び**: `.github/branch-protection/{dev,main}.json` は `required_status_checks.contexts` と `strict` のみを宣言する **desired-state manifest**（PUT body 全体ではない）と位置付け、`.github/branch-protection/apply.sh` を adapter として「fresh GET → contexts/strict 差し替え → CLAUDE.md 不変条件正規化 → optional fields は fresh 値を保持」の 4 段で適用する。drift 検査は read-only な `scripts/verify-branch-protection.sh` に閉じ、契約は最終行 `OK(<branch>): no drift` で表現する。Stage 4 以降で governance field を増やすときは manifest schema を拡張せず、apply.sh の正規化ブロックに不変条件を追加する形で責務分離を維持する。
+- **Why:** full-PUT-body 正本化は repo 側の表現力が高すぎ、Issue scope を物理的に閉じ込められない。manifest+adapter+verifier の三層構成にすると「変えたい field のみを `gh api -X PUT` で正規化する」を構造で担保できる。
+- **How to apply:** branch protection 変更 spec を立てるときは最初に「どの field を desired にし、どの field を fresh 保持にするか」を Phase 4 に表で書く。新規 invariant は CLAUDE.md 宣言済みのものだけを apply.sh の正規化対象にする（CLAUDE.md 未宣言の値は触らない）。
+- **再発防止**: branch protection 系の Phase 12 compliance check に「manifest が full PUT body になっていないこと（=`required_status_checks.contexts`/`strict` 以外を含まない）」「apply.sh が fresh GET と desired を合成していること」「verify.sh の契約行が文字列 `OK(<branch>): no drift` であること」の 3 項目を追加する。
+- **関連 refs**: `.github/branch-protection/{dev,main}.json`, `.github/branch-protection/apply.sh`, `scripts/verify-branch-protection.sh`, `references/branch-protection-desired-state-manifest.md`
+
+### L-E2EQU-S3A-002: PR 範囲外の governance drift を同 PR で正規化するか別 issue 化するかの判定基準
+
+- **状況**: Stage 3 の Phase 11 pre snapshot で `enforce_admins=false` / `required_linear_history=false` の drift を検知。Issue #608 のコア責務（required contexts 拡張）とは無関係だが、両者は CLAUDE.md で既に「solo 運用ポリシー」として宣言済みの不変条件であり、放置すると governance 表明と実値が乖離し続ける。一方で全 drift を同 PR で押し付けると scope creep でレビュー境界が膨張する。
+- **学び**: drift 正規化の同 PR 取り込み可否は「CLAUDE.md で既に宣言済みの不変条件か」で 2 値判定する。宣言済み (INV-SOLO / INV-ENF / INV-LINEAR / INV-LOCK) は apply.sh の正規化対象として同 wave で吸収して良い。未宣言の field は別 issue 起票で 1 PR 1 責務を維持する。Stage 3 では同 PR 取り込みを選択し、apply.sh のコード内コメントに `INV-*` ラベルで根拠を明示した。
+- **Why:** CLAUDE.md 宣言済みの不変条件は「将来どこかで必ず合わせるべき値」なので、観測タイミングで吸収するほうが drift 期間を短くできる。逆に未宣言の値は Issue scope 外の判断を巻き込みうるため、別 issue で議論を分離するほうが rollback 境界が綺麗に保てる。
+- **How to apply:** branch protection 系 spec の Phase 4 design に「drift 検知時の判定表（宣言済み inv: 同 PR で正規化／未宣言: O-NN として別 issue 起票）」を必ず置き、apply.sh / verify.sh のコード内コメントには INV ラベルで根拠 path（CLAUDE.md の該当節）を残す。
+- **再発防止**: branch protection 系 Phase 11 evidence に pre snapshot を必ず含め、drift 一覧と「宣言済み/未宣言」のラベル付き表を `phase-11/main.md` に固定する。
+- **関連 refs**: `CLAUDE.md` Governance / CODEOWNERS 節, `.github/branch-protection/apply.sh`, `docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/`, `docs/30-workflows/unassigned-task/task-e2e-stage3c-enforce-admins-claudemd-alignment-001.md`
+
+### L-E2EQU-S3A-003: 集約 required context（`e2e-tests-coverage-gate`）と Lighthouse `nohup`+`wait-on` readiness による安定化
+
+- **状況**: e2e matrix shard 個別（`e2e (desktop-chromium)` 等）を required context 化すると、shard 数だけ required context 表面が増え、shard 増減のたびに branch protection PUT が必要になる。Lighthouse CI 側は production server 起動待ちを手作りの retry loop で実装すると、早期成功時の二重起動・遅延時の SIGTERM 漏れ・ログ未収集が発生しやすい。
+- **学び**: required context は **「全 shard 成功 + coverage gate」を集約する単一 job**（Stage 3 では `e2e-tests-coverage-gate`）に閉じる。shard 数や coverage threshold が変わっても required context 名は不変なので branch protection PUT が不要になる。Lighthouse の server 起動待ちは `nohup pnpm --filter @ubm-hyogo/web start > /tmp/web-server.log 2>&1 &` + `echo $! > /tmp/web-server.pid` + `pnpm dlx wait-on -t 120000 http-get://localhost:3000` の 3 行 pattern を default にし、exit code・timeout・cleanup を構造で担保する。
+- **Why:** required context は branch protection で参照される「契約面」であり、shard 構成という実装詳細が漏れ出ると、shard 増減のたびに governance PUT を伴う変更になってしまう。Lighthouse の `wait-on` は exit code が明示され、timeout・retry interval が CLI arg で固定できるため、手作り loop よりも CI ログから状態遷移を再構成しやすい。
+- **How to apply:** required context を増やすときは「context 名が contract 面を表しているか、実装詳細を漏らしていないか」を Phase 4 design で必ずレビューする。CI で外部サーバ起動を待つ step は `wait-on` を default にし、`npx` ではなく `pnpm dlx <pinned>` を使う（L-E2EQU-011 と整合）。
+- **再発防止**: workflow `name:` フィールドと branch protection contexts manifest の文字列一致を Phase 12 compliance check の必須項目にし、`grep -n "^name:" .github/workflows/*.yml` の出力と manifest を突合する。
+- **関連 refs**: `.github/workflows/e2e-tests.yml`, `.github/workflows/lighthouse.yml`, `.github/branch-protection/{dev,main}.json`, `references/branch-protection-desired-state-manifest.md`, `references/quality-e2e-testing.md`
+
 ### L-E2EQU-012: Branch protection mutation の user gate 設計と `enforce_admins` drift の別 issue 化
 
 - **状況**: 3c で dev/main の required contexts 拡張に `gh api -X PUT /repos/.../branches/{dev,main}/protection` mutation が必要だが、AI agent が即時実行すると user policy（solo dev・enforce_admins / lock_branch などの drift）と衝突する恐れがある。さらに観測中に `enforce_admins` の drift（true → false 等）を検出した場合、同 PR で押し付けると scope creep になり revert コストが跳ねる。

@@ -1227,6 +1227,7 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L18 |
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
 | task-10 UI primitives integration contract（2026-05-09） | L32 |
+| task-10 follow-up 002 runtime visual + axe evidence（2026-05-11） | L46 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -2214,13 +2215,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
-| Stage Responsibility Split (classification-first) | L17 |
-| Current Facts (Stage 0 implementation) | L26 |
-| Phase 12 Strict 7 Files (all stages) | L40 |
-| Phase 11 Evidence Path Map | L52 |
-| Tier-Aware Coverage Policy | L63 |
-| Contract | L72 |
-| Related Resources | L79 |
+| Stage Responsibility Split (classification-first) | L18 |
+| Current Facts (Stage 3 local execution) | L27 |
+| Current Facts (Stage 0 implementation) | L39 |
+| Phase 12 Strict 7 Files (all stages) | L53 |
+| Phase 11 Evidence Path Map | L65 |
+| Tier-Aware Coverage Policy | L76 |
+| Contract | L85 |
+| Related Resources | L92 |
 
 ### references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md
 
@@ -3001,6 +3003,14 @@ node scripts/list-specs.js --topics
 | Formalized Follow-Ups | L29 |
 | Verification | L42 |
 
+### references/workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files | L10 |
+| Evidence | L18 |
+| Phase 12 | L30 |
+
 ### references/workflow-task-12-member-detail-register-legal-artifact-inventory.md
 
 | セクション | 行 |
@@ -3644,6 +3654,21 @@ node scripts/list-specs.js --topics
 | 5. Auth.js v5 env 層化 | L109 |
 | 変更履歴 | L174 |
 
+### references/branch-protection-desired-state-manifest.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 三層構成と責務 | L9 |
+| 2. desired-state manifest schema | L20 |
+| 3. CLAUDE.md 不変条件（INV-*）の正規化対象 | L41 |
+| 4. drift 判定基準（Stage 3 land 時点） | L54 |
+| 5. drift 取り込み判定（Phase 4 design 必須） | L64 |
+| 6. workflow `name:` フィールドと contexts manifest の整合 | L75 |
+| 7. 集約 required context の設計指針 | L89 |
+| 8. Lighthouse readiness pattern との接続 | L93 |
+| 9. 関連参照 | L108 |
+| 10. 履歴 | L119 |
+
 ### references/branch-protection.md
 
 | セクション | 行 |
@@ -4059,15 +4084,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L18 |
-| 使い方 | L26 |
-| Current Alias Overrides（個別互換行） | L33 |
-| Family Summary | L74 |
-| Detailed Register | L95 |
-| Section Extract Register (2026-03-17) | L276 |
-| 500-Line Split Register (2026-03-16) | L287 |
-| Fragment Migration Register (2026-04-28) | L309 |
-| Task Root Path Drift Register (2026-04-30 追記) | L336 |
+| 概要 | L19 |
+| 使い方 | L27 |
+| Current Alias Overrides（個別互換行） | L34 |
+| Family Summary | L75 |
+| Detailed Register | L96 |
+| Section Extract Register (2026-03-17) | L277 |
+| 500-Line Split Register (2026-03-16) | L288 |
+| Fragment Migration Register (2026-04-28) | L310 |
+| Task Root Path Drift Register (2026-04-30 追記) | L337 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -6455,13 +6480,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1123 |
-| フェーズ構造（概要） | L1132 |
-| 品質ゲート（概要） | L1163 |
-| 出力テンプレート | L1174 |
-| 実行時のコマンド・エージェント・スキル | L1197 |
-| 昇格パターン集 | L1221 |
-| Current Active / Spec Created Tasks | L1223 |
+| ドキュメント構成 | L1136 |
+| フェーズ構造（概要） | L1145 |
+| 品質ゲート（概要） | L1176 |
+| 出力テンプレート | L1187 |
+| 実行時のコマンド・エージェント・スキル | L1210 |
+| 昇格パターン集 | L1234 |
+| Current Active / Spec Created Tasks | L1236 |
 
 ### references/task-workflow-backlog-part2.md
 
