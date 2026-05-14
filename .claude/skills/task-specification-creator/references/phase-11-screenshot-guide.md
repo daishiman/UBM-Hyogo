@@ -92,6 +92,30 @@ VISUAL タスクで staging 実機 deploy が **別 gate で pending** の場合
 - **selector drift**: page-object と実装側 `data-testid` の照合を `grep -rn 'data-testid="<id>"' apps/web/src` で必ず確認。`data-testid` 命名は機能 prefix + kebab で統一（例: `admin-kpi-card-total`）。
 - **provenance 偽装**: local mock screenshot を staging fresh evidence のように記述しない。`provenance` 列を AC matrix に必ず置く。
 
+## Evidence 拡張子 / canonical 制約（task-18 W7 / 2026-05-12 追記）
+
+Phase 11 PASS 根拠ファイルは **tracked `.txt` / `.json` のみ canonical** とする。`.log` 拡張子の evidence は repository root `.gitignore` で除外され、PR diff・CI・レビューで参照不能になるため非 canonical。
+
+- **生成側**: `2>&1 | tee outputs/phase-11/<name>.txt` のように最初から `.txt` で書き出す
+- **既存 spec**: `*.log` 例示を `*.txt` に書き換える（force-add（`git add -f`）回避）
+- **JSON evidence**: `gh api ... > outputs/phase-11/<name>.json` で機械可読性を保つ
+
+## Visual baseline の `--update-snapshots` 運用（task-18 W7 / 2026-05-12 追記）
+
+`apps/web/playwright/tests/visual/<spec>-snapshots/` の baseline 画像は tracked。drift 検出時の更新は次の boundary を守る:
+
+- `--update-snapshots` 実行は **user-gated**（自動 PR で baseline を更新しない）
+- baseline 更新 PR は visual diff の人手確認を必須とし、`docs/30-workflows/<workflow>/outputs/phase-11/visual-baseline-update-rationale.md` に更新理由を残す
+- 4 screen baseline（`/login` / `/` / `/admin` / `/profile`）の拡張は別 task（例: `task-18-full-visual-regression-suite-001`）で扱い、本 baseline と混ぜない
+
+## SSR fixture と Server Component evidence（task-17 / task-18 共通）
+
+Server Component の `fetch()` は Playwright `page.route()` で intercept できない。Phase 11 visual evidence を確定的に取るには SSR helper（例: `apps/web/src/lib/admin/server-fetch.ts`）に env-gated fixture branch を実装する:
+
+- env 変数名は task ID prefix（`PLAYWRIGHT_TASK17_ADMIN_FIXTURE` / `PLAYWRIGHT_TASK18_ADMIN_FIXTURE`）で衝突回避
+- `NODE_ENV !== "production"` で active な branch のみ許可（production には絶対に branch しない）
+- Phase 4 設計時に「fetch 起点が SSR か CSR か」を分類し、SSR なら fixture 戦略を明記する
+
 ## Apple UI/UX 観点
 
 - hierarchy が明確か

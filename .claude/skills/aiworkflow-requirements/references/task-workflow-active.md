@@ -24,6 +24,81 @@
 | Phase 12 | strict 7 outputs present under `outputs/phase-12/`; root `artifacts.json` is the only artifact ledger |
 | Issue 取扱 | implementation PR may use `Closes #622`; closed upstream issues use `Refs #325` / `Refs #621`; downstream unblock uses `Refs #623`; commit / push / PR remain user-gated |
 
+### Issue #617 CI test time reduction split（2026-05-11）
+
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / LOCAL_EVIDENCE_PARTIAL_CI_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-617-ci-test-time-reduction-split/` |
+| source issue | Issue #617 CLOSED。PR 文脈は `Refs #617` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/task-issue-577-followup-003-test-grouping-by-d1-usage.md`（historical #618, expanded consumed） |
+| 目的 | apps/api D1/unit split、apps/web/packages coverage split、CI wall-clock reduction |
+| implementation targets | `vitest.config.ts`, `vitest.d1.config.ts`, `apps/api/package.json`, `apps/web/package.json`, `scripts/coverage-guard.sh`, `scripts/coverage-merge.mjs`, `.github/workflows/ci.yml` |
+| CI design | `coverage-gate-shard` matrix fan-out + aggregate `coverage-gate` required context 維持。shard は artifact-only、80% 判定は aggregate のみ |
+| evidence boundary | Local typecheck / lint / coverage-merge test / classification checks are recorded; GitHub Actions runtime wall-clock and full shard coverage remain pending |
+| user gate | GitHub Actions runtime evidence, commit, push, and PR |
+
+### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
+
+| ステータス | `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking.md`（consumed trace） |
+| Issue | #616 CLOSED 維持。#617 は followup-003 のため誤参照禁止 |
+| 目的 | Miniflare / undici / workerd の socket / keep-alive / port reuse 改善を triage し、`apps/api` coverage の worker cap 緩和可否を判定する |
+| current cap | `apps/api/package.json#scripts.test:coverage` の `--maxWorkers=1 --minWorkers=1` |
+| 採用条件 | `--maxWorkers=2 → 4 → auto` の段階評価。候補 N は連続 3 回 133/133 PASS、0 EADDRNOTAVAIL、coverage regression なし。低い候補が fail した場合、より大きい候補は skip 理由を記録して打ち切る |
+| 採用時 script 方針 | `--minWorkers` を削除し、`--maxWorkers=<採用N>` のみを正本化 |
+| 不変条件 | apps/api runtime code / D1 schema / Cloudflare binding は変更しない |
+| artifact inventory | `references/workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md` |
+| user gate | `apps/api/package.json` 編集、commit、push、PR、Issue 操作は user approval 後 |
+
+### task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
+
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence.md` |
+| 実装対象 | `apps/web/app/(dev)/primitives-harness/page.tsx`, `apps/web/app/(dev)/layout.tsx`, `apps/web/playwright/tests/ui-primitives-visual.spec.ts`, `apps/web/playwright.config.ts`, `apps/web/src/components/ui/Stat.tsx`, `apps/web/src/components/ui/Sidebar.tsx` |
+| evidence boundary | Phase 11 screenshot 37 件 + axe JSON violations 0 は取得済み。`build:cloudflare` は followup-001 esbuild mismatch blocker 継続 |
+| user gate | commit / push / PR / staging deploy / production smoke |
+
+### E2E quality uplift Stage 2 sub-task 2d contract-stage-2 spec（2026-05-11）
+
+| ステータス | implemented-local-runtime-pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present |
+| 成果物 | `docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-contract-stage-2.md` |
+| 実装対象 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` |
+| route export boundary | `DeleteBodyZ`, `ListRequestsQueryZ`, `ListAuditQueryZ` are non-breaking named exports from existing route modules |
+| schema boundary | 2d test imports route/shared schemas, parses request/audit response fixtures through exported route response schemas, and keeps `z.object(` count at 0 |
+| fixture boundary | 2a/2b/2c inline fixtures must match the 2d standard; `MergeIdentityResponseZ` shared schema wins over handwritten shape |
+| evidence | `docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/outputs/phase-11/main.md`, `docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime gate | local implementation test creation, focused Vitest, typecheck, lint, and grep gates passed; commit, push, PR, and CI runtime are user-gated |
+
+### Issue #621 apps/web test suffix rename（2026-05-10）
+
+| ステータス | implemented-local / implementation / NON_VISUAL / Phase 12 strict outputs present / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/` |
+| Issue | Issue #621 OPEN。PR 文脈は `Refs #621` のみ |
+| scope | `apps/web/**/*.test.ts(x)` 70 files; existing Playwright/E2E `*.spec.ts(x)` 17 files untouched |
+| classification | component 36 / route 4 / page 1 / runtime 5 / lib-unit 24 |
+| implementation sync | `apps/web/package.json`, `.github/workflows/ci.yml`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `scripts/lint-boundaries.mjs`, `scripts/lint-stablekey-literal.mjs`, `apps/web/src/lib/api/me-types.spec-d.ts` |
+| evidence | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-11/main.md`, `rename-mapping.csv`, `test-count-diff.log`, `typecheck.log`, `lint.log`, `verify-design-tokens.log` |
+| ADR | `docs/30-workflows/issue-621-apps-web-test-suffix-rename/outputs/phase-12/test-file-suffix-adr-apps-web.md` |
+| consumed input | `docs/30-workflows/unassigned-task/task-issue-325-followup-001-apps-web-test-suffix-rename.md` |
+
+### E2E Stage 2 sub-task 2d contract test（2026-05-11）
+
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_LOCAL_CANONICAL / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/` |
+| source unassigned | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2-001.md` consumed |
+| 目的 | 2a/2b/2c の UI fixture object と admin route zod schema の同型性を pure unit contract test で検証する |
+| 実装対象 | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts`, `apps/api/src/routes/admin/{member-delete,requests,audit}.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-identity-conflicts.spec.ts` |
+| schema boundary | `MergeIdentityResponseZ` は shared schema が正本。2d test 内 `z.object(` は 0 件。requests/audit response envelope は route exported type + `satisfies` で接続 |
+| evidence | focused Vitest 23/23 PASS, `@ubm-hyogo/api` typecheck PASS, `@ubm-hyogo/api` lint PASS, grep gate PASS |
+| root lint boundary | root `pnpm lint` は既存 `apps/web` `monocart-reporter` type resolution で blocked。本 API contract change の判定には `@ubm-hyogo/api` lint/typecheck を使う |
+| artifact inventory | `references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md` |
+| user gate | commit / push / PR は user approval 後のみ |
+
 ### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
 
 | 項目 | 値 |
@@ -39,6 +114,7 @@
 | user gate | commit / push / PR は user approval 後 |
 
 ### UT-15 WAF / Rate Limiting Rules Setup（2026-05-09）
+
 ### Issue #589 Gate metadata structured ledger（2026-05-10）
 
 | 項目 | 値 |
@@ -53,6 +129,7 @@
 | evidence boundary | schema / validator / CI workflow file / #549 backfill / Phase 12 strict 7 / aiworkflow discovery sync は完了。branch protection PUT / commit / push / PR は user-gated |
 | pending user-gated operation | PR/merge 承認後に `verify-gate-metadata / validate` を dev/main required status check へ追加する。実 `gh api -X PUT` はユーザー明示承認まで禁止 |
 | Issue 取扱 | #589 / #549 CLOSED 維持。PR 文脈は `Refs #589` / `Refs #549` のみ |
+
 
 ### E2E quality uplift Stage 2 sub-task 2c admin member delete spec（2026-05-10）
 
@@ -83,6 +160,19 @@
 | 依存 | task-09 / task-10 は completed-tasks、task-15 は `ui-prototype-alignment-mvp-recovery/07-screens-admin/task-15-w5-par-admin-dashboard-and-members.md`。task-16 と並列、task-18 は staging/CI smoke を継続 |
 | evidence | `docs/30-workflows/completed-tasks/task-17-admin-schema-conflicts-audit/outputs/phase-11/phase11-capture-metadata.json` / `docs/30-workflows/completed-tasks/task-17-admin-schema-conflicts-audit/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | Phase 13 | commit / push / PR outputs は user approval 後のみ生成 |
+
+### Issue #603 phase-12 compliance-check CI gate（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_runtime_pending / implementation / NON_VISUAL / Phase 12 strict 7 outputs present / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/issue-603-phase12-compliance-check-ci-gate/` |
+| Issue | Issue #603 CLOSED。PR 文脈は `Refs #603` のみ |
+| CI gate | `.github/workflows/verify-phase12-compliance.yml` |
+| implementation targets | `scripts/verify-phase12-compliance.ts`, `scripts/lib/phase12-compliance/**`, `scripts/__tests__/verify-phase12-compliance.test.ts`, `scripts/__tests__/fixtures/phase12-compliance/**` |
+| canonical SSOT | `.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md` Required Sections 9 項目 |
+| user gate | commit / push / PR creation / PR-side CI log capture |
+| artifact inventory | `references/workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md` |
 
 ### UI prototype alignment / MVP recovery task-16 admin tags meetings requests（2026-05-10）
 
@@ -147,23 +237,24 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | Stage 0: `implementation_complete_pending_pr` / Stage 1: `implemented_local / implementation_complete_e2e_verification_recorded` / Stage 2: `spec_verified_pending_dependency` / Stage 3 3b: `implemented-local / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| ステータス | Stage 0: `implementation_complete_pending_pr` / Stage 1: `implemented_local / implementation_complete_e2e_verification_recorded` / Stage 2: `spec_verified_pending_dependency` / Stage 3: `implemented_local_runtime_pending`（branch protection apply + verify captured・Phase 12 strict 7 PASS / 2026-05-12 Issue #608 land） |
 | 区分 | NON_VISUAL（4 stage いずれも） |
 | 成果物 | `docs/30-workflows/e2e-quality-uplift-stage-{0,1,2,3}/` |
 | 目的 | E2E 品質 uplift を 4 stage 分割: Stage 0 Playwright 整備 / Stage 1 regression assertion 拡充 / Stage 2 tier-aware coverage 自動 enforcement / Stage 3 branch protection contexts 正本化 |
 | Stage 0 implementation | `apps/web/playwright/README.md`（7章）/ `playwright.config.ts` (`evidence-capture` project) / `apps/web/package.json#scripts.e2e`（`--project=desktop-chromium,desktop-firefox,mobile-webkit`）/ `tests/profile-readonly-logged-in.spec.ts` rename/extract / `quality-gates.md §7.1 (4)` 8 行例外 |
 | Stage 1 implementation | `apps/web/playwright/fixtures/auth.ts`（HS256 JWT 署名）/ `/me/profile` server fetch 用 mock API fixture / regression assertion: email leak / visibility round-trip / delete round-trip / tracked `.txt` evidence |
 | Stage 2 spec | tier 閾値 `critical ≥80% / standard ≥80% / experimental ≥50%`、workspace 80% guard と責務分離。実装 land は別 cycle |
-| Stage 3 implementation | 3b `e2e-tests-coverage-gate` は `.github/workflows/e2e-tests.yml` で PR to `dev` / `main` に発火し、deterministic mock API (`scripts/e2e-mock-api.mjs`) + Monocart + line coverage 80% gate を実装済み。3c branch protection contexts 正本は GitHub branch protection 実値。drift 検出 `gh api repos/daishiman/UBM-Hyogo/branches/{dev,main}/protection | jq '.required_status_checks.contexts'`。実 PUT は user-gated |
+| Stage 3 implementation | 3b `e2e-tests-coverage-gate` は `.github/workflows/e2e-tests.yml` で PR to `dev` / `main` に発火し、deterministic mock API (`scripts/e2e-mock-api.mjs`) + Monocart + line coverage 80% gate を実装済み。3a `lighthouse-ci` は `.github/workflows/lighthouse.yml` で `workflow_dispatch` と `wait-on` readiness を持つ。3c branch protection contexts の operational SSOT は GitHub branch protection fresh GET、repo 側 desired contexts manifest は `.github/branch-protection/{dev,main}.json`。drift 検出 `bash scripts/verify-branch-protection.sh` / `gh api repos/daishiman/UBM-Hyogo/branches/{dev,main}/protection | jq '.required_status_checks.contexts'`。branch protection PUT + verify evidence は `docs/30-workflows/e2e-quality-uplift-stage-3/outputs/phase-11/` に captured |
 | 依存 | 逐次依存（Stage N+1 は Stage N の land 後）。Stage 2 は Stage 1 implemented_local + workspace guard 境界確定後 |
-| evidence boundary | Stage 0/1 は tracked runtime evidence (`evidence/*.txt`)。Stage 2 は placeholder。Stage 3 3b は local implementation present + PR CI runtime artifacts pending user approval |
+| evidence boundary | Stage 0/1 は tracked runtime evidence (`evidence/*.txt`)。Stage 2 は placeholder。Stage 3 は branch protection apply/verify captured + PR CI required 表示 / Lighthouse run pending user approval |
 | Phase 12 strict 7 | 全 stage に present。validator-first close-out（prose-only done table より曖昧でない） |
 | 苦戦箇所 | L-E2EQU-002A: Server Component の `fetchAuthed()` は Node 側で実行されるため、Playwright の `page.route("**/api/me/profile")` だけでは server state を差し替えられない。server fetch 用 mock fixture / `INTERNAL_API_BASE_URL` 差し替えが必須 |
 | tier policy 正本 | `.claude/skills/task-specification-creator/references/coverage-standards.md`、`quality-gates.md §7.1 (4)` |
 | artifact inventory | `references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md` |
-| lessons | `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md`（L-E2EQU-001..007 + 002A） |
+| lessons | `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md`（L-E2EQU-001..015 + 002A + Stage 3 land で L-E2EQU-S3A-001 desired-state manifest 三層 / L-E2EQU-S3A-002 INV declared drift 同 PR 取り込み判定 / L-E2EQU-S3A-003 集約 required context + `nohup`+`wait-on` readiness を追加） |
+| canonical refs | `references/branch-protection-desired-state-manifest.md`（Stage 3 land で新規 canonical 化。manifest/adapter/verifier 三層の SSOT） |
 | changelog | `changelog/20260509-e2e-quality-uplift-stage0-3.md` |
-| user gate | runtime tier enforcement / branch protection PUT / commit / push / PR は user approval 後 |
+| user gate | runtime tier enforcement / PR CI required 表示 / Lighthouse run / commit / push / PR は user approval 後 |
 
 ### CI pipeline recovery web CD and runtime smoke（2026-05-09）
 
@@ -319,7 +410,7 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | implemented_local_pending_pr / implementation / NON_VISUAL / runtime completed / Phase 12 strict 7 completed / PR pending_user_approval |
-| 成果物 | `docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
 | parent | Issue #532 write/tag/note provider ctx injection（CLOSED 維持） |
 | source | `docs/30-workflows/unassigned-task/task-issue-532-api-full-coverage-rerun-miniflare-port-exhaustion-001.md` |
 | GitHub Issue | #577 CLOSED（2026-05-08T21:36:04Z）。PR は `Refs #577` で追跡 |
@@ -395,7 +486,7 @@
 | --- | --- |
 | ステータス | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/task-02-w2-wrangler-env-injection/` |
-| 実装対象 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.test.ts` |
+| 実装対象 | `apps/web/wrangler.toml`, `apps/web/.dev.vars.example`, `apps/web/src/lib/env.ts`, `apps/web/src/lib/__tests__/env.spec.ts` |
 | env contract | `getEnv()` は Cloudflare `getCloudflareContext().env` を優先し、Node build/test では `process.env` fallback。全経路を zod schema で検証 |
 | secret境界 | `SENTRY_DSN_WEB` / `AUTH_SECRET` は Cloudflare Secrets / 1Password 正本。`wrangler.toml` に値を書かない |
 | 依存 | task-03 とは設計並列可。ただし `wrangler.toml` `[vars]` 実変更は task-02 owner で先行 |
@@ -917,7 +1008,7 @@
 | issue | #362 CLOSED (PR text: `Refs #362` only) |
 | 成果物 | `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/` |
 | 目的 | HTTP 202 + `backfill.status='exhausted'` + `retryable=true` + `code='backfill_cpu_budget_exhausted'` を `/admin/schema` UI で通常 success / validation error / conflict error と区別し、続きから再試行できる状態として表示する |
-| 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.test.ts` / `SchemaDiffPanel.test.tsx` |
+| 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.spec.ts` / `SchemaDiffPanel.component.spec.tsx` |
 | 検証 | focused Vitest 30 tests PASS。JUnit: `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/outputs/phase-11/test-junit.xml` |
 | 境界 | API contract / D1 schema / queue-cron workflow は変更しない。manual screenshot / commit / push / PR は user-gated。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md`（L-UT07B-FU02-001 5 点 narrowing / L-002 confirmed と backfill.status の責務分離 / L-003 code 不一致 fallback / L-004 4 状態 manual screenshot deferred） |
 
@@ -953,7 +1044,7 @@
 | wave-1 | `docs/30-workflows/completed-tasks/ut-api-cov-precondition-01-test-failure-recovery/` |
 | wave-2 | completed workflow roots under `docs/30-workflows/completed-tasks/` with historical grouping under `docs/30-workflows/ut-coverage-2026-05-wave/wave-2-parallel-coverage/`; UT-08A-01 canonical implementation root: `docs/30-workflows/completed-tasks/ut-08a-01-public-use-case-coverage-hardening/` |
 | ut-web-cov-04 current canonical | `docs/30-workflows/completed-tasks/ut-web-cov-04-admin-lib-ui-primitives-coverage/`（implemented-local / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked_pending_user_approval。旧 nested path は historical wave grouping path） |
-| task-10 ui primitives current canonical | `docs/30-workflows/task-10-ui-primitives-spec/`（implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration）。既存 `apps/web/src/components/ui` Wave 0 baseline を削除せず、task-10 の 11 primitive contract を barrel `@/components/ui` へ統合済み。`build:cloudflare` は OpenNext esbuild mismatch で blocker、runtime screenshot / axe は pending。 |
+| task-10 ui primitives current canonical | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/`（runtime-evidence-captured / implementation / VISUAL_ON_EXECUTION / existing-ui-integration）。既存 `apps/web/src/components/ui` Wave 0 baseline を削除せず、task-10 の 11 primitive contract を barrel `@/components/ui` へ統合済み。follow-up 001 (`docs/30-workflows/task-10-followup-001-opennext-esbuild-mismatch/`) で `build:cloudflare` は PASS、follow-up 001 inventory は `references/workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md`。follow-up 002 相当の runtime screenshot / axe は `outputs/phase-11/evidence/` に保存済み。`Stat` の `<dt>/<dd>` axe violation は同 cycle で修正済み。 |
 | task-11 public top + member list current canonical | `docs/30-workflows/task-11-public-top-and-member-list/`（implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING）。公開トップ `/` と `/members` の実装仕様。既存 `/public/stats` / `/public/members` のみ消費し、`apps/api/**` 変更なし。Phase 12 strict 7 と root/output artifacts parity は present。apps/web 実装はローカル反映済み。runtime screenshot / axe / coverage、commit / push / PR は user approval 後。Lessons: `references/lessons-learned-task-11-public-top-and-member-list-2026-05.md`（L-T11-001..006: route colocation 廃止 / 4 section 集約 / API adapter 層 / `force-dynamic` 撤去 / `PENDING_RUNTIME_EVIDENCE` follow-up / playwright project 絞込）。Changelog: `changelog/20260509-task-11-public-top-and-member-list.md`。 |
 | task-13 login rebuild current canonical | `docs/30-workflows/task-13-login-rebuild/`（implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING）。`/login` を 5 core states (`input / sent / unregistered / deleted / error`) + `rules_declined` derived state + `gate=admin_required` overlay のカード型 UI へ rebuild。Phase 12 strict 7 と root/output artifacts parity は present。`data-testid="login-card"` + `data-state` locator、`rules_declined` alert role、Magic Link failure `state=error` URL transition、Auth.js + Magic Link API route surface 不変、`@ubm-hyogo/web` command contract / `verify-design-tokens` script を正本化。apps/web 実装、focused Vitest、local Playwright screenshot evidence はローカル反映済み。staging smoke / production-equivalent runtime evidence / commit / push / PR は user approval 後。Changelog: `changelog/20260509-task-13-login-rebuild.md`。 |
 | wave-3 roadmap | `docs/30-workflows/issue-433-ut-web-cov-05-wave3-roadmap/`（implemented-local / implementation / NON_VISUAL / Issue #433 / Phase 1-12 completed / Phase 13 blocked_pending_user_approval）。Final roadmap path: `docs/30-workflows/ut-coverage-2026-05-wave/wave-3-roadmap.md` |
@@ -1283,7 +1374,7 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | task-spec-2a-admin-requests-e2e | implemented-local-runtime-pass / implementation / NON_VISUAL / Phase 11 desktop Chromium E2E PASS / Phase 12 strict outputs present | `docs/30-workflows/task-spec-2a-admin-requests-e2e/` | Stage 2 subtask 2a implementation is present: `apps/web/playwright/tests/admin-requests.spec.ts`, Auth.js-compatible Playwright session fixture, guarded SSR initial-data fixture (`PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1` + `NODE_ENV !== "production"`), and RequestQueuePanel reject validation/row removal. Desktop Chromium E2E passed 6/6. member admin-gate expectation follows current middleware `/login?gate=admin_required`. |
 | e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci | spec_created / implementation / NON_VISUAL / runtime_pending | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/` | Stage 3 subtask 3a。`lighthouse-ci` context、`.github/workflows/lighthouse.yml`、`lighthouserc.json`、4 route Lighthouse assertion、Q-02 `/profile` degradation decisionを固定。Parent umbrella archive is `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/`. Runtime CI evidence, commit, push, and PR are user-gated. |
 | e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate | implemented-local / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/` | Stage 3 subtask 3b は 2026-05-10 に local 実装完了。`.github/workflows/e2e-tests.yml` を `e2e-tests-coverage-gate` job として書き換え、`scripts/e2e-mock-api.mjs` deterministic mock API、`apps/web/src/lib/fetch/public.ts` の `PUBLIC_API_BASE_URL` 優先化（service binding より HTTP fallback を優先し CI mock 差し替えを成立）、`apps/web/playwright.config.ts` の monocart-reporter 配列末尾追加、`scripts/coverage-gate-e2e.sh`（line coverage 80% gate / `THRESHOLD_FIXTURE` override / `set -euo pipefail` / quality-gates.md path コメント付与）、devDeps `monocart-reporter@^2.9.0` / `c8@^10.1.0` を反映。fixture（pass 85.0% / fail-79 79.99% / missing）でローカル検証 PASS。実 CI run（T-3b-8..16, AC-3b-1..6）と branch protection mutation は PR / user-gated。苦戦箇所は `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md` の L-E2EQU-013..015 を参照。 |
-| e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts | spec_created / implementation / NON_VISUAL / runtime_pending / branch-protection user-gated | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/` | Stage 3 subtask 3c。3a/3b contexts registered後に dev/main required contextsを `ci`, `Validate Build`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate` に拡張する。Real `gh api -X PUT`, fresh GET evidence, commit, push, and PR are user-gated. |
+| e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts | implemented-local-runtime-pending / implementation / NON_VISUAL / branch-protection-applied / PR-CI-runtime-pending | `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3c-branch-protection-contexts/` + local execution root `docs/30-workflows/e2e-quality-uplift-stage-3/` | Stage 3 subtask 3c。3a/3b contexts registered後に dev/main required contextsを `ci`, `Validate Build`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate` に拡張する。Local implementation adds `.github/branch-protection/{dev,main}.json`, governance-invariant `.github/branch-protection/apply.sh`, `scripts/verify-branch-protection.sh`, and Lighthouse `workflow_dispatch` + `wait-on`. `gh api -X PUT` + fresh GET evidence は captured。commit, push, PR, PR checks required 表示, Lighthouse workflow run は user-gated. |
 
 ### unassigned-task → Phase 1-13 仕様書ディレクトリへの昇格パターン
 
@@ -1299,3 +1390,14 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
   3. 元の unassigned-task ファイルを completed-tasks に移動
   4. aiworkflow-requirements の同 wave 更新
 - **参考**: UT-UIUX-VISUAL-BASELINE-DRIFT-001（2026-04-03）
+### Task 18 W7 verify tokens and Playwright smoke（2026-05-12）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/` |
+| ステータス | implemented-local / implementation / NON_VISUAL / runtime_pending / Phase 13 blocked_pending_user_approval |
+| 目的 | `09b-design-tokens.md`、`apps/web/src/styles/tokens.css`、`globals.css @theme inline` の token drift と、17 URL smoke / 4 screen visual baseline を CI gate 化する |
+| 実装対象 | `scripts/verify-design-tokens.ts`, `scripts/verify-design-tokens.test.ts`, `apps/web/playwright/tests/full-smoke.spec.ts`, `apps/web/playwright/tests/visual/*.spec.ts`, `apps/web/playwright/fixtures/auth.ts`, `apps/web/playwright.config.ts`, `.github/workflows/verify-design-tokens.yml`, `.github/workflows/playwright-smoke.yml` |
+| required status check 候補 | `verify-design-tokens / verify-design-tokens`, `playwright-smoke / smoke (chromium)`, `playwright-smoke / visual (chromium, 4 screens)` |
+| evidence boundary | Phase 11 evidence は tracked `.txt` / `.json` のみを正本とし、`.log` は `.gitignore` 対象のため PASS 根拠にしない。branch protection PUT、commit、push、PR は user approval 後 |
+| upstream | task-08 / task-09 / task-10 / task-11..17 |

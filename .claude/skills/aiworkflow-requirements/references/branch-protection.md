@@ -9,6 +9,9 @@ GitHub branch protection for `dev` and `main` is an external setting. Repository
 | Context | Scope | Status |
 | --- | --- | --- |
 | `audit-correlation-verify / verify` | `dev`, `main` | Issue #554 contract-ready; PUT blocked until user approval |
+| `verify-design-tokens / verify-design-tokens` | `dev`, `main` | task-18 W7 contract-ready; PUT blocked until user approval（registered run 先行が必要） |
+| `playwright-smoke / smoke (chromium)` | `dev`, `main` | task-18 W7 contract-ready; PUT blocked until user approval（registered run 先行が必要） |
+| `playwright-smoke / visual (chromium, 4 screens)` | `dev`, `main` | task-18 W7 contract-ready; PUT blocked until user approval（registered run 先行が必要） |
 
 ## Invariants
 

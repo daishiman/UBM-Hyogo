@@ -20,11 +20,14 @@
     "lint:deps": "rg --files apps packages -g '*.ts' -g '*.tsx' | xargs pnpm dlx dependency-cruiser --config .dependency-cruiser.cjs",
     "lint:stablekey": "node scripts/lint-stablekey-literal.mjs",
     "lint:stablekey:strict": "node scripts/lint-stablekey-literal.mjs --strict",
+    "verify:phase12-compliance": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-phase12-compliance.ts",
     "verify:static-manifest": "node scripts/verify-static-manifest.mjs",
     "regenerate:static-manifest": "node scripts/regenerate-static-manifest.mjs",
+    "verify:tokens": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/verify-design-tokens.ts",
     "typecheck": "pnpm -r typecheck",
     "test": "bash scripts/with-env.sh vitest run",
-    "test:scripts": "bash scripts/d1/run-tests.sh",
+    "test:phase12-compliance": "vitest run scripts/__tests__/verify-phase12-compliance.test.ts",
+    "test:scripts": "bash scripts/d1/run-tests.sh && node --test scripts/__tests__/coverage-merge.test.mjs",
     "smoke:test": "bash scripts/smoke/__tests__/redact.test.sh && bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh && bash scripts/smoke/__tests__/ci-summary-post.test.sh",
     "test:coverage": "bash scripts/with-env.sh vitest run --coverage",
     "post-release-dashboard:test": "bash scripts/post-release-dashboard/__tests__/run-all.sh",
@@ -64,5 +67,10 @@
   "dependencies": {
     "@slack/web-api": "^7.10.0",
     "zod": "^4.3.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.25.4"
+    }
   }
 }

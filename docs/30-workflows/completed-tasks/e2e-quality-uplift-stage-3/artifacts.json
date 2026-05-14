@@ -1,82 +1,65 @@
 {
   "metadata": {
     "workflow_id": "e2e-quality-uplift-stage-3",
-    "workflow_state": "spec_verified",
-    "implementation_status": "spec_verified_pending_dependency",
-    "taskType": "docs-only",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_runtime_pending",
+    "taskType": "implementation",
     "visualEvidence": "NON_VISUAL",
     "coverageTier": "standard",
-    "updated_at": "2026-05-09"
+    "updated_at": "2026-05-13",
+    "runtime_gate": "branch protection PUT and read-only verify are captured; PR CI required display, Lighthouse workflow run, commit, push, and PR require explicit user approval",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; desired-state manifest, apply.sh, verify script scopes locked"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: apply/verify stdout captured, pre/post snapshots saved, pnpm typecheck + lint PASS"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/lighthouse.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: required contexts include lighthouse-ci and e2e-tests-coverage-gate; awaiting green CI on PR #694"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: PR #694 awaits user-gated merge into dev and post-merge runtime evidence"
+      }
+    ]
   },
   "phases": [
-    {
-      "phase": 1,
-      "status": "completed",
-      "path": "phase-1.md"
-    },
-    {
-      "phase": 2,
-      "status": "completed",
-      "path": "phase-2.md"
-    },
-    {
-      "phase": 3,
-      "status": "completed",
-      "path": "phase-3.md"
-    },
-    {
-      "phase": 4,
-      "status": "completed",
-      "path": "phase-4.md"
-    },
-    {
-      "phase": 5,
-      "status": "completed",
-      "path": "phase-5.md"
-    },
-    {
-      "phase": 6,
-      "status": "completed",
-      "path": "phase-6.md"
-    },
-    {
-      "phase": 7,
-      "status": "completed",
-      "path": "phase-7.md"
-    },
-    {
-      "phase": 8,
-      "status": "completed",
-      "path": "phase-8.md"
-    },
-    {
-      "phase": 9,
-      "status": "completed",
-      "path": "phase-9.md"
-    },
-    {
-      "phase": 10,
-      "status": "completed",
-      "path": "phase-10.md"
-    },
-    {
-      "phase": 11,
-      "status": "completed",
-      "path": "phase-11.md"
-    },
-    {
-      "phase": 12,
-      "status": "completed",
-      "path": "phase-12.md"
-    },
-    {
-      "phase": 13,
-      "status": "completed",
-      "path": "phase-13.md"
-    }
+    {"phase": 1, "status": "spec_created", "path": "phase-1.md"},
+    {"phase": 2, "status": "spec_created", "path": "phase-2.md"},
+    {"phase": 3, "status": "spec_created", "path": "phase-3.md"},
+    {"phase": 4, "status": "spec_created", "path": "phase-4.md"},
+    {"phase": 5, "status": "spec_created", "path": "phase-5.md"},
+    {"phase": 6, "status": "implemented_local_runtime_pending", "path": "phase-6.md"},
+    {"phase": 7, "status": "spec_created", "path": "phase-7.md"},
+    {"phase": 8, "status": "runtime_pending", "path": "phase-8.md"},
+    {"phase": 9, "status": "runtime_pending", "path": "phase-9.md"},
+    {"phase": 10, "status": "runtime_pending", "path": "phase-10.md"},
+    {"phase": 11, "status": "runtime_pending", "path": "phase-11.md"},
+    {"phase": 12, "status": "completed", "path": "phase-12.md"},
+    {"phase": 13, "status": "blocked_pending_user_approval", "path": "phase-13.md"}
   ],
   "evidence": {
-    "phase11": "outputs/phase-11/evidence",
+    "phase11": "outputs/phase-11",
     "phase12": "outputs/phase-12"
   }
 }

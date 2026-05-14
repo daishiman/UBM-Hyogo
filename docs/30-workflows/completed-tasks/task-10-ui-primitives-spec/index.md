@@ -7,7 +7,7 @@
 | タスクID | task-10-ui-primitives-spec |
 | タスク種別 | implementation |
 | visualEvidence | VISUAL_ON_EXECUTION |
-| workflow_state | implemented-local-build-blocked |
+| workflow_state | runtime-evidence-captured |
 | implementation_mode | existing-ui-integration |
 | 作成日 | 2026-05-09 |
 | スコープ | 既存 `apps/web/src/components/ui/` を破棄せず、task-10 契約へ統合するローカル実装 |
@@ -66,4 +66,4 @@
 
 ## 現在の境界
 
-`apps/web/src/components/ui/` に task-10 の 11 primitive 契約をローカル実装済み。`typecheck` / `lint` / focused `test` / `test:coverage` / `next build` は PASS。`build:cloudflare` は OpenNext 側の esbuild host/binary mismatch（host `0.25.4` / binary `0.21.5`）で失敗しているため、runtime visual evidence と Phase 13 は未解放。
+`apps/web/src/components/ui/` に task-10 の 11 primitive 契約をローカル実装済み。`typecheck` / `lint` / focused `test` / `test:coverage` / `next build` は PASS。2026-05-11 に follow-up 001 で `build:cloudflare` が回復し、follow-up 002 相当の runtime screenshot / axe evidence も取得済み。Phase 13 はユーザー承認待ち。
