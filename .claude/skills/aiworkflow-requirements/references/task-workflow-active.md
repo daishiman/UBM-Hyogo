@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UI prototype alignment / MVP recovery task-25 smoke coverage matrix（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created / docs-only / NON_VISUAL / verify_existing / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/task-25-ui-mvp-w8-par-routes-smoke-coverage/` |
+| 主成果物 | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md` |
+| 親 workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| current fact | `apps/web/playwright/tests/full-smoke.spec.ts` has 17 URL smoke entries; parent SCOPE surfaces total 19 because `error.tsx` and `loading.tsx` are component-only surfaces |
+| visual baseline | 4 specs: login, public-top, admin-dashboard, profile |
+| evidence | `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
 
 | 項目 | 値 |

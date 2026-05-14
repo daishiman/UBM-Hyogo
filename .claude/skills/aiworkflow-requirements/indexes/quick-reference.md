@@ -5,6 +5,20 @@
 
 ---
 
+### UI prototype alignment / MVP recovery task-25 smoke coverage matrix（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-25-ui-mvp-w8-par-routes-smoke-coverage/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / verify_existing / Phase 12 strict 7 present` |
+| main deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md` |
+| coverage contract | current 17 URL smoke entries + 2 component surfaces (`error.tsx`, `loading.tsx`) |
+| executable smoke SSOT | `apps/web/playwright/tests/full-smoke.spec.ts` |
+| visual baseline SSOT | `apps/web/playwright/tests/visual/{login,public-top,admin-dashboard,profile}.spec.ts` |
+| CI contexts | `verify-design-tokens / verify-design-tokens`, `playwright-smoke / smoke (chromium)`, `playwright-smoke / visual (chromium, 4 screens)` |
+| artifact inventory | `references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### E2E Quality Uplift Stage 3 — branch protection desired-state manifest land（Issue #608 / 2026-05-12）
 
 | 目的 | 参照先 |

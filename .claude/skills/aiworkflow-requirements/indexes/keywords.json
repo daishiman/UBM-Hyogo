@@ -3078,6 +3078,7 @@
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
     ],
     "配置ルール": [
@@ -5297,6 +5298,7 @@
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
       "workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
@@ -10968,6 +10970,7 @@
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
     ],
     "の実": [
@@ -11052,6 +11055,7 @@
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -12757,7 +12761,8 @@
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "logs-archive-2026-03-notification-history-sigterm-guard.md",
-      "logs-archive-2026-03-workflow02-screenshot-guard.md"
+      "logs-archive-2026-03-workflow02-screenshot-guard.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md"
     ],
     "hard": [
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md"
@@ -14612,6 +14617,7 @@
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -14903,7 +14909,8 @@
       "logs-archive-2026-02-skill-validation-atoms-audit.md",
       "spec-splitting-guidelines.md",
       "ui-ux-feature-components-advanced.md",
-      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
+      "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md"
     ],
     "ux": [
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
@@ -15460,7 +15467,8 @@
     "par": [
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
-      "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
+      "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md"
     ],
     "draft": [
       "lessons-learned-task-21-09g-admin-blueprint-2026-05.md"
@@ -20623,7 +20631,8 @@
       "testing-playwright-e2e.md"
     ],
     "routes": [
-      "testing-playwright-e2e.md"
+      "testing-playwright-e2e.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md"
     ],
     "screen": [
       "testing-playwright-e2e.md"
@@ -21421,6 +21430,7 @@
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -22361,6 +22371,9 @@
     ],
     "targets": [
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
+    ],
+    "mvp": [
+      "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md"
     ],
     "参照される実装ファイル": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",

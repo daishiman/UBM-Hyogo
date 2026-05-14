@@ -3107,6 +3107,12 @@ node scripts/list-specs.js --topics
 | Same-wave sync targets | L69 |
 | Related Resources | L79 |
 
+### references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -6500,13 +6506,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1153 |
-| フェーズ構造（概要） | L1162 |
-| 品質ゲート（概要） | L1193 |
-| 出力テンプレート | L1204 |
-| 実行時のコマンド・エージェント・スキル | L1227 |
-| 昇格パターン集 | L1251 |
-| Current Active / Spec Created Tasks | L1253 |
+| ドキュメント構成 | L1167 |
+| フェーズ構造（概要） | L1176 |
+| 品質ゲート（概要） | L1207 |
+| 出力テンプレート | L1218 |
+| 実行時のコマンド・エージェント・スキル | L1241 |
+| 昇格パターン集 | L1265 |
+| Current Active / Spec Created Tasks | L1267 |
 
 ### references/task-workflow-backlog-part2.md
 
