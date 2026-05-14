@@ -1227,6 +1227,7 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L18 |
 | Wave 0 UI primitives baseline（2026-04-26） | L22 |
 | task-10 UI primitives integration contract（2026-05-09） | L32 |
+| task-10 follow-up 002 runtime visual + axe evidence（2026-05-11） | L46 |
 
 ### references/ui-ux-design-principles-core.md
 
@@ -4083,15 +4084,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L18 |
-| 使い方 | L26 |
-| Current Alias Overrides（個別互換行） | L33 |
-| Family Summary | L74 |
-| Detailed Register | L95 |
-| Section Extract Register (2026-03-17) | L276 |
-| 500-Line Split Register (2026-03-16) | L287 |
-| Fragment Migration Register (2026-04-28) | L309 |
-| Task Root Path Drift Register (2026-04-30 追記) | L336 |
+| 概要 | L19 |
+| 使い方 | L27 |
+| Current Alias Overrides（個別互換行） | L34 |
+| Family Summary | L75 |
+| Detailed Register | L96 |
+| Section Extract Register (2026-03-17) | L277 |
+| 500-Line Split Register (2026-03-16) | L288 |
+| Fragment Migration Register (2026-04-28) | L310 |
+| Task Root Path Drift Register (2026-04-30 追記) | L337 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -6479,13 +6480,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1124 |
-| フェーズ構造（概要） | L1133 |
-| 品質ゲート（概要） | L1164 |
-| 出力テンプレート | L1175 |
-| 実行時のコマンド・エージェント・スキル | L1198 |
-| 昇格パターン集 | L1222 |
-| Current Active / Spec Created Tasks | L1224 |
+| ドキュメント構成 | L1136 |
+| フェーズ構造（概要） | L1145 |
+| 品質ゲート（概要） | L1176 |
+| 出力テンプレート | L1187 |
+| 実行時のコマンド・エージェント・スキル | L1210 |
+| 昇格パターン集 | L1234 |
+| Current Active / Spec Created Tasks | L1236 |
 
 ### references/task-workflow-backlog-part2.md
 

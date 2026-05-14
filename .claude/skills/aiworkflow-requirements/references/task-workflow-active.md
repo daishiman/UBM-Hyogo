@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence.md` |
+| 実装対象 | `apps/web/app/(dev)/primitives-harness/page.tsx`, `apps/web/app/(dev)/layout.tsx`, `apps/web/playwright/tests/ui-primitives-visual.spec.ts`, `apps/web/playwright.config.ts`, `apps/web/src/components/ui/Stat.tsx`, `apps/web/src/components/ui/Sidebar.tsx` |
+| evidence boundary | Phase 11 screenshot 37 件 + axe JSON violations 0 は取得済み。`build:cloudflare` は followup-001 esbuild mismatch blocker 継続 |
+| user gate | commit / push / PR / staging deploy / production smoke |
+
 ### E2E quality uplift Stage 2 sub-task 2d contract-stage-2 spec（2026-05-11）
 
 | 項目 | 値 |
