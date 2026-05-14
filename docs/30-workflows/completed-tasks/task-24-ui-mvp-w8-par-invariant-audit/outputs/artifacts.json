@@ -1,0 +1,85 @@
+{
+  "task_id": "task-24-ui-mvp-w8-par-invariant-audit",
+  "wave": "W8-par",
+  "task_type": "NON_VISUAL",
+  "implementation_mode": "verify_existing",
+  "status": "implemented_local_runtime_pending",
+  "parallel_with": ["task-23", "task-25", "task-26"],
+  "upstream": ["task-01","task-02","task-03","task-04","task-05","task-06","task-07","task-08","task-09","task-10","task-11","task-12","task-13","task-14","task-15","task-16","task-17","task-18","task-19","task-20","task-21","task-22"],
+  "downstream": ["task-27"],
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "conditional",
+    "implementation_status": "local_audit_evidence_captured",
+    "runtime_boundary": "read-only local audit execution and INVARIANT-AUDIT.md generation are complete; commit, push, PR, and CI verification remain user-gated",
+    "actual_read_only_evidence_files": [
+      "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/outputs/phase-5/grep-evidence.txt",
+      "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/outputs/phase-5/matrix.tsv",
+      "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/outputs/phase-5/violations.md",
+      "docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/INVARIANT-AUDIT.md",
+      "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/outputs/phase-12/main.md",
+      "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ],
+    "actual_mutation_evidence_files": [],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec for invariant audit."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/outputs/phase-5/grep-evidence.txt",
+        "approver": "daishiman",
+        "notes": "validator_green: audit-runner.sh generated grep evidence, 22x6 matrix, violations.md, and INVARIANT-AUDIT.md"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: validate / verify-phase12-compliance / verify-indexes-up-to-date green"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: user-gated merge into dev"
+      }
+    ]
+  },
+  "phases": {
+    "phase-1": {"status": "completed", "artifact": "phase-1.md"},
+    "phase-2": {"status": "completed", "artifact": "phase-2.md"},
+    "phase-3": {"status": "completed", "artifact": "phase-3.md"},
+    "phase-4": {"status": "completed", "artifact": "phase-4.md"},
+    "phase-5": {"status": "completed", "artifact": "phase-5.md"},
+    "phase-6": {"status": "completed", "artifact": "phase-6.md"},
+    "phase-7": {"status": "completed", "artifact": "phase-7.md"},
+    "phase-8": {"status": "completed", "artifact": "phase-8.md"},
+    "phase-9": {"status": "completed", "artifact": "phase-9.md"},
+    "phase-10": {"status": "completed", "artifact": "phase-10.md"},
+    "phase-11": {"status": "completed", "artifact": "phase-11.md", "screenshots": "N/A"},
+    "phase-12": {"status": "completed", "artifact": "phase-12.md"},
+    "phase-13": {"status": "blocked_pending_user_approval", "artifact": "phase-13.md"}
+  },
+  "invariants": {
+    "INV-1": "既存 API endpoint のみ利用（新 endpoint 追加・D1 schema 変更禁止）",
+    "INV-2": "OKLch トークン正本化（HEX 直書き / bg-[#xxx] / text-[#xxx] 禁止）",
+    "INV-3": "プロトタイプ正本順位（既存 primitives を超えた新規 primitive 禁止）",
+    "INV-4": "D1 直接アクセス禁止（apps/web から D1 binding 禁止）",
+    "INV-5": "consent キー統一 (publicConsent / rulesConsent)",
+    "INV-6": "GAS prototype は本番昇格禁止"
+  },
+  "final_deliverable": "docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/INVARIANT-AUDIT.md"
+}

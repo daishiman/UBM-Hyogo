@@ -1,0 +1,95 @@
+name: 'Setup Project (UBM-Hyogo)'
+description: 'Composite action that consolidates checkout-less Node + pnpm (or mise) setup and frozen-lockfile install used across CI workflows.'
+
+inputs:
+  setup-strategy:
+    description: 'Setup path: "node-setup" (actions/setup-node + pnpm/action-setup) or "mise" (jdx/mise-action).'
+    required: false
+    default: 'node-setup'
+  install:
+    description: 'If "true", run `pnpm install --frozen-lockfile` after setup.'
+    required: false
+    default: 'true'
+  node-version:
+    description: 'Node.js version for setup-strategy=node-setup.'
+    required: false
+    default: '24.15.0'
+  pnpm-version:
+    description: 'pnpm version for pnpm/action-setup (node-setup path).'
+    required: false
+    default: '10.33.2'
+  working-directory:
+    description: 'Working directory used when invoking pnpm install.'
+    required: false
+    default: '.'
+
+outputs:
+  node-version:
+    description: 'Resolved Node.js version reported by `node -v`.'
+    value: ${{ steps.report.outputs.node-version }}
+  pnpm-version:
+    description: 'Resolved pnpm version reported by `pnpm -v`.'
+    value: ${{ steps.report.outputs.pnpm-version }}
+  setup-strategy:
+    description: 'Setup strategy actually applied.'
+    value: ${{ inputs.setup-strategy }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Validate setup-strategy
+      shell: bash
+      run: |
+        case "${{ inputs.setup-strategy }}" in
+          node-setup|mise) ;;
+          *)
+            echo "::error::Invalid setup-strategy='${{ inputs.setup-strategy }}'. Must be 'node-setup' or 'mise'."
+            exit 1
+            ;;
+        esac
+
+    - name: Setup pnpm (node-setup)
+      if: inputs.setup-strategy == 'node-setup'
+      uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      with:
+        version: ${{ inputs.pnpm-version }}
+
+    - name: Setup Node.js (node-setup)
+      if: inputs.setup-strategy == 'node-setup'
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+
+    - name: Setup mise (Node + pnpm from .mise.toml)
+      if: inputs.setup-strategy == 'mise'
+      uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2
+      with:
+        cache: true
+
+    - name: Install dependencies (node-setup)
+      if: inputs.install == 'true' && inputs.setup-strategy == 'node-setup'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: pnpm install --frozen-lockfile
+
+    - name: Install dependencies (mise)
+      if: inputs.install == 'true' && inputs.setup-strategy == 'mise'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: mise exec -- pnpm install --frozen-lockfile
+
+    - name: Report resolved versions
+      id: report
+      shell: bash
+      run: |
+        if [[ "${{ inputs.setup-strategy }}" == "mise" ]]; then
+          NODE_V="$(mise exec -- node -v)"
+          PNPM_V="$(mise exec -- pnpm -v)"
+        else
+          NODE_V="$(node -v)"
+          PNPM_V="$(pnpm -v)"
+        fi
+        echo "node-version=${NODE_V}" >> "$GITHUB_OUTPUT"
+        echo "pnpm-version=${PNPM_V}" >> "$GITHUB_OUTPUT"
+        echo "::notice::setup-project resolved node=${NODE_V} pnpm=${PNPM_V} strategy=${{ inputs.setup-strategy }}"
