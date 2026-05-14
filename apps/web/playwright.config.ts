@@ -21,6 +21,9 @@ const isTask13LoginSmoke =
 const isTask17AdminEvidence =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-17-admin-schema-conflicts-audit' ||
   process.argv.some((arg) => arg.includes('admin-schema-conflicts-audit.spec.ts'))
+const isTask10Followup002Evidence =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-10-followup-002' ||
+  process.argv.some((arg) => arg.includes('ui-primitives-visual.spec.ts'))
 const isTask18RegressionGate =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-18-w7' ||
   process.argv.some((arg) => arg.includes('full-smoke.spec.ts')) ||
@@ -44,9 +47,11 @@ const EVIDENCE_DIR =
                 ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
                 : isTask17AdminEvidence
                   ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
-                  : isTask18RegressionGate
-                    ? '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
-                    : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
+                  : isTask10Followup002Evidence
+                    ? '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
+                    : isTask18RegressionGate
+                      ? '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
+                      : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
 const shouldStartLocalServer = !isStagingSmoke
 const localBaseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000'
@@ -192,9 +197,11 @@ export default defineConfig({
                   ? `${localEnv} PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
                   : isTask17AdminEvidence
                     ? `${localEnv} PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
-                    : isTask18RegressionGate
-                      ? `${localEnv} PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
-                    : `${localEnv} pnpm --filter @ubm-hyogo/web dev:webpack`,
+                    : isTask10Followup002Evidence
+                      ? `${localEnv} ENABLE_PRIMITIVES_HARNESS=1 pnpm --filter @ubm-hyogo/web dev:webpack`
+                      : isTask18RegressionGate
+                        ? `${localEnv} PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1 PLAYWRIGHT_ADMIN_IDENTITY_CONFLICTS_FIXTURE=1 PLAYWRIGHT_TASK17_ADMIN_FIXTURE=1 pnpm --filter @ubm-hyogo/web dev:webpack`
+                        : `${localEnv} pnpm --filter @ubm-hyogo/web dev:webpack`,
             url: localServerReadyURL,
             reuseExistingServer: !process.env.CI,
             timeout: 120_000,
