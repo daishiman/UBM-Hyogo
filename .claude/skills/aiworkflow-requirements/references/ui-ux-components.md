@@ -41,7 +41,7 @@
 
 task-10 contract は 11 primitive、Wave 0 baseline は 15 primitive、prototype full catalog は 21 primitive として語彙を分離する。後続 task-11..17 は task-10 の 11 primitive contract と Wave 0 維持 export の交差を `@/components/ui` barrel から使う。09c の 21 primitive catalog は full prototype reference であり、task-10 の完了条件ではない。
 
-状態語彙は `implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION / existing-ui-integration`。typecheck / lint / focused test / coverage / Next build は PASS。`build:cloudflare` は OpenNext esbuild host `0.25.4` / binary `0.21.5` mismatch で blocker。runtime screenshot / axe は `task-10-followup-002-runtime-visual-axe-evidence` で取得済み。
+状態語彙は `runtime-evidence-captured / implementation / VISUAL_ON_EXECUTION / existing-ui-integration`。typecheck / lint / focused test / coverage / Next build は PASS。2026-05-11 に follow-up 001 で OpenNext esbuild mismatch を `pnpm.overrides.esbuild = 0.25.4` により解消し、`build:cloudflare` は PASS。follow-up 002 で runtime screenshot / axe を `task-10-followup-002-runtime-visual-axe-evidence` workflow 配下に取得済み。axe で検出した `Stat` の `<dt>/<dd>` 構造違反は同 cycle で `dl > div > dt/dd` 構造へ修正した。
 
 ## task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
 
@@ -49,4 +49,4 @@ task-10 contract は 11 primitive、Wave 0 baseline は 15 primitive、prototype
 
 実装対象は `apps/web/app/(dev)/primitives-harness/page.tsx`、`apps/web/app/(dev)/layout.tsx`、`apps/web/playwright/tests/ui-primitives-visual.spec.ts`、`apps/web/playwright.config.ts`。axe で検出した HTML 意味論不整合の同一サイクル修正として `apps/web/src/components/ui/Stat.tsx` と `apps/web/src/components/ui/Sidebar.tsx` も最小更新する。production runtime では `ENABLE_PRIMITIVES_HARNESS=1` なしに harness を到達不能にし、Playwright 実行時のみ `PLAYWRIGHT_EVIDENCE_TASK=task-10-followup-002` で evidence dir を workflow 配下へ向ける。
 
-Phase 11 actual inventory は screenshot 37 件、`axe-report.json` violations 0、Playwright 38 passed。`build:cloudflare` は followup-001 の esbuild mismatch blocker が残るため、Cloudflare build PASS は未主張のままにする。
+Phase 11 actual inventory は screenshot 37 件、`axe-report.json` violations 0、Playwright 38 passed。

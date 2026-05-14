@@ -1,138 +1,63 @@
-# Phase 3: 設計レビュー（Stage 3）
+# Phase 3: 設計レビュー
 
-| 項目 | 値 |
-|------|----|
-| 入力 | `phase-1.md` / `phase-2.md` |
-| 出力 | 4-condition gate 判定 / GO・NO-GO |
+## レビュー観点
 
----
+### R-1: CLAUDE.md 不変条件との整合
 
-## 1. 4-condition gate
+| 項目 | 期待値 | 設計値 | 判定 |
+|------|--------|--------|------|
+| `required_pull_request_reviews` | `null` | `null` | OK |
+| `enforce_admins.enabled` | `true` | `true` | OK |
+| `lock_branch.enabled` | `false` | `false` | OK |
+| `required_linear_history.enabled` | `true` | `true` | OK |
+| `required_conversation_resolution.enabled` | `true` | `true` | OK |
+| `allow_force_pushes.enabled` | `false` | `false` | OK |
+| `allow_deletions.enabled` | `false` | `false` | OK |
 
-| # | 条件 | 評価 | 根拠 |
-|---|------|------|------|
-| C1 | 受入基準が測定可能 | PASS | AC-3a-1..4 / AC-3b-1..6 / AC-3c-1..5 が全て `gh run` / `gh api` / artifact / `jq` で機械検証可能 |
-| C2 | 不変条件と矛盾しない | PASS | `required_pull_request_reviews=null` / `lock_branch=false` を payload で明示維持。standard tier=80% を quality-gates.md から踏襲。`wrangler` 直叩きなし |
-| C3 | 依存タスクが解決済み or ブロッキングが明示 | CONDITIONAL | Stage 2（`docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/`）は artifacts と Phase 1-13 を保有し、Stage 3 着手条件を満たす |
-| C4 | リスクと緩和策が一対 | PASS | phase-2.md §5 で 7 リスク全てに対し具体的緩和策を 1 対 1 紐付け |
+### R-2: 現行値 vs 設計値の drift
 
----
+`gh api repos/daishiman/UBM-Hyogo/branches/dev/protection` の 2026-05-11 時点スナップショット:
 
-## 2. blocking dependencies
+```json
+{
+  "enforce_admins": {"enabled": false},
+  "required_linear_history": {"enabled": false},
+  "required_conversation_resolution": {"enabled": true}
+}
+```
 
-| ID | 内容 | 解消条件 |
-|----|------|----------|
-| BLK-01 | Stage 2 dependency verified | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/index.md` と artifacts.json が存在し、runtime E2E は Stage 3 の user-gated evidence として分離 |
-| BLK-02 | `monocart-reporter` / `c8` / `@lhci/cli` が `apps/web/package.json` に未追加 | Phase 5 実装内で `pnpm add -D` を実行し lockfile に反映 |
-| BLK-03 | Stage 3a / 3b の context 名が GitHub に未登録のまま 3c を実行すると PR 永久 pending | 3a / 3b を dev へマージし、それぞれ実 run を 1 回観測してから 3c を実行する順序を厳守 |
+**問題**: 現状 `enforce_admins=false` / `required_linear_history=false` であり、CLAUDE.md の宣言と drift している。
 
----
+**判断**: 本 stage の主対象は `required_status_checks.contexts` だが、PUT payload は GitHub branch protection の全体形を要求するため、CLAUDE.md で明示済みの governance invariants (`required_pull_request_reviews=null`, `enforce_admins=true`, `required_linear_history=true`, `lock_branch=false`) は同時に正規化する。その他の optional fields は fresh GET の現行値を保持する。
 
-## 3. 非 blocking 観測事項
+> 却下した案: desired manifest に full PUT body を置き、GitHub branch protection 全フィールドを repo 側 JSON で固定する。Issue #608 の目的外変更が混ざり、rollback と監査の境界が曖昧になる。
 
-| ID | 内容 | 取扱 |
-|----|------|------|
-| OBS-01 | `enforce_admins=false` 現状（CLAUDE.md 期待値 `true` と drift） | Stage 3 スコープ外。別 governance drift workflow で扱う |
-| OBS-02 | `required_linear_history=false`（CLAUDE.md は `required_linear_history` 推奨） | 同上、Stage 3 では現状維持 |
-| OBS-03 | Lighthouse perf スコアの CI ランナー揺らぎ | Phase 11 evidence で 5 PR 以上の連続 run を観測してしきい値の妥当性を再評価 |
+### R-3: required context 名の一致
 
----
+GitHub Actions の status check context 名は **`jobs.<job_id>.name` の評価後の文字列**。E2E は matrix shard 個別の `e2e (<project>)` ではなく、集約 job `e2e-tests-coverage-gate` を required context とする。理由は、集約 job が全 shard 成功と coverage gate をまとめて検証し、branch protection 側の required context 数を最小化できるため。
 
-## 4. open questions（再掲 + 判定）
+### R-4: lighthouse の検証経路
 
-| # | 質問 | Phase 3 判定 |
-|---|------|--------------|
-| Q-01 | `enforce_admins` drift 是正 | **deferred** — Stage 3 スコープ外 |
-| Q-02 | Lighthouse baseURL は localhost か preview か | **localhost 確定**（CI 安定優先 / token 不要 / `pnpm start` 利用） |
-| Q-03 | `/profile` 未認証時 a11y 達成可否 | **Phase 5 実測判定** — 未達なら lighthouserc から `/profile` を除去し 3 routes に縮退 |
+`lighthouse.yml` は dev 向け PR と `workflow_dispatch` で起動する。`lighthouse-ci` を dev/main の desired contexts に含める場合、main 側の実 PR で pending にならないよう、Phase 8 で `workflow_dispatch` または dev 向け PR による fresh run evidence を取得してから apply する。
 
----
+### R-5: PR ブロッキング動作の検証経路
 
-## 5. GO / NO-GO
+1. apply 後、`dev` 向けの dummy PR を作る or 既存 open PR を更新
+2. 新規 contexts が "Required" 表示されることを確認
+3. snapshot を post として保存
 
-| 観点 | 判定 |
-|------|------|
-| 設計の一貫性 | GO |
-| 受入基準の検証可能性 | GO |
-| solo dev policy（`required_pull_request_reviews=null`）整合 | GO |
-| CONST_007 single cycle 遵守（Phase 1→2→3 一直線、ループなし） | GO |
-| Stage 2 依存解消 | **CONDITIONAL GO** |
+### R-6: rollback 経路
 
-### 結論
+- pre snapshot に `required_status_checks.contexts` のみを抜粋して `apply.sh` 形式に変換し、再 PUT で復元可能
+- ただし `enforce_admins` / `required_linear_history` の drift 修正は意図的変更のため、rollback は要慎重判断
 
-**CONDITIONAL GO** — Stage 3 の Phase 4（実装計画）以降への移行は **Stage 2 完了**を前提とする。Stage 2 の Phase 3 GO 判定が出た時点で本 Stage 3 は無条件 GO に昇格する。
+## 設計承認
 
-順序遵守:
+| レビュー項目 | 結果 |
+|------------|------|
+| 機能要件カバー | FR-1 〜 FR-5 すべて設計に反映 |
+| 非機能要件カバー | secrets 不混入 / idempotent / drift 不発生を担保 |
+| CLAUDE.md 整合 | R-1 OK、R-2 で drift 修正方針を明記 |
+| 受け入れ条件カバー | Phase 1 受け入れ条件 5 件すべて検証手順あり |
 
-1. Stage 2 GO 確認
-2. 3a Lighthouse CI を独立 PR で `dev` へマージ
-3. 3b `e2e-tests.yml` hard gate を独立 PR で `dev` へマージ
-4. 3a / 3b の context が 1 PR の green run で GitHub 側に登録されたことを `gh api repos/daishiman/UBM-Hyogo/commits/<sha>/check-runs` で確認
-5. 3c branch protection を `dev` → `main` の順で `gh api PUT` 実行
-6. 適用後 `jq` で 5 contexts / `required_pull_request_reviews=null` / `lock_branch=false` の drift なしを Phase 11 evidence に保存
-
----
-
-## 6. Phase 4 への引き継ぎ事項
-
-| 項目 | 内容 |
-|------|------|
-| 実装順序 | 3a → 3b → 3c（順序厳守） |
-| PR 分割 | 3a 単独 PR / 3b 単独 PR / 3c は PR 不要（手動 `gh api`） |
-| evidence 保存先 | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-3/outputs/phase-11/` |
-| rollback 戦略 | branch protection は適用前 payload を `branch-protection-pre.json` として保存し、問題発生時は同 payload を PUT で戻す |
-
----
-
-## Template Compliance Appendix
-
-## メタ情報
-
-- workflow: e2e-quality-uplift-stage-3
-- phase: 3
-- task classification: implementation / NON_VISUAL
-- coverageTier: standard
-- workflow_state: spec_verified
-
-## 目的
-
-Stage 3 の E2E quality uplift 変更を skill 定義と実ファイル差分へ同期し、矛盾なし・漏れなし・整合性あり・依存関係整合を満たす。
-
-## 実行タスク
-
-- 既存本文の phase 内容を実行単位として保持する。
-- 実ファイル変更、仕様書、Phase evidence、skill feedback の対応を確認する。
-
-## 参照資料
-
-- .claude/skills/task-specification-creator/references/phase-template-core.md
-- .claude/skills/task-specification-creator/references/quality-gates.md
-- .claude/skills/aiworkflow-requirements/SKILL.md
-
-## 実行手順
-
-1. 本 phase の既存本文を確認する。
-2. 対応する実ファイル差分または evidence を確認する。
-3. validator と grep gate の結果を Phase 11 / Phase 12 evidence に反映する。
-
-## 統合テスト連携
-
-- NON_VISUAL phase は Playwright 実行の代替として list smoke、grep gate、typecheck を使用する。
-- E2E runtime 実行が必要な項目は outputs/phase-11/evidence に結果を保存する。
-
-## 成果物
-
-- 本 phase markdown
-- 関連 outputs/phase-11 または outputs/phase-12 evidence
-- 必要に応じた apps/web / .claude/skills 実ファイル差分
-
-## 完了条件
-
-- [x] 必須セクションが存在する。
-- [x] coverage AC 適用: E2E tier-aware standard lines >=80%、workspace coverage guard は既存基準に従う。
-- [x] 矛盾なし・漏れなし・整合性あり・依存関係整合を確認する。
-
-## タスク100%実行確認【必須】
-
-- [x] phase 本文のタスクを棚卸しした。
-- [x] 未実行項目を PASS として扱っていない。
+**承認**: 実装フェーズへ移行可。

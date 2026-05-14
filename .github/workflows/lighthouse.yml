@@ -2,7 +2,8 @@ name: lighthouse-ci
 
 on:
   pull_request:
-    branches: [dev]
+    branches: [dev, main]
+  workflow_dispatch:
 
 concurrency:
   group: lighthouse-${{ github.ref }}
@@ -32,16 +33,13 @@ jobs:
         run: pnpm --filter @ubm-hyogo/web build
 
       - name: Start server (background)
-        run: pnpm --filter @ubm-hyogo/web start &
-
-      - name: Wait for server
         run: |
-          for i in {1..60}; do
-            curl -fsS http://localhost:3000 >/dev/null && exit 0
-            sleep 1
-          done
-          echo "Timed out waiting for http://localhost:3000"
-          exit 1
+          nohup pnpm --filter @ubm-hyogo/web start \
+            > /tmp/web-server.log 2>&1 &
+          echo $! > /tmp/web-server.pid
+
+      - name: Wait for server (wait-on)
+        run: pnpm dlx wait-on -t 120000 http-get://localhost:3000
 
       - name: Run Lighthouse CI
         run: pnpm --filter @ubm-hyogo/web exec lhci autorun --config=../../lighthouserc.json

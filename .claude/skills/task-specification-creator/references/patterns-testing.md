@@ -416,3 +416,54 @@
 - **発見日**: 2026-02-03
 - **関連タスク**: TASK-WCE-MONACO-001
 - **システム仕様書参照**: [architecture-implementation-patterns.md](/.claude/skills/aiworkflow-requirements/references/architecture-implementation-patterns.md)
+
+## UI Fixture ↔ Route Schema Isomorphism Contract Test パターン（task-spec-2d-contract-stage-2）
+
+> 2026-05-11 task-spec-2d-contract-stage-2（`apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts`）で確立。
+> UI 側 fixture object（Playwright `page.route()` mock 等）と route 側 zod schema の同型性を pure Vitest unit test で機械検証するためのテンプレ。
+
+### 適用状況
+
+- E2E spec が `page.route()` で返す UI fixture object と、`apps/api` 側 route 実装が parse する zod schema の drift を CI で検出したい場合。
+- drift があると mock が通る環境で本番 API が 422/400 を返す事故が発生し、E2E green が production 信頼性を担保しなくなる。
+- contract test は coverage 加点対象外（coverageTier `standard`）、green の有無のみ判定。
+
+### パターン構造
+
+| 要素 | 実装 |
+| --- | --- |
+| 配置 | `apps/api/src/routes/<feature>/__tests__/contract-<scope>.test.ts` |
+| 行数目安 | 200-260 行 / 7 describe ブロック前後 |
+| 境界 | pure unit。D1 / Network / FS / Cloudflare binding に一切触れない。`apps/web` を import しない |
+| schema 出所 | route module から named export、または `packages/shared/src/schemas/` |
+| fixture | test 内 inline 定義。`as const` 固定 |
+| 重複定義 | test 内 `z.object(` 0 件（CONST_007 遵守） |
+
+### 4 サブパターン
+
+1. **shared schema 優先 SSOT**: parent workflow doc と shared schema が乖離する場合、`packages/shared/src/schemas/**` 側が正本。doc は派生で、乖離発見時は doc 側を訂正する PR を別途用意する。
+2. **route inline schema の named export 昇格**: contract test 起票と同 wave で、route 内 inline `z.object` を `export const` 化（各ファイル +1 行）。shared 昇格は別 PR とし、本 wave では route export に留める（route 限定 schema と shared schema の責務分離）。
+3. **runtime parse + 型レベル fallback**: response 型が zod export されていない場合は `expectTypeOf<typeof fixture>().toMatchTypeOf<...>()` で同型確認。runtime `parse()` と type-level `expectTypeOf` の二段で boundary を保つ。
+4. **drift 起点の単一化**: 兄弟 E2E spec が同 shape を inline で持つ場合、contract test が green であれば全 spec の fixture 整合が担保される。drift 発生時、最初に失敗するのは contract test の zod parse。検出起点を一箇所に集約する。
+
+### DoD テンプレ
+
+| # | 条件 |
+|---|------|
+| 1 | contract test ファイルが 200-260 行で存在 |
+| 2 | 各 endpoint × happy/sad pair が describe ブロックで分離、全 green |
+| 3 | `test.skip` / `it.skip` / `describe.skip` が 0 件 |
+| 4 | request body schema の happy が `parse()` で throw しない |
+| 5 | request body schema の sad（空文字 / 欠落 / 上限超過）が throw する |
+| 6 | shared response schema の必須プロパティを fixture が全て満たす |
+| 7 | test 内 `z.object(` が 0 件 |
+| 8 | 関連 route schema が named export で参照可能 |
+| 9 | `pnpm --filter @ubm-hyogo/api typecheck` exit 0 |
+| 10 | `pnpm lint` exit 0 |
+
+### 関連知見
+
+- 詳細な苦戦箇所と解決経緯: `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-spec-2d-contract-stage-2-2026-05.md`（L-2D-001..006）
+- 既存類似 contract test: `apps/api/src/audit-correlation/__tests__/contract.test.ts`
+- **発見日**: 2026-05-11
+- **関連タスク**: task-spec-2d-contract-stage-2

@@ -12,12 +12,14 @@ export interface StatProps extends HTMLAttributes<HTMLDListElement> {
 export function Stat({ label, value, delta, tone = "neutral", helpText, className, ...props }: StatProps) {
   return (
     <dl {...props} className={cn("ui-stat", className)} data-tone={tone}>
-      <dt>{label}</dt>
-      <dd>
-        <span>{value}</span>
-        {delta ? <span>{delta}</span> : null}
-        {helpText ? <span>{helpText}</span> : null}
-      </dd>
+      <div>
+        <dt>{label}</dt>
+        <dd>
+          <span>{value}</span>
+          {delta ? <span>{delta}</span> : null}
+          {helpText ? <span>{helpText}</span> : null}
+        </dd>
+      </div>
     </dl>
   );
 }
