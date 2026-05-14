@@ -40,11 +40,11 @@ export default defineConfig({
     testTimeout: 30000,
     hookTimeout: 30000,
     include: [
-      "apps/**/src/**/*.{test,spec}.{ts,tsx}",
-      "apps/**/app/**/*.{test,spec}.{ts,tsx}",
-      "apps/**/migrations/**/*.{test,spec}.ts",
-      "packages/**/src/**/*.{test,spec}.{ts,tsx}",
-      "scripts/**/*.{test,spec}.ts",
+      "apps/**/src/**/*.spec.{ts,tsx}",
+      "apps/**/app/**/*.spec.{ts,tsx}",
+      "apps/**/migrations/**/*.spec.ts",
+      "packages/**/src/**/*.spec.{ts,tsx}",
+      "scripts/**/*.spec.ts",
     ],
     // issue-617: D1 binding を使う apps/api test は vitest.d1.config.ts に分離。
     // Phase 4 classification.md (docs/30-workflows/issue-617-ci-test-time-reduction-split/) を正本。
@@ -79,7 +79,6 @@ export default defineConfig({
         "packages/**/src/**/*.{ts,tsx}",
       ],
       exclude: [
-        "**/*.test.{ts,tsx}",
         "**/*.spec.{ts,tsx}",
         "**/node_modules/**",
         "**/.next/**",

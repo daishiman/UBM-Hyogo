@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #623 Vitest spec suffix convergence（2026-05-12）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/` |
+| 親 Issue | #325 test suffix rename migration |
+| Issue 取扱 | #623 は CLOSED 維持。PR 文脈は `Refs #623` のみ |
+| 目的 | `*.test.ts(x)` 残存を `*.spec.ts(x)` へ収斂し、`vitest.config.ts` と pre-commit / GitHub Actions gate で再混入を防止する |
+| 実装対象 | `vitest.config.ts`, `scripts/hooks/block-test-suffix.sh`, `lefthook.yml`, `.github/workflows/verify-test-suffix.yml`, `CLAUDE.md`, issue-325 ADR |
+| source unassigned | `docs/30-workflows/completed-tasks/task-issue-325-followup-003-vitest-spec-suffix-convergence.md`（consumed） |
+| evidence boundary | Phase 12 strict 7 と Phase 11 local evidence are present. Full `pnpm test --run` `numTotalTests` parity remains runtime evidence pending |
+| user gate | commit / push / PR は user approval 後 |
+
+### E2E quality uplift Stage 2 sub-task 2d contract-stage-2 spec（2026-05-11）
 ### Issue #622 packages test suffix rename（2026-05-11）
 
 | 項目 | 値 |

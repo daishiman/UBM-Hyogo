@@ -182,7 +182,7 @@ format_top10() {
     | sort_by(.lines)
     | .[:10]
     | .[]
-    | "    \(.path | sub($root; ""))  lines=\(.lines | . * 10 | round / 10)%  suggested test: \(.path | sub($root; "") | sub("\\.tsx$"; ".test.tsx") | sub("\\.ts$"; ".test.ts"))"
+    | "    \(.path | sub($root; ""))  lines=\(.lines | . * 10 | round / 10)%  suggested test: \(.path | sub($root; "") | sub("\\.tsx$"; ".spec.tsx") | sub("\\.ts$"; ".spec.ts"))"
   ' "$final_json" >&2 || true
 }
 

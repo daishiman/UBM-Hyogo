@@ -2596,6 +2596,14 @@ node scripts/list-specs.js --topics
 | Implementation targets | L25 |
 | Governance boundary | L37 |
 
+### references/workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Invariants | L18 |
+| Scope Out | L26 |
+| Lessons / Genealogy | L32 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4103,15 +4111,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L19 |
-| 使い方 | L27 |
-| Current Alias Overrides（個別互換行） | L34 |
-| Family Summary | L75 |
-| Detailed Register | L96 |
-| Section Extract Register (2026-03-17) | L277 |
-| 500-Line Split Register (2026-03-16) | L288 |
-| Fragment Migration Register (2026-04-28) | L310 |
-| Task Root Path Drift Register (2026-04-30 追記) | L337 |
+| 概要 | L21 |
+| 使い方 | L29 |
+| Current Alias Overrides（個別互換行） | L36 |
+| Family Summary | L77 |
+| Detailed Register | L98 |
+| Section Extract Register (2026-03-17) | L279 |
+| 500-Line Split Register (2026-03-16) | L290 |
+| Fragment Migration Register (2026-04-28) | L312 |
+| Task Root Path Drift Register (2026-04-30 追記) | L339 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4893,6 +4901,16 @@ node scripts/list-specs.js --topics
 | 苦戦箇所と知見 | L7 |
 | 運用知見 | L49 |
 | 参照 | L57 |
+
+### references/lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-623-001: ENOSPC で full test parity 未取得 | L11 |
+| L-623-002: 二段階移行の終了タイミング判断 | L18 |
+| L-623-003: import path drift 修正の事前 grep | L24 |
+| L-623-004: lefthook + GitHub Action 二重 gate 設計 | L30 |
+| 引用関係 | L36 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -6509,13 +6527,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1169 |
-| フェーズ構造（概要） | L1178 |
-| 品質ゲート（概要） | L1209 |
-| 出力テンプレート | L1220 |
-| 実行時のコマンド・エージェント・スキル | L1243 |
-| 昇格パターン集 | L1267 |
-| Current Active / Spec Created Tasks | L1269 |
+| ドキュメント構成 | L1184 |
+| フェーズ構造（概要） | L1193 |
+| 品質ゲート（概要） | L1224 |
+| 出力テンプレート | L1235 |
+| 実行時のコマンド・エージェント・スキル | L1258 |
+| 昇格パターン集 | L1282 |
+| Current Active / Spec Created Tasks | L1284 |
 
 ### references/task-workflow-backlog-part2.md
 
