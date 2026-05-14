@@ -2,7 +2,7 @@
 
 ## 目的
 
-`ui-prototype-alignment-mvp-recovery` 配下の 22 タスクを 4 条件で評価し、`22 × 4 = 88` セルの matrix を `VERIFICATION-STATUS.md` に出力するための要件を固定する。
+`docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` 配下の 22 タスクを 4 条件で評価し、`22 × 4 = 88` セルの matrix を `VERIFICATION-STATUS.md` に出力するための要件を固定する。
 
 ---
 
@@ -19,14 +19,14 @@
 
 ## 2. スコープ in
 
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/01-scope/task-01-*.md`
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/02-runtime/task-02-*.md` 〜 `task-05-*.md`
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/03-spec-source/task-06-*.md` 〜 `task-08-*.md`, `task-19-*.md` 〜 `task-22-*.md`
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/04-design-system/task-09-*.md`, `task-10-*.md`
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/05-screens-public/task-11-*.md`, `task-12-*.md`
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/06-screens-member/task-13-*.md`, `task-14-*.md`
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/07-screens-admin/task-15-*.md` 〜 `task-17-*.md`
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/08-regression/task-18-*.md`
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/01-scope/task-01-*.md`
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/02-runtime/task-02-*.md` 〜 `task-05-*.md`
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/03-spec-source/task-06-*.md` 〜 `task-08-*.md`, `task-19-*.md` 〜 `task-22-*.md`
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/04-design-system/task-09-*.md`, `task-10-*.md`
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/05-screens-public/task-11-*.md`, `task-12-*.md`
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/06-screens-member/task-13-*.md`, `task-14-*.md`
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/07-screens-admin/task-15-*.md` 〜 `task-17-*.md`
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/08-regression/task-18-*.md`
 
 ## 3. スコープ out
 
@@ -39,7 +39,7 @@
 
 ## 4. 受入条件（DoD）
 
-1. `VERIFICATION-STATUS.md` が `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` 直下に存在する
+1. `VERIFICATION-STATUS.md` が `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` 直下に存在する
 2. 22 行 × 4 列 = 88 セルすべてが PASS / WARN / FAIL / N/A のいずれかで埋まっている
 3. WARN / FAIL のセルには 1 行の理由が付与されている
 4. GFM table 構文として有効（preview で崩れない）

@@ -27,16 +27,16 @@
 ```bash
 # table 列数の一貫性
 awk -F'\\|' '/^\| task-/ { print NF }' \
-  docs/30-workflows/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md \
+  docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md \
   | sort -u
 # => 1 値のみ出力されることを期待
 
 # 末尾改行
-tail -c1 docs/30-workflows/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md \
+tail -c1 docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md \
   | xxd | grep -q '0a$' && echo OK || echo NG
 
 # line budget
-wc -l docs/30-workflows/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md
+wc -l docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md
 # => <= 500
 ```
 

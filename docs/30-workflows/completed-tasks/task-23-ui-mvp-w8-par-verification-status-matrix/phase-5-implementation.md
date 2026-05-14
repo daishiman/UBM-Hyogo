@@ -2,7 +2,7 @@
 
 ## 目的
 
-`VERIFICATION-STATUS.md` を `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` 直下に生成する。本 Phase は単一ファイル作成タスクとして実行する。
+`VERIFICATION-STATUS.md` を `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` 直下に生成する。本 Phase は単一ファイル作成タスクとして実行する。
 
 ---
 
@@ -10,7 +10,7 @@
 
 | パス | 役割 |
 |------|------|
-| `docs/30-workflows/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` | 22×4=88 セル matrix |
+| `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` | 22×4=88 セル matrix |
 
 ## 2. 修正ファイル
 
@@ -41,7 +41,7 @@ Step 6: 末尾に「参照ファイル一覧」を脚注として書く
 1. **C1（矛盾なし）**: 当該 task spec の `不変条件` セクションを開き、関連 spec（依存タスク・並列タスク）と論理矛盾がないか目視。矛盾なし → PASS。
 2. **C2（漏れなし）**: 当該 task spec の `変更対象ファイル` を抽出し、`ls` / `find` で実体確認。すべて存在 → PASS。一部欠落 → WARN/FAIL。
 3. **C3（整合性あり）**: spec の主要 identifier（関数名・型名・testid・route path）を `grep -r` で実装側に当てる。一致 → PASS。
-4. **C4（依存関係整合）**: spec の `依存 (前)` 表を Phase 2 §4 の依存関係マップと突き合わせ、上流タスクが本 matrix の他行で PASS/WARN なら PASS、FAIL を含めば FAIL、上流なし → N/A。
+4. **C4（依存関係整合）**: spec の `依存 (前)` 表を Phase 2 §4 の依存関係マップと突き合わせ、上流タスクが本 matrix の他行で PASS なら PASS、WARN を含めば WARN、FAIL を含めば FAIL、上流なし → N/A。
 
 ### 4.2 評価の妥当性記録
 
@@ -57,5 +57,5 @@ Step 6: 末尾に「参照ファイル一覧」を脚注として書く
 
 ## 6. 成果物
 
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md`（外部配置・最終成果物）
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md`（外部配置・最終成果物）
 - `outputs/phase-5/implementation-notes.md`（評価根拠ログ）

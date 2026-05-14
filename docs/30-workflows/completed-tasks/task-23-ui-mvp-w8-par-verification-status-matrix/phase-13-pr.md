@@ -29,7 +29,7 @@ docs(task-23): add VERIFICATION-STATUS matrix for ui-prototype-alignment (22×4=
 
 ```markdown
 ## Summary
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` を新規追加
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` を新規追加
 - 22 タスク × 4 検証条件 = 88 セルの matrix で完了状況を可視化
 - task-19/20/21/22 の脱漏と task-03/04/07 の「未確認」状態を解消
 

@@ -88,8 +88,8 @@ C4（依存関係整合）:
 
 | 証跡種別 | パス例 |
 |----------|--------|
-| spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/NN-*/task-NN-*.md` |
-| outputs | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/...`（存在すれば） |
+| spec | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/NN-*/task-NN-*.md` |
+| outputs | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/outputs/...`（存在すれば） |
 | 実装 | `apps/web/src/**`, `apps/api/src/**`, `scripts/**`, `.github/workflows/**` |
 | CI gate | `.github/workflows/verify-design-tokens.yml`, `playwright-smoke.yml` |
 
@@ -106,7 +106,7 @@ C4（依存関係整合）:
 
 ## 凡例
 
-- PASS: 4 条件を充足
+- PASS: 当該セルの条件を充足
 - WARN: 軽微な乖離（理由付き）
 - FAIL: 重大な乖離（理由付き）
 - N/A: 構造的に該当しない

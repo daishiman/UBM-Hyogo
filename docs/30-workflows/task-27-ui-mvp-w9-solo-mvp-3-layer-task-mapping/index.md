@@ -62,7 +62,7 @@ MVP recovery の戦略目標である「**公開 / 会員 / 管理 / 共通 の 
 3. task-23 の `VERIFICATION-STATUS.md` で WARN / FAIL になったタスクが**どの層に影響するか**を明示する
 4. 既存実装の書き換えはしない（**read-only mapping**）
 5. 出力 markdown は GFM table、**22 task × 4 layer = 88 セルすべて**を埋める（空欄禁止）
-6. 成果物 `MVP-3LAYER-TASK-MAPPING.md` の配置先は `docs/30-workflows/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md`（本ワークフロー外）
+6. 成果物 `MVP-3LAYER-TASK-MAPPING.md` の配置先は `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md`（本ワークフロー外）
 7. 本ワークフロー（task-27）の root には Phase 仕様書のみを置く
 
 ---
@@ -94,6 +94,7 @@ MVP recovery の戦略目標である「**公開 / 会員 / 管理 / 共通 の 
 | `outputs/phase-9/qa.md` | line budget / GFM 構文 / 参照リンク健全性 |
 | `outputs/phase-10/final-review.md` | acceptance criteria 判定 |
 | `outputs/phase-11/manual-test-result.md` | NON_VISUAL 宣言 + 自動代替証跡 |
+| `outputs/phase-12/main.md` | Phase 12 root summary |
 | `outputs/phase-12/implementation-guide.md` | Part 1（中学生レベル）+ Part 2（技術者向け） |
 | `outputs/phase-12/system-spec-update-summary.md` | 仕様同期サマリー |
 | `outputs/phase-12/documentation-changelog.md` | Step 1-A/1-B/1-C/Step 2 の判定記録 |
