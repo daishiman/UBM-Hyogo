@@ -5,6 +5,20 @@
 
 ---
 
+### Issue #667 Stage 3b mock API fixture coverage（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-667-stage3b-mock-api-fixture-coverage/` |
+| 状態 | `runtime_pending / implementation / NON_VISUAL / existing-hardening / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| source unassigned | `docs/30-workflows/unassigned-task/task-e2e-stage3b-mock-api-fixture-coverage-001.md`（implemented_local_runtime_pending） |
+| implementation targets | `packages/contracts/`, `scripts/e2e-mock-api.mjs`, `scripts/__tests__/e2e-mock-api.contract.spec.ts`, `.github/workflows/e2e-tests.yml`, `.github/workflows/ci.yml` |
+| boundary | Runtime implementation and focused Phase 11 local evidence are complete; GitHub Actions runtime evidence, commit, push, PR, and Issue mutation remain user-gated |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md` |
+| contracts SSOT | `.claude/skills/aiworkflow-requirements/references/contracts-package-ssot.md` |
+| dispatcher pattern | `.claude/skills/aiworkflow-requirements/references/mock-api-dispatcher-pattern.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-667-stage3b-mock-api-fixture-coverage-2026-05.md` |
+
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
 
 | 目的 | 参照先 |

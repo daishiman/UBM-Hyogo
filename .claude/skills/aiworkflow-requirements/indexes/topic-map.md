@@ -2613,6 +2613,17 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L30 |
 | State Vocabulary | L37 |
 
+### references/workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow Artifacts | L12 |
+| Implementation Artifacts | L22 |
+| Canonical reference set | L35 |
+| New SSOT introduced | L46 |
+| Cross-link | L51 |
+| Boundary | L63 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3733,6 +3744,19 @@ node scripts/list-specs.js --topics
 | UT-15 WAF / Rate Limiting Rules | L3 |
 | Simulate To Enforce Gate | L17 |
 | Responsibility Split | L26 |
+
+### references/contracts-package-ssot.md
+
+| セクション | 行 |
+|------------|----|
+| 責務 | L6 |
+| 配置 | L10 |
+| 採用ルール (Phase 1 確定) | L24 |
+| 消費者 | L33 |
+| 循環依存禁止 | L43 |
+| `fixtures.mjs` 提供 seed | L49 |
+| 検証フロー | L63 |
+| 関連 lookup | L70 |
 
 ### references/csrf-state-parameter.md
 
@@ -4937,6 +4961,16 @@ node scripts/list-specs.js --topics
 | L-ISSUE626-002: artifact 共有における trust boundary 設計 | L18 |
 | L-ISSUE626-003: secret-grep false-positive の境界判定 | L24 |
 
+### references/lessons-learned-issue-667-stage3b-mock-api-fixture-coverage-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-667-001: workflow 名 discovery 義務 — 仕様起草前に grep 必須 | L7 |
+| L-667-002: contracts topology を Phase 1 で確定する | L17 |
+| L-667-003: `implemented_local_runtime_pending` state の必要性 | L30 |
+| L-667-004: dispatcher 順序 grep gate | L41 |
+| Cross-link | L52 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6089,6 +6123,18 @@ node scripts/list-specs.js --topics
 | TASK-FIX-4-2-SKILL-STORE-PERSISTENCE | L58 |
 | 変更履歴アーカイブ | L111 |
 
+### references/mock-api-dispatcher-pattern.md
+
+| セクション | 行 |
+|------------|----|
+| 責務 | L6 |
+| `safeJson(res, status, body, schema)` ラッパー規約 | L10 |
+| Dispatcher 順序ルール | L25 |
+| Parse 例外境界 | L35 |
+| 回帰検出経路 | L46 |
+| CI / runtime 統合 | L54 |
+| 関連 lookup | L59 |
+
 ### references/observability-monitoring.md
 
 | セクション | 行 |
@@ -6564,13 +6610,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1230 |
-| フェーズ構造（概要） | L1239 |
-| 品質ゲート（概要） | L1270 |
-| 出力テンプレート | L1281 |
-| 実行時のコマンド・エージェント・スキル | L1304 |
-| 昇格パターン集 | L1328 |
-| Current Active / Spec Created Tasks | L1330 |
+| ドキュメント構成 | L1242 |
+| フェーズ構造（概要） | L1251 |
+| 品質ゲート（概要） | L1282 |
+| 出力テンプレート | L1293 |
+| 実行時のコマンド・エージェント・スキル | L1316 |
+| 昇格パターン集 | L1340 |
+| Current Active / Spec Created Tasks | L1342 |
 
 ### references/task-workflow-backlog-part2.md
 

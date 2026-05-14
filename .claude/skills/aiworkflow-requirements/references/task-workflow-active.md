@@ -8,6 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #667 Stage 3b mock API fixture coverage（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `runtime_pending / implementation / NON_VISUAL / existing-hardening / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-667-stage3b-mock-api-fixture-coverage/` |
+| source unassigned | `docs/30-workflows/unassigned-task/task-e2e-stage3b-mock-api-fixture-coverage-001.md`（implemented_local_runtime_pending） |
+| 目的 | `scripts/e2e-mock-api.mjs` を contracts SSOT + contract spec + readiness evidence で harden する |
+| implementation targets | `packages/contracts/`, `scripts/e2e-mock-api.mjs`, `scripts/__tests__/e2e-mock-api.contract.spec.ts`, `.github/workflows/e2e-tests.yml`, `.github/workflows/ci.yml` |
+| evidence boundary | Runtime implementation and focused Phase 11 local evidence are complete. GitHub Actions runtime evidence remains pending. |
+| user gate | commit / push / PR / Issue mutation は user approval 後 |
+
 ### Issue #626 RB-01 build output sharing between Lighthouse and PR build（2026-05-12）
 
 | 項目 | 値 |
