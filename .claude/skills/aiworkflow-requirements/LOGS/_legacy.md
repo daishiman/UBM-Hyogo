@@ -859,6 +859,11 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Runtime Slack/mail delivery, HOLD removal, secret mutation, commit, push, and PR remain user-gated.
 - Added lessons-learned `lessons-learned/lessons-learned-issue-588-fallback-alert-slack-mail-extension-2026-05.md` (L-588-001..004: notification 3-point sync, best-effort isolation, twin-layer redaction, closed-source supersede).
 
+# 2026-05-11
+
+- task-10 runtime evidence sync: follow-up 001 resolved OpenNext esbuild host/binary mismatch with `pnpm.overrides.esbuild = 0.25.4`; `build:cloudflare` PASS evidence captured. follow-up 002 captured runtime screenshot and axe report for 11 UI primitives via `/smoke/ui-primitives` and Playwright. `Stat` axe structure violation was fixed in `apps/web/src/components/ui/Stat.tsx`. Commit / push / PR remain user-gated.
+- task-10 unassigned-task sync: both follow-up 001 / 002 task spec files moved from `docs/30-workflows/unassigned-task/` to `docs/30-workflows/completed-tasks/` (rename) since they were executed in the same cycle. Duplicate `## メタ情報` heading in both spec files was merged into a single table with `Issue #609 / #610` rows. Added `lessons-learned/lessons-learned-task-10-followup-002-runtime-visual-axe-evidence-2026-05.md` recording L-T10FU002-001 (2-stage `workflow_state` for `VISUAL_ON_EXECUTION`), -002 (parent task evidence aggregation rule), -003 (axe DOM grouping element contract at Phase 5).
+
 # 2026-05-11 E2E Stage 3b / 3c implementation lessons reflection
 
 - 3b: Server Component server-side `fetch()` は Playwright `page.route()` で捕捉不可。deterministic mock API (`scripts/e2e-mock-api.mjs`) + `INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` 注入を `lessons-learned-e2e-stage3b-server-component-mock-api-2026-05.md` と `references/testing-playwright-e2e.md` に追記。`artifacts.json` status vocabulary drift / completed-tasks 親アーカイブパス整合 / `IMPLEMENTED_LOCAL_RUNTIME_PENDING` 明示も同 wave で反映。
