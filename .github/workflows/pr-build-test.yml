@@ -40,16 +40,10 @@ jobs:
           # job 終了後にローカル .git に GITHUB_TOKEN を残さない
           persist-credentials: false
 
-      # mise を使って Node 24 / pnpm 10 を環境に揃える
-      # jdx/mise-action の SHA pin。spec_created 時点では v2 系を pinned コメントで明示。
-      - name: Setup mise (Node 24 + pnpm 10)
-        uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2
+      - name: Setup project (mise strategy)
+        uses: ./.github/actions/setup-project
         with:
-          # CI 環境では cache=true でツール DL を高速化
-          cache: true
-
-      - name: Install dependencies
-        run: mise exec -- pnpm install --frozen-lockfile
+          setup-strategy: mise
 
       - name: Type check
         run: mise exec -- pnpm typecheck
