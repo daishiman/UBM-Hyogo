@@ -2463,3 +2463,16 @@ UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts
 | evidence boundary | Local static checks passed; GitHub Actions runtime evidence is `runtime_pending` until user-approved commit / push / draft PR. |
 | closed issue rule | Issue #627 is CLOSED; PR text must use `Refs #627` only. |
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-627-composite-setup-action-2026-05.md` (L-627-001..003) |
+
+### Issue #655 D+7 recovery 2nd-cycle（2026-05-14）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-655-d7-recovery-2nd-cycle/` |
+| status | `implemented-local-runtime-pending / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| parent | Issue #586 post-switch 7 day close-out; grandparent is Issue #549 CF Audit Logs ML production switch |
+| recovery contract | 1 周目と 2 周目 evidence を `*-recovery.*` suffix と `./hourly-snapshots-recovery` input directory で分離 |
+| canonical state | workflow root は `implemented-local-runtime-pending`、runtime collection は `runtime_pending`、D'+7 成功後の業務状態のみ `pass_runtime_synced` |
+| strict outputs | `outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md` |
+| user gate | commit / push / PR / workflow_dispatch / secret or variable mutation / runtime promotion は user approval 後のみ |

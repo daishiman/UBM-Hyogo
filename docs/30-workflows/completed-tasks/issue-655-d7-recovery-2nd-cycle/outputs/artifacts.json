@@ -1,0 +1,19 @@
+{
+  "mirror_of": "../artifacts.json",
+  "parity": "lightweight-parity-marker",
+  "updated_at": "2026-05-14",
+  "workflow_id": "issue-655-d7-recovery-2nd-cycle",
+  "workflow_state": "implemented-local-runtime-pending",
+  "evidence_state": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
+  "phase12_status": "completed",
+  "runtime_evidence_status": "pending_recovery_d_plus_7",
+  "strict_phase12_outputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ]
+}
