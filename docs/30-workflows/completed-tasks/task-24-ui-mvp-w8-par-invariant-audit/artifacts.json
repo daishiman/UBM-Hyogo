@@ -27,7 +27,7 @@
       {
         "gate_id": "Gate-A",
         "status": "passed",
-        "passed_at": "2026-05-14",
+        "passed_at": "2026-05-14T00:00:00Z",
         "evidence_path": "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/index.md",
         "approver": "daishiman",
         "notes": "spec_review: Phase 1-13 spec for invariant audit."
@@ -35,7 +35,7 @@
       {
         "gate_id": "Gate-B",
         "status": "passed",
-        "passed_at": "2026-05-14",
+        "passed_at": "2026-05-14T00:00:00Z",
         "evidence_path": "docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/outputs/phase-5/grep-evidence.txt",
         "approver": "daishiman",
         "notes": "validator_green: audit-runner.sh generated grep evidence, 22x6 matrix, violations.md, and INVARIANT-AUDIT.md"
