@@ -6,6 +6,8 @@
 # - secrets を一切参照しない (env: にも secrets を渡さない)
 # - actions/checkout は github.event.pull_request.head.sha + persist-credentials: false
 # - mise exec 経由で Node 24 / pnpm 10 を保証する
+# - Issue #626 (RB-01): build-test の Next.js build output を artifact 経由で
+#   lighthouse-ci job に共有し、Lighthouse 側の再 build を排除する
 name: PR Build Test (untrusted)
 
 on:
@@ -14,6 +16,10 @@ on:
 
 # workflow デフォルトは no-permissions
 permissions: {}
+
+concurrency:
+  group: pr-build-test-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-test:
@@ -58,6 +64,25 @@ jobs:
         # 上書きしてから pnpm build を起動する。
         run: mise exec -- bash -c 'NODE_ENV=production pnpm build'
 
+      # Issue #626 (RB-01): 標準 Next.js build output (apps/web/.next/) を
+      # artifact として共有し、lighthouse-ci job 側で再 build を排除する。
+      # Build (Cloudflare standalone) は OpenNext 用に build を再実行するため、
+      # Lighthouse が使う標準 build artifact はその前に固定する。
+      # standalone / cache は Lighthouse では不要なため除外する。
+      - name: Upload Next.js build output
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: next-build-${{ github.sha }}
+          path: |
+            apps/web/.next
+            !apps/web/.next/cache
+            !apps/web/.next/standalone
+          retention-days: 1
+          if-no-files-found: error
+          # `.next` は dot-prefixed のため actions/upload-artifact@v4 の
+          # default include-hidden-files=false で除外される。明示有効化する。
+          include-hidden-files: true
+
       # Issue #560: scripts/patch-next-standalone-instrumentation.mjs の
       # regression test。fixture ベースで cwd guard / trace copy / --verify-only を
       # 検証する。secret 非接触で fork PR でも安全に走る。
@@ -76,3 +101,60 @@ jobs:
       - name: verify-web-instrumentation-patch
         working-directory: apps/web
         run: mise exec -- node ../../scripts/patch-next-standalone-instrumentation.mjs --verify-only
+
+  # Issue #626 (RB-01): 旧 .github/workflows/lighthouse.yml の機能を統合。
+  # build-test の next-build-<sha> artifact を download して Lighthouse CI を
+  # 実行する。同一 workflow 内の needs 経由のため fork PR でも GITHUB_TOKEN の
+  # 追加権限不要で artifact を共有できる。
+  lighthouse-ci:
+    # branch protection の required_status_checks.contexts 同期対象 (canonical: lighthouse-ci)
+    name: lighthouse-ci
+    if: github.base_ref == 'dev'
+    needs: build-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Setup mise (Node 24 + pnpm 10)
+        uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2
+        with:
+          cache: true
+
+      - name: Install dependencies
+        run: mise exec -- pnpm install --frozen-lockfile
+
+      - name: Download Next.js build output
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: next-build-${{ github.sha }}
+          path: apps/web/.next
+
+      - name: Start server (background)
+        run: mise exec -- pnpm --filter @ubm-hyogo/web start &
+
+      - name: Wait for server
+        run: |
+          for _ in $(seq 1 60); do
+            curl -fsS http://localhost:3000 >/dev/null && exit 0
+            sleep 1
+          done
+          echo "Timed out waiting for http://localhost:3000"
+          exit 1
+
+      - name: Run Lighthouse CI
+        run: mise exec -- pnpm --filter @ubm-hyogo/web exec lhci autorun --config=../../lighthouserc.json
+
+      - name: Upload Lighthouse artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: lhci-report-${{ github.sha }}
+          path: .lighthouseci/
+          retention-days: 7

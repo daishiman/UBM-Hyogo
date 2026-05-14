@@ -1,0 +1,66 @@
+{
+  "workflow_id": "issue-626-rb01-share-build-output-lighthouse-pr-build",
+  "metadata": {
+    "issue": 626,
+    "parent_issue": 608,
+    "backlog_id": "RB-01",
+    "workflow_state": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "implementation_status": "implementation_complete_pending_pr",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "priority": "low",
+    "wave": "stage-4-followup",
+    "created_at": "2026-05-12",
+    "expected_pr_count": 1,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-626-rb01-share-build-output-lighthouse-pr-build/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec present; RB-01 build output sharing scope finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-626-rb01-share-build-output-lighthouse-pr-build/outputs/phase-11",
+        "approver": "daishiman",
+        "notes": "validator_green: local actionlint PASS, workflow integration evidence captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/pr-build-test.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: lighthouse-ci required-check rewiring pending merge-time evidence"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-626-rb01-share-build-output-lighthouse-pr-build/phase-13.md",
+        "approver": "daishiman",
+        "notes": "runtime_evidence: PR runtime build artifact share + lighthouse-ci pending"
+      }
+    ]
+  },
+  "phases": [
+    { "id": "phase-01", "title": "要件定義と現状調査", "status": "completed" },
+    { "id": "phase-02", "title": "設計", "status": "completed" },
+    { "id": "phase-03", "title": "依存関係と前提条件確認", "status": "completed" },
+    { "id": "phase-04", "title": "詳細実装計画", "status": "completed" },
+    { "id": "phase-05", "title": "YAML 改修実装", "status": "completed" },
+    { "id": "phase-06", "title": "テスト", "status": "runtime_pending" },
+    { "id": "phase-07", "title": "レビュー観点", "status": "completed" },
+    { "id": "phase-08", "title": "governance 整合", "status": "runtime_pending" },
+    { "id": "phase-09", "title": "runbook / docs 更新", "status": "completed" },
+    { "id": "phase-10", "title": "rollback 設計", "status": "completed" },
+    { "id": "phase-11", "title": "実行 evidence", "status": "runtime_pending" },
+    { "id": "phase-12", "title": "Phase 12 strict 7 files", "status": "completed" },
+    { "id": "phase-13", "title": "commit / PR / merge", "status": "blocked" }
+  ],
+  "status": "runtime_pending"
+}
