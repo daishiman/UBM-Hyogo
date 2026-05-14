@@ -2613,6 +2613,18 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L30 |
 | State Vocabulary | L37 |
 
+### references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L14 |
+| Implementation Targets | L33 |
+| Phase Outputs | L46 |
+| Skill 反映先 | L55 |
+| task-specification-creator 反映 | L68 |
+| Verification Commands | L75 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -4951,6 +4963,14 @@ node scripts/list-specs.js --topics
 | L-ISSUE626-002: artifact 共有における trust boundary 設計 | L18 |
 | L-ISSUE626-003: secret-grep false-positive の境界判定 | L24 |
 
+### references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L48 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6588,13 +6608,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1210 |
-| フェーズ構造（概要） | L1219 |
-| 品質ゲート（概要） | L1250 |
-| 出力テンプレート | L1261 |
-| 実行時のコマンド・エージェント・スキル | L1284 |
-| 昇格パターン集 | L1308 |
-| Current Active / Spec Created Tasks | L1310 |
+| ドキュメント構成 | L1226 |
+| フェーズ構造（概要） | L1235 |
+| 品質ゲート（概要） | L1266 |
+| 出力テンプレート | L1277 |
+| 実行時のコマンド・エージェント・スキル | L1300 |
+| 昇格パターン集 | L1324 |
+| Current Active / Spec Created Tasks | L1326 |
 
 ### references/task-workflow-backlog-part2.md
 

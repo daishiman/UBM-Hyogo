@@ -22,7 +22,7 @@ CURRENT_WORKER=""
 LEGACY_WORKER=""
 CONFIG="apps/web/wrangler.toml"
 FORMAT="md"
-NO_COLOR=0
+export NO_COLOR=0
 
 # ---- logging (stderr, redacted) ----
 log()  { printf '%s\n' "$*" | redact_stream >&2; }
@@ -48,7 +48,7 @@ parse_args() {
       --legacy-worker)  LEGACY_WORKER="${2:-}";  shift 2 ;;
       --config)         CONFIG="${2:-}";         shift 2 ;;
       --format)         FORMAT="${2:-}";         shift 2 ;;
-      --no-color)       NO_COLOR=1;              shift   ;;
+      --no-color)       export NO_COLOR=1;       shift   ;;
       -h|--help)        usage; exit 64 ;;
       *) err "unknown arg: $1"; usage; exit 64 ;;
     esac

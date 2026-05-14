@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #668 residual RB-3b-03 / RB-3b-04 paths filter + shell helper（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-668-stage3b-rb03-rb04-paths-filter-shell-helper/` |
+| 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| parent issue | `Refs #668` only（CLOSED umbrella follow-up; do not use `Closes` / `Fixes`） |
+| RB scope | RB-3b-03 `e2e-tests.yml` single-workflow paths precheck / RB-3b-04 `ci-shell-prelude.sh` + shellcheck gate + 3-script shellcheck cleanup |
+| required context | `e2e-tests-coverage-gate` preserved; branch protection mutation not required |
+| evidence | tracked `outputs/phase-11/local-evidence-summary.md`; raw ignored local logs captured; governance / CI8 dry-run check files pending user-gated PR |
+| source trace | `docs/30-workflows/unassigned-task/task-e2e-stage3b-rb-followup-composite-actions-001.md` split-migrated for RB-3b-03 / RB-3b-04 |
+| artifact inventory | `references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md` |
+| user gate | dry-run PRs, GitHub Actions runtime evidence, issue comment, commit, push, PR |
+
 ### UI prototype alignment / MVP recovery task-25 smoke coverage matrix（2026-05-14）
 
 | 目的 | 参照先 |
