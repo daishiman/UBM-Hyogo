@@ -15,7 +15,41 @@
       "docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/"
     ],
     "refsPolicy": "Refs only; do not use Closes/Fixes/Resolves until user explicitly confirms Issue #696 closure semantics.",
-    "runtimeEvidenceBoundary": "Full visual regression code and workflows are implemented locally; 51 screenshot baselines, CI run evidence, baseline update, commit, push, and PR remain pending user-gated runtime workflows."
+    "runtimeEvidenceBoundary": "Full visual regression code and workflows are implemented locally; 51 screenshot baselines, CI run evidence, baseline update, commit, push, and PR remain pending user-gated runtime workflows.",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-fu-full-visual-regression-suite/index.md",
+        "approver": "codex",
+        "notes": "spec_review: Phase 1-13 spec reconciled with apps/web playwright visual-full topology."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-fu-full-visual-regression-suite/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "local_evidence: runtime baseline capture (51 screenshots) and CI run evidence remain user-gated."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-fu-full-visual-regression-suite/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "codex",
+        "notes": "phase12: strict 7 outputs present, artifacts parity present."
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-fu-full-visual-regression-suite/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: commit / push / PR remain user-gated until baseline capture lands."
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "status": "completed", "path": "phase-1-requirements.md" },
