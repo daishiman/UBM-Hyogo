@@ -202,6 +202,20 @@
 | SSR fixture boundary | Server Component initial `/admin/requests` data uses `PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE=1` + `NODE_ENV !== "production"` because browser `page.route()` cannot intercept SSR `fetchAdmin()` |
 | downstream | `docs/30-workflows/e2e-quality-uplift-stage-3/` |
 
+### E2E quality uplift Stage 2 / 2d contract-stage-2（2026-05-11）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/` |
+| 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-contract-stage-2.md` |
+| implementation target | `apps/api/src/routes/admin/__tests__/contract-stage-2.test.ts` |
+| strict outputs | `docs/30-workflows/completed-tasks/task-spec-2d-contract-stage-2/outputs/phase-12/` strict 7 files |
+| evidence boundary | Local focused Vitest / typecheck / lint / grep gates passed. Commit / push / PR / CI runtime remain user-gated |
+| fixture boundary | `MergeIdentityResponseZ` shared schema is the response shape SSOT; requests/audit response fixtures parse route-exported `AdminRequestsListResponseZ` / `AdminAuditListResponseZ` |
+| artifact inventory | `references/workflow-task-spec-2d-contract-stage-2-artifact-inventory.md` |
+| lessons-learned | `references/lessons-learned-task-spec-2d-contract-stage-2-2026-05.md`（L-2D-001..006: shared schema SSOT / named export 昇格 / pure unit / fixture inline / type-level 同型 / path 一括更新） |
+
 ### E2E Quality Uplift Stage 0-3（2026-05-09）
 
 | 目的 | 参照先 |
