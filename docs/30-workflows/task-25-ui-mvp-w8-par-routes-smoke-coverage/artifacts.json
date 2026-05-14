@@ -6,6 +6,43 @@
   "task_classification": "docs-only",
   "visual_mode": "NON_VISUAL",
   "status": "spec_created",
+  "metadata": {
+    "workflow_state": "spec_created",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/task-25-ui-mvp-w8-par-routes-smoke-coverage/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec for 19-route smoke coverage extension. Awaiting user approval."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/task-25-ui-mvp-w8-par-routes-smoke-coverage/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "validator_green: implementation wave で smoke matrix を更新後に evidence 追加"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: validate / verify-phase12-compliance / playwright-smoke green"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/task-25-ui-mvp-w8-par-routes-smoke-coverage/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: user-gated merge into dev"
+      }
+    ]
+  },
   "phases": {
     "phase-01": { "status": "spec_created", "artifact": "outputs/phase-01/requirements.md" },
     "phase-02": { "status": "spec_created", "artifact": "outputs/phase-02/design.md" },

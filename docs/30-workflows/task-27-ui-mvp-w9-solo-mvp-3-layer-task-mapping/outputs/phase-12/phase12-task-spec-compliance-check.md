@@ -1,4 +1,4 @@
-# Phase 12 Task Spec Compliance Check — task-26-ui-mvp-w8-par-error-tsx-token-utility-migration
+# Phase 12 Task Spec Compliance Check — task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping
 
 ## Summary verdict
 
@@ -8,8 +8,8 @@
 
 | 分類 | 件数 | 代表ファイル |
 | --- | --- | --- |
-| 仕様書（Phase 1-13 + index） | 14 前後 | `docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/{index.md, phase-*.md, outputs/}` |
-| artifacts.json | 1 | `docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/artifacts.json` |
+| 仕様書（Phase 1-13 + index） | 14 前後 | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/{index.md, phase-*.md, outputs/}` |
+| artifacts.json | 1 | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/artifacts.json` |
 | Phase 12 strict 7 files | 6 | `outputs/phase-12/{implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md`（spec_created 時点で必要なものを順次補完） |
 | apps/* / packages/* runtime code | 0 | 変更なし（spec_created phase） |
 | skill / system spec | 0 | 変更なし（実装 wave で同期） |
