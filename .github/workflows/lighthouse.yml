@@ -57,17 +57,32 @@ jobs:
           path: apps/web/.lighthouseci/
           retention-days: 7
 
+      - name: Check AUTH_SECRET availability (gate authenticated steps)
+        id: auth-secret-gate
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+        run: |
+          if [ -n "$AUTH_SECRET" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::AUTH_SECRET is not configured in repository Secrets; skipping authenticated /profile LHCI steps (Refs #630)"
+          fi
+
       - name: Generate LHCI auth storage state
+        if: steps.auth-secret-gate.outputs.available == 'true'
         env:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
         run: pnpm --filter @ubm-hyogo/web lhci:auth-storage
 
       - name: Start authenticated profile mock API (background)
+        if: steps.auth-secret-gate.outputs.available == 'true'
         env:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
         run: pnpm --filter @ubm-hyogo/web lhci:profile-mock-api &
 
       - name: Wait for authenticated profile mock API
+        if: steps.auth-secret-gate.outputs.available == 'true'
         run: |
           for i in {1..30}; do
             curl -fsS http://127.0.0.1:8787/health >/dev/null && exit 0
@@ -77,13 +92,14 @@ jobs:
           exit 1
 
       - name: Run Lighthouse CI (authenticated /profile)
+        if: steps.auth-secret-gate.outputs.available == 'true'
         env:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           INTERNAL_API_BASE_URL: http://127.0.0.1:8787
         run: pnpm --filter @ubm-hyogo/web exec lhci autorun --config=../../lighthouserc.authenticated.json
 
       - name: Upload Lighthouse authenticated artifact
-        if: always()
+        if: always() && steps.auth-secret-gate.outputs.available == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: lhci-report-authenticated-${{ github.sha }}
