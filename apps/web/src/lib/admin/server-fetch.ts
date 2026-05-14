@@ -210,10 +210,95 @@ const task17AuditFixture = (path: string) => {
   };
 };
 
+const task18TagQueueFixture = () => ({
+  total: 1,
+  items: [
+    {
+      queueId: "tag_q_001",
+      memberId: "mem_alpha",
+      responseId: "res_alpha",
+      status: "queued",
+      suggestedTagsJson: JSON.stringify(["founder", "kobe"]),
+      reason: "task18 smoke fixture",
+      createdAt: "2026-05-12T00:00:00.000Z",
+      updatedAt: "2026-05-12T00:00:00.000Z",
+    },
+  ],
+});
+
+const task18MeetingsFixture = () => ({
+  total: 1,
+  items: [
+    {
+      sessionId: "session_task18",
+      title: "2026年5月 定例会",
+      heldOn: "2026-05-12",
+      note: "task18 smoke fixture",
+      createdAt: "2026-05-12T00:00:00.000Z",
+      attendance: [{ memberId: "mem_alpha", assignedAt: "2026-05-12T00:00:00.000Z" }],
+    },
+  ],
+});
+
+const task18MembersFixture = () => ({
+  total: 2,
+  page: 1,
+  pageSize: 50,
+  members: [
+    {
+      memberId: "mem_alpha",
+      responseEmail: "alpha@example.test",
+      fullName: "青木 太郎",
+      publicConsent: "consented",
+      rulesConsent: "consented",
+      publishState: "public",
+      isDeleted: false,
+      lastSubmittedAt: "2026-05-11T00:00:00.000Z",
+    },
+    {
+      memberId: "mem_beta",
+      responseEmail: "beta@example.test",
+      fullName: "兵庫 花子",
+      publicConsent: "consented",
+      rulesConsent: "consented",
+      publishState: "hidden",
+      isDeleted: false,
+      lastSubmittedAt: "2026-05-10T00:00:00.000Z",
+    },
+  ],
+});
+
 export async function fetchAdmin<T>(
   path: string,
   opts: AdminFetchOptions = {},
 ): Promise<T> {
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TASK18_SMOKE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/tags/queue")
+  ) {
+    return task18TagQueueFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TASK18_SMOKE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/meetings")
+  ) {
+    return task18MeetingsFixture() as T;
+  }
+
+  if (
+    process.env["NODE_ENV"] !== "production" &&
+    process.env["PLAYWRIGHT_TASK18_SMOKE"] === "1" &&
+    opts.method === undefined &&
+    path.startsWith("/admin/members")
+  ) {
+    return task18MembersFixture() as T;
+  }
+
   if (
     process.env["NODE_ENV"] !== "production" &&
     process.env["PLAYWRIGHT_ADMIN_REQUESTS_FIXTURE"] === "1" &&

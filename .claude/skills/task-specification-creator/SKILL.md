@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, canonical evidence rename禁止, KV namespace user-gated boundary, eventual consistency wording, env binding contravariance audit, PASS_BOUNDARY_SYNCED_RUNTIME_PENDING external resource
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT
 allowed-tools:
   - Read
   - Write
@@ -28,7 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
-| v2026.05.13-ut17-fu002-alert-relay-dedup-kv | 2026-05-13 | UT-17 follow-up-002 alert-relay dedup KV 永続化 implementation feedback を反映。(1) `references/phase-11-guide.md` に canonical 5 点 filename 不変規律（task 固有名 rename 禁止 / `build.log` / `grep-gate.log` の「該当なし」明記運用）を追加。(2) `references/phase-12-pitfalls.md` に **[UBM-033]**（canonical 5 点 rename 弱緩和）/ **[UBM-034]**（必須 binding 追加時の env 型 contravariance 監査）/ **[UBM-035]**（dedup wording の eventual consistency 揺らぎ表現）/ **[UBM-036]**（KV namespace 等の user-gated boundary 分離）/ **[UBM-037]**（state vocab × verdict suffix の組合せ必須）を追加。(3) `references/workflow-state-vocabulary.md` に State × External Ops Verdict Combination 節と Forbidden Wording の absolute wording 禁止条項を追加。 |
+| v2026.05.11-issue616-conditional-implementation-category | 2026-05-11 | Issue #616 Miniflare / undici upstream tracking review feedback を反映。`schemas/artifact-definition.json` の `metadata.implementationCategory` に `conditional` を正式追加し、上流改善検知時のみ code/config 変更が発生する implementation task を `verified_current_no_code_change_pending_pr` で閉じる境界を明確化。 |
 | v2026.05.11-issue603-phase12-compliance-ci-gate | 2026-05-11 | Issue #603 を反映。`references/phase12-compliance-check-template.md` の Required Sections 9 項目を CI gate `verify-phase12-compliance` の canonical heading SSOT として固定し、template / script / fixture の同一 PR 同期を必須化。 |
 | v2026.05.10-issue590-phase11-canonical-evidence-paths | 2026-05-10 | Issue #590 Phase 11 canonical evidence path feedback を反映。`outputs/phase-11/canonical-paths.json` 用 schema、validator、node:test、`pnpm validate:phase11-paths` を追加し、親 Issue #549 の canonical path 表を machine-readable manifest へ接続。 |
 | v2026.05.11-task15-todo-gate-mock-screenshot-state-alias | 2026-05-11 | task-15 admin dashboard and members 実装サイクル feedback を反映。`references/quality-gates.md` §7.3 に **`it.todo` / `test.todo` 残留禁止 (Phase 6 close-out gate)** を追加し a11y todo の実 assertion 昇格と CI `todo-count` step を必須化。`references/workflow-state-vocabulary.md` に State Aliases 節を追加し `implemented-local-runtime-pending` (kebab) と `implemented_local_runtime_pending` (snake) の同一性および遷移条件を明示。`references/phase-11-screenshot-guide.md` に **VISUAL タスクの local mock-screenshot 経路** を追加し、standalone mock を single source of truth とする許容条件 4 件と落とし穴（mock 二重化 / selector drift / provenance 偽装）を規定。 |

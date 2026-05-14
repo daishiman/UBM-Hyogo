@@ -22,14 +22,11 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get update && sudo apt-get install -y shellcheck
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
+      - name: Setup project
+        uses: ./.github/actions/setup-project
         with:
           node-version: '24'
-          cache: pnpm
+          install: 'false'
 
       - name: Bash syntax for observation reminder
         run: bash -n scripts/observation/create-reminder-issue.sh
@@ -47,7 +44,26 @@ jobs:
         run: bash <(curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
       - name: Actionlint workflow syntax
-        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/web-cd.yml .github/workflows/runtime-smoke-staging.yml
+        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/e2e-tests.yml .github/workflows/pr-build-test.yml .github/workflows/web-cd.yml .github/workflows/runtime-smoke-staging.yml
+
+      - name: Validate setup-project composite action structure
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const source = fs.readFileSync('.github/actions/setup-project/action.yml', 'utf8');
+          for (const token of [
+            'runs:',
+            "using: 'composite'",
+            'uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1',
+            'uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020',
+            'uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac',
+          ]) {
+            if (!source.includes(token)) {
+              console.error(`missing token: ${token}`);
+              process.exit(1);
+            }
+          }
+          NODE
 
       - name: Verify workflow secret allowlist
         run: |
@@ -79,20 +95,9 @@ jobs:
         if: steps.ready.outputs.value == 'false'
         run: echo "::notice::package.json / pnpm-workspace.yaml not found — typecheck and lint skipped"
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup project
         if: steps.ready.outputs.value == 'true'
-        with:
-          version: 10.33.2
-
-      - uses: actions/setup-node@v4
-        if: steps.ready.outputs.value == 'true'
-        with:
-          node-version: '24'
-          cache: pnpm
-
-      - name: Install dependencies
-        if: steps.ready.outputs.value == 'true'
-        run: pnpm install --frozen-lockfile
+        uses: ./.github/actions/setup-project
 
       - name: Install observation lint tools
         if: steps.ready.outputs.value == 'true'
@@ -118,13 +123,22 @@ jobs:
         if: steps.ready.outputs.value == 'true'
         run: pnpm post-release-dashboard:test
 
+      - name: Coverage merge script tests
+        if: steps.ready.outputs.value == 'true'
+        run: node --test scripts/__tests__/coverage-merge.test.mjs
 
-  coverage-gate:
-    # 仕様: docs/30-workflows/coverage-80-enforcement/outputs/phase-12/implementation-guide.md
-    # 2026-05-04: hard gate 化済み (continue-on-error 削除 / ci-test-recovery-coverage-80-2026-05-04 Task E)
-    name: coverage-gate
+
+  coverage-gate-shard:
+    # 仕様: docs/30-workflows/issue-617-ci-test-time-reduction-split/phase-09.md
+    # 目的: apps/web / apps/api(unit) / apps/api(d1) / packages を並列 shard 実行し
+    #       wall-clock を短縮する。集約判定は coverage-gate job が行う。
+    name: coverage-gate-shard (${{ matrix.group }})
     runs-on: ubuntu-latest
     needs: [ci]
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [web, api-unit, api-d1, packages]
     steps:
       - uses: actions/checkout@v4
 
@@ -139,7 +153,7 @@ jobs:
 
       - name: Skip — monorepo not yet bootstrapped
         if: steps.ready.outputs.value == 'false'
-        run: echo "::notice::package.json / pnpm-workspace.yaml not found — coverage-gate skipped"
+        run: echo "::notice::package.json / pnpm-workspace.yaml not found — coverage-gate-shard skipped"
 
       - uses: pnpm/action-setup@v4
         if: steps.ready.outputs.value == 'true'
@@ -156,21 +170,90 @@ jobs:
         if: steps.ready.outputs.value == 'true'
         run: pnpm install --frozen-lockfile
 
-      - name: Build apps/web (Tailwind CSS emission for build-output.runtime.spec.ts)
-        if: steps.ready.outputs.value == 'true'
+      - name: Build apps/web (web shard only)
+        if: steps.ready.outputs.value == 'true' && matrix.group == 'web'
         run: pnpm --filter @ubm-hyogo/web build:cloudflare
 
-      - name: Run coverage-guard
+      - name: Run coverage-guard for shard
         if: steps.ready.outputs.value == 'true'
         env:
           CI: 'true'
-        run: bash scripts/coverage-guard.sh
+        run: bash scripts/coverage-guard.sh --group ${{ matrix.group }}
 
-      - name: Upload coverage report
+      - name: Upload per-shard coverage artifact
         if: always() && steps.ready.outputs.value == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage-${{ matrix.group }}
+          path: |
+            apps/*/coverage/
+            packages/*/coverage/
+            packages/integrations/*/coverage/
+          if-no-files-found: ignore
+
+  coverage-gate:
+    # 仕様: docs/30-workflows/issue-617-ci-test-time-reduction-split/phase-09.md
+    # required status context 名 (coverage-gate) は変更しない — branch protection は維持。
+    # 2026-05-04: hard gate 化済み (continue-on-error なし)
+    name: coverage-gate
+    runs-on: ubuntu-latest
+    needs: [coverage-gate-shard]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check implementation readiness
+        id: ready
+        run: |
+          if [ -f "package.json" ] && [ -f "pnpm-workspace.yaml" ]; then
+            echo "value=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Skip — monorepo not yet bootstrapped
+        if: steps.ready.outputs.value == 'false'
+        run: echo "::notice::package.json / pnpm-workspace.yaml not found — coverage-gate skipped"
+
+      - name: Setup project
+        if: steps.ready.outputs.value == 'true'
+        uses: ./.github/actions/setup-project
+
+      - name: Download all per-shard coverage artifacts
+        if: steps.ready.outputs.value == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-*
+          merge-multiple: true
+
+      - name: Merge apps/api unit + d1 coverage
+        if: steps.ready.outputs.value == 'true'
+        run: |
+          if [ -f "apps/api/coverage/unit/coverage-final.json" ] && [ -f "apps/api/coverage/d1/coverage-final.json" ]; then
+            node scripts/coverage-merge.mjs \
+              --inputs="apps/api/coverage/unit/coverage-final.json,apps/api/coverage/d1/coverage-final.json" \
+              --output="apps/api/coverage"
+          else
+            echo "::warning::apps/api unit/d1 coverage-final.json missing; coverage-gate aggregate may fail"
+          fi
+
+      - name: Coverage gate (aggregate, no-run)
+        if: steps.ready.outputs.value == 'true'
+        env:
+          CI: 'true'
+        run: bash scripts/coverage-guard.sh --no-run
+
+      - name: Fail closed on failed shard
+        if: steps.ready.outputs.value == 'true' && needs.coverage-gate-shard.result != 'success'
+        run: |
+          echo "::error::coverage-gate-shard result was ${{ needs.coverage-gate-shard.result }}"
+          exit 1
+
+      - name: Upload merged coverage artifact
+        if: always() && steps.ready.outputs.value == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-merged
           path: |
             apps/*/coverage/
             packages/*/coverage/
