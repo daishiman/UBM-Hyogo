@@ -2587,6 +2587,15 @@ node scripts/list-specs.js --topics
 | Skill 反映先 | L36 |
 | Validation Chain | L46 |
 
+### references/workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical artifacts | L13 |
+| Implementation targets | L25 |
+| Governance boundary | L37 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6500,13 +6509,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1153 |
-| フェーズ構造（概要） | L1162 |
-| 品質ゲート（概要） | L1193 |
-| 出力テンプレート | L1204 |
-| 実行時のコマンド・エージェント・スキル | L1227 |
-| 昇格パターン集 | L1251 |
-| Current Active / Spec Created Tasks | L1253 |
+| ドキュメント構成 | L1167 |
+| フェーズ構造（概要） | L1176 |
+| 品質ゲート（概要） | L1207 |
+| 出力テンプレート | L1218 |
+| 実行時のコマンド・エージェント・スキル | L1241 |
+| 昇格パターン集 | L1265 |
+| Current Active / Spec Created Tasks | L1267 |
 
 ### references/task-workflow-backlog-part2.md
 
