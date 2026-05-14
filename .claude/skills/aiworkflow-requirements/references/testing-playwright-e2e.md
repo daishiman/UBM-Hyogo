@@ -443,6 +443,16 @@ steps:
 
 拡張は `docs/30-workflows/unassigned-task/task-18-full-visual-regression-suite-001.md`（17 URL routes × 3 viewport の full baseline）で扱う。
 
+### 2026-05-14 sync-after fix: Turbopack 回避 / project testIgnore 拡張 / a11y contrast
+
+`e2e-tests-coverage-gate`（dev required check）と `verify-indexes-up-to-date` の round-2 修復で得た追加 lesson:
+
+- **Playwright webServer は `next dev --webpack` 固定**: Next.js 16 `next dev` は Turbopack 既定で、長時間 webServer + pnpm symlinked `node_modules` 配下では `[project]/.../next/dist/server/route-modules/app-route/vendored/contexts/app-router-context.js` の resolve が間欠的に失敗し、`/members` 等が 60s ハング → 18min job timeout になる。`apps/web/package.json` に `"dev:webpack": "next dev --webpack"` を追加し、`apps/web/playwright.config.ts` の webServer command を `pnpm --filter @ubm-hyogo/web dev:webpack` に切替える。CLAUDE.md の `apps/web` production build webpack 不変条件と整合。L-TASK18-W7-013。
+- **`Project.testIgnore` は global testIgnore を merge せず置換**: `desktop-chromium` / `desktop-firefox` / `mobile-webkit` の project entry に書く `testIgnore` は top-level `testIgnore` を上書きする。fixture-gated spec（`admin-identity-conflicts.spec.ts` 等）が 3 project に leak しないよう、各 project entry で `...fixtureGatedTestIgnore` を spread し `visual/` + `full-smoke/` regex と並べる。L-TASK18-W7-012。
+- **`BasePage.visit()` で router prefetch を settle**: 連続 `page.goto()` の前に `await this.page.waitForLoadState('networkidle', { timeout: 5_000 }).catch(() => {})` を挟むと in-flight client navigation との race を減らせる。
+- **mobile-webkit から admin-pages.spec.ts を除外**: `iPhone 13` emulation の `hasTouch + isMobile` device flag は Next router prefetch と 5 連続 `/admin/*` goto を race させ "Navigation interrupted by another navigation" を発生させる。settle を入れても reproducible のため、admin UI は desktop-primary scope と割り切り `mobile-webkit.testIgnore` に `/admin-pages\.spec\.ts$/` を追加。
+- **a11y AA contrast: `--ubm-color-accent` は L≤0.52 oklch**: `oklch(0.58 0.10 55)` だと `panel: #ffffff` 上で 4.5:1 を割り `e2e-tests-coverage-gate` 内の axe が `color-contrast` violation で fail する。3-layer bridge（spec §3.2 / §3.4.1 / JSON snippet と `tokens.css`）すべて `oklch(0.52 0.10 55)` に揃え、`pnpm verify:tokens` で drift を担保する。L-TASK18-W7-011。
+
 ### 2026-05-13 sync-after fix: URL fallback と project testIgnore
 
 CI 初回 run で得た sync-after lesson:

@@ -3059,7 +3059,8 @@ node scripts/list-specs.js --topics
 | User Gates | L61 |
 | Dependencies | L67 |
 | After-sync regression fixes (2026-05-13) | L72 |
-| Cross-Reference | L87 |
+| After-sync regression fixes — round 2 (2026-05-14) | L87 |
+| Cross-Reference | L102 |
 
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
@@ -6881,7 +6882,7 @@ node scripts/list-specs.js --topics
 | デバッグパターン | L366 |
 | Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
 | task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
-| 関連ドキュメント | L454 |
+| 関連ドキュメント | L464 |
 
 ### references/ui-history-components.md
 

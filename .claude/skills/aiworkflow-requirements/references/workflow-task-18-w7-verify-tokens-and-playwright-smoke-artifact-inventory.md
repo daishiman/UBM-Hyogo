@@ -82,7 +82,22 @@
 | `playwright-smoke / visual` `A snapshot doesn't exist` | CI artifact `playwright-visual-artifacts/*-actual.png` を chromium-linux baseline として 4 spec-snapshots ディレクトリに commit |
 | `playwright-smoke` Firefox/WebKit project が visual+smoke を実行して長時間タイムアウト | `desktop-chromium` / `desktop-firefox` / `mobile-webkit` project に `testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/]` |
 
-CI head `c5e36dac` の結果: `playwright-smoke / smoke (chromium)` および `playwright-smoke / visual (chromium, 4 screens)` 共に ✅。`e2e-tests-coverage-gate` の既存 a11y / admin-* spec 失敗は task-18 スコープ外。
+CI head `c5e36dac` の結果: `playwright-smoke / smoke (chromium)` および `playwright-smoke / visual (chromium, 4 screens)` 共に ✅。
+
+## After-sync regression fixes — round 2 (2026-05-14)
+
+`e2e-tests-coverage-gate` (dev required check) と `verify-indexes-up-to-date` を merge 可能にするため追加対応。
+
+| Issue | Fix |
+| --- | --- |
+| a11y `color-contrast` AA 違反 (`/`, `/members`, `/members/m-1`, `/register`, `/login`) | `--ubm-color-accent` を `oklch(0.58 0.10 55)` → `oklch(0.52 0.10 55)` に 3-layer bridge で revert（L-TASK18-W7-011） |
+| project testIgnore で admin spec が leak | `desktop-chromium` / `desktop-firefox` / `mobile-webkit` に `...fixtureGatedTestIgnore` を spread（L-TASK18-W7-012） |
+| `verify-indexes-up-to-date` drift (lessons L-011/012 追加分) | `pnpm indexes:rebuild` で `keywords.json` / `topic-map.md` 再生成 |
+| `mobile-webkit` で `/members` が 60s ハング → 18min タイムアウト | Next 16 Turbopack の `[project]/...` 解決失敗。`apps/web/package.json` に `dev:webpack` script を追加、Playwright webServer を `pnpm --filter @ubm-hyogo/web dev:webpack` に切替（L-TASK18-W7-013） |
+| `BasePage.visit()` 連続 goto race | `waitForLoadState('networkidle', {timeout: 5_000})` で prefetch settle |
+| `mobile-webkit` で `admin-pages.spec.ts` が `Navigation interrupted` で race | mobile-webkit project の testIgnore に `admin-pages.spec.ts` を追加（admin UI は desktop primary） |
+
+CI head `3a80790c`: 17 checks 全 ✅、PR #697 `mergeable=MERGEABLE state=CLEAN`。
 
 ## Cross-Reference
 

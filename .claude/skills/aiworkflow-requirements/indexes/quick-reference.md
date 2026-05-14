@@ -5,7 +5,7 @@
 
 ---
 
-### task-18 W7 verify-tokens-and-playwright-smoke（2026-05-12 / sync-after fixes 2026-05-13）
+### task-18 W7 verify-tokens-and-playwright-smoke（2026-05-12 / sync-after fixes 2026-05-13 / round-2 2026-05-14）
 
 | 目的 | 参照先 |
 | --- | --- |
@@ -18,11 +18,15 @@
 | CI workflows | `.github/workflows/verify-design-tokens.yml` / `.github/workflows/playwright-smoke.yml` |
 | required check 候補 | `verify-design-tokens / verify-design-tokens` / `playwright-smoke / smoke (chromium)` / `playwright-smoke / visual (chromium, 4 screens)` |
 | URL fallback rule | `apps/web/playwright.config.ts:52` / `apps/web/playwright/fixtures/auth.ts:399` は `||` 固定（`??` だと CI 空文字で `Invalid URL`） |
-| project testIgnore | `desktop-chromium` / `desktop-firefox` / `mobile-webkit` で `visual/*.spec.ts` + `full-smoke.spec.ts` を除外 |
+| project testIgnore | `desktop-chromium` / `desktop-firefox` / `mobile-webkit` で `visual/*.spec.ts` + `full-smoke.spec.ts` + `...fixtureGatedTestIgnore` を spread（global testIgnore は project に merge されない） |
+| dev server | Playwright webServer は `pnpm --filter @ubm-hyogo/web dev:webpack`（Turbopack だと `[project]/...` resolve が間欠失敗し /members が 60s ハング、L-013） |
+| mobile-webkit admin-pages | `admin-pages.spec.ts` は `iPhone 13` で router prefetch race するため mobile-webkit から除外（desktop-chromium / desktop-firefox 側で coverage、L-013） |
+| BasePage settle | `BasePage.visit()` は `waitForLoadState('networkidle', { timeout: 5_000 })` で prefetch を settle |
+| a11y AA contrast | `--ubm-color-accent: oklch(0.52 0.10 55)` 固定（`0.58` だと panel 上で 4.5:1 を割り axe color-contrast fail、L-011） |
 | Phase 12 SSOT | `outputs/phase-12/phase12-task-spec-compliance-check.md` は 9 canonical headings 必須（verify-phase12-compliance） |
 | gate metadata | `artifacts.json` と `outputs/artifacts.json` 両方に Gate-A..D を一致して持つ（verify-gate-metadata） |
 | follow-up | `docs/30-workflows/unassigned-task/task-18-full-visual-regression-suite-001.md`（completed-tasks/ 直下に置かない） |
-| lessons | `references/lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md` L-001..L-010 |
+| lessons | `references/lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md` L-001..L-013 |
 | inventory | `references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md` |
 | changelog | `changelog/20260512-task-18-w7-verify-tokens-and-playwright-smoke.md`（After-sync regression fixes セクション含む） |
 

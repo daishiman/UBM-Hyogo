@@ -20168,7 +20168,8 @@
     ],
     "round": [
       "task-workflow-completed-skill-lifecycle-ui.md",
-      "workflow-skill-lifecycle-routing-render-view-foundation.md"
+      "workflow-skill-lifecycle-routing-render-view-foundation.md",
+      "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md"
     ],
     "trip": [
       "task-workflow-completed-skill-lifecycle-ui.md",
