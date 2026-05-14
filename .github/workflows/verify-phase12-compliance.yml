@@ -9,7 +9,7 @@ on:
       - 'package.json'
       - 'scripts/verify-phase12-compliance.ts'
       - 'scripts/lib/phase12-compliance/**'
-      - 'scripts/__tests__/verify-phase12-compliance.test.ts'
+      - 'scripts/__tests__/verify-phase12-compliance.spec.ts'
       - 'scripts/__tests__/fixtures/phase12-compliance/**'
       - '.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md'
 

@@ -85,3 +85,4 @@
 | 日付 | 内容 |
 | --- | --- |
 | 2026-05-09 | 初版（Accepted）|
+| 2026-05-12 | 二段階対応終了。`*.test.{ts,tsx}` 残存 159 件を `*.spec.{ts,tsx}` に一括 rename（`git mv`）。`vitest.config.ts` の `test.include` を `*.spec.{ts,tsx}` 単一に収斂、`coverage.exclude` から `**/*.test.{ts,tsx}` 行を削除。再混入防止 gate として lefthook pre-commit `block-test-suffix`（`scripts/hooks/block-test-suffix.sh`）と GitHub Actions workflow `verify-test-suffix`（`.github/workflows/verify-test-suffix.yml`）を導入。実施タスク: `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/`。|

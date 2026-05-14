@@ -1,0 +1,39 @@
+{
+  "src/foo.ts": {
+    "path": "src/foo.ts",
+    "statementMap": {
+      "0": { "start": { "line": 1, "column": 0 }, "end": { "line": 1, "column": 10 } },
+      "1": { "start": { "line": 2, "column": 0 }, "end": { "line": 2, "column": 10 } }
+    },
+    "fnMap": {
+      "0": {
+        "name": "fn",
+        "decl": { "start": { "line": 1, "column": 0 }, "end": { "line": 1, "column": 5 } },
+        "loc": { "start": { "line": 1, "column": 0 }, "end": { "line": 3, "column": 1 } }
+      }
+    },
+    "branchMap": {
+      "0": {
+        "type": "if",
+        "locations": [
+          { "start": { "line": 2, "column": 0 }, "end": { "line": 2, "column": 5 } },
+          { "start": { "line": 2, "column": 6 }, "end": { "line": 2, "column": 10 } }
+        ]
+      }
+    },
+    "s": { "0": 1, "1": 0 },
+    "f": { "0": 1 },
+    "b": { "0": [1, 0] }
+  },
+  "src/only-a.ts": {
+    "path": "src/only-a.ts",
+    "statementMap": {
+      "0": { "start": { "line": 1, "column": 0 }, "end": { "line": 1, "column": 5 } }
+    },
+    "fnMap": {},
+    "branchMap": {},
+    "s": { "0": 3 },
+    "f": {},
+    "b": {}
+  }
+}
