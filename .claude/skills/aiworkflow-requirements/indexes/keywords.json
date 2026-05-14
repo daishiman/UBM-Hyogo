@@ -830,6 +830,7 @@
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
@@ -913,7 +914,8 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "Desktop": [
       "api-endpoints.md",
@@ -2124,7 +2126,8 @@
       "lessons-learned-task-14-my-profile-and-requests-2026-05.md"
     ],
     "gating": [
-      "arch-state-management-core.md"
+      "arch-state-management-core.md",
+      "patterns-kv-dedup.md"
     ],
     "apps": [
       "arch-state-management-core.md",
@@ -3088,7 +3091,8 @@
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
-      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md"
+      "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "配置ルール": [
       "arch-state-management-skill-creator.md"
@@ -3196,6 +3200,7 @@
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
@@ -4403,6 +4408,7 @@
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
     "Live": [
@@ -4469,6 +4475,7 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "observability-monitoring.md",
+      "patterns-kv-dedup.md",
       "r2-storage-decision-guide.md",
       "technology-core.md",
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
@@ -4730,7 +4737,8 @@
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
-      "lessons-learned-ut-coverage-2026-05-wave.md"
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "patterns-kv-dedup.md"
     ],
     "経由の": [
       "auth-google-oauth-cf-integration.md",
@@ -4742,7 +4750,8 @@
       "lessons-learned-05a-authjs-admin-gate-2026-04.md"
     ],
     "call": [
-      "auth-google-oauth-cf-integration.md"
+      "auth-google-oauth-cf-integration.md",
+      "patterns-kv-dedup.md"
     ],
     "session": [
       "auth-google-oauth-cf-integration.md",
@@ -5285,7 +5294,8 @@
     ],
     "必須": [
       "branch-protection-desired-state-manifest.md",
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "patterns-kv-dedup.md"
     ],
     "workflow": [
       "branch-protection-desired-state-manifest.md",
@@ -6720,7 +6730,8 @@
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
-      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+      "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "Logs": [
       "database-schema-cf-audit-log.md",
@@ -7071,7 +7082,8 @@
     "適用範囲": [
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-docs-only-lifecycle.md",
-      "lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md"
+      "lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md",
+      "patterns-kv-dedup.md"
     ],
     "形式判定マトリクス": [
       "deployment-cloudflare-opennext-workers.md"
@@ -7084,13 +7096,15 @@
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
-      "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md"
+      "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
+      "patterns-kv-dedup.md"
     ],
     "toml": [
       "deployment-cloudflare-opennext-workers.md",
       "deployment-cloudflare.md",
       "deployment-secrets-management.md",
-      "dlq-monitoring.md"
+      "dlq-monitoring.md",
+      "patterns-kv-dedup.md"
     ],
     "必須項目": [
       "deployment-cloudflare-opennext-workers.md"
@@ -7523,7 +7537,9 @@
     ],
     "KV": [
       "deployment-cloudflare.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "patterns-kv-dedup.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "に統一": [
       "deployment-cloudflare.md"
@@ -8566,7 +8582,8 @@
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md"
     ],
     "Persistence": [
-      "interfaces-agent-sdk-integration.md"
+      "interfaces-agent-sdk-integration.md",
+      "patterns-kv-dedup.md"
     ],
     "セッション永続化": [
       "interfaces-agent-sdk-integration.md"
@@ -9728,6 +9745,7 @@
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "patterns-kv-dedup.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md"
     ],
     "契約を共有する": [
@@ -9786,7 +9804,8 @@
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "patterns-kv-dedup.md"
     ],
     "exclusion": [
       "lessons-learned-02c-fixture-prod-build-exclusion-2026-05.md",
@@ -10374,7 +10393,8 @@
     ],
     "Alert": [
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
-      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md"
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "Reset": [
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
@@ -10652,6 +10672,7 @@
     "stub": [
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-05a-auth-ui-logout-button-2026-05.md",
+      "patterns-kv-dedup.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "consumed": [
@@ -11302,6 +11323,7 @@
     "Env": [
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
+      "patterns-kv-dedup.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md"
     ],
     "Downstream": [
@@ -13600,7 +13622,8 @@
     "focused": [
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
-      "lessons-learned-ut-coverage-2026-05-wave.md"
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "patterns-kv-dedup.md"
     ],
     "を採用する": [
       "lessons-learned-issue-372-attendance-pagination-2026-05.md"
@@ -14113,7 +14136,8 @@
     ],
     "ordering": [
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md",
-      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md"
+      "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
+      "patterns-kv-dedup.md"
     ],
     "月次": [
       "lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md"
@@ -14763,6 +14787,7 @@
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
@@ -16206,7 +16231,8 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "put": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+      "lessons-learned-ut-03-sheets-auth-2026-04.md",
+      "patterns-kv-dedup.md"
     ],
     "に一本化": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
@@ -16792,7 +16818,8 @@
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
     ],
     "narrowing": [
-      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
+      "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md",
+      "patterns-kv-dedup.md"
     ],
     "は責務を分離して": [
       "lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md"
@@ -19229,6 +19256,44 @@
       "ui-ux-settings-details.md",
       "ui-ux-settings-history.md",
       "ui-ux-settings.md"
+    ],
+    "Patterns": [
+      "patterns-kv-dedup.md"
+    ],
+    "Dedup": [
+      "patterns-kv-dedup.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
+    ],
+    "追加時の型": [
+      "patterns-kv-dedup.md"
+    ],
+    "contravariance": [
+      "patterns-kv-dedup.md"
+    ],
+    "回避": [
+      "patterns-kv-dedup.md"
+    ],
+    "外部": [
+      "patterns-kv-dedup.md"
+    ],
+    "成功後にのみ": [
+      "patterns-kv-dedup.md"
+    ],
+    "Wording": [
+      "patterns-kv-dedup.md"
+    ],
+    "規律": [
+      "patterns-kv-dedup.md"
+    ],
+    "practical": [
+      "patterns-kv-dedup.md"
+    ],
+    "reduction": [
+      "patterns-kv-dedup.md",
+      "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md"
+    ],
+    "を使う": [
+      "patterns-kv-dedup.md"
     ],
     "Documentation": [
       "phase-12-documentation-retrospective.md",
@@ -21716,6 +21781,7 @@
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md",
@@ -21751,7 +21817,8 @@
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
-      "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md"
+      "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "Artifacts": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
@@ -21778,6 +21845,7 @@
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md"
     ],
     "Open": [
@@ -21827,6 +21895,7 @@
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md",
       "workflow-ut-cicd-drift-impl-observability-matrix-sync-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
     ],
@@ -22309,9 +22378,6 @@
     "time": [
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md"
     ],
-    "reduction": [
-      "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md"
-    ],
     "targets": [
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
@@ -22751,6 +22817,12 @@
     ],
     "Runbooks": [
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
+    ],
+    "Relay": [
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
+    ],
+    "Planned": [
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "archived": [
       "workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md"

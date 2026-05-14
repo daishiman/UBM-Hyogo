@@ -10,7 +10,33 @@
     "sourceIssue": "#634",
     "sourceIssueState": "closed_unresolved",
     "parentTask": "ut-17-cloudflare-analytics-alerts",
-    "canonicalRoot": "docs/30-workflows/ut-17-followup-002-alert-relay-dedup-kv"
+    "canonicalRoot": "docs/30-workflows/ut-17-followup-002-alert-relay-dedup-kv",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; KV namespace dedup design captured under canonicalRoot"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv/phase-12.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (alert-relay KV persistence); Phase 12 strict outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: KV namespace creation, wrangler.toml real namespace ids, deploy, Slack runtime smoke are user-gated and tracked separately"
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "name": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"] },
