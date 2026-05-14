@@ -1,0 +1,92 @@
+{
+  "taskId": "task-18-w7-verify-tokens-and-playwright-smoke",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local",
+    "canonicalRoot": "docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/",
+    "createdAt": "2026-05-12",
+    "sourceTask": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/08-regression/task-18-w7-solo-verify-tokens-and-playwright-smoke.md",
+    "refsPolicy": "Refs only; do not use Closes/Fixes/Resolves",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + outputs scaffolding present at completed-tasks root"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local 5-point gates (typecheck/lint/unit/verify-tokens/grep-gate) captured as tracked evidence"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/playwright-smoke.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: verify-design-tokens + playwright-smoke + visual baseline must turn green on PR; runtime evidence captured by CI"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: branch protection PUT for dev/main + PR merge remain user-gated"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "path": "phase-01.md" },
+    { "phase": 2, "status": "completed", "path": "phase-02.md" },
+    { "phase": 3, "status": "completed", "path": "phase-03.md" },
+    { "phase": 4, "status": "completed", "path": "phase-04.md" },
+    { "phase": 5, "status": "completed", "path": "phase-05.md" },
+    { "phase": 6, "status": "completed", "path": "phase-06.md" },
+    { "phase": 7, "status": "completed", "path": "phase-07.md" },
+    { "phase": 8, "status": "runtime_pending", "path": "phase-08.md" },
+    { "phase": 9, "status": "runtime_pending", "path": "phase-09.md" },
+    { "phase": 10, "status": "runtime_pending", "path": "phase-10.md" },
+    { "phase": 11, "status": "runtime_pending_enospc", "path": "phase-11.md" },
+    { "phase": 12, "status": "completed", "path": "phase-12.md" },
+    { "phase": 13, "status": "blocked_pending_user_approval", "path": "phase-13.md" }
+  ],
+  "phase12StrictOutputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "runtimeEvidenceBoundary": {
+    "status": "runtime_pending",
+    "reason": "Implementation files are present locally. Unit/type/token gates pass; Playwright smoke execution started but local Next/Turbopack failed with ENOSPC before full evidence could be captured. CI green, visual baseline PNG, and branch protection mutation remain Phase 13/user-gated runtime evidence.",
+    "canonicalPaths": [
+      "outputs/phase-11/evidence/typecheck.txt",
+      "outputs/phase-11/evidence/lint.txt",
+      "outputs/phase-11/evidence/test.txt",
+      "outputs/phase-11/evidence/build.txt",
+      "outputs/phase-11/evidence/verify-tokens.txt",
+      "outputs/phase-11/evidence/e2e-smoke.txt",
+      "outputs/phase-11/evidence/e2e-visual.txt",
+      "outputs/phase-11/evidence/grep-gate.txt",
+      "outputs/phase-11/evidence/playwright-version.txt",
+      "outputs/phase-11/evidence/branch-protection-main-before.json",
+      "outputs/phase-11/evidence/branch-protection-dev-before.json",
+      "outputs/phase-13/branch-protection-main-payload.json",
+      "outputs/phase-13/branch-protection-dev-payload.json"
+    ]
+  }
+}

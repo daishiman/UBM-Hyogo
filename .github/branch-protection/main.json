@@ -1,0 +1,10 @@
+{
+  "strict": false,
+  "contexts": [
+    "ci",
+    "Validate Build",
+    "coverage-gate",
+    "lighthouse-ci",
+    "e2e-tests-coverage-gate"
+  ]
+}

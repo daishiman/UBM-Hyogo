@@ -1,0 +1,95 @@
+{
+  "taskId": "task-18-w7-verify-tokens-and-playwright-smoke",
+  "workflowDir": "docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke",
+  "schemaVersion": "1.0.0",
+  "evidence": [
+    {
+      "id": "typecheck",
+      "kind": "typecheck",
+      "path": "outputs/phase-11/evidence/typecheck.txt",
+      "command": "mise exec -- pnpm typecheck",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "lint",
+      "kind": "lint",
+      "path": "outputs/phase-11/evidence/lint.txt",
+      "command": "mise exec -- pnpm lint",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "test",
+      "kind": "test",
+      "path": "outputs/phase-11/evidence/test.txt",
+      "command": "mise exec -- pnpm vitest run scripts/verify-design-tokens.test.ts",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "build",
+      "kind": "build",
+      "path": "outputs/phase-11/evidence/build.txt",
+      "command": "mise exec -- pnpm --filter @ubm-hyogo/web build",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "grep-gate",
+      "kind": "grep-gate",
+      "path": "outputs/phase-11/evidence/grep-gate.txt",
+      "command": "secret and placeholder grep gates from phase-08.md",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "verify-tokens",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/verify-tokens.txt",
+      "command": "mise exec -- pnpm verify:tokens",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "e2e-smoke",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/e2e-smoke.txt",
+      "command": "mise exec -- pnpm --filter @ubm-hyogo/web e2e:smoke",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "e2e-visual",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/e2e-visual.txt",
+      "command": "mise exec -- pnpm --filter @ubm-hyogo/web e2e:visual",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "playwright-version",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/playwright-version.txt",
+      "command": "mise exec -- pnpm --filter @ubm-hyogo/web exec playwright --version",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "branch-protection-main-before",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/branch-protection-main-before.json",
+      "command": "gh api repos/daishiman/UBM-Hyogo/branches/main/protection",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    },
+    {
+      "id": "branch-protection-dev-before",
+      "kind": "runtime-observation",
+      "path": "outputs/phase-11/evidence/branch-protection-dev-before.json",
+      "command": "gh api repos/daishiman/UBM-Hyogo/branches/dev/protection",
+      "acquiredBy": "implementation_cycle",
+      "requiredForCloseout": true
+    }
+  ]
+}

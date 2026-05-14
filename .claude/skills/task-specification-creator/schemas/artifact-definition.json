@@ -211,6 +211,11 @@
           "type": "string",
           "description": "canonical workflow state（spec_created / CONTRACT_READY_IMPLEMENTATION_PENDING / implemented_local_evidence_captured / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / runtime_pending / verified_current_no_code_change_pending_pr / completed）。references/workflow-state-vocabulary.md 参照"
         },
+        "implementationCategory": {
+          "type": "string",
+          "enum": ["standard", "conditional", "docs_only", "governance", "runtime_observation"],
+          "description": "implementation task の実行形態。conditional は上流改善検知時のみ code/config 変更が発生し、改善なしなら read-only evidence + no-code-change verified state で閉じる。"
+        },
         "governance_mutation_user_gate": {
           "type": "boolean",
           "description": "governance mutation（gh api -X PUT / wrangler deploy / d1 migrations apply / gh secret set 等の不可逆 mutation）に user 明示承認 gate を要する場合 true。references/non-visual-irreversible-task-rules.md §0 参照"
