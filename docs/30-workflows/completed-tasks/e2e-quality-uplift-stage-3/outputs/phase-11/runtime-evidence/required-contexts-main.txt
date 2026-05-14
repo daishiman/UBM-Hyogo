@@ -1,0 +1,7 @@
+[
+  "Validate Build",
+  "ci",
+  "coverage-gate",
+  "e2e-tests-coverage-gate",
+  "lighthouse-ci"
+]

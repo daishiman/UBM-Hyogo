@@ -1,5 +1,0 @@
-Command: mise exec -- pnpm --filter @ubm-hyogo/web list @playwright/test --depth 0
-Date: 2026-05-09
-
-@ubm-hyogo/web@0.1.0
-@playwright/test@1.59.1
