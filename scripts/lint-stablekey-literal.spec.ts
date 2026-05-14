@@ -55,9 +55,9 @@ describe("lint-stablekey-literal", () => {
     expect(fromSupply).toHaveLength(0);
   });
 
-  it("does not flag .test.ts files (exception glob)", () => {
+  it("does not flag .spec.ts files (exception glob)", () => {
     const { report } = runLint();
-    const fromTests = report.violations.filter((v) => /\.test\.(ts|tsx)$/.test(v.file));
+    const fromTests = report.violations.filter((v) => /\.spec\.(ts|tsx)$/.test(v.file));
     expect(fromTests).toHaveLength(0);
   });
 
