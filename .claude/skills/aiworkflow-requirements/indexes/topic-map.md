@@ -4963,6 +4963,15 @@ node scripts/list-specs.js --topics
 | L-ISSUE626-002: artifact 共有における trust boundary 設計 | L18 |
 | L-ISSUE626-003: secret-grep false-positive の境界判定 | L24 |
 
+### references/lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L49 |
+| 参照 | L58 |
+
 ### references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md
 
 | セクション | 行 |
@@ -6608,13 +6617,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1226 |
-| フェーズ構造（概要） | L1235 |
-| 品質ゲート（概要） | L1266 |
-| 出力テンプレート | L1277 |
-| 実行時のコマンド・エージェント・スキル | L1300 |
-| 昇格パターン集 | L1324 |
-| Current Active / Spec Created Tasks | L1326 |
+| ドキュメント構成 | L1241 |
+| フェーズ構造（概要） | L1250 |
+| 品質ゲート（概要） | L1281 |
+| 出力テンプレート | L1292 |
+| 実行時のコマンド・エージェント・スキル | L1315 |
+| 昇格パターン集 | L1339 |
+| Current Active / Spec Created Tasks | L1341 |
 
 ### references/task-workflow-backlog-part2.md
 

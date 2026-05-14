@@ -5,35 +5,38 @@
 
 ---
 
-### Issue #668 residual RB-3b-03 / RB-3b-04 paths filter + shell helper（2026-05-14）
+### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/issue-668-stage3b-rb03-rb04-paths-filter-shell-helper/` |
-| 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL / Phase 12 strict 7 present` |
-| parent issue | `Refs #668` only（CLOSED umbrella follow-up; do not use `Closes` / `Fixes`） |
-| RB scope | RB-3b-03 `e2e-tests.yml` single-workflow paths precheck / RB-3b-04 `ci-shell-prelude.sh` + shellcheck gate + 3-script shellcheck cleanup |
-| required context | `e2e-tests-coverage-gate` preserved; branch protection mutation not required |
-| evidence | tracked `outputs/phase-11/local-evidence-summary.md`; raw ignored local logs captured; governance / CI8 dry-run check files pending user-gated PR |
-| source trace | `docs/30-workflows/unassigned-task/task-e2e-stage3b-rb-followup-composite-actions-001.md` split-migrated for RB-3b-03 / RB-3b-04 |
-| artifact inventory | `references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md` |
-| lessons | `references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md` |
-| user gate | dry-run PRs, GitHub Actions runtime evidence, issue comment, commit, push, PR |
-
-### UI prototype alignment / MVP recovery task-25 smoke coverage matrix（2026-05-14）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/task-25-ui-mvp-w8-par-routes-smoke-coverage/` |
-| 状態 | `spec_created / docs-only / NON_VISUAL / verify_existing / Phase 12 strict 7 present` |
-| main deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md` |
-| coverage contract | current 17 URL smoke entries + 2 component surfaces (`error.tsx`, `loading.tsx`) |
-| executable smoke SSOT | `apps/web/playwright/tests/full-smoke.spec.ts` |
-| visual baseline SSOT | `apps/web/playwright/tests/visual/{login,public-top,admin-dashboard,profile}.spec.ts` |
-| CI contexts | `verify-design-tokens / verify-design-tokens`, `playwright-smoke / smoke (chromium)`, `playwright-smoke / visual (chromium, 4 screens)` |
-| artifact inventory | `references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md` |
+| workflow root | `docs/30-workflows/completed-tasks/task-23-ui-mvp-w8-par-verification-status-matrix/` |
+| 状態 | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| parent workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| generated deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` |
+| evidence boundary | Phase 5/7/9 deterministic matrix evidence, root/output artifacts parity, Phase 11 NON_VISUAL marker, Phase 12 strict 7 present, documentation-changelog entry checklist + validator execution log |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-23-docs-only-final-deliverable-state-gate-2026-05.md` |
+| downstream | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` can use the generated `VERIFICATION-STATUS.md` |
 | user gate | commit / push / PR |
 
+### Issue #622 Packages Test Suffix Rename（2026-05-11）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-622-packages-test-suffix-rename/` |
+| 状態 | `implemented-local / implementation / NON_VISUAL / rename-only / local-evidence-partial` |
+| source | `docs/30-workflows/completed-tasks/task-issue-325-followup-002-packages-test-suffix-rename.md` |
+| upstream | #325 apps/api rename, #621 apps/web rename |
+| downstream | #623 / `docs/30-workflows/unassigned-task/task-issue-325-followup-003-vitest-spec-suffix-convergence.md` |
+| implementation targets | `packages/shared` 17 test files, `packages/integrations` and `packages/integrations-google` 11 test files, package ADR files |
+| evidence | `outputs/phase-05/rename-mapping.csv`, `outputs/phase-11/main.md`, `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| focused tests | `@ubm-hyogo/shared`, `@ubm-hyogo/integrations`, `@ubm-hyogo/integrations-google` |
+| issue wording | Issue body 26 files is stale; implementation uses current measured 28 files. PR uses `Closes #622`; `Refs #325`, `Refs #621`, `Refs #623` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-622-packages-test-suffix-rename-2026-05.md`（Issue body と実測の乖離 / `local-evidence-partial` 採用 / `apps/api/tsconfig.build.json` exclude pattern / Phase-12 strict 7 と artifacts.json の SSOT 関係） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260511-issue622-packages-test-suffix-rename-spec.md` |
+
+### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
+
+### Issue #589 Gate Metadata Structured Ledger（2026-05-10）
 ### E2E Quality Uplift Stage 3 — branch protection desired-state manifest land（Issue #608 / 2026-05-12）
 
 | 目的 | 参照先 |
@@ -88,6 +91,21 @@
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md` |
 | user gate | runtime screenshots / staging smoke / commit / push / PR |
+
+### Issue #630 authenticated /profile LHCI a11y（2026-05-13）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-630-authenticated-profile-lhci-a11y/` |
+| 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL` |
+| issue state | #630 CLOSED at `2026-05-12T06:26:21Z`; use `Refs #630` |
+| route scope | `/profile` |
+| auth contract | `signSessionJwt(AUTH_SECRET, { memberId, email, isAdmin: false, ttlSeconds: 3600 })` |
+| cookie | `authjs.session-token` for `localhost` |
+| implementation targets | `apps/web/scripts/lhci-auth-storage.ts`, `apps/web/scripts/lhci-profile-mock-api.ts`, `apps/web/lhci/lhci-auth.cjs`, `lighthouserc.authenticated.json`, `.github/workflows/lighthouse.yml`, `lighthouserc.json` |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; CI LHCI artifacts pending user-approved PR run |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md` |
+| user gate | GitHub Secret mutation / runtime LHCI / commit / push / PR |
 
 ### UI prototype alignment / MVP recovery task-14 my profile and requests（2026-05-10）
 
@@ -198,17 +216,6 @@
 | evidence boundary | runtime deploy / Playwright smoke / Sentry dashboard は user approval 後。Phase 12 strict 7 と artifacts parity は作成済み |
 | artifact inventory | `references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md` |
 
-### UI prototype alignment task-26 error boundary token utility migration（2026-05-14）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/` |
-| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
-| 実装正本 | `apps/web/app/error.tsx`, `apps/web/app/not-found.tsx`, `apps/web/app/loading.tsx` |
-| token boundary | SSOT `docs/00-getting-started-manual/specs/09b-design-tokens.md` と bridge `apps/web/src/styles/globals.css` は変更せず、consumer を既存 utility へ移行 |
-| evidence | `apps/web/app/__tests__/error.component.spec.tsx`, `outputs/phase-11/screenshots/not-found-desktop.png`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| artifact inventory | `references/workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md` |
-
 ### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
 
 | 目的 | 参照先 |
@@ -283,20 +290,6 @@
 | downstream | task-11 / task-12 / task-13 / task-14 / task-06 |
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | boundary | commit / push / PR は user approval 後 |
-
-### UI prototype alignment task-24 invariant audit（2026-05-14）
-
-| 目的 | 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/` |
-| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / W8-par / local audit evidence captured / Phase 13 blocked_pending_user_approval` |
-| parent canonical | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
-| final deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/INVARIANT-AUDIT.md` |
-| 目的 | task-01..22 の成果物と実装が INV-1..6 を守っているか read-only で監査し、22×6 matrix を生成する |
-| boundary | existing `apps/` / `packages/` code mutation is forbidden in task-24; local audit execution and matrix generation are complete; commit / push / PR / CI remain user-gated |
-| dependencies | upstream task-01..22、parallel task-23/25/26、downstream task-27 |
-| evidence | root/output `artifacts.json` parity, `outputs/phase-5/*`, `outputs/phase-11/*`, Phase 12 strict 7 files, `phase12-task-spec-compliance-check.md` |
-| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-24.md`（L-TASK24-001..004） |
 
 ### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
 
@@ -985,7 +978,7 @@ UT-GOV-001 を安全に実行するための前提タスク。確定 contexts �
 | lefthook ↔ CI 対応表（同一 pnpm script 規約） | `outputs/phase-05/lefthook-ci-mapping.md`, `outputs/phase-08/lefthook-ci-mapping.md` |
 | strict 採否決定根拠（dev / main 別） | `outputs/phase-05/strict-mode-decision.md`, `outputs/phase-09/strict-decision.md` |
 | 苦戦箇所 6 件（context 名生成・同名 job・存在しない context・strict トレードオフ・lefthook drift・refactor 名前変更事故） | `references/lessons-learned-ut-gov-004-branch-protection-context-sync.md` |
-| Phase 12 close-out 6 成果物 | `outputs/phase-12/{implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
+| Phase 12 close-out strict 7 成果物 | `outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
 | relay 先 | UT-GOV-001（apply 実行）/ UT-GOV-005（unit-test / integration-test / security-scan / docs-link 新設）/ UT-GOV-007（workflow `name:` drift 自動検出）|
 | 関連既存タスク | `docs/30-workflows/completed-tasks/task-github-governance-branch-protection/`（草案 8 contexts は本タスクで上書き確定済み）, `task-git-hooks-lefthook-and-post-merge` |
 
@@ -2474,16 +2467,3 @@ UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts
 | Node / pnpm バージョン固定（Node 24 / pnpm 10.33.2 / mise） | `CLAUDE.md` 「開発環境セットアップ」節 | `references/technology-devops-core.md` baseline 章 | CLAUDE.md > aiworkflow-requirements |
 | references/ 配下の API/D1/IPC/UI/auth 仕様 | `references/*.md`（aiworkflow-requirements が一次正本） | `CLAUDE.md` は概要のみ言及 | aiworkflow-requirements > CLAUDE.md。実装契約・schema・状態定数は references/ を正とする |
 | 教訓 / lessons-learned ID（L-XXX-NNN） | `references/lessons-learned-*.md`（aiworkflow-requirements が一次正本） | CLAUDE.md には記載しない | aiworkflow-requirements > CLAUDE.md |
-
-### Issue #627 Composite setup-project action（RB-02 / 2026-05-12）
-
-| 観点 | 値 / 参照先 |
-| --- | --- |
-| workflow root | `docs/30-workflows/issue-627-composite-setup-action/` |
-| status | `implemented_local_runtime_pending / implementation / NON_VISUAL / CI infra` |
-| composite contract | `.github/actions/setup-project/action.yml` implemented locally. Checkout is caller-owned; action owns Node / pnpm or mise setup plus optional install. |
-| input vocabulary | `setup-strategy: node-setup | mise`, `install: 'true' | 'false'`, `node-version`, `pnpm-version`, `working-directory` |
-| required contexts preserved | `ci`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate`, `build-test`, `workflow-shell-lint` |
-| evidence boundary | Local static checks passed; GitHub Actions runtime evidence is `runtime_pending` until user-approved commit / push / draft PR. |
-| closed issue rule | Issue #627 is CLOSED; PR text must use `Refs #627` only. |
-| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-627-composite-setup-action-2026-05.md` (L-627-001..003) |

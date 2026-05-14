@@ -108,3 +108,9 @@ apps/*/docs/
 
 # lefthook 開発者個別 override（ADR-04）
 lefthook-local.yml
+
+# LHCI authenticated storage state（実値 cookie を含むため commit 禁止）
+apps/web/.lhci/
+apps/web/.lighthouseci/
+apps/web/.lighthouseci-authenticated/
+.lighthouseci-authenticated/
