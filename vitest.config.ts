@@ -42,6 +42,7 @@ export default defineConfig({
     include: [
       "apps/**/src/**/*.spec.{ts,tsx}",
       "apps/**/app/**/*.spec.{ts,tsx}",
+      "apps/**/scripts/**/*.spec.{ts,tsx}",
       "apps/**/migrations/**/*.spec.ts",
       "packages/**/src/**/*.spec.{ts,tsx}",
       "scripts/**/*.spec.ts",

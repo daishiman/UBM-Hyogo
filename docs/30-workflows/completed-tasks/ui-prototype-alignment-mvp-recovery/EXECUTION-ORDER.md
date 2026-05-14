@@ -46,6 +46,20 @@ W2 残（task-02, task-03, task-07, task-08, task-19, task-20, task-21, task-22�
 | **W5** | ×5 | task-11, task-12, task-13, task-14, task-15 | W4 の task-10 完了後 |
 | **W6** | ×2 | task-16, task-17 | W5 の task-15（admin layout）完了後 |
 | **W7** | solo | task-18 | W6 まで全完了後 |
+| **W8** | ×4 | task-23, task-24, task-25, task-26 | task-01..22 完了後 |
+| **W9** | solo | task-27 | W8 完了後 |
+
+## W8 / W9 検証拡張（2026-05-14 反映）
+
+| wave | 並列度 | タスク | 状態 |
+|---|---|---|---|
+| **W8** | par | task-23 verification status matrix | spec_created |
+| **W8** | par | task-24 invariant audit | spec_created |
+| **W8** | par | task-25 smoke coverage matrix | spec_created / docs-only / NON_VISUAL / verify_existing |
+| **W8** | par | task-26 error.tsx token utility migration | spec_created |
+| **W9** | solo | task-27 MVP 3-layer task mapping | spec_created |
+
+task-25 main deliverable: `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md`.
 
 ---
 
@@ -84,6 +98,15 @@ worktree-2 → task-17-w6-par-admin-schema-conflicts-audit.md
 
 # W7: solo
 worktree-1 → task-18-w7-solo-verify-tokens-and-playwright-smoke.md
+
+# W8: 4 タスク並列
+worktree-1 → task-23-ui-mvp-w8-par-verification-status-matrix
+worktree-2 → task-24-ui-mvp-w8-par-invariant-audit
+worktree-3 → task-25-ui-mvp-w8-par-routes-smoke-coverage
+worktree-4 → task-26-ui-mvp-w8-par-error-tsx-token-utility-migration
+
+# W9: solo
+worktree-1 → task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping
 ```
 
 ---
@@ -120,6 +143,11 @@ flowchart LR
   T17[task-17<br/>W6 par<br/>schema+conflicts+audit]
 
   T18[task-18<br/>W7 solo<br/>verify+smoke]
+  T23[task-23<br/>W8 par<br/>verification status]
+  T24[task-24<br/>W8 par<br/>invariant audit]
+  T25[task-25<br/>W8 par<br/>routes smoke coverage]
+  T26[task-26<br/>W8 par<br/>error token migration]
+  T27[task-27<br/>W9 solo<br/>3-layer mapping]
 
   T01 --> T02 & T03 & T06 & T07 & T08 & T19 & T20 & T21 & T22
   T03 --> T04
@@ -133,6 +161,8 @@ flowchart LR
   T22 --> T11 & T12 & T13 & T14 & T15
   T15 --> T16 & T17
   T05 & T11 & T12 & T13 & T14 & T16 & T17 --> T18
+  T18 --> T23 & T24 & T25 & T26
+  T23 & T24 & T25 & T26 --> T27
 ```
 
 ---
@@ -151,6 +181,8 @@ flowchart LR
 | 06-screens-member | task-13, 14 | W5 |
 | 07-screens-admin | task-15..17 | W5, W6 |
 | 08-regression | task-18 | W7 |
+| 09-w8-audit | task-23..26 | W8 |
+| 10-w9-mapping | task-27 | W9 |
 
 → **「02-runtime を全部終えてから 03-spec-source」は誤り**。W2 で 02-runtime の task-02/03 と 03-spec-source の task-06/07/08 を**同時並列**で進めるのが最速。
 
@@ -167,6 +199,8 @@ task-01 → 02 → 03 → 06 → 07 → 08 → 19 → 20 → 21 → 22
        → 11 → 12 → 13 → 14 → 15
        → 16 → 17
        → 18
+       → 23 → 24 → 25 → 26
+       → 27
 ```
 
 直列の場合は約 14 人日、最大並列の場合は約 6〜8 人日が見込みです。
