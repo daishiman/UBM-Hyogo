@@ -1,0 +1,77 @@
+name: playwright-smoke
+
+on:
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - 'apps/web/**'
+      - 'packages/shared/**'
+      - 'scripts/verify-design-tokens.ts'
+      - '.github/workflows/playwright-smoke.yml'
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Optional deployed base URL'
+        required: false
+        type: string
+
+concurrency:
+  group: playwright-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: smoke (chromium)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PLAYWRIGHT_BASE_URL: ${{ inputs.base_url || '' }}
+      PLAYWRIGHT_EVIDENCE_TASK: task-18-w7
+      PLAYWRIGHT_TASK18_SMOKE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install deps
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Install Chromium
+        run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Run 19-route smoke
+        run: mise exec -- pnpm --filter @ubm-hyogo/web e2e:smoke
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-smoke-report
+          path: docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence/playwright-report
+          if-no-files-found: ignore
+
+  visual:
+    name: visual (chromium, 4 screens)
+    runs-on: ubuntu-latest
+    needs: smoke
+    if: github.event_name != 'schedule'
+    timeout-minutes: 15
+    env:
+      PLAYWRIGHT_BASE_URL: ${{ inputs.base_url || '' }}
+      PLAYWRIGHT_EVIDENCE_TASK: task-18-w7
+      PLAYWRIGHT_TASK18_SMOKE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Install deps
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Install Chromium
+        run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Run visual baseline
+        run: mise exec -- pnpm --filter @ubm-hyogo/web e2e:visual
+      - name: Upload visual artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-visual-artifacts
+          path: docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence/test-results
+          if-no-files-found: ignore

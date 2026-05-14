@@ -1,42 +1,77 @@
 # Phase 12 Task Spec Compliance Check
 
-## 総合判定
+## Summary verdict
 
-`IMPLEMENTED_LOCAL_BUILD_CLOUDFLARE_BLOCKED_RUNTIME_PENDING`
+`runtime_pending (CI scheduled / 2026-05-11)` — task-10 baseline integration の Phase 11 runtime visual / axe evidence を取得。`new` 前提を撤回し existing-ui-integration へ統一。Phase 13 (commit / push / PR) は user-gated。
 
-## strict 7 files
+## Changed-files classification
 
-| file | status |
-| --- | --- |
-| `main.md` | present |
-| `implementation-guide.md` | present |
-| `system-spec-update-summary.md` | present |
-| `documentation-changelog.md` | present |
-| `unassigned-task-detection.md` | present |
-| `skill-feedback-report.md` | present |
-| `phase12-task-spec-compliance-check.md` | present |
-
-## artifacts parity
-
-`artifacts.json` と `outputs/artifacts.json` は両方存在し、同一内容へ更新済み。
-
-## 実測 evidence
-
-| gate | result | evidence |
+| 種別 | 件数 | 主要パス |
 | --- | --- | --- |
-| typecheck | PASS | `outputs/phase-11/evidence/typecheck.log` |
-| lint | PASS | `outputs/phase-11/evidence/lint.log` |
-| focused test | PASS | `outputs/phase-11/evidence/test.log`（50 files / 427 tests） |
-| coverage | PASS | `outputs/phase-09/coverage.txt`（All files 83.47/87.29/83.19/83.47） |
-| next build | PASS | `outputs/phase-11/evidence/next-build.log` |
-| build:cloudflare | FAIL | `outputs/phase-11/evidence/build.log`（OpenNext esbuild host `0.25.4` / binary `0.21.5` mismatch） |
-| runtime visual | PENDING | build:cloudflare blocker 解消後に screenshot / axe を取得 |
+| barrel exports | 1 | `apps/web/src/components/ui/index.ts` |
+| primitives 実装 | 11 | `apps/web/src/components/ui/{Button,Card,Badge,Avatar,Field,Input,Select,Sidebar,Stat,EmptyState,Banner}.tsx` |
+| workflow root spec | many | `outputs/phase-{01..13}/` |
+| artifacts.json | 2 | `artifacts.json`, `outputs/artifacts.json` |
+| evidence | 9 | `outputs/phase-11/evidence/{screenshots,axe-report.json,playwright-report,monocart,test-results}` |
+| skill same-wave sync | 3 | `aiworkflow-requirements/{lessons-learned,changelog,references}` |
 
-## 4条件
+## `workflow_state` and phase status consistency
+
+- `workflow_state = runtime-evidence-captured`
+- `metadata.implementation_status = runtime_evidence_captured`
+- Phase 5: `implemented-local` / Phase 6-10: `completed` / Phase 11: `runtime_evidence_captured` / Phase 12: `completed` / Phase 13: `blocked_pending_user_approval`
+- 矛盾なし: state / phase / evidence の三点整合済
+
+## Phase 11 evidence file inventory
+
+| ファイル | 用途 |
+| --- | --- |
+| `outputs/phase-11/main.md` | Phase 11 サマリ |
+| `outputs/phase-11/evidence/screenshots/task10-ui-primitives-runtime.png` | runtime screenshot |
+| `outputs/phase-11/evidence/axe-report.json` | axe scan result |
+| `outputs/phase-11/evidence/playwright-report/results.json` | Playwright result |
+| `outputs/phase-11/evidence/playwright-report/html/index.html` | Playwright HTML report |
+| `outputs/phase-11/evidence/monocart/index.html` | coverage report |
+| `outputs/phase-11/evidence/test-results/.last-run.json` | test runner state |
+
+## Phase 12 strict 7 file inventory
+
+| # | ファイル | 状態 |
+| --- | --- | --- |
+| 1 | `main.md` | present |
+| 2 | `implementation-guide.md` | present |
+| 3 | `system-spec-update-summary.md` | present |
+| 4 | `documentation-changelog.md` | present |
+| 5 | `unassigned-task-detection.md` | present |
+| 6 | `skill-feedback-report.md` | present |
+| 7 | `phase12-task-spec-compliance-check.md` | present (本ファイル) |
+
+## Skill/reference/system spec same-wave sync
+
+- `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-10-ui-primitives-2026-05.md` 更新
+- `.claude/skills/aiworkflow-requirements/changelog/20260509-task-10-ui-primitives-implemented-local.md` 更新
+- follow-up 001 (opennext esbuild) / follow-up 002 (runtime visual axe) を同一 wave で完了
+
+## Runtime or user-gated boundary
+
+| Action | Status |
+| --- | --- |
+| typecheck / lint / focused test / coverage / next build | PASS-local |
+| `build:cloudflare` (via follow-up 001) | PASS-local |
+| runtime visual / axe scan (via follow-up 002) | PASS-local |
+| commit / push / PR | user-gated |
+| Cloudflare deploy | user-gated |
+
+## Archive/delete stale-reference gate
+
+- workflow root は `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` に固定。stale-reference なし。
+- follow-up 001 / 002 は同 wave で `completed-tasks/` 配下に昇格済。`canonicalEvidenceRoot` が follow-up-002 から本 root を参照する整合済。
+
+## Four-condition verdict
 
 | 条件 | 判定 | 根拠 |
 | --- | --- | --- |
-| 矛盾なし | PASS | `new` 前提を撤回し existing-ui-integration に統一 |
-| 漏れなし | BLOCKED | runtime screenshot / axe と build:cloudflare PASS は未取得 |
-| 整合性あり | PASS | state 語彙を implemented-local-build-blocked / implementation / VISUAL_ON_EXECUTION に統一 |
-| 依存関係整合 | BLOCKED | task-11..17 の barrel import dependency は実装済みだが、Cloudflare build gate 未解放 |
+| 矛盾なし | PASS | `new` 前提を撤回し existing-ui-integration へ統一 |
+| 漏れなし | PASS | runtime screenshot / axe と `build:cloudflare` PASS を同 cycle で取得 |
+| 整合性あり | PASS | state 語彙を runtime-evidence-captured / implementation / VISUAL_ON_EXECUTION に統一、metadata.gates 4 件追加 |
+| 依存関係整合 | PASS | task-11..17 の barrel import dependency は実装済み、follow-up 001 で Cloudflare build gate も解放済み |

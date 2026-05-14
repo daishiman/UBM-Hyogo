@@ -1,0 +1,12 @@
+# Phase 11 evidence directory
+
+実行時に以下が生成される:
+
+- workers-sdk-releases.json / undici-releases.json / workerd-releases.json
+- triage-grep-raw.log
+- triage-table.md
+- pkg-unchanged.log（改善なし時）
+- ab-{2,4,auto}-run-{1,2,3}.log（改善あり時）
+- ab-summary.md（改善あり時）
+- secret-hygiene-grep.log
+- apps-api-untouched.log

@@ -15,6 +15,12 @@
 
 この spec では、上記の正本群に整合するようにデータ境界と認証境界を整理する。
 
+## CI 回帰ゲート
+
+task-18 regression gate は、UI MVP の token / route / visual baseline drift を CI で検出する。
+required status check 候補は `verify-design-tokens / verify-design-tokens`、`playwright-smoke / smoke (chromium)`、`playwright-smoke / visual (chromium, 4 screens)` の 3 件とする。
+branch protection への実投入は user approval 後に dev / main 個別 payload で行い、solo 運用の `required_pull_request_reviews=null` は維持する。
+
 ---
 
 ## 全体方針
