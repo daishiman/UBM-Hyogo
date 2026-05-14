@@ -27,7 +27,7 @@
 
 ### Step 1: 入力資料の確認
 
-1. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md` を読み込み、19 routes と 4 層対応を抽出する
+1. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` を読み込み、19 routes と 4 層対応を抽出する
 2. `ls docs/30-workflows/ui-prototype-alignment-mvp-recovery/` で task-01〜22 のディレクトリ名を列挙
 3. 各 task root `index.md` の「対象 routes / 変更対象ファイル / DoD」を読み込み、対象 routes 集合をメモする
 4. `docs/30-workflows/task-23-.../` 配下に `VERIFICATION-STATUS.md` 実体が生成されているか確認
