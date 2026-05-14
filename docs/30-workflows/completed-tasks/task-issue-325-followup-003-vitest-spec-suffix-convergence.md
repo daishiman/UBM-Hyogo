@@ -19,7 +19,7 @@ depends_on:
 | 対象機能     | テスト discovery / coverage exclude glob                             |
 | 優先度       | 中                                                                  |
 | 見積もり規模 | 小規模（vitest.config + 関連 CI gate）                               |
-| ステータス   | 未実施                                                              |
+| ステータス   | consumed / implemented_local_runtime_pending                         |
 | 発見元       | Issue #325 Phase 12 独立検証                                         |
 | 発見日       | 2026-05-09                                                          |
 
