@@ -40,14 +40,17 @@ jobs:
       - name: Runtime smoke shell unit
         run: pnpm smoke:test
 
+      - name: Workflow secret scope shell unit
+        run: pnpm test:workflow-secrets
+
       - name: Shellcheck observation scripts
-        run: shellcheck scripts/observation/*.sh scripts/observation/test/*.sh
+        run: shellcheck scripts/observation/*.sh scripts/observation/test/*.sh scripts/redaction-check.sh scripts/__tests__/*.sh
 
       - name: Download actionlint
         run: bash <(curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
       - name: Actionlint workflow syntax
-        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/web-cd.yml .github/workflows/runtime-smoke-staging.yml .github/workflows/lighthouse.yml
+        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/web-cd.yml .github/workflows/backend-ci.yml .github/workflows/post-release-dashboard.yml .github/workflows/runtime-smoke-staging.yml .github/workflows/lighthouse.yml
 
       - name: Verify workflow secret allowlist
         run: |
