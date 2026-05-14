@@ -8,7 +8,7 @@ on:
       - 'apps/web/src/styles/globals.css'
       - 'docs/00-getting-started-manual/specs/09b-design-tokens.md'
       - 'scripts/verify-design-tokens.ts'
-      - 'scripts/verify-design-tokens.test.ts'
+      - 'scripts/verify-design-tokens.spec.ts'
       - '.github/workflows/verify-design-tokens.yml'
   push:
     branches: [main, dev]
@@ -28,6 +28,6 @@ jobs:
       - name: Install deps
         run: mise exec -- pnpm install --frozen-lockfile
       - name: Unit test verifier
-        run: mise exec -- pnpm vitest run scripts/verify-design-tokens.test.ts
+        run: mise exec -- pnpm vitest run scripts/verify-design-tokens.spec.ts
       - name: Verify design tokens
         run: mise exec -- pnpm verify:tokens

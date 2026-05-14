@@ -19,7 +19,41 @@
     "branch": {
       "base": "dev",
       "working": "feat/issue-623-vitest-spec-suffix-convergence"
-    }
+    },
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-623-vitest-spec-suffix-convergence/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec present; suffix convergence scope finalized"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-623-vitest-spec-suffix-convergence/outputs/phase-11/evidence-bundle/ac-1-find-after.txt",
+        "approver": "daishiman",
+        "notes": "validator_green: 159 files renamed to *.spec.{ts,tsx}, vitest include single, block-test-suffix gate green"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/verify-test-suffix.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: verify-test-suffix CI gate live; required-checks wiring pending user approval"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-623-vitest-spec-suffix-convergence/phase-13.md",
+        "approver": "daishiman",
+        "notes": "runtime_evidence: full CI vitest numTotalTests parity verification pending PR-merge run"
+      }
+    ]
   },
   "scope": {
     "renameCounts": {
