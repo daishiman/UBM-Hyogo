@@ -1,12 +1,12 @@
 # Phase 12 Task Spec Compliance Check - issue-623
 
-## Summary Verdict
+## Summary verdict
 
 `implemented_local_runtime_pending (local implementation PASS / full parity evidence pending)`
 
 This check covers the implementation wave present in the worktree. It claims local implementation completion for rename/config/gate/doc sync, while leaving full `pnpm test --run` `numTotalTests` parity as runtime evidence pending.
 
-## Changed-Files Classification
+## Changed-files classification
 
 | Area | Classification | Result |
 | --- | --- | --- |
@@ -15,7 +15,7 @@ This check covers the implementation wave present in the worktree. It claims loc
 | aiworkflow discovery | implemented_local_runtime_pending | quick-reference / resource-map / task-workflow-active registered |
 | implementation code | implemented_local_runtime_pending | rename/config/hook/workflow implementation present |
 
-## State Consistency
+## `workflow_state` and phase status consistency
 
 | File | Expected | Verdict |
 | --- | --- | --- |
@@ -23,11 +23,11 @@ This check covers the implementation wave present in the worktree. It claims loc
 | `index.md` | Status reflects local implementation + runtime evidence boundary | PASS |
 | `phase-12.md` | No CI/runtime PASS claim before full parity evidence | PASS |
 
-## Phase 11 Evidence Inventory
+## Phase 11 evidence file inventory
 
 Phase 11 evidence-bundle files exist for AC-1〜AC-6 / AC-8. AC-7 is explicitly recorded as runtime pending because full `pnpm test --run` parity evidence is not captured in this local cycle.
 
-## Phase 12 Strict 7 Inventory
+## Phase 12 strict 7 file inventory
 
 | File | Exists |
 | --- | --- |
@@ -39,7 +39,7 @@ Phase 11 evidence-bundle files exist for AC-1〜AC-6 / AC-8. AC-7 is explicitly 
 | `skill-feedback-report.md` | yes |
 | `phase12-task-spec-compliance-check.md` | yes |
 
-## Same-Wave Sync
+## Skill/reference/system spec same-wave sync
 
 Registered in:
 
@@ -49,15 +49,15 @@ Registered in:
 - `.claude/skills/aiworkflow-requirements/SKILL-changelog.md`
 - `.claude/skills/task-specification-creator/SKILL-changelog.md`
 
-## Runtime / User-Gated Boundary
+## Runtime or user-gated boundary
 
 Commit, push, PR, GitHub Actions runtime, and full-suite parity capture remain outside this improvement cycle. PR text must use `Refs #623` only because the issue is closed.
 
-## Artifact Parity
+## Archive/delete stale-reference gate
 
 `outputs/artifacts.json` exists and is byte-for-byte identical to root `artifacts.json`.
 
-## Four-Condition Verdict
+## Four-condition verdict
 
 | Condition | Verdict | Evidence |
 | --- | --- | --- |
