@@ -5,6 +5,22 @@
 
 ---
 
+### Issue #666 fetch/public service binding regression（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-666-fetch-public-service-binding-regression/` |
+| 状態 | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL` |
+| Issue | #666 OPEN。PR 文脈は `Refs #666` |
+| implementation targets | `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/fetch/public.spec.ts` |
+| contract | production / staging は `PUBLIC_API_BASE_URL` があっても service binding を優先。Vitest (`NODE_ENV=test`) / Playwright (`PLAYWRIGHT_TEST=1`) のみ HTTP fallback を許可。`CI=true` 単独では許可しない |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| source | `docs/30-workflows/completed-tasks/task-e2e-stage3b-fetch-public-service-binding-priority-regression-001.md` superseded |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-666-fetch-public-service-binding-regression-2026-05.md`（L-666-001/002/003: CI=true 非 trigger / PUBLIC_API_BASE_URL は test context との AND / completed-tasks 移動 drift） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260514-issue666-fetch-public-service-binding-regression.md` |
+| user gate | commit / push / PR / GitHub Actions runtime evidence |
+
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
 
 | 目的 | 参照先 |

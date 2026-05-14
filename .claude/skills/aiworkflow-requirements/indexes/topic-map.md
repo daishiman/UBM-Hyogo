@@ -2613,6 +2613,12 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L30 |
 | State Vocabulary | L37 |
 
+### references/workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L20 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6564,13 +6570,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1230 |
-| フェーズ構造（概要） | L1239 |
-| 品質ゲート（概要） | L1270 |
-| 出力テンプレート | L1281 |
-| 実行時のコマンド・エージェント・スキル | L1304 |
-| 昇格パターン集 | L1328 |
-| Current Active / Spec Created Tasks | L1330 |
+| ドキュメント構成 | L1245 |
+| フェーズ構造（概要） | L1254 |
+| 品質ゲート（概要） | L1285 |
+| 出力テンプレート | L1296 |
+| 実行時のコマンド・エージェント・スキル | L1319 |
+| 昇格パターン集 | L1343 |
+| Current Active / Spec Created Tasks | L1345 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6990,8 +6996,8 @@ node scripts/list-specs.js --topics
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
 | Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
-| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
-| 関連ドキュメント | L464 |
+| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L424 |
+| 関連ドキュメント | L465 |
 
 ### references/ui-history-components.md
 
