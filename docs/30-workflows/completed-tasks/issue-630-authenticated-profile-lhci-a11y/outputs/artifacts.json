@@ -14,7 +14,33 @@
     "parentIssues": [608],
     "canonicalRoot": "docs/30-workflows/issue-630-authenticated-profile-lhci-a11y/",
     "createdAt": "2026-05-12",
-    "refsPolicy": "Refs #630"
+    "refsPolicy": "Refs #630",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-630-authenticated-profile-lhci-a11y/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; scope and DoD captured under canonicalRoot"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-12T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-630-authenticated-profile-lhci-a11y/phase-12.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (lhci-auth-storage, lhci-profile-mock-api, lighthouse.yml authenticated job); Phase 12 strict outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-630-authenticated-profile-lhci-a11y/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: GitHub Actions LHCI runtime artifact collection is user-gated and tracked separately"
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "status": "completed", "path": "phase-01.md" },
