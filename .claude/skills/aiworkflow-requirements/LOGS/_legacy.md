@@ -879,3 +879,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 # 2026-05-11
 
 - task-10 follow-up 002 runtime visual + axe evidence を `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` として同期。workflow root、Playwright harness/spec/config、`Stat`/`Sidebar` semantic hardening、Phase 11 screenshot 37 files + axe violations 0、Phase 12 strict 7、quick-reference/resource-map/task-workflow-active/ui-ux-components/changelog を同一 wave で更新。`build:cloudflare` は followup-001 esbuild mismatch blocker 継続。commit / push / PR は user-gated。
+
+# 2026-05-14
+
+- task-26 error boundary token utility migration を `implemented_local_evidence_captured / implementation / VISUAL` として同期。`apps/web/app/error.tsx` / `not-found.tsx` / `loading.tsx` の stale runtime token literal (`fg-muted`, `primary`, `on-primary`, `border`, `surface-2`) を既存 `@theme inline` utility (`text-text-3`, `bg-accent`, `text-panel`, `border-border`, `bg-surface-2`) へ移行し、`apps/web/app/__tests__/error.component.spec.tsx` に `RouteError` / `Loading` / `NotFound` regression assertion を追加。Phase 11 screenshot、Phase 12 strict 7、root/output artifacts parity、quick-reference/resource-map/task-workflow-active を同一 wave で更新。commit / push / PR は user-gated。

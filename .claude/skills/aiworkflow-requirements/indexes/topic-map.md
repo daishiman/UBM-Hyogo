@@ -3107,6 +3107,14 @@ node scripts/list-specs.js --topics
 | Same-wave sync targets | L69 |
 | Related Resources | L79 |
 
+### references/workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Overview | L3 |
+| Current Artifacts | L13 |
+| Boundary | L22 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -5075,6 +5083,18 @@ node scripts/list-specs.js --topics
 | L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
 | L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
 
+### references/lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T26-001: 設計タスク起票時の現行コード drift 事前 grep を必須化する | L5 |
+| L-T26-002: 旧互換 alias を SSOT に追加せず consumer 側で正規 token へ統合する | L11 |
+| L-T26-003: VISUAL タスクの screenshot 要否を Phase 0/2 で明示する | L17 |
+| L-T26-004: 3 層 token migration パターンの汎化候補は 2 例蓄積後に切り出す | L23 |
+| L-T26-005: downstream CI gate を「実測済み代替証跡」と誤記しない | L29 |
+| L-T26-006: Phase 2 design に Before/After/経路の 3 列 mapping table を必須セクション化する | L35 |
+| 参照 | L41 |
+
 ### references/lessons-learned-task-spec-2d-contract-stage-2-2026-05.md
 
 | セクション | 行 |
@@ -5388,8 +5408,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L109 |
-| 関連ドキュメント | L114 |
+| 利用順序 | L110 |
+| 関連ドキュメント | L115 |
 
 ### references/llm-embedding.md
 
@@ -6500,13 +6520,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1153 |
-| フェーズ構造（概要） | L1162 |
-| 品質ゲート（概要） | L1193 |
-| 出力テンプレート | L1204 |
-| 実行時のコマンド・エージェント・スキル | L1227 |
-| 昇格パターン集 | L1251 |
-| Current Active / Spec Created Tasks | L1253 |
+| ドキュメント構成 | L1166 |
+| フェーズ構造（概要） | L1175 |
+| 品質ゲート（概要） | L1206 |
+| 出力テンプレート | L1217 |
+| 実行時のコマンド・エージェント・スキル | L1240 |
+| 昇格パターン集 | L1264 |
+| Current Active / Spec Created Tasks | L1266 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -169,6 +169,17 @@
 | evidence boundary | runtime deploy / Playwright smoke / Sentry dashboard は user approval 後。Phase 12 strict 7 と artifacts parity は作成済み |
 | artifact inventory | `references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md` |
 
+### UI prototype alignment task-26 error boundary token utility migration（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval` |
+| 実装正本 | `apps/web/app/error.tsx`, `apps/web/app/not-found.tsx`, `apps/web/app/loading.tsx` |
+| token boundary | SSOT `docs/00-getting-started-manual/specs/09b-design-tokens.md` と bridge `apps/web/src/styles/globals.css` は変更せず、consumer を既存 utility へ移行 |
+| evidence | `apps/web/app/__tests__/error.component.spec.tsx`, `outputs/phase-11/screenshots/not-found-desktop.png`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md` |
+
 ### Issue #547 Cloudflare Audit Logs Redacted Feature Export（2026-05-08）
 
 | 目的 | 参照先 |

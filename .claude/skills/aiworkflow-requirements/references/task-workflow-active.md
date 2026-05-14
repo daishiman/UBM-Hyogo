@@ -281,6 +281,19 @@
 | evidence boundary | Phase 12 strict 7 + artifacts parity は present。staging deploy / runtime Playwright / Sentry dashboard / commit / push / PR は user approval 後 |
 | artifact inventory | `references/workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md` |
 
+### UI prototype alignment task-26 error boundary token utility migration（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/` |
+| 実装対象 | `apps/web/app/error.tsx`, `apps/web/app/not-found.tsx`, `apps/web/app/loading.tsx` |
+| テスト | `apps/web/app/__tests__/error.component.spec.tsx` |
+| 視覚証跡 | `outputs/phase-11/screenshots/not-found-desktop.png` |
+| artifact inventory | `references/workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md` |
+| 境界 | token SSOT / Tailwind bridge は不変。consumer className の stale token literal のみ utility 化 |
+| 下流 | task-18 verify-design-tokens / Playwright broad visual smoke |
+| evidence boundary | Phase 11 screenshot + Phase 12 strict 7 + artifacts parity は present。task-18 broad visual smoke と commit / push / PR は user approval 後 |
 
 ### Issue #555 audit correlation salt rotation（2026-05-08）
 
