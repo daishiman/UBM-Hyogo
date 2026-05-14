@@ -46,7 +46,7 @@
 | `validate-build.yml` | ビルド検証（PR / push トリガー、apps/* の `pnpm build` 通過確認） |
 | `verify-indexes.yml` | aiworkflow-requirements skill indexes drift 検出（`pnpm indexes:rebuild` 結果と committed の差分検証） |
 | `pr-target-safety-gate.yml` | `pull_request_target` trusted context を triage / metadata / manual audit のみに限定する safety gate。PR head checkout / install / build は禁止。 |
-| `pr-build-test.yml` | untrusted PR head の build / lint / typecheck を `pull_request` + `contents: read` のみで実行する workflow。 |
+| `pr-build-test.yml` | untrusted PR head の build / lint / typecheck と Issue #626 RB-01 の integrated `lighthouse-ci` を `pull_request` + `contents: read` のみで実行する workflow。`build-test` が標準 `Build` 直後の `apps/web/.next` を `next-build-${{ github.sha }}` artifact として upload し、`lighthouse-ci` が `needs: build-test` で download して再 build なしに Lighthouse CI を実行する。 |
 | `cf-token-rotation-reminder.yml` | Cloudflare API Token 90 日 rotation の 85 日 reminder。`schedule` + `workflow_dispatch` dry-run で Issue 起票を通知に限定する。 |
 | `.github/workflows/ci.yml` / `workflow-shell-lint` | Issue #526 post-release observation reminder lint gate。PR / push の既存 CI で `.github/workflows/post-release-observation-reminder.yml` と `.github/workflows/ci.yml` を actionlint、`scripts/observation/*.sh` と `scripts/observation/test/*.sh` を shellcheck / bash syntax / shell unit で検査する。 |
 
@@ -54,7 +54,7 @@
 
 > **current facts (Issue #526 / 2026-05-08)**: `ci.yml` に `workflow-shell-lint` job を追加済み。job は `contents: read` のみを持ち、`bash -n scripts/observation/create-reminder-issue.sh`、`bash scripts/observation/test/test-create-reminder-issue.sh`、`shellcheck scripts/observation/*.sh scripts/observation/test/*.sh`、downloaded `actionlint` による `.github/workflows/post-release-observation-reminder.yml` / `.github/workflows/ci.yml` 検査、`secrets.GITHUB_TOKEN` 以外の `secrets.*` literal allowlist grep を実行する。既存 branch protection required context は `ci`, `Validate Build`, `coverage-gate` であるため、同じ gate を `ci` job 内の `pnpm observation:lint` にも組み込み、PR merge gate の強制力を既存 required context 経由で担保する。`post-release-observation-reminder.yml` の schedule / workflow_dispatch / Issue 作成副作用は変更しない。Runtime CI evidence は PR 後の `gh run view` で追記するため `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。
 
-> **current facts (UT-GOV-002-IMPL / 2026-04-30)**: 上記 9 件が `.github/workflows/` 配下の current inventory。`pr-target-safety-gate.yml` / `pr-build-test.yml` は spec_created 時点の実 workflow 草案で、Phase 13 ユーザー承認後に dry-run / VISUAL evidence を取得して branch protection context と同期する。
+> **current facts (Issue #626 RB-01 / 2026-05-12)**: standalone `.github/workflows/lighthouse.yml` は `pr-build-test.yml` の `lighthouse-ci` job に統合され、削除済み。`lighthouse-ci` の `name:` は required status context 互換のため維持し、`if: github.base_ref == 'dev'` で旧 Lighthouse dev-base 境界を維持する。PR dry-run checks、`lighthouse-ci` log の再 build 0 件確認、merge-time branch protection before/after diff は user-gated runtime evidence。
 
 > **current facts (09c Slack delivery / 2026-05-06)**: `incident-runbook-slack-delivery.yml` は `workflow_run.workflows: ["backend-ci", "web-cd"]` に接続し、`conclusion == success` かつ `head_branch == main` の場合だけ automatic dry-run を実行する。production 配信は `workflow_dispatch` の `mode=production`、`dryrun_evidence_confirmed=true`、GitHub environment `production-slack-delivery` approval の三条件を要求する。
 

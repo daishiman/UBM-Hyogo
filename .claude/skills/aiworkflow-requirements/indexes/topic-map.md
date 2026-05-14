@@ -2587,6 +2587,32 @@ node scripts/list-specs.js --topics
 | Skill 反映先 | L36 |
 | Validation Chain | L46 |
 
+### references/workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical artifacts | L13 |
+| Implementation targets | L25 |
+| Governance boundary | L37 |
+
+### references/workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Invariants | L18 |
+| Scope Out | L26 |
+| Lessons / Genealogy | L32 |
+
+### references/workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L10 |
+| Implementation Targets | L21 |
+| Evidence Boundary | L30 |
+| State Vocabulary | L37 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3843,15 +3869,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| wrangler.toml の環境別設定 | L219 |
-| ローカル開発での設定 | L251 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L290 |
-| セキュリティ原則 | L322 |
-| Cloudflare API Token の作成手順 | L333 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L348 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L459 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L511 |
-| 変更履歴 | L530 |
+| wrangler.toml の環境別設定 | L205 |
+| ローカル開発での設定 | L237 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L276 |
+| セキュリティ原則 | L308 |
+| Cloudflare API Token の作成手順 | L319 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L334 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L445 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L497 |
+| 変更履歴 | L516 |
 
 ### references/deployment.md
 
@@ -4094,15 +4120,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L19 |
-| 使い方 | L27 |
-| Current Alias Overrides（個別互換行） | L34 |
-| Family Summary | L75 |
-| Detailed Register | L96 |
-| Section Extract Register (2026-03-17) | L277 |
-| 500-Line Split Register (2026-03-16) | L288 |
-| Fragment Migration Register (2026-04-28) | L310 |
-| Task Root Path Drift Register (2026-04-30 追記) | L337 |
+| 概要 | L21 |
+| 使い方 | L29 |
+| Current Alias Overrides（個別互換行） | L36 |
+| Family Summary | L77 |
+| Detailed Register | L98 |
+| Section Extract Register (2026-03-17) | L279 |
+| 500-Line Split Register (2026-03-16) | L290 |
+| Fragment Migration Register (2026-04-28) | L312 |
+| Task Root Path Drift Register (2026-04-30 追記) | L339 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4483,7 +4509,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L17 |
+| 関連リソース | L16 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -4885,11 +4911,23 @@ node scripts/list-specs.js --topics
 | 運用知見 | L49 |
 | 参照 | L57 |
 
-### references/lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md
+### references/lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md
 
 | セクション | 行 |
 |------------|----|
-| 5-minute Checklist | L15 |
+| L-623-001: ENOSPC で full test parity 未取得 | L11 |
+| L-623-002: 二段階移行の終了タイミング判断 | L18 |
+| L-623-003: import path drift 修正の事前 grep | L24 |
+| L-623-004: lefthook + GitHub Action 二重 gate 設計 | L30 |
+| 引用関係 | L36 |
+
+### references/lessons-learned-issue-626-rb01-share-build-output-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-ISSUE626-001: workflow 統合時の branch protection context 名 continuity | L11 |
+| L-ISSUE626-002: artifact 共有における trust boundary 設計 | L18 |
+| L-ISSUE626-003: secret-grep false-positive の境界判定 | L24 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -6506,13 +6544,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1153 |
-| フェーズ構造（概要） | L1162 |
-| 品質ゲート（概要） | L1193 |
-| 出力テンプレート | L1204 |
-| 実行時のコマンド・エージェント・スキル | L1227 |
-| 昇格パターン集 | L1251 |
-| Current Active / Spec Created Tasks | L1253 |
+| ドキュメント構成 | L1217 |
+| フェーズ構造（概要） | L1226 |
+| 品質ゲート（概要） | L1257 |
+| 出力テンプレート | L1268 |
+| 実行時のコマンド・エージェント・スキル | L1291 |
+| 昇格パターン集 | L1315 |
+| Current Active / Spec Created Tasks | L1317 |
 
 ### references/task-workflow-backlog-part2.md
 
