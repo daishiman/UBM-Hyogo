@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { VIEWPORTS } from './playwright/fixtures/viewports'
 
 const isStagingSmoke = process.argv.some((arg) => arg.includes('staging-smoke'))
 const isAdminRequestsRun =
@@ -26,8 +27,13 @@ const isTask10Followup002Evidence =
   process.argv.some((arg) => arg.includes('ui-primitives-visual.spec.ts'))
 const isTask18RegressionGate =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-18-w7' ||
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-18-fu' ||
   process.argv.some((arg) => arg.includes('full-smoke.spec.ts')) ||
-  process.argv.some((arg) => arg.includes('/visual/'))
+  process.argv.some((arg) => arg.includes('/visual/')) ||
+  process.argv.some((arg) => arg.includes('visual-full'))
+const isTask18FullVisualEvidence =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-18-fu' ||
+  process.argv.some((arg) => arg.includes('visual-full'))
 
 const EVIDENCE_DIR =
   process.env.PLAYWRIGHT_EVIDENCE_DIR ??
@@ -49,7 +55,9 @@ const EVIDENCE_DIR =
                   ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
                   : isTask10Followup002Evidence
                     ? '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
-                    : isTask18RegressionGate
+                    : isTask18FullVisualEvidence
+                      ? '../../docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence'
+                      : isTask18RegressionGate
                       ? '../../docs/30-workflows/task-18-w7-verify-tokens-and-playwright-smoke/outputs/phase-11/evidence'
                       : '../../docs/30-workflows/completed-tasks/08b-A-playwright-e2e-full-execution/outputs/phase-11/evidence')
 
@@ -130,7 +138,7 @@ export default defineConfig({
   projects: [
     {
       name: 'desktop-chromium',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -145,7 +153,7 @@ export default defineConfig({
     },
     {
       name: 'desktop-firefox',
-      testIgnore: [/visual\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
+      testIgnore: [/visual\/.*\.spec\.ts$/, /visual-full\/.*\.spec\.ts$/, /full-smoke\.spec\.ts$/, ...fixtureGatedTestIgnore],
       use: { ...devices['Desktop Firefox'], viewport: { width: 1280, height: 800 } },
     },
     {
@@ -156,11 +164,27 @@ export default defineConfig({
       // 管理画面は desktop-chromium / desktop-firefox 側で carried されるため mobile-webkit からは除外する。
       testIgnore: [
         /visual\/.*\.spec\.ts$/,
+        /visual-full\/.*\.spec\.ts$/,
         /full-smoke\.spec\.ts$/,
         /admin-pages\.spec\.ts$/,
         ...fixtureGatedTestIgnore,
       ],
       use: { ...devices['iPhone 13'], viewport: { width: 390, height: 844 } },
+    },
+    {
+      name: 'visual-full-chromium-desktop',
+      testDir: './playwright/tests/visual-full',
+      use: { ...devices['Desktop Chrome'], viewport: VIEWPORTS.desktop },
+    },
+    {
+      name: 'visual-full-chromium-tablet',
+      testDir: './playwright/tests/visual-full',
+      use: { ...devices['Desktop Chrome'], viewport: VIEWPORTS.tablet },
+    },
+    {
+      name: 'visual-full-chromium-mobile',
+      testDir: './playwright/tests/visual-full',
+      use: { ...devices['Desktop Chrome'], viewport: VIEWPORTS.mobile },
     },
     {
       name: 'staging',

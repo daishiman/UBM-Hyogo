@@ -1,0 +1,63 @@
+{
+  "taskId": "task-18-fu-full-visual-regression-suite",
+  "taskType": "implementation",
+  "visualEvidence": "VISUAL",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementation_status": "implemented_local_baseline_runtime_pending",
+    "canonicalRoot": "docs/30-workflows/task-18-fu-full-visual-regression-suite/",
+    "createdAt": "2026-05-14",
+    "issue": 696,
+    "sourceTask": "docs/30-workflows/unassigned-task/task-18-full-visual-regression-suite-001.md",
+    "upstream": [
+      "docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/"
+    ],
+    "refsPolicy": "Refs only; do not use Closes/Fixes/Resolves until user explicitly confirms Issue #696 closure semantics.",
+    "runtimeEvidenceBoundary": "Full visual regression code and workflows are implemented locally; 51 screenshot baselines, CI run evidence, baseline update, commit, push, and PR remain pending user-gated runtime workflows."
+  },
+  "phases": [
+    { "phase": 1, "status": "completed", "path": "phase-1-requirements.md" },
+    { "phase": 2, "status": "completed", "path": "phase-2-design.md" },
+    { "phase": 3, "status": "completed", "path": "phase-3-design-review.md" },
+    { "phase": 4, "status": "completed", "path": "phase-4-test-plan.md" },
+    { "phase": 5, "status": "completed", "path": "phase-5-implementation.md" },
+    { "phase": 6, "status": "completed", "path": "phase-6-test-additions.md" },
+    { "phase": 7, "status": "runtime_pending", "path": "phase-7-coverage.md" },
+    { "phase": 8, "status": "completed", "path": "phase-8-refactor.md" },
+    { "phase": 9, "status": "runtime_pending", "path": "phase-9-qa.md" },
+    { "phase": 10, "status": "runtime_pending", "path": "phase-10-final-review.md" },
+    { "phase": 11, "status": "runtime_pending", "path": "phase-11-manual-test.md" },
+    { "phase": 12, "status": "completed", "path": "phase-12-documentation.md" },
+    { "phase": 13, "status": "blocked", "path": "phase-13-pr.md" }
+  ],
+  "phase11ContractOutputs": [
+    "outputs/phase-11/main.md",
+    "outputs/phase-11/manual-smoke-log.md",
+    "outputs/phase-11/link-checklist.md"
+  ],
+  "phase12StrictOutputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "implementedLocalFiles": [
+    "apps/web/playwright.config.ts",
+    "apps/web/playwright/fixtures/viewports.ts",
+    "apps/web/playwright/fixtures/visual-routes.ts",
+    "apps/web/playwright/tests/visual-full/full-visual.spec.ts",
+    ".github/workflows/playwright-visual-full.yml",
+    ".github/workflows/playwright-visual-baseline-update.yml",
+    "apps/web/package.json"
+  ],
+  "runtimePendingArtifacts": [
+    "apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/*.png",
+    "outputs/phase-11/evidence/**",
+    "outputs/phase-7/coverage.md"
+  ]
+}

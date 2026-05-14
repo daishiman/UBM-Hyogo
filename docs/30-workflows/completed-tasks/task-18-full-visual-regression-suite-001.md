@@ -1,5 +1,11 @@
 # task-18-full-visual-regression-suite-001
 
+## Formalization Trace
+
+`formalized_as_implemented_local_runtime_pending`: `docs/30-workflows/task-18-fu-full-visual-regression-suite/`（2026-05-14）。
+
+このファイルは baseline / runtime evidence 未完了の source unassigned trace として残す。51 baseline / runtime evidence が揃った時点で consumed/completed へ更新する。
+
 ## 概要
 
 task-18 W7 の 4 screen baseline を拡張し、17 URL routes x 3 viewport の full visual regression suite を設計・実装する。

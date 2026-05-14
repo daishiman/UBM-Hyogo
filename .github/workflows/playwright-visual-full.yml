@@ -1,0 +1,43 @@
+name: playwright-visual-full
+
+on:
+  schedule:
+    - cron: '0 18 * * *' # JST 03:00 nightly
+  pull_request:
+    paths:
+      - 'apps/web/src/**'
+      - 'apps/web/playwright.config.ts'
+      - 'apps/web/playwright/tests/visual-full/**'
+      - 'apps/web/playwright/fixtures/**'
+      - 'apps/web/src/styles/tokens.css'
+      - '.github/workflows/playwright-visual-full.yml'
+
+concurrency:
+  group: visual-full-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  visual-full:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        viewport: [desktop, tablet, mobile]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-project
+      - name: Install playwright browsers
+        run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Build apps/web
+        run: pnpm --filter @ubm-hyogo/web build
+      - name: Run visual-full (${{ matrix.viewport }})
+        env:
+          PLAYWRIGHT_EVIDENCE_TASK: task-18-fu
+        run: pnpm --filter @ubm-hyogo/web exec playwright test --project=visual-full-chromium-${{ matrix.viewport }}
+      - name: Upload diff artifact on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-full-${{ matrix.viewport }}-diff
+          path: docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence/
+          retention-days: 14
