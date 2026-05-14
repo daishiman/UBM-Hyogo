@@ -79,6 +79,9 @@ jobs:
             !apps/web/.next/standalone
           retention-days: 1
           if-no-files-found: error
+          # `.next` は dot-prefixed のため actions/upload-artifact@v4 の
+          # default include-hidden-files=false で除外される。明示有効化する。
+          include-hidden-files: true
 
       # Issue #560: scripts/patch-next-standalone-instrumentation.mjs の
       # regression test。fixture ベースで cwd guard / trace copy / --verify-only を
