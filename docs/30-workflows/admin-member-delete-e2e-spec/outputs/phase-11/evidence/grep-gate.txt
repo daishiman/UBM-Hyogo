@@ -1,4 +1,0 @@
-page.route count: 1
-spec direct fetch count: 0
-test.skip count: 1
-test.fixme count: 0

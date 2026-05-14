@@ -8,6 +8,37 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #617 CI test time reduction split（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL / LOCAL_EVIDENCE_PARTIAL_CI_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-617-ci-test-time-reduction-split/` |
+| source issue | Issue #617 CLOSED。PR 文脈は `Refs #617` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/task-issue-577-followup-003-test-grouping-by-d1-usage.md`（historical #618, expanded consumed） |
+| 目的 | apps/api D1/unit split、apps/web/packages coverage split、CI wall-clock reduction |
+| implementation targets | `vitest.config.ts`, `vitest.d1.config.ts`, `apps/api/package.json`, `apps/web/package.json`, `scripts/coverage-guard.sh`, `scripts/coverage-merge.mjs`, `.github/workflows/ci.yml` |
+| CI design | `coverage-gate-shard` matrix fan-out + aggregate `coverage-gate` required context 維持。shard は artifact-only、80% 判定は aggregate のみ |
+| evidence boundary | Local typecheck / lint / coverage-merge test / classification checks are recorded; GitHub Actions runtime wall-clock and full shard coverage remain pending |
+| user gate | GitHub Actions runtime evidence, commit, push, and PR |
+
+### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking.md`（consumed trace） |
+| Issue | #616 CLOSED 維持。#617 は followup-003 のため誤参照禁止 |
+| 目的 | Miniflare / undici / workerd の socket / keep-alive / port reuse 改善を triage し、`apps/api` coverage の worker cap 緩和可否を判定する |
+| current cap | `apps/api/package.json#scripts.test:coverage` の `--maxWorkers=1 --minWorkers=1` |
+| 採用条件 | `--maxWorkers=2 → 4 → auto` の段階評価。候補 N は連続 3 回 133/133 PASS、0 EADDRNOTAVAIL、coverage regression なし。低い候補が fail した場合、より大きい候補は skip 理由を記録して打ち切る |
+| 採用時 script 方針 | `--minWorkers` を削除し、`--maxWorkers=<採用N>` のみを正本化 |
+| 不変条件 | apps/api runtime code / D1 schema / Cloudflare binding は変更しない |
+| artifact inventory | `references/workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md` |
+| user gate | `apps/api/package.json` 編集、commit、push、PR、Issue 操作は user approval 後 |
+
 ### task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
 
 | 項目 | 値 |
@@ -377,7 +408,7 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | implemented_local_pending_pr / implementation / NON_VISUAL / runtime completed / Phase 12 strict 7 completed / PR pending_user_approval |
-| 成果物 | `docs/30-workflows/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-577-api-coverage-rerun-miniflare-port-exhaustion/` |
 | parent | Issue #532 write/tag/note provider ctx injection（CLOSED 維持） |
 | source | `docs/30-workflows/unassigned-task/task-issue-532-api-full-coverage-rerun-miniflare-port-exhaustion-001.md` |
 | GitHub Issue | #577 CLOSED（2026-05-08T21:36:04Z）。PR は `Refs #577` で追跡 |

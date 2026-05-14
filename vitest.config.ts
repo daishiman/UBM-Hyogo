@@ -46,6 +46,30 @@ export default defineConfig({
       "packages/**/src/**/*.{test,spec}.{ts,tsx}",
       "scripts/**/*.{test,spec}.ts",
     ],
+    // issue-617: D1 binding を使う apps/api test は vitest.d1.config.ts に分離。
+    // Phase 4 classification.md (docs/30-workflows/issue-617-ci-test-time-reduction-split/) を正本。
+    // 同 glob 集合は vitest.d1.config.ts の include と disjoint で対応する。
+    exclude: [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.{idea,git,cache,output,temp}/**",
+      "apps/api/migrations/seed/__tests__/issue-399-seed-syntax.test.ts",
+      "apps/api/src/__tests__/invariants.spec.ts",
+      "apps/api/src/env.spec.ts",
+      "apps/api/src/health-db.contract.spec.ts",
+      "apps/api/src/middleware/me-session-resolver.authz.spec.ts",
+      "apps/api/src/middleware/repository-providers.spec.ts",
+      "apps/api/src/middleware/__tests__/rate-limit-magic-link.authz.spec.ts",
+      "apps/api/src/audit-correlation/__tests__/persist.spec.ts",
+      "apps/api/src/audit-correlation/__tests__/run-correlation.spec.ts",
+      "apps/api/src/jobs/**/*.contract.spec.ts",
+      "apps/api/src/repository/**/*.repository.spec.ts",
+      "apps/api/src/routes/**/*.contract.spec.ts",
+      "apps/api/src/sync/**/*.contract.spec.ts",
+      "apps/api/src/sync/schema/**/*.spec.ts",
+      "apps/api/src/use-cases/auth/__tests__/*.spec.ts",
+      "apps/api/src/workflows/*.contract.spec.ts",
+    ],
     coverage: {
       provider: "v8",
       reporter: ["text", "json-summary", "json", "lcov", "html"],
