@@ -8,6 +8,7 @@
     "build:cloudflare": "NODE_ENV=production opennextjs-cloudflare build && node ../../scripts/patch-open-next-worker.mjs",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "dev": "next dev",
+    "dev:webpack": "next dev --webpack",
     "start": "next start",
     "lint": "tsc -p tsconfig.json --noEmit && eslint 'src/**/*.{ts,tsx}'",
     "preview:cloudflare": "pnpm build:cloudflare && opennextjs-cloudflare preview",
@@ -17,6 +18,9 @@
     "test:e2e": "playwright test",
     "e2e": "playwright test",
     "test:e2e:list": "playwright test --list",
+    "e2e:smoke": "PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 playwright test --project=smoke-chromium",
+    "e2e:visual": "PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 playwright test --project=visual-chromium",
+    "e2e:visual:update": "PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 playwright test --project=visual-chromium --update-snapshots",
     "verify-design-tokens": "vitest run --root=../.. --config=vitest.config.ts apps/web/src/__tests__/tokens.runtime.spec.ts",
     "e2e:staging": "playwright test tests/e2e/staging-smoke.spec.ts --project=staging-smoke"
   },
