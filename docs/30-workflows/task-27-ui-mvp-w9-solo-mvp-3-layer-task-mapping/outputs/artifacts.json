@@ -1,0 +1,34 @@
+{
+  "task_name": "task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping",
+  "task_path": "docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping",
+  "wave": 9,
+  "execution_mode": "solo",
+  "depends_on": ["task-23"],
+  "blocks": [],
+  "created_at": "2026-05-14T00:00:00+09:00",
+  "status": "spec_created",
+  "metadata": {
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "spec_created",
+    "implementation_mode": "verify_existing",
+    "implementationCategory": "docs_only",
+    "final_deliverable": "docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md",
+    "parent_workflow": "docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/"
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "file": "phase-1-requirements.md", "status": "spec_created", "outputs": ["phase-1-requirements.md"], "depends_on_phases": [], "user_approval_required": false },
+    { "phase": 2, "name": "設計", "file": "phase-2-design.md", "status": "spec_created", "outputs": ["phase-2-design.md"], "depends_on_phases": [1], "user_approval_required": false },
+    { "phase": 3, "name": "設計レビュー", "file": "phase-3-design-review.md", "status": "spec_created", "outputs": ["phase-3-design-review.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 4, "name": "テスト計画", "file": "phase-4-test-plan.md", "status": "spec_created", "outputs": ["phase-4-test-plan.md"], "depends_on_phases": [2], "user_approval_required": false },
+    { "phase": 5, "name": "実装計画", "file": "phase-5-implementation.md", "status": "spec_created", "outputs": ["phase-5-implementation.md"], "depends_on_phases": [2, 4], "user_approval_required": false },
+    { "phase": 6, "name": "テスト拡充", "file": "phase-6-test-additions.md", "status": "spec_created", "outputs": ["phase-6-test-additions.md"], "depends_on_phases": [4, 5], "user_approval_required": false },
+    { "phase": 7, "name": "カバレッジ確認", "file": "phase-7-coverage.md", "status": "spec_created", "outputs": ["phase-7-coverage.md"], "depends_on_phases": [5, 6], "user_approval_required": false },
+    { "phase": 8, "name": "リファクタリング", "file": "phase-8-refactor.md", "status": "spec_created", "outputs": ["phase-8-refactor.md"], "depends_on_phases": [5], "user_approval_required": false },
+    { "phase": 9, "name": "品質保証", "file": "phase-9-qa.md", "status": "spec_created", "outputs": ["phase-9-qa.md"], "depends_on_phases": [4, 5, 7], "user_approval_required": false },
+    { "phase": 10, "name": "最終レビュー", "file": "phase-10-final-review.md", "status": "spec_created", "outputs": ["phase-10-final-review.md"], "depends_on_phases": [9], "user_approval_required": false },
+    { "phase": 11, "name": "手動テスト", "file": "phase-11-manual-test.md", "status": "spec_created", "outputs": [], "depends_on_phases": [10], "user_approval_required": false },
+    { "phase": 12, "name": "ドキュメント更新", "file": "phase-12-documentation.md", "status": "spec_created", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [11], "user_approval_required": false },
+    { "phase": 13, "name": "PR 作成", "file": "phase-13-pr.md", "status": "blocked", "outputs": [], "depends_on_phases": [12], "user_approval_required": true }
+  ]
+}

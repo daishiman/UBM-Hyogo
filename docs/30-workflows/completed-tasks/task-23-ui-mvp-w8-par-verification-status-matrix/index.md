@@ -6,12 +6,13 @@
 > implementation_mode: `verify_existing`（task-01〜22 完了済みの検証集約タスク）
 > task classification: docs-only task（成果物は単一 markdown matrix）
 > visual classification: NON_VISUAL（UI/UX 変更なし）
+> workflow_state: implemented_local_evidence_captured（docs-only matrix generated, Phase 13 user gate pending）
 
 ---
 
 ## 概要
 
-`docs/30-workflows/ui-prototype-alignment-mvp-recovery/` 配下の全 22 タスク（task-01〜22）について、検証 4 条件の充足度を `22 × 4 = 88` セルの matrix で可視化した `VERIFICATION-STATUS.md` を生成・配置する。
+`docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` 配下の全 22 タスク（task-01〜22）について、検証 4 条件の充足度を `22 × 4 = 88` セルの matrix で可視化した `VERIFICATION-STATUS.md` を生成・配置する。
 
 ### 検証 4 条件（columns）
 
@@ -37,18 +38,18 @@
 
 | Phase | 名称 | ステータス |
 |-------|------|------------|
-| 1 | 要件定義 | spec_created |
-| 2 | 設計 | spec_created |
-| 3 | 設計レビュー | spec_created |
-| 4 | テスト作成（検証スクリプト設計） | spec_created |
-| 5 | 実装（matrix 生成） | spec_created |
-| 6 | テスト拡充 | spec_created |
-| 7 | カバレッジ確認 | spec_created |
-| 8 | リファクタリング | spec_created |
-| 9 | 品質保証 | spec_created |
-| 10 | 最終レビュー | spec_created |
-| 11 | 手動テスト（NON_VISUAL） | spec_created |
-| 12 | ドキュメント更新 | spec_created |
+| 1 | 要件定義 | completed |
+| 2 | 設計 | completed |
+| 3 | 設計レビュー | completed |
+| 4 | テスト作成（検証スクリプト設計） | completed |
+| 5 | 実装（matrix 生成） | completed |
+| 6 | テスト拡充 | completed |
+| 7 | カバレッジ確認 | completed |
+| 8 | リファクタリング | completed |
+| 9 | 品質保証 | completed |
+| 10 | 最終レビュー | completed |
+| 11 | 手動テスト（NON_VISUAL） | completed |
+| 12 | ドキュメント更新 | completed |
 | 13 | PR 作成 | blocked（ユーザー承認待ち） |
 
 ---
@@ -59,8 +60,8 @@
 2. matrix の各セルは PASS / WARN / FAIL / N/A のいずれかを記入し、WARN・FAIL は必ず短い理由を併記する
 3. 出力 markdown は GitHub flavored table（GFM）形式で記述する
 4. `22 task × 4 condition` = **88 セルすべてを埋める**（空欄禁止）
-5. 成果物 `VERIFICATION-STATUS.md` の配置先は `docs/30-workflows/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md`（本ワークフロー外）
-6. 本ワークフロー（task-23）の root（`docs/30-workflows/task-23-ui-mvp-w8-par-verification-status-matrix/`）には Phase 仕様書のみを置く
+5. 成果物 `VERIFICATION-STATUS.md` の配置先は `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md`（本ワークフロー外）
+6. 本ワークフロー（task-23）の root（`docs/30-workflows/task-23-ui-mvp-w8-par-verification-status-matrix/`）には Phase 仕様書、`artifacts.json`、`outputs/artifacts.json`、Phase 11/12 evidence のみを置く
 
 ---
 
@@ -74,28 +75,24 @@
 
 ---
 
-## 主要成果物
+## 成果物インベントリ
 
-| パス | 役割 |
-|------|------|
-| `outputs/phase-1/requirements.md` | スコープ・対象 22 タスク一覧・4 条件の評価ルール |
-| `outputs/phase-2/design.md` | matrix の列順 / セル評価アルゴリズム / 証跡ファイル参照表 |
-| `outputs/phase-3/design-review.md` | Phase 2 設計のゲート判定 |
-| `outputs/phase-4/test-plan.md` | matrix 88 セルの埋め忘れチェック / GFM lint チェック |
-| `outputs/phase-5/implementation-notes.md` | matrix 生成手順と各セル評価ログ |
-| `outputs/phase-6/test-additions.md` | 「未確認」セル 0 件を保証する補助確認 |
-| `outputs/phase-7/coverage.md` | 88 セルの埋まり率 100% を証跡化 |
-| `outputs/phase-8/refactor.md` | matrix 表現の最適化（脚注 / グルーピング） |
-| `outputs/phase-9/qa.md` | line budget / GFM 構文 / 参照リンク健全性 |
-| `outputs/phase-10/final-review.md` | acceptance criteria 判定 |
-| `outputs/phase-11/manual-test-result.md` | NON_VISUAL 宣言 + 自動代替証跡 |
-| `outputs/phase-12/implementation-guide.md` | Part 1（中学生レベル）+ Part 2（技術者向け） |
-| `outputs/phase-12/system-spec-update-summary.md` | 仕様同期サマリー |
-| `outputs/phase-12/documentation-changelog.md` | Step 1-A/1-B/1-C/Step 2 の判定記録 |
-| `outputs/phase-12/unassigned-task-detection.md` | 未タスク検出（0 件でも出力必須） |
-| `outputs/phase-12/skill-feedback-report.md` | skill 改善点記録（改善なしでも出力必須） |
-| `outputs/phase-12/phase12-task-spec-compliance-check.md` | Phase 12 root evidence |
-| `VERIFICATION-STATUS.md`（外部配置） | **本タスク最終成果物**（88 セル matrix）|
+| パス | 状態 | required_at | 役割 |
+|------|------|-------------|------|
+| `phase-1-requirements.md` 〜 `phase-10-final-review.md` | generated | completed | Phase 1-10 の仕様本体 |
+| `outputs/phase-5/implementation-notes.md` | generated | completed | matrix 生成根拠 |
+| `outputs/phase-6/test-additions.md` | generated | completed | fail-path guard 記録 |
+| `outputs/phase-7/coverage.md` | generated | completed | 22 行 / 88 セル coverage 記録 |
+| `outputs/phase-9/qa.md` | generated | completed | GFM / line budget / reason gate 記録 |
+| `outputs/phase-11/manual-test-result.md` | generated | completed | NON_VISUAL 宣言 + 自動代替証跡 |
+| `outputs/phase-12/main.md` | generated | completed | Phase 12 root summary |
+| `outputs/phase-12/implementation-guide.md` | generated | completed | Part 1（中学生レベル）+ Part 2（技術者向け） |
+| `outputs/phase-12/system-spec-update-summary.md` | generated | completed | 仕様同期サマリー |
+| `outputs/phase-12/documentation-changelog.md` | generated | completed | Step 1-A/1-B/1-C/Step 2 の判定記録 |
+| `outputs/phase-12/unassigned-task-detection.md` | generated | completed | 未タスク検出（0 件でも出力必須） |
+| `outputs/phase-12/skill-feedback-report.md` | generated | completed | skill 改善点記録（改善なしでも出力必須） |
+| `outputs/phase-12/phase12-task-spec-compliance-check.md` | generated | completed | Phase 12 root evidence |
+| `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` | generated | completed | **本タスク最終成果物**（88 セル matrix） |
 
 ---
 

@@ -33,7 +33,9 @@
 
 ## 判定
 
-**GO（Phase 11 へ進行可）**
+**設計 GO（Phase 11 へ進行可）**
+
+この判定は Phase 1-13 仕様パッケージの設計レビュー結果であり、`VERIFICATION-STATUS.md` 生成済みまたは runtime 完了を意味しない。
 
 ---
 

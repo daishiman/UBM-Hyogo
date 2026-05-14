@@ -19,7 +19,7 @@ docs-only タスクのため、コードカバレッジの代わりに「matrix 
 
 ## 2. 計測スコープ
 
-対象ファイル: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` のみ。
+対象ファイル: `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` のみ。
 
 本ワークフロー内の他 Phase outputs はカバレッジ対象外（spec 内ドキュメント）。
 

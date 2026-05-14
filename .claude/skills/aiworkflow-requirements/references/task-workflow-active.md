@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 12 strict 7 present / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-23-ui-mvp-w8-par-verification-status-matrix/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| 目的 | task-01〜22 を 4 条件（矛盾なし / 漏れなし / 整合性あり / 依存関係整合）で評価する 22 x 4 matrix を生成する |
+| generated deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` |
+| evidence boundary | root/output `artifacts.json` parity、Phase 5/7/9 deterministic matrix evidence、Phase 11 NON_VISUAL marker、Phase 12 strict 7 outputs、compliance check は present、documentation-changelog の Entry Checklist + Validator Execution Log は転記済み |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-23-docs-only-final-deliverable-state-gate-2026-05.md`（L-T23-001..005） |
+| skill promotion | `.claude/skills/task-specification-creator/references/phase-12-documentation-guide.md`（final deliverable state gate / `required_at` wording gate / planned wording grep close-out gate）、`.claude/skills/task-specification-creator/SKILL-changelog.md`（v2026.05.14-task23 entry） |
+| downstream | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` は generated `VERIFICATION-STATUS.md` を入力にできる |
+| user gate | commit、push、PR は user approval 後 |
+
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
 
 | 項目 | 値 |
