@@ -1,9 +1,13 @@
 import { describe, expect, it, vi } from "vitest";
 import {
+  buildNotificationPayload,
   buildIssueBody,
+  defaultMailDispatcher,
+  defaultSlackDispatcher,
   evaluateAndAlert,
   evaluateConsecutive,
   parseArgs,
+  redactForNotification,
 } from "../fallback-rate-alert.ts";
 import type { HourlySnapshot } from "../post-switch-monitor.ts";
 
@@ -93,6 +97,105 @@ describe("buildIssueBody", () => {
   });
 });
 
+describe("redactForNotification", () => {
+  it("redacts hashes, identities, bearer tokens, and Slack webhook URLs", () => {
+    const output = redactForNotification(
+      [
+        "hash=abcdef0123456789abcdef0123456789ab",
+        "userId=user-123",
+        "tenantId=tenant-456",
+        '"userId":"json-user"',
+        '"tenant_id":"json-tenant"',
+        "Bearer abc.def-ghi",
+        "https://hooks.slack.com/services/T1/B2/secret",
+      ].join(" "),
+    );
+
+    expect(output).toContain("hash=[REDACTED:hash]");
+    expect(output).toContain("userId=[REDACTED]");
+    expect(output).toContain("tenantId=[REDACTED]");
+    expect(output).toContain('"userId":"[REDACTED]"');
+    expect(output).toContain('"tenant_id":"[REDACTED]"');
+    expect(output).toContain("Bearer [REDACTED]");
+    expect(output).toContain("[REDACTED:slack-webhook]");
+    expect(output).not.toContain("abcdef0123456789");
+    expect(output).not.toContain("user-123");
+    expect(output).not.toContain("tenant-456");
+    expect(output).not.toContain("json-user");
+    expect(output).not.toContain("json-tenant");
+    expect(output).not.toContain("hooks.slack.com/services");
+  });
+});
+
+describe("buildNotificationPayload", () => {
+  it("builds a redacted notification body while keeping a stable alert title", () => {
+    const evaluation = {
+      triggered: true,
+      windowHours: 3,
+      threshold: 0.05,
+      observed: [makeSnapshot("2026-05-08T02:00:00Z", 0.08)],
+      reason:
+        "fallbackRate > 0.05 for 3 consecutive hours userId=user-123 tenantId=tenant-456",
+    };
+
+    const payload = buildNotificationPayload(evaluation, 0.05, 3);
+    expect(payload.title).toBe("[cf-audit] fallback rate > 0.05 for 3h");
+    expect(payload.text).toContain("userId=[REDACTED]");
+    expect(payload.text).toContain("tenantId=[REDACTED]");
+    expect(payload.text).not.toContain("user-123");
+    expect(payload.text).not.toContain("tenant-456");
+  });
+});
+
+describe("notification dispatchers", () => {
+  it("defaultSlackDispatcher posts payload.text as a simple Slack message", async () => {
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(new Response(null, { status: 200 }));
+
+    await defaultSlackDispatcher({
+      url: "https://hooks.slack.com/test",
+      payload: { title: "title", text: "body" },
+    });
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    const [, init] = fetchSpy.mock.calls[0]!;
+    expect(JSON.parse((init as RequestInit).body as string)).toEqual({ text: "body" });
+  });
+
+  it("defaultSlackDispatcher throws on non-2xx", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("nope", { status: 500 }));
+
+    await expect(
+      defaultSlackDispatcher({
+        url: "https://hooks.slack.com/test",
+        payload: { title: "title", text: "body" },
+      }),
+    ).rejects.toThrow(/Slack webhook 500/);
+  });
+
+  it("defaultMailDispatcher posts subject, body, from, and to", async () => {
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(new Response(null, { status: 200 }));
+
+    await defaultMailDispatcher({
+      url: "https://example.test/mail",
+      payload: { title: "title", text: "body" },
+      from: "alerts@example.test",
+      to: "incidents@example.test",
+    });
+
+    const [, init] = fetchSpy.mock.calls[0]!;
+    expect(JSON.parse((init as RequestInit).body as string)).toEqual({
+      subject: "title",
+      body: "body",
+      from: "alerts@example.test",
+      to: "incidents@example.test",
+    });
+  });
+});
+
 describe("evaluateAndAlert", () => {
   const triggerSnaps = [
     makeSnapshot("2026-05-08T00:00:00Z", 0.06),
@@ -130,6 +233,151 @@ describe("evaluateAndAlert", () => {
     const arg = createIssue.mock.calls[0][0];
     expect(arg.repo).toBe("daishiman/UBM-Hyogo");
     expect(arg.labels).toContain("type:incident");
+  });
+
+  it("calls issue, Slack, and mail dispatchers when all destinations are configured", async () => {
+    const createIssue = vi.fn().mockResolvedValue("https://example.com/issues/1");
+    const dispatchSlack = vi.fn().mockResolvedValue(undefined);
+    const dispatchMail = vi.fn().mockResolvedValue(undefined);
+
+    const result = await evaluateAndAlert({
+      snapshots: triggerSnaps,
+      window: 3,
+      threshold: 0.05,
+      dryRun: false,
+      repo: "daishiman/UBM-Hyogo",
+      token: "test-token",
+      createIssue,
+      slackWebhookUrl: "https://hooks.slack.com/test",
+      emailWebhookUrl: "https://example.test/mail",
+      emailFrom: "alerts@example.test",
+      emailTo: "incidents@example.test",
+      dispatchSlack,
+      dispatchMail,
+    });
+
+    expect(result.issueUrl).toBe("https://example.com/issues/1");
+    expect(result.slackDelivered).toBe(true);
+    expect(result.mailDelivered).toBe(true);
+    expect(createIssue).toHaveBeenCalledTimes(1);
+    expect(dispatchSlack).toHaveBeenCalledTimes(1);
+    expect(dispatchMail).toHaveBeenCalledTimes(1);
+  });
+
+  it("starts Slack and mail delivery without waiting for issue creation to finish", async () => {
+    let resolveIssue: (url: string) => void = () => undefined;
+    const createIssue = vi.fn(
+      () => new Promise<string>((resolve) => {
+        resolveIssue = resolve;
+      }),
+    );
+    const dispatchSlack = vi.fn().mockResolvedValue(undefined);
+    const dispatchMail = vi.fn().mockResolvedValue(undefined);
+
+    const resultPromise = evaluateAndAlert({
+      snapshots: triggerSnaps,
+      window: 3,
+      threshold: 0.05,
+      dryRun: false,
+      repo: "daishiman/UBM-Hyogo",
+      token: "test-token",
+      createIssue,
+      slackWebhookUrl: "https://hooks.slack.com/test",
+      emailWebhookUrl: "https://example.test/mail",
+      emailFrom: "alerts@example.test",
+      emailTo: "incidents@example.test",
+      dispatchSlack,
+      dispatchMail,
+    });
+
+    await Promise.resolve();
+    expect(dispatchSlack).toHaveBeenCalledTimes(1);
+    expect(dispatchMail).toHaveBeenCalledTimes(1);
+
+    resolveIssue("https://example.com/issues/1");
+    await expect(resultPromise).resolves.toMatchObject({
+      issueUrl: "https://example.com/issues/1",
+      slackDelivered: true,
+      mailDelivered: true,
+    });
+  });
+
+  it("dry-run skips issue and notification dispatchers even when destinations are configured", async () => {
+    const createIssue = vi.fn();
+    const dispatchSlack = vi.fn();
+    const dispatchMail = vi.fn();
+
+    const result = await evaluateAndAlert({
+      snapshots: triggerSnaps,
+      window: 3,
+      threshold: 0.05,
+      dryRun: true,
+      repo: "daishiman/UBM-Hyogo",
+      token: "test-token",
+      createIssue,
+      slackWebhookUrl: "https://hooks.slack.com/test",
+      emailWebhookUrl: "https://example.test/mail",
+      emailFrom: "alerts@example.test",
+      emailTo: "incidents@example.test",
+      dispatchSlack,
+      dispatchMail,
+    });
+
+    expect(result.evaluation.triggered).toBe(true);
+    expect(createIssue).not.toHaveBeenCalled();
+    expect(dispatchSlack).not.toHaveBeenCalled();
+    expect(dispatchMail).not.toHaveBeenCalled();
+  });
+
+  it("isolates Slack failure and still delivers mail after creating the issue", async () => {
+    const createIssue = vi.fn().mockResolvedValue("https://example.com/issues/1");
+    const dispatchSlack = vi.fn().mockRejectedValue(new Error("slack 500"));
+    const dispatchMail = vi.fn().mockResolvedValue(undefined);
+
+    const result = await evaluateAndAlert({
+      snapshots: triggerSnaps,
+      window: 3,
+      threshold: 0.05,
+      dryRun: false,
+      repo: "daishiman/UBM-Hyogo",
+      token: "test-token",
+      createIssue,
+      slackWebhookUrl: "https://hooks.slack.com/test",
+      emailWebhookUrl: "https://example.test/mail",
+      emailFrom: "alerts@example.test",
+      emailTo: "incidents@example.test",
+      dispatchSlack,
+      dispatchMail,
+    });
+
+    expect(result.issueUrl).toBe("https://example.com/issues/1");
+    expect(result.slackDelivered).toBe(false);
+    expect(result.slackError).toBe("slack 500");
+    expect(result.mailDelivered).toBe(true);
+  });
+
+  it("does not attempt Slack or mail when destination env is missing", async () => {
+    const createIssue = vi.fn().mockResolvedValue("https://example.com/issues/1");
+    const dispatchSlack = vi.fn();
+    const dispatchMail = vi.fn();
+
+    const result = await evaluateAndAlert({
+      snapshots: triggerSnaps,
+      window: 3,
+      threshold: 0.05,
+      dryRun: false,
+      repo: "daishiman/UBM-Hyogo",
+      token: "test-token",
+      createIssue,
+      dispatchSlack,
+      dispatchMail,
+    });
+
+    expect(result.issueUrl).toBe("https://example.com/issues/1");
+    expect(result.slackDelivered).toBeUndefined();
+    expect(result.mailDelivered).toBeUndefined();
+    expect(dispatchSlack).not.toHaveBeenCalled();
+    expect(dispatchMail).not.toHaveBeenCalled();
   });
 
   it("does not call createIssue when not triggered", async () => {

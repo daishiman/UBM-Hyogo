@@ -16,6 +16,12 @@ the task specification, actual changed files, evidence files, and system ledgers
 8. Archive/delete stale-reference gate
 9. Four-condition verdict
 
+> CI gate `verify-phase12-compliance` (`.github/workflows/verify-phase12-compliance.yml`)
+> reads this `Required Sections` list as the canonical heading SSOT. Keep the
+> numbering 1..9 and heading text stable. If any heading changes, update
+> `scripts/verify-phase12-compliance.ts`, `scripts/lib/phase12-compliance/`,
+> and `scripts/__tests__/fixtures/phase12-compliance/` in the same PR.
+
 ## Verification Commands
 
 ```bash

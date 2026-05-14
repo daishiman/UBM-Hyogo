@@ -2214,13 +2214,22 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
-| Stage Responsibility Split (classification-first) | L17 |
-| Current Facts (Stage 0 implementation) | L26 |
-| Phase 12 Strict 7 Files (all stages) | L40 |
-| Phase 11 Evidence Path Map | L52 |
-| Tier-Aware Coverage Policy | L63 |
-| Contract | L72 |
-| Related Resources | L79 |
+| Stage Responsibility Split (classification-first) | L18 |
+| Current Facts (Stage 3 local execution) | L27 |
+| Current Facts (Stage 0 implementation) | L39 |
+| Phase 12 Strict 7 Files (all stages) | L53 |
+| Phase 11 Evidence Path Map | L65 |
+| Tier-Aware Coverage Policy | L76 |
+| Contract | L85 |
+| Related Resources | L92 |
+
+### references/workflow-e2e-stage-2-2d-contract-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Artifacts | L12 |
+| Evidence Artifacts | L24 |
+| Boundary | L39 |
 
 ### references/workflow-governance-design-category.md
 
@@ -2542,6 +2551,30 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | User Gate | L47 |
+
+### references/workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Implementation Artifacts | L7 |
+| Evidence Artifacts | L16 |
+| Lessons Learned | L28 |
+| User-Gated Runtime Items | L34 |
+
+### references/workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Canonical Set | L3 |
+| Boundary | L16 |
+
+### references/workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L10 |
+| Boundaries | L26 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3023,6 +3056,21 @@ node scripts/list-specs.js --topics
 | API Inputs | L45 |
 | Notes | L54 |
 
+### references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Artifacts | L15 |
+| Phase 12 Outputs | L34 |
+| Required Status Check Candidates | L46 |
+| Evidence Boundary | L54 |
+| User Gates | L61 |
+| Dependencies | L67 |
+| After-sync regression fixes (2026-05-13) | L72 |
+| After-sync regression fixes — round 2 (2026-05-14) | L87 |
+| Cross-Reference | L102 |
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -3127,6 +3175,13 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Follow-up 未タスク | L25 |
 | Validation Chain | L31 |
+
+### references/workflow-task-spec-2d-contract-stage-2-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Set | L12 |
+| Boundary | L22 |
 
 ### references/workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md
 
@@ -3598,18 +3653,33 @@ node scripts/list-specs.js --topics
 | 5. Auth.js v5 env 層化 | L109 |
 | 変更履歴 | L174 |
 
+### references/branch-protection-desired-state-manifest.md
+
+| セクション | 行 |
+|------------|----|
+| 1. 三層構成と責務 | L9 |
+| 2. desired-state manifest schema | L20 |
+| 3. CLAUDE.md 不変条件（INV-*）の正規化対象 | L41 |
+| 4. drift 判定基準（Stage 3 land 時点） | L54 |
+| 5. drift 取り込み判定（Phase 4 design 必須） | L64 |
+| 6. workflow `name:` フィールドと contexts manifest の整合 | L75 |
+| 7. 集約 required context の設計指針 | L89 |
+| 8. Lighthouse readiness pattern との接続 | L93 |
+| 9. 関連参照 | L108 |
+| 10. 履歴 | L119 |
+
 ### references/branch-protection.md
 
 | セクション | 行 |
 |------------|----|
 | Current contract | L3 |
 | Required status checks | L7 |
-| Invariants | L13 |
-| Issue #554 runbook | L25 |
-| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L41 |
-| 3-state vocabulary（runtime mutation 系） | L59 |
-| Stage 3c required contexts target（2026-05-10） | L78 |
-| References | L89 |
+| Invariants | L16 |
+| Issue #554 runbook | L28 |
+| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L44 |
+| 3-state vocabulary（runtime mutation 系） | L62 |
+| Stage 3c required contexts target（2026-05-10） | L81 |
+| References | L92 |
 
 ### references/cloudflare-edge-security.md
 
@@ -3717,8 +3787,8 @@ node scripts/list-specs.js --topics
 | デプロイメント戦略概要 | L6 |
 | Cloudflare デプロイ戦略 | L56 |
 | GitHub Actions CI/CD パイプライン | L103 |
-| ロールバック戦略 | L152 |
-| 変更履歴 | L198 |
+| ロールバック戦略 | L155 |
+| 変更履歴 | L201 |
 
 ### references/deployment-details.md
 
@@ -3762,15 +3832,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| wrangler.toml の環境別設定 | L203 |
-| ローカル開発での設定 | L235 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L274 |
-| セキュリティ原則 | L306 |
-| Cloudflare API Token の作成手順 | L317 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L332 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L430 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L482 |
-| 変更履歴 | L501 |
+| wrangler.toml の環境別設定 | L205 |
+| ローカル開発での設定 | L237 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L276 |
+| セキュリティ原則 | L308 |
+| Cloudflare API Token の作成手順 | L319 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L334 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L445 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L497 |
+| 変更履歴 | L516 |
 
 ### references/deployment.md
 
@@ -4785,6 +4855,15 @@ node scripts/list-specs.js --topics
 | 用語集（本タスクで導入 / 確定した語彙） | L114 |
 | 引用元 | L120 |
 
+### references/lessons-learned-issue-621-apps-web-test-suffix-rename-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L49 |
+| 参照 | L57 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -4793,6 +4872,14 @@ node scripts/list-specs.js --topics
 | L-I359-002: Wrangler config path belongs in the runbook | L7 |
 | L-I359-003: Rollback SQL is evidence, not permission | L11 |
 | L-I359-004: Source unassigned close-out is part of Phase 12 | L15 |
+
+### references/lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所 | L10 |
+| 同様の課題を将来簡潔に解決するための知見 | L25 |
+| 関連リンク | L35 |
 
 ### references/lessons-learned-lefthook-mwr-runbook-2026-04.md
 
@@ -4931,6 +5018,25 @@ node scripts/list-specs.js --topics
 | L-TASK17-003: `new` 前提で task spec を起こす前に worktree inventory を取る | L21 |
 | L-TASK17-004: Phase 11 evidence の AUTH_SECRET override は fixture cookie を無効化する | L28 |
 
+### references/lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK18-W7-001: Design token SSOT は 3 層 bridge を検証しないと drift が黙過される | L7 |
+| L-TASK18-W7-002: Playwright fixture は service worker と build artifact を遮断しないと flaky になる | L14 |
+| L-TASK18-W7-003: Server Component fetch は env-gated SSR fixture でしか visual evidence を取れない | L21 |
+| L-TASK18-W7-004: Phase 11 evidence は `.txt` / `.json` のみ canonical。`.log` は `.gitignore` で落ちる | L28 |
+| L-TASK18-W7-005: required status check 候補は CI で 1 回 success run を出してから PUT する | L35 |
+| L-TASK18-W7-006: `PLAYWRIGHT_BASE_URL` の env fallback は `||` で空文字も拾う | L42 |
+| L-TASK18-W7-007: project レベル testIgnore で smoke / visual を chromium-linux baseline project に閉じ込める | L49 |
+| L-TASK18-W7-008: artifacts.json は `metadata.gates` 配列を Gate-A〜Gate-D で必ず満たす | L56 |
+| L-TASK18-W7-009: `phase12-task-spec-compliance-check.md` は 9 canonical headings を厳格に要求する | L63 |
+| L-TASK18-W7-010: completed-tasks/ 直下の follow-up spec は orphan workflow root を生むので unassigned-task/ へ即時 relocate | L70 |
+| L-TASK18-W7-011: accent token は L=0.52 を維持し a11y contrast 4.5:1 を確保する | L77 |
+| L-TASK18-W7-012: Playwright project-level testIgnore は global testIgnore を **置換** する | L84 |
+| L-TASK18-W7-013: Playwright webServer は `next dev --webpack` を使い、Turbopack の `[project]/...` 解決失敗を避ける | L91 |
+| Cross-Reference | L98 |
+
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
 | セクション | 行 |
@@ -4947,6 +5053,17 @@ node scripts/list-specs.js --topics
 | L-T21-003: canonical workflow root の削除検出は task scope 外でも同サイクルで復元する | L11 |
 | L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
 | L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
+
+### references/lessons-learned-task-spec-2d-contract-stage-2-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-2D-001: shared schema が response shape の SSOT で、parent workflow の記述は派生 | L7 |
+| L-2D-002: route の inline `z.object` は contract test 起票と同 wave で named export に昇格させる | L21 |
+| L-2D-003: contract test は pure unit に固定し、D1 / Cloudflare binding に触れない | L34 |
+| L-2D-004: fixture object は test 内 inline、別ファイル化は別 phase の責務 | L42 |
+| L-2D-005: zod 未エクスポート response の同型確認は type-level に逃がす | L51 |
+| L-2D-006: workflow root が `completed-tasks/` に移動した直後は skill 全 path を一括更新 | L57 |
 
 ### references/lessons-learned-task19-primitives-full-spec-2026-05.md
 
@@ -5250,8 +5367,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L108 |
-| 関連ドキュメント | L113 |
+| 利用順序 | L109 |
+| 関連ドキュメント | L114 |
 
 ### references/llm-embedding.md
 
@@ -5993,7 +6110,7 @@ node scripts/list-specs.js --topics
 | skill-creatorフィクスチャ検証テスト（TASK-8C-G） | L327 |
 | 残課題（未タスク） | L366 |
 | 関連ドキュメント | L377 |
-| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.test.ts`） | L392 |
+| UBM 兵庫 — Static Invariants カタログ（apps/web `src/__tests__/static-invariants.runtime.spec.ts`） | L392 |
 
 ### references/quality-requirements-advanced.md
 
@@ -6362,13 +6479,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1030 |
-| フェーズ構造（概要） | L1039 |
-| 品質ゲート（概要） | L1070 |
-| 出力テンプレート | L1081 |
-| 実行時のコマンド・エージェント・スキル | L1104 |
-| 昇格パターン集 | L1128 |
-| Current Active / Spec Created Tasks | L1130 |
+| ドキュメント構成 | L1124 |
+| フェーズ構造（概要） | L1133 |
+| 品質ゲート（概要） | L1164 |
+| 出力テンプレート | L1175 |
+| 実行時のコマンド・エージェント・スキル | L1198 |
+| 昇格パターン集 | L1222 |
+| Current Active / Spec Created Tasks | L1224 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -6788,7 +6905,8 @@ node scripts/list-specs.js --topics
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
 | Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
-| 関連ドキュメント | L423 |
+| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
+| 関連ドキュメント | L464 |
 
 ### references/ui-history-components.md
 
