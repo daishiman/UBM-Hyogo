@@ -5,6 +5,18 @@
 
 ---
 
+### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion/` |
+| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / NON_VISUAL / external_mutation_pending_user_approval` |
+| deletion target | GitHub repository variable `CLOUDFLARE_PAGES_PROJECT` (`ubm-hyogo-web`) |
+| read-only evidence | `outputs/phase-11/evidence/current-repo-variables.json`, `source-grep-preflight.txt`, `pre-mutation-static-summary.txt` |
+| user gate | `gh api -X DELETE`, rollback `POST`, commit, push, PR, Issue operation require `outputs/phase-11/evidence/user-approval-marker.md` |
+| source task | `docs/30-workflows/unassigned-task/issue-331-followup-001-cloudflare-pages-project-var-deletion.md` superseded in place |
+| related | Issue #331 Workers deploy cleanup, Issue #419 Pages dormant cleanup historical-only, followup-002 Pages project physical deletion remains separate |
+
 ### E2E Quality Uplift Stage 3 — branch protection desired-state manifest land（Issue #608 / 2026-05-12）
 
 | 目的 | 参照先 |

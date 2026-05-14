@@ -1,5 +1,12 @@
 # Issue #331 Followup CLOUDFLARE_PAGES_PROJECT GitHub Variable Deletion - タスク指示書
 
+> [SUPERSEDED] by `docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion/`
+> Date: 2026-05-14
+> Refs: GitHub Issue #638 (CLOSED)
+>
+> 本 unassigned-task spec は Phase 1-13 仕様書フォーマットに昇格された置換 spec に統合された。
+> 履歴保全のため本ファイルは削除せず残置するが、新規参照は置換先を使うこと。
+
 ## メタ情報
 
 ```yaml

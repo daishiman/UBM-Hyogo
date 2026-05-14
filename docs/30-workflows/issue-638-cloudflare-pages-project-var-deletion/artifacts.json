@@ -1,0 +1,51 @@
+{
+  "task_name": "issue-638-cloudflare-pages-project-var-deletion",
+  "task_path": "docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion",
+  "github_issue": 638,
+  "github_issue_state": "CLOSED",
+  "wave": 1,
+  "execution_mode": "sequential",
+  "depends_on": [
+    "docs/30-workflows/completed-tasks/issue-331-cicd-runtime-warning-cleanup"
+  ],
+  "blocks": [
+    "docs/30-workflows/unassigned-task/issue-331-followup-002-cloudflare-pages-project-physical-deletion.md"
+  ],
+  "created_at": "2026-05-14",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "CONTRACT_READY_IMPLEMENTATION_PENDING",
+    "implementation_status": "external_mutation_pending_user_approval",
+    "scope": "github_repository_variable_deletion",
+    "governance_mutation_user_gate": true,
+    "read_only_evidence_allowed_pre_gate": true,
+    "user_approval_marker": "outputs/phase-11/evidence/user-approval-marker.md",
+    "mutation_commands": [
+      "gh api -X DELETE repos/daishiman/UBM-Hyogo/actions/variables/CLOUDFLARE_PAGES_PROJECT",
+      "gh api -X POST repos/daishiman/UBM-Hyogo/actions/variables -f name=CLOUDFLARE_PAGES_PROJECT -f value=ubm-hyogo-web"
+    ],
+    "actual_read_only_evidence_files": [
+      "outputs/phase-11/evidence/current-repo-variables.json",
+      "outputs/phase-11/evidence/source-grep-preflight.txt",
+      "outputs/phase-11/evidence/pre-mutation-static-summary.txt"
+    ],
+    "actual_mutation_evidence_files": []
+  },
+  "phases": [
+    {"phase": 1, "name": "要件定義・成功条件", "file": "phase-01.md", "status": "completed", "outputs": ["phase-01.md"], "depends_on_phases": []},
+    {"phase": 2, "name": "現状調査・依存確認", "file": "phase-02.md", "status": "completed", "outputs": ["phase-02.md", "outputs/phase-11/evidence/current-repo-variables.json", "outputs/phase-11/evidence/source-grep-preflight.txt"], "depends_on_phases": [1]},
+    {"phase": 3, "name": "アーキテクチャ・影響範囲分析", "file": "phase-03.md", "status": "completed", "outputs": ["phase-03.md"], "depends_on_phases": [2]},
+    {"phase": 4, "name": "削除手順設計", "file": "phase-04.md", "status": "completed", "outputs": ["phase-04.md"], "depends_on_phases": [3]},
+    {"phase": 5, "name": "安全装置・rollback 設計", "file": "phase-05.md", "status": "completed", "outputs": ["phase-05.md"], "depends_on_phases": [4]},
+    {"phase": 6, "name": "実装方針", "file": "phase-06.md", "status": "completed", "outputs": ["phase-06.md"], "depends_on_phases": [5]},
+    {"phase": 7, "name": "実行コマンド・検証手順", "file": "phase-07.md", "status": "runtime_pending", "outputs": ["phase-07.md"], "depends_on_phases": [6], "user_approval_required": true},
+    {"phase": 8, "name": "テスト戦略", "file": "phase-08.md", "status": "completed", "outputs": ["phase-08.md"], "depends_on_phases": [7]},
+    {"phase": 9, "name": "ドキュメント更新・旧 spec retirement", "file": "phase-09.md", "status": "completed", "outputs": ["phase-09.md"], "depends_on_phases": [8]},
+    {"phase": 10, "name": "監視・運用", "file": "phase-10.md", "status": "completed", "outputs": ["phase-10.md"], "depends_on_phases": [9]},
+    {"phase": 11, "name": "DoD・evidence 受入条件", "file": "phase-11.md", "status": "runtime_pending", "outputs": ["phase-11.md", "outputs/phase-11/evidence/current-repo-variables.json", "outputs/phase-11/evidence/source-grep-preflight.txt", "outputs/phase-11/evidence/pre-mutation-static-summary.txt"], "depends_on_phases": [10], "user_approval_required": true},
+    {"phase": 12, "name": "Phase 12 close-out", "file": "phase-12.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"], "depends_on_phases": [11]},
+    {"phase": 13, "name": "PR 作成テンプレート", "file": "phase-13.md", "status": "blocked_pending_user_approval", "outputs": ["phase-13.md"], "depends_on_phases": [12], "user_approval_required": true}
+  ]
+}
