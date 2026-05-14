@@ -1,6 +1,0 @@
-current_date=2026-05-14
-repo_variable_present=CLOUDFLARE_PAGES_PROJECT
-source_grep_scope=.github apps packages scripts
-source_grep_hits=0
-external_mutation_executed=false
-mutation_gate=blocked_pending_user_approval

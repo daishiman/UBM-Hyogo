@@ -3823,11 +3823,12 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L208 |
 | モニタリングとアラート | L235 |
 | GitHub Secrets の要件 | L269 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L319 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L345 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L356 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L377 |
-| post-release-30day-auto-summary | L414 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L301 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L323 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L349 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L360 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L381 |
+| post-release-30day-auto-summary | L418 |
 
 ### references/deployment-history.md
 
@@ -6500,13 +6501,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1153 |
-| フェーズ構造（概要） | L1162 |
-| 品質ゲート（概要） | L1193 |
-| 出力テンプレート | L1204 |
-| 実行時のコマンド・エージェント・スキル | L1227 |
-| 昇格パターン集 | L1251 |
-| Current Active / Spec Created Tasks | L1253 |
+| ドキュメント構成 | L1166 |
+| フェーズ構造（概要） | L1175 |
+| 品質ゲート（概要） | L1206 |
+| 出力テンプレート | L1217 |
+| 実行時のコマンド・エージェント・スキル | L1240 |
+| 昇格パターン集 | L1264 |
+| Current Active / Spec Created Tasks | L1266 |
 
 ### references/task-workflow-backlog-part2.md
 

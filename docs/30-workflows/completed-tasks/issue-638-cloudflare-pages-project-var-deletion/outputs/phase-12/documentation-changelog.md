@@ -2,7 +2,7 @@
 
 | Date | File | Change |
 | --- | --- | --- |
-| 2026-05-14 | `index.md` | Reclassified workflow to `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / NON_VISUAL` with user-gated external mutation. |
+| 2026-05-14 | `index.md` | Reclassified workflow to `implemented_local_pending_pr / implementation / NON_VISUAL` after user-approved external mutation evidence was captured. |
 | 2026-05-14 | `phase-01.md` - `phase-13.md` | Added user approval marker boundary, idempotent already-deleted handling, non-blocking sanity gates for code-free scope, and Phase 12 strict-output linkage. |
 | 2026-05-14 | `artifacts.json`, `outputs/artifacts.json` | Added root/output artifacts parity with read-only and mutation evidence ledgers. |
 | 2026-05-14 | `outputs/phase-11/evidence/*` | Added read-only preflight evidence showing variable exists and source references are zero. |

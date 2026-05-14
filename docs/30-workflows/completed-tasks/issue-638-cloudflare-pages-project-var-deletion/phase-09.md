@@ -37,7 +37,7 @@
 | `docs/00-getting-started-manual/specs/08-free-database.md` | 不要 | history 文書、現状維持 |
 | `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` | 必要 | `CLOUDFLARE_PAGES_PROJECT` を削除候補から Issue #638 user-gated deletion contract へ昇格 |
 | `.claude/skills/aiworkflow-requirements/references/deployment-gha.md` | 必要 | Web CD では未参照、削除は Issue #638 の承認付き operation と明記 |
-| `.claude/skills/aiworkflow-requirements/references/environment-variables.md` | 必要 | repository variable の現在状態を pending deletion として同期 |
+| `.claude/skills/aiworkflow-requirements/references/environment-variables.md` | 必要 | repository variable の現在状態を deleted by Issue #638 として同期 |
 | `.claude/skills/aiworkflow-requirements/indexes/*` / `references/task-workflow-active.md` | 必要 | 新 workflow root を current canonical set に登録 |
 
 ## 9.4 historical references の扱い

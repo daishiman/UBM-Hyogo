@@ -25,7 +25,7 @@ Refs #419 (CLOSED, 元 fold 先)
 
 ## 背景
 
-- Issue #638 は CLOSED 状態だが、GitHub Variable 本体は未削除 (`gh api ... /actions/variables` で `CLOUDFLARE_PAGES_PROJECT` 残存を確認)
+- Issue #638 は CLOSED 状態だが、GitHub Variable 本体は user approval marker 後に削除済み (`after.json` total_count=3 / `after-single.txt` HTTP 404)
 - `.github/` 配下の grep gate は hit 0 → workflow からの参照なし、削除安全
 - 旧 unassigned-task spec を本仕様で supersede
 
@@ -49,8 +49,8 @@ Refs #419 (CLOSED, 元 fold 先)
 
 ## DoD (Phase 11)
 
-- [ ] DoD-A 削除完了（user approval 後）
-- [x] DoD-B read-only preflight evidence 取得
+- [x] DoD-A 削除完了（user approval marker 後）
+- [x] DoD-B read-only preflight evidence + mutation evidence 取得
 - [x] DoD-C ドキュメント整合
 - [ ] DoD-D ローカル品質ゲート (`pnpm typecheck` / `pnpm lint`)
 - [ ] DoD-E PR 状態（user approval 後）

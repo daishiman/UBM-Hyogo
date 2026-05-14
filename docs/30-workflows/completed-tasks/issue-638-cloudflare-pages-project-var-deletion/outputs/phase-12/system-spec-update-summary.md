@@ -15,7 +15,7 @@ Updated same-wave ledgers:
 
 | Workflow | Status |
 | --- | --- |
-| `docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion/` | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / NON_VISUAL / external_mutation_pending_user_approval` |
+| `docs/30-workflows/completed-tasks/issue-638-cloudflare-pages-project-var-deletion/` | `implemented_local_pending_pr / implementation / NON_VISUAL / external_mutation_completed` |
 
 ## Step 1-C: Related Tasks
 

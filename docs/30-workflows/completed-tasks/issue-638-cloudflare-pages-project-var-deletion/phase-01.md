@@ -4,7 +4,7 @@
 
 Issue #331 (CI/CD runtime warning cleanup) で `web-cd.yml` の Cloudflare Pages deploy step を撤去し、`@opennextjs/cloudflare` 経由の Workers deploy に統一した。この改修により GitHub repository variable `CLOUDFLARE_PAGES_PROJECT` (value: `ubm-hyogo-web`) は workflow からの参照を失い、dormant 状態となった。
 
-元の fold 先 Issue #419 (Pages dormant cleanup) は既に CLOSED のため、削除責任が宙に浮いていた。Issue #638 で本タスクが採番されたが、Issue 自体も CLOSED 状態。ただし **variable 本体は GitHub 側に未削除のまま残存**しているため、実作業は依然として必要。
+元の fold 先 Issue #419 (Pages dormant cleanup) は既に CLOSED のため、削除責任が宙に浮いていた。Issue #638 で本タスクが採番されたが、Issue 自体も CLOSED 状態だった。削除前時点では **variable 本体が GitHub 側に未削除のまま残存**していたため、本 workflow で user approval marker 後に削除を実行した。
 
 ## 1.2 ユーザー要件
 
@@ -40,4 +40,4 @@ Issue #331 (CI/CD runtime warning cleanup) で `web-cd.yml` の Cloudflare Pages
 | --- | --- | --- |
 | `.github/` 以外で参照されている | CI 以外の何かが壊れる | Phase 2 で full-repo grep を実施し、参照箇所を全特定 |
 | environment scope 同名変数の誤削除 | staging / production 環境影響 | Phase 4 で repo scope 限定の API endpoint のみを使用 |
-| Issue #638 が CLOSED で誤認 | 「対応済」と勘違いされる | PR 本文に「Issue は CLOSED だが variable 未削除のため作業必要」を明記 |
+| Issue #638 が CLOSED で誤認 | 「対応済」と勘違いされる | PR 本文に「Issue は CLOSED だが variable は本 workflow で削除済み」と明記 |

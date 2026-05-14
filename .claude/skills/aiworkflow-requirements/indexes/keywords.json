@@ -3099,6 +3099,7 @@
       "arch-state-management-skill-creator.md",
       "arch-ui-components-core.md",
       "architecture-rag.md",
+      "deployment-gha.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -3649,6 +3650,7 @@
       "architecture-auth-security-core.md",
       "branch-protection-desired-state-manifest.md",
       "branch-protection.md",
+      "deployment-gha.md",
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
@@ -7425,6 +7427,7 @@
     ],
     "CLOUDFLARE": [
       "deployment-cloudflare.md",
+      "deployment-gha.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
     ],
     "TOKEN": [
@@ -7715,6 +7718,18 @@
     ],
     "Backend": [
       "deployment-gha.md"
+    ],
+    "PAGES": [
+      "deployment-gha.md"
+    ],
+    "PROJECT": [
+      "deployment-gha.md"
+    ],
+    "deletion": [
+      "deployment-gha.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "workflow-governance-design-category.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "配置決定": [
       "deployment-gha.md"
@@ -13111,11 +13126,6 @@
     ],
     "destination": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
-    ],
-    "deletion": [
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
-      "workflow-governance-design-category.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
     ],
     "表に専用テンプレが無い": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"

@@ -68,7 +68,7 @@ gh pr create --base dev ...
 
 | Q | A |
 | --- | --- |
-| Issue #638 が CLOSED なのに作業していいの? | はい。Variable 本体が未削除のまま残っているのが事実。ユーザー指示で Issue 状態は触らず作業する |
+| Issue #638 が CLOSED なのに作業していいの? | はい。削除前は Variable 本体が未削除のまま残っていたため、ユーザー承認後に削除した。Issue 状態は触らない |
 | `gh variable delete` が動かない | `gh` バージョンによって CLI サブコマンドが未実装。`gh api -X DELETE` を使用 |
 | `outputs/` を commit していいの? | はい。evidence は audit trail として repo に残す方針 (Phase 4.4 / Phase 8.3) |
 | typecheck/lint が失敗したら? | docs 変更のみなので本タスク起因ではないはず。Phase 8.5 の対応 |

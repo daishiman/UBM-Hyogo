@@ -10,7 +10,7 @@
 
 | Finding | Action |
 | --- | --- |
-| External mutation was originally mixed with `spec_created` wording. | Fixed by `CONTRACT_READY_IMPLEMENTATION_PENDING`, user approval marker, and read-only/mutation evidence ledger split. |
+| External mutation was originally mixed with `spec_created` wording. | Fixed by `implemented_local_pending_pr`, user approval marker, and read-only/mutation evidence ledger split. |
 | Phase 12 strict 7 outputs were absent. | Fixed by adding all canonical files under `outputs/phase-12/`. |
 | DELETE idempotency and script behavior diverged. | Fixed by checking single GET before DELETE and recording `already_deleted` instead of failing. |
 

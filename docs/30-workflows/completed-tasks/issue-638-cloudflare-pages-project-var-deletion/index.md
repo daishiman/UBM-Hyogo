@@ -20,10 +20,10 @@
 | 元 unassigned-task | `docs/30-workflows/unassigned-task/issue-331-followup-001-cloudflare-pages-project-var-deletion.md`（本仕様で上位置換） |
 | 配置先 | `docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion/` |
 | 作成日 | 2026-05-14 |
-| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING` |
+| 状態 | `implemented_local_pending_pr` |
 | taskType | implementation (external GitHub Actions Variables API mutation, user-gated) |
 | visualEvidence | NON_VISUAL |
-| implementation_status | external_mutation_pending_user_approval |
+| implementation_status | external_mutation_completed |
 | 優先度 | LOW (issue label `priority:low`) |
 | 規模 | XS (1 variable delete + evidence capture, 1 PR 完結) |
 | 想定 PR 数 | 1（本 spec + user 承認後の削除 evidence ログ。アプリコード変更なし） |
@@ -31,10 +31,10 @@
 
 ## 着手判断（前提 Gate）
 
-- `gh api repos/daishiman/UBM-Hyogo/actions/variables` で `CLOUDFLARE_PAGES_PROJECT` が **存在することを確認済み**（2026-05-14 時点で value=`ubm-hyogo-web`、未削除）。
+- `gh api repos/daishiman/UBM-Hyogo/actions/variables` で削除前に `CLOUDFLARE_PAGES_PROJECT` が **存在することを確認済み**（2026-05-14 時点で value=`ubm-hyogo-web`）。user approval marker 後の DELETE 実行により、現在は削除済み。
 - `rg CLOUDFLARE_PAGES_PROJECT .github/` が **hit 0** を確認済み（workflow 参照なし）。
 - Issue #331 の `web-cd.yml` 改修（commit `4a630dbb` 系列）が `dev` / `main` にマージ済みであることを Phase 3 で再確認。
-- 本 Issue #638 は CLOSED だが、Variable は未削除のため作業は実質必要。ユーザー指示により Issue の reopen / 状態変更は行わない（spec 内 `Refs #638` で連携のみ）。
+- 本 Issue #638 は CLOSED だが、Variable は未削除だったため本 workflow で削除を実行済み。ユーザー指示により Issue の reopen / 状態変更は行わない（spec 内 `Refs #638` で連携のみ）。
 - `gh api -X DELETE` / rollback `POST` / commit / push / PR はすべて user approval marker を evidence として保存してから実行する。
 
 ## 先送り理由（CONST_007）

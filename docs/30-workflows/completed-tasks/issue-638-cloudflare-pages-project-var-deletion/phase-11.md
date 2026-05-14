@@ -6,35 +6,37 @@
 
 ### DoD-A: 削除完了
 
-- [ ] `outputs/phase-11/evidence/user-approval-marker.md` が存在し、削除 command / rollback command / commit-push-PR 承認範囲を含む
-- [ ] `gh api repos/daishiman/UBM-Hyogo/actions/variables/CLOUDFLARE_PAGES_PROJECT` が HTTP 404 を返す
-- [ ] `gh api repos/daishiman/UBM-Hyogo/actions/variables` の JSON `.variables[].name` に `CLOUDFLARE_PAGES_PROJECT` が含まれない
-- [ ] `total_count` が削除前 4 → 削除後 3
+- [x] `outputs/phase-11/evidence/user-approval-marker.md` が存在し、削除 command / rollback command / commit-push-PR 承認範囲を含む
+- [x] `gh api repos/daishiman/UBM-Hyogo/actions/variables/CLOUDFLARE_PAGES_PROJECT` が HTTP 404 を返す
+- [x] `gh api repos/daishiman/UBM-Hyogo/actions/variables` の JSON `.variables[].name` に `CLOUDFLARE_PAGES_PROJECT` が含まれない
+- [x] `total_count` が削除前 4 → 削除後 3
 
 ### DoD-B: Evidence 取得
 
-- [ ] `outputs/phase-11/before.json` が存在し variable 4 件を含む
-- [ ] `outputs/phase-11/before-single.json` が存在し value=`ubm-hyogo-web` を記録
-- [ ] `outputs/phase-11/after.json` が存在し variable 3 件で `CLOUDFLARE_PAGES_PROJECT` を含まない
-- [ ] `outputs/phase-11/after-single.txt` が "HTTP 404" を含む
-- [ ] `outputs/phase-11/grep-gate.txt` が空ファイル（0 byte）
-- [ ] `outputs/phase-11/deletion-log.md` が Phase 6.3 フォーマットで作成済
+- [x] `outputs/phase-11/before.json` が存在し variable 4 件を含む
+- [x] `outputs/phase-11/before-single.json` が存在し value=`ubm-hyogo-web` を記録
+- [x] `outputs/phase-11/after.json` が存在し variable 3 件で `CLOUDFLARE_PAGES_PROJECT` を含まない
+- [x] `outputs/phase-11/after-single.txt` が "HTTP 404" を含む
+- [x] `outputs/phase-11/grep-gate.txt` が空ファイル（0 byte）
+- [x] `outputs/phase-11/deletion-log.md` が Phase 6.3 フォーマットで作成済
 
 ### DoD-C: ドキュメント整合
 
-- [ ] `docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion/` 配下に `index.md` + `phase-01.md` 〜 `phase-13.md` の計 14 ファイルが存在
-- [ ] `docs/30-workflows/unassigned-task/issue-331-followup-001-cloudflare-pages-project-var-deletion.md` 冒頭に SUPERSEDED marker が追記済
+- [x] `docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion/` 配下に `index.md` + `phase-01.md` 〜 `phase-13.md` の計 14 ファイルが存在
+- [x] `docs/30-workflows/unassigned-task/issue-331-followup-001-cloudflare-pages-project-var-deletion.md` 冒頭に SUPERSEDED marker が追記済
 
 ### DoD-D: ローカル品質ゲート（sanity）
 
 - [ ] `mise exec -- pnpm typecheck` exit 0（apps/packages/scripts/.github に差分がある場合は blocking、無い場合は sanity）
 - [ ] `mise exec -- pnpm lint` exit 0（apps/packages/scripts/.github に差分がある場合は blocking、無い場合は sanity）
 
-### DoD-E: PR 状態（user-gated）
+### DoD-E: PR 状態（Phase 13 user-gated）
 
 - [ ] user approval 後、PR が `dev` ブランチを base に作成済
 - [ ] PR title が `docs(issue-638): delete CLOUDFLARE_PAGES_PROJECT GitHub variable` 形式
 - [ ] PR body に `Refs #638` を含む（Issue は CLOSED のまま、close 操作なし）
+
+DoD-E は Phase 13 の承認ゲートであり、Phase 11 の削除 evidence 完了判定をブロックしない。
 
 ## 11.2 Evidence 受入時の判定フロー
 

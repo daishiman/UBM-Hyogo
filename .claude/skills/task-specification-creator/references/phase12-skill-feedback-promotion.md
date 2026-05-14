@@ -209,6 +209,14 @@ Phase 13 declared files（`local-check-result.md` / `change-summary.md` / `pr-in
 - CLOSED Issue を扱う場合は **再 open 禁止 / `Refs #<n>` 限定**（`Closes #<n>` 禁止）
 - 承認後の実行担当 / rollback 経路 / 二段 rollback（VERSION_ID + Pages dormant 等）の readiness 参照
 
+### CLOSED fold / external mutation state sync
+
+Issue #638 のように CLOSED Issue や CLOSED fold 先に deferred work が残っていた場合、Phase 12 は次を同 wave gate とする:
+
+- fold 先 Issue の current state を確認し、closed 先へ「後でやる」と記録したままにしない。必要なら current owner workflow を作成し、source unassigned は `superseded` / `consumed` に更新する。
+- 外部 mutation が user approval marker 後に完了したら、root/output `artifacts.json`、Phase 7 / 11 / 12、aiworkflow 正本、PR template を実行後状態へ同期する。`CONTRACT_READY_*` や `runtime_pending` を残したまま deletion evidence を追加しない。
+- `pre-mutation` snapshot は履歴 evidence として明示し、`current-*` 名が残る場合は Phase 12 inventory で「pre-mutation snapshot」と説明する。
+
 `artifacts.json` の Phase 13 は `status=blocked` / `user_approval_required=true` / `blockedReason` を必須とする。
 
 ### Same-wave 同期点（deploy-deferred 拡張）

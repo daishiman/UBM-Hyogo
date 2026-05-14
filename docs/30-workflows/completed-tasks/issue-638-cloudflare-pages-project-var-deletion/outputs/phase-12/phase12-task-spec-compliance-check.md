@@ -2,15 +2,15 @@
 
 ## Summary verdict
 
-`runtime_pending (CONTRACT_READY_IMPLEMENTATION_PENDING / external mutation pending user approval)`.
+`implemented_local_pending_pr (external mutation completed / PR pending user approval)`.
 
-The workflow now has Phase 1-13, root/output artifacts parity, read-only evidence, Phase 12 strict 7 files, superseded source task marker, and aiworkflow same-wave sync. GitHub Variable deletion remains blocked until user approval marker is present.
+The workflow now has Phase 1-13, root/output artifacts parity, read-only evidence, user approval marker, mutation evidence, Phase 12 strict 7 files, superseded source task marker, and aiworkflow same-wave sync. GitHub Variable deletion is completed; commit / push / PR remain blocked until user approval.
 
 ## Changed-files classification
 
 | Area | Classification |
 | --- | --- |
-| `docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion/` | implementation workflow spec for external GitHub mutation |
+| `docs/30-workflows/completed-tasks/issue-638-cloudflare-pages-project-var-deletion/` | implementation workflow spec for external GitHub mutation |
 | `docs/30-workflows/unassigned-task/issue-331-followup-001-cloudflare-pages-project-var-deletion.md` | consumed/superseded trace |
 | `.claude/skills/aiworkflow-requirements/**` | same-wave canonical ledger sync |
 | `apps/`, `packages/`, `.github/`, `scripts/` | no code/workflow changes |
@@ -21,8 +21,8 @@ The workflow now has Phase 1-13, root/output artifacts parity, read-only evidenc
 | --- | --- |
 | `artifacts.json.metadata.taskType` | `implementation` |
 | `artifacts.json.metadata.visualEvidence` | `NON_VISUAL` |
-| `artifacts.json.metadata.workflow_state` | `CONTRACT_READY_IMPLEMENTATION_PENDING` |
-| Phase 7 / 11 / 13 | `runtime_pending` or `blocked_pending_user_approval`; no premature `completed` mutation state |
+| `artifacts.json.metadata.workflow_state` | `implemented_local_pending_pr` |
+| Phase 7 / 11 / 13 | Phase 7 and 11 `completed`; Phase 13 `blocked_pending_user_approval` |
 
 ## Phase 11 evidence file inventory
 
@@ -30,9 +30,9 @@ The workflow now has Phase 1-13, root/output artifacts parity, read-only evidenc
 | --- | --- |
 | `outputs/phase-11/evidence/current-repo-variables.json` | completed (read-only preflight) |
 | `outputs/phase-11/evidence/source-grep-preflight.txt` | completed (0 hits) |
-| `outputs/phase-11/evidence/pre-mutation-static-summary.txt` | completed (mutation not executed) |
-| `outputs/phase-11/evidence/user-approval-marker.md` | runtime_pending (required before DELETE / POST / commit / push / PR) |
-| `outputs/phase-11/before.json` and after evidence | runtime_pending (after approval) |
+| `outputs/phase-11/evidence/pre-mutation-static-summary.txt` | completed (pre-mutation snapshot; mutation later completed) |
+| `outputs/phase-11/evidence/user-approval-marker.md` | completed (DELETE approved; push / PR still user-gated separately) |
+| `outputs/phase-11/before.json` and after evidence | completed (before=4, after=3, single GET 404) |
 
 ## Phase 12 strict 7 file inventory
 
