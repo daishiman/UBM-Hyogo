@@ -14,5 +14,41 @@
     "unassignedTaskDetection": "outputs/phase-12/unassigned-task-detection.md",
     "skillFeedbackReport": "outputs/phase-12/skill-feedback-report.md",
     "phase12ComplianceCheck": "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  },
+  "metadata": {
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized at task root"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: typecheck/lint/build PASS, evidence captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: awaiting green CI on PR"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-13/main.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: awaiting user-gated merge into dev"
+      }
+    ]
   }
 }
