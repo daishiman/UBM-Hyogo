@@ -3048,6 +3048,21 @@ node scripts/list-specs.js --topics
 | API Inputs | L45 |
 | Notes | L54 |
 
+### references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation Artifacts | L15 |
+| Phase 12 Outputs | L34 |
+| Required Status Check Candidates | L46 |
+| Evidence Boundary | L54 |
+| User Gates | L61 |
+| Dependencies | L67 |
+| After-sync regression fixes (2026-05-13) | L72 |
+| After-sync regression fixes — round 2 (2026-05-14) | L87 |
+| Cross-Reference | L102 |
+
 ### references/workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md
 
 | セクション | 行 |
@@ -3651,12 +3666,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Current contract | L3 |
 | Required status checks | L7 |
-| Invariants | L13 |
-| Issue #554 runbook | L25 |
-| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L41 |
-| 3-state vocabulary（runtime mutation 系） | L59 |
-| Stage 3c required contexts target（2026-05-10） | L78 |
-| References | L89 |
+| Invariants | L16 |
+| Issue #554 runbook | L28 |
+| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L44 |
+| 3-state vocabulary（runtime mutation 系） | L62 |
+| Stage 3c required contexts target（2026-05-10） | L81 |
+| References | L92 |
 
 ### references/cloudflare-edge-security.md
 
@@ -4994,6 +5009,25 @@ node scripts/list-specs.js --topics
 | L-TASK17-002: artifacts.json は root と outputs の二元化が drift 源 | L14 |
 | L-TASK17-003: `new` 前提で task spec を起こす前に worktree inventory を取る | L21 |
 | L-TASK17-004: Phase 11 evidence の AUTH_SECRET override は fixture cookie を無効化する | L28 |
+
+### references/lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK18-W7-001: Design token SSOT は 3 層 bridge を検証しないと drift が黙過される | L7 |
+| L-TASK18-W7-002: Playwright fixture は service worker と build artifact を遮断しないと flaky になる | L14 |
+| L-TASK18-W7-003: Server Component fetch は env-gated SSR fixture でしか visual evidence を取れない | L21 |
+| L-TASK18-W7-004: Phase 11 evidence は `.txt` / `.json` のみ canonical。`.log` は `.gitignore` で落ちる | L28 |
+| L-TASK18-W7-005: required status check 候補は CI で 1 回 success run を出してから PUT する | L35 |
+| L-TASK18-W7-006: `PLAYWRIGHT_BASE_URL` の env fallback は `||` で空文字も拾う | L42 |
+| L-TASK18-W7-007: project レベル testIgnore で smoke / visual を chromium-linux baseline project に閉じ込める | L49 |
+| L-TASK18-W7-008: artifacts.json は `metadata.gates` 配列を Gate-A〜Gate-D で必ず満たす | L56 |
+| L-TASK18-W7-009: `phase12-task-spec-compliance-check.md` は 9 canonical headings を厳格に要求する | L63 |
+| L-TASK18-W7-010: completed-tasks/ 直下の follow-up spec は orphan workflow root を生むので unassigned-task/ へ即時 relocate | L70 |
+| L-TASK18-W7-011: accent token は L=0.52 を維持し a11y contrast 4.5:1 を確保する | L77 |
+| L-TASK18-W7-012: Playwright project-level testIgnore は global testIgnore を **置換** する | L84 |
+| L-TASK18-W7-013: Playwright webServer は `next dev --webpack` を使い、Turbopack の `[project]/...` 解決失敗を避ける | L91 |
+| Cross-Reference | L98 |
 
 ### references/lessons-learned-task-20-w2-screen-blueprints-2026-05.md
 
@@ -6863,7 +6897,8 @@ node scripts/list-specs.js --topics
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
 | Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
-| 関連ドキュメント | L423 |
+| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
+| 関連ドキュメント | L464 |
 
 ### references/ui-history-components.md
 
