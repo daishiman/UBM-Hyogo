@@ -10,7 +10,41 @@
     "updated_at": "2026-05-11",
     "source_issue": 617,
     "source_issue_state": "closed",
-    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-issue-577-followup-003-test-grouping-by-d1-usage.md"
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-issue-577-followup-003-test-grouping-by-d1-usage.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-617-ci-test-time-reduction-split/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec for CI test split. Awaiting user approval."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-617-ci-test-time-reduction-split/outputs/phase-11/before-after.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local typecheck/lint/coverage-merge tests PASS; CI wall-clock evidence pending."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: validate / verify-phase12-compliance / coverage-gate-shard / coverage-gate green required."
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-617-ci-test-time-reduction-split/phase-13.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: user-gated merge into dev."
+      }
+    ]
   },
   "implementation_targets": [
     "vitest.config.ts",
