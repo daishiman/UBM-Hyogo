@@ -112,6 +112,13 @@ dataset = "sync_alerts"
 binding = "UBM_AUDIT_COLD_STORAGE"
 bucket_name = "ubm-hyogo-audit-cold-storage-prod"
 
+# ut-17-followup-002: alert-relay dedup state 用 KV namespace は user-gated。
+# namespace 作成後、実 id だけを使って次の block を有効化する。
+# placeholder id を active TOML に残すと deploy validation を壊すため、承認前はコメント化する。
+# [[env.production.kv_namespaces]]
+# binding = "ALERT_DEDUP_KV"
+# id = "<production_namespace_id>"
+
 [env.staging]
 name = "ubm-hyogo-api-staging"
 
@@ -171,3 +178,10 @@ dataset = "sync_alerts_staging"
 binding = "UBM_AUDIT_COLD_STORAGE"
 bucket_name = "ubm-hyogo-audit-cold-storage-staging"
 preview_bucket_name = "ubm-hyogo-audit-cold-storage-staging"
+
+# ut-17-followup-002: alert-relay dedup state 用 KV namespace は user-gated。
+# namespace 作成後、実 id だけを使って次の block を有効化する。
+# placeholder id を active TOML に残すと deploy validation を壊すため、承認前はコメント化する。
+# [[env.staging.kv_namespaces]]
+# binding = "ALERT_DEDUP_KV"
+# id = "<staging_namespace_id>"

@@ -3411,6 +3411,14 @@ node scripts/list-specs.js --topics
 | Runbooks | L35 |
 | Runtime Boundary | L42 |
 
+### references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Planned Implementation Artifacts | L13 |
+| State Boundary | L25 |
+
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
 | セクション | 行 |
@@ -6165,6 +6173,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 成功パターン | L6 |
+
+### references/patterns-kv-dedup.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Env binding narrowing（必須 binding 追加時の型 contravariance 回避） | L9 |
+| 2. KV stub fixture（focused test 用） | L26 |
+| 3. Persistence ordering — 外部 call 成功後にのみ put | L45 |
+| 4. `wrangler.toml` binding gating | L63 |
+| 5. Wording 規律 — practical reduction を使う | L90 |
+| 適用範囲 | L107 |
 
 ### references/patterns.md
 
