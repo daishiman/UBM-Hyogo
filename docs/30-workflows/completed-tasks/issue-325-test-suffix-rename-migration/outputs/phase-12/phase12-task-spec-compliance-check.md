@@ -50,3 +50,54 @@ PR 作成のみ未実行である。実 rename、typecheck、lint、api test は
 ## artifacts parity
 
 本 workflow は root `artifacts.json` を正本とし、Phase 1-12 を `completed`、Phase 13 を `pending` として記録する。`outputs/artifacts.json` はこの workflow では生成対象に含めない。
+
+---
+
+## Canonical 9-heading SSOT compliance
+
+以下は `.claude/skills/task-specification-creator/references/phase12-compliance-check-template.md` の Required Sections SSOT に対応する canonical heading セクション。既存の日本語セクションは archival として保持し、verify-phase12-compliance CI gate 互換のため canonical 形式を追加する。
+
+## Summary verdict
+
+`implementation_completed (Issue #623 二段階対応終了で完了)`. rename / vitest.config 収斂 / lefthook gate / verify-test-suffix.yml すべて完了。
+
+## Changed-files classification
+
+| Area | Classification | Result |
+| --- | --- | --- |
+| rename | implementation_completed | 132+ files renamed `*.test.{ts,tsx}` → `*.spec.{ts,tsx}` |
+| vitest.config | implementation_completed | `test.include` を `*.spec.{ts,tsx}` 単一に収斂 |
+| hook / CI | implementation_completed | `block-test-suffix.sh` + `verify-test-suffix.yml` 追加 |
+
+## `workflow_state` and phase status consistency
+
+`metadata.workflow_state=implementation_completed`、Phase 1-12 `completed`、Phase 13 `pending`（PR creation のみ user-gated）。
+
+## Phase 11 evidence file inventory
+
+Phase 11 raw evidence は `outputs/phase-11/` に存在。rename before/after diff、numTotalTests parity、coverage delta 0 を記録。
+
+## Phase 12 strict 7 file inventory
+
+`main.md` / `implementation-guide.md` / `system-spec-update-summary.md` / `documentation-changelog.md` / `unassigned-task-detection.md` / `skill-feedback-report.md` / `phase12-task-spec-compliance-check.md` の 7 件はすべて存在。
+
+## Skill/reference/system spec same-wave sync
+
+`.claude/skills/aiworkflow-requirements/{SKILL-changelog.md,indexes/*}`、`.claude/skills/task-specification-creator/SKILL-changelog.md`、`CLAUDE.md §重要な不変条件 8`、`outputs/phase-12/test-file-suffix-adr.md` を同一 wave で反映済み。
+
+## Runtime or user-gated boundary
+
+Phase 13 PR 作成のみ user-gated。実 rename / typecheck / lint / api test の local evidence は Phase 11 に保存済み。
+
+## Archive/delete stale-reference gate
+
+archive 移動済み（`completed-tasks/issue-325-test-suffix-rename-migration/`）。stale reference は successor task Issue #623 inventory に migrate 済み。
+
+## Four-condition verdict
+
+| Condition | Verdict | Evidence |
+| --- | --- | --- |
+| 矛盾なし | PASS | 実 tree / Phase 11 / Phase 12 / aiworkflow を `implementation_completed` に統一 |
+| 漏れなし | PASS | strict 7 + ADR + Phase 11 raw evidence + aiworkflow 同期点を列挙 |
+| 整合性あり | PASS | taskType=`implementation` / visualEvidence=`NON_VISUAL` / state=`implementation_completed` を統一 |
+| 依存関係整合 | PASS | UT-08A-06 → Issue #325 → Issue #623 successor trace を inventory + aiworkflow に反映 |

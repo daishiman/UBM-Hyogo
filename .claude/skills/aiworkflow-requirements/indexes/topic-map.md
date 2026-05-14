@@ -2587,6 +2587,23 @@ node scripts/list-specs.js --topics
 | Skill 反映先 | L36 |
 | Validation Chain | L46 |
 
+### references/workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical artifacts | L13 |
+| Implementation targets | L25 |
+| Governance boundary | L37 |
+
+### references/workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Invariants | L18 |
+| Scope Out | L26 |
+| Lessons / Genealogy | L32 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3106,14 +3123,6 @@ node scripts/list-specs.js --topics
 | Downstream ownership | L60 |
 | Same-wave sync targets | L69 |
 | Related Resources | L79 |
-
-### references/workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Current Status | L3 |
-| Artifact Set | L13 |
-| Boundary | L26 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -4102,15 +4111,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L19 |
-| 使い方 | L27 |
-| Current Alias Overrides（個別互換行） | L34 |
-| Family Summary | L75 |
-| Detailed Register | L96 |
-| Section Extract Register (2026-03-17) | L277 |
-| 500-Line Split Register (2026-03-16) | L288 |
-| Fragment Migration Register (2026-04-28) | L310 |
-| Task Root Path Drift Register (2026-04-30 追記) | L337 |
+| 概要 | L21 |
+| 使い方 | L29 |
+| Current Alias Overrides（個別互換行） | L36 |
+| Family Summary | L77 |
+| Detailed Register | L98 |
+| Section Extract Register (2026-03-17) | L279 |
+| 500-Line Split Register (2026-03-16) | L290 |
+| Fragment Migration Register (2026-04-28) | L312 |
+| Task Root Path Drift Register (2026-04-30 追記) | L339 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4893,6 +4902,16 @@ node scripts/list-specs.js --topics
 | 運用知見 | L49 |
 | 参照 | L57 |
 
+### references/lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-623-001: ENOSPC で full test parity 未取得 | L11 |
+| L-623-002: 二段階移行の終了タイミング判断 | L18 |
+| L-623-003: import path drift 修正の事前 grep | L24 |
+| L-623-004: lefthook + GitHub Action 二重 gate 設計 | L30 |
+| 引用関係 | L36 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5082,16 +5101,6 @@ node scripts/list-specs.js --topics
 | L-T21-003: canonical workflow root の削除検出は task scope 外でも同サイクルで復元する | L11 |
 | L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
 | L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
-
-### references/lessons-learned-task-24.md
-
-| セクション | 行 |
-|------------|----|
-| L-TASK24-001 — 22×6 invariant matrix shape の SSOT 化 | L22 |
-| L-TASK24-002 — read-only audit task の Phase-5 / Phase-11 役割定義 | L38 |
-| L-TASK24-003 — `audit-runner.sh` の I/O contract を spec 化する | L52 |
-| L-TASK24-004 — task root rename 時の self-reference path 一括更新 | L68 |
-| Backlinks | L88 |
 
 ### references/lessons-learned-task-spec-2d-contract-stage-2-2026-05.md
 
@@ -6518,13 +6527,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1167 |
-| フェーズ構造（概要） | L1176 |
-| 品質ゲート（概要） | L1207 |
-| 出力テンプレート | L1218 |
-| 実行時のコマンド・エージェント・スキル | L1241 |
-| 昇格パターン集 | L1265 |
-| Current Active / Spec Created Tasks | L1267 |
+| ドキュメント構成 | L1184 |
+| フェーズ構造（概要） | L1193 |
+| 品質ゲート（概要） | L1224 |
+| 出力テンプレート | L1235 |
+| 実行時のコマンド・エージェント・スキル | L1258 |
+| 昇格パターン集 | L1282 |
+| Current Active / Spec Created Tasks | L1284 |
 
 ### references/task-workflow-backlog-part2.md
 
