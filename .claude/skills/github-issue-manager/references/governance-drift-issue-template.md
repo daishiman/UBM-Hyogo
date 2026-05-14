@@ -167,6 +167,25 @@ gh pr comment <detection_pr> \
 
 ---
 
+## Required status check 追加パターン（task-18 W7 / 2026-05-12 追記）
+
+新規 CI workflow を `required_status_checks.contexts` に乗せる際の運用は、別 Issue / 別 PR で扱う:
+
+1. **workflow を `dev` で 1 回成功 run させる**（GitHub branch protection は registered check のみ評価。未 run の context を required に追加すると PR が永遠に未充足になる）
+2. **`gh api repos/<owner>/<repo>/commits/<sha>/check-runs > outputs/phase-11/check-runs.txt`** で context name 完全一致を確認
+3. **pre snapshot** を取得（`outputs/phase-11/branch-protection-{dev,main}-pre.json`）
+4. **PUT payload は read response を normalize** し、`required_status_checks.contexts` だけ append。`required_pull_request_reviews=null` / `lock_branch=false` / `enforce_admins=true` / `required_linear_history=true` を保全
+5. **user approval を経て `dev` 先行 PUT → invariants verify → `main` PUT** の順序
+6. **post snapshot** を保存（`outputs/phase-11/branch-protection-{dev,main}-post.json`）
+
+例（task-18 W7 候補 3 件）:
+
+- `verify-design-tokens / verify-design-tokens`
+- `playwright-smoke / smoke (chromium)`
+- `playwright-smoke / visual (chromium, 4 screens)`
+
+Issue body は drift Issue と同じ「Read-only context / Required mutation / Constraints / Evidence paths / User approval requirement」構造を踏襲し、`gh api -X PUT` の実行は user approval を marker file（`outputs/phase-13/user-approval-<task>-<timestamp>.md`）で確定させた後に限る。
+
 ## 既存テンプレとの責務分離
 
 | テンプレ | 対象 | 違い |

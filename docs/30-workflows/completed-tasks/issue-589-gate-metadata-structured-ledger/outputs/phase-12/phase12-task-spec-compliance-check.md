@@ -40,3 +40,54 @@ PASS for `implemented_local_runtime_pending / implementation / NON_VISUAL` close
 | 漏れなし | PASS | Strict 7 outputs, link checklist, schema, validator, CI workflow file, #549 backfill, aiworkflow reference, changelog, and LOGS are present. |
 | 整合性あり | PASS | `taskType=implementation`, `visualEvidence=NON_VISUAL`, `workflow_state=implemented_local_runtime_pending`, and Phase 13 user gate are aligned. |
 | 依存関係整合 | PASS | Parent #549, source unassigned task, Phase 12 checklist, shared package export, validator command, and aiworkflow SSOT links are explicit. |
+
+---
+
+## Summary verdict
+
+`PASS_WITH_OPEN_SYNC`. Detailed verdict above under `## Verdict`. Local evidence files are present; GitHub required-status-check mutation, commit, push, and PR remain user-gated.
+
+## Changed-files classification
+
+See `## Path Existence Pre-Check` and `## Artifacts Parity` above. Implementation files: `packages/shared/src/gate-metadata/**`, `scripts/gate-metadata/**`, `.github/workflows/verify-gate-metadata.yml`. System spec: Issue #549 `metadata.gates[]` backfill. Cross-task evidence_path sync: `schema.test.ts -> schema.spec.ts` post-#622 rename.
+
+## `workflow_state` and phase status consistency
+
+`metadata.workflow_state=implemented_local_runtime_pending`. Phases 1-12 `completed`, Phase 13 `pending_user_approval`. Consistent with local-PASS evidence and pending CI runtime / branch-protection mutation.
+
+## Phase 11 evidence file inventory
+
+- `outputs/phase-11/main.md`
+- `outputs/phase-11/manual-smoke-log.md`
+- `outputs/phase-11/link-checklist.md`
+
+## Phase 12 strict 7 file inventory
+
+- `outputs/phase-12/main.md`
+- `outputs/phase-12/implementation-guide.md`
+- `outputs/phase-12/system-spec-update-summary.md`
+- `outputs/phase-12/documentation-changelog.md`
+- `outputs/phase-12/unassigned-task-detection.md`
+- `outputs/phase-12/skill-feedback-report.md`
+- `outputs/phase-12/phase12-task-spec-compliance-check.md`
+
+## Skill/reference/system spec same-wave sync
+
+`.claude/skills/aiworkflow-requirements/references/gate-metadata.md`, quick-reference, resource-map, task-workflow-active, changelog, LOGS all updated in the same wave. Issue #549 `metadata.gates[]` backfill verified by validator exit 0.
+
+## Runtime or user-gated boundary
+
+Local PASS: schema tests, walk tests, `pnpm gate-metadata:validate` exit 0. User-gated: branch protection required-check mutation, commit, push, PR, CI runtime.
+
+## Archive/delete stale-reference gate
+
+No archive or delete in this task. The cross-task evidence_path update (`schema.test.ts -> schema.spec.ts`) keeps the live inventory in sync after Issue #622 rename.
+
+## Four-condition verdict
+
+| Condition | Verdict | Evidence |
+| --- | --- | --- |
+| 矛盾なし | PASS | State, scope, and evidence wording aligned with `implemented_local_runtime_pending`. |
+| 漏れなし | PASS | Strict 7 outputs, Phase 11 evidence, schema/validator/workflow files, Issue #549 backfill, aiworkflow sync all present. |
+| 整合性あり | PASS | JSON metadata, evidence_path (post-#622), and ledger entries match the implementation. |
+| 依存関係整合 | PASS | Parent #549 / this #589 / cross-task evidence_path post-#622 are synchronized. |
