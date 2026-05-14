@@ -2420,3 +2420,15 @@ UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts
 | Node / pnpm バージョン固定（Node 24 / pnpm 10.33.2 / mise） | `CLAUDE.md` 「開発環境セットアップ」節 | `references/technology-devops-core.md` baseline 章 | CLAUDE.md > aiworkflow-requirements |
 | references/ 配下の API/D1/IPC/UI/auth 仕様 | `references/*.md`（aiworkflow-requirements が一次正本） | `CLAUDE.md` は概要のみ言及 | aiworkflow-requirements > CLAUDE.md。実装契約・schema・状態定数は references/ を正とする |
 | 教訓 / lessons-learned ID（L-XXX-NNN） | `references/lessons-learned-*.md`（aiworkflow-requirements が一次正本） | CLAUDE.md には記載しない | aiworkflow-requirements > CLAUDE.md |
+### UT-17 Followup-003 Alert Relay Weekly Healthcheck Cron（2026-05-14 / implemented-local）
+
+UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API Worker daily cron `0 18 * * *` へ相乗りして週次 healthcheck する。UTC Monday gate (`getUTCDay() === 1`) により新規 cron slot は追加しない。Slack `200 + body != "ok"` を失敗扱いにし、Resend mail fallback で silent failure を検出する。状態は `implementation_completed_external_ops_pending / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING`。Cloudflare secrets / deploy / manual cron fire / first production observation / commit / push / PR は user-gated。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/` |
+| implementation | `apps/api/src/scheduled/healthcheck.ts`, `apps/api/src/lib/healthcheck-mail-fallback.ts`, `apps/api/src/index.ts`, `apps/api/src/env.ts` |
+| tests | `apps/api/src/scheduled/__tests__/healthcheck.test.ts`, `apps/api/src/lib/__tests__/healthcheck-mail-fallback.test.ts` |
+| runbook | `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` |
+| deployment spec | `references/deployment-cloudflare.md`（UT-17 weekly alert-relay healthcheck cron） |
+| artifact inventory | `references/workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md` |

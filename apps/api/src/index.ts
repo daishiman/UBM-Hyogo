@@ -64,6 +64,7 @@ import { auditCorrelationRunRoute } from "./routes/audit-correlation";
 import { createAlertRelayRoute } from "./routes/internal/alert-relay";
 import { scheduledAuditCorrelation } from "./audit-correlation/scheduled";
 import type { AuditCorrelationRuntimeEnv } from "./audit-correlation/run-correlation";
+import { runAlertRelayHealthcheck } from "./scheduled/healthcheck";
 
 function timingSafeEqual(a: string, b: string): boolean {
   let mismatch = a.length ^ b.length;
@@ -490,6 +491,7 @@ export default {
           }
         })(),
       );
+      ctx.waitUntil(runAlertRelayHealthcheck(env, event));
       return;
     }
     if (cron === "0 * * * *") {

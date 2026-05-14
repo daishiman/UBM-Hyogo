@@ -86,6 +86,9 @@ export interface Env extends SyncEnv, ResponseSyncEnv {
   // 1Password 正本 → Cloudflare Secrets（`bash scripts/cf.sh secret put` 経由）
   readonly CF_WEBHOOK_AUTH_SECRET?: string;
   readonly SLACK_WEBHOOK_URL?: string;
+  readonly SLACK_WEBHOOK_URL_HEALTHCHECK?: string;
+  readonly HEALTHCHECK_FALLBACK_EMAIL?: string;
+  readonly RESEND_API_KEY?: string;
   // vars — Slack message links shown in UT-17 alert cards
   readonly CF_ALERT_DASHBOARD_URL?: string;
   readonly CF_ALERT_RUNBOOK_URL?: string;
