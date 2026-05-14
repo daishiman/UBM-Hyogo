@@ -13,7 +13,33 @@
     "upstreamIssues": [325, 621],
     "downstreamIssue": 623,
     "canonicalRoot": "docs/30-workflows/issue-622-packages-test-suffix-rename/",
-    "refsPolicy": "Closes #622 is allowed for the open implementation issue; closed upstream issues use Refs #325 and Refs #621 only."
+    "refsPolicy": "Closes #622 is allowed for the open implementation issue; closed upstream issues use Refs #325 and Refs #621 only.",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-622-packages-test-suffix-rename/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 仕様書が root に揃い、rename-only スコープと implementation_mode を確定"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-622-packages-test-suffix-rename/outputs/phase-05/rename-mapping.csv",
+        "approver": "daishiman",
+        "notes": "local_evidence: 28 file rename mapping + focused package tests / typecheck / lint / residual grep 0 を local evidence として記録"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_runtime: PR 発火 CI が `pnpm -r test` を含む required checks を pass した時点で passed。commit / push / PR は user gate"
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "name": "要件定義 / 真の論点", "file": "phase-01.md", "status": "completed" },
