@@ -10,7 +10,9 @@
     "lint": "tsc -p tsconfig.json --noEmit",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/api",
-    "test:coverage": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/api/coverage --coverage.include=\"apps/api/src/**/*.{ts,tsx}\" --maxWorkers=1 --minWorkers=1 apps/api"
+    "test:coverage:unit": "vitest run --passWithNoTests --root=../.. --config=vitest.config.ts --coverage --coverage.reportsDirectory=apps/api/coverage/unit --coverage.include=\"apps/api/src/**/*.{ts,tsx}\" --maxWorkers=1 --minWorkers=1 apps/api",
+    "test:coverage:d1": "vitest run --passWithNoTests --root=../.. --config=vitest.d1.config.ts --coverage --coverage.reportsDirectory=apps/api/coverage/d1 --coverage.include=\"apps/api/src/**/*.{ts,tsx}\" apps/api",
+    "test:coverage": "pnpm run test:coverage:unit && pnpm run test:coverage:d1 && cd ../.. && node scripts/coverage-merge.mjs --inputs=\"apps/api/coverage/unit/coverage-final.json,apps/api/coverage/d1/coverage-final.json\" --output=\"apps/api/coverage\""
   },
   "dependencies": {
     "@ubm-hyogo/integrations": "workspace:*",

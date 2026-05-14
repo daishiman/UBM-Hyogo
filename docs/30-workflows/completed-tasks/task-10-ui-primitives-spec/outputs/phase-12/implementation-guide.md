@@ -47,5 +47,7 @@ task-10 では、すでにある部品を捨てずに、足りない部品を足
 - local quality: `outputs/phase-11/evidence/{typecheck,lint,test}.log`
 - coverage: `outputs/phase-09/coverage.txt`
 - build: `outputs/phase-11/evidence/next-build.log` PASS
-- blocker: `outputs/phase-11/evidence/build.log` records `build:cloudflare` failure from OpenNext esbuild host/binary mismatch.
-- `VISUAL_ON_EXECUTION` のため screenshot / axe は `build:cloudflare` blocker 解消後の runtime execution cycle で取得する。
+- blocker resolved: `docs/30-workflows/task-10-followup-001-opennext-esbuild-mismatch/outputs/phase-11/evidence/after-build-cloudflare.log`
+- screenshot: `outputs/phase-11/evidence/screenshots/task10-ui-primitives-runtime.png`
+- axe: `outputs/phase-11/evidence/axe-report.json`（critical/serious 0）
+- runtime spec: `apps/web/playwright/tests/task10-ui-primitives.spec.ts`

@@ -16,6 +16,12 @@ UBM 兵庫支部会メンバーサイトの Cloudflare Workers Cron Triggers、D
 
 legacy Sheets hourly sync (`0 * * * *`) は retry tick 追加時に手動限定へ寄せ、top-level / staging / production の cron 本数を3本以内に維持する。実 deploy / rollback / cron disable は 09c または緊急運用で実行する。
 
+## Issue #616 Miniflare / undici upstream tracking
+
+Issue #577 で採用した `apps/api/package.json#scripts.test:coverage` の `--maxWorkers=1 --minWorkers=1` は、Miniflare / undici / workerd の socket / keep-alive / port reuse 改善が確認されるまで維持する。月次または Miniflare メジャー更新時に `docs/30-workflows/completed-tasks/task-issue-577-followup-002-miniflare-undici-upstream-tracking/` の Phase 5 runbook を実行し、`cloudflare/workers-sdk` / `nodejs/undici` / `cloudflare/workerd` release を triage する。
+
+改善検知時のみ `--maxWorkers=2 → 4 → auto` の順に A/B 評価を行う。採用条件は候補 N の連続 3 回 133/133 PASS、0 EADDRNOTAVAIL、coverage regression なし。候補 N が失敗した場合、より大きい候補は実行せず `ab-summary.md` に skip 理由を残す。採用時は `--minWorkers` を削除し `--maxWorkers=<採用N>` だけを正本化する。2026-05-11 の triage では改善なしのため current cap を維持する。
+
 ## D1 / Worker 対応表
 
 | 環境 | Worker | DB binding | D1 database_name |

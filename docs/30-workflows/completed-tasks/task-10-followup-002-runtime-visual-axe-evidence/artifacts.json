@@ -1,0 +1,81 @@
+{
+  "workflow_id": "task-10-followup-002-runtime-visual-axe-evidence",
+  "workflow_state": "implemented_local_evidence_captured",
+  "metadata": {
+    "task_id": "task-10-followup-002-runtime-visual-axe-evidence",
+    "task_name": "task-10 UI primitives runtime visual and axe evidence capture",
+    "created_date": "2026-05-11",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "implementation_mode": "test-tooling-addition",
+    "implementation_status": "implemented_local_evidence_captured",
+    "parent_issue": "610",
+    "parent_workflow": "docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/",
+    "source_unassigned": "docs/30-workflows/unassigned-task/task-10-followup-002-runtime-visual-axe-evidence.md",
+    "phase13_state": "blocked_pending_user_approval",
+    "cloudflare_build_state": "blocked_by_task-10-followup-001-opennext-esbuild-mismatch",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized at task root"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: 37 screenshots captured, axe violations 0, Playwright 38 passed"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: awaiting green CI on PR"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-13/main.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: awaiting user-gated merge into dev"
+      }
+    ]
+  },
+  "depends_on": [
+    "task-10-followup-001-opennext-esbuild-mismatch",
+    "docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/"
+  ],
+  "blocks": [],
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "spec_created", "spec": "phase-01.md" },
+    { "id": 2, "name": "設計", "status": "spec_created", "spec": "phase-02.md" },
+    { "id": 3, "name": "設計レビューゲート", "status": "spec_created", "spec": "phase-03.md" },
+    { "id": 4, "name": "RED テスト", "status": "completed", "spec": "phase-04.md" },
+    { "id": 5, "name": "GREEN 実装", "status": "completed", "spec": "phase-05.md" },
+    { "id": 6, "name": "リグレッションテスト", "status": "completed", "spec": "phase-06.md" },
+    { "id": 7, "name": "カバレッジ確認", "status": "completed", "spec": "phase-07.md" },
+    { "id": 8, "name": "リファクタ", "status": "completed", "spec": "phase-08.md" },
+    { "id": 9, "name": "品質ゲート", "status": "blocked_build_cloudflare_esbuild_mismatch", "spec": "phase-09.md" },
+    { "id": 10, "name": "最終レビュー", "status": "completed_with_build_blocker_recorded", "spec": "phase-10.md" },
+    { "id": 11, "name": "runtime visual + axe evidence 取得", "status": "completed", "spec": "phase-11.md" },
+    { "id": 12, "name": "ドキュメント同期", "status": "completed", "spec": "phase-12.md" },
+    { "id": 13, "name": "ユーザーゲート PR", "status": "blocked", "spec": "phase-13.md" }
+  ],
+  "acceptance_criteria": [
+    "AC-1: /primitives-harness harness is unreachable in production unless ENABLE_PRIMITIVES_HARNESS=1 is explicitly set.",
+    "AC-2: 37 screenshots covering 11 primitive representative variants are captured.",
+    "AC-3: axe-report.json is generated and unknown violations are zero.",
+    "AC-4: evidence is stored under docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence/.",
+    "AC-5: parent task-10 ledger is updated after evidence capture.",
+    "AC-6: aiworkflow-requirements canonical references are synchronized.",
+    "AC-7: commit, push, and PR remain user-gated."
+  ]
+}

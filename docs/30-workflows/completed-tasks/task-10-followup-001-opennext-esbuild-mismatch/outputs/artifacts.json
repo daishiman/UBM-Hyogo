@@ -1,0 +1,155 @@
+{
+  "taskId": "TASK-10-FOLLOWUP-001",
+  "taskName": "OpenNext esbuild host/binary mismatch recovery",
+  "directory": "docs/30-workflows/task-10-followup-001-opennext-esbuild-mismatch",
+  "wave": 1,
+  "executionType": "serial",
+  "createdAt": "2026-05-11",
+  "owner": "unassigned",
+  "status": "implemented-local",
+  "taskType": "implementation",
+  "subtype": "build-toolchain-fix",
+  "visualEvidence": "NON_VISUAL",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local",
+    "implementation_status": "runtime_evidence_captured",
+    "githubIssue": "https://github.com/daishiman/UBM-Hyogo/issues/609",
+    "issueState": "closed_keep_closed",
+    "phase12StrictFiles": 7,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-001-opennext-esbuild-mismatch/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized at task root"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-11T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-001-opennext-esbuild-mismatch/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: typecheck/lint/build PASS, evidence captured"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/ci.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "ci_integration: awaiting green CI on PR"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-10-followup-001-opennext-esbuild-mismatch/outputs/phase-13/main.md",
+        "approver": "daishiman",
+        "notes": "pr_approval: awaiting user-gated merge into dev"
+      }
+    ]
+  },
+  "implementationMode": "new",
+  "priority": "HIGH",
+  "phases": {
+    "phase-01": {
+      "name": "要件定義",
+      "status": "spec_created",
+      "artifact": "outputs/phase-01/main.md"
+    },
+    "phase-02": {
+      "name": "設計",
+      "status": "spec_created",
+      "artifact": "outputs/phase-02/main.md"
+    },
+    "phase-03": {
+      "name": "設計レビュー",
+      "status": "spec_created",
+      "artifact": "outputs/phase-03/main.md"
+    },
+    "phase-04": {
+      "name": "テスト戦略",
+      "status": "spec_created",
+      "artifact": "outputs/phase-04/main.md"
+    },
+    "phase-05": {
+      "name": "実装ランブック",
+      "status": "spec_created",
+      "artifact": "outputs/phase-05/main.md"
+    },
+    "phase-06": {
+      "name": "異常系検証",
+      "status": "spec_created",
+      "artifact": "outputs/phase-06/main.md"
+    },
+    "phase-07": {
+      "name": "AC マトリクス",
+      "status": "spec_created",
+      "artifact": "outputs/phase-07/main.md"
+    },
+    "phase-08": {
+      "name": "DRY 化 / 重複解消確認",
+      "status": "spec_created",
+      "artifact": "outputs/phase-08/main.md"
+    },
+    "phase-09": {
+      "name": "品質保証",
+      "status": "spec_created",
+      "artifact": "outputs/phase-09/main.md"
+    },
+    "phase-10": {
+      "name": "最終レビュー",
+      "status": "spec_created",
+      "artifact": "outputs/phase-10/main.md"
+    },
+    "phase-11": {
+      "name": "手動 smoke / build evidence",
+      "status": "completed",
+      "artifact": "outputs/phase-11/main.md"
+    },
+    "phase-12": {
+      "name": "ドキュメント更新",
+      "status": "completed",
+      "artifact": "outputs/phase-12/main.md"
+    },
+    "phase-13": {
+      "name": "PR 作成",
+      "status": "pending_user_approval",
+      "artifact": "outputs/phase-13/main.md"
+    }
+  },
+  "acceptanceCriteria": [
+    "AC-1: mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare exits 0",
+    "AC-2: pnpm why esbuild shows one effective esbuild version or no host/binary mismatch pair",
+    "AC-3: mise exec -- pnpm typecheck and mise exec -- pnpm lint remain green",
+    "AC-4: wrangler/tsx paths used by scripts/cf.sh do not regress",
+    "AC-5: pnpm-lock.yaml diff is limited to esbuild-related resolution",
+    "AC-6: troubleshooting note or cf.sh header documents recovery",
+    "AC-7: aiworkflow-requirements fragment/index/task-workflow sync records the lesson",
+    "AC-8: Cloudflare CLI and D1 invariants remain intact",
+    "AC-9: Phase 12 strict 7 files exist with canonical names",
+    "AC-10: 4 condition verification passes"
+  ],
+  "dependencies": {
+    "upstream": [],
+    "downstream": [
+      "task-10 Phase 11 runtime visual evidence",
+      "task-11..17 ui-prototype-alignment-mvp-recovery visual evidence",
+      "Cloudflare Workers staging / production deploy"
+    ]
+  },
+  "supersedes": [
+    "docs/30-workflows/unassigned-task/task-10-followup-001-opennext-esbuild-mismatch.md"
+  ],
+  "scopeOut": [
+    "@opennextjs/cloudflare / @opennextjs/aws major version bump",
+    "D1 schema changes",
+    "API endpoint changes",
+    "UI implementation changes",
+    "Cloudflare binding additions"
+  ]
+}
