@@ -14,7 +14,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-14T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/index.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/index.md",
         "approver": "codex",
         "notes": "spec_review: Phase 1-13 spec reconciled with current apps/web/app topology."
       },
@@ -22,7 +22,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-05-14T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/outputs/phase-11/manual-test-result.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/outputs/phase-11/manual-test-result.md",
         "approver": "codex",
         "notes": "local_evidence: grep gate, web test run, focused component coverage, and Phase 11 screenshot evidence captured."
       },
@@ -30,7 +30,7 @@
         "gate_id": "Gate-C",
         "status": "passed",
         "passed_at": "2026-05-14T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/outputs/phase-12/phase12-task-spec-compliance-check.md",
         "approver": "codex",
         "notes": "phase12: strict 7 outputs present, artifacts parity present."
       },
@@ -38,7 +38,7 @@
         "gate_id": "Gate-D",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/outputs/phase-13/pr-summary.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/outputs/phase-13/pr-summary.md",
         "approver": "daishiman",
         "notes": "pr_approval: commit / push / PR remain user-gated."
       }
