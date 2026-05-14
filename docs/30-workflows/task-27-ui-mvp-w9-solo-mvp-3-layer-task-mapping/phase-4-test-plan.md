@@ -16,7 +16,7 @@
 
 ### TC-01: ファイル配置確認
 
-- 検証: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` が存在する
+- 検証: `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` が存在する
 - 期待: ファイルあり / サイズ > 0
 
 ### TC-02: 必須セクション存在確認
@@ -46,7 +46,7 @@
 
 ### TC-07: 既存ファイル未変更確認
 
-- 検証: `git diff --name-only` で本 PR の差分が `docs/30-workflows/task-27-.../**` と `docs/30-workflows/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` 以外を含まない
+- 検証: `git diff --name-only` で本 PR の差分が `docs/30-workflows/task-27-.../**` と `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` 以外を含まない
 - 期待: 既存 task-01〜22 spec / 実装ファイルの差分 0 件
 
 ### TC-08: GFM table 構文確認

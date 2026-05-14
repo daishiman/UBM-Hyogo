@@ -58,8 +58,8 @@
 
 ## 4. 正本順位
 
-1. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md`
-2. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-{1,2,3}/phase-N.md`
+1. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md`
+2. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/outputs/phase-{1,2,3}/phase-N.md`
 3. `docs/00-getting-started-manual/specs/*.md`
 4. `docs/00-getting-started-manual/claude-design-prototype/`
 
@@ -75,6 +75,8 @@
 | `06-screens-member` | task-13, task-14 | task-10 + task-20 + task-22 完了後 |
 | `07-screens-admin` | task-15..17 | task-10 + task-21 + task-22 完了後。task-16 / 17 は task-15 後 |
 | `08-regression` | task-18 | W6 まで全完了後 |
+| `09-w8-audit` | task-23..26 | task-01..22 完了後。task-24 は read-only invariant audit として `INVARIANT-AUDIT.md` を生成する |
+| `10-w9-mapping` | task-27 | task-23..26 完了後。task-24 が生成する `INVARIANT-AUDIT.md` の 22×6 matrix（rows=task-01..22 / cols=INV-1..6 / vocabulary=`COMPLIANT|VIOLATION|N/A`）を W9 task-27 が consume し、3-layer task mapping の入力とする |
 
 ## 6. diff scope 規律 / archive rule（task-01 完了状況反映 / 2026-05-07）
 
@@ -84,3 +86,11 @@ task-01 実行中、別 workflow 5 dir（`02-application-implementation/`, `_des
 2. **archive rule**: 完了済み workflow dir を整理する場合は `git mv <dir> docs/30-workflows/completed-tasks/<dir>` でアーカイブし、`git rm -r` での純削除は禁止する（PR diff 肥大 / 履歴追跡性低下を防ぐため）。
 3. **sync-merge 混入対策**: rebase / merge / sync-script で取り込んだ範囲外削除は `git checkout HEAD -- <path>` で復旧してから commit する。`--no-verify` は使わない。
 4. **PR 作成前チェック**: `pnpm sync:check` で origin/main との差分を確認し、本 task 範囲外の差分が混入していないことをレビューする。
+
+## 7. Smoke Coverage Matrix（task-25 / 2026-05-14）
+
+Current Playwright smoke coverage is documented in `SMOKE-COVERAGE-MATRIX.md`.
+
+- Current executable smoke entries: 17 URL entries in `apps/web/playwright/tests/full-smoke.spec.ts`
+- Parent UI surfaces: 19 total surfaces; `error.tsx` and `loading.tsx` are component-only surfaces until deterministic fixtures exist
+- Visual baseline: 4 screens (`login`, `public-top`, `admin-dashboard`, `profile`)

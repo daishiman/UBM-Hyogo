@@ -8,7 +8,7 @@
 
 ## 目的
 
-`docs/30-workflows/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` を生成する。
+`docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` を生成する。
 
 ---
 
@@ -16,7 +16,7 @@
 
 | パス | 目的 |
 |------|------|
-| `docs/30-workflows/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` | 88 セル double-entry matrix + WARN/FAIL 集約 + readiness 判定 |
+| `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` | 88 セル double-entry matrix + WARN/FAIL 集約 + readiness 判定 |
 | `outputs/phase-5/implementation-notes.md`（本 task root 配下） | 各セル分類根拠ログ |
 
 修正ファイル: なし（read-only mapping）
@@ -27,10 +27,10 @@
 
 ### Step 1: 入力資料の確認
 
-1. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md` を読み込み、19 routes と 4 層対応を抽出する
-2. `ls docs/30-workflows/ui-prototype-alignment-mvp-recovery/` で task-01〜22 のディレクトリ名を列挙
+1. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` を読み込み、19 routes と 4 層対応を抽出する
+2. `ls docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` で task-01〜22 のディレクトリ名を列挙
 3. 各 task root `index.md` の「対象 routes / 変更対象ファイル / DoD」を読み込み、対象 routes 集合をメモする
-4. `docs/30-workflows/task-23-.../` 配下に `VERIFICATION-STATUS.md` 実体が生成されているか確認
+4. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` 実体が生成されているか確認
    - 存在する場合: WARN/FAIL を含むタスク行を抽出
    - 存在しない場合: 本 matrix の section 5 に「task-23 未完了のため WARN/FAIL 集約は保留」と明記
 5. task-24 / task-25 の結果ファイル存在も同様に確認し、section 6 / 7 に取り込む

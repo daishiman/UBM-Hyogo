@@ -159,6 +159,23 @@ Next.js 16 + React 19 の prerender 経路で `next-auth` の静的 import が `
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth Provider 用（apps/web のみ）。新規投入の推奨名 |
 | `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | Google OAuth Provider 用 legacy alias。実装は互換のため読むが、新規投入では推奨しない |
 
+### LHCI 用 test session JWT
+
+Issue #630 successor `docs/30-workflows/issue-630-authenticated-profile-lhci-a11y/` は、Lighthouse CI が authenticated `/profile` を計測するための test session JWT contract を固定する。
+
+| 項目 | 正本 |
+| --- | --- |
+| 生成 script | `apps/web/scripts/lhci-auth-storage.ts` |
+| 署名 API | `signSessionJwt(AUTH_SECRET, { memberId, email, isAdmin: false, name, ttlSeconds: 3600 })` |
+| cookie | `authjs.session-token` / domain `localhost` / path `/` / httpOnly / sameSite `Lax` |
+| 出力 | `apps/web/.lhci/storage-state.json`（commit 禁止） |
+| 注入 script | `apps/web/lhci/lhci-auth.cjs` |
+| mock API | `apps/web/scripts/lhci-profile-mock-api.ts` (`/health`, `/me`, `/me/profile`, `/me/attendance`) |
+| 対象 | `http://localhost:3000/profile` のみ |
+| refsPolicy | Issue #630 は CLOSED 済みのため後続 PR は `Refs #630` |
+
+実 member / admin session の流用は禁止する。JWT には `memberId` / `email` / `isAdmin` 以外のプロフィール本文や回答本文を含めない。LHCI の Next Server Component fetch は `INTERNAL_API_BASE_URL=http://127.0.0.1:8787` に向け、test 専用 mock API で deterministic response を返す。
+
 ### Google OAuth staging / production completion runbook
 
 05a で実装済みの Auth.js Google OAuth / admin gate は、実 Google Cloud Console 設定と Cloudflare Secrets 投入を伴う可視 smoke を後続タスク `ut-05a-followup-google-oauth-completion` に集約する。
