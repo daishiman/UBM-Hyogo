@@ -58,8 +58,8 @@
 
 ## 4. 正本順位
 
-1. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md`
-2. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/outputs/phase-{1,2,3}/phase-N.md`
+1. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md`
+2. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/outputs/phase-{1,2,3}/phase-N.md`
 3. `docs/00-getting-started-manual/specs/*.md`
 4. `docs/00-getting-started-manual/claude-design-prototype/`
 
@@ -75,6 +75,8 @@
 | `06-screens-member` | task-13, task-14 | task-10 + task-20 + task-22 完了後 |
 | `07-screens-admin` | task-15..17 | task-10 + task-21 + task-22 完了後。task-16 / 17 は task-15 後 |
 | `08-regression` | task-18 | W6 まで全完了後 |
+| `09-w8-audit` | task-23..26 | task-01..22 完了後。task-24 は read-only invariant audit として `INVARIANT-AUDIT.md` を生成する |
+| `10-w9-mapping` | task-27 | task-23..26 完了後。task-24 が生成する `INVARIANT-AUDIT.md` の 22×6 matrix（rows=task-01..22 / cols=INV-1..6 / vocabulary=`COMPLIANT|VIOLATION|N/A`）を W9 task-27 が consume し、3-layer task mapping の入力とする |
 
 ## 6. diff scope 規律 / archive rule（task-01 完了状況反映 / 2026-05-07）
 

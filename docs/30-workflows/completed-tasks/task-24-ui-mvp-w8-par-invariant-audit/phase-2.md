@@ -1,8 +1,35 @@
 # Phase 2: 設計
 
+**実装区分**: 実装仕様書（read-only audit; 成果物は audit-runner.sh + INVARIANT-AUDIT.md + evidence。`apps/` / `packages/` 変更ゼロを DoD で担保）。
+
 ## 監査アーキテクチャ
 
 ```
+
+## メタ情報
+- Phase: 2 / 設計
+- State: completed
+
+## 目的
+監査 matrix と evidence 生成の設計を固定する。
+
+## 実行タスク
+- 22x6 matrix の列とセル分類を設計する。
+- Phase 5 evidence の保存先を設計する。
+
+## 参照資料
+- `phase-1.md`
+- `outputs/phase-5/audit-runner.sh`
+
+## 成果物
+- `phase-2.md`
+
+## 完了条件
+- [x] matrix 構造が定義されている
+- [x] evidence 保存先が定義されている
+
+## 統合テスト連携
+Phase 5 の audit-runner が本設計を実装する。
 [task spec files] ─┐
                    ├─► [audit-runner.sh] ─► [matrix builder] ─► INVARIANT-AUDIT.md
 [apps/web source] ─┤                      │

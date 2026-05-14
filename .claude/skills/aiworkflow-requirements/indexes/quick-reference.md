@@ -274,6 +274,20 @@
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | boundary | commit / push / PR は user approval 後 |
 
+### UI prototype alignment task-24 invariant audit（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / W8-par / local audit evidence captured / Phase 13 blocked_pending_user_approval` |
+| parent canonical | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| final deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/INVARIANT-AUDIT.md` |
+| 目的 | task-01..22 の成果物と実装が INV-1..6 を守っているか read-only で監査し、22×6 matrix を生成する |
+| boundary | existing `apps/` / `packages/` code mutation is forbidden in task-24; local audit execution and matrix generation are complete; commit / push / PR / CI remain user-gated |
+| dependencies | upstream task-01..22、parallel task-23/25/26、downstream task-27 |
+| evidence | root/output `artifacts.json` parity, `outputs/phase-5/*`, `outputs/phase-11/*`, Phase 12 strict 7 files, `phase12-task-spec-compliance-check.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-24.md`（L-TASK24-001..004） |
+
 ### UI prototype alignment / MVP recovery task-02 wrangler env injection（2026-05-07）
 
 | 目的 | 参照先 |

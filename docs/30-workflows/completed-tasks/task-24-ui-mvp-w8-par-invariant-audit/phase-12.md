@@ -1,5 +1,7 @@
 # Phase 12: ドキュメント更新
 
+**実装区分**: 実装仕様書（read-only audit; 成果物は audit-runner.sh + INVARIANT-AUDIT.md + evidence。`apps/` / `packages/` 変更ゼロを DoD で担保）。
+
 ## Task 12-1: 実装ガイド（2 パート構成）
 
 ### Part 1: 中学生レベルの概念説明
@@ -12,7 +14,7 @@
 
 - ルール 1: 「新しい API は作らず、もうある API だけを使うこと」
 - ルール 2: 「色は決められたパレットから選び、HEX (`#ff0000` みたいな書き方) を直接書かないこと」
-- ルール 3: 「画面パーツ（ボタン・カードなど）は決められた種類だけ使い、勝手に新しい種類を増やさないこと」
+- ルール 3: 「画面パーツ（ボタン・カード・入力欄）は決められた種類だけ使い、勝手に新しい種類を増やさないこと」
 - ルール 4: 「データベース (D1) には Web 側から直接触らず、必ず API 側を経由すること」
 - ルール 5: 「同意のチェック項目には決まった名前 (`publicConsent` / `rulesConsent`) を使うこと」
 - ルール 6: 「お試しで作った古いプロトタイプを本番に持ち込まないこと」
@@ -90,20 +92,22 @@ interface Violation {
 **UI/UX 変更なしのため Phase 11 スクリーンショット不要**
 
 代替証跡:
-- `phase-10/final-review-result.md`（受入条件再確認）
-- `phase-11/manual-test-result.md`（grep 実行記録）
+- `phase-10.md`（受入条件再確認）
+- `phase-11.md`（NON_VISUAL 判定とスクリーンショット不要理由）
+- `outputs/phase-5/grep-evidence.txt`（grep 実行記録）
+- `outputs/phase-5/matrix.tsv`（22×6 matrix）
 
 ## Task 12-2: システム仕様書更新
 
 ### Step 1-A: タスク完了記録
 
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md` の関連タスク表に task-24 を `spec_created` で追加
-- `docs/30-workflows/ui-prototype-alignment-mvp-recovery/EXECUTION-ORDER.md` の W8 par に task-24 を追加
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` の関連タスク表に task-24 を read-only invariant audit として追加
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/EXECUTION-ORDER.md` の W8 par に task-24 を追加
 - LOGS.md（workflow root）に Phase 12 close-out を追記
 
 ### Step 1-B: 実装状況テーブル
 
-実装は監査スクリプト + matrix 生成のため、実装完了時に `completed` へ更新する想定（本仕様書時点は `spec_created`）。
+実装は監査スクリプト + matrix 生成で、現サイクルで local evidence 取得済み。root 状態は `implemented_local_runtime_pending` とし、commit / push / PR / CI 検証のみ user-gated として残す。
 
 ### Step 1-C: 関連タスク
 
@@ -132,4 +136,30 @@ interface Violation {
 
 ## Task 12-6: phase12-task-spec-compliance-check.md
 
-`outputs/phase-12/phase12-task-spec-compliance-check.md` に Phase 12 の 6 成果物揃いを root evidence として残す。
+`outputs/phase-12/phase12-task-spec-compliance-check.md` に Phase 12 strict 7 成果物揃いを root evidence として残す。
+
+## メタ情報
+- Phase: 12 / ドキュメント更新
+- State: completed
+
+## 目的
+Phase 5 / Phase 11 / Phase 12 / aiworkflow の状態を同一境界へ同期する。
+
+## 実行タスク
+- Phase 12 strict 7 files を作成する。
+- aiworkflow-requirements 正本を同期する。
+- generated evidence と state wording を一致させる。
+
+## 参照資料
+- `.claude/skills/task-specification-creator/references/phase-12-spec.md`
+- `.claude/skills/aiworkflow-requirements/indexes/resource-map.md`
+
+## 成果物
+- `outputs/phase-12/main.md`
+- `outputs/phase-12/implementation-guide.md`
+- `outputs/phase-12/phase12-task-spec-compliance-check.md`
+
+## 完了条件
+- [x] Phase 12 strict 7 files が存在する
+- [x] generated evidence と state wording が一致する
+- [x] aiworkflow 正本が同期されている

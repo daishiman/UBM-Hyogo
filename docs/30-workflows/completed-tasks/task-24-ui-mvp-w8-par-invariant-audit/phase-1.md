@@ -1,5 +1,7 @@
 # Phase 1: 要件定義
 
+**実装区分**: 実装仕様書（read-only audit; 成果物は audit-runner.sh + INVARIANT-AUDIT.md + evidence。`apps/` / `packages/` 変更ゼロを DoD で担保）。
+
 ## タスク分類
 
 - **種別**: NON_VISUAL / 監査タスク（read-only audit）
@@ -22,7 +24,7 @@
 
 ## 受入条件
 
-1. `docs/30-workflows/ui-prototype-alignment-mvp-recovery/INVARIANT-AUDIT.md` が存在し、22×6 matrix を含む
+1. `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/INVARIANT-AUDIT.md` が存在し、22×6 matrix を含む
 2. 各セルが `COMPLIANT` / `VIOLATION` / `N/A` のいずれかで埋まっている
 3. `VIOLATION` セルには該当ファイル:行が引用されている
 4. grep gate 実行結果が `outputs/phase-5/grep-evidence.txt` に保存されている
@@ -73,3 +75,29 @@
 - ファイル拡張子: `.md` (docs), `.ts/.tsx` (apps/web), `.toml` (wrangler)
 - design token: kebab-case (`--color-fg-primary`)
 - API endpoint: `/api/...` (kebab-case)
+
+## メタ情報
+- Phase: 1 / 要件定義
+- State: completed
+
+## 目的
+task-24 の read-only invariant audit 要件を固定する。
+
+## 実行タスク
+- task-01..22 と INV-1..6 の監査対象を定義する。
+- NON_VISUAL と既存 apps/packages 変更禁止の境界を定義する。
+
+## 参照資料
+- `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md`
+- `docs/30-workflows/completed-tasks/task-24-ui-mvp-w8-par-invariant-audit/artifacts.json`
+
+## 成果物
+- `phase-1.md`
+
+## 完了条件
+- [x] 監査対象 task-01..22 が定義されている
+- [x] INV-1..6 が定義されている
+- [x] NON_VISUAL 境界が定義されている
+
+## 統合テスト連携
+Phase 5 の audit-runner 実行と Phase 11 NON_VISUAL evidence に接続する。

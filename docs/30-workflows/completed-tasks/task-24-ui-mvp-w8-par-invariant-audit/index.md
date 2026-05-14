@@ -1,5 +1,7 @@
 # task-24-ui-mvp-w8-par-invariant-audit
 
+**実装区分**: 実装仕様書（read-only audit; 成果物は `outputs/phase-5/audit-runner.sh`（新規 shell script）+ `INVARIANT-AUDIT.md`（22×6 matrix レポート）+ evidence ファイル群。`apps/` / `packages/` の既存コード変更は禁止＝`git diff apps/ packages/` 空を DoD で担保）。
+
 ## メタ情報
 
 | 項目 | 値 |
@@ -8,10 +10,11 @@
 | Wave | W8 par |
 | 並列実行 | task-23 / task-25 / task-26 と並列可 |
 | タスク種別 | NON_VISUAL / 監査タスク (audit-task) |
+| visualEvidence | NON_VISUAL |
 | implementation_mode | `verify_existing` (read-only 監査) |
 | 上流依存 | task-01〜task-22（全完了済み・監査対象） |
 | 下流依存 | task-27（本監査結果を参照） |
-| ステータス | spec_created |
+| ステータス | implemented_local_runtime_pending |
 
 ## 目的
 
@@ -30,25 +33,25 @@ UI prototype alignment / MVP recovery ワークフローで定義された **不
 
 ## 最終成果物
 
-`docs/30-workflows/ui-prototype-alignment-mvp-recovery/INVARIANT-AUDIT.md`
+`docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/INVARIANT-AUDIT.md`
 （22 task × 6 invariant の matrix + evidence + 違反箇所一覧）
 
 ## Phase 表
 
 | Phase | 名称 | ステータス | 成果物 |
 |-------|------|-----------|--------|
-| 1 | 要件定義 | spec_created | `outputs/phase-1/requirements.md` |
-| 2 | 設計 | spec_created | `outputs/phase-2/audit-design.md` |
-| 3 | 設計レビュー | spec_created | `phase-3.md` |
-| 4 | 監査スクリプト設計 | spec_created | `phase-4.md` |
-| 5 | 監査実行（実装） | spec_created | `phase-5.md` |
-| 6 | 追加 grep / 回帰 guard | spec_created | `phase-6.md` |
-| 7 | カバレッジ（監査網羅率） | spec_created | `phase-7.md` |
-| 8 | リファクタリング | spec_created | `phase-8.md` |
-| 9 | 品質保証 | spec_created | `phase-9.md` |
-| 10 | 最終レビュー | spec_created | `phase-10.md` |
-| 11 | 手動テスト（NON_VISUAL） | spec_created | `phase-11.md` |
-| 12 | ドキュメント更新 | spec_created | `phase-12.md` |
+| 1 | 要件定義 | completed | `phase-1.md` |
+| 2 | 設計 | completed | `phase-2.md` |
+| 3 | 設計レビュー | completed | `phase-3.md` |
+| 4 | 監査スクリプト設計 | completed | `phase-4.md` |
+| 5 | 監査実行（実装） | completed | `phase-5.md` |
+| 6 | 追加 grep / 回帰 guard | completed | `phase-6.md` |
+| 7 | カバレッジ（監査網羅率） | completed | `phase-7.md` |
+| 8 | リファクタリング | completed | `phase-8.md` |
+| 9 | 品質保証 | completed | `phase-9.md` |
+| 10 | 最終レビュー | completed | `phase-10.md` |
+| 11 | 手動テスト（NON_VISUAL） | completed | `phase-11.md` |
+| 12 | ドキュメント更新 | completed | `phase-12.md` |
 | 13 | PR作成 | spec_created（user 明示承認後実行） | `phase-13.md` |
 
 ## 不変条件（監査仕様自体の品質基準）
