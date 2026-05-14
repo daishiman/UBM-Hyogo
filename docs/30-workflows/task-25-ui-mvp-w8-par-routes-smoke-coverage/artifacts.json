@@ -1,0 +1,39 @@
+{
+  "task_id": "task-25-ui-mvp-w8-par-routes-smoke-coverage",
+  "workflow": "ui-prototype-alignment-mvp-recovery",
+  "wave": "W8-par",
+  "implementation_mode": "verify_existing",
+  "task_classification": "docs-only",
+  "visual_mode": "NON_VISUAL",
+  "status": "spec_created",
+  "phases": {
+    "phase-01": { "status": "spec_created", "artifact": "outputs/phase-01/requirements.md" },
+    "phase-02": { "status": "spec_created", "artifact": "outputs/phase-02/design.md" },
+    "phase-03": { "status": "spec_created", "artifact": "outputs/phase-03/design-review.md" },
+    "phase-04": { "status": "spec_created", "artifact": "outputs/phase-04/test-plan.md" },
+    "phase-05": { "status": "spec_created", "artifact": "outputs/phase-05/implementation-plan.md" },
+    "phase-06": { "status": "spec_created", "artifact": "outputs/phase-06/test-extension.md" },
+    "phase-07": { "status": "spec_created", "artifact": "outputs/phase-07/coverage-report.md" },
+    "phase-08": { "status": "spec_created", "artifact": "outputs/phase-08/refactor-report.md" },
+    "phase-09": { "status": "spec_created", "artifact": "outputs/phase-09/qa-report.md" },
+    "phase-10": { "status": "spec_created", "artifact": "outputs/phase-10/final-review.md" },
+    "phase-11": { "status": "spec_created", "artifact": "outputs/phase-11/manual-test-result.md" },
+    "phase-12": {
+      "status": "spec_created",
+      "artifacts": [
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "blocked", "reason": "user-approval-required" }
+  },
+  "main_deliverable": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md",
+  "dependencies": {
+    "upstream": ["task-18", "task-11", "task-12", "task-13", "task-14", "task-15", "task-16", "task-17", "task-20", "task-21"],
+    "downstream": []
+  }
+}
