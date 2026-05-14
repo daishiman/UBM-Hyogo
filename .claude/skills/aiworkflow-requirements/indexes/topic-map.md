@@ -3141,6 +3141,12 @@ node scripts/list-specs.js --topics
 | Artifact Set | L13 |
 | Boundary | L26 |
 
+### references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
+
 ### references/workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -6582,13 +6588,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1244 |
-| フェーズ構造（概要） | L1253 |
-| 品質ゲート（概要） | L1284 |
-| 出力テンプレート | L1295 |
-| 実行時のコマンド・エージェント・スキル | L1318 |
-| 昇格パターン集 | L1342 |
-| Current Active / Spec Created Tasks | L1344 |
+| ドキュメント構成 | L1210 |
+| フェーズ構造（概要） | L1219 |
+| 品質ゲート（概要） | L1250 |
+| 出力テンプレート | L1261 |
+| 実行時のコマンド・エージェント・スキル | L1284 |
+| 昇格パターン集 | L1308 |
+| Current Active / Spec Created Tasks | L1310 |
 
 ### references/task-workflow-backlog-part2.md
 

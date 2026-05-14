@@ -86,3 +86,11 @@ task-01 実行中、別 workflow 5 dir（`02-application-implementation/`, `_des
 2. **archive rule**: 完了済み workflow dir を整理する場合は `git mv <dir> docs/30-workflows/completed-tasks/<dir>` でアーカイブし、`git rm -r` での純削除は禁止する（PR diff 肥大 / 履歴追跡性低下を防ぐため）。
 3. **sync-merge 混入対策**: rebase / merge / sync-script で取り込んだ範囲外削除は `git checkout HEAD -- <path>` で復旧してから commit する。`--no-verify` は使わない。
 4. **PR 作成前チェック**: `pnpm sync:check` で origin/main との差分を確認し、本 task 範囲外の差分が混入していないことをレビューする。
+
+## 7. Smoke Coverage Matrix（task-25 / 2026-05-14）
+
+Current Playwright smoke coverage is documented in `SMOKE-COVERAGE-MATRIX.md`.
+
+- Current executable smoke entries: 17 URL entries in `apps/web/playwright/tests/full-smoke.spec.ts`
+- Parent UI surfaces: 19 total surfaces; `error.tsx` and `loading.tsx` are component-only surfaces until deterministic fixtures exist
+- Visual baseline: 4 screens (`login`, `public-top`, `admin-dashboard`, `profile`)

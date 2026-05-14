@@ -5,25 +5,20 @@
 
 ---
 
-### Issue #622 Packages Test Suffix Rename（2026-05-11）
+### UI prototype alignment / MVP recovery task-25 smoke coverage matrix（2026-05-14）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/issue-622-packages-test-suffix-rename/` |
-| 状態 | `implemented-local / implementation / NON_VISUAL / rename-only / local-evidence-partial` |
-| source | `docs/30-workflows/completed-tasks/task-issue-325-followup-002-packages-test-suffix-rename.md` |
-| upstream | #325 apps/api rename, #621 apps/web rename |
-| downstream | #623 / `docs/30-workflows/unassigned-task/task-issue-325-followup-003-vitest-spec-suffix-convergence.md` |
-| implementation targets | `packages/shared` 17 test files, `packages/integrations` and `packages/integrations-google` 11 test files, package ADR files |
-| evidence | `outputs/phase-05/rename-mapping.csv`, `outputs/phase-11/main.md`, `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| focused tests | `@ubm-hyogo/shared`, `@ubm-hyogo/integrations`, `@ubm-hyogo/integrations-google` |
-| issue wording | Issue body 26 files is stale; implementation uses current measured 28 files. PR uses `Closes #622`; `Refs #325`, `Refs #621`, `Refs #623` |
-| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-622-packages-test-suffix-rename-2026-05.md`（Issue body と実測の乖離 / `local-evidence-partial` 採用 / `apps/api/tsconfig.build.json` exclude pattern / Phase-12 strict 7 と artifacts.json の SSOT 関係） |
-| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260511-issue622-packages-test-suffix-rename-spec.md` |
+| workflow root | `docs/30-workflows/task-25-ui-mvp-w8-par-routes-smoke-coverage/` |
+| 状態 | `spec_created / docs-only / NON_VISUAL / verify_existing / Phase 12 strict 7 present` |
+| main deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md` |
+| coverage contract | current 17 URL smoke entries + 2 component surfaces (`error.tsx`, `loading.tsx`) |
+| executable smoke SSOT | `apps/web/playwright/tests/full-smoke.spec.ts` |
+| visual baseline SSOT | `apps/web/playwright/tests/visual/{login,public-top,admin-dashboard,profile}.spec.ts` |
+| CI contexts | `verify-design-tokens / verify-design-tokens`, `playwright-smoke / smoke (chromium)`, `playwright-smoke / visual (chromium, 4 screens)` |
+| artifact inventory | `references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md` |
+| user gate | commit / push / PR |
 
-### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
-
-### Issue #589 Gate Metadata Structured Ledger（2026-05-10）
 ### E2E Quality Uplift Stage 3 — branch protection desired-state manifest land（Issue #608 / 2026-05-12）
 
 | 目的 | 参照先 |
