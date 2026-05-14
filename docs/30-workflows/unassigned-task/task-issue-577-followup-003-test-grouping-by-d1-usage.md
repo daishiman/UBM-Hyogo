@@ -4,7 +4,9 @@
 
 ```yaml
 issue_number: 618
-status: 未着手
+status: expanded_consumed_by_issue_617_workflow
+consumed_by: docs/30-workflows/issue-617-ci-test-time-reduction-split/
+consumed_at: 2026-05-11
 ```
 
 ## メタ情報
@@ -17,10 +19,19 @@ status: 未着手
 | 対象機能     | `@ubm-hyogo/api` test suite / Vitest config |
 | 優先度       | 低（最終手段） |
 | 見積もり規模 | 大規模 refactor |
-| ステータス   | 未着手 |
+| ステータス   | expanded_consumed_by_issue_617_workflow |
 | GitHub Issue | #618 |
 | 発見元       | Issue #577 Phase 12 implementation-guide.md L62-69 「別 Issue 候補」 |
 | 発見日       | 2026-05-09 |
+
+## 2026-05-11 追記: Issue #617 workflow への拡張移管
+
+この follow-up は歴史的には GitHub Issue #618 として記録されているが、ユーザー要望により closed Issue #617 の CI test time reduction 文脈へ拡張され、次の workflow に consumed trace として移管した。
+
+- 移管先: `docs/30-workflows/issue-617-ci-test-time-reduction-split/`
+- 移管理由: 原案の apps/api D1 grouping に加え、apps/web / packages を含む CI coverage shard 化まで同一サイクルで設計するため
+- Issue 取扱: #617 は CLOSED 維持。PR 文脈は `Refs #617` のみを使い、`Closes` / `Fixes` / `Resolves` は使わない
+- #618 取扱: 本ファイルの履歴番号として保持し、新規未タスクとしては扱わない
 
 ---
 

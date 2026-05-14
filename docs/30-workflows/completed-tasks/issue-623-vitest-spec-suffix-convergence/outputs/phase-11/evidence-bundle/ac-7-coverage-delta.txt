@@ -1,0 +1,1 @@
+runtime_pending: coverage delta was not captured in this local cycle. Rename/config changes are expected to preserve coverage; full coverage run remains CI/runtime evidence.
