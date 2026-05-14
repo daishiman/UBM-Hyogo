@@ -199,6 +199,16 @@ Phase 12 Task 5               Phase 2 テンプレート改善
 | Phase 12 Task 5 完了直後 | タスク実行者（同一セッション推奨） | 毎タスク |
 | スキル改善セッション開始時 | skill-creator update モード | 蓄積した知見の一括反映 |
 
+### lessons-learned inbound link 規約（task-24 適用）
+
+task 完了時に当該 skill の `references/lessons-learned-<task-id>.md` を生成し、同一 wave 内で 3 indexes へ登録する。indexes drift は CI gate `verify-indexes-up-to-date` で検出される。
+
+1. `references/lessons-learned-<task-id>.md` を新規作成（frontmatter: `task_id`, `status`, `scope`, `created`）
+2. `indexes/resource-map.md` に `references/lessons-learned-<task-id>.md` の項目を追加
+3. `indexes/quick-reference.md` に L-<TASK>-NNN アンカーから本文への逆引きを追加
+4. `indexes/topic-map.md` の関連 topic 下に inbound link を追加
+5. workflow artifact-inventory（`references/workflow-<task>-artifact-inventory.md`）にも cross-link を残す
+
 ---
 
 ## 関連リソース
