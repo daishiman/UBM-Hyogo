@@ -57,6 +57,19 @@ done
 
 実例: Issue #533 public profile attendance では `pnpm --filter @ubm-hyogo/api test -- <file>` が対象 file を絞り込まなかったため、root config を明示した `pnpm exec vitest run --root=. --config=vitest.config.ts <exact files>` を canonical focused command にした。pnpm filter 経由の package script が test runner へ file 引数を渡さない repo では、Phase 1 baseline / Phase 4 test plan / Phase 9 QA / Phase 11 evidence / Phase 12 compliance の全箇所を、実測 PASS した root Vitest command にそろえる。
 
+## Recovery Window Evidence Parity Gate
+
+D+N / 2 周目 recovery / re-observation workflow で `since` / D'+0 / recovery mode を追加する場合、Phase 5 / Phase 11 / Phase 12 では次の 2 点を必須にする。
+
+| Gate | 必須条件 |
+| --- | --- |
+| actual window filter | `since` を JSON metadata に出すだけでなく、artifact download / snapshot staging / aggregation の少なくとも 1 層で D'+0 〜 D'+N の実データに絞る |
+| evidence step parity | normal mode で生成している run URL list / aggregate JSON / leakage log / comparison evidence を recovery mode でも recovery suffix path に生成する。`if: recovery_mode != true` で通常 evidence step を丸ごと skip しない |
+| schema parity | Phase 3 schema に `runUrls` / comparison fields 等を定義した場合、実 CLI output と workflow-generated evidence が同じ field を持つ |
+| Phase 12 truthfulness | local implementation diff が存在する場合、`spec_created` / `no code changed` / `spec-only close-out` と書かず `implemented-local-runtime-pending` 等へ root/output artifacts と aiworkflow ledgers を同 wave で再分類する |
+
+実例: Issue #655 D+7 recovery 2nd-cycle では初回差分が `recovery_mode` と `since` を受け取るだけで、実際の `hourly-merged` は直近 8 日のまま、かつ recovery mode で run URL list / issue-rate comparison を skip していた。`post-switch-monitor.ts` に D'+0 window filter と schema fields を追加し、`cf-audit-log-7day-summary.yml` で recovery suffix evidence を通常 evidence と同じ粒度で生成するよう補正した。
+
 ## 苦戦箇所 Required Fields
 
 | Field | 内容 |

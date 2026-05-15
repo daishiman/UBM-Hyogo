@@ -402,6 +402,20 @@
 | evidence | 本サイクル: local 5 evidence (`typecheck.log`/`lint.log`/`test.log`/`build.log`/`grep-gate.log`)。D+7: `hourly-run-7day.md` / `hourly-run-7day-summary.json` / `leakage-grep-7day.log` / `issue-rate-comparison.md` |
 | 境界 | Issue #549 / #586 は CLOSED のまま `Refs #549, Refs #586`。D1 schema 変更なし（forward-safe）|
 
+### Issue #655 D+7 recovery 2nd-cycle（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/issue-655-d7-recovery-2nd-cycle/` |
+| parent | Issue #586 post-switch 7 day close-out |
+| grandparent | Issue #549 Cloudflare Audit Logs ML production switch |
+| 目的 | #586 D+7 evidence の不足または未生成を root-cause 分類し、PR-A で recovery support を実装、D'+7 後の PR-B で `*-recovery.*` evidence と SSOT 昇格を行う |
+| evidence boundary | PR-A local implementation and local verification evidence are captured. 実 `gh run list` / workflow_dispatch / D'+7 aggregate は user approval 後 |
+| state vocabulary | `recovery_active` 等は operation label として扱い、独自 workflow_state は使わず、canonical `implemented-local-runtime-pending` / `runtime_pending` / `completed` と分離 |
+| user gate | commit / push / PR / workflow_dispatch / secret or variable mutation / `pass_runtime_synced` promotion は user approval 後のみ |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md` |
+
 ### Issue #587 Cloudflare Audit Logs ML model artifact rotation（2026-05-10）
 
 | 項目 | 値 |
