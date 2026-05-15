@@ -2700,6 +2700,16 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
 
+### references/workflow-parallel-09-ux-cross-cutting-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files (apps/web) | L10 |
+| Tests | L27 |
+| Phase 12 strict 7 outputs | L34 |
+| Evidence | L46 |
+| User-gated boundary | L55 |
+
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
 | セクション | 行 |
@@ -6746,14 +6756,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1345 |
-| フェーズ構造（概要） | L1354 |
-| 品質ゲート（概要） | L1385 |
-| 出力テンプレート | L1396 |
-| 実行時のコマンド・エージェント・スキル | L1419 |
-| 昇格パターン集 | L1443 |
-| Current Active / Spec Created Tasks | L1445 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1588 |
+| ドキュメント構成 | L1368 |
+| フェーズ構造（概要） | L1377 |
+| 品質ゲート（概要） | L1408 |
+| 出力テンプレート | L1419 |
+| 実行時のコマンド・エージェント・スキル | L1442 |
+| 昇格パターン集 | L1466 |
+| Current Active / Spec Created Tasks | L1468 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1611 |
 
 ### references/task-workflow-backlog-part2.md
 
