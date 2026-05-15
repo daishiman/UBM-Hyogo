@@ -1,0 +1,28 @@
+{
+  "mode": "VISUAL",
+  "status": "captured_local_static_html",
+  "source": "docs/dashboards/cf-audit-log-7day-trend/index.html",
+  "viewport": "1280x720",
+  "captures": [
+    {
+      "id": "fallback",
+      "url_or_path": "docs/dashboards/cf-audit-log-7day-trend/index.html#fallback",
+      "output": "outputs/phase-11/evidence/screenshots/fallback-rate-trend.png"
+    },
+    {
+      "id": "latency",
+      "url_or_path": "docs/dashboards/cf-audit-log-7day-trend/index.html#latency",
+      "output": "outputs/phase-11/evidence/screenshots/p95-latency-trend.png"
+    },
+    {
+      "id": "issues",
+      "url_or_path": "docs/dashboards/cf-audit-log-7day-trend/index.html#issues",
+      "output": "outputs/phase-11/evidence/screenshots/issue-rate-trend.png"
+    },
+    {
+      "id": "leakage",
+      "url_or_path": "docs/dashboards/cf-audit-log-7day-trend/index.html#leakage",
+      "output": "outputs/phase-11/evidence/screenshots/leakage-count-trend.png"
+    }
+  ]
+}
