@@ -204,12 +204,21 @@ EOF
     fi
     echo "[cf.sh] CI mode: skipping op run" >&2
     export CF_ALERTS_CI_MODE=1
-    exec mise exec -- pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    if command -v mise >/dev/null 2>&1; then
+      exec mise exec -- pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    else
+      exec pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    fi
   fi
 
   # SKIP_WITH_ENV モード (テスト用 / CI で env を別経路から注入する場合)
+  # mise が無い環境 (GitHub Actions runner 等) でも動くよう mise を optional 扱い
   if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
-    exec mise exec -- pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    if command -v mise >/dev/null 2>&1; then
+      exec mise exec -- pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    else
+      exec pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    fi
   fi
 
   # 通常モード: op run 経由で .env (op:// 参照) を解決
