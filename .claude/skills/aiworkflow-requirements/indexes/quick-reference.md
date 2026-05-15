@@ -5,6 +5,19 @@
 
 ---
 
+### task-18-FU Full Visual Regression Suite（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-18-fu-full-visual-regression-suite/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| upstream | `docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/` |
+| route contract | W7 17 URL set: public 6 / member 2 / admin 8 / not-found 1 |
+| target visual scope | 17 routes x desktop/tablet/mobile = 51 baselines |
+| artifact inventory | `references/workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md` |
+| baseline boundary | baseline-missing CI fail is not acceptable for required checks; 51 baselines must be present before required-check promotion |
+| user gate | baseline update approval, commit, push, PR |
+
 ### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 目的 | 参照先 |
@@ -2301,7 +2314,7 @@ packages/
 | consumes | 05a OAuth/admin gate、06a public web、06b login/profile、06c admin UI、08b Playwright scaffold、03a/03b/U-04 Forms sync |
 | blocks | 09c production deploy。09a の実 staging evidence 完了まで GO 判定不可 |
 | follow-up | `docs/30-workflows/unassigned-task/task-09a-exec-staging-smoke-001.md` |
-| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（spec_created / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`） |
+| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`） |
 | execution blockers | `docs/30-workflows/unassigned-task/task-09a-cloudflare-auth-token-injection-recovery-001.md`, `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md` |
 | artifact inventory | `references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md` |
 | 苦戦知見 | `references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md`（L-09A-001〜005） |
@@ -2481,6 +2494,44 @@ UT-GOV-004 で確定した required status checks を、UT-GOV-001 の `contexts
 | Node / pnpm バージョン固定（Node 24 / pnpm 10.33.2 / mise） | `CLAUDE.md` 「開発環境セットアップ」節 | `references/technology-devops-core.md` baseline 章 | CLAUDE.md > aiworkflow-requirements |
 | references/ 配下の API/D1/IPC/UI/auth 仕様 | `references/*.md`（aiworkflow-requirements が一次正本） | `CLAUDE.md` は概要のみ言及 | aiworkflow-requirements > CLAUDE.md。実装契約・schema・状態定数は references/ を正とする |
 | 教訓 / lessons-learned ID（L-XXX-NNN） | `references/lessons-learned-*.md`（aiworkflow-requirements が一次正本） | CLAUDE.md には記載しない | aiworkflow-requirements > CLAUDE.md |
+### UT-17 Followup-003 Alert Relay Weekly Healthcheck Cron（2026-05-14 / implemented-local）
+
+UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API Worker daily cron `0 18 * * *` へ相乗りして週次 healthcheck する。UTC Monday gate (`getUTCDay() === 1`) により新規 cron slot は追加しない。Slack `200 + body != "ok"` を失敗扱いにし、Resend mail fallback で silent failure を検出する。状態は `implementation_completed_external_ops_pending / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING`。Cloudflare secrets / deploy / manual cron fire / first production observation / commit / push / PR は user-gated。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/` |
+| implementation | `apps/api/src/scheduled/healthcheck.ts`, `apps/api/src/lib/healthcheck-mail-fallback.ts`, `apps/api/src/index.ts`, `apps/api/src/env.ts` |
+| tests | `apps/api/src/scheduled/__tests__/healthcheck.test.ts`, `apps/api/src/lib/__tests__/healthcheck-mail-fallback.test.ts` |
+| runbook | `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` |
+| deployment spec | `references/deployment-cloudflare.md`（UT-17 weekly alert-relay healthcheck cron） |
+| artifact inventory | `references/workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md` |
+
+### Issue #627 Composite setup-project action（RB-02 / 2026-05-12）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-627-composite-setup-action/` |
+| status | `implemented_local_runtime_pending / implementation / NON_VISUAL / CI infra` |
+| composite contract | `.github/actions/setup-project/action.yml` implemented locally. Checkout is caller-owned; action owns Node / pnpm or mise setup plus optional install. |
+| input vocabulary | `setup-strategy: node-setup | mise`, `install: 'true' | 'false'`, `node-version`, `pnpm-version`, `working-directory` |
+| required contexts preserved | `ci`, `coverage-gate`, `lighthouse-ci`, `e2e-tests-coverage-gate`, `build-test`, `workflow-shell-lint` |
+| evidence boundary | Local static checks passed; GitHub Actions runtime evidence is `runtime_pending` until user-approved commit / push / draft PR. |
+| closed issue rule | Issue #627 is CLOSED; PR text must use `Refs #627` only. |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-627-composite-setup-action-2026-05.md` (L-627-001..003) |
+
+### Issue #655 D+7 recovery 2nd-cycle（2026-05-14）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-655-d7-recovery-2nd-cycle/` |
+| status | `implemented-local-runtime-pending / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| parent | Issue #586 post-switch 7 day close-out; grandparent is Issue #549 CF Audit Logs ML production switch |
+| recovery contract | 1 周目と 2 周目 evidence を `*-recovery.*` suffix と `./hourly-snapshots-recovery` input directory で分離 |
+| canonical state | workflow root は `implemented-local-runtime-pending`、runtime collection は `runtime_pending`、D'+7 成功後の業務状態のみ `pass_runtime_synced` |
+| strict outputs | `outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md` |
+| user gate | commit / push / PR / workflow_dispatch / secret or variable mutation / runtime promotion は user approval 後のみ |
 
 ### UT-17 Follow-up 002 / Alert Relay Dedup KV（2026-05-13）
 

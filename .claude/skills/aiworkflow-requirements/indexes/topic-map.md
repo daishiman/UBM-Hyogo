@@ -2613,6 +2613,12 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L30 |
 | State Vocabulary | L37 |
 
+### references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L22 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3093,6 +3099,15 @@ node scripts/list-specs.js --topics
 | API Inputs | L45 |
 | Notes | L54 |
 
+### references/workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L13 |
+| Local implementation artifacts | L32 |
+| Runtime boundary | L45 |
+
 ### references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md
 
 | セクション | 行 |
@@ -3419,6 +3434,7 @@ node scripts/list-specs.js --topics
 | Tests | L26 |
 | Runbooks | L35 |
 | Runtime Boundary | L42 |
+| Followup-003: alert-relay weekly healthcheck cron（Issue #635 / 2026-05-14） | L45 |
 
 ### references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md
 
@@ -3844,17 +3860,17 @@ node scripts/list-specs.js --topics
 | D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
 | Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
 | Cloudflare Workers デプロイ（APIバックエンド） | L194 |
-| Cloudflare D1 データベース | L316 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L349 |
-| GitHub Actions CI/CD | L461 |
-| プレビューデプロイメント | L492 |
-| カスタムドメイン設定 | L508 |
-| 環境分離 | L521 |
-| ロールバック戦略 | L531 |
-| モニタリング/アラート（UT-08 連携） | L552 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L569 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L604 |
-| 変更履歴 | L653 |
+| Cloudflare D1 データベース | L340 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L373 |
+| GitHub Actions CI/CD | L485 |
+| プレビューデプロイメント | L516 |
+| カスタムドメイン設定 | L532 |
+| 環境分離 | L545 |
+| ロールバック戦略 | L555 |
+| モニタリング/アラート（UT-08 連携） | L576 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L593 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L628 |
+| 変更履歴 | L677 |
 
 ### references/deployment-core.md
 
@@ -5326,6 +5342,15 @@ node scripts/list-specs.js --topics
 | L-UT15-004 Free Plan Capacity Is A Design Constraint | L18 |
 | L-UT15-005 Public Route Groups Are Not URL Literals | L23 |
 
+### references/lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 適用範囲 | L55 |
+| 関連リンク | L62 |
+
 ### references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md
 
 | セクション | 行 |
@@ -6157,11 +6182,12 @@ node scripts/list-specs.js --topics
 | 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L254 |
 | 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L278 |
 | 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L307 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L336 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L354 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L355 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L371 |
-| 13. 変更履歴 | L393 |
+| 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14） | L336 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L358 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L376 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L377 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L393 |
+| 13. 変更履歴 | L415 |
 
 ### references/patterns-advanced.md
 
@@ -6632,6 +6658,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1316 |
 | 昇格パターン集 | L1340 |
 | Current Active / Spec Created Tasks | L1342 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1481 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -1,0 +1,56 @@
+name: playwright-visual-full
+
+on:
+  schedule:
+    - cron: '0 18 * * *' # JST 03:00 nightly
+  pull_request:
+    paths:
+      - 'apps/web/src/**'
+      - 'apps/web/playwright.config.ts'
+      - 'apps/web/playwright/tests/visual-full/**'
+      - 'apps/web/playwright/fixtures/**'
+      - 'apps/web/src/styles/tokens.css'
+      - '.github/workflows/playwright-visual-full.yml'
+
+concurrency:
+  group: visual-full-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  visual-full:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        viewport: [desktop, tablet, mobile]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check baseline snapshots exist
+        id: baselines
+        run: |
+          if compgen -G "apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/*.png" > /dev/null; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Visual baselines absent (task-18-fu runtime_pending). Run playwright-visual-baseline-update workflow to capture. Skipping visual-full to keep PR unblocked."
+          fi
+      - uses: ./.github/actions/setup-project
+        if: steps.baselines.outputs.present == 'true'
+      - name: Install playwright browsers
+        if: steps.baselines.outputs.present == 'true'
+        run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Build apps/web
+        if: steps.baselines.outputs.present == 'true'
+        run: pnpm --filter @ubm-hyogo/web build
+      - name: Run visual-full (${{ matrix.viewport }})
+        if: steps.baselines.outputs.present == 'true'
+        env:
+          PLAYWRIGHT_EVIDENCE_TASK: task-18-fu
+        run: pnpm --filter @ubm-hyogo/web exec playwright test --project=visual-full-chromium-${{ matrix.viewport }}
+      - name: Upload diff artifact on failure
+        if: failure() && steps.baselines.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-full-${{ matrix.viewport }}-diff
+          path: docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence/
+          retention-days: 14

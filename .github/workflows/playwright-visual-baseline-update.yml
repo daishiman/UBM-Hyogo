@@ -1,0 +1,48 @@
+name: playwright-visual-baseline-update
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'なぜ baseline 更新が必要か（必須）'
+        required: true
+        type: string
+
+jobs:
+  update-baseline:
+    runs-on: ubuntu-latest
+    environment: visual-baseline-approval # ← user approval gate
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: ./.github/actions/setup-project
+      - name: Install playwright browsers
+        run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Build apps/web
+        run: pnpm --filter @ubm-hyogo/web build
+      - name: Regenerate baselines
+        env:
+          PLAYWRIGHT_EVIDENCE_TASK: task-18-fu
+        run: |
+          pnpm --filter @ubm-hyogo/web exec playwright test \
+            --project=visual-full-chromium-desktop \
+            --project=visual-full-chromium-tablet \
+            --project=visual-full-chromium-mobile \
+            --update-snapshots
+      - name: Open PR with baseline diff
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/visual-baseline-update-${{ github.run_id }}
+          base: dev
+          title: 'chore(visual): update baselines'
+          body: |
+            ## Reason
+            ${{ inputs.reason }}
+
+            workflow_dispatch run: ${{ github.run_id }}
+          commit-message: 'chore(visual): update baselines via workflow_dispatch'
+          add-paths: apps/web/playwright/tests/visual-full/**

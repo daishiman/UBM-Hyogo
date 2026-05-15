@@ -4,9 +4,13 @@ Cloudflare Notifications → 日本語化リレー Worker → Slack の通知経
 **Webhook URL 失効 / Worker 障害 / Cloudflare 設定 drift** によってサイレント停止
 していないことを月 1 回確認する手順。
 
+> **2026-05-14 更新**: 定常監視は UT-17-followup-003 の Cloudflare Workers cron healthcheck が担当する。
+> この runbook は四半期の deep-dive、cron healthcheck 連続 2 回失敗時、インシデント対応後の手動確認に使う。
+
 ## 1. 実施タイミング
 
-- 毎月 1 日の業務開始前（朝イチ運用）
+- 四半期初月 1 日の業務開始前（朝イチ運用）
+- UT-17 weekly healthcheck が 2 回連続で失敗したとき
 - インシデント対応後（postmortem の一部として）
 
 ## 2. 確認手順（5 ステップ + KV namespace 健全性）
