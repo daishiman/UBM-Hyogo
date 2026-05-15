@@ -5,6 +5,20 @@
 
 ---
 
+### parallel-08 shared foundation admin UI foundation（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-08-shared-foundation-admin-ui-foundation/` |
+| 状態 | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL / standard / Phase 12 strict 7 present` |
+| parent workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/` |
+| implementation targets | `apps/web/app/layout.tsx`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/features/admin/hooks/{useAdminMutation,index}.ts` |
+| test target | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `apps/web/src/components/ui/__tests__/primitives.component.spec.tsx` |
+| contract | `ToastProvider` root scope + `useAdminMutation` sentinel skeleton。`useAdminMutation` accepts existing admin API helper names only; serial-05/step-01 owns real fetch/toast/error implementation |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-08-shared-foundation-admin-ui-foundation-artifact-inventory.md` |
+| lessons-learned (苦戦箇所5件) | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-08-shared-foundation-admin-ui-foundation-2026-05.md` |
+| user gate | commit, push, PR |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 目的 | 参照先 |

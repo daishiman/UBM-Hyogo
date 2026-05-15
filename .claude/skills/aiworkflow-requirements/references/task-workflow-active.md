@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### parallel-08 shared foundation admin UI foundation（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL / standard / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-08-shared-foundation-admin-ui-foundation/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/` |
+| 目的 | serial-05/step-01..07 が共有する admin UI foundation を明示化し、`ToastProvider` root scope と `useAdminMutation` import contract を先に固定する |
+| 実装対象 | `apps/web/app/layout.tsx`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/index.ts` |
+| テスト対象 | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `apps/web/src/components/ui/__tests__/primitives.component.spec.tsx` |
+| 境界 | real fetch / toast / error implementation は serial-05/step-01 owner。parallel-08 は sentinel skeleton と export path を固定し、任意 endpoint ではなく既存 admin API helper 名のみを受ける |
+| evidence | Phase 11 local command evidence and Phase 12 strict 7 present |
+| user gate | commit, push, PR |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 項目 | 値 |

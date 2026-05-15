@@ -90,13 +90,13 @@ node scripts/list-specs.js --topics
 | 1. 構成図 | L15 |
 | 2. Server-side fetch（`apps/web/src/lib/admin/server-fetch.ts`） | L49 |
 | 3. Client-side mutation（`apps/web/src/lib/admin/api.ts`） | L109 |
-| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L179 |
-| 5. ステータスコード処理方針 | L236 |
-| 6. 環境変数 | L268 |
-| 7. 不変条件サマリ（admin API client / proxy） | L281 |
-| 8. 関連ドキュメント | L293 |
-| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L301 |
-| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L318 |
+| 4. BFF proxy（`apps/web/app/api/admin/[...path]/route.ts`） | L187 |
+| 5. ステータスコード処理方針 | L244 |
+| 6. 環境変数 | L276 |
+| 7. 不変条件サマリ（admin API client / proxy） | L289 |
+| 8. 関連ドキュメント | L301 |
+| 9. 06c-A Admin Dashboard 契約 (2026-05-02) | L309 |
+| 10. Self-service BFF proxy（`apps/web/app/api/me/[...path]/route.ts`） | L326 |
 
 ### references/architecture-auth-security-core.md
 
@@ -2665,6 +2665,8 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
 
+### references/workflow-parallel-08-shared-foundation-admin-ui-foundation-artifact-inventory.md
+
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
 | セクション | 行 |
@@ -5017,6 +5019,17 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
 
+### references/lessons-learned-parallel-08-shared-foundation-admin-ui-foundation-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-PARALLEL-08-001: Phase 12 strict 7 と Phase 11 evidence gate の境界が文章上で混在しがち | L10 |
+| L-PARALLEL-08-002: ソース spec の path 誤記は Phase 1 topology 実測でしか潰せない | L18 |
+| L-PARALLEL-08-003: NON_VISUAL Phase 11 は「screenshot 省略」と「evidence 収集」を別の意思決定として書き分ける | L26 |
+| L-PARALLEL-08-004: API error 形状の global 統一は誘惑だが、まず inventory に留めて serial-05/step-01 互換性に scope を絞る | L34 |
+| L-PARALLEL-08-005: ToastProvider root scope と useAdminMutation contract は static invariant + primitives spec の二段で pin する | L42 |
+| 関連 promotion targets（serial-05/step-01 引き継ぎ時の確認用） | L52 |
+
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
 | セクション | 行 |
@@ -6651,14 +6664,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1257 |
-| フェーズ構造（概要） | L1266 |
-| 品質ゲート（概要） | L1297 |
-| 出力テンプレート | L1308 |
-| 実行時のコマンド・エージェント・スキル | L1331 |
-| 昇格パターン集 | L1355 |
-| Current Active / Spec Created Tasks | L1357 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1499 |
+| ドキュメント構成 | L1271 |
+| フェーズ構造（概要） | L1280 |
+| 品質ゲート（概要） | L1311 |
+| 出力テンプレート | L1322 |
+| 実行時のコマンド・エージェント・スキル | L1345 |
+| 昇格パターン集 | L1369 |
+| Current Active / Spec Created Tasks | L1371 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1513 |
 
 ### references/task-workflow-backlog-part2.md
 
