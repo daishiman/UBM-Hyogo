@@ -3916,15 +3916,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| wrangler.toml の環境別設定 | L205 |
-| ローカル開発での設定 | L237 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L276 |
-| セキュリティ原則 | L308 |
-| Cloudflare API Token の作成手順 | L319 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L334 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L445 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L497 |
-| 変更履歴 | L516 |
+| wrangler.toml の環境別設定 | L219 |
+| ローカル開発での設定 | L251 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L290 |
+| セキュリティ原則 | L322 |
+| Cloudflare API Token の作成手順 | L333 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L348 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L459 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L511 |
+| 変更履歴 | L530 |
 
 ### references/deployment.md
 
@@ -4556,7 +4556,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L16 |
+| 関連リソース | L17 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -4984,6 +4984,12 @@ node scripts/list-specs.js --topics
 | 苦戦箇所と知見 | L7 |
 | 運用知見 | L49 |
 | 参照 | L58 |
+
+### references/lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 5-minute Checklist | L15 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -6650,7 +6656,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1330 |
 | 昇格パターン集 | L1354 |
 | Current Active / Spec Created Tasks | L1356 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1496 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1498 |
 
 ### references/task-workflow-backlog-part2.md
 
