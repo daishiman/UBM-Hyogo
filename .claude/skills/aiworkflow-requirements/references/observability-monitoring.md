@@ -333,6 +333,28 @@ Gate:
 | Gate-FALLBACK-RATE | 7 日 mean fallback rate ≤ 5% かつ 3h 連続超 alert 0 件 | rollback 検討 |
 | Gate-SNAPSHOT-INTEGRITY | aggregate JSON が `expectedSnapshots` / `actualSnapshots` を持ち、run URL 一覧が保存され、全 snapshot が skeleton zero metrics ではない | `pass_runtime_synced` 昇格不可 |
 
+## 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14）
+
+Issue #655 は Issue #586 の D+7 evidence が不足または未生成になった場合の
+2 周目 recovery contract である。canonical workflow root は
+`docs/30-workflows/issue-655-d7-recovery-2nd-cycle/`、状態は
+`implemented-local-runtime-pending / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING`。
+
+| 項目 | 正本 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-655-d7-recovery-2nd-cycle/` |
+| parent workflow | `docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/` |
+| recovery aggregate | `outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json` |
+| runtime boundary | PR-A implementation / PR-B D'+7 evidence / commit / push / PR / workflow_dispatch は user-gated |
+| state vocabulary | workflow root は `spec_created`、runtime collection は `runtime_pending`、D'+7 成功後の業務状態のみ `pass_runtime_synced` |
+| inventory | `references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md` |
+
+Recovery では 1 周目と 2 周目の evidence を混在させない。2 周目は
+`*-recovery.*` suffix と `./hourly-snapshots-recovery` input directory を使う。
+親 #586 の `hourly-run-7day-summary.json` が存在しない場合は、
+`recovery-rootcause-helper.ts --mark-missing-parent-summary` で missing 自体を
+root-cause evidence として記録する。
+
 ## 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08）
 
 Issue #547 は production D1 `cf_audit_log` から 90 日分の ML feature dataset を read-only export する契約である。状態は `implemented_local_runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING`。local CLI / schema validation / manifest / leakage scan / focused tests は完了済みで、production export は user approval 後のみ実行する。

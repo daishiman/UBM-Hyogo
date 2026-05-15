@@ -85,9 +85,46 @@ ledger / changelog / unassigned-task の自然文では、`metadata.workflow_sta
 - merge 後に runtime 観測そのものが開始されるならば `pass_boundary_synced_runtime_pending` へ昇格。
 - runtime smoke が完走し evidence PR が user-approved されたら `pass_runtime_synced` または `completed`。
 
+## State × External Ops Verdict Combination
+
+外部副作用必須かつ user-approval gate な resource（Cloudflare KV namespace 作成 / R2 bucket / Queue / Service Binding 受け入れ等）の provisioning が pending の場合、root state と verdict suffix を **必ずペアで併記**する。単独表記（`PASS` 単独 / `PASS_WITH_EXTERNAL_OPS_PENDING` 単独 / `implemented-local-runtime-pending` 単独）は禁止。
+
+| root state | verdict suffix | 想定境界 |
+| --- | --- | --- |
+| `implemented_local_evidence_captured` | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` | local 5 点 PASS / runtime CI / staging deploy / fresh GET いずれか未完 |
+| `implemented_local_runtime_pending` | `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING (external resource: <KV namespace creation> 等)` | local 5 点 PASS / 外部 resource provisioning が user gate 待ち / merge 後の時間経過で runtime 観測開始 |
+| `CONTRACT_READY_IMPLEMENTATION_PENDING` | `CONTRACT_READY_RUNTIME_PENDING` | code skeleton + binding 名 / shape は確定済、resource 作成前で build/deploy 不可 |
+
+`system-spec-update-summary.md` Step 1-B の close-out 記述例:
+
+```
+workflow_state: implemented_local_runtime_pending
+verdict: PASS_BOUNDARY_SYNCED_RUNTIME_PENDING (external resource: KV namespace `alert_relay_dedup` creation pending user approval)
+```
+
+## Root `status` Schema Enum Constraint（2026-05-15 task-27 由来）
+
+`artifacts.json` および `outputs/artifacts.json` の root `status` フィールドには、
+`schemas/artifact-definition.json` の enum に列挙された canonical 値のみを格納する。
+詳細な workflow 進行段階は `metadata.workflow_state` に置き、root `status` とは
+分離する。
+
+ルール:
+
+- root `status` は schema enum (例: `spec_created` / `in_progress` / `runtime_pending` / `completed` / `on_hold` / `blocked`) に限定する
+- より詳細な状態（例: `implemented_local_evidence_captured` / `not_yet_generated` / `pass_boundary_synced_runtime_pending` 等）は `metadata.workflow_state` に置く
+- 理由: validator が schema enum をクロスチェックするため、root `status` に enum 外の値を入れると fail する
+
+| フィールド | 許容値 | 用途 |
+| --- | --- | --- |
+| root `status` | `schemas/artifact-definition.json` の enum | validator が enum クロスチェックする canonical 値 |
+| `metadata.workflow_state` | 本 reference の State Values / Canonical Short-form Aliases | 詳細な workflow 進行段階・境界語彙 |
+
 ## Forbidden Wording
 
 - Do not write `PASS` alone when runtime or production evidence is pending.
+- Do not write `PASS_WITH_EXTERNAL_OPS_PENDING` or `implemented-local-runtime-pending` alone without the paired root state + verdict suffix.
+- Do not use absolute wording (`guarantee` / `exactly-once` / `必ず抑制する` / `完全に防止`) for KV / 分散 cache backed dedup. Use eventual-consistency-aware wording instead (例: 「実用上大幅に低減」「同一 region 内では数秒以内に伝播」「edge cache の eventual consistency により短時間の重複を完全には排除しない」). 詳細: `references/phase-12-pitfalls.md` UBM-035.
 - Do not use `completed` for a phase status as evidence that root
   `metadata.workflow_state` is complete.
 - Do not mix `spec_created` with implementation-complete claims in
