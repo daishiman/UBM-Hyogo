@@ -162,7 +162,7 @@ Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-
 
 ### Issue #571 staging runtime smoke GitHub Environment（2026-05-08）
 
-`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-10 の task-02 close-out 以降、配置 runbook の入口正本は `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` とする。推奨実行経路は `bash scripts/smoke/provision-staging-secrets.sh` で、`op read` 出力は `gh secret set --body -` へ stdin で直結する。手動 `gh secret set` は fallback として runbook に残す。
+`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-10 の task-02 close-out 以降、配置 runbook の入口正本は `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` とする。推奨実行経路は `bash scripts/smoke/provision-staging-secrets.sh` で、`op read` 出力を `gh secret set <NAME> --env staging-runtime-smoke` の stdin へ直結する。`gh secret set` は `--body` 未指定時に stdin を読む。手動 `gh secret set` は fallback として runbook に残す。
 
 | Category | Secret | Placement | Purpose |
 | --- | --- | --- | --- |
@@ -188,10 +188,21 @@ GitHub Environment は作成されているが secret が 0 件のまま staging
 | --- | --- |
 | pre-flight 経路 | `bash scripts/smoke/provision-staging-secrets.sh`（idempotent / redacted） |
 | inventory check | `gh secret list --env staging-runtime-smoke --json name -q '.[].name'` で **name のみ** を確認。値・値 hash を出力しない |
-| 投入経路 | `op read "op://<Vault>/<Item>/<Field>" \| gh secret set <NAME> --env staging-runtime-smoke --body -` の stdin 直結 |
+| 投入経路 | `op read "op://<Vault>/<Item>/<Field>" \| gh secret set <NAME> --env staging-runtime-smoke` の stdin 直結 |
 | smoke 起動 gate | user-approved Actions run 前の inventory は 5 secret（`STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT`）一致を確認する。ただし workflow 内 early-fail は smoke 本体必須 4 secret のみを対象にし、Slack は failure summary post step の fail-closed guard が担当する |
 | `${VAR:?}` の扱い | smoke workflow 側では smoke 本体必須 4 secret を name-only early-fail する。invocation 前の runbook/helper pre-flight で 0 件を検出し、連鎖失敗を抑止する |
 | ログ衛生 | Environment 名と secret 名のみを stdout に出力。値、Authorization header、cookie, decoded webhook URL は出力 / 文書 / PR / evidence に転記禁止 |
+
+## web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14）
+
+`web-cd.yml` の `deploy-staging` / `deploy-production` 用 `CLOUDFLARE_API_TOKEN` provisioning は、`staging-runtime-smoke` runbook とは別物として扱う。canonical runbook は `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md` と `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md` の 2 本。
+
+| Item | Contract |
+| --- | --- |
+| Secret | `CLOUDFLARE_API_TOKEN` は GitHub Environment `staging` / `production` の environment-scoped web-cd deploy token |
+| Non-secret variable | `CLOUDFLARE_ACCOUNT_ID` は GitHub Variables 管理。Environment Secret に投入しない |
+| 1Password source | runbook / evidence には `op://...` 参照のみを記録し、解決値・値 hash・token preview は記録しない |
+| Boundary | GitHub secret mutation、Cloudflare token issuance / revoke、deploy run、commit、push、PR は user-gated |
 
 ### GitHub Variables（非機密設定値）
 
