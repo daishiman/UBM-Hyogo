@@ -1,0 +1,14 @@
+{
+  "$schema": "../schema/policy.schema.json",
+  "name": "workers-requests",
+  "description": "Workers Requests 80% of free-tier daily quota",
+  "alert_type": "billing_usage_alert",
+  "enabled": true,
+  "conditions": {
+    "metric": "workers_requests_per_day",
+    "percentage": 0.8
+  },
+  "mechanisms": {
+    "webhooks": [{ "name": "ut-17-relay" }]
+  }
+}

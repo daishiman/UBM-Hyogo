@@ -38,8 +38,8 @@
 | 種別 | 対象 | 理由 |
 | --- | --- | --- |
 | 上流 | UT-05 (CI/CD パイプライン実装) | スモークを追加する CD ワークフローの骨格が確定していること |
-| 上流 | UT-27 (Secrets / Variables 配置) | スモーク URL 組み立てに `CLOUDFLARE_PAGES_PROJECT` を再利用 |
-| 上流 | UT-28 (Cloudflare Pages プロジェクト作成) | スモーク対象 URL が成立していること |
+| 上流 | Issue #331 / Issue #638 | Web CD は Workers deploy に統一済み。`CLOUDFLARE_PAGES_PROJECT` は削除済みで再利用しない |
+| 上流 | Workers deploy configuration | スモーク対象 URL は `apps/web/wrangler.toml` / Workers custom domain / deployment output から決定する |
 | 上流 | apps/api 側 `/api/health` 実装（`02-application-implementation` 配下のいずれか） | スモーク対象エンドポイントの存在 |
 | 関連 | UT-08 / UT-17 | スコープ境界（CD 直後の同期スモーク vs 常設モニタリング）の責務分離 |
 | 下流 | UT-06 (本番デプロイ実行) | 本番スモーク失敗時の判断基準として活用 |
@@ -48,7 +48,7 @@
 
 **Cloudflare のグローバル伝播遅延**: deploy 直後の即時 GET は 404 / 旧バージョン応答が混じることがある。Pages も Workers もエッジへの伝播に数秒〜数十秒かかる。リトライ（最低 5 回）＋指数バックオフ（1s / 2s / 4s / 8s / 16s）で最大 30〜60 秒程度許容する設計が現実的。最初の試行で落とすと CI が誤検知 fail する事故が頻発する。
 
-**Pages の preview 用 alias URL の取り扱い**: Pages を `--branch=dev` で deploy すると `https://<branch>.<project>.pages.dev` 形式の alias URL が生成される。これは `steps.deploy.outputs.pages-deployment-alias-url` で取得できる。staging スモークではこの alias を使い、production では `<project>.pages.dev` または custom domain を使うため、ブランチに応じて URL 組み立てロジックを分岐させる必要がある。
+**Workers のスモーク URL の取り扱い**: Issue #331 / #638 後は Pages alias URL や `CLOUDFLARE_PAGES_PROJECT` を使わない。staging / production の smoke target は Workers deploy output、`apps/web/wrangler.toml` の環境別 name、または custom domain の正本から決定し、Pages URL 組み立てロジックは新規実装しない。
 
 **`/api/health` の depth 設計**: ヘルスチェックを HTTP-only にするか、D1 接続まで含めるかで「デプロイ失敗」の意味が変わる。本タスクでは「Workers が起動して HTTP を返せること」を最低限の判定基準とし、D1 接続障害は別レイヤ（UT-08 常設モニタリング）の責務とする。HTTP 200 を返すだけのシンプルな endpoint を `apps/api` に持つことを前提とする。
 

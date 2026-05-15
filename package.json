@@ -28,6 +28,7 @@
     "test": "bash scripts/with-env.sh vitest run",
     "test:phase12-compliance": "vitest run scripts/__tests__/verify-phase12-compliance.spec.ts",
     "test:scripts": "bash scripts/d1/run-tests.sh && node --test scripts/__tests__/coverage-merge.test.mjs",
+    "test:workflow-secrets": "bash scripts/__tests__/redaction-check.test.sh && bash scripts/__tests__/workflow-env-scope.test.sh",
     "smoke:test": "bash scripts/smoke/__tests__/redact.test.sh && bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh && bash scripts/smoke/__tests__/ci-summary-post.test.sh",
     "test:coverage": "bash scripts/with-env.sh vitest run --coverage",
     "post-release-dashboard:test": "bash scripts/post-release-dashboard/__tests__/run-all.sh",
@@ -43,6 +44,10 @@
     "sync:check": "git fetch --quiet origin main dev 2>/dev/null; bash scripts/hooks/stale-worktree-notice.sh fetch",
     "skill:logs:render": "tsx scripts/skill-logs-render.ts",
     "skill:logs:append": "tsx scripts/skill-logs-append.ts",
+    "cf:alerts:list": "bash scripts/cf.sh alerts list",
+    "cf:alerts:diff": "bash scripts/cf.sh alerts diff",
+    "cf:alerts:apply": "bash scripts/cf.sh alerts apply",
+    "test:alerts": "vitest run infra/cloudflare-alerts/lib/__tests__ scripts/__tests__/cf-alerts-cli.spec.ts",
     "analytics:fetch": "tsx scripts/fetch-cloudflare-analytics.ts",
     "analytics:redaction-check": "bash scripts/redaction-check-analytics.sh",
     "schema-alias-backfill:test": "pnpm exec vitest run scripts/schema-alias-backfill/__tests__/generate-50k-fixture.spec.ts && bash -n scripts/schema-alias-backfill/seed-staging-50k.sh && bash -n scripts/schema-alias-backfill/cleanup-staging-50k.sh && bash -n scripts/schema-alias-backfill/run-stress-trial.sh && bash scripts/schema-alias-backfill/run-stress-trial.sh --trials 10 --trigger-path /admin/schema/backfill/trigger --poll-interval-seconds 10 --timeout-seconds 1800 --evidence-out /tmp/evidence-50k-dryrun.json --dry-run"

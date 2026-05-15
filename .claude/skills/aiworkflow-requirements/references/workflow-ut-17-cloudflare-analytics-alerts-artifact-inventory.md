@@ -42,3 +42,18 @@
 ## Runtime Boundary
 
 Cloudflare Secrets placement, staging / production deploy, Cloudflare Notification Policy setup, Slack runtime smoke, commit, push, and PR are not executed in this local implementation cycle.
+## Followup-003: alert-relay weekly healthcheck cron（Issue #635 / 2026-05-14）
+
+| 種別 | パス | 状態 |
+| --- | --- | --- |
+| workflow root | `docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/` | implementation_completed_external_ops_pending |
+| root artifact | `docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/artifacts.json` | added |
+| outputs artifact | `docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/outputs/artifacts.json` | added |
+| scheduled module | `apps/api/src/scheduled/healthcheck.ts` | added |
+| mail fallback | `apps/api/src/lib/healthcheck-mail-fallback.ts` | added |
+| tests | `apps/api/src/scheduled/__tests__/healthcheck.test.ts`, `apps/api/src/lib/__tests__/healthcheck-mail-fallback.test.ts` | added |
+| API wiring | `apps/api/src/index.ts`, `apps/api/src/env.ts` | updated |
+| runbook | `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` | updated |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-cloudflare.md` | updated |
+
+Boundary: Cloudflare secrets / deploy / runtime cron evidence / commit / push / PR remain user-gated external ops.

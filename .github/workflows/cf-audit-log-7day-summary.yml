@@ -14,6 +14,16 @@ on:
         required: false
         type: string
         default: '168'
+      recovery_mode:
+        description: Run as recovery (2nd cycle) aggregation
+        required: false
+        type: boolean
+        default: false
+      since:
+        description: Recovery D'+0 ISO8601 UTC (required when recovery_mode=true)
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -34,22 +44,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+      - name: Validate recovery inputs
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.recovery_mode == true && inputs.since == '' }}
+        run: |
+          echo "::error::since is required when recovery_mode=true"
+          exit 1
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Download hourly artifacts (last 7 days, cross-run)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          RECOVERY_MODE: ${{ inputs.recovery_mode }}
+          RECOVERY_SINCE: ${{ inputs.since }}
         run: |
           set -euo pipefail
-          mkdir -p hourly-artifacts hourly-merged
-          mkdir -p docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
-          # 直近 7 日 (168h + safety margin) の cf-audit-log-monitor.yml run を列挙
-          SINCE=$(date -u -d '8 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          mkdir -p hourly-artifacts
+          if [[ "${RECOVERY_MODE:-false}" == "true" ]]; then
+            MERGED_DIR=hourly-snapshots-recovery
+            EVIDENCE_DIR=docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence
+            SINCE="$RECOVERY_SINCE"
+          else
+            MERGED_DIR=hourly-merged
+            EVIDENCE_DIR=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
+            # 直近 7 日 (168h + safety margin) の cf-audit-log-monitor.yml run を列挙
+            SINCE=$(date -u -d '8 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          fi
+          mkdir -p "$MERGED_DIR" "$EVIDENCE_DIR"
+          RUN_URLS="$EVIDENCE_DIR/run-urls.tsv"
+          echo "MERGED_DIR=$MERGED_DIR" >> "$GITHUB_ENV"
+          echo "RUN_URLS=$EVIDENCE_DIR/run-urls.tsv" >> "$GITHUB_ENV"
           gh api --paginate \
             "repos/${GITHUB_REPOSITORY}/actions/workflows/cf-audit-log-monitor.yml/runs?created=>${SINCE}&per_page=100" \
             --jq '.workflow_runs[] | [.id, .html_url] | @tsv' > run-ids.tsv
-          cut -f1,2 run-ids.tsv > docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/run-urls.tsv
+          cut -f1,2 run-ids.tsv > "$RUN_URLS"
           while IFS=$'\t' read -r RID RUN_URL; do
             [ -z "$RID" ] && continue
             ARTIFACT_ID=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RID}/artifacts" \
@@ -58,34 +86,52 @@ jobs:
             mkdir -p "hourly-artifacts/${RID}"
             gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${ARTIFACT_ID}/zip" > "hourly-artifacts/${RID}/snapshot.zip" || continue
             unzip -qq -o "hourly-artifacts/${RID}/snapshot.zip" -d "hourly-artifacts/${RID}" || true
-            find "hourly-artifacts/${RID}" -name '*.json' -exec cp {} hourly-merged/ \;
+            find "hourly-artifacts/${RID}" -name '*.json' -exec cp {} "$MERGED_DIR"/ \;
           done < run-ids.tsv
       - name: Stage snapshots
         id: stage
         run: |
           set -euo pipefail
-          COUNT=$(find hourly-merged -name '*.json' | wc -l | tr -d ' ')
+          COUNT=$(find "$MERGED_DIR" -name '*.json' | wc -l | tr -d ' ')
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "Found $COUNT snapshots (expected ${EXPECTED_SNAPSHOTS_7DAY})."
       - name: Aggregate 7-day summary
         env:
           ACTUAL_SNAPSHOTS: ${{ steps.stage.outputs.count }}
+          RECOVERY_MODE: ${{ inputs.recovery_mode }}
+          RECOVERY_SINCE: ${{ inputs.since }}
         run: |
           set -euo pipefail
-          mkdir -p docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
-          OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
-          OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
+          if [[ "${RECOVERY_MODE:-false}" == "true" ]]; then
+            EVIDENCE_DIR=docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence
+            mkdir -p "$EVIDENCE_DIR"
+            OUT_JSON="$EVIDENCE_DIR/hourly-run-7day-summary-recovery.json"
+            OUT_MD="$EVIDENCE_DIR/hourly-run-7day-recovery.md"
+            RECOVERY_ARGS=(--recovery-mode --since "$RECOVERY_SINCE")
+          else
+            mkdir -p docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
+            OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
+            OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
+            RECOVERY_ARGS=()
+          fi
+          echo "OUT_JSON=$OUT_JSON" >> "$GITHUB_ENV"
+          echo "OUT_MD=$OUT_MD" >> "$GITHUB_ENV"
           pnpm exec tsx scripts/cf-audit-log/observation/post-switch-monitor.ts \
             --aggregate \
-            --input=hourly-merged \
+            --input="$MERGED_DIR" \
             --expected-snapshots="${EXPECTED_SNAPSHOTS_7DAY}" \
             --require-non-skeleton \
+            --run-urls="$RUN_URLS" \
+            --compare-first-cycle=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json \
+            --compare-baseline=docs/30-workflows/completed-tasks/issue-549-cf-audit-ml-production-switch/outputs/phase-11/evidence/threshold-baseline.json \
+            "${RECOVERY_ARGS[@]}" \
             --out="$OUT_JSON"
           pnpm exec tsx scripts/cf-audit-log/observation/post-switch-monitor.ts \
             --aggregate \
-            --input=hourly-merged \
+            --input="$MERGED_DIR" \
             --expected-snapshots="${EXPECTED_SNAPSHOTS_7DAY}" \
             --require-non-skeleton \
+            "${RECOVERY_ARGS[@]}" \
             --format=markdown \
             --out="$OUT_MD"
           if [ "$ACTUAL_SNAPSHOTS" -lt "$EXPECTED_SNAPSHOTS_7DAY" ]; then
@@ -108,22 +154,27 @@ jobs:
       - name: Append hourly run URL list
         run: |
           set -euo pipefail
-          OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
-          URLS=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/run-urls.tsv
           {
             echo
             echo "## Hourly run URLs"
             echo
             echo "| run id | url |"
             echo "| --- | --- |"
-            awk -F '\t' '{ printf "| %s | %s |\\n", $1, $2 }' "$URLS"
+            awk -F '\t' '{ printf "| %s | %s |\\n", $1, $2 }' "$RUN_URLS"
           } >> "$OUT_MD"
-          rm -f "$URLS"
+          rm -f "$RUN_URLS"
       - name: Generate issue-rate comparison evidence
+        env:
+          RECOVERY_MODE: ${{ inputs.recovery_mode }}
         run: |
           set -euo pipefail
-          OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
-          OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/issue-rate-comparison.md
+          if [[ "${RECOVERY_MODE:-false}" == "true" ]]; then
+            OUT_JSON=docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json
+            OUT_MD=docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence/issue-rate-comparison-recovery.md
+          else
+            OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
+            OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/issue-rate-comparison.md
+          fi
           node - "$OUT_JSON" "$OUT_MD" <<'NODE'
           const fs = require("node:fs");
           const [summaryPath, outPath] = process.argv.slice(2);
@@ -139,6 +190,12 @@ jobs:
             `| fallbackRateMean | ${summary.fallbackRateMean} |`,
             `| fallbackRateMax | ${summary.fallbackRateMax} |`,
             `| leakageHits | ${summary.leakageHits} |`,
+            `| leakageHourlyClean | ${summary.leakageHourlyClean ?? (summary.leakageHits === 0)} |`,
+            `| compareWith1stCycle.snapshotsDelta | ${summary.compareWith1stCycle?.snapshotsDelta ?? "unknown"} |`,
+            `| compareWith1stCycle.fallbackRateDelta | ${summary.compareWith1stCycle?.fallbackRateDelta ?? "unknown"} |`,
+            `| compareWith1stCycle.leakageStatusChange | ${summary.compareWith1stCycle?.leakageStatusChange ?? "unknown"} |`,
+            `| compareWithBaseline.fallbackRateDelta | ${summary.compareWithBaseline?.fallbackRateDelta ?? "unknown"} |`,
+            `| compareWithBaseline.p95LatencyDeltaMs | ${summary.compareWithBaseline?.p95LatencyDeltaMs ?? "unknown"} |`,
             "",
             "Threshold-period baseline comparison is finalized in the D+7 evidence PR using parent #549 baseline artifacts.",
             "",
@@ -146,24 +203,31 @@ jobs:
           fs.writeFileSync(outPath, lines.join("\n"));
           NODE
       - name: Leakage grep across 7-day window
+        env:
+          RECOVERY_MODE: ${{ inputs.recovery_mode }}
         run: |
           set -euo pipefail
-          OUT=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/leakage-grep-7day.log
+          if [[ "${RECOVERY_MODE:-false}" == "true" ]]; then
+            OUT=docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence/leakage-grep-7day-recovery.log
+          else
+            OUT=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/leakage-grep-7day.log
+          fi
+          mkdir -p "$(dirname "$OUT")"
           pnpm exec tsx scripts/cf-audit-log/evaluation/secret-leakage-grep.ts \
             --exit-on-detect \
-            --input hourly-merged \
+            --input "$MERGED_DIR" \
             | tee "$OUT"
       - name: Open PR with evidence
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: chore/issue-586-7day-evidence-${{ github.run_id }}
+          branch: ${{ inputs.recovery_mode == true && format('chore/issue-655-recovery-evidence-{0}', github.run_id) || format('chore/issue-586-7day-evidence-{0}', github.run_id) }}
           base: dev
-          title: 'chore(cf-audit-log): post-switch 7-day evidence (Refs #549, Refs #586)'
+          title: "${{ inputs.recovery_mode == true && 'chore(cf-audit-log): D+7 recovery evidence (Refs #549, Refs #586, Refs #655)' || 'chore(cf-audit-log): post-switch 7-day evidence (Refs #549, Refs #586)' }}"
           commit-message: |
             chore(cf-audit-log): add 7-day post-switch evidence
 
-            Refs #549, Refs #586
+            ${{ inputs.recovery_mode == true && 'Refs #549, Refs #586, Refs #655' || 'Refs #549, Refs #586' }}
           body: |
             ## Summary
 
@@ -171,6 +235,7 @@ jobs:
             - leakage grep 7-day window result attached
             - SSOT 4 ファイルの `pass_runtime_synced` 昇格判定材料
 
-            Refs #549, Refs #586
+            ${{ inputs.recovery_mode == true && 'Refs #549, Refs #586, Refs #655' || 'Refs #549, Refs #586' }}
           add-paths: |
             docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/
+            docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence/
