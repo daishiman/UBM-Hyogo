@@ -1,0 +1,7 @@
+current_date=2026-05-14
+repo_variable_present=CLOUDFLARE_PAGES_PROJECT
+source_grep_scope=.github apps packages scripts
+source_grep_hits=0
+snapshot_role=pre-mutation snapshot
+external_mutation_executed_after_snapshot=true
+mutation_gate=satisfied_by_outputs/phase-11/evidence/user-approval-marker.md

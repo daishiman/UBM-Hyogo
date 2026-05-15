@@ -1,0 +1,7 @@
+Command: git status --short
+Date: 2026-05-14 16:13 JST
+
+Result:
+- Worktree contains local implementation and documentation changes for UT-17 follow-up 004.
+- No commit, push, or PR was performed.
+- `infra/cloudflare-alerts/`, `.github/workflows/cloudflare-alerts-drift.yml`, `scripts/cf.sh`, `scripts/__tests__/cf-alerts-cli.test.ts`, Phase 11/12 docs, aiworkflow ledgers, and consumed unassigned trace are dirty as expected.

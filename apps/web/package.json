@@ -22,8 +22,12 @@
     "e2e:smoke": "PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 playwright test --project=smoke-chromium",
     "e2e:visual": "PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 playwright test --project=visual-chromium",
     "e2e:visual:update": "PLAYWRIGHT_EVIDENCE_TASK=task-18-w7 PLAYWRIGHT_TASK18_SMOKE=1 playwright test --project=visual-chromium --update-snapshots",
+    "test:visual-full": "PLAYWRIGHT_EVIDENCE_TASK=task-18-fu playwright test --project=visual-full-chromium-desktop --project=visual-full-chromium-tablet --project=visual-full-chromium-mobile",
+    "test:visual-full:update": "PLAYWRIGHT_EVIDENCE_TASK=task-18-fu playwright test --project=visual-full-chromium-desktop --project=visual-full-chromium-tablet --project=visual-full-chromium-mobile --update-snapshots",
     "verify-design-tokens": "vitest run --root=../.. --config=vitest.config.ts apps/web/src/__tests__/tokens.runtime.spec.ts",
-    "e2e:staging": "playwright test tests/e2e/staging-smoke.spec.ts --project=staging-smoke"
+    "e2e:staging": "playwright test tests/e2e/staging-smoke.spec.ts --project=staging-smoke",
+    "lhci:auth-storage": "tsx scripts/lhci-auth-storage.ts",
+    "lhci:profile-mock-api": "tsx scripts/lhci-profile-mock-api.ts"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "1.19.4",
@@ -40,20 +44,21 @@
     "@axe-core/playwright": "^4.10.0",
     "@lhci/cli": "^0.14.0",
     "@playwright/test": "^1.50.0",
-    "c8": "^10.1.0",
-    "monocart-reporter": "^2.9.0",
     "@tailwindcss/postcss": "~4.0.0",
     "@types/jest-axe": "^3.5.9",
     "@types/node": "24.10.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@typescript-eslint/parser": "^8.59.2",
+    "c8": "^10.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "eslint": "^10.3.0",
     "jest-axe": "^10.0.0",
+    "monocart-reporter": "^2.9.0",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "~4.0.0",
+    "tsx": "^4.21.0",
     "typescript": "6.0.3",
     "wrangler": "4.85.0"
   }

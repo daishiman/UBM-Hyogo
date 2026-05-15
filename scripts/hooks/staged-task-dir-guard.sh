@@ -34,6 +34,17 @@ contains_task_tokens() {
     *"$task_slug"* ) return 0 ;;
   esac
 
+  # Numeric task ID match: if task_slug starts with a numeric segment (e.g. "23-...")
+  # and branch_slug contains that same numeric segment as its own token, accept.
+  # This handles branches like `task-27-phase12-and-task-23-completion` that cover
+  # multiple task dirs by enumerating their numeric IDs.
+  local task_head_num="${task_slug%%-*}"
+  if [[ "$task_head_num" =~ ^[0-9]+$ ]]; then
+    case "-$branch_slug-" in
+      *"-$task_head_num-"* ) return 0 ;;
+    esac
+  fi
+
   # Long task directory names often include extra context not present in the
   # branch. Require at least three meaningful token overlaps to avoid false
   # positives while still blocking unrelated task directories.
