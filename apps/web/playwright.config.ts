@@ -78,6 +78,7 @@ const localCoverageDir = `${process.cwd()}/coverage/v8`
 const localEnv =
   'ENVIRONMENT=local SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=0 ' +
   `NODE_V8_COVERAGE=${localCoverageDir} ` +
+  'PLAYWRIGHT_TEST=1 ' +
   'NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
   'PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
   'INTERNAL_API_BASE_URL=http://127.0.0.1:8787 ' +

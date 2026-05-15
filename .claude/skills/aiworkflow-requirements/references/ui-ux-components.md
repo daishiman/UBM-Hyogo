@@ -41,7 +41,7 @@
 
 task-10 contract は 11 primitive、Wave 0 baseline は 15 primitive、prototype full catalog は 21 primitive として語彙を分離する。後続 task-11..17 は task-10 の 11 primitive contract と Wave 0 維持 export の交差を `@/components/ui` barrel から使う。09c の 21 primitive catalog は full prototype reference であり、task-10 の完了条件ではない。
 
-状態語彙は `runtime-evidence-captured / implementation / VISUAL_ON_EXECUTION / existing-ui-integration`。typecheck / lint / focused test / coverage / Next build は PASS。2026-05-11 に follow-up 001 で OpenNext esbuild mismatch を `pnpm.overrides.esbuild = 0.25.4` により解消し、`build:cloudflare` は PASS。follow-up 002 で runtime screenshot / axe を `task-10-followup-002-runtime-visual-axe-evidence` workflow 配下に取得済み。axe で検出した `Stat` の `<dt>/<dd>` 構造違反は同 cycle で `dl > div > dt/dd` 構造へ修正した。
+状態語彙は `runtime-evidence-captured / implementation / VISUAL_ON_EXECUTION / existing-ui-integration`。typecheck / lint / focused test / coverage / Next build は PASS。2026-05-11 に follow-up 001 で OpenNext esbuild mismatch を当時の `pnpm.overrides.esbuild = 0.25.4` により解消し、`build:cloudflare` は PASS。2026-05-15 の `fix-wrangler-esbuild-import-source-error` で wrangler 4.85.0 の `import-source` 経路を優先するため、現在の root override SSOT は `0.27.3` へ更新済み。follow-up 002 で runtime screenshot / axe を `task-10-followup-002-runtime-visual-axe-evidence` workflow 配下に取得済み。axe で検出した `Stat` の `<dt>/<dd>` 構造違反は同 cycle で `dl > div > dt/dd` 構造へ修正した。
 
 ## task-10 follow-up 002 runtime visual + axe evidence（2026-05-11）
 
