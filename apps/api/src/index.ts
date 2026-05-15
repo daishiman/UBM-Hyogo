@@ -33,7 +33,10 @@ import {
   auditQueryRoute,
   runScheduledSync,
 } from "./sync";
-import { runResponseSync } from "./jobs/sync-forms-responses";
+import {
+  runResponseSync,
+  type ResponseSyncEnv,
+} from "./jobs/sync-forms-responses";
 import {
   resolveRetentionPurgeOptions,
   runRetentionPurge,
@@ -136,7 +139,16 @@ export const hasNotificationMailConfig = (
   );
 };
 
-function buildFormsClient(env: Env): GoogleFormsClient {
+// ut-17-followup-002: buildFormsClient は admin route の `(env: AdminResponsesSyncEnv) => ...`
+// slot に渡せる必要があるため、Env 全体ではなく ResponseSyncEnv（admin env が継承する型）と
+// Forms 認証に必要な optional fields のみを受け取る narrowed env で定義する。
+interface FormsClientEnv extends ResponseSyncEnv {
+  readonly GOOGLE_SERVICE_ACCOUNT_EMAIL?: string;
+  readonly GOOGLE_PRIVATE_KEY?: string;
+  readonly FORM_ID?: string;
+}
+
+function buildFormsClient(env: FormsClientEnv): GoogleFormsClient {
   if (!env.GOOGLE_SERVICE_ACCOUNT_EMAIL || !env.GOOGLE_PRIVATE_KEY) {
     throw new Error(
       "GOOGLE_SERVICE_ACCOUNT_EMAIL / GOOGLE_PRIVATE_KEY が未設定です",

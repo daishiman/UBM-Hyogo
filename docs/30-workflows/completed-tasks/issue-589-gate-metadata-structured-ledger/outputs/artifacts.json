@@ -34,7 +34,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-05-10T02:13:00Z",
-        "evidence_path": "packages/shared/src/gate-metadata/__tests__/schema.test.ts",
+        "evidence_path": "packages/shared/src/gate-metadata/__tests__/schema.spec.ts",
         "approver": "CODEOWNERS:apps-api",
         "notes": "validator_green: pnpm --filter @ubm-hyogo/shared test -- gate-metadata completed 16 files / 188 tests passed; pnpm exec vitest run scripts/gate-metadata/__tests__/walk.test.ts completed 12 tests; pnpm gate-metadata:validate exit 0"
       },

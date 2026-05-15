@@ -1,0 +1,133 @@
+diff --git a/.claude/skills/aiworkflow-requirements/SKILL-changelog.md b/.claude/skills/aiworkflow-requirements/SKILL-changelog.md
+index 82e02ef9..0c216576 100644
+--- a/.claude/skills/aiworkflow-requirements/SKILL-changelog.md
++++ b/.claude/skills/aiworkflow-requirements/SKILL-changelog.md
+@@ -4,6 +4,8 @@ SKILL.md 本体には最新 3 件のみ列挙する。過去版を含む全履
+ 
+ | Version | Date | Changes |
+ | --- | --- | --- |
++| v2026.05.12-issue623-implementation-completed | 2026-05-12 | Issue #623 vitest spec suffix convergence の実装完了を `implementation_completed / implementation / NON_VISUAL` として同期。159 件の `*.test.{ts,tsx}` を `git mv` で `*.spec.{ts,tsx}` に rename、`vitest.config.ts` の `test.include` を `*.spec.{ts,tsx}` 単一に収斂、`coverage.exclude` から `**/*.test.{ts,tsx}` を削除。`scripts/hooks/block-test-suffix.sh` + lefthook `pre-commit.commands.block-test-suffix` と `.github/workflows/verify-test-suffix.yml` を追加し、`*.test.{ts,tsx}` の再混入を構造的に block。ADR `test-file-suffix-adr.md` の改訂履歴に「二段階対応終了 2026-05-12」、CLAUDE.md §重要な不変条件 8 に「新規 test ファイルは `*.spec.{ts,tsx}` のみ」を追記。commit / push / PR は user-gated。 |
++| v2026.05.12-issue623-vitest-spec-suffix-convergence | 2026-05-12 | Issue #623 vitest spec suffix convergence の初期 formalization を作成。後続同日 wave で実装差分が入ったため `v2026.05.12-issue623-implementation-completed` を正とする。 |
+ | v2026.05.10-issue588-fallback-alert-slack-mail-extension | 2026-05-10 | Issue #588 fallback alert Slack / mail extension を `implemented-local-runtime-pending / implementation / NON_VISUAL` として同期。`fallback-rate-alert.ts` の redacted notification payload、Slack dispatcher、mail HTTP webhook dispatcher、dry-run payload output、parallel best-effort failure isolation、focused Vitest 22 tests、`cf-audit-log-monitor.yml` の guarded fallback notification step、runbook、quick-reference/resource-map/task-workflow-active/changelog/LOGS/source unassigned supersede を同一 wave で反映。runtime Slack/mail delivery、HOLD removal、secret mutation、commit、push、PR は user-gated。 |
+ | v2026.05.10-2c-admin-member-delete-e2e | 2026-05-10 | E2E quality uplift Stage 2 sub-task 2c を `implemented-local-runtime-pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として同期。`docs/30-workflows/admin-member-delete-e2e-spec/`、`admin-member-delete.spec.ts`、`PLAYWRIGHT_ADMIN_MEMBER_DELETE_FIXTURE=1` SSR fixture gate、delete/restore row reflection、audit linkage strengthened、artifact inventory、lessons learned、desktop-chromium 5 pass + 1 skip、Phase 12 strict 7、quick-reference/resource-map/task-workflow-active を反映。firefox / webkit / staging / CI、commit / push / PR は user-gated。 |
+ | v2026.05.10-ci-pipeline-recovery-task02-readiness-closeout | 2026-05-10 | task-02 runtime smoke staging readiness close-out を同期。`.github/workflows/runtime-smoke-staging.yml` の `verify required staging secrets` は smoke 本体必須 4 secret（`STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER`）を name-only early-fail し、Slack は `ci-evidence/summary.json` 存在時の failure summary post step で fail-closed guard する。`docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` を operator entrypoint、`scripts/smoke/provision-staging-secrets.sh` を user-run helper、手動 `gh secret set` を fallback として分離。task-02 Phase 11 は static evidence captured / runtime evidence pending、Phase 12 strict 7 + root/output artifacts parity、quick-reference / resource-map / task-workflow-active / deployment-secrets-management / changelog / LOGS を同一 wave で反映。secret placement、runtime workflow run、commit、push、PR は user-gated。 |
+diff --git a/.claude/skills/aiworkflow-requirements/indexes/quick-reference.md b/.claude/skills/aiworkflow-requirements/indexes/quick-reference.md
+index b2980e17..7b33628a 100644
+--- a/.claude/skills/aiworkflow-requirements/indexes/quick-reference.md
++++ b/.claude/skills/aiworkflow-requirements/indexes/quick-reference.md
+@@ -5,6 +5,18 @@
+ 
+ ---
+ 
++### Issue #623 Vitest spec suffix convergence（2026-05-12）
++
++| 目的 | 参照先 |
++| --- | --- |
++| workflow root | `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/` |
++| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
++| 親 ADR | `docs/30-workflows/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md` |
++| source unassigned | `docs/30-workflows/completed-tasks/task-issue-325-followup-003-vitest-spec-suffix-convergence.md`（consumed） |
++| Phase 12 | `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/outputs/phase-12/phase12-task-spec-compliance-check.md` |
++| implementation targets | `vitest.config.ts`, `scripts/hooks/block-test-suffix.sh`, `lefthook.yml`, `.github/workflows/verify-test-suffix.yml`, `CLAUDE.md`, issue-325 ADR |
++| boundary | Local rename/config/gate implementation and Phase 11 local evidence are present. Full `pnpm test --run` `numTotalTests` parity, commit, push, and PR remain pending/user-gated. Closed Issue references must use `Refs #623` only. |
++
+ ### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
+ ### Issue #589 Gate Metadata Structured Ledger（2026-05-10）
+ 
+diff --git a/.claude/skills/aiworkflow-requirements/indexes/resource-map.md b/.claude/skills/aiworkflow-requirements/indexes/resource-map.md
+index 5fc3bb3e..9beca9b4 100644
+--- a/.claude/skills/aiworkflow-requirements/indexes/resource-map.md
++++ b/.claude/skills/aiworkflow-requirements/indexes/resource-map.md
+@@ -13,6 +13,7 @@
+ 
+ | タスク | 最初に読む | 必要に応じて読む |
+ | --- | --- | --- |
++| Issue #623 Vitest spec suffix convergence（implemented_local_runtime_pending / implementation / NON_VISUAL / 2026-05-12） | `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/index.md`, `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/artifacts.json`, `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/outputs/phase-12/phase12-task-spec-compliance-check.md` | `docs/30-workflows/completed-tasks/task-issue-325-followup-003-vitest-spec-suffix-convergence.md`, `docs/30-workflows/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md`, `vitest.config.ts`, `lefthook.yml`, `scripts/hooks/block-test-suffix.sh`, `.github/workflows/verify-test-suffix.yml` |
+ | UI prototype alignment task-16 admin tags meetings requests（implemented-local / implementation / VISUAL_ON_EXECUTION / IMPLEMENTED_LOCAL_RUNTIME_PENDING / 2026-05-10） | `docs/30-workflows/task-16-admin-tags-meetings-requests/index.md`, `docs/30-workflows/task-16-admin-tags-meetings-requests/outputs/phase-12/phase12-task-spec-compliance-check.md`, `references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md`, `references/task-workflow-active.md`, `indexes/quick-reference.md` | Existing implementation contract alignment for `/admin/tags`, `/admin/meetings`, `/admin/requests`: `apps/web/app/(admin)/admin/{tags,meetings,requests}/page.tsx`, `apps/web/src/components/admin/{TagQueuePanel,MeetingPanel,RequestQueuePanel}.tsx`, `apps/web/src/lib/admin/{api,server-fetch}.ts`; no new `src/features/admin` tree, no `/decision` endpoint, and no meeting CSV export link in the task-16 UI. |
+ 
+ ### タスク種別別リソース選択ガイド
+diff --git a/.claude/skills/aiworkflow-requirements/references/task-workflow-active.md b/.claude/skills/aiworkflow-requirements/references/task-workflow-active.md
+index 8b2e6428..5b12147e 100644
+--- a/.claude/skills/aiworkflow-requirements/references/task-workflow-active.md
++++ b/.claude/skills/aiworkflow-requirements/references/task-workflow-active.md
+@@ -8,6 +8,20 @@
+ 
+ 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
+ 
++### Issue #623 Vitest spec suffix convergence（2026-05-12）
++
++| 項目 | 値 |
++| --- | --- |
++| ステータス | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
++| 成果物 | `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/` |
++| 親 Issue | #325 test suffix rename migration |
++| Issue 取扱 | #623 は CLOSED 維持。PR 文脈は `Refs #623` のみ |
++| 目的 | `*.test.ts(x)` 残存を `*.spec.ts(x)` へ収斂し、`vitest.config.ts` と pre-commit / GitHub Actions gate で再混入を防止する |
++| 実装対象 | `vitest.config.ts`, `scripts/hooks/block-test-suffix.sh`, `lefthook.yml`, `.github/workflows/verify-test-suffix.yml`, `CLAUDE.md`, issue-325 ADR |
++| source unassigned | `docs/30-workflows/completed-tasks/task-issue-325-followup-003-vitest-spec-suffix-convergence.md`（consumed） |
++| evidence boundary | Phase 12 strict 7 と Phase 11 local evidence are present. Full `pnpm test --run` `numTotalTests` parity remains runtime evidence pending |
++| user gate | commit / push / PR は user approval 後 |
++
+ ### Issue #590 Phase 11 canonical evidence paths（2026-05-10）
+ 
+ | 項目 | 値 |
+diff --git a/.claude/skills/task-specification-creator/SKILL-changelog.md b/.claude/skills/task-specification-creator/SKILL-changelog.md
+index 67592e98..715f5f70 100644
+--- a/.claude/skills/task-specification-creator/SKILL-changelog.md
++++ b/.claude/skills/task-specification-creator/SKILL-changelog.md
+@@ -4,6 +4,8 @@ SKILL.md 本体には最新 3 件のみ列挙する。過去版を含む全履
+ 
+ | Version | Date | Changes |
+ | --- | --- | --- |
++| v2026.05.12-issue623-implementation-completed | 2026-05-12 | Issue #623 vitest spec suffix convergence の実装完了を反映。`*.test.{ts,tsx}` 残存 159 件を `*.spec.{ts,tsx}` に `git mv` で一括 rename、`vitest.config.ts` の `test.include` を `*.spec.{ts,tsx}` 単一に収斂、`coverage.exclude` から `**/*.test.{ts,tsx}` を削除。再混入防止 gate として `scripts/hooks/block-test-suffix.sh` + lefthook `pre-commit.commands.block-test-suffix` と `.github/workflows/verify-test-suffix.yml`（push: main/dev, pull_request: main/dev）を追加。ADR `test-file-suffix-adr.md` に「二段階対応終了 2026-05-12」、CLAUDE.md 不変条件に「新規 test ファイルは `*.spec.{ts,tsx}` のみ」を追記。 |
++| v2026.05.12-issue623-spec-created-closeout | 2026-05-12 | Issue #623 vitest suffix convergence 初期 spec review を反映。同日中に実装差分が入ったため最終状態は `v2026.05.12-issue623-implementation-completed` を正とする。 |
+ | v2026.05.10-task17-existing-ui-inventory-gate | 2026-05-10 | task-17 admin schema/conflicts/audit spec review feedback を反映。UI 実装タスクでは元仕様の `new` 前提をそのまま採用せず、Phase 1 で current worktree の `apps/web/app` / `apps/web/src/components` / `apps/web/src/lib` を `rg --files` で確認し、実在 route/component/helper がある場合は `existing-*-hardening` / `existing-*-alignment` に再分類する gate を `references/phase-template-phase1.md` に追加。stale `apps/web/src/app` / `src/features/admin` / `src/lib/api/admin-*` path を Phase 2 以降へ持ち込むことを禁止。 |
+ | v2026.05.10-task16-stale-topology-gate | 2026-05-10 | task-16 admin-tags-meetings-requests review feedback を反映。`references/phase-12-pitfalls.md` に **[UBM-032]** を追加: Phase 1〜2 生成段階での旧 repo topology（`apps/web/src/app` / `src/features/admin` / `lib/api/admin-*` / `/decision` / `approved`）残存を Phase 5 で検出する苦戦パターンを集約し、Phase 1 の `implementation_mode` 判定直前に現行 topology を実測（`ls apps/web/app` / `rg "router\\.(post\\|put\\|patch)" apps/api/src/routes`）してから仕様書本文へ引用する手順を正本化。既存実装が確認できれば `implementation_mode: "verify_existing"` に分類し Phase 5 を「差分確認 + targeted regression」に切替える運用を明記。aiworkflow-requirements 側は同 wave で `IMPLEMENTED_LOCAL_RUNTIME_PENDING` / `apps/web/app` / `POST /admin/requests/:noteId/resolve { resolution, resolutionNote? }` に整合済み。 |
+ | v2026.05.10-task15-visual-closeout-physical-evidence | 2026-05-10 | task-15 admin dashboard and members review feedback を反映。VISUAL implementation close-out では Phase 12 strict 7 files の物理実体、artifacts referenced output existence、`it.todo` a11y の同 cycle 解消、server-side fetch を伴う Next Server Component screenshot では Playwright `page.route()` ではなく mock API / fixture server 経由の local visual evidence を必須確認に追加。 |
+diff --git a/.claude/skills/task-specification-creator/vitest.config.ts b/.claude/skills/task-specification-creator/vitest.config.ts
+index 959b25b9..479820f5 100644
+--- a/.claude/skills/task-specification-creator/vitest.config.ts
++++ b/.claude/skills/task-specification-creator/vitest.config.ts
+@@ -3,7 +3,7 @@ import { defineConfig } from "vitest/config";
+ export default defineConfig({
+   test: {
+     globals: true,
+-    include: ["scripts/__tests__/evidence-bundle-*.test.ts"],
++    include: ["scripts/__tests__/evidence-bundle-*.spec.ts"],
+     coverage: {
+       provider: "v8",
+       include: ["scripts/evidence-bundle-validator.ts"],
+diff --git a/CLAUDE.md b/CLAUDE.md
+index a6e4a885..d20fe4b1 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -59,6 +59,7 @@ UBM兵庫支部会の会員管理・公開サイト。Google Form の実回答
+ 5. D1 への直接アクセスは `apps/api` に閉じる（`apps/web` から直接アクセス禁止）
+ 6. GAS prototype は本番バックエンド仕様に昇格させない
+ 7. MVP では Google Form 再回答を本人更新の正式な経路とする
++8. 新規 test ファイルは `*.spec.{ts,tsx}` のみ（`*.test.{ts,tsx}` は禁止。lefthook `block-test-suffix` と GitHub Actions `verify-test-suffix` が reject する）
+ 
+ ---
+ 
+diff --git a/docs/30-workflows/completed-tasks/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md b/docs/30-workflows/completed-tasks/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md
+index a9c241e8..0855371e 100644
+--- a/docs/30-workflows/completed-tasks/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md
++++ b/docs/30-workflows/completed-tasks/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md
+@@ -85,3 +85,4 @@
+ | 日付 | 内容 |
+ | --- | --- |
+ | 2026-05-09 | 初版（Accepted）|
++| 2026-05-12 | 二段階対応終了。`*.test.{ts,tsx}` 残存 159 件を `*.spec.{ts,tsx}` に一括 rename（`git mv`）。`vitest.config.ts` の `test.include` を `*.spec.{ts,tsx}` 単一に収斂、`coverage.exclude` から `**/*.test.{ts,tsx}` 行を削除。再混入防止 gate として lefthook pre-commit `block-test-suffix`（`scripts/hooks/block-test-suffix.sh`）と GitHub Actions workflow `verify-test-suffix`（`.github/workflows/verify-test-suffix.yml`）を導入。実施タスク: `docs/30-workflows/issue-623-vitest-spec-suffix-convergence/`。|
+diff --git a/docs/30-workflows/completed-tasks/task-issue-325-followup-003-vitest-spec-suffix-convergence.md b/docs/30-workflows/completed-tasks/task-issue-325-followup-003-vitest-spec-suffix-convergence.md
+index 66d4e167..0405d835 100644
+--- a/docs/30-workflows/completed-tasks/task-issue-325-followup-003-vitest-spec-suffix-convergence.md
++++ b/docs/30-workflows/completed-tasks/task-issue-325-followup-003-vitest-spec-suffix-convergence.md
+@@ -19,7 +19,7 @@ depends_on:
+ | 対象機能     | テスト discovery / coverage exclude glob                             |
+ | 優先度       | 中                                                                  |
+ | 見積もり規模 | 小規模（vitest.config + 関連 CI gate）                               |
+-| ステータス   | 未実施                                                              |
++| ステータス   | consumed / implemented_local_runtime_pending                         |
+ | 発見元       | Issue #325 Phase 12 独立検証                                         |
+ | 発見日       | 2026-05-09                                                          |
+ 
