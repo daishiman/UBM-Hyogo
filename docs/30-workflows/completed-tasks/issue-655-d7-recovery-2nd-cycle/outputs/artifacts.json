@@ -15,5 +15,33 @@
     "outputs/phase-12/unassigned-task-detection.md",
     "outputs/phase-12/skill-feedback-report.md",
     "outputs/phase-12/phase12-task-spec-compliance-check.md"
-  ]
+  ],
+  "metadata": {
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; recovery 2nd-cycle artifacts and helper captured under canonicalRoot"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/phase-12.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (post-switch monitor recovery + helper + workflows); Phase 12 strict outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: D'+7 recovery hourly run, 7day summary recovery, CI dry-run are user-gated and tracked separately"
+      }
+    ]
+  }
 }
