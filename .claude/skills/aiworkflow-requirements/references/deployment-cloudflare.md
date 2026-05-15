@@ -235,19 +235,43 @@ name = "ubm-hyogo-api"
 
 ### API Worker cron / Forms response sync（03b）
 
-`apps/api` は二種類の cron を持つ。
+`apps/api` は三種類の cron を持つ。
 
 > **UT-21 close-out note (2026-04-30)**: 下表の Sheets 由来 cron / `runSync` / Sheets API v4 説明は legacy current-fact の残存であり、現行正本は Forms sync（`forms.get` / `forms.responses.list`、`POST /admin/sync/schema` / `POST /admin/sync/responses`、`sync_jobs` ledger）である。runtime cron / wrangler 設定の撤回・整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱い、本 close-out では `apps/api/wrangler.toml` を変更しない。
 
 | cron | 用途 | 実行関数 |
 | --- | --- | --- |
-| `0 * * * *` | Google Sheets 由来の legacy hourly sync（撤回は UT21-U05） | `runSync` |
-| `0 18 * * *` | 03a schema sync + issue-402 retention purge dry-run/apply 併用（fan-out なし。`apps/api/src/index.ts` cron handler 内で分岐ルーティングし、retention purge は `RETENTION_PURGE_MODE` で dry-run/apply/off を切替。SSOT: [data-retention-policy.md](./data-retention-policy.md)） | `runSchemaSync` + retention purge job |
+| `0 18 * * *` | 03a schema sync + issue-402 retention purge dry-run/apply + UT-17 weekly alert-relay healthcheck 併用。UT-17 healthcheck は `new Date(controller.scheduledTime).getUTCDay() === 1` の UTC Monday gate で週 1 回だけ動く。新規 cron は追加しない。 | `runSchemaSync` + retention purge job + `runAlertRelayHealthcheck` |
 | `*/15 * * * *` | Google Forms response 同期 | `runResponseSync` |
+| `*/5 * * * *` | issue-377 tag queue retry tick。legacy Sheets hourly sync (`0 * * * *`) は runtime cron から撤回済みで、互換経路として手動実行に限定する。 | `runTagQueueRetryTick` |
 
-> **current facts (09b / 2026-05-01)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 * * * *", "0 18 * * *", "*/15 * * * *"]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は legacy Sheets hourly cron の現行残存であり、撤回・runtime 設定整理は `docs/30-workflows/unassigned-task/task-ut21-impl-path-boundary-realignment-001.md`（UT21-U05）で扱う。09b は docs-only / spec_created のため runtime 設定を変更しない。
+> **current facts (UT-17 followup-003 review / 2026-05-14)**: 上記 3 件は `apps/api/wrangler.toml` の `[triggers] crons = ["0 18 * * *", "*/15 * * * *", "*/5 * * * *"]`、`[env.production.triggers]`、`[env.staging.triggers]` と完全整合する。`0 * * * *` は current runtime cron ではなく、legacy Sheets hourly sync の互換手動経路としてのみ扱う。
 
 Forms response sync は `GOOGLE_FORM_ID` を Cloudflare vars に持ち、`GOOGLE_SERVICE_ACCOUNT_EMAIL` / `GOOGLE_PRIVATE_KEY` を Cloudflare Secrets として扱う。JWT signing は Workers WebCrypto (`RSASSA-PKCS1-v1_5` + SHA-256) で行い、`packages/integrations` の Google Forms client に注入する。
+
+### UT-17 weekly alert-relay healthcheck cron（Issue #635 / 2026-05-14）
+
+`docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/` は `implemented-local / implementation / NON_VISUAL / CODE_COMPLETE_EXTERNAL_OPS_PENDING`。`apps/api/src/scheduled/healthcheck.ts` が既存 daily cron `0 18 * * *` に相乗りし、UTC Monday gate（JST Tuesday 03:00）で Cloudflare Notifications → `/internal/alert-relay` → Slack 経路を週次確認する。Workers free plan の cron 3 本上限を守るため、新規 cron slot は追加しない。
+
+| 項目 | 正本 |
+| --- | --- |
+| scheduled module | `apps/api/src/scheduled/healthcheck.ts` |
+| cron | existing `0 18 * * *` only |
+| gate | `new Date(controller.scheduledTime).getUTCDay() === 1` |
+| relay call | Request 偽造 + `createAlertRelayRoute().request("/", reqInit, env)` |
+| Slack success | Slack fetch を `slackOkBodyGuard()` で `status 2xx + body.trim() === "ok"` に正規化し、relay route は 200/502 で判定 |
+| payload marker | `name: "UT-17 weekly healthcheck"`, `severity: "info"`, `data.healthcheck: true`, weekly `policy_id` |
+| fallback | Resend API mail to `HEALTHCHECK_FALLBACK_EMAIL` when Slack delivery fails |
+
+Optional Cloudflare Secrets:
+
+| Secret | 用途 | 配置 |
+| --- | --- | --- |
+| `SLACK_WEBHOOK_URL_HEALTHCHECK` | healthcheck 専用 Slack Incoming Webhook。未設定時は `SLACK_WEBHOOK_URL` に fallback | `bash scripts/cf.sh secret put --env <env> SLACK_WEBHOOK_URL_HEALTHCHECK` |
+| `HEALTHCHECK_FALLBACK_EMAIL` | Slack 失敗時の送信先 | `bash scripts/cf.sh secret put --env <env> HEALTHCHECK_FALLBACK_EMAIL` |
+| `RESEND_API_KEY` | Resend send email API token | `bash scripts/cf.sh secret put --env <env> RESEND_API_KEY` |
+
+External ops（secret 投入、staging / production deploy、manual cron fire、first production cron observation）は user approval gate 後に実施する。月次 runbook `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` は定常監視から四半期 deep-dive / 連続 2 回失敗時の手動確認へ降格した。
 
 Issue #378 以降、Forms response sync の tag candidate enqueue は `TAG_QUEUE_PAUSED` variable で deploy-gated に停止できる。`"true"` 完全一致のみ停止し、停止中は `tag_assignment_queue` への D1 read / write を行わず `{ enqueued: false, reason: "paused" }` と structured log `UBM-TAGQ-PAUSED` を返す。切替手順は `docs/30-workflows/runbooks/tag-queue-pause.md` を正本とし、Cloudflare Secret では扱わない。
 

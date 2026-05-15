@@ -4,8 +4,10 @@
 # - `.env` には実値を絶対に書かない (AI 学習混入防止) — op:// 参照のみ可
 # - ローカル node_modules/.bin/wrangler を優先使用 (グローバル wrangler は esbuild 不整合の元)
 # - グローバル/サブパッケージ esbuild とのバージョン不整合を ESBUILD_BINARY_PATH で自動解決
-# - OpenNext build の host/binary mismatch 再発時は root package.json の pnpm.overrides.esbuild を
-#   @opennextjs/aws が使用する esbuild version に合わせ、pnpm install 後に build:cloudflare を再検証する
+# - esbuild mismatch 再発時は wrangler の exact dependency を基準に root
+#   package.json の pnpm.overrides.esbuild を合わせ、OpenNext 互換性は
+#   build:cloudflare の実走で担保する
+# - 現在の override は wrangler 4.85.0 が要求する esbuild 0.27.3 に固定
 set -euo pipefail
 
 if [ "$#" -eq 0 ]; then
@@ -19,7 +21,7 @@ fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 
-if [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
+if [ "$1" != "alerts" ] && [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
   export CF_SH_SKIP_WITH_ENV=1
 fi
 
@@ -156,6 +158,73 @@ if [ "$1" = "r2" ]; then
     exec mise exec -- pnpm exec tsx "$r2_script_path" "$@"
   fi
   exec "$REPO_ROOT/scripts/with-env.sh" mise exec -- pnpm exec tsx "$r2_script_path" "$@"
+fi
+
+if [ "$1" = "alerts" ]; then
+  shift
+  # UT-17-Followup-004: Cloudflare Notification Policy IaC
+  # Subcommands: list / diff / plan / apply
+  cf_alerts_usage() {
+    cat >&2 <<'EOF'
+usage: cf.sh alerts {list|diff|apply|plan} [--json] [--yes] [--ci]
+  list             expected (repo) と actual (Cloudflare) を一覧表示
+  diff             expected と actual を比較。drift があれば exit 2
+  plan             diff と同じ判定だが exit 常に 0 (CI plan 出力用)
+  apply            webhook destination → policy の順に冪等適用 (dry-run by default)
+                   --yes で実適用 / --ci で op run をスキップ
+EOF
+  }
+  if [ "$#" -eq 0 ]; then
+    cf_alerts_usage
+    exit 64
+  fi
+  alerts_sub="$1"; shift || true
+  case "$alerts_sub" in
+    list|diff|plan|apply) ;;
+    *)
+      echo "[cf.sh] unknown subcommand: $alerts_sub" >&2
+      cf_alerts_usage
+      exit 64
+      ;;
+  esac
+  set_tsx_esbuild_binary_path
+  alerts_cli="$REPO_ROOT/infra/cloudflare-alerts/lib/cli.ts"
+
+  # --ci: op run をスキップし、CLOUDFLARE_ALERTS_TOKEN_READ を直接利用
+  alerts_is_ci=0
+  for a in "$@"; do
+    if [ "$a" = "--ci" ]; then alerts_is_ci=1; fi
+  done
+  if [ "$alerts_is_ci" = "1" ]; then
+    if [ "$alerts_sub" = "apply" ]; then
+      echo "[cf.sh] alerts apply is forbidden in --ci mode; CI drift checks are read-only" >&2
+      exit 78
+    fi
+    if [ -z "${CLOUDFLARE_ALERTS_TOKEN_READ:-}" ]; then
+      echo "[cf.sh] CLOUDFLARE_ALERTS_TOKEN_READ is required in --ci mode" >&2
+      exit 78
+    fi
+    echo "[cf.sh] CI mode: skipping op run" >&2
+    export CF_ALERTS_CI_MODE=1
+    if command -v mise >/dev/null 2>&1; then
+      exec mise exec -- pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    else
+      exec pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    fi
+  fi
+
+  # SKIP_WITH_ENV モード (テスト用 / CI で env を別経路から注入する場合)
+  # mise が無い環境 (GitHub Actions runner 等) でも動くよう mise を optional 扱い
+  if [ "${CF_SH_SKIP_WITH_ENV:-0}" = "1" ]; then
+    if command -v mise >/dev/null 2>&1; then
+      exec mise exec -- pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    else
+      exec pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
+    fi
+  fi
+
+  # 通常モード: op run 経由で .env (op:// 参照) を解決
+  exec "$REPO_ROOT/scripts/with-env.sh" mise exec -- pnpm exec tsx "$alerts_cli" "$alerts_sub" "$@"
 fi
 
 if [ "$1" = "audit-log" ]; then

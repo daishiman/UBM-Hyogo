@@ -53,13 +53,14 @@ W2 残（task-02, task-03, task-07, task-08, task-19, task-20, task-21, task-22�
 
 | wave | 並列度 | タスク | 状態 |
 |---|---|---|---|
-| **W8** | par | task-23 verification status matrix | spec_created |
-| **W8** | par | task-24 invariant audit | spec_created |
+| **W8** | par | task-23 verification status matrix | implemented_local_evidence_captured / docs-only / NON_VISUAL |
+| **W8** | par | task-24 invariant audit | implemented_local_runtime_pending / implementation / NON_VISUAL |
 | **W8** | par | task-25 smoke coverage matrix | spec_created / docs-only / NON_VISUAL / verify_existing |
-| **W8** | par | task-26 error.tsx token utility migration | spec_created |
-| **W9** | solo | task-27 MVP 3-layer task mapping | spec_created |
+| **W8** | par | task-26 error.tsx token utility migration | implemented_local_evidence_captured / implementation / VISUAL |
+| **W9** | solo | task-27 MVP 3-layer task mapping | implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 13 blocked |
 
 task-25 main deliverable: `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md`.
+task-27 main deliverable: `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md`.
 
 ---
 
