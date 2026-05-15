@@ -1,0 +1,72 @@
+{
+  "result": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "name": "workers-requests",
+      "description": "Workers Requests 80% of free-tier daily quota",
+      "alert_type": "billing_usage_alert",
+      "enabled": true,
+      "conditions": { "metric": "workers_requests_per_day", "threshold": 80000 },
+      "mechanisms": { "webhooks": [{ "id": "11111111-1111-1111-1111-111111111111" }] },
+      "created": "2026-05-09T00:00:00Z",
+      "modified": "2026-05-09T00:00:00Z",
+      "account_id": "redacted"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "name": "d1-read-queries",
+      "description": "D1 read queries 80% of free-tier daily quota",
+      "alert_type": "billing_usage_alert",
+      "enabled": true,
+      "conditions": { "metric": "d1_read_queries_per_day", "threshold": 4000000 },
+      "mechanisms": { "webhooks": [{ "id": "11111111-1111-1111-1111-111111111111" }] },
+      "created": "2026-05-09T00:00:00Z",
+      "modified": "2026-05-09T00:00:00Z",
+      "account_id": "redacted"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "name": "d1-write-queries",
+      "description": "D1 write queries 80% of free-tier daily quota",
+      "alert_type": "billing_usage_alert",
+      "enabled": true,
+      "conditions": { "metric": "d1_write_queries_per_day", "threshold": 80000 },
+      "mechanisms": { "webhooks": [{ "id": "11111111-1111-1111-1111-111111111111" }] },
+      "created": "2026-05-09T00:00:00Z",
+      "modified": "2026-05-09T00:00:00Z",
+      "account_id": "redacted"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000004",
+      "name": "pages-build",
+      "description": "Pages Build 80% of free-tier monthly quota",
+      "alert_type": "billing_usage_alert",
+      "enabled": true,
+      "conditions": { "metric": "pages_requests_per_month", "threshold": 80000 },
+      "mechanisms": { "webhooks": [{ "id": "11111111-1111-1111-1111-111111111111" }] },
+      "created": "2026-05-09T00:00:00Z",
+      "modified": "2026-05-09T00:00:00Z",
+      "account_id": "redacted"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000005",
+      "name": "r2-class-a",
+      "description": "R2 Class A + Class B operations 80% of free-tier monthly quota",
+      "alert_type": "billing_usage_alert",
+      "enabled": true,
+      "conditions": {
+        "anyOf": [
+          { "metric": "r2_class_a_per_month", "threshold": 800000 },
+          { "metric": "r2_class_b_per_month", "threshold": 8000000 }
+        ]
+      },
+      "mechanisms": { "webhooks": [{ "id": "11111111-1111-1111-1111-111111111111" }] },
+      "created": "2026-05-09T00:00:00Z",
+      "modified": "2026-05-09T00:00:00Z",
+      "account_id": "redacted"
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": []
+}
