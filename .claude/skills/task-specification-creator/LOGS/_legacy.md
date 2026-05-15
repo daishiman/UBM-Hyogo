@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-14 - Issue #640 CI/CD secret-scope close-out feedback
+
+`docs/30-workflows/issue-640-oidc-cf-token-cutover/` の Phase 12 feedback を確認した。CI/CD secret-scope tasks では static workflow scope test を local evidence だけに置かず、repository script（例: `pnpm test:workflow-secrets`）と CI workflow-shell-lint に接続する必要がある。既存の Phase 12 strict 7 / implemented-local-runtime-pending / NON_VISUAL evidence rules で吸収可能なため、task-specification-creator template 本体の構造変更は no-op とし、今回 workflow の `skill-feedback-report.md` に「promoted via repo CI gate / template change no-op」を記録する。
+
 ## 2026-05-10 - e2e-quality-uplift stage-3-impl 3b / 3c skill feedback promotion
 
 `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate/outputs/phase-12/skill-feedback-report.md` および `3c-branch-protection-contexts/outputs/phase-12/skill-feedback-report.md` を反映。schemas/artifact-definition.json の status enum に `spec_created` / `runtime_pending` を追加し、metadata に governance gate / evidence ledger split キーを正規化。`references/server-component-e2e-pattern.md`（`page.route()` を server-side fetch evidence にしない / `INTERNAL_API_BASE_URL` 差し替え / mock API + seed / tracked evidence）と `references/governance-branch-protection-pattern.md`（dev / main 個別 GET・個別 PUT / branch-specific evidence 分離）を新設。`references/phase12-compliance-check-template.md` に 3-state verdict vocabulary と evidence ledger split を追加し PASS 単独表記を禁止。`references/completed-tasks-policy.md` に親アーカイブパス整合性チェックを追加。`references/workflow-state-vocabulary.md` に canonical short-form alias 表を追加。SKILL.md / resource-map.md に同期。

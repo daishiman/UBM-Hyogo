@@ -4,7 +4,7 @@
 - state: `implemented-local-runtime-pending / implementation / NON_VISUAL`
 - local implementation:
   - `.github/workflows/web-cd.yml` now uses OpenNext Workers build and `scripts/cf.sh deploy`
-  - task-01 aligns web-cd deploy token reference to environment-scoped `secrets.CLOUDFLARE_API_TOKEN` and adds `Verify CF token is present` to staging/production jobs
+  - task-01 aligned web-cd deploy token reference to environment-scoped `secrets.CLOUDFLARE_API_TOKEN` and originally added `Verify CF token is present` to staging/production jobs; Issue #640 supersedes the verification shape by moving token presence validation into the deploy step and keeping `CLOUDFLARE_API_TOKEN` step-scoped
   - `.github/workflows/runtime-smoke-staging.yml` guards Slack failure posting on `ci-evidence/summary.json`
   - `scripts/smoke/provision-staging-secrets.sh` provides redacted, idempotent GitHub Environment secret provisioning
 - aiworkflow sync:
