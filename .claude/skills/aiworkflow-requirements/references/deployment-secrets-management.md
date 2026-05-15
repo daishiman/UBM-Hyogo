@@ -138,6 +138,20 @@ Rotation 手順:
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | 旧 Pages deploy 用 Cloudflare API Token target contract。Issue #331 後の `web-cd.yml` では未参照 | Deprecated target |
 | `CF_TOKEN_D1_STAGING` / `CF_TOKEN_D1_PRODUCTION` | D1 migration 用 Cloudflare API Token | backend-ci.yml |
 | `CF_TOKEN_WORKERS_STAGING` / `CF_TOKEN_WORKERS_PRODUCTION` | Workers deploy 用 Cloudflare API Token | backend-ci.yml。web-cd.yml は 2026-05-09 task-01 alignment 後に使用しない |
+
+### Issue #640 Step-Scoped Cloudflare Token Cutover（2026-05-14）
+
+`CLOUDFLARE_API_TOKEN` は GitHub Actions の job-level `env:` に置かない。deploy / analytics collection など Cloudflare API を実際に呼ぶ step の `env:` または action step の `with.apiToken` に限定する。
+
+| Workflow | Rule | Evidence |
+|---|---|---|
+| `.github/workflows/web-cd.yml` | `Deploy to Cloudflare Workers` step のみ `CLOUDFLARE_API_TOKEN` を受け取る。install / build step には渡さない。deploy log redaction step は `CLOUDFLARE_ACCOUNT_ID` variable のみを受け取る。 | `scripts/__tests__/workflow-env-scope.test.sh` |
+| `.github/workflows/backend-ci.yml` | `cloudflare/wrangler-action@v3` の `with.apiToken` を step-scoped token boundary として扱う。job-level env へ昇格しない。 | `scripts/__tests__/workflow-env-scope.test.sh` |
+| `.github/workflows/post-release-dashboard.yml` | analytics read token は `Verify analytics token presence` と `Collect dashboard` step のみに渡す。 | `scripts/__tests__/workflow-env-scope.test.sh` |
+
+`scripts/redaction-check.sh` は取得済み log/artifact の補助検査であり、token 値を検査のために新たに露出させない。一般的な Account ID は GitHub Variable として扱い、secret と混同しない。Account ID を機密として扱う個別 evidence では `--account-id` を明示して検査する。
+
+Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-task/issue-640-followup-001-oidc-full-migration.md`. Legacy token physical revocation is separated to `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md`.
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Deprecated for web-cd.yml after OpenNext Workers cutover |
 | `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped deploy token 正本名。OIDC cutover までは transitional direct token として維持 | web-cd.yml |
 | `CLOUDFLARE_API_TOKEN_STAGING` | Cloudflare API Token（D1 migration verification staging 用） | d1-migration-verify.yml |
