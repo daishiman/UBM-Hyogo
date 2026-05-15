@@ -710,6 +710,21 @@
 
 ---
 
+### UT-08A-04 D1 migration test guideline（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 13 Phase 仕様 | `docs/30-workflows/ut-08a-04-d1-migration-test-guideline/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / governance` |
+| canonical runbook | `docs/30-workflows/runbooks/d1-migration-test-guideline.md` |
+| migration README | `apps/api/migrations/README.md` |
+| CI reminder | `.github/workflows/d1-migration-verify.yml`（`always()` / `continue-on-error` / `issues: write` / `github.paginate` / migration path guard） |
+| local evidence | `outputs/phase-11/{bats-result.log,runbook-evidence.log,yml-diff.patch,static-link-check.log,ci-comment-static-evidence.log}` |
+| artifact inventory | `references/workflow-ut-08a-04-d1-migration-test-guideline-artifact-inventory.md` |
+| Issue 取扱 | #323 は CLOSED 維持。PR comment URL は Phase 13 user-gated evidence |
+
+---
+
 ### 07c Follow-up 003 Audit Log Browsing UI（2026-05-01）
 
 | 目的 | 参照先 |

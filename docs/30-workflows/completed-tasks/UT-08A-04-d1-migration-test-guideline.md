@@ -10,11 +10,15 @@
 | 対象機能 | `apps/api/migrations` / D1 schema |
 | 優先度 | 中 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed_by_workflow / implemented_local_runtime_pending |
 | 発見元 | 08a Phase 12 unassigned-task-detection §4 |
 | 発見日 | 2026-04-30 |
 | 検出元ファイル | `docs/30-workflows/08a-parallel-api-contract-repository-and-authorization-tests/outputs/phase-12/unassigned-task-detection.md` |
-| 推奨割当 | 09b release runbook |
+| 推奨割当 | `docs/30-workflows/ut-08a-04-d1-migration-test-guideline/`（09b への重複記載ではなく standalone runbook 化） |
+
+## Canonical Consumption
+
+この未割当タスクは `docs/30-workflows/ut-08a-04-d1-migration-test-guideline/` に昇格済み。実装成果物は `docs/30-workflows/runbooks/d1-migration-test-guideline.md`、`apps/api/migrations/README.md`、`.github/workflows/d1-migration-verify.yml`、`scripts/d1/__tests__/migration-guideline-presence.bats`。PR comment 実投稿のみ Phase 13 user-gated evidence として残る。
 
 ## 概要
 
