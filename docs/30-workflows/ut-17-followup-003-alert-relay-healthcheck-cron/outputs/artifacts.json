@@ -9,7 +9,41 @@
     "implementation_status": "CODE_COMPLETE_EXTERNAL_OPS_PENDING",
     "sourceIssue": "#635",
     "canonicalRoot": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron",
-    "parentWorkflow": "docs/30-workflows/ut-17-cloudflare-analytics-alerts"
+    "parentWorkflow": "docs/30-workflows/ut-17-cloudflare-analytics-alerts",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local code + tests + skill sync"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "external_ops: Cloudflare secrets, staging deploy, manual cron fire, production deploy, first weekly observation"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit / push / PR"
+      }
+    ]
   },
   "phases": [
     { "phase": 1, "name": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"] },
@@ -39,8 +73,8 @@
   "implementedFiles": [
     "apps/api/src/scheduled/healthcheck.ts",
     "apps/api/src/lib/healthcheck-mail-fallback.ts",
-    "apps/api/src/scheduled/__tests__/healthcheck.test.ts",
-    "apps/api/src/lib/__tests__/healthcheck-mail-fallback.test.ts",
+    "apps/api/src/scheduled/__tests__/healthcheck.spec.ts",
+    "apps/api/src/lib/__tests__/healthcheck-mail-fallback.spec.ts",
     "apps/api/src/index.ts",
     "apps/api/src/env.ts",
     "docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md"
