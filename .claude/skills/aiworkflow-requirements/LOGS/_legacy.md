@@ -887,3 +887,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 # 2026-05-14
 
 - task-26 error boundary token utility migration を `implemented_local_evidence_captured / implementation / VISUAL` として同期。`apps/web/app/error.tsx` / `not-found.tsx` / `loading.tsx` の stale runtime token literal (`fg-muted`, `primary`, `on-primary`, `border`, `surface-2`) を既存 `@theme inline` utility (`text-text-3`, `bg-accent`, `text-panel`, `border-border`, `bg-surface-2`) へ移行し、`apps/web/app/__tests__/error.component.spec.tsx` に `RouteError` / `Loading` / `NotFound` regression assertion を追加。Phase 11 screenshot、Phase 12 strict 7、root/output artifacts parity、quick-reference/resource-map/task-workflow-active を同一 wave で更新。commit / push / PR は user-gated。
+
+# 2026-05-15
+
+- Issue #324 / UT-08A-05 shared package type contracts を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`packages/shared/src/__tests__/type-contracts.spec.ts` を追加し、`@ubm-hyogo/shared` public barrel 経由で brand 型 / view-model schema / admin body schema の compile-time 型契約を 5 describe / 15 it で固定。`@ubm-hyogo/shared` typecheck / lint / test は exit 0、focused test は 18 files / 210 tests PASS。source unassigned を `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md` へ移動し、Phase 12 strict 7、root/output artifacts parity、quick-reference/resource-map/task-workflow-active/changelog を同一 wave で反映。Issue #324 は CLOSED 維持、PR は `Refs #324` のみ。commit / push / PR は user-gated。

@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #324 shared package type contracts（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` |
+| source unassigned | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md`（consumed trace） |
+| Issue | #324 CLOSED 維持。PR 文脈は `Refs #324` のみ |
+| 実装対象 | `packages/shared/src/__tests__/type-contracts.spec.ts` |
+| contract | brand 型 (`ResponseId` / `ResponseEmail` / `MemberId` / `AdminId`)、view-model required field omission、zod input/output parity、public/admin schema mutual exclusion、shared package standalone test |
+| evidence | `outputs/phase-11/evidence/shared-typecheck.txt`, `outputs/phase-11/evidence/shared-lint.txt`, `outputs/phase-11/evidence/shared-test.txt`（18 files / 210 tests PASS） |
+| boundary | runtime schema / API / D1 / apps/api / apps/web 変更なし。`tsd` / vitest typecheck mode / dependency 追加なし |
+| user gate | commit / push / PR / CI runtime |
+
 ### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 項目 | 値 |
