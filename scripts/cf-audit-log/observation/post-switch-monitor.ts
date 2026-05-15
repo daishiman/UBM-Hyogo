@@ -31,6 +31,9 @@ interface AnalyzeSummary {
 }
 
 export interface AggregateSummary {
+  schema_version?: "1.0.0";
+  week_starting?: string;
+  generated_at?: string;
   expectedSnapshots: number;
   actualSnapshots: number;
   windowHours: number;
@@ -41,6 +44,15 @@ export interface AggregateSummary {
   leakageHits: number;
   thresholdSnapshots: number;
   mlSnapshots: number;
+}
+
+export function toIsoWeek(date: Date): string {
+  const utc = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  const day = utc.getUTCDay() || 7;
+  utc.setUTCDate(utc.getUTCDate() + 4 - day);
+  const yearStart = new Date(Date.UTC(utc.getUTCFullYear(), 0, 1));
+  const week = Math.ceil(((utc.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+  return `${utc.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
 }
 
 export function aggregateSnapshots(
@@ -226,7 +238,13 @@ export function runCli(argv: string[]): void {
       ? Number.parseInt(process.env.EXPECTED_SNAPSHOTS_7DAY, 10)
       : undefined;
     const expectedSnapshots = args.expectedSnapshots ?? envExpected;
-    const summary = aggregateSnapshots(snapshots, expectedSnapshots);
+    const generatedAt = new Date().toISOString();
+    const summary: AggregateSummary = {
+      schema_version: "1.0.0",
+      week_starting: toIsoWeek(new Date(generatedAt)),
+      generated_at: generatedAt,
+      ...aggregateSnapshots(snapshots, expectedSnapshots),
+    };
     const out =
       args.format === "markdown"
         ? renderSummaryMarkdown(summary)

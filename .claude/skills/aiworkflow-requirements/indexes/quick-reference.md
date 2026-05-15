@@ -5,6 +5,19 @@
 
 ---
 
+### U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-FU-01 metrics dash（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| refs | `Refs #549`, `Refs #586`, `Refs #656`; Issue #656 is closed and must not use `Closes/Fixes/Resolves` |
+| rendering decision | static HTML only: `docs/dashboards/cf-audit-log-7day-trend/index.html`; no admin UI route in this cycle |
+| schema behavior | missing `schema_version` warn+skip; unsupported explicit version and non-string version throw; `1.0.0` missing `week_starting` derives native ISO week from `generated_at` |
+| Phase 12 | strict files under `outputs/phase-12/`, canonical 9-heading compliance check present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md` |
+| user gate | production/staging runtime summary evidence, commit, push, and PR remain user-gated/future Phase work |
+
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
 
 | 目的 | 参照先 |

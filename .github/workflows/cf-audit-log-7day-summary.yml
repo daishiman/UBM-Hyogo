@@ -43,13 +43,13 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p hourly-artifacts hourly-merged
-          mkdir -p docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
+          mkdir -p docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
           # 直近 7 日 (168h + safety margin) の cf-audit-log-monitor.yml run を列挙
           SINCE=$(date -u -d '8 days ago' +%Y-%m-%dT%H:%M:%SZ)
           gh api --paginate \
             "repos/${GITHUB_REPOSITORY}/actions/workflows/cf-audit-log-monitor.yml/runs?created=>${SINCE}&per_page=100" \
             --jq '.workflow_runs[] | [.id, .html_url] | @tsv' > run-ids.tsv
-          cut -f1,2 run-ids.tsv > docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/run-urls.tsv
+          cut -f1,2 run-ids.tsv > docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/run-urls.tsv
           while IFS=$'\t' read -r RID RUN_URL; do
             [ -z "$RID" ] && continue
             ARTIFACT_ID=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RID}/artifacts" \
@@ -72,9 +72,9 @@ jobs:
           ACTUAL_SNAPSHOTS: ${{ steps.stage.outputs.count }}
         run: |
           set -euo pipefail
-          mkdir -p docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
-          OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
-          OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
+          mkdir -p docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
+          OUT_JSON=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
+          OUT_MD=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
           pnpm exec tsx scripts/cf-audit-log/observation/post-switch-monitor.ts \
             --aggregate \
             --input=hourly-merged \
@@ -96,6 +96,8 @@ jobs:
           const fs = require("node:fs");
           const summary = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
           const errors = [];
+          if (summary.schema_version !== "1.0.0") errors.push("schema_version_missing");
+          if (!/^\d{4}-W\d{2}$/.test(summary.week_starting || "")) errors.push("week_starting_missing");
           if (summary.actualSnapshots < summary.expectedSnapshots) errors.push("snapshots_mismatch");
           if (summary.fallbackRateMean > 0.05) errors.push("fallback_rate_mean_gt_5pct");
           if (summary.leakageHits > 0) errors.push("leakage_hits");
@@ -108,8 +110,8 @@ jobs:
       - name: Append hourly run URL list
         run: |
           set -euo pipefail
-          OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
-          URLS=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/run-urls.tsv
+          OUT_MD=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
+          URLS=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/run-urls.tsv
           {
             echo
             echo "## Hourly run URLs"
@@ -122,8 +124,8 @@ jobs:
       - name: Generate issue-rate comparison evidence
         run: |
           set -euo pipefail
-          OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
-          OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/issue-rate-comparison.md
+          OUT_JSON=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
+          OUT_MD=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/issue-rate-comparison.md
           node - "$OUT_JSON" "$OUT_MD" <<'NODE'
           const fs = require("node:fs");
           const [summaryPath, outPath] = process.argv.slice(2);
@@ -148,7 +150,7 @@ jobs:
       - name: Leakage grep across 7-day window
         run: |
           set -euo pipefail
-          OUT=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/leakage-grep-7day.log
+          OUT=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/leakage-grep-7day.log
           pnpm exec tsx scripts/cf-audit-log/evaluation/secret-leakage-grep.ts \
             --exit-on-detect \
             --input hourly-merged \
@@ -173,4 +175,4 @@ jobs:
 
             Refs #549, Refs #586
           add-paths: |
-            docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/
+            docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/
