@@ -5,19 +5,18 @@
 
 ---
 
-### serial-05-step-01 members-note mutation UI（2026-05-15）
+### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/` |
-| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / Phase 11 local mock screenshots / Phase 12 strict 7 present` |
-| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
-| owner boundary | `parallel-08` owns ToastProvider / ErrorBoundary / hook contract gate; step-01 owns `useAdminMutation.ts` and `hooks/index.ts`; `parallel-10` owns auth error classes |
-| implementation targets | `apps/web/app/layout.tsx`, `apps/web/src/lib/fetch/errors.ts`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/index.ts`, `apps/web/src/features/admin/components/_members/{NoteForm,MemberDrawer,index}.tsx`, `apps/api/src/routes/admin/members.ts`, `packages/shared/src/{types,zod}/viewmodel*` |
-| API contract | Existing mutation endpoints in `apps/api/src/routes/admin/member-notes.ts`; admin detail `GET /admin/members/:memberId` now returns `notes` for admin-only list/edit UI; no new D1 schema |
-| evidence | `outputs/phase-11/main.md`, `outputs/phase-11/ss-01-notes-initial.png`..`ss-06-validation-error.png`, `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-12/implementation-guide.md` |
-| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-serial-05-step-01-members-note-mutation-ui-2026-05.md` (L-S5S1-001..006: owner boundary / error contract / hook side-effect / mid-cycle AC / workflow_state enum / multi-tool gate) |
-| user gate | runtime/staging visual evidence, commit, push, PR |
+| workflow root | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| scope | AdminSidebar home link + MemberDrawer tags link |
+| implementation | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| tests | `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx`, `apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx` |
+| evidence | `outputs/phase-11/dom-snapshot.txt`, mock fallback PNG 2 files, component/typecheck/lint/build logs |
+| runtime boundary | real authenticated screenshots and staging smoke remain runtime pending |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
 
 ### fix-wrangler-esbuild-import-source-error（2026-05-15）
 

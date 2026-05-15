@@ -1096,13 +1096,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
-| 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L112 |
-| 5. /admin/tags | L205 |
-| 6. /admin/schema | L260 |
-| 7. /admin/meetings | L314 |
-| 8. 共通の Server/Client 契約 | L383 |
-| 9. 不変条件サマリ（admin UI） | L401 |
+| 3. /admin（Dashboard） | L83 |
+| 4. /admin/members | L118 |
+| 5. /admin/tags | L216 |
+| 6. /admin/schema | L271 |
+| 7. /admin/meetings | L325 |
+| 8. 共通の Server/Client 契約 | L394 |
+| 9. 不変条件サマリ（admin UI） | L412 |
 
 ### references/ui-ux-advanced.md
 
@@ -2625,6 +2625,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L22 |
 
+### references/workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L20 |
+
 ### references/workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md
 
 | セクション | 行 |
@@ -2635,6 +2641,18 @@ node scripts/list-specs.js --topics
 | New SSOT introduced | L46 |
 | Cross-link | L51 |
 | Boundary | L63 |
+
+### references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L14 |
+| Implementation Targets | L33 |
+| Phase Outputs | L46 |
+| Skill 反映先 | L55 |
+| task-specification-creator 反映 | L68 |
+| Verification Commands | L75 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -5050,6 +5068,14 @@ node scripts/list-specs.js --topics
 | L-667-004: dispatcher 順序 grep gate | L41 |
 | Cross-link | L52 |
 
+### references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L48 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6720,14 +6746,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1328 |
-| フェーズ構造（概要） | L1337 |
-| 品質ゲート（概要） | L1368 |
-| 出力テンプレート | L1379 |
-| 実行時のコマンド・エージェント・スキル | L1402 |
-| 昇格パターン集 | L1426 |
-| Current Active / Spec Created Tasks | L1428 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1570 |
+| ドキュメント構成 | L1370 |
+| フェーズ構造（概要） | L1379 |
+| 品質ゲート（概要） | L1410 |
+| 出力テンプレート | L1421 |
+| 実行時のコマンド・エージェント・スキル | L1444 |
+| 昇格パターン集 | L1468 |
+| Current Active / Spec Created Tasks | L1470 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1613 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7147,8 +7173,8 @@ node scripts/list-specs.js --topics
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
 | Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
-| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
-| 関連ドキュメント | L464 |
+| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L424 |
+| 関連ドキュメント | L465 |
 
 ### references/ui-history-components.md
 
