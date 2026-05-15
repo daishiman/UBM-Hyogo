@@ -5,7 +5,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { STABLE_KEY } from "@ubm-hyogo/shared";
 import type {
   MeProfileStatusSummary,
@@ -35,7 +34,6 @@ export function RequestActionPanel({
   rulesConsent,
   pendingRequests,
 }: RequestActionPanelProps) {
-  const router = useRouter();
   const [visibilityDialogState, setVisibilityDialogState] =
     useState<VisibilityDesiredState | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -77,7 +75,6 @@ export function RequestActionPanel({
       }
       return { ...current, delete: accepted };
     });
-    router.refresh();
   };
 
   // server pending を正本にし、mutation accepted response は次の server snapshot までの表示橋渡しに限定する。
