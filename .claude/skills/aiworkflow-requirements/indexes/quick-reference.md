@@ -5,6 +5,19 @@
 
 ---
 
+### task-18-FU Full Visual Regression Suite（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-18-fu-full-visual-regression-suite/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| upstream | `docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/` |
+| route contract | W7 17 URL set: public 6 / member 2 / admin 8 / not-found 1 |
+| target visual scope | 17 routes x desktop/tablet/mobile = 51 baselines |
+| artifact inventory | `references/workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md` |
+| baseline boundary | baseline-missing CI fail is not acceptable for required checks; 51 baselines must be present before required-check promotion |
+| user gate | baseline update approval, commit, push, PR |
+
 ### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 目的 | 参照先 |
@@ -2287,7 +2300,7 @@ packages/
 | consumes | 05a OAuth/admin gate、06a public web、06b login/profile、06c admin UI、08b Playwright scaffold、03a/03b/U-04 Forms sync |
 | blocks | 09c production deploy。09a の実 staging evidence 完了まで GO 判定不可 |
 | follow-up | `docs/30-workflows/unassigned-task/task-09a-exec-staging-smoke-001.md` |
-| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（spec_created / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`） |
+| execution workflow | `docs/30-workflows/ut-09a-exec-staging-smoke-001/`（implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION。2026-05-02 user 明示指示後に Phase 11 を試行し、`cloudflare_unauthenticated + 09a_directory_missing` で `EXECUTED_BLOCKED`） |
 | execution blockers | `docs/30-workflows/unassigned-task/task-09a-cloudflare-auth-token-injection-recovery-001.md`, `docs/30-workflows/unassigned-task/task-09a-canonical-directory-restoration-001.md` |
 | artifact inventory | `references/workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md` |
 | 苦戦知見 | `references/lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md`（L-09A-001〜005） |

@@ -3093,6 +3093,15 @@ node scripts/list-specs.js --topics
 | API Inputs | L45 |
 | Notes | L54 |
 
+### references/workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L13 |
+| Local implementation artifacts | L32 |
+| Runtime boundary | L45 |
+
 ### references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md
 
 | セクション | 行 |
