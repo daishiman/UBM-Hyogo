@@ -10,7 +10,7 @@ category: 改善
 target_feature: GitHub Actions Cloudflare deploy credential surface
 priority: 中
 scale: 中規模
-status: 未実施
+status: consumed_by_issue_640_workflow
 source_phase: docs/30-workflows/issue-331-cicd-runtime-warning-cleanup/outputs/phase-12/unassigned-task-detection.md
 created_date: 2026-05-09
 dependencies: []
@@ -24,7 +24,7 @@ dependencies: []
 | 対象機能 | GitHub Actions Cloudflare deploy credential surface |
 | 優先度 | 中 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | consumed / superseded by `docs/30-workflows/issue-640-oidc-cf-token-cutover/` |
 | 発見元 | `docs/30-workflows/issue-331-cicd-runtime-warning-cleanup/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-09 |
 | source issue | Issue #331 (CI/CD runtime warning cleanup; deferred token-split workstream) |
@@ -33,6 +33,9 @@ dependencies: []
 | dependencies | `[]` |
 
 ---
+
+> Consumed / superseded on 2026-05-14 by `docs/30-workflows/issue-640-oidc-cf-token-cutover/`.
+> This file is retained as source trace only. Current execution planning, local implementation evidence, and Phase 12 strict outputs live in the Issue #640 workflow root.
 
 ## 1. なぜこのタスクが必要か（Why）
 

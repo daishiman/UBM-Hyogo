@@ -2154,6 +2154,7 @@
       "arch-state-management-core.md",
       "architecture-admin-api-client.md",
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-secrets-management.md",
       "directory-structure-core.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
@@ -3088,6 +3089,7 @@
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "security-implementation.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
@@ -4318,6 +4320,7 @@
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "lessons-learned-issue-626-rb01-share-build-output-2026-05.md",
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -4479,6 +4482,7 @@
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -4585,6 +4589,7 @@
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "lessons-learned-issue-626-rb01-share-build-output-2026-05.md",
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -5939,6 +5944,7 @@
     ],
     "artifacts": [
       "claude-code-settings-hierarchy.md",
+      "gate-metadata.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-docs-only-lifecycle.md",
@@ -5970,6 +5976,7 @@
     ],
     "json": [
       "claude-code-settings-hierarchy.md",
+      "gate-metadata.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
@@ -7115,7 +7122,8 @@
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
-      "patterns-kv-dedup.md"
+      "patterns-kv-dedup.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md"
     ],
     "toml": [
       "deployment-cloudflare-opennext-workers.md",
@@ -7735,6 +7743,7 @@
     ],
     "followup": [
       "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
@@ -7944,6 +7953,22 @@
     "ではないもの": [
       "deployment-secrets-management.md"
     ],
+    "cd": [
+      "deployment-secrets-management.md",
+      "lessons-learned-ci-pipeline-recovery-2026-05.md"
+    ],
+    "Environment": [
+      "deployment-secrets-management.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "ui-ux-feature-components-advanced.md"
+    ],
+    "Secret": [
+      "deployment-secrets-management.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "provisioning": [
+      "deployment-secrets-management.md"
+    ],
     "の環境別設定": [
       "deployment-secrets-management.md"
     ],
@@ -7989,6 +8014,7 @@
     "Token": [
       "deployment-secrets-management.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "r2-storage-decision-guide.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
@@ -8418,6 +8444,20 @@
       "gate-metadata.md"
     ],
     "Validator": [
+      "gate-metadata.md"
+    ],
+    "Operational": [
+      "gate-metadata.md"
+    ],
+    "Guidance": [
+      "gate-metadata.md"
+    ],
+    "新規": [
+      "gate-metadata.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "追加時": [
       "gate-metadata.md"
     ],
     "Rollout": [
@@ -9641,6 +9681,7 @@
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "lessons-learned-issue-626-rb01-share-build-output-2026-05.md",
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -10140,6 +10181,7 @@
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md"
     ],
     "は同一実装で": [
@@ -10163,6 +10205,7 @@
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md"
     ],
@@ -11493,6 +11536,7 @@
     ],
     "esbuild": [
       "lessons-learned-06a-public-web-2026-04.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md"
     ],
     "バージョン不一致により実": [
@@ -12776,10 +12820,6 @@
     "の二段ゲートは": [
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
     ],
-    "Environment": [
-      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
-      "ui-ux-feature-components-advanced.md"
-    ],
     "bool": [
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
     ],
@@ -12922,9 +12962,6 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
     "pipeline": [
-      "lessons-learned-ci-pipeline-recovery-2026-05.md"
-    ],
-    "cd": [
       "lessons-learned-ci-pipeline-recovery-2026-05.md"
     ],
     "ci": [
@@ -13473,7 +13510,8 @@
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md"
     ],
     "Cutover": [
-      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md"
+      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md"
     ],
     "ctx": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
@@ -13830,6 +13868,7 @@
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
@@ -13867,7 +13906,8 @@
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
-      "logs-archive-2026-03-skill-views-completed-move.md"
+      "logs-archive-2026-03-skill-views-completed-move.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md"
     ],
     "で循環依存リスクを潰す": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -14630,10 +14670,12 @@
       "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md"
     ],
     "minute": [
-      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md"
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md"
     ],
     "Checklist": [
-      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md"
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md"
     ],
     "Model": [
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
@@ -14739,6 +14781,7 @@
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -14993,6 +15036,20 @@
     ],
     "LHCI": [
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md"
+    ],
+    "OIDC": [
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
+      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
+    ],
+    "Step": [
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
+      "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
+      "logs-archive-2026-02-validator-task-9f-task-9b.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md",
+      "workflow-ai-runtime-authmode-unification.md"
+    ],
+    "Scoped": [
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md"
     ],
     "against": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
@@ -15928,9 +15985,6 @@
     "関連教訓": [
       "lessons-learned-task19-primitives-full-spec-2026-05.md"
     ],
-    "OIDC": [
-      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
-    ],
     "Short": [
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
     ],
@@ -16271,9 +16325,6 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "でしか動かない": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
-    ],
-    "Secret": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "PEM": [
@@ -17765,12 +17816,6 @@
     ],
     "未タスク登録同期追補": [
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md"
-    ],
-    "Step": [
-      "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
-      "logs-archive-2026-02-validator-task-9f-task-9b.md",
-      "logs-archive-2026-03-task-10a-c-final-audit.md",
-      "workflow-ai-runtime-authmode-unification.md"
     ],
     "完了化": [
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md"
@@ -21765,6 +21810,7 @@
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -22132,10 +22178,6 @@
     ],
     "更新した既存": [
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
-    ],
-    "新規": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "再生成・監査コマンド": [
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
