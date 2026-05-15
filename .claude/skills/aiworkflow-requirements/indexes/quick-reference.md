@@ -869,7 +869,8 @@ UT-07B-FU-04 production migration already-applied verification は、`references
 | 07b stale contract 上書き | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/index.md` |
 | 実装 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-aliases-implementation-001.md` |
 | fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
-| direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
+| direct update guard | `docs/30-workflows/issue-300-direct-stable-key-update-guard/`（implemented-local: `scripts/lint-stable-key-update.mjs`, `.github/workflows/verify-stable-key-update.yml`, `lefthook.yml`, `package.json#lint:stable-key-update:strict`） |
+| Issue #300 lessons learned | `lessons-learned/lessons-learned-issue-300-direct-stable-key-update-guard-2026-05.md`（L-ISSUE300-001 detector severity / L-002 EXCEPTION_GLOBS 4 種 / L-003 多段 guard 4 経路 / L-004 issue-191 inventory consume 表記 / L-005 fixture 配置規約） |
 
 ### UT-02A Canonical Section/Field Resolver（Issue #108 / 2026-05-01）
 

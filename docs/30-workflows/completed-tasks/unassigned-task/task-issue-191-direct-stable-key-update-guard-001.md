@@ -4,12 +4,19 @@
 
 | Field | Value |
 | --- | --- |
-| Status | unassigned |
+| Status | consumed_by_issue_300 |
 | Priority | Medium |
 | Source | issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring |
 | Type | quality |
 | GitHub Issue | #300 |
 | Production apply prerequisite | satisfied by `task-issue-191-production-d1-schema-aliases-apply-001` Phase 13 already-applied verification |
+
+## Consumed Trace（2026-05-15）
+
+- 後継 workflow: `docs/30-workflows/issue-300-direct-stable-key-update-guard/`
+- Status: consumed by Issue #300 implemented-local workflow
+- Close-out: `scripts/lint-stable-key-update.mjs` / focused spec 12/12 / CI workflow / pre-commit / package lint chain / `schemaQuestions.updateStableKey()` 削除で AC を同一 wave 実装済み
+- Runtime boundary: GitHub Actions runtime green、commit、push、PR、completed-tasks archive move は Phase 13 user approval gate
 
 ## 1. なぜこのタスクが必要か（Why）
 

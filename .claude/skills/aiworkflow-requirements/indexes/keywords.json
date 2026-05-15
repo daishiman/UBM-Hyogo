@@ -2626,6 +2626,7 @@
       "ui-ux-prototype-map.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
       "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
@@ -4328,6 +4329,7 @@
       "task-workflow-backlog.md",
       "ui-ux-feature-components-advanced.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
@@ -4385,6 +4387,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -4726,7 +4729,8 @@
     "References": [
       "audit-correlation.md",
       "branch-protection.md",
-      "glossary.md"
+      "glossary.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md"
     ],
     "テキスト": [
       "auth-google-oauth-cf-integration.md"
@@ -5476,6 +5480,7 @@
       "workflow-governance-design-category.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
@@ -8692,6 +8697,7 @@
       "interfaces-agent-sdk-skill-editor.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -14760,6 +14766,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
@@ -21350,7 +21357,8 @@
       "ui-ux-feature-components.md"
     ],
     "Key": [
-      "ui-ux-feature-components-core.md"
+      "ui-ux-feature-components-core.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md"
     ],
     "Adapter": [
       "ui-ux-feature-components-core.md"
@@ -21410,7 +21418,8 @@
       "ui-ux-feature-components-theme-chat.md"
     ],
     "Guard": [
-      "ui-ux-feature-components-theme-chat.md"
+      "ui-ux-feature-components-theme-chat.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md"
     ],
     "実チャット配線設計": [
       "ui-ux-feature-components-theme-chat.md"
@@ -21788,6 +21797,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
@@ -21962,6 +21972,7 @@
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -22271,6 +22282,7 @@
     ],
     "Set": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
@@ -22289,6 +22301,7 @@
     ],
     "Notes": [
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
@@ -22323,6 +22336,15 @@
     ],
     "文書": [
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+    ],
+    "Direct": [
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md"
+    ],
+    "Stable": [
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md"
+    ],
+    "Update": [
+      "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md"
     ],
     "Warning": [
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md"

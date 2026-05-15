@@ -149,24 +149,3 @@ export async function findStableKeyByQuestionId(
   if (r.stable_key === "unknown") return null;
   return r.stable_key;
 }
-
-export async function updateStableKey(
-  c: DbCtx,
-  questionId: string,
-  newStableKey: StableKey,
-  revisionId?: string,
-): Promise<void> {
-  if (revisionId) {
-    await c.db
-      .prepare(
-        "UPDATE schema_questions SET stable_key = ? WHERE question_id = ? AND revision_id = ?",
-      )
-      .bind(newStableKey, questionId, revisionId)
-      .run();
-    return;
-  }
-  await c.db
-    .prepare("UPDATE schema_questions SET stable_key = ? WHERE question_id = ?")
-    .bind(newStableKey, questionId)
-    .run();
-}
