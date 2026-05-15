@@ -23,6 +23,20 @@
 | downstream | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` は generated `VERIFICATION-STATUS.md` を入力にできる |
 | user gate | commit、push、PR は user approval 後 |
 
+### UI prototype alignment / MVP recovery task-27 3-layer task mapping（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked` |
+| 成果物 | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| generated deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` |
+| 目的 | task-01〜22 を `PUB / MEM / ADM / COM` の 88 セル double-entry matrix に整理し、WARN/FAIL、invariant、smoke、readiness を層別に逆引き可能にする |
+| inputs | task-23 `VERIFICATION-STATUS.md`、task-24 `INVARIANT-AUDIT.md`、task-25 `SMOKE-COVERAGE-MATRIX.md`、completed task-26 common-surface context |
+| evidence | root/output `artifacts.json` parity、`outputs/phase-5/implementation-notes.md`、`outputs/phase-7/coverage.md`、Phase 12 strict 7 |
+| artifact inventory | `references/workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md` |
+| user gate | commit、push、PR は user approval 後 |
+
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
 ### Issue #623 Vitest spec suffix convergence（2026-05-12）
 
@@ -334,7 +348,7 @@
 | 項目 | 値 |
 | --- | --- |
 | ステータス | implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval |
-| 成果物 | `docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/` |
+| 成果物 | `docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/` |
 | 実装対象 | `apps/web/app/error.tsx`, `apps/web/app/not-found.tsx`, `apps/web/app/loading.tsx` |
 | テスト | `apps/web/app/__tests__/error.component.spec.tsx` |
 | 視覚証跡 | `outputs/phase-11/screenshots/not-found-desktop.png` |

@@ -3155,6 +3155,15 @@ node scripts/list-specs.js --topics
 | Current Artifacts | L13 |
 | Boundary | L22 |
 
+### references/workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Status | L3 |
+| Artifact Set | L12 |
+| Input Contracts | L24 |
+| Boundary | L33 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -6616,13 +6625,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1228 |
-| フェーズ構造（概要） | L1237 |
-| 品質ゲート（概要） | L1268 |
-| 出力テンプレート | L1279 |
-| 実行時のコマンド・エージェント・スキル | L1302 |
-| 昇格パターン集 | L1326 |
-| Current Active / Spec Created Tasks | L1328 |
+| ドキュメント構成 | L1242 |
+| フェーズ構造（概要） | L1251 |
+| 品質ゲート（概要） | L1282 |
+| 出力テンプレート | L1293 |
+| 実行時のコマンド・エージェント・スキル | L1316 |
+| 昇格パターン集 | L1340 |
+| Current Active / Spec Created Tasks | L1342 |
 
 ### references/task-workflow-backlog-part2.md
 
