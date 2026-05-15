@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "taskId": "PARALLEL-02-STATE-SYNC",
+  "title": "profile mutation 成功後の RequestPendingBanner 即時反映（router.refresh 局所化）",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "implementationCategory": "ui-bugfix",
+    "workflow_state": "implemented_local_visual_evidence_captured",
+    "implementation_status": "LOCAL_TYPECHECK_LINT_UNIT_VISUAL_E2E_PASS_PHASE13_USER_GATED",
+    "sourceSpec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-02-state-sync/spec.md",
+    "canonicalRoot": "docs/30-workflows/parallel-02-state-sync-router-refresh",
+    "parentWorkflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "completed",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/parallel-02-state-sync-router-refresh/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec written; local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "completed",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/parallel-02-state-sync-router-refresh/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: code + focused unit tests completed; Playwright screenshots captured locally"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/parallel-02-state-sync-router-refresh/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit / push / PR"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"] },
+    { "phase": 2, "name": "設計", "status": "completed", "outputs": ["outputs/phase-02/design.md"] },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "outputs": ["outputs/phase-03/design-review.md"] },
+    { "phase": 4, "name": "タスク分解", "status": "completed", "outputs": ["outputs/phase-04/task-breakdown.md"] },
+    { "phase": 5, "name": "実装計画", "status": "completed", "outputs": ["outputs/phase-05/implementation-plan.md"] },
+    { "phase": 6, "name": "実装手順", "status": "completed", "outputs": ["outputs/phase-06/implementation-steps.md"] },
+    { "phase": 7, "name": "テスト計画", "status": "completed", "outputs": ["outputs/phase-07/test-plan.md"] },
+    { "phase": 8, "name": "ドキュメント更新", "status": "completed", "outputs": ["outputs/phase-08/docs-updates.md"] },
+    { "phase": 9, "name": "受入確認", "status": "completed", "outputs": ["outputs/phase-09/acceptance.md"] },
+    { "phase": 10, "name": "リファクタ", "status": "completed", "outputs": ["outputs/phase-10/refactor-summary.md"] },
+    { "phase": 11, "name": "VISUAL evidence", "status": "completed", "outputs": ["outputs/phase-11/visual-evidence.md", "outputs/phase-11/screenshots/01-profile-initial.png", "outputs/phase-11/screenshots/02-visibility-dialog-open.png", "outputs/phase-11/screenshots/03-visibility-banner-shown.png", "outputs/phase-11/screenshots/04-delete-dialog-confirmed.png", "outputs/phase-11/screenshots/05-delete-banner-shown.png"] },
+    { "phase": 12, "name": "正本同期", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "name": "PR・振り返り", "status": "blocked_pending_user_approval", "outputs": ["outputs/phase-13/pr-summary.md"] }
+  ],
+  "targetFiles": [
+    "apps/web/app/profile/_components/VisibilityRequestDialog.tsx",
+    "apps/web/app/profile/_components/DeleteRequestDialog.tsx",
+    "apps/web/app/profile/_components/VisibilityRequestDialog.component.spec.tsx",
+    "apps/web/app/profile/_components/DeleteRequestDialog.component.spec.tsx",
+    "apps/web/app/profile/_components/RequestActionPanel.tsx",
+    "apps/web/app/profile/_components/RequestActionPanel.component.spec.tsx"
+  ],
+  "confirmOnlyFiles": [
+    "apps/web/app/profile/page.tsx"
+  ],
+  "estimatedLineDelta": { "added": 91, "removed": 7 }
+}

@@ -1,6 +1,6 @@
 // TC-U-01..04 / TC-U-08..11 (06b-followup-001 #428)
 import { afterEach, describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ refresh: vi.fn(), push: vi.fn(), replace: vi.fn() }),
@@ -142,6 +142,73 @@ describe("RequestActionPanel", () => {
       expect(
         document.querySelector("[data-pending-type='delete_request']"),
       ).toBeNull();
+      const hideBtn = screen.getByTestId("open-hide-dialog") as HTMLButtonElement;
+      expect(hideBtn.disabled).toBe(false);
+    });
+
+    it("TC-U-12: dialog accepted response は refresh 完了まで banner 表示に使う", async () => {
+      vi.spyOn(globalThis, "fetch").mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            queueId: "q_local",
+            type: "visibility_request",
+            status: "pending",
+            createdAt: "2026-05-15T00:00:00Z",
+          }),
+          {
+            status: 202,
+            headers: { "content-type": "application/json" },
+          },
+        ),
+      );
+      render(
+        <RequestActionPanel publishState="public" rulesConsent="consented" />,
+      );
+      fireEvent.click(screen.getByTestId("open-hide-dialog"));
+      fireEvent.click(screen.getByTestId("visibility-submit"));
+
+      const banner = await screen.findByRole("status");
+      expect(banner).toBeTruthy();
+      const hideBtn = screen.getByTestId("open-hide-dialog") as HTMLButtonElement;
+      expect(hideBtn.disabled).toBe(true);
+    });
+
+    it("TC-U-13: server snapshot 到着後は accepted bridge を破棄する", async () => {
+      vi.spyOn(globalThis, "fetch").mockResolvedValue(
+        new Response(
+          JSON.stringify({
+            queueId: "q_local",
+            type: "visibility_request",
+            status: "pending",
+            createdAt: "2026-05-15T00:00:00Z",
+          }),
+          {
+            status: 202,
+            headers: { "content-type": "application/json" },
+          },
+        ),
+      );
+      const { rerender } = render(
+        <RequestActionPanel publishState="public" rulesConsent="consented" />,
+      );
+      fireEvent.click(screen.getByTestId("open-hide-dialog"));
+      fireEvent.click(screen.getByTestId("visibility-submit"));
+
+      expect(await screen.findByRole("status")).toBeTruthy();
+
+      rerender(
+        <RequestActionPanel
+          publishState="public"
+          rulesConsent="consented"
+          pendingRequests={{}}
+        />,
+      );
+
+      await waitFor(() =>
+        expect(
+          document.querySelector("[data-pending-type='visibility_request']"),
+        ).toBeNull(),
+      );
       const hideBtn = screen.getByTestId("open-hide-dialog") as HTMLButtonElement;
       expect(hideBtn.disabled).toBe(false);
     });

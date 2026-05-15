@@ -5,6 +5,19 @@
 
 ---
 
+### parallel-02-state-sync-router-refresh（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-02-state-sync-router-refresh/` |
+| 状態 | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| scope | `/profile` visibility/delete request dialog success branch で `router.refresh()` を `onSubmitted` / `onClose` より先に呼び、`RequestActionPanel` bridge state は次の server snapshot で破棄する |
+| implementation | `apps/web/app/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.tsx` |
+| tests | `apps/web/app/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.component.spec.tsx` |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-11/visual-evidence.md` |
+| visual evidence | Playwright screenshot 5 files under `outputs/phase-11/screenshots/` |
+| user gate | commit / push / PR |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 目的 | 参照先 |
