@@ -11,7 +11,7 @@
 
 | Path | Purpose |
 | --- | --- |
-| `package.json` | Root `pnpm.overrides.esbuild = "0.25.4"` |
+| `package.json` | Historical close-out used root `pnpm.overrides.esbuild = "0.25.4"`; superseded on 2026-05-15 by `fix-wrangler-esbuild-import-source-error`, whose current root override SSOT is `"0.27.3"` for wrangler 4.85.0 |
 | `pnpm-lock.yaml` | Regenerated esbuild convergence lockfile |
 | `scripts/cf.sh` | Recovery note; wrapper route preserved |
 
@@ -30,4 +30,3 @@
 ## Phase 12
 
 Strict seven files are present under `outputs/phase-12/`, and root/output `artifacts.json` parity is maintained.
-
