@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_pending_pr / implementation / NON_VISUAL / external_mutation_completed / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-638-cloudflare-pages-project-var-deletion/` |
+| source unassigned | `docs/30-workflows/unassigned-task/issue-331-followup-001-cloudflare-pages-project-var-deletion.md`（superseded marker 付与） |
+| Issue | #638 CLOSED 維持。PR / docs では `Refs #638` のみ |
+| 目的 | Issue #331 後に未参照となった GitHub repository variable `CLOUDFLARE_PAGES_PROJECT` を削除し、未参照 variable 0 baseline を確立する |
+| evidence | `outputs/phase-11/evidence/current-repo-variables.json`（before variable present）, `source-grep-preflight.txt`（`.github apps packages scripts` hit 0）, `pre-mutation-static-summary.txt`, `user-approval-marker.md`, `before.json`, `before-single.json`, `after.json`（total_count=3）, `after-single.txt`（HTTP 404）, `grep-gate.txt`, `deletion-log.md` |
+| user gate | DELETE は approval marker 後に完了済み。rollback `POST`, push, PR, Issue 操作は別途 user approval 後 |
+| downstream | `issue-331-followup-002` Pages project physical deletion and OIDC cutover remain separate |
+
+### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
 ### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 項目 | 値 |
