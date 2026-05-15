@@ -19,22 +19,209 @@
     "implementationCategory": "security-hardening",
     "scope": "step_scoped_cloudflare_deploy_token_cutover",
     "domain": "github_actions_cloudflare_ci_cd",
-    "evidence_type": "static_scope_tests_and_redacted_runtime_logs"
+    "evidence_type": "static_scope_tests_and_redacted_runtime_logs",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; step-scoped CLOUDFLARE_API_TOKEN cutover design captured under canonicalRoot"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (workflow env-scope tests + redaction-check); Phase 12 strict outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: staging/production deploy with step-scoped tokens and legacy job-level token revocation are user-gated and tracked separately"
+      }
+    ]
   },
   "phases": [
-    {"phase": 1, "name": "要件定義", "file": "phase-1-requirements.md", "status": "completed", "outputs": ["phase-1-requirements.md"], "depends_on_phases": [], "user_approval_required": false},
-    {"phase": 2, "name": "設計", "file": "phase-2-design.md", "status": "completed", "outputs": ["phase-2-design.md"], "depends_on_phases": [1], "user_approval_required": false},
-    {"phase": 3, "name": "設計レビュー", "file": "phase-3-design-review.md", "status": "completed", "outputs": ["phase-3-design-review.md"], "depends_on_phases": [2], "user_approval_required": false},
-    {"phase": 4, "name": "テスト計画", "file": "phase-4-test-plan.md", "status": "completed", "outputs": ["phase-4-test-plan.md"], "depends_on_phases": [3], "user_approval_required": false},
-    {"phase": 5, "name": "実装", "file": "phase-5-implementation.md", "status": "completed", "outputs": ["phase-5-implementation.md"], "depends_on_phases": [4], "user_approval_required": false},
-    {"phase": 6, "name": "テスト拡充", "file": "phase-6-test-additions.md", "status": "completed", "outputs": ["phase-6-test-additions.md"], "depends_on_phases": [5], "user_approval_required": false},
-    {"phase": 7, "name": "カバレッジ確認", "file": "phase-7-coverage.md", "status": "completed", "outputs": ["phase-7-coverage.md"], "depends_on_phases": [6], "user_approval_required": false},
-    {"phase": 8, "name": "リファクタリング", "file": "phase-8-refactor.md", "status": "completed", "outputs": ["phase-8-refactor.md"], "depends_on_phases": [7], "user_approval_required": false},
-    {"phase": 9, "name": "品質保証", "file": "phase-9-qa.md", "status": "completed", "outputs": ["phase-9-qa.md"], "depends_on_phases": [8], "user_approval_required": false},
-    {"phase": 10, "name": "最終レビュー", "file": "phase-10-final-review.md", "status": "completed", "outputs": ["phase-10-final-review.md"], "depends_on_phases": [9], "user_approval_required": false},
-    {"phase": 11, "name": "手動テスト", "file": "phase-11-manual-test.md", "status": "runtime_pending", "outputs": ["outputs/phase-11/manual-test-result.md", "outputs/phase-11/evidence/"], "depends_on_phases": [10], "user_approval_required": true},
-    {"phase": 12, "name": "ドキュメント更新", "file": "phase-12-documentation.md", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/phase12-task-spec-compliance-check.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/documentation-changelog.md"], "depends_on_phases": [11], "user_approval_required": false},
-    {"phase": 13, "name": "PR 作成", "file": "phase-13-pr.md", "status": "blocked", "outputs": ["outputs/phase-13/pr-body.md"], "depends_on_phases": [12], "user_approval_required": true}
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "phase-1-requirements.md",
+      "status": "completed",
+      "outputs": [
+        "phase-1-requirements.md"
+      ],
+      "depends_on_phases": [],
+      "user_approval_required": false
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "phase-2-design.md",
+      "status": "completed",
+      "outputs": [
+        "phase-2-design.md"
+      ],
+      "depends_on_phases": [
+        1
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "phase-3-design-review.md",
+      "status": "completed",
+      "outputs": [
+        "phase-3-design-review.md"
+      ],
+      "depends_on_phases": [
+        2
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 4,
+      "name": "テスト計画",
+      "file": "phase-4-test-plan.md",
+      "status": "completed",
+      "outputs": [
+        "phase-4-test-plan.md"
+      ],
+      "depends_on_phases": [
+        3
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 5,
+      "name": "実装",
+      "file": "phase-5-implementation.md",
+      "status": "completed",
+      "outputs": [
+        "phase-5-implementation.md"
+      ],
+      "depends_on_phases": [
+        4
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 6,
+      "name": "テスト拡充",
+      "file": "phase-6-test-additions.md",
+      "status": "completed",
+      "outputs": [
+        "phase-6-test-additions.md"
+      ],
+      "depends_on_phases": [
+        5
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 7,
+      "name": "カバレッジ確認",
+      "file": "phase-7-coverage.md",
+      "status": "completed",
+      "outputs": [
+        "phase-7-coverage.md"
+      ],
+      "depends_on_phases": [
+        6
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 8,
+      "name": "リファクタリング",
+      "file": "phase-8-refactor.md",
+      "status": "completed",
+      "outputs": [
+        "phase-8-refactor.md"
+      ],
+      "depends_on_phases": [
+        7
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 9,
+      "name": "品質保証",
+      "file": "phase-9-qa.md",
+      "status": "completed",
+      "outputs": [
+        "phase-9-qa.md"
+      ],
+      "depends_on_phases": [
+        8
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "file": "phase-10-final-review.md",
+      "status": "completed",
+      "outputs": [
+        "phase-10-final-review.md"
+      ],
+      "depends_on_phases": [
+        9
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 11,
+      "name": "手動テスト",
+      "file": "phase-11-manual-test.md",
+      "status": "runtime_pending",
+      "outputs": [
+        "outputs/phase-11/manual-test-result.md",
+        "outputs/phase-11/evidence/"
+      ],
+      "depends_on_phases": [
+        10
+      ],
+      "user_approval_required": true
+    },
+    {
+      "phase": 12,
+      "name": "ドキュメント更新",
+      "file": "phase-12-documentation.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/documentation-changelog.md"
+      ],
+      "depends_on_phases": [
+        11
+      ],
+      "user_approval_required": false
+    },
+    {
+      "phase": 13,
+      "name": "PR 作成",
+      "file": "phase-13-pr.md",
+      "status": "blocked",
+      "outputs": [
+        "outputs/phase-13/pr-body.md"
+      ],
+      "depends_on_phases": [
+        12
+      ],
+      "user_approval_required": true
+    }
   ],
   "specs_referenced": [
     "docs/30-workflows/unassigned-task/issue-331-followup-003-oidc-step-scoped-cf-token-cutover.md",

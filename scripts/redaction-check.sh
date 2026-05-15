@@ -55,7 +55,7 @@ fi
 LEAK_FOUND=0
 MATCH_FILE=""
 
-# shellcheck disable=SC2329 # invoked by EXIT trap
+# shellcheck disable=SC2317,SC2329 # invoked by EXIT trap
 cleanup() {
   rm -f ${TMP_FILE:+"$TMP_FILE"} ${MATCH_FILE:+"$MATCH_FILE"}
 }

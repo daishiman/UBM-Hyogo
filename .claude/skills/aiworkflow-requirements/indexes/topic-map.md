@@ -4107,7 +4107,8 @@ node scripts/list-specs.js --topics
 | Purpose | L12 |
 | Gate Entry Contract | L16 |
 | Validator Contract | L40 |
-| Rollout Boundary | L60 |
+| Operational Guidance (新規 artifacts.json 追加時) | L60 |
+| Rollout Boundary | L64 |
 
 ### references/governance-hooks-factory-audit-sink.md
 
