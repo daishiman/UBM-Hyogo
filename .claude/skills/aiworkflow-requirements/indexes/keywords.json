@@ -3088,6 +3088,7 @@
       "logs-archive-2026-02-abort-security-loop-guard.md",
       "security-implementation.md",
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
@@ -7110,7 +7111,8 @@
       "lessons-learned-06a-public-web-2026-04.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
-      "patterns-kv-dedup.md"
+      "patterns-kv-dedup.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md"
     ],
     "toml": [
       "deployment-cloudflare-opennext-workers.md",
@@ -10120,6 +10122,7 @@
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md"
     ],
     "は同一実装で": [
@@ -10143,6 +10146,7 @@
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md"
     ],
@@ -11472,6 +11476,7 @@
     ],
     "esbuild": [
       "lessons-learned-06a-public-web-2026-04.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md"
     ],
     "バージョン不一致により実": [
@@ -13814,6 +13819,7 @@
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
       "lessons-learned-web-app-route-bundle-parse-fix-2026-05.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-web-app-route-bundle-parse-fix-artifact-inventory.md"
     ],
@@ -13851,7 +13857,8 @@
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "logs-archive-2026-02-skill-import-interface-atoms-rerun.md",
       "logs-archive-2026-03-line-budget-workflow-consolidation.md",
-      "logs-archive-2026-03-skill-views-completed-move.md"
+      "logs-archive-2026-03-skill-views-completed-move.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md"
     ],
     "で循環依存リスクを潰す": [
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md"
@@ -14723,6 +14730,7 @@
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -21746,6 +21754,7 @@
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",

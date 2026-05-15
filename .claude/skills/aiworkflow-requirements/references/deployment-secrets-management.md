@@ -292,7 +292,7 @@ bash scripts/cf.sh rollback <VERSION_ID> --config apps/api/wrangler.toml --env p
 | 役割 | 内容 |
 | --- | --- |
 | 1Password 注入 | `scripts/with-env.sh` 経由で `op run --env-file=.env` を呼び、`.env` 内の `op://Vault/Item/Field` 参照から `CLOUDFLARE_API_TOKEN` 等を環境変数として揮発的に渡す（ファイルやログには残らない） |
-| esbuild 不整合解決 | グローバル `esbuild` とのバージョン不整合を `ESBUILD_BINARY_PATH` で自動解決（worktree のローカル `node_modules/esbuild` を優先解決） |
+| esbuild 不整合解決 | グローバル `esbuild` とのバージョン不整合を `ESBUILD_BINARY_PATH` で自動解決（worktree のローカル `node_modules/esbuild` を優先解決）。wrangler 4.85.0 系は esbuild `0.27.3` が必須（`import-source` feature 要求）。root `pnpm.overrides.esbuild` が SSOT でワークスペース全体（`apps/web` / `apps/api` 等）に継承。wrangler upgrade 時は `pnpm view wrangler@<X> dependencies.esbuild` で drift 確認必須。詳細: `docs/00-getting-started-manual/cloudflare-cli-troubleshooting.md` |
 | Node 24 / pnpm 10 強制 | `mise exec --` 経由で mise 管理の Node / pnpm バイナリを保証 |
 | ローカル wrangler 優先 | グローバル `wrangler` ではなく worktree の `node_modules/.bin/wrangler` を解決し、wrangler 4.x strict mode の前提を満たす |
 

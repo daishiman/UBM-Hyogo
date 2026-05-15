@@ -2232,6 +2232,12 @@ node scripts/list-specs.js --topics
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
 
+### references/workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L16 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -4166,15 +4172,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L21 |
-| 使い方 | L29 |
-| Current Alias Overrides（個別互換行） | L36 |
-| Family Summary | L77 |
-| Detailed Register | L98 |
-| Section Extract Register (2026-03-17) | L279 |
-| 500-Line Split Register (2026-03-16) | L290 |
-| Fragment Migration Register (2026-04-28) | L312 |
-| Task Root Path Drift Register (2026-04-30 追記) | L339 |
+| 概要 | L22 |
+| 使い方 | L30 |
+| Current Alias Overrides（個別互換行） | L37 |
+| Family Summary | L78 |
+| Detailed Register | L99 |
+| Section Extract Register (2026-03-17) | L280 |
+| 500-Line Split Register (2026-03-16) | L291 |
+| Fragment Migration Register (2026-04-28) | L313 |
+| Task Root Path Drift Register (2026-04-30 追記) | L340 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -6642,14 +6648,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1242 |
-| フェーズ構造（概要） | L1251 |
-| 品質ゲート（概要） | L1282 |
-| 出力テンプレート | L1293 |
-| 実行時のコマンド・エージェント・スキル | L1316 |
-| 昇格パターン集 | L1340 |
-| Current Active / Spec Created Tasks | L1342 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1482 |
+| ドキュメント構成 | L1255 |
+| フェーズ構造（概要） | L1264 |
+| 品質ゲート（概要） | L1295 |
+| 出力テンプレート | L1306 |
+| 実行時のコマンド・エージェント・スキル | L1329 |
+| 昇格パターン集 | L1353 |
+| Current Active / Spec Created Tasks | L1355 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1495 |
 
 ### references/task-workflow-backlog-part2.md
 
