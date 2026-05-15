@@ -5,6 +5,17 @@
 
 ---
 
+### parallel-09 UX cross-cutting primitives contract（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/parallel-09-ux-cross-cutting/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_pending` |
+| scope | 19 routes 横断の FormField / EmptyState / Pagination / Icon / Breadcrumb / responsive / focus-visible / useAdminMutation guard / form preserve 実装 |
+| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| dependencies | parallel-03 `@layer components`, task-09 OKLch tokens, task-18 verify-design-tokens, parallel-01〜08 consumers |
+| user gate | runtime visual screenshot completion after ENOSPC resolution, staging/production smoke, 19-route adoption, commit, push, PR |
+
 ### fix-wrangler-esbuild-import-source-error（2026-05-15）
 
 | 目的 | 参照先 |
