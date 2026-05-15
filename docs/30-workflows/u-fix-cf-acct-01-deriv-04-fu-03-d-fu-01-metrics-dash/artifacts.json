@@ -24,7 +24,33 @@
     "pr_refs": "Refs #549, Refs #586, Refs #656",
     "issue_state_at_spec": "CLOSED",
     "local_evidence": "focused tests + static dashboard screenshots captured",
-    "runtime_boundary": "production/staging runtime summary evidence remains pending after user-gated merge/execution"
+    "runtime_boundary": "production/staging runtime summary evidence remains pending after user-gated merge/execution",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; 7-day metrics dashboard design captured"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash/phase-12.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (aggregator + dashboard); Phase 12 strict outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: production/staging 7-day summary evidence remains pending after user-gated merge/execution"
+      }
+    ]
   },
   "phases": [
     {
