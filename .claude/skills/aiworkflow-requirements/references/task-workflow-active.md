@@ -8,6 +8,22 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #668 residual RB-3b-03 / RB-3b-04 paths filter + shell helper（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented-local-runtime-pending / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-668-stage3b-rb03-rb04-paths-filter-shell-helper/` |
+| 親 Issue | Issue #668 CLOSED。PR / Issue comment 文脈は `Refs #668` のみ |
+| scope | RB-3b-03 `e2e-tests.yml` single-workflow paths precheck、RB-3b-04 `ci-shell-prelude.sh` + `lint-shell.yml` shellcheck gate + 3-script shellcheck cleanup |
+| required context | `e2e-tests-coverage-gate` を維持し、branch protection mutation は不要 |
+| implementation targets | `.github/workflows/e2e-tests.yml`, `.github/workflows/lint-shell.yml`, `scripts/lib/ci-shell-prelude.sh`, `scripts/coverage-gate-e2e.sh`, `scripts/coverage-guard.sh`, `scripts/cf-waf-apply/lib.sh`, `scripts/observability-target-diff.sh`, `scripts/verify-09c-no-visual-values.sh` |
+| evidence | tracked `outputs/phase-11/local-evidence-summary.md`; raw ignored local logs captured; governance / CI8 dry-run files pending user-gated PR |
+| source trace | `docs/30-workflows/unassigned-task/task-e2e-stage3b-rb-followup-composite-actions-001.md` is historical; RB-3b-03 / RB-3b-04 split-migrated here |
+| artifact inventory | `references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md` |
+| user gate | dry-run PRs, GitHub Actions runtime evidence, `gh issue comment`, commit, push, PR |
+
 ### Issue #666 fetch/public service binding regression（2026-05-14）
 
 | 項目 | 値 |
@@ -80,7 +96,7 @@
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
 
 
-### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
+>### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 項目 | 値 |
 | --- | --- |

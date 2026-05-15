@@ -2625,6 +2625,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L22 |
 
+### references/workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L20 |
+
 ### references/workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md
 
 | セクション | 行 |
@@ -2635,6 +2641,18 @@ node scripts/list-specs.js --topics
 | New SSOT introduced | L46 |
 | Cross-link | L51 |
 | Boundary | L63 |
+
+### references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L14 |
+| Implementation Targets | L33 |
+| Phase Outputs | L46 |
+| Skill 反映先 | L55 |
+| task-specification-creator 反映 | L68 |
+| Verification Commands | L75 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3317,6 +3335,14 @@ node scripts/list-specs.js --topics
 | 参照される実装ファイル（spec_created のため変更は伴わない） | L74 |
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
+
+### references/workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L14 |
+| Runtime Boundary | L34 |
 
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
@@ -5042,6 +5068,14 @@ node scripts/list-specs.js --topics
 | L-667-004: dispatcher 順序 grep gate | L41 |
 | Cross-link | L52 |
 
+### references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L48 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6248,7 +6282,7 @@ node scripts/list-specs.js --topics
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L376 |
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L377 |
 | 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L393 |
-| 13. 変更履歴 | L415 |
+| 13. Issue #656 7-day summary metrics dashboard contract（2026-05-14） | L415 |
 
 ### references/patterns-advanced.md
 
@@ -6712,14 +6746,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1298 |
-| フェーズ構造（概要） | L1307 |
-| 品質ゲート（概要） | L1338 |
-| 出力テンプレート | L1349 |
-| 実行時のコマンド・エージェント・スキル | L1372 |
-| 昇格パターン集 | L1396 |
-| Current Active / Spec Created Tasks | L1398 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1540 |
+| ドキュメント構成 | L1345 |
+| フェーズ構造（概要） | L1354 |
+| 品質ゲート（概要） | L1385 |
+| 出力テンプレート | L1396 |
+| 実行時のコマンド・エージェント・スキル | L1419 |
+| 昇格パターン集 | L1443 |
+| Current Active / Spec Created Tasks | L1445 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1588 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7139,8 +7173,8 @@ node scripts/list-specs.js --topics
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
 | Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
-| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
-| 関連ドキュメント | L464 |
+| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L424 |
+| 関連ドキュメント | L465 |
 
 ### references/ui-history-components.md
 
