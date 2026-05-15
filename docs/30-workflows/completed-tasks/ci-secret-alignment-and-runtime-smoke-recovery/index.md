@@ -15,7 +15,7 @@
 |---|---|
 | `.github/workflows/web-cd.yml` の secret 参照名統一 | `apps/web` / `apps/api` のソース変更 |
 | `.github/workflows/runtime-smoke-staging.yml` の事前 readiness gate 追加 | runtime smoke スクリプト本体ロジックの再設計 |
-| GitHub Environments (`staging` / `production` / `staging-runtime-smoke`) の secret provisioning runbook | Cloudflare 本番デプロイの再実行 |
+| GitHub Environments (`staging` / `production` / `staging-runtime-smoke`) の secret provisioning runbook（[`staging`](runbooks/staging-secret-provisioning.md) / [`production`](runbooks/production-secret-provisioning.md) / [`staging-runtime-smoke`](runbooks/secret-provisioning.md)） | Cloudflare 本番デプロイの再実行 |
 | `scripts/cf.sh` の CI 経路ドキュメント補強（op skip 条件の明示） | `scripts/cf.sh` のロジック書き換え |
 
 ## 含む不変条件
@@ -45,5 +45,5 @@
 
 - [ ] `dev` 上で `web-cd / deploy-staging` が成功すること（`bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging` が `[cf.sh] 1Password CLI...` を出さず正常終了）
 - [ ] `dev` 上で `backend-ci` 配下 `runtime-smoke-staging / smoke` が成功するか、または readiness 不足を明示する exit でユーザーに必要 secret を伝えていること
-- [ ] `staging` / `production` / `staging-runtime-smoke` の必要 secret 一覧と現状（登録済み / 未登録）が runbook に記載されていること
+- [ ] `staging` / `production` / `staging-runtime-smoke` の必要 secret 一覧と現状（登録済み / 未登録）が runbook に記載されていること（[`staging`](runbooks/staging-secret-provisioning.md) / [`production`](runbooks/production-secret-provisioning.md) / [`staging-runtime-smoke`](runbooks/secret-provisioning.md)）
 - [ ] secret 実値はリポジトリ・コミット・PR 本文・コメントのいずれにも残っていないこと

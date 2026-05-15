@@ -3922,15 +3922,16 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| wrangler.toml の環境別設定 | L219 |
-| ローカル開発での設定 | L251 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L290 |
-| セキュリティ原則 | L322 |
-| Cloudflare API Token の作成手順 | L333 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L348 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L459 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L511 |
-| 変更履歴 | L530 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L196 |
+| wrangler.toml の環境別設定 | L230 |
+| ローカル開発での設定 | L262 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L301 |
+| セキュリティ原則 | L333 |
+| Cloudflare API Token の作成手順 | L344 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L359 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L470 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L522 |
+| 変更履歴 | L541 |
 
 ### references/deployment.md
 
@@ -6656,14 +6657,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1256 |
-| フェーズ構造（概要） | L1265 |
-| 品質ゲート（概要） | L1296 |
-| 出力テンプレート | L1307 |
-| 実行時のコマンド・エージェント・スキル | L1330 |
-| 昇格パターン集 | L1354 |
-| Current Active / Spec Created Tasks | L1356 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1498 |
+| ドキュメント構成 | L1257 |
+| フェーズ構造（概要） | L1266 |
+| 品質ゲート（概要） | L1297 |
+| 出力テンプレート | L1308 |
+| 実行時のコマンド・エージェント・スキル | L1331 |
+| 昇格パターン集 | L1355 |
+| Current Active / Spec Created Tasks | L1357 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1499 |
 
 ### references/task-workflow-backlog-part2.md
 

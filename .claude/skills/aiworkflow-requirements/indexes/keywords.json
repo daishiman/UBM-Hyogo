@@ -2154,6 +2154,7 @@
       "arch-state-management-core.md",
       "architecture-admin-api-client.md",
       "deployment-cloudflare-opennext-workers.md",
+      "deployment-secrets-management.md",
       "directory-structure-core.md",
       "lessons-learned-06b-a-me-api-authjs-session-resolver-2026-05.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
@@ -7738,6 +7739,7 @@
     ],
     "followup": [
       "deployment-cloudflare.md",
+      "deployment-secrets-management.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
@@ -7945,6 +7947,22 @@
       "deployment-secrets-management.md"
     ],
     "ではないもの": [
+      "deployment-secrets-management.md"
+    ],
+    "cd": [
+      "deployment-secrets-management.md",
+      "lessons-learned-ci-pipeline-recovery-2026-05.md"
+    ],
+    "Environment": [
+      "deployment-secrets-management.md",
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "ui-ux-feature-components-advanced.md"
+    ],
+    "Secret": [
+      "deployment-secrets-management.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "provisioning": [
       "deployment-secrets-management.md"
     ],
     "の環境別設定": [
@@ -12796,10 +12814,6 @@
     "の二段ゲートは": [
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
     ],
-    "Environment": [
-      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
-      "ui-ux-feature-components-advanced.md"
-    ],
     "bool": [
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
     ],
@@ -12942,9 +12956,6 @@
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md"
     ],
     "pipeline": [
-      "lessons-learned-ci-pipeline-recovery-2026-05.md"
-    ],
-    "cd": [
       "lessons-learned-ci-pipeline-recovery-2026-05.md"
     ],
     "ci": [
@@ -16295,9 +16306,6 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "でしか動かない": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
-    ],
-    "Secret": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "PEM": [
