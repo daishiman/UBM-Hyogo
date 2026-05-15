@@ -1071,6 +1071,18 @@
 | 苦戦知見 | `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007: artifacts mirror parity / Phase 11 10 screenshots, Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard) |
 
 
+### parallel-10-auth-session-handling（2026-05-15）
+
+| 項目 | 内容 |
+| --- | --- |
+| 成果物 | `docs/30-workflows/parallel-10-auth-session-handling/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| 目的 | Client admin mutation の 401 / 403 handling を統一する。401 は safe `/login?redirect=<current>`、403 は alert toast + error state とする。 |
+| 実装 | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/lib/url/safe-redirect.ts` |
+| 仕様同期 | `docs/00-getting-started-manual/specs/02-auth.md` に Client 401 / 403 handling を追加。silent refresh は MVP 不採用。 |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build}.txt`, `outputs/phase-11/visual-verification-skip.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | commit / push / PR |
+
 ### task-05a-form-preview-503-001（2026-05-05）
 
 | 項目 | 値 |
