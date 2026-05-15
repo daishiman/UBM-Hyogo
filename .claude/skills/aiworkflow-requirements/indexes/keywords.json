@@ -2699,7 +2699,8 @@
       "task-workflow-completed-skill-lifecycle-agent-view-line-budget.md",
       "testing-component-patterns-core.md",
       "testing-component-patterns-details.md",
-      "ui-ux-settings-core.md"
+      "ui-ux-settings-core.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md"
     ],
     "CONFIG": [
       "arch-state-management-reference-persist-hardening-test-quality.md",
@@ -4429,6 +4430,7 @@
       "workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-spec-2d-contract-stage-2-artifact-inventory.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md",
@@ -6479,6 +6481,7 @@
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
@@ -7599,6 +7602,7 @@
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
@@ -8010,6 +8014,7 @@
       "deployment-gha.md",
       "lessons-learned-06c-A-admin-dashboard-2026-05.md",
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
+      "observability-monitoring.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
       "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md"
@@ -8038,6 +8043,7 @@
       "lessons-learned-issue-517-followup-auto-summary-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
+      "observability-monitoring.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
@@ -8142,15 +8148,18 @@
       "deployment-secrets-management.md",
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
-      "workflow-issue-548-ml-model-selection-artifact-inventory.md"
+      "workflow-issue-548-ml-model-selection-artifact-inventory.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md"
     ],
     "ACCT": [
       "deployment-secrets-management.md",
-      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
+      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md"
     ],
     "DERIV": [
       "deployment-secrets-management.md",
-      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
+      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md"
     ],
     "split": [
       "deployment-secrets-management.md",
@@ -8526,6 +8535,7 @@
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
@@ -10512,7 +10522,8 @@
     ],
     "metrics": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
-      "lessons-learned-03b-response-sync-2026-04.md"
+      "lessons-learned-03b-response-sync-2026-04.md",
+      "observability-monitoring.md"
     ],
     "側と": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
@@ -14962,6 +14973,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
@@ -22031,6 +22043,7 @@
       "workflow-task-sync-forms-d1-legacy-umbrella-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md",
       "workflow-task-worktree-environment-isolation-artifact-inventory.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-02a-followup-001-attendance-write-operations-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
@@ -22103,6 +22116,7 @@
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md",
@@ -22153,6 +22167,7 @@
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-rt-06-artifact-inventory.md",
       "workflow-task-spec-2d-contract-stage-2-artifact-inventory.md",
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
       "workflow-ut-06-followup-A-opennext-workers-migration-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
@@ -23039,6 +23054,12 @@
     ],
     "pr": [
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
+    ],
+    "METRICS": [
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md"
+    ],
+    "DASH": [
+      "workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md"
     ],
     "責務分離": [
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",

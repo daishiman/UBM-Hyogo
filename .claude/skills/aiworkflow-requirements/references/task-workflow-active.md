@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-FU-01 metrics dash（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash/` |
+| 親 | Issue #586 post-switch 7-day close-out / 祖父 Issue #549 |
+| Issue 取扱 | Issue #656 は CLOSED 維持。PR 文脈は `Refs #549, Refs #586, Refs #656` のみ |
+| 目的 | `hourly-run-7day-summary.json` を週次集約し、fallback rate / p95 latency / Issue 起票数 / leakage 件数を静的 HTML dashboard で可視化する実装仕様 |
+| rendering decision | 現 worktree に admin audit route が無いため static HTML を採択。admin UI は本サイクル外 |
+| schema contract | missing version skip、unsupported explicit version / 型不正 throw、`1.0.0` の `week_starting` 欠落は native ISO week 補完 |
+| Phase 12 | strict files present under `outputs/phase-12/`; `implementation-guide-part2.md` は root artifacts 由来の追加成果物 |
+| user gate | production/staging runtime summary evidence / commit / push / PR |
+
 ### fix-wrangler-esbuild-import-source-error（2026-05-15）
 
 | 項目 | 値 |
@@ -45,6 +59,8 @@
 | evidence | `outputs/phase-11/evidence/current-repo-variables.json`（before variable present）, `source-grep-preflight.txt`（`.github apps packages scripts` hit 0）, `pre-mutation-static-summary.txt`, `user-approval-marker.md`, `before.json`, `before-single.json`, `after.json`（total_count=3）, `after-single.txt`（HTTP 404）, `grep-gate.txt`, `deletion-log.md` |
 | user gate | DELETE は approval marker 後に完了済み。rollback `POST`, push, PR, Issue 操作は別途 user approval 後 |
 | downstream | `issue-331-followup-002` Pages project physical deletion and OIDC cutover remain separate |
+
+### Issue #626 RB-01 build output sharing between Lighthouse and PR build（2026-05-12）
 
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
 
