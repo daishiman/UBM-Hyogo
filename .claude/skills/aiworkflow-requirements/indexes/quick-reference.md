@@ -5,6 +5,19 @@
 
 ---
 
+### task-parallel-07 Auth And Shared（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-parallel-07-auth-and-shared/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL / Phase 11 screenshots captured / Phase 12 strict 7 present` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-07-auth-and-shared/spec.md` |
+| scope | `/login` loading/error、root error/loading、`/profile` loading、not-found branding verification |
+| boundary | no `apps/api/**`, no D1 schema, no Auth.js flow, no new design token |
+| suffix policy | component/unit specs `.spec.tsx`; Playwright specs `.spec.ts` |
+| Phase 12 | `docs/30-workflows/task-parallel-07-auth-and-shared/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | staging smoke, broad task-18 regression, commit, push, PR |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 目的 | 参照先 |

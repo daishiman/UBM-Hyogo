@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### task-parallel-07 Auth And Shared（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 11 screenshots captured / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/task-parallel-07-auth-and-shared/` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-07-auth-and-shared/spec.md` |
+| 目的 | `/login` loading/error、root error/loading、`/profile` loading、not-found fallback の UX / a11y / OKLch token contract を実装・検証する |
+| target files | `apps/web/app/login/error.tsx`, `apps/web/app/login/loading.tsx`, `apps/web/app/error.tsx`, `apps/web/app/loading.tsx`, `apps/web/app/profile/loading.tsx`, `apps/web/app/not-found.tsx` |
+| boundary | `apps/api/**`、D1 schema、Auth.js flow、新 design token、`admin/loading` は out-of-scope |
+| evidence boundary | local implementation、component specs、Phase 11 screenshots、Phase 12 strict 7 は present。staging smoke / broad task-18 regression / commit / push / PR は user-gated |
+| downstream | task-18 visual/token regression consumes the implemented route evidence after local implementation |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 項目 | 値 |

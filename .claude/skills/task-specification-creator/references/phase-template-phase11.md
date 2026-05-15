@@ -4,6 +4,10 @@
 
 Phase 11 の manual test。
 
+## Phase 10 / Phase 11 evidence boundary（必読）
+
+Phase 10（最終レビューゲート）の完了要件は **evidence plan（`screenshot-plan.json` / capture metadata 計画など）の存在のみ** とする。Phase 11 で生成する screenshot 物理ファイル（PNG/JPG 等）や `manual-test-result.md` 実行結果は **Phase 11 工程の成果物**であり、Phase 10 を gating しない。Phase 10 gate が Phase 11 物理ファイルを要求する記述を見つけたら、それは誤りなので Phase 10 を「plan のみ」へ修正すること。
+
 ## タスク種別判定（最初に確認）
 
 | タスク種別 | 判定条件 | 適用セクション |
