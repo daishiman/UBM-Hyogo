@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### parallel-06 public pages HomePage CTA（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/parallel-06-public-pages-homepage-cta/` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-06-public-pages/spec.md` |
+| 目的 | HomePage `/` の最終セクションとして FOR MEMBERS CTA を追加し、Google Form responder URL を `FORM_RESPONDER_URL` に集約する |
+| implementation | `apps/web/src/components/public/CallToActionCTA.tsx`, `apps/web/src/components/public/__tests__/CallToActionCTA.component.spec.tsx`, snapshot, `apps/web/app/page.tsx`, `apps/web/app/(public)/register/page.tsx`, `apps/web/app/login/_components/LoginStatus.tsx`, `apps/web/src/lib/constants.ts`, `apps/web/app/__tests__/page.spec.tsx`, `vitest.config.ts` |
+| evidence | root/output `artifacts.json` parity、Phase 11 screenshots 4 件、typecheck / lint / test / build / grep / token gate logs captured |
+| user gate | commit、push、PR は user approval 後 |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 項目 | 値 |

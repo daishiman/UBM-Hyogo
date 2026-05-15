@@ -5,6 +5,19 @@
 
 ---
 
+### parallel-06 public pages HomePage CTA（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/parallel-06-public-pages-homepage-cta/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / implementation_complete_pending_pr` |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-06-public-pages/spec.md` |
+| target | HomePage `/` 末尾へ `CallToActionCTA` を追加し、`FORM_RESPONDER_URL` を RegisterPage / LoginStatus fallback と共通化 |
+| evidence | root/output `artifacts.json` parity、Phase 11 screenshots 4 件、typecheck / lint / test / build / grep / token gate logs captured |
+| lessons-learned | `lessons-learned/lessons-learned-parallel-06-public-pages-homepage-cta-2026-05-15.md`（vitest suffix drift / Playwright API screenshot / `spec_created` 誤分類 / `completed-tasks/` 配置誤り） |
+| user gate | commit, push, PR |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 目的 | 参照先 |
