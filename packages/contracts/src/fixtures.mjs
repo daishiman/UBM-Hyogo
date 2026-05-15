@@ -24,7 +24,7 @@ const memberItems = [
   {
     memberId: "m-3",
     fullName: "鈴木 次郎",
-    nickname: null,
+    nickname: "",
     location: "兵庫県姫路市",
     occupation: "教員",
     ubmZone: "Himeji",
