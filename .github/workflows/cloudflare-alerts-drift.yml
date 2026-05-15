@@ -22,7 +22,7 @@ on:
     paths:
       - "infra/cloudflare-alerts/**"
       - "scripts/cf.sh"
-      - "scripts/__tests__/cf-alerts-cli.test.ts"
+      - "scripts/__tests__/cf-alerts-cli.spec.ts"
       - ".github/workflows/cloudflare-alerts-drift.yml"
 
 permissions:
