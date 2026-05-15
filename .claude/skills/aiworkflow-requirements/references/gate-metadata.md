@@ -57,6 +57,10 @@ pnpm gate-metadata:validate
 pnpm gate-metadata:validate --require-gates-for-changed <changed-artifacts-json...>
 ```
 
+## Operational Guidance (新規 artifacts.json 追加時)
+
+新規 `docs/30-workflows/completed-tasks/<task-id>/artifacts.json`（および `outputs/artifacts.json`）を追加する PR では、`metadata.gates[]` を**必ず**含める。雛形・運用手順・再発防止チェックは [`lessons-learned-dev-merge-ci-gates-2026-05.md`](../lessons-learned/lessons-learned-dev-merge-ci-gates-2026-05.md) § 2 参照。canonical 雛形: `docs/30-workflows/completed-tasks/ut-17-followup-002-alert-relay-dedup-kv/outputs/artifacts.json`。
+
 ## Rollout Boundary
 
 - Initial implementation owns `packages/shared/src/gate-metadata/**`, `scripts/gate-metadata/**`, root `package.json`, `.github/workflows/verify-gate-metadata.yml`, and Issue #549 artifacts backfill.

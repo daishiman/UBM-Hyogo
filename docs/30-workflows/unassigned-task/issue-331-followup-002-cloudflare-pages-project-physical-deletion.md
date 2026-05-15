@@ -1,5 +1,8 @@
 # Issue #331 Follow-up 002 Cloudflare Pages Project Physical Deletion - タスク指示書
 
+> Consumed / superseded on 2026-05-14 by `docs/30-workflows/issue-639-cloudflare-pages-project-physical-deletion/`.
+> This file is retained as source trace only. Current execution planning, Gate A / Gate C separation, and Phase 12 strict outputs live in the Issue #639 workflow root.
+
 ## メタ情報
 
 ```yaml
@@ -10,7 +13,7 @@ category: 改善
 target_feature: Cloudflare Pages project retirement (apps/web Workers cutover follow-up)
 priority: 低
 scale: 小規模
-status: 未実施
+status: consumed_by_issue_639_workflow
 source_phase: docs/30-workflows/issue-331-cicd-runtime-warning-cleanup/outputs/phase-12/unassigned-task-detection.md
 created_date: 2026-05-09
 dependencies:
@@ -25,7 +28,7 @@ dependencies:
 | 対象機能 | Cloudflare Pages project retirement (apps/web Workers cutover follow-up) |
 | 優先度 | 低 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed / superseded by `docs/30-workflows/issue-639-cloudflare-pages-project-physical-deletion/` |
 | 発見元 | `docs/30-workflows/issue-331-cicd-runtime-warning-cleanup/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-09 |
 | source issue | Issue #331 (MERGED; use `Refs #331` only) |
