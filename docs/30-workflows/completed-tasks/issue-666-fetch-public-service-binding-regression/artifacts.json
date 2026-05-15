@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "task-artifacts/v1",
+  "taskId": "issue-666-fetch-public-service-binding-regression",
+  "title": "fetch/public.ts service binding environment guard regression fix",
+  "status": "implemented_local_evidence_captured",
+  "metadata": {
+    "issue": 666,
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "implementationCategory": "standard",
+    "phase12StrictOutputs": "present",
+    "phase13UserGate": true,
+    "prBase": "dev"
+  },
+  "changedFiles": [
+    "apps/web/src/lib/fetch/public.ts",
+    "apps/web/src/lib/fetch/public.spec.ts",
+    "apps/web/playwright.config.ts",
+    "docs/30-workflows/issue-666-fetch-public-service-binding-regression/",
+    "docs/30-workflows/unassigned-task/task-e2e-stage3b-fetch-public-service-binding-priority-regression-001.md",
+    ".claude/skills/aiworkflow-requirements/SKILL-changelog.md",
+    ".claude/skills/aiworkflow-requirements/indexes/quick-reference.md",
+    ".claude/skills/aiworkflow-requirements/indexes/resource-map.md",
+    ".claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md",
+    ".claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-e2e-stage3b-server-component-mock-api-2026-05.md",
+    ".claude/skills/aiworkflow-requirements/changelog/20260510-e2e-stage3b-implementation-local.md",
+    ".claude/skills/aiworkflow-requirements/references/task-workflow-active.md",
+    ".claude/skills/aiworkflow-requirements/references/testing-playwright-e2e.md",
+    ".claude/skills/aiworkflow-requirements/references/workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
+    ".claude/skills/aiworkflow-requirements/changelog/20260514-issue666-fetch-public-service-binding-regression.md"
+  ],
+  "phases": [
+    { "phase": 1, "file": "phase-1-requirements.md", "status": "completed" },
+    { "phase": 2, "file": "phase-2-design.md", "status": "completed" },
+    { "phase": 3, "file": "phase-3-design-review.md", "status": "completed" },
+    { "phase": 4, "file": "phase-4-test-plan.md", "status": "completed" },
+    { "phase": 5, "file": "phase-5-implementation.md", "status": "completed" },
+    { "phase": 6, "file": "phase-6-test-additions.md", "status": "completed" },
+    { "phase": 7, "file": "phase-7-coverage.md", "status": "completed" },
+    { "phase": 8, "file": "phase-8-refactor.md", "status": "completed" },
+    { "phase": 9, "file": "phase-9-qa.md", "status": "completed" },
+    { "phase": 10, "file": "phase-10-final-review.md", "status": "completed" },
+    { "phase": 11, "file": "phase-11-manual-test.md", "status": "completed" },
+    { "phase": 12, "file": "phase-12-documentation.md", "status": "completed" },
+    { "phase": 13, "file": "phase-13-pr.md", "status": "runtime_pending" }
+  ],
+  "outputs": {
+    "phase11Evidence": "outputs/phase-11/evidence/",
+    "phase12": "outputs/phase-12/"
+  },
+  "userGated": [
+    "commit",
+    "push",
+    "pull_request",
+    "GitHub Actions e2e-tests-coverage-gate confirmation"
+  ]
+}

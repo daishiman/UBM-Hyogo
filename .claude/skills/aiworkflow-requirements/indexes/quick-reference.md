@@ -5,18 +5,18 @@
 
 ---
 
-### parallel-02-state-sync-router-refresh（2026-05-15）
+### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/parallel-02-state-sync-router-refresh/` |
-| 状態 | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
-| scope | `/profile` visibility/delete request dialog success branch で `router.refresh()` を `onSubmitted` / `onClose` より先に呼び、`RequestActionPanel` bridge state は次の server snapshot で破棄する |
-| implementation | `apps/web/app/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.tsx` |
-| tests | `apps/web/app/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.component.spec.tsx` |
-| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`, `outputs/phase-11/visual-evidence.md` |
-| visual evidence | Playwright screenshot 5 files under `outputs/phase-11/screenshots/` |
-| user gate | commit / push / PR |
+| workflow root | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| scope | AdminSidebar home link + MemberDrawer tags link |
+| implementation | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| tests | `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx`, `apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx` |
+| evidence | `outputs/phase-11/dom-snapshot.txt`, mock fallback PNG 2 files, component/typecheck/lint/build logs |
+| runtime boundary | real authenticated screenshots and staging smoke remain runtime pending |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
 
 ### fix-wrangler-esbuild-import-source-error（2026-05-15）
 
@@ -80,6 +80,20 @@
 | evidence boundary | Phase 5/7/9 deterministic matrix evidence, root/output artifacts parity, Phase 11 NON_VISUAL marker, Phase 12 strict 7 present, documentation-changelog entry checklist + validator execution log |
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-23-docs-only-final-deliverable-state-gate-2026-05.md` |
 | downstream | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` can use the generated `VERIFICATION-STATUS.md` |
+| user gate | commit / push / PR |
+
+### UI prototype alignment / MVP recovery task-27 3-layer task mapping（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` |
+| 状態 | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 13 blocked` |
+| parent workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| generated deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` |
+| evidence | `outputs/phase-5/implementation-notes.md`, `outputs/phase-7/coverage.md`, `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| inputs | task-23 `VERIFICATION-STATUS.md`, task-24 `INVARIANT-AUDIT.md`, task-25 `SMOKE-COVERAGE-MATRIX.md`, completed task-26 common surfaces context |
+| layer model | historical `3-layer` name + `PUB / MEM / ADM / COM` matrix columns |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md` |
 | user gate | commit / push / PR |
 
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
