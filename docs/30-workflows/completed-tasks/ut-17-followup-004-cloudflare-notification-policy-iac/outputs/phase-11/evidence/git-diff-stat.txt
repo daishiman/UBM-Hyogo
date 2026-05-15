@@ -1,0 +1,10 @@
+Command: git diff --stat
+Date: 2026-05-14 16:13 JST
+
+Result:
+- Changed files include aiworkflow ledgers, `.env.example`, Cloudflare alerts drift workflow, UT-17 runbook/parent guide, current workflow artifacts, Phase 11/12 outputs, `infra/cloudflare-alerts/`, `scripts/cf.sh`, and alert CLI tests.
+- `apps/` and `packages/` application runtime code were not changed by this review cycle.
+
+Artifact parity:
+- `cmp -s docs/30-workflows/ut-17-followup-004-cloudflare-notification-policy-iac/artifacts.json docs/30-workflows/ut-17-followup-004-cloudflare-notification-policy-iac/outputs/artifacts.json`
+- Exit code: 0

@@ -176,6 +176,7 @@
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
@@ -776,6 +777,7 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
@@ -812,6 +814,7 @@
       "quality-requirements.md",
       "security-implementation.md",
       "security-skill-execution-permission.md",
+      "task-workflow-active.md",
       "task-workflow-completed-recent-2026-04b.md",
       "task-workflow-completed-skill-lifecycle-archive-2026-03.md",
       "task-workflow-completed-skill-lifecycle-design.md",
@@ -4351,7 +4354,8 @@
       "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
-      "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md"
+      "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "Salt": [
       "audit-correlation.md"
@@ -4610,6 +4614,7 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
@@ -7095,6 +7100,7 @@
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-docs-only-lifecycle.md",
       "lessons-learned-issue-555-audit-correlation-salt-rotation-2026-05.md",
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "patterns-kv-dedup.md"
     ],
     "形式判定マトリクス": [
@@ -7730,6 +7736,8 @@
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-04b-member-self-service.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
+      "task-workflow-active.md",
       "workflow-02c-followup-002-fixtures-prod-build-exclusion-artifact-inventory.md",
       "workflow-issue-517-followup-auto-summary-foundation-artifact-inventory.md",
       "workflow-task-03b-followup-005-sync-jobs-design-spec-artifact-inventory.md",
@@ -9645,6 +9653,7 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
       "lessons-learned-ut-15-waf-rate-limiting.md",
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut-cicd-drift-impl-observability-matrix-sync-2026-05.md",
@@ -10061,6 +10070,7 @@
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
       "lessons-learned-u-ut01-07-sync-log-naming-2026-04.md",
       "lessons-learned-u-ut01-08-sync-enum-canonical-2026-04.md",
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "lessons-learned-ut-gov-004-branch-protection-context-sync.md",
       "lessons-learned-ut09-direction-reconciliation-2026-04.md",
       "lessons-learned-ut21-forms-sync-conflict-closeout-2026-04.md",
@@ -10359,7 +10369,10 @@
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-401-admin-request-notification-2026-05.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md"
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "周期と実行時間の数学的余裕で固定する": [
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md"
@@ -15023,6 +15036,7 @@
     "関連リンク": [
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
       "workflow-ut08-monitoring-alert-design-artifact-inventory.md"
     ],
     "Multi": [
@@ -16443,6 +16457,27 @@
     ],
     "Literals": [
       "lessons-learned-ut-15-waf-rate-limiting.md"
+    ],
+    "alert": [
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
+    ],
+    "relay": [
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
+    ],
+    "weekly": [
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
+    ],
+    "healthcheck": [
+      "lessons-learned-ut-17-followup-003-healthcheck-cron-2026-05.md",
+      "task-workflow-active.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "Projects": [
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
@@ -22404,9 +22439,6 @@
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md"
     ],
-    "alert": [
-      "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md"
-    ],
     "Gated": [
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md"
     ],
@@ -22860,6 +22892,9 @@
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "Runbooks": [
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
+    ],
+    "Followup": [
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "Relay": [

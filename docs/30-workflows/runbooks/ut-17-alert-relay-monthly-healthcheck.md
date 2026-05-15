@@ -4,9 +4,13 @@ Cloudflare Notifications → 日本語化リレー Worker → Slack の通知経
 **Webhook URL 失効 / Worker 障害 / Cloudflare 設定 drift** によってサイレント停止
 していないことを月 1 回確認する手順。
 
+> **2026-05-14 更新**: 定常監視は UT-17-followup-003 の Cloudflare Workers cron healthcheck が担当する。
+> この runbook は四半期の deep-dive、cron healthcheck 連続 2 回失敗時、インシデント対応後の手動確認に使う。
+
 ## 1. 実施タイミング
 
-- 毎月 1 日の業務開始前（朝イチ運用）
+- 四半期初月 1 日の業務開始前（朝イチ運用）
+- UT-17 weekly healthcheck が 2 回連続で失敗したとき
 - インシデント対応後（postmortem の一部として）
 
 ## 2. 確認手順（5 ステップ + KV namespace 健全性）
@@ -41,17 +45,29 @@ op run --env-file=.env -- bash -c 'curl -i -X POST \
 
 期待: `HTTP/1.1 401` （production が起動していて auth が効いている証跡）
 
-### Step 4: Cloudflare Dashboard の Notification Policy drift 確認
+### Step 4: Cloudflare Notification Policy drift 確認 (UT-17-Followup-004 IaC 経由)
 
-Cloudflare Dashboard → Notifications で以下 4 種が **Active** であることを目視:
+Dashboard 目視ではなく `infra/cloudflare-alerts/` 配下の IaC declaration と
+Cloudflare 実状を `pnpm cf:alerts:diff` で機械比較する:
 
-- Workers Daily Requests 80% / 95%
-- D1 Read+Write Rows 80% / 95%
-- Pages Build 80% / 95%
-- R2 Class A 80% / 95%
+```bash
+mise exec -- pnpm cf:alerts:diff
+# = bash scripts/cf.sh alerts diff
+# exit 0 + "no drift detected" → OK
+# exit 2 + drift 一覧                       → 差分発生。下記いずれかで対応
+```
 
-destination が `https://ubm-hyogo-api.<account>.workers.dev/internal/alert-relay`
-に紐付いていることを確認。
+drift 一覧が出た場合の対応:
+
+- 一時的に閾値を変えていた / Cloudflare 側で手動編集していた
+  → 何が正しいかを判断:
+    - **IaC が正** なら `bash scripts/cf.sh alerts apply --yes` で再収束 (要 1Password apply token)
+    - **現状が正** なら `infra/cloudflare-alerts/policies/*.json` または `quota-base.json` を更新して PR (CI drift workflow が PR で再確認)
+- 新規 policy がダッシュボードで足されている (`extra`)
+  → IaC に取り込むなら `infra/cloudflare-alerts/policies/<name>.json` を追加して PR
+  → 不要なら Cloudflare Dashboard から削除
+
+詳細: `infra/cloudflare-alerts/README.md` / `docs/30-workflows/ut-17-followup-004-cloudflare-notification-policy-iac/`
 
 ### Step 4b: ALERT_DEDUP_KV namespace 健全性確認（ut-17-followup-002）
 
