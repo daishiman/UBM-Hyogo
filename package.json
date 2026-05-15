@@ -28,6 +28,7 @@
     "test": "bash scripts/with-env.sh vitest run",
     "test:phase12-compliance": "vitest run scripts/__tests__/verify-phase12-compliance.spec.ts",
     "test:scripts": "bash scripts/d1/run-tests.sh && node --test scripts/__tests__/coverage-merge.test.mjs",
+    "test:workflow-secrets": "bash scripts/__tests__/redaction-check.test.sh && bash scripts/__tests__/workflow-env-scope.test.sh",
     "smoke:test": "bash scripts/smoke/__tests__/redact.test.sh && bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh && bash scripts/smoke/__tests__/ci-summary-post.test.sh",
     "test:coverage": "bash scripts/with-env.sh vitest run --coverage",
     "post-release-dashboard:test": "bash scripts/post-release-dashboard/__tests__/run-all.sh",

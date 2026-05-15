@@ -17,6 +17,18 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md` |
 | user gate | GitHub Actions deploy-staging / runtime smoke / commit / push / PR |
 
+### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-638-cloudflare-pages-project-var-deletion/` |
+| 状態 | `implemented_local_pending_pr / implementation / NON_VISUAL / external_mutation_completed` |
+| deletion target | GitHub repository variable `CLOUDFLARE_PAGES_PROJECT` (`ubm-hyogo-web`) |
+| evidence | `outputs/phase-11/evidence/current-repo-variables.json`, `source-grep-preflight.txt`, `pre-mutation-static-summary.txt`, `user-approval-marker.md`, `before.json`, `before-single.json`, `after.json`, `after-single.txt`, `grep-gate.txt`, `deletion-log.md` |
+| user gate | DELETE completed with approval marker. Rollback `POST`, push, PR, and Issue operation still require separate user approval |
+| source task | `docs/30-workflows/unassigned-task/issue-331-followup-001-cloudflare-pages-project-var-deletion.md` superseded in place |
+| related | Issue #331 Workers deploy cleanup, Issue #419 Pages dormant cleanup historical-only, followup-002 Pages project physical deletion remains separate |
+
 ### UT-17 follow-up 004 — Cloudflare Notification Policy IaC（2026-05-14）
 
 | 目的 | 参照先 |
@@ -186,7 +198,8 @@
 | workflow root | `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/` |
 | 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL` |
 | web deploy | `.github/workflows/web-cd.yml` uses `build:cloudflare` + `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production` |
-| web deploy secret | `.github/workflows/web-cd.yml` maps environment-scoped `secrets.CLOUDFLARE_API_TOKEN` into env `CLOUDFLARE_API_TOKEN` for both staging and production, with `Verify CF token is present` early-fail step |
+| web deploy secret | `.github/workflows/web-cd.yml` maps environment-scoped `secrets.CLOUDFLARE_API_TOKEN` into step-scoped env only for verify/deploy steps. `CLOUDFLARE_API_TOKEN` must not appear in job-level env or install/build steps. |
+| Issue #640 step-scoped CF token cutover | `docs/30-workflows/issue-640-oidc-cf-token-cutover/`（`implemented-local-runtime-pending` / implementation / NON_VISUAL）。`web-cd.yml` and `post-release-dashboard.yml` job-level token exposure removed; `scripts/redaction-check.sh` and `scripts/__tests__/workflow-env-scope.test.sh` provide local gates. Runtime deploy evidence, OIDC full migration, legacy token revocation, commit, push, and PR are user-gated. |
 | runtime smoke guard | `.github/workflows/runtime-smoke-staging.yml` Slack post runs only when `ci-evidence/summary.json` exists |
 | secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh` |
 | Phase 12 | parent design root pending; task-01 strict outputs at `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/task-01-web-cd-secret-name-alignment/outputs/phase-12/phase12-task-spec-compliance-check.md` |
@@ -783,7 +796,8 @@
 | OpenNext Workers 詳細仕様 | `references/deployment-cloudflare-opennext-workers.md` |
 | Issue #355 cutover spec workflow | `docs/30-workflows/completed-tasks/issue-355-opennext-workers-cd-cutover-task-spec/`（spec_created / implementation / NON_VISUAL / Phase 11 evidence contracts） |
 | 残る実装 task | `docs/30-workflows/unassigned-task/task-impl-opennext-workers-migration-001.md`（2026-05-09 CI recovery wave で `web-cd.yml` Workers deploy 置換は local 実装済み。残りは Cloudflare side cutover / user-approved runtime smoke evidence） |
-| Pages delete after dormant | `docs/30-workflows/issue-419-pages-project-dormant-delete-after-355/`（Issue #419 formalized / `implemented-local` / implementation / NON_VISUAL / destructive cleanup / dormant observation + user approval pending）。起票元: `docs/30-workflows/unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` |
+| Pages delete after dormant (current) | `docs/30-workflows/issue-639-cloudflare-pages-project-physical-deletion/`（Issue #639 / `spec_created` / implementation / NON_VISUAL / destructive external mutation / dormant 30 day observation + Gate C user approval pending）。source: `docs/30-workflows/unassigned-task/issue-331-followup-002-cloudflare-pages-project-physical-deletion.md` consumed |
+| Pages delete after dormant (historical predecessor) | `docs/30-workflows/issue-419-pages-project-dormant-delete-after-355/`（Issue #419 formalized historical runtime contract for Issue #355 era。current tracking is superseded by Issue #639）。起票元: `docs/30-workflows/unassigned-task/task-issue-355-pages-project-delete-after-dormant-001.md` |
 | Delete request retention purge | `docs/30-workflows/issue-402-admin-request-retention-physical-delete/`（Issue #402 / `implemented-local` / implementation / NON_VISUAL / retention policy / runtime evidence pending）。SSOT: `references/data-retention-policy.md`。対象 table: `member_responses` / `member_identities` / `member_status` + response child rows; `deleted_members` は tombstone 保持。default `RETENTION_PURGE_MODE=dry-run`、production apply は user-gated |
 | 決定 workflow | `docs/30-workflows/completed-tasks/ut-cicd-drift-impl-pages-vs-workers-decision/` |
 
@@ -1208,7 +1222,7 @@ Magic Link メール送信の env 名を、実装と aiworkflow 正本に合わ�
 | --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/` |
 | production / staging Pages project contract | `references/deployment-cloudflare.md`（UT-28 Cloudflare Pages project creation contract） |
-| GitHub Actions variable semantics | `references/deployment-gha.md`（`CLOUDFLARE_PAGES_PROJECT` = `ubm-hyogo-web` only） |
+| GitHub Actions variable semantics | `references/deployment-gha.md`（`CLOUDFLARE_PAGES_PROJECT` deleted by Issue #638; rollback value only = `ubm-hyogo-web`） |
 | U-FIX-CF-ACCT-01-DERIV-02 Cloudflare token split | `references/deployment-gha.md`, `references/deployment-secrets-management.md`, `docs/30-workflows/u-fix-cf-acct-01-deriv-02-scope-split-tokens/`（`CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` / `CF_TOKEN_PAGES_*`, Issue #406 は `Refs`） |
 | 苦戦知見 | `references/lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md`（L-UT28-001〜005: production_branch 逆配線 / Variable suffix derivation / Pages Git Integration OFF / compatibility_date 同期 / OpenNext blocker handoff） |
 | UT-27 handoff | `docs/30-workflows/completed-tasks/ut-28-cloudflare-pages-projects-creation/outputs/phase-10/handoff-to-ut27.md` |
