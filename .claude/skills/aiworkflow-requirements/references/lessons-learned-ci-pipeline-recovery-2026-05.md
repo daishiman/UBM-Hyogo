@@ -16,7 +16,7 @@
 
 ## 関連リソース
 
-- workflow root: `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/`
+- workflow root: `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/`
 - changelog: `.claude/skills/aiworkflow-requirements/changelog/20260509-ci-pipeline-recovery-web-cd-runtime-smoke.md`
 - references: `deployment-cloudflare-opennext-workers.md` §11.1, `deployment-gha.md` (workflow lint scope / failure cascade), `deployment-secrets-management.md` (Environment secret 0 件問題)
 - 関連 commits: `80ee5616`, `532d9ab5`, `ec0556f9`

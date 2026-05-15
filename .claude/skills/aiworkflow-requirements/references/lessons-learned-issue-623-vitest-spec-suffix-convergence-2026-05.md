@@ -38,4 +38,4 @@
 - 前段: `lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md`（apps/api 132 ファイル先行 rename）。本 Issue #623 はその scope-out 棚卸し（L-325-005）の正式 follow-up。
 - inventory: `workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md`
 - legacy lifecycle: `legacy-ordinal-family-register.md` の 2026-05-12 NOTE を参照（issue-NNN namespace は ordinal family 外のため Current Alias Overrides 行は追加しない）。
-- ADR: `docs/30-workflows/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md`（末尾「二段階対応終了 2026-05-12」を本 Issue で追記）
+- ADR: `docs/30-workflows/completed-tasks/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md`（末尾「二段階対応終了 2026-05-12」を本 Issue で追記）

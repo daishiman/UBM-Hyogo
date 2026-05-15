@@ -2210,6 +2210,17 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
+### references/workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow YAML 変更 | L17 |
+| Scripts | L30 |
+| Indexes / References 同期マッピング | L37 |
+| Invariants | L48 |
+| Scope Out | L56 |
+| Lessons / Genealogy | L62 |
+
 ### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
 
 | セクション | 行 |
@@ -2624,6 +2635,12 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | User Gate | L22 |
+
+### references/workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L20 |
 
 ### references/workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md
 
@@ -3318,6 +3335,14 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
 
+### references/workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L14 |
+| Runtime Boundary | L34 |
+
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
 | セクション | 行 |
@@ -3955,16 +3980,16 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L196 |
-| wrangler.toml の環境別設定 | L230 |
-| ローカル開発での設定 | L262 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L301 |
-| セキュリティ原則 | L333 |
-| Cloudflare API Token の作成手順 | L344 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L359 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L470 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L522 |
-| 変更履歴 | L541 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L208 |
+| wrangler.toml の環境別設定 | L242 |
+| ローカル開発での設定 | L274 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L313 |
+| セキュリティ原則 | L345 |
+| Cloudflare API Token の作成手順 | L356 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L371 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L482 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L534 |
+| 変更履歴 | L553 |
 
 ### references/deployment.md
 
@@ -4598,6 +4623,15 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 関連リソース | L17 |
+
+### references/lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所一覧 | L7 |
+| Secret Boundary 三層構造（L-CRSSSR-004 派生・参照用） | L49 |
+| Mutation user-gate 境界 | L57 |
+| 関連リソース | L66 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -6248,7 +6282,7 @@ node scripts/list-specs.js --topics
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L376 |
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L377 |
 | 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L393 |
-| 13. 変更履歴 | L415 |
+| 13. Issue #656 7-day summary metrics dashboard contract（2026-05-14） | L415 |
 
 ### references/patterns-advanced.md
 
@@ -6712,14 +6746,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1298 |
-| フェーズ構造（概要） | L1307 |
-| 品質ゲート（概要） | L1338 |
-| 出力テンプレート | L1349 |
-| 実行時のコマンド・エージェント・スキル | L1372 |
-| 昇格パターン集 | L1396 |
-| Current Active / Spec Created Tasks | L1398 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1540 |
+| ドキュメント構成 | L1341 |
+| フェーズ構造（概要） | L1350 |
+| 品質ゲート（概要） | L1381 |
+| 出力テンプレート | L1392 |
+| 実行時のコマンド・エージェント・スキル | L1415 |
+| 昇格パターン集 | L1439 |
+| Current Active / Spec Created Tasks | L1441 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1584 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7139,8 +7173,8 @@ node scripts/list-specs.js --topics
 | CI/CD統合 | L314 |
 | デバッグパターン | L366 |
 | Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
-| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
-| 関連ドキュメント | L464 |
+| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L424 |
+| 関連ドキュメント | L465 |
 
 ### references/ui-history-components.md
 

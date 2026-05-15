@@ -3098,6 +3098,7 @@
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-14-my-profile-and-requests-artifact-inventory.md",
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
@@ -3172,6 +3173,7 @@
       "task-workflow-phases.md",
       "workflow-05b-a-auth-mail-env-contract-alignment-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-governance-design-category.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -3190,6 +3192,7 @@
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
@@ -3443,7 +3446,8 @@
       "lessons-learned-task-17-admin-schema-conflicts-audit-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
-      "testing-playwright-e2e.md"
+      "testing-playwright-e2e.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md"
     ],
     "src": [
       "architecture-admin-api-client.md",
@@ -3615,7 +3619,8 @@
       "lessons-fetch-service-binding-testing.md",
       "lessons-learned-07b-schema-alias-assignment-2026-04.md",
       "lessons-learned-07c-attendance-audit-2026-04.md",
-      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md"
+      "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md"
     ],
     "me": [
       "architecture-admin-api-client.md",
@@ -3742,6 +3747,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
@@ -4203,6 +4209,7 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-09c-production-deploy-execution-001-2026-05.md",
       "lessons-learned-ci-pipeline-recovery-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
@@ -4371,6 +4378,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "Salt": [
@@ -4394,6 +4402,7 @@
       "data-retention-policy.md",
       "database-schema-07b-schema-alias-assignment.md",
       "gate-metadata.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-issue-350-long-term-observation-2026-05.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "post-release-long-term-observation.md",
@@ -4518,7 +4527,8 @@
       "deployment-details.md",
       "deployment-gha.md",
       "deployment-secrets-management.md",
-      "environment-variables.md"
+      "environment-variables.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md"
     ],
     "op": [
       "audit-correlation.md",
@@ -4567,6 +4577,7 @@
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-08a-B-public-search-filter-coverage-2026-05.md",
       "lessons-learned-ci-pipeline-recovery-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -4658,6 +4669,7 @@
       "lessons-learned.md",
       "release-runbook.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
@@ -4747,7 +4759,8 @@
     "References": [
       "audit-correlation.md",
       "branch-protection.md",
-      "glossary.md"
+      "glossary.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md"
     ],
     "テキスト": [
       "auth-google-oauth-cf-integration.md"
@@ -4771,7 +4784,8 @@
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
-      "patterns-kv-dedup.md"
+      "patterns-kv-dedup.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md"
     ],
     "経由の": [
       "auth-google-oauth-cf-integration.md",
@@ -5566,6 +5580,7 @@
     "Invariants": [
       "branch-protection.md",
       "quality-e2e-testing.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
@@ -5640,7 +5655,8 @@
     ],
     "YAML": [
       "claude-code-agents-spec.md",
-      "skill-ledger-gitattributes-policy.md"
+      "skill-ledger-gitattributes-policy.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md"
     ],
     "Frontmatter": [
       "claude-code-agents-spec.md"
@@ -6424,6 +6440,7 @@
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
       "lessons-learned-task-03-w2-par-sentry-workers-sdk-unify-2026-05.md",
       "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
@@ -6464,6 +6481,7 @@
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -6551,7 +6569,8 @@
       "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
     "境界": [
-      "database-admin-repository-boundary.md"
+      "database-admin-repository-boundary.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md"
     ],
     "下流連携": [
       "database-admin-repository-boundary.md"
@@ -6951,7 +6970,8 @@
       "database-schema-index.md"
     ],
     "Indexes": [
-      "database-schema-indexes.md"
+      "database-schema-indexes.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md"
     ],
     "データベーススキーマ設計": [
       "database-schema.md"
@@ -7135,6 +7155,7 @@
       "environment-variables.md",
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-ci-pipeline-recovery-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-issue-526-ci-actionlint-shellcheck-gate-2026-05.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
@@ -7154,6 +7175,7 @@
       "technology-devops-history.md",
       "technology-devops.md",
       "testing-playwright-e2e.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-526-ci-actionlint-shellcheck-gate-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
@@ -7356,6 +7378,7 @@
       "lessons-learned-06c-admin-ui-2026-04.md",
       "lessons-learned-07c-audit-log-browsing-ui-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
@@ -7432,6 +7455,7 @@
       "deployment-cloudflare-opennext-workers.md",
       "deployment-gha.md",
       "lessons-learned-ci-pipeline-recovery-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "observability-monitoring.md",
       "workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md"
@@ -7440,6 +7464,7 @@
       "deployment-cloudflare-opennext-workers.md",
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-ci-pipeline-recovery-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
@@ -8082,6 +8107,7 @@
     ],
     "Secret": [
       "deployment-secrets-management.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "provisioning": [
@@ -8111,7 +8137,8 @@
     ],
     "secrets": [
       "deployment-secrets-management.md",
-      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md"
+      "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md"
     ],
     "手編集しない": [
       "deployment-secrets-management.md"
@@ -9769,6 +9796,7 @@
       "lessons-learned-07a-tag-queue-resolve-2026-04.md",
       "lessons-learned-08a-B-public-search-filter-coverage-2026-05.md",
       "lessons-learned-ci-pipeline-recovery-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-coverage-80-enforcement-2026-04.md",
@@ -11257,6 +11285,7 @@
     "user": [
       "lessons-learned-05a-authjs-admin-gate-2026-04.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
       "lessons-learned-ut-06-fu-h-2026-04.md",
@@ -11276,6 +11305,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-ci-pipeline-recovery-2026-05.md",
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
@@ -11599,6 +11629,7 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
       "lessons-learned-task-20-w2-screen-blueprints-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md",
       "workflow-task-20-w2-screen-blueprints-public-and-member-artifact-inventory.md"
@@ -12669,6 +12700,7 @@
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
       "observability-monitoring.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
@@ -12678,6 +12710,7 @@
       "lessons-learned-09b-A-sentry-slack-runtime-smoke-2026-05.md",
       "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "observability-monitoring.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
@@ -13069,6 +13102,22 @@
     "pipeline": [
       "lessons-learned-ci-pipeline-recovery-2026-05.md"
     ],
+    "苦戦箇所一覧": [
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md"
+    ],
+    "三層構造": [
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md"
+    ],
+    "CRSSSR": [
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md"
+    ],
+    "派生・参照用": [
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md"
+    ],
+    "Mutation": [
+      "lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md",
+      "release-runbook.md"
+    ],
     "ci": [
       "lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
@@ -13227,6 +13276,7 @@
     "regression": [
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-light-theme-contrast-regression-guard.md",
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md"
@@ -14882,6 +14932,7 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
@@ -14919,6 +14970,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -19954,9 +20006,6 @@
     "セマンティック検索": [
       "rag-vector-search.md"
     ],
-    "Mutation": [
-      "release-runbook.md"
-    ],
     "Commands": [
       "release-runbook.md"
     ],
@@ -21952,6 +22001,7 @@
       "workflow-06c-C-admin-tags-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
@@ -21989,6 +22039,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -22373,6 +22424,26 @@
       "workflow-light-theme-global-remediation.md",
       "workflow-onboarding-wizard-alignment.md"
     ],
+    "Recovery": [
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md"
+    ],
+    "変更": [
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md"
+    ],
+    "Scripts": [
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md"
+    ],
+    "同期マッピング": [
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md"
+    ],
+    "Out": [
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
+      "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md"
+    ],
+    "Genealogy": [
+      "workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md",
+      "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md"
+    ],
     "Quality": [
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
     ],
@@ -22652,12 +22723,6 @@
     "targets": [
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
-    ],
-    "Out": [
-      "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md"
-    ],
-    "Genealogy": [
-      "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md"
     ],
     "Sharing": [
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md"

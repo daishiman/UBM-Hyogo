@@ -1,0 +1,2 @@
+$ bash scripts/ci/verify-workflow-doc-refs.sh
+verify-workflow-doc-refs: OK (17 references checked across 32 files)
