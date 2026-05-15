@@ -1,0 +1,45 @@
+[MR] clean output dir ...
+Listing tests:
+  [desktop-chromium] › attendance.spec.ts:7:3 › attendance visual smoke (#313) › detail: 削除済み member は候補に出ない
+  [desktop-chromium] › attendance.spec.ts:17:3 › attendance visual smoke (#313) › detail: 登録済み member は登録済として可視化される
+  [desktop-chromium] › attendance.spec.ts:27:3 › attendance visual smoke (#313) › detail: 同一 member 連続登録で toast 表示
+  [desktop-chromium] › attendance.spec.ts:40:3 › attendance visual smoke (#313) › list: delete 後 attendance state が更新される
+  [desktop-firefox] › attendance.spec.ts:7:3 › attendance visual smoke (#313) › detail: 削除済み member は候補に出ない
+  [desktop-firefox] › attendance.spec.ts:17:3 › attendance visual smoke (#313) › detail: 登録済み member は登録済として可視化される
+  [desktop-firefox] › attendance.spec.ts:27:3 › attendance visual smoke (#313) › detail: 同一 member 連続登録で toast 表示
+  [desktop-firefox] › attendance.spec.ts:40:3 › attendance visual smoke (#313) › list: delete 後 attendance state が更新される
+  [mobile-webkit] › attendance.spec.ts:7:3 › attendance visual smoke (#313) › detail: 削除済み member は候補に出ない
+  [mobile-webkit] › attendance.spec.ts:17:3 › attendance visual smoke (#313) › detail: 登録済み member は登録済として可視化される
+  [mobile-webkit] › attendance.spec.ts:27:3 › attendance visual smoke (#313) › detail: 同一 member 連続登録で toast 表示
+  [mobile-webkit] › attendance.spec.ts:40:3 › attendance visual smoke (#313) › list: delete 後 attendance state が更新される
+  [staging] › attendance.spec.ts:7:3 › attendance visual smoke (#313) › detail: 削除済み member は候補に出ない
+  [staging] › attendance.spec.ts:17:3 › attendance visual smoke (#313) › detail: 登録済み member は登録済として可視化される
+  [staging] › attendance.spec.ts:27:3 › attendance visual smoke (#313) › detail: 同一 member 連続登録で toast 表示
+  [staging] › attendance.spec.ts:40:3 › attendance visual smoke (#313) › list: delete 後 attendance state が更新される
+Total: 16 tests in 1 file
+[MR] generating report data ...
+[MR] generating test report ...
+[MR] UBM-Hyogo E2E
+┌─────────────┬───────────────────────┐
+│ Tests       │ 16                    │
+│ ├ Failed    │ 0  (0.0%)             │
+│ ├ Flaky     │ 0  (0.0%)             │
+│ ├ Skipped   │ 16 (100.0%)           │
+│ └ Passed    │ 0  (0.0%)             │
+│ Steps       │ 0                     │
+│ Suites      │ 4                     │
+│ ├ Projects  │ 4                     │
+│ ├ Files     │ 1                     │
+│ ├ Describes │ 4                     │
+│ └ Shards    │ 0                     │
+│ Errors      │ 0                     │
+│ Retries     │ 0                     │
+│ Logs        │ 0                     │
+│ Attachments │ 0                     │
+│ Artifacts   │ 0                     │
+│ Playwright  │ v1.59.1               │
+│ Date        │ 5/15/2026, 1:45:14 PM │
+│ Duration    │ 430ms                 │
+└─────────────┴───────────────────────┘
+[MR] json: ../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/monocart/index.json
+[MR] view report: npx monocart show-report ../../docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/monocart/index.html

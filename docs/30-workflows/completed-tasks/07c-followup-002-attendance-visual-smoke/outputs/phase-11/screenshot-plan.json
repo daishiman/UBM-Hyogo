@@ -1,0 +1,33 @@
+{
+  "task_id": "07c-followup-002-attendance-visual-smoke",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "screenshots": [
+    {
+      "file": "screenshots/attendance-deleted-excluded.png",
+      "acceptance_criterion": "AC-1"
+    },
+    {
+      "file": "screenshots/attendance-already-registered.png",
+      "acceptance_criterion": "AC-2"
+    },
+    {
+      "file": "screenshots/attendance-dup-1.png",
+      "acceptance_criterion": "AC-3"
+    },
+    {
+      "file": "screenshots/attendance-dup-2.png",
+      "acceptance_criterion": "AC-3"
+    },
+    {
+      "file": "screenshots/attendance-delete-before.png",
+      "acceptance_criterion": "AC-4"
+    },
+    {
+      "file": "screenshots/attendance-delete-after.png",
+      "acceptance_criterion": "AC-4"
+    }
+  ]
+}

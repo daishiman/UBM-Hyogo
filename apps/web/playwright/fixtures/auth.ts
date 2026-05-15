@@ -1,7 +1,12 @@
 import { test as base, expect, type Page, type BrowserContext } from '@playwright/test'
 import { signSessionJwt, type MemberId } from '@ubm-hyogo/shared'
-import { createServer, type Server, type ServerResponse } from 'node:http'
+import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
 import { buildMember, buildPreview, buildStats } from '../../src/test-utils/fixtures/public'
+import {
+  defaultAttendanceSeed,
+  type MockMeetingsSeed,
+  unregisteredAttendanceSeed,
+} from './admin-meetings'
 
 type AuthFixtures = {
   adminPage: Page
@@ -35,6 +40,7 @@ type MockApiState = {
   pendingRequests: PendingRequests
   visibilityPost?: { status: number; body: unknown }
   adminDashboardUnresolvedSchema?: number
+  meetingsSeed: MockMeetingsSeed
 }
 
 type MockApi = {
@@ -43,24 +49,39 @@ type MockApi = {
   setDeletePending: (createdAt?: string) => Promise<void>
   setVisibilityError: (status: number, body: unknown) => void
   setAdminDashboardUnresolvedSchema: (count: number) => Promise<void>
+  seedMeetings: (seed?: MockMeetingsSeed) => Promise<void>
+  seedUnregisteredMeeting: () => Promise<void>
 }
 
 const STANDALONE_BASE = `http://127.0.0.1:${MOCK_API_PORT}`
 
 async function postControl(path: string, body?: unknown): Promise<void> {
-  try {
-    const init: RequestInit = {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-    }
-    if (body !== undefined) init.body = JSON.stringify(body)
-    await fetch(`${STANDALONE_BASE}${path}`, init)
-  } catch {
-    // standalone mock 未起動 (local dev) はフォールバック (内蔵 server で処理)
+  await ensureMockApi()
+  const init: RequestInit = {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
   }
+  if (body !== undefined) init.body = JSON.stringify(body)
+  const res = await fetch(`${STANDALONE_BASE}${path}`, init)
+  if (!res.ok) throw new Error(`mock control ${path} failed with ${res.status}`)
 }
 
-const state: MockApiState = { pendingRequests: {} }
+async function waitForMockApiReady(): Promise<void> {
+  const deadline = Date.now() + 5_000
+  let lastError: unknown
+  while (Date.now() < deadline) {
+    try {
+      const res = await fetch(`${STANDALONE_BASE}/__test__/health`)
+      if (res.ok) return
+    } catch (error) {
+      lastError = error
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100))
+  }
+  throw lastError instanceof Error ? lastError : new Error('mock api did not become ready')
+}
+
+const state: MockApiState = { pendingRequests: {}, meetingsSeed: defaultAttendanceSeed() }
 let serverPromise: Promise<void> | null = null
 let server: Server | null = null
 
@@ -162,7 +183,21 @@ function publicMemberProfileBody() {
 
 function adminMembersBody(query: URLSearchParams) {
   const q = query.get('q') ?? ''
+  const attendanceMembers =
+    process.env.PLAYWRIGHT_EVIDENCE_TASK === '07c-followup-002'
+      ? state.meetingsSeed.members.map((member) => ({
+          memberId: member.memberId,
+          responseEmail: `${member.memberId}@example.test`,
+          fullName: member.fullName,
+          publicConsent: 'consented',
+          rulesConsent: 'consented',
+          publishState: 'public',
+          isDeleted: member.isDeleted === true,
+          lastSubmittedAt: '2026-05-09T12:00:00.000Z',
+        }))
+      : []
   const baseMembers = [
+    ...attendanceMembers,
     {
       memberId: 'mem_alpha',
       responseEmail: 'alpha@example.test',
@@ -203,6 +238,76 @@ function adminMembersBody(query: URLSearchParams) {
   }
 }
 
+function meetingsListBody() {
+  return {
+    total: state.meetingsSeed.meetings.length,
+    items: state.meetingsSeed.meetings.map((meeting) => ({
+      sessionId: meeting.sessionId,
+      title: meeting.title,
+      heldOn: meeting.heldOn,
+      note: meeting.note,
+      createdAt: meeting.createdAt,
+      attendance: meeting.attendees,
+    })),
+  }
+}
+
+function meetingDetailBody(sessionId: string) {
+  const meeting = state.meetingsSeed.meetings.find((item) => item.sessionId === sessionId)
+  if (!meeting) return null
+  return {
+    sessionId: meeting.sessionId,
+    title: meeting.title,
+    heldOn: meeting.heldOn,
+    candidates: meeting.candidates,
+    attendees: meeting.attendees,
+  }
+}
+
+function updateAttendance(sessionId: string, memberId: string, attended: boolean): {
+  status: number
+  body: unknown
+} {
+  const meeting = state.meetingsSeed.meetings.find((item) => item.sessionId === sessionId)
+  if (!meeting) return { status: 404, body: { error: 'meeting_not_found' } }
+  const candidate = meeting.candidates.find((item) => item.memberId === memberId)
+  if (!candidate) return { status: 404, body: { error: 'member_not_found' } }
+  if (candidate?.isDeleted) return { status: 422, body: { error: 'member_deleted' } }
+  const exists = meeting.attendees.some((item) => item.memberId === memberId)
+  if (attended && exists) {
+    return { status: 409, body: { error: 'attendance_already_recorded' } }
+  }
+  if (attended) {
+    meeting.attendees = [
+      ...meeting.attendees,
+      { memberId, assignedAt: '2026-05-15T00:00:00.000Z', assignedBy: 'admin-1' },
+    ]
+    return { status: 200, body: { ok: true, attended: true } }
+  }
+  meeting.attendees = meeting.attendees.filter((item) => item.memberId !== memberId)
+  return { status: 200, body: { ok: true, attended: false } }
+}
+
+function readJson(req: IncomingMessage): Promise<unknown> {
+  return new Promise((resolve, reject) => {
+    let raw = ''
+    req.on('data', (chunk) => {
+      raw += String(chunk)
+    })
+    req.on('end', () => {
+      if (!raw) {
+        resolve({})
+        return
+      }
+      try {
+        resolve(JSON.parse(raw))
+      } catch (error) {
+        reject(error)
+      }
+    })
+  })
+}
+
 function adminMemberDetailBody(memberId: string) {
   return {
     identityMemberId: memberId,
@@ -229,6 +334,10 @@ async function ensureMockApi(): Promise<void> {
   serverPromise = new Promise((resolve, reject) => {
     server = createServer((req, res) => {
       const url = new URL(req.url ?? '/', `http://127.0.0.1:${MOCK_API_PORT}`)
+      if (req.method === 'GET' && url.pathname === '/__test__/health') {
+        response(res, 200, { ok: true })
+        return
+      }
       if (req.method === 'GET' && url.pathname === '/me') {
         response(res, 200, {
           user: {
@@ -268,6 +377,52 @@ async function ensureMockApi(): Promise<void> {
       }
       if (req.method === 'GET' && url.pathname === '/admin/members') {
         response(res, 200, adminMembersBody(url.searchParams))
+        return
+      }
+      if (req.method === 'GET' && url.pathname === '/admin/meetings') {
+        response(res, 200, meetingsListBody())
+        return
+      }
+      const meetingDetailMatch = url.pathname.match(/^\/admin\/meetings\/([^/]+)$/)
+      if (req.method === 'GET' && meetingDetailMatch?.[1]) {
+        const detail = meetingDetailBody(decodeURIComponent(meetingDetailMatch[1]))
+        response(res, detail ? 200 : 404, detail ?? { error: 'meeting_not_found' })
+        return
+      }
+      const attendanceMatch = url.pathname.match(/^\/admin\/meetings\/([^/]+)\/attendances$/)
+      if (req.method === 'POST' && attendanceMatch?.[1]) {
+        readJson(req)
+          .then((body) => {
+            const parsed = body as { memberId?: string; attended?: boolean }
+            if (!parsed.memberId || typeof parsed.attended !== 'boolean') {
+              response(res, 400, { error: 'invalid_attendance_body' })
+              return
+            }
+            const result = updateAttendance(
+              decodeURIComponent(attendanceMatch[1]),
+              parsed.memberId,
+              parsed.attended,
+            )
+            response(res, result.status, result.body)
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
+        return
+      }
+      if (req.method === 'POST' && url.pathname === '/__test__/seed-meetings') {
+        readJson(req)
+          .then((body) => {
+            state.meetingsSeed = body as MockMeetingsSeed
+            response(res, 200, { ok: true })
+          })
+          .catch(() => response(res, 400, { error: 'invalid_json' }))
+        return
+      }
+      if (req.method === 'POST' && url.pathname === '/__test__/reset') {
+        state.pendingRequests = {}
+        delete state.visibilityPost
+        delete state.adminDashboardUnresolvedSchema
+        state.meetingsSeed = defaultAttendanceSeed()
+        response(res, 200, { ok: true })
         return
       }
       const memberDetailMatch = url.pathname.match(/^\/admin\/members\/([^/]+)$/)
@@ -332,14 +487,21 @@ async function ensureMockApi(): Promise<void> {
       }
       response(res, 404, { error: 'MOCK_API_NOT_FOUND', path: url.pathname })
     })
-    server.once('error', (err: NodeJS.ErrnoException) => {
+    server.once('error', async (err: NodeJS.ErrnoException) => {
       if (err.code === 'EADDRINUSE') {
-        resolve()
+        try {
+          await waitForMockApiReady()
+          resolve()
+        } catch (error) {
+          reject(error)
+        }
         return
       }
       reject(err)
     })
-    server.listen(MOCK_API_PORT, '127.0.0.1', () => resolve())
+    server.listen(MOCK_API_PORT, '127.0.0.1', () => {
+      waitForMockApiReady().then(resolve, reject)
+    })
   })
   return serverPromise
 }
@@ -349,6 +511,7 @@ const mockApi: MockApi = {
     state.pendingRequests = {}
     delete state.visibilityPost
     delete state.adminDashboardUnresolvedSchema
+    state.meetingsSeed = defaultAttendanceSeed()
     await postControl('/__test__/reset')
   },
   setVisibilityPending: async (createdAt = '2026-05-09T00:00:00.000Z') => {
@@ -376,6 +539,15 @@ const mockApi: MockApi = {
   setAdminDashboardUnresolvedSchema: async (count) => {
     state.adminDashboardUnresolvedSchema = count
     await postControl('/__test__/admin-dashboard', { unresolvedSchema: count })
+  },
+  seedMeetings: async (seed = defaultAttendanceSeed()) => {
+    state.meetingsSeed = seed
+    await postControl('/__test__/seed-meetings', seed)
+  },
+  seedUnregisteredMeeting: async () => {
+    const seed = unregisteredAttendanceSeed()
+    state.meetingsSeed = seed
+    await postControl('/__test__/seed-meetings', seed)
   },
 }
 

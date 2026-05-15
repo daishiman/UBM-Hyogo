@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### 07c follow-up 002 attendance visual smoke（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_pass / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/07c-followup-002-attendance-visual-smoke/` |
+| Issue | #313 CLOSED。PR 文脈は `Refs #313` のみ |
+| 目的 | admin meetings attendance visual smoke を 4 test に拡張し、削除済み候補除外、登録済み状態、重複登録 toast、list delete reflection を screenshot / trace で証明する |
+| 実装対象 | `apps/web/playwright/tests/attendance.spec.ts`, `apps/web/playwright/page-objects/AdminMeetingsPage.ts`, `apps/web/playwright/fixtures/auth.ts`, `apps/web/playwright/fixtures/admin-meetings.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/playwright.config.ts`, `apps/api/src/routes/admin/meetings.ts`, `apps/api/src/routes/admin/meetings.contract.spec.ts`, `.github/workflows/playwright-smoke.yml` |
+| API boundary | `GET /admin/meetings/:id` returns detail candidates/attendees for the Web detail page; existing `/admin/meetings/:id/attendances` uses `{ memberId, attended: true | false }`; singular `/attendance` route is not canonical |
+| evidence | Phase 11 screenshots 6 files, `trace/attendance-delete-trace.zip`, `e2e-run.txt`, `e2e-list.txt`, `e2e-skip-count.txt`, `runner-version.txt`, `verify-design-tokens.txt`, `phase11-capture-metadata.json` |
+| artifact inventory | `references/workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md` |
+| user gate | GitHub Actions CI smoke / visual baseline update / staging replacement / commit / push / PR |
+
 ### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 項目 | 値 |
