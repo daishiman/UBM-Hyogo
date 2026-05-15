@@ -377,6 +377,17 @@ VisibilityRequest / DeleteRequest（`apps/web/app/profile/_components/`）は、
 
 新たに自己操作系 UI を追加する場合も、必ず authGateState を購読して disabled 制御に流用する（ローカルな再判定を**書かない**）。
 
+### 06b-C profile 申請 dialog の mutation 同期パターン（parallel-02-state-sync-router-refresh / 2026-05-15）
+
+`VisibilityRequestDialog` / `DeleteRequestDialog` の mutation success branch では、`router.refresh()` を **dialog ローカル**で呼び、`router.refresh() → onSubmitted(accepted) → onClose()` の順序を固定する。parent (`RequestActionPanel`) に router 依存を持たせない。
+
+- 順序固定の理由: `onClose()` を先に呼ぶと dialog unmount 後に refresh が走り「React state update on unmounted component」warning が出る。spec で順序を明文化し、test は `vi.fn().mock.invocationCallOrder` で `<` 比較検証する。
+- Bridge state の寿命: parent は `onSubmitted(accepted)` から `acceptedPending` を一時的に保持し、`useEffect` の dependency で server `pendingRequests` 到着時に自動破棄。楽観的 UI ではなく「次の server snapshot まで」の限定寿命とする。
+- Failure 分岐: 409 DUPLICATE_PENDING_REQUEST は accepted response 相当を `onSubmitted` へ渡すが `router.refresh()` は呼ばない。422 / 5xx / network error は両 callback とも skip する。
+- 責務境界: parent は domain callback (`onSubmitted(accepted)`) だけ公開、router / refresh は dialog 側のローカル責務に局所化する。
+
+詳細教訓は [lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md](lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md) を参照。
+
 ---
 
 ## 続き

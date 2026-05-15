@@ -390,6 +390,32 @@ cd apps/desktop && pnpm vitest run src/renderer/components/AuthGuard/
 - **発見日**: 2026-05-10
 - **関連タスク**: task-15 admin dashboard and members
 
+### [Testing/UI] callback 呼び出し順序を契約として固定し invocationCallOrder で検証する（parallel-02 state-sync router.refresh）
+
+- **状況**: dialog / form コンポーネントが `router.refresh()`、`onSubmitted()`、`onClose()` のような複数 side-effect を持つ場合、呼び出し順序が逆転すると stale data の一瞬表示や parent unmount race が発生する。順序を「実装上たまたまそうなっている」状態にすると refactor で容易に壊れる。さらに API error（例: 409 DUPLICATE_PENDING）など「特定経路では refresh しない」例外も暗黙化すると regression を生む
+- **アプローチ**:
+  1. 順序を Phase 2 設計書または component header コメントで **契約として明示**する（例: `// invariant: router.refresh() -> onSubmitted() -> onClose()`）
+  2. API error のうち refresh を skip する条件（duplicate pending, validation error 等）を error code 単位で列挙し、「skip 条件は status code / error code で判定し message 文字列 match に依存しない」と固定する
+  3. テストは `vi.fn()` の `.mock.invocationCallOrder` を比較する単一 assertion で順序を検証する（spy ごとに `toHaveBeenCalled` を並べるだけでは順序を保証できない）:
+     ```ts
+     const refresh = vi.fn(); const onSubmitted = vi.fn(); const onClose = vi.fn();
+     // ... act ...
+     expect(refresh.mock.invocationCallOrder[0])
+       .toBeLessThan(onSubmitted.mock.invocationCallOrder[0]);
+     expect(onSubmitted.mock.invocationCallOrder[0])
+       .toBeLessThan(onClose.mock.invocationCallOrder[0]);
+     ```
+  4. skip 経路は「refresh が呼ばれない」negative assertion (`expect(refresh).not.toHaveBeenCalled()`) と「他の callback は通常通り呼ばれる」positive assertion を必ず両方書く
+  5. router.refresh のような state-sync 責務は **dialog / form ローカルに局所化**し、parent に bubble up しない。parent は `onSubmitted` の business event だけを受け取る（責務分離）
+- **結果**: 順序契約が test で守られ、refactor 時に regress すれば必ず fail する。skip 経路の暗黙化も防止できる
+- **失敗パターン**:
+  - `expect(a).toHaveBeenCalled(); expect(b).toHaveBeenCalled()` だけで順序検証したつもりになる
+  - skip 条件を error message 文字列で判定し、i18n 変更で壊れる
+  - router.refresh を parent component に持たせ、複数 dialog で重複呼び出しが起きる
+- **適用条件**: 複数 side-effect callback を順序付きで呼ぶ dialog / form / mutation hook、router.refresh と業務 callback の混在、特定 error code で部分 skip する経路を持つ component
+- **発見日**: 2026-05-15
+- **関連タスク**: parallel-02-state-sync-router-refresh
+
 ### [Testing/E2E] page-object と実装 testid の drift 防止（task-15 admin dashboard）
 
 - **状況**: page-object に新しい locator を追加しても、実装側 `data-testid` が同 cycle で配備されていないと spec が `Locator timeout` で fail する。逆に実装側 testid を rename しても page-object が追従せず壊れる drift も起きる

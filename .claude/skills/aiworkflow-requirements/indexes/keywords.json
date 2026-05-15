@@ -3701,6 +3701,7 @@
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-issue-667-stage3b-mock-api-fixture-coverage-2026-05.md",
+      "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
       "lessons-learned-ut-02a-attendance-profile-integration-2026-05.md",
       "task-workflow-backlog.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
@@ -4623,6 +4624,7 @@
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
@@ -7049,6 +7051,7 @@
       "lessons-learned-issue-191-schema-aliases-2026-04.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
       "lessons-learned-issue-372-attendance-pagination-2026-05.md",
+      "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-u-ut01-07-fu01-canonical-sync-receiver-2026-05.md",
@@ -7461,6 +7464,7 @@
       "lessons-learned-issue-347-cloudflare-analytics-export-2026-05.md",
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-616-miniflare-undici-upstream-tracking-2026-05.md",
+      "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md",
       "master-design.md",
       "workflow-ut-06-fu-a-prod-route-secret-001-artifact-inventory.md"
@@ -9823,6 +9827,7 @@
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
@@ -11095,7 +11100,8 @@
       "lessons-learned-04c-admin-backoffice-2026-04.md"
     ],
     "router": [
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md"
     ],
     "分割": [
       "lessons-learned-04c-admin-backoffice-2026-04.md",
@@ -15298,6 +15304,24 @@
     "Reinstall": [
       "lessons-learned-lefthook-mwr-runbook-2026-04.md"
     ],
+    "parallel": [
+      "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
+      "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
+      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
+      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
+      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
+    ],
+    "refresh": [
+      "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "教訓": [
+      "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
+      "lessons-learned-sync-merge-hook-skip-2026-04.md",
+      "lessons-learned-ut-cicd-drift-2026-04.md",
+      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
+    ],
     "Codex": [
       "lessons-learned-skill-codex-validation-2026-04.md"
     ],
@@ -15385,11 +15409,6 @@
     ],
     "個人開発運用ポリシー": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
-    ],
-    "教訓": [
-      "lessons-learned-sync-merge-hook-skip-2026-04.md",
-      "lessons-learned-ut-cicd-drift-2026-04.md",
-      "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
     ],
     "Lesson": [
       "lessons-learned-sync-merge-hook-skip-2026-04.md"
@@ -16522,9 +16541,6 @@
     "分リード": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
-    "refresh": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
-    ],
     "flight": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
@@ -16832,13 +16848,6 @@
     ],
     "serial": [
       "lessons-learned-ut-coverage-2026-05-wave.md"
-    ],
-    "parallel": [
-      "lessons-learned-ut-coverage-2026-05-wave.md",
-      "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
-      "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
-      "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
-      "workflow-task-08a-parallel-api-contract-repository-and-authorization-tests-artifact-inventory.md"
     ],
     "分割は": [
       "lessons-learned-ut-coverage-2026-05-wave.md"

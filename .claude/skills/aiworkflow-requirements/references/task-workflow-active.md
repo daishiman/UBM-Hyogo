@@ -22,6 +22,19 @@
 | evidence | `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | runtime/staging visual evidence / commit / push / PR |
 
+### parallel-02-state-sync-router-refresh（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-02-state-sync-router-refresh/` |
+| 教訓 | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| 目的 | `/profile` の visibility/delete request mutation 成功直後に `RequestPendingBanner` を page reload なしで即時表示する |
+| 実装 | `VisibilityRequestDialog` / `DeleteRequestDialog` success branch に `router.refresh() -> onSubmitted() -> onClose()` を追加し、`RequestActionPanel` は accepted response bridge state を次の server snapshot までに限定 |
+| evidence | focused web unit PASS / typecheck PASS / lint PASS / Playwright visual screenshot 5 files PASS |
+| user gate | commit、push、PR |
+
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
 | 項目 | 値 |
