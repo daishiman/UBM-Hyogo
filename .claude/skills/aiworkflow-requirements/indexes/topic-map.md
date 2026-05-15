@@ -3099,6 +3099,15 @@ node scripts/list-specs.js --topics
 | API Inputs | L45 |
 | Notes | L54 |
 
+### references/workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L13 |
+| Local implementation artifacts | L32 |
+| Runtime boundary | L45 |
+
 ### references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md
 
 | セクション | 行 |
@@ -3416,6 +3425,14 @@ node scripts/list-specs.js --topics
 | Tests | L26 |
 | Runbooks | L35 |
 | Runtime Boundary | L42 |
+
+### references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Planned Implementation Artifacts | L13 |
+| State Boundary | L25 |
 
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
@@ -6172,6 +6189,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 成功パターン | L6 |
+
+### references/patterns-kv-dedup.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Env binding narrowing（必須 binding 追加時の型 contravariance 回避） | L9 |
+| 2. KV stub fixture（focused test 用） | L26 |
+| 3. Persistence ordering — 外部 call 成功後にのみ put | L45 |
+| 4. `wrangler.toml` binding gating | L63 |
+| 5. Wording 規律 — practical reduction を使う | L90 |
+| 適用範囲 | L107 |
 
 ### references/patterns.md
 
