@@ -1,0 +1,10 @@
+{
+  "$schema": "../schema/webhook.schema.json",
+  "name": "ut-17-relay",
+  "type": "generic",
+  "urlRef": "op://UBM-Hyogo/UT-17 Alert Relay/url",
+  "secretHeader": {
+    "name": "cf-webhook-auth",
+    "valueRef": "op://UBM-Hyogo/UT-17 Alert Relay/cf-webhook-auth"
+  }
+}
