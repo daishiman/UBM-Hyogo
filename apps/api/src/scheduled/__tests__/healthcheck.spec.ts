@@ -5,10 +5,25 @@ import { runAlertRelayHealthcheck } from "../healthcheck";
 const SECRET = "test-secret";
 const SLACK_URL = "https://hooks.slack.com/services/T/B/X";
 
+const createDedupKvMock = () => {
+  const store = new Map<string, string>();
+  return {
+    get: vi.fn(async (key: string) => store.get(key) ?? null),
+    put: vi.fn(async (key: string, value: string) => {
+      store.set(key, value);
+    }),
+    delete: vi.fn(async (key: string) => {
+      store.delete(key);
+    }),
+    list: vi.fn(async () => ({ keys: [], list_complete: true, cursor: "" })),
+  } as unknown as KVNamespace;
+};
+
 const env = (overrides: Partial<Env> = {}) =>
   ({
     CF_WEBHOOK_AUTH_SECRET: SECRET,
     SLACK_WEBHOOK_URL: SLACK_URL,
+    ALERT_DEDUP_KV: createDedupKvMock(),
     ...overrides,
   }) as Env;
 
