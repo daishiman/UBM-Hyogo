@@ -8,6 +8,17 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
+| 実装 | `AdminSidebar` home link、`MemberDrawer` encoded tags link |
+| evidence | component/typecheck/lint/build logs、DOM snapshot、mock fallback PNG 2 files |
+| runtime boundary | real authenticated screenshots / staging smoke / commit / push / PR は user-gated |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 項目 | 値 |

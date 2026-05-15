@@ -5,6 +5,19 @@
 
 ---
 
+### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| scope | AdminSidebar home link + MemberDrawer tags link |
+| implementation | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| tests | `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx`, `apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx` |
+| evidence | `outputs/phase-11/dom-snapshot.txt`, mock fallback PNG 2 files, component/typecheck/lint/build logs |
+| runtime boundary | real authenticated screenshots and staging smoke remain runtime pending |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 目的 | 参照先 |

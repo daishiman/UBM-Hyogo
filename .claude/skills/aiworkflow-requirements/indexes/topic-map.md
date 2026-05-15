@@ -1096,13 +1096,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
-| 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L112 |
-| 5. /admin/tags | L205 |
-| 6. /admin/schema | L260 |
-| 7. /admin/meetings | L314 |
-| 8. 共通の Server/Client 契約 | L383 |
-| 9. 不変条件サマリ（admin UI） | L401 |
+| 3. /admin（Dashboard） | L83 |
+| 4. /admin/members | L118 |
+| 5. /admin/tags | L216 |
+| 6. /admin/schema | L271 |
+| 7. /admin/meetings | L325 |
+| 8. 共通の Server/Client 契約 | L394 |
+| 9. 不変条件サマリ（admin UI） | L412 |
 
 ### references/ui-ux-advanced.md
 
@@ -6643,14 +6643,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1256 |
-| フェーズ構造（概要） | L1265 |
-| 品質ゲート（概要） | L1296 |
-| 出力テンプレート | L1307 |
-| 実行時のコマンド・エージェント・スキル | L1330 |
-| 昇格パターン集 | L1354 |
-| Current Active / Spec Created Tasks | L1356 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1496 |
+| ドキュメント構成 | L1267 |
+| フェーズ構造（概要） | L1276 |
+| 品質ゲート（概要） | L1307 |
+| 出力テンプレート | L1318 |
+| 実行時のコマンド・エージェント・スキル | L1341 |
+| 昇格パターン集 | L1365 |
+| Current Active / Spec Created Tasks | L1367 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1507 |
 
 ### references/task-workflow-backlog-part2.md
 
