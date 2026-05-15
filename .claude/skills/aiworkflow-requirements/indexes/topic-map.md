@@ -1096,13 +1096,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
-| 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L112 |
-| 5. /admin/tags | L205 |
-| 6. /admin/schema | L260 |
-| 7. /admin/meetings | L314 |
-| 8. 共通の Server/Client 契約 | L383 |
-| 9. 不変条件サマリ（admin UI） | L401 |
+| 3. /admin（Dashboard） | L83 |
+| 4. /admin/members | L118 |
+| 5. /admin/tags | L216 |
+| 6. /admin/schema | L271 |
+| 7. /admin/meetings | L325 |
+| 8. 共通の Server/Client 契約 | L394 |
+| 9. 不変条件サマリ（admin UI） | L412 |
 
 ### references/ui-ux-advanced.md
 
