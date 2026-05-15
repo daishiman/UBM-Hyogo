@@ -4,12 +4,16 @@ Cloudflare Notifications → 日本語化リレー Worker → Slack の通知経
 **Webhook URL 失効 / Worker 障害 / Cloudflare 設定 drift** によってサイレント停止
 していないことを月 1 回確認する手順。
 
+> **2026-05-14 更新**: 定常監視は UT-17-followup-003 の Cloudflare Workers cron healthcheck が担当する。
+> この runbook は四半期の deep-dive、cron healthcheck 連続 2 回失敗時、インシデント対応後の手動確認に使う。
+
 ## 1. 実施タイミング
 
-- 毎月 1 日の業務開始前（朝イチ運用）
+- 四半期初月 1 日の業務開始前（朝イチ運用）
+- UT-17 weekly healthcheck が 2 回連続で失敗したとき
 - インシデント対応後（postmortem の一部として）
 
-## 2. 確認手順（5 ステップ）
+## 2. 確認手順（5 ステップ + KV namespace 健全性）
 
 ### Step 1: テスト payload を staging に送信
 
@@ -64,6 +68,25 @@ drift 一覧が出た場合の対応:
   → 不要なら Cloudflare Dashboard から削除
 
 詳細: `infra/cloudflare-alerts/README.md` / `docs/30-workflows/ut-17-followup-004-cloudflare-notification-policy-iac/`
+
+### Step 4b: ALERT_DEDUP_KV namespace 健全性確認（ut-17-followup-002）
+
+dedup state は Cloudflare KV namespace `ALERT_DEDUP_KV`（binding 名）に永続化されている。
+isolate 跨ぎ dedup が機能していることを確認する。
+
+```bash
+# binding が staging / production に正しく紐付いているか確認。
+# namespace title は作成時の出力に従う。運用上の推奨 title は alert-dedup-staging / alert-dedup-production。
+bash scripts/cf.sh kv:namespace list
+
+# staging の dedup key を 1 件 list（任意。entry が無いか直近 5 分以内の entry のみであれば正常）
+bash scripts/cf.sh kv:key list --binding ALERT_DEDUP_KV --env staging
+```
+
+期待:
+- `kv:namespace list` 結果に、staging / production 用の実 namespace id と title（推奨: `alert-dedup-staging` / `alert-dedup-production`）が表示される
+- staging key list で TTL 5 分超えの古い entry が残っていない（KV `expirationTtl` が機能している）
+- 異常時: `apps/api/wrangler.toml` のコメント化済み `[[env.{staging,production}.kv_namespaces]]` block が実 namespace id で有効化されているか確認する。placeholder id を active TOML に置かない。
 
 ### Step 5: 1Password の secret 鮮度確認
 

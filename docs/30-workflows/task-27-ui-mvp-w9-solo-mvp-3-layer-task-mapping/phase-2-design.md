@@ -16,9 +16,9 @@ mapping matrix の物理レイアウト・セル分類アルゴリズム・WARN/
 
 | 既存資産 | 再利用方針 |
 |---------|-----------|
-| `docs/30-workflows/ui-prototype-alignment-mvp-recovery/SCOPE.md` | 19 routes と層対応の一次正本として参照 |
+| `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` | 19 routes と層対応の一次正本として参照 |
 | 各 task root `index.md`（task-01〜22） | scope / 対象ファイル / DoD の参照元 |
-| `task-23/.../VERIFICATION-STATUS.md`（task-23 実行結果） | WARN/FAIL 情報源 |
+| `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md`（task-23 実行結果） | WARN/FAIL 情報源 |
 | `task-24/.../INVARIANT-AUDIT.md`（task-24 実行結果、利用可能なら） | 不変条件遵守度の層別集約 |
 | `task-25/.../SMOKE-COVERAGE-MATRIX.md`（task-25 実行結果、利用可能なら） | route 単位 smoke の層別集約 |
 

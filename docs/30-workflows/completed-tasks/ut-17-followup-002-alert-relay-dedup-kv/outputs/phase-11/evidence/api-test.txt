@@ -1,0 +1,9 @@
+Command: pnpm exec vitest run apps/api/src/routes/internal/__tests__/alert-relay.test.ts
+Result: PASS
+
+Test Files  1 passed (1)
+Tests       21 passed (21)
+
+Notes:
+- TC-KV-05 intentionally exercises KV get failure; Hono reports the thrown error to stderr and returns 500.
+- TC-KV-09 intentionally exercises KV put failure after Slack delivery; route returns 200 with dedupPersisted=false.

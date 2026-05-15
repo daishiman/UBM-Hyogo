@@ -1,5 +1,5 @@
 // 08a AC-4: ResponseId と MemberId の混同を type レベルで防ぐ
-// repository/__tests__/brand.test.ts の補完として、関数引数（MemberId を受ける関数）に
+// repository/__tests__/brand.spec.ts の補完として、関数引数（MemberId を受ける関数）に
 // ResponseId を渡そうとすると @ts-expect-error でブロックされることを集約 verify する。
 
 import { describe, it, expect } from "vitest";
