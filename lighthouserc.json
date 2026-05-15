@@ -4,7 +4,6 @@
       "url": [
         "http://localhost:3000/",
         "http://localhost:3000/members",
-        "http://localhost:3000/profile",
         "http://localhost:3000/login"
       ],
       "numberOfRuns": 1,
