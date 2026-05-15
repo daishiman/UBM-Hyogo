@@ -2613,6 +2613,12 @@ node scripts/list-specs.js --topics
 | Evidence Boundary | L30 |
 | State Vocabulary | L37 |
 
+### references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L22 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3093,6 +3099,15 @@ node scripts/list-specs.js --topics
 | API Inputs | L45 |
 | Notes | L54 |
 
+### references/workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow artifacts | L13 |
+| Local implementation artifacts | L32 |
+| Runtime boundary | L45 |
+
 ### references/workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md
 
 | セクション | 行 |
@@ -3410,6 +3425,14 @@ node scripts/list-specs.js --topics
 | Tests | L26 |
 | Runbooks | L35 |
 | Runtime Boundary | L42 |
+
+### references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Planned Implementation Artifacts | L13 |
+| State Boundary | L25 |
 
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
@@ -6140,11 +6163,12 @@ node scripts/list-specs.js --topics
 | 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L254 |
 | 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L278 |
 | 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L307 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L336 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L354 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L355 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L371 |
-| 13. 変更履歴 | L393 |
+| 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14） | L336 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L358 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L376 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L377 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L393 |
+| 13. 変更履歴 | L415 |
 
 ### references/patterns-advanced.md
 
@@ -6165,6 +6189,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 成功パターン | L6 |
+
+### references/patterns-kv-dedup.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Env binding narrowing（必須 binding 追加時の型 contravariance 回避） | L9 |
+| 2. KV stub fixture（focused test 用） | L26 |
+| 3. Persistence ordering — 外部 call 成功後にのみ put | L45 |
+| 4. `wrangler.toml` binding gating | L63 |
+| 5. Wording 規律 — practical reduction を使う | L90 |
+| 適用範囲 | L107 |
 
 ### references/patterns.md
 
@@ -6597,13 +6632,13 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1228 |
-| フェーズ構造（概要） | L1237 |
-| 品質ゲート（概要） | L1268 |
-| 出力テンプレート | L1279 |
-| 実行時のコマンド・エージェント・スキル | L1302 |
-| 昇格パターン集 | L1326 |
-| Current Active / Spec Created Tasks | L1328 |
+| ドキュメント構成 | L1242 |
+| フェーズ構造（概要） | L1251 |
+| 品質ゲート（概要） | L1282 |
+| 出力テンプレート | L1293 |
+| 実行時のコマンド・エージェント・スキル | L1316 |
+| 昇格パターン集 | L1340 |
+| Current Active / Spec Created Tasks | L1342 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -16,7 +16,7 @@ issue_number: 634
 | 対象機能     | `apps/api` `/internal/alert-relay` の dedup 処理                |
 | 優先度       | 低                                                              |
 | 見積もり規模 | 小規模                                                          |
-| ステータス   | 未実施                                                          |
+| ステータス   | transferred_to_workflow（`docs/30-workflows/ut-17-followup-002-alert-relay-dedup-kv/` で仕様化済み。実装・外部操作は user-gated） |
 | 発見元       | ut-17-cloudflare-analytics-alerts                               |
 | 発見日       | 2026-05-09                                                      |
 
@@ -239,6 +239,10 @@ runbook 反映 + staging 実機確認ログ取得
 ---
 
 ## 7. 参照情報
+
+## 8. 後継 workflow
+
+この未タスクは `docs/30-workflows/ut-17-followup-002-alert-relay-dedup-kv/` に昇格済み。今後は後継 workflow の Phase 1-13、root / `outputs/artifacts.json`、Phase 12 strict 7 outputs を正本として扱う。
 
 ### 関連実装
 
