@@ -2665,6 +2665,22 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
 
+### references/workflow-parallel-03-prototype-ux-css-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Scope (G3-1 / G3-2 / G3-3) | L16 |
+| Implementation Artifacts | L24 |
+| Contract | L40 |
+| AC to Runtime Path | L50 |
+| Phase 11 Evidence | L63 |
+| Phase 12 Required Files | L74 |
+| Skill Promotion | L86 |
+| Open Follow-Ups | L94 |
+| Rollback Contract | L101 |
+| Related Resources | L110 |
+
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
 | セクション | 行 |
@@ -5009,6 +5025,12 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
 
+### references/lessons-learned-parallel-03-prototype-ux-css-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L8 |
+
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
 | セクション | 行 |
@@ -6643,14 +6665,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1256 |
-| フェーズ構造（概要） | L1265 |
-| 品質ゲート（概要） | L1296 |
-| 出力テンプレート | L1307 |
-| 実行時のコマンド・エージェント・スキル | L1330 |
-| 昇格パターン集 | L1354 |
-| Current Active / Spec Created Tasks | L1356 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1496 |
+| ドキュメント構成 | L1276 |
+| フェーズ構造（概要） | L1285 |
+| 品質ゲート（概要） | L1316 |
+| 出力テンプレート | L1327 |
+| 実行時のコマンド・エージェント・スキル | L1350 |
+| 昇格パターン集 | L1374 |
+| Current Active / Spec Created Tasks | L1376 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1516 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -5,6 +5,22 @@
 
 ---
 
+### parallel-03-prototype-ux-css（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-03-prototype-ux-css/` |
+| 状態 | `implemented_local_visual_runtime_captured / implementation / VISUAL / Phase 13 user-gated` |
+| parent workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-03-prototype-ux-css/spec.md` |
+| scope | G3-1 tag pill selected fill / G3-2 member card hover + focus-within transition / G3-3 profile visibility marker |
+| implementation targets | `apps/web/src/styles/globals.css`, public components, public component specs, `apps/web/playwright/tests/visual/visual-feedback.spec.ts` |
+| evidence | `artifacts.json`, `outputs/artifacts.json`, `outputs/phase-11/main.md`, `outputs/phase-11/evidence/command-contract.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | API / D1 / token values unchanged. `member` / `admin` visibility visual evidence requires component fixture or mock route because public runtime currently falls back to `public` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-03-prototype-ux-css-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-03-prototype-ux-css-2026-05.md`（L-P03-001..008） |
+| user gate | implementation commit / push / PR |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 目的 | 参照先 |
