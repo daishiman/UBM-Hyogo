@@ -1,0 +1,16 @@
+{
+  "$schema": "../schema/policy.schema.json",
+  "name": "r2-class-a",
+  "description": "R2 Class A + Class B operations 80% of free-tier monthly quota",
+  "alert_type": "billing_usage_alert",
+  "enabled": true,
+  "conditions": {
+    "anyOf": [
+      { "metric": "r2_class_a_per_month", "percentage": 0.8 },
+      { "metric": "r2_class_b_per_month", "percentage": 0.8 }
+    ]
+  },
+  "mechanisms": {
+    "webhooks": [{ "name": "ut-17-relay" }]
+  }
+}
