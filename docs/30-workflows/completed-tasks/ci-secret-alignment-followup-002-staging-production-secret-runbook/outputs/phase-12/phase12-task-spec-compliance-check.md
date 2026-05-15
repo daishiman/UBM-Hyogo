@@ -1,10 +1,10 @@
 # Phase 12 Task Spec Compliance Check
 
-## 1. Summary Verdict
+## Summary verdict
 
 completed. The workflow is now classified as `implementation / NON_VISUAL / docs_plus_script_fix`: the original deliverable is runbook documentation, and close-out review required a same-cycle helper script correction for stale `gh secret set --body -` guidance.
 
-## 2. Changed-Files Classification
+## Changed-files classification
 
 | Class | Files |
 | --- | --- |
@@ -16,11 +16,11 @@ completed. The workflow is now classified as `implementation / NON_VISUAL / docs
 | Source unassigned | `docs/30-workflows/unassigned-task/ci-secret-alignment-followup-002-staging-production-secret-runbook.md` |
 | System references and generated indexes | `.claude/skills/aiworkflow-requirements/**` selected reference/index/changelog files |
 
-## 3. `workflow_state` And Phase Status Consistency
+## `workflow_state` and phase status consistency
 
 Root `index.md`, `artifacts.json`, and `outputs/artifacts.json` use `completed`. Phase 13 remains user-gated for commit / push / PR. Root and output artifacts both use `taskType=implementation`, `visualEvidence=NON_VISUAL`, and `implementationCategory=docs_plus_script_fix`.
 
-## 4. Phase 11 Evidence File Inventory
+## Phase 11 evidence file inventory
 
 | File | Verdict |
 | --- | --- |
@@ -36,7 +36,7 @@ Root `index.md`, `artifacts.json`, and `outputs/artifacts.json` use `completed`.
 | `outputs/phase-11/evidence/git-diff-name-only.txt` | completed |
 | `outputs/phase-11/evidence/unassigned-spec-status-update.txt` | completed |
 
-## 5. Phase 12 Strict 7 File Inventory
+## Phase 12 strict 7 file inventory
 
 | File | Verdict |
 | --- | --- |
@@ -48,7 +48,7 @@ Root `index.md`, `artifacts.json`, and `outputs/artifacts.json` use `completed`.
 | `outputs/phase-12/unassigned-task-detection.md` | completed |
 | `outputs/phase-12/documentation-changelog.md` | completed |
 
-## 6. Skill / Reference / System Spec Same-Wave Sync
+## Skill/reference/system spec same-wave sync
 
 | Area | Verdict |
 | --- | --- |
@@ -60,15 +60,15 @@ Root `index.md`, `artifacts.json`, and `outputs/artifacts.json` use `completed`.
 | aiworkflow changelog added | completed |
 | `SKILL-changelog.md` updated | completed |
 
-## 7. Runtime Or User-Gated Boundary
+## Runtime or user-gated boundary
 
 Secret mutation (`gh secret set`), Cloudflare token issuance/revoke, deploy run, commit, push, and PR creation are user-gated. No such mutation was executed. The script change is local code correction only.
 
-## 8. Archive / Delete / Stale-Reference Gate
+## Archive/delete stale-reference gate
 
 No workflow root was deleted. The source unassigned task is marked `consumed_by_workflow` with a canonical workflow pointer, so it no longer appears as an open executable task. The parent completed workflow index links all three runbooks.
 
-## 9. Four-Condition Verdict
+## Four-condition verdict
 
 | Condition | Verdict | Evidence |
 | --- | --- | --- |
