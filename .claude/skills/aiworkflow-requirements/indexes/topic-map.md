@@ -2665,6 +2665,8 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
 
+### references/workflow-parallel-04-attendance-paging-ui-artifact-inventory.md
+
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
 | セクション | 行 |
@@ -5009,6 +5011,17 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
 
+### references/lessons-learned-parallel-04-attendance-paging-ui-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-P04-001: Server Component が initial page を seed し、Client Component が以降を CSR で append する seed-only state pattern | L9 |
+| L-P04-002: cursor を UI 側で opaque string として扱い、parse / decode せず `encodeURIComponent` で URL に流す | L27 |
+| L-P04-003: Playwright fixture は `/me/profile` と `/me/attendance` の dual-endpoint を 1 メソッドで同期 seed する | L45 |
+| L-P04-004: `hasMore` / `nextCursor` の論理整合は UI で二重ガードし、将来 API contract で discriminated union 化する | L62 |
+| L-P04-005: `role="alert"` 採用と無限スクロール不採用の a11y / 契約整合判断 | L79 |
+| L-P04-006: 親 spec の supersession note による旧仕様の inline 撤回パターン | L98 |
+
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
 | セクション | 行 |
@@ -6643,14 +6656,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1256 |
-| フェーズ構造（概要） | L1265 |
-| 品質ゲート（概要） | L1296 |
-| 出力テンプレート | L1307 |
-| 実行時のコマンド・エージェント・スキル | L1330 |
-| 昇格パターン集 | L1354 |
-| Current Active / Spec Created Tasks | L1356 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1496 |
+| ドキュメント構成 | L1271 |
+| フェーズ構造（概要） | L1280 |
+| 品質ゲート（概要） | L1311 |
+| 出力テンプレート | L1322 |
+| 実行時のコマンド・エージェント・スキル | L1345 |
+| 昇格パターン集 | L1369 |
+| Current Active / Spec Created Tasks | L1371 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1511 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7067,11 +7080,12 @@ node scripts/list-specs.js --topics
 | アクセシビリティテスト | L237 |
 | beforeEachパターン | L272 |
 | テストスキップパターン | L298 |
-| CI/CD統合 | L314 |
-| デバッグパターン | L366 |
-| Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
-| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
-| 関連ドキュメント | L464 |
+| 機能別 evidence spec | L314 |
+| CI/CD統合 | L343 |
+| デバッグパターン | L395 |
+| Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L417 |
+| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L452 |
+| 関連ドキュメント | L493 |
 
 ### references/ui-history-components.md
 

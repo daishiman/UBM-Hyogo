@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### parallel-04 AttendanceList cursor paging UI（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / Phase 12 strict 7 present / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-04-attendance-paging-ui/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-04-attendance-paging/spec.md` |
+| API boundary | `/me/profile` initial attendance page uses正本 default 50 records; `/api/me/attendance?cursor=<opaque>` fetches additional pages |
+| 実装対象 | `apps/web/app/profile/_components/AttendanceList.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/src/lib/api/me-types.ts` |
+| evidence | `apps/web/app/profile/_components/AttendanceList.spec.tsx`, `apps/web/playwright/tests/attendance-paging-ui-evidence.spec.ts`, `apps/web/playwright/fixtures/auth.ts`, `docs/30-workflows/completed-tasks/parallel-04-attendance-paging-ui/outputs/phase-11/evidence/`, `docs/30-workflows/completed-tasks/parallel-04-attendance-paging-ui/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-04-attendance-paging-ui-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-04-attendance-paging-ui-2026-05.md`（L-P04-001..006: seed-only state / cursor opaque encodeURIComponent / dual-endpoint mock / hasMore-nextCursor 整合 / role=alert + 無限スクロール不採用 / spec supersession note） |
+| user gate | commit、push、PR |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 項目 | 値 |

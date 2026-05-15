@@ -5,6 +5,19 @@
 
 ---
 
+### parallel-04 AttendanceList cursor paging UI（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/parallel-04-attendance-paging-ui/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-04-attendance-paging/spec.md` |
+| API SSOT | `docs/00-getting-started-manual/specs/01-api-schema.md` §Attendance pagination。`/me/profile` initial page is default 50 records |
+| implementation | `apps/web/app/profile/_components/AttendanceList.tsx`, `apps/web/app/profile/page.tsx`, `apps/web/src/lib/api/me-types.ts` |
+| focused test | `apps/web/app/profile/_components/AttendanceList.spec.tsx` |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md`, `references/workflow-parallel-04-attendance-paging-ui-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 目的 | 参照先 |

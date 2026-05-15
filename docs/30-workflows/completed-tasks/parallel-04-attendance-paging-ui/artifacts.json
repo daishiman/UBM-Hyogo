@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "workflow_id": "parallel-04-attendance-paging-ui",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "created_at": "2026-05-15",
+    "updated_at": "2026-05-15",
+    "source_issue": 372,
+    "source_issue_state": "closed",
+    "parent_workflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery",
+    "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-04-attendance-paging/spec.md"
+  },
+  "implementation_targets": [
+    "apps/web/app/profile/_components/AttendanceList.tsx",
+    "apps/web/app/profile/_components/AttendanceList.spec.tsx",
+    "apps/web/app/profile/page.tsx",
+    "apps/web/src/lib/api/me-types.ts"
+  ],
+  "evidence": [
+    "outputs/phase-11/evidence/vitest-attendance-list.txt",
+    "outputs/phase-11/evidence/design-token-grep.txt",
+    "outputs/phase-11/evidence/playwright-report/results.json",
+    "outputs/phase-11/evidence/monocart/index.json",
+    "outputs/phase-11/screenshots/profile-attendance-paging-desktop.png",
+    "outputs/phase-11/visual-verification.md",
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "phases": [
+    { "phase": 1, "status": "completed" },
+    { "phase": 2, "status": "completed" },
+    { "phase": 3, "status": "completed" },
+    { "phase": 4, "status": "completed" },
+    { "phase": 5, "status": "completed" },
+    { "phase": 6, "status": "completed" },
+    { "phase": 7, "status": "completed" },
+    { "phase": 8, "status": "completed" },
+    { "phase": 9, "status": "completed" },
+    { "phase": 10, "status": "completed" },
+    { "phase": 11, "status": "completed" },
+    { "phase": 12, "status": "completed" },
+    { "phase": 13, "status": "blocked" }
+  ]
+}
