@@ -42,6 +42,19 @@ jobs:
       - name: Start deterministic mock API
         run: node scripts/e2e-mock-api.mjs > /tmp/e2e-mock-api.log 2>&1 &
 
+      - name: Wait for mock API readiness
+        run: |
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8787/health; then
+              echo "mock API ready (attempt=$i)"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::mock API not ready after 30s"
+          cat /tmp/e2e-mock-api.log || true
+          exit 1
+
       - name: Critical-route smoke (fail-fast)
         run: pnpm --filter @ubm-hyogo/web e2e --project=${{ matrix.project }} --grep @critical-route
 
@@ -63,6 +76,14 @@ jobs:
         with:
           name: e2e-monocart-${{ matrix.project }}-${{ github.sha }}
           path: apps/web/playwright/evidence/monocart/
+          retention-days: 7
+
+      - name: Upload mock API log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-mock-api-log-${{ matrix.project }}-${{ github.sha }}
+          path: /tmp/e2e-mock-api.log
           retention-days: 7
 
       - name: Upload Playwright HTML report (failure only)

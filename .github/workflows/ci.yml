@@ -130,6 +130,10 @@ jobs:
         if: steps.ready.outputs.value == 'true'
         run: node --test scripts/__tests__/coverage-merge.test.mjs
 
+      - name: Mock API contract tests
+        if: steps.ready.outputs.value == 'true'
+        run: pnpm exec vitest run scripts/__tests__/e2e-mock-api.contract.spec.ts packages/contracts/src/index.spec.ts
+
 
   coverage-gate-shard:
     # 仕様: docs/30-workflows/issue-617-ci-test-time-reduction-split/phase-09.md

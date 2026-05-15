@@ -21,6 +21,18 @@
 | local verification | `pnpm install --frozen-lockfile=false`, `pnpm why esbuild`, `pnpm exec esbuild --version`, `build:cloudflare`, `apps/api wrangler deploy --dry-run` |
 | user gate | GitHub Actions deploy-staging, runtime smoke, commit, push, PR |
 
+### Issue #667 Stage 3b mock API fixture coverage（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `runtime_pending / implementation / NON_VISUAL / existing-hardening / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-667-stage3b-mock-api-fixture-coverage/` |
+| source unassigned | `docs/30-workflows/unassigned-task/task-e2e-stage3b-mock-api-fixture-coverage-001.md`（implemented_local_runtime_pending） |
+| 目的 | `scripts/e2e-mock-api.mjs` を contracts SSOT + contract spec + readiness evidence で harden する |
+| implementation targets | `packages/contracts/`, `scripts/e2e-mock-api.mjs`, `scripts/__tests__/e2e-mock-api.contract.spec.ts`, `.github/workflows/e2e-tests.yml`, `.github/workflows/ci.yml` |
+| evidence boundary | Runtime implementation and focused Phase 11 local evidence are complete. GitHub Actions runtime evidence remains pending. |
+| user gate | commit / push / PR / Issue mutation は user approval 後 |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 項目 | 値 |
@@ -35,6 +47,7 @@
 | downstream | `issue-331-followup-002` Pages project physical deletion and OIDC cutover remain separate |
 
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
+
 
 ### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 

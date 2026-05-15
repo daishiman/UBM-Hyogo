@@ -10,7 +10,7 @@
 | 対象機能         | `scripts/e2e-mock-api.mjs` / `apps/api/src/routes/**` zod schema / Phase 11 evidence |
 | 優先度           | HIGH                                                                                |
 | 見積もり規模     | 中規模                                                                              |
-| ステータス       | 未実施 (proposed)                                                                   |
+| ステータス       | implemented_local_runtime_pending（canonical workflow: `docs/30-workflows/issue-667-stage3b-mock-api-fixture-coverage/`） |
 | 親タスク         | e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate                              |
 | サブタスク識別子 | 3b 後続 / mock-api fixture 強化                                                      |
 | taskType         | test-infrastructure                                                                  |
@@ -54,13 +54,13 @@
 
 - **AC-MOCK-01**: `apps/api/src/routes/**` で実装されている全 endpoint のうち `apps/web` E2E が叩く全パスに対し、mock がレスポンスを返す。`/v1/public/members`, `/v1/public/members/[id]`, `/v1/me`, `/v1/me/profile`, `/v1/me/visibility-request`, `/v1/me/delete-request`, `/v1/admin/dashboard`, `/v1/admin/members`, `/v1/admin/tags/queue`, `/v1/admin/schema/diff`, `/v1/admin/meetings`, `/v1/admin/requests/*`, `/v1/admin/identity-conflicts`, `/v1/admin/audit`, `/v1/public/stats`, `/v1/public/form-preview` を最低限カバーする。
 - **AC-MOCK-02**: 各 endpoint のレスポンスは `apps/api` 側 zod schema を `packages/contracts/`（または `apps/api/src/contracts/`）から共有 export し、mock 側で `schema.parse(payload)` を必ず通してから `res.end()` する。parse 失敗時は HTTP 500 + body に zod issue を返す。
-- **AC-MOCK-03**: `scripts/__tests__/e2e-mock-api.contract.test.ts`（Vitest）を新設し、各 endpoint に対し `node scripts/e2e-mock-api.mjs` を起動 → fetch → web 側 zod schema で parse することを契約として assert する。CI（既存 `unit-tests` workflow）から実行する。
+- **AC-MOCK-03**: `scripts/__tests__/e2e-mock-api.contract.spec.ts`（Vitest）を新設し、各 endpoint に対し `node scripts/e2e-mock-api.mjs` を起動 → fetch → contracts zod schema で parse することを契約として assert する。CI（既存 `.github/workflows/ci.yml` test job または root `pnpm test` 経路）から実行する。
 - **AC-MOCK-04**: seed データに最低限 member 3 件（pagination 検証用）/ zone facet 2 種類 / membership type 2 種類 / 検索 negative case（`zzz_no_match_zzz`）/ tag facet 2 種類を含める。spec が拡張されても mock 側 seed の shape を変えずに済む構造にする。
 - **AC-MOCK-05**: `e2e-tests.yml` で mock 起動後に `curl --retry 5 http://127.0.0.1:8787/health` で readiness wait し、Playwright 起動前に必ず健康状態を確認する。`/tmp/e2e-mock-api.log` を CI artifact として `actions/upload-artifact@v4` で取得可能にする（retention 7 日）。
 
 ### 2.3 検証エビデンス
 
-- `scripts/__tests__/e2e-mock-api.contract.test.ts` が CI で green
+- `scripts/__tests__/e2e-mock-api.contract.spec.ts` が CI で green
 - `apps/api` の zod schema を意図的に 1 field rename した dummy PR で contract test が fail することを観測
 - mock readiness wait の `curl` が `connection refused` でリトライした後 200 を返すログ
 - E2E run 中に mock が捕捉した request 一覧（`/tmp/e2e-mock-api.log`）が artifact として download 可能
@@ -71,7 +71,7 @@
 
 - `scripts/e2e-mock-api.mjs` の endpoint 網羅 + zod parse 必須化
 - `apps/api` の zod schema を共有可能な形に export（`apps/api/src/contracts/` or `packages/contracts/` を新設）
-- `scripts/__tests__/e2e-mock-api.contract.test.ts` 新規（Vitest）
+- `scripts/__tests__/e2e-mock-api.contract.spec.ts` 新規（Vitest）
 - `.github/workflows/e2e-tests.yml` mock 起動 step の readiness wait + log artifact 化
 - seed データの variation 拡充（`scripts/e2e-mock-api.fixtures.ts` に分離可）
 
@@ -87,7 +87,7 @@
 - `scripts/e2e-mock-api.mjs`（major edit / endpoint 網羅 + zod parse）
 - `scripts/e2e-mock-api.fixtures.ts`（新規 / seed データ集約）
 - `apps/api/src/contracts/index.ts`（新規 / 共有 zod schema export）または `packages/contracts/`
-- `scripts/__tests__/e2e-mock-api.contract.test.ts`（新規 / Vitest contract test）
+- `scripts/__tests__/e2e-mock-api.contract.spec.ts`（新規 / Vitest contract test）
 - `.github/workflows/e2e-tests.yml`（edit / readiness wait + mock log artifact step 追加）
 - `pnpm-lock.yaml` 更新（必要に応じ）
 - Phase 11 evidence: `outputs/phase-11/evidence/{mock-endpoint-coverage.txt, mock-contract-test.txt, mock-readiness-log.txt}`
@@ -122,7 +122,7 @@
 ### 3.4 contract test の構造
 
 ```ts
-// scripts/__tests__/e2e-mock-api.contract.test.ts（抜粋）
+// scripts/__tests__/e2e-mock-api.contract.spec.ts（抜粋）
 import { spawn } from "node:child_process";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import * as schema from "@ubm-hyogo/contracts";
@@ -181,7 +181,7 @@ describe("mock API contract", () => {
 ```bash
 mise exec -- pnpm install
 mise exec -- pnpm --filter @ubm-hyogo/contracts build  # packages/contracts 採用時
-mise exec -- pnpm vitest run scripts/__tests__/e2e-mock-api.contract.test.ts
+mise exec -- pnpm vitest run scripts/__tests__/e2e-mock-api.contract.spec.ts
 mise exec -- node scripts/e2e-mock-api.mjs &
 mise exec -- pnpm --filter @ubm-hyogo/web e2e
 ```
@@ -225,7 +225,7 @@ mise exec -- pnpm --filter @ubm-hyogo/web e2e
 
 ### 5.5 contract test の起動コスト
 
-- contract test は mock を spawn する都合で unit test より遅い。`scripts/__tests__/` 配下に置くことで Vitest の `include` から外し、`pnpm vitest run scripts/__tests__/e2e-mock-api.contract.test.ts` を `e2e-tests.yml` の Playwright 実行**前**に走らせ、mock 自体が壊れている場合は E2E 開始前に fail させる。これにより「30 分の Playwright run の終盤で mock の shape ミスが原因で fail」の不毛な切り分けを排除できる。
+- contract test は mock を spawn する都合で unit test より遅い。`scripts/__tests__/` 配下に置き、`pnpm vitest run scripts/__tests__/e2e-mock-api.contract.spec.ts` を `ci.yml` test job または `e2e-tests.yml` の Playwright 実行**前**に走らせ、mock 自体が壊れている場合は E2E 開始前に fail させる。これにより「30 分の Playwright run の終盤で mock の shape ミスが原因で fail」の不毛な切り分けを排除できる。
 
 ---
 
@@ -235,7 +235,7 @@ mise exec -- pnpm --filter @ubm-hyogo/web e2e
 |------|---------|
 | `scripts/e2e-mock-api.mjs` | major edit（endpoint 網羅 + zod parse 必須化） |
 | `scripts/e2e-mock-api.fixtures.ts` | 新規（seed データ集約） |
-| `scripts/__tests__/e2e-mock-api.contract.test.ts` | 新規（Vitest contract test） |
+| `scripts/__tests__/e2e-mock-api.contract.spec.ts` | 新規（Vitest contract test） |
 | `apps/api/src/contracts/index.ts` または `packages/contracts/` | 新規（共有 zod schema export） |
 | `pnpm-workspace.yaml` | edit（packages/contracts 採用時） |
 | `.github/workflows/e2e-tests.yml` | edit（readiness wait + log artifact step 追加） |
