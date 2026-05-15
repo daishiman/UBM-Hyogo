@@ -2232,6 +2232,12 @@ node scripts/list-specs.js --topics
 | Evidence Artifacts | L24 |
 | Boundary | L39 |
 
+### references/workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L16 |
+
 ### references/workflow-governance-design-category.md
 
 | セクション | 行 |
@@ -3904,11 +3910,12 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L208 |
 | モニタリングとアラート | L235 |
 | GitHub Secrets の要件 | L269 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L319 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L345 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L356 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L377 |
-| post-release-30day-auto-summary | L414 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L301 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L323 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L349 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L360 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L381 |
+| post-release-30day-auto-summary | L418 |
 
 ### references/deployment-history.md
 
@@ -3924,15 +3931,16 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| wrangler.toml の環境別設定 | L205 |
-| ローカル開発での設定 | L237 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L276 |
-| セキュリティ原則 | L308 |
-| Cloudflare API Token の作成手順 | L319 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L334 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L445 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L497 |
-| 変更履歴 | L516 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L196 |
+| wrangler.toml の環境別設定 | L230 |
+| ローカル開発での設定 | L262 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L301 |
+| セキュリティ原則 | L333 |
+| Cloudflare API Token の作成手順 | L344 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L359 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L470 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L522 |
+| 変更履歴 | L541 |
 
 ### references/deployment.md
 
@@ -4115,7 +4123,8 @@ node scripts/list-specs.js --topics
 | Purpose | L12 |
 | Gate Entry Contract | L16 |
 | Validator Contract | L40 |
-| Rollout Boundary | L60 |
+| Operational Guidance (新規 artifacts.json 追加時) | L60 |
+| Rollout Boundary | L64 |
 
 ### references/governance-hooks-factory-audit-sink.md
 
@@ -4175,15 +4184,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L21 |
-| 使い方 | L29 |
-| Current Alias Overrides（個別互換行） | L36 |
-| Family Summary | L77 |
-| Detailed Register | L98 |
-| Section Extract Register (2026-03-17) | L279 |
-| 500-Line Split Register (2026-03-16) | L290 |
-| Fragment Migration Register (2026-04-28) | L312 |
-| Task Root Path Drift Register (2026-04-30 追記) | L339 |
+| 概要 | L22 |
+| 使い方 | L30 |
+| Current Alias Overrides（個別互換行） | L37 |
+| Family Summary | L78 |
+| Detailed Register | L99 |
+| Section Extract Register (2026-03-17) | L280 |
+| 500-Line Split Register (2026-03-16) | L291 |
+| Fragment Migration Register (2026-04-28) | L313 |
+| Task Root Path Drift Register (2026-04-30 追記) | L340 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4564,7 +4573,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L16 |
+| 関連リソース | L17 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -4992,6 +5001,12 @@ node scripts/list-specs.js --topics
 | 苦戦箇所と知見 | L7 |
 | 運用知見 | L49 |
 | 参照 | L58 |
+
+### references/lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 5-minute Checklist | L15 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -6651,14 +6666,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1242 |
-| フェーズ構造（概要） | L1251 |
-| 品質ゲート（概要） | L1282 |
-| 出力テンプレート | L1293 |
-| 実行時のコマンド・エージェント・スキル | L1316 |
-| 昇格パターン集 | L1340 |
-| Current Active / Spec Created Tasks | L1342 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1481 |
+| ドキュメント構成 | L1257 |
+| フェーズ構造（概要） | L1266 |
+| 品質ゲート（概要） | L1297 |
+| 出力テンプレート | L1308 |
+| 実行時のコマンド・エージェント・スキル | L1331 |
+| 昇格パターン集 | L1355 |
+| Current Active / Spec Created Tasks | L1357 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1499 |
 
 ### references/task-workflow-backlog-part2.md
 
