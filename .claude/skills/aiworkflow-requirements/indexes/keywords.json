@@ -3116,6 +3116,7 @@
       "arch-state-management-skill-creator.md",
       "arch-ui-components-core.md",
       "architecture-rag.md",
+      "deployment-gha.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-issue-106-admin-notes-repository-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
@@ -3674,6 +3675,7 @@
       "architecture-auth-security-core.md",
       "branch-protection-desired-state-manifest.md",
       "branch-protection.md",
+      "deployment-gha.md",
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-05a-form-preview-503-2026-05.md",
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
@@ -4315,6 +4317,7 @@
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "lessons-learned-issue-626-rb01-share-build-output-2026-05.md",
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
@@ -4476,6 +4479,7 @@
       "lessons-learned-issue-518-cf-audit-logs-hold-2026-05.md",
       "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
       "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-task-spec-2d-contract-stage-2-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
@@ -4582,6 +4586,7 @@
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "lessons-learned-issue-626-rb01-share-build-output-2026-05.md",
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -5935,6 +5940,7 @@
     ],
     "artifacts": [
       "claude-code-settings-hierarchy.md",
+      "gate-metadata.md",
       "lessons-learned-06c-E-admin-meetings-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-docs-only-lifecycle.md",
@@ -5966,6 +5972,7 @@
     ],
     "json": [
       "claude-code-settings-hierarchy.md",
+      "gate-metadata.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-response-sync-2026-04.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
@@ -7521,6 +7528,7 @@
     ],
     "CLOUDFLARE": [
       "deployment-cloudflare.md",
+      "deployment-gha.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
     ],
     "TOKEN": [
@@ -7816,6 +7824,18 @@
     "Backend": [
       "deployment-gha.md"
     ],
+    "PAGES": [
+      "deployment-gha.md"
+    ],
+    "PROJECT": [
+      "deployment-gha.md"
+    ],
+    "deletion": [
+      "deployment-gha.md",
+      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "workflow-governance-design-category.md",
+      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+    ],
     "配置決定": [
       "deployment-gha.md"
     ],
@@ -7970,6 +7990,7 @@
     "Token": [
       "deployment-secrets-management.md",
       "lessons-learned-issue-408-cf-audit-logs-monitoring-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "r2-storage-decision-guide.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
@@ -8399,6 +8420,20 @@
       "gate-metadata.md"
     ],
     "Validator": [
+      "gate-metadata.md"
+    ],
+    "Operational": [
+      "gate-metadata.md"
+    ],
+    "Guidance": [
+      "gate-metadata.md"
+    ],
+    "新規": [
+      "gate-metadata.md",
+      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
+      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
+    ],
+    "追加時": [
       "gate-metadata.md"
     ],
     "Rollout": [
@@ -9622,6 +9657,7 @@
       "lessons-learned-issue-623-vitest-spec-suffix-convergence-2026-05.md",
       "lessons-learned-issue-626-rb01-share-build-output-2026-05.md",
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
@@ -13278,11 +13314,6 @@
     "destination": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
     ],
-    "deletion": [
-      "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
-      "workflow-governance-design-category.md",
-      "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
-    ],
     "表に専用テンプレが無い": [
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md"
     ],
@@ -13457,7 +13488,8 @@
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md"
     ],
     "Cutover": [
-      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md"
+      "lessons-learned-issue-355-opennext-workers-cd-cutover-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md"
     ],
     "ctx": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
@@ -14614,10 +14646,12 @@
       "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md"
     ],
     "minute": [
-      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md"
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md"
     ],
     "Checklist": [
-      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md"
+      "lessons-learned-issue-547-cf-audit-logs-redacted-production-feature-export-2026-05.md",
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md"
     ],
     "Model": [
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
@@ -14977,6 +15011,20 @@
     ],
     "LHCI": [
       "lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md"
+    ],
+    "OIDC": [
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
+      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
+    ],
+    "Step": [
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
+      "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
+      "logs-archive-2026-02-validator-task-9f-task-9b.md",
+      "logs-archive-2026-03-task-10a-c-final-audit.md",
+      "workflow-ai-runtime-authmode-unification.md"
+    ],
+    "Scoped": [
+      "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md"
     ],
     "against": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
@@ -15898,9 +15946,6 @@
     ],
     "関連教訓": [
       "lessons-learned-task19-primitives-full-spec-2026-05.md"
-    ],
-    "OIDC": [
-      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
     ],
     "Short": [
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
@@ -17746,12 +17791,6 @@
     ],
     "未タスク登録同期追補": [
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md"
-    ],
-    "Step": [
-      "logs-archive-2026-02-auth-callback-lifecycle-guard.md",
-      "logs-archive-2026-02-validator-task-9f-task-9b.md",
-      "logs-archive-2026-03-task-10a-c-final-audit.md",
-      "workflow-ai-runtime-authmode-unification.md"
     ],
     "完了化": [
       "logs-archive-2026-02-auth-callback-lifecycle-guard.md"
@@ -22113,10 +22152,6 @@
     ],
     "更新した既存": [
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md"
-    ],
-    "新規": [
-      "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",
-      "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md"
     ],
     "再生成・監査コマンド": [
       "workflow-aiworkflow-requirements-line-budget-reform-artifact-inventory.md",

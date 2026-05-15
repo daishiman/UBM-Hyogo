@@ -3895,11 +3895,12 @@ node scripts/list-specs.js --topics
 | Backend ワークフロー要件（dev / main マージ時） | L208 |
 | モニタリングとアラート | L235 |
 | GitHub Secrets の要件 | L269 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L319 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L345 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L356 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L377 |
-| post-release-30day-auto-summary | L414 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L301 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L323 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L349 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L360 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L381 |
+| post-release-30day-auto-summary | L418 |
 
 ### references/deployment-history.md
 
@@ -3915,15 +3916,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| wrangler.toml の環境別設定 | L205 |
-| ローカル開発での設定 | L237 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L276 |
-| セキュリティ原則 | L308 |
-| Cloudflare API Token の作成手順 | L319 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L334 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L445 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L497 |
-| 変更履歴 | L516 |
+| wrangler.toml の環境別設定 | L219 |
+| ローカル開発での設定 | L251 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L290 |
+| セキュリティ原則 | L322 |
+| Cloudflare API Token の作成手順 | L333 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L348 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L459 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L511 |
+| 変更履歴 | L530 |
 
 ### references/deployment.md
 
@@ -4106,7 +4107,8 @@ node scripts/list-specs.js --topics
 | Purpose | L12 |
 | Gate Entry Contract | L16 |
 | Validator Contract | L40 |
-| Rollout Boundary | L60 |
+| Operational Guidance (新規 artifacts.json 追加時) | L60 |
+| Rollout Boundary | L64 |
 
 ### references/governance-hooks-factory-audit-sink.md
 
@@ -4555,7 +4557,7 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 関連リソース | L16 |
+| 関連リソース | L17 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -4983,6 +4985,12 @@ node scripts/list-specs.js --topics
 | 苦戦箇所と知見 | L7 |
 | 運用知見 | L49 |
 | 参照 | L58 |
+
+### references/lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 5-minute Checklist | L15 |
 
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
@@ -6642,14 +6650,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1242 |
-| フェーズ構造（概要） | L1251 |
-| 品質ゲート（概要） | L1282 |
-| 出力テンプレート | L1293 |
-| 実行時のコマンド・エージェント・スキル | L1316 |
-| 昇格パターン集 | L1340 |
-| Current Active / Spec Created Tasks | L1342 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1482 |
+| ドキュメント構成 | L1256 |
+| フェーズ構造（概要） | L1265 |
+| 品質ゲート（概要） | L1296 |
+| 出力テンプレート | L1307 |
+| 実行時のコマンド・エージェント・スキル | L1330 |
+| 昇格パターン集 | L1354 |
+| Current Active / Spec Created Tasks | L1356 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1498 |
 
 ### references/task-workflow-backlog-part2.md
 

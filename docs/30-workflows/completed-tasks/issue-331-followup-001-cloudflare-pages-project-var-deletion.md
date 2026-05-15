@@ -1,5 +1,12 @@
 # Issue #331 Followup CLOUDFLARE_PAGES_PROJECT GitHub Variable Deletion - タスク指示書
 
+> [SUPERSEDED] by `docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion/`
+> Date: 2026-05-14
+> Refs: GitHub Issue #638 (CLOSED)
+>
+> 本 unassigned-task spec は Phase 1-13 仕様書フォーマットに昇格された置換 spec に統合された。
+> 履歴保全のため本ファイルは削除せず残置するが、新規参照は置換先を使うこと。
+
 ## メタ情報
 
 ```yaml
@@ -10,7 +17,7 @@ category: 整理
 target_feature: GitHub Variables / Cloudflare Pages dormant cleanup
 priority: 低
 scale: 小規模
-status: 未実施
+status: superseded
 source_phase: ../issue-331-cicd-runtime-warning-cleanup/outputs/phase-12/unassigned-task-detection.md
 created_date: 2026-05-09
 dependencies: []
@@ -24,7 +31,7 @@ dependencies: []
 | 対象機能 | GitHub Variables / Cloudflare Pages dormant cleanup |
 | 優先度 | 低 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | superseded by `docs/30-workflows/issue-638-cloudflare-pages-project-var-deletion/` |
 | 発見元 | `docs/30-workflows/issue-331-cicd-runtime-warning-cleanup/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-09 |
 | source issue | Issue #331 (CI/CD runtime warning cleanup) / もとの fold 先 Issue #419 は CLOSED |
