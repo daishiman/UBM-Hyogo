@@ -3133,6 +3133,20 @@ node scripts/list-specs.js --topics
 | Same-wave sync targets | L69 |
 | Related Resources | L79 |
 
+### references/workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Status | L3 |
+| Artifact Set | L13 |
+| Boundary | L26 |
+
+### references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| State | L15 |
+
 ### references/workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -3404,6 +3418,14 @@ node scripts/list-specs.js --topics
 | Tests | L26 |
 | Runbooks | L35 |
 | Runtime Boundary | L42 |
+
+### references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L3 |
+| Planned Implementation Artifacts | L13 |
+| State Boundary | L25 |
 
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
@@ -4945,6 +4967,15 @@ node scripts/list-specs.js --topics
 | L-ISSUE626-002: artifact 共有における trust boundary 設計 | L18 |
 | L-ISSUE626-003: secret-grep false-positive の境界判定 | L24 |
 
+### references/lessons-learned-issue-630-authenticated-profile-lhci-a11y-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L3 |
+| 苦戦箇所と知見 | L7 |
+| 運用知見 | L49 |
+| 参照 | L58 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5134,6 +5165,16 @@ node scripts/list-specs.js --topics
 | L-T21-003: canonical workflow root の削除検出は task scope 外でも同サイクルで復元する | L11 |
 | L-T21-004: 旧 draft が存在する spec 再生成では grep gate を先行実行する | L15 |
 | L-T21-005: AdminSidebar の既存 route と新規 blueprint 対象 route の境界を §1.2 / §99 で明示する | L19 |
+
+### references/lessons-learned-task-24.md
+
+| セクション | 行 |
+|------------|----|
+| L-TASK24-001 — 22×6 invariant matrix shape の SSOT 化 | L22 |
+| L-TASK24-002 — read-only audit task の Phase-5 / Phase-11 役割定義 | L38 |
+| L-TASK24-003 — `audit-runner.sh` の I/O contract を spec 化する | L52 |
+| L-TASK24-004 — task root rename 時の self-reference path 一括更新 | L68 |
+| Backlinks | L88 |
 
 ### references/lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md
 
@@ -6141,6 +6182,17 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 成功パターン | L6 |
+
+### references/patterns-kv-dedup.md
+
+| セクション | 行 |
+|------------|----|
+| 1. Env binding narrowing（必須 binding 追加時の型 contravariance 回避） | L9 |
+| 2. KV stub fixture（focused test 用） | L26 |
+| 3. Persistence ordering — 外部 call 成功後にのみ put | L45 |
+| 4. `wrangler.toml` binding gating | L63 |
+| 5. Wording 規律 — practical reduction を使う | L90 |
+| 適用範囲 | L107 |
 
 ### references/patterns.md
 

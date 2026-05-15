@@ -402,6 +402,20 @@ followup_task: <FU-NN-slug or N/A>
 
 これにより Phase 11 自体は PASS とし、runtime 完了後に同ファイルを実値で上書きする運用とする。`unassigned-task-detection-guide.md` の Followup Task 命名規約と組み合わせ、FU として fully tracked にする。
 
+## Read-only audit task の Phase-5 / Phase-11 役割（task-24 L-TASK24-002）
+
+`apps/` / `packages/` を改変しない read-only invariant audit task（例: task-24）では、通常 implementation の Phase 役割を以下のように読み替える。task-spec-creator で task type = `audit / read-only` を選択した場合の規定テンプレ。
+
+| Phase | 通常 implementation | read-only audit での代替 |
+| --- | --- | --- |
+| Phase 5 | unit test 実装 | grep-evidence 収集 + 集計 TSV（`outputs/phase-5/{audit-runner.sh, matrix.tsv, grep-evidence.txt, violations.md}`） |
+| Phase 11 | smoke / visual evidence | matrix snapshot + audit-runner stdout（visual evidence は `NON_VISUAL`、`outputs/phase-11/{matrix-snapshot.md, audit-runner.log}`） |
+
+- Phase 1 acceptance criteria に **matrix shape**（rows / cols / cell vocabulary）を SSOT として明記する。task-24 では `rows = 22 tasks × cols = 6 invariants × cell vocabulary = COMPLIANT | VIOLATION | N/A` を固定し、消費側（後続 mapping task）は cell vocabulary のみで分岐できるよう保証した（L-TASK24-001）。
+- `audit-runner.sh` の I/O contract（exit code 意味論 / 出力 dir / 生成ファイル名 + schema / 再実行 idempotency）は Phase 2 design output の「runner contract」節に SSOT 化し、implementation-guide からは link 参照のみとする（L-TASK24-003）。
+- Phase 11 main.md には `visualEvidence: NON_VISUAL` 宣言と「audit のため smoke 不要、matrix snapshot が代替」を明記し、Phase 12 strict 7 compliance check で missing 判定にならないようにする。
+- mini-template: `phase-template-audit-task.md` を参照。
+
 ## 関連
 
 - `phase-11-guide.md`（base ガイド）

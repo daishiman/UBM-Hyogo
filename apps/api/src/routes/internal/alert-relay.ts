@@ -18,6 +18,9 @@ export interface AlertRelayEnv extends VerifyCfWebhookAuthEnv {
   readonly SLACK_WEBHOOK_URL?: string;
   readonly CF_ALERT_DASHBOARD_URL?: string;
   readonly CF_ALERT_RUNBOOK_URL?: string;
+  // ut-17-followup-002: isolate 跨ぎ dedup を永続化する Cloudflare KV namespace。
+  // value は "1" 固定、metadata 不使用、TTL は dedupeTtlMs を秒換算した expirationTtl。
+  readonly ALERT_DEDUP_KV: KVNamespace;
 }
 
 export interface AlertRelayDeps {
@@ -32,7 +35,6 @@ export interface AlertRelayDeps {
 
 export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Bindings: AlertRelayEnv }> {
   const app = new Hono<{ Bindings: AlertRelayEnv }>();
-  const seenAlerts = new Map<string, number>();
   const dedupeTtlMs = deps.dedupeTtlMs ?? 5 * 60 * 1000;
   const now = deps.now ?? Date.now;
 
@@ -59,15 +61,12 @@ export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Binding
       payload.policy_id ?? payload.name ?? payload.alert_type ?? "unknown",
       String(minuteBucket),
     ].join(":");
-    const lastSeen = seenAlerts.get(dedupeKey);
-    if (typeof lastSeen === "number" && now() - lastSeen < dedupeTtlMs) {
+    // ut-17-followup-002: dedup state は KV 永続化。eventual consistency により
+    // 同一リクエスト内 race（複数 isolate からの同時 read→put）は許容スコープ外。
+    const seen = await c.env.ALERT_DEDUP_KV.get(dedupeKey);
+    if (seen !== null) {
       return c.json({ ok: true, deduped: true });
     }
-    seenAlerts.set(dedupeKey, now());
-    for (const [key, seenAt] of seenAlerts) {
-      if (now() - seenAt >= dedupeTtlMs) seenAlerts.delete(key);
-    }
-
     const fmtOptions: { dashboardUrl?: string; runbookUrl?: string } = {};
     const dashboardUrl = deps.dashboardUrl ?? c.env.CF_ALERT_DASHBOARD_URL;
     const runbookUrl = deps.runbookUrl ?? c.env.CF_ALERT_RUNBOOK_URL;
@@ -90,6 +89,16 @@ export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Binding
         { ok: false, attempts: result.attempts, status: result.status, error: "slack delivery failed" },
         502,
       );
+    }
+    try {
+      await c.env.ALERT_DEDUP_KV.put(dedupeKey, "1", {
+        expirationTtl: Math.ceil(dedupeTtlMs / 1000),
+      });
+    } catch (error) {
+      console.warn("alert relay dedup KV put failed after Slack delivery", {
+        error: error instanceof Error ? error.message : "unknown",
+      });
+      return c.json({ ok: true, attempts: result.attempts, dedupPersisted: false });
     }
     return c.json({ ok: true, attempts: result.attempts });
   });

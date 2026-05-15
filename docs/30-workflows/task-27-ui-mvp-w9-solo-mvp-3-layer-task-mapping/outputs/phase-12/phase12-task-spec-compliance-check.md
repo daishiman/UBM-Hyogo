@@ -2,7 +2,7 @@
 
 ## Summary verdict
 
-`spec_created (no impl yet)`。本タスクは `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` 配下の W8/W9 並列 / 単独実行ワークストリームの 1 単位で、Phase 1-13 仕様書のみが本 PR 範囲。コード差分・runtime evidence・staging deploy はすべて後続 wave で発生する。`workflow_state = spec_created`、Phase 1-12 `spec_created`、Phase 13 `blocked_pending_user_approval`。
+`spec_created (contract package / strict 7 present)`。本タスクは `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` 配下の W9 単独実行ワークストリームの 1 単位で、Phase 1-13 仕様書と Phase 12 strict 7 が本 PR 範囲。コード差分・runtime evidence・staging deploy は発生しない。`workflow_state = spec_created`、Phase 1-12 `spec_created`、Phase 13 `blocked_pending_user_approval`。
 
 ## Changed-files classification
 
@@ -10,9 +10,9 @@
 | --- | --- | --- |
 | 仕様書（Phase 1-13 + index） | 14 前後 | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/{index.md, phase-*.md, outputs/}` |
 | artifacts.json | 1 | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/artifacts.json` |
-| Phase 12 strict 7 files | 6 | `outputs/phase-12/{implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md`（spec_created 時点で必要なものを順次補完） |
+| Phase 12 strict 7 files | 7 | `outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
 | apps/* / packages/* runtime code | 0 | 変更なし（spec_created phase） |
-| skill / system spec | 0 | 変更なし（実装 wave で同期） |
+| skill / system spec | 0 | 変更なし（task-27 は contract package のみ） |
 
 ## `workflow_state` and phase status consistency
 
@@ -25,7 +25,7 @@
 
 | ファイル | 状態 | 用途 |
 | --- | --- | --- |
-| `outputs/phase-11/manual-test-result.md` | 空 or N/A | spec_created phase のため evidence 未取得。実装 wave で更新 |
+| `outputs/phase-11/manual-test-result.md` | N/A | spec_created contract package のため runtime evidence 未取得 |
 
 spec_created 段階では runtime evidence（screenshot / log）は不要。`docs-only` PR としての CI gate（validate / verify-phase12-compliance / verify-indexes-up-to-date / coverage-gate）の green を Phase 11 evidence として扱う。
 
@@ -33,8 +33,8 @@ spec_created 段階では runtime evidence（screenshot / log）は不要。`doc
 
 | # | ファイル | 状態 |
 | --- | --- | --- |
-| 1 | `outputs/phase-12/main.md` | N/A（spec_created phase は不要、実装 wave で追加） |
-| 2 | `outputs/phase-12/implementation-guide.md` | 存在する場合 ✅ / 未生成は実装 wave で追加 |
+| 1 | `outputs/phase-12/main.md` | ✅ |
+| 2 | `outputs/phase-12/implementation-guide.md` | ✅ |
 | 3 | `outputs/phase-12/phase12-task-spec-compliance-check.md` | ✅（本ファイル） |
 | 4 | `outputs/phase-12/system-spec-update-summary.md` | spec wave で生成、内容は「変更なし」明記 |
 | 5 | `outputs/phase-12/skill-feedback-report.md` | spec wave で生成、内容は「変更なし」明記 |
@@ -43,10 +43,10 @@ spec_created 段階では runtime evidence（screenshot / log）は不要。`doc
 
 ## Skill/reference/system spec same-wave sync
 
-- `aiworkflow-requirements`: spec_created 段階では skill 同期不要（実装 wave で `task-workflow-active.md` / `quick-reference.md` を更新）
+- `aiworkflow-requirements`: task-27 はこの cycle では contract package のため追加同期なし
 - `task-specification-creator`: 本 spec は既存テンプレート（`phase12-compliance-check-template.md` / `artifact-definition.json`）に準拠。skill 側変更不要
 - system spec（`docs/00-getting-started-manual/specs/*.md`）: 変更なし
-- consumed unassigned-task: 本タスクは `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` ワークフローの子タスクであり、`unassigned-task/` からの consume は発生しない
+- consumed unassigned-task: 本タスクは `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` ワークフローの子タスクであり、`unassigned-task/` からの consume は発生しない
 
 ## Runtime or user-gated boundary
 
@@ -66,7 +66,7 @@ spec_created 段階では runtime evidence（screenshot / log）は不要。`doc
 
 | Condition | Verdict | Evidence |
 | --- | --- | --- |
-| 矛盾なし | `spec_created (no impl yet)` | state / scope / evidence いずれも spec_created に統一、runtime PASS 主張なし |
-| 漏れなし | `spec_created (no impl yet)` | spec wave で必要な Phase 1-13 spec + artifacts.json + 本 compliance check を含む。実装 wave 用 outputs は意図的に未生成 |
-| 整合性あり | `spec_created (no impl yet)` | `artifacts.json` の workflow_state / phase status / gates と本ファイルの記述が一致 |
-| 依存関係整合 | `spec_created (no impl yet)` | upstream（W8-par の場合: task-01..22、W9 solo: task-23..26 完了）/ downstream の指定が `artifacts.json` と整合、moved/deleted root なし |
+| 矛盾なし | `spec_created (contract package / strict 7 present)` | state / scope / evidence いずれも spec_created に統一、runtime PASS 主張なし |
+| 漏れなし | `spec_created (contract package / strict 7 present)` | Phase 1-13 spec、artifacts.json、Phase 12 strict 7 を含む |
+| 整合性あり | `spec_created (contract package / strict 7 present)` | `artifacts.json` の workflow_state / phase status / gates と本ファイルの記述が一致 |
+| 依存関係整合 | `spec_created (contract package / strict 7 present)` | upstream task-23 generated matrix と task-27 の dependency contract が整合 |

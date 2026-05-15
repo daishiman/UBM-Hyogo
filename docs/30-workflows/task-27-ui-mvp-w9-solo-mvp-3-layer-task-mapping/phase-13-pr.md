@@ -10,7 +10,7 @@
 
 Phase 1〜12 がすべて completed であること。
 
-`outputs/phase-12/` 配下に 6 成果物が揃い、`MVP-3LAYER-TASK-MAPPING.md` が `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` 直下に配置されていること。
+`outputs/phase-12/` 配下に strict 7 成果物が揃い、`MVP-3LAYER-TASK-MAPPING.md` が `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` 直下に配置されていること。
 
 ---
 
@@ -21,7 +21,7 @@ Phase 1〜12 がすべて completed であること。
 | base branch | `dev` |
 | head branch | `feat/task-27-mvp-3-layer-task-mapping`（または現行 worktree branch） |
 | タイトル例 | `docs(task-27): add MVP 3-layer × 22-task mapping matrix` |
-| 含めるファイル | `docs/30-workflows/task-27-.../**` + `docs/30-workflows/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` + workflow index 更新 + LOGS 更新 |
+| 含めるファイル | `docs/30-workflows/task-27-.../**` + `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` + workflow index 更新 + LOGS 更新 |
 | 除外確認 | task-01〜22 spec / 実装ファイルの差分 0 件 |
 
 ---
