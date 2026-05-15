@@ -3176,6 +3176,15 @@ node scripts/list-specs.js --topics
 | Current Artifacts | L13 |
 | Boundary | L22 |
 
+### references/workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Status | L3 |
+| Artifact Set | L12 |
+| Input Contracts | L24 |
+| Boundary | L33 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -6657,14 +6666,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1257 |
-| フェーズ構造（概要） | L1266 |
-| 品質ゲート（概要） | L1297 |
-| 出力テンプレート | L1308 |
-| 実行時のコマンド・エージェント・スキル | L1331 |
-| 昇格パターン集 | L1355 |
-| Current Active / Spec Created Tasks | L1357 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1499 |
+| ドキュメント構成 | L1285 |
+| フェーズ構造（概要） | L1294 |
+| 品質ゲート（概要） | L1325 |
+| 出力テンプレート | L1336 |
+| 実行時のコマンド・エージェント・スキル | L1359 |
+| 昇格パターン集 | L1383 |
+| Current Active / Spec Created Tasks | L1385 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1527 |
 
 ### references/task-workflow-backlog-part2.md
 
