@@ -5,16 +5,18 @@
 
 ---
 
-### parallel-09 UX cross-cutting primitives contract（2026-05-15）
+### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/parallel-09-ux-cross-cutting/` |
-| 状態 | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_pending` |
-| scope | 19 routes 横断の FormField / EmptyState / Pagination / Icon / Breadcrumb / responsive / focus-visible / useAdminMutation guard / form preserve 実装 |
-| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| dependencies | parallel-03 `@layer components`, task-09 OKLch tokens, task-18 verify-design-tokens, parallel-01〜08 consumers |
-| user gate | runtime visual screenshot completion after ENOSPC resolution, staging/production smoke, 19-route adoption, commit, push, PR |
+| workflow root | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| scope | AdminSidebar home link + MemberDrawer tags link |
+| implementation | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| tests | `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx`, `apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx` |
+| evidence | `outputs/phase-11/dom-snapshot.txt`, mock fallback PNG 2 files, component/typecheck/lint/build logs |
+| runtime boundary | real authenticated screenshots and staging smoke remain runtime pending |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
 
 ### fix-wrangler-esbuild-import-source-error（2026-05-15）
 

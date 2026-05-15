@@ -1,0 +1,63 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260514-204123-wt-16
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > service-binding 経路: env.API_SERVICE.fetch を使う
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > PUBLIC_API_BASE_URL を使った外向き fetch
+{ transport: 'http-fallback', path: '/v1/foo', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > getCloudflareContext throw 時 process.env を fallback として使う
+{ transport: 'http-fallback', path: '/v1/bar', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > process.env.PUBLIC_API_BASE_URL があれば Cloudflare env より優先する
+{ transport: 'http-fallback', path: '/v1/baz', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > PUBLIC_API_BASE_URL 未指定なら DEFAULT_BASE_URL
+{ transport: 'http-fallback', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > revalidate と headers を上書きできる
+{ transport: 'service-binding', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > 非 2xx でエラー throw
+{ transport: 'http-fallback', path: '/oops', status: 500 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 200 で JSON を返す
+{ transport: 'http-fallback', path: '/v1/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 404 で FetchPublicNotFoundError
+{ transport: 'http-fallback', path: '/v1/missing', status: 404 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 5xx で 通常 Error
+{ transport: 'http-fallback', path: '/v1/x', status: 503 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > revalidate オプションを伝搬する
+{ transport: 'service-binding', path: '/v1/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-02] production context: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-03] CI without Playwright flag: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-01] NODE_ENV=test: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる
+{ transport: 'http-fallback', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [edge-1] staging: PUBLIC_API_BASE_URL 未設定なら service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [edge-2] local dev: service binding 不在で global.fetch が呼ばれる
+{ transport: 'http-fallback', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [edge-3] PLAYWRIGHT_TEST=1: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる
+{ transport: 'http-fallback', path: '/health', status: 200 }
+
+ ✓ apps/web/src/lib/fetch/public.spec.ts (18 tests) 119ms
+
+ Test Files  1 passed (1)
+      Tests  18 passed (18)
+   Start at  06:49:08
+   Duration  4.72s (transform 383ms, setup 0ms, collect 445ms, tests 119ms, environment 1.54s, prepare 232ms)
+
+exit code: 0
