@@ -10,7 +10,6 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
-import { useRouter } from "next/navigation";
 import {
   AuthRequiredError,
   requestDelete,
@@ -33,7 +32,6 @@ export function DeleteRequestDialog({
   onClose,
   onSubmitted,
 }: DeleteRequestDialogProps) {
-  const router = useRouter();
   const titleId = useId();
   const descId = useId();
   const irreversibleId = useId();
@@ -68,7 +66,6 @@ export function DeleteRequestDialog({
     try {
       const res = await requestDelete(reason.length > 0 ? { reason } : {});
       if (res.ok) {
-        router.refresh();
         onSubmitted(res.accepted);
         onClose();
       } else {

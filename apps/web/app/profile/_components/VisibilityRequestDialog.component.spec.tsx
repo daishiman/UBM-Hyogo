@@ -2,14 +2,6 @@
 import { afterEach, describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor, act, cleanup } from "@testing-library/react";
 
-const routerMock = vi.hoisted(() => ({
-  refresh: vi.fn(),
-}));
-
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({ refresh: routerMock.refresh }),
-}));
-
 afterEach(() => cleanup());
 import { VisibilityRequestDialog } from "./VisibilityRequestDialog";
 
@@ -24,7 +16,6 @@ const mockFetch = (status: number, body: object) => {
 
 afterEach(() => {
   vi.restoreAllMocks();
-  routerMock.refresh.mockClear();
 });
 
 
@@ -121,7 +112,7 @@ describe("VisibilityRequestDialog", () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  it("TC-RR-01: 202 → router.refresh を onSubmitted / onClose より先に呼ぶ", async () => {
+  it("TC-RR-01: 202 → onSubmitted を onClose より先に呼ぶ", async () => {
     mockFetch(202, {
       queueId: "q1",
       type: "visibility_request",
@@ -141,10 +132,7 @@ describe("VisibilityRequestDialog", () => {
     await act(async () => {
       fireEvent.click(screen.getByTestId("visibility-submit"));
     });
-    await waitFor(() => expect(routerMock.refresh).toHaveBeenCalledTimes(1));
-    expect(routerMock.refresh.mock.invocationCallOrder[0]).toBeLessThan(
-      onSubmitted.mock.invocationCallOrder[0],
-    );
+    await waitFor(() => expect(onSubmitted).toHaveBeenCalledTimes(1));
     expect(onSubmitted.mock.invocationCallOrder[0]).toBeLessThan(
       onClose.mock.invocationCallOrder[0],
     );
@@ -169,7 +157,6 @@ describe("VisibilityRequestDialog", () => {
       expect.objectContaining({ type: "visibility_request", status: "pending" }),
     );
     expect(alert.getAttribute("data-code")).toBe("DUPLICATE_PENDING_REQUEST");
-    expect(routerMock.refresh).not.toHaveBeenCalled();
   });
 
   it("network error は retry CTA を出す", async () => {
