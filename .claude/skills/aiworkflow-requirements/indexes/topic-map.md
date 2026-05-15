@@ -1096,13 +1096,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
-| 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L112 |
-| 5. /admin/tags | L205 |
-| 6. /admin/schema | L260 |
-| 7. /admin/meetings | L314 |
-| 8. 共通の Server/Client 契約 | L383 |
-| 9. 不変条件サマリ（admin UI） | L401 |
+| 3. /admin（Dashboard） | L83 |
+| 4. /admin/members | L118 |
+| 5. /admin/tags | L216 |
+| 6. /admin/schema | L271 |
+| 7. /admin/meetings | L325 |
+| 8. 共通の Server/Client 契約 | L394 |
+| 9. 不変条件サマリ（admin UI） | L412 |
 
 ### references/ui-ux-advanced.md
 
@@ -2653,6 +2653,18 @@ node scripts/list-specs.js --topics
 | Cross-link | L51 |
 | Boundary | L63 |
 
+### references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| メタ情報 | L3 |
+| Current Facts | L14 |
+| Implementation Targets | L33 |
+| Phase Outputs | L46 |
+| Skill 反映先 | L55 |
+| task-specification-creator 反映 | L68 |
+| Verification Commands | L75 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3641,7 +3653,7 @@ node scripts/list-specs.js --topics
 | HistorySearch timeline 再設計（TASK-UI-06-HISTORY-SEARCH-VIEW） | L240 |
 | ViewType/ナビ導線 実装同期（TASK-UI-01-D-VIEWTYPE-ROUTING-NAV） | L287 |
 | authGateState × UI gating（apps/web 共通） | L356 |
-| 続き | L382 |
+| 続き | L393 |
 
 ### references/arch-state-management-details.md
 
@@ -5076,6 +5088,14 @@ node scripts/list-specs.js --topics
 | L-667-004: dispatcher 順序 grep gate | L41 |
 | Cross-link | L52 |
 
+### references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 概要 | L7 |
+| 苦戦箇所 | L11 |
+| 後続タスクへの適用 | L48 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5099,6 +5119,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
+
+### references/lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓 | L7 |
+| 関連リソース | L17 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -6746,14 +6773,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1341 |
-| フェーズ構造（概要） | L1350 |
-| 品質ゲート（概要） | L1381 |
-| 出力テンプレート | L1392 |
-| 実行時のコマンド・エージェント・スキル | L1415 |
-| 昇格パターン集 | L1439 |
-| Current Active / Spec Created Tasks | L1441 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1584 |
+| ドキュメント構成 | L1369 |
+| フェーズ構造（概要） | L1378 |
+| 品質ゲート（概要） | L1409 |
+| 出力テンプレート | L1420 |
+| 実行時のコマンド・エージェント・スキル | L1443 |
+| 昇格パターン集 | L1467 |
+| Current Active / Spec Created Tasks | L1469 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1612 |
 
 ### references/task-workflow-backlog-part2.md
 
