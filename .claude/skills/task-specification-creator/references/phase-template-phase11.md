@@ -346,6 +346,16 @@ GitHub Actions OIDC、Cloudflare deploy auth、branch protection、external IdP 
 
 この matrix は `phase12-task-spec-compliance-check.md` の 4 条件（矛盾なし / 漏れなし / 整合性 / 依存関係整合）の根拠にする。
 
+### GitHub Actions required check + path skip pattern
+
+Required status check として登録済みの job context を path 条件で軽量化する場合、別 workflow の `paths-ignore` 補完を既定案にしない。mixed PR で同名 context が二重に作られる可能性があるため、まず単一 workflow 内の precheck job で changed files を判定し、重い job だけを job-level `if` で skip し、required context job は no-op success branch を持たせる。
+
+| evidence | 期待 |
+| --- | --- |
+| local precheck inventory | `run_e2e=true` / `run_e2e=false` / no-op success branch が存在する |
+| stale skip workflow check | 旧補完 workflow が存在しない、または historical-only と明記されている |
+| runtime PR checks | docs-only / code / mixed PR の required context 結果。push / PR user-gated の場合は pending と明記する |
+
 ## Tailwind v4 / PostCSS build artifact verification（VISUAL_ON_EXECUTION build pipeline タスク）
 
 **Anchor**: 「Tailwind v4 / PostCSS build artifact verification」

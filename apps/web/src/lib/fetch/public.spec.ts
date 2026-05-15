@@ -32,6 +32,7 @@ describe("fetchPublic", () => {
   beforeEach(reset);
   afterEach(() => {
     restoreFetch();
+    vi.unstubAllEnvs();
     reset();
   });
 
@@ -136,6 +137,7 @@ describe("fetchPublicOrNotFound", () => {
   beforeEach(reset);
   afterEach(() => {
     restoreFetch();
+    vi.unstubAllEnvs();
     reset();
   });
 
@@ -174,5 +176,125 @@ describe("fetchPublicOrNotFound", () => {
     expect((init as { next?: { revalidate: number } }).next).toEqual({
       revalidate: 120,
     });
+  });
+});
+
+describe("getServiceBinding env guard regression (AC-R-01..R-05)", () => {
+  beforeEach(reset);
+  afterEach(() => {
+    restoreFetch();
+    vi.unstubAllEnvs();
+    reset();
+  });
+
+  it("[AC-R-02] production context: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("CI", "");
+    vi.stubEnv("PLAYWRIGHT_TEST", "");
+    process.env.PUBLIC_API_BASE_URL = "https://wrong-fallback.example.com";
+
+    const bindingFetch = vi.fn(
+      async () =>
+        new Response(JSON.stringify({ ok: true }), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
+    );
+    cloudflareEnv.API_SERVICE = { fetch: bindingFetch as unknown as typeof fetch };
+
+    const globalFetchSpy = mockFetchOnce({ status: 200, body: { unexpected: true } });
+
+    const r = await fetchPublic<{ ok: boolean }>("/health");
+
+    expect(r).toEqual({ ok: true });
+    expect(bindingFetch).toHaveBeenCalledTimes(1);
+    expect(globalFetchSpy).not.toHaveBeenCalled();
+    const [url] = bindingFetch.mock.calls[0] as unknown as [string, RequestInit];
+    expect(url).toBe("https://service-binding.local/health");
+  });
+
+  it("[AC-R-03] CI without Playwright flag: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("CI", "true");
+    vi.stubEnv("PLAYWRIGHT_TEST", "");
+    process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
+
+    const bindingFetch = vi.fn(
+      async () =>
+        new Response(JSON.stringify({ ok: true }), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
+    );
+    cloudflareEnv.API_SERVICE = { fetch: bindingFetch as unknown as typeof fetch };
+
+    const globalFetchSpy = mockFetchOnce({ status: 200, body: { unexpected: true } });
+
+    const r = await fetchPublic<{ ok: boolean }>("/health");
+
+    expect(r).toEqual({ ok: true });
+    expect(bindingFetch).toHaveBeenCalledTimes(1);
+    expect(globalFetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("[AC-R-01] NODE_ENV=test: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる", async () => {
+    vi.stubEnv("NODE_ENV", "test");
+    process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
+
+    const bindingFetch = vi.fn();
+    cloudflareEnv.API_SERVICE = { fetch: bindingFetch as unknown as typeof fetch };
+
+    const globalFetchSpy = mockFetchOnce({ status: 200, body: { mocked: true } });
+
+    await fetchPublic("/health");
+
+    expect(globalFetchSpy).toHaveBeenCalledTimes(1);
+    expect(bindingFetch).not.toHaveBeenCalled();
+  });
+
+  it("[edge-1] staging: PUBLIC_API_BASE_URL 未設定なら service binding が呼ばれる", async () => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("CI", "");
+
+    const bindingFetch = vi.fn(
+      async () =>
+        new Response(JSON.stringify({ ok: 1 }), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
+    );
+    cloudflareEnv.API_SERVICE = { fetch: bindingFetch as unknown as typeof fetch };
+
+    await fetchPublic("/health");
+
+    expect(bindingFetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("[edge-2] local dev: service binding 不在で global.fetch が呼ばれる", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    process.env.PUBLIC_API_BASE_URL = "http://localhost:8787";
+
+    const globalFetchSpy = mockFetchOnce({ status: 200, body: { ok: 1 } });
+
+    await fetchPublic("/health");
+
+    expect(globalFetchSpy).toHaveBeenCalledTimes(1);
+    const [url] = globalFetchSpy.mock.calls[0];
+    expect(url).toBe("http://localhost:8787/health");
+  });
+
+  it("[edge-3] PLAYWRIGHT_TEST=1: PUBLIC_API_BASE_URL 明示で global.fetch が呼ばれる", async () => {
+    vi.stubEnv("PLAYWRIGHT_TEST", "1");
+    process.env.PUBLIC_API_BASE_URL = "http://127.0.0.1:8787";
+
+    const bindingFetch = vi.fn();
+    cloudflareEnv.API_SERVICE = { fetch: bindingFetch as unknown as typeof fetch };
+
+    const globalFetchSpy = mockFetchOnce({ status: 200, body: { mocked: true } });
+
+    await fetchPublic("/health");
+
+    expect(globalFetchSpy).toHaveBeenCalledTimes(1);
+    expect(bindingFetch).not.toHaveBeenCalled();
   });
 });

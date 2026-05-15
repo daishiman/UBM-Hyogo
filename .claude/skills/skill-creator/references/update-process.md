@@ -82,6 +82,7 @@ implementation-spec-to-skill sync audit may conclude no direct skill edit is nee
 cron / release / incident response など運用 runbook 系の docs-only task では、runtime 操作を成功扱いにせず、runbook artifact inventory と domain lesson を aiworkflow-requirements に昇格する。09b のように candidate follow-up が複数出る場合は、既存 `docs/30-workflows/unassigned-task/` を先に検索して formalized / delegated / existing related / candidate を分ける。
 mirror parity は `.agents/skills/<skill>` が存在する場合のみ必須。存在しない mirror を前提に PASS を書かず、N/A 理由を `documentation-changelog.md` に残す。
 Implementation spec-to-skill sync is complete only when workflow outputs, system spec summary, updated skill reference/asset, and mirror diff/N/A evidence all point to the same current contract.
+VISUAL micro-task（sidebar logo link / drawer tags link など UI 配線の小規模差分）でも、`indexes/`（quick-reference + resource-map）+ 該当 `references/*.md` + `changelog/<date>-<slug>.md` + `lessons-learned`（Phase 12 skill-feedback-report 経由）の 4 点を同一 wave で sync することを必須とする。1 点でも欠けた場合は `documentation-changelog.md` に no-op 理由と既存カバレッジを明示する。
 approval-gated NON_VISUAL implementation では、placeholder evidence と runtime evidence の分離、Phase 13 user approval gate、外部 GET 正本の扱いをテンプレ側へ反映する
 適用先 reference（task-specification-creator 配下、Phase 12 retrospective で同時更新する正本セット）:
   - `.claude/skills/task-specification-creator/references/phase-11-non-visual-alternative-evidence.md`

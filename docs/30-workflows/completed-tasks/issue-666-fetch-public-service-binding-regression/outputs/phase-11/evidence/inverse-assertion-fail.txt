@@ -1,0 +1,70 @@
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260514-204123-wt-16
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-02] production context: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+ ❯ apps/web/src/lib/fetch/public.spec.ts (17 tests | 1 failed | 16 skipped) 31ms
+   × getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-02] production context: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる 29ms
+     → expected "spy" to not be called at all, but actually been called 1 times
+
+Received: 
+
+  1st spy call:
+
+    Array [
+      "https://service-binding.local/health",
+      Object {
+        "headers": Object {
+          "Accept": "application/json",
+        },
+        "next": Object {
+          "revalidate": 30,
+        },
+      },
+    ]
+
+
+Number of calls: 1
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/web/src/lib/fetch/public.spec.ts > getServiceBinding env guard regression (AC-R-01..R-05) > [AC-R-02] production context: PUBLIC_API_BASE_URL 明示でも service binding が呼ばれる
+AssertionError: expected "spy" to not be called at all, but actually been called 1 times
+
+Received: 
+
+  1st spy call:
+
+    Array [
+      "https://service-binding.local/health",
+      Object {
+        "headers": Object {
+          "Accept": "application/json",
+        },
+        "next": Object {
+          "revalidate": 30,
+        },
+      },
+    ]
+
+
+Number of calls: 1
+
+ ❯ apps/web/src/lib/fetch/public.spec.ts:210:30
+    208| 
+    209|     expect(r).toEqual({ ok: true });
+    210|     expect(bindingFetch).not.toHaveBeenCalled();
+       |                              ^
+    211|     expect(globalFetchSpy).not.toHaveBeenCalled();
+    212|     const [url] = bindingFetch.mock.calls[0] as unknown as [string, Re…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 skipped (17)
+   Start at  22:20:26
+   Duration  6.15s (transform 436ms, setup 0ms, collect 420ms, tests 31ms, environment 1.77s, prepare 170ms)
+
