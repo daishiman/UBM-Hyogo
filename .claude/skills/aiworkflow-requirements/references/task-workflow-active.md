@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### serial-05-step-01 members-note mutation UI（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 11 local mock screenshots / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
+| 目的 | `MemberDrawer` に note 作成/編集 UI を追加し、step-02..08 が再利用する `useAdminMutation` hook を確立する実装仕様 |
+| owner boundary | `parallel-08` は ToastProvider / ErrorBoundary / route guard / hook contract gate、step-01 は `useAdminMutation.ts` / `hooks/index.ts` 実体作成、`parallel-10` は 401/403 error class |
+| implementation targets | `apps/web/app/layout.tsx`, `apps/web/src/lib/fetch/errors.ts`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/index.ts`, `apps/web/src/features/admin/components/_members/{NoteForm,MemberDrawer,index}.tsx`, `apps/api/src/routes/admin/members.ts`, `packages/shared/src/{types,zod}/viewmodel*` |
+| API boundary | `apps/api/src/routes/admin/member-notes.ts` 既存 mutation contract を利用。admin detail `GET /admin/members/:memberId` は admin-only `notes` を返す。新 D1 schema 追加なし |
+| evidence | `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | runtime/staging visual evidence / commit / push / PR |
+
 ### U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-FU-01 metrics dash（2026-05-14）
 
 | 項目 | 値 |

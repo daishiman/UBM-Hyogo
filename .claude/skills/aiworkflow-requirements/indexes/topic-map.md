@@ -3318,6 +3318,14 @@ node scripts/list-specs.js --topics
 | Follow-up 未タスク | L81 |
 | Validation Chain（spec_created） | L90 |
 
+### references/workflow-u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L14 |
+| Runtime Boundary | L34 |
+
 ### references/workflow-ui-ux-visual-baseline-drift.md
 
 | セクション | 行 |
@@ -6248,7 +6256,7 @@ node scripts/list-specs.js --topics
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L376 |
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L377 |
 | 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L393 |
-| 13. 変更履歴 | L415 |
+| 13. Issue #656 7-day summary metrics dashboard contract（2026-05-14） | L415 |
 
 ### references/patterns-advanced.md
 
@@ -6712,14 +6720,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1298 |
-| フェーズ構造（概要） | L1307 |
-| 品質ゲート（概要） | L1338 |
-| 出力テンプレート | L1349 |
-| 実行時のコマンド・エージェント・スキル | L1372 |
-| 昇格パターン集 | L1396 |
-| Current Active / Spec Created Tasks | L1398 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1540 |
+| ドキュメント構成 | L1328 |
+| フェーズ構造（概要） | L1337 |
+| 品質ゲート（概要） | L1368 |
+| 出力テンプレート | L1379 |
+| 実行時のコマンド・エージェント・スキル | L1402 |
+| 昇格パターン集 | L1426 |
+| Current Active / Spec Created Tasks | L1428 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1570 |
 
 ### references/task-workflow-backlog-part2.md
 
