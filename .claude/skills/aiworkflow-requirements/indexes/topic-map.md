@@ -6643,28 +6643,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1166 |
-| フェーズ構造（概要） | L1175 |
-| 品質ゲート（概要） | L1206 |
-| 出力テンプレート | L1217 |
-| 実行時のコマンド・エージェント・スキル | L1240 |
-| 昇格パターン集 | L1264 |
-| Current Active / Spec Created Tasks | L1266 |
-| ドキュメント構成 | L1184 |
-| フェーズ構造（概要） | L1193 |
-| 品質ゲート（概要） | L1224 |
-| 出力テンプレート | L1235 |
-| 実行時のコマンド・エージェント・スキル | L1258 |
-| 昇格パターン集 | L1282 |
-| Current Active / Spec Created Tasks | L1284 |
-| ドキュメント構成 | L1242 |
-| フェーズ構造（概要） | L1251 |
-| 品質ゲート（概要） | L1282 |
-| 出力テンプレート | L1293 |
-| 実行時のコマンド・エージェント・スキル | L1316 |
-| 昇格パターン集 | L1340 |
-| Current Active / Spec Created Tasks | L1342 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1482 |
+| ドキュメント構成 | L1256 |
+| フェーズ構造（概要） | L1265 |
+| 品質ゲート（概要） | L1296 |
+| 出力テンプレート | L1307 |
+| 実行時のコマンド・エージェント・スキル | L1330 |
+| 昇格パターン集 | L1354 |
+| Current Active / Spec Created Tasks | L1356 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1496 |
 
 ### references/task-workflow-backlog-part2.md
 
