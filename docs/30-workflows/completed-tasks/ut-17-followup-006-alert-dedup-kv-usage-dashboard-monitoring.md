@@ -16,11 +16,20 @@ issue_number: 702
 | 対象機能     | Cloudflare KV namespace `ALERT_DEDUP_KV`（`apps/api` `/internal/alert-relay` 経由） |
 | 優先度       | 低                                                                                  |
 | 見積もり規模 | 小規模                                                                              |
-| ステータス   | unassigned                                                                          |
+| ステータス   | superseded                                                                          |
 | 発見元       | ut-17-followup-002-alert-relay-dedup-kv-persistence                                 |
 | 発見日       | 2026-05-14                                                                          |
 
 ---
+
+## Superseded Trace（2026-05-16）
+
+この簡易 unassigned-task 仕様は、Phase 1-13 形式の後継仕様 `docs/30-workflows/ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring/` に昇格済み。
+
+- 後継仕様は `spec_created / implementation / NON_VISUAL`。
+- 旧前提「Cloudflare Notification policy は API 作成不可・Dashboard UI 必須」は、`ut-17-followup-004-cloudflare-notification-policy-iac` 完了後の現行実態と矛盾するため撤回する。
+- 現行方針は `infra/cloudflare-alerts/` の IaC 宣言と `bash scripts/cf.sh alerts {apply,diff,list}` 経路で KV 監視 policy を管理する。
+- 本ファイルは発見元・背景の履歴として保持し、実装判断の正本には使わない。
 
 ## 1. なぜこのタスクが必要か（Why）
 

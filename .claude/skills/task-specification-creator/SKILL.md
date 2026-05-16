@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset, infra-diff state gate, cloudflare alert policy IaC, kv usage monitoring, runbook implementation diff, tests/fixtures dirty diff gate
 allowed-tools:
   - Read
   - Write
@@ -28,6 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.16-ut17-followup006-infra-diff-state-gate | 2026-05-16 | UT-17 follow-up 006 review feedback を反映。Phase 12 dirty implementation gate を task implementation targets 全体（`infra/` / `scripts/` / `.github/` / `tests/fixtures/` / runbook 等）へ拡張し、infra/test fixture 差分を `spec_created` / "No Code Changes" で閉じない規則を追加。 |
 | v2026.05.14-issue638-closed-fold-state-sync | 2026-05-14 | Issue #638 review feedback を反映。CLOSED Issue / folded follow-up の Phase 12 では fold 先 issue state と外部 mutation 実行後 state を同一 wave で同期し、source unassigned YAML status を `superseded` / `consumed` へ更新する gate を追加。 |
 | v2026.05.15-issue655-recovery-window-evidence-parity | 2026-05-15 | Issue #655 D+7 recovery 2nd-cycle review feedback を反映。`references/phase12-skill-feedback-promotion.md` に Recovery Window Evidence Parity Gate を追加し、`since` / D'+0 を metadata だけにせず実 aggregation window に適用すること、recovery mode でも run URL list / aggregate JSON / leakage log / comparison evidence を通常 mode と同粒度で生成すること、local implementation diff がある場合に `spec_created` / `no code changed` と close-out しないことを必須化。 |
 | v2026.05.11-issue616-conditional-implementation-category | 2026-05-11 | Issue #616 Miniflare / undici upstream tracking review feedback を反映。`schemas/artifact-definition.json` の `metadata.implementationCategory` に `conditional` を正式追加し、上流改善検知時のみ code/config 変更が発生する implementation task を `verified_current_no_code_change_pending_pr` で閉じる境界を明確化。 |

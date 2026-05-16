@@ -2613,3 +2613,16 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | patterns | `references/patterns-kv-dedup.md`（env binding narrowing / KV stub fixture / persistence ordering / wrangler gating / wording 規律） |
 | lessons-learned | `lessons-learned/lessons-learned-ut-17-followup-002-alert-relay-dedup-kv-2026-05.md`（5 教訓） |
 | boundary | KV eventual consistency のため exactly-once は保証しない。目的は isolate 跨ぎ重複通知の実用大幅低減。Dedup key は Slack 配信成功後にのみ保存する。Cloudflare mutation / deploy / Slack runtime smoke / commit / push / PR は user-gated |
+
+### UT-17 Follow-up 006 / ALERT_DEDUP_KV Usage Dashboard Monitoring（2026-05-16）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical workflow | `docs/30-workflows/ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring/` |
+| source task | `docs/30-workflows/unassigned-task/ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring.md`（superseded） |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| issue | `#702`（open。Cloudflare apply / Slack runtime smoke 未取得なら PR は `Refs #702`） |
+| current decision | followup-004 の `infra/cloudflare-alerts/` IaC 基盤を再利用し、Workers KV account quota guard として writes/day + stored bytes の 2 policy を `enabled:false` で宣言する。namespace filter は無いため `ALERT_DEDUP_KV` 固有監視ではない |
+| latency boundary | native Notification が無い場合は policy 化せず、Workers Analytics / GraphQL review evidence として runbook に固定 |
+| runtime boundary | initial policy は `enabled:false`。Slack delivery smoke は一時検証 policy / 短時間負荷で証明し、5 営業日 baseline 後の `enabled:true` 本運用切替は user-gated |
+| implementation targets | changed: `infra/cloudflare-alerts/policies/workers-kv-*.json`, `infra/cloudflare-alerts/quota-base.json`, `tests/fixtures/cloudflare-alerts/api-list-policies.json`, `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md`; verified unchanged: `infra/cloudflare-alerts/schema/policy.schema.json` |

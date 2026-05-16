@@ -48,7 +48,9 @@ op run --env-file=.env -- bash -c 'curl -i -X POST \
 ### Step 4: Cloudflare Notification Policy drift 確認 (UT-17-Followup-004 IaC 経由)
 
 Dashboard 目視ではなく `infra/cloudflare-alerts/` 配下の IaC declaration と
-Cloudflare 実状を `pnpm cf:alerts:diff` で機械比較する:
+Cloudflare 実状を `pnpm cf:alerts:diff` で機械比較する。UT-17-followup-006 で
+追加された KV 監視 policy (`workers-kv-writes-per-day` /
+`workers-kv-stored-bytes`) も同 diff 対象に含まれる。
 
 ```bash
 mise exec -- pnpm cf:alerts:diff
@@ -70,6 +72,12 @@ drift 一覧が出た場合の対応:
 詳細: `infra/cloudflare-alerts/README.md` / `docs/30-workflows/ut-17-followup-004-cloudflare-notification-policy-iac/`
 
 ### Step 4b: ALERT_DEDUP_KV namespace 健全性確認（ut-17-followup-002）
+
+> **UT-17-followup-006**: KV quota guard policy は repo に宣言済
+> (`workers-kv-writes-per-day` / `workers-kv-stored-bytes`) だが、初期状態は
+> `enabled:false`。Step 4 の `cf:alerts:diff` で IaC drift を検知できる。
+> Slack 自動発火は user 承認後の apply / smoke / `enabled:true` 判断後に成立する。
+> 以下の手順は namespace binding / TTL 機能の四半期 deep-dive のために残す。
 
 dedup state は Cloudflare KV namespace `ALERT_DEDUP_KV`（binding 名）に永続化されている。
 isolate 跨ぎ dedup が機能していることを確認する。

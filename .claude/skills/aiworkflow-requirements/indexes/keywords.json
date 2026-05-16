@@ -843,6 +843,7 @@
     ],
     "follow": [
       "api-endpoints.md",
+      "deployment-cloudflare.md",
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
@@ -868,6 +869,7 @@
     "up": [
       "api-endpoints.md",
       "database-schema-07b-schema-alias-assignment.md",
+      "deployment-cloudflare.md",
       "lessons-learned-03a-stablekey-literal-lint-enforcement-2026-05.md",
       "lessons-learned-03b-followup-005-sync-jobs-design-spec-2026-05.md",
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
@@ -4282,6 +4284,7 @@
     "Policy": [
       "audit-correlation.md",
       "data-retention-policy.md",
+      "deployment-cloudflare.md",
       "skill-ledger-gitattributes-policy.md",
       "skill-ledger-gitignore-policy.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
@@ -7127,7 +7130,8 @@
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md",
-      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md"
+      "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "デプロイ仕様": [
       "deployment-cloudflare-opennext-workers.md"
@@ -7490,6 +7494,15 @@
       "workflow-task-09b-parallel-cron-triggers-monitoring-and-release-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
     ],
+    "Alert": [
+      "deployment-cloudflare.md",
+      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
+      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
+      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
+    ],
+    "IaC": [
+      "deployment-cloudflare.md"
+    ],
     "Backup": [
       "deployment-cloudflare.md"
     ],
@@ -7600,6 +7613,7 @@
       "deployment-cloudflare.md",
       "lessons-learned-ut-03-sheets-auth-2026-04.md",
       "patterns-kv-dedup.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md",
       "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "に統一": [
@@ -7931,7 +7945,8 @@
       "lessons-learned-task-15-admin-dashboard-and-members-2026-05.md",
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-issue-351-09c-post-release-dashboard-automation-artifact-inventory.md",
-      "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md"
+      "workflow-task-15-admin-dashboard-and-members-artifact-inventory.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "automation": [
       "deployment-gha.md",
@@ -10512,11 +10527,6 @@
     ],
     "Cap": [
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
-    ],
-    "Alert": [
-      "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
-      "lessons-learned-issue-546-cf-audit-logs-90day-baseline-observation-2026-05.md",
-      "workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md"
     ],
     "Reset": [
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md"
@@ -16266,7 +16276,8 @@
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
     ],
     "policy": [
-      "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
+      "lessons-learned-u-ut01-09-retry-offset-2026-04.md",
+      "patterns-kv-dedup.md"
     ],
     "decision": [
       "lessons-learned-u-ut01-09-retry-offset-2026-04.md"
@@ -19559,6 +19570,24 @@
     "を使う": [
       "patterns-kv-dedup.md"
     ],
+    "usage": [
+      "patterns-kv-dedup.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
+    ],
+    "monitoring": [
+      "patterns-kv-dedup.md",
+      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
+      "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
+    ],
+    "ALERT": [
+      "patterns-kv-dedup.md"
+    ],
+    "DEDUP": [
+      "patterns-kv-dedup.md"
+    ],
+    "後続監視": [
+      "patterns-kv-dedup.md"
+    ],
     "Documentation": [
       "phase-12-documentation-retrospective.md",
       "workflow-issue-503-ut-07b-fu-01-followup-cursor-semantics-migration-artifact-inventory.md"
@@ -22605,9 +22634,6 @@
     "前提": [
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-548-ml-model-selection-artifact-inventory.md"
-    ],
-    "monitoring": [
-      "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
     ],
     "hold": [
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md"
