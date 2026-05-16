@@ -9,7 +9,7 @@
 
 - `.github/workflows/e2e-tests.yml` を `e2e-tests-coverage-gate` job として major rewrite（`on: pull_request: branches: [dev, main]` / deterministic mock API 起動 / smoke fail-fast → full e2e → coverage gate / 3 種 artifact upload）。
 - `apps/web/playwright.config.ts` の reporter 配列末尾に `monocart-reporter` を追加（既存 `html`/`json`/`list` を維持）。
-- `apps/web/src/lib/fetch/public.ts`: `PUBLIC_API_BASE_URL` 明示時は service binding より HTTP fallback を優先し、CI / local E2E の mock API 差し替えを成立させる。
+- `apps/web/src/lib/fetch/public.ts`: 2026-05-14 Issue #666 で transport rule を補正。`PUBLIC_API_BASE_URL` 明示だけでは service binding を skip せず、`NODE_ENV=test` / `PLAYWRIGHT_TEST=1` の明示 context でのみ HTTP fallback を優先する。`CI=true` 単独は fallback trigger にしない。
 - `apps/web/package.json`: devDeps に `monocart-reporter@^2.9.0` / `c8@^10.1.0` 追加。`e2e` script を `playwright test` のエイリアスとして追加（workflow `pnpm --filter @ubm-hyogo/web e2e` 整合用）。
 - `scripts/coverage-gate-e2e.sh`（新規）: line coverage 80% gate / `THRESHOLD_FIXTURE` override / `set -euo pipefail` / `quality-gates.md` 根拠 path コメント。
 - `scripts/e2e-mock-api.mjs`（新規）: deterministic mock API。Server Component `fetch()` 経路を `INTERNAL_API_BASE_URL=http://127.0.0.1:8787` で受ける。
@@ -31,7 +31,7 @@
 
 `lessons-learned/lessons-learned-e2e-quality-uplift-stages-2026-05.md` に以下 3 件を追加:
 
-- **L-E2EQU-013**: `PUBLIC_API_BASE_URL` を service binding より優先して CI mock を成立させる設計の必然性。
+- **L-E2EQU-013**: `PLAYWRIGHT_TEST=1` 明示時だけ `PUBLIC_API_BASE_URL` を service binding より優先して E2E mock を成立させる設計の必然性（Issue #666 で `CI=true` 単独 fallback を撤回）。
 - **L-E2EQU-014**: Playwright reporter 配列追加は **末尾追加** で既存 `html` / `json` / `list` を維持する Phase 12 gate。
 - **L-E2EQU-015**: `THRESHOLD_FIXTURE` override + 3 fixture（pass / fail-79 / missing）で coverage gate スクリプト自体を unit test 可能にする。actionlint 不在時は `@action-validator/cli` で代替検証する但し書きを Phase 12 DoD に残す規約。
 
