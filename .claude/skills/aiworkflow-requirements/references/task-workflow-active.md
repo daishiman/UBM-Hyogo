@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### serial-05-step-02 identity-conflicts merge UI（2026-05-16）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
+| 目的 | `/admin/identity-conflicts` の既存 row-local merge / dismiss UI を `useAdminMutation` に寄せ、400 / 409 error mapping、reason retention、inline alert、visual evidence を hardening する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts` |
+| API boundary | 既存 `POST /admin/identity-conflicts/:id/merge` / `POST /admin/identity-conflicts/:id/dismiss` を利用。新 endpoint / D1 schema / shared export 追加なし |
+| evidence | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | staging / production authenticated evidence、commit、push、PR |
+
 ### serial-05-step-01 members-note mutation UI（2026-05-15）
 
 | 項目 | 値 |

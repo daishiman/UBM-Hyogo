@@ -2714,6 +2714,13 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
 
+### references/workflow-serial-05-step-02-identity-conflicts-merge-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Primary files | L10 |
+| Evidence | L20 |
+
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
 | セクション | 行 |
@@ -6753,14 +6760,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1383 |
-| フェーズ構造（概要） | L1392 |
-| 品質ゲート（概要） | L1423 |
-| 出力テンプレート | L1434 |
-| 実行時のコマンド・エージェント・スキル | L1457 |
-| 昇格パターン集 | L1481 |
-| Current Active / Spec Created Tasks | L1483 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1626 |
+| ドキュメント構成 | L1396 |
+| フェーズ構造（概要） | L1405 |
+| 品質ゲート（概要） | L1436 |
+| 出力テンプレート | L1447 |
+| 実行時のコマンド・エージェント・スキル | L1470 |
+| 昇格パターン集 | L1494 |
+| Current Active / Spec Created Tasks | L1496 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1639 |
 
 ### references/task-workflow-backlog-part2.md
 

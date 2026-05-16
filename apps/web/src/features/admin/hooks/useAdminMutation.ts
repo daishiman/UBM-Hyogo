@@ -18,6 +18,15 @@ export interface UseAdminMutationReturn<T> {
 
 export { FetchAuthedError };
 
+const ADMIN_ERROR_MESSAGES: Record<string, string> = {
+  ALREADY_MERGED: "すでに統合済みです",
+  TARGET_MEMBER_MISMATCH: "対象 ID が一致しません",
+  ALREADY_DISMISSED: "すでに別人として確定済みです",
+};
+
+const toOperatorMessage = (message: string): string =>
+  ADMIN_ERROR_MESSAGES[message] ?? message;
+
 export function useAdminMutation<T = unknown>(
   endpoint: string,
   method: "POST" | "PATCH" | "PUT",
@@ -52,7 +61,7 @@ export function useAdminMutation<T = unknown>(
             message?: string;
             error?: string;
           };
-          const msg = body?.message ?? body?.error ?? "サーバーエラー";
+          const msg = toOperatorMessage(body?.message ?? body?.error ?? "サーバーエラー");
           throw new Error(msg);
         }
         const data = (await res.json()) as T;

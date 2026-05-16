@@ -76,6 +76,24 @@ describe("useAdminMutation", () => {
     expect(result.current.error?.message).toBe("invalid body");
   });
 
+  it("TC-02b: known admin error codes are mapped for operators", async () => {
+    mockFetchOnce({
+      ok: false,
+      status: 409,
+      json: async () => ({ ok: false, error: "ALREADY_MERGED" }),
+    });
+    const { result } = renderHook(() =>
+      useAdminMutation("/api/admin/identity-conflicts/m1__m2/merge", "POST"),
+    );
+    await act(async () => {
+      await expect(result.current.trigger({ reason: "x" })).rejects.toThrow(
+        "すでに統合済みです",
+      );
+    });
+    expect(toastMock).toHaveBeenCalledWith("✗ すでに統合済みです");
+    expect(result.current.error?.message).toBe("すでに統合済みです");
+  });
+
   it("TC-03: 401 throws FetchAuthedError and does not show generic toast", async () => {
     mockFetchOnce({
       ok: false,
