@@ -58,6 +58,30 @@ assert_rc() {
 }
 
 write_common_fixtures
+printf '%s\n' 'env=staging-runtime-smoke;required=STAGING_API_BASE,STAGING_ADMIN_BEARER,STAGING_MEMBER_ID,STAGING_ME_BEARER;reason=required-staging-runtime-smoke-secret' > "$tmp/allowlist"
+printf '%s\n' STAGING_API_BASE STAGING_ADMIN_BEARER > "$tmp/env-secrets/staging-runtime-smoke.txt"
+if run_gate --json; then rc=0; else rc=$?; fi
+assert_rc "$rc" 1
+grep -q '"job":"env-required"' "$tmp/out/stdout"
+grep -q '"secret":"STAGING_MEMBER_ID"' "$tmp/out/stdout"
+grep -q '"secret":"STAGING_ME_BEARER"' "$tmp/out/stdout"
+
+write_common_fixtures
+printf '%s\n' 'env=staging-runtime-smoke;required=STAGING_API_BASE,STAGING_ADMIN_BEARER,STAGING_MEMBER_ID,STAGING_ME_BEARER;reason=required-staging-runtime-smoke-secret' > "$tmp/allowlist"
+printf '%s\n' STAGING_API_BASE STAGING_ADMIN_BEARER STAGING_MEMBER_ID STAGING_ME_BEARER > "$tmp/env-secrets/staging-runtime-smoke.txt"
+if run_gate --json; then rc=0; else rc=$?; fi
+assert_rc "$rc" 0
+grep -qx '\[\]' "$tmp/out/stdout"
+
+write_common_fixtures
+printf '%s\n' 'env=staging-runtime-smoke;required=STAGING_API_BASE;reason=required-staging-runtime-smoke-secret' > "$tmp/allowlist"
+printf '%s\n' STAGING_API_BASE > "$tmp/repo-secrets.txt"
+if run_gate --json; then rc=0; else rc=$?; fi
+assert_rc "$rc" 1
+grep -q '"job":"env-required"' "$tmp/out/stdout"
+grep -q '"secret":"STAGING_API_BASE"' "$tmp/out/stdout"
+
+write_common_fixtures
 cat > "$tmp/workflows/staging-runtime-smoke.yml" <<'YAML'
 name: staging-runtime-smoke
 jobs:

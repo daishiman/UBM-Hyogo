@@ -4009,19 +4009,19 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L8 |
 | GitHub Actions Secret Preflight Gate（2026-05-16） | L20 |
-| 管理場所の判断フロー | L42 |
-| Cloudflare Secrets（ランタイム） | L59 |
-| GitHub Secrets / Variables（CI/CD 用） | L125 |
-| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L218 |
-| wrangler.toml の環境別設定 | L252 |
-| ローカル開発での設定 | L284 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L323 |
-| セキュリティ原則 | L355 |
-| Cloudflare API Token の作成手順 | L366 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L381 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L492 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L544 |
-| 変更履歴 | L563 |
+| 管理場所の判断フロー | L45 |
+| Cloudflare Secrets（ランタイム） | L62 |
+| GitHub Secrets / Variables（CI/CD 用） | L128 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L222 |
+| wrangler.toml の環境別設定 | L256 |
+| ローカル開発での設定 | L288 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L327 |
+| セキュリティ原則 | L359 |
+| Cloudflare API Token の作成手順 | L370 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L385 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L496 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L548 |
+| 変更履歴 | L567 |
 
 ### references/deployment.md
 
@@ -6789,14 +6789,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1393 |
-| フェーズ構造（概要） | L1402 |
-| 品質ゲート（概要） | L1433 |
-| 出力テンプレート | L1444 |
-| 実行時のコマンド・エージェント・スキル | L1467 |
-| 昇格パターン集 | L1491 |
-| Current Active / Spec Created Tasks | L1493 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1636 |
+| ドキュメント構成 | L1408 |
+| フェーズ構造（概要） | L1417 |
+| 品質ゲート（概要） | L1448 |
+| 出力テンプレート | L1459 |
+| 実行時のコマンド・エージェント・スキル | L1482 |
+| 昇格パターン集 | L1506 |
+| Current Active / Spec Created Tasks | L1508 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1652 |
 
 ### references/task-workflow-backlog-part2.md
 

@@ -16,6 +16,17 @@
 
 ---
 
+### Runtime Smoke Staging Secrets Restore（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/runtime-smoke-staging-secrets-restore/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending user-gated` |
+| scope | `staging-runtime-smoke` 必須 4 secret を `verify-env-secrets.allowlist` の env-required contract とテストへ追加 |
+| implementation | `scripts/ci/verify-env-secrets.sh`, `scripts/ci/verify-env-secrets.allowlist`, `scripts/ci/__tests__/verify-env-secrets.spec.sh` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | runtime inline value check is retained; secret placement, workflow rerun, commit, push, PR are user-gated |
+
 ### CI Env Secret Inventory And Preflight Gate（2026-05-16）
 
 | 目的 | 参照先 |
