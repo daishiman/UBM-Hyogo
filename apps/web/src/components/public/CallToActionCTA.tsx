@@ -87,7 +87,7 @@ export function CallToActionCTA({
               alignItems: "center",
               justifyContent: "center",
               background: "var(--ubm-color-accent)",
-              color: "var(--ubm-color-text-primary)",
+              color: "var(--ubm-color-surface-panel)",
               padding: "var(--ubm-space-3) var(--ubm-space-6)",
               borderRadius: "var(--ubm-radius-md)",
               textDecoration: "none",

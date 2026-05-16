@@ -32,7 +32,7 @@ exports[`CallToActionCTA > snapshot を保持する 1`] = `
         data-variant="accent"
         href="https://example.test/form"
         rel="noopener noreferrer"
-        style="display: inline-flex; align-items: center; justify-content: center; background: var(--ubm-color-accent); color: var(--ubm-color-text-primary); padding: var(--ubm-space-3) var(--ubm-space-6); border-radius: var(--ubm-radius-md); text-decoration: none; font-weight: 600;"
+        style="display: inline-flex; align-items: center; justify-content: center; background: var(--ubm-color-accent); color: var(--ubm-color-surface-panel); padding: var(--ubm-space-3) var(--ubm-space-6); border-radius: var(--ubm-radius-md); text-decoration: none; font-weight: 600;"
         target="_blank"
       >
         回答フォームを開く
