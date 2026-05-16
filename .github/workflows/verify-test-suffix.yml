@@ -1,6 +1,6 @@
 # 目的: テストファイル suffix を *.spec.{ts,tsx} 単一に収斂させた状態を CI で恒久保持する gate
 # 検知対象: *.test.ts(x) ファイルがリポジトリに 1 件でも存在する状態
-# ADR: docs/30-workflows/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md
+# ADR: docs/30-workflows/completed-tasks/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md
 # 関連タスク: docs/30-workflows/issue-623-vitest-spec-suffix-convergence/
 name: verify-test-suffix
 

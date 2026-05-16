@@ -22,7 +22,7 @@
 4. 既存先行仕様書:
    - `docs/30-workflows/UT-GOV-006-web-deploy-target-canonical-sync.md`
    - `docs/30-workflows/ut-06-followup-A-opennext-workers-migration.md`
-   - `docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/phase-11.md`
+   - `docs/30-workflows/completed-tasks/ci-pipeline-recovery-web-cd-and-runtime-smoke/tasks/task-02-staging-runtime-smoke-secrets-provisioning/index.md`
 
 ## 構成
 

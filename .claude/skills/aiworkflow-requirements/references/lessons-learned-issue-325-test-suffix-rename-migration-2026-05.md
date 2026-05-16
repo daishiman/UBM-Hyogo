@@ -2,7 +2,7 @@
 
 | Meta | Value |
 | --- | --- |
-| Workflow root | `docs/30-workflows/issue-325-test-suffix-rename-migration/` |
+| Workflow root | `docs/30-workflows/completed-tasks/issue-325-test-suffix-rename-migration/` |
 | Predecessor | `docs/30-workflows/unassigned-task/UT-08A-06-test-suffix-rename-migration.md` |
 | Date | 2026-05-09 |
 | State | implementation_completed / NON_VISUAL / Phase 13 pending_user_approval |

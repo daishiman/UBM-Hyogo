@@ -1,6 +1,6 @@
 # 目的: aiworkflow-requirements skill の indexes drift を CI で検出する authoritative gate
 # 監視対象: .claude/skills/aiworkflow-requirements/indexes
-# 設計の正本: docs/30-workflows/task-verify-indexes-up-to-date-ci/outputs/phase-12/implementation-guide.md
+# 設計の正本: docs/30-workflows/completed-tasks/task-verify-indexes-up-to-date-ci/outputs/phase-12/implementation-guide.md
 # 関連 AC: AC-1〜AC-7（index.md 参照）
 name: verify-indexes-up-to-date
 

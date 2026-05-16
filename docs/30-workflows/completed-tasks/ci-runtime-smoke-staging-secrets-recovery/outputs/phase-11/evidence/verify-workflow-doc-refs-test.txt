@@ -1,0 +1,9 @@
+$ bash scripts/ci/__tests__/verify-workflow-doc-refs.spec.sh
+[PASS] TC-01 all refs exist
+[PASS] TC-02 missing ref detected
+[PASS] TC-03 URL refs ignored
+[PASS] TC-04 mixed URL and local missing detected
+[PASS] TC-05 anchors stripped
+[PASS] TC-06 missing workflows dir exits 2
+[PASS] TC-07 repository workflows pass
+SUMMARY: 7 passed / 0 failed
