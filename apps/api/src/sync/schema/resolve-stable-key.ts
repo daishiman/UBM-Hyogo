@@ -1,6 +1,6 @@
 // Phase 5: resolve-stable-key.ts
 // 不変条件 #1: stableKey 文字列リテラル直書き禁止。
-// - 既存 D1 の schema_questions.question_id に対応する stable_key を「alias」として優先採用
+// - schema_aliases.alias_question_id に対応する stable_key を「alias」として優先採用
 // - mapper.ts (packages/integrations-google) が STABLE_KEY_BY_LABEL マッピングを正本管理
 // - どちらでも resolve できなければ source='unknown' を返し、diff queue に積む
 import type { DbCtx } from "../../repository/_shared/db";
@@ -22,7 +22,7 @@ export const UNKNOWN_SENTINEL = "unknown";
 /**
  * 1 件の質問について stable_key を解決する。
  * 解決順:
- *  1. D1 の schema_questions.question_id に対応する既存 stable_key（alias 永続値）
+ *  1. schema_aliases.alias_question_id に対応する stable_key
  *  2. label からの known マッピング（mapper 経由）
  *  3. どちらも不在 → source='unknown' で diff queue に積む
  */

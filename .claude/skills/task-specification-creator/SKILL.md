@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset, fallback retirement, dual-environment coverage gate, physical deletion 2-stage, lookup contract sync
 allowed-tools:
   - Read
   - Write
