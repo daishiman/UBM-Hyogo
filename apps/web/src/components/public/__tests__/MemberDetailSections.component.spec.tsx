@@ -112,6 +112,25 @@ describe("MemberDetailSections", () => {
     expect(values).toContain("—");
   });
 
+  it("renders data-visibility='public' by default and data-component='profile-section' (G3-3)", () => {
+    const { container } = render(
+      <MemberDetailSections sections={[makeSection()]} />,
+    );
+    const section = container.querySelector('[data-section="basic"]');
+    expect(section?.getAttribute("data-component")).toBe("profile-section");
+    expect(section?.getAttribute("data-visibility")).toBe("public");
+  });
+
+  it("respects explicit section.visibility value (G3-3)", () => {
+    const sec = makeSection({ key: "admin-only" }) as Section & {
+      visibility?: "public" | "member" | "admin";
+    };
+    sec.visibility = "admin";
+    const { container } = render(<MemberDetailSections sections={[sec]} />);
+    const section = container.querySelector('[data-section="admin-only"]');
+    expect(section?.getAttribute("data-visibility")).toBe("admin");
+  });
+
   it("hides section when no visible fields remain", () => {
     const sec = makeSection({
       fields: [

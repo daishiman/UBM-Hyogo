@@ -112,3 +112,88 @@
     color: inherit;
   }
 }
+
+@layer components {
+  /* G3-1: Tag pill selected fill */
+  button[data-component="tag-pill"] {
+    transition:
+      background-color var(--ubm-dur-fast) var(--ubm-ease-standard),
+      color var(--ubm-dur-fast) var(--ubm-ease-standard),
+      border-color var(--ubm-dur-fast) var(--ubm-ease-standard);
+  }
+  button[data-component="tag-pill"][aria-pressed="true"],
+  button[data-component="tag-pill"][data-selected="true"] {
+    background: var(--ubm-color-text-primary);
+    color: var(--ubm-color-surface-panel);
+    border-color: var(--ubm-color-text-primary);
+  }
+
+  /* G3-2: Member card hover transition */
+  [data-component="member-card"] {
+    box-shadow: var(--ubm-shadow-xs);
+    transition:
+      border-color var(--ubm-dur-fast) var(--ubm-ease-standard),
+      box-shadow var(--ubm-dur-fast) var(--ubm-ease-standard);
+  }
+  [data-component="member-card"]:hover {
+    border-color: var(--ubm-color-border-strong);
+    box-shadow: var(--ubm-shadow-sm);
+  }
+  [data-component="member-card"]:focus-within {
+    border-color: var(--ubm-color-border-strong);
+    box-shadow: var(--ubm-shadow-sm);
+    outline: 2px solid var(--ubm-color-text-primary);
+    outline-offset: 2px;
+  }
+
+  /* G3-3: Profile visibility marker */
+  [data-component="profile-section"][data-visibility] {
+    position: relative;
+    border-left: 4px solid transparent;
+    padding-left: 0.75rem;
+  }
+  [data-component="profile-section"][data-visibility]::before {
+    content: "";
+    margin-right: 0.25rem;
+  }
+  [data-component="profile-section"][data-visibility="public"] {
+    border-left-color: var(--ubm-color-ok);
+  }
+  [data-component="profile-section"][data-visibility="public"]::before {
+    content: "🌍 ";
+  }
+  [data-component="profile-section"][data-visibility="member"] {
+    border-left-color: var(--ubm-color-zone-b);
+  }
+  [data-component="profile-section"][data-visibility="member"]::before {
+    content: "👥 ";
+  }
+  [data-component="profile-section"][data-visibility="admin"] {
+    border-left-color: var(--ubm-color-danger);
+  }
+  [data-component="profile-section"][data-visibility="admin"]::before {
+    content: "🔐 ";
+  }
+  [data-role="visibility"][data-visibility] {
+    border-inline-start: 3px solid currentColor;
+    padding-inline-start: 0.375rem;
+  }
+  [data-role="visibility"][data-visibility="public"] {
+    color: var(--ubm-color-ok);
+  }
+  [data-role="visibility"][data-visibility="public"]::before {
+    content: "🌍 ";
+  }
+  [data-role="visibility"][data-visibility="member"] {
+    color: var(--ubm-color-zone-b);
+  }
+  [data-role="visibility"][data-visibility="member"]::before {
+    content: "👥 ";
+  }
+  [data-role="visibility"][data-visibility="admin"] {
+    color: var(--ubm-color-danger);
+  }
+  [data-role="visibility"][data-visibility="admin"]::before {
+    content: "🔐 ";
+  }
+}

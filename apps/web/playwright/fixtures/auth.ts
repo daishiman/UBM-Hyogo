@@ -1,7 +1,7 @@
 import { test as base, expect, type Page, type BrowserContext } from '@playwright/test'
 import { signSessionJwt, type MemberId } from '@ubm-hyogo/shared'
 import { createServer, type Server, type ServerResponse } from 'node:http'
-import { buildMember, buildPreview, buildStats } from '../../src/test-utils/fixtures/public'
+import { buildFormField, buildMember, buildPreview, buildStats } from '../../src/test-utils/fixtures/public'
 
 type AuthFixtures = {
   adminPage: Page
@@ -259,7 +259,15 @@ async function ensureMockApi(): Promise<void> {
         return
       }
       if (req.method === 'GET' && url.pathname === '/public/form-preview') {
-        response(res, 200, buildPreview())
+        response(res, 200, buildPreview({
+          fields: [
+            buildFormField({ stableKey: 'profile:name', label: '氏名', visibility: 'public' }),
+            buildFormField({ stableKey: 'profile:email', label: 'メール', visibility: 'member' }),
+            buildFormField({ stableKey: 'admin:memo', label: '管理メモ', visibility: 'admin' }),
+          ],
+          fieldCount: 3,
+          sectionCount: 1,
+        }))
         return
       }
       if (req.method === 'GET' && url.pathname === '/admin/dashboard') {

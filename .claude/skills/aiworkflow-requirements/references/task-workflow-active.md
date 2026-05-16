@@ -22,6 +22,27 @@
 | evidence | `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | runtime/staging visual evidence / commit / push / PR |
 
+### parallel-03-prototype-ux-css（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_runtime_captured / implementation / VISUAL / Phase 12 strict 7 present / Phase 13 user-gated` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-03-prototype-ux-css/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-03-prototype-ux-css/spec.md` |
+| 目的 | Prototype visual feedback G3-1/2/3 を Tailwind + OKLch token + semantic/data 属性の実装契約へ変換する |
+| 実装対象 | `apps/web/src/styles/globals.css`, `apps/web/src/components/public/{MemberFilters.client,MemberCard,MemberDetailSections,FormPreviewSections}.tsx`, public component specs, `apps/web/playwright/tests/visual/visual-feedback.spec.ts` |
+| 不変条件 | `apps/api` / D1 schema / public response / token values は変更しない。`SectionVisibility` は local type。 |
+| evidence | root/output artifacts parity、Phase 11 command contract、7 screenshots、Playwright visual 5 passed、axe critical 0、Phase 12 strict 7 files、task 固有 Playwright visual spec |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-03-prototype-ux-css-2026-05.md`（L-P03-001..008） |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-03-prototype-ux-css-artifact-inventory.md` |
+| skill promotion | `task-specification-creator` への昇格は no-op（既存 strict 7 / 3-state / command drift gate で足りる）。本 wave で aiworkflow-requirements 側に artifact-inventory + lessons-learned を applied として記録 |
+| downstream | API 側 section `visibility` field 追加時、`SectionVisibility` を server contract へ昇格し UI fallback を廃止する候補（現状 unassigned 化せず future product decision で保留） |
+| rollback contract | local: `git checkout -- apps/web/src/styles/globals.css apps/web/src/components/public/*.tsx apps/web/playwright/**`; docs: `docs/30-workflows/completed-tasks/parallel-03-prototype-ux-css/` を revert; skill: `indexes/{quick-reference,resource-map,topic-map}.md` / `references/task-workflow-active.md` / `changelog/20260515-parallel-03-prototype-ux-css.md` 該当行 revert; PR merge 後は `gh pr revert` |
+| runtime gate | captured locally; commit / push / PR は user-gated |
+| user gate | commit / push / PR |
+
+
 ### parallel-02-state-sync-router-refresh（2026-05-15）
 
 | 項目 | 値 |

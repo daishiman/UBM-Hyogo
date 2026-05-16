@@ -34,6 +34,9 @@ const isTask18RegressionGate =
 const isTask18FullVisualEvidence =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-18-fu' ||
   process.argv.some((arg) => arg.includes('visual-full'))
+const isParallel03PrototypeUxCss =
+  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'parallel-03-prototype-ux-css' ||
+  process.argv.some((arg) => arg.includes('visual-feedback.spec.ts'))
 
 const EVIDENCE_DIR =
   process.env.PLAYWRIGHT_EVIDENCE_DIR ??
@@ -53,7 +56,9 @@ const EVIDENCE_DIR =
                 ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
                 : isTask17AdminEvidence
                   ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
-                  : isTask10Followup002Evidence
+                  : isParallel03PrototypeUxCss
+                    ? '../../docs/30-workflows/parallel-03-prototype-ux-css/outputs/phase-11/evidence'
+                    : isTask10Followup002Evidence
                     ? '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
                     : isTask18FullVisualEvidence
                       ? '../../docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence'
