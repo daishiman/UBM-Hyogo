@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L210 |
-| UBM-Hyogo Admin Sync API（03a） | L231 |
-| UBM-Hyogo Member Self-Service API（04b） | L282 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L308 |
-| Desktop IPC API サマリー | L322 |
-| 変更履歴 | L353 |
-| 関連ドキュメント | L370 |
+| エンドポイント命名規則 | L211 |
+| UBM-Hyogo Admin Sync API（03a） | L232 |
+| UBM-Hyogo Member Self-Service API（04b） | L283 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L309 |
+| Desktop IPC API サマリー | L323 |
+| 変更履歴 | L354 |
+| 関連ドキュメント | L371 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2091,6 +2091,15 @@ node scripts/list-specs.js --topics
 | phase 11 evidence | L38 |
 | implementation source-of-truth | L45 |
 | scope notes | L59 |
+
+### references/workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L7 |
+| Implementation Artifacts | L16 |
+| Evidence Artifacts | L31 |
+| Boundaries | L50 |
 
 ### references/workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md
 
@@ -6840,6 +6849,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1491 |
 | Current Active / Spec Created Tasks | L1493 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L1636 |
+| ドキュメント構成 | L1256 |
+| フェーズ構造（概要） | L1265 |
+| 品質ゲート（概要） | L1296 |
+| 出力テンプレート | L1307 |
+| 実行時のコマンド・エージェント・スキル | L1330 |
+| 昇格パターン集 | L1354 |
+| Current Active / Spec Created Tasks | L1356 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1482 |
 
 ### references/task-workflow-backlog-part2.md
 

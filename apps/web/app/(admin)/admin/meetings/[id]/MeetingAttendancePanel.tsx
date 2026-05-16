@@ -26,13 +26,12 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
       setToast("既に出席登録済み");
       return;
     }
-    setRegistered((s) => new Set(s).add(memberId));
     const r = await fetch(
-      `/api/admin/meetings/${encodeURIComponent(detail.sessionId)}/attendance`,
+      `/api/admin/meetings/${encodeURIComponent(detail.sessionId)}/attendances`,
       {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ memberId }),
+        body: JSON.stringify({ memberId, attended: true }),
       },
     );
     if (r.status === 409) {
@@ -72,9 +71,10 @@ export function MeetingAttendancePanel({ detail }: { readonly detail: Detail }) 
                 type="button"
                 data-testid="attendance-register"
                 data-member={c.memberId}
+                data-registered={registered.has(c.memberId) ? "true" : "false"}
                 onClick={() => onRegister(c.memberId)}
               >
-                出席登録
+                {registered.has(c.memberId) ? "登録済" : "出席登録"}
               </button>
             </li>
           ))}
