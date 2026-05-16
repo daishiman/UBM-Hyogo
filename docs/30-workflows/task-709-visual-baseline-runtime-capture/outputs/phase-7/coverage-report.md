@@ -1,24 +1,35 @@
 # Phase 7 Coverage Report
 
-State: `runtime_pending`
+State: `completed`
 
-The baseline coverage check is not complete because the user-gated baseline capture workflow has not been run in this cycle.
+## Contract vs Actual
 
-## Expected Contract
+| Item | Expected | Actual | Verdict |
+| --- | ---: | ---: | --- |
+| `VISUAL_ROUTES.length` (apps/web/playwright/fixtures/visual-routes.ts) | 17 | 17 | PASS |
+| `EXPECTED_VISUAL_ROUTE_COUNT` | 17 | 17 | PASS |
+| visual-full project count (playwright.config.ts) | 3 | 3 (desktop/tablet/mobile) | PASS |
+| baseline PNG count | 51 | 51 | PASS |
 
-| Item | Expected |
-| --- | ---: |
-| `VISUAL_ROUTES.length` | 17 |
-| visual-full project count | 3 |
-| expected baseline PNG count | 51 |
-
-## Runtime Command
-
-Run after baseline capture approval and import:
+## Verification
 
 ```bash
-SNAPSHOT_DIR=apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots
-ls "$SNAPSHOT_DIR"/*.png 2>/dev/null | wc -l
+$ ls apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/*.png | wc -l
+51
+
+$ grep -E "EXPECTED_VISUAL_ROUTE_COUNT" apps/web/playwright/fixtures/visual-routes.ts
+export const EXPECTED_VISUAL_ROUTE_COUNT = 17
 ```
 
-Expected result: `51`.
+## Source
+
+- baseline PNGs imported from `chore/visual-baseline-update-25960870639` (commit `b3fb7f4a`)
+- workflow run: https://github.com/daishiman/UBM-Hyogo/actions/runs/25960870639
+- runtime env: `ubuntu-latest` + chromium (CI fixed for OS-drift suppression)
+
+## Coverage Matrix Reflection
+
+`docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md` updated:
+- Axis Totals `Visual baseline`: `4/19` → `17/19`
+- Coverage Matrix rows #2..#6, #10..#17: Visual baseline column populated with slug
+- Future Candidates: "Full visual regression baseline" row removed (resolved by task-709)

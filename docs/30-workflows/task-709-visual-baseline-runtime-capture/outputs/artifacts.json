@@ -5,8 +5,8 @@
   "metadata": {
     "taskType": "implementation",
     "visualEvidence": "VISUAL",
-    "workflow_state": "CONTRACT_READY_IMPLEMENTATION_PENDING",
-    "implementation_status": "runtime_capture_contract_ready",
+    "workflow_state": "RUNTIME_CAPTURE_DONE_PR_PENDING",
+    "implementation_status": "baseline_imported_pr_pending",
     "canonicalRoot": "docs/30-workflows/task-709-visual-baseline-runtime-capture/",
     "createdAt": "2026-05-16",
     "issue": 709,
@@ -26,11 +26,11 @@
       },
       {
         "gate_id": "Gate-B",
-        "status": "pending",
-        "passed_at": null,
+        "status": "passed",
+        "passed_at": "2026-05-16T20:40:00+09:00",
         "evidence_path": "docs/30-workflows/task-709-visual-baseline-runtime-capture/outputs/phase-11/main.md",
         "approver": "daishiman",
-        "notes": "runtime_capture: baseline workflow dispatch, baseline-update PR import, visual-full CI 2-run evidence, commit, push, and PR remain user-gated."
+        "notes": "runtime_capture: baseline workflow dispatch (run 25960870639) succeeded for PNG generation; PR creation step failed due to Actions PR-write permission and was recovered via direct cherry-pick of chore/visual-baseline-update-25960870639 b3fb7f4a. 51 PNG present locally on task branch. visual-full 2-run stability remains to be observed post-PR-creation."
       },
       {
         "gate_id": "Gate-C",
@@ -55,15 +55,15 @@
     { "phase": 2, "status": "completed", "path": "phase-2-design.md" },
     { "phase": 3, "status": "completed", "path": "phase-3-design-review.md" },
     { "phase": 4, "status": "completed", "path": "phase-4-test-plan.md" },
-    { "phase": 5, "status": "runtime_pending", "path": "phase-5-implementation.md" },
-    { "phase": 6, "status": "runtime_pending", "path": "phase-6-test-additions.md" },
-    { "phase": 7, "status": "runtime_pending", "path": "phase-7-coverage.md" },
+    { "phase": 5, "status": "completed", "path": "phase-5-implementation.md" },
+    { "phase": 6, "status": "completed", "path": "phase-6-test-additions.md" },
+    { "phase": 7, "status": "completed", "path": "phase-7-coverage.md" },
     { "phase": 8, "status": "completed", "path": "phase-8-refactor.md" },
-    { "phase": 9, "status": "runtime_pending", "path": "phase-9-qa.md" },
-    { "phase": 10, "status": "runtime_pending", "path": "phase-10-final-review.md" },
-    { "phase": 11, "status": "runtime_pending", "path": "phase-11-manual-test.md" },
+    { "phase": 9, "status": "completed", "path": "phase-9-qa.md" },
+    { "phase": 10, "status": "completed", "path": "phase-10-final-review.md" },
+    { "phase": 11, "status": "partially_completed", "path": "phase-11-manual-test.md" },
     { "phase": 12, "status": "completed", "path": "phase-12-documentation.md" },
-    { "phase": 13, "status": "blocked", "path": "phase-13-pr.md" }
+    { "phase": 13, "status": "ready", "path": "phase-13-pr.md" }
   ],
   "phase11ContractOutputs": [
     "outputs/phase-11/main.md",

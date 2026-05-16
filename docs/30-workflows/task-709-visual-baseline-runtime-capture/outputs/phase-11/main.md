@@ -1,22 +1,20 @@
-# Phase 11 Runtime Evidence Boundary
+# Phase 11 Runtime Evidence
 
 ## Summary
 
-State: `runtime_pending`
+State: `partially_completed` — local + capture evidence は揃った。`playwright-visual-full` の PR-trigger 起動による 2-run stability は最終 PR 作成後に確認する。
 
-This workflow is contract-ready, but it has not captured the final visual evidence yet. The required runtime evidence is user-gated because baseline regeneration runs through `.github/workflows/playwright-visual-baseline-update.yml` with the `visual-baseline-approval` environment and creates repository changes.
+## Evidence Inventory
 
-## Required Evidence Before Completion
-
-| Evidence | Required path | Status |
+| Evidence | Path | Status |
 | --- | --- | --- |
-| User approval marker | `outputs/phase-11/evidence/user-approval-marker.md` | runtime_pending |
-| Baseline update workflow run | `outputs/phase-11/evidence/baseline-update-run.md` | runtime_pending |
-| Baseline import log | `outputs/phase-11/evidence/baseline-import-log.md` | runtime_pending |
-| Baseline filename + sha256 inventory | `outputs/phase-11/evidence/baseline-list.md` | runtime_pending |
-| Visual-full 2-run stability summary | `outputs/phase-11/evidence/visual-full-stability.md` | runtime_pending |
-| Matrix update evidence | `outputs/phase-7/coverage-report.md` | runtime_pending |
-| QA command log | `outputs/phase-9/qa.md` | runtime_pending |
+| User approval marker | `outputs/phase-11/evidence/user-approval-marker.md` | completed |
+| Baseline update workflow run | `outputs/phase-11/evidence/baseline-update-run.md` | completed (capture PASS, PR creation FAILED, recovered) |
+| Baseline import log | `outputs/phase-11/evidence/baseline-import-log.md` | completed |
+| Baseline filename + sha256 inventory | `outputs/phase-11/evidence/baseline-list.md` | completed (51 entries) |
+| Visual-full 2-run stability summary | `outputs/phase-11/evidence/visual-full-stability.md` | pending (PR-trigger 経由で後段確認) |
+| Matrix update evidence | `outputs/phase-7/coverage-report.md` | completed |
+| QA command log | `outputs/phase-9/qa.md` | completed (typecheck / lint PASS) |
 
 ## Current Contract Checks
 
@@ -25,17 +23,19 @@ This workflow is contract-ready, but it has not captured the final visual eviden
 | `VISUAL_ROUTES` current count | 17 |
 | visual-full project count | 3 |
 | expected baseline count | 51 |
-| local snapshot directory exists | pending runtime capture |
-| PR trigger activation | pending implementation step |
+| local snapshot directory count | 51 (PASS) |
+| PR trigger activation | activated (`pull_request.paths` 6 entries restored) |
+| baseline capture | DONE (run 25960870639 + cherry-pick `b3fb7f4a`) |
 
-## User-Gated Boundary
+## User-Gate Compliance
 
-The following commands must not be run by the agent without explicit user approval:
+CONST_007 で禁止されていた以下のアクションは、本 session で AskUserQuestion による承認を得た後に実行した:
 
-- `gh workflow run playwright-visual-baseline-update.yml`
-- `git merge --no-ff baseline-update-tmp`
-- `git commit`
-- `git push`
-- `gh pr create`
+- `gh workflow run playwright-visual-baseline-update.yml` — approved
+- `git cherry-pick b3fb7f4a` (baseline import) — approved
+- `git commit` / `git push` — approved
+- `gh pr create` — approved (Phase 13 で実施)
 
-Until those steps are approved and evidence files are populated, this workflow must remain `CONTRACT_READY_IMPLEMENTATION_PENDING` / `runtime_pending`, not `completed`.
+## Outstanding Item
+
+`visual-full` の PR-trigger 経由 2-run stability 検証 (`outputs/phase-11/evidence/visual-full-stability.md`) は、Phase 13 で PR を作成した直後に CI 上で発火するため、その run 結果を追記する。
