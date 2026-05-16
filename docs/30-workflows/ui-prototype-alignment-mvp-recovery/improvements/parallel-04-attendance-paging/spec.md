@@ -4,14 +4,16 @@
 **対象改善**: G4-1: AttendanceList の cursor paging UI  
 **ステータス**: ✅ 実装完了  
 
+> **2026-05-15 supersession note**: Issue #372 の API 正本同期後、初期 attendance page は default 50 件、追加取得は `GET /api/me/attendance?cursor=<opaque>` が現行契約。旧記述の「20 件」および `POST` は撤回し、`docs/30-workflows/completed-tasks/parallel-04-attendance-paging-ui/` を Phase 1-13 形式の実装 close-out 正本とする。
+
 ## 1. 目的
 
-`GET /api/me/attendance?limit=20&cursor=xxx` の cursor paging API に対応する UI を実装し、ユーザーが初期 20 件表示後に「もっと見る」ボタンで追加読込を可能にする。
+`GET /api/me/attendance?cursor=xxx` の cursor paging API に対応する UI を実装し、ユーザーが初期 default 50 件表示後に「もっと見る」ボタンで追加読込を可能にする。
 
 ## 2. スコープ (G4-1)
 
 - AttendanceList（参加履歴一覧）の paging UI 実装
-- 初回 20 件表示（profile page の Server Component で fetch）
+- 初回 default 50 件表示（profile page の Server Component で fetch）
 - 「もっと見る」ボタンでの追加読込
 - hasMore フラグによるボタン制御
 - 読込中・エラー状態の表示
@@ -29,7 +31,7 @@
 ### 4.1 Server/Client 境界
 
 - **Server (profile/page.tsx)**
-  - `fetchAuthed("/me/profile")` で初回 20 件を取得
+  - `fetchAuthed("/me/profile")` で初回 default 50 件を取得
   - `profile.attendance` と `profile.attendanceMeta` を AttendanceList へ props 受け渡し
 
 - **Client (AttendanceList.tsx)**
@@ -101,7 +103,7 @@ export function AttendanceList({ attendance, attendanceMeta }: AttendanceListPro
 | 項目 | 仕様 |
 |------|------|
 | **初期レンダリング** | attendance props を state にコピー |
-| **loadMore button click** | POST `/api/me/attendance?cursor=xxx` を call |
+| **loadMore button click** | GET `/api/me/attendance?cursor=xxx` を call |
 | **fetch 成功** | records を items に append、cursor・hasMore を更新 |
 | **fetch 失敗** | error state を設定、button は操作可能に戻す |
 | **hasMore === false** | button を DOM から削除 |
@@ -135,7 +137,7 @@ mise exec -- pnpm --filter @ubm-hyogo/web test -- profile
 
 ## 9. DoD (Definition of Done)
 
-- [x] 初回表示で 20 件の attendance items が DOM に render
+- [x] 初回表示で default 50 件の attendance items が DOM に render
 - [x] 「もっと見る」ボタンが hasMore=true の時に表示
 - [x] button click で `/api/me/attendance?cursor=xxx` を fetch
 - [x] fetch 成功 → items に append (前の state + new records)

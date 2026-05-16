@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@ubm-hyogo/integrations": "workspace:*",
-    "@ubm-hyogo/contracts": "workspace:*",
     "@ubm-hyogo/integrations-google": "workspace:*",
     "@ubm-hyogo/shared": "workspace:*",
     "hono": "4.12.16"

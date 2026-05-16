@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 import type { ReactNode } from "react";
 
 interface ToastItem {
@@ -21,7 +21,6 @@ export function ToastProvider({ children }: { readonly children: ReactNode }) {
     setToasts((prev) => [...prev, { id, message }]);
     setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 3000);
   }, []);
-
   return (
     <ToastContext.Provider value={{ toast }}>
       {children}
