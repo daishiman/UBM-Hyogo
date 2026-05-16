@@ -1520,6 +1520,19 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | cron | existing `0 18 * * *` + UTC Monday gate; no new cron slot |
 | external ops pending | Cloudflare secrets, staging deploy, manual cron fire, production deploy, first production observation, commit, push, PR |
 
+### task-709 visual baseline runtime capture（2026-05-16）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-709-visual-baseline-runtime-capture/` |
+| ステータス | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL` |
+| Issue | `#709` |
+| upstream | `docs/30-workflows/completed-tasks/task-18-fu-full-visual-regression-suite/` |
+| 目的 | task-18-fu で implemented_local_runtime_pending だった 51 full visual baseline capture を、user-gated runtime checkpoint として実行可能な仕様にする |
+| target visual scope | `VISUAL_ROUTES.length` 17 x visual-full 3 projects = 51 PNG |
+| evidence boundary | Phase 1-13 / root-output artifacts parity / Phase 12 strict 7 は作成済み。baseline workflow dispatch、baseline-update PR import、visual-full 2-run stability、commit、push、PR は user-gated runtime pending |
+| follow-up | `docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md` |
+
 ### task-18-FU full visual regression suite（2026-05-14）
 
 | 項目 | 内容 |

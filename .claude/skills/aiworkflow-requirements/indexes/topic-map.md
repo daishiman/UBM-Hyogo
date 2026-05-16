@@ -3170,6 +3170,15 @@ node scripts/list-specs.js --topics
 | Current Artifacts | L13 |
 | Boundary | L22 |
 
+### references/workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Runtime Pending Artifacts | L25 |
+| Boundary | L35 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |

@@ -5,6 +5,20 @@
 
 ---
 
+### task-709 visual baseline runtime capture（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-709-visual-baseline-runtime-capture/` |
+| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL` |
+| issue | `#709` |
+| upstream | `docs/30-workflows/completed-tasks/task-18-fu-full-visual-regression-suite/` |
+| target visual scope | 17 routes x desktop/tablet/mobile = 51 baselines |
+| runtime boundary | baseline workflow dispatch, baseline-update PR import, visual-full 2-run stability, commit, push, PR are user-gated |
+| evidence | root/output `artifacts.json` parity, Phase 11 runtime boundary, Phase 12 strict 7 outputs |
+| artifact inventory | `references/workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md` |
+| follow-up | `docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md` |
+
 ### parallel-06 public pages HomePage CTA（2026-05-15）
 
 | 目的 | 参照先 |
