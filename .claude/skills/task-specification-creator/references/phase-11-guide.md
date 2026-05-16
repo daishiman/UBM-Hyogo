@@ -3,6 +3,10 @@
 > 元ファイル: `phase-11-12-guide.md` から分割
 > 読み込み条件: Phase 11 を開始する時。
 
+## Phase 10 / Phase 11 evidence boundary（必読）
+
+Phase 10 の完了要件は **evidence plan（screenshot 撮影計画 / capture metadata 計画）のみ** であり、screenshot 物理ファイル（PNG 等）や `manual-test-result.md` の実走結果は要求しない。物理 evidence の取得は本ガイドが対象とする Phase 11 工程の責務であり、Phase 10 gate を block しない。
+
 ## 使い分け
 
 ```
