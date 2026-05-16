@@ -52,19 +52,47 @@ jobs:
           pnpm --filter @ubm-hyogo/web exec playwright test \
             --project=visual-chromium \
             --update-snapshots
-      - name: Open PR with baseline diff
-        uses: peter-evans/create-pull-request@v7
+      - name: Detect updated baselines
+        id: detect
+        run: |
+          set -eu
+          git status --porcelain apps/web/playwright/tests/visual apps/web/playwright/tests/visual-full > /tmp/baseline-status.txt || true
+          changed=$(wc -l < /tmp/baseline-status.txt | tr -d ' ')
+          echo "changed_count=${changed}" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Updated baselines (${{ inputs.target }})"
+            echo ""
+            echo "**Reason:** ${{ inputs.reason }}"
+            echo ""
+            if [ "$changed" = "0" ]; then
+              echo "_No baseline files were changed by --update-snapshots._"
+            else
+              echo "Changed files (${changed}):"
+              echo ""
+              echo '```'
+              cat /tmp/baseline-status.txt
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Package updated baselines
+        if: steps.detect.outputs.changed_count != '0'
+        run: |
+          set -eu
+          mkdir -p /tmp/baseline-bundle
+          git status --porcelain apps/web/playwright/tests/visual apps/web/playwright/tests/visual-full \
+            | awk '{print $2}' \
+            | while read -r f; do
+                if [ -f "$f" ]; then
+                  mkdir -p "/tmp/baseline-bundle/$(dirname "$f")"
+                  cp "$f" "/tmp/baseline-bundle/$f"
+                fi
+              done
+          (cd /tmp/baseline-bundle && tar czf /tmp/baselines.tar.gz .)
+      - name: Upload baseline artifact
+        if: steps.detect.outputs.changed_count != '0'
+        uses: actions/upload-artifact@v4
         with:
-          branch: chore/visual-baseline-update-${{ github.run_id }}
-          base: dev
-          title: 'chore(visual): update baselines (${{ inputs.target }})'
-          body: |
-            ## Reason
-            ${{ inputs.reason }}
-
-            target: ${{ inputs.target }}
-            workflow_dispatch run: ${{ github.run_id }}
-          commit-message: 'chore(visual): update baselines via workflow_dispatch (${{ inputs.target }})'
-          add-paths: |
-            apps/web/playwright/tests/visual-full/**
-            apps/web/playwright/tests/visual/**
+          name: updated-baselines-${{ inputs.target }}-${{ github.run_id }}
+          path: /tmp/baselines.tar.gz
+          if-no-files-found: error
+          retention-days: 14
