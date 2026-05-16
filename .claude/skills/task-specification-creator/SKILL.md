@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset, conditional-implementation, unsupported-path-gate, primary-source-snapshot-gate, verified_current_no_code_change_pending_pr, stale-claim grep, workflow-path-existence-gate
 allowed-tools:
   - Read
   - Write
@@ -28,6 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.16-issue717-conditional-no-code-feedback | 2026-05-16 | Issue #717 Cloudflare Workers OIDC support revalidation の Phase 12 feedback を反映。`references/phase12-skill-feedback-promotion.md` の Stale-current no-code verification / Workflow Path Existence Gate / Recovery Window Evidence Parity Gate / Conditional Implementation Category（Issue #616 既存項）を Issue #717 適用例で更新し、primary-source support snapshot の Phase 1 必須化と stale-claim grep gate を Phase 1-13 共通条件として明文化。SKILL.md Trigger に `conditional-implementation` / `unsupported-path-gate` / `primary-source-snapshot-gate` / `verified_current_no_code_change_pending_pr` / `stale-claim grep` / `workflow-path-existence-gate` を追加。template / schema 構造変更は no-op（既存 enum と state vocabulary で完全吸収）。 |
 | v2026.05.15-issue655-recovery-window-evidence-parity | 2026-05-15 | Issue #655 D+7 recovery 2nd-cycle review feedback を反映。`references/phase12-skill-feedback-promotion.md` に Recovery Window Evidence Parity Gate を追加し、`since` / D'+0 を metadata だけにせず実 aggregation window に適用すること、recovery mode でも run URL list / aggregate JSON / leakage log / comparison evidence を通常 mode と同粒度で生成すること、local implementation diff がある場合に `spec_created` / `no code changed` と close-out しないことを必須化。 |
 | v2026.05.14-issue668-required-check-precheck | 2026-05-14 | Issue #668 RB-3b-03 / RB-3b-04 review feedback を反映。required status check を path 条件で軽量化する場合は、別 workflow `paths-ignore` 補完を既定案にせず、single workflow precheck + no-op required context branch を Phase 11 NON_VISUAL evidence pattern として正本化。 |
 | v2026.05.14-issue638-closed-fold-state-sync | 2026-05-14 | Issue #638 review feedback を反映。CLOSED Issue / folded follow-up の Phase 12 では fold 先 issue state と外部 mutation 実行後 state を同一 wave で同期し、source unassigned YAML status を `superseded` / `consumed` へ更新する gate を追加。 |

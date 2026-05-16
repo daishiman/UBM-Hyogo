@@ -2654,6 +2654,14 @@ node scripts/list-specs.js --topics
 | task-specification-creator 反映 | L68 |
 | Verification Commands | L75 |
 
+### references/workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L12 |
+| Follow-Ups | L26 |
+| Boundary | L34 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2709,6 +2717,19 @@ node scripts/list-specs.js --topics
 | Phase 12 strict 7 outputs | L34 |
 | Evidence | L46 |
 | User-gated boundary | L55 |
+
+### references/workflow-parallel-10-auth-session-handling-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Contract | L34 |
+| AC to Runtime Path | L45 |
+| Phase 12 Required Files | L59 |
+| Same-wave Sync Targets | L71 |
+| Out of Scope / Deferred | L79 |
+| Related Lessons / References | L88 |
 
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
@@ -3968,14 +3989,14 @@ node scripts/list-specs.js --topics
 | 並列実行の活用 | L122 |
 | CD ワークフロー要件（dev / main マージ時） | L178 |
 | Backend ワークフロー要件（dev / main マージ時） | L208 |
-| モニタリングとアラート | L235 |
-| GitHub Secrets の要件 | L269 |
-| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L301 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L323 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L349 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L360 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L381 |
-| post-release-30day-auto-summary | L418 |
+| モニタリングとアラート | L237 |
+| GitHub Secrets の要件 | L271 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L303 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L325 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L351 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L362 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L383 |
+| post-release-30day-auto-summary | L420 |
 
 ### references/deployment-history.md
 
@@ -3991,16 +4012,16 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L196 |
-| wrangler.toml の環境別設定 | L230 |
-| ローカル開発での設定 | L262 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L301 |
-| セキュリティ原則 | L333 |
-| Cloudflare API Token の作成手順 | L344 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L359 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L470 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L522 |
-| 変更履歴 | L541 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L208 |
+| wrangler.toml の環境別設定 | L242 |
+| ローカル開発での設定 | L274 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L313 |
+| セキュリティ原則 | L345 |
+| Cloudflare API Token の作成手順 | L356 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L371 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L482 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L534 |
+| 変更履歴 | L553 |
 
 ### references/deployment.md
 
@@ -5109,6 +5130,18 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
+
+### references/lessons-learned-parallel-10-auth-session-handling-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-PARA10-001: client hook の副作用境界は DI で隔離する | L10 |
+| L-PARA10-002: `window` 直接参照は lint rule (`no-restricted-globals: window`) で構造的に禁止する | L18 |
+| L-PARA10-003: Toast variant 拡張は後方互換でも既存 caller grep 影響範囲を Phase 5 で固定する | L26 |
+| L-PARA10-004: `pnpm` script の引数は vitest にそのまま伝搬しない | L34 |
+| L-PARA10-005: `02-auth.md` の Client 401 / 403 ハンドリングを参照導線の正本にする | L42 |
+| L-PARA10-006: silent refresh は MVP 不採用、24h TTL を 401 → redirect で吸収する | L50 |
+| 関連 artifact / 参照 | L58 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -6756,14 +6789,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1368 |
-| フェーズ構造（概要） | L1377 |
-| 品質ゲート（概要） | L1408 |
-| 出力テンプレート | L1419 |
-| 実行時のコマンド・エージェント・スキル | L1442 |
-| 昇格パターン集 | L1466 |
-| Current Active / Spec Created Tasks | L1468 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1611 |
+| ドキュメント構成 | L1380 |
+| フェーズ構造（概要） | L1389 |
+| 品質ゲート（概要） | L1420 |
+| 出力テンプレート | L1431 |
+| 実行時のコマンド・エージェント・スキル | L1454 |
+| 昇格パターン集 | L1478 |
+| Current Active / Spec Created Tasks | L1480 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1624 |
 
 ### references/task-workflow-backlog-part2.md
 

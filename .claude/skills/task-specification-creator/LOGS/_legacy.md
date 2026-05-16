@@ -4,6 +4,14 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-16 - Issue #717 conditional no-code close-out feedback
+
+`docs/30-workflows/issue-717-oidc-cf-full-migration/` の Phase 12 feedback を確認した。Cloudflare Workers GitHub Actions OIDC のような外部公式 support 依存 implementation task では、一次情報再検証で unsupported と判定した場合、推測コードを入れず `implementationCategory=conditional` / `verified_current_no_code_change_pending_pr` として root/output artifacts、Phase 11 revalidation evidence、Phase 12 strict 7、unassigned follow-up formalization、aiworkflow sync を同一 wave で揃える必要がある。template 本体の即時変更は no-op とし、本 workflow の `skill-feedback-report.md` に promotion candidate として記録した。
+
+- routing target: `references/phase12-skill-feedback-promotion.md` の `Stale-current no-code verification rule` / `Workflow Path Existence Gate` / `Recovery Window Evidence Parity Gate` / `Conditional Implementation Category`（Issue #616 既存項）を Issue #717 適用例として更新。
+- promotion target: 既存 `schemas/artifact-definition.json` の `implementationCategory=conditional` と `workflow-state-vocabulary.md` の `verified_current_no_code_change_pending_pr` を Issue #717 で実適用済み。stale-claim grep gate と primary-source snapshot 必須条項を `phase12-skill-feedback-promotion.md` に Issue #717 例で再記述。
+- no-op reason: 既存 template / schema 構造（conditional category enum、state vocabulary、phase11 revalidation evidence 章）が Issue #717 のケースを完全に吸収し、新規 template field / new reference file の追加は不要。SKILL.md Trigger 行へ `unsupported-path-gate` / `primary-source-snapshot-gate` のみ追加して導線を補強。
+
 ## 2026-05-14 - Issue #640 CI/CD secret-scope close-out feedback
 
 `docs/30-workflows/issue-640-oidc-cf-token-cutover/` の Phase 12 feedback を確認した。CI/CD secret-scope tasks では static workflow scope test を local evidence だけに置かず、repository script（例: `pnpm test:workflow-secrets`）と CI workflow-shell-lint に接続する必要がある。既存の Phase 12 strict 7 / implemented-local-runtime-pending / NON_VISUAL evidence rules で吸収可能なため、task-specification-creator template 本体の構造変更は no-op とし、今回 workflow の `skill-feedback-report.md` に「promoted via repo CI gate / template change no-op」を記録する。
@@ -2701,3 +2709,8 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Added `metadata.implementationCategory` enum to `schemas/artifact-definition.json`, including `conditional` for implementation tasks where code/config changes happen only after upstream improvement detection.
 - Promoted Issue #616 review feedback so no-code-change verified triage workflows can use `verified_current_no_code_change_pending_pr` instead of stale `spec_created` after Phase 11 evidence is captured.
 - Commit / push / PR were not executed.
+
+# 2026-05-16 Issue #717 conditional no-code stale-claim gate
+
+- Promoted Issue #717 review feedback: when primary-source revalidation proves an implementation path is unsupported, Phase 1-13 must be resynced so stale executable claims (`id-token: write`, deploy logs, rollback rehearsals, missing evidence paths) are not left as current-cycle DoD.
+- Future staging proof / production cutover must be formalized separately and legacy token revocation remains blocked until production cutover + observation.
