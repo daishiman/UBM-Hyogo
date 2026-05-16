@@ -35,7 +35,6 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
-| v2026.05.15-parallel02-callback-order-invariant | 2026-05-15 | parallel-02-state-sync-router-refresh 実装サイクル feedback を反映。`references/patterns-pitfall-testing-ui.md` に **callback 呼び出し順序を契約として固定し invocationCallOrder で検証する** entry を追加 (`router.refresh()` → `onSubmitted()` → `onClose()` のような順序固定 / `vi.fn().mock.invocationCallOrder` による単一 assertion / 特定 error code での skip 経路の negative+positive assertion / state-sync 責務の dialog ローカル局所化)。 |
 | v2026.05.11-task15-e2e-mock-testid-drift | 2026-05-11 | task-15 admin dashboard and members 実装サイクル feedback を反映。`references/patterns-pitfall-testing-ui.md` に (1) **e2e mock の二重実装は state drift を生む** (standalone mock を single source of truth とし HTTP control endpoint で一本化、Server Component `fetch()` は `page.route()` で捕捉できない事実を明記)、(2) **page-object と実装 testid の drift 防止** (`data-testid` 命名は機能 prefix + kebab、page-object と実装の同 commit 配備、`scripts/verify-testid-parity.mjs` CI gate) の 2 entry を追加。 |
 | v2026.05.01-phase12-skill-feedback-sync | 2026-05-01 | Phase 12 `skill-feedback-report.md` の改善提案を既存 skill reference へ最小反映する運用を追加。ADR / topology drift task では重複候補検索、base case 別差分マトリクス、doc-only grep、NON_VISUAL evidence を優先して反映する。 |
 

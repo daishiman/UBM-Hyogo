@@ -112,4 +112,4 @@ done
 ## 正本同期の責務
 
 - task-01 完了時: `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` の `web-cd` セクション（存在すれば）を Workers deploy 表記に整合させる
-- task-02 local 実装完了時: `docs/30-workflows/completed-tasks/ci-pipeline-recovery-web-cd-and-runtime-smoke/tasks/task-02-staging-runtime-smoke-secrets-provisioning/index.md` の G1 手順を `scripts/smoke/provision-staging-secrets.sh` 参照へ同期し、実 secret 投入ステータスは user approval 後まで pending にする
+- task-02 local 実装完了時: `docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/phase-11.md` の G1 手順を `scripts/smoke/provision-staging-secrets.sh` 参照へ同期し、実 secret 投入ステータスは user approval 後まで pending にする

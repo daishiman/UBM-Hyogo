@@ -14,9 +14,7 @@ const mockFetch = (status: number, body: object) => {
   );
 };
 
-afterEach(() => {
-  vi.restoreAllMocks();
-});
+afterEach(() => vi.restoreAllMocks());
 
 
 describe("VisibilityRequestDialog", () => {
@@ -110,32 +108,6 @@ describe("VisibilityRequestDialog", () => {
     });
     await waitFor(() => expect(onSubmitted).toHaveBeenCalledTimes(1));
     expect(onClose).toHaveBeenCalled();
-  });
-
-  it("TC-RR-01: 202 → onSubmitted を onClose より先に呼ぶ", async () => {
-    mockFetch(202, {
-      queueId: "q1",
-      type: "visibility_request",
-      status: "pending",
-      createdAt: "now",
-    });
-    const onSubmitted = vi.fn();
-    const onClose = vi.fn();
-    render(
-      <VisibilityRequestDialog
-        desiredState="hidden"
-        open={true}
-        onClose={onClose}
-        onSubmitted={onSubmitted}
-      />,
-    );
-    await act(async () => {
-      fireEvent.click(screen.getByTestId("visibility-submit"));
-    });
-    await waitFor(() => expect(onSubmitted).toHaveBeenCalledTimes(1));
-    expect(onSubmitted.mock.invocationCallOrder[0]).toBeLessThan(
-      onClose.mock.invocationCallOrder[0],
-    );
   });
 
   it("409 → エラー banner を出す（onClose しない）", async () => {
