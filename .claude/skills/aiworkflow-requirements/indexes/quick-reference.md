@@ -78,6 +78,19 @@
 | source task | `docs/30-workflows/unassigned-task/issue-331-followup-001-cloudflare-pages-project-var-deletion.md` superseded in place |
 | related | Issue #331 Workers deploy cleanup, Issue #419 Pages dormant cleanup historical-only, followup-002 Pages project physical deletion remains separate |
 
+### 07c follow-up 002 attendance visual smoke（Issue #313 / 2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/07c-followup-002-attendance-visual-smoke/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_pass` |
+| source issue | #313 CLOSED; PR text must use `Refs #313` |
+| implementation targets | `apps/web/playwright/tests/attendance.spec.ts`, `apps/web/playwright/page-objects/AdminMeetingsPage.ts`, `apps/web/playwright/fixtures/auth.ts`, `apps/web/playwright/fixtures/admin-meetings.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/playwright.config.ts`, `apps/api/src/routes/admin/meetings.ts`, `apps/api/src/routes/admin/meetings.contract.spec.ts`, `.github/workflows/playwright-smoke.yml` |
+| API boundary | Existing `/admin/meetings`, `GET /admin/meetings/:id`, and `POST /admin/meetings/:id/attendances` with `{ memberId, attended }`; no singular `/attendance` route |
+| evidence | `outputs/phase-11/screenshots/*.png`, `outputs/phase-11/trace/attendance-delete-trace.zip`, `outputs/phase-11/e2e-run.txt`, `outputs/phase-11/phase11-capture-metadata.json`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md` |
+| user gate | GitHub Actions CI smoke, baseline update, staging replacement, commit, push, PR |
+
 ### UT-17 follow-up 004 — Cloudflare Notification Policy IaC（2026-05-14）
 
 | 目的 | 参照先 |
@@ -144,6 +157,21 @@
 | system spec | `docs/00-getting-started-manual/specs/02-auth.md`（Client 401 / 403 ハンドリング） |
 | evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build}.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | commit / push / PR |
+
+### i01 ToastProvider Root Mount（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime visual pending_user_session` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i01-toastprovider-root-mount/spec.md` |
+| implementation | `apps/web/app/layout.tsx` imports `ToastProvider` and wraps root `children` |
+| system spec | `docs/00-getting-started-manual/specs/09a-prototype-map.md` already defines `ToastProvider` as app shell boundary |
+| evidence | `outputs/phase-09/acceptance.md`, `outputs/phase-11/manual-smoke.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-i01-toastprovider-root-mount-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lesson-20260516-silent-fallback-provider-mount.md`（L-I01-001 defensive fallback が typecheck / lint / unit test の検出網を通過する silent failure / L-I01-002 並列 PR の DoD と「production runtime で動く」は別ゲート） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260516-i01-toastprovider-root-mount.md` |
+| user gate | authenticated admin toast visual smoke / commit / push / PR |
 
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
 
@@ -275,7 +303,8 @@
 | 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL` |
 | web deploy | `.github/workflows/web-cd.yml` uses `build:cloudflare` + `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production` |
 | web deploy secret | `.github/workflows/web-cd.yml` maps environment-scoped `secrets.CLOUDFLARE_API_TOKEN` into step-scoped env only for verify/deploy steps. `CLOUDFLARE_API_TOKEN` must not appear in job-level env or install/build steps. |
-| Issue #640 step-scoped CF token cutover | `docs/30-workflows/issue-640-oidc-cf-token-cutover/`（`implemented-local-runtime-pending` / implementation / NON_VISUAL）。`web-cd.yml` and `post-release-dashboard.yml` job-level token exposure removed; `scripts/redaction-check.sh` and `scripts/__tests__/workflow-env-scope.test.sh` provide local gates. Runtime deploy evidence, OIDC full migration, legacy token revocation, commit, push, and PR are user-gated. |
+| Issue #640 step-scoped CF token cutover | `docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/`（`implemented-local-runtime-pending` / implementation / NON_VISUAL）。`web-cd.yml` and `post-release-dashboard.yml` job-level token exposure removed; `scripts/redaction-check.sh` and `scripts/__tests__/workflow-env-scope.test.sh` provide local gates. Runtime deploy evidence, OIDC full migration, commit, push, and PR are user-gated. |
+| Issue #718 legacy CF token revocation | `docs/30-workflows/issue-718-legacy-cf-token-revocation/`（`spec_created_runtime_gate_pending / implementation / NON_VISUAL`）。Cloudflare token revocation, GitHub Secret deletion, and 1Password item mutation are Gate C external governance operations requiring saved user approval. Active `secrets.CLOUDFLARE_API_TOKEN` workflow references must be 0 before revocation. Source unassigned `issue-640-followup-002-legacy-token-revocation.md` is consumed provenance. Artifact inventory: `references/workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md`. Gate C pattern reference: `references/gate-c-external-mutation-pattern.md`. Lessons-learned: `lessons-learned/lesson-20260516-closed-issue-canonical-workflow-absence.md`（L-I718-001 closed issue でも canonical workflow root を後付け生成 / L-I718-002 unassigned-task は削除せず `status: consumed` + `canonical_workflow:` pointer で保持）. Changelog: `changelog/20260516-issue718-legacy-cf-token-revocation.md`. |
 | runtime smoke guard | `.github/workflows/runtime-smoke-staging.yml` Slack post runs only when `ci-evidence/summary.json` exists |
 | secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh` |
 | web-cd staging / production secret provisioning | canonical runbooks: `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md` and `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md`; separate from `staging-runtime-smoke`; `CLOUDFLARE_API_TOKEN` is environment-scoped web-cd deploy token, `CLOUDFLARE_ACCOUNT_ID` is Variables-managed, evidence records `op://` references only, and secret mutation / commit / push / PR are user-gated |
@@ -827,6 +856,21 @@
 
 ---
 
+### UT-08A-04 D1 migration test guideline（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 13 Phase 仕様 | `docs/30-workflows/ut-08a-04-d1-migration-test-guideline/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / governance` |
+| canonical runbook | `docs/30-workflows/runbooks/d1-migration-test-guideline.md` |
+| migration README | `apps/api/migrations/README.md` |
+| CI reminder | `.github/workflows/d1-migration-verify.yml`（`always()` / `continue-on-error` / `issues: write` / `github.paginate` / migration path guard） |
+| local evidence | `outputs/phase-11/{bats-result.log,runbook-evidence.log,yml-diff.patch,static-link-check.log,ci-comment-static-evidence.log}` |
+| artifact inventory | `references/workflow-ut-08a-04-d1-migration-test-guideline-artifact-inventory.md` |
+| Issue 取扱 | #323 は CLOSED 維持。PR comment URL は Phase 13 user-gated evidence |
+
+---
+
 ### 07c Follow-up 003 Audit Log Browsing UI（2026-05-01）
 
 | 目的 | 参照先 |
@@ -939,7 +983,7 @@ UT-06 Phase 12 UNASSIGNED-E を `implemented-local` / docs-only / NON_VISUAL wor
 ---
 ### Schema Alias Resolution Contract（issue-191 / 2026-04-30）
 
-07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。
+07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first。Issue #299 の 2026-05-15 local implementation で `schema_questions.stable_key` fallback は retired となり、alias miss は unresolved として扱う。
 
 UT-07B schema alias hardening は、この `schema_aliases` write target replacement を上位前提にする。hardening 対象は alias table の DB constraint、back-fill の再開可能化、`backfill_cpu_budget_exhausted` の HTTP 202 retryable continuation、10,000 行 staging evidence である。参照: `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/`, `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/phase-12/implementation-guide.md`, `references/api-endpoints.md`, `references/database-schema.md`。
 
@@ -957,7 +1001,8 @@ UT-07B-FU-04 production migration already-applied verification は、`references
 | 13 Phase 補完仕様 | `docs/30-workflows/completed-tasks/issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring/` |
 | 07b stale contract 上書き | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/index.md` |
 | 実装 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-aliases-implementation-001.md` |
-| fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
+| fallback 廃止 canonical execution root | `docs/30-workflows/task-issue-299-schema-questions-fallback-retirement-001/` |
+| fallback 廃止 source trace | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
 | direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
 
 ### UT-02A Canonical Section/Field Resolver（Issue #108 / 2026-05-01）
@@ -2344,6 +2389,18 @@ packages/
 | web consumer | `apps/web/src/lib/admin/api.ts` の `resolveTagQueue(queueId, body)` |
 | focused evidence | `pnpm exec vitest run --root=. --config=vitest.config.ts apps/api/src/routes/admin/tags-queue.test.ts apps/api/src/workflows/tagQueueResolve.test.ts apps/api/src/schemas/tagQueueResolve.test.ts` |
 | handoff | UT-07A-03 staging smoke with real admin auth / deployed Worker |
+
+### UBM-Hyogo Issue #295 Tag Queue Race Smoke（2026-05-15）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical workflow | `docs/30-workflows/issue-295-tag-queue-resolve-race-smoke/` |
+| state | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| smoke runner | `scripts/smoke/tag-queue-race.mjs` |
+| focused test | `bash scripts/smoke/__tests__/tag-queue-race.test.sh` |
+| D1 fixture columns | `tag_assignment_queue.queue_id`, `response_id`, `suggested_tags_json` |
+| audit check | `audit_log.target_type='tag_queue' AND target_id=$QUEUE_ID` |
+| source task | `UT-07A-03` consumed by Issue #295 workflow |
 
 ### UBM-Hyogo Admin UI 早見（06c / 2026-04-29）
 

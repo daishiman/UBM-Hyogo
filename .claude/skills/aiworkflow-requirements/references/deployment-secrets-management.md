@@ -2,6 +2,9 @@
 
 > 本ドキュメントは ubm-hyogo のデプロイメント仕様書の一部です。
 > 管理: .claude/skills/aiworkflow-requirements/
+>
+> **関連**: 不可逆な外部 mutation を伴う token revocation / secret rotation 等は
+> [Gate C: External Mutation Pattern](./gate-c-external-mutation-pattern.md) を参照（汎用テンプレ）。
 
 ---
 
@@ -176,7 +179,6 @@ Rotation 手順:
 
 `scripts/redaction-check.sh` は取得済み log/artifact の補助検査であり、token 値を検査のために新たに露出させない。一般的な Account ID は GitHub Variable として扱い、secret と混同しない。Account ID を機密として扱う個別 evidence では `--account-id` を明示して検査する。
 
-Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-task/issue-640-followup-001-oidc-full-migration.md`. Legacy token physical revocation is separated to `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md`.
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Deprecated for web-cd.yml after OpenNext Workers cutover |
 | `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped deploy token 正本名。OIDC cutover までは transitional direct token として維持 | web-cd.yml |
 | `CLOUDFLARE_API_TOKEN_STAGING` | Deprecated historical D1 migration verification staging token name. Replaced by environment-scoped `CLOUDFLARE_API_TOKEN` in `d1-migration-verify.yml` on 2026-05-16. | Do not use for new workflow references |
@@ -184,6 +186,14 @@ Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-
 | `CF_AUDIT_D1_TOKEN_PROD` | cf-audit-log monitor が D1 `cf_audit_log` / `cf_audit_baseline` / `cf_audit_finding_dedupe` へ書き込むための最小権限 Cloudflare Token。deploy 用 token は監視 workflow に注入しない。Issue #518 HOLD 中も保持 | `cf-audit-log-monitor.yml` (`environment: production`, HOLD 中は手動 run のみ) |
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（デプロイ通知） | 未使用（UT-08-IMPL で導入予定。現行 web-cd.yml / backend-ci.yml には参照なし） |
 | `CODECOV_TOKEN` | Codecov カバレッジアップロード | ci.yml |
+
+Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-task/issue-640-followup-001-oidc-full-migration.md`. Legacy token physical revocation is now formalized as Issue #718 at `docs/30-workflows/issue-718-legacy-cf-token-revocation/`; the original `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md` is retained as consumed provenance.
+
+### Issue #718 Legacy Cloudflare API Token Revocation（2026-05-16）
+
+Issue #718 is the Gate C retirement path for legacy `CLOUDFLARE_API_TOKEN` surfaces. It does not state that the token is already revoked. Before revocation, operators must prove Issue #640 runtime deploy evidence is green and classify every `CLOUDFLARE_API_TOKEN` consumer as current direct deploy token, deprecated target, audit-only token, or historical/generated reference.
+
+Cloudflare token revocation, GitHub Secret deletion/replacement, and 1Password item mutation require explicit saved user approval under `docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-13/user-approval-issue-718-<timestamp>.md`. Evidence records command names, exit codes, secret names, and item names only; token values, token previews, suffixes, account IDs, and vault values are prohibited.
 
 ### Issue #571 staging runtime smoke GitHub Environment（2026-05-08）
 

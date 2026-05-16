@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L210 |
-| UBM-Hyogo Admin Sync API（03a） | L231 |
-| UBM-Hyogo Member Self-Service API（04b） | L282 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L308 |
-| Desktop IPC API サマリー | L322 |
-| 変更履歴 | L353 |
-| 関連ドキュメント | L370 |
+| エンドポイント命名規則 | L211 |
+| UBM-Hyogo Admin Sync API（03a） | L232 |
+| UBM-Hyogo Member Self-Service API（04b） | L283 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L309 |
+| Desktop IPC API サマリー | L323 |
+| 変更履歴 | L354 |
+| 関連ドキュメント | L371 |
 
 ### references/api-internal-chunk-search.md
 
@@ -2092,6 +2092,15 @@ node scripts/list-specs.js --topics
 | implementation source-of-truth | L45 |
 | scope notes | L59 |
 
+### references/workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Workflow | L7 |
+| Implementation Artifacts | L16 |
+| Evidence Artifacts | L31 |
+| Boundaries | L50 |
+
 ### references/workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2247,6 +2256,16 @@ node scripts/list-specs.js --topics
 | 3. SKILL.md 入口導線 | L80 |
 | 4. 関連ファイル | L86 |
 | 変更履歴 | L93 |
+
+### references/workflow-i01-toastprovider-root-mount-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Evidence | L20 |
+| System Sync | L30 |
+| Runtime Boundary | L41 |
 
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
@@ -2653,6 +2672,16 @@ node scripts/list-specs.js --topics
 | Skill 反映先 | L55 |
 | task-specification-creator 反映 | L68 |
 | Verification Commands | L75 |
+
+### references/workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L14 |
+| Same-Wave System Spec Sync | L35 |
+| Gate C Blockers | L48 |
+| Scope Note | L56 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3488,6 +3517,18 @@ node scripts/list-specs.js --topics
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
 
+### references/workflow-ut-08a-04-d1-migration-test-guideline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Decision | L16 |
+| Implemented Local Artifacts | L20 |
+| Workflow Outputs | L29 |
+| Gates | L40 |
+| Same-Wave Sync | L49 |
+| Validation Chain | L57 |
+
 ### references/workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md
 
 | セクション | 行 |
@@ -4195,6 +4236,17 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L6 |
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
+
+### references/gate-c-external-mutation-pattern.md
+
+| セクション | 行 |
+|------------|----|
+| 適用条件 | L7 |
+| 必須メタデータ | L17 |
+| 実行フロー | L32 |
+| Redaction Contract | L50 |
+| 関連 references | L63 |
+| 適用事例 | L70 |
 
 ### references/gate-metadata.md
 
@@ -6789,14 +6841,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1408 |
-| フェーズ構造（概要） | L1417 |
-| 品質ゲート（概要） | L1448 |
-| 出力テンプレート | L1459 |
-| 実行時のコマンド・エージェント・スキル | L1482 |
-| 昇格パターン集 | L1506 |
-| Current Active / Spec Created Tasks | L1508 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1652 |
+| ドキュメント構成 | L1446 |
+| フェーズ構造（概要） | L1455 |
+| 品質ゲート（概要） | L1486 |
+| 出力テンプレート | L1497 |
+| 実行時のコマンド・エージェント・スキル | L1520 |
+| 昇格パターン集 | L1544 |
+| Current Active / Spec Created Tasks | L1546 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1693 |
 
 ### references/task-workflow-backlog-part2.md
 
