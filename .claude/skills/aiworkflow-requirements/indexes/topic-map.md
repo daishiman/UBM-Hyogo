@@ -2210,17 +2210,6 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
-### references/workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Workflow YAML 変更 | L17 |
-| Scripts | L30 |
-| Indexes / References 同期マッピング | L37 |
-| Invariants | L48 |
-| Scope Out | L56 |
-| Lessons / Genealogy | L62 |
-
 ### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
 
 | セクション | 行 |
@@ -2711,21 +2700,28 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
 
-### references/workflow-parallel-03-prototype-ux-css-artifact-inventory.md
+### references/workflow-parallel-09-ux-cross-cutting-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Files (apps/web) | L10 |
+| Tests | L27 |
+| Phase 12 strict 7 outputs | L34 |
+| Evidence | L46 |
+| User-gated boundary | L55 |
+
+### references/workflow-parallel-10-auth-session-handling-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
 | Metadata | L3 |
-| Scope (G3-1 / G3-2 / G3-3) | L16 |
-| Implementation Artifacts | L24 |
-| Contract | L40 |
-| AC to Runtime Path | L50 |
-| Phase 11 Evidence | L63 |
-| Phase 12 Required Files | L74 |
-| Skill Promotion | L86 |
-| Open Follow-Ups | L94 |
-| Rollback Contract | L101 |
-| Related Resources | L110 |
+| Current Facts | L15 |
+| Contract | L34 |
+| AC to Runtime Path | L45 |
+| Phase 12 Required Files | L59 |
+| Same-wave Sync Targets | L71 |
+| Out of Scope / Deferred | L79 |
+| Related Lessons / References | L88 |
 
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
@@ -3669,7 +3665,7 @@ node scripts/list-specs.js --topics
 | HistorySearch timeline 再設計（TASK-UI-06-HISTORY-SEARCH-VIEW） | L240 |
 | ViewType/ナビ導線 実装同期（TASK-UI-01-D-VIEWTYPE-ROUTING-NAV） | L287 |
 | authGateState × UI gating（apps/web 共通） | L356 |
-| 続き | L393 |
+| 続き | L382 |
 
 ### references/arch-state-management-details.md
 
@@ -4009,16 +4005,16 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L42 |
 | Cloudflare Secrets（ランタイム） | L59 |
 | GitHub Secrets / Variables（CI/CD 用） | L125 |
-| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L230 |
-| wrangler.toml の環境別設定 | L264 |
-| ローカル開発での設定 | L296 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L335 |
-| セキュリティ原則 | L367 |
-| Cloudflare API Token の作成手順 | L378 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L393 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L504 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L556 |
-| 変更履歴 | L575 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L218 |
+| wrangler.toml の環境別設定 | L252 |
+| ローカル開発での設定 | L284 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L323 |
+| セキュリティ原則 | L355 |
+| Cloudflare API Token の作成手順 | L366 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L381 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L492 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L544 |
+| 変更履歴 | L563 |
 
 ### references/deployment.md
 
@@ -4653,15 +4649,6 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 関連リソース | L17 |
 
-### references/lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| 苦戦箇所一覧 | L7 |
-| Secret Boundary 三層構造（L-CRSSSR-004 派生・参照用） | L49 |
-| Mutation user-gate 境界 | L57 |
-| 関連リソース | L66 |
-
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
 | セクション | 行 |
@@ -5137,18 +5124,17 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
 
-### references/lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md
+### references/lessons-learned-parallel-10-auth-session-handling-2026-05.md
 
 | セクション | 行 |
 |------------|----|
-| 教訓 | L7 |
-| 関連リソース | L17 |
-
-### references/lessons-learned-parallel-03-prototype-ux-css-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| 教訓一覧 | L8 |
+| L-PARA10-001: client hook の副作用境界は DI で隔離する | L10 |
+| L-PARA10-002: `window` 直接参照は lint rule (`no-restricted-globals: window`) で構造的に禁止する | L18 |
+| L-PARA10-003: Toast variant 拡張は後方互換でも既存 caller grep 影響範囲を Phase 5 で固定する | L26 |
+| L-PARA10-004: `pnpm` script の引数は vitest にそのまま伝搬しない | L34 |
+| L-PARA10-005: `02-auth.md` の Client 401 / 403 ハンドリングを参照導線の正本にする | L42 |
+| L-PARA10-006: silent refresh は MVP 不採用、24h TTL を 401 → redirect で吸収する | L50 |
+| 関連 artifact / 参照 | L58 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -6796,14 +6782,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1429 |
-| フェーズ構造（概要） | L1438 |
-| 品質ゲート（概要） | L1469 |
-| 出力テンプレート | L1480 |
-| 実行時のコマンド・エージェント・スキル | L1503 |
-| 昇格パターン集 | L1527 |
-| Current Active / Spec Created Tasks | L1529 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1672 |
+| ドキュメント構成 | L1393 |
+| フェーズ構造（概要） | L1402 |
+| 品質ゲート（概要） | L1433 |
+| 出力テンプレート | L1444 |
+| 実行時のコマンド・エージェント・スキル | L1467 |
+| 昇格パターン集 | L1491 |
+| Current Active / Spec Created Tasks | L1493 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1636 |
 
 ### references/task-workflow-backlog-part2.md
 
