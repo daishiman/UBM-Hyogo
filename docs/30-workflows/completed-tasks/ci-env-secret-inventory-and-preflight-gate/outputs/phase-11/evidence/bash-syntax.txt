@@ -1,4 +1,0 @@
-Command: `bash -n scripts/ci/verify-env-secrets.sh scripts/ci/__tests__/verify-env-secrets.spec.sh`
-Exit: 0
-
-Output: none
