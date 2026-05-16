@@ -2,8 +2,10 @@
 // 不変条件 #6: ui-primitives Banner 経由で OKLch tokens のみ使用。
 
 import { Banner } from "../../../src/components/ui/Banner";
-import { FORM_RESPONDER_URL } from "../../../src/lib/constants";
 import type { LoginGateState } from "../../../src/lib/url/login-query";
+
+const RESPONDER_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform";
 
 export interface LoginStatusProps {
   readonly state: Exclude<LoginGateState, "input">;
@@ -54,11 +56,7 @@ export function LoginStatus({ state, redirect, error }: LoginStatusProps) {
             Google Form から再回答することで再度ログインできます。
           </Banner>
           <p>
-            <a
-              href={FORM_RESPONDER_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={RESPONDER_URL} target="_blank" rel="noopener noreferrer">
               Google Form で再回答する
             </a>
           </p>

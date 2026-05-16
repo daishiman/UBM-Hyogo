@@ -66,7 +66,7 @@ jobs:
             SINCE="$RECOVERY_SINCE"
           else
             MERGED_DIR=hourly-merged
-            EVIDENCE_DIR=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
+            EVIDENCE_DIR=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
             # 直近 7 日 (168h + safety margin) の cf-audit-log-monitor.yml run を列挙
             SINCE=$(date -u -d '8 days ago' +%Y-%m-%dT%H:%M:%SZ)
           fi
@@ -109,9 +109,9 @@ jobs:
             OUT_MD="$EVIDENCE_DIR/hourly-run-7day-recovery.md"
             RECOVERY_ARGS=(--recovery-mode --since "$RECOVERY_SINCE")
           else
-            mkdir -p docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
-            OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
-            OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
+            mkdir -p docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence
+            OUT_JSON=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
+            OUT_MD=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day.md
             RECOVERY_ARGS=()
           fi
           echo "OUT_JSON=$OUT_JSON" >> "$GITHUB_ENV"
@@ -142,6 +142,8 @@ jobs:
           const fs = require("node:fs");
           const summary = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
           const errors = [];
+          if (summary.schema_version !== "1.0.0") errors.push("schema_version_missing");
+          if (!/^\d{4}-W\d{2}$/.test(summary.week_starting || "")) errors.push("week_starting_missing");
           if (summary.actualSnapshots < summary.expectedSnapshots) errors.push("snapshots_mismatch");
           if (summary.fallbackRateMean > 0.05) errors.push("fallback_rate_mean_gt_5pct");
           if (summary.leakageHits > 0) errors.push("leakage_hits");
@@ -172,8 +174,8 @@ jobs:
             OUT_JSON=docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json
             OUT_MD=docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence/issue-rate-comparison-recovery.md
           else
-            OUT_JSON=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
-            OUT_MD=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/issue-rate-comparison.md
+            OUT_JSON=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/hourly-run-7day-summary.json
+            OUT_MD=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/issue-rate-comparison.md
           fi
           node - "$OUT_JSON" "$OUT_MD" <<'NODE'
           const fs = require("node:fs");
@@ -210,7 +212,7 @@ jobs:
           if [[ "${RECOVERY_MODE:-false}" == "true" ]]; then
             OUT=docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence/leakage-grep-7day-recovery.log
           else
-            OUT=docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/leakage-grep-7day.log
+            OUT=docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/leakage-grep-7day.log
           fi
           mkdir -p "$(dirname "$OUT")"
           pnpm exec tsx scripts/cf-audit-log/evaluation/secret-leakage-grep.ts \
@@ -237,5 +239,5 @@ jobs:
 
             ${{ inputs.recovery_mode == true && 'Refs #549, Refs #586, Refs #655' || 'Refs #549, Refs #586' }}
           add-paths: |
-            docs/30-workflows/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/
+            docs/30-workflows/completed-tasks/issue-586-post-switch-7day-close-out/outputs/phase-11/evidence/
             docs/30-workflows/issue-655-d7-recovery-2nd-cycle/outputs/phase-11/evidence/

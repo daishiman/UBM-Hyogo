@@ -3,6 +3,7 @@ const FALLBACK_REDIRECT = "/profile";
 export const isSafeInternalRedirect = (value: string): boolean => {
   if (!value.startsWith("/")) return false;
   if (value.startsWith("//")) return false;
+  if (value === "/login" || value.startsWith("/login?")) return false;
   if (value.includes("\\")) return false;
   if (/[\u0000-\u001f\u007f]/.test(value)) return false;
   return true;

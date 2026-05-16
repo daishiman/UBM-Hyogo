@@ -1,5 +1,7 @@
 # e2e-tests.yml composite action 抽出 + paths filter + build artifact 共有 (RB-3b-01..04) - タスク指示書
 
+> **分割移管済み（2026-05-14）**: RB-3b-01 は PR #700、RB-3b-02 は PR #699 で完了済み。残っていた RB-3b-03 / RB-3b-04 は `docs/30-workflows/issue-668-stage3b-rb03-rb04-paths-filter-shell-helper/` に分割移管し、同 workflow でローカル実装済み。本ファイルは 4 件混在の履歴記録として保持し、新規実装の正本にはしない。
+
 ## メタ情報
 
 | 項目             | 内容                                                                                |

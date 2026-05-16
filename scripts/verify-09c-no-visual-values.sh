@@ -14,7 +14,7 @@ check_zero() {
   local label="$1"
   local pattern="$2"
   local count
-  count=$((rg -n "$pattern" "$TARGET" || true) | wc -l | tr -d ' ')
+  count=$( (rg -n "$pattern" "$TARGET" || true) | wc -l | tr -d ' ')
   echo "$label: $count"
   if [[ "$count" != "0" ]]; then
     fail=1
