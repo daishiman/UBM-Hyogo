@@ -2383,6 +2383,7 @@
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -4106,6 +4107,7 @@
     "UX": [
       "architecture-overview-core.md",
       "lessons-learned-06c-admin-ui-2026-04.md",
+      "lessons-learned-parallel-03-prototype-ux-css-2026-05.md",
       "logs-archive-2026-01-topic-map-remember-choice.md",
       "master-design.md",
       "spec-splitting-guidelines.md",
@@ -4631,6 +4633,7 @@
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
+      "lessons-learned-parallel-03-prototype-ux-css-2026-05.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-task-02-w2-wrangler-env-injection-2026-05.md",
@@ -5305,6 +5308,7 @@
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
       "workflow-issue-616-miniflare-undici-upstream-tracking-artifact-inventory.md",
       "workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-skill-identifier-branded-type-resolution.md",
       "workflow-skill-lifecycle-routing-render-view-foundation.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -5408,6 +5412,7 @@
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md",
       "workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
@@ -5559,6 +5564,7 @@
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-issue-532-write-tag-note-provider-ctx-injection-artifact-inventory.md",
       "workflow-issue-560-next-standalone-instrumentation-patch-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md"
@@ -6452,6 +6458,7 @@
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md"
     ],
@@ -6497,6 +6504,7 @@
       "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
       "workflow-issue-554-audit-correlation-branch-protection-required-check-artifact-inventory.md",
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
@@ -6538,6 +6546,7 @@
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
@@ -6723,6 +6732,7 @@
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
@@ -6872,6 +6882,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
@@ -8558,6 +8569,7 @@
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
       "workflow-issue-518-cf-audit-logs-monitoring-hold-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
@@ -9774,7 +9786,8 @@
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
-      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
+      "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md"
     ],
     "Drift": [
       "legacy-ordinal-family-register.md"
@@ -9840,6 +9853,7 @@
       "lessons-learned-issue590-phase11-canonical-paths-completed-tasks-move-drift-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
       "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
+      "lessons-learned-parallel-03-prototype-ux-css-2026-05.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-skill-ledger-t6-hook-idempotency-2026-04.md",
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
@@ -10205,6 +10219,7 @@
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
       "lessons-learned-ut-02a-attendance-write-operations-2026-05.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-utgov001-second-stage-reapply-artifact-inventory.md"
     ],
     "revisionId": [
@@ -11913,6 +11928,7 @@
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md",
       "workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -12720,6 +12736,7 @@
       "lessons-learned-issue-194-identity-merge-2026-05.md",
       "lessons-learned-issue-351-post-release-dashboard-2026-05.md",
       "lessons-learned-lefthook-mwr-runbook-2026-04.md",
+      "lessons-learned-parallel-03-prototype-ux-css-2026-05.md",
       "lessons-learned-skill-codex-validation-2026-04.md",
       "lessons-learned-task-04-w3-window-guard-and-logger-2026-05.md",
       "lessons-learned-task-08-w2-design-tokens-doc-2026-05.md",
@@ -13420,6 +13437,7 @@
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md",
       "workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-permission-fallback-abort-skip-retry.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
@@ -14586,6 +14604,7 @@
       "lessons-learned-verify-indexes-ci-2026-04.md",
       "task-workflow-completed-recent-2026-04d.md",
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-verify-indexes-up-to-date-ci-artifact-inventory.md"
     ],
     "再発防止サマリ表": [
@@ -14745,6 +14764,7 @@
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-issue-531-runtime-smoke-attendance-provider-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
@@ -14757,6 +14777,7 @@
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md"
     ],
     "Keywords": [
@@ -15294,7 +15315,8 @@
       "lessons-learned-issue359-production-d1-apply-2026-05.md"
     ],
     "Rollback": [
-      "lessons-learned-issue359-production-d1-apply-2026-05.md"
+      "lessons-learned-issue359-production-d1-apply-2026-05.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md"
     ],
     "permission": [
       "lessons-learned-issue359-production-d1-apply-2026-05.md",
@@ -15337,7 +15359,9 @@
     ],
     "parallel": [
       "lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md",
+      "lessons-learned-parallel-03-prototype-ux-css-2026-05.md",
       "lessons-learned-ut-coverage-2026-05-wave.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-parallel-magic-link-provider-and-auth-gate-state-artifact-inventory.md",
       "workflow-task-07b-parallel-schema-diff-alias-assignment-workflow-artifact-inventory.md",
@@ -15352,6 +15376,14 @@
       "lessons-learned-sync-merge-hook-skip-2026-04.md",
       "lessons-learned-ut-cicd-drift-2026-04.md",
       "lessons-learned-ut06-fu-a-prod-route-secret-2026-04.md"
+    ],
+    "Prototype": [
+      "lessons-learned-parallel-03-prototype-ux-css-2026-05.md",
+      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
+    ],
+    "CSS": [
+      "lessons-learned-parallel-03-prototype-ux-css-2026-05.md",
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
     ],
     "Codex": [
       "lessons-learned-skill-codex-validation-2026-04.md"
@@ -15479,6 +15511,7 @@
       "logs-archive-2026-01-feature-structure-workspace-chat-edit.md",
       "logs-archive-2026-01-skill-selector-todo-scan-template.md",
       "spec-splitting-guidelines.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md"
     ],
     "rewrite": [
@@ -15543,7 +15576,8 @@
     ],
     "prototype": [
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md",
-      "ui-ux-prototype-map.md"
+      "ui-ux-prototype-map.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md"
     ],
     "正本順位と視覚詳細委譲の判断基準": [
       "lessons-learned-task-06-ui-ux-contract-rewrite-2026-05.md"
@@ -15692,9 +15726,6 @@
     "由来同期": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
     ],
-    "CSS": [
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
-    ],
     "のコンポーネント拡張は": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
     ],
@@ -15705,7 +15736,8 @@
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
     ],
     "css": [
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md"
     ],
     "の境界": [
       "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
@@ -22166,6 +22198,7 @@
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
       "workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md",
@@ -22194,6 +22227,7 @@
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
@@ -22214,11 +22248,13 @@
     "Open": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md"
     ],
     "Ups": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
     ],
     "Canonical": [
@@ -22289,6 +22325,7 @@
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md",
@@ -22792,6 +22829,9 @@
     "Wizard": [
       "workflow-onboarding-wizard-alignment.md"
     ],
+    "Promotion": [
+      "workflow-parallel-03-prototype-ux-css-artifact-inventory.md"
+    ],
     "検出した未タスク": [
       "workflow-permission-fallback-abort-skip-retry.md"
     ],
@@ -23021,9 +23061,6 @@
     ],
     "段階の": [
       "workflow-task-06a-followup-001-real-workers-d1-smoke-artifact-inventory.md"
-    ],
-    "Prototype": [
-      "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "Mapping": [
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
