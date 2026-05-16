@@ -203,6 +203,16 @@ export interface AdminMemberDetailView {
     occurredAt: string;
     note: string | null;
   }>;
+  notes?: Array<{
+    noteId: string;
+    body: string;
+    noteType: "general" | "visibility_request" | "delete_request";
+    requestStatus: "pending" | "resolved" | "rejected" | null;
+    createdBy: string;
+    updatedBy: string;
+    createdAt: string;
+    updatedAt: string;
+  }>;
 }
 
 export interface AuthGateState {

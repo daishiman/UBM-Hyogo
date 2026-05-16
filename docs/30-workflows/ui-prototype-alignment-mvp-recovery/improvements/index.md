@@ -76,7 +76,7 @@ improvements/
 | parallel-04 (attendance-paging) | 並列 | `AttendanceList.tsx` 単一ファイル |
 | parallel-06 (public-pages) | 並列 | `/`, `/register`, `/privacy`, `/terms`。HomePage CTA 追加のみ実改修、他3本は監査 OK |
 | parallel-07 (auth-and-shared) | 並列 | `/login` の error/loading 整備 + root error focus 管理。他並列とファイル重複なし |
-| parallel-08 (shared-foundation) | 並列 | ToastProvider 配置 / useAdminMutation export 構造 / Error boundary。**serial-05/step-01 実装より前に完了必須**（hook import 期待のため） |
+| parallel-08 (shared-foundation) | 並列 | ToastProvider 配置 / useAdminMutation contract / Error boundary。**serial-05/step-01 実装より前に完了必須**。hook 実体ファイルと barrel export の create owner は serial-05/step-01 |
 | parallel-09 (ux-cross-cutting) | 並列 | form validation / empty state / pagination / icon / breadcrumb / responsive / focus-visible / concurrent guard / form preserve の 9 横断 primitive。parallel-03 と globals.css の `@layer components` を同時編集するため merge 注意 |
 | parallel-10 (auth-session-handling) | 並列 | API 401/403 統一ハンドリング + login redirect。parallel-08 の useAdminMutation hook の error path で `FetchAuthedError` / `AuthRequiredError` を再利用 |
 | serial-05 (admin-mutation-ui) | 直列 | step-01..07 が `useAdminMutation` hook を共有し `apps/web/src/features/admin/` を順次拡張。step-08 は read-only だが同一領域で順序維持。**parallel-08 完了が step-01 着手の前提** |
@@ -94,7 +94,7 @@ improvements/
                    → step-06 → step-07 → step-08
 ```
 
-並列 9 タスクは互いに干渉しないため同時実行可能。**ただし serial-05/step-01 は parallel-08 完了後に着手する** (`useAdminMutation` の export 構造と ToastProvider 配置が前提)。
+並列 9 タスクは互いに干渉しないため同時実行可能。**ただし serial-05/step-01 は parallel-08 完了後に着手する**（ToastProvider / ErrorBoundary / route guard と hook contract 固定が前提）。`useAdminMutation.ts` と `hooks/index.ts` の実体作成は serial-05/step-01 が担当する。
 
 ## 6. 完了条件 (workflow DoD)
 
