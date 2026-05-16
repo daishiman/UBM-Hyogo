@@ -34,9 +34,6 @@ const isTask18RegressionGate =
 const isTask18FullVisualEvidence =
   process.env.PLAYWRIGHT_EVIDENCE_TASK === 'task-18-fu' ||
   process.argv.some((arg) => arg.includes('visual-full'))
-const isParallel03PrototypeUxCss =
-  process.env.PLAYWRIGHT_EVIDENCE_TASK === 'parallel-03-prototype-ux-css' ||
-  process.argv.some((arg) => arg.includes('visual-feedback.spec.ts'))
 
 const EVIDENCE_DIR =
   process.env.PLAYWRIGHT_EVIDENCE_DIR ??
@@ -56,9 +53,7 @@ const EVIDENCE_DIR =
                 ? '../../docs/30-workflows/task-13-login-rebuild/outputs/phase-11/evidence'
                 : isTask17AdminEvidence
                   ? '../../docs/30-workflows/task-17-admin-schema-conflicts-audit/outputs/phase-11/evidence'
-                  : isParallel03PrototypeUxCss
-                    ? '../../docs/30-workflows/parallel-03-prototype-ux-css/outputs/phase-11/evidence'
-                    : isTask10Followup002Evidence
+                  : isTask10Followup002Evidence
                     ? '../../docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/outputs/phase-11/evidence'
                     : isTask18FullVisualEvidence
                       ? '../../docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence'
@@ -74,7 +69,6 @@ const localCoverageDir = `${process.cwd()}/coverage/v8`
 const localEnv =
   'ENVIRONMENT=local SENTRY_ENVIRONMENT=local SENTRY_TRACES_SAMPLE_RATE=0 ' +
   `NODE_V8_COVERAGE=${localCoverageDir} ` +
-  'PLAYWRIGHT_TEST=1 ' +
   'NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
   'PUBLIC_API_BASE_URL=http://127.0.0.1:8787 ' +
   'INTERNAL_API_BASE_URL=http://127.0.0.1:8787 ' +

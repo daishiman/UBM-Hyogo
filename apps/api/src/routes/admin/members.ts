@@ -328,23 +328,8 @@ export const createAdminMembersRoute = () => {
       { attendancePage: { limit: ATTENDANCE_PAGE_DEFAULT_LIMIT } },
     );
     if (!view) return c.json({ ok: false, error: "not found" }, 404);
-    const notes = await requireProvider(c.var.adminNotesProvider, "adminNotesProvider")
-      .listByMemberId(mid);
-    const detailView = {
-      ...view,
-      notes: notes.map((n) => ({
-        noteId: n.noteId,
-        body: n.body,
-        noteType: n.noteType,
-        requestStatus: n.requestStatus,
-        createdBy: n.createdBy,
-        updatedBy: n.updatedBy,
-        createdAt: normalizeIso(n.createdAt),
-        updatedAt: normalizeIso(n.updatedAt),
-      })),
-    };
 
-    const parsed = AdminMemberDetailViewZ.safeParse(detailView);
+    const parsed = AdminMemberDetailViewZ.safeParse(view);
     if (!parsed.success) {
       return c.json({ ok: false, error: parsed.error.message }, 500);
     }

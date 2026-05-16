@@ -1,19 +1,15 @@
 # 目的: aiworkflow-requirements skill の indexes drift を CI で検出する authoritative gate
 # 監視対象: .claude/skills/aiworkflow-requirements/indexes
-# 設計の正本: docs/30-workflows/task-verify-indexes-up-to-date-ci/outputs/phase-12/implementation-guide.md
+# 設計の正本: docs/30-workflows/completed-tasks/task-verify-indexes-up-to-date-ci/outputs/phase-12/implementation-guide.md
 # 関連 AC: AC-1〜AC-7（index.md 参照）
 name: verify-indexes-up-to-date
 
 on:
   push:
     branches: [main]
-  # MVP-PAUSE 2026-05-15: PR trigger を一時停止。
-  # 復活方法: 下の pull_request ブロックの行頭 `# ` を全て削除する。
-  # 残っている workflow_dispatch / push / schedule は引き続き有効。
-  workflow_dispatch:
-  # pull_request:
-  # branches: [main, dev]
-  #
+  pull_request:
+    branches: [main, dev]
+
 permissions:
   contents: read
 

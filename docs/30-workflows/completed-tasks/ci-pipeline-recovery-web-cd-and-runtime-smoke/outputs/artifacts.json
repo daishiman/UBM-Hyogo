@@ -16,7 +16,7 @@
   "task": {
     "id": "ci-pipeline-recovery-web-cd-and-runtime-smoke",
     "name": "CI pipeline recovery: web CD and runtime smoke",
-    "task_path": "docs/30-workflows/ci-pipeline-recovery-web-cd-and-runtime-smoke",
+    "task_path": "docs/30-workflows/completed-tasks/ci-pipeline-recovery-web-cd-and-runtime-smoke",
     "status": "implemented-local-runtime-pending",
     "depends_on": [
       "apps/web OpenNext Workers bundle",

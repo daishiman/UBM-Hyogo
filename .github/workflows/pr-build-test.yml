@@ -1,5 +1,5 @@
 # 目的: untrusted PR head を build / lint / typecheck で検証する pull_request workflow
-# 仕様: docs/30-workflows/ut-gov-002-impl-pr-target-safety-gate/outputs/phase-2/design.md §3.2
+# 仕様: docs/30-workflows/completed-tasks/ut-gov-002-impl-pr-target-safety-gate/outputs/phase-2/design.md §3.2
 # 上位原則: trusted context では untrusted PR code を checkout / install / build / eval しない
 # - trigger は pull_request (fork PR では secrets 非注入・GITHUB_TOKEN は read-only)
 # - workflow デフォルト permissions: {} / job 単位で contents: read のみ
@@ -11,13 +11,9 @@
 name: PR Build Test (untrusted)
 
 on:
-  # MVP-PAUSE 2026-05-15: PR trigger を一時停止。
-  # 復活方法: 下の pull_request ブロックの行頭 `# ` を全て削除する。
-  # 残っている workflow_dispatch / push / schedule は引き続き有効。
-  workflow_dispatch:
-  # pull_request:
-  # types: [opened, synchronize, reopened]
-  #
+  pull_request:
+    types: [opened, synchronize, reopened]
+
 # workflow デフォルトは no-permissions
 permissions: {}
 

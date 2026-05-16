@@ -91,7 +91,13 @@ task_dir_from_path() {
         *)
           # Top-level workflow files (e.g. LOGS.md) are not task dirs.
           [[ "${parts[2]}" == *.* ]] && return 1
-          printf 'docs/%s/%s\n' "${parts[1]}" "${parts[2]}"
+          # Nested sub-tasks under improvements/ should match against their own
+          # slug (the parent workflow dir is often unrelated to the branch).
+          if [ "${parts[3]:-}" = "improvements" ] && [ -n "${parts[4]:-}" ]; then
+            printf 'docs/%s/%s/%s/%s\n' "${parts[1]}" "${parts[2]}" "${parts[3]}" "${parts[4]}"
+          else
+            printf 'docs/%s/%s\n' "${parts[1]}" "${parts[2]}"
+          fi
           ;;
       esac
       ;;

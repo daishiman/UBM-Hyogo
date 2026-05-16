@@ -107,13 +107,7 @@ export function MemberFilters({ initial }: MemberFiltersProps) {
         <ul data-role="active-tags">
           {initial.tag.map((t) => (
             <li key={t}>
-              <button
-                type="button"
-                onClick={() => onTagToggle(t)}
-                data-component="tag-pill"
-                data-selected="true"
-                aria-pressed={true}
-              >
+              <button type="button" onClick={() => onTagToggle(t)}>
                 #{t} ×
               </button>
             </li>

@@ -3,9 +3,6 @@
 // session cookie を上流に転送する（同一ドメイン or signed cookie 想定）。
 
 import { cookies } from "next/headers";
-import { AuthRequiredError, FetchAuthedError } from "./errors";
-
-export { AuthRequiredError, FetchAuthedError } from "./errors";
 
 const FALLBACK_INTERNAL_API = "http://127.0.0.1:8787";
 
@@ -16,6 +13,24 @@ const resolveApiBase = (): string => {
   if (pub && pub.length > 0) return pub.replace(/\/$/, "");
   return FALLBACK_INTERNAL_API;
 };
+
+export class AuthRequiredError extends Error {
+  constructor(message = "AUTH_REQUIRED") {
+    super(message);
+    this.name = "AuthRequiredError";
+  }
+}
+
+export class FetchAuthedError extends Error {
+  readonly status: number;
+  readonly bodyText: string;
+  constructor(status: number, bodyText: string) {
+    super(`fetchAuthed failed: ${status}`);
+    this.name = "FetchAuthedError";
+    this.status = status;
+    this.bodyText = bodyText;
+  }
+}
 
 const buildCookieHeader = async (): Promise<string> => {
   const store = await cookies();

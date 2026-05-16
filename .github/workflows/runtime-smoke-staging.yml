@@ -1,6 +1,6 @@
 # 目的: API staging deploy 完了後に attendanceProvider runtime smoke を自動実行
 # trigger: backend-ci.yml から workflow_call / workflow_dispatch (debug)
-# 実装仕様: docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/phase-05.md
+# 実装仕様: docs/30-workflows/completed-tasks/ci-pipeline-recovery-web-cd-and-runtime-smoke/tasks/task-02-staging-runtime-smoke-secrets-provisioning/index.md
 name: runtime-smoke-staging
 
 on:
@@ -43,7 +43,7 @@ jobs:
 
           if [ "${#missing[@]}" -gt 0 ]; then
             printf "::error::missing secrets in environment 'staging-runtime-smoke': %s\n" "${missing[*]}"
-            echo "::error::register via 'gh secret set <NAME> --env staging-runtime-smoke' (see docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md)"
+            echo "::error::register via 'gh secret set <NAME> --env staging-runtime-smoke' (see docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md)"
             exit 1
           fi
 

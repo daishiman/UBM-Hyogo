@@ -22,7 +22,7 @@ Stage 3b の目的は `e2e-tests-coverage-gate` を PR hard gate にすること
 
 - CI workflow で deterministic mock API `scripts/e2e-mock-api.mjs` を起動する。
 - `INTERNAL_API_BASE_URL` と `PUBLIC_API_BASE_URL` を `http://127.0.0.1:8787` に向ける。Server Component の `fetch()` 経路を mock 受け口に差し替える。
-- `apps/web/src/lib/fetch/public.ts` は `NODE_ENV=test` または `PLAYWRIGHT_TEST=1` が明示され、かつ `PUBLIC_API_BASE_URL` があるときだけ Cloudflare service binding より HTTP fallback を優先する。`CI=true` 単独は build/deploy でも立つため fallback trigger にしない。これにより local / Playwright E2E で mock 差し替えを成立させつつ、production / staging は service binding 優先を維持する。
+- `apps/web/src/lib/fetch/public.ts` は `PUBLIC_API_BASE_URL` が明示されたとき、Cloudflare service binding より HTTP fallback を優先する。これにより local / CI E2E で mock 差し替えが成立する。
 - ローカル限定エンドポイント（`127.0.0.1:8787` など）の `apps/web/src` 配下への焼き込みは禁止（task-18 regression smoke で grep gate）。env 注入のみで切り替える。
 
 ### Evidence

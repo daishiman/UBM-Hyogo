@@ -4,14 +4,14 @@
 // 紐付き TC: TC-U-01..06 / TC-U-12。
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { STABLE_KEY } from "@ubm-hyogo/shared";
 import type {
   MeProfileStatusSummary,
   PendingRequests,
 } from "../../../src/lib/api/me-types";
 import type {
-  QueueAccepted,
   RequestQueueType,
   VisibilityDesiredState,
 } from "../../../src/lib/api/me-requests.types";
@@ -34,24 +34,10 @@ export function RequestActionPanel({
   rulesConsent,
   pendingRequests,
 }: RequestActionPanelProps) {
+  const router = useRouter();
   const [visibilityDialogState, setVisibilityDialogState] =
     useState<VisibilityDesiredState | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [acceptedPending, setAcceptedPending] = useState<{
-    readonly visibility?: QueueAccepted;
-    readonly delete?: QueueAccepted;
-  }>({});
-
-  useEffect(() => {
-    if (pendingRequests === undefined) return;
-    setAcceptedPending((current) => {
-      if (!current.visibility && !current.delete) return current;
-      const next = { ...current };
-      delete next.visibility;
-      delete next.delete;
-      return next;
-    });
-  }, [pendingRequests]);
 
   if (rulesConsent !== "consented") {
     return (
@@ -68,37 +54,23 @@ export function RequestActionPanel({
     );
   }
 
-  const onSubmitted = (accepted: QueueAccepted) => {
-    setAcceptedPending((current) => {
-      if (accepted.type === "visibility_request") {
-        return { ...current, visibility: accepted };
-      }
-      return { ...current, delete: accepted };
-    });
+  const onSubmitted = () => {
+    // pending は server state を正本にし、送信後は再取得して durable な banner を表示する（S1）
+    router.refresh();
   };
 
-  // server pending を正本にし、mutation accepted response は次の server snapshot までの表示橋渡しに限定する。
+  // server pending のみを正本にする。楽観的 UI は採用しない。
   const visibilityPending = pendingRequests?.visibility
     ? {
         type: "visibility_request" as const,
         createdAt: pendingRequests.visibility.createdAt,
       }
-    : acceptedPending.visibility
-      ? {
-          type: "visibility_request" as const,
-          createdAt: acceptedPending.visibility.createdAt,
-        }
     : null;
   const deletePending = pendingRequests?.delete
     ? {
         type: "delete_request" as const,
         createdAt: pendingRequests.delete.createdAt,
       }
-    : acceptedPending.delete
-      ? {
-          type: "delete_request" as const,
-          createdAt: acceptedPending.delete.createdAt,
-        }
     : null;
 
   const showHideButton = publishState === "public";
