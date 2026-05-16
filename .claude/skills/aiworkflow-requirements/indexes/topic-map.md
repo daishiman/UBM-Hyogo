@@ -2710,6 +2710,19 @@ node scripts/list-specs.js --topics
 | Evidence | L46 |
 | User-gated boundary | L55 |
 
+### references/workflow-parallel-10-auth-session-handling-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L15 |
+| Contract | L34 |
+| AC to Runtime Path | L45 |
+| Phase 12 Required Files | L59 |
+| Same-wave Sync Targets | L71 |
+| Out of Scope / Deferred | L79 |
+| Related Lessons / References | L88 |
+
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
 | セクション | 行 |
@@ -2723,6 +2736,13 @@ node scripts/list-specs.js --topics
 | 検出した未タスク（更新: 2026-03-17） | L127 |
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
+
+### references/workflow-serial-05-step-02-identity-conflicts-merge-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Primary files | L10 |
+| Evidence | L20 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -5110,6 +5130,18 @@ node scripts/list-specs.js --topics
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
 
+### references/lessons-learned-parallel-10-auth-session-handling-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-PARA10-001: client hook の副作用境界は DI で隔離する | L10 |
+| L-PARA10-002: `window` 直接参照は lint rule (`no-restricted-globals: window`) で構造的に禁止する | L18 |
+| L-PARA10-003: Toast variant 拡張は後方互換でも既存 caller grep 影響範囲を Phase 5 で固定する | L26 |
+| L-PARA10-004: `pnpm` script の引数は vitest にそのまま伝搬しない | L34 |
+| L-PARA10-005: `02-auth.md` の Client 401 / 403 ハンドリングを参照導線の正本にする | L42 |
+| L-PARA10-006: silent refresh は MVP 不採用、24h TTL を 401 → redirect で吸収する | L50 |
+| 関連 artifact / 参照 | L58 |
+
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
 | セクション | 行 |
@@ -6756,14 +6788,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1368 |
-| フェーズ構造（概要） | L1377 |
-| 品質ゲート（概要） | L1408 |
-| 出力テンプレート | L1419 |
-| 実行時のコマンド・エージェント・スキル | L1442 |
-| 昇格パターン集 | L1466 |
-| Current Active / Spec Created Tasks | L1468 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1611 |
+| ドキュメント構成 | L1393 |
+| フェーズ構造（概要） | L1402 |
+| 品質ゲート（概要） | L1433 |
+| 出力テンプレート | L1444 |
+| 実行時のコマンド・エージェント・スキル | L1467 |
+| 昇格パターン集 | L1491 |
+| Current Active / Spec Created Tasks | L1493 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1636 |
 
 ### references/task-workflow-backlog-part2.md
 

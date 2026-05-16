@@ -1,9 +1,45 @@
-import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
+// serial-05-step-02: IdentityConflictRow unit tests
+// useAdminMutation hook を mock し、payload / error 保持 / a11y を focused 検証する。
+import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 
-const refreshMock = vi.fn();
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({ refresh: refreshMock }),
+interface MockMutationState {
+  trigger: ReturnType<typeof vi.fn>;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+const mutationByEndpoint: Map<string, MockMutationState> = new Map();
+const lastOptionsByEndpoint: Map<
+  string,
+  { onSuccess?: () => void | Promise<void>; successMessage?: string } | undefined
+> = new Map();
+
+vi.mock("../../../features/admin/hooks", () => ({
+  useAdminMutation: (
+    endpoint: string,
+    _method: string,
+    options?: {
+      onSuccess?: () => void | Promise<void>;
+      successMessage?: string;
+    },
+  ) => {
+    lastOptionsByEndpoint.set(endpoint, options);
+    let state = mutationByEndpoint.get(endpoint);
+    if (!state) {
+      state = { trigger: vi.fn(), isLoading: false, error: null };
+      mutationByEndpoint.set(endpoint, state);
+    }
+    return {
+      trigger: async (payload: unknown) => {
+        const result = await state!.trigger(endpoint, payload);
+        await options?.onSuccess?.();
+        return result;
+      },
+      isLoading: state.isLoading,
+      error: state.error,
+    };
+  },
 }));
 
 import { IdentityConflictRow } from "../IdentityConflictRow";
@@ -14,28 +50,42 @@ const item: Row = {
   sourceMemberId: "m_src",
   candidateTargetMemberId: "m_dst",
   responseEmailMasked: "a***@example.com",
-  matchedFields: ["email", "name"],
-} as Row;
+  matchedFields: ["name", "affiliation"],
+  detectedAt: "2026-05-16T00:00:00.000Z",
+  syncJobId: null,
+};
 
-const fetchMock = vi.fn();
+const mergeEndpoint = "/api/admin/identity-conflicts/c_1/merge";
+const dismissEndpoint = "/api/admin/identity-conflicts/c_1/dismiss";
 
 beforeEach(() => {
-  refreshMock.mockClear();
-  fetchMock.mockReset();
-  globalThis.fetch = fetchMock as unknown as typeof fetch;
+  mutationByEndpoint.clear();
+  lastOptionsByEndpoint.clear();
 });
 
 afterEach(() => cleanup());
 
+const setMutationState = (
+  endpoint: string,
+  state: Partial<MockMutationState>,
+) => {
+  const prev = mutationByEndpoint.get(endpoint) ?? {
+    trigger: vi.fn(),
+    isLoading: false,
+    error: null,
+  };
+  mutationByEndpoint.set(endpoint, { ...prev, ...state });
+};
+
 describe("IdentityConflictRow", () => {
-  it("idle 段階で merge / dismiss ボタンと concflict メタを表示する", () => {
+  it("idle 段階で merge / dismiss ボタンと conflict メタを表示する", () => {
     render(<IdentityConflictRow item={item} />);
     expect(screen.getByText("conflict: c_1")).toBeTruthy();
     expect(screen.getByRole("button", { name: "merge" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "別人マーク" })).toBeTruthy();
   });
 
-  it("merge ボタン → 確認1 → 次へ で確認2 (理由入力) に進む", () => {
+  it("merge → 確認1 → 次へ で確認2 (理由入力) に進み、空理由は実行不可", () => {
     render(<IdentityConflictRow item={item} />);
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     expect(screen.getByText(/確認 1\/2/)).toBeTruthy();
@@ -45,12 +95,15 @@ describe("IdentityConflictRow", () => {
     expect((exec as HTMLButtonElement).disabled).toBe(true);
   });
 
-  it("merge 確認2 で理由入力 → 実行で fetch が呼ばれ refresh される (happy)", async () => {
-    fetchMock.mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      json: async () => ({}),
+  it("merge 実行で trigger に { targetMemberId, reason } を送る (happy)", async () => {
+    const trigger = vi.fn().mockResolvedValue({
+      mergedAt: "2026-05-16T00:00:00.000Z",
+      targetMemberId: "m_dst",
+      archivedSourceMemberId: "m_src",
+      auditId: "a_1",
     });
+    setMutationState(mergeEndpoint, { trigger });
+
     render(<IdentityConflictRow item={item} />);
     fireEvent.click(screen.getByRole("button", { name: "merge" }));
     fireEvent.click(screen.getByRole("button", { name: "次へ" }));
@@ -58,29 +111,135 @@ describe("IdentityConflictRow", () => {
       target: { value: "本人確認済" },
     });
     fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
-    const callUrl = fetchMock.mock.calls[0]?.[0] as string;
-    expect(callUrl).toContain("/api/admin/identity-conflicts/c_1/merge");
-    await waitFor(() => expect(refreshMock).toHaveBeenCalled());
+
+    await waitFor(() =>
+      expect(trigger).toHaveBeenCalledWith(mergeEndpoint, {
+        targetMemberId: "m_dst",
+        reason: "本人確認済",
+      }),
+    );
+    // success path: onSuccess が走り idle に戻る
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "merge" })).toBeTruthy(),
+    );
   });
 
-  it("dismiss ボタンで理由入力 UI を表示し、エラー時は alert を出す", async () => {
-    fetchMock.mockResolvedValueOnce({
-      ok: false,
-      status: 409,
-      json: async () => ({ error: "ALREADY_DISMISSED" }),
+  it("hook の successMessage は '✓ 統合しました'", () => {
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    expect(lastOptionsByEndpoint.get(mergeEndpoint)?.successMessage).toBe(
+      "✓ 統合しました",
+    );
+  });
+
+  it("merge 失敗 (409) で modal は閉じず、reason / error が残る", async () => {
+    const trigger = vi.fn().mockRejectedValue(new Error("すでに統合済みです"));
+    setMutationState(mergeEndpoint, {
+      trigger,
+      error: new Error("すでに統合済みです"),
     });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    fireEvent.change(screen.getByLabelText("merge 理由"), {
+      target: { value: "本人確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+
+    await waitFor(() => expect(trigger).toHaveBeenCalled());
+    // modal は閉じない: 確認2 が表示され、reason textarea が残存する
+    expect(screen.getByText(/確認 2\/2/)).toBeTruthy();
+    expect(
+      (screen.getByLabelText("merge 理由") as HTMLTextAreaElement).value,
+    ).toBe("本人確認済");
+    expect(screen.getByRole("alert").textContent).toContain("すでに統合済みです");
+  });
+
+  it("merge 失敗 (400) でも modal は閉じず inline error 表示", async () => {
+    const trigger = vi
+      .fn()
+      .mockRejectedValue(new Error("対象 ID が一致しません"));
+    setMutationState(mergeEndpoint, {
+      trigger,
+      error: new Error("対象 ID が一致しません"),
+    });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    fireEvent.change(screen.getByLabelText("merge 理由"), {
+      target: { value: "本人確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "merge 実行" }));
+
+    await waitFor(() => expect(trigger).toHaveBeenCalled());
+    expect(screen.getByRole("alert").textContent).toContain(
+      "対象 ID が一致しません",
+    );
+  });
+
+  it("dismiss で /dismiss endpoint に { reason } を送る", async () => {
+    const trigger = vi.fn().mockResolvedValue({
+      dismissedAt: "2026-05-16T00:00:00.000Z",
+    });
+    setMutationState(dismissEndpoint, { trigger });
+
     render(<IdentityConflictRow item={item} />);
     fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
     fireEvent.change(screen.getByLabelText("別人マーク理由"), {
       target: { value: "別組織で確認済" },
     });
     fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+
+    await waitFor(() =>
+      expect(trigger).toHaveBeenCalledWith(dismissEndpoint, {
+        reason: "別組織で確認済",
+      }),
+    );
+  });
+
+  it("dismiss 失敗 (409) で alert が出て modal は残る", async () => {
+    const trigger = vi
+      .fn()
+      .mockRejectedValue(new Error("すでに別人として確定済みです"));
+    setMutationState(dismissEndpoint, {
+      trigger,
+      error: new Error("すでに別人として確定済みです"),
+    });
+
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "別人マーク" }));
+    fireEvent.change(screen.getByLabelText("別人マーク理由"), {
+      target: { value: "別組織で確認済" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "別人として確定" }));
+
     await waitFor(() =>
       expect(screen.getByRole("alert").textContent).toContain(
-        "409: ALREADY_DISMISSED",
+        "すでに別人として確定済みです",
       ),
     );
-    expect(refreshMock).not.toHaveBeenCalled();
+    expect(
+      (screen.getByLabelText("別人マーク理由") as HTMLTextAreaElement).value,
+    ).toBe("別組織で確認済");
+  });
+
+  it("merge-confirm キャンセルで idle に戻り、reason はリセットされる", () => {
+    render(<IdentityConflictRow item={item} />);
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    fireEvent.change(screen.getByLabelText("merge 理由"), {
+      target: { value: "draft" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "キャンセル" }));
+    expect(screen.getByRole("button", { name: "merge" })).toBeTruthy();
+    // 再度開くと textarea は空
+    fireEvent.click(screen.getByRole("button", { name: "merge" }));
+    fireEvent.click(screen.getByRole("button", { name: "次へ" }));
+    expect(
+      (screen.getByLabelText("merge 理由") as HTMLTextAreaElement).value,
+    ).toBe("");
   });
 });
