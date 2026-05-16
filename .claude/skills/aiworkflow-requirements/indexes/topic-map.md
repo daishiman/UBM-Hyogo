@@ -3488,6 +3488,18 @@ node scripts/list-specs.js --topics
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
 
+### references/workflow-ut-08a-04-d1-migration-test-guideline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Decision | L16 |
+| Implemented Local Artifacts | L20 |
+| Workflow Outputs | L29 |
+| Gates | L40 |
+| Same-Wave Sync | L49 |
+| Validation Chain | L57 |
+
 ### references/workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md
 
 | セクション | 行 |
