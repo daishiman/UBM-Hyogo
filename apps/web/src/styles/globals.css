@@ -114,86 +114,102 @@
 }
 
 @layer components {
-  /* G3-1: Tag pill selected fill */
-  button[data-component="tag-pill"] {
-    transition:
-      background-color var(--ubm-dur-fast) var(--ubm-ease-standard),
-      color var(--ubm-dur-fast) var(--ubm-ease-standard),
-      border-color var(--ubm-dur-fast) var(--ubm-ease-standard);
+  /* === parallel-09 G9-1 form validation === */
+  .ui-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
-  button[data-component="tag-pill"][aria-pressed="true"],
-  button[data-component="tag-pill"][data-selected="true"] {
-    background: var(--ubm-color-text-primary);
-    color: var(--ubm-color-surface-panel);
-    border-color: var(--ubm-color-text-primary);
+  .ui-form-field__label {
+    font-size: var(--ubm-text-sm);
+    color: var(--ubm-color-text-primary);
+    font-weight: 600;
+  }
+  .ui-form-field__required {
+    color: var(--ubm-color-danger);
+    margin-inline-start: 4px;
+  }
+  .ui-form-field__helper {
+    font-size: var(--ubm-text-xs);
+    color: var(--ubm-color-text-secondary);
+    margin: 0;
+  }
+  .ui-form-field__error {
+    font-size: var(--ubm-text-xs);
+    color: var(--ubm-color-danger);
+    margin: 0;
+  }
+  .ui-form-field[data-invalid="true"] :is(input, textarea, select) {
+    border-color: var(--ubm-color-danger);
+    background: var(--ubm-color-danger-soft);
   }
 
-  /* G3-2: Member card hover transition */
-  [data-component="member-card"] {
-    box-shadow: var(--ubm-shadow-xs);
-    transition:
-      border-color var(--ubm-dur-fast) var(--ubm-ease-standard),
-      box-shadow var(--ubm-dur-fast) var(--ubm-ease-standard);
+  /* === parallel-09 G9-3 pagination === */
+  .ui-pagination {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
   }
-  [data-component="member-card"]:hover {
-    border-color: var(--ubm-color-border-strong);
-    box-shadow: var(--ubm-shadow-sm);
+  .ui-pagination__btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: var(--ubm-radius-sm);
+    border: 1px solid var(--ubm-color-border-default);
+    background: var(--ubm-color-surface-panel);
+    color: var(--ubm-color-text-primary);
   }
-  [data-component="member-card"]:focus-within {
-    border-color: var(--ubm-color-border-strong);
-    box-shadow: var(--ubm-shadow-sm);
-    outline: 2px solid var(--ubm-color-text-primary);
+  .ui-pagination__btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .ui-pagination__meta {
+    font-size: var(--ubm-text-sm);
+    color: var(--ubm-color-text-secondary);
+  }
+
+  /* === parallel-09 G9-4 icon === */
+  .ui-icon {
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+
+  /* === parallel-09 G9-5 breadcrumb === */
+  .ui-breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--ubm-text-sm);
+    color: var(--ubm-color-text-secondary);
+  }
+  .ui-breadcrumb__item [aria-current="page"] {
+    color: var(--ubm-color-text-primary);
+    font-weight: 600;
+  }
+  .ui-breadcrumb__sep {
+    color: var(--ubm-color-text-muted);
+  }
+
+  /* === parallel-09 G9-6 mobile responsive helpers (使用は parallel-01〜08 側) === */
+  /* 既存 Tailwind breakpoint (sm/md/lg/xl) のみ利用。ここでは追加 breakpoint を定義しない */
+
+  /* === parallel-09 G9-7 focus-visible / reduced motion === */
+  :focus-visible {
+    outline: 2px solid var(--ubm-color-accent);
     outline-offset: 2px;
   }
-
-  /* G3-3: Profile visibility marker */
-  [data-component="profile-section"][data-visibility] {
-    position: relative;
-    border-left: 4px solid transparent;
-    padding-left: 0.75rem;
-  }
-  [data-component="profile-section"][data-visibility]::before {
-    content: "";
-    margin-right: 0.25rem;
-  }
-  [data-component="profile-section"][data-visibility="public"] {
-    border-left-color: var(--ubm-color-ok);
-  }
-  [data-component="profile-section"][data-visibility="public"]::before {
-    content: "🌍 ";
-  }
-  [data-component="profile-section"][data-visibility="member"] {
-    border-left-color: var(--ubm-color-zone-b);
-  }
-  [data-component="profile-section"][data-visibility="member"]::before {
-    content: "👥 ";
-  }
-  [data-component="profile-section"][data-visibility="admin"] {
-    border-left-color: var(--ubm-color-danger);
-  }
-  [data-component="profile-section"][data-visibility="admin"]::before {
-    content: "🔐 ";
-  }
-  [data-role="visibility"][data-visibility] {
-    border-inline-start: 3px solid currentColor;
-    padding-inline-start: 0.375rem;
-  }
-  [data-role="visibility"][data-visibility="public"] {
-    color: var(--ubm-color-ok);
-  }
-  [data-role="visibility"][data-visibility="public"]::before {
-    content: "🌍 ";
-  }
-  [data-role="visibility"][data-visibility="member"] {
-    color: var(--ubm-color-zone-b);
-  }
-  [data-role="visibility"][data-visibility="member"]::before {
-    content: "👥 ";
-  }
-  [data-role="visibility"][data-visibility="admin"] {
-    color: var(--ubm-color-danger);
-  }
-  [data-role="visibility"][data-visibility="admin"]::before {
-    content: "🔐 ";
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }

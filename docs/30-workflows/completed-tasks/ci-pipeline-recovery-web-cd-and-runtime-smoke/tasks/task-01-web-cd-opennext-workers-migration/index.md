@@ -5,7 +5,7 @@
 - 判定根拠: `.github/workflows/web-cd.yml` の YAML を編集し、build/deploy step の挙動を変える「コード変更（CI 設定コード）」を伴うため、CONST_004 の既定区分（実装仕様書）に該当する。docs-only spec の例外条件（`apps/` / `packages/` / `.github/workflows/` のいずれにも触れない）を満たさない。
 - 1 サイクル内完了適合（CONST_007）: 変更対象は単一ファイルのみ（`.github/workflows/web-cd.yml`）、依存タスクは無し（task-02 と完全並列）、所要は 1 PR 内で完結する。
 - 関連 / 継続: `docs/30-workflows/UT-GOV-006-web-deploy-target-canonical-sync.md`、`docs/30-workflows/ut-06-followup-A-opennext-workers-migration.md`（wrangler.toml 側は移行済み、本タスクは workflow 側の追従）。
-- 親 workflow: `docs/30-workflows/completed-tasks/ci-pipeline-recovery-web-cd-and-runtime-smoke/`（Phase 01-03 の事実・要件・統合設計を上位正本とする）。
+- 親 workflow: `docs/30-workflows/ci-pipeline-recovery-web-cd-and-runtime-smoke/`（Phase 01-03 の事実・要件・統合設計を上位正本とする）。
 
 ---
 
@@ -285,7 +285,7 @@ YAML を revert すると Pages deploy に戻り 25 MiB エラーが再発する
 |------|---------|
 | `docs/30-workflows/UT-GOV-006-web-deploy-target-canonical-sync.md` | workflow 側追従が完了した旨と、本仕様書 / PR への参照 |
 | `docs/30-workflows/ut-06-followup-A-opennext-workers-migration.md` | 同上、follow-up A 完了マーク |
-| `docs/30-workflows/completed-tasks/ci-pipeline-recovery-web-cd-and-runtime-smoke/index.md` | task-01 ステータスを「complete」に |
+| `docs/30-workflows/ci-pipeline-recovery-web-cd-and-runtime-smoke/index.md` | task-01 ステータスを「complete」に |
 
 `README.md` / `CLAUDE.md` には現在 `wrangler pages deploy` への直接言及が無いことを確認済（`grep -n 'pages deploy' README.md CLAUDE.md` で 0 件想定）。差分発見時のみ追加修正する。
 
@@ -364,7 +364,7 @@ grep -n 'cloudflare/wrangler-action' .github/workflows/web-cd.yml ; echo "exit=$
 | PR base | `dev`（CLAUDE.md「PR base は dev、main は production リリース時のみ」既定） |
 | PR title | `fix(ci): switch web-cd to OpenNext Workers deploy` |
 | スクリーンショット | なし（NON_VISUAL: CI YAML / `outputs/phase-11/` に画像生成物無し） |
-| 関連 Issue / Workflow | `docs/30-workflows/completed-tasks/ci-pipeline-recovery-web-cd-and-runtime-smoke/`、UT-GOV-006、ut-06-followup-A |
+| 関連 Issue / Workflow | `docs/30-workflows/ci-pipeline-recovery-web-cd-and-runtime-smoke/`、UT-GOV-006、ut-06-followup-A |
 
 ### PR 本文骨子（実装サイクルで `diff-to-pr` が生成する素材）
 

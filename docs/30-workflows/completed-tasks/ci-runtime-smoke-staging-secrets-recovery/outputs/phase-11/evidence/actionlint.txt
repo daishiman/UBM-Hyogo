@@ -1,2 +1,0 @@
-$ actionlint focused workflows
-actionlint: OK
