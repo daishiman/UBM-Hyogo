@@ -5,7 +5,11 @@ import type { z } from "zod";
 
 import type { PublicMemberProfileZ } from "@ubm-hyogo/shared";
 
-type Section = z.infer<typeof PublicMemberProfileZ>["publicSections"][number];
+type BaseSection = z.infer<
+  typeof PublicMemberProfileZ
+>["publicSections"][number];
+type SectionVisibility = "public" | "member" | "admin";
+type Section = BaseSection & { visibility?: SectionVisibility };
 type Field = Section["fields"][number];
 
 export interface MemberDetailSectionsProps {
@@ -27,7 +31,9 @@ export function MemberDetailSections({ sections }: MemberDetailSectionsProps) {
         return (
           <section
             key={section.key}
+            data-component="profile-section"
             data-section={section.key}
+            data-visibility={section.visibility ?? "public"}
             className="detail-section"
           >
             <h2 className="detail-section-title">{section.title}</h2>

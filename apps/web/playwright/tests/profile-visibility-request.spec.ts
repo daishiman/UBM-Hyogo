@@ -31,6 +31,7 @@ test.describe("profile visibility-request (06b-B)", () => {
       memberPage.locator("[data-pending-type=visibility_request]"),
     ).toBeVisible();
 
+    await memberPage.waitForLoadState("networkidle");
     await memberPage.goto("/");
     await memberPage.goto("/profile");
     await expect(

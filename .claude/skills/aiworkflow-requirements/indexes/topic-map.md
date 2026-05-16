@@ -1096,13 +1096,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 1. 全体構成 | L16 |
 | 2. AdminSidebar | L51 |
-| 3. /admin（Dashboard） | L77 |
-| 4. /admin/members | L112 |
-| 5. /admin/tags | L205 |
-| 6. /admin/schema | L260 |
-| 7. /admin/meetings | L314 |
-| 8. 共通の Server/Client 契約 | L383 |
-| 9. 不変条件サマリ（admin UI） | L401 |
+| 3. /admin（Dashboard） | L83 |
+| 4. /admin/members | L118 |
+| 5. /admin/tags | L216 |
+| 6. /admin/schema | L271 |
+| 7. /admin/meetings | L325 |
+| 8. 共通の Server/Client 契約 | L394 |
+| 9. 不変条件サマリ（admin UI） | L412 |
 
 ### references/ui-ux-advanced.md
 
@@ -2209,6 +2209,17 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L109 |
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
+
+### references/workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow YAML 変更 | L17 |
+| Scripts | L30 |
+| Indexes / References 同期マッピング | L37 |
+| Invariants | L48 |
+| Scope Out | L56 |
+| Lessons / Genealogy | L62 |
 
 ### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
 
@@ -3642,7 +3653,7 @@ node scripts/list-specs.js --topics
 | HistorySearch timeline 再設計（TASK-UI-06-HISTORY-SEARCH-VIEW） | L240 |
 | ViewType/ナビ導線 実装同期（TASK-UI-01-D-VIEWTYPE-ROUTING-NAV） | L287 |
 | authGateState × UI gating（apps/web 共通） | L356 |
-| 続き | L382 |
+| 続き | L393 |
 
 ### references/arch-state-management-details.md
 
@@ -3981,16 +3992,16 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L196 |
-| wrangler.toml の環境別設定 | L230 |
-| ローカル開発での設定 | L262 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L301 |
-| セキュリティ原則 | L333 |
-| Cloudflare API Token の作成手順 | L344 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L359 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L470 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L522 |
-| 変更履歴 | L541 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L208 |
+| wrangler.toml の環境別設定 | L242 |
+| ローカル開発での設定 | L274 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L313 |
+| セキュリティ原則 | L345 |
+| Cloudflare API Token の作成手順 | L356 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L371 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L482 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L534 |
+| 変更履歴 | L553 |
 
 ### references/deployment.md
 
@@ -4625,6 +4636,15 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 関連リソース | L17 |
 
+### references/lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 苦戦箇所一覧 | L7 |
+| Secret Boundary 三層構造（L-CRSSSR-004 派生・参照用） | L49 |
+| Mutation user-gate 境界 | L57 |
+| 関連リソース | L66 |
+
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
 | セクション | 行 |
@@ -5099,6 +5119,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
+
+### references/lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓 | L7 |
+| 関連リソース | L17 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -6746,14 +6773,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1345 |
-| フェーズ構造（概要） | L1354 |
-| 品質ゲート（概要） | L1385 |
-| 出力テンプレート | L1396 |
-| 実行時のコマンド・エージェント・スキル | L1419 |
-| 昇格パターン集 | L1443 |
-| Current Active / Spec Created Tasks | L1445 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1588 |
+| ドキュメント構成 | L1383 |
+| フェーズ構造（概要） | L1392 |
+| 品質ゲート（概要） | L1423 |
+| 出力テンプレート | L1434 |
+| 実行時のコマンド・エージェント・スキル | L1457 |
+| 昇格パターン集 | L1481 |
+| Current Active / Spec Created Tasks | L1483 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1626 |
 
 ### references/task-workflow-backlog-part2.md
 

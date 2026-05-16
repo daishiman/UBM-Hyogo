@@ -1,0 +1,20 @@
+{
+  "task": "parallel-03-prototype-ux-css",
+  "captured_at": "2026-05-15",
+  "command": "PLAYWRIGHT_EVIDENCE_TASK=parallel-03-prototype-ux-css PLAYWRIGHT_BASE_URL=http://localhost:3017 mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test --project=visual-chromium playwright/tests/visual/visual-feedback.spec.ts",
+  "status": "passed",
+  "screenshots": [
+    "tag-pill-selected.png",
+    "tag-pill-default.png",
+    "member-card-hover.png",
+    "member-card-focus.png",
+    "profile-section-public.png",
+    "profile-section-member.png",
+    "profile-section-admin.png"
+  ],
+  "reports": [
+    "../evidence/playwright-report/results.json",
+    "../evidence/monocart/index.json",
+    "../evidence/monocart/index.html"
+  ]
+}
