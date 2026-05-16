@@ -147,6 +147,21 @@
 | evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build}.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | commit / push / PR |
 
+### i01 ToastProvider Root Mount（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime visual pending_user_session` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i01-toastprovider-root-mount/spec.md` |
+| implementation | `apps/web/app/layout.tsx` imports `ToastProvider` and wraps root `children` |
+| system spec | `docs/00-getting-started-manual/specs/09a-prototype-map.md` already defines `ToastProvider` as app shell boundary |
+| evidence | `outputs/phase-09/acceptance.md`, `outputs/phase-11/manual-smoke.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-i01-toastprovider-root-mount-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lesson-20260516-silent-fallback-provider-mount.md`（L-I01-001 defensive fallback が typecheck / lint / unit test の検出網を通過する silent failure / L-I01-002 並列 PR の DoD と「production runtime で動く」は別ゲート） |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260516-i01-toastprovider-root-mount.md` |
+| user gate | authenticated admin toast visual smoke / commit / push / PR |
+
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
 
 | 目的 | 参照先 |
@@ -277,7 +292,8 @@
 | 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL` |
 | web deploy | `.github/workflows/web-cd.yml` uses `build:cloudflare` + `bash scripts/cf.sh deploy --config apps/web/wrangler.toml --env staging|production` |
 | web deploy secret | `.github/workflows/web-cd.yml` maps environment-scoped `secrets.CLOUDFLARE_API_TOKEN` into step-scoped env only for verify/deploy steps. `CLOUDFLARE_API_TOKEN` must not appear in job-level env or install/build steps. |
-| Issue #640 step-scoped CF token cutover | `docs/30-workflows/issue-640-oidc-cf-token-cutover/`（`implemented-local-runtime-pending` / implementation / NON_VISUAL）。`web-cd.yml` and `post-release-dashboard.yml` job-level token exposure removed; `scripts/redaction-check.sh` and `scripts/__tests__/workflow-env-scope.test.sh` provide local gates. Runtime deploy evidence, OIDC full migration, legacy token revocation, commit, push, and PR are user-gated. |
+| Issue #640 step-scoped CF token cutover | `docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/`（`implemented-local-runtime-pending` / implementation / NON_VISUAL）。`web-cd.yml` and `post-release-dashboard.yml` job-level token exposure removed; `scripts/redaction-check.sh` and `scripts/__tests__/workflow-env-scope.test.sh` provide local gates. Runtime deploy evidence, OIDC full migration, commit, push, and PR are user-gated. |
+| Issue #718 legacy CF token revocation | `docs/30-workflows/issue-718-legacy-cf-token-revocation/`（`spec_created_runtime_gate_pending / implementation / NON_VISUAL`）。Cloudflare token revocation, GitHub Secret deletion, and 1Password item mutation are Gate C external governance operations requiring saved user approval. Active `secrets.CLOUDFLARE_API_TOKEN` workflow references must be 0 before revocation. Source unassigned `issue-640-followup-002-legacy-token-revocation.md` is consumed provenance. Artifact inventory: `references/workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md`. Gate C pattern reference: `references/gate-c-external-mutation-pattern.md`. Lessons-learned: `lessons-learned/lesson-20260516-closed-issue-canonical-workflow-absence.md`（L-I718-001 closed issue でも canonical workflow root を後付け生成 / L-I718-002 unassigned-task は削除せず `status: consumed` + `canonical_workflow:` pointer で保持）. Changelog: `changelog/20260516-issue718-legacy-cf-token-revocation.md`. |
 | runtime smoke guard | `.github/workflows/runtime-smoke-staging.yml` Slack post runs only when `ci-evidence/summary.json` exists |
 | secret provisioning | `bash scripts/smoke/provision-staging-secrets.sh` |
 | web-cd staging / production secret provisioning | canonical runbooks: `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md` and `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md`; separate from `staging-runtime-smoke`; `CLOUDFLARE_API_TOKEN` is environment-scoped web-cd deploy token, `CLOUDFLARE_ACCOUNT_ID` is Variables-managed, evidence records `op://` references only, and secret mutation / commit / push / PR are user-gated |
