@@ -2,7 +2,7 @@
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../../components/ui/Toast";
-import { FetchAuthedError } from "../../../lib/fetch/authed";
+import { FetchAuthedError } from "../../../lib/fetch/errors";
 
 export interface UseAdminMutationOptions<T> {
   readonly onSuccess?: (data: T) => void | Promise<void>;
