@@ -29,7 +29,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-05-15T00:00:00Z",
-        "evidence_path": "docs/30-workflows/completed-tasks/issue-300-direct-stable-key-update-guard/outputs/phase-11/evidence/",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-300-direct-stable-key-update-guard/outputs/phase-11/main.md",
         "approver": "daishiman",
         "notes": "validator_green_with_boundary: typecheck/lint/focused test/grep-gate passed; mise build wrapper hit 1Password authorization timeout, and wrapper-free pnpm -r build passed in build-direct.log."
       },
