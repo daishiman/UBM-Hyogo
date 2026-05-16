@@ -82,8 +82,8 @@ per-table repository test を D1 binding mock factory（`int-test-skill/referenc
 | UT-08A-01 | `docs/30-workflows/unassigned-task/UT-08A-01-public-use-case-coverage-hardening.md` | 公開 use-case 直接観測点を `apps/api/src/__tests__/` に追加して AC-6 を満たす |
 | UT-08A-02 | `docs/30-workflows/unassigned-task/UT-08A-02-visual-regression-coverage.md` | `apps/web` 公開ディレクトリ / 会員マイページの UI regression 監視（VISUAL / 低 / 中規模） |
 | UT-08A-03 | `docs/30-workflows/unassigned-task/UT-08A-03-production-load-test.md` | Cloudflare Workers / D1 の production 環境負荷テスト（NON_VISUAL / 低 / 中規模） |
-| UT-08A-04 | `docs/30-workflows/unassigned-task/UT-08A-04-d1-migration-test-guideline.md` | 新規 D1 migration 追加時の test 化ガイドライン（governance / 中 / 小規模） |
-| UT-08A-05 | `docs/30-workflows/unassigned-task/UT-08A-05-shared-package-type-test.md` | `packages/shared` の `@ts-expect-error` 型テスト整備（NON_VISUAL / 中 / 小規模） |
+| UT-08A-04 | `docs/30-workflows/ut-08a-04-d1-migration-test-guideline/` | 新規 D1 migration 追加時の test 化ガイドライン（governance / 中 / 小規模）。旧 unassigned は consumed pointer。 |
+| UT-08A-05 | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md` / resolved by `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` | `packages/shared/src/__tests__/type-contracts.spec.ts` で `@ts-expect-error` / `expectTypeOf` 型契約テストを実装済（NON_VISUAL / implemented_local_evidence_captured / Refs #324） |
 | UT-08A-06 | `docs/30-workflows/unassigned-task/UT-08A-06-test-suffix-rename-migration.md` → successor `docs/30-workflows/issue-325-test-suffix-rename-migration/` | `*.test.ts` → suffix-classified `*.spec.ts` rename（refactor / 低 / 中規模）。Issue #325 workflow で implementation_completed。`apps/api/src/**/*.test.ts` 132 files は R100 rename 済み、Phase 11 evidence captured。 |
 
 ## Validation Chain

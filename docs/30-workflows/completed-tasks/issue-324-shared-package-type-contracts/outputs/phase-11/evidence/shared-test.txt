@@ -1,0 +1,34 @@
+mise WARN  Config files in ~/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-073227-wt-8/.mise.toml are not trusted.
+Trust them with `mise trust`. See https://mise.jdx.dev/cli/trust.html for more information.
+
+> @ubm-hyogo/shared@0.1.0 test /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-073227-wt-8/packages/shared
+> vitest run --passWithNoTests --root=../.. --config=vitest.config.ts packages/shared
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-073227-wt-8
+
+ ✓ packages/shared/src/logging.spec.ts (10 tests) 40ms
+ ✓ packages/shared/src/db/transaction.spec.ts (6 tests) 48ms
+ ✓ packages/shared/src/errors.spec.ts (13 tests) 70ms
+ ✓ packages/shared/src/retry.spec.ts (14 tests) 74ms
+ ✓ packages/shared/src/schemas/identity-conflict.spec.ts (7 tests) 33ms
+ ✓ packages/shared/src/zod/identity.spec.ts (9 tests) 37ms
+ ✓ packages/shared/src/gate-metadata/__tests__/schema.spec.ts (18 tests) 87ms
+ ✓ packages/shared/src/zod/viewmodel.spec.ts (11 tests) 94ms
+ ✓ packages/shared/src/__tests__/type-contracts.spec.ts (15 tests) 26ms
+ ✓ packages/shared/src/auth.spec.ts (8 tests) 139ms
+ ✓ packages/shared/src/types/ids.spec.ts (10 tests) 13ms
+ ✓ packages/shared/src/schemas/admin/tag-queue-resolve.spec.ts (6 tests) 25ms
+ ✓ packages/shared/src/zod/response.spec.ts (4 tests) 33ms
+ ✓ packages/shared/src/utils/consent.spec.ts (9 tests) 26ms
+ ✓ packages/shared/src/schemas/admin/admin-request-resolve.spec.ts (3 tests) 28ms
+ ✓ packages/shared/src/zod/field.spec.ts (63 tests) 97ms
+ ✓ packages/shared/src/index.spec.ts (3 tests) 4ms
+ ✓ packages/shared/src/zod/index.spec.ts (1 test) 11ms
+
+ Test Files  18 passed (18)
+      Tests  210 passed (210)
+   Start at  09:34:49
+   Duration  10.69s (transform 4.12s, setup 0ms, collect 7.53s, tests 885ms, environment 36.95s, prepare 9.99s)
+

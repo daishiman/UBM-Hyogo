@@ -1,0 +1,50 @@
+{
+  "workflow_id": "ui-prototype-alignment-mvp-recovery/improvements/integration-fixes",
+  "workflow_kind": "parent-orchestration",
+  "description": "parallel-01..10 マージ後に検出された integration 差異を子ワークフロー or in-place fix で解消する親 workflow",
+  "children": [
+    {
+      "id": "parallel-i01-toastprovider-root-mount",
+      "status": "consumed",
+      "canonical_workflow": "docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/",
+      "spec": "parallel-i01-toastprovider-root-mount/spec.md"
+    },
+    {
+      "id": "parallel-i02-admin-error-type-unify",
+      "status": "pending",
+      "canonical_workflow": null,
+      "spec": "parallel-i02-admin-error-type-unify/spec.md"
+    },
+    {
+      "id": "parallel-i03-dialog-refresh-order",
+      "status": "pending",
+      "canonical_workflow": null,
+      "spec": "parallel-i03-dialog-refresh-order/spec.md"
+    },
+    {
+      "id": "parallel-i04-homepage-cta",
+      "status": "pending",
+      "canonical_workflow": null,
+      "spec": "parallel-i04-homepage-cta/spec.md"
+    },
+    {
+      "id": "parallel-i05-login-loading-and-error-focus",
+      "status": "pending",
+      "canonical_workflow": null,
+      "spec": "parallel-i05-login-loading-and-error-focus/spec.md"
+    },
+    {
+      "id": "parallel-i06-root-error-focus",
+      "status": "pending",
+      "canonical_workflow": null,
+      "spec": "parallel-i06-root-error-focus/spec.md"
+    },
+    {
+      "id": "parallel-i07-profile-loading-skeleton",
+      "status": "pending",
+      "canonical_workflow": null,
+      "spec": "parallel-i07-profile-loading-skeleton/spec.md"
+    }
+  ],
+  "notes": "spec.md は発注書（scope contract）であり、各子タスクは canonical workflow root へ昇格して Phase 1-13 を実行する。in-place fix で済む軽微タスクは canonical_workflow=null のまま spec.md 内で完結する。"
+}

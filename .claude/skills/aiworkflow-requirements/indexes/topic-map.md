@@ -2248,6 +2248,16 @@ node scripts/list-specs.js --topics
 | 4. 関連ファイル | L86 |
 | 変更履歴 | L93 |
 
+### references/workflow-i01-toastprovider-root-mount-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Implementation | L12 |
+| Evidence | L20 |
+| System Sync | L30 |
+| Runtime Boundary | L41 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2659,6 +2669,16 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | User Gate | L17 |
+
+### references/workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Canonical Artifacts | L14 |
+| Same-Wave System Spec Sync | L35 |
+| Gate C Blockers | L48 |
+| Scope Note | L56 |
 
 ### references/workflow-light-theme-contrast-regression-guard.md
 
@@ -3494,6 +3514,18 @@ node scripts/list-specs.js --topics
 | Evidence Summary | L32 |
 | Follow-up Disposition | L41 |
 
+### references/workflow-ut-08a-04-d1-migration-test-guideline-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Decision | L16 |
+| Implemented Local Artifacts | L20 |
+| Workflow Outputs | L29 |
+| Gates | L40 |
+| Same-Wave Sync | L49 |
+| Validation Chain | L57 |
+
 ### references/workflow-ut-15-waf-rate-limiting-rules-setup-artifact-inventory.md
 
 | セクション | 行 |
@@ -4201,6 +4233,17 @@ node scripts/list-specs.js --topics
 | 仕様書インデックス | L6 |
 | 利用順序 | L13 |
 | 関連ドキュメント | L18 |
+
+### references/gate-c-external-mutation-pattern.md
+
+| セクション | 行 |
+|------------|----|
+| 適用条件 | L7 |
+| 必須メタデータ | L17 |
+| 実行フロー | L32 |
+| Redaction Contract | L50 |
+| 関連 references | L63 |
+| 適用事例 | L70 |
 
 ### references/gate-metadata.md
 
