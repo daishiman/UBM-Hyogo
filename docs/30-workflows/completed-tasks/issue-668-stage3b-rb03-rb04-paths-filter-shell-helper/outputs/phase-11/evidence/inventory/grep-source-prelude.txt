@@ -1,0 +1,4 @@
+scripts/coverage-guard.sh:19:# shellcheck source=lib/ci-shell-prelude.sh
+scripts/coverage-guard.sh:20:source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/ci-shell-prelude.sh"
+scripts/coverage-gate-e2e.sh:24:# shellcheck source=lib/ci-shell-prelude.sh
+scripts/coverage-gate-e2e.sh:25:source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/ci-shell-prelude.sh"

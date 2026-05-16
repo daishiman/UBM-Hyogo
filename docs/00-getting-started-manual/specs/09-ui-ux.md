@@ -130,7 +130,7 @@
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
-| admin | admin layout | ConflictPair | GET `/admin/identity-conflicts`; POST `/admin/identity-conflicts/:id/resolve` | page standard, resolving | conflictPairs, selectedPair, resolution | compare pane は label を持つ | color, space, radius, shadow | 09g | automatic merge |
+| admin | admin layout | IdentityConflictRow | GET `/admin/identity-conflicts`; POST `/admin/identity-conflicts/:id/merge`; POST `/admin/identity-conflicts/:id/dismiss` | page standard, inline two-step confirmation | conflict rows, selected row stage, merge/dismiss reason | textarea label / inline alert / disabled state | color, space, radius, shadow | 09g | automatic merge |
 
 ### 2.3.8 `/(admin)/admin/audit`
 

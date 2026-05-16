@@ -1,0 +1,55 @@
+{
+  "workflowId": "issue-667-stage3b-mock-api-fixture-coverage",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "coverageTier": "standard",
+    "implementationMode": "existing-hardening",
+    "workflow_state": "runtime_pending",
+    "parentWorkflow": "e2e-quality-uplift-stage-3-impl/3b-e2e-tests-hard-gate",
+    "sourceSpec": "docs/30-workflows/unassigned-task/task-e2e-stage3b-mock-api-fixture-coverage-001.md",
+    "sourceIssue": 667,
+    "issueState": "CLOSED",
+    "priority": "high",
+    "scale": "medium"
+  },
+  "outputs": {
+    "primary": "scripts/e2e-mock-api.mjs",
+    "newPackages": ["packages/contracts/"],
+    "newTests": ["scripts/__tests__/e2e-mock-api.contract.spec.ts"],
+    "workflowPatch": [".github/workflows/e2e-tests.yml"],
+    "phase12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  },
+  "phases": [
+    { "id": 1,  "status": "completed", "file": "phase-1.md" },
+    { "id": 2,  "status": "completed", "file": "phase-2.md" },
+    { "id": 3,  "status": "completed", "file": "phase-3.md" },
+    { "id": 4,  "status": "completed", "file": "phase-4.md" },
+    { "id": 5,  "status": "completed", "file": "phase-5.md" },
+    { "id": 6,  "status": "completed", "file": "phase-6.md" },
+    { "id": 7,  "status": "completed", "file": "phase-7.md" },
+    { "id": 8,  "status": "completed", "file": "phase-8.md" },
+    { "id": 9,  "status": "completed", "file": "phase-9.md" },
+    { "id": 10, "status": "completed", "file": "phase-10.md" },
+    { "id": 11, "status": "completed", "file": "phase-11.md" },
+    { "id": 12, "status": "completed", "file": "phase-12.md" },
+    { "id": 13, "status": "blocked", "file": "phase-13.md" }
+  ],
+  "acceptanceCriteria": [
+    { "id": "AC-1", "ref": "AC-MOCK-01", "summary": "apps/api endpoint surface のうち apps/web E2E が叩く全パスを mock が網羅" },
+    { "id": "AC-2", "ref": "AC-MOCK-02", "summary": "packages/contracts/ から共有 zod schema export、mock 側で schema.parse() 必須" },
+    { "id": "AC-3", "ref": "AC-MOCK-03", "summary": "scripts/__tests__/e2e-mock-api.contract.spec.ts 新設、ci.yml test job または root pnpm test 経路から実行" },
+    { "id": "AC-4", "ref": "AC-MOCK-04", "summary": "seed: member 3 / zone 2 / membership 2 / negative case / tag facet 2" },
+    { "id": "AC-5", "ref": "AC-MOCK-05", "summary": "e2e-tests.yml に readiness wait + log artifact upload" },
+    { "id": "AC-6", "ref": "regression", "summary": "既存 E2E spec が green を維持" },
+    { "id": "AC-7", "ref": "quality",    "summary": "typecheck / lint / coverage>=80% / coverage-guard.sh exit 0" }
+  ]
+}

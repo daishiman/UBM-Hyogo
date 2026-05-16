@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+content-type: application/json
+access-control-allow-origin: *
+access-control-allow-methods: GET,POST,PATCH,DELETE,OPTIONS
+access-control-allow-headers: content-type,authorization,cookie
+Date: Thu, 14 May 2026 21:47:56 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"ok":true,"status":"ok","ts":"2026-05-09T00:00:00.000Z"}
