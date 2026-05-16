@@ -75,8 +75,31 @@ describe("quick_validate", () => {
 
 `scripts/__tests__/fixtures/` 配下の `<case>/SKILL.md.fixture` がフィクスチャ正本。invalid YAML / 境界値 / forbidden file 等を網羅。詳細は `codex_validation.test.js` / `quick_validate.test.js` のテストケース定義を参照。
 
+## Playwright e2e fixture の分離規約（domain-per-file）
+
+vitest の `.fixture` 拡張子戦略とは別軸の話として、Playwright e2e で使う fixture は **business domain 単位で file 分離する**ことを原則とする（出典: 07c-followup-002 attendance visual smoke / 2026-05-15）。
+
+### File 配置と責務
+
+| File | 責務 |
+| --- | --- |
+| `apps/web/playwright/fixtures/auth.ts` | standalone mock server / 認証 storageState / seed reset。全テストの single source of truth |
+| `apps/web/playwright/fixtures/<domain>.ts`（例: `admin-meetings.ts`） | 該当 domain の seed builder（meeting 生成 / attendance 候補生成 など）。mock state を `POST /__mock/state` 等の HTTP control endpoint 経由で投入 |
+| `apps/web/playwright/tests/<domain>.spec.ts` | domain fixture を import し、page object を介して assertion |
+
+### 落とし穴
+
+- 単一 `auth.ts` に全 domain seed builder を集中させると test 間の state drift が判定不能になる
+- domain fixture が `page.route()` を独自に増やすと standalone mock との二重実装（INV-08 違反）。intercept は必ず standalone 側に閉じ、fixture は seed 投入 + clean-up のみ
+- 新規 page を visual smoke 対象に加える際は **list / detail / mutation の三点 set** を standalone mock に同 wave で揃える（detail endpoint 後追いは cost が高い）
+
+### page object 側との対応
+
+page object helper method は visit 先 URL と 1:1 で揃え、複数 URL に跨る共通 selector を作らない。詳細は `.claude/skills/task-specification-creator/references/phase-11-screenshot-guide.md` § Page object と selector exposure の URL 1:1 規約 を参照。
+
 ## 変更履歴
 
 | Version | Date | Changes |
 | ------- | ---- | ------- |
 | 1.0.0 | 2026-04-28 | 初版作成（`.fixture` 拡張子戦略の正本化、loadFixture ヘルパー仕様策定） |
+| 1.1.0 | 2026-05-15 | Playwright e2e fixture の domain-per-file 分離規約を追加（07c-followup-002 由来） |
