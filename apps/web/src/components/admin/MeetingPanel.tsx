@@ -149,7 +149,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
   return (
     <section aria-labelledby="meetings-h">
       <h1 id="meetings-h">開催日 / 出席管理</h1>
-      {toast && <p role="status">{toast}</p>}
+      {toast && <p role="status" data-testid="attendance-toast">{toast}</p>}
 
       <form onSubmit={onCreate} aria-label="開催日追加">
         <h2>開催日を追加</h2>
@@ -181,7 +181,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
           const pickedAlreadyAttended = picked !== "" && here.has(picked);
           return (
             <li key={m.sessionId}>
-              <article>
+              <article data-testid={`attendance-list-session-${m.sessionId}`}>
                 <h3>{m.heldOn} — {m.title}</h3>
                 {m.note && <p>{m.note}</p>}
                 <details>
@@ -246,6 +246,7 @@ export function MeetingPanel({ meetings, candidates }: Props) {
                   <label>
                     会員を選択
                     <select
+                      data-testid={`attendance-select-${m.sessionId}`}
                       value={picked}
                       onChange={(e) =>
                         setPickedMember((s) => ({ ...s, [m.sessionId]: e.target.value }))
@@ -278,9 +279,18 @@ export function MeetingPanel({ meetings, candidates }: Props) {
                     <h4>出席者</h4>
                     <ul>
                       {[...here].map((mid) => (
-                        <li key={mid}>
+                        <li
+                          key={mid}
+                          data-testid={`attendance-attendee-${m.sessionId}`}
+                          data-member={mid}
+                        >
                           {mid}{" "}
-                          <button type="button" onClick={() => onRemove(m.sessionId, mid)}>
+                          <button
+                            type="button"
+                            data-testid={`remove-attendance-${m.sessionId}`}
+                            data-member={mid}
+                            onClick={() => onRemove(m.sessionId, mid)}
+                          >
                             削除
                           </button>
                         </li>

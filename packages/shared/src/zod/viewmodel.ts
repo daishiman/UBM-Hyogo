@@ -272,20 +272,6 @@ export const AdminMemberDetailViewZ = z
         note: z.string().nullable(),
       }),
     ),
-    notes: z
-      .array(
-        z.object({
-          noteId: z.string().min(1),
-          body: z.string(),
-          noteType: z.enum(["general", "visibility_request", "delete_request"]),
-          requestStatus: z.enum(["pending", "resolved", "rejected"]).nullable(),
-          createdBy: EmailZ,
-          updatedBy: EmailZ,
-          createdAt: Iso8601Z,
-          updatedAt: Iso8601Z,
-        }),
-      )
-      .optional(),
   })
   .strict();
 

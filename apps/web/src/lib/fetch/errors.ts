@@ -8,7 +8,6 @@ export class AuthRequiredError extends Error {
 export class FetchAuthedError extends Error {
   readonly status: number;
   readonly bodyText: string;
-
   constructor(status: number, bodyText: string) {
     super(`fetchAuthed failed: ${status}`);
     this.name = "FetchAuthedError";

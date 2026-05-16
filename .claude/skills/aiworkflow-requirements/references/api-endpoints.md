@@ -99,6 +99,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/schema/aliases` | question stable key alias を解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings` | meeting sessions と attendance summary（既存出席 memberId）を一覧する | Auth.js JWT + `requireAdmin` |
+| GET | `/admin/meetings/:sessionId` | meeting detail を返す。`sessionId/title/heldOn/candidates/attendees` を含み、candidates は削除済み member も `isDeleted=true` として返す。unknown / soft-deleted meeting は `404 not_found` | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings` | meeting session を作成する | Auth.js JWT + `requireAdmin` |
 | PATCH | `/admin/meetings/:sessionId` | title / heldOn / note / deletedAt を更新する。deletedAt セット時は soft delete として一覧から除外する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/meetings/:sessionId/attendances` | 06c-E 正本: `{ memberId, attended }` で attendance を追加 / 削除する。`attended=true` の重複は `409 attendance_already_recorded`、unknown member は `404 member_not_found`、削除済み member は `422 member_is_deleted`、session 不在 / soft-deleted meeting は `404 session_not_found` | Auth.js JWT + `requireAdmin` |
