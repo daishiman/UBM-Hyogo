@@ -3179,6 +3179,14 @@ node scripts/list-specs.js --topics
 | Artifact Set | L13 |
 | Boundary | L26 |
 
+### references/workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Status | L3 |
+| Artifact Set | L13 |
+| Boundary | L34 |
+
 ### references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md
 
 | セクション | 行 |
@@ -5256,6 +5264,17 @@ node scripts/list-specs.js --topics
 | L-TASK24-004 — task root rename 時の self-reference path 一括更新 | L68 |
 | Backlinks | L88 |
 
+### references/lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T25LF-001: routable wrapper / private source の 2 系統構成を fixture pattern として明文化する | L5 |
+| L-T25LF-002: loading.tsx の runtime 観測には deterministic な server-side delay fixture が必要 | L12 |
+| L-T25LF-003: env guard 重複を `_lib/fixture-guard.ts` に集約する横断リファクタは 3 件目を契機に実施する | L19 |
+| L-T25LF-004: completed-tasks 配下のドキュメント更新は「子 task のスコープ内」として扱い、placeholder 解消 commit を分割しない | L26 |
+| L-T25LF-005: `/smoke/*` を public routable surface として明文化したら、本番ルーティング・SEO・error.tsx への副作用を 3 軸で評価する | L33 |
+| 参照 | L46 |
+
 ### references/lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md
 
 | セクション | 行 |
@@ -6726,14 +6745,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1342 |
-| フェーズ構造（概要） | L1351 |
-| 品質ゲート（概要） | L1382 |
-| 出力テンプレート | L1393 |
-| 実行時のコマンド・エージェント・スキル | L1416 |
-| 昇格パターン集 | L1440 |
-| Current Active / Spec Created Tasks | L1442 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1585 |
+| ドキュメント構成 | L1357 |
+| フェーズ構造（概要） | L1366 |
+| 品質ゲート（概要） | L1397 |
+| 出力テンプレート | L1408 |
+| 実行時のコマンド・エージェント・スキル | L1431 |
+| 昇格パターン集 | L1455 |
+| Current Active / Spec Created Tasks | L1457 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1600 |
 
 ### references/task-workflow-backlog-part2.md
 

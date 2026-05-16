@@ -10,7 +10,7 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/fix-wrangler-esbuild-import-source-error/` |
-| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| 状態 | `verified / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
 | root cause | `wrangler@4.85.0` requires `esbuild@0.27.3`, but root `pnpm.overrides.esbuild` pinned all esbuild resolution to `0.25.4` |
 | implementation targets | `package.json`, `pnpm-lock.yaml`, `scripts/cf.sh` |
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
@@ -61,7 +61,7 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/task-23-ui-mvp-w8-par-verification-status-matrix/` |
-| 状態 | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| 状態 | `verified / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
 | parent workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
 | generated deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/VERIFICATION-STATUS.md` |
 | evidence boundary | Phase 5/7/9 deterministic matrix evidence, root/output artifacts parity, Phase 11 NON_VISUAL marker, Phase 12 strict 7 present, documentation-changelog entry checklist + validator execution log |
@@ -74,7 +74,7 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` |
-| 状態 | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 13 blocked` |
+| 状態 | `verified / docs-only / NON_VISUAL / Phase 13 blocked` |
 | parent workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
 | generated deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` |
 | evidence | `outputs/phase-5/implementation-notes.md`, `outputs/phase-7/coverage.md`, `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
@@ -82,6 +82,21 @@
 | layer model | historical `3-layer` name + `PUB / MEM / ADM / COM` matrix columns |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md` |
 | user gate | commit / push / PR |
+
+### task-25 follow-up loading state observation fixture（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-25-followup-loading-state-observation-fixture/` |
+| 状態 | `verified / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| source issue | Issue #711 CLOSED。PR 文脈は `Refs #711` のみ |
+| parent | `docs/30-workflows/completed-tasks/task-25-ui-mvp-w8-par-routes-smoke-coverage/` |
+| implementation targets | `apps/web/app/__smoke__/_lib/fixture-guard.ts`, `apps/web/app/__smoke__/_lib/fixture-guard.spec.ts`, `apps/web/app/__smoke__/error-boundary/page.tsx`, `apps/web/app/__smoke__/members-list/page.tsx`, `apps/web/app/__smoke__/loading-state/page.tsx`, `apps/web/app/__smoke__/loading-state/loading.tsx`, `apps/web/app/smoke/error-boundary/page.tsx`, `apps/web/app/smoke/members-list/page.tsx`, `apps/web/app/smoke/loading-state/page.tsx`, `apps/web/app/smoke/loading-state/loading.tsx`, `apps/web/tests/e2e/staging-smoke.spec.ts`, `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| final deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md` row 19 fixture runtime observation |
+| evidence | `outputs/phase-11/evidence.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md` |
+| 苦戦知見 | `.claude/skills/aiworkflow-requirements/references/lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md`（L-T25LF-001〜005） |
+| user gate | staging runtime smoke / commit / push / PR |
 
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
 

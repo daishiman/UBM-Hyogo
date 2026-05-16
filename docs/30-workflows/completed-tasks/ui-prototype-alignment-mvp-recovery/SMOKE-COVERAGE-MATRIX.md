@@ -8,11 +8,11 @@
 
 This matrix documents what the current Playwright smoke and visual gates protect for the UI MVP recovery workflow.
 
-The current executable smoke test contains **17 URL entries**. The parent SCOPE describes **19 UI surfaces** because `error.tsx` and `loading.tsx` are component surfaces, not stable URL routes in `full-smoke.spec.ts`. This file therefore uses the precise contract:
+The current smoke coverage contains **19 UI surface entries**: 17 regular route checks in `full-smoke.spec.ts` plus 2 deterministic `/smoke` fixture observations in `staging-smoke.spec.ts`. The parent SCOPE describes **19 UI surfaces**; `error.tsx` and `loading.tsx` are covered by dedicated fixture routes rather than by the regular route table.
 
-- 17 URL smoke entries covered by `playwright-smoke / smoke (chromium)`.
+- 17 regular URL smoke entries covered by `playwright-smoke / smoke (chromium)`.
 - 4 visual baselines covered by `playwright-smoke / visual (chromium, 4 screens)`.
-- 2 component-only surfaces (`error.tsx`, `loading.tsx`) documented as `N/A-runtime-observation` until deterministic fixtures exist.
+- 2 component-only surfaces (`error.tsx`, `loading.tsx`) observed through deterministic `staging-smoke.spec.ts` fixture checks.
 
 ## CI Gate References
 
@@ -21,15 +21,17 @@ The current executable smoke test contains **17 URL entries**. The parent SCOPE 
 | `verify-design-tokens / verify-design-tokens` | `.github/workflows/verify-design-tokens.yml` |
 | `playwright-smoke / smoke (chromium)` | `.github/workflows/playwright-smoke.yml` and `apps/web/playwright/tests/full-smoke.spec.ts` |
 | `playwright-smoke / visual (chromium, 4 screens)` | `.github/workflows/playwright-smoke.yml` and `apps/web/playwright/tests/visual/*.spec.ts` |
+| `staging-smoke fixture observation` | `apps/web/tests/e2e/staging-smoke.spec.ts` (`/smoke/error-boundary`, `/smoke/loading-state`) |
 
 ## Legend
 
 | Token | Meaning |
 | --- | --- |
 | `A11Y-DEFAULT` | Axe tags `wcag2a,wcag2aa`; `color-contrast` disabled; `serious` / `critical` violations must be 0 |
+| `FIXTURE-SEMANTIC-A11Y` | Fixture-level semantic assertion such as `role="alert"` or `role="status"` + `aria-live`; not an Axe scan |
 | `TOKEN-SSOT` | Token drift is delegated to `verify-design-tokens / verify-design-tokens` |
 | `Visual: -` | No committed visual baseline for this route |
-| `N/A-runtime-observation` | The surface exists, but the current smoke suite has no deterministic route-level trigger |
+| `fixture-runtime-observation` | Component-only surface is observed through a deterministic `/smoke` fixture route |
 
 ## Coverage Matrix
 
@@ -52,18 +54,18 @@ The current executable smoke test contains **17 URL entries**. The parent SCOPE 
 | 15 | `/admin/identity-conflicts` | admin | `<400` after admin fixture | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | identity conflict resolution has focused smoke | `-` | `full-smoke.spec.ts`, `admin-identity-conflicts.spec.ts`, `admin-schema-conflicts-audit.spec.ts` |
 | 16 | `/admin/audit` | admin | `<400` after admin fixture | `main h1` or `[data-component="admin-audit"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | audit timeline/filter shell renders | `-` | `full-smoke.spec.ts`, `admin-schema-conflicts-audit.spec.ts` |
 | 17 | `/__not_found_canary` | public | `404` | `[data-testid="not-found"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | not-found page renders | `-` | `full-smoke.spec.ts`, `public-detail-register-legal.spec.ts` |
-| 18 | `app/error.tsx` | public surface | `N/A-runtime-observation` | error boundary surface | `TOKEN-SSOT` | `N/A-runtime-observation` | deterministic throw fixture is not present in current smoke suite | `-` | `apps/web/app/error.tsx` |
-| 19 | `app/loading.tsx` | public surface | `N/A-runtime-observation` | `data-page="loading"` | `TOKEN-SSOT` | `N/A-runtime-observation` | deterministic network-throttle observation is not present in current smoke suite | `-` | `apps/web/app/loading.tsx`, `apps/web/app/(admin)/admin/audit/loading.tsx` |
+| 18 | `app/error.tsx` | public surface | `fixture-runtime-observation` | `role="alert"` + `エラーID` via `/smoke/error-boundary` | `TOKEN-SSOT` | `FIXTURE-SEMANTIC-A11Y` | deterministic throw fixture renders the app error boundary | `-` | `apps/web/app/error.tsx`, `apps/web/app/smoke/error-boundary/page.tsx`, `staging-smoke.spec.ts` |
+| 19 | `app/loading.tsx` | public surface | `fixture-runtime-observation` | `[data-page="smoke-loading-state"]` -> `[data-page="smoke-loading-state-fixture"]` via `/smoke/loading-state` | `TOKEN-SSOT` | `FIXTURE-SEMANTIC-A11Y` | deterministic server delay triggers loading boundary without network throttle | `-` | `apps/web/app/loading.tsx`, `apps/web/app/smoke/loading-state/loading.tsx`, `apps/web/app/smoke/loading-state/page.tsx`, `staging-smoke.spec.ts` |
 
 ## Axis Totals
 
 | Axis | Covered | Notes |
 | --- | ---: | --- |
-| URL status | 17/17 | The two remaining SCOPE surfaces are not URL routes in `full-smoke.spec.ts` |
+| URL status | 19/19 | 17 regular route entries plus 2 deterministic fixture observations |
 | DOM | 19/19 | 17 runtime selectors plus 2 component-level surfaces |
 | Token | 19/19 | Delegated to the token drift gate |
-| A11y runtime | 17/19 | `error.tsx` and `loading.tsx` need deterministic observation before runtime a11y can be asserted |
-| Interaction smoke | 17/19 | Component-only surfaces are documented, not executed |
+| A11y runtime | 19/19 | 17 Axe-backed route checks plus semantic fixture assertions for `error.tsx` and `loading.tsx` |
+| Interaction smoke | 19/19 | Component-only surfaces use fixture interactions rather than user workflows |
 | Visual baseline | 4/19 | `login`, `public-top`, `admin-dashboard`, `profile` |
 
 ## Drift Notes
@@ -76,19 +78,19 @@ The current executable smoke test contains **17 URL entries**. The parent SCOPE 
 
 ## Future Candidates
 
-These are explicit non-goals for task-25 because deterministic route triggers do not currently exist.
+These are explicit non-goals for task-25 and the loading-state follow-up.
 
 | Candidate | Reason | Suggested owner |
 | --- | --- | --- |
 | Full visual regression baseline for remaining non-baseline surfaces | Current visual gate intentionally protects 4 high-value screens | post-MVP visual regression task |
-| Error boundary route fixture | Runtime `error.tsx` needs a deterministic throw route before smoke can assert it | task-05 / regression follow-up |
-| Loading state observation fixture | `loading.tsx` needs stable latency control without flaky network sleeps | regression follow-up |
+| Full visual regression baseline for loading/error fixtures | Runtime coverage exists; visual baselines remain intentionally out of task-25 scope | post-MVP visual regression task |
 
 ## Verification Commands
 
 ```bash
 grep -E '^\| [0-9]+ \|' docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md | wc -l
 rg -n "path: '" apps/web/playwright/tests/full-smoke.spec.ts
+rg -n "/smoke/(error-boundary|loading-state)" apps/web/tests/e2e/staging-smoke.spec.ts
 ls apps/web/playwright/tests/visual/*.spec.ts
 rg -n "playwright-smoke|verify-design-tokens" .github/workflows package.json apps/web/package.json
 ```
