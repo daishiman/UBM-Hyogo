@@ -3412,6 +3412,19 @@ node scripts/list-specs.js --topics
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
 
+### references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L15 |
+| Contract Summary | L24 |
+| Runtime Boundary | L36 |
+| Code Artifacts | L41 |
+| Implementation Guide Pointers | L49 |
+| Unassigned Task Trace | L59 |
+| Lessons Learned | L68 |
+
 ### references/workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md
 
 | セクション | 行 |
@@ -4229,12 +4242,12 @@ node scripts/list-specs.js --topics
 | 概要 | L23 |
 | 使い方 | L31 |
 | Current Alias Overrides（個別互換行） | L38 |
-| Family Summary | L81 |
-| Detailed Register | L102 |
-| Section Extract Register (2026-03-17) | L283 |
-| 500-Line Split Register (2026-03-16) | L294 |
-| Fragment Migration Register (2026-04-28) | L316 |
-| Task Root Path Drift Register (2026-04-30 追記) | L343 |
+| Family Summary | L83 |
+| Detailed Register | L104 |
+| Section Extract Register (2026-03-17) | L285 |
+| 500-Line Split Register (2026-03-16) | L296 |
+| Fragment Migration Register (2026-04-28) | L318 |
+| Task Root Path Drift Register (2026-04-30 追記) | L345 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4514,6 +4527,7 @@ node scripts/list-specs.js --topics
 | L-07A-005: admin client 契約は UI 実装タスクの stale 記述を同 wave で直す | L19 |
 | L-07A-006: API / web の body drift は shared schema SSOT へ寄せる | L23 |
 | L-07A-007: package script の test 引数は対象ファイル選択を保証しない | L30 |
+| L-07A-008: stale 起票前提と current topology が乖離したら「削除」ではなく「境界明確化」へ再解釈する | L37 |
 
 ### references/lessons-learned-07b-schema-alias-assignment-2026-04.md
 
@@ -6708,14 +6722,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1429 |
-| フェーズ構造（概要） | L1438 |
-| 品質ゲート（概要） | L1469 |
-| 出力テンプレート | L1480 |
-| 実行時のコマンド・エージェント・スキル | L1503 |
-| 昇格パターン集 | L1527 |
-| Current Active / Spec Created Tasks | L1529 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1674 |
+| ドキュメント構成 | L1443 |
+| フェーズ構造（概要） | L1452 |
+| 品質ゲート（概要） | L1483 |
+| 出力テンプレート | L1494 |
+| 実行時のコマンド・エージェント・スキル | L1517 |
+| 昇格パターン集 | L1541 |
+| Current Active / Spec Created Tasks | L1543 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1689 |
 
 ### references/task-workflow-backlog-part2.md
 
