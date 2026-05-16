@@ -1,9 +1,47 @@
 # クイックリファレンス
 
+## Issue #324 shared package type contracts（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| implementation | `packages/shared/src/__tests__/type-contracts.spec.ts` |
+| source trace | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md` |
+| evidence | `outputs/phase-11/evidence/shared-typecheck.txt`, `outputs/phase-11/evidence/shared-lint.txt`, `outputs/phase-11/evidence/shared-test.txt` |
+| boundary | Issue #324 CLOSED, use `Refs #324` only; no runtime schema/API/D1 changes |
+
 > 最重要情報への即時アクセス
 > 詳細は resource-map.md → 該当ファイル を参照
 
 ---
+
+### CI Env Secret Inventory And Preflight Gate（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| scope | `staging-runtime-smoke` 5 secrets, adjacent 15 workflow secret refs, env/repo preflight gate |
+| implementation | `scripts/ci/verify-env-secrets.sh`, `scripts/ci/__tests__/verify-env-secrets.spec.sh`, `scripts/ci/verify-env-secrets.allowlist`, `.github/workflows/verify-env-secrets.yml`, `.github/workflows/d1-migration-verify.yml` |
+| inventory | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/task-02-adjacent-unregistered-secret-inventory/inventory.md` |
+| runbook | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/task-01-staging-runtime-smoke-secret-finalization/runbook.md` |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-ci-env-secret-inventory-and-preflight-gate-2026-05.md` (L-CI-ENV-001..005) |
+| user gate | secret placement, variable placement, `runtime-smoke-staging.yml` rerun, commit, push, PR |
+
+### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| scope | AdminSidebar home link + MemberDrawer tags link |
+| implementation | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| tests | `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx`, `apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx` |
+| evidence | `outputs/phase-11/dom-snapshot.txt`, mock fallback PNG 2 files, component/typecheck/lint/build logs |
+| runtime boundary | real authenticated screenshots and staging smoke remain runtime pending |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
 
 ### fix-wrangler-esbuild-import-source-error（2026-05-15）
 
@@ -67,6 +105,33 @@
 | evidence boundary | Phase 5/7/9 deterministic matrix evidence, root/output artifacts parity, Phase 11 NON_VISUAL marker, Phase 12 strict 7 present, documentation-changelog entry checklist + validator execution log |
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-23-docs-only-final-deliverable-state-gate-2026-05.md` |
 | downstream | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` can use the generated `VERIFICATION-STATUS.md` |
+| user gate | commit / push / PR |
+
+### UI prototype alignment / MVP recovery task-27 3-layer task mapping（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` |
+| 状態 | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 13 blocked` |
+| parent workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| generated deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` |
+| evidence | `outputs/phase-5/implementation-notes.md`, `outputs/phase-7/coverage.md`, `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| inputs | task-23 `VERIFICATION-STATUS.md`, task-24 `INVARIANT-AUDIT.md`, task-25 `SMOKE-COVERAGE-MATRIX.md`, completed task-26 common surfaces context |
+| layer model | historical `3-layer` name + `PUB / MEM / ADM / COM` matrix columns |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### parallel-10 Auth Session Handling（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/parallel-10-auth-session-handling/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| client 401 | `useAdminMutation` が same-origin `/api/admin/*` から 401 を受け、`toLoginRedirect(currentPath)` で `/login?redirect=<encoded>` へ遷移。`normalizeRedirectPath` は `/login?...` / external / protocol-relative / backslash を `/profile` fallback |
+| client 403 | `useAdminMutation` が `"権限がありません"` を Toast `alert` variant（`role="alert"` / `aria-live="assertive"`）で表示し、`error` state を保持 |
+| implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/lib/url/safe-redirect.ts` |
+| system spec | `docs/00-getting-started-manual/specs/02-auth.md`（Client 401 / 403 ハンドリング） |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build}.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | commit / push / PR |
 
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
@@ -588,7 +653,7 @@
 | 状態 | `implemented-local / implementation / runtime evidence pending_user_approval / NON_VISUAL / Phase 12 strict outputs present / runtime evidence pending_user_approval` |
 | primary IdP | AWS STS（GitHub OIDC federation） |
 | workflow inventory | `.github/workflows/web-cd.yml`, `.github/workflows/backend-ci.yml`, `.github/workflows/d1-migration-verify.yml` |
-| current token references | `backend-ci.yml` still uses `CLOUDFLARE_API_TOKEN` and `d1-migration-verify.yml` still uses `CLOUDFLARE_API_TOKEN_STAGING` until their runtime cutover. `web-cd.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` after task-01 web-cd secret alignment. |
+| current token references | `backend-ci.yml` still uses environment-scoped `CLOUDFLARE_API_TOKEN` until OIDC runtime cutover. `d1-migration-verify.yml` now uses `environment: staging` + `secrets.CLOUDFLARE_API_TOKEN`; old `CLOUDFLARE_API_TOKEN_STAGING` is withdrawn. `web-cd.yml` uses environment-scoped `CLOUDFLARE_API_TOKEN` after task-01 web-cd secret alignment. |
 | approval gates | G1 trust policy / G2 staging cutover / G3 production cutover / G4 long-lived token revoke |
 | close-out evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | runtime evidence | `outputs/phase-11/main.md` + `manual-smoke-log.md` + `link-checklist.md` are RUNTIME_PENDING placeholder ledgers. deploy / revoke are未実行 |
@@ -751,6 +816,21 @@
 
 ---
 
+### UT-08A-04 D1 migration test guideline（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| 13 Phase 仕様 | `docs/30-workflows/ut-08a-04-d1-migration-test-guideline/` |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL / governance` |
+| canonical runbook | `docs/30-workflows/runbooks/d1-migration-test-guideline.md` |
+| migration README | `apps/api/migrations/README.md` |
+| CI reminder | `.github/workflows/d1-migration-verify.yml`（`always()` / `continue-on-error` / `issues: write` / `github.paginate` / migration path guard） |
+| local evidence | `outputs/phase-11/{bats-result.log,runbook-evidence.log,yml-diff.patch,static-link-check.log,ci-comment-static-evidence.log}` |
+| artifact inventory | `references/workflow-ut-08a-04-d1-migration-test-guideline-artifact-inventory.md` |
+| Issue 取扱 | #323 は CLOSED 維持。PR comment URL は Phase 13 user-gated evidence |
+
+---
+
 ### 07c Follow-up 003 Audit Log Browsing UI（2026-05-01）
 
 | 目的 | 参照先 |
@@ -863,7 +943,7 @@ UT-06 Phase 12 UNASSIGNED-E を `implemented-local` / docs-only / NON_VISUAL wor
 ---
 ### Schema Alias Resolution Contract（issue-191 / 2026-04-30）
 
-07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first、miss の場合のみ `schema_questions.stable_key` fallback。
+07b の alias assignment は endpoint `POST /admin/schema/aliases` を維持しつつ、書き込み先を `schema_questions.stableKey` direct update から `schema_aliases` INSERT へ差し替える。03a は aliases first。Issue #299 の 2026-05-15 local implementation で `schema_questions.stable_key` fallback は retired となり、alias miss は unresolved として扱う。
 
 UT-07B schema alias hardening は、この `schema_aliases` write target replacement を上位前提にする。hardening 対象は alias table の DB constraint、back-fill の再開可能化、`backfill_cpu_budget_exhausted` の HTTP 202 retryable continuation、10,000 行 staging evidence である。参照: `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/`, `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/outputs/phase-12/implementation-guide.md`, `references/api-endpoints.md`, `references/database-schema.md`。
 
@@ -881,7 +961,8 @@ UT-07B-FU-04 production migration already-applied verification は、`references
 | 13 Phase 補完仕様 | `docs/30-workflows/completed-tasks/issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring/` |
 | 07b stale contract 上書き | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/index.md` |
 | 実装 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-aliases-implementation-001.md` |
-| fallback 廃止 follow-up | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
+| fallback 廃止 canonical execution root | `docs/30-workflows/task-issue-299-schema-questions-fallback-retirement-001/` |
+| fallback 廃止 source trace | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` |
 | direct update guard follow-up | `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` |
 
 ### UT-02A Canonical Section/Field Resolver（Issue #108 / 2026-05-01）

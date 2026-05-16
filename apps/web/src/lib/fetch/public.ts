@@ -3,9 +3,18 @@
 // 不変条件 #10: revalidate で無料枠内に収める
 //
 // 経路:
-// 1. Cloudflare Workers 上 (production/staging) → service-binding `API_SERVICE.fetch()`
-//    （同一 account workers.dev への外向き fetch loopback で 404 になる事象を回避）
-// 2. それ以外 (local `next dev`) → process.env.PUBLIC_API_BASE_URL の外向き fetch
+// 1. production / staging (Cloudflare Workers runtime, isTestOrPlaywright() === false)
+//    → service-binding `API_SERVICE.fetch()` を常に優先
+//    (同一 account workers.dev への外向き fetch loopback 404 を回避)
+// 2. test / Playwright (NODE_ENV=test / PLAYWRIGHT_TEST=1) かつ PUBLIC_API_BASE_URL 明示時
+//    → process.env.PUBLIC_API_BASE_URL の HTTP fetch
+//    (CI 上の deterministic mock API へ差し替え可能にするため)
+// 3. それ以外 (local `next dev` で service binding 不在)
+//    → process.env.PUBLIC_API_BASE_URL の HTTP fetch
+//
+// 注: test runtime 判定 isTestOrPlaywright() は apps/web env 不変条件
+// (env 参照は getEnv()/getPublicEnv() 経由) の例外として 1 箇所に閉じる。
+// 関連先行: task-05a-fetchpublic-service-binding-001 (逆方向 fallback 設計)
 
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
@@ -33,8 +42,19 @@ function getBaseUrl(): string {
   return process.env.PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL ?? DEFAULT_BASE_URL;
 }
 
+// test runtime 判定。apps/web env 不変条件(getEnv()/getPublicEnv() 経由) の例外として
+// このヘルパ 1 箇所のみで process.env を直参照する。
+function isTestOrPlaywright(): boolean {
+  return (
+    process.env.NODE_ENV === "test" ||
+    process.env.PLAYWRIGHT_TEST === "1"
+  );
+}
+
 function getServiceBinding(): ServiceBinding | undefined {
-  if (process.env.PUBLIC_API_BASE_URL) return undefined;
+  // test/CI 限定: PUBLIC_API_BASE_URL 明示時に HTTP fallback を優先(mock API 差し替えのため)
+  if (isTestOrPlaywright() && process.env.PUBLIC_API_BASE_URL) return undefined;
+  // production / staging: PUBLIC_API_BASE_URL の有無に関わらず service binding を最優先
   return readEnv().API_SERVICE;
 }
 

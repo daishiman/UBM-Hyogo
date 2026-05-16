@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { createFakeD1 } from "./_shared/__fakes__/fakeD1";
-import { findFieldByStableKey, listFieldsByVersion, upsertField } from "./schemaQuestions";
+import { findFieldByStableKey, findStableKeyByQuestionId, listFieldsByVersion, upsertField } from "./schemaQuestions";
 import { asStableKey } from "./_shared/brand";
 
 const seed = () => ({
@@ -41,8 +41,21 @@ const seed = () => ({
         choice_labels_json: "[]",
       },
     ],
+    schema_aliases: [
+      {
+        id: "alias-q1",
+        revision_id: "v1",
+        stable_key: "name_full",
+        alias_question_id: "q1",
+        alias_label: "氏名",
+        source: "manual",
+        created_at: "2026-05-15T00:00:00.000Z",
+        resolved_by: "admin@example.com",
+        resolved_at: "2026-05-15T00:00:00.000Z",
+      },
+    ],
   },
-  primaryKeys: { schema_questions: ["question_pk"] },
+  primaryKeys: { schema_questions: ["question_pk"], schema_aliases: ["id"] },
 });
 
 describe("schemaQuestions repository", () => {
@@ -81,5 +94,22 @@ describe("schemaQuestions repository", () => {
       },
     );
     expect(r.questionPk).toBe("p3");
+  });
+
+  it("findStableKeyByQuestionId は schema_aliases hit を返す", async () => {
+    const fake = createFakeD1(seed());
+    const r = await findStableKeyByQuestionId({ db: fake.d1 }, "q1");
+    expect(r).toBe("name_full");
+  });
+
+  it("findStableKeyByQuestionId は alias miss で schema_questions.stable_key に fallback しない", async () => {
+    const fake = createFakeD1(seed());
+    const r = await findStableKeyByQuestionId({ db: fake.d1 }, "q2");
+    expect(r).toBeNull();
+    expect(fake.calls.map((c) => c.sql)).not.toContain([
+      "SELECT stable_key FROM schema_questions",
+      "WHERE question_id = ?",
+      "ORDER BY revision_id DESC LIMIT 1",
+    ].join(" "));
   });
 });
