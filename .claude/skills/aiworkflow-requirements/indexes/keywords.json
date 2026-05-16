@@ -6252,6 +6252,7 @@
     ],
     "Gate": [
       "cloudflare-edge-security.md",
+      "deployment-secrets-management.md",
       "gate-metadata.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
       "lessons-learned-task-18-w7-verify-tokens-and-playwright-smoke-2026-05.md",
@@ -7838,6 +7839,7 @@
       "deployment-cloudflare.md",
       "deployment-core.md",
       "deployment-gha.md",
+      "deployment-secrets-management.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "プレビューデプロイメント": [
@@ -8097,6 +8099,13 @@
     "シークレット・環境変数管理": [
       "deployment-secrets-management.md"
     ],
+    "Secret": [
+      "deployment-secrets-management.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "Preflight": [
+      "deployment-secrets-management.md"
+    ],
     "管理場所の判断フロー": [
       "deployment-secrets-management.md"
     ],
@@ -8126,10 +8135,6 @@
       "deployment-secrets-management.md",
       "lessons-learned-09c-incident-runbook-slack-delivery-2026-05.md",
       "ui-ux-feature-components-advanced.md"
-    ],
-    "Secret": [
-      "deployment-secrets-management.md",
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "provisioning": [
       "deployment-secrets-management.md"
