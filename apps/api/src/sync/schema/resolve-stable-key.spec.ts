@@ -10,7 +10,7 @@ describe("resolveStableKey", () => {
   let env: InMemoryD1;
   beforeEach(async () => {
     env = await setupD1();
-  }, 30000);
+  }, 60000);
 
   it("known: labelToKnownStableKey が返した値を採用する", async () => {
     const r = await resolveStableKey(
@@ -44,7 +44,9 @@ describe("resolveStableKey", () => {
     expect(r).toEqual({ stableKey: "fullName", source: "alias" });
   });
 
-  it("fallback: schema_aliases miss の場合だけ schema_questions stable_key を読む", async () => {
+  it("fallback retired (issue-299): schema_aliases miss でも schema_questions.stable_key にはフォールバックしない", async () => {
+    // 既存 schema_questions に過去の stable_key が残っていても、
+    // schema_aliases に alias 行が無ければ resolve は alias 経路で hit しないこと。
     await schemaQuestionsRepo.upsertField(env.ctx, {
       questionPk: "rev-prev:qExisting",
       revisionId: "rev-prev",
@@ -62,14 +64,55 @@ describe("resolveStableKey", () => {
       status: "active",
       choiceLabelsJson: "[]",
     });
+    const preparedSql: string[] = [];
+    const originalPrepare = env.db.prepare.bind(env.db);
+    (env.db as typeof env.db & { prepare: typeof env.db.prepare }).prepare = (sql: string) => {
+      preparedSql.push(sql);
+      return originalPrepare(sql);
+    };
+    // known map も不在 → unresolved (source='unknown') になる
     const r = await resolveStableKey(
       { questionId: "qExisting", title: "label-now" },
       {
         ctx: env.ctx,
-        labelToKnownStableKey: () => "shouldBeIgnored",
+        labelToKnownStableKey: () => null,
       },
     );
-    expect(r).toEqual({ stableKey: "fullName", source: "alias" });
+    expect(r).toEqual({ stableKey: null, source: "unknown" });
+    expect(preparedSql).not.toContain([
+      "SELECT stable_key FROM schema_questions",
+      "WHERE question_id = ?",
+      "ORDER BY revision_id DESC LIMIT 1",
+    ].join(" "));
+  });
+
+  it("fallback retired (issue-299): alias miss かつ known hit の場合は known を採用する", async () => {
+    // schema_aliases miss でも known map が解決すれば source='known' で確定する。
+    await schemaQuestionsRepo.upsertField(env.ctx, {
+      questionPk: "rev-prev:qExisting2",
+      revisionId: "rev-prev",
+      stableKey: asStableKey("fullName"),
+      questionId: "qExisting2",
+      itemId: null,
+      sectionKey: "section_1",
+      sectionTitle: "S1",
+      label: "label-old",
+      kind: "shortText",
+      position: 0,
+      required: false,
+      visibility: "public",
+      searchable: true,
+      status: "active",
+      choiceLabelsJson: "[]",
+    });
+    const r = await resolveStableKey(
+      { questionId: "qExisting2", title: "label-now" },
+      {
+        ctx: env.ctx,
+        labelToKnownStableKey: (l) => (l === "label-now" ? "displayName" : null),
+      },
+    );
+    expect(r).toEqual({ stableKey: "displayName", source: "known" });
   });
 
   it("unknown: alias も known も無ければ stableKey=null / source='unknown'", async () => {

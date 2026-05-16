@@ -4,12 +4,14 @@
 
 | Field | Value |
 | --- | --- |
-| Status | unassigned |
+| Status | completed by task-issue-299 (2026-05-15) |
 | Priority | Medium |
 | Source | issue-191-schema-aliases-ddl-and-07b-alias-resolution-wiring |
 | Type | migration-cleanup |
 | GitHub Issue | #299 |
 | Production apply prerequisite | satisfied by `task-issue-191-production-d1-schema-aliases-apply-001` Phase 13 already-applied verification |
+| Canonical execution root | `docs/30-workflows/task-issue-299-schema-questions-fallback-retirement-001/` |
+| Current execution state | implementation_complete_pending_pr（GO 分岐、Phase 13 ユーザー承認待ち） |
 
 ## 1. なぜこのタスクが必要か（Why）
 
@@ -37,11 +39,11 @@ issue-191 実装完了後、D1 の coverage query と 03a sync logs を見て廃
 
 ## 5. 完了条件チェックリスト
 
-- [ ] fallback coverage report がある。
-- [ ] fallback hit が 0、または例外一覧が明記されている。
-- [ ] 廃止した場合は 03a lookup が `schema_aliases` 正本へ一本化されている。
-- [ ] 延期した場合は再判定条件と次回確認タイミングがある。
-- [ ] `database-implementation-core.md` と関連 task docs が更新されている。
+- [x] fallback coverage report がある。
+- [x] fallback hit が 0、または例外一覧が明記されている。
+- [x] 廃止した場合は 03a lookup が `schema_aliases` 正本へ一本化されている。
+- [x] 延期不要。coverage 0 rows で GO 分岐完了。
+- [x] `database-implementation-core.md` と関連 task docs が更新されている。
 
 ## 6. 検証方法
 
@@ -78,6 +80,24 @@ rg -n "findStableKeyById|schema_questions\\.stable_key|UPDATE schema_questions S
 ## 9. 備考
 
 このタスクは cleanup であり、`schema_aliases` DDL や 07b wiring の初回実装は含まない。
+
+## 2026-05-15 同期メモ
+
+Issue #299 の canonical execution root は `docs/30-workflows/task-issue-299-schema-questions-fallback-retirement-001/`。source trace として本ファイルは残す。2026-05-15 に coverage query 0 rows、fallback 削除、test/static gate PASS まで GO 分岐が完了したため、本ファイルは `completed by task-issue-299` として扱う。Phase 13 の commit / push / PR / Issue mutation はユーザー承認待ち。
+
+## 2026-05-15 完了メモ（completed by task-issue-299）
+
+| 項目 | 結果 |
+| --- | --- |
+| production coverage SQL | 0 rows（`scripts/diagnose/schema-aliases-coverage.sql`） |
+| staging coverage SQL | 0 rows（production と同一 D1 binding） |
+| fallback コード削除 | `apps/api/src/repository/schemaQuestions.ts#findStableKeyByQuestionId` の `schema_questions.stable_key` SELECT fallback を削除 |
+| test 更新 | `apps/api/src/sync/schema/resolve-stable-key.spec.ts` を fallback retired セマンティクスへ書き換え（6/6 PASS） |
+| static guard | 対象ファイル内に fallback SELECT 0 件確認 |
+| 正本仕様 | `database-implementation-core.md` の Schema Alias Resolution Contract / 03a lookup 順序 / 移行終端条件を retired 表記へ同期 |
+| 残作業 | Phase 13 ユーザー承認 → commit / push / PR 作成（`Refs #299`、Issue は open 維持） |
+
+履歴トレースのため本ファイルは削除しない。後続の direct stable_key update guard 強化は `task-issue-191-direct-stable-key-update-guard-001` で別途扱う。
 
 ## 苦戦箇所【記入必須】
 
