@@ -56,6 +56,7 @@ export default defineConfig({
       "**/dist/**",
       "**/.{idea,git,cache,output,temp}/**",
       "apps/api/migrations/seed/__tests__/issue-399-seed-syntax.test.ts",
+      "apps/api/migrations/seed/__tests__/issue-399-seed-syntax.spec.ts",
       "apps/api/src/__tests__/invariants.spec.ts",
       "apps/api/src/env.spec.ts",
       "apps/api/src/health-db.contract.spec.ts",

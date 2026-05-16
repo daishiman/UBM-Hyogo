@@ -10,11 +10,11 @@ import { FormPreviewViewZ } from "@ubm-hyogo/shared";
 import { FormPreviewSections } from "../../../src/components/public/FormPreviewSections";
 import { RegisterCallout } from "../../../src/components/public/RegisterCallout";
 import { fetchPublic } from "../../../src/lib/fetch/public";
+import { FORM_RESPONDER_URL } from "../../../src/lib/constants";
 
 type FormPreviewView = z.infer<typeof FormPreviewViewZ>;
 
-const FALLBACK_RESPONDER_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSeWfv-R8nblYVqqcCTwcvVsFyVVHFeKYxn96NEm1zNXeydtVQ/viewform";
+const FALLBACK_RESPONDER_URL = FORM_RESPONDER_URL;
 
 export const dynamic = "force-dynamic";
 export const revalidate = 600;

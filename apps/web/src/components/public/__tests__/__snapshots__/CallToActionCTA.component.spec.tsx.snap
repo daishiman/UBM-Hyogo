@@ -1,0 +1,43 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CallToActionCTA > snapshot を保持する 1`] = `
+<section
+  data-component="call-to-action-cta"
+  style="background: var(--ubm-color-text-primary); color: var(--ubm-color-surface-panel); padding: var(--ubm-space-16) var(--ubm-space-6);"
+>
+  <div
+    style="max-width: 1100px; margin-inline: auto; display: flex; flex-wrap: wrap; gap: var(--ubm-space-6); align-items: center; justify-content: space-between;"
+  >
+    <div
+      style="max-width: 520px;"
+    >
+      <p
+        style="margin: 0px; color: color-mix(in oklch, white 60%, transparent); font-size: var(--ubm-text-sm); font-weight: 700; letter-spacing: 0;"
+      >
+        FOR MEMBERS
+      </p>
+      <h2
+        style="font-size: var(--ubm-text-2xl); line-height: 1.3; margin: var(--ubm-space-3) 0 0 0; color: inherit;"
+      >
+        メンバー情報の掲載をお願いします
+      </h2>
+      <p
+        style="margin: var(--ubm-space-3) 0 0 0; color: var(--ubm-color-surface-panel); opacity: 0.85; line-height: 1.7;"
+      >
+        最新のGoogleフォームから回答するだけで、このページに自動で反映されます。表記の修正は管理者が編集できます。
+      </p>
+    </div>
+    <div>
+      <a
+        data-variant="accent"
+        href="https://example.test/form"
+        rel="noopener noreferrer"
+        style="display: inline-flex; align-items: center; justify-content: center; background: var(--ubm-color-accent); color: var(--ubm-color-surface-panel); padding: var(--ubm-space-3) var(--ubm-space-6); border-radius: var(--ubm-radius-md); text-decoration: none; font-weight: 600;"
+        target="_blank"
+      >
+        回答フォームを開く
+      </a>
+    </div>
+  </div>
+</section>
+`;
