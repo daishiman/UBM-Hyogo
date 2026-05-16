@@ -17,7 +17,7 @@ issue_number: 702
 | 優先度       | 低                                                                                  |
 | 見積もり規模 | 小規模                                                                              |
 | ステータス   | unassigned                                                                          |
-| 発見元       | ut-17-followup-002-alert-relay-dedup-kv-persistence                                 |
+| 発見元       | ut-17-followup-002-alert-relay-dedup-kv-persistence / ut-17-followup-005-alert-relay-kv-error-metrics |
 | 発見日       | 2026-05-14                                                                          |
 
 ---
@@ -30,9 +30,14 @@ UT-17 follow-up 002 で `apps/api/src/routes/internal/alert-relay.ts` の dedup 
 
 KV は Workers の binding として呼ばれるが、独立した dashboard 画面を持たず、観測は Workers Analytics 側に集約される。アラート転送量が想定外に増えた場合、KV write が free tier / 課金単価境界を越えても気付けない構造になっている。
 
+UT-17 follow-up 005 で `ALERT_DEDUP_KV.get` / `put` 失敗時の構造化ログ
+`event: "alert_relay_kv_op_failed"` が追加された。以後、本 FU-006 は usage / latency だけでなく、
+この error log contract も dashboard / alerting の入力として扱う。
+
 ### 1.2 問題点・課題
 
 - `ALERT_DEDUP_KV` の write/min・read/min・storage bytes・error rate が dashboard で恒常監視されていない。
+- `alert_relay_kv_op_failed` の `op` / `errorClass` 別件数が dashboard で恒常監視されていない。
 - 上限 / 課金境界（KV write daily quota など）を越えても、運用側が事後的にしか気付けない。
 - KV latency が悪化した場合、alert-relay 全体の応答が劣化するが、原因が KV か Slack 側か切り分ける指標が無い。
 - UT-17 で構築済みの Slack アラートチャネルへ KV 観測アラートを乗せる動線が存在しない。
@@ -54,6 +59,7 @@ KV は Workers の binding として呼ばれるが、独立した dashboard 画
 ### 2.2 最終ゴール
 
 - `ALERT_DEDUP_KV` の writes/min・reads/min・error rate・storage bytes が Cloudflare Dashboard で確認できる。
+- `alert_relay_kv_op_failed` を `op` / `errorClass` / `dedupeKeyHash` 別に集計できる。
 - Cloudflare Notification policy が KV 関連メトリクスに対して 1 件以上設定され、既存 cf-webhook 経由で `apps/api` `/internal/alert-relay` を通って Slack に届く。
 - 月次 runbook（`ut-17-alert-relay-monthly-healthcheck.md`）に KV usage / latency の確認手順が追加される。
 
@@ -69,7 +75,7 @@ KV は Workers の binding として呼ばれるが、独立した dashboard 画
 #### 含まないもの
 
 - `alert-relay.ts` / dedup ロジックのコード変更（follow-up 002 / 003 のスコープ）
-- KV error metrics の構造化 / 集計（follow-up 003 領域）
+- KV error metrics の構造化ログ emit 実装（follow-up 005 で完了済み）。本タスクではその集計・可視化を扱う。
 - 新 KV namespace の追加（`ALERT_DEDUP_KV` の運用観測に閉じる）
 - Notification policy の API 化 / IaC 化（Cloudflare 側で API 未公開のため）
 
@@ -79,6 +85,17 @@ KV は Workers の binding として呼ばれるが、独立した dashboard 画
 - 新規 Notification policy 1 件以上（Cloudflare 側に作成。本リポジトリには id / 名称のみを runbook に記載）
 - 更新版 `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md`
 - ベースライン取得ログ（staging で 1 週間の writes/min・error rate）の記録メモ
+
+### FU-005 から受け取るログ入力契約
+
+| field | 値 / 形式 |
+| --- | --- |
+| `event` | `alert_relay_kv_op_failed` |
+| `op` | `get` / `put` |
+| `errorClass` | `err instanceof Error ? err.constructor.name : typeof err` |
+| `dedupeKeyHash` | SHA-256 first 12 hex chars |
+| `isolateId` | UUID |
+| `ts` | ISO timestamp |
 
 ---
 

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "taskId": "UT-17-FU-005",
+  "taskName": "alert-relay KV operation error metrics",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "status": "runtime_pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "github_issue": "#701",
+    "github_issue_state": "closed",
+    "pr_state": "blocked_pending_user_approval",
+    "external_ops_state": "production_deploy_pending_user_approval",
+    "lastUpdated": "2026-05-16"
+  },
+  "canonicalRoot": "docs/30-workflows/ut-17-followup-005-alert-relay-kv-error-metrics",
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "file": "phase-01.md" },
+    { "phase": 2, "name": "設計", "status": "completed", "file": "phase-02.md" },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "file": "phase-03.md" },
+    { "phase": 4, "name": "タスク分解", "status": "completed", "file": "phase-04.md" },
+    { "phase": 5, "name": "実装計画", "status": "completed", "file": "phase-05.md" },
+    { "phase": 6, "name": "実装手順", "status": "completed", "file": "phase-06.md" },
+    { "phase": 7, "name": "テスト計画", "status": "completed", "file": "phase-07.md" },
+    { "phase": 8, "name": "ドキュメント更新", "status": "completed", "file": "phase-08.md" },
+    { "phase": 9, "name": "受入確認", "status": "completed", "file": "phase-09.md" },
+    { "phase": 10, "name": "リファクタ", "status": "completed", "file": "phase-10.md" },
+    { "phase": 11, "name": "NON_VISUAL evidence", "status": "completed", "file": "phase-11.md" },
+    { "phase": 12, "name": "正本同期", "status": "completed", "file": "phase-12.md" },
+    { "phase": 13, "name": "PR・振り返り", "status": "blocked", "file": "phase-13.md" }
+  ],
+  "phase12Outputs": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/documentation-changelog.md"
+  ],
+  "localVerification": [
+    {
+      "command": "mise exec -- pnpm typecheck",
+      "status": "completed"
+    },
+    {
+      "command": "mise exec -- pnpm lint",
+      "status": "completed"
+    },
+    {
+      "command": "mise exec -- pnpm --filter @ubm-hyogo/api test -- apps/api/src/routes/internal/__tests__/alert-relay.spec.ts",
+      "status": "completed"
+    }
+  ],
+  "userGated": [
+    "commit",
+    "push",
+    "PR creation",
+    "staging deploy",
+    "production deploy",
+    "Workers Logs runtime tail evidence"
+  ]
+}

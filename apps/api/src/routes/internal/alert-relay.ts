@@ -14,6 +14,8 @@ import {
 import { sendSlackMessage } from "../../lib/slack-sender";
 import type { CloudflareNotificationPayload } from "../../types/cloudflare-notification";
 
+const isolateId = crypto.randomUUID();
+
 export interface AlertRelayEnv extends VerifyCfWebhookAuthEnv {
   readonly SLACK_WEBHOOK_URL?: string;
   readonly CF_ALERT_DASHBOARD_URL?: string;
@@ -31,6 +33,34 @@ export interface AlertRelayDeps {
   readonly sleep?: (ms: number) => Promise<void>;
   readonly now?: () => number;
   readonly dedupeTtlMs?: number;
+}
+
+async function sha256Hex12(input: string): Promise<string> {
+  const hash = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(input),
+  );
+  return Array.from(new Uint8Array(hash))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("")
+    .slice(0, 12);
+}
+
+async function logKvOperationError(
+  op: "get" | "put",
+  err: unknown,
+  dedupeKey: string,
+): Promise<void> {
+  const errorClass = err instanceof Error ? err.constructor.name : typeof err;
+  const payload = {
+    event: "alert_relay_kv_op_failed" as const,
+    op,
+    errorClass,
+    dedupeKeyHash: await sha256Hex12(dedupeKey),
+    isolateId,
+    ts: new Date().toISOString(),
+  };
+  console.warn(JSON.stringify(payload));
 }
 
 export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Bindings: AlertRelayEnv }> {
@@ -63,7 +93,13 @@ export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Binding
     ].join(":");
     // ut-17-followup-002: dedup state は KV 永続化。eventual consistency により
     // 同一リクエスト内 race（複数 isolate からの同時 read→put）は許容スコープ外。
-    const seen = await c.env.ALERT_DEDUP_KV.get(dedupeKey);
+    let seen: string | null = null;
+    try {
+      seen = await c.env.ALERT_DEDUP_KV.get(dedupeKey);
+    } catch (error) {
+      await logKvOperationError("get", error, dedupeKey);
+      seen = null;
+    }
     if (seen !== null) {
       return c.json({ ok: true, deduped: true });
     }
@@ -95,9 +131,7 @@ export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Binding
         expirationTtl: Math.ceil(dedupeTtlMs / 1000),
       });
     } catch (error) {
-      console.warn("alert relay dedup KV put failed after Slack delivery", {
-        error: error instanceof Error ? error.message : "unknown",
-      });
+      await logKvOperationError("put", error, dedupeKey);
       return c.json({ ok: true, attempts: result.attempts, dedupPersisted: false });
     }
     return c.json({ ok: true, attempts: result.attempts });

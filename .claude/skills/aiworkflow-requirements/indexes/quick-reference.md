@@ -5,6 +5,22 @@
 
 ---
 
+### UT-17-FU-005 Alert Relay KV Error Metrics（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-error-metrics/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| Issue | `#701` CLOSED 維持。PR 文脈は `Refs #701` のみ |
+| implementation | `apps/api/src/routes/internal/alert-relay.ts` |
+| tests | `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts` |
+| runbook | `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` Step 4c |
+| log contract | `event: "alert_relay_kv_op_failed"`, `op`, `errorClass`, `dedupeKeyHash`, `isolateId`, `ts` |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md` |
+| lessons-learned | `lessons-learned/lessons-learned-ut-17-followup-005-alert-relay-kv-error-metrics-2026-05.md`（5 教訓：isolate-identity / fail-open / pii-hashing / log-schema-literal / mock-leak-prevention） |
+| user gate | commit / push / PR / staging deploy / production deploy / Workers Logs runtime tail |
+
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
 | 目的 | 参照先 |
@@ -2608,7 +2624,7 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | source task | `docs/30-workflows/unassigned-task/ut-17-followup-002-alert-relay-dedup-kv-persistence.md`（transferred_to_workflow） |
 | state | `implemented-local-runtime-pending / implementation / NON_VISUAL / external_ops_pending` |
 | planned binding | `ALERT_DEDUP_KV: KVNamespace` |
-| canonical test path | `apps/api/src/routes/internal/__tests__/alert-relay.test.ts` |
+| canonical test path | `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts` |
 | artifact inventory | `references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md` |
 | patterns | `references/patterns-kv-dedup.md`（env binding narrowing / KV stub fixture / persistence ordering / wrangler gating / wording 規律） |
 | lessons-learned | `lessons-learned/lessons-learned-ut-17-followup-002-alert-relay-dedup-kv-2026-05.md`（5 教訓） |

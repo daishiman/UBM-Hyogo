@@ -1,6 +1,6 @@
 // UT-17 T7: alert-relay route 統合テスト
 // ut-17-followup-002: dedup state を in-memory Map から Cloudflare KV namespace へ移行
-import { describe, it, expect, vi } from "vitest";
+import { afterEach, describe, it, expect, vi } from "vitest";
 import { createAlertRelayRoute } from "../alert-relay";
 import worker from "../../../index";
 import { createKvStub, type KvStub } from "../../../../test/helpers/kv-stub";
@@ -43,6 +43,23 @@ const headers = (auth: string | null = SECRET) => {
   if (auth !== null) h["cf-webhook-auth"] = auth;
   return h;
 };
+
+const parseWarnPayload = (warn: ReturnType<typeof vi.spyOn>) => {
+  const firstArg = warn.mock.calls[0]?.[0];
+  expect(typeof firstArg).toBe("string");
+  return JSON.parse(firstArg as string) as {
+    event: string;
+    op: "get" | "put";
+    errorClass: string;
+    dedupeKeyHash: string;
+    isolateId: string;
+    ts: string;
+  };
+};
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("createAlertRelayRoute", () => {
   it("ROUTE-01: cf-webhook-auth 不正は 401", async () => {
@@ -382,7 +399,8 @@ describe("createAlertRelayRoute", () => {
     expect(kv.puts).toHaveLength(1);
   });
 
-  it("TC-KV-05: KV get が throw すると Slack 配信されない", async () => {
+  it("TC-KV-05: KV get が throw しても構造化 warn を出して fail-open で Slack 配信する", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
     const kv = createKvStub({
       now: () => 1_715_000_000_000,
@@ -393,7 +411,6 @@ describe("createAlertRelayRoute", () => {
       sleep: async () => {},
       now: () => 1_715_000_000_000,
     });
-    // Hono は handler 内 throw を 500 + text 応答にまとめる。
     const res = await app.request(
       "/",
       {
@@ -407,8 +424,60 @@ describe("createAlertRelayRoute", () => {
       },
       buildEnv({ kv }),
     );
-    expect(res.status).toBeGreaterThanOrEqual(500);
-    expect(fetchMock).not.toHaveBeenCalled();
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({ ok: true, attempts: 1 });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledTimes(1);
+    const payload = parseWarnPayload(warn);
+    expect(payload).toMatchObject({
+      event: "alert_relay_kv_op_failed",
+      op: "get",
+      errorClass: "Error",
+    });
+    expect(payload.dedupeKeyHash).toMatch(/^[0-9a-f]{12}$/);
+    expect(payload.isolateId).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/,
+    );
+    expect(Number.isNaN(Date.parse(payload.ts))).toBe(false);
+  });
+
+  it("TC-DEDUPE-KEY-HASH: 同一 dedupeKey では dedupeKeyHash が再現する", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const kv = createKvStub({
+      now: () => 1_715_000_000_000,
+      getError: () => new Error("KV get failure"),
+    });
+    const app = createAlertRelayRoute({
+      fetch: fetchMock as unknown as typeof fetch,
+      sleep: async () => {},
+      now: () => 1_715_000_000_000,
+    });
+    const request = {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify({
+        name: "Workers Daily Requests Approaching Limit",
+        policy_id: "policy-hash-stability",
+        ts: 1_715_000_000_000,
+      }),
+    };
+    const env = buildEnv({ kv });
+
+    const first = await app.request("/", request, env);
+    const second = await app.request("/", request, env);
+
+    expect(first.status).toBe(200);
+    expect(second.status).toBe(200);
+    expect(warn).toHaveBeenCalledTimes(2);
+    const firstPayload = JSON.parse(warn.mock.calls[0]?.[0] as string) as {
+      dedupeKeyHash: string;
+    };
+    const secondPayload = JSON.parse(warn.mock.calls[1]?.[0] as string) as {
+      dedupeKeyHash: string;
+    };
+    expect(firstPayload.dedupeKeyHash).toMatch(/^[0-9a-f]{12}$/);
+    expect(secondPayload.dedupeKeyHash).toBe(firstPayload.dedupeKeyHash);
   });
 
   it("TC-KV-06: policy_id 欠落時の dedup key は name → alert_type → 'unknown' の順で fallback", async () => {
@@ -488,6 +557,7 @@ describe("createAlertRelayRoute", () => {
   });
 
   it("TC-KV-09: KV put が throw しても Slack 配信成功は 200 のまま返す", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
     const kv = createKvStub({
       now: () => 1_715_000_000_000,
@@ -518,6 +588,41 @@ describe("createAlertRelayRoute", () => {
       dedupPersisted: false,
     });
     expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledTimes(1);
+    const payload = parseWarnPayload(warn);
+    expect(payload).toMatchObject({
+      event: "alert_relay_kv_op_failed",
+      op: "put",
+      errorClass: "Error",
+    });
+    expect(payload.dedupeKeyHash).toMatch(/^[0-9a-f]{12}$/);
+  });
+
+  it("TC-KV-10: KV get / put 成功時は構造化 warn を出さない", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const kv = createKvStub({ now: () => 1_715_000_000_000 });
+    const app = createAlertRelayRoute({
+      fetch: fetchMock as unknown as typeof fetch,
+      sleep: async () => {},
+      now: () => 1_715_000_000_000,
+    });
+    const res = await app.request(
+      "/",
+      {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({
+          name: "X",
+          policy_id: "policy-kv10",
+          ts: 1_715_000_000_000,
+        }),
+      },
+      buildEnv({ kv }),
+    );
+    expect(res.status).toBe(200);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(warn).not.toHaveBeenCalled();
   });
 });
 
