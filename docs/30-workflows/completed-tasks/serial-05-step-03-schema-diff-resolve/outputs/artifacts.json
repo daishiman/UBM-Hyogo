@@ -1,0 +1,167 @@
+{
+  "task_name": "serial-05-step-03-schema-diff-resolve",
+  "task_path": "docs/30-workflows/serial-05-step-03-schema-diff-resolve",
+  "wave": null,
+  "execution_mode": "serial-existing-alignment-implemented-local-runtime-pending",
+  "depends_on": [
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-01-members-note/spec.md",
+    "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-02-identity-conflicts-merge/spec.md",
+    "parallel-08 shared foundation",
+    "parallel-09 UX primitives"
+  ],
+  "blocks": [
+    "serial-05-step-04-tags-assignment",
+    "serial-05-step-05-dashboard-chart",
+    "serial-05-step-06-meetings-attendance",
+    "serial-05-step-07-requests-approve-reject",
+    "serial-05-step-08-audit-filter-paging"
+  ],
+  "created_at": "2026-05-16T00:00:00+09:00",
+  "status": "implemented-local-runtime-pending",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented-local-runtime-pending",
+    "implementation_status": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
+    "evidence_state": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "implementation_mode": "existing-schema-diff-panel-hardening",
+    "serial_order": "3/5",
+    "parent_workflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui",
+    "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-03-schema-diff-resolve/spec.md",
+    "pr_base": "dev",
+    "governance_mutation_user_gate": false,
+    "artifact_mirror": "root artifacts.json and outputs/artifacts.json are byte-identical"
+  },
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "file": "outputs/phase-01/requirements.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-01/requirements.md"]
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "file": "outputs/phase-02/design.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-02/design.md"]
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "file": "outputs/phase-03/design-review.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-03/design-review.md"]
+    },
+    {
+      "phase": 4,
+      "name": "タスク分解",
+      "file": "outputs/phase-04/task-breakdown.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/task-breakdown.md",
+        "outputs/phase-04/critical-path.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "実装計画",
+      "file": "outputs/phase-05/implementation-plan.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-05/implementation-plan.md"]
+    },
+    {
+      "phase": 6,
+      "name": "実装手順",
+      "file": "outputs/phase-06/implementation-steps.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-06/implementation-steps.md"]
+    },
+    {
+      "phase": 7,
+      "name": "テスト計画",
+      "file": "outputs/phase-07/test-plan.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-07/test-plan.md"]
+    },
+    {
+      "phase": 8,
+      "name": "ドキュメント更新計画",
+      "file": "outputs/phase-08/docs-updates.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-08/docs-updates.md"]
+    },
+    {
+      "phase": 9,
+      "name": "受け入れ基準",
+      "file": "outputs/phase-09/acceptance.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-09/acceptance.md"]
+    },
+    {
+      "phase": 10,
+      "name": "リファクタ要点",
+      "file": "outputs/phase-10/refactor-summary.md",
+      "status": "completed",
+      "outputs": ["outputs/phase-10/refactor-summary.md"]
+    },
+    {
+      "phase": 11,
+      "name": "VISUAL evidence plan",
+      "file": "outputs/phase-11/evidence.md",
+      "status": "runtime_pending",
+      "outputs": ["outputs/phase-11/evidence.md"],
+      "planned_evidence": [
+        "outputs/phase-11/evidence/typecheck.log",
+        "outputs/phase-11/evidence/lint.log",
+        "outputs/phase-11/evidence/test.log",
+        "outputs/phase-11/evidence/build.log",
+        "outputs/phase-11/evidence/grep-gate.log",
+        "outputs/phase-11/screenshots/admin-schema-diff-list.png",
+        "outputs/phase-11/screenshots/admin-schema-diff-empty.png",
+        "outputs/phase-11/screenshots/admin-schema-diff-resolve-form.png",
+        "outputs/phase-11/screenshots/admin-schema-diff-error.png"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "Phase 12 strict 7",
+      "file": "outputs/phase-12/main.md",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/documentation-changelog.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR draft",
+      "file": "outputs/phase-13/pr-summary.md",
+      "status": "pending_user_approval",
+      "outputs": ["outputs/phase-13/pr-summary.md"],
+      "user_approval_required": true
+    }
+  ],
+  "mutation_commands": {
+    "typecheck": "mise exec -- pnpm typecheck",
+    "lint": "mise exec -- pnpm lint",
+    "test": "mise exec -- pnpm test apps/web --run -- SchemaDiffPanel.component.spec.tsx",
+    "build": "mise exec -- pnpm build",
+    "grep_gate": "grep -rnE 'bg-\\[#|text-\\[#|process\\.env\\.' apps/web/app/\\(admin\\)/admin/schema apps/web/src/lib/admin/server-fetch.ts",
+    "e2e_smoke": "mise exec -- pnpm e2e:smoke"
+  },
+  "invariants": [
+    "既存 API endpoint surface のみ使用",
+    "D1 schema / Google Form schema 不変",
+    "design token (OKLch) のみ・HEX 禁止",
+    "process.env.* 直接参照禁止",
+    "useAdminMutation 本体は改変しない",
+    "*.spec.tsx のみ・*.test.tsx 禁止"
+  ]
+}

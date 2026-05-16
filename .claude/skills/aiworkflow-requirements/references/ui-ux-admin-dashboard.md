@@ -243,7 +243,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | --- | --- | --- |
 | `selected` | `string \| null` | 選択中 queueId（初期は items[0]?.queueId） |
 | `busy` | `boolean` | resolve 実行中 |
-| `toast` | `string \| null` | `role="status"` |
+| `feedback` | `{ kind: "success" \| "retryable" \| "validation_error" \| "conflict_error" \| "error"; label: string; detail?: string } \| null` | `success` / `retryable` は `role="status"`、validation / conflict / error は `role="alert"` |
 
 #### 並べ替え
 
@@ -303,10 +303,11 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### レイアウト
 
-- 4 ペイン grid（`grid-template-columns: repeat(4, 1fr)`）に added / changed / removed / unresolved を分類表示
-- 各項目を `<button aria-pressed>` で選択 → `active` 設定
-- `active.questionId` がある場合: stableKey 編集 form
+- 4 ペイン grid（`grid-template-columns: repeat(4, 1fr)`）に added / changed / removed / unresolved を分類表示し、各ペインは `<table>` / `th scope="col"` / `tbody` で field-by-field 表示する
+- 各項目を `<button aria-pressed>` で選択 → `active` 設定。選択後は stableKey input へ focus する
+- `active.questionId` がある場合: stableKey 編集 form。`stableKey` は `/^[a-zA-Z][a-zA-Z0-9_]*$/` を `pattern` と client validation に使い、invalid 時は `aria-invalid=true`、validation alert id を `aria-describedby` に追加する
 - `active.questionId` が null の場合: `<p role="alert">この diff には questionId がないため alias 割当はできません。</p>`
+- queued / resolved は UI で日本語 label（未解決 / 解決済み）として表示する
 
 #### 初期 stableKey
 
@@ -314,7 +315,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### mutation
 
-`postSchemaAlias({ diffId, questionId, stableKey })` 成功時に Toast + `router.refresh()`。
+`postSchemaAlias({ diffId, questionId, stableKey })` 成功時に success feedback + `router.refresh()`。HTTP 202 retryable continuation は status として表示し form を維持する。409 は `existingStableKey`、422 `stable_key_collision` は `existingQuestionIds` を保持して alert に表示する。
 
 #### 不変条件
 
