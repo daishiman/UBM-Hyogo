@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { AdminMemberDetailView } from "@ubm-hyogo/shared";
 import { Drawer } from "../../../../components/ui/Drawer";
+import { Button } from "../../../../components/ui/Button";
 import { formatJstDateTime } from "../../../../lib/format/datetime";
+import { NoteForm } from "./NoteForm";
 
 export interface MemberDrawerProps {
   readonly memberId: string;
@@ -21,6 +23,13 @@ function maskEmail(email: string): string {
 export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
   const [data, setData] = useState<AdminMemberDetailView | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showNoteForm, setShowNoteForm] = useState(false);
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const notes = data?.notes ?? [];
+  const editingNote = editingNoteId
+    ? notes.find((note) => note.noteId === editingNoteId)
+    : undefined;
 
   useEffect(() => {
     let cancelled = false;
@@ -38,7 +47,7 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
     return () => {
       cancelled = true;
     };
-  }, [memberId]);
+  }, [memberId, refreshKey]);
 
   return (
     <Drawer open onClose={onClose} title="会員詳細">
@@ -110,6 +119,84 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
                 ))
               )}
             </ul>
+          </section>
+
+          <section aria-labelledby="member-notes-heading">
+            <div className="flex items-center justify-between">
+              <h3
+                id="member-notes-heading"
+                className="text-xs font-semibold uppercase tracking-wide text-[var(--ubm-color-text-muted)]"
+              >
+                notes
+              </h3>
+              {!showNoteForm ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setEditingNoteId(null);
+                    setShowNoteForm(true);
+                  }}
+                >
+                  メモを追加
+                </Button>
+              ) : null}
+            </div>
+            {notes.length === 0 ? (
+              <p className="mt-1 text-[var(--ubm-color-text-muted)]">
+                管理者メモはまだありません。
+              </p>
+            ) : (
+              <ul className="mt-2 space-y-2">
+                {notes.map((note) => (
+                  <li
+                    key={note.noteId}
+                    className="rounded border border-[var(--ubm-color-border-default)] p-2"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="whitespace-pre-wrap">{note.body}</p>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setEditingNoteId(note.noteId);
+                          setShowNoteForm(true);
+                        }}
+                      >
+                        編集
+                      </Button>
+                    </div>
+                    <p className="mt-1 text-xs text-[var(--ubm-color-text-muted)]">
+                      {formatJstDateTime(note.updatedAt)} / {note.updatedBy}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {showNoteForm ? (
+              <div className="mt-2">
+                <NoteForm
+                  memberId={memberId}
+                  {...(editingNote
+                    ? {
+                        noteId: editingNote.noteId,
+                        initialBody: editingNote.body,
+                      }
+                    : {})}
+                  onSuccess={() => {
+                    setShowNoteForm(false);
+                    setEditingNoteId(null);
+                    setRefreshKey((k) => k + 1);
+                  }}
+                  onCancel={() => {
+                    setShowNoteForm(false);
+                    setEditingNoteId(null);
+                  }}
+                />
+              </div>
+            ) : null}
           </section>
 
           <section className="border-t border-[var(--ubm-color-border-default)] pt-4">
