@@ -128,9 +128,9 @@ export async function upsertField(c: DbCtx, row: NewFormFieldRow): Promise<FormF
 }
 
 /**
- * 03a sync 用: question_id → 既存 stable_key を引く（既存 alias 取り込み源）。
- * 'unknown' は alias 未確定として扱い null 返却。
- * AC-3: alias 確定後の sync で stableKey を温存するために使用。
+ * 03a sync 用: question_id → 既存 stable_key を引く（alias-only 解決）。
+ * issue-299: schema_aliases への 100% 移行完了に伴い、schema_questions.stable_key
+ * SELECT fallback を廃止。alias miss は unresolved として null を返す。
  */
 export async function findStableKeyByQuestionId(
   c: DbCtx,
@@ -138,16 +138,7 @@ export async function findStableKeyByQuestionId(
 ): Promise<string | null> {
   const alias = await findAliasByQuestionId(c, questionId);
   if (alias) return alias.stableKey;
-
-  const r = await c.db
-    .prepare(
-      "SELECT stable_key FROM schema_questions WHERE question_id = ? ORDER BY revision_id DESC LIMIT 1",
-    )
-    .bind(questionId)
-    .first<{ stable_key: string }>();
-  if (!r) return null;
-  if (r.stable_key === "unknown") return null;
-  return r.stable_key;
+  return null;
 }
 
 export async function updateStableKey(

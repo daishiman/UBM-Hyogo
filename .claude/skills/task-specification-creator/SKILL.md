@@ -7,7 +7,7 @@ description: |
   • Continuous Delivery / 適用: フェーズゲート / 目的: 品質パイプライン
   • DDD / 適用: ユビキタス言語 / 目的: 用語統一
   Trigger:
-  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset
+  タスク仕様書作成, タスク分解, ワークフロー設計, Phase実行, インテグレーション設計, ワークフローパッケージ, Cloudflare Workers, Web API設計, 外部連携パッケージ, completed-tasks 移動, task path normalization, docs-only spec_created, phase12 compliance ci gate, verify-phase12-compliance, Phase 12 canonical heading SSOT, recovery workflow, recovery-mode, since-filter, evidence-step parity gate, max-2-cycle guard, D'+0 reset, fallback retirement, dual-environment coverage gate, physical deletion 2-stage, lookup contract sync
 allowed-tools:
   - Read
   - Write
@@ -28,6 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.16-issue718-closed-canonical-recovery-and-governance-yaml | 2026-05-16 | Issue #718 legacy CF token revocation を契機に、closed GitHub issue で canonical workflow root が欠落していた場合の **後付け生成パターン** を `references/closed-issue-canonical-workflow-recovery.md` として新設。unassigned-task は削除せず `status: consumed` / `canonical_workflow:` pointer を追記し、`Refs #<n>` 限定で後付け root（Phase 1-13）を生成する手順を固定。あわせて不可逆 mutation を含む unassigned-task の YAML フロントマターに `governance_mutation_user_gate` / `mutation_commands` / `read_only_evidence_allowed_pre_gate` / `user_approval_marker` の 4 フィールドを必須化（`references/unassigned-task-required-sections.md` §6）。audit script の fail 種別を `MISSING_GOVERNANCE_CONTRACT` / `CONTRACT_INCONSISTENT` / `MISSING_USER_APPROVAL_MARKER` で 3 値定義。 |
 | v2026.05.15-issue655-recovery-window-evidence-parity | 2026-05-15 | Issue #655 D+7 recovery 2nd-cycle review feedback を反映。`references/phase12-skill-feedback-promotion.md` に Recovery Window Evidence Parity Gate を追加し、`since` / D'+0 を metadata だけにせず実 aggregation window に適用すること、recovery mode でも run URL list / aggregate JSON / leakage log / comparison evidence を通常 mode と同粒度で生成すること、local implementation diff がある場合に `spec_created` / `no code changed` と close-out しないことを必須化。 |
 | v2026.05.14-issue668-required-check-precheck | 2026-05-14 | Issue #668 RB-3b-03 / RB-3b-04 review feedback を反映。required status check を path 条件で軽量化する場合は、別 workflow `paths-ignore` 補完を既定案にせず、single workflow precheck + no-op required context branch を Phase 11 NON_VISUAL evidence pattern として正本化。 |
 | v2026.05.14-issue638-closed-fold-state-sync | 2026-05-14 | Issue #638 review feedback を反映。CLOSED Issue / folded follow-up の Phase 12 では fold 先 issue state と外部 mutation 実行後 state を同一 wave で同期し、source unassigned YAML status を `superseded` / `consumed` へ更新する gate を追加。 |
@@ -145,7 +146,8 @@ Phase 12 は次の **6 必須タスク** を実行し、最低 7 ファイルを
 | Phase 12 compliance-check テンプレ（観点 / 検証コマンド / drift パターン例） | [references/phase12-compliance-check-template.md](references/phase12-compliance-check-template.md) |
 | Phase 12 よくある漏れ / 苦戦防止 Tips | [references/phase-12-pitfalls.md](references/phase-12-pitfalls.md) |
 | Phase 12 sync パターン（aiworkflow-requirements 同時更新 / workflow root 移動チェックリスト） | [references/patterns-phase12-sync.md](references/patterns-phase12-sync.md) |
-| 未タスクテンプレ必須 4 セクション（苦戦箇所 / リスクと対策 / 検証方法 / スコープ） | [references/unassigned-task-required-sections.md](references/unassigned-task-required-sections.md) |
+| 未タスクテンプレ必須 4 セクション（苦戦箇所 / リスクと対策 / 検証方法 / スコープ）+ §6 governance YAML フロントマター契約 | [references/unassigned-task-required-sections.md](references/unassigned-task-required-sections.md) |
+| CLOSED Issue で canonical workflow root が欠落していた場合の後付け生成 / unassigned-task consumed 化 / governance YAML 契約 | [references/closed-issue-canonical-workflow-recovery.md](references/closed-issue-canonical-workflow-recovery.md) |
 | 品質ゲート / Phase 境界 / 検証コマンド導線（commands.md とハブ関係） | [references/quality-gates.md](references/quality-gates.md) |
 | オーケストレーション / リソース導線 / ベストプラクティス | [references/orchestration.md](references/orchestration.md) |
 | NON_VISUAL governance パターン（Phase 8 単一正本 YAML / check-runs 並走 / Phase 13 二重承認） | [lessons-learned/non-visual-governance-pattern.md](lessons-learned/non-visual-governance-pattern.md) |
