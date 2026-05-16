@@ -8,6 +8,124 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### serial-05-step-02 identity-conflicts merge UI（2026-05-16）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
+| 目的 | `/admin/identity-conflicts` の既存 row-local merge / dismiss UI を `useAdminMutation` に寄せ、400 / 409 error mapping、reason retention、inline alert、visual evidence を hardening する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts` |
+| API boundary | 既存 `POST /admin/identity-conflicts/:id/merge` / `POST /admin/identity-conflicts/:id/dismiss` を利用。新 endpoint / D1 schema / shared export 追加なし |
+| evidence | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | staging / production authenticated evidence、commit、push、PR |
+
+### Issue #718 legacy Cloudflare API Token revocation（2026-05-16）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created_runtime_gate_pending / implementation / NON_VISUAL / Gate C external mutation pending_user_approval / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-718-legacy-cf-token-revocation/` |
+| Issue | #718 CLOSED。PR 文脈は `Refs #718, Refs #640` |
+| source unassigned | `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md`（consumed provenance） |
+| 目的 | Issue #640 step-scoped token cutover 後の legacy `CLOUDFLARE_API_TOKEN` physical revocation / GitHub Secrets / 1Password inventory reconciliation を Gate C user approval 配下に formalize |
+| evidence boundary | read-only inventory templates and Phase 12 strict outputs are present. Cloudflare token revocation, GitHub Secret deletion/replacement, 1Password mutation, commit, push, and PR remain user-gated |
+| SSOT | `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` |
+
+### parallel-09 UX cross-cutting primitives contract（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_pending / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/parallel-09-ux-cross-cutting/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| 原典 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-09-ux-cross-cutting/spec.md` |
+| 目的 | 19 routes 横断 UX primitive（FormField / EmptyState / Pagination / Icon / Breadcrumb / responsive / focus-visible / mutation guard / form preserve）を `apps/web` に実装し、後続 parallel-01〜08 の入力正本として固定する |
+| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| 境界 | 本 wave は `apps/web` 共通 primitive 実装と local typecheck まで完了。visual screenshots は local `ENOSPC` 解消後、staging/production smoke、19-route adoption、commit、push、PR は user-gated |
+
+### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
+| 実装 | `AdminSidebar` home link、`MemberDrawer` encoded tags link |
+| evidence | component/typecheck/lint/build logs、DOM snapshot、mock fallback PNG 2 files |
+| runtime boundary | real authenticated screenshots / staging smoke / commit / push / PR は user-gated |
+
+### Issue #668 residual RB-3b-03 / RB-3b-04 paths filter + shell helper（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented-local-runtime-pending / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-668-stage3b-rb03-rb04-paths-filter-shell-helper/` |
+| 親 Issue | Issue #668 CLOSED。PR / Issue comment 文脈は `Refs #668` のみ |
+| scope | RB-3b-03 `e2e-tests.yml` single-workflow paths precheck、RB-3b-04 `ci-shell-prelude.sh` + `lint-shell.yml` shellcheck gate + 3-script shellcheck cleanup |
+| required context | `e2e-tests-coverage-gate` を維持し、branch protection mutation は不要 |
+| implementation targets | `.github/workflows/e2e-tests.yml`, `.github/workflows/lint-shell.yml`, `scripts/lib/ci-shell-prelude.sh`, `scripts/coverage-gate-e2e.sh`, `scripts/coverage-guard.sh`, `scripts/cf-waf-apply/lib.sh`, `scripts/observability-target-diff.sh`, `scripts/verify-09c-no-visual-values.sh` |
+| evidence | tracked `outputs/phase-11/local-evidence-summary.md`; raw ignored local logs captured; governance / CI8 dry-run files pending user-gated PR |
+| source trace | `docs/30-workflows/unassigned-task/task-e2e-stage3b-rb-followup-composite-actions-001.md` is historical; RB-3b-03 / RB-3b-04 split-migrated here |
+| artifact inventory | `references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md` |
+| user gate | dry-run PRs, GitHub Actions runtime evidence, `gh issue comment`, commit, push, PR |
+
+### Issue #666 fetch/public service binding regression（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-666-fetch-public-service-binding-regression/` |
+| Issue | #666 OPEN。PR 文脈は `Refs #666` |
+| source unassigned | `docs/30-workflows/completed-tasks/task-e2e-stage3b-fetch-public-service-binding-priority-regression-001.md`（consumed by Issue #666 workflow） |
+| 目的 | `PUBLIC_API_BASE_URL` が production / staging に誤設定されても service binding を skip しない regression guard |
+| implementation targets | `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/fetch/public.spec.ts` |
+| evidence boundary | focused Vitest, typecheck, lint, build, inverse assertion, and grep evidence captured locally; GitHub Actions PR runtime remains user-gated |
+| Phase 12 | strict 7 outputs present under `outputs/phase-12/`; root `artifacts.json` is the only artifact ledger |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md` |
+| user gate | commit / push / PR / CI runtime evidence |
+
+### U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-FU-01 metrics dash（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 成果物 | `docs/30-workflows/u-fix-cf-acct-01-deriv-04-fu-03-d-fu-01-metrics-dash/` |
+| 親 | Issue #586 post-switch 7-day close-out / 祖父 Issue #549 |
+| Issue 取扱 | Issue #656 は CLOSED 維持。PR 文脈は `Refs #549, Refs #586, Refs #656` のみ |
+| 目的 | `hourly-run-7day-summary.json` を週次集約し、fallback rate / p95 latency / Issue 起票数 / leakage 件数を静的 HTML dashboard で可視化する実装仕様 |
+| rendering decision | 現 worktree に admin audit route が無いため static HTML を採択。admin UI は本サイクル外 |
+| schema contract | missing version skip、unsupported explicit version / 型不正 throw、`1.0.0` の `week_starting` 欠落は native ISO week 補完 |
+| Phase 12 | strict files present under `outputs/phase-12/`; `implementation-guide-part2.md` は root artifacts 由来の追加成果物 |
+| user gate | production/staging runtime summary evidence / commit / push / PR |
+
+### fix-wrangler-esbuild-import-source-error（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/fix-wrangler-esbuild-import-source-error/` |
+| 目的 | `wrangler@4.85.0` が要求する `esbuild@0.27.3` と root `pnpm.overrides.esbuild=0.25.4` の不整合を解消し、Cloudflare deploy build error `"import-source" is not a valid feature name` を修復する |
+| implementation targets | `package.json`, `pnpm-lock.yaml`, `scripts/cf.sh` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md` |
+| local verification | `pnpm install --frozen-lockfile=false`, `pnpm why esbuild`, `pnpm exec esbuild --version`, `build:cloudflare`, `apps/api wrangler deploy --dry-run` |
+| user gate | GitHub Actions deploy-staging, runtime smoke, commit, push, PR |
+
+### Issue #667 Stage 3b mock API fixture coverage（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `runtime_pending / implementation / NON_VISUAL / existing-hardening / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-667-stage3b-mock-api-fixture-coverage/` |
+| source unassigned | `docs/30-workflows/unassigned-task/task-e2e-stage3b-mock-api-fixture-coverage-001.md`（implemented_local_runtime_pending） |
+| 目的 | `scripts/e2e-mock-api.mjs` を contracts SSOT + contract spec + readiness evidence で harden する |
+| implementation targets | `packages/contracts/`, `scripts/e2e-mock-api.mjs`, `scripts/__tests__/e2e-mock-api.contract.spec.ts`, `.github/workflows/e2e-tests.yml`, `.github/workflows/ci.yml` |
+| evidence boundary | Runtime implementation and focused Phase 11 local evidence are complete. GitHub Actions runtime evidence remains pending. |
+| user gate | commit / push / PR / Issue mutation は user approval 後 |
+
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
 | 項目 | 値 |
@@ -970,6 +1088,30 @@
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` |
 | 苦戦知見 | `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007: artifacts mirror parity / Phase 11 10 screenshots, Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard) |
 
+
+### parallel-10-auth-session-handling（2026-05-15）
+
+| 項目 | 内容 |
+| --- | --- |
+| 成果物 | `docs/30-workflows/parallel-10-auth-session-handling/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| 目的 | Client admin mutation の 401 / 403 handling を統一する。401 は safe `/login?redirect=<current>`、403 は alert toast + error state とする。 |
+| 実装 | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/lib/url/safe-redirect.ts` |
+| 仕様同期 | `docs/00-getting-started-manual/specs/02-auth.md` に Client 401 / 403 handling を追加。silent refresh は MVP 不採用。 |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build}.txt`, `outputs/phase-11/visual-verification-skip.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | commit / push / PR |
+
+### i01-toastprovider-root-mount（2026-05-16）
+
+| 項目 | 内容 |
+| --- | --- |
+| 成果物 | `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime visual pending_user_session` |
+| 目的 | `parallel-08-shared-foundation` の DoD `ToastProvider in root layout` を実装し、`useAdminMutation` の toast context silent fallback を解消する。 |
+| 実装 | `apps/web/app/layout.tsx` が `ToastProvider` を import し、root `<body>` 内で `children` を wrap。`apps/web/src/components/ui/Toast.tsx` は既存 `"use client"` のため wrapper 不要。 |
+| 仕様同期 | `docs/00-getting-started-manual/specs/09a-prototype-map.md` の `ToastProvider` app shell boundary 既存正本と整合。`integration-fixes/index.md` / `parallel-i01-toastprovider-root-mount/spec.md` / `parallel-08-shared-foundation/spec.md` の DoD を同一 wave で同期。 |
+| evidence | `outputs/phase-09/acceptance.md`, `outputs/phase-11/manual-smoke.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | authenticated admin toast visual smoke / commit / push / PR |
 
 ### task-05a-form-preview-503-001（2026-05-05）
 

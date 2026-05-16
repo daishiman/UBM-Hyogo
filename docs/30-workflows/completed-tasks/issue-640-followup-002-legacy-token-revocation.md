@@ -9,13 +9,26 @@ category: 運用
 target_feature: Cloudflare API Token / GitHub Secrets / 1Password rotation surface
 priority: 中
 scale: 小規模
-status: 未実施
-source_phase: docs/30-workflows/issue-640-oidc-cf-token-cutover/outputs/phase-12/unassigned-task-detection.md
-source_workflow: docs/30-workflows/issue-640-oidc-cf-token-cutover/
+status: consumed
+canonical_status: consumed
+canonical_workflow: docs/30-workflows/issue-718-legacy-cf-token-revocation/
+source_phase: docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/outputs/phase-12/unassigned-task-detection.md
+source_workflow: docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/
 github_issue: 718
 created_date: 2026-05-14
 taskType: operations
 visualEvidence: NON_VISUAL
+governance_mutation_user_gate: true
+mutation_commands:
+  - Cloudflare API Token revocation via operator-approved path
+  - gh secret delete CLOUDFLARE_API_TOKEN --env <environment>
+  - 1Password item status update or deletion by operator
+read_only_evidence_allowed_pre_gate:
+  - rg inventory
+  - gh issue view
+  - gh secret list name-only
+  - local compliance checks
+user_approval_marker: docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-13/user-approval-issue-718-<timestamp>.md
 dependencies:
   - issue-640-oidc-cf-token-cutover (staging/production runtime evidence)
   - issue-640-followup-001-oidc-full-migration (任意・OIDC 移行後に実行する場合は前提となる)
@@ -29,16 +42,24 @@ dependencies:
 | 対象機能 | Cloudflare API Token / GitHub Secrets / 1Password rotation surface |
 | 優先度 | 中 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
-| 発見元 | `docs/30-workflows/issue-640-oidc-cf-token-cutover/outputs/phase-12/unassigned-task-detection.md` |
+| ステータス | consumed（execution moved to canonical workflow） |
+| canonical status | `consumed` |
+| canonical workflow | `docs/30-workflows/issue-718-legacy-cf-token-revocation/` |
+| 発見元 | `docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-05-14 |
-| 親ワークフロー | `docs/30-workflows/issue-640-oidc-cf-token-cutover/` |
+| 親ワークフロー | `docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/` |
 | source issue | Issue #640 (OIDC / step-scoped CF token cutover) |
 | taskType | operations |
 | visualEvidence | NON_VISUAL |
 | dependencies | Issue #640 本体 / `issue-640-followup-001-oidc-full-migration`（任意） |
 
 ---
+
+## Canonical Consumption Trace
+
+This unassigned task is consumed by `docs/30-workflows/issue-718-legacy-cf-token-revocation/`.
+
+The source text remains for provenance because GitHub Issue #718 points to this file. Execution, Phase 11 evidence, Phase 12 strict outputs, and Gate C approval records now belong to the canonical workflow root.
 
 ## 1. なぜこのタスクが必要か（Why）
 
@@ -114,7 +135,7 @@ Issue #640 で導入した step-scoped token への cutover が staging / produc
 
 ### 3.1 前提条件
 
-- Issue #640 本体（`docs/30-workflows/issue-640-oidc-cf-token-cutover/`）の staging / production runtime evidence が green として保存済みであること。
+- Issue #640 本体（`docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/`）の staging / production runtime evidence が green として保存済みであること。
 - step-scoped 新 secret が GitHub Secrets / 1Password に登録済みで、`web-cd.yml` / `backend-ci.yml` の deploy が新方式で複数回 green になっていること。
 - Cloudflare dashboard / GitHub Secrets / 1Password に対する operator approval が取得可能であること。
 - `scripts/cf.sh` ラッパー経由で `CLOUDFLARE_API_TOKEN` を扱う既存 path（D1 migration / export / deploy）の動作確認手段が用意できること。
@@ -296,7 +317,7 @@ git diff .claude/skills/aiworkflow-requirements/references/deployment-secrets-ma
 
 ### 関連ドキュメント
 
-- `docs/30-workflows/issue-640-oidc-cf-token-cutover/outputs/phase-12/unassigned-task-detection.md`
+- `docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/outputs/phase-12/unassigned-task-detection.md`
 - `docs/30-workflows/unassigned-task/issue-640-followup-001-oidc-full-migration.md`
 - `docs/30-workflows/unassigned-task/issue-331-followup-003-oidc-step-scoped-cf-token-cutover.md`
 - `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md`
@@ -321,7 +342,7 @@ git diff .claude/skills/aiworkflow-requirements/references/deployment-secrets-ma
 | 原因 | Issue #640 cutover は GitHub Actions の deploy step を中心に進めたため、backend / D1 / audit / 手動運用 path の token 出所が完全には監査されていない |
 | 対応 | Phase 1 で repository 全体に対する `rg` 洗い出しを義務化し、legacy token 依存が残る path は本 task 前段で新 token に切替または別 unassigned task として分離する設計に固定した |
 | 再発防止 | 失効作業は必ず Issue #640 staging / production evidence の完了後に行い、revocation 直前 / 直後で `bash scripts/cf.sh whoami` 等の health check を実施することを Phase 2 の必須手順とする。evidence は redacted（コマンド名 / exit code / item name のみ）に限定し、token 値・suffix・account id を記録しない |
-| 参照 | `docs/30-workflows/issue-640-oidc-cf-token-cutover/outputs/phase-12/unassigned-task-detection.md` |
+| 参照 | `docs/30-workflows/completed-tasks/issue-640-oidc-cf-token-cutover/outputs/phase-12/unassigned-task-detection.md` |
 
 ### レビュー指摘の原文（該当する場合）
 
@@ -334,3 +355,47 @@ git diff .claude/skills/aiworkflow-requirements/references/deployment-secrets-ma
 - revocation コマンドの具体名は本仕様書には焼き込まない（operator-approved 経路として `bash scripts/cf.sh` 系ラッパー or Cloudflare dashboard 手操作のいずれかを許容）。
 - 1Password 正本との整合は最終確認のみ行い、vault 構造変更や item 再設計は別 issue で扱う。
 - Phase 13 の commit / PR はユーザー承認ゲートであり、本タスクの作成時点では実行しない。
+
+---
+
+## 苦戦箇所【記入必須】
+
+Issue #718 は GitHub 上では closed だが、本文の仕様書リンクは unassigned task を指していた。これにより、実行可能な Phase 1-13 workflow root と Phase 12 strict outputs が存在せず、skill 準拠検証で traceability が切れていた。
+
+さらに `legacy token` という語が、現行 direct deploy token、deprecated Pages token、audit-only token、将来 OIDC/split token の境界を曖昧にしていた。物理 revocation を急ぐと、deploy / D1 / audit / recovery path を破壊するリスクがある。
+
+## リスクと対策
+
+| リスク | 対策 |
+| --- | --- |
+| 旧 token を早期失効して deploy / D1 / audit path を破壊する | Issue #640 runtime evidence green と usage inventory を Gate C 前提にする |
+| secret 値や token preview が evidence に残る | command name / exit code / item name のみを記録する redaction contract を適用する |
+| GitHub Secrets / 1Password / Cloudflare dashboard が drift する | 3 surface を同一 Gate C wave で reconcile する |
+| AI が不可逆 mutation を実行してしまう | `governance_mutation_user_gate: true` と approval marker 物理保存を必須化する |
+
+## 検証方法
+
+```bash
+test -f docs/30-workflows/issue-718-legacy-cf-token-revocation/artifacts.json
+find docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-12 -maxdepth 1 -type f | sort
+rg -n "CLOUDFLARE_API_TOKEN|CLOUDFLARE_API_TOKEN_STAGING" .github apps packages scripts docs .claude
+rg -n "issue-718-legacy-cf-token-revocation|issue-640-followup-002" .claude/skills/aiworkflow-requirements docs/30-workflows/unassigned-task
+```
+
+Gate C 後は Cloudflare dashboard の revoked state、GitHub Secrets の legacy name absence、1Password item status、new token path health check を redacted evidence として保存する。
+
+## スコープ
+
+含む:
+
+- Issue #718 canonical workflow root の作成。
+- legacy token usage inventory と read-only evidence contract。
+- Cloudflare / GitHub Secrets / 1Password の Gate C 実行手順。
+- aiworkflow-requirements 正本同期。
+
+含まない:
+
+- user approval なしの Cloudflare token revocation。
+- user approval なしの `gh secret delete`。
+- user approval なしの 1Password item mutation。
+- OIDC 完全移行。これは `issue-640-followup-001-oidc-full-migration` が扱う。

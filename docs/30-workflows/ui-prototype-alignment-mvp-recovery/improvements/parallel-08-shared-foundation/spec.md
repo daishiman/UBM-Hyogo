@@ -169,7 +169,7 @@ pnpm -F "@ubm-hyogo/web" dev  # Dev server
 
 ## DoD
 
-- [ ] ToastProvider in root layout
+- [x] ToastProvider in root layout (implemented by `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/`; `apps/web/app/layout.tsx` wraps `children` with `ToastProvider`)
 - [ ] useAdminMutation.ts + index.ts 作成
 - [ ] tsc --noEmit で error なし
 - [ ] admin/error.tsx 確認
@@ -207,4 +207,3 @@ pnpm -F "@ubm-hyogo/web" dev  # Dev server
 - React 18.x (context/hooks)
 - Hono 4.x (API)
 - TypeScript 5.x (strict)
-
