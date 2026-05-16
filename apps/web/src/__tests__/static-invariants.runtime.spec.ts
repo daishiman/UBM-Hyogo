@@ -112,6 +112,14 @@ const isPlaywrightHarnessFile = (file: string): boolean =>
   file.includes(`${WEB_ROOT}/playwright/`);
 
 describe("static invariants / 06b", () => {
+  it("S-00: root layout keeps ToastProvider directly under body", async () => {
+    const content = await readFile(join(WEB_ROOT, "app/layout.tsx"), "utf8");
+    const compact = content.replace(/\s+/g, " ");
+
+    expect(content).toContain('import { ToastProvider } from "@/components/ui/Toast";');
+    expect(compact).toContain("<body> <ToastProvider>{children}</ToastProvider> </body>");
+  });
+
   it("S-01: app/profile 配下に 'questionId' が出現しない", async () => {
     const files = await walk(join(WEB_ROOT, "app/profile"));
     const hits = await findMatches(files, "questionId", {

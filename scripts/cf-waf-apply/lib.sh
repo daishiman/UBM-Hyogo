@@ -7,10 +7,10 @@ set -euo pipefail
 CF_API_BASE="${CF_API_BASE:-https://api.cloudflare.com/client/v4}"
 
 # 戻り値: 0 成功 / 11 token / 12 schema / 13 api / 14 diff
-EXIT_TOKEN=11
-EXIT_SCHEMA=12
-EXIT_API=13
-EXIT_DIFF=14
+export EXIT_TOKEN=11
+export EXIT_SCHEMA=12
+export EXIT_API=13
+export EXIT_DIFF=14
 
 cf_waf_log() {
   printf '[cf-waf-apply] %s\n' "$*" >&2

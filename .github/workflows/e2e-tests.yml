@@ -10,10 +10,45 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  precheck:
+    name: e2e paths precheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      run_e2e: ${{ steps.changed.outputs.run_e2e }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect e2e-relevant changes
+        id: changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "run_e2e=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+          changed="$(git diff --name-only "origin/${{ github.base_ref }}...HEAD")"
+          printf '%s\n' "$changed"
+
+          if printf '%s\n' "$changed" | grep -Eq '^(apps/web/|apps/api/|packages/|scripts/e2e-mock-api|scripts/coverage-gate-e2e\.sh$|scripts/lib/|\.github/workflows/e2e-tests\.yml$|\.github/actions/)'; then
+            echo "run_e2e=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::e2e skipped - no apps/web, apps/api, packages, e2e scripts, workflow, or setup action changes"
+            echo "run_e2e=false" >> "$GITHUB_OUTPUT"
+          fi
+
   # Playwright project 単位で shard 並列実行することで「1 project が失敗しても他 project は独立に進む」
   # ようにし、30 分単一タイムアウトを回避する。各 shard は 18 分 timeout、fail-fast 無効。
   e2e:
     name: e2e (${{ matrix.project }})
+    needs: precheck
+    if: needs.precheck.outputs.run_e2e == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 18
     strategy:
@@ -98,7 +133,7 @@ jobs:
   # Required CI context として参照するのはこの集約 job 名 (`e2e-tests-coverage-gate`)。
   e2e-tests-coverage-gate:
     name: e2e-tests-coverage-gate
-    needs: e2e
+    needs: [precheck, e2e]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: always()
@@ -108,19 +143,30 @@ jobs:
 
       - name: Verify all e2e shards succeeded
         run: |
+          if [[ "${{ needs.precheck.result }}" != "success" ]]; then
+            echo "::error::e2e paths precheck failed (result=${{ needs.precheck.result }})"
+            exit 1
+          fi
+          if [[ "${{ needs.precheck.outputs.run_e2e }}" != "true" ]]; then
+            echo "::notice::e2e skipped by paths precheck; required context is satisfied"
+            exit 0
+          fi
           if [[ "${{ needs.e2e.result }}" != "success" ]]; then
             echo "::error::e2e matrix shards did not all succeed (result=${{ needs.e2e.result }})"
             exit 1
           fi
 
       - name: Setup project (Node + pnpm + install)
+        if: needs.precheck.outputs.run_e2e == 'true'
         uses: ./.github/actions/setup-project
 
       - name: Download coverage from chromium shard
+        if: needs.precheck.outputs.run_e2e == 'true'
         uses: actions/download-artifact@v4
         with:
           name: e2e-coverage-desktop-chromium-${{ github.sha }}
           path: apps/web/coverage/
 
       - name: Coverage gate (line >= 80%)
+        if: needs.precheck.outputs.run_e2e == 'true'
         run: bash scripts/coverage-gate-e2e.sh

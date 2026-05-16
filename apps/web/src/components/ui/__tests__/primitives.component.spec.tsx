@@ -1,7 +1,10 @@
-import { describe, it, expect, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { describe, it, expect, afterEach, vi } from "vitest";
+import { render, screen, fireEvent, cleanup, act } from "@testing-library/react";
 
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  vi.useRealTimers();
+});
 import { Chip } from "../Chip";
 import { Avatar } from "../Avatar";
 import { Button } from "../Button";
@@ -20,7 +23,7 @@ import { Banner } from "../Banner";
 import { Search } from "../Search";
 import { Drawer } from "../Drawer";
 import { Modal } from "../Modal";
-import { ToastProvider } from "../Toast";
+import { ToastProvider, useToast } from "../Toast";
 import { KVList } from "../KVList";
 import { LinkPills } from "../LinkPills";
 
@@ -213,6 +216,38 @@ describe("Modal", () => {
 describe("Toast", () => {
   it("ToastProvider renders without throwing", () => {
     render(<ToastProvider><div /></ToastProvider>);
+  });
+
+  it("shows and auto-dismisses toast messages", () => {
+    vi.useFakeTimers();
+    function TriggerToast() {
+      const { toast } = useToast();
+      return <button onClick={() => toast("保存しました")}>fire</button>;
+    }
+
+    render(
+      <ToastProvider>
+        <TriggerToast />
+      </ToastProvider>,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "fire" }));
+    expect(screen.getByRole("status").textContent).toBe("保存しました");
+
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
+    expect(screen.queryByRole("status")).toBeNull();
+  });
+
+  it("throws when useToast is used outside ToastProvider", () => {
+    function OutsideProvider() {
+      useToast();
+      return null;
+    }
+
+    expect(() => render(<OutsideProvider />)).toThrow(
+      "useToast must be used within ToastProvider",
+    );
   });
 });
 

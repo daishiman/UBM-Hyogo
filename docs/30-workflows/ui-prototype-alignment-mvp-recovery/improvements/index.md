@@ -81,12 +81,6 @@ improvements/
 | parallel-10 (auth-session-handling) | 並列 | API 401/403 統一ハンドリング + login redirect。parallel-08 の useAdminMutation hook の error path で `FetchAuthedError` / `AuthRequiredError` を再利用 |
 | serial-05 (admin-mutation-ui) | 直列 | step-01..07 が `useAdminMutation` hook を共有し `apps/web/src/features/admin/` を順次拡張。step-08 は read-only だが同一領域で順序維持。**parallel-08 完了が step-01 着手の前提** |
 
-### 実行済みタスク同期
-
-| タスク | 状態 | 成果物 |
-|--------|------|--------|
-| parallel-07 (auth-and-shared) | `implemented_local_runtime_pending` | `docs/30-workflows/task-parallel-07-auth-and-shared/` |
-
 ## 5. 実行フロー
 
 ```

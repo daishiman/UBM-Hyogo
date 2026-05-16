@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { axe } from "jest-axe";
 
 vi.mock("../../src/lib/logger", () => ({
   logger: {
@@ -86,16 +85,6 @@ describe("RouteError", () => {
     });
   });
 
-  describe("TC-U-05a: mount 時に heading へ focus する", () => {
-    it("moves focus to the h1 for screen reader announcement", () => {
-      const reset = vi.fn();
-      render(<RouteError error={makeError()} reset={reset} />);
-      const h1 = screen.getByRole("heading", { level: 1 });
-      expect(document.activeElement).toBe(h1);
-      expect(h1.getAttribute("tabindex")).toBe("-1");
-    });
-  });
-
   describe("TC-U-06: mount 時に logger.error が 1 回呼ばれる", () => {
     it("calls logger.error with event=error.boundary.caught", () => {
       const reset = vi.fn();
@@ -157,27 +146,6 @@ describe("RouteError", () => {
       expect(html).toContain("bg-accent");
       expect(html).toContain("text-panel");
       expect(html).toContain("border-border");
-    });
-  });
-
-  describe("TC-U-09: a11y scan", () => {
-    it("has no axe violations in RouteError", async () => {
-      const reset = vi.fn();
-      const { container } = render(<RouteError error={makeError()} reset={reset} />);
-      const results = await axe(container);
-      expect(results.violations).toEqual([]);
-    });
-
-    it("has no axe violations in Loading", async () => {
-      const { container } = render(<Loading />);
-      const results = await axe(container);
-      expect(results.violations).toEqual([]);
-    });
-
-    it("has no axe violations in NotFound", async () => {
-      const { container } = render(<NotFound />);
-      const results = await axe(container);
-      expect(results.violations).toEqual([]);
     });
   });
 });

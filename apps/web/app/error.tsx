@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { logger } from "../src/lib/logger";
 
 type Props = {
@@ -10,22 +10,19 @@ type Props = {
 };
 
 export default function RouteError({ error, reset }: Props) {
-  const headingRef = useRef<HTMLHeadingElement>(null);
-
   useEffect(() => {
     logger.error({
       event: "error.boundary.caught",
       digest: error.digest,
       err: error,
     });
-    headingRef.current?.focus({ preventScroll: true });
   }, [error]);
 
   const isDev = process.env.NODE_ENV !== "production";
 
   return (
     <div role="alert" aria-live="assertive" className="mx-auto max-w-2xl px-6 py-16">
-      <h1 ref={headingRef} tabIndex={-1} className="text-2xl font-semibold text-danger">
+      <h1 className="text-2xl font-semibold text-danger">
         画面を表示できませんでした
       </h1>
       <p className="mt-2 text-sm text-text-3">

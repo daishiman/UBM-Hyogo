@@ -8,18 +8,46 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
-### task-parallel-07 Auth And Shared（2026-05-15）
+### parallel-08 shared foundation admin UI foundation（2026-05-15）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 11 screenshots captured / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/task-parallel-07-auth-and-shared/` |
-| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-07-auth-and-shared/spec.md` |
-| 目的 | `/login` loading/error、root error/loading、`/profile` loading、not-found fallback の UX / a11y / OKLch token contract を実装・検証する |
-| target files | `apps/web/app/login/error.tsx`, `apps/web/app/login/loading.tsx`, `apps/web/app/error.tsx`, `apps/web/app/loading.tsx`, `apps/web/app/profile/loading.tsx`, `apps/web/app/not-found.tsx` |
-| boundary | `apps/api/**`、D1 schema、Auth.js flow、新 design token、`admin/loading` は out-of-scope |
-| evidence boundary | local implementation、component specs、Phase 11 screenshots、Phase 12 strict 7 は present。staging smoke / broad task-18 regression / commit / push / PR は user-gated |
-| downstream | task-18 visual/token regression consumes the implemented route evidence after local implementation |
+| ステータス | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL / standard / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-08-shared-foundation-admin-ui-foundation/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/` |
+| 目的 | serial-05/step-01..07 が共有する admin UI foundation を明示化し、`ToastProvider` root scope と `useAdminMutation` import contract を先に固定する |
+| 実装対象 | `apps/web/app/layout.tsx`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/index.ts` |
+| テスト対象 | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `apps/web/src/components/ui/__tests__/primitives.component.spec.tsx` |
+| 境界 | real fetch / toast / error implementation は serial-05/step-01 owner。parallel-08 は sentinel skeleton と export path を固定し、任意 endpoint ではなく既存 admin API helper 名のみを受ける |
+| evidence | Phase 11 local command evidence and Phase 12 strict 7 present |
+| user gate | commit, push, PR |
+
+### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
+| 実装 | `AdminSidebar` home link、`MemberDrawer` encoded tags link |
+| evidence | component/typecheck/lint/build logs、DOM snapshot、mock fallback PNG 2 files |
+| runtime boundary | real authenticated screenshots / staging smoke / commit / push / PR は user-gated |
+
+### Issue #668 residual RB-3b-03 / RB-3b-04 paths filter + shell helper（2026-05-14）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented-local-runtime-pending / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-668-stage3b-rb03-rb04-paths-filter-shell-helper/` |
+| 親 Issue | Issue #668 CLOSED。PR / Issue comment 文脈は `Refs #668` のみ |
+| scope | RB-3b-03 `e2e-tests.yml` single-workflow paths precheck、RB-3b-04 `ci-shell-prelude.sh` + `lint-shell.yml` shellcheck gate + 3-script shellcheck cleanup |
+| required context | `e2e-tests-coverage-gate` を維持し、branch protection mutation は不要 |
+| implementation targets | `.github/workflows/e2e-tests.yml`, `.github/workflows/lint-shell.yml`, `scripts/lib/ci-shell-prelude.sh`, `scripts/coverage-gate-e2e.sh`, `scripts/coverage-guard.sh`, `scripts/cf-waf-apply/lib.sh`, `scripts/observability-target-diff.sh`, `scripts/verify-09c-no-visual-values.sh` |
+| evidence | tracked `outputs/phase-11/local-evidence-summary.md`; raw ignored local logs captured; governance / CI8 dry-run files pending user-gated PR |
+| source trace | `docs/30-workflows/unassigned-task/task-e2e-stage3b-rb-followup-composite-actions-001.md` is historical; RB-3b-03 / RB-3b-04 split-migrated here |
+| artifact inventory | `references/workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md` |
+| lessons | `references/lessons-learned-issue-668-paths-filter-shell-prelude-2026-05.md` |
+| user gate | dry-run PRs, GitHub Actions runtime evidence, `gh issue comment`, commit, push, PR |
 
 ### Issue #666 fetch/public service binding regression（2026-05-14）
 
@@ -93,7 +121,7 @@
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
 
 
-### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
+>### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 項目 | 値 |
 | --- | --- |
