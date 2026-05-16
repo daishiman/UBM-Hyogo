@@ -8,19 +8,17 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
-### parallel-08 shared foundation admin UI foundation（2026-05-15）
+### parallel-09 UX cross-cutting primitives contract（2026-05-15）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL / standard / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/completed-tasks/parallel-08-shared-foundation-admin-ui-foundation/` |
-| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/` |
-| 目的 | serial-05/step-01..07 が共有する admin UI foundation を明示化し、`ToastProvider` root scope と `useAdminMutation` import contract を先に固定する |
-| 実装対象 | `apps/web/app/layout.tsx`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/index.ts` |
-| テスト対象 | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `apps/web/src/components/ui/__tests__/primitives.component.spec.tsx` |
-| 境界 | real fetch / toast / error implementation は serial-05/step-01 owner。parallel-08 は sentinel skeleton と export path を固定し、任意 endpoint ではなく既存 admin API helper 名のみを受ける |
-| evidence | Phase 11 local command evidence and Phase 12 strict 7 present |
-| user gate | commit, push, PR |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_pending / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/parallel-09-ux-cross-cutting/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| 原典 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-09-ux-cross-cutting/spec.md` |
+| 目的 | 19 routes 横断 UX primitive（FormField / EmptyState / Pagination / Icon / Breadcrumb / responsive / focus-visible / mutation guard / form preserve）を `apps/web` に実装し、後続 parallel-01〜08 の入力正本として固定する |
+| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| 境界 | 本 wave は `apps/web` 共通 primitive 実装と local typecheck まで完了。visual screenshots は local `ENOSPC` 解消後、staging/production smoke、19-route adoption、commit、push、PR は user-gated |
 
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 

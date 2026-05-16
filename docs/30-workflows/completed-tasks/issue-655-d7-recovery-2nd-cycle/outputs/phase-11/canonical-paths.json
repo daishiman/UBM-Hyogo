@@ -1,97 +1,51 @@
 {
-  "schemaVersion": "1.0.0",
-  "taskId": "issue-655-d7-recovery-2nd-cycle",
-  "workflowDir": "docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle",
-  "evidence": [
+  "workflow_id": "issue-655-d7-recovery-2nd-cycle",
+  "state": "IMPLEMENTED_LOCAL_RUNTIME_PENDING",
+  "runtime_boundary": "pending_user_approval",
+  "paths": [
     {
-      "id": "hourly-run-1st-cycle-listing",
-      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/hourly-run-1st-cycle-listing.json",
-      "command": "gh run list --workflow cf-audit-log-monitor.yml --json databaseId,status,conclusion,createdAt,headSha",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": false,
-      "notes": "runtime_pending_user_approval; template: outputs/phase-11/evidence/hourly-run-1st-cycle-listing.json.RUNTIME_PENDING_USER_APPROVAL.md"
+      "status": "runtime_pending_user_approval",
+      "template": "outputs/phase-11/evidence/hourly-run-1st-cycle-listing.json.RUNTIME_PENDING_USER_APPROVAL.md"
     },
     {
-      "id": "recovery-rootcause",
-      "kind": "test",
       "path": "outputs/phase-11/evidence/recovery-rootcause.md",
-      "command": "manual recovery root-cause analysis",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": true,
-      "notes": "completed; template: outputs/phase-11/evidence/recovery-rootcause.md.RUNTIME_PENDING_USER_APPROVAL.md"
+      "status": "completed",
+      "template": "outputs/phase-11/evidence/recovery-rootcause.md.RUNTIME_PENDING_USER_APPROVAL.md"
     },
     {
-      "id": "local-verify",
-      "kind": "test",
       "path": "outputs/phase-11/evidence/local-verify.log",
-      "command": "local recovery verification command recorded in evidence log",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": true,
-      "notes": "completed"
+      "status": "completed"
     },
     {
-      "id": "ci-dry-run",
-      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/ci-dry-run.md",
-      "command": "gh workflow run cf-audit-log-monitor.yml --ref <branch> --dry-run",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": false,
-      "notes": "runtime_pending_user_approval; template: outputs/phase-11/evidence/ci-dry-run.md.RUNTIME_PENDING_USER_APPROVAL.md"
+      "status": "runtime_pending_user_approval",
+      "template": "outputs/phase-11/evidence/ci-dry-run.md.RUNTIME_PENDING_USER_APPROVAL.md"
     },
     {
-      "id": "recovery-d-minus-1",
-      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/recovery-d-minus-1.log",
-      "command": "runtime recovery D-1 observation",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": false,
-      "notes": "runtime_pending_user_approval"
+      "status": "runtime_pending_user_approval"
     },
     {
-      "id": "hourly-run-daily-check-recovery",
-      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/hourly-run-daily-check-recovery.md",
-      "command": "runtime daily check recovery observation",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": false,
-      "notes": "runtime_pending_user_approval"
+      "status": "runtime_pending_user_approval"
     },
     {
-      "id": "hourly-run-7day-recovery",
-      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/hourly-run-7day-recovery.md",
-      "command": "runtime 7-day recovery observation",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": false,
-      "notes": "runtime_pending_user_approval"
+      "status": "runtime_pending_user_approval"
     },
     {
-      "id": "hourly-run-7day-summary-recovery",
-      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json",
-      "command": "runtime 7-day summary recovery aggregation",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": false,
-      "notes": "runtime_pending_user_approval; template: outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json.RUNTIME_PENDING_USER_APPROVAL.md"
+      "status": "runtime_pending_user_approval",
+      "template": "outputs/phase-11/evidence/hourly-run-7day-summary-recovery.json.RUNTIME_PENDING_USER_APPROVAL.md"
     },
     {
-      "id": "leakage-grep-7day-recovery",
-      "kind": "grep-gate",
       "path": "outputs/phase-11/evidence/leakage-grep-7day-recovery.log",
-      "command": "secret leakage grep for 7-day recovery evidence",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": false,
-      "notes": "runtime_pending_user_approval"
+      "status": "runtime_pending_user_approval"
     },
     {
-      "id": "issue-rate-comparison-recovery",
-      "kind": "runtime-observation",
       "path": "outputs/phase-11/evidence/issue-rate-comparison-recovery.md",
-      "command": "runtime issue-rate comparison for recovery window",
-      "acquiredBy": "implementation_cycle",
-      "requiredForCloseout": false,
-      "notes": "runtime_pending_user_approval"
+      "status": "runtime_pending_user_approval"
     }
   ]
 }

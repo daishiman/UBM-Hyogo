@@ -5,19 +5,30 @@
 
 ---
 
-### parallel-08 shared foundation admin UI foundation（2026-05-15）
+### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/completed-tasks/parallel-08-shared-foundation-admin-ui-foundation/` |
-| 状態 | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL / standard / Phase 12 strict 7 present` |
-| parent workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/` |
-| implementation targets | `apps/web/app/layout.tsx`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/features/admin/hooks/{useAdminMutation,index}.ts` |
-| test target | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `apps/web/src/components/ui/__tests__/primitives.component.spec.tsx` |
-| contract | `ToastProvider` root scope + `useAdminMutation` sentinel skeleton。`useAdminMutation` accepts existing admin API helper names only; serial-05/step-01 owns real fetch/toast/error implementation |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-08-shared-foundation-admin-ui-foundation-artifact-inventory.md` |
-| lessons-learned (苦戦箇所5件) | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-08-shared-foundation-admin-ui-foundation-2026-05.md` |
-| user gate | commit, push, PR |
+| workflow root | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
+| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| scope | AdminSidebar home link + MemberDrawer tags link |
+| implementation | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
+| tests | `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx`, `apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx` |
+| evidence | `outputs/phase-11/dom-snapshot.txt`, mock fallback PNG 2 files, component/typecheck/lint/build logs |
+| runtime boundary | real authenticated screenshots and staging smoke remain runtime pending |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-01-navigation/spec.md` |
+
+### fix-wrangler-esbuild-import-source-error（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/fix-wrangler-esbuild-import-source-error/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| root cause | `wrangler@4.85.0` requires `esbuild@0.27.3`, but root `pnpm.overrides.esbuild` pinned all esbuild resolution to `0.25.4` |
+| implementation targets | `package.json`, `pnpm-lock.yaml`, `scripts/cf.sh` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md` |
+| user gate | GitHub Actions deploy-staging / runtime smoke / commit / push / PR |
 
 ### Issue #638 CLOUDFLARE_PAGES_PROJECT GitHub Variable deletion（2026-05-14）
 
@@ -69,6 +80,20 @@
 | evidence boundary | Phase 5/7/9 deterministic matrix evidence, root/output artifacts parity, Phase 11 NON_VISUAL marker, Phase 12 strict 7 present, documentation-changelog entry checklist + validator execution log |
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-23-docs-only-final-deliverable-state-gate-2026-05.md` |
 | downstream | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` can use the generated `VERIFICATION-STATUS.md` |
+| user gate | commit / push / PR |
+
+### UI prototype alignment / MVP recovery task-27 3-layer task mapping（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` |
+| 状態 | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 13 blocked` |
+| parent workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| generated deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` |
+| evidence | `outputs/phase-5/implementation-notes.md`, `outputs/phase-7/coverage.md`, `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| inputs | task-23 `VERIFICATION-STATUS.md`, task-24 `INVARIANT-AUDIT.md`, task-25 `SMOKE-COVERAGE-MATRIX.md`, completed task-26 common surfaces context |
+| layer model | historical `3-layer` name + `PUB / MEM / ADM / COM` matrix columns |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md` |
 | user gate | commit / push / PR |
 
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
@@ -387,7 +412,7 @@
 | 新規追加 | `Card / Badge / Sidebar / Stat / EmptyState / Banner` |
 | 維持 | `Chip / Switch / Segmented / Textarea / Search / Drawer / Modal / Toast / KVList / LinkPills` |
 | local evidence | typecheck / lint / focused test / coverage / next build PASS |
-| blocker | 解消済み。follow-up 001 で `pnpm.overrides.esbuild = 0.25.4` により `build:cloudflare` PASS |
+| blocker | 当時は follow-up 001 で `pnpm.overrides.esbuild = 0.25.4` により `build:cloudflare` PASS。2026-05-15 の `fix-wrangler-esbuild-import-source-error` で wrangler 4.85.0 経路を優先し、現在の root override 正本は `0.27.3` |
 | downstream | task-11..17 は `@/components/ui` から import |
 | evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`、`outputs/phase-11/evidence/screenshots/task10-ui-primitives-runtime.png`、`outputs/phase-11/evidence/axe-report.json` |
 | follow-up 001 | `docs/30-workflows/task-10-followup-001-opennext-esbuild-mismatch/`、`references/workflow-task-10-followup-001-opennext-esbuild-mismatch-artifact-inventory.md`、`lessons-learned/lessons-learned-task-10-followup-001-opennext-esbuild-mismatch-2026-05.md` |

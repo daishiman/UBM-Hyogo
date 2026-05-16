@@ -168,15 +168,7 @@ UT-07A-02 以降、`resolveTagQueue` の body 型は `@ubm-hyogo/shared` の `Ta
 
 04b-followup-004 以降、`/admin/requests` page は Server Component で `fetchAdmin("/admin/requests?status=pending&type=...")` を呼び、Client Component `RequestQueuePanel` が `resolveAdminRequest()` を通じて `/api/admin/requests/:noteId/resolve` に mutation する。`nextCursor` がある場合は `cursor` query 付きで次ページへ遷移する。409 は「他の管理者が既に処理済み」として toast + `router.refresh()` に分岐し、delete/visibility approve は confirmation modal で二段確認する。
 
-### 3.4 `useAdminMutation` hook contract
-
-parallel-08 shared foundation admin UI foundation 以降、Client Component から mutation を呼ぶ共通 hook の import path は `@/features/admin/hooks` とする。
-
-現時点の `useAdminMutation` は serial-05/step-01 に実装本体を渡す sentinel skeleton で、呼び出すと `Error("implementation in step-01")` を throw する。ただし公開 API の第一引数は任意 endpoint string ではなく、上記 3.3 の既存 admin API helper 名に対応する `AdminMutationKind` のみを受け取る。
-
-この制約により、profile 本文編集 mutation や tag 直接更新 mutation など、`api.ts` が意図的に公開していない操作を UI hook 経由で迂回して追加しない。
-
-### 3.5 不変条件（api.ts）
+### 3.4 不変条件（api.ts）
 
 - 不変条件 #11: profile 本文（businessOverview 等）の編集 mutation は **意図的に存在させない**。
 - 不変条件 #13: tag 直接更新 mutation も存在させない（`resolveTagQueue` のみ）。
