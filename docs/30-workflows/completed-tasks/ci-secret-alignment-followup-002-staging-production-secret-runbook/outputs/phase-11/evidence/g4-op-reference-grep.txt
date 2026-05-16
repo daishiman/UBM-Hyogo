@@ -1,0 +1,6 @@
+docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md:13:| `CLOUDFLARE_API_TOKEN` | `staging` | `op://UBM-Hyogo/Cloudflare API Token (staging)/credential` |
+docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md:22:op read 'op://UBM-Hyogo/Cloudflare API Token (staging)/credential' | \
+docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md:64:2. `op read 'op://UBM-Hyogo/Cloudflare API Token (staging)/credential'` の実行を AI エージェントに代行させない。
+docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md:13:| `CLOUDFLARE_API_TOKEN` | `production` | `op://UBM-Hyogo/Cloudflare API Token (production)/credential` |
+docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md:22:op read 'op://UBM-Hyogo/Cloudflare API Token (production)/credential' | \
+docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md:64:2. `op read 'op://UBM-Hyogo/Cloudflare API Token (production)/credential'` の実行を AI エージェントに代行させない。

@@ -3,15 +3,19 @@ name: playwright-visual-full
 on:
   schedule:
     - cron: '0 18 * * *' # JST 03:00 nightly
-  pull_request:
-    paths:
-      - 'apps/web/src/**'
-      - 'apps/web/playwright.config.ts'
-      - 'apps/web/playwright/tests/visual-full/**'
-      - 'apps/web/playwright/fixtures/**'
-      - 'apps/web/src/styles/tokens.css'
-      - '.github/workflows/playwright-visual-full.yml'
-
+  # MVP-PAUSE 2026-05-15: PR trigger を一時停止。
+  # 復活方法: 下の pull_request ブロックの行頭 `# ` を全て削除する。
+  # 残っている workflow_dispatch / push / schedule は引き続き有効。
+  workflow_dispatch:
+  # pull_request:
+  # paths:
+  # - 'apps/web/src/**'
+  # - 'apps/web/playwright.config.ts'
+  # - 'apps/web/playwright/tests/visual-full/**'
+  # - 'apps/web/playwright/fixtures/**'
+  # - 'apps/web/src/styles/tokens.css'
+  # - '.github/workflows/playwright-visual-full.yml'
+  #
 concurrency:
   group: visual-full-${{ github.ref }}
   cancel-in-progress: true

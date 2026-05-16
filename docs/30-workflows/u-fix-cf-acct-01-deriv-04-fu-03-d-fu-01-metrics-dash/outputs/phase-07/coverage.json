@@ -1,0 +1,10 @@
+{
+  "status": "focused-local-pass",
+  "refs": ["#549", "#586", "#656"],
+  "target": "scripts/cf-audit-log/dashboard/**",
+  "command": "pnpm exec vitest run scripts/cf-audit-log/dashboard/__tests__/aggregate-weekly.spec.ts scripts/cf-audit-log/observation/__tests__/post-switch-monitor.spec.ts",
+  "test_files": 2,
+  "tests": 21,
+  "passed": true,
+  "note": "Focused behavioral coverage is captured. Full coverage threshold enforcement remains part of the broader local gate."
+}

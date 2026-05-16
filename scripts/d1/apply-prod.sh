@@ -54,7 +54,7 @@ if ! bash "$repo_root/scripts/d1/preflight.sh" "$db" --env "$env_name" --migrati
 fi
 bash "$repo_root/scripts/d1/evidence.sh" --ts "$ts" --type preflight --stdin < "$preflight_log" >/dev/null || exit 80
 
-if [ "${DRY_RUN:-0}" != "1" ] && [ "$env_name" = "production" ]; then
+if [ "${DRY_RUN:-0}" != "1" ] && [ "$env_name" = "production" ] && [ "${AUTO_CONFIRM:-0}" != "1" ]; then
   printf 'Apply %s to %s (%s)? [y/N] ' "$migration" "$db" "$env_name" >&2
   read -r answer
   case "$answer" in
