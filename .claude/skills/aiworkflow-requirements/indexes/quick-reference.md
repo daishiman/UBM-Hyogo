@@ -67,6 +67,19 @@
 | source task | `docs/30-workflows/unassigned-task/issue-331-followup-001-cloudflare-pages-project-var-deletion.md` superseded in place |
 | related | Issue #331 Workers deploy cleanup, Issue #419 Pages dormant cleanup historical-only, followup-002 Pages project physical deletion remains separate |
 
+### 07c follow-up 002 attendance visual smoke（Issue #313 / 2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/07c-followup-002-attendance-visual-smoke/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_pass` |
+| source issue | #313 CLOSED; PR text must use `Refs #313` |
+| implementation targets | `apps/web/playwright/tests/attendance.spec.ts`, `apps/web/playwright/page-objects/AdminMeetingsPage.ts`, `apps/web/playwright/fixtures/auth.ts`, `apps/web/playwright/fixtures/admin-meetings.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/playwright.config.ts`, `apps/api/src/routes/admin/meetings.ts`, `apps/api/src/routes/admin/meetings.contract.spec.ts`, `.github/workflows/playwright-smoke.yml` |
+| API boundary | Existing `/admin/meetings`, `GET /admin/meetings/:id`, and `POST /admin/meetings/:id/attendances` with `{ memberId, attended }`; no singular `/attendance` route |
+| evidence | `outputs/phase-11/screenshots/*.png`, `outputs/phase-11/trace/attendance-delete-trace.zip`, `outputs/phase-11/e2e-run.txt`, `outputs/phase-11/phase11-capture-metadata.json`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `references/workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md` |
+| user gate | GitHub Actions CI smoke, baseline update, staging replacement, commit, push, PR |
+
 ### UT-17 follow-up 004 — Cloudflare Notification Policy IaC（2026-05-14）
 
 | 目的 | 参照先 |

@@ -140,6 +140,37 @@
 | downstream | `issue-331-followup-002` Pages project physical deletion and OIDC cutover remain separate |
 
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
+
+
+>### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
+### Issue #324 shared package type contracts（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` |
+| source unassigned | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md`（consumed trace） |
+| Issue | #324 CLOSED 維持。PR 文脈は `Refs #324` のみ |
+| 実装対象 | `packages/shared/src/__tests__/type-contracts.spec.ts` |
+| contract | brand 型 (`ResponseId` / `ResponseEmail` / `MemberId` / `AdminId`)、view-model required field omission、zod input/output parity、public/admin schema mutual exclusion、shared package standalone test |
+| evidence | `outputs/phase-11/evidence/shared-typecheck.txt`, `outputs/phase-11/evidence/shared-lint.txt`, `outputs/phase-11/evidence/shared-test.txt`（18 files / 210 tests PASS） |
+| boundary | runtime schema / API / D1 / apps/api / apps/web 変更なし。`tsd` / vitest typecheck mode / dependency 追加なし |
+| user gate | commit / push / PR / CI runtime |
+
+### 07c follow-up 002 attendance visual smoke（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / local_visual_evidence_pass / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/07c-followup-002-attendance-visual-smoke/` |
+| Issue | #313 CLOSED。PR 文脈は `Refs #313` のみ |
+| 目的 | admin meetings attendance visual smoke を 4 test に拡張し、削除済み候補除外、登録済み状態、重複登録 toast、list delete reflection を screenshot / trace で証明する |
+| 実装対象 | `apps/web/playwright/tests/attendance.spec.ts`, `apps/web/playwright/page-objects/AdminMeetingsPage.ts`, `apps/web/playwright/fixtures/auth.ts`, `apps/web/playwright/fixtures/admin-meetings.ts`, `apps/web/src/components/admin/MeetingPanel.tsx`, `apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx`, `apps/web/playwright.config.ts`, `apps/api/src/routes/admin/meetings.ts`, `apps/api/src/routes/admin/meetings.contract.spec.ts`, `.github/workflows/playwright-smoke.yml` |
+| API boundary | `GET /admin/meetings/:id` returns detail candidates/attendees for the Web detail page; existing `/admin/meetings/:id/attendances` uses `{ memberId, attended: true | false }`; singular `/attendance` route is not canonical |
+| evidence | Phase 11 screenshots 6 files, `trace/attendance-delete-trace.zip`, `e2e-run.txt`, `e2e-list.txt`, `e2e-skip-count.txt`, `runner-version.txt`, `verify-design-tokens.txt`, `phase11-capture-metadata.json` |
+| artifact inventory | `references/workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md` |
+| user gate | GitHub Actions CI smoke / visual baseline update / staging replacement / commit / push / PR |
+
 ### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 項目 | 値 |
