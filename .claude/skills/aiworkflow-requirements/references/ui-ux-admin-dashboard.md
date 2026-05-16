@@ -55,21 +55,27 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 ### 2.1 構造
 
 - `<nav aria-label="管理メニュー" className="admin-sidebar">`
-- `<ul>` 配下に `<li><Link href={href}>{label}</Link></li>` を 5 件
+- `<nav>` 直下の先頭に `<Link href="/" aria-label="ホームに戻る">UBM兵庫</Link>` を置く。
+- `<ul>` 配下に `<li><Link href={href}>{label}</Link></li>` を 9 件
 
 ### 2.2 リンク
 
 | href | label |
 | --- | --- |
+| `/` | UBM兵庫（aria-label: ホームに戻る） |
 | `/admin` | ダッシュボード |
+| `/admin/dashboard/attendance` | 出席分析 |
 | `/admin/members` | 会員管理 |
 | `/admin/tags` | タグキュー |
 | `/admin/schema` | schema |
 | `/admin/meetings` | 開催日 |
+| `/admin/requests` | 依頼キュー |
+| `/admin/identity-conflicts` | Identity重複 |
+| `/admin/audit` | 監査ログ |
 
 ### 2.3 不変条件
 
-- 上記 5 リンクは固定。順序も固定。
+- 上記 10 リンクは固定。順序も固定。
 - アクティブ状態のスタイル属性は実装上 CSS 側で管理（コンポーネントは `aria-current` を出さない）。
 
 ---
@@ -153,7 +159,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 ### 4.3 MemberDrawer（Client）
 
-実装: `apps/web/src/components/admin/MemberDrawer.tsx`
+現行実装: `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`
 
 #### Props
 
@@ -161,7 +167,6 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 {
   readonly memberId: string;
   readonly onClose: () => void;
-  readonly onMutated: () => void;
 }
 ```
 
@@ -175,6 +180,12 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | `noteBody` | `string` | 管理メモ textarea |
 | `confirmDelete` | `boolean` | 削除確認 dialog 開閉 |
 | `deleteReason` | `string` | 削除理由（必須） |
+
+#### Navigation
+
+- drawer 最下部に `<Link href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}>タグ管理へ</Link>` を置く。
+- `memberId` は必ず `encodeURIComponent` を通す。
+- link click 時に `onClose()` は手動呼び出ししない。route transition による unmount に任せる。
 
 #### 取得
 

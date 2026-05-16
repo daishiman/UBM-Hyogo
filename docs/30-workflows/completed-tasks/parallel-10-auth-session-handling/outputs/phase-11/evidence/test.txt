@@ -1,0 +1,216 @@
+
+> @ubm-hyogo/web@0.1.0 test /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-193751-wt-7/apps/web
+> vitest run --passWithNoTests --root=../.. --config=vitest.config.ts apps/web
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260515-193751-wt-7
+
+ ✓ apps/web/src/lib/admin/__tests__/api.spec.ts (19 tests) 61ms
+ ✓ apps/web/src/__tests__/static-invariants.runtime.spec.ts (5 tests) 1138ms
+   ✓ static invariants / 06b > S-03: apps/web 全体に '/no-access' リテラルが現れない 706ms
+ ✓ apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.tsx (9 tests) 239ms
+ ✓ apps/web/src/lib/auth.spec.ts (40 tests) 590ms
+   ✓ buildAuthConfig > getAuth > dynamic import で AuthRuntime を返し、二回目は cache される 451ms
+ ✓ apps/web/src/components/ui/__tests__/primitives.component.spec.tsx (26 tests) 994ms
+ ✓ apps/web/src/components/admin/__tests__/TagQueuePanel.component.spec.tsx (14 tests) 1767ms
+   ✓ TagQueuePanel > happy: items 複数 + 先頭が初期選択 → review pane に詳細表示 788ms
+ ✓ apps/web/src/components/admin/__tests__/AuditLogPanel.component.spec.tsx (39 tests) 1510ms
+   ✓ AuditLogPanel > renders collapsed summaries and no edit/delete/rerun actions 643ms
+ ✓ apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx (11 tests) 1756ms
+   ✓ SchemaDiffPanel > mutation 成功: 割当→postSchemaAlias 呼出、toast/refresh、form クローズ 537ms
+ ✓ apps/web/src/components/admin/__tests__/MeetingPanel.component.spec.tsx (17 tests) 1993ms
+   ✓ MeetingPanel.filterCandidates > 既存 attendance を初期状態から disabled にする 685ms
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > service-binding 経路: env.API_SERVICE.fetch を使う
+{ transport: 'service-binding', path: '/health', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > PUBLIC_API_BASE_URL を使った外向き fetch
+{ transport: 'http-fallback', path: '/v1/foo', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > getCloudflareContext throw 時 process.env を fallback として使う
+{ transport: 'http-fallback', path: '/v1/bar', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > process.env.PUBLIC_API_BASE_URL があれば Cloudflare env より優先する
+{ transport: 'http-fallback', path: '/v1/baz', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > PUBLIC_API_BASE_URL 未指定なら DEFAULT_BASE_URL
+{ transport: 'http-fallback', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > revalidate と headers を上書きできる
+{ transport: 'service-binding', path: '/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublic > 非 2xx でエラー throw
+{ transport: 'http-fallback', path: '/oops', status: 500 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 200 で JSON を返す
+{ transport: 'http-fallback', path: '/v1/x', status: 200 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 404 で FetchPublicNotFoundError
+{ transport: 'http-fallback', path: '/v1/missing', status: 404 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > 5xx で 通常 Error
+{ transport: 'http-fallback', path: '/v1/x', status: 503 }
+
+stdout | apps/web/src/lib/fetch/public.spec.ts > fetchPublicOrNotFound > revalidate オプションを伝搬する
+{ transport: 'service-binding', path: '/v1/x', status: 200 }
+
+ ✓ apps/web/src/lib/fetch/public.spec.ts (12 tests) 118ms
+ ✓ apps/web/app/profile/_components/RequestActionPanel.component.spec.tsx (10 tests) 375ms
+ ✓ apps/web/src/lib/api/me-requests.spec.ts (15 tests) 181ms
+ ✓ apps/web/src/__tests__/tokens.runtime.spec.ts (9 tests) 52ms
+ ✓ apps/web/src/lib/fetch/authed.spec.ts (13 tests) 188ms
+ ✓ apps/web/app/__tests__/error.component.spec.tsx (10 tests) 771ms
+   ✓ RouteError > TC-U-05: reset ボタンクリックで reset prop が呼ばれる > invokes reset once on click 373ms
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getStats: schema strict parse を経由する
+{ transport: 'http-fallback', path: '/public/stats', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getStats: 不正な schema は throw する
+{ transport: 'http-fallback', path: '/public/stats', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > listMembers: 既定値を query に乗せず公開 endpoint を叩く
+{ transport: 'http-fallback', path: '/public/members', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > listMembers: q / density / tag を query に展開する
+{ transport: 'http-fallback', path: '/public/members', status: 200 }
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getMemberProfile: 404 を FetchPublicNotFoundError に変換する
+{
+  transport: 'http-fallback',
+  path: '/public/members/missing',
+  status: 404
+}
+
+stdout | apps/web/src/lib/api/__tests__/public.spec.ts > public api wrapper > getFormPreview: strict parse OK
+{
+  transport: 'http-fallback',
+  path: '/public/form-preview',
+  status: 200
+}
+
+ ✓ apps/web/src/lib/api/__tests__/public.spec.ts (6 tests) 88ms
+ ✓ apps/web/app/profile/_components/VisibilityRequestDialog.component.spec.tsx (7 tests) 1027ms
+   ✓ VisibilityRequestDialog > TC-U-05: open=false で dom 出ない / open=true で role=dialog 出現 401ms
+ ✓ apps/web/src/components/admin/__tests__/RequestQueuePanel.component.spec.tsx (6 tests) 1489ms
+   ✓ RequestQueuePanel > TC-25: 409 エラー時は他 admin 処理済メッセージを表示 458ms
+   ✓ RequestQueuePanel > TC-26: nextCursor があれば次ページへ遷移できる 336ms
+ ✓ apps/web/src/lib/auth/verify-magic-link.spec.ts (15 tests) 87ms
+ ✓ apps/web/app/api/auth/callback/email/route.route.spec.ts (11 tests) 238ms
+ ✓ apps/web/src/lib/auth/magic-link-client.spec.ts (11 tests) 58ms
+ ✓ apps/web/src/lib/__tests__/logger.spec.ts (8 tests) 62ms
+ ✓ apps/web/src/components/public/__tests__/MemberDetailSections.component.spec.tsx (5 tests) 202ms
+ ✓ apps/web/src/lib/url/__tests__/members-search.spec.ts (11 tests) 41ms
+ ✓ apps/web/app/api/me/[...path]/route.route.spec.ts (3 tests) 84ms
+ ✓ apps/web/src/lib/api/__tests__/me-requests-client.spec.ts (7 tests) 112ms
+ ✓ apps/web/src/features/admin/components/__tests__/MembersTable.spec.tsx (6 tests) 1262ms
+   ✓ MembersTable > TC-MT-04: 氏名 button click 356ms
+   ✓ MembersTable > a11y violations 0 571ms
+ ✓ apps/web/app/login/_components/MagicLinkForm.component.spec.tsx (2 tests) 1056ms
+   ✓ MagicLinkForm cooldown / U-03 > submit 後 60s cooldown でカウントダウンし 0 で再有効化 884ms
+ ✓ apps/web/src/lib/__tests__/env.spec.ts (10 tests) 103ms
+ ✓ apps/web/src/components/public/__tests__/FormPreviewSections.component.spec.tsx (3 tests) 318ms
+ ✓ apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx (4 tests) 1327ms
+   ✓ IdentityConflictRow > idle 段階で merge / dismiss ボタンと concflict メタを表示する 647ms
+   ✓ IdentityConflictRow > dismiss ボタンで理由入力 UI を表示し、エラー時は alert を出す 316ms
+ ✓ apps/web/app/login/_components/__tests__/LoginPanel.component.spec.tsx (7 tests) 954ms
+   ✓ LoginPanel / 6 状態 > input: form / Google ボタン / register リンクが出る 644ms
+ ✓ apps/web/app/api/me/delete-request/route.route.spec.ts (5 tests) 98ms
+ ✓ apps/web/app/api/me/visibility-request/route.route.spec.ts (4 tests) 86ms
+ ✓ apps/web/app/profile/_components/__tests__/VisibilityRequest.component.spec.tsx (4 tests) 1315ms
+   ✓ VisibilityRequest > public → 公開停止申請を成功させる 585ms
+   ✓ VisibilityRequest > hidden → 再公開申請として送る 465ms
+ ✓ apps/web/src/features/admin/components/__tests__/BulkActionBar.spec.tsx (5 tests) 2127ms
+   ✓ BulkActionBar > TC-BAB-02: publish click でシリアル呼出 748ms
+   ✓ BulkActionBar > TC-BAB-03: hide click 340ms
+   ✓ BulkActionBar > a11y violations 0 810ms
+ ✓ apps/web/src/components/ui/__tests__/task10-contract.component.spec.tsx (3 tests) 1275ms
+   ✓ task-10 ui primitive contract > keeps className merge and accessibility surfaces available 1027ms
+ ✓ apps/web/src/lib/url/login-query.spec.ts (16 tests) 55ms
+ ✓ apps/web/src/components/public/__tests__/MemberCard.component.spec.tsx (3 tests) 916ms
+   ✓ MemberCard > renders all member fields and link to detail page (happy) 458ms
+ ✓ apps/web/app/profile/_components/__tests__/DeleteRequest.component.spec.tsx (3 tests) 1078ms
+   ✓ DeleteRequest > 退会申請を成功させ accepted 表示 742ms
+ ✓ apps/web/app/profile/_components/DeleteRequestDialog.component.spec.tsx (4 tests) 1247ms
+   ✓ DeleteRequestDialog > TC-U-09: チェック未入力で submit が disabled 401ms
+   ✓ DeleteRequestDialog > チェック後に submit 有効化 → 202 で onSubmitted 370ms
+ ✓ apps/web/src/components/public/__tests__/MemberTable.spec.tsx (3 tests) 608ms
+   ✓ MemberTable > ヘッダ行 5 列と各 item の行をレンダーする 565ms
+ ✓ apps/web/src/lib/session.spec.ts (7 tests) 24ms
+ ✓ apps/web/src/lib/__tests__/boundary.spec.ts (3 tests) 3459ms
+   ✓ AC-3 / AC-4: data access boundary > apps/web から D1Database を import すると boundary lint が error 1285ms
+   ✓ AC-3 / AC-4: data access boundary > apps/web から apps/api を import すると boundary lint が error 1174ms
+   ✓ AC-3 / AC-4: data access boundary > 通常コードでは boundary lint が pass する 996ms
+ ✓ apps/web/src/features/admin/components/__tests__/MembersFilters.spec.tsx (6 tests) 1226ms
+   ✓ MembersFilters > TC-MF-05: loading=true で「更新中…」表示 370ms
+   ✓ MembersFilters > a11y violations 0 470ms
+ ✓ apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx (3 tests) 1215ms
+   ✓ MemberFilters > Search / 2 つの Select / Segmented / DensityToggle をレンダーする 658ms
+   ✓ MemberFilters > tag が指定済みの場合 active-tags リストを描画し × ボタンで削除できる 444ms
+ ✓ apps/web/src/features/admin/components/__tests__/KpiGrid.spec.tsx (5 tests) 1572ms
+   ✓ KpiGrid > TC-KG-01: 4 セルが描画される 402ms
+   ✓ KpiGrid > a11y violations 0 879ms
+ ✓ apps/web/app/profile/_components/PublicVisibilityBanner.component.spec.tsx (6 tests) 550ms
+   ✓ PublicVisibilityBanner DOM > data-region と aria-label を持つ section を描画する 539ms
+ ✓ apps/web/src/components/public/__tests__/MemberLinks.component.spec.tsx (3 tests) 672ms
+   ✓ MemberLinks > extracts only url kind fields (TC-U-05) 596ms
+ ✓ apps/web/src/components/public/__tests__/ProfileHero.component.spec.tsx (3 tests) 1045ms
+   ✓ ProfileHero > renders all fields and badges when zone and membershipType present (happy) 966ms
+ ✓ apps/web/src/components/public/__tests__/Stats.component.spec.tsx (3 tests) 443ms
+   ✓ Stats > renders 4 anchored stat tiles 326ms
+ ✓ apps/web/src/components/feedback/__tests__/EmptyState.component.spec.tsx (3 tests) 585ms
+   ✓ EmptyState > renders title, description and reset link with default label (happy) 383ms
+stdout | apps/web/scripts/__tests__/lhci-auth-storage.spec.ts > lhci-auth-storage > writes a storage state with authjs.session-token cookie
+[lhci-auth-storage] wrote /var/folders/35/t3gvbkdd2w55yk8csmzskzrw0000gn/T/lhci-auth-AE1Ubj/storage.json
+
+ ✓ apps/web/scripts/__tests__/lhci-auth-storage.spec.ts (2 tests) 151ms
+ ✓ apps/web/src/components/public/__tests__/DensityToggle.client.spec.tsx (3 tests) 713ms
+   ✓ DensityToggle > 3 種の radio を radiogroup として描画し value で選択状態を反映する 583ms
+ ✓ apps/web/src/components/ui/Toast.spec.tsx (3 tests) 456ms
+   ✓ Toast variants > default variant は role=status に出る 387ms
+ ✓ apps/web/src/components/public/__tests__/Hero.component.spec.tsx (3 tests) 569ms
+   ✓ Hero > renders title, subtitle and both CTAs (happy) 423ms
+ ✓ apps/web/app/login/_components/__tests__/LoginCard.component.spec.tsx (5 tests) 421ms
+ ✓ apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx (3 tests) 619ms
+ ✓ apps/web/src/test-utils/fetch-mock.spec.ts (5 tests) 50ms
+ ✓ apps/web/src/lib/auth/oauth-client.spec.ts (5 tests) 41ms
+ ↓ apps/web/src/__tests__/build-output.runtime.spec.ts (1 test | 1 skipped)
+ ✓ apps/web/src/__tests__/instrumentation-client.runtime.spec.ts (2 tests) 66ms
+ ✓ apps/web/src/components/public/__tests__/Timeline.component.spec.tsx (3 tests) 580ms
+   ✓ Timeline > renders entries in given order with time[dateTime] (happy) 473ms
+ ✓ apps/web/src/lib/admin/dashboard-ui.spec.ts (4 tests) 10ms
+ ✓ apps/web/src/lib/url/login-redirect.spec.ts (8 tests) 26ms
+ ✓ apps/web/src/components/auth/__tests__/SignOutButton.component.spec.tsx (3 tests) 916ms
+   ✓ SignOutButton > uses custom label and redirectTo when provided 590ms
+ ✓ apps/web/app/profile/_components/RequestErrorMessage.component.spec.tsx (9 tests) 1069ms
+   ✓ RequestErrorMessage > renders alert with non-empty text for DUPLICATE_PENDING_REQUEST 665ms
+ ✓ apps/web/src/components/public/__tests__/MemberGrid.spec.tsx (3 tests) 474ms
+   ✓ MemberGrid > items 件数分の li を density 属性付きでレンダーする (comfy) 339ms
+ ✓ apps/web/src/components/public/__tests__/RegisterCallout.component.spec.tsx (3 tests) 264ms
+ ✓ apps/web/src/components/public/__tests__/MemberActivity.component.spec.tsx (2 tests) 145ms
+ ✓ apps/web/src/features/admin/components/__tests__/RecentActionsTable.spec.tsx (4 tests) 581ms
+ ✓ apps/web/src/components/public/__tests__/PublicHeader.spec.tsx (2 tests) 555ms
+   ✓ PublicHeader > 3 件のナビ項目をラベルと href の組で全件レンダーする 413ms
+ ✓ apps/web/src/components/public/__tests__/ZoneIntro.spec.tsx (2 tests) 858ms
+   ✓ ZoneIntro > セクション見出しと 3 ゾーンカードをレンダーする 721ms
+ ✓ apps/web/src/components/public/__tests__/PublicFooter.spec.tsx (2 tests) 748ms
+   ✓ PublicFooter > プライバシー / 利用規約リンクと copyright をレンダーする 692ms
+ ✓ apps/web/src/lib/url/login-state.spec.ts (2 tests) 34ms
+ ✓ apps/web/src/components/legal/__tests__/LegalProse.component.spec.tsx (2 tests) 225ms
+ ✓ apps/web/app/profile/_components/RequestPendingBanner.component.spec.tsx (3 tests) 514ms
+   ✓ RequestPendingBanner > visibility_request 文言 + role=status + aria-live=polite 342ms
+ ✓ apps/web/src/components/public/__tests__/MemberTags.component.spec.tsx (2 tests) 202ms
+ ✓ apps/web/src/lib/tones.spec.ts (7 tests) 13ms
+ ✓ apps/web/src/lib/__tests__/sentry-capture.spec.ts (5 tests) 320ms
+ ✓ apps/web/src/lib/__tests__/is-browser.spec.ts (3 tests) 197ms
+ ✓ apps/web/src/components/layout/__tests__/MemberHeader.spec.tsx (1 test) 769ms
+   ✓ MemberHeader > マイページリンクとログアウトボタンをレンダーする 758ms
+ ✓ apps/web/app/(admin)/admin/audit/page.page.spec.ts (2 tests) 27ms
+ ✓ apps/web/src/lib/__tests__/is-browser.node.spec.ts (2 tests) 8ms
+ ✓ apps/web/src/lib/__tests__/logger.runtime.spec.ts (2 tests) 44ms
+ ✓ apps/web/src/__tests__/instrumentation.runtime.spec.ts (2 tests) 479ms
+   ✓ instrumentation register() guard > T-07: 2 回呼び出しても Sentry.init が 1 回しか呼ばれない 460ms
+
+ Test Files  85 passed | 1 skipped (86)
+      Tests  572 passed | 1 skipped (573)
+   Start at  21:12:54
+   Duration  57.47s (transform 7.33s, setup 0ms, collect 48.83s, tests 51.98s, environment 158.01s, prepare 35.12s)
+

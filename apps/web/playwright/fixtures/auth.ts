@@ -31,17 +31,10 @@ type PendingRequests = {
   }
 }
 
-type AttendancePageState = {
-  initialRecords: Array<{ sessionId: string; title: string; heldOn: string }>
-  nextRecords: Array<{ sessionId: string; title: string; heldOn: string }>
-  cursor: string
-}
-
 type MockApiState = {
   pendingRequests: PendingRequests
   visibilityPost?: { status: number; body: unknown }
   adminDashboardUnresolvedSchema?: number
-  attendancePage?: AttendancePageState
 }
 
 type MockApi = {
@@ -50,7 +43,6 @@ type MockApi = {
   setDeletePending: (createdAt?: string) => Promise<void>
   setVisibilityError: (status: number, body: unknown) => void
   setAdminDashboardUnresolvedSchema: (count: number) => Promise<void>
-  setAttendancePage: (page: AttendancePageState) => Promise<void>
 }
 
 const STANDALONE_BASE = `http://127.0.0.1:${MOCK_API_PORT}`
@@ -78,14 +70,11 @@ function response(res: ServerResponse, status: number, body: unknown): void {
 }
 
 function profileBody() {
-  const attendancePage = state.attendancePage
   return {
     profile: {
       sections: [],
-      attendance: attendancePage?.initialRecords ?? [],
-      attendanceMeta: attendancePage
-        ? { hasMore: true, nextCursor: attendancePage.cursor }
-        : { hasMore: false, nextCursor: null },
+      attendance: [],
+      attendanceMeta: { hasMore: false, nextCursor: null },
     },
     statusSummary: {
       publicConsent: 'consented',
@@ -257,15 +246,6 @@ async function ensureMockApi(): Promise<void> {
         response(res, 200, profileBody())
         return
       }
-      if (req.method === 'GET' && url.pathname === '/me/attendance') {
-        const attendancePage = state.attendancePage
-        response(res, 200, {
-          records: attendancePage?.nextRecords ?? [],
-          hasMore: false,
-          nextCursor: null,
-        })
-        return
-      }
       if (req.method === 'GET' && url.pathname === '/public/stats') {
         response(res, 200, buildStats({ generatedAt: '2026-05-12T00:00:00.000Z' }))
         return
@@ -369,7 +349,6 @@ const mockApi: MockApi = {
     state.pendingRequests = {}
     delete state.visibilityPost
     delete state.adminDashboardUnresolvedSchema
-    delete state.attendancePage
     await postControl('/__test__/reset')
   },
   setVisibilityPending: async (createdAt = '2026-05-09T00:00:00.000Z') => {
@@ -397,9 +376,6 @@ const mockApi: MockApi = {
   setAdminDashboardUnresolvedSchema: async (count) => {
     state.adminDashboardUnresolvedSchema = count
     await postControl('/__test__/admin-dashboard', { unresolvedSchema: count })
-  },
-  setAttendancePage: async (page) => {
-    state.attendancePage = page
   },
 }
 

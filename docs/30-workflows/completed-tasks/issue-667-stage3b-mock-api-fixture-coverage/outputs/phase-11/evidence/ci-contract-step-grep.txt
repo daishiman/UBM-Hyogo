@@ -1,0 +1,2 @@
+130:      - name: Mock API contract tests
+132:        run: pnpm exec vitest run scripts/__tests__/e2e-mock-api.contract.spec.ts packages/contracts/src/index.spec.ts

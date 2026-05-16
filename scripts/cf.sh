@@ -4,8 +4,10 @@
 # - `.env` には実値を絶対に書かない (AI 学習混入防止) — op:// 参照のみ可
 # - ローカル node_modules/.bin/wrangler を優先使用 (グローバル wrangler は esbuild 不整合の元)
 # - グローバル/サブパッケージ esbuild とのバージョン不整合を ESBUILD_BINARY_PATH で自動解決
-# - OpenNext build の host/binary mismatch 再発時は root package.json の pnpm.overrides.esbuild を
-#   @opennextjs/aws が使用する esbuild version に合わせ、pnpm install 後に build:cloudflare を再検証する
+# - esbuild mismatch 再発時は wrangler の exact dependency を基準に root
+#   package.json の pnpm.overrides.esbuild を合わせ、OpenNext 互換性は
+#   build:cloudflare の実走で担保する
+# - 現在の override は wrangler 4.85.0 が要求する esbuild 0.27.3 に固定
 set -euo pipefail
 
 if [ "$#" -eq 0 ]; then

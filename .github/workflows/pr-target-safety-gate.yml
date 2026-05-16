@@ -1,5 +1,5 @@
 # 目的: pull_request_target safety gate (triage 専用)
-# 仕様: docs/30-workflows/completed-tasks/ut-gov-002-impl-pr-target-safety-gate/outputs/phase-2/design.md §3.1
+# 仕様: docs/30-workflows/ut-gov-002-impl-pr-target-safety-gate/outputs/phase-2/design.md §3.1
 # 上位原則: trusted context では untrusted PR code を checkout / install / build / eval しない
 # - PR head の checkout を行わない (本 workflow には actions/checkout を置かない)
 # - secrets を参照しない

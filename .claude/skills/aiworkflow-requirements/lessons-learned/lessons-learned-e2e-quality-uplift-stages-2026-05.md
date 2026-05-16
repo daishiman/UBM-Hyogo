@@ -107,11 +107,11 @@
 - **再発防止**: `.github/workflows/*.yml` に対して `grep -nE '\bnpx\b' .github/workflows/` を CI lint に追加し、検出時は fail させる。helper script 経由の場合も同 grep を `scripts/` に拡張する。例外（公式 init コマンド等）は許容ファイル一覧に明記する。
 - **関連 refs**: `.github/workflows/lighthouse.yml` (3a), `docs/30-workflows/e2e-quality-uplift-stage-3-impl/3a-lighthouse-ci/`
 
-### L-E2EQU-013: `PUBLIC_API_BASE_URL` を service binding より優先して CI mock を成立させる
+### L-E2EQU-013: `PLAYWRIGHT_TEST=1` 明示時だけ `PUBLIC_API_BASE_URL` を service binding より優先する
 
 - **状況**: Cloudflare Workers ランタイムでは `apps/web/src/lib/fetch/public.ts` が `env.API_SERVICE` (service binding) を優先する設計だったため、CI 上で `scripts/e2e-mock-api.mjs` を `127.0.0.1:8787` に立てて `INTERNAL_API_BASE_URL` / `PUBLIC_API_BASE_URL` で差し替えても、binding 経由 fetch が先に走り mock に届かなかった。Server Component の SSR fetch を E2E から差し替える経路がふさがると、coverage gate を回しても挙動を再現できない。
-- **学び**: `PUBLIC_API_BASE_URL` が明示されているときは service binding を **使わず** HTTP fallback を優先する分岐（`apps/web/src/lib/fetch/public.ts` 冒頭）を入れる。production では `PUBLIC_API_BASE_URL` を設定しないことで binding 優先のままにし、CI / local E2E でだけ env で上書きする設計に閉じる。env 名は L-E2EQU-008 の `PLAYWRIGHT_<AREA>_FIXTURE` 規約とは別軸（base URL 差し替え）として整理する。
-- **再発防止**: SSR fetch を含む新 helper を作るときは「service binding 優先」と「明示 base URL があるときは HTTP 優先」の二軸を helper の最上段に書く。`apps/web/src/lib/fetch/public.test.ts` で env 設定ありの分岐を unit test として固定し、Phase 4 の test design で「binding 経路 vs HTTP 経路」を必ず両方カバーする。
+- **学び**: `PUBLIC_API_BASE_URL` が明示されているだけで service binding を skip してはいけない。HTTP fallback 優先は `NODE_ENV=test` または `PLAYWRIGHT_TEST=1` の明示 context に限定する。GitHub Actions の一般的な `CI=true` は build/deploy でも立つため transport 判定に使わない。
+- **再発防止**: SSR fetch を含む新 helper を作るときは「production / staging は service binding 優先」「Vitest / Playwright 明示時だけ base URL HTTP 優先」の二軸を helper の最上段に書く。`apps/web/src/lib/fetch/public.spec.ts` で `CI=true` 単独では service binding を維持する safety test と、`PLAYWRIGHT_TEST=1` fallback test の両方を固定する。
 - **関連 refs**: `apps/web/src/lib/fetch/public.ts`, `apps/web/src/lib/fetch/public.test.ts`, `scripts/e2e-mock-api.mjs`, `.github/workflows/e2e-tests.yml`
 
 ### L-E2EQU-014: Playwright reporter 配列に monocart を追加するときは末尾追加で既存 3 件を維持する

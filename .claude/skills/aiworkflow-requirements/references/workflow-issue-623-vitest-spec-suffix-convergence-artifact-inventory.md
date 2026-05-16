@@ -4,14 +4,14 @@
 | --- | --- |
 | workflow root | `docs/30-workflows/completed-tasks/issue-623-vitest-spec-suffix-convergence/` |
 | state | `implementation_completed / implementation / NON_VISUAL / Phase 11 evidence partial (AC-7 runtime-pending due to ENOSPC) / Phase 12 strict 7 files present / Phase 13 pending_user_approval` |
-| predecessor | Issue #325（`docs/30-workflows/completed-tasks/issue-325-test-suffix-rename-migration/`）/ UT-issue-325-followup-003（scope-out 棚卸しから昇格） |
+| predecessor | Issue #325（`docs/30-workflows/issue-325-test-suffix-rename-migration/`）/ UT-issue-325-followup-003（scope-out 棚卸しから昇格） |
 | parent workflow | none（Issue #325 系譜の直接 follow-up） |
 | target | `apps/web/**` + `packages/**` + `.claude/skills/**` + `apps/api/migrations/seed/**` 全 159 ファイル `*.test.{ts,tsx}` → `*.spec.{ts,tsx}`（git mv R100） |
 | config convergence | root `vitest.config.ts` の `test.include` を `**/*.spec.{ts,tsx}` 単一に収斂、`coverage.exclude` から `**/*.test.{ts,tsx}` 削除。apps/api / apps/web / packages 配下に個別 `vitest.config.*` なし（root 集約方式）。 |
 | local gate | `scripts/hooks/block-test-suffix.sh`（実行権限付与済み）、`lefthook.yml` `pre-commit.commands.block-test-suffix` |
 | CI gate | `.github/workflows/verify-test-suffix.yml`（push / PR で main / dev branch gate） |
 | invariant docs | `CLAUDE.md` §重要な不変条件 第8項「新規 test ファイルは `*.spec.{ts,tsx}` のみ」を追記 |
-| ADR | `docs/30-workflows/completed-tasks/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md` 末尾に「二段階対応終了 2026-05-12」追記 |
+| ADR | `docs/30-workflows/issue-325-test-suffix-rename-migration/outputs/phase-12/test-file-suffix-adr.md` 末尾に「二段階対応終了 2026-05-12」追記 |
 | Phase 11 evidence | `outputs/phase-11/main.md`（AC-1..AC-6 captured、AC-7 parity は ENOSPC により runtime-pending として CI 側に委譲） |
 | Phase 12 strict 7 | `outputs/phase-12/{main,implementation-guide,system-spec-update-summary,documentation-changelog,unassigned-task-detection,skill-feedback-report,phase12-task-spec-compliance-check}.md` |
 

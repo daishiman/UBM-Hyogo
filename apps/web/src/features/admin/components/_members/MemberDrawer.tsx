@@ -1,5 +1,6 @@
 // task-15: 1 会員詳細 drawer（identity / answers / audit / notes）
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { AdminMemberDetailView } from "@ubm-hyogo/shared";
 import { Drawer } from "../../../../components/ui/Drawer";
@@ -109,6 +110,15 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
                 ))
               )}
             </ul>
+          </section>
+
+          <section className="border-t border-[var(--ubm-color-border-default)] pt-4">
+            <Link
+              href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}
+              className="inline-flex items-center text-sm font-medium text-[var(--ubm-color-accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ubm-color-accent)]"
+            >
+              タグ管理へ
+            </Link>
           </section>
         </div>
       )}

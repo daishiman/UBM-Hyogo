@@ -86,7 +86,7 @@ Error: Process completed with exit code 1.
 ### 既存仕様
 
 - `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` lines 150-167 が「Issue #571 staging runtime smoke 専用」セクションで `STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT` を **`staging-runtime-smoke` environment-scoped secret** に配置する規約を正本化
-- `docs/30-workflows/completed-tasks/ci-pipeline-recovery-web-cd-and-runtime-smoke/tasks/task-02-staging-runtime-smoke-secrets-provisioning/index.md` lines 40-58 に `op read` → `gh secret set --env staging-runtime-smoke` の投入コマンド群（G1 承認待ち）
+- `docs/30-workflows/issue-571-runtime-smoke-ci-staging-integration/phase-11.md` lines 40-58 に `op read` → `gh secret set --env staging-runtime-smoke` の投入コマンド群（G1 承認待ち）
 
 ## 因果まとめ
 
