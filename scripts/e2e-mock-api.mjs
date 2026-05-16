@@ -58,10 +58,10 @@ const readBody = (req) =>
 
 const defaultMeetingsSeed = () => ({
   members: [
-    { memberId: "m-1", fullName: "青木 太郎" },
-    { memberId: "m-2", fullName: "兵庫 花子" },
-    { memberId: "m-3", fullName: "神戸 次郎" },
-    { memberId: "m-5", fullName: "削除済み 会員", isDeleted: true },
+    { memberId: "m-1", fullName: "出席候補 一郎" },
+    { memberId: "m-2", fullName: "出席候補 二郎" },
+    { memberId: "m-3", fullName: "出席候補 三郎" },
+    { memberId: "m-5", fullName: "出席候補 五郎(削除済)", isDeleted: true },
   ],
   meetings: [
     {
@@ -71,10 +71,10 @@ const defaultMeetingsSeed = () => ({
       note: "attendance visual smoke fixture",
       createdAt: "2026-05-15T00:00:00.000Z",
       candidates: [
-        { memberId: "m-1", fullName: "青木 太郎" },
-        { memberId: "m-2", fullName: "兵庫 花子" },
-        { memberId: "m-3", fullName: "神戸 次郎" },
-        { memberId: "m-5", fullName: "削除済み 会員", isDeleted: true },
+        { memberId: "m-1", fullName: "出席候補 一郎" },
+        { memberId: "m-2", fullName: "出席候補 二郎" },
+        { memberId: "m-3", fullName: "出席候補 三郎" },
+        { memberId: "m-5", fullName: "出席候補 五郎(削除済)", isDeleted: true },
       ],
       attendees: [{ memberId: "m-1", assignedAt: "2026-05-15T00:00:00.000Z" }],
     },
