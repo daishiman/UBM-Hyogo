@@ -976,7 +976,7 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L232 |
 | Conversation DB 初期化パターン | L263 |
 | UBM-Hyogo Schema Sync Contract（03a） | L265 |
-| ベクトル検索実装（DiskANN） | L384 |
+| ベクトル検索実装（DiskANN） | L385 |
 
 ### references/database-implementation-details.md
 
@@ -3209,6 +3209,12 @@ node scripts/list-specs.js --topics
 | Metadata | L3 |
 | Current Canonical Set | L12 |
 | Open Follow-ups | L25 |
+
+### references/workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Gate boundary | L14 |
 
 ### references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md
 
@@ -6667,7 +6673,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1330 |
 | 昇格パターン集 | L1354 |
 | Current Active / Spec Created Tasks | L1356 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1499 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1500 |
 
 ### references/task-workflow-backlog-part2.md
 
