@@ -21,6 +21,18 @@
 | evidence | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | staging / production authenticated evidence、commit、push、PR |
 
+### Issue #718 legacy Cloudflare API Token revocation（2026-05-16）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `spec_created_runtime_gate_pending / implementation / NON_VISUAL / Gate C external mutation pending_user_approval / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/issue-718-legacy-cf-token-revocation/` |
+| Issue | #718 CLOSED。PR 文脈は `Refs #718, Refs #640` |
+| source unassigned | `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md`（consumed provenance） |
+| 目的 | Issue #640 step-scoped token cutover 後の legacy `CLOUDFLARE_API_TOKEN` physical revocation / GitHub Secrets / 1Password inventory reconciliation を Gate C user approval 配下に formalize |
+| evidence boundary | read-only inventory templates and Phase 12 strict outputs are present. Cloudflare token revocation, GitHub Secret deletion/replacement, 1Password mutation, commit, push, and PR remain user-gated |
+| SSOT | `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` |
+
 ### parallel-09 UX cross-cutting primitives contract（2026-05-15）
 
 | 項目 | 値 |
@@ -1122,6 +1134,18 @@
 | 仕様同期 | `docs/00-getting-started-manual/specs/02-auth.md` に Client 401 / 403 handling を追加。silent refresh は MVP 不採用。 |
 | evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build}.txt`, `outputs/phase-11/visual-verification-skip.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | commit / push / PR |
+
+### i01-toastprovider-root-mount（2026-05-16）
+
+| 項目 | 内容 |
+| --- | --- |
+| 成果物 | `docs/30-workflows/completed-tasks/i01-toastprovider-root-mount/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / runtime visual pending_user_session` |
+| 目的 | `parallel-08-shared-foundation` の DoD `ToastProvider in root layout` を実装し、`useAdminMutation` の toast context silent fallback を解消する。 |
+| 実装 | `apps/web/app/layout.tsx` が `ToastProvider` を import し、root `<body>` 内で `children` を wrap。`apps/web/src/components/ui/Toast.tsx` は既存 `"use client"` のため wrapper 不要。 |
+| 仕様同期 | `docs/00-getting-started-manual/specs/09a-prototype-map.md` の `ToastProvider` app shell boundary 既存正本と整合。`integration-fixes/index.md` / `parallel-i01-toastprovider-root-mount/spec.md` / `parallel-08-shared-foundation/spec.md` の DoD を同一 wave で同期。 |
+| evidence | `outputs/phase-09/acceptance.md`, `outputs/phase-11/manual-smoke.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | authenticated admin toast visual smoke / commit / push / PR |
 
 ### task-05a-form-preview-503-001（2026-05-05）
 
