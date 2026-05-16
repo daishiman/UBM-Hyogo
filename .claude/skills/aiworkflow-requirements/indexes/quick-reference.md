@@ -5,6 +5,19 @@
 
 ---
 
+### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-07a-01-member-tags-assign-cleanup/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| source | Issue #294 CLOSED / `docs/30-workflows/completed-tasks/COMPLETED-UT-07A-01-member-tags-assign-cleanup.md` consumed |
+| implementation | `apps/api/src/repository/memberTags.ts` JSDoc/comment + `memberTags.readonly.test-d.ts` / `memberTags.repository.spec.ts` boundary gates |
+| invariant | `assignTagsToMember` is `tagQueueResolve` workflow-only helper; no direct caller outside `apps/api/src/workflows/tagQueueResolve.ts` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation |
+
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
 | 目的 | 参照先 |
