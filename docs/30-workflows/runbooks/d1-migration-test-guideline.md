@@ -30,12 +30,23 @@
 PR レビュー時に以下の順序で確認:
 
 1. 新規 / 編集された migration ファイル数を確認
-2. `d1-migration-verify` CI の green 確認
+2. `d1-migration-verify` CI の green 確認（PR ガード: bats / dry-run / コメント投稿）
 3. 新規 test ファイル（`*.spec.ts`）の存在確認
 4. rollback 手順の必要性判断（破壊的変更の場合は別 runbook 起票）
+
+## 実 apply の責務分離
+
+| 環境 | 駆動 | workflow | environment 保護 |
+|------|------|---------|-----------------|
+| PR 検証（dry-run） | `pull_request` | `d1-migration-verify.yml` | なし（PR ガード専用） |
+| staging | `push` to `dev` / `workflow_dispatch` | `d1-migration-apply.yml` (job: `apply-staging`) | `staging` |
+| production | `push` to `main` / `workflow_dispatch` | `d1-migration-apply.yml` (job: `apply-production`) | `production` |
+
+`AUTO_CONFIRM=1` で CI から `apply-prod.sh` の対話プロンプトをスキップする。production environment の deployment branch policy で `main` のみを許可することで誤適用を防ぐ。
 
 ## 関連
 
 - UT-04 / 02b initial schema test
-- `.github/workflows/d1-migration-verify.yml`
+- `.github/workflows/d1-migration-verify.yml`（PR ガード）
+- `.github/workflows/d1-migration-apply.yml`（staging / production 実 apply）
 - `docs/30-workflows/completed-tasks/02b-*` の miniflare D1 integration test
