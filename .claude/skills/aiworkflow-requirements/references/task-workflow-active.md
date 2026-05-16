@@ -546,7 +546,7 @@
 | 項目 | 値 |
 | --- | --- |
 | 状態 | `implemented-local-runtime-pending / implementation / NON_VISUAL / IMPLEMENTED_LOCAL_RUNTIME_PENDING` |
-| 成果物 | `docs/30-workflows/issue-655-d7-recovery-2nd-cycle/` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
 | parent | Issue #586 post-switch 7 day close-out |
 | grandparent | Issue #549 Cloudflare Audit Logs ML production switch |
 | 目的 | #586 D+7 evidence の不足または未生成を root-cause 分類し、PR-A で recovery support を実装、D'+7 後の PR-B で `*-recovery.*` evidence と SSOT 昇格を行う |
@@ -554,6 +554,20 @@
 | state vocabulary | `recovery_active` 等は operation label として扱い、独自 workflow_state は使わず、canonical `implemented-local-runtime-pending` / `runtime_pending` / `completed` と分離 |
 | user gate | commit / push / PR / workflow_dispatch / secret or variable mutation / `pass_runtime_synced` promotion は user approval 後のみ |
 | inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md` |
+
+### Issue #720 CF audit monitor environment protection fix（2026-05-16）
+
+| 項目 | 値 |
+| --- | --- |
+| 状態 | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| 成果物 | `docs/30-workflows/issue-720-cf-audit-monitor-env-protection-fix/` |
+| source | `docs/30-workflows/completed-tasks/task-issue-655-cf-audit-log-monitor-production-env-protection-001.md` consumed |
+| parent | `docs/30-workflows/completed-tasks/issue-655-d7-recovery-2nd-cycle/` |
+| local diff | `.github/workflows/cf-audit-log-monitor.yml` から `environment: production` を削除 |
+| purpose | GitHub production deployment environment branch policy による `dev` scheduled monitor run block を解消し、post-merge runtime evidence へ進める |
+| evidence boundary | Phase 11 runtime paths are `PENDING_USER_GATE` placeholders; dry run / six scheduled successes / heartbeat are not local PASS |
+| inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md` |
+| user gate | repo secret/variable mirror / commit / push / PR / workflow_dispatch / six scheduled successes / D'+0 declaration / production env monitor secret cleanup |
 
 ### Issue #587 Cloudflare Audit Logs ML model artifact rotation（2026-05-10）
 

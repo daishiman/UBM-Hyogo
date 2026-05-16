@@ -28,6 +28,7 @@ allowed-tools:
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.16-issue720-readonly-monitor-env-gate | 2026-05-16 | Issue #720 review feedback を反映。read-only monitoring workflow の `environment: production` 継承を deploy protection boundary として再判定し、Phase 11 user-gated runtime evidence は `PENDING_USER_GATE` placeholder file を物理配置する gate を追加。 |
 | v2026.05.15-issue655-recovery-window-evidence-parity | 2026-05-15 | Issue #655 D+7 recovery 2nd-cycle review feedback を反映。`references/phase12-skill-feedback-promotion.md` に Recovery Window Evidence Parity Gate を追加し、`since` / D'+0 を metadata だけにせず実 aggregation window に適用すること、recovery mode でも run URL list / aggregate JSON / leakage log / comparison evidence を通常 mode と同粒度で生成すること、local implementation diff がある場合に `spec_created` / `no code changed` と close-out しないことを必須化。 |
 | v2026.05.14-issue668-required-check-precheck | 2026-05-14 | Issue #668 RB-3b-03 / RB-3b-04 review feedback を反映。required status check を path 条件で軽量化する場合は、別 workflow `paths-ignore` 補完を既定案にせず、single workflow precheck + no-op required context branch を Phase 11 NON_VISUAL evidence pattern として正本化。 |
 | v2026.05.14-issue638-closed-fold-state-sync | 2026-05-14 | Issue #638 review feedback を反映。CLOSED Issue / folded follow-up の Phase 12 では fold 先 issue state と外部 mutation 実行後 state を同一 wave で同期し、source unassigned YAML status を `superseded` / `consumed` へ更新する gate を追加。 |

@@ -1,0 +1,59 @@
+{
+  "id": "issue-720-cf-audit-monitor-env-protection-fix",
+  "title": "cf-audit-log-monitor environment protection fix",
+  "status": "implemented_local_runtime_pending",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implemented_local_runtime_pending",
+    "implementationCategory": "implementation",
+    "githubIssue": 720,
+    "parentIssue": 655,
+    "sourceTask": "docs/30-workflows/completed-tasks/task-issue-655-cf-audit-log-monitor-production-env-protection-001.md",
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "gh secret set ... --repo daishiman/UBM-Hyogo",
+      "gh variable set ... --repo daishiman/UBM-Hyogo",
+      "git push -u origin fix/issue-720-cf-audit-monitor-env-protection",
+      "gh pr create --base dev",
+      "gh workflow run cf-audit-log-monitor.yml -f dry_run=true --ref dev"
+    ],
+    "read_only_evidence_allowed_pre_gate": true,
+    "runtimeEvidenceStatus": "pending_user_gate"
+  },
+  "phases": [
+    { "phase": 1, "file": "phase-01.md", "status": "completed" },
+    { "phase": 2, "file": "phase-02.md", "status": "completed" },
+    { "phase": 3, "file": "phase-03.md", "status": "completed" },
+    { "phase": 4, "file": "phase-04.md", "status": "completed" },
+    { "phase": 5, "file": "phase-05.md", "status": "completed" },
+    { "phase": 6, "file": "phase-06.md", "status": "completed" },
+    { "phase": 7, "file": "phase-07.md", "status": "completed" },
+    { "phase": 8, "file": "phase-08.md", "status": "completed" },
+    { "phase": 9, "file": "phase-09.md", "status": "completed" },
+    { "phase": 10, "file": "phase-10.md", "status": "completed" },
+    { "phase": 11, "file": "phase-11.md", "status": "runtime_pending" },
+    { "phase": 12, "file": "phase-12.md", "status": "completed" },
+    { "phase": 13, "file": "phase-13.md", "status": "blocked_pending_user_approval" }
+  ],
+  "outputs": {
+    "phase11": [
+      "outputs/phase-11/visual-verification-skip.md",
+      "outputs/phase-11/inventory-before.md",
+      "outputs/phase-11/workflow-dispatch-dryrun.md",
+      "outputs/phase-11/workflow-dispatch-dryrun.json",
+      "outputs/phase-11/runtime-evidence/6h-success.md",
+      "outputs/phase-11/runtime-evidence/hourly-runs.json",
+      "outputs/phase-11/runtime-evidence/heartbeat-after.txt"
+    ],
+    "phase12": [
+      "outputs/phase-12/main.md",
+      "outputs/phase-12/implementation-guide.md",
+      "outputs/phase-12/system-spec-update-summary.md",
+      "outputs/phase-12/documentation-changelog.md",
+      "outputs/phase-12/unassigned-task-detection.md",
+      "outputs/phase-12/skill-feedback-report.md",
+      "outputs/phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}
