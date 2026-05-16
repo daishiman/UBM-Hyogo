@@ -5,10 +5,10 @@
 Task-709 is registered as:
 
 - workflow root: `docs/30-workflows/task-709-visual-baseline-runtime-capture/`
-- state: `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL`
+- state: `PR_OPEN_MERGE_DIRTY / implementation / VISUAL`
 - issue: `#709`
 - upstream: `docs/30-workflows/completed-tasks/task-18-fu-full-visual-regression-suite/`
-- runtime boundary: baseline update approval, baseline import, commit, push, PR remain user-gated.
+- runtime boundary: baseline update, 51 PNG import, 2-run stability, commit, push, and PR #760 creation are complete; PR #760 currently has `mergeStateStatus=DIRTY`.
 
 Updated same-wave ledgers:
 
@@ -23,7 +23,7 @@ Updated same-wave ledgers:
 
 `task-18-fu` already implemented the Playwright full-visual infrastructure. This task formalizes the runtime capture and workflow activation checkpoint.
 
-Current state is not `completed` because the required baseline PNGs and CI evidence are not yet captured.
+Current state is not merge-ready because PR #760 is open but dirty. The runtime evidence required for task-709 is captured.
 
 ## Step 1-C: Related Tasks
 

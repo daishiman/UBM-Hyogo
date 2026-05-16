@@ -92,7 +92,9 @@ repository settings → Actions → "Allow GitHub Actions to create and approve 
 | diff threshold | `maxDiffPixelRatio: 0.02` |
 | baseline update environment | `visual-baseline-approval` |
 
-### Outstanding
+### Remaining Work
 
-- `playwright-visual-full` の PR-trigger 経由 2-run stability 検証は本 PR 作成直後に CI 上で発火する。run 結果を `outputs/phase-11/evidence/visual-full-stability.md` に追記する (Gate-D 確認時)。
+- PR #760 is open: https://github.com/daishiman/UBM-Hyogo/pull/760
+- PR #760 currently reports `mergeStateStatus=DIRTY`; conflict resolution is required before merge.
+- G4 (required status check 統合) は `task-709-fu-branch-protection-required-check.md` で実施。
 - G4 (required status check 統合) は `task-709-fu-branch-protection-required-check.md` で実施。

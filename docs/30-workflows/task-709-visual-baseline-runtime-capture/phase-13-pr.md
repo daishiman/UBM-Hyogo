@@ -6,7 +6,21 @@
 
 task-709 の成果を dev base PR として提出する。
 
-## 1. PR 作成コマンド
+## 1. PR 作成結果
+
+| 項目 | 値 |
+| --- | --- |
+| PR | https://github.com/daishiman/UBM-Hyogo/pull/760 |
+| 番号 | #760 |
+| base | `dev` |
+| head | `task/709-visual-baseline-runtime-capture` |
+| state | `OPEN` |
+| mergeStateStatus | `DIRTY` |
+| title | `feat(task-709): visual baseline runtime capture (51 PNG, 17 routes × 3 viewports)` |
+
+`gh pr create` は user approval 後に実行済み。現時点では PR #760 が open だが、`mergeStateStatus=DIRTY` のため merge 前に conflict 解消が必要。
+
+## 2. PR 作成コマンド（実行済み）
 
 ```bash
 gh pr create --base dev --title "feat(task-709): visual baseline runtime capture (17 routes × 3 viewport)" --body "$(cat <<'EOF'
@@ -49,7 +63,7 @@ EOF
 )"
 ```
 
-## 2. PR 作成前チェック
+## 3. PR 作成前チェック
 
 ```bash
 git status --porcelain                                         # 空
@@ -58,12 +72,13 @@ ls apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/ | wc -l 
 grep -E '17/19' docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md
 ```
 
-## 3. 注意事項
+## 4. 注意事項
 
 - `--base dev` を必ず指定（CLAUDE.md 既定方針）
 - baseline-update PR (Phase 5 Step 4 で生成された一時 PR) は `gh pr close --delete-branch` で閉じる
-- PR 作成後は CI の `playwright-visual-full` job が PASS することを確認
+- PR #760 は open だが `mergeStateStatus=DIRTY`。merge 前に conflict 解消が必要
+- `pull_request` trigger は target branch `dev` 側 workflow が更新された次 PR から自然発火するため、本 PR では `workflow_dispatch` 2-run stability evidence を正本とする
 
-## 4. 成果物
+## 5. 成果物
 
 - 本ファイル `phase-13-pr.md`

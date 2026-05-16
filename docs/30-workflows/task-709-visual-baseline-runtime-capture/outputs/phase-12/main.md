@@ -2,7 +2,7 @@
 
 ## Summary
 
-This Phase 12 close-out records the task-709 contract-ready state and its runtime boundary. The workflow is `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL`; it is not completed until the 51 baseline PNGs and CI stability evidence are captured through user-gated runtime steps.
+This Phase 12 close-out records the task-709 runtime capture state. The workflow is `PR_OPEN_MERGE_DIRTY / implementation / VISUAL`; 51 baseline PNGs, CI stability evidence, matrix sync, local commits, branch push, and PR #760 creation are complete. PR #760 currently reports `mergeStateStatus=DIRTY`.
 
 ## Strict 7 Inventory
 
@@ -20,8 +20,8 @@ This Phase 12 close-out records the task-709 contract-ready state and its runtim
 
 | Layer | Value |
 | --- | --- |
-| root workflow_state | `CONTRACT_READY_IMPLEMENTATION_PENDING` |
+| root workflow_state | `PR_OPEN_MERGE_DIRTY` |
 | taskType | `implementation` |
 | visualEvidence | `VISUAL` |
-| runtime verdict | `runtime_pending` |
-| user gate | baseline update approval, baseline import, commit, push, PR |
+| runtime verdict | `baseline_and_stability_evidence_captured_pr_open_merge_dirty` |
+| remaining gate | PR #760 merge conflict resolution and branch protection required-check follow-up |

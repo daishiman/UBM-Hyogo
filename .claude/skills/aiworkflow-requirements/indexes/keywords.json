@@ -11635,8 +11635,7 @@
     ],
     "Pending": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
-      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
-      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
+      "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md"
     ],
     "Banner": [
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
@@ -22854,6 +22853,9 @@
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md"
     ],
     "capture": [
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
+    ],
+    "Captured": [
       "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
     ],
     "参照される実装ファイル": [

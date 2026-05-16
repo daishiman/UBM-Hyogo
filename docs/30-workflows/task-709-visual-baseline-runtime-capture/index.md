@@ -6,7 +6,7 @@
 implementation_mode: runtime_capture_plus_workflow_edit
 taskType: implementation
 visualEvidence: VISUAL
-workflow_state: CONTRACT_READY_IMPLEMENTATION_PENDING
+workflow_state: PR_OPEN_MERGE_DIRTY
 wave: W8-followup-runtime
 parallel_group: standalone
 issue: 709
@@ -39,12 +39,12 @@ issue #709 が要求する「visual gate を 4 surface から MVP recovery matri
 
 | # | gap | 解消方法 |
 |---|-----|---------|
-| G1 | baseline PNG（最大 51 件）が未取得。CI は `task-18-fu runtime_pending` で skip 中 | `playwright-visual-baseline-update` を workflow_dispatch で実行 → PR 取り込み |
-| G2 | `playwright-visual-full.yml` の `pull_request:` trigger が MVP-PAUSE でコメントアウト | コメントアウト解除 + path-filter 復活 |
-| G3 | baseline 取得後の安定性検証（連続 2 回 PASS） | runtime evidence として記録 |
+| G1 | baseline PNG（最大 51 件）が未取得。CI は `task-18-fu runtime_pending` で skip 中 | 完了: `playwright-visual-baseline-update` run `25960870639` + `b3fb7f4a` cherry-pick で 51 PNG 取り込み |
+| G2 | `playwright-visual-full.yml` の `pull_request:` trigger が MVP-PAUSE でコメントアウト | 完了: コメントアウト解除 + path-filter 復活 |
+| G3 | baseline 取得後の安定性検証（連続 2 回 PASS） | 完了: `workflow_dispatch` runs `25961476237` / `25961551972` 全 6 job PASS |
 | G4 | required status check 候補化（CLAUDE.md governance）| 後続タスク `task-709-fu-branch-protection-required-check.md` へ formalize（本タスク内では evidence 整備のみ） |
 
-本 workflow は `CONTRACT_READY_IMPLEMENTATION_PENDING` として作成する。baseline capture は `visual-baseline-approval` environment と commit / push / PR の user gate を通過してから同一タスク内で再開する runtime checkpoint であり、承認前に `completed` を名乗らない。
+本 workflow は user approval 後に runtime capture / branch push / PR 作成まで完了した。現在は PR #760 (`https://github.com/daishiman/UBM-Hyogo/pull/760`) が open で、`mergeStateStatus=DIRTY` のため merge 前に conflict 解消が必要。
 
 ---
 
@@ -56,15 +56,15 @@ issue #709 が要求する「visual gate を 4 surface から MVP recovery matri
 | 2 | 設計 | completed |
 | 3 | 設計レビュー | completed |
 | 4 | テスト作成 | completed |
-| 5 | 実装（baseline capture 実行 + workflow 編集） | runtime_pending |
-| 6 | テスト拡充 | runtime_pending |
-| 7 | カバレッジ確認（baseline 全件存在） | runtime_pending |
+| 5 | 実装（baseline capture 実行 + workflow 編集） | completed |
+| 6 | テスト拡充 | completed |
+| 7 | カバレッジ確認（baseline 全件存在） | completed |
 | 8 | リファクタリング | completed |
-| 9 | 品質保証 | runtime_pending |
-| 10 | 最終レビュー | runtime_pending |
-| 11 | 手動テスト（VISUAL baseline 目視確認） | runtime_pending |
+| 9 | 品質保証 | completed |
+| 10 | 最終レビュー | completed |
+| 11 | 手動テスト（VISUAL baseline 目視確認） | completed |
 | 12 | ドキュメント更新 | completed |
-| 13 | PR 作成 | blocked |
+| 13 | PR 作成 | completed_with_merge_dirty |
 
 ---
 

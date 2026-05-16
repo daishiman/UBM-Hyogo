@@ -10,14 +10,16 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/task-709-visual-baseline-runtime-capture/` |
-| 状態 | `CONTRACT_READY_IMPLEMENTATION_PENDING / implementation / VISUAL` |
+| 状態 | `PR_OPEN_MERGE_DIRTY / implementation / VISUAL` |
 | issue | `#709` |
 | upstream | `docs/30-workflows/completed-tasks/task-18-fu-full-visual-regression-suite/` |
 | target visual scope | 17 routes x desktop/tablet/mobile = 51 baselines |
-| runtime boundary | baseline workflow dispatch, baseline-update PR import, visual-full 2-run stability, commit, push, PR are user-gated |
-| evidence | root/output `artifacts.json` parity, Phase 11 runtime boundary, Phase 12 strict 7 outputs |
+| runtime evidence | 51 PNG baseline capture/import complete, visual-full 2-run stability PASS (`25961476237` / `25961551972`), matrix 17/19 synced |
+| PR | #760 open, `mergeStateStatus=DIRTY`; conflict resolution required before merge |
+| evidence | root/output `artifacts.json` parity, Phase 11 runtime evidence, Phase 12 strict 7 outputs |
 | artifact inventory | `references/workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md` |
 | follow-up | `docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md` |
+| 苦戦箇所 | `lessons-learned/lessons-learned-task-709-visual-baseline-runtime-capture-2026-05.md`（L-709-001 Actions PR-write 権限失敗 → cherry-pick 経路 / -002 visual-full 2-run stability evidence / -003 51 PNG count+sha256 evidence / -004 `PR_OPEN_MERGE_DIRTY` workflow_state / -005 branch protection 昇格は別 follow-up） |
 
 ### parallel-06 public pages HomePage CTA（2026-05-15）
 

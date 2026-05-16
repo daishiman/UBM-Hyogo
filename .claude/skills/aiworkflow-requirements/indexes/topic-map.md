@@ -3176,8 +3176,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Metadata | L3 |
 | Workflow Artifacts | L13 |
-| Runtime Pending Artifacts | L25 |
-| Boundary | L35 |
+| Runtime Captured Artifacts | L25 |
+| Boundary | L36 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
