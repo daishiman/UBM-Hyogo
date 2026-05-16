@@ -4,6 +4,7 @@
 
 import { connection } from "next/server";
 
+import { CallToActionCTA } from "../src/components/public/CallToActionCTA";
 import { Hero } from "../src/components/public/Hero";
 import { MemberGrid } from "../src/components/public/MemberGrid";
 import { PublicFooter } from "../src/components/public/PublicFooter";
@@ -16,6 +17,7 @@ import {
   getStats,
   listMembersRaw,
 } from "../src/lib/api/public";
+import { FORM_RESPONDER_URL } from "../src/lib/constants";
 
 // stats=60s revalidate (AC-9)
 export const revalidate = 60;
@@ -52,6 +54,7 @@ export default async function HomePage() {
             </p>
           </section>
         ) : null}
+        <CallToActionCTA responderUrl={FORM_RESPONDER_URL} />
       </main>
       <PublicFooter />
     </>

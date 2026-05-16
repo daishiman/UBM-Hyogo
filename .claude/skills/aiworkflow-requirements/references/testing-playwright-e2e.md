@@ -311,35 +311,6 @@ test.skip(process.env.CI === 'true', 'CI環境ではスキップ');
 
 ---
 
-## 機能別 evidence spec
-
-### Attendance paging UI evidence（parallel-04 / 2026-05-15）
-
-`apps/web/playwright/tests/attendance-paging-ui-evidence.spec.ts` は `AttendanceList` cursor paging の VISUAL evidence を 1 ケースで取得する focused spec。SSR `/me/profile` の initial 50 件と CSR `/api/me/attendance?cursor=<opaque>` の追加 page を **dual-endpoint mock** で同期 seed する。
-
-| 項目 | 値 |
-| --- | --- |
-| fixture | `mockApi.setAttendancePage({ profile, page })`（`apps/web/playwright/fixtures/auth.ts:441`） |
-| 取得対象 | `/me/profile`（initial 50 件 + `attendanceMeta.{ hasMore, nextCursor }`）と `/me/attendance?cursor=...`（追加 records） |
-| evidence env | `PLAYWRIGHT_ATTENDANCE_PAGING_EVIDENCE=1`、`PLAYWRIGHT_EVIDENCE_DIR`、`ATTENDANCE_PAGING_SCREENSHOT_DIR` |
-| screenshot | `outputs/phase-11/screenshots/profile-attendance-paging-desktop.png`（desktop-chromium） |
-| 対象セレクタ | `getByRole('button', { name: 'もっと見る' })`、`getByText('定例会 51')` |
-| 関連 lessons | `references/lessons-learned-parallel-04-attendance-paging-ui-2026-05.md` L-P04-003 dual-endpoint mock |
-
-実行コマンド:
-
-```bash
-PLAYWRIGHT_ATTENDANCE_PAGING_EVIDENCE=1 \
-  PLAYWRIGHT_EVIDENCE_DIR=../../docs/30-workflows/completed-tasks/parallel-04-attendance-paging-ui/outputs/phase-11/evidence \
-  ATTENDANCE_PAGING_SCREENSHOT_DIR=../../docs/30-workflows/completed-tasks/parallel-04-attendance-paging-ui/outputs/phase-11/screenshots \
-  mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test \
-  playwright/tests/attendance-paging-ui-evidence.spec.ts --project=desktop-chromium
-```
-
-`page.route()` は SSR fetch を intercept できないため、SSR endpoint と CSR endpoint を 1 fixture method で同期 seed する設計が必須。
-
----
-
 ## CI/CD統合
 
 ### GitHub Actions設定例

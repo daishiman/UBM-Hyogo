@@ -2210,17 +2210,6 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L117 |
 | 変更履歴 | L131 |
 
-### references/workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Workflow YAML 変更 | L17 |
-| Scripts | L30 |
-| Indexes / References 同期マッピング | L37 |
-| Invariants | L48 |
-| Scope Out | L56 |
-| Lessons / Genealogy | L62 |
-
 ### references/workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md
 
 | セクション | 行 |
@@ -2675,8 +2664,6 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L102 |
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
-
-### references/workflow-parallel-04-attendance-paging-ui-artifact-inventory.md
 
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
@@ -3929,16 +3916,16 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L20 |
 | Cloudflare Secrets（ランタイム） | L37 |
 | GitHub Secrets / Variables（CI/CD 用） | L103 |
-| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L208 |
-| wrangler.toml の環境別設定 | L242 |
-| ローカル開発での設定 | L274 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L313 |
-| セキュリティ原則 | L345 |
-| Cloudflare API Token の作成手順 | L356 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L371 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L482 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L534 |
-| 変更履歴 | L553 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L196 |
+| wrangler.toml の環境別設定 | L230 |
+| ローカル開発での設定 | L262 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L301 |
+| セキュリティ原則 | L333 |
+| Cloudflare API Token の作成手順 | L344 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L359 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L470 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L522 |
+| 変更履歴 | L541 |
 
 ### references/deployment.md
 
@@ -4182,15 +4169,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L22 |
-| 使い方 | L30 |
-| Current Alias Overrides（個別互換行） | L37 |
-| Family Summary | L78 |
-| Detailed Register | L99 |
-| Section Extract Register (2026-03-17) | L280 |
-| 500-Line Split Register (2026-03-16) | L291 |
-| Fragment Migration Register (2026-04-28) | L313 |
-| Task Root Path Drift Register (2026-04-30 追記) | L340 |
+| 概要 | L21 |
+| 使い方 | L29 |
+| Current Alias Overrides（個別互換行） | L36 |
+| Family Summary | L77 |
+| Detailed Register | L98 |
+| Section Extract Register (2026-03-17) | L279 |
+| 500-Line Split Register (2026-03-16) | L290 |
+| Fragment Migration Register (2026-04-28) | L312 |
+| Task Root Path Drift Register (2026-04-30 追記) | L339 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4572,15 +4559,6 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 関連リソース | L17 |
-
-### references/lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| 苦戦箇所一覧 | L7 |
-| Secret Boundary 三層構造（L-CRSSSR-004 派生・参照用） | L49 |
-| Mutation user-gate 境界 | L57 |
-| 関連リソース | L66 |
 
 ### references/lessons-learned-ci-test-recovery-coverage-80-2026-05-04.md
 
@@ -5038,17 +5016,6 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
-
-### references/lessons-learned-parallel-04-attendance-paging-ui-2026-05.md
-
-| セクション | 行 |
-|------------|----|
-| L-P04-001: Server Component が initial page を seed し、Client Component が以降を CSR で append する seed-only state pattern | L9 |
-| L-P04-002: cursor を UI 側で opaque string として扱い、parse / decode せず `encodeURIComponent` で URL に流す | L27 |
-| L-P04-003: Playwright fixture は `/me/profile` と `/me/attendance` の dual-endpoint を 1 メソッドで同期 seed する | L45 |
-| L-P04-004: `hasMore` / `nextCursor` の論理整合は UI で二重ガードし、将来 API contract で discriminated union 化する | L62 |
-| L-P04-005: `role="alert"` 採用と無限スクロール不採用の a11y / 契約整合判断 | L79 |
-| L-P04-006: 親 spec の supersession note による旧仕様の inline 撤回パターン | L98 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -6684,14 +6651,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1416 |
-| フェーズ構造（概要） | L1425 |
-| 品質ゲート（概要） | L1456 |
-| 出力テンプレート | L1467 |
-| 実行時のコマンド・エージェント・スキル | L1490 |
-| 昇格パターン集 | L1514 |
-| Current Active / Spec Created Tasks | L1516 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1659 |
+| ドキュメント構成 | L1270 |
+| フェーズ構造（概要） | L1279 |
+| 品質ゲート（概要） | L1310 |
+| 出力テンプレート | L1321 |
+| 実行時のコマンド・エージェント・スキル | L1344 |
+| 昇格パターン集 | L1368 |
+| Current Active / Spec Created Tasks | L1370 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1512 |
 
 ### references/task-workflow-backlog-part2.md
 
@@ -7108,12 +7075,11 @@ node scripts/list-specs.js --topics
 | アクセシビリティテスト | L237 |
 | beforeEachパターン | L272 |
 | テストスキップパターン | L298 |
-| 機能別 evidence spec | L314 |
-| CI/CD統合 | L343 |
-| デバッグパターン | L395 |
-| Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L417 |
-| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L452 |
-| 関連ドキュメント | L493 |
+| CI/CD統合 | L314 |
+| デバッグパターン | L366 |
+| Server Component fetch 観測パターン（E2E Stage 3b / 2026-05-10） | L388 |
+| task-18 W7: 17 URL routes smoke + 4 screen visual baseline + design token verifier（2026-05-12） | L423 |
+| 関連ドキュメント | L464 |
 
 ### references/ui-history-components.md
 
