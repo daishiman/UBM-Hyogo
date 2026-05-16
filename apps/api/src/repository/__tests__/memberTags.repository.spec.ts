@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { dirname, join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, it, expect, beforeEach } from "vitest";
 import { MockStore, createMockDbCtx } from "../__fixtures__/d1mock";
 import {
@@ -9,7 +10,7 @@ import {
 import { listTagsByMemberId, listTagsByMemberIds } from "../memberTags";
 import { asMemberId } from "../_shared/brand";
 
-const API_SRC_ROOT = join(process.cwd(), "apps/api/src");
+const API_SRC_ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const ALLOWED_ASSIGN_TAGS_PRODUCTION_FILES = new Set([
   "repository/memberTags.ts",
   "workflows/tagQueueResolve.ts",
