@@ -17,13 +17,15 @@ issue_number: 295
 | 対象機能 | staging tag queue resolve race / Phase 11 evidence |
 | 優先度 | 中 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed_by_issue_295_workflow_runtime_pending |
 | 発見元 | 07a Phase 12 unassigned-task-detection |
 | 発見日 | 2026-04-30 |
 
 ## 概要
 
 in-memory D1 では再現しにくい tag queue resolve の同時 POST race を staging smoke として検証する。08b または 09a の smoke に組み込む。
+
+> 2026-05-15: `docs/30-workflows/issue-295-tag-queue-resolve-race-smoke/` に昇格。今後の実装・Phase 11 evidence・PR 境界は同 workflow を正本とする。
 
 ## 背景
 
@@ -59,8 +61,15 @@ in-memory D1 では再現しにくい tag queue resolve の同時 POST race を 
 ### staging smoke
 
 ```bash
-# 例: 後続タスクで専用 script 化
-node scripts/smoke/tag-queue-race.mjs --env staging --queue-id <fixture-queue-id>
+node scripts/smoke/tag-queue-race.mjs \
+  --env staging \
+  --queue-id <fixture-queue-id> \
+  --concurrency 5 \
+  --base-url "$STAGING_API_BASE" \
+  --session-cookie "$COOKIE" \
+  --action confirmed \
+  --tag-codes "$TAG_CODE" \
+  --out "$OUT"
 ```
 
 期待: 同一 queue に対する並行 confirmed/rejected のうち成功は 1 件のみ、敗者は 409 `race_lost`。
@@ -68,10 +77,12 @@ node scripts/smoke/tag-queue-race.mjs --env staging --queue-id <fixture-queue-id
 ### 副作用確認
 
 ```bash
-bash scripts/cf.sh d1 execute ubm-hyogo-db --env staging --command "select count(*) from member_tags where member_id='<fixture-member-id>';"
+bash scripts/cf.sh d1 execute ubm-hyogo-db-staging --env staging --command "select count(*) from member_tags where member_id='<fixture-member-id>';"
 ```
 
 期待: `member_tags` と `audit_log` は成功 payload 分だけ増える。
+
+副作用差分は `side-effects.json` にまとめ、`--side-effect-input` 付き analyze-only で AC-4 を exit code に反映する。
 
 ## スコープ
 

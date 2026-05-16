@@ -3176,6 +3176,7 @@
       "workflow-governance-design-category.md",
       "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -4339,6 +4340,7 @@
       "task-workflow-backlog.md",
       "ui-ux-feature-components-advanced.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
@@ -8215,6 +8217,7 @@
       "lessons-learned-issue-502-dlq-monitoring-dashboard-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
       "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md"
@@ -10702,6 +10705,7 @@
     "Resolve": [
       "lessons-learned-04b-admin-queue-resolve-2026-05.md",
       "lessons-learned-issue-399-admin-queue-visual-evidence-2026-05.md",
+      "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md"
     ],
     "RQ": [
@@ -12614,6 +12618,7 @@
       "lessons-learned-issue-572-attendance-provider-production-runtime-smoke-2026-05.md",
       "observability-monitoring.md",
       "workflow-07c-followup-002-attendance-visual-smoke-artifact-inventory.md",
+      "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-09a-parallel-staging-deploy-smoke-and-forms-sync-validation-artifact-inventory.md"
@@ -14564,6 +14569,7 @@
     "Tag": [
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
       "lessons-learned-ut-02a-tag-assignment-queue-2026-05.md",
+      "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
     ],
@@ -14835,6 +14841,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
@@ -21859,6 +21866,7 @@
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
+      "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md",
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
@@ -22409,6 +22417,9 @@
     ],
     "文書": [
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md"
+    ],
+    "Race": [
+      "workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md"
     ],
     "Direct": [
       "workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md"

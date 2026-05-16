@@ -1,0 +1,42 @@
+{
+  "taskId": "issue-295-tag-queue-resolve-race-smoke",
+  "task_path": "docs/30-workflows/issue-295-tag-queue-resolve-race-smoke",
+  "createdAt": "2026-05-15",
+  "source_issue": 295,
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "state": "implemented_local_evidence_captured",
+  "metadata": {
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_runtime_smoke_and_pr",
+    "runtimeEvidence": "local_script_tests_pass_staging_smoke_pending_user_operation",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "sourceUnassignedTask": "docs/30-workflows/unassigned-task/UT-07A-03-tag-queue-race-smoke.md",
+    "actual_read_only_evidence_files": [
+      "docs/30-workflows/issue-295-tag-queue-resolve-race-smoke/outputs/phase-11/main.md"
+    ],
+    "actual_mutation_evidence_files": []
+  },
+  "depends_on": [
+    "07a-parallel-tag-assignment-queue-resolve-workflow",
+    "02b-parallel-meeting-tag-queue-and-schema-diff-repository",
+    "ut-07a-02-search-tags-resolve-contract-followup"
+  ],
+  "blocks": [],
+  "phases": {
+    "phase-01": { "status": "completed", "outputs": ["outputs/phase-01/main.md"] },
+    "phase-02": { "status": "completed", "outputs": ["outputs/phase-02/main.md"] },
+    "phase-03": { "status": "completed", "outputs": ["outputs/phase-03/main.md"] },
+    "phase-04": { "status": "completed", "outputs": ["outputs/phase-04/main.md"] },
+    "phase-05": { "status": "completed", "outputs": ["outputs/phase-05/main.md"] },
+    "phase-06": { "status": "completed", "outputs": ["outputs/phase-06/main.md"] },
+    "phase-07": { "status": "completed", "outputs": ["outputs/phase-07/main.md"] },
+    "phase-08": { "status": "completed", "outputs": ["outputs/phase-08/main.md"] },
+    "phase-09": { "status": "completed", "outputs": ["outputs/phase-09/main.md"] },
+    "phase-10": { "status": "completed", "outputs": ["outputs/phase-10/main.md"] },
+    "phase-11": { "status": "runtime_pending", "outputs": ["outputs/phase-11/main.md", "outputs/phase-11/manual-smoke-log.md", "outputs/phase-11/link-checklist.md"] },
+    "phase-12": { "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    "phase-13": { "status": "blocked", "outputs": ["outputs/phase-13/main.md"] }
+  }
+}

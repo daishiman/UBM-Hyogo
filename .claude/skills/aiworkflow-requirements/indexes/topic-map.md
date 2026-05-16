@@ -2293,6 +2293,8 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md
+
 ### references/workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md
 
 | セクション | 行 |
@@ -4224,15 +4226,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L21 |
-| 使い方 | L29 |
-| Current Alias Overrides（個別互換行） | L36 |
-| Family Summary | L77 |
-| Detailed Register | L98 |
-| Section Extract Register (2026-03-17) | L279 |
-| 500-Line Split Register (2026-03-16) | L290 |
-| Fragment Migration Register (2026-04-28) | L312 |
-| Task Root Path Drift Register (2026-04-30 追記) | L339 |
+| 概要 | L23 |
+| 使い方 | L31 |
+| Current Alias Overrides（個別互換行） | L38 |
+| Family Summary | L81 |
+| Detailed Register | L102 |
+| Section Extract Register (2026-03-17) | L283 |
+| 500-Line Split Register (2026-03-16) | L294 |
+| Fragment Migration Register (2026-04-28) | L316 |
+| Task Root Path Drift Register (2026-04-30 追記) | L343 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -6713,7 +6715,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1503 |
 | 昇格パターン集 | L1527 |
 | Current Active / Spec Created Tasks | L1529 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1673 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1674 |
 
 ### references/task-workflow-backlog-part2.md
 
