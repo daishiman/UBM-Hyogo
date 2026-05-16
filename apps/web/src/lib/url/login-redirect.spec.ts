@@ -20,6 +20,12 @@ describe("toLoginRedirect", () => {
     );
   });
 
+  it("http URL は /profile fallback", () => {
+    expect(toLoginRedirect("http://evil.example")).toBe(
+      "/login?redirect=%2Fprofile",
+    );
+  });
+
   it("protocol-relative '//evil' も /profile fallback", () => {
     expect(toLoginRedirect("//evil.example/x")).toBe(
       "/login?redirect=%2Fprofile",
@@ -28,5 +34,17 @@ describe("toLoginRedirect", () => {
 
   it("backslash を含む path も /profile fallback", () => {
     expect(toLoginRedirect("/\\evil")).toBe("/login?redirect=%2Fprofile");
+  });
+
+  it("backslash を含む nested path も /profile fallback", () => {
+    expect(toLoginRedirect("/admin\\..\\evil")).toBe(
+      "/login?redirect=%2Fprofile",
+    );
+  });
+
+  it("/login への redirect loop は /profile fallback", () => {
+    expect(toLoginRedirect("/login?redirect=%2Fadmin")).toBe(
+      "/login?redirect=%2Fprofile",
+    );
   });
 });
