@@ -2654,14 +2654,6 @@ node scripts/list-specs.js --topics
 | task-specification-creator 反映 | L68 |
 | Verification Commands | L75 |
 
-### references/workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md
-
-| セクション | 行 |
-|------------|----|
-| Canonical Artifacts | L12 |
-| Follow-Ups | L26 |
-| Boundary | L34 |
-
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -2744,6 +2736,13 @@ node scripts/list-specs.js --topics
 | 検出した未タスク（更新: 2026-03-17） | L127 |
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
+
+### references/workflow-serial-05-step-02-identity-conflicts-merge-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Primary files | L10 |
+| Evidence | L20 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -3984,19 +3983,19 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L63 |
-| キャッシュ戦略 | L99 |
-| 並列実行の活用 | L122 |
-| CD ワークフロー要件（dev / main マージ時） | L178 |
-| Backend ワークフロー要件（dev / main マージ時） | L208 |
-| モニタリングとアラート | L237 |
-| GitHub Secrets の要件 | L271 |
-| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L303 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L325 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L351 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L362 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L383 |
-| post-release-30day-auto-summary | L420 |
+| CI ワークフロー要件（PR 時） | L66 |
+| キャッシュ戦略 | L102 |
+| 並列実行の活用 | L125 |
+| CD ワークフロー要件（dev / main マージ時） | L181 |
+| Backend ワークフロー要件（dev / main マージ時） | L211 |
+| モニタリングとアラート | L238 |
+| GitHub Secrets の要件 | L272 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L304 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L326 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L352 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L363 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L384 |
+| post-release-30day-auto-summary | L421 |
 
 ### references/deployment-history.md
 
@@ -4009,19 +4008,20 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L8 |
-| 管理場所の判断フロー | L20 |
-| Cloudflare Secrets（ランタイム） | L37 |
-| GitHub Secrets / Variables（CI/CD 用） | L103 |
-| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L208 |
-| wrangler.toml の環境別設定 | L242 |
-| ローカル開発での設定 | L274 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L313 |
-| セキュリティ原則 | L345 |
-| Cloudflare API Token の作成手順 | L356 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L371 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L482 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L534 |
-| 変更履歴 | L553 |
+| GitHub Actions Secret Preflight Gate（2026-05-16） | L20 |
+| 管理場所の判断フロー | L42 |
+| Cloudflare Secrets（ランタイム） | L59 |
+| GitHub Secrets / Variables（CI/CD 用） | L125 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L218 |
+| wrangler.toml の環境別設定 | L252 |
+| ローカル開発での設定 | L284 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L323 |
+| セキュリティ原則 | L355 |
+| Cloudflare API Token の作成手順 | L366 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L381 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L492 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L544 |
+| 変更履歴 | L563 |
 
 ### references/deployment.md
 
@@ -6789,14 +6789,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1380 |
-| フェーズ構造（概要） | L1389 |
-| 品質ゲート（概要） | L1420 |
-| 出力テンプレート | L1431 |
-| 実行時のコマンド・エージェント・スキル | L1454 |
-| 昇格パターン集 | L1478 |
-| Current Active / Spec Created Tasks | L1480 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1624 |
+| ドキュメント構成 | L1393 |
+| フェーズ構造（概要） | L1402 |
+| 品質ゲート（概要） | L1433 |
+| 出力テンプレート | L1444 |
+| 実行時のコマンド・エージェント・スキル | L1467 |
+| 昇格パターン集 | L1491 |
+| Current Active / Spec Created Tasks | L1493 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1636 |
 
 ### references/task-workflow-backlog-part2.md
 

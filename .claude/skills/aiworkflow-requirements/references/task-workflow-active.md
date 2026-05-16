@@ -8,6 +8,19 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### serial-05-step-02 identity-conflicts merge UI（2026-05-16）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
+| 目的 | `/admin/identity-conflicts` の既存 row-local merge / dismiss UI を `useAdminMutation` に寄せ、400 / 409 error mapping、reason retention、inline alert、visual evidence を hardening する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts` |
+| API boundary | 既存 `POST /admin/identity-conflicts/:id/merge` / `POST /admin/identity-conflicts/:id/dismiss` を利用。新 endpoint / D1 schema / shared export 追加なし |
+| evidence | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | staging / production authenticated evidence、commit、push、PR |
+
 ### parallel-09 UX cross-cutting primitives contract（2026-05-15）
 
 | 項目 | 値 |
@@ -120,6 +133,21 @@
 
 
 >### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
+### Issue #324 shared package type contracts（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-324-shared-package-type-contracts/` |
+| source unassigned | `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md`（consumed trace） |
+| Issue | #324 CLOSED 維持。PR 文脈は `Refs #324` のみ |
+| 実装対象 | `packages/shared/src/__tests__/type-contracts.spec.ts` |
+| contract | brand 型 (`ResponseId` / `ResponseEmail` / `MemberId` / `AdminId`)、view-model required field omission、zod input/output parity、public/admin schema mutual exclusion、shared package standalone test |
+| evidence | `outputs/phase-11/evidence/shared-typecheck.txt`, `outputs/phase-11/evidence/shared-lint.txt`, `outputs/phase-11/evidence/shared-test.txt`（18 files / 210 tests PASS） |
+| boundary | runtime schema / API / D1 / apps/api / apps/web 変更なし。`tsd` / vitest typecheck mode / dependency 追加なし |
+| user gate | commit / push / PR / CI runtime |
+
+### UI prototype alignment / MVP recovery task-23 verification status matrix（2026-05-14）
 
 | 項目 | 値 |
 | --- | --- |
