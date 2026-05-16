@@ -95,7 +95,7 @@ u-04 (`docs/30-workflows/completed-tasks/u-04-serial-sheets-to-d1-sync-implement
 | GET | `/admin/requests` | visibility/delete request の pending queue を `type=visibility_request|delete_request`, `status=pending`, cursor pagination で FIFO 一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/requests/:noteId/resolve` | admin request を approve/reject する。approve は `member_status` 更新、`admin_member_notes.request_status` 更新、`audit_log` append を D1 batch で同一 workflow 境界に置き、二重 resolve は 409。Issue #401 実装後は batch 完了後に `notification_outbox` へ best-effort enqueue する。enqueue 失敗 / missing recipient は warning のみで resolve を rollback しない | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/tags/queue` | tag assignment queue を一覧する | Auth.js JWT + `requireAdmin` |
-| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `confirmed`（DB/API status: `resolved`）または `rejected` に解決する | Auth.js JWT + `requireAdmin` |
+| POST | `/admin/tags/queue/:queueId/resolve` | queue item を `confirmed`（DB/API status: `resolved`）または `rejected` に解決する。`member_tags.assigned_via_queue_id` は追加せず、queue trace は ADR 0002 に従い `audit_log.target_type='tag_queue'` / `target_id=<queueId>` と `member_tags.source='admin_queue'` で担保する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/schema/diff` | schema diff queue を一覧する | Auth.js JWT + `requireAdmin` |
 | POST | `/admin/schema/aliases` | question stable key alias を解決する | Auth.js JWT + `requireAdmin` |
 | GET | `/admin/meetings` | meeting sessions と attendance summary（既存出席 memberId）を一覧する | Auth.js JWT + `requireAdmin` |

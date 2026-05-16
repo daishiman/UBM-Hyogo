@@ -257,6 +257,34 @@ CREATE INDEX IF NOT EXISTS idx_admin_notes_pending_requests
 `request_status='pending'` を設定する。resolve/reject は
 `WHERE request_status='pending'` の条件付き UPDATE で処理済み行の再更新を防ぐ。
 
+### member_tags
+
+```sql
+CREATE TABLE IF NOT EXISTS member_tags (
+  member_id    TEXT NOT NULL,
+  tag_id       TEXT NOT NULL,
+  source       TEXT NOT NULL,
+  confidence   REAL,
+  assigned_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  assigned_by  TEXT,
+  PRIMARY KEY (member_id, tag_id)
+);
+```
+
+現行 6 列構成を D1 schema の正本として確定する。`assigned_via_queue_id` 列は **追加しない**
+（[ADR 0002](../../decisions/0002-member-tags-assigned-via-queue-id-decision.md)）。
+
+- `tag_id` は `tag_definitions.tag_id`（surrogate key）への FK 相当。仕様文書の旧 draft にあった
+  `tag_code` 表記は `tag_definitions.code` を別名参照したものであり、本テーブルでは `tag_id` を正とする。
+- `source` は付与経路の識別子。queue 経由で確定した row は `source = 'admin_queue'` で識別する
+  （`apps/api/src/repository/memberTags.ts:74` の `VALUES (?1, ?2, 'admin_queue', 1.0, ?3)`）。
+- queue ↔ member_tags の trace は `audit_log` で担保する。
+  - `target_type = 'tag_queue'`
+  - `target_id = queueId`
+  - `action IN ('admin.tag.queue_resolved', 'admin.tag.queue_rejected', 'admin.tag.queue_dlq_moved')`
+- 再評価トリガ（ADR 0002 参照）: (a) 監査 UI で「特定 queue 由来タグ一覧」を 1 クエリ表示する要件、
+  (b) `audit_log` の保持期間短縮または物理削除方針で queue 追跡履歴を保持できなくなる場合、(c) D1 read で audit join 性能問題。
+
 ### tag_assignment_queue
 
 ```sql

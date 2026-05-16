@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "taskId": "UT-07A-04",
+  "title": "member_tags.assigned_via_queue_id adoption decision ADR",
+  "metadata": {
+    "taskType": "docs-only",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "documentation_complete_pending_pr",
+    "sourceIssue": "#296",
+    "sourceIssueState": "CLOSED",
+    "canonicalRoot": "docs/30-workflows/issue-296-ut-07a-04-assigned-via-queue-id-decision",
+    "parentWorkflow": "docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow",
+    "sourceUnassignedTask": "docs/30-workflows/unassigned-task/UT-07A-04-member-tags-assigned-via-queue-id-decision.md",
+    "created_at": "2026-05-16",
+    "updated_at": "2026-05-16",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/issue-296-ut-07a-04-assigned-via-queue-id-decision/index.md",
+        "approver": "daishiman",
+        "notes": "docs-only workflow is formalized and local documentation evidence is captured. Issue #296 is CLOSED; PR wording must use Refs only."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/issue-296-ut-07a-04-assigned-via-queue-id-decision/outputs/phase-05/grep-verification.md",
+        "approver": "daishiman",
+        "notes": "docs evidence captured: grep verification, ADR/spec/skill updates, and parent closure back-link are present in this worktree."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/issue-296-ut-07a-04-assigned-via-queue-id-decision/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "phase12_completed: strict 7 outputs exist and reflect docs-only / NON_VISUAL evidence. Runtime/code evidence is not applicable."
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "blocked_pending_user_approval",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-296-ut-07a-04-assigned-via-queue-id-decision/phase-13.md",
+        "approver": "daishiman",
+        "notes": "commit, push, and PR are prohibited until explicit user approval."
+      }
+    ]
+  },
+  "implementation_targets": [
+    "docs/decisions/0002-member-tags-assigned-via-queue-id-decision.md",
+    "docs/00-getting-started-manual/specs/08-free-database.md",
+    ".claude/skills/aiworkflow-requirements/references/database-implementation-core.md",
+    "docs/30-workflows/completed-tasks/07a-parallel-tag-assignment-queue-resolve-workflow/outputs/phase-12/unassigned-task-detection.md"
+  ],
+  "evidence": [
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "phases": [
+    { "phase": 1, "name": "スコープ・前提・既存実装確認", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"] },
+    { "phase": 2, "name": "設計判断", "status": "completed", "outputs": ["outputs/phase-02/decision-rationale.md"] },
+    { "phase": 3, "name": "ADR 草案", "status": "completed", "outputs": ["outputs/phase-03/adr-draft.md"] },
+    { "phase": 4, "name": "影響範囲分析", "status": "completed", "outputs": ["outputs/phase-04/impact-analysis.md"] },
+    { "phase": 5, "name": "コード変更不要 grep verification", "status": "completed", "outputs": ["outputs/phase-05/grep-verification.md"] },
+    { "phase": 6, "name": "テストコード側 grep verification", "status": "completed", "outputs": ["outputs/phase-06/test-grep-verification.md"] },
+    { "phase": 7, "name": "差分ゼロ宣言", "status": "completed", "outputs": ["outputs/phase-07/zero-diff-declaration.md"] },
+    { "phase": 8, "name": "ドキュメント更新", "status": "completed", "outputs": ["outputs/phase-08/docs-updates.md"] },
+    { "phase": 9, "name": "review readiness", "status": "completed", "outputs": ["outputs/phase-09/review-readiness.md"] },
+    { "phase": 10, "name": "review feedback ループ方針", "status": "completed", "outputs": ["outputs/phase-10/review-loop.md"] },
+    { "phase": 11, "name": "NON_VISUAL evidence", "status": "completed", "outputs": ["outputs/phase-11/visual-verification-skip.md"] },
+    { "phase": 12, "name": "正本同期", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "name": "PR 作成", "status": "blocked_pending_user_approval", "outputs": ["outputs/phase-13/pr-summary.md"] }
+  ]
+}

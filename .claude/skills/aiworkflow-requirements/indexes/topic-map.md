@@ -977,6 +977,11 @@ node scripts/list-specs.js --topics
 | Conversation DB 初期化パターン | L263 |
 | UBM-Hyogo Schema Sync Contract（03a） | L265 |
 | ベクトル検索実装（DiskANN） | L376 |
+| Schema Drift ADR Gate | L222 |
+| エラーハンドリング | L241 |
+| Conversation DB 初期化パターン | L272 |
+| UBM-Hyogo Schema Sync Contract（03a） | L274 |
+| ベクトル検索実装（DiskANN） | L384 |
 
 ### references/database-implementation-details.md
 
@@ -4347,6 +4352,15 @@ node scripts/list-specs.js --topics
 | 500-Line Split Register (2026-03-16) | L296 |
 | Fragment Migration Register (2026-04-28) | L318 |
 | Task Root Path Drift Register (2026-04-30 追記) | L345 |
+| 概要 | L22 |
+| 使い方 | L30 |
+| Current Alias Overrides（個別互換行） | L37 |
+| Family Summary | L79 |
+| Detailed Register | L100 |
+| Section Extract Register (2026-03-17) | L281 |
+| 500-Line Split Register (2026-03-16) | L292 |
+| Fragment Migration Register (2026-04-28) | L314 |
+| Task Root Path Drift Register (2026-04-30 追記) | L341 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -6871,6 +6885,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1558 |
 | Current Active / Spec Created Tasks | L1560 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L1707 |
+| ドキュメント構成 | L1420 |
+| フェーズ構造（概要） | L1429 |
+| 品質ゲート（概要） | L1460 |
+| 出力テンプレート | L1471 |
+| 実行時のコマンド・エージェント・スキル | L1494 |
+| 昇格パターン集 | L1518 |
+| Current Active / Spec Created Tasks | L1520 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1664 |
 
 ### references/task-workflow-backlog-part2.md
 
