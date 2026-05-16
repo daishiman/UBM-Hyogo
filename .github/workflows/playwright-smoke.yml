@@ -39,6 +39,8 @@ jobs:
         run: mise exec -- pnpm install --frozen-lockfile
       - name: Install Chromium
         run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Start deterministic mock API
+        run: mise exec -- node scripts/e2e-mock-api.mjs > /tmp/e2e-mock-api.log 2>&1 &
       - name: Run 19-route smoke
         run: mise exec -- pnpm --filter @ubm-hyogo/web e2e:smoke
       - name: Run attendance visual smoke
@@ -71,6 +73,8 @@ jobs:
         run: mise exec -- pnpm install --frozen-lockfile
       - name: Install Chromium
         run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
+      - name: Start deterministic mock API
+        run: mise exec -- node scripts/e2e-mock-api.mjs > /tmp/e2e-mock-api.log 2>&1 &
       - name: Run visual baseline
         run: mise exec -- pnpm --filter @ubm-hyogo/web e2e:visual
       - name: Upload visual artifacts
