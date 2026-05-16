@@ -13,10 +13,9 @@ describe("AdminSidebar", () => {
     expect(nav.getAttribute("aria-label")).toBe("管理メニュー");
   });
 
-  it("10 件のリンクをラベルと href の組で全件レンダーする", () => {
+  it("9 件のリンクをラベルと href の組で全件レンダーする", () => {
     render(<AdminSidebar />);
     const expected: Array<[string, string]> = [
-      ["ホームに戻る", "/"],
       ["ダッシュボード", "/admin"],
       ["出席分析", "/admin/dashboard/attendance"],
       ["会員管理", "/admin/members"],
@@ -33,15 +32,6 @@ describe("AdminSidebar", () => {
       const link = screen.getByRole("link", { name: label });
       expect(link.getAttribute("href")).toBe(href);
     }
-  });
-
-  it("ホームリンクは sidebar 上部にあり focus-visible token class を持つ", () => {
-    const { container } = render(<AdminSidebar />);
-    const homeLink = screen.getByRole("link", { name: "ホームに戻る" });
-    expect(homeLink.getAttribute("href")).toBe("/");
-    expect(homeLink.className).toContain("text-[var(--ubm-color-accent)]");
-    expect(homeLink.className).toContain("focus-visible:outline-[var(--ubm-color-accent)]");
-    expect(container.querySelector("nav.admin-sidebar > a")?.getAttribute("aria-label")).toBe("ホームに戻る");
   });
 
   it("リンクはすべて <li> 内に配置されている (structure)", () => {

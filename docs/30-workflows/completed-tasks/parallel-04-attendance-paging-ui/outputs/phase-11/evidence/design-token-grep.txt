@@ -1,0 +1,28 @@
+# Design Token Evidence
+
+Command:
+
+```bash
+rg -n '#[0-9A-Fa-f]{3,8}|bg-\\[#[0-9A-Fa-f]' apps/web/app/profile/_components/AttendanceList.tsx
+```
+
+Expected result: exit 1 / no matches.
+
+Actual result (2026-05-15 JST): exit 1 / no matches.
+
+Additional verifier:
+
+```bash
+mise exec -- pnpm --filter @ubm-hyogo/web verify-design-tokens
+```
+
+Actual result: exit 0 / 1 file passed / 9 tests passed.
+
+Token usage checked in code:
+
+- `var(--ubm-color-text-default)`
+- `var(--ubm-color-text-muted)`
+- `var(--ubm-color-accent)`
+- `var(--ubm-color-surface-panel)`
+- `var(--ubm-color-danger)`
+- `var(--ubm-radius-md)`
