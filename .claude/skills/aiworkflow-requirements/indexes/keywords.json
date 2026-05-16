@@ -67,6 +67,7 @@
       "ui-ux-settings-core.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
       "workflow-apikey-chat-tool-integration-alignment.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-17-admin-schema-conflicts-audit-artifact-inventory.md"
     ],
     "仕様": [
@@ -691,6 +692,7 @@
       "lessons-learned-03b-followup-006-per-sync-cap-alert-2026-05.md",
       "lessons-learned-09a-staging-smoke-forms-sync-validation-2026-05.md",
       "lessons-learned-issue-195-03b-followup-sync-shared-modules-owner-2026-05.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -3185,6 +3187,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-governance-design-category.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -3203,6 +3206,7 @@
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
@@ -4298,7 +4302,8 @@
       "audit-correlation.md"
     ],
     "Redaction": [
-      "audit-correlation.md"
+      "audit-correlation.md",
+      "gate-c-external-mutation-pattern.md"
     ],
     "Policy": [
       "audit-correlation.md",
@@ -4393,6 +4398,7 @@
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "Salt": [
@@ -4425,6 +4431,7 @@
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-admin-member-delete-e2e-spec-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
@@ -4534,6 +4541,7 @@
       "workflow-issue-515-cf-audit-logs-ml-anomaly-artifact-inventory.md",
       "workflow-issue-546-cf-audit-logs-90day-baseline-observation-artifact-inventory.md",
       "workflow-issue-547-cf-audit-logs-redacted-production-feature-export-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
     ],
     "Secrets": [
@@ -4957,6 +4965,7 @@
       "database-schema-indexes.md",
       "deployment-cloudflare-ut06-gate.md",
       "dlq-monitoring.md",
+      "gate-c-external-mutation-pattern.md",
       "interfaces-api.md",
       "interfaces-shared.md",
       "lessons-learned-06b-b-profile-request-pending-banner-sticky-2026-05.md",
@@ -6184,6 +6193,7 @@
     ],
     "references": [
       "claude-code-skills-resources.md",
+      "gate-c-external-mutation-pattern.md",
       "lessons-learned-claude-code-permissions-apply-2026-04.md",
       "lessons-learned-issue-515-cf-audit-logs-ml-anomaly-2026-05.md",
       "skill-ledger-fragment-spec.md",
@@ -6270,6 +6280,7 @@
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md",
       "workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-skill-lifecycle-evaluation-scoring-gate.md",
       "workflow-task-09c-production-deploy-execution-001-artifact-inventory.md",
       "workflow-ut-coverage-2026-05-wave-artifact-inventory.md"
@@ -6512,6 +6523,7 @@
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-ai-runtime-authmode-unification.md",
       "workflow-ai-runtime-execution-responsibility-realignment.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-331-cicd-runtime-warning-cleanup-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -6548,6 +6560,7 @@
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-348-09c-github-release-tag-automation-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
@@ -6733,6 +6746,7 @@
     ],
     "Contract": [
       "database-implementation-core.md",
+      "gate-c-external-mutation-pattern.md",
       "gate-metadata.md",
       "lessons-learned-05b-a-auth-mail-env-contract-alignment-2026-05.md",
       "observability-monitoring.md",
@@ -7124,6 +7138,7 @@
       "database-schema.md",
       "legacy-ordinal-family-register.md",
       "lessons-learned-issue-393-stablekey-literal-legacy-cleanup-2026-05.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-06b-B-profile-self-service-request-ui-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
@@ -8155,7 +8170,8 @@
     ],
     "mount": [
       "deployment-secrets-management.md",
-      "lessons-learned-04c-admin-backoffice-2026-04.md"
+      "lessons-learned-04c-admin-backoffice-2026-04.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md"
     ],
     "される例": [
       "deployment-secrets-management.md"
@@ -8192,6 +8208,7 @@
       "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
       "r2-storage-decision-guide.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md",
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md"
     ],
@@ -8572,6 +8589,37 @@
     "エラーハンドリングの実装指針": [
       "error-handling-details.md"
     ],
+    "External": [
+      "gate-c-external-mutation-pattern.md",
+      "security-electron-ipc-examples.md"
+    ],
+    "Mutation": [
+      "gate-c-external-mutation-pattern.md",
+      "release-runbook.md"
+    ],
+    "Pattern": [
+      "gate-c-external-mutation-pattern.md",
+      "mock-api-dispatcher-pattern.md",
+      "ui-ux-portal-patterns.md"
+    ],
+    "汎用テンプレート": [
+      "gate-c-external-mutation-pattern.md"
+    ],
+    "適用条件": [
+      "gate-c-external-mutation-pattern.md",
+      "skill-ledger-gitattributes-policy.md"
+    ],
+    "必須メタデータ": [
+      "gate-c-external-mutation-pattern.md"
+    ],
+    "実行フロー": [
+      "gate-c-external-mutation-pattern.md"
+    ],
+    "適用事例": [
+      "gate-c-external-mutation-pattern.md",
+      "ipc-contract-checklist.md",
+      "skill-ledger-progressive-disclosure.md"
+    ],
     "Metadata": [
       "gate-metadata.md",
       "workflow-06b-a-me-api-authjs-session-resolver-artifact-inventory.md",
@@ -8581,6 +8629,7 @@
       "workflow-06b-c-runtime-evidence-execution-artifact-inventory.md",
       "workflow-2b-admin-identity-conflicts-spec-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-372-attendance-pagination-artifact-inventory.md",
       "workflow-issue-504-extended-fixture-50k-artifact-inventory.md",
@@ -8855,9 +8904,11 @@
     ],
     "System": [
       "interfaces-agent-sdk-integration.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md"
     ],
     "SkillSlice": [
@@ -9662,10 +9713,6 @@
     ],
     "を使用していないバリデーション箇所を検出": [
       "ipc-contract-checklist.md"
-    ],
-    "適用事例": [
-      "ipc-contract-checklist.md",
-      "skill-ledger-progressive-disclosure.md"
     ],
     "Creator": [
       "ipc-contract-checklist.md",
@@ -10545,6 +10592,7 @@
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
       "workflow-issue-533-public-profile-builder-attendance-injection-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-06-ui-ux-contract-rewrite-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md"
@@ -11536,6 +11584,7 @@
       "workflow-06c-A-admin-dashboard-artifact-inventory.md",
       "workflow-06c-B-admin-members-artifact-inventory.md",
       "workflow-06c-C-admin-tags-artifact-inventory.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-495-09b-A-sentry-slack-runtime-smoke-prod-extension-artifact-inventory.md",
       "workflow-issue-516-github-audit-log-cross-source-correlation-artifact-inventory.md",
       "workflow-skill-ledger-a3-progressive-disclosure-artifact-inventory.md",
@@ -14725,7 +14774,8 @@
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md"
     ],
     "Note": [
-      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md"
+      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md"
     ],
     "Injection": [
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
@@ -14988,6 +15038,7 @@
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -15025,6 +15076,7 @@
       "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
       "workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-10-auth-session-handling-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -16608,6 +16660,7 @@
       "ui-ux-components.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-502-ut-07b-fu-01-followup-dlq-monitoring-dashboard-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-09a-A-staging-deploy-smoke-execution-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-08a-04-d1-migration-test-guideline-artifact-inventory.md",
@@ -19613,10 +19666,6 @@
     "Dispatcher": [
       "mock-api-dispatcher-pattern.md"
     ],
-    "Pattern": [
-      "mock-api-dispatcher-pattern.md",
-      "ui-ux-portal-patterns.md"
-    ],
     "safeJson": [
       "mock-api-dispatcher-pattern.md"
     ],
@@ -20140,9 +20189,6 @@
     "セマンティック検索": [
       "rag-vector-search.md"
     ],
-    "Mutation": [
-      "release-runbook.md"
-    ],
     "Commands": [
       "release-runbook.md",
       "workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md"
@@ -20204,9 +20250,6 @@
       "workflow-ai-chat-llm-integration-fix.md"
     ],
     "セキュリティ契約": [
-      "security-electron-ipc-examples.md"
-    ],
-    "External": [
       "security-electron-ipc-examples.md"
     ],
     "Credential": [
@@ -20394,9 +20437,6 @@
       "skill-ledger-gitattributes-policy.md"
     ],
     "適用許可リスト": [
-      "skill-ledger-gitattributes-policy.md"
-    ],
-    "適用条件": [
       "skill-ledger-gitattributes-policy.md"
     ],
     "行独立な": [
@@ -22139,6 +22179,7 @@
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
       "workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-issue-191-schema-aliases-artifact-inventory.md",
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
@@ -22176,6 +22217,7 @@
       "workflow-issue-666-fetch-public-service-binding-regression-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
       "workflow-issue-668-paths-filter-shell-prelude-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-parallel-09-ux-cross-cutting-artifact-inventory.md",
       "workflow-parallel-10-auth-session-handling-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
@@ -22258,6 +22300,7 @@
     "Implementation": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-e2e-stage-2-2d-contract-artifact-inventory.md",
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md",
       "workflow-issue-352-postmortem-template-automation-artifact-inventory.md",
       "workflow-issue-377-retry-tick-and-dlq-audit-artifact-inventory.md",
       "workflow-issue-378-tag-queue-paused-flag-artifact-inventory.md",
@@ -22299,6 +22342,7 @@
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
@@ -22344,6 +22388,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md",
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-07c-followup-003-audit-log-browsing-ui-artifact-inventory.md",
@@ -22614,6 +22659,9 @@
     "入口導線": [
       "workflow-governance-design-category.md"
     ],
+    "toastprovider": [
+      "workflow-i01-toastprovider-root-mount-artifact-inventory.md"
+    ],
     "Acceptance": [
       "workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -22883,6 +22931,12 @@
     ],
     "introduced": [
       "workflow-issue-667-stage3b-mock-api-fixture-coverage-artifact-inventory.md"
+    ],
+    "Revocation": [
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md"
+    ],
+    "Blockers": [
+      "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
