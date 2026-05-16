@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "workflow_id": "parallel-03-prototype-ux-css",
+    "parent_workflow": "ui-prototype-alignment-mvp-recovery",
+    "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-03-prototype-ux-css/spec.md",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_runtime_pending",
+    "evidence_state": "visual_runtime_captured",
+    "implementation_mode": "new",
+    "created_at": "2026-05-15",
+    "updated_at": "2026-05-15",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-15",
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-03-prototype-ux-css/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: implementation contract and local code changes are present; visual runtime evidence remains pending."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-03-prototype-ux-css/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "visual_runtime: task-specific Playwright spec passed locally and screenshots/report evidence are captured."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-03-prototype-ux-css/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "task-specification-creator",
+        "notes": "phase12_strict_7: updated after local implementation; runtime values remain pending."
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/parallel-03-prototype-ux-css/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "commit, push, and PR are user-gated."
+      }
+    ]
+  },
+  "implementation_targets": [
+    "apps/web/src/styles/globals.css",
+    "apps/web/src/components/public/MemberFilters.client.tsx",
+    "apps/web/src/components/public/MemberCard.tsx",
+    "apps/web/src/components/public/MemberDetailSections.tsx",
+    "apps/web/src/components/public/FormPreviewSections.tsx",
+    "apps/web/src/components/public/__tests__/MemberFilters.client.spec.tsx",
+    "apps/web/src/components/public/__tests__/MemberDetailSections.component.spec.tsx",
+    "apps/web/src/components/public/__tests__/FormPreviewSections.component.spec.tsx",
+    "apps/web/playwright.config.ts",
+    "apps/web/playwright/fixtures/auth.ts",
+    "apps/web/playwright/tests/visual/visual-feedback.spec.ts"
+  ],
+  "evidence": [
+    "outputs/phase-11/main.md",
+    "outputs/phase-11/evidence/command-contract.md",
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "phases": [
+    { "phase": 1, "status": "completed" },
+    { "phase": 2, "status": "completed" },
+    { "phase": 3, "status": "completed" },
+    { "phase": 4, "status": "completed" },
+    { "phase": 5, "status": "completed" },
+    { "phase": 6, "status": "completed" },
+    { "phase": 7, "status": "completed" },
+    { "phase": 8, "status": "completed" },
+    { "phase": 9, "status": "completed" },
+    { "phase": 10, "status": "completed" },
+    { "phase": 11, "status": "completed" },
+    { "phase": 12, "status": "completed" },
+    { "phase": 13, "status": "blocked" }
+  ]
+}

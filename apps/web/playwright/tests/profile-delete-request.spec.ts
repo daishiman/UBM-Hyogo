@@ -39,6 +39,7 @@ test.describe("profile delete-request (06b-B)", () => {
       memberPage.locator("[data-pending-type=delete_request]"),
     ).toBeVisible();
 
+    await memberPage.waitForLoadState("networkidle");
     await memberPage.goto("/");
     await memberPage.goto("/profile");
     await expect(

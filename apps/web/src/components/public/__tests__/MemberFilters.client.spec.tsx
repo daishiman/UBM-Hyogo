@@ -63,4 +63,13 @@ describe("MemberFilters", () => {
     fireEvent.click(fooBtn);
     expect(replaceMock).toHaveBeenCalled();
   });
+
+  it("active tag button has data-component='tag-pill' / data-selected='true' / aria-pressed='true' (G3-1)", () => {
+    render(<MemberFilters initial={{ ...baseInitial, tag: ["foo"] }} />);
+    const fooBtn = screen.getByRole("button", { name: "#foo ×" });
+    expect(fooBtn.getAttribute("data-component")).toBe("tag-pill");
+    expect(fooBtn.getAttribute("data-selected")).toBe("true");
+    expect(fooBtn.getAttribute("aria-pressed")).toBe("true");
+    expect(fooBtn.hasAttribute("aria-selected")).toBe(false);
+  });
 });

@@ -3655,7 +3655,7 @@ node scripts/list-specs.js --topics
 | HistorySearch timeline 再設計（TASK-UI-06-HISTORY-SEARCH-VIEW） | L240 |
 | ViewType/ナビ導線 実装同期（TASK-UI-01-D-VIEWTYPE-ROUTING-NAV） | L287 |
 | authGateState × UI gating（apps/web 共通） | L356 |
-| 続き | L382 |
+| 続き | L393 |
 
 ### references/arch-state-management-details.md
 
@@ -5113,6 +5113,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓一覧 | L8 |
 | 申し送り（open / baseline 未タスク） | L57 |
+
+### references/lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓 | L7 |
+| 関連リソース | L17 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -6760,14 +6767,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1369 |
-| フェーズ構造（概要） | L1378 |
-| 品質ゲート（概要） | L1409 |
-| 出力テンプレート | L1420 |
-| 実行時のコマンド・エージェント・スキル | L1443 |
-| 昇格パターン集 | L1467 |
-| Current Active / Spec Created Tasks | L1469 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1612 |
+| ドキュメント構成 | L1383 |
+| フェーズ構造（概要） | L1392 |
+| 品質ゲート（概要） | L1423 |
+| 出力テンプレート | L1434 |
+| 実行時のコマンド・エージェント・スキル | L1457 |
+| 昇格パターン集 | L1481 |
+| Current Active / Spec Created Tasks | L1483 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1626 |
 
 ### references/task-workflow-backlog-part2.md
 
