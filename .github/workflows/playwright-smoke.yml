@@ -42,10 +42,12 @@ jobs:
       - name: Run 19-route smoke
         run: mise exec -- pnpm --filter @ubm-hyogo/web e2e:smoke
       - name: Run attendance visual smoke
+        env:
+          PLAYWRIGHT_EVIDENCE_TASK: 07c-followup-002
+          PLAYWRIGHT_TASK18_SMOKE: ''
         run: |
-          PLAYWRIGHT_EVIDENCE_TASK=07c-followup-002 \
-            mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test \
-              playwright/tests/attendance.spec.ts --project=desktop-chromium --trace on
+          mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test \
+            playwright/tests/attendance.spec.ts --project=desktop-chromium --trace on
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
