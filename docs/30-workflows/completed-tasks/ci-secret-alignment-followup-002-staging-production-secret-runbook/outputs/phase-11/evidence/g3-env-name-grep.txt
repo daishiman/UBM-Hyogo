@@ -1,8 +1,0 @@
-23:  gh secret set CLOUDFLARE_API_TOKEN --env staging
-42:gh variable list --env staging | grep '^CLOUDFLARE_ACCOUNT_ID'
-65:3. `gh secret set CLOUDFLARE_API_TOKEN --env staging --body '<value>'` のように値が shell history や process list に残る形で投入しない。
-23:  gh secret set CLOUDFLARE_API_TOKEN --env production
-42:gh variable list --env production | grep '^CLOUDFLARE_ACCOUNT_ID'
-65:3. `gh secret set CLOUDFLARE_API_TOKEN --env production --body '<value>'` のように値が shell history や process list に残る形で投入しない。
-OK staging no production env
-OK production no staging env

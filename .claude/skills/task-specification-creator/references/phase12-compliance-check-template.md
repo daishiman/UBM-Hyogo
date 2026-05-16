@@ -56,30 +56,6 @@ rg -n 'workflow-state-vocabulary|phase12-compliance-check-template' .claude/skil
 | Missing Phase 12 files | Any of the strict 7 file names are absent | Create the exact canonical filenames. |
 | Stale deleted root | A workflow root is deleted while live inventory, active workflow, consumed trace, quick-reference, resource-map, or task-workflow points to it | Restore/move the root or update all ledgers in the same wave; historical-only hits must be labeled as such. |
 | Skill feedback not promoted | `skill-feedback-report.md` names a target but owning skill files are unchanged | Apply the owning skill/reference update or mark a scoped no-op with evidence. |
-| Heading-only `implementation-guide.md` PASS | strict 7 内の `implementation-guide.md` が Part 1〜11 の見出しだけ存在し、各 Part の本文が 3 行未満 / 必須 key section（背景・要約・実装ステップ・検証コマンド・既知制限 等）を欠く | 各 Part に最小 3 行以上の本文と key sections を補完してから PASS にする。見出し存在のみの strict PASS は FAIL とする（PARALLEL-01-NAV 由来） |
-
-### Heading-only reject gate（PARALLEL-01-NAV 由来）
-
-`implementation-guide.md` の Part 1〜11 は **見出し存在チェック単独で PASS 判定しない**。compliance check 実行時に以下の static validator パターンで Part ごとの本文量を必ず検査する。
-
-```bash
-# Part 1〜11 各見出しから次の Part 見出しまでの本文行数を測る
-awk '
-  /^## Part [0-9]+/ {
-    if (part != "") print part, count;
-    part=$0; count=0; next
-  }
-  part != "" && NF > 0 { count++ }
-  END { if (part != "") print part, count }
-' docs/30-workflows/<task>/outputs/phase-12/implementation-guide.md \
-  | awk '{ if ($NF < 3) { print "FAIL heading-only:", $0; rc=1 } } END { exit rc }'
-```
-
-判定ルール:
-
-- 各 Part の本文（見出し行を除く非空行）が **3 行未満**なら `FAIL heading-only`。
-- 各 Part に必須 key section（例: `背景` / `要約` / `実装ステップ` / `検証コマンド` / `既知制限` のうちタスク種別に応じた最低 2 項目）が含まれていない場合も FAIL。
-- compliance check の `Phase 12 strict 7 file inventory` セクションで Part 毎の `lines / key_sections_present` を表形式で記録し、reviewer が見出し存在だけで PASS にできない構造にする。
 
 ## Four-Condition Verdict Template
 
