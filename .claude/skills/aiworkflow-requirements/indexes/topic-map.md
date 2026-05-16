@@ -976,7 +976,7 @@ node scripts/list-specs.js --topics
 | エラーハンドリング | L232 |
 | Conversation DB 初期化パターン | L263 |
 | UBM-Hyogo Schema Sync Contract（03a） | L265 |
-| ベクトル検索実装（DiskANN） | L375 |
+| ベクトル検索実装（DiskANN） | L376 |
 
 ### references/database-implementation-details.md
 
@@ -2299,6 +2299,8 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md
+
 ### references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -3303,6 +3305,12 @@ node scripts/list-specs.js --topics
 | Current Canonical Set | L12 |
 | Open Follow-ups | L25 |
 
+### references/workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Gate boundary | L14 |
+
 ### references/workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md
 
 | セクション | 行 |
@@ -3475,6 +3483,19 @@ node scripts/list-specs.js --topics
 | 自走禁止項目（本タスクで実行しないこと） | L90 |
 | Skill Feedback（Phase 12 反映） | L101 |
 | 関連リソース | L109 |
+
+### references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L15 |
+| Contract Summary | L24 |
+| Runtime Boundary | L36 |
+| Code Artifacts | L41 |
+| Implementation Guide Pointers | L49 |
+| Unassigned Task Trace | L59 |
+| Lessons Learned | L68 |
 
 ### references/workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md
 
@@ -4048,21 +4069,21 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L8 |
-| GitHub Actions Secret Preflight Gate（2026-05-16） | L20 |
-| 管理場所の判断フロー | L42 |
-| Cloudflare Secrets（ランタイム） | L59 |
-| GitHub Secrets / Variables（CI/CD 用） | L125 |
-| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L218 |
-| wrangler.toml の環境別設定 | L252 |
-| ローカル開発での設定 | L284 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L323 |
-| セキュリティ原則 | L355 |
-| Cloudflare API Token の作成手順 | L366 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L381 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L492 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L544 |
-| 変更履歴 | L563 |
+| 概要 | L11 |
+| GitHub Actions Secret Preflight Gate（2026-05-16） | L23 |
+| 管理場所の判断フロー | L45 |
+| Cloudflare Secrets（ランタイム） | L62 |
+| GitHub Secrets / Variables（CI/CD 用） | L128 |
+| web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14） | L228 |
+| wrangler.toml の環境別設定 | L262 |
+| ローカル開発での設定 | L294 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L333 |
+| セキュリティ原則 | L365 |
+| Cloudflare API Token の作成手順 | L376 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L391 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L502 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L554 |
+| 変更履歴 | L573 |
 
 ### references/deployment.md
 
@@ -4317,15 +4338,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L22 |
-| 使い方 | L30 |
-| Current Alias Overrides（個別互換行） | L37 |
-| Family Summary | L78 |
-| Detailed Register | L99 |
-| Section Extract Register (2026-03-17) | L280 |
-| 500-Line Split Register (2026-03-16) | L291 |
-| Fragment Migration Register (2026-04-28) | L313 |
-| Task Root Path Drift Register (2026-04-30 追記) | L340 |
+| 概要 | L23 |
+| 使い方 | L31 |
+| Current Alias Overrides（個別互換行） | L38 |
+| Family Summary | L83 |
+| Detailed Register | L104 |
+| Section Extract Register (2026-03-17) | L285 |
+| 500-Line Split Register (2026-03-16) | L296 |
+| Fragment Migration Register (2026-04-28) | L318 |
+| Task Root Path Drift Register (2026-04-30 追記) | L345 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4605,6 +4626,7 @@ node scripts/list-specs.js --topics
 | L-07A-005: admin client 契約は UI 実装タスクの stale 記述を同 wave で直す | L19 |
 | L-07A-006: API / web の body drift は shared schema SSOT へ寄せる | L23 |
 | L-07A-007: package script の test 引数は対象ファイル選択を保証しない | L30 |
+| L-07A-008: stale 起票前提と current topology が乖離したら「削除」ではなく「境界明確化」へ再解釈する | L37 |
 
 ### references/lessons-learned-07b-schema-alias-assignment-2026-04.md
 
@@ -6841,22 +6863,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1393 |
-| フェーズ構造（概要） | L1402 |
-| 品質ゲート（概要） | L1433 |
-| 出力テンプレート | L1444 |
-| 実行時のコマンド・エージェント・スキル | L1467 |
-| 昇格パターン集 | L1491 |
-| Current Active / Spec Created Tasks | L1493 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1636 |
-| ドキュメント構成 | L1256 |
-| フェーズ構造（概要） | L1265 |
-| 品質ゲート（概要） | L1296 |
-| 出力テンプレート | L1307 |
-| 実行時のコマンド・エージェント・スキル | L1330 |
-| 昇格パターン集 | L1354 |
-| Current Active / Spec Created Tasks | L1356 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1482 |
+| ドキュメント構成 | L1460 |
+| フェーズ構造（概要） | L1469 |
+| 品質ゲート（概要） | L1500 |
+| 出力テンプレート | L1511 |
+| 実行時のコマンド・エージェント・スキル | L1534 |
+| 昇格パターン集 | L1558 |
+| Current Active / Spec Created Tasks | L1560 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1707 |
 
 ### references/task-workflow-backlog-part2.md
 
