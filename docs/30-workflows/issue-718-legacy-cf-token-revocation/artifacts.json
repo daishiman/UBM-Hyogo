@@ -1,0 +1,80 @@
+{
+  "task_name": "issue-718-legacy-cf-token-revocation",
+  "task_path": "docs/30-workflows/issue-718-legacy-cf-token-revocation",
+  "github_issue": 718,
+  "github_issue_state": "OPEN",
+  "wave": 1,
+  "execution_mode": "sequential_with_user_gated_mutation",
+  "depends_on": [
+    "issue-640-oidc-cf-token-cutover"
+  ],
+  "blocks": [],
+  "created_at": "2026-05-16T00:00:00+09:00",
+  "status": "implemented-local-runtime-pending",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local-runtime-pending",
+    "implementation_status": "implemented-local",
+    "implementationCategory": "security-hardening",
+    "scope": "legacy_cloudflare_api_token_revocation",
+    "domain": "github_actions_cloudflare_ci_cd",
+    "governance_mutation_user_gate": true,
+    "read_only_evidence_allowed_pre_gate": [
+      "rg -n 'CLOUDFLARE_API_TOKEN|CF_TOKEN_' .github/workflows scripts .claude/skills/aiworkflow-requirements",
+      "gh secret list --env staging",
+      "gh secret list --env production",
+      "bash scripts/cf.sh whoami",
+      "bash scripts/cf.sh d1 list"
+    ],
+    "mutation_commands": [
+      "Cloudflare dashboard/API token revoke (operator only; token id/value not recorded)",
+      "gh secret set/delete for Cloudflare deploy secrets (user approval required)",
+      "1Password item status update/delete (operator only; value/URI not recorded)"
+    ],
+    "user_approval_marker": "outputs/phase-13/user-approval-issue-718-<timestamp>.md",
+    "planned_read_only_evidence_files": [
+      "outputs/phase-1/legacy-token-reference-inventory.md",
+      "outputs/phase-1/secret-inventory.md",
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/manual-smoke-log.md",
+      "outputs/phase-11/link-checklist.md",
+      "outputs/phase-11/evidence-ledger.md",
+      "outputs/phase-11/health-before-whoami.log",
+      "outputs/phase-11/health-before-d1-list.log"
+    ],
+    "planned_mutation_evidence_files": [
+      "outputs/phase-11/operator-approval-record.md",
+      "outputs/phase-11/revocation-evidence.md",
+      "outputs/phase-11/github-secrets-staging-after.md",
+      "outputs/phase-11/github-secrets-production-after.md",
+      "outputs/phase-11/onepassword-item-status.md"
+    ]
+  },
+  "phases": [
+    {"phase": 1, "name": "requirements", "file": "phase-1-requirements.md", "status": "spec_created", "outputs": ["outputs/phase-1/legacy-token-reference-inventory.md", "outputs/phase-1/secret-inventory.md", "outputs/phase-1/acceptance-criteria.md"], "depends_on_phases": [], "user_approval_required": false},
+    {"phase": 2, "name": "design", "file": "phase-2-design.md", "status": "spec_created", "outputs": ["outputs/phase-2/secret-rename-plan.md", "outputs/phase-2/workflow-diff-plan.md", "outputs/phase-2/run-sequence.md"], "depends_on_phases": [1], "user_approval_required": false},
+    {"phase": 3, "name": "design-review", "file": "phase-3-design-review.md", "status": "spec_created", "outputs": ["outputs/phase-3/review-checklist.md", "outputs/phase-3/go-no-go-decision.md"], "depends_on_phases": [2], "user_approval_required": false},
+    {"phase": 4, "name": "test-plan", "file": "phase-4-test-plan.md", "status": "spec_created", "outputs": ["outputs/phase-4/test-cases.md", "outputs/phase-4/test-execution-plan.md"], "depends_on_phases": [3], "user_approval_required": false},
+    {"phase": 5, "name": "implementation", "file": "phase-5-implementation.md", "status": "completed", "outputs": ["outputs/phase-5/implementation-diff.md", "outputs/phase-5/deploy-checkpoint.md", "outputs/phase-5/pr-a-description.md"], "depends_on_phases": [4], "user_approval_required": false},
+    {"phase": 6, "name": "test-additions", "file": "phase-6-test-additions.md", "status": "completed", "outputs": ["outputs/phase-6/test-results.md", "outputs/phase-6/regression-negative-case.md", "outputs/phase-6/rotation-reminder-output.log"], "depends_on_phases": [5], "user_approval_required": false},
+    {"phase": 7, "name": "coverage", "file": "phase-7-coverage.md", "status": "spec_created", "outputs": ["outputs/phase-7/coverage-ac-exemption.md"], "depends_on_phases": [6], "user_approval_required": false},
+    {"phase": 8, "name": "refactor", "file": "phase-8-refactor.md", "status": "spec_created", "outputs": ["outputs/phase-8/refactor-checklist.md", "outputs/phase-8/redaction-check-result.md"], "depends_on_phases": [7], "user_approval_required": false},
+    {"phase": 9, "name": "qa", "file": "phase-9-qa.md", "status": "runtime_pending", "outputs": ["outputs/phase-9/qa-checklist.md", "outputs/phase-9/ci-gate-results.md", "outputs/phase-9/post-merge-deploy-evidence.md"], "depends_on_phases": [8], "user_approval_required": true},
+    {"phase": 10, "name": "final-review", "file": "phase-10-final-review.md", "status": "runtime_pending", "outputs": ["outputs/phase-10/go-decision.md", "outputs/phase-10/sign-off-record.md", "outputs/phase-10/user-gate-checklist.md"], "depends_on_phases": [9], "user_approval_required": true},
+    {"phase": 11, "name": "manual-test", "file": "phase-11-manual-test.md", "status": "runtime_pending", "outputs": ["outputs/phase-11/"], "depends_on_phases": [10], "user_approval_required": true},
+    {"phase": 12, "name": "documentation", "file": "phase-12-documentation.md", "status": "spec_created", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/phase12-task-spec-compliance-check.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/documentation-changelog.md"], "depends_on_phases": [11], "user_approval_required": false},
+    {"phase": 13, "name": "pr", "file": "phase-13-pr.md", "status": "blocked", "outputs": ["outputs/phase-13/pr-body.md", "outputs/phase-13/user-approval-issue-718-<timestamp>.md"], "depends_on_phases": [12], "user_approval_required": true}
+  ],
+  "specs_referenced": [
+    "docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md",
+    ".claude/skills/task-specification-creator/references/non-visual-irreversible-task-rules.md"
+  ],
+  "secrets_introduced": [],
+  "invariants_touched": [
+    "token id, suffix, account id, value hash, token preview are never recorded",
+    "Cloudflare/GitHub/1Password mutations require separate user approval"
+  ]
+}
