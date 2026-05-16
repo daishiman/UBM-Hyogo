@@ -1,0 +1,2 @@
+$ bash -n scripts/ci/verify-workflow-doc-refs.sh scripts/ci/__tests__/verify-workflow-doc-refs.spec.sh
+bash-syntax: OK

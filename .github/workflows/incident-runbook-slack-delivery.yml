@@ -18,7 +18,7 @@ on:
         type: string
         required: true
       runbook_path:
-        description: 'docs/30-workflows/.../incident-runbook.md'
+        description: 'repository-local incident runbook markdown path'
         type: string
         required: true
       oncall_handle:

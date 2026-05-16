@@ -1,0 +1,73 @@
+{
+  "workflow": "ci-runtime-smoke-staging-secrets-recovery",
+  "status": "runtime_pending",
+  "implementation_mode": "existing-hardening",
+  "task_classification": "NON_VISUAL",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_runtime_pending",
+    "verdict": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "runtime_pending_reason": "GitHub Environment secret placement and runtime-smoke-staging workflow rerun require user approval and must not expose secret values.",
+    "governance_mutation_user_gate": true,
+    "mutation_commands": [
+      "gh secret set STAGING_API_BASE --env staging-runtime-smoke",
+      "gh secret set STAGING_ADMIN_BEARER --env staging-runtime-smoke",
+      "gh secret set STAGING_MEMBER_ID --env staging-runtime-smoke",
+      "gh secret set STAGING_ME_BEARER --env staging-runtime-smoke",
+      "gh secret set SLACK_WEBHOOK_INCIDENT --env staging-runtime-smoke",
+      "gh workflow run runtime-smoke-staging.yml --ref dev"
+    ],
+    "read_only_evidence_allowed_pre_gate": [
+      "bash scripts/ci/verify-workflow-doc-refs.sh",
+      "bash scripts/ci/__tests__/verify-workflow-doc-refs.spec.sh",
+      "gh api repos/daishiman/UBM-Hyogo/environments/staging-runtime-smoke/secrets --jq '.secrets[].name'"
+    ],
+    "actual_read_only_evidence_files": [
+      "outputs/phase-11/evidence/verify-workflow-doc-refs.txt",
+      "outputs/phase-11/evidence/verify-workflow-doc-refs-test.txt",
+      "outputs/phase-11/evidence/actionlint.txt",
+      "outputs/phase-11/evidence/phase12-compliance.txt",
+      "outputs/phase-11/evidence/bash-syntax.txt",
+      "outputs/phase-11/evidence/runtime-pending.md"
+    ],
+    "actual_mutation_evidence_files": []
+  },
+  "phases": {
+    "phase-1": { "status": "completed", "artifacts": ["phase-1.md"] },
+    "phase-2": { "status": "completed", "artifacts": ["phase-2.md"] },
+    "phase-3": { "status": "completed", "artifacts": ["phase-3.md"] },
+    "phase-4": { "status": "completed", "artifacts": ["phase-4.md"] },
+    "phase-5": { "status": "completed", "artifacts": ["phase-5.md"] },
+    "phase-6": { "status": "completed", "artifacts": ["phase-6.md"] },
+    "phase-7": { "status": "completed", "artifacts": ["phase-7.md"] },
+    "phase-8": { "status": "completed", "artifacts": ["phase-8.md"] },
+    "phase-9": { "status": "completed", "artifacts": ["phase-9.md"] },
+    "phase-10": { "status": "completed", "artifacts": ["phase-10.md"] },
+    "phase-11": {
+      "status": "runtime_pending",
+      "artifacts": [
+        "outputs/phase-11/evidence/verify-workflow-doc-refs.txt",
+        "outputs/phase-11/evidence/verify-workflow-doc-refs-test.txt",
+        "outputs/phase-11/evidence/actionlint.txt",
+        "outputs/phase-11/evidence/phase12-compliance.txt",
+        "outputs/phase-11/evidence/bash-syntax.txt",
+        "outputs/phase-11/evidence/runtime-pending.md"
+      ]
+    },
+    "phase-12": {
+      "status": "completed",
+      "artifacts": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "blocked", "artifacts": [] }
+  }
+}

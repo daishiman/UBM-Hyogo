@@ -348,12 +348,12 @@ UT-27 (`docs/30-workflows/completed-tasks/ut-27-github-secrets-variables-deploym
 
 ## Workflow lint scope の不変条件（CI recovery / 2026-05-09）
 
-`.github/workflows/ci.yml` の `workflow-shell-lint` job が呼び出す actionlint は、対象 workflow を継続的に拡張する。Issue #526 時点では `post-release-observation-reminder.yml` と `ci.yml` の 2 file だったが、2026-05-09 CI recovery wave で `web-cd.yml` と `runtime-smoke-staging.yml` を追加した。新規 workflow を `.github/workflows/` に追加する場合、actionlint 対象 list へ同時に追記することを必須とし、未掲載のまま PR を出した場合は `workflow-shell-lint` が fail する設計にする。
+`.github/workflows/ci.yml` の `workflow-shell-lint` job が呼び出す actionlint は、対象 workflow を継続的に拡張する。Issue #526 時点では `post-release-observation-reminder.yml` と `ci.yml` の 2 file だったが、2026-05-09 CI recovery wave で `web-cd.yml` と `runtime-smoke-staging.yml` を追加した。2026-05-15 の CI runtime smoke staging secrets recovery で `verify-workflow-doc-refs.yml` も対象へ追加した。新規 workflow を `.github/workflows/` に追加する場合、actionlint 対象 list へ同時に追記することを必須とし、未掲載のまま PR を出した場合は `workflow-shell-lint` が fail する設計にする。
 
 | 観点 | 正本 |
 | --- | --- |
 | actionlint runner | `.github/workflows/ci.yml` の `workflow-shell-lint` job 内 actionlint step |
-| 対象 workflow（2026-05-09 時点） | `ci.yml`, `post-release-observation-reminder.yml`, `web-cd.yml`, `runtime-smoke-staging.yml` |
+| 対象 workflow（2026-05-15 時点） | `ci.yml`, `post-release-observation-reminder.yml`, `web-cd.yml`, `runtime-smoke-staging.yml`, `verify-workflow-doc-refs.yml` |
 | 拡張ルール | `.github/workflows/` への workflow 追加と同時に actionlint 対象に追記する |
 | shellcheck 対象 | `scripts/observation/*.sh`, `scripts/observation/test/*.sh`, 加えて recovery wave で `scripts/smoke/provision-staging-secrets.sh` を追加対象とする |
 
@@ -459,6 +459,7 @@ Slack channel 作成は workflow / shell script に入れない。Slack App / Bo
 workflow permissions は `contents: write` / `pull-requests: write` / `actions: read` のみ。`gh run list` 失敗は workflow failure、Slack POST 失敗は PR 残置 + exit 3 とし、retry / alert 実装は本 workflow に含めない。failure 比率 `>= 10%` の場合は PR body に retry / alert 検討節を追記する。
 
 | 2026-05-09 | 2.6.0 | CI recovery wave: 「Workflow lint scope の不変条件」と「Failure cascade 抑止 pattern」を追加。actionlint 対象 workflow に `web-cd.yml` / `runtime-smoke-staging.yml` を含めること、Slack failure post 等の通知 step は `hashFiles('<artifact>') != ''` guard で連鎖失敗を抑止することを正本化 |
+| 2026-05-15 | 2.6.1 | CI runtime smoke staging secrets recovery: actionlint 対象 workflow に `verify-workflow-doc-refs.yml` を追加。workflow YAML 内 repository-local docs 参照の実在検証 guard と同一 wave で lint scope を同期 |
 | 2026-05-07 | 2.5.0 | Issue #517 follow-up auto-summary foundation を実装。`.github/workflows/post-release-30day-auto-summary.yml`、`scripts/post-release-dashboard/30day-summary.sh` ＋ TC-01〜TC-07 / TC-05b plain shell test、schedule-only 30 day gate、open PR idempotency、`auto/post-release-30day-summary-YYYYMM` branch / `[auto-summary] post-release-dashboard 30d` PR title prefix / Slack Incoming Webhook (channel `w1618436027-ek2505248`) を正本化。Issue #517 は CLOSED 維持 / `Refs` のみ |
 | 2026-05-06 | 2.4.0 | Issue #407 Cloudflare API Token rotation reminder workflow を追加。`CF_TOKEN_ISSUED_AT`、85 日 reminder、dry-run、duplicate guard、最小 permissions を正本化 |
 | 2026-05-05 | 2.3.0 | Issue #351 post-release dashboard automation を追加。read-only analytics token、daily schedule、artifact path、redaction gate、`scripts/cf.sh api-post` 境界を正本化 |
