@@ -21,19 +21,17 @@
 | evidence | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | staging / production authenticated evidence、commit、push、PR |
 
-### parallel-08 shared foundation admin UI foundation（2026-05-15）
+### parallel-09 UX cross-cutting primitives contract（2026-05-15）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL / standard / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/completed-tasks/parallel-08-shared-foundation-admin-ui-foundation/` |
-| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/` |
-| 目的 | serial-05/step-01..07 が共有する admin UI foundation を明示化し、`ToastProvider` root scope と `useAdminMutation` import contract を先に固定する |
-| 実装対象 | `apps/web/app/layout.tsx`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/index.ts` |
-| テスト対象 | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `apps/web/src/components/ui/__tests__/primitives.component.spec.tsx` |
-| 境界 | real fetch / toast / error implementation は serial-05/step-01 owner。parallel-08 は sentinel skeleton と export path を固定し、任意 endpoint ではなく既存 admin API helper 名のみを受ける |
-| evidence | Phase 11 local command evidence and Phase 12 strict 7 present |
-| user gate | commit, push, PR |
+| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_pending / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/parallel-09-ux-cross-cutting/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
+| 原典 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-09-ux-cross-cutting/spec.md` |
+| 目的 | 19 routes 横断 UX primitive（FormField / EmptyState / Pagination / Icon / Breadcrumb / responsive / focus-visible / mutation guard / form preserve）を `apps/web` に実装し、後続 parallel-01〜08 の入力正本として固定する |
+| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| 境界 | 本 wave は `apps/web` 共通 primitive 実装と local typecheck まで完了。visual screenshots は local `ENOSPC` 解消後、staging/production smoke、19-route adoption、commit、push、PR は user-gated |
 
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
@@ -1097,6 +1095,18 @@
 | 正本同期 | `references/observability-monitoring.md` / `references/deployment-secrets-management.md` / `docs/00-getting-started-manual/specs/15-infrastructure-runbook.md` / `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` |
 | 苦戦知見 | `references/lessons-learned-issue-514-cf-audit-logs-cold-storage-r2-export-2026-05.md` (L-ISSUE514-001..007: artifacts mirror parity / Phase 11 10 screenshots, Phase 12 strict 7 outputs / `PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` 語彙 / G1-G4 gate sequence / monthly→daily cadence 補正 / source schema 整合 + r2_etag / 6-category redaction guard) |
 
+
+### parallel-10-auth-session-handling（2026-05-15）
+
+| 項目 | 内容 |
+| --- | --- |
+| 成果物 | `docs/30-workflows/parallel-10-auth-session-handling/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| 目的 | Client admin mutation の 401 / 403 handling を統一する。401 は safe `/login?redirect=<current>`、403 は alert toast + error state とする。 |
+| 実装 | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/lib/url/safe-redirect.ts` |
+| 仕様同期 | `docs/00-getting-started-manual/specs/02-auth.md` に Client 401 / 403 handling を追加。silent refresh は MVP 不採用。 |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build}.txt`, `outputs/phase-11/visual-verification-skip.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | commit / push / PR |
 
 ### task-05a-form-preview-503-001（2026-05-05）
 
