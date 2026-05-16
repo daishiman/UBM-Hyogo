@@ -8,18 +8,18 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
-### CI env secret inventory and preflight gate（2026-05-16）
+### serial-05-step-02 identity-conflicts merge UI（2026-05-16）
 
-| 項目 | 内容 |
+| 項目 | 値 |
 | --- | --- |
-| 成果物 | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/` |
-| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
-| scope | `staging-runtime-smoke` Environment 5 secret finalization, adjacent 15 workflow secret refs, env/repo secret-name preflight gate |
-| implementation targets | `.github/workflows/verify-env-secrets.yml`, `.github/workflows/d1-migration-verify.yml`, `scripts/ci/verify-env-secrets.sh`, `scripts/ci/__tests__/verify-env-secrets.spec.sh`, `scripts/ci/verify-env-secrets.allowlist` |
-| inventory / runbook | `task-02-adjacent-unregistered-secret-inventory/inventory.md`, `task-01-staging-runtime-smoke-secret-finalization/runbook.md` |
-| evidence | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/outputs/phase-11/evidence/`, `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| user gate | `gh secret set`, `gh variable set`, `gh workflow run runtime-smoke-staging.yml --ref dev`, commit, push, PR |
-| upstream | `docs/30-workflows/completed-tasks/ci-runtime-smoke-staging-secrets-recovery/` |
+| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval` |
+| 成果物 | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
+| 目的 | `/admin/identity-conflicts` の既存 row-local merge / dismiss UI を `useAdminMutation` に寄せ、400 / 409 error mapping、reason retention、inline alert、visual evidence を hardening する |
+| implementation targets | `apps/web/src/components/admin/IdentityConflictRow.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx`, `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts` |
+| API boundary | 既存 `POST /admin/identity-conflicts/:id/merge` / `POST /admin/identity-conflicts/:id/dismiss` を利用。新 endpoint / D1 schema / shared export 追加なし |
+| evidence | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | staging / production authenticated evidence、commit、push、PR |
 
 ### parallel-09 UX cross-cutting primitives contract（2026-05-15）
 

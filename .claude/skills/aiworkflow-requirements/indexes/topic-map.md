@@ -2737,6 +2737,13 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
 
+### references/workflow-serial-05-step-02-identity-conflicts-merge-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Primary files | L10 |
+| Evidence | L20 |
+
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
 | セクション | 行 |
