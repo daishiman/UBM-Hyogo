@@ -2291,6 +2291,8 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md
+
 ### references/workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md
 
 | セクション | 行 |
@@ -2710,6 +2712,22 @@ node scripts/list-specs.js --topics
 | 関連改善タスク | L102 |
 | 関連ドキュメント | L112 |
 | 変更履歴 | L126 |
+
+### references/workflow-parallel-03-prototype-ux-css-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Scope (G3-1 / G3-2 / G3-3) | L16 |
+| Implementation Artifacts | L24 |
+| Contract | L40 |
+| AC to Runtime Path | L50 |
+| Phase 11 Evidence | L63 |
+| Phase 12 Required Files | L74 |
+| Skill Promotion | L86 |
+| Open Follow-Ups | L94 |
+| Rollback Contract | L101 |
+| Related Resources | L110 |
 
 ### references/workflow-permission-fallback-abort-skip-retry.md
 
@@ -4245,15 +4263,15 @@ node scripts/list-specs.js --topics
 
 | セクション | 行 |
 |------------|----|
-| 概要 | L22 |
-| 使い方 | L30 |
-| Current Alias Overrides（個別互換行） | L37 |
-| Family Summary | L78 |
-| Detailed Register | L99 |
-| Section Extract Register (2026-03-17) | L280 |
-| 500-Line Split Register (2026-03-16) | L291 |
-| Fragment Migration Register (2026-04-28) | L313 |
-| Task Root Path Drift Register (2026-04-30 追記) | L340 |
+| 概要 | L23 |
+| 使い方 | L31 |
+| Current Alias Overrides（個別互換行） | L38 |
+| Family Summary | L81 |
+| Detailed Register | L102 |
+| Section Extract Register (2026-03-17) | L283 |
+| 500-Line Split Register (2026-03-16) | L294 |
+| Fragment Migration Register (2026-04-28) | L316 |
+| Task Root Path Drift Register (2026-04-30 追記) | L343 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -5126,6 +5144,12 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 教訓 | L7 |
 | 関連リソース | L17 |
+
+### references/lessons-learned-parallel-03-prototype-ux-css-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| 教訓一覧 | L8 |
 
 ### references/lessons-learned-skill-codex-validation-2026-04.md
 
@@ -6773,14 +6797,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1383 |
-| フェーズ構造（概要） | L1392 |
-| 品質ゲート（概要） | L1423 |
-| 出力テンプレート | L1434 |
-| 実行時のコマンド・エージェント・スキル | L1457 |
-| 昇格パターン集 | L1481 |
-| Current Active / Spec Created Tasks | L1483 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1626 |
+| ドキュメント構成 | L1416 |
+| フェーズ構造（概要） | L1425 |
+| 品質ゲート（概要） | L1456 |
+| 出力テンプレート | L1467 |
+| 実行時のコマンド・エージェント・スキル | L1490 |
+| 昇格パターン集 | L1514 |
+| Current Active / Spec Created Tasks | L1516 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1660 |
 
 ### references/task-workflow-backlog-part2.md
 

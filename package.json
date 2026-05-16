@@ -29,7 +29,7 @@
     "test:phase12-compliance": "vitest run scripts/__tests__/verify-phase12-compliance.spec.ts",
     "test:scripts": "bash scripts/d1/run-tests.sh && node --test scripts/__tests__/coverage-merge.test.mjs",
     "test:workflow-secrets": "bash scripts/__tests__/redaction-check.test.sh && bash scripts/__tests__/workflow-env-scope.test.sh",
-    "smoke:test": "bash scripts/smoke/__tests__/redact.test.sh && bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh && bash scripts/smoke/__tests__/ci-summary-post.test.sh",
+    "smoke:test": "bash scripts/smoke/__tests__/redact.test.sh && bash scripts/smoke/__tests__/runtime-attendance-provider.test.sh && bash scripts/smoke/__tests__/ci-summary-post.test.sh && bash scripts/smoke/__tests__/tag-queue-race.test.sh",
     "test:coverage": "bash scripts/with-env.sh vitest run --coverage",
     "post-release-dashboard:test": "bash scripts/post-release-dashboard/__tests__/run-all.sh",
     "observation:lint": "set -e; bash -n scripts/observation/create-reminder-issue.sh; bash scripts/observation/test/test-create-reminder-issue.sh; shellcheck scripts/observation/*.sh scripts/observation/test/*.sh; tmpdir=$(mktemp -d); trap 'rm -rf \"$tmpdir\"' EXIT; curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash -o \"$tmpdir/download-actionlint.bash\"; (cd \"$tmpdir\" && bash download-actionlint.bash >/dev/null); \"$tmpdir/actionlint\" -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/web-cd.yml .github/workflows/runtime-smoke-staging.yml",
