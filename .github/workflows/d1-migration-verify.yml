@@ -12,6 +12,7 @@ on:
 jobs:
   d1-migration-verify:
     runs-on: ubuntu-latest
+    environment: staging
     permissions:
       contents: read
       issues: write
@@ -39,7 +40,7 @@ jobs:
       - name: Check staging D1 availability
         id: staging_db
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CF_SH_SKIP_WITH_ENV: "1"
         run: |
@@ -58,7 +59,7 @@ jobs:
       - name: Staging dry-run
         if: steps.staging_db.outputs.available == 'true'
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN_STAGING }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CF_SH_SKIP_WITH_ENV: "1"
           DRY_RUN: "1"

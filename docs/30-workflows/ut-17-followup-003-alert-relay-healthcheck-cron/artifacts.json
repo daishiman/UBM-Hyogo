@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "taskId": "UT-17-FU-003",
+  "title": "Cloudflare Cron Triggers alert-relay weekly healthcheck",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implementation_completed_external_ops_pending",
+    "implementation_status": "CODE_COMPLETE_EXTERNAL_OPS_PENDING",
+    "sourceIssue": "#635",
+    "canonicalRoot": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron",
+    "parentWorkflow": "docs/30-workflows/ut-17-cloudflare-analytics-alerts",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-14T00:00:00Z",
+        "evidence_path": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: local code + tests + skill sync"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "external_ops: Cloudflare secrets, staging deploy, manual cron fire, production deploy, first weekly observation"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/ut-17-followup-003-alert-relay-healthcheck-cron/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit / push / PR"
+      }
+    ]
+  },
+  "phases": [
+    { "phase": 1, "name": "要件定義", "status": "completed", "outputs": ["outputs/phase-01/requirements.md"] },
+    { "phase": 2, "name": "設計", "status": "completed", "outputs": ["outputs/phase-02/cron-schedule-design.md", "outputs/phase-02/scheduled-handler-design.md", "outputs/phase-02/mail-fallback-design.md", "outputs/phase-02/env-binding-design.md", "outputs/phase-02/slack-channel-strategy.md"] },
+    { "phase": 3, "name": "設計レビュー", "status": "completed", "outputs": ["outputs/phase-03/design-review.md"] },
+    { "phase": 4, "name": "タスク分解", "status": "completed", "outputs": ["outputs/phase-04/task-breakdown.md", "outputs/phase-04/critical-path.md"] },
+    { "phase": 5, "name": "実装計画", "status": "completed", "outputs": ["outputs/phase-05/implementation-plan.md"] },
+    { "phase": 6, "name": "実装手順", "status": "completed", "outputs": ["outputs/phase-06/implementation-steps.md"] },
+    { "phase": 7, "name": "テスト計画", "status": "completed", "outputs": ["outputs/phase-07/test-plan.md"] },
+    { "phase": 8, "name": "ドキュメント更新", "status": "completed", "outputs": ["outputs/phase-08/docs-updates.md"] },
+    { "phase": 9, "name": "受入確認", "status": "completed", "outputs": ["outputs/phase-09/acceptance.md"] },
+    { "phase": 10, "name": "リファクタ", "status": "completed", "outputs": ["outputs/phase-10/refactor-summary.md"] },
+    { "phase": 11, "name": "NON_VISUAL evidence", "status": "completed", "outputs": ["outputs/phase-11/visual-verification-skip.md"] },
+    { "phase": 12, "name": "正本同期", "status": "completed", "outputs": ["outputs/phase-12/main.md", "outputs/phase-12/implementation-guide.md", "outputs/phase-12/system-spec-update-summary.md", "outputs/phase-12/documentation-changelog.md", "outputs/phase-12/unassigned-task-detection.md", "outputs/phase-12/skill-feedback-report.md", "outputs/phase-12/phase12-task-spec-compliance-check.md"] },
+    { "phase": 13, "name": "PR・振り返り", "status": "blocked_pending_user_approval", "outputs": ["outputs/phase-13/pr-summary.md"] }
+  ],
+  "externalOpsPending": [
+    "Cloudflare secrets put",
+    "staging deploy",
+    "staging cron manual fire",
+    "production deploy",
+    "first weekly production cron observation",
+    "commit",
+    "push",
+    "PR"
+  ],
+  "implementedFiles": [
+    "apps/api/src/scheduled/healthcheck.ts",
+    "apps/api/src/lib/healthcheck-mail-fallback.ts",
+    "apps/api/src/scheduled/__tests__/healthcheck.spec.ts",
+    "apps/api/src/lib/__tests__/healthcheck-mail-fallback.spec.ts",
+    "apps/api/src/index.ts",
+    "apps/api/src/env.ts",
+    "docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md"
+  ]
+}

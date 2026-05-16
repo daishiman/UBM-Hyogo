@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ubm-hyogo.invalid/schema/cloudflare-alerts/webhook.schema.json",
+  "title": "CloudflareNotificationWebhook",
+  "type": "object",
+  "required": ["name", "type", "urlRef"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "type": { "type": "string", "enum": ["generic", "slack"] },
+    "urlRef": { "type": "string", "pattern": "^op://" },
+    "secretHeader": {
+      "type": "object",
+      "required": ["name", "valueRef"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "valueRef": { "type": "string", "pattern": "^op://" }
+      }
+    }
+  },
+  "additionalProperties": false
+}
