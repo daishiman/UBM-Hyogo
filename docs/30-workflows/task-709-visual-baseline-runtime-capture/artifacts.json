@@ -61,7 +61,7 @@
     { "phase": 8, "status": "completed", "path": "phase-8-refactor.md" },
     { "phase": 9, "status": "completed", "path": "phase-9-qa.md" },
     { "phase": 10, "status": "completed", "path": "phase-10-final-review.md" },
-    { "phase": 11, "status": "partially_completed", "path": "phase-11-manual-test.md" },
+    { "phase": 11, "status": "completed", "path": "phase-11-manual-test.md" },
     { "phase": 12, "status": "completed", "path": "phase-12-documentation.md" },
     { "phase": 13, "status": "ready", "path": "phase-13-pr.md" }
   ],

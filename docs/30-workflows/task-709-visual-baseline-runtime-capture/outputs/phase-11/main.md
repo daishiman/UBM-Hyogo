@@ -2,7 +2,7 @@
 
 ## Summary
 
-State: `partially_completed` — local + capture evidence は揃った。`playwright-visual-full` の PR-trigger 起動による 2-run stability は最終 PR 作成後に確認する。
+State: `completed` — local + capture + stability evidence 揃った。`pull_request` トリガーの活性化は merge 後の次 PR で自然発火する設計のため、本 PR では `workflow_dispatch` 2 回で stability を確認した。
 
 ## Evidence Inventory
 
@@ -12,7 +12,7 @@ State: `partially_completed` — local + capture evidence は揃った。`playwr
 | Baseline update workflow run | `outputs/phase-11/evidence/baseline-update-run.md` | completed (capture PASS, PR creation FAILED, recovered) |
 | Baseline import log | `outputs/phase-11/evidence/baseline-import-log.md` | completed |
 | Baseline filename + sha256 inventory | `outputs/phase-11/evidence/baseline-list.md` | completed (51 entries) |
-| Visual-full 2-run stability summary | `outputs/phase-11/evidence/visual-full-stability.md` | pending (PR-trigger 経由で後段確認) |
+| Visual-full 2-run stability summary | `outputs/phase-11/evidence/visual-full-stability.md` | completed (run 25961476237 / 25961551972 全 6 job PASS) |
 | Matrix update evidence | `outputs/phase-7/coverage-report.md` | completed |
 | QA command log | `outputs/phase-9/qa.md` | completed (typecheck / lint PASS) |
 
@@ -38,4 +38,4 @@ CONST_007 で禁止されていた以下のアクションは、本 session で 
 
 ## Outstanding Item
 
-`visual-full` の PR-trigger 経由 2-run stability 検証 (`outputs/phase-11/evidence/visual-full-stability.md`) は、Phase 13 で PR を作成した直後に CI 上で発火するため、その run 結果を追記する。
+なし。`pull_request` トリガーは本 PR が dev に merge された後に initial activation する設計のため、本 PR では `workflow_dispatch` 2 連続実行で stability を確認済み。merge 後の post-validation は次 PR の自然な run で実施される。
