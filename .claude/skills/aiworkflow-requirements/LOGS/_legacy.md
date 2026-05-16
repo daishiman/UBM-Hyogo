@@ -892,6 +892,14 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 # 2026-05-14
 
 - task-26 error boundary token utility migration を `implemented_local_evidence_captured / implementation / VISUAL` として同期。`apps/web/app/error.tsx` / `not-found.tsx` / `loading.tsx` の stale runtime token literal (`fg-muted`, `primary`, `on-primary`, `border`, `surface-2`) を既存 `@theme inline` utility (`text-text-3`, `bg-accent`, `text-panel`, `border-border`, `bg-surface-2`) へ移行し、`apps/web/app/__tests__/error.component.spec.tsx` に `RouteError` / `Loading` / `NotFound` regression assertion を追加。Phase 11 screenshot、Phase 12 strict 7、root/output artifacts parity、quick-reference/resource-map/task-workflow-active を同一 wave で更新。commit / push / PR は user-gated。
+# 2026-05-15 parallel-08 shared foundation admin UI foundation
+
+- Registered `docs/30-workflows/completed-tasks/parallel-08-shared-foundation-admin-ui-foundation/` as `implemented_local_evidence_captured / implementation / NON_VISUAL / standard`.
+- Synced quick-reference, resource-map, task-workflow-active, artifact inventory, and changelog.
+- Boundary: Phase 11 local command evidence and Phase 12 strict 7 present; commit, push, and PR remain user-gated.
+
+# 2026-05-15 (origin/dev sync)
+
 - U-FIX-CF-ACCT-01-DERIV-04-FU-03-D-FU-01 metrics dash を `implemented_local_runtime_pending / implementation / VISUAL` として同期。schema_version 契約、Phase 03 static HTML 採択、aggregator、dashboard HTML、Phase 11 screenshot、Phase 12 strict files、root/output artifacts parity、quick-reference/resource-map/task-workflow-active/observability-monitoring/artifact inventory/changelog を同一 wave で更新。production/staging runtime evidence / commit / push / PR は user-gated。
 
 ## 2026-05-15 PARALLEL-01-NAV admin navigation wayfinding

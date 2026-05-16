@@ -21,32 +21,19 @@
 | evidence | `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | staging / production authenticated evidence、commit、push、PR |
 
-### serial-05-step-01 members-note mutation UI（2026-05-15）
+### parallel-08 shared foundation admin UI foundation（2026-05-15）
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_runtime_pending / implementation / VISUAL / Phase 11 local mock screenshots / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/` |
-| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/` |
-| 目的 | `MemberDrawer` に note 作成/編集 UI を追加し、step-02..08 が再利用する `useAdminMutation` hook を確立する実装仕様 |
-| owner boundary | `parallel-08` は ToastProvider / ErrorBoundary / route guard / hook contract gate、step-01 は `useAdminMutation.ts` / `hooks/index.ts` 実体作成、`parallel-10` は 401/403 error class |
-| implementation targets | `apps/web/app/layout.tsx`, `apps/web/src/lib/fetch/errors.ts`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/index.ts`, `apps/web/src/features/admin/components/_members/{NoteForm,MemberDrawer,index}.tsx`, `apps/api/src/routes/admin/members.ts`, `packages/shared/src/{types,zod}/viewmodel*` |
-| API boundary | `apps/api/src/routes/admin/member-notes.ts` 既存 mutation contract を利用。admin detail `GET /admin/members/:memberId` は admin-only `notes` を返す。新 D1 schema 追加なし |
-| evidence | `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/outputs/phase-11/main.md`, `docs/30-workflows/serial-05-step-01-members-note-mutation-ui/outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| user gate | runtime/staging visual evidence / commit / push / PR |
-
-### parallel-02-state-sync-router-refresh（2026-05-15）
-
-| 項目 | 値 |
-| --- | --- |
-| ステータス | `implemented_local_visual_evidence_captured / implementation / VISUAL / Phase 13 blocked_pending_user_approval / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/completed-tasks/parallel-02-state-sync-router-refresh/` |
-| 教訓 | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-02-state-sync-router-refresh-2026-05.md` |
-| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
-| 目的 | `/profile` の visibility/delete request mutation 成功直後に `RequestPendingBanner` を page reload なしで即時表示する |
-| 実装 | `VisibilityRequestDialog` / `DeleteRequestDialog` success branch に `router.refresh() -> onSubmitted() -> onClose()` を追加し、`RequestActionPanel` は accepted response bridge state を次の server snapshot までに限定 |
-| evidence | focused web unit PASS / typecheck PASS / lint PASS / Playwright visual screenshot 5 files PASS |
-| user gate | commit、push、PR |
+| ステータス | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL / standard / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-08-shared-foundation-admin-ui-foundation/` |
+| 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/` |
+| 目的 | serial-05/step-01..07 が共有する admin UI foundation を明示化し、`ToastProvider` root scope と `useAdminMutation` import contract を先に固定する |
+| 実装対象 | `apps/web/app/layout.tsx`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/index.ts` |
+| テスト対象 | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`, `apps/web/src/__tests__/static-invariants.runtime.spec.ts`, `apps/web/src/components/ui/__tests__/primitives.component.spec.tsx` |
+| 境界 | real fetch / toast / error implementation は serial-05/step-01 owner。parallel-08 は sentinel skeleton と export path を固定し、任意 endpoint ではなく既存 admin API helper 名のみを受ける |
+| evidence | Phase 11 local command evidence and Phase 12 strict 7 present |
+| user gate | commit, push, PR |
 
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 

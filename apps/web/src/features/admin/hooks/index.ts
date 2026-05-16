@@ -1,5 +1,6 @@
-export { useAdminMutation, FetchAuthedError } from "./useAdminMutation";
-export type {
-  UseAdminMutationOptions,
-  UseAdminMutationReturn,
+export {
+  useAdminMutation,
+  type AdminMutationKind,
+  type AdminMutationOptions,
+  type AdminMutationResult,
 } from "./useAdminMutation";

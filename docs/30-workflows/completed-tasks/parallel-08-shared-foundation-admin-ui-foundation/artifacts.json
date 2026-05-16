@@ -1,0 +1,56 @@
+{
+  "name": "parallel-08-shared-foundation-admin-ui-foundation",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "implementation_status": "implementation_complete_pending_pr",
+    "implementationCategory": "standard",
+    "createdDate": "2026-05-15",
+    "dependsOn": [],
+    "unblocks": ["serial-05/step-01"],
+    "parallelWith": ["parallel-01", "parallel-02", "parallel-03", "parallel-04", "parallel-05", "parallel-06", "parallel-07"]
+  },
+  "phases": [
+    { "id": 1, "name": "要件定義", "status": "completed", "file": "phase-01.md" },
+    { "id": 2, "name": "設計", "status": "completed", "file": "phase-02.md" },
+    { "id": 3, "name": "設計レビュー", "status": "completed", "file": "phase-03.md" },
+    { "id": 4, "name": "テスト作成", "status": "completed", "file": "phase-04.md" },
+    { "id": 5, "name": "実装", "status": "completed", "file": "phase-05.md" },
+    { "id": 6, "name": "テスト実行", "status": "completed", "file": "phase-06.md" },
+    { "id": 7, "name": "リファクタリング", "status": "completed", "file": "phase-07.md" },
+    { "id": 8, "name": "統合テスト", "status": "completed", "file": "phase-08.md" },
+    { "id": 9, "name": "ドキュメント更新", "status": "completed", "file": "phase-09.md" },
+    { "id": 10, "name": "レビュー", "status": "completed", "file": "phase-10.md" },
+    { "id": 11, "name": "NON_VISUAL evidence", "status": "completed", "file": "phase-11.md" },
+    { "id": 12, "name": "Phase 12 strict outputs", "status": "completed", "file": "phase-12.md" },
+    { "id": 13, "name": "PR / 引継ぎ", "status": "pending", "file": "phase-13.md" }
+  ],
+  "files": {
+    "modify": [
+      "apps/web/app/layout.tsx",
+      "apps/web/src/components/ui/Toast.tsx",
+      "apps/web/src/__tests__/static-invariants.runtime.spec.ts",
+      "apps/web/src/components/ui/__tests__/primitives.component.spec.tsx"
+    ],
+    "create": [
+      "apps/web/src/features/admin/hooks/useAdminMutation.ts",
+      "apps/web/src/features/admin/hooks/index.ts"
+    ],
+    "test": [
+      "apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts",
+      "apps/web/src/__tests__/static-invariants.runtime.spec.ts"
+    ],
+    "confirm": [
+      "apps/web/app/(admin)/admin/error.tsx",
+      "apps/web/middleware.ts"
+    ]
+  },
+  "coverage": { "statements": 80, "branches": 80, "functions": 80, "lines": 80 },
+  "constraints": [
+    "no new API endpoint",
+    "no D1 schema change",
+    "no OKLch HEX literal",
+    "apps/web must not access D1 directly"
+  ]
+}
