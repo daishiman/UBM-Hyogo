@@ -200,10 +200,23 @@ const adminMembersBase = [
   },
 ];
 
+const seedMembersAsAdmin = () => {
+  return (state.meetingsSeed?.members ?? []).map((m) => ({
+    memberId: m.memberId,
+    responseEmail: `${m.memberId}@example.test`,
+    fullName: m.fullName,
+    publicConsent: "consented",
+    rulesConsent: "consented",
+    publishState: "public",
+    isDeleted: m.isDeleted === true,
+    lastSubmittedAt: NOW,
+  }));
+};
+
 const adminMembersResponse = (search) => {
   const q = search?.get("q") ?? "";
   const filter = search?.get("filter") ?? "";
-  let members = q === "zzzzz" ? [] : adminMembersBase;
+  let members = q === "zzzzz" ? [] : [...adminMembersBase, ...seedMembersAsAdmin()];
   if (filter === "published") members = members.filter((m) => m.publishState === "public");
   return { total: members.length, page: 1, pageSize: 50, members };
 };
