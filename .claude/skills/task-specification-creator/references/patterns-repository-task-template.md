@@ -81,22 +81,6 @@ repository 系タスクでは Phase 12 `implementation-guide.md` に **公開 AP
 
 ---
 
-## 5. 参照依存マトリクス 5分類規約（Phase 2 / Phase 12 共通）
-
-仕様書に「参照依存」「依存マトリクス」「Upstream/Downstream」セクションを置く場合、依存関係は以下 **5 分類** に明示的にバケットし、混在禁止とする。分類が曖昧な参照は `explicit out-of-scope` 行に落として責務境界を明文化する。
-
-| 分類 | 内容 | 例 |
-| --- | --- | --- |
-| `source spec` | 当該タスクの正本仕様（docs/30-workflows 配下や docs/00-getting-started-manual/specs/*） | `SCOPE.md`, `outputs/phase-2/*.md`, `specs/02-auth.md` |
-| `token SSOT` | design token の正本 | `apps/web/src/styles/tokens.css`, `specs/09b-design-tokens.md` |
-| `primitive SSOT` | 共有 UI primitive / shared schema / API client の正本 | `apps/web/src/components/ui/*`, `packages/shared/src/*` |
-| `downstream regression gates` | 当該タスクの diff を block しうる CI gate / lint / verify-* workflow | `verify-design-tokens`, `verify-test-suffix`, `playwright-smoke` |
-| `explicit out-of-scope` | 「触らない」と明示的に declare する隣接領域（D1 schema 変更禁止、Form schema 変更禁止 等） | `apps/api/src/db/migrations/*`, Google Form schema |
-
-5 分類は **逐語固定**。短縮名や独自分類（"upstream" 等）を新設しない。
-
----
-
 ## 関連参照
 
 - `references/phase-11-guide.md` の VISUAL 判定ロジック

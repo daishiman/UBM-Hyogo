@@ -1,0 +1,72 @@
+# Phase 11-6 DOM snapshot fallback
+
+Source: Vitest component tests (PASS) + 実コード抜粋
+取得日: 2026-05-15 JST
+理由: Playwright admin screenshot は `/admin/tags/queue` の local mock API 未整備により取得不可
+  （`evidence/playwright-admin-pages.log` 参照）。Phase 11-5 mock 経路の条件 (a)(b) 該当、
+  (c)(d) は本 snapshot + canonical-paths.json `"mock": true` + Phase 13 PR Summary で充足。
+
+## 1. AdminSidebar logo link DOM 仕様
+
+```html
+<nav aria-label="管理メニュー" class="admin-sidebar">
+  <a
+    href="/"
+    aria-label="ホームに戻る"
+    class="mb-4 inline-flex items-center rounded-sm
+           border border-[var(--ubm-color-border-default)]
+           px-3 py-2 text-sm font-semibold
+           text-[var(--ubm-color-accent)]
+           focus-visible:outline focus-visible:outline-2
+           focus-visible:outline-offset-2
+           focus-visible:outline-[var(--ubm-color-accent)]"
+  >
+    UBM兵庫
+  </a>
+  <ul>
+    <!-- 既存 nav items: ダッシュボード / 出席分析 / 会員管理 / タグキュー / schema / 開催日 / 依頼キュー / Identity重複 / 監査ログ -->
+  </ul>
+</nav>
+```
+
+検証ポイント (AC-1, AC-5):
+- `<a href="/">` が nav 上部に存在
+- `aria-label="ホームに戻る"` 設定済み
+- color/border が OKLch token (`var(--ubm-color-accent)` / `var(--ubm-color-border-default)`) 経由
+- focus-visible outline が token 由来
+- Vitest test `AdminSidebar.component.spec.tsx` で `getByRole("link", { name: "ホームに戻る" })` が PASS
+
+## 2. MemberDrawer tags link DOM 仕様
+
+```html
+<section class="border-t border-[var(--ubm-color-border-default)] pt-4">
+  <a
+    href="/admin/tags?memberId={encodeURIComponent(memberId)}"
+    class="inline-flex items-center text-sm font-medium
+           text-[var(--ubm-color-accent)]
+           focus-visible:outline focus-visible:outline-2
+           focus-visible:outline-offset-2
+           focus-visible:outline-[var(--ubm-color-accent)]"
+  >
+    タグ管理へ
+  </a>
+</section>
+```
+
+検証ポイント (AC-2, AC-3, AC-4, AC-5):
+- drawer content 最下部に `border-t` 区切り付きで配置
+- `href` に `encodeURIComponent(memberId)` を適用（特殊文字 `@` / `/` / スペース 安全）
+- color が OKLch token 経由
+- Vitest test `MemberDrawer.spec.tsx` で `encodeURIComponent` assertion PASS
+
+## 3. テスト evidence 参照
+
+- `evidence/test.log`: 559 passed (component tests 含む)
+- `evidence/typecheck.log`: Done (PASS)
+- `evidence/lint.log`: Done (PASS)
+- `evidence/build.log`: OpenNext Workers build PASS
+
+## 4. 実 screenshot 取得の runtime boundary
+
+- Phase 13 PR Summary には、real authenticated screenshot は未完了であり、`admin-sidebar-logo-link.png` / `member-drawer-tags-link.png` は mock fallback PNG であると明記する。
+- real screenshot は既存 `docs/30-workflows/task-18-fu-full-visual-regression-suite/` と本 workflow Phase 11 runtime boundary で継続管理する。今回 wave で新規未タスクは作らない。

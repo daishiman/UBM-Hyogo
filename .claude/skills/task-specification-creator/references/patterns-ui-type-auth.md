@@ -226,23 +226,6 @@
 
 ---
 
-## Design-token utility 例示の正本化（task-parallel-07 feedback）
-
-UI 実装テンプレで design-token utility class を例示する場合、`apps/web/src/styles/tokens.css`（`--ubm-color-*` を SSOT とする OKLch token）に存在する **現行 utility 名のみ** を使う。historical / プロトタイプ初期の utility 名は記述しない。
-
-### 推奨 utility class（task-parallel-07-auth-and-shared で実装確認済み）
-
-| 用途 | 現行 utility | 対応 token |
-| --- | --- | --- |
-| アクセント背景（CTA / primary） | `bg-accent` | `--ubm-color-accent` |
-| panel 文字色 | `text-panel` | `--ubm-color-surface-panel`（文字色側）/ panel 上のテキストコントラスト |
-| 二次サーフェス背景（zone separation 用） | `bg-surface-2` | `--ubm-color-surface-bg-2` |
-| エラー / 危険テキスト | `text-danger` | `--ubm-color-danger` |
-
-historical な命名（プロトタイプ期の生 HEX 直書きや `bg-[#xxx]`、旧 token alias）は新規仕様書で例示しない。token 値の最終正本は `apps/web/src/styles/tokens.css` と `docs/00-getting-started-manual/specs/09b-design-tokens.md` で、UI prototype alignment / MVP recovery 不変条件2（CI gate `verify-design-tokens`）の対象である。
-
----
-
 ## 認証UIバグ修正パターン（AUTH-UI-001）
 
 ### 既実装済み修正の発見パターン

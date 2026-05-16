@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "taskId": "serial-05-step-02-identity-conflicts-merge",
+  "title": "identity-conflicts merge UI hardening",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL",
+    "workflow_state": "implemented_local_visual_evidence_captured",
+    "implementation_status": "implemented_local_visual_evidence_captured",
+    "implementation_mode": "existing-ui-hardening",
+    "created_at": "2026-05-16",
+    "updated_at": "2026-05-16",
+    "canonicalRoot": "docs/30-workflows/serial-05-step-02-identity-conflicts-merge",
+    "parentWorkflow": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui",
+    "sourceSpec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-02-identity-conflicts-merge/spec.md",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16",
+        "evidence_path": "docs/30-workflows/serial-05-step-02-identity-conflicts-merge/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: existing identity-conflicts UI hardening specification"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16",
+        "evidence_path": "docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "visual_evidence: local screenshots and smoke evidence required"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "passed",
+        "passed_at": "2026-05-16",
+        "evidence_path": "docs/30-workflows/serial-05-step-02-identity-conflicts-merge/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "skill_sync: strict Phase 12 outputs and aiworkflow-requirements sync required"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "blocked",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/serial-05-step-02-identity-conflicts-merge/phase-13.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit, push, and PR are forbidden until explicit approval"
+      }
+    ]
+  },
+  "implementation_targets": [
+    "apps/web/src/components/admin/IdentityConflictRow.tsx",
+    "apps/web/src/features/admin/hooks/useAdminMutation.ts",
+    "apps/web/src/components/admin/__tests__/IdentityConflictRow.spec.tsx",
+    "apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts"
+  ],
+  "evidence": [
+    "outputs/phase-11/main.md",
+    "outputs/phase-11/manual-test-checklist.md",
+    "outputs/phase-11/manual-smoke-log.md",
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md"
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "要件定義",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-01/requirements.md",
+        "outputs/phase-01/current-implementation-inventory.md"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "設計",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-02/row-hardening-design.md",
+        "outputs/phase-02/mutation-contract-design.md",
+        "outputs/phase-02/dependency-matrix.md"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "設計レビュー",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-03/review-result.md",
+        "outputs/phase-03/gate-decision.md"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "タスク分解",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-04/task-breakdown.md"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "実装計画",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-05/implementation-plan.md"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "実装",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-06/implementation-log.md"
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "リファクタリング",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-07/refactor-log.md"
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "統合テスト",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-08/integration-test-report.md"
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "品質検証",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-09/quality-report.md"
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "最終レビュー",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-10/final-review-result.md"
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "VISUAL evidence",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-11/main.md",
+        "outputs/phase-11/screenshot-plan.json"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "正本同期",
+      "status": "completed",
+      "outputs": [
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "PR・振り返り",
+      "status": "blocked",
+      "outputs": [
+        "outputs/phase-13/change-summary.md",
+        "outputs/phase-13/local-check-result.md"
+      ]
+    }
+  ]
+}

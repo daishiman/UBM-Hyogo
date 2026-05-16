@@ -4,10 +4,6 @@
 
 Phase 11 の manual test。
 
-## Phase 10 / Phase 11 evidence boundary（必読）
-
-Phase 10（最終レビューゲート）の完了要件は **evidence plan（`screenshot-plan.json` / capture metadata 計画など）の存在のみ** とする。Phase 11 で生成する screenshot 物理ファイル（PNG/JPG 等）や `manual-test-result.md` 実行結果は **Phase 11 工程の成果物**であり、Phase 10 を gating しない。Phase 10 gate が Phase 11 物理ファイルを要求する記述を見つけたら、それは誤りなので Phase 10 を「plan のみ」へ修正すること。
-
 ## タスク種別判定（最初に確認）
 
 | タスク種別 | 判定条件 | 適用セクション |
@@ -349,6 +345,16 @@ GitHub Actions OIDC、Cloudflare deploy auth、branch protection、external IdP 
 | runtime boundary | spec-created cycle で未実行の external mutation / deploy / revoke を明記 |
 
 この matrix は `phase12-task-spec-compliance-check.md` の 4 条件（矛盾なし / 漏れなし / 整合性 / 依存関係整合）の根拠にする。
+
+### GitHub Actions required check + path skip pattern
+
+Required status check として登録済みの job context を path 条件で軽量化する場合、別 workflow の `paths-ignore` 補完を既定案にしない。mixed PR で同名 context が二重に作られる可能性があるため、まず単一 workflow 内の precheck job で changed files を判定し、重い job だけを job-level `if` で skip し、required context job は no-op success branch を持たせる。
+
+| evidence | 期待 |
+| --- | --- |
+| local precheck inventory | `run_e2e=true` / `run_e2e=false` / no-op success branch が存在する |
+| stale skip workflow check | 旧補完 workflow が存在しない、または historical-only と明記されている |
+| runtime PR checks | docs-only / code / mixed PR の required context 結果。push / PR user-gated の場合は pending と明記する |
 
 ## Tailwind v4 / PostCSS build artifact verification（VISUAL_ON_EXECUTION build pipeline タスク）
 

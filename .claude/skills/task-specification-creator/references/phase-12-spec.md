@@ -2,8 +2,6 @@
 
 > 状態語彙の定義は [workflow-state-vocabulary.md](workflow-state-vocabulary.md) を、compliance-check 観点は [phase12-compliance-check-template.md](phase12-compliance-check-template.md) を参照する。
 
-> **表記統一注記**: Phase 12 outputs の個数表現は **`strict 7 files`（英語）/ `7成果物`（日本語）** の 2 表記を canonical とする。`7 files`（strict 抜け）/ `7ファイル`（混在）/ `7個` 等の揺れは新規記述では使わず、既存箇所を更新する際はこの 2 表記のいずれかに寄せる。`artifact-naming-conventions.md` / `patterns-success-phase12.md` / `patterns-live-wiring.md` の言及もこの規約に従う。
-
 ## CLOSED Issue Reference Rule
 
 Implementation / docs-only を問わず、既に CLOSED の GitHub Issue に後続実装や仕様同期を紐づける場合、Phase 13 / PR 文脈は `Refs #<issue>` のみを使う。`Closes #<issue>` / `Fixes #<issue>` / `Resolves #<issue>` は Issue state を誤操作するため禁止する。Issue を reopen しない方針、production/user gate、後続 task との関係は `index.md` と `phase-13.md` に明記する。
