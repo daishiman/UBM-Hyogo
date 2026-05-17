@@ -182,6 +182,18 @@ main を feature ブランチへ取り込む sync-merge では、構造的に「
 
 これにより main 取り込み時の `git commit` / `git push` で `--no-verify` を**付ける必要はない**。featureコミット/pushは従来通りhookが効く。`--no-verify` の使用は引き続き避け、hook が誤検知する場合は本セクションの方針に沿って hook 自体を改善すること。
 
+#### sync-merge コンフリクト解消の3層予防
+
+dev → feature の sync-merge では skill / 30-workflows ログ系で構造的にコンフリクトが頻発するため、以下 3 層で予防している:
+
+| 層 | 仕組み | 対象 |
+|----|-------|------|
+| 1. `.gitattributes` `merge=union` | git が自動結合 | `docs/30-workflows/LOGS.md`, `.claude/skills/*/SKILL-changelog.md` |
+| 2. resolver スクリプト | `pnpm sync:resolve`（merge 中のみ可） | `SKILL.md` / `task-workflow-active.md` / `indexes/*-map.md` の union 解消、`indexes/keywords.json` の `--ours + rebuild` |
+| 3. ドキュメント | lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md (L-DEVSYNC-001..007) | 残った混在ファイルの手動解消ルール |
+
+標準フロー: `git merge dev` → conflict 発生時は `pnpm sync:resolve` → 残件があれば手動解消 → `git commit` → `pnpm typecheck && pnpm lint` → `git push`。
+
 ### リモート同期チェック (`pnpm sync:check`) — main / dev 共通
 
 git には `post-fetch` hook が存在しないため、`git fetch` 後にリモートの遅れを自動通知する仕組みは原理的に作れない。代わりに **手動コマンド `pnpm sync:check`** を正規経路とする。
