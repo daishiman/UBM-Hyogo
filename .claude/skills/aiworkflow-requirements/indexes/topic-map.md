@@ -6767,7 +6767,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1479 |
 | 昇格パターン集 | L1503 |
 | Current Active / Spec Created Tasks | L1505 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1652 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1653 |
 
 ### references/task-workflow-backlog-part2.md
 
