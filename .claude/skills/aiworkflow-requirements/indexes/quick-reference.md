@@ -19,6 +19,34 @@
 | source | `docs/30-workflows/completed-tasks/integration-fixes-i02-admin-error-type-unify.md` consumed |
 | user gate | commit / push / PR |
 
+### Runtime Smoke Staging Secrets Restore（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending user-gated` |
+| scope | `staging-runtime-smoke` 必須 4 secret を `verify-env-secrets.allowlist` の env-required contract とテストへ追加 |
+| implementation | `scripts/ci/verify-env-secrets.sh`, `scripts/ci/verify-env-secrets.allowlist`, `scripts/ci/__tests__/verify-env-secrets.spec.sh` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| provisioner | `scripts/smoke/provision-staging-secrets.sh`（op:// path は SECRETS[] と `verify_staging_marker()` 双方 `op://Employee/ubm-hyogo-env/STAGING_*` で同期） |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-secrets-provisioning-2026-05.md` (L-PRS779-001..005: helper op:// 分散、`op item edit` stdout leak、staging member rules_consent fixture、JWT 24h、production 対称化方針) |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260516-runtime-smoke-staging-secrets-restore.md` |
+| boundary | runtime inline value check is retained; secret placement, workflow rerun, commit, push, PR are user-gated。production-runtime-smoke env は dev→main マージ未済のため secret 投入保留（allowlist 行も未追加） |
+
+### CI Env Secret Inventory And Preflight Gate（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| scope | `staging-runtime-smoke` 5 secrets, adjacent 15 workflow secret refs, env/repo preflight gate |
+| implementation | `scripts/ci/verify-env-secrets.sh`, `scripts/ci/__tests__/verify-env-secrets.spec.sh`, `scripts/ci/verify-env-secrets.allowlist`, `.github/workflows/verify-env-secrets.yml`, `.github/workflows/d1-migration-verify.yml` |
+| inventory | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/task-02-adjacent-unregistered-secret-inventory/inventory.md` |
+| runbook | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/task-01-staging-runtime-smoke-secret-finalization/runbook.md` |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-ci-env-secret-inventory-and-preflight-gate-2026-05.md` (L-CI-ENV-001..005) |
+| user gate | secret placement, variable placement, `runtime-smoke-staging.yml` rerun, commit, push, PR |
+
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 
 | 目的 | 参照先 |
