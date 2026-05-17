@@ -46,5 +46,37 @@
   "parallel_independence": {
     "independent_of": ["i01", "i03", "i04", "i05", "parallel-08", "parallel-10"],
     "blocking_dependencies": []
+  },
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "canonicalRoot": "docs/30-workflows/completed-tasks/i02-admin-error-type-unify",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/i02-admin-error-type-unify/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; useAdminMutation error type unification design captured under canonicalRoot"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/i02-admin-error-type-unify/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (AuthRequiredError / FetchAuthedError unification); Phase 12 strict outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/i02-admin-error-type-unify/outputs/phase-11.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: authenticated admin visual smoke and PR runtime verification are user-gated and tracked separately"
+      }
+    ]
   }
 }
