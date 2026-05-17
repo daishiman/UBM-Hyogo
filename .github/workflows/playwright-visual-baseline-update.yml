@@ -7,6 +7,11 @@ on:
         description: 'なぜ baseline 更新が必要か（必須）'
         required: true
         type: string
+      base_branch:
+        description: 'PR の base ブランチ（既定: dev）。feature ブランチ指定で feature 側に直接 baseline を取り込める'
+        required: false
+        default: 'dev'
+        type: string
 
 jobs:
   update-baseline:
@@ -33,16 +38,59 @@ jobs:
             --project=visual-full-chromium-tablet \
             --project=visual-full-chromium-mobile \
             --update-snapshots
+      - name: Update .baseline-meta.json
+        env:
+          REASON: ${{ inputs.reason }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          META=apps/web/playwright/tests/visual-full/.baseline-meta.json
+          SHA="$(git rev-parse HEAD)"
+          AT="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          python3 - <<PY
+          import json, os
+          p = "$META"
+          d = json.load(open(p)) if os.path.exists(p) else {}
+          d["captured_at_commit_sha"] = "$SHA"
+          d["captured_at"] = "$AT"
+          d["captured_via"] = "playwright-visual-baseline-update.yml#workflow_dispatch"
+          runs = d.get("captured_run_ids") or []
+          runs.append("$RUN_ID")
+          d["captured_run_ids"] = runs[-10:]
+          d.setdefault("viewport_dimensions", {
+              "desktop": {"width": 1280, "height": "fullPage"},
+              "tablet": {"width": 834, "height": "fullPage"},
+              "mobile": {"width": 390, "height": "fullPage"},
+          })
+          d.setdefault("rendering_relevant_paths", [
+              "apps/web/src/**",
+              "apps/web/app/**",
+              "apps/web/playwright.config.ts",
+              "apps/web/playwright/tests/visual-full/**",
+              "apps/web/playwright/fixtures/**",
+              "apps/web/src/styles/tokens.css",
+              "apps/web/src/styles/**",
+          ])
+          d.setdefault("refresh_workflow", ".github/workflows/playwright-visual-baseline-update.yml")
+          d.setdefault("refresh_command_hint", "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>")
+          d["last_refresh_reason"] = os.environ.get("REASON", "")
+          with open(p, "w") as f:
+              json.dump(d, f, indent=2, ensure_ascii=False)
+              f.write("\n")
+          PY
       - name: Open PR with baseline diff
         uses: peter-evans/create-pull-request@v7
         with:
           branch: chore/visual-baseline-update-${{ github.run_id }}
-          base: dev
+          base: ${{ inputs.base_branch }}
           title: 'chore(visual): update baselines'
           body: |
             ## Reason
             ${{ inputs.reason }}
 
             workflow_dispatch run: ${{ github.run_id }}
+            base branch: ${{ inputs.base_branch }}
+
+            `.baseline-meta.json` を最新 commit SHA で更新済み。
           commit-message: 'chore(visual): update baselines via workflow_dispatch'
-          add-paths: apps/web/playwright/tests/visual-full/**
+          add-paths: |
+            apps/web/playwright/tests/visual-full/**

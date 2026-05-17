@@ -33,6 +33,17 @@
 - 解消: `SKILL.md` の表は両側を結合した後、**日付降順で上位 N 件**（このリポジトリでは 3 件）に切り詰める。当該 feature branch の代表行は最新 N 件に含まれる位置にあるなら残し、外れたなら捨てる。`SKILL-changelog.md` 側は L-DEVSYNC-001 通り全件保存。
 - Why: SKILL.md は body load size 抑制のため上位 N 件 only。SKILL-changelog.md が full history の正本。両者の役割を混同しない。
 
+## L-DEVSYNC-008: dev merge 後の Playwright visual-full baseline 鮮度ドリフト（恒久対応）
+- 症状: `task/709-visual-baseline-runtime-capture` 系の feature ブランチで dev merge 後に `playwright-visual-full` CI が必ず fail。原因は dev 側に i01 ToastProvider Root Mount / 各 admin / public component の変更が混入し、`apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/*.png` baseline と現実 rendering の差が出るため。
+- 一時対応: 手動で `gh workflow run playwright-visual-baseline-update.yml -f reason="..." -r <branch>` を叩き、user approval 後に baseline 更新 PR を取り込む。これは記憶依存で再発する。
+- 恒久対応（2026-05-17 task-709 ブランチで実装）:
+  1. **`apps/web/playwright/tests/visual-full/.baseline-meta.json`**: 捕捉 commit SHA / timestamp / viewport 寸法 / rendering_relevant_paths を記録する provenance ファイル。baseline と一対で版管理。
+  2. **`scripts/visual-baseline-status.sh`**（`pnpm visual:baseline:status`）: `.baseline-meta.json` の captured SHA と HEAD を比較し、rendering_relevant_paths に該当する変更があれば `STALE` 判定 + 復旧コマンドを出力。
+  3. **`playwright-visual-full.yml`**: 失敗時に `actions/github-script@v7` で PR コメント自動投稿（idempotent: marker `<!-- visual-full-failure-guidance -->` で更新）。stale 判定の有無で「baseline 起因 vs 真の回帰」を切り分けるガイダンスを表示。
+  4. **`playwright-visual-baseline-update.yml`**: `base_branch` input を追加（既定 `dev`、feature ブランチ指定可）。Regenerate 後 `.baseline-meta.json` を最新 commit SHA で更新するステップを追加。これで feature 側に直接 baseline PR を作れる。
+- Why: dev merge 起因の rendering 差はほぼ全 feature ブランチで再発するため、recovery を 1-click + 自己診断可能にする。`visual-baseline-approval` environment gate は維持し、人間判断を保ったまま摩擦のみ削減。
+- How to apply: dev sync prompt 完了後に `pnpm visual:baseline:status` を実行し STALE なら表示された `gh workflow run` を実行。CI 失敗時は PR コメントの指示に従う。
+
 ## L-DEVSYNC-007: 自律 sync prompt 実行時の dev HEAD ≠ feature 現在ブランチ HEAD ケース
 - 症状: `git fetch --prune origin` 後 `git rev-list --count origin/dev..dev = 0`（dev は最新）でも、feature ブランチが古い `b17c4efa` ベースに居る場合がある。
 - 解消: dev 同期フェーズで `dev = origin/dev` を確認した後、必ず feature ブランチに対して `git merge dev --no-edit` を実行する。dev 同期成功 ≠ feature ブランチ伝搬完了。

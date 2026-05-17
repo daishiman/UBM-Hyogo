@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
+  "captured_at_commit_sha": "80e0843d3c481a048de625609f5f16d12a250476",
+  "captured_at": "2026-05-16T20:42:33+09:00",
+  "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
+  "captured_run_ids": ["25961476237", "25961551972"],
+  "viewport_dimensions": {
+    "desktop": { "width": 1280, "height": "fullPage" },
+    "tablet": { "width": 834, "height": "fullPage" },
+    "mobile": { "width": 390, "height": "fullPage" }
+  },
+  "rendering_relevant_paths": [
+    "apps/web/src/**",
+    "apps/web/app/**",
+    "apps/web/playwright.config.ts",
+    "apps/web/playwright/tests/visual-full/**",
+    "apps/web/playwright/fixtures/**",
+    "apps/web/src/styles/tokens.css",
+    "apps/web/src/styles/**"
+  ],
+  "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
+  "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
+  "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。"
+}
