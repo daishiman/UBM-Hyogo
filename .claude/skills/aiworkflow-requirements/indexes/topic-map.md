@@ -2684,6 +2684,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L17 |
 
+### references/workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L11 |
+| Boundaries | L27 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6814,14 +6821,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1476 |
-| フェーズ構造（概要） | L1485 |
-| 品質ゲート（概要） | L1516 |
-| 出力テンプレート | L1527 |
-| 実行時のコマンド・エージェント・スキル | L1550 |
-| 昇格パターン集 | L1574 |
-| Current Active / Spec Created Tasks | L1576 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1726 |
+| ドキュメント構成 | L1502 |
+| フェーズ構造（概要） | L1511 |
+| 品質ゲート（概要） | L1542 |
+| 出力テンプレート | L1553 |
+| 実行時のコマンド・エージェント・スキル | L1576 |
+| 昇格パターン集 | L1600 |
+| Current Active / Spec Created Tasks | L1602 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1752 |
 
 ### references/task-workflow-backlog-part2.md
 
