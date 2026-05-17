@@ -9,7 +9,9 @@ import {
   loadCanonicalHeadings,
   Phase12TemplateDriftError,
 } from "../lib/phase12-compliance/load-canonical-headings.ts";
+import { parsePhase11EvidenceClaims } from "../lib/phase12-compliance/parse-phase11-evidence.ts";
 import { verifyComplianceFile } from "../lib/phase12-compliance/verify-compliance-file.ts";
+import { verifyPhase11EvidenceExistence } from "../lib/phase12-compliance/verify-phase11-evidence-existence.ts";
 import type { WorkflowRoot } from "../lib/phase12-compliance/types.ts";
 
 const FIXTURE_ROOT = resolve(__dirname, "fixtures", "phase12-compliance");
@@ -88,6 +90,342 @@ describe("phase-12 compliance verification", () => {
     expect(result).toMatchObject({ ok: false, reason: "missing-heading" });
     if (!result.ok) {
       expect(result.details).toContain("Four-condition verdict");
+    }
+  });
+
+  it("fails when Phase 11 evidence is declared present but the file is missing", () => {
+    const result = verifyComplianceFile({
+      root: root("fail-missing-evidence"),
+      canonicalHeadings: loadCanonicalHeadings(TEMPLATE),
+      repoRoot: "/",
+    });
+
+    expect(result).toMatchObject({ ok: false, reason: "missing-evidence" });
+    if (!result.ok) {
+      expect(result.details).toContain("outputs/phase-11/main.md");
+      expect(result.details).not.toContain("pending.md");
+    }
+  });
+
+  it("fails non-lowercase Phase 11 evidence status values as invalid claims", () => {
+    const fixture = resolve(tmpRoot, "workflow");
+    mkdirSync(resolve(fixture, "outputs", "phase-12"), { recursive: true });
+    writeFileSync(
+      resolve(fixture, "outputs", "phase-12", "phase12-task-spec-compliance-check.md"),
+      [
+        "# Phase 12 Task Spec Compliance Check",
+        "",
+        "## Summary verdict",
+        "Fixture.",
+        "",
+        "## Changed-files classification",
+        "Fixture.",
+        "",
+        "## `workflow_state` and phase status consistency",
+        "`spec_created`.",
+        "",
+        "## Phase 11 evidence file inventory",
+        "| Classification | Path | Status |",
+        "| --- | --- | --- |",
+        "| mixed case | `outputs/phase-11/missing.md` | Present |",
+        "",
+        "## Phase 12 strict 7 file inventory",
+        "Fixture.",
+        "",
+        "## Skill/reference/system spec same-wave sync",
+        "Fixture.",
+        "",
+        "## Runtime or user-gated boundary",
+        "Fixture.",
+        "",
+        "## Archive/delete stale-reference gate",
+        "Fixture.",
+        "",
+        "## Four-condition verdict",
+        "Fixture.",
+      ].join("\n"),
+      "utf8",
+    );
+
+    const result = verifyComplianceFile({
+      root: {
+        rootPath: fixture,
+        workflowState: "spec_created",
+        hasCompletedTasksAncestor: false,
+      },
+      canonicalHeadings: loadCanonicalHeadings(TEMPLATE),
+      repoRoot: "/",
+    });
+
+    expect(result).toMatchObject({ ok: false, reason: "missing-evidence" });
+    if (!result.ok) {
+      expect(result.details).toContain("invalid status=Present");
+    }
+  });
+
+  it("parses Phase 11 evidence claims directly", () => {
+    const claims = parsePhase11EvidenceClaims([
+      "# Check",
+      "",
+      "## 4. Phase 11 evidence file inventory",
+      "| Classification | Evidence Path | Status |",
+      "| --- | --- | --- |",
+      "| main | `outputs/phase-11/main.md` | present |",
+      "| smoke | `outputs/phase-11/manual-smoke-log.md` | pending |",
+    ].join("\n"));
+
+    expect(claims).toEqual([
+      {
+        classification: "main",
+        evidencePath: "outputs/phase-11/main.md",
+        status: "present",
+      },
+      {
+        classification: "smoke",
+        evidencePath: "outputs/phase-11/manual-smoke-log.md",
+        status: "pending",
+      },
+    ]);
+  });
+
+  it("verifies Phase 11 evidence existence directly", () => {
+    const fixture = resolve(tmpRoot, "workflow");
+    mkdirSync(resolve(fixture, "outputs", "phase-11"), { recursive: true });
+    writeFileSync(resolve(fixture, "outputs", "phase-11", "main.md"), "# main\n", "utf8");
+
+    const result = verifyPhase11EvidenceExistence({
+      markdown: [
+        "# Check",
+        "",
+        "## Phase 11 evidence file inventory",
+        "| Classification | Path | Status |",
+        "| --- | --- | --- |",
+        "| main | `outputs/phase-11/main.md` | present |",
+        "| pending | `outputs/phase-11/pending.md` | pending |",
+      ].join("\n"),
+      repoRoot: "/",
+      workflowRoot: fixture,
+    });
+
+    expect(result).toEqual({ ok: true });
+  });
+
+  it("fails present Phase 11 evidence paths that escape the workflow root", () => {
+    const fixture = resolve(tmpRoot, "workflow");
+    mkdirSync(resolve(fixture, "outputs", "phase-12"), { recursive: true });
+    writeFileSync(resolve(tmpRoot, "outside.md"), "# outside\n", "utf8");
+    writeFileSync(
+      resolve(fixture, "outputs", "phase-12", "phase12-task-spec-compliance-check.md"),
+      [
+        "# Phase 12 Task Spec Compliance Check",
+        "",
+        "## Summary verdict",
+        "Fixture.",
+        "",
+        "## Changed-files classification",
+        "Fixture.",
+        "",
+        "## `workflow_state` and phase status consistency",
+        "`spec_created`.",
+        "",
+        "## Phase 11 evidence file inventory",
+        "| Classification | Path | Status |",
+        "| --- | --- | --- |",
+        "| escape | `../outside.md` | present |",
+        "",
+        "## Phase 12 strict 7 file inventory",
+        "Fixture.",
+        "",
+        "## Skill/reference/system spec same-wave sync",
+        "Fixture.",
+        "",
+        "## Runtime or user-gated boundary",
+        "Fixture.",
+        "",
+        "## Archive/delete stale-reference gate",
+        "Fixture.",
+        "",
+        "## Four-condition verdict",
+        "Fixture.",
+      ].join("\n"),
+      "utf8",
+    );
+
+    const result = verifyComplianceFile({
+      root: {
+        rootPath: fixture,
+        workflowState: "spec_created",
+        hasCompletedTasksAncestor: false,
+      },
+      canonicalHeadings: loadCanonicalHeadings(TEMPLATE),
+      repoRoot: "/",
+    });
+
+    expect(result).toMatchObject({ ok: false, reason: "missing-evidence" });
+  });
+
+  it("fails present Phase 11 evidence claims with an empty path", () => {
+    const fixture = resolve(tmpRoot, "workflow");
+    mkdirSync(resolve(fixture, "outputs", "phase-12"), { recursive: true });
+    writeFileSync(
+      resolve(fixture, "outputs", "phase-12", "phase12-task-spec-compliance-check.md"),
+      [
+        "# Phase 12 Task Spec Compliance Check",
+        "",
+        "## Summary verdict",
+        "Fixture.",
+        "",
+        "## Changed-files classification",
+        "Fixture.",
+        "",
+        "## `workflow_state` and phase status consistency",
+        "`spec_created`.",
+        "",
+        "## Phase 11 evidence file inventory",
+        "| Classification | Path | Status |",
+        "| --- | --- | --- |",
+        "| empty path |  | present |",
+        "",
+        "## Phase 12 strict 7 file inventory",
+        "Fixture.",
+        "",
+        "## Skill/reference/system spec same-wave sync",
+        "Fixture.",
+        "",
+        "## Runtime or user-gated boundary",
+        "Fixture.",
+        "",
+        "## Archive/delete stale-reference gate",
+        "Fixture.",
+        "",
+        "## Four-condition verdict",
+        "Fixture.",
+      ].join("\n"),
+      "utf8",
+    );
+
+    const result = verifyComplianceFile({
+      root: {
+        rootPath: fixture,
+        workflowState: "spec_created",
+        hasCompletedTasksAncestor: false,
+      },
+      canonicalHeadings: loadCanonicalHeadings(TEMPLATE),
+      repoRoot: "/",
+    });
+
+    expect(result).toMatchObject({ ok: false, reason: "missing-evidence" });
+  });
+
+  it("fails present Phase 11 evidence paths that resolve to a directory", () => {
+    const fixture = resolve(tmpRoot, "workflow");
+    mkdirSync(resolve(fixture, "outputs", "phase-11", "directory-evidence"), {
+      recursive: true,
+    });
+    mkdirSync(resolve(fixture, "outputs", "phase-12"), { recursive: true });
+    writeFileSync(
+      resolve(fixture, "outputs", "phase-12", "phase12-task-spec-compliance-check.md"),
+      [
+        "# Phase 12 Task Spec Compliance Check",
+        "",
+        "## Summary verdict",
+        "Fixture.",
+        "",
+        "## Changed-files classification",
+        "Fixture.",
+        "",
+        "## `workflow_state` and phase status consistency",
+        "`spec_created`.",
+        "",
+        "## Phase 11 evidence file inventory",
+        "| Classification | Path | Status |",
+        "| --- | --- | --- |",
+        "| directory path | `outputs/phase-11/directory-evidence` | present |",
+        "",
+        "## Phase 12 strict 7 file inventory",
+        "Fixture.",
+        "",
+        "## Skill/reference/system spec same-wave sync",
+        "Fixture.",
+        "",
+        "## Runtime or user-gated boundary",
+        "Fixture.",
+        "",
+        "## Archive/delete stale-reference gate",
+        "Fixture.",
+        "",
+        "## Four-condition verdict",
+        "Fixture.",
+      ].join("\n"),
+      "utf8",
+    );
+
+    const result = verifyComplianceFile({
+      root: {
+        rootPath: fixture,
+        workflowState: "spec_created",
+        hasCompletedTasksAncestor: false,
+      },
+      canonicalHeadings: loadCanonicalHeadings(TEMPLATE),
+      repoRoot: "/",
+    });
+
+    expect(result).toMatchObject({ ok: false, reason: "missing-evidence" });
+  });
+
+  it("parses the numbered canonical Phase 11 evidence inventory heading", () => {
+    const fixture = resolve(tmpRoot, "workflow");
+    mkdirSync(resolve(fixture, "outputs", "phase-12"), { recursive: true });
+    writeFileSync(
+      resolve(fixture, "outputs", "phase-12", "phase12-task-spec-compliance-check.md"),
+      [
+        "# Phase 12 Task Spec Compliance Check",
+        "",
+        "## Summary verdict",
+        "Fixture.",
+        "",
+        "## Changed-files classification",
+        "Fixture.",
+        "",
+        "## `workflow_state` and phase status consistency",
+        "`spec_created`.",
+        "",
+        "## 4. Phase 11 evidence file inventory",
+        "| Classification | Path | Status |",
+        "| --- | --- | --- |",
+        "| numbered heading | `outputs/phase-11/missing.md` | present |",
+        "",
+        "## Phase 12 strict 7 file inventory",
+        "Fixture.",
+        "",
+        "## Skill/reference/system spec same-wave sync",
+        "Fixture.",
+        "",
+        "## Runtime or user-gated boundary",
+        "Fixture.",
+        "",
+        "## Archive/delete stale-reference gate",
+        "Fixture.",
+        "",
+        "## Four-condition verdict",
+        "Fixture.",
+      ].join("\n"),
+      "utf8",
+    );
+
+    const result = verifyComplianceFile({
+      root: {
+        rootPath: fixture,
+        workflowState: "spec_created",
+        hasCompletedTasksAncestor: false,
+      },
+      canonicalHeadings: loadCanonicalHeadings(TEMPLATE),
+      repoRoot: "/",
+    });
+
+    expect(result).toMatchObject({ ok: false, reason: "missing-evidence" });
+    if (!result.ok) {
+      expect(result.details).toContain("outputs/phase-11/missing.md");
     }
   });
 

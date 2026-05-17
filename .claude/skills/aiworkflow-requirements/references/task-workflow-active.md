@@ -20,6 +20,20 @@
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md` |
 | user gate | repo secrets / variables、workflow dispatch、six hourly successes、rollback delete、commit、push、PR |
 
+### Issue #730 Phase 11 evidence existence validator（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local evidence PASS` |
+| 成果物 | `docs/30-workflows/issue-730-phase11-evidence-existence-validator/` |
+| Issue | #730 CLOSED。PR 文脈は `Refs #730` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/task-27-followup-002-phase11-evidence-existence-validator.md` consumed |
+| 目的 | Phase 12 compliance check の Phase 11 evidence inventory で `present` 宣言された path の物理実在を検証する |
+| implementation targets | `scripts/lib/phase12-compliance/parse-phase11-evidence.ts`, `verify-phase11-evidence-existence.ts`, `verify-compliance-file.ts`, `types.ts`, `scripts/__tests__/verify-phase12-compliance.spec.ts` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime boundary | `pnpm test:phase12-compliance` and `pnpm verify:phase12-compliance` pass locally. GitHub-hosted CI evidence remains user-gated |
+| user gate | commit / push / PR / Issue mutation |
+
 ### i02-admin-error-type-unify（2026-05-17）
 
 | 項目 | 値 |
@@ -35,6 +49,18 @@
 | user gate | commit / push / PR |
 
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/ut-07a-01-member-tags-assign-cleanup/` |
+| source | Issue #294 CLOSED / `docs/30-workflows/completed-tasks/COMPLETED-UT-07A-01-member-tags-assign-cleanup.md` consumed |
+| 目的 | `assignTagsToMember` を削除せず、`tagQueueResolve` workflow 専用 helper としてコード本体で明示する |
+| 実装 | `apps/api/src/repository/memberTags.ts` のファイル冒頭コメント、関数 JSDoc、provider interface JSDoc、`memberTags.readonly.test-d.ts` / `memberTags.repository.spec.ts` boundary gates |
+| evidence | Phase 11 tracked `.txt` local evidence / grep topology / git diff、Phase 12 strict 7 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md` |
+| user gate | commit / push / PR / issue mutation |
+
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 
 | 項目 | 値 |
@@ -1316,6 +1342,20 @@
 | 実装 | `apps/web/src/lib/admin/api.ts` の predicate `isSchemaAliasRetryableContinuation`（5 点合致: `status=202` ∧ `backfill.status='exhausted'` ∧ `retryable=true` ∧ `code='backfill_cpu_budget_exhausted'` ∧ `mode='apply'`）、`apps/web/src/components/admin/SchemaDiffPanel.tsx` の feedback state、focused `api.spec.ts` / `SchemaDiffPanel.component.spec.tsx` |
 | 検証 | focused Vitest 30 tests PASS。JUnit: `docs/30-workflows/ut-07b-fu-02-admin-schema-alias-retry-label/outputs/phase-11/test-junit.xml` |
 | 境界 | API contract / D1 schema / queue-cron workflow は変更しない。manual screenshot / commit / push / PR は user-gated。苦戦箇所と適用ルールは `references/lessons-learned-ut07b-fu-02-admin-schema-alias-retry-label-2026-05.md`（L-UT07B-FU02-001 5 点 narrowing / L-002 confirmed と backfill.status の責務分離 / L-003 code 不一致 fallback / L-004 4 状態 manual screenshot deferred） |
+
+### UT-07B Alias Recommendation i18n（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow_state | implemented_local_evidence_captured |
+| implementation state | implementation |
+| visualEvidence | NON_VISUAL |
+| issue | #292 CLOSED (`Refs #292` only for PR text) |
+| 成果物 | `docs/30-workflows/ut-07b-alias-recommendation-i18n/` |
+| 目的 | `GET /admin/schema/diff` の `recommendedStableKeys` label 比較を NFKC + trim + whitespace 圧縮で安定化する |
+| 実装 | `apps/api/src/services/aliasRecommendation.ts` の `normalizeLabelForCompare` と `recommendAliases` の normalized Levenshtein 入力 |
+| 検証 | `aliasRecommendation.spec.ts` 20 tests PASS。`schema.contract.spec.ts` 16 tests PASS。apps/api suite 48 files / 300 tests PASS |
+| 境界 | response shape / DB schema / UI は変更しない。大規模 back-fill / retryable continuation は UT-07B hardening の責務。commit / push / PR は user-gated |
 
 ### UT-07B-FU-03 Production Migration Apply Runbook（2026-05-02）
 
