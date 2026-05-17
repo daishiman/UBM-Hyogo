@@ -31,7 +31,7 @@ read_only_evidence_allowed_pre_gate:
 user_approval_marker: docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-13/user-approval-issue-718-<timestamp>.md
 dependencies:
   - issue-640-oidc-cf-token-cutover (staging/production runtime evidence)
-  - issue-640-followup-001-oidc-full-migration (任意・OIDC 移行後に実行する場合は前提となる)
+  - issue-717-followup-001-production-oidc-cutover (Cloudflare OIDC support が確認され、staging proof / production cutover / observation が完了していること)
 ```
 
 | 項目 | 内容 |
@@ -350,8 +350,8 @@ git diff .claude/skills/aiworkflow-requirements/references/deployment-secrets-ma
 
 ### 補足事項
 
-- 本 task は `issue-640-followup-001-oidc-full-migration` と直列依存ではない。OIDC 完全移行を待たずに、step-scoped fine-grained token の安定運用が確認できた段階で実行可能。
-- ただし OIDC 完全移行を先に実施した場合、legacy token の参照は構造的にゼロになるため、本 task の Phase 1 inventory が単純化される。
+- 2026-05-16 Issue #717 revalidation により、Cloudflare Workers GitHub Actions / `wrangler-action` の supported OIDC deploy path は未確認。`web-cd.yml` は current rollback path として `CLOUDFLARE_API_TOKEN` を維持する。
+- したがって web-cd deploy token の physical revocation は、公式 support 確認後の staging proof、production cutover、observation window が完了するまで blocked とする。OIDC 未対応のまま revocation する場合は、repository-wide inventory が rollback dependency 0 件を証明し、別途 operator approval を取得すること。
 - revocation コマンドの具体名は本仕様書には焼き込まない（operator-approved 経路として `bash scripts/cf.sh` 系ラッパー or Cloudflare dashboard 手操作のいずれかを許容）。
 - 1Password 正本との整合は最終確認のみ行い、vault 構造変更や item 再設計は別 issue で扱う。
 - Phase 13 の commit / PR はユーザー承認ゲートであり、本タスクの作成時点では実行しない。

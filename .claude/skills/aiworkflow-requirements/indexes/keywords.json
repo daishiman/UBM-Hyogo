@@ -3202,6 +3202,7 @@
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
@@ -4385,6 +4386,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-ut-17-cloudflare-analytics-alerts-artifact-inventory.md"
@@ -4433,6 +4435,7 @@
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-issue-590-phase11-canonical-evidence-paths-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-task-05-error-boundary-and-staging-smoke-artifact-inventory.md",
       "workflow-task-06a-A-public-web-real-workers-d1-smoke-execution-artifact-inventory.md",
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
@@ -6793,6 +6796,7 @@
       "workflow-issue-195-03b-followup-002-sync-shared-modules-owner-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
       "workflow-issue-399-admin-queue-resolve-staging-visual-evidence-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-04a-parallel-public-directory-api-endpoints-artifact-inventory.md",
       "workflow-task-05b-B-magic-link-callback-credentials-provider-artifact-inventory.md",
@@ -8103,7 +8107,8 @@
       "deployment-secrets-management.md",
       "lessons-learned-issue-548-ml-model-selection-2026-05.md",
       "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
-      "workflow-issue-548-ml-model-selection-artifact-inventory.md"
+      "workflow-issue-548-ml-model-selection-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md"
     ],
     "ACCT": [
       "deployment-secrets-management.md",
@@ -9715,6 +9720,7 @@
       "lessons-learned-ut07b-fu03-production-migration-runbook-2026-05.md",
       "lessons-learned-ut07b-fu04-production-migration-already-applied-verification-2026-05.md",
       "workflow-issue-325-test-suffix-rename-migration-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
       "workflow-ut-07b-fu-03-production-migration-apply-runbook-artifact-inventory.md",
       "workflow-ut-07b-fu-04-production-migration-apply-execution-artifact-inventory.md"
@@ -14964,6 +14970,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -15193,7 +15200,8 @@
     ],
     "OIDC": [
       "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
-      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md"
+      "lessons-learned-u-fix-cf-acct-01-deriv-01-oidc-short-lived-credentials-2026-05.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md"
     ],
     "Step": [
       "lessons-learned-issue-640-oidc-step-scoped-cf-token-cutover-2026-05.md",
@@ -22014,6 +22022,7 @@
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-623-vitest-spec-suffix-convergence-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
@@ -22140,6 +22149,7 @@
       "workflow-issue-588-fallback-alert-slack-mail-extension-artifact-inventory.md",
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
       "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md",
@@ -22166,6 +22176,7 @@
     "Ups": [
       "workflow-03a-stablekey-literal-lint-enforcement-artifact-inventory.md",
       "workflow-issue-393-stablekey-literal-legacy-cleanup-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md"
     ],
     "Canonical": [
@@ -22187,6 +22198,7 @@
       "workflow-issue-603-phase12-compliance-check-ci-gate-artifact-inventory.md",
       "workflow-issue-617-ci-test-time-reduction-split-artifact-inventory.md",
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md",
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-task-07-prototype-mapping-table-artifact-inventory.md",
@@ -22734,6 +22746,10 @@
     "Vocabulary": [
       "workflow-issue-626-rb01-share-build-output-lighthouse-pr-build-artifact-inventory.md"
     ],
+    "Full": [
+      "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
+      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
+    ],
     "Revocation": [
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md"
     ],
@@ -23021,9 +23037,6 @@
     ],
     "Compatibility": [
       "workflow-task-08-w2-design-tokens-doc-artifact-inventory.md"
-    ],
-    "Full": [
-      "workflow-task-08b-A-playwright-e2e-full-execution-artifact-inventory.md"
     ],
     "Inputs": [
       "workflow-task-09-w3-par-tailwind-v4-setup-artifact-inventory.md",
