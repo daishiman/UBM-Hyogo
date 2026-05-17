@@ -154,9 +154,9 @@ UI は `responseEmailMasked` だけを表示し、merge reason に含まれる e
 
 ## schema alias assignment（07b）
 
-`/admin/schema` の schema 差分解消は 07b API workflow が正本である。UI は `recommendedStableKeys` を候補表示に使い、dryRun で影響範囲を確認してから apply する。apply 後は `schema_diff_queue` を `queued -> resolved` に進め、過去回答の `__extra__:<questionId>` を stableKey へ back-fill する。
+`/admin/schema` の schema 差分解消は 07b API workflow が正本である。UI は `recommendedStableKeys` / `suggestedStableKey` を候補表示に使い、stableKey を `/^[a-zA-Z][a-zA-Z0-9_]*$/` で client/server 二重検証してから apply する。apply 後は `schema_aliases` へ manual alias を INSERT し、`schema_diff_queue` を `queued -> resolved` に進め、過去回答の `__extra__:<questionId>` を stableKey へ back-fill する。
 
-管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を toast 等で分けて表示する。多言語 label 正規化や大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
+管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を `role="alert"` で分けて表示する。409 は `existingStableKey`、422 `stable_key_collision` は `existingQuestionIds` を保持して表示する。HTTP 202 `backfill_cpu_budget_exhausted` は失敗ではなく再試行可能 status として扱う。
 
 ## tag assignment queue（UT-02A / 07a）
 

@@ -16,14 +16,17 @@
     "build": "bash scripts/with-env.sh pnpm -r build",
     "dev:web": "bash scripts/with-env.sh pnpm --filter @ubm-hyogo/web dev",
     "dev:api": "bash scripts/with-env.sh pnpm --filter @ubm-hyogo/api dev",
-    "lint": "node scripts/lint-boundaries.mjs && pnpm run lint:deps && node scripts/lint-stablekey-literal.mjs && pnpm -r lint",
+    "lint": "node scripts/lint-boundaries.mjs && pnpm run lint:deps && node scripts/lint-stablekey-literal.mjs && node scripts/lint-stable-key-update.mjs --strict && pnpm -r lint",
     "lint:deps": "rg --files apps packages -g '*.ts' -g '*.tsx' | xargs pnpm dlx dependency-cruiser --config .dependency-cruiser.cjs",
     "lint:stablekey": "node scripts/lint-stablekey-literal.mjs",
     "lint:stablekey:strict": "node scripts/lint-stablekey-literal.mjs --strict",
+    "lint:stable-key-update": "node scripts/lint-stable-key-update.mjs",
+    "lint:stable-key-update:strict": "node scripts/lint-stable-key-update.mjs --strict",
     "verify:phase12-compliance": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-phase12-compliance.ts",
     "verify:static-manifest": "node scripts/verify-static-manifest.mjs",
     "regenerate:static-manifest": "node scripts/regenerate-static-manifest.mjs",
     "verify:tokens": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/verify-design-tokens.ts",
+    "visual:baseline:status": "bash scripts/visual-baseline-status.sh",
     "typecheck": "pnpm -r typecheck",
     "test": "bash scripts/with-env.sh vitest run",
     "test:phase12-compliance": "vitest run scripts/__tests__/verify-phase12-compliance.spec.ts",
@@ -75,7 +78,7 @@
   },
   "pnpm": {
     "overrides": {
-      "esbuild": "0.27.3"
+      "esbuild": "0.25.4"
     }
   }
 }

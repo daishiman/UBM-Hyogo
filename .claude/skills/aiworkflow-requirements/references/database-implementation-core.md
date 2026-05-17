@@ -341,6 +341,15 @@ Repository 契約:
 - `source='manual'` の INSERT は `resolved_by` を必須とし、auth middleware 由来の admin user id を記録する。
 - `UPDATE schema_questions SET stable_key` は禁止。静的検査は Phase 9 の grep guard を起点に、後続実装で repository / AST guard へ強化する。
 
+Static guard（issue #300 / 2026-05-15）:
+
+- `scripts/lint-stable-key-update.mjs` が direct `schema_questions.stable_key` mutation を CI / pre-commit / root lint chain で拒否する。
+- error detector: SQL literal / template literal の `UPDATE schema_questions ... SET ... stable_key`、および `.update(schemaQuestions).set({ stable_key | stableKey })` builder 呼び出し。
+- warning detector: `updateStableKey(...)` 呼び出し名。false positive 余地があるため warning 固定だが、repository helper 本体は削除済み。
+- allowed boundary: `schema_aliases` への write、`schema_questions.stable_key` read fallback、guard fixtures、migrations。
+- CI gate: `.github/workflows/verify-stable-key-update.yml`; pre-commit: `lefthook.yml` `block-stable-key-update`; package scripts: `lint:stable-key-update` / `lint:stable-key-update:strict`。
+- 詳細仕様と evidence: `docs/30-workflows/completed-tasks/issue-300-direct-stable-key-update-guard/`。
+
 移行終端条件（2026-05-15 達成済み）:
 
 - `schema_questions.stable_key IS NOT NULL` の全行が `schema_aliases` にも存在する状態を production / staging 両 D1 で確認した（`scripts/diagnose/schema-aliases-coverage.sql`、両方 0 件）。

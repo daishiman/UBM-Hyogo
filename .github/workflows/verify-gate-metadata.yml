@@ -1,21 +1,17 @@
 name: verify-gate-metadata
 
 on:
-  # MVP-PAUSE 2026-05-15: PR trigger を一時停止。
-  # 復活方法: 下の pull_request ブロックの行頭 `# ` を全て削除する。
-  # 残っている workflow_dispatch / push / schedule は引き続き有効。
-  workflow_dispatch:
-  # pull_request:
-  # paths:
-  # - "**/artifacts.json"
-  # - "package.json"
-  # - "pnpm-lock.yaml"
-  # - "packages/shared/package.json"
-  # - "packages/shared/src/index.ts"
-  # - "packages/shared/src/gate-metadata/**"
-  # - "scripts/gate-metadata/**"
-  # - ".github/workflows/verify-gate-metadata.yml"
-  #
+  pull_request:
+    paths:
+      - "**/artifacts.json"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "packages/shared/package.json"
+      - "packages/shared/src/index.ts"
+      - "packages/shared/src/gate-metadata/**"
+      - "scripts/gate-metadata/**"
+      - ".github/workflows/verify-gate-metadata.yml"
+
 permissions:
   contents: read
 

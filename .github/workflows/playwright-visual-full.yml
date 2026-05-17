@@ -3,19 +3,15 @@ name: playwright-visual-full
 on:
   schedule:
     - cron: '0 18 * * *' # JST 03:00 nightly
-  # MVP-PAUSE 2026-05-15: PR trigger を一時停止。
-  # 復活方法: 下の pull_request ブロックの行頭 `# ` を全て削除する。
-  # 残っている workflow_dispatch / push / schedule は引き続き有効。
   workflow_dispatch:
-  # pull_request:
-  # paths:
-  # - 'apps/web/src/**'
-  # - 'apps/web/playwright.config.ts'
-  # - 'apps/web/playwright/tests/visual-full/**'
-  # - 'apps/web/playwright/fixtures/**'
-  # - 'apps/web/src/styles/tokens.css'
-  # - '.github/workflows/playwright-visual-full.yml'
-  #
+  pull_request:
+    paths:
+      - 'apps/web/src/**'
+      - 'apps/web/playwright.config.ts'
+      - 'apps/web/playwright/tests/visual-full/**'
+      - 'apps/web/playwright/fixtures/**'
+      - 'apps/web/src/styles/tokens.css'
+      - '.github/workflows/playwright-visual-full.yml'
 concurrency:
   group: visual-full-${{ github.ref }}
   cancel-in-progress: true
@@ -23,38 +19,117 @@ concurrency:
 jobs:
   visual-full:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     strategy:
       fail-fast: false
       matrix:
         viewport: [desktop, tablet, mobile]
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Check baseline snapshots exist
         id: baselines
         run: |
           if compgen -G "apps/web/playwright/tests/visual-full/full-visual.spec.ts-snapshots/*.png" > /dev/null; then
             echo "present=true" >> "$GITHUB_OUTPUT"
           else
-            echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Visual baselines absent (task-18-fu runtime_pending). Run playwright-visual-baseline-update workflow to capture. Skipping visual-full to keep PR unblocked."
+            echo "::error::Visual baselines are absent. Run playwright-visual-baseline-update workflow and commit the generated snapshots before enabling visual-full."
+            exit 1
           fi
+      - name: Diagnose baseline staleness (informational)
+        id: staleness
+        if: hashFiles('apps/web/playwright/tests/visual-full/.baseline-meta.json') != ''
+        run: |
+          set +e
+          VISUAL_BASELINE_STATUS_FAIL_ON_STALE=0 bash scripts/visual-baseline-status.sh > /tmp/baseline-status.txt 2>&1
+          rc=$?
+          cat /tmp/baseline-status.txt
+          if grep -q "STALE:" /tmp/baseline-status.txt; then
+            echo "stale=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "stale=false" >> "$GITHUB_OUTPUT"
+          fi
+          exit 0
       - uses: ./.github/actions/setup-project
-        if: steps.baselines.outputs.present == 'true'
       - name: Install playwright browsers
-        if: steps.baselines.outputs.present == 'true'
         run: pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
       - name: Build apps/web
-        if: steps.baselines.outputs.present == 'true'
         run: pnpm --filter @ubm-hyogo/web build
       - name: Run visual-full (${{ matrix.viewport }})
-        if: steps.baselines.outputs.present == 'true'
         env:
           PLAYWRIGHT_EVIDENCE_TASK: task-18-fu
         run: pnpm --filter @ubm-hyogo/web exec playwright test --project=visual-full-chromium-${{ matrix.viewport }}
       - name: Upload diff artifact on failure
-        if: failure() && steps.baselines.outputs.present == 'true'
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: visual-full-${{ matrix.viewport }}-diff
-          path: docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence/
+          path: |
+            apps/web/test-results/**
+            apps/web/playwright-report/**
+            docs/30-workflows/task-18-fu-full-visual-regression-suite/outputs/phase-11/evidence/
           retention-days: 14
+      - name: Post baseline refresh guidance on failure
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          STALE: ${{ steps.staleness.outputs.stale }}
+          VIEWPORT: ${{ matrix.viewport }}
+        with:
+          script: |
+            const stale = process.env.STALE === 'true';
+            const viewport = process.env.VIEWPORT;
+            const branch = context.payload.pull_request.head.ref;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const marker = '<!-- visual-full-failure-guidance -->';
+            const verdict = stale
+              ? '**baseline 起因の可能性が高い**（baseline 捕捉以降に rendering-relevant ファイルが変更されている）'
+              : '**真の視覚回帰の可能性**（rendering-relevant ファイルに baseline 以降の変更なし — diff artifact を確認）';
+            const body = [
+              marker,
+              '## playwright-visual-full failure ガイダンス',
+              '',
+              `失敗 viewport: \`${viewport}\``,
+              `失敗 run: ${runUrl}`,
+              '',
+              `**判定**: ${verdict}`,
+              '',
+              '### baseline 起因の場合の復旧',
+              '```bash',
+              `gh workflow run playwright-visual-baseline-update.yml \\`,
+              `  -f reason="visual-full failure on ${branch} — baseline staleness" \\`,
+              `  -r ${branch}`,
+              '```',
+              '',
+              '実行後 GitHub Actions の `visual-baseline-approval` environment を承認 → 新 baseline が source ブランチに直接 push される（PR 作成は不要）。',
+              '',
+              '### 真の回帰の場合',
+              `diff artifact \`visual-full-${viewport}-diff\` を上記 run の Artifacts セクションからダウンロードし、コード側を修正。`,
+              '',
+              '### 診断',
+              'ローカルで `pnpm visual:baseline:status` を実行すると同じ判定を確認できる。',
+            ].join('\n');
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body,
+              });
+            }

@@ -55,27 +55,21 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 ### 2.1 構造
 
 - `<nav aria-label="管理メニュー" className="admin-sidebar">`
-- `<nav>` 直下の先頭に `<Link href="/" aria-label="ホームに戻る">UBM兵庫</Link>` を置く。
-- `<ul>` 配下に `<li><Link href={href}>{label}</Link></li>` を 9 件
+- `<ul>` 配下に `<li><Link href={href}>{label}</Link></li>` を 5 件
 
 ### 2.2 リンク
 
 | href | label |
 | --- | --- |
-| `/` | UBM兵庫（aria-label: ホームに戻る） |
 | `/admin` | ダッシュボード |
-| `/admin/dashboard/attendance` | 出席分析 |
 | `/admin/members` | 会員管理 |
 | `/admin/tags` | タグキュー |
 | `/admin/schema` | schema |
 | `/admin/meetings` | 開催日 |
-| `/admin/requests` | 依頼キュー |
-| `/admin/identity-conflicts` | Identity重複 |
-| `/admin/audit` | 監査ログ |
 
 ### 2.3 不変条件
 
-- 上記 10 リンクは固定。順序も固定。
+- 上記 5 リンクは固定。順序も固定。
 - アクティブ状態のスタイル属性は実装上 CSS 側で管理（コンポーネントは `aria-current` を出さない）。
 
 ---
@@ -159,7 +153,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 ### 4.3 MemberDrawer（Client）
 
-現行実装: `apps/web/src/features/admin/components/_members/MemberDrawer.tsx`
+実装: `apps/web/src/components/admin/MemberDrawer.tsx`
 
 #### Props
 
@@ -167,6 +161,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 {
   readonly memberId: string;
   readonly onClose: () => void;
+  readonly onMutated: () => void;
 }
 ```
 
@@ -180,12 +175,6 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | `noteBody` | `string` | 管理メモ textarea |
 | `confirmDelete` | `boolean` | 削除確認 dialog 開閉 |
 | `deleteReason` | `string` | 削除理由（必須） |
-
-#### Navigation
-
-- drawer 最下部に `<Link href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}>タグ管理へ</Link>` を置く。
-- `memberId` は必ず `encodeURIComponent` を通す。
-- link click 時に `onClose()` は手動呼び出ししない。route transition による unmount に任せる。
 
 #### 取得
 
@@ -243,7 +232,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 | --- | --- | --- |
 | `selected` | `string \| null` | 選択中 queueId（初期は items[0]?.queueId） |
 | `busy` | `boolean` | resolve 実行中 |
-| `toast` | `string \| null` | `role="status"` |
+| `feedback` | `{ kind: "success" \| "retryable" \| "validation_error" \| "conflict_error" \| "error"; label: string; detail?: string } \| null` | `success` / `retryable` は `role="status"`、validation / conflict / error は `role="alert"` |
 
 #### 並べ替え
 
@@ -303,10 +292,11 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### レイアウト
 
-- 4 ペイン grid（`grid-template-columns: repeat(4, 1fr)`）に added / changed / removed / unresolved を分類表示
-- 各項目を `<button aria-pressed>` で選択 → `active` 設定
-- `active.questionId` がある場合: stableKey 編集 form
+- 4 ペイン grid（`grid-template-columns: repeat(4, 1fr)`）に added / changed / removed / unresolved を分類表示し、各ペインは `<table>` / `th scope="col"` / `tbody` で field-by-field 表示する
+- 各項目を `<button aria-pressed>` で選択 → `active` 設定。選択後は stableKey input へ focus する
+- `active.questionId` がある場合: stableKey 編集 form。`stableKey` は `/^[a-zA-Z][a-zA-Z0-9_]*$/` を `pattern` と client validation に使い、invalid 時は `aria-invalid=true`、validation alert id を `aria-describedby` に追加する
 - `active.questionId` が null の場合: `<p role="alert">この diff には questionId がないため alias 割当はできません。</p>`
+- queued / resolved は UI で日本語 label（未解決 / 解決済み）として表示する
 
 #### 初期 stableKey
 
@@ -314,7 +304,7 @@ D1 や apps/api の repository を web 側で直接 import することは禁止
 
 #### mutation
 
-`postSchemaAlias({ diffId, questionId, stableKey })` 成功時に Toast + `router.refresh()`。
+`postSchemaAlias({ diffId, questionId, stableKey })` 成功時に success feedback + `router.refresh()`。HTTP 202 retryable continuation は status として表示し form を維持する。409 は `existingStableKey`、422 `stable_key_collision` は `existingQuestionIds` を保持して alert に表示する。
 
 #### 不変条件
 

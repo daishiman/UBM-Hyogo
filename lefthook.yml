@@ -33,6 +33,12 @@ pre-commit:
       fail_text: |
         🚫 *.test.{ts,tsx} ファイルは追加禁止です（ADR: *.spec.{ts,tsx} に統一）。
         末尾を .spec.ts(x) に rename してから再 stage してください。
+    block-stable-key-update:
+      run: node scripts/lint-stable-key-update.mjs --strict
+      stage_fixed: false
+      fail_text: |
+        direct schema_questions.stable_key mutation is forbidden.
+        Use schema_aliases / POST /admin/schema/aliases instead.
 
 post-merge:
   parallel: false
@@ -48,3 +54,16 @@ pre-push:
     coverage-guard:
       run: bash scripts/coverage-guard.sh --changed
       stage_fixed: false
+    indexes-drift-guard:
+      run: bash scripts/hooks/indexes-drift-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 skill indexes に drift があります。
+        pnpm indexes:rebuild → 差分を commit → 再 push してください。
+        対応 CI: verify-indexes-up-to-date
+    gate-metadata-guard:
+      run: bash scripts/hooks/gate-metadata-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 変更された artifacts.json に metadata.gates が欠落しています。
+        対応 CI: verify-gate-metadata

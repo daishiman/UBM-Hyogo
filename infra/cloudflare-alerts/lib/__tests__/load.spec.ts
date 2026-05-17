@@ -10,7 +10,7 @@ import { loadExpected } from "../load.ts";
 const REPO_ROOT = path.resolve(__dirname, "../../../..");
 
 describe("loadExpected", () => {
-  it("5 policy + 1 webhook を canonical 化して返す", () => {
+  it("7 policy + 1 webhook を canonical 化して返す", () => {
     const r = loadExpected(REPO_ROOT);
     const names = r.policies.map((p) => p.name).sort();
     expect(names).toEqual([
@@ -18,9 +18,27 @@ describe("loadExpected", () => {
       "d1-write-queries",
       "pages-build",
       "r2-class-a",
+      "workers-kv-stored-bytes",
+      "workers-kv-writes-per-day",
       "workers-requests",
     ]);
     expect(r.webhooks.map((w) => w.name)).toEqual(["ut-17-relay"]);
+  });
+
+  it("workers-kv-writes-per-day の threshold が 800、enabled が false", () => {
+    const r = loadExpected(REPO_ROOT);
+    const p = r.policies.find((p) => p.name === "workers-kv-writes-per-day");
+    expect(p).toBeDefined();
+    expect((p!.conditions as { threshold: number }).threshold).toBe(800);
+    expect(p!.enabled).toBe(false);
+  });
+
+  it("workers-kv-stored-bytes の threshold が 858993459、enabled が false", () => {
+    const r = loadExpected(REPO_ROOT);
+    const p = r.policies.find((p) => p.name === "workers-kv-stored-bytes");
+    expect(p).toBeDefined();
+    expect((p!.conditions as { threshold: number }).threshold).toBe(858993459);
+    expect(p!.enabled).toBe(false);
   });
 
   it("workers-requests の threshold が quota-base × 0.8 = 80000", () => {
