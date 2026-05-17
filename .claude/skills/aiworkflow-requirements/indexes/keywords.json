@@ -6212,6 +6212,7 @@
     ],
     "Gate": [
       "cloudflare-edge-security.md",
+      "deployment-secrets-management.md",
       "gate-c-external-mutation-pattern.md",
       "gate-metadata.md",
       "lessons-learned-issue-560-next-standalone-instrumentation-patch-2026-05.md",
@@ -7719,6 +7720,7 @@
       "deployment-cloudflare.md",
       "deployment-core.md",
       "deployment-gha.md",
+      "deployment-secrets-management.md",
       "lessons-learned-ut-28-cloudflare-pages-projects-2026-04.md"
     ],
     "プレビューデプロイメント": [
@@ -7972,6 +7974,13 @@
       "workflow-ut-gov-004-artifact-inventory.md"
     ],
     "シークレット・環境変数管理": [
+      "deployment-secrets-management.md"
+    ],
+    "Secret": [
+      "deployment-secrets-management.md",
+      "lessons-learned-ut-03-sheets-auth-2026-04.md"
+    ],
+    "Preflight": [
       "deployment-secrets-management.md"
     ],
     "管理場所の判断フロー": [
@@ -16413,9 +16422,6 @@
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "でしか動かない": [
-      "lessons-learned-ut-03-sheets-auth-2026-04.md"
-    ],
-    "Secret": [
       "lessons-learned-ut-03-sheets-auth-2026-04.md"
     ],
     "PEM": [
