@@ -42,8 +42,8 @@
       },
       {
         "gate_id": "Gate-D",
-        "status": "passed_with_merge_dirty",
-        "passed_at": "2026-05-16T21:14:00+09:00",
+        "status": "pending",
+        "passed_at": null,
         "evidence_path": "docs/30-workflows/task-709-visual-baseline-runtime-capture/phase-13-pr.md",
         "approver": "daishiman",
         "notes": "pr_approval: PR #760 created at https://github.com/daishiman/UBM-Hyogo/pull/760. Current mergeStateStatus is DIRTY and must be resolved before merge."
