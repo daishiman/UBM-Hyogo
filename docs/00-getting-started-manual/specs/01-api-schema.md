@@ -277,9 +277,9 @@ Response は `PublicMemberListViewZ.strict()` を正本とし、`items`、`pagin
 
 ## schema alias assignment API（07b）
 
-`GET /admin/schema/diff` は `recommendedStableKeys: string[]` を同梱する。`POST /admin/schema/aliases?dryRun=true` は DB / queue / audit に副作用を出さず、影響件数と collision 有無だけを返す。apply は `schema_questions.stable_key` 更新、任意 `schema_diff_queue.status='resolved'`、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` を実行する。
+`GET /admin/schema/diff` は `recommendedStableKeys: string[]` を同梱する。`POST /admin/schema/aliases?dryRun=true` は DB / queue / audit に副作用を出さず、影響件数と collision 有無だけを返す。apply は `schema_aliases` へ manual alias を INSERT し、任意 `schema_diff_queue.status='resolved'`、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` を実行する。`stableKey` は `/^[a-zA-Z][a-zA-Z0-9_]*$/` に一致する必要がある。
 
-collision は 422、diff 不在は 404、diff と question 不一致は 409。大規模 back-fill / UNIQUE index / retryable HTTP contract は `docs/30-workflows/unassigned-task/UT-07B-schema-alias-hardening-001.md` に分離する。
+同一 revision 内の stableKey collision は 422 `stable_key_collision` + `existingQuestionIds`、既存 alias conflict は 409 + `existingStableKey`、diff 不在は 404、diff と question 不一致は 409。back-fill が CPU budget に達した場合は 202 `backfill_cpu_budget_exhausted` + `retryable=true` として UI に再試行可能状態を返す。
 
 ## admin identity conflict merge API（Issue #194）
 

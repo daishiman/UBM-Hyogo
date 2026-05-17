@@ -79,6 +79,10 @@ describe("SchemaDiffPanel", () => {
     expect(screen.getByText("removed-1")).toBeTruthy();
     expect(screen.getByText("unresolved-1")).toBeTruthy();
     expect(screen.getByText("4 件")).toBeTruthy();
+    expect(screen.getAllByRole("table").length).toBe(4);
+    expect(screen.getAllByRole("columnheader", { name: "質問" }).length).toBe(4);
+    expect(screen.getAllByText("未解決").length).toBeGreaterThan(0);
+    expect(screen.queryByText("queued")).toBeNull();
   });
 
   it("empty: items=[] で各ペインに「なし」表示、total=0", () => {
@@ -102,6 +106,7 @@ describe("SchemaDiffPanel", () => {
     expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
 
     const input = screen.getByLabelText(/新しい stableKey/) as HTMLInputElement;
+    expect(document.activeElement).toBe(input);
     fireEvent.change(input, { target: { value: "new_key" } });
     fireEvent.click(screen.getByRole("button", { name: "割当" }));
 
@@ -195,6 +200,12 @@ describe("SchemaDiffPanel", () => {
       ok: false,
       status: 422,
       error: "invalid",
+      data: {
+        ok: false,
+        code: "stable_key_collision",
+        error: "stableKey collision",
+        existingQuestionIds: ["q-existing"],
+      },
     });
     render(
       <SchemaDiffPanel
@@ -213,6 +224,7 @@ describe("SchemaDiffPanel", () => {
     await waitFor(() => {
       const alert = screen.getByRole("alert");
       expect(alert.textContent).toContain("入力内容に誤り");
+      expect(alert.textContent).toContain("q-existing");
       expect(alert.getAttribute("data-feedback-kind")).toBe("validation_error");
     });
     expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
@@ -223,6 +235,11 @@ describe("SchemaDiffPanel", () => {
       ok: false,
       status: 409,
       error: "version mismatch",
+      data: {
+        ok: false,
+        error: "alias already assigned",
+        existingStableKey: "full_name",
+      },
     });
     render(
       <SchemaDiffPanel
@@ -241,6 +258,7 @@ describe("SchemaDiffPanel", () => {
     await waitFor(() => {
       const alert = screen.getByRole("alert");
       expect(alert.textContent).toContain("他の操作と競合");
+      expect(alert.textContent).toContain("full_name");
       expect(alert.getAttribute("data-feedback-kind")).toBe("conflict_error");
     });
   });
@@ -333,6 +351,40 @@ describe("SchemaDiffPanel", () => {
     expect(screen.getByRole("form", { name: "stableKey alias 割当" })).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "閉じる" }));
     expect(screen.queryByRole("form", { name: "stableKey alias 割当" })).toBeNull();
+  });
+
+  it("UI-06 client-side regex validation: 不正な stableKey で submit すると postSchemaAlias を呼ばず validation_error feedback", async () => {
+    render(
+      <SchemaDiffPanel
+        initial={{
+          total: 1,
+          items: [item({ diffId: "d-rx", questionId: "q-rx", label: "lbl-rx" })],
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: /lbl-rx/ }));
+    const input = screen.getByLabelText(/新しい stableKey/) as HTMLInputElement;
+    fireEvent.change(input, { target: { value: "1bad-key" } });
+
+    const submit = screen.getByRole("button", { name: "割当" }) as HTMLButtonElement;
+    expect(submit.disabled).toBe(true);
+    expect(input.getAttribute("aria-invalid")).toBe("true");
+
+    fireEvent.submit(input.closest("form")!);
+    expect(postSchemaAliasMock).not.toHaveBeenCalled();
+
+    await waitFor(() => {
+      const alert = screen.getByRole("alert");
+      expect(alert.getAttribute("data-feedback-kind")).toBe("validation_error");
+      expect(alert.textContent).toContain("stableKey");
+      expect(input.getAttribute("aria-describedby")).toContain(
+        "schema-alias-validation-feedback",
+      );
+    });
+
+    fireEvent.change(input, { target: { value: "good_key" } });
+    expect(input.getAttribute("aria-invalid")).toBe("false");
+    expect(submit.disabled).toBe(false);
   });
 
   it("suggestedStableKey が input の初期値として設定される", () => {
