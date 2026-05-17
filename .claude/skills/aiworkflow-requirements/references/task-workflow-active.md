@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #730 Phase 11 evidence existence validator（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / local evidence PASS` |
+| 成果物 | `docs/30-workflows/issue-730-phase11-evidence-existence-validator/` |
+| Issue | #730 CLOSED。PR 文脈は `Refs #730` のみ |
+| source unassigned | `docs/30-workflows/unassigned-task/task-27-followup-002-phase11-evidence-existence-validator.md` consumed |
+| 目的 | Phase 12 compliance check の Phase 11 evidence inventory で `present` 宣言された path の物理実在を検証する |
+| implementation targets | `scripts/lib/phase12-compliance/parse-phase11-evidence.ts`, `verify-phase11-evidence-existence.ts`, `verify-compliance-file.ts`, `types.ts`, `scripts/__tests__/verify-phase12-compliance.spec.ts` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| runtime boundary | `pnpm test:phase12-compliance` and `pnpm verify:phase12-compliance` pass locally. GitHub-hosted CI evidence remains user-gated |
+| user gate | commit / push / PR / Issue mutation |
+
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 
 | 項目 | 値 |

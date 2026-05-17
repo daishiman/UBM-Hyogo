@@ -5,6 +5,21 @@
 
 ---
 
+### Issue #730 Phase 11 evidence existence validator（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-730-phase11-evidence-existence-validator/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / local evidence PASS` |
+| issue | Issue #730 CLOSED; PR wording uses `Refs #730` |
+| source | `docs/30-workflows/unassigned-task/task-27-followup-002-phase11-evidence-existence-validator.md` consumed |
+| implementation | `scripts/lib/phase12-compliance/{parse-phase11-evidence,verify-phase11-evidence-existence,verify-compliance-file,types}.ts` |
+| tests | `scripts/__tests__/verify-phase12-compliance.spec.ts`, `scripts/__tests__/fixtures/phase12-compliance/` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md` |
+| runtime boundary | Local focused test and verifier PASS; GitHub-hosted CI evidence remains user-gated |
+| user gate | commit / push / PR / issue mutation |
+
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 
 | 目的 | 参照先 |

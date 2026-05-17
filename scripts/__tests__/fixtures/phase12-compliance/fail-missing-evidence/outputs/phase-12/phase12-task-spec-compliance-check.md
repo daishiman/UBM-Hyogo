@@ -2,7 +2,7 @@
 
 ## Summary verdict
 
-PASS.
+FAIL fixture.
 
 ## Changed-files classification
 
@@ -17,9 +17,7 @@ Fixture root.
 | Classification | Path | Status |
 | --- | --- | --- |
 | NON_VISUAL phase11 main | `outputs/phase-11/main.md` | present |
-| NON_VISUAL manual evidence | `outputs/phase-11/manual-test-result.md` | present |
-| NON_VISUAL smoke log | `outputs/phase-11/manual-smoke-log.md` | present |
-| NON_VISUAL link checklist | `outputs/phase-11/link-checklist.md` | present |
+| NON_VISUAL pending item | `outputs/phase-11/pending.md` | pending |
 
 ## Phase 12 strict 7 file inventory
 
@@ -39,4 +37,4 @@ No stale references.
 
 ## Four-condition verdict
 
-PASS.
+FAIL.
