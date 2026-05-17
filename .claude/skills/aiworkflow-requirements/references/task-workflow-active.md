@@ -51,13 +51,13 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_runtime_pending / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_pending / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/parallel-09-ux-cross-cutting/` |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION / implementation_complete_visual_evidence_captured / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/parallel-09-ux-cross-cutting/` |
 | 親 workflow | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/` |
 | 原典 | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/parallel-09-ux-cross-cutting/spec.md` |
 | 目的 | 19 routes 横断 UX primitive（FormField / EmptyState / Pagination / Icon / Breadcrumb / responsive / focus-visible / mutation guard / form preserve）を `apps/web` に実装し、後続 parallel-01〜08 の入力正本として固定する |
-| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| 境界 | 本 wave は `apps/web` 共通 primitive 実装と local typecheck まで完了。visual screenshots は local `ENOSPC` 解消後、staging/production smoke、19-route adoption、commit、push、PR は user-gated |
+| evidence | `outputs/phase-07/test-results.md`, `outputs/phase-11/main.md`, `outputs/phase-11/screenshots/*.png` (12), `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| 境界 | 本 wave は `apps/web` 共通 primitive 実装、local typecheck、Issue #746 local visual screenshots まで完了。staging/production smoke、19-route adoption、commit、push、PR は user-gated |
 
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
