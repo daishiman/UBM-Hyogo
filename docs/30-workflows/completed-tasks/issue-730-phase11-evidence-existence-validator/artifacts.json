@@ -22,7 +22,7 @@
         "gate_id": "Gate-A",
         "status": "passed",
         "passed_at": "2026-05-17T00:00:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-730-phase11-evidence-existence-validator/index.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-730-phase11-evidence-existence-validator/index.md",
         "approver": "daishiman",
         "notes": "spec_review: Phase 1-13 spec plus same-wave implementation/evidence captured. Commit, push, PR remain user-gated."
       },
@@ -30,7 +30,7 @@
         "gate_id": "Gate-B",
         "status": "passed",
         "passed_at": "2026-05-17T07:06:00+09:00",
-        "evidence_path": "docs/30-workflows/issue-730-phase11-evidence-existence-validator/outputs/phase-11/manual-test-result.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-730-phase11-evidence-existence-validator/outputs/phase-11/manual-test-result.md",
         "approver": "daishiman",
         "notes": "validator_green: pnpm test:phase12-compliance passed locally (19 tests)."
       },
