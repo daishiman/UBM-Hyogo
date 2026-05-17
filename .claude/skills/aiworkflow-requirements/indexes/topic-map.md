@@ -6761,14 +6761,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1474 |
-| フェーズ構造（概要） | L1483 |
-| 品質ゲート（概要） | L1514 |
-| 出力テンプレート | L1525 |
-| 実行時のコマンド・エージェント・スキル | L1548 |
-| 昇格パターン集 | L1572 |
-| Current Active / Spec Created Tasks | L1574 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1721 |
+| ドキュメント構成 | L1419 |
+| フェーズ構造（概要） | L1428 |
+| 品質ゲート（概要） | L1459 |
+| 出力テンプレート | L1470 |
+| 実行時のコマンド・エージェント・スキル | L1493 |
+| 昇格パターン集 | L1517 |
+| Current Active / Spec Created Tasks | L1519 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1666 |
 
 ### references/task-workflow-backlog-part2.md
 
