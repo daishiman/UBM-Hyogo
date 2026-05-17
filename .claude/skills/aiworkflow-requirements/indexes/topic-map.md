@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L211 |
-| UBM-Hyogo Admin Sync API（03a） | L232 |
-| UBM-Hyogo Member Self-Service API（04b） | L283 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L309 |
-| Desktop IPC API サマリー | L323 |
-| 変更履歴 | L354 |
-| 関連ドキュメント | L371 |
+| エンドポイント命名規則 | L212 |
+| UBM-Hyogo Admin Sync API（03a） | L233 |
+| UBM-Hyogo Member Self-Service API（04b） | L284 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L310 |
+| Desktop IPC API サマリー | L324 |
+| 変更履歴 | L355 |
+| 関連ドキュメント | L372 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1100,9 +1100,9 @@ node scripts/list-specs.js --topics
 | 4. /admin/members | L112 |
 | 5. /admin/tags | L205 |
 | 6. /admin/schema | L260 |
-| 7. /admin/meetings | L314 |
-| 8. 共通の Server/Client 契約 | L383 |
-| 9. 不変条件サマリ（admin UI） | L401 |
+| 7. /admin/meetings | L315 |
+| 8. 共通の Server/Client 契約 | L384 |
+| 9. 不変条件サマリ（admin UI） | L402 |
 
 ### references/ui-ux-advanced.md
 
@@ -2720,6 +2720,13 @@ node scripts/list-specs.js --topics
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
 
+### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Primary files | L10 |
+| Evidence | L21 |
+
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
 | セクション | 行 |
@@ -3494,6 +3501,15 @@ node scripts/list-specs.js --topics
 | Canonical Workflow | L3 |
 | Planned Implementation Artifacts | L13 |
 | State Boundary | L25 |
+
+### references/workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L5 |
+| Implementation | L13 |
+| Evidence | L19 |
+| User-Gated | L27 |
 
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
@@ -6723,14 +6739,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1443 |
-| フェーズ構造（概要） | L1452 |
-| 品質ゲート（概要） | L1483 |
-| 出力テンプレート | L1494 |
-| 実行時のコマンド・エージェント・スキル | L1517 |
-| 昇格パターン集 | L1541 |
-| Current Active / Spec Created Tasks | L1543 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1690 |
+| ドキュメント構成 | L1390 |
+| フェーズ構造（概要） | L1399 |
+| 品質ゲート（概要） | L1430 |
+| 出力テンプレート | L1441 |
+| 実行時のコマンド・エージェント・スキル | L1464 |
+| 昇格パターン集 | L1488 |
+| Current Active / Spec Created Tasks | L1490 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1635 |
 
 ### references/task-workflow-backlog-part2.md
 
