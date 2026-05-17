@@ -973,14 +973,11 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| エラーハンドリング | L232 |
-| Conversation DB 初期化パターン | L263 |
-| UBM-Hyogo Schema Sync Contract（03a） | L265 |
 | Schema Drift ADR Gate | L222 |
 | エラーハンドリング | L241 |
 | Conversation DB 初期化パターン | L272 |
 | UBM-Hyogo Schema Sync Contract（03a） | L274 |
-| ベクトル検索実装（DiskANN） | L385 |
+| ベクトル検索実装（DiskANN） | L394 |
 
 ### references/database-implementation-details.md
 
@@ -4300,21 +4297,12 @@ node scripts/list-specs.js --topics
 | 概要 | L23 |
 | 使い方 | L31 |
 | Current Alias Overrides（個別互換行） | L38 |
-| Family Summary | L83 |
-| Detailed Register | L104 |
-| Section Extract Register (2026-03-17) | L285 |
-| 500-Line Split Register (2026-03-16) | L296 |
-| Fragment Migration Register (2026-04-28) | L318 |
-| Task Root Path Drift Register (2026-04-30 追記) | L345 |
-| 概要 | L22 |
-| 使い方 | L30 |
-| Current Alias Overrides（個別互換行） | L37 |
-| Family Summary | L79 |
-| Detailed Register | L100 |
-| Section Extract Register (2026-03-17) | L281 |
-| 500-Line Split Register (2026-03-16) | L292 |
-| Fragment Migration Register (2026-04-28) | L314 |
-| Task Root Path Drift Register (2026-04-30 追記) | L341 |
+| Family Summary | L84 |
+| Detailed Register | L105 |
+| Section Extract Register (2026-03-17) | L286 |
+| 500-Line Split Register (2026-03-16) | L297 |
+| Fragment Migration Register (2026-04-28) | L319 |
+| Task Root Path Drift Register (2026-04-30 追記) | L346 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -6790,14 +6778,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1405 |
-| フェーズ構造（概要） | L1414 |
-| 品質ゲート（概要） | L1445 |
-| 出力テンプレート | L1456 |
-| 実行時のコマンド・エージェント・スキル | L1479 |
-| 昇格パターン集 | L1503 |
-| Current Active / Spec Created Tasks | L1505 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1653 |
+| ドキュメント構成 | L1417 |
+| フェーズ構造（概要） | L1426 |
+| 品質ゲート（概要） | L1457 |
+| 出力テンプレート | L1468 |
+| 実行時のコマンド・エージェント・スキル | L1491 |
+| 昇格パターン集 | L1515 |
+| Current Active / Spec Created Tasks | L1517 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1666 |
 
 ### references/task-workflow-backlog-part2.md
 
