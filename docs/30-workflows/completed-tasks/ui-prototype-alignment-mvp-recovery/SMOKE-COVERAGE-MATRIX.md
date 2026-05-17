@@ -36,22 +36,22 @@ The current executable smoke test contains **17 URL entries**. The parent SCOPE 
 | # | Surface | Auth | Status | DOM assertion | Token axis | A11y | Interaction smoke | Visual baseline | Existing spec |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | `/` | public | `<400` | `main h1` or `[data-testid="public-hero"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | public top renders and links to member/search flows | `public-top` | `full-smoke.spec.ts`, `visual/public-top.spec.ts`, `public-flow.spec.ts` |
-| 2 | `/members` | public | `<400` | `main h1` or `[data-testid="member-grid"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | member grid renders searchable listing | `-` | `full-smoke.spec.ts`, `public-flow.spec.ts`, `public-top-and-list.spec.ts` |
-| 3 | `/members/sample-001` | public | `<400` | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | member detail fixture renders without email leak | `-` | `full-smoke.spec.ts`, `public-detail-register-legal.spec.ts` |
-| 4 | `/register` | public | `<400` | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | external registration link is visible | `-` | `full-smoke.spec.ts`, `public-flow.spec.ts`, `public-detail-register-legal.spec.ts` |
-| 5 | `/privacy` | public | `<400` | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | legal prose renders | `-` | `full-smoke.spec.ts`, `public-detail-register-legal.spec.ts` |
-| 6 | `/terms` | public | `<400` | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | legal prose renders | `-` | `full-smoke.spec.ts`, `public-detail-register-legal.spec.ts` |
+| 2 | `/members` | public | `<400` | `main h1` or `[data-testid="member-grid"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | member grid renders searchable listing | `members` | `full-smoke.spec.ts`, `public-flow.spec.ts`, `public-top-and-list.spec.ts` |
+| 3 | `/members/sample-001` | public | `<400` | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | member detail fixture renders without email leak | `members-detail` | `full-smoke.spec.ts`, `public-detail-register-legal.spec.ts` |
+| 4 | `/register` | public | `<400` | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | external registration link is visible | `register` | `full-smoke.spec.ts`, `public-flow.spec.ts`, `public-detail-register-legal.spec.ts` |
+| 5 | `/privacy` | public | `<400` | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | legal prose renders | `privacy` | `full-smoke.spec.ts`, `public-detail-register-legal.spec.ts` |
+| 6 | `/terms` | public | `<400` | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | legal prose renders | `terms` | `full-smoke.spec.ts`, `public-detail-register-legal.spec.ts` |
 | 7 | `/login` | public | `<400` | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | login card state machine has focused smoke in `login-smoke.spec.ts` | `login` | `full-smoke.spec.ts`, `visual/login.spec.ts`, `login-smoke.spec.ts` |
 | 8 | `/profile` | member | `<400` after member fixture | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | profile request/delete flows have focused smoke specs | `profile` | `full-smoke.spec.ts`, `visual/profile.spec.ts`, `profile*.spec.ts` |
 | 9 | `/admin` | admin | `<400` after admin fixture | `main h1` or `[aria-labelledby="admin-dashboard-h"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | dashboard cards render | `admin-dashboard` | `full-smoke.spec.ts`, `visual/admin-dashboard.spec.ts`, `admin-pages.spec.ts` |
-| 10 | `/admin/members` | admin | `<400` after admin fixture | `main h1` or `[aria-labelledby="admin-members-h"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | members table/drawer flows have focused specs | `-` | `full-smoke.spec.ts`, `admin-pages.spec.ts`, `admin-member-delete.spec.ts` |
-| 11 | `/admin/tags` | admin | `<400` after admin fixture | `main h1` or `text=タグキュー` | `TOKEN-SSOT` | `A11Y-DEFAULT` | tag queue shell renders | `-` | `full-smoke.spec.ts`, `admin-pages.spec.ts` |
-| 12 | `/admin/meetings` | admin | `<400` after admin fixture | `main h1` or `text=開催日` | `TOKEN-SSOT` | `A11Y-DEFAULT` | meeting list/form shell renders | `-` | `full-smoke.spec.ts`, `admin-pages.spec.ts` |
-| 13 | `/admin/schema` | admin | `<400` after admin fixture | `main h1` or `[data-testid="admin-schema-section"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | schema sections render | `-` | `full-smoke.spec.ts`, `admin-pages.spec.ts`, `admin-schema-conflicts-audit.spec.ts` |
-| 14 | `/admin/requests` | admin | `<400` after admin fixture | `main h1` or `text=依頼キュー` | `TOKEN-SSOT` | `A11Y-DEFAULT` | request queue actions have focused smoke | `-` | `full-smoke.spec.ts`, `admin-requests.spec.ts` |
-| 15 | `/admin/identity-conflicts` | admin | `<400` after admin fixture | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | identity conflict resolution has focused smoke | `-` | `full-smoke.spec.ts`, `admin-identity-conflicts.spec.ts`, `admin-schema-conflicts-audit.spec.ts` |
-| 16 | `/admin/audit` | admin | `<400` after admin fixture | `main h1` or `[data-component="admin-audit"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | audit timeline/filter shell renders | `-` | `full-smoke.spec.ts`, `admin-schema-conflicts-audit.spec.ts` |
-| 17 | `/__not_found_canary` | public | `404` | `[data-testid="not-found"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | not-found page renders | `-` | `full-smoke.spec.ts`, `public-detail-register-legal.spec.ts` |
+| 10 | `/admin/members` | admin | `<400` after admin fixture | `main h1` or `[aria-labelledby="admin-members-h"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | members table/drawer flows have focused specs | `admin-members` | `full-smoke.spec.ts`, `admin-pages.spec.ts`, `admin-member-delete.spec.ts` |
+| 11 | `/admin/tags` | admin | `<400` after admin fixture | `main h1` or `text=タグキュー` | `TOKEN-SSOT` | `A11Y-DEFAULT` | tag queue shell renders | `admin-tags` | `full-smoke.spec.ts`, `admin-pages.spec.ts` |
+| 12 | `/admin/meetings` | admin | `<400` after admin fixture | `main h1` or `text=開催日` | `TOKEN-SSOT` | `A11Y-DEFAULT` | meeting list/form shell renders | `admin-meetings` | `full-smoke.spec.ts`, `admin-pages.spec.ts` |
+| 13 | `/admin/schema` | admin | `<400` after admin fixture | `main h1` or `[data-testid="admin-schema-section"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | schema sections render | `admin-schema` | `full-smoke.spec.ts`, `admin-pages.spec.ts`, `admin-schema-conflicts-audit.spec.ts` |
+| 14 | `/admin/requests` | admin | `<400` after admin fixture | `main h1` or `text=依頼キュー` | `TOKEN-SSOT` | `A11Y-DEFAULT` | request queue actions have focused smoke | `admin-requests` | `full-smoke.spec.ts`, `admin-requests.spec.ts` |
+| 15 | `/admin/identity-conflicts` | admin | `<400` after admin fixture | `main h1` | `TOKEN-SSOT` | `A11Y-DEFAULT` | identity conflict resolution has focused smoke | `admin-identity-conflicts` | `full-smoke.spec.ts`, `admin-identity-conflicts.spec.ts`, `admin-schema-conflicts-audit.spec.ts` |
+| 16 | `/admin/audit` | admin | `<400` after admin fixture | `main h1` or `[data-component="admin-audit"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | audit timeline/filter shell renders | `admin-audit` | `full-smoke.spec.ts`, `admin-schema-conflicts-audit.spec.ts` |
+| 17 | `/__not_found_canary` | public | `404` | `[data-testid="not-found"]` | `TOKEN-SSOT` | `A11Y-DEFAULT` | not-found page renders | `not-found` | `full-smoke.spec.ts`, `public-detail-register-legal.spec.ts` |
 | 18 | `app/error.tsx` | public surface | `N/A-runtime-observation` | error boundary surface | `TOKEN-SSOT` | `N/A-runtime-observation` | deterministic throw fixture is not present in current smoke suite | `-` | `apps/web/app/error.tsx` |
 | 19 | `app/loading.tsx` | public surface | `N/A-runtime-observation` | `data-page="loading"` | `TOKEN-SSOT` | `N/A-runtime-observation` | deterministic network-throttle observation is not present in current smoke suite | `-` | `apps/web/app/loading.tsx`, `apps/web/app/(admin)/admin/audit/loading.tsx` |
 
@@ -64,7 +64,7 @@ The current executable smoke test contains **17 URL entries**. The parent SCOPE 
 | Token | 19/19 | Delegated to the token drift gate |
 | A11y runtime | 17/19 | `error.tsx` and `loading.tsx` need deterministic observation before runtime a11y can be asserted |
 | Interaction smoke | 17/19 | Component-only surfaces are documented, not executed |
-| Visual baseline | 4/19 | `login`, `public-top`, `admin-dashboard`, `profile` |
+| Visual baseline | 17/19 | 17 URL routes baselined via task-18-fu visual-full suite (51 PNG = 17 × 3 viewports, captured by task-709); `error.tsx` / `loading.tsx` remain component-only |
 
 ## Drift Notes
 
@@ -80,7 +80,6 @@ These are explicit non-goals for task-25 because deterministic route triggers do
 
 | Candidate | Reason | Suggested owner |
 | --- | --- | --- |
-| Full visual regression baseline for remaining non-baseline surfaces | Current visual gate intentionally protects 4 high-value screens | post-MVP visual regression task |
 | Error boundary route fixture | Runtime `error.tsx` needs a deterministic throw route before smoke can assert it | task-05 / regression follow-up |
 | Loading state observation fixture | `loading.tsx` needs stable latency control without flaky network sleeps | regression follow-up |
 

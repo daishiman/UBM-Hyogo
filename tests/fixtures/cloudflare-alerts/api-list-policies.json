@@ -64,6 +64,30 @@
       "created": "2026-05-09T00:00:00Z",
       "modified": "2026-05-09T00:00:00Z",
       "account_id": "redacted"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000006",
+      "name": "workers-kv-writes-per-day",
+      "description": "Workers KV writes 80% of free-tier daily quota (ALERT_DEDUP_KV monitoring)",
+      "alert_type": "billing_usage_alert",
+      "enabled": false,
+      "conditions": { "metric": "workers_kv_writes_per_day", "threshold": 800 },
+      "mechanisms": { "webhooks": [{ "id": "11111111-1111-1111-1111-111111111111" }] },
+      "created": "2026-05-16T00:00:00Z",
+      "modified": "2026-05-16T00:00:00Z",
+      "account_id": "redacted"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000007",
+      "name": "workers-kv-stored-bytes",
+      "description": "Workers KV stored data 80% of free-tier (TTL leak detection)",
+      "alert_type": "billing_usage_alert",
+      "enabled": false,
+      "conditions": { "metric": "workers_kv_stored_data_bytes", "threshold": 858993459 },
+      "mechanisms": { "webhooks": [{ "id": "11111111-1111-1111-1111-111111111111" }] },
+      "created": "2026-05-16T00:00:00Z",
+      "modified": "2026-05-16T00:00:00Z",
+      "account_id": "redacted"
     }
   ],
   "success": true,

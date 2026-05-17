@@ -15,6 +15,8 @@ const fullBase: QuotaBase = {
     pages_requests_per_month: 100000,
     r2_class_a_per_month: 1000000,
     r2_class_b_per_month: 10000000,
+    workers_kv_writes_per_day: 1000,
+    workers_kv_stored_data_bytes: 1073741824,
   },
 };
 
@@ -70,5 +72,15 @@ describe("applyQuotaBase", () => {
 
   it("Q6: 未知 metric で例外", () => {
     expect(() => applyQuotaBase(tpl("unknown_metric"), fullBase)).toThrow(/unknown_metric/);
+  });
+
+  it("Q7: workers KV writes/day の threshold が floor(1000 * 0.8) = 800", () => {
+    const r = applyQuotaBase(tpl("workers_kv_writes_per_day"), fullBase);
+    expect((r.conditions as { threshold: number }).threshold).toBe(800);
+  });
+
+  it("Q8: workers KV stored_data_bytes の threshold が floor(1073741824 * 0.8) = 858993459", () => {
+    const r = applyQuotaBase(tpl("workers_kv_stored_data_bytes"), fullBase);
+    expect((r.conditions as { threshold: number }).threshold).toBe(858993459);
   });
 });
