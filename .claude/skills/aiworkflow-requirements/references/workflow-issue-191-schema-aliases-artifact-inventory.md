@@ -21,7 +21,7 @@
 | `docs/30-workflows/completed-tasks/task-issue-191-schema-aliases-implementation-001.md` | completed / promoted source follow-up |
 | `docs/30-workflows/completed-tasks/task-issue-191-schema-aliases-implementation-001/outputs/phase-11/` | implementation evidence |
 | `docs/30-workflows/unassigned-task/task-issue-191-schema-questions-fallback-retirement-001.md` | fallback retirement follow-up |
-| `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` | direct update guard follow-up |
+| `docs/30-workflows/unassigned-task/task-issue-191-direct-stable-key-update-guard-001.md` | consumed trace; implemented by `docs/30-workflows/issue-300-direct-stable-key-update-guard/` |
 
 ## Validation Chain
 
@@ -36,4 +36,4 @@ node .claude/skills/aiworkflow-requirements/scripts/validate-structure.js
 
 ## Notes
 
-The workflow stays under `completed-tasks/` because it records a closed issue specification closeout. The implementation follow-up was promoted to `docs/30-workflows/completed-tasks/task-issue-191-schema-aliases-implementation-001/`; fallback retirement and direct update guard remain open.
+The workflow stays under `completed-tasks/` because it records a closed issue specification closeout. The implementation follow-up was promoted to `docs/30-workflows/completed-tasks/task-issue-191-schema-aliases-implementation-001/`; fallback retirement remains open. The direct update guard was consumed by Issue #300 and implemented locally in `docs/30-workflows/issue-300-direct-stable-key-update-guard/`.
