@@ -6257,6 +6257,7 @@
     ],
     "Gate": [
       "cloudflare-edge-security.md",
+      "database-implementation-core.md",
       "deployment-secrets-management.md",
       "gate-c-external-mutation-pattern.md",
       "gate-metadata.md",
@@ -6626,20 +6627,6 @@
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
       "lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md"
     ],
-    "Conversation": [
-      "database-implementation-core.md"
-    ],
-    "DB": [
-      "database-implementation-core.md",
-      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
-      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
-      "lessons-learned-ut-06-fu-h-2026-04.md",
-      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
-      "task-workflow-completed-ipc-graceful-degradation-lifecycle.md"
-    ],
-    "初期化パターン": [
-      "database-implementation-core.md"
-    ],
     "Schema": [
       "database-implementation-core.md",
       "database-schema-07b-schema-alias-assignment.md",
@@ -6655,6 +6642,29 @@
       "schema-alias-backfill-runbook.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
       "workflow-ut-07b-schema-alias-hardening-artifact-inventory.md"
+    ],
+    "Drift": [
+      "database-implementation-core.md",
+      "legacy-ordinal-family-register.md"
+    ],
+    "ADR": [
+      "database-implementation-core.md",
+      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
+      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md"
+    ],
+    "Conversation": [
+      "database-implementation-core.md"
+    ],
+    "DB": [
+      "database-implementation-core.md",
+      "lessons-learned-07a-tag-queue-resolve-2026-04.md",
+      "lessons-learned-07b-schema-alias-assignment-2026-04.md",
+      "lessons-learned-ut-06-fu-h-2026-04.md",
+      "lessons-learned-ut07b-fu-01-schema-alias-backfill-queue-cron-split-2026-05.md",
+      "task-workflow-completed-ipc-graceful-degradation-lifecycle.md"
+    ],
+    "初期化パターン": [
+      "database-implementation-core.md"
     ],
     "Contract": [
       "database-implementation-core.md",
@@ -9778,9 +9788,6 @@
       "workflow-06b-b-profile-request-pending-banner-sticky-artifact-inventory.md",
       "workflow-06b-c-profile-logged-in-visual-evidence-artifact-inventory.md",
       "workflow-e2e-quality-uplift-stage-0-3-artifact-inventory.md"
-    ],
-    "Drift": [
-      "legacy-ordinal-family-register.md"
     ],
     "追記": [
       "legacy-ordinal-family-register.md",
@@ -13749,10 +13756,6 @@
     ],
     "戦略": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"
-    ],
-    "ADR": [
-      "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md",
-      "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md"
     ],
     "は引数注入": [
       "lessons-learned-issue-371-hono-ctx-di-migration-2026-05.md"

@@ -30,6 +30,18 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-ci-env-secret-inventory-and-preflight-gate-2026-05.md` (L-CI-ENV-001..005) |
 | user gate | secret placement, variable placement, `runtime-smoke-staging.yml` rerun, commit, push, PR |
 
+### UT-07A-04 member_tags assigned_via_queue_id decision（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-296-ut-07a-04-assigned-via-queue-id-decision/` |
+| 状態 | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| Issue | #296 CLOSED。PR 文脈は `Refs #296` のみ |
+| decision | `member_tags.assigned_via_queue_id` は追加しない。queue trace は `audit_log.target_type='tag_queue'` / `target_id=<queueId>` と `member_tags.source='admin_queue'` で担保 |
+| evidence boundary | Phase 5/6 grep verification、ADR 0002、`08-free-database.md`、`database-implementation-core.md`、07a 親 back-link、source UT-07A-04 consumed trace は実行済み。commit / push / PR のみ user-gated |
+| skill promotion | `task-specification-creator` docs-only grep/back-link rule、`aiworkflow-requirements` schema drift ADR gate を同一改善 cycle で反映 |
+
+---
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
 | 目的 | 参照先 |
