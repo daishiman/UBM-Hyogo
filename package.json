@@ -26,6 +26,7 @@
     "verify:static-manifest": "node scripts/verify-static-manifest.mjs",
     "regenerate:static-manifest": "node scripts/regenerate-static-manifest.mjs",
     "verify:tokens": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/verify-design-tokens.ts",
+    "visual:baseline:status": "bash scripts/visual-baseline-status.sh",
     "typecheck": "pnpm -r typecheck",
     "test": "bash scripts/with-env.sh vitest run",
     "test:phase12-compliance": "vitest run scripts/__tests__/verify-phase12-compliance.spec.ts",

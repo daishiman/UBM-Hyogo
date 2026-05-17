@@ -1691,6 +1691,20 @@ docs-only / direction-reconciliation で採用方針 A を維持する場合で�
 | cron | existing `0 18 * * *` + UTC Monday gate; no new cron slot |
 | external ops pending | Cloudflare secrets, staging deploy, manual cron fire, production deploy, first production observation, commit, push, PR |
 
+### task-709 visual baseline runtime capture（2026-05-16）
+
+| 項目 | 内容 |
+| --- | --- |
+| workflow root | `docs/30-workflows/task-709-visual-baseline-runtime-capture/` |
+| ステータス | `PR_OPEN_MERGE_DIRTY / implementation / VISUAL` |
+| Issue | `#709` |
+| upstream | `docs/30-workflows/completed-tasks/task-18-fu-full-visual-regression-suite/` |
+| 目的 | task-18-fu で implemented_local_runtime_pending だった 51 full visual baseline capture を実行し、visual-full PR trigger を復活させる |
+| target visual scope | `VISUAL_ROUTES.length` 17 x visual-full 3 projects = 51 PNG |
+| evidence boundary | Phase 1-13 / root-output artifacts parity / Phase 12 strict 7 / 51 PNG / visual-full 2-run stability (`25961476237` / `25961551972`) / matrix 17/19 / PR #760 は完了。PR #760 は `mergeStateStatus=DIRTY` のため conflict 解消待ち |
+| follow-up | `docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md` |
+| 苦戦箇所 | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-709-visual-baseline-runtime-capture-2026-05.md`（L-709-001 Actions PR-write 権限失敗 → cherry-pick / -002 visual-full 2-run stability / -003 51 PNG count+sha256 / -004 `PR_OPEN_MERGE_DIRTY` workflow_state / -005 branch protection 昇格 follow-up 分離） |
+
 ### task-18-FU full visual regression suite（2026-05-14）
 
 | 項目 | 内容 |
