@@ -28,6 +28,13 @@
   3. 派生差分があれば `chore(indexes): rebuild after dev sync merge` で別 commit
 - Why: merge commit と再生成 commit を分けると、後で indexes 再生成だけを revert / replay できる。
 
+## L-DEVSYNC-006: HEAD ブランチが fact migration の正本である場合の `--ours` 例外
+- 症状: feature ブランチが secret 名・workflow 参照などの runtime fact migration を実装している場合（例: Issue #718 で `backend-ci.yml` が `CLOUDFLARE_API_TOKEN` → `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` へ切替済）、dev 側の `references/deployment-gha.md` や `indexes/quick-reference.md` の narrative 行は**旧 fact のまま**残ることがある。L-DEVSYNC-002 の `--theirs` を機械適用すると古い narrative で HEAD を上書きしてしまう。
+- 解消: `git diff origin/dev..HEAD -- .github/workflows/ apps/` で HEAD 側が実装済みの fact を確認し、HEAD 側が新事実を反映している場合のみ `git checkout --ours <path>` で HEAD を採用する。その後 `pnpm indexes:rebuild` で派生 indexes を再生成する。
+- Why: indexes は派生物だが、`references/*.md` と `quick-reference.md` の一部行は派生元の fact narrative そのもの。dev 側 narrative のほうが古い場合、`--theirs` は事実後退になる。
+- 適用判断: HEAD 側に当該 fact の workflow / code 変更が**コミット済み**であることを確認したうえで `--ours` を選ぶ。HEAD 側に code 変更がない単なる narrative 衝突なら従来通り `--theirs` + rebuild が安全。
+- 事例: 2026-05-17 feat/issue-718-legacy-cf-token-revocation の dev sync merge で本パターンを適用、4 conflict file（keywords.json / quick-reference.md / topic-map.md / deployment-gha.md）すべて `--ours` 採用 → `pnpm indexes:rebuild` で indexes 再生成。
+
 ## 適用範囲
-- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。
+- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。L-DEVSYNC-006 の fact migration 判定も同 skill 配下の references / changelog 衝突に適用する。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。
