@@ -938,3 +938,7 @@ production env monitor secret cleanup は user-gated。
 ## 2026-05-16
 
 - Issue #717 Cloudflare Workers OIDC support revalidation sync（`docs/30-workflows/issue-717-oidc-cf-full-migration/` を `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional` として同期。Cloudflare Workers GitHub Actions docs / `cloudflare/wrangler-action` README は API token authentication を current supported path として示すため、`web-cd.yml` へ `id-token: write` や仮 OIDC exchange step は追加しない。root/output artifacts parity、Phase 11 primary-source evidence、Phase 12 strict 7 outputs、deployment-secrets-management / quick-reference / resource-map / task-workflow-active / artifact inventory / changelog を同一 wave で反映。production OIDC cutover / apps-api D1 token cutover / 1Password restructure は formalized follow-up。commit / push / PR / Cloudflare mutation は user approval 後）
+
+# 2026-05-17
+
+- UT-07B alias recommendation i18n を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`recommendedStableKeys` label 比較を NFKC + trim + whitespace 圧縮へ正本化し、`api-endpoints.md` / `01-api-schema.md` / `11-admin-management.md` / quick-reference / resource-map / topic-map / keywords / task-workflow-active を同一 wave で更新。source unassigned は completed trace へ移動。commit / push / PR は user-gated。

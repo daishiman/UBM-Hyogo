@@ -2684,6 +2684,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L17 |
 
+### references/workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L11 |
+| Boundaries | L27 |
+
 ### references/workflow-issue-770-profile-loading-skeleton-artifact-inventory.md
 
 | セクション | 行 |
@@ -4616,8 +4623,9 @@ node scripts/list-specs.js --topics
 | L-07B-003: stableKey collision は revision-scoped UNIQUE pre-check + 422 で防御し、DB UNIQUE index は別タスクに切り出す | L26 |
 | L-07B-004: back-fill は batch サイズと CPU budget の二重ガードで Workers 30s 制限を逃げる | L34 |
 | L-07B-005: alias 候補提案は score 関数を service 層に分離し、Levenshtein + section/index で stateless に保つ | L42 |
-| 関連未タスク・後続 wave 連携 | L50 |
-| 参照 | L57 |
+| L-07B-006: alias label の i18n は NFKC + trim + whitespace 圧縮で比較前処理し、stableKey collision の HTTP status は 409 に統一する（2026-05-17 UT-07B alias recommendation i18n） | L50 |
+| 関連未タスク・後続 wave 連携 | L58 |
+| 参照 | L65 |
 
 ### references/lessons-learned-07c-attendance-audit-2026-04.md
 
@@ -6834,14 +6842,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1477 |
-| フェーズ構造（概要） | L1486 |
-| 品質ゲート（概要） | L1517 |
-| 出力テンプレート | L1528 |
-| 実行時のコマンド・エージェント・スキル | L1551 |
-| 昇格パターン集 | L1575 |
-| Current Active / Spec Created Tasks | L1577 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1727 |
+| ドキュメント構成 | L1517 |
+| フェーズ構造（概要） | L1526 |
+| 品質ゲート（概要） | L1557 |
+| 出力テンプレート | L1568 |
+| 実行時のコマンド・エージェント・スキル | L1591 |
+| 昇格パターン集 | L1615 |
+| Current Active / Spec Created Tasks | L1617 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1767 |
 
 ### references/task-workflow-backlog-part2.md
 
