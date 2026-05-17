@@ -26,7 +26,7 @@
     "apps/web/src/**",
     "apps/web/app/**",
     "apps/web/playwright.config.ts",
-    "apps/web/playwright/tests/visual-full/**",
+    "apps/web/playwright/tests/visual-full/full-visual.spec.ts",
     "apps/web/playwright/fixtures/**",
     "apps/web/src/styles/tokens.css",
     "apps/web/src/styles/**"

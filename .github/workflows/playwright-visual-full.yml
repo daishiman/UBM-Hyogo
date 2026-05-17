@@ -104,7 +104,7 @@ jobs:
               `  -r ${branch}`,
               '```',
               '',
-              '実行後 GitHub Actions の `visual-baseline-approval` environment を承認 → 新 baseline 入り PR が自動作成される。',
+              '実行後 GitHub Actions の `visual-baseline-approval` environment を承認 → 新 baseline が source ブランチに直接 push される（PR 作成は不要）。',
               '',
               '### 真の回帰の場合',
               `diff artifact \`visual-full-${viewport}-diff\` を上記 run の Artifacts セクションからダウンロードし、コード側を修正。`,

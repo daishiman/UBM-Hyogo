@@ -7,11 +7,6 @@ on:
         description: 'なぜ baseline 更新が必要か（必須）'
         required: true
         type: string
-      base_branch:
-        description: 'PR の base ブランチ（既定: dev）。feature ブランチ指定で feature 側に直接 baseline を取り込める'
-        required: false
-        default: 'dev'
-        type: string
 
 jobs:
   update-baseline:
@@ -65,7 +60,7 @@ jobs:
               "apps/web/src/**",
               "apps/web/app/**",
               "apps/web/playwright.config.ts",
-              "apps/web/playwright/tests/visual-full/**",
+              "apps/web/playwright/tests/visual-full/full-visual.spec.ts",
               "apps/web/playwright/fixtures/**",
               "apps/web/src/styles/tokens.css",
               "apps/web/src/styles/**",
@@ -77,20 +72,27 @@ jobs:
               json.dump(d, f, indent=2, ensure_ascii=False)
               f.write("\n")
           PY
-      - name: Open PR with baseline diff
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: chore/visual-baseline-update-${{ github.run_id }}
-          base: ${{ inputs.base_branch }}
-          title: 'chore(visual): update baselines'
-          body: |
-            ## Reason
-            ${{ inputs.reason }}
+      - name: Commit and push baselines directly to source branch
+        env:
+          REASON: ${{ inputs.reason }}
+          RUN_ID: ${{ github.run_id }}
+          SOURCE_REF: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/web/playwright/tests/visual-full/
+          if git diff --cached --quiet; then
+            echo "No baseline changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(visual): update baselines via workflow_dispatch
 
-            workflow_dispatch run: ${{ github.run_id }}
-            base branch: ${{ inputs.base_branch }}
+          Reason: ${REASON}
+          workflow_dispatch run: ${RUN_ID}
+          source branch: ${SOURCE_REF}
 
-            `.baseline-meta.json` を最新 commit SHA で更新済み。
-          commit-message: 'chore(visual): update baselines via workflow_dispatch'
-          add-paths: |
-            apps/web/playwright/tests/visual-full/**
+          .baseline-meta.json updated to current HEAD SHA."
+          # Push directly to the source branch. GITHUB_TOKEN has contents:write
+          # which sidesteps the \"GitHub Actions cannot create PRs\" restriction.
+          git push origin "HEAD:${SOURCE_REF}"

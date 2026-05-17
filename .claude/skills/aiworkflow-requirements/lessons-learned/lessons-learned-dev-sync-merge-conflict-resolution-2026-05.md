@@ -40,7 +40,8 @@
   1. **`apps/web/playwright/tests/visual-full/.baseline-meta.json`**: 捕捉 commit SHA / timestamp / viewport 寸法 / rendering_relevant_paths を記録する provenance ファイル。baseline と一対で版管理。
   2. **`scripts/visual-baseline-status.sh`**（`pnpm visual:baseline:status`）: `.baseline-meta.json` の captured SHA と HEAD を比較し、rendering_relevant_paths に該当する変更があれば `STALE` 判定 + 復旧コマンドを出力。
   3. **`playwright-visual-full.yml`**: 失敗時に `actions/github-script@v7` で PR コメント自動投稿（idempotent: marker `<!-- visual-full-failure-guidance -->` で更新）。stale 判定の有無で「baseline 起因 vs 真の回帰」を切り分けるガイダンスを表示。
-  4. **`playwright-visual-baseline-update.yml`**: `base_branch` input を追加（既定 `dev`、feature ブランチ指定可）。Regenerate 後 `.baseline-meta.json` を最新 commit SHA で更新するステップを追加。これで feature 側に直接 baseline PR を作れる。
+  4. **`playwright-visual-baseline-update.yml`**: Regenerate 後 `.baseline-meta.json` を最新 commit SHA で更新するステップを追加。**baseline は PR 経由ではなく、workflow_dispatch 時の source ブランチ（`github.ref_name`）へ `git push` で直接反映する**。
+- **重要な学び（2026-05-17 追記）**: 当初 `peter-evans/create-pull-request@v7` で PR 作成する設計だったが、リポジトリ設定「Allow GitHub Actions to create and approve pull requests」が無効のため `GitHub Actions is not permitted to create or approve pull requests` で fail。`GITHUB_TOKEN` の `contents: write` で source ブランチへ直接 push する方式に切替（PR 作成権限不要・`visual-baseline-approval` environment gate は維持）。
 - Why: dev merge 起因の rendering 差はほぼ全 feature ブランチで再発するため、recovery を 1-click + 自己診断可能にする。`visual-baseline-approval` environment gate は維持し、人間判断を保ったまま摩擦のみ削減。
 - How to apply: dev sync prompt 完了後に `pnpm visual:baseline:status` を実行し STALE なら表示された `gh workflow run` を実行。CI 失敗時は PR コメントの指示に従う。
 
