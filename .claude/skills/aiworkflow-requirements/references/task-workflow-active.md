@@ -8,6 +8,20 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### Issue #762 CF OIDC staging proof readiness（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_user_approval` |
+| 成果物 | `docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/` |
+| source | `docs/30-workflows/unassigned-task/issue-717-followup-001-production-oidc-cutover.md` partially consumed |
+| 目的 | Cloudflare Workers OIDC deploy support 公式化前に、claim pin dry-run / OIDC-shaped redaction / manual observation gate / current safe baseline comment / requirements sync を完了する |
+| 実装 | `scripts/oidc/verify-claim-pin.sh`, `scripts/redaction-check.sh`, `.github/workflows/oidc-observation-window.yml`, `.github/workflows/web-cd.yml` |
+| 不変条件 | `web-cd.yml` deploy behavior remains unchanged; no `id-token: write`; no guessed exchange endpoint; no secret / JWT / account id recorded |
+| evidence | `outputs/phase-11/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-762-cf-oidc-staging-proof-prod-cutover-artifact-inventory.md` |
+| user gate | commit / push / PR / Cloudflare / GitHub Secret / 1Password mutation |
+
 ### i02-admin-error-type-unify（2026-05-17）
 
 | 項目 | 値 |

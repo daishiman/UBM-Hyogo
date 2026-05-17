@@ -1,5 +1,19 @@
 # クイックリファレンス
 
+## Issue #762 CF OIDC staging proof readiness（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| workflow | `docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/` |
+| status | `implemented_local_evidence_captured / implementation / NON_VISUAL / user-gated PR` |
+| implementation | `scripts/oidc/verify-claim-pin.sh`, `scripts/redaction-check.sh`, `.github/workflows/oidc-observation-window.yml`, `.github/workflows/web-cd.yml` comment-only |
+| system spec | `.claude/skills/aiworkflow-requirements/references/deployment-secrets-management.md` Issue #762 G1-G4 gate |
+| source trace | `docs/30-workflows/unassigned-task/issue-717-followup-001-production-oidc-cutover.md` partially consumed |
+| evidence | `outputs/phase-11/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| boundary | real OIDC cutover / staging proof / production cutover / legacy token revocation remain blocked until official support G1-G4 |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-762-cf-oidc-pre-support-hardening-2026-05.md`（L-I762-001..005） |
+| user gate | commit / push / PR and all external mutations |
+
 ## Issue #324 shared package type contracts（2026-05-15）
 
 | 項目 | 値 |

@@ -24,7 +24,9 @@ description: |
   redaction-check, 30 day gate, 30day-contract, formalized contract,
   failure rate gate, schedule feedback, external-time-dependent, 3-fence detection,
   DLQ, dead-letter, Cloudflare Queue 監視, observability runbook,
-  dlq-monitoring, schema-alias-backfill, schema_diff_queue
+  dlq-monitoring, schema-alias-backfill, schema_diff_queue,
+  issue-762, oidc-observation-window, subject claim pin, current safe baseline,
+  Cloudflare OIDC pre-support hardening
 allowed-tools:
   - Read
   - Glob
@@ -45,6 +47,7 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.17-issue762-oidc-pre-support-hardening | 2026-05-17 | Issue #762 Cloudflare GitHub Actions OIDC pre-support hardening を `conditional_implementation_with_peripheral_hardening / implementation / NON_VISUAL / implemented_local_evidence_captured` として同期。`scripts/oidc/verify-claim-pin.sh`、JWT / `cloudflare-aud` redaction、manual-only `oidc-observation-window.yml`、`web-cd.yml` current safe baseline comment、deployment GHA / secrets references、tracked Phase 11 local verification summary、G1-G4 gate、legacy revocation canonical path境界を正本化。苦戦箇所は `lessons-learned/lessons-learned-issue-762-cf-oidc-pre-support-hardening-2026-05.md`（L-I762-001..005）に集約。実 `id-token: write` / exchange / staging proof / production cutover / remote dispatch / commit / push / PR は user-gated かつ Cloudflare official support確認後。 |
 | v2026.05.16-task25-followup-loading-state-observation-fixture | 2026-05-16 | task-25 follow-up loading state observation fixture を `verified / implementation / NON_VISUAL / implementation_complete_pending_pr` として同期。`/smoke/loading-state` fixture、shared fixture guard + focused unit test、staging smoke spec、`SMOKE-COVERAGE-MATRIX.md` row 19 runtime observation、`09-ui-ux.md` fixture route正本、Phase 12 strict 7、source unassigned consumed trace、quick-reference/resource-map/task-workflow-active/artifact inventory/changelog を同一 wave で反映。remote staging smoke / commit / push / PR は user-gated。 |
 | v2026.05.16-ut17-followup006-kv-usage-monitoring | 2026-05-16 | `ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring` を `implemented_local_runtime_pending / implementation / NON_VISUAL` として同期。Workers KV account quota guard 2 policy（`workers-kv-writes-per-day` / `workers-kv-stored-bytes`）、namespace filter 不在境界、`enabled:false` 初期状態、Cloudflare apply / Slack smoke / `enabled:true` rollout user gate を正本化。 |
 | v2026.05.15-ci-runtime-smoke-staging-secrets-recovery | 2026-05-15 | `ci-runtime-smoke-staging-secrets-recovery` を `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として同期。`runtime-smoke-staging.yml` の stale runbook path を current `completed-tasks/` path へ修正し、workflow YAML 内 `docs/...md` 参照の実在検証 guard `scripts/ci/verify-workflow-doc-refs.sh` + CI を追加。secret inventory 5 件と workflow early-fail 4 件の境界を正本化。secret mutation / runtime workflow rerun / commit / push / PR は user-gated。 |
