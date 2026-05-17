@@ -50,6 +50,32 @@
       "outputs/phase-11/github-secrets-staging-after.md",
       "outputs/phase-11/github-secrets-production-after.md",
       "outputs/phase-11/onepassword-item-status.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "backend-ci is on canonical CF_TOKEN_D1_*/CF_TOKEN_WORKERS_*; web-cd keeps current runtime name CLOUDFLARE_API_TOKEN. Phase 11 read-only inventory evidence captured."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Phase 12 strict 7 outputs present; root/output artifacts parity verified."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-718-legacy-cf-token-revocation/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "Cloudflare token revoke, GitHub Secrets mutation, 1Password mutation, commit, push, PR remain user-gated."
+      }
     ]
   },
   "phases": [
