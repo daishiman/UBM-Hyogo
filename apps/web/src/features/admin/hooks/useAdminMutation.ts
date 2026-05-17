@@ -2,7 +2,9 @@
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../../components/ui/Toast";
-import { FetchAuthedError } from "../../../lib/fetch/errors";
+import { AuthRequiredError, FetchAuthedError } from "../../../lib/fetch/errors";
+import { isBrowser } from "../../../lib/is-browser";
+import { toLoginRedirect } from "../../../lib/url/login-redirect";
 
 export interface UseAdminMutationOptions<T> {
   readonly mutationFn?: (payload: unknown, endpointOverride?: string) => Promise<T>;
@@ -10,12 +12,15 @@ export interface UseAdminMutationOptions<T> {
   readonly onError?: (error: Error) => void;
   readonly successMessage?: string;
   readonly refreshOnSuccess?: boolean;
+  readonly redirector?: (url: string) => void;
+  readonly currentPath?: string;
 }
 
 export interface UseAdminMutationReturn<T> {
   readonly trigger: (payload: unknown, endpointOverride?: string) => Promise<T>;
   readonly isLoading: boolean;
   readonly error: Error | null;
+  readonly reset: () => void;
 }
 
 export { FetchAuthedError };
@@ -29,6 +34,27 @@ export class AdminMutationError extends Error {
     this.status = status;
   }
 }
+
+const extractErrorMessage = (bodyText: string): string | null => {
+  if (bodyText.length === 0) return null;
+  try {
+    const body = JSON.parse(bodyText) as { message?: string; error?: string };
+    return body.message ?? body.error ?? null;
+  } catch {
+    return bodyText;
+  }
+};
+
+const resolveCurrentPath = (currentPath?: string): string => {
+  if (currentPath) return currentPath;
+  if (!isBrowser()) return "/profile";
+  return `${globalThis.location.pathname}${globalThis.location.search}`;
+};
+
+const defaultRedirector = (url: string): void => {
+  if (!isBrowser()) return;
+  globalThis.location.assign(url);
+};
 
 export function useAdminMutation<T = unknown>(
   endpoint: string,
@@ -45,6 +71,12 @@ export function useAdminMutation<T = unknown>(
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const isSubmittingRef = useRef(false);
+
+  const reset = useCallback(() => {
+    setError(null);
+    setIsLoading(false);
+    isSubmittingRef.current = false;
+  }, []);
 
   const trigger = useCallback(
     async (payload: unknown, endpointOverride?: string): Promise<T> => {
@@ -68,16 +100,12 @@ export function useAdminMutation<T = unknown>(
           body: JSON.stringify(payload),
           credentials: "same-origin",
         });
-        if (res.status === 401 || res.status === 403) {
-          throw new FetchAuthedError(res.status, "認証が必要です");
+        if (res.status === 401) {
+          throw new AuthRequiredError();
         }
         if (!res.ok) {
-          const body = (await res.json().catch(() => ({}))) as {
-            message?: string;
-            error?: string;
-          };
-          const msg = body?.message ?? body?.error ?? "サーバーエラー";
-          throw new AdminMutationError(res.status, msg);
+          const bodyText = await res.text().catch(() => "");
+          throw new FetchAuthedError(res.status, bodyText);
         }
         const data = (await res.json()) as T;
         await options?.onSuccess?.(data);
@@ -87,7 +115,16 @@ export function useAdminMutation<T = unknown>(
       } catch (e) {
         const err = e instanceof Error ? e : new Error(String(e));
         setError(err);
-        if (!(err instanceof FetchAuthedError)) {
+        if (err instanceof AuthRequiredError) {
+          const redirector = options?.redirector ?? defaultRedirector;
+          redirector(toLoginRedirect(resolveCurrentPath(options?.currentPath)));
+        } else if (err instanceof FetchAuthedError) {
+          const msg =
+            extractErrorMessage(err.bodyText) ??
+            (err.status === 403 ? "権限がありません" : "サーバーエラー");
+          toast(`✗ ${msg}`, err.status === 403 ? "alert" : "status");
+          options?.onError?.(err);
+        } else {
           toast(`✗ ${err.message}`);
           options?.onError?.(err);
         }
@@ -100,5 +137,5 @@ export function useAdminMutation<T = unknown>(
     [endpoint, method, options, router, toast],
   );
 
-  return { trigger, isLoading, error };
+  return { trigger, isLoading, error, reset };
 }
