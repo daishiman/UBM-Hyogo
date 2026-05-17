@@ -23,6 +23,7 @@
 | ID | タイトル | Status | 日付 |
 | --- | --- | --- | --- |
 | [ADR-0001](./0001-git-hook-tool-selection.md) | Git hook ツールに lefthook を採用、husky を不採用 | Accepted | 2026-04-28 |
+| [ADR-0002](./0002-member-tags-assigned-via-queue-id-decision.md) | `member_tags.assigned_via_queue_id` 列を追加しない | Accepted | 2026-05-16 |
 
 ## 関連
 

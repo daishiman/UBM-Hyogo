@@ -140,6 +140,26 @@ Evidence canonical path:
 
 Rollback は `gh variable set CF_AUDIT_CLASSIFIER --env production --body "threshold"` の env 1 行戻し。D1 schema には触らない（forward-safe）。
 
+## Issue #720 read-only monitor environment separation
+
+`cf-audit-log-monitor.yml` is a read-only monitoring workflow. It fetches Cloudflare audit data,
+builds hourly snapshots, and sends notifications; it does not deploy, migrate, or mutate
+production infrastructure. Therefore it must not use `environment: production`, because the
+production deployment environment applies branch policy to every run and blocks scheduled runs
+from `dev`.
+
+Operational rule:
+
+| Workflow category | `environment: production` | Credential location |
+| --- | --- | --- |
+| Deploy / rollback / schema apply | Required | Environment-level secrets |
+| Read-only monitoring / notification | Do not use | Repository-level read-only or notification secrets, user-gated |
+
+Repository-level mirroring widens access to credentials, so only monitor-specific read-only
+Cloudflare tokens and notification webhooks may be mirrored. Mutation-capable deploy tokens stay
+environment-scoped. Secret and variable mirroring, push, PR, workflow dispatch, and production
+secret cleanup require explicit user approval.
+
 ## Issue #548 audit-log model selection promotion
 
 Issue #548 は Issue #515 の ML-ready classifier を受け、Isolation Forest / XGBoost / Workers AI を threshold baseline と同一 dataset で比較するための実装である。現状態は `implemented_synthetic / implementation / NON_VISUAL`。3 candidate classifier、`evaluation/model-comparison.ts`、`evaluation/selection-criteria.ts`、training script 2 本、synthetic 720 行 fixture、harness smoke evidence (`docs/30-workflows/issue-548-ml-model-selection/outputs/phase-11/`) が実装済み。この runbook は promotion 手順を固定するが production switch は FU-03-D で扱う。Synthetic harness winner（`xgboost`）は informational のみで production winner ではない。

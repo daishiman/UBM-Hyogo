@@ -1,11 +1,4 @@
-# UT-07A-04: assigned_via_queue_id schema decision
-
-## メタ情報
-
-```yaml
-issue_number: 296
-```
-
+# COMPLETED: UT-07A-04: assigned_via_queue_id schema decision
 
 ## メタ情報
 
@@ -17,9 +10,12 @@ issue_number: 296
 | 対象機能 | `member_tags` audit traceability / database schema |
 | 優先度 | 低 |
 | 見積もり規模 | 中規模 |
-| ステータス | 未実施 |
+| ステータス | consumed / implemented_local_evidence_captured |
 | 発見元 | 07a Phase 12 unassigned-task-detection |
 | 発見日 | 2026-04-30 |
+| Issue | #296（CLOSED / Refs only） |
+| Consumed by | `docs/30-workflows/issue-296-ut-07a-04-assigned-via-queue-id-decision/` |
+| Closure | `docs/decisions/0002-member-tags-assigned-via-queue-id-decision.md`（列を追加しない） |
 
 ## 概要
 
