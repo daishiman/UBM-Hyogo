@@ -1,0 +1,80 @@
+{
+  "task_name": "issue-718-legacy-cf-token-revocation",
+  "task_path": "docs/30-workflows/issue-718-legacy-cf-token-revocation",
+  "github_issue": 718,
+  "github_issue_state": "OPEN",
+  "wave": 1,
+  "execution_mode": "sequential_with_user_gated_mutation",
+  "depends_on": ["issue-640-oidc-cf-token-cutover"],
+  "blocks": [],
+  "created_at": "2026-05-16T00:00:00+09:00",
+  "status": "implemented-local-runtime-pending",
+  "metadata": {
+    "taskType": "implementation",
+    "docs_only": false,
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented-local-runtime-pending",
+    "implementation_status": "implemented-local",
+    "implementationCategory": "security-hardening",
+    "governance_mutation_user_gate": true,
+    "user_approval_marker": "outputs/phase-13/user-approval-issue-718-<timestamp>.md",
+    "planned_read_only_evidence_files": [
+      "outputs/phase-1/legacy-token-reference-inventory.md",
+      "outputs/phase-1/secret-inventory.md",
+      "outputs/phase-11/main.md",
+      "outputs/phase-11/manual-smoke-log.md",
+      "outputs/phase-11/link-checklist.md",
+      "outputs/phase-11/evidence-ledger.md",
+      "outputs/phase-11/health-before-whoami.log",
+      "outputs/phase-11/health-before-d1-list.log"
+    ],
+    "planned_mutation_evidence_files": [
+      "outputs/phase-11/operator-approval-record.md",
+      "outputs/phase-11/revocation-evidence.md",
+      "outputs/phase-11/github-secrets-staging-after.md",
+      "outputs/phase-11/github-secrets-production-after.md",
+      "outputs/phase-11/onepassword-item-status.md"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "backend-ci is on canonical CF_TOKEN_D1_*/CF_TOKEN_WORKERS_*; web-cd keeps current runtime name CLOUDFLARE_API_TOKEN. Phase 11 read-only inventory evidence captured."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "Phase 12 strict 7 outputs present; root/output artifacts parity verified."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/issue-718-legacy-cf-token-revocation/phase-13-pr.md",
+        "approver": "daishiman",
+        "notes": "Cloudflare token revoke, GitHub Secrets mutation, 1Password mutation, commit, push, PR remain user-gated."
+      }
+    ]
+  },
+  "phases": [
+    {"phase": 1, "file": "phase-1-requirements.md", "status": "spec_created"},
+    {"phase": 2, "file": "phase-2-design.md", "status": "spec_created"},
+    {"phase": 3, "file": "phase-3-design-review.md", "status": "spec_created"},
+    {"phase": 4, "file": "phase-4-test-plan.md", "status": "spec_created"},
+    {"phase": 5, "file": "phase-5-implementation.md", "status": "completed"},
+    {"phase": 6, "file": "phase-6-test-additions.md", "status": "completed"},
+    {"phase": 7, "file": "phase-7-coverage.md", "status": "spec_created"},
+    {"phase": 8, "file": "phase-8-refactor.md", "status": "spec_created"},
+    {"phase": 9, "file": "phase-9-qa.md", "status": "runtime_pending"},
+    {"phase": 10, "file": "phase-10-final-review.md", "status": "runtime_pending"},
+    {"phase": 11, "file": "phase-11-manual-test.md", "status": "runtime_pending"},
+    {"phase": 12, "file": "phase-12-documentation.md", "status": "spec_created"},
+    {"phase": 13, "file": "phase-13-pr.md", "status": "blocked"}
+  ]
+}
