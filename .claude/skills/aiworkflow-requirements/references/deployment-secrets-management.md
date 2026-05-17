@@ -2,6 +2,9 @@
 
 > 本ドキュメントは ubm-hyogo のデプロイメント仕様書の一部です。
 > 管理: .claude/skills/aiworkflow-requirements/
+>
+> **関連**: 不可逆な外部 mutation を伴う token revocation / secret rotation 等は
+> [Gate C: External Mutation Pattern](./gate-c-external-mutation-pattern.md) を参照（汎用テンプレ）。
 
 ---
 
@@ -151,7 +154,6 @@ Rotation 手順:
 
 `scripts/redaction-check.sh` は取得済み log/artifact の補助検査であり、token 値を検査のために新たに露出させない。一般的な Account ID は GitHub Variable として扱い、secret と混同しない。Account ID を機密として扱う個別 evidence では `--account-id` を明示して検査する。
 
-Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-task/issue-640-followup-001-oidc-full-migration.md`. Legacy token physical revocation is separated to `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md`.
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Deprecated for web-cd.yml after OpenNext Workers cutover |
 | `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped deploy token 正本名。OIDC cutover までは transitional direct token として維持 | web-cd.yml |
 | `CLOUDFLARE_API_TOKEN_STAGING` | Cloudflare API Token（D1 migration verification staging 用） | d1-migration-verify.yml |
@@ -160,9 +162,17 @@ Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（デプロイ通知） | 未使用（UT-08-IMPL で導入予定。現行 web-cd.yml / backend-ci.yml には参照なし） |
 | `CODECOV_TOKEN` | Codecov カバレッジアップロード | ci.yml |
 
+Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-task/issue-640-followup-001-oidc-full-migration.md`. Legacy token physical revocation is now formalized as Issue #718 at `docs/30-workflows/issue-718-legacy-cf-token-revocation/`; the original `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md` is retained as consumed provenance.
+
+### Issue #718 Legacy Cloudflare API Token Revocation（2026-05-16）
+
+Issue #718 is the Gate C retirement path for legacy `CLOUDFLARE_API_TOKEN` surfaces. It does not state that the token is already revoked. Before revocation, operators must prove Issue #640 runtime deploy evidence is green and classify every `CLOUDFLARE_API_TOKEN` consumer as current direct deploy token, deprecated target, audit-only token, or historical/generated reference.
+
+Cloudflare token revocation, GitHub Secret deletion/replacement, and 1Password item mutation require explicit saved user approval under `docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-13/user-approval-issue-718-<timestamp>.md`. Evidence records command names, exit codes, secret names, and item names only; token values, token previews, suffixes, account IDs, and vault values are prohibited.
+
 ### Issue #571 staging runtime smoke GitHub Environment（2026-05-08）
 
-`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-10 の task-02 close-out 以降、配置 runbook の入口正本は `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` とする。推奨実行経路は `bash scripts/smoke/provision-staging-secrets.sh` で、`op read` 出力を `gh secret set <NAME> --env staging-runtime-smoke` の stdin へ直結する。`gh secret set` は `--body` 未指定時に stdin を読む。手動 `gh secret set` は fallback として runbook に残す。
+`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-10 の task-02 close-out 以降、配置 runbook の入口正本は `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` とする。推奨実行経路は `bash scripts/smoke/provision-staging-secrets.sh` で、`op read` 出力は `gh secret set --body -` へ stdin で直結する。手動 `gh secret set` は fallback として runbook に残す。
 
 | Category | Secret | Placement | Purpose |
 | --- | --- | --- | --- |
@@ -188,33 +198,10 @@ GitHub Environment は作成されているが secret が 0 件のまま staging
 | --- | --- |
 | pre-flight 経路 | `bash scripts/smoke/provision-staging-secrets.sh`（idempotent / redacted） |
 | inventory check | `gh secret list --env staging-runtime-smoke --json name -q '.[].name'` で **name のみ** を確認。値・値 hash を出力しない |
-| 投入経路 | `op read "op://<Vault>/<Item>/<Field>" \| gh secret set <NAME> --env staging-runtime-smoke` の stdin 直結 |
+| 投入経路 | `op read "op://<Vault>/<Item>/<Field>" \| gh secret set <NAME> --env staging-runtime-smoke --body -` の stdin 直結 |
 | smoke 起動 gate | user-approved Actions run 前の inventory は 5 secret（`STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT`）一致を確認する。ただし workflow 内 early-fail は smoke 本体必須 4 secret のみを対象にし、Slack は failure summary post step の fail-closed guard が担当する |
 | `${VAR:?}` の扱い | smoke workflow 側では smoke 本体必須 4 secret を name-only early-fail する。invocation 前の runbook/helper pre-flight で 0 件を検出し、連鎖失敗を抑止する |
 | ログ衛生 | Environment 名と secret 名のみを stdout に出力。値、Authorization header、cookie, decoded webhook URL は出力 / 文書 / PR / evidence に転記禁止 |
-
-#### Staging runtime smoke secret boundary 三層構造（`ci-runtime-smoke-staging-secrets-recovery` / 2026-05-15 正本化）
-
-`docs/30-workflows/completed-tasks/ci-runtime-smoke-staging-secrets-recovery/` wave で正本化した三層 boundary。レビュー時に「provisioning は 5 個なのに smoke pre-flight は 4 個でよいのか」という疑問が再発しないよう、各層の責務と検証手段を分離して固定する。詳細根拠は `references/lessons-learned-ci-runtime-smoke-staging-secrets-recovery-2026-05.md` §L-CRSSSR-004、artifact inventory は `references/workflow-ci-runtime-smoke-staging-secrets-recovery-artifact-inventory.md`。
-
-| 層 | 対象 secret | 検証方法 | 失敗時の挙動 | 意図 |
-| --- | --- | --- | --- | --- |
-| Provisioning inventory (5) | `STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT` | `gh api repos/.../environments/staging-runtime-smoke/secrets --jq '.secrets[].name'` で name-only inventory | オペレータが追加投入（user-gate mutation） | Environment に「揃っているべき secret の全集合」を定義 |
-| Smoke pre-flight early-fail (4) | provisioning から `SLACK_WEBHOOK_INCIDENT` を除外した 4 個 | `runtime-smoke-staging.yml` の pre-flight `[ -n "$VAR" ]` boolean check / `${VAR:?}` name-only early-fail | smoke 起動前に fail-loud（欠落 secret 名のみを露出） | smoke 本体（HTTP call）が成立するための必須 credential を最小集合で検証 |
-| Slack post-step guard (1) | `SLACK_WEBHOOK_INCIDENT` のみ | `if: ${{ failure() && hashFiles('ci-evidence/summary.json') != '' }}` | post step が skip され smoke 本体結果に影響しない | failure-summary 通知 chain は smoke 結果と独立した非致死 boundary |
-
-意図的差異の説明: `SLACK_WEBHOOK_INCIDENT` を smoke pre-flight に混ぜると Slack 不在時に false-fail が発生する。Slack 不在は smoke 成否と independent な notification chain の問題であり、smoke 起動 gate ではなく post-step `failure()` guard で扱う。inventory 側に SLACK を含めるのは「provisioning オペレータが用意すべき全集合」を network 通知含めて単一表にまとめるため。
-
-## web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14）
-
-`web-cd.yml` の `deploy-staging` / `deploy-production` 用 `CLOUDFLARE_API_TOKEN` provisioning は、`staging-runtime-smoke` runbook とは別物として扱う。canonical runbook は `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md` と `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md` の 2 本。
-
-| Item | Contract |
-| --- | --- |
-| Secret | `CLOUDFLARE_API_TOKEN` は GitHub Environment `staging` / `production` の environment-scoped web-cd deploy token |
-| Non-secret variable | `CLOUDFLARE_ACCOUNT_ID` は GitHub Variables 管理。Environment Secret に投入しない |
-| 1Password source | runbook / evidence には `op://...` 参照のみを記録し、解決値・値 hash・token preview は記録しない |
-| Boundary | GitHub secret mutation、Cloudflare token issuance / revoke、deploy run、commit、push、PR は user-gated |
 
 ### GitHub Variables（非機密設定値）
 
@@ -329,7 +316,7 @@ bash scripts/cf.sh rollback <VERSION_ID> --config apps/api/wrangler.toml --env p
 | 役割 | 内容 |
 | --- | --- |
 | 1Password 注入 | `scripts/with-env.sh` 経由で `op run --env-file=.env` を呼び、`.env` 内の `op://Vault/Item/Field` 参照から `CLOUDFLARE_API_TOKEN` 等を環境変数として揮発的に渡す（ファイルやログには残らない） |
-| esbuild 不整合解決 | グローバル `esbuild` とのバージョン不整合を `ESBUILD_BINARY_PATH` で自動解決（worktree のローカル `node_modules/esbuild` を優先解決）。wrangler 4.85.0 系は esbuild `0.27.3` が必須（`import-source` feature 要求）。root `pnpm.overrides.esbuild` が SSOT でワークスペース全体（`apps/web` / `apps/api` 等）に継承。wrangler upgrade 時は `pnpm view wrangler@<X> dependencies.esbuild` で drift 確認必須。詳細: `docs/00-getting-started-manual/cloudflare-cli-troubleshooting.md` |
+| esbuild 不整合解決 | グローバル `esbuild` とのバージョン不整合を `ESBUILD_BINARY_PATH` で自動解決（worktree のローカル `node_modules/esbuild` を優先解決） |
 | Node 24 / pnpm 10 強制 | `mise exec --` 経由で mise 管理の Node / pnpm バイナリを保証 |
 | ローカル wrangler 優先 | グローバル `wrangler` ではなく worktree の `node_modules/.bin/wrangler` を解決し、wrangler 4.x strict mode の前提を満たす |
 
@@ -557,7 +544,7 @@ done
 | 2026-05-10 | 1.4.3 | Issue #587 rotation scripts (`scripts/cf-audit-log/rotation/`) と canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) が op 参照名のみを受理することを正本化。candidate/previous resolved value を inputs / logs / artifact upload に残さない境界を実装で固定 |
 | 2026-05-10 | 1.4.2 | Issue #587 Cloudflare Audit Logs ML model artifact rotation の candidate / previous op 参照名を追加。resolved artifact path を docs / logs / PR body に残さない境界を正本化 |
 | 2026-05-09 | 1.4.1 | CI recovery task-01: web-cd の deploy secret 正本名を environment-scoped `CLOUDFLARE_API_TOKEN` へ同期。`CF_TOKEN_WORKERS_*` は backend-ci Workers deploy 用として維持し、web-cd では使用しない境界へ補正。 |
-| 2026-05-10 | 1.4.1 | task-02 close-out: 配置 runbook 入口を `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md`、推奨実行経路を `scripts/smoke/provision-staging-secrets.sh` として分離。workflow early-fail は smoke 本体必須 4 secret、Slack は failure summary post step の fail-closed guard が担当する境界へ補正 |
+| 2026-05-10 | 1.4.1 | task-02 close-out: 配置 runbook 入口を `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md`、推奨実行経路を `scripts/smoke/provision-staging-secrets.sh` として分離。workflow early-fail は smoke 本体必須 4 secret、Slack は failure summary post step の fail-closed guard が担当する境界へ補正 |
 | 2026-05-09 | 1.4.0 | CI recovery wave: Issue #571 staging runtime smoke 節に「Environment 作成済み・secret 0 件問題」の pre-flight 検証 pattern を追加。`scripts/smoke/provision-staging-secrets.sh` を canonical 投入経路、`gh secret list --json name -q` を name-only inventory として正本化し、`${VAR:?}` 連鎖失敗の抑止経路を明記 |
 | 2026-05-07 | 1.3.1 | Issue #518 Cloudflare Audit Logs HOLD を反映。監視 secret は保持するが、schedule 自動監視と watchdog は停止し、手動確認時のみ利用する |
 | 2026-05-06 | 1.3.0 | U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token を D1 / Workers / Pages x staging / production の 6 Secret へ分割（旧 `CLOUDFLARE_API_TOKEN` は 24h 並行保持後に失効する deprecated secret として扱う）。Issue #408 Cloudflare Audit Logs monitoring の `CF_AUDIT_TOKEN_PROD` を `spec_created / runtime pending` として追加し、deploy token と監視 token の名前・scope・rotation 分離を正本化 |

@@ -47,7 +47,7 @@ jobs:
         run: bash <(curl -sS https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
       - name: Actionlint workflow syntax
-        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/e2e-tests.yml .github/workflows/pr-build-test.yml .github/workflows/web-cd.yml .github/workflows/backend-ci.yml .github/workflows/post-release-dashboard.yml .github/workflows/runtime-smoke-staging.yml .github/workflows/verify-workflow-doc-refs.yml
+        run: ./actionlint -color .github/workflows/post-release-observation-reminder.yml .github/workflows/ci.yml .github/workflows/e2e-tests.yml .github/workflows/pr-build-test.yml .github/workflows/web-cd.yml .github/workflows/backend-ci.yml .github/workflows/post-release-dashboard.yml .github/workflows/runtime-smoke-staging.yml .github/workflows/verify-stable-key-update.yml
 
       - name: Validate setup-project composite action structure
         run: |

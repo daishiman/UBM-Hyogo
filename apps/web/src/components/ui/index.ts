@@ -19,3 +19,6 @@ export * from "./Modal";
 export * from "./Toast";
 export * from "./KVList";
 export * from "./LinkPills";
+export * from "./FormField";
+export * from "./Pagination";
+export * from "./Icon";

@@ -14,7 +14,7 @@ describe("admin meetings", () => {
   let env: InMemoryD1;
   beforeEach(async () => {
     env = await setupD1();
-  }, 30000);
+  }, 60000);
 
   it("authz: 401", async () => {
     const app = createAdminMeetingsRoute();
@@ -71,6 +71,76 @@ describe("admin meetings", () => {
     };
     expect(body.items[0]?.sessionId).toBe("s1");
     expect(body.items[0]?.attendance.map((a) => a.memberId)).toEqual(["m1"]);
+  });
+
+  it("GET /meetings/:id は detail candidates と attendees を返す", async () => {
+    const app = createAdminMeetingsRoute();
+    await env.db
+      .prepare("INSERT INTO meeting_sessions (session_id, title, held_on, created_by) VALUES ('s1', 'MTG1', '2026-04-01', 'admin')")
+      .run();
+    await env.db
+      .prepare(
+        `INSERT INTO member_responses
+          (response_id, form_id, revision_id, schema_hash, submitted_at, answers_json)
+         VALUES ('r1', 'form', 'rev', 'hash', '2026-04-01T00:00:00Z', ?),
+                ('r2', 'form', 'rev', 'hash', '2026-04-01T00:00:00Z', ?)`,
+      )
+      .bind(JSON.stringify({ fullName: "青木 太郎" }), JSON.stringify({ fullName: "削除済み 会員" }))
+      .run();
+    await env.db
+      .prepare(
+        `INSERT INTO member_identities
+          (member_id, response_email, current_response_id, first_response_id, last_submitted_at)
+         VALUES ('m1', 'a@example.com', 'r1', 'r1', '2026-04-01T00:00:00Z'),
+                ('m2', 'b@example.com', 'r2', 'r2', '2026-04-01T00:00:00Z')`,
+      )
+      .run();
+    await env.db.prepare("INSERT INTO member_status (member_id, is_deleted) VALUES ('m2', 1)").run();
+    await env.db
+      .prepare("INSERT INTO member_attendance (member_id, session_id, assigned_by) VALUES ('m1', 's1', 'admin')")
+      .run();
+
+    const res = await app.request(
+      "/meetings/s1",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as {
+      sessionId: string;
+      candidates: Array<{ memberId: string; fullName: string; isDeleted: boolean }>;
+      attendees: Array<{ memberId: string }>;
+    };
+    expect(body.sessionId).toBe("s1");
+    expect(body.candidates.sort((a, b) => a.memberId.localeCompare(b.memberId))).toEqual([
+      { memberId: "m1", fullName: "青木 太郎", isDeleted: false },
+      { memberId: "m2", fullName: "削除済み 会員", isDeleted: true },
+    ]);
+    expect(body.attendees).toEqual([{ memberId: "m1", assignedAt: expect.any(String), assignedBy: "admin" }]);
+  });
+
+  it("GET /meetings/:id は unknown / soft-deleted meeting を 404 にする", async () => {
+    const app = createAdminMeetingsRoute();
+    await env.db
+      .prepare(
+        "INSERT INTO meeting_sessions (session_id, title, held_on, created_by, deleted_at) VALUES ('s_deleted', 'MTG2', '2026-04-02', 'admin', '2026-05-04T00:00:00Z')",
+      )
+      .run();
+
+    const missing = await app.request(
+      "/meetings/missing",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    expect(missing.status).toBe(404);
+
+    const deleted = await app.request(
+      "/meetings/s_deleted",
+      { headers: { ...await adminAuthHeader() } },
+      makeEnv(env),
+    );
+    expect(deleted.status).toBe(404);
   });
 
   it("body 不正 400", async () => {

@@ -1,5 +1,5 @@
 # 目的: untrusted PR head を build / lint / typecheck で検証する pull_request workflow
-# 仕様: docs/30-workflows/completed-tasks/ut-gov-002-impl-pr-target-safety-gate/outputs/phase-2/design.md §3.2
+# 仕様: docs/30-workflows/ut-gov-002-impl-pr-target-safety-gate/outputs/phase-2/design.md §3.2
 # 上位原則: trusted context では untrusted PR code を checkout / install / build / eval しない
 # - trigger は pull_request (fork PR では secrets 非注入・GITHUB_TOKEN は read-only)
 # - workflow デフォルト permissions: {} / job 単位で contents: read のみ

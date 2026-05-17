@@ -314,8 +314,8 @@ function compileWhereWithAlias(
     }
     const [colRaw, valRaw] = trimmed.split("=").map((x) => x.trim());
     const colKey = qualify(colRaw!, defaultAlias);
-    if (valRaw === "?") {
-      const v = params[pi++];
+    if (valRaw === "?" || /^\?\d+$/.test(valRaw!)) {
+      const v = valRaw === "?" ? params[pi++] : params[Number(valRaw!.slice(1)) - 1];
       fns.push((row) => row[colKey] === v);
     } else {
       const lit = stripQuotes(valRaw!);

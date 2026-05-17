@@ -285,7 +285,7 @@ export async function fetchAdmin<T>(
     process.env["NODE_ENV"] !== "production" &&
     process.env["PLAYWRIGHT_TASK18_SMOKE"] === "1" &&
     opts.method === undefined &&
-    path.startsWith("/admin/meetings")
+    (path === "/admin/meetings" || path.startsWith("/admin/meetings?"))
   ) {
     return task18MeetingsFixture() as T;
   }
