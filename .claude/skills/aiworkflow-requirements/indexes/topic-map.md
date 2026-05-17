@@ -3259,6 +3259,15 @@ node scripts/list-specs.js --topics
 | Runtime Captured Artifacts | L25 |
 | Boundary | L36 |
 
+### references/workflow-task-761-visual-full-required-status-check-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Implementation Targets | L24 |
+| Runtime Boundary | L30 |
+
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
 | セクション | 行 |
@@ -3884,12 +3893,13 @@ node scripts/list-specs.js --topics
 |------------|----|
 | Current contract | L3 |
 | Required status checks | L7 |
-| Invariants | L16 |
-| Issue #554 runbook | L28 |
-| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L44 |
-| 3-state vocabulary（runtime mutation 系） | L62 |
-| Stage 3c required contexts target（2026-05-10） | L81 |
-| References | L92 |
+| Invariants | L19 |
+| Issue #554 runbook | L31 |
+| Branch-specific drift rule（E2E Stage 3c / 2026-05-10） | L47 |
+| 3-state vocabulary（runtime mutation 系） | L65 |
+| Stage 3c required contexts target（2026-05-10） | L84 |
+| Task #761 visual-full required contexts target（2026-05-17） | L95 |
+| References | L113 |
 
 ### references/cloudflare-edge-security.md
 

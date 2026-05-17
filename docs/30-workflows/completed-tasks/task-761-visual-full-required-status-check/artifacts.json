@@ -1,0 +1,87 @@
+{
+  "task_id": "task-761-visual-full-required-status-check",
+  "status": "implemented",
+  "implementation_mode": "new",
+  "task_type": "NON_VISUAL",
+  "metadata": {
+    "workflow_state": "implemented",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "implementationCategory": "governance",
+    "governance_mutation_user_gate": true,
+    "gateModel": "three_gate_a_b_c",
+    "runtime_evidence_status": "completed",
+    "mutation_commands": [
+      "gh api -X POST repos/daishiman/UBM-Hyogo/branches/dev/protection/required_status_checks/contexts --input /tmp/visual-full-contexts.json",
+      "gh api -X POST repos/daishiman/UBM-Hyogo/branches/main/protection/required_status_checks/contexts --input /tmp/visual-full-contexts.json"
+    ],
+    "read_only_evidence_allowed_pre_gate": [
+      "gh api repos/daishiman/UBM-Hyogo/branches/dev/protection",
+      "gh api repos/daishiman/UBM-Hyogo/branches/main/protection",
+      "gh run list --workflow=playwright-visual-full.yml --limit 10 --json databaseId,event,headBranch,conclusion,createdAt"
+    ],
+    "user_approval_marker": "outputs/phase-13/user-approval-task-761-visual-full-required-status-check-<timestamp>.md",
+    "actual_read_only_evidence_files": [
+      "outputs/phase-11/evidence/dev-protection-before.json.md",
+      "outputs/phase-11/evidence/main-protection-before.json.md",
+      "outputs/phase-11/evidence/pull-request-trigger-natural-firing.md",
+      "outputs/phase-11/evidence/rollback-put-payload.md",
+      "outputs/phase-11/evidence/ui-sanity-visual-review.md"
+    ],
+    "actual_mutation_evidence_files": [
+      "outputs/phase-11/evidence/dev-protection-after.json.md",
+      "outputs/phase-11/evidence/main-protection-after.json.md",
+      "outputs/phase-11/evidence/manual-test-result.md",
+      "outputs/phase-13/user-approval-task-761-visual-full-required-status-check-20260517T124939Z.md"
+    ],
+    "source_unassigned_task": "docs/30-workflows/unassigned-task/task-709-fu-branch-protection-required-check.md",
+    "parent_evidence": [
+      "docs/30-workflows/task-709-visual-baseline-runtime-capture/outputs/phase-11/evidence/visual-full-stability.md",
+      "docs/30-workflows/task-709-visual-baseline-runtime-capture/outputs/phase-11/evidence/user-approval-marker.md"
+    ]
+  },
+  "source_issue": "https://github.com/daishiman/UBM-Hyogo/issues/761",
+  "parent_task": "task-709-visual-baseline-runtime-capture",
+  "base_branch": "dev",
+  "working_branch": "feat/task-761-visual-full-required-check",
+  "phases": {
+    "phase-1": { "status": "completed", "artifacts": ["outputs/phase-1/phase-1.md"] },
+    "phase-2": { "status": "completed", "artifacts": ["outputs/phase-2/phase-2.md"] },
+    "phase-3": { "status": "completed", "artifacts": ["outputs/phase-3/phase-3.md"] },
+    "phase-4": { "status": "completed", "artifacts": ["outputs/phase-4/phase-4.md"] },
+    "phase-5": { "status": "completed", "artifacts": ["outputs/phase-5/phase-5.md"] },
+    "phase-6": { "status": "completed", "artifacts": ["outputs/phase-6/phase-6.md"] },
+    "phase-7": { "status": "completed", "artifacts": ["outputs/phase-7/phase-7.md"] },
+    "phase-8": { "status": "completed", "artifacts": ["outputs/phase-8/phase-8.md"] },
+    "phase-9": { "status": "completed", "artifacts": ["outputs/phase-9/phase-9.md"] },
+    "phase-10": { "status": "completed", "artifacts": ["outputs/phase-10/phase-10.md"] },
+    "phase-11": {
+      "status": "completed",
+      "artifacts": [
+        "outputs/phase-11/phase-11.md",
+        "outputs/phase-11/evidence/dev-protection-before.json.md",
+        "outputs/phase-11/evidence/main-protection-before.json.md",
+        "outputs/phase-11/evidence/pull-request-trigger-natural-firing.md",
+        "outputs/phase-11/evidence/user-approval-marker.md",
+        "outputs/phase-11/evidence/dev-protection-after.json.md",
+        "outputs/phase-11/evidence/main-protection-after.json.md",
+        "outputs/phase-11/evidence/rollback-put-payload.md",
+        "outputs/phase-11/evidence/manual-test-result.md",
+        "outputs/phase-11/evidence/ui-sanity-visual-review.md"
+      ]
+    },
+    "phase-12": {
+      "status": "completed",
+      "artifacts": [
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/main.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "pending", "artifacts": ["outputs/phase-13/phase-13.md"] }
+  }
+}
