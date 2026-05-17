@@ -2659,6 +2659,14 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L22 |
 
+### references/workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Artifacts | L12 |
+| Follow-Ups | L26 |
+| Boundary | L34 |
+
 ### references/workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md
 
 | セクション | 行 |
@@ -3226,6 +3234,15 @@ node scripts/list-specs.js --topics
 | Overview | L3 |
 | Current Artifacts | L13 |
 | Boundary | L22 |
+
+### references/workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Workflow Artifacts | L13 |
+| Runtime Captured Artifacts | L25 |
+| Boundary | L36 |
 
 ### references/workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md
 
@@ -4013,15 +4030,15 @@ node scripts/list-specs.js --topics
 | 管理場所の判断フロー | L51 |
 | Cloudflare Secrets（ランタイム） | L68 |
 | GitHub Secrets / Variables（CI/CD 用） | L134 |
-| wrangler.toml の環境別設定 | L256 |
-| ローカル開発での設定 | L288 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L327 |
-| セキュリティ原則 | L359 |
-| Cloudflare API Token の作成手順 | L370 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L385 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L496 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L548 |
-| 変更履歴 | L568 |
+| wrangler.toml の環境別設定 | L268 |
+| ローカル開発での設定 | L300 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L339 |
+| セキュリティ原則 | L371 |
+| Cloudflare API Token の作成手順 | L382 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L397 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L508 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L560 |
+| 変更履歴 | L580 |
 
 ### references/deployment.md
 
@@ -6767,7 +6784,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1479 |
 | 昇格パターン集 | L1503 |
 | Current Active / Spec Created Tasks | L1505 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1653 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1654 |
 
 ### references/task-workflow-backlog-part2.md
 

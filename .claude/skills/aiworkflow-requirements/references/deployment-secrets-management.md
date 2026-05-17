@@ -180,6 +180,18 @@ Rotation 手順:
 
 `scripts/redaction-check.sh` は取得済み log/artifact の補助検査であり、token 値を検査のために新たに露出させない。一般的な Account ID は GitHub Variable として扱い、secret と混同しない。Account ID を機密として扱う個別 evidence では `--account-id` を明示して検査する。
 
+### Issue #717 Cloudflare Workers OIDC support revalidation（2026-05-16）
+
+`docs/30-workflows/issue-717-oidc-cf-full-migration/` revalidated Cloudflare Workers GitHub Actions OIDC support and closed as `verified_current_no_code_change_pending_pr / implementation / NON_VISUAL / conditional`.
+
+Current primary sources still document API token authentication for Workers deploy:
+
+- Cloudflare Workers GitHub Actions docs use `cloudflare/wrangler-action@v3` with `apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}`.
+- `cloudflare/wrangler-action` README documents `apiToken` / `accountId` and does not document a supported OIDC input.
+
+Therefore `web-cd.yml` must keep Issue #640's step-scoped `CLOUDFLARE_API_TOKEN` boundary until Cloudflare documents a supported OIDC deploy path. Do not add `permissions: id-token: write`, a guessed `wrangler-action` input, or a custom Cloudflare token exchange endpoint to production workflow files without new primary-source evidence. Production OIDC cutover, apps/api D1 credential cutover, and 1Password restructuring are formalized separately under `docs/30-workflows/unassigned-task/issue-717-followup-*.md`.
+
+
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Deprecated for web-cd.yml after OpenNext Workers cutover |
 | `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped deploy token 正本名。OIDC cutover までは transitional direct token として維持 | web-cd.yml |
 | `CLOUDFLARE_API_TOKEN_STAGING` | Cloudflare API Token（D1 migration verification staging 用） | d1-migration-verify.yml |
@@ -571,6 +583,7 @@ Issue #718 legacy token revocation is `implemented-local-runtime-pending / imple
 | ---- | ---------- | -------- |
 | 2026-05-16 | 1.4.4 | Issue #718 legacy Cloudflare API token revocation workflow を `implemented-local-runtime-pending` として同期。backend-ci は `CF_TOKEN_D1_*` / `CF_TOKEN_WORKERS_*` へ切替済み、web-cd は current runtime 名 `CLOUDFLARE_API_TOKEN` を維持し value provenance を operator-only evidence とする。`CLOUDFLARE_API_TOKEN_DEPLOY_*` 新設は禁止。 |
 | 2026-05-10 | 1.4.3 | Issue #587 rotation scripts (`scripts/cf-audit-log/rotation/`) と canary workflow (`.github/workflows/cf-audit-log-artifact-canary.yml`) が op 参照名のみを受理することを正本化。candidate/previous resolved value を inputs / logs / artifact upload に残さない境界を実装で固定 |
+| 2026-05-16 | 1.4.4 | Issue #717 Cloudflare Workers OIDC support revalidation を同期。公式 Workers GitHub Actions / wrangler-action docs は API token 認証を案内しており、supported OIDC deploy path が確認できないため `web-cd.yml` は no-code。Issue #640 step-scoped `CLOUDFLARE_API_TOKEN` boundary を current contract として維持し、production cutover / apps-api D1 cutover / 1Password restructure は blocked follow-up 化 |
 | 2026-05-10 | 1.4.2 | Issue #587 Cloudflare Audit Logs ML model artifact rotation の candidate / previous op 参照名を追加。resolved artifact path を docs / logs / PR body に残さない境界を正本化 |
 | 2026-05-09 | 1.4.1 | CI recovery task-01: web-cd の deploy secret 正本名を environment-scoped `CLOUDFLARE_API_TOKEN` へ同期。`CF_TOKEN_WORKERS_*` は backend-ci Workers deploy 用として維持し、web-cd では使用しない境界へ補正。 |
 | 2026-05-10 | 1.4.1 | task-02 close-out: 配置 runbook 入口を `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md`、推奨実行経路を `scripts/smoke/provision-staging-secrets.sh` として分離。workflow early-fail は smoke 本体必須 4 secret、Slack は failure summary post step の fail-closed guard が担当する境界へ補正 |
