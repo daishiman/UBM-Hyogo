@@ -79,8 +79,8 @@ jobs:
       - name: Fetch Cloudflare Analytics (aggregate-only)
         env:
           CLOUDFLARE_ANALYTICS_API_TOKEN: ${{ secrets.CLOUDFLARE_ANALYTICS_API_TOKEN }}
-          CLOUDFLARE_ZONE_TAG: ${{ vars.CLOUDFLARE_ZONE_TAG }}
-          CLOUDFLARE_ACCOUNT_TAG: ${{ vars.CLOUDFLARE_ACCOUNT_TAG }}
+          CLOUDFLARE_ZONE_TAG: ${{ secrets.CLOUDFLARE_ZONE_TAG }}
+          CLOUDFLARE_ACCOUNT_TAG: ${{ secrets.CLOUDFLARE_ACCOUNT_TAG }}
           ANALYTICS_OUTPUT_DIR: ${{ env.EVIDENCE_DIR }}
           DRY_RUN: ${{ inputs.dry_run == 'true' && '1' || '' }}
         run: pnpm analytics:fetch
