@@ -54,6 +54,40 @@
     "actual_read_only_evidence_files": [
       "docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/outputs/phase-11/smoke-log.md"
     ],
-    "actual_mutation_evidence_files": []
+    "actual_mutation_evidence_files": [],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: actionlint 1.7.7 + 32 workflow全件 local gate PASS + skill sync wave"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/outputs/phase-11/smoke-log.md",
+        "approver": "daishiman",
+        "notes": "external_ops: GitHub Actions runtime evidence + branch protection required context 変更"
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/phase-13.md",
+        "approver": "daishiman",
+        "notes": "user_gated: commit / push / PR"
+      }
+    ]
   }
 }
