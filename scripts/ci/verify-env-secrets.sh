@@ -9,6 +9,9 @@ Checks GitHub Actions workflow secrets.NAME references against repository and
 job environment secret inventories. Secret values are never requested.
 When --event-name is set, only workflows that can be triggered by that event
 are scanned. Omit it for a full inventory scan.
+
+The allow-list may also declare explicit environment requirements:
+  env=<ENV_NAME>;required=SECRET_A,SECRET_B;reason=<reason>
 USAGE
 }
 
@@ -89,7 +92,9 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
 allow_names="$tmp/allow-names.txt"
+env_requirements="$tmp/env-requirements.tsv"
 : > "$allow_names"
+: > "$env_requirements"
 if [ -f "$allow_list" ]; then
   while IFS= read -r line; do
     case "$line" in
@@ -99,6 +104,17 @@ if [ -f "$allow_list" ]; then
       name=*";reason="?*)
         name_part="${line%%;reason=*}"
         printf '%s\n' "${name_part#name=}" >> "$allow_names"
+        ;;
+      env=*";required="*";reason="?*)
+        env_part="${line%%;required=*}"
+        rest="${line#*;required=}"
+        required_part="${rest%%;reason=*}"
+        reason_part="${line#*;reason=}"
+        if [ -z "${env_part#env=}" ] || [ -z "$required_part" ] || [ -z "$reason_part" ]; then
+          echo "invalid allow-list line: $line" >&2
+          exit 2
+        fi
+        printf '%s\t%s\t%s\n' "${env_part#env=}" "$required_part" "$reason_part" >> "$env_requirements"
         ;;
       *)
         echo "invalid allow-list line: $line" >&2
@@ -243,6 +259,23 @@ done < <(find "$workflows_dir" -maxdepth 1 -type f \( -name '*.yml' -o -name '*.
 
 unresolved="$tmp/unresolved.tsv"
 : > "$unresolved"
+while IFS=$'\t' read -r env_name required_csv reason; do
+  [ -n "$env_name" ] || continue
+  env_file="$(env_secret_file "$env_name")"
+  old_ifs="$IFS"
+  IFS=','
+  set -- $required_csv
+  IFS="$old_ifs"
+  for secret in "$@"; do
+    [ -n "$secret" ] || continue
+    if contains_line "$env_file" "$secret"; then
+      continue
+    fi
+    printf '%s\t%s\t%s\t%s\t%s\n' \
+      "$allow_list" "env-required" "$env_name" "$secret" "$reason" >> "$unresolved"
+  done
+done < "$env_requirements"
+
 sort -u "$refs" | while IFS=$'\t' read -r workflow job env_name secret; do
   [ -n "$secret" ] || continue
   [ "$secret" = "GITHUB_TOKEN" ] && continue

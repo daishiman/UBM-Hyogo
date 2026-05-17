@@ -7,10 +7,10 @@
 
 ## 教訓一覧
 
-### L-CI-ENV-001: allowlist は短期 mute 専用とし、pending business secret は既定登録禁止
+### L-CI-ENV-001: `name=...` allowlist は短期 mute 専用とし、pending business secret は既定登録禁止
 
 - **背景**: `scripts/ci/verify-env-secrets.allowlist` を整備した際、未プロビジョン状態の業務 secret（例: `CLOUDFLARE_API_TOKEN_ANALYTICS_READONLY`）を allowlist に初期登録してしまうと、preflight gate が「将来も常に通る」状態に固定化され、provisioning 漏れの検知装置が壊れる。
-- **教訓**: allowlist は **短期 mute（外部要因で投入不可・除外条件を明記）専用** とし、`reason` フィールド必須・除外日付の運用を SSOT の `references/deployment-secrets-management.md` 側で明文化する。pending business secret は allowlist ではなく task-02 inventory に「provision 待ち」として記録する。
+- **教訓**: `name=<SECRET>;reason=<REASON>` の allowlist 行は **短期 mute（外部要因で投入不可・除外条件を明記）専用** とし、`reason` フィールド必須・除外日付の運用を SSOT の `references/deployment-secrets-management.md` 側で明文化する。pending business secret は `name=...` allowlist ではなく task-02 inventory に「provision 待ち」として記録する。2026-05-16 追加の `env=<ENV>;required=<CSV>;reason=<REASON>` 行は mute ではなく Environment scope 必須 secret contract として扱う。
 - **将来アクション**: 新規 CI gate を追加するときは allowlist の運用境界（短期 mute vs business pending）を README/runbook 冒頭に明示し、grep gate で `reason:` キー必須を保証する。
 
 ### L-CI-ENV-002: secret lifecycle は `provision / align / retire` の 3 phase で分け、同一 wave で混ぜない

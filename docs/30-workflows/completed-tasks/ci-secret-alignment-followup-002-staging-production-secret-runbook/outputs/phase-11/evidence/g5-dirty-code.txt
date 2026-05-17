@@ -1,3 +1,0 @@
-scripts/smoke/provision-staging-secrets.sh
-
-Review finding: the existing helper used stale `gh secret set --body -` guidance. Current `gh secret set --help` states stdin is read when `--body` is omitted, so this cycle includes a script fix despite the original docs-only label.

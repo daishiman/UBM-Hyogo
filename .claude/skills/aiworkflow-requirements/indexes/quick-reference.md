@@ -18,18 +18,60 @@
 | evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | commit / push / PR |
 
+### i02-admin-error-type-unify（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/i02-admin-error-type-unify/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / completed-tasks moved` |
+| scope | admin mutation hook の 401 / 非 2xx error class 統一 |
+| implementation | `apps/web/src/features/admin/hooks/useAdminMutation.ts` |
+| tests | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`, `apps/web/src/lib/fetch/authed.spec.ts` |
+| invariant | 401 は `AuthRequiredError` + `/login?redirect=...` redirector、403 / 4xx / 5xx は `FetchAuthedError(status, bodyText)`。既存 caller の hook 利用形は互換 |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-i02-admin-error-type-unify-artifact-inventory.md` |
+| source | `docs/30-workflows/completed-tasks/integration-fixes-i02-admin-error-type-unify.md` consumed |
+| user gate | commit / push / PR |
+
+### serial-05-step-03 schema diff resolve UI（2026-05-16）
+### Runtime Smoke Staging Secrets Restore（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending user-gated` |
+| scope | `staging-runtime-smoke` 必須 4 secret を `verify-env-secrets.allowlist` の env-required contract とテストへ追加 |
+| implementation | `scripts/ci/verify-env-secrets.sh`, `scripts/ci/verify-env-secrets.allowlist`, `scripts/ci/__tests__/verify-env-secrets.spec.sh` |
+| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| provisioner | `scripts/smoke/provision-staging-secrets.sh`（op:// path は SECRETS[] と `verify_staging_marker()` 双方 `op://Employee/ubm-hyogo-env/STAGING_*` で同期） |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-runtime-smoke-staging-secrets-provisioning-2026-05.md` (L-PRS779-001..005: helper op:// 分散、`op item edit` stdout leak、staging member rules_consent fixture、JWT 24h、production 対称化方針) |
+| changelog | `.claude/skills/aiworkflow-requirements/changelog/20260516-runtime-smoke-staging-secrets-restore.md` |
+| boundary | runtime inline value check is retained; secret placement, workflow rerun, commit, push, PR are user-gated。production-runtime-smoke env は dev→main マージ未済のため secret 投入保留（allowlist 行も未追加） |
+
+### CI Env Secret Inventory And Preflight Gate（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| scope | `staging-runtime-smoke` 5 secrets, adjacent 15 workflow secret refs, env/repo preflight gate |
+| implementation | `scripts/ci/verify-env-secrets.sh`, `scripts/ci/__tests__/verify-env-secrets.spec.sh`, `scripts/ci/verify-env-secrets.allowlist`, `.github/workflows/verify-env-secrets.yml`, `.github/workflows/d1-migration-verify.yml` |
+| inventory | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/task-02-adjacent-unregistered-secret-inventory/inventory.md` |
+| runbook | `docs/30-workflows/ci-env-secret-inventory-and-preflight-gate/task-01-staging-runtime-smoke-secret-finalization/runbook.md` |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-ci-env-secret-inventory-and-preflight-gate-2026-05.md` (L-CI-ENV-001..005) |
+| user gate | secret placement, variable placement, `runtime-smoke-staging.yml` rerun, commit, push, PR |
+
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 
 | 目的 | 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/ut-07a-01-member-tags-assign-cleanup/` |
-| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
-| source | Issue #294 CLOSED / `docs/30-workflows/completed-tasks/COMPLETED-UT-07A-01-member-tags-assign-cleanup.md` consumed |
-| implementation | `apps/api/src/repository/memberTags.ts` JSDoc/comment + `memberTags.readonly.test-d.ts` / `memberTags.repository.spec.ts` boundary gates |
-| invariant | `assignTagsToMember` is `tagQueueResolve` workflow-only helper; no direct caller outside `apps/api/src/workflows/tagQueueResolve.ts` |
-| evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md` |
-| user gate | commit / push / PR / issue mutation |
+| workflow root | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/` |
+| 状態 | `implemented-local-runtime-pending / implementation / VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| scope | 既存 `SchemaDiffPanel` の stableKey validation / table semantics / focus / error payload / status label hardening |
+| implementation | `apps/web/src/components/admin/SchemaDiffPanel.tsx`, `apps/web/src/lib/admin/api.ts` |
+| tests | `apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx`, `apps/web/src/lib/admin/__tests__/api.spec.ts` |
+| API | `GET /admin/schema/diff`, `POST /admin/schema/aliases`; `stableKey` regex `/^[a-zA-Z][a-zA-Z0-9_]*$/`; 202 retryable / 409 existingStableKey / 422 existingQuestionIds |
+| runtime boundary | real authenticated screenshots and staging smoke remain runtime pending |
 
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
@@ -81,6 +123,18 @@
 | parent | `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` |
 | user gate | Cloudflare token placement / Cloudflare mutation / commit / push / PR |
 
+### UT-17 follow-up 005 — Alert Relay KV Operation Error Metrics（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| implementation | `apps/api/src/routes/internal/alert-relay.ts` adds fail-safe `logKvOperationError`, `KV.get` fail-open logging, `KV.put` structured logging |
+| log event | `alert_relay_kv_op_failed` with `op`, `errorClass`, `dedupeKeyHash`, `isolateId`, `ts`; hash failure uses `dedupeKeyHash="hash_error"` |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,build,test,grep-gate}.txt`; API test PASS = 48 files / 294 tests |
+| runbook | `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` section 5 |
+| user gate | runtime Workers Logs tail / deploy / commit / push / PR |
+
 
 ### task-18-FU Full Visual Regression Suite（2026-05-14）
 
@@ -120,6 +174,19 @@
 | inputs | task-23 `VERIFICATION-STATUS.md`, task-24 `INVARIANT-AUDIT.md`, task-25 `SMOKE-COVERAGE-MATRIX.md`, completed task-26 common surfaces context |
 | layer model | historical `3-layer` name + `PUB / MEM / ADM / COM` matrix columns |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### parallel-10 Auth Session Handling（2026-05-15）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/parallel-10-auth-session-handling/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| client 401 | `useAdminMutation` が same-origin `/api/admin/*` から 401 を受け、`toLoginRedirect(currentPath)` で `/login?redirect=<encoded>` へ遷移。`normalizeRedirectPath` は `/login?...` / external / protocol-relative / backslash を `/profile` fallback |
+| client 403 | `useAdminMutation` が `"権限がありません"` を Toast `alert` variant（`role="alert"` / `aria-live="assertive"`）で表示し、`error` state を保持 |
+| implementation targets | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/components/ui/Toast.tsx`, `apps/web/src/lib/url/safe-redirect.ts` |
+| system spec | `docs/00-getting-started-manual/specs/02-auth.md`（Client 401 / 403 ハンドリング） |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,test,build}.txt`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | commit / push / PR |
 
 ### Issue #622 Packages Test Suffix Rename（2026-05-11）
@@ -2622,8 +2689,21 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | source task | `docs/30-workflows/unassigned-task/ut-17-followup-002-alert-relay-dedup-kv-persistence.md`（transferred_to_workflow） |
 | state | `implemented-local-runtime-pending / implementation / NON_VISUAL / external_ops_pending` |
 | planned binding | `ALERT_DEDUP_KV: KVNamespace` |
-| canonical test path | `apps/api/src/routes/internal/__tests__/alert-relay.test.ts` |
+| canonical test path | `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts`（historical source used `.test.ts`, superseded by repo `*.spec.ts` invariant） |
 | artifact inventory | `references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md` |
 | patterns | `references/patterns-kv-dedup.md`（env binding narrowing / KV stub fixture / persistence ordering / wrangler gating / wording 規律） |
 | lessons-learned | `lessons-learned/lessons-learned-ut-17-followup-002-alert-relay-dedup-kv-2026-05.md`（5 教訓） |
 | boundary | KV eventual consistency のため exactly-once は保証しない。目的は isolate 跨ぎ重複通知の実用大幅低減。Dedup key は Slack 配信成功後にのみ保存する。Cloudflare mutation / deploy / Slack runtime smoke / commit / push / PR は user-gated |
+
+### UT-17 Follow-up 006 / ALERT_DEDUP_KV Usage Dashboard Monitoring（2026-05-16）
+
+| 観点 | 値 / 参照先 |
+| --- | --- |
+| canonical workflow | `docs/30-workflows/ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring/` |
+| source task | `docs/30-workflows/unassigned-task/ut-17-followup-006-alert-dedup-kv-usage-dashboard-monitoring.md`（superseded） |
+| state | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
+| issue | `#702`（open。Cloudflare apply / Slack runtime smoke 未取得なら PR は `Refs #702`） |
+| current decision | followup-004 の `infra/cloudflare-alerts/` IaC 基盤を再利用し、Workers KV account quota guard として writes/day + stored bytes の 2 policy を `enabled:false` で宣言する。namespace filter は無いため `ALERT_DEDUP_KV` 固有監視ではない |
+| latency boundary | native Notification が無い場合は policy 化せず、Workers Analytics / GraphQL review evidence として runbook に固定 |
+| runtime boundary | initial policy は `enabled:false`。Slack delivery smoke は一時検証 policy / 短時間負荷で証明し、5 営業日 baseline 後の `enabled:true` 本運用切替は user-gated |
+| implementation targets | changed: `infra/cloudflare-alerts/policies/workers-kv-*.json`, `infra/cloudflare-alerts/quota-base.json`, `tests/fixtures/cloudflare-alerts/api-list-policies.json`, `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md`; verified unchanged: `infra/cloudflare-alerts/schema/policy.schema.json` |
