@@ -145,6 +145,6 @@ mise exec -- pnpm -F "@ubm-hyogo/web" test -- --run profile/loading
 
 このタスクは canonical workflow root へ昇格するか、in-place fix で完結するかをここで明示する。
 
-- **status**: pending
-- **canonical_workflow**: null（in-place fix で完結予定）
-- **判断**: `/profile/loading.tsx` の skeleton 置換 + test 新規の 2 ファイル編集のみで p-07 spec 4.5 の DoD 補完が目的。Phase 1-13 のフル昇格は不要と判断し、本 spec.md を発注書として in-place fix で完結させる。
+- **status**: implemented_local_runtime_pending
+- **canonical_workflow**: `docs/30-workflows/issue-770-profile-loading-skeleton/`
+- **判断**: 当初は `/profile/loading.tsx` の skeleton 置換 + test 新規の 2 ファイル編集のみで in-place fix 完結予定だったが、Issue #770 として独立 tracking され、source unassigned task / integration-fixes index / aiworkflow ledgers との same-wave 同期が必要になったため canonical workflow root へ昇格した。実コードと focused unit evidence は local 完了、authenticated browser screenshot / staging runtime visual evidence は user-gated。

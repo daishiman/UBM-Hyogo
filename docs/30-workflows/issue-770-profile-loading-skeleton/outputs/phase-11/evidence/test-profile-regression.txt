@@ -1,0 +1,7 @@
+Command: mise exec -- pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/app/profile
+Exit: 0
+
+Result:
+- Test Files: 9 passed
+- Tests: 49 passed
+- Target: apps/web/app/profile
