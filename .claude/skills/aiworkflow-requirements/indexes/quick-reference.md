@@ -16,6 +16,21 @@
 
 ---
 
+### Issue #769 root error h1 auto-focus（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-769-root-error-focus/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / runtime_pending` |
+| scope | root `apps/web/app/error.tsx` の h1 自動 focus |
+| implementation | `apps/web/app/error.tsx` |
+| tests | `apps/web/app/__tests__/error.component.spec.tsx` TC-U-09a/b/c |
+| evidence | `outputs/phase-11/evidence/`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| source | `docs/30-workflows/unassigned-task/integration-fixes-i06-root-error-focus.md` consumed |
+| parent | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i06-root-error-focus/spec.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-769-root-error-focus-2026-05.md` (L-I769-001..005) |
+| user gate | interactive screen reader smoke, commit, push, PR |
+
 ### CI Env Secret Inventory And Preflight Gate（2026-05-16）
 
 | 目的 | 参照先 |
