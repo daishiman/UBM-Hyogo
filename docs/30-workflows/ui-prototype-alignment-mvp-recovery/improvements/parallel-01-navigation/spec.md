@@ -85,9 +85,9 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
       <div className="border-t border-[var(--ubm-color-border-default)] pt-4 mt-4">
         <Link
           href={`/admin/tags?memberId=${encodeURIComponent(memberId)}`}
-          className="text-sm font-medium text-[var(--ubm-color-accent)]"
+          className="text-sm font-medium text-[var(--ubm-color-link)]"
         >
-          タグ管理へ
+          タグ管理へ →
         </Link>
       </div>
     </Drawer>
@@ -136,7 +136,7 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
 
 **a11y 要件：**
 - `aria-label="ホームに戻る"` で intent 明確化
-- `focus-visible` outline を設定（`outline-2 outline-offset-2 outline-[var(--ubm-color-accent)]`）
+- `focus-visible` outline を設定（`outline-2 outline-offset-2 outline-[var(--ubm-color-focus)]`）
 
 ### G1-2 drawer member→tags link
 
@@ -148,7 +148,7 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
   - onClose callback は不要（or 明示的に呼び出さない）
 
 **a11y 要件：**
-- link text 「タグ管理へ」は分かりやすい action label
+- link text 「タグ管理へ →」は分かりやすい action label
 - link color で visual hierarchy を確立
 
 ## 7. テスト方針
@@ -156,7 +156,7 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
 ### 7.1 Component test ファイル追加
 
 **AdminSidebar:**  
-`apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx`
+`apps/web/src/components/layout/__tests__/AdminSidebar.spec.tsx`
 
 - logo link の href="/?" を assertion
 - link の aria-label を確認
@@ -164,16 +164,16 @@ export function MemberDrawer({ memberId, onClose }: MemberDrawerProps) {
 - snapshot test で layout の integrity を維持
 
 **MemberDrawer:**  
-`apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx`
+`apps/web/src/features/admin/components/_members/__tests__/MemberDrawer.spec.tsx`
 
 - drawer render 時に memberId を受け取る
 - drawer 内に `/admin/tags?memberId=...` link が存在することを assertion
-- link text を確認（「タグ管理へ」）
+- link text を確認（「タグ管理へ →」）
 - URL parameter encode を確認（特殊文字を含む memberId は safe）
 
 ### 7.2 E2E smoke test
 
-**既存 admin smoke test 対象ファイル：** `apps/web/playwright/tests/admin-pages.spec.ts`（未確認、参照要）
+**既存 admin smoke test 対象ファイル：** `apps/web/src/__tests__/admin-smoke.spec.ts`（未確認、参照要）
 
 - admin 9 routes (dashboard, attendance, members, tags, schema, meetings, requests, identity-conflicts, audit) 全て open 可能か
 - members page から drawer open → tags link click → page transition success
@@ -211,7 +211,7 @@ mise exec -- pnpm --filter @ubm-hyogo/web dev
 - [ ] AdminSidebar.tsx に `<Link href="/">` を追加、logo/icon を配置
 - [ ] MemberDrawer.tsx に `<Link href="/admin/tags?memberId=...">` を追加、drawer content に visible
 - [ ] `/admin/tags` page の searchParam `memberId` handling は既存実装のまま（改修不要）
-- [ ] ComponentTest (AdminSidebar.component.spec.tsx, MemberDrawer.spec.tsx) が green
+- [ ] ComponentTest (AdminSidebar.spec.tsx, MemberDrawer.spec.tsx) が green
 - [ ] E2E smoke test が全 9 admin routes で pass
 - [ ] TypeCheck / ESLint / prettier が clean
 - [ ] Code review 完了、approve 取得

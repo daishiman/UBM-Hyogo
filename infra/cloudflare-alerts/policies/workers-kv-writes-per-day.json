@@ -1,0 +1,14 @@
+{
+  "$schema": "../schema/policy.schema.json",
+  "name": "workers-kv-writes-per-day",
+  "description": "Workers KV writes 80% of free-tier daily quota (ALERT_DEDUP_KV monitoring)",
+  "alert_type": "billing_usage_alert",
+  "enabled": false,
+  "conditions": {
+    "metric": "workers_kv_writes_per_day",
+    "percentage": 0.8
+  },
+  "mechanisms": {
+    "webhooks": [{ "name": "ut-17-relay" }]
+  }
+}
