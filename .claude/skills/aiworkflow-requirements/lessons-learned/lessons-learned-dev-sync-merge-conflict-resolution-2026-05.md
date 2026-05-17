@@ -102,6 +102,13 @@
 - 事例: 2026-05-17 feat/issue-718-legacy-cf-token-revocation の dev sync merge で本パターンを適用、conflict file（quick-reference.md / topic-map.md / deployment-gha.md）すべて `--ours` 採用 → `pnpm indexes:rebuild` で indexes 再生成。
 - 番号注記: 当初 dev 側で L-DEVSYNC-009 として merge されたが、`feat/task-25-followup-loading-state-observation-fixture` の二回目 dev sync (2026-05-17) で task-709 visual-full baseline 鮮度ドリフト (既存 L-DEVSYNC-009) と番号衝突したため L-DEVSYNC-011 に renumber。
 
+## L-DEVSYNC-012: changelog / lessons-learned / phase12-checklist の単純追記衝突は「両側採用」が正解
+- 症状: 2026-05-17 `feat/issue-720-cf-audit-monitor-env-protection-fix` への dev 同期 merge で 4 ファイル衝突発生 — `SKILL-changelog.md`（HEAD: issue-720 / dev: task-25-fu の追加行）、`indexes/keywords.json`（lessons-learned 配列に各 sync wave で異なる項目追加）、`indexes/topic-map.md`（同種 narrative 追記）、`task-specification-creator/references/phase12-checklist-definition.md`（チェックリスト項目の独立追加）。いずれも HEAD 側と dev 側で**異なる新規行を独立に追加**しただけで、同一行を競合変更しているわけではない。
+- 解消: 機械的に「両側ブロック採用・順序は HEAD→dev」で OK。`<<<<<<<` / `|||||||` / `=======` / `>>>>>>>` の 4 種マーカーだけを除去し、HEAD ブロックと their ブロックを連結、base ブロックは破棄するスクリプトで一括処理可。`indexes/keywords.json` は連結後も valid JSON であることを `python3 -c "import json; json.load(open(...))"` で必ず検証する。最後に `pnpm indexes:rebuild` を実行して派生 indexes を再生成し、`git status` がクリーンになることを確認する。
+- Why: 追記型 SSOT（changelog の表行、checklist の箇条書き、lessons-learned の項番付きセクション、keywords.json の文字列配列要素）は順序が意味を持たないか、または時系列で HEAD→dev の順が自然。`--theirs` / `--ours` の一方採用は片方の wave の作業ログを消すことになり情報損失となる。
+- 適用判断: 衝突ブロックが「両側とも新規追加行（既存行の変更ではない）」かつ「semantic に独立」であることを目視確認。同一論理項目に対する両側変更（例: 同じ Issue 番号の status 行を両側が違う値に更新）の場合は本ルール非適用、L-DEVSYNC-002 / L-DEVSYNC-011 の判定に従う。
+- 事例: 2026-05-17 feat/issue-720-cf-audit-monitor-env-protection-fix dev sync。conflict 4 件すべて両側採用で解消、`pnpm indexes:rebuild` で keywords.json と topic-map.md を deterministic 再生成、JSON validity 確認 PASS。
+
 ## 適用範囲
-- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約と L-DEVSYNC-011 の fact migration 判定はいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。
-- aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。
+- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。
+- aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。L-DEVSYNC-012 適用後は必ず `pnpm indexes:rebuild` を実行し JSON validity を検証する。

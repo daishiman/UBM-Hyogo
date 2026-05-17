@@ -2677,6 +2677,12 @@ node scripts/list-specs.js --topics
 | Gate C Blockers | L48 |
 | Scope Note | L56 |
 
+### references/workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L17 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5126,6 +5132,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 5-minute Checklist | L15 |
 
+### references/lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-720-001: Read-only monitor jobs must not inherit deploy environment protection | L3 |
+| L-720-002: Alternative comparison cost — `environment:` 削除 1 行が正解にたどり着くまで | L11 |
+| L-720-003: Repository-level secret mirror は widened access boundary を伴う trade-off | L26 |
+| L-720-004: CLOSED issue への phase-12 fold-state sync | L34 |
+| L-720-005: `implemented_local_runtime_pending` 新ステータスの導入意義 | L42 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6327,11 +6343,11 @@ node scripts/list-specs.js --topics
 | 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L290 |
 | 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L319 |
 | 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14） | L348 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L370 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L388 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L389 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L405 |
-| 13. 変更履歴 | L427 |
+| 11.3 Issue #720 monitor environment protection fix（2026-05-16） | L370 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L393 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L411 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L412 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L428 |
 
 ### references/patterns-advanced.md
 
@@ -6796,14 +6812,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1436 |
-| フェーズ構造（概要） | L1445 |
-| 品質ゲート（概要） | L1476 |
-| 出力テンプレート | L1487 |
-| 実行時のコマンド・エージェント・スキル | L1510 |
-| 昇格パターン集 | L1534 |
-| Current Active / Spec Created Tasks | L1536 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1685 |
+| ドキュメント構成 | L1450 |
+| フェーズ構造（概要） | L1459 |
+| 品質ゲート（概要） | L1490 |
+| 出力テンプレート | L1501 |
+| 実行時のコマンド・エージェント・スキル | L1524 |
+| 昇格パターン集 | L1548 |
+| Current Active / Spec Created Tasks | L1550 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1699 |
 
 ### references/task-workflow-backlog-part2.md
 

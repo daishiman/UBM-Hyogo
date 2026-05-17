@@ -159,6 +159,8 @@ git diff --name-only HEAD -- \
 `.claude/skills/aiworkflow-requirements/references/gate-metadata.md` を SSOT とする。
 `gates[]` 不在の歴史的 artifacts は WARN/skip 扱いで N/A 判定して良い。
 
+**sync-merge edge case (2026-05-17)**: dev 取り込みマージで workflow root が `docs/30-workflows/<slug>/` → `docs/30-workflows/completed-tasks/<slug>/` に移動した結果、PR diff に「moved/新規」として `artifacts.json` が含まれ `--require-gates-for-changed` 対象となるが、移動前は `gates[]` を持っていなかった場合、verify-gate-metadata が ERROR で fail する。対策: sync-merge 直後に `mise exec -- pnpm gate-metadata:validate` をローカル実行し、ERROR が出た artifacts.json には Gate-A/B/C を `phase-11/` / `phase-12/phase12-task-spec-compliance-check.md` / `phase-11/runtime-evidence` などの実在 evidence パスで補填してから push する。
+
 #### よくある schema 違反と修正 (2026-05-17 追記)
 
 | 誤った値 | 正しい値 | 補足 |
