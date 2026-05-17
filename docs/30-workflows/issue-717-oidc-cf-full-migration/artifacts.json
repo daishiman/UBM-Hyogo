@@ -43,7 +43,7 @@
       },
       {
         "gate_id": "Gate-C",
-        "status": "blocked",
+        "status": "pending",
         "passed_at": null,
         "evidence_path": "docs/30-workflows/issue-717-oidc-cf-full-migration/phase-13-pr.md",
         "approver": "daishiman",
