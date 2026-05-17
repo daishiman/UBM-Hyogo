@@ -108,6 +108,7 @@
 - Why: 追記型 SSOT（changelog の表行、checklist の箇条書き、lessons-learned の項番付きセクション、keywords.json の文字列配列要素）は順序が意味を持たないか、または時系列で HEAD→dev の順が自然。`--theirs` / `--ours` の一方採用は片方の wave の作業ログを消すことになり情報損失となる。
 - 適用判断: 衝突ブロックが「両側とも新規追加行（既存行の変更ではない）」かつ「semantic に独立」であることを目視確認。同一論理項目に対する両側変更（例: 同じ Issue 番号の status 行を両側が違う値に更新）の場合は本ルール非適用、L-DEVSYNC-002 / L-DEVSYNC-011 の判定に従う。
 - 事例: 2026-05-17 feat/issue-720-cf-audit-monitor-env-protection-fix dev sync。conflict 4 件すべて両側採用で解消、`pnpm indexes:rebuild` で keywords.json と topic-map.md を deterministic 再生成、JSON validity 確認 PASS。
+- 事例（補強・2026-05-18 feat/issue-748-jest-axe-primitive-a11y-integration dev sync）: conflict 5 件 — `references/task-workflow-active.md`（HEAD: Issue #748 entry / dev: Issue #730 + i02-admin-error-type-unify entries）と `indexes/{keywords.json, quick-reference.md, resource-map.md, topic-map.md}`。`task-workflow-active.md` は本ルール（追記型 SSOT 両側採用、順序 HEAD→dev）で連結解消、indexes 4 件は L-DEVSYNC-002 通り `git checkout --theirs` で incoming 採用後 `pnpm indexes:rebuild` で deterministic 再生成。dev sync workflow が「L-DEVSYNC-012（両側採用） + L-DEVSYNC-002（indexes は再生成）」の二本柱で機械的解消可能であることを再確認。
 
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。L-DEVSYNC-008 の "最新 N 件" 規約、L-DEVSYNC-011 の fact migration 判定、L-DEVSYNC-012 の追記型衝突両側採用ルールはいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。

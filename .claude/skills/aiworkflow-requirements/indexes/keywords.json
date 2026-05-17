@@ -3980,6 +3980,7 @@
       "architecture-file-conversion.md",
       "task-workflow-completed-skill-create-ui-integration.md",
       "ui-ux-components.md",
+      "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md"
     ],
     "実装済みコンバーター": [
@@ -7008,6 +7009,7 @@
       "workflow-issue-586-post-switch-7day-close-out-artifact-inventory.md",
       "workflow-issue-655-d7-recovery-2nd-cycle-artifact-inventory.md",
       "workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md",
+      "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
@@ -14046,7 +14048,8 @@
     "primitive": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
       "lessons-learned-issue-532-write-tag-note-provider-ctx-injection-2026-05.md",
-      "lessons-learned-task-12-member-detail-register-legal-2026-05.md"
+      "lessons-learned-task-12-member-detail-register-legal-2026-05.md",
+      "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md"
     ],
     "に寄せる": [
       "lessons-learned-issue-377-retry-tick-dlq-audit-2026-05.md",
@@ -15079,6 +15082,7 @@
       "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
+      "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -15733,7 +15737,8 @@
     ],
     "axe": [
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
-      "ui-ux-components.md"
+      "ui-ux-components.md",
+      "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md"
     ],
     "ut": [
       "lessons-learned-task-11-public-top-and-member-list-2026-05.md",
@@ -22246,6 +22251,7 @@
       "workflow-issue-717-oidc-cf-full-migration-artifact-inventory.md",
       "workflow-issue-718-legacy-cf-token-revocation-artifact-inventory.md",
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md",
+      "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md",
       "workflow-skill-lifecycle-created-skill-usage-journey.md",
       "workflow-skill-md-codex-validation-fix-artifact-inventory.md",
       "workflow-task-03-w2-par-sentry-workers-sdk-unify-artifact-inventory.md",
@@ -22985,6 +22991,9 @@
     ],
     "existence": [
       "workflow-issue-730-phase11-evidence-existence-validator-artifact-inventory.md"
+    ],
+    "jest": [
+      "workflow-issue-748-jest-axe-primitive-a11y-integration-artifact-inventory.md"
     ],
     "ライトテーマ": [
       "workflow-light-theme-contrast-regression-guard.md"
