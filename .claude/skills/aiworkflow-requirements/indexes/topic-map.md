@@ -2261,6 +2261,15 @@ node scripts/list-specs.js --topics
 | System Sync | L30 |
 | Runtime Boundary | L41 |
 
+### references/workflow-i02-admin-error-type-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L13 |
+| Contract | L24 |
+| Evidence Boundary | L33 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -6722,14 +6731,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1443 |
-| フェーズ構造（概要） | L1452 |
-| 品質ゲート（概要） | L1483 |
-| 出力テンプレート | L1494 |
-| 実行時のコマンド・エージェント・スキル | L1517 |
-| 昇格パターン集 | L1541 |
-| Current Active / Spec Created Tasks | L1543 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1689 |
+| ドキュメント構成 | L1457 |
+| フェーズ構造（概要） | L1466 |
+| 品質ゲート（概要） | L1497 |
+| 出力テンプレート | L1508 |
+| 実行時のコマンド・エージェント・スキル | L1531 |
+| 昇格パターン集 | L1555 |
+| Current Active / Spec Created Tasks | L1557 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1703 |
 
 ### references/task-workflow-backlog-part2.md
 
