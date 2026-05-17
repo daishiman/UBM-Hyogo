@@ -1,4 +1,4 @@
-# UT-07B alias recommendation i18n - タスク指示書
+# COMPLETED: UT-07B alias recommendation i18n - タスク指示書
 
 ## メタ情報
 
@@ -10,7 +10,8 @@ category: 改善
 target_feature: GET /admin/schema/diff recommendedStableKeys
 priority: 中
 scale: 小規模
-status: 未実施
+status: consumed
+canonical_workflow: docs/30-workflows/ut-07b-alias-recommendation-i18n/
 source_phase: docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/unassigned-task-detection.md
 created_date: 2026-04-30
 dependencies: []
@@ -27,10 +28,12 @@ dependencies: []
 | 対象機能 | `GET /admin/schema/diff` recommendedStableKeys |
 | 優先度 | 中 |
 | 見積もり規模 | 小規模 |
-| ステータス | 未実施 |
+| ステータス | consumed（canonical workflow で実装完了） |
 | 発見元 | `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/unassigned-task-detection.md` |
 | 発見日 | 2026-04-30 |
+| 完了日 | 2026-05-17 |
 | issue_number | #292 |
+| canonical_workflow | `docs/30-workflows/ut-07b-alias-recommendation-i18n/` |
 
 ---
 
@@ -69,7 +72,7 @@ dependencies: []
 #### 含む
 
 - `apps/api/src/services/aliasRecommendation.ts` の normalization helper 追加
-- `apps/api/src/services/aliasRecommendation.test.ts` の多言語 label test 追加
+- `apps/api/src/services/aliasRecommendation.spec.ts` の多言語 label test 追加
 - `GET /admin/schema/diff` の response contract 変更が必要な場合の最小更新
 - Phase 12 implementation guide / 正本仕様の同期
 
@@ -128,19 +131,19 @@ dependencies: []
 
 ### 機能要件
 
-- [ ] `recommendedStableKeys` が Unicode 正規化済み label で比較される
-- [ ] 日本語・全角半角・空白揺れの test が追加されている
-- [ ] 既存の英語 label recommendation test が regress していない
+- [x] `recommendedStableKeys` が Unicode 正規化済み label で比較される
+- [x] 日本語・全角半角・空白揺れの test が追加されている
+- [x] 既存の英語 label recommendation test が regress していない
 
 ### 品質要件
 
-- [ ] normalization の範囲が helper と tests で明示されている
-- [ ] 過剰一致を防ぐ negative test がある
+- [x] normalization の範囲が helper と tests で明示されている
+- [x] 過剰一致を防ぐ negative test がある
 
 ### ドキュメント要件
 
-- [ ] Phase 12 implementation guide または正本仕様に normalization 方針が記録されている
-- [ ] `UT-07B-schema-alias-hardening-001` との責務分離が保たれている
+- [x] Phase 12 implementation guide または正本仕様に normalization 方針が記録されている
+- [x] `UT-07B-schema-alias-hardening-001` との責務分離が保たれている
 
 ---
 
@@ -149,7 +152,7 @@ dependencies: []
 ### 単体検証
 
 ```bash
-mise exec -- pnpm --filter @ubm-hyogo/api test -- --run src/services/aliasRecommendation.test.ts
+mise exec -- pnpm --filter @ubm-hyogo/api test -- --run src/services/aliasRecommendation.spec.ts
 ```
 
 期待: 日本語・全角半角・空白揺れ・negative case が全 PASS。
@@ -157,7 +160,7 @@ mise exec -- pnpm --filter @ubm-hyogo/api test -- --run src/services/aliasRecomm
 ### 回帰検証
 
 ```bash
-mise exec -- pnpm --filter @ubm-hyogo/api test -- --run src/routes/admin/schema.test.ts
+mise exec -- pnpm --filter @ubm-hyogo/api test -- --run src/routes/admin/schema.contract.spec.ts
 ```
 
 期待: `GET /admin/schema/diff` の response shape が既存 contract と互換である。
@@ -178,7 +181,7 @@ mise exec -- pnpm --filter @ubm-hyogo/api test -- --run src/routes/admin/schema.
 
 - `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/unassigned-task-detection.md`
 - `apps/api/src/services/aliasRecommendation.ts`
-- `apps/api/src/services/aliasRecommendation.test.ts`
+- `apps/api/src/services/aliasRecommendation.spec.ts`
 - `.claude/skills/aiworkflow-requirements/references/api-endpoints.md`
 
 ---
@@ -187,6 +190,6 @@ mise exec -- pnpm --filter @ubm-hyogo/api test -- --run src/routes/admin/schema.
 
 ## 苦戦箇所【記入必須】
 
-- 対象: `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260430-091723-wt-1/apps/api/src/services/aliasRecommendation.ts`
+- 対象: `apps/api/src/services/aliasRecommendation.ts`
 - 症状: 現状の Levenshtein は文字列差としては動作するが、日本語・全角半角・Unicode 合成文字の正規化方針が未定義で、候補順が表記揺れに引きずられる。
 - 参照: `docs/30-workflows/completed-tasks/07b-parallel-schema-diff-alias-assignment-workflow/outputs/phase-12/unassigned-task-detection.md`
