@@ -91,6 +91,7 @@
 | Reference | 読み込み条件 | 内容 |
 | --- | --- | --- |
 | [unassigned-task-guidelines.md](unassigned-task-guidelines.md) | 未タスク出力時 | 未タスク仕様ルール |
+| [closed-issue-canonical-workflow-recovery.md](closed-issue-canonical-workflow-recovery.md) | CLOSED Issue で canonical workflow root が欠落していた場合の後付け生成 / governance YAML 契約参照時 | 後付け 5 段手順、`status: consumed` 保全、`Refs #<n>` 限定運用、YAML フロントマター 4 フィールド契約 |
 
 ### project workflow examples
 
@@ -173,3 +174,4 @@
 | 2026-03-03 | screenshot / evidence sync 関連の reference と script を追加 |
 | 2026-04-27 | UT-08 monitoring-alert-design を `spec_created` NON_VISUAL workflow 例として追加 |
 | 2026-05-02 | `lessons-learned/` セクションを resource-map に追加し、shell script + redaction タスク向け lesson を登録 |
+| 2026-05-16 | Issue #718 legacy CF token revocation を契機に `references/closed-issue-canonical-workflow-recovery.md` を新設し supporting guides に登録。あわせて `changelog/20260516-issue718-closed-canonical-recovery-and-governance-yaml.md` を追加（CLOSED Issue で canonical workflow root が欠落していた場合の後付け生成 / `status: consumed` 保全 / governance YAML フロントマター 4 フィールド契約） |

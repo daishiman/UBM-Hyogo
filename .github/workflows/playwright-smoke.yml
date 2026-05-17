@@ -1,16 +1,13 @@
 name: playwright-smoke
 
 on:
-  # MVP-PAUSE 2026-05-15: PR trigger を一時停止。
-  # 復活方法: 下の pull_request ブロックの行頭 `# ` を全て削除する。
-  # 残っている workflow_dispatch / push / schedule は引き続き有効。
-  # pull_request:
-  # branches: [main, dev]
-  # paths:
-  # - 'apps/web/**'
-  # - 'packages/shared/**'
-  # - 'scripts/verify-design-tokens.ts'
-  # - '.github/workflows/playwright-smoke.yml'
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - 'apps/web/**'
+      - 'packages/shared/**'
+      - 'scripts/verify-design-tokens.ts'
+      - '.github/workflows/playwright-smoke.yml'
   push:
     branches: [main]
   schedule:
@@ -44,6 +41,13 @@ jobs:
         run: mise exec -- pnpm --filter @ubm-hyogo/web exec playwright install --with-deps chromium
       - name: Run 19-route smoke
         run: mise exec -- pnpm --filter @ubm-hyogo/web e2e:smoke
+      - name: Run attendance visual smoke
+        env:
+          PLAYWRIGHT_EVIDENCE_TASK: 07c-followup-002
+          PLAYWRIGHT_TASK18_SMOKE: ''
+        run: |
+          mise exec -- pnpm --filter @ubm-hyogo/web exec playwright test \
+            playwright/tests/attendance.spec.ts --project=desktop-chromium --trace on
       - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4

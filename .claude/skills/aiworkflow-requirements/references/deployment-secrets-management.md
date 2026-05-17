@@ -2,6 +2,9 @@
 
 > 本ドキュメントは ubm-hyogo のデプロイメント仕様書の一部です。
 > 管理: .claude/skills/aiworkflow-requirements/
+>
+> **関連**: 不可逆な外部 mutation を伴う token revocation / secret rotation 等は
+> [Gate C: External Mutation Pattern](./gate-c-external-mutation-pattern.md) を参照（汎用テンプレ）。
 
 ---
 
@@ -151,7 +154,6 @@ Rotation 手順:
 
 `scripts/redaction-check.sh` は取得済み log/artifact の補助検査であり、token 値を検査のために新たに露出させない。一般的な Account ID は GitHub Variable として扱い、secret と混同しない。Account ID を機密として扱う個別 evidence では `--account-id` を明示して検査する。
 
-Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-task/issue-640-followup-001-oidc-full-migration.md`. Legacy token physical revocation is separated to `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md`.
 | `CF_TOKEN_PAGES_STAGING` / `CF_TOKEN_PAGES_PRODUCTION` | Deprecated historical Pages deploy token | Deprecated for web-cd.yml after OpenNext Workers cutover |
 | `CLOUDFLARE_API_TOKEN` | web-cd の environment-scoped deploy token 正本名。OIDC cutover までは transitional direct token として維持 | web-cd.yml |
 | `CLOUDFLARE_API_TOKEN_STAGING` | Cloudflare API Token（D1 migration verification staging 用） | d1-migration-verify.yml |
@@ -160,9 +162,17 @@ Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-
 | `DISCORD_WEBHOOK_URL` | Discord Webhook（デプロイ通知） | 未使用（UT-08-IMPL で導入予定。現行 web-cd.yml / backend-ci.yml には参照なし） |
 | `CODECOV_TOKEN` | Codecov カバレッジアップロード | ci.yml |
 
+Full OIDC migration is intentionally separated to `docs/30-workflows/unassigned-task/issue-640-followup-001-oidc-full-migration.md`. Legacy token physical revocation is now formalized as Issue #718 at `docs/30-workflows/issue-718-legacy-cf-token-revocation/`; the original `docs/30-workflows/unassigned-task/issue-640-followup-002-legacy-token-revocation.md` is retained as consumed provenance.
+
+### Issue #718 Legacy Cloudflare API Token Revocation（2026-05-16）
+
+Issue #718 is the Gate C retirement path for legacy `CLOUDFLARE_API_TOKEN` surfaces. It does not state that the token is already revoked. Before revocation, operators must prove Issue #640 runtime deploy evidence is green and classify every `CLOUDFLARE_API_TOKEN` consumer as current direct deploy token, deprecated target, audit-only token, or historical/generated reference.
+
+Cloudflare token revocation, GitHub Secret deletion/replacement, and 1Password item mutation require explicit saved user approval under `docs/30-workflows/issue-718-legacy-cf-token-revocation/outputs/phase-13/user-approval-issue-718-<timestamp>.md`. Evidence records command names, exit codes, secret names, and item names only; token values, token previews, suffixes, account IDs, and vault values are prohibited.
+
 ### Issue #571 staging runtime smoke GitHub Environment（2026-05-08）
 
-`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-10 の task-02 close-out 以降、配置 runbook の入口正本は `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` とする。推奨実行経路は `bash scripts/smoke/provision-staging-secrets.sh` で、`op read` 出力を `gh secret set <NAME> --env staging-runtime-smoke` の stdin へ直結する。`gh secret set` は `--body` 未指定時に stdin を読む。手動 `gh secret set` は fallback として runbook に残す。
+`staging-runtime-smoke` は Issue #571 の staging runtime smoke CI 専用 GitHub Environment。current cycle は `implemented-local / implementation / NON_VISUAL` であり、実 Environment 作成と secret 配置は user approval 後に行う。2026-05-10 の task-02 close-out 以降、配置 runbook の入口正本は `docs/30-workflows/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/secret-provisioning.md` とする。推奨実行経路は `bash scripts/smoke/provision-staging-secrets.sh` で、`op read` 出力は `gh secret set --body -` へ stdin で直結する。手動 `gh secret set` は fallback として runbook に残す。
 
 | Category | Secret | Placement | Purpose |
 | --- | --- | --- | --- |
@@ -188,21 +198,10 @@ GitHub Environment は作成されているが secret が 0 件のまま staging
 | --- | --- |
 | pre-flight 経路 | `bash scripts/smoke/provision-staging-secrets.sh`（idempotent / redacted） |
 | inventory check | `gh secret list --env staging-runtime-smoke --json name -q '.[].name'` で **name のみ** を確認。値・値 hash を出力しない |
-| 投入経路 | `op read "op://<Vault>/<Item>/<Field>" \| gh secret set <NAME> --env staging-runtime-smoke` の stdin 直結 |
+| 投入経路 | `op read "op://<Vault>/<Item>/<Field>" \| gh secret set <NAME> --env staging-runtime-smoke --body -` の stdin 直結 |
 | smoke 起動 gate | user-approved Actions run 前の inventory は 5 secret（`STAGING_API_BASE` / `STAGING_ADMIN_BEARER` / `STAGING_MEMBER_ID` / `STAGING_ME_BEARER` / `SLACK_WEBHOOK_INCIDENT`）一致を確認する。ただし workflow 内 early-fail は smoke 本体必須 4 secret のみを対象にし、Slack は failure summary post step の fail-closed guard が担当する |
 | `${VAR:?}` の扱い | smoke workflow 側では smoke 本体必須 4 secret を name-only early-fail する。invocation 前の runbook/helper pre-flight で 0 件を検出し、連鎖失敗を抑止する |
 | ログ衛生 | Environment 名と secret 名のみを stdout に出力。値、Authorization header、cookie, decoded webhook URL は出力 / 文書 / PR / evidence に転記禁止 |
-
-## web-cd staging / production Environment Secret provisioning（followup-002 / 2026-05-14）
-
-`web-cd.yml` の `deploy-staging` / `deploy-production` 用 `CLOUDFLARE_API_TOKEN` provisioning は、`staging-runtime-smoke` runbook とは別物として扱う。canonical runbook は `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/staging-secret-provisioning.md` と `docs/30-workflows/completed-tasks/ci-secret-alignment-and-runtime-smoke-recovery/runbooks/production-secret-provisioning.md` の 2 本。
-
-| Item | Contract |
-| --- | --- |
-| Secret | `CLOUDFLARE_API_TOKEN` は GitHub Environment `staging` / `production` の environment-scoped web-cd deploy token |
-| Non-secret variable | `CLOUDFLARE_ACCOUNT_ID` は GitHub Variables 管理。Environment Secret に投入しない |
-| 1Password source | runbook / evidence には `op://...` 参照のみを記録し、解決値・値 hash・token preview は記録しない |
-| Boundary | GitHub secret mutation、Cloudflare token issuance / revoke、deploy run、commit、push、PR は user-gated |
 
 ### GitHub Variables（非機密設定値）
 
