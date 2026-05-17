@@ -3211,6 +3211,7 @@
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-issue-299-schema-questions-fallback-retirement-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
@@ -4218,6 +4219,7 @@
       "workflow-issue-559-task-03-followup-001-sentry-staging-runtime-evidence-artifact-inventory.md",
       "workflow-issue-572-attendance-provider-production-runtime-smoke-artifact-inventory.md",
       "workflow-task-05a-form-preview-503-001-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md"
     ],
     "snapshot": [
@@ -4432,6 +4434,7 @@
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-issue-359-production-d1-out-of-band-apply-audit-001-artifact-inventory.md",
       "workflow-task-spec-2d-contract-stage-2-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
@@ -6398,6 +6401,7 @@
       "workflow-task-12-member-detail-register-legal-artifact-inventory.md",
       "workflow-task-13-login-rebuild-artifact-inventory.md",
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-494-09a-A-exec-staging-smoke-runtime-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
@@ -8465,6 +8469,7 @@
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-21-w2-par-screen-blueprints-admin-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
       "workflow-ut-02a-attendance-profile-integration-artifact-inventory.md",
@@ -11318,6 +11323,7 @@
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -11890,6 +11896,7 @@
       "testing-playwright-e2e.md",
       "ui-ux-components.md",
       "workflow-task-18-fu-full-visual-regression-suite-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
     "CA": [
@@ -13145,6 +13152,7 @@
       "task-workflow-completed-ui-ux-visual-baseline-drift.md",
       "testing-playwright-e2e.md",
       "ui-ux-components.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-ui-ux-visual-baseline-drift.md"
     ],
     "一律": [
@@ -14947,6 +14955,7 @@
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -21974,6 +21983,7 @@
       "workflow-task-24-ui-mvp-w8-par-invariant-audit-artifact-inventory.md",
       "workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md",
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
       "workflow-task-issue-191-production-d1-schema-aliases-apply-001-artifact-inventory.md",
       "workflow-task-issue-191-schema-aliases-implementation-001-artifact-inventory.md",
@@ -22062,6 +22072,7 @@
       "workflow-task-09c-serial-production-deploy-and-post-release-verification-artifact-inventory.md",
       "workflow-task-18-w7-verify-tokens-and-playwright-smoke-artifact-inventory.md",
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md",
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md",
       "workflow-task-issue-346-08a-canonical-workflow-tree-restore-artifact-inventory.md",
       "workflow-ut-07a-01-member-tags-assign-cleanup-artifact-inventory.md",
       "workflow-ut-07b-fu-01-schema-alias-backfill-queue-cron-split-artifact-inventory.md",
@@ -22984,6 +22995,12 @@
     ],
     "Utility": [
       "workflow-task-26-ui-mvp-w8-par-error-tsx-token-utility-migration-artifact-inventory.md"
+    ],
+    "capture": [
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
+    ],
+    "Captured": [
+      "workflow-task-709-visual-baseline-runtime-capture-artifact-inventory.md"
     ],
     "参照される実装ファイル": [
       "workflow-task-claude-code-permissions-deny-bypass-verification-artifact-inventory.md",
