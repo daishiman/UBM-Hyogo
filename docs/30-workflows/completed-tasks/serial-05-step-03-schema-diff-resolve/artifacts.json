@@ -30,7 +30,33 @@
     "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-03-schema-diff-resolve/spec.md",
     "pr_base": "dev",
     "governance_mutation_user_gate": false,
-    "artifact_mirror": "root artifacts.json and outputs/artifacts.json are byte-identical"
+    "artifact_mirror": "root artifacts.json and outputs/artifacts.json are byte-identical",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized for schema-diff resolve UI hardening (existing SchemaDiffPanel alignment)"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00+09:00",
+        "evidence_path": "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete; Phase 12 strict 7 outputs present and compliance check passed"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/serial-05-step-03-schema-diff-resolve/outputs/phase-11/manual-test-result.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: runtime screenshots / staging smoke / commit / push / PR are user-gated"
+      }
+    ]
   },
   "phases": [
     {
@@ -38,21 +64,27 @@
       "name": "要件定義",
       "file": "outputs/phase-01/requirements.md",
       "status": "completed",
-      "outputs": ["outputs/phase-01/requirements.md"]
+      "outputs": [
+        "outputs/phase-01/requirements.md"
+      ]
     },
     {
       "phase": 2,
       "name": "設計",
       "file": "outputs/phase-02/design.md",
       "status": "completed",
-      "outputs": ["outputs/phase-02/design.md"]
+      "outputs": [
+        "outputs/phase-02/design.md"
+      ]
     },
     {
       "phase": 3,
       "name": "設計レビュー",
       "file": "outputs/phase-03/design-review.md",
       "status": "completed",
-      "outputs": ["outputs/phase-03/design-review.md"]
+      "outputs": [
+        "outputs/phase-03/design-review.md"
+      ]
     },
     {
       "phase": 4,
@@ -69,49 +101,63 @@
       "name": "実装計画",
       "file": "outputs/phase-05/implementation-plan.md",
       "status": "completed",
-      "outputs": ["outputs/phase-05/implementation-plan.md"]
+      "outputs": [
+        "outputs/phase-05/implementation-plan.md"
+      ]
     },
     {
       "phase": 6,
       "name": "実装手順",
       "file": "outputs/phase-06/implementation-steps.md",
       "status": "completed",
-      "outputs": ["outputs/phase-06/implementation-steps.md"]
+      "outputs": [
+        "outputs/phase-06/implementation-steps.md"
+      ]
     },
     {
       "phase": 7,
       "name": "テスト計画",
       "file": "outputs/phase-07/test-plan.md",
       "status": "completed",
-      "outputs": ["outputs/phase-07/test-plan.md"]
+      "outputs": [
+        "outputs/phase-07/test-plan.md"
+      ]
     },
     {
       "phase": 8,
       "name": "ドキュメント更新計画",
       "file": "outputs/phase-08/docs-updates.md",
       "status": "completed",
-      "outputs": ["outputs/phase-08/docs-updates.md"]
+      "outputs": [
+        "outputs/phase-08/docs-updates.md"
+      ]
     },
     {
       "phase": 9,
       "name": "受け入れ基準",
       "file": "outputs/phase-09/acceptance.md",
       "status": "completed",
-      "outputs": ["outputs/phase-09/acceptance.md"]
+      "outputs": [
+        "outputs/phase-09/acceptance.md"
+      ]
     },
     {
       "phase": 10,
       "name": "リファクタ要点",
       "file": "outputs/phase-10/refactor-summary.md",
       "status": "completed",
-      "outputs": ["outputs/phase-10/refactor-summary.md"]
+      "outputs": [
+        "outputs/phase-10/refactor-summary.md"
+      ]
     },
     {
       "phase": 11,
       "name": "VISUAL evidence plan",
       "file": "outputs/phase-11/evidence.md",
       "status": "runtime_pending",
-      "outputs": ["outputs/phase-11/evidence.md"],
+      "outputs": [
+        "outputs/phase-11/evidence.md"
+      ],
       "planned_evidence": [
         "outputs/phase-11/evidence/typecheck.log",
         "outputs/phase-11/evidence/lint.log",
@@ -144,7 +190,9 @@
       "name": "PR draft",
       "file": "outputs/phase-13/pr-summary.md",
       "status": "pending_user_approval",
-      "outputs": ["outputs/phase-13/pr-summary.md"],
+      "outputs": [
+        "outputs/phase-13/pr-summary.md"
+      ],
       "user_approval_required": true
     }
   ],
