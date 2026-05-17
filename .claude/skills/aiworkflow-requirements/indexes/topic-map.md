@@ -3511,6 +3511,15 @@ node scripts/list-specs.js --topics
 | Planned Implementation Artifacts | L13 |
 | State Boundary | L25 |
 
+### references/workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Implementation Targets | L14 |
+| State | L22 |
+| Local Evidence | L33 |
+| Downstream | L41 |
+
 ### references/workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md
 
 | セクション | 行 |
