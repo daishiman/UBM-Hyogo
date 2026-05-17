@@ -36,7 +36,7 @@
       {
         "gate_id": "Gate-A",
         "status": "passed",
-        "passed_at": "2026-05-17",
+        "passed_at": "2026-05-17T00:00:00Z",
         "evidence_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/outputs/phase-11/cloudflare-oidc-support-revalidation-2026-05-17.md",
         "approver": "daishiman",
         "notes": "Cloudflare Workers GitHub Actions docs and wrangler-action#402 status (2026-05-17): unsupported / OPEN."
@@ -44,7 +44,7 @@
       {
         "gate_id": "Gate-B",
         "status": "passed",
-        "passed_at": "2026-05-17",
+        "passed_at": "2026-05-17T00:00:00Z",
         "evidence_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/outputs/phase-11/verify-claim-pin-dry-run.log",
         "approver": "daishiman",
         "notes": "verify-claim-pin.sh の 9 ケース exit path 全 PASS。"
@@ -52,7 +52,7 @@
       {
         "gate_id": "Gate-C",
         "status": "passed",
-        "passed_at": "2026-05-17",
+        "passed_at": "2026-05-17T00:00:00Z",
         "evidence_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/outputs/phase-11/redaction-check-extension.log",
         "approver": "daishiman",
         "notes": "redaction-check.sh 拡張 JWT / cloudflare-aud 検出 + 既存 ACCOUNT_ID regression PASS。"
@@ -60,7 +60,7 @@
       {
         "gate_id": "Gate-D",
         "status": "passed",
-        "passed_at": "2026-05-17",
+        "passed_at": "2026-05-17T00:00:00Z",
         "evidence_path": "docs/30-workflows/issue-762-cf-oidc-staging-proof-prod-cutover/outputs/phase-11/web-cd-comment-diff.md",
         "approver": "daishiman",
         "notes": "web-cd.yml diff がコメント行のみ。grep -c 'NOTE(issue-762)' = 2。"
