@@ -44,6 +44,7 @@
     "validate:phase11-paths": "node .claude/skills/task-specification-creator/scripts/validate-phase11-canonical-evidence-paths.js",
     "gate-metadata:validate": "node --import tsx scripts/gate-metadata/validate.ts",
     "sync:check": "git fetch --quiet origin main dev 2>/dev/null; bash scripts/hooks/stale-worktree-notice.sh fetch",
+    "sync:resolve": "bash scripts/sync/resolve-skill-merge-conflicts.sh",
     "skill:logs:render": "tsx scripts/skill-logs-render.ts",
     "skill:logs:append": "tsx scripts/skill-logs-append.ts",
     "cf:alerts:list": "bash scripts/cf.sh alerts list",

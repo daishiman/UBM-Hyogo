@@ -41,6 +41,37 @@
 - 整合性: `artifacts.json` と `outputs/artifacts.json` の `metadata.gates` は同一であるべき（CI gate が両方を独立検証する）。
 - Why: skill の正規 schema は `scripts/gate-metadata/validate.ts` の zod schema が SSOT。Phase 12 / 13 spec の表記揺れ（`completed` / `verified` / `blocked`）は人間向けで、artifacts.json の `status` field とは別軸。
 
+## L-DEVSYNC-007: 予防策レイヤー (2026-05-17 追加)
+
+事後解消だけでなく、構造的予防を以下 3 層で実装する:
+
+### 層 1: `.gitattributes` `merge=union` driver
+- 対象: 純粋な append-only ファイル（混在しないもの）のみ:
+  - `docs/30-workflows/LOGS.md`
+  - `.claude/skills/*/SKILL-changelog.md`
+- 効果: git が自動で両側の追加行を結合する → コンフリクト自体が発生しない。
+- 制約: union driver は「単に両側の non-conflicting 行を残す」だけなので、同一行を両側で書き換えるとそのまま結合され重複行になる。append-only な表に限定する。
+- 適用禁止: 段落・コード・設定が混ざるファイル（SKILL.md / task-workflow-active.md / indexes/*.md / *.json）。union が semantic content を破壊する。
+
+### 層 2: 混在ファイル用 union resolver スクリプト
+- 場所: `scripts/sync/resolve-skill-merge-conflicts.sh`
+- 起動: `pnpm sync:resolve`（merge 進行中のみ実行可）
+- 動作:
+  - 既定 union 対象（SKILL.md / task-workflow-active.md / indexes/{resource,topic,quick-reference}-map.md）に L-DEVSYNC-001 の Python state machine を適用
+  - `indexes/keywords.json` には `git checkout --ours` 後 `pnpm indexes:rebuild` で再生成（L-DEVSYNC-002）
+  - 未知の conflict path は WARN のみで報告（破壊禁止）
+- Why: 層 1 を適用できない「混在だが changelog table 部分だけ衝突する」ファイルを冪等に解消する。失敗しても merge state は失われないため再実行可能。
+
+### 層 3: ドキュメント・運用ポリシー
+- CLAUDE.md / lefthook sync-merge セクションから本書を参照
+- dev sync 手順:
+  1. `git merge dev --no-edit`
+  2. conflict 発生時は `pnpm sync:resolve` を実行（層 2）
+  3. 残った未解消は手動解消（L-DEVSYNC-001/002 ルールに準拠）
+  4. `git commit` で merge commit を確定（pre-commit `staged-task-dir-guard` は merge 中スキップ）
+  5. `mise exec -- pnpm typecheck && pnpm lint`
+  6. `git push`（pre-push `gate-metadata-guard` / `indexes-drift-guard` が gate）
+
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。
