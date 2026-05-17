@@ -2682,6 +2682,14 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 `docs/30-workflows/task-16-admin-tags-meetings-requests/` の 30 種思考法レビューで、旧生成仕様が `apps/web/src/app` / `src/features/admin` / `lib/api/admin-*` / `/decision` / `approved` という stale contract を含んでいた。現行 repo 正本（`apps/web/app`, `apps/web/src/components/admin`, `apps/web/src/lib/admin`）へ非破壊再構成し、Phase 01-13 canonical naming、root/output artifacts parity、Phase 11 pending runtime marker、Phase 12 strict 7、aiworkflow-requirements 同期を同一 wave で実体化した。runtime screenshots、staging smoke、commit、push、PR は user-gated。
 # 2026-05-09 issue586 post-switch 7-day close-out review feedback
 
+# 2026-05-16 UT-17-FU-005 alert-relay KV error metrics review
+
+- 対象: `docs/30-workflows/ut-17-followup-005-alert-relay-kv-error-metrics/`
+- 種別: implementation / NON_VISUAL / Phase 12 strict 7 + root/output artifacts parity review
+- 結果: `spec_created` のまま完了断定していた drift を `implemented_local_evidence_captured / implementation_complete_pending_pr` へ補正し、Phase 1〜12 completed / Phase 13 user-gated に整合。root `artifacts.json` と `outputs/artifacts.json` を full mirror に統一。
+- 実装: `apps/api/src/routes/internal/alert-relay.ts` と `alert-relay.spec.ts`、monthly healthcheck runbook を同一 cycle で更新。typecheck / lint / API test PASS。
+- skill feedback: task-specification-creator の template structural change は不要。既存 strict 7 / 3-state / artifacts parity gate で検出・修正可能だったため no-op。
+
 - Added Phase 11/12 guidance for N-day scheduled observation close-out: cross-run artifact download via `gh api`, durable `expectedSnapshots` / `actualSnapshots`, run URL evidence, aggregate gates for fallback/leakage/classifier/skeleton metrics, and evidence PR creation without direct push.
 - Applied to `/Users/dm/dev/dev/個人開発/UBM-Hyogo/.worktrees/task-20260509-211455-wt-6/docs/30-workflows/issue-586-post-switch-7day-close-out/`.
 

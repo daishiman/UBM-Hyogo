@@ -57,6 +57,19 @@ done
 
 実例: Issue #533 public profile attendance では `pnpm --filter @ubm-hyogo/api test -- <file>` が対象 file を絞り込まなかったため、root config を明示した `pnpm exec vitest run --root=. --config=vitest.config.ts <exact files>` を canonical focused command にした。pnpm filter 経由の package script が test runner へ file 引数を渡さない repo では、Phase 1 baseline / Phase 4 test plan / Phase 9 QA / Phase 11 evidence / Phase 12 compliance の全箇所を、実測 PASS した root Vitest command にそろえる。
 
+## Client Hook Shared Error Contract Gate
+
+Client hook が HTTP / auth error を扱う場合、既存 shared error class と redirect helper を Phase 1-5 で探索し、hook 内に独自 Error class や独自 query 語彙を作らない。Phase 12 では次の 4 点を同一 wave で確認する。
+
+| Gate | 必須条件 |
+| --- | --- |
+| shared error class | `AuthRequiredError` / `FetchAuthedError` 等の既存 class を使い、features 配下で同一概念の Error class を新設しない |
+| redirect query vocabulary | login redirect は既存 URL helper の query 名に合わせる。`next` / `redirect` のような表記 drift を Phase 12 に残さない |
+| optional side-effect DI | redirect / toast / currentPath などの副作用境界がある場合、test 用 optional DI または既存 helper 経由で検証可能にする |
+| public hook parity | 正本仕様の戻り値（例: `reset`）と現コード・tests・aiworkflow inventory を同じ wave で同期する |
+
+実例: `i02-admin-error-type-unify` では、`useAdminMutation` の独自 `AdminMutationHttpError` を削除するだけでは p-10 の 401 redirect 契約を証明できなかった。最終 close-out では `toLoginRedirect(currentPath)` + optional `redirector` を hook に接続し、query 名を `/login?redirect=...` に統一し、`reset` 返却を正本仕様とコードへ同期した。
+
 ## Recovery Window Evidence Parity Gate
 
 D+N / 2 周目 recovery / re-observation workflow で `since` / D'+0 / recovery mode を追加する場合、Phase 5 / Phase 11 / Phase 12 では次の 2 点を必須にする。
@@ -69,6 +82,19 @@ D+N / 2 周目 recovery / re-observation workflow で `since` / D'+0 / recovery 
 | Phase 12 truthfulness | local implementation diff が存在する場合、`spec_created` / `no code changed` / `spec-only close-out` と書かず `implemented-local-runtime-pending` 等へ root/output artifacts と aiworkflow ledgers を同 wave で再分類する |
 
 実例: Issue #655 D+7 recovery 2nd-cycle では初回差分が `recovery_mode` と `since` を受け取るだけで、実際の `hourly-merged` は直近 8 日のまま、かつ recovery mode で run URL list / issue-rate comparison を skip していた。`post-switch-monitor.ts` に D'+0 window filter と schema fields を追加し、`cf-audit-log-7day-summary.yml` で recovery suffix evidence を通常 evidence と同じ粒度で生成するよう補正した。
+
+## Infra / Tests Fixture Dirty Diff Gate（UT-17 followup-006 反映）
+
+source unassigned-task が「Dashboard-only」「IaC 不要」と読める場合でも、Phase 5 以降で `infra/cloudflare-alerts/policies/*.json` / `tests/fixtures/**` / `docs/30-workflows/runbooks/**` などへ実装差分が入った瞬間、close-out 前の dirty diff gate を `apps/` / `packages/` 限定に閉じてはならない。
+
+| Gate | 必須条件 |
+| --- | --- |
+| diff target scope | dirty diff 確認対象を `apps/` / `packages/` から `infra/` / `scripts/` / `.github/` / `tests/fixtures/` / `docs/30-workflows/runbooks/` まで広げる |
+| state vocabulary | hit があれば `spec_created` / `No Code Changes` で閉じず `IMPLEMENTED_LOCAL_RUNTIME_PENDING` などへ再分類 |
+| detection command | `git status --porcelain -- infra/ scripts/ .github/ tests/fixtures/ docs/30-workflows/runbooks/` を Phase 12 entry checklist と `documentation-changelog.md` の双方に転記 |
+| skill promotion | source unassigned の「Dashboard-only」前提を疑う routing を `task-specification-creator` の `references/phase-12-documentation-guide.md` / SKILL Trigger に昇格 |
+
+実例: UT-17 followup-006 alert dedup + KV usage dashboard monitoring では、source unassigned-task が「Dashboard-only」前提で `apps/` 改変ゼロを想定していた。実装は `infra/cloudflare-alerts/policies/workers-kv-stored-bytes.json` / `workers-kv-writes-per-day.json` 新規 + `quota-base.json` 拡張 + `tests/fixtures/cloudflare-alerts/api-list-policies.json` + `infra/cloudflare-alerts/lib/__tests__/*.spec.ts` + `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` の同期に拡大。旧 gate（`apps/` / `packages/` 限定）では素通りし `spec_created` で close 寸前だったため、infra/scripts/tests fixture 実装差分 gate を追加し、source task status を `IMPLEMENTED_LOCAL_RUNTIME_PENDING` へ再分類した。検知コマンドは上記 `git status --porcelain` を逐語埋め込みで運用する。
 
 ## 苦戦箇所 Required Fields
 

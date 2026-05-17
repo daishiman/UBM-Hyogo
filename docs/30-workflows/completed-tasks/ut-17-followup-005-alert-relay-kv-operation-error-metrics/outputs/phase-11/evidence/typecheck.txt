@@ -1,0 +1,9 @@
+Command: mise exec -- pnpm --filter @ubm-hyogo/api typecheck
+Date: 2026-05-16
+Result: PASS
+
+Summary:
+- @ubm-hyogo/api ran `tsc -p tsconfig.json --noEmit`.
+- Exit code: 0.
+- Rerun after review fixes: PASS.
+- `mise` warned that local `.mise.toml` is not trusted; this did not affect the command result.

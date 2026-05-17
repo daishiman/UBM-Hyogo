@@ -2,13 +2,15 @@
   "$schema": "./schema/quota-base.schema.json",
   "version": 1,
   "source": "https://developers.cloudflare.com/workers/platform/limits/",
-  "snapshotAt": "2026-05-09",
+  "snapshotAt": "2026-05-16",
   "values": {
     "workers_requests_per_day": 100000,
     "d1_read_queries_per_day": 5000000,
     "d1_write_queries_per_day": 100000,
     "pages_requests_per_month": 100000,
     "r2_class_a_per_month": 1000000,
-    "r2_class_b_per_month": 10000000
+    "r2_class_b_per_month": 10000000,
+    "workers_kv_writes_per_day": 1000,
+    "workers_kv_stored_data_bytes": 1073741824
   }
 }
