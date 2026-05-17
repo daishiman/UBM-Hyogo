@@ -5,14 +5,14 @@
 
 ## 1. 目的
 
-admin/schema 画面に diff 一覧と resolve UI を追加する。
+admin/schema 画面の既存 `SchemaDiffPanel` に diff 一覧と resolve UI が存在するため、本 step では greenfield 追加ではなく existing hardening として現行 API contract・a11y・validation を揃える。
 
 **API 実在確認済 (2026-05-15)**: `apps/api/src/routes/admin/schema.ts:178` に `app.post("/schema/aliases", ...)` 実装あり。本 spec は **full 仕様（SchemaDiffResolveForm 含む）** で進める。縮退ゲートは fallback として残すが、デフォルトは full 実装。
 
 ## 2. スコープ
 
-- **変更対象**: `apps/web/app/(admin)/admin/schema/` 配下
-- **新規実装**: SchemaDiffList component + optional SchemaDiffResolveForm
+- **変更対象**: `apps/web/src/components/admin/SchemaDiffPanel.tsx` / `apps/web/src/lib/admin/api.ts` / focused tests
+- **既存実装 hardening**: `SchemaDiffPanel` の 4 ペイン table semantics、stableKey client validation、form focus、409/422 payload detail、status 日本語表示
 - **API**:
   - `GET /api/admin/schema/diff` (read-only fetch)
   - `POST /api/admin/schema/aliases` (resolve, optional)
@@ -21,22 +21,18 @@ admin/schema 画面に diff 一覧と resolve UI を追加する。
 ## 3. 変更対象ファイル一覧
 
 ```
-apps/web/app/(admin)/admin/schema/
-  ├── page.tsx (server component, fetch + render)
-  └── _components/ (新規 dir)
-      ├── SchemaDiffList.tsx (新規)
-      ├── SchemaDiffResolveForm.tsx (optional)
-      └── index.ts
-
 apps/web/src/lib/admin/
-  ├── server-fetch.ts (GET /api/admin/schema/diff 推加)
+  ├── api.ts (POST /api/admin/schema/aliases payload detail retention)
+apps/web/src/components/admin/
+  ├── SchemaDiffPanel.tsx (既存 hardening)
+  └── __tests__/SchemaDiffPanel.component.spec.tsx
 ```
 
 ## 4. 設計
 
-### 4.1 SchemaDiffList component
+### 4.1 SchemaDiffPanel list region
 
-**役割**: schema diff 一覧表示（field-by-field）
+**役割**: 既存 `SchemaDiffPanel` 内の schema diff 一覧表示（field-by-field）
 
 **Props**:
 ```typescript
@@ -50,7 +46,7 @@ interface SchemaDiff {
   readonly questionId: string | null;
   readonly label: string;
   readonly suggestedStableKey: string | null;
-  readonly status: "pending" | "resolved";
+  readonly status: "queued" | "resolved";
 }
 ```
 
@@ -69,7 +65,7 @@ interface SchemaDiff {
 
 ### 4.2 SchemaDiffResolveForm component (optional)
 
-**役割**: schema diff field-by-field resolve (if API exists)
+**役割**: 既存 `SchemaDiffPanel` 内の schema diff field-by-field resolve
 
 **Props**:
 ```typescript
@@ -94,17 +90,18 @@ POST /api/admin/schema/aliases
   "diffId": "...",
   "questionId": "...",
   "stableKey": "user_defined_key",
-  "dryRun": false
 }
 
 Response (200):
 {
   "ok": true,
-  "result": { "diffId": "...", "stableKey": "..." }
+  "mode": "apply",
+  "confirmed": true,
+  "backfill": { "status": "completed" }
 }
 
 Error (422):
-{ "error": "collision", "message": "..." }
+{ "ok": false, "code": "stable_key_collision", "error": "stableKey collision", "existingQuestionIds": ["..."] }
 ```
 
 ## 5. 関数・型シグネチャ
@@ -142,25 +139,24 @@ export function SchemaDiffResolveForm({
 
 ## 7. テスト方針
 
-### SchemaDiffList.spec.tsx
+### SchemaDiffPanel.component.spec.tsx
 - [✓] diffs render as rows
-- [✓] suggestedStableKey read-only (no edit)
-- [✓] resolve button present (if onResolve provided)
-- [✓] button click → onResolve(diffId, key)
-
-### SchemaDiffResolveForm.spec.tsx (if API exists)
+- [✓] 4 ペイン table semantics
+- [✓] queued / resolved は日本語 label
 - [✓] form render (stableKey input + submit)
+- [✓] row select → stableKey input focus
 - [✓] stableKey input change
+- [✓] client-side regex validation + `aria-describedby`
 - [✓] submit → mutation trigger
 - [✓] 200 response → onSuccess()
-- [✓] 422 response (collision) → error toast
+- [✓] 422 response (collision) → error alert with existingQuestionIds
+- [✓] 409 response → conflict alert with existingStableKey
 
 ## 8. ローカル実行コマンド
 
 ```bash
 # unit test
-pnpm test apps/web --run -- SchemaDiffList.spec.tsx
-pnpm test apps/web --run -- SchemaDiffResolveForm.spec.tsx
+pnpm exec vitest run apps/web/src/components/admin/__tests__/SchemaDiffPanel.component.spec.tsx apps/web/src/lib/admin/__tests__/api.spec.ts
 
 # dev server
 pnpm dev
@@ -175,13 +171,12 @@ pnpm e2e:smoke
 ## 9. DoD
 
 ### 実装完了
-- [✓] SchemaDiffList 実装
-- [✓] SchemaDiffResolveForm (if API exists) or 縮退仕様
+- [✓] 既存 SchemaDiffPanel hardening
 - [✓] unit test green
 - [✓] page.tsx で fetch + component 统合
 
 ### 品質
-- [✓] table a11y (th/td, role)
+- [✓] table a11y (th/td, scope)
 - [✓] form validation (stableKey regex: /^[a-zA-Z][a-zA-Z0-9_]*$/)
 - [✓] design token 色 使用
 
@@ -196,7 +191,7 @@ pnpm e2e:smoke
 
 1. **API availability**: `POST /api/admin/schema/aliases` 実装状況確認必須
 2. **stableKey validation**: API側の regex と同期確認
-3. **큐 pending**: 장시간 실행되는 diff 처리에 대한 UI feedback
+3. **処理待ち feedback**: 長時間実行される diff 処理に対する UI feedback
 
 ## 11. 前提
 
@@ -212,5 +207,5 @@ pnpm e2e:smoke
 
 ---
 
-**Updated**: 2026-05-15
-**Status**: Ready for implementation (缩退仕様対応)
+**Updated**: 2026-05-16
+**Status**: implemented-local-runtime-pending（local hardening 実装済み、runtime screenshots / PR は user-gated）

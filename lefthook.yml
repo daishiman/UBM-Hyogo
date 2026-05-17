@@ -54,3 +54,16 @@ pre-push:
     coverage-guard:
       run: bash scripts/coverage-guard.sh --changed
       stage_fixed: false
+    indexes-drift-guard:
+      run: bash scripts/hooks/indexes-drift-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 skill indexes に drift があります。
+        pnpm indexes:rebuild → 差分を commit → 再 push してください。
+        対応 CI: verify-indexes-up-to-date
+    gate-metadata-guard:
+      run: bash scripts/hooks/gate-metadata-guard.sh
+      stage_fixed: false
+      fail_text: |
+        🚫 変更された artifacts.json に metadata.gates が欠落しています。
+        対応 CI: verify-gate-metadata

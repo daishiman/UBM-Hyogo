@@ -36,17 +36,28 @@ const PUBLIC_OK = [200, 301, 302, 307];
 const AUTH_OK = [200, 301, 302, 307, 401, 403];
 const PUBLIC_OK_OR_404 = [200, 301, 302, 307, 404];
 
+function parseOptionalHostname(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+  try {
+    return new URL(value).hostname.toLowerCase();
+  } catch {
+    return undefined;
+  }
+}
+
 function assertStagingBaseUrl(value: string) {
   const url = new URL(value);
   const host = url.hostname.toLowerCase();
   const productionHosts = new Set(
     [
       "ubm-hyogo-web.daishimanju.workers.dev",
-      process.env.PRODUCTION_BASE_URL,
-      process.env.PRODUCTION_WEB_BASE_URL,
+      parseOptionalHostname(process.env.PRODUCTION_BASE_URL),
+      parseOptionalHostname(process.env.PRODUCTION_WEB_BASE_URL),
     ]
       .filter(Boolean)
-      .map((entry) => new URL(entry as string).hostname.toLowerCase()),
+      .map((entry) => entry as string),
   );
   const looksStaging =
     host === "localhost" ||
@@ -60,14 +71,17 @@ function assertStagingBaseUrl(value: string) {
   }
 }
 
+function assertSmokeFixtureEnabled() {
+  if (process.env.ENABLE_STAGING_SMOKE_FIXTURE !== "1") {
+    throw new Error("[staging-smoke] ENABLE_STAGING_SMOKE_FIXTURE=1 is required for smoke fixture routes");
+  }
+}
+
 test.beforeAll(() => {
   if (!BASE) {
     throw new Error("[staging-smoke] STAGING_BASE_URL is required");
   }
   assertStagingBaseUrl(BASE);
-  if (process.env.ENABLE_STAGING_SMOKE_FIXTURE !== "1") {
-    throw new Error("[staging-smoke] ENABLE_STAGING_SMOKE_FIXTURE=1 is required");
-  }
 });
 
 test.describe("staging smoke / public", () => {
@@ -103,14 +117,70 @@ test.describe("staging smoke / 404", () => {
 });
 
 test.describe("staging smoke / error boundary", () => {
-  test("GET /__smoke__/error-boundary renders boundary UI", async ({ page }) => {
-    await page.goto(`${BASE}/__smoke__/error-boundary`, { waitUntil: "domcontentloaded" });
+  test.beforeAll(() => {
+    assertSmokeFixtureEnabled();
+  });
+
+  test("GET /smoke/error-boundary renders boundary UI", async ({ page }) => {
+    await page.goto(`${BASE}/smoke/error-boundary`, { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("alert")).toBeVisible();
     await expect(page.getByText(/エラーID/)).toBeVisible();
   });
 
-  test("GET /__smoke__/members-list returns acceptable status", async ({ request }) => {
-    const res = await request.get(`${BASE}/__smoke__/members-list`, { maxRedirects: 0 });
-    expect(PUBLIC_OK, `route=/__smoke__/members-list status=${res.status()}`).toContain(res.status());
+  test("GET /smoke/members-list returns acceptable status", async ({ request }) => {
+    const res = await request.get(`${BASE}/smoke/members-list`, { maxRedirects: 0 });
+    expect(PUBLIC_OK, `route=/smoke/members-list status=${res.status()}`).toContain(res.status());
+  });
+});
+
+test.describe("staging smoke / loading state", () => {
+  test.beforeAll(() => {
+    assertSmokeFixtureEnabled();
+  });
+
+  test("GET /smoke/loading-state streams loading boundary then final render", async ({ page, request }) => {
+    const streamed = await request.get(`${BASE}/smoke/loading-state?delay=1000`);
+    expect(streamed.status()).toBe(200);
+    const html = await streamed.text();
+    expect(html).toContain('data-page="smoke-loading-state"');
+    expect(html).toContain('aria-live="polite"');
+    expect(html).toContain("読み込み中");
+    expect(html).toContain('data-page="smoke-loading-state-fixture"');
+
+    const res = await page.goto(`${BASE}/smoke/loading-state?delay=1000`, { waitUntil: "domcontentloaded" });
+    expect(res?.status()).toBe(200);
+    await expect(page.locator('[data-page="smoke-loading-state-fixture"]')).toBeVisible();
+    await expect(page.locator('[data-page="smoke-loading-state"]')).toHaveCount(0);
+  });
+
+  test("GET /smoke/loading-state?delay=0 renders final fixture", async ({ page }) => {
+    const res = await page.goto(`${BASE}/smoke/loading-state?delay=0`, { waitUntil: "domcontentloaded" });
+
+    expect(res?.status()).toBe(200);
+    await expect(page.locator('[data-page="smoke-loading-state-fixture"]')).toBeVisible();
+    await expect(page.getByText("delay-ms: 0")).toBeVisible();
+  });
+
+  test("GET /smoke/loading-state?delay=3500 clamps delay to 3000", async ({ page }) => {
+    const startedAt = Date.now();
+    await page.goto(`${BASE}/smoke/loading-state?delay=3500`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator('[data-page="smoke-loading-state-fixture"]')).toBeVisible();
+    await expect(page.getByText("delay-ms: 3000")).toBeVisible();
+    expect(Date.now() - startedAt).toBeGreaterThanOrEqual(2000);
+  });
+
+  test("GET /smoke/loading-state?delay=abc falls back to default delay", async ({ page }) => {
+    await page.goto(`${BASE}/smoke/loading-state?delay=abc`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator('[data-page="smoke-loading-state-fixture"]')).toBeVisible();
+    await expect(page.getByText("delay-ms: 1500")).toBeVisible();
+  });
+
+  test("GET /smoke/loading-state?delay=-1 falls back to default delay", async ({ page }) => {
+    await page.goto(`${BASE}/smoke/loading-state?delay=-1`, { waitUntil: "domcontentloaded" });
+
+    await expect(page.locator('[data-page="smoke-loading-state-fixture"]')).toBeVisible();
+    await expect(page.getByText("delay-ms: 1500")).toBeVisible();
   });
 });

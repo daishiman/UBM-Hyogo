@@ -1,6 +1,6 @@
 // 04c + 07b: GET /admin/schema/diff, POST /admin/schema/aliases
 // 不変条件 #14: schema 変更は /admin/schema/* のみ。
-// 07b 拡張: dryRun query, recommendedStableKeys 同梱, collision 422, idempotent
+// 07b 拡張: dryRun query, recommendedStableKeys 同梱, collision 409, idempotent
 import { Hono } from "hono";
 import { z } from "zod";
 import { requireAdmin, type RequireAuthVariables } from "../../middleware/require-admin";
@@ -147,7 +147,7 @@ const failureToHttp = (
       };
     case "collision":
       return {
-        status: 422,
+        status: 409,
         body: {
           ok: false,
           code: "stable_key_collision",
