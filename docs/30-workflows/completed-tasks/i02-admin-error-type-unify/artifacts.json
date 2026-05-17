@@ -1,0 +1,50 @@
+{
+  "taskId": "i02-admin-error-type-unify",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "workflow_state": "implemented_local_evidence_captured",
+  "evidence_state": "LOCAL_COMMAND_EVIDENCE_CAPTURED",
+  "canonical_workflow": "docs/30-workflows/i02-admin-error-type-unify/",
+  "source_spec": "docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02-admin-error-type-unify/spec.md",
+  "created_at": "2026-05-17",
+  "phases": {
+    "phase-01": { "file": "outputs/phase-01.md", "state": "completed" },
+    "phase-02": { "file": "outputs/phase-02.md", "state": "completed" },
+    "phase-03": { "file": "outputs/phase-03.md", "state": "completed" },
+    "phase-04": { "file": "outputs/phase-04.md", "state": "completed" },
+    "phase-05": { "file": "outputs/phase-05.md", "state": "completed" },
+    "phase-06": { "file": "outputs/phase-06.md", "state": "completed" },
+    "phase-07": { "file": "outputs/phase-07.md", "state": "completed" },
+    "phase-08": { "file": "outputs/phase-08.md", "state": "completed" },
+    "phase-09": { "file": "outputs/phase-09.md", "state": "completed" },
+    "phase-10": { "file": "outputs/phase-10.md", "state": "completed" },
+    "phase-11": { "file": "outputs/phase-11.md", "state": "completed" },
+    "phase-12": { "file": "outputs/phase-12/main.md", "state": "completed" },
+    "phase-13": { "file": "outputs/phase-13.md", "state": "not_started" }
+  },
+  "implementation_targets": [
+    "apps/web/src/features/admin/hooks/useAdminMutation.ts",
+    "apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts",
+    "apps/web/src/features/admin/hooks/index.ts"
+  ],
+  "acceptance_criteria": [
+    "AC-1: AdminMutationResult.error の外形 (Error | null) を維持",
+    "AC-2: useAdminMutation.ts から AdminMutationHttpError 完全削除",
+    "AC-3: 401 で AuthRequiredError を throw",
+    "AC-4: 非 2xx で FetchAuthedError(status, text) を throw",
+    "AC-5: catch 分岐を新 class へ切替",
+    "AC-6: 401 で /login?redirect=... redirector を呼ぶ",
+    "AC-7: useAdminMutation.spec.ts assertion を新 class で PASS",
+    "AC-8: hooks/index.ts から旧 export 削除"
+  ],
+  "dod_commands": [
+    "mise exec -- pnpm typecheck",
+    "mise exec -- pnpm lint",
+    "mise exec -- pnpm -F \"@ubm-hyogo/web\" test -- --run useAdminMutation",
+    "mise exec -- pnpm -F \"@ubm-hyogo/web\" test -- --run authed"
+  ],
+  "parallel_independence": {
+    "independent_of": ["i01", "i03", "i04", "i05", "parallel-08", "parallel-10"],
+    "blocking_dependencies": []
+  }
+}

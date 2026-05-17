@@ -23,7 +23,7 @@
 | Login redirect builder | `apps/web/src/lib/url/login-redirect.ts`（既存、本タスクで仕様再検証） |
 | Auth API contract | `apps/web/src/lib/fetch/authed.ts`（既存 `AuthRequiredError` / `FetchAuthedError` を仕様化） |
 | Auth.js session | `apps/web/src/lib/auth.ts`（既存、silent refresh 不採用判断のみ） |
-| Hook unit tests | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.tsx`（401 redirect / 403 alert toast / その他 error state / `{trigger,isLoading,error,reset}` の 4 経路） |
+| Hook unit tests | `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`（401 redirect / 403 alert toast / その他 error state / `{trigger,isLoading,error,reset}` の 4 経路） |
 | Toast unit tests | `apps/web/src/components/ui/Toast.spec.tsx`（`role="alert"` / `role="status"` variant 描画と既存 API 後方互換） |
 | Redirect unit tests | `apps/web/src/lib/url/login-redirect.spec.ts`（`/admin` / `//evil.com` / `http://evil.com` / 連続 backslash / `%2F` decode の 5 ケース） |
 | System spec | `docs/00-getting-started-manual/specs/02-auth.md`（§Client 401 / 403 ハンドリング 新設、本 hook を正本参照） |

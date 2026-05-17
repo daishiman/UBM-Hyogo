@@ -1,0 +1,3 @@
+PASS
+Command: ESBUILD_BINARY_PATH="$PWD/node_modules/@esbuild/darwin-arm64/bin/esbuild" pnpm exec vitest run --root=. --config=vitest.config.ts apps/web/src/lib/fetch/authed.spec.ts apps/web/src/lib/url/login-redirect.spec.ts
+Result: 21 tests passed
