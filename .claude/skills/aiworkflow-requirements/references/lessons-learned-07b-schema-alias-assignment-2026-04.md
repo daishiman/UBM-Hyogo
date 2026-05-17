@@ -43,9 +43,17 @@
 
 **苦戦箇所**: `GET /admin/schema/diff` の `recommendedStableKeys` を route handler 内に inline で書いていたため、score 関数のテストが route テストと混ざり、推薦アルゴリズム差し替え時に不要な統合テストを再実行することになった。
 
-**解決方針**: `apps/api/src/services/aliasRecommendation.ts` を新規分離し、`(label, section, index, candidates) => string[]` の純粋関数として実装。Levenshtein 距離 + section 一致 + index 近接スコアで上位 5 件を返す。`aliasRecommendation.test.ts` で stateless 単体テストを完備し、route 層は service の戻り値を response に同梱するだけに留める。日本語 label の Unicode 正規化は follow-up（`UT-07B-...` 内 recommend 多言語化）に分離。
+**解決方針**: `apps/api/src/services/aliasRecommendation.ts` を新規分離し、`(label, section, index, candidates) => string[]` の純粋関数として実装。Levenshtein 距離 + section 一致 + index 近接スコアで上位 5 件を返す。`aliasRecommendation.spec.ts` で stateless 単体テストを完備し、route 層は service の戻り値を response に同梱するだけに留める。日本語 label の Unicode 正規化は 2026-05-17 の UT-07B alias recommendation i18n で実装済み。
 
 **適用先**: 推薦 / scoring / ranking ロジックは route から services/ 配下に切り出し、純粋関数 + 単体テストで品質保証する。route 層は I/O 接続だけ担当する。
+
+## L-07B-006: alias label の i18n は NFKC + trim + whitespace 圧縮で比較前処理し、stableKey collision の HTTP status は 409 に統一する（2026-05-17 UT-07B alias recommendation i18n）
+
+**苦戦箇所**: `recommendedStableKeys` の label 比較が full-width / half-width / 連続空白の差で同義 label を別物として扱い、推薦精度が i18n 入力で劣化した。さらに当初 contract は collision を 422 にしていたが、現行 hardening contract（`UT-07B-schema-alias-hardening-001` close-out 後）は `409 stable_key_collision` に統一済みで、route handler / route contract test / 正本仕様 (`api-endpoints.md` / `01-api-schema.md` / `11-admin-management.md`) との間に HTTP status drift が残っていた。Phase 12 追加 review で初めて検出され、同一 wave で全 5 ファイルを補正することになった。
+
+**解決方針**: `apps/api/src/services/aliasRecommendation.ts` の label 比較前処理を `String.prototype.normalize('NFKC') + trim + /\s+/g→' '` に限定する純関数として固定し、response shape は `string[]` のまま不変に保つ（UI / 既存 client への破壊変更を入れない）。collision は service 層で `SchemaAliasAssignFailure({ kind: 'collision' })` を投げ、route handler が `409 stable_key_collision` にマッピング。`aliasRecommendation.spec.ts`（20 tests）と `schema.contract.spec.ts`（16 tests）で NFKC 同義判定と 409 contract を同時固定する。
+
+**適用先**: 日本語 / 多言語 label を扱う推薦・正規化系は、(a) NFKC + trim + whitespace 圧縮の三点セットを最小契約とする、(b) 同義判定は service 層の純関数に閉じ、route response shape を変えない、(c) HTTP status を hardening 系 follow-up タスクで変更した場合は、Phase 12 spec compliance check の「skill / reference / system spec same-wave sync」で必ず drift を捕捉する。
 
 ## 関連未タスク・後続 wave 連携
 
@@ -57,6 +65,6 @@
 ## 参照
 
 - 実装: `apps/api/src/workflows/schemaAliasAssign.ts`, `apps/api/src/services/aliasRecommendation.ts`, `apps/api/src/routes/admin/schema.ts`
-- テスト: `apps/api/src/workflows/schemaAliasAssign.test.ts`, `apps/api/src/services/aliasRecommendation.test.ts`, `apps/api/src/routes/admin/schema.test.ts`
+- テスト: `apps/api/src/workflows/schemaAliasAssign.contract.spec.ts`, `apps/api/src/services/aliasRecommendation.spec.ts`, `apps/api/src/routes/admin/schema.contract.spec.ts`
 - AC × verify: `outputs/phase-07/main.md`（AC-1〜AC-10）
 - 不変条件: spec #1（schema 固定しない）/ #14（schema 集約）/ #11（admin 認可境界）+ `outputs/phase-12/implementation-guide.md` の API 契約 / DB 差分吸収表

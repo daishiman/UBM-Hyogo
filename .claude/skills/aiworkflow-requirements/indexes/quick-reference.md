@@ -31,6 +31,19 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-769-root-error-focus-2026-05.md` (L-I769-001..005) |
 | user gate | interactive screen reader smoke, commit, push, PR |
 
+### UT-07B alias recommendation i18n（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/ut-07b-alias-recommendation-i18n/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| issue | #292 CLOSED / source task consumed to `docs/30-workflows/completed-tasks/UT-07B-alias-recommendation-i18n-001.md` |
+| implementation | `apps/api/src/services/aliasRecommendation.ts` の `normalizeLabelForCompare` |
+| contract | `recommendedStableKeys` label 比較前に NFKC + trim + whitespace 圧縮。response shape は `string[]` 維持 |
+| tests | `apps/api/src/services/aliasRecommendation.spec.ts` 20 tests PASS; `apps/api/src/routes/admin/schema.contract.spec.ts` 16 tests PASS; apps/api suite 48 files / 300 tests PASS |
+| evidence | `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| user gate | commit / push / PR |
+
 ### CI Env Secret Inventory And Preflight Gate（2026-05-16）
 
 | 目的 | 参照先 |
@@ -45,6 +58,18 @@
 | lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-ci-env-secret-inventory-and-preflight-gate-2026-05.md` (L-CI-ENV-001..005) |
 | user gate | secret placement, variable placement, `runtime-smoke-staging.yml` rerun, commit, push, PR |
 
+### UT-07A-04 member_tags assigned_via_queue_id decision（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-296-ut-07a-04-assigned-via-queue-id-decision/` |
+| 状態 | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 13 blocked_pending_user_approval` |
+| Issue | #296 CLOSED。PR 文脈は `Refs #296` のみ |
+| decision | `member_tags.assigned_via_queue_id` は追加しない。queue trace は `audit_log.target_type='tag_queue'` / `target_id=<queueId>` と `member_tags.source='admin_queue'` で担保 |
+| evidence boundary | Phase 5/6 grep verification、ADR 0002、`08-free-database.md`、`database-implementation-core.md`、07a 親 back-link、source UT-07A-04 consumed trace は実行済み。commit / push / PR のみ user-gated |
+| skill promotion | `task-specification-creator` docs-only grep/back-link rule、`aiworkflow-requirements` schema drift ADR gate を同一改善 cycle で反映 |
+
+---
 ### PARALLEL-01-NAV admin navigation wayfinding（2026-05-15）
 
 | 目的 | 参照先 |

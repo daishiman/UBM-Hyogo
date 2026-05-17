@@ -973,10 +973,11 @@ node scripts/list-specs.js --topics
 | マイグレーション管理 | L102 |
 | テスト戦略 | L160 |
 | UBM-Hyogo D1 Repository 契約（02b） | L190 |
-| エラーハンドリング | L232 |
-| Conversation DB 初期化パターン | L263 |
-| UBM-Hyogo Schema Sync Contract（03a） | L265 |
-| ベクトル検索実装（DiskANN） | L385 |
+| Schema Drift ADR Gate | L222 |
+| エラーハンドリング | L241 |
+| Conversation DB 初期化パターン | L272 |
+| UBM-Hyogo Schema Sync Contract（03a） | L274 |
+| ベクトル検索実装（DiskANN） | L394 |
 
 ### references/database-implementation-details.md
 
@@ -4316,12 +4317,12 @@ node scripts/list-specs.js --topics
 | 概要 | L23 |
 | 使い方 | L31 |
 | Current Alias Overrides（個別互換行） | L38 |
-| Family Summary | L83 |
-| Detailed Register | L104 |
-| Section Extract Register (2026-03-17) | L285 |
-| 500-Line Split Register (2026-03-16) | L296 |
-| Fragment Migration Register (2026-04-28) | L318 |
-| Task Root Path Drift Register (2026-04-30 追記) | L345 |
+| Family Summary | L84 |
+| Detailed Register | L105 |
+| Section Extract Register (2026-03-17) | L286 |
+| 500-Line Split Register (2026-03-16) | L297 |
+| Fragment Migration Register (2026-04-28) | L319 |
+| Task Root Path Drift Register (2026-04-30 追記) | L346 |
 
 ### references/lessons-fetch-service-binding-testing.md
 
@@ -4612,8 +4613,9 @@ node scripts/list-specs.js --topics
 | L-07B-003: stableKey collision は revision-scoped UNIQUE pre-check + 422 で防御し、DB UNIQUE index は別タスクに切り出す | L26 |
 | L-07B-004: back-fill は batch サイズと CPU budget の二重ガードで Workers 30s 制限を逃げる | L34 |
 | L-07B-005: alias 候補提案は score 関数を service 層に分離し、Levenshtein + section/index で stateless に保つ | L42 |
-| 関連未タスク・後続 wave 連携 | L50 |
-| 参照 | L57 |
+| L-07B-006: alias label の i18n は NFKC + trim + whitespace 圧縮で比較前処理し、stableKey collision の HTTP status は 409 に統一する（2026-05-17 UT-07B alias recommendation i18n） | L50 |
+| 関連未タスク・後続 wave 連携 | L58 |
+| 参照 | L65 |
 
 ### references/lessons-learned-07c-attendance-audit-2026-04.md
 
@@ -6826,6 +6828,14 @@ node scripts/list-specs.js --topics
 | 昇格パターン集 | L1562 |
 | Current Active / Spec Created Tasks | L1564 |
 | UT-17 followup-003 alert-relay weekly healthcheck cron | L1713 |
+| ドキュメント構成 | L1476 |
+| フェーズ構造（概要） | L1485 |
+| 品質ゲート（概要） | L1516 |
+| 出力テンプレート | L1527 |
+| 実行時のコマンド・エージェント・スキル | L1550 |
+| 昇格パターン集 | L1574 |
+| Current Active / Spec Created Tasks | L1576 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1726 |
 
 ### references/task-workflow-backlog-part2.md
 
