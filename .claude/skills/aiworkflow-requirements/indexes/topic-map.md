@@ -6260,8 +6260,7 @@ node scripts/list-specs.js --topics
 | 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L388 |
 | 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L389 |
 | 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L405 |
-| 13. Issue #656 7-day summary metrics dashboard contract（2026-05-14） | L427 |
-| 14. 変更履歴 | L439 |
+| 13. 変更履歴 | L427 |
 
 ### references/patterns-advanced.md
 
@@ -6733,7 +6732,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1517 |
 | 昇格パターン集 | L1541 |
 | Current Active / Spec Created Tasks | L1543 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1689 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1690 |
 
 ### references/task-workflow-backlog-part2.md
 
