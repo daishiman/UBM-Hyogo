@@ -20,7 +20,7 @@
     "gates": [
       {
         "gate_id": "Gate-A",
-        "status": "completed",
+        "status": "passed",
         "passed_at": "2026-05-17T00:00:00+09:00",
         "evidence_path": "docs/30-workflows/issue-730-phase11-evidence-existence-validator/index.md",
         "approver": "daishiman",
@@ -28,7 +28,7 @@
       },
       {
         "gate_id": "Gate-B",
-        "status": "completed",
+        "status": "passed",
         "passed_at": "2026-05-17T07:06:00+09:00",
         "evidence_path": "docs/30-workflows/issue-730-phase11-evidence-existence-validator/outputs/phase-11/manual-test-result.md",
         "approver": "daishiman",
@@ -36,7 +36,7 @@
       },
       {
         "gate_id": "Gate-C",
-        "status": "completed",
+        "status": "passed",
         "passed_at": "2026-05-17T07:06:00+09:00",
         "evidence_path": ".github/workflows/verify-phase12-compliance.yml",
         "approver": "CODEOWNERS:github-workflows",
@@ -45,18 +45,18 @@
     ]
   },
   "phases": [
-    { "id": 1, "name": "要件定義", "status": "completed" },
-    { "id": 2, "name": "設計", "status": "completed" },
-    { "id": 3, "name": "設計レビュー", "status": "completed" },
-    { "id": 4, "name": "詳細実装計画", "status": "completed" },
-    { "id": 5, "name": "環境準備", "status": "completed" },
-    { "id": 6, "name": "実装", "status": "completed" },
-    { "id": 7, "name": "テスト / カバレッジ", "status": "completed" },
-    { "id": 8, "name": "統合", "status": "completed" },
-    { "id": 9, "name": "レビュー", "status": "completed" },
-    { "id": 10, "name": "検収準備", "status": "completed" },
-    { "id": 11, "name": "動作確認 / 証跡", "status": "completed" },
-    { "id": 12, "name": "完了同期", "status": "completed" },
+    { "id": 1, "name": "要件定義", "status": "passed" },
+    { "id": 2, "name": "設計", "status": "passed" },
+    { "id": 3, "name": "設計レビュー", "status": "passed" },
+    { "id": 4, "name": "詳細実装計画", "status": "passed" },
+    { "id": 5, "name": "環境準備", "status": "passed" },
+    { "id": 6, "name": "実装", "status": "passed" },
+    { "id": 7, "name": "テスト / カバレッジ", "status": "passed" },
+    { "id": 8, "name": "統合", "status": "passed" },
+    { "id": 9, "name": "レビュー", "status": "passed" },
+    { "id": 10, "name": "検収準備", "status": "passed" },
+    { "id": 11, "name": "動作確認 / 証跡", "status": "passed" },
+    { "id": 12, "name": "完了同期", "status": "passed" },
     { "id": 13, "name": "リリース / クローズ", "status": "blocked_pending_user_approval" }
   ]
 }
