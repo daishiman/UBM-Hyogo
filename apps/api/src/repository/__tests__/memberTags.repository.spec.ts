@@ -1,3 +1,6 @@
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { dirname, join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, it, expect, beforeEach } from "vitest";
 import { MockStore, createMockDbCtx } from "../__fixtures__/d1mock";
 import {
@@ -6,6 +9,31 @@ import {
 } from "../__fixtures__/members.fixture";
 import { listTagsByMemberId, listTagsByMemberIds } from "../memberTags";
 import { asMemberId } from "../_shared/brand";
+
+const API_SRC_ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
+const ALLOWED_ASSIGN_TAGS_PRODUCTION_FILES = new Set([
+  "repository/memberTags.ts",
+  "workflows/tagQueueResolve.ts",
+]);
+
+function listSourceFiles(dir: string): string[] {
+  return readdirSync(dir).flatMap((entry) => {
+    const path = join(dir, entry);
+    const stat = statSync(path);
+    if (stat.isDirectory()) return listSourceFiles(path);
+    return path.endsWith(".ts") ? [path] : [];
+  });
+}
+
+function isProductionSourceFile(path: string): boolean {
+  if (path.includes("__tests__/") || path.includes("/test/")) return false;
+  return !(
+    path.endsWith(".spec.ts") ||
+    path.endsWith(".test.ts") ||
+    path.endsWith(".contract.spec.ts") ||
+    path.endsWith(".test-d.ts")
+  );
+}
 
 describe("memberTags repository", () => {
   let store: MockStore;
@@ -72,6 +100,22 @@ describe("memberTags repository", () => {
     it("空配列を渡すと空配列を返す", async () => {
       const result = await listTagsByMemberIds(ctx, []);
       expect(result).toHaveLength(0);
+    });
+  });
+
+  describe("assignTagsToMember boundary", () => {
+    it("production references stay limited to repository binding and tagQueueResolve workflow", () => {
+      const offenders = listSourceFiles(API_SRC_ROOT)
+        .map((path) => ({
+          path: relative(API_SRC_ROOT, path),
+          source: readFileSync(path, "utf8"),
+        }))
+        .filter(({ path }) => isProductionSourceFile(path))
+        .filter(({ source }) => source.includes("assignTagsToMember"))
+        .map(({ path }) => path)
+        .filter((path) => !ALLOWED_ASSIGN_TAGS_PRODUCTION_FILES.has(path));
+
+      expect(offenders).toEqual([]);
     });
   });
 });

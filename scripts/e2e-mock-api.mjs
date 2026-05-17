@@ -56,16 +56,43 @@ const readBody = (req) =>
     });
   });
 
+const defaultMeetingsSeed = () => ({
+  members: [
+    { memberId: "m-1", fullName: "出席候補 一郎" },
+    { memberId: "m-2", fullName: "出席候補 二郎" },
+    { memberId: "m-3", fullName: "出席候補 三郎" },
+    { memberId: "m-5", fullName: "出席候補 五郎(削除済)", isDeleted: true },
+  ],
+  meetings: [
+    {
+      sessionId: "sess-1",
+      title: "2026年5月 定例会",
+      heldOn: "2026-05-15",
+      note: "attendance visual smoke fixture",
+      createdAt: "2026-05-15T00:00:00.000Z",
+      candidates: [
+        { memberId: "m-1", fullName: "出席候補 一郎" },
+        { memberId: "m-2", fullName: "出席候補 二郎" },
+        { memberId: "m-3", fullName: "出席候補 三郎" },
+        { memberId: "m-5", fullName: "出席候補 五郎(削除済)", isDeleted: true },
+      ],
+      attendees: [{ memberId: "m-1", assignedAt: "2026-05-15T00:00:00.000Z" }],
+    },
+  ],
+});
+
 const state = {
   pendingRequests: {},
   attendance: new Set(), // `${sessionId}:${memberId}`
   adminDashboardUnresolvedSchema: 0,
+  meetingsSeed: defaultMeetingsSeed(),
 };
 
 const resetState = () => {
   state.pendingRequests = {};
   state.attendance = new Set();
   state.adminDashboardUnresolvedSchema = 0;
+  state.meetingsSeed = defaultMeetingsSeed();
 };
 
 const buildPublicProfile = (id) => ({
@@ -173,10 +200,23 @@ const adminMembersBase = [
   },
 ];
 
+const seedMembersAsAdmin = () => {
+  return (state.meetingsSeed?.members ?? []).map((m) => ({
+    memberId: m.memberId,
+    responseEmail: `${m.memberId}@example.test`,
+    fullName: m.fullName,
+    publicConsent: "consented",
+    rulesConsent: "consented",
+    publishState: "public",
+    isDeleted: m.isDeleted === true,
+    lastSubmittedAt: NOW,
+  }));
+};
+
 const adminMembersResponse = (search) => {
   const q = search?.get("q") ?? "";
   const filter = search?.get("filter") ?? "";
-  let members = q === "zzzzz" ? [] : adminMembersBase;
+  let members = q === "zzzzz" ? [] : [...adminMembersBase, ...seedMembersAsAdmin()];
   if (filter === "published") members = members.filter((m) => m.publishState === "public");
   return { total: members.length, page: 1, pageSize: 50, members };
 };
@@ -301,8 +341,18 @@ const server = createServer(async (req, res) => {
   }
 
   // ---- internal control endpoints (parse 対象外) ----
+  if (req.method === "GET" && pathname === "/__test__/health") {
+    return writeJson(res, 200, { ok: true });
+  }
   if (req.method === "POST" && pathname === "/__test__/reset") {
     resetState();
+    return writeJson(res, 200, { ok: true });
+  }
+  if (req.method === "POST" && pathname === "/__test__/seed-meetings") {
+    const body = await readBody(req);
+    if (body && Array.isArray(body.meetings)) {
+      state.meetingsSeed = body;
+    }
     return writeJson(res, 200, { ok: true });
   }
   if (req.method === "POST" && pathname === "/__test__/seed-pending") {
@@ -459,12 +509,67 @@ const server = createServer(async (req, res) => {
     return safeJson(res, 200, adminSchemaDiff, schemas.AdminSchemaZ);
   }
   if (req.method === "GET" && pathname === "/admin/meetings") {
-    return safeJson(res, 200, meetingsList, schemas.AdminMeetingListZ);
+    return writeJson(res, 200, {
+      total: state.meetingsSeed.meetings.length,
+      items: state.meetingsSeed.meetings.map((meeting) => ({
+        sessionId: meeting.sessionId,
+        title: meeting.title,
+        heldOn: meeting.heldOn,
+        note: meeting.note,
+        createdAt: meeting.createdAt,
+        attendance: meeting.attendees,
+      })),
+    });
   }
-  if (req.method === "GET" && pathname.startsWith("/admin/meetings/") && !pathname.endsWith("/attendance")) {
-    const id = pathname.slice("/admin/meetings/".length);
-    return safeJson(res, 200, meetingDetail(id), schemas.AdminMeetingDetailZ);
+  if (
+    req.method === "GET" &&
+    pathname.startsWith("/admin/meetings/") &&
+    !pathname.endsWith("/attendance") &&
+    !pathname.endsWith("/attendances")
+  ) {
+    const id = decodeURIComponent(pathname.slice("/admin/meetings/".length));
+    const meeting = state.meetingsSeed.meetings.find((m) => m.sessionId === id);
+    if (!meeting) return writeJson(res, 404, { error: "meeting_not_found" });
+    return writeJson(res, 200, {
+      sessionId: meeting.sessionId,
+      title: meeting.title,
+      heldOn: meeting.heldOn,
+      candidates: meeting.candidates,
+      attendees: meeting.attendees,
+    });
   }
+  // /attendances (plural) — new contract used by feat(attendance) wave
+  {
+    const match = pathname.match(/^\/admin\/meetings\/([^/]+)\/attendances$/);
+    if (req.method === "POST" && match) {
+      const sessionId = decodeURIComponent(match[1]);
+      const body = await readBody(req);
+      const memberId = body?.memberId;
+      const attended = body?.attended;
+      if (!memberId || typeof attended !== "boolean") {
+        return writeJson(res, 400, { error: "invalid_attendance_body" });
+      }
+      const meeting = state.meetingsSeed.meetings.find((m) => m.sessionId === sessionId);
+      if (!meeting) return writeJson(res, 404, { error: "meeting_not_found" });
+      const candidate = meeting.candidates.find((m) => m.memberId === memberId);
+      if (!candidate) return writeJson(res, 404, { error: "member_not_found" });
+      if (candidate.isDeleted) return writeJson(res, 422, { error: "member_deleted" });
+      const exists = meeting.attendees.some((a) => a.memberId === memberId);
+      if (attended && exists) {
+        return writeJson(res, 409, { error: "attendance_already_recorded" });
+      }
+      if (attended) {
+        meeting.attendees = [
+          ...meeting.attendees,
+          { memberId, assignedAt: NOW, assignedBy: "admin-1" },
+        ];
+        return writeJson(res, 200, { ok: true, attended: true });
+      }
+      meeting.attendees = meeting.attendees.filter((a) => a.memberId !== memberId);
+      return writeJson(res, 200, { ok: true, attended: false });
+    }
+  }
+  // legacy /attendance (singular) — back-compat for older specs
   if (req.method === "POST" && pathname.startsWith("/admin/meetings/") && pathname.endsWith("/attendance")) {
     const sessionId = pathname.split("/")[3];
     const body = await readBody(req);

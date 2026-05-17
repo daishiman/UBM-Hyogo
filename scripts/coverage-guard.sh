@@ -16,8 +16,8 @@
 #   1 = FAIL (いずれか未達 / coverage-summary.json 欠損)
 #   2 = ENV ERROR (jq 未導入 / vitest 失敗)
 
-# shellcheck source=lib/ci-shell-prelude.sh
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/ci-shell-prelude.sh"
+set -u
+set -o pipefail
 
 THRESHOLD=80
 CHANGED=0
