@@ -2701,3 +2701,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 - Added `metadata.implementationCategory` enum to `schemas/artifact-definition.json`, including `conditional` for implementation tasks where code/config changes happen only after upstream improvement detection.
 - Promoted Issue #616 review feedback so no-code-change verified triage workflows can use `verified_current_no_code_change_pending_pr` instead of stale `spec_created` after Phase 11 evidence is captured.
 - Commit / push / PR were not executed.
+
+# 2026-05-17
+
+- UT-07B alias recommendation i18n を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。Phase 1-12 outputs、Phase 11 deterministic evidence、Phase 12 strict 7、root/output artifacts parity を実体化。`taskType: improvement` と `spec_created` の drift を `implementation` / `implemented_local_evidence_captured` に補正。commit / push / PR は user-gated。

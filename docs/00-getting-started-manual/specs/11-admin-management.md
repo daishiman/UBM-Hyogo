@@ -156,7 +156,7 @@ UI は `responseEmailMasked` だけを表示し、merge reason に含まれる e
 
 `/admin/schema` の schema 差分解消は 07b API workflow が正本である。UI は `recommendedStableKeys` を候補表示に使い、dryRun で影響範囲を確認してから apply する。apply 後は `schema_diff_queue` を `queued -> resolved` に進め、過去回答の `__extra__:<questionId>` を stableKey へ back-fill する。
 
-管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を toast 等で分けて表示する。多言語 label 正規化や大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
+管理 UI は stableKey を直接固定せず、API の 409 / 422 境界を toast 等で分けて表示する。`recommendedStableKeys` の多言語 label 比較は UT-07B alias recommendation i18n で `NFKC + trim + whitespace 圧縮` として実装済みで、UI/API response shape は変えない。大規模 back-fill の retryable contract は `UT-07B-schema-alias-hardening-001` で扱う。
 
 ## tag assignment queue（UT-02A / 07a）
 

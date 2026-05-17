@@ -26,7 +26,10 @@ description: |
   DLQ, dead-letter, Cloudflare Queue 監視, observability runbook,
   dlq-monitoring, schema-alias-backfill, schema_diff_queue,
   esbuild, esbuild import-source-error, ESBUILD_BINARY_PATH,
-  wrangler bundling, wrangler version mismatch, scripts/cf.sh, cf.sh wrapper
+  wrangler bundling, wrangler version mismatch, scripts/cf.sh, cf.sh wrapper,
+  i18n, i18n-label-normalization, NFKC, alias-recommendation,
+  alias-recommendation-score-stability, label-normalization,
+  recommendedStableKeys, stable_key_collision, 409 stable_key_collision
 allowed-tools:
   - Read
   - Glob
@@ -47,6 +50,7 @@ ubm-hyogo Web アプリプロジェクトの全仕様を管理するスキル。
 
 | Version | Date | Changes |
 | --- | --- | --- |
+| v2026.05.17-ut-07b-alias-recommendation-i18n | 2026-05-17 | UT-07B-alias-recommendation-i18n-001 を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`recommendedStableKeys` の label 比較前処理を NFKC + trim + whitespace 圧縮に固定（`apps/api/src/services/aliasRecommendation.ts` 純関数 / response shape `string[]` 不変）、route contract test と正本仕様 (`api-endpoints.md` / `01-api-schema.md` / `11-admin-management.md`) の collision HTTP status を `409 stable_key_collision` に統一して drift を補正。Phase 12 strict 7 / artifacts.json 同期 / source unassigned task を `completed-tasks/UT-07B-alias-recommendation-i18n-001.md` に移動 (`status: consumed`)、`lessons-learned-07b-schema-alias-assignment-2026-04.md` に L-07B-006、`workflow-ut-07b-schema-alias-hardening-artifact-inventory.md` に i18n / hardening 責務境界、`indexes/keywords.json` に NFKC / i18n / alias-recommendation / stable_key_collision / label-normalization 参照拡大を同一 wave で反映。commit / push / PR は user-gated。 |
 | v2026.05.15-ut-07a-01-member-tags-assign-cleanup | 2026-05-15 | UT-07A-FU-01 `memberTags.assignTagsToMember cleanup` を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。Issue #294 の production caller なし前提を current topology で撤回し、`assignTagsToMember` を削除せず `tagQueueResolve` workflow 専用 helper として JSDoc/comment と focused boundary tests で明示。root/output artifacts、Phase 11 tracked `.txt` evidence、Phase 12 strict 7、source task completed trace、quick-reference/resource-map/topic-map/keywords/task-workflow-active/artifact inventory/changelog を同一 wave で反映。commit / push / PR / issue mutation は user-gated。 |
 | v2026.05.15-fix-wrangler-esbuild-import-source-error | 2026-05-15 | `fix-wrangler-esbuild-import-source-error` を `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` として同期。`pnpm.overrides.esbuild` を `0.25.4`→`0.27.3` に supersede（`wrangler@4.85.0` `import-source` feature の esbuild ≥ 0.27 要求へ整合）。`@opennextjs/aws` との exact 交点不在は wrangler exact 採用＋OpenNext 実 build 検証で吸収。historical `0.25.4` citation に「superseded by current `0.27.3` SSOT (2026-05-15)」注記、`scripts/cf.sh` の `ESBUILD_BINARY_PATH` 仮固定を二次防御へ降格、`lessons-learned-fix-wrangler-esbuild-import-source-error-2026-05.md`（L-FIXWRG-001..006）、artifact inventory、`legacy-ordinal-family-register.md` Task Root Path Drift Register supersede 行、`indexes/{resource-map,quick-reference,topic-map,keywords}` を同一 wave で同期。commit / push / PR / runtime `build:cloudflare` 検証は user-gated。 |
 | v2026.05.14-issue638-cloudflare-pages-project-var-deletion | 2026-05-14 | Issue #638 `CLOUDFLARE_PAGES_PROJECT` GitHub repository variable deletion を `implemented_local_pending_pr / implementation / NON_VISUAL / external_mutation_completed` として同期。user approval marker 後の DELETE 204、after evidence（total_count=3 / single GET 404）、rollback value `ubm-hyogo-web`、source unassigned supersede、deployment refs / indexes / task-workflow-active を同一 wave で反映。rollback `POST`、push、PR は user-gated。 |

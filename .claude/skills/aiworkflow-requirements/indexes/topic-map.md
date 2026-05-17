@@ -4637,8 +4637,9 @@ node scripts/list-specs.js --topics
 | L-07B-003: stableKey collision は revision-scoped UNIQUE pre-check + 422 で防御し、DB UNIQUE index は別タスクに切り出す | L26 |
 | L-07B-004: back-fill は batch サイズと CPU budget の二重ガードで Workers 30s 制限を逃げる | L34 |
 | L-07B-005: alias 候補提案は score 関数を service 層に分離し、Levenshtein + section/index で stateless に保つ | L42 |
-| 関連未タスク・後続 wave 連携 | L50 |
-| 参照 | L57 |
+| L-07B-006: alias label の i18n は NFKC + trim + whitespace 圧縮で比較前処理し、stableKey collision の HTTP status は 409 に統一する（2026-05-17 UT-07B alias recommendation i18n） | L50 |
+| 関連未タスク・後続 wave 連携 | L58 |
+| 参照 | L65 |
 
 ### references/lessons-learned-07c-attendance-audit-2026-04.md
 
@@ -6863,14 +6864,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1460 |
-| フェーズ構造（概要） | L1469 |
-| 品質ゲート（概要） | L1500 |
-| 出力テンプレート | L1511 |
-| 実行時のコマンド・エージェント・スキル | L1534 |
-| 昇格パターン集 | L1558 |
-| Current Active / Spec Created Tasks | L1560 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1707 |
+| ドキュメント構成 | L1474 |
+| フェーズ構造（概要） | L1483 |
+| 品質ゲート（概要） | L1514 |
+| 出力テンプレート | L1525 |
+| 実行時のコマンド・エージェント・スキル | L1548 |
+| 昇格パターン集 | L1572 |
+| Current Active / Spec Created Tasks | L1574 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1721 |
 
 ### references/task-workflow-backlog-part2.md
 

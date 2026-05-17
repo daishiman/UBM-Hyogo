@@ -912,3 +912,7 @@ AC-1〜AC-6 全達成。Phase 10 判定: PASS（MINOR 0件）
 # 2026-05-15
 
 - Issue #324 / UT-08A-05 shared package type contracts を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`packages/shared/src/__tests__/type-contracts.spec.ts` を追加し、`@ubm-hyogo/shared` public barrel 経由で brand 型 / view-model schema / admin body schema の compile-time 型契約を 5 describe / 15 it で固定。`@ubm-hyogo/shared` typecheck / lint / test は exit 0、focused test は 18 files / 210 tests PASS。source unassigned を `docs/30-workflows/completed-tasks/UT-08A-05-shared-package-type-test.md` へ移動し、Phase 12 strict 7、root/output artifacts parity、quick-reference/resource-map/task-workflow-active/changelog を同一 wave で反映。Issue #324 は CLOSED 維持、PR は `Refs #324` のみ。commit / push / PR は user-gated。
+
+# 2026-05-17
+
+- UT-07B alias recommendation i18n を `implemented_local_evidence_captured / implementation / NON_VISUAL` として同期。`recommendedStableKeys` label 比較を NFKC + trim + whitespace 圧縮へ正本化し、`api-endpoints.md` / `01-api-schema.md` / `11-admin-management.md` / quick-reference / resource-map / topic-map / keywords / task-workflow-active を同一 wave で更新。source unassigned は completed trace へ移動。commit / push / PR は user-gated。

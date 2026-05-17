@@ -138,7 +138,7 @@ UT-07A-02 close-out で schema 正本は `packages/shared/src/schemas/admin/tag-
 
 07b schema alias workflow close-out:
 
-- `GET /admin/schema/diff` は `items[].recommendedStableKeys: string[]` を返す。候補は既存 `schema_questions.stable_key` から、label の Levenshtein 距離 + section / position 一致スコアで上位 5 件を提示する。
+- `GET /admin/schema/diff` は `items[].recommendedStableKeys: string[]` を返す。候補は既存 `schema_questions.stable_key` から、label を `NFKC + trim + whitespace 圧縮` で比較前処理した Levenshtein 距離 + section / position 一致スコアで上位 5 件を提示する。response shape は `string[]` のまま維持する。
 - `POST /admin/schema/aliases?dryRun=true` は書き込みを行わず、`affectedResponseFields` / `currentStableKeyCount` / `conflictExists` を返す。dry-run では `audit_log` も追記しない。
 - `POST /admin/schema/aliases` apply mode は `schema_aliases` へ manual alias を INSERT し、任意 `diffId` の `schema_diff_queue` resolve、`response_fields.stable_key='__extra__:<questionId>'` の back-fill、`audit_log.action='schema_diff.alias_assigned'` 追記を同じ workflow 境界で実行する。`schema_questions.stable_key` は fallback 期間の参照互換として残し、manual alias の主 write target には戻さない。
 - collision は同一 `revision_id` 内の別 `question_id` が同じ stableKey を持つ場合に `409 stable_key_collision` を返す。body validation は `422`、diff 不在は `404`、diff と request question mismatch は `409`。
