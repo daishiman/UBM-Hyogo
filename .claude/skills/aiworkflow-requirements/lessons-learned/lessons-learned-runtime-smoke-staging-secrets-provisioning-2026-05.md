@@ -1,6 +1,6 @@
 # Lessons Learned: runtime-smoke-staging-secrets 実プロビジョニング（2026-05-16）
 
-`docs/30-workflows/runtime-smoke-staging-secrets-restore/` の Phase 13 で staging-runtime-smoke GitHub Environment へ 5 secret を実投入した際の苦戦箇所を集約する。`lessons-learned-ci-env-secret-inventory-and-preflight-gate-2026-05.md`（L-CI-ENV-001..005 / contract 層）の **runtime 投入層** 対応 lesson として補完する。
+`docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/` の Phase 13 で staging-runtime-smoke GitHub Environment へ 5 secret を実投入した際の苦戦箇所を集約する。`lessons-learned-ci-env-secret-inventory-and-preflight-gate-2026-05.md`（L-CI-ENV-001..005 / contract 層）の **runtime 投入層** 対応 lesson として補完する。
 
 ## L-PRS779-001: helper script の op:// path が二箇所に分散していた
 
@@ -46,7 +46,7 @@ production-runtime-smoke GitHub Environment は API/Web 双方が production dep
 
 ## 関連リソース
 
-- 親 workflow: `docs/30-workflows/runtime-smoke-staging-secrets-restore/`
+- 親 workflow: `docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/`
 - 同 wave changelog: `changelog/20260516-runtime-smoke-staging-secrets-restore.md`
 - contract 層 lesson: `lessons-learned-ci-env-secret-inventory-and-preflight-gate-2026-05.md`
 - 後続予定 spec: `docs/30-workflows/runtime-smoke-env-provisioning/`（service-token endpoint + production 対称化、spec_created）
