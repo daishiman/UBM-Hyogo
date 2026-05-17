@@ -284,6 +284,21 @@
 | evidence boundary | Phase 12 strict 7, artifacts parity, apps/web implementation, focused tests, and local screenshot evidence are present. Staging smoke, production-equivalent runtime evidence, commit, push, and PR remain user-gated |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-13-login-rebuild-artifact-inventory.md` |
 
+### parallel-i03 profile request dialog refresh order（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/parallel-i03-dialog-refresh-order/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| route scope | `/profile` |
+| implementation targets | `apps/web/app/profile/_components/{VisibilityRequestDialog,DeleteRequestDialog,RequestActionPanel}.tsx` |
+| contract | dialog success / 409 duplicate-pending 両分岐とも `router.refresh() -> onSubmitted(res.accepted) -> onClose()` |
+| parent boundary | `RequestActionPanel` does not call `router.refresh()` in `onSubmitted` |
+| evidence | `outputs/phase-11/visual-verification-skip.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-parallel-i03-dialog-refresh-order-artifact-inventory.md` |
+| lessons-learned | `.claude/skills/aiworkflow-requirements/references/lessons-learned-parallel-i03-dialog-refresh-order-2026-05.md`（L-PARALLEL-I03-001..005） |
+| user gate | commit / push / PR |
+
 ### CI Pipeline Recovery Web CD And Runtime Smoke（2026-05-09）
 
 | 目的 | 参照先 |
