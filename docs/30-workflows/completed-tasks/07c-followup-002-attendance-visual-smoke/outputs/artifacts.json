@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "workflow_id": "07c-followup-002-attendance-visual-smoke",
+    "taskType": "implementation",
+    "visualEvidence": "VISUAL_ON_EXECUTION",
+    "workflow_state": "implemented_local_evidence_captured",
+    "evidence_state": "local_visual_evidence_pass",
+    "coverageTier": "standard",
+    "created_at": "2026-05-15",
+    "updated_at": "2026-05-15",
+    "source_issue": 313,
+    "source_issue_state": "closed",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/07c-followup-002-attendance-visual-smoke/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "approver": "local-spec-review",
+        "notes": "Phase 1-13 implementation contract, apps/web implementation, and local visual evidence are captured."
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/07c-followup-002-attendance-visual-smoke/outputs/phase-11/phase-11.md",
+        "approver": "daishiman",
+        "notes": "Playwright local mock visual evidence, screenshots, trace, and run logs are captured under Phase 11."
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": ".github/workflows/playwright-smoke.yml",
+        "approver": "CODEOWNERS:github-workflows",
+        "notes": "Workflow is wired to run the focused attendance visual smoke after the existing route smoke; actual GitHub Actions result remains user-gated until commit/push/PR."
+      },
+      {
+        "gate_id": "Gate-D",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/07c-followup-002-attendance-visual-smoke/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "commit, push, PR, and issue mutation require explicit user approval."
+      }
+    ]
+  },
+  "implementation_targets": [
+    "apps/web/playwright/tests/attendance.spec.ts",
+    "apps/web/playwright/page-objects/AdminMeetingsPage.ts",
+    "apps/web/playwright/fixtures/auth.ts",
+    "apps/web/playwright/fixtures/admin-meetings.ts",
+    "apps/web/src/components/admin/MeetingPanel.tsx",
+    "apps/web/app/(admin)/admin/meetings/[id]/MeetingAttendancePanel.tsx",
+    "apps/web/playwright.config.ts",
+    "apps/api/src/routes/admin/meetings.ts",
+    "apps/api/src/routes/admin/meetings.contract.spec.ts",
+    ".github/workflows/playwright-smoke.yml"
+  ],
+  "evidence": [
+    "outputs/phase-1/phase-1.md",
+    "outputs/phase-2/phase-2.md",
+    "outputs/phase-3/phase-3.md",
+    "outputs/phase-4/phase-4.md",
+    "outputs/phase-5/phase-5.md",
+    "outputs/phase-6/phase-6.md",
+    "outputs/phase-7/phase-7.md",
+    "outputs/phase-8/phase-8.md",
+    "outputs/phase-9/phase-9.md",
+    "outputs/phase-10/phase-10.md",
+    "outputs/phase-11/phase-11.md",
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md",
+    "outputs/phase-13/phase-13.md"
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "status": "completed"
+    },
+    {
+      "phase": 2,
+      "status": "completed"
+    },
+    {
+      "phase": 3,
+      "status": "completed"
+    },
+    {
+      "phase": 4,
+      "status": "completed"
+    },
+    {
+      "phase": 5,
+      "status": "completed"
+    },
+    {
+      "phase": 6,
+      "status": "completed"
+    },
+    {
+      "phase": 7,
+      "status": "completed"
+    },
+    {
+      "phase": 8,
+      "status": "completed"
+    },
+    {
+      "phase": 9,
+      "status": "completed"
+    },
+    {
+      "phase": 10,
+      "status": "completed"
+    },
+    {
+      "phase": 11,
+      "status": "completed"
+    },
+    {
+      "phase": 12,
+      "status": "completed"
+    },
+    {
+      "phase": 13,
+      "status": "blocked"
+    }
+  ]
+}

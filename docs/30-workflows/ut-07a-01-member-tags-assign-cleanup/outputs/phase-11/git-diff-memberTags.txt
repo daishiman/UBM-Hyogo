@@ -1,0 +1,149 @@
+diff --git a/apps/api/src/repository/__tests__/memberTags.readonly.test-d.ts b/apps/api/src/repository/__tests__/memberTags.readonly.test-d.ts
+index 85471505..17019fc8 100644
+--- a/apps/api/src/repository/__tests__/memberTags.readonly.test-d.ts
++++ b/apps/api/src/repository/__tests__/memberTags.readonly.test-d.ts
+@@ -1,7 +1,8 @@
+ // ut-02a-tag-assignment-queue-management:
+ //   02a memberTags.ts read-only 制約の type-level test (AC-5)。
+ //   `insert*` / `update*` / `delete*` / `upsert*` 接頭辞の export を新規追加することを禁止する。
+-//   既存 `assignTagsToMember` は 07a tagQueueResolve workflow 専用 helper として allow list で許可する。
++//   `assign*` 接頭辞は既存 `assignTagsToMember` のみ 07a tagQueueResolve workflow 専用 helper として
++//   allow list で許可し、派生 helper の追加を禁止する。
+ //
+ //   このファイルは vitest typecheck（`pnpm test -- --typecheck`）で評価される。
+ //   ts-expect-error コメントが想定通り発火しなければ test 失敗となる。
+@@ -27,6 +28,14 @@ type WriteExports = {
+   [K in ExportKey]: K extends string ? WriteKeyword<K> : never;
+ }[ExportKey];
+ 
++type AssignKeyword<K extends string> = K extends `assign${string}` ? K : never;
++
++type AssignExports = {
++  [K in ExportKey]: K extends string ? AssignKeyword<K> : never;
++}[ExportKey];
++
++type UnauthorizedAssignExports = Exclude<AssignExports, "assignTagsToMember">;
++
+ describe("memberTags.ts read-only 規約 (ut-02a / AC-5)", () => {
+   it("insert* / update* / delete* / upsert* 接頭辞の export を持たない", () => {
+     expectTypeOf<WriteExports>().toEqualTypeOf<never>();
+@@ -42,4 +51,8 @@ describe("memberTags.ts read-only 規約 (ut-02a / AC-5)", () => {
+   it("既存 helper assignTagsToMember は allow list で許可されている (allow list)", () => {
+     expectTypeOf<ModuleExports["assignTagsToMember"]>().not.toBeAny();
+   });
++
++  it("assign* 接頭辞の export は assignTagsToMember 以外に増やさない", () => {
++    expectTypeOf<UnauthorizedAssignExports>().toEqualTypeOf<never>();
++  });
+ });
+diff --git a/apps/api/src/repository/__tests__/memberTags.repository.spec.ts b/apps/api/src/repository/__tests__/memberTags.repository.spec.ts
+index 01e75bd3..80cefdab 100644
+--- a/apps/api/src/repository/__tests__/memberTags.repository.spec.ts
++++ b/apps/api/src/repository/__tests__/memberTags.repository.spec.ts
+@@ -1,3 +1,5 @@
++import { readdirSync, readFileSync, statSync } from "node:fs";
++import { join, relative } from "node:path";
+ import { describe, it, expect, beforeEach } from "vitest";
+ import { MockStore, createMockDbCtx } from "../__fixtures__/d1mock";
+ import {
+@@ -7,6 +9,31 @@ import {
+ import { listTagsByMemberId, listTagsByMemberIds } from "../memberTags";
+ import { asMemberId } from "../_shared/brand";
+ 
++const API_SRC_ROOT = join(process.cwd(), "apps/api/src");
++const ALLOWED_ASSIGN_TAGS_PRODUCTION_FILES = new Set([
++  "repository/memberTags.ts",
++  "workflows/tagQueueResolve.ts",
++]);
++
++function listSourceFiles(dir: string): string[] {
++  return readdirSync(dir).flatMap((entry) => {
++    const path = join(dir, entry);
++    const stat = statSync(path);
++    if (stat.isDirectory()) return listSourceFiles(path);
++    return path.endsWith(".ts") ? [path] : [];
++  });
++}
++
++function isProductionSourceFile(path: string): boolean {
++  if (path.includes("__tests__/") || path.includes("/test/")) return false;
++  return !(
++    path.endsWith(".spec.ts") ||
++    path.endsWith(".test.ts") ||
++    path.endsWith(".contract.spec.ts") ||
++    path.endsWith(".test-d.ts")
++  );
++}
++
+ describe("memberTags repository", () => {
+   let store: MockStore;
+   let ctx: ReturnType<typeof createMockDbCtx>;
+@@ -74,4 +101,20 @@ describe("memberTags repository", () => {
+       expect(result).toHaveLength(0);
+     });
+   });
++
++  describe("assignTagsToMember boundary", () => {
++    it("production references stay limited to repository binding and tagQueueResolve workflow", () => {
++      const offenders = listSourceFiles(API_SRC_ROOT)
++        .map((path) => ({
++          path: relative(API_SRC_ROOT, path),
++          source: readFileSync(path, "utf8"),
++        }))
++        .filter(({ path }) => isProductionSourceFile(path))
++        .filter(({ source }) => source.includes("assignTagsToMember"))
++        .map(({ path }) => path)
++        .filter((path) => !ALLOWED_ASSIGN_TAGS_PRODUCTION_FILES.has(path));
++
++      expect(offenders).toEqual([]);
++    });
++  });
+ });
+diff --git a/apps/api/src/repository/memberTags.ts b/apps/api/src/repository/memberTags.ts
+index 069a72dc..232be834 100644
+--- a/apps/api/src/repository/memberTags.ts
++++ b/apps/api/src/repository/memberTags.ts
+@@ -1,5 +1,8 @@
+-// member_tags + tag_definitions テーブルへの読み取り（read-only）
+-// 書き込み API は提供しない（不変条件: タグは rule/ai/manual で管理される）
++// member_tags + tag_definitions テーブルへの読み取り（read-only）。
++// 書き込み API は新規追加禁止（不変条件 #13: タグ書き込みは tagQueueResolve workflow 経由のみ）。
++// 例外として `assignTagsToMember` のみ 07a tagQueueResolve workflow 専用 helper として残置している。
++// `assignTagsToMember` を tagQueueResolve workflow 以外の新規 caller から呼ぶことを禁止する。
++// 直接 INSERT 経路を追加したい場合は不変条件 #13 のレビューを経ること。
+ 
+ import type { DbCtx } from "./_shared/db";
+ import type { MemberId, TagId } from "./_shared/brand";
+@@ -60,6 +63,20 @@ export async function listTagsByMemberIds(
+   return result.results;
+ }
+ 
++/**
++ * **tagQueueResolve workflow 専用 helper。直接呼び出し禁止。**
++ *
++ * 不変条件 #13（タグ書き込みは tagQueueResolve workflow 経由のみ）の例外として、
++ * 07a で `apps/api/src/workflows/tagQueueResolve.ts` から `confirmed` 確定経路で呼ばれる helper。
++ * これ以外の caller を追加することは禁止する。新規書き込み経路が必要な場合は、
++ * `tagQueueResolve` workflow 側へ集約するか、不変条件 #13 自体の変更レビューを経ること。
++ *
++ * type-level の write keyword 禁止 gate（`memberTags.readonly.test-d.ts`）では
++ * allow list として例外許可されている。新規 `insert*` / `update*` / `delete*` / `upsert*`
++ * 接頭辞の export を追加すると type-level test が FAIL する。
++ *
++ * @internal tagQueueResolve workflow 以外からの呼び出しを禁止する
++ */
+ export async function assignTagsToMember(
+   c: DbCtx,
+   mid: MemberId,
+@@ -91,6 +108,11 @@ export type { TagId };
+ export interface MemberTagsProvider {
+   listTagsByMemberId(mid: MemberId): Promise<MemberTagWithDefinition[]>;
+   listTagsByMemberIds(mids: MemberId[]): Promise<MemberTagWithDefinition[]>;
++  /**
++   * **tagQueueResolve workflow 専用 helper。直接呼び出し禁止。**
++   * 詳細は同モジュール内 `assignTagsToMember` 関数定義の JSDoc を参照。
++   * @internal
++   */
+   assignTagsToMember(mid: MemberId, tagIds: TagId[], assignedBy: string): Promise<number>;
+ }
+ 
