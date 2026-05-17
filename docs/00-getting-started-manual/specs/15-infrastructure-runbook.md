@@ -160,6 +160,14 @@ Cloudflare tokens and notification webhooks may be mirrored. Mutation-capable de
 environment-scoped. Secret and variable mirroring, push, PR, workflow dispatch, and production
 secret cleanup require explicit user approval.
 
+Issue #772 current-state addendum (2026-05-17):
+
+- The current recovery workflow is `docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/`.
+- Issue #772 remains closed and must be referenced with `Refs #772` only.
+- The original cleanup task is reclassified from "delete production environment monitor secrets" to "confirm no-op cleanup if name-only inventory still shows no production environment monitor secrets".
+- Runtime restoration is not considered complete until user-approved repository-level monitor secrets / variables are present, `workflow_dispatch dry_run=true` succeeds, and six consecutive hourly `cf-audit-log-monitor.yml` runs succeed.
+- Production deployment credentials such as `CLOUDFLARE_API_TOKEN` remain environment-scoped and are outside the monitor cleanup surface.
+
 ## Issue #548 audit-log model selection promotion
 
 Issue #548 は Issue #515 の ML-ready classifier を受け、Isolation Forest / XGBoost / Workers AI を threshold baseline と同一 dataset で比較するための実装である。現状態は `implemented_synthetic / implementation / NON_VISUAL`。3 candidate classifier、`evaluation/model-comparison.ts`、`evaluation/selection-criteria.ts`、training script 2 本、synthetic 720 行 fixture、harness smoke evidence (`docs/30-workflows/issue-548-ml-model-selection/outputs/phase-11/`) が実装済み。この runbook は promotion 手順を固定するが production switch は FU-03-D で扱う。Synthetic harness winner（`xgboost`）は informational のみで production winner ではない。

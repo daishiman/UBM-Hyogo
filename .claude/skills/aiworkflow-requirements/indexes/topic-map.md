@@ -2684,6 +2684,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | User Gate | L17 |
 
+### references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -6813,14 +6815,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1462 |
-| フェーズ構造（概要） | L1471 |
-| 品質ゲート（概要） | L1502 |
-| 出力テンプレート | L1513 |
-| 実行時のコマンド・エージェント・スキル | L1536 |
-| 昇格パターン集 | L1560 |
-| Current Active / Spec Created Tasks | L1562 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1712 |
+| ドキュメント構成 | L1474 |
+| フェーズ構造（概要） | L1483 |
+| 品質ゲート（概要） | L1514 |
+| 出力テンプレート | L1525 |
+| 実行時のコマンド・エージェント・スキル | L1548 |
+| 昇格パターン集 | L1572 |
+| Current Active / Spec Created Tasks | L1574 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1724 |
 
 ### references/task-workflow-backlog-part2.md
 

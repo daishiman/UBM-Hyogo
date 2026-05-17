@@ -16,6 +16,21 @@
 
 ---
 
+### Issue #772 CF audit monitor runtime restoration（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/issue-772-cf-audit-monitor-runtime-restoration-and-cleanup/` |
+| 状態 | `runtime_pending / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| source | `docs/30-workflows/unassigned-task/followup-issue-720-001-prod-env-monitor-secret-cleanup.md` consumed |
+| decision | production environment monitor cleanup is no-op if fresh inventory still shows no monitor-specific secrets; runtime restoration remains pending |
+| evidence | `outputs/phase-11/runtime-evidence/{hourly-runs.json,6h-success.md,heartbeat-after.txt}`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-issue-772-cf-audit-monitor-runtime-restoration-artifact-inventory.md` |
+| lessons | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-issue-772-cf-audit-monitor-runtime-restoration-2026-05.md` |
+| user gate | repo secrets / variables, workflow dispatch, six hourly successes, rollback delete, commit, push, PR |
+
+---
+
 ### CI Env Secret Inventory And Preflight Gate（2026-05-16）
 
 | 目的 | 参照先 |
@@ -2714,7 +2729,7 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 
 | 観点 | 値 / 参照先 |
 | --- | --- |
-| workflow root | `docs/30-workflows/issue-720-cf-audit-monitor-env-protection-fix/` |
+| workflow root | `docs/30-workflows/completed-tasks/issue-720-cf-audit-monitor-env-protection-fix/` |
 | status | `implemented_local_runtime_pending / implementation / NON_VISUAL` |
 | local diff | `.github/workflows/cf-audit-log-monitor.yml` から `environment: production` を削除 |
 | classification | read-only / notification-only monitor. Deploy / rollback / schema apply は行わない |
