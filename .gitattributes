@@ -1,0 +1,15 @@
+# UBM-Hyogo .gitattributes
+#
+# 目的: dev → feature ブランチ sync-merge 時に頻発する append-only ファイルの
+# コンフリクトを git の `union` merge driver で自動結合する。
+# 詳細: .claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md
+#       (L-DEVSYNC-001 / L-DEVSYNC-007)
+
+# === Append-only changelog / 30-workflows ログ ===
+# 両側が「先頭への新規行追記」を行うため、union で両方残す。
+docs/30-workflows/LOGS.md                       merge=union
+.claude/skills/*/SKILL-changelog.md             merge=union
+
+# === Lockfile は package manager が再生成するので最終側を採用しがちだが、
+# 自動 union は構文破壊につながるため明示しない（手動 / `pnpm install --force`）===
+# pnpm-lock.yaml は意図的に何も指定しない（手動解決を強制）

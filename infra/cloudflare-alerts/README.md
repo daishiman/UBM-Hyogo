@@ -1,6 +1,6 @@
 # Cloudflare Notification Policy IaC (UT-17-Followup-004)
 
-UBM-Hyogo の Cloudflare 無料枠監視用 Notification Policy (4 category / 5 policy)
+UBM-Hyogo の Cloudflare 無料枠監視用 Notification Policy (5 category / 7 policy)
 と alert relay 用 webhook destination を JSON 宣言で固定し、`scripts/cf.sh alerts`
 経由で drift 検知 + 冪等適用するための IaC ディレクトリ。
 
@@ -13,12 +13,14 @@ UBM-Hyogo の Cloudflare 無料枠監視用 Notification Policy (4 category / 5 
 infra/cloudflare-alerts/
 ├── README.md                  # このファイル
 ├── quota-base.json            # Cloudflare 公式無料枠 snapshot
-├── policies/                  # 5 policy 宣言
+├── policies/                  # 7 policy 宣言
 │   ├── workers-requests.json
 │   ├── d1-read-queries.json
 │   ├── d1-write-queries.json
 │   ├── pages-build.json
-│   └── r2-class-a.json        # Class A + Class B を anyOf で集約
+│   ├── r2-class-a.json        # Class A + Class B を anyOf で集約
+│   ├── workers-kv-writes-per-day.json   # ALERT_DEDUP_KV writes 監視 (UT-17-followup-006 / 初期 enabled:false)
+│   └── workers-kv-stored-bytes.json     # ALERT_DEDUP_KV storage 監視 (UT-17-followup-006 / 初期 enabled:false)
 ├── webhooks/
 │   └── ut-17-relay.json       # alert relay Worker への webhook (op:// 参照のみ)
 ├── schema/                    # JSON Schema (additionalProperties:false で id 直書き禁止)

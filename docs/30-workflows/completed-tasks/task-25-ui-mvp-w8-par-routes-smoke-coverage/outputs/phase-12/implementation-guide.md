@@ -12,9 +12,9 @@
 
 ## Part 2: 技術者レベル
 
-`SMOKE-COVERAGE-MATRIX.md` は current worktree の `apps/web/playwright/tests/full-smoke.spec.ts` を SSOT とし、17 URL entries をそのまま列挙する。visual baseline は `apps/web/playwright/tests/visual/*.spec.ts` の 4 ファイルに限定する。
+`SMOKE-COVERAGE-MATRIX.md` は current worktree の smoke contract を SSOT とし、17 regular URL entries と 2 deterministic component fixture routes を列挙する。visual baseline は `apps/web/playwright/tests/visual/*.spec.ts` の 4 ファイルに限定する。
 
-Token axis は runtime computed style を全行で再検査せず、既存 `verify-design-tokens / verify-design-tokens` gate に委譲する。A11y axis は current smoke の Axe profileに合わせ、component-only surfaces は deterministic trigger がないため `N/A-runtime-observation` として記録する。
+Token axis は runtime computed style を全行で再検査せず、既存 `verify-design-tokens / verify-design-tokens` gate に委譲する。A11y axis は current smoke の Axe profileに合わせ、`error.tsx` と `loading.tsx` は deterministic `/smoke` fixture で runtime observation を記録する。
 
 ### 型定義
 
@@ -27,7 +27,7 @@ interface SmokeCoverageRow {
   status: string
   domAssertion: string
   tokenAxis: 'TOKEN-SSOT'
-  a11y: 'A11Y-DEFAULT' | 'N/A-runtime-observation'
+  a11y: 'A11Y-DEFAULT' | 'fixture-runtime-observation'
   interactionSmoke: string
   visualBaseline: string
   existingSpec: string[]
@@ -63,8 +63,8 @@ Component-only surfaces are intentionally not counted as executable URL entries.
 
 | Case | Handling |
 | --- | --- |
-| `error.tsx` has no deterministic throw route | Keep `N/A-runtime-observation` and do not claim runtime a11y coverage |
-| `loading.tsx` cannot be observed without latency control | Keep `N/A-runtime-observation` and document the future fixture need |
+| `error.tsx` deterministic throw route | Covered by `/smoke/error-boundary` and `staging-smoke.spec.ts` |
+| `loading.tsx` deterministic latency control | Resolved by `task-25-followup-loading-state-observation-fixture` via `/smoke/loading-state` |
 | workflow step label says `Run 19-route smoke` | Treat as stale label; current executable contract is the `ROUTES[]` array |
 | token drift check changes name | Update the matrix CI gate reference and aiworkflow inventory in the same wave |
 

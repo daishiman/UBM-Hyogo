@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 
 import { normalizeHeading } from "./load-canonical-headings.ts";
 import type { CanonicalHeading, ComplianceCheckResult, WorkflowRoot } from "./types.ts";
+import { verifyPhase11EvidenceExistence } from "./verify-phase11-evidence-existence.ts";
 
 const COMPLIANCE_CHECK_PATH = "outputs/phase-12/phase12-task-spec-compliance-check.md";
 
@@ -12,6 +13,7 @@ function extractHeadings(markdown: string): Set<string> {
       .split("\n")
       .map((line) => line.match(/^#{1,6}\s+(.+?)\s*$/)?.[1])
       .filter((heading): heading is string => heading !== undefined)
+      .map((heading) => heading.replace(/^\d+\.\s+/, ""))
       .map(normalizeHeading),
   );
 }
@@ -56,6 +58,29 @@ export function verifyComplianceFile(opts: {
       details: `missing canonical heading(s): ${missing
         .map((heading) => `${heading.index}. ${heading.heading}`)
         .join(", ")}`,
+    };
+  }
+
+  const evidenceResult = verifyPhase11EvidenceExistence({
+    markdown,
+    repoRoot: opts.repoRoot,
+    workflowRoot: opts.root.rootPath,
+  });
+  if (!evidenceResult.ok) {
+    const details = [
+      ...evidenceResult.missing.map(
+        (evidence) => `${evidence.evidencePath} (${evidence.classification})`,
+      ),
+      ...evidenceResult.invalidStatuses.map(
+        (evidence) =>
+          `${evidence.evidencePath || "<empty-path>"} (${evidence.classification}; invalid status=${evidence.status || "<empty>"})`,
+      ),
+    ];
+    return {
+      ok: false,
+      rootPath: opts.root.rootPath,
+      reason: "missing-evidence",
+      details: `missing or invalid Phase 11 evidence file claim(s): ${details.join(", ")}`,
     };
   }
 
