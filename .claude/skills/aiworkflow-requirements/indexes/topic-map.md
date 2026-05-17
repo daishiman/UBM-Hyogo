@@ -2685,6 +2685,16 @@ node scripts/list-specs.js --topics
 | Gate C Blockers | L48 |
 | Scope Note | L56 |
 
+### references/workflow-issue-747-vitest-esbuild-arch-and-worktree-isolation-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Canonical Root | L3 |
+| State | L7 |
+| Canonical Files | L17 |
+| Implementation Contract | L28 |
+| Downstream Gates | L35 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -5181,6 +5191,17 @@ node scripts/list-specs.js --topics
 | 苦戦箇所 | L11 |
 | 後続タスクへの適用 | L48 |
 
+### references/lessons-learned-issue-747-vitest-esbuild-node-arch-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-I747-001: 3 層複合根本原因モデル | L7 |
+| L-I747-002: 3 つの verify script を gate 二重化で配置する | L19 |
+| L-I747-003: root `esbuild@0.27.3` devDependency を contract 化 | L27 |
+| L-I747-004: `ESBUILD_BINARY_PATH` の干渉を runbook で明文化 | L35 |
+| L-I747-005: closed Issue でも `Refs #<n>` で後付け canonical workflow を建てる | L43 |
+| L-I747-006: parent repository `node_modules` cleanup は AI が自動実行しない | L51 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -6863,14 +6884,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1460 |
-| フェーズ構造（概要） | L1469 |
-| 品質ゲート（概要） | L1500 |
-| 出力テンプレート | L1511 |
-| 実行時のコマンド・エージェント・スキル | L1534 |
-| 昇格パターン集 | L1558 |
-| Current Active / Spec Created Tasks | L1560 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1707 |
+| ドキュメント構成 | L1473 |
+| フェーズ構造（概要） | L1482 |
+| 品質ゲート（概要） | L1513 |
+| 出力テンプレート | L1524 |
+| 実行時のコマンド・エージェント・スキル | L1547 |
+| 昇格パターン集 | L1571 |
+| Current Active / Spec Created Tasks | L1573 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1720 |
 
 ### references/task-workflow-backlog-part2.md
 

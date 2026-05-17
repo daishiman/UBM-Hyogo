@@ -45,6 +45,19 @@ post-merge:
 pre-push:
   parallel: false
   commands:
+    verify-esbuild:
+      tags: [test, env]
+      run: |
+        node scripts/verify-node-arch.mjs && \
+        node scripts/verify-worktree-node-modules-isolation.mjs && \
+        node scripts/verify-esbuild-version.mjs
+      skip:
+        - merge
+        - rebase
+      fail_text: |
+        🚫 esbuild runtime 検証に失敗しました。
+        詳細: docs/30-workflows/issue-747-vitest-esbuild-arch-and-worktree-isolation/runbook.md
+        復旧: pnpm install --force / pnpm rebuild esbuild / worktree node_modules 再生成
     coverage-guard:
       run: bash scripts/coverage-guard.sh --changed
       stage_fixed: false

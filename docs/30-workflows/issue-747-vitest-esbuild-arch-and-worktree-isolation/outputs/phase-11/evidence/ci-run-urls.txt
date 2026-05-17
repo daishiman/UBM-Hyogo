@@ -1,0 +1,4 @@
+# CI evidence pending Phase 13 push approval (workflow_state: blocked_pending_user_approval).
+# After dev push, capture both jobs:
+#   verify-esbuild / verify (ubuntu-latest): <PR URL>/checks
+#   verify-esbuild / verify (macos-14):     <PR URL>/checks
