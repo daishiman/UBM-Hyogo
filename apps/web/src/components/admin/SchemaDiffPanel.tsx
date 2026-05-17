@@ -9,6 +9,10 @@ import {
   postSchemaAlias,
   isSchemaAliasRetryableContinuation,
 } from "../../lib/admin/api";
+import { FormField } from "../ui/FormField";
+import { Input } from "../ui/Input";
+import { EmptyState } from "../ui/EmptyState";
+import { AdminMutationError, useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 
 export type DiffType = "added" | "changed" | "removed" | "unresolved";
 
@@ -46,8 +50,31 @@ interface Feedback {
   detail?: string;
 }
 
+interface SchemaAliasApplyBody {
+  ok?: boolean;
+  mode?: "apply" | "dryRun";
+  backfill?: {
+    status?: string;
+    retryable?: boolean;
+    code?: string;
+  };
+}
+
 export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListView }) {
   const router = useRouter();
+  const schemaAliasMutation = useAdminMutation<SchemaAliasApplyBody>("/api/admin/schema/aliases", "POST", {
+    refreshOnSuccess: false,
+    mutationFn: async (payload) => {
+      const r = await postSchemaAlias(payload as {
+        questionId: string;
+        stableKey: string;
+        diffId?: string;
+      });
+      if (!r.ok) throw new AdminMutationError(r.status, r.error);
+      if (isSchemaAliasRetryableContinuation(r)) return r.data;
+      return r.data;
+    },
+  });
   const grouped = useMemo(() => {
     const acc: Record<DiffType, SchemaDiffItem[]> = {
       added: [],
@@ -74,36 +101,48 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
     e.preventDefault();
     if (!active || !active.questionId || !stableKey.trim()) return;
     setBusy(true);
-    const r = await postSchemaAlias({
-      diffId: active.diffId,
-      questionId: active.questionId,
-      stableKey: stableKey.trim(),
-    });
+    let body: SchemaAliasApplyBody;
+    try {
+      body = await schemaAliasMutation.trigger({
+        diffId: active.diffId,
+        questionId: active.questionId,
+        stableKey: stableKey.trim(),
+      });
+    } catch (e) {
+      setBusy(false);
+      if (e instanceof AdminMutationError && e.status === 422) {
+        setFeedback({
+          kind: "validation_error",
+          label: `入力内容に誤りがあります: ${e.message}`,
+        });
+        return;
+      }
+      if (e instanceof AdminMutationError && e.status === 409) {
+        setFeedback({
+          kind: "conflict_error",
+          label: `他の操作と競合しました: ${e.message}`,
+        });
+        return;
+      }
+      setFeedback({
+        kind: "error",
+        label: `失敗: ${e instanceof Error ? e.message : "unknown error"}`,
+      });
+      return;
+    }
     setBusy(false);
 
-    if (isSchemaAliasRetryableContinuation(r)) {
+    if (
+      body.mode === "apply" &&
+      body.backfill?.status === "exhausted" &&
+      body.backfill.retryable === true &&
+      body.backfill.code === "backfill_cpu_budget_exhausted"
+    ) {
       setFeedback({
         kind: "retryable",
         label: "Back-fill 再試行可能（続きから処理できます）",
         detail: "もう一度「割当」を押すと続きから処理されます。",
       });
-      return;
-    }
-
-    if (!r.ok) {
-      if (r.status === 422) {
-        setFeedback({
-          kind: "validation_error",
-          label: `入力内容に誤りがあります: ${r.error}`,
-        });
-      } else if (r.status === 409) {
-        setFeedback({
-          kind: "conflict_error",
-          label: `他の操作と競合しました: ${r.error}`,
-        });
-      } else {
-        setFeedback({ kind: "error", label: `失敗: ${r.error}` });
-      }
       return;
     }
 
@@ -135,7 +174,11 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
           <div key={t} aria-labelledby={`pane-${t}`}>
             <h2 id={`pane-${t}`}>{t}</h2>
             <ul>
-              {grouped[t].length === 0 && <li>なし</li>}
+              {grouped[t].length === 0 && (
+                <li>
+                  <EmptyState title="なし" role="presentation" />
+                </li>
+              )}
               {grouped[t].map((it) => (
                 <li key={it.diffId}>
                   <button
@@ -158,15 +201,14 @@ export function SchemaDiffPanel({ initial }: { readonly initial: SchemaDiffListV
         <form onSubmit={onSubmit} aria-label="stableKey alias 割当">
           <h3>{active.label}</h3>
           <p>questionId: <code>{active.questionId}</code></p>
-          <label>
-            新しい stableKey
-            <input
+          <FormField name="schema-stableKey" label="新しい stableKey" required>
+            <Input
               type="text"
               value={stableKey}
               onChange={(e) => setStableKey(e.target.value)}
               required
             />
-          </label>
+          </FormField>
           <button type="submit" disabled={busy || !stableKey.trim()}>割当</button>
           <button type="button" onClick={() => setActive(null)}>閉じる</button>
         </form>

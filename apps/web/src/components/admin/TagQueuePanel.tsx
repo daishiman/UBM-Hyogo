@@ -4,6 +4,10 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { resolveTagQueue } from "../../lib/admin/api";
+import { FormField } from "../ui/FormField";
+import { Input } from "../ui/Input";
+import { EmptyState } from "../ui/EmptyState";
+import { useAdminMutation } from "../../features/admin/hooks/useAdminMutation";
 
 export type TagQueueStatus = "queued" | "reviewing" | "resolved" | "rejected" | "dlq";
 
@@ -42,6 +46,22 @@ interface Props {
 
 export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
   const router = useRouter();
+  const tagResolveMutation = useAdminMutation<unknown>("/api/admin/tags/queue/resolve", "POST", {
+    refreshOnSuccess: false,
+    mutationFn: async (payload) => {
+      const { queueId, ...body } = payload as {
+        queueId: string;
+        action: "confirmed" | "rejected";
+        tagCodes?: string[];
+        reason?: string;
+      };
+      const r = body.action === "confirmed"
+        ? await resolveTagQueue(queueId, { action: "confirmed", tagCodes: body.tagCodes ?? [] })
+        : await resolveTagQueue(queueId, { action: "rejected", reason: body.reason ?? "" });
+      if (!r.ok) throw new Error(r.error);
+      return r.data;
+    },
+  });
   const items = useMemo(() => {
     if (!focusMemberId) return initial.items;
     const focused = initial.items.filter((i) => i.memberId === focusMemberId);
@@ -60,15 +80,21 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
   const onConfirm = async () => {
     if (!current) return;
     setBusy(true);
-    const r = await resolveTagQueue(current.queueId, {
-      action: "confirmed",
-      tagCodes: currentTags,
-    });
-    setBusy(false);
-    if (!r.ok) {
-      setToast(`承認に失敗: ${r.error}`);
-      return;
+    let ok = true;
+    try {
+      await tagResolveMutation.trigger(
+        {
+          queueId: current.queueId,
+          action: "confirmed",
+          tagCodes: currentTags,
+        },
+      );
+    } catch (e) {
+      ok = false;
+      setToast(`承認に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
     }
+    setBusy(false);
+    if (!ok) return;
     setToast("キューを resolved にしました");
     router.refresh();
   };
@@ -81,15 +107,21 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
       return;
     }
     setBusy(true);
-    const r = await resolveTagQueue(current.queueId, {
-      action: "rejected",
-      reason,
-    });
-    setBusy(false);
-    if (!r.ok) {
-      setToast(`却下に失敗: ${r.error}`);
-      return;
+    let ok = true;
+    try {
+      await tagResolveMutation.trigger(
+        {
+          queueId: current.queueId,
+          action: "rejected",
+          reason,
+        },
+      );
+    } catch (e) {
+      ok = false;
+      setToast(`却下に失敗: ${e instanceof Error ? e.message : "unknown error"}`);
     }
+    setBusy(false);
+    if (!ok) return;
     setRejectReason("");
     setToast("キューを rejected にしました");
     router.refresh();
@@ -122,7 +154,11 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
 
       <div className="tag-queue-grid" style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 12 }}>
         <ul aria-label="キュー一覧" data-testid="admin-tag-queue-list">
-          {items.length === 0 && <li>該当するキューはありません</li>}
+          {items.length === 0 && (
+            <li>
+              <EmptyState title="該当するキューはありません" />
+            </li>
+          )}
           {items.map((it) => (
             <li key={it.queueId}>
               <button
@@ -139,7 +175,7 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
         </ul>
 
         <div aria-label="レビューパネル" data-testid="admin-tag-review-panel">
-          {!current && <p>左のキューから項目を選択してください。</p>}
+          {!current && <EmptyState title="左のキューから項目を選択してください。" />}
           {current && (
             <article>
               <h2>queue: {current.queueId}</h2>
@@ -160,14 +196,13 @@ export function TagQueuePanel({ initial, filter, focusMemberId }: Props) {
               >
                 confirmed（提案タグを member_tags に反映）
               </button>
-              <label>
-                却下理由
-                <input
+              <FormField name="tag-reject-reason" label="却下理由">
+                <Input
                   value={rejectReason}
                   onChange={(e) => setRejectReason(e.target.value)}
                   disabled={busy || isTerminal}
                 />
-              </label>
+              </FormField>
               <button
                 type="button"
                 onClick={onReject}

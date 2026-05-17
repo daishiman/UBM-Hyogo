@@ -5,18 +5,30 @@ import { useToast } from "../../../components/ui/Toast";
 import { FetchAuthedError } from "../../../lib/fetch/errors";
 
 export interface UseAdminMutationOptions<T> {
+  readonly mutationFn?: (payload: unknown, endpointOverride?: string) => Promise<T>;
   readonly onSuccess?: (data: T) => void | Promise<void>;
   readonly onError?: (error: Error) => void;
   readonly successMessage?: string;
+  readonly refreshOnSuccess?: boolean;
 }
 
 export interface UseAdminMutationReturn<T> {
-  readonly trigger: (payload: unknown) => Promise<T>;
+  readonly trigger: (payload: unknown, endpointOverride?: string) => Promise<T>;
   readonly isLoading: boolean;
   readonly error: Error | null;
 }
 
 export { FetchAuthedError };
+
+export class AdminMutationError extends Error {
+  readonly status: number;
+
+  constructor(status: number, message: string) {
+    super(message);
+    this.name = "AdminMutationError";
+    this.status = status;
+  }
+}
 
 export function useAdminMutation<T = unknown>(
   endpoint: string,
@@ -24,13 +36,18 @@ export function useAdminMutation<T = unknown>(
   options?: UseAdminMutationOptions<T>,
 ): UseAdminMutationReturn<T> {
   const router = useRouter();
-  const { toast } = useToast();
+  let toast: (message: string, variant?: "alert" | "status") => void = () => {};
+  try {
+    toast = useToast().toast;
+  } catch {
+    // Some focused component tests render mutation users without the app shell.
+  }
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const isSubmittingRef = useRef(false);
 
   const trigger = useCallback(
-    async (payload: unknown): Promise<T> => {
+    async (payload: unknown, endpointOverride?: string): Promise<T> => {
       if (isSubmittingRef.current) {
         throw new Error("mutation already in flight");
       }
@@ -38,7 +55,14 @@ export function useAdminMutation<T = unknown>(
       setIsLoading(true);
       setError(null);
       try {
-        const res = await fetch(endpoint, {
+        if (options?.mutationFn) {
+          const data = await options.mutationFn(payload, endpointOverride);
+          await options.onSuccess?.(data);
+          if (options.refreshOnSuccess !== false) router.refresh();
+          toast(options.successMessage ?? "✓ 保存しました");
+          return data;
+        }
+        const res = await fetch(endpointOverride ?? endpoint, {
           method,
           headers: { "content-type": "application/json" },
           body: JSON.stringify(payload),
@@ -53,11 +77,11 @@ export function useAdminMutation<T = unknown>(
             error?: string;
           };
           const msg = body?.message ?? body?.error ?? "サーバーエラー";
-          throw new Error(msg);
+          throw new AdminMutationError(res.status, msg);
         }
         const data = (await res.json()) as T;
         await options?.onSuccess?.(data);
-        router.refresh();
+        if (options?.refreshOnSuccess !== false) router.refresh();
         toast(options?.successMessage ?? "✓ 保存しました");
         return data;
       } catch (e) {

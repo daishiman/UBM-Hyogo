@@ -4,6 +4,10 @@
 
 このファイルは task-specification-creator の運用・改善・Phase 12 close-out 同期履歴を新しい順に記録する。
 
+## 2026-05-17 - Issue #749 primitive adoption tracker review
+
+`docs/30-workflows/completed-tasks/issue-749-primitive-adoption-tracker/` の 30 種思考法レビューを反映した。実コード差分を伴う workflow は docs-only / spec-created のラベルに固定せず、`implemented_local_evidence_captured` として Phase 11 local evidence、Phase 12 strict 7、root artifacts、skill sync を同一サイクルで揃える。route SSOT は moved completed root の `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SCOPE.md` を参照し、コピーした route matrix の stale row を Phase 4/7/11 gate へ波及させない。primitive adoption gate は import-only や `void` placeholder ではなく、実 JSX rendering / `useAdminMutation().trigger()` / EmptyState / Pagination を検査する。未タスク候補は同一サイクルで解消可能なら unassigned-task 化せず、`unassigned-task-detection.md` に 0 件と解消理由を記録する。
+
 ## 2026-05-14 - Issue #640 CI/CD secret-scope close-out feedback
 
 `docs/30-workflows/issue-640-oidc-cf-token-cutover/` の Phase 12 feedback を確認した。CI/CD secret-scope tasks では static workflow scope test を local evidence だけに置かず、repository script（例: `pnpm test:workflow-secrets`）と CI workflow-shell-lint に接続する必要がある。既存の Phase 12 strict 7 / implemented-local-runtime-pending / NON_VISUAL evidence rules で吸収可能なため、task-specification-creator template 本体の構造変更は no-op とし、今回 workflow の `skill-feedback-report.md` に「promoted via repo CI gate / template change no-op」を記録する。
