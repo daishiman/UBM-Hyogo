@@ -1,0 +1,78 @@
+{
+  "metadata": {
+    "workflow_id": "runtime-smoke-staging-secrets-restore",
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "workflow_state": "implemented_local_evidence_captured",
+    "evidence_state": "LOCAL_EVIDENCE_CAPTURED_RUNTIME_RERUN_PENDING",
+    "created_at": "2026-05-16",
+    "updated_at": "2026-05-16",
+    "user_gated": [
+      "GitHub Environment secret mutation",
+      "runtime-smoke-staging workflow rerun",
+      "commit",
+      "push",
+      "PR"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; env-required secret allowlist + runbook designed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (verify-env-secrets preflight gate restored); Phase 12 outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: GitHub Environment secret mutation + runtime-smoke-staging workflow rerun are user-gated"
+      }
+    ]
+  },
+  "implementation_targets": [
+    "scripts/ci/verify-env-secrets.sh",
+    "scripts/ci/verify-env-secrets.allowlist",
+    "scripts/ci/__tests__/verify-env-secrets.spec.sh"
+  ],
+  "evidence": [
+    "outputs/phase-01/requirements.md",
+    "outputs/phase-02/design.md",
+    "outputs/phase-05/implementation-spec.md",
+    "outputs/phase-11/main.md",
+    "outputs/phase-12/main.md",
+    "outputs/phase-12/implementation-guide.md",
+    "outputs/phase-12/system-spec-update-summary.md",
+    "outputs/phase-12/documentation-changelog.md",
+    "outputs/phase-12/unassigned-task-detection.md",
+    "outputs/phase-12/skill-feedback-report.md",
+    "outputs/phase-12/phase12-task-spec-compliance-check.md",
+    "runbooks/incident-2026-05-16.md"
+  ],
+  "phases": [
+    { "phase": 1, "status": "completed" },
+    { "phase": 2, "status": "completed" },
+    { "phase": 3, "status": "completed" },
+    { "phase": 4, "status": "completed" },
+    { "phase": 5, "status": "completed" },
+    { "phase": 6, "status": "completed" },
+    { "phase": 7, "status": "completed" },
+    { "phase": 8, "status": "completed" },
+    { "phase": 9, "status": "completed" },
+    { "phase": 10, "status": "completed" },
+    { "phase": 11, "status": "runtime_pending" },
+    { "phase": 12, "status": "completed" },
+    { "phase": 13, "status": "blocked" }
+  ]
+}
