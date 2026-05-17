@@ -32,6 +32,35 @@ assert_no_build_install_token_env() {
   ' "$file" || fail "$file exposes CLOUDFLARE_API_TOKEN to build/install/lint/typecheck step"
 }
 
+assert_step_api_token() {
+  local file="$1"
+  local scope_anchor="$2"
+  local step_name="$3"
+  local secret_name="$4"
+  local expected="apiToken: \${{ secrets.${secret_name} }}"
+
+  awk -v scope_anchor="$scope_anchor" -v step_name="$step_name" -v expected="$expected" '
+    BEGIN { in_scope=(scope_anchor == ""); in_step=0; found=0 }
+    scope_anchor != "" && index($0, scope_anchor) { in_scope=1 }
+    in_scope && index($0, "- name: " step_name) {
+      in_step=1
+      next
+    }
+    in_step && /^[[:space:]]{6}- name:/ { in_step=0 }
+    in_step && /^[[:space:]]*apiToken:/ {
+      line=$0
+      sub(/^[[:space:]]+/, "", line)
+      if (line == expected) {
+        found=1
+        exit 0
+      }
+      print FILENAME ":" FNR ": expected " expected " but got " line > "/dev/stderr"
+      exit 2
+    }
+    END { exit found ? 0 : 1 }
+  ' "$file" || fail "$file $step_name must set with.apiToken exactly to $secret_name"
+}
+
 assert_no_job_level_cf_token "$WEB_CD"
 assert_no_job_level_cf_token "$BACKEND_CI"
 assert_no_job_level_cf_token "$POST_RELEASE_DASHBOARD"
@@ -47,9 +76,18 @@ grep -A8 'name: Deploy to Cloudflare Workers (production)' "$WEB_CD" | grep -q '
 grep -A12 'name: Deploy to Cloudflare Workers (staging)' "$WEB_CD" | grep -q 'set -o pipefail' || fail "web-cd staging deploy pipefail missing"
 grep -A12 'name: Deploy to Cloudflare Workers (production)' "$WEB_CD" | grep -q 'set -o pipefail' || fail "web-cd production deploy pipefail missing"
 
+# === Issue #718: legacy unscoped CLOUDFLARE_API_TOKEN must not appear in backend-ci ===
+# backend-ci has been migrated to CF_TOKEN_D1_* / CF_TOKEN_WORKERS_*
 # shellcheck disable=SC2016
-backend_token_count="$(grep -c 'apiToken: \${{ secrets.CLOUDFLARE_API_TOKEN }}' "$BACKEND_CI")"
-[ "$backend_token_count" -eq 4 ] || fail "backend-ci should keep exactly 4 step-scoped wrangler apiToken entries, got $backend_token_count"
+if grep -nE 'apiToken: \$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}\}' "$BACKEND_CI"; then
+  fail "backend-ci still references legacy unscoped CLOUDFLARE_API_TOKEN; expected CF_TOKEN_D1_* / CF_TOKEN_WORKERS_*"
+fi
+
+# backend-ci with.apiToken exact match for scoped tokens
+assert_step_api_token "$BACKEND_CI" 'deploy-staging:' 'Apply D1 migrations' 'CF_TOKEN_D1_STAGING'
+assert_step_api_token "$BACKEND_CI" 'deploy-staging:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_STAGING'
+assert_step_api_token "$BACKEND_CI" 'deploy-production:' 'Apply D1 migrations' 'CF_TOKEN_D1_PRODUCTION'
+assert_step_api_token "$BACKEND_CI" 'deploy-production:' 'Deploy Workers app' 'CF_TOKEN_WORKERS_PRODUCTION'
 
 grep -q 'Verify deploy log redaction (staging)' "$WEB_CD" || fail "web-cd staging redaction check missing"
 grep -q 'Verify deploy log redaction (production)' "$WEB_CD" || fail "web-cd production redaction check missing"
