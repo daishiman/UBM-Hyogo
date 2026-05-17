@@ -44,6 +44,39 @@ const headers = (auth: string | null = SECRET) => {
   return h;
 };
 
+const parseStructuredWarn = (warnSpy: ReturnType<typeof vi.spyOn>) => {
+  const firstArg = warnSpy.mock.calls[0]?.[0];
+  expect(typeof firstArg).toBe("string");
+  return JSON.parse(firstArg as string) as {
+    event: string;
+    op: "get" | "put";
+    errorClass: string;
+    dedupeKeyHash: string;
+    isolateId: string;
+    ts: string;
+  };
+};
+
+const parseStructuredWarnAt = (
+  warnSpy: ReturnType<typeof vi.spyOn>,
+  index: number,
+) => {
+  const arg = warnSpy.mock.calls[index]?.[0];
+  expect(typeof arg).toBe("string");
+  return JSON.parse(arg as string) as ReturnType<typeof parseStructuredWarn>;
+};
+
+const expectedHash = async (dedupeKey: string) => {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(dedupeKey),
+  );
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("")
+    .slice(0, 12);
+};
+
 describe("createAlertRelayRoute", () => {
   it("ROUTE-01: cf-webhook-auth 不正は 401", async () => {
     const fetchMock = vi.fn();
@@ -382,8 +415,9 @@ describe("createAlertRelayRoute", () => {
     expect(kv.puts).toHaveLength(1);
   });
 
-  it("TC-KV-05: KV get が throw すると Slack 配信されない", async () => {
+  it("TC-KV-05 / TC-LOG-01: KV get が throw しても fail-open し構造化ログを emit", async () => {
     const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const kv = createKvStub({
       now: () => 1_715_000_000_000,
       getError: () => new Error("KV get failure"),
@@ -393,22 +427,41 @@ describe("createAlertRelayRoute", () => {
       sleep: async () => {},
       now: () => 1_715_000_000_000,
     });
-    // Hono は handler 内 throw を 500 + text 応答にまとめる。
-    const res = await app.request(
-      "/",
-      {
-        method: "POST",
-        headers: headers(),
-        body: JSON.stringify({
-          name: "X",
-          policy_id: "policy-kv05",
-          ts: 1_715_000_000_000,
-        }),
-      },
-      buildEnv({ kv }),
-    );
-    expect(res.status).toBeGreaterThanOrEqual(500);
-    expect(fetchMock).not.toHaveBeenCalled();
+    try {
+      const res = await app.request(
+        "/",
+        {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify({
+            name: "X",
+            policy_id: "policy-kv05",
+            ts: 1_715_000_000_000,
+          }),
+        },
+        buildEnv({ kv }),
+      );
+      expect(res.status).toBe(200);
+      expect(await res.json()).toMatchObject({ ok: true, attempts: 1 });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      const payload = parseStructuredWarn(warnSpy);
+      expect(payload).toMatchObject({
+        event: "alert_relay_kv_op_failed",
+        op: "get",
+        errorClass: "Error",
+      });
+      expect(payload.dedupeKeyHash).toBe(
+        await expectedHash("unknown:policy-kv05:28583333"),
+      );
+      expect(payload.dedupeKeyHash).toMatch(/^[0-9a-f]{12}$/);
+      expect(payload.isolateId).toMatch(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+      );
+      expect(new Date(payload.ts).toISOString()).toBe(payload.ts);
+    } finally {
+      warnSpy.mockRestore();
+    }
   });
 
   it("TC-KV-06: policy_id 欠落時の dedup key は name → alert_type → 'unknown' の順で fallback", async () => {
@@ -487,8 +540,9 @@ describe("createAlertRelayRoute", () => {
     expect(kv.puts[0]?.expirationTtl).toBe(7);
   });
 
-  it("TC-KV-09: KV put が throw しても Slack 配信成功は 200 のまま返す", async () => {
+  it("TC-KV-09 / TC-LOG-02: KV put が throw しても 200 を返し構造化ログを emit", async () => {
     const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const kv = createKvStub({
       now: () => 1_715_000_000_000,
       putError: () => new Error("KV put failure"),
@@ -498,26 +552,276 @@ describe("createAlertRelayRoute", () => {
       sleep: async () => {},
       now: () => 1_715_000_000_000,
     });
-    const res = await app.request(
-      "/",
-      {
-        method: "POST",
-        headers: headers(),
-        body: JSON.stringify({
-          name: "X",
-          policy_id: "policy-kv09",
-          ts: 1_715_000_000_000,
-        }),
-      },
-      buildEnv({ kv }),
-    );
-    expect(res.status).toBe(200);
-    expect(await res.json()).toMatchObject({
-      ok: true,
-      attempts: 1,
-      dedupPersisted: false,
+    try {
+      const res = await app.request(
+        "/",
+        {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify({
+            name: "X",
+            policy_id: "policy-kv09",
+            ts: 1_715_000_000_000,
+          }),
+        },
+        buildEnv({ kv }),
+      );
+      expect(res.status).toBe(200);
+      expect(await res.json()).toMatchObject({
+        ok: true,
+        attempts: 1,
+        dedupPersisted: false,
+      });
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      const payload = parseStructuredWarn(warnSpy);
+      expect(payload).toMatchObject({
+        event: "alert_relay_kv_op_failed",
+        op: "put",
+        errorClass: "Error",
+      });
+      expect(payload.dedupeKeyHash).toBe(
+        await expectedHash("unknown:policy-kv09:28583333"),
+      );
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("TC-LOG-03: KV 成功 path では console.warn を emit しない", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const app = createAlertRelayRoute({
+      fetch: fetchMock as unknown as typeof fetch,
+      sleep: async () => {},
+      now: () => 1_715_000_000_000,
     });
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+    try {
+      const res = await app.request(
+        "/",
+        {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify({
+            name: "X",
+            policy_id: "policy-log03",
+            ts: 1_715_000_000_000,
+          }),
+        },
+        buildEnv(),
+      );
+      expect(res.status).toBe(200);
+      expect(warnSpy).not.toHaveBeenCalled();
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("TC-LOG-04: hash 生成が失敗しても KV put error logging は fail-safe", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const digestSpy = vi
+      .spyOn(crypto.subtle, "digest")
+      .mockRejectedValueOnce(new Error("digest failure"));
+    const kv = createKvStub({
+      now: () => 1_715_000_000_000,
+      putError: () => new Error("KV put failure"),
+    });
+    const app = createAlertRelayRoute({
+      fetch: fetchMock as unknown as typeof fetch,
+      sleep: async () => {},
+      now: () => 1_715_000_000_000,
+    });
+    try {
+      const res = await app.request(
+        "/",
+        {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify({
+            name: "X",
+            policy_id: "policy-log04",
+            ts: 1_715_000_000_000,
+          }),
+        },
+        buildEnv({ kv }),
+      );
+      expect(res.status).toBe(200);
+      expect(await res.json()).toMatchObject({
+        ok: true,
+        attempts: 1,
+        dedupPersisted: false,
+      });
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      expect(parseStructuredWarn(warnSpy)).toMatchObject({
+        event: "alert_relay_kv_op_failed",
+        op: "put",
+        errorClass: "Error",
+        dedupeKeyHash: "hash_error",
+      });
+    } finally {
+      digestSpy.mockRestore();
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("TC-LOG-05: 同一 isolate 内の複数 emit は同じ isolateId を使う", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const kv = createKvStub({
+      now: () => 1_715_000_000_000,
+      putError: () => new Error("KV put failure"),
+    });
+    const app = createAlertRelayRoute({
+      fetch: fetchMock as unknown as typeof fetch,
+      sleep: async () => {},
+      now: () => 1_715_000_000_000,
+    });
+    try {
+      for (const policyId of ["policy-log05-a", "policy-log05-b"]) {
+        const res = await app.request(
+          "/",
+          {
+            method: "POST",
+            headers: headers(),
+            body: JSON.stringify({
+              name: "X",
+              policy_id: policyId,
+              ts: 1_715_000_000_000,
+            }),
+          },
+          buildEnv({ kv }),
+        );
+        expect(res.status).toBe(200);
+      }
+      expect(warnSpy).toHaveBeenCalledTimes(2);
+      expect(parseStructuredWarnAt(warnSpy, 0).isolateId).toBe(
+        parseStructuredWarnAt(warnSpy, 1).isolateId,
+      );
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("TC-LOG-06: 同一 dedupe key は決定的に同じ hash を emit する", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const kv = createKvStub({
+      now: () => 1_715_000_000_000,
+      putError: () => new Error("KV put failure"),
+    });
+    const app = createAlertRelayRoute({
+      fetch: fetchMock as unknown as typeof fetch,
+      sleep: async () => {},
+      now: () => 1_715_000_000_000,
+    });
+    const request = {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify({
+        name: "X",
+        policy_id: "policy-log06",
+        ts: 1_715_000_000_000,
+      }),
+    };
+    try {
+      const first = await app.request("/", request, buildEnv({ kv }));
+      const second = await app.request("/", request, buildEnv({ kv }));
+      expect(first.status).toBe(200);
+      expect(second.status).toBe(200);
+      expect(warnSpy).toHaveBeenCalledTimes(2);
+      const firstPayload = parseStructuredWarnAt(warnSpy, 0);
+      const secondPayload = parseStructuredWarnAt(warnSpy, 1);
+      expect(firstPayload.dedupeKeyHash).toBe(secondPayload.dedupeKeyHash);
+      expect(firstPayload.dedupeKeyHash).toBe(
+        await expectedHash("unknown:policy-log06:28583333"),
+      );
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("TC-LOG-07: console.warn が throw しても KV put failure response は維持する", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {
+      throw new Error("warn sink failure");
+    });
+    const kv = createKvStub({
+      now: () => 1_715_000_000_000,
+      putError: () => new Error("KV put failure"),
+    });
+    const app = createAlertRelayRoute({
+      fetch: fetchMock as unknown as typeof fetch,
+      sleep: async () => {},
+      now: () => 1_715_000_000_000,
+    });
+    try {
+      const res = await app.request(
+        "/",
+        {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify({
+            name: "X",
+            policy_id: "policy-log07",
+            ts: 1_715_000_000_000,
+          }),
+        },
+        buildEnv({ kv }),
+      );
+      expect(res.status).toBe(200);
+      expect(await res.json()).toMatchObject({
+        ok: true,
+        attempts: 1,
+        dedupPersisted: false,
+      });
+      expect(warnSpy).toHaveBeenCalledTimes(2);
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  it("TC-LOG-08: 非 Error throw の errorClass は typeof 値を emit する", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response("", { status: 200 }));
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const baseKv = createKvStub({ now: () => 1_715_000_000_000 });
+    const kv = {
+      ...baseKv,
+      kv: {
+        ...baseKv.kv,
+        put: (async () => {
+          throw "kv-string-failure";
+        }) as KVNamespace["put"],
+      } as KVNamespace,
+    } satisfies KvStub;
+    const app = createAlertRelayRoute({
+      fetch: fetchMock as unknown as typeof fetch,
+      sleep: async () => {},
+      now: () => 1_715_000_000_000,
+    });
+    try {
+      const res = await app.request(
+        "/",
+        {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify({
+            name: "X",
+            policy_id: "policy-log08",
+            ts: 1_715_000_000_000,
+          }),
+        },
+        buildEnv({ kv }),
+      );
+      expect(res.status).toBe(200);
+      expect(parseStructuredWarn(warnSpy)).toMatchObject({
+        event: "alert_relay_kv_op_failed",
+        op: "put",
+        errorClass: "string",
+      });
+    } finally {
+      warnSpy.mockRestore();
+    }
   });
 });
 

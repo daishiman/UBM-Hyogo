@@ -33,3 +33,10 @@ UT-07A-02 では `TagQueueResolveBody` を `packages/shared/src/schemas/admin/ta
 `apps/api` 全体を選択し、ローカル Miniflare/D1 の `EADDRNOTAVAIL` に巻き込まれた。
 Phase evidence では実行コマンドが対象ファイルを確実に絞るかを確認し、必要なら
 `pnpm exec vitest run --root=. --config=vitest.config.ts <test files...>` を記録する。
+
+## L-07A-008: stale 起票前提と current topology が乖離したら「削除」ではなく「境界明確化」へ再解釈する
+
+UT-07A-FU-01 (`memberTags.assignTagsToMember` cleanup) は当初 `unassigned-task` で「production caller がなくなった helper を削除する」前提で起票された。
+2026-05-15 の current topology 再検証で `apps/api/src/workflows/tagQueueResolve.ts` が唯一の production caller として実存することが判明し、削除実行は invariant #13 の queue resolve 経路自体を壊す。
+このような stale 前提タスクは Phase 1 受入条件を `superseded` として明示的に撤回し、現実 topology に合わせて「helper として残し JSDoc / コメントで直接利用禁止を明示し、type-level gate (`Exclude<AssignExports, "assignTagsToMember">`) と caller boundary gate で派生経路の再増殖を遮断する」境界明確化タスクへ再解釈する。
+**適用ルール**: unassigned-task 由来タスクの Phase 1 では、起票時前提と current production caller を `rg` で必ず照合する。乖離があれば受入条件を `superseded` / `completed` の 2 種に分けて記録し、source は `completed-tasks/COMPLETED-*.md` に consumed trace として残す。`task-specification-creator` skill の `references/workflow-state-vocabulary.md` および `phase12-skill-feedback-promotion.md` が正本ルールを定義済み。

@@ -238,23 +238,47 @@ describe("lib/admin/api.ts call() の振る舞い", () => {
   });
 
   it("API-04 postSchemaAlias 422 validation error: ok=false / predicate=false", async () => {
-    fetchSpy.mockResolvedValue(jsonResponse(422, { error: "invalid" }));
+    fetchSpy.mockResolvedValue(
+      jsonResponse(422, {
+        ok: false,
+        code: "stable_key_collision",
+        error: "invalid",
+        existingQuestionIds: ["q2"],
+      }),
+    );
     const r = await adminApi.postSchemaAlias({ questionId: "q1", stableKey: "k1" });
     expect(r.ok).toBe(false);
     if (!r.ok) {
       expect(r.status).toBe(422);
       expect(r.error).toBe("invalid");
+      expect(r.data).toEqual({
+        ok: false,
+        code: "stable_key_collision",
+        error: "invalid",
+        existingQuestionIds: ["q2"],
+      });
     }
     expect(adminApi.isSchemaAliasRetryableContinuation(r)).toBe(false);
   });
 
   it("API-05 postSchemaAlias 409 conflict: ok=false / predicate=false", async () => {
-    fetchSpy.mockResolvedValue(jsonResponse(409, { error: "conflict" }));
+    fetchSpy.mockResolvedValue(
+      jsonResponse(409, {
+        ok: false,
+        error: "conflict",
+        existingStableKey: "full_name",
+      }),
+    );
     const r = await adminApi.postSchemaAlias({ questionId: "q1", stableKey: "k1" });
     expect(r.ok).toBe(false);
     if (!r.ok) {
       expect(r.status).toBe(409);
       expect(r.error).toBe("conflict");
+      expect(r.data).toEqual({
+        ok: false,
+        error: "conflict",
+        existingStableKey: "full_name",
+      });
     }
     expect(adminApi.isSchemaAliasRetryableContinuation(r)).toBe(false);
   });

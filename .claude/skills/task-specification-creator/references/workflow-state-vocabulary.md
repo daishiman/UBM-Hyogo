@@ -102,24 +102,6 @@ workflow_state: implemented_local_runtime_pending
 verdict: PASS_BOUNDARY_SYNCED_RUNTIME_PENDING (external resource: KV namespace `alert_relay_dedup` creation pending user approval)
 ```
 
-## Root `status` Schema Enum Constraint（2026-05-15 task-27 由来）
-
-`artifacts.json` および `outputs/artifacts.json` の root `status` フィールドには、
-`schemas/artifact-definition.json` の enum に列挙された canonical 値のみを格納する。
-詳細な workflow 進行段階は `metadata.workflow_state` に置き、root `status` とは
-分離する。
-
-ルール:
-
-- root `status` は schema enum (例: `spec_created` / `in_progress` / `runtime_pending` / `completed` / `on_hold` / `blocked`) に限定する
-- より詳細な状態（例: `implemented_local_evidence_captured` / `not_yet_generated` / `pass_boundary_synced_runtime_pending` 等）は `metadata.workflow_state` に置く
-- 理由: validator が schema enum をクロスチェックするため、root `status` に enum 外の値を入れると fail する
-
-| フィールド | 許容値 | 用途 |
-| --- | --- | --- |
-| root `status` | `schemas/artifact-definition.json` の enum | validator が enum クロスチェックする canonical 値 |
-| `metadata.workflow_state` | 本 reference の State Values / Canonical Short-form Aliases | 詳細な workflow 進行段階・境界語彙 |
-
 ## Forbidden Wording
 
 - Do not write `PASS` alone when runtime or production evidence is pending.
