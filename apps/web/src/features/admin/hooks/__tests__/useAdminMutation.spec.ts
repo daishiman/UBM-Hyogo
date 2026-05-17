@@ -164,6 +164,28 @@ describe("useAdminMutation", () => {
     expect(toastMock).toHaveBeenCalledWith("更新しました");
   });
 
+  it("TC-07b: successMessage が関数なら data を受け取り文字列を返す", async () => {
+    mockFetchOnce({
+      ok: true,
+      status: 200,
+      json: async () => ({ ok: true, result: { idempotent: true } }),
+    });
+    const { result } = renderHook(() =>
+      useAdminMutation<{ ok: boolean; result: { idempotent: boolean } }>(
+        "/api/admin/tags/queue/q1/resolve",
+        "POST",
+        {
+          successMessage: (data) =>
+            data.result.idempotent ? "既に処理済です" : "承認しました",
+        },
+      ),
+    );
+    await act(async () => {
+      await result.current.trigger({ action: "confirmed", tagCodes: ["t"] });
+    });
+    expect(toastMock).toHaveBeenCalledWith("既に処理済です");
+  });
+
   it("TC-08: onError callback fires on failure", async () => {
     mockFetchOnce({
       ok: false,

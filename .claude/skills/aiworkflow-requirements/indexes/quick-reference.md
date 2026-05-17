@@ -51,7 +51,7 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/parallel-01-navigation-admin-wayfinding/` |
-| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL` |
 | scope | AdminSidebar home link + MemberDrawer tags link |
 | implementation | `apps/web/src/components/layout/AdminSidebar.tsx`, `apps/web/src/features/admin/components/_members/MemberDrawer.tsx` |
 | tests | `apps/web/src/components/layout/__tests__/AdminSidebar.component.spec.tsx`, `apps/web/src/features/admin/components/__tests__/MemberDrawer.spec.tsx` |
@@ -114,7 +114,7 @@
 | 目的 | 参照先 |
 | --- | --- |
 | workflow root | `docs/30-workflows/task-18-fu-full-visual-regression-suite/` |
-| 状態 | `implemented_local_runtime_pending / implementation / VISUAL` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL` |
 | upstream | `docs/30-workflows/completed-tasks/task-18-w7-verify-tokens-and-playwright-smoke/` |
 | route contract | W7 17 URL set: public 6 / member 2 / admin 8 / not-found 1 |
 | target visual scope | 17 routes x desktop/tablet/mobile = 51 baselines |
@@ -236,6 +236,20 @@
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-task-16-admin-tags-meetings-requests-artifact-inventory.md` |
 | user gate | runtime screenshots / staging smoke / commit / push / PR |
+
+### Admin tags queue resolver drawer（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/` |
+| 状態 | `implemented_local_evidence_captured / implementation / VISUAL` |
+| source spec | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-04-tags-assignment/spec.md`（`_components` 新規前提は superseded） |
+| implementation targets | `apps/web/src/components/admin/TagQueuePanel.tsx`, `TagsQueueResolveDrawer.tsx`, `_tagQueueStatus.ts`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-tags-resolve-drawer.spec.ts`, `apps/web/src/styles/tokens.css` |
+| API boundary | browser/BFF path `/api/admin/tags/queue/:queueId/resolve` -> upstream `/admin/tags/queue/:queueId/resolve`; no API/D1/schema change |
+| UI contract | `TagQueuePanel` は list/filter/trigger、`TagsQueueResolveDrawer` は dialog/focus trap/ESC/return focus/schema validation/terminal submit block |
+| evidence | `outputs/phase-12/phase12-task-spec-compliance-check.md`; local Vitest PASS; Phase 11 VISUAL screenshots 5 PNG; axe violations 0 |
+| lessons | `references/lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md` |
+| user gate | staging smoke, commit, push, PR |
 
 ### Issue #630 authenticated /profile LHCI a11y（2026-05-13）
 

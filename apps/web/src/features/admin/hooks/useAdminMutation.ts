@@ -7,7 +7,7 @@ import { FetchAuthedError } from "../../../lib/fetch/errors";
 export interface UseAdminMutationOptions<T> {
   readonly onSuccess?: (data: T) => void | Promise<void>;
   readonly onError?: (error: Error) => void;
-  readonly successMessage?: string;
+  readonly successMessage?: string | ((data: T) => string);
 }
 
 export interface UseAdminMutationReturn<T> {
@@ -58,7 +58,11 @@ export function useAdminMutation<T = unknown>(
         const data = (await res.json()) as T;
         await options?.onSuccess?.(data);
         router.refresh();
-        toast(options?.successMessage ?? "✓ 保存しました");
+        const resolvedMessage =
+          typeof options?.successMessage === "function"
+            ? options.successMessage(data)
+            : options?.successMessage;
+        toast(resolvedMessage ?? "✓ 保存しました");
         return data;
       } catch (e) {
         const err = e instanceof Error ? e : new Error(String(e));

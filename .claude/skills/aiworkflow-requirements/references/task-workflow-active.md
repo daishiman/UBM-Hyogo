@@ -22,6 +22,20 @@
 | evidence | `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-11/evidence/`, `docs/30-workflows/serial-05-step-03-schema-diff-resolve/outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | user gate | runtime screenshots、staging smoke、commit、push、PR |
 
+### admin-tags-queue-resolver-drawer（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / VISUAL / local tests passed / Phase 12 strict 7 present` |
+| 成果物 | `docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/` |
+| source | `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/serial-05-admin-mutation-ui/step-04-tags-assignment/spec.md` |
+| 目的 | `/admin/tags` の既存 `TagQueuePanel` から resolve UI を `TagsQueueResolveDrawer` として抽出し、a11y drawer pattern、schema validation、`useAdminMutation` 経由 mutation に再設計する |
+| implementation targets | `apps/web/src/components/admin/TagQueuePanel.tsx`, `apps/web/src/components/admin/TagsQueueResolveDrawer.tsx`, `apps/web/src/components/admin/_tagQueueStatus.ts`, `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/lib/admin/server-fetch.ts`, `apps/web/playwright/tests/admin-tags-resolve-drawer.spec.ts`, `apps/web/src/styles/tokens.css` |
+| API boundary | 既存 upstream `POST /admin/tags/queue/:queueId/resolve` のみ。browser path は `/api/admin/tags/queue/:queueId/resolve`。新 endpoint / D1 schema / shared schema 変更なし |
+| evidence | `docs/30-workflows/completed-tasks/admin-tags-queue-resolver-drawer/outputs/phase-12/phase12-task-spec-compliance-check.md`; local Vitest 626 passed / 1 skipped; Phase 11 screenshots 5 PNG; axe violations 0 |
+| lessons | `references/lessons-learned-admin-tags-queue-resolver-drawer-2026-05.md` |
+| user gate | runtime screenshots、staging smoke、commit、push、PR |
+
 ### serial-05-step-02 identity-conflicts merge UI（2026-05-16）
 
 | 項目 | 値 |
