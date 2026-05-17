@@ -874,13 +874,13 @@ node scripts/list-specs.js --topics
 | 概要 | L8 |
 | ドキュメント構成 | L15 |
 | REST API エンドポイント一覧 | L25 |
-| エンドポイント命名規則 | L211 |
-| UBM-Hyogo Admin Sync API（03a） | L232 |
-| UBM-Hyogo Member Self-Service API（04b） | L283 |
-| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L309 |
-| Desktop IPC API サマリー | L323 |
-| 変更履歴 | L354 |
-| 関連ドキュメント | L371 |
+| エンドポイント命名規則 | L212 |
+| UBM-Hyogo Admin Sync API（03a） | L233 |
+| UBM-Hyogo Member Self-Service API（04b） | L284 |
+| Admin Dashboard Attendance Analytics API（UT-02A follow-up 002） | L310 |
+| Desktop IPC API サマリー | L324 |
+| 変更履歴 | L355 |
+| 関連ドキュメント | L372 |
 
 ### references/api-internal-chunk-search.md
 
@@ -1100,9 +1100,9 @@ node scripts/list-specs.js --topics
 | 4. /admin/members | L112 |
 | 5. /admin/tags | L205 |
 | 6. /admin/schema | L260 |
-| 7. /admin/meetings | L314 |
-| 8. 共通の Server/Client 契約 | L383 |
-| 9. 不変条件サマリ（admin UI） | L401 |
+| 7. /admin/meetings | L315 |
+| 8. 共通の Server/Client 契約 | L384 |
+| 9. 不変条件サマリ（admin UI） | L402 |
 
 ### references/ui-ux-advanced.md
 
@@ -2261,6 +2261,15 @@ node scripts/list-specs.js --topics
 | System Sync | L30 |
 | Runtime Boundary | L41 |
 
+### references/workflow-i02-admin-error-type-unify-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current Facts | L13 |
+| Contract | L24 |
+| Evidence Boundary | L33 |
+
 ### references/workflow-issue-106-admin-member-notes-repository-task-spec-artifact-inventory.md
 
 | セクション | 行 |
@@ -2719,6 +2728,13 @@ node scripts/list-specs.js --topics
 | 検出した未タスク（更新: 2026-03-17） | L127 |
 | 関連ドキュメント | L137 |
 | 変更履歴 | L148 |
+
+### references/workflow-serial-05-step-03-schema-diff-resolve-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Primary files | L10 |
+| Evidence | L21 |
 
 ### references/workflow-skill-identifier-branded-type-resolution.md
 
@@ -3495,14 +3511,14 @@ node scripts/list-specs.js --topics
 | Planned Implementation Artifacts | L13 |
 | State Boundary | L25 |
 
-### references/workflow-ut-17-followup-005-alert-relay-kv-error-metrics-artifact-inventory.md
+### references/workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md
 
 | セクション | 行 |
 |------------|----|
-| Implementation Targets | L14 |
-| State | L22 |
-| Local Evidence | L33 |
-| Downstream | L41 |
+| Workflow | L5 |
+| Implementation | L13 |
+| Evidence | L19 |
+| User-Gated | L27 |
 
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
@@ -3957,19 +3973,19 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L10 |
 | ワークフロー構成 | L38 |
-| CI ワークフロー要件（PR 時） | L63 |
-| キャッシュ戦略 | L99 |
-| 並列実行の活用 | L122 |
-| CD ワークフロー要件（dev / main マージ時） | L178 |
-| Backend ワークフロー要件（dev / main マージ時） | L208 |
-| モニタリングとアラート | L235 |
-| GitHub Secrets の要件 | L269 |
-| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L301 |
-| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L323 |
-| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L349 |
-| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L360 |
-| Post-release dashboard automation (Issue #351 / 2026-05-05) | L381 |
-| post-release-30day-auto-summary | L418 |
+| CI ワークフロー要件（PR 時） | L65 |
+| キャッシュ戦略 | L101 |
+| 並列実行の活用 | L124 |
+| CD ワークフロー要件（dev / main マージ時） | L180 |
+| Backend ワークフロー要件（dev / main マージ時） | L210 |
+| モニタリングとアラート | L237 |
+| GitHub Secrets の要件 | L271 |
+| Issue #638 CLOUDFLARE_PAGES_PROJECT deletion current state | L303 |
+| UT-27: GitHub Secrets / Variables 配置決定（2026-04-29） | L325 |
+| Workflow lint scope の不変条件（CI recovery / 2026-05-09） | L351 |
+| Failure cascade 抑止 pattern（CI recovery / 2026-05-09） | L362 |
+| Post-release dashboard automation (Issue #351 / 2026-05-05) | L383 |
+| post-release-30day-auto-summary | L420 |
 
 ### references/deployment-history.md
 
@@ -3982,18 +3998,19 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L11 |
-| 管理場所の判断フロー | L23 |
-| Cloudflare Secrets（ランタイム） | L40 |
-| GitHub Secrets / Variables（CI/CD 用） | L106 |
-| wrangler.toml の環境別設定 | L229 |
-| ローカル開発での設定 | L261 |
-| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L300 |
-| セキュリティ原則 | L332 |
-| Cloudflare API Token の作成手順 | L343 |
-| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L358 |
-| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L469 |
-| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L521 |
-| 変更履歴 | L540 |
+| GitHub Actions Secret Preflight Gate（2026-05-16） | L23 |
+| 管理場所の判断フロー | L51 |
+| Cloudflare Secrets（ランタイム） | L68 |
+| GitHub Secrets / Variables（CI/CD 用） | L134 |
+| wrangler.toml の環境別設定 | L258 |
+| ローカル開発での設定 | L290 |
+| Cloudflare CLI ラッパー: `scripts/cf.sh`（UT-06 派生 / 2026-04-27） | L329 |
+| セキュリティ原則 | L361 |
+| Cloudflare API Token の作成手順 | L372 |
+| Cloudflare API Token 90 日 rotation runbook（Issue #407 / 2026-05-06） | L387 |
+| UT-27: GitHub Secrets / Variables 同期運用（2026-04-29） | L498 |
+| U-FIX-CF-ACCT-01-DERIV-02: Cloudflare deploy token split | L550 |
+| 変更履歴 | L569 |
 
 ### references/deployment.md
 
@@ -6731,14 +6748,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1458 |
-| フェーズ構造（概要） | L1467 |
-| 品質ゲート（概要） | L1498 |
-| 出力テンプレート | L1509 |
-| 実行時のコマンド・エージェント・スキル | L1532 |
-| 昇格パターン集 | L1556 |
-| Current Active / Spec Created Tasks | L1558 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1704 |
+| ドキュメント構成 | L1405 |
+| フェーズ構造（概要） | L1414 |
+| 品質ゲート（概要） | L1445 |
+| 出力テンプレート | L1456 |
+| 実行時のコマンド・エージェント・スキル | L1479 |
+| 昇格パターン集 | L1503 |
+| Current Active / Spec Created Tasks | L1505 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1650 |
 
 ### references/task-workflow-backlog-part2.md
 

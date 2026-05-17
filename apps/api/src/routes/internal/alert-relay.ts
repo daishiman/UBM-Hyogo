@@ -15,6 +15,8 @@ import { sendSlackMessage } from "../../lib/slack-sender";
 import type { CloudflareNotificationPayload } from "../../types/cloudflare-notification";
 
 const isolateId = crypto.randomUUID();
+const textEncoder = new TextEncoder();
+const KV_OP_FAILED_EVENT = "alert_relay_kv_op_failed";
 
 export interface AlertRelayEnv extends VerifyCfWebhookAuthEnv {
   readonly SLACK_WEBHOOK_URL?: string;
@@ -35,15 +37,31 @@ export interface AlertRelayDeps {
   readonly dedupeTtlMs?: number;
 }
 
-async function sha256Hex12(input: string): Promise<string> {
-  const hash = await crypto.subtle.digest(
-    "SHA-256",
-    new TextEncoder().encode(input),
-  );
-  return Array.from(new Uint8Array(hash))
+async function computeDedupeKeyHash(dedupeKey: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", textEncoder.encode(dedupeKey));
+  return Array.from(new Uint8Array(digest))
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("")
     .slice(0, 12);
+}
+
+function getErrorClass(err: unknown): string {
+  return err instanceof Error ? err.constructor.name : typeof err;
+}
+
+function emitKvOperationError(payload: {
+  readonly op: "get" | "put";
+  readonly errorClass: string;
+  readonly dedupeKeyHash: string;
+}): void {
+  console.warn(JSON.stringify({
+    event: KV_OP_FAILED_EVENT,
+    op: payload.op,
+    errorClass: payload.errorClass,
+    dedupeKeyHash: payload.dedupeKeyHash,
+    isolateId,
+    ts: new Date().toISOString(),
+  }));
 }
 
 async function logKvOperationError(
@@ -51,17 +69,22 @@ async function logKvOperationError(
   err: unknown,
   dedupeKey: string,
 ): Promise<void> {
-  const errorClass = err instanceof Error ? err.constructor.name : typeof err;
-  const payload = {
-    event: "alert_relay_kv_op_failed" as const,
-    op,
-    errorClass,
-    dedupeKeyHash: await sha256Hex12(dedupeKey),
-    isolateId,
-    ts: new Date().toISOString(),
-  };
-  console.warn(JSON.stringify(payload));
+  const errorClass = getErrorClass(err);
+  try {
+    emitKvOperationError({
+      op,
+      errorClass,
+      dedupeKeyHash: await computeDedupeKeyHash(dedupeKey),
+    });
+  } catch {
+    try {
+      emitKvOperationError({ op, errorClass, dedupeKeyHash: "hash_error" });
+    } catch {
+      // Logging must never alter alert delivery or dedup response semantics.
+    }
+  }
 }
+
 
 export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Bindings: AlertRelayEnv }> {
   const app = new Hono<{ Bindings: AlertRelayEnv }>();
@@ -98,7 +121,6 @@ export function createAlertRelayRoute(deps: AlertRelayDeps = {}): Hono<{ Binding
       seen = await c.env.ALERT_DEDUP_KV.get(dedupeKey);
     } catch (error) {
       await logKvOperationError("get", error, dedupeKey);
-      seen = null;
     }
     if (seen !== null) {
       return c.json({ ok: true, deduped: true });

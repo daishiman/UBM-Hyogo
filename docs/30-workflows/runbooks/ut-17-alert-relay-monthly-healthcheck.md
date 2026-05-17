@@ -140,3 +140,52 @@ dedupe key を SHA-256 first 12 hex chars にして照合する。raw key は Wo
 
 実施結果は `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.log.md` を作成し、
 実施日 / 担当 / Step 1〜5 の結果 / 異常時の対応を追記する（初回は本ファイルから派生作成）。
+
+## 5. KV 操作エラーログ確認
+
+UT-17-FU-005 以降、`ALERT_DEDUP_KV.get` / `ALERT_DEDUP_KV.put` が失敗した場合は
+alert relay が次の 1 行 JSON を `console.warn` に出力する。
+
+```json
+{"event":"alert_relay_kv_op_failed","op":"put","errorClass":"Error","dedupeKeyHash":"a1b2c3d4e5f6","isolateId":"00000000-0000-4000-8000-000000000000","ts":"2026-05-16T00:00:00.000Z"}
+```
+
+### 5-1. Workers Logs / tail での確認
+
+`wrangler` は直接実行せず、Cloudflare CLI wrapper を経由する。
+
+```bash
+bash scripts/cf.sh tail --config apps/api/wrangler.toml --env production --format pretty \
+  | grep 'alert_relay_kv_op_failed'
+```
+
+操作種別ごとの切り分け:
+
+```bash
+bash scripts/cf.sh tail --config apps/api/wrangler.toml --env production --format pretty \
+  | grep 'alert_relay_kv_op_failed' \
+  | grep '"op":"get"'
+
+bash scripts/cf.sh tail --config apps/api/wrangler.toml --env production --format pretty \
+  | grep 'alert_relay_kv_op_failed' \
+  | grep '"op":"put"'
+```
+
+### 5-2. Field 定義
+
+| field | 値 | 意味 | 運用で見る観点 |
+| --- | --- | --- | --- |
+| `event` | `alert_relay_kv_op_failed` | KV 操作失敗ログの固定イベント名 | grep / Logpush filter の一次条件 |
+| `op` | `get` / `put` | 失敗した KV 操作 | dedup 判定失敗と永続化失敗の分離 |
+| `errorClass` | `Error` / `TypeError` / `string` など | `Error` 系は例外クラス名、非 Error throw は `typeof` 値 | Cloudflare 側障害 / 実装側 TypeError / 非標準 throw の分類 |
+| `dedupeKeyHash` | SHA-256 先頭 12 hex / `hash_error` | dedupe key の短縮 hash。hash 生成自体が失敗した場合もログ emit を優先する | raw key を出さず同一 alert の再発を追跡 |
+| `isolateId` | UUID | Worker isolate 起動単位の代理 ID | 同一 isolate 内の連続失敗かどうかを見る |
+| `ts` | ISO 8601 | emit 時刻 | incident timeline との突合 |
+
+### 5-3. 判定目安
+
+| 状態 | 目安 | 対応 |
+| --- | --- | --- |
+| 平常 | 0〜2 件 / 日 | 様子見。Cloudflare KV の短時間揺らぎとして記録する |
+| 調査開始 | 10 件超 / 日 | Cloudflare Status、KV namespace、API token / binding drift を確認する |
+| 緊急 | `op=get` が連続し Slack 重複通知が増える | dedup が効いていないため、incident として扱い UT-17-FU-006 dashboard 化を優先する |
