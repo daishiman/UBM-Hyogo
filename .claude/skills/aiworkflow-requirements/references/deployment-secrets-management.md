@@ -361,6 +361,8 @@ bash scripts/cf.sh rollback <VERSION_ID> --config apps/api/wrangler.toml --env p
 | Node 24 / pnpm 10 強制 | `mise exec --` 経由で mise 管理の Node / pnpm バイナリを保証 |
 | ローカル wrangler 優先 | グローバル `wrangler` ではなく worktree の `node_modules/.bin/wrangler` を解決し、wrangler 4.x strict mode の前提を満たす |
 
+Current esbuild override SSOT (2026-05-17): `package.json#pnpm.overrides.esbuild` is exact `0.27.3`. This value is chosen to satisfy `wrangler@4.85.0` `supported.import-source` parsing while keeping OpenNext and wrangler on a single esbuild version. Evidence root: `docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/`.
+
 **禁止事項（Claude Code を含む全 AI エージェントに適用）**:
 
 - `.env` の中身を `cat` / `Read` / `grep` 等で表示・読み取らない（実値は op 参照のみだが慣性事故防止）

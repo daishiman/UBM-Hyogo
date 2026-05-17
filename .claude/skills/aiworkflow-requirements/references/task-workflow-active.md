@@ -118,17 +118,17 @@
 | Phase 12 | strict files present under `outputs/phase-12/`; `implementation-guide-part2.md` は root artifacts 由来の追加成果物 |
 | user gate | production/staging runtime summary evidence / commit / push / PR |
 
-### fix-wrangler-esbuild-import-source-error（2026-05-15）
+### fix-cf-deploy-esbuild-import-source-staging-failure（2026-05-17）
 
 | 項目 | 値 |
 | --- | --- |
 | ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
-| 成果物 | `docs/30-workflows/completed-tasks/fix-wrangler-esbuild-import-source-error/` |
+| 成果物 | `docs/30-workflows/fix-cf-deploy-esbuild-import-source-staging-failure/` |
 | 目的 | `wrangler@4.85.0` が要求する `esbuild@0.27.3` と root `pnpm.overrides.esbuild=0.25.4` の不整合を解消し、Cloudflare deploy build error `"import-source" is not a valid feature name` を修復する |
 | implementation targets | `package.json`, `pnpm-lock.yaml`, `scripts/cf.sh` |
 | evidence | `outputs/phase-11/main.md`, `outputs/phase-11/manual-smoke-log.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
-| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-wrangler-esbuild-import-source-error-artifact-inventory.md` |
-| local verification | `pnpm install --frozen-lockfile=false`, `pnpm why esbuild`, `pnpm exec esbuild --version`, `build:cloudflare`, `apps/api wrangler deploy --dry-run` |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-fix-cf-deploy-esbuild-import-source-staging-failure-artifact-inventory.md` |
+| local verification | `mise exec -- pnpm install --force`, `pnpm why esbuild`, `pnpm exec esbuild --version`, `mise exec -- pnpm --filter @ubm-hyogo/web build:cloudflare`, `bash scripts/cf.sh deploy --config apps/api/wrangler.toml --dry-run --outdir /tmp/api-bundle` |
 | user gate | GitHub Actions deploy-staging, runtime smoke, commit, push, PR |
 
 ### Issue #667 Stage 3b mock API fixture coverage（2026-05-14）
