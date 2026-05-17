@@ -178,9 +178,9 @@ Task-05 implemented-local contract: `app/loading.tsx` uses `role="status"`, `ari
 
 | 認可 | layout | 主 component | API | 状態 | 主 props | a11y | token | 視覚詳細 link | 不採用 |
 |------|--------|---------------|-----|------|----------|------|-------|----------------|--------|
-| staging fixture only | `app/__smoke__/*` | SmokeFixture | API call なし | error / success | fixture flag | alert or main landmark | color, space | 09h | production exposure |
+| staging fixture only | `app/smoke/*` wrapper + `app/__smoke__/*` source | SmokeFixture | API call なし | error / loading / success | fixture flag | alert, status, or main landmark | color, space | 09h | production exposure |
 
-`app/__smoke__/error-boundary` と `app/__smoke__/members-list` は `ENABLE_STAGING_SMOKE_FIXTURE=1` かつ `ENVIRONMENT !== "production"` のときだけ有効にする。production deploy は `scripts/cf.sh deploy --config apps/web/wrangler.toml --env production` の preflight で `ENABLE_STAGING_SMOKE_FIXTURE=1` を拒否する。Playwright `staging-smoke` project は remote `STAGING_BASE_URL` 専用で、localhost dev server を起動しない。
+`app/smoke/error-boundary`, `app/smoke/members-list`, `app/smoke/loading-state` は routable wrapper とし、実体は `app/__smoke__/*` 配下に置く。いずれも `apps/web/app/__smoke__/_lib/fixture-guard.ts` の `ENABLE_STAGING_SMOKE_FIXTURE=1` かつ `ENVIRONMENT !== "production"` ガードを通ったときだけ有効にし、条件不一致時は `notFound()` で 404 を返す。production deploy は `scripts/cf.sh deploy --config apps/web/wrangler.toml --env production` の preflight で `ENABLE_STAGING_SMOKE_FIXTURE=1` を拒否する。Playwright `staging-smoke` project は remote `STAGING_BASE_URL` 専用で、localhost dev server を起動しない。ローカル検証時だけ `STAGING_BASE_URL=http://localhost:3000` と fixture env を明示して focused run する。
 
 ## 3. component 契約一覧
 

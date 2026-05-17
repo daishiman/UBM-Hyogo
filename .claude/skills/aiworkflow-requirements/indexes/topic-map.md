@@ -2678,6 +2678,12 @@ node scripts/list-specs.js --topics
 | Gate C Blockers | L48 |
 | Scope Note | L56 |
 
+### references/workflow-issue-720-cf-audit-monitor-env-protection-fix-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| User Gate | L17 |
+
 ### references/workflow-light-theme-contrast-regression-guard.md
 
 | セクション | 行 |
@@ -3221,6 +3227,14 @@ node scripts/list-specs.js --topics
 | Current Status | L3 |
 | Artifact Set | L13 |
 | Boundary | L26 |
+
+### references/workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Current Status | L3 |
+| Artifact Set | L13 |
+| Boundary | L34 |
 
 ### references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md
 
@@ -5119,6 +5133,16 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 5-minute Checklist | L15 |
 
+### references/lessons-learned-issue-720-cf-audit-monitor-env-protection-fix-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-720-001: Read-only monitor jobs must not inherit deploy environment protection | L3 |
+| L-720-002: Alternative comparison cost — `environment:` 削除 1 行が正解にたどり着くまで | L11 |
+| L-720-003: Repository-level secret mirror は widened access boundary を伴う trade-off | L26 |
+| L-720-004: CLOSED issue への phase-12 fold-state sync | L34 |
+| L-720-005: `implemented_local_runtime_pending` 新ステータスの導入意義 | L42 |
+
 ### references/lessons-learned-issue359-production-d1-apply-2026-05.md
 
 | セクション | 行 |
@@ -5318,6 +5342,17 @@ node scripts/list-specs.js --topics
 | L-TASK24-003 — `audit-runner.sh` の I/O contract を spec 化する | L52 |
 | L-TASK24-004 — task root rename 時の self-reference path 一括更新 | L68 |
 | Backlinks | L88 |
+
+### references/lessons-learned-task-25-followup-loading-state-observation-fixture-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-T25LF-001: routable wrapper / private source の 2 系統構成を fixture pattern として明文化する | L5 |
+| L-T25LF-002: loading.tsx の runtime 観測には deterministic な server-side delay fixture が必要 | L12 |
+| L-T25LF-003: env guard 重複を `_lib/fixture-guard.ts` に集約する横断リファクタは 3 件目を契機に実施する | L19 |
+| L-T25LF-004: completed-tasks 配下のドキュメント更新は「子 task のスコープ内」として扱い、placeholder 解消 commit を分割しない | L26 |
+| L-T25LF-005: `/smoke/*` を public routable surface として明文化したら、本番ルーティング・SEO・error.tsx への副作用を 3 軸で評価する | L33 |
+| 参照 | L46 |
 
 ### references/lessons-learned-task-26-error-tsx-token-utility-migration-2026-05.md
 
@@ -6309,11 +6344,11 @@ node scripts/list-specs.js --topics
 | 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L290 |
 | 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L319 |
 | 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14） | L348 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L370 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L388 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L389 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L405 |
-| 13. 変更履歴 | L427 |
+| 11.3 Issue #720 monitor environment protection fix（2026-05-16） | L370 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L393 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L411 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L412 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L428 |
 
 ### references/patterns-advanced.md
 
@@ -6778,14 +6813,14 @@ node scripts/list-specs.js --topics
 | セクション | 行 |
 |------------|----|
 | 概要 | L7 |
-| ドキュメント構成 | L1417 |
-| フェーズ構造（概要） | L1426 |
-| 品質ゲート（概要） | L1457 |
-| 出力テンプレート | L1468 |
-| 実行時のコマンド・エージェント・スキル | L1491 |
-| 昇格パターン集 | L1515 |
-| Current Active / Spec Created Tasks | L1517 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1667 |
+| ドキュメント構成 | L1462 |
+| フェーズ構造（概要） | L1471 |
+| 品質ゲート（概要） | L1502 |
+| 出力テンプレート | L1513 |
+| 実行時のコマンド・エージェント・スキル | L1536 |
+| 昇格パターン集 | L1560 |
+| Current Active / Spec Created Tasks | L1562 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1712 |
 
 ### references/task-workflow-backlog-part2.md
 
