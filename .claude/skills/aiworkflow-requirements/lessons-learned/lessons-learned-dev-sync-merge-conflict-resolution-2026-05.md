@@ -31,6 +31,16 @@
   3. 派生差分があれば `chore(indexes): rebuild after dev sync merge` で別 commit
 - Why: merge commit と再生成 commit を分けると、後で indexes 再生成だけを revert / replay できる。
 
+## L-DEVSYNC-006: pre-push hook `gate-metadata-guard` の schema 違反 (2026-05-17 追記)
+- 症状: `git push` が pre-push hook の `verify-gate-metadata` 同等チェックで停止。`artifacts.json` の `metadata.gates[].status` が `"completed"` / `"verified"` / `"blocked"` のいずれかを使っている場合、zod schema が `"pending" | "passed" | "failed" | "waived"` のみを受け入れるため `ERROR`。
+- 解消: 以下の正規変換を適用し、`passed_at` (ISO8601 文字列 or null) と `approver` (`"local"` / `"daishiman"` 等) を追加。
+  - `completed` → `passed` (`passed_at` 必須、`approver: "local"`)
+  - `verified` → `passed` (同上)
+  - `blocked` / `user-gated` → `pending` (`passed_at: null`、`approver: "daishiman"`)
+- 関連: `evidence_path` がワークフローの `completed-tasks/` 移動前パスのままだと `evidence_path not found` ERROR が出る。移動後の `docs/30-workflows/completed-tasks/<task>/...` に追従させる。
+- 整合性: `artifacts.json` と `outputs/artifacts.json` の `metadata.gates` は同一であるべき（CI gate が両方を独立検証する）。
+- Why: skill の正規 schema は `scripts/gate-metadata/validate.ts` の zod schema が SSOT。Phase 12 / 13 spec の表記揺れ（`completed` / `verified` / `blocked`）は人間向けで、artifacts.json の `status` field とは別軸。
+
 ## 適用範囲
-- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。
+- task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。Phase 12 で `artifacts.json` を出力する際は L-DEVSYNC-006 の status enum / passed_at / approver / evidence_path を必ず満たす。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。

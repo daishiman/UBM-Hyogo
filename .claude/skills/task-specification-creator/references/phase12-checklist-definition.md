@@ -158,4 +158,16 @@ git diff --name-only HEAD -- \
 `--require-gates-for-changed` に渡し、新規・編集 workflow の `metadata.gates[]` 欠落を ERROR にする。schema/CLI 仕様は
 `.claude/skills/aiworkflow-requirements/references/gate-metadata.md` を SSOT とする。
 `gates[]` 不在の歴史的 artifacts は WARN/skip 扱いで N/A 判定して良い。
+
+#### よくある schema 違反と修正 (2026-05-17 追記)
+
+| 誤った値 | 正しい値 | 補足 |
+|---------|---------|------|
+| `status: "completed"` | `status: "passed"` | local 実装完了。`passed_at` (ISO8601) と `approver: "local"` を併記 |
+| `status: "verified"` | `status: "passed"` | local 検証完了。同上 |
+| `status: "blocked"` | `status: "pending"` | user-gated。`passed_at: null` と `approver: "daishiman"` を併記 |
+| `evidence_path` が `docs/30-workflows/<workflow>/...` のまま | `docs/30-workflows/completed-tasks/<workflow>/...` | completed-tasks/ 移動後はパス追従必須 |
+| `artifacts.json` と `outputs/artifacts.json` の `metadata.gates` 不一致 | 両者を同一に維持 | CI gate は両ファイルを独立検証する |
+
+詳細事例: [aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md](../../aiworkflow-requirements/lessons-learned/lessons-learned-dev-sync-merge-conflict-resolution-2026-05.md) L-DEVSYNC-006。
 ```

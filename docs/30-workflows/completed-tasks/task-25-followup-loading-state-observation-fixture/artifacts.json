@@ -20,20 +20,26 @@
     "gates": [
       {
         "gate_id": "Gate-A",
-        "status": "completed",
-        "evidence_path": "docs/30-workflows/task-25-followup-loading-state-observation-fixture/index.md",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-25-followup-loading-state-observation-fixture/index.md",
+        "approver": "local",
         "notes": "Implementation / NON_VISUAL spec formalized for deterministic loading-state observation fixture."
       },
       {
         "gate_id": "Gate-B",
-        "status": "verified",
-        "evidence_path": "docs/30-workflows/task-25-followup-loading-state-observation-fixture/outputs/phase-11/evidence.md",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/task-25-followup-loading-state-observation-fixture/outputs/phase-11/evidence.md",
+        "approver": "local",
         "notes": "Local implementation, fixture guard unit coverage, and focused Playwright evidence captured; full remote staging runtime and CI remain user-gated."
       },
       {
         "gate_id": "Gate-C",
-        "status": "blocked",
-        "evidence_path": "docs/30-workflows/task-25-followup-loading-state-observation-fixture/phase-13.md",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/task-25-followup-loading-state-observation-fixture/phase-13.md",
+        "approver": "daishiman",
         "notes": "Commit, push, PR, and staging runtime promotion require explicit user approval."
       }
     ]
