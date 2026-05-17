@@ -8,6 +8,21 @@
 
 本ドキュメントは、複雑なタスクを単一責務の原則に基づいて分解し、各サブタスクに最適なスラッシュコマンド・エージェント・スキルの組み合わせを選定するためのガイドラインを定義する。
 
+### i02-admin-error-type-unify（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / Phase 12 strict 7 present / completed-tasks moved` |
+| 成果物 | `docs/30-workflows/completed-tasks/i02-admin-error-type-unify/` |
+| source | `docs/30-workflows/completed-tasks/integration-fixes-i02-admin-error-type-unify.md` consumed |
+| 目的 | `useAdminMutation` の 401 を `AuthRequiredError`、非 2xx を `FetchAuthedError` に統一し、401 を `/login?redirect=...` redirector へ接続する |
+| 実装 | `apps/web/src/features/admin/hooks/useAdminMutation.ts`, `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts` |
+| 不変条件 | 既存 caller の hook 利用形と API/D1 schema は変更しない。`FetchAuthedError` constructor signature も維持 |
+| evidence | Phase 11 focused command evidence captured / Phase 12 strict 7 present |
+| artifact inventory | `.claude/skills/aiworkflow-requirements/references/workflow-i02-admin-error-type-unify-artifact-inventory.md` |
+| user gate | commit / push / PR |
+
+### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 ### serial-05-step-03 schema diff resolve UI（2026-05-16）
 
 | 項目 | 値 |

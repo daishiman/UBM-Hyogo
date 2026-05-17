@@ -12,7 +12,11 @@ vi.mock("../../../../components/ui/Toast", () => ({
   useToast: () => ({ toast: toastMock }),
 }));
 
-import { useAdminMutation, FetchAuthedError } from "../useAdminMutation";
+import {
+  AuthRequiredError,
+  FetchAuthedError,
+} from "../../../../lib/fetch/errors";
+import { useAdminMutation } from "../useAdminMutation";
 
 afterEach(() => {
   cleanup();
@@ -27,6 +31,7 @@ function mockFetchOnce(response: {
   ok: boolean;
   status: number;
   json: () => Promise<unknown>;
+  text?: () => Promise<string>;
 }) {
   vi.stubGlobal(
     "fetch",
@@ -62,34 +67,46 @@ describe("useAdminMutation", () => {
       ok: false,
       status: 400,
       json: async () => ({ ok: false, error: "invalid body" }),
+      text: async () => JSON.stringify({ ok: false, error: "invalid body" }),
     });
     const { result } = renderHook(() =>
       useAdminMutation("/api/admin/members/m1/notes", "POST"),
     );
     await act(async () => {
-      await expect(result.current.trigger({ body: "" })).rejects.toThrow(
-        "invalid body",
+      await expect(result.current.trigger({ body: "" })).rejects.toBeInstanceOf(
+        FetchAuthedError,
       );
     });
-    expect(toastMock).toHaveBeenCalledWith("✗ invalid body");
+    expect(toastMock).toHaveBeenCalledWith("✗ invalid body", "status");
     expect(refreshMock).not.toHaveBeenCalled();
-    expect(result.current.error?.message).toBe("invalid body");
+    expect(result.current.error).toBeInstanceOf(FetchAuthedError);
+    expect((result.current.error as FetchAuthedError).bodyText).toContain(
+      "invalid body",
+    );
   });
 
-  it("TC-03: 401 throws FetchAuthedError and does not show generic toast", async () => {
+  it("TC-03: 401 throws AuthRequiredError and redirects to login", async () => {
     mockFetchOnce({
       ok: false,
       status: 401,
       json: async () => ({}),
+      text: async () => "",
     });
+    const redirector = vi.fn();
     const { result } = renderHook(() =>
-      useAdminMutation("/api/admin/members/m1/notes", "POST"),
+      useAdminMutation("/api/admin/members/m1/notes", "POST", {
+        currentPath: "/admin/members?tab=notes",
+        redirector,
+      }),
     );
     await act(async () => {
       await expect(result.current.trigger({ body: "x" })).rejects.toBeInstanceOf(
-        FetchAuthedError,
+        AuthRequiredError,
       );
     });
+    expect(redirector).toHaveBeenCalledWith(
+      "/login?redirect=%2Fadmin%2Fmembers%3Ftab%3Dnotes",
+    );
     expect(toastMock).not.toHaveBeenCalled();
   });
 
@@ -98,6 +115,7 @@ describe("useAdminMutation", () => {
       ok: false,
       status: 403,
       json: async () => ({}),
+      text: async () => "forbidden",
     });
     const { result } = renderHook(() =>
       useAdminMutation("/api/admin/members/m1/notes", "POST"),
@@ -107,6 +125,7 @@ describe("useAdminMutation", () => {
         FetchAuthedError,
       );
     });
+    expect(toastMock).toHaveBeenCalledWith("✗ forbidden", "alert");
   });
 
   it("TC-05: PATCH method sends correct verb", async () => {
@@ -135,16 +154,35 @@ describe("useAdminMutation", () => {
       json: async () => {
         throw new Error("not json");
       },
+      text: async () => "",
     });
     const { result } = renderHook(() =>
       useAdminMutation("/api/admin/members/m1/notes", "POST"),
     );
     await act(async () => {
-      await expect(result.current.trigger({ body: "x" })).rejects.toThrow(
-        "サーバーエラー",
+      await expect(result.current.trigger({ body: "x" })).rejects.toBeInstanceOf(
+        FetchAuthedError,
       );
     });
-    expect(toastMock).toHaveBeenCalledWith("✗ サーバーエラー");
+    expect(toastMock).toHaveBeenCalledWith("✗ サーバーエラー", "status");
+  });
+
+  it("TC-06b: server 5xx throws FetchAuthedError", async () => {
+    mockFetchOnce({
+      ok: false,
+      status: 503,
+      json: async () => ({}),
+      text: async () => "down",
+    });
+    const { result } = renderHook(() =>
+      useAdminMutation("/api/admin/members/m1/notes", "POST"),
+    );
+    await act(async () => {
+      await expect(result.current.trigger({ body: "x" })).rejects.toBeInstanceOf(
+        FetchAuthedError,
+      );
+    });
+    expect(result.current.error).toBeInstanceOf(FetchAuthedError);
   });
 
   it("TC-07: custom successMessage is used", async () => {
@@ -169,6 +207,7 @@ describe("useAdminMutation", () => {
       ok: false,
       status: 422,
       json: async () => ({ message: "validation" }),
+      text: async () => JSON.stringify({ message: "validation" }),
     });
     const onError = vi.fn();
     const { result } = renderHook(() =>
@@ -203,5 +242,26 @@ describe("useAdminMutation", () => {
         json: async () => ({ ok: true }),
       });
     });
+  });
+
+  it("TC-10: reset clears error and loading state", async () => {
+    mockFetchOnce({
+      ok: false,
+      status: 503,
+      json: async () => ({}),
+      text: async () => "down",
+    });
+    const { result } = renderHook(() =>
+      useAdminMutation("/api/admin/members/m1/notes", "POST"),
+    );
+    await act(async () => {
+      await expect(result.current.trigger({ body: "x" })).rejects.toThrow();
+    });
+    expect(result.current.error).toBeInstanceOf(FetchAuthedError);
+    act(() => {
+      result.current.reset();
+    });
+    expect(result.current.error).toBeNull();
+    expect(result.current.isLoading).toBe(false);
   });
 });
