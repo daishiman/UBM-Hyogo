@@ -10,22 +10,25 @@
 | 対象機能     | admin mutation hook の 401/403 error path 共有化（parallel-08 ↔ parallel-10 接続点）            |
 | 優先度       | 中                                                                                              |
 | 見積もり規模 | 小規模                                                                                          |
-| ステータス   | spec_ready_implementation_pending                                                               |
+| ステータス   | consumed_by_i02_admin_error_type_unify                                                          |
 | 発見元       | improvements 接続検証（integration-fixes index.md §2 検出 i02）                                 |
 | 発見日       | 2026-05-16                                                                                      |
 
 ## Canonical Workflow Status
 
 - 親 workflow: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/`
-- 親タスク状態: `spec_ready_implementation_pending`
+- 親タスク状態: `consumed`
+- canonical_workflow: `docs/30-workflows/i02-admin-error-type-unify/`
+- consumed_at: 2026-05-17
+- consumed_reason: Phase 1-13 workflow root と実コード改善へ昇格済み
 - ソース spec: `docs/30-workflows/ui-prototype-alignment-mvp-recovery/improvements/integration-fixes/parallel-i02-admin-error-type-unify/spec.md`
 - 関連 sibling:
   - i01 (`parallel-i01-toastprovider-root-mount`): 実装済み・完了（本ブランチで `apps/web/app/layout.tsx` に `ToastProvider` mount 済み）
   - i03..i07: spec のみ存在・未実装
 - 関連実装:
-  - `apps/web/src/features/admin/hooks/useAdminMutation.ts`（独自 `AdminMutationHttpError` を保持）
+  - `apps/web/src/features/admin/hooks/useAdminMutation.ts`（401 は `AuthRequiredError`、非 2xx は `FetchAuthedError`）
   - `apps/web/src/lib/fetch/authed.ts`（共有 `AuthRequiredError` / `FetchAuthedError`）
-  - `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.tsx`
+  - `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`
   - `apps/web/src/features/admin/hooks/index.ts`
 
 ---
@@ -66,7 +69,7 @@
 - `useAdminMutation.ts` から `AdminMutationHttpError` の class 定義が削除されている
 - 401 throw が `AuthRequiredError`、それ以外の非 2xx throw が `FetchAuthedError(status, text)` に切替済み
 - hook 内 instanceof 判定が共有 class を参照
-- `useAdminMutation.spec.tsx` が新 class assertion で 0 fail
+- `useAdminMutation.spec.ts` が新 class assertion で 0 fail
 - `hooks/index.ts` から旧 export が削除（or `@deprecated` alias のみ）
 - `pnpm typecheck` / `pnpm lint` ローカル PASS
 
@@ -75,7 +78,7 @@
 #### 含むもの
 
 - `useAdminMutation.ts` の error throw path と instanceof 分岐の置き換え
-- `useAdminMutation.spec.tsx` の expected error class 更新
+- `useAdminMutation.spec.ts` の expected error class 更新
 - `hooks/index.ts` の旧 export 整理
 - p-10 redirect logic test がある場合、admin mutation 経由でも redirect が trigger することを確認する int test 1 件追加
 
@@ -103,7 +106,7 @@
 ### 3.2 同一概念二重実装による型 narrowing 困難 / 401・403 分岐テスト複雑化
 
 - 利用側 `catch (e)` で `e` を narrow するには `instanceof AdminMutationHttpError` と `instanceof AuthRequiredError` / `FetchAuthedError` の **両系統**を順に試さねばならず、TypeScript の union narrowing が崩れる
-- `useAdminMutation.spec.tsx` の 401 case は `AdminMutationHttpError(401, "")`、`authed.spec.ts` の 401 case は `AuthRequiredError` を expect しており、テスト全体で「401 とは何の class か」が一意でない
+- `useAdminMutation.spec.ts` の 401 case は `AdminMutationHttpError(401, "")`、`authed.spec.ts` の 401 case は `AuthRequiredError` を expect しており、テスト全体で「401 とは何の class か」が一意でない
 - 403 path も同様に hook 単位で expect class が分岐し、admin 系 mutation を増やすたびに「どちらに合わせるか」を都度判断する必要があった
 - p-10 redirect test が `instanceof AuthRequiredError` を gate にしているため、admin mutation 経由の 401 は redirect path のテスト fixture に乗らない
 
@@ -123,7 +126,7 @@
 - **AC-1**: `apps/web/src/features/admin/hooks/useAdminMutation.ts` から `AdminMutationHttpError` の class 定義が削除されている
 - **AC-2**: hook 内の 401 throw が `AuthRequiredError`、非 2xx throw が `FetchAuthedError(res.status, text)` に切替済み
 - **AC-3**: hook 内 `instanceof` 判定が `AuthRequiredError` / `FetchAuthedError` ベースに切替済み（`e instanceof AuthRequiredError` / `e instanceof FetchAuthedError && e.status === 403`）
-- **AC-4**: `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.tsx` の 401/403 assertion が新 class（`AuthRequiredError` / `FetchAuthedError`）で PASS
+- **AC-4**: `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts` の 401/403 assertion が新 class（`AuthRequiredError` / `FetchAuthedError`）で PASS
 - **AC-5**: `apps/web/src/features/admin/hooks/index.ts` から旧 `AdminMutationHttpError` の export が削除されている（または `@deprecated` 経由の `FetchAuthedError` re-export alias のみ。spec は完全削除を採用）
 - **AC-6**: `mise exec -- pnpm typecheck` がローカル PASS（type narrowing が新型で成立）
 - **AC-7**: `mise exec -- pnpm lint` がローカル PASS
@@ -141,7 +144,7 @@
 - 関連実装:
   - `apps/web/src/features/admin/hooks/useAdminMutation.ts`（`AdminMutationHttpError` 定義箇所: L58 / 分岐: L144,148）
   - `apps/web/src/lib/fetch/authed.ts`（`AuthRequiredError`: L17 / `FetchAuthedError`: L24）
-  - `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.tsx`
+  - `apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts`
   - `apps/web/src/features/admin/hooks/index.ts`
 - 関連 PR: #745 (parallel-08), #744 (parallel-10)
 - CLAUDE.md「UI prototype alignment / MVP recovery」セクション - 不変条件1「既存 API のみ接続」
