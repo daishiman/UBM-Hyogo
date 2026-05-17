@@ -14,7 +14,33 @@
     "github_issue_state": "closed",
     "pr_state": "blocked_pending_user_approval",
     "external_ops_state": "production_deploy_pending_user_approval",
-    "lastUpdated": "2026-05-16"
+    "lastUpdated": "2026-05-16",
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-error-metrics/outputs/phase-03/design-review.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-error-metrics/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: alert-relay KV op error metrics with fail-safe structured logging"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-error-metrics/outputs/phase-13/pr-summary.md",
+        "approver": "daishiman",
+        "notes": "external_ops: production deploy + Workers Logs runtime tail evidence"
+      }
+    ]
   },
   "canonicalRoot": "docs/30-workflows/ut-17-followup-005-alert-relay-kv-error-metrics",
   "phases": [
