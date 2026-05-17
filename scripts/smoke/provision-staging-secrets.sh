@@ -13,11 +13,11 @@ REPO="daishiman/UBM-Hyogo"
 ENV_NAME="staging-runtime-smoke"
 
 SECRETS=(
-  "STAGING_API_BASE:op://Cloudflare/UBM-Hyogo Staging/api-base-url"
-  "STAGING_ADMIN_BEARER:op://Cloudflare/UBM-Hyogo Staging/admin-bearer"
-  "STAGING_MEMBER_ID:op://Cloudflare/UBM-Hyogo Staging/member-id"
-  "STAGING_ME_BEARER:op://Cloudflare/UBM-Hyogo Staging/me-bearer"
-  "SLACK_WEBHOOK_INCIDENT:op://Cloudflare/UBM-Hyogo Shared/slack-webhook-incident"
+  "STAGING_API_BASE:op://Employee/ubm-hyogo-env/STAGING_API_BASE"
+  "STAGING_ADMIN_BEARER:op://Employee/ubm-hyogo-env/STAGING_ADMIN_BEARER"
+  "STAGING_MEMBER_ID:op://Employee/ubm-hyogo-env/STAGING_MEMBER_ID"
+  "STAGING_ME_BEARER:op://Employee/ubm-hyogo-env/STAGING_ME_BEARER"
+  "SLACK_WEBHOOK_INCIDENT:op://Employee/ubm-hyogo-env/SLACK_WEBHOOK_INCIDENT_STAGING"
 )
 
 usage() {
@@ -67,7 +67,7 @@ ensure_environment() {
 }
 
 verify_staging_marker() {
-  local ref="op://Cloudflare/UBM-Hyogo Staging/api-base-url"
+  local ref="op://Employee/ubm-hyogo-env/STAGING_API_BASE"
   local value
   value="$(op read "$ref")"
   if printf '%s' "$value" | grep -qE '(staging|-staging\.|workers\.dev|ubm-hyogo-web-staging)'; then
