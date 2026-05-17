@@ -1,0 +1,5 @@
+apps/web/src/features/admin/hooks/useAdminMutation.ts imports AuthRequiredError and FetchAuthedError.
+apps/web/src/features/admin/hooks/useAdminMutation.ts throws AuthRequiredError for HTTP 401.
+apps/web/src/features/admin/hooks/useAdminMutation.ts throws FetchAuthedError for non-2xx responses.
+apps/web/src/features/admin/hooks/useAdminMutation.ts calls toLoginRedirect(currentPath) and redirector on AuthRequiredError.
+apps/web/src/features/admin/hooks/__tests__/useAdminMutation.spec.ts asserts AuthRequiredError / FetchAuthedError.
