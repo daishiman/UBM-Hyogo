@@ -13,6 +13,32 @@
       "commit",
       "push",
       "PR"
+    ],
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/index.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-13 spec finalized; env-required secret allowlist + runbook designed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-16T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/outputs/phase-12/main.md",
+        "approver": "daishiman",
+        "notes": "validator_green: local implementation complete (verify-env-secrets preflight gate restored); Phase 12 outputs present"
+      },
+      {
+        "gate_id": "Gate-C",
+        "status": "pending",
+        "passed_at": null,
+        "evidence_path": "docs/30-workflows/completed-tasks/runtime-smoke-staging-secrets-restore/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "runtime_pending: GitHub Environment secret mutation + runtime-smoke-staging workflow rerun are user-gated"
+      }
     ]
   },
   "implementation_targets": [
