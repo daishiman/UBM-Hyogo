@@ -5,6 +5,18 @@
 
 ---
 
+### Issue #748 jest-axe primitive a11y integration（2026-05-17）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/issue-748-jest-axe-primitive-a11y-integration/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL` |
+| implementation | `apps/web/src/test/axe.ts`, `apps/web/src/components/ui/__tests__/parallel09-primitives.component.spec.tsx` |
+| evidence | `outputs/phase-11/local-test.log`, `outputs/phase-11/typecheck.log`, `outputs/phase-11/lint.log` |
+| compliance | `outputs/phase-12/phase12-task-spec-compliance-check.md` |
+| source | `docs/30-workflows/completed-tasks/parallel-09-followup-003-jest-axe-real-a11y-integration.md` consumed |
+| user gate | commit / push / PR / issue mutation |
+
 ### UT-07A-FU-01 memberTags.assignTagsToMember cleanup（2026-05-15）
 
 | 目的 | 参照先 |
