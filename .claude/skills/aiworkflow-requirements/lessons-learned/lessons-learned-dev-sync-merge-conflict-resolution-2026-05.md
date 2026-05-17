@@ -58,6 +58,16 @@
 - 事例: 2026-05-17 feat/issue-718-legacy-cf-token-revocation の dev sync merge で本パターンを適用、conflict file（quick-reference.md / topic-map.md / deployment-gha.md）すべて `--ours` 採用 → `pnpm indexes:rebuild` で indexes 再生成。
 - 番号注記: 当初 L-DEVSYNC-006 として追記したが、dev 側で並行に L-DEVSYNC-006/007/008 が増えていたため 2026-05-17 の二回目 dev sync で L-DEVSYNC-009 に renumber 済み。
 
+## L-DEVSYNC-010: 新規 playwright spec と mock API fixture の同時追加義務
+- 症状: feature ブランチで新規 `apps/web/playwright/tests/*.spec.ts` を追加して dev sync 後に push すると、e2e (desktop-chromium / mobile-webkit) が 60s タイムアウトで失敗する。spec が叩く API path（例: `/admin/tags/queue`）が `apps/web/playwright/fixtures/auth.ts` の mock handler に未登録のため、`fetchAdmin` が 404 → page error → 期待 UI 要素 (`getByRole('button', { name: /^mem_alpha/ })` 等) が永久に出現しない。
+- 解消手順:
+  1. 失敗 spec が叩く path を grep（`fetchAdmin\|apiClient` で page.tsx / server-fetch.ts を辿る）
+  2. `fixtures/auth.ts` の `req.method === 'GET' && url.pathname === '...'` ブロックを列挙して差分を確認
+  3. 不足 endpoint ごとに `xxxBody()` 関数を追加し、handler 行を生やす（既存 `task18TagQueueFixture` 等の fixture shape を再利用）
+  4. admin UI は desktop-primary のため、admin 系 spec は `playwright.config.ts` の `mobile-webkit` project `testIgnore` に追加（既存 `admin-pages.spec.ts` パターンに合わせる）
+- Why: e2e CI 失敗は dev sync merge 起因と紛らわしいが、実体は spec と mock fixture の coverage gap。dev sync prompt 終了直後に CI 失敗を発見した場合、merge conflict ではなく fixture 不足を最初に疑うこと。
+- 事例: 2026-05-17 feat/admin-tags-queue-resolver-drawer-mvp-recovery で `admin-tags-resolve-drawer.spec.ts` 追加時に `/admin/tags/queue` GET endpoint が `auth.ts` 未登録のため CI 失敗。`adminTagsQueueBody()` を追加し mobile-webkit `testIgnore` に spec を追加して解消（commit e871acc8）。
+
 ## 適用範囲
 - task-specification-creator skill: 本 Lessons Learned は SKILL.md / changelog / references の conflict 解消にもそのまま適用される。L-DEVSYNC-006 の "最新 N 件" 規約と L-DEVSYNC-009 の fact migration 判定はいずれも `task-specification-creator/SKILL.md` / 配下 references / changelog 衝突に適用する。
 - aiworkflow-requirements skill: indexes 再生成は本 skill 配下で完結する。
