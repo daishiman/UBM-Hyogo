@@ -3502,6 +3502,15 @@ node scripts/list-specs.js --topics
 | Planned Implementation Artifacts | L13 |
 | State Boundary | L25 |
 
+### references/workflow-ut-17-followup-005-alert-relay-kv-operation-error-metrics-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Workflow | L5 |
+| Implementation | L13 |
+| Evidence | L19 |
+| User-Gated | L27 |
+
 ### references/workflow-ut-branch-flow-dev-staging-sync-artifact-inventory.md
 
 | セクション | 行 |
@@ -6737,7 +6746,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1464 |
 | 昇格パターン集 | L1488 |
 | Current Active / Spec Created Tasks | L1490 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1634 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1635 |
 
 ### references/task-workflow-backlog-part2.md
 

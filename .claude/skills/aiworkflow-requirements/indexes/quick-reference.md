@@ -96,6 +96,18 @@
 | parent | `docs/30-workflows/ut-17-cloudflare-analytics-alerts/` |
 | user gate | Cloudflare token placement / Cloudflare mutation / commit / push / PR |
 
+### UT-17 follow-up 005 — Alert Relay KV Operation Error Metrics（2026-05-16）
+
+| 目的 | 参照先 |
+| --- | --- |
+| workflow root | `docs/30-workflows/completed-tasks/ut-17-followup-005-alert-relay-kv-operation-error-metrics/` |
+| 状態 | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING` |
+| implementation | `apps/api/src/routes/internal/alert-relay.ts` adds fail-safe `logKvOperationError`, `KV.get` fail-open logging, `KV.put` structured logging |
+| log event | `alert_relay_kv_op_failed` with `op`, `errorClass`, `dedupeKeyHash`, `isolateId`, `ts`; hash failure uses `dedupeKeyHash="hash_error"` |
+| evidence | `outputs/phase-11/evidence/{typecheck,lint,build,test,grep-gate}.txt`; API test PASS = 48 files / 294 tests |
+| runbook | `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` section 5 |
+| user gate | runtime Workers Logs tail / deploy / commit / push / PR |
+
 
 ### task-18-FU Full Visual Regression Suite（2026-05-14）
 
@@ -2650,7 +2662,7 @@ UT-17 Cloudflare Notifications → alert-relay → Slack 経路を、既存 API 
 | source task | `docs/30-workflows/unassigned-task/ut-17-followup-002-alert-relay-dedup-kv-persistence.md`（transferred_to_workflow） |
 | state | `implemented-local-runtime-pending / implementation / NON_VISUAL / external_ops_pending` |
 | planned binding | `ALERT_DEDUP_KV: KVNamespace` |
-| canonical test path | `apps/api/src/routes/internal/__tests__/alert-relay.test.ts` |
+| canonical test path | `apps/api/src/routes/internal/__tests__/alert-relay.spec.ts`（historical source used `.test.ts`, superseded by repo `*.spec.ts` invariant） |
 | artifact inventory | `references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md` |
 | patterns | `references/patterns-kv-dedup.md`（env binding narrowing / KV stub fixture / persistence ordering / wrangler gating / wording 規律） |
 | lessons-learned | `lessons-learned/lessons-learned-ut-17-followup-002-alert-relay-dedup-kv-2026-05.md`（5 教訓） |
