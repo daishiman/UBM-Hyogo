@@ -93,7 +93,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_evidence_captured / implementation_complete_pending_pr / implementation / NON_VISUAL` |
+| ステータス | `verified / implementation_complete_pending_pr / implementation / NON_VISUAL` |
 | 成果物 | `docs/30-workflows/completed-tasks/issue-666-fetch-public-service-binding-regression/` |
 | Issue | #666 OPEN。PR 文脈は `Refs #666` |
 | source unassigned | `docs/30-workflows/completed-tasks/task-e2e-stage3b-fetch-public-service-binding-priority-regression-001.md`（consumed by Issue #666 workflow） |
@@ -122,7 +122,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
+| ステータス | `verified / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 12 strict 7 present` |
 | 成果物 | `docs/30-workflows/completed-tasks/fix-wrangler-esbuild-import-source-error/` |
 | 目的 | `wrangler@4.85.0` が要求する `esbuild@0.27.3` と root `pnpm.overrides.esbuild=0.25.4` の不整合を解消し、Cloudflare deploy build error `"import-source" is not a valid feature name` を修復する |
 | implementation targets | `package.json`, `pnpm-lock.yaml`, `scripts/cf.sh` |
@@ -163,7 +163,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_evidence_captured / docs-only / NON_VISUAL / Phase 12 strict 7 present / Phase 13 blocked_pending_user_approval` |
+| ステータス | `verified / docs-only / NON_VISUAL / Phase 12 strict 7 present / Phase 13 blocked_pending_user_approval` |
 | 成果物 | `docs/30-workflows/completed-tasks/task-23-ui-mvp-w8-par-verification-status-matrix/` |
 | 親 workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
 | 目的 | task-01〜22 を 4 条件（矛盾なし / 漏れなし / 整合性あり / 依存関係整合）で評価する 22 x 4 matrix を生成する |
@@ -172,6 +172,20 @@
 | lessons-learned | `.claude/skills/aiworkflow-requirements/lessons-learned/lessons-learned-task-23-docs-only-final-deliverable-state-gate-2026-05.md`（L-T23-001..005） |
 | skill promotion | `.claude/skills/task-specification-creator/references/phase-12-documentation-guide.md`（final deliverable state gate / `required_at` wording gate / planned wording grep close-out gate）、`.claude/skills/task-specification-creator/SKILL-changelog.md`（v2026.05.14-task23 entry） |
 | downstream | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` は generated `VERIFICATION-STATUS.md` を入力にできる |
+| user gate | commit、push、PR は user approval 後 |
+
+### UI prototype alignment / MVP recovery task-27 3-layer task mapping（2026-05-15）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `verified / docs-only / NON_VISUAL / Phase 1-12 completed / Phase 13 blocked` |
+| 成果物 | `docs/30-workflows/task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping/` |
+| 親 workflow | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/` |
+| generated deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/MVP-3LAYER-TASK-MAPPING.md` |
+| 目的 | task-01〜22 を `PUB / MEM / ADM / COM` の 88 セル double-entry matrix に整理し、WARN/FAIL、invariant、smoke、readiness を層別に逆引き可能にする |
+| inputs | task-23 `VERIFICATION-STATUS.md`、task-24 `INVARIANT-AUDIT.md`、task-25 `SMOKE-COVERAGE-MATRIX.md`、completed task-26 common-surface context |
+| evidence | root/output `artifacts.json` parity、`outputs/phase-5/implementation-notes.md`、`outputs/phase-7/coverage.md`、Phase 12 strict 7 |
+| artifact inventory | `references/workflow-task-27-ui-mvp-w9-solo-mvp-3-layer-task-mapping-artifact-inventory.md` |
 | user gate | commit、push、PR は user approval 後 |
 
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
@@ -190,6 +204,21 @@
 | evidence | `outputs/phase-11/manual-test-result.md`, `outputs/phase-12/phase12-task-spec-compliance-check.md` |
 | artifact inventory | `references/workflow-task-25-ui-mvp-w8-par-routes-smoke-coverage-artifact-inventory.md` |
 | user gate | commit / push / PR |
+
+### task-25 follow-up loading state observation fixture（2026-05-16）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | `verified / implementation / NON_VISUAL / implementation_complete_pending_pr` |
+| 成果物 | `docs/30-workflows/task-25-followup-loading-state-observation-fixture/` |
+| Issue | #711 CLOSED 維持。PR 文脈は `Refs #711` のみ |
+| 親 workflow | `docs/30-workflows/completed-tasks/task-25-ui-mvp-w8-par-routes-smoke-coverage/` |
+| source unassigned | `docs/30-workflows/completed-tasks/unassigned-task/task-25-followup-loading-state-observation-fixture.md`（consumed） |
+| 目的 | `loading.tsx` の `N/A-runtime-observation` を deterministic `/smoke/loading-state` fixture で解消する |
+| implementation targets | `apps/web/app/__smoke__/_lib/fixture-guard.ts`, `apps/web/app/__smoke__/_lib/fixture-guard.spec.ts`, `apps/web/app/__smoke__/error-boundary/page.tsx`, `apps/web/app/__smoke__/members-list/page.tsx`, `apps/web/app/__smoke__/loading-state/page.tsx`, `apps/web/app/__smoke__/loading-state/loading.tsx`, `apps/web/app/smoke/error-boundary/page.tsx`, `apps/web/app/smoke/members-list/page.tsx`, `apps/web/app/smoke/loading-state/page.tsx`, `apps/web/app/smoke/loading-state/loading.tsx`, `apps/web/tests/e2e/staging-smoke.spec.ts`, `docs/00-getting-started-manual/specs/09-ui-ux.md` |
+| final deliverable | `docs/30-workflows/completed-tasks/ui-prototype-alignment-mvp-recovery/SMOKE-COVERAGE-MATRIX.md` |
+| evidence boundary | Phase 12 strict 7 present。local static evidence captured; full staging runtime smoke / CI / commit / push / PR are user-gated |
+| artifact inventory | `references/workflow-task-25-followup-loading-state-observation-fixture-artifact-inventory.md` |
 
 ### Issue #616 Miniflare / undici upstream tracking（2026-05-11）
 
@@ -212,7 +241,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | `implemented_local_evidence_captured / implementation / VISUAL_ON_EXECUTION` |
+| ステータス | `verified / implementation / VISUAL_ON_EXECUTION` |
 | 成果物 | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence/` |
 | 親 workflow | `docs/30-workflows/completed-tasks/task-10-ui-primitives-spec/` |
 | source unassigned | `docs/30-workflows/completed-tasks/task-10-followup-002-runtime-visual-axe-evidence.md` |
@@ -269,7 +298,7 @@
 
 | 項目 | 値 |
 | --- | --- |
-| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_LOCAL_CANONICAL / Phase 13 pending_user_approval |
+| ステータス | verified / implementation / NON_VISUAL / PASS_LOCAL_CANONICAL / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/completed-tasks/e2e-stage-2-2d-contract-stage-2/` |
 | 親 workflow | `docs/30-workflows/completed-tasks/e2e-quality-uplift-stage-2/` |
 | source spec | `docs/30-workflows/e2e-quality-uplift-stage-2-sub-tasks/2d-contract-stage-2.md` |
@@ -484,6 +513,8 @@
 
 | 項目 | 値 |
 | --- | --- |
+| ステータス | verified / implementation / VISUAL / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/` |
 | ステータス | implemented_local_evidence_captured / implementation / VISUAL / Phase 13 pending_user_approval |
 | 成果物 | `docs/30-workflows/task-26-ui-mvp-w8-par-error-tsx-token-utility-migration/` |
 | 実装対象 | `apps/web/app/error.tsx`, `apps/web/app/not-found.tsx`, `apps/web/app/loading.tsx` |
