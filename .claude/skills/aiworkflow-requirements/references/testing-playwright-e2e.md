@@ -393,14 +393,13 @@ Next.js App Router の Server Component が SSR フェーズで実行する serv
 | --- | --- |
 | deterministic mock API | `scripts/e2e-mock-api.mjs` を CI で起動し `http://127.0.0.1:8787` で待受 |
 | env 注入 | `INTERNAL_API_BASE_URL=http://127.0.0.1:8787` と `PUBLIC_API_BASE_URL=http://127.0.0.1:8787` を CI job env に設定 |
-| fetch helper の HTTP fallback 優先 | `apps/web/src/lib/fetch/public.ts` は Vitest / Playwright context（`NODE_ENV=test` / `PLAYWRIGHT_TEST=1`）かつ `PUBLIC_API_BASE_URL` 明示時のみ HTTP fallback を service binding より優先する。GitHub Actions の一般的な `CI=true` だけでは fallback を許可しない。production / staging では `PUBLIC_API_BASE_URL` が存在しても service binding を優先する（Issue #666 regression guard）。詳細根拠は `lessons-learned/lessons-learned-issue-666-fetch-public-service-binding-regression-2026-05.md` L-666-001 / L-666-002 を参照。 |
+| fetch helper の HTTP fallback 優先 | `apps/web/src/lib/fetch/public.ts` は `PUBLIC_API_BASE_URL` 明示時、Cloudflare service binding より HTTP fallback を優先する |
 | grep gate | ローカル限定エンドポイント（`127.0.0.1:8787` 等）の `apps/web/src` 配下への焼き込みを task-18 regression smoke の grep gate で禁止 |
 
 CI 設定例（`.github/workflows/e2e-tests.yml`）:
 
 ```yaml
 env:
-  PLAYWRIGHT_TEST: "1"
   INTERNAL_API_BASE_URL: http://127.0.0.1:8787
   PUBLIC_API_BASE_URL: http://127.0.0.1:8787
   PLAYWRIGHT_EVIDENCE_DIR: playwright/evidence

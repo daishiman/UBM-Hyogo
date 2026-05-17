@@ -3,7 +3,7 @@
 #
 # Invariants:
 # - Do not print secret values, hashes, fragments, decoded cookies, or webhook URLs.
-# - Pipe `op read` directly into `gh secret set`; gh reads stdin when --body is omitted.
+# - Pipe `op read` directly into `gh secret set --body -`.
 # - Create the GitHub Environment if it is missing.
 # - Store these credentials only as environment-scoped GitHub secrets.
 # - Do not enable shell xtrace.
@@ -86,7 +86,7 @@ verify_staging_marker
 for pair in "${SECRETS[@]}"; do
   name="${pair%%:*}"
   ref="${pair#*:}"
-  if op read "$ref" | gh secret set "$name" --env "$ENV_NAME" --repo "$REPO"; then
+  if op read "$ref" | gh secret set "$name" --env "$ENV_NAME" --repo "$REPO" --body -; then
     echo "set: $name"
   else
     echo "::error::failed to set secret: $name" >&2
