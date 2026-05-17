@@ -1,12 +1,12 @@
 # Phase 12 — task spec compliance check
 
-## 1. Summary verdict
+## Summary verdict
 
 PASS: `implemented_local_evidence_captured / implementation / NON_VISUAL`。
 
 `recommendedStableKeys` の label 比較前処理を `NFKC + trim + whitespace 圧縮` に限定して実装し、route response shape は `string[]` のまま維持した。追加レビューで検出した collision HTTP status drift は、current hardening contract に合わせて `409 stable_key_collision` へ実コード・route contract test・正本仕様を同期した。
 
-## 2. Changed-files classification
+## Changed-files classification
 
 | Classification | Files |
 | --- | --- |
@@ -16,7 +16,7 @@ PASS: `implemented_local_evidence_captured / implementation / NON_VISUAL`。
 | System specs | `docs/00-getting-started-manual/specs/01-api-schema.md`, `docs/00-getting-started-manual/specs/11-admin-management.md`, `.claude/skills/aiworkflow-requirements/references/api-endpoints.md` |
 | Skill/index sync | `.claude/skills/aiworkflow-requirements/**`, `.claude/skills/task-specification-creator/LOGS/_legacy.md` |
 
-## 3. `workflow_state` and phase status consistency
+## `workflow_state` and phase status consistency
 
 | File | State |
 | --- | --- |
@@ -28,7 +28,7 @@ PASS: `implemented_local_evidence_captured / implementation / NON_VISUAL`。
 
 Root and outputs `artifacts.json` are synchronized.
 
-## 4. Phase 11 evidence file inventory
+## Phase 11 evidence file inventory
 
 | File | Status | Role |
 | --- | --- | --- |
@@ -40,7 +40,7 @@ Root and outputs `artifacts.json` are synchronized.
 
 Screenshot directory is intentionally absent because this is a service-layer/API contract task with no UI / DOM / CSS change.
 
-## 5. Phase 12 strict 7 file inventory
+## Phase 12 strict 7 file inventory
 
 | File | Status |
 | --- | --- |
@@ -52,7 +52,7 @@ Screenshot directory is intentionally absent because this is a service-layer/API
 | `skill-feedback-report.md` | present |
 | `phase12-task-spec-compliance-check.md` | present |
 
-## 6. Skill/reference/system spec same-wave sync
+## Skill/reference/system spec same-wave sync
 
 | Target | Verdict |
 | --- | --- |
@@ -65,11 +65,11 @@ Screenshot directory is intentionally absent because this is a service-layer/API
 | `docs/00-getting-started-manual/specs/01-api-schema.md` | PASS: stale apply target / collision status / hardening path corrected |
 | `docs/00-getting-started-manual/specs/11-admin-management.md` | PASS: UI response-shape boundary synchronized |
 
-## 7. Runtime or user-gated boundary
+## Runtime or user-gated boundary
 
 Local code and tests are implemented. Commit / push / PR are not executed and remain Phase 13 user-gated. No Cloudflare, D1, GitHub settings, or external runtime mutation was performed.
 
-## 8. Archive/delete stale-reference gate
+## Archive/delete stale-reference gate
 
 | Check | Verdict |
 | --- | --- |
@@ -77,7 +77,7 @@ Local code and tests are implemented. Commit / push / PR are not executed and re
 | Hardening reference path | PASS: current docs point to `docs/30-workflows/completed-tasks/ut-07b-schema-alias-hardening/` |
 | Stale collision wording | PASS: current code/spec route uses `409 stable_key_collision`; historical 07b baseline is marked superseded in task workflow |
 
-## 9. Four-condition verdict
+## Four-condition verdict
 
 | Condition | Verdict |
 | --- | --- |
