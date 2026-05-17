@@ -1,0 +1,38 @@
+{
+  "$schema": "../../../../docs/30-workflows/task-709-visual-baseline-runtime-capture/schemas/baseline-meta.schema.json",
+  "captured_at_commit_sha": "6db9aa43adb7eca602138d23fd1b2991519e420e",
+  "captured_at": "2026-05-17T05:52:42Z",
+  "captured_via": "playwright-visual-baseline-update.yml#workflow_dispatch",
+  "captured_run_ids": [
+    "25961476237",
+    "25961551972",
+    "25982741998"
+  ],
+  "viewport_dimensions": {
+    "desktop": {
+      "width": 1280,
+      "height": "fullPage"
+    },
+    "tablet": {
+      "width": 834,
+      "height": "fullPage"
+    },
+    "mobile": {
+      "width": 390,
+      "height": "fullPage"
+    }
+  },
+  "rendering_relevant_paths": [
+    "apps/web/src/**",
+    "apps/web/app/**",
+    "apps/web/playwright.config.ts",
+    "apps/web/playwright/tests/visual-full/full-visual.spec.ts",
+    "apps/web/playwright/fixtures/**",
+    "apps/web/src/styles/tokens.css",
+    "apps/web/src/styles/**"
+  ],
+  "refresh_workflow": ".github/workflows/playwright-visual-baseline-update.yml",
+  "refresh_command_hint": "gh workflow run playwright-visual-baseline-update.yml -f reason=\"<why>\" -r <feature-branch>",
+  "notes": "captured_at_commit_sha からの rendering_relevant_paths diff が空でない場合、baseline は stale。scripts/visual-baseline-status.sh で診断可能。",
+  "last_refresh_reason": "task-709 dev merge 後の rendering 変更 (38 files: i01 ToastProvider, admin/public components, tokens) に対応した baseline 再捕捉"
+}

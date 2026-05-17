@@ -13,6 +13,16 @@ else
   BASE="origin/dev"
 fi
 
+# sync-merge スキップ判定（CLAUDE.md 個人開発運用ポリシーに準拠）:
+#   push 範囲に merge commit を 1 件以上含む場合、sync-merge で他タスクの artifacts.json が
+#   大量に混入し、`--require-gates-for-changed` の評価対象を肥大化させて誤判定を起こすため
+#   このガードをスキップする。feature 単体 push は従来通りチェック対象。
+MERGE_COUNT=$(git log --merges --format=%H "$BASE..HEAD" 2>/dev/null | wc -l | tr -d ' ')
+if [ "${MERGE_COUNT:-0}" -ge 1 ]; then
+  echo "[gate-metadata-guard] SKIP: push 範囲 ($BASE..HEAD) に merge commit が ${MERGE_COUNT} 件含まれます。sync-merge のためスキップします。" >&2
+  exit 0
+fi
+
 # push 範囲で変更された artifacts.json のみを対象（macOS bash 3.2 互換のため mapfile 不使用）
 CHANGED=$(git diff --name-only "$BASE...HEAD" -- '**/artifacts.json' 2>/dev/null || true)
 
