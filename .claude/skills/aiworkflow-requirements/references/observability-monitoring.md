@@ -76,6 +76,18 @@ UBM-Hyogo の最小計装セット。各イベントは `index1` をテナント
 | KV 書き込み無料枠消費率（日次） | 60% | 85% | 1,000/日 上限への到達余裕 |
 | Sheets→D1 同期失敗 | 連続 1 回 | 連続 3 回 | 単発の Google API ゆらぎとシステム障害の切り分け |
 
+### 3.1.1 ALERT_DEDUP_KV quota guard（UT-17 follow-up 006）
+
+`infra/cloudflare-alerts/` の Cloudflare Notification Policy IaC に
+`workers-kv-writes-per-day` と `workers-kv-stored-bytes` を追加済み。
+どちらも initial `enabled:false` で、Cloudflare apply / Slack runtime smoke /
+`enabled:true` 切替は user-gated。
+
+Cloudflare native billing usage alert は account 集計であり、namespace filter を持たない。
+そのため、この 2 policy は `ALERT_DEDUP_KV` 固有監視ではなく Workers KV account quota guard
+として扱う。将来 KV namespace が増えた場合は、GraphQL / Workers Analytics pull 監視または
+namespace-specific alert support の再調査が必要。
+
 ### 3.2 30 分 dedupe（重複抑止）
 
 - 同一 `event 種別 × 環境 × 閾値レベル` の通知は 30 分間は 1 通に集約する。

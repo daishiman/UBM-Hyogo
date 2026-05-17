@@ -83,6 +83,19 @@ D+N / 2 周目 recovery / re-observation workflow で `since` / D'+0 / recovery 
 
 実例: Issue #655 D+7 recovery 2nd-cycle では初回差分が `recovery_mode` と `since` を受け取るだけで、実際の `hourly-merged` は直近 8 日のまま、かつ recovery mode で run URL list / issue-rate comparison を skip していた。`post-switch-monitor.ts` に D'+0 window filter と schema fields を追加し、`cf-audit-log-7day-summary.yml` で recovery suffix evidence を通常 evidence と同じ粒度で生成するよう補正した。
 
+## Infra / Tests Fixture Dirty Diff Gate（UT-17 followup-006 反映）
+
+source unassigned-task が「Dashboard-only」「IaC 不要」と読める場合でも、Phase 5 以降で `infra/cloudflare-alerts/policies/*.json` / `tests/fixtures/**` / `docs/30-workflows/runbooks/**` などへ実装差分が入った瞬間、close-out 前の dirty diff gate を `apps/` / `packages/` 限定に閉じてはならない。
+
+| Gate | 必須条件 |
+| --- | --- |
+| diff target scope | dirty diff 確認対象を `apps/` / `packages/` から `infra/` / `scripts/` / `.github/` / `tests/fixtures/` / `docs/30-workflows/runbooks/` まで広げる |
+| state vocabulary | hit があれば `spec_created` / `No Code Changes` で閉じず `IMPLEMENTED_LOCAL_RUNTIME_PENDING` などへ再分類 |
+| detection command | `git status --porcelain -- infra/ scripts/ .github/ tests/fixtures/ docs/30-workflows/runbooks/` を Phase 12 entry checklist と `documentation-changelog.md` の双方に転記 |
+| skill promotion | source unassigned の「Dashboard-only」前提を疑う routing を `task-specification-creator` の `references/phase-12-documentation-guide.md` / SKILL Trigger に昇格 |
+
+実例: UT-17 followup-006 alert dedup + KV usage dashboard monitoring では、source unassigned-task が「Dashboard-only」前提で `apps/` 改変ゼロを想定していた。実装は `infra/cloudflare-alerts/policies/workers-kv-stored-bytes.json` / `workers-kv-writes-per-day.json` 新規 + `quota-base.json` 拡張 + `tests/fixtures/cloudflare-alerts/api-list-policies.json` + `infra/cloudflare-alerts/lib/__tests__/*.spec.ts` + `docs/30-workflows/runbooks/ut-17-alert-relay-monthly-healthcheck.md` の同期に拡大。旧 gate（`apps/` / `packages/` 限定）では素通りし `spec_created` で close 寸前だったため、infra/scripts/tests fixture 実装差分 gate を追加し、source task status を `IMPLEMENTED_LOCAL_RUNTIME_PENDING` へ再分類した。検知コマンドは上記 `git status --porcelain` を逐語埋め込みで運用する。
+
 ## 苦戦箇所 Required Fields
 
 | Field | 内容 |

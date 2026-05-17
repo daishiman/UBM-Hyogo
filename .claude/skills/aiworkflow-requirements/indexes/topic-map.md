@@ -3502,6 +3502,7 @@ node scripts/list-specs.js --topics
 | Runbooks | L35 |
 | Runtime Boundary | L42 |
 | Followup-003: alert-relay weekly healthcheck cron（Issue #635 / 2026-05-14） | L45 |
+| Followup-006: Workers KV usage dashboard monitoring（2026-05-16） | L61 |
 
 ### references/workflow-ut-17-followup-002-alert-relay-dedup-kv-artifact-inventory.md
 
@@ -3942,20 +3943,21 @@ node scripts/list-specs.js --topics
 | サービス構成 | L13 |
 | 現行 canonical: UT-06 実行前ゲート（2026-04-27） | L25 |
 | API Worker Cron（u-04 Sheets → D1 sync） | L51 |
-| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L87 |
-| Cloudflare Workers デプロイ（Next.js / OpenNext） | L106 |
-| Cloudflare Workers デプロイ（APIバックエンド） | L194 |
-| Cloudflare D1 データベース | L340 |
-| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L373 |
-| GitHub Actions CI/CD | L485 |
-| プレビューデプロイメント | L516 |
-| カスタムドメイン設定 | L532 |
-| 環境分離 | L545 |
-| ロールバック戦略 | L555 |
-| モニタリング/アラート（UT-08 連携） | L576 |
-| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L593 |
-| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L628 |
-| 変更履歴 | L677 |
+| Cloudflare Alert Policy IaC（UT-17 follow-up 004 / 006） | L87 |
+| D1 Backup Long-Term Storage（UT-06-FU-E / 2026-05-01） | L102 |
+| Cloudflare Workers デプロイ（Next.js / OpenNext） | L121 |
+| Cloudflare Workers デプロイ（APIバックエンド） | L209 |
+| Cloudflare D1 データベース | L355 |
+| Cloudflare KV セッションキャッシュ（UT-13 / SESSION_KV） | L388 |
+| GitHub Actions CI/CD | L500 |
+| プレビューデプロイメント | L531 |
+| カスタムドメイン設定 | L547 |
+| 環境分離 | L560 |
+| ロールバック戦略 | L570 |
+| モニタリング/アラート（UT-08 連携） | L591 |
+| per-sync write cap 連続到達アラート（03b-followup-006 / Issue #199） | L608 |
+| Long-term Analytics Evidence（Issue #347 / 2026-05-05） | L643 |
+| 変更履歴 | L692 |
 
 ### references/deployment-core.md
 
@@ -6277,23 +6279,23 @@ node scripts/list-specs.js --topics
 | 1. 無料枠の境界 | L15 |
 | 2. WAE 6 イベント設計（reference） | L42 |
 | 3. アラート閾値設計指針 | L67 |
-| 4. PII 除外ルール | L93 |
-| 5. 苦戦箇所（恒久対策） | L109 |
-| 6. 関連ファイル | L134 |
-| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L146 |
-| 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L152 |
-| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L187 |
-| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L213 |
-| 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L227 |
-| 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L254 |
-| 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L278 |
-| 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L307 |
-| 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14） | L336 |
-| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L358 |
-| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L376 |
-| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L377 |
-| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L393 |
-| 13. 変更履歴 | L415 |
+| 4. PII 除外ルール | L105 |
+| 5. 苦戦箇所（恒久対策） | L121 |
+| 6. 関連ファイル | L146 |
+| 7. 09b Cron / Incident Response Runbook Linkage（2026-05-01） | L158 |
+| 8. 09b-A Sentry / Slack Runtime Smoke Contract（2026-05-05） | L164 |
+| 9. Issue #408 Cloudflare Audit Logs Monitoring Contract（2026-05-06） | L199 |
+| 10. Issue #515 Cloudflare Audit Logs ML-ready Classifier Contract（2026-05-07） | L225 |
+| 11. Issue #571 Staging Runtime Smoke CI Contract（2026-05-08） | L239 |
+| 11. Issue #549 Cloudflare Audit Logs ML production switch contract（2026-05-08） | L266 |
+| 12. Issue #587 Cloudflare Audit Logs ML model artifact rotation contract（2026-05-10） | L290 |
+| 11.1 Issue #586 post-switch 7-day close-out contract（2026-05-09） | L319 |
+| 11.2 Issue #655 D+7 recovery 2nd-cycle contract（2026-05-14） | L348 |
+| 10. Issue #547 Cloudflare Audit Logs Redacted Feature Export Contract（2026-05-08） | L370 |
+| 10. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L388 |
+| 11. Issue #546 Cloudflare Audit Logs 90 Day Baseline Observation（2026-05-08） | L389 |
+| 12. Issue #514 Cloudflare Audit Logs Cold Storage / R2 Export Contract（2026-05-07） | L405 |
+| 13. 変更履歴 | L427 |
 
 ### references/patterns-advanced.md
 
@@ -6325,6 +6327,7 @@ node scripts/list-specs.js --topics
 | 4. `wrangler.toml` binding gating | L63 |
 | 5. Wording 規律 — practical reduction を使う | L90 |
 | 適用範囲 | L107 |
+| 6. KV usage monitoring policy（ALERT_DEDUP_KV 後続監視） | L119 |
 
 ### references/patterns.md
 
@@ -6764,7 +6767,7 @@ node scripts/list-specs.js --topics
 | 実行時のコマンド・エージェント・スキル | L1479 |
 | 昇格パターン集 | L1503 |
 | Current Active / Spec Created Tasks | L1505 |
-| UT-17 followup-003 alert-relay weekly healthcheck cron | L1650 |
+| UT-17 followup-003 alert-relay weekly healthcheck cron | L1652 |
 
 ### references/task-workflow-backlog-part2.md
 
