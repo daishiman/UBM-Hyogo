@@ -1,0 +1,47 @@
+{
+  "workflow": "integration-fixes-i04-homepage-cta-implementation",
+  "parity_with": "../artifacts.json",
+  "workflow_state": "implemented_local",
+  "phase_status": {
+    "phase-1": "completed",
+    "phase-2": "completed",
+    "phase-3": "completed",
+    "phase-4": "completed",
+    "phase-5": "completed",
+    "phase-6": "completed",
+    "phase-7": "completed",
+    "phase-8": "completed",
+    "phase-9": "completed",
+    "phase-10": "completed",
+    "phase-11": "completed",
+    "phase-12": "completed",
+    "phase-13": "blocked"
+  },
+  "phase_artifacts": {
+    "phase-1": ["phase-1/requirements.md"],
+    "phase-2": ["phase-2/design.md"],
+    "phase-3": ["phase-3/design-review.md"],
+    "phase-4": ["phase-4/test-plan.md"],
+    "phase-5": ["phase-5/implementation-plan.md"],
+    "phase-6": ["phase-6/test-expansion.md"],
+    "phase-7": ["phase-7/coverage-check.md"],
+    "phase-8": ["phase-8/refactor.md"],
+    "phase-9": ["phase-9/qa.md"],
+    "phase-10": ["phase-10/final-review.md"],
+    "phase-11": [
+      "phase-11/manual-test-result.md",
+      "phase-11/screenshot-plan.json",
+      "phase-11/screenshots/homepage-call-to-action-cta-desktop.png",
+      "phase-11/screenshots/homepage-call-to-action-cta-mobile.png",
+      "phase-11/screenshots/homepage-full-with-cta-desktop.png"
+    ],
+    "phase-12": [
+      "phase-12/implementation-guide.md",
+      "phase-12/system-spec-update-summary.md",
+      "phase-12/documentation-changelog.md",
+      "phase-12/unassigned-task-detection.md",
+      "phase-12/skill-feedback-report.md",
+      "phase-12/phase12-task-spec-compliance-check.md"
+    ]
+  }
+}

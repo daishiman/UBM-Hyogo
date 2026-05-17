@@ -23,8 +23,8 @@
     },
     {
       "id": "parallel-i04-homepage-cta",
-      "status": "pending",
-      "canonical_workflow": null,
+      "status": "completed",
+      "canonical_workflow": "docs/30-workflows/integration-fixes-i04-homepage-cta-implementation/",
       "spec": "parallel-i04-homepage-cta/spec.md"
     },
     {

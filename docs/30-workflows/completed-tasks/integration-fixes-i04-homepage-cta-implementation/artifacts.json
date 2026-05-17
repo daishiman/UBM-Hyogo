@@ -1,0 +1,42 @@
+{
+  "workflow": "integration-fixes-i04-homepage-cta-implementation",
+  "issue": "https://github.com/daishiman/UBM-Hyogo/issues/767",
+  "implementation_mode": "new",
+  "task_category": "UI",
+  "visual_mode": "VISUAL",
+  "workflow_state": "implemented_local",
+  "phases": {
+    "phase-1": { "status": "completed", "artifacts": ["outputs/phase-1/requirements.md"] },
+    "phase-2": { "status": "completed", "artifacts": ["outputs/phase-2/design.md"] },
+    "phase-3": { "status": "completed", "artifacts": ["outputs/phase-3/design-review.md"] },
+    "phase-4": { "status": "completed", "artifacts": ["outputs/phase-4/test-plan.md"] },
+    "phase-5": { "status": "completed", "artifacts": ["outputs/phase-5/implementation-plan.md"] },
+    "phase-6": { "status": "completed", "artifacts": ["outputs/phase-6/test-expansion.md"] },
+    "phase-7": { "status": "completed", "artifacts": ["outputs/phase-7/coverage-check.md"] },
+    "phase-8": { "status": "completed", "artifacts": ["outputs/phase-8/refactor.md"] },
+    "phase-9": { "status": "completed", "artifacts": ["outputs/phase-9/qa.md"] },
+    "phase-10": { "status": "completed", "artifacts": ["outputs/phase-10/final-review.md"] },
+    "phase-11": {
+      "status": "completed",
+      "artifacts": [
+        "outputs/phase-11/manual-test-result.md",
+        "outputs/phase-11/screenshot-plan.json",
+        "outputs/phase-11/screenshots/homepage-call-to-action-cta-desktop.png",
+        "outputs/phase-11/screenshots/homepage-call-to-action-cta-mobile.png",
+        "outputs/phase-11/screenshots/homepage-full-with-cta-desktop.png"
+      ]
+    },
+    "phase-12": {
+      "status": "completed",
+      "artifacts": [
+        "outputs/phase-12/implementation-guide.md",
+        "outputs/phase-12/system-spec-update-summary.md",
+        "outputs/phase-12/documentation-changelog.md",
+        "outputs/phase-12/unassigned-task-detection.md",
+        "outputs/phase-12/skill-feedback-report.md",
+        "outputs/phase-12/phase12-task-spec-compliance-check.md"
+      ]
+    },
+    "phase-13": { "status": "blocked", "blocker": "user 明示承認待ち" }
+  }
+}
