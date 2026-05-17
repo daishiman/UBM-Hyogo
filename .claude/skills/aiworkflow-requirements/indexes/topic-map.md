@@ -2302,6 +2302,16 @@ node scripts/list-specs.js --topics
 | Branch-level deletion check | L101 |
 | Downstream task: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L105 |
 
+### references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md
+
+| セクション | 行 |
+|------------|----|
+| Metadata | L3 |
+| Current facts | L15 |
+| Same-cycle shellcheck cleanup | L28 |
+| Phase outputs | L39 |
+| Runtime boundary | L50 |
+
 ### references/workflow-issue-295-tag-queue-resolve-race-smoke-artifact-inventory.md
 
 ### references/workflow-issue-300-direct-stable-key-update-guard-artifact-inventory.md
@@ -4753,6 +4763,15 @@ node scripts/list-specs.js --topics
 | OP-ISSUE195FU002-2: current canonical deletion 検知の運用 | L80 |
 | 再確認・適用記録: issue-195-sync-jobs-contract-schema-consolidation-001（2026-05-04） | L89 |
 
+### references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md
+
+| セクション | 行 |
+|------------|----|
+| L-290-001: allowlist actionlint scope drifts | L3 |
+| L-290-002: yamllint is not a free quality gain | L7 |
+| L-290-003: local and CI scopes must be one contract | L11 |
+| L-290-004: runtime PASS and local PASS are separate | L15 |
+
 ### references/lessons-learned-issue-325-test-suffix-rename-migration-2026-05.md
 
 | セクション | 行 |
@@ -5633,8 +5652,8 @@ node scripts/list-specs.js --topics
 |------------|----|
 | 概要 | L3 |
 | 仕様書インデックス | L7 |
-| 利用順序 | L110 |
-| 関連ドキュメント | L115 |
+| 利用順序 | L111 |
+| 関連ドキュメント | L116 |
 
 ### references/llm-embedding.md
 

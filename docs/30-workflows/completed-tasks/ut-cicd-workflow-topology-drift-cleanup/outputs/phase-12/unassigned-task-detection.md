@@ -19,7 +19,7 @@
 | 4 | `UT-CICD-DRIFT-IMPL-REUSABLE-QUALITY` | MEDIUM | DRIFT-04(b) | `typecheck`/`lint`/`coverage` job の reusable workflow 化検討 | `docs/30-workflows/unassigned-task/UT-CICD-DRIFT-IMPL-REUSABLE-QUALITY.md` |
 | 5 | `UT-CICD-DRIFT-IMPL-CRON-CONSOLIDATION` | LOW | DRIFT-07 | API `[triggers] crons` の運用棚卸し（3 件中の重複/非重複の検証）| `docs/30-workflows/unassigned-task/UT-CICD-DRIFT-IMPL-CRON-CONSOLIDATION.md` |
 | 6 | `UT-CICD-DRIFT-IMPL-VERIFY-INDEXES-TRIGGER` | LOW | DRIFT-01 補足 | `verify-indexes.yml` の trigger（PR / push）と `pnpm indexes:rebuild` 失敗時のリカバリ runbook 整備 | `docs/30-workflows/unassigned-task/UT-CICD-DRIFT-IMPL-VERIFY-INDEXES-TRIGGER.md` |
-| 7 | `UT-CICD-DRIFT-IMPL-WORKFLOW-LINT-GATE` | MEDIUM | Phase 11 / 12 review | `actionlint` / `yamllint` 未導入による workflow 構文検査 N/A を CI gate 化 | `docs/30-workflows/unassigned-task/UT-CICD-DRIFT-IMPL-WORKFLOW-LINT-GATE.md` |
+| 7 | `UT-CICD-DRIFT-IMPL-WORKFLOW-LINT-GATE` | MEDIUM | Phase 11 / 12 review | `actionlint` / `yamllint` 未導入による workflow 構文検査 N/A を CI gate 化 | `docs/30-workflows/unassigned-task/ut-cicd-drift-impl-workflow-lint-gate.md` |
 
 ## 既存タスクへ委譲する差分（2 件）
 

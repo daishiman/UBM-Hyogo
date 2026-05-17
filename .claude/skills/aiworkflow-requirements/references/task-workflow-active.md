@@ -662,6 +662,20 @@
 | 境界 | Reminder workflow の schedule / workflow_dispatch / Issue 作成副作用は変更しない。GitHub Actions runtime evidence、branch protection PUT、commit、push、PR は user approval 後 |
 | Issue 取扱 | #526 / #350 CLOSED 維持。PR 文脈では `Refs #526, Refs #350` のみ |
 
+### Issue #290 workflow lint gate（2026-05-17）
+
+| 項目 | 値 |
+| --- | --- |
+| ステータス | implemented_local_evidence_captured / implementation / NON_VISUAL / PASS_BOUNDARY_SYNCED_RUNTIME_PENDING / Phase 13 pending_user_approval |
+| 成果物 | `docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/` |
+| Artifact inventory | `references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md` |
+| Lessons | `references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md` |
+| 実装対象 | `.github/workflows/ci.yml`, `package.json`, `docs/30-workflows/runbooks/workflow-lint-local-recovery.md` |
+| lint対象 | `.github/workflows/*.yml`（現行 32 件） |
+| merge gate | 既存 required context `ci` 内で `pnpm observation:lint` を実行。dedicated `workflow-shell-lint` job も同じ glob scope。required context 追加は user-gated |
+| 境界 | yamllint は不採用。branch protection 変更、GitHub Actions runtime evidence、commit、push、PR は user approval 後 |
+| Issue 取扱 | Issue #290 / parent UT-CICD-DRIFT。PR 文脈では `Refs #290, Refs UT-CICD-DRIFT` |
+
 ### UI prototype alignment / MVP recovery task-20 screen blueprints public/member（2026-05-07）
 
 | 項目 | 値 |

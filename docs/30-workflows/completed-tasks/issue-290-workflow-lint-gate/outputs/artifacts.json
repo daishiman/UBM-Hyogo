@@ -1,0 +1,59 @@
+{
+  "taskId": "issue-290-workflow-lint-gate",
+  "githubIssue": 290,
+  "status": "runtime_pending",
+  "taskType": "implementation",
+  "visualEvidence": "NON_VISUAL",
+  "docsOnly": false,
+  "createdAt": "2026-05-17",
+  "source": "docs/30-workflows/completed-tasks/ut-cicd-drift-impl-workflow-lint-gate.md",
+  "phases": [
+    { "phase": 1, "file": "phase-01.md", "status": "completed", "name": "要件定義" },
+    { "phase": 2, "file": "phase-02.md", "status": "completed", "name": "設計" },
+    { "phase": 3, "file": "phase-03.md", "status": "completed", "name": "設計レビュー" },
+    { "phase": 4, "file": "phase-04.md", "status": "completed", "name": "テスト戦略" },
+    { "phase": 5, "file": "phase-05.md", "status": "completed", "name": "実装計画" },
+    { "phase": 6, "file": "phase-06.md", "status": "completed", "name": "失敗ケース" },
+    { "phase": 7, "file": "phase-07.md", "status": "completed", "name": "AC マトリクス" },
+    { "phase": 8, "file": "phase-08.md", "status": "completed", "name": "静的検査" },
+    { "phase": 9, "file": "phase-09.md", "status": "completed", "name": "品質ゲート" },
+    { "phase": 10, "file": "phase-10.md", "status": "completed", "name": "Go/No-Go" },
+    { "phase": 11, "file": "phase-11.md", "status": "completed", "name": "smoke 検証" },
+    { "phase": 12, "file": "phase-12.md", "status": "completed", "name": "実装ガイド" },
+    { "phase": 13, "file": "phase-13.md", "status": "runtime_pending", "name": "PR 化", "user_approval_required": true }
+  ],
+  "references": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/cf-audit-log-7day-summary.yml",
+    ".github/workflows/cf-audit-log-monitor.yml",
+    ".github/workflows/cf-token-rotation-reminder.yml",
+    ".github/workflows/lighthouse.yml",
+    ".github/workflows/release-create.yml",
+    ".github/workflows/validate-build.yml",
+    "package.json",
+    "docs/30-workflows/runbooks/workflow-lint-local-recovery.md",
+    "docs/30-workflows/completed-tasks/ut-cicd-drift-impl-workflow-lint-gate.md",
+    ".claude/skills/aiworkflow-requirements/references/deployment-gha.md",
+    ".claude/skills/aiworkflow-requirements/indexes/resource-map.md",
+    ".claude/skills/aiworkflow-requirements/indexes/quick-reference.md",
+    ".claude/skills/aiworkflow-requirements/references/task-workflow-active.md",
+    ".claude/skills/aiworkflow-requirements/references/workflow-issue-290-workflow-lint-gate-artifact-inventory.md",
+    ".claude/skills/aiworkflow-requirements/references/lessons-learned-issue-290-workflow-lint-gate-2026-05.md",
+    ".claude/skills/aiworkflow-requirements/changelog/20260517-issue290-workflow-lint-gate.md"
+  ],
+  "feature": "issue-290-workflow-lint-gate",
+  "created": "2026-05-17T00:00:00+09:00",
+  "lastUpdated": "2026-05-17T00:00:00+09:00",
+  "metadata": {
+    "taskType": "implementation",
+    "visualEvidence": "NON_VISUAL",
+    "scope": "GitHub Actions workflow lint gate",
+    "workflow_state": "implemented_local_evidence_captured",
+    "verdict": "PASS_BOUNDARY_SYNCED_RUNTIME_PENDING",
+    "implementationCategory": "governance",
+    "actual_read_only_evidence_files": [
+      "docs/30-workflows/completed-tasks/issue-290-workflow-lint-gate/outputs/phase-11/smoke-log.md"
+    ],
+    "actual_mutation_evidence_files": []
+  }
+}
