@@ -13,17 +13,17 @@
     "gates": [
       {
         "gate_id": "Gate-A",
-        "status": "completed",
-        "passed_at": "2026-05-15",
-        "evidence_path": "docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-12/phase12-task-spec-compliance-check.md",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/07c-followup-002-attendance-visual-smoke/outputs/phase-12/phase12-task-spec-compliance-check.md",
         "approver": "local-spec-review",
         "notes": "Phase 1-13 implementation contract, apps/web implementation, and local visual evidence are captured."
       },
       {
         "gate_id": "Gate-B",
-        "status": "completed",
-        "passed_at": "2026-05-15",
-        "evidence_path": "docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-11/",
+        "status": "passed",
+        "passed_at": "2026-05-15T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/07c-followup-002-attendance-visual-smoke/outputs/phase-11/phase-11.md",
         "approver": "daishiman",
         "notes": "Playwright local mock visual evidence, screenshots, trace, and run logs are captured under Phase 11."
       },
@@ -39,7 +39,7 @@
         "gate_id": "Gate-D",
         "status": "pending",
         "passed_at": null,
-        "evidence_path": "docs/30-workflows/07c-followup-002-attendance-visual-smoke/outputs/phase-13/phase-13.md",
+        "evidence_path": "docs/30-workflows/completed-tasks/07c-followup-002-attendance-visual-smoke/outputs/phase-12/main.md",
         "approver": "daishiman",
         "notes": "commit, push, PR, and issue mutation require explicit user approval."
       }
@@ -79,18 +79,57 @@
     "outputs/phase-13/phase-13.md"
   ],
   "phases": [
-    { "phase": 1, "status": "completed" },
-    { "phase": 2, "status": "completed" },
-    { "phase": 3, "status": "completed" },
-    { "phase": 4, "status": "completed" },
-    { "phase": 5, "status": "completed" },
-    { "phase": 6, "status": "completed" },
-    { "phase": 7, "status": "completed" },
-    { "phase": 8, "status": "completed" },
-    { "phase": 9, "status": "completed" },
-    { "phase": 10, "status": "completed" },
-    { "phase": 11, "status": "completed" },
-    { "phase": 12, "status": "completed" },
-    { "phase": 13, "status": "blocked" }
+    {
+      "phase": 1,
+      "status": "completed"
+    },
+    {
+      "phase": 2,
+      "status": "completed"
+    },
+    {
+      "phase": 3,
+      "status": "completed"
+    },
+    {
+      "phase": 4,
+      "status": "completed"
+    },
+    {
+      "phase": 5,
+      "status": "completed"
+    },
+    {
+      "phase": 6,
+      "status": "completed"
+    },
+    {
+      "phase": 7,
+      "status": "completed"
+    },
+    {
+      "phase": 8,
+      "status": "completed"
+    },
+    {
+      "phase": 9,
+      "status": "completed"
+    },
+    {
+      "phase": 10,
+      "status": "completed"
+    },
+    {
+      "phase": 11,
+      "status": "completed"
+    },
+    {
+      "phase": 12,
+      "status": "completed"
+    },
+    {
+      "phase": 13,
+      "status": "blocked"
+    }
   ]
 }

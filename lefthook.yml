@@ -33,6 +33,12 @@ pre-commit:
       fail_text: |
         🚫 *.test.{ts,tsx} ファイルは追加禁止です（ADR: *.spec.{ts,tsx} に統一）。
         末尾を .spec.ts(x) に rename してから再 stage してください。
+    block-stable-key-update:
+      run: node scripts/lint-stable-key-update.mjs --strict
+      stage_fixed: false
+      fail_text: |
+        direct schema_questions.stable_key mutation is forbidden.
+        Use schema_aliases / POST /admin/schema/aliases instead.
 
 post-merge:
   parallel: false
