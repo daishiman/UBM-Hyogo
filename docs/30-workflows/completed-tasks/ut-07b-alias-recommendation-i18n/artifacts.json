@@ -17,7 +17,25 @@
     "visualEvidence": "NON_VISUAL",
     "issue_number": 292,
     "implementation_mode": "new",
-    "estimatedPhases": 13
+    "estimatedPhases": 13,
+    "gates": [
+      {
+        "gate_id": "Gate-A",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-07b-alias-recommendation-i18n/outputs/phase-11/main.md",
+        "approver": "daishiman",
+        "notes": "spec_review: Phase 1-12 spec + local implementation completed"
+      },
+      {
+        "gate_id": "Gate-B",
+        "status": "passed",
+        "passed_at": "2026-05-17T00:00:00Z",
+        "evidence_path": "docs/30-workflows/completed-tasks/ut-07b-alias-recommendation-i18n/outputs/phase-12/implementation-guide.md",
+        "approver": "daishiman",
+        "notes": "implementation_review: NFKC + trim + whitespace normalization + 409 stable_key_collision contract sync"
+      }
+    ]
   },
   "phases": [
     { "phase": 1,  "name": "要件定義",            "file": "phase-01.md", "status": "completed", "outputs": ["outputs/phase-01/main.md"],                                    "depends_on_phases": [],            "user_approval_required": false },
