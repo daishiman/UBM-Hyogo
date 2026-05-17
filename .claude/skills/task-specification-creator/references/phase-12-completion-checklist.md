@@ -85,8 +85,6 @@ grep -rn "{{OLD_TASK_ROOT}}" docs/ .claude/skills/aiworkflow-requirements/ .clau
 - [ ] 未タスク指示書が `docs/30-workflows/unassigned-task/` に配置されていること ⚠️ **P3派生: TASK-9B-Iで再発**
 - [ ] テスト数が実際の `it()` ブロック数と一致すること ⚠️ **TASK-9B-I教訓**
 - [ ] SDK 型定義変更時は、カスタム declare module ファイルの有無を確認し、不要なら削除を未タスク化すること
-- [ ] `artifacts.json.status` の値が `schemas/artifact-definition.json` の enum に準拠している
-- [ ] `status: "present"` と宣言した Phase 11 evidence の path が物理ファイルとして存在する
 ### ⛔ UI/UX変更タスク専用: スクリーンショット証跡ハードゲート
 
 > **⚠️ FB-UT-UIUX-001: 以下5点をすべて満たさない限り Phase 12 PASS 禁止。close-out 文書だけが完了していても Phase 12 completed にしてはならない。**

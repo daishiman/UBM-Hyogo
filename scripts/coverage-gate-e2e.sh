@@ -21,8 +21,7 @@
 #   ::notice::line coverage <pct> >= 80
 #   ::error::line coverage <pct> < 80
 
-# shellcheck source=lib/ci-shell-prelude.sh
-source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/ci-shell-prelude.sh"
+set -euo pipefail
 
 THRESHOLD=80
 SUMMARY="apps/web/coverage/coverage-summary.json"
@@ -33,17 +32,22 @@ if [[ -n "${THRESHOLD_FIXTURE:-}" ]]; then
 fi
 
 if [[ ! -f "${SUMMARY}" ]]; then
-  gh_error "coverage-summary.json not found at ${SUMMARY}"
+  echo "::error::coverage-summary.json not found at ${SUMMARY}"
   exit 1
 fi
 
-assert_jq "${SUMMARY}" '.total.lines.pct'
 PCT="$(jq -r '.total.lines.pct' "${SUMMARY}")"
 
-if awk_compare_ge "${PCT}" "${THRESHOLD}"; then
-  gh_notice "line coverage ${PCT} >= ${THRESHOLD}"
+if [[ -z "${PCT}" || "${PCT}" == "null" ]]; then
+  echo "::error::failed to read total.lines.pct from ${SUMMARY}"
+  exit 1
+fi
+
+# awk handles floating-point comparison portably.
+if awk "BEGIN { exit !(${PCT} >= ${THRESHOLD}) }"; then
+  echo "::notice::line coverage ${PCT} >= ${THRESHOLD}"
   exit 0
 else
-  gh_error "line coverage ${PCT} < ${THRESHOLD}"
+  echo "::error::line coverage ${PCT} < ${THRESHOLD}"
   exit 1
 fi
